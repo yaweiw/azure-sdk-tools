@@ -34,6 +34,8 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
     {
         private readonly CloudServiceClient cloudServiceClient;
 
+        public static string SlotFormat = "{0}({1})";
+
         public const string WebsitesServiceVersion = "2012-12-01";
 
         public IWebSiteManagementClient WebsiteManagementClient { get; internal set; }
@@ -283,6 +285,25 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
         }
 
         /// <summary>
+        /// Gets a website slot instance.
+        /// </summary>
+        /// <param name="name">The website name</param>
+        /// <param name="slot">The slot name</param>
+        /// <returns>The website instance</returns>
+        public Site GetWebsite(string name, string slot)
+        {
+            name = GetSlotDnsName(GetWebsiteName(name), slot);
+            Site website = WebsiteManagementClient.GetSiteWithCache(name);
+
+            if (website == null)
+            {
+                throw new Exception(string.Format(Resources.InvalidWebsite, name));
+            }
+
+            return website;
+        }
+
+        /// <summary>
         /// Gets a website instance.
         /// </summary>
         /// <param name="name">The website name</param>
@@ -290,6 +311,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
         public Site GetWebsite(string name)
         {
             name = GetWebsiteName(name);
+
             Site website = WebsiteManagementClient.GetSiteWithCache(name);
 
             if (website == null)
@@ -305,7 +327,25 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
         /// </summary>
         /// <param name="webspaceName">Web space to create site in.</param>
         /// <param name="siteToCreate">Details about the site to create.</param>
-        /// <returns></returns>
+        /// <param name="slot">The slot name.</param>
+        /// <param name="disablesClone">Flag to control cloning the website configuration.</param>
+        /// <returns>The created site object</returns>
+        public Site CreateWebsite(string webspaceName, SiteWithWebSpace siteToCreate, string slot)
+        {
+            string[] hostNames = { string.Format("{0}-{1}.{2}", siteToCreate.Name, slot, GetWebsiteDnsSuffix()) };
+            siteToCreate.Name = string.Format(SlotFormat, siteToCreate.Name, slot);
+            siteToCreate.HostNames = hostNames;
+
+            return CreateWebsite(webspaceName, siteToCreate);
+        }
+
+        /// <summary>
+        /// Create a new website in production.
+        /// </summary>
+        /// <param name="webspaceName">Web space to create site in.</param>
+        /// <param name="disablesClone">Flag to control cloning the website configuration.</param>
+        /// <param name="siteToCreate">Details about the site to create.</param>
+        /// <returns>The created site object</returns>
         public Site CreateWebsite(string webspaceName, SiteWithWebSpace siteToCreate)
         {
             var options = new WebSiteCreateParameters
@@ -314,11 +354,12 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
                 WebSpaceName = siteToCreate.WebSpaceToCreate.Name,
                 WebSpace = new WebSiteCreateParameters.WebSpaceDetails
                 {
-                     GeoRegion = siteToCreate.WebSpaceToCreate.GeoRegion,
-                     Name = siteToCreate.WebSpaceToCreate.Name,
-                     Plan = siteToCreate.WebSpaceToCreate.Plan,
+                    GeoRegion = siteToCreate.WebSpaceToCreate.GeoRegion,
+                    Name = siteToCreate.WebSpaceToCreate.Name,
+                    Plan = siteToCreate.WebSpaceToCreate.Plan
                 }
             };
+
             siteToCreate.HostNames.ForEach(s => options.HostNames.Add(s));
 
             var response = WebsiteManagementClient.WebSites.Create(webspaceName, options);
@@ -546,6 +587,69 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
         {
             return WebsiteManagementClient.WebSpaces.ListPublishingUsers()
                 .Users.Select(u => u.Name).Where(n => !string.IsNullOrEmpty(n)).ToList();
+        }
+
+        public bool WebsiteExists(string name)
+        {
+            Site website = null;
+
+            try
+            {
+                website = GetWebsite(name);
+            }
+            catch
+            {
+                // Ignore exception.
+            }
+
+            return website != null;
+        }
+
+        public bool WebsiteExists(string name, string slot)
+        {
+            Site website = null;
+
+            try
+            {
+                website = GetWebsite(name, slot);
+            }
+            catch
+            {
+                // Ignore exception.
+            }
+
+            return website != null;
+        }
+
+        /// <summary>
+        /// Updates a website compute mode.
+        /// </summary>
+        /// <param name="websiteToUpdate">The website to update</param>
+        public void UpdateWebsiteComputeMode(Site websiteToUpdate)
+        {
+            WebsiteManagementClient.WebSites.Update(
+                websiteToUpdate.WebSpace,
+                websiteToUpdate.Name,
+                new WebSiteUpdateParameters
+                {
+                    ComputeMode = websiteToUpdate.ComputeMode,
+                    // Set the following 3 collection properties to null since by default they are empty lists,
+                    // which will clear the corresponding settings of the web site, thus results in a 404 when browsing the web site.
+                    HostNames = null,
+                    HostNameSslStates = null,
+                    SslCertificates = null
+                });
+        }
+
+        /// <summary>
+        /// Gets a website slot DNS name.
+        /// </summary>
+        /// <param name="name">The website name</param>
+        /// <param name="slot">The slot name</param>
+        /// <returns>the slot DNS name</returns>
+        public string GetSlotDnsName(string name, string slot)
+        {
+            return string.Format(SlotFormat, name, slot);
         }
     }
 }

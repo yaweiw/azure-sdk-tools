@@ -76,12 +76,23 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
         Site GetWebsite(string name);
 
         /// <summary>
-        /// Create a new website.
+        /// Create a new website in production.
         /// </summary>
         /// <param name="webspaceName">Web space to create site in.</param>
+        /// <param name="disablesClone">Flag to control cloning the website configuration.</param>
         /// <param name="siteToCreate">Details about the site to create.</param>
-        /// <returns></returns>
+        /// <returns>The created site object</returns>
         Site CreateWebsite(string webspaceName, SiteWithWebSpace siteToCreate);
+
+        /// <summary>
+        /// Create a new website in a given slot.
+        /// </summary>
+        /// <param name="webspaceName">Web space to create site in.</param>
+        /// <param name="disablesClone">Flag to control cloning the website configuration.</param>
+        /// <param name="siteToCreate">Details about the site to create.</param>
+        /// <param name="slot">The slot name.</param>
+        /// <returns>The created site object</returns>
+        Site CreateWebsite(string webspaceName, SiteWithWebSpace siteToCreate, string slot);
 
         /// <summary>
         /// Update the set of host names for a website.
@@ -217,6 +228,35 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
         /// </summary>
         /// <returns>The default location name.</returns>
         string GetDefaultLocation();
+
+        /// <summary>
+        /// Checks if a website exists.
+        /// </summary>
+        /// <param name="name">The website name.</param>
+        /// <returns>True if exists, false otherwise.</returns>
+        bool WebsiteExists(string name);
+
+        /// <summary>
+        /// Checks if a website exists.
+        /// </summary>
+        /// <param name="name">The website name.</param>
+        /// <param name="name">The website slot name.</param>
+        /// <returns>True if exists, false otherwise.</returns>
+        bool WebsiteExists(string name, string slot);
+
+        /// <summary>
+        /// Updates a website compute mode.
+        /// </summary>
+        /// <param name="websiteToUpdate">The website to update</param>
+        void UpdateWebsiteComputeMode(Site websiteToUpdate);
+
+        /// <summary>
+        /// Gets a website slot DNS name.
+        /// </summary>
+        /// <param name="name">The website name</param>
+        /// <param name="slot">The slot name</param>
+        /// <returns>the slot DNS name</returns>
+        string GetSlotDnsName(string name, string slot);
     }
 
     public enum WebsiteState
