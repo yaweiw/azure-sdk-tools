@@ -121,8 +121,6 @@
     <Compile Include="Sql\Sql.Customizations.cs" />
     <Compile Include="Sql\Sql.DiscoveryExtensions.cs" />
     <Compile Include="Sql\SqlManagementClient.cs" />
-    <Compile Include="StorageManagement\StorageManagementClient.cs" />
-    <Compile Include="StorageManagement\StorageManagementClient.Customization.cs" />
     <Compile Include="Store\Store.Customizations.cs" />
     <Compile Include="Store\Store.DiscoveryExtensions.cs" />
     <Compile Include="Store\StoreManagementClient.cs" />
