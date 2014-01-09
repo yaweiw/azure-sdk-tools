@@ -44,6 +44,8 @@ namespace Microsoft.WindowsAzure.Commands.Test.Websites
             }
         };
 
+        private string slot = "stage";
+
         private List<WebSpace> spaces = new List<WebSpace>
         {
             new WebSpace {Name = "webspace1"},
@@ -57,6 +59,8 @@ namespace Microsoft.WindowsAzure.Commands.Test.Websites
         {
             clientMock = new Mock<IWebsitesClient>();
             clientMock.Setup(c => c.GetWebsite("website1"))
+                .Returns(site1);
+            clientMock.Setup(c => c.GetWebsite("website1", slot))
                 .Returns(site1);
             clientMock.Setup(c => c.ListWebSpaces())
                 .Returns(spaces);
@@ -111,6 +115,31 @@ namespace Microsoft.WindowsAzure.Commands.Test.Websites
             getAzureWebsiteLogCommand.DefaultCurrentPath = "";
             getAzureWebsiteLogCommand.ExecuteCmdlet();
             Assert.AreEqual("test with no extension", File.ReadAllText(expectedOutput));
+        }
+
+        [TestMethod]
+        public void SaveAzureWebsiteLogWithSlotTest()
+        {
+            // Setup
+            SimpleDeploymentServiceManagement deploymentChannel = new SimpleDeploymentServiceManagement
+            {
+                DownloadLogsThunk = ar => new MemoryStream(Encoding.UTF8.GetBytes("test"))
+            };
+
+            // Test
+            SaveAzureWebsiteLogCommand getAzureWebsiteLogCommand = new SaveAzureWebsiteLogCommand(deploymentChannel)
+            {
+                Name = "website1",
+                ShareChannel = true,
+                WebsitesClient = clientMock.Object,
+                CommandRuntime = new MockCommandRuntime(),
+                CurrentSubscription = new WindowsAzureSubscription { SubscriptionId = base.subscriptionId },
+                Slot = slot
+            };
+
+            getAzureWebsiteLogCommand.DefaultCurrentPath = "";
+            getAzureWebsiteLogCommand.ExecuteCmdlet();
+            Assert.AreEqual("test", File.ReadAllText(SaveAzureWebsiteLogCommand.DefaultOutput));
         }
     }
 }

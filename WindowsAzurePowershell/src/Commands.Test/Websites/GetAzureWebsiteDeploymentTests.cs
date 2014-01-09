@@ -134,5 +134,58 @@ namespace Microsoft.WindowsAzure.Commands.Test.Websites
             Assert.AreEqual(2, deployments.Count());
             Assert.IsNotNull(deployments.First(d => d.Id.Equals("commit1")).Logs);
         }
+
+        [TestMethod]
+        public void GetsDeploymentForSlot()
+        {
+            string slot = "stage";
+            // Setup
+            var clientMock = new Mock<IWebsitesClient>();
+            var site1 = new Site
+            {
+                Name = "website1",
+                WebSpace = "webspace1",
+                SiteProperties = new SiteProperties
+                {
+                    Properties = new List<NameValuePair>
+                    {
+                        new NameValuePair {Name = "repositoryuri", Value = "http"},
+                        new NameValuePair {Name = "PublishingUsername", Value = "user1"},
+                        new NameValuePair {Name = "PublishingPassword", Value = "password1"}
+                    }
+                }
+            };
+
+            clientMock.Setup(c => c.GetWebsite("website1", slot))
+                .Returns(site1);
+
+            clientMock.Setup(c => c.ListWebSpaces())
+                .Returns(new[] { new WebSpace { Name = "webspace1" }, new WebSpace { Name = "webspace2" } });
+            clientMock.Setup(c => c.ListSitesInWebSpace("webspace1"))
+                .Returns(new[] { site1 });
+
+            clientMock.Setup(c => c.ListSitesInWebSpace("webspace2"))
+                .Returns(new[] { new Site { Name = "website2", WebSpace = "webspace2" } });
+
+            SimpleDeploymentServiceManagement deploymentChannel = new SimpleDeploymentServiceManagement();
+            deploymentChannel.GetDeploymentsThunk = ar => new List<DeployResult> { new DeployResult(), new DeployResult() };
+
+            // Test
+            GetAzureWebsiteDeploymentCommand getAzureWebsiteDeploymentCommand = new GetAzureWebsiteDeploymentCommand(deploymentChannel)
+            {
+                Name = "website1",
+                ShareChannel = true,
+                WebsitesClient = clientMock.Object,
+                CommandRuntime = new MockCommandRuntime(),
+                CurrentSubscription = new WindowsAzureSubscription { SubscriptionId = base.subscriptionId },
+                Slot = slot
+            };
+
+            getAzureWebsiteDeploymentCommand.ExecuteCmdlet();
+            Assert.AreEqual(1, ((MockCommandRuntime)getAzureWebsiteDeploymentCommand.CommandRuntime).OutputPipeline.Count);
+            var deployments = (IEnumerable<DeployResult>)((MockCommandRuntime)getAzureWebsiteDeploymentCommand.CommandRuntime).OutputPipeline.FirstOrDefault();
+            Assert.IsNotNull(deployments);
+            Assert.AreEqual(2, deployments.Count());
+        }
     }
 }
