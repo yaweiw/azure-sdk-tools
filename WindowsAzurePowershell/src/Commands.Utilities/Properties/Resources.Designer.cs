@@ -1251,7 +1251,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Your Windows Azure credential in the Windows PowerShell session has expired. Please use to Add-AzureAccount login again..
+        ///   Looks up a localized string similar to Your Windows Azure credential in the Windows PowerShell session has expired. Please use Add-AzureAccount to login again..
         /// </summary>
         public static string ExpiredRefreshToken {
             get {

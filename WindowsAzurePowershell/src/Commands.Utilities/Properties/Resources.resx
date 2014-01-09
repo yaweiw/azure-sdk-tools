@@ -1368,7 +1368,7 @@ Please follow these steps in the portal:
     <value>Removing account</value>
   </data>
   <data name="ExpiredRefreshToken" xml:space="preserve">
-    <value>Your Windows Azure credential in the Windows PowerShell session has expired. Please use to Add-AzureAccount login again.</value>
+    <value>Your Windows Azure credential in the Windows PowerShell session has expired. Please use Add-AzureAccount to login again.</value>
   </data>
   <data name="NoCachedToken" xml:space="preserve">
     <value>There is no access token cached for subscription {0}, user id {1}. Use the Add-AzureAccount cmdlet to log in again and get a token for this subscription.</value>
