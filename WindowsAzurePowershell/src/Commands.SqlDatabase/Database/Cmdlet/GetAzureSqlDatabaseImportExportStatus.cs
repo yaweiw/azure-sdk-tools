@@ -116,7 +116,7 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Database.Cmdlet
             SqlManagementClient sqlManagementClient = SqlDatabaseCmdletBase.GetCurrentSqlClient();
 
             // Start the database export operation
-            DacGetStatusResponse response = sqlManagementClient.Dacs.GetStatus(
+            DacGetStatusResponse response = sqlManagementClient.Dac.GetStatus(
                 serverName,
                 fullyQualifiedServerName,
                 userName,
