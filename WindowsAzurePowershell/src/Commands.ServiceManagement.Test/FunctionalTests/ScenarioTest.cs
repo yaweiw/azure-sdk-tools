@@ -462,9 +462,9 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
                 imageName = vmPowershellCmdlets.GetAzureVMImageName(new[] { "Windows" }, false);
 
             // starting the test.
-            AzureVMConfigInfo azureVMConfigInfo = new AzureVMConfigInfo(newAzureVMName, InstanceSize.Small, imageName); // parameters for New-AzureVMConfig (-Name -InstanceSize -ImageName)
-            AzureProvisioningConfigInfo azureProvisioningConfig = new AzureProvisioningConfigInfo(OS.Windows, username, password); // parameters for Add-AzureProvisioningConfig (-Windows -Password)
-            PersistentVMConfigInfo persistentVMConfigInfo = new PersistentVMConfigInfo(azureVMConfigInfo, azureProvisioningConfig, null, null);
+            var azureVMConfigInfo = new AzureVMConfigInfo(newAzureVMName, InstanceSize.Small, imageName); // parameters for New-AzureVMConfig (-Name -InstanceSize -ImageName)
+            var azureProvisioningConfig = new AzureProvisioningConfigInfo(OS.Windows, username, password); // parameters for Add-AzureProvisioningConfig (-Windows -Password)
+            var persistentVMConfigInfo = new PersistentVMConfigInfo(azureVMConfigInfo, azureProvisioningConfig, null, null);
             PersistentVM persistentVM = vmPowershellCmdlets.GetPersistentVM(persistentVMConfigInfo); // New-AzureVMConfig & Add-AzureProvisioningConfig
 
             PersistentVM[] VMs = { persistentVM };
@@ -479,36 +479,30 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
             {
                 vmRoleCtxt = vmPowershellCmdlets.GetAzureVM(persistentVM.RoleName, serviceName);
                 if (vmRoleCtxt.InstanceStatus == "StoppedVM")
-                    break;
-                else
                 {
-                    Console.WriteLine("The status of the VM {0} : {1}", persistentVM.RoleName, vmRoleCtxt.InstanceStatus);
-                    Thread.Sleep(120000);
+                    break;
                 }
+                Console.WriteLine("The status of the VM {0} : {1}", persistentVM.RoleName, vmRoleCtxt.InstanceStatus);
+                Thread.Sleep(120000);
             }
             Assert.AreEqual(vmRoleCtxt.InstanceStatus, "StoppedVM", true);
 
-            //TODO
-            // RDP
-
-            //TODO:
-            // Run sysprep and shutdown
-
-            // Check the status of VM
-            //PersistentVMRoleContext vmRoleCtxt2 = vmPowershellCmdlets.GetAzureVM(newAzureVMName, newAzureSvcName); // Get-AzureVM -Name
-            //Assert.AreEqual(newAzureVMName, vmRoleCtxt2.Name, true);  //
-
             // Save-AzureVMImage
-            //string newImageName = "newImage";
-            //string newImageLabel = "newImageLabel";
-            //string postAction = "Delete";
+            vmPowershellCmdlets.SaveAzureVMImage(serviceName, newAzureVMName, newAzureVMName);
 
-            // Save-AzureVMImage -ServiceName -Name -NewImageName -NewImageLabel -PostCaptureAction
-            //vmPowershellCmdlets.SaveAzureVMImage(newAzureSvcName, newAzureVMName, newImageName, newImageLabel, postAction);
+            // Verify VM image.
+            var image = vmPowershellCmdlets.GetAzureVMImage(newAzureVMName)[0];
 
-            // Cleanup
-            vmPowershellCmdlets.RemoveAzureVM(persistentVM.RoleName, serviceName);
+            Assert.AreEqual("Windows", image.OS, "OS is not matching!");
+            Assert.AreEqual(newAzureVMName, image.ImageName, "Names are not matching!");
+
+            // Verify that the VM is removed
             Assert.AreEqual(null, vmPowershellCmdlets.GetAzureVM(persistentVM.RoleName, serviceName));
+
+            // Cleanup the registered image
+            vmPowershellCmdlets.RemoveAzureVMImage(newAzureVMName, true);
+
+            pass = true;
         }
 
         /// <summary>
