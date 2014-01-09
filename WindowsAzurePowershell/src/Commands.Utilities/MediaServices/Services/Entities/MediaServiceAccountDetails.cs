@@ -26,16 +26,16 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.MediaServices.Services.Entit
     {
         public MediaServiceAccountDetails(MediaServicesAccountGetResponse response)
         {
-            this.AccountKeys = response.StorageAccountKeys;
-            this.Location = response.AccountRegion;
-            this.StorageAccountName = response.StorageAccountName;
-            this.Name = response.AccountName;
+            this.AccountKeys = response.Account.StorageAccountKeys;
+            this.Location = response.Account.AccountRegion;
+            this.StorageAccountName = response.Account.StorageAccountName;
+            this.Name = response.Account.AccountName;
         }
         [DataMember]
         internal string AccountKey { get; set; }
 
         [DataMember]
-        internal MediaServicesAccountGetResponse.AccountKeys AccountKeys { get; set; }
+        internal MediaServicesAccount.AccountKeys AccountKeys { get; set; }
 
         [DataMember]
         [JsonProperty(PropertyName = "AccountName")]
