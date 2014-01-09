@@ -32,7 +32,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.Websites
         {
             // Setup
             var mockClient = new Mock<IWebsitesClient>();
-            mockClient.Setup(c => c.GetWebsite("website1"))
+            mockClient.Setup(c => c.GetWebsite("website1", null))
                 .Returns(new Site
                 {
                     Name = "website1",

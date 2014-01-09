@@ -51,7 +51,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.Websites
             var clientMock = new Mock<IWebsitesClient>();
             clientMock.Setup(c => c.ListWebSpaces())
                 .Returns(new[] {new WebSpace {Name = "webspace1"}, new WebSpace {Name = "webspace2"}});
-            clientMock.Setup(c => c.GetWebsite("website1"))
+            clientMock.Setup(c => c.GetWebsite("website1", null))
                 .Returns(site1);
 
             SimpleDeploymentServiceManagement deploymentChannel = new SimpleDeploymentServiceManagement();

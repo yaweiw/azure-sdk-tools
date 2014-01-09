@@ -44,20 +44,20 @@ namespace Microsoft.WindowsAzure.Commands.Test.Websites
             bool updatedSite = false;
             bool updatedSiteConfig = false;
 
-            clientMock.Setup(c => c.GetWebsite(websiteName))
+            clientMock.Setup(c => c.GetWebsite(websiteName, null))
                 .Returns(new Site {Name = websiteName, WebSpace = webspaceName});
-            clientMock.Setup(c => c.GetWebsiteConfiguration(websiteName))
+            clientMock.Setup(c => c.GetWebsiteConfiguration(websiteName, null))
                 .Returns(new SiteConfig {NumberOfWorkers = 1});
-            clientMock.Setup(c => c.UpdateWebsiteConfiguration(websiteName, It.IsAny<SiteConfig>()))
-                .Callback((string name, SiteConfig config) =>
+            clientMock.Setup(c => c.UpdateWebsiteConfiguration(websiteName, It.IsAny<SiteConfig>(), null))
+                .Callback((string name, SiteConfig config, string slot) =>
                     {
                         Assert.IsNotNull(config);
                         Assert.AreEqual(config.NumberOfWorkers, 3);
                         updatedSiteConfig = true;
                     }).Verifiable();
 
-            clientMock.Setup(c => c.UpdateWebsiteHostNames(It.IsAny<Site>(), It.IsAny<IEnumerable<string>>()))
-                .Callback((Site site, IEnumerable<string> names) =>
+            clientMock.Setup(c => c.UpdateWebsiteHostNames(It.IsAny<Site>(), It.IsAny<IEnumerable<string>>(), null))
+                .Callback((Site site, IEnumerable<string> names, string slot) =>
                     {
                         Assert.AreEqual(websiteName, site.Name);
                         Assert.IsTrue(names.Any(hostname => hostname.Equals(string.Format("{0}.{1}", websiteName, suffix))));

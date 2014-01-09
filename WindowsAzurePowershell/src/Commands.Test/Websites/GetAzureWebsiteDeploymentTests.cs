@@ -49,7 +49,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.Websites
                 }
             };
 
-            clientMock.Setup(c => c.GetWebsite("website1"))
+            clientMock.Setup(c => c.GetWebsite("website1", null))
                 .Returns(site1);
 
             clientMock.Setup(c => c.ListWebSpaces())
@@ -102,7 +102,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.Websites
 
             clientMock.Setup(c => c.ListWebSpaces())
                 .Returns(new[] {new WebSpace {Name = "webspace1"}, new WebSpace {Name = "webspace2"}});
-            clientMock.Setup(c => c.GetWebsite("website1")).Returns(site1);
+            clientMock.Setup(c => c.GetWebsite("website1", null)).Returns(site1);
 
             SimpleDeploymentServiceManagement deploymentChannel = new SimpleDeploymentServiceManagement();
             deploymentChannel.GetDeploymentsThunk = ar => new List<DeployResult> { new DeployResult { Id = "commit1" }, new DeployResult { Id = "commit2" } };

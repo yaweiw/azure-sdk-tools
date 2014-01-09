@@ -56,7 +56,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.Websites
             websitesClientMock.Setup(f => f.EnableApplicationDiagnostic(
                 websiteName,
                 WebsiteDiagnosticOutput.FileSystem,
-                properties));
+                properties, null));
 
             enableAzureWebsiteApplicationDiagnosticCommand = new EnableAzureWebsiteApplicationDiagnosticCommand()
             {
@@ -75,7 +75,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.Websites
             websitesClientMock.Verify(f => f.EnableApplicationDiagnostic(
                 websiteName,
                 WebsiteDiagnosticOutput.FileSystem,
-                properties), Times.Once());
+                properties, null), Times.Once());
 
             commandRuntimeMock.Verify(f => f.WriteObject(true), Times.Never());
         }
@@ -89,7 +89,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.Websites
             websitesClientMock.Setup(f => f.EnableApplicationDiagnostic(
                 websiteName,
                 WebsiteDiagnosticOutput.StorageTable,
-                properties));
+                properties, null));
 
             enableAzureWebsiteApplicationDiagnosticCommand = new EnableAzureWebsiteApplicationDiagnosticCommand()
             {
@@ -109,7 +109,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.Websites
             websitesClientMock.Verify(f => f.EnableApplicationDiagnostic(
                 websiteName,
                 WebsiteDiagnosticOutput.StorageTable,
-                properties), Times.Once());
+                properties, null), Times.Once());
 
             commandRuntimeMock.Verify(f => f.WriteObject(true), Times.Never());
         }
@@ -123,7 +123,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.Websites
             websitesClientMock.Setup(f => f.EnableApplicationDiagnostic(
                 websiteName,
                 WebsiteDiagnosticOutput.StorageTable,
-                properties));
+                properties, null));
 
             enableAzureWebsiteApplicationDiagnosticCommand = new EnableAzureWebsiteApplicationDiagnosticCommand()
             {
@@ -146,7 +146,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.Websites
             websitesClientMock.Verify(f => f.EnableApplicationDiagnostic(
                 websiteName,
                 WebsiteDiagnosticOutput.StorageTable,
-                properties), Times.Once());
+                properties, null), Times.Once());
 
             commandRuntimeMock.Verify(f => f.WriteObject(true), Times.Never());
         }
