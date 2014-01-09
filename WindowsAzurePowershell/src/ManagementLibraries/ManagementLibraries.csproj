@@ -106,8 +106,6 @@
   <ItemGroup>
     <Compile Include="ComputeManagement\ComputeManagementClient.cs" />
     <Compile Include="ComputeManagement\ComputeManagementClient.Customization.cs" />
-    <Compile Include="Management\ManagementClient.cs" />
-    <Compile Include="Management\ManagementClient.Customization.cs" />
     <Compile Include="MediaServices\MediaServicesManagementClient.cs" />
     <Compile Include="MediaServices\MediaServicesManagementClient.Customization.cs" />
     <Compile Include="MediaServices\MediaServicesMangementDiscoveryExtensions.cs" />
@@ -130,8 +128,6 @@
     <Compile Include="Store\Store.Customizations.cs" />
     <Compile Include="Store\Store.DiscoveryExtensions.cs" />
     <Compile Include="Store\StoreManagementClient.cs" />
-    <Compile Include="Subscriptions\SubscriptionClient.cs" />
-    <Compile Include="Subscriptions\SubscriptionClient.Customization.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Properties\Resources.resx">
