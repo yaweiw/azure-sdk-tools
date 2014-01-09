@@ -110,9 +110,6 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="ServiceBus\ServiceBus.Customizations.cs" />
-    <Compile Include="ServiceBus\ServiceBus.DiscoveryExtensions.cs" />
-    <Compile Include="ServiceBus\ServiceBusManagementClient.cs" />
     <Compile Include="Store\Store.Customizations.cs" />
     <Compile Include="Store\Store.DiscoveryExtensions.cs" />
     <Compile Include="Store\StoreManagementClient.cs" />
