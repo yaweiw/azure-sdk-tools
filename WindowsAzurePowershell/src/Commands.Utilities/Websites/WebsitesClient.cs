@@ -34,6 +34,8 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
     {
         private readonly CloudServiceClient cloudServiceClient;
 
+        private const string ProductionSlot = "production";
+
         public static string SlotFormat = "{0}({1})";
 
         public const string WebsitesServiceVersion = "2012-12-01";
@@ -350,6 +352,37 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
         }
 
         /// <summary>
+        /// Gets all slots for a website
+        /// </summary>
+        /// <param name="Name">The website name</param>
+        /// <returns>The website slots list</returns>
+        public List<Site> GetWebsiteSlots(string name)
+        {
+            return ListWebsites()
+                .Where(s => s.Name.IndexOf(string.Format("{0}(", name), StringComparison.OrdinalIgnoreCase) >= 0)
+                .ToList();
+        }
+
+        /// <summary>
+        /// Lists all websites under the current subscription
+        /// </summary>
+        /// <returns>List of websites</returns>
+        public List<Site> ListWebsites()
+        {
+            return ListWebSpaces().SelectMany(space => ListSitesInWebSpace(space.Name)).ToList();
+        }
+
+        /// <summary>
+        /// Lists all websites with the provided slot name.
+        /// </summary>
+        /// <param name="slot">The slot name</param>
+        /// <returns>The list if websites</returns>
+        public List<Site> ListWebsites(string slot)
+        {
+            return ListWebsites().Where(s => s.Name.Contains(string.Format("({0})", slot))).ToList();
+        }
+
+        /// <summary>
         /// Create a new website.
         /// </summary>
         /// <param name="webspaceName">Web space to create site in.</param>
@@ -455,7 +488,15 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
         private string SetWebsiteName(string name, string slot)
         {
             name = GetWebsiteName(name);
-            return string.IsNullOrEmpty(slot) ? name : GetSlotDnsName(name, slot);
+
+            if (string.IsNullOrEmpty(slot) || slot.Equals(ProductionSlot, StringComparison.OrdinalIgnoreCase))
+            {
+                return name;
+            }
+            else
+            {
+                return GetSlotDnsName(name, slot);
+            }
         }
 
         /// <summary>

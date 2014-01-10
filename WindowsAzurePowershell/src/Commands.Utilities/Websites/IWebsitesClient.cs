@@ -283,6 +283,26 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
         Site GetWebsite(string name, string slot);
 
         /// <summary>
+        /// Gets all slots for a website
+        /// </summary>
+        /// <param name="Name">The website name</param>
+        /// <returns>The website slots list</returns>
+        List<Site> GetWebsiteSlots(string name);
+
+        /// <summary>
+        /// Lists all websites under the current subscription
+        /// </summary>
+        /// <returns>List of websites</returns>
+        List<Site> ListWebsites();
+
+        /// <summary>
+        /// Lists all websites with the provided slot name.
+        /// </summary>
+        /// <param name="slot">The slot name</param>
+        /// <returns>The list if websites</returns>
+        List<Site> ListWebsites(string slot);
+
+        /// <summary>
         /// Gets a website slot configuration
         /// </summary>
         /// <param name="name">The website name</param>
