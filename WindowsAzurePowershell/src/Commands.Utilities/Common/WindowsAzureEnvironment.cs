@@ -175,7 +175,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
             }
 
             IAccessToken mainToken = tokenProvider.GetNewToken(this);
-            var credentials = new TokenCloudCredentials(mainToken.AccessToken);
+            var credentials = new TokenCloudCredentials(null, mainToken.AccessToken);
 
             using (var subscriptionClient = new SubscriptionClient(credentials, new Uri(ServiceEndpoint)))
             {

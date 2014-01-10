@@ -448,7 +448,7 @@
     <value>SAS Uri for the destination blob is not supported in patch mode:{0}</value>
   </data>
   <data name="StorageCredentialsFactoryCurrentSubscriptionNotSet" xml:space="preserve">
-    <value>Call Set-AzureSubscription and Select-AzureSubscription first.</value>
+    <value>No current subscription has been designated. Use Select-AzureSubscription -Current &lt;subscriptionName&gt; to set the current subscription.</value>
   </data>
   <data name="PSSyncOutputEventsFormatDuration" xml:space="preserve">
     <value>{0} days {1:00}:{2:00}:{3:00}</value>
