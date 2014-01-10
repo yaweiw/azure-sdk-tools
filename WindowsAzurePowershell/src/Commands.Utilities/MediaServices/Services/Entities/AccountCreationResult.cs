@@ -25,9 +25,9 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.MediaServices.Services.Entit
 
         public AccountCreationResult(MediaServicesAccountCreateResponse response)
         {
-            this.AccountId = response.AccountId;
-            this.Name = response.AccountName;
-            this.Subscription = response.SubscriptionId;
+            this.AccountId = response.Account.AccountId;
+            this.Name = response.Account.AccountName;
+            this.Subscription = response.Account.SubscriptionId;
         }
 
         /// <summary>
