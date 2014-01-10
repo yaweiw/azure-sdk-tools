@@ -38,6 +38,20 @@
 				</maml:description>
 			<command:parameterValue required="true" variableLength = "false" >String</command:parameterValue>
 			</command:parameter>
+			<command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "false" position = "named" >
+				<maml:name>MaxCount</maml:name>
+				<maml:description>
+					<maml:para>The max count of the blobs that can return.</maml:para>
+				</maml:description>
+			<command:parameterValue required="true" variableLength = "false" >Int32</command:parameterValue>
+			</command:parameter>
+			<command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "false" position = "named" >
+				<maml:name>ContinuationToken</maml:name>
+				<maml:description>
+					<maml:para>Blob list continuation token.</maml:para>
+				</maml:description>
+			<command:parameterValue required="true" variableLength = "false" >BlobContinuationToken</command:parameterValue>
+			</command:parameter>
 			<command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "true (ByPropertyName)" position = "named" >
 				<maml:name>Context</maml:name>
 				<maml:description>
@@ -82,6 +96,20 @@
 					<maml:para>Container name</maml:para>
 				</maml:description>
 			<command:parameterValue required="true" variableLength = "false" >String</command:parameterValue>
+			</command:parameter>
+			<command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "false" position = "named" >
+				<maml:name>MaxCount</maml:name>
+				<maml:description>
+					<maml:para>The max count of the blobs that can return.</maml:para>
+				</maml:description>
+			<command:parameterValue required="true" variableLength = "false" >Int32</command:parameterValue>
+			</command:parameter>
+			<command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "false" position = "named" >
+				<maml:name>ContinuationToken</maml:name>
+				<maml:description>
+					<maml:para>Blob list continuation token.</maml:para>
+				</maml:description>
+			<command:parameterValue required="true" variableLength = "false" >BlobContinuationToken</command:parameterValue>
 			</command:parameter>
 			<command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "true (ByPropertyName)" position = "named" >
 				<maml:name>Context</maml:name>
@@ -134,6 +162,30 @@
 			<command:parameterValue required="true" variableLength="false">String</command:parameterValue>
 			<dev:type>
 				<maml:name>String</maml:name>
+				<maml:uri/>
+			</dev:type>
+			<dev:defaultValue></dev:defaultValue>
+		</command:parameter>
+		<command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named">
+			<maml:name>MaxCount</maml:name>
+			<maml:description>
+				<maml:para>The max count of the blobs that can return.</maml:para>
+			</maml:description>
+			<command:parameterValue required="true" variableLength="false">Int32</command:parameterValue>
+			<dev:type>
+				<maml:name>Int32</maml:name>
+				<maml:uri/>
+			</dev:type>
+			<dev:defaultValue></dev:defaultValue>
+		</command:parameter>
+		<command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named">
+			<maml:name>ContinuationToken</maml:name>
+			<maml:description>
+				<maml:para>Blob list continuation token.</maml:para>
+			</maml:description>
+			<command:parameterValue required="true" variableLength="false">BlobContinuationToken</command:parameterValue>
+			<dev:type>
+				<maml:name>BlobContinuationToken</maml:name>
 				<maml:uri/>
 			</dev:type>
 			<dev:defaultValue></dev:defaultValue>
@@ -285,6 +337,41 @@ C:\PS&gt;			</maml:introduction>
 				<maml:para>C:\PS&gt;</maml:para>
 C:\PS&gt;			</maml:introduction>
   			<dev:code>Get-AzureStorageBlob -Container containername -Prefix blob</dev:code>
+  			<dev:remarks>
+				<maml:para></maml:para>
+				<maml:para></maml:para>
+				<maml:para></maml:para>
+				<maml:para>
+				</maml:para>
+				<maml:para></maml:para>
+  			</dev:remarks>
+			<command:commandLines>
+				<command:commandLine>
+					<command:commandText>
+					</command:commandText>
+				</command:commandLine>
+			</command:commandLines>
+		</command:example>
+		<command:example>
+			<maml:title>
+--------------  List all blobs with max count and continuation token. --------------			</maml:title>
+			<maml:introduction>
+				<maml:para>C:\PS&gt;</maml:para>
+C:\PS&gt;			</maml:introduction>
+  			<dev:code>$maxReturn = 10000
+$containerName = &quot;abc&quot;
+
+$total = 0
+$token = $null
+do
+{
+	$blobs = Get-AzureStorageBlob -Container $containerName -MaxCount $maxReturn  -ContinuationToken $token 
+	$total += $blobs.Count
+	if($blobs.Length -le 0) { break;}
+	$token = $blobs[$blobs.Count -1].ContinuationToken;
+} 
+while($token -ne $null)
+echo &quot;Total $total blobs in container $containerName&quot;</dev:code>
   			<dev:remarks>
 				<maml:para></maml:para>
 				<maml:para></maml:para>
@@ -1222,6 +1309,20 @@ C:\PS&gt;			</maml:introduction>
 				</maml:description>
 			<command:parameterValue required="true" variableLength = "false" >String</command:parameterValue>
 			</command:parameter>
+			<command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "false" position = "named" >
+				<maml:name>MaxCount</maml:name>
+				<maml:description>
+					<maml:para>The max count of the containers that can return.</maml:para>
+				</maml:description>
+			<command:parameterValue required="true" variableLength = "false" >Int32</command:parameterValue>
+			</command:parameter>
+			<command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "false" position = "named" >
+				<maml:name>ContinuationToken</maml:name>
+				<maml:description>
+					<maml:para>Container list continuation token.</maml:para>
+				</maml:description>
+			<command:parameterValue required="true" variableLength = "false" >BlobContinuationToken</command:parameterValue>
+			</command:parameter>
 			<command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "true (ByPropertyName)" position = "named" >
 				<maml:name>Context</maml:name>
 				<maml:description>
@@ -1259,6 +1360,20 @@ C:\PS&gt;			</maml:introduction>
 					<maml:para>Container name prefix.</maml:para>
 				</maml:description>
 			<command:parameterValue required="true" variableLength = "false" >String</command:parameterValue>
+			</command:parameter>
+			<command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "false" position = "named" >
+				<maml:name>MaxCount</maml:name>
+				<maml:description>
+					<maml:para>The max count of the containers that can return.</maml:para>
+				</maml:description>
+			<command:parameterValue required="true" variableLength = "false" >Int32</command:parameterValue>
+			</command:parameter>
+			<command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "false" position = "named" >
+				<maml:name>ContinuationToken</maml:name>
+				<maml:description>
+					<maml:para>Container list continuation token.</maml:para>
+				</maml:description>
+			<command:parameterValue required="true" variableLength = "false" >BlobContinuationToken</command:parameterValue>
 			</command:parameter>
 			<command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "true (ByPropertyName)" position = "named" >
 				<maml:name>Context</maml:name>
@@ -1299,6 +1414,30 @@ C:\PS&gt;			</maml:introduction>
 			<command:parameterValue required="true" variableLength="false">String</command:parameterValue>
 			<dev:type>
 				<maml:name>String</maml:name>
+				<maml:uri/>
+			</dev:type>
+			<dev:defaultValue></dev:defaultValue>
+		</command:parameter>
+		<command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named">
+			<maml:name>MaxCount</maml:name>
+			<maml:description>
+				<maml:para>The max count of the containers that can return.</maml:para>
+			</maml:description>
+			<command:parameterValue required="true" variableLength="false">Int32</command:parameterValue>
+			<dev:type>
+				<maml:name>Int32</maml:name>
+				<maml:uri/>
+			</dev:type>
+			<dev:defaultValue></dev:defaultValue>
+		</command:parameter>
+		<command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named">
+			<maml:name>ContinuationToken</maml:name>
+			<maml:description>
+				<maml:para>Container list continuation token.</maml:para>
+			</maml:description>
+			<command:parameterValue required="true" variableLength="false">BlobContinuationToken</command:parameterValue>
+			<dev:type>
+				<maml:name>BlobContinuationToken</maml:name>
 				<maml:uri/>
 			</dev:type>
 			<dev:defaultValue></dev:defaultValue>
@@ -1428,6 +1567,43 @@ C:\PS&gt;			</maml:introduction>
 				<maml:para>C:\PS&gt;</maml:para>
 C:\PS&gt;			</maml:introduction>
   			<dev:code>Get-AzureStorageContainer -Prefix container</dev:code>
+  			<dev:remarks>
+				<maml:para></maml:para>
+				<maml:para></maml:para>
+				<maml:para></maml:para>
+				<maml:para>
+				</maml:para>
+				<maml:para></maml:para>
+  			</dev:remarks>
+			<command:commandLines>
+				<command:commandLine>
+					<command:commandText>
+					</command:commandText>
+				</command:commandLine>
+			</command:commandLines>
+		</command:example>
+		<command:example>
+			<maml:title>
+--------------  List all containers with maxCount and ContinuationToken --------------			</maml:title>
+			<maml:introduction>
+				<maml:para>C:\PS&gt;</maml:para>
+C:\PS&gt;			</maml:introduction>
+  			<dev:code>$maxReturn = 10000
+
+
+$total = 0
+$token = $null
+do
+{
+	$containers = Get-AzureStorageContainer -MaxCount $maxReturn  -ContinuationToken $token
+	$total += $containers.Count
+	if($containers.Length -le 0) { break;}
+	$token = $containers[$containers.Count-1].ContinuationToken;
+} 
+while($token -ne $null)
+
+echo &quot;Total $total containers&quot;
+</dev:code>
   			<dev:remarks>
 				<maml:para></maml:para>
 				<maml:para></maml:para>
@@ -2482,9 +2658,9 @@ C:\PS&gt;			</maml:introduction>
 			<command:parameterValue required="true" variableLength = "false" >ICloudBlob</command:parameterValue>
 			</command:parameter>
 			<command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "false" position = "named" >
-				<maml:name>Permission</maml:name>
+				<maml:name>Policy</maml:name>
 				<maml:description>
-					<maml:para>Permissions for a storage blob.</maml:para>
+					<maml:para>Azure Stored Access Policy.</maml:para>
 				</maml:description>
 			<command:parameterValue required="true" variableLength = "false" >String</command:parameterValue>
 			</command:parameter>
@@ -2533,9 +2709,9 @@ C:\PS&gt;			</maml:introduction>
 			<command:parameterValue required="true" variableLength = "false" >ICloudBlob</command:parameterValue>
 			</command:parameter>
 			<command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "false" position = "named" >
-				<maml:name>Policy</maml:name>
+				<maml:name>Permission</maml:name>
 				<maml:description>
-					<maml:para>Azure Stored Access Policy.</maml:para>
+					<maml:para>Permissions for a storage blob.</maml:para>
 				</maml:description>
 			<command:parameterValue required="true" variableLength = "false" >String</command:parameterValue>
 			</command:parameter>
@@ -3512,43 +3688,6 @@ C:\PS&gt;			</maml:introduction>
 			<command:parameterValue required="true" variableLength = "false" >String</command:parameterValue>
 			</command:parameter>
 			<command:parameter required = "true" variableLength = "false" globbing = "false" pipelineInput = "false" position = "named" >
-				<maml:name>Anonymous</maml:name>
-				<maml:description>
-					<maml:para>Anonymous storage account.</maml:para>
-				</maml:description>
-			</command:parameter>
-			<command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "false" position = "named" >
-				<maml:name>Protocol</maml:name>
-				<maml:description>
-					<maml:para>Transfer Protocol (https/http).</maml:para>
-				</maml:description>
-			<command:parameterValue required="true" variableLength = "false" >String</command:parameterValue>
-			</command:parameter>
-			<command:parameter required = "true" variableLength = "false" globbing = "false" pipelineInput = "true (ByPropertyName)" position = "named" >
-				<maml:name>Environment</maml:name>
-				<maml:description>
-					<maml:para>Azure Environment</maml:para>
-				</maml:description>
-			<command:parameterValue required="true" variableLength = "false" >String</command:parameterValue>
-			</command:parameter>
-			<command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "false" position = "named" >
-				<maml:name>PipelineVariable</maml:name>
-				<maml:description>
-					<maml:para></maml:para>
-				</maml:description>
-			<command:parameterValue required="true" variableLength = "false" >String</command:parameterValue>
-			</command:parameter>
-		</command:syntaxItem>
-		<command:syntaxItem>
-			<maml:name>New-AzureStorageContext</maml:name>
-			<command:parameter required = "true" variableLength = "false" globbing = "false" pipelineInput = "false" position = "1" >
-				<maml:name>StorageAccountName</maml:name>
-				<maml:description>
-					<maml:para>Azure storage account name</maml:para>
-				</maml:description>
-			<command:parameterValue required="true" variableLength = "false" >String</command:parameterValue>
-			</command:parameter>
-			<command:parameter required = "true" variableLength = "false" globbing = "false" pipelineInput = "false" position = "named" >
 				<maml:name>SasToken</maml:name>
 				<maml:description>
 					<maml:para></maml:para>
@@ -3587,9 +3726,15 @@ C:\PS&gt;			</maml:introduction>
 			<command:parameterValue required="true" variableLength = "false" >String</command:parameterValue>
 			</command:parameter>
 			<command:parameter required = "true" variableLength = "false" globbing = "false" pipelineInput = "false" position = "named" >
-				<maml:name>SasToken</maml:name>
+				<maml:name>Anonymous</maml:name>
 				<maml:description>
-					<maml:para></maml:para>
+					<maml:para>Anonymous storage account.</maml:para>
+				</maml:description>
+			</command:parameter>
+			<command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "false" position = "named" >
+				<maml:name>Protocol</maml:name>
+				<maml:description>
+					<maml:para>Transfer Protocol (https/http).</maml:para>
 				</maml:description>
 			<command:parameterValue required="true" variableLength = "false" >String</command:parameterValue>
 			</command:parameter>
@@ -3628,6 +3773,37 @@ C:\PS&gt;			</maml:introduction>
 				<maml:name>Protocol</maml:name>
 				<maml:description>
 					<maml:para>Transfer Protocol (https/http).</maml:para>
+				</maml:description>
+			<command:parameterValue required="true" variableLength = "false" >String</command:parameterValue>
+			</command:parameter>
+			<command:parameter required = "true" variableLength = "false" globbing = "false" pipelineInput = "true (ByPropertyName)" position = "named" >
+				<maml:name>Environment</maml:name>
+				<maml:description>
+					<maml:para>Azure Environment</maml:para>
+				</maml:description>
+			<command:parameterValue required="true" variableLength = "false" >String</command:parameterValue>
+			</command:parameter>
+			<command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "false" position = "named" >
+				<maml:name>PipelineVariable</maml:name>
+				<maml:description>
+					<maml:para></maml:para>
+				</maml:description>
+			<command:parameterValue required="true" variableLength = "false" >String</command:parameterValue>
+			</command:parameter>
+		</command:syntaxItem>
+		<command:syntaxItem>
+			<maml:name>New-AzureStorageContext</maml:name>
+			<command:parameter required = "true" variableLength = "false" globbing = "false" pipelineInput = "false" position = "1" >
+				<maml:name>StorageAccountName</maml:name>
+				<maml:description>
+					<maml:para>Azure storage account name</maml:para>
+				</maml:description>
+			<command:parameterValue required="true" variableLength = "false" >String</command:parameterValue>
+			</command:parameter>
+			<command:parameter required = "true" variableLength = "false" globbing = "false" pipelineInput = "false" position = "named" >
+				<maml:name>SasToken</maml:name>
+				<maml:description>
+					<maml:para></maml:para>
 				</maml:description>
 			<command:parameterValue required="true" variableLength = "false" >String</command:parameterValue>
 			</command:parameter>
@@ -3752,10 +3928,10 @@ C:\PS&gt;			</maml:introduction>
 			</dev:type>
 			<dev:defaultValue></dev:defaultValue>
 		</command:parameter>
-		<command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="named">
-			<maml:name>Environment</maml:name>
+		<command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="named">
+			<maml:name>SasToken</maml:name>
 			<maml:description>
-				<maml:para>Azure Environment</maml:para>
+				<maml:para></maml:para>
 			</maml:description>
 			<command:parameterValue required="true" variableLength="false">String</command:parameterValue>
 			<dev:type>
@@ -3764,10 +3940,10 @@ C:\PS&gt;			</maml:introduction>
 			</dev:type>
 			<dev:defaultValue></dev:defaultValue>
 		</command:parameter>
-		<command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="named">
-			<maml:name>SasToken</maml:name>
+		<command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="named">
+			<maml:name>Environment</maml:name>
 			<maml:description>
-				<maml:para></maml:para>
+				<maml:para>Azure Environment</maml:para>
 			</maml:description>
 			<command:parameterValue required="true" variableLength="false">String</command:parameterValue>
 			<dev:type>
