@@ -111,14 +111,14 @@ namespace Microsoft.WindowsAzure.Commands.Test.MediaServices
             FakeHttpMessageHandler fakeHttpHandler;
             MediaServicesManagementClient clientWithHandler = CreateMediaManagementClientWithFakeHttpMessageHandler(out fakeHttpHandler);
 
-            const string responseText = @"<AccountDetails xmlns='http://schemas.datacontract.org/2004/07/Microsoft.Cloud.Media.Management.ResourceProvider.Models' xmlns:i='http://www.w3.org/2001/XMLSchema-instance'>
-                                    <AccountKey>primarykey</AccountKey><AccountKeys>
-                                    <Primary>primarykey</Primary>
-                                    <Secondary>secondarykey</Secondary>
-                                    </AccountKeys><AccountName>testps</AccountName>
-                                    <AccountRegion>West US</AccountRegion>
-                                    <StorageAccountName>psstorage</StorageAccountName>
-                                </AccountDetails>";
+            const string responseText = @"
+            {
+            ""AccountName"":""testps"",
+            ""AccountKey"":""primarykey"",
+            ""AccountKeys"":{""Primary"":""primarykey"",""Secondary"":""secondarykey""},
+            ""StorageAccountName"":""psstorage"",
+            ""AccountRegion"":""West US""
+            }";
 
             HttpResponseMessage response = new HttpResponseMessage(HttpStatusCode.OK)
             {
@@ -132,10 +132,10 @@ namespace Microsoft.WindowsAzure.Commands.Test.MediaServices
                 StorageClient.WithHandler(new FakeHttpMessageHandler()));
 
             MediaServicesAccountGetResponse result = target.GetMediaServiceAsync(AccountName).Result;
-            Assert.AreEqual("primarykey", result.StorageAccountKeys.Primary);
-            Assert.AreEqual("secondarykey", result.StorageAccountKeys.Secondary);
-            Assert.AreEqual("testps", result.AccountName);
-            Assert.AreEqual("psstorage", result.StorageAccountName);
+            Assert.AreEqual("primarykey", result.Account.StorageAccountKeys.Primary);
+            Assert.AreEqual("secondarykey", result.Account.StorageAccountKeys.Secondary);
+            Assert.AreEqual("testps", result.Account.AccountName);
+            Assert.AreEqual("psstorage", result.Account.StorageAccountName);
         }
 
         [TestMethod]
@@ -182,12 +182,11 @@ namespace Microsoft.WindowsAzure.Commands.Test.MediaServices
             FakeHttpMessageHandler fakeHttpHandler;
             MediaServicesManagementClient clientWithHandler = CreateMediaManagementClientWithFakeHttpMessageHandler(out fakeHttpHandler);
 
-            const string responseText = @"<AccountCreationResult xmlns='http://schemas.datacontract.org/2004/07/Microsoft.Cloud.Media.Management.ResourceProvider.Models' xmlns:i='http://www.w3.org/2001/XMLSchema-instance'>
-                                    <AccountId>e26ca098-e363-450d-877c-384ce5a97c72</AccountId>
-                                    <AccountName>tmp</AccountName>
-                                    <StatusCode>Created</StatusCode>
-                                    <Subscription>d4e66bc8-6ccb-4e49-9ee6-dc6925d5bbdb</Subscription>
-                                </AccountCreationResult>";
+            const string responseText =
+            @"{""AccountId"":""e26ca098-e363-450d-877c-384ce5a97c72"",
+            ""AccountName"":""tmp"",
+            ""Subscription"":""d4e66bc8-6ccb-4e49-9ee6-dc6925d5bbdb"",
+            ""StatusCode"":201}";
 
             HttpResponseMessage response = new HttpResponseMessage(HttpStatusCode.Created)
             {
@@ -210,7 +209,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.MediaServices
             };
 
             MediaServicesAccountCreateResponse result = target.CreateNewAzureMediaServiceAsync(creationRequest).Result;
-            Assert.AreEqual("tmp", result.AccountName);
+            Assert.AreEqual("tmp", result.Account.AccountName);
         }
 
         [TestMethod]

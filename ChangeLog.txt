@@ -1,3 +1,52 @@
+﻿2012.12.19 Version 0.7.2.1
+﻿* Hotfix for some encoding issue with Hive query which contain "%".
+﻿
+﻿2013.12.10 Version 0.7.2
+* HDInsight cmdlets
+  * Add-AzureHDInsightConfigValues
+  * Add-AzureHDInsightMetastore
+  * Add-AzureHDInsightStorage
+  * Get-AzureHDInsightCluster
+  * Get-AzureHDInsightJob
+  * Get-AzureHDInsightJobOutput
+  * Get-AzureHDInsightProperties
+  * New-AzureHDInsightCluster
+  * New-AzureHDInsightClusterConfig
+  * New-AzureHDInsightHiveJobDefinition
+  * New-AzureHDInsightMapReduceJobDefinition
+  * New-AzureHDInsightPigJobDefinition
+  * New-AzureHDInsightSqoopJobDefinition
+  * New-AzureHDInsightStreamingMapReduceJobDefinition
+  * Remove-AzureHDInsightCluster
+  * Revoke-AzureHDInsightHttpServicesAccess
+  * Set-AzureHDInsightDefaultStorage
+  * Start-AzureHDInsightJob
+  * Stop-AzureHDInsightJob
+  * Use-AzureHDInsightCluster
+  * Wait-AzureHDInsightJob
+  * Grant-AzureHDInsightHttpServicesAccess
+  * Invoke-AzureHDInsightHiveJob
+* Configure Web Site WebSocket and managed pipe mode
+  * Set-AzureWebsite -WebSocketEnabled -ManagedPipelineMode
+* Configure Web Site remote debugging
+  * Enable-AzureWebsiteDebug -Version
+  * Disable-AzureWebsiteDebug
+* Options for cleaning up VHD when deleting VMs
+  * Remove-AzureVM -DeleteVHD
+  * Remove-AzureService -DeleteAll
+  * Remove-AzureDeployment -DeleteVHD
+* Virtual IP reservation preview feature (in AzurePreview module)
+  * Get-AzureDeployment
+  * Get-AzureReservedIP
+  * New-AzureReservedIP
+  * New-AzureVM
+  * Remove-AzureReservedIP
+* Support these cmdlets for Visual Studio Cloud Service projects:
+  * Start-AzureEmulator
+  * Publish-AzureServiceProject
+  * Save-AzureServiceProjectPackage
+
+
 2013.11.07 Version 0.7.1
 * Regression fixes
     * Get-AzureWinRMUri cannot return the correct port number (https://github.com/WindowsAzure/azure-sdk-tools/issues/2056)
