@@ -31,6 +31,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
     using System.Xml;
     using VisualStudio.TestTools.UnitTesting;
     using Model.PersistentVMModel;
+    using System.Linq;
 
     [TestClass]
     public class FunctionalTest : ServiceManagementTest
@@ -198,7 +199,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
                 var certList = new CertificateSettingList();
                 certList.Add(vmPowershellCmdlets.NewAzureCertificateSetting(certStoreName.ToString(), installedCert.Thumbprint));
 
-                var azureVMConfigInfo = new AzureVMConfigInfo(vmName, InstanceSize.Small, imageName);
+                var azureVMConfigInfo = new AzureVMConfigInfo(vmName, InstanceSize.Small.ToString(), imageName);
                 var azureProvisioningConfig = new AzureProvisioningConfigInfo(OS.Windows, certList, username, password);
                 var persistentVMConfigInfo = new PersistentVMConfigInfo(azureVMConfigInfo, azureProvisioningConfig, null, null);
                 PersistentVM vm = vmPowershellCmdlets.GetPersistentVM(persistentVMConfigInfo);
@@ -342,10 +343,10 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
 
                 DnsServer dns = vmPowershellCmdlets.NewAzureDns(dnsName, ipAddress);
 
-                AzureVMConfigInfo azureVMConfigInfo = new AzureVMConfigInfo(vmName, InstanceSize.ExtraSmall, imageName);
-                AzureProvisioningConfigInfo azureProvisioningConfig = new AzureProvisioningConfigInfo(OS.Windows, username, password);     
+                var azureVMConfigInfo = new AzureVMConfigInfo(vmName, InstanceSize.ExtraSmall.ToString(), imageName);
+                var azureProvisioningConfig = new AzureProvisioningConfigInfo(OS.Windows, username, password);
            
-                PersistentVMConfigInfo persistentVMConfigInfo = new PersistentVMConfigInfo(azureVMConfigInfo, azureProvisioningConfig, null, null);
+                var persistentVMConfigInfo = new PersistentVMConfigInfo(azureVMConfigInfo, azureProvisioningConfig, null, null);
 
                 PersistentVM vm = vmPowershellCmdlets.GetPersistentVM(persistentVMConfigInfo);  
            
@@ -777,8 +778,8 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
             {
                 vmPowershellCmdlets.NewAzureService(serviceName, serviceName, locationName);
 
-                PersistentVM vm = vmPowershellCmdlets.NewAzureVMConfig(new AzureVMConfigInfo(vmName, InstanceSize.Small, imageName));
-                AzureProvisioningConfigInfo azureProvisioningConfig = new AzureProvisioningConfigInfo(OS.Windows, username, password);
+                PersistentVM vm = vmPowershellCmdlets.NewAzureVMConfig(new AzureVMConfigInfo(vmName, InstanceSize.Small.ToString(), imageName));
+                var azureProvisioningConfig = new AzureProvisioningConfigInfo(OS.Windows, username, password);
                 azureProvisioningConfig.Vm = vm;
 
                 string [] subs = new []  {"subnet1", "subnet2", "subnet3"};
@@ -1016,22 +1017,64 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
 
                 vmPowershellCmdlets.SetAzureVNetConfig(vnetConfigFilePath);
 
-                var result = vmPowershellCmdlets.GetAzureVNetConfig(vnetConfigFilePath);
+                string vnetConfigFilePathCopy = Directory.GetCurrentDirectory() + "\\vnetconfigCopy.netcfg";
 
-                vmPowershellCmdlets.SetAzureVNetConfig(vnetConfigFilePath);
+                var result = vmPowershellCmdlets.GetAzureVNetConfig(vnetConfigFilePathCopy);
+
+                vmPowershellCmdlets.SetAzureVNetConfig(vnetConfigFilePathCopy);
 
                 Collection<VirtualNetworkSiteContext> vnetSites = vmPowershellCmdlets.GetAzureVNetSite(null);
+
                 foreach (var re in vnetSites)
                 {
-                    Console.WriteLine("VNet: {0}", re.Name);
+                    Console.WriteLine("VNet Name: {0}", re.Name);
+                    Console.WriteLine("ID: {0}", re.Id);
+                    Console.WriteLine("Affinity Group: {0}", re.AffinityGroup);
+                    Console.WriteLine("Gateway Profile: {0}", re.GatewayProfile);
+                    Console.WriteLine("InUse: {0}", re.InUse.ToString());
+                    Console.WriteLine("State: {0}", re.State);
+                    Console.WriteLine("Label: {0}", re.Label);
+
+                    foreach (var prefix in re.AddressSpacePrefixes)
+                    {
+                        Console.WriteLine("Address Prefix: {0}", prefix);
+                    }
+
+                    foreach (var dns in re.DnsServers)
+                    {
+                        Console.WriteLine("DNS name: {0}", dns.Name);
+                        Console.WriteLine("DNS address: {0}", dns.Address);
+                        Assert.AreEqual("open", dns.Name);
+                    }
+                    Assert.AreEqual(1, re.DnsServers.Count());
+
+                    foreach (var gatewaysite in re.GatewaySites)
+                    {
+                        Console.WriteLine("Gateway Site Name: {0}", gatewaysite.Name);
+                        foreach (var prefix in gatewaysite.AddressSpace.AddressPrefixes)
+                        {
+                            Console.WriteLine("Gateway Site Address Space Prefix: {0}", prefix);
+                        }
+                        Console.WriteLine("VPN Gateway Address: {0}", gatewaysite.VpnGatewayAddress);
+                        Assert.AreEqual("LocalNet1", gatewaysite.Name);
+                    }
+                    Assert.AreEqual(1, re.GatewaySites.Count);
+
+                    foreach (var subnet in re.Subnets)
+                    {
+                        Console.WriteLine("Subnet Name: {0}", subnet.Name);
+                        Console.WriteLine("Subnet Address Prefix: {0}", subnet.AddressPrefix);
+                    }
+                    Console.WriteLine();
                 }
 
+                // Remove Vnet config
                 vmPowershellCmdlets.RemoveAzureVNetConfig();
 
                 Collection<VirtualNetworkSiteContext> vnetSitesAfter = vmPowershellCmdlets.GetAzureVNetSite(null);
 
                 Assert.AreNotEqual(vnetSites.Count, vnetSitesAfter.Count, "No Vnet is removed");
-                
+
                 foreach (var re in vnetSitesAfter)
                 {
                     Console.WriteLine("VNet: {0}", re.Name);
