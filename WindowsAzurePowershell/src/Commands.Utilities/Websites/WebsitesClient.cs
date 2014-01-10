@@ -256,6 +256,18 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
         }
 
         /// <summary>
+        /// Gets the application diagnostics settings
+        /// </summary>
+        /// <param name="name">The website name</param>
+        /// <param name="slot">The website slot name</param>
+        /// <returns>The website application diagnostics settings</returns>
+        public DiagnosticsSettings GetApplicationDiagnosticsSettings(string name, string slot)
+        {
+            name = SetWebsiteName(GetWebsiteName(name), slot);
+            return GetApplicationDiagnosticsSettings(name);
+        }
+
+        /// <summary>
         /// Restarts a website.
         /// </summary>
         /// <param name="name">The website name</param>
@@ -359,7 +371,9 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
         public List<Site> GetWebsiteSlots(string name)
         {
             return ListWebsites()
-                .Where(s => s.Name.IndexOf(string.Format("{0}(", name), StringComparison.OrdinalIgnoreCase) >= 0)
+                .Where(s => 
+                    s.Name.IndexOf(string.Format("{0}(", name), StringComparison.OrdinalIgnoreCase) >= 0 ||
+                    s.Name.Equals(name, StringComparison.OrdinalIgnoreCase))
                 .ToList();
         }
 

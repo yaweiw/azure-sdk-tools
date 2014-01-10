@@ -51,6 +51,14 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
         DiagnosticsSettings GetApplicationDiagnosticsSettings(string name);
 
         /// <summary>
+        /// Gets the application diagnostics settings
+        /// </summary>
+        /// <param name="name">The website name</param>
+        /// <param name="slot">The website slot name</param>
+        /// <returns>The website application diagnostics settings</returns>
+        DiagnosticsSettings GetApplicationDiagnosticsSettings(string name, string slot);
+
+        /// <summary>
         /// Restarts a website.
         /// </summary>
         /// <param name="name">The website name</param>
