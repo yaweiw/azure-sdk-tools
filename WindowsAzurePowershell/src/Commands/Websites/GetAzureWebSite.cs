@@ -78,7 +78,7 @@ namespace Microsoft.WindowsAzure.Commands.Websites
                         var diagnosticSettings = new DiagnosticsSettings();
                         try
                         {
-                            diagnosticSettings = WebsitesClient.GetApplicationDiagnosticsSettings(Name);
+                            diagnosticSettings = WebsitesClient.GetApplicationDiagnosticsSettings(Name, Slot);
                         }
                         catch
                         {
@@ -94,20 +94,19 @@ namespace Microsoft.WindowsAzure.Commands.Websites
         {
             Do(() =>
                 {
-                    List<Site> websites = WebsitesClient.ListWebsites();
+                    List<Site> websites;
+                    if (string.IsNullOrEmpty(Slot))
+                    {
+                        websites = WebsitesClient.ListWebsites();
+                    }
+                    else
+                    {
+                        websites = WebsitesClient.ListWebsites(Slot);
+                    }
+
                     Cache.SaveSites(CurrentSubscription.SubscriptionId, new Sites(websites));
                     WriteWebsites(websites);
                 });
-        }
-
-        private void GetBySlot()
-        {
-            Do(() =>
-            {
-                List<Site> websites = WebsitesClient.ListWebsites(Slot);
-                Cache.SaveSites(CurrentSubscription.SubscriptionId, new Sites(websites));
-                WriteWebsites(websites);
-            });
         }
 
         private void Do(Action call)

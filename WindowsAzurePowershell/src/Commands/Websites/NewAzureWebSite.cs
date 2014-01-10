@@ -366,9 +366,11 @@ namespace Microsoft.WindowsAzure.Commands.Websites
         {
             try
             {
+                Site createdWebsite;
+
                 if (WebsitesClient.WebsiteExists(website.Name) && !string.IsNullOrEmpty(Slot))
                 {
-                    Site createdWebsite = WebsitesClient.GetWebsite(website.Name);
+                    createdWebsite = WebsitesClient.GetWebsite(website.Name);
 
                     // Make sure that the website is in Standard mode
                     if (createdWebsite.ComputeMode == WebSiteComputeMode.Dedicated)
@@ -376,15 +378,21 @@ namespace Microsoft.WindowsAzure.Commands.Websites
                         website.DisableClone = DisableClone;
                         WebsitesClient.CreateWebsite(webspace.Name, website, Slot);
                     }
+                    else
+                    {
+                        throw new Exception("Can not create slot in a website not in Standard mode");
+                    }
                 }
                 else
                 {
                     WebsitesClient.CreateWebsite(webspace.Name, website);
                 }
 
-                Cache.AddSite(CurrentSubscription.SubscriptionId, website);
-                SiteConfig websiteConfiguration = WebsitesClient.GetWebsiteConfiguration(Name);
-                WriteObject(new SiteWithConfig(website, websiteConfiguration));
+                createdWebsite = WebsitesClient.GetWebsite(website.Name);
+
+                Cache.AddSite(CurrentSubscription.SubscriptionId, createdWebsite);
+                SiteConfig websiteConfiguration = WebsitesClient.GetWebsiteConfiguration(Name, Slot);
+                WriteObject(new SiteWithConfig(createdWebsite, websiteConfiguration));
             }
             catch (CloudException ex)
             {
