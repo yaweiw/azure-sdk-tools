@@ -1258,7 +1258,16 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to No current subscription has been designated. Use Select-AzureSubscription -Current &lt;subscriptionName&gt; to set the current subscription..
+        ///   Looks up a localized string similar to Stopping VM role: &apos;{0}&apos;. Its static IP address: &apos;{1}&apos; will no longer be in use after the it is stopped and stayed in provision, but it is still being reserved..
+        /// </summary>
+        internal static string StaticIPAddressNoLongerInUseButStillBeingReserved {
+            get {
+                return ResourceManager.GetString("StaticIPAddressNoLongerInUseButStillBeingReserved", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Call Set-AzureSubscription and Select-AzureSubscription first..
         /// </summary>
         internal static string StorageCredentialsFactoryCurrentSubscriptionNotSet {
             get {

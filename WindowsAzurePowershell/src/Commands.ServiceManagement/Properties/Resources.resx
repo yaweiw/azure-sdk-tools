@@ -567,4 +567,7 @@
   <data name="NetworkConfigurationNotFoundOnPersistentVM" xml:space="preserve">
     <value>Network configuration not found on the persistent VM.</value>
   </data>
+  <data name="StaticIPAddressNoLongerInUseButStillBeingReserved" xml:space="preserve">
+    <value>Stopping VM role: '{0}'. Its static IP address: '{1}' will no longer be in use after the it is stopped and stayed in provision, but it is still being reserved.</value>
+  </data>
 </root>
