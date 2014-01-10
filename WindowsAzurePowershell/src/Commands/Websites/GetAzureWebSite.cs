@@ -38,6 +38,10 @@ namespace Microsoft.WindowsAzure.Commands.Websites
             set;
         }
 
+        [Parameter(Position = 1, Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "The slot name.")]
+        [ValidateNotNullOrEmpty]
+        public string Slot { get; set; }
+
         protected virtual void WriteWebsites(IEnumerable<Site> websites)
         {
             WriteObject(websites, true);
@@ -59,21 +63,30 @@ namespace Microsoft.WindowsAzure.Commands.Websites
         {
             Do(() =>
                 {
-                    Site websiteObject = WebsitesClient.GetWebsite(Name);
-                    SiteConfig config = WebsitesClient.GetWebsiteConfiguration(Name);
-                    Cache.AddSite(CurrentSubscription.SubscriptionId, websiteObject);
-
-                    var diagnosticSettings = new DiagnosticsSettings();
-                    try
+                    if (string.IsNullOrEmpty(Slot))
                     {
-                        diagnosticSettings = WebsitesClient.GetApplicationDiagnosticsSettings(Name);
+                        List<Site> websites = WebsitesClient.GetWebsiteSlots(Name);
+                        Cache.SaveSites(CurrentSubscription.SubscriptionId, new Sites(websites));
+                        WriteWebsites(websites);
                     }
-                    catch
+                    else
                     {
-                        // Ignore exception and use default values
-                    }
+                        Site websiteObject = WebsitesClient.GetWebsite(Name, Slot);
+                        SiteConfig config = WebsitesClient.GetWebsiteConfiguration(Name, Slot);
+                        Cache.AddSite(CurrentSubscription.SubscriptionId, websiteObject);
 
-                    WriteObject(new SiteWithConfig(websiteObject, config, diagnosticSettings), false);
+                        var diagnosticSettings = new DiagnosticsSettings();
+                        try
+                        {
+                            diagnosticSettings = WebsitesClient.GetApplicationDiagnosticsSettings(Name);
+                        }
+                        catch
+                        {
+                            // Ignore exception and use default values
+                        }
+
+                        WriteObject(new SiteWithConfig(websiteObject, config, diagnosticSettings), false);
+                    }
                 });
         }
 
@@ -81,12 +94,20 @@ namespace Microsoft.WindowsAzure.Commands.Websites
         {
             Do(() =>
                 {
-                    var websites = WebsitesClient.ListWebSpaces()
-                        .SelectMany(space => WebsitesClient.ListSitesInWebSpace(space.Name))
-                        .ToList();
+                    List<Site> websites = WebsitesClient.ListWebsites();
                     Cache.SaveSites(CurrentSubscription.SubscriptionId, new Sites(websites));
                     WriteWebsites(websites);
                 });
+        }
+
+        private void GetBySlot()
+        {
+            Do(() =>
+            {
+                List<Site> websites = WebsitesClient.ListWebsites(Slot);
+                Cache.SaveSites(CurrentSubscription.SubscriptionId, new Sites(websites));
+                WriteWebsites(websites);
+            });
         }
 
         private void Do(Action call)
