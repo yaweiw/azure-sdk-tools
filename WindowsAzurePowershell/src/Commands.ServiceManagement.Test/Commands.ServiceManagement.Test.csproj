@@ -240,6 +240,7 @@
     <Compile Include="FunctionalTests\IaasCmdletInfo\GetAzureOSVersion.cs" />
     <Compile Include="FunctionalTests\IaasCmdletInfo\GetAzureRemoteDesktopFileCmdletInfo.cs" />
     <Compile Include="FunctionalTests\IaasCmdletInfo\GetAzureRole.cs" />
+    <Compile Include="FunctionalTests\IaasCmdletInfo\GetAzureRoleSize.cs" />
     <Compile Include="FunctionalTests\IaasCmdletInfo\GetAzureServiceCmdletInfo.cs" />
     <Compile Include="FunctionalTests\IaasCmdletInfo\GetAzureStorageKeyCmdletInfo.cs" />
     <Compile Include="FunctionalTests\IaasCmdletInfo\GetAzureSubnet.cs" />
