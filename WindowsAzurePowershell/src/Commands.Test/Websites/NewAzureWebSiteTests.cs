@@ -141,7 +141,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.Websites
             clientMock.Setup(c => c.GetWebsiteConfiguration("website1"))
                 .Returns(new SiteConfig { PublishingUsername = "user1" });
 
-            string slot = "Stage";
+            string slot = "staging";
 
             clientMock.Setup(f => f.WebsiteExists(websiteName)).Returns(true);
             clientMock.Setup(f => f.GetWebsite(websiteName)).Returns(new Site() { ComputeMode = WebSiteComputeMode.Dedicated });

@@ -44,7 +44,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.Websites
             }
         };
 
-        private string slot = "stage";
+        private string slot = "staging";
 
         private List<WebSpace> spaces = new List<WebSpace>
         {

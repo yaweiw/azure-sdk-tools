@@ -54,7 +54,7 @@ namespace Microsoft.WindowsAzure.Commands.Websites
             set;
         }
 
-        [Parameter(HelpMessage = "The website slot name")]
+        [Parameter(Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "The website slot name")]
         public string Slot { get; set; }
 
         /// <summary>

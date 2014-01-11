@@ -115,7 +115,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.Websites
         [TestMethod]
         public void RestoresDeploymentForSlot()
         {
-            string slot = "stage";
+            string slot = "staging";
             // Setup
             var site1 = new Site
             {

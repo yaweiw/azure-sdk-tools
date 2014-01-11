@@ -100,7 +100,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.Websites
         public void DisablesApplicationDiagnosticOnSlot()
         {
             // Setup
-            string slot = "stage";
+            string slot = "staging";
             websitesClientMock.Setup(f => f.DisableApplicationDiagnostic(
                 websiteName,
                 WebsiteDiagnosticOutput.FileSystem, slot));
