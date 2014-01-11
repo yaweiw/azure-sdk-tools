@@ -59,7 +59,10 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.WAPackIaaS.WebClient
             }
             catch (WebException ex)
             {
-                throw new WAPackWebException( ((HttpWebResponse) ex.Response).StatusCode, ex.Message, ex);
+                HttpStatusCode statusCode = ex.Response != null
+                    ? ((HttpWebResponse)ex.Response).StatusCode
+                    : HttpStatusCode.Unused;
+                throw new WAPackWebException(statusCode, ex.Message, ex);
             }
         }
     }
