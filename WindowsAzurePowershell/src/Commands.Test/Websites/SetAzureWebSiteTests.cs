@@ -102,7 +102,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.Websites
             const string websiteName = "website1";
             const string webspaceName = "webspace";
             const string suffix = "azurewebsites.com";
-            const string slot = "stage";
+            const string slot = "staging";
 
             // Setup
             Mock<IWebsitesClient> clientMock = new Mock<IWebsitesClient>();

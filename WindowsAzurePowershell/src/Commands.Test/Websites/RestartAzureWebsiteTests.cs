@@ -52,7 +52,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.Websites
         {
             // Setup
             const string websiteName = "website1";
-            const string slot = "stage";
+            const string slot = "staging";
 
             Mock<IWebsitesClient> websitesClientMock = new Mock<IWebsitesClient>();
             websitesClientMock.Setup(f => f.RestartWebsite(websiteName, slot));

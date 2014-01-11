@@ -8343,6 +8343,13 @@
           </maml:description>
           <command:parameterValue required="true" variableLength = "false" >String</command:parameterValue>
         </command:parameter>
+        <command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "true (ByPropertyName)">
+          <maml:name>Slot</maml:name>
+          <maml:description>
+            <maml:para>The slot name</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength = "false" >String</command:parameterValue>
+        </command:parameter>
       </command:syntaxItem>
     </command:syntax>
     <command:parameters>
@@ -8357,6 +8364,13 @@
           <maml:uri/>
         </dev:type>
         <dev:defaultValue></dev:defaultValue>
+      </command:parameter>
+      <command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "true (ByPropertyName)">
+        <maml:name>Slot</maml:name>
+        <maml:description>
+          <maml:para>The slot name</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength = "false" >String</command:parameterValue>
       </command:parameter>
     </command:parameters>
     <command:inputTypes>
@@ -8855,13 +8869,6 @@
           <maml:name>Slot</maml:name>
           <maml:description>
             <maml:para>The slot name</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength = "false" >String</command:parameterValue>
-        </command:parameter>
-        <command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "true (ByPropertyName)" position = "1" >
-          <maml:name>DisableClone</maml:name>
-          <maml:description>
-            <maml:para>Disables cloning the website configuration when creating a slot</maml:para>
           </maml:description>
           <command:parameterValue required="true" variableLength = "false" >String</command:parameterValue>
         </command:parameter>
@@ -11416,7 +11423,7 @@
     </command:details>
     <maml:description>
       <!--This is the Description section-->
-      <maml:para>Enables the website's debug feature is Visual Studio</maml:para>
+      <maml:para>Enables the website's debug feature in Visual Studio</maml:para>
     </maml:description>
     <command:syntax>
       <command:syntaxItem>
@@ -11568,7 +11575,7 @@
     </command:details>
     <maml:description>
       <!--This is the Description section-->
-      <maml:para>Disables the website's debugging on Visual Studio</maml:para>
+      <maml:para>Disables the website's debugging in Visual Studio</maml:para>
     </maml:description>
     <command:syntax>
       <command:syntaxItem>
