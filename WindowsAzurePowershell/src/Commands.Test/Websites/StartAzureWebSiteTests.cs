@@ -51,7 +51,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.Websites
         [TestMethod]
         public void StartsWebsiteSlot()
         {
-            const string slot = "stage";
+            const string slot = "staging";
             const string websiteName = "website1";
 
             // Setup

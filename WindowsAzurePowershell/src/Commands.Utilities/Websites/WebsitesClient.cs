@@ -406,10 +406,10 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
         /// <returns>The created site object</returns>
         public Site CreateWebsite(string webspaceName, SiteWithWebSpace siteToCreate, string slot)
         {
-            if (!string.IsNullOrEmpty(slot))
+            if (!string.IsNullOrEmpty(slot) && !slot.Equals(ProductionSlot, StringComparison.OrdinalIgnoreCase))
             {
                 string[] hostNames = { string.Format("{0}-{1}.{2}", siteToCreate.Name, slot, GetWebsiteDnsSuffix()) };
-                siteToCreate.Name = string.Format(SlotFormat, siteToCreate.Name, slot);
+                siteToCreate.Name = SetWebsiteName(siteToCreate.Name, slot);
                 siteToCreate.HostNames = hostNames;
             }
 

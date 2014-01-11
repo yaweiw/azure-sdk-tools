@@ -166,7 +166,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.Websites
         public void GetsWebsiteSlot()
         {
             // Setup
-            string slot = "stage";
+            string slot = "staging";
             var clientMock = new Mock<IWebsitesClient>();
             clientMock.Setup(c => c.GetWebsite(It.IsAny<string>(), slot))
                 .Returns(new Site
@@ -205,7 +205,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.Websites
         public void GetsSlots()
         {
             // Setup
-            string slot = "stage";
+            string slot = "staging";
             var clientMock = new Mock<IWebsitesClient>();
             clientMock.Setup(c => c.ListWebsites(slot))
                 .Returns(new List<Site> {new Site

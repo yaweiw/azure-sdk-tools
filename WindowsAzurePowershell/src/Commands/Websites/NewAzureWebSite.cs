@@ -100,13 +100,6 @@ namespace Microsoft.WindowsAzure.Commands.Websites
             set;
         }
 
-        [Parameter(Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "disables cloning config.")]
-        public SwitchParameter DisableClone
-        {
-            get;
-            set;
-        }
-
         public bool ShareChannel { get; set; }
 
         public IGithubServiceManagement GithubChannel { get; set; }
@@ -375,7 +368,6 @@ namespace Microsoft.WindowsAzure.Commands.Websites
                     // Make sure that the website is in Standard mode
                     if (createdWebsite.ComputeMode == WebSiteComputeMode.Dedicated)
                     {
-                        website.DisableClone = DisableClone;
                         WebsitesClient.CreateWebsite(webspace.Name, website, Slot);
                     }
                     else

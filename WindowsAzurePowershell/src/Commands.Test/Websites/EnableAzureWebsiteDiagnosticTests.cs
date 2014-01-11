@@ -154,7 +154,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.Websites
         [TestMethod]
         public void EnableApplicationDiagnosticOnSlot()
         {
-            string slot = "stage";
+            string slot = "staging";
             // Setup
             websitesClientMock.Setup(f => f.EnableApplicationDiagnostic(
                 websiteName,
