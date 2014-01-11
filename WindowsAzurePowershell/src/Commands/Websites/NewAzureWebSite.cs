@@ -191,25 +191,18 @@ namespace Microsoft.WindowsAzure.Commands.Websites
 
         internal void AddRemoteToLocalGitRepo(Site website)
         {
-            if (!string.IsNullOrEmpty(Slot) && !Slot.Equals("production", StringComparison.OrdinalIgnoreCase))
+            // Get remote repos
+            IList<string> remoteRepositories = GitClass.GetRemoteRepositories();
+            if (remoteRepositories.Any(repository => repository.Equals("azure")))
             {
-                // Add slot remote
+                // Removing existing azure remote alias
+                GitClass.RemoveRemoteRepository("azure");
             }
-            else
-            {
-                // Get remote repos
-                IList<string> remoteRepositories = GitClass.GetRemoteRepositories();
-                if (remoteRepositories.Any(repository => repository.Equals("azure")))
-                {
-                    // Removing existing azure remote alias
-                    GitClass.RemoveRemoteRepository("azure");
-                }
 
-                string repositoryUri = website.GetProperty("RepositoryUri");
+            string repositoryUri = website.GetProperty("RepositoryUri");
 
-                string uri = GitClass.GetUri(repositoryUri, Name, PublishingUsername);
-                GitClass.AddRemoteRepository("azure", uri);
-            }
+            string uri = GitClass.GetUri(repositoryUri, Name, PublishingUsername);
+            GitClass.AddRemoteRepository("azure", uri);
         }
 
         [EnvironmentPermission(SecurityAction.Demand, Unrestricted = true)]
