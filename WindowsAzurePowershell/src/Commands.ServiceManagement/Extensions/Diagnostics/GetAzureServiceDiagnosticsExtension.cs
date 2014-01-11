@@ -21,12 +21,12 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Extensions
     using Model.PersistentVMModel;
 
     /// <summary>
-    /// Get Windows Azure Service Remote Desktop Extension.
+    /// Get Windows Azure Service Diagnostics Extension.
     /// </summary>
-    [Cmdlet(VerbsCommon.Get, "AzureServiceRemoteDesktopExtension"), OutputType(typeof(IEnumerable<RemoteDesktopExtensionContext>))]
-    public class GetAzureServiceRemoteDesktopExtensionCommand : BaseAzureServiceRemoteDesktopExtensionCmdlet
+    [Cmdlet(VerbsCommon.Get, "AzureServiceDiagnosticsExtension"), OutputType(typeof(DiagnosticExtensionContext))]
+    public class GetAzureServiceDiagnosticsExtensionCommand : BaseAzureServiceDiagnosticsExtensionCmdlet
     {
-        [Parameter(Position = 0, ValueFromPipelineByPropertyName = true, Mandatory = false, HelpMessage = "Service Name")]
+        [Parameter(Position = 0, ValueFromPipelineByPropertyName = true, HelpMessage = "Service Name")]
         [ValidateNotNullOrEmpty]
         public override string ServiceName
         {
@@ -34,7 +34,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Extensions
             set;
         }
 
-        [Parameter(Position = 1, ValueFromPipelineByPropertyName = true, Mandatory = false, HelpMessage = "Deployment Slot: Production (default) or Staging")]
+        [Parameter(Position = 1, ValueFromPipelineByPropertyName = true, HelpMessage = "Deployment Slot: Production (default) or Staging")]
         [ValidateSet(DeploymentSlotType.Production, DeploymentSlotType.Staging, IgnoreCase = true)]
         public override string Slot
         {
@@ -65,7 +65,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Extensions
                            from extension in r.Extensions
                            where ExtensionManager.CheckNameSpaceType(extension, ExtensionNameSpace, ExtensionType)
                               && ExtensionManager.GetBuilder(Deployment.ExtensionConfiguration).Exist(role, extension.Id)
-                           select new RemoteDesktopExtensionContext
+                           select new DiagnosticExtensionContext
                            {
                                OperationId = s.Id,
                                OperationDescription = CommandRuntime.ToString(),
@@ -74,8 +74,8 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Extensions
                                ProviderNameSpace = extension.ProviderNamespace,
                                Id = extension.Id,
                                Role = role,
-                               UserName = GetPublicConfigValue(extension, UserNameElemStr),
-                               Expiration = GetPublicConfigValue(extension, ExpirationElemStr)
+                               StorageAccountName = GetPublicConfigValue(extension, StorageNameElemStr),
+                               WadCfg = GetPublicConfigValue(extension, WadCfgElemStr)
                            };
                 });
         }

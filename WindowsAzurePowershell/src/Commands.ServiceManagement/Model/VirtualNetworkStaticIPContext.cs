@@ -12,17 +12,10 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Extensions
+namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Model
 {
-    using Utilities.Common;
-
-    public class RemoteDesktopExtensionContext : ManagementOperationContext
+    public class VirtualNetworkStaticIPContext
     {
-        public ExtensionRole Role { get; set; }
-        public string Extension { get; set; }
-        public string ProviderNameSpace { get; set; }
-        public string Id { get; set; }
-        public string UserName { get; set; }
-        public string Expiration { get; set; }
+        public string IPAddress { get; set; }
     }
 }

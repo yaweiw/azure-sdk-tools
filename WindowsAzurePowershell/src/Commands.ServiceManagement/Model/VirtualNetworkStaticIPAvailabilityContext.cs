@@ -12,17 +12,15 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Extensions
+namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Model
 {
+    using System.Collections.Generic;
     using Utilities.Common;
 
-    public class DiagnosticExtensionContext : ManagementOperationContext
+    public class VirtualNetworkStaticIPAvailabilityContext : ManagementOperationContext
     {
-        public ExtensionRole Role { get; set; }
-        public string Extension { get; set; }
-        public string ProviderNameSpace { get; set; }
-        public string Id { get; set; }
-        public string StorageAccountName { get; set; }
-        public string WadCfg { get; set; }
+        public bool IsAvailable { get; set; }
+
+        public List<string> AvailableAddresses { get; set; }
     }
 }

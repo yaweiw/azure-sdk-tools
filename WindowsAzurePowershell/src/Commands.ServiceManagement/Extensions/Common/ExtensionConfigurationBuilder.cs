@@ -31,6 +31,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Extensions
             {
                 throw new ArgumentNullException("extensionManager");
             }
+
             this.extensionManager = extensionManager;
             allRoles = new HashSet<string>();
             namedRoles = new Dictionary<string, HashSet<string>>();
