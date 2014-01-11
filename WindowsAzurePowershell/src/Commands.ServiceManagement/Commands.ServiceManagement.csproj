@@ -159,18 +159,19 @@
     </Reference>
     <Reference Include="Microsoft.WindowsAzure.Management, Version=0.9.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Microsoft.WindowsAzure.Management.0.9.4-preview\lib\net40\Microsoft.WindowsAzure.Management.dll</HintPath>
+      <HintPath>..\packages\Microsoft.WindowsAzure.Management.0.9.5-preview\lib\net40\Microsoft.WindowsAzure.Management.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.WindowsAzure.Management.Compute, Version=0.9.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Microsoft.WindowsAzure.Management.Compute.0.9.6-preview\lib\net40\Microsoft.WindowsAzure.Management.Compute.dll</HintPath>
+      <HintPath>..\packages\Microsoft.WindowsAzure.Management.Compute.0.9.8-preview\lib\net40\Microsoft.WindowsAzure.Management.Compute.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.WindowsAzure.Management.Storage">
-      <HintPath>..\packages\Microsoft.WindowsAzure.Management.Storage.0.9.2-preview\lib\net40\Microsoft.WindowsAzure.Management.Storage.dll</HintPath>
+    <Reference Include="Microsoft.WindowsAzure.Management.Storage, Version=0.9.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.WindowsAzure.Management.Storage.0.9.3-preview\lib\net40\Microsoft.WindowsAzure.Management.Storage.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.WindowsAzure.Management.VirtualNetworks, Version=0.9.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Microsoft.WindowsAzure.Management.VirtualNetworks.0.9.2-preview\lib\net40\Microsoft.WindowsAzure.Management.VirtualNetworks.dll</HintPath>
+      <HintPath>..\packages\Microsoft.WindowsAzure.Management.VirtualNetworks.0.9.3-preview\lib\net40\Microsoft.WindowsAzure.Management.VirtualNetworks.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.WindowsAzure.Storage, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -230,7 +231,27 @@
     <Compile Include="AffinityGroups\GetAzureAffinityGroup.cs" />
     <Compile Include="AffinityGroups\NewAzureAffinityGroup.cs" />
     <Compile Include="AffinityGroups\RemoveAzureAffinityGroup.cs" />
+    <Compile Include="Extensions\ADDomain\ADPrivateSchema.cs" />
+    <Compile Include="Extensions\ADDomain\ADPublicSchema.cs" />
+    <Compile Include="Extensions\ADDomain\BaseAzureServiceADDomainExtension.cs" />
+    <Compile Include="Extensions\ADDomain\ADDomainExtensionContext.cs" />
+    <Compile Include="Extensions\ADDomain\GetAzureServiceADDomainExtension.cs" />
+    <Compile Include="Extensions\ADDomain\JoinOptions.cs" />
+    <Compile Include="Extensions\ADDomain\NewAzureServiceADDomainExtensionConfig.cs" />
+    <Compile Include="Extensions\ADDomain\RemoveAzureServiceADDomainExtension.cs" />
+    <Compile Include="Extensions\ADDomain\SetAzureServiceADDomainExtension.cs" />
+    <Compile Include="Extensions\Common\ExtensionContext.cs" />
+    <Compile Include="Extensions\Common\ExtensionParameterPropertyHelper.cs" />
+    <Compile Include="Extensions\Common\ExtensionRoleType.cs" />
+    <Compile Include="IaaS\Network\GetAzureStaticVNetIP.cs" />
+    <Compile Include="IaaS\Network\RemoveAzureStaticVNetIP.cs" />
+    <Compile Include="IaaS\Network\SetAzureStaticVNetIP.cs" />
+    <Compile Include="IaaS\Network\TestAzureStaticVNetIP.cs" />
+    <Compile Include="Model\RoleSizeContext.cs" />
     <Compile Include="Model\PersistentVMRoleTypes.cs" />
+    <Compile Include="Model\VirtualNetworkStaticIPAvailabilityContext.cs" />
+    <Compile Include="Model\VirtualNetworkStaticIPContext.cs" />
+    <Compile Include="RoleSizes\GetAzureRoleSize.cs" />
     <Compile Include="ServiceManagementProfile.cs" />
     <Compile Include="AffinityGroups\SetAzureAffinityGroup.cs" />
     <Compile Include="Certificates\AddAzureCertificate.cs" />
@@ -238,56 +259,56 @@
     <Compile Include="Certificates\RemoveAzureCertificate.cs" />
     <Compile Include="Common\ValidateVMSizeAttribute.cs" />
     <Compile Include="Common\ValidationHelpers.cs" />
-    <Compile Include="Extensions\BaseAzureServiceDiagnosticsExtension.cs">
+    <Compile Include="Extensions\Diagnostics\BaseAzureServiceDiagnosticsExtension.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Extensions\BaseAzureServiceExtensionCmdlet.cs">
+    <Compile Include="Extensions\Common\BaseAzureServiceExtensionCmdlet.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Extensions\BaseAzureServiceRemoteDesktopExtension.cs">
+    <Compile Include="Extensions\RDP\BaseAzureServiceRemoteDesktopExtension.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Extensions\DiagnosticsExtensionContext.cs">
+    <Compile Include="Extensions\Diagnostics\DiagnosticsExtensionContext.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Extensions\ExtensionConfigurationBuilder.cs">
+    <Compile Include="Extensions\Common\ExtensionConfigurationBuilder.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Extensions\ExtensionConfigurationInput.cs">
+    <Compile Include="Extensions\Common\ExtensionConfigurationInput.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Extensions\ExtensionManager.cs">
+    <Compile Include="Extensions\Common\ExtensionManager.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Extensions\ExtensionRole.cs">
+    <Compile Include="Extensions\Common\ExtensionRole.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Extensions\ExtensionRoleList.cs" />
-    <Compile Include="Extensions\GetAzureServiceDiagnosticsExtension.cs">
+    <Compile Include="Extensions\Common\ExtensionRoleList.cs" />
+    <Compile Include="Extensions\Diagnostics\GetAzureServiceDiagnosticsExtension.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Extensions\GetAzureServiceRemoteDesktopExtension.cs">
+    <Compile Include="Extensions\RDP\GetAzureServiceRemoteDesktopExtension.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Extensions\NewAzureServiceDiagnosticsExtensionConfig.cs">
+    <Compile Include="Extensions\Diagnostics\NewAzureServiceDiagnosticsExtensionConfig.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Extensions\NewAzureServiceRemoteDesktopExtensionConfig.cs">
+    <Compile Include="Extensions\RDP\NewAzureServiceRemoteDesktopExtensionConfig.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Extensions\RemoteDesktopExtensionContext.cs">
+    <Compile Include="Extensions\RDP\RemoteDesktopExtensionContext.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Extensions\RemoveAzureServiceDiagnosticsExtension.cs">
+    <Compile Include="Extensions\Diagnostics\RemoveAzureServiceDiagnosticsExtension.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Extensions\RemoveAzureServiceRemoteDesktopExtension.cs">
+    <Compile Include="Extensions\RDP\RemoveAzureServiceRemoteDesktopExtension.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Extensions\SetAzureServiceDiagnosticsExtension.cs">
+    <Compile Include="Extensions\Diagnostics\SetAzureServiceDiagnosticsExtension.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Extensions\SetAzureServiceRemoteDesktopExtension.cs">
+    <Compile Include="Extensions\RDP\SetAzureServiceRemoteDesktopExtension.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Helpers\CertUtils.cs" />
@@ -429,6 +450,13 @@
     <Compile Include="StorageServices\StorageCredentialsFactory.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Extensions\ADDomain\ADBuildSchema.cmd" />
+    <None Include="Extensions\ADDomain\ADPrivateSchema.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Extensions\ADDomain\ADPublicSchema.xsd">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="MSSharedLibKey.snk" />
     <None Include="packages.config" />
   </ItemGroup>

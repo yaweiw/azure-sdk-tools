@@ -15,23 +15,18 @@
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests.IaasCmdletInfo
 {
     using System;
-    using ConfigDataInfo;
     using PowershellCore;
 
     public class UpdateAzureVMImageCmdletInfo : CmdletsInfo
     {
-        public UpdateAzureVMImageCmdletInfo(string imageName, string label)
+        public UpdateAzureVMImageCmdletInfo(string imageName, string label, string recommendedSize)
         {
             cmdletName = Utilities.UpdateAzureVMImageCmdletName;
 
             cmdletParams.Add(new CmdletParam("ImageName", imageName));
-            cmdletParams.Add(new CmdletParam("Label", label));            
-        }
+            cmdletParams.Add(new CmdletParam("Label", label));
 
-        public UpdateAzureVMImageCmdletInfo(string imageName, string label, InstanceSize? recommendedSize)
-            : this(imageName, label)
-        {
-            if (recommendedSize.HasValue)
+            if (! string.IsNullOrEmpty(recommendedSize))
             {
                 cmdletParams.Add(new CmdletParam("RecommendedVMSize", recommendedSize));
             }
@@ -40,7 +35,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
         public UpdateAzureVMImageCmdletInfo(
             string imageName,
             string label,
-            InstanceSize? recommendedSize,
+            string recommendedSize,
             string description,
             string eula,
             string imageFamily,

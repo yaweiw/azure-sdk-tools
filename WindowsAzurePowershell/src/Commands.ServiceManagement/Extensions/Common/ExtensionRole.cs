@@ -14,21 +14,22 @@
 
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Extensions
 {
+    using Management.Compute.Models;
+
     public class ExtensionRole
     {
         protected const string DefaultExtensionIdPrefixStr = "Default";
-        protected const string AllRolesTypeStr = "AllRoles";
-        protected const string NamedRolesTypeStr = "NamedRoles";
+        protected const string ExtensionIdTemplate = "{0}-{1}-{2}-Ext-{3}";
 
         public string RoleName { get; private set; }
         public string PrefixName { get; private set; }
-        public string RoleType { get; private set; }
+        public ExtensionRoleType RoleType { get; private set; }
         public bool Default { get; private set; }
 
         public ExtensionRole()
         {
             RoleName = string.Empty;
-            RoleType = AllRolesTypeStr;
+            RoleType = ExtensionRoleType.AllRoles;
             PrefixName = DefaultExtensionIdPrefixStr;
             Default = true;
         }
@@ -38,14 +39,14 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Extensions
             if (string.IsNullOrWhiteSpace(roleName))
             {
                 RoleName = string.Empty;
-                RoleType = AllRolesTypeStr;
+                RoleType = ExtensionRoleType.AllRoles;
                 PrefixName = DefaultExtensionIdPrefixStr;
                 Default = true;
             }
             else
             {
                 PrefixName = RoleName = roleName.Trim();
-                RoleType = NamedRolesTypeStr;
+                RoleType = ExtensionRoleType.NamedRoles;
                 Default = false;
             }
         }
@@ -53,6 +54,11 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Extensions
         public override string ToString()
         {
             return PrefixName;
+        }
+
+        public string GetExtensionId(string extensionName, string slot, int index)
+        {
+            return string.Format(ExtensionIdTemplate, PrefixName, extensionName, slot, index);
         }
     }
 }

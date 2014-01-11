@@ -14,19 +14,18 @@
 
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Extensions
 {
-    using System.Collections.Generic;
     using System.Linq;
     using System.Management.Automation;
     using Management.Compute;
     using Model.PersistentVMModel;
 
     /// <summary>
-    /// Get Windows Azure Service Diagnostics Extension.
+    /// Get Windows Azure Service ADDomain Extension.
     /// </summary>
-    [Cmdlet(VerbsCommon.Get, "AzureServiceDiagnosticsExtension"), OutputType(typeof(IEnumerable<DiagnosticExtensionContext>))]
-    public class GetAzureServiceDiagnosticsExtensionCommand : BaseAzureServiceDiagnosticsExtensionCmdlet
+    [Cmdlet(VerbsCommon.Get, ADDomainExtensionNoun), OutputType(typeof(ADDomainExtensionContext))]
+    public class GetAzureServiceADDomainExtensionCommand : BaseAzureServiceADDomainExtensionCmdlet
     {
-        [Parameter(Position = 0, ValueFromPipelineByPropertyName = true, Mandatory = false, HelpMessage = "Service Name")]
+        [Parameter(Position = 0, ValueFromPipelineByPropertyName = true, HelpMessage = ExtensionParameterPropertyHelper.ServiceNameHelpMessage)]
         [ValidateNotNullOrEmpty]
         public override string ServiceName
         {
@@ -34,7 +33,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Extensions
             set;
         }
 
-        [Parameter(Position = 1, ValueFromPipelineByPropertyName = true, Mandatory = false, HelpMessage = "Deployment Slot: Production (default) or Staging")]
+        [Parameter(Position = 1, ValueFromPipelineByPropertyName = true, HelpMessage = ExtensionParameterPropertyHelper.SlotHelpMessage)]
         [ValidateSet(DeploymentSlotType.Production, DeploymentSlotType.Staging, IgnoreCase = true)]
         public override string Slot
         {
@@ -65,18 +64,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Extensions
                            from extension in r.Extensions
                            where ExtensionManager.CheckNameSpaceType(extension, ExtensionNameSpace, ExtensionType)
                               && ExtensionManager.GetBuilder(Deployment.ExtensionConfiguration).Exist(role, extension.Id)
-                           select new DiagnosticExtensionContext
-                           {
-                               OperationId = s.Id,
-                               OperationDescription = CommandRuntime.ToString(),
-                               OperationStatus = s.Status.ToString(),
-                               Extension = extension.Type,
-                               ProviderNameSpace = extension.ProviderNamespace,
-                               Id = extension.Id,
-                               Role = role,
-                               StorageAccountName = GetPublicConfigValue(extension, StorageNameElemStr),
-                               WadCfg = GetPublicConfigValue(extension, WadCfgElemStr)
-                           };
+                           select GetContext(s, role, extension) as ADDomainExtensionContext;
                 });
         }
 
