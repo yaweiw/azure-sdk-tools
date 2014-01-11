@@ -51,6 +51,14 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
         DiagnosticsSettings GetApplicationDiagnosticsSettings(string name);
 
         /// <summary>
+        /// Gets the application diagnostics settings
+        /// </summary>
+        /// <param name="name">The website name</param>
+        /// <param name="slot">The website slot name</param>
+        /// <returns>The website application diagnostics settings</returns>
+        DiagnosticsSettings GetApplicationDiagnosticsSettings(string name, string slot);
+
+        /// <summary>
         /// Restarts a website.
         /// </summary>
         /// <param name="name">The website name</param>
@@ -281,6 +289,26 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
         /// <param name="Slot">The website slot name</param>
         /// <returns>The website slot object</returns>
         Site GetWebsite(string name, string slot);
+
+        /// <summary>
+        /// Gets all slots for a website
+        /// </summary>
+        /// <param name="Name">The website name</param>
+        /// <returns>The website slots list</returns>
+        List<Site> GetWebsiteSlots(string name);
+
+        /// <summary>
+        /// Lists all websites under the current subscription
+        /// </summary>
+        /// <returns>List of websites</returns>
+        List<Site> ListWebsites();
+
+        /// <summary>
+        /// Lists all websites with the provided slot name.
+        /// </summary>
+        /// <param name="slot">The slot name</param>
+        /// <returns>The list if websites</returns>
+        List<Site> ListWebsites(string slot);
 
         /// <summary>
         /// Gets a website slot configuration

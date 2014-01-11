@@ -138,7 +138,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.Websites
         [TestMethod]
         public void GetsDeploymentForSlot()
         {
-            string slot = "stage";
+            string slot = "staging";
             // Setup
             var clientMock = new Mock<IWebsitesClient>();
             var site1 = new Site

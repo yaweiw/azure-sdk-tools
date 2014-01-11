@@ -161,5 +161,87 @@ namespace Microsoft.WindowsAzure.Commands.Test.Websites
             Assert.AreEqual(1, ((MockCommandRuntime)getAzureWebsiteCommand.CommandRuntime).OutputPipeline.Count);
             websitesClientMock.Verify(f => f.GetApplicationDiagnosticsSettings("website1"), Times.Once());
         }
+
+        [TestMethod]
+        public void GetsWebsiteSlot()
+        {
+            // Setup
+            string slot = "staging";
+            var clientMock = new Mock<IWebsitesClient>();
+            clientMock.Setup(c => c.GetWebsite(It.IsAny<string>(), slot))
+                .Returns(new Site
+                {
+                    Name = "website1(stage)",
+                    WebSpace = "webspace1"
+                });
+
+            clientMock.Setup(c => c.GetWebsiteConfiguration(It.IsAny<string>(), slot))
+                .Returns(new SiteConfig
+                {
+                    PublishingUsername = "user1"
+                });
+
+            // Test
+            var getAzureWebsiteCommand = new GetAzureWebsiteCommand
+            {
+                CommandRuntime = new MockCommandRuntime(),
+                CurrentSubscription = new WindowsAzureSubscription { SubscriptionId = subscriptionId },
+                Name = "website1",
+                WebsitesClient = clientMock.Object,
+                Slot = slot
+            };
+
+            getAzureWebsiteCommand.ExecuteCmdlet();
+            Assert.AreEqual(1, ((MockCommandRuntime)getAzureWebsiteCommand.CommandRuntime).OutputPipeline.Count);
+
+            var website = ((MockCommandRuntime)getAzureWebsiteCommand.CommandRuntime).OutputPipeline[0] as SiteWithConfig;
+            Assert.IsNotNull(website);
+            Assert.AreEqual("website1(stage)", website.Name);
+            Assert.AreEqual("webspace1", website.WebSpace);
+            Assert.AreEqual("user1", website.PublishingUsername);
+        }
+
+        [TestMethod]
+        public void GetsSlots()
+        {
+            // Setup
+            string slot = "staging";
+            var clientMock = new Mock<IWebsitesClient>();
+            clientMock.Setup(c => c.ListWebsites(slot))
+                .Returns(new List<Site> {new Site
+                {
+                    Name = "website1(stage)",
+                    WebSpace = "webspace1"
+                }, new Site
+                {
+                    Name = "website2(stage)",
+                    WebSpace = "webspace1"
+                }});
+
+            clientMock.Setup(c => c.GetWebsiteConfiguration(It.IsAny<string>(), slot))
+                .Returns(new SiteConfig
+                {
+                    PublishingUsername = "user1"
+                });
+
+            // Test
+            var getAzureWebsiteCommand = new GetAzureWebsiteCommand
+            {
+                CommandRuntime = new MockCommandRuntime(),
+                CurrentSubscription = new WindowsAzureSubscription { SubscriptionId = subscriptionId },
+                WebsitesClient = clientMock.Object,
+                Slot = slot
+            };
+
+            getAzureWebsiteCommand.ExecuteCmdlet();
+            IEnumerable<Site> sites = ((MockCommandRuntime)getAzureWebsiteCommand.CommandRuntime).OutputPipeline[0] as IEnumerable<Site>;
+
+            var website1 = sites.ElementAt(0);
+            var website2 = sites.ElementAt(1);
+            Assert.IsNotNull(website1);
+            Assert.IsNotNull(website2);
+            Assert.AreEqual("website1(stage)", website1.Name);
+            Assert.AreEqual("website2(stage)", website2.Name);
+        }
     }
 }
