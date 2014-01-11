@@ -10172,6 +10172,8 @@
       </maml:navigationLink>
     </maml:relatedLinks>
   </command:command>
+
+  <!-- v 1.3.0.36 -->
 <command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10">
 	<command:details>
 		<command:name>
@@ -10194,25 +10196,44 @@
 	<command:syntax>
 		<command:syntaxItem>
 			<maml:name>Remove-AzureDataDisk</maml:name>
-			<command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="1">
-				<maml:name>LUN</maml:name>
-				<maml:description>
-					<maml:para>Specifies the slot where the data disk to be detached is currently mounted.</maml:para>
-				</maml:description>
-				<command:parameterValue required="true" variableLength="false">int</command:parameterValue>
-			</command:parameter>
-			<command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true (ByValue)" position="named">
+			<command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true (ByValue)" position="1">
 				<maml:name>VM</maml:name>
 				<maml:description>
 					<maml:para>Specifies the slot where the data disk to be detached is currently mounted.</maml:para>
 				</maml:description>
 				<command:parameterValue required="true" variableLength="false">IPersistentVM</command:parameterValue>
 			</command:parameter>
+			<command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="2">
+				<maml:name>LUN</maml:name>
+				<maml:description>
+					<maml:para>Specifies the slot where the data disk to be detached is currently mounted.</maml:para>
+				</maml:description>
+				<command:parameterValue required="true" variableLength="false">int</command:parameterValue>
+			</command:parameter>
+			<command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="3">
+				<maml:name>DeleteVHD</maml:name>
+				<maml:description>
+					<maml:para>Specify to remove the data disk and the underlying disk blob.</maml:para>
+				</maml:description>
+			</command:parameter>
 		</command:syntaxItem>
 	</command:syntax>
 	<!-- Cmdlet parameter section  -->
 	<command:parameters>
-		<command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="1">
+		<command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="3">
+			<maml:name>DeleteVHD</maml:name>
+			<maml:description>
+				<maml:para>Specify to remove the data disk and the underlying disk blob.</maml:para>
+								
+			</maml:description>
+			<command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
+			<dev:type>
+				<maml:name>SwitchParameter</maml:name>
+				<maml:uri/>
+			</dev:type>
+			<dev:defaultValue></dev:defaultValue>
+		</command:parameter>
+		<command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="2">
 			<maml:name>LUN</maml:name>
 			<maml:description>
 				<maml:para>Specifies the slot where the data disk to be detached is currently mounted.</maml:para>
@@ -10225,7 +10246,7 @@
 			</dev:type>
 			<dev:defaultValue></dev:defaultValue>
 		</command:parameter>
-		<command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true (ByValue)" position="named">
+		<command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true (ByValue)" position="1">
 			<maml:name>VM</maml:name>
 			<maml:description>
 				<maml:para>Specifies the slot where the data disk to be detached is currently mounted.</maml:para>
@@ -10296,11 +10317,38 @@
 				<maml:para>C:\PS&gt;</maml:para>
 			</maml:introduction> 
   			<dev:code>
-Get-AzureVm -ServiceName MyDemoService01 -Name MyDemoVM01 | Remove-AzureDataDisk -LUN 0                        </dev:code>
+Get-AzureVM -ServiceName MyDemoService01 -Name MyDemoVM01 | Remove-AzureDataDisk -LUN 0                        </dev:code>
        			<dev:remarks>
                                 <maml:para>Description</maml:para>
                                 <maml:para>-----------</maml:para>
   			        <maml:para>This command gets the virtual machine object with the name &quot;MyDemoVM01&quot; running on the &quot;MyDemoService01&quot; cloud service, and then detaches the data disk at LUN 0 from virtual machine object.</maml:para>
+	                        <maml:para></maml:para>
+	                        <maml:para></maml:para>
+	                        <maml:para></maml:para>
+	                        <maml:para></maml:para>
+  			</dev:remarks>
+			<command:commandLines>
+				<command:commandLine>
+					<command:commandText></command:commandText>
+				</command:commandLine>
+			</command:commandLines>
+		</command:example>
+
+		<command:example>
+			<maml:title>
+				-------------------------- EXAMPLE 2 --------------------------
+			</maml:title> 
+			<maml:introduction>
+				<maml:para>C:\PS&gt;</maml:para>
+			</maml:introduction> 
+  			<dev:code>
+Get-AzureVM -ServiceName MyDemoService01 -Name MyDemoVM01 | Remove-AzureDataDisk -LUN 0 -DeleteVHD | Update-AzureVM
+
+This command gets the virtual machine object with the name &quot;MyDemoVM01&quot; running on the &quot;MyDemoService01&quot; cloud service, then detaches the data disk at LUN 0 from virtual machine object. It also updates the VM in the cloud and then delete the underlying VHD(s).                        </dev:code>
+       			<dev:remarks>
+                                <maml:para>Description</maml:para>
+                                <maml:para>-----------</maml:para>
+  			        <maml:para></maml:para>
 	                        <maml:para></maml:para>
 	                        <maml:para></maml:para>
 	                        <maml:para></maml:para>
@@ -10325,6 +10373,9 @@ Get-AzureVm -ServiceName MyDemoService01 -Name MyDemoVM01 | Remove-AzureDataDisk
 		</maml:navigationLink>
 	</maml:relatedLinks>
 </command:command>
+
+
+    
   <command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10" xmlns:MSHelp="http://msdn.microsoft.com/mshelp">
     <command:details>
       <command:name>Remove-AzureDeployment</command:name>
@@ -10412,6 +10463,12 @@ Get-AzureVm -ServiceName MyDemoService01 -Name MyDemoVM01 | Remove-AzureDataDisk
         </dev:type>
         <dev:defaultValue></dev:defaultValue>
       </command:parameter>
+    			<command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="4">
+				<maml:name>DeleteVHD</maml:name>
+				<maml:description>
+					<maml:para>Specify to remove the deployment and the underlying disk blob(s).</maml:para>
+				</maml:description>
+			</command:parameter>    
     </command:parameters>
     <command:inputTypes>
       <command:inputType>
@@ -10462,6 +10519,31 @@ Get-AzureVm -ServiceName MyDemoService01 -Name MyDemoVM01 | Remove-AzureDataDisk
           </command:commandLine>
         </command:commandLines>
       </command:example>
+    
+    
+      <command:example>
+        <maml:title>
+          --------------  Example 2 --------------
+        </maml:title>
+        <maml:introduction>
+          <maml:para></maml:para>
+        </maml:introduction>
+        <dev:code>
+          C:\PS&gt;Remove-AzureDeployment -ServiceName "myservice" -DeleteVHD
+
+        </dev:code>
+        <dev:remarks>
+          <maml:para>
+            This command removes the deployment of the Windows Azure service "myservice" from the production environment, and the underlying VHD(s).
+          </maml:para>
+        </dev:remarks>
+        <command:commandLines>
+          <command:commandLine>
+            <command:commandText />
+          </command:commandLine>
+        </command:commandLines>
+      </command:example>
+      
     </command:examples>
     <maml:relatedLinks>
       <maml:navigationLink>
@@ -10874,8 +10956,6 @@ Get-AzureVm -ServiceName MyDemoService01 -Name MyDemoVM01 | Remove-AzureDataDisk
     </maml:relatedLinks>
   </command:command>
 
-
-
   <command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10" xmlns:MSHelp="http://msdn.microsoft.com/mshelp">
     <command:details>
       <command:name>Remove-AzureVM</command:name>
@@ -10942,6 +11022,18 @@ Get-AzureVm -ServiceName MyDemoService01 -Name MyDemoVM01 | Remove-AzureDataDisk
         </dev:type>
         <dev:defaultValue></dev:defaultValue>
       </command:parameter>
+      <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="3">
+        <maml:name>DeleteVHD</maml:name>
+        <maml:description>
+          <maml:para>Specify to remove the VM and the underlying disk blob(s).</maml:para>
+          </maml:description>
+        <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
+        <dev:type>
+          <maml:name>SwitchParameter</maml:name>
+          <maml:uri/>
+        </dev:type>
+        <dev:defaultValue></dev:defaultValue>
+      </command:parameter>    
     </command:parameters>
     <command:inputTypes>
       <command:inputType>
@@ -10992,6 +11084,30 @@ Get-AzureVm -ServiceName MyDemoService01 -Name MyDemoVM01 | Remove-AzureDataDisk
           </command:commandLine>
         </command:commandLines>
       </command:example>
+    <command:example>
+			<maml:title>
+				-------------------------- EXAMPLE 2 --------------------------
+			</maml:title> 
+			<maml:introduction>
+				<maml:para>C:\PS&gt;</maml:para>
+			</maml:introduction> 
+  			<dev:code>
+Remove-AzureVM -ServiceName &quot;MySvc1&quot; -Name &quot;MyVM&quot; -DeleteVHD                        </dev:code>
+       			<dev:remarks>
+                                <maml:para>Description</maml:para>
+                                <maml:para>-----------</maml:para>
+  			        <maml:para>This command removes the &quot;MyVM&quot; virtual machine running in the &quot;MySvc1&quot; service, and the underlying VHD(s).</maml:para>
+	                        <maml:para></maml:para>
+	                        <maml:para></maml:para>
+	                        <maml:para></maml:para>
+	                        <maml:para></maml:para>
+  			</dev:remarks>
+			<command:commandLines>
+				<command:commandLine>
+					<command:commandText></command:commandText>
+				</command:commandLine>
+			</command:commandLines>
+		</command:example>    
     </command:examples>
     <maml:relatedLinks>
       <maml:navigationLink>
@@ -11020,6 +11136,9 @@ Get-AzureVm -ServiceName MyDemoService01 -Name MyDemoVM01 | Remove-AzureDataDisk
       </maml:navigationLink>
     </maml:relatedLinks>
   </command:command>
+  
+    
+      
   <command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10" xmlns:MSHelp="http://msdn.microsoft.com/mshelp">
     <command:details>
       <command:name>Remove-AzureVMImage</command:name>
@@ -12845,57 +12964,37 @@ Get-AzureVm -ServiceName MyDemoService01 -Name MyDemoVM01 | Remove-AzureDataDisk
       </maml:navigationLink>
     </maml:relatedLinks>
   </command:command>
-  <command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10" xmlns:MSHelp="http://msdn.microsoft.com/mshelp">   
+  <!-- v 1.3.0.36 -->
+  <command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10">
     <command:details>
-      <command:name>Set-AzureEndpoint</command:name>
+      <command:name>
+        Set-AzureEndpoint
+      </command:name>
       <maml:description>
-        <maml:para>Updates an existing endpoint assigned to a Windows Azure virtual machine.</maml:para>
+        <maml:para>The Set-AzureInputEndpoint cmdlet updates an existing endpoint assigned to a virtual machine. You can specify updates to an endpoint that is not load balanced, which only a single virtual machine uses.</maml:para>
       </maml:description>
       <maml:copyright>
-        <maml:para />
+        <maml:para></maml:para>
       </maml:copyright>
       <command:verb>Set</command:verb>
       <command:noun>AzureEndpoint</command:noun>
-      <dev:version />
+      <dev:version></dev:version>
     </command:details>
     <maml:description>
-      <maml:para>
-        The Set-AzureInputEndpoint cmdlet updates an existing endpoint assigned to a virtual machine. You can specify updates to an endpoint that is not load balanced, which only a single virtual machine uses, or you can specify updates to a load-balanced endpoint, which other virtual machines running in the same cloud service can share to load-balance traffic.
-        When updating a load-balanced endpoint, you can also specify parameters for an endpoint probe. The probe will be used to check the health of endpoints and endpoint resources, probing for response every 15 seconds, and taking a resource out of rotation if no response is received within 31 seconds.
-      </maml:para>
+      <maml:para></maml:para>
     </maml:description>
+    <!-- Cmdlet syntax section-->
     <command:syntax>
       <command:syntaxItem>
         <maml:name>Set-AzureEndpoint</maml:name>
-        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="1" aliases="">
-          <maml:name>Name</maml:name>
-          <maml:description>
-            <maml:para>Specifies the name of the endpoint. Either LBSetName or Name must be specified, but not both.</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="2" aliases="">
+        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="2">
           <maml:name>Protocol</maml:name>
           <maml:description>
-            <maml:para>Specifies the protocol of the endpoint. Acceptable values are “http” or “tcp”.</maml:para>
+            <maml:para>Specifies the protocol of the endpoint. Acceptable values are &quot;tcp&quot; or &quot;udp&quot;.</maml:para>
           </maml:description>
-          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+          <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
         </command:parameter>
-        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="3" aliases="">
-          <maml:name>LocalPort</maml:name>
-          <maml:description>
-            <maml:para>Specifies the local (private) port that will be used for the endpoint. Applications within the virtual machine listen to this port to service input requests over the endpoint.</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">Int32</command:parameterValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named" aliases="">
-          <maml:name>PublicPort</maml:name>
-          <maml:description>
-            <maml:para>Specifies the public port that the endpoint will use. If not specified, Windows Azure will assign an available free port.</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">Int32</command:parameterValue>
-        </command:parameter>
-        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="True (ByValue)" position="named" aliases="InputObject">
+        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true (ByValue)" position="named">
           <maml:name>VM</maml:name>
           <maml:description>
             <maml:para>Specifies the virtual machine object for which the endpoint will be created.</maml:para>
@@ -12905,96 +13004,26 @@ Get-AzureVm -ServiceName MyDemoService01 -Name MyDemoVM01 | Remove-AzureDataDisk
         <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named">
           <maml:name>ACL</maml:name>
           <maml:description>
-            <maml:para>An ACL to apply to the endpoint on update.</maml:para>
+            <maml:para>An ACL to apply to the endpoint on update. </maml:para>
           </maml:description>
           <command:parameterValue required="true" variableLength="false">NetworkAclObject</command:parameterValue>
         </command:parameter>
         <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named">
           <maml:name>DirectServerReturn</maml:name>
           <maml:description>
-            <maml:para>Enable/Disable Direct Server Return.</maml:para>
+            <maml:para>Enable/Disable Direct Server Return </maml:para>
           </maml:description>
           <command:parameterValue required="true" variableLength="false">bool</command:parameterValue>
         </command:parameter>
       </command:syntaxItem>
     </command:syntax>
+    <!-- Cmdlet parameter section  -->
     <command:parameters>
-      <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="3" aliases="">
-        <maml:name>LocalPort</maml:name>
-        <maml:description>
-          <maml:para>Specifies the local (private) port that will be used for the endpoint. Applications within the virtual machine listen to this port to service input requests over the endpoint.</maml:para>
-        </maml:description>
-        <command:parameterValue required="true" variableLength="false">Int32</command:parameterValue>
-        <dev:type>
-          <maml:name>Int32</maml:name>
-          <maml:uri />
-        </dev:type>
-        <dev:defaultValue></dev:defaultValue>
-      </command:parameter>
-      <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="1" aliases="">
-        <maml:name>Name</maml:name>
-        <maml:description>
-          <maml:para>Specifies the name of the endpoint.</maml:para>
-        </maml:description>
-        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
-        <dev:type>
-          <maml:name>String</maml:name>
-          <maml:uri />
-        </dev:type>
-        <dev:defaultValue></dev:defaultValue>
-      </command:parameter>
-      <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="2" aliases="">
-        <maml:name>Protocol</maml:name>
-        <maml:description>
-          <maml:para>Specifies the protocol of the endpoint. Acceptable values are “http” or “tcp”.</maml:para>
-        </maml:description>
-        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
-        <dev:type>
-          <maml:name>String</maml:name>
-          <maml:uri />
-        </dev:type>
-        <dev:defaultValue></dev:defaultValue>
-      </command:parameter>
-      <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named" aliases="">
-        <maml:name>PublicPort</maml:name>
-        <maml:description>
-          <maml:para>Specifies the public port that the endpoint will use. If not specified, Windows Azure will assign an available free port.</maml:para>
-        </maml:description>
-        <command:parameterValue required="true" variableLength="false">Int32</command:parameterValue>
-        <dev:type>
-          <maml:name>Int32</maml:name>
-          <maml:uri />
-        </dev:type>
-        <dev:defaultValue></dev:defaultValue>
-      </command:parameter>
-      <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="True (ByValue)" position="named" aliases="InputObject">
-        <maml:name>VM</maml:name>
-        <maml:description>
-          <maml:para>Specifies the virtual machine object for which the endpoint will be created.</maml:para>
-        </maml:description>
-        <command:parameterValue required="true" variableLength="false">IPersistentVM</command:parameterValue>
-        <dev:type>
-          <maml:name>IPersistentVM</maml:name>
-          <maml:uri />
-        </dev:type>
-        <dev:defaultValue></dev:defaultValue>
-      </command:parameter>
-      <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named">
-        <maml:name>DirectServerReturn</maml:name>
-        <maml:description>
-          <maml:para>Enable/Disable Direct Server Return</maml:para>
-        </maml:description>
-        <command:parameterValue required="true" variableLength="false">bool</command:parameterValue>
-        <dev:type>
-          <maml:name>bool</maml:name>
-          <maml:uri/>
-        </dev:type>
-        <dev:defaultValue></dev:defaultValue>
-      </command:parameter>
       <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named">
         <maml:name>ACL</maml:name>
         <maml:description>
-          <maml:para>An ACL to apply to the endpoint on update.</maml:para>
+          <maml:para>An ACL to apply to the endpoint on update. </maml:para>
+
         </maml:description>
         <command:parameterValue required="true" variableLength="false">NetworkAclObject</command:parameterValue>
         <dev:type>
@@ -13003,65 +13032,169 @@ Get-AzureVm -ServiceName MyDemoService01 -Name MyDemoVM01 | Remove-AzureDataDisk
         </dev:type>
         <dev:defaultValue></dev:defaultValue>
       </command:parameter>
+      <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named">
+        <maml:name>DirectServerReturn</maml:name>
+        <maml:description>
+          <maml:para>Enable/Disable Direct Server Return </maml:para>
+
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">bool</command:parameterValue>
+        <dev:type>
+          <maml:name>bool</maml:name>
+          <maml:uri/>
+        </dev:type>
+        <dev:defaultValue></dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="" variableLength="false" globbing="false" pipelineInput="false" position="named">
+        <maml:name>LocalPort</maml:name>
+        <maml:description>
+          <maml:para>Specifies the local (private) port that will be used for the endpoint. Applications within the virtual machine listen to this port to service input requests over the endpoint.</maml:para>
+
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">int</command:parameterValue>
+        <dev:type>
+          <maml:name>int</maml:name>
+          <maml:uri/>
+        </dev:type>
+        <dev:defaultValue></dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="" variableLength="false" globbing="false" pipelineInput="false" position="named">
+        <maml:name>Name</maml:name>
+        <maml:description>
+          <maml:para>Specifies the name of the endpoint.</maml:para>
+
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+        <dev:type>
+          <maml:name>string</maml:name>
+          <maml:uri/>
+        </dev:type>
+        <dev:defaultValue></dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="2">
+        <maml:name>Protocol</maml:name>
+        <maml:description>
+          <maml:para>Specifies the protocol of the endpoint. Acceptable values are &quot;tcp&quot; or &quot;udp&quot;.</maml:para>
+
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+        <dev:type>
+          <maml:name>string</maml:name>
+          <maml:uri/>
+        </dev:type>
+        <dev:defaultValue></dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="" variableLength="false" globbing="false" pipelineInput="false" position="named">
+        <maml:name>PublicPort</maml:name>
+        <maml:description>
+          <maml:para>Specifies the public port that the endpoint will use. If not specified, Windows Azure will assign an available free port.</maml:para>
+
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">int</command:parameterValue>
+        <dev:type>
+          <maml:name>int</maml:name>
+          <maml:uri/>
+        </dev:type>
+        <dev:defaultValue></dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true (ByValue)" position="named">
+        <maml:name>VM</maml:name>
+        <maml:description>
+          <maml:para>Specifies the virtual machine object for which the endpoint will be created.</maml:para>
+
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">IPersistentVM</command:parameterValue>
+        <dev:type>
+          <maml:name>IPersistentVM</maml:name>
+          <maml:uri/>
+        </dev:type>
+        <dev:defaultValue></dev:defaultValue>
+      </command:parameter>
     </command:parameters>
+    <!-- Input - Output section-->
     <command:inputTypes>
       <command:inputType>
         <dev:type>
           <maml:name></maml:name>
-          <maml:uri></maml:uri>
-          <maml:description>
-            <maml:para />
-          </maml:description>
+          <maml:uri/>
+          <maml:description />
         </dev:type>
         <maml:description>
-          <maml:para></maml:para>
+          <maml:para>
+            <!-- description  -->
+
+          </maml:para>
         </maml:description>
       </command:inputType>
     </command:inputTypes>
     <command:returnValues>
       <command:returnValue>
         <dev:type>
-          <maml:name></maml:name>
-          <maml:uri></maml:uri>
-          <maml:description>
-            <maml:para />
-          </maml:description>
+          <maml:name>System.Object</maml:name>
+          <maml:uri />
+          <maml:description />
         </dev:type>
         <maml:description>
-          <maml:para></maml:para>
+          <maml:para>
+            <!-- description  -->
+
+          </maml:para>
         </maml:description>
       </command:returnValue>
     </command:returnValues>
+    <!-- Error section-->
     <command:terminatingErrors />
     <command:nonTerminatingErrors />
+    <!-- Notes section  -->
+    <maml:alertSet>
+      <maml:title></maml:title>
+      <maml:alert>
+        <maml:para>
+
+        </maml:para>
+      </maml:alert>
+      <maml:alert>
+        <maml:para></maml:para>
+      </maml:alert>
+    </maml:alertSet>
+    <!-- Example section  -->
     <command:examples>
+
       <command:example>
         <maml:title>
-          --------------  Example 1 --------------
+          -------------------------- EXAMPLE 1 --------------------------
         </maml:title>
         <maml:introduction>
-          <maml:para></maml:para>
+          <maml:para>C:\PS&gt;</maml:para>
         </maml:introduction>
         <dev:code>
-          PS C:\&gt; Get-AzureVM -ServiceName “MyService” -RoleName “MyVM” | Set-AzureEndpoint -Name "HttpIn" -LBSetName "lbweb" -PublicPort 80 -LocalPort 8080 -Protocol http -ProbePort 80 -ProbeProtocol http -ProbePath "/healthcheck.aspx" | Update-AzureVM
+          Get-AzureVM -ServiceName &quot;MyService&quot; -Name &quot;MyVM&quot; | Set-AzureEndpoint -Name &quot;Web&quot; -PublicPort 443 -LocalPort 443 -Protocol &quot;tcp&quot; | Update-AzureVM
         </dev:code>
         <dev:remarks>
-          <maml:para>This command updates the input endpoint named “HttpIn” assigned to the virtual machine “MyVM”.</maml:para>
+          <maml:para>Description</maml:para>
+          <maml:para>-----------</maml:para>
+          <maml:para>This command updates the input endpoint named &quot;Web&quot; assigned to the virtual machine &quot;MyVM&quot; to listen on Port 443.</maml:para>
+          <maml:para></maml:para>
+          <maml:para></maml:para>
+          <maml:para></maml:para>
+          <maml:para></maml:para>
         </dev:remarks>
         <command:commandLines>
           <command:commandLine>
-            <command:commandText />
+            <command:commandText></command:commandText>
           </command:commandLine>
         </command:commandLines>
       </command:example>
     </command:examples>
+    <!-- Link section  -->
     <maml:relatedLinks>
       <maml:navigationLink>
-        <maml:linkText>Online Version:</maml:linkText>
-        <maml:uri></maml:uri>
+        <maml:linkText></maml:linkText>
+        <maml:uri/>
       </maml:navigationLink>
     </maml:relatedLinks>
   </command:command>
+
   <command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10" xmlns:MSHelp="http://msdn.microsoft.com/mshelp">
     <command:details>
       <command:name>Set-AzureOSDisk</command:name>
@@ -16470,6 +16603,159 @@ Get-AzureVm -ServiceName MyDemoService01 -Name MyDemoVM01 | Remove-AzureDataDisk
       </maml:navigationLink>
     </maml:relatedLinks>
   </command:command>
+
+  <!-- v 1.3.0.36 -->
+  <command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10">
+    <command:details>
+      <command:name>
+        Get-AzureServiceRemoteDesktopExtension
+      </command:name>
+      <maml:description>
+        <maml:para>This cmdlet gets the cloud service remote desktop extension applied on all roles or named roles at a certain deployment slot.</maml:para>
+      </maml:description>
+      <maml:copyright>
+        <maml:para></maml:para>
+      </maml:copyright>
+      <command:verb>Get</command:verb>
+      <command:noun>AzureServiceRemoteDesktopExtension</command:noun>
+      <dev:version></dev:version>
+    </command:details>
+    <maml:description>
+      <maml:para>This cmdlet gets the cloud service remote desktop extension applied on all roles or named roles at a certain deployment slot.</maml:para>
+    </maml:description>
+    <!-- Cmdlet syntax section-->
+    <command:syntax>
+      <command:syntaxItem>
+        <maml:name>Get-AzureServiceRemoteDesktopExtension</maml:name>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="1">
+          <maml:name>ServiceName</maml:name>
+          <maml:description>
+            <maml:para>Specifies the Windows Azure service name of the deployment.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="2">
+          <maml:name>Slot</maml:name>
+          <maml:description>
+            <maml:para>Specifies the environment of the deployment to modify. Supported values are &quot;Production&quot; or &quot;Staging&quot;.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+        </command:parameter>
+      </command:syntaxItem>
+    </command:syntax>
+    <!-- Cmdlet parameter section  -->
+    <command:parameters>
+      <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="1">
+        <maml:name>ServiceName</maml:name>
+        <maml:description>
+          <maml:para>Specifies the Windows Azure service name of the deployment.</maml:para>
+
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+        <dev:type>
+          <maml:name>string</maml:name>
+          <maml:uri/>
+        </dev:type>
+        <dev:defaultValue></dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="2">
+        <maml:name>Slot</maml:name>
+        <maml:description>
+          <maml:para>Specifies the environment of the deployment to modify. Supported values are &quot;Production&quot; or &quot;Staging&quot;.</maml:para>
+
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+        <dev:type>
+          <maml:name>string</maml:name>
+          <maml:uri/>
+        </dev:type>
+        <dev:defaultValue></dev:defaultValue>
+      </command:parameter>
+    </command:parameters>
+    <!-- Input - Output section-->
+    <command:inputTypes>
+      <command:inputType>
+        <dev:type>
+          <maml:name></maml:name>
+          <maml:uri/>
+          <maml:description />
+        </dev:type>
+        <maml:description>
+          <maml:para>
+            <!-- description  -->
+
+          </maml:para>
+        </maml:description>
+      </command:inputType>
+    </command:inputTypes>
+    <command:returnValues>
+      <command:returnValue>
+        <dev:type>
+          <maml:name></maml:name>
+          <maml:uri />
+          <maml:description />
+        </dev:type>
+        <maml:description>
+          <maml:para>
+            <!-- description  -->
+
+          </maml:para>
+        </maml:description>
+      </command:returnValue>
+    </command:returnValues>
+    <!-- Error section-->
+    <command:terminatingErrors />
+    <command:nonTerminatingErrors />
+    <!-- Notes section  -->
+    <maml:alertSet>
+      <maml:title></maml:title>
+      <maml:alert>
+        <maml:para>
+
+        </maml:para>
+      </maml:alert>
+      <maml:alert>
+        <maml:para></maml:para>
+      </maml:alert>
+    </maml:alertSet>
+    <!-- Example section  -->
+    <command:examples>
+
+      <command:example>
+        <maml:title>
+          -------------------------- EXAMPLE 1 --------------------------
+        </maml:title>
+        <maml:introduction>
+          <maml:para>C:\PS&gt;</maml:para>
+        </maml:introduction>
+        <dev:code>
+          Get-AzureServiceRemoteDesktopExtension -ServiceName $svc
+        </dev:code>
+        <dev:remarks>
+          <maml:para>Description</maml:para>
+          <maml:para>-----------</maml:para>
+          <maml:para>This command returns the information of the cloud service remote desktop extensions enabled on the roles of a certain deployment.</maml:para>
+          <maml:para></maml:para>
+          <maml:para></maml:para>
+          <maml:para></maml:para>
+          <maml:para></maml:para>
+        </dev:remarks>
+        <command:commandLines>
+          <command:commandLine>
+            <command:commandText></command:commandText>
+          </command:commandLine>
+        </command:commandLines>
+      </command:example>
+    </command:examples>
+    <!-- Link section  -->
+    <maml:relatedLinks>
+      <maml:navigationLink>
+        <maml:linkText></maml:linkText>
+        <maml:uri/>
+      </maml:navigationLink>
+    </maml:relatedLinks>
+  </command:command>
+
   <!-- v 1.3.0.36 -->
   <command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10">
     <command:details>
@@ -16595,12 +16881,12 @@ Get-AzureVm -ServiceName MyDemoService01 -Name MyDemoVM01 | Remove-AzureDataDisk
           <maml:para>C:\PS&gt;</maml:para>
         </maml:introduction>
         <dev:code>
-          Get-AzureServiceRemoteDesktopExtension -ServiceName $svc
+          Get-AzureServiceDiagnosticsExtension -ServiceName $svc
         </dev:code>
         <dev:remarks>
           <maml:para>Description</maml:para>
           <maml:para>-----------</maml:para>
-          <maml:para>This command returns the information of the cloud service diagnostics extensions enabled on the roles of a certain deployment.</maml:para>
+          <maml:para>This command returns the information of the cloud service diagnostics extensions enabled on the roles of the Production deployment in the service $svc.</maml:para>
           <maml:para></maml:para>
           <maml:para></maml:para>
           <maml:para></maml:para>
@@ -17223,6 +17509,13 @@ Get-AzureVm -ServiceName MyDemoService01 -Name MyDemoVM01 | Remove-AzureDataDisk
     <command:syntax>
       <command:syntaxItem>
         <maml:name>Remove-AzureServiceRemoteDesktopExtension</maml:name>
+        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="1">
+          <maml:name>ServiceName</maml:name>
+          <maml:description>
+            <maml:para>Specifies the Windows Azure service name of the deployment.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+        </command:parameter>
         <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="2">
           <maml:name>Slot</maml:name>
           <maml:description>
@@ -17236,17 +17529,10 @@ Get-AzureVm -ServiceName MyDemoService01 -Name MyDemoVM01 | Remove-AzureDataDisk
             <maml:para>If specified uninstall all RDP configurations from the cloud service.</maml:para>
           </maml:description>
         </command:parameter>
-        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named">
-          <maml:name>ServiceName</maml:name>
-          <maml:description>
-            <maml:para>Specifies the Windows Azure service name of the deployment.</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
-        </command:parameter>
       </command:syntaxItem>
       <command:syntaxItem>
         <maml:name>Remove-AzureServiceRemoteDesktopExtension</maml:name>
-        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="1">
+        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="1">
           <maml:name>ServiceName</maml:name>
           <maml:description>
             <maml:para>Specifies the Windows Azure service name of the deployment.</maml:para>
@@ -17260,7 +17546,7 @@ Get-AzureVm -ServiceName MyDemoService01 -Name MyDemoVM01 | Remove-AzureDataDisk
           </maml:description>
           <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
         </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="false" position="3">
+        <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="false" position="3">
           <maml:name>Role</maml:name>
           <maml:description>
             <maml:para>An optional array of roles to specify the remote desktop configuration for. If not specified the remote desktop configuration is applied as the default configuration for all roles.</maml:para>
@@ -17271,20 +17557,7 @@ Get-AzureVm -ServiceName MyDemoService01 -Name MyDemoVM01 | Remove-AzureDataDisk
     </command:syntax>
     <!-- Cmdlet parameter section  -->
     <command:parameters>
-      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="false" position="3">
-        <maml:name>Role</maml:name>
-        <maml:description>
-          <maml:para>An optional array of roles to specify the remote desktop configuration for. If not specified the remote desktop configuration is applied as the default configuration for all roles.</maml:para>
-
-        </maml:description>
-        <command:parameterValue required="true" variableLength="true">string[]</command:parameterValue>
-        <dev:type>
-          <maml:name>string[]</maml:name>
-          <maml:uri/>
-        </dev:type>
-        <dev:defaultValue></dev:defaultValue>
-      </command:parameter>
-      <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="1">
+      <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="1">
         <maml:name>ServiceName</maml:name>
         <maml:description>
           <maml:para>Specifies the Windows Azure service name of the deployment.</maml:para>
@@ -17306,6 +17579,19 @@ Get-AzureVm -ServiceName MyDemoService01 -Name MyDemoVM01 | Remove-AzureDataDisk
         <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
         <dev:type>
           <maml:name>string</maml:name>
+          <maml:uri/>
+        </dev:type>
+        <dev:defaultValue></dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="false" position="3">
+        <maml:name>Role</maml:name>
+        <maml:description>
+          <maml:para>An optional array of roles to specify the remote desktop configuration for. If not specified the remote desktop configuration is applied as the default configuration for all roles.</maml:para>
+
+        </maml:description>
+        <command:parameterValue required="true" variableLength="true">string[]</command:parameterValue>
+        <dev:type>
+          <maml:name>string[]</maml:name>
           <maml:uri/>
         </dev:type>
         <dev:defaultValue></dev:defaultValue>
@@ -17386,7 +17672,7 @@ Get-AzureVm -ServiceName MyDemoService01 -Name MyDemoVM01 | Remove-AzureDataDisk
         <dev:remarks>
           <maml:para>Description</maml:para>
           <maml:para>-----------</maml:para>
-          <maml:para>Removing Default remote desktop configuration for all roles from Cloud Service</maml:para>
+          <maml:para>Removing the configured remote desktop extension from all roles of a cloud service.</maml:para>
           <maml:para></maml:para>
           <maml:para></maml:para>
           <maml:para></maml:para>
@@ -17412,7 +17698,7 @@ Get-AzureVm -ServiceName MyDemoService01 -Name MyDemoVM01 | Remove-AzureDataDisk
         <dev:remarks>
           <maml:para>Description</maml:para>
           <maml:para>-----------</maml:para>
-          <maml:para>Removing remote desktop configuration for WebRole1.</maml:para>
+          <maml:para>Removing the configured remote desktop extension from the role 'WebRole1' of a cloud service.</maml:para>
           <maml:para></maml:para>
           <maml:para></maml:para>
           <maml:para></maml:para>
@@ -17620,7 +17906,7 @@ Get-AzureVm -ServiceName MyDemoService01 -Name MyDemoVM01 | Remove-AzureDataDisk
         <dev:remarks>
           <maml:para>Description</maml:para>
           <maml:para>-----------</maml:para>
-          <maml:para>Removing Default diagnostics configuration for all roles from Cloud Service</maml:para>
+          <maml:para>Removing the configured diagnostics extension from all roles of a cloud service.</maml:para>
           <maml:para></maml:para>
           <maml:para></maml:para>
           <maml:para></maml:para>
@@ -17641,12 +17927,12 @@ Get-AzureVm -ServiceName MyDemoService01 -Name MyDemoVM01 | Remove-AzureDataDisk
           <maml:para>C:\PS&gt;</maml:para>
         </maml:introduction>
         <dev:code>
-          Remove-AzureServiceRemoteDesktopExtension -ServiceName $svc  -Role &quot;WebRole1&quot;
+          Remove-AzureServiceDiagnosticsExtension -ServiceName $svc  -Role &quot;WebRole1&quot;
         </dev:code>
         <dev:remarks>
           <maml:para>Description</maml:para>
           <maml:para>-----------</maml:para>
-          <maml:para>Removing diagnostics configuration for WebRole1.</maml:para>
+          <maml:para>Removing the configured diagnostics extension from the role 'WebRole1' of a cloud service.</maml:para>
           <maml:para></maml:para>
           <maml:para></maml:para>
           <maml:para></maml:para>
@@ -19331,5 +19617,2542 @@ C:\PS&gt; Get-AzureVM -ServiceName "MyService" -Name "MyVM" | Set-AzureEndpoint 
     </maml:relatedLinks>
     
   </command:command>
-  
+
+  <!-- v 1.3.0.36 -->
+  <command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10">
+    <command:details>
+      <command:name>
+        Get-AzureServiceExtensionImage
+      </command:name>
+      <maml:description>
+        <maml:para>Get information for the latest available hosted service extension images.</maml:para>
+      </maml:description>
+      <maml:copyright>
+        <maml:para></maml:para>
+      </maml:copyright>
+      <command:verb>Get</command:verb>
+      <command:noun>AzureServiceExtensionImage</command:noun>
+      <dev:version></dev:version>
+    </command:details>
+    <maml:description>
+      <maml:para>Get information for the latest available hosted service extension images.</maml:para>
+    </maml:description>
+    <!-- Cmdlet syntax section-->
+    <command:syntax>
+      <command:syntaxItem>
+        <maml:name>Get-AzureServiceExtensionImage</maml:name>
+      </command:syntaxItem>
+    </command:syntax>
+    <!-- Cmdlet parameter section  -->
+    <command:parameters>
+    </command:parameters>
+    <!-- Input - Output section-->
+    <command:inputTypes>
+      <command:inputType>
+        <dev:type>
+          <maml:name></maml:name>
+          <maml:uri/>
+          <maml:description />
+        </dev:type>
+        <maml:description>
+          <maml:para>
+            <!-- description  -->
+
+          </maml:para>
+        </maml:description>
+      </command:inputType>
+    </command:inputTypes>
+    <command:returnValues>
+      <command:returnValue>
+        <dev:type>
+          <maml:name></maml:name>
+          <maml:uri />
+          <maml:description />
+        </dev:type>
+        <maml:description>
+          <maml:para>
+            <!-- description  -->
+
+          </maml:para>
+        </maml:description>
+      </command:returnValue>
+    </command:returnValues>
+    <!-- Error section-->
+    <command:terminatingErrors />
+    <command:nonTerminatingErrors />
+    <!-- Notes section  -->
+    <maml:alertSet>
+      <maml:title></maml:title>
+      <maml:alert>
+        <maml:para>
+
+        </maml:para>
+      </maml:alert>
+      <maml:alert>
+        <maml:para></maml:para>
+      </maml:alert>
+    </maml:alertSet>
+    <!-- Example section  -->
+    <command:examples>
+
+      <command:example>
+        <maml:title>
+          -------------------------- EXAMPLE 1 --------------------------
+        </maml:title>
+        <maml:introduction>
+          <maml:para>C:\PS&gt;</maml:para>
+        </maml:introduction>
+        <dev:code>
+          Get-AzureServiceExtensionImage
+
+          ProviderNameSpace          : Microsoft.Windows.Azure.Extensions
+          Type                       : RDP
+          Version                    : 1.0
+          Label                      : Windows Azure Remote Desktop Extension
+          Description                : Windows Azure Remote Desktop Extension
+          HostingResources           : WebOrWorkerRole
+          ThumbprintAlgorithm        : sha1
+          PublicConfigurationSchema  : &lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;&lt;xs:schema attributeFormDefault=&quot;unqualified&quot; elementFormDefault=&quot;qualified&quot;
+          xmlns:xs=&quot;http://www.w3.org/2001/XMLSchema&quot;&gt;&lt;xs:element name=&quot;PublicConfig&quot;&gt;&lt;xs:complexType&gt;&lt;xs:sequence&gt;&lt;xs:element
+          name=&quot;UserName&quot; type=&quot;xs:string&quot; minOccurs=&quot;1&quot; /&gt;&lt;xs:element name=&quot;Expiration&quot; type=&quot;xs:string&quot; minOccurs=&quot;1&quot;
+          /&gt;&lt;/xs:sequence&gt;&lt;/xs:complexType&gt;&lt;/xs:element&gt;&lt;/xs:schema&gt;
+          PrivateConfigurationSchema : &lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;&lt;xs:schema attributeFormDefault=&quot;unqualified&quot; elementFormDefault=&quot;qualified&quot;
+          xmlns:xs=&quot;http://www.w3.org/2001/XMLSchema&quot;&gt;&lt;xs:element name=&quot;PrivateConfig&quot;&gt;&lt;xs:complexType&gt;&lt;xs:sequence&gt;&lt;xs:element
+          name=&quot;Password&quot; type=&quot;xs:string&quot; /&gt;&lt;/xs:sequence&gt;&lt;/xs:complexType&gt;&lt;/xs:element&gt;&lt;/xs:schema&gt;
+          OperationDescription       : Get-AzureServiceExtensionImage
+          OperationId                : ee7f7237-78a6-3819-8529-ede859c51411
+          OperationStatus            : Succeeded
+        </dev:code>
+        <dev:remarks>
+          <maml:para>Description</maml:para>
+          <maml:para>-----------</maml:para>
+          <maml:para></maml:para>
+          <maml:para></maml:para>
+          <maml:para></maml:para>
+          <maml:para></maml:para>
+          <maml:para></maml:para>
+        </dev:remarks>
+        <command:commandLines>
+          <command:commandLine>
+            <command:commandText></command:commandText>
+          </command:commandLine>
+        </command:commandLines>
+      </command:example>
+    </command:examples>
+    <!-- Link section  -->
+    <maml:relatedLinks>
+      <maml:navigationLink>
+        <maml:linkText></maml:linkText>
+        <maml:uri/>
+      </maml:navigationLink>
+    </maml:relatedLinks>
+  </command:command>
+
+  <!-- v 1.3.0.36 -->
+  <command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10">
+    <command:details>
+      <command:name>
+        Remove-AzureServiceADDomainExtension
+      </command:name>
+      <maml:description>
+        <maml:para>This cmdlet removes the cloud service AD domain extension applied on all roles or named roles at a certain deployment slot.</maml:para>
+      </maml:description>
+      <maml:copyright>
+        <maml:para></maml:para>
+      </maml:copyright>
+      <command:verb>Remove</command:verb>
+      <command:noun>AzureServiceADDomainExtension</command:noun>
+      <dev:version></dev:version>
+    </command:details>
+    <maml:description>
+      <maml:para>This cmdlet removes the cloud service AD domain extension applied on all roles or named roles at a certain deployment slot.</maml:para>
+    </maml:description>
+    <!-- Cmdlet syntax section-->
+    <command:syntax>
+      <command:syntaxItem>
+        <maml:name>Remove-AzureServiceADDomainExtension</maml:name>
+        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="named">
+          <maml:name>ServiceName</maml:name>
+          <maml:description>
+            <maml:para></maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="named">
+          <maml:name>UninstallConfiguration</maml:name>
+          <maml:description>
+            <maml:para>If specified uninstall all AD Domain configurations from the cloud service.</maml:para>
+          </maml:description>
+        </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named">
+          <maml:name>Slot</maml:name>
+          <maml:description>
+            <maml:para>Specifies the environment of the deployment to modify. Supported values are &quot;Production&quot; or &quot;Staging&quot;.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+        </command:parameter>
+      </command:syntaxItem>
+      <command:syntaxItem>
+        <maml:name>Remove-AzureServiceADDomainExtension</maml:name>
+        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="1">
+          <maml:name>ServiceName</maml:name>
+          <maml:description>
+            <maml:para></maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="2">
+          <maml:name>Slot</maml:name>
+          <maml:description>
+            <maml:para>Specifies the environment of the deployment to modify. Supported values are &quot;Production&quot; or &quot;Staging&quot;.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="false" position="3">
+          <maml:name>Role</maml:name>
+          <maml:description>
+            <maml:para>An optional array of roles to specify the remote desktop configuration for. If not specified the AD domain configuration is applied as the default configuration for all roles.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="true">string[]</command:parameterValue>
+        </command:parameter>
+      </command:syntaxItem>
+    </command:syntax>
+    <!-- Cmdlet parameter section  -->
+    <command:parameters>
+      <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="1">
+        <maml:name>ServiceName</maml:name>
+        <maml:description>
+          <maml:para></maml:para>
+
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+        <dev:type>
+          <maml:name>string</maml:name>
+          <maml:uri/>
+        </dev:type>
+        <dev:defaultValue></dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="2">
+        <maml:name>Slot</maml:name>
+        <maml:description>
+          <maml:para>Specifies the environment of the deployment to modify. Supported values are &quot;Production&quot; or &quot;Staging&quot;.</maml:para>
+
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+        <dev:type>
+          <maml:name>string</maml:name>
+          <maml:uri/>
+        </dev:type>
+        <dev:defaultValue></dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="false" position="3">
+        <maml:name>Role</maml:name>
+        <maml:description>
+          <maml:para>An optional array of roles to specify the remote desktop configuration for. If not specified the AD domain configuration is applied as the default configuration for all roles.</maml:para>
+
+        </maml:description>
+        <command:parameterValue required="true" variableLength="true">string[]</command:parameterValue>
+        <dev:type>
+          <maml:name>string[]</maml:name>
+          <maml:uri/>
+        </dev:type>
+        <dev:defaultValue></dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="named">
+        <maml:name>UninstallConfiguration</maml:name>
+        <maml:description>
+          <maml:para>If specified uninstall all AD Domain configurations from the cloud service.</maml:para>
+
+        </maml:description>
+        <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
+        <dev:type>
+          <maml:name>SwitchParameter</maml:name>
+          <maml:uri/>
+        </dev:type>
+        <dev:defaultValue></dev:defaultValue>
+      </command:parameter>
+    </command:parameters>
+    <!-- Input - Output section-->
+    <command:inputTypes>
+      <command:inputType>
+        <dev:type>
+          <maml:name></maml:name>
+          <maml:uri/>
+          <maml:description />
+        </dev:type>
+        <maml:description>
+          <maml:para>
+            <!-- description  -->
+
+          </maml:para>
+        </maml:description>
+      </command:inputType>
+    </command:inputTypes>
+    <command:returnValues>
+      <command:returnValue>
+        <dev:type>
+          <maml:name></maml:name>
+          <maml:uri />
+          <maml:description />
+        </dev:type>
+        <maml:description>
+          <maml:para>
+            <!-- description  -->
+
+          </maml:para>
+        </maml:description>
+      </command:returnValue>
+    </command:returnValues>
+    <!-- Error section-->
+    <command:terminatingErrors />
+    <command:nonTerminatingErrors />
+    <!-- Notes section  -->
+    <maml:alertSet>
+      <maml:title></maml:title>
+      <maml:alert>
+        <maml:para>
+
+        </maml:para>
+      </maml:alert>
+      <maml:alert>
+        <maml:para></maml:para>
+      </maml:alert>
+    </maml:alertSet>
+    <!-- Example section  -->
+    <command:examples>
+
+      <command:example>
+        <maml:title>
+          -------------------------- EXAMPLE 1 --------------------------
+        </maml:title>
+        <maml:introduction>
+          <maml:para>C:\PS&gt;</maml:para>
+        </maml:introduction>
+        <dev:code>
+          Remove-AzureServiceADDomainExtension -ServiceName $svc
+        </dev:code>
+        <dev:remarks>
+          <maml:para>Description</maml:para>
+          <maml:para>-----------</maml:para>
+          <maml:para>Removing the configured AD domain extension from all roles of a cloud service.</maml:para>
+          <maml:para></maml:para>
+          <maml:para></maml:para>
+          <maml:para></maml:para>
+          <maml:para></maml:para>
+        </dev:remarks>
+        <command:commandLines>
+          <command:commandLine>
+            <command:commandText></command:commandText>
+          </command:commandLine>
+        </command:commandLines>
+      </command:example>
+
+      <command:example>
+        <maml:title>
+          -------------------------- EXAMPLE 2 --------------------------
+        </maml:title>
+        <maml:introduction>
+          <maml:para>C:\PS&gt;</maml:para>
+        </maml:introduction>
+        <dev:code>
+          Remove-AzureServiceADDomainExtension -ServiceName $svc  -Role &quot;WebRole1&quot;
+        </dev:code>
+        <dev:remarks>
+          <maml:para>Description</maml:para>
+          <maml:para>-----------</maml:para>
+          <maml:para>Removing the configured AD domain extension from the role 'WebRole1' of a cloud service.</maml:para>
+          <maml:para></maml:para>
+          <maml:para></maml:para>
+          <maml:para></maml:para>
+          <maml:para></maml:para>
+        </dev:remarks>
+        <command:commandLines>
+          <command:commandLine>
+            <command:commandText></command:commandText>
+          </command:commandLine>
+        </command:commandLines>
+      </command:example>
+    </command:examples>
+    <!-- Link section  -->
+    <maml:relatedLinks>
+      <maml:navigationLink>
+        <maml:linkText></maml:linkText>
+        <maml:uri/>
+      </maml:navigationLink>
+    </maml:relatedLinks>
+  </command:command>
+
+  <!-- v 1.3.0.36 -->
+  <command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10">
+    <command:details>
+      <command:name>
+        Get-AzureServiceADDomainExtension
+      </command:name>
+      <maml:description>
+        <maml:para>This cmdlet gets the cloud service AD domain extension applied on all roles or named roles at a certain deployment slot.</maml:para>
+      </maml:description>
+      <maml:copyright>
+        <maml:para></maml:para>
+      </maml:copyright>
+      <command:verb>Get</command:verb>
+      <command:noun>AzureServiceADDomainExtension</command:noun>
+      <dev:version></dev:version>
+    </command:details>
+    <maml:description>
+      <maml:para>This cmdlet gets the cloud service AD domain extension applied on all roles or named roles at a certain deployment slot.</maml:para>
+    </maml:description>
+    <!-- Cmdlet syntax section-->
+    <command:syntax>
+      <command:syntaxItem>
+        <maml:name>Get-AzureServiceADDomainExtension</maml:name>
+        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="1">
+          <maml:name>ServiceName</maml:name>
+          <maml:description>
+            <maml:para>Specifies the Windows Azure service name of the deployment.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="2">
+          <maml:name>Slot</maml:name>
+          <maml:description>
+            <maml:para></maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+        </command:parameter>
+      </command:syntaxItem>
+    </command:syntax>
+    <!-- Cmdlet parameter section  -->
+    <command:parameters>
+      <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="1">
+        <maml:name>ServiceName</maml:name>
+        <maml:description>
+          <maml:para>Specifies the Windows Azure service name of the deployment.</maml:para>
+
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+        <dev:type>
+          <maml:name>string</maml:name>
+          <maml:uri/>
+        </dev:type>
+        <dev:defaultValue></dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="2">
+        <maml:name>Slot</maml:name>
+        <maml:description>
+          <maml:para></maml:para>
+
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+        <dev:type>
+          <maml:name>string</maml:name>
+          <maml:uri/>
+        </dev:type>
+        <dev:defaultValue></dev:defaultValue>
+      </command:parameter>
+    </command:parameters>
+    <!-- Input - Output section-->
+    <command:inputTypes>
+      <command:inputType>
+        <dev:type>
+          <maml:name></maml:name>
+          <maml:uri/>
+          <maml:description />
+        </dev:type>
+        <maml:description>
+          <maml:para>
+            <!-- description  -->
+
+          </maml:para>
+        </maml:description>
+      </command:inputType>
+    </command:inputTypes>
+    <command:returnValues>
+      <command:returnValue>
+        <dev:type>
+          <maml:name></maml:name>
+          <maml:uri />
+          <maml:description />
+        </dev:type>
+        <maml:description>
+          <maml:para>
+            <!-- description  -->
+
+          </maml:para>
+        </maml:description>
+      </command:returnValue>
+    </command:returnValues>
+    <!-- Error section-->
+    <command:terminatingErrors />
+    <command:nonTerminatingErrors />
+    <!-- Notes section  -->
+    <maml:alertSet>
+      <maml:title></maml:title>
+      <maml:alert>
+        <maml:para>
+
+        </maml:para>
+      </maml:alert>
+      <maml:alert>
+        <maml:para></maml:para>
+      </maml:alert>
+    </maml:alertSet>
+    <!-- Example section  -->
+    <command:examples>
+
+      <command:example>
+        <maml:title>
+          -------------------------- EXAMPLE 1 --------------------------
+        </maml:title>
+        <maml:introduction>
+          <maml:para>C:\PS&gt;</maml:para>
+        </maml:introduction>
+        <dev:code>
+          Get-AzureServiceADDomainExtension -ServiceName $svc
+        </dev:code>
+        <dev:remarks>
+          <maml:para>Description</maml:para>
+          <maml:para>-----------</maml:para>
+          <maml:para>This command returns the information of the cloud service AD domain extensions enabled on the roles of a certain deployment.</maml:para>
+          <maml:para></maml:para>
+          <maml:para></maml:para>
+          <maml:para></maml:para>
+          <maml:para></maml:para>
+        </dev:remarks>
+        <command:commandLines>
+          <command:commandLine>
+            <command:commandText></command:commandText>
+          </command:commandLine>
+        </command:commandLines>
+      </command:example>
+    </command:examples>
+    <!-- Link section  -->
+    <maml:relatedLinks>
+      <maml:navigationLink>
+        <maml:linkText></maml:linkText>
+        <maml:uri/>
+      </maml:navigationLink>
+    </maml:relatedLinks>
+  </command:command>
+
+  <!-- v 1.3.0.36 -->
+<command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10">
+	<command:details>
+		<command:name>
+                   Set-AzureServiceADDomainExtension
+		</command:name>
+		<maml:description>
+			<maml:para>Set AD Domain Extension for Cloud Service</maml:para>
+		</maml:description>
+		<maml:copyright>
+			<maml:para></maml:para>
+		</maml:copyright>
+		<command:verb>Set</command:verb>
+		<command:noun>AzureServiceADDomainExtension</command:noun>
+		<dev:version></dev:version>
+	</command:details>
+	<maml:description>
+		<maml:para>Set AD Domain Extension for Cloud Service</maml:para>
+	</maml:description>
+	<!-- Cmdlet syntax section-->
+	<command:syntax>
+		<command:syntaxItem>
+			<maml:name>Set-AzureServiceADDomainExtension</maml:name>
+			<command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="3">
+				<maml:name>ServiceName</maml:name>
+				<maml:description>
+					<maml:para>The cloud service name.</maml:para>
+				</maml:description>
+				<command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+			</command:parameter>
+			<command:parameter required="false" variableLength="true" globbing="false" pipelineInput="true (ByPropertyName)" position="3">
+				<maml:name>Role</maml:name>
+				<maml:description>
+					<maml:para>An optional array of roles to specify the remote desktop configuration for. If not specified the AD domain configuration is applied as the default configuration for all roles.</maml:para>
+				</maml:description>
+				<command:parameterValue required="true" variableLength="true">string[]</command:parameterValue>
+			</command:parameter>
+			<command:parameter required="false" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="4">
+				<maml:name>Slot</maml:name>
+				<maml:description>
+					<maml:para>Specifies the environment of the deployment to modify. Supported values are &quot;Production&quot; or &quot;Staging&quot;.</maml:para>
+				</maml:description>
+				<command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+			</command:parameter>
+			<command:parameter required="false" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="4">
+				<maml:name>X509Certificate</maml:name>
+				<maml:description>
+					<maml:para>An x509 certificate that when specified will be automatically uploaded to the cloud service and used for encrypting the extension private configuration.</maml:para>
+				</maml:description>
+				<command:parameterValue required="true" variableLength="false">X509Certificate2</command:parameterValue>
+			</command:parameter>
+			<command:parameter required="false" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="5">
+				<maml:name>ThumbprintAlgorithm</maml:name>
+				<maml:description>
+					<maml:para>Thumbprint hashing algorithm which is used with the thumbprint to identify the certificate. This parameter is optional and the default is sha1.</maml:para>
+				</maml:description>
+				<command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+			</command:parameter>
+			<command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="6">
+				<maml:name>DomainName</maml:name>
+				<maml:description>
+					<maml:para>The AD domain name.</maml:para>
+				</maml:description>
+				<command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+			</command:parameter>
+			<command:parameter required="false" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="7">
+				<maml:name>Restart</maml:name>
+				<maml:description>
+					<maml:para>Whether to restart the computer if the join operation succeeded.</maml:para>
+				</maml:description>
+			</command:parameter>
+			<command:parameter required="false" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="8">
+				<maml:name>Credential</maml:name>
+				<maml:description>
+					<maml:para>The credentials (user name/password) to join the AD domain.</maml:para>
+				</maml:description>
+				<command:parameterValue required="true" variableLength="false">PSCredential</command:parameterValue>
+			</command:parameter>
+			<command:parameter required="false" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="9">
+				<maml:name>UnjoinDomainCredential</maml:name>
+				<maml:description>
+					<maml:para>The credentials (user name/password) to unjoin the AD domain.</maml:para>
+				</maml:description>
+				<command:parameterValue required="true" variableLength="false">PSCredential</command:parameterValue>
+			</command:parameter>
+			<command:parameter required="false" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="10">
+				<maml:name>Options</maml:name>
+				<maml:description>
+					<maml:para>The unsigned integer join option.</maml:para>
+				</maml:description>
+				<command:parameterValue required="true" variableLength="false">enum</command:parameterValue>
+			</command:parameter>
+			<command:parameter required="false" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="11">
+				<maml:name>OUPath</maml:name>
+				<maml:description>
+					<maml:para>The OU path for AD domain join operation.</maml:para>
+				</maml:description>
+				<command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+			</command:parameter>
+		</command:syntaxItem>
+		<command:syntaxItem>
+			<maml:name>Set-AzureServiceADDomainExtension</maml:name>
+			<command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="3">
+				<maml:name>ServiceName</maml:name>
+				<maml:description>
+					<maml:para>The cloud service name.</maml:para>
+				</maml:description>
+				<command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+			</command:parameter>
+			<command:parameter required="false" variableLength="true" globbing="false" pipelineInput="true (ByPropertyName)" position="3">
+				<maml:name>Role</maml:name>
+				<maml:description>
+					<maml:para>An optional array of roles to specify the remote desktop configuration for. If not specified the AD domain configuration is applied as the default configuration for all roles.</maml:para>
+				</maml:description>
+				<command:parameterValue required="true" variableLength="true">string[]</command:parameterValue>
+			</command:parameter>
+			<command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="4">
+				<maml:name>CertificateThumbprint</maml:name>
+				<maml:description>
+					<maml:para>A certificate thumbprint to use for encrypting the private configuration. If not specified a certificate will be created for you. This certificate has to already exist in the certificate store.</maml:para>
+				</maml:description>
+				<command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+			</command:parameter>
+			<command:parameter required="false" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="4">
+				<maml:name>Slot</maml:name>
+				<maml:description>
+					<maml:para>Specifies the environment of the deployment to modify. Supported values are &quot;Production&quot; or &quot;Staging&quot;.</maml:para>
+				</maml:description>
+				<command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+			</command:parameter>
+			<command:parameter required="false" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="5">
+				<maml:name>ThumbprintAlgorithm</maml:name>
+				<maml:description>
+					<maml:para>Thumbprint hashing algorithm which is used with the thumbprint to identify the certificate. This parameter is optional and the default is sha1.</maml:para>
+				</maml:description>
+				<command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+			</command:parameter>
+			<command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="6">
+				<maml:name>DomainName</maml:name>
+				<maml:description>
+					<maml:para>The AD domain name.</maml:para>
+				</maml:description>
+				<command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+			</command:parameter>
+			<command:parameter required="false" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="7">
+				<maml:name>Restart</maml:name>
+				<maml:description>
+					<maml:para>Whether to restart the computer if the join operation succeeded.</maml:para>
+				</maml:description>
+			</command:parameter>
+			<command:parameter required="false" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="8">
+				<maml:name>Credential</maml:name>
+				<maml:description>
+					<maml:para>The credentials (user name/password) to join the AD domain.</maml:para>
+				</maml:description>
+				<command:parameterValue required="true" variableLength="false">PSCredential</command:parameterValue>
+			</command:parameter>
+			<command:parameter required="false" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="9">
+				<maml:name>UnjoinDomainCredential</maml:name>
+				<maml:description>
+					<maml:para>The credentials (user name/password) to unjoin the AD domain.</maml:para>
+				</maml:description>
+				<command:parameterValue required="true" variableLength="false">PSCredential</command:parameterValue>
+			</command:parameter>
+			<command:parameter required="false" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="10">
+				<maml:name>Options</maml:name>
+				<maml:description>
+					<maml:para>The unsigned integer join option.</maml:para>
+				</maml:description>
+				<command:parameterValue required="true" variableLength="false">enum</command:parameterValue>
+			</command:parameter>
+			<command:parameter required="false" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="11">
+				<maml:name>OUPath</maml:name>
+				<maml:description>
+					<maml:para>The OU path for AD domain join operation.</maml:para>
+				</maml:description>
+				<command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+			</command:parameter>
+		</command:syntaxItem>
+		<command:syntaxItem>
+			<maml:name>Set-AzureServiceADDomainExtension</maml:name>
+			<command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="3">
+				<maml:name>ServiceName</maml:name>
+				<maml:description>
+					<maml:para>The cloud service name.</maml:para>
+				</maml:description>
+				<command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+			</command:parameter>
+			<command:parameter required="false" variableLength="true" globbing="false" pipelineInput="true (ByPropertyName)" position="3">
+				<maml:name>Role</maml:name>
+				<maml:description>
+					<maml:para>An optional array of roles to specify the remote desktop configuration for. If not specified the AD domain configuration is applied as the default configuration for all roles.</maml:para>
+				</maml:description>
+				<command:parameterValue required="true" variableLength="true">string[]</command:parameterValue>
+			</command:parameter>
+			<command:parameter required="false" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="4">
+				<maml:name>Slot</maml:name>
+				<maml:description>
+					<maml:para>Specifies the environment of the deployment to modify. Supported values are &quot;Production&quot; or &quot;Staging&quot;.</maml:para>
+				</maml:description>
+				<command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+			</command:parameter>
+			<command:parameter required="false" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="4">
+				<maml:name>X509Certificate</maml:name>
+				<maml:description>
+					<maml:para>An x509 certificate that when specified will be automatically uploaded to the cloud service and used for encrypting the extension private configuration.</maml:para>
+				</maml:description>
+				<command:parameterValue required="true" variableLength="false">X509Certificate2</command:parameterValue>
+			</command:parameter>
+			<command:parameter required="false" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="5">
+				<maml:name>ThumbprintAlgorithm</maml:name>
+				<maml:description>
+					<maml:para>Thumbprint hashing algorithm which is used with the thumbprint to identify the certificate. This parameter is optional and the default is sha1.</maml:para>
+				</maml:description>
+				<command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+			</command:parameter>
+			<command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="6">
+				<maml:name>DomainName</maml:name>
+				<maml:description>
+					<maml:para>The AD domain name.</maml:para>
+				</maml:description>
+				<command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+			</command:parameter>
+			<command:parameter required="false" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="7">
+				<maml:name>Restart</maml:name>
+				<maml:description>
+					<maml:para>Whether to restart the computer if the join operation succeeded.</maml:para>
+				</maml:description>
+			</command:parameter>
+			<command:parameter required="false" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="8">
+				<maml:name>Credential</maml:name>
+				<maml:description>
+					<maml:para>The credentials (user name/password) to join the AD domain.</maml:para>
+				</maml:description>
+				<command:parameterValue required="true" variableLength="false">PSCredential</command:parameterValue>
+			</command:parameter>
+			<command:parameter required="false" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="9">
+				<maml:name>UnjoinDomainCredential</maml:name>
+				<maml:description>
+					<maml:para>The credentials (user name/password) to unjoin the AD domain.</maml:para>
+				</maml:description>
+				<command:parameterValue required="true" variableLength="false">PSCredential</command:parameterValue>
+			</command:parameter>
+			<command:parameter required="false" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="10">
+				<maml:name>JoinOption</maml:name>
+				<maml:description>
+					<maml:para>The join option enumeration.</maml:para>
+				</maml:description>
+				<command:parameterValue required="true" variableLength="false">uint</command:parameterValue>
+			</command:parameter>
+			<command:parameter required="false" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="11">
+				<maml:name>OUPath</maml:name>
+				<maml:description>
+					<maml:para>The OU path for AD domain join operation.</maml:para>
+				</maml:description>
+				<command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+			</command:parameter>
+		</command:syntaxItem>
+		<command:syntaxItem>
+			<maml:name>Set-AzureServiceADDomainExtension</maml:name>
+			<command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="3">
+				<maml:name>ServiceName</maml:name>
+				<maml:description>
+					<maml:para>The cloud service name.</maml:para>
+				</maml:description>
+				<command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+			</command:parameter>
+			<command:parameter required="false" variableLength="true" globbing="false" pipelineInput="true (ByPropertyName)" position="3">
+				<maml:name>Role</maml:name>
+				<maml:description>
+					<maml:para>An optional array of roles to specify the remote desktop configuration for. If not specified the AD domain configuration is applied as the default configuration for all roles.</maml:para>
+				</maml:description>
+				<command:parameterValue required="true" variableLength="true">string[]</command:parameterValue>
+			</command:parameter>
+			<command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="4">
+				<maml:name>CertificateThumbprint</maml:name>
+				<maml:description>
+					<maml:para>A certificate thumbprint to use for encrypting the private configuration. If not specified a certificate will be created for you. This certificate has to already exist in the certificate store.</maml:para>
+				</maml:description>
+				<command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+			</command:parameter>
+			<command:parameter required="false" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="4">
+				<maml:name>Slot</maml:name>
+				<maml:description>
+					<maml:para>Specifies the environment of the deployment to modify. Supported values are &quot;Production&quot; or &quot;Staging&quot;.</maml:para>
+				</maml:description>
+				<command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+			</command:parameter>
+			<command:parameter required="false" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="5">
+				<maml:name>ThumbprintAlgorithm</maml:name>
+				<maml:description>
+					<maml:para>Thumbprint hashing algorithm which is used with the thumbprint to identify the certificate. This parameter is optional and the default is sha1.</maml:para>
+				</maml:description>
+				<command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+			</command:parameter>
+			<command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="6">
+				<maml:name>DomainName</maml:name>
+				<maml:description>
+					<maml:para>The AD domain name.</maml:para>
+				</maml:description>
+				<command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+			</command:parameter>
+			<command:parameter required="false" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="7">
+				<maml:name>Restart</maml:name>
+				<maml:description>
+					<maml:para>Whether to restart the computer if the join operation succeeded.</maml:para>
+				</maml:description>
+			</command:parameter>
+			<command:parameter required="false" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="8">
+				<maml:name>Credential</maml:name>
+				<maml:description>
+					<maml:para>The credentials (user name/password) to join the AD domain.</maml:para>
+				</maml:description>
+				<command:parameterValue required="true" variableLength="false">PSCredential</command:parameterValue>
+			</command:parameter>
+			<command:parameter required="false" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="9">
+				<maml:name>UnjoinDomainCredential</maml:name>
+				<maml:description>
+					<maml:para>The credentials (user name/password) to unjoin the AD domain.</maml:para>
+				</maml:description>
+				<command:parameterValue required="true" variableLength="false">PSCredential</command:parameterValue>
+			</command:parameter>
+			<command:parameter required="false" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="10">
+				<maml:name>JoinOption</maml:name>
+				<maml:description>
+					<maml:para>The join option enumeration.</maml:para>
+				</maml:description>
+				<command:parameterValue required="true" variableLength="false">uint</command:parameterValue>
+			</command:parameter>
+			<command:parameter required="false" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="11">
+				<maml:name>OUPath</maml:name>
+				<maml:description>
+					<maml:para>The OU path for AD domain join operation.</maml:para>
+				</maml:description>
+				<command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+			</command:parameter>
+		</command:syntaxItem>
+		<command:syntaxItem>
+			<maml:name>Set-AzureServiceADDomainExtension</maml:name>
+			<command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="3">
+				<maml:name>ServiceName</maml:name>
+				<maml:description>
+					<maml:para>The cloud service name.</maml:para>
+				</maml:description>
+				<command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+			</command:parameter>
+			<command:parameter required="false" variableLength="true" globbing="false" pipelineInput="true (ByPropertyName)" position="3">
+				<maml:name>Role</maml:name>
+				<maml:description>
+					<maml:para>An optional array of roles to specify the remote desktop configuration for. If not specified the AD domain configuration is applied as the default configuration for all roles.</maml:para>
+				</maml:description>
+				<command:parameterValue required="true" variableLength="true">string[]</command:parameterValue>
+			</command:parameter>
+			<command:parameter required="false" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="4">
+				<maml:name>Slot</maml:name>
+				<maml:description>
+					<maml:para>Specifies the environment of the deployment to modify. Supported values are &quot;Production&quot; or &quot;Staging&quot;.</maml:para>
+				</maml:description>
+				<command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+			</command:parameter>
+			<command:parameter required="false" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="4">
+				<maml:name>X509Certificate</maml:name>
+				<maml:description>
+					<maml:para>An x509 certificate that when specified will be automatically uploaded to the cloud service and used for encrypting the extension private configuration.</maml:para>
+				</maml:description>
+				<command:parameterValue required="true" variableLength="false">X509Certificate2</command:parameterValue>
+			</command:parameter>
+			<command:parameter required="false" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="5">
+				<maml:name>ThumbprintAlgorithm</maml:name>
+				<maml:description>
+					<maml:para>Thumbprint hashing algorithm which is used with the thumbprint to identify the certificate. This parameter is optional and the default is sha1.</maml:para>
+				</maml:description>
+				<command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+			</command:parameter>
+			<command:parameter required="false" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="7">
+				<maml:name>Restart</maml:name>
+				<maml:description>
+					<maml:para>Whether to restart the computer if the join operation succeeded.</maml:para>
+				</maml:description>
+			</command:parameter>
+			<command:parameter required="false" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="8">
+				<maml:name>Credential</maml:name>
+				<maml:description>
+					<maml:para>The credentials (user name/password) to join the AD domain.</maml:para>
+				</maml:description>
+				<command:parameterValue required="true" variableLength="false">PSCredential</command:parameterValue>
+			</command:parameter>
+		</command:syntaxItem>
+		<command:syntaxItem>
+			<maml:name>Set-AzureServiceADDomainExtension</maml:name>
+			<command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="3">
+				<maml:name>ServiceName</maml:name>
+				<maml:description>
+					<maml:para>The cloud service name.</maml:para>
+				</maml:description>
+				<command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+			</command:parameter>
+			<command:parameter required="false" variableLength="true" globbing="false" pipelineInput="true (ByPropertyName)" position="3">
+				<maml:name>Role</maml:name>
+				<maml:description>
+					<maml:para>An optional array of roles to specify the remote desktop configuration for. If not specified the AD domain configuration is applied as the default configuration for all roles.</maml:para>
+				</maml:description>
+				<command:parameterValue required="true" variableLength="true">string[]</command:parameterValue>
+			</command:parameter>
+			<command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="4">
+				<maml:name>CertificateThumbprint</maml:name>
+				<maml:description>
+					<maml:para>A certificate thumbprint to use for encrypting the private configuration. If not specified a certificate will be created for you. This certificate has to already exist in the certificate store.</maml:para>
+				</maml:description>
+				<command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+			</command:parameter>
+			<command:parameter required="false" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="4">
+				<maml:name>Slot</maml:name>
+				<maml:description>
+					<maml:para>Specifies the environment of the deployment to modify. Supported values are &quot;Production&quot; or &quot;Staging&quot;.</maml:para>
+				</maml:description>
+				<command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+			</command:parameter>
+			<command:parameter required="false" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="5">
+				<maml:name>ThumbprintAlgorithm</maml:name>
+				<maml:description>
+					<maml:para>Thumbprint hashing algorithm which is used with the thumbprint to identify the certificate. This parameter is optional and the default is sha1.</maml:para>
+				</maml:description>
+				<command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+			</command:parameter>
+			<command:parameter required="false" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="7">
+				<maml:name>Restart</maml:name>
+				<maml:description>
+					<maml:para>Whether to restart the computer if the join operation succeeded.</maml:para>
+				</maml:description>
+			</command:parameter>
+			<command:parameter required="false" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="8">
+				<maml:name>Credential</maml:name>
+				<maml:description>
+					<maml:para>The credentials (user name/password) to join the AD domain.</maml:para>
+				</maml:description>
+				<command:parameterValue required="true" variableLength="false">PSCredential</command:parameterValue>
+			</command:parameter>
+		</command:syntaxItem>
+	</command:syntax>
+	<!-- Cmdlet parameter section  -->
+	<command:parameters>
+		<command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="4">
+			<maml:name>CertificateThumbprint</maml:name>
+			<maml:description>
+				<maml:para>A certificate thumbprint to use for encrypting the private configuration. If not specified a certificate will be created for you. This certificate has to already exist in the certificate store.</maml:para>
+								
+			</maml:description>
+			<command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+			<dev:type>
+				<maml:name>string</maml:name>
+				<maml:uri/>
+			</dev:type>
+			<dev:defaultValue></dev:defaultValue>
+		</command:parameter>
+		<command:parameter required="false" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="8">
+			<maml:name>Credential</maml:name>
+			<maml:description>
+				<maml:para>The credentials (user name/password) to join the AD domain.</maml:para>
+								
+			</maml:description>
+			<command:parameterValue required="true" variableLength="false">PSCredential</command:parameterValue>
+			<dev:type>
+				<maml:name>PSCredential</maml:name>
+				<maml:uri/>
+			</dev:type>
+			<dev:defaultValue></dev:defaultValue>
+		</command:parameter>
+		<command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="6">
+			<maml:name>DomainName</maml:name>
+			<maml:description>
+				<maml:para>The AD domain name.</maml:para>
+								
+			</maml:description>
+			<command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+			<dev:type>
+				<maml:name>string</maml:name>
+				<maml:uri/>
+			</dev:type>
+			<dev:defaultValue></dev:defaultValue>
+		</command:parameter>
+		<command:parameter required="false" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="10">
+			<maml:name>JoinOption</maml:name>
+			<maml:description>
+				<maml:para>The join option enumeration.</maml:para>
+								
+			</maml:description>
+			<command:parameterValue required="true" variableLength="false">uint</command:parameterValue>
+			<dev:type>
+				<maml:name>uint</maml:name>
+				<maml:uri/>
+			</dev:type>
+			<dev:defaultValue></dev:defaultValue>
+		</command:parameter>
+		<command:parameter required="false" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="10">
+			<maml:name>Options</maml:name>
+			<maml:description>
+				<maml:para>The unsigned integer join option.</maml:para>
+								
+			</maml:description>
+			<command:parameterValue required="true" variableLength="false">enum</command:parameterValue>
+			<dev:type>
+				<maml:name>enum</maml:name>
+				<maml:uri/>
+			</dev:type>
+			<dev:defaultValue></dev:defaultValue>
+		</command:parameter>
+		<command:parameter required="false" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="11">
+			<maml:name>OUPath</maml:name>
+			<maml:description>
+				<maml:para>The OU path for AD domain join operation.</maml:para>
+								
+			</maml:description>
+			<command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+			<dev:type>
+				<maml:name>string</maml:name>
+				<maml:uri/>
+			</dev:type>
+			<dev:defaultValue></dev:defaultValue>
+		</command:parameter>
+		<command:parameter required="false" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="7">
+			<maml:name>Restart</maml:name>
+			<maml:description>
+				<maml:para>Whether to restart the computer if the join operation succeeded.</maml:para>
+								
+			</maml:description>
+			<command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
+			<dev:type>
+				<maml:name>SwitchParameter</maml:name>
+				<maml:uri/>
+			</dev:type>
+			<dev:defaultValue></dev:defaultValue>
+		</command:parameter>
+		<command:parameter required="false" variableLength="true" globbing="false" pipelineInput="true (ByPropertyName)" position="3">
+			<maml:name>Role</maml:name>
+			<maml:description>
+				<maml:para>An optional array of roles to specify the remote desktop configuration for. If not specified the AD domain configuration is applied as the default configuration for all roles.</maml:para>
+								
+			</maml:description>
+			<command:parameterValue required="true" variableLength="true">string[]</command:parameterValue>
+			<dev:type>
+				<maml:name>string[]</maml:name>
+				<maml:uri/>
+			</dev:type>
+			<dev:defaultValue></dev:defaultValue>
+		</command:parameter>
+		<command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="3">
+			<maml:name>ServiceName</maml:name>
+			<maml:description>
+				<maml:para>The cloud service name.</maml:para>
+								
+			</maml:description>
+			<command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+			<dev:type>
+				<maml:name>string</maml:name>
+				<maml:uri/>
+			</dev:type>
+			<dev:defaultValue></dev:defaultValue>
+		</command:parameter>
+		<command:parameter required="false" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="4">
+			<maml:name>Slot</maml:name>
+			<maml:description>
+				<maml:para>Specifies the environment of the deployment to modify. Supported values are &quot;Production&quot; or &quot;Staging&quot;.</maml:para>
+								
+			</maml:description>
+			<command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+			<dev:type>
+				<maml:name>string</maml:name>
+				<maml:uri/>
+			</dev:type>
+			<dev:defaultValue></dev:defaultValue>
+		</command:parameter>
+		<command:parameter required="false" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="5">
+			<maml:name>ThumbprintAlgorithm</maml:name>
+			<maml:description>
+				<maml:para>Thumbprint hashing algorithm which is used with the thumbprint to identify the certificate. This parameter is optional and the default is sha1.</maml:para>
+								
+			</maml:description>
+			<command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+			<dev:type>
+				<maml:name>string</maml:name>
+				<maml:uri/>
+			</dev:type>
+			<dev:defaultValue></dev:defaultValue>
+		</command:parameter>
+		<command:parameter required="false" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="9">
+			<maml:name>UnjoinDomainCredential</maml:name>
+			<maml:description>
+				<maml:para>The credentials (user name/password) to unjoin the AD domain.</maml:para>
+								
+			</maml:description>
+			<command:parameterValue required="true" variableLength="false">PSCredential</command:parameterValue>
+			<dev:type>
+				<maml:name>PSCredential</maml:name>
+				<maml:uri/>
+			</dev:type>
+			<dev:defaultValue></dev:defaultValue>
+		</command:parameter>
+		<command:parameter required="" variableLength="false" globbing="false" pipelineInput="false" position="named">
+			<maml:name>WorkgroupName</maml:name>
+			<maml:description>
+				<maml:para>The workgroup name.</maml:para>
+								
+			</maml:description>
+			<command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+			<dev:type>
+				<maml:name>string</maml:name>
+				<maml:uri/>
+			</dev:type>
+			<dev:defaultValue></dev:defaultValue>
+		</command:parameter>
+		<command:parameter required="false" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="4">
+			<maml:name>X509Certificate</maml:name>
+			<maml:description>
+				<maml:para>An x509 certificate that when specified will be automatically uploaded to the cloud service and used for encrypting the extension private configuration.</maml:para>
+								
+			</maml:description>
+			<command:parameterValue required="true" variableLength="false">X509Certificate2</command:parameterValue>
+			<dev:type>
+				<maml:name>X509Certificate2</maml:name>
+				<maml:uri/>
+			</dev:type>
+			<dev:defaultValue></dev:defaultValue>
+		</command:parameter>
+	</command:parameters>
+	<!-- Input - Output section-->
+	<command:inputTypes>
+		<command:inputType>
+			<dev:type>
+				<maml:name></maml:name>
+				<maml:uri/>
+				<maml:description />
+			</dev:type>
+			<maml:description>
+				<maml:para>
+					<!-- description  -->
+					
+				</maml:para>
+			</maml:description>
+		</command:inputType>
+	</command:inputTypes>
+	<command:returnValues>
+		<command:returnValue>
+			<dev:type>
+				<maml:name></maml:name>
+				<maml:uri />
+				<maml:description />
+			</dev:type>   
+			<maml:description>
+				<maml:para>
+					<!-- description  -->
+					
+				</maml:para>
+			</maml:description> 
+		</command:returnValue>
+	</command:returnValues>
+	<!-- Error section-->
+	<command:terminatingErrors />
+	<command:nonTerminatingErrors />
+		<!-- Notes section  -->
+	<maml:alertSet>
+		<maml:title></maml:title>
+		<maml:alert>
+			<maml:para>
+                          
+                        </maml:para>
+		</maml:alert>
+		<maml:alert>
+			<maml:para></maml:para>
+		</maml:alert>
+	</maml:alertSet>
+	<!-- Example section  --> 
+	<command:examples>
+	</command:examples>
+	<!-- Link section  -->
+	<maml:relatedLinks>
+		<maml:navigationLink>
+			<maml:linkText></maml:linkText>
+			<maml:uri/>
+		</maml:navigationLink>
+	</maml:relatedLinks>
+</command:command>
+
+
+<!-- v 1.3.0.36 -->
+<command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10">
+	<command:details>
+		<command:name>
+                   New-AzureServiceADDomainExtensionConfig
+		</command:name>
+		<maml:description>
+			<maml:para>This cmdlet generates the configuration for AD Domain extension for cloud services.</maml:para>
+		</maml:description>
+		<maml:copyright>
+			<maml:para></maml:para>
+		</maml:copyright>
+		<command:verb>New</command:verb>
+		<command:noun>AzureServiceADDomainExtensionConfig</command:noun>
+		<dev:version></dev:version>
+	</command:details>
+	<maml:description>
+		<maml:para>This cmdlet generates the configuration for AD Domain extension for cloud services.</maml:para>
+	</maml:description>
+	<!-- Cmdlet syntax section-->
+	<command:syntax>
+		<command:syntaxItem>
+			<maml:name>New-AzureServiceADDomainExtensionConfig</maml:name>
+			<command:parameter required="false" variableLength="true" globbing="false" pipelineInput="true (ByPropertyName)" position="1">
+				<maml:name>Role</maml:name>
+				<maml:description>
+					<maml:para>An optional array of roles to specify the remote desktop configuration for. If not specified the AD domain configuration is applied as the default configuration for all roles.</maml:para>
+				</maml:description>
+				<command:parameterValue required="true" variableLength="true">string[]</command:parameterValue>
+			</command:parameter>
+			<command:parameter required="false" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="2">
+				<maml:name>Slot</maml:name>
+				<maml:description>
+					<maml:para>Specifies the environment of the deployment to modify. Supported values are &quot;Production&quot; or &quot;Staging&quot;.</maml:para>
+				</maml:description>
+				<command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+			</command:parameter>
+			<command:parameter required="false" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="2">
+				<maml:name>X509Certificate</maml:name>
+				<maml:description>
+					<maml:para>An x509 certificate that when specified will be automatically uploaded to the cloud service and used for encrypting the extension private configuration.</maml:para>
+				</maml:description>
+				<command:parameterValue required="true" variableLength="false">X509Certificate2</command:parameterValue>
+			</command:parameter>
+			<command:parameter required="false" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="3">
+				<maml:name>ThumbprintAlgorithm</maml:name>
+				<maml:description>
+					<maml:para>Thumbprint hashing algorithm which is used with the thumbprint to identify the certificate. This parameter is optional and the default is sha1.</maml:para>
+				</maml:description>
+				<command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+			</command:parameter>
+			<command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="4">
+				<maml:name>DomainName</maml:name>
+				<maml:description>
+					<maml:para>The AD domain name.</maml:para>
+				</maml:description>
+				<command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+			</command:parameter>
+			<command:parameter required="false" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="5">
+				<maml:name>Restart</maml:name>
+				<maml:description>
+					<maml:para>Whether to restart the computer if the join operation succeeded.</maml:para>
+				</maml:description>
+			</command:parameter>
+			<command:parameter required="false" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="6">
+				<maml:name>Credential</maml:name>
+				<maml:description>
+					<maml:para>The credentials (user name/password) to join the AD domain.</maml:para>
+				</maml:description>
+				<command:parameterValue required="true" variableLength="false">PSCredential</command:parameterValue>
+			</command:parameter>
+			<command:parameter required="false" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="7">
+				<maml:name>UnjoinDomainCredential</maml:name>
+				<maml:description>
+					<maml:para>The credentials (user name/password) to unjoin the AD domain.</maml:para>
+				</maml:description>
+				<command:parameterValue required="true" variableLength="false">PSCredential</command:parameterValue>
+			</command:parameter>
+			<command:parameter required="false" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="8">
+				<maml:name>Options</maml:name>
+				<maml:description>
+					<maml:para>The unsigned integer join option.</maml:para>
+				</maml:description>
+				<command:parameterValue required="true" variableLength="false">enum</command:parameterValue>
+			</command:parameter>
+			<command:parameter required="false" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="9">
+				<maml:name>OUPath</maml:name>
+				<maml:description>
+					<maml:para>The OU path for AD domain join operation.</maml:para>
+				</maml:description>
+				<command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+			</command:parameter>
+		</command:syntaxItem>
+		<command:syntaxItem>
+			<maml:name>New-AzureServiceADDomainExtensionConfig</maml:name>
+			<command:parameter required="false" variableLength="true" globbing="false" pipelineInput="true (ByPropertyName)" position="1">
+				<maml:name>Role</maml:name>
+				<maml:description>
+					<maml:para>An optional array of roles to specify the remote desktop configuration for. If not specified the AD domain configuration is applied as the default configuration for all roles.</maml:para>
+				</maml:description>
+				<command:parameterValue required="true" variableLength="true">string[]</command:parameterValue>
+			</command:parameter>
+			<command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="2">
+				<maml:name>CertificateThumbprint</maml:name>
+				<maml:description>
+					<maml:para>A certificate thumbprint to use for encrypting the private configuration. If not specified a certificate will be created for you. This certificate has to already exist in the certificate store.</maml:para>
+				</maml:description>
+				<command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+			</command:parameter>
+			<command:parameter required="false" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="2">
+				<maml:name>Slot</maml:name>
+				<maml:description>
+					<maml:para>Specifies the environment of the deployment to modify. Supported values are &quot;Production&quot; or &quot;Staging&quot;.</maml:para>
+				</maml:description>
+				<command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+			</command:parameter>
+			<command:parameter required="false" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="3">
+				<maml:name>ThumbprintAlgorithm</maml:name>
+				<maml:description>
+					<maml:para>Thumbprint hashing algorithm which is used with the thumbprint to identify the certificate. This parameter is optional and the default is sha1.</maml:para>
+				</maml:description>
+				<command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+			</command:parameter>
+			<command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="4">
+				<maml:name>DomainName</maml:name>
+				<maml:description>
+					<maml:para>The AD domain name.</maml:para>
+				</maml:description>
+				<command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+			</command:parameter>
+			<command:parameter required="false" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="5">
+				<maml:name>Restart</maml:name>
+				<maml:description>
+					<maml:para>Whether to restart the computer if the join operation succeeded.</maml:para>
+				</maml:description>
+			</command:parameter>
+			<command:parameter required="false" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="6">
+				<maml:name>Credential</maml:name>
+				<maml:description>
+					<maml:para>The credentials (user name/password) to join the AD domain.</maml:para>
+				</maml:description>
+				<command:parameterValue required="true" variableLength="false">PSCredential</command:parameterValue>
+			</command:parameter>
+			<command:parameter required="false" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="7">
+				<maml:name>UnjoinDomainCredential</maml:name>
+				<maml:description>
+					<maml:para>The credentials (user name/password) to unjoin the AD domain.</maml:para>
+				</maml:description>
+				<command:parameterValue required="true" variableLength="false">PSCredential</command:parameterValue>
+			</command:parameter>
+			<command:parameter required="false" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="8">
+				<maml:name>Options</maml:name>
+				<maml:description>
+					<maml:para>The unsigned integer join option.</maml:para>
+				</maml:description>
+				<command:parameterValue required="true" variableLength="false">enum</command:parameterValue>
+			</command:parameter>
+			<command:parameter required="false" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="9">
+				<maml:name>OUPath</maml:name>
+				<maml:description>
+					<maml:para>The OU path for AD domain join operation.</maml:para>
+				</maml:description>
+				<command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+			</command:parameter>
+		</command:syntaxItem>
+		<command:syntaxItem>
+			<maml:name>New-AzureServiceADDomainExtensionConfig</maml:name>
+			<command:parameter required="false" variableLength="true" globbing="false" pipelineInput="true (ByPropertyName)" position="1">
+				<maml:name>Role</maml:name>
+				<maml:description>
+					<maml:para>An optional array of roles to specify the remote desktop configuration for. If not specified the AD domain configuration is applied as the default configuration for all roles.</maml:para>
+				</maml:description>
+				<command:parameterValue required="true" variableLength="true">string[]</command:parameterValue>
+			</command:parameter>
+			<command:parameter required="false" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="2">
+				<maml:name>Slot</maml:name>
+				<maml:description>
+					<maml:para>Specifies the environment of the deployment to modify. Supported values are &quot;Production&quot; or &quot;Staging&quot;.</maml:para>
+				</maml:description>
+				<command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+			</command:parameter>
+			<command:parameter required="false" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="2">
+				<maml:name>X509Certificate</maml:name>
+				<maml:description>
+					<maml:para>An x509 certificate that when specified will be automatically uploaded to the cloud service and used for encrypting the extension private configuration.</maml:para>
+				</maml:description>
+				<command:parameterValue required="true" variableLength="false">X509Certificate2</command:parameterValue>
+			</command:parameter>
+			<command:parameter required="false" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="3">
+				<maml:name>ThumbprintAlgorithm</maml:name>
+				<maml:description>
+					<maml:para>Thumbprint hashing algorithm which is used with the thumbprint to identify the certificate. This parameter is optional and the default is sha1.</maml:para>
+				</maml:description>
+				<command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+			</command:parameter>
+			<command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="4">
+				<maml:name>DomainName</maml:name>
+				<maml:description>
+					<maml:para>The AD domain name.</maml:para>
+				</maml:description>
+				<command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+			</command:parameter>
+			<command:parameter required="false" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="5">
+				<maml:name>Restart</maml:name>
+				<maml:description>
+					<maml:para>Whether to restart the computer if the join operation succeeded.</maml:para>
+				</maml:description>
+			</command:parameter>
+			<command:parameter required="false" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="6">
+				<maml:name>Credential</maml:name>
+				<maml:description>
+					<maml:para>The credentials (user name/password) to join the AD domain.</maml:para>
+				</maml:description>
+				<command:parameterValue required="true" variableLength="false">PSCredential</command:parameterValue>
+			</command:parameter>
+			<command:parameter required="false" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="7">
+				<maml:name>UnjoinDomainCredential</maml:name>
+				<maml:description>
+					<maml:para>The credentials (user name/password) to unjoin the AD domain.</maml:para>
+				</maml:description>
+				<command:parameterValue required="true" variableLength="false">PSCredential</command:parameterValue>
+			</command:parameter>
+			<command:parameter required="false" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="8">
+				<maml:name>JoinOption</maml:name>
+				<maml:description>
+					<maml:para>The join option enumeration.</maml:para>
+				</maml:description>
+				<command:parameterValue required="true" variableLength="false">uint</command:parameterValue>
+			</command:parameter>
+			<command:parameter required="false" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="9">
+				<maml:name>OUPath</maml:name>
+				<maml:description>
+					<maml:para>The OU path for AD domain join operation.</maml:para>
+				</maml:description>
+				<command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+			</command:parameter>
+		</command:syntaxItem>
+		<command:syntaxItem>
+			<maml:name>New-AzureServiceADDomainExtensionConfig</maml:name>
+			<command:parameter required="false" variableLength="true" globbing="false" pipelineInput="true (ByPropertyName)" position="1">
+				<maml:name>Role</maml:name>
+				<maml:description>
+					<maml:para>An optional array of roles to specify the remote desktop configuration for. If not specified the AD domain configuration is applied as the default configuration for all roles.</maml:para>
+				</maml:description>
+				<command:parameterValue required="true" variableLength="true">string[]</command:parameterValue>
+			</command:parameter>
+			<command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="2">
+				<maml:name>CertificateThumbprint</maml:name>
+				<maml:description>
+					<maml:para>A certificate thumbprint to use for encrypting the private configuration. If not specified a certificate will be created for you. This certificate has to already exist in the certificate store.</maml:para>
+				</maml:description>
+				<command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+			</command:parameter>
+			<command:parameter required="false" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="2">
+				<maml:name>Slot</maml:name>
+				<maml:description>
+					<maml:para>Specifies the environment of the deployment to modify. Supported values are &quot;Production&quot; or &quot;Staging&quot;.</maml:para>
+				</maml:description>
+				<command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+			</command:parameter>
+			<command:parameter required="false" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="3">
+				<maml:name>ThumbprintAlgorithm</maml:name>
+				<maml:description>
+					<maml:para>Thumbprint hashing algorithm which is used with the thumbprint to identify the certificate. This parameter is optional and the default is sha1.</maml:para>
+				</maml:description>
+				<command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+			</command:parameter>
+			<command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="4">
+				<maml:name>DomainName</maml:name>
+				<maml:description>
+					<maml:para>The AD domain name.</maml:para>
+				</maml:description>
+				<command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+			</command:parameter>
+			<command:parameter required="false" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="5">
+				<maml:name>Restart</maml:name>
+				<maml:description>
+					<maml:para>Whether to restart the computer if the join operation succeeded.</maml:para>
+				</maml:description>
+			</command:parameter>
+			<command:parameter required="false" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="6">
+				<maml:name>Credential</maml:name>
+				<maml:description>
+					<maml:para>The credentials (user name/password) to join the AD domain.</maml:para>
+				</maml:description>
+				<command:parameterValue required="true" variableLength="false">PSCredential</command:parameterValue>
+			</command:parameter>
+			<command:parameter required="false" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="7">
+				<maml:name>UnjoinDomainCredential</maml:name>
+				<maml:description>
+					<maml:para>The credentials (user name/password) to unjoin the AD domain.</maml:para>
+				</maml:description>
+				<command:parameterValue required="true" variableLength="false">PSCredential</command:parameterValue>
+			</command:parameter>
+			<command:parameter required="false" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="8">
+				<maml:name>JoinOption</maml:name>
+				<maml:description>
+					<maml:para>The join option enumeration.</maml:para>
+				</maml:description>
+				<command:parameterValue required="true" variableLength="false">uint</command:parameterValue>
+			</command:parameter>
+			<command:parameter required="false" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="9">
+				<maml:name>OUPath</maml:name>
+				<maml:description>
+					<maml:para>The OU path for AD domain join operation.</maml:para>
+				</maml:description>
+				<command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+			</command:parameter>
+		</command:syntaxItem>
+		<command:syntaxItem>
+			<maml:name>New-AzureServiceADDomainExtensionConfig</maml:name>
+			<command:parameter required="false" variableLength="true" globbing="false" pipelineInput="true (ByPropertyName)" position="1">
+				<maml:name>Role</maml:name>
+				<maml:description>
+					<maml:para>An optional array of roles to specify the remote desktop configuration for. If not specified the AD domain configuration is applied as the default configuration for all roles.</maml:para>
+				</maml:description>
+				<command:parameterValue required="true" variableLength="true">string[]</command:parameterValue>
+			</command:parameter>
+			<command:parameter required="false" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="2">
+				<maml:name>Slot</maml:name>
+				<maml:description>
+					<maml:para>Specifies the environment of the deployment to modify. Supported values are &quot;Production&quot; or &quot;Staging&quot;.</maml:para>
+				</maml:description>
+				<command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+			</command:parameter>
+			<command:parameter required="false" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="2">
+				<maml:name>X509Certificate</maml:name>
+				<maml:description>
+					<maml:para>An x509 certificate that when specified will be automatically uploaded to the cloud service and used for encrypting the extension private configuration.</maml:para>
+				</maml:description>
+				<command:parameterValue required="true" variableLength="false">X509Certificate2</command:parameterValue>
+			</command:parameter>
+			<command:parameter required="false" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="3">
+				<maml:name>ThumbprintAlgorithm</maml:name>
+				<maml:description>
+					<maml:para>Thumbprint hashing algorithm which is used with the thumbprint to identify the certificate. This parameter is optional and the default is sha1.</maml:para>
+				</maml:description>
+				<command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+			</command:parameter>
+			<command:parameter required="false" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="5">
+				<maml:name>Restart</maml:name>
+				<maml:description>
+					<maml:para>Whether to restart the computer if the join operation succeeded.</maml:para>
+				</maml:description>
+			</command:parameter>
+			<command:parameter required="false" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="6">
+				<maml:name>Credential</maml:name>
+				<maml:description>
+					<maml:para>The credentials (user name/password) to join the AD domain.</maml:para>
+				</maml:description>
+				<command:parameterValue required="true" variableLength="false">PSCredential</command:parameterValue>
+			</command:parameter>
+		</command:syntaxItem>
+		<command:syntaxItem>
+			<maml:name>New-AzureServiceADDomainExtensionConfig</maml:name>
+			<command:parameter required="false" variableLength="true" globbing="false" pipelineInput="true (ByPropertyName)" position="1">
+				<maml:name>Role</maml:name>
+				<maml:description>
+					<maml:para>An optional array of roles to specify the remote desktop configuration for. If not specified the AD domain configuration is applied as the default configuration for all roles.</maml:para>
+				</maml:description>
+				<command:parameterValue required="true" variableLength="true">string[]</command:parameterValue>
+			</command:parameter>
+			<command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="2">
+				<maml:name>CertificateThumbprint</maml:name>
+				<maml:description>
+					<maml:para>A certificate thumbprint to use for encrypting the private configuration. If not specified a certificate will be created for you. This certificate has to already exist in the certificate store.</maml:para>
+				</maml:description>
+				<command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+			</command:parameter>
+			<command:parameter required="false" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="2">
+				<maml:name>Slot</maml:name>
+				<maml:description>
+					<maml:para>Specifies the environment of the deployment to modify. Supported values are &quot;Production&quot; or &quot;Staging&quot;.</maml:para>
+				</maml:description>
+				<command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+			</command:parameter>
+			<command:parameter required="false" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="3">
+				<maml:name>ThumbprintAlgorithm</maml:name>
+				<maml:description>
+					<maml:para>Thumbprint hashing algorithm which is used with the thumbprint to identify the certificate. This parameter is optional and the default is sha1.</maml:para>
+				</maml:description>
+				<command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+			</command:parameter>
+			<command:parameter required="false" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="5">
+				<maml:name>Restart</maml:name>
+				<maml:description>
+					<maml:para>Whether to restart the computer if the join operation succeeded.</maml:para>
+				</maml:description>
+			</command:parameter>
+			<command:parameter required="false" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="6">
+				<maml:name>Credential</maml:name>
+				<maml:description>
+					<maml:para>The credentials (user name/password) to join the AD domain.</maml:para>
+				</maml:description>
+				<command:parameterValue required="true" variableLength="false">PSCredential</command:parameterValue>
+			</command:parameter>
+		</command:syntaxItem>
+	</command:syntax>
+	<!-- Cmdlet parameter section  -->
+	<command:parameters>
+		<command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="2">
+			<maml:name>CertificateThumbprint</maml:name>
+			<maml:description>
+				<maml:para>A certificate thumbprint to use for encrypting the private configuration. If not specified a certificate will be created for you. This certificate has to already exist in the certificate store.</maml:para>
+								
+			</maml:description>
+			<command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+			<dev:type>
+				<maml:name>string</maml:name>
+				<maml:uri/>
+			</dev:type>
+			<dev:defaultValue></dev:defaultValue>
+		</command:parameter>
+		<command:parameter required="false" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="6">
+			<maml:name>Credential</maml:name>
+			<maml:description>
+				<maml:para>The credentials (user name/password) to join the AD domain.</maml:para>
+								
+			</maml:description>
+			<command:parameterValue required="true" variableLength="false">PSCredential</command:parameterValue>
+			<dev:type>
+				<maml:name>PSCredential</maml:name>
+				<maml:uri/>
+			</dev:type>
+			<dev:defaultValue></dev:defaultValue>
+		</command:parameter>
+		<command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="4">
+			<maml:name>DomainName</maml:name>
+			<maml:description>
+				<maml:para>The AD domain name.</maml:para>
+								
+			</maml:description>
+			<command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+			<dev:type>
+				<maml:name>string</maml:name>
+				<maml:uri/>
+			</dev:type>
+			<dev:defaultValue></dev:defaultValue>
+		</command:parameter>
+		<command:parameter required="false" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="8">
+			<maml:name>JoinOption</maml:name>
+			<maml:description>
+				<maml:para>The join option enumeration.</maml:para>
+								
+			</maml:description>
+			<command:parameterValue required="true" variableLength="false">uint</command:parameterValue>
+			<dev:type>
+				<maml:name>uint</maml:name>
+				<maml:uri/>
+			</dev:type>
+			<dev:defaultValue></dev:defaultValue>
+		</command:parameter>
+		<command:parameter required="false" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="8">
+			<maml:name>Options</maml:name>
+			<maml:description>
+				<maml:para>The unsigned integer join option.</maml:para>
+								
+			</maml:description>
+			<command:parameterValue required="true" variableLength="false">enum</command:parameterValue>
+			<dev:type>
+				<maml:name>enum</maml:name>
+				<maml:uri/>
+			</dev:type>
+			<dev:defaultValue></dev:defaultValue>
+		</command:parameter>
+		<command:parameter required="false" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="9">
+			<maml:name>OUPath</maml:name>
+			<maml:description>
+				<maml:para>The OU path for AD domain join operation.</maml:para>
+								
+			</maml:description>
+			<command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+			<dev:type>
+				<maml:name>string</maml:name>
+				<maml:uri/>
+			</dev:type>
+			<dev:defaultValue></dev:defaultValue>
+		</command:parameter>
+		<command:parameter required="false" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="5">
+			<maml:name>Restart</maml:name>
+			<maml:description>
+				<maml:para>Whether to restart the computer if the join operation succeeded.</maml:para>
+								
+			</maml:description>
+			<command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
+			<dev:type>
+				<maml:name>SwitchParameter</maml:name>
+				<maml:uri/>
+			</dev:type>
+			<dev:defaultValue></dev:defaultValue>
+		</command:parameter>
+		<command:parameter required="false" variableLength="true" globbing="false" pipelineInput="true (ByPropertyName)" position="1">
+			<maml:name>Role</maml:name>
+			<maml:description>
+				<maml:para>An optional array of roles to specify the remote desktop configuration for. If not specified the AD domain configuration is applied as the default configuration for all roles.</maml:para>
+								
+			</maml:description>
+			<command:parameterValue required="true" variableLength="true">string[]</command:parameterValue>
+			<dev:type>
+				<maml:name>string[]</maml:name>
+				<maml:uri/>
+			</dev:type>
+			<dev:defaultValue></dev:defaultValue>
+		</command:parameter>
+		<command:parameter required="false" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="2">
+			<maml:name>Slot</maml:name>
+			<maml:description>
+				<maml:para>Specifies the environment of the deployment to modify. Supported values are &quot;Production&quot; or &quot;Staging&quot;.</maml:para>
+								
+			</maml:description>
+			<command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+			<dev:type>
+				<maml:name>string</maml:name>
+				<maml:uri/>
+			</dev:type>
+			<dev:defaultValue></dev:defaultValue>
+		</command:parameter>
+		<command:parameter required="false" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="3">
+			<maml:name>ThumbprintAlgorithm</maml:name>
+			<maml:description>
+				<maml:para>Thumbprint hashing algorithm which is used with the thumbprint to identify the certificate. This parameter is optional and the default is sha1.</maml:para>
+								
+			</maml:description>
+			<command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+			<dev:type>
+				<maml:name>string</maml:name>
+				<maml:uri/>
+			</dev:type>
+			<dev:defaultValue></dev:defaultValue>
+		</command:parameter>
+		<command:parameter required="false" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="7">
+			<maml:name>UnjoinDomainCredential</maml:name>
+			<maml:description>
+				<maml:para>The credentials (user name/password) to unjoin the AD domain.</maml:para>
+								
+			</maml:description>
+			<command:parameterValue required="true" variableLength="false">PSCredential</command:parameterValue>
+			<dev:type>
+				<maml:name>PSCredential</maml:name>
+				<maml:uri/>
+			</dev:type>
+			<dev:defaultValue></dev:defaultValue>
+		</command:parameter>
+		<command:parameter required="" variableLength="false" globbing="false" pipelineInput="false" position="named">
+			<maml:name>WorkgroupName</maml:name>
+			<maml:description>
+				<maml:para>The workgroup name.</maml:para>
+								
+			</maml:description>
+			<command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+			<dev:type>
+				<maml:name>string</maml:name>
+				<maml:uri/>
+			</dev:type>
+			<dev:defaultValue></dev:defaultValue>
+		</command:parameter>
+		<command:parameter required="false" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="2">
+			<maml:name>X509Certificate</maml:name>
+			<maml:description>
+				<maml:para>An x509 certificate that when specified will be automatically uploaded to the cloud service and used for encrypting the extension private configuration.</maml:para>
+								
+			</maml:description>
+			<command:parameterValue required="true" variableLength="false">X509Certificate2</command:parameterValue>
+			<dev:type>
+				<maml:name>X509Certificate2</maml:name>
+				<maml:uri/>
+			</dev:type>
+			<dev:defaultValue></dev:defaultValue>
+		</command:parameter>
+	</command:parameters>
+	<!-- Input - Output section-->
+	<command:inputTypes>
+		<command:inputType>
+			<dev:type>
+				<maml:name></maml:name>
+				<maml:uri/>
+				<maml:description />
+			</dev:type>
+			<maml:description>
+				<maml:para>
+					<!-- description  -->
+					
+				</maml:para>
+			</maml:description>
+		</command:inputType>
+	</command:inputTypes>
+	<command:returnValues>
+		<command:returnValue>
+			<dev:type>
+				<maml:name></maml:name>
+				<maml:uri />
+				<maml:description />
+			</dev:type>   
+			<maml:description>
+				<maml:para>
+					<!-- description  -->
+					
+				</maml:para>
+			</maml:description> 
+		</command:returnValue>
+	</command:returnValues>
+	<!-- Error section-->
+	<command:terminatingErrors />
+	<command:nonTerminatingErrors />
+		<!-- Notes section  -->
+	<maml:alertSet>
+		<maml:title></maml:title>
+		<maml:alert>
+			<maml:para>
+                          
+                        </maml:para>
+		</maml:alert>
+		<maml:alert>
+			<maml:para></maml:para>
+		</maml:alert>
+	</maml:alertSet>
+	<!-- Example section  --> 
+	<command:examples>
+
+		<command:example>
+			<maml:title>
+				-------------------------- EXAMPLE 1 --------------------------
+			</maml:title> 
+			<maml:introduction>
+				<maml:para>C:\PS&gt;</maml:para>
+			</maml:introduction> 
+  			<dev:code>
+$extensionCfg = New-AzureServiceADDomainExtensionConfig -Role WorkerRole1 -DomainName $domain -Credential $cred -JoinOption 35;
+
+New-AzureDeployment -ServiceName $cloudSvc -Slot Production -Package $pkg -Configuration $config -ExtensionConfiguration $extensionCfg;                        </dev:code>
+       			<dev:remarks>
+                                <maml:para>Description</maml:para>
+                                <maml:para>-----------</maml:para>
+  			        <maml:para></maml:para>
+	                        <maml:para></maml:para>
+	                        <maml:para></maml:para>
+	                        <maml:para></maml:para>
+	                        <maml:para></maml:para>
+  			</dev:remarks>
+			<command:commandLines>
+				<command:commandLine>
+					<command:commandText></command:commandText>
+				</command:commandLine>
+			</command:commandLines>
+		</command:example>
+	</command:examples>
+	<!-- Link section  -->
+	<maml:relatedLinks>
+		<maml:navigationLink>
+			<maml:linkText></maml:linkText>
+			<maml:uri/>
+		</maml:navigationLink>
+	</maml:relatedLinks>
+</command:command>
+
+  <!-- v 1.3.0.36 -->
+  <command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10">
+    <command:details>
+      <command:name>
+        Get-AzureRoleSize
+      </command:name>
+      <maml:description>
+        <maml:para>Get the role size information for the current subscription.</maml:para>
+      </maml:description>
+      <maml:copyright>
+        <maml:para></maml:para>
+      </maml:copyright>
+      <command:verb>Get</command:verb>
+      <command:noun>AzureRoleSize</command:noun>
+      <dev:version></dev:version>
+    </command:details>
+    <maml:description>
+      <maml:para>Get the role size information for the current subscription.</maml:para>
+    </maml:description>
+    <!-- Cmdlet syntax section-->
+    <command:syntax>
+      <command:syntaxItem>
+        <maml:name>Get-AzureRoleSize</maml:name>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="named">
+          <maml:name>InstanceSize</maml:name>
+          <maml:description>
+            <maml:para>The role size name, e.g. ExtraSmall, Small, Large, ExtraLarge, A5, A6, A7, etc.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+        </command:parameter>
+      </command:syntaxItem>
+    </command:syntax>
+    <!-- Cmdlet parameter section  -->
+    <command:parameters>
+      <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="named">
+        <maml:name>InstanceSize</maml:name>
+        <maml:description>
+          <maml:para>The role size name, e.g. ExtraSmall, Small, Large, ExtraLarge, A5, A6, A7, etc.</maml:para>
+
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+        <dev:type>
+          <maml:name>string</maml:name>
+          <maml:uri/>
+        </dev:type>
+        <dev:defaultValue></dev:defaultValue>
+      </command:parameter>
+    </command:parameters>
+    <!-- Input - Output section-->
+    <command:inputTypes>
+      <command:inputType>
+        <dev:type>
+          <maml:name></maml:name>
+          <maml:uri/>
+          <maml:description />
+        </dev:type>
+        <maml:description>
+          <maml:para>
+            <!-- description  -->
+
+          </maml:para>
+        </maml:description>
+      </command:inputType>
+    </command:inputTypes>
+    <command:returnValues>
+      <command:returnValue>
+        <dev:type>
+          <maml:name></maml:name>
+          <maml:uri />
+          <maml:description />
+        </dev:type>
+        <maml:description>
+          <maml:para>
+            <!-- description  -->
+
+          </maml:para>
+        </maml:description>
+      </command:returnValue>
+    </command:returnValues>
+    <!-- Error section-->
+    <command:terminatingErrors />
+    <command:nonTerminatingErrors />
+    <!-- Notes section  -->
+    <maml:alertSet>
+      <maml:title></maml:title>
+      <maml:alert>
+        <maml:para>
+
+        </maml:para>
+      </maml:alert>
+      <maml:alert>
+        <maml:para></maml:para>
+      </maml:alert>
+    </maml:alertSet>
+    <!-- Example section  -->
+    <command:examples>
+
+      <command:example>
+        <maml:title>
+          -------------------------- EXAMPLE 1 --------------------------
+        </maml:title>
+        <maml:introduction>
+          <maml:para>C:\PS&gt;</maml:para>
+        </maml:introduction>
+        <dev:code>
+          Get-AzureRoleSize
+
+          InstanceSize               : A6
+          RoleSizeLabel              :
+          Cores                      : 4
+          MemoryInMb                 : 28672
+          SupportedByWebWorkerRoles  : True
+          SupportedByVirtualMachines : True
+          OperationDescription       : Get-AzureRoleSize
+          OperationId                : c5ed7b3a-03b3-548d-876b-6688c5b29cce
+          OperationStatus            : Succeeded
+
+          InstanceSize               : A7
+          RoleSizeLabel              :
+          Cores                      : 8
+          MemoryInMb                 : 57344
+          SupportedByWebWorkerRoles  : True
+          SupportedByVirtualMachines : True
+          OperationDescription       : Get-AzureRoleSize
+          OperationId                : c5ed7b3a-03b3-548d-876b-6688c5b29cce
+          OperationStatus            : Succeeded
+        </dev:code>
+        <dev:remarks>
+          <maml:para>Description</maml:para>
+          <maml:para>-----------</maml:para>
+          <maml:para></maml:para>
+          <maml:para></maml:para>
+          <maml:para></maml:para>
+          <maml:para></maml:para>
+          <maml:para></maml:para>
+        </dev:remarks>
+        <command:commandLines>
+          <command:commandLine>
+            <command:commandText></command:commandText>
+          </command:commandLine>
+        </command:commandLines>
+      </command:example>
+
+      <command:example>
+        <maml:title>
+          -------------------------- EXAMPLE 2 --------------------------
+        </maml:title>
+        <maml:introduction>
+          <maml:para>C:\PS&gt;</maml:para>
+        </maml:introduction>
+        <dev:code>
+          Get-AzureRoleSize -InstanceSize A7
+
+          InstanceSize               : A7
+          RoleSizeLabel              :
+          Cores                      : 8
+          MemoryInMb                 : 57344
+          SupportedByWebWorkerRoles  : True
+          SupportedByVirtualMachines : True
+          OperationDescription       : Get-AzureRoleSize
+          OperationId                : c5ed7b3a-03b3-548d-876b-6688c5b29cce
+          OperationStatus            : Succeeded
+        </dev:code>
+        <dev:remarks>
+          <maml:para>Description</maml:para>
+          <maml:para>-----------</maml:para>
+          <maml:para></maml:para>
+          <maml:para></maml:para>
+          <maml:para></maml:para>
+          <maml:para></maml:para>
+          <maml:para></maml:para>
+        </dev:remarks>
+        <command:commandLines>
+          <command:commandLine>
+            <command:commandText></command:commandText>
+          </command:commandLine>
+        </command:commandLines>
+      </command:example>
+
+      <command:example>
+        <maml:title>
+          -------------------------- EXAMPLE 3 --------------------------
+        </maml:title>
+        <maml:introduction>
+          <maml:para>C:\PS&gt;</maml:para>
+        </maml:introduction>
+        <dev:code>
+          Get-AzureService | Get-AzureVM | Get-AzureRoleSize
+
+          # Output of the role size information for all VMs in all the cloud services
+        </dev:code>
+        <dev:remarks>
+          <maml:para>Description</maml:para>
+          <maml:para>-----------</maml:para>
+          <maml:para></maml:para>
+          <maml:para></maml:para>
+          <maml:para></maml:para>
+          <maml:para></maml:para>
+          <maml:para></maml:para>
+        </dev:remarks>
+        <command:commandLines>
+          <command:commandLine>
+            <command:commandText></command:commandText>
+          </command:commandLine>
+        </command:commandLines>
+      </command:example>
+    </command:examples>
+    <!-- Link section  -->
+    <maml:relatedLinks>
+      <maml:navigationLink>
+        <maml:linkText></maml:linkText>
+        <maml:uri/>
+      </maml:navigationLink>
+    </maml:relatedLinks>
+  </command:command>
+
+<!-- v 1.3.0.36 -->
+<command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10">
+	<command:details>
+		<command:name>
+                   Test-AzureStaticVNetIP
+		</command:name>
+		<maml:description>
+			<maml:para>Test the availability of a static virtual network IP address, and get a list of suggestion if the queried one not available.</maml:para>
+		</maml:description>
+		<maml:copyright>
+			<maml:para></maml:para>
+		</maml:copyright>
+		<command:verb>Test</command:verb>
+		<command:noun>AzureStaticVNetIP</command:noun>
+		<dev:version></dev:version>
+	</command:details>
+	<maml:description>
+		<maml:para>Test the availability of a static virtual network IP address, and get a list of suggestion if the queried one not available.</maml:para>
+	</maml:description>
+	<!-- Cmdlet syntax section-->
+	<command:syntax>
+		<command:syntaxItem>
+			<maml:name>Test-AzureStaticVNetIP</maml:name>
+			<command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="1">
+				<maml:name>VNetName</maml:name>
+				<maml:description>
+					<maml:para>The Name of a Virtual Network.</maml:para>
+				</maml:description>
+				<command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+			</command:parameter>
+			<command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="2">
+				<maml:name>IPAddress</maml:name>
+				<maml:description>
+					<maml:para>The query of static VNet IPAddress.</maml:para>
+				</maml:description>
+				<command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+			</command:parameter>
+		</command:syntaxItem>
+	</command:syntax>
+	<!-- Cmdlet parameter section  -->
+	<command:parameters>
+		<command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="2">
+			<maml:name>IPAddress</maml:name>
+			<maml:description>
+				<maml:para>The query of static VNet IPAddress.</maml:para>
+								
+			</maml:description>
+			<command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+			<dev:type>
+				<maml:name>string</maml:name>
+				<maml:uri/>
+			</dev:type>
+			<dev:defaultValue></dev:defaultValue>
+		</command:parameter>
+		<command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="1">
+			<maml:name>VNetName</maml:name>
+			<maml:description>
+				<maml:para>The Name of a Virtual Network.</maml:para>
+								
+			</maml:description>
+			<command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+			<dev:type>
+				<maml:name>string</maml:name>
+				<maml:uri/>
+			</dev:type>
+			<dev:defaultValue></dev:defaultValue>
+		</command:parameter>
+	</command:parameters>
+	<!-- Input - Output section-->
+	<command:inputTypes>
+		<command:inputType>
+			<dev:type>
+				<maml:name></maml:name>
+				<maml:uri/>
+				<maml:description />
+			</dev:type>
+			<maml:description>
+				<maml:para>
+					<!-- description  -->
+					
+				</maml:para>
+			</maml:description>
+		</command:inputType>
+	</command:inputTypes>
+	<command:returnValues>
+		<command:returnValue>
+			<dev:type>
+				<maml:name></maml:name>
+				<maml:uri />
+				<maml:description />
+			</dev:type>   
+			<maml:description>
+				<maml:para>
+					<!-- description  -->
+					
+				</maml:para>
+			</maml:description> 
+		</command:returnValue>
+	</command:returnValues>
+	<!-- Error section-->
+	<command:terminatingErrors />
+	<command:nonTerminatingErrors />
+		<!-- Notes section  -->
+	<maml:alertSet>
+		<maml:title></maml:title>
+		<maml:alert>
+			<maml:para>
+                          
+                        </maml:para>
+		</maml:alert>
+		<maml:alert>
+			<maml:para></maml:para>
+		</maml:alert>
+	</maml:alertSet>
+	<!-- Example section  --> 
+	<command:examples>
+	</command:examples>
+	<!-- Link section  -->
+	<maml:relatedLinks>
+		<maml:navigationLink>
+			<maml:linkText></maml:linkText>
+			<maml:uri/>
+		</maml:navigationLink>
+	</maml:relatedLinks>
+</command:command>
+
+<!-- v 1.3.0.36 -->
+<command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10">
+	<command:details>
+		<command:name>
+                   Get-AzureStaticVNetIP
+		</command:name>
+		<maml:description>
+			<maml:para>Get the static VNet IP address information from a VM object, if any.</maml:para>
+		</maml:description>
+		<maml:copyright>
+			<maml:para></maml:para>
+		</maml:copyright>
+		<command:verb>Get</command:verb>
+		<command:noun>AzureStaticVNetIP</command:noun>
+		<dev:version></dev:version>
+	</command:details>
+	<maml:description>
+		<maml:para>Get the static VNet IP address information from a VM object, if any.</maml:para>
+	</maml:description>
+	<!-- Cmdlet syntax section-->
+	<command:syntax>
+		<command:syntaxItem>
+			<maml:name>Get-AzureStaticVNetIP</maml:name>
+			<command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true (ByValue)" position="1">
+				<maml:name>VM</maml:name>
+				<maml:description>
+					<maml:para>Persistent VM object.</maml:para>
+				</maml:description>
+				<command:parameterValue required="true" variableLength="false">PersistentVM</command:parameterValue>
+			</command:parameter>
+		</command:syntaxItem>
+	</command:syntax>
+	<!-- Cmdlet parameter section  -->
+	<command:parameters>
+		<command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true (ByValue)" position="1">
+			<maml:name>VM</maml:name>
+			<maml:description>
+				<maml:para>Persistent VM object.</maml:para>
+								
+			</maml:description>
+			<command:parameterValue required="true" variableLength="false">PersistentVM</command:parameterValue>
+			<dev:type>
+				<maml:name>PersistentVM</maml:name>
+				<maml:uri/>
+			</dev:type>
+			<dev:defaultValue></dev:defaultValue>
+		</command:parameter>
+	</command:parameters>
+	<!-- Input - Output section-->
+	<command:inputTypes>
+		<command:inputType>
+			<dev:type>
+				<maml:name></maml:name>
+				<maml:uri/>
+				<maml:description />
+			</dev:type>
+			<maml:description>
+				<maml:para>
+					<!-- description  -->
+					
+				</maml:para>
+			</maml:description>
+		</command:inputType>
+	</command:inputTypes>
+	<command:returnValues>
+		<command:returnValue>
+			<dev:type>
+				<maml:name></maml:name>
+				<maml:uri />
+				<maml:description />
+			</dev:type>   
+			<maml:description>
+				<maml:para>
+					<!-- description  -->
+					
+				</maml:para>
+			</maml:description> 
+		</command:returnValue>
+	</command:returnValues>
+	<!-- Error section-->
+	<command:terminatingErrors />
+	<command:nonTerminatingErrors />
+		<!-- Notes section  -->
+	<maml:alertSet>
+		<maml:title></maml:title>
+		<maml:alert>
+			<maml:para>
+                          
+                        </maml:para>
+		</maml:alert>
+		<maml:alert>
+			<maml:para></maml:para>
+		</maml:alert>
+	</maml:alertSet>
+	<!-- Example section  --> 
+	<command:examples>
+	</command:examples>
+	<!-- Link section  -->
+	<maml:relatedLinks>
+		<maml:navigationLink>
+			<maml:linkText></maml:linkText>
+			<maml:uri/>
+		</maml:navigationLink>
+	</maml:relatedLinks>
+</command:command>
+
+<!-- v 1.3.0.36 -->
+<command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10">
+	<command:details>
+		<command:name>
+                   Remove-AzureStaticVNetIP
+		</command:name>
+		<maml:description>
+			<maml:para>Remove the static VNet IP address information from a VM object, if any.</maml:para>
+		</maml:description>
+		<maml:copyright>
+			<maml:para></maml:para>
+		</maml:copyright>
+		<command:verb>Remove</command:verb>
+		<command:noun>AzureStaticVNetIP</command:noun>
+		<dev:version></dev:version>
+	</command:details>
+	<maml:description>
+		<maml:para>Remove the static VNet IP address information from a VM object, if any.</maml:para>
+	</maml:description>
+	<!-- Cmdlet syntax section-->
+	<command:syntax>
+		<command:syntaxItem>
+			<maml:name>Remove-AzureStaticVNetIP</maml:name>
+			<command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true (ByValue)" position="1">
+				<maml:name>VM</maml:name>
+				<maml:description>
+					<maml:para>Persistent VM object.</maml:para>
+				</maml:description>
+				<command:parameterValue required="true" variableLength="false">PersistentVM</command:parameterValue>
+			</command:parameter>
+		</command:syntaxItem>
+	</command:syntax>
+	<!-- Cmdlet parameter section  -->
+	<command:parameters>
+		<command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true (ByValue)" position="1">
+			<maml:name>VM</maml:name>
+			<maml:description>
+				<maml:para>Persistent VM object.</maml:para>
+								
+			</maml:description>
+			<command:parameterValue required="true" variableLength="false">PersistentVM</command:parameterValue>
+			<dev:type>
+				<maml:name>PersistentVM</maml:name>
+				<maml:uri/>
+			</dev:type>
+			<dev:defaultValue></dev:defaultValue>
+		</command:parameter>
+	</command:parameters>
+	<!-- Input - Output section-->
+	<command:inputTypes>
+		<command:inputType>
+			<dev:type>
+				<maml:name></maml:name>
+				<maml:uri/>
+				<maml:description />
+			</dev:type>
+			<maml:description>
+				<maml:para>
+					<!-- description  -->
+					
+				</maml:para>
+			</maml:description>
+		</command:inputType>
+	</command:inputTypes>
+	<command:returnValues>
+		<command:returnValue>
+			<dev:type>
+				<maml:name></maml:name>
+				<maml:uri />
+				<maml:description />
+			</dev:type>   
+			<maml:description>
+				<maml:para>
+					<!-- description  -->
+					
+				</maml:para>
+			</maml:description> 
+		</command:returnValue>
+	</command:returnValues>
+	<!-- Error section-->
+	<command:terminatingErrors />
+	<command:nonTerminatingErrors />
+		<!-- Notes section  -->
+	<maml:alertSet>
+		<maml:title></maml:title>
+		<maml:alert>
+			<maml:para>
+                          
+                        </maml:para>
+		</maml:alert>
+		<maml:alert>
+			<maml:para></maml:para>
+		</maml:alert>
+	</maml:alertSet>
+	<!-- Example section  --> 
+	<command:examples>
+	</command:examples>
+	<!-- Link section  -->
+	<maml:relatedLinks>
+		<maml:navigationLink>
+			<maml:linkText></maml:linkText>
+			<maml:uri/>
+		</maml:navigationLink>
+	</maml:relatedLinks>
+</command:command>
+
+<!-- v 1.3.0.36 -->
+<command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10">
+	<command:details>
+		<command:name>
+                   Set-AzureStaticVNetIP
+		</command:name>
+		<maml:description>
+			<maml:para>Set the static VNet IP address information from a VM object, if any.</maml:para>
+		</maml:description>
+		<maml:copyright>
+			<maml:para></maml:para>
+		</maml:copyright>
+		<command:verb>Set</command:verb>
+		<command:noun>AzureStaticVNetIP</command:noun>
+		<dev:version></dev:version>
+	</command:details>
+	<maml:description>
+		<maml:para>Get the static VNet IP address information from a VM object, if any.</maml:para>
+	</maml:description>
+	<!-- Cmdlet syntax section-->
+	<command:syntax>
+		<command:syntaxItem>
+			<maml:name>Set-AzureStaticVNetIP</maml:name>
+			<command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true (ByValue)" position="1">
+				<maml:name>VM</maml:name>
+				<maml:description>
+					<maml:para>Persistent VM object.</maml:para>
+				</maml:description>
+				<command:parameterValue required="true" variableLength="false">PersistentVM</command:parameterValue>
+			</command:parameter>
+			<command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="2">
+				<maml:name>IPAddress</maml:name>
+				<maml:description>
+					<maml:para>Static VNet IP Address</maml:para>
+				</maml:description>
+				<command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+			</command:parameter>
+		</command:syntaxItem>
+	</command:syntax>
+	<!-- Cmdlet parameter section  -->
+	<command:parameters>
+		<command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="2">
+			<maml:name>IPAddress</maml:name>
+			<maml:description>
+				<maml:para>Static VNet IP Address</maml:para>
+								
+			</maml:description>
+			<command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+			<dev:type>
+				<maml:name>string</maml:name>
+				<maml:uri/>
+			</dev:type>
+			<dev:defaultValue></dev:defaultValue>
+		</command:parameter>
+		<command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true (ByValue)" position="1">
+			<maml:name>VM</maml:name>
+			<maml:description>
+				<maml:para>Persistent VM object.</maml:para>
+								
+			</maml:description>
+			<command:parameterValue required="true" variableLength="false">PersistentVM</command:parameterValue>
+			<dev:type>
+				<maml:name>PersistentVM</maml:name>
+				<maml:uri/>
+			</dev:type>
+			<dev:defaultValue></dev:defaultValue>
+		</command:parameter>
+	</command:parameters>
+	<!-- Input - Output section-->
+	<command:inputTypes>
+		<command:inputType>
+			<dev:type>
+				<maml:name></maml:name>
+				<maml:uri/>
+				<maml:description />
+			</dev:type>
+			<maml:description>
+				<maml:para>
+					<!-- description  -->
+					
+				</maml:para>
+			</maml:description>
+		</command:inputType>
+	</command:inputTypes>
+	<command:returnValues>
+		<command:returnValue>
+			<dev:type>
+				<maml:name></maml:name>
+				<maml:uri />
+				<maml:description />
+			</dev:type>   
+			<maml:description>
+				<maml:para>
+					<!-- description  -->
+					
+				</maml:para>
+			</maml:description> 
+		</command:returnValue>
+	</command:returnValues>
+	<!-- Error section-->
+	<command:terminatingErrors />
+	<command:nonTerminatingErrors />
+		<!-- Notes section  -->
+	<maml:alertSet>
+		<maml:title></maml:title>
+		<maml:alert>
+			<maml:para>
+                          
+                        </maml:para>
+		</maml:alert>
+		<maml:alert>
+			<maml:para></maml:para>
+		</maml:alert>
+	</maml:alertSet>
+	<!-- Example section  --> 
+	<command:examples>
+	</command:examples>
+	<!-- Link section  -->
+	<maml:relatedLinks>
+		<maml:navigationLink>
+			<maml:linkText></maml:linkText>
+			<maml:uri/>
+		</maml:navigationLink>
+	</maml:relatedLinks>
+</command:command>
+
+
+
 </helpItems>

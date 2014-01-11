@@ -44,7 +44,6 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
                 null,
                 this.CommandRuntime.ToString(),
                 () => this.NetworkClient.Gateways.GetSharedKey(this.VNetName, this.LocalNetworkSiteName),
-                this.WaitForNewGatewayOperation,
                 (operation, sharedKey) => new SharedKeyContext
                 {
                     OperationId          = operation.Id,

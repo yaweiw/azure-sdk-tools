@@ -2,7 +2,7 @@
 <SqlDatabaseSetting>
   <ServerLocation>East Asia</ServerLocation>
   <SubscriptionId>f41585e6-5717-4b9b-b600-d3220c5f3d8d</SubscriptionId>
-  <ManageUrl>https://lqtqbo6kkp.windows.database.net</ManageUrl>
+  <ManageUrl>https://testserver.windows.database.net</ManageUrl>
   <SqlAuthUserName>mylogin</SqlAuthUserName>
   <SqlAuthPassword>Pa$$w0rd!</SqlAuthPassword>
   <SourceDatabaseName>testdb1</SourceDatabaseName>

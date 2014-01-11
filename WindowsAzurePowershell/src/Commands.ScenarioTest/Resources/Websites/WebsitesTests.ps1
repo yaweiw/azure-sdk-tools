@@ -26,7 +26,7 @@ function Test-WithInvalidCredentials
 	Remove-AllSubscriptions
 
 	# Test
-	Assert-Throws $cloudCmdlet "Call Set-AzureSubscription and Select-AzureSubscription first."
+	Assert-Throws $cloudCmdlet "No current subscription has been designated. Use Select-AzureSubscription -Current &lt;subscriptionName&gt; to set the current subscription."
 }
 
 ########################################################################### Remove-AzureWebsite Scenario Tests ###########################################################################
@@ -836,4 +836,26 @@ function Test-NewAzureWebSiteUpdateGit
 	{
 		Remove-AzureWebsite $siteName -Force
 	}
+}
+
+########################################################################### Set-AzureWebsite Scenario Tests ###########################################################################
+
+<#
+.SYNOPSIS
+Tests Set-AzureWebsite cmdlet
+#>
+function Test-SetAzureWebsite
+{
+	# Setup
+	$name = Get-WebsiteName
+	New-AzureWebsite $name
+
+	# Test
+	Set-AzureWebsite $name -ManagedPipelineMode Classic
+	Set-AzureWebsite $name -WebSocketsEnabled $true
+
+	# Assert
+	$website = Get-AzureWebsite $name
+	Assert-AreEqual Classic $website.ManagedPipelineMode
+	Assert-AreEqual $true $website.WebSocketsEnabled
 }

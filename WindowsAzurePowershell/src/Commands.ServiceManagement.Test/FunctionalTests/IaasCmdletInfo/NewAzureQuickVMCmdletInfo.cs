@@ -49,13 +49,24 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
             }
         }
 
-        public NewAzureQuickVMCmdletInfo(OS os, string name, string serviceName, string imageName, string userName, string password, string locationName, InstanceSize? instanceSize)
+        public NewAzureQuickVMCmdletInfo(OS os, string name, string serviceName, string imageName, string userName, string password, string locationName, string instanceSize)
             : this(os, name, serviceName, imageName, userName, password, locationName)
         {
-            if (instanceSize.HasValue)
+            if (! string.IsNullOrEmpty(instanceSize))
             {
-                cmdletParams.Add(new CmdletParam("InstanceSize", instanceSize.ToString()));
-            }               
+                cmdletParams.Add(new CmdletParam("InstanceSize", instanceSize));
+            }
+        }
+
+        public NewAzureQuickVMCmdletInfo(OS os, string name, string serviceName, string imageName, string userName, string password, string locationName, string instanceSize, string disableWinRMHttps)
+            : this(os, name, serviceName, imageName, userName, password, locationName, instanceSize)
+        {
+            if (!string.IsNullOrEmpty(disableWinRMHttps))
+            {
+
+                cmdletParams.Add(new CmdletParam("DisableWinRMHttps",disableWinRMHttps));
+            }
+
         }
 
         public NewAzureQuickVMCmdletInfo(
@@ -65,10 +76,10 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
             string affinityGroup, 
             string availabilitySetName, 
             CertificateSettingList certificates, 
-            DnsServer[] dnsSettings, 
+            DnsServer[] dnsSettings,
             string hostCaching,
             string imageName,
-            InstanceSize? instanceSize,            
+            string instanceSize,
             string location,
             string mediaLocation,
             string name,

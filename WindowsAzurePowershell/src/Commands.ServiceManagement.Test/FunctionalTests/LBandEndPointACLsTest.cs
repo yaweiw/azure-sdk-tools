@@ -39,7 +39,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
         }
 
         /// <summary>
-        /// Test NoLB, NoProbe, DefaultProbe, CustomProbe parameter sets of Azure EndPoint cmdlets and Set-AzureLoadBalancedEndpoint cmdlet
+        /// Test NoLB, NoProbe, DefaultProbe, CustomProbe parameter sets of Azure Endpoint cmdlets and Set-AzureLoadBalancedEndpoint cmdlet
         /// </summary>
         [TestMethod(), TestCategory("Functional"), TestProperty("Feature", "IAAS"), Priority(1), Owner("priya"), Description("Test the cmdlets ((Add,Get,Set,Remove)-AzureEndpoint), & Set-AzureLoadBalancedEndpoint")]
         public void AzureEndpointTest()
@@ -247,7 +247,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
         }
 
         /// <summary>
-        /// Add an EndPoint with ACLs during deployment
+        /// Add an Endpoint with ACLs during deployment
         /// </summary>
         [TestMethod(), TestCategory("Functional"), TestProperty("Feature", "IAAS"), Priority(1), Owner("priya"), Description("Test ACLs cmdlets New-AzureAclConfig, Set-AzureAclConfig")]
         public void AddEndPointACLsWithNewDeployment()
@@ -265,14 +265,14 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
             vmPowershellCmdlets.SetAzureAclConfig(SetACLConfig.AddRule, aclObj, 100, ACLAction.Permit, "172.0.0.0/8", "notes1");
             vmPowershellCmdlets.SetAzureAclConfig(SetACLConfig.AddRule, aclObj, 200, ACLAction.Deny, "10.0.0.0/8", "notes2");
 
-            AzureVMConfigInfo azureVMConfigInfo1 = new AzureVMConfigInfo(newAzureVM1Name, InstanceSize.ExtraSmall, imageName);
-            AzureVMConfigInfo azureVMConfigInfo2 = new AzureVMConfigInfo(newAzureVM2Name, InstanceSize.ExtraSmall, imageName);
-            AzureProvisioningConfigInfo azureProvisioningConfig = new AzureProvisioningConfigInfo(OS.Windows, username, password);
-            AddAzureDataDiskConfig azureDataDiskConfigInfo = new AddAzureDataDiskConfig(DiskCreateOption.CreateNew, 50, "datadisk1", 0);
-            AzureEndPointConfigInfo azureEndPointConfigInfo = new AzureEndPointConfigInfo(AzureEndPointConfigInfo.ParameterSet.DefaultProbe, ProtocolInfo.tcp, 80, 80, "web", "lbweb", aclObj, true);
+            var azureVMConfigInfo1 = new AzureVMConfigInfo(newAzureVM1Name, InstanceSize.ExtraSmall.ToString(), imageName);
+            var azureVMConfigInfo2 = new AzureVMConfigInfo(newAzureVM2Name, InstanceSize.ExtraSmall.ToString(), imageName);
+            var azureProvisioningConfig = new AzureProvisioningConfigInfo(OS.Windows, username, password);
+            var azureDataDiskConfigInfo = new AddAzureDataDiskConfig(DiskCreateOption.CreateNew, 50, "datadisk1", 0);
+            var azureEndPointConfigInfo = new AzureEndPointConfigInfo(AzureEndPointConfigInfo.ParameterSet.DefaultProbe, ProtocolInfo.tcp, 80, 80, "web", "lbweb", aclObj, true);
 
-            PersistentVMConfigInfo persistentVMConfigInfo1 = new PersistentVMConfigInfo(azureVMConfigInfo1, azureProvisioningConfig, azureDataDiskConfigInfo, azureEndPointConfigInfo);
-            PersistentVMConfigInfo persistentVMConfigInfo2 = new PersistentVMConfigInfo(azureVMConfigInfo2, azureProvisioningConfig, azureDataDiskConfigInfo, azureEndPointConfigInfo);
+            var persistentVMConfigInfo1 = new PersistentVMConfigInfo(azureVMConfigInfo1, azureProvisioningConfig, azureDataDiskConfigInfo, azureEndPointConfigInfo);
+            var persistentVMConfigInfo2 = new PersistentVMConfigInfo(azureVMConfigInfo2, azureProvisioningConfig, azureDataDiskConfigInfo, azureEndPointConfigInfo);
 
             PersistentVM persistentVM1 = vmPowershellCmdlets.GetPersistentVM(persistentVMConfigInfo1);
             PersistentVM persistentVM2 = vmPowershellCmdlets.GetPersistentVM(persistentVMConfigInfo2);
@@ -290,15 +290,17 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
         }
 
         /// <summary>
-        /// Add an EndPoint with ACLs to an existing deployment
+        /// Add an Endpoint with ACLs to an existing deployment
         /// </summary>
         [TestMethod(), TestCategory("Functional"), TestProperty("Feature", "IAAS"), Priority(1), Owner("priya"), Description("Test ACLs cmdlets New-AzureAclConfig, Set-AzureAclConfig")]
         public void AddEndPointACLsonExistingDeployment()
         {
             StartTest(MethodBase.GetCurrentMethod().Name, testStartTime);
             string newAzureQuickVMName = Utilities.GetUniqueShortName(vmNamePrefix);
+            const string endpointName = "web";
             imageName = vmPowershellCmdlets.GetAzureVMImageName(new[] { "Windows" }, false);
-            vmPowershellCmdlets.NewAzureQuickVM(OS.Windows, newAzureQuickVMName, serviceName, imageName, username, password, locationName);
+            vmPowershellCmdlets.NewAzureQuickVM(OS.Windows, newAzureQuickVMName, serviceName, imageName, username,
+                password, locationName);
 
             PersistentVMRoleContext vmRoleCtxt = vmPowershellCmdlets.GetAzureVM(newAzureQuickVMName, serviceName);
             Assert.AreEqual(newAzureQuickVMName, vmRoleCtxt.Name, true);
@@ -306,16 +308,17 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
             NetworkAclObject aclObj = vmPowershellCmdlets.NewAzureAclConfig();
             vmPowershellCmdlets.SetAzureAclConfig(SetACLConfig.AddRule, aclObj, 100, ACLAction.Deny, "172.0.0.0/8", "notes3");
 
-            AzureEndPointConfigInfo epConfigInfo = new AzureEndPointConfigInfo(AzureEndPointConfigInfo.ParameterSet.NoLB, ProtocolInfo.tcp, 80, 80, "web", aclObj); 
+            var epConfigInfo = new AzureEndPointConfigInfo(AzureEndPointConfigInfo.ParameterSet.NoLB, ProtocolInfo.tcp,
+                80, 80, endpointName, aclObj);
 
             vmPowershellCmdlets.AddEndPoint(newAzureQuickVMName, serviceName, new[] { epConfigInfo });
 
-            // Cleanup
-            vmPowershellCmdlets.RemoveAzureVM(newAzureQuickVMName, serviceName);
-            Assert.AreEqual(null, vmPowershellCmdlets.GetAzureVM(newAzureQuickVMName, serviceName));
+            var returnedVm = vmPowershellCmdlets.GetAzureVM(newAzureQuickVMName, serviceName);
+            var returnedAclContext = vmPowershellCmdlets.GetAzureAclConfig(returnedVm.VM, endpointName);
+
+            Assert.IsTrue(Verify.AzureAclConfig(aclObj, returnedAclContext));
 
             pass = true;
-
         }
 
         [TestCleanup]
