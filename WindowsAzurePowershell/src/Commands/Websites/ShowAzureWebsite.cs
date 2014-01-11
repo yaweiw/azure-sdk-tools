@@ -26,9 +26,12 @@ namespace Microsoft.WindowsAzure.Commands.Websites
     [Cmdlet(VerbsCommon.Show, "AzureWebsite")]
     public class ShowAzureWebsiteCommand : WebsiteContextBaseCmdlet
     {
+        [Parameter(HelpMessage = "The website slot name")]
+        public string Slot { get; set; }
+
         public override void ExecuteCmdlet()
         {
-            Site websiteObject = WebsitesClient.GetWebsite(Name);
+            Site websiteObject = WebsitesClient.GetWebsite(Name, Slot);
             General.LaunchWebPage("http://" + websiteObject.HostNames.First());
         }
     }

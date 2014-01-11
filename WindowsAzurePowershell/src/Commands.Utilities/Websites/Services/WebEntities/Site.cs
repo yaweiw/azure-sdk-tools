@@ -18,6 +18,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites.Services.WebEntitie
     using System.Collections.Generic;
     using System.Linq;
     using System.Runtime.Serialization;
+using Microsoft.WindowsAzure.Management.WebSites.Models;
 
     [DataContract(Name = "UsageState", Namespace = UriElements.ServiceNamespace)]
     public enum UsageState
@@ -108,6 +109,8 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites.Services.WebEntitie
         [DataMember(IsRequired = false)]
         public HostNameSslStates HostNameSslStates { get; set; }
 
+        public WebSiteComputeMode ComputeMode { get; set; }
+
         internal string GetProperty(string property)
         {
             if (SiteProperties.Properties.Any(kvp => kvp.Name.Equals(property, StringComparison.InvariantCultureIgnoreCase)))
@@ -124,6 +127,9 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites.Services.WebEntitie
     {
         [DataMember(IsRequired = false)]
         public WebSpace WebSpaceToCreate { get; set; }
+
+        [DataMember(IsRequired = false)]
+        public bool DisableClone { get; set; }
     }
 
     [DataContract(Namespace = UriElements.ServiceNamespace, Name = "Site")]
