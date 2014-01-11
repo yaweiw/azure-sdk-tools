@@ -556,7 +556,13 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
         /// <param name="deleteEmptyServerFarm">Pass true to delete server farm is this was the last website in it.</param>
         public void DeleteWebsite(string webspaceName, string websiteName, bool deleteMetrics = false, bool deleteEmptyServerFarm = false)
         {
-            WebsiteManagementClient.WebSites.Delete(webspaceName, websiteName, deleteEmptyServerFarm, deleteMetrics);
+            WebSiteDeleteParameters input = new WebSiteDeleteParameters()
+            {
+                DeleteAllSlots = false,
+                DeleteEmptyServerFarm = deleteEmptyServerFarm,
+                DeleteMetrics = deleteMetrics
+            };
+            WebsiteManagementClient.WebSites.Delete(webspaceName, websiteName, input);
         }
 
         /// <summary>
