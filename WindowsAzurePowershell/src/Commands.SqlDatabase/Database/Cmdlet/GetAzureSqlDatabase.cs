@@ -1,4 +1,4 @@
-// ----------------------------------------------------------------------------------
+﻿// ----------------------------------------------------------------------------------
 // Copyright Microsoft Corporation
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -89,6 +89,26 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Database.Cmdlet
         /// </summary>
         protected override void ProcessRecord()
         {
+            IServerDataServiceContext context = null;
+            switch (this.ParameterSetName)
+            {
+                case ByConnectionContext:
+                    context = this.ConnectionContext;
+                    break;
+
+                case ByServerName:
+                    context = ServerDataServiceCertAuth.Create(this.ServerName, WindowsAzureProfile.Instance.CurrentSubscription);
+                    break;
+
+                default:
+                    throw new NotSupportedException("ParameterSet");
+            }
+
+            ProcessWithContext(context);
+        }
+
+        private string GetDatabaseName()
+        {
             // This is to enforce the mutual exclusivity of the parameters: Database
             // and DatabaseName.  This can't be done with parameter sets without changing
             // existing behaviour of the cmdlet.
@@ -113,81 +133,34 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Database.Cmdlet
             {
                 databaseName = this.DatabaseName;
             }
-
-            switch (this.ParameterSetName)
-            {
-                case ByConnectionContext:
-                    this.ProcessWithConnectionContext(databaseName);
-                    break;
-
-                case ByServerName:
-                    this.ProcessWithServerName(databaseName);
-                    break;
-            }
-        }
-
-        /// <summary>
-        /// Process the record with the provided server name
-        /// </summary>
-        /// <param name="databaseName">The name of the database to retrieve</param>
-        private void ProcessWithServerName(string databaseName)
-        {
-            Func<string> GetClientRequestId = () => string.Empty;
-            try
-            {
-                // Get the current subscription data.
-                WindowsAzureSubscription subscription = WindowsAzureProfile.Instance.CurrentSubscription;
-
-                // create a temporary context
-                ServerDataServiceCertAuth context =
-                    ServerDataServiceCertAuth.Create(this.ServerName, subscription);
-
-                GetClientRequestId = () => context.ClientRequestId;
-
-                if (databaseName != null)
-                {
-                    // Retrieve the database with the specified name
-                    this.WriteObject(context.GetDatabase(databaseName));
-                }
-                else
-                {
-                    // No name specified, retrieve all databases in the server
-                    this.WriteObject(context.GetDatabases());
-                }
-            }
-            catch (Exception ex)
-            {
-                SqlDatabaseExceptionHandler.WriteErrorDetails(
-                    this,
-                    GetClientRequestId(),
-                    ex);
-            }
+            return databaseName;
         }
 
         /// <summary>
         /// Process the request using the provided connection context
         /// </summary>
         /// <param name="databaseName">the name of the database to retrieve</param>
-        private void ProcessWithConnectionContext(string databaseName)
+        private void ProcessWithContext(IServerDataServiceContext context)
         {
+            string databaseName = GetDatabaseName();
             try
             {
                 if (databaseName != null)
                 {
                     // Retrieve the database with the specified name
-                    this.WriteObject(this.ConnectionContext.GetDatabase(databaseName));
+                    this.WriteObject(context.GetDatabase(databaseName), true);
                 }
                 else
                 {
                     // No name specified, retrieve all databases in the server
-                    this.WriteObject(this.ConnectionContext.GetDatabases(), true);
+                    this.WriteObject(context.GetDatabases(), true);
                 }
             }
             catch (Exception ex)
             {
                 SqlDatabaseExceptionHandler.WriteErrorDetails(
                     this,
-                    this.ConnectionContext.ClientRequestId,
+                    context.ClientRequestId,
                     ex);
             }
         }

@@ -55,7 +55,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.CloudService.Utilities
         public void ServiceComponentsTest()
         {
             newServiceCmdlet.NewAzureServiceProcess(Directory.GetCurrentDirectory(), serviceName);
-            ServiceComponents components = new ServiceComponents(new ServicePathInfo(serviceName));
+            ServiceComponents components = new ServiceComponents(new PowerShellProjectPathInfo(serviceName));
             AzureAssert.AreEqualServiceComponents(components);
         }
 
@@ -78,7 +78,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.CloudService.Utilities
         public void ServiceComponentsTestCloudConfigDoesNotExistFail()
         {
             newServiceCmdlet.NewAzureServiceProcess(Directory.GetCurrentDirectory(), serviceName);
-            ServicePathInfo paths = new ServicePathInfo(serviceName);
+            PowerShellProjectPathInfo paths = new PowerShellProjectPathInfo(serviceName);
 
             try
             {
@@ -97,7 +97,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.CloudService.Utilities
         public void ServiceComponentsTestLocalConfigDoesNotExistFail()
         {
             newServiceCmdlet.NewAzureServiceProcess(Directory.GetCurrentDirectory(), serviceName);
-            ServicePathInfo paths = new ServicePathInfo(serviceName);
+            PowerShellProjectPathInfo paths = new PowerShellProjectPathInfo(serviceName);
 
             try
             {
@@ -116,7 +116,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.CloudService.Utilities
         public void ServiceComponentsTestSettingsDoesNotExistFail()
         {
             newServiceCmdlet.NewAzureServiceProcess(Directory.GetCurrentDirectory(), serviceName);
-            ServicePathInfo paths = new ServicePathInfo(serviceName);
+            PowerShellProjectPathInfo paths = new PowerShellProjectPathInfo(serviceName);
 
             try
             {
@@ -135,7 +135,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.CloudService.Utilities
         public void ServiceComponentsTestDefinitionDoesNotExistFail()
         {
             newServiceCmdlet.NewAzureServiceProcess(Directory.GetCurrentDirectory(), serviceName);
-            ServicePathInfo paths = new ServicePathInfo(serviceName);
+            PowerShellProjectPathInfo paths = new PowerShellProjectPathInfo(serviceName);
 
             try
             {

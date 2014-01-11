@@ -12,6 +12,9 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
+using System.Reflection;
+using Microsoft.WindowsAzure.Commands.ServiceManagement.Preview.Model;
+
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
 {
     using System;
@@ -306,5 +309,95 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
                 return false;
             }
         }
+
+        internal static bool AzureAclConfig(NetworkAclObject expectedAcl, NetworkAclObject actualAcl)
+        {
+            for (int i = 0; i < expectedAcl.Rules.Count; i++)
+            {
+                Assert.IsTrue(CompareContext(expectedAcl.Rules[i], actualAcl.Rules[i]));
+            }
+            return true;
+        }
+
+        internal static bool AzureReservedIP(ReservedIPContext rsvIP, string name, string label, string affname,
+            string ip, string dep, string svcName, string id)
+        {
+            Utilities.PrintContext(rsvIP);
+            Assert.AreEqual(name, rsvIP.ReservedIPName, "Reserved IP names are not equal!");
+            Assert.AreEqual(label, rsvIP.Label, "Reserved IP labels are not equal!");
+            Assert.AreEqual(affname, rsvIP.AffinityGroup, "Reserved IP affinity groups are not equal!");
+            if (!string.IsNullOrEmpty(ip))
+            {
+                Assert.AreEqual(ip, rsvIP.Address, "Reserved IP addresses are not equal!");
+            }
+            Assert.AreEqual(dep, rsvIP.DeploymentName, "Reserved IP deployment names are not equal!");
+            Assert.AreEqual(svcName, rsvIP.ServiceName, "Reserved IP service names are not equal!");
+            if (!string.IsNullOrEmpty(id))
+            {
+                Assert.AreEqual(id, rsvIP.Id, "Reserved IP IDs are not equal!");
+            }
+            return true;
+        }
+
+        internal static bool AzureReservedIPNotInUse(ReservedIPContext rsvIP, string name, string label, string affname,
+            string id = null)
+        {
+            AzureReservedIP(rsvIP, name, label, affname, null, null, null, id);
+            Assert.AreEqual(false, rsvIP.InUse);
+            return true;
+        }
+
+        internal static bool AzureReservedIPInUse(ReservedIPContext rsvIP, string name, string label, string affname,
+            string ip = null, string deploymentName =null, string svcName = null)
+        {
+            AzureReservedIP(rsvIP, name, label, affname, ip, deploymentName, svcName, null);
+            Assert.AreEqual(true, rsvIP.InUse);
+            return true;
+        }
+        
+        
+
+        private static bool CompareContext<T>(T obj1, T obj2)
+        {
+            bool result = true;
+            Type type = typeof(T);
+
+            foreach (PropertyInfo property in type.GetProperties(BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly))
+            {
+                string typeName = property.PropertyType.FullName;
+                if (typeName.Equals("System.String") || typeName.Equals("System.Int32") || typeName.Equals("System.Uri") || typeName.Contains("Nullable"))
+                {
+                    if (typeName.Contains("System.DateTime"))
+                    {
+                        continue;
+                    }
+
+                    var obj1Value = property.GetValue(obj1, null);
+                    var obj2Value = property.GetValue(obj2, null);
+                    Console.WriteLine("Expected: {0}", obj1Value);
+                    Console.WriteLine("Acutal: {0}", obj2Value);
+
+                    if (obj1Value == null)
+                    {
+                        result &= (obj2Value == null);
+                    }
+                    else if (typeName.Contains("System.String"))
+                    {
+                        result &= (string.Compare(obj1Value.ToString(), obj2Value.ToString(), StringComparison.CurrentCultureIgnoreCase) == 0);
+                    }
+                    else
+                    {
+                        result &= (obj1Value.Equals(obj2Value));
+                    }
+                }
+                else
+                {
+                    Console.WriteLine("This type is not compared: {0}", typeName);
+                }
+            }
+            return result;
+        }
+
+        
     }
 }

@@ -125,6 +125,12 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.PersistentVMs
             set;
         }
 
+        public virtual string ReservedIPName
+        {
+            get;
+            set;
+        }
+
         public void NewAzureVMProcess()
         {
             WindowsAzureSubscription currentSubscription = CurrentSubscription;
@@ -214,7 +220,8 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.PersistentVMs
                         Name = this.DeploymentName ?? this.ServiceName,
                         Label = this.DeploymentLabel ?? this.ServiceName,
                         VirtualNetworkName = this.VNetName,
-                        Roles = { persistentVMs[0] }
+                        Roles = { persistentVMs[0] },
+                        ReservedIPName = ReservedIPName
                     };
 
                     if (this.DnsSettings != null)
@@ -300,23 +307,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.PersistentVMs
 
         private Management.Compute.Models.Role CreatePersistentVMRole(PersistentVM persistentVM, CloudStorageAccount currentStorage)
         {
-            if (!string.IsNullOrEmpty(persistentVM.OSVirtualHardDisk.DiskName) && !NetworkConfigurationSetBuilder.HasNetworkConfigurationSet(persistentVM.ConfigurationSets))
-            {
-//                var networkConfigurationSetBuilder = new NetworkConfigurationSetBuilder(persistentVM.ConfigurationSets);
-//
-//                Disk disk = this.Channel.GetDisk(CurrentSubscription.SubscriptionId, persistentVM.OSVirtualHardDisk.DiskName);
-//                if (disk.OS == OS.Windows && !persistentVM.NoRDPEndpoint)
-//                {
-//                    networkConfigurationSetBuilder.AddRdpEndpoint();
-//                }
-//                else if (disk.OS == OS.Linux && !persistentVM.NoSSHEndpoint)
-//                {
-//                    networkConfigurationSetBuilder.AddSshEndpoint();
-//                }
-            }
-
             var mediaLinkFactory = new MediaLinkFactory(currentStorage, this.ServiceName, persistentVM.RoleName);
-
             if (persistentVM.OSVirtualHardDisk.MediaLink == null && string.IsNullOrEmpty(persistentVM.OSVirtualHardDisk.DiskName))
             {
                 persistentVM.OSVirtualHardDisk.MediaLink = mediaLinkFactory.Create();
@@ -332,8 +323,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.PersistentVMs
                 AvailabilitySetName = persistentVM.AvailabilitySetName,
                 OSVirtualHardDisk = Mapper.Map(persistentVM.OSVirtualHardDisk, new Management.Compute.Models.OSVirtualHardDisk()),
                 RoleName = persistentVM.RoleName,
-                RoleSize = string.IsNullOrEmpty(persistentVM.RoleSize) ? null :
-                           (VirtualMachineRoleSize?)Enum.Parse(typeof(VirtualMachineRoleSize), persistentVM.RoleSize, true),
+                RoleSize = persistentVM.RoleSize,
                 RoleType = persistentVM.RoleType,
                 Label = persistentVM.Label
             };
@@ -415,27 +405,6 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.PersistentVMs
                     throw new ArgumentException(string.Format(Resources.VMMissingProvisioningConfiguration, pVM.RoleName));
                 }
             }
-        }
-
-        protected bool DoesCloudServiceExist(string serviceName)
-        {
-            try
-            {
-                WriteVerboseWithTimestamp(string.Format(Resources.AzureVMBeginOperation, CommandRuntime));
-                var response = this.ComputeClient.HostedServices.CheckNameAvailability(serviceName);
-                WriteVerboseWithTimestamp(string.Format(Resources.AzureVMCompletedOperation, CommandRuntime));
-                return response.IsAvailable;
-            }
-            catch (CloudException ex)
-            {
-                if (ex.Response.StatusCode == HttpStatusCode.NotFound)
-                {
-                    return false;
-                }
-                this.WriteExceptionDetails(ex);
-            }
-
-            return false;
         }
     }
 }

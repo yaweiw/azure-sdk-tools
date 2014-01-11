@@ -89,6 +89,15 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Could not found operations on Database &apos;{0}.{1}&apos;..
+        /// </summary>
+        internal static string DatabaseOperationNotFoundOnDatabase {
+            get {
+                return ResourceManager.GetString("DatabaseOperationNotFoundOnDatabase", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to An error occurred while refreshing database..
         /// </summary>
         internal static string ErrorRefreshingDatabase {
