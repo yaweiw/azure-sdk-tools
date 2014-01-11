@@ -34,6 +34,10 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
     {
         private readonly CloudServiceClient cloudServiceClient;
 
+        private const string ProductionSlot = "production";
+
+        public static string SlotFormat = "{0}({1})";
+
         public const string WebsitesServiceVersion = "2012-12-01";
 
         public IWebSiteManagementClient WebsiteManagementClient { get; internal set; }
@@ -252,10 +256,22 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
         }
 
         /// <summary>
+        /// Gets the application diagnostics settings
+        /// </summary>
+        /// <param name="name">The website name</param>
+        /// <param name="slot">The website slot name</param>
+        /// <returns>The website application diagnostics settings</returns>
+        public DiagnosticsSettings GetApplicationDiagnosticsSettings(string name, string slot)
+        {
+            name = SetWebsiteName(GetWebsiteName(name), slot);
+            return GetApplicationDiagnosticsSettings(name);
+        }
+
+        /// <summary>
         /// Restarts a website.
         /// </summary>
         /// <param name="name">The website name</param>
-        public void RestartAzureWebsite(string name)
+        public void RestartWebsite(string name)
         {
             Site website = GetWebsite(name);
             ChangeWebsiteState(website.Name, website.WebSpace, WebsiteState.Stopped);
@@ -266,7 +282,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
         /// Starts a website.
         /// </summary>
         /// <param name="name">The website name</param>
-        public void StartAzureWebsite(string name)
+        public void StartWebsite(string name)
         {
             Site website = GetWebsite(name);
             ChangeWebsiteState(website.Name, website.WebSpace, WebsiteState.Running);
@@ -276,10 +292,56 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
         /// Stops a website.
         /// </summary>
         /// <param name="name">The website name</param>
-        public void StopAzureWebsite(string name)
+        public void StopWebsite(string name)
         {
             Site website = GetWebsite(name);
             ChangeWebsiteState(website.Name, website.WebSpace, WebsiteState.Stopped);
+        }
+
+        /// <summary>
+        /// Restarts a website.
+        /// </summary>
+        /// <param name="name">The website name</param>
+        /// <param name="slot">The website slot name</param>
+        public void RestartWebsite(string name, string slot)
+        {
+            Site website = GetWebsite(name, slot);
+            ChangeWebsiteState(website.Name, website.WebSpace, WebsiteState.Stopped);
+            ChangeWebsiteState(website.Name, website.WebSpace, WebsiteState.Running);
+        }
+
+        /// <summary>
+        /// Starts a website.
+        /// </summary>
+        /// <param name="name">The website name</param>
+        /// <param name="slot">The website slot name</param>
+        public void StartWebsite(string name, string slot)
+        {
+            Site website = GetWebsite(name, slot);
+            ChangeWebsiteState(website.Name, website.WebSpace, WebsiteState.Running);
+        }
+
+        /// <summary>
+        /// Stops a website.
+        /// </summary>
+        /// <param name="name">The website name</param>
+        /// <param name="slot">The website slot name</param>
+        public void StopWebsite(string name, string slot)
+        {
+            Site website = GetWebsite(name, slot);
+            ChangeWebsiteState(website.Name, website.WebSpace, WebsiteState.Stopped);
+        }
+
+        /// <summary>
+        /// Gets a website slot instance.
+        /// </summary>
+        /// <param name="name">The website name</param>
+        /// <param name="slot">The slot name</param>
+        /// <returns>The website instance</returns>
+        public Site GetWebsite(string name, string slot)
+        {
+            name = SetWebsiteName(GetWebsiteName(name), slot);
+            return GetWebsite(name);
         }
 
         /// <summary>
@@ -290,6 +352,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
         public Site GetWebsite(string name)
         {
             name = GetWebsiteName(name);
+
             Site website = WebsiteManagementClient.GetSiteWithCache(name);
 
             if (website == null)
@@ -301,11 +364,65 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
         }
 
         /// <summary>
+        /// Gets all slots for a website
+        /// </summary>
+        /// <param name="Name">The website name</param>
+        /// <returns>The website slots list</returns>
+        public List<Site> GetWebsiteSlots(string name)
+        {
+            return ListWebsites()
+                .Where(s => 
+                    s.Name.IndexOf(string.Format("{0}(", name), StringComparison.OrdinalIgnoreCase) >= 0 ||
+                    s.Name.Equals(name, StringComparison.OrdinalIgnoreCase))
+                .ToList();
+        }
+
+        /// <summary>
+        /// Lists all websites under the current subscription
+        /// </summary>
+        /// <returns>List of websites</returns>
+        public List<Site> ListWebsites()
+        {
+            return ListWebSpaces().SelectMany(space => ListSitesInWebSpace(space.Name)).ToList();
+        }
+
+        /// <summary>
+        /// Lists all websites with the provided slot name.
+        /// </summary>
+        /// <param name="slot">The slot name</param>
+        /// <returns>The list if websites</returns>
+        public List<Site> ListWebsites(string slot)
+        {
+            return ListWebsites().Where(s => s.Name.Contains(string.Format("({0})", slot))).ToList();
+        }
+
+        /// <summary>
         /// Create a new website.
         /// </summary>
         /// <param name="webspaceName">Web space to create site in.</param>
         /// <param name="siteToCreate">Details about the site to create.</param>
-        /// <returns></returns>
+        /// <param name="slot">The slot name.</param>
+        /// <param name="disablesClone">Flag to control cloning the website configuration.</param>
+        /// <returns>The created site object</returns>
+        public Site CreateWebsite(string webspaceName, SiteWithWebSpace siteToCreate, string slot)
+        {
+            if (!string.IsNullOrEmpty(slot) && !slot.Equals(ProductionSlot, StringComparison.OrdinalIgnoreCase))
+            {
+                string[] hostNames = { string.Format("{0}-{1}.{2}", siteToCreate.Name, slot, GetWebsiteDnsSuffix()) };
+                siteToCreate.Name = SetWebsiteName(siteToCreate.Name, slot);
+                siteToCreate.HostNames = hostNames;
+            }
+
+            return CreateWebsite(webspaceName, siteToCreate);
+        }
+
+        /// <summary>
+        /// Create a new website in production.
+        /// </summary>
+        /// <param name="webspaceName">Web space to create site in.</param>
+        /// <param name="disablesClone">Flag to control cloning the website configuration.</param>
+        /// <param name="siteToCreate">Details about the site to create.</param>
+        /// <returns>The created site object</returns>
         public Site CreateWebsite(string webspaceName, SiteWithWebSpace siteToCreate)
         {
             var options = new WebSiteCreateParameters
@@ -314,11 +431,12 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
                 WebSpaceName = siteToCreate.WebSpaceToCreate.Name,
                 WebSpace = new WebSiteCreateParameters.WebSpaceDetails
                 {
-                     GeoRegion = siteToCreate.WebSpaceToCreate.GeoRegion,
-                     Name = siteToCreate.WebSpaceToCreate.Name,
-                     Plan = siteToCreate.WebSpaceToCreate.Plan,
+                    GeoRegion = siteToCreate.WebSpaceToCreate.GeoRegion,
+                    Name = siteToCreate.WebSpaceToCreate.Name,
+                    Plan = siteToCreate.WebSpaceToCreate.Plan
                 }
             };
+
             siteToCreate.HostNames.ForEach(s => options.HostNames.Add(s));
 
             var response = WebsiteManagementClient.WebSites.Create(webspaceName, options);
@@ -342,6 +460,19 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
         }
 
         /// <summary>
+        /// Update the set of host names for a website slot.
+        /// </summary>
+        /// <param name="site">The website name.</param>
+        /// <param name="hostNames">The new host names.</param>
+        /// <param name="slot">The website slot name.</param>
+        public void UpdateWebsiteHostNames(Site site, IEnumerable<string> hostNames, string slot)
+        {
+            site.Name = SetWebsiteName(site.Name, slot);
+
+            UpdateWebsiteHostNames(site, hostNames);
+        }
+
+        /// <summary>
         /// Gets the website configuration.
         /// </summary>
         /// <param name="name">The website name</param>
@@ -356,6 +487,33 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
         }
 
         /// <summary>
+        /// Gets a website slot configuration
+        /// </summary>
+        /// <param name="name">The website name</param>
+        /// <param name="slot">The website slot name</param>
+        /// <returns>The website cobfiguration object</returns>
+        public SiteConfig GetWebsiteConfiguration(string name, string slot)
+        {
+            Site website = GetWebsite(name);
+            website.Name = SetWebsiteName(website.Name, slot);
+            return GetWebsiteConfiguration(website.Name);
+        }
+
+        private string SetWebsiteName(string name, string slot)
+        {
+            name = GetWebsiteName(name);
+
+            if (string.IsNullOrEmpty(slot) || slot.Equals(ProductionSlot, StringComparison.OrdinalIgnoreCase))
+            {
+                return name;
+            }
+            else
+            {
+                return GetSlotDnsName(name, slot);
+            }
+        }
+
+        /// <summary>
         /// Update the website configuration
         /// </summary>
         /// <param name="name">The website name</param>
@@ -365,6 +523,18 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
             Site website = GetWebsite(name);
             WebsiteManagementClient.WebSites.UpdateConfiguration(website.WebSpace, name,
                 newConfiguration.ToConfigUpdateParameters());
+        }
+
+        /// <summary>
+        /// Update the website slot configuration
+        /// </summary>
+        /// <param name="name">The website name</param>
+        /// <param name="newConfiguration">The website configuration object containing updates.</param>
+        /// <param name="slot">The website slot name</param>
+        public void UpdateWebsiteConfiguration(string name, SiteConfig newConfiguration, string slot)
+        {
+            name = SetWebsiteName(GetWebsite(name).Name, slot);
+            UpdateWebsiteConfiguration(name, newConfiguration);
         }
 
         /// <summary>
@@ -386,7 +556,13 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
         /// <param name="deleteEmptyServerFarm">Pass true to delete server farm is this was the last website in it.</param>
         public void DeleteWebsite(string webspaceName, string websiteName, bool deleteMetrics = false, bool deleteEmptyServerFarm = false)
         {
-            WebsiteManagementClient.WebSites.Delete(webspaceName, websiteName, deleteEmptyServerFarm, deleteMetrics);
+            WebSiteDeleteParameters input = new WebSiteDeleteParameters()
+            {
+                DeleteAllSlots = false,
+                DeleteEmptyServerFarm = deleteEmptyServerFarm,
+                DeleteMetrics = deleteMetrics
+            };
+            WebsiteManagementClient.WebSites.Delete(webspaceName, websiteName, input);
         }
 
         /// <summary>
@@ -493,6 +669,39 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
             SetSiteDiagnosticsSettings(name, webServerLogging, detailedErrorMessages, failedRequestTracing, false);
         }
 
+        /// <summary>
+        /// Enables application diagnostic on website slot.
+        /// </summary>
+        /// <param name="name">The website name</param>
+        /// <param name="output">The application log output, FileSystem or StorageTable</param>
+        /// <param name="properties">The diagnostic setting properties</param>
+        /// <param name="slot">The website slot name</param>
+        public void EnableApplicationDiagnostic(
+            string name,
+            WebsiteDiagnosticOutput output,
+            Dictionary<DiagnosticProperties, object> properties,
+            string slot)
+        {
+            SetApplicationDiagnosticsSettings(SetWebsiteName(name, slot), output, true, properties);
+        }
+
+        /// <summary>
+        /// Disables application diagnostic.
+        /// </summary>
+        /// <param name="name">The website name</param>
+        /// <param name="output">The application log output, FileSystem or StorageTable</param>
+        /// <param name="slot">The website slot name</param>
+        public void DisableApplicationDiagnostic(string name, WebsiteDiagnosticOutput output, string slot)
+        {
+            SetApplicationDiagnosticsSettings(SetWebsiteName(name, slot), output, false);
+        }
+
+        /// <summary>
+        /// Enables application diagnostic on website slot.
+        /// </summary>
+        /// <param name="name">The website name</param>
+        /// <param name="output">The application log output, FileSystem or StorageTable</param>
+        /// <param name="properties">The diagnostic setting properties</param>
         public void EnableApplicationDiagnostic(
             string name,
             WebsiteDiagnosticOutput output,
@@ -501,6 +710,11 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
             SetApplicationDiagnosticsSettings(name, output, true, properties);
         }
 
+        /// <summary>
+        /// Disables application diagnostic.
+        /// </summary>
+        /// <param name="name">The website name</param>
+        /// <param name="output">The application log output, FileSystem or StorageTable</param>
         public void DisableApplicationDiagnostic(string name, WebsiteDiagnosticOutput output)
         {
             SetApplicationDiagnosticsSettings(name, output, false);
@@ -546,6 +760,69 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
         {
             return WebsiteManagementClient.WebSpaces.ListPublishingUsers()
                 .Users.Select(u => u.Name).Where(n => !string.IsNullOrEmpty(n)).ToList();
+        }
+
+        public bool WebsiteExists(string name)
+        {
+            Site website = null;
+
+            try
+            {
+                website = GetWebsite(name);
+            }
+            catch
+            {
+                // Ignore exception.
+            }
+
+            return website != null;
+        }
+
+        public bool WebsiteExists(string name, string slot)
+        {
+            Site website = null;
+
+            try
+            {
+                website = GetWebsite(name, slot);
+            }
+            catch
+            {
+                // Ignore exception.
+            }
+
+            return website != null;
+        }
+
+        /// <summary>
+        /// Updates a website compute mode.
+        /// </summary>
+        /// <param name="websiteToUpdate">The website to update</param>
+        public void UpdateWebsiteComputeMode(Site websiteToUpdate)
+        {
+            WebsiteManagementClient.WebSites.Update(
+                websiteToUpdate.WebSpace,
+                websiteToUpdate.Name,
+                new WebSiteUpdateParameters
+                {
+                    ComputeMode = websiteToUpdate.ComputeMode,
+                    // Set the following 3 collection properties to null since by default they are empty lists,
+                    // which will clear the corresponding settings of the web site, thus results in a 404 when browsing the web site.
+                    HostNames = null,
+                    HostNameSslStates = null,
+                    SslCertificates = null
+                });
+        }
+
+        /// <summary>
+        /// Gets a website slot DNS name.
+        /// </summary>
+        /// <param name="name">The website name</param>
+        /// <param name="slot">The slot name</param>
+        /// <returns>the slot DNS name</returns>
+        public string GetSlotDnsName(string name, string slot)
+        {
+            return string.Format(SlotFormat, name, slot);
         }
     }
 }
