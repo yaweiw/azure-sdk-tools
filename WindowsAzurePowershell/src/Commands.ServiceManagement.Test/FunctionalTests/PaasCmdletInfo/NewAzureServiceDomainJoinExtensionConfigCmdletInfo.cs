@@ -11,7 +11,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
     using System.Security.Cryptography.X509Certificates;
     public class NewAzureServiceDomainJoinExtensionConfigCmdletInfo: CmdletsInfo
     {
-        public NewAzureServiceDomainJoinExtensionConfigCmdletInfo(string[] role = null, string thumbprintAlgorithm = null, SwitchParameter? restart = null, PSCredential credential = null)
+        public NewAzureServiceDomainJoinExtensionConfigCmdletInfo(string[] role = null, string thumbprintAlgorithm = null, bool restart = false, PSCredential credential = null)
         {
             this.cmdletName = Utilities.NewAzureServiceDomainJoinExtensionConfig;
             if(role != null)
@@ -22,9 +22,9 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
             {
                 this.cmdletParams.Add(new CmdletParam("ThumbprintAlgorithm",thumbprintAlgorithm));
             }
-            if (restart.HasValue)
+            if (restart)
             {
-                this.cmdletParams.Add(new CmdletParam("Restart", restart.Value));
+                this.cmdletParams.Add(new CmdletParam("Restart", restart));
             }
             if (credential != null)
             {
@@ -32,7 +32,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
             }
         }
 
-        public NewAzureServiceDomainJoinExtensionConfigCmdletInfo(string workGroupName,X509Certificate2 certificate,string[] role = null, string thumbprintAlgorithm = null, SwitchParameter? restart = null, PSCredential credential = null)
+        public NewAzureServiceDomainJoinExtensionConfigCmdletInfo(string workGroupName,X509Certificate2 certificate,string[] role = null, string thumbprintAlgorithm = null, bool restart = false, PSCredential credential = null)
             : this(role,thumbprintAlgorithm,restart,credential)
         {
             this.cmdletParams.Add(new CmdletParam("WorkGroupName", workGroupName));
@@ -42,7 +42,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
             }
         }
 
-        public NewAzureServiceDomainJoinExtensionConfigCmdletInfo(string workGroupName, string certificateThumbprint = null, string[] role = null, string thumbprintAlgorithm = null, SwitchParameter? restart = null, PSCredential credential = null)
+        public NewAzureServiceDomainJoinExtensionConfigCmdletInfo(string workGroupName, string certificateThumbprint = null, string[] role = null, string thumbprintAlgorithm = null, bool restart = false, PSCredential credential = null)
             : this(role, thumbprintAlgorithm, restart, credential)
         {
             this.cmdletParams.Add(new CmdletParam("WorkGroupName", workGroupName));
@@ -53,7 +53,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
         }
 
         public NewAzureServiceDomainJoinExtensionConfigCmdletInfo(string domainName, string oUPath = null, PSCredential unjoinDomainCredential = null,
-            string[] role = null, string thumbprintAlgorithm = null, SwitchParameter? restart = null, PSCredential credential = null)
+            string[] role = null, string thumbprintAlgorithm = null, bool restart = false, PSCredential credential = null)
             : this(role, thumbprintAlgorithm, restart, credential)
         {
             this.cmdletParams.Add(new CmdletParam("DomainName", domainName));
@@ -68,7 +68,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
         }
 
         public NewAzureServiceDomainJoinExtensionConfigCmdletInfo(string domainName,X509Certificate2 x509Certificate,JoinOptions? options = null,  string oUPath= null, PSCredential unjoinDomainCredential = null,
-            string[] role = null, string thumbprintAlgorithm = null, SwitchParameter? restart = null, PSCredential credential = null)
+            string[] role = null, string thumbprintAlgorithm = null, bool restart = false, PSCredential credential = null)
             : this(domainName,oUPath,unjoinDomainCredential,role, thumbprintAlgorithm, restart, credential)
         {
             if (x509Certificate != null)
@@ -83,7 +83,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
         }
 
         public NewAzureServiceDomainJoinExtensionConfigCmdletInfo(string domainName, string certificateThumbprint, uint? joinOption = null, string oUPath = null, PSCredential unjoinDomainCredential = null,
-            string[] role = null, string thumbprintAlgorithm = null, SwitchParameter? restart = null, PSCredential credential = null)
+            string[] role = null, string thumbprintAlgorithm = null, bool restart = false, PSCredential credential = null)
             : this(domainName, oUPath, unjoinDomainCredential, role, thumbprintAlgorithm, restart, credential)
         {
             if (!string.IsNullOrEmpty(certificateThumbprint))

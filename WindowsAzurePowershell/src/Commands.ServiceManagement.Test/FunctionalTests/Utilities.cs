@@ -13,6 +13,7 @@
 // ----------------------------------------------------------------------------------
 
 using System.Reflection;
+using System.Linq;
 
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
 {
@@ -254,6 +255,13 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
         public static string SetAzureLoadBalancedEndpointCmdletName = "Set-AzureLoadBalancedEndpoint";
 
         public const string ResetAzureRoleInstanceCmdletName = "ReSet-AzureRoleInstance";
+
+        //Static CA cmdlets
+
+        public const string TestAzureStaticVNetIPCmdletName = "Test-AzureStaticVNetIP";
+        public const string SetAzureStaticVNetIPCmdletName = "Set-AzureStaticVNetIP";
+        public const string GetAzureStaticVNetIPCmdletName = "Get-AzureStaticVNetIP";
+        public const string RemoveAzureStaticVNetIPCmdletName = "Remove-AzureStaticVNetIP";
 
         #endregion
 
