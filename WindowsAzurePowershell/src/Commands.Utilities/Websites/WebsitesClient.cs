@@ -182,6 +182,12 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
             WebsiteManagementClient.WebSites.UpdateConfiguration(website.WebSpace, website.Name, update);
         }
 
+        private bool IsProductionSlot(string slot)
+        {
+            return (!string.IsNullOrEmpty(slot)) && 
+                (slot.Equals(ProductionSlot, StringComparison.OrdinalIgnoreCase));
+        }
+
         /// <summary>
         /// Starts log streaming for the given website.
         /// </summary>
@@ -558,9 +564,33 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
         {
             WebSiteDeleteParameters input = new WebSiteDeleteParameters()
             {
-                DeleteAllSlots = false,
+                DeleteAllSlots = true,
                 DeleteEmptyServerFarm = deleteEmptyServerFarm,
                 DeleteMetrics = deleteMetrics
+            };
+            WebsiteManagementClient.WebSites.Delete(webspaceName, websiteName, input);
+        }
+
+        /// <summary>
+        /// Delete a website slot.
+        /// </summary>
+        /// <param name="webspaceName">webspace the site is in.</param>
+        /// <param name="websiteName">website name.</param>
+        /// <param name="slot">The website slot name</param>
+        public void DeleteWebsite(string webspaceName, string websiteName, string slot)
+        {
+            slot = slot ?? ProductionSlot;
+            websiteName = SetWebsiteName(websiteName, slot);
+            WebSiteDeleteParameters input = new WebSiteDeleteParameters()
+            {
+                /**
+                 * DeleteAllSlots is set to true in case that:
+                 * 1) We are trying to delete a production slot and,
+                 * 2) The website has more than one slot.
+                 */
+                DeleteAllSlots = IsProductionSlot(slot) && GetWebsiteSlots(websiteName).Count != 1,
+                DeleteEmptyServerFarm = false,
+                DeleteMetrics = false
             };
             WebsiteManagementClient.WebSites.Delete(webspaceName, websiteName, input);
         }

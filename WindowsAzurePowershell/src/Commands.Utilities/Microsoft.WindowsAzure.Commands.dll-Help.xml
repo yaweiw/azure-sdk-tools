@@ -9093,6 +9093,18 @@
           </maml:description>
           <command:parameterValue required="true" variableLength = "false" >String</command:parameterValue>
         </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)">
+          <maml:name>Slot</maml:name>
+          <maml:description>
+            <maml:para>The website slot name</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+          <dev:type>
+            <maml:name>String</maml:name>
+            <maml:uri/>
+          </dev:type>
+          <dev:defaultValue></dev:defaultValue>
+        </command:parameter>
       </command:syntaxItem>
     </command:syntax>
     <command:parameters>
@@ -9111,6 +9123,18 @@
         <maml:name>Name</maml:name>
         <maml:description>
           <maml:para>The name of the website to delete</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        <dev:type>
+          <maml:name>String</maml:name>
+          <maml:uri/>
+        </dev:type>
+        <dev:defaultValue></dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)">
+        <maml:name>Slot</maml:name>
+        <maml:description>
+          <maml:para>The website slot name</maml:para>
         </maml:description>
         <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
         <dev:type>
@@ -9190,6 +9214,30 @@
         <dev:code>Remove-AzureWebsite -Name mySite -Force</dev:code>
         <dev:remarks>
           <maml:para>Delete the Azure website named 'mySite' without prompting for confirmation</maml:para>
+          <maml:para></maml:para>
+          <maml:para></maml:para>
+          <maml:para>
+          </maml:para>
+          <maml:para></maml:para>
+        </dev:remarks>
+        <command:commandLines>
+          <command:commandLine>
+            <command:commandText>
+            </command:commandText>
+          </command:commandLine>
+        </command:commandLines>
+      </command:example>
+      <command:example>
+        <maml:title>
+          --------------  Remove Website Slot --------------
+        </maml:title>
+        <maml:introduction>
+          <maml:para>C:\PS&gt;</maml:para>
+          C:\PS&gt;
+        </maml:introduction>
+        <dev:code>Remove-AzureWebsite -Name MyWebsite -Slot staging</dev:code>
+        <dev:remarks>
+          <maml:para>Remove the azure website slot with name staging for website MyWebsite</maml:para>
           <maml:para></maml:para>
           <maml:para></maml:para>
           <maml:para>
