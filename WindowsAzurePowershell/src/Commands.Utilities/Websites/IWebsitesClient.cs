@@ -367,6 +367,14 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
         /// <param name="name">The website name</param>
         /// <param name="slot">The website slot name</param>
         void StopWebsite(string name, string slot);
+
+        /// <summary>
+        /// Switches the given website slot with the production slot
+        /// </summary>
+        /// <param name="webspaceName">The webspace name</param>
+        /// <param name="websiteName">The website name</param>
+        /// <param name="slot">The website slot name</param>
+        void SwitchSlot(string webspaceName, string websiteName, string slot);
     }
 
     public enum WebsiteState
@@ -391,5 +399,11 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
     {
         StorageAccountName,
         LogLevel
+    }
+
+    public enum WebsiteSlotName
+    {
+        Production,
+        Staging
     }
 }

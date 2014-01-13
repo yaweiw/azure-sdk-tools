@@ -29,12 +29,11 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
     using System.Net.Http;
     using System.Web;
     using Utilities.Common;
+    using System.Diagnostics;
 
     public class WebsitesClient : IWebsitesClient
     {
         private readonly CloudServiceClient cloudServiceClient;
-
-        private const string ProductionSlot = "production";
 
         public static string SlotFormat = "{0}({1})";
 
@@ -185,7 +184,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
         private bool IsProductionSlot(string slot)
         {
             return (!string.IsNullOrEmpty(slot)) && 
-                (slot.Equals(ProductionSlot, StringComparison.OrdinalIgnoreCase));
+                (slot.Equals(WebsiteSlotName.Production.ToString(), StringComparison.OrdinalIgnoreCase));
         }
 
         /// <summary>
@@ -412,7 +411,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
         /// <returns>The created site object</returns>
         public Site CreateWebsite(string webspaceName, SiteWithWebSpace siteToCreate, string slot)
         {
-            if (!string.IsNullOrEmpty(slot) && !slot.Equals(ProductionSlot, StringComparison.OrdinalIgnoreCase))
+            if (!string.IsNullOrEmpty(slot) && !slot.Equals(WebsiteSlotName.Production.ToString(), StringComparison.OrdinalIgnoreCase))
             {
                 string[] hostNames = { string.Format("{0}-{1}.{2}", siteToCreate.Name, slot, GetWebsiteDnsSuffix()) };
                 siteToCreate.Name = SetWebsiteName(siteToCreate.Name, slot);
@@ -509,7 +508,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
         {
             name = GetWebsiteName(name);
 
-            if (string.IsNullOrEmpty(slot) || slot.Equals(ProductionSlot, StringComparison.OrdinalIgnoreCase))
+            if (string.IsNullOrEmpty(slot) || slot.Equals(WebsiteSlotName.Production.ToString(), StringComparison.OrdinalIgnoreCase))
             {
                 return name;
             }
@@ -579,7 +578,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
         /// <param name="slot">The website slot name</param>
         public void DeleteWebsite(string webspaceName, string websiteName, string slot)
         {
-            slot = slot ?? ProductionSlot;
+            slot = slot ?? WebsiteSlotName.Production.ToString();
             websiteName = SetWebsiteName(websiteName, slot);
             WebSiteDeleteParameters input = new WebSiteDeleteParameters()
             {
@@ -853,6 +852,19 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
         public string GetSlotDnsName(string name, string slot)
         {
             return string.Format(SlotFormat, name, slot);
+        }
+
+        /// <summary>
+        /// Switches the given website slot with the production slot
+        /// </summary>
+        /// <param name="webspaceName">The webspace name</param>
+        /// <param name="websiteName">The website name</param>
+        /// <param name="slot">The website slot name</param>
+        public void SwitchSlot(string webspaceName, string websiteName, string slot)
+        {
+            Debug.Assert(!string.IsNullOrEmpty(slot));
+
+            WebsiteManagementClient.WebSites.SwapSlots(webspaceName, websiteName, slot);
         }
     }
 }
