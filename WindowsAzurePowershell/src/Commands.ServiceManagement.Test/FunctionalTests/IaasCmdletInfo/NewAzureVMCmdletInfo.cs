@@ -55,7 +55,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
             }
             if (!string.IsNullOrEmpty(deploymentDescription))
             {
-                this.cmdletParams.Add(new CmdletParam("DeploymentDescription", deploymentDescription));
+                this.cmdletParams.Add(new CmdletParam("DeploymentName", deploymentDescription));
             }
             if (!string.IsNullOrEmpty(location))
             {
