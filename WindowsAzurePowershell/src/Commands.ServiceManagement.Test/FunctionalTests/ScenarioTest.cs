@@ -176,50 +176,45 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
                     imageName = vmPowershellCmdlets.GetAzureVMImageName(new[] { "Windows" }, false);
 
                 vmPowershellCmdlets.NewAzureQuickVM(OS.Windows, newAzureQuickVMName, serviceName, imageName, username, password, locationName);
-                // Verify
-                Assert.AreEqual(newAzureQuickVMName, vmPowershellCmdlets.GetAzureVM(newAzureQuickVMName, serviceName).Name, true);
 
-                string name = vmPowershellCmdlets.GetAzureVM(newAzureQuickVMName, serviceName).Name;
-                var resultUri = vmPowershellCmdlets.GetAzureWinRMUri(serviceName, name);
+                // Verify the VM
+                var vmRoleCtxt = vmPowershellCmdlets.GetAzureVM(newAzureQuickVMName, serviceName);
+                Assert.AreEqual(newAzureQuickVMName, vmRoleCtxt.Name, true, "VM names are not matched!");
+
+                // Get the WinRM Uri
+                var resultUri = vmPowershellCmdlets.GetAzureWinRMUri(serviceName, vmRoleCtxt.Name);
 
                 // starting the test.
-                PersistentVMRoleContext vmRoleCtxt = vmPowershellCmdlets.GetAzureVM(newAzureQuickVMName, serviceName); // Get-AzureVM
-                InputEndpointContext inputEndpointCtxt = vmPowershellCmdlets.GetAzureEndPoint(vmRoleCtxt)[0]; // Get-AzureEndpoint
-                Console.WriteLine("InputEndpointContext Name: {0}", inputEndpointCtxt.Name);
-                Console.WriteLine("InputEndpointContext port: {0}", inputEndpointCtxt.Port);
-                Console.WriteLine("InputEndpointContext protocol: {0}", inputEndpointCtxt.Protocol);
-                Assert.AreEqual(inputEndpointCtxt.Name, "RemoteDesktop", true);
+                InputEndpointContext winRMEndpoint =null;
 
-                if (resultUri != null)
+                foreach (InputEndpointContext inputEndpointCtxt in vmPowershellCmdlets.GetAzureEndPoint(vmRoleCtxt))
                 {
-                    if (string.IsNullOrEmpty(resultUri.AbsoluteUri))
+                    if (inputEndpointCtxt.Name.Equals("WinRmHTTPs"))
                     {
-                        pass = false;
+                        winRMEndpoint = inputEndpointCtxt;
                     }
-
-                    if (string.IsNullOrEmpty(resultUri.Port.ToString()))
-                    {
-                        pass = false;
-                    }
-
                 }
 
-                else
-                {
-                    pass = false;
-                }
+                Assert.IsNotNull(winRMEndpoint, "There is no WinRM endpoint!");
+                Assert.IsNotNull(resultUri, "No WinRM Uri!");
+
+                Console.WriteLine("InputEndpointContext Name: {0}", winRMEndpoint.Name);
+                Console.WriteLine("InputEndpointContext port: {0}", winRMEndpoint.Port);
+                Console.WriteLine("InputEndpointContext protocol: {0}", winRMEndpoint.Protocol);
+
+                Console.WriteLine("WinRM Uri: {0}",  resultUri.AbsoluteUri);
+                Console.WriteLine("WinRM Port: {0}", resultUri.Port);
+                Console.WriteLine("WinRM Scheme: {0}", resultUri.Scheme);
+
+                Assert.AreEqual(winRMEndpoint.Port, resultUri.Port, "Port numbers are not matched!");
 
                 pass = true;
-                //add verification of uri , endpoint, port
             }
             catch (Exception e)
             {
-                pass = false;
                 Console.WriteLine(e);
                 throw;
-
             }
-
         } 
 
 
@@ -285,14 +280,14 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
 
             vmPowershellCmdlets.NewAzureService(serviceName, serviceName, locationName);
 
-            AzureVMConfigInfo azureVMConfigInfo1 = new AzureVMConfigInfo(newAzureVM1Name, InstanceSize.ExtraSmall, imageName);
-            AzureVMConfigInfo azureVMConfigInfo2 = new AzureVMConfigInfo(newAzureVM2Name, InstanceSize.ExtraSmall, imageName);
-            AzureProvisioningConfigInfo azureProvisioningConfig = new AzureProvisioningConfigInfo(OS.Windows, username, password);
-            AddAzureDataDiskConfig azureDataDiskConfigInfo = new AddAzureDataDiskConfig(DiskCreateOption.CreateNew, 50, "datadisk1", 0);
-            AzureEndPointConfigInfo azureEndPointConfigInfo = new AzureEndPointConfigInfo(AzureEndPointConfigInfo.ParameterSet.CustomProbe, ProtocolInfo.tcp, 80, 80, "web", "lbweb", 80, ProtocolInfo.http, @"/", null, null);
+            var azureVMConfigInfo1 = new AzureVMConfigInfo(newAzureVM1Name, InstanceSize.ExtraSmall.ToString(), imageName);
+            var azureVMConfigInfo2 = new AzureVMConfigInfo(newAzureVM2Name, InstanceSize.ExtraSmall.ToString(), imageName);
+            var azureProvisioningConfig = new AzureProvisioningConfigInfo(OS.Windows, username, password);
+            var azureDataDiskConfigInfo = new AddAzureDataDiskConfig(DiskCreateOption.CreateNew, 50, "datadisk1", 0);
+            var azureEndPointConfigInfo = new AzureEndPointConfigInfo(AzureEndPointConfigInfo.ParameterSet.CustomProbe, ProtocolInfo.tcp, 80, 80, "web", "lbweb", 80, ProtocolInfo.http, @"/", null, null);
 
-            PersistentVMConfigInfo persistentVMConfigInfo1 = new PersistentVMConfigInfo(azureVMConfigInfo1, azureProvisioningConfig, azureDataDiskConfigInfo, azureEndPointConfigInfo);
-            PersistentVMConfigInfo persistentVMConfigInfo2 = new PersistentVMConfigInfo(azureVMConfigInfo2, azureProvisioningConfig, azureDataDiskConfigInfo, azureEndPointConfigInfo);
+            var persistentVMConfigInfo1 = new PersistentVMConfigInfo(azureVMConfigInfo1, azureProvisioningConfig, azureDataDiskConfigInfo, azureEndPointConfigInfo);
+            var persistentVMConfigInfo2 = new PersistentVMConfigInfo(azureVMConfigInfo2, azureProvisioningConfig, azureDataDiskConfigInfo, azureEndPointConfigInfo);
 
             PersistentVM persistentVM1 = vmPowershellCmdlets.GetPersistentVM(persistentVMConfigInfo1);
             PersistentVM persistentVM2 = vmPowershellCmdlets.GetPersistentVM(persistentVMConfigInfo2);
@@ -357,17 +352,17 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
 
             vmPowershellCmdlets.NewAzureQuickVM(OS.Windows, newAzureQuickVMName, serviceName, imageName, username, password, locationName);
 
-            AddAzureDataDiskConfig azureDataDiskConfigInfo1 = new AddAzureDataDiskConfig(DiskCreateOption.CreateNew, 50, "datadisk1", 0);
-            AddAzureDataDiskConfig azureDataDiskConfigInfo2 = new AddAzureDataDiskConfig(DiskCreateOption.CreateNew, 50, "datadisk2", 1);
+            var azureDataDiskConfigInfo1 = new AddAzureDataDiskConfig(DiskCreateOption.CreateNew, 50, "datadisk1", 0);
+            var azureDataDiskConfigInfo2 = new AddAzureDataDiskConfig(DiskCreateOption.CreateNew, 50, "datadisk2", 1);
             AddAzureDataDiskConfig[] dataDiskConfig = { azureDataDiskConfigInfo1, azureDataDiskConfigInfo2 };
             vmPowershellCmdlets.AddVMDataDisks(newAzureQuickVMName, serviceName, dataDiskConfig);
 
-            SetAzureDataDiskConfig setAzureDataDiskConfig1 = new SetAzureDataDiskConfig(HostCaching.ReadOnly, 0);
-            SetAzureDataDiskConfig setAzureDataDiskConfig2 = new SetAzureDataDiskConfig(HostCaching.ReadOnly, 0);
+            var setAzureDataDiskConfig1 = new SetAzureDataDiskConfig(HostCaching.ReadOnly, 0);
+            var setAzureDataDiskConfig2 = new SetAzureDataDiskConfig(HostCaching.ReadOnly, 0);
             SetAzureDataDiskConfig[] diskConfig = { setAzureDataDiskConfig1, setAzureDataDiskConfig2 };
             vmPowershellCmdlets.SetVMDataDisks(newAzureQuickVMName, serviceName, diskConfig);
 
-            SetAzureVMSizeConfig vmSizeConfig = new SetAzureVMSizeConfig(InstanceSize.Medium);
+            var vmSizeConfig = new SetAzureVMSizeConfig(InstanceSize.Medium.ToString());
             vmPowershellCmdlets.SetVMSize(newAzureQuickVMName, serviceName, vmSizeConfig);
 
             // Cleanup
@@ -467,9 +462,9 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
                 imageName = vmPowershellCmdlets.GetAzureVMImageName(new[] { "Windows" }, false);
 
             // starting the test.
-            AzureVMConfigInfo azureVMConfigInfo = new AzureVMConfigInfo(newAzureVMName, InstanceSize.Small, imageName); // parameters for New-AzureVMConfig (-Name -InstanceSize -ImageName)
-            AzureProvisioningConfigInfo azureProvisioningConfig = new AzureProvisioningConfigInfo(OS.Windows, username, password); // parameters for Add-AzureProvisioningConfig (-Windows -Password)
-            PersistentVMConfigInfo persistentVMConfigInfo = new PersistentVMConfigInfo(azureVMConfigInfo, azureProvisioningConfig, null, null);
+            var azureVMConfigInfo = new AzureVMConfigInfo(newAzureVMName, InstanceSize.Small.ToString(), imageName); // parameters for New-AzureVMConfig (-Name -InstanceSize -ImageName)
+            var azureProvisioningConfig = new AzureProvisioningConfigInfo(OS.Windows, username, password); // parameters for Add-AzureProvisioningConfig (-Windows -Password)
+            var persistentVMConfigInfo = new PersistentVMConfigInfo(azureVMConfigInfo, azureProvisioningConfig, null, null);
             PersistentVM persistentVM = vmPowershellCmdlets.GetPersistentVM(persistentVMConfigInfo); // New-AzureVMConfig & Add-AzureProvisioningConfig
 
             PersistentVM[] VMs = { persistentVM };
@@ -484,36 +479,30 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
             {
                 vmRoleCtxt = vmPowershellCmdlets.GetAzureVM(persistentVM.RoleName, serviceName);
                 if (vmRoleCtxt.InstanceStatus == "StoppedVM")
-                    break;
-                else
                 {
-                    Console.WriteLine("The status of the VM {0} : {1}", persistentVM.RoleName, vmRoleCtxt.InstanceStatus);
-                    Thread.Sleep(120000);
+                    break;
                 }
+                Console.WriteLine("The status of the VM {0} : {1}", persistentVM.RoleName, vmRoleCtxt.InstanceStatus);
+                Thread.Sleep(120000);
             }
             Assert.AreEqual(vmRoleCtxt.InstanceStatus, "StoppedVM", true);
 
-            //TODO
-            // RDP
-
-            //TODO:
-            // Run sysprep and shutdown
-
-            // Check the status of VM
-            //PersistentVMRoleContext vmRoleCtxt2 = vmPowershellCmdlets.GetAzureVM(newAzureVMName, newAzureSvcName); // Get-AzureVM -Name
-            //Assert.AreEqual(newAzureVMName, vmRoleCtxt2.Name, true);  //
-
             // Save-AzureVMImage
-            //string newImageName = "newImage";
-            //string newImageLabel = "newImageLabel";
-            //string postAction = "Delete";
+            vmPowershellCmdlets.SaveAzureVMImage(serviceName, newAzureVMName, newAzureVMName);
 
-            // Save-AzureVMImage -ServiceName -Name -NewImageName -NewImageLabel -PostCaptureAction
-            //vmPowershellCmdlets.SaveAzureVMImage(newAzureSvcName, newAzureVMName, newImageName, newImageLabel, postAction);
+            // Verify VM image.
+            var image = vmPowershellCmdlets.GetAzureVMImage(newAzureVMName)[0];
 
-            // Cleanup
-            vmPowershellCmdlets.RemoveAzureVM(persistentVM.RoleName, serviceName);
+            Assert.AreEqual("Windows", image.OS, "OS is not matching!");
+            Assert.AreEqual(newAzureVMName, image.ImageName, "Names are not matching!");
+
+            // Verify that the VM is removed
             Assert.AreEqual(null, vmPowershellCmdlets.GetAzureVM(persistentVM.RoleName, serviceName));
+
+            // Cleanup the registered image
+            vmPowershellCmdlets.RemoveAzureVMImage(newAzureVMName, true);
+
+            pass = true;
         }
 
         /// <summary>
@@ -1262,7 +1251,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
 
                 vmPowershellCmdlets.NewAzureService(serviceName, serviceName, locationName);
 
-                var azureVMConfigInfo = new AzureVMConfigInfo(newAzureVMName, InstanceSize.Small, imageName);
+                var azureVMConfigInfo = new AzureVMConfigInfo(newAzureVMName, InstanceSize.Small.ToString(), imageName);
                 var azureProvisioningConfig = new AzureProvisioningConfigInfo("WindowsDomain", username, password,
                                                                               joinDomainStr, domainStr, domainUser,
                                                                               domainPassword);

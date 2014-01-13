@@ -604,7 +604,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
 
         #region AzureQuickVM
 
-        public ManagementOperationContext NewAzureQuickVM(OS os, string name, string serviceName, string imageName, string userName, string password, string locationName, InstanceSize? instanceSize)
+        public ManagementOperationContext NewAzureQuickVM(OS os, string name, string serviceName, string imageName, string userName, string password, string locationName, string instanceSize)
         {
             ManagementOperationContext result = new ManagementOperationContext();
             try
@@ -628,7 +628,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
             return result;
         }
 
-        public ManagementOperationContext NewAzureQuickVM(OS os, string name, string serviceName, string imageName, string userName, string password, string locationName, InstanceSize? instanceSize, string disableWinRMHttps)
+        public ManagementOperationContext NewAzureQuickVM(OS os, string name, string serviceName, string imageName, string userName, string password, string locationName, string instanceSize, string disableWinRMHttps)
         {
             ManagementOperationContext result = new ManagementOperationContext();
             try
@@ -1116,32 +1116,18 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
 
         #region AzureVMImage
 
-        public OSImageContext AddAzureVMImage(string imageName, string mediaLocation, OS os, string label = null)
+        public OSImageContext AddAzureVMImage(string imageName, string mediaLocation, OS os, string label = null, string recommendedSize = null)
         {
             OSImageContext result = new OSImageContext();
             Utilities.RetryActionUntilSuccess(
-                () => result = RunPSCmdletAndReturnFirst<OSImageContext>(new AddAzureVMImageCmdletInfo(imageName, mediaLocation, os, label)),
+                () => result = RunPSCmdletAndReturnFirst<OSImageContext>(new AddAzureVMImageCmdletInfo(imageName, mediaLocation, os, label, recommendedSize)),
                 "409", 3, 60);
             return result;
         }
 
-        public OSImageContext AddAzureVMImage(string imageName, string mediaLocation, OS os, InstanceSize recommendedSize)
+        public OSImageContext UpdateAzureVMImage(string imageName, string label, string recommendedSize = null)
         {
-            OSImageContext result = new OSImageContext();
-            Utilities.RetryActionUntilSuccess(
-                () => result = RunPSCmdletAndReturnFirst<OSImageContext>(new AddAzureVMImageCmdletInfo(imageName, mediaLocation, os, null, recommendedSize)),
-                "409", 3, 60);
-            return result;
-        }
-
-        public OSImageContext UpdateAzureVMImage(string imageName, string label)
-        {
-            return RunPSCmdletAndReturnFirst<OSImageContext>(new UpdateAzureVMImageCmdletInfo(imageName, label));
-        }
-
-        public OSImageContext UpdateAzureVMImage(string imageName, InstanceSize recommendedSize)
-        {
-            return RunPSCmdletAndReturnFirst<OSImageContext>(new UpdateAzureVMImageCmdletInfo(imageName, null, recommendedSize));
+            return RunPSCmdletAndReturnFirst<OSImageContext>(new UpdateAzureVMImageCmdletInfo(imageName, label, recommendedSize));
         }
 
         public ManagementOperationContext RemoveAzureVMImage(string imageName, bool deleteVhd = false)
@@ -1153,9 +1139,9 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
             return result;
         }
 
-        public void SaveAzureVMImage(string serviceName, string vmName, string newVmName, string newImageName = null)
+        public void SaveAzureVMImage(string serviceName, string vmName, string newImageName, string newImageLabel = null)
         {
-            RunPSCmdletAndReturnFirst<ManagementOperationContext>(new SaveAzureVMImageCmdletInfo(serviceName, vmName, newVmName, newImageName));
+            RunPSCmdletAndReturnFirst<ManagementOperationContext>(new SaveAzureVMImageCmdletInfo(serviceName, vmName, newImageName, newImageLabel));
         }
 
         public Collection<OSImageContext> GetAzureVMImage(string imageName = null)
@@ -1292,6 +1278,16 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
         }
 
         #endregion
+
+        #region AzureRoleSize
+
+        public Collection<RoleSizeContext> GetAzureRoleSize(string instanceSize = null)
+        {
+            return RunPSCmdletAndReturnAll<RoleSizeContext>(new GetAzureRoleSizeCmdletInfo(instanceSize));
+        }
+
+        #endregion
+
 
         public ManagementOperationContext GetAzureRemoteDesktopFile(string vmName, string serviceName, string localPath, bool launch)
         {
