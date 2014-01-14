@@ -12,7 +12,7 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Extensions
+namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
 {
     using System;
     using System.Linq;
@@ -22,10 +22,10 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Extensions
     using Utilities.Common;
 
     /// <summary>
-    /// Get Windows Azure Service Extension Image.
+    /// Get Windows Azure VM Extension Image.
     /// </summary>
-    [Cmdlet(VerbsCommon.Get, "AzureServiceExtensionImage"), OutputType(typeof(ExtensionImageContext))]
-    public class GetAzureServiceExtensionImageCommand : ServiceManagementBaseCmdlet
+    [Cmdlet(VerbsCommon.Get, "AzureVMExtension"), OutputType(typeof(VMExtensionImageContext))]
+    public class GetAzureVMExtensionCommand : ServiceManagementBaseCmdlet
     {
         [Parameter(ValueFromPipelineByPropertyName = true, Position = 0, HelpMessage = "The Extension Image Type.")]
         [ValidateNotNullOrEmpty]
@@ -39,15 +39,11 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Extensions
         {
             ServiceManagementProfile.Initialize(this);
 
-            Func<HostedServiceListAvailableExtensionsResponse.ExtensionImage, bool> pred =
-                string.IsNullOrEmpty(this.ExtensionImageType) ? (Func<HostedServiceListAvailableExtensionsResponse.ExtensionImage, bool>)(s => true)
-                                                              : s => string.Equals(this.ExtensionImageType, s.Type, StringComparison.OrdinalIgnoreCase);
-
             ExecuteClientActionNewSM(null,
                 CommandRuntime.ToString(),
-                () => this.ComputeClient.HostedServices.ListAvailableExtensions(),
-                (op, response) => response.Where(pred).Select(
-                     extension => ContextFactory<HostedServiceListAvailableExtensionsResponse.ExtensionImage, ExtensionImageContext>(extension, op)));
+                () => this.ComputeClient.VirtualMachineExtensions.List(),
+                (op, response) => response.Select(
+                     extension => ContextFactory<VirtualMachineExtensionListResponse.ResourceExtension, VMExtensionImageContext>(extension, op)));
         }
 
         protected override void OnProcessRecord()
