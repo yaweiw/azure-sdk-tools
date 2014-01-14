@@ -238,8 +238,10 @@
     <Compile Include="IaaS\Extensions\GetAzureVMExtension.cs" />
     <Compile Include="IaaS\Extensions\RemoveAzureVMDiagnosticsExtension.cs" />
     <Compile Include="IaaS\Extensions\SetAzureVMDiagnosticsExtension.cs" />
+    <Compile Include="IaaS\Extensions\SetAzureVMEnableVMAccessExtension.cs" />
     <Compile Include="IaaS\Extensions\VMDiagnosticsExtensionBuilder.cs" />
     <Compile Include="IaaS\Extensions\VMDiagnosticsExtensionContext.cs" />
+    <Compile Include="IaaS\Extensions\VMEnableVMAccessExtensionBuilder.cs" />
     <Compile Include="IaaS\Extensions\VMExtensionImageContext.cs" />
     <Compile Include="IaaS\Network\GetAzureStaticVNetIP.cs" />
     <Compile Include="IaaS\Network\RemoveAzureStaticVNetIP.cs" />

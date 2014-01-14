@@ -579,4 +579,7 @@
   <data name="ProvisionGuestAgentMustBeEnabledBeforeSettingIaaSDiagnosticsExtension" xml:space="preserve">
     <value>Provision Guest Agent must be enabled on the VM object before setting IaaS Diagnostics Extension.</value>
   </data>
+  <data name="ProvisionGuestAgentMustBeEnabledBeforeSettingIaaSVMAccessExtension" xml:space="preserve">
+    <value>Provision Guest Agent must be enabled on the VM object before setting IaaS VM Access Extension.</value>
+  </data>
 </root>
