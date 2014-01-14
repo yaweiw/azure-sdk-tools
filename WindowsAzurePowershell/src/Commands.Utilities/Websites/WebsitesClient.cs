@@ -791,6 +791,11 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
                 .Users.Select(u => u.Name).Where(n => !string.IsNullOrEmpty(n)).ToList();
         }
 
+        /// <summary>
+        /// Checks if a website exists or not.
+        /// </summary>
+        /// <param name="name">The website name</param>
+        /// <returns>True if exists, false otherwise</returns>
         public bool WebsiteExists(string name)
         {
             Site website = null;
@@ -807,6 +812,12 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
             return website != null;
         }
 
+        /// <summary>
+        /// Checks if a website slot exists or not.
+        /// </summary>
+        /// <param name="name">The website name</param>
+        /// <param name="slot">The website slot name</param>
+        /// <returns>True if exists, false otherwise</returns>
         public bool WebsiteExists(string name, string slot)
         {
             Site website = null;
