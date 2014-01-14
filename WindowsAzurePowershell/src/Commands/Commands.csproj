@@ -368,6 +368,7 @@
     <Compile Include="WAPackIaaS\VirtualMachine\VMOperationsCmdlet.cs" />
     <Compile Include="WAPackIaaS\VMOperationsEnum.cs" />
     <Compile Include="WAPackIaaS\WAPackCmdletParameterSets.cs" />
+    <Compile Include="Websites\SwitchAzureWebSiteSlot.cs" />
     <Compile Include="Websites\DisableAzureWebsiteDiagnostic.cs" />
     <Compile Include="Websites\EnableAzureWebsiteDebug.cs" />
     <Compile Include="Websites\DisableAzureWebsiteDebug.cs" />
