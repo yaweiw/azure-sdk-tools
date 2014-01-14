@@ -14,18 +14,33 @@
 
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
 {
+    using System.Linq;
     using System.Management.Automation;
     using Model;
+    using Model.PersistentVMModel;
 
     public class VirtualMachineConfigurationCmdletBase : PSCmdlet
     {
-        [Parameter(Mandatory = true, ValueFromPipeline = true, HelpMessage = "Virtual Machine to update.")]
+        protected const string StaticVNetIPNoun = "AzureStaticVNetIP";
+
+        [Parameter(Position = 0, Mandatory = true, ValueFromPipeline = true, HelpMessage = "Virtual Machine to update.")]
         [ValidateNotNullOrEmpty]
         [Alias("InputObject")]
         public IPersistentVM VM
         {
             get;
             set;
+        }
+
+        protected NetworkConfigurationSet GetNetworkConfiguration()
+        {
+            var vm = VM.GetInstance();
+            if (vm != null & vm.ConfigurationSets != null)
+            {
+                return vm.ConfigurationSets.OfType<NetworkConfigurationSet>().SingleOrDefault();
+            }
+
+            return null;
         }
     }
 }

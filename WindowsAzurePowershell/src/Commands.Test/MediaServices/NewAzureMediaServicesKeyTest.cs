@@ -39,11 +39,13 @@ namespace Microsoft.WindowsAzure.Commands.Test.MediaServices
 
             MediaServicesAccountGetResponse detail = new MediaServicesAccountGetResponse
             {
-                AccountName = expectedName,
-                StorageAccountKeys = new MediaServicesAccountGetResponse.AccountKeys
-                {
-                    Primary = newKey
-                }
+                Account = new MediaServicesAccount {
+                    AccountName = expectedName,
+                    StorageAccountKeys = new MediaServicesAccount.AccountKeys
+                    {
+                        Primary = newKey
+                    }
+               }
             };
 
             clientMock.Setup(f => f.GetMediaServiceAsync(expectedName)).Returns(Task.Factory.StartNew(() => detail));

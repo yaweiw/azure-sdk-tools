@@ -24,6 +24,8 @@ namespace Microsoft.WindowsAzure.Commands.Websites
     using System.Security.Permissions;
     using System.ServiceModel;
     using System.Text.RegularExpressions;
+    using Microsoft.WindowsAzure.Commands.Utilities.Websites;
+    using Microsoft.WindowsAzure.Management.WebSites.Models;
     using Utilities.Properties;
     using Utilities.Websites.Common;
     using Utilities.Websites.Services;
@@ -86,6 +88,13 @@ namespace Microsoft.WindowsAzure.Commands.Websites
         [Parameter(Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "The github repository.")]
         [ValidateNotNullOrEmpty]
         public string GithubRepository
+        {
+            get;
+            set;
+        }
+
+        [Parameter(Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "The slot name.")]
+        public string Slot
         {
             get;
             set;
@@ -350,10 +359,32 @@ namespace Microsoft.WindowsAzure.Commands.Websites
         {
             try
             {
-                WebsitesClient.CreateWebsite(webspace.Name, website);
-                Cache.AddSite(CurrentSubscription.SubscriptionId, website);
-                SiteConfig websiteConfiguration = WebsitesClient.GetWebsiteConfiguration(Name);
-                WriteObject(new SiteWithConfig(website, websiteConfiguration));
+                Site createdWebsite;
+
+                if (WebsitesClient.WebsiteExists(website.Name) && !string.IsNullOrEmpty(Slot))
+                {
+                    createdWebsite = WebsitesClient.GetWebsite(website.Name);
+
+                    // Make sure that the website is in Standard mode
+                    if (createdWebsite.ComputeMode == WebSiteComputeMode.Dedicated)
+                    {
+                        WebsitesClient.CreateWebsite(webspace.Name, website, Slot);
+                    }
+                    else
+                    {
+                        throw new Exception("Can not create slot in a website not in Standard mode");
+                    }
+                }
+                else
+                {
+                    WebsitesClient.CreateWebsite(webspace.Name, website);
+                }
+
+                createdWebsite = WebsitesClient.GetWebsite(website.Name);
+
+                Cache.AddSite(CurrentSubscription.SubscriptionId, createdWebsite);
+                SiteConfig websiteConfiguration = WebsitesClient.GetWebsiteConfiguration(Name, Slot);
+                WriteObject(new SiteWithConfig(createdWebsite, websiteConfiguration));
             }
             catch (CloudException ex)
             {

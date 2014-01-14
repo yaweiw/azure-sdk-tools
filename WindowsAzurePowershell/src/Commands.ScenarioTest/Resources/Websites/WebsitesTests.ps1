@@ -26,7 +26,7 @@ function Test-WithInvalidCredentials
 	Remove-AllSubscriptions
 
 	# Test
-	Assert-Throws $cloudCmdlet "Call Set-AzureSubscription and Select-AzureSubscription first."
+	Assert-Throws $cloudCmdlet "No current subscription has been designated. Use Select-AzureSubscription -Current &lt;subscriptionName&gt; to set the current subscription."
 }
 
 ########################################################################### Remove-AzureWebsite Scenario Tests ###########################################################################

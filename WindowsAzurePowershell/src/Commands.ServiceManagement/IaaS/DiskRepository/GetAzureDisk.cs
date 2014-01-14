@@ -22,7 +22,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
     using System.Management.Automation;
     using Utilities.Common;
 
-    [Cmdlet(VerbsCommon.Get, "AzureDisk"), OutputType(typeof(IEnumerable<DiskContext>))]
+    [Cmdlet(VerbsCommon.Get, "AzureDisk"), OutputType(typeof(DiskContext))]
     public class GetAzureDiskCommand : ServiceManagementBaseCmdlet
     {
         [Parameter(Position = 0, ValueFromPipelineByPropertyName = true, Mandatory = false, HelpMessage = "Name of the disk in the disk library.")]
