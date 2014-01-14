@@ -419,6 +419,72 @@ namespace Microsoft.WindowsAzure.Commands.Test.HDInsight.CmdLetTests
             }
         }
 
+
+        [TestMethod]
+        [TestCategory("CheckIn")]
+        [TestCategory("Integration")]
+        [TestCategory("PowerShell")]
+
+        public void ICanCreateAClusterUsingPowerShellAndConfig_New_Set__EnableHeadNodeHA()
+        {
+            AzureTestCredentials creds = GetCredentials(TestCredentialsNames.Default);
+            string dnsName = this.GetRandomClusterName();
+            using (IRunspace runspace = this.GetPowerShellRunspace())
+            {
+                IGetAzureHDInsightClusterCommand getCommand = ServiceLocator.Instance.Locate<IAzureHDInsightCommandFactory>().CreateGet();
+                getCommand = ServiceLocator.Instance.Locate<IAzureHDInsightCommandFactory>().CreateGet();
+                getCommand.CurrentSubscription = GetCurrentSubscription();
+
+                getCommand.EndProcessing();
+                int expected = getCommand.Output.Count();
+
+                IPipelineResult results = runspace.NewPipeline().AddCommand(CmdletConstants.NewAzureHDInsightCluster)
+                    // Ensure that the subscription Id can be accepted as a string as well as a guid.
+                                      .WithParameter(CmdletConstants.Name, dnsName)
+                                      .WithParameter(CmdletConstants.Location, CmdletConstants.EastUs)
+                                      .WithParameter(
+                                      CmdletConstants.DefaultStorageAccountName,
+                                      TestCredentials.Environments[0].DefaultStorageAccount.Name)
+                                      .WithParameter(
+                                      CmdletConstants.DefaultStorageAccountKey,
+                                      TestCredentials.Environments[0].DefaultStorageAccount.Key)
+                                      .WithParameter(
+                                      CmdletConstants.DefaultStorageContainerName,
+                                      TestCredentials.Environments[0].DefaultStorageAccount.Container)
+                                      .WithParameter(CmdletConstants.Credential, GetPSCredential("hadoop", this.GetRandomValidPassword()))
+                                      .WithParameter(CmdletConstants.EnableHeadNodeHighAvailibility, null)
+                                      .WithParameter(CmdletConstants.ClusterSizeInNodes, 5)
+                                                      .Invoke();
+
+                ClusterCreateParameters request = AzureHDInsightClusterManagementClientSimulator.LastCreateRequest;
+                Assert.IsTrue(request.EnsureHighAvailability);
+
+                var testCluster = results.Results.ToEnumerable<AzureHDInsightCluster>().FirstOrDefault();
+                Assert.IsNotNull(testCluster);
+                Assert.AreEqual(dnsName, testCluster.Name);
+                Assert.AreEqual(7, testCluster.ClusterSizeInNodes);
+
+                getCommand = ServiceLocator.Instance.Locate<IAzureHDInsightCommandFactory>().CreateGet();
+                getCommand.CurrentSubscription = GetCurrentSubscription();
+                getCommand.Name = dnsName;
+
+                getCommand.EndProcessing();
+                Assert.AreEqual(1, getCommand.Output.Count);
+                Assert.AreEqual(dnsName, getCommand.Output.ElementAt(0).Name);
+
+                results = runspace.NewPipeline().AddCommand(CmdletConstants.RemoveAzureHDInsightCluster)
+                    // Ensure that subscription id can be accepted as a sting as well as a guid.
+                                  .WithParameter(CmdletConstants.Name, dnsName)
+                                  .Invoke();
+
+                Assert.AreEqual(0, results.Results.Count);
+                getCommand = ServiceLocator.Instance.Locate<IAzureHDInsightCommandFactory>().CreateGet();
+                getCommand.CurrentSubscription = GetCurrentSubscription();
+                getCommand.EndProcessing();
+                Assert.AreEqual(expected, getCommand.Output.Count);
+            }
+        }
+
         [TestMethod]
         [TestCategory("CheckIn")]
         [TestCategory("Integration")]
