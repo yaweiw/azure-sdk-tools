@@ -375,6 +375,13 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
         /// <param name="websiteName">The website name</param>
         /// <param name="slot">The website slot name</param>
         void SwitchSlot(string webspaceName, string websiteName, string slot);
+
+        /// <summary>
+        /// Gets the slot name from the website name
+        /// </summary>
+        /// <param name="name">The website name</param>
+        /// <returns>The slot name</returns>
+        string GetSlotName(string name);
     }
 
     public enum WebsiteState
