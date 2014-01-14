@@ -340,6 +340,24 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Diagnostics Configuration Xml or File Path, only one of them needs to be specified..
+        /// </summary>
+        internal static string EitherDiagnosticsConfigurationXmlOrFilePathBeSpecified {
+            get {
+                return ResourceManager.GetString("EitherDiagnosticsConfigurationXmlOrFilePathBeSpecified", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Either Diagnostics Configuration Xml or File Path must be specified..
+        /// </summary>
+        internal static string EitherDiagnosticsConfigurationXmlOrFilePathMustBeSpecified {
+            get {
+                return ResourceManager.GetString("EitherDiagnosticsConfigurationXmlOrFilePathMustBeSpecified", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Location or AffinityGroup, only one of them needs to be specified..
         /// </summary>
         internal static string EitherLocationOrAffinityGroupBeSpecified {
@@ -732,6 +750,15 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Properties {
         internal static string ProbePathIsRequiredForHttp {
             get {
                 return ResourceManager.GetString("ProbePathIsRequiredForHttp", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Provision Guest Agent must be enabled on the VM object before setting IaaS Diagnostics Extension..
+        /// </summary>
+        internal static string ProvisionGuestAgentMustBeEnabledBeforeSettingIaaSDiagnosticsExtension {
+            get {
+                return ResourceManager.GetString("ProvisionGuestAgentMustBeEnabledBeforeSettingIaaSDiagnosticsExtension", resourceCulture);
             }
         }
         
