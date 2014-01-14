@@ -14,12 +14,9 @@
 
 namespace Microsoft.WindowsAzure.Commands.Storage.Model.Contract
 {
+    using System.Collections.Generic;
     using Microsoft.WindowsAzure.Storage;
     using Microsoft.WindowsAzure.Storage.Table;
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
 
     /// <summary>
     /// Storage table management
