@@ -108,6 +108,7 @@
     </Reference>
     <Reference Include="Microsoft.Hadoop.Client, Version=1.0.5.2, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
+    </Reference>
     <Reference Include="Microsoft.Hadoop.Client">
       <HintPath>..\packages\Microsoft.Hadoop.Client.1.0.5.2\lib\net40\Microsoft.Hadoop.Client.dll</HintPath>
     </Reference>
@@ -147,6 +148,7 @@
     </Reference>
     <Reference Include="Microsoft.WindowsAzure.Management.HDInsight.Framework.Core, Version=1.0.5.2, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
+    </Reference>
     <Reference Include="Microsoft.WindowsAzure.Management.HDInsight">
       <HintPath>..\packages\Microsoft.WindowsAzure.Management.HDInsight.1.0.5.2\lib\net40\Microsoft.WindowsAzure.Management.HDInsight.dll</HintPath>
     </Reference>
