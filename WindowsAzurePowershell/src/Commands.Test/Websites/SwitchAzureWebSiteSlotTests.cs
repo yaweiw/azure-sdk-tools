@@ -24,32 +24,31 @@ namespace Microsoft.WindowsAzure.Commands.Test.Websites
     using VisualStudio.TestTools.UnitTesting;
 
     [TestClass]
-    public class RemoveAzureWebsiteTests : WebsitesTestBase
+    public class SwitchAzureWebsiteSlotTests : WebsitesTestBase
     {
         [TestMethod]
-        public void ProcessRemoveWebsiteTest()
+        public void SwitchesSlots()
         {
             // Setup
             var mockClient = new Mock<IWebsitesClient>();
-            string slot = "staging";
+            string slot = WebsiteSlotName.Staging.ToString();
 
-            mockClient.Setup(c => c.GetWebsite("website1", slot))
+            mockClient.Setup(c => c.GetWebsite("website1"))
                 .Returns(new Site { Name = "website1", WebSpace = "webspace1" });
-            mockClient.Setup(c => c.DeleteWebsite("webspace1", "website1", slot)).Verifiable();
+            mockClient.Setup(c => c.SwitchSlot("webspace1", "website1", slot)).Verifiable();
 
             // Test
-            RemoveAzureWebsiteCommand removeAzureWebsiteCommand = new RemoveAzureWebsiteCommand
+            SwitchAzureWebsiteSlotCommand switchAzureWebsiteCommand = new SwitchAzureWebsiteSlotCommand
             {
                 CommandRuntime = new MockCommandRuntime(),
                 WebsitesClient = mockClient.Object,
                 Name = "website1",
                 CurrentSubscription = new WindowsAzureSubscription { SubscriptionId = base.subscriptionId },
-                Slot = slot
             };
 
-            // Delete existing website
-            removeAzureWebsiteCommand.ExecuteCmdlet();
-            mockClient.Verify(c => c.DeleteWebsite("webspace1", "website1", slot), Times.Once());
+            // Switch existing website
+            switchAzureWebsiteCommand.ExecuteCmdlet();
+            mockClient.Verify(c => c.SwitchSlot("webspace1", "website1", slot), Times.Once());
         }
     }
 }

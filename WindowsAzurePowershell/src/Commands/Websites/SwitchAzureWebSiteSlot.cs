@@ -15,6 +15,7 @@
 namespace Microsoft.WindowsAzure.Commands.Websites
 {
     using System.Management.Automation;
+    using Microsoft.WindowsAzure.Commands.Utilities.Websites;
     using Utilities.Properties;
     using Utilities.Websites.Common;
     using Utilities.Websites.Services;
@@ -23,33 +24,13 @@ namespace Microsoft.WindowsAzure.Commands.Websites
     /// <summary>
     /// Removes an azure website.
     /// </summary>
-    [Cmdlet(VerbsCommon.Remove, "AzureWebsite", SupportsShouldProcess = true), OutputType(typeof(Site))]
-    public class RemoveAzureWebsiteCommand : WebsiteContextBaseCmdlet
+    [Cmdlet(VerbsCommon.Switch, "AzureWebsiteSlot", SupportsShouldProcess = true), OutputType(typeof(Site))]
+    public class SwitchAzureWebsiteSlotCommand : WebsiteContextBaseCmdlet
     {
-        [Parameter(Mandatory = false, HelpMessage = "Do not confirm web site deletion")]
-        public SwitchParameter Force { get; set; }
-
-        [Parameter(Mandatory = false, HelpMessage = "The website slot name")]
-        public string Slot { get; set; }
-
-        protected virtual void WriteWebsite(Site website)
-        {
-            WriteObject(website, true);
-        }
-
         public override void ExecuteCmdlet()
         {
-            ConfirmAction(
-                Force.IsPresent,
-                string.Format(Resources.RemoveWebsiteWarning, Name),
-                Resources.RemoveWebsiteMessage,
-                Name,
-                () =>
-                    {
-                        Site websiteObject = WebsitesClient.GetWebsite(Name, Slot);
-                        WebsitesClient.DeleteWebsite(websiteObject.WebSpace, Name, Slot);
-                        Cache.RemoveSite(CurrentSubscription.SubscriptionId, websiteObject);
-                    });
+            Site websiteObject = WebsitesClient.GetWebsite(Name);
+            WebsitesClient.SwitchSlot(websiteObject.WebSpace, Name, WebsiteSlotName.Staging.ToString());
         }
     }
 }

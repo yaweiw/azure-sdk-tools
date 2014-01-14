@@ -18,6 +18,7 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Blob
     using System.Management.Automation;
     using System.Net;
     using System.Threading;
+    using Microsoft.WindowsAzure.Storage.Blob;
     using Microsoft.WindowsAzure.Storage.DataMovement;
 
     public class StorageDataMovementCmdletBase : StorageCloudBlobCmdletBase, IDisposable
@@ -53,6 +54,7 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Blob
             get { return overwrite; }
             set { overwrite = value; }
         }
+
         protected bool overwrite;
 
         /// <summary>
@@ -98,7 +100,7 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Blob
         /// Confirm the overwrite operation
         /// </summary>
         /// <param name="msg">Confirmation message</param>
-        /// <returns>True if the opeation is confirmed, otherwise return false</returns>
+        /// <returns>True if the operation is confirmed, otherwise return false</returns>
         internal virtual bool ConfirmOverwrite(string destinationPath)
         {
             string overwriteMessage = String.Format(Resources.OverwriteConfirmation, destinationPath);
@@ -191,9 +193,35 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Blob
 
             BlobTransferOptions opts = new BlobTransferOptions();
             opts.Concurrency = concurrentTaskCount;
+            SetRequestOptionsInDataMovement(opts);
             transferManager = new BlobTransferManager(opts);
             
             base.BeginProcessing();
+        }
+
+        private void SetRequestOptionsInDataMovement(BlobTransferOptions opts)
+        {
+            BlobRequestOptions cmdletOptions = RequestOptions;
+            if (cmdletOptions == null)
+            {
+                return;
+            }
+            foreach (BlobRequestOperation operation in Enum.GetValues(typeof(BlobRequestOperation)))
+            {
+                BlobRequestOptions requestOptions = opts.GetBlobRequestOptions(operation);
+
+                if (cmdletOptions.MaximumExecutionTime != null)
+                {
+                    requestOptions.MaximumExecutionTime = cmdletOptions.MaximumExecutionTime;
+                }
+
+                if (cmdletOptions.ServerTimeout != null)
+                {
+                    requestOptions.ServerTimeout = cmdletOptions.ServerTimeout;
+                }
+
+                opts.SetBlobRequestOptions(operation, requestOptions);    
+            }
         }
 
         /// <summary>

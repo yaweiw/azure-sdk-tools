@@ -234,7 +234,7 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Blob.Cmdlet
             if (destinationBlob != null)
             {
                 AccessCondition accessCondition = null;
-                BlobRequestOptions options = null;
+                BlobRequestOptions options = RequestOptions;
                 //Make sure we use the dest channel
                 destChannel.FetchBlobAttributes(destinationBlob, accessCondition, options, OperationContext);
                 AzureStorageBlob azureBlob = new AzureStorageBlob(destinationBlob);
@@ -320,7 +320,7 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Blob.Cmdlet
             ValidateBlobName(destBlobName);
 
             AccessCondition accessCondition = null;
-            BlobRequestOptions options = null;
+            BlobRequestOptions options = RequestOptions;
             CloudBlobContainer container = Channel.GetContainerReference(srcContainerName);
             ICloudBlob blob = Channel.GetBlobReferenceFromServer(container, srcBlobName, accessCondition, options, OperationContext);
 
@@ -402,7 +402,7 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Blob.Cmdlet
         private ICloudBlob GetDestinationBlobWithCopyId(CloudBlobContainer container, string blobName)
         {
             AccessCondition accessCondition = null;
-            BlobRequestOptions options = null;
+            BlobRequestOptions options = RequestOptions;
             ICloudBlob blob = destChannel.GetBlobReferenceFromServer(container, blobName, accessCondition, options, OperationContext);
             return blob;
         }
