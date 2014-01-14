@@ -448,7 +448,7 @@
     <value>SAS Uri for the destination blob is not supported in patch mode:{0}</value>
   </data>
   <data name="StorageCredentialsFactoryCurrentSubscriptionNotSet" xml:space="preserve">
-    <value>Call Set-AzureSubscription and Select-AzureSubscription first.</value>
+    <value>No current subscription has been designated. Use Select-AzureSubscription -Current &lt;subscriptionName&gt; to set the current subscription.</value>
   </data>
   <data name="PSSyncOutputEventsFormatDuration" xml:space="preserve">
     <value>{0} days {1:00}:{2:00}:{3:00}</value>
@@ -563,5 +563,11 @@
   </data>
   <data name="CannotDeleteVirtualMachineDataDiskForLUN" xml:space="preserve">
     <value>Cannot delete VM Data Disk for LUN '{0}', </value>
+  </data>
+  <data name="NetworkConfigurationNotFoundOnPersistentVM" xml:space="preserve">
+    <value>Network configuration not found on the persistent VM.</value>
+  </data>
+  <data name="StaticIPAddressNoLongerInUseButStillBeingReserved" xml:space="preserve">
+    <value>Stopping VM role: '{0}'. Its static IP address: '{1}' will no longer be in use after the it is stopped and stayed in provision, but it is still being reserved.</value>
   </data>
 </root>

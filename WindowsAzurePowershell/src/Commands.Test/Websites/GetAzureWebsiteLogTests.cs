@@ -83,7 +83,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.Websites
                 }
             };
             Cache.AddSite(getAzureWebsiteLogCmdlet.CurrentSubscription.SubscriptionId, website);
-            websitesClientMock.Setup(c => c.GetWebsite(websiteName))
+            websitesClientMock.Setup(c => c.GetWebsite(websiteName, null))
                 .Returns(website);
         }
 

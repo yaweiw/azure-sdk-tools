@@ -139,6 +139,9 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
 
         public const string GetAzureRoleInstanceCmdletName = "Get-AzureRoleInstance";
 
+        // AzureRoleSize
+        public const string GetAzureRoleSizeCmdletName = "Get-AzureRoleSize";
+
         // AzureService
         public const string NewAzureServiceCmdletName = "New-AzureService";
         public const string GetAzureServiceCmdletName = "Get-AzureService";
@@ -246,6 +249,8 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
         public static string GetAzureAclConfigCmdletName = "Get-AzureAclConfig";
 
         public static string SetAzureLoadBalancedEndpointCmdletName = "Set-AzureLoadBalancedEndpoint";
+
+        public const string ResetAzureRoleInstanceCmdletName = "ReSet-AzureRoleInstance";
 
         #endregion
 

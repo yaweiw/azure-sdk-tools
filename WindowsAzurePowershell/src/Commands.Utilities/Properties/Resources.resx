@@ -511,16 +511,16 @@
     <value>The country name is invalid, please use a valid two character country code, as described in ISO 3166-1 alpha-2.</value>
   </data>
   <data name="InvalidCurrentSubscription" xml:space="preserve">
-    <value>Call Set-AzureSubscription and Select-AzureSubscription first.</value>
+    <value>No current subscription has been designated. Use Select-AzureSubscription -Current &lt;subscriptionName&gt; to set the current subscription.</value>
   </data>
   <data name="InvalidCurrentSubscriptionId" xml:space="preserve">
-    <value>You MUST specify a subscription Id. Call Set-AzureSubscription and Select-AzureSubscription first.</value>
+    <value>The ID of the current subscription is invalid. Use Set-AzureSubscription to fix the subscription ID or use Select-AzureSubscription to use a different subscription.</value>
   </data>
   <data name="InvalidCurrentSuscriptionCertificate" xml:space="preserve">
-    <value>You MUST specify a certificate. Call Set-AzureSubscription and Select-AzureSubscription first.</value>
+    <value>The management certificate of the current subscription is invalid. Use Set-AzureSubscription to fix the management certificate or use Select-AzureSubscription to use a different subscription.</value>
   </data>
   <data name="InvalidDefaultSubscription" xml:space="preserve">
-    <value>No default subscription has been designated. Use Set-AzureSubscription -DefaultSubscription &lt;subscriptionName&gt; to set the default subscription.</value>
+    <value>No default subscription has been designated. Use Select-AzureSubscription -Default &lt;subscriptionName&gt; to set the default subscription.</value>
   </data>
   <data name="InvalidDnsName" xml:space="preserve">
     <value>"{0}" is an invalid DNS name for {1}</value>
@@ -1368,7 +1368,7 @@ Please follow these steps in the portal:
     <value>Removing account</value>
   </data>
   <data name="ExpiredRefreshToken" xml:space="preserve">
-    <value>Your credentials have expired. Please use Add-AzureAccount to log in again.</value>
+    <value>Your Windows Azure credential in the Windows PowerShell session has expired. Please use Add-AzureAccount to login again.</value>
   </data>
   <data name="NoCachedToken" xml:space="preserve">
     <value>There is no access token cached for subscription {0}, user id {1}. Use the Add-AzureAccount cmdlet to log in again and get a token for this subscription.</value>

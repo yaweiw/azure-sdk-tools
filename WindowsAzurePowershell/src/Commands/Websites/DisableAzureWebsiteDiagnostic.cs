@@ -30,6 +30,9 @@ namespace Microsoft.WindowsAzure.Commands.Websites
         [Parameter(Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "Storage switch.")]
         public SwitchParameter Storage { get; set; }
 
+        [Parameter(Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "Slot name.")]
+        public string Slot { get; set; }
+
         public override void ExecuteCmdlet()
         {
             if (!File.IsPresent && !Storage.IsPresent)
@@ -41,12 +44,12 @@ namespace Microsoft.WindowsAzure.Commands.Websites
             {
                 if (File.IsPresent)
                 {
-                    WebsitesClient.DisableApplicationDiagnostic(Name, WebsiteDiagnosticOutput.FileSystem);
+                    WebsitesClient.DisableApplicationDiagnostic(Name, WebsiteDiagnosticOutput.FileSystem, Slot);
                 }
 
                 if (Storage.IsPresent)
                 {
-                    WebsitesClient.DisableApplicationDiagnostic(Name, WebsiteDiagnosticOutput.StorageTable);
+                    WebsitesClient.DisableApplicationDiagnostic(Name, WebsiteDiagnosticOutput.StorageTable, Slot);
                 }
             }
 
