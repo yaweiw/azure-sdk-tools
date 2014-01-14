@@ -877,5 +877,23 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
 
             WebsiteManagementClient.WebSites.SwapSlots(webspaceName, websiteName, slot);
         }
+
+        /// <summary>
+        /// Gets the slot name from the website name
+        /// </summary>
+        /// <param name="name">The website name</param>
+        /// <returns>The slot name</returns>
+        public string GetSlotName(string name)
+        {
+            string[] split = name.Split('(');
+            if (split.Length == 1)
+            {
+                return WebsiteSlotName.Production.ToString().ToLower();
+            }
+            else
+            {
+                return split[1].TrimEnd(')').ToLower();
+            }
+        }
     }
 }

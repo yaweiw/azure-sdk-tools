@@ -353,6 +353,7 @@
     <Compile Include="WAPackIaaS\WebClient\GetAbsoluteUriTests.cs" />
     <Compile Include="WAPackIaaS\WebClient\JsonHelperTests.cs" />
     <Compile Include="WAPackIaaS\WebClient\WAPackWebClientTests.cs" />
+    <Compile Include="Websites\UpdateAzureWebsiteRepositoryTests.cs" />
     <Compile Include="Websites\SwitchAzureWebSiteSlotTests.cs" />
     <Compile Include="Websites\DisableAzureWebsiteDiagnosticTests.cs" />
     <Compile Include="Websites\EnableAzureWebsiteDiagnosticTests.cs" />
