@@ -187,6 +187,11 @@ namespace Microsoft.WindowsAzure.Commands.Test.Utilities.HDInsight.Simulators
             LastCreateRequest = clusterCreateParameters;
             var clusterDetails = new ClusterDetails();
 
+            if (clusterCreateParameters.EnsureHighAvailability)
+            {
+                clusterDetails.ClusterSizeInNodes = clusterCreateParameters.ClusterSizeInNodes + 2;
+            }
+
             clusterDetails.Name = clusterCreateParameters.Name;
             clusterDetails.HttpPassword = clusterCreateParameters.Password;
             clusterDetails.HttpUserName = clusterCreateParameters.UserName;
