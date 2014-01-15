@@ -22,6 +22,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.Websites
     using Commands.Utilities.Websites.Services.WebEntities;
     using Commands.Websites;
     using VisualStudio.TestTools.UnitTesting;
+    using System.Collections.Generic;
 
     [TestClass]
     public class SwitchAzureWebsiteSlotTests : WebsitesTestBase
@@ -31,11 +32,14 @@ namespace Microsoft.WindowsAzure.Commands.Test.Websites
         {
             // Setup
             var mockClient = new Mock<IWebsitesClient>();
-            string slot = WebsiteSlotName.Staging.ToString();
+            string slot = "staging";
 
-            mockClient.Setup(c => c.GetWebsite("website1"))
-                .Returns(new Site { Name = "website1", WebSpace = "webspace1" });
-            mockClient.Setup(c => c.SwitchSlot("webspace1", "website1", slot)).Verifiable();
+            mockClient.Setup(c => c.GetWebsiteSlots("website1"))
+                .Returns(new List<Site> { 
+                    new Site { Name = "website1", WebSpace = "webspace1" },
+                    new Site { Name = "website1(staging)", WebSpace = "webspace1" }
+                });
+            mockClient.Setup(c => c.SwitchSlot("webspace1", "website1(staging)", slot)).Verifiable();
 
             // Test
             SwitchAzureWebsiteSlotCommand switchAzureWebsiteCommand = new SwitchAzureWebsiteSlotCommand
@@ -44,11 +48,12 @@ namespace Microsoft.WindowsAzure.Commands.Test.Websites
                 WebsitesClient = mockClient.Object,
                 Name = "website1",
                 CurrentSubscription = new WindowsAzureSubscription { SubscriptionId = base.subscriptionId },
+                Force = true
             };
 
             // Switch existing website
             switchAzureWebsiteCommand.ExecuteCmdlet();
-            mockClient.Verify(c => c.SwitchSlot("webspace1", "website1", slot), Times.Once());
+            mockClient.Verify(c => c.SwitchSlot("webspace1", "website1(staging)", slot), Times.Once());
         }
     }
 }
