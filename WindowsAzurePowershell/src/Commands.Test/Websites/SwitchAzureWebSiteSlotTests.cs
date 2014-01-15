@@ -39,6 +39,8 @@ namespace Microsoft.WindowsAzure.Commands.Test.Websites
                     new Site { Name = "website1", WebSpace = "webspace1" },
                     new Site { Name = "website1(staging)", WebSpace = "webspace1" }
                 });
+            mockClient.Setup(f => f.GetSlotName("website1")).Returns(WebsiteSlotName.Production.ToString());
+            mockClient.Setup(f => f.GetSlotName("website1(staging)")).Returns("staging");
             mockClient.Setup(c => c.SwitchSlot("webspace1", "website1(staging)", slot)).Verifiable();
 
             // Test
@@ -53,7 +55,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.Websites
 
             // Switch existing website
             switchAzureWebsiteCommand.ExecuteCmdlet();
-            mockClient.Verify(c => c.SwitchSlot("webspace1", "website1(staging)", slot), Times.Once());
+            mockClient.Verify(c => c.SwitchSlot("webspace1", "website1", slot), Times.Once());
         }
     }
 }

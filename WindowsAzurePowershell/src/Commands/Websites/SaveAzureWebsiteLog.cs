@@ -66,7 +66,6 @@ namespace Microsoft.WindowsAzure.Commands.Websites
 
         public override void ExecuteCmdlet()
         {
-            base.slot = Slot;
             if (string.IsNullOrEmpty(Output))
             {
                 Output = Path.Combine(GetCurrentPath(), DefaultOutput);

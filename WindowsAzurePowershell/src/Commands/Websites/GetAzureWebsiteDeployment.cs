@@ -80,7 +80,6 @@ namespace Microsoft.WindowsAzure.Commands.Websites
 
         public override void ExecuteCmdlet()
         {
-            base.slot = Slot;
             base.ExecuteCmdlet();
 
             InvokeInDeploymentOperationContext(() =>
