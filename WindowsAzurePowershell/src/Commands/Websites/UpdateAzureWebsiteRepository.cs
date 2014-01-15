@@ -30,6 +30,10 @@ namespace Microsoft.WindowsAzure.Commands.Websites
     [Cmdlet(VerbsData.Update, "AzureWebsiteRepository", SupportsShouldProcess = true)]
     public class UpdateAzureWebsiteRepositoryCommand : WebsiteContextBaseCmdlet
     {
+        [Parameter(Mandatory = true, ValueFromPipelineByPropertyName = true, HelpMessage = "The publishing user name.")]
+        [ValidateNotNullOrEmpty]
+        public string PublishingUsername { get; set; }
+
         public override void ExecuteCmdlet()
         {
             List<Site> sites = WebsitesClient.GetWebsiteSlots(Name);
@@ -48,7 +52,7 @@ namespace Microsoft.WindowsAzure.Commands.Websites
             foreach (Site website in sites)
             {
                 string repositoryUri = website.GetProperty("RepositoryUri");
-                string publishingUsername = website.GetProperty("PublishingUsername");
+                string publishingUsername = PublishingUsername;
                 string uri = Git.GetUri(repositoryUri, Name, publishingUsername);
                 string slot = WebsitesClient.GetSlotName(website.Name);
                 string remoteName = string.Empty;
