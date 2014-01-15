@@ -12,8 +12,6 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-using System.Reflection;
-
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
 {
     using Model;
@@ -25,6 +23,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
     using System;
     using System.Diagnostics;
     using System.IO;
+    using System.Reflection;
     using System.Security;
     using System.Security.Cryptography;
     using System.Security.Cryptography.X509Certificates;
@@ -169,6 +168,12 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
         public const string SetAzureStorageAccountCmdletName = "Set-AzureStorageAccount";        
         public static string RemoveAzureStorageAccountCmdletName = "Remove-AzureStorageAccount";
 
+        //AzureDomainJoinExtension
+        public const string NewAzureServiceDomainJoinExtensionConfig = "New-AzureServiceADDomainExtensionConfig";
+        public const string SetAzureServiceDomainJoinExtension = "Set-AzureServiceADDomainExtension";
+        public const string RemoveAzureServiceDomainJoinExtension = "Remove-AzureServiceADDomainExtension";
+        public const string GetAzureServiceDomainJoinExtension = "Get-AzureServiceADDomainExtension";
+
         // AzureStorageKey
         public static string NewAzureStorageKeyCmdletName = "New-AzureStorageKey";
         public static string GetAzureStorageKeyCmdletName = "Get-AzureStorageKey";
@@ -251,6 +256,13 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
         public static string SetAzureLoadBalancedEndpointCmdletName = "Set-AzureLoadBalancedEndpoint";
 
         public const string ResetAzureRoleInstanceCmdletName = "ReSet-AzureRoleInstance";
+
+        //Static CA cmdlets
+
+        public const string TestAzureStaticVNetIPCmdletName = "Test-AzureStaticVNetIP";
+        public const string SetAzureStaticVNetIPCmdletName = "Set-AzureStaticVNetIP";
+        public const string GetAzureStaticVNetIPCmdletName = "Get-AzureStaticVNetIP";
+        public const string RemoveAzureStaticVNetIPCmdletName = "Remove-AzureStaticVNetIP";
 
         #endregion
 
@@ -542,8 +554,8 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
 
         public static X509Certificate2 InstallCert(string certFile, StoreLocation location = StoreLocation.CurrentUser, StoreName name = StoreName.My)
         {
-            X509Certificate2 cert = new X509Certificate2(certFile);
-            X509Store certStore = new X509Store(name, location);
+            var cert = new X509Certificate2(certFile);
+            var certStore = new X509Store(name, location);
             certStore.Open(OpenFlags.ReadWrite);
             certStore.Add(cert);
             certStore.Close();
