@@ -16,12 +16,9 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
 {
     using System;
     using System.Management.Automation;
-    using System.Linq;
     using Model;
     using Model.PersistentVMModel;
     using Properties;
-    using Utilities.Common;
-    using Utilities.Websites.Services;
 
     [Cmdlet(VerbsCommon.Set, "AzureVMEnableVMAccessExtension", DefaultParameterSetName = EnableExtensionWithNewOrExistingCredentialParameterSet), OutputType(typeof(IPersistentVM))]
     public class SetAzureVMEnableVMAccessExtensionCommand : VirtualMachineConfigurationCmdletBase

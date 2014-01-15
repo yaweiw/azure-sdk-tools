@@ -14,14 +14,9 @@
 
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
 {
-    using System;
     using System.Linq;
-    using System.Xml;
     using System.Xml.Linq;
-    using Microsoft.WindowsAzure.Storage;
-    using Microsoft.WindowsAzure.Storage.Auth;
     using Model.PersistentVMModel;
-    using Utilities.Websites.Services;
 
     public class VMEnableVMAccessExtensionBuilder
     {
