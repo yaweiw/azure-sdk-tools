@@ -11768,6 +11768,13 @@
           </maml:description>
           <command:parameterValue required="true" variableLength = "false" >String</command:parameterValue>
         </command:parameter>
+        <command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "true (ByPropertyName)">
+          <maml:name>Slot</maml:name>
+          <maml:description>
+            <maml:para>The slot name of the Azure website</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength = "false" >String</command:parameterValue>
+        </command:parameter>
         <command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "true (ByPropertyName)" position = "2" >
           <maml:name>Version</maml:name>
           <maml:description>
@@ -11789,6 +11796,13 @@
         <maml:name>Name</maml:name>
         <maml:description>
           <maml:para>The name of the Azure website</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength = "false" >String</command:parameterValue>
+      </command:parameter>
+      <command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "true (ByPropertyName)">
+        <maml:name>Slot</maml:name>
+        <maml:description>
+          <maml:para>The slot name of the Azure website</maml:para>
         </maml:description>
         <command:parameterValue required="true" variableLength = "false" >String</command:parameterValue>
       </command:parameter>
@@ -11920,6 +11934,13 @@
           </maml:description>
           <command:parameterValue required="true" variableLength = "false" >String</command:parameterValue>
         </command:parameter>
+        <command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "true (ByPropertyName)">
+          <maml:name>Slot</maml:name>
+          <maml:description>
+            <maml:para>The slot name of the Azure website</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength = "false" >String</command:parameterValue>
+        </command:parameter>
         <command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "true (ByPropertyName)" position = "2" >
           <maml:name>PassThru</maml:name>
           <maml:description>
@@ -11934,6 +11955,13 @@
         <maml:name>Name</maml:name>
         <maml:description>
           <maml:para>The name of the Azure website</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength = "false" >String</command:parameterValue>
+      </command:parameter>
+      <command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "true (ByPropertyName)">
+        <maml:name>Slot</maml:name>
+        <maml:description>
+          <maml:para>The slot name of the Azure website</maml:para>
         </maml:description>
         <command:parameterValue required="true" variableLength = "false" >String</command:parameterValue>
       </command:parameter>
