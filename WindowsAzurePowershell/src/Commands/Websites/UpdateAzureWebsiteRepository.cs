@@ -46,8 +46,6 @@ namespace Microsoft.WindowsAzure.Commands.Websites
                 Name = GitWebsite.ReadConfiguration().Name;
             }
 
-            base.ProcessRecord();
-
             List<Site> sites = WebsitesClient.GetWebsiteSlots(Name);
             IList<string> remoteRepositories = Git.GetRemoteRepositories();
 

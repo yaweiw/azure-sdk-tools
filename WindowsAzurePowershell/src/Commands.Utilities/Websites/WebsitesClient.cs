@@ -542,7 +542,9 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
         {
             name = GetWebsiteName(name);
 
-            if (string.IsNullOrEmpty(slot) || slot.Equals(WebsiteSlotName.Production.ToString(), StringComparison.OrdinalIgnoreCase))
+            if (string.IsNullOrEmpty(slot) || 
+                slot.Equals(WebsiteSlotName.Production.ToString(), StringComparison.OrdinalIgnoreCase) ||
+                (name.Contains('(') && name.Contains(')')))
             {
                 return name;
             }

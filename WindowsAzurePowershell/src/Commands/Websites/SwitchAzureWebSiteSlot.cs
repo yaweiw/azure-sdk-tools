@@ -14,6 +14,7 @@
 
 namespace Microsoft.WindowsAzure.Commands.Websites
 {
+    using System.Collections.Generic;
     using System.Management.Automation;
     using Microsoft.WindowsAzure.Commands.Utilities.Websites;
     using Utilities.Properties;
@@ -29,11 +30,10 @@ namespace Microsoft.WindowsAzure.Commands.Websites
     {
         [Parameter(Position = 0, Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "The web site name.")]
         [ValidateNotNullOrEmpty]
-        public string Name
-        {
-            get;
-            set;
-        }
+        public string Name { get; set; }
+
+        [Parameter(Mandatory = false, HelpMessage = "Do not confirm web site swap")]
+        public SwitchParameter Force { get; set; }
 
         public override void ExecuteCmdlet()
         {
@@ -43,10 +43,37 @@ namespace Microsoft.WindowsAzure.Commands.Websites
                 Name = GitWebsite.ReadConfiguration().Name;
             }
 
-            base.ProcessRecord();
+            List<Site> sites = WebsitesClient.GetWebsiteSlots(Name);
+            string slotName = null;
+            string webspace = null;
 
-            Site websiteObject = WebsitesClient.GetWebsite(Name);
-            WebsitesClient.SwitchSlot(websiteObject.WebSpace, Name, WebsiteSlotName.Staging.ToString());
+            if (sites.Count != 2)
+            {
+                throw new PSInvalidOperationException("The website must have exactly two slots to apply swap");
+            }
+            else
+            {
+                foreach (Site website in sites)
+                {
+                    string currentSlotName = WebsitesClient.GetSlotName(website.Name);
+                    if (!currentSlotName.Equals(WebsiteSlotName.Production.ToString(), System.StringComparison.OrdinalIgnoreCase))
+                    {
+                        slotName = currentSlotName;
+                        webspace = website.WebSpace;
+                        break;
+                    }
+                }
+            }
+
+            ConfirmAction(
+                Force.IsPresent,
+                string.Format(Resources.SwapWebsiteSlotWarning, slotName),
+                Resources.SwappingWebsite,
+                Name,
+                () =>
+                {
+                    WebsitesClient.SwitchSlot(webspace, Name, slotName);
+                }); 
         }
     }
 }
