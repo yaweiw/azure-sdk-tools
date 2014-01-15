@@ -151,9 +151,17 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
         /// </summary>
         /// <param name="webspaceName">webspace the site is in.</param>
         /// <param name="websiteName">website name.</param>
-        /// <param name="deleteMetrics"></param>
-        /// <param name="deleteEmptyServerFarm"></param>
+        /// <param name="deleteMetrics">pass true to delete stored metrics as part of removing site.</param>
+        /// <param name="deleteEmptyServerFarm">Pass true to delete server farm is this was the last website in it.</param>
         void DeleteWebsite(string webspaceName, string websiteName, bool deleteMetrics = false, bool deleteEmptyServerFarm = false);
+
+        /// <summary>
+        /// Delete a website slot.
+        /// </summary>
+        /// <param name="webspaceName">webspace the site is in.</param>
+        /// <param name="websiteName">website name.</param>
+        /// <param name="slot">The website slot name</param>
+        void DeleteWebsite(string webspaceName, string websiteName, string slot);
 
         /// <summary>
         /// Get the WebSpaces.
@@ -359,6 +367,21 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
         /// <param name="name">The website name</param>
         /// <param name="slot">The website slot name</param>
         void StopWebsite(string name, string slot);
+
+        /// <summary>
+        /// Switches the given website slot with the production slot
+        /// </summary>
+        /// <param name="webspaceName">The webspace name</param>
+        /// <param name="websiteName">The website name</param>
+        /// <param name="slot">The website slot name</param>
+        void SwitchSlot(string webspaceName, string websiteName, string slot);
+
+        /// <summary>
+        /// Gets the slot name from the website name
+        /// </summary>
+        /// <param name="name">The website name</param>
+        /// <returns>The slot name</returns>
+        string GetSlotName(string name);
     }
 
     public enum WebsiteState
@@ -383,5 +406,11 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
     {
         StorageAccountName,
         LogLevel
+    }
+
+    public enum WebsiteSlotName
+    {
+        Production,
+        Staging
     }
 }

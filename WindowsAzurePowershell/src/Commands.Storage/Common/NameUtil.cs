@@ -18,6 +18,7 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Common
     using System.Collections.Generic;
     using System.IO;
     using System.Linq;
+    using System.Management.Automation;
     using System.Text.RegularExpressions;
 
     /// <summary>
@@ -251,6 +252,26 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Common
             }
 
             return fileName;
+        }
+
+        /// <summary>
+        /// Get the prefix that don't contain wildcard
+        /// </summary>
+        /// <param name="pattern">Wildcard pattern</param>
+        /// <returns>Non wildcard prefix</returns>
+        public static string GetNonWildcardPrefix(string pattern)
+        {
+            if (string.IsNullOrEmpty(pattern)) return string.Empty;
+
+            for (int index = 0; index < pattern.Length; index++)
+            {
+                if (WildcardPattern.ContainsWildcardCharacters(pattern[index].ToString()))
+                {
+                    return pattern.Substring(0, index);
+                }
+            }
+
+            return pattern;
         }
     }
 }

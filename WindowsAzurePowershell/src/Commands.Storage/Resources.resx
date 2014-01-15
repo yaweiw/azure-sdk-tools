@@ -594,7 +594,10 @@ Failed: {2}.</value>
     <value>This permission field must be omitted if it has been specified in an associated stored access policy.</value>
   </data>
   <data name="InvalidRetentionDay" xml:space="preserve">
-    <value>The minimum value of retention days 1, the largest value is 365 (one year). Current is {0}.</value>
+    <value>The minimum value of retention days is 1, the largest value is 365 (one year). -1 means turn off the retention policy. Current is {0}.</value>
     <comment>0 for the user specified retention day</comment>
+  </data>
+  <data name="NoneAndAllOperationShouldBeAlone" xml:space="preserve">
+    <value>None or All operation can't be used with other operations.</value>
   </data>
 </root>
