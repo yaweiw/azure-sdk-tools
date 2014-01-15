@@ -54,9 +54,6 @@ namespace Microsoft.WindowsAzure.Commands.Websites
             set;
         }
 
-        [Parameter(Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "The website slot name")]
-        public string Slot { get; set; }
-
         /// <summary>
         /// Initializes a new instance of the GetAzureWebsiteDeploymentCommand class.
         /// </summary>

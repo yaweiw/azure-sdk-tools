@@ -8969,6 +8969,13 @@
         </dev:type>
         <dev:defaultValue></dev:defaultValue>
       </command:parameter>
+      <command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "true (ByPropertyName)" position = "1" >
+        <maml:name>Slot</maml:name>
+        <maml:description>
+          <maml:para>The slot name</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength = "false" >String</command:parameterValue>
+      </command:parameter>
     </command:parameters>
     <command:inputTypes>
       <command:inputType>
@@ -11091,6 +11098,13 @@
           </maml:description>
           <command:parameterValue required="true" variableLength = "false" >SwitchParameter</command:parameterValue>
         </command:parameter>
+        <command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "true (ByPropertyName)" position = "1" >
+          <maml:name>Slot</maml:name>
+          <maml:description>
+            <maml:para>The slot name</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength = "false" >String</command:parameterValue>
+        </command:parameter>
       </command:syntaxItem>
     </command:syntax>
     <command:parameters>
@@ -11128,6 +11142,13 @@
           <maml:para>List log paths switch parameter</maml:para>
         </maml:description>
         <command:parameterValue required="true" variableLength = "false" >SwitchParameter</command:parameterValue>
+      </command:parameter>
+      <command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "true (ByPropertyName)" position = "1" >
+        <maml:name>Slot</maml:name>
+        <maml:description>
+          <maml:para>The slot name</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength = "false" >String</command:parameterValue>
       </command:parameter>
     </command:parameters>
     <command:inputTypes>

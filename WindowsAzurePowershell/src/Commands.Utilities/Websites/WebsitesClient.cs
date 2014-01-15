@@ -191,6 +191,40 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
         /// Starts log streaming for the given website.
         /// </summary>
         /// <param name="name">The website name</param>
+        /// <param name="slot">The website slot name</param>
+        /// <param name="path">The log path, by default root</param>
+        /// <param name="message">The substring message</param>
+        /// <param name="endStreaming">Predicate to end streaming</param>
+        /// <param name="waitInternal">The fetch wait interval</param>
+        /// <returns>The log line</returns>
+        public IEnumerable<string> StartLogStreaming(
+            string name,
+            string slot,
+            string path,
+            string message,
+            Predicate<string> endStreaming,
+            int waitInternal)
+        {
+            name = SetWebsiteName(GetWebsiteName(name), slot);
+            return StartLogStreaming(name, path, message, endStreaming, waitInternal);
+        }
+
+        /// <summary>
+        /// List log paths for a given website.
+        /// </summary>
+        /// <param name="name">The website name</param>
+        /// <param name="slot">The website slot name</param>
+        /// <returns>The list of log paths</returns>
+        public List<LogPath> ListLogPaths(string name, string slot)
+        {
+            name = SetWebsiteName(GetWebsiteName(name), slot);
+            return ListLogPaths(name);
+        }
+
+        /// <summary>
+        /// Starts log streaming for the given website.
+        /// </summary>
+        /// <param name="name">The website name</param>
         /// <param name="path">The log path, by default root</param>
         /// <param name="message">The substring message</param>
         /// <param name="endStreaming">Predicate to end streaming</param>
