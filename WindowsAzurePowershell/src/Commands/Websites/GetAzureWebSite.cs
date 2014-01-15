@@ -67,27 +67,40 @@ namespace Microsoft.WindowsAzure.Commands.Websites
                     {
                         List<Site> websites = WebsitesClient.GetWebsiteSlots(Name);
                         Cache.SaveSites(CurrentSubscription.SubscriptionId, new Sites(websites));
-                        WriteWebsites(websites);
+
+                        if (websites.Count > 1)
+                        {
+                            WriteWebsites(websites);
+                        }
+                        else if(websites.Count == 1)
+                        {
+                            Site websiteObject = websites[0];
+                            WriteWebsite(websiteObject);
+                        }
                     }
                     else
                     {
                         Site websiteObject = WebsitesClient.GetWebsite(Name, Slot);
-                        SiteConfig config = WebsitesClient.GetWebsiteConfiguration(Name, Slot);
-                        Cache.AddSite(CurrentSubscription.SubscriptionId, websiteObject);
-
-                        var diagnosticSettings = new DiagnosticsSettings();
-                        try
-                        {
-                            diagnosticSettings = WebsitesClient.GetApplicationDiagnosticsSettings(Name, Slot);
-                        }
-                        catch
-                        {
-                            // Ignore exception and use default values
-                        }
-
-                        WriteObject(new SiteWithConfig(websiteObject, config, diagnosticSettings), false);
+                        WriteWebsite(websiteObject);
                     }
                 });
+        }
+
+        private void WriteWebsite(Site websiteObject)
+        {
+            SiteConfig config = WebsitesClient.GetWebsiteConfiguration(websiteObject.Name);
+
+            var diagnosticSettings = new DiagnosticsSettings();
+            try
+            {
+                diagnosticSettings = WebsitesClient.GetApplicationDiagnosticsSettings(Name);
+            }
+            catch
+            {
+                // Ignore exception and use default values
+            }
+
+            WriteObject(new SiteWithConfig(websiteObject, config, diagnosticSettings), false);
         }
 
         private void GetNoName()
