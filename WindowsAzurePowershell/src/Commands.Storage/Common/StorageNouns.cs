@@ -45,21 +45,6 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Common
         public const string ContainerAcl = "AzureStorageContainerAcl";
 
         /// <summary>
-        /// BlobContainerPublicAccessType is off
-        /// </summary>
-        public const string ContainerAclOff = "Off";
-
-        /// <summary>
-        /// BlobContainerPublicAccessType is blob
-        /// </summary>
-        public const string ContainerAclBlob = "Blob";
-
-        /// <summary>
-        /// BlobContainerPublicAccessType is container
-        /// </summary>
-        public const string ContainerAclContainer = "Container";
-
-        /// <summary>
         /// Http protocol
         /// </summary>
         public const string HTTP = "Http";
@@ -105,44 +90,14 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Common
         public const string CopyBlobStatus = "AzureStorageBlobCopyState";
 
         /// <summary>
-        /// Azure storage service metrics
+        /// Azure storage service hour metrics
         /// </summary>
-        public const string StorageServiceMetrics = "AzureStorageServiceMetrics";
+        public const string StorageServiceMetrics = "AzureStorageServiceMetricsProperty";
 
         /// <summary>
         /// Azure storage service logging
         /// </summary>
-        public const string StorageServiceLogging = "AzureStorageServiceLogging";
-
-        /// <summary>
-        /// Azure storage blob service
-        /// </summary>
-        public const string BlobService = "Blob";
-
-        /// <summary>
-        /// Azure storage table service
-        /// </summary>
-        public const string TableService = "Table";
-
-        /// <summary>
-        /// Azure storage queue service
-        /// </summary>
-        public const string QueueService = "Queue";
-
-        /// <summary>
-        /// Turn off metrics
-        /// </summary>
-        public const string OffMetrics = "None";
-
-        /// <summary>
-        /// Minimal metrics
-        /// </summary>
-        public const string MinimalMetrics = "Service";
-
-        /// <summary>
-        /// Verbose metrics
-        /// </summary>
-        public const string VerboseMetrics = "ServiceAndApi";
+        public const string StorageServiceLogging = "AzureStorageServiceLoggingProperty";
 
         /// <summary>
         /// Azure storage container sas
@@ -163,6 +118,16 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Common
         /// Azure storage queue sas
         /// </summary>
         public const string QueueSas = "AzureStorageQueueSASToken";
+
+        /// <summary>
+        /// Default service metrics version
+        /// </summary>
+        public const string DefaultMetricsVersion = "1.0";
+
+        /// <summary>
+        /// Default service logging version
+        /// </summary>
+        public const string DefaultLoggingVersion = "1.0";
 
         /// <summary>
         /// Permission const for New-AzureStorage(Blob/Container/Table/Queue)SasToken

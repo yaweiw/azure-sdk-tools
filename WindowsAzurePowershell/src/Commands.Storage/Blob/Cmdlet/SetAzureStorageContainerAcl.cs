@@ -40,14 +40,12 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Cmdlet
         [Alias("PublicAccess")]
         [Parameter(Position = 1, Mandatory = true,
             HelpMessage = "Permission string Off/Blob/Container")]
-        [ValidateSet(StorageNouns.ContainerAclOff, StorageNouns.ContainerAclBlob, StorageNouns.ContainerAclContainer, IgnoreCase = true)]
-        [ValidateNotNullOrEmpty]
-        public string Permission
+        public BlobContainerPublicAccessType Permission
         {
             get { return accessLevel; }
             set { accessLevel = value; }
         }
-        private string accessLevel = StorageNouns.ContainerAclOff;
+        private BlobContainerPublicAccessType accessLevel = BlobContainerPublicAccessType.Off;
 
         [Parameter(Mandatory = false, HelpMessage = "Display Container Information")]
         public SwitchParameter PassThru { get; set; }
@@ -74,7 +72,7 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Cmdlet
         /// </summary>
         /// <param name="name">container name</param>
         /// <param name="accessLevel">access level in ("off", "blob", "container")</param>
-        internal void SetContainerAcl(string name, string accessLevel)
+        internal void SetContainerAcl(string name, BlobContainerPublicAccessType accessLevel)
         {
             if (!NameUtil.IsValidContainerName(name))
             {
@@ -82,23 +80,9 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Cmdlet
             }
 
             BlobContainerPermissions permissions = new BlobContainerPermissions();
+            permissions.PublicAccess = accessLevel;
 
-            switch (CultureInfo.CurrentCulture.TextInfo.ToTitleCase(accessLevel))
-            {
-                case StorageNouns.ContainerAclOff:
-                    permissions.PublicAccess = BlobContainerPublicAccessType.Off;
-                    break;
-                case StorageNouns.ContainerAclBlob:
-                    permissions.PublicAccess = BlobContainerPublicAccessType.Blob;
-                    break;
-                case StorageNouns.ContainerAclContainer:
-                    permissions.PublicAccess = BlobContainerPublicAccessType.Container;
-                    break;
-                default:
-                    throw new ArgumentException(Resources.OnlyOnePermissionForContainer);
-            }
-
-            BlobRequestOptions requestOptions = null;
+            BlobRequestOptions requestOptions = RequestOptions;
             AccessCondition accessCondition = null;
 
             CloudBlobContainer container = Channel.GetContainerReference(name);

@@ -41,8 +41,8 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
             set;
         }
 
-        [Parameter(Mandatory = true, HelpMessage = "To enable IaaS provision guest agent.")]
-        public bool EnableGuestAgent
+        [Parameter(HelpMessage = "To disable IaaS provision guest agent.")]
+        public SwitchParameter DisableGuestAgent
         {
             get;
             set;
@@ -99,7 +99,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
                     role.X509Certificates.AddRange(this.X509Certificates);
                 }
                 role.NoExportPrivateKey = this.NoExportPrivateKey.IsPresent;
-                role.ProvisionGuestAgent = EnableGuestAgent;
+                role.ProvisionGuestAgent = !DisableGuestAgent.IsPresent;
             }
 
             WriteObject(VM, true);

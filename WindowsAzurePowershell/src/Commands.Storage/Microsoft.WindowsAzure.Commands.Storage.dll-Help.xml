@@ -38,12 +38,40 @@
 				</maml:description>
 			<command:parameterValue required="true" variableLength = "false" >String</command:parameterValue>
 			</command:parameter>
+			<command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "false" position = "named" >
+				<maml:name>MaxCount</maml:name>
+				<maml:description>
+					<maml:para>The max count of the blobs that can return.</maml:para>
+				</maml:description>
+			<command:parameterValue required="true" variableLength = "false" >Int32</command:parameterValue>
+			</command:parameter>
+			<command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "false" position = "named" >
+				<maml:name>ContinuationToken</maml:name>
+				<maml:description>
+					<maml:para>Blob list continuation token.</maml:para>
+				</maml:description>
+			<command:parameterValue required="true" variableLength = "false" >BlobContinuationToken</command:parameterValue>
+			</command:parameter>
 			<command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "true (ByPropertyName)" position = "named" >
 				<maml:name>Context</maml:name>
 				<maml:description>
 					<maml:para>Azure Storage Context. You can create it by New-AzureStorageContext cmdlet.</maml:para>
 				</maml:description>
 			<command:parameterValue required="true" variableLength = "false" >AzureStorageContext</command:parameterValue>
+			</command:parameter>
+			<command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "false" position = "named" >
+				<maml:name>ServerTimeoutPerRequest</maml:name>
+				<maml:description>
+					<maml:para>Server side time out for each request.</maml:para>
+				</maml:description>
+			<command:parameterValue required="true" variableLength = "false" >Int32</command:parameterValue>
+			</command:parameter>
+			<command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "false" position = "named" >
+				<maml:name>ClientTimeoutPerRequest</maml:name>
+				<maml:description>
+					<maml:para>Client side time out for each request.</maml:para>
+				</maml:description>
+			<command:parameterValue required="true" variableLength = "false" >Int32</command:parameterValue>
 			</command:parameter>
 			<command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "false" position = "named" >
 				<maml:name>PipelineVariable</maml:name>
@@ -69,12 +97,40 @@
 				</maml:description>
 			<command:parameterValue required="true" variableLength = "false" >String</command:parameterValue>
 			</command:parameter>
+			<command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "false" position = "named" >
+				<maml:name>MaxCount</maml:name>
+				<maml:description>
+					<maml:para>The max count of the blobs that can return.</maml:para>
+				</maml:description>
+			<command:parameterValue required="true" variableLength = "false" >Int32</command:parameterValue>
+			</command:parameter>
+			<command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "false" position = "named" >
+				<maml:name>ContinuationToken</maml:name>
+				<maml:description>
+					<maml:para>Blob list continuation token.</maml:para>
+				</maml:description>
+			<command:parameterValue required="true" variableLength = "false" >BlobContinuationToken</command:parameterValue>
+			</command:parameter>
 			<command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "true (ByPropertyName)" position = "named" >
 				<maml:name>Context</maml:name>
 				<maml:description>
 					<maml:para>Azure Storage Context. You can create it by New-AzureStorageContext cmdlet.</maml:para>
 				</maml:description>
 			<command:parameterValue required="true" variableLength = "false" >AzureStorageContext</command:parameterValue>
+			</command:parameter>
+			<command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "false" position = "named" >
+				<maml:name>ServerTimeoutPerRequest</maml:name>
+				<maml:description>
+					<maml:para>Server side time out for each request.</maml:para>
+				</maml:description>
+			<command:parameterValue required="true" variableLength = "false" >Int32</command:parameterValue>
+			</command:parameter>
+			<command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "false" position = "named" >
+				<maml:name>ClientTimeoutPerRequest</maml:name>
+				<maml:description>
+					<maml:para>Client side time out for each request.</maml:para>
+				</maml:description>
+			<command:parameterValue required="true" variableLength = "false" >Int32</command:parameterValue>
 			</command:parameter>
 			<command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "false" position = "named" >
 				<maml:name>PipelineVariable</maml:name>
@@ -110,6 +166,30 @@
 			</dev:type>
 			<dev:defaultValue></dev:defaultValue>
 		</command:parameter>
+		<command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named">
+			<maml:name>MaxCount</maml:name>
+			<maml:description>
+				<maml:para>The max count of the blobs that can return.</maml:para>
+			</maml:description>
+			<command:parameterValue required="true" variableLength="false">Int32</command:parameterValue>
+			<dev:type>
+				<maml:name>Int32</maml:name>
+				<maml:uri/>
+			</dev:type>
+			<dev:defaultValue></dev:defaultValue>
+		</command:parameter>
+		<command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named">
+			<maml:name>ContinuationToken</maml:name>
+			<maml:description>
+				<maml:para>Blob list continuation token.</maml:para>
+			</maml:description>
+			<command:parameterValue required="true" variableLength="false">BlobContinuationToken</command:parameterValue>
+			<dev:type>
+				<maml:name>BlobContinuationToken</maml:name>
+				<maml:uri/>
+			</dev:type>
+			<dev:defaultValue></dev:defaultValue>
+		</command:parameter>
 		<command:parameter required="false" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="named">
 			<maml:name>Context</maml:name>
 			<maml:description>
@@ -118,6 +198,30 @@
 			<command:parameterValue required="true" variableLength="false">AzureStorageContext</command:parameterValue>
 			<dev:type>
 				<maml:name>AzureStorageContext</maml:name>
+				<maml:uri/>
+			</dev:type>
+			<dev:defaultValue></dev:defaultValue>
+		</command:parameter>
+		<command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named">
+			<maml:name>ServerTimeoutPerRequest</maml:name>
+			<maml:description>
+				<maml:para>Server side time out for each request.</maml:para>
+			</maml:description>
+			<command:parameterValue required="true" variableLength="false">Int32</command:parameterValue>
+			<dev:type>
+				<maml:name>Int32</maml:name>
+				<maml:uri/>
+			</dev:type>
+			<dev:defaultValue></dev:defaultValue>
+		</command:parameter>
+		<command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named">
+			<maml:name>ClientTimeoutPerRequest</maml:name>
+			<maml:description>
+				<maml:para>Client side time out for each request.</maml:para>
+			</maml:description>
+			<command:parameterValue required="true" variableLength="false">Int32</command:parameterValue>
+			<dev:type>
+				<maml:name>Int32</maml:name>
 				<maml:uri/>
 			</dev:type>
 			<dev:defaultValue></dev:defaultValue>
@@ -248,6 +352,41 @@ C:\PS&gt;			</maml:introduction>
 				</command:commandLine>
 			</command:commandLines>
 		</command:example>
+		<command:example>
+			<maml:title>
+--------------  List all blobs with max count and continuation token. --------------			</maml:title>
+			<maml:introduction>
+				<maml:para>C:\PS&gt;</maml:para>
+C:\PS&gt;			</maml:introduction>
+  			<dev:code>$maxReturn = 10000
+$containerName = &quot;abc&quot;
+
+$total = 0
+$token = $null
+do
+{
+	$blobs = Get-AzureStorageBlob -Container $containerName -MaxCount $maxReturn  -ContinuationToken $token 
+	$total += $blobs.Count
+	if($blobs.Length -le 0) { break;}
+	$token = $blobs[$blobs.Count -1].ContinuationToken;
+} 
+while($token -ne $null)
+echo &quot;Total $total blobs in container $containerName&quot;</dev:code>
+  			<dev:remarks>
+				<maml:para></maml:para>
+				<maml:para></maml:para>
+				<maml:para></maml:para>
+				<maml:para>
+				</maml:para>
+				<maml:para></maml:para>
+  			</dev:remarks>
+			<command:commandLines>
+				<command:commandLine>
+					<command:commandText>
+					</command:commandText>
+				</command:commandLine>
+			</command:commandLines>
+		</command:example>
 	</command:examples>
 	<maml:relatedLinks>
 		<maml:navigationLink>
@@ -334,6 +473,20 @@ C:\PS&gt;			</maml:introduction>
 			<command:parameterValue required="true" variableLength = "false" >AzureStorageContext</command:parameterValue>
 			</command:parameter>
 			<command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "false" position = "named" >
+				<maml:name>ServerTimeoutPerRequest</maml:name>
+				<maml:description>
+					<maml:para>Server side time out for each request.</maml:para>
+				</maml:description>
+			<command:parameterValue required="true" variableLength = "false" >Int32</command:parameterValue>
+			</command:parameter>
+			<command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "false" position = "named" >
+				<maml:name>ClientTimeoutPerRequest</maml:name>
+				<maml:description>
+					<maml:para>Client side time out for each request.</maml:para>
+				</maml:description>
+			<command:parameterValue required="true" variableLength = "false" >Int32</command:parameterValue>
+			</command:parameter>
+			<command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "false" position = "named" >
 				<maml:name>PipelineVariable</maml:name>
 				<maml:description>
 					<maml:para></maml:para>
@@ -382,6 +535,20 @@ C:\PS&gt;			</maml:introduction>
 					<maml:para>Azure Storage Context. You can create it by New-AzureStorageContext cmdlet.</maml:para>
 				</maml:description>
 			<command:parameterValue required="true" variableLength = "false" >AzureStorageContext</command:parameterValue>
+			</command:parameter>
+			<command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "false" position = "named" >
+				<maml:name>ServerTimeoutPerRequest</maml:name>
+				<maml:description>
+					<maml:para>Server side time out for each request.</maml:para>
+				</maml:description>
+			<command:parameterValue required="true" variableLength = "false" >Int32</command:parameterValue>
+			</command:parameter>
+			<command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "false" position = "named" >
+				<maml:name>ClientTimeoutPerRequest</maml:name>
+				<maml:description>
+					<maml:para>Client side time out for each request.</maml:para>
+				</maml:description>
+			<command:parameterValue required="true" variableLength = "false" >Int32</command:parameterValue>
 			</command:parameter>
 			<command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "false" position = "named" >
 				<maml:name>PipelineVariable</maml:name>
@@ -439,6 +606,20 @@ C:\PS&gt;			</maml:introduction>
 					<maml:para>Azure Storage Context. You can create it by New-AzureStorageContext cmdlet.</maml:para>
 				</maml:description>
 			<command:parameterValue required="true" variableLength = "false" >AzureStorageContext</command:parameterValue>
+			</command:parameter>
+			<command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "false" position = "named" >
+				<maml:name>ServerTimeoutPerRequest</maml:name>
+				<maml:description>
+					<maml:para>Server side time out for each request.</maml:para>
+				</maml:description>
+			<command:parameterValue required="true" variableLength = "false" >Int32</command:parameterValue>
+			</command:parameter>
+			<command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "false" position = "named" >
+				<maml:name>ClientTimeoutPerRequest</maml:name>
+				<maml:description>
+					<maml:para>Client side time out for each request.</maml:para>
+				</maml:description>
+			<command:parameterValue required="true" variableLength = "false" >Int32</command:parameterValue>
 			</command:parameter>
 			<command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "false" position = "named" >
 				<maml:name>PipelineVariable</maml:name>
@@ -528,6 +709,30 @@ C:\PS&gt;			</maml:introduction>
 			<command:parameterValue required="true" variableLength="false">AzureStorageContext</command:parameterValue>
 			<dev:type>
 				<maml:name>AzureStorageContext</maml:name>
+				<maml:uri/>
+			</dev:type>
+			<dev:defaultValue></dev:defaultValue>
+		</command:parameter>
+		<command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named">
+			<maml:name>ServerTimeoutPerRequest</maml:name>
+			<maml:description>
+				<maml:para>Server side time out for each request.</maml:para>
+			</maml:description>
+			<command:parameterValue required="true" variableLength="false">Int32</command:parameterValue>
+			<dev:type>
+				<maml:name>Int32</maml:name>
+				<maml:uri/>
+			</dev:type>
+			<dev:defaultValue></dev:defaultValue>
+		</command:parameter>
+		<command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named">
+			<maml:name>ClientTimeoutPerRequest</maml:name>
+			<maml:description>
+				<maml:para>Client side time out for each request.</maml:para>
+			</maml:description>
+			<command:parameterValue required="true" variableLength="false">Int32</command:parameterValue>
+			<dev:type>
+				<maml:name>Int32</maml:name>
 				<maml:uri/>
 			</dev:type>
 			<dev:defaultValue></dev:defaultValue>
@@ -736,6 +941,20 @@ C:\PS&gt;			</maml:introduction>
 			<command:parameterValue required="true" variableLength = "false" >AzureStorageContext</command:parameterValue>
 			</command:parameter>
 			<command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "false" position = "named" >
+				<maml:name>ServerTimeoutPerRequest</maml:name>
+				<maml:description>
+					<maml:para>Server side time out for each request.</maml:para>
+				</maml:description>
+			<command:parameterValue required="true" variableLength = "false" >Int32</command:parameterValue>
+			</command:parameter>
+			<command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "false" position = "named" >
+				<maml:name>ClientTimeoutPerRequest</maml:name>
+				<maml:description>
+					<maml:para>Client side time out for each request.</maml:para>
+				</maml:description>
+			<command:parameterValue required="true" variableLength = "false" >Int32</command:parameterValue>
+			</command:parameter>
+			<command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "false" position = "named" >
 				<maml:name>PipelineVariable</maml:name>
 				<maml:description>
 					<maml:para></maml:para>
@@ -764,6 +983,20 @@ C:\PS&gt;			</maml:introduction>
 					<maml:para>Azure Storage Context. You can create it by New-AzureStorageContext cmdlet.</maml:para>
 				</maml:description>
 			<command:parameterValue required="true" variableLength = "false" >AzureStorageContext</command:parameterValue>
+			</command:parameter>
+			<command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "false" position = "named" >
+				<maml:name>ServerTimeoutPerRequest</maml:name>
+				<maml:description>
+					<maml:para>Server side time out for each request.</maml:para>
+				</maml:description>
+			<command:parameterValue required="true" variableLength = "false" >Int32</command:parameterValue>
+			</command:parameter>
+			<command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "false" position = "named" >
+				<maml:name>ClientTimeoutPerRequest</maml:name>
+				<maml:description>
+					<maml:para>Client side time out for each request.</maml:para>
+				</maml:description>
+			<command:parameterValue required="true" variableLength = "false" >Int32</command:parameterValue>
 			</command:parameter>
 			<command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "false" position = "named" >
 				<maml:name>PipelineVariable</maml:name>
@@ -801,6 +1034,20 @@ C:\PS&gt;			</maml:introduction>
 					<maml:para>Azure Storage Context. You can create it by New-AzureStorageContext cmdlet.</maml:para>
 				</maml:description>
 			<command:parameterValue required="true" variableLength = "false" >AzureStorageContext</command:parameterValue>
+			</command:parameter>
+			<command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "false" position = "named" >
+				<maml:name>ServerTimeoutPerRequest</maml:name>
+				<maml:description>
+					<maml:para>Server side time out for each request.</maml:para>
+				</maml:description>
+			<command:parameterValue required="true" variableLength = "false" >Int32</command:parameterValue>
+			</command:parameter>
+			<command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "false" position = "named" >
+				<maml:name>ClientTimeoutPerRequest</maml:name>
+				<maml:description>
+					<maml:para>Client side time out for each request.</maml:para>
+				</maml:description>
+			<command:parameterValue required="true" variableLength = "false" >Int32</command:parameterValue>
 			</command:parameter>
 			<command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "false" position = "named" >
 				<maml:name>PipelineVariable</maml:name>
@@ -855,6 +1102,30 @@ C:\PS&gt;			</maml:introduction>
 			<command:parameterValue required="true" variableLength="false">AzureStorageContext</command:parameterValue>
 			<dev:type>
 				<maml:name>AzureStorageContext</maml:name>
+				<maml:uri/>
+			</dev:type>
+			<dev:defaultValue></dev:defaultValue>
+		</command:parameter>
+		<command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named">
+			<maml:name>ServerTimeoutPerRequest</maml:name>
+			<maml:description>
+				<maml:para>Server side time out for each request.</maml:para>
+			</maml:description>
+			<command:parameterValue required="true" variableLength="false">Int32</command:parameterValue>
+			<dev:type>
+				<maml:name>Int32</maml:name>
+				<maml:uri/>
+			</dev:type>
+			<dev:defaultValue></dev:defaultValue>
+		</command:parameter>
+		<command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named">
+			<maml:name>ClientTimeoutPerRequest</maml:name>
+			<maml:description>
+				<maml:para>Client side time out for each request.</maml:para>
+			</maml:description>
+			<command:parameterValue required="true" variableLength="false">Int32</command:parameterValue>
+			<dev:type>
+				<maml:name>Int32</maml:name>
 				<maml:uri/>
 			</dev:type>
 			<dev:defaultValue></dev:defaultValue>
@@ -1038,12 +1309,40 @@ C:\PS&gt;			</maml:introduction>
 				</maml:description>
 			<command:parameterValue required="true" variableLength = "false" >String</command:parameterValue>
 			</command:parameter>
+			<command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "false" position = "named" >
+				<maml:name>MaxCount</maml:name>
+				<maml:description>
+					<maml:para>The max count of the containers that can return.</maml:para>
+				</maml:description>
+			<command:parameterValue required="true" variableLength = "false" >Int32</command:parameterValue>
+			</command:parameter>
+			<command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "false" position = "named" >
+				<maml:name>ContinuationToken</maml:name>
+				<maml:description>
+					<maml:para>Container list continuation token.</maml:para>
+				</maml:description>
+			<command:parameterValue required="true" variableLength = "false" >BlobContinuationToken</command:parameterValue>
+			</command:parameter>
 			<command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "true (ByPropertyName)" position = "named" >
 				<maml:name>Context</maml:name>
 				<maml:description>
 					<maml:para>Azure Storage Context. You can create it by New-AzureStorageContext cmdlet.</maml:para>
 				</maml:description>
 			<command:parameterValue required="true" variableLength = "false" >AzureStorageContext</command:parameterValue>
+			</command:parameter>
+			<command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "false" position = "named" >
+				<maml:name>ServerTimeoutPerRequest</maml:name>
+				<maml:description>
+					<maml:para>Server side time out for each request.</maml:para>
+				</maml:description>
+			<command:parameterValue required="true" variableLength = "false" >Int32</command:parameterValue>
+			</command:parameter>
+			<command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "false" position = "named" >
+				<maml:name>ClientTimeoutPerRequest</maml:name>
+				<maml:description>
+					<maml:para>Client side time out for each request.</maml:para>
+				</maml:description>
+			<command:parameterValue required="true" variableLength = "false" >Int32</command:parameterValue>
 			</command:parameter>
 			<command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "false" position = "named" >
 				<maml:name>PipelineVariable</maml:name>
@@ -1062,12 +1361,40 @@ C:\PS&gt;			</maml:introduction>
 				</maml:description>
 			<command:parameterValue required="true" variableLength = "false" >String</command:parameterValue>
 			</command:parameter>
+			<command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "false" position = "named" >
+				<maml:name>MaxCount</maml:name>
+				<maml:description>
+					<maml:para>The max count of the containers that can return.</maml:para>
+				</maml:description>
+			<command:parameterValue required="true" variableLength = "false" >Int32</command:parameterValue>
+			</command:parameter>
+			<command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "false" position = "named" >
+				<maml:name>ContinuationToken</maml:name>
+				<maml:description>
+					<maml:para>Container list continuation token.</maml:para>
+				</maml:description>
+			<command:parameterValue required="true" variableLength = "false" >BlobContinuationToken</command:parameterValue>
+			</command:parameter>
 			<command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "true (ByPropertyName)" position = "named" >
 				<maml:name>Context</maml:name>
 				<maml:description>
 					<maml:para>Azure Storage Context. You can create it by New-AzureStorageContext cmdlet.</maml:para>
 				</maml:description>
 			<command:parameterValue required="true" variableLength = "false" >AzureStorageContext</command:parameterValue>
+			</command:parameter>
+			<command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "false" position = "named" >
+				<maml:name>ServerTimeoutPerRequest</maml:name>
+				<maml:description>
+					<maml:para>Server side time out for each request.</maml:para>
+				</maml:description>
+			<command:parameterValue required="true" variableLength = "false" >Int32</command:parameterValue>
+			</command:parameter>
+			<command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "false" position = "named" >
+				<maml:name>ClientTimeoutPerRequest</maml:name>
+				<maml:description>
+					<maml:para>Client side time out for each request.</maml:para>
+				</maml:description>
+			<command:parameterValue required="true" variableLength = "false" >Int32</command:parameterValue>
 			</command:parameter>
 			<command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "false" position = "named" >
 				<maml:name>PipelineVariable</maml:name>
@@ -1091,6 +1418,30 @@ C:\PS&gt;			</maml:introduction>
 			</dev:type>
 			<dev:defaultValue></dev:defaultValue>
 		</command:parameter>
+		<command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named">
+			<maml:name>MaxCount</maml:name>
+			<maml:description>
+				<maml:para>The max count of the containers that can return.</maml:para>
+			</maml:description>
+			<command:parameterValue required="true" variableLength="false">Int32</command:parameterValue>
+			<dev:type>
+				<maml:name>Int32</maml:name>
+				<maml:uri/>
+			</dev:type>
+			<dev:defaultValue></dev:defaultValue>
+		</command:parameter>
+		<command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named">
+			<maml:name>ContinuationToken</maml:name>
+			<maml:description>
+				<maml:para>Container list continuation token.</maml:para>
+			</maml:description>
+			<command:parameterValue required="true" variableLength="false">BlobContinuationToken</command:parameterValue>
+			<dev:type>
+				<maml:name>BlobContinuationToken</maml:name>
+				<maml:uri/>
+			</dev:type>
+			<dev:defaultValue></dev:defaultValue>
+		</command:parameter>
 		<command:parameter required="false" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="named">
 			<maml:name>Context</maml:name>
 			<maml:description>
@@ -1099,6 +1450,30 @@ C:\PS&gt;			</maml:introduction>
 			<command:parameterValue required="true" variableLength="false">AzureStorageContext</command:parameterValue>
 			<dev:type>
 				<maml:name>AzureStorageContext</maml:name>
+				<maml:uri/>
+			</dev:type>
+			<dev:defaultValue></dev:defaultValue>
+		</command:parameter>
+		<command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named">
+			<maml:name>ServerTimeoutPerRequest</maml:name>
+			<maml:description>
+				<maml:para>Server side time out for each request.</maml:para>
+			</maml:description>
+			<command:parameterValue required="true" variableLength="false">Int32</command:parameterValue>
+			<dev:type>
+				<maml:name>Int32</maml:name>
+				<maml:uri/>
+			</dev:type>
+			<dev:defaultValue></dev:defaultValue>
+		</command:parameter>
+		<command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named">
+			<maml:name>ClientTimeoutPerRequest</maml:name>
+			<maml:description>
+				<maml:para>Client side time out for each request.</maml:para>
+			</maml:description>
+			<command:parameterValue required="true" variableLength="false">Int32</command:parameterValue>
+			<dev:type>
+				<maml:name>Int32</maml:name>
 				<maml:uri/>
 			</dev:type>
 			<dev:defaultValue></dev:defaultValue>
@@ -1207,6 +1582,43 @@ C:\PS&gt;			</maml:introduction>
 				</command:commandLine>
 			</command:commandLines>
 		</command:example>
+		<command:example>
+			<maml:title>
+--------------  List all containers with maxCount and ContinuationToken --------------			</maml:title>
+			<maml:introduction>
+				<maml:para>C:\PS&gt;</maml:para>
+C:\PS&gt;			</maml:introduction>
+  			<dev:code>$maxReturn = 10000
+
+
+$total = 0
+$token = $null
+do
+{
+	$containers = Get-AzureStorageContainer -MaxCount $maxReturn  -ContinuationToken $token
+	$total += $containers.Count
+	if($containers.Length -le 0) { break;}
+	$token = $containers[$containers.Count-1].ContinuationToken;
+} 
+while($token -ne $null)
+
+echo &quot;Total $total containers&quot;
+</dev:code>
+  			<dev:remarks>
+				<maml:para></maml:para>
+				<maml:para></maml:para>
+				<maml:para></maml:para>
+				<maml:para>
+				</maml:para>
+				<maml:para></maml:para>
+  			</dev:remarks>
+			<command:commandLines>
+				<command:commandLine>
+					<command:commandText>
+					</command:commandText>
+				</command:commandLine>
+			</command:commandLines>
+		</command:example>
 	</command:examples>
 	<maml:relatedLinks>
 		<maml:navigationLink>
@@ -1260,6 +1672,20 @@ C:\PS&gt;			</maml:introduction>
 			<command:parameterValue required="true" variableLength = "false" >AzureStorageContext</command:parameterValue>
 			</command:parameter>
 			<command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "false" position = "named" >
+				<maml:name>ServerTimeoutPerRequest</maml:name>
+				<maml:description>
+					<maml:para>Server side time out for each request.</maml:para>
+				</maml:description>
+			<command:parameterValue required="true" variableLength = "false" >Int32</command:parameterValue>
+			</command:parameter>
+			<command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "false" position = "named" >
+				<maml:name>ClientTimeoutPerRequest</maml:name>
+				<maml:description>
+					<maml:para>Client side time out for each request.</maml:para>
+				</maml:description>
+			<command:parameterValue required="true" variableLength = "false" >Int32</command:parameterValue>
+			</command:parameter>
+			<command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "false" position = "named" >
 				<maml:name>PipelineVariable</maml:name>
 				<maml:description>
 					<maml:para></maml:para>
@@ -1282,6 +1708,20 @@ C:\PS&gt;			</maml:introduction>
 					<maml:para>Azure Storage Context. You can create it by New-AzureStorageContext cmdlet.</maml:para>
 				</maml:description>
 			<command:parameterValue required="true" variableLength = "false" >AzureStorageContext</command:parameterValue>
+			</command:parameter>
+			<command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "false" position = "named" >
+				<maml:name>ServerTimeoutPerRequest</maml:name>
+				<maml:description>
+					<maml:para>Server side time out for each request.</maml:para>
+				</maml:description>
+			<command:parameterValue required="true" variableLength = "false" >Int32</command:parameterValue>
+			</command:parameter>
+			<command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "false" position = "named" >
+				<maml:name>ClientTimeoutPerRequest</maml:name>
+				<maml:description>
+					<maml:para>Client side time out for each request.</maml:para>
+				</maml:description>
+			<command:parameterValue required="true" variableLength = "false" >Int32</command:parameterValue>
 			</command:parameter>
 			<command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "false" position = "named" >
 				<maml:name>PipelineVariable</maml:name>
@@ -1313,6 +1753,30 @@ C:\PS&gt;			</maml:introduction>
 			<command:parameterValue required="true" variableLength="false">AzureStorageContext</command:parameterValue>
 			<dev:type>
 				<maml:name>AzureStorageContext</maml:name>
+				<maml:uri/>
+			</dev:type>
+			<dev:defaultValue></dev:defaultValue>
+		</command:parameter>
+		<command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named">
+			<maml:name>ServerTimeoutPerRequest</maml:name>
+			<maml:description>
+				<maml:para>Server side time out for each request.</maml:para>
+			</maml:description>
+			<command:parameterValue required="true" variableLength="false">Int32</command:parameterValue>
+			<dev:type>
+				<maml:name>Int32</maml:name>
+				<maml:uri/>
+			</dev:type>
+			<dev:defaultValue></dev:defaultValue>
+		</command:parameter>
+		<command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named">
+			<maml:name>ClientTimeoutPerRequest</maml:name>
+			<maml:description>
+				<maml:para>Client side time out for each request.</maml:para>
+			</maml:description>
+			<command:parameterValue required="true" variableLength="false">Int32</command:parameterValue>
+			<dev:type>
+				<maml:name>Int32</maml:name>
 				<maml:uri/>
 			</dev:type>
 			<dev:defaultValue></dev:defaultValue>
@@ -1450,6 +1914,389 @@ C:\PS&gt;			</maml:introduction>
 <command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10">
 <!--Generated by Help Cmdlet Editor-->
 	<command:details>
+		<command:name>Get-AzureStorageServiceLoggingProperty</command:name>
+		<maml:description>
+			<maml:para>Get azure storage service logging properties.</maml:para>
+		</maml:description>
+		<maml:copyright>
+           <maml:para />
+		<!--Add copy right info here.-->
+		</maml:copyright>
+		<command:verb>Get</command:verb>
+		<command:noun>AzureStorageServiceLoggingProperty</command:noun>
+		<!--Add Dev version info here.-->
+		<dev:version />
+	</command:details>
+	<maml:description>
+	<!--This is the Description section-->
+		<maml:para>Get azure storage service logging properties.</maml:para>
+	</maml:description>
+	<command:syntax>		<command:syntaxItem>
+			<maml:name>Get-AzureStorageServiceLoggingProperty</maml:name>
+			<command:parameter required = "true" variableLength = "false" globbing = "false" pipelineInput = "false" position = "1" >
+				<maml:name>ServiceType</maml:name>
+				<maml:description>
+					<maml:para>Azure storage service type.</maml:para>
+				</maml:description>
+			<command:parameterValue required="true" variableLength = "false" >StorageServiceType</command:parameterValue>
+			</command:parameter>
+			<command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "true (ByPropertyName)" position = "named" >
+				<maml:name>Context</maml:name>
+				<maml:description>
+					<maml:para>Azure storage context.</maml:para>
+				</maml:description>
+			<command:parameterValue required="true" variableLength = "false" >AzureStorageContext</command:parameterValue>
+			</command:parameter>
+			<command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "false" position = "named" >
+				<maml:name>ServerTimeoutPerRequest</maml:name>
+				<maml:description>
+					<maml:para>Server side time out for each request.</maml:para>
+				</maml:description>
+			<command:parameterValue required="true" variableLength = "false" >Int32</command:parameterValue>
+			</command:parameter>
+			<command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "false" position = "named" >
+				<maml:name>ClientTimeoutPerRequest</maml:name>
+				<maml:description>
+					<maml:para>Client side time out for each request.</maml:para>
+				</maml:description>
+			<command:parameterValue required="true" variableLength = "false" >Int32</command:parameterValue>
+			</command:parameter>
+			<command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "false" position = "named" >
+				<maml:name>PipelineVariable</maml:name>
+				<maml:description>
+					<maml:para></maml:para>
+				</maml:description>
+			<command:parameterValue required="true" variableLength = "false" >String</command:parameterValue>
+			</command:parameter>
+		</command:syntaxItem>
+	</command:syntax>
+	<command:parameters>
+		<command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="1">
+			<maml:name>ServiceType</maml:name>
+			<maml:description>
+				<maml:para>Azure storage service type.</maml:para>
+			</maml:description>
+			<command:parameterValue required="true" variableLength="false">StorageServiceType</command:parameterValue>
+			<dev:type>
+				<maml:name>StorageServiceType</maml:name>
+				<maml:uri/>
+			</dev:type>
+			<dev:defaultValue></dev:defaultValue>
+		</command:parameter>
+		<command:parameter required="false" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="named">
+			<maml:name>Context</maml:name>
+			<maml:description>
+				<maml:para>Azure storage context.</maml:para>
+			</maml:description>
+			<command:parameterValue required="true" variableLength="false">AzureStorageContext</command:parameterValue>
+			<dev:type>
+				<maml:name>AzureStorageContext</maml:name>
+				<maml:uri/>
+			</dev:type>
+			<dev:defaultValue></dev:defaultValue>
+		</command:parameter>
+		<command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named">
+			<maml:name>ServerTimeoutPerRequest</maml:name>
+			<maml:description>
+				<maml:para>Server side time out for each request.</maml:para>
+			</maml:description>
+			<command:parameterValue required="true" variableLength="false">Int32</command:parameterValue>
+			<dev:type>
+				<maml:name>Int32</maml:name>
+				<maml:uri/>
+			</dev:type>
+			<dev:defaultValue></dev:defaultValue>
+		</command:parameter>
+		<command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named">
+			<maml:name>ClientTimeoutPerRequest</maml:name>
+			<maml:description>
+				<maml:para>Client side time out for each request.</maml:para>
+			</maml:description>
+			<command:parameterValue required="true" variableLength="false">Int32</command:parameterValue>
+			<dev:type>
+				<maml:name>Int32</maml:name>
+				<maml:uri/>
+			</dev:type>
+			<dev:defaultValue></dev:defaultValue>
+		</command:parameter>
+		<command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named">
+			<maml:name>PipelineVariable</maml:name>
+			<maml:description>
+				<maml:para></maml:para>
+			</maml:description>
+			<command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+			<dev:type>
+				<maml:name>String</maml:name>
+				<maml:uri/>
+			</dev:type>
+			<dev:defaultValue></dev:defaultValue>
+		</command:parameter>
+	</command:parameters>
+	<command:inputTypes>
+		<command:inputType>
+			<dev:type>
+				<maml:name></maml:name>
+				<maml:uri/>
+				<maml:description>
+					<maml:para></maml:para>
+				</maml:description>
+			</dev:type>
+			<maml:description></maml:description>
+		</command:inputType>
+	</command:inputTypes>
+	<command:returnValues>
+		<command:returnValue>
+			<dev:type>
+				<maml:name></maml:name>
+				<maml:uri />
+				<maml:description>
+					<maml:para></maml:para>
+				</maml:description>
+			</dev:type>
+			<maml:description></maml:description>
+		</command:returnValue>
+	</command:returnValues>
+	<command:terminatingErrors>
+	</command:terminatingErrors>
+	<command:nonTerminatingErrors>
+	</command:nonTerminatingErrors>
+	<maml:alertSet>
+		<maml:title></maml:title>
+		<maml:alert>
+			<maml:para></maml:para>
+		</maml:alert>
+	</maml:alertSet>
+	<command:examples>
+		<command:example>
+			<maml:title>
+--------------  Get azure storage blob service logging properties. --------------			</maml:title>
+			<maml:introduction>
+				<maml:para>C:\PS&gt;</maml:para>
+C:\PS&gt;			</maml:introduction>
+  			<dev:code>Get-AzureStorageServiceLoggingProperty -ServiceType Blob</dev:code>
+  			<dev:remarks>
+				<maml:para></maml:para>
+				<maml:para></maml:para>
+				<maml:para></maml:para>
+				<maml:para>
+				</maml:para>
+				<maml:para></maml:para>
+  			</dev:remarks>
+			<command:commandLines>
+				<command:commandLine>
+					<command:commandText>
+					</command:commandText>
+				</command:commandLine>
+			</command:commandLines>
+		</command:example>
+	</command:examples>
+	<maml:relatedLinks>
+	</maml:relatedLinks>
+</command:command>
+<command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10">
+<!--Generated by Help Cmdlet Editor-->
+	<command:details>
+		<command:name>Get-AzureStorageServiceMetricsProperty</command:name>
+		<maml:description>
+			<maml:para>Get azure storage service metrics properties.</maml:para>
+		</maml:description>
+		<maml:copyright>
+           <maml:para />
+		<!--Add copy right info here.-->
+		</maml:copyright>
+		<command:verb>Get</command:verb>
+		<command:noun>AzureStorageServiceMetricsProperty</command:noun>
+		<!--Add Dev version info here.-->
+		<dev:version />
+	</command:details>
+	<maml:description>
+	<!--This is the Description section-->
+		<maml:para>Get azure storage service metrics properties.</maml:para>
+	</maml:description>
+	<command:syntax>		<command:syntaxItem>
+			<maml:name>Get-AzureStorageServiceMetricsProperty</maml:name>
+			<command:parameter required = "true" variableLength = "false" globbing = "false" pipelineInput = "false" position = "1" >
+				<maml:name>ServiceType</maml:name>
+				<maml:description>
+					<maml:para>Azure storage service type.</maml:para>
+				</maml:description>
+			<command:parameterValue required="true" variableLength = "false" >StorageServiceType</command:parameterValue>
+			</command:parameter>
+			<command:parameter required = "true" variableLength = "false" globbing = "false" pipelineInput = "false" position = "2" >
+				<maml:name>MetricsType</maml:name>
+				<maml:description>
+					<maml:para>Metrics type.</maml:para>
+				</maml:description>
+			<command:parameterValue required="true" variableLength = "false" >ServiceMetricsType</command:parameterValue>
+			</command:parameter>
+			<command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "true (ByPropertyName)" position = "named" >
+				<maml:name>Context</maml:name>
+				<maml:description>
+					<maml:para>Azure storage context.</maml:para>
+				</maml:description>
+			<command:parameterValue required="true" variableLength = "false" >AzureStorageContext</command:parameterValue>
+			</command:parameter>
+			<command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "false" position = "named" >
+				<maml:name>ServerTimeoutPerRequest</maml:name>
+				<maml:description>
+					<maml:para>Server side time out for each request.</maml:para>
+				</maml:description>
+			<command:parameterValue required="true" variableLength = "false" >Int32</command:parameterValue>
+			</command:parameter>
+			<command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "false" position = "named" >
+				<maml:name>ClientTimeoutPerRequest</maml:name>
+				<maml:description>
+					<maml:para>Client side time out for each request.</maml:para>
+				</maml:description>
+			<command:parameterValue required="true" variableLength = "false" >Int32</command:parameterValue>
+			</command:parameter>
+			<command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "false" position = "named" >
+				<maml:name>PipelineVariable</maml:name>
+				<maml:description>
+					<maml:para></maml:para>
+				</maml:description>
+			<command:parameterValue required="true" variableLength = "false" >String</command:parameterValue>
+			</command:parameter>
+		</command:syntaxItem>
+	</command:syntax>
+	<command:parameters>
+		<command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="1">
+			<maml:name>ServiceType</maml:name>
+			<maml:description>
+				<maml:para>Azure storage service type.</maml:para>
+			</maml:description>
+			<command:parameterValue required="true" variableLength="false">StorageServiceType</command:parameterValue>
+			<dev:type>
+				<maml:name>StorageServiceType</maml:name>
+				<maml:uri/>
+			</dev:type>
+			<dev:defaultValue></dev:defaultValue>
+		</command:parameter>
+		<command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="2">
+			<maml:name>MetricsType</maml:name>
+			<maml:description>
+				<maml:para>Metrics type.</maml:para>
+			</maml:description>
+			<command:parameterValue required="true" variableLength="false">ServiceMetricsType</command:parameterValue>
+			<dev:type>
+				<maml:name>ServiceMetricsType</maml:name>
+				<maml:uri/>
+			</dev:type>
+			<dev:defaultValue></dev:defaultValue>
+		</command:parameter>
+		<command:parameter required="false" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="named">
+			<maml:name>Context</maml:name>
+			<maml:description>
+				<maml:para>Azure storage context.</maml:para>
+			</maml:description>
+			<command:parameterValue required="true" variableLength="false">AzureStorageContext</command:parameterValue>
+			<dev:type>
+				<maml:name>AzureStorageContext</maml:name>
+				<maml:uri/>
+			</dev:type>
+			<dev:defaultValue></dev:defaultValue>
+		</command:parameter>
+		<command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named">
+			<maml:name>ServerTimeoutPerRequest</maml:name>
+			<maml:description>
+				<maml:para>Server side time out for each request.</maml:para>
+			</maml:description>
+			<command:parameterValue required="true" variableLength="false">Int32</command:parameterValue>
+			<dev:type>
+				<maml:name>Int32</maml:name>
+				<maml:uri/>
+			</dev:type>
+			<dev:defaultValue></dev:defaultValue>
+		</command:parameter>
+		<command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named">
+			<maml:name>ClientTimeoutPerRequest</maml:name>
+			<maml:description>
+				<maml:para>Client side time out for each request.</maml:para>
+			</maml:description>
+			<command:parameterValue required="true" variableLength="false">Int32</command:parameterValue>
+			<dev:type>
+				<maml:name>Int32</maml:name>
+				<maml:uri/>
+			</dev:type>
+			<dev:defaultValue></dev:defaultValue>
+		</command:parameter>
+		<command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named">
+			<maml:name>PipelineVariable</maml:name>
+			<maml:description>
+				<maml:para></maml:para>
+			</maml:description>
+			<command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+			<dev:type>
+				<maml:name>String</maml:name>
+				<maml:uri/>
+			</dev:type>
+			<dev:defaultValue></dev:defaultValue>
+		</command:parameter>
+	</command:parameters>
+	<command:inputTypes>
+		<command:inputType>
+			<dev:type>
+				<maml:name></maml:name>
+				<maml:uri/>
+				<maml:description>
+					<maml:para></maml:para>
+				</maml:description>
+			</dev:type>
+			<maml:description></maml:description>
+		</command:inputType>
+	</command:inputTypes>
+	<command:returnValues>
+		<command:returnValue>
+			<dev:type>
+				<maml:name></maml:name>
+				<maml:uri />
+				<maml:description>
+					<maml:para></maml:para>
+				</maml:description>
+			</dev:type>
+			<maml:description></maml:description>
+		</command:returnValue>
+	</command:returnValues>
+	<command:terminatingErrors>
+	</command:terminatingErrors>
+	<command:nonTerminatingErrors>
+	</command:nonTerminatingErrors>
+	<maml:alertSet>
+		<maml:title></maml:title>
+		<maml:alert>
+			<maml:para></maml:para>
+		</maml:alert>
+	</maml:alertSet>
+	<command:examples>
+		<command:example>
+			<maml:title>
+--------------  Get hour metrics properties for azure storage blob service. --------------			</maml:title>
+			<maml:introduction>
+				<maml:para>C:\PS&gt;</maml:para>
+C:\PS&gt;			</maml:introduction>
+  			<dev:code>Get-AzureStorageServiceMetricsProperty -ServiceType Blob -MetricsType Hour</dev:code>
+  			<dev:remarks>
+				<maml:para></maml:para>
+				<maml:para></maml:para>
+				<maml:para></maml:para>
+				<maml:para>
+				</maml:para>
+				<maml:para></maml:para>
+  			</dev:remarks>
+			<command:commandLines>
+				<command:commandLine>
+					<command:commandText>
+					</command:commandText>
+				</command:commandLine>
+			</command:commandLines>
+		</command:example>
+	</command:examples>
+	<maml:relatedLinks>
+	</maml:relatedLinks>
+</command:command>
+<command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10">
+<!--Generated by Help Cmdlet Editor-->
+	<command:details>
 		<command:name>Get-AzureStorageTable</command:name>
 		<maml:description>
 			<maml:para>List azure storage tables</maml:para>
@@ -1484,6 +2331,20 @@ C:\PS&gt;			</maml:introduction>
 			<command:parameterValue required="true" variableLength = "false" >AzureStorageContext</command:parameterValue>
 			</command:parameter>
 			<command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "false" position = "named" >
+				<maml:name>ServerTimeoutPerRequest</maml:name>
+				<maml:description>
+					<maml:para>Server side time out for each request.</maml:para>
+				</maml:description>
+			<command:parameterValue required="true" variableLength = "false" >Int32</command:parameterValue>
+			</command:parameter>
+			<command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "false" position = "named" >
+				<maml:name>ClientTimeoutPerRequest</maml:name>
+				<maml:description>
+					<maml:para>Client side time out for each request.</maml:para>
+				</maml:description>
+			<command:parameterValue required="true" variableLength = "false" >Int32</command:parameterValue>
+			</command:parameter>
+			<command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "false" position = "named" >
 				<maml:name>PipelineVariable</maml:name>
 				<maml:description>
 					<maml:para></maml:para>
@@ -1506,6 +2367,20 @@ C:\PS&gt;			</maml:introduction>
 					<maml:para>Azure Storage Context. You can create it by New-AzureStorageContext cmdlet.</maml:para>
 				</maml:description>
 			<command:parameterValue required="true" variableLength = "false" >AzureStorageContext</command:parameterValue>
+			</command:parameter>
+			<command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "false" position = "named" >
+				<maml:name>ServerTimeoutPerRequest</maml:name>
+				<maml:description>
+					<maml:para>Server side time out for each request.</maml:para>
+				</maml:description>
+			<command:parameterValue required="true" variableLength = "false" >Int32</command:parameterValue>
+			</command:parameter>
+			<command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "false" position = "named" >
+				<maml:name>ClientTimeoutPerRequest</maml:name>
+				<maml:description>
+					<maml:para>Client side time out for each request.</maml:para>
+				</maml:description>
+			<command:parameterValue required="true" variableLength = "false" >Int32</command:parameterValue>
 			</command:parameter>
 			<command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "false" position = "named" >
 				<maml:name>PipelineVariable</maml:name>
@@ -1537,6 +2412,30 @@ C:\PS&gt;			</maml:introduction>
 			<command:parameterValue required="true" variableLength="false">AzureStorageContext</command:parameterValue>
 			<dev:type>
 				<maml:name>AzureStorageContext</maml:name>
+				<maml:uri/>
+			</dev:type>
+			<dev:defaultValue></dev:defaultValue>
+		</command:parameter>
+		<command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named">
+			<maml:name>ServerTimeoutPerRequest</maml:name>
+			<maml:description>
+				<maml:para>Server side time out for each request.</maml:para>
+			</maml:description>
+			<command:parameterValue required="true" variableLength="false">Int32</command:parameterValue>
+			<dev:type>
+				<maml:name>Int32</maml:name>
+				<maml:uri/>
+			</dev:type>
+			<dev:defaultValue></dev:defaultValue>
+		</command:parameter>
+		<command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named">
+			<maml:name>ClientTimeoutPerRequest</maml:name>
+			<maml:description>
+				<maml:para>Client side time out for each request.</maml:para>
+			</maml:description>
+			<command:parameterValue required="true" variableLength="false">Int32</command:parameterValue>
+			<dev:type>
+				<maml:name>Int32</maml:name>
 				<maml:uri/>
 			</dev:type>
 			<dev:defaultValue></dev:defaultValue>
@@ -1759,9 +2658,9 @@ C:\PS&gt;			</maml:introduction>
 			<command:parameterValue required="true" variableLength = "false" >ICloudBlob</command:parameterValue>
 			</command:parameter>
 			<command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "false" position = "named" >
-				<maml:name>Permission</maml:name>
+				<maml:name>Policy</maml:name>
 				<maml:description>
-					<maml:para>Permissions for a storage blob.</maml:para>
+					<maml:para>Azure Stored Access Policy.</maml:para>
 				</maml:description>
 			<command:parameterValue required="true" variableLength = "false" >String</command:parameterValue>
 			</command:parameter>
@@ -1810,9 +2709,9 @@ C:\PS&gt;			</maml:introduction>
 			<command:parameterValue required="true" variableLength = "false" >ICloudBlob</command:parameterValue>
 			</command:parameter>
 			<command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "false" position = "named" >
-				<maml:name>Policy</maml:name>
+				<maml:name>Permission</maml:name>
 				<maml:description>
-					<maml:para>Azure Stored Access Policy.</maml:para>
+					<maml:para>Permissions for a storage blob.</maml:para>
 				</maml:description>
 			<command:parameterValue required="true" variableLength = "false" >String</command:parameterValue>
 			</command:parameter>
@@ -2154,7 +3053,7 @@ New-AzureStorageBlobSASToken -Container cname -Blob bname -Permission rwd -Start
 				<maml:description>
 					<maml:para>Container public access permission (Off/Blob/Container).</maml:para>
 				</maml:description>
-			<command:parameterValue required="true" variableLength = "false" >String</command:parameterValue>
+			<command:parameterValue required="true" variableLength = "false" >BlobContainerPublicAccessType</command:parameterValue>
 			</command:parameter>
 			<command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "true (ByPropertyName)" position = "named" >
 				<maml:name>Context</maml:name>
@@ -2162,6 +3061,20 @@ New-AzureStorageBlobSASToken -Container cname -Blob bname -Permission rwd -Start
 					<maml:para>Azure Storage Context. You can create it by New-AzureStorageContext cmdlet.</maml:para>
 				</maml:description>
 			<command:parameterValue required="true" variableLength = "false" >AzureStorageContext</command:parameterValue>
+			</command:parameter>
+			<command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "false" position = "named" >
+				<maml:name>ServerTimeoutPerRequest</maml:name>
+				<maml:description>
+					<maml:para>Server side time out for each request.</maml:para>
+				</maml:description>
+			<command:parameterValue required="true" variableLength = "false" >Int32</command:parameterValue>
+			</command:parameter>
+			<command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "false" position = "named" >
+				<maml:name>ClientTimeoutPerRequest</maml:name>
+				<maml:description>
+					<maml:para>Client side time out for each request.</maml:para>
+				</maml:description>
+			<command:parameterValue required="true" variableLength = "false" >Int32</command:parameterValue>
 			</command:parameter>
 			<command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "false" position = "named" >
 				<maml:name>PipelineVariable</maml:name>
@@ -2190,9 +3103,9 @@ New-AzureStorageBlobSASToken -Container cname -Blob bname -Permission rwd -Start
 			<maml:description>
 				<maml:para>Container public access permission (Off/Blob/Container).</maml:para>
 			</maml:description>
-			<command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+			<command:parameterValue required="true" variableLength="false">BlobContainerPublicAccessType</command:parameterValue>
 			<dev:type>
-				<maml:name>String</maml:name>
+				<maml:name>BlobContainerPublicAccessType</maml:name>
 				<maml:uri/>
 			</dev:type>
 			<dev:defaultValue>Off</dev:defaultValue>
@@ -2205,6 +3118,30 @@ New-AzureStorageBlobSASToken -Container cname -Blob bname -Permission rwd -Start
 			<command:parameterValue required="true" variableLength="false">AzureStorageContext</command:parameterValue>
 			<dev:type>
 				<maml:name>AzureStorageContext</maml:name>
+				<maml:uri/>
+			</dev:type>
+			<dev:defaultValue></dev:defaultValue>
+		</command:parameter>
+		<command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named">
+			<maml:name>ServerTimeoutPerRequest</maml:name>
+			<maml:description>
+				<maml:para>Server side time out for each request.</maml:para>
+			</maml:description>
+			<command:parameterValue required="true" variableLength="false">Int32</command:parameterValue>
+			<dev:type>
+				<maml:name>Int32</maml:name>
+				<maml:uri/>
+			</dev:type>
+			<dev:defaultValue></dev:defaultValue>
+		</command:parameter>
+		<command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named">
+			<maml:name>ClientTimeoutPerRequest</maml:name>
+			<maml:description>
+				<maml:para>Client side time out for each request.</maml:para>
+			</maml:description>
+			<command:parameterValue required="true" variableLength="false">Int32</command:parameterValue>
+			<dev:type>
+				<maml:name>Int32</maml:name>
 				<maml:uri/>
 			</dev:type>
 			<dev:defaultValue></dev:defaultValue>
@@ -2714,13 +3651,94 @@ C:\PS&gt;			</maml:introduction>
 			<command:parameterValue required="true" variableLength = "false" >String</command:parameterValue>
 			</command:parameter>
 			<command:parameter required = "true" variableLength = "false" globbing = "false" pipelineInput = "false" position = "named" >
+				<maml:name>Anonymous</maml:name>
+				<maml:description>
+					<maml:para>Anonymous storage account.</maml:para>
+				</maml:description>
+			</command:parameter>
+			<command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "false" position = "named" >
+				<maml:name>Protocol</maml:name>
+				<maml:description>
+					<maml:para>Transfer Protocol (https/http).</maml:para>
+				</maml:description>
+			<command:parameterValue required="true" variableLength = "false" >String</command:parameterValue>
+			</command:parameter>
+			<command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "false" position = "named" >
+				<maml:name>Endpoint</maml:name>
+				<maml:description>
+					<maml:para>Azure Storage Endpoint.</maml:para>
+				</maml:description>
+			<command:parameterValue required="true" variableLength = "false" >String</command:parameterValue>
+			</command:parameter>
+			<command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "false" position = "named" >
+				<maml:name>PipelineVariable</maml:name>
+				<maml:description>
+					<maml:para></maml:para>
+				</maml:description>
+			<command:parameterValue required="true" variableLength = "false" >String</command:parameterValue>
+			</command:parameter>
+		</command:syntaxItem>
+		<command:syntaxItem>
+			<maml:name>New-AzureStorageContext</maml:name>
+			<command:parameter required = "true" variableLength = "false" globbing = "false" pipelineInput = "false" position = "1" >
+				<maml:name>StorageAccountName</maml:name>
+				<maml:description>
+					<maml:para>Azure storage account name</maml:para>
+				</maml:description>
+			<command:parameterValue required="true" variableLength = "false" >String</command:parameterValue>
+			</command:parameter>
+			<command:parameter required = "true" variableLength = "false" globbing = "false" pipelineInput = "false" position = "named" >
 				<maml:name>SasToken</maml:name>
 				<maml:description>
 					<maml:para></maml:para>
 				</maml:description>
 			<command:parameterValue required="true" variableLength = "false" >String</command:parameterValue>
 			</command:parameter>
+			<command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "false" position = "named" >
+				<maml:name>Protocol</maml:name>
+				<maml:description>
+					<maml:para>Transfer Protocol (https/http).</maml:para>
+				</maml:description>
+			<command:parameterValue required="true" variableLength = "false" >String</command:parameterValue>
+			</command:parameter>
+			<command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "false" position = "named" >
+				<maml:name>Endpoint</maml:name>
+				<maml:description>
+					<maml:para>Azure Storage Endpoint.</maml:para>
+				</maml:description>
+			<command:parameterValue required="true" variableLength = "false" >String</command:parameterValue>
+			</command:parameter>
+			<command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "false" position = "named" >
+				<maml:name>PipelineVariable</maml:name>
+				<maml:description>
+					<maml:para></maml:para>
+				</maml:description>
+			<command:parameterValue required="true" variableLength = "false" >String</command:parameterValue>
+			</command:parameter>
+		</command:syntaxItem>
+		<command:syntaxItem>
+			<maml:name>New-AzureStorageContext</maml:name>
+			<command:parameter required = "true" variableLength = "false" globbing = "false" pipelineInput = "false" position = "1" >
+				<maml:name>StorageAccountName</maml:name>
+				<maml:description>
+					<maml:para>Azure storage account name</maml:para>
+				</maml:description>
+			<command:parameterValue required="true" variableLength = "false" >String</command:parameterValue>
+			</command:parameter>
 			<command:parameter required = "true" variableLength = "false" globbing = "false" pipelineInput = "false" position = "named" >
+				<maml:name>Anonymous</maml:name>
+				<maml:description>
+					<maml:para>Anonymous storage account.</maml:para>
+				</maml:description>
+			</command:parameter>
+			<command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "false" position = "named" >
+				<maml:name>Protocol</maml:name>
+				<maml:description>
+					<maml:para>Transfer Protocol (https/http).</maml:para>
+				</maml:description>
+			<command:parameterValue required="true" variableLength = "false" >String</command:parameterValue>
+			</command:parameter>
+			<command:parameter required = "true" variableLength = "false" globbing = "false" pipelineInput = "true (ByPropertyName)" position = "named" >
 				<maml:name>Environment</maml:name>
 				<maml:description>
 					<maml:para>Azure Environment</maml:para>
@@ -2758,81 +3776,7 @@ C:\PS&gt;			</maml:introduction>
 				</maml:description>
 			<command:parameterValue required="true" variableLength = "false" >String</command:parameterValue>
 			</command:parameter>
-			<command:parameter required = "true" variableLength = "false" globbing = "false" pipelineInput = "false" position = "named" >
-				<maml:name>Environment</maml:name>
-				<maml:description>
-					<maml:para>Azure Environment</maml:para>
-				</maml:description>
-			<command:parameterValue required="true" variableLength = "false" >String</command:parameterValue>
-			</command:parameter>
-			<command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "false" position = "named" >
-				<maml:name>PipelineVariable</maml:name>
-				<maml:description>
-					<maml:para></maml:para>
-				</maml:description>
-			<command:parameterValue required="true" variableLength = "false" >String</command:parameterValue>
-			</command:parameter>
-		</command:syntaxItem>
-		<command:syntaxItem>
-			<maml:name>New-AzureStorageContext</maml:name>
-			<command:parameter required = "true" variableLength = "false" globbing = "false" pipelineInput = "false" position = "1" >
-				<maml:name>StorageAccountName</maml:name>
-				<maml:description>
-					<maml:para>Azure storage account name</maml:para>
-				</maml:description>
-			<command:parameterValue required="true" variableLength = "false" >String</command:parameterValue>
-			</command:parameter>
-			<command:parameter required = "true" variableLength = "false" globbing = "false" pipelineInput = "false" position = "named" >
-				<maml:name>Anonymous</maml:name>
-				<maml:description>
-					<maml:para>Anonymous storage account.</maml:para>
-				</maml:description>
-			</command:parameter>
-			<command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "false" position = "named" >
-				<maml:name>Protocol</maml:name>
-				<maml:description>
-					<maml:para>Transfer Protocol (https/http).</maml:para>
-				</maml:description>
-			<command:parameterValue required="true" variableLength = "false" >String</command:parameterValue>
-			</command:parameter>
-			<command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "false" position = "named" >
-				<maml:name>Endpoint</maml:name>
-				<maml:description>
-					<maml:para>Azure Storage Endpoint.</maml:para>
-				</maml:description>
-			<command:parameterValue required="true" variableLength = "false" >String</command:parameterValue>
-			</command:parameter>
-			<command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "false" position = "named" >
-				<maml:name>PipelineVariable</maml:name>
-				<maml:description>
-					<maml:para></maml:para>
-				</maml:description>
-			<command:parameterValue required="true" variableLength = "false" >String</command:parameterValue>
-			</command:parameter>
-		</command:syntaxItem>
-		<command:syntaxItem>
-			<maml:name>New-AzureStorageContext</maml:name>
-			<command:parameter required = "true" variableLength = "false" globbing = "false" pipelineInput = "false" position = "1" >
-				<maml:name>StorageAccountName</maml:name>
-				<maml:description>
-					<maml:para>Azure storage account name</maml:para>
-				</maml:description>
-			<command:parameterValue required="true" variableLength = "false" >String</command:parameterValue>
-			</command:parameter>
-			<command:parameter required = "true" variableLength = "false" globbing = "false" pipelineInput = "false" position = "named" >
-				<maml:name>Anonymous</maml:name>
-				<maml:description>
-					<maml:para>Anonymous storage account.</maml:para>
-				</maml:description>
-			</command:parameter>
-			<command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "false" position = "named" >
-				<maml:name>Protocol</maml:name>
-				<maml:description>
-					<maml:para>Transfer Protocol (https/http).</maml:para>
-				</maml:description>
-			<command:parameterValue required="true" variableLength = "false" >String</command:parameterValue>
-			</command:parameter>
-			<command:parameter required = "true" variableLength = "false" globbing = "false" pipelineInput = "false" position = "named" >
+			<command:parameter required = "true" variableLength = "false" globbing = "false" pipelineInput = "true (ByPropertyName)" position = "named" >
 				<maml:name>Environment</maml:name>
 				<maml:description>
 					<maml:para>Azure Environment</maml:para>
@@ -2863,17 +3807,10 @@ C:\PS&gt;			</maml:introduction>
 				</maml:description>
 			<command:parameterValue required="true" variableLength = "false" >String</command:parameterValue>
 			</command:parameter>
-			<command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "false" position = "named" >
-				<maml:name>Protocol</maml:name>
+			<command:parameter required = "true" variableLength = "false" globbing = "false" pipelineInput = "true (ByPropertyName)" position = "named" >
+				<maml:name>Environment</maml:name>
 				<maml:description>
-					<maml:para>Transfer Protocol (https/http).</maml:para>
-				</maml:description>
-			<command:parameterValue required="true" variableLength = "false" >String</command:parameterValue>
-			</command:parameter>
-			<command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "false" position = "named" >
-				<maml:name>Endpoint</maml:name>
-				<maml:description>
-					<maml:para>Azure Storage Endpoint.</maml:para>
+					<maml:para>Azure Environment</maml:para>
 				</maml:description>
 			<command:parameterValue required="true" variableLength = "false" >String</command:parameterValue>
 			</command:parameter>
@@ -2981,6 +3918,17 @@ C:\PS&gt;			</maml:introduction>
 			<dev:defaultValue></dev:defaultValue>
 		</command:parameter>
 		<command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="named">
+			<maml:name>Anonymous</maml:name>
+			<maml:description>
+				<maml:para>Anonymous storage account.</maml:para>
+			</maml:description>
+			<dev:type>
+				<maml:name>SwitchParameter</maml:name>
+				<maml:uri/>
+			</dev:type>
+			<dev:defaultValue></dev:defaultValue>
+		</command:parameter>
+		<command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="named">
 			<maml:name>SasToken</maml:name>
 			<maml:description>
 				<maml:para></maml:para>
@@ -2992,7 +3940,7 @@ C:\PS&gt;			</maml:introduction>
 			</dev:type>
 			<dev:defaultValue></dev:defaultValue>
 		</command:parameter>
-		<command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="named">
+		<command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="named">
 			<maml:name>Environment</maml:name>
 			<maml:description>
 				<maml:para>Azure Environment</maml:para>
@@ -3000,17 +3948,6 @@ C:\PS&gt;			</maml:introduction>
 			<command:parameterValue required="true" variableLength="false">String</command:parameterValue>
 			<dev:type>
 				<maml:name>String</maml:name>
-				<maml:uri/>
-			</dev:type>
-			<dev:defaultValue></dev:defaultValue>
-		</command:parameter>
-		<command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="named">
-			<maml:name>Anonymous</maml:name>
-			<maml:description>
-				<maml:para>Anonymous storage account.</maml:para>
-			</maml:description>
-			<dev:type>
-				<maml:name>SwitchParameter</maml:name>
 				<maml:uri/>
 			</dev:type>
 			<dev:defaultValue></dev:defaultValue>
@@ -3340,6 +4277,20 @@ $context | Get-AzureStorageBlob -Container abc</dev:code>
 			<command:parameterValue required="true" variableLength = "false" >AzureStorageContext</command:parameterValue>
 			</command:parameter>
 			<command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "false" position = "named" >
+				<maml:name>ServerTimeoutPerRequest</maml:name>
+				<maml:description>
+					<maml:para>Server side time out for each request.</maml:para>
+				</maml:description>
+			<command:parameterValue required="true" variableLength = "false" >Int32</command:parameterValue>
+			</command:parameter>
+			<command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "false" position = "named" >
+				<maml:name>ClientTimeoutPerRequest</maml:name>
+				<maml:description>
+					<maml:para>Client side time out for each request.</maml:para>
+				</maml:description>
+			<command:parameterValue required="true" variableLength = "false" >Int32</command:parameterValue>
+			</command:parameter>
+			<command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "false" position = "named" >
 				<maml:name>PipelineVariable</maml:name>
 				<maml:description>
 					<maml:para></maml:para>
@@ -3369,6 +4320,30 @@ $context | Get-AzureStorageBlob -Container abc</dev:code>
 			<command:parameterValue required="true" variableLength="false">AzureStorageContext</command:parameterValue>
 			<dev:type>
 				<maml:name>AzureStorageContext</maml:name>
+				<maml:uri/>
+			</dev:type>
+			<dev:defaultValue></dev:defaultValue>
+		</command:parameter>
+		<command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named">
+			<maml:name>ServerTimeoutPerRequest</maml:name>
+			<maml:description>
+				<maml:para>Server side time out for each request.</maml:para>
+			</maml:description>
+			<command:parameterValue required="true" variableLength="false">Int32</command:parameterValue>
+			<dev:type>
+				<maml:name>Int32</maml:name>
+				<maml:uri/>
+			</dev:type>
+			<dev:defaultValue></dev:defaultValue>
+		</command:parameter>
+		<command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named">
+			<maml:name>ClientTimeoutPerRequest</maml:name>
+			<maml:description>
+				<maml:para>Client side time out for each request.</maml:para>
+			</maml:description>
+			<command:parameterValue required="true" variableLength="false">Int32</command:parameterValue>
+			<dev:type>
+				<maml:name>Int32</maml:name>
 				<maml:uri/>
 			</dev:type>
 			<dev:defaultValue></dev:defaultValue>
@@ -3813,6 +4788,20 @@ C:\PS&gt;			</maml:introduction>
 			<command:parameterValue required="true" variableLength = "false" >AzureStorageContext</command:parameterValue>
 			</command:parameter>
 			<command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "false" position = "named" >
+				<maml:name>ServerTimeoutPerRequest</maml:name>
+				<maml:description>
+					<maml:para>Server side time out for each request.</maml:para>
+				</maml:description>
+			<command:parameterValue required="true" variableLength = "false" >Int32</command:parameterValue>
+			</command:parameter>
+			<command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "false" position = "named" >
+				<maml:name>ClientTimeoutPerRequest</maml:name>
+				<maml:description>
+					<maml:para>Client side time out for each request.</maml:para>
+				</maml:description>
+			<command:parameterValue required="true" variableLength = "false" >Int32</command:parameterValue>
+			</command:parameter>
+			<command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "false" position = "named" >
 				<maml:name>PipelineVariable</maml:name>
 				<maml:description>
 					<maml:para></maml:para>
@@ -3842,6 +4831,30 @@ C:\PS&gt;			</maml:introduction>
 			<command:parameterValue required="true" variableLength="false">AzureStorageContext</command:parameterValue>
 			<dev:type>
 				<maml:name>AzureStorageContext</maml:name>
+				<maml:uri/>
+			</dev:type>
+			<dev:defaultValue></dev:defaultValue>
+		</command:parameter>
+		<command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named">
+			<maml:name>ServerTimeoutPerRequest</maml:name>
+			<maml:description>
+				<maml:para>Server side time out for each request.</maml:para>
+			</maml:description>
+			<command:parameterValue required="true" variableLength="false">Int32</command:parameterValue>
+			<dev:type>
+				<maml:name>Int32</maml:name>
+				<maml:uri/>
+			</dev:type>
+			<dev:defaultValue></dev:defaultValue>
+		</command:parameter>
+		<command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named">
+			<maml:name>ClientTimeoutPerRequest</maml:name>
+			<maml:description>
+				<maml:para>Client side time out for each request.</maml:para>
+			</maml:description>
+			<command:parameterValue required="true" variableLength="false">Int32</command:parameterValue>
+			<dev:type>
+				<maml:name>Int32</maml:name>
 				<maml:uri/>
 			</dev:type>
 			<dev:defaultValue></dev:defaultValue>
@@ -4437,6 +5450,20 @@ C:\PS&gt;			</maml:introduction>
 			<command:parameterValue required="true" variableLength = "false" >AzureStorageContext</command:parameterValue>
 			</command:parameter>
 			<command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "false" position = "named" >
+				<maml:name>ServerTimeoutPerRequest</maml:name>
+				<maml:description>
+					<maml:para>Server side time out for each request.</maml:para>
+				</maml:description>
+			<command:parameterValue required="true" variableLength = "false" >Int32</command:parameterValue>
+			</command:parameter>
+			<command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "false" position = "named" >
+				<maml:name>ClientTimeoutPerRequest</maml:name>
+				<maml:description>
+					<maml:para>Client side time out for each request.</maml:para>
+				</maml:description>
+			<command:parameterValue required="true" variableLength = "false" >Int32</command:parameterValue>
+			</command:parameter>
+			<command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "false" position = "named" >
 				<maml:name>PipelineVariable</maml:name>
 				<maml:description>
 					<maml:para></maml:para>
@@ -4489,6 +5516,20 @@ C:\PS&gt;			</maml:introduction>
 					<maml:para>Azure Storage Context. You can create it by New-AzureStorageContext cmdlet.</maml:para>
 				</maml:description>
 			<command:parameterValue required="true" variableLength = "false" >AzureStorageContext</command:parameterValue>
+			</command:parameter>
+			<command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "false" position = "named" >
+				<maml:name>ServerTimeoutPerRequest</maml:name>
+				<maml:description>
+					<maml:para>Server side time out for each request.</maml:para>
+				</maml:description>
+			<command:parameterValue required="true" variableLength = "false" >Int32</command:parameterValue>
+			</command:parameter>
+			<command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "false" position = "named" >
+				<maml:name>ClientTimeoutPerRequest</maml:name>
+				<maml:description>
+					<maml:para>Client side time out for each request.</maml:para>
+				</maml:description>
+			<command:parameterValue required="true" variableLength = "false" >Int32</command:parameterValue>
 			</command:parameter>
 			<command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "false" position = "named" >
 				<maml:name>PipelineVariable</maml:name>
@@ -4550,6 +5591,20 @@ C:\PS&gt;			</maml:introduction>
 					<maml:para>Azure Storage Context. You can create it by New-AzureStorageContext cmdlet.</maml:para>
 				</maml:description>
 			<command:parameterValue required="true" variableLength = "false" >AzureStorageContext</command:parameterValue>
+			</command:parameter>
+			<command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "false" position = "named" >
+				<maml:name>ServerTimeoutPerRequest</maml:name>
+				<maml:description>
+					<maml:para>Server side time out for each request.</maml:para>
+				</maml:description>
+			<command:parameterValue required="true" variableLength = "false" >Int32</command:parameterValue>
+			</command:parameter>
+			<command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "false" position = "named" >
+				<maml:name>ClientTimeoutPerRequest</maml:name>
+				<maml:description>
+					<maml:para>Client side time out for each request.</maml:para>
+				</maml:description>
+			<command:parameterValue required="true" variableLength = "false" >Int32</command:parameterValue>
 			</command:parameter>
 			<command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "false" position = "named" >
 				<maml:name>PipelineVariable</maml:name>
@@ -4638,6 +5693,30 @@ C:\PS&gt;			</maml:introduction>
 			<command:parameterValue required="true" variableLength="false">AzureStorageContext</command:parameterValue>
 			<dev:type>
 				<maml:name>AzureStorageContext</maml:name>
+				<maml:uri/>
+			</dev:type>
+			<dev:defaultValue></dev:defaultValue>
+		</command:parameter>
+		<command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named">
+			<maml:name>ServerTimeoutPerRequest</maml:name>
+			<maml:description>
+				<maml:para>Server side time out for each request.</maml:para>
+			</maml:description>
+			<command:parameterValue required="true" variableLength="false">Int32</command:parameterValue>
+			<dev:type>
+				<maml:name>Int32</maml:name>
+				<maml:uri/>
+			</dev:type>
+			<dev:defaultValue></dev:defaultValue>
+		</command:parameter>
+		<command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named">
+			<maml:name>ClientTimeoutPerRequest</maml:name>
+			<maml:description>
+				<maml:para>Client side time out for each request.</maml:para>
+			</maml:description>
+			<command:parameterValue required="true" variableLength="false">Int32</command:parameterValue>
+			<dev:type>
+				<maml:name>Int32</maml:name>
 				<maml:uri/>
 			</dev:type>
 			<dev:defaultValue></dev:defaultValue>
@@ -4867,6 +5946,20 @@ C:\PS&gt;			</maml:introduction>
 			<command:parameterValue required="true" variableLength = "false" >AzureStorageContext</command:parameterValue>
 			</command:parameter>
 			<command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "false" position = "named" >
+				<maml:name>ServerTimeoutPerRequest</maml:name>
+				<maml:description>
+					<maml:para>Server side time out for each request.</maml:para>
+				</maml:description>
+			<command:parameterValue required="true" variableLength = "false" >Int32</command:parameterValue>
+			</command:parameter>
+			<command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "false" position = "named" >
+				<maml:name>ClientTimeoutPerRequest</maml:name>
+				<maml:description>
+					<maml:para>Client side time out for each request.</maml:para>
+				</maml:description>
+			<command:parameterValue required="true" variableLength = "false" >Int32</command:parameterValue>
+			</command:parameter>
+			<command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "false" position = "named" >
 				<maml:name>PipelineVariable</maml:name>
 				<maml:description>
 					<maml:para></maml:para>
@@ -4930,6 +6023,30 @@ C:\PS&gt;			</maml:introduction>
 			<command:parameterValue required="true" variableLength="false">AzureStorageContext</command:parameterValue>
 			<dev:type>
 				<maml:name>AzureStorageContext</maml:name>
+				<maml:uri/>
+			</dev:type>
+			<dev:defaultValue></dev:defaultValue>
+		</command:parameter>
+		<command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named">
+			<maml:name>ServerTimeoutPerRequest</maml:name>
+			<maml:description>
+				<maml:para>Server side time out for each request.</maml:para>
+			</maml:description>
+			<command:parameterValue required="true" variableLength="false">Int32</command:parameterValue>
+			<dev:type>
+				<maml:name>Int32</maml:name>
+				<maml:uri/>
+			</dev:type>
+			<dev:defaultValue></dev:defaultValue>
+		</command:parameter>
+		<command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named">
+			<maml:name>ClientTimeoutPerRequest</maml:name>
+			<maml:description>
+				<maml:para>Client side time out for each request.</maml:para>
+			</maml:description>
+			<command:parameterValue required="true" variableLength="false">Int32</command:parameterValue>
+			<dev:type>
+				<maml:name>Int32</maml:name>
 				<maml:uri/>
 			</dev:type>
 			<dev:defaultValue></dev:defaultValue>
@@ -5057,6 +6174,20 @@ C:\PS&gt;			</maml:introduction>
 			<command:parameterValue required="true" variableLength = "false" >AzureStorageContext</command:parameterValue>
 			</command:parameter>
 			<command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "false" position = "named" >
+				<maml:name>ServerTimeoutPerRequest</maml:name>
+				<maml:description>
+					<maml:para>Server side time out for each request.</maml:para>
+				</maml:description>
+			<command:parameterValue required="true" variableLength = "false" >Int32</command:parameterValue>
+			</command:parameter>
+			<command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "false" position = "named" >
+				<maml:name>ClientTimeoutPerRequest</maml:name>
+				<maml:description>
+					<maml:para>Client side time out for each request.</maml:para>
+				</maml:description>
+			<command:parameterValue required="true" variableLength = "false" >Int32</command:parameterValue>
+			</command:parameter>
+			<command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "false" position = "named" >
 				<maml:name>PipelineVariable</maml:name>
 				<maml:description>
 					<maml:para></maml:para>
@@ -5120,6 +6251,30 @@ C:\PS&gt;			</maml:introduction>
 			<command:parameterValue required="true" variableLength="false">AzureStorageContext</command:parameterValue>
 			<dev:type>
 				<maml:name>AzureStorageContext</maml:name>
+				<maml:uri/>
+			</dev:type>
+			<dev:defaultValue></dev:defaultValue>
+		</command:parameter>
+		<command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named">
+			<maml:name>ServerTimeoutPerRequest</maml:name>
+			<maml:description>
+				<maml:para>Server side time out for each request.</maml:para>
+			</maml:description>
+			<command:parameterValue required="true" variableLength="false">Int32</command:parameterValue>
+			<dev:type>
+				<maml:name>Int32</maml:name>
+				<maml:uri/>
+			</dev:type>
+			<dev:defaultValue></dev:defaultValue>
+		</command:parameter>
+		<command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named">
+			<maml:name>ClientTimeoutPerRequest</maml:name>
+			<maml:description>
+				<maml:para>Client side time out for each request.</maml:para>
+			</maml:description>
+			<command:parameterValue required="true" variableLength="false">Int32</command:parameterValue>
+			<dev:type>
+				<maml:name>Int32</maml:name>
 				<maml:uri/>
 			</dev:type>
 			<dev:defaultValue></dev:defaultValue>
@@ -5291,6 +6446,20 @@ C:\PS&gt;			</maml:introduction>
 			<command:parameterValue required="true" variableLength = "false" >AzureStorageContext</command:parameterValue>
 			</command:parameter>
 			<command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "false" position = "named" >
+				<maml:name>ServerTimeoutPerRequest</maml:name>
+				<maml:description>
+					<maml:para>Server side time out for each request.</maml:para>
+				</maml:description>
+			<command:parameterValue required="true" variableLength = "false" >Int32</command:parameterValue>
+			</command:parameter>
+			<command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "false" position = "named" >
+				<maml:name>ClientTimeoutPerRequest</maml:name>
+				<maml:description>
+					<maml:para>Client side time out for each request.</maml:para>
+				</maml:description>
+			<command:parameterValue required="true" variableLength = "false" >Int32</command:parameterValue>
+			</command:parameter>
+			<command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "false" position = "named" >
 				<maml:name>PipelineVariable</maml:name>
 				<maml:description>
 					<maml:para></maml:para>
@@ -5354,6 +6523,30 @@ C:\PS&gt;			</maml:introduction>
 			<command:parameterValue required="true" variableLength="false">AzureStorageContext</command:parameterValue>
 			<dev:type>
 				<maml:name>AzureStorageContext</maml:name>
+				<maml:uri/>
+			</dev:type>
+			<dev:defaultValue></dev:defaultValue>
+		</command:parameter>
+		<command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named">
+			<maml:name>ServerTimeoutPerRequest</maml:name>
+			<maml:description>
+				<maml:para>Server side time out for each request.</maml:para>
+			</maml:description>
+			<command:parameterValue required="true" variableLength="false">Int32</command:parameterValue>
+			<dev:type>
+				<maml:name>Int32</maml:name>
+				<maml:uri/>
+			</dev:type>
+			<dev:defaultValue></dev:defaultValue>
+		</command:parameter>
+		<command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named">
+			<maml:name>ClientTimeoutPerRequest</maml:name>
+			<maml:description>
+				<maml:para>Client side time out for each request.</maml:para>
+			</maml:description>
+			<command:parameterValue required="true" variableLength="false">Int32</command:parameterValue>
+			<dev:type>
+				<maml:name>Int32</maml:name>
 				<maml:uri/>
 			</dev:type>
 			<dev:defaultValue></dev:defaultValue>
@@ -5561,6 +6754,20 @@ C:\PS&gt;			</maml:introduction>
 			<command:parameterValue required="true" variableLength = "false" >AzureStorageContext</command:parameterValue>
 			</command:parameter>
 			<command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "false" position = "named" >
+				<maml:name>ServerTimeoutPerRequest</maml:name>
+				<maml:description>
+					<maml:para>Server side time out for each request.</maml:para>
+				</maml:description>
+			<command:parameterValue required="true" variableLength = "false" >Int32</command:parameterValue>
+			</command:parameter>
+			<command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "false" position = "named" >
+				<maml:name>ClientTimeoutPerRequest</maml:name>
+				<maml:description>
+					<maml:para>Client side time out for each request.</maml:para>
+				</maml:description>
+			<command:parameterValue required="true" variableLength = "false" >Int32</command:parameterValue>
+			</command:parameter>
+			<command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "false" position = "named" >
 				<maml:name>PipelineVariable</maml:name>
 				<maml:description>
 					<maml:para></maml:para>
@@ -5633,6 +6840,20 @@ C:\PS&gt;			</maml:introduction>
 			<command:parameterValue required="true" variableLength = "false" >AzureStorageContext</command:parameterValue>
 			</command:parameter>
 			<command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "false" position = "named" >
+				<maml:name>ServerTimeoutPerRequest</maml:name>
+				<maml:description>
+					<maml:para>Server side time out for each request.</maml:para>
+				</maml:description>
+			<command:parameterValue required="true" variableLength = "false" >Int32</command:parameterValue>
+			</command:parameter>
+			<command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "false" position = "named" >
+				<maml:name>ClientTimeoutPerRequest</maml:name>
+				<maml:description>
+					<maml:para>Client side time out for each request.</maml:para>
+				</maml:description>
+			<command:parameterValue required="true" variableLength = "false" >Int32</command:parameterValue>
+			</command:parameter>
+			<command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "false" position = "named" >
 				<maml:name>PipelineVariable</maml:name>
 				<maml:description>
 					<maml:para></maml:para>
@@ -5696,6 +6917,20 @@ C:\PS&gt;			</maml:introduction>
 					<maml:para>Azure Storage Context. You can create it by New-AzureStorageContext cmdlet.</maml:para>
 				</maml:description>
 			<command:parameterValue required="true" variableLength = "false" >AzureStorageContext</command:parameterValue>
+			</command:parameter>
+			<command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "false" position = "named" >
+				<maml:name>ServerTimeoutPerRequest</maml:name>
+				<maml:description>
+					<maml:para>Server side time out for each request.</maml:para>
+				</maml:description>
+			<command:parameterValue required="true" variableLength = "false" >Int32</command:parameterValue>
+			</command:parameter>
+			<command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "false" position = "named" >
+				<maml:name>ClientTimeoutPerRequest</maml:name>
+				<maml:description>
+					<maml:para>Client side time out for each request.</maml:para>
+				</maml:description>
+			<command:parameterValue required="true" variableLength = "false" >Int32</command:parameterValue>
 			</command:parameter>
 			<command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "false" position = "named" >
 				<maml:name>PipelineVariable</maml:name>
@@ -5810,6 +7045,30 @@ C:\PS&gt;			</maml:introduction>
 			<command:parameterValue required="true" variableLength="false">AzureStorageContext</command:parameterValue>
 			<dev:type>
 				<maml:name>AzureStorageContext</maml:name>
+				<maml:uri/>
+			</dev:type>
+			<dev:defaultValue></dev:defaultValue>
+		</command:parameter>
+		<command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named">
+			<maml:name>ServerTimeoutPerRequest</maml:name>
+			<maml:description>
+				<maml:para>Server side time out for each request.</maml:para>
+			</maml:description>
+			<command:parameterValue required="true" variableLength="false">Int32</command:parameterValue>
+			<dev:type>
+				<maml:name>Int32</maml:name>
+				<maml:uri/>
+			</dev:type>
+			<dev:defaultValue></dev:defaultValue>
+		</command:parameter>
+		<command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named">
+			<maml:name>ClientTimeoutPerRequest</maml:name>
+			<maml:description>
+				<maml:para>Client side time out for each request.</maml:para>
+			</maml:description>
+			<command:parameterValue required="true" variableLength="false">Int32</command:parameterValue>
+			<dev:type>
+				<maml:name>Int32</maml:name>
 				<maml:uri/>
 			</dev:type>
 			<dev:defaultValue></dev:defaultValue>
@@ -6047,7 +7306,7 @@ Set-AzureStorageBlobContent -File filename -Container containername -Metadata $m
 				<maml:description>
 					<maml:para>Container public access permission (Off/Blob/Container).</maml:para>
 				</maml:description>
-			<command:parameterValue required="true" variableLength = "false" >String</command:parameterValue>
+			<command:parameterValue required="true" variableLength = "false" >BlobContainerPublicAccessType</command:parameterValue>
 			</command:parameter>
 			<command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "false" position = "named" >
 				<maml:name>PassThru</maml:name>
@@ -6061,6 +7320,20 @@ Set-AzureStorageBlobContent -File filename -Container containername -Metadata $m
 					<maml:para>Azure Storage Context. You can create it by New-AzureStorageContext cmdlet.</maml:para>
 				</maml:description>
 			<command:parameterValue required="true" variableLength = "false" >AzureStorageContext</command:parameterValue>
+			</command:parameter>
+			<command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "false" position = "named" >
+				<maml:name>ServerTimeoutPerRequest</maml:name>
+				<maml:description>
+					<maml:para>Server side time out for each request.</maml:para>
+				</maml:description>
+			<command:parameterValue required="true" variableLength = "false" >Int32</command:parameterValue>
+			</command:parameter>
+			<command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "false" position = "named" >
+				<maml:name>ClientTimeoutPerRequest</maml:name>
+				<maml:description>
+					<maml:para>Client side time out for each request.</maml:para>
+				</maml:description>
+			<command:parameterValue required="true" variableLength = "false" >Int32</command:parameterValue>
 			</command:parameter>
 			<command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "false" position = "named" >
 				<maml:name>PipelineVariable</maml:name>
@@ -6089,9 +7362,9 @@ Set-AzureStorageBlobContent -File filename -Container containername -Metadata $m
 			<maml:description>
 				<maml:para>Container public access permission (Off/Blob/Container).</maml:para>
 			</maml:description>
-			<command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+			<command:parameterValue required="true" variableLength="false">BlobContainerPublicAccessType</command:parameterValue>
 			<dev:type>
-				<maml:name>String</maml:name>
+				<maml:name>BlobContainerPublicAccessType</maml:name>
 				<maml:uri/>
 			</dev:type>
 			<dev:defaultValue></dev:defaultValue>
@@ -6115,6 +7388,30 @@ Set-AzureStorageBlobContent -File filename -Container containername -Metadata $m
 			<command:parameterValue required="true" variableLength="false">AzureStorageContext</command:parameterValue>
 			<dev:type>
 				<maml:name>AzureStorageContext</maml:name>
+				<maml:uri/>
+			</dev:type>
+			<dev:defaultValue></dev:defaultValue>
+		</command:parameter>
+		<command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named">
+			<maml:name>ServerTimeoutPerRequest</maml:name>
+			<maml:description>
+				<maml:para>Server side time out for each request.</maml:para>
+			</maml:description>
+			<command:parameterValue required="true" variableLength="false">Int32</command:parameterValue>
+			<dev:type>
+				<maml:name>Int32</maml:name>
+				<maml:uri/>
+			</dev:type>
+			<dev:defaultValue></dev:defaultValue>
+		</command:parameter>
+		<command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named">
+			<maml:name>ClientTimeoutPerRequest</maml:name>
+			<maml:description>
+				<maml:para>Client side time out for each request.</maml:para>
+			</maml:description>
+			<command:parameterValue required="true" variableLength="false">Int32</command:parameterValue>
+			<dev:type>
+				<maml:name>Int32</maml:name>
 				<maml:uri/>
 			</dev:type>
 			<dev:defaultValue></dev:defaultValue>
@@ -6234,6 +7531,537 @@ C:\PS&gt;			</maml:introduction>
 <command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10">
 <!--Generated by Help Cmdlet Editor-->
 	<command:details>
+		<command:name>Set-AzureStorageServiceLoggingProperty</command:name>
+		<maml:description>
+			<maml:para>Set azure storage service logging properties。</maml:para>
+		</maml:description>
+		<maml:copyright>
+           <maml:para />
+		<!--Add copy right info here.-->
+		</maml:copyright>
+		<command:verb>Set</command:verb>
+		<command:noun>AzureStorageServiceLoggingProperty</command:noun>
+		<!--Add Dev version info here.-->
+		<dev:version />
+	</command:details>
+	<maml:description>
+	<!--This is the Description section-->
+		<maml:para>Set azure storage service logging properties。</maml:para>
+	</maml:description>
+	<command:syntax>		<command:syntaxItem>
+			<maml:name>Set-AzureStorageServiceLoggingProperty</maml:name>
+			<command:parameter required = "true" variableLength = "false" globbing = "false" pipelineInput = "false" position = "1" >
+				<maml:name>ServiceType</maml:name>
+				<maml:description>
+					<maml:para>Azure storage service type.</maml:para>
+				</maml:description>
+			<command:parameterValue required="true" variableLength = "false" >StorageServiceType</command:parameterValue>
+			</command:parameter>
+			<command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "false" position = "named" >
+				<maml:name>Version</maml:name>
+				<maml:description>
+					<maml:para>Azure storage service logging version.</maml:para>
+				</maml:description>
+			<command:parameterValue required="true" variableLength = "false" >Double</command:parameterValue>
+			</command:parameter>
+			<command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "false" position = "named" >
+				<maml:name>RetentionDays</maml:name>
+				<maml:description>
+					<maml:para>Azure storage logging retention days.</maml:para>
+				</maml:description>
+			<command:parameterValue required="true" variableLength = "false" >Int32</command:parameterValue>
+			</command:parameter>
+			<command:parameter required = "false" variableLength = "true" globbing = "false" pipelineInput = "false" position = "named" >
+				<maml:name>LoggingOperations</maml:name>
+				<maml:description>
+					<maml:para>Azure storage service logging operations.</maml:para>
+				</maml:description>
+			<command:parameterValue required="true" variableLength = "true" >LoggingOperations[]</command:parameterValue>
+			</command:parameter>
+			<command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "false" position = "named" >
+				<maml:name>PassThru</maml:name>
+				<maml:description>
+					<maml:para>Ouput the updated azure storage service logging properties.</maml:para>
+				</maml:description>
+			</command:parameter>
+			<command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "true (ByPropertyName)" position = "named" >
+				<maml:name>Context</maml:name>
+				<maml:description>
+					<maml:para>Azure storage context.</maml:para>
+				</maml:description>
+			<command:parameterValue required="true" variableLength = "false" >AzureStorageContext</command:parameterValue>
+			</command:parameter>
+			<command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "false" position = "named" >
+				<maml:name>ServerTimeoutPerRequest</maml:name>
+				<maml:description>
+					<maml:para>Server side time out for each request.</maml:para>
+				</maml:description>
+			<command:parameterValue required="true" variableLength = "false" >Int32</command:parameterValue>
+			</command:parameter>
+			<command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "false" position = "named" >
+				<maml:name>ClientTimeoutPerRequest</maml:name>
+				<maml:description>
+					<maml:para>Client side time out for each request.</maml:para>
+				</maml:description>
+			<command:parameterValue required="true" variableLength = "false" >Int32</command:parameterValue>
+			</command:parameter>
+			<command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "false" position = "named" >
+				<maml:name>PipelineVariable</maml:name>
+				<maml:description>
+					<maml:para></maml:para>
+				</maml:description>
+			<command:parameterValue required="true" variableLength = "false" >String</command:parameterValue>
+			</command:parameter>
+		</command:syntaxItem>
+	</command:syntax>
+	<command:parameters>
+		<command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="1">
+			<maml:name>ServiceType</maml:name>
+			<maml:description>
+				<maml:para>Azure storage service type.</maml:para>
+			</maml:description>
+			<command:parameterValue required="true" variableLength="false">StorageServiceType</command:parameterValue>
+			<dev:type>
+				<maml:name>StorageServiceType</maml:name>
+				<maml:uri/>
+			</dev:type>
+			<dev:defaultValue></dev:defaultValue>
+		</command:parameter>
+		<command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named">
+			<maml:name>Version</maml:name>
+			<maml:description>
+				<maml:para>Azure storage service logging version.</maml:para>
+			</maml:description>
+			<command:parameterValue required="true" variableLength="false">Double</command:parameterValue>
+			<dev:type>
+				<maml:name>Double</maml:name>
+				<maml:uri/>
+			</dev:type>
+			<dev:defaultValue></dev:defaultValue>
+		</command:parameter>
+		<command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named">
+			<maml:name>RetentionDays</maml:name>
+			<maml:description>
+				<maml:para>Azure storage logging retention days.</maml:para>
+			</maml:description>
+			<command:parameterValue required="true" variableLength="false">Int32</command:parameterValue>
+			<dev:type>
+				<maml:name>Int32</maml:name>
+				<maml:uri/>
+			</dev:type>
+			<dev:defaultValue></dev:defaultValue>
+		</command:parameter>
+		<command:parameter required="false" variableLength="true" globbing="false" pipelineInput="false" position="named">
+			<maml:name>LoggingOperations</maml:name>
+			<maml:description>
+				<maml:para>Azure storage service logging operations.</maml:para>
+			</maml:description>
+			<command:parameterValue required="true" variableLength="true">LoggingOperations[]</command:parameterValue>
+			<dev:type>
+				<maml:name>LoggingOperations[]</maml:name>
+				<maml:uri/>
+			</dev:type>
+			<dev:defaultValue></dev:defaultValue>
+		</command:parameter>
+		<command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named">
+			<maml:name>PassThru</maml:name>
+			<maml:description>
+				<maml:para>Ouput the updated azure storage service logging properties.</maml:para>
+			</maml:description>
+			<dev:type>
+				<maml:name>SwitchParameter</maml:name>
+				<maml:uri/>
+			</dev:type>
+			<dev:defaultValue></dev:defaultValue>
+		</command:parameter>
+		<command:parameter required="false" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="named">
+			<maml:name>Context</maml:name>
+			<maml:description>
+				<maml:para>Azure storage context.</maml:para>
+			</maml:description>
+			<command:parameterValue required="true" variableLength="false">AzureStorageContext</command:parameterValue>
+			<dev:type>
+				<maml:name>AzureStorageContext</maml:name>
+				<maml:uri/>
+			</dev:type>
+			<dev:defaultValue></dev:defaultValue>
+		</command:parameter>
+		<command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named">
+			<maml:name>ServerTimeoutPerRequest</maml:name>
+			<maml:description>
+				<maml:para>Server side time out for each request.</maml:para>
+			</maml:description>
+			<command:parameterValue required="true" variableLength="false">Int32</command:parameterValue>
+			<dev:type>
+				<maml:name>Int32</maml:name>
+				<maml:uri/>
+			</dev:type>
+			<dev:defaultValue></dev:defaultValue>
+		</command:parameter>
+		<command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named">
+			<maml:name>ClientTimeoutPerRequest</maml:name>
+			<maml:description>
+				<maml:para>Client side time out for each request.</maml:para>
+			</maml:description>
+			<command:parameterValue required="true" variableLength="false">Int32</command:parameterValue>
+			<dev:type>
+				<maml:name>Int32</maml:name>
+				<maml:uri/>
+			</dev:type>
+			<dev:defaultValue></dev:defaultValue>
+		</command:parameter>
+		<command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named">
+			<maml:name>PipelineVariable</maml:name>
+			<maml:description>
+				<maml:para></maml:para>
+			</maml:description>
+			<command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+			<dev:type>
+				<maml:name>String</maml:name>
+				<maml:uri/>
+			</dev:type>
+			<dev:defaultValue></dev:defaultValue>
+		</command:parameter>
+	</command:parameters>
+	<command:inputTypes>
+		<command:inputType>
+			<dev:type>
+				<maml:name></maml:name>
+				<maml:uri/>
+				<maml:description>
+					<maml:para></maml:para>
+				</maml:description>
+			</dev:type>
+			<maml:description></maml:description>
+		</command:inputType>
+	</command:inputTypes>
+	<command:returnValues>
+		<command:returnValue>
+			<dev:type>
+				<maml:name></maml:name>
+				<maml:uri />
+				<maml:description>
+					<maml:para></maml:para>
+				</maml:description>
+			</dev:type>
+			<maml:description></maml:description>
+		</command:returnValue>
+	</command:returnValues>
+	<command:terminatingErrors>
+	</command:terminatingErrors>
+	<command:nonTerminatingErrors>
+	</command:nonTerminatingErrors>
+	<maml:alertSet>
+		<maml:title></maml:title>
+		<maml:alert>
+			<maml:para></maml:para>
+		</maml:alert>
+	</maml:alertSet>
+	<command:examples>
+		<command:example>
+			<maml:title>
+--------------  Set logging properties for azure storage blob service. --------------			</maml:title>
+			<maml:introduction>
+				<maml:para>C:\PS&gt;</maml:para>
+C:\PS&gt;			</maml:introduction>
+  			<dev:code>Set-AzureStorageServiceLoggingProperty -ServiceType Blob -LoggingOperations Read,Write -RetentionDays 10 -Version 1.0 -PassThru</dev:code>
+  			<dev:remarks>
+				<maml:para></maml:para>
+				<maml:para></maml:para>
+				<maml:para></maml:para>
+				<maml:para>
+				</maml:para>
+				<maml:para></maml:para>
+  			</dev:remarks>
+			<command:commandLines>
+				<command:commandLine>
+					<command:commandText>
+					</command:commandText>
+				</command:commandLine>
+			</command:commandLines>
+		</command:example>
+	</command:examples>
+	<maml:relatedLinks>
+	</maml:relatedLinks>
+</command:command>
+<command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10">
+<!--Generated by Help Cmdlet Editor-->
+	<command:details>
+		<command:name>Set-AzureStorageServiceMetricsProperty</command:name>
+		<maml:description>
+			<maml:para>Set azure storage service metrics properties.</maml:para>
+		</maml:description>
+		<maml:copyright>
+           <maml:para />
+		<!--Add copy right info here.-->
+		</maml:copyright>
+		<command:verb>Set</command:verb>
+		<command:noun>AzureStorageServiceMetricsProperty</command:noun>
+		<!--Add Dev version info here.-->
+		<dev:version />
+	</command:details>
+	<maml:description>
+	<!--This is the Description section-->
+		<maml:para>Set azure storage service metrics properties.</maml:para>
+	</maml:description>
+	<command:syntax>		<command:syntaxItem>
+			<maml:name>Set-AzureStorageServiceMetricsProperty</maml:name>
+			<command:parameter required = "true" variableLength = "false" globbing = "false" pipelineInput = "false" position = "1" >
+				<maml:name>ServiceType</maml:name>
+				<maml:description>
+					<maml:para>Azure storage service type.</maml:para>
+				</maml:description>
+			<command:parameterValue required="true" variableLength = "false" >StorageServiceType</command:parameterValue>
+			</command:parameter>
+			<command:parameter required = "true" variableLength = "false" globbing = "false" pipelineInput = "false" position = "2" >
+				<maml:name>MetricsType</maml:name>
+				<maml:description>
+					<maml:para>Azure Storage service metrics type.</maml:para>
+				</maml:description>
+			<command:parameterValue required="true" variableLength = "false" >ServiceMetricsType</command:parameterValue>
+			</command:parameter>
+			<command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "false" position = "named" >
+				<maml:name>Version</maml:name>
+				<maml:description>
+					<maml:para>Azure storage service metrics version.</maml:para>
+				</maml:description>
+			<command:parameterValue required="true" variableLength = "false" >Double</command:parameterValue>
+			</command:parameter>
+			<command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "false" position = "named" >
+				<maml:name>RetentionDays</maml:name>
+				<maml:description>
+					<maml:para>Azure storage service metrics retention days.</maml:para>
+				</maml:description>
+			<command:parameterValue required="true" variableLength = "false" >Int32</command:parameterValue>
+			</command:parameter>
+			<command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "false" position = "named" >
+				<maml:name>MetricsLevel</maml:name>
+				<maml:description>
+					<maml:para>Azure storage service metrics level.</maml:para>
+				</maml:description>
+			<command:parameterValue required="true" variableLength = "false" >MetricsLevel</command:parameterValue>
+			</command:parameter>
+			<command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "false" position = "named" >
+				<maml:name>PassThru</maml:name>
+				<maml:description>
+					<maml:para>Output the updated azure storage service metrics properties.</maml:para>
+				</maml:description>
+			</command:parameter>
+			<command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "true (ByPropertyName)" position = "named" >
+				<maml:name>Context</maml:name>
+				<maml:description>
+					<maml:para>Azure storage context.</maml:para>
+				</maml:description>
+			<command:parameterValue required="true" variableLength = "false" >AzureStorageContext</command:parameterValue>
+			</command:parameter>
+			<command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "false" position = "named" >
+				<maml:name>ServerTimeoutPerRequest</maml:name>
+				<maml:description>
+					<maml:para>Server side time out for each request.</maml:para>
+				</maml:description>
+			<command:parameterValue required="true" variableLength = "false" >Int32</command:parameterValue>
+			</command:parameter>
+			<command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "false" position = "named" >
+				<maml:name>ClientTimeoutPerRequest</maml:name>
+				<maml:description>
+					<maml:para>Client side time out for each request.</maml:para>
+				</maml:description>
+			<command:parameterValue required="true" variableLength = "false" >Int32</command:parameterValue>
+			</command:parameter>
+			<command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "false" position = "named" >
+				<maml:name>PipelineVariable</maml:name>
+				<maml:description>
+					<maml:para></maml:para>
+				</maml:description>
+			<command:parameterValue required="true" variableLength = "false" >String</command:parameterValue>
+			</command:parameter>
+		</command:syntaxItem>
+	</command:syntax>
+	<command:parameters>
+		<command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="1">
+			<maml:name>ServiceType</maml:name>
+			<maml:description>
+				<maml:para>Azure storage service type.</maml:para>
+			</maml:description>
+			<command:parameterValue required="true" variableLength="false">StorageServiceType</command:parameterValue>
+			<dev:type>
+				<maml:name>StorageServiceType</maml:name>
+				<maml:uri/>
+			</dev:type>
+			<dev:defaultValue></dev:defaultValue>
+		</command:parameter>
+		<command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="2">
+			<maml:name>MetricsType</maml:name>
+			<maml:description>
+				<maml:para>Azure Storage service metrics type.</maml:para>
+			</maml:description>
+			<command:parameterValue required="true" variableLength="false">ServiceMetricsType</command:parameterValue>
+			<dev:type>
+				<maml:name>ServiceMetricsType</maml:name>
+				<maml:uri/>
+			</dev:type>
+			<dev:defaultValue></dev:defaultValue>
+		</command:parameter>
+		<command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named">
+			<maml:name>Version</maml:name>
+			<maml:description>
+				<maml:para>Azure storage service metrics version.</maml:para>
+			</maml:description>
+			<command:parameterValue required="true" variableLength="false">Double</command:parameterValue>
+			<dev:type>
+				<maml:name>Double</maml:name>
+				<maml:uri/>
+			</dev:type>
+			<dev:defaultValue></dev:defaultValue>
+		</command:parameter>
+		<command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named">
+			<maml:name>RetentionDays</maml:name>
+			<maml:description>
+				<maml:para>Azure storage service metrics retention days.</maml:para>
+			</maml:description>
+			<command:parameterValue required="true" variableLength="false">Int32</command:parameterValue>
+			<dev:type>
+				<maml:name>Int32</maml:name>
+				<maml:uri/>
+			</dev:type>
+			<dev:defaultValue></dev:defaultValue>
+		</command:parameter>
+		<command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named">
+			<maml:name>MetricsLevel</maml:name>
+			<maml:description>
+				<maml:para>Azure storage service metrics level.</maml:para>
+			</maml:description>
+			<command:parameterValue required="true" variableLength="false">MetricsLevel</command:parameterValue>
+			<dev:type>
+				<maml:name>MetricsLevel</maml:name>
+				<maml:uri/>
+			</dev:type>
+			<dev:defaultValue></dev:defaultValue>
+		</command:parameter>
+		<command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named">
+			<maml:name>PassThru</maml:name>
+			<maml:description>
+				<maml:para>Output the updated azure storage service metrics properties.</maml:para>
+			</maml:description>
+			<dev:type>
+				<maml:name>SwitchParameter</maml:name>
+				<maml:uri/>
+			</dev:type>
+			<dev:defaultValue></dev:defaultValue>
+		</command:parameter>
+		<command:parameter required="false" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="named">
+			<maml:name>Context</maml:name>
+			<maml:description>
+				<maml:para>Azure storage context.</maml:para>
+			</maml:description>
+			<command:parameterValue required="true" variableLength="false">AzureStorageContext</command:parameterValue>
+			<dev:type>
+				<maml:name>AzureStorageContext</maml:name>
+				<maml:uri/>
+			</dev:type>
+			<dev:defaultValue></dev:defaultValue>
+		</command:parameter>
+		<command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named">
+			<maml:name>ServerTimeoutPerRequest</maml:name>
+			<maml:description>
+				<maml:para>Server side time out for each request.</maml:para>
+			</maml:description>
+			<command:parameterValue required="true" variableLength="false">Int32</command:parameterValue>
+			<dev:type>
+				<maml:name>Int32</maml:name>
+				<maml:uri/>
+			</dev:type>
+			<dev:defaultValue></dev:defaultValue>
+		</command:parameter>
+		<command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named">
+			<maml:name>ClientTimeoutPerRequest</maml:name>
+			<maml:description>
+				<maml:para>Client side time out for each request.</maml:para>
+			</maml:description>
+			<command:parameterValue required="true" variableLength="false">Int32</command:parameterValue>
+			<dev:type>
+				<maml:name>Int32</maml:name>
+				<maml:uri/>
+			</dev:type>
+			<dev:defaultValue></dev:defaultValue>
+		</command:parameter>
+		<command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named">
+			<maml:name>PipelineVariable</maml:name>
+			<maml:description>
+				<maml:para></maml:para>
+			</maml:description>
+			<command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+			<dev:type>
+				<maml:name>String</maml:name>
+				<maml:uri/>
+			</dev:type>
+			<dev:defaultValue></dev:defaultValue>
+		</command:parameter>
+	</command:parameters>
+	<command:inputTypes>
+		<command:inputType>
+			<dev:type>
+				<maml:name></maml:name>
+				<maml:uri/>
+				<maml:description>
+					<maml:para></maml:para>
+				</maml:description>
+			</dev:type>
+			<maml:description></maml:description>
+		</command:inputType>
+	</command:inputTypes>
+	<command:returnValues>
+		<command:returnValue>
+			<dev:type>
+				<maml:name></maml:name>
+				<maml:uri />
+				<maml:description>
+					<maml:para></maml:para>
+				</maml:description>
+			</dev:type>
+			<maml:description></maml:description>
+		</command:returnValue>
+	</command:returnValues>
+	<command:terminatingErrors>
+	</command:terminatingErrors>
+	<command:nonTerminatingErrors>
+	</command:nonTerminatingErrors>
+	<maml:alertSet>
+		<maml:title></maml:title>
+		<maml:alert>
+			<maml:para></maml:para>
+		</maml:alert>
+	</maml:alertSet>
+	<command:examples>
+		<command:example>
+			<maml:title>
+--------------  Set metrics properties for azure storage blob service. --------------			</maml:title>
+			<maml:introduction>
+				<maml:para>C:\PS&gt;</maml:para>
+C:\PS&gt;			</maml:introduction>
+  			<dev:code>Set-AzureStorageServiceMetricsProperty -ServiceType Blob -MetricsType Hour -MetricsLevel Service -RetentionDays 10 -Version 1.0 -PassThru</dev:code>
+  			<dev:remarks>
+				<maml:para></maml:para>
+				<maml:para></maml:para>
+				<maml:para></maml:para>
+				<maml:para>
+				</maml:para>
+				<maml:para></maml:para>
+  			</dev:remarks>
+			<command:commandLines>
+				<command:commandLine>
+					<command:commandText>
+					</command:commandText>
+				</command:commandLine>
+			</command:commandLines>
+		</command:example>
+	</command:examples>
+	<maml:relatedLinks>
+	</maml:relatedLinks>
+</command:command>
+<command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10">
+<!--Generated by Help Cmdlet Editor-->
+	<command:details>
 		<command:name>Start-AzureStorageBlobCopy</command:name>
 		<maml:description>
 			<maml:para>Start a copy operation to the specified destination blob.</maml:para>
@@ -6302,6 +8130,78 @@ C:\PS&gt;			</maml:introduction>
 				</maml:description>
 			</command:parameter>
 			<command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "false" position = "named" >
+				<maml:name>ServerTimeoutPerRequest</maml:name>
+				<maml:description>
+					<maml:para>Server side time out for each request.</maml:para>
+				</maml:description>
+			<command:parameterValue required="true" variableLength = "false" >Int32</command:parameterValue>
+			</command:parameter>
+			<command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "false" position = "named" >
+				<maml:name>ClientTimeoutPerRequest</maml:name>
+				<maml:description>
+					<maml:para>Client side time out for each request.</maml:para>
+				</maml:description>
+			<command:parameterValue required="true" variableLength = "false" >Int32</command:parameterValue>
+			</command:parameter>
+			<command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "false" position = "named" >
+				<maml:name>PipelineVariable</maml:name>
+				<maml:description>
+					<maml:para></maml:para>
+				</maml:description>
+			<command:parameterValue required="true" variableLength = "false" >String</command:parameterValue>
+			</command:parameter>
+		</command:syntaxItem>
+		<command:syntaxItem>
+			<maml:name>Start-AzureStorageBlobCopy</maml:name>
+			<command:parameter required = "true" variableLength = "false" globbing = "false" pipelineInput = "true (ByPropertyName)" position = "named" >
+				<maml:name>ICloudBlob</maml:name>
+				<maml:description>
+					<maml:para>ICloudBlob object from Azure Storage Client library. You can create it or use Get-AzureStorageBlob cmdlet.</maml:para>
+				</maml:description>
+			<command:parameterValue required="true" variableLength = "false" >ICloudBlob</command:parameterValue>
+			</command:parameter>
+			<command:parameter required = "true" variableLength = "false" globbing = "false" pipelineInput = "false" position = "named" >
+				<maml:name>DestICloudBlob</maml:name>
+				<maml:description>
+					<maml:para>Destination ICloudBlob object</maml:para>
+				</maml:description>
+			<command:parameterValue required="true" variableLength = "false" >ICloudBlob</command:parameterValue>
+			</command:parameter>
+			<command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "true (ByPropertyName)" position = "named" >
+				<maml:name>Context</maml:name>
+				<maml:description>
+					<maml:para></maml:para>
+				</maml:description>
+			<command:parameterValue required="true" variableLength = "false" >AzureStorageContext</command:parameterValue>
+			</command:parameter>
+			<command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "false" position = "named" >
+				<maml:name>DestContext</maml:name>
+				<maml:description>
+					<maml:para>Destination Azure Storage Context. You can create it by New-AzureStorageContext cmdlet.</maml:para>
+				</maml:description>
+			<command:parameterValue required="true" variableLength = "false" >AzureStorageContext</command:parameterValue>
+			</command:parameter>
+			<command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "false" position = "named" >
+				<maml:name>Force</maml:name>
+				<maml:description>
+					<maml:para>Force to overwrite the destination blob without confirmation.</maml:para>
+				</maml:description>
+			</command:parameter>
+			<command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "false" position = "named" >
+				<maml:name>ServerTimeoutPerRequest</maml:name>
+				<maml:description>
+					<maml:para>Server side time out for each request.</maml:para>
+				</maml:description>
+			<command:parameterValue required="true" variableLength = "false" >Int32</command:parameterValue>
+			</command:parameter>
+			<command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "false" position = "named" >
+				<maml:name>ClientTimeoutPerRequest</maml:name>
+				<maml:description>
+					<maml:para>Client side time out for each request.</maml:para>
+				</maml:description>
+			<command:parameterValue required="true" variableLength = "false" >Int32</command:parameterValue>
+			</command:parameter>
+			<command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "false" position = "named" >
 				<maml:name>PipelineVariable</maml:name>
 				<maml:description>
 					<maml:para></maml:para>
@@ -6353,48 +8253,18 @@ C:\PS&gt;			</maml:introduction>
 				</maml:description>
 			</command:parameter>
 			<command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "false" position = "named" >
-				<maml:name>PipelineVariable</maml:name>
+				<maml:name>ServerTimeoutPerRequest</maml:name>
 				<maml:description>
-					<maml:para></maml:para>
+					<maml:para>Server side time out for each request.</maml:para>
 				</maml:description>
-			<command:parameterValue required="true" variableLength = "false" >String</command:parameterValue>
-			</command:parameter>
-		</command:syntaxItem>
-		<command:syntaxItem>
-			<maml:name>Start-AzureStorageBlobCopy</maml:name>
-			<command:parameter required = "true" variableLength = "false" globbing = "false" pipelineInput = "true (ByPropertyName)" position = "named" >
-				<maml:name>ICloudBlob</maml:name>
-				<maml:description>
-					<maml:para>ICloudBlob object from Azure Storage Client library. You can create it or use Get-AzureStorageBlob cmdlet.</maml:para>
-				</maml:description>
-			<command:parameterValue required="true" variableLength = "false" >ICloudBlob</command:parameterValue>
-			</command:parameter>
-			<command:parameter required = "true" variableLength = "false" globbing = "false" pipelineInput = "false" position = "named" >
-				<maml:name>DestICloudBlob</maml:name>
-				<maml:description>
-					<maml:para>Destination ICloudBlob object</maml:para>
-				</maml:description>
-			<command:parameterValue required="true" variableLength = "false" >ICloudBlob</command:parameterValue>
-			</command:parameter>
-			<command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "true (ByPropertyName)" position = "named" >
-				<maml:name>Context</maml:name>
-				<maml:description>
-					<maml:para></maml:para>
-				</maml:description>
-			<command:parameterValue required="true" variableLength = "false" >AzureStorageContext</command:parameterValue>
+			<command:parameterValue required="true" variableLength = "false" >Int32</command:parameterValue>
 			</command:parameter>
 			<command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "false" position = "named" >
-				<maml:name>DestContext</maml:name>
+				<maml:name>ClientTimeoutPerRequest</maml:name>
 				<maml:description>
-					<maml:para>Destination Azure Storage Context. You can create it by New-AzureStorageContext cmdlet.</maml:para>
+					<maml:para>Client side time out for each request.</maml:para>
 				</maml:description>
-			<command:parameterValue required="true" variableLength = "false" >AzureStorageContext</command:parameterValue>
-			</command:parameter>
-			<command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "false" position = "named" >
-				<maml:name>Force</maml:name>
-				<maml:description>
-					<maml:para>Force to overwrite the destination blob without confirmation.</maml:para>
-				</maml:description>
+			<command:parameterValue required="true" variableLength = "false" >Int32</command:parameterValue>
 			</command:parameter>
 			<command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "false" position = "named" >
 				<maml:name>PipelineVariable</maml:name>
@@ -6455,6 +8325,20 @@ C:\PS&gt;			</maml:introduction>
 				</maml:description>
 			</command:parameter>
 			<command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "false" position = "named" >
+				<maml:name>ServerTimeoutPerRequest</maml:name>
+				<maml:description>
+					<maml:para>Server side time out for each request.</maml:para>
+				</maml:description>
+			<command:parameterValue required="true" variableLength = "false" >Int32</command:parameterValue>
+			</command:parameter>
+			<command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "false" position = "named" >
+				<maml:name>ClientTimeoutPerRequest</maml:name>
+				<maml:description>
+					<maml:para>Client side time out for each request.</maml:para>
+				</maml:description>
+			<command:parameterValue required="true" variableLength = "false" >Int32</command:parameterValue>
+			</command:parameter>
+			<command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "false" position = "named" >
 				<maml:name>PipelineVariable</maml:name>
 				<maml:description>
 					<maml:para></maml:para>
@@ -6504,6 +8388,20 @@ C:\PS&gt;			</maml:introduction>
 				<maml:description>
 					<maml:para>Force to overwrite the destination blob without confirmation.</maml:para>
 				</maml:description>
+			</command:parameter>
+			<command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "false" position = "named" >
+				<maml:name>ServerTimeoutPerRequest</maml:name>
+				<maml:description>
+					<maml:para>Server side time out for each request.</maml:para>
+				</maml:description>
+			<command:parameterValue required="true" variableLength = "false" >Int32</command:parameterValue>
+			</command:parameter>
+			<command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "false" position = "named" >
+				<maml:name>ClientTimeoutPerRequest</maml:name>
+				<maml:description>
+					<maml:para>Client side time out for each request.</maml:para>
+				</maml:description>
+			<command:parameterValue required="true" variableLength = "false" >Int32</command:parameterValue>
 			</command:parameter>
 			<command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "false" position = "named" >
 				<maml:name>PipelineVariable</maml:name>
@@ -6594,6 +8492,30 @@ C:\PS&gt;			</maml:introduction>
 			</maml:description>
 			<dev:type>
 				<maml:name>SwitchParameter</maml:name>
+				<maml:uri/>
+			</dev:type>
+			<dev:defaultValue></dev:defaultValue>
+		</command:parameter>
+		<command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named">
+			<maml:name>ServerTimeoutPerRequest</maml:name>
+			<maml:description>
+				<maml:para>Server side time out for each request.</maml:para>
+			</maml:description>
+			<command:parameterValue required="true" variableLength="false">Int32</command:parameterValue>
+			<dev:type>
+				<maml:name>Int32</maml:name>
+				<maml:uri/>
+			</dev:type>
+			<dev:defaultValue></dev:defaultValue>
+		</command:parameter>
+		<command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named">
+			<maml:name>ClientTimeoutPerRequest</maml:name>
+			<maml:description>
+				<maml:para>Client side time out for each request.</maml:para>
+			</maml:description>
+			<command:parameterValue required="true" variableLength="false">Int32</command:parameterValue>
+			<dev:type>
+				<maml:name>Int32</maml:name>
 				<maml:uri/>
 			</dev:type>
 			<dev:defaultValue></dev:defaultValue>
@@ -6878,6 +8800,20 @@ Start-AzureStorageBlobCopy -SrcUri http://www.somesite.com/somefile -DestContain
 			<command:parameterValue required="true" variableLength = "false" >AzureStorageContext</command:parameterValue>
 			</command:parameter>
 			<command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "false" position = "named" >
+				<maml:name>ServerTimeoutPerRequest</maml:name>
+				<maml:description>
+					<maml:para>Server side time out for each request.</maml:para>
+				</maml:description>
+			<command:parameterValue required="true" variableLength = "false" >Int32</command:parameterValue>
+			</command:parameter>
+			<command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "false" position = "named" >
+				<maml:name>ClientTimeoutPerRequest</maml:name>
+				<maml:description>
+					<maml:para>Client side time out for each request.</maml:para>
+				</maml:description>
+			<command:parameterValue required="true" variableLength = "false" >Int32</command:parameterValue>
+			</command:parameter>
+			<command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "false" position = "named" >
 				<maml:name>PipelineVariable</maml:name>
 				<maml:description>
 					<maml:para></maml:para>
@@ -6913,6 +8849,20 @@ Start-AzureStorageBlobCopy -SrcUri http://www.somesite.com/somefile -DestContain
 					<maml:para>Azure Storage Context. You can create it by New-AzureStorageContext cmdlet.</maml:para>
 				</maml:description>
 			<command:parameterValue required="true" variableLength = "false" >AzureStorageContext</command:parameterValue>
+			</command:parameter>
+			<command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "false" position = "named" >
+				<maml:name>ServerTimeoutPerRequest</maml:name>
+				<maml:description>
+					<maml:para>Server side time out for each request.</maml:para>
+				</maml:description>
+			<command:parameterValue required="true" variableLength = "false" >Int32</command:parameterValue>
+			</command:parameter>
+			<command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "false" position = "named" >
+				<maml:name>ClientTimeoutPerRequest</maml:name>
+				<maml:description>
+					<maml:para>Client side time out for each request.</maml:para>
+				</maml:description>
+			<command:parameterValue required="true" variableLength = "false" >Int32</command:parameterValue>
 			</command:parameter>
 			<command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "false" position = "named" >
 				<maml:name>PipelineVariable</maml:name>
@@ -6957,6 +8907,20 @@ Start-AzureStorageBlobCopy -SrcUri http://www.somesite.com/somefile -DestContain
 					<maml:para>Azure Storage Context. You can create it by New-AzureStorageContext cmdlet.</maml:para>
 				</maml:description>
 			<command:parameterValue required="true" variableLength = "false" >AzureStorageContext</command:parameterValue>
+			</command:parameter>
+			<command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "false" position = "named" >
+				<maml:name>ServerTimeoutPerRequest</maml:name>
+				<maml:description>
+					<maml:para>Server side time out for each request.</maml:para>
+				</maml:description>
+			<command:parameterValue required="true" variableLength = "false" >Int32</command:parameterValue>
+			</command:parameter>
+			<command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "false" position = "named" >
+				<maml:name>ClientTimeoutPerRequest</maml:name>
+				<maml:description>
+					<maml:para>Client side time out for each request.</maml:para>
+				</maml:description>
+			<command:parameterValue required="true" variableLength = "false" >Int32</command:parameterValue>
 			</command:parameter>
 			<command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "false" position = "named" >
 				<maml:name>PipelineVariable</maml:name>
@@ -7023,6 +8987,30 @@ Start-AzureStorageBlobCopy -SrcUri http://www.somesite.com/somefile -DestContain
 			<command:parameterValue required="true" variableLength="false">AzureStorageContext</command:parameterValue>
 			<dev:type>
 				<maml:name>AzureStorageContext</maml:name>
+				<maml:uri/>
+			</dev:type>
+			<dev:defaultValue></dev:defaultValue>
+		</command:parameter>
+		<command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named">
+			<maml:name>ServerTimeoutPerRequest</maml:name>
+			<maml:description>
+				<maml:para>Server side time out for each request.</maml:para>
+			</maml:description>
+			<command:parameterValue required="true" variableLength="false">Int32</command:parameterValue>
+			<dev:type>
+				<maml:name>Int32</maml:name>
+				<maml:uri/>
+			</dev:type>
+			<dev:defaultValue></dev:defaultValue>
+		</command:parameter>
+		<command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named">
+			<maml:name>ClientTimeoutPerRequest</maml:name>
+			<maml:description>
+				<maml:para>Client side time out for each request.</maml:para>
+			</maml:description>
+			<command:parameterValue required="true" variableLength="false">Int32</command:parameterValue>
+			<dev:type>
+				<maml:name>Int32</maml:name>
 				<maml:uri/>
 			</dev:type>
 			<dev:defaultValue></dev:defaultValue>

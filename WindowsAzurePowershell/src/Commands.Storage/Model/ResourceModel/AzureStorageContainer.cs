@@ -33,7 +33,7 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Model.ResourceModel
         public BlobContainerPermissions Permission { get; private set; }
 
         /// <summary>
-        /// the public accesss level of CloudBlobContainer
+        /// the public access level of CloudBlobContainer
         /// </summary>
         public BlobContainerPublicAccessType? PublicAccess { get; private set; }
 
@@ -41,6 +41,11 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Model.ResourceModel
         /// last modified of CloudBlobContainer
         /// </summary>
         public DateTimeOffset? LastModified { get; private set; }
+
+        /// <summary>
+        /// Blob continuation token
+        /// </summary>
+        public BlobContinuationToken ContinuationToken { get; set; }
 
         /// <summary>
         /// init azure storage container using CloudBlobContainer and BlobContainerPermissions
