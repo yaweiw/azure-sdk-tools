@@ -23,11 +23,11 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites.Common
     {
         [Parameter(Position = 0, Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "The web site name.")]
         [ValidateNotNullOrEmpty]
-        public string Name
-        {
-            get;
-            set;
-        }
+        public string Name { get; set; }
+
+        [Parameter(Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "The web site slot name.")]
+        [ValidateNotNullOrEmpty]
+        public string Slot { get; set; }
 
         [EnvironmentPermission(SecurityAction.Demand, Unrestricted = true)]
         protected override void ProcessRecord()

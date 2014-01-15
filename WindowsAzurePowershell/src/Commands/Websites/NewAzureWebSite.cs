@@ -93,13 +93,6 @@ namespace Microsoft.WindowsAzure.Commands.Websites
             set;
         }
 
-        [Parameter(Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "The slot name.")]
-        public string Slot
-        {
-            get;
-            set;
-        }
-
         public bool ShareChannel { get; set; }
 
         public IGithubServiceManagement GithubChannel { get; set; }

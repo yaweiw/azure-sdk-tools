@@ -22,13 +22,29 @@ namespace Microsoft.WindowsAzure.Commands.Websites
     using Utilities.Websites.Services.WebEntities;
 
     /// <summary>
-    /// Removes an azure website.
+    /// Switches the existing slot with the production one.
     /// </summary>
-    [Cmdlet(VerbsCommon.Switch, "AzureWebsiteSlot", SupportsShouldProcess = true), OutputType(typeof(Site))]
-    public class SwitchAzureWebsiteSlotCommand : WebsiteContextBaseCmdlet
+    [Cmdlet(VerbsCommon.Switch, "AzureWebsiteSlot", SupportsShouldProcess = true)]
+    public class SwitchAzureWebsiteSlotCommand : WebsiteBaseCmdlet
     {
+        [Parameter(Position = 0, Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "The web site name.")]
+        [ValidateNotNullOrEmpty]
+        public string Name
+        {
+            get;
+            set;
+        }
+
         public override void ExecuteCmdlet()
         {
+            if (string.IsNullOrEmpty(Name))
+            {
+                // If the website name was not specified as a parameter try to infer it
+                Name = GitWebsite.ReadConfiguration().Name;
+            }
+
+            base.ProcessRecord();
+
             Site websiteObject = WebsitesClient.GetWebsite(Name);
             WebsitesClient.SwitchSlot(websiteObject.WebSpace, Name, WebsiteSlotName.Staging.ToString());
         }

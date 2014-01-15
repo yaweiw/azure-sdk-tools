@@ -28,20 +28,8 @@ namespace Microsoft.WindowsAzure.Commands.Websites
     /// Gets an azure website.
     /// </summary>
     [Cmdlet(VerbsCommon.Get, "AzureWebsite"), OutputType(typeof(SiteWithConfig), typeof(IEnumerable<Site>))]
-    public class GetAzureWebsiteCommand : WebsiteBaseCmdlet
+    public class GetAzureWebsiteCommand : WebsiteContextBaseCmdlet
     {
-        [Parameter(Position = 0, Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "The web site name.")]
-        [ValidateNotNullOrEmpty]
-        public string Name
-        {
-            get;
-            set;
-        }
-
-        [Parameter(Position = 1, Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "The slot name.")]
-        [ValidateNotNullOrEmpty]
-        public string Slot { get; set; }
-
         protected virtual void WriteWebsites(IEnumerable<Site> websites)
         {
             WriteObject(websites, true);
