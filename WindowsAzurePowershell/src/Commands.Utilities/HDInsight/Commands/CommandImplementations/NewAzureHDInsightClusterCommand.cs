@@ -66,6 +66,9 @@ namespace Microsoft.WindowsAzure.Management.HDInsight.Cmdlet.Commands.CommandImp
         public string Location { get; set; }
 
         /// <inheritdoc />
+        public bool EnableHighAvailability { get; set; }
+
+        /// <inheritdoc />
         public MapReduceConfiguration MapReduceConfiguration { get; set; }
 
         /// <inheritdoc />
@@ -93,7 +96,7 @@ namespace Microsoft.WindowsAzure.Management.HDInsight.Cmdlet.Commands.CommandImp
             createClusterRequest.Name = this.Name;
             createClusterRequest.Version = this.Version;
             createClusterRequest.Location = this.Location;
-
+            createClusterRequest.EnsureHighAvailability = EnableHighAvailability;
             createClusterRequest.CoreConfiguration.AddRange(this.CoreConfiguration);
             createClusterRequest.HdfsConfiguration.AddRange(this.HdfsConfiguration);
             createClusterRequest.MapReduceConfiguration.ConfigurationCollection.AddRange(this.MapReduceConfiguration.ConfigurationCollection);

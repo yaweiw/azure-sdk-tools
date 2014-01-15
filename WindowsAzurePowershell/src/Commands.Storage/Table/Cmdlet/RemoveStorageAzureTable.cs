@@ -14,11 +14,11 @@
 
 namespace Microsoft.WindowsAzure.Commands.Storage.Table.Cmdlet
 {
-    using Common;
-    using Microsoft.WindowsAzure.Storage.Table;
     using System;
     using System.Management.Automation;
     using System.Security.Permissions;
+    using Common;
+    using Microsoft.WindowsAzure.Storage.Table;
     using Model.Contract;
 
     /// <summary>
@@ -40,6 +40,7 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Table.Cmdlet
             get { return force; }
             set { force = value; }
         }
+
         private bool force;
 
         [Parameter(Mandatory = false, HelpMessage = "Return whether the specified table is successfully removed")]
@@ -86,7 +87,7 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Table.Cmdlet
                 throw new ArgumentException(String.Format(Resources.InvalidTableName, name));
             }
 
-            TableRequestOptions requestOptions = null;
+            TableRequestOptions requestOptions = RequestOptions;
             CloudTable table = Channel.GetTableReference(name);
 
             if (!Channel.DoesTableExist(table, requestOptions, OperationContext))
