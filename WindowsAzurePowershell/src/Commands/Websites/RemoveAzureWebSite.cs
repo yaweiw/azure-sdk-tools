@@ -26,12 +26,11 @@ namespace Microsoft.WindowsAzure.Commands.Websites
     [Cmdlet(VerbsCommon.Remove, "AzureWebsite", SupportsShouldProcess = true), OutputType(typeof(Site))]
     public class RemoveAzureWebsiteCommand : WebsiteContextBaseCmdlet
     {
-        [Parameter(HelpMessage = "Do not confirm web site deletion")]
-        public SwitchParameter Force
-        {
-            get;
-            set;
-        }
+        [Parameter(Mandatory = false, HelpMessage = "Do not confirm web site deletion")]
+        public SwitchParameter Force { get; set; }
+
+        [Parameter(Mandatory = false, HelpMessage = "The website slot name")]
+        public string Slot { get; set; }
 
         protected virtual void WriteWebsite(Site website)
         {
@@ -47,8 +46,8 @@ namespace Microsoft.WindowsAzure.Commands.Websites
                 Name,
                 () =>
                     {
-                        Site websiteObject = WebsitesClient.GetWebsite(Name);
-                        WebsitesClient.DeleteWebsite(websiteObject.WebSpace, Name);
+                        Site websiteObject = WebsitesClient.GetWebsite(Name, Slot);
+                        WebsitesClient.DeleteWebsite(websiteObject.WebSpace, Name, Slot);
                         Cache.RemoveSite(CurrentSubscription.SubscriptionId, websiteObject);
                     });
         }

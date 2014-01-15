@@ -207,7 +207,7 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Blob.Cmdlet
         private ICloudBlob GetBlobWithCopyStatus(CloudBlobContainer container, string blobName)
         {
             AccessCondition accessCondition = null;
-            BlobRequestOptions options = null;
+            BlobRequestOptions options = RequestOptions;
 
             ValidateBlobName(blobName);
             ValidateContainerName(container.Name);
@@ -232,7 +232,7 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Blob.Cmdlet
             ValidateBlobName(blob.Name);
 
             AccessCondition accessCondition = null;
-            BlobRequestOptions options = null;
+            BlobRequestOptions options = RequestOptions;
             Channel.FetchBlobAttributes(blob, accessCondition, options, OperationContext);
             return blob;
         }
