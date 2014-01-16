@@ -53,8 +53,8 @@ namespace Microsoft.WindowsAzure.Commands.Test.Websites
             string createdWebspaceName = null;
 
             clientMock.Setup(c => c.CreateWebsite(webspaceName, It.IsAny<SiteWithWebSpace>(), null))
-                .Returns((string space, SiteWithWebSpace site) => site)
-                .Callback((string space, SiteWithWebSpace site) =>
+                .Returns((string space, SiteWithWebSpace site, string slot) => site)
+                .Callback((string space, SiteWithWebSpace site, string slot) =>
                     {
                         createdSiteName = site.Name;
                         createdWebspaceName = space;
@@ -101,8 +101,8 @@ namespace Microsoft.WindowsAzure.Commands.Test.Websites
                 });
 
             clientMock.Setup(c => c.CreateWebsite(It.IsAny<string>(), It.IsAny<SiteWithWebSpace>(), null))
-                .Returns((string space, SiteWithWebSpace site) => site)
-                .Callback((string space, SiteWithWebSpace site) =>
+                .Returns((string space, SiteWithWebSpace site, string slot) => site)
+                .Callback((string space, SiteWithWebSpace site, string slot) =>
                     {
                         created = true;
                     });
@@ -147,7 +147,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.Websites
 
 
             clientMock.Setup(f => f.WebsiteExists(websiteName)).Returns(true);
-            clientMock.Setup(f => f.GetWebsite(websiteName)).Returns(new Site() { ComputeMode = WebSiteComputeMode.Dedicated });
+            clientMock.Setup(f => f.GetWebsite(websiteName)).Returns(new Site() { Name = websiteName, ComputeMode = WebSiteComputeMode.Dedicated });
 
             // Test
             MockCommandRuntime mockRuntime = new MockCommandRuntime();
