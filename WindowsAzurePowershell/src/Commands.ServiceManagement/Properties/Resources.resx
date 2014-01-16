@@ -582,4 +582,10 @@
   <data name="ProvisionGuestAgentMustBeEnabledBeforeSettingIaaSVMAccessExtension" xml:space="preserve">
     <value>Provision Guest Agent must be enabled on the VM object before setting IaaS VM Access Extension.</value>
   </data>
+  <data name="ResourceExtensionReferenceCannotBeFound" xml:space="preserve">
+    <value>The specified resource extension reference cannot be found.</value>
+  </data>
+  <data name="ResourceExtensionReferencesIsNullOrEmpty" xml:space="preserve">
+    <value>The resource extension reference list is null or empty.</value>
+  </data>
 </root>
