@@ -46,6 +46,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites.Common
                     // If the website name was not specified as a parameter try to infer it
                     Name = GitWebsite.ReadConfiguration().Name;
                 }
+                Slot = string.IsNullOrEmpty(Slot) ? WebsitesClient.GetSlotName(Name) : Slot;
 
                 base.ProcessRecord();
             }

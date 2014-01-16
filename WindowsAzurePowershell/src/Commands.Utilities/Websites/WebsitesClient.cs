@@ -30,6 +30,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
     using System.Web;
     using Utilities.Common;
     using System.Diagnostics;
+    using System.Globalization;
 
     public class WebsitesClient : IWebsitesClient
     {
@@ -409,6 +410,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
         /// <returns>The website slots list</returns>
         public List<Site> GetWebsiteSlots(string name)
         {
+            name = SetWebsiteName(name, null);
             return ListWebsites()
                 .Where(s => 
                     s.Name.IndexOf(string.Format("{0}(", name), StringComparison.OrdinalIgnoreCase) >= 0 ||
@@ -445,13 +447,22 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
         /// <returns>The created site object</returns>
         public Site CreateWebsite(string webspaceName, SiteWithWebSpace siteToCreate, string slot)
         {
-            if (!string.IsNullOrEmpty(slot) && !slot.Equals(WebsiteSlotName.Production.ToString(), StringComparison.OrdinalIgnoreCase))
+            slot = string.IsNullOrEmpty(slot) ? GetSlotName(siteToCreate.Name) : slot;
+            siteToCreate.Name = SetWebsiteName(siteToCreate.Name, slot);
+            string[] hostNames = new string[1];
+            string dnsSuffix = GetWebsiteDnsSuffix();
+
+            if (!string.IsNullOrEmpty(slot) && 
+                !slot.Equals(WebsiteSlotName.Production.ToString(), StringComparison.OrdinalIgnoreCase))
             {
-                string[] hostNames = { string.Format("{0}-{1}.{2}", siteToCreate.Name, slot, GetWebsiteDnsSuffix()) };
-                siteToCreate.Name = SetWebsiteName(siteToCreate.Name, slot);
-                siteToCreate.HostNames = hostNames;
+                hostNames[0] = string.Format("{0}-{1}.{2}", GetWebsiteNameFromFullName(siteToCreate.Name), slot, dnsSuffix);
+            }
+            else
+            {
+                hostNames[0] = string.Format("{0}.{1}", siteToCreate.Name, dnsSuffix);
             }
 
+            siteToCreate.HostNames = hostNames;
             return CreateWebsite(webspaceName, siteToCreate);
         }
 
@@ -462,7 +473,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
         /// <param name="disablesClone">Flag to control cloning the website configuration.</param>
         /// <param name="siteToCreate">Details about the site to create.</param>
         /// <returns>The created site object</returns>
-        public Site CreateWebsite(string webspaceName, SiteWithWebSpace siteToCreate)
+        private Site CreateWebsite(string webspaceName, SiteWithWebSpace siteToCreate)
         {
             var options = new WebSiteCreateParameters
             {
@@ -541,17 +552,37 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
         private string SetWebsiteName(string name, string slot)
         {
             name = GetWebsiteName(name);
+            slot = slot ?? GetSlotName(name);
 
             if (string.IsNullOrEmpty(slot) || 
-                slot.Equals(WebsiteSlotName.Production.ToString(), StringComparison.OrdinalIgnoreCase) ||
-                (name.Contains('(') && name.Contains(')')))
+                slot.Equals(WebsiteSlotName.Production.ToString(), StringComparison.OrdinalIgnoreCase))
             {
+                return GetWebsiteNameFromFullName(name);
+            }
+            else if (name.Contains('(') && name.Contains(')'))
+            {
+                string currentSlot = GetSlotName(name);
+                if (currentSlot.Equals(WebsiteSlotName.Production.ToString(), StringComparison.OrdinalIgnoreCase))
+                {
+                    return GetWebsiteNameFromFullName(name);
+                }
+
                 return name;
             }
             else
             {
                 return GetSlotDnsName(name, slot);
             }
+        }
+
+        private string GetWebsiteNameFromFullName(string name)
+        {
+            if (!string.IsNullOrEmpty(GetSlotName(name)))
+            {
+                name = name.Split('(')[0];
+            }
+
+            return name;
         }
 
         /// <summary>
@@ -614,7 +645,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
         /// <param name="slot">The website slot name</param>
         public void DeleteWebsite(string webspaceName, string websiteName, string slot)
         {
-            slot = slot ?? WebsiteSlotName.Production.ToString();
+            slot = slot ?? GetSlotName(websiteName) ?? WebsiteSlotName.Production.ToString();
             websiteName = SetWebsiteName(websiteName, slot);
             WebSiteDeleteParameters input = new WebSiteDeleteParameters()
             {
@@ -921,15 +952,20 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
         /// <returns>The slot name</returns>
         public string GetSlotName(string name)
         {
-            string[] split = name.Split('(');
-            if (split.Length == 1)
+            if (!string.IsNullOrEmpty(name) && name.Contains('(') && name.Contains(')'))
             {
-                return WebsiteSlotName.Production.ToString().ToLower();
+                string[] split = name.Split('(');
+                if (split.Length == 1)
+                {
+                    return WebsiteSlotName.Production.ToString().ToLower();
+                }
+                else
+                {
+                    return split[1].TrimEnd(')').ToLower();
+                }
             }
-            else
-            {
-                return split[1].TrimEnd(')').ToLower();
-            }
+
+            return null;
         }
     }
 }
