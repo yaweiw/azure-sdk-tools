@@ -21,6 +21,13 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites.Common
 
     public abstract class WebsiteContextBaseCmdlet : WebsiteBaseCmdlet
     {
+        protected bool websiteNameDiscovery;
+
+        public WebsiteContextBaseCmdlet()
+        {
+            websiteNameDiscovery = true;
+        }
+
         [Parameter(Position = 0, Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "The web site name.")]
         [ValidateNotNullOrEmpty]
         public string Name { get; set; }
@@ -34,7 +41,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites.Common
         {
             try
             {
-                if (string.IsNullOrEmpty(Name))
+                if (string.IsNullOrEmpty(Name) && websiteNameDiscovery)
                 {
                     // If the website name was not specified as a parameter try to infer it
                     Name = GitWebsite.ReadConfiguration().Name;
