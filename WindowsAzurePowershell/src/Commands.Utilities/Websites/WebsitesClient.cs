@@ -551,6 +551,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
         private string SetWebsiteName(string name, string slot)
         {
             name = GetWebsiteName(name);
+            slot = slot ?? GetSlotName(name);
 
             if (string.IsNullOrEmpty(slot) || 
                 slot.Equals(WebsiteSlotName.Production.ToString(), StringComparison.OrdinalIgnoreCase))
