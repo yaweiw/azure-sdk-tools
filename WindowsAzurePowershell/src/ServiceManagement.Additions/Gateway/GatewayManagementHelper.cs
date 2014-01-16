@@ -1,6 +1,6 @@
 ﻿// ----------------------------------------------------------------------------------
 //
-// Copyright 2011 Microsoft Corporation
+// Copyright Microsoft Corporation
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
@@ -12,7 +12,7 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Management.Service.Gateway
+namespace Microsoft.WindowsAzure.Commands.Service.Gateway
 {
     using System;
     using System.Net;
@@ -22,14 +22,15 @@ namespace Microsoft.WindowsAzure.Management.Service.Gateway
     using System.ServiceModel.Channels;
     using System.ServiceModel.Web;
     using System.Xml;
-    using Microsoft.Samples.WindowsAzure.ServiceManagement;
+    using Commands.Utilities.Common;
+    using ServiceManagement;
 
     public static class GatewayManagementHelper
     {
         public static IGatewayServiceManagement CreateGatewayManagementChannel(Binding binding, Uri remoteUri, X509Certificate2 cert)
         {
             WebChannelFactory<IGatewayServiceManagement> factory = new WebChannelFactory<IGatewayServiceManagement>(binding, remoteUri);
-            factory.Endpoint.Behaviors.Add(new ClientOutputMessageInspector());
+            factory.Endpoint.Behaviors.Add(new ServiceManagementClientOutputMessageInspector());
             factory.Credentials.ClientCertificate.Certificate = cert;
             return factory.CreateChannel();
         }
