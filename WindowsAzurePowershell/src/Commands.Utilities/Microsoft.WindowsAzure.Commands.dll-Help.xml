@@ -11923,7 +11923,7 @@
     <command:details>
       <command:name>Disable-AzureWebsiteDebug</command:name>
       <maml:description>
-        <maml:para>Disables the website's debuggin</maml:para>
+        <maml:para>Disables the website's debugging</maml:para>
       </maml:description>
       <maml:copyright>
         <maml:para />

@@ -30,6 +30,11 @@ namespace Microsoft.WindowsAzure.Commands.Websites
     [Cmdlet(VerbsCommon.Get, "AzureWebsite"), OutputType(typeof(SiteWithConfig), typeof(IEnumerable<Site>))]
     public class GetAzureWebsiteCommand : WebsiteContextBaseCmdlet
     {
+        public GetAzureWebsiteCommand()
+        {
+            websiteNameDiscovery = false;
+        }
+
         protected virtual void WriteWebsites(IEnumerable<Site> websites)
         {
             WriteObject(websites, true);
