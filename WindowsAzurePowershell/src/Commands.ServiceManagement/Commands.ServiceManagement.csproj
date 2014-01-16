@@ -243,8 +243,10 @@
     <Compile Include="IaaS\Extensions\GetAzureVMDiagnosticsExtension.cs" />
     <Compile Include="IaaS\Extensions\GetAzureVMExtensionImage.cs" />
     <Compile Include="IaaS\Extensions\RemoveAzureVMDiagnosticsExtension.cs" />
+    <Compile Include="IaaS\Extensions\AddAzureVMExtension.cs" />
     <Compile Include="IaaS\Extensions\SetAzureVMDiagnosticsExtension.cs" />
     <Compile Include="IaaS\Extensions\SetAzureVMEnableVMAccessExtension.cs" />
+    <Compile Include="IaaS\Extensions\SetAzureVMExtension.cs" />
     <Compile Include="IaaS\Extensions\VMDiagnosticsExtensionBuilder.cs" />
     <Compile Include="IaaS\Extensions\VMDiagnosticsExtensionContext.cs" />
     <Compile Include="IaaS\Extensions\VMEnableVMAccessExtensionBuilder.cs" />

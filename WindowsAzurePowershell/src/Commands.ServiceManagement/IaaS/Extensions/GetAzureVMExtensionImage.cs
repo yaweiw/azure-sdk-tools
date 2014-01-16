@@ -29,9 +29,9 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
     {
         protected const string AzureVMExtensionImageCommandNoun = "AzureVMExtensionImage";
 
-        [Parameter(ValueFromPipelineByPropertyName = true, Position = 0, HelpMessage = "The Extension Image Type.")]
+        [Parameter(ValueFromPipelineByPropertyName = true, Position = 0, HelpMessage = "The Extension Image Name.")]
         [ValidateNotNullOrEmpty]
-        public string ExtensionImageType
+        public string ExtensionImageName
         {
             get;
             set;
@@ -63,7 +63,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
                  Func<VirtualMachineExtensionListResponse.ResourceExtension, bool>> predFunc =
                  (x, f) => string.IsNullOrEmpty(x) ? truePred : s => string.Equals(x, f(s), StringComparison.OrdinalIgnoreCase);
 
-            var typePred = predFunc(this.ExtensionImageType, s => s.Name);
+            var typePred = predFunc(this.ExtensionImageName, s => s.Name);
             var publisherPred = predFunc(this.Publisher, s => s.Publisher);
             var versionPred = predFunc(this.Version, s => s.Version);
 

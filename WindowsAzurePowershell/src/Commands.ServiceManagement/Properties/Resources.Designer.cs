@@ -1096,6 +1096,24 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The specified resource extension reference cannot be found..
+        /// </summary>
+        internal static string ResourceExtensionReferenceCannotBeFound {
+            get {
+                return ResourceManager.GetString("ResourceExtensionReferenceCannotBeFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The resource extension reference list is null or empty..
+        /// </summary>
+        internal static string ResourceExtensionReferencesIsNullOrEmpty {
+            get {
+                return ResourceManager.GetString("ResourceExtensionReferencesIsNullOrEmpty", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Roleinstance cannot be found.
         /// </summary>
         internal static string RoleInstanceCanNotBeFound {
@@ -1303,7 +1321,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Call Set-AzureSubscription and Select-AzureSubscription first..
+        ///   Looks up a localized string similar to No current subscription has been designated. Use Select-AzureSubscription -Current &lt;subscriptionName&gt; to set the current subscription..
         /// </summary>
         internal static string StorageCredentialsFactoryCurrentSubscriptionNotSet {
             get {
