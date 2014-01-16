@@ -410,6 +410,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
         /// <returns>The website slots list</returns>
         public List<Site> GetWebsiteSlots(string name)
         {
+            name = SetWebsiteName(name, null);
             return ListWebsites()
                 .Where(s => 
                     s.Name.IndexOf(string.Format("{0}(", name), StringComparison.OrdinalIgnoreCase) >= 0 ||
