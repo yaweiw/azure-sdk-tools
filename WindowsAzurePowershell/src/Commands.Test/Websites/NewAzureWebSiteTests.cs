@@ -52,7 +52,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.Websites
             string createdSiteName = null;
             string createdWebspaceName = null;
 
-            clientMock.Setup(c => c.CreateWebsite(webspaceName, It.IsAny<SiteWithWebSpace>()))
+            clientMock.Setup(c => c.CreateWebsite(webspaceName, It.IsAny<SiteWithWebSpace>(), null))
                 .Returns((string space, SiteWithWebSpace site) => site)
                 .Callback((string space, SiteWithWebSpace site) =>
                     {
@@ -100,7 +100,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.Websites
                     PublishingUsername = "user1"
                 });
 
-            clientMock.Setup(c => c.CreateWebsite(It.IsAny<string>(), It.IsAny<SiteWithWebSpace>()))
+            clientMock.Setup(c => c.CreateWebsite(It.IsAny<string>(), It.IsAny<SiteWithWebSpace>(), null))
                 .Returns((string space, SiteWithWebSpace site) => site)
                 .Callback((string space, SiteWithWebSpace site) =>
                     {
