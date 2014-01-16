@@ -41,6 +41,8 @@ namespace Microsoft.WindowsAzure.Commands.Test.Websites
 
         private string repoUrl = "TheRepoUrl";
 
+        private string slot = "staging";
+
         private List<string> logs;
 
         private Site website;
@@ -56,6 +58,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.Websites
             stopCondition = (string line) => line != null;
             websitesClientMock.Setup(f => f.StartLogStreaming(
                 websiteName,
+                slot,
                 string.Empty,
                 string.Empty,
                 stopCondition,
@@ -68,7 +71,8 @@ namespace Microsoft.WindowsAzure.Commands.Test.Websites
                 WebsitesClient = websitesClientMock.Object,
                 StopCondition = stopCondition,
                 Name = websiteName,
-                ShareChannel = true
+                ShareChannel = true,
+                Slot = slot
             };
             website = new Site()
             {
@@ -83,7 +87,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.Websites
                 }
             };
             Cache.AddSite(getAzureWebsiteLogCmdlet.CurrentSubscription.SubscriptionId, website);
-            websitesClientMock.Setup(c => c.GetWebsite(websiteName, null))
+            websitesClientMock.Setup(c => c.GetWebsite(websiteName, slot))
                 .Returns(website);
         }
 
@@ -96,6 +100,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.Websites
 
             websitesClientMock.Verify(f => f.StartLogStreaming(
                 websiteName,
+                slot,
                 null,
                 null,
                 stopCondition,
@@ -113,6 +118,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.Websites
 
             websitesClientMock.Verify(f => f.StartLogStreaming(
                 websiteName,
+                slot,
                 "http",
                 null,
                 stopCondition,
@@ -128,7 +134,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.Websites
             };
             List<string> expected = new List<string>() { "http", "Git" };
             List<string> actual = new List<string>();
-            websitesClientMock.Setup(f => f.ListLogPaths(websiteName)).Returns(paths);
+            websitesClientMock.Setup(f => f.ListLogPaths(websiteName, slot)).Returns(paths);
             commandRuntimeMock.Setup(f => f.WriteObject(It.IsAny<IEnumerable<string>>(), true))
                 .Callback<object, bool>((o, b) => actual = actual = ((IEnumerable<string>)o).ToList<string>());
             getAzureWebsiteLogCmdlet.ListPath = true;
