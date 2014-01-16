@@ -28,12 +28,25 @@ namespace Microsoft.WindowsAzure.Commands.Websites
     /// Updates a website git remote config to include slots
     /// </summary>
     [Cmdlet(VerbsData.Update, "AzureWebsiteRepository", SupportsShouldProcess = true)]
-    public class UpdateAzureWebsiteRepositoryCommand : WebsiteContextBaseCmdlet
+    public class UpdateAzureWebsiteRepositoryCommand : WebsiteBaseCmdlet
     {
+        [Parameter(Position = 0, Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "The web site name.")]
+        [ValidateNotNullOrEmpty]
+        public string Name { get; set; }
+
+        [Parameter(Mandatory = true, ValueFromPipelineByPropertyName = true, HelpMessage = "The publishing user name.")]
+        [ValidateNotNullOrEmpty]
+        public string PublishingUsername { get; set; }
+
         public override void ExecuteCmdlet()
         {
-            List<Site> sites = WebsitesClient.GetWebsiteSlots(Name);
+            if (string.IsNullOrEmpty(Name))
+            {
+                // If the website name was not specified as a parameter try to infer it
+                Name = GitWebsite.ReadConfiguration().Name;
+            }
 
+            List<Site> sites = WebsitesClient.GetWebsiteSlots(Name);
             IList<string> remoteRepositories = Git.GetRemoteRepositories();
 
             // Clear all existing remotes that are created by us
@@ -48,7 +61,7 @@ namespace Microsoft.WindowsAzure.Commands.Websites
             foreach (Site website in sites)
             {
                 string repositoryUri = website.GetProperty("RepositoryUri");
-                string publishingUsername = website.GetProperty("PublishingUsername");
+                string publishingUsername = PublishingUsername;
                 string uri = Git.GetUri(repositoryUri, Name, publishingUsername);
                 string slot = WebsitesClient.GetSlotName(website.Name);
                 string remoteName = string.Empty;

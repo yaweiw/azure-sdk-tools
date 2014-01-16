@@ -93,13 +93,6 @@ namespace Microsoft.WindowsAzure.Commands.Websites
             set;
         }
 
-        [Parameter(Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "The slot name.")]
-        public string Slot
-        {
-            get;
-            set;
-        }
-
         public bool ShareChannel { get; set; }
 
         public IGithubServiceManagement GithubChannel { get; set; }
@@ -193,16 +186,29 @@ namespace Microsoft.WindowsAzure.Commands.Websites
         {
             // Get remote repos
             IList<string> remoteRepositories = GitClass.GetRemoteRepositories();
-            if (remoteRepositories.Any(repository => repository.Equals("azure")))
+            string repositoryUri = website.GetProperty("RepositoryUri");
+            string uri = GitClass.GetUri(repositoryUri, Name, PublishingUsername);
+            string remoteName;
+
+            if (string.IsNullOrEmpty(Slot))
             {
-                // Removing existing azure remote alias
-                GitClass.RemoveRemoteRepository("azure");
+                remoteName = "azure";
+            }
+            else
+            {
+                remoteName = "azure-" + Slot;
             }
 
-            string repositoryUri = website.GetProperty("RepositoryUri");
+            foreach (string name in remoteRepositories)
+            {
+                if (name.Equals(remoteName))
+                {
+                    GitClass.RemoveRemoteRepository(remoteName);
+                    break;
+                }
+            }
 
-            string uri = GitClass.GetUri(repositoryUri, Name, PublishingUsername);
-            GitClass.AddRemoteRepository("azure", uri);
+            GitClass.AddRemoteRepository(remoteName, uri);
         }
 
         [EnvironmentPermission(SecurityAction.Demand, Unrestricted = true)]
