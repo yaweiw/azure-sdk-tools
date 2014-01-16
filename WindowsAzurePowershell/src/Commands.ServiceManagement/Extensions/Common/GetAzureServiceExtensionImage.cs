@@ -24,12 +24,30 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Extensions
     /// <summary>
     /// Get Windows Azure Service Extension.
     /// </summary>
-    [Cmdlet(VerbsCommon.Get, "AzureServiceExtension"), OutputType(typeof(ExtensionImageContext))]
-    public class GetAzureServiceExtensionCommand : ServiceManagementBaseCmdlet
+    [Cmdlet(VerbsCommon.Get, AzureServiceExtensionImageCommandNoun), OutputType(typeof(ExtensionImageContext))]
+    public class GetAzureServiceExtensionImageCommand : ServiceManagementBaseCmdlet
     {
+        protected const string AzureServiceExtensionImageCommandNoun = "AzureServiceExtensionImage";
+
         [Parameter(ValueFromPipelineByPropertyName = true, Position = 0, HelpMessage = "The Extension Image Type.")]
         [ValidateNotNullOrEmpty]
         public string ExtensionImageType
+        {
+            get;
+            set;
+        }
+
+        [Parameter(ValueFromPipelineByPropertyName = true, Position = 1, HelpMessage = "The Extension Provider Namespace.")]
+        [ValidateNotNullOrEmpty]
+        public string ProviderNameSpace
+        {
+            get;
+            set;
+        }
+
+        [Parameter(ValueFromPipelineByPropertyName = true, Position = 2, HelpMessage = "The Extension Version.")]
+        [ValidateNotNullOrEmpty]
+        public string Version
         {
             get;
             set;
@@ -39,14 +57,20 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Extensions
         {
             ServiceManagementProfile.Initialize(this);
 
-            Func<HostedServiceListAvailableExtensionsResponse.ExtensionImage, bool> pred =
-                string.IsNullOrEmpty(this.ExtensionImageType) ? (Func<HostedServiceListAvailableExtensionsResponse.ExtensionImage, bool>)(s => true)
-                                                              : s => string.Equals(this.ExtensionImageType, s.Type, StringComparison.OrdinalIgnoreCase);
+            var truePred = (Func<HostedServiceListAvailableExtensionsResponse.ExtensionImage, bool>)(s => true);
+
+            Func<string, Func<HostedServiceListAvailableExtensionsResponse.ExtensionImage, string>,
+                 Func<HostedServiceListAvailableExtensionsResponse.ExtensionImage, bool>> predFunc =
+                 (x, f) => string.IsNullOrEmpty(x) ? truePred : s => string.Equals(x, f(s), StringComparison.OrdinalIgnoreCase);
+
+            var typePred = predFunc(this.ExtensionImageType, s => s.Type);
+            var nameSpacePred = predFunc(this.ProviderNameSpace, s => s.ProviderNamespace);
+            var versionPred = predFunc(this.Version, s => s.Version);
 
             ExecuteClientActionNewSM(null,
                 CommandRuntime.ToString(),
                 () => this.ComputeClient.HostedServices.ListAvailableExtensions(),
-                (op, response) => response.Where(pred).Select(
+                (op, response) => response.Where(typePred).Where(nameSpacePred).Where(versionPred).Select(
                      extension => ContextFactory<HostedServiceListAvailableExtensionsResponse.ExtensionImage, ExtensionImageContext>(extension, op)));
         }
 

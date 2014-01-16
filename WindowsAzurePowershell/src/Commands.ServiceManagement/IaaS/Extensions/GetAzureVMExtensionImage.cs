@@ -24,12 +24,30 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
     /// <summary>
     /// Get Windows Azure VM Extension Image.
     /// </summary>
-    [Cmdlet(VerbsCommon.Get, "AzureVMExtension"), OutputType(typeof(VMExtensionImageContext))]
-    public class GetAzureVMExtensionCommand : ServiceManagementBaseCmdlet
+    [Cmdlet(VerbsCommon.Get, AzureVMExtensionImageCommandNoun), OutputType(typeof(VMExtensionImageContext))]
+    public class GetAzureVMExtensionImageCommand : ServiceManagementBaseCmdlet
     {
+        protected const string AzureVMExtensionImageCommandNoun = "AzureVMExtensionImage";
+
         [Parameter(ValueFromPipelineByPropertyName = true, Position = 0, HelpMessage = "The Extension Image Type.")]
         [ValidateNotNullOrEmpty]
         public string ExtensionImageType
+        {
+            get;
+            set;
+        }
+
+        [Parameter(ValueFromPipelineByPropertyName = true, Position = 1, HelpMessage = "The Extension Publisher.")]
+        [ValidateNotNullOrEmpty]
+        public string Publisher
+        {
+            get;
+            set;
+        }
+
+        [Parameter(ValueFromPipelineByPropertyName = true, Position = 2, HelpMessage = "The Extension Version.")]
+        [ValidateNotNullOrEmpty]
+        public string Version
         {
             get;
             set;
@@ -39,10 +57,20 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
         {
             ServiceManagementProfile.Initialize(this);
 
+            var truePred = (Func<VirtualMachineExtensionListResponse.ResourceExtension, bool>)(s => true);
+
+            Func<string, Func<VirtualMachineExtensionListResponse.ResourceExtension, string>,
+                 Func<VirtualMachineExtensionListResponse.ResourceExtension, bool>> predFunc =
+                 (x, f) => string.IsNullOrEmpty(x) ? truePred : s => string.Equals(x, f(s), StringComparison.OrdinalIgnoreCase);
+
+            var typePred = predFunc(this.ExtensionImageType, s => s.Name);
+            var publisherPred = predFunc(this.Publisher, s => s.Publisher);
+            var versionPred = predFunc(this.Version, s => s.Version);
+
             ExecuteClientActionNewSM(null,
                 CommandRuntime.ToString(),
                 () => this.ComputeClient.VirtualMachineExtensions.List(),
-                (op, response) => response.Select(
+                (op, response) => response.Where(typePred).Where(publisherPred).Where(versionPred).Select(
                      extension => ContextFactory<VirtualMachineExtensionListResponse.ResourceExtension, VMExtensionImageContext>(extension, op)));
         }
 

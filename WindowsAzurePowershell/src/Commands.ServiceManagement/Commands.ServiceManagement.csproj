@@ -239,9 +239,9 @@
     <Compile Include="Extensions\Common\ExtensionImageContext.cs" />
     <Compile Include="Extensions\Common\ExtensionParameterPropertyHelper.cs" />
     <Compile Include="Extensions\Common\ExtensionRoleType.cs" />
-    <Compile Include="Extensions\Common\GetAzureServiceExtension.cs" />
+    <Compile Include="Extensions\Common\GetAzureServiceExtensionImage.cs" />
     <Compile Include="IaaS\Extensions\GetAzureVMDiagnosticsExtension.cs" />
-    <Compile Include="IaaS\Extensions\GetAzureVMExtension.cs" />
+    <Compile Include="IaaS\Extensions\GetAzureVMExtensionImage.cs" />
     <Compile Include="IaaS\Extensions\RemoveAzureVMDiagnosticsExtension.cs" />
     <Compile Include="IaaS\Extensions\SetAzureVMDiagnosticsExtension.cs" />
     <Compile Include="IaaS\Extensions\SetAzureVMEnableVMAccessExtension.cs" />
