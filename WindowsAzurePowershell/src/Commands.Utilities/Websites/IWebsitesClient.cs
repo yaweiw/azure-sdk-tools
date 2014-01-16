@@ -110,15 +110,6 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
         Site GetWebsite(string name);
 
         /// <summary>
-        /// Create a new website in production.
-        /// </summary>
-        /// <param name="webspaceName">Web space to create site in.</param>
-        /// <param name="disablesClone">Flag to control cloning the website configuration.</param>
-        /// <param name="siteToCreate">Details about the site to create.</param>
-        /// <returns>The created site object</returns>
-        Site CreateWebsite(string webspaceName, SiteWithWebSpace siteToCreate);
-
-        /// <summary>
         /// Create a new website in a given slot.
         /// </summary>
         /// <param name="webspaceName">Web space to create site in.</param>

@@ -187,7 +187,7 @@ namespace Microsoft.WindowsAzure.Commands.Websites
             // Get remote repos
             IList<string> remoteRepositories = GitClass.GetRemoteRepositories();
             string repositoryUri = website.GetProperty("RepositoryUri");
-            string uri = GitClass.GetUri(repositoryUri, Name, PublishingUsername);
+            string uri = GitClass.GetUri(repositoryUri, website.Name, PublishingUsername);
             string remoteName;
 
             if (string.IsNullOrEmpty(Slot))
@@ -287,7 +287,6 @@ namespace Microsoft.WindowsAzure.Commands.Websites
             var website = new SiteWithWebSpace
             {
                 Name = Name,
-                HostNames = BuildHostNames(suffix),
                 WebSpace = webspace.Name,
                 WebSpaceToCreate = webspace
             };
@@ -305,16 +304,6 @@ namespace Microsoft.WindowsAzure.Commands.Websites
                 result = CreateSite(webspace, website);
             }
             return result;
-        }
-        
-        private string[] BuildHostNames(string suffix)
-        {
-            var hostnames = new List<string> { string.Format(CultureInfo.InvariantCulture, "{0}.{1}", Name, suffix) };
-            if (!string.IsNullOrEmpty(Hostname))
-            {
-                hostnames.Add(Hostname);
-            }
-            return hostnames.ToArray();
         }
 
         private WebSpace FindWebSpace(IList<WebSpace> webspaceList)
@@ -384,13 +373,13 @@ namespace Microsoft.WindowsAzure.Commands.Websites
                 }
                 else
                 {
-                    WebsitesClient.CreateWebsite(webspace.Name, website);
+                    WebsitesClient.CreateWebsite(webspace.Name, website, null);
                 }
 
                 createdWebsite = WebsitesClient.GetWebsite(website.Name);
 
                 Cache.AddSite(CurrentSubscription.SubscriptionId, createdWebsite);
-                SiteConfig websiteConfiguration = WebsitesClient.GetWebsiteConfiguration(Name, Slot);
+                SiteConfig websiteConfiguration = WebsitesClient.GetWebsiteConfiguration(createdWebsite.Name, Slot);
                 WriteObject(new SiteWithConfig(createdWebsite, websiteConfiguration));
 
                 return createdWebsite;
