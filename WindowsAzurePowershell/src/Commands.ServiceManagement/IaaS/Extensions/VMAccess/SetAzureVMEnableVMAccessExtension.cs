@@ -20,28 +20,45 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
     using Model.PersistentVMModel;
     using Properties;
 
-    [Cmdlet(VerbsCommon.Set, "AzureVMEnableVMAccessExtension", DefaultParameterSetName = EnableExtensionWithNewOrExistingCredentialParameterSet), OutputType(typeof(IPersistentVM))]
-    public class SetAzureVMEnableVMAccessExtensionCommand : VirtualMachineConfigurationCmdletBase
+    [Cmdlet(
+        VerbsCommon.Set,
+        "AzureVMEnableVMAccessExtension",
+        DefaultParameterSetName = EnableExtensionWithNewOrExistingCredentialParameterSet),
+    OutputType(
+        typeof(IPersistentVM))]
+    public class SetAzureVMEnableVMAccessExtensionCommand : VirtualMachineExtensionCmdletBase
     {
         public const string EnableExtensionWithNewOrExistingCredentialParameterSet = "EnableExtensionWithNewOrExistingCredential";
         public const string DisableExtensionParameterSet = "DisableExtension";
 
-        [Parameter(Mandatory = true, ParameterSetName = DisableExtensionParameterSet, HelpMessage = "Disable VM Access Extension")]
-        public SwitchParameter Disabled
-        {
-            get;
-            set;
-        }
-        
-        [Parameter(Mandatory = false, ParameterSetName = EnableExtensionWithNewOrExistingCredentialParameterSet, HelpMessage = "New or Existing User Name")]
+        [Parameter(
+            ParameterSetName = EnableExtensionWithNewOrExistingCredentialParameterSet,
+            Mandatory = false,
+            Position = 1,
+            HelpMessage = "New or Existing User Name")]
         public string UserName
         {
             get;
             set;
         }
 
-        [Parameter(Mandatory = false, ParameterSetName = EnableExtensionWithNewOrExistingCredentialParameterSet, HelpMessage = "New or Existing User Password")]
+        [Parameter(
+            ParameterSetName = EnableExtensionWithNewOrExistingCredentialParameterSet,
+            Mandatory = false,
+            Position = 2,
+            HelpMessage = "New or Existing User Password")]
         public string Password
+        {
+            get;
+            set;
+        }
+
+        [Parameter(
+            ParameterSetName = DisableExtensionParameterSet,
+            Mandatory = true,
+            Position = 1,
+            HelpMessage = "Disable VM Access Extension")]
+        public SwitchParameter Disabled
         {
             get;
             set;
@@ -49,19 +66,16 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
 
         internal void ExecuteCommand()
         {
-            if (VM.GetInstance().ResourceExtensionReferences == null)
-            {
-                VM.GetInstance().ResourceExtensionReferences = new ResourceExtensionReferenceList();
-            }
-            else
-            {
-                VM.GetInstance().ResourceExtensionReferences.RemoveAll(e => e.Publisher == VMEnableVMAccessExtensionBuilder.ExtensionDefaultPublisher &&
-                                                                            e.Name == VMEnableVMAccessExtensionBuilder.ExtensionDefaultName);
-            }
+            ValidateParameters();
 
-            VM.GetInstance().ResourceExtensionReferences.Add(
+            ResourceExtensionReferences.RemoveAll(
+                e => e.Publisher == VMEnableVMAccessExtensionBuilder.ExtensionDefaultPublisher
+                  && e.Name == VMEnableVMAccessExtensionBuilder.ExtensionDefaultName);
+
+            ResourceExtensionReferences.Add(
                 Disabled.IsPresent ? new VMEnableVMAccessExtensionBuilder().GetResourceReference()
                                    : new VMEnableVMAccessExtensionBuilder(this.UserName, this.Password).GetResourceReference());
+
             WriteObject(VM);
         }
 
@@ -70,22 +84,12 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
             ServiceManagementProfile.Initialize();
             try
             {
-                ValidateParameters();
                 base.ProcessRecord();
                 ExecuteCommand();
             }
             catch (Exception ex)
             {
                 WriteError(new ErrorRecord(ex, string.Empty, ErrorCategory.CloseError, null));
-            }
-        }
-
-        private void ValidateParameters()
-        {
-            // GA must be enabled before setting WAD
-            if (VM.GetInstance().ProvisionGuestAgent == null || !VM.GetInstance().ProvisionGuestAgent.Value)
-            {
-                throw new ArgumentException(Resources.ProvisionGuestAgentMustBeEnabledBeforeSettingIaaSVMAccessExtension);
             }
         }
     }

@@ -14,17 +14,14 @@
 
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
 {
-    using Utilities.Common;
-
-    public class VMExtensionImageContext : ManagementOperationContext
+    public class VMEnableVMAccessExtensionContext
     {
-        public string Description { get; set; }
-        public string Label { get; set; }
         public string Name { get; set; }
-        public string PrivateConfigurationSchema { get; set; }
-        public string PublicConfigurationSchema { get; set; }
         public string Publisher { get; set; }
-        public string SampleConfig { get; set; }
+        public string ReferenceName { get; set; }
         public string Version { get; set; }
+        public string UserName { get; set; }
+        public string Password { get; set; }
+        public bool Enabled { get; set; }
     }
 }
