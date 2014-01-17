@@ -20,7 +20,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Extensions
     public class ExtensionImageContext : ManagementOperationContext
     {
         public string ProviderNameSpace { get; set; }
-        public string Type { get; set; }
+        public string ExtensionName { get; set; }
         public string Version { get; set; }
         public string Label { get; set; }
         public string Description { get; set; }

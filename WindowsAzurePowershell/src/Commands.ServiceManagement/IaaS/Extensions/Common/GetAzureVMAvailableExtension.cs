@@ -15,6 +15,7 @@
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
 {
     using System;
+    using System.Collections.Generic;
     using System.Linq;
     using System.Management.Automation;
     using Management.Compute;
@@ -24,12 +25,36 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
     /// <summary>
     /// Get Windows Azure VM Extension Image.
     /// </summary>
-    [Cmdlet(VerbsCommon.Get, AzureVMAvailableExtensionCommandNoun), OutputType(typeof(VirtualMachineExtensionImageContext))]
+    [Cmdlet(
+        VerbsCommon.Get,
+        AzureVMAvailableExtensionCommandNoun,
+        DefaultParameterSetName = ListLatestExtensionsParamSetName),
+    OutputType(
+        typeof(VirtualMachineExtensionImageContext))]
     public class GetAzureVMAvailableExtensionCommand : ServiceManagementBaseCmdlet
     {
         protected const string AzureVMAvailableExtensionCommandNoun = "AzureVMAvailableExtension";
+        protected const string ListLatestExtensionsParamSetName = "ListLatestExtensions";
+        protected const string ListAllVersionsParamSetName = "ListAllVersions";
+        protected const string ListSingleVersionParamSetName = "ListSingleVersion";
 
-        [Parameter(ValueFromPipelineByPropertyName = true, Position = 0, HelpMessage = "The Extension Image Name.")]
+        [Parameter(
+            ParameterSetName = ListLatestExtensionsParamSetName,
+            Position = 0,
+            ValueFromPipelineByPropertyName = true,
+            HelpMessage = "The Extension Image Name.")]
+        [Parameter(
+            ParameterSetName = ListAllVersionsParamSetName,
+            Mandatory = true,
+            Position = 0,
+            ValueFromPipelineByPropertyName = true,
+            HelpMessage = "The Extension Image Name.")]
+        [Parameter(
+            ParameterSetName = ListSingleVersionParamSetName,
+            Mandatory = true,
+            Position = 0,
+            ValueFromPipelineByPropertyName = true,
+            HelpMessage = "The Extension Image Name.")]
         [ValidateNotNullOrEmpty]
         public string ExtensionName
         {
@@ -37,7 +62,23 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
             set;
         }
 
-        [Parameter(ValueFromPipelineByPropertyName = true, Position = 1, HelpMessage = "The Extension Publisher.")]
+        [Parameter(
+            ParameterSetName = ListLatestExtensionsParamSetName,
+            Position = 1,
+            ValueFromPipelineByPropertyName = true,
+            HelpMessage = "The Extension Publisher.")]
+        [Parameter(
+            ParameterSetName = ListAllVersionsParamSetName,
+            Mandatory = true,
+            Position = 1,
+            ValueFromPipelineByPropertyName = true,
+            HelpMessage = "The Extension Publisher.")]
+        [Parameter(
+            ParameterSetName = ListSingleVersionParamSetName,
+            Mandatory = true,
+            Position = 1,
+            ValueFromPipelineByPropertyName = true,
+            HelpMessage = "The Extension Publisher.")]
         [ValidateNotNullOrEmpty]
         public string Publisher
         {
@@ -45,7 +86,12 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
             set;
         }
 
-        [Parameter(ValueFromPipelineByPropertyName = true, Position = 2, HelpMessage = "The Extension Version.")]
+        [Parameter(
+            ParameterSetName = ListSingleVersionParamSetName,
+            Mandatory = true,
+            Position = 2,
+            ValueFromPipelineByPropertyName = true,
+            HelpMessage = "The Extension Version.")]
         [ValidateNotNullOrEmpty]
         public string Version
         {
@@ -53,7 +99,19 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
             set;
         }
 
-        public void ExecuteCommand()
+        [Parameter(
+            ParameterSetName = ListAllVersionsParamSetName,
+            Position = 2,
+            ValueFromPipelineByPropertyName = true,
+            HelpMessage = "Specify to list all versions of an extension.")]
+        [ValidateNotNullOrEmpty]
+        public SwitchParameter AllVersions
+        {
+            get;
+            set;
+        }
+
+        public virtual void ExecuteCommand()
         {
             ServiceManagementProfile.Initialize(this);
 
@@ -69,7 +127,17 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
 
             ExecuteClientActionNewSM(null,
                 CommandRuntime.ToString(),
-                () => this.ComputeClient.VirtualMachineExtensions.List(),
+                () =>
+                {
+                    if (this.AllVersions.IsPresent || !string.IsNullOrEmpty(this.Version))
+                    {
+                        return this.ComputeClient.VirtualMachineExtensions.ListVersions(this.Publisher, this.ExtensionName);
+                    }
+                    else
+                    {
+                        return this.ComputeClient.VirtualMachineExtensions.List();
+                    }
+                },
                 (op, response) => response.Where(typePred).Where(publisherPred).Where(versionPred).Select(
                      extension => ContextFactory<VirtualMachineExtensionListResponse.ResourceExtension, VirtualMachineExtensionImageContext>(extension, op)));
         }
