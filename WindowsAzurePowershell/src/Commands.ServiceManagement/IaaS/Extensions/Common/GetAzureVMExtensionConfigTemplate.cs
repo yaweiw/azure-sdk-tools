@@ -56,7 +56,6 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
         }
 
         [Parameter(
-            Mandatory = true,
             Position = 2,
             ValueFromPipelineByPropertyName = true,
             HelpMessage = "The Extension Version.")]
@@ -98,7 +97,17 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
 
             ExecuteClientActionNewSM(null,
                 CommandRuntime.ToString(),
-                () => this.ComputeClient.VirtualMachineExtensions.ListVersions(this.Publisher, this.ExtensionName),
+                () =>
+                {
+                    if (!string.IsNullOrEmpty(this.Version))
+                    {
+                        return this.ComputeClient.VirtualMachineExtensions.List();
+                    }
+                    else
+                    {
+                        return this.ComputeClient.VirtualMachineExtensions.ListVersions(this.Publisher, this.ExtensionName);
+                    }
+                },
                 (op, response) => GetVersionedExtensionImage(response, this.Version, out sampleConfig).Select(
                      extension => ContextFactory<VirtualMachineExtensionListResponse.ResourceExtension, VirtualMachineExtensionImageContext>(extension, op)));
 
