@@ -62,7 +62,7 @@ namespace Microsoft.WindowsAzure.Commands.Websites
             {
                 string repositoryUri = website.GetProperty("RepositoryUri");
                 string publishingUsername = PublishingUsername;
-                string uri = Git.GetUri(repositoryUri, Name, publishingUsername);
+                string uri = Git.GetUri(repositoryUri, website.RepositorySiteName, publishingUsername);
                 string slot = WebsitesClient.GetSlotName(website.Name);
                 string remoteName = string.Empty;
 
