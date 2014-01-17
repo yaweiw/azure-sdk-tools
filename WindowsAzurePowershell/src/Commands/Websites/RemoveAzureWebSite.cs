@@ -43,9 +43,16 @@ namespace Microsoft.WindowsAzure.Commands.Websites
                 Name,
                 () =>
                     {
-                        Site websiteObject = WebsitesClient.GetWebsite(Name, Slot);
-                        WebsitesClient.DeleteWebsite(websiteObject.WebSpace, Name, Slot);
-                        Cache.RemoveSite(CurrentSubscription.SubscriptionId, websiteObject);
+                        try
+                        {
+                            Site websiteObject = WebsitesClient.GetWebsite(Name, Slot);
+                            WebsitesClient.DeleteWebsite(websiteObject.WebSpace, Name, Slot);
+                            Cache.RemoveSite(CurrentSubscription.SubscriptionId, websiteObject);
+                        }
+                        catch
+                        {
+                            // Ignore exception the website slot was deleted when deleting the production.
+                        }
                     });
         }
     }
