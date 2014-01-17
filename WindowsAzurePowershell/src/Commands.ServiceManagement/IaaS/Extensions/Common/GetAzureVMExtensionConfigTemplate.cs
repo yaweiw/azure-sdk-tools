@@ -67,6 +67,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
         }
 
         [Parameter(
+            Mandatory = true,
             Position = 3,
             ValueFromPipelineByPropertyName = true,
             HelpMessage = "The File Path to Save the Private Config Template.")]
@@ -78,7 +79,6 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
         }
 
         [Parameter(
-            Mandatory = true,
             Position = 4,
             ValueFromPipelineByPropertyName = true,
             HelpMessage = "The File Path to Save the Private Config Template.")]
