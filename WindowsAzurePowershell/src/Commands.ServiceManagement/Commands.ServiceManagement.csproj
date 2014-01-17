@@ -245,6 +245,7 @@
     <Compile Include="IaaS\Extensions\Common\RemoveAzureVMExtension.cs" />
     <Compile Include="IaaS\Extensions\Common\VirtualMachineExtensionCmdletBase.cs" />
     <Compile Include="IaaS\Extensions\Common\VirtualMachineExtensionContext.cs" />
+    <Compile Include="IaaS\Extensions\Common\VirtualMachineExtensionConfigContext.cs" />
     <Compile Include="IaaS\Extensions\Diagnostics\GetAzureVMDiagnosticsExtension.cs" />
     <Compile Include="IaaS\Extensions\Common\GetAzureVMAvailableExtension.cs" />
     <Compile Include="IaaS\Extensions\Diagnostics\RemoveAzureVMDiagnosticsExtension.cs" />

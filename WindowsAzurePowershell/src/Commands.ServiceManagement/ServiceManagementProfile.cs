@@ -218,13 +218,13 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement
             Mapper.CreateMap<List<NSM.VirtualMachineUpdateLoadBalancedSetParameters.InputEndpoint>, PVM.LoadBalancedEndpointList>();
 
             //Common mapping
-            Mapper.CreateMap<OperationStatusResponse, ManagementOperationContext>()
-                  .ForMember(c => c.OperationId, o => o.MapFrom(r => r.Id))
-                  .ForMember(c => c.OperationStatus, o => o.MapFrom(r => r.Status.ToString()));
-
             Mapper.CreateMap<OperationResponse, ManagementOperationContext>()
                   .ForMember(c => c.OperationId, o => o.MapFrom(r => r.RequestId))
                   .ForMember(c => c.OperationStatus, o => o.MapFrom(r => r.StatusCode.ToString()));
+
+            Mapper.CreateMap<OperationStatusResponse, ManagementOperationContext>()
+                  .ForMember(c => c.OperationId, o => o.MapFrom(r => r.Id))
+                  .ForMember(c => c.OperationStatus, o => o.MapFrom(r => r.Status.ToString()));
 
             //AffinityGroup mapping
             Mapper.CreateMap<AffinityGroupGetResponse, AffinityGroupContext>();
