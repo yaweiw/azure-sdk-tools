@@ -189,7 +189,7 @@ namespace Microsoft.WindowsAzure.Commands.Websites
             string repositoryUri = website.GetProperty("RepositoryUri");
             string uri = GitClass.GetUri(
                 repositoryUri,
-                WebsitesClient.GetWebsiteNameFromFullName(website.Name),
+                website.RepositorySiteName,
                 PublishingUsername);
 
             string remoteName;
