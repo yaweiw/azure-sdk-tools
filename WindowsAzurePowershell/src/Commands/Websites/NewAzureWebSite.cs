@@ -357,7 +357,7 @@ namespace Microsoft.WindowsAzure.Commands.Websites
 
         private Site CreateSite(WebSpace webspace, SiteWithWebSpace website)
         {
-            Site createdWebsite;
+            Site createdWebsite = null;
 
             try
             {
@@ -385,8 +385,6 @@ namespace Microsoft.WindowsAzure.Commands.Websites
                 Cache.AddSite(CurrentSubscription.SubscriptionId, createdWebsite);
                 SiteConfig websiteConfiguration = WebsitesClient.GetWebsiteConfiguration(createdWebsite.Name, Slot);
                 WriteObject(new SiteWithConfig(createdWebsite, websiteConfiguration));
-
-                return createdWebsite;
             }
             catch (CloudException ex)
             {
@@ -395,6 +393,7 @@ namespace Microsoft.WindowsAzure.Commands.Websites
                     // Handle conflict - it's ok to attempt to use cmdlet on an
                     // existing website if you're updating the source control stuff.
                     WriteWarning(ex.Message);
+                    createdWebsite = WebsitesClient.GetWebsite(website.Name, null);
                 }
                 else if (HostNameValidationFailed(ex))
                 {
@@ -410,7 +409,7 @@ namespace Microsoft.WindowsAzure.Commands.Websites
                 }
             }
 
-            return null;
+            return createdWebsite;
         }
 
         public Action<string> GetLogger()
