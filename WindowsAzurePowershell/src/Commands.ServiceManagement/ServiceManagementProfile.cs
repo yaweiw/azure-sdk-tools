@@ -54,7 +54,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement
             return initialize.Value;
         }
 
-        public static bool Initialize(GetAzureServiceExtensionImageCommand command)
+        public static bool Initialize(GetAzureServiceAvailableExtensionCommand command)
         {
             Mapper.CreateMap<OperationStatusResponse, ExtensionImageContext>()
                   .ForMember(c => c.OperationId, o => o.MapFrom(r => r.Id))
@@ -66,13 +66,13 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement
             return Initialize();
         }
 
-        public static bool Initialize(GetAzureVMExtensionImageCommand command)
+        public static bool Initialize(GetAzureVMAvailableExtensionCommand command)
         {
-            Mapper.CreateMap<OperationStatusResponse, VMExtensionImageContext>()
+            Mapper.CreateMap<OperationStatusResponse, VirtualMachineExtensionImageContext>()
                   .ForMember(c => c.OperationId, o => o.MapFrom(r => r.Id))
                   .ForMember(c => c.OperationStatus, o => o.MapFrom(r => r.Status.ToString()));
 
-            Mapper.CreateMap<VirtualMachineExtensionListResponse.ResourceExtension, VMExtensionImageContext>();
+            Mapper.CreateMap<VirtualMachineExtensionListResponse.ResourceExtension, VirtualMachineExtensionImageContext>();
 
             return Initialize();
         }

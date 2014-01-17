@@ -12,7 +12,7 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
+namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Extensions
 {
     using System;
     using System.Linq;
@@ -22,24 +22,24 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
     using Utilities.Common;
 
     /// <summary>
-    /// Get Windows Azure VM Extension Image.
+    /// Get Windows Azure Service Extension.
     /// </summary>
-    [Cmdlet(VerbsCommon.Get, AzureVMExtensionImageCommandNoun), OutputType(typeof(VMExtensionImageContext))]
-    public class GetAzureVMExtensionImageCommand : ServiceManagementBaseCmdlet
+    [Cmdlet(VerbsCommon.Get, AzureServiceAvailableExtensionCommandNoun), OutputType(typeof(ExtensionImageContext))]
+    public class GetAzureServiceAvailableExtensionCommand : ServiceManagementBaseCmdlet
     {
-        protected const string AzureVMExtensionImageCommandNoun = "AzureVMExtensionImage";
+        protected const string AzureServiceAvailableExtensionCommandNoun = "AzureServiceAvailableExtension";
 
-        [Parameter(ValueFromPipelineByPropertyName = true, Position = 0, HelpMessage = "The Extension Image Name.")]
+        [Parameter(ValueFromPipelineByPropertyName = true, Position = 0, HelpMessage = "The Extension Image Type Name.")]
         [ValidateNotNullOrEmpty]
-        public string ExtensionImageName
+        public string ExtensionName
         {
             get;
             set;
         }
 
-        [Parameter(ValueFromPipelineByPropertyName = true, Position = 1, HelpMessage = "The Extension Publisher.")]
+        [Parameter(ValueFromPipelineByPropertyName = true, Position = 1, HelpMessage = "The Extension Provider Namespace.")]
         [ValidateNotNullOrEmpty]
-        public string Publisher
+        public string ProviderNameSpace
         {
             get;
             set;
@@ -57,21 +57,21 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
         {
             ServiceManagementProfile.Initialize(this);
 
-            var truePred = (Func<VirtualMachineExtensionListResponse.ResourceExtension, bool>)(s => true);
+            var truePred = (Func<HostedServiceListAvailableExtensionsResponse.ExtensionImage, bool>)(s => true);
 
-            Func<string, Func<VirtualMachineExtensionListResponse.ResourceExtension, string>,
-                 Func<VirtualMachineExtensionListResponse.ResourceExtension, bool>> predFunc =
+            Func<string, Func<HostedServiceListAvailableExtensionsResponse.ExtensionImage, string>,
+                 Func<HostedServiceListAvailableExtensionsResponse.ExtensionImage, bool>> predFunc =
                  (x, f) => string.IsNullOrEmpty(x) ? truePred : s => string.Equals(x, f(s), StringComparison.OrdinalIgnoreCase);
 
-            var typePred = predFunc(this.ExtensionImageName, s => s.Name);
-            var publisherPred = predFunc(this.Publisher, s => s.Publisher);
+            var typePred = predFunc(this.ExtensionName, s => s.Type);
+            var nameSpacePred = predFunc(this.ProviderNameSpace, s => s.ProviderNamespace);
             var versionPred = predFunc(this.Version, s => s.Version);
 
             ExecuteClientActionNewSM(null,
                 CommandRuntime.ToString(),
-                () => this.ComputeClient.VirtualMachineExtensions.List(),
-                (op, response) => response.Where(typePred).Where(publisherPred).Where(versionPred).Select(
-                     extension => ContextFactory<VirtualMachineExtensionListResponse.ResourceExtension, VMExtensionImageContext>(extension, op)));
+                () => this.ComputeClient.HostedServices.ListAvailableExtensions(),
+                (op, response) => response.Where(typePred).Where(nameSpacePred).Where(versionPred).Select(
+                     extension => ContextFactory<HostedServiceListAvailableExtensionsResponse.ExtensionImage, ExtensionImageContext>(extension, op)));
         }
 
         protected override void OnProcessRecord()

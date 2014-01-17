@@ -17,6 +17,8 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
     using System.Linq;
     using System.Xml.Linq;
     using Model.PersistentVMModel;
+    using System;
+    using System.Xml;
 
     public class VMEnableVMAccessExtensionBuilder
     {
@@ -44,6 +46,15 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
             this.Enabled = true;
             this.UserName = userName;
             this.Password = password;
+        }
+        public VMEnableVMAccessExtensionBuilder(string extensionCfg)
+        {
+            if (string.IsNullOrEmpty(extensionCfg))
+            {
+                throw new ArgumentNullException("extensionCfg");
+            }
+
+            LoadFrom(extensionCfg);
         }
 
         public string UserName
@@ -114,6 +125,54 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
                         this.Password)
                 }))
             };
+        }
+
+        private static void SetConfigValue(XDocument config, string element, Object value)
+        {
+            if (config != null && value != null)
+            {
+                var ds = config.Descendants();
+                foreach (var e in ds)
+                {
+                    if (e.Name.LocalName == element)
+                    {
+                        if (value.GetType().Equals(typeof(XmlDocument)))
+                        {
+                            e.ReplaceAll(XElement.Load(new XmlNodeReader(value as XmlDocument)));
+
+                            var es = e.Descendants();
+                            foreach (var d in es)
+                            {
+                                if (string.IsNullOrEmpty(d.Name.NamespaceName))
+                                {
+                                    d.Name = e.Name.Namespace + d.Name.LocalName;
+                                }
+                            };
+                        }
+                        else
+                        {
+                            e.SetValue(value.ToString());
+                        }
+                        break;
+                    }
+                };
+            }
+        }
+
+        private static string GetConfigValue(string xmlText, string element)
+        {
+            XDocument config = XDocument.Parse(xmlText);
+            var result = from d in config.Descendants()
+                         where d.Name.LocalName == element
+                         select d.Descendants().Any() ? d.ToString() : d.Value;
+            return result.FirstOrDefault();
+        }
+
+        private void LoadFrom(string extensionCfg)
+        {
+            this.Enabled = bool.Parse(GetConfigValue(extensionCfg, EnabledElem).ToLower());
+            this.UserName = GetConfigValue(extensionCfg, UserNameElem);
+            this.Password = GetConfigValue(extensionCfg, PasswordElem);
         }
     }
 }
