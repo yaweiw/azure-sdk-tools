@@ -14,21 +14,20 @@
 
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Extensions
 {
-    using System;
     using System.Linq;
     using System.Management.Automation;
     using System.Security.Cryptography.X509Certificates;
     using Model.PersistentVMModel;
-    using Utilities.Common;
 
     /// <summary>
-    /// Set Windows Azure Service Remote Desktop Extension.
+    /// New Windows Azure Service Extension.
     /// </summary>
-    [Cmdlet(VerbsCommon.Set, "AzureServiceRemoteDesktopExtension", DefaultParameterSetName = "SetExtension"), OutputType(typeof(ManagementOperationContext))]
-    public class SetAzureServiceRemoteDesktopExtensionCommand : BaseAzureServiceRemoteDesktopExtensionCmdlet
+    [Cmdlet(VerbsCommon.New, "AzureServiceExtension", DefaultParameterSetName = "NewExtension"), OutputType(typeof(ExtensionConfigurationInput))]
+    public class SetAzureServiceExtensionCommand : BaseAzureServiceExtensionCmdlet
     {
         [Parameter(Position = 0, ValueFromPipelineByPropertyName = true, ParameterSetName = "SetExtension", HelpMessage = "Cloud Service Name")]
         [Parameter(Position = 0, ValueFromPipelineByPropertyName = true, ParameterSetName = "SetExtensionUsingThumbprint", HelpMessage = "Cloud Service Name")]
+        [ValidateNotNullOrEmpty]
         public override string ServiceName
         {
             get;
@@ -78,19 +77,38 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Extensions
             set;
         }
 
-        [Parameter(Position = 5, ValueFromPipelineByPropertyName = true, Mandatory = true, ParameterSetName = "SetExtension", HelpMessage = "Remote Desktop Credential")]
-        [Parameter(Position = 5, ValueFromPipelineByPropertyName = true, Mandatory = true, ParameterSetName = "SetExtensionUsingThumbprint", HelpMessage = "Remote Desktop Credential ")]
-        [ValidateNotNullOrEmpty]
-        public override PSCredential Credential
+        [Parameter(Position = 5, Mandatory = true, ValueFromPipelineByPropertyName = true, ParameterSetName = "SetExtension", HelpMessage = "Extension Name")]
+        [Parameter(Position = 5, Mandatory = true, ValueFromPipelineByPropertyName = true, ParameterSetName = "SetExtensionUsingThumbprint", HelpMessage = "Extension Name")]
+        [ValidateNotNullOrEmptyAttribute]
+        public override string ExtensionName
         {
             get;
             set;
         }
 
-        [Parameter(Position = 6, ValueFromPipelineByPropertyName = true, ParameterSetName = "SetExtension", HelpMessage = "Remote Desktop User Expiration Date")]
-        [Parameter(Position = 6, ValueFromPipelineByPropertyName = true, ParameterSetName = "SetExtensionUsingThumbprint", HelpMessage = "Remote Desktop User Expiration Date")]
+        [Parameter(Position = 6, Mandatory = true, ValueFromPipelineByPropertyName = true, ParameterSetName = "SetExtension", HelpMessage = "Extension Provider Namespace")]
+        [Parameter(Position = 6, Mandatory = true, ValueFromPipelineByPropertyName = true, ParameterSetName = "SetExtensionUsingThumbprint", HelpMessage = "Extension Provider Namespace")]
+        [ValidateNotNullOrEmptyAttribute]
+        public override string ProviderNamespace
+        {
+            get;
+            set;
+        }
+
+        [Parameter(Position = 7, Mandatory = true, ValueFromPipelineByPropertyName = true, ParameterSetName = "SetExtension", HelpMessage = "Extension Public Configuration.")]
+        [Parameter(Position = 7, Mandatory = true, ValueFromPipelineByPropertyName = true, ParameterSetName = "SetExtensionUsingThumbprint", HelpMessage = "Extension Public Configuration.")]
         [ValidateNotNullOrEmpty]
-        public override DateTime Expiration
+        public override string PublicConfiguration
+        {
+            get;
+            set;
+        }
+
+
+        [Parameter(Position = 8, Mandatory = true, ValueFromPipelineByPropertyName = true, ParameterSetName = "SetExtension", HelpMessage = "Extension Private Configuration.")]
+        [Parameter(Position = 8, Mandatory = true, ValueFromPipelineByPropertyName = true, ParameterSetName = "SetExtensionUsingThumbprint", HelpMessage = "Extension Private Configuration.")]
+        [ValidateNotNullOrEmpty]
+        public override string PrivateConfiguration
         {
             get;
             set;
@@ -103,7 +121,6 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Extensions
             ValidateDeployment();
             ValidateRoles();
             ValidateThumbprint(true);
-            Expiration = Expiration.Equals(default(DateTime)) ? DateTime.Now.AddMonths(12) : Expiration;
             ValidateConfiguration();
         }
 

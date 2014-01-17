@@ -14,7 +14,6 @@
 
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Extensions
 {
-    using System.Collections.Generic;
     using System.Linq;
     using System.Management.Automation;
     using Management.Compute;
@@ -27,7 +26,6 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Extensions
     public class GetAzureServiceRemoteDesktopExtensionCommand : BaseAzureServiceRemoteDesktopExtensionCmdlet
     {
         [Parameter(Position = 0, ValueFromPipelineByPropertyName = true, HelpMessage = "Service Name")]
-        [ValidateNotNullOrEmpty]
         public override string ServiceName
         {
             get;

@@ -29,7 +29,6 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Extensions
     {
         [Parameter(Position = 0, ValueFromPipelineByPropertyName = true, ParameterSetName = "SetExtension", HelpMessage = "Cloud Service Name")]
         [Parameter(Position = 0, ValueFromPipelineByPropertyName = true, ParameterSetName = "SetExtensionUsingThumbprint", HelpMessage = "Cloud Service Name")]
-        [ValidateNotNullOrEmpty]
         public override string ServiceName
         {
             get;
