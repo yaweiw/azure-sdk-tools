@@ -68,12 +68,23 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
         }
 
         [Parameter(
-            Mandatory = true,
             Position = 3,
             ValueFromPipelineByPropertyName = true,
-            HelpMessage = "The File Path to Save the Config Template Text.")]
+            HelpMessage = "The File Path to Save the Private Config Template.")]
         [ValidateNotNullOrEmpty]
-        public string Path
+        public string PulicConfigPath
+        {
+            get;
+            set;
+        }
+
+        [Parameter(
+            Mandatory = true,
+            Position = 4,
+            ValueFromPipelineByPropertyName = true,
+            HelpMessage = "The File Path to Save the Private Config Template.")]
+        [ValidateNotNullOrEmpty]
+        public string PrivateConfigPath
         {
             get;
             set;
@@ -91,9 +102,14 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
                 (op, response) => GetVersionedExtensionImage(response, this.Version, out sampleConfig).Select(
                      extension => ContextFactory<VirtualMachineExtensionListResponse.ResourceExtension, VirtualMachineExtensionImageContext>(extension, op)));
 
-            if (!string.IsNullOrEmpty(this.Path))
+            if (!string.IsNullOrEmpty(this.PulicConfigPath))
             {
-                File.WriteAllText(this.Path, sampleConfig);
+                File.WriteAllText(this.PulicConfigPath, sampleConfig);
+            }
+
+            if (!string.IsNullOrEmpty(this.PrivateConfigPath))
+            {
+                File.WriteAllText(this.PrivateConfigPath, sampleConfig);
             }
         }
 
