@@ -187,7 +187,11 @@ namespace Microsoft.WindowsAzure.Commands.Websites
             // Get remote repos
             IList<string> remoteRepositories = GitClass.GetRemoteRepositories();
             string repositoryUri = website.GetProperty("RepositoryUri");
-            string uri = GitClass.GetUri(repositoryUri, website.Name, PublishingUsername);
+            string uri = GitClass.GetUri(
+                repositoryUri,
+                WebsitesClient.GetWebsiteNameFromFullName(website.Name),
+                PublishingUsername);
+
             string remoteName;
 
             if (string.IsNullOrEmpty(Slot))

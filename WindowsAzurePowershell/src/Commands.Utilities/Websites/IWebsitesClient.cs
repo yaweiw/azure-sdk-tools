@@ -399,6 +399,13 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
         /// <param name="name">The website name</param>
         /// <returns>The slot name</returns>
         string GetSlotName(string name);
+
+        /// <summary>
+        /// Gets the website name without slot part
+        /// </summary>
+        /// <param name="name">The website full name which may include slot name</param>
+        /// <returns>The website name</returns>
+        string GetWebsiteNameFromFullName(string name);
     }
 
     public enum WebsiteState
