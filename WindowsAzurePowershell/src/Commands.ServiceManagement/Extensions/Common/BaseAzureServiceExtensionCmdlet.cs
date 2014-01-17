@@ -285,7 +285,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Extensions
         {
             return new ExtensionContext
             {
-                OperationId = op.RequestId,
+                OperationId = op.Id,
                 OperationDescription = CommandRuntime.ToString(),
                 OperationStatus = op.Status.ToString(),
                 Extension = ext.Type,

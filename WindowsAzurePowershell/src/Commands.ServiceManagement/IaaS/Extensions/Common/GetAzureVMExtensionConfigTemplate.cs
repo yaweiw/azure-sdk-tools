@@ -26,7 +26,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
     /// <summary>
     /// Get Windows Azure VM Extension Image.
     /// </summary>
-    [Cmdlet(VerbsCommon.Get, AzureVMExtensionConfigTemplateCommandNoun), OutputType(typeof(VirtualMachineExtensionImageContext))]
+    [Cmdlet(VerbsCommon.Get, AzureVMExtensionConfigTemplateCommandNoun), OutputType(typeof(VirtualMachineExtensionConfigContext))]
     public class GetAzureVMExtensionConfigTemplateCommand : ServiceManagementBaseCmdlet
     {
         protected const string AzureVMExtensionConfigTemplateCommandNoun = "AzureVMExtensionConfigTemplate";
@@ -109,7 +109,17 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
                     }
                 },
                 (op, response) => GetVersionedExtensionImage(response, this.Version, out sampleConfig).Select(
-                     extension => ContextFactory<VirtualMachineExtensionListResponse.ResourceExtension, VirtualMachineExtensionImageContext>(extension, op)));
+                     extension => new VirtualMachineExtensionConfigContext
+                     {
+                         OperationDescription = CommandRuntime.ToString(),
+                         OperationStatus = op.Status.ToString(),
+                         OperationId = op.Id,
+                         ExtensionName = extension.Name,
+                         Publisher = extension.Publisher,
+                         Version = extension.Version,
+                         PublicConfiguration = sampleConfig,
+                         PrivateConfiguration = sampleConfig
+                     }));
 
             if (!string.IsNullOrEmpty(this.PublicConfigPath))
             {
