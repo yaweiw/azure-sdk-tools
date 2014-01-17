@@ -9283,7 +9283,7 @@
     <command:details>
       <command:name>Switch-AzureWebsiteSlot</command:name>
       <maml:description>
-        <maml:para>Switch the staging slot for the given website with the production slot</maml:para>
+        <maml:para>Swaps the production slot for a website with another slot. This works on websites with two slots only</maml:para>
       </maml:description>
       <maml:copyright>
         <maml:para />
@@ -9296,7 +9296,7 @@
     </command:details>
     <maml:description>
       <!--This is the Description section-->
-      <maml:para>Switch the staging slot for the given website with the production slot</maml:para>
+      <maml:para>Swaps the production slot for a website with another slot. This works on websites with two slots only</maml:para>
     </maml:description>
     <command:syntax>
       <command:syntaxItem>
@@ -9383,7 +9383,7 @@
         </maml:introduction>
         <dev:code>Switch-AzureWebsiteSlot -Name MyWebsite</dev:code>
         <dev:remarks>
-          <maml:para>Switch the azure website MyWebsite staging slot with production slot</maml:para>
+          <maml:para>Switch the azure website MyWebsite backup slot with production slot</maml:para>
           <maml:para></maml:para>
           <maml:para></maml:para>
           <maml:para>
