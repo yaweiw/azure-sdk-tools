@@ -46,8 +46,6 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Extensions
         protected XDocument PrivateConfigurationXmlTemplate { get; set; }
         protected XDocument PublicConfigurationXml { get; set; }
         protected XDocument PrivateConfigurationXml { get; set; }
-        protected string PublicConfiguration { get; set; }
-        protected string PrivateConfiguration { get; set; }
         protected DeploymentGetResponse Deployment { get; set; }
 
         public virtual string ServiceName { get; set; }
@@ -57,6 +55,10 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Extensions
         public virtual string CertificateThumbprint { get; set; }
         public virtual string ThumbprintAlgorithm { get; set; }
         public virtual SwitchParameter UninstallConfiguration { get; set; }
+        public virtual string PublicConfiguration { get; set; }
+        public virtual string PrivateConfiguration { get; set; }
+        public virtual string ProviderNamespace { get; set; }
+        public virtual string ExtensionName { get; set; }
 
         public BaseAzureServiceExtensionCmdlet()
             : base()
@@ -66,6 +68,8 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Extensions
 
         protected virtual void ValidateParameters()
         {
+            ExtensionNameSpace = ProviderNamespace;
+            ExtensionType = ExtensionName;
         }
 
         protected void ValidateService()

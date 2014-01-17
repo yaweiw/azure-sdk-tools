@@ -27,7 +27,6 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Extensions
     public class SetAzureServiceADDomainExtensionCommand : BaseAzureServiceADDomainExtensionCmdlet
     {
         [Parameter(Position = 0, ValueFromPipelineByPropertyName = true, HelpMessage = ExtensionParameterPropertyHelper.ServiceNameHelpMessage)]
-        [ValidateNotNullOrEmpty]
         public override string ServiceName
         {
             get;

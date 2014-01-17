@@ -19,10 +19,10 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Extensions
     using Utilities.Common;
 
     /// <summary>
-    /// Remove Windows Azure Service Diagnostics Extension.
+    /// Remove Windows Azure Service Extension.
     /// </summary>
-    [Cmdlet(VerbsCommon.Remove, "AzureServiceDiagnosticsExtension", DefaultParameterSetName = "RemoveByRoles"), OutputType(typeof(ManagementOperationContext))]
-    public class RemoveAzureServiceDiagnosticsExtensionCommand : BaseAzureServiceDiagnosticsExtensionCmdlet
+    [Cmdlet(VerbsCommon.Remove, "AzureServiceExtension", DefaultParameterSetName = "RemoveByRoles"), OutputType(typeof(ManagementOperationContext))]
+    public class RemoveAzureServiceExtensionCommand : BaseAzureServiceExtensionCmdlet
     {
         [Parameter(Position = 0, ValueFromPipelineByPropertyName = true, ParameterSetName = "RemoveByRoles", HelpMessage = "Cloud Service Name")]
         [Parameter(Position = 0, ValueFromPipelineByPropertyName = true, ParameterSetName = "RemoveAll", HelpMessage = "Cloud Service Name")]
@@ -48,7 +48,25 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Extensions
             set;
         }
 
-        [Parameter(Position = 2, Mandatory = true, ParameterSetName = "RemoveAll", HelpMessage = "If specified uninstall all Diagnostics configurations from the cloud service.")]
+        [Parameter(Position = 3, Mandatory = true, ValueFromPipelineByPropertyName = true, ParameterSetName = "RemoveByRoles", HelpMessage = "Extension Name")]
+        [Parameter(Position = 2, Mandatory = true, ValueFromPipelineByPropertyName = true, ParameterSetName = "RemoveAll", HelpMessage = "Extension Name")]
+        [ValidateNotNullOrEmptyAttribute]
+        public override string ExtensionName
+        {
+            get;
+            set;
+        }
+
+        [Parameter(Position = 4, Mandatory = true, ValueFromPipelineByPropertyName = true, ParameterSetName = "RemoveByRoles", HelpMessage = "Extension Provider Namespace")]
+        [Parameter(Position = 3, Mandatory = true, ValueFromPipelineByPropertyName = true, ParameterSetName = "RemoveAll", HelpMessage = "Extension Provider Namespace")]
+        [ValidateNotNullOrEmptyAttribute]
+        public override string ProviderNamespace
+        {
+            get;
+            set;
+        }
+
+        [Parameter(Position = 4, Mandatory = true, ParameterSetName = "RemoveAll", HelpMessage = "If specified uninstall all Diagnostics configurations from the cloud service.")]
         public override SwitchParameter UninstallConfiguration
         {
             get;

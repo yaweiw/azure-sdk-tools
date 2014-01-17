@@ -240,6 +240,10 @@
     <Compile Include="Extensions\Common\ExtensionParameterPropertyHelper.cs" />
     <Compile Include="Extensions\Common\ExtensionRoleType.cs" />
     <Compile Include="Extensions\Common\GetAzureServiceAvailableExtension.cs" />
+    <Compile Include="Extensions\Common\GetAzureServiceExtension.cs" />
+    <Compile Include="Extensions\Common\SetAzureServiceExtension.cs" />
+    <Compile Include="Extensions\Common\NewAzureServiceExtensionConfig.cs" />
+    <Compile Include="Extensions\Common\RemoveAzureServiceExtension.cs" />
     <Compile Include="IaaS\Extensions\Common\GetAzureVMExtensionConfigTemplate.cs" />
     <Compile Include="IaaS\Extensions\Common\GetAzureVMExtension.cs" />
     <Compile Include="IaaS\Extensions\Common\RemoveAzureVMExtension.cs" />

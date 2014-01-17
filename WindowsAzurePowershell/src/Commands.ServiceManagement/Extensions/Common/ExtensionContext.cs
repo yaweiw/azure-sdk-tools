@@ -22,5 +22,6 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Extensions
         public string Extension { get; set; }
         public string ProviderNameSpace { get; set; }
         public string Id { get; set; }
+        public string PublicConfiguration { get; set; }
     }
 }
