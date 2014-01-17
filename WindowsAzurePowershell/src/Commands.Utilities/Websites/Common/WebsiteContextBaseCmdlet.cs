@@ -55,5 +55,11 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites.Common
                 WriteExceptionError(ex);
             }
         }
+
+        protected override void EndProcessing()
+        {
+            base.EndProcessing();
+            Slot = null;
+        }
     }
 }
