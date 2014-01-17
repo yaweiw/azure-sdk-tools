@@ -58,10 +58,10 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement
         {
             Mapper.CreateMap<OperationStatusResponse, ExtensionImageContext>()
                   .ForMember(c => c.OperationId, o => o.MapFrom(r => r.Id))
-                  .ForMember(c => c.OperationStatus, o => o.MapFrom(r => r.Status.ToString()))
-                  .ForMember(c => c.Type, o => o.Ignore());
+                  .ForMember(c => c.OperationStatus, o => o.MapFrom(r => r.Status.ToString()));
 
-            Mapper.CreateMap<HostedServiceListAvailableExtensionsResponse.ExtensionImage, ExtensionImageContext>();
+            Mapper.CreateMap<HostedServiceListAvailableExtensionsResponse.ExtensionImage, ExtensionImageContext>()
+                  .ForMember(c => c.ExtensionName, o => o.MapFrom(r => r.Type));
 
             return Initialize();
         }
@@ -72,7 +72,20 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement
                   .ForMember(c => c.OperationId, o => o.MapFrom(r => r.Id))
                   .ForMember(c => c.OperationStatus, o => o.MapFrom(r => r.Status.ToString()));
 
-            Mapper.CreateMap<VirtualMachineExtensionListResponse.ResourceExtension, VirtualMachineExtensionImageContext>();
+            Mapper.CreateMap<VirtualMachineExtensionListResponse.ResourceExtension, VirtualMachineExtensionImageContext>()
+                  .ForMember(c => c.ExtensionName, o => o.MapFrom(r => r.Name));
+
+            return Initialize();
+        }
+
+        public static bool Initialize(GetAzureVMExtensionConfigTemplateCommand command)
+        {
+            Mapper.CreateMap<OperationStatusResponse, VirtualMachineExtensionImageContext>()
+                  .ForMember(c => c.OperationId, o => o.MapFrom(r => r.Id))
+                  .ForMember(c => c.OperationStatus, o => o.MapFrom(r => r.Status.ToString()));
+
+            Mapper.CreateMap<VirtualMachineExtensionListResponse.ResourceExtension, VirtualMachineExtensionImageContext>()
+                  .ForMember(c => c.ExtensionName, o => o.MapFrom(r => r.Name));
 
             return Initialize();
         }

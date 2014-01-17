@@ -18,13 +18,11 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
 
     public class VirtualMachineExtensionImageContext : ManagementOperationContext
     {
-        public string Description { get; set; }
-        public string Label { get; set; }
-        public string Name { get; set; }
-        public string PrivateConfigurationSchema { get; set; }
-        public string PublicConfigurationSchema { get; set; }
         public string Publisher { get; set; }
-        public string SampleConfig { get; set; }
+        public string ExtensionName { get; set; }
         public string Version { get; set; }
+        public string PublicConfigurationSchema { get; set; }
+        public string PrivateConfigurationSchema { get; set; }
+        public string SampleConfig { get; set; }
     }
 }
