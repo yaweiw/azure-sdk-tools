@@ -66,7 +66,7 @@ namespace Microsoft.WindowsAzure.Commands.Websites
                 string slot = WebsitesClient.GetSlotName(website.Name);
                 string remoteName = string.Empty;
 
-                if (!slot.Equals(WebsiteSlotName.Production.ToString(), StringComparison.OrdinalIgnoreCase))
+                if (!string.IsNullOrEmpty(slot) && !slot.Equals(WebsiteSlotName.Production.ToString(), StringComparison.OrdinalIgnoreCase))
                 {
                     remoteName = "-" + slot;
                 }
