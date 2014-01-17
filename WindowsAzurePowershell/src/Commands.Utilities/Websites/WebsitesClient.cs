@@ -397,7 +397,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
 
             if (website == null)
             {
-                throw new Exception(string.Format(Resources.InvalidWebsite, name));
+                throw new CloudException(string.Format(Resources.InvalidWebsite, name));
             }
 
             return website;

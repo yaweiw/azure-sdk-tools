@@ -49,7 +49,7 @@ namespace Microsoft.WindowsAzure.Commands.Websites
                             WebsitesClient.DeleteWebsite(websiteObject.WebSpace, Name, Slot);
                             Cache.RemoveSite(CurrentSubscription.SubscriptionId, websiteObject);
                         }
-                        catch
+                        catch (CloudException)
                         {
                             // Ignore exception the website slot was deleted when deleting the production.
                         }
