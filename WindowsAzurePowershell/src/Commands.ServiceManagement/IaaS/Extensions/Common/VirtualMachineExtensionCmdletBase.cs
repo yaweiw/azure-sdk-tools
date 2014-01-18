@@ -45,6 +45,39 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
         public virtual string PrivateConfiguration { get; set; }
         public virtual string State { get; set; }
 
+        protected static VirtualMachineExtensionImageContext[] LegacyExtensionImages;
+
+        static VirtualMachineExtensionCmdletBase()
+        {
+            LegacyExtensionImages = new VirtualMachineExtensionImageContext[2]
+            {
+                new VirtualMachineExtensionImageContext
+                {
+                    ExtensionName = "VMAccessAgent",
+                    Publisher = "Microsoft.Compute",
+                    Version = "0.1"
+                },
+            
+                new VirtualMachineExtensionImageContext
+                {
+                    ExtensionName = "DiagnosticsAgent",
+                    Publisher = "Microsoft.Compute",
+                    Version = "0.1"
+                }
+            };
+        }
+
+        protected bool IsLegacyExtension()
+        {
+            Func<string, string, bool> eq =
+                (x, y) => string.Equals(x, y, StringComparison.OrdinalIgnoreCase);
+
+            return LegacyExtensionImages == null ? false
+                 : LegacyExtensionImages.Any(r => eq(r.ExtensionName, ExtensionName)
+                                               && eq(r.Publisher, this.Publisher)
+                                               && eq(r.Version, this.Version));
+        }
+
         protected ResourceExtensionReferenceList ResourceExtensionReferences
         {
             get
@@ -151,7 +184,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
                     new ResourceExtensionParameterValue
                     {
                         Key = ExtensionName + "ConfigParameter",
-                        Type = null,
+                        Type = IsLegacyExtension() ? null : PublicTypeStr,
                         Value = PublicConfiguration
                     });
             }
@@ -162,7 +195,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
                     new ResourceExtensionParameterValue
                     {
                         Key = ExtensionName + "ConfigParameter",
-                        Type = PrivateTypeStr,
+                        Type = IsLegacyExtension() ? null : PrivateTypeStr,
                         Value = PrivateConfiguration
                     });
             }
