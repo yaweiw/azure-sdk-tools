@@ -389,6 +389,7 @@
     <Compile Include="Websites\ShowAzureWebsite.cs" />
     <Compile Include="Websites\StartAzureWebSite.cs" />
     <Compile Include="Websites\StopAzureWebSite.cs" />
+    <Compile Include="Websites\WebJobs\GetAzureWebsiteJob.cs" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Client.3.5">

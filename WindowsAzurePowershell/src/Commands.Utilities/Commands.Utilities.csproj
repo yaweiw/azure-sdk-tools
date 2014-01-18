@@ -652,6 +652,7 @@
     <Compile Include="Websites\Services\WebEntities\WebSpace.cs" />
     <Compile Include="Websites\Services\WebEntities\WebSystem.cs" />
     <Compile Include="Websites\Services\WebEntities\WebSystemSummary.cs" />
+    <Compile Include="Websites\Services\WebJob.cs" />
     <Compile Include="Websites\Services\WebsitesExtensionMethods.cs" />
     <Compile Include="Websites\Services\WebSitesManagementExtensionMethods.cs" />
     <Compile Include="Websites\UriElements.cs" />

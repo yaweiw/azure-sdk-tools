@@ -972,5 +972,22 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
 
             return null;
         }
+
+        #region WebJobs
+
+        /// <summary>
+        /// Filters the web jobs for a website.
+        /// </summary>
+        /// <param name="Name">The website name</param>
+        /// <param name="Slot">The website slot</param>
+        /// <param name="JobName">The web job name</param>
+        /// <param name="JobType">The web job type</param>
+        /// <returns>The filtered web jobs list</returns>
+        public List<WebJob> FilterWebJobs(string name, string slot, string jobName, string jobType)
+        {
+            throw new NotImplementedException();
+        }
+
+        #endregion
     }
 }
