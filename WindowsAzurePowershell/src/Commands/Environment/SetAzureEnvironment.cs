@@ -41,7 +41,8 @@ namespace Microsoft.WindowsAzure.Commands.Subscription
         public string StorageEndpoint { get; set; }
 
         [Parameter(Position = 5, Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "Active directory endpoint")]
-        public string AdEndpointUrl { get; set; }
+        [Alias("AdEndpointUrl")]
+        public string ActiveDirectoryEndpoint { get; set; }
 
         [PermissionSet(SecurityAction.Demand, Name = "FullTrust")]
         public override void ExecuteCmdlet()
@@ -53,7 +54,7 @@ namespace Microsoft.WindowsAzure.Commands.Subscription
                 env.ServiceEndpoint = Value(ServiceEndpoint, env.ServiceEndpoint);
                 env.ManagementPortalUrl = Value(ManagementPortalUrl, env.ManagementPortalUrl);
                 env.StorageEndpointSuffix = Value(StorageEndpoint, env.StorageEndpointSuffix);
-                env.ActiveDirectoryEndpoint = Value(AdEndpointUrl, env.ActiveDirectoryEndpoint);
+                env.ActiveDirectoryEndpoint = Value(ActiveDirectoryEndpoint, env.ActiveDirectoryEndpoint);
 
                 WindowsAzureProfile.Instance.UpdateEnvironment(env);
 
