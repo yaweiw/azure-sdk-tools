@@ -1850,6 +1850,15 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Singleton option works for continuous jobs only..
+        /// </summary>
+        public static string InvalidWebJobSingleton {
+            get {
+                return ResourceManager.GetString("InvalidWebJobSingleton", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The website {0} was not found. Please specify a valid website name..
         /// </summary>
         public static string InvalidWebsite {

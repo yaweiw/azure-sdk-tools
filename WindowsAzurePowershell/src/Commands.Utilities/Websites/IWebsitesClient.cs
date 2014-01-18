@@ -417,6 +417,18 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
         /// <param name="JobType">The web job type</param>
         /// <returns>The filtered web jobs list</returns>
         List<WebJob> FilterWebJobs(string name, string slot, string jobName, string jobType);
+
+        /// <summary>
+        /// Creates new web job for a website
+        /// </summary>
+        /// <param name="name">The website name</param>
+        /// <param name="slot">The website slot name</param>
+        /// <param name="jobName">The web job name</param>
+        /// <param name="jobType">The web job type</param>
+        /// <param name="jobFile">The web job file name</param>
+        /// <param name="singleton">True if you only want the job to run in 1 instance of the web site</param>
+        /// <returns>The created web job instance</returns>
+        WebJob CreateWebJob(string name, string slot, string jobName, WebJobType jobType, string jobFile, bool singleton);
     }
 
     public enum WebsiteState
