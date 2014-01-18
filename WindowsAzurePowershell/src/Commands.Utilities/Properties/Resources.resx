@@ -1464,4 +1464,7 @@ Please follow these steps in the portal:
   <data name="SwapWebsiteSlotWarning" xml:space="preserve">
     <value>Are you sure you want to swap the website production slot with slot '{0}'?</value>
   </data>
+  <data name="InvalidWebJobSingleton" xml:space="preserve">
+    <value>Singleton option works for continuous jobs only.</value>
+  </data>
 </root>

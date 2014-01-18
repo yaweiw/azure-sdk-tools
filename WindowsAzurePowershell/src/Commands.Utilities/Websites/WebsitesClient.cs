@@ -988,6 +988,25 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
             throw new NotImplementedException();
         }
 
+        /// <summary>
+        /// Creates new web job for a website
+        /// </summary>
+        /// <param name="name">The website name</param>
+        /// <param name="slot">The website slot name</param>
+        /// <param name="jobName">The web job name</param>
+        /// <param name="jobType">The web job type</param>
+        /// <param name="jobFile">The web job file name</param>
+        /// <param name="singleton">True if you only want the job to run in 1 instance of the web site</param>
+        public WebJob CreateWebJob(string name, string slot, string jobName, WebJobType jobType, string jobFile, bool singleton)
+        {
+            if (jobType == WebJobType.Triggered && singleton)
+            {
+                throw new InvalidOperationException(Resources.InvalidWebJobSingleton);
+            }
+
+            throw new NotImplementedException();
+        }
+
         #endregion
     }
 }

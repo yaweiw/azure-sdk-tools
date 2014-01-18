@@ -15,19 +15,13 @@
 namespace Microsoft.WindowsAzure.Commands.Test.Websites
 {
     using System.Collections.Generic;
-    using System.Linq;
     using System.Management.Automation;
-    using Commands.Utilities.Common;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
-    using Utilities.Common;
-    using Utilities.Websites;
     using Commands.Utilities.Websites;
-    using Commands.Utilities.Websites.Services.DeploymentEntities;
-    using Commands.Utilities.Websites.Services.WebEntities;
-    using Commands.Websites;
-    using Moq;
-using Microsoft.WindowsAzure.Commands.Websites.WebJobs;
+    using Microsoft.VisualStudio.TestTools.UnitTesting;
     using Microsoft.WindowsAzure.Commands.Utilities.Websites.Services;
+    using Microsoft.WindowsAzure.Commands.Websites.WebJobs;
+    using Moq;
+    using Utilities.Websites;
 
     [TestClass]
     public class GetAzureWebsiteJobTests : WebsitesTestBase
