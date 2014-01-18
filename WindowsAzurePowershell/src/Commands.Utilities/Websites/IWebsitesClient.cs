@@ -15,6 +15,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
 {
     using System;
     using System.Collections.Generic;
+    using Microsoft.WindowsAzure.Commands.Utilities.Websites.Services;
     using Services.DeploymentEntities;
     using Services.WebEntities;
 
@@ -406,6 +407,16 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
         /// <param name="name">The website full name which may include slot name</param>
         /// <returns>The website name</returns>
         string GetWebsiteNameFromFullName(string name);
+
+        /// <summary>
+        /// Filters the web jobs for a website.
+        /// </summary>
+        /// <param name="Name">The website name</param>
+        /// <param name="Slot">The website slot</param>
+        /// <param name="JobName">The web job name</param>
+        /// <param name="JobType">The web job type</param>
+        /// <returns>The filtered web jobs list</returns>
+        List<WebJob> FilterWebJobs(string name, string slot, string jobName, string jobType);
     }
 
     public enum WebsiteState
@@ -436,5 +447,11 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
     {
         Production,
         Staging
+    }
+
+    public enum WebJobType
+    {
+        Triggered,
+        Continuous
     }
 }
