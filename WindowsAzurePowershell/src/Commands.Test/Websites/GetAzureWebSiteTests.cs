@@ -76,6 +76,12 @@ namespace Microsoft.WindowsAzure.Commands.Test.Websites
                     WebSpace = "webspace1"
                 }});
 
+            clientMock.Setup(c => c.GetWebsiteConfiguration(It.IsAny<string>()))
+                .Returns(new SiteConfig
+                {
+                    PublishingUsername = "user1"
+                }
+                );
             clientMock.Setup(c => c.GetWebsiteConfiguration(It.IsAny<string>(), null))
                 .Returns(new SiteConfig {
                     PublishingUsername = "user1"}
@@ -94,8 +100,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.Websites
             getAzureWebsiteCommand.ExecuteCmdlet();
             Assert.AreEqual(1, ((MockCommandRuntime)getAzureWebsiteCommand.CommandRuntime).OutputPipeline.Count);
 
-            Sites websites = ((MockCommandRuntime) getAzureWebsiteCommand.CommandRuntime).OutputPipeline[0] as Sites;
-            var website = websites[0];
+            SiteWithConfig website = ((MockCommandRuntime)getAzureWebsiteCommand.CommandRuntime).OutputPipeline[0] as SiteWithConfig;
             Assert.IsNotNull(website);
             Assert.IsNotNull(website);
             Assert.AreEqual("website1", website.Name);
@@ -113,8 +118,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.Websites
             getAzureWebsiteCommand.ExecuteCmdlet();
             Assert.AreEqual(1, ((MockCommandRuntime)getAzureWebsiteCommand.CommandRuntime).OutputPipeline.Count);
 
-            websites = ((MockCommandRuntime)getAzureWebsiteCommand.CommandRuntime).OutputPipeline[0] as Sites;
-            website = websites[0];
+            website = ((MockCommandRuntime)getAzureWebsiteCommand.CommandRuntime).OutputPipeline[0] as SiteWithConfig;
             Assert.IsNotNull(website);
             Assert.IsNotNull(website);
             Assert.AreEqual("website1", website.Name);
@@ -147,6 +151,8 @@ namespace Microsoft.WindowsAzure.Commands.Test.Websites
                     Name = "website1", WebSpace = "webspace1", State = "Running"
                 });
 
+            websitesClientMock.Setup(c => c.GetWebsiteConfiguration(It.IsAny<string>()))
+                .Returns(new SiteConfig { PublishingUsername = "user1" });
             websitesClientMock.Setup(c => c.GetWebsiteConfiguration(It.IsAny<string>(), slot))
                 .Returns(new SiteConfig {PublishingUsername = "user1"});
 
@@ -164,7 +170,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.Websites
 
             // Assert
             Assert.AreEqual(1, ((MockCommandRuntime)getAzureWebsiteCommand.CommandRuntime).OutputPipeline.Count);
-            websitesClientMock.Verify(f => f.GetApplicationDiagnosticsSettings("website1", slot), Times.Once());
+            websitesClientMock.Verify(f => f.GetApplicationDiagnosticsSettings("website1"), Times.Once());
         }
 
         [TestMethod]
@@ -180,6 +186,11 @@ namespace Microsoft.WindowsAzure.Commands.Test.Websites
                     WebSpace = "webspace1"
                 });
 
+            clientMock.Setup(c => c.GetWebsiteConfiguration(It.IsAny<string>()))
+                .Returns(new SiteConfig
+                {
+                    PublishingUsername = "user1"
+                });
             clientMock.Setup(c => c.GetWebsiteConfiguration(It.IsAny<string>(), slot))
                 .Returns(new SiteConfig
                 {
