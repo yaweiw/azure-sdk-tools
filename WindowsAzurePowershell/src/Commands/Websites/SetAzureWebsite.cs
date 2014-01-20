@@ -20,7 +20,8 @@ namespace Microsoft.WindowsAzure.Commands.Websites
     using Utilities.Websites.Common;
     using Utilities.Websites.Services.WebEntities;
     using Utilities.Common;
-using Microsoft.WindowsAzure.Management.WebSites.Models;
+    using Microsoft.WindowsAzure.Management.WebSites.Models;
+    using Microsoft.WindowsAzure.Commands.Utilities.Websites;
 
     /// <summary>
     /// Sets an azure website properties.
@@ -102,8 +103,8 @@ using Microsoft.WindowsAzure.Management.WebSites.Models;
 
         private void GetCurrentSiteState()
         {
-            website = WebsitesClient.GetWebsite(Name);
-            currentSiteConfig = WebsitesClient.GetWebsiteConfiguration(Name);
+            website = WebsitesClient.GetWebsite(Name, Slot);
+            currentSiteConfig = WebsitesClient.GetWebsiteConfiguration(Name, Slot);
         }
 
         private void UpdateConfig()
@@ -120,7 +121,7 @@ using Microsoft.WindowsAzure.Management.WebSites.Models;
 
             if (changes)
             {
-                WebsitesClient.UpdateWebsiteConfiguration(Name, websiteConfigUpdate.GetSiteConfig());
+                WebsitesClient.UpdateWebsiteConfiguration(Name, websiteConfigUpdate.GetSiteConfig(), Slot);
             }
         }
 
@@ -131,7 +132,7 @@ using Microsoft.WindowsAzure.Management.WebSites.Models;
                 string suffix = WebsitesClient.GetWebsiteDnsSuffix(); 
                 var newHostNames = new List<string> { string.Format("{0}.{1}", Name, suffix) };
                 newHostNames.AddRange(HostNames);
-                WebsitesClient.UpdateWebsiteHostNames(website, newHostNames);
+                WebsitesClient.UpdateWebsiteHostNames(website, newHostNames, Slot);
             }
             
         }

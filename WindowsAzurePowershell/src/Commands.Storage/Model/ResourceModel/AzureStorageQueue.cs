@@ -14,11 +14,8 @@
 
 namespace Microsoft.WindowsAzure.Commands.Storage.Model.ResourceModel
 {
-    using Microsoft.WindowsAzure.Storage.Queue;
     using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
+    using Microsoft.WindowsAzure.Storage.Queue;
 
     /// <summary>
     /// Azure storage queue

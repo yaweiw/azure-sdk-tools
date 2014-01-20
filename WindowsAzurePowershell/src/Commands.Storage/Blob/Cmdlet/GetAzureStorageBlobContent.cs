@@ -159,7 +159,7 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Blob.Cmdlet
             }
 
             CloudBlobContainer container = Channel.GetContainerReference(containerName);
-            BlobRequestOptions requestOptions = null;
+            BlobRequestOptions requestOptions = RequestOptions;
             AccessCondition accessCondition = null;
 
             ICloudBlob blob = Channel.GetBlobReferenceFromServer(container, blobName, accessCondition, requestOptions, OperationContext);
@@ -190,7 +190,7 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Blob.Cmdlet
 
             ValidatePipelineCloudBlobContainer(container);
             AccessCondition accessCondition = null;
-            BlobRequestOptions requestOptions = null;
+            BlobRequestOptions requestOptions = RequestOptions;
             ICloudBlob blob = Channel.GetBlobReferenceFromServer(container, blobName, accessCondition, requestOptions, OperationContext);
             
             if (null == blob)
@@ -247,7 +247,7 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Blob.Cmdlet
             }
 
             AccessCondition accessCondition = null;
-            BlobRequestOptions requestOptions = null;
+            BlobRequestOptions requestOptions = RequestOptions;
 
             try
             {

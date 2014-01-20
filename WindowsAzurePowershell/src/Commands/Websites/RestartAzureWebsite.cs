@@ -26,7 +26,7 @@ namespace Microsoft.WindowsAzure.Commands.Websites
 
         public override void ExecuteCmdlet()
         {
-            WebsitesClient.RestartAzureWebsite(Name);
+            WebsitesClient.RestartWebsite(Name, Slot);
 
             if (PassThru.IsPresent)
             {
