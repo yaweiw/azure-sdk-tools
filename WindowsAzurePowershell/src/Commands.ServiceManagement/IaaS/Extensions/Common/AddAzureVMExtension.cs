@@ -22,11 +22,13 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
     [Cmdlet(
         VerbsCommon.Add,
         VirtualMachineExtensionNoun,
-        DefaultParameterSetName = ExtensionParamSetName),
+        DefaultParameterSetName = AddExtensionParamSetName),
     OutputType(
         typeof(IPersistentVM))]
     public class AddAzureVMExtensionCommand : VirtualMachineExtensionCmdletBase
     {
+        protected const string AddExtensionParamSetName = "AddExtension";
+
         [Parameter(
             Mandatory = true,
             Position = 1,
@@ -52,7 +54,6 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
         }
 
         [Parameter(
-            Mandatory = true,
             Position = 3,
             ValueFromPipelineByPropertyName = true,
             HelpMessage = "The Extension Version.")]
@@ -99,12 +100,8 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
         [Parameter(
             Position = 7,
             ValueFromPipelineByPropertyName = true,
-            HelpMessage = "The Extension State, 'Enable' or 'Disable'.")]
-        [ValidateSet(
-            "Enable",
-            "Disable")]
-        [ValidateNotNullOrEmpty]
-        public override string State
+            HelpMessage = "To Set the Extension State to 'Disable'.")]
+        public override SwitchParameter Disable
         {
             get;
             set;

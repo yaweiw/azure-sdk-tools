@@ -28,6 +28,9 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
         typeof(VirtualMachineExtensionContext))]
     public class GetAzureVMExtensionCommand : VirtualMachineExtensionCmdletBase
     {
+        protected const string ListByExtensionParamSetName = "ListByExtensionName";
+        protected const string ListByReferenceParamSetName = "ListByReferenceName";
+
         [Parameter(
             ParameterSetName = ListByExtensionParamSetName,
             Mandatory = true,

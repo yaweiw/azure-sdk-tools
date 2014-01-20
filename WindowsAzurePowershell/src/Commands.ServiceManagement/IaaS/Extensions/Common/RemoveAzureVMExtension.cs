@@ -29,6 +29,10 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
         typeof(IPersistentVM))]
     public class RemoveAzureVMExtensionCommand : VirtualMachineExtensionCmdletBase
     {
+        protected const string RemoveByExtensionParamSetName = "RemoveByExtensionName";
+        protected const string RemoveByReferenceParamSetName = "RemoveByReferenceName";
+        protected const string RemoveAllParamSetName = "RemoveAll";
+
         [Parameter(
             ParameterSetName = RemoveByExtensionParamSetName,
             Mandatory = true,

@@ -17,6 +17,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using System.Management.Automation;
     using Model.PersistentVMModel;
     using Properties;
 
@@ -24,18 +25,13 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
     {
         protected const string VirtualMachineExtensionNoun = "AzureVMExtension";
 
-        protected const string ListByExtensionParamSetName = "ListByExtensionName";
-        protected const string ListByReferenceParamSetName = "ListByReferenceName";
-        protected const string RemoveByExtensionParamSetName = "RemoveByExtensionName";
-        protected const string RemoveByReferenceParamSetName = "RemoveByReferenceName";
-        protected const string RemoveAllParamSetName = "RemoveAll";
-        protected const string ExtensionParamSetName = "Extension";
-
         protected const string ExtensionReferenceNameFormat = "{0}-{1}-{2}";
         protected const string PublicConfigurationKeyStr = "PublicConfiguration";
         protected const string PrivateConfigurationKeyStr = "PrivateConfiguration";
         protected const string PublicTypeStr = "Public";
         protected const string PrivateTypeStr = "Private";
+        protected const string ReferenceDisableStr = "Disable";
+        protected const string ReferenceEnableStr = "Enable";
 
         public virtual string ExtensionName { get; set; }
         public virtual string Publisher { get; set; }
@@ -43,7 +39,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
         public virtual string ReferenceName { get; set; }
         public virtual string PublicConfiguration { get; set; }
         public virtual string PrivateConfiguration { get; set; }
-        public virtual string State { get; set; }
+        public virtual SwitchParameter Disable { get; set; }
 
         protected static VirtualMachineExtensionImageContext[] LegacyExtensionImages;
 
@@ -162,7 +158,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
             extensionRef.Name = this.ExtensionName;
             extensionRef.Publisher = this.Publisher;
             extensionRef.Version = this.Version;
-            extensionRef.State = this.State;
+            extensionRef.State = IsLegacyExtension() ? null : this.Disable.IsPresent ? ReferenceDisableStr : ReferenceEnableStr;
             extensionRef.ResourceExtensionParameterValues = new ResourceExtensionParameterValueList();
 
             if (!string.IsNullOrEmpty(this.ReferenceName))
