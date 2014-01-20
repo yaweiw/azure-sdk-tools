@@ -14,6 +14,7 @@
 
 namespace Microsoft.WindowsAzure.Commands.Websites
 {
+    using System.Collections.Generic;
     using System.Management.Automation;
     using Microsoft.WindowsAzure.Commands.Utilities.Websites;
     using Utilities.Properties;
@@ -22,15 +23,57 @@ namespace Microsoft.WindowsAzure.Commands.Websites
     using Utilities.Websites.Services.WebEntities;
 
     /// <summary>
-    /// Removes an azure website.
+    /// Switches the existing slot with the production one.
     /// </summary>
-    [Cmdlet(VerbsCommon.Switch, "AzureWebsiteSlot", SupportsShouldProcess = true), OutputType(typeof(Site))]
-    public class SwitchAzureWebsiteSlotCommand : WebsiteContextBaseCmdlet
+    [Cmdlet(VerbsCommon.Switch, "AzureWebsiteSlot", SupportsShouldProcess = true)]
+    public class SwitchAzureWebsiteSlotCommand : WebsiteBaseCmdlet
     {
+        [Parameter(Position = 0, Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "The web site name.")]
+        [ValidateNotNullOrEmpty]
+        public string Name { get; set; }
+
+        [Parameter(Mandatory = false, HelpMessage = "Do not confirm web site swap")]
+        public SwitchParameter Force { get; set; }
+
         public override void ExecuteCmdlet()
         {
-            Site websiteObject = WebsitesClient.GetWebsite(Name);
-            WebsitesClient.SwitchSlot(websiteObject.WebSpace, Name, WebsiteSlotName.Staging.ToString());
+            if (string.IsNullOrEmpty(Name))
+            {
+                // If the website name was not specified as a parameter try to infer it
+                Name = GitWebsite.ReadConfiguration().Name;
+            }
+
+            List<Site> sites = WebsitesClient.GetWebsiteSlots(Name);
+            string slotName = null;
+            string webspace = null;
+
+            if (sites.Count != 2)
+            {
+                throw new PSInvalidOperationException("The website must have exactly two slots to apply swap");
+            }
+            else
+            {
+                foreach (Site website in sites)
+                {
+                    string currentSlotName = WebsitesClient.GetSlotName(website.Name);
+                    if (!currentSlotName.Equals(WebsiteSlotName.Production.ToString(), System.StringComparison.OrdinalIgnoreCase))
+                    {
+                        slotName = currentSlotName;
+                        webspace = website.WebSpace;
+                        break;
+                    }
+                }
+            }
+
+            ConfirmAction(
+                Force.IsPresent,
+                string.Format(Resources.SwapWebsiteSlotWarning, slotName),
+                Resources.SwappingWebsite,
+                Name,
+                () =>
+                {
+                    WebsitesClient.SwitchSlot(webspace, Name, slotName);
+                }); 
         }
     }
 }
