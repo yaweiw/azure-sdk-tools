@@ -14,18 +14,13 @@
 
 namespace Microsoft.WindowsAzure.Commands.Storage.Table.Cmdlet
 {
+    using System;
+    using System.Management.Automation;
+    using System.Security.Permissions;
     using Microsoft.WindowsAzure.Commands.Storage.Common;
     using Microsoft.WindowsAzure.Commands.Storage.Model.Contract;
     using Microsoft.WindowsAzure.Commands.Storage.Table;
-    using Microsoft.WindowsAzure.Storage;
-    using Microsoft.WindowsAzure.Storage.Blob;
     using Microsoft.WindowsAzure.Storage.Table;
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Management.Automation;
-    using System.Security.Permissions;
-    using System.Text;
 
     [Cmdlet(VerbsCommon.New, StorageNouns.TableSas), OutputType(typeof(String))]
     public class NewAzureStorageTableSasTokenCommand : StorageCloudTableCmdletBase
@@ -54,6 +49,7 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Table.Cmdlet
             get { return accessPolicyIdentifier; }
             set { accessPolicyIdentifier = value; }
         }
+
         private string accessPolicyIdentifier;
 
         [Parameter(HelpMessage = "Permissions for a container. Permissions can be any not-empty subset of \"audq\".",
@@ -81,6 +77,11 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Table.Cmdlet
         [Alias("endrk")]
         [Parameter(HelpMessage = "End Row Key")]
         public string EndRowKey { get; set; }
+
+        // Override the useless parameters
+        public override int? ServerTimeoutPerRequest { get; set; }
+
+        public override int? ClientTimeoutPerRequest { get; set; }
 
         /// <summary>
         /// Initializes a new instance of the NewAzureStorageTableSasCommand class.
@@ -165,7 +166,7 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Table.Cmdlet
         /// Set up access policy permission
         /// </summary>
         /// <param name="policy">SharedAccessBlobPolicy object</param>
-        /// <param name="permission">Permisson</param>
+        /// <param name="permission">Permission</param>
         internal void SetupAccessPolicyPermission(SharedAccessTablePolicy policy, string permission)
         {
             if (string.IsNullOrEmpty(permission)) return;

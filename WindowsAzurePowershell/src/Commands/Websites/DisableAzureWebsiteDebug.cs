@@ -32,14 +32,14 @@ namespace Microsoft.WindowsAzure.Commands.Websites
         public override void ExecuteCmdlet()
         {
             // Get current config
-            website = WebsitesClient.GetWebsite(Name);
-            siteConfig = WebsitesClient.GetWebsiteConfiguration(Name);
+            website = WebsitesClient.GetWebsite(Name, Slot);
+            siteConfig = WebsitesClient.GetWebsiteConfiguration(Name, Slot);
 
             // Update the configuration
             if (siteConfig.RemoteDebuggingEnabled.Value)
             {
                 siteConfig.RemoteDebuggingEnabled = false;
-                WebsitesClient.UpdateWebsiteConfiguration(Name, siteConfig);
+                WebsitesClient.UpdateWebsiteConfiguration(Name, siteConfig, Slot);
             }
 
             if (PassThru.IsPresent)
