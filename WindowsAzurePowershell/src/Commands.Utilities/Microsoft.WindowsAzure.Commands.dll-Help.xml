@@ -614,6 +614,13 @@
           </maml:description>
           <command:parameterValue required="true" variableLength = "false" >String</command:parameterValue>
         </command:parameter>
+        <command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "true (ByPropertyName)" position = "named" >
+          <maml:name>CloudServiceEndpoint</maml:name>
+          <maml:description>
+            <maml:para>The cloud service endpoint</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength = "false" >String</command:parameterValue>
+        </command:parameter>
       </command:syntaxItem>
       </command:syntax>
     <command:parameters>
@@ -763,6 +770,13 @@
           <maml:name>ServiceEndpoint</maml:name>
           <maml:description>
             <maml:para>The service endpoint</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength = "false" >String</command:parameterValue>
+        </command:parameter>
+        <command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "true (ByPropertyName)" position = "named" >
+          <maml:name>CloudServiceEndpoint</maml:name>
+          <maml:description>
+            <maml:para>The cloud service endpoint</maml:para>
           </maml:description>
           <command:parameterValue required="true" variableLength = "false" >String</command:parameterValue>
         </command:parameter>

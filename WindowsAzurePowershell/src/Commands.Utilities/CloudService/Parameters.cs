@@ -34,6 +34,8 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService
 
         public const string ServiceEndpoint = "ServiceEndpoint";
 
+        public const string CloudServiceEndpoint = "CloudServiceEndpoint";
+
         public const string PublishSettingsFileUrl = "PublishSettingsFileUrl";
     }
 }

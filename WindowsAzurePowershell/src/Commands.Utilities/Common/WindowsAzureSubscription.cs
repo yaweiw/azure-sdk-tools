@@ -37,6 +37,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
         public string SubscriptionName { get; set; }
         public string SubscriptionId { get; set; }
         public Uri ServiceEndpoint { get; set; }
+        public Uri CloudServiceEndpoint { get; set; }
 
         public string ActiveDirectoryEndpoint { get; set; }
         public string ActiveDirectoryTenantId { get; set; }
@@ -148,6 +149,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
             // And overwrite the rest
             SubscriptionId = newSubscription.SubscriptionId;
             ServiceEndpoint = newSubscription.ServiceEndpoint;
+            CloudServiceEndpoint = newSubscription.CloudServiceEndpoint;
             SubscriptionName = newSubscription.SubscriptionName;
         }
 
@@ -170,6 +172,35 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
             // Dispose the client because the WithHandler call will create a
             // new instance that we'll be using with our commands
             using (var client = (TClient)constructor.Invoke(new object[] { credential, ServiceEndpoint }))
+            {
+                // Set the UserAgent
+                client.UserAgent.Add(ApiConstants.UserAgentValue);
+
+                // Add the logging handler
+                var withHandlerMethod = typeof(TClient).GetMethod("WithHandler", new[] { typeof(DelegatingHandler) });
+                return (TClient)withHandlerMethod.Invoke(client, new object[] { new HttpRestCallLogger() });
+            }
+        }
+
+        /// <summary>
+        /// Create a service management client for this subscription,
+        /// with appropriate credentials supplied.
+        /// </summary>
+        /// <typeparam name="TClient">Type of client to create, must be derived from <see cref="ServiceClient{T}"/></typeparam>
+        /// <returns>The service client instance</returns>
+        public TClient CreateCloudServiceClient<TClient>() where TClient : ServiceClient<TClient>
+        {
+            var credential = CreateCredentials();
+            RegisterRequiredResourceProviders<TClient>(credential);
+            var constructor = typeof(TClient).GetConstructor(new[] { typeof(SubscriptionCloudCredentials), typeof(Uri) });
+            if (constructor == null)
+            {
+                throw new InvalidOperationException(string.Format(Resources.InvalidManagementClientType, typeof(TClient).Name));
+            }
+
+            // Dispose the client because the WithHandler call will create a
+            // new instance that we'll be using with our commands
+            using (var client = (TClient)constructor.Invoke(new object[] { credential, CloudServiceEndpoint }))
             {
                 // Set the UserAgent
                 client.UserAgent.Add(ApiConstants.UserAgentValue);
