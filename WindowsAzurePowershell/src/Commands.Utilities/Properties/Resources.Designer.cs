@@ -2974,6 +2974,24 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Removing WebJob....
+        /// </summary>
+        public static string RemoveWebJobMessage {
+            get {
+                return ResourceManager.GetString("RemoveWebJobMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Are you sure you want to remove job &apos;{0}&apos;?.
+        /// </summary>
+        public static string RemoveWebJobWarning {
+            get {
+                return ResourceManager.GetString("RemoveWebJobWarning", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Removing website.
         /// </summary>
         public static string RemoveWebsiteMessage {
