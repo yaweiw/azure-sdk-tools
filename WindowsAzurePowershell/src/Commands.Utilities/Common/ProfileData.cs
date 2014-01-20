@@ -64,6 +64,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
             Name = inMemoryEnvironment.Name;
             PublishSettingsFileUrl = inMemoryEnvironment.PublishSettingsFileUrl;
             ServiceEndpoint = inMemoryEnvironment.ServiceEndpoint;
+            CloudServiceEndpoint = inMemoryEnvironment.CloudServiceEndpoint;
             ManagementPortalUrl = inMemoryEnvironment.ManagementPortalUrl;
             StorageEndpointSuffix = inMemoryEnvironment.StorageEndpointSuffix;
             AdTenantUrl = inMemoryEnvironment.ActiveDirectoryEndpoint;
@@ -80,6 +81,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
                 Name = this.Name,
                 PublishSettingsFileUrl = this.PublishSettingsFileUrl,
                 ServiceEndpoint = this.ServiceEndpoint,
+                CloudServiceEndpoint = this.CloudServiceEndpoint,
                 ManagementPortalUrl = this.ManagementPortalUrl,
                 StorageEndpointSuffix = this.StorageEndpointSuffix,
                 ActiveDirectoryEndpoint = this.AdTenantUrl,
@@ -95,6 +97,9 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
 
         [DataMember]
         public string ServiceEndpoint { get; set; }
+
+        [DataMember]
+        public string CloudServiceEndpoint { get; set; }
 
         [DataMember]
         public string ManagementPortalUrl { get; set; }
@@ -133,6 +138,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
             Name = inMemorySubscription.SubscriptionName;
             SubscriptionId = inMemorySubscription.SubscriptionId;
             ManagementEndpoint = inMemorySubscription.ServiceEndpoint.ToString();
+            CloudServiceEndpoint = inMemorySubscription.CloudServiceEndpoint.ToString();
             ActiveDirectoryEndpoint = inMemorySubscription.ActiveDirectoryEndpoint;
             ActiveDirectoryTenantId = inMemorySubscription.ActiveDirectoryTenantId;
             ActiveDirectoryUserId = inMemorySubscription.ActiveDirectoryUserId;
@@ -153,6 +159,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
                 SubscriptionName = this.Name,
                 SubscriptionId = this.SubscriptionId,
                 ServiceEndpoint = new Uri(ManagementEndpoint),
+                CloudServiceEndpoint = new Uri(CloudServiceEndpoint),
                 ActiveDirectoryEndpoint = ActiveDirectoryEndpoint,
                 ActiveDirectoryTenantId = ActiveDirectoryTenantId,
                 ActiveDirectoryUserId = ActiveDirectoryUserId,
@@ -176,6 +183,9 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
 
         [DataMember]
         public string ManagementEndpoint { get; set; }
+
+        [DataMember]
+        public string CloudServiceEndpoint { get; set; }
 
         [DataMember]
         public string ActiveDirectoryEndpoint { get; set; }

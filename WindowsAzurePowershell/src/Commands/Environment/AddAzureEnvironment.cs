@@ -43,6 +43,9 @@ namespace Microsoft.WindowsAzure.Commands.Subscription
         [Parameter(Position = 5, Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "The URI for the Active Directory service for this environment")]
         public string ActiveDirectoryEndpoint { get; set; }
 
+        [Parameter(Position = 7, Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "The cloud service endpoint")]
+        public string CloudServiceEndpoint { get; set; }
+
         [PermissionSet(SecurityAction.Demand, Name = "FullTrust")]
         public override void ExecuteCmdlet()
         {
@@ -51,6 +54,7 @@ namespace Microsoft.WindowsAzure.Commands.Subscription
                 Name = Name,
                 PublishSettingsFileUrl = PublishSettingsFileUrl,
                 ServiceEndpoint = ServiceEndpoint,
+                CloudServiceEndpoint = CloudServiceEndpoint,
                 ManagementPortalUrl = ManagementPortalUrl,
                 StorageEndpointSuffix = StorageEndpoint,
                 ActiveDirectoryEndpoint = ActiveDirectoryEndpoint,

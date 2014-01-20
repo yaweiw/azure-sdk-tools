@@ -40,6 +40,7 @@ namespace Microsoft.WindowsAzure.Commands.Subscription
                     null,
                     Parameters.EnvironmentName, e.Name,
                     Parameters.ServiceEndpoint, e.ServiceEndpoint,
+                    Parameters.CloudServiceEndpoint, e.CloudServiceEndpoint,
                     Parameters.PublishSettingsFileUrl, e.PublishSettingsFileUrl)));
 
                 WriteObject(output, true);
