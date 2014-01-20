@@ -24,13 +24,16 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
     [Cmdlet(
         VerbsCommon.Set,
         VirtualMachineExtensionNoun,
-        DefaultParameterSetName = ListByExtensionParamSetName),
+        DefaultParameterSetName = SetByExtensionParamSetName),
     OutputType(
         typeof(IPersistentVM))]
     public class SetAzureVMExtensionCommand : VirtualMachineExtensionCmdletBase
     {
+        protected const string SetByExtensionParamSetName = "SetByExtensionName";
+        protected const string SetByReferenceParamSetName = "SetByReferenceName";
+
         [Parameter(
-            ParameterSetName = ListByExtensionParamSetName,
+            ParameterSetName = SetByExtensionParamSetName,
             Mandatory = true,
             Position = 1,
             ValueFromPipelineByPropertyName = true,
@@ -43,7 +46,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
         }
 
         [Parameter(
-            ParameterSetName = ListByExtensionParamSetName,
+            ParameterSetName = SetByExtensionParamSetName,
             Mandatory = true,
             Position = 2,
             ValueFromPipelineByPropertyName = true,
@@ -56,7 +59,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
         }
 
         [Parameter(
-            ParameterSetName = ListByExtensionParamSetName,
+            ParameterSetName = SetByExtensionParamSetName,
             Mandatory = true,
             Position = 3,
             ValueFromPipelineByPropertyName = true,
@@ -69,12 +72,12 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
         }
 
         [Parameter(
-            ParameterSetName = ListByExtensionParamSetName,
+            ParameterSetName = SetByExtensionParamSetName,
             Position = 4,
             ValueFromPipelineByPropertyName = true,
             HelpMessage = "The Extension Reference Name.")]
         [Parameter(
-            ParameterSetName = ListByReferenceParamSetName,
+            ParameterSetName = SetByReferenceParamSetName,
             Mandatory = true,
             Position = 1,
             ValueFromPipelineByPropertyName = true,
@@ -87,12 +90,12 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
         }
 
         [Parameter(
-            ParameterSetName = ListByExtensionParamSetName,
+            ParameterSetName = SetByExtensionParamSetName,
             Position = 5,
             ValueFromPipelineByPropertyName = true,
             HelpMessage = "The Extension Public Configuration.")]
         [Parameter(
-            ParameterSetName = ListByReferenceParamSetName,
+            ParameterSetName = SetByReferenceParamSetName,
             Position = 2,
             ValueFromPipelineByPropertyName = true,
             HelpMessage = "The Extension Public Configuration.")]
@@ -104,12 +107,12 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
         }
 
         [Parameter(
-            ParameterSetName = ListByExtensionParamSetName,
+            ParameterSetName = SetByExtensionParamSetName,
             Position = 6,
             ValueFromPipelineByPropertyName = true,
             HelpMessage = "The Extension Private Configuration.")]
         [Parameter(
-            ParameterSetName = ListByReferenceParamSetName,
+            ParameterSetName = SetByReferenceParamSetName,
             Position = 3,
             ValueFromPipelineByPropertyName = true,
             HelpMessage = "The Extension Private Configuration.")]
@@ -121,20 +124,16 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
         }
 
         [Parameter(
-            ParameterSetName = ListByExtensionParamSetName,
+            ParameterSetName = SetByExtensionParamSetName,
             Position = 7,
             ValueFromPipelineByPropertyName = true,
-            HelpMessage = "The Extension State, 'Enable' or 'Disable'.")]
+            HelpMessage = "To Set the Extension State to 'Disable'.")]
         [Parameter(
-            ParameterSetName = ListByReferenceParamSetName,
+            ParameterSetName = SetByReferenceParamSetName,
             Position = 4,
             ValueFromPipelineByPropertyName = true,
-            HelpMessage = "The Extension State, 'Enable' or 'Disable'.")]
-        [ValidateSet(
-            "Enable",
-            "Disable")]
-        [ValidateNotNullOrEmpty]
-        public override string State
+            HelpMessage = "To Set the Extension State to 'Disable'.")]
+        public override SwitchParameter Disable
         {
             get;
             set;
