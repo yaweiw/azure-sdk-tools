@@ -37,6 +37,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
         public string SubscriptionName { get; set; }
         public string SubscriptionId { get; set; }
         public Uri ServiceEndpoint { get; set; }
+        public Uri CloudServiceEndpoint { get; set; }
 
         public string ActiveDirectoryEndpoint { get; set; }
         public string ActiveDirectoryTenantId { get; set; }
@@ -148,6 +149,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
             // And overwrite the rest
             SubscriptionId = newSubscription.SubscriptionId;
             ServiceEndpoint = newSubscription.ServiceEndpoint;
+            CloudServiceEndpoint = newSubscription.CloudServiceEndpoint;
             SubscriptionName = newSubscription.SubscriptionName;
         }
 
@@ -159,6 +161,22 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
         /// <returns>The service client instance</returns>
         public TClient CreateClient<TClient>() where TClient : ServiceClient<TClient>
         {
+            return ClientClientFromEndpoint<TClient>(ServiceEndpoint);
+        }
+
+        /// <summary>
+        /// Create a service management client for this subscription,
+        /// with appropriate credentials supplied.
+        /// </summary>
+        /// <typeparam name="TClient">Type of client to create, must be derived from <see cref="ServiceClient{T}"/></typeparam>
+        /// <returns>The service client instance</returns>
+        public TClient CreateCloudServiceClient<TClient>() where TClient : ServiceClient<TClient>
+        {
+            return ClientClientFromEndpoint<TClient>(CloudServiceEndpoint);
+        }
+
+        private TClient ClientClientFromEndpoint<TClient>(Uri endpoint) where TClient : ServiceClient<TClient>
+        {
             var credential = CreateCredentials();
             RegisterRequiredResourceProviders<TClient>(credential);
             var constructor = typeof(TClient).GetConstructor(new[] { typeof(SubscriptionCloudCredentials), typeof(Uri) });
@@ -169,7 +187,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
 
             // Dispose the client because the WithHandler call will create a
             // new instance that we'll be using with our commands
-            using (var client = (TClient)constructor.Invoke(new object[] { credential, ServiceEndpoint }))
+            using (var client = (TClient)constructor.Invoke(new object[] { credential, endpoint }))
             {
                 // Set the UserAgent
                 client.UserAgent.Add(ApiConstants.UserAgentValue);
