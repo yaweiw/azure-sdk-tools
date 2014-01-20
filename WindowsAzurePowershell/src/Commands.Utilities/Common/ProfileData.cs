@@ -137,8 +137,8 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
         {
             Name = inMemorySubscription.SubscriptionName;
             SubscriptionId = inMemorySubscription.SubscriptionId;
-            ManagementEndpoint = inMemorySubscription.ServiceEndpoint.ToString();
-            CloudServiceEndpoint = inMemorySubscription.CloudServiceEndpoint.ToString();
+            ManagementEndpoint = inMemorySubscription.ServiceEndpoint != null ? inMemorySubscription.ServiceEndpoint.ToString() : null;
+            CloudServiceEndpoint = inMemorySubscription.CloudServiceEndpoint != null ? inMemorySubscription.CloudServiceEndpoint.ToString() : null;
             ActiveDirectoryEndpoint = inMemorySubscription.ActiveDirectoryEndpoint;
             ActiveDirectoryTenantId = inMemorySubscription.ActiveDirectoryTenantId;
             ActiveDirectoryUserId = inMemorySubscription.ActiveDirectoryUserId;
@@ -158,8 +158,8 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
             {
                 SubscriptionName = this.Name,
                 SubscriptionId = this.SubscriptionId,
-                ServiceEndpoint = new Uri(ManagementEndpoint),
-                CloudServiceEndpoint = new Uri(CloudServiceEndpoint),
+                ServiceEndpoint = !string.IsNullOrEmpty(ManagementEndpoint) ? new Uri(ManagementEndpoint) : null,
+                CloudServiceEndpoint = !string.IsNullOrEmpty(CloudServiceEndpoint) ? new Uri(CloudServiceEndpoint) : null,
                 ActiveDirectoryEndpoint = ActiveDirectoryEndpoint,
                 ActiveDirectoryTenantId = ActiveDirectoryTenantId,
                 ActiveDirectoryUserId = ActiveDirectoryUserId,

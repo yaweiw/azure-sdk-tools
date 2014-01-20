@@ -58,7 +58,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
                 Certificate = GetCertificate(profile, s),
                 SubscriptionName = s.Name,
                 ServiceEndpoint = GetManagementUri(profile, s),
-                CloudServiceEndpoint = GetCloudServiceUri(profile, s),
+                CloudServiceEndpoint = null,
                 SubscriptionId = s.Id
             };
         }
@@ -87,15 +87,6 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
             else if (!string.IsNullOrEmpty(profile.Url))
             {
                 return new Uri(profile.Url);
-            }
-            return null;
-        }
-
-        private static Uri GetCloudServiceUri(PublishDataPublishProfile profile, PublishDataPublishProfileSubscription s)
-        {
-            if (!string.IsNullOrEmpty(s.CloudServiceUrl))
-            {
-                return new Uri(s.CloudServiceUrl);
             }
             return null;
         }
