@@ -441,11 +441,11 @@
                 <ScriptBlock>$_.Logging.Version</ScriptBlock>
               </ListItem>
               <ListItem>
-                <Label>Logging.LoggingOperation</Label>
+                <Label>Logging.LoggingOperations</Label>
                 <ScriptBlock>$_.Logging.LoggingOperations</ScriptBlock>
               </ListItem>
               <ListItem>
-                <Label>Logging.RetentionDay</Label>
+                <Label>Logging.RetentionDays</Label>
                 <ScriptBlock>$_.Logging.RetentionDays</ScriptBlock>
               </ListItem>
               <ListItem>
@@ -457,7 +457,7 @@
                 <ScriptBlock>$_.Metrics.MetricsLevel</ScriptBlock>
               </ListItem>
               <ListItem>
-                <Label>Metrics.RetentionDay</Label>
+                <Label>Metrics.RetentionDays</Label>
                 <ScriptBlock>$_.Metrics.RetentionDays</ScriptBlock>
               </ListItem>
               <ListItem>
@@ -482,12 +482,12 @@
             <Width>20</Width>
           </TableColumnHeader>
           <TableColumnHeader>
-            <Label>LoggingOperation</Label>
+            <Label>LoggingOperations</Label>
             <Alignment>Left</Alignment>
             <Width>30</Width>
           </TableColumnHeader>
           <TableColumnHeader>
-            <Label>RetentionDay</Label>
+            <Label>RetentionDays</Label>
             <Alignment>Left</Alignment>
             <Width>20</Width>
           </TableColumnHeader>
@@ -527,7 +527,7 @@
             <Width>30</Width>
           </TableColumnHeader>
           <TableColumnHeader>
-            <Label>RetentionDay</Label>
+            <Label>RetentionDays</Label>
             <Alignment>Left</Alignment>
             <Width>20</Width>
           </TableColumnHeader>

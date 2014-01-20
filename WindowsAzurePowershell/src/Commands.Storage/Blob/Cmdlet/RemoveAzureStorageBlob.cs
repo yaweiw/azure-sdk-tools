@@ -19,7 +19,6 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Blob
     using System.Management.Automation;
     using System.Security.Permissions;
     using Common;
-    using Storage.Model.ResourceModel;
     using Microsoft.WindowsAzure.Storage;
     using Microsoft.WindowsAzure.Storage.Blob;
     using Model.Contract;
@@ -36,7 +35,7 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Blob
         /// <summary>
         /// container pipeline paremeter set name
         /// </summary>
-        private const string ContainerPipelineParmeterSet = "ContainerPipeline";
+        private const string ContainerPipelineParameterSet = "ContainerPipeline";
 
         /// <summary>
         /// blob name and container name parameter set
@@ -48,10 +47,10 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Blob
         public ICloudBlob ICloudBlob { get; set; }
 
         [Parameter(HelpMessage = "CloudBlobContainer Object", Mandatory = true,
-            ValueFromPipelineByPropertyName = true, ParameterSetName = ContainerPipelineParmeterSet)]
+            ValueFromPipelineByPropertyName = true, ParameterSetName = ContainerPipelineParameterSet)]
         public CloudBlobContainer CloudBlobContainer { get; set; }
 
-        [Parameter(ParameterSetName = ContainerPipelineParmeterSet, Mandatory = true, Position = 0, HelpMessage = "Blob name")]
+        [Parameter(ParameterSetName = ContainerPipelineParameterSet, Mandatory = true, Position = 0, HelpMessage = "Blob name")]
         [Parameter(ParameterSetName = NameParameterSet, Mandatory = true, Position = 0, HelpMessage = "Blob name")]
         public string Blob 
         {
@@ -124,7 +123,7 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Blob
         internal bool HasSnapShot(ICloudBlob blob)
         {
             BlobListingDetails details = BlobListingDetails.Snapshots;
-            BlobRequestOptions requestOptions = null;
+            BlobRequestOptions requestOptions = RequestOptions;
             bool useFlatBlobListing = true;
 
             if (IsSnapshot(blob)) //snapshot can't have snapshot
@@ -162,7 +161,7 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Blob
 
             DeleteSnapshotsOption deleteSnapshotsOption = DeleteSnapshotsOption.None;
             AccessCondition accessCondition = null;
-            BlobRequestOptions requestOptions = null;
+            BlobRequestOptions requestOptions = RequestOptions;
 
             if (IsSnapshot(blob) && deleteSnapshot)
             {
@@ -210,7 +209,7 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Blob
 
             ValidatePipelineCloudBlobContainer(container);
             AccessCondition accessCondition = null;
-            BlobRequestOptions requestOptions = null;
+            BlobRequestOptions requestOptions = RequestOptions;
             ICloudBlob blob = Channel.GetBlobReferenceFromServer(container, blobName, accessCondition, requestOptions, OperationContext);
 
             if (null == blob && container.ServiceClient.Credentials.IsSharedKey)
@@ -257,7 +256,7 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Blob
                     containerName = ICloudBlob.Container.Name;
                     break;
 
-                case ContainerPipelineParmeterSet:
+                case ContainerPipelineParameterSet:
                     removed = RemoveAzureBlob(CloudBlobContainer, BlobName);
                     blobName = BlobName;
                     containerName = ContainerName;

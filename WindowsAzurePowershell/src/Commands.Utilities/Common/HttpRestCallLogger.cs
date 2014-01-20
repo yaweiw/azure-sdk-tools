@@ -37,7 +37,9 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
 
         private void WriteLog(string log)
         {
-            if (CurrentCmdlet.MyInvocation.BoundParameters.ContainsKey("Debug"))
+            string debugPreference = CurrentCmdlet.GetVariableValue("DebugPreference").ToString();
+            if (CurrentCmdlet.MyInvocation.BoundParameters.ContainsKey("Debug") ||
+                debugPreference.Equals("Continue"))
             {
                 using (PowerShell ps = PowerShell.Create())
                 {

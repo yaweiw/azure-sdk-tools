@@ -14,11 +14,11 @@
 
 namespace Microsoft.WindowsAzure.Commands.Storage.Table.Cmdlet
 {
-    using Common;
-    using Microsoft.WindowsAzure.Storage.Table;
     using System;
     using System.Management.Automation;
     using System.Security.Permissions;
+    using Common;
+    using Microsoft.WindowsAzure.Storage.Table;
     using Model.Contract;
     using Model.ResourceModel;
 
@@ -63,7 +63,7 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Table.Cmdlet
                 throw new ArgumentException(String.Format(Resources.InvalidTableName, name));
             }
 
-            TableRequestOptions requestOptions = null;
+            TableRequestOptions requestOptions = RequestOptions;
             CloudTable table = Channel.GetTableReference(name);
             bool created = Channel.CreateTableIfNotExists(table, requestOptions, OperationContext);
 
