@@ -1007,6 +1007,18 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
             throw new NotImplementedException();
         }
 
+        /// <summary>
+        /// Deletes a web job for a website.
+        /// </summary>
+        /// <param name="name">The website name</param>
+        /// <param name="slot">The slot name</param>
+        /// <param name="jobName">The web job name</param>
+        /// <param name="jobType">The web job type</param>
+        public void DeleteWebJob(string Name, string Slot, string JobName, WebJobType JobType)
+        {
+            throw new NotImplementedException();
+        }
+
         #endregion
     }
 }

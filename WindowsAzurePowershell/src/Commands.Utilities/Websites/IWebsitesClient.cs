@@ -429,6 +429,15 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
         /// <param name="singleton">True if you only want the job to run in 1 instance of the web site</param>
         /// <returns>The created web job instance</returns>
         WebJob CreateWebJob(string name, string slot, string jobName, WebJobType jobType, string jobFile, bool singleton);
+
+        /// <summary>
+        /// Deletes a web job for a website.
+        /// </summary>
+        /// <param name="name">The website name</param>
+        /// <param name="slot">The slot name</param>
+        /// <param name="jobName">The web job name</param>
+        /// <param name="jobType">The web job type</param>
+        void DeleteWebJob(string Name, string Slot, string JobName, WebJobType JobType);
     }
 
     public enum WebsiteState

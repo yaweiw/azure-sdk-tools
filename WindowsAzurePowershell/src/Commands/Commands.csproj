@@ -389,6 +389,7 @@
     <Compile Include="Websites\ShowAzureWebsite.cs" />
     <Compile Include="Websites\StartAzureWebSite.cs" />
     <Compile Include="Websites\StopAzureWebSite.cs" />
+    <Compile Include="Websites\WebJobs\RemoveAzureWebsiteJob.cs" />
     <Compile Include="Websites\WebJobs\NewAzureWebsiteJob.cs" />
     <Compile Include="Websites\WebJobs\GetAzureWebsiteJob.cs" />
   </ItemGroup>
