@@ -39,6 +39,11 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
         public string ServiceEndpoint { get; set; }
 
         /// <summary>
+        /// The service management CSM endpoint.
+        /// </summary>
+        public string CloudServiceEndpoint { get; set; }
+
+        /// <summary>
         /// Url to the Windows Azure management portal.
         /// </summary>
         public string ManagementPortalUrl { get; set; }
@@ -190,7 +195,8 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
                         ActiveDirectoryUserId = mainToken.UserId,
                         SubscriptionId = subscription.SubscriptionId,
                         SubscriptionName = subscription.SubscriptionName,
-                        ServiceEndpoint = new Uri(ServiceEndpoint),
+                        ServiceEndpoint = !string.IsNullOrEmpty(ServiceEndpoint) ? new Uri(ServiceEndpoint) : null,
+                        CloudServiceEndpoint = !string.IsNullOrEmpty(CloudServiceEndpoint) ? new Uri(CloudServiceEndpoint) : null,
                         TokenProvider = tokenProvider
                     };
 
@@ -225,6 +231,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
                     Name = EnvironmentName.AzureCloud,
                     PublishSettingsFileUrl = WindowsAzureEnvironmentConstants.AzurePublishSettingsFileUrl,
                     ServiceEndpoint = WindowsAzureEnvironmentConstants.AzureServiceEndpoint,
+                    CloudServiceEndpoint = WindowsAzureEnvironmentConstants.AzureCloudServiceEndpoint,
                     ManagementPortalUrl = WindowsAzureEnvironmentConstants.AzureManagementPortalUrl,
                     // TODO: Get real endpoint for prod
                     ActiveDirectoryEndpoint = "https://login.windows.net/",
@@ -239,6 +246,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
                     Name = EnvironmentName.AzureChinaCloud,
                     PublishSettingsFileUrl = WindowsAzureEnvironmentConstants.ChinaPublishSettingsFileUrl,
                     ServiceEndpoint = WindowsAzureEnvironmentConstants.ChinaServiceEndpoint,
+                    CloudServiceEndpoint = WindowsAzureEnvironmentConstants.ChinaCloudServiceEndpoint,
                     ManagementPortalUrl = WindowsAzureEnvironmentConstants.ChinaManagementPortalUrl,
                     StorageEndpointSuffix = WindowsAzureEnvironmentConstants.ChinaStorageEndpointSuffix
                 }

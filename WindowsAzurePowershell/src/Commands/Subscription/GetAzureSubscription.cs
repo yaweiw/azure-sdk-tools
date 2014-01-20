@@ -161,6 +161,7 @@ namespace Microsoft.WindowsAzure.Commands.Subscription
                     SubscriptionName = subscription.SubscriptionName,
                     SubscriptionId = subscription.SubscriptionId,
                     ServiceEndpoint = subscription.ServiceEndpoint,
+                    CloudServiceEndpoint = subscription.CloudServiceEndpoint,
                     IsDefault = subscription.IsDefault,
                     Certificate = subscription.Certificate,
                     CurrentStorageAccountName = subscription.CurrentStorageAccountName
