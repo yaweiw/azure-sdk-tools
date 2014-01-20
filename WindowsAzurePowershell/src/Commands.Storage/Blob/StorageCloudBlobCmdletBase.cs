@@ -44,6 +44,17 @@ namespace Microsoft.WindowsAzure.Commands.Storage
         }
 
         /// <summary>
+        /// Blob request options
+        /// </summary>
+        public BlobRequestOptions RequestOptions 
+        {
+            get 
+            {
+                return (BlobRequestOptions) GetRequestOptions(StorageServiceType.Blob);
+            }
+        }
+
+        /// <summary>
         /// Make sure the pipeline blob is valid and already existing
         /// </summary>
         /// <param name="blob">ICloudBlob object</param>
@@ -60,7 +71,7 @@ namespace Microsoft.WindowsAzure.Commands.Storage
             }
 
             ValidatePipelineCloudBlobContainer(blob.Container);
-            BlobRequestOptions requestOptions = null;
+            BlobRequestOptions requestOptions = RequestOptions;
 
             if (!Channel.DoesBlobExist(blob, requestOptions, OperationContext))
             {
@@ -84,7 +95,7 @@ namespace Microsoft.WindowsAzure.Commands.Storage
                 throw new ArgumentException(String.Format(Resources.InvalidContainerName, container.Name));
             }
 
-            BlobRequestOptions requestOptions = null;
+            BlobRequestOptions requestOptions = RequestOptions;
 
             if (container.ServiceClient.Credentials.IsSharedKey 
                 && !Channel.DoesContainerExist(container, requestOptions, OperationContext))

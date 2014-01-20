@@ -21,24 +21,32 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites.Common
 
     public abstract class WebsiteContextBaseCmdlet : WebsiteBaseCmdlet
     {
+        protected bool websiteNameDiscovery;
+
+        public WebsiteContextBaseCmdlet()
+        {
+            websiteNameDiscovery = true;
+        }
+
         [Parameter(Position = 0, Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "The web site name.")]
         [ValidateNotNullOrEmpty]
-        public string Name
-        {
-            get;
-            set;
-        }
+        public string Name { get; set; }
+
+        [Parameter(Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "The web site slot name.")]
+        [ValidateNotNullOrEmpty]
+        public string Slot { get; set; }
 
         [EnvironmentPermission(SecurityAction.Demand, Unrestricted = true)]
         protected override void ProcessRecord()
         {
             try
             {
-                if (string.IsNullOrEmpty(Name))
+                if (string.IsNullOrEmpty(Name) && websiteNameDiscovery)
                 {
                     // If the website name was not specified as a parameter try to infer it
                     Name = GitWebsite.ReadConfiguration().Name;
                 }
+                Slot = string.IsNullOrEmpty(Slot) ? WebsitesClient.GetSlotName(Name) : Slot;
 
                 base.ProcessRecord();
             }
@@ -46,6 +54,12 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites.Common
             {
                 WriteExceptionError(ex);
             }
+        }
+
+        protected override void EndProcessing()
+        {
+            base.EndProcessing();
+            Slot = null;
         }
     }
 }

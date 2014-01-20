@@ -127,8 +127,8 @@ namespace Microsoft.WindowsAzure.Commands.WAPackIaaS.VirtualMachine
                 {
                     Name = Name,
                     VMTemplateId = Template.ID,
-                    UserName = VMCredential.UserName,
-                    Password = ExtractSecureString(VMCredential.Password),
+                    LocalAdminUserName = VMCredential.UserName,
+                    LocalAdminPassword = ExtractSecureString(VMCredential.Password),
                     NewVirtualNetworkAdapterInput = virtualNetworkAdaptersWithVNet,
                     ProductKey = ProductKey,
                 };
@@ -139,8 +139,8 @@ namespace Microsoft.WindowsAzure.Commands.WAPackIaaS.VirtualMachine
                 {
                     Name = Name,
                     VMTemplateId = Template.ID,
-                    UserName = VMCredential.UserName,
-                    Password = ExtractSecureString(VMCredential.Password),
+                    LocalAdminUserName = VMCredential.UserName,
+                    LocalAdminPassword = ExtractSecureString(VMCredential.Password),
                     NewVirtualNetworkAdapterInput = virtualNetworkAdaptersWithVNet,
                     LinuxAdministratorSSHKeyString = AdministratorSSHKey
                 };

@@ -826,7 +826,7 @@ namespace Microsoft.WindowsAzure.Commands.Storage {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The minimum value of retention days 1, the largest value is 365 (one year). Current is {0}..
+        ///   Looks up a localized string similar to The minimum value of retention days is 1, the largest value is 365 (one year). -1 means turn off the retention policy. Current is {0}..
         /// </summary>
         internal static string InvalidRetentionDay {
             get {
@@ -894,6 +894,15 @@ namespace Microsoft.WindowsAzure.Commands.Storage {
         internal static string NewAliasValue {
             get {
                 return ResourceManager.GetString("NewAliasValue", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to None or All operation can&apos;t be used with other operations..
+        /// </summary>
+        internal static string NoneAndAllOperationShouldBeAlone {
+            get {
+                return ResourceManager.GetString("NoneAndAllOperationShouldBeAlone", resourceCulture);
             }
         }
         
