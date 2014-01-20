@@ -84,9 +84,6 @@ namespace Microsoft.WindowsAzure.Commands.Websites
         [Parameter(Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "The web sockets flag.")]
         public bool? WebSocketsEnabled { get; set; }
 
-        [Parameter(Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "The web slot.")]
-        public string Slot { get; set; }
-
         private Site website;
         private SiteConfig currentSiteConfig;
 
