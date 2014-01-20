@@ -215,19 +215,5 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common.XmlSchema
                 this.managementCertificateField = value;
             }
         }
-
-        /// <remarks/>
-        [XmlAttribute()]
-        public string CloudServiceUrl
-        {
-            get
-            {
-                return this.serviceManagementUrlField;
-            }
-            set
-            {
-                this.serviceManagementUrlField = value;
-            }
-        }
     }
 }

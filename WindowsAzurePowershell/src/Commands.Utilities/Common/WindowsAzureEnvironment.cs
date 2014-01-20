@@ -195,8 +195,8 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
                         ActiveDirectoryUserId = mainToken.UserId,
                         SubscriptionId = subscription.SubscriptionId,
                         SubscriptionName = subscription.SubscriptionName,
-                        ServiceEndpoint = new Uri(ServiceEndpoint),
-                        CloudServiceEndpoint = new Uri(CloudServiceEndpoint),
+                        ServiceEndpoint = !string.IsNullOrEmpty(ServiceEndpoint) ? new Uri(ServiceEndpoint) : null,
+                        CloudServiceEndpoint = !string.IsNullOrEmpty(CloudServiceEndpoint) ? new Uri(CloudServiceEndpoint) : null,
                         TokenProvider = tokenProvider
                     };
 
