@@ -105,9 +105,14 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
         internal void ExecuteCommand()
         {
             ValidateParameters();
-            this.PublicConfiguration = GetDiagnosticsAgentConfig();
             AddResourceExtension();
             WriteObject(VM);
+        }
+
+        protected override void ValidateParameters()
+        {
+            base.ValidateParameters();
+            this.PublicConfiguration = GetDiagnosticsAgentConfig();
         }
 
         protected override void ProcessRecord()

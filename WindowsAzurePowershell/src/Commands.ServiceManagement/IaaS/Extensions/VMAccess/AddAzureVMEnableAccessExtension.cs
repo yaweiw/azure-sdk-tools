@@ -21,16 +21,16 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
     [Cmdlet(
         VerbsCommon.Add,
         VirtualMachineEnableAccessExtensionNoun,
-        DefaultParameterSetName = EnableExtensionWithNewOrExistingCredentialParameterSet),
+        DefaultParameterSetName = EnableExtensionParamSetName),
     OutputType(
         typeof(IPersistentVM))]
     public class AddAzureVMEnableAccessExtensionCommand : VirtualMachineEnableAccessExtensionCmdletBase
     {
-        public const string EnableExtensionWithNewOrExistingCredentialParameterSet = "EnableExtensionWithNewOrExistingCredential";
-        public const string DisableExtensionParameterSet = "DisableExtension";
+        public const string EnableExtensionParamSetName = "EnableExtension";
+        public const string DisableExtensionParamSetName = "DisableExtension";
 
         [Parameter(
-            ParameterSetName = EnableExtensionWithNewOrExistingCredentialParameterSet,
+            ParameterSetName = EnableExtensionParamSetName,
             Mandatory = false,
             Position = 1,
             HelpMessage = "New or Existing User Name")]
@@ -41,7 +41,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
         }
 
         [Parameter(
-            ParameterSetName = EnableExtensionWithNewOrExistingCredentialParameterSet,
+            ParameterSetName = EnableExtensionParamSetName,
             Mandatory = false,
             Position = 2,
             HelpMessage = "New or Existing User Password")]
@@ -52,7 +52,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
         }
 
         [Parameter(
-            ParameterSetName = DisableExtensionParameterSet,
+            ParameterSetName = DisableExtensionParamSetName,
             Mandatory = true,
             Position = 1,
             HelpMessage = "Disable VM Access Extension")]
@@ -67,6 +67,12 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
             ValidateParameters();
             AddResourceExtension();
             WriteObject(VM);
+        }
+
+        protected override void ValidateParameters()
+        {
+            base.ValidateParameters();
+            this.PublicConfiguration = GetEnableVMAccessAgentConfig();
         }
 
         protected override void ProcessRecord()

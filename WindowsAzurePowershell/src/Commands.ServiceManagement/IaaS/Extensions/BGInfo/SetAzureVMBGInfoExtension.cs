@@ -41,6 +41,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
 
         internal void ExecuteCommand()
         {
+            ValidateParameters();
             var extensionRef = GetPredicateExtension();
             if (extensionRef != null)
             {
@@ -48,7 +49,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
             }
             else
             {
-                WriteWarning(Resources.ResourceExtensionReferenceCannotBeFound);
+                AddResourceExtension();
             }
 
             WriteObject(VM);

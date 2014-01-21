@@ -72,10 +72,16 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
             }
             else
             {
-                WriteWarning(Resources.ResourceExtensionReferenceCannotBeFound);
+                AddResourceExtension();
             }
 
             WriteObject(VM);
+        }
+
+        protected override void ValidateParameters()
+        {
+            base.ValidateParameters();
+            this.PublicConfiguration = GetEnableVMAccessAgentConfig();
         }
 
         protected override void ProcessRecord()

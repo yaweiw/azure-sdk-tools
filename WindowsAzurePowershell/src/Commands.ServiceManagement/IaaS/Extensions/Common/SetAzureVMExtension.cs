@@ -148,7 +148,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
             }
             else
             {
-                WriteWarning(Resources.ResourceExtensionReferenceCannotBeFound);
+                AddResourceExtension();
             }
 
             WriteObject(VM);
