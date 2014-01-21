@@ -31,6 +31,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
     using Utilities.Common;
     using System.Diagnostics;
     using System.Globalization;
+    using Microsoft.WindowsAzure.Commands.Utilities.Websites.Services.WebJobs;
 
     public class WebsitesClient : IWebsitesClient
     {
@@ -976,14 +977,11 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
         #region WebJobs
 
         /// <summary>
-        /// Filters the web jobs for a website.
+        /// Filters the web jobs.
         /// </summary>
-        /// <param name="Name">The website name</param>
-        /// <param name="Slot">The website slot</param>
-        /// <param name="JobName">The web job name</param>
-        /// <param name="JobType">The web job type</param>
+        /// <param name="options">The web job filter options</param>
         /// <returns>The filtered web jobs list</returns>
-        public List<WebJob> FilterWebJobs(string name, string slot, string jobName, string jobType)
+        public List<WebJob> FilterWebJobs(WebJobFilterOptions options)
         {
             throw new NotImplementedException();
         }
@@ -1039,6 +1037,16 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
         /// <param name="jobName">The web job name</param>
         /// <param name="jobType">The web job type</param>
         public void StopWebJob(string name, string slot, string jobName, WebJobType jobType)
+        {
+            throw new NotImplementedException();
+        }
+
+        /// <summary>
+        /// Filters a web job history.
+        /// </summary>
+        /// <param name="options">The web job filter options</param>
+        /// <returns>The filtered web jobs run list</returns>
+        public List<WebJobRun> FilterWebJobHistory(WebJobHistoryFilterOptions options)
         {
             throw new NotImplementedException();
         }

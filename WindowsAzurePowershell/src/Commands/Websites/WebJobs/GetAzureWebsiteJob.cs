@@ -14,9 +14,10 @@
 
 namespace Microsoft.WindowsAzure.Commands.Websites.WebJobs
 {
+    using System;
     using System.Collections.Generic;
     using System.Management.Automation;
-    using Microsoft.WindowsAzure.Commands.Utilities.Websites.Services;
+    using Microsoft.WindowsAzure.Commands.Utilities.Websites.Services.WebJobs;
     using Utilities.Websites;
     using Utilities.Websites.Common;
     
@@ -32,16 +33,8 @@ namespace Microsoft.WindowsAzure.Commands.Websites.WebJobs
 
         public override void ExecuteCmdlet()
         {
-            List<WebJob> result = WebsitesClient.FilterWebJobs(Name, Slot, JobName, JobType);
-            
-            if (result.Count == 1)
-	        {
-		        WriteObject(result[0]);
-	        }
-            else
-	        {
-                WriteObject(result, true);
-	        }
+            WebJobFilterOptions options = new WebJobFilterOptions() { Name = Name, Slot = Slot, JobName = JobName, JobType = JobType };
+            WriteObject(WebsitesClient.FilterWebJobs(options), true);
         }
     }
 }

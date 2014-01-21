@@ -24,15 +24,17 @@ namespace Microsoft.WindowsAzure.Commands.Test.Websites
     using Utilities.Websites;
 
     [TestClass]
-    public class GetAzureWebsiteJobTests : WebsitesTestBase
+    public class GetAzureWebsiteJobHistoryTests : WebsitesTestBase
     {
         private const string websiteName = "website1";
 
         private const string slot = "staging";
 
+        private const string jobName = "webJobName";
+
         private Mock<IWebsitesClient> websitesClientMock;
 
-        private GetAzureWebsiteJobCommand cmdlet; 
+        private GetAzureWebsiteJobHistoryCommand cmdlet; 
 
         private Mock<ICommandRuntime> commandRuntimeMock;
 
@@ -41,83 +43,89 @@ namespace Microsoft.WindowsAzure.Commands.Test.Websites
         {
             websitesClientMock = new Mock<IWebsitesClient>();
             commandRuntimeMock = new Mock<ICommandRuntime>();
-            cmdlet = new GetAzureWebsiteJobCommand()
+            cmdlet = new GetAzureWebsiteJobHistoryCommand()
             {
                 CommandRuntime = commandRuntimeMock.Object,
                 WebsitesClient = websitesClientMock.Object,
                 Name = websiteName,
-                Slot = slot
+                Slot = slot,
+                JobName = jobName
             };
         }
 
         [TestMethod]
-        public void GetEmptyWebJobList()
+        public void GetCompleteWebJobHistory()
         {
             // Setup
-            List<WebJob> output = new List<WebJob>();
-            WebJobFilterOptions options = null;
-            websitesClientMock.Setup(f => f.FilterWebJobs(It.IsAny<WebJobFilterOptions>()))
-                .Returns(output)
-                .Callback((WebJobFilterOptions actual) => options = actual)
-                .Verifiable();
-
-            // Test
-            cmdlet.ExecuteCmdlet();
-
-            // Assert
-            websitesClientMock.Verify(f => f.FilterWebJobs(options), Times.Once());
-            commandRuntimeMock.Verify(f => f.WriteObject(output, true), Times.Once());
-        }
-
-        [TestMethod]
-        public void GetOneWebJob()
-        {
-            // Setup
-            string jobName = "webJobName";
-            string type = WebJobType.Continuous.ToString();
-            List<WebJob> output = new List<WebJob>() { new WebJob() { Name = jobName, Type = type } };
-            WebJobFilterOptions options = null;
-            websitesClientMock.Setup(f => f.FilterWebJobs(It.IsAny<WebJobFilterOptions>()))
-                .Returns(output)
-                .Callback((WebJobFilterOptions actual) => options = actual)
-                .Verifiable();
-            cmdlet.JobName = jobName;
-            cmdlet.JobType = type;
-
-            // Test
-            cmdlet.ExecuteCmdlet();
-
-            // Assert
-            websitesClientMock.Verify(f => f.FilterWebJobs(options), Times.Once());
-            commandRuntimeMock.Verify(f => f.WriteObject(output, true), Times.Once());
-        }
-
-        [TestMethod]
-        public void GetsMultipleWebJobs()
-        {
-            // Setup
-            string jobName1 = "webJobName1";
-            string jobName2 = "webJobName2";
-            string jobName3 = "webJobName3";
-            string type1 = WebJobType.Continuous.ToString();
-            string type2 = WebJobType.Continuous.ToString();
-            string type3 = WebJobType.Triggered.ToString();
-            WebJobFilterOptions options = null;
-            List<WebJob> output = new List<WebJob>() {
-                new WebJob() { Name = jobName1, Type = type1 },
-                new WebJob() { Name = jobName2, Type = type2 },
-                new WebJob() { Name = jobName3, Type = type3 }
+            List<WebJobRun> output = new List<WebJobRun>()
+            {
+                new WebJobRun() { Id = "id1", Status = "succeed"},
+                new WebJobRun() { Id = "id2", Status = "fail"},
+                new WebJobRun() { Id = "id3", Status = "succeed"}
             };
-            websitesClientMock.Setup(f => f.FilterWebJobs(It.IsAny<WebJobFilterOptions>()))
+            WebJobHistoryFilterOptions options = null;
+            websitesClientMock.Setup(f => f.FilterWebJobHistory(It.IsAny<WebJobHistoryFilterOptions>()))
                 .Returns(output)
-                .Callback((WebJobFilterOptions actual) => options = actual)
+                .Callback((WebJobHistoryFilterOptions actual) => options = actual)
                 .Verifiable();
 
             // Test
             cmdlet.ExecuteCmdlet();
 
             // Assert
-            websitesClientMock.Verify(f => f.FilterWebJobs(options), Times.Once());
+            Assert.AreEqual(options.Name, websiteName);
+            Assert.AreEqual(options.Slot, slot);
+            Assert.AreEqual(options.JobName, jobName);
+            websitesClientMock.Verify(f => f.FilterWebJobHistory(options), Times.Once());
+            commandRuntimeMock.Verify(f => f.WriteObject(output, true), Times.Once());
+        }
+
+        [TestMethod]
+        public void GetSpecificWebJobRun()
+        {
+            // Setup
+            string runId = "id1";
+            List<WebJobRun> output = new List<WebJobRun>() { new WebJobRun() { Id = runId, Status = "succeed" } };
+            WebJobHistoryFilterOptions options = null;
+            websitesClientMock.Setup(f => f.FilterWebJobHistory(It.IsAny<WebJobHistoryFilterOptions>()))
+                .Returns(output)
+                .Callback((WebJobHistoryFilterOptions actual) => options = actual)
+                .Verifiable();
+            cmdlet.RunId = runId;
+
+            // Test
+            cmdlet.ExecuteCmdlet();
+
+            // Assert
+            Assert.AreEqual(options.Name, websiteName);
+            Assert.AreEqual(options.Slot, slot);
+            Assert.AreEqual(options.JobName, jobName);
+            Assert.AreEqual(options.RunId, runId);
+            websitesClientMock.Verify(f => f.FilterWebJobHistory(options), Times.Once());
+            commandRuntimeMock.Verify(f => f.WriteObject(output, true), Times.Once());
+        }
+
+        [TestMethod]
+        public void GetLatestWebJobRun()
+        {
+            // Setup
+            List<WebJobRun> output = new List<WebJobRun>() { new WebJobRun() { Id = "id1", Status = "succeed" } };
+            WebJobHistoryFilterOptions options = null;
+            websitesClientMock.Setup(f => f.FilterWebJobHistory(It.IsAny<WebJobHistoryFilterOptions>()))
+                .Returns(output)
+                .Callback((WebJobHistoryFilterOptions actual) => options = actual)
+                .Verifiable();
+            cmdlet.Latest = true;
+
+            // Test
+            cmdlet.ExecuteCmdlet();
+
+            // Assert
+            Assert.AreEqual(options.Name, websiteName);
+            Assert.AreEqual(options.Slot, slot);
+            Assert.AreEqual(options.JobName, jobName);
+            Assert.IsTrue(options.Latest);
+            websitesClientMock.Verify(f => f.FilterWebJobHistory(options), Times.Once());
             commandRuntimeMock.Verify(f => f.WriteObject(output, true), Times.Once());
         }
     }
