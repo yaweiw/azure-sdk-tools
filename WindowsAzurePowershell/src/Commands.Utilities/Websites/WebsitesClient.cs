@@ -967,5 +967,22 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
 
             return null;
         }
+
+        public WebSiteGetPublishProfileResponse.PublishProfile GetWebDeployPublishProfile(string websiteName)
+        {
+            var site = this.GetWebsite(websiteName);
+
+            var response = WebsiteManagementClient.WebSites.GetPublishProfile(site.WebSpace, websiteName);
+
+            foreach (var profile in response)
+            {
+                if (string.Compare(profile.PublishMethod, "MSDeploy") == 0)
+                {
+                    return profile;
+                }
+            }
+
+            return null;
+        }
     }
 }
