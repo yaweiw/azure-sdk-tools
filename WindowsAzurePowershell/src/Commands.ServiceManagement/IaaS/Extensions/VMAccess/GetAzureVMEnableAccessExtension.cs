@@ -18,39 +18,36 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
     using System.Collections.Generic;
     using System.Linq;
     using System.Management.Automation;
-    using Model.PersistentVMModel;
 
-    [Cmdlet(VerbsCommon.Get, "AzureVMEnableVMAccessExtension"), OutputType(typeof(IEnumerable<VMEnableVMAccessExtensionContext>))]
-    public class GetAzureVMEnableVMAccessExtensionCommand : VirtualMachineConfigurationCmdletBase
+    [Cmdlet(
+        VerbsCommon.Get,
+        VirtualMachineEnableAccessExtensionNoun,
+        DefaultParameterSetName = GetEnableAccessExtensionParamSetName),
+    OutputType(typeof(IEnumerable<VirtualMachineEnableAccessExtensionContext>))]
+    public class GetAzureVMEnableAccessExtensionCommand : VirtualMachineEnableAccessExtensionCmdletBase
     {
+        protected const string GetEnableAccessExtensionParamSetName = "GetEnableAccessExtension";
+
         internal void ExecuteCommand()
         {
-            List<ResourceExtensionReference> extensionRefs = null;
-
-            if (VM.GetInstance().ResourceExtensionReferences != null)
-            {
-                extensionRefs = VM.GetInstance().ResourceExtensionReferences.FindAll(
-                    r => r.Name == VMEnableVMAccessExtensionBuilder.ExtensionDefaultName && r.Publisher == VMEnableVMAccessExtensionBuilder.ExtensionDefaultPublisher);
-            }
-
-            IEnumerable<VMEnableVMAccessExtensionContext> extensionContexts = extensionRefs == null ? null : extensionRefs.Select(
+            var extensionRefs = GetPredicateExtensionList();
+            WriteObject(
+                extensionRefs == null ? null : extensionRefs.Select(
                 r =>
                 {
-                    var extensionKeyValPair = r.ResourceExtensionParameterValues.Find(p => p.Key == VMEnableVMAccessExtensionBuilder.ExtensionReferenceKeyStr);
-                    var daExtensionBuilder = extensionKeyValPair == null ? null : new VMEnableVMAccessExtensionBuilder(extensionKeyValPair.Value);
-                    return new VMEnableVMAccessExtensionContext
+                    GetEnableVMAccessAgentValues(r.ResourceExtensionParameterValues);
+                    return new VirtualMachineEnableAccessExtensionContext
                     {
-                        Name = r.Name,
+                        ExtensionName = r.Name,
                         Publisher = r.Publisher,
                         ReferenceName = r.ReferenceName,
                         Version = r.Version,
-                        Enabled = daExtensionBuilder == null ? false : daExtensionBuilder.Enabled,
-                        UserName = daExtensionBuilder == null ? string.Empty : daExtensionBuilder.UserName,
-                        Password = daExtensionBuilder == null ? null : daExtensionBuilder.Password
+                        State = r.State,
+                        Enabled = !Disable,
+                        UserName = UserName,
+                        Password = Password
                     };
-                });
-
-            WriteObject(extensionContexts);
+                }));
         }
 
         protected override void ProcessRecord()

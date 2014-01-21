@@ -24,12 +24,12 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
     using Utilities.Common;
 
     [Cmdlet(
-        VerbsCommon.Set,
+        VerbsCommon.Add,
         VirtualMachineDiagnosticsExtensionNoun,
         DefaultParameterSetName = EnableExtensionUsingXmlFilePathParameterSetUsingStorageContext),
     OutputType(
         typeof(IPersistentVM))]
-    public class SetAzureVMDiagnosticsExtensionCommand : VirtualMachineDiagnosticsExtensionCmdletBase
+    public class AddAzureVMDiagnosticsExtensionCommand : VirtualMachineDiagnosticsExtensionCmdletBase
     {
         [Parameter(Mandatory = true, ParameterSetName = EnableExtensionUsingXmlDocumentParameterSet, HelpMessage = "Diagnostics Configuration")]
         [Parameter(Mandatory = true, ParameterSetName = EnableExtensionUsingXmlDocumentParameterSetUsingStorageContext, HelpMessage = "Diagnostics Configuration")]
@@ -93,20 +93,20 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
             set;
         }
 
+        [Parameter(Mandatory = false, ParameterSetName = EnableExtensionUsingXmlDocumentParameterSet, HelpMessage = "Blob/Queue/Table Endpoint Uri for storage services, e.g. {\"http://foo.blob.core.windows.net\", \"http://foo.queue.core.windows.net\", \"http://foo.table.core.windows.net\"}.")]
+        [Parameter(Mandatory = false, ParameterSetName = EnableExtensionUsingXmlFilePathParameterSet, HelpMessage = "Blob/Queue/Table Endpoint Uri for storage services, e.g. {\"http://foo.blob.core.windows.net\", \"http://foo.queue.core.windows.net\", \"http://foo.table.core.windows.net\"}.")]
+        [ValidateNotNullOrEmpty]
+        public override Uri[] Endpoints
+        {
+            get;
+            set;
+        }
+
         internal void ExecuteCommand()
         {
             ValidateParameters();
-            var extensionRef = GetPredicateExtension();
-            if (extensionRef != null)
-            {
-                this.PublicConfiguration = GetDiagnosticsAgentConfig();
-                SetResourceExtension(extensionRef);
-            }
-            else
-            {
-                WriteWarning(Resources.ResourceExtensionReferenceCannotBeFound);
-            }
-
+            this.PublicConfiguration = GetDiagnosticsAgentConfig();
+            AddResourceExtension();
             WriteObject(VM);
         }
 

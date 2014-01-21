@@ -14,12 +14,8 @@
 
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
 {
-    public class VMEnableVMAccessExtensionContext
+    public class VirtualMachineEnableAccessExtensionContext : VirtualMachineExtensionContext
     {
-        public string Name { get; set; }
-        public string Publisher { get; set; }
-        public string ReferenceName { get; set; }
-        public string Version { get; set; }
         public string UserName { get; set; }
         public string Password { get; set; }
         public bool Enabled { get; set; }

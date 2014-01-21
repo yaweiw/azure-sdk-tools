@@ -18,6 +18,8 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
     using System.Collections.Generic;
     using System.Linq;
     using System.Management.Automation;
+    using System.Xml;
+    using System.Xml.Linq;
     using Model.PersistentVMModel;
     using Properties;
 
@@ -229,13 +231,54 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
                 typeStr);
         }
 
-        protected void ValidateParameters()
+        protected virtual void ValidateParameters()
         {
             // GA must be enabled before setting WAD
             if (VM.GetInstance().ProvisionGuestAgent != null && !VM.GetInstance().ProvisionGuestAgent.Value)
             {
                 throw new ArgumentException(Resources.ProvisionGuestAgentMustBeEnabledBeforeSettingIaaSVMAccessExtension);
             }
+        }
+
+        protected static void SetConfigValue(XDocument config, string element, Object value)
+        {
+            if (config != null && value != null)
+            {
+                var ds = config.Descendants();
+                foreach (var e in ds)
+                {
+                    if (e.Name.LocalName == element)
+                    {
+                        if (value.GetType().Equals(typeof(XmlDocument)))
+                        {
+                            e.ReplaceAll(XElement.Load(new XmlNodeReader(value as XmlDocument)));
+
+                            var es = e.Descendants();
+                            foreach (var d in es)
+                            {
+                                if (string.IsNullOrEmpty(d.Name.NamespaceName))
+                                {
+                                    d.Name = e.Name.Namespace + d.Name.LocalName;
+                                }
+                            };
+                        }
+                        else
+                        {
+                            e.SetValue(value.ToString());
+                        }
+                        break;
+                    }
+                };
+            }
+        }
+
+        protected static string GetConfigValue(string xmlText, string element)
+        {
+            XDocument config = XDocument.Parse(xmlText);
+            var result = from d in config.Descendants()
+                         where d.Name.LocalName == element
+                         select d.Descendants().Any() ? d.ToString() : d.Value;
+            return result.FirstOrDefault();
         }
     }
 }
