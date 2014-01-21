@@ -1014,7 +1014,31 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
         /// <param name="slot">The slot name</param>
         /// <param name="jobName">The web job name</param>
         /// <param name="jobType">The web job type</param>
-        public void DeleteWebJob(string Name, string Slot, string JobName, WebJobType JobType)
+        public void DeleteWebJob(string name, string slot, string jobName, WebJobType jobType)
+        {
+            throw new NotImplementedException();
+        }
+
+        /// <summary>
+        /// Starts a web job in a website.
+        /// </summary>
+        /// <param name="name">The website name</param>
+        /// <param name="slot">The slot name</param>
+        /// <param name="jobName">The web job name</param>
+        /// <param name="jobType">The web job type</param>
+        public void StartWebJob(string name, string slot, string jobName, WebJobType jobType)
+        {
+            throw new NotImplementedException();
+        }
+
+        /// <summary>
+        /// Stops a web job in a website.
+        /// </summary>
+        /// <param name="name">The website name</param>
+        /// <param name="slot">The slot name</param>
+        /// <param name="jobName">The web job name</param>
+        /// <param name="jobType">The web job type</param>
+        public void StopWebJob(string name, string slot, string jobName, WebJobType jobType)
         {
             throw new NotImplementedException();
         }

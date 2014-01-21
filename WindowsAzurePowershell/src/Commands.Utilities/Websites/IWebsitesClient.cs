@@ -437,7 +437,25 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
         /// <param name="slot">The slot name</param>
         /// <param name="jobName">The web job name</param>
         /// <param name="jobType">The web job type</param>
-        void DeleteWebJob(string Name, string Slot, string JobName, WebJobType JobType);
+        void DeleteWebJob(string name, string slot, string jobName, WebJobType jobType);
+
+        /// <summary>
+        /// Starts a web job in a website.
+        /// </summary>
+        /// <param name="name">The website name</param>
+        /// <param name="slot">The slot name</param>
+        /// <param name="jobName">The web job name</param>
+        /// <param name="jobType">The web job type</param>
+        void StartWebJob(string name, string slot, string jobName, WebJobType jobType);
+
+        /// <summary>
+        /// Stops a web job in a website.
+        /// </summary>
+        /// <param name="name">The website name</param>
+        /// <param name="slot">The slot name</param>
+        /// <param name="jobName">The web job name</param>
+        /// <param name="jobType">The web job type</param>
+        void StopWebJob(string name, string slot, string jobName, WebJobType jobType);
     }
 
     public enum WebsiteState
