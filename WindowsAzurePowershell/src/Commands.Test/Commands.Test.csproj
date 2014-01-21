@@ -374,6 +374,8 @@
     <Compile Include="Websites\Services\CacheTests.cs" />
     <Compile Include="Websites\Services\GithubClientTests.cs" />
     <Compile Include="Websites\Services\GitTests.cs" />
+    <Compile Include="Websites\WebJobs\StopAzureWebsiteJobTests.cs" />
+    <Compile Include="Websites\WebJobs\StartAzureWebsiteJobTests.cs" />
     <Compile Include="Websites\WebJobs\RemoveAzureWebsiteJobTests.cs" />
     <Compile Include="Websites\WebJobs\NewAzureWebsiteJobTests.cs" />
     <Compile Include="Websites\WebJobs\GetAzureWebsiteJobTests.cs" />
