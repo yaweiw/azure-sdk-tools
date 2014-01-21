@@ -14,12 +14,9 @@
 
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
 {
-    using Model;
-    using Model.PersistentVMModel;
-    using Properties;
     using System;
-    using System.Linq;
     using System.Management.Automation;
+    using Model;
 
     [Cmdlet(
         VerbsCommon.Remove,
@@ -61,7 +58,6 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
 
         [Parameter(
             ParameterSetName = RemoveByExtensionParamSetName,
-            Mandatory = true,
             Position = 3,
             ValueFromPipelineByPropertyName = true,
             HelpMessage = "The Extension Version.")]
@@ -72,11 +68,6 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
             set;
         }
 
-        [Parameter(
-            ParameterSetName = RemoveByExtensionParamSetName,
-            Position = 4,
-            ValueFromPipelineByPropertyName = true,
-            HelpMessage = "The Extension Reference Name.")]
         [Parameter(
             ParameterSetName = RemoveByReferenceParamSetName,
             Mandatory = true,
@@ -110,7 +101,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
             }
             else
             {
-                ResourceExtensionReferences.Remove(GetPredicateExtension());
+                RemovePredicateExtensions();
             }
 
             WriteObject(VM);

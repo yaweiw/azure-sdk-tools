@@ -14,16 +14,7 @@
 
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
 {
-    using Utilities.Common;
-
-    public class VirtualMachineExtensionContext
+    public class VirtualMachineBGInfoExtensionContext : VirtualMachineExtensionContext
     {
-        public string ExtensionName { get; set; }
-        public string Publisher { get; set; }
-        public string Version { get; set; }
-        public string PrivateConfiguration { get; set; }
-        public string PublicConfiguration { get; set; }
-        public string ReferenceName { get; set; }
-        public string State { get; set; }
     }
 }

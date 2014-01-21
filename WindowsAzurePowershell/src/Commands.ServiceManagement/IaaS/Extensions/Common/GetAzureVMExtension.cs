@@ -14,8 +14,6 @@
 
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
 {
-    using Model.PersistentVMModel;
-    using Properties;
     using System;
     using System.Linq;
     using System.Management.Automation;
@@ -59,7 +57,6 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
 
         [Parameter(
             ParameterSetName = ListByExtensionParamSetName,
-            Mandatory = true,
             Position = 3,
             ValueFromPipelineByPropertyName = true,
             HelpMessage = "The Extension Version.")]
@@ -86,24 +83,18 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
         internal void ExecuteCommand()
         {
             var extensionRefs = GetPredicateExtensionList();
-            if (extensionRefs != null)
-            {
-                foreach (var r in extensionRefs)
+            WriteObject(
+                extensionRefs == null ? null : extensionRefs.Select(
+                r => new VirtualMachineExtensionContext
                 {
-                    if (r != null)
-                    {
-                        WriteObject(new VirtualMachineExtensionContext
-                        {
-                            ExtensionName = r.Name,
-                            ReferenceName = r.ReferenceName,
-                            Publisher = r.Publisher,
-                            Version = r.Version,
-                            PublicConfiguration = GetConfiguration(r, PublicTypeStr),
-                            PrivateConfiguration = GetConfiguration(r, PrivateTypeStr)
-                    });
-                    }
-                }
-            }
+                    ExtensionName = r.Name,
+                    ReferenceName = r.ReferenceName,
+                    Publisher = r.Publisher,
+                    Version = r.Version,
+                    State = r.State,
+                    PublicConfiguration = GetConfiguration(r, PublicTypeStr),
+                    PrivateConfiguration = GetConfiguration(r, PrivateTypeStr)
+                }));
         }
 
         protected override void ProcessRecord()

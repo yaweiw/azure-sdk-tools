@@ -14,16 +14,20 @@
 
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
 {
-    using Utilities.Common;
-
-    public class VirtualMachineExtensionContext
+    public class VirtualMachineBGInfoExtensionCmdletBase : VirtualMachineExtensionCmdletBase
     {
-        public string ExtensionName { get; set; }
-        public string Publisher { get; set; }
-        public string Version { get; set; }
-        public string PrivateConfiguration { get; set; }
-        public string PublicConfiguration { get; set; }
-        public string ReferenceName { get; set; }
-        public string State { get; set; }
+        protected const string VirtualMachineBGInfoExtensionNoun = "AzureVMBGInfoExtension";
+
+        protected const string ExtensionDefaultPublisher = "Microsoft.Compute";
+        protected const string ExtensionDefaultName = "BGInfoAgent";
+
+        protected const string CurrentExtensionVersion = "1.0";
+        protected const string ExtensionDefaultReferenceName = "MyBGInfoExtension";
+
+        public VirtualMachineBGInfoExtensionCmdletBase()
+        {
+            base.Publisher = ExtensionDefaultPublisher;
+            base.ExtensionName = ExtensionDefaultName;
+        }
     }
 }
