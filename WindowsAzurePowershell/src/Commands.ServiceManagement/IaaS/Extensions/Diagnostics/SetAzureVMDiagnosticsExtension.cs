@@ -99,15 +99,20 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
             var extensionRef = GetPredicateExtension();
             if (extensionRef != null)
             {
-                this.PublicConfiguration = GetDiagnosticsAgentConfig();
                 SetResourceExtension(extensionRef);
             }
             else
             {
-                WriteWarning(Resources.ResourceExtensionReferenceCannotBeFound);
+                AddResourceExtension();
             }
 
             WriteObject(VM);
+        }
+
+        protected override void ValidateParameters()
+        {
+            base.ValidateParameters();
+            this.PublicConfiguration = GetDiagnosticsAgentConfig();
         }
 
         protected override void ProcessRecord()
