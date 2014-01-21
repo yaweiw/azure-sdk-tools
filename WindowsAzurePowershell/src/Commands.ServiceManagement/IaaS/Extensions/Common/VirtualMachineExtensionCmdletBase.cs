@@ -128,19 +128,25 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
             if (!ResourceExtensionReferences.Any())
             {
                 WriteWarning(Resources.ResourceExtensionReferencesIsNullOrEmpty);
-                return extensionRef;
             }
-
-            extensionRef =
-                ResourceExtensionReferences.FirstOrDefault(ExtensionPredicate);
-            if (extensionRef == null)
+            else
             {
-                throw new ArgumentNullException(
-                    "VM.ResourceExtensionReferences",
-                    Resources.ResourceExtensionReferenceCannotBeFound);
+                extensionRef = ResourceExtensionReferences.FirstOrDefault(ExtensionPredicate);
             }
 
             return extensionRef;
+        }
+
+        protected void AddResourceExtension()
+        {
+            ResourceExtensionReferences.Add(NewResourceExtension());
+        }
+        protected void RemovePredicateExtensions()
+        {
+            foreach (var extension in GetPredicateExtensionList())
+            {
+                ResourceExtensionReferences.Remove(extension);
+            }
         }
 
         protected ResourceExtensionReference NewResourceExtension()

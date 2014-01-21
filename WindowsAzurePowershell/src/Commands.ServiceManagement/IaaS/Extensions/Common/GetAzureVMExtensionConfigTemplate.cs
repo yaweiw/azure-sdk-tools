@@ -91,6 +91,16 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
 
         protected string sampleConfig;
 
+        protected string GetPrivateConfig()
+        {
+            return sampleConfig;
+        }
+
+        protected string GetPublicConfig()
+        {
+            return sampleConfig;
+        }
+
         public void ExecuteCommand()
         {
             ServiceManagementProfile.Initialize(this);
@@ -117,18 +127,18 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
                          ExtensionName = extension.Name,
                          Publisher = extension.Publisher,
                          Version = extension.Version,
-                         PublicConfiguration = sampleConfig,
-                         PrivateConfiguration = sampleConfig
+                         PublicConfiguration = GetPublicConfig(),
+                         PrivateConfiguration = GetPrivateConfig()
                      }));
 
             if (!string.IsNullOrEmpty(this.PublicConfigPath))
             {
-                File.WriteAllText(this.PublicConfigPath, sampleConfig);
+                File.WriteAllText(this.PublicConfigPath, GetPublicConfig());
             }
 
             if (!string.IsNullOrEmpty(this.PrivateConfigPath))
             {
-                File.WriteAllText(this.PrivateConfigPath, sampleConfig);
+                File.WriteAllText(this.PrivateConfigPath, GetPrivateConfig());
             }
         }
 

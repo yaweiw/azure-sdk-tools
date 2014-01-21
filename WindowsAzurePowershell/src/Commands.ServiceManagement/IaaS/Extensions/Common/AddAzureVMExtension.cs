@@ -14,10 +14,9 @@
 
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
 {
-    using Model;
-    using Model.PersistentVMModel;
     using System;
     using System.Management.Automation;
+    using Model;
 
     [Cmdlet(
         VerbsCommon.Add,
@@ -109,7 +108,8 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
 
         internal void ExecuteCommand()
         {
-            ResourceExtensionReferences.Add(NewResourceExtension());
+            ValidateParameters();
+            AddResourceExtension();
             WriteObject(VM);
         }
 
