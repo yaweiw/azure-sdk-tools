@@ -17,6 +17,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
     using System.Collections.Generic;
     using Services.DeploymentEntities;
     using Services.WebEntities;
+    using Microsoft.WindowsAzure.Management.WebSites.Models;
 
     public interface IWebsitesClient
     {
@@ -399,6 +400,8 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
         /// <param name="name">The website name</param>
         /// <returns>The slot name</returns>
         string GetSlotName(string name);
+
+        WebSiteGetPublishProfileResponse.PublishProfile GetWebDeployPublishProfile(string websiteName);
     }
 
     public enum WebsiteState
