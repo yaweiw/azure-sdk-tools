@@ -90,7 +90,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
             out Repository repository,
             out ICredentials credentials)
         {
-            name = GetWebsiteName(name);
+            name = SetWebsiteName(name, null);
             repository = GetRepository(name);
             credentials = new NetworkCredential(
                 repository.PublishingUsername,
@@ -206,7 +206,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
             Predicate<string> endStreaming,
             int waitInternal)
         {
-            name = SetWebsiteName(GetWebsiteName(name), slot);
+            name = SetWebsiteName(name, slot);
             return StartLogStreaming(name, path, message, endStreaming, waitInternal);
         }
 
@@ -218,7 +218,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
         /// <returns>The list of log paths</returns>
         public List<LogPath> ListLogPaths(string name, string slot)
         {
-            name = SetWebsiteName(GetWebsiteName(name), slot);
+            name = SetWebsiteName(name, slot);
             return ListLogPaths(name);
         }
 
@@ -303,7 +303,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
         /// <returns>The website application diagnostics settings</returns>
         public DiagnosticsSettings GetApplicationDiagnosticsSettings(string name, string slot)
         {
-            name = SetWebsiteName(GetWebsiteName(name), slot);
+            name = SetWebsiteName(name, slot);
             return GetApplicationDiagnosticsSettings(name);
         }
 
@@ -380,7 +380,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
         /// <returns>The website instance</returns>
         public Site GetWebsite(string name, string slot)
         {
-            name = SetWebsiteName(GetWebsiteName(name), slot);
+            name = SetWebsiteName(name, slot);
             return GetWebsite(name);
         }
 
@@ -391,13 +391,13 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
         /// <returns>The website instance</returns>
         public Site GetWebsite(string name)
         {
-            name = GetWebsiteName(name);
+            name = SetWebsiteName(name, null);
 
             Site website = WebsiteManagementClient.GetSiteWithCache(name);
 
             if (website == null)
             {
-                throw new Exception(string.Format(Resources.InvalidWebsite, name));
+                throw new CloudException(string.Format(Resources.InvalidWebsite, name));
             }
 
             return website;
@@ -575,7 +575,12 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
             }
         }
 
-        private string GetWebsiteNameFromFullName(string name)
+        /// <summary>
+        /// Gets the website name without slot part
+        /// </summary>
+        /// <param name="name">The website full name which may include slot name</param>
+        /// <returns>The website name</returns>
+        public string GetWebsiteNameFromFullName(string name)
         {
             if (!string.IsNullOrEmpty(GetSlotName(name)))
             {
@@ -605,7 +610,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
         /// <param name="slot">The website slot name</param>
         public void UpdateWebsiteConfiguration(string name, SiteConfig newConfiguration, string slot)
         {
-            name = SetWebsiteName(GetWebsite(name).Name, slot);
+            name = SetWebsiteName(name, slot);
             UpdateWebsiteConfiguration(name, newConfiguration);
         }
 
@@ -968,6 +973,11 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
             return null;
         }
 
+        /// <summary>
+        /// Gets the website publish profile.
+        /// </summary>
+        /// <param name="websiteName">Website name.</param>
+        /// <returns>The publish profile.</returns>
         public WebSiteGetPublishProfileResponse.PublishProfile GetWebDeployPublishProfile(string websiteName)
         {
             var site = this.GetWebsite(websiteName);
