@@ -18,18 +18,19 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
     using System.Management.Automation;
     using Model;
 
-    [Cmdlet(VerbsCommon.Remove, "AzureVMDiagnosticsExtension"), OutputType(typeof(IPersistentVM))]
-    public class RemoveAzureVMDiagnosticsExtensionCommand : VirtualMachineConfigurationCmdletBase
+    [Cmdlet(
+        VerbsCommon.Remove,
+        VirtualMachineDiagnosticsExtensionNoun,
+        DefaultParameterSetName = RemoveDiagnosticsExtensionParamSetName),
+    OutputType(
+        typeof(IPersistentVM))]
+    public class RemoveAzureVMDiagnosticsExtensionCommand : VirtualMachineDiagnosticsExtensionCmdletBase
     {
+        protected const string RemoveDiagnosticsExtensionParamSetName = "RemoveDiagnosticsExtension";
+
         internal void ExecuteCommand()
         {
-            var role = VM.GetInstance();
-            if (role.ResourceExtensionReferences != null)
-            {
-                role.ResourceExtensionReferences.RemoveAll(r => r.Publisher == VMDiagnosticsExtensionBuilder.ExtensionDefaultPublisher &&
-                                                                r.Name == VMDiagnosticsExtensionBuilder.ExtensionDefaultName);
-            }
-
+            RemovePredicateExtensions();
             WriteObject(VM);
         }
 

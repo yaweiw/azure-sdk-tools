@@ -17,16 +17,14 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
     using System;
     using System.Management.Automation;
     using Model;
-    using Model.PersistentVMModel;
-    using Properties;
 
     [Cmdlet(
-        VerbsCommon.Set,
-        "AzureVMEnableVMAccessExtension",
+        VerbsCommon.Add,
+        VirtualMachineEnableAccessExtensionNoun,
         DefaultParameterSetName = EnableExtensionWithNewOrExistingCredentialParameterSet),
     OutputType(
         typeof(IPersistentVM))]
-    public class SetAzureVMEnableVMAccessExtensionCommand : VirtualMachineExtensionCmdletBase
+    public class AddAzureVMEnableAccessExtensionCommand : VirtualMachineEnableAccessExtensionCmdletBase
     {
         public const string EnableExtensionWithNewOrExistingCredentialParameterSet = "EnableExtensionWithNewOrExistingCredential";
         public const string DisableExtensionParameterSet = "DisableExtension";
@@ -36,7 +34,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
             Mandatory = false,
             Position = 1,
             HelpMessage = "New or Existing User Name")]
-        public string UserName
+        public override string UserName
         {
             get;
             set;
@@ -47,7 +45,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
             Mandatory = false,
             Position = 2,
             HelpMessage = "New or Existing User Password")]
-        public string Password
+        public override string Password
         {
             get;
             set;
@@ -58,7 +56,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
             Mandatory = true,
             Position = 1,
             HelpMessage = "Disable VM Access Extension")]
-        public SwitchParameter Disabled
+        public override SwitchParameter Disable
         {
             get;
             set;
@@ -67,15 +65,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
         internal void ExecuteCommand()
         {
             ValidateParameters();
-
-            ResourceExtensionReferences.RemoveAll(
-                e => e.Publisher == VMEnableVMAccessExtensionBuilder.ExtensionDefaultPublisher
-                  && e.Name == VMEnableVMAccessExtensionBuilder.ExtensionDefaultName);
-
-            ResourceExtensionReferences.Add(
-                Disabled.IsPresent ? new VMEnableVMAccessExtensionBuilder().GetResourceReference()
-                                   : new VMEnableVMAccessExtensionBuilder(this.UserName, this.Password).GetResourceReference());
-
+            AddResourceExtension();
             WriteObject(VM);
         }
 

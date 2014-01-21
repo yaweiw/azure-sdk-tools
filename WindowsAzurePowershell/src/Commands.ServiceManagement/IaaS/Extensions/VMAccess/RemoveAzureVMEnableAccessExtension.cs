@@ -18,18 +18,19 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
     using System.Management.Automation;
     using Model;
 
-    [Cmdlet(VerbsCommon.Remove, "AzureVMEnableVMAccessExtension"), OutputType(typeof(IPersistentVM))]
-    public class RemoveAzureVMEnableVMAccessExtensionCommand : VirtualMachineConfigurationCmdletBase
+    [Cmdlet(
+        VerbsCommon.Remove,
+        VirtualMachineEnableAccessExtensionNoun,
+        DefaultParameterSetName = RemoveEnableAccessExtensionParamSetName),
+    OutputType(
+        typeof(IPersistentVM))]
+    public class RemoveAzureVMEnableAccessExtensionCommand : VirtualMachineEnableAccessExtensionCmdletBase
     {
+        protected const string RemoveEnableAccessExtensionParamSetName = "RemoveEnableAccessExtension";
+
         internal void ExecuteCommand()
         {
-            var role = VM.GetInstance();
-            if (role.ResourceExtensionReferences != null)
-            {
-                role.ResourceExtensionReferences.RemoveAll(r => r.Publisher == VMEnableVMAccessExtensionBuilder.ExtensionDefaultPublisher &&
-                                                                r.Name == VMEnableVMAccessExtensionBuilder.ExtensionDefaultName);
-            }
-
+            RemovePredicateExtensions();
             WriteObject(VM);
         }
 

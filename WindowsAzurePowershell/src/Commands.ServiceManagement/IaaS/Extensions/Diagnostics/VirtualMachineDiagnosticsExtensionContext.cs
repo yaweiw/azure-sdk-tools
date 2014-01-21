@@ -17,16 +17,8 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
     using System;
     using System.Xml;
 
-    public class VMDiagnosticsExtensionContext
+    public class VirtualMachineDiagnosticsExtensionContext : VirtualMachineExtensionContext
     {
-        public string Name { get; set; }
-
-        public string Publisher { get; set; }
-
-        public string ReferenceName { get; set; }
-
-        public string Version { get; set; }
-
         public XmlDocument DiagnosticsConfiguration { get; set; }
 
         public string StorageAccountName { get; set; }
