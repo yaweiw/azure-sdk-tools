@@ -14,11 +14,10 @@
 
 namespace Microsoft.WindowsAzure.Commands.Test.Websites
 {
-    using System.Collections.Generic;
     using System.Management.Automation;
     using Commands.Utilities.Websites;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
-    using Microsoft.WindowsAzure.Commands.Utilities.Websites.Services;
+    using Microsoft.WindowsAzure.Commands.Utilities.Websites.Services.WebJobs;
     using Microsoft.WindowsAzure.Commands.Websites.WebJobs;
     using Moq;
     using Utilities.Websites;
@@ -68,7 +67,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.Websites
             cmdlet.ExecuteCmdlet();
 
             // Assert
-            websitesClientMock.Verify(f => f.FilterWebJobs(websiteName, slot, null, null), Times.Once());
+            websitesClientMock.Verify(f => f.CreateWebJob(websiteName, slot, jobName, jobType, jobFile, false), Times.Once());
             commandRuntimeMock.Verify(f => f.WriteObject(output), Times.Once());
         }
     }

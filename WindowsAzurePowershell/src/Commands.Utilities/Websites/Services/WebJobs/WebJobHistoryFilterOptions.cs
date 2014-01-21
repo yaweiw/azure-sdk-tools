@@ -12,12 +12,18 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Commands.Utilities.Websites.Services
+namespace Microsoft.WindowsAzure.Commands.Utilities.Websites.Services.WebJobs
 {
-    public class WebJob
+    public class WebJobHistoryFilterOptions
     {
         public string Name { get; set; }
 
-        public string Type { get; set; }
+        public string Slot { get; set; }
+
+        public string JobName { get; set; }
+
+        public string RunId { get; set; }
+
+        public bool Latest { get; set; }
     }
 }

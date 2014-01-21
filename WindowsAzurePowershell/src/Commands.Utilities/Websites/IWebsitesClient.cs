@@ -16,6 +16,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
     using System;
     using System.Collections.Generic;
     using Microsoft.WindowsAzure.Commands.Utilities.Websites.Services;
+    using Microsoft.WindowsAzure.Commands.Utilities.Websites.Services.WebJobs;
     using Services.DeploymentEntities;
     using Services.WebEntities;
 
@@ -409,14 +410,11 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
         string GetWebsiteNameFromFullName(string name);
 
         /// <summary>
-        /// Filters the web jobs for a website.
+        /// Filters the web jobs.
         /// </summary>
-        /// <param name="Name">The website name</param>
-        /// <param name="Slot">The website slot</param>
-        /// <param name="JobName">The web job name</param>
-        /// <param name="JobType">The web job type</param>
+        /// <param name="options">The web job filter options</param>
         /// <returns>The filtered web jobs list</returns>
-        List<WebJob> FilterWebJobs(string name, string slot, string jobName, string jobType);
+        List<WebJob> FilterWebJobs(WebJobFilterOptions options);
 
         /// <summary>
         /// Creates new web job for a website
@@ -456,6 +454,13 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
         /// <param name="jobName">The web job name</param>
         /// <param name="jobType">The web job type</param>
         void StopWebJob(string name, string slot, string jobName, WebJobType jobType);
+
+        /// <summary>
+        /// Filters a web job history.
+        /// </summary>
+        /// <param name="options">The web job filter options</param>
+        /// <returns>The filtered web jobs run list</returns>
+        List<WebJobRun> FilterWebJobHistory(WebJobHistoryFilterOptions options);
     }
 
     public enum WebsiteState
