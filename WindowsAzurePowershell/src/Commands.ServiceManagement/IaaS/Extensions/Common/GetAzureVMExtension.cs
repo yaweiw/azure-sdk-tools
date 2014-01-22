@@ -21,7 +21,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
     [Cmdlet(
         VerbsCommon.Get,
         VirtualMachineExtensionNoun,
-        DefaultParameterSetName = ListByExtensionParamSetName),
+        DefaultParameterSetName = ListByReferenceParamSetName),
     OutputType(
         typeof(VirtualMachineExtensionContext))]
     public class GetAzureVMExtensionCommand : VirtualMachineExtensionCmdletBase
@@ -69,7 +69,6 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
 
         [Parameter(
             ParameterSetName = ListByReferenceParamSetName,
-            Mandatory = true,
             ValueFromPipelineByPropertyName = true,
             Position = 1,
             HelpMessage = "The Extension Reference Name.")]
@@ -82,7 +81,10 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
 
         internal void ExecuteCommand()
         {
-            var extensionRefs = GetPredicateExtensionList();
+            var extensionRefs =
+                string.IsNullOrEmpty(ReferenceName) && string.IsNullOrEmpty(ExtensionName) ?
+                ResourceExtensionReferences : GetPredicateExtensionList();
+
             WriteObject(
                 extensionRefs == null ? null : extensionRefs.Select(
                 r => new VirtualMachineExtensionContext
@@ -92,23 +94,16 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
                     Publisher = r.Publisher,
                     Version = r.Version,
                     State = r.State,
-                    PublicConfiguration = GetConfiguration(r, PublicTypeStr),
+                    PublicConfiguration = IsLegacyExtension(r.Name, r.Publisher, r.Version)
+                                        ? GetConfiguration(r) : GetConfiguration(r, PublicTypeStr),
                     PrivateConfiguration = GetConfiguration(r, PrivateTypeStr)
                 }));
         }
 
         protected override void ProcessRecord()
         {
-            ServiceManagementProfile.Initialize();
-            try
-            {
-                base.ProcessRecord();
-                ExecuteCommand();
-            }
-            catch (Exception ex)
-            {
-                WriteError(new ErrorRecord(ex, string.Empty, ErrorCategory.CloseError, null));
-            }
+            base.ProcessRecord();
+            ExecuteCommand();
         }
     }
 }

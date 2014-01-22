@@ -77,8 +77,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Extensions
 
                     return from role in extensionRoleList
                            from extension in r.Extensions
-                           where ExtensionManager.CheckNameSpaceType(extension, ExtensionNameSpace, ExtensionType)
-                              && ExtensionManager.GetBuilder(Deployment.ExtensionConfiguration).Exist(role, extension.Id)
+                           where ExtensionManager.GetBuilder(Deployment.ExtensionConfiguration).Exist(role, extension.Id)
                            select new ExtensionContext
                            {
                                OperationId = s.Id,

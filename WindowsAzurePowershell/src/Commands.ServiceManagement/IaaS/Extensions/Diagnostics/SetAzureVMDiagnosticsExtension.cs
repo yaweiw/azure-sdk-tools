@@ -14,14 +14,9 @@
 
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
 {
-    using System;
-    using System.Linq;
     using System.Management.Automation;
     using System.Xml;
     using Model;
-    using Model.PersistentVMModel;
-    using Properties;
-    using Utilities.Common;
 
     [Cmdlet(
         VerbsCommon.Set,
@@ -93,40 +88,35 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
             set;
         }
 
+        [Parameter(
+            ValueFromPipelineByPropertyName = true,
+            HelpMessage = "The Extension Version.")]
+        [ValidateNotNullOrEmpty]
+        public override string Version
+        {
+            get;
+            set;
+        }
+
         internal void ExecuteCommand()
         {
             ValidateParameters();
-            var extensionRef = GetPredicateExtension();
-            if (extensionRef != null)
-            {
-                SetResourceExtension(extensionRef);
-            }
-            else
-            {
-                AddResourceExtension();
-            }
-
+            RemovePredicateExtensions();
+            AddResourceExtension();
             WriteObject(VM);
         }
 
         protected override void ValidateParameters()
         {
             base.ValidateParameters();
-            this.PublicConfiguration = GetDiagnosticsAgentConfig();
+            this.Version = this.Version ?? DiagnosticsAgentLegacyVersion;
+            this.PublicConfiguration = GetPublicConfiguration();
         }
 
         protected override void ProcessRecord()
         {
-            ServiceManagementProfile.Initialize();
-            try
-            {
-                base.ProcessRecord();
-                ExecuteCommand();
-            }
-            catch (Exception ex)
-            {
-                WriteError(new ErrorRecord(ex, string.Empty, ErrorCategory.CloseError, null));
-            }
+            base.ProcessRecord();
+            ExecuteCommand();
         }
     }
 }

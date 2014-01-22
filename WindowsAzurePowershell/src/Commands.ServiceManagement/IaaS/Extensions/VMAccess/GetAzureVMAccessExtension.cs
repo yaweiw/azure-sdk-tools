@@ -14,19 +14,18 @@
 
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
 {
-    using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Management.Automation;
 
     [Cmdlet(
         VerbsCommon.Get,
-        VirtualMachineEnableAccessExtensionNoun,
-        DefaultParameterSetName = GetEnableAccessExtensionParamSetName),
-    OutputType(typeof(IEnumerable<VirtualMachineEnableAccessExtensionContext>))]
-    public class GetAzureVMEnableAccessExtensionCommand : VirtualMachineEnableAccessExtensionCmdletBase
+        VirtualMachineAccessExtensionNoun,
+        DefaultParameterSetName = GetAccessExtensionParamSetName),
+    OutputType(typeof(IEnumerable<VirtualMachineAccessExtensionContext>))]
+    public class GetAzureVMAccessExtensionCommand : VirtualMachineAccessExtensionCmdletBase
     {
-        protected const string GetEnableAccessExtensionParamSetName = "GetEnableAccessExtension";
+        protected const string GetAccessExtensionParamSetName = "GetAccessExtension";
 
         internal void ExecuteCommand()
         {
@@ -36,7 +35,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
                 r =>
                 {
                     GetEnableVMAccessAgentValues(r.ResourceExtensionParameterValues);
-                    return new VirtualMachineEnableAccessExtensionContext
+                    return new VirtualMachineAccessExtensionContext
                     {
                         ExtensionName = r.Name,
                         Publisher = r.Publisher,
@@ -45,22 +44,17 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
                         State = r.State,
                         Enabled = !Disable,
                         UserName = UserName,
-                        Password = Password
+                        Password = Password,
+                        PublicConfiguration = PublicConfiguration,
+                        PrivateConfiguration = PrivateConfiguration
                     };
                 }));
         }
 
         protected override void ProcessRecord()
         {
-            try
-            {
-                base.ProcessRecord();
-                ExecuteCommand();
-            }
-            catch (Exception ex)
-            {
-                WriteError(new ErrorRecord(ex, string.Empty, ErrorCategory.CloseError, null));
-            }
+            base.ProcessRecord();
+            ExecuteCommand();
         }
     }
 }
