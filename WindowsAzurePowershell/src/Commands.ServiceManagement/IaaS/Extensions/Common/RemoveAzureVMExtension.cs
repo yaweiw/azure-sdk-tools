@@ -109,16 +109,8 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
 
         protected override void ProcessRecord()
         {
-            ServiceManagementProfile.Initialize();
-            try
-            {
-                base.ProcessRecord();
-                ExecuteCommand();
-            }
-            catch (Exception ex)
-            {
-                WriteError(new ErrorRecord(ex, string.Empty, ErrorCategory.CloseError, null));
-            }
+            base.ProcessRecord();
+            ExecuteCommand();
         }
     }
 }

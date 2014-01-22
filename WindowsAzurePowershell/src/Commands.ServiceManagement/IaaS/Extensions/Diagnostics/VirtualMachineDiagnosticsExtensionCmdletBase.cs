@@ -14,7 +14,6 @@
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
 {
     using System;
-    using System.Collections.Generic;
     using System.Linq;
     using System.Xml;
     using System.Xml.Linq;
@@ -26,17 +25,17 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
 
     public class VirtualMachineDiagnosticsExtensionCmdletBase : VirtualMachineExtensionCmdletBase
     {
-        public const string EnableExtensionUsingXmlDocumentParameterSet = "EnableExtensionUsingXmlDocument";
-        public const string EnableExtensionUsingXmlFilePathParameterSet = "EnableExtensionUsingXmlFilePath";
-        public const string EnableExtensionUsingXmlDocumentParameterSetUsingStorageContext = "EnableExtensionUsingXmlDocumentUsingStorageContext";
-        public const string EnableExtensionUsingXmlFilePathParameterSetUsingStorageContext = "EnableExtensionUsingXmlFilePathUsingStorageContext";
-        public const string DisableExtensionParameterSet = "DisableExtension";
+        protected const string EnableExtensionUsingXmlDocumentParameterSet = "EnableExtensionUsingXmlDocument";
+        protected const string EnableExtensionUsingXmlFilePathParameterSet = "EnableExtensionUsingXmlFilePath";
+        protected const string EnableExtensionUsingXmlDocumentParameterSetUsingStorageContext = "EnableExtensionUsingXmlDocumentUsingStorageContext";
+        protected const string EnableExtensionUsingXmlFilePathParameterSetUsingStorageContext = "EnableExtensionUsingXmlFilePathUsingStorageContext";
+        protected const string DisableExtensionParameterSet = "DisableExtension";
 
         protected const string VirtualMachineDiagnosticsExtensionNoun = "AzureVMDiagnosticsExtension";
 
         protected const string ExtensionDefaultPublisher = "Microsoft.Compute";
         protected const string ExtensionDefaultName = "DiagnosticsAgent";
-        protected const string CurrentExtensionVersion = "0.1";
+        protected const string DiagnosticsAgentLegacyVersion = "0.1";
 
         protected const string ExtensionDefaultReferenceName = "MyDiagnosticsAgent";
         protected const string ExtensionReferenceKeyStr = "DiagnosticsAgentConfigParameter";
@@ -58,8 +57,6 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
 
         public virtual Uri[] Endpoints { get; set; }
 
-        public virtual bool Enabled { get; set; }
-
         public virtual XmlDocument DiagnosticsConfiguration { get; set; }
 
         public virtual string DiagnosticsConfigurationFile { get; set; }
@@ -74,16 +71,16 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
             ExtensionName = ExtensionDefaultName;
         }
 
-        protected string GetDiagnosticsAgentConfig()
+        protected string GetPublicConfiguration()
         {
             XDocument publicCfg = null;
-            if (Enabled)
+            if (!Disable)
             {
                 XNamespace configNameSpace = "http://schemas.microsoft.com/ServiceHosting/2010/10/DiagnosticsConfiguration";
                 publicCfg = new XDocument(
                     new XDeclaration("1.0", "utf-8", null),
                     new XElement(ConfigurationElem,
-                        new XElement(EnabledElem, Enabled.ToString().ToLower()),
+                        new XElement(EnabledElem, (!Disable).ToString().ToLower()),
                         new XElement(PublicElem,
                             new XElement(configNameSpace + PublicConfigElem,
                                 new XElement(configNameSpace + WadCfgElem, string.Empty),
@@ -106,7 +103,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
                 publicCfg = new XDocument(
                     new XDeclaration("1.0", "utf-8", null),
                     new XElement(ConfigurationElem,
-                        new XElement(EnabledElem, Enabled.ToString().ToLower())
+                        new XElement(EnabledElem, (!Disable).ToString().ToLower())
                     )
                 );
             }
@@ -132,7 +129,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
 
         protected void GetDiagnosticsAgentValues(string extensionCfg)
         {
-            this.Enabled = bool.Parse(GetConfigValue(extensionCfg, EnabledElem).ToLower());
+            this.Disable = !bool.Parse(GetConfigValue(extensionCfg, EnabledElem).ToLower());
 
             var storageConnectionString = GetConfigValue(extensionCfg, StorageAccountConnectionStringElem);
             var cloudStorageAccount = string.IsNullOrEmpty(storageConnectionString) ? null : CloudStorageAccount.Parse(storageConnectionString);

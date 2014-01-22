@@ -14,7 +14,7 @@
 
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
 {
-    public class VirtualMachineEnableAccessExtensionContext : VirtualMachineExtensionContext
+    public class VirtualMachineAccessExtensionContext : VirtualMachineExtensionContext
     {
         public string UserName { get; set; }
         public string Password { get; set; }
