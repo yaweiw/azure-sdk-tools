@@ -14,7 +14,6 @@
 
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
 {
-    using System;
     using System.Linq;
     using System.Management.Automation;
 
@@ -44,21 +43,19 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
                         Version = r.Version,
                         State = r.State,
                         Enabled = !Disable,
+                        PublicConfiguration = PublicConfiguration,
+                        PrivateConfiguration = PrivateConfiguration,
+                        StorageAccountName = StorageAccountName,
+                        Endpoints = Endpoints,
+                        DiagnosticsConfiguration = DiagnosticsConfiguration
                     };
                 }));
         }
 
         protected override void ProcessRecord()
         {
-            try
-            {
-                base.ProcessRecord();
-                ExecuteCommand();
-            }
-            catch (Exception ex)
-            {
-                WriteError(new ErrorRecord(ex, string.Empty, ErrorCategory.CloseError, null));
-            }
+            base.ProcessRecord();
+            ExecuteCommand();
         }
     }
 }

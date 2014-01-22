@@ -14,10 +14,8 @@
 
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
 {
-    using System;
     using System.Management.Automation;
     using Model;
-    using Properties;
 
     [Cmdlet(
         VerbsCommon.Set,
@@ -42,30 +40,15 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
         internal void ExecuteCommand()
         {
             ValidateParameters();
-            var extensionRef = GetPredicateExtension();
-            if (extensionRef != null)
-            {
-                SetResourceExtension(extensionRef);
-            }
-            else
-            {
-                AddResourceExtension();
-            }
-
+            RemovePredicateExtensions();
+            AddResourceExtension();
             WriteObject(VM);
         }
 
         protected override void ProcessRecord()
         {
-            try
-            {
-                base.ProcessRecord();
-                ExecuteCommand();
-            }
-            catch (Exception ex)
-            {
-                WriteError(new ErrorRecord(ex, string.Empty, ErrorCategory.CloseError, null));
-            }
+            base.ProcessRecord();
+            ExecuteCommand();
         }
     }
 }

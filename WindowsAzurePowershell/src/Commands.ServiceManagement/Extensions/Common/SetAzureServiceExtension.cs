@@ -20,9 +20,9 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Extensions
     using Model.PersistentVMModel;
 
     /// <summary>
-    /// New Windows Azure Service Extension.
+    /// Set Windows Azure Service Extension.
     /// </summary>
-    [Cmdlet(VerbsCommon.New, "AzureServiceExtension", DefaultParameterSetName = "NewExtension"), OutputType(typeof(ExtensionConfigurationInput))]
+    [Cmdlet(VerbsCommon.Set, "AzureServiceExtension", DefaultParameterSetName = "SetExtension"), OutputType(typeof(ExtensionConfigurationInput))]
     public class SetAzureServiceExtensionCommand : BaseAzureServiceExtensionCmdlet
     {
         [Parameter(Position = 0, ValueFromPipelineByPropertyName = true, ParameterSetName = "SetExtension", HelpMessage = "Cloud Service Name")]
