@@ -21,7 +21,8 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
         public string Publisher { get; set; }
         public string ExtensionName { get; set; }
         public string Version { get; set; }
-        public string PublicConfiguration { get; set; }
+        public string SampleConfig { get; set; }
         public string PrivateConfiguration { get; set; }
+        public string PublicConfiguration { get; set; }
     }
 }

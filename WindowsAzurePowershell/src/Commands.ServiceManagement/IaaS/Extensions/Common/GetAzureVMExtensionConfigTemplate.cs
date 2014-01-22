@@ -26,7 +26,11 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
     /// <summary>
     /// Get Windows Azure VM Extension Image.
     /// </summary>
-    [Cmdlet(VerbsCommon.Get, AzureVMExtensionConfigTemplateCommandNoun), OutputType(typeof(VirtualMachineExtensionConfigContext))]
+    [Cmdlet(
+        VerbsCommon.Get,
+        AzureVMExtensionConfigTemplateCommandNoun),
+    OutputType(
+        typeof(VirtualMachineExtensionConfigContext))]
     public class GetAzureVMExtensionConfigTemplateCommand : ServiceManagementBaseCmdlet
     {
         protected const string AzureVMExtensionConfigTemplateCommandNoun = "AzureVMExtensionConfigTemplate";
@@ -70,36 +74,15 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
             Mandatory = true,
             Position = 3,
             ValueFromPipelineByPropertyName = true,
-            HelpMessage = "The File Path to Save the Private Config Template.")]
+            HelpMessage = "The File Path to Save the Sample Config Template.")]
         [ValidateNotNullOrEmpty]
-        public string PublicConfigPath
-        {
-            get;
-            set;
-        }
-
-        [Parameter(
-            Position = 4,
-            ValueFromPipelineByPropertyName = true,
-            HelpMessage = "The File Path to Save the Private Config Template.")]
-        [ValidateNotNullOrEmpty]
-        public string PrivateConfigPath
+        public string SampleConfigPath
         {
             get;
             set;
         }
 
         protected string sampleConfig;
-
-        protected string GetPrivateConfig()
-        {
-            return sampleConfig;
-        }
-
-        protected string GetPublicConfig()
-        {
-            return sampleConfig;
-        }
 
         public void ExecuteCommand()
         {
@@ -127,18 +110,12 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
                          ExtensionName = extension.Name,
                          Publisher = extension.Publisher,
                          Version = extension.Version,
-                         PublicConfiguration = GetPublicConfig(),
-                         PrivateConfiguration = GetPrivateConfig()
+                         SampleConfig = extension.SampleConfig
                      }));
 
-            if (!string.IsNullOrEmpty(this.PublicConfigPath))
+            if (!string.IsNullOrEmpty(this.SampleConfigPath))
             {
-                File.WriteAllText(this.PublicConfigPath, GetPublicConfig());
-            }
-
-            if (!string.IsNullOrEmpty(this.PrivateConfigPath))
-            {
-                File.WriteAllText(this.PrivateConfigPath, GetPrivateConfig());
+                File.WriteAllText(this.SampleConfigPath, sampleConfig);
             }
         }
 
