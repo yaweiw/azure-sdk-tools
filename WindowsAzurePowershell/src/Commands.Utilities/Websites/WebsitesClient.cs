@@ -983,6 +983,8 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
         /// <returns>The filtered web jobs list</returns>
         public List<WebJob> FilterWebJobs(WebJobFilterOptions options)
         {
+            options.Name = SetWebsiteName(options.Name, options.Slot);
+
             throw new NotImplementedException();
         }
 
@@ -997,6 +999,8 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
         /// <param name="singleton">True if you only want the job to run in 1 instance of the web site</param>
         public WebJob CreateWebJob(string name, string slot, string jobName, WebJobType jobType, string jobFile, bool singleton)
         {
+            name = SetWebsiteName(name, slot);
+
             if (jobType == WebJobType.Triggered && singleton)
             {
                 throw new InvalidOperationException(Resources.InvalidWebJobSingleton);
@@ -1014,6 +1018,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
         /// <param name="jobType">The web job type</param>
         public void DeleteWebJob(string name, string slot, string jobName, WebJobType jobType)
         {
+            name = SetWebsiteName(name, slot);
             throw new NotImplementedException();
         }
 
@@ -1026,6 +1031,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
         /// <param name="jobType">The web job type</param>
         public void StartWebJob(string name, string slot, string jobName, WebJobType jobType)
         {
+            name = SetWebsiteName(name, slot);
             throw new NotImplementedException();
         }
 
@@ -1038,6 +1044,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
         /// <param name="jobType">The web job type</param>
         public void StopWebJob(string name, string slot, string jobName, WebJobType jobType)
         {
+            name = SetWebsiteName(name, slot);
             throw new NotImplementedException();
         }
 
@@ -1048,7 +1055,42 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
         /// <returns>The filtered web jobs run list</returns>
         public List<WebJobRun> FilterWebJobHistory(WebJobHistoryFilterOptions options)
         {
+            options.Name = SetWebsiteName(options.Name, options.Slot);
             throw new NotImplementedException();
+        }
+
+        /// <summary>
+        /// Saves a web job logs to file.
+        /// </summary>
+        /// <param name="name">The website name</param>
+        /// <param name="slot">The slot name</param>
+        /// <param name="jobName">The web job name</param>
+        /// <param name="jobType">The web job type</param>
+        /// <param name="output">The output file name</param>
+        /// <param name="runId">The job run id</param>
+        public void SaveWebJobLog(string name, string slot, string jobName, WebJobType jobType, string output, string runId)
+        {
+            name = SetWebsiteName(name, slot);
+
+            if (jobType == WebJobType.Continuous && !string.IsNullOrEmpty(runId))
+	        {
+		        throw new InvalidOperationException();
+	        }
+
+            throw new NotImplementedException();
+        }
+
+        /// <summary>
+        /// Saves a web job logs to file.
+        /// </summary>
+        /// <param name="name">The website name</param>
+        /// <param name="slot">The slot name</param>
+        /// <param name="jobName">The web job name</param>
+        /// <param name="jobType">The web job type</param>
+        public void SaveWebJobLog(string name, string slot, string jobName, WebJobType jobType)
+        {
+            const string defaultLogFile = ".\\jobLog.zip";
+            SaveWebJobLog(name, slot, jobName, jobType, defaultLogFile, null);
         }
 
         #endregion

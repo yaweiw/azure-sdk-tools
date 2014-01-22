@@ -461,6 +461,26 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
         /// <param name="options">The web job filter options</param>
         /// <returns>The filtered web jobs run list</returns>
         List<WebJobRun> FilterWebJobHistory(WebJobHistoryFilterOptions options);
+
+        /// <summary>
+        /// Saves a web job logs to file.
+        /// </summary>
+        /// <param name="name">The website name</param>
+        /// <param name="slot">The slot name</param>
+        /// <param name="jobName">The web job name</param>
+        /// <param name="jobType">The web job type</param>
+        void SaveWebJobLog(string name, string slot, string jobName, WebJobType jobType);
+
+        /// <summary>
+        /// Saves a web job logs to file.
+        /// </summary>
+        /// <param name="name">The website name</param>
+        /// <param name="slot">The slot name</param>
+        /// <param name="jobName">The web job name</param>
+        /// <param name="jobType">The web job type</param>
+        /// <param name="output">The output file name</param>
+        /// <param name="runId">The job run id</param>
+        void SaveWebJobLog(string name, string slot, string jobName, WebJobType jobType, string output, string runId);
     }
 
     public enum WebsiteState
