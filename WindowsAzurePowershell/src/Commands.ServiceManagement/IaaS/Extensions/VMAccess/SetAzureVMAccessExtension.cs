@@ -14,26 +14,25 @@
 
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
 {
-    using System;
     using System.Management.Automation;
     using Model;
-    using Properties;
 
     [Cmdlet(
         VerbsCommon.Set,
-        VirtualMachineEnableAccessExtensionNoun,
-        DefaultParameterSetName = EnableExtensionWithNewOrExistingCredentialParameterSet),
+        VirtualMachineAccessExtensionNoun,
+        DefaultParameterSetName = EnableExtensionParamSetName),
     OutputType(
         typeof(IPersistentVM))]
-    public class SetAzureVMEnableAccessExtensionCommand : VirtualMachineEnableAccessExtensionCmdletBase
+    public class SetAzureVMAccessExtensionCommand : VirtualMachineAccessExtensionCmdletBase
     {
-        public const string EnableExtensionWithNewOrExistingCredentialParameterSet = "EnableExtensionWithNewOrExistingCredential";
-        public const string DisableExtensionParameterSet = "DisableExtension";
+        public const string EnableExtensionParamSetName = "EnableAccessExtension";
+        public const string DisableExtensionParamSetName = "DisableAccessExtension";
 
         [Parameter(
-            ParameterSetName = EnableExtensionWithNewOrExistingCredentialParameterSet,
+            ParameterSetName = EnableExtensionParamSetName,
             Mandatory = false,
             Position = 1,
+            ValueFromPipelineByPropertyName = true,
             HelpMessage = "New or Existing User Name")]
         public override string UserName
         {
@@ -42,9 +41,10 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
         }
 
         [Parameter(
-            ParameterSetName = EnableExtensionWithNewOrExistingCredentialParameterSet,
+            ParameterSetName = EnableExtensionParamSetName,
             Mandatory = false,
             Position = 2,
+            ValueFromPipelineByPropertyName = true,
             HelpMessage = "New or Existing User Password")]
         public override string Password
         {
@@ -53,9 +53,10 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
         }
 
         [Parameter(
-            ParameterSetName = DisableExtensionParameterSet,
+            ParameterSetName = DisableExtensionParamSetName,
             Mandatory = true,
             Position = 1,
+            ValueFromPipelineByPropertyName = true,
             HelpMessage = "Disable VM Access Extension")]
         public override SwitchParameter Disable
         {
@@ -63,39 +64,42 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
             set;
         }
 
+        [Parameter(
+            ParameterSetName = EnableExtensionParamSetName,
+            Position = 3,
+            ValueFromPipelineByPropertyName = true,
+            HelpMessage = "The Extension Version.")]
+        [Parameter(
+            ParameterSetName = DisableExtensionParamSetName,
+            Position = 2,
+            ValueFromPipelineByPropertyName = true,
+            HelpMessage = "The Extension Version.")]
+        [ValidateNotNullOrEmpty]
+        public override string Version
+        {
+            get;
+            set;
+        }
+
         internal void ExecuteCommand()
         {
-            var extensionRef = GetPredicateExtension();
-            if (extensionRef != null)
-            {
-                SetResourceExtension(extensionRef);
-            }
-            else
-            {
-                AddResourceExtension();
-            }
-
+            ValidateParameters();
+            RemovePredicateExtensions();
+            AddResourceExtension();
             WriteObject(VM);
         }
 
         protected override void ValidateParameters()
         {
             base.ValidateParameters();
-            this.PublicConfiguration = GetEnableVMAccessAgentConfig();
+            this.Version = this.Version ?? VMAccessAgentLegacyVersion;
+            this.PublicConfiguration = GetPublicConfiguration();
         }
 
         protected override void ProcessRecord()
         {
-            ServiceManagementProfile.Initialize();
-            try
-            {
-                base.ProcessRecord();
-                ExecuteCommand();
-            }
-            catch (Exception ex)
-            {
-                WriteError(new ErrorRecord(ex, string.Empty, ErrorCategory.CloseError, null));
-            }
+            base.ProcessRecord();
+            ExecuteCommand();
         }
     }
 }

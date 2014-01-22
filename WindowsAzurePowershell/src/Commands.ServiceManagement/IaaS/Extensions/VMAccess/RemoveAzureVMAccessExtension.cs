@@ -14,19 +14,18 @@
 
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
 {
-    using System;
     using System.Management.Automation;
     using Model;
 
     [Cmdlet(
         VerbsCommon.Remove,
-        VirtualMachineEnableAccessExtensionNoun,
-        DefaultParameterSetName = RemoveEnableAccessExtensionParamSetName),
+        VirtualMachineAccessExtensionNoun,
+        DefaultParameterSetName = RemoveAccessExtensionParamSetName),
     OutputType(
         typeof(IPersistentVM))]
-    public class RemoveAzureVMEnableAccessExtensionCommand : VirtualMachineEnableAccessExtensionCmdletBase
+    public class RemoveAzureVMAccessExtensionCommand : VirtualMachineAccessExtensionCmdletBase
     {
-        protected const string RemoveEnableAccessExtensionParamSetName = "RemoveEnableAccessExtension";
+        protected const string RemoveAccessExtensionParamSetName = "RemoveAccessExtension";
 
         internal void ExecuteCommand()
         {
@@ -36,15 +35,8 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
 
         protected override void ProcessRecord()
         {
-            try
-            {
-                base.ProcessRecord();
-                ExecuteCommand();
-            }
-            catch (Exception ex)
-            {
-                WriteError(new ErrorRecord(ex, string.Empty, ErrorCategory.CloseError, null));
-            }
+            base.ProcessRecord();
+            ExecuteCommand();
         }
     }
 }

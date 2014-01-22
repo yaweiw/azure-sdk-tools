@@ -13,48 +13,45 @@
 // ----------------------------------------------------------------------------------
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
 {
-    using System.Collections.Generic;
     using System.Linq;
     using System.Xml.Linq;
     using Model.PersistentVMModel;
 
-    public class VirtualMachineEnableAccessExtensionCmdletBase : VirtualMachineExtensionCmdletBase
+    public class VirtualMachineAccessExtensionCmdletBase : VirtualMachineExtensionCmdletBase
     {
-        protected const string VirtualMachineEnableAccessExtensionNoun = "AzureVMEnableAccessExtension";
+        protected const string VirtualMachineAccessExtensionNoun = "AzureVMAccessExtension";
 
         protected const string ExtensionDefaultPublisher = "Microsoft.Compute";
         protected const string ExtensionDefaultName = "VMAccessAgent";
-        protected const string CurrentExtensionVersion = "0.1";
 
-        protected const string ExtensionDefaultReferenceName = "MyPasswordResetExtension";
-        protected const string ExtensionReferenceKeyStr = "VMAccessAgentConfigParameter";
+        protected const string VMAccessAgentLegacyVersion = "0.1";
 
         private const string ConfigurationElem = "Configuration";
-        private const string EnabledElem = "Enabled";
         private const string PublicElem = "Public";
         private const string PublicConfigElem = "PublicConfig";
         private const string AccountElem = "Account";
+        private const string EnabledElem = "Enabled";
         private const string UserNameElem = "UserName";
         private const string PasswordElem = "Password";
 
         public virtual string UserName { get; set; }
         public virtual string Password { get; set; }
 
-        public VirtualMachineEnableAccessExtensionCmdletBase()
+        public VirtualMachineAccessExtensionCmdletBase()
         {
             Publisher = ExtensionDefaultPublisher;
             ExtensionName = ExtensionDefaultName;
         }
 
-        protected string GetEnableVMAccessAgentConfig()
+        protected string GetPublicConfiguration()
         {
             XDocument config = null;
-            if (Disable)
+            if (Disable.IsPresent)
             {
                 config = new XDocument(
                     new XDeclaration("1.0", "utf-8", null),
                     new XElement(ConfigurationElem,
-                        new XElement(EnabledElem, Disable.ToString().ToLower())
+                        new XElement(EnabledElem, (!Disable.IsPresent).ToString().ToLower())
                     )
                 );
             }
@@ -63,7 +60,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
                 config = new XDocument(
                     new XDeclaration("1.0", "utf-8", null),
                     new XElement(ConfigurationElem,
-                        new XElement(EnabledElem, Disable.ToString().ToLower()),
+                        new XElement(EnabledElem, (!Disable.IsPresent).ToString().ToLower()),
                         new XElement(PublicElem,
                             new XElement(PublicConfigElem,
                                 new XElement(AccountElem,

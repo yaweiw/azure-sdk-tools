@@ -35,6 +35,8 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
         protected const string ReferenceDisableStr = "Disable";
         protected const string ReferenceEnableStr = "Enable";
 
+        protected static VirtualMachineExtensionImageContext[] LegacyExtensionImages;
+
         public virtual string ExtensionName { get; set; }
         public virtual string Publisher { get; set; }
         public virtual string Version { get; set; }
@@ -42,8 +44,6 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
         public virtual string PublicConfiguration { get; set; }
         public virtual string PrivateConfiguration { get; set; }
         public virtual SwitchParameter Disable { get; set; }
-
-        protected static VirtualMachineExtensionImageContext[] LegacyExtensionImages;
 
         static VirtualMachineExtensionCmdletBase()
         {
@@ -67,13 +67,18 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
 
         protected bool IsLegacyExtension()
         {
+            return IsLegacyExtension(this.ExtensionName, this.Publisher, this.Version);
+        }
+
+        protected bool IsLegacyExtension(string name, string publisher, string version)
+        {
             Func<string, string, bool> eq =
                 (x, y) => string.Equals(x, y, StringComparison.OrdinalIgnoreCase);
 
             return LegacyExtensionImages == null ? false
-                 : LegacyExtensionImages.Any(r => eq(r.ExtensionName, ExtensionName)
-                                               && eq(r.Publisher, this.Publisher)
-                                               && eq(r.Version, this.Version));
+                 : LegacyExtensionImages.Any(r => eq(r.ExtensionName, name)
+                                               && eq(r.Publisher, publisher)
+                                               && eq(r.Version, version));
         }
 
         protected ResourceExtensionReferenceList ResourceExtensionReferences
@@ -101,7 +106,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
                        (r => eq(r.ReferenceName, this.ReferenceName))
                       : r => eq(r.Name, this.ExtensionName)
                           && eq(r.Publisher, this.Publisher)
-                          && eq(r.Version, this.Version);
+                          && (string.IsNullOrEmpty(this.Version) || eq(r.Version, this.Version));
             }
         }
 
@@ -143,30 +148,21 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
         {
             ResourceExtensionReferences.Add(NewResourceExtension());
         }
+
         protected void RemovePredicateExtensions()
         {
-            foreach (var extension in GetPredicateExtensionList())
-            {
-                ResourceExtensionReferences.Remove(extension);
-            }
+            ResourceExtensionReferences.RemoveAll(r => ExtensionPredicate(r));
         }
 
         protected ResourceExtensionReference NewResourceExtension()
         {
-            return SetResourceExtension(new ResourceExtensionReference());
-        }
-
-        protected ResourceExtensionReference SetResourceExtension(ResourceExtensionReference extensionRef)
-        {
-            if (extensionRef == null)
-            {
-                throw new ArgumentNullException("extensionRef");
-            }
+            var extensionRef = new ResourceExtensionReference();
 
             extensionRef.Name = this.ExtensionName;
             extensionRef.Publisher = this.Publisher;
             extensionRef.Version = this.Version;
-            extensionRef.State = IsLegacyExtension() ? null : this.Disable.IsPresent ? ReferenceDisableStr : ReferenceEnableStr;
+            extensionRef.State = IsLegacyExtension() ? null :
+                              this.Disable.IsPresent ? ReferenceDisableStr : ReferenceEnableStr;
             extensionRef.ResourceExtensionParameterValues = new ResourceExtensionParameterValueList();
 
             if (!string.IsNullOrEmpty(this.ReferenceName))
@@ -215,11 +211,19 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
             if (paramValList != null && paramValList.Any())
             {
                 var paramVal = paramValList.FirstOrDefault(
-                    p => string.Equals(p.Type, typeStr, StringComparison.OrdinalIgnoreCase));
+                    p => string.IsNullOrEmpty(typeStr) ? true :
+                         string.Equals(p.Type, typeStr, StringComparison.OrdinalIgnoreCase));
                 config = paramVal == null ? string.Empty : paramVal.Value;
             }
 
             return config;
+        }
+
+        protected string GetConfiguration(
+            ResourceExtensionReference extensionRef)
+        {
+            return extensionRef == null ? string.Empty : GetConfiguration(
+                extensionRef.ResourceExtensionParameterValues, null);
         }
 
         protected string GetConfiguration(
@@ -266,6 +270,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
                         {
                             e.SetValue(value.ToString());
                         }
+
                         break;
                     }
                 };
@@ -275,9 +280,11 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
         protected static string GetConfigValue(string xmlText, string element)
         {
             XDocument config = XDocument.Parse(xmlText);
+
             var result = from d in config.Descendants()
                          where d.Name.LocalName == element
                          select d.Descendants().Any() ? d.ToString() : d.Value;
+
             return result.FirstOrDefault();
         }
     }
