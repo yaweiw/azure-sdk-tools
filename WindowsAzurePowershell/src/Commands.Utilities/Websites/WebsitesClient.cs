@@ -952,26 +952,23 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
         }
 
         /// <summary>
-        /// Gets the slot name from the website name
+        /// Gets the slot name from the website name.
         /// </summary>
         /// <param name="name">The website name</param>
         /// <returns>The slot name</returns>
         public string GetSlotName(string name)
         {
-            if (!string.IsNullOrEmpty(name) && name.Contains('(') && name.Contains(')'))
+            string slotName = null;
+            if (!string.IsNullOrEmpty(name))
             {
-                string[] split = name.Split('(');
-                if (split.Length == 1)
+                if (name.Contains('(') && name.Contains(')'))
                 {
-                    return WebsiteSlotName.Production.ToString().ToLower();
-                }
-                else
-                {
-                    return split[1].TrimEnd(')').ToLower();
+                    string[] split = name.Split('(');
+                    slotName = split[1].TrimEnd(')').ToLower();
                 }
             }
 
-            return null;
+            return slotName;
         }
 
         #region WebJobs

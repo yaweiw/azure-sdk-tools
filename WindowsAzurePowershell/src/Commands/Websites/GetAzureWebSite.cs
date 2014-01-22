@@ -86,7 +86,7 @@ namespace Microsoft.WindowsAzure.Commands.Websites
             var diagnosticSettings = new DiagnosticsSettings();
             try
             {
-                diagnosticSettings = WebsitesClient.GetApplicationDiagnosticsSettings(Name);
+                diagnosticSettings = WebsitesClient.GetApplicationDiagnosticsSettings(websiteObject.Name);
             }
             catch
             {
