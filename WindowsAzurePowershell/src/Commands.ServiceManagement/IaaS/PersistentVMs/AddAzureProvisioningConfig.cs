@@ -48,7 +48,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
                 SetProvisioningConfiguration(configSetbuilder.LinuxConfigurationBuilder.Provisioning);
                 configSetbuilder.LinuxConfigurationBuilder.Provisioning.HostName = role.RoleName;
 
-                if (DisableSSH.IsPresent == false || NoSSHEndpoint.IsPresent)
+                if (!(DisableSSH.IsPresent || NoSSHEndpoint.IsPresent))
                 {
                     configSetbuilder.NetworkConfigurationBuilder.AddSshEndpoint();
                 }

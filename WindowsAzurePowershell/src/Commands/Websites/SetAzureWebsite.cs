@@ -20,6 +20,8 @@ namespace Microsoft.WindowsAzure.Commands.Websites
     using Utilities.Websites.Common;
     using Utilities.Websites.Services.WebEntities;
     using Utilities.Common;
+    using Microsoft.WindowsAzure.Management.WebSites.Models;
+    using Microsoft.WindowsAzure.Commands.Utilities.Websites;
 
     /// <summary>
     /// Sets an azure website properties.
@@ -76,6 +78,12 @@ namespace Microsoft.WindowsAzure.Commands.Websites
         [Parameter(Mandatory = false)]
         public SwitchParameter PassThru { get; set; }
 
+        [Parameter(Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "The managed pipeline mode of a website.")]
+        public ManagedPipelineMode? ManagedPipelineMode { get; set; }
+
+        [Parameter(Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "The web sockets flag.")]
+        public bool? WebSocketsEnabled { get; set; }
+
         private Site website;
         private SiteConfig currentSiteConfig;
 
@@ -95,8 +103,8 @@ namespace Microsoft.WindowsAzure.Commands.Websites
 
         private void GetCurrentSiteState()
         {
-            website = WebsitesClient.GetWebsite(Name);
-            currentSiteConfig = WebsitesClient.GetWebsiteConfiguration(Name);
+            website = WebsitesClient.GetWebsite(Name, Slot);
+            currentSiteConfig = WebsitesClient.GetWebsiteConfiguration(Name, Slot);
         }
 
         private void UpdateConfig()
@@ -113,7 +121,7 @@ namespace Microsoft.WindowsAzure.Commands.Websites
 
             if (changes)
             {
-                WebsitesClient.UpdateWebsiteConfiguration(Name, websiteConfigUpdate.GetSiteConfig());
+                WebsitesClient.UpdateWebsiteConfiguration(Name, websiteConfigUpdate.GetSiteConfig(), Slot);
             }
         }
 
@@ -124,7 +132,7 @@ namespace Microsoft.WindowsAzure.Commands.Websites
                 string suffix = WebsitesClient.GetWebsiteDnsSuffix(); 
                 var newHostNames = new List<string> { string.Format("{0}.{1}", Name, suffix) };
                 newHostNames.AddRange(HostNames);
-                WebsitesClient.UpdateWebsiteHostNames(website, newHostNames);
+                WebsitesClient.UpdateWebsiteHostNames(website, newHostNames, Slot);
             }
             
         }

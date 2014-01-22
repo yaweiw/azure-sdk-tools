@@ -120,6 +120,16 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Common
         public const string QueueSas = "AzureStorageQueueSASToken";
 
         /// <summary>
+        /// Default service metrics version
+        /// </summary>
+        public const string DefaultMetricsVersion = "1.0";
+
+        /// <summary>
+        /// Default service logging version
+        /// </summary>
+        public const string DefaultLoggingVersion = "1.0";
+
+        /// <summary>
         /// Permission const for New-AzureStorage(Blob/Container/Table/Queue)SasToken
         /// </summary>
         public static class Permission
@@ -164,18 +174,5 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Common
             /// </summary>
             public const char Query = 'q';
         }
-    }
-
-    public enum StorageServiceType
-    {
-        Blob,
-        Table,
-        Queue
-    }
-
-    public enum ServiceMetricsType
-    {
-        Hour,
-        Minute
     }
 }

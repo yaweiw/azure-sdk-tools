@@ -109,16 +109,17 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Blob.Cmdlet
                 prefix = NameUtil.GetNonWildcardPrefix(name);
                 WildcardOptions options = WildcardOptions.IgnoreCase | WildcardOptions.Compiled;
                 WildcardPattern wildcard = null;
-                
+
                 if (!string.IsNullOrEmpty(name))
                 {
                     wildcard = new WildcardPattern(name, options);
                 }
 
                 Func<CloudBlobContainer, bool> containerFilter = (container) => null == wildcard || wildcard.IsMatch(container.Name);
-                IEnumerable<Tuple<CloudBlobContainer, BlobContinuationToken>> containers = ListContainersByPrefix(prefix, containerFilter);
 
-                foreach (var  containerInfo in containers)
+                IEnumerable<Tuple<CloudBlobContainer, BlobContinuationToken>> containerList = ListContainersByPrefix(prefix, containerFilter);
+
+                foreach (var containerInfo in containerList)
                 {
                     yield return containerInfo;
                 }

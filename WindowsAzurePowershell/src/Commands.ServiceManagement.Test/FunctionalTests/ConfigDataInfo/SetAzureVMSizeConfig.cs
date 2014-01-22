@@ -18,9 +18,9 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
 
     public class SetAzureVMSizeConfig
     {
-        public readonly InstanceSize instanceSize;
+        public readonly string instanceSize;
 
-        public SetAzureVMSizeConfig(InstanceSize instanceSize)
+        public SetAzureVMSizeConfig(string instanceSize)
         {
             this.instanceSize = instanceSize;
         }

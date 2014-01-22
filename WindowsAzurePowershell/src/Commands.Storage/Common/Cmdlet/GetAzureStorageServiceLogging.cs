@@ -30,9 +30,9 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Common.Cmdlet
         [Parameter(Mandatory = true, Position = 0, HelpMessage = ServiceTypeHelpMessage)]
         public StorageServiceType ServiceType { get; set; }
 
-        //Overwrite the useless parameter
+        // Overwrite the useless parameter
         public override int? ServerTimeoutPerRequest { get; set; }
-        public override int? MaximumExecutionTimePerRequest { get; set; }
+        public override int? ClientTimeoutPerRequest { get; set; }
         public override int? ConcurrentTaskCount { get; set; }
 
         public GetAzureStorageServiceLoggingCommand()

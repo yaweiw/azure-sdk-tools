@@ -13,6 +13,8 @@
 // ----------------------------------------------------------------------------------
 
 
+using System.Linq;
+
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
 {
     using System;
@@ -202,18 +204,19 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
 
             try
             {
-                Array instanceSizes = Enum.GetValues(typeof(InstanceSize));
-                int arrayLength = instanceSizes.GetLength(0);
+                var instanceSizes = vmPowershellCmdlets.GetAzureRoleSize().ToArray();
+                int arrayLength = instanceSizes.Count();
 
-                for (int i = 1; i < arrayLength; i++)
+                for (int i = 0; i < arrayLength; i++)
                 {
+                    Utilities.PrintContext(instanceSizes[i]);
                     // Add-AzureVMImage test for VM size
-                    OSImageContext result = vmPowershellCmdlets.AddAzureVMImage(newImageName, mediaLocation, OS.Windows, (InstanceSize)instanceSizes.GetValue(i));
+                    OSImageContext result = vmPowershellCmdlets.AddAzureVMImage(newImageName, mediaLocation, OS.Windows, null, instanceSizes[i].InstanceSize);
                     OSImageContext resultReturned = vmPowershellCmdlets.GetAzureVMImage(newImageName)[0];
                     Assert.IsTrue(CompareContext<OSImageContext>(result, resultReturned));
 
                     // Update-AzureVMImage test for VM size
-                    result = vmPowershellCmdlets.UpdateAzureVMImage(newImageName, (InstanceSize)instanceSizes.GetValue(Math.Max((i + 1) % arrayLength, 1)));
+                    result = vmPowershellCmdlets.UpdateAzureVMImage(newImageName, null, instanceSizes[Math.Max((i + 1) % arrayLength, 1)].InstanceSize);
                     resultReturned = vmPowershellCmdlets.GetAzureVMImage(newImageName)[0];
                     Assert.IsTrue(CompareContext<OSImageContext>(result, resultReturned));
 
@@ -228,7 +231,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
             }
         }
 
-        [TestMethod(), TestCategory("Functional"), TestProperty("Feature", "IAAS"), Priority(1), Owner("hylee"), Description("Test the cmdlet (Set-AzureVMSize)")]
+        [TestMethod(), TestCategory("Functional"), TestProperty("Feature", "IAAS"), Priority(1), Owner("hylee"), Description("Test the cmdlet (Set-AzureVMSize, Get-AzureRoleSize)")]
         public void HiMemVMSizeTest()
         {
             string serviceName = Utilities.GetUniqueShortName(serviceNamePrefix);
@@ -237,34 +240,49 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
             try
             {
                 PersistentVMRoleContext result;
+                RoleSizeContext returnedSize;
 
                 // New-AzureQuickVM test for VM size
-                vmPowershellCmdlets.NewAzureQuickVM(OS.Windows, vmName, serviceName, imageName, username, password, locationName, InstanceSize.A6);
+                vmPowershellCmdlets.NewAzureQuickVM(OS.Windows, vmName, serviceName, imageName, username, password, locationName, InstanceSize.A5.ToString());
                 result = vmPowershellCmdlets.GetAzureVM(vmName, serviceName);
-                Assert.AreEqual(InstanceSize.A6.ToString(), result.InstanceSize);
-                Console.WriteLine("VM size, {0}, is verified for New-AzureQuickVM", InstanceSize.A6.ToString());
+                returnedSize = vmPowershellCmdlets.GetAzureRoleSize(result.InstanceSize)[0];
+                Assert.AreEqual(InstanceSize.A5.ToString(), returnedSize.InstanceSize);
+                Console.WriteLine("VM size, {0}, is verified for New-AzureQuickVM", InstanceSize.A5);
+                vmPowershellCmdlets.RemoveAzureService(serviceName);
+
+                // New-AzureQuickVM test for VM size
+                vmPowershellCmdlets.NewAzureQuickVM(OS.Windows, vmName, serviceName, imageName, username, password, locationName, InstanceSize.A6.ToString());
+                result = vmPowershellCmdlets.GetAzureVM(vmName, serviceName);
+                returnedSize = vmPowershellCmdlets.GetAzureRoleSize(result.InstanceSize)[0];
+                Assert.AreEqual(InstanceSize.A6.ToString(), returnedSize.InstanceSize);
+                Console.WriteLine("VM size, {0}, is verified for New-AzureQuickVM", InstanceSize.A6);
                 vmPowershellCmdlets.RemoveAzureService(serviceName);
 
                 // New-AzureVMConfig test for VM size
-                AzureVMConfigInfo azureVMConfigInfo = new AzureVMConfigInfo(vmName, InstanceSize.A7, imageName);
+                AzureVMConfigInfo azureVMConfigInfo = new AzureVMConfigInfo(vmName, InstanceSize.A7.ToString(), imageName);
                 AzureProvisioningConfigInfo azureProvisioningConfig = new AzureProvisioningConfigInfo(OS.Windows, username, password);
                 PersistentVMConfigInfo persistentVMConfigInfo = new PersistentVMConfigInfo(azureVMConfigInfo, azureProvisioningConfig, null, null);
                 PersistentVM vm = vmPowershellCmdlets.GetPersistentVM(persistentVMConfigInfo);
                 vmPowershellCmdlets.NewAzureVM(serviceName, new[] { vm }, locationName);
                 result = vmPowershellCmdlets.GetAzureVM(vmName, serviceName);
-                Assert.AreEqual(InstanceSize.A7.ToString(), result.InstanceSize);
-                Console.WriteLine("VM size, {0}, is verified for New-AzureVMConfig", InstanceSize.A7.ToString());
+                returnedSize = vmPowershellCmdlets.GetAzureRoleSize(result.InstanceSize)[0];
+                Assert.AreEqual(InstanceSize.A7.ToString(), returnedSize.InstanceSize);
+                Console.WriteLine("VM size, {0}, is verified for New-AzureVMConfig", InstanceSize.A7);
 
                 // Set-AzureVMSize test for Hi-MEM VM size
-                vmPowershellCmdlets.SetVMSize(vmName, serviceName, new SetAzureVMSizeConfig(InstanceSize.A6));
+                vmPowershellCmdlets.SetVMSize(vmName, serviceName, new SetAzureVMSizeConfig(InstanceSize.A6.ToString()));
                 result = vmPowershellCmdlets.GetAzureVM(vmName, serviceName);
-                Assert.AreEqual(InstanceSize.A6.ToString(), result.InstanceSize);
+                returnedSize = vmPowershellCmdlets.GetAzureRoleSize(result.InstanceSize)[0];
+                Assert.AreEqual(InstanceSize.A6.ToString(), returnedSize.InstanceSize);
                 Console.WriteLine("SetVMSize is verified from A7 to A6");
 
-                vmPowershellCmdlets.SetVMSize(vmName, serviceName, new SetAzureVMSizeConfig(InstanceSize.A7));
+                vmPowershellCmdlets.SetVMSize(vmName, serviceName, new SetAzureVMSizeConfig(InstanceSize.A5.ToString()));
                 result = vmPowershellCmdlets.GetAzureVM(vmName, serviceName);
-                Assert.AreEqual(InstanceSize.A7.ToString(), result.InstanceSize);
-                Console.WriteLine("SetVMSize is verified from A6 to A7");
+                returnedSize = vmPowershellCmdlets.GetAzureRoleSize(result.InstanceSize)[0];
+                Assert.AreEqual(InstanceSize.A5.ToString(), returnedSize.InstanceSize);
+                Console.WriteLine("SetVMSize is verified from A6 to A5");
+
+                pass = true;
             }
             catch (Exception e)
             {
@@ -284,7 +302,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
             }
         }
 
-        [TestMethod(), TestCategory("Functional"), TestProperty("Feature", "IAAS"), Priority(1), Owner("hylee"), Description("Test the cmdlet (Set-AzureVMSize)")]
+        [TestMethod(), TestCategory("Functional"), TestProperty("Feature", "IAAS"), Priority(1), Owner("hylee"), Description("Test the cmdlet (Set-AzureVMSize, Get-AzureRoleSize)")]
         public void RegularVMSizeTest()
         {
             string serviceName = Utilities.GetUniqueShortName(serviceNamePrefix);
@@ -292,28 +310,31 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
 
             try
             {
-                Array instanceSizes = Enum.GetValues(typeof(InstanceSize));
-                vmPowershellCmdlets.NewAzureQuickVM(OS.Windows, vmName, serviceName, imageName, username, password, locationName, InstanceSize.A6);
+                var instanceSizes = vmPowershellCmdlets.GetAzureRoleSize().ToArray();
+                vmPowershellCmdlets.NewAzureQuickVM(OS.Windows, vmName, serviceName, imageName, username, password, locationName, instanceSizes[1].InstanceSize);
                 PersistentVMRoleContext result;
+                RoleSizeContext returnedSize;
 
-                foreach (InstanceSize size in instanceSizes)
+                foreach (var instanceSize in instanceSizes)
                 {
-                    if (!size.Equals(InstanceSize.A6) && !size.Equals(InstanceSize.A7))
+                    var size = instanceSize.InstanceSize;
+                    if (!size.Equals(InstanceSize.A5.ToString()) && !size.Equals(InstanceSize.A6.ToString()) && !size.Equals(InstanceSize.A7.ToString()))
                     {
                         // Set-AzureVMSize test for regular VM size
                         vmPowershellCmdlets.SetVMSize(vmName, serviceName, new SetAzureVMSizeConfig(size));
                         result = vmPowershellCmdlets.GetAzureVM(vmName, serviceName);
-                        Assert.AreEqual(size.ToString(), result.InstanceSize);
-                        Console.WriteLine("VM size, {0}, is verified for Set-AzureVMSize", size.ToString());
+                        returnedSize = vmPowershellCmdlets.GetAzureRoleSize(result.InstanceSize)[0];
+                        Assert.AreEqual(size, returnedSize.InstanceSize);
+                        Console.WriteLine("VM size, {0}, is verified for Set-AzureVMSize", size);
                     }
 
-                    if (size.Equals(InstanceSize.ExtraLarge))
+                    if (size.Equals(InstanceSize.ExtraLarge.ToString()))
                     {
-                        vmPowershellCmdlets.SetVMSize(vmName, serviceName, new SetAzureVMSizeConfig(InstanceSize.Small));
+                        vmPowershellCmdlets.SetVMSize(vmName, serviceName, new SetAzureVMSizeConfig(InstanceSize.Small.ToString()));
                         result = vmPowershellCmdlets.GetAzureVM(vmName, serviceName);
-                        Assert.AreEqual(InstanceSize.Small.ToString(), result.InstanceSize);
+                        returnedSize = vmPowershellCmdlets.GetAzureRoleSize(result.InstanceSize)[0];
+                        Assert.AreEqual(InstanceSize.Small.ToString(), returnedSize.InstanceSize);
                     }
-
                 }
 
                 pass = true;

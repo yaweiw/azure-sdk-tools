@@ -694,7 +694,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
             {
                 foreach (RoleSettings role in service.Components.CloudConfig.Role)
                 {
-                    string roleDirectory = Path.Combine(service.Paths.RootPath, role.name);
+                    string roleDirectory = Path.Combine(service.Paths.RolesPath, role.name);
 
                     if (!Directory.Exists(roleDirectory))
                     {
@@ -708,12 +708,19 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
 
         private static string FindServiceRootDirectory(string path)
         {
-            // Is the csdef file present in the folder
-            bool found = Directory.GetFiles(path, Resources.ServiceDefinitionFileName).Length == 1;
-
-            if (found)
+            if (Directory.GetFiles(path, Resources.ServiceDefinitionFileName).Length == 1)
             {
                 return path;
+            }
+            else if (Directory.GetFiles(path, "*.sln").Length == 1)
+            {
+                foreach (string dirName in Directory.GetDirectories(path))
+                {
+                    if (Directory.GetFiles(dirName, Resources.ServiceDefinitionFileName).Length == 1)
+                    {
+                        return dirName;
+                    }
+                }
             }
 
             // Find the last slash

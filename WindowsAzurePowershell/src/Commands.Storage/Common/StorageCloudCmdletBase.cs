@@ -44,7 +44,7 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Common
         public virtual int? ServerTimeoutPerRequest { get; set; }
 
         [Parameter(HelpMessage = "The client side maximum execution time for each request in seconds.")]
-        public virtual int? MaximumExecutionTimePerRequest { get; set; }
+        public virtual int? ClientTimeoutPerRequest { get; set; }
 
         /// <summary>
         /// Amount of concurrent async tasks to run per available core.
@@ -158,9 +158,9 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Common
                 options.ServerTimeout = TimeSpan.FromSeconds((double)ServerTimeoutPerRequest);
             }
 
-            if (MaximumExecutionTimePerRequest != null)
+            if (ClientTimeoutPerRequest != null)
             {
-                options.MaximumExecutionTime = TimeSpan.FromSeconds((double)MaximumExecutionTimePerRequest);
+                options.MaximumExecutionTime = TimeSpan.FromSeconds((double)ClientTimeoutPerRequest);
             }
 
             return options;

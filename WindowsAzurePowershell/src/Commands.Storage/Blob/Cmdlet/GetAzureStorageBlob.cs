@@ -49,11 +49,13 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Blob.Cmdlet
             {
                 return blobName;
             }
+
             set
             {
                 blobName = value;
             }
         }
+
         private string blobName = String.Empty;
 
         [Parameter(HelpMessage = "Blob Prefix", ParameterSetName = PrefixParameterSet)]
@@ -63,6 +65,7 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Blob.Cmdlet
             {
                 return blobPrefix;
             }
+
             set
             {
                 blobPrefix = value;
@@ -80,11 +83,13 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Blob.Cmdlet
             {
                 return containerName;
             }
+
             set
             {
                 containerName = value;
             }
         }
+
         private string containerName = String.Empty;
 
         [Parameter(Mandatory = false, HelpMessage = "The max count of the blobs that can return.")]
@@ -127,7 +132,7 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Blob.Cmdlet
         }
 
         /// <summary>
-        /// get the CloudBlobContianer object by name if container exists
+        /// get the CloudBlobContainer object by name if container exists
         /// </summary>
         /// <param name="containerName">container name</param>
         /// <returns>return CloudBlobContianer object if specified container exists, otherwise throw an exception</returns>
@@ -177,7 +182,6 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Blob.Cmdlet
                 }
 
                 Func<ICloudBlob, bool> blobFilter = (blob) => wildcard == null || wildcard.IsMatch(blob.Name);
-
                 await ListBlobsByPrefix(taskId, localChannel, containerName, prefix, blobFilter);
             }
             else

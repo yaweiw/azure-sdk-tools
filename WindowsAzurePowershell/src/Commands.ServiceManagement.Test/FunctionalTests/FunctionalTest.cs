@@ -31,6 +31,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
     using System.Xml;
     using VisualStudio.TestTools.UnitTesting;
     using Model.PersistentVMModel;
+    using System.Linq;
 
     [TestClass]
     public class FunctionalTest : ServiceManagementTest
@@ -62,7 +63,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
         [Ignore]
         public void ScriptTestSample()
         {
-            var result = vmPowershellCmdlets.RunPSScript("Get-Help Save-AzureVhd -full");
+            vmPowershellCmdlets.RunPSScript("Get-Help Save-AzureVhd -full");
         }  
 
         /// <summary>
@@ -195,36 +196,51 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
             try
             {
                 vmPowershellCmdlets.NewAzureService(serviceName, locationName);
-                vmPowershellCmdlets.AddAzureCertificate(serviceName, certToUpload);
-
-                CertificateSettingList certList = new CertificateSettingList();
+                var certList = new CertificateSettingList();
                 certList.Add(vmPowershellCmdlets.NewAzureCertificateSetting(certStoreName.ToString(), installedCert.Thumbprint));
 
-                AzureVMConfigInfo azureVMConfigInfo = new AzureVMConfigInfo(vmName, InstanceSize.Small, imageName);
-                AzureProvisioningConfigInfo azureProvisioningConfig = new AzureProvisioningConfigInfo(OS.Windows, certList, username, password);
-
-                PersistentVMConfigInfo persistentVMConfigInfo = new PersistentVMConfigInfo(azureVMConfigInfo, azureProvisioningConfig, null, null);
-
+                var azureVMConfigInfo = new AzureVMConfigInfo(vmName, InstanceSize.Small.ToString(), imageName);
+                var azureProvisioningConfig = new AzureProvisioningConfigInfo(OS.Windows, certList, username, password);
+                var persistentVMConfigInfo = new PersistentVMConfigInfo(azureVMConfigInfo, azureProvisioningConfig, null, null);
                 PersistentVM vm = vmPowershellCmdlets.GetPersistentVM(persistentVMConfigInfo);
 
+                // Negative Test:
+                //   Try to deploy a VM with a certificate that does not exist in the hosted service.
+                //   This should fail.
+                try
+                {
+                    vmPowershellCmdlets.NewAzureVM(serviceName, new[] { vm });
+                    Assert.Fail(
+                        "Should have failed, but it succeeded !!  New-AzureVM should fail if it contains a thumbprint that does not exist in the hosted service.");
+                }
+                catch (Exception e)
+                {
+                    if (e is AssertFailedException)
+                    {
+                        throw;
+                    }
+                    Console.WriteLine("This exception is expected: {0}", e);
+                }
+
+                // Now we add the certificate to the hosted service.
+                vmPowershellCmdlets.AddAzureCertificate(serviceName, certToUpload);
                 vmPowershellCmdlets.NewAzureVM(serviceName, new[] { vm });
 
                 PersistentVMRoleContext result = vmPowershellCmdlets.GetAzureVM(vmName, serviceName);
-
                 Console.WriteLine("{0} is created", result.Name);
 
                 pass = true;
             }
             catch (Exception e)
             {
-                pass = false;                
-                Assert.Fail(e.ToString());
+                Console.WriteLine(e);
+                Console.WriteLine(e.InnerException);
+                throw;
             }
             finally
             {
                 Utilities.UninstallCert(installedCert, certStoreLocation, certStoreName);
             }
-
         }
 
         /// <summary>
@@ -327,10 +343,10 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
 
                 DnsServer dns = vmPowershellCmdlets.NewAzureDns(dnsName, ipAddress);
 
-                AzureVMConfigInfo azureVMConfigInfo = new AzureVMConfigInfo(vmName, InstanceSize.ExtraSmall, imageName);
-                AzureProvisioningConfigInfo azureProvisioningConfig = new AzureProvisioningConfigInfo(OS.Windows, username, password);     
+                var azureVMConfigInfo = new AzureVMConfigInfo(vmName, InstanceSize.ExtraSmall.ToString(), imageName);
+                var azureProvisioningConfig = new AzureProvisioningConfigInfo(OS.Windows, username, password);
            
-                PersistentVMConfigInfo persistentVMConfigInfo = new PersistentVMConfigInfo(azureVMConfigInfo, azureProvisioningConfig, null, null);
+                var persistentVMConfigInfo = new PersistentVMConfigInfo(azureVMConfigInfo, azureProvisioningConfig, null, null);
 
                 PersistentVM vm = vmPowershellCmdlets.GetPersistentVM(persistentVMConfigInfo);  
            
@@ -762,8 +778,8 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
             {
                 vmPowershellCmdlets.NewAzureService(serviceName, serviceName, locationName);
 
-                PersistentVM vm = vmPowershellCmdlets.NewAzureVMConfig(new AzureVMConfigInfo(vmName, InstanceSize.Small, imageName));
-                AzureProvisioningConfigInfo azureProvisioningConfig = new AzureProvisioningConfigInfo(OS.Windows, username, password);
+                PersistentVM vm = vmPowershellCmdlets.NewAzureVMConfig(new AzureVMConfigInfo(vmName, InstanceSize.Small.ToString(), imageName));
+                var azureProvisioningConfig = new AzureProvisioningConfigInfo(OS.Windows, username, password);
                 azureProvisioningConfig.Vm = vm;
 
                 string [] subs = new []  {"subnet1", "subnet2", "subnet3"};
@@ -929,6 +945,8 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
             {
                 pass = false;
 
+                Assert.Fail("Exception occurred: {0}", e);
+
                 // Clean-up storage if it is not removed.
                 foreach (string storage in storageName)
                 {
@@ -944,8 +962,6 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
                 {
                     vmPowershellCmdlets.RemoveAzureAffinityGroup(affinityGroupName);
                 }
-
-                Assert.Fail("Exception occurred: {0}", e.ToString());
             }            
         }
 
@@ -1001,22 +1017,64 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
 
                 vmPowershellCmdlets.SetAzureVNetConfig(vnetConfigFilePath);
 
-                var result = vmPowershellCmdlets.GetAzureVNetConfig(vnetConfigFilePath);
+                string vnetConfigFilePathCopy = Directory.GetCurrentDirectory() + "\\vnetconfigCopy.netcfg";
 
-                vmPowershellCmdlets.SetAzureVNetConfig(vnetConfigFilePath);
+                var result = vmPowershellCmdlets.GetAzureVNetConfig(vnetConfigFilePathCopy);
+
+                vmPowershellCmdlets.SetAzureVNetConfig(vnetConfigFilePathCopy);
 
                 Collection<VirtualNetworkSiteContext> vnetSites = vmPowershellCmdlets.GetAzureVNetSite(null);
+
                 foreach (var re in vnetSites)
                 {
-                    Console.WriteLine("VNet: {0}", re.Name);
+                    Console.WriteLine("VNet Name: {0}", re.Name);
+                    Console.WriteLine("ID: {0}", re.Id);
+                    Console.WriteLine("Affinity Group: {0}", re.AffinityGroup);
+                    Console.WriteLine("Gateway Profile: {0}", re.GatewayProfile);
+                    Console.WriteLine("InUse: {0}", re.InUse.ToString());
+                    Console.WriteLine("State: {0}", re.State);
+                    Console.WriteLine("Label: {0}", re.Label);
+
+                    foreach (var prefix in re.AddressSpacePrefixes)
+                    {
+                        Console.WriteLine("Address Prefix: {0}", prefix);
+                    }
+
+                    foreach (var dns in re.DnsServers)
+                    {
+                        Console.WriteLine("DNS name: {0}", dns.Name);
+                        Console.WriteLine("DNS address: {0}", dns.Address);
+                        Assert.AreEqual("open", dns.Name);
+                    }
+                    Assert.AreEqual(1, re.DnsServers.Count());
+
+                    foreach (var gatewaysite in re.GatewaySites)
+                    {
+                        Console.WriteLine("Gateway Site Name: {0}", gatewaysite.Name);
+                        foreach (var prefix in gatewaysite.AddressSpace.AddressPrefixes)
+                        {
+                            Console.WriteLine("Gateway Site Address Space Prefix: {0}", prefix);
+                        }
+                        Console.WriteLine("VPN Gateway Address: {0}", gatewaysite.VpnGatewayAddress);
+                        Assert.AreEqual("LocalNet1", gatewaysite.Name);
+                    }
+                    Assert.AreEqual(1, re.GatewaySites.Count);
+
+                    foreach (var subnet in re.Subnets)
+                    {
+                        Console.WriteLine("Subnet Name: {0}", subnet.Name);
+                        Console.WriteLine("Subnet Address Prefix: {0}", subnet.AddressPrefix);
+                    }
+                    Console.WriteLine();
                 }
 
+                // Remove Vnet config
                 vmPowershellCmdlets.RemoveAzureVNetConfig();
 
                 Collection<VirtualNetworkSiteContext> vnetSitesAfter = vmPowershellCmdlets.GetAzureVNetSite(null);
 
                 Assert.AreNotEqual(vnetSites.Count, vnetSitesAfter.Count, "No Vnet is removed");
-                
+
                 foreach (var re in vnetSitesAfter)
                 {
                     Console.WriteLine("VNet: {0}", re.Name);
@@ -1042,36 +1100,14 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
         [TestCleanup]
         public virtual void CleanUp()
         {
-
             Console.WriteLine("Test {0}", pass ? "passed" : "failed");
             
             // Cleanup            
             if ((cleanupIfPassed && pass) || (cleanupIfFailed && !pass))
             {
-                Console.WriteLine("Starting to clean up created VM and service.");
-
-                //try
-                //{
-
-                //    vmPowershellCmdlets.RemoveAzureVM(vmName, serviceName);
-                //    Console.WriteLine("VM, {0}, is deleted", vmName);
-                 
-                //}
-                //catch (Exception e)
-                //{
-                //    Console.WriteLine("Error during removing VM: {0}", e.ToString());
-                //}
-
-                try
-                {
-                    vmPowershellCmdlets.RemoveAzureService(serviceName);
-                    Console.WriteLine("Service, {0}, is deleted", serviceName);
-                }
-                catch (Exception e)
-                {
-                    Console.WriteLine("Error during removing VM: {0}", e.ToString());
-                }                
-            }            
+                Console.WriteLine("Starting to clean up created VM and service...");
+                CleanupService(serviceName);
+            }
         }
     }
 }

@@ -33,7 +33,7 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Model.ResourceModel
         public BlobContainerPermissions Permission { get; private set; }
 
         /// <summary>
-        /// the public accesss level of CloudBlobContainer
+        /// the public access level of CloudBlobContainer
         /// </summary>
         public BlobContainerPublicAccessType? PublicAccess { get; private set; }
 

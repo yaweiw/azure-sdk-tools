@@ -88,9 +88,9 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Blob.Cmdlet
         [Parameter(Mandatory = false, HelpMessage = "Display full uri with sas token")]
         public SwitchParameter FullUri { get; set; }
 
-        //Overwrite the useless parameter
+        // Overwrite the useless parameter
         public override int? ServerTimeoutPerRequest { get; set; }
-        public override int? MaximumExecutionTimePerRequest { get; set; }
+        public override int? ClientTimeoutPerRequest { get; set; }
         public override int? ConcurrentTaskCount { get; set; }
 
         /// <summary>

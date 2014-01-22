@@ -39,44 +39,6 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
         }
 
         /// <summary>
-        /// </summary>
-        [TestMethod(), TestCategory("BVT"), TestCategory("Scenario"), TestProperty("Feature", "IaaS"), Priority(1), Owner("priya"), Description("BVT test for New-AzureQuickVM")]
-        [Ignore]
-        public void AzureQuickVMBVT()
-        {
-            try
-            {
-                StartTest(MethodBase.GetCurrentMethod().Name, testStartTime);
-                string windowsVMName = Utilities.GetUniqueShortName(vmNamePrefix);
-                string linuxVMName = Utilities.GetUniqueShortName("PSLinuxVM");
-
-                if (string.IsNullOrEmpty(imageName))
-                {
-                    imageName = vmPowershellCmdlets.GetAzureVMImageName(new[] { "Windows" }, false);
-                }
-                string linuxImageName = vmPowershellCmdlets.GetAzureVMImageName(new[] { "Linux" }, false);
-
-                vmPowershellCmdlets.NewAzureQuickVM(OS.Windows, windowsVMName, serviceName, imageName, username, password, locationName);
-
-                // Verify
-                PersistentVMRoleContext vmRoleCtxt = vmPowershellCmdlets.GetAzureVM(windowsVMName, serviceName);
-                Assert.AreEqual(windowsVMName, vmRoleCtxt.Name, true);
-
-                vmPowershellCmdlets.NewAzureQuickVM(OS.Linux, linuxVMName, serviceName, linuxImageName, "user", password);
-
-                // Verify
-                vmRoleCtxt = vmPowershellCmdlets.GetAzureVM(linuxVMName, serviceName);
-                Assert.AreEqual(linuxVMName, vmRoleCtxt.Name, true);
-                pass = true;
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e.ToString());
-                pass = false;
-            }
-        }
-
-        /// <summary>
         /// BVT test for IaaS cmdlets.
         /// </summary>
         [TestMethod(), TestCategory("BVT"), TestCategory("Scenario"), TestProperty("Feature", "IaaS"), Priority(1), Owner("hylee"), Description("BVT Test for IaaS")]
@@ -169,7 +131,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
                 //
                 // New-AzureVMConfig
                 //
-                AzureVMConfigInfo azureVMConfigInfo = new AzureVMConfigInfo(newAzureVMName, InstanceSize.Small, imageName);
+                var azureVMConfigInfo = new AzureVMConfigInfo(newAzureVMName, InstanceSize.Small.ToString(), imageName);
                 PersistentVM vm = vmPowershellCmdlets.NewAzureVMConfig(azureVMConfigInfo);
 
                 RecordTimeTaken(ref prevTime);
@@ -355,7 +317,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
                 //
                 // Set-AzureVMSize
                 //
-                SetAzureVMSizeConfig vmSizeConfig = new SetAzureVMSizeConfig(InstanceSize.Medium);
+                var vmSizeConfig = new SetAzureVMSizeConfig(InstanceSize.Medium.ToString());
                 vmSizeConfig.Vm = vm;
                 vm = vmPowershellCmdlets.SetAzureVMSize(vmSizeConfig);
                 RecordTimeTaken(ref prevTime);
