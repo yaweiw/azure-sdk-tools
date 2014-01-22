@@ -47,9 +47,9 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Common.Cmdlet
         [Parameter(Mandatory = false, HelpMessage = "Display ServiceProperties")]
         public SwitchParameter PassThru { get; set; }
 
-        //Overwrite the useless parameter
+        // Overwrite the useless parameter
         public override int? ServerTimeoutPerRequest { get; set; }
-        public override int? MaximumExecutionTimePerRequest { get; set; }
+        public override int? ClientTimeoutPerRequest { get; set; }
         public override int? ConcurrentTaskCount { get; set; }
 
         public SetAzureStorageServiceMetricsCommand()
@@ -89,10 +89,10 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Common.Cmdlet
             {
                 MetricsLevel metricsLevel = MetricsLevel.Value;
                 metrics.MetricsLevel = metricsLevel;
-                //Set default metrics version
+                // Set default metrics version
                 if (string.IsNullOrEmpty(metrics.Version))
                 {
-                    string defaultMetricsVersion = "1.0";
+                    string defaultMetricsVersion = StorageNouns.DefaultMetricsVersion;
                     metrics.Version = defaultMetricsVersion;
                 }
             }
@@ -110,7 +110,7 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Common.Cmdlet
             {
                 return (MetricsLevel)Enum.Parse(typeof(MetricsLevel), MetricsLevel, true);
             }
-            catch 
+            catch
             {
                 throw new ArgumentException(String.Format(Resources.InvalidEnumName, MetricsLevel));
             }
@@ -124,7 +124,7 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Common.Cmdlet
         {
             ServiceProperties currentServiceProperties = Channel.GetStorageServiceProperties(ServiceType, GetRequestOptions(ServiceType), OperationContext);
             ServiceProperties serviceProperties = new ServiceProperties();
-            SetAzureStorageServiceLoggingCommand.CleanServiceProperties(serviceProperties);
+            serviceProperties.Clean();
 
             bool isHourMetrics = false;
 
@@ -141,7 +141,7 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Common.Cmdlet
                     isHourMetrics = false;
                     break;
             }
-            
+
             Channel.SetStorageServiceProperties(ServiceType, serviceProperties,
                 GetRequestOptions(ServiceType), OperationContext);
 

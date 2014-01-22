@@ -157,7 +157,7 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Database.Cmdlet
             SqlManagementClient sqlManagementClient = SqlDatabaseCmdletBase.GetCurrentSqlClient();
 
             // Start the database export operation
-            DacImportExportResponse response = sqlManagementClient.Dacs.Import(
+            DacImportExportResponse response = sqlManagementClient.Dac.Import(
                 serverName,
                 new DacImportParameters()
                 {

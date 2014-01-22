@@ -73,6 +73,7 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Blob
             get { return FileName; }
             set { FileName = value; }
         }
+
         private string FileName = String.Empty;
 
         [Parameter(Position = 1, HelpMessage = "Container name", Mandatory = true, ParameterSetName = ManualParameterSet)]
@@ -81,6 +82,7 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Blob
             get { return ContainerName; }
             set { ContainerName = value; }
         }
+
         private string ContainerName = String.Empty;
 
         [Parameter(HelpMessage = "Blob name", ParameterSetName = ManualParameterSet)]
@@ -90,6 +92,7 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Blob
             get { return BlobName; }
             set { BlobName = value; }
         }
+
         public string BlobName = String.Empty;
 
         [Parameter(HelpMessage = "Azure Blob Container Object", Mandatory = true,
@@ -118,11 +121,13 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Blob
             {
                 return BlobProperties;
             }
+
             set
             {
                 BlobProperties = value;
             }
         }
+
         private Hashtable BlobProperties = null;
 
         [Parameter(HelpMessage = "Blob Metadata", Mandatory = false)]
@@ -132,6 +137,7 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Blob
             {
                 return BlobMetadata;
             }
+
             set
             {
                 BlobMetadata = value;

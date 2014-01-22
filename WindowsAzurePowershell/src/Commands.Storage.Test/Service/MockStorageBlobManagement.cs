@@ -455,7 +455,7 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Test.Service
         /// <returns>The service properties of the specified service type</returns>
         public ServiceProperties GetStorageServiceProperties(StorageServiceType type, IRequestOptions options, OperationContext operationContext)
         {
-            throw new NotImplementedException();
+            throw new NotImplementedException("No need to cover this in unit test since the logic is quite simple. For more details, please read GetAzureStorageServiceLogging.cs");
         }
 
         /// <summary>
@@ -468,7 +468,23 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Test.Service
         /// <param name="operationContext">Operation context</param>
         public void SetStorageServiceProperties(StorageServiceType type, WindowsAzure.Storage.Shared.Protocol.ServiceProperties properties, IRequestOptions options, OperationContext operationContext)
         {
-            throw new NotImplementedException();
+            throw new NotImplementedException("No need to cover this in unit test since there are no additional logics on this api");
+        }
+
+        /// <summary>
+        /// List part of blobs.
+        /// </summary>
+        /// <param name="prefix">Blob prefix</param>
+        /// <param name="useFlatBlobListing">Use flat blob listing</param>
+        /// <param name="blobListingDetails">Blob listing details.</param>
+        /// <param name="maxResults">Max results.</param>
+        /// <param name="currentToken">Current token.</param>
+        /// <param name="options">Request options</param>
+        /// <param name="operationContext">Operation Context.</param>
+        /// <returns>BlobResultSegment object</returns>
+        public BlobResultSegment ListBlobsSegmented(CloudBlobContainer container, string prefix, bool useFlatBlobListing, BlobListingDetails blobListingDetails, int? maxResults, BlobContinuationToken currentToken, BlobRequestOptions options, OperationContext operationContext)
+        {
+            throw new NotImplementedException("Can not create a BlobResultSegment object");
         }
 
         /// <summary>
@@ -479,10 +495,9 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Test.Service
         /// <param name="options">Blob request option</param>
         /// <param name="operationContext">Operation context</param>
         /// <returns>An enumerable collection of cloudblobcontainer</returns>
-        public ContainerResultSegment ListContainersSegmented(string prefix, ContainerListingDetails detailsIncluded, int? maxResults, BlobContinuationToken continuationToken, BlobRequestOptions options, OperationContext operationContext)
+        public ContainerResultSegment ListContainersSegmented(string prefix, ContainerListingDetails detailsIncluded, int? maxResults, BlobContinuationToken currentToken, BlobRequestOptions options, OperationContext operationContext)
         {
-            //ContainerResultSegment is sealed without any public constructors.
-            throw new NotImplementedException();
+            throw new NotImplementedException("Can not create a ContainerResultSegment object");
         }
 
         /// <summary>

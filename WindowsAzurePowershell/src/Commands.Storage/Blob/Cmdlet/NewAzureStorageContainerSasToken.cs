@@ -63,10 +63,11 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Blob.Cmdlet
         [Parameter(Mandatory = false, HelpMessage = "Display full uri with sas token")]
         public SwitchParameter FullUri { get; set; }
 
-        //Overwrite the useless parameter
+        // Overwrite the useless parameter
         public override int? ServerTimeoutPerRequest { get; set; }
-        public override int? MaximumExecutionTimePerRequest { get; set; }
+        public override int? ClientTimeoutPerRequest { get; set; }
         public override int? ConcurrentTaskCount { get; set; }
+
 
         /// <summary>
         /// Initializes a new instance of the NewAzureStorageContainerSasCommand class.
@@ -130,7 +131,7 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Blob.Cmdlet
         /// Set up access policy permission
         /// </summary>
         /// <param name="policy">SharedAccessBlobPolicy object</param>
-        /// <param name="permission">Permisson</param>
+        /// <param name="permission">Permission</param>
         internal void SetupAccessPolicyPermission(SharedAccessBlobPolicy policy, string permission)
         {
             if (string.IsNullOrEmpty(permission)) return;

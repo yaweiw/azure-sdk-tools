@@ -42,6 +42,7 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Blob.Cmdlet
         [Alias("PublicAccess")]
         [Parameter(Position = 1, Mandatory = false,
             HelpMessage = "Permission string Off/Blob/Container")]
+
         public BlobContainerPublicAccessType? Permission
         {
             get { return accessLevel; }
@@ -81,6 +82,7 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Blob.Cmdlet
             CloudBlobContainer container = localChannel.GetContainerReference(name);
 
             BlobContainerPermissions permissions = new BlobContainerPermissions();
+
             permissions.PublicAccess = accesslevel;
 
             bool created = await localChannel.CreateContainerIfNotExistsAsync(container, permissions.PublicAccess, requestOptions, OperationContext, CmdletCancellationToken);

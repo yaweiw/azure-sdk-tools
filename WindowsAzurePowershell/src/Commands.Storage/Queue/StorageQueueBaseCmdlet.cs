@@ -25,7 +25,7 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Common
     {
         //Overwrite the useless parameter
         public override int? ServerTimeoutPerRequest { get; set; }
-        public override int? MaximumExecutionTimePerRequest { get; set; }
+        public override int? ClientTimeoutPerRequest { get; set; }
         public override int? ConcurrentTaskCount { get; set; }
 
         /// <summary>

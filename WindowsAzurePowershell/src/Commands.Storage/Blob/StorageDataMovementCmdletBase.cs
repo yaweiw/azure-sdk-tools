@@ -36,6 +36,7 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Blob
             get { return overwrite; }
             set { overwrite = value; }
         }
+
         protected bool overwrite;
 
         /// <summary>

@@ -349,5 +349,20 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Model.Contract
         /// <param name="options">Blob request option</param>
         /// <param name="operationContext">Operation context</param>
         Task<BlobResultSegment> ListBlobsSegmentedAsync(CloudBlobContainer container, string prefix, bool useFlatBlobListing, BlobListingDetails blobListingDetails, int? maxResults, BlobContinuationToken currentToken, BlobRequestOptions options, OperationContext operationContext, CancellationToken cancellationToken);
+
+        /// <summary>
+        /// List part of blobs.
+        /// </summary>
+        /// <param name="prefix">Blob prefix</param>
+        /// <param name="useFlatBlobListing">Use flat blob listing</param>
+        /// <param name="blobListingDetails">Blob listing details.</param>
+        /// <param name="maxResults">Max results.</param>
+        /// <param name="currentToken">Current token.</param>
+        /// <param name="options">Request options</param>
+        /// <param name="operationContext">Operation Context.</param>
+        /// <returns>BlobResultSegment object</returns>
+        BlobResultSegment ListBlobsSegmented(CloudBlobContainer container, string prefix, bool useFlatBlobListing,
+            BlobListingDetails blobListingDetails, int? maxResults, BlobContinuationToken currentToken,
+            BlobRequestOptions options, OperationContext operationContext);
     }
 }

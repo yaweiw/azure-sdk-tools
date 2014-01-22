@@ -100,7 +100,7 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Test.Blob.Cmdlet
             RunAsyncCommand(() => command.PackCloudBlobContainerWithAcl(BlobMock.ContainerAndTokenList));
             Assert.AreEqual(5, MockCmdRunTime.OutputPipeline.Count());
         }
-        
+
         [TestMethod]
         public void ExecuteCommandGetContainerTest()
         {

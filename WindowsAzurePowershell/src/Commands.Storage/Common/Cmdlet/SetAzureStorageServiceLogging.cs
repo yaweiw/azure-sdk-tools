@@ -46,9 +46,9 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Common.Cmdlet
         [Parameter(Mandatory = false, HelpMessage = "Display ServiceProperties")]
         public SwitchParameter PassThru { get; set; }
 
-        //Overwrite the useless parameter
+        // Overwrite the useless parameter
         public override int? ServerTimeoutPerRequest { get; set; }
-        public override int? MaximumExecutionTimePerRequest { get; set; }
+        public override int? ClientTimeoutPerRequest { get; set; }
         public override int? ConcurrentTaskCount { get; set; }
 
         public SetAzureStorageServiceLoggingCommand()
@@ -84,7 +84,7 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Common.Cmdlet
                 }
             }
 
-            if (LoggingOperations!= null && LoggingOperations.Length > 0)
+            if (LoggingOperations != null && LoggingOperations.Length > 0)
             {
                 LoggingOperations logOperations = default(LoggingOperations);
 
@@ -103,10 +103,10 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Common.Cmdlet
                 }
 
                 logging.LoggingOperations = logOperations;
-                //Set default logging version
+                // Set default logging version
                 if (string.IsNullOrEmpty(logging.Version))
                 {
-                    string defaultLoggingVersion = "1.0";
+                    string defaultLoggingVersion = StorageNouns.DefaultLoggingVersion;
                     logging.Version = defaultLoggingVersion;
                 }
             }
@@ -143,7 +143,7 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Common.Cmdlet
                     throw new ArgumentException(LoggingOperationHelpMessage);
                 }
             }
-            else 
+            else
             {
                 try
                 {
@@ -158,19 +158,6 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Common.Cmdlet
         }
 
         /// <summary>
-        /// Clean all the settings on the ServiceProperties project
-        /// </summary>
-        /// <param name="serviceProperties">Service properties</param>
-        internal static void CleanServiceProperties(ServiceProperties serviceProperties)
-        {
-            serviceProperties.Logging = null;
-            serviceProperties.HourMetrics = null;
-            serviceProperties.MinuteMetrics = null;
-            serviceProperties.Cors = null;
-            serviceProperties.DefaultServiceVersion = null;
-        }
-
-        /// <summary>
         /// Execute command
         /// </summary>
         [PermissionSet(SecurityAction.Demand, Name = "FullTrust")]
@@ -178,7 +165,7 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Common.Cmdlet
         {
             ServiceProperties currentServiceProperties = Channel.GetStorageServiceProperties(ServiceType, GetRequestOptions(ServiceType), OperationContext);
             ServiceProperties serviceProperties = new ServiceProperties();
-            CleanServiceProperties(serviceProperties);
+            serviceProperties.Clean();
             serviceProperties.Logging = currentServiceProperties.Logging;
 
             UpdateServiceProperties(serviceProperties.Logging);

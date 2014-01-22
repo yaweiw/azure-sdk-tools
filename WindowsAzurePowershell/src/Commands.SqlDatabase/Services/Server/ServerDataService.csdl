@@ -10,6 +10,7 @@
         <NavigationProperty Name="Databases" Relationship="Microsoft.SqlServer.Management.Server.Domain.Server_Databases_Database_Server" ToRole="Database_Server" FromRole="Server_Databases" />
         <NavigationProperty Name="ServerMetrics" Relationship="Microsoft.SqlServer.Management.Server.Domain.Server_ServerMetrics_ServerMetrics_Server" ToRole="ServerMetrics_Server" FromRole="Server_ServerMetrics" />
         <NavigationProperty Name="ServerQuotas" Relationship="Microsoft.SqlServer.Management.Server.Domain.Server_ServerQuotas_ServerQuota_Server" ToRole="ServerQuota_Server" FromRole="Server_ServerQuotas" />
+        <NavigationProperty Name="DatabaseOperations" Relationship="Microsoft.SqlServer.Management.Server.Domain.Server_DatabaseOperations_DatabaseOperation_Server" ToRole="DatabaseOperation_Server" FromRole="Server_DatabaseOperations" />
       </EntityType>
       <EntityType Name="Database" OpenType="true">
         <Key>
@@ -43,6 +44,8 @@
         <Property Name="QueryStoreFlushPeriodSeconds" Type="Edm.Int32" />
         <Property Name="QueryStoreIntervalLengthMinutes" Type="Edm.Int32" />
         <Property Name="QueryStoreClearAll" Type="Edm.Boolean" />
+        <Property Name="QueryStoreStaleQueryThresholdDays" Type="Edm.Int32" />
+        <Property Name="IsSuspended" Type="Edm.Boolean" />
         <NavigationProperty Name="Server" Relationship="Microsoft.SqlServer.Management.Server.Domain.Server_Databases_Database_Server" ToRole="Server_Databases" FromRole="Database_Server" />
         <NavigationProperty Name="ServiceObjective" Relationship="Microsoft.SqlServer.Management.Server.Domain.Database_ServiceObjective" ToRole="ServiceObjective" FromRole="Database" />
         <NavigationProperty Name="DatabaseMetrics" Relationship="Microsoft.SqlServer.Management.Server.Domain.Database_DatabaseMetrics_DatabaseMetrics_Database" ToRole="DatabaseMetrics_Database" FromRole="Database_DatabaseMetrics" />
@@ -178,11 +181,11 @@
         <Property Name="RequestID" Type="Edm.Guid" Nullable="false" />
         <Property Name="SourceServerName" Type="Edm.String" />
         <Property Name="SourceDatabaseName" Type="Edm.String" />
+        <Property Name="SourceDatabaseDeletionDate" Type="Edm.DateTime" />
         <Property Name="TargetServerName" Type="Edm.String" />
         <Property Name="TargetDatabaseName" Type="Edm.String" />
         <Property Name="TargetUtcPointInTime" Type="Edm.DateTime" />
         <Property Name="State" Type="Edm.String" />
-        <Property Name="Progress" Type="Edm.String" />
         <Property Name="Error" Type="Edm.String" />
         <Property Name="IsCancelled" Type="Edm.Boolean" Nullable="false" />
         <Property Name="CreatedBy" Type="Edm.String" />
@@ -194,7 +197,7 @@
         </Key>
         <Property Name="RequestID" Type="Edm.Guid" Nullable="false" />
         <Property Name="SourceDatabaseName" Type="Edm.String" />
-        <Property Name="SourceDatabaseCreationDate" Type="Edm.DateTime" Nullable="false" />
+        <Property Name="SourceDatabaseDeletionDate" Type="Edm.DateTime" />
         <Property Name="TargetServerName" Type="Edm.String" />
         <Property Name="TargetDatabaseName" Type="Edm.String" />
         <Property Name="TargetUtcPointInTime" Type="Edm.DateTime" />
@@ -288,6 +291,25 @@
         <Property Name="Value" Type="Edm.Int32" Nullable="false" />
         <NavigationProperty Name="Server" Relationship="Microsoft.SqlServer.Management.Server.Domain.Server_ServerQuotas_ServerQuota_Server" ToRole="Server_ServerQuotas" FromRole="ServerQuota_Server" />
       </EntityType>
+      <EntityType Name="DatabaseOperation" OpenType="true">
+        <Key>
+          <PropertyRef Name="Id" />
+        </Key>
+        <Property Name="Id" Type="Edm.Guid" Nullable="false" />
+        <Property Name="Name" Type="Edm.String" />
+        <Property Name="State" Type="Edm.String" />
+        <Property Name="StateId" Type="Edm.Int32" Nullable="false" />
+        <Property Name="SessionActivityId" Type="Edm.Guid" Nullable="false" />
+        <Property Name="DatabaseName" Type="Edm.String" />
+        <Property Name="PercentComplete" Type="Edm.Int32" Nullable="false" />
+        <Property Name="ErrorCode" Type="Edm.Int32" />
+        <Property Name="Error" Type="Edm.String" />
+        <Property Name="ErrorSeverity" Type="Edm.Int32" />
+        <Property Name="ErrorState" Type="Edm.Int32" />
+        <Property Name="StartTime" Type="Edm.DateTime" Nullable="false" />
+        <Property Name="LastModifyTime" Type="Edm.DateTime" Nullable="false" />
+        <NavigationProperty Name="Server" Relationship="Microsoft.SqlServer.Management.Server.Domain.Server_DatabaseOperations_DatabaseOperation_Server" ToRole="Server_DatabaseOperations" FromRole="DatabaseOperation_Server" />
+      </EntityType>
       <Association Name="Server_Databases_Database_Server">
         <End Type="Microsoft.SqlServer.Management.Server.Domain.Database" Role="Database_Server" Multiplicity="*" />
         <End Type="Microsoft.SqlServer.Management.Server.Domain.Server" Role="Server_Databases" Multiplicity="0..1" />
@@ -299,6 +321,10 @@
       <Association Name="Server_ServerQuotas_ServerQuota_Server">
         <End Type="Microsoft.SqlServer.Management.Server.Domain.ServerQuota" Role="ServerQuota_Server" Multiplicity="*" />
         <End Type="Microsoft.SqlServer.Management.Server.Domain.Server" Role="Server_ServerQuotas" Multiplicity="0..1" />
+      </Association>
+      <Association Name="Server_DatabaseOperations_DatabaseOperation_Server">
+        <End Type="Microsoft.SqlServer.Management.Server.Domain.DatabaseOperation" Role="DatabaseOperation_Server" Multiplicity="*" />
+        <End Type="Microsoft.SqlServer.Management.Server.Domain.Server" Role="Server_DatabaseOperations" Multiplicity="0..1" />
       </Association>
       <Association Name="Database_ServiceObjective">
         <End Type="Microsoft.SqlServer.Management.Server.Domain.Database" Role="Database" Multiplicity="*" />
@@ -342,6 +368,7 @@
         <EntitySet Name="ServerMetrics" EntityType="Microsoft.SqlServer.Management.Server.Domain.ServerMetrics" />
         <EntitySet Name="EventLogs" EntityType="Microsoft.SqlServer.Management.Server.Domain.EventLog" />
         <EntitySet Name="ServerQuotas" EntityType="Microsoft.SqlServer.Management.Server.Domain.ServerQuota" />
+        <EntitySet Name="DatabaseOperations" EntityType="Microsoft.SqlServer.Management.Server.Domain.DatabaseOperation" />
         <AssociationSet Name="ServerDatabase" Association="Microsoft.SqlServer.Management.Server.Domain.Server_Databases_Database_Server">
           <End Role="Server_Databases" EntitySet="Servers" />
           <End Role="Database_Server" EntitySet="Databases" />
@@ -353,6 +380,10 @@
         <AssociationSet Name="ServerServerQuota" Association="Microsoft.SqlServer.Management.Server.Domain.Server_ServerQuotas_ServerQuota_Server">
           <End Role="Server_ServerQuotas" EntitySet="Servers" />
           <End Role="ServerQuota_Server" EntitySet="ServerQuotas" />
+        </AssociationSet>
+        <AssociationSet Name="ServerDatabaseOperation" Association="Microsoft.SqlServer.Management.Server.Domain.Server_DatabaseOperations_DatabaseOperation_Server">
+          <End Role="Server_DatabaseOperations" EntitySet="Servers" />
+          <End Role="DatabaseOperation_Server" EntitySet="DatabaseOperations" />
         </AssociationSet>
         <AssociationSet Name="fk_slo_database_objective_selections_objective_id" Association="Microsoft.SqlServer.Management.Server.Domain.Database_ServiceObjective">
           <End Role="Database" EntitySet="Databases" />

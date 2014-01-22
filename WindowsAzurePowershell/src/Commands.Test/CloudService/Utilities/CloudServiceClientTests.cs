@@ -154,8 +154,8 @@ namespace Microsoft.WindowsAzure.Commands.Test.CloudService.Utilities
         public void TestRemoveCloudService()
         {
             clientMocks.ComputeManagementClientMock.Setup(
-                c => c.Deployments.DeleteBySlotAsync(It.IsAny<string>(), It.IsAny<DeploymentSlot>(), It.IsAny<CancellationToken>()))
-                .Returns((string s, DeploymentSlot slot, CancellationToken cancellationToken) => Tasks.FromResult(
+                c => c.Deployments.DeleteByNameAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<bool>(), It.IsAny<CancellationToken>()))
+                .Returns((string s, string deploymentName, bool deleteAll, CancellationToken cancellationToken) => Tasks.FromResult(
                     CreateComputeOperationResponse("req0")));
 
             clientMocks.ComputeManagementClientMock.Setup(
@@ -171,7 +171,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.CloudService.Utilities
 
             // Assert
             clientMocks.ComputeManagementClientMock.Verify(
-                c => c.Deployments.DeleteBySlotAsync(serviceName, DeploymentSlot.Production, It.IsAny<CancellationToken>()), Times.Once);
+                c => c.Deployments.DeleteByNameAsync(serviceName, "mydeployment", false, It.IsAny<CancellationToken>()), Times.Once);
 
             clientMocks.ComputeManagementClientMock.Verify(
                 c => c.HostedServices.DeleteAsync(serviceName, It.IsAny<CancellationToken>()), Times.Once);
@@ -186,14 +186,14 @@ namespace Microsoft.WindowsAzure.Commands.Test.CloudService.Utilities
                     s.Name = serviceName;
                     s.AddDeployment(d =>
                     {
-                        d.Name = "mydeployment";
+                        d.Name = "myStagingdeployment";
                         d.Slot = DeploymentSlot.Staging;
                     });
                 });
 
             clientMocks.ComputeManagementClientMock.Setup(
-                c => c.Deployments.DeleteBySlotAsync(It.IsAny<string>(), It.IsAny<DeploymentSlot>(), It.IsAny<CancellationToken>()))
-                .Returns((string s, DeploymentSlot slot, CancellationToken cancellationToken) => Tasks.FromResult(
+                c => c.Deployments.DeleteByNameAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<bool>(), It.IsAny<CancellationToken>()))
+                .Returns((string s, string deploymentName, bool deleteAll, CancellationToken cancellationToken) => Tasks.FromResult(
                     CreateComputeOperationResponse("request001")));
 
             clientMocks.ComputeManagementClientMock.Setup(
@@ -209,7 +209,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.CloudService.Utilities
 
             // Assert
             clientMocks.ComputeManagementClientMock.Verify(
-                c => c.Deployments.DeleteBySlotAsync(serviceName, DeploymentSlot.Staging, It.IsAny<CancellationToken>()), Times.Once);
+                c => c.Deployments.DeleteByNameAsync(serviceName, "myStagingdeployment", false, It.IsAny<CancellationToken>()), Times.Once);
 
             clientMocks.ComputeManagementClientMock.Verify(
                 c => c.HostedServices.DeleteAsync(serviceName, It.IsAny<CancellationToken>()), Times.Once);
