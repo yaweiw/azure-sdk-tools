@@ -258,16 +258,11 @@
     <Compile Include="IaaS\Extensions\Common\VirtualMachineExtensionCmdletBase.cs" />
     <Compile Include="IaaS\Extensions\Common\VirtualMachineExtensionContext.cs" />
     <Compile Include="IaaS\Extensions\Common\VirtualMachineExtensionConfigContext.cs" />
-    <Compile Include="IaaS\Extensions\Diagnostics\GetAzureVMDiagnosticsExtension.cs" />
     <Compile Include="IaaS\Extensions\Common\GetAzureVMAvailableExtension.cs" />
-    <Compile Include="IaaS\Extensions\Diagnostics\RemoveAzureVMDiagnosticsExtension.cs" />
-    <Compile Include="IaaS\Extensions\Diagnostics\SetAzureVMDiagnosticsExtension.cs" />
-    <Compile Include="IaaS\Extensions\Diagnostics\VirtualMachineDiagnosticsExtensionCmdletBase.cs" />
     <Compile Include="IaaS\Extensions\VMAccess\GetAzureVMAccessExtension.cs" />
     <Compile Include="IaaS\Extensions\VMAccess\RemoveAzureVMAccessExtension.cs" />
     <Compile Include="IaaS\Extensions\VMAccess\SetAzureVMAccessExtension.cs" />
     <Compile Include="IaaS\Extensions\Common\SetAzureVMExtension.cs" />
-    <Compile Include="IaaS\Extensions\Diagnostics\VirtualMachineDiagnosticsExtensionContext.cs" />
     <Compile Include="IaaS\Extensions\VMAccess\VirtualMachineAccessExtensionCmdletBase.cs" />
     <Compile Include="IaaS\Extensions\VMAccess\VirtualMachineAccessExtensionContext.cs" />
     <Compile Include="IaaS\Extensions\Common\VirtualMachineExtensionImageContext.cs" />

@@ -69,8 +69,8 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
 
         [Parameter(
             ParameterSetName = ListByReferenceParamSetName,
-            ValueFromPipelineByPropertyName = true,
             Position = 1,
+            ValueFromPipelineByPropertyName = true,
             HelpMessage = "The Extension Reference Name.")]
         [ValidateNotNullOrEmpty]
         public override string ReferenceName
