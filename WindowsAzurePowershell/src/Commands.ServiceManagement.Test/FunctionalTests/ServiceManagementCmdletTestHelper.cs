@@ -628,19 +628,26 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
             return result;
         }
 
-        public ManagementOperationContext NewAzureQuickVM(OS os, string name, string serviceName, string imageName, string userName, string password, string locationName, string instanceSize, string disableWinRMHttps)
+        public ManagementOperationContext NewAzureQuickVM(OS os, string name, string serviceName, string imageName,
+            string userName, string password, string locationName, string instanceSize, string disableWinRMHttps)
         {
-            ManagementOperationContext result = new ManagementOperationContext();
+            var result = new ManagementOperationContext();
             try
             {
-                result = RunPSCmdletAndReturnFirst<ManagementOperationContext>(new NewAzureQuickVMCmdletInfo(os, name, serviceName, imageName, userName, password, locationName, instanceSize, disableWinRMHttps));
+                result =
+                    RunPSCmdletAndReturnFirst<ManagementOperationContext>(new NewAzureQuickVMCmdletInfo(os, name,
+                        serviceName, imageName, userName, password, locationName, instanceSize, disableWinRMHttps));
             }
             catch (Exception e)
             {
                 if (e.ToString().Contains("409"))
                 {
                     Utilities.RetryActionUntilSuccess(
-                        () => result = RunPSCmdletAndReturnFirst<ManagementOperationContext>(new NewAzureQuickVMCmdletInfo(os, name, serviceName, imageName, userName, password, null, instanceSize, disableWinRMHttps)),
+                        () =>
+                            result =
+                                RunPSCmdletAndReturnFirst<ManagementOperationContext>(new NewAzureQuickVMCmdletInfo(os,
+                                    name, serviceName, imageName, userName, password, null, instanceSize,
+                                    disableWinRMHttps)),
                         "409", 4, 60);
                 }
                 else
@@ -652,10 +659,33 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
             return result;
         }
 
-
         public ManagementOperationContext NewAzureQuickVM(OS os, string name, string serviceName, string imageName, string userName, string password, string locationName = null)
         {
             return NewAzureQuickVM(os, name, serviceName, imageName, userName, password, locationName, null);
+        }
+
+        public ManagementOperationContext NewAzureQuickVM(OS os, string name, string serviceName, string imageName, string instanceSize, string userName, string password, string vNetName, string[] subnetNames, string affinityGroup)
+        {
+            var result = new ManagementOperationContext();
+            try
+            {
+                result = RunPSCmdletAndReturnFirst<ManagementOperationContext>(new NewAzureQuickVMCmdletInfo(os,name,serviceName,imageName,instanceSize,userName,password,vNetName,subnetNames,affinityGroup));
+            }
+            catch (Exception e)
+            {
+                if (e.ToString().Contains("409"))
+                {
+                    Utilities.RetryActionUntilSuccess(
+                        () => result = RunPSCmdletAndReturnFirst<ManagementOperationContext>(new NewAzureQuickVMCmdletInfo(os, name, serviceName, imageName, userName, password, null, instanceSize)),
+                        "409", 4, 60);
+                }
+                else
+                {
+                    Console.WriteLine(e.InnerException.ToString());
+                    throw;
+                }
+            }
+            return result;
         }
 
         #endregion
@@ -905,9 +935,9 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
             return RunPSCmdletAndReturnFirst<ManagementOperationContext>(new NewAzureServiceCmdletInfo(serviceName, location));
         }
 
-        internal void NewAzureService(string serviceName, string serviceLabel, string locationName)
+        public ManagementOperationContext NewAzureService(string serviceName, string serviceLabel, string locationName, string affinityGroup = null)
         {
-            RunPSCmdletAndReturnAll<ManagementOperationContext>(new NewAzureServiceCmdletInfo(serviceName, serviceLabel, locationName));
+            return RunPSCmdletAndReturnFirst<ManagementOperationContext>(new NewAzureServiceCmdletInfo(serviceName, serviceLabel, locationName, affinityGroup));
         }
 
         public bool RemoveAzureService(string serviceName, bool deleteAll = false)
@@ -1431,5 +1461,162 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
         {
             return RunPSCmdletAndReturnFirst<NetworkAclObject>(new GetAzureAclConfigCmdletInfo(vm, ep));
         }
+
+        #region AzureServiceDomainJoinExtension
+
+        #region NewAzureServiceDiagnosticsExtensionConfig
+        public ExtensionConfigurationInput NewAzureServiceDomainJoinExtensionConfig(string workGroupName, string certificateThumbprint = null, string[] role = null,
+            string thumbprintAlgorithm = null, PSCredential credential = null, bool restart = false)
+        {
+            return RunPSCmdletAndReturnFirst<ExtensionConfigurationInput>(new NewAzureServiceDomainJoinExtensionConfigCmdletInfo(workGroupName, certificateThumbprint, role, thumbprintAlgorithm, restart, credential));
+        }
+
+        public ExtensionConfigurationInput NewAzureServiceDomainJoinExtensionConfig(string workGroupName, X509Certificate2 x509certificate, string[] role = null, string thumbprintAlgorithm = null, bool restart = false, PSCredential credential = null)
+        {
+            return RunPSCmdletAndReturnFirst<ExtensionConfigurationInput>(new NewAzureServiceDomainJoinExtensionConfigCmdletInfo(workGroupName, x509certificate, role, thumbprintAlgorithm, restart, credential));
+        }
+
+        public ExtensionConfigurationInput NewAzureServiceDomainJoinExtensionConfig(string domainName, X509Certificate2 x509Certificate, JoinOptions? options = null, string oUPath = null, PSCredential unjoinDomainCredential = null,
+         string[] role = null, string thumbprintAlgorithm = null, bool restart = false, PSCredential credential = null)
+        {
+            return RunPSCmdletAndReturnFirst<ExtensionConfigurationInput>(new NewAzureServiceDomainJoinExtensionConfigCmdletInfo(domainName, x509Certificate, options, oUPath, unjoinDomainCredential,
+                role, thumbprintAlgorithm, restart, credential));
+        }
+
+        public ExtensionConfigurationInput NewAzureServiceDomainJoinExtensionConfig(string domainName, string certificateThumbprint, string oUPath = null, PSCredential unjoinDomainCredential = null,
+            string[] role = null, string thumbprintAlgorithm = null, uint? joinOption = null, bool restart = false, PSCredential credential = null)
+        {
+            return RunPSCmdletAndReturnFirst<ExtensionConfigurationInput>(new NewAzureServiceDomainJoinExtensionConfigCmdletInfo(domainName, certificateThumbprint, joinOption, oUPath, unjoinDomainCredential,
+                role, thumbprintAlgorithm, restart, credential));
+        }
+
+        public ExtensionConfigurationInput NewAzureServiceDomainJoinExtensionConfig(string[] role = null, string thumbprintAlgorithm = null, bool restart = false, PSCredential credential = null)
+        {
+            return RunPSCmdletAndReturnFirst<ExtensionConfigurationInput>(new NewAzureServiceDomainJoinExtensionConfigCmdletInfo(role, thumbprintAlgorithm, restart, credential));
+        }
+
+        #endregion NewAzureServiceDiagnosticsExtensionConfig
+
+        #region SetAzureServiceDomainJoinExtensionCmdletInfo
+
+        // WorkgroupParameterSet
+        public ManagementOperationContext SetAzureServiceDomainJoinExtension
+            (string workGroupName,
+                string serviceName,  string slot, string[] role,
+                X509Certificate2 x509Certificate =null, string thumbprintAlgorithm = null,
+                bool restart = false, PSCredential credential = null)
+        {
+            return RunPSCmdletAndReturnFirst<ManagementOperationContext>(new SetAzureServiceDomainJoinExtensionCmdletInfo(workGroupName, x509Certificate,
+            role, slot, serviceName, thumbprintAlgorithm, restart, credential));
+        }
+
+        // WorkgroupParameterSet
+        public ManagementOperationContext SetAzureServiceDomainJoinExtension
+            (string workGroupName,
+                string serviceName,  string slot, string[] role,
+                string certificateThumbprint, string thumbprintAlgorithm = null,
+                bool restart = false, PSCredential credential = null)
+        {
+            return
+                RunPSCmdletAndReturnFirst<ManagementOperationContext>(
+                    new SetAzureServiceDomainJoinExtensionCmdletInfo(workGroupName, certificateThumbprint,
+                        role, slot, serviceName, thumbprintAlgorithm, restart, credential));
+        }
+
+        // DomainJoinOptionThumprintParameterSet
+        public ManagementOperationContext SetAzureServiceDomainJoinExtension
+            (string domainName, PSCredential credential, uint joinOption, bool restart,
+            string serviceName, string slot, string[] role,
+            string certificateThumbprint, string thumbprintAlgorithm = null,
+                PSCredential unjoinDomainCredential = null, string oUPath = null)
+        {
+            return
+                RunPSCmdletAndReturnFirst<ManagementOperationContext>(
+                    new SetAzureServiceDomainJoinExtensionCmdletInfo(domainName, certificateThumbprint, joinOption,
+                        unjoinDomainCredential,
+                        role, slot, serviceName, thumbprintAlgorithm, restart, credential, oUPath));
+        }
+
+        // DomainThumprintParameterSet
+        public ManagementOperationContext SetAzureServiceDomainJoinExtension
+            (string domainName, PSCredential credential, JoinOptions? options, bool restart,
+            string serviceName, string slot, string[] role,
+            string certificateThumbprint, string thumbprintAlgorithm = null,
+                PSCredential unjoinDomainCredential = null, string oUPath = null)
+        {
+            return
+                RunPSCmdletAndReturnFirst<ManagementOperationContext>(
+                    new SetAzureServiceDomainJoinExtensionCmdletInfo(domainName, certificateThumbprint, options,
+                        unjoinDomainCredential,
+                        role, slot, serviceName, thumbprintAlgorithm, restart, credential, oUPath));
+        }
+
+        // DomainParameterSet
+        public ManagementOperationContext SetAzureServiceDomainJoinExtension
+            (string domainName, PSCredential credential, JoinOptions? options, bool restart,
+                string serviceName, string slot, string[] role,
+                X509Certificate2 x509Certificate = null, string thumbprintAlgorithm = null,
+                PSCredential unjoinDomainCredential = null, string oUPath = null)
+        {
+            return
+                RunPSCmdletAndReturnFirst<ManagementOperationContext>(
+                    new SetAzureServiceDomainJoinExtensionCmdletInfo(domainName, x509Certificate, options,
+                        unjoinDomainCredential,
+                        role, slot, serviceName, thumbprintAlgorithm, restart, credential, oUPath));
+        }
+
+        // DomainJoinOptionParameterSet
+        public ManagementOperationContext SetAzureServiceDomainJoinExtension
+            (string domainName, PSCredential credential, uint joinOption, bool restart,
+            string serviceName, string slot, string[] role,
+            X509Certificate2 x509Certificate = null, string thumbprintAlgorithm = null,
+            PSCredential unjoinDomainCredential = null, string oUPath = null)
+        {
+            return
+                RunPSCmdletAndReturnFirst<ManagementOperationContext>(
+                    new SetAzureServiceDomainJoinExtensionCmdletInfo(domainName, x509Certificate, joinOption,
+                        unjoinDomainCredential,
+                        role, slot, serviceName, thumbprintAlgorithm, restart, credential, oUPath));
+        }
+
+        #endregion SetAzureServiceDomainJoinExtensionCmdletInfo
+
+        #region GetAzureServiceDomainJoinExtension
+        public ADDomainExtensionContext GetAzureServiceDomainJoinExtension(string serviceName = null, string slot = null)
+        {
+            return RunPSCmdletAndReturnFirst<ADDomainExtensionContext>(new GetAzureServiceDomainJoinExtensionCmdletInfo(serviceName, slot));
+        }
+        #endregion GetAzureServiceDomainJoinExtension
+
+        #region RemoveAzureServiceDomainJoinExtension
+        public ManagementOperationContext RemoveAzureServiceDomainJoinExtension(string serviceName, string slot, string[] role = null, bool uninstallConfiguration = false)
+        {
+            return RunPSCmdletAndReturnFirst<ManagementOperationContext>(new RemoveAzureServiceDomainJoinExtensionCmdletInfo(serviceName, slot, role, uninstallConfiguration));
+        }
+        #endregion RemoveAzureServiceDomainJoinExtension
+
+        #endregion AzureServiceDomainJoinExtension
+
+        #region StaticCA
+        public VirtualNetworkStaticIPAvailabilityContext TestAzureStaticVNetIP(string vNetName, string iPAddress)
+        {
+            return RunPSCmdletAndReturnFirst<VirtualNetworkStaticIPAvailabilityContext>(new TestAzureStaticVNetIPCmdletInfo(vNetName, iPAddress));
+        }
+
+        public PersistentVM SetAzureStaticVNetIP(string iPAddress, IPersistentVM vM)
+        {
+            return RunPSCmdletAndReturnFirst<PersistentVM>(new SetAzureStaticVNetIPCmdletInfo(iPAddress, vM));
+        }
+
+        public VirtualNetworkStaticIPContext GetAzureStaticVNetIP(IPersistentVM vM)
+        {
+            return RunPSCmdletAndReturnFirst<VirtualNetworkStaticIPContext>(new GetAzureStaticVNetIPCmdletInfo(vM));
+        }
+
+        public PersistentVM RemoveAzureStaticVNetIP(IPersistentVM vM)
+        {
+            return RunPSCmdletAndReturnFirst<PersistentVM>(new RemoveAzureStaticVNetIPCmdletInfo(vM));
+        }
+        #endregion StaticCA
     }
 }
