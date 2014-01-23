@@ -1012,7 +1012,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
             {
                 if (Utilities.CheckRemove(vmPowershellCmdlets.GetAzureAffinityGroup, affinityGroup))
                 {
-                    vmPowershellCmdlets.NewAzureAffinityGroup(affinityGroup, Resource.Location, null, null);
+                    vmPowershellCmdlets.NewAzureAffinityGroup(affinityGroup, locationName, null, null);
                 }
 
                 vmPowershellCmdlets.SetAzureVNetConfig(vnetConfigFilePath);
