@@ -758,7 +758,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
                 if (Utilities.CheckRemove(vmPowershellCmdlets.GetAzureAffinityGroup, aff))
                 {
 
-                    vmPowershellCmdlets.NewAzureAffinityGroup(aff, Resource.Location, null, null);
+                    vmPowershellCmdlets.NewAzureAffinityGroup(aff, locationName, null, null);
                 }
             }
 
