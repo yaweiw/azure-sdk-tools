@@ -30,8 +30,21 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
         [Parameter(
             Mandatory = false,
             Position = 1,
+            ValueFromPipelineByPropertyName = true,
             HelpMessage = "Disable VM BGInfo Extension")]
         public override SwitchParameter Disable
+        {
+            get;
+            set;
+        }
+
+        [Parameter(
+            Mandatory = false,
+            Position = 1,
+            ValueFromPipelineByPropertyName = true,
+            HelpMessage = "The Extension Version.")]
+        [ValidateNotNullOrEmpty]
+        public override string Version
         {
             get;
             set;

@@ -57,18 +57,6 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
         }
 
         [Parameter(
-            ParameterSetName = RemoveByExtensionParamSetName,
-            Position = 3,
-            ValueFromPipelineByPropertyName = true,
-            HelpMessage = "The Extension Version.")]
-        [ValidateNotNullOrEmpty]
-        public override string Version
-        {
-            get;
-            set;
-        }
-
-        [Parameter(
             ParameterSetName = RemoveByReferenceParamSetName,
             Mandatory = true,
             Position = 1,
