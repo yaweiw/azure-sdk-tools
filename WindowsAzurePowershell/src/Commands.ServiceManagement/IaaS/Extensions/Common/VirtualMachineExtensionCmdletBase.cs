@@ -104,9 +104,8 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
                 return string.IsNullOrEmpty(this.ExtensionName) ?
                        (Func<ResourceExtensionReference, bool>)
                        (r => eq(r.ReferenceName, this.ReferenceName))
-                      : r => eq(r.Name, this.ExtensionName)
-                          && eq(r.Publisher, this.Publisher)
-                          && (string.IsNullOrEmpty(this.Version) || eq(r.Version, this.Version));
+                     : (r => eq(r.Name, this.ExtensionName)
+                          && eq(r.Publisher, this.Publisher));
             }
         }
 
