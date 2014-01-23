@@ -172,7 +172,9 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Database.Cmdlet
                         DatabaseName = databaseName,
                         UserName = sqlCredentials.UserName,
                         Password = sqlCredentials.Password,
-                    }
+                    },
+                    AzureEdition = edition,
+                    DatabaseSizeInGB = maxDatabaseSizeInGB
                 });
 
             ImportExportRequest result = new ImportExportRequest()
