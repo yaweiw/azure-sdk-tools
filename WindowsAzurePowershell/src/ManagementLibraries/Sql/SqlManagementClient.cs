@@ -353,6 +353,17 @@ namespace Microsoft.WindowsAzure.Management.Sql.Models
     /// </summary>
     public partial class DacImportParameters
     {
+        private string _azureEdition;
+
+        /// <summary>
+        /// The edition of this database.
+        /// </summary>
+        public string AzureEdition
+        {
+            get { return this._azureEdition; }
+            set { this._azureEdition = value; }
+        }
+
         private DacImportParameters.BlobCredentialsParameter _blobCredentials;
 
         /// <summary>
@@ -4030,6 +4041,13 @@ namespace Microsoft.WindowsAzure.Management.Sql
                 {
                     XElement importInputElement = new XElement(XName.Get("ImportInput", "http://schemas.datacontract.org/2004/07/Microsoft.SqlServer.Management.Dac.ServiceTypes"));
                     requestDoc.Add(importInputElement);
+
+                    if (parameters.AzureEdition != null)
+                    {
+                        XElement azureEditionElement = new XElement(XName.Get("AzureEdition", "http://schemas.datacontract.org/2004/07/Microsoft.SqlServer.Management.Dac.ServiceTypes"));
+                        azureEditionElement.Value = parameters.AzureEdition;
+                        importInputElement.Add(azureEditionElement);
+                    }
 
                     if (parameters.BlobCredentials != null)
                     {
