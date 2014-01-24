@@ -4041,7 +4041,6 @@ namespace Microsoft.WindowsAzure.Management.Sql
                 {
                     XElement importInputElement = new XElement(XName.Get("ImportInput", "http://schemas.datacontract.org/2004/07/Microsoft.SqlServer.Management.Dac.ServiceTypes"));
                     requestDoc.Add(importInputElement);
-<<<<<<< HEAD
 
                     if (parameters.AzureEdition != null)
                     {
@@ -4049,10 +4048,6 @@ namespace Microsoft.WindowsAzure.Management.Sql
                         azureEditionElement.Value = parameters.AzureEdition;
                         importInputElement.Add(azureEditionElement);
                     }
-
-=======
-                    
->>>>>>> 1c1ecca36bd23950c70be8efe8c6d1765a0cbef6
                     if (parameters.BlobCredentials != null)
                     {
                         XElement blobCredentialsElement = new XElement(XName.Get("BlobCredentials", "http://schemas.datacontract.org/2004/07/Microsoft.SqlServer.Management.Dac.ServiceTypes"));
