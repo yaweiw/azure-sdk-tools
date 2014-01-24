@@ -22,6 +22,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.Websites
     using Microsoft.WindowsAzure.Commands.Websites.WebJobs;
     using Moq;
     using Utilities.Websites;
+    using Microsoft.WindowsAzure.WebSitesExtensions.Models;
 
     [TestClass]
     public class GetAzureWebsiteJobTests : WebsitesTestBase

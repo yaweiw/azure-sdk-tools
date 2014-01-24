@@ -32,6 +32,8 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
     using System.Diagnostics;
     using System.Globalization;
     using Microsoft.WindowsAzure.Commands.Utilities.Websites.Services.WebJobs;
+    using Microsoft.WindowsAzure.WebSitesExtensions;
+    using Microsoft.WindowsAzure.WebSitesExtensions.Models;
 
     public class WebsitesClient : IWebsitesClient
     {
@@ -187,6 +189,22 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
         {
             return (!string.IsNullOrEmpty(slot)) && 
                 (slot.Equals(WebsiteSlotName.Production.ToString(), StringComparison.OrdinalIgnoreCase));
+        }
+
+        private IWebSiteExtensionsClient GetWebSiteExtensionsClient(string websiteName)
+        {
+            return new WebSiteExtensionsClient(websiteName, GetKuduCredentials(websiteName));
+        }
+
+        private BasicAuthenticationCloudCredentials GetKuduCredentials(string name)
+        {
+            name = SetWebsiteName(name, null);
+            Repository repository = GetRepository(name);
+            return new BasicAuthenticationCloudCredentials()
+            {
+                Username = repository.PublishingUsername,
+                Password = repository.PublishingPassword
+            };
         }
 
         /// <summary>
@@ -981,8 +999,46 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
         public List<WebJob> FilterWebJobs(WebJobFilterOptions options)
         {
             options.Name = SetWebsiteName(options.Name, options.Slot);
+            IWebSiteExtensionsClient client = GetWebSiteExtensionsClient(options.Name);
 
-            throw new NotImplementedException();
+            if (string.IsNullOrEmpty(options.JobName) && string.IsNullOrEmpty(options.JobType))
+            {
+                return client.WebJobs.List(new WebJobListParameters()).Jobs.ToList();
+            }
+            else if (string.IsNullOrEmpty(options.JobName) && !string.IsNullOrEmpty(options.JobType))
+            {
+                if (string.Compare(options.JobType, WebJobType.Continuous.ToString(), true) == 0)
+                {
+                    return client.WebJobs.ListContinuous(new WebJobListParameters()).Jobs.ToList();
+                }
+                else if (string.Compare(options.JobType, WebJobType.Triggered.ToString(), true) == 0)
+                {
+                    return client.WebJobs.ListTriggered(new WebJobListParameters()).Jobs.ToList();
+                }
+                else
+                {
+                    throw new ArgumentOutOfRangeException("options.JobType");
+                }
+            }
+            else if (!string.IsNullOrEmpty(options.JobName) && !string.IsNullOrEmpty(options.JobType))
+            {
+                if (string.Compare(options.JobType, WebJobType.Continuous.ToString(), true) == 0)
+                {
+                    return new List<WebJob>() { client.WebJobs.GetContinuous(options.JobName).WebJob };
+                }
+                else if (string.Compare(options.JobType, WebJobType.Triggered.ToString(), true) == 0)
+                {
+                    return new List<WebJob>() { client.WebJobs.GetTriggered(options.JobName).WebJob };
+                }
+                else
+                {
+                    throw new ArgumentOutOfRangeException("options.JobType");
+                }
+            }
+            else
+            {
+                throw new ArgumentOutOfRangeException("options");
+            }
         }
 
         /// <summary>
@@ -996,12 +1052,13 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
         /// <param name="singleton">True if you only want the job to run in 1 instance of the web site</param>
         public WebJob CreateWebJob(string name, string slot, string jobName, WebJobType jobType, string jobFile, bool singleton)
         {
-            name = SetWebsiteName(name, slot);
-
             if (jobType == WebJobType.Triggered && singleton)
             {
                 throw new InvalidOperationException(Resources.InvalidWebJobSingleton);
             }
+
+            name = SetWebsiteName(name, slot);
+            IWebSiteExtensionsClient client = GetWebSiteExtensionsClient(name);
 
             throw new NotImplementedException();
         }
@@ -1016,6 +1073,8 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
         public void DeleteWebJob(string name, string slot, string jobName, WebJobType jobType)
         {
             name = SetWebsiteName(name, slot);
+            IWebSiteExtensionsClient client = GetWebSiteExtensionsClient(name);
+
             throw new NotImplementedException();
         }
 
@@ -1029,6 +1088,8 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
         public void StartWebJob(string name, string slot, string jobName, WebJobType jobType)
         {
             name = SetWebsiteName(name, slot);
+            IWebSiteExtensionsClient client = GetWebSiteExtensionsClient(name);
+
             throw new NotImplementedException();
         }
 
@@ -1042,6 +1103,8 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
         public void StopWebJob(string name, string slot, string jobName, WebJobType jobType)
         {
             name = SetWebsiteName(name, slot);
+            IWebSiteExtensionsClient client = GetWebSiteExtensionsClient(name);
+
             throw new NotImplementedException();
         }
 
@@ -1053,6 +1116,8 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
         public List<WebJobRun> FilterWebJobHistory(WebJobHistoryFilterOptions options)
         {
             options.Name = SetWebsiteName(options.Name, options.Slot);
+            IWebSiteExtensionsClient client = GetWebSiteExtensionsClient(options.Name);
+
             throw new NotImplementedException();
         }
 
@@ -1067,12 +1132,12 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
         /// <param name="runId">The job run id</param>
         public void SaveWebJobLog(string name, string slot, string jobName, WebJobType jobType, string output, string runId)
         {
-            name = SetWebsiteName(name, slot);
-
             if (jobType == WebJobType.Continuous && !string.IsNullOrEmpty(runId))
 	        {
 		        throw new InvalidOperationException();
 	        }
+            name = SetWebsiteName(name, slot);
+            IWebSiteExtensionsClient client = GetWebSiteExtensionsClient(name);
 
             throw new NotImplementedException();
         }

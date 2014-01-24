@@ -185,8 +185,8 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites.Services
                 SiteName = certificate.SiteName,
                 SelfLink = certificate.SelfLinkUri,
                 Issuer = certificate.Issuer,
-                IssueDate = certificate.IssueDate,
-                ExpirationDate = certificate.ExpirationDate,
+                IssueDate = certificate.IssueDate.Value,
+                ExpirationDate = certificate.ExpirationDate.Value,
                 Password = certificate.Password,
                 Thumbprint = certificate.Thumbprint,
                 Valid = certificate.IsValid
