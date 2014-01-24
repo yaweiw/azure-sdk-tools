@@ -17,7 +17,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.CloudService.Utilities
     using Commands.Utilities.CloudService.Scaffolding;
     using System.IO;
     using Test.Utilities.Common;
-    using Test.Utilities.Properties;
+    using Commands.Common.Test.Properties;
     using VisualStudio.TestTools.UnitTesting;
 
     [TestClass]
