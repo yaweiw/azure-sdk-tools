@@ -1,0 +1,91 @@
+﻿// ----------------------------------------------------------------------------------
+//
+// Copyright Microsoft Corporation
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+// http://www.apache.org/licenses/LICENSE-2.0
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+// ----------------------------------------------------------------------------------
+
+using System;
+using System.Globalization;
+using System.IO;
+using Microsoft.WindowsAzure.Management.Storage;
+using Microsoft.WindowsAzure.Management.Storage.Models;
+using Microsoft.WindowsAzure.Storage;
+using Microsoft.WindowsAzure.Storage.Auth;
+using Microsoft.WindowsAzure.Storage.Blob;
+
+namespace Microsoft.WindowsAzure.Commands.Utilities.Common.Storage
+{
+    /// <summary>
+    /// Wrapper class that encapsulates Blob functionality from the StorageClient API
+    /// </summary>
+    public class StorageClientWrapper : IStorageClientWrapper
+    {
+        public IStorageManagementClient StorageManagementClient { get; set; }
+
+        public StorageClientWrapper(IStorageManagementClient storageManagementClient)
+        {
+            StorageManagementClient = storageManagementClient;
+        }
+
+        public void DeletePackageFromBlob(string storageName, Uri packageUri)
+        {
+            StorageAccountGetKeysResponse keys = StorageManagementClient.StorageAccounts.GetKeys(storageName);
+            string storageKey = keys.PrimaryKey;
+            var storageService = StorageManagementClient.StorageAccounts.Get(storageName);
+            var blobStorageEndpoint = storageService.Properties.Endpoints[0];
+            var credentials = new StorageCredentials(storageName, storageKey);
+            var client = new CloudBlobClient(blobStorageEndpoint, credentials);
+            ICloudBlob blob = client.GetBlobReferenceFromServer(packageUri);
+            blob.DeleteIfExists();
+        }
+
+        public Uri UploadFileToBlob(BlobUploadParameters parameters)
+        {
+            StorageAccountGetKeysResponse keys = StorageManagementClient.StorageAccounts.GetKeys(parameters.StorageName);
+            string storageKey = keys.PrimaryKey;
+            var storageService = StorageManagementClient.StorageAccounts.Get(parameters.StorageName);
+            Uri blobEndpointUri = storageService.Properties.Endpoints[0];
+            return UploadFile(parameters.StorageName,
+                General.CreateHttpsEndpoint(blobEndpointUri.ToString()),
+                storageKey, parameters);
+        }
+
+        private Uri UploadFile(string storageName, Uri blobEndpointUri, string storageKey, BlobUploadParameters parameters)
+        {
+            var credentials = new StorageCredentials(storageName, storageKey);
+            var client = new CloudBlobClient(blobEndpointUri, credentials);
+            string blobName = string.Format(
+                CultureInfo.InvariantCulture,
+                "{0}_{1}",
+                DateTime.UtcNow.ToString("yyyyMMdd_HHmmss", CultureInfo.InvariantCulture),
+                Path.GetFileName(parameters.FileLocalPath));
+
+            CloudBlobContainer container = client.GetContainerReference(parameters.ContainerName);
+            var wasCreated = container.CreateIfNotExists();
+            if (wasCreated && parameters.ContainerPublic)
+            {
+                container.SetPermissions(new BlobContainerPermissions
+                    {
+                        PublicAccess = BlobContainerPublicAccessType.Blob
+                    });
+            }
+
+            CloudBlockBlob blob = container.GetBlockBlobReference(blobName);
+
+            using (FileStream readStream = File.OpenRead(parameters.FileLocalPath))
+            {
+                blob.UploadFromStream(readStream, AccessCondition.GenerateEmptyCondition(), parameters.BlobRequestOptions);
+            }
+
+            return new Uri(string.Format(CultureInfo.InvariantCulture, "{0}{1}{2}{3}", client.BaseUri, parameters.ContainerName, client.DefaultDelimiter, blobName));
+        }
+    }
+}
