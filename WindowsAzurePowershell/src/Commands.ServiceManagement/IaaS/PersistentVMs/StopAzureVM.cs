@@ -44,7 +44,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
         [Parameter(Position = 3, HelpMessage = "Allows the deallocation of last VM in a deployment")]
         public SwitchParameter Force { get; set; }
 
-        internal override void ExecuteCommand()
+        protected override void ExecuteCommand()
         {
             base.ExecuteCommand();
             ServiceManagementProfile.Initialize();
@@ -174,6 +174,15 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
                     true, 
                     CultureInfo.InvariantCulture) != 0;
             bool result = this.CurrentDeploymentNewSM.RoleInstances.Count(roleNotStoppedDeallocated) <= vmCount;
+
+            if (result && !this.StayProvisioned.IsPresent)
+            {
+                if (this.CurrentDeploymentNewSM != null && !string.IsNullOrEmpty(this.CurrentDeploymentNewSM.ReservedIPName))
+                {
+                    WriteVerboseWithTimestamp(string.Format(Resources.ReservedIPNameNoLongerInUseButStillBeingReserved, this.CurrentDeploymentNewSM.ReservedIPName));
+                }
+            }
+
             return result;
         }
     }

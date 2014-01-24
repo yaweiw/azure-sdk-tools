@@ -39,7 +39,7 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.CloudServiceTests
         [TestCategory(Category.CloudService)]
         public void TestStopAzureServiceWithInvalidCredentials()
         {
-            RunPowerShellTest("Test-WithInvalidCredentials { Stop-AzureService $(Get-CloudServiceName) }");
+            RunPowerShellTest("Test-WithInvalidCredentials { Stop-AzureService $(Get-HostedService) }");
         }
 
         [TestMethod]

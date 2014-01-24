@@ -39,7 +39,7 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.CloudServiceTests
         [TestCategory(Category.CloudService)]
         public void TestRemoveAzureServiceWithInvalidCredentials()
         {
-            RunPowerShellTest("Test-WithInvalidCredentials { Remove-AzureService $(Get-CloudServiceName) -Force }");
+            RunPowerShellTest("Test-WithInvalidCredentials { Remove-AzureService $(Get-HostedService) -Force }");
         }
 
         [TestMethod]

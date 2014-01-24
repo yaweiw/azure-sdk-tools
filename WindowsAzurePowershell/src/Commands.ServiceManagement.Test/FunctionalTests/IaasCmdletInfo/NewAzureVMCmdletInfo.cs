@@ -22,13 +22,14 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
     {
 
         public NewAzureVMCmdletInfo(string serviceName, PersistentVM[] vMs, string vnetName, DnsServer[] dnsSettings,
-            string serviceLabel, string serviceDescription, string deploymentLabel, string deploymentDescription, string location, string affinityGroup)
+            string serviceLabel, string serviceDescription, string deploymentLabel, string deploymentDescription, string location, string affinityGroup, string rsvIPName)
         {
             this.cmdletName = Utilities.NewAzureVMCmdletName;
 
             this.cmdletParams.Add(new CmdletParam("ServiceName", serviceName));
             this.cmdletParams.Add(new CmdletParam("VMs", vMs));
-            if (vnetName != null)
+
+            if (!string.IsNullOrEmpty(vnetName))
             {
                 this.cmdletParams.Add(new CmdletParam("VNetName", vnetName));
             }
@@ -36,29 +37,33 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
             {
                 this.cmdletParams.Add(new CmdletParam("DnsSettings", dnsSettings));
             }
-            if (affinityGroup != null)
+            if (!string.IsNullOrEmpty(affinityGroup))
             {
                 this.cmdletParams.Add(new CmdletParam("AffinityGroup", affinityGroup));
             }
-            if (serviceLabel != null)
+            if (!string.IsNullOrEmpty(serviceLabel))
             {
                 this.cmdletParams.Add(new CmdletParam("ServiceLabel", serviceLabel));
             }
-            if (serviceDescription != null)
+            if (!string.IsNullOrEmpty(serviceDescription))
             {
                 this.cmdletParams.Add(new CmdletParam("ServiceDescription", serviceDescription));
             }
-            if (deploymentLabel != null)
+            if (!string.IsNullOrEmpty(deploymentLabel))
             {
                 this.cmdletParams.Add(new CmdletParam("DeploymentLabel", deploymentLabel));
             }
-            if (deploymentDescription != null)
+            if (!string.IsNullOrEmpty(deploymentDescription))
             {
                 this.cmdletParams.Add(new CmdletParam("DeploymentDescription", deploymentDescription));
             }
-            if (location != null)
+            if (!string.IsNullOrEmpty(location))
             {
                 this.cmdletParams.Add(new CmdletParam("Location", location));
+            }
+            if (!string.IsNullOrEmpty(rsvIPName))
+            {
+                this.cmdletParams.Add(new CmdletParam("ReservedIPName", rsvIPName));
             }
         }
     }
