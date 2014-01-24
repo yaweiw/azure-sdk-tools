@@ -19,6 +19,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
     using Microsoft.WindowsAzure.Commands.Utilities.Websites.Services.WebJobs;
     using Services.DeploymentEntities;
     using Services.WebEntities;
+    using Microsoft.WindowsAzure.WebSitesExtensions.Models;
 
     public interface IWebsitesClient
     {
