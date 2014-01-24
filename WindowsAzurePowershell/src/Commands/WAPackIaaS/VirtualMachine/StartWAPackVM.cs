@@ -19,7 +19,7 @@ namespace Microsoft.WindowsAzure.Commands.WAPackIaaS.VirtualMachine
     [Cmdlet(VerbsLifecycle.Start, "WAPackVM", DefaultParameterSetName = WAPackCmdletParameterSets.FromVirtualMachineObject)]
     public class StartWAPackVM : VMOperationsCmdlet
     {
-        protected override void ExecuteCommand()
+        public override void ExecuteCmdlet()
         {
             this.ExecuteVMOperation(VMOperationsEnum.Start);
         }

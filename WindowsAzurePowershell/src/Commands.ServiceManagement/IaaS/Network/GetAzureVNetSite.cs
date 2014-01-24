@@ -22,6 +22,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
     using System.Net;
     using System.ServiceModel;
     using Management.VirtualNetworks;
+    using Management.VirtualNetworks.Models;
     using Model;
     using Properties;
     using Utilities.Common;
@@ -46,7 +47,6 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
                 try
                 {
                     WriteVerboseWithTimestamp(string.Format(Resources.AzureVNetSiteBeginOperation, CommandRuntime.ToString()));
-
                     var response = this.NetworkClient.Networks.List();
                     var sites = response.VirtualNetworkSites;
 
@@ -56,49 +56,13 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
 
                         if (sites.Count() == 0)
                         {
-                            throw new ArgumentException(string.Format(CultureInfo.InvariantCulture, Resources.VirtualNetworkNameNotFound, this.VNetName), "VirtualNetworkName");
+                            throw new ArgumentException(string.Format(CultureInfo.InvariantCulture, Resources.VirtualNetworkNameNotFound, this.VNetName), "VNetName");
                         }
                     }
 
                     var operation = GetOperationNewSM(response.RequestId);
-
                     WriteVerboseWithTimestamp(string.Format(Resources.AzureVNetSiteCompletedOperation, CommandRuntime.ToString()));
-
-                    result = sites.Select(s => new VirtualNetworkSiteContext
-                    {
-                        OperationId          = operation.Id,
-                        OperationDescription = CommandRuntime.ToString(),
-                        OperationStatus      = operation.Status.ToString(),
-                        AddressSpacePrefixes = s.AddressSpace != null ? s.AddressSpace.AddressPrefixes : null,
-                        AffinityGroup        = s.AffinityGroup,
-                        DnsServers           = s.DnsServers == null ? null : from ds in s.DnsServers
-                                                                   select new Model.PersistentVMModel.DnsServer
-                                                                   {
-                                                                       Address = ds.Address.ToString(),
-                                                                       Name = ds.Name
-                                                                   },
-                        GatewayProfile       = s.Gateway != null ? s.Gateway.Profile.ToString() : null,
-                        GatewaySites         = s.Gateway == null ? null : s.Gateway.Sites == null ? null :
-                                               s.Gateway.Sites.Select(gs => new Model.PersistentVMModel.LocalNetworkSite
-                                               {
-                                                   AddressSpace = new Model.PersistentVMModel.AddressSpace
-                                                   {
-                                                       AddressPrefixes = gs.AddressSpace == null ? null : gs.AddressSpace.AddressPrefixes == null ? null :
-                                                       gs.AddressSpace.AddressPrefixes.ToList() as Model.PersistentVMModel.AddressPrefixList
-                                                   },
-                                                   Connections = gs.Connections == null ? null : gs.Connections.Select(gc => new Model.PersistentVMModel.Connection
-                                                   {
-                                                       Type = gc.Type.ToString()
-                                                   }) as Model.PersistentVMModel.ConnectionList,
-                                                   Name = gs.Name,
-                                                   VpnGatewayAddress = gs.VpnGatewayAddress.ToString()
-                                               }) as Model.PersistentVMModel.LocalNetworkSiteList,
-                        Id                   = s.Id,
-                        Label                = s.Label,
-                        Name                 = s.Name,
-                        State                = s.State,
-                        Subnets              = s.Subnets.Select(sn => new Model.PersistentVMModel.Subnet {AddressPrefix = sn.AddressPrefix, Name = sn.Name})
-                    }).ToList();
+                    result = sites.Select(site => ContextFactory<NetworkListResponse.VirtualNetworkSite, VirtualNetworkSiteContext>(site, operation));
                 }
                 catch (CloudException ex)
                 {
@@ -118,8 +82,8 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
 
         protected override void OnProcessRecord()
         {
+            ServiceManagementProfile.Initialize();
             var virtualNetworkSites = this.GetVirtualNetworkSiteProcess();
-
             if (virtualNetworkSites != null)
             {
                 WriteObject(virtualNetworkSites, true);

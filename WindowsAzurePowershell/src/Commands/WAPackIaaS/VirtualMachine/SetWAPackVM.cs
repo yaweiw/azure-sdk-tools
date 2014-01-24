@@ -41,7 +41,10 @@ namespace Microsoft.WindowsAzure.Commands.WAPackIaaS.VirtualMachine
             set;
         }
 
-        protected override void ExecuteCommand()
+        [Parameter(Position = 2, Mandatory = false)]
+        public SwitchParameter PassThru { get; set; }
+
+        public override void ExecuteCmdlet()
         {
             var virtualMachineOperations = new VirtualMachineOperations(this.WebClientFactory);
             Guid? jobId = Guid.Empty;
@@ -62,8 +65,11 @@ namespace Microsoft.WindowsAzure.Commands.WAPackIaaS.VirtualMachine
                 this.WriteErrorDetails(new Exception(jobInfo.errorMessage));
             }
 
-            updatedVirtualMachine = virtualMachineOperations.Read(updatedVirtualMachine.ID);
-            WriteObject(updatedVirtualMachine);
+            if (PassThru)
+            {
+                updatedVirtualMachine = virtualMachineOperations.Read(updatedVirtualMachine.ID);
+                WriteObject(updatedVirtualMachine);
+            }
         }
 
         private void SetSizeProfile(VirtualMachine vm)

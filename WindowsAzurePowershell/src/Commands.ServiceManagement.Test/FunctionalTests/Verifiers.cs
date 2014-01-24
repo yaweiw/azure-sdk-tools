@@ -13,6 +13,7 @@
 // ----------------------------------------------------------------------------------
 
 using System.Reflection;
+using Microsoft.WindowsAzure.Commands.ServiceManagement.Preview.Model;
 
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
 {
@@ -318,6 +319,44 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
             return true;
         }
 
+        internal static bool AzureReservedIP(ReservedIPContext rsvIP, string name, string label, string affname,
+            string ip, string dep, string svcName, string id)
+        {
+            Utilities.PrintContext(rsvIP);
+            Assert.AreEqual(name, rsvIP.ReservedIPName, "Reserved IP names are not equal!");
+            Assert.AreEqual(label, rsvIP.Label, "Reserved IP labels are not equal!");
+            Assert.AreEqual(affname, rsvIP.AffinityGroup, "Reserved IP affinity groups are not equal!");
+            if (!string.IsNullOrEmpty(ip))
+            {
+                Assert.AreEqual(ip, rsvIP.Address, "Reserved IP addresses are not equal!");
+            }
+            Assert.AreEqual(dep, rsvIP.DeploymentName, "Reserved IP deployment names are not equal!");
+            Assert.AreEqual(svcName, rsvIP.ServiceName, "Reserved IP service names are not equal!");
+            if (!string.IsNullOrEmpty(id))
+            {
+                Assert.AreEqual(id, rsvIP.Id, "Reserved IP IDs are not equal!");
+            }
+            return true;
+        }
+
+        internal static bool AzureReservedIPNotInUse(ReservedIPContext rsvIP, string name, string label, string affname,
+            string id = null)
+        {
+            AzureReservedIP(rsvIP, name, label, affname, null, null, null, id);
+            Assert.AreEqual(false, rsvIP.InUse);
+            return true;
+        }
+
+        internal static bool AzureReservedIPInUse(ReservedIPContext rsvIP, string name, string label, string affname,
+            string ip = null, string deploymentName =null, string svcName = null)
+        {
+            AzureReservedIP(rsvIP, name, label, affname, ip, deploymentName, svcName, null);
+            Assert.AreEqual(true, rsvIP.InUse);
+            return true;
+        }
+        
+        
+
         private static bool CompareContext<T>(T obj1, T obj2)
         {
             bool result = true;
@@ -358,5 +397,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
             }
             return result;
         }
+
+        
     }
 }

@@ -116,26 +116,6 @@ namespace Microsoft.WindowsAzure.Commands.WAPackIaaS
             }
         }
 
-        protected override void ProcessRecord()
-        {
-            try
-            {
-                base.ProcessRecord();
-                this.ExecuteCommand();
-
-            }
-            catch (WAPackOperationException operationException)
-            {
-                this.WriteErrorDetails(operationException);
-            }
-            catch (WAPackWebException webException)
-            {
-                this.WriteErrorDetails(webException);
-            } 
-        }
-
-        protected abstract void ExecuteCommand();
-
         [PermissionSet(SecurityAction.Demand, Name = "FullTrust")]
         protected static String ExtractSecureString(SecureString secureString)
         {

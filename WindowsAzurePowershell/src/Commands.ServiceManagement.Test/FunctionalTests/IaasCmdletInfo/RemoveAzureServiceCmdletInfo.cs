@@ -21,11 +21,16 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
 
     public class RemoveAzureServiceCmdletInfo : CmdletsInfo
     {
-        public RemoveAzureServiceCmdletInfo(string serviceName)
+        public RemoveAzureServiceCmdletInfo(string serviceName, bool deleteAll)
         {
             this.cmdletName = Utilities.RemoveAzureServiceCmdletName;
             this.cmdletParams.Add(new CmdletParam("ServiceName", serviceName));
             this.cmdletParams.Add(new CmdletParam("Force"));
+
+            if (deleteAll)
+            {
+                this.cmdletParams.Add(new CmdletParam("DeleteAll"));
+            }
         }
     }
 }
