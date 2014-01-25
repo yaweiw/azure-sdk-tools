@@ -1850,6 +1850,15 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Singleton option works for continuous jobs only..
+        /// </summary>
+        public static string InvalidWebJobSingleton {
+            get {
+                return ResourceManager.GetString("InvalidWebJobSingleton", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The website {0} was not found. Please specify a valid website name..
         /// </summary>
         public static string InvalidWebsite {
@@ -2961,6 +2970,24 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Properties {
         public static string RemoveVMMessage {
             get {
                 return ResourceManager.GetString("RemoveVMMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Removing WebJob....
+        /// </summary>
+        public static string RemoveWebJobMessage {
+            get {
+                return ResourceManager.GetString("RemoveWebJobMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Are you sure you want to remove job &apos;{0}&apos;?.
+        /// </summary>
+        public static string RemoveWebJobWarning {
+            get {
+                return ResourceManager.GetString("RemoveWebJobWarning", resourceCulture);
             }
         }
         
