@@ -14,8 +14,9 @@
 
 namespace Microsoft.WindowsAzure.Commands.Websites.WebJobs
 {
-    using System.Management.Automation;
     using Microsoft.WindowsAzure.Commands.Utilities.Common;
+    using Microsoft.WindowsAzure.WebSitesExtensions.Models;
+    using System.Management.Automation;
     using Utilities.Websites;
     using Utilities.Websites.Common;
     
