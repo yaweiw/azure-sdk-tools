@@ -19,7 +19,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.Utilities.Common
     using Commands.Utilities.Common;
     using Commands.Utilities.Common.XmlSchema.ServiceConfigurationSchema;
     using Commands.Utilities.Common.XmlSchema.ServiceDefinitionSchema;
-    using Commands.Utilities.Common.Properties;
+    using Commands.Common.Properties;
     using Commands.Utilities.CloudService;
     using Commands.Utilities.CloudService.Scaffolding;
     using VisualStudio.TestTools.UnitTesting;

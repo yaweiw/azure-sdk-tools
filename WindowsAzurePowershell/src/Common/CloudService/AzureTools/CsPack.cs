@@ -22,7 +22,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService.AzureTools
     using System.Security.Permissions;
     using Common;
     using Common.XmlSchema.ServiceDefinitionSchema;
-    using Common.Properties;
+    using Commands.Common.Properties;
 
     /// <summary>
     /// Package services for deployment to Azure.

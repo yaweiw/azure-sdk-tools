@@ -17,7 +17,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService
     using System;
     using System.Linq;
     using Common;
-    using Common.Properties;
+    using Commands.Common.Properties;
 
     public class PublishContext
     {

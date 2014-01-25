@@ -17,7 +17,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService.AzureTools
     using System;
     using System.IO;
     using System.Linq;
-    using Common.Properties;
+    using Commands.Common.Properties;
     using Win32;
 
     public class AzureTool

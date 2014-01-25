@@ -23,7 +23,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
     using Authentication;
     using Management;
     using WindowsAzure.Common;
-    using Properties;
+    using Commands.Common.Properties;
 
     /// <summary>
     /// Representation of a subscription in memory

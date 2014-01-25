@@ -16,7 +16,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
 {
     using CloudService;
     using Newtonsoft.Json;
-    using Properties;
+    using Commands.Common.Properties;
     using System;
     using System.Collections.Generic;
     using System.Diagnostics;

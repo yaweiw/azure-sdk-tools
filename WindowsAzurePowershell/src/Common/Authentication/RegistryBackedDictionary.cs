@@ -19,7 +19,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common.Authentication
     using System.Collections.Generic;
     using System.Linq;
     using Win32;
-    using Properties;
+    using Commands.Common.Properties;
 
     /// <summary>
     /// Class that implements <see cref="System.Collections.Generic.IDictionary{String,String}"/>

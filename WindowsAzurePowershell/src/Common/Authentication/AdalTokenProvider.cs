@@ -22,7 +22,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common.Authentication
     using System.Threading;
     using System.Windows.Forms;
     using IdentityModel.Clients.ActiveDirectory;
-    using Properties;
+    using Commands.Common.Properties;
 
     /// <summary>
     /// A token provider that uses ADAL to retrieve

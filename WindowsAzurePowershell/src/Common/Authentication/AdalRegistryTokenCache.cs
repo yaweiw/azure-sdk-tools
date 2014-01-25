@@ -20,7 +20,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common.Authentication
     using System.Linq;
     using IdentityModel.Clients.ActiveDirectory;
     using Win32;
-    using Properties;
+    using Commands.Common.Properties;
 
     /// <summary>
     /// An implementation of the Adal token cache that stores the cache items

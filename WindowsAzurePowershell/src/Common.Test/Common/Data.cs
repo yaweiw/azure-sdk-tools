@@ -19,7 +19,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.Utilities.Common
     using System.Linq;
     using System.Text;
     using Commands.Utilities.Common;
-    using Commands.Utilities.Common.Properties;
+    using Commands.Common.Properties;
     using ServiceManagement;
 
     public static class Data

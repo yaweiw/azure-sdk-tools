@@ -17,7 +17,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
     using System;
     using System.Security.Cryptography.X509Certificates;
     using System.Security.Permissions;
-    using Properties;
+    using Commands.Common.Properties;
 
     /// <summary>
     /// This class encapsulates the details of creating and

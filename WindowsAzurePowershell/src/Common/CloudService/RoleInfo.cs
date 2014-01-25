@@ -17,7 +17,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService
     using Common;
     using Common.XmlSchema.ServiceConfigurationSchema;
     using Common.XmlSchema.ServiceDefinitionSchema;
-    using Common.Properties;
+    using Commands.Common.Properties;
 
     /// <summary>
     /// Base class for describing roles that we will create.

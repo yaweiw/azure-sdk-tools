@@ -19,7 +19,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
     using System.IO;
     using System.Linq;
     using Authentication;
-    using Properties;
+    using Commands.Common.Properties;
 
     /// <summary>
     /// This class is the entry point for all the persistent

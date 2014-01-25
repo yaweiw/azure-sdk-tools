@@ -22,7 +22,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService
     using System.Text;
     using System.Web.Script.Serialization;
     using Common;
-    using Common.Properties;
+    using Commands.Common.Properties;
     using Microsoft.WindowsAzure.ServiceManagement;
 
     public class ServiceSettings

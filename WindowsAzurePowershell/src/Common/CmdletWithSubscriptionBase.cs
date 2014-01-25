@@ -15,7 +15,7 @@
 namespace Microsoft.WindowsAzure.Commands.Utilities.Common
 {
     using System;
-    using Properties;
+    using Commands.Common.Properties;
 
     /// <summary>
     /// Base class for cmdlets that need the current subscription but don't
