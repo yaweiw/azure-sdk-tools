@@ -31,6 +31,9 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
     using Utilities.Common;
     using System.Diagnostics;
     using System.Globalization;
+    using Microsoft.WindowsAzure.Commands.Utilities.Websites.Services.WebJobs;
+    using Microsoft.WindowsAzure.WebSitesExtensions;
+    using Microsoft.WindowsAzure.WebSitesExtensions.Models;
 
     public class WebsitesClient : IWebsitesClient
     {
@@ -186,6 +189,23 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
         {
             return (!string.IsNullOrEmpty(slot)) && 
                 (slot.Equals(WebsiteSlotName.Production.ToString(), StringComparison.OrdinalIgnoreCase));
+        }
+
+        private IWebSiteExtensionsClient GetWebSiteExtensionsClient(string websiteName)
+        {
+            return new WebSiteExtensionsClient(websiteName, GetWebSiteExtensionsCredentials(websiteName))
+                .WithHandler(new HttpRestCallLogger());
+        }
+
+        private BasicAuthenticationCloudCredentials GetWebSiteExtensionsCredentials(string name)
+        {
+            name = SetWebsiteName(name, null);
+            Repository repository = GetRepository(name);
+            return new BasicAuthenticationCloudCredentials()
+            {
+                Username = repository.PublishingUsername,
+                Password = repository.PublishingPassword
+            };
         }
 
         /// <summary>
@@ -951,26 +971,191 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
         }
 
         /// <summary>
-        /// Gets the slot name from the website name
+        /// Gets the slot name from the website name.
         /// </summary>
         /// <param name="name">The website name</param>
         /// <returns>The slot name</returns>
         public string GetSlotName(string name)
         {
-            if (!string.IsNullOrEmpty(name) && name.Contains('(') && name.Contains(')'))
+            string slotName = null;
+            if (!string.IsNullOrEmpty(name))
             {
-                string[] split = name.Split('(');
-                if (split.Length == 1)
+                if (name.Contains('(') && name.Contains(')'))
                 {
-                    return WebsiteSlotName.Production.ToString().ToLower();
-                }
-                else
-                {
-                    return split[1].TrimEnd(')').ToLower();
+                    string[] split = name.Split('(');
+                    slotName = split[1].TrimEnd(')').ToLower();
                 }
             }
 
-            return null;
+            return slotName;
         }
+
+        #region WebJobs
+
+        /// <summary>
+        /// Filters the web jobs.
+        /// </summary>
+        /// <param name="options">The web job filter options</param>
+        /// <returns>The filtered web jobs list</returns>
+        public List<WebJob> FilterWebJobs(WebJobFilterOptions options)
+        {
+            options.Name = SetWebsiteName(options.Name, options.Slot);
+            IWebSiteExtensionsClient client = GetWebSiteExtensionsClient(options.Name);
+
+            if (string.IsNullOrEmpty(options.JobName) && string.IsNullOrEmpty(options.JobType))
+            {
+                return client.WebJobs.List(new WebJobListParameters()).Jobs.ToList();
+            }
+            else if (string.IsNullOrEmpty(options.JobName) && !string.IsNullOrEmpty(options.JobType))
+            {
+                if (string.Compare(options.JobType, WebJobType.Continuous.ToString(), true) == 0)
+                {
+                    return client.WebJobs.ListContinuous(new WebJobListParameters()).Jobs.ToList();
+                }
+                else if (string.Compare(options.JobType, WebJobType.Triggered.ToString(), true) == 0)
+                {
+                    return client.WebJobs.ListTriggered(new WebJobListParameters()).Jobs.ToList();
+                }
+                else
+                {
+                    throw new ArgumentOutOfRangeException("options.JobType");
+                }
+            }
+            else if (!string.IsNullOrEmpty(options.JobName) && !string.IsNullOrEmpty(options.JobType))
+            {
+                if (string.Compare(options.JobType, WebJobType.Continuous.ToString(), true) == 0)
+                {
+                    return new List<WebJob>() { client.WebJobs.GetContinuous(options.JobName).WebJob };
+                }
+                else if (string.Compare(options.JobType, WebJobType.Triggered.ToString(), true) == 0)
+                {
+                    return new List<WebJob>() { client.WebJobs.GetTriggered(options.JobName).WebJob };
+                }
+                else
+                {
+                    throw new ArgumentOutOfRangeException("options.JobType");
+                }
+            }
+            else
+            {
+                throw new ArgumentOutOfRangeException("options");
+            }
+        }
+
+        /// <summary>
+        /// Creates new web job for a website
+        /// </summary>
+        /// <param name="name">The website name</param>
+        /// <param name="slot">The website slot name</param>
+        /// <param name="jobName">The web job name</param>
+        /// <param name="jobType">The web job type</param>
+        /// <param name="jobFile">The web job file name</param>
+        /// <param name="singleton">True if you only want the job to run in 1 instance of the web site</param>
+        public WebJob CreateWebJob(string name, string slot, string jobName, WebJobType jobType, string jobFile, bool singleton)
+        {
+            if (jobType == WebJobType.Triggered && singleton)
+            {
+                throw new InvalidOperationException(Resources.InvalidWebJobSingleton);
+            }
+
+            name = SetWebsiteName(name, slot);
+            IWebSiteExtensionsClient client = GetWebSiteExtensionsClient(name);
+
+            throw new NotImplementedException();
+        }
+
+        /// <summary>
+        /// Deletes a web job for a website.
+        /// </summary>
+        /// <param name="name">The website name</param>
+        /// <param name="slot">The slot name</param>
+        /// <param name="jobName">The web job name</param>
+        /// <param name="jobType">The web job type</param>
+        public void DeleteWebJob(string name, string slot, string jobName, WebJobType jobType)
+        {
+            name = SetWebsiteName(name, slot);
+            IWebSiteExtensionsClient client = GetWebSiteExtensionsClient(name);
+
+            throw new NotImplementedException();
+        }
+
+        /// <summary>
+        /// Starts a web job in a website.
+        /// </summary>
+        /// <param name="name">The website name</param>
+        /// <param name="slot">The slot name</param>
+        /// <param name="jobName">The web job name</param>
+        /// <param name="jobType">The web job type</param>
+        public void StartWebJob(string name, string slot, string jobName, WebJobType jobType)
+        {
+            name = SetWebsiteName(name, slot);
+            IWebSiteExtensionsClient client = GetWebSiteExtensionsClient(name);
+
+            throw new NotImplementedException();
+        }
+
+        /// <summary>
+        /// Stops a web job in a website.
+        /// </summary>
+        /// <param name="name">The website name</param>
+        /// <param name="slot">The slot name</param>
+        /// <param name="jobName">The web job name</param>
+        /// <param name="jobType">The web job type</param>
+        public void StopWebJob(string name, string slot, string jobName, WebJobType jobType)
+        {
+            name = SetWebsiteName(name, slot);
+            IWebSiteExtensionsClient client = GetWebSiteExtensionsClient(name);
+
+            throw new NotImplementedException();
+        }
+
+        /// <summary>
+        /// Filters a web job history.
+        /// </summary>
+        /// <param name="options">The web job filter options</param>
+        /// <returns>The filtered web jobs run list</returns>
+        public List<WebJobRun> FilterWebJobHistory(WebJobHistoryFilterOptions options)
+        {
+            options.Name = SetWebsiteName(options.Name, options.Slot);
+            IWebSiteExtensionsClient client = GetWebSiteExtensionsClient(options.Name);
+
+            throw new NotImplementedException();
+        }
+
+        /// <summary>
+        /// Saves a web job logs to file.
+        /// </summary>
+        /// <param name="name">The website name</param>
+        /// <param name="slot">The slot name</param>
+        /// <param name="jobName">The web job name</param>
+        /// <param name="jobType">The web job type</param>
+        /// <param name="output">The output file name</param>
+        /// <param name="runId">The job run id</param>
+        public void SaveWebJobLog(string name, string slot, string jobName, WebJobType jobType, string output, string runId)
+        {
+            if (jobType == WebJobType.Continuous && !string.IsNullOrEmpty(runId))
+	        {
+		        throw new InvalidOperationException();
+	        }
+            name = SetWebsiteName(name, slot);
+            IWebSiteExtensionsClient client = GetWebSiteExtensionsClient(name);
+
+            throw new NotImplementedException();
+        }
+
+        /// <summary>
+        /// Saves a web job logs to file.
+        /// </summary>
+        /// <param name="name">The website name</param>
+        /// <param name="slot">The slot name</param>
+        /// <param name="jobName">The web job name</param>
+        /// <param name="jobType">The web job type</param>
+        public void SaveWebJobLog(string name, string slot, string jobName, WebJobType jobType)
+        {
+            const string defaultLogFile = ".\\jobLog.zip";
+            SaveWebJobLog(name, slot, jobName, jobType, defaultLogFile, null);
+        }
+
+        #endregion
     }
 }
