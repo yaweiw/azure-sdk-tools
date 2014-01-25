@@ -55,7 +55,7 @@ namespace Microsoft.WindowsAzure.Commands.Websites
             {
                 foreach (Site website in sites)
                 {
-                    string currentSlotName = WebsitesClient.GetSlotName(website.Name);
+                    string currentSlotName = WebsitesClient.GetSlotName(website.Name) ?? WebsiteSlotName.Production.ToString();
                     if (!currentSlotName.Equals(WebsiteSlotName.Production.ToString(), System.StringComparison.OrdinalIgnoreCase))
                     {
                         slotName = currentSlotName;
