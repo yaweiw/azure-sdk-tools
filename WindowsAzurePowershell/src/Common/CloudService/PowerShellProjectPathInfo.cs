@@ -14,8 +14,8 @@
 
 namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService
 {
-    using Common.Properties;
     using System.IO;
+    using Commands.Common.Properties;
 
     public class PowerShellProjectPathInfo : CloudProjectPathInfo
     {

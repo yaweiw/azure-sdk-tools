@@ -20,7 +20,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
     using System.Linq;
     using System.Xml.Linq;
     using Newtonsoft.Json;
-    using Properties;
+    using Commands.Common.Properties;
 
     /// <summary>
     /// Implementation of <see cref="IProfileStore"/> that reads

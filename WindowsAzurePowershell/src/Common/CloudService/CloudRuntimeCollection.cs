@@ -11,8 +11,6 @@
 
 namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService
 {
-    using Common;
-    using Common.Properties;
     using System;
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
@@ -20,6 +18,8 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService
     using System.IO;
     using System.Linq;
     using System.Xml;
+    using Commands.Common.Properties;
+    using Common;
 
     public class CloudRuntimeCollection : Collection<CloudRuntimePackage>, IDisposable
     {

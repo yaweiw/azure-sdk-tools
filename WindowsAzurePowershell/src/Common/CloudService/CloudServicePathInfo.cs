@@ -15,7 +15,7 @@
 namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService
 {
     using Common;
-    using Common.Properties;
+    using Commands.Common.Properties;
 
     public abstract class CloudProjectPathInfo
     {

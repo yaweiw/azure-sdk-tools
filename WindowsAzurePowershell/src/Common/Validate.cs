@@ -21,7 +21,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
     using System.Net;
     using System.Net.Sockets;
     using System.Runtime.InteropServices;
-    using Common.Properties;
+    using Commands.Common.Properties;
 
     public static class Validate
     {

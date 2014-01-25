@@ -16,7 +16,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
 {
     using System;
     using System.IO;
-    using Common.Properties;
+    using Commands.Common.Properties;
 
     public class GlobalPathInfo
     {

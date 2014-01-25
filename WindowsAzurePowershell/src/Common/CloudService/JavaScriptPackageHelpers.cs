@@ -18,7 +18,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService
     using System.Collections.Generic;
     using System.IO;
     using System.Web.Script.Serialization;
-    using Common.Properties;
+    using Commands.Common.Properties;
 
     internal static class JavaScriptPackageHelpers
     {

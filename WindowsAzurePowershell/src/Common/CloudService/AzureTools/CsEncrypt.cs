@@ -20,7 +20,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService.AzureTools
     using System.Security.Permissions;
     using System.Text.RegularExpressions;
     using Common;
-    using Common.Properties;
+    using Commands.Common.Properties;
 
     public class CsEncrypt : AzureTool
     {

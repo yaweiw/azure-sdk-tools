@@ -17,7 +17,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
     using System.Collections.Generic;
     using System.Linq;
     using Authentication;
-    using Properties;
+    using Commands.Common.Properties;
     using Subscriptions;
 
     [Serializable]
