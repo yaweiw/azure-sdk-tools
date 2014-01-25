@@ -193,10 +193,11 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
 
         private IWebSiteExtensionsClient GetWebSiteExtensionsClient(string websiteName)
         {
-            return new WebSiteExtensionsClient(websiteName, GetKuduCredentials(websiteName));
+            return new WebSiteExtensionsClient(websiteName, GetWebSiteExtensionsCredentials(websiteName))
+                .WithHandler(new HttpRestCallLogger());
         }
 
-        private BasicAuthenticationCloudCredentials GetKuduCredentials(string name)
+        private BasicAuthenticationCloudCredentials GetWebSiteExtensionsCredentials(string name)
         {
             name = SetWebsiteName(name, null);
             Repository repository = GetRepository(name);
