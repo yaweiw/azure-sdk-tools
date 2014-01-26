@@ -61,7 +61,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Extensions
 
                     return from role in extensionRoleList
                            from extension in r.Extensions
-                           where ExtensionManager.CheckNameSpaceType(extension, ExtensionNameSpace, ExtensionType)
+                           where ExtensionManager.CheckNameSpaceType(extension, ProviderNamespace, ExtensionName)
                               && ExtensionManager.GetBuilder(Deployment.ExtensionConfiguration).Exist(role, extension.Id)
                            select new RemoteDesktopExtensionContext
                            {

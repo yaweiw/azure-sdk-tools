@@ -109,8 +109,8 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Extensions
             {
                 CertificateThumbprint = CertificateThumbprint,
                 ThumbprintAlgorithm = ThumbprintAlgorithm,
-                ProviderNameSpace = ExtensionNameSpace,
-                Type = ExtensionType,
+                ProviderNameSpace = ProviderNamespace,
+                Type = ExtensionName,
                 PublicConfiguration = PublicConfiguration,
                 PrivateConfiguration = PrivateConfiguration,
                 X509Certificate = X509Certificate,
