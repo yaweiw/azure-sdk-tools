@@ -112,8 +112,8 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Extensions
             ValidateParameters();
             ExtensionConfigurationInput context = new ExtensionConfigurationInput
             {
-                ProviderNameSpace = ExtensionNameSpace,
-                Type = ExtensionType,
+                ProviderNameSpace = ProviderNamespace,
+                Type = ExtensionName,
                 CertificateThumbprint = CertificateThumbprint,
                 ThumbprintAlgorithm = ThumbprintAlgorithm,
                 X509Certificate = X509Certificate,
