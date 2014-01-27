@@ -1148,54 +1148,17 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
             IWebSiteExtensionsClient client = GetWebSiteExtensionsClient(options.Name);
             List<WebJobRun> result = new List<WebJobRun>();
 
-            if (string.IsNullOrEmpty(options.JobName) && string.IsNullOrEmpty(options.JobType))
+            if (options.Latest)
             {
-                result = client.WebJobs.List(new WebJobListParameters()).Jobs.ToList();
+                result.Add(client.WebJobs.GetTriggered(options.JobName).WebJob.LatestRun);
             }
-            else if (string.IsNullOrEmpty(options.JobName) && !string.IsNullOrEmpty(options.JobType))
+            else if (!string.IsNullOrEmpty(options.RunId))
             {
-                if (string.Compare(options.JobType, WebJobType.Continuous.ToString(), true) == 0)
-                {
-                    result = client.WebJobs.ListContinuous(new WebJobListParameters()).Jobs.ToList();
-                }
-                else if (string.Compare(options.JobType, WebJobType.Triggered.ToString(), true) == 0)
-                {
-                    result = client.WebJobs.ListTriggered(new WebJobListParameters()).Jobs.ToList();
-                }
-                else
-                {
-                    throw new ArgumentOutOfRangeException("JobType");
-                }
-            }
-            else if (!string.IsNullOrEmpty(options.JobName) && !string.IsNullOrEmpty(options.JobType))
-            {
-                if (string.Compare(options.JobType, WebJobType.Continuous.ToString(), true) == 0)
-                {
-                    result = new List<WebJob>() { client.WebJobs.GetContinuous(options.JobName).WebJob };
-                }
-                else if (string.Compare(options.JobType, WebJobType.Triggered.ToString(), true) == 0)
-                {
-                    result = new List<WebJob>() { client.WebJobs.GetTriggered(options.JobName).WebJob };
-                }
-                else
-                {
-                    throw new ArgumentOutOfRangeException("JobType");
-                }
+                result.Add(client.WebJobs.GetRun(options.JobName, options.RunId).JobRun);
             }
             else
             {
-                if (string.IsNullOrEmpty(options.JobName))
-                {
-                    throw new ArgumentOutOfRangeException("JobName");
-                }
-                else if (string.IsNullOrEmpty(options.JobType))
-                {
-                    throw new ArgumentOutOfRangeException("JobType");
-                }
-                else
-                {
-                    throw new ArgumentOutOfRangeException("options");
-                }
+                result.AddRange(client.WebJobs.ListRuns(options.JobName, new WebJobRunListParameters()));
             }
 
             return result;
