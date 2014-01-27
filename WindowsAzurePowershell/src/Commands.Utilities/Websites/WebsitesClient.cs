@@ -1105,7 +1105,14 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
             name = SetWebsiteName(name, slot);
             IWebSiteExtensionsClient client = GetWebSiteExtensionsClient(name);
 
-            throw new NotImplementedException();
+            if (jobType == WebJobType.Continuous)
+            {
+                client.WebJobs.StartContinous(jobName);
+            }
+            else
+            {
+                client.WebJobs.RunTriggered(jobName);
+            }
         }
 
         /// <summary>
@@ -1120,7 +1127,14 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
             name = SetWebsiteName(name, slot);
             IWebSiteExtensionsClient client = GetWebSiteExtensionsClient(name);
 
-            throw new NotImplementedException();
+            if (jobType == WebJobType.Continuous)
+            {
+                client.WebJobs.StopContinous(jobName);
+            }
+            else
+            {
+                throw new InvalidOperationException();
+            }
         }
 
         /// <summary>
