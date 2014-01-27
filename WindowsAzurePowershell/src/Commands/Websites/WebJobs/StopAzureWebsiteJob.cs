@@ -25,16 +25,12 @@ namespace Microsoft.WindowsAzure.Commands.Websites.WebJobs
         [Parameter(Mandatory = true, ValueFromPipelineByPropertyName = true, HelpMessage = "The web job name.")]
         public string JobName { get; set; }
 
-        [Parameter(Mandatory = true, ValueFromPipelineByPropertyName = true, HelpMessage = "The web job type.")]
-        [ValidateSet(new string[] { "Triggered", "Continuous" }, IgnoreCase = true)]
-        public WebJobType JobType { get; set; }
-
         [Parameter(Mandatory = false, HelpMessage = "Returns a boolean value indicating that the job stopped successfully. By default, this cmdlet does not return any output.")]
         public SwitchParameter PassThru { get; set; }
 
         public override void ExecuteCmdlet()
         {
-            WebsitesClient.StopWebJob(Name, Slot, JobName, JobType);
+            WebsitesClient.StopWebJob(Name, Slot, JobName, WebJobType.Continuous);
 
             if (PassThru)
             {

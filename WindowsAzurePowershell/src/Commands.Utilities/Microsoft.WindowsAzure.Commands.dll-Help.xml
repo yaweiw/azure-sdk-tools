@@ -12702,13 +12702,6 @@
           </maml:description>
           <command:parameterValue required="true" variableLength = "false" >String</command:parameterValue>
         </command:parameter>
-        <command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "true (ByPropertyName)">
-          <maml:name>Type</maml:name>
-          <maml:description>
-            <maml:para>The web job type. Can be 'triggered' or 'continuous'</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength = "false" >String</command:parameterValue>
-        </command:parameter>
         <command:parameter required = "false" variableLength = "false" globbing = "false" position="named">
           <maml:name>PassThru</maml:name>
           <maml:description>
@@ -12737,13 +12730,6 @@
         <maml:name>JobName</maml:name>
         <maml:description>
           <maml:para>The web job name</maml:para>
-        </maml:description>
-        <command:parameterValue required="true" variableLength = "false" >String</command:parameterValue>
-      </command:parameter>
-      <command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "true (ByPropertyName)">
-        <maml:name>Type</maml:name>
-        <maml:description>
-          <maml:para>The web job type. Can be 'triggered' or 'continuous'</maml:para>
         </maml:description>
         <command:parameterValue required="true" variableLength = "false" >String</command:parameterValue>
       </command:parameter>
