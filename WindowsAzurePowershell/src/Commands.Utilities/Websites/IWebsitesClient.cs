@@ -15,9 +15,12 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
 {
     using System;
     using System.Collections.Generic;
+    using Microsoft.WindowsAzure.Commands.Utilities.Websites.Services;
+    using Microsoft.WindowsAzure.Commands.Utilities.Websites.Services.WebJobs;
     using Services.DeploymentEntities;
     using Services.WebEntities;
     using Microsoft.WindowsAzure.Management.WebSites.Models;
+    using Microsoft.WindowsAzure.WebSitesExtensions.Models;
 
     public interface IWebsitesClient
     {
@@ -423,6 +426,78 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
         /// <param name="slot">The website name from the -Slot parameter.</param>
         /// <returns>The real website name.</returns>
         string SetWebsiteName(string name, string slot);
+
+        /// Filters the web jobs.
+        /// </summary>
+        /// <param name="options">The web job filter options</param>
+        /// <returns>The filtered web jobs list</returns>
+        List<WebJob> FilterWebJobs(WebJobFilterOptions options);
+
+        /// <summary>
+        /// Creates new web job for a website
+        /// </summary>
+        /// <param name="name">The website name</param>
+        /// <param name="slot">The website slot name</param>
+        /// <param name="jobName">The web job name</param>
+        /// <param name="jobType">The web job type</param>
+        /// <param name="jobFile">The web job file name</param>
+        /// <param name="singleton">True if you only want the job to run in 1 instance of the web site</param>
+        /// <returns>The created web job instance</returns>
+        WebJob CreateWebJob(string name, string slot, string jobName, WebJobType jobType, string jobFile, bool singleton);
+
+        /// <summary>
+        /// Deletes a web job for a website.
+        /// </summary>
+        /// <param name="name">The website name</param>
+        /// <param name="slot">The slot name</param>
+        /// <param name="jobName">The web job name</param>
+        /// <param name="jobType">The web job type</param>
+        void DeleteWebJob(string name, string slot, string jobName, WebJobType jobType);
+
+        /// <summary>
+        /// Starts a web job in a website.
+        /// </summary>
+        /// <param name="name">The website name</param>
+        /// <param name="slot">The slot name</param>
+        /// <param name="jobName">The web job name</param>
+        /// <param name="jobType">The web job type</param>
+        void StartWebJob(string name, string slot, string jobName, WebJobType jobType);
+
+        /// <summary>
+        /// Stops a web job in a website.
+        /// </summary>
+        /// <param name="name">The website name</param>
+        /// <param name="slot">The slot name</param>
+        /// <param name="jobName">The web job name</param>
+        /// <param name="jobType">The web job type</param>
+        void StopWebJob(string name, string slot, string jobName, WebJobType jobType);
+
+        /// <summary>
+        /// Filters a web job history.
+        /// </summary>
+        /// <param name="options">The web job filter options</param>
+        /// <returns>The filtered web jobs run list</returns>
+        List<WebJobRun> FilterWebJobHistory(WebJobHistoryFilterOptions options);
+
+        /// <summary>
+        /// Saves a web job logs to file.
+        /// </summary>
+        /// <param name="name">The website name</param>
+        /// <param name="slot">The slot name</param>
+        /// <param name="jobName">The web job name</param>
+        /// <param name="jobType">The web job type</param>
+        void SaveWebJobLog(string name, string slot, string jobName, WebJobType jobType);
+
+        /// <summary>
+        /// Saves a web job logs to file.
+        /// </summary>
+        /// <param name="name">The website name</param>
+        /// <param name="slot">The slot name</param>
+        /// <param name="jobName">The web job name</param>
+        /// <param name="jobType">The web job type</param>
+        /// <param name="output">The output file name</param>
+        /// <param name="runId">The job run id</param>
+        void SaveWebJobLog(string name, string slot, string jobName, WebJobType jobType, string output, string runId);
     }
 
     public enum WebsiteState
@@ -453,5 +528,11 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
     {
         Production,
         Staging
+    }
+
+    public enum WebJobType
+    {
+        Triggered,
+        Continuous
     }
 }
