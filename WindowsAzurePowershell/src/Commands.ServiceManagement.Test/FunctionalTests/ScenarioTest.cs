@@ -44,7 +44,6 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
     [TestClass]
     public class ScenarioTest : ServiceManagementTest
     {
-        private const string ReadyState = "ReadyRole";
         private string serviceName;
         
         string perfFile;
@@ -176,45 +175,50 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
                     imageName = vmPowershellCmdlets.GetAzureVMImageName(new[] { "Windows" }, false);
 
                 vmPowershellCmdlets.NewAzureQuickVM(OS.Windows, newAzureQuickVMName, serviceName, imageName, username, password, locationName);
+                // Verify
+                Assert.AreEqual(newAzureQuickVMName, vmPowershellCmdlets.GetAzureVM(newAzureQuickVMName, serviceName).Name, true);
 
-                // Verify the VM
-                var vmRoleCtxt = vmPowershellCmdlets.GetAzureVM(newAzureQuickVMName, serviceName);
-                Assert.AreEqual(newAzureQuickVMName, vmRoleCtxt.Name, true, "VM names are not matched!");
-
-                // Get the WinRM Uri
-                var resultUri = vmPowershellCmdlets.GetAzureWinRMUri(serviceName, vmRoleCtxt.Name);
+                string name = vmPowershellCmdlets.GetAzureVM(newAzureQuickVMName, serviceName).Name;
+                var resultUri = vmPowershellCmdlets.GetAzureWinRMUri(serviceName, name);
 
                 // starting the test.
-                InputEndpointContext winRMEndpoint =null;
+                PersistentVMRoleContext vmRoleCtxt = vmPowershellCmdlets.GetAzureVM(newAzureQuickVMName, serviceName); // Get-AzureVM
+                InputEndpointContext inputEndpointCtxt = vmPowershellCmdlets.GetAzureEndPoint(vmRoleCtxt)[0]; // Get-AzureEndpoint
+                Console.WriteLine("InputEndpointContext Name: {0}", inputEndpointCtxt.Name);
+                Console.WriteLine("InputEndpointContext port: {0}", inputEndpointCtxt.Port);
+                Console.WriteLine("InputEndpointContext protocol: {0}", inputEndpointCtxt.Protocol);
+                Assert.AreEqual(inputEndpointCtxt.Name, "RemoteDesktop", true);
 
-                foreach (InputEndpointContext inputEndpointCtxt in vmPowershellCmdlets.GetAzureEndPoint(vmRoleCtxt))
+                if (resultUri != null)
                 {
-                    if (inputEndpointCtxt.Name.Equals("WinRmHTTPs"))
+                    if (string.IsNullOrEmpty(resultUri.AbsoluteUri))
                     {
-                        winRMEndpoint = inputEndpointCtxt;
+                        pass = false;
                     }
+
+                    if (string.IsNullOrEmpty(resultUri.Port.ToString()))
+                    {
+                        pass = false;
+                    }
+
                 }
 
-                Assert.IsNotNull(winRMEndpoint, "There is no WinRM endpoint!");
-                Assert.IsNotNull(resultUri, "No WinRM Uri!");
-
-                Console.WriteLine("InputEndpointContext Name: {0}", winRMEndpoint.Name);
-                Console.WriteLine("InputEndpointContext port: {0}", winRMEndpoint.Port);
-                Console.WriteLine("InputEndpointContext protocol: {0}", winRMEndpoint.Protocol);
-
-                Console.WriteLine("WinRM Uri: {0}",  resultUri.AbsoluteUri);
-                Console.WriteLine("WinRM Port: {0}", resultUri.Port);
-                Console.WriteLine("WinRM Scheme: {0}", resultUri.Scheme);
-
-                Assert.AreEqual(winRMEndpoint.Port, resultUri.Port, "Port numbers are not matched!");
+                else
+                {
+                    pass = false;
+                }
 
                 pass = true;
+                //add verification of uri , endpoint, port
             }
             catch (Exception e)
             {
+                pass = false;
                 Console.WriteLine(e);
                 throw;
+
             }
+
         } 
 
 
@@ -264,6 +268,66 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
         }
 
         /// <summary>
+        /// Verify Advanced Provisioning for the Dev/Test Scenario
+        /// Make an Service
+        /// Make a VM
+        /// Add 4 additonal endpoints
+        /// Makes a storage account
+        /// </summary>
+        [TestMethod(), TestCategory("Scenario"), TestProperty("Feature", "IaaS"), Priority(1), Owner("msampson"), Description("Test the cmdlets (Get-AzureDeployment, New-AzureVMConfig, Add-AzureProvisioningConfig, Add-AzureEndpoint, New-AzureVM, Set-AzureSubnet)")]
+        public void DevTestProvisioning()
+        {
+            StartTest(MethodBase.GetCurrentMethod().Name, testStartTime);
+
+            string newAzureVM1Name = Utilities.GetUniqueShortName(vmNamePrefix);
+            //Find a Windows VM Image
+            imageName = vmPowershellCmdlets.GetAzureVMImageName(new[] { "Windows" }, false);
+
+            //vmPowershellCmdlets.NewAzureService(serviceName, serviceName, locationName);
+
+            //Specify a small Windows image, with username and pw
+            AzureVMConfigInfo azureVMConfigInfo1 = new AzureVMConfigInfo(newAzureVM1Name, InstanceSize.ExtraSmall.ToString(), imageName);
+            AzureProvisioningConfigInfo azureProvisioningConfig = new AzureProvisioningConfigInfo(OS.Windows, username, password);
+            AzureEndPointConfigInfo azureEndPointConfigInfo = new AzureEndPointConfigInfo(AzureEndPointConfigInfo.ParameterSet.NoLB, ProtocolInfo.tcp, 80, 80, "Http");
+
+            PersistentVMConfigInfo persistentVMConfigInfo1 = new PersistentVMConfigInfo(azureVMConfigInfo1, azureProvisioningConfig, null, azureEndPointConfigInfo);
+            PersistentVM persistentVM1 = vmPowershellCmdlets.GetPersistentVM(persistentVMConfigInfo1);
+
+            //Add all the endpoints that are added by the Dev Test feature in Azure Tools
+            azureEndPointConfigInfo = new AzureEndPointConfigInfo(AzureEndPointConfigInfo.ParameterSet.NoLB, ProtocolInfo.tcp, 443, 443, "Https");
+            azureEndPointConfigInfo.Vm = persistentVM1;
+            persistentVM1 = vmPowershellCmdlets.AddAzureEndPoint(azureEndPointConfigInfo);
+            azureEndPointConfigInfo = new AzureEndPointConfigInfo(AzureEndPointConfigInfo.ParameterSet.NoLB, ProtocolInfo.tcp, 1433, 1433, "MSSQL");
+            azureEndPointConfigInfo.Vm = persistentVM1;
+            persistentVM1 = vmPowershellCmdlets.AddAzureEndPoint(azureEndPointConfigInfo);
+            azureEndPointConfigInfo = new AzureEndPointConfigInfo(AzureEndPointConfigInfo.ParameterSet.NoLB, ProtocolInfo.tcp, 8172, 8172, "WebDeploy");
+            azureEndPointConfigInfo.Vm = persistentVM1;
+            persistentVM1 = vmPowershellCmdlets.AddAzureEndPoint(azureEndPointConfigInfo);
+
+            // Make a storage account named "devtestNNNNN"
+            string storageAcctName = "devtest" + new Random().Next(10000, 99999);
+            vmPowershellCmdlets.NewAzureStorageAccount(storageAcctName, locationName);
+            vmPowershellCmdlets.SetAzureSubscription(defaultAzureSubscription.SubscriptionName, storageAcctName);
+
+            // When making a new azure VM, you can't specify a location if you want to use the existing service
+            PersistentVM[] VMs = { persistentVM1 };
+            vmPowershellCmdlets.NewAzureVM(serviceName, VMs, locationName);
+
+            var svcDeployment = vmPowershellCmdlets.GetAzureDeployment(serviceName);
+            Assert.AreEqual(svcDeployment.ServiceName, serviceName);
+            var vmDeployment = vmPowershellCmdlets.GetAzureVM(newAzureVM1Name, serviceName);
+            Assert.AreEqual(vmDeployment.InstanceName, newAzureVM1Name);
+
+            // Cleanup
+            vmPowershellCmdlets.RemoveAzureVM(newAzureVM1Name, serviceName);
+            Assert.AreEqual(null, vmPowershellCmdlets.GetAzureVM(newAzureVM1Name, serviceName));
+            //TODO: Is failing for me because of active containers
+            Utilities.RetryActionUntilSuccess(() => vmPowershellCmdlets.RemoveAzureStorageAccount(storageAcctName), "in use", 10, 30);
+            ServiceManagementTest.SetDefaultStorage();
+            pass = true;
+        }
+
+        /// <summary>
         /// Verify Advanced Provisioning
         /// </summary>
         [TestMethod(), TestCategory("Scenario"), TestProperty("Feature", "IaaS"), Priority(1), Owner("priya"), Description("Test the cmdlets (New-AzureService,New-AzureVMConfig,Add-AzureProvisioningConfig ,Add-AzureDataDisk ,Add-AzureEndpoint,New-AzureVM)")]
@@ -280,14 +344,14 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
 
             vmPowershellCmdlets.NewAzureService(serviceName, serviceName, locationName);
 
-            var azureVMConfigInfo1 = new AzureVMConfigInfo(newAzureVM1Name, InstanceSize.ExtraSmall.ToString(), imageName);
-            var azureVMConfigInfo2 = new AzureVMConfigInfo(newAzureVM2Name, InstanceSize.ExtraSmall.ToString(), imageName);
-            var azureProvisioningConfig = new AzureProvisioningConfigInfo(OS.Windows, username, password);
-            var azureDataDiskConfigInfo = new AddAzureDataDiskConfig(DiskCreateOption.CreateNew, 50, "datadisk1", 0);
-            var azureEndPointConfigInfo = new AzureEndPointConfigInfo(AzureEndPointConfigInfo.ParameterSet.CustomProbe, ProtocolInfo.tcp, 80, 80, "web", "lbweb", 80, ProtocolInfo.http, @"/", null, null);
+            AzureVMConfigInfo azureVMConfigInfo1 = new AzureVMConfigInfo(newAzureVM1Name, InstanceSize.ExtraSmall, imageName);
+            AzureVMConfigInfo azureVMConfigInfo2 = new AzureVMConfigInfo(newAzureVM2Name, InstanceSize.ExtraSmall, imageName);
+            AzureProvisioningConfigInfo azureProvisioningConfig = new AzureProvisioningConfigInfo(OS.Windows, username, password);
+            AddAzureDataDiskConfig azureDataDiskConfigInfo = new AddAzureDataDiskConfig(DiskCreateOption.CreateNew, 50, "datadisk1", 0);
+            AzureEndPointConfigInfo azureEndPointConfigInfo = new AzureEndPointConfigInfo(AzureEndPointConfigInfo.ParameterSet.CustomProbe, ProtocolInfo.tcp, 80, 80, "web", "lbweb", 80, ProtocolInfo.http, @"/", null, null);
 
-            var persistentVMConfigInfo1 = new PersistentVMConfigInfo(azureVMConfigInfo1, azureProvisioningConfig, azureDataDiskConfigInfo, azureEndPointConfigInfo);
-            var persistentVMConfigInfo2 = new PersistentVMConfigInfo(azureVMConfigInfo2, azureProvisioningConfig, azureDataDiskConfigInfo, azureEndPointConfigInfo);
+            PersistentVMConfigInfo persistentVMConfigInfo1 = new PersistentVMConfigInfo(azureVMConfigInfo1, azureProvisioningConfig, azureDataDiskConfigInfo, azureEndPointConfigInfo);
+            PersistentVMConfigInfo persistentVMConfigInfo2 = new PersistentVMConfigInfo(azureVMConfigInfo2, azureProvisioningConfig, azureDataDiskConfigInfo, azureEndPointConfigInfo);
 
             PersistentVM persistentVM1 = vmPowershellCmdlets.GetPersistentVM(persistentVMConfigInfo1);
             PersistentVM persistentVM2 = vmPowershellCmdlets.GetPersistentVM(persistentVMConfigInfo2);
@@ -352,17 +416,17 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
 
             vmPowershellCmdlets.NewAzureQuickVM(OS.Windows, newAzureQuickVMName, serviceName, imageName, username, password, locationName);
 
-            var azureDataDiskConfigInfo1 = new AddAzureDataDiskConfig(DiskCreateOption.CreateNew, 50, "datadisk1", 0);
-            var azureDataDiskConfigInfo2 = new AddAzureDataDiskConfig(DiskCreateOption.CreateNew, 50, "datadisk2", 1);
+            AddAzureDataDiskConfig azureDataDiskConfigInfo1 = new AddAzureDataDiskConfig(DiskCreateOption.CreateNew, 50, "datadisk1", 0);
+            AddAzureDataDiskConfig azureDataDiskConfigInfo2 = new AddAzureDataDiskConfig(DiskCreateOption.CreateNew, 50, "datadisk2", 1);
             AddAzureDataDiskConfig[] dataDiskConfig = { azureDataDiskConfigInfo1, azureDataDiskConfigInfo2 };
             vmPowershellCmdlets.AddVMDataDisks(newAzureQuickVMName, serviceName, dataDiskConfig);
 
-            var setAzureDataDiskConfig1 = new SetAzureDataDiskConfig(HostCaching.ReadOnly, 0);
-            var setAzureDataDiskConfig2 = new SetAzureDataDiskConfig(HostCaching.ReadOnly, 0);
+            SetAzureDataDiskConfig setAzureDataDiskConfig1 = new SetAzureDataDiskConfig(HostCaching.ReadOnly, 0);
+            SetAzureDataDiskConfig setAzureDataDiskConfig2 = new SetAzureDataDiskConfig(HostCaching.ReadOnly, 0);
             SetAzureDataDiskConfig[] diskConfig = { setAzureDataDiskConfig1, setAzureDataDiskConfig2 };
             vmPowershellCmdlets.SetVMDataDisks(newAzureQuickVMName, serviceName, diskConfig);
 
-            var vmSizeConfig = new SetAzureVMSizeConfig(InstanceSize.Medium.ToString());
+            SetAzureVMSizeConfig vmSizeConfig = new SetAzureVMSizeConfig(InstanceSize.Medium);
             vmPowershellCmdlets.SetVMSize(newAzureQuickVMName, serviceName, vmSizeConfig);
 
             // Cleanup
@@ -462,9 +526,9 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
                 imageName = vmPowershellCmdlets.GetAzureVMImageName(new[] { "Windows" }, false);
 
             // starting the test.
-            var azureVMConfigInfo = new AzureVMConfigInfo(newAzureVMName, InstanceSize.Small.ToString(), imageName); // parameters for New-AzureVMConfig (-Name -InstanceSize -ImageName)
-            var azureProvisioningConfig = new AzureProvisioningConfigInfo(OS.Windows, username, password); // parameters for Add-AzureProvisioningConfig (-Windows -Password)
-            var persistentVMConfigInfo = new PersistentVMConfigInfo(azureVMConfigInfo, azureProvisioningConfig, null, null);
+            AzureVMConfigInfo azureVMConfigInfo = new AzureVMConfigInfo(newAzureVMName, InstanceSize.Small, imageName); // parameters for New-AzureVMConfig (-Name -InstanceSize -ImageName)
+            AzureProvisioningConfigInfo azureProvisioningConfig = new AzureProvisioningConfigInfo(OS.Windows, username, password); // parameters for Add-AzureProvisioningConfig (-Windows -Password)
+            PersistentVMConfigInfo persistentVMConfigInfo = new PersistentVMConfigInfo(azureVMConfigInfo, azureProvisioningConfig, null, null);
             PersistentVM persistentVM = vmPowershellCmdlets.GetPersistentVM(persistentVMConfigInfo); // New-AzureVMConfig & Add-AzureProvisioningConfig
 
             PersistentVM[] VMs = { persistentVM };
@@ -479,30 +543,36 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
             {
                 vmRoleCtxt = vmPowershellCmdlets.GetAzureVM(persistentVM.RoleName, serviceName);
                 if (vmRoleCtxt.InstanceStatus == "StoppedVM")
-                {
                     break;
+                else
+                {
+                    Console.WriteLine("The status of the VM {0} : {1}", persistentVM.RoleName, vmRoleCtxt.InstanceStatus);
+                    Thread.Sleep(120000);
                 }
-                Console.WriteLine("The status of the VM {0} : {1}", persistentVM.RoleName, vmRoleCtxt.InstanceStatus);
-                Thread.Sleep(120000);
             }
             Assert.AreEqual(vmRoleCtxt.InstanceStatus, "StoppedVM", true);
 
+            //TODO
+            // RDP
+
+            //TODO:
+            // Run sysprep and shutdown
+
+            // Check the status of VM
+            //PersistentVMRoleContext vmRoleCtxt2 = vmPowershellCmdlets.GetAzureVM(newAzureVMName, newAzureSvcName); // Get-AzureVM -Name
+            //Assert.AreEqual(newAzureVMName, vmRoleCtxt2.Name, true);  //
+
             // Save-AzureVMImage
-            vmPowershellCmdlets.SaveAzureVMImage(serviceName, newAzureVMName, newAzureVMName);
+            //string newImageName = "newImage";
+            //string newImageLabel = "newImageLabel";
+            //string postAction = "Delete";
 
-            // Verify VM image.
-            var image = vmPowershellCmdlets.GetAzureVMImage(newAzureVMName)[0];
+            // Save-AzureVMImage -ServiceName -Name -NewImageName -NewImageLabel -PostCaptureAction
+            //vmPowershellCmdlets.SaveAzureVMImage(newAzureSvcName, newAzureVMName, newImageName, newImageLabel, postAction);
 
-            Assert.AreEqual("Windows", image.OS, "OS is not matching!");
-            Assert.AreEqual(newAzureVMName, image.ImageName, "Names are not matching!");
-
-            // Verify that the VM is removed
+            // Cleanup
+            vmPowershellCmdlets.RemoveAzureVM(persistentVM.RoleName, serviceName);
             Assert.AreEqual(null, vmPowershellCmdlets.GetAzureVM(persistentVM.RoleName, serviceName));
-
-            // Cleanup the registered image
-            vmPowershellCmdlets.RemoveAzureVMImage(newAzureVMName, true);
-
-            pass = true;
         }
 
         /// <summary>
@@ -1154,78 +1224,6 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
             }
         }
 
-        [TestMethod(), TestCategory("Scenario"), TestProperty("Feature", "PAAS"), Priority(1), Owner("hylee"), Description("Test the cmdlet (Reset-AzureRoleInstanceTest with Reboot and Reimage paramaeters)")]
-        [DataSource("Microsoft.VisualStudio.TestTools.DataSource.CSV", "|DataDirectory|\\Resources\\package.csv", "package#csv", DataAccessMethod.Sequential)]
-        public void ReSetAzureRoleInstanceTest()
-        {
-            StartTest(MethodBase.GetCurrentMethod().Name, testStartTime);
-
-            // Choose the package and config files from local machine
-            string packageName = Convert.ToString(TestContext.DataRow[2]);
-            string configName = Convert.ToString(TestContext.DataRow[3]);
-
-            var packagePath1 = new FileInfo(Directory.GetCurrentDirectory() + "\\" + packageName);
-            var configPath1 = new FileInfo(Directory.GetCurrentDirectory() + "\\" + configName);
-
-            Assert.IsTrue(File.Exists(packagePath1.FullName), "file not exist={0}", packagePath1);
-            Assert.IsTrue(File.Exists(configPath1.FullName), "file not exist={0}", configPath1);
-
-            string deploymentName = Utilities.GetUniqueShortName("ResetRoleInst",20);
-            string deploymentLabel = Utilities.GetUniqueShortName("ResetRoleInstDepLabel",20);
-            DeploymentInfoContext result;
-
-            try
-            {
-                vmPowershellCmdlets.NewAzureService(serviceName, serviceName, locationName);
-                Console.WriteLine("service, {0}, is created.", serviceName);
-
-                vmPowershellCmdlets.NewAzureDeployment(serviceName, packagePath1.FullName, configPath1.FullName, DeploymentSlotType.Staging, deploymentLabel, deploymentName, false, false);
-                result = vmPowershellCmdlets.GetAzureDeployment(serviceName, DeploymentSlotType.Staging);
-                pass = Utilities.PrintAndCompareDeployment(result, serviceName, deploymentName, deploymentLabel, DeploymentSlotType.Staging, null, 2);
-                Console.WriteLine("successfully deployed the package");
-
-                //Reboot the role instance
-                vmPowershellCmdlets.ResetAzureRoleInstance(serviceName, "WebRole1_IN_0", DeploymentSlotType.Staging, reboot: true);
-                var deploymentContextInfo = vmPowershellCmdlets.GetAzureDeployment(serviceName, DeploymentSlotType.Staging);
-                //verify that other instances are in ready state
-                string roleStatus = string.Empty;
-                foreach (var instance in deploymentContextInfo.RoleInstanceList)
-                {
-                    if (instance.InstanceName.Equals("WebRole1_IN_1"))
-                    {
-                        roleStatus = instance.InstanceStatus;
-                        break;
-                    }
-                }
-                pass = roleStatus == ReadyState;
-
-                //Reimage the role instance
-                vmPowershellCmdlets.ResetAzureRoleInstance(serviceName, "WebRole1_IN_1", DeploymentSlotType.Staging, reimage: true);
-                //verify that other instances are in ready state
-                deploymentContextInfo = vmPowershellCmdlets.GetAzureDeployment(serviceName, DeploymentSlotType.Staging);
-                roleStatus = string.Empty;
-                foreach (var instance in deploymentContextInfo.RoleInstanceList)
-                {
-                    if (instance.InstanceName.Equals("WebRole1_IN_0"))
-                    {
-                        roleStatus = instance.InstanceStatus;
-                        break;
-                    }
-                }
-                pass = roleStatus == ReadyState;
-            }
-            catch (Exception e)
-            {
-                pass = false;
-                Assert.Fail("Exception occurred: {0}", e.ToString());
-            }
-            finally
-            {
-                //Ceanup service
-                vmPowershellCmdlets.RemoveAzureDeployment(serviceName, DeploymentSlotType.Staging, true);
-                pass &= Utilities.CheckRemove(vmPowershellCmdlets.GetAzureDeployment, serviceName, DeploymentSlotType.Staging);
-            }
-        }
 
         /// <summary>
         /// Deploy an IaaS VM with Domain Join
@@ -1251,7 +1249,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
 
                 vmPowershellCmdlets.NewAzureService(serviceName, serviceName, locationName);
 
-                var azureVMConfigInfo = new AzureVMConfigInfo(newAzureVMName, InstanceSize.Small.ToString(), imageName);
+                var azureVMConfigInfo = new AzureVMConfigInfo(newAzureVMName, InstanceSize.Small, imageName);
                 var azureProvisioningConfig = new AzureProvisioningConfigInfo("WindowsDomain", username, password,
                                                                               joinDomainStr, domainStr, domainUser,
                                                                               domainPassword);
