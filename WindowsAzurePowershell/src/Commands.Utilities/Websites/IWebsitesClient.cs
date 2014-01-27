@@ -402,11 +402,12 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
         string GetSlotName(string name);
 
         /// <summary>
-        /// Gets the website publish profile.
+        /// Gets the website WebDeploy publish profile.
         /// </summary>
         /// <param name="websiteName">Website name.</param>
+        /// <param name="slot">Slot name. By default is null.</param>
         /// <returns>The publish profile.</returns>
-        WebSiteGetPublishProfileResponse.PublishProfile GetWebDeployPublishProfile(string websiteName);
+        WebSiteGetPublishProfileResponse.PublishProfile GetWebDeployPublishProfile(string websiteName, string slot = null);
 
         /// <summary>
         /// Gets the website name without slot part
@@ -414,6 +415,14 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
         /// <param name="name">The website full name which may include slot name</param>
         /// <returns>The website name</returns>
         string GetWebsiteNameFromFullName(string name);
+
+        /// <summary>
+        /// Get the real website name.
+        /// </summary>
+        /// <param name="name">The website name from the -Name parameter.</param>
+        /// <param name="slot">The website name from the -Slot parameter.</param>
+        /// <returns>The real website name.</returns>
+        string SetWebsiteName(string name, string slot);
     }
 
     public enum WebsiteState

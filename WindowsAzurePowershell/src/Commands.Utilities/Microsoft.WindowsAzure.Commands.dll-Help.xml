@@ -19264,5 +19264,339 @@ PS C:\&gt; Set-WAPackVM -VM $vm -VMSizeProfile $sizeProfile
       </maml:navigationLink>
     </maml:relatedLinks>
   </command:command>
+  
+  <command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10">
+	  <command:details>
+		  <command:name>
+                     Publish-AzureWebsiteProject
+		  </command:name>
+		  <maml:description>
+			  <maml:para>Publish a Visual Studio web project to a Windows Azure web site using WebDeploy.</maml:para>
+		  </maml:description>
+		  <maml:copyright>
+			  <maml:para></maml:para>
+		  </maml:copyright>
+		  <command:verb>Publish</command:verb>
+		  <command:noun>AzureWebsiteProject</command:noun>
+		  <dev:version></dev:version>
+	  </command:details>
+	  <maml:description>
+		  <maml:para>Publish a Visual Studio web project to a Windows Azure web site using WebDeploy. It can either take a WebDeploy package and publish directly, or take a Visual Studio web project, build the project and publish. It can also replace the connection strings in the Web.config during publish.</maml:para>
+	  </maml:description>
+	  <!-- Cmdlet syntax section-->
+	  <command:syntax>
+		  <command:syntaxItem>
+			  <maml:name>Publish-AzureWebsiteProject</maml:name>
+			  <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="1">
+				  <maml:name>Name</maml:name>
+				  <maml:description>
+					  <maml:para>The web site name.</maml:para>
+				  </maml:description>
+				  <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+			  </command:parameter>
+			  <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="2">
+				  <maml:name>Package</maml:name>
+				  <maml:description>
+					  <maml:para>The WebDeploy package folder for zip file of the Visual Studio web application project to be published.</maml:para>
+				  </maml:description>
+				  <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+			  </command:parameter>
+			  <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="named">
+				  <maml:name>Slot</maml:name>
+				  <maml:description>
+					  <maml:para>The web site slot name.</maml:para>
+				  </maml:description>
+				  <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+			  </command:parameter>
+		  </command:syntaxItem>
+		  <command:syntaxItem>
+			  <maml:name>Publish-AzureWebsiteProject</maml:name>
+			  <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="1">
+				  <maml:name>Name</maml:name>
+				  <maml:description>
+					  <maml:para>The web site name.</maml:para>
+				  </maml:description>
+				  <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+			  </command:parameter>
+			  <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="2">
+				  <maml:name>ProjectFile</maml:name>
+				  <maml:description>
+					  <maml:para>The Visual Studio web application project to be published.</maml:para>
+				  </maml:description>
+				  <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+			  </command:parameter>
+			  <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="3">
+				  <maml:name>Configuration</maml:name>
+				  <maml:description>
+					  <maml:para>The configuration used to build the Visual Studio web application project.</maml:para>
+				  </maml:description>
+				  <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+			  </command:parameter>
+			  <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="4">
+				  <maml:name>BuildProperty</maml:name>
+				  <maml:description>
+					  <maml:para>The MSBuild properties used to build the Visual Studio web application project.</maml:para>
+				  </maml:description>
+				  <command:parameterValue required="true" variableLength="false">hashtable</command:parameterValue>
+			  </command:parameter>
+			  <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="named">
+				  <maml:name>Slot</maml:name>
+				  <maml:description>
+					  <maml:para>The web site slot name.</maml:para>
+				  </maml:description>
+				  <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+			  </command:parameter>
+		  </command:syntaxItem>
+	  </command:syntax>
+	  <!-- Cmdlet parameter section  -->
+	  <command:parameters>
+		  <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="1">
+			  <maml:name>Name</maml:name>
+			  <maml:description>
+				  <maml:para>The web site name.</maml:para>
+								
+			  </maml:description>
+			  <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+			  <dev:type>
+				  <maml:name>string</maml:name>
+				  <maml:uri/>
+			  </dev:type>
+			  <dev:defaultValue></dev:defaultValue>
+		  </command:parameter>
+		  <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="named">
+			  <maml:name>Slot</maml:name>
+			  <maml:description>
+				  <maml:para>The web site slot name.</maml:para>
+								
+			  </maml:description>
+			  <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+			  <dev:type>
+				  <maml:name>string</maml:name>
+				  <maml:uri/>
+			  </dev:type>
+			  <dev:defaultValue></dev:defaultValue>
+		  </command:parameter>
+		  <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="2">
+			  <maml:name>ProjectFile</maml:name>
+			  <maml:description>
+				  <maml:para>The Visual Studio web application project to be published.</maml:para>
+								
+			  </maml:description>
+			  <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+			  <dev:type>
+				  <maml:name>string</maml:name>
+				  <maml:uri/>
+			  </dev:type>
+			  <dev:defaultValue></dev:defaultValue>
+		  </command:parameter>
+		  <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="3">
+			  <maml:name>Configuration</maml:name>
+			  <maml:description>
+				  <maml:para>The configuration used to build the Visual Studio web application project.</maml:para>
+								
+			  </maml:description>
+			  <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+			  <dev:type>
+				  <maml:name>string</maml:name>
+				  <maml:uri/>
+			  </dev:type>
+			  <dev:defaultValue>Release</dev:defaultValue>
+		  </command:parameter>
+		  <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="4">
+			  <maml:name>BuildProperty</maml:name>
+			  <maml:description>
+				  <maml:para>The MSBuild properties used to build the Visual Studio web application project.</maml:para>
+								
+			  </maml:description>
+			  <command:parameterValue required="true" variableLength="false">hashtable</command:parameterValue>
+			  <dev:type>
+				  <maml:name>hashtable</maml:name>
+				  <maml:uri/>
+			  </dev:type>
+			  <dev:defaultValue></dev:defaultValue>
+		  </command:parameter>
+		  <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="2">
+			  <maml:name>Package</maml:name>
+			  <maml:description>
+				  <maml:para>The WebDeploy package folder for zip file of the Visual Studio web application project to be published.</maml:para>
+								
+			  </maml:description>
+			  <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+			  <dev:type>
+				  <maml:name>string</maml:name>
+				  <maml:uri/>
+			  </dev:type>
+			  <dev:defaultValue></dev:defaultValue>
+		  </command:parameter>
+	  </command:parameters>
+	  <!-- Input - Output section-->
+	  <command:inputTypes>
+		  <command:inputType>
+			  <dev:type>
+				  <maml:name></maml:name>
+				  <maml:uri/>
+				  <maml:description />
+			  </dev:type>
+			  <maml:description>
+				  <maml:para>
+					  <!-- description  -->
+					
+				  </maml:para>
+			  </maml:description>
+		  </command:inputType>
+	  </command:inputTypes>
+	  <command:returnValues>
+		  <command:returnValue>
+			  <dev:type>
+				  <maml:name></maml:name>
+				  <maml:uri />
+				  <maml:description />
+			  </dev:type>   
+			  <maml:description>
+				  <maml:para>
+					  <!-- description  -->
+					
+				  </maml:para>
+			  </maml:description> 
+		  </command:returnValue>
+	  </command:returnValues>
+	  <!-- Error section-->
+	  <command:terminatingErrors />
+	  <command:nonTerminatingErrors />
+		  <!-- Notes section  -->
+	  <maml:alertSet>
+		  <maml:title></maml:title>
+		  <maml:alert>
+			  <maml:para>
+                          
+                          </maml:para>
+		  </maml:alert>
+		  <maml:alert>
+			  <maml:para></maml:para>
+		  </maml:alert>
+	  </maml:alertSet>
+	  <!-- Example section  --> 
+	  <command:examples>
+
+		  <command:example>
+			  <maml:title>
+				  -------------------------- EXAMPLE 1 --------------------------
+			  </maml:title> 
+			  <maml:introduction>
+				  <maml:para>C:\PS&gt;</maml:para>
+			  </maml:introduction> 
+  			  <dev:code>
+  Publish-AzureWebsiteProject -Name site1 -ProjectFile .\WebApplication1.csproj -Configuration Debug                        </dev:code>
+       			  <dev:remarks>
+                                  <maml:para>Description</maml:para>
+                                  <maml:para>-----------</maml:para>
+  			          <maml:para>Build a Visual Studio web project with &quot;Debug&quot; configuration (meaning use Web.Debug.config) and publish to a Windows Azure Web Site using WebDeploy.</maml:para>
+	                          <maml:para></maml:para>
+	                          <maml:para></maml:para>
+	                          <maml:para></maml:para>
+	                          <maml:para></maml:para>
+  			  </dev:remarks>
+			  <command:commandLines>
+				  <command:commandLine>
+					  <command:commandText></command:commandText>
+				  </command:commandLine>
+			  </command:commandLines>
+		  </command:example>
+
+		  <command:example>
+			  <maml:title>
+				  -------------------------- EXAMPLE 2 --------------------------
+			  </maml:title> 
+			  <maml:introduction>
+				  <maml:para>C:\PS&gt;</maml:para>
+			  </maml:introduction> 
+  			  <dev:code>
+  Publish-AzureWebsiteProject -Name site1 -Package .\WebApplication1.zip                        </dev:code>
+       			  <dev:remarks>
+                                  <maml:para>Description</maml:para>
+                                  <maml:para>-----------</maml:para>
+  			          <maml:para>Publish a WebDeploy Pacakge .zip file to a Windows Azure Web Site using WebDeploy.</maml:para>
+	                          <maml:para></maml:para>
+	                          <maml:para></maml:para>
+	                          <maml:para></maml:para>
+	                          <maml:para></maml:para>
+  			  </dev:remarks>
+			  <command:commandLines>
+				  <command:commandLine>
+					  <command:commandText></command:commandText>
+				  </command:commandLine>
+			  </command:commandLines>
+		  </command:example>
+
+		  <command:example>
+			  <maml:title>
+				  -------------------------- EXAMPLE 3 --------------------------
+			  </maml:title> 
+			  <maml:introduction>
+				  <maml:para>C:\PS&gt;</maml:para>
+			  </maml:introduction> 
+  			  <dev:code>
+  Publish-AzureWebsiteProject -Name site1 -Package .\WebApplication1                        </dev:code>
+       			  <dev:remarks>
+                                  <maml:para>Description</maml:para>
+                                  <maml:para>-----------</maml:para>
+  			          <maml:para>Publish a WebDeploy Pacakge folder to a Windows Azure Web Site using WebDeploy.</maml:para>
+	                          <maml:para></maml:para>
+	                          <maml:para></maml:para>
+	                          <maml:para></maml:para>
+	                          <maml:para></maml:para>
+  			  </dev:remarks>
+			  <command:commandLines>
+				  <command:commandLine>
+					  <command:commandText></command:commandText>
+				  </command:commandLine>
+			  </command:commandLines>
+		  </command:example>
+
+		  <command:example>
+			  <maml:title>
+				  -------------------------- EXAMPLE 4 --------------------------
+			  </maml:title> 
+			  <maml:introduction>
+				  <maml:para>C:\PS&gt;</maml:para>
+			  </maml:introduction> 
+  			  <dev:code>
+  Publish-AzureWebsiteProject -Name site1 -ProjectFile .\WebApplication1.csproj -DefaultConnection &quot;my connection string&quot;                        </dev:code>
+       			  <dev:remarks>
+                                  <maml:para>Description</maml:para>
+                                  <maml:para>-----------</maml:para>
+  			          <maml:para>Build a Visual Studio web project, overwrite the &quot;DefaultConnection&quot; connection string in Web.config and publish to a Windows Azure Web Site using WebDeploy. Notice that -DefaultConnection is a dynamic parameter which gets added by parsing Web.config.</maml:para>
+	                          <maml:para></maml:para>
+	                          <maml:para></maml:para>
+	                          <maml:para></maml:para>
+	                          <maml:para></maml:para>
+  			  </dev:remarks>
+			  <command:commandLines>
+				  <command:commandLine>
+					  <command:commandText></command:commandText>
+				  </command:commandLine>
+			  </command:commandLines>
+		  </command:example>
+	  </command:examples>
+	  <!-- Link section  -->
+	  <maml:relatedLinks>
+		  <maml:navigationLink>
+			  <maml:linkText>New-AzureWebsite</maml:linkText>
+			  <maml:uri/>
+		  </maml:navigationLink>
+		  <maml:navigationLink>
+			  <maml:linkText>Get-AzureWebsite</maml:linkText>
+			  <maml:uri/>
+		  </maml:navigationLink>
+		  <maml:navigationLink>
+			  <maml:linkText>Set-AzureWebsite</maml:linkText>
+			  <maml:uri/>
+		  </maml:navigationLink>
+		  <maml:navigationLink>
+			  <maml:linkText>Remove-AzureWebsite</maml:linkText>
+			  <maml:uri/>
+		  </maml:navigationLink>
+	  </maml:relatedLinks>
+  </command:command>
 
 </helpItems>

@@ -26,7 +26,7 @@ namespace Microsoft.WindowsAzure.Commands.Websites
         [ValidateNotNullOrEmpty]
         public string Configuration { get; set; }
 
-        [Parameter(ParameterSetName = "ProjectFile", Position = 3, Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "The configuration used to build the Visual Studio web application project.")]
+        [Parameter(ParameterSetName = "ProjectFile", Position = 3, Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "The MSBuild properties used to build the Visual Studio web application project.")]
         [ValidateNotNullOrEmpty]
         public Hashtable BuildProperty { get; set; }
 
@@ -221,34 +221,37 @@ namespace Microsoft.WindowsAzure.Commands.Websites
         /// <returns>The dynamic parameters.</returns>
         public override object GetDynamicParameters()
         {
-            // Ge the 2 Web.config files.
-            fullProjectFile = this.TryResolvePath(ProjectFile).Trim(new char[] { '"' });
-            fullWebConfigFile = Path.Combine(Path.GetDirectoryName(fullProjectFile), "Web.config");
-            configuration = string.IsNullOrEmpty(Configuration) ? "Release" : Configuration;
-            fullWebConfigFileWithConfiguration = Path.Combine(Path.GetDirectoryName(fullProjectFile), string.Format("Web.{0}.config", configuration));
-
-            dynamicParameters = new RuntimeDefinedParameterDictionary();
-            if (string.Compare("ProjectFile", ParameterSetName) == 0)
+            if (!string.IsNullOrEmpty(ProjectFile))
             {
-                // Parse the connection strings from the Web.config files.
-                var names = ParseConnectionStringNamesFromWebConfig();
+                // Get the 2 Web.config files.
+                fullProjectFile = this.TryResolvePath(ProjectFile).Trim(new char[] { '"' });
+                fullWebConfigFile = Path.Combine(Path.GetDirectoryName(fullProjectFile), "Web.config");
+                configuration = string.IsNullOrEmpty(Configuration) ? "Release" : Configuration;
+                fullWebConfigFileWithConfiguration = Path.Combine(Path.GetDirectoryName(fullProjectFile), string.Format("Web.{0}.config", configuration));
 
-                // Create a dynmaic parameter for each connection string using the same name.
-                foreach (var name in names)
+                dynamicParameters = new RuntimeDefinedParameterDictionary();
+                if (string.Compare("ProjectFile", ParameterSetName) == 0)
                 {
-                    var parameter = new RuntimeDefinedParameter();
-                    parameter.Name = name;
-                    parameter.ParameterType = typeof(string);
-                    parameter.Attributes.Add(new ParameterAttribute()
-                        {
-                            ParameterSetName = "ProjectFile",
-                            Mandatory = false,
-                            ValueFromPipelineByPropertyName = true,
-                            HelpMessage = "Connection string from Web.config."
-                        }
-                    );
-                    dynamicParameters.Add(name, parameter);
-                }
+                    // Parse the connection strings from the Web.config files.
+                    var names = ParseConnectionStringNamesFromWebConfig();
+
+                    // Create a dynmaic parameter for each connection string using the same name.
+                    foreach (var name in names)
+                    {
+                        var parameter = new RuntimeDefinedParameter();
+                        parameter.Name = name;
+                        parameter.ParameterType = typeof(string);
+                        parameter.Attributes.Add(new ParameterAttribute()
+                            {
+                                ParameterSetName = "ProjectFile",
+                                Mandatory = false,
+                                ValueFromPipelineByPropertyName = true,
+                                HelpMessage = "Connection string from Web.config."
+                            }
+                        );
+                        dynamicParameters.Add(name, parameter);
+                    }
+                } 
             }
             return dynamicParameters;
         }
@@ -260,13 +263,13 @@ namespace Microsoft.WindowsAzure.Commands.Websites
         private DeploymentBaseOptions CreateRemoteDeploymentBaseOptions()
         {
             // Get the web site publish profile.
-            var publishProfile = WebsitesClient.GetWebDeployPublishProfile(Name);
+            var publishProfile = WebsitesClient.GetWebDeployPublishProfile(Name, Slot);
 
             DeploymentBaseOptions remoteBaseOptions = new DeploymentBaseOptions()
             {
                 UserName = publishProfile.UserName,
                 Password = publishProfile.UserPassword,
-                ComputerName = string.Format("https://{0}/msdeploy.axd?site={1}", publishProfile.PublishUrl, Name),
+                ComputerName = string.Format("https://{0}/msdeploy.axd?site={1}", publishProfile.PublishUrl, WebsitesClient.SetWebsiteName(Name, Slot)),
                 AuthenticationType = "Basic",
                 TempAgent = false
             };
