@@ -55,7 +55,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.Websites
         {
             // Setup
             string jobName = "myWebJob";
-            WebJobType jobType = WebJobType.Triggered;
+            WebJobType jobType = WebJobType.Continuous;
             websitesClientMock.Setup(f => f.StopWebJob(websiteName, slot, jobName, jobType)).Verifiable();
             cmdlet.JobName = jobName;
 
