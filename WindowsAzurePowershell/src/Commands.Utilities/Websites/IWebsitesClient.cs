@@ -513,10 +513,4 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
         Production,
         Staging
     }
-
-    public enum WebJobType
-    {
-        Triggered,
-        Continuous
-    }
 }
