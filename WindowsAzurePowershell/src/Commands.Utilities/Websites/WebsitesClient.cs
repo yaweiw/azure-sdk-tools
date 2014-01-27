@@ -549,7 +549,13 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
             return GetWebsiteConfiguration(website.Name);
         }
 
-        private string SetWebsiteName(string name, string slot)
+        /// <summary>
+        /// Get the real website name.
+        /// </summary>
+        /// <param name="name">The website name from the -Name parameter.</param>
+        /// <param name="slot">The website name from the -Slot parameter.</param>
+        /// <returns>The real website name.</returns>
+        public string SetWebsiteName(string name, string slot)
         {
             name = GetWebsiteName(name);
             slot = slot ?? GetSlotName(name);
@@ -974,15 +980,16 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
         }
 
         /// <summary>
-        /// Gets the website publish profile.
+        /// Gets the website WebDeploy publish profile.
         /// </summary>
         /// <param name="websiteName">Website name.</param>
+        /// <param name="slot">Slot name. By default is null.</param>
         /// <returns>The publish profile.</returns>
-        public WebSiteGetPublishProfileResponse.PublishProfile GetWebDeployPublishProfile(string websiteName)
+        public WebSiteGetPublishProfileResponse.PublishProfile GetWebDeployPublishProfile(string websiteName, string slot = null)
         {
             var site = this.GetWebsite(websiteName);
 
-            var response = WebsiteManagementClient.WebSites.GetPublishProfile(site.WebSpace, websiteName);
+            var response = WebsiteManagementClient.WebSites.GetPublishProfile(site.WebSpace, SetWebsiteName(websiteName, slot));
 
             foreach (var profile in response)
             {
