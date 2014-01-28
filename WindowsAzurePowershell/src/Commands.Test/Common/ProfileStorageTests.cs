@@ -22,7 +22,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.Common
     using System.Security.Cryptography.X509Certificates;
     using Commands.Utilities.Common;
     using Moq;
-    using Utilities.Resources;
+    using Commands.Common.Test.Resources;
     using VisualStudio.TestTools.UnitTesting;
 
     [TestClass]
