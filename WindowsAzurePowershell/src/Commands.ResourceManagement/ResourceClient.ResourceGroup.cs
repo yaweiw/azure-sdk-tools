@@ -46,6 +46,8 @@ namespace Microsoft.Azure.Commands.ResourceManagement
                 var uploadedFilePath = StorageClientWrapper.UploadFileToBlob(new BlobUploadParameters {
                     StorageName = storageAccountName,
                     FileLocalPath = parameters.TemplateFile,
+                    FileRemoteName = Path.GetFileNameWithoutExtension(parameters.TemplateFile),
+                    OverrideIfExists = true,
                     ContainerPublic = true,
                     ContainerName = DeploymentTemplateStorageContainerName
                 });

@@ -377,6 +377,15 @@ namespace Microsoft.WindowsAzure.Commands.Common.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Blob with the name {0} already exists in the account..
+        /// </summary>
+        public static string BlobAlreadyExistsInTheAccount {
+            get {
+                return ResourceManager.GetString("BlobAlreadyExistsInTheAccount", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to https://{0}.blob.core.windows.net/.
         /// </summary>
         public static string BlobEndpointUri {
