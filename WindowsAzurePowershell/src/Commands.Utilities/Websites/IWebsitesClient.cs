@@ -37,10 +37,36 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
             int waitInternal);
 
         /// <summary>
+        /// Starts log streaming for the given website.
+        /// </summary>
+        /// <param name="name">The website name</param>
+        /// <param name="slot">The website slot name</param>
+        /// <param name="path">The log path, by default root</param>
+        /// <param name="message">The substring message</param>
+        /// <param name="endStreaming">Predicate to end streaming</param>
+        /// <param name="waitInternal">The fetch wait interval</param>
+        /// <returns>The log line</returns>
+        IEnumerable<string> StartLogStreaming(
+            string name,
+            string slot,
+            string path,
+            string message,
+            Predicate<string> endStreaming,
+            int waitInternal);
+
+        /// <summary>
         /// List log paths for a given website.
         /// </summary>
-        /// <param name="name"></param>
-        /// <returns></returns>
+        /// <param name="name">The website name</param>
+        /// <param name="slot">The website slot name</param>
+        /// <returns>The list of log paths</returns>
+        List<LogPath> ListLogPaths(string name, string slot);
+
+        /// <summary>
+        /// List log paths for a given website.
+        /// </summary>
+        /// <param name="name">The website name</param>
+        /// <returns>The list of log paths</returns>
         List<LogPath> ListLogPaths(string name);
 
         /// <summary>
@@ -51,22 +77,30 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
         DiagnosticsSettings GetApplicationDiagnosticsSettings(string name);
 
         /// <summary>
+        /// Gets the application diagnostics settings
+        /// </summary>
+        /// <param name="name">The website name</param>
+        /// <param name="slot">The website slot name</param>
+        /// <returns>The website application diagnostics settings</returns>
+        DiagnosticsSettings GetApplicationDiagnosticsSettings(string name, string slot);
+
+        /// <summary>
         /// Restarts a website.
         /// </summary>
         /// <param name="name">The website name</param>
-        void RestartAzureWebsite(string name);
+        void RestartWebsite(string name);
 
         /// <summary>
         /// Starts a website.
         /// </summary>
         /// <param name="name">The website name</param>
-        void StartAzureWebsite(string name);
+        void StartWebsite(string name);
 
         /// <summary>
         /// Stops a website.
         /// </summary>
         /// <param name="name">The website name</param>
-        void StopAzureWebsite(string name);
+        void StopWebsite(string name);
 
         /// <summary>
         /// Gets a website instance.
@@ -76,12 +110,14 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
         Site GetWebsite(string name);
 
         /// <summary>
-        /// Create a new website.
+        /// Create a new website in a given slot.
         /// </summary>
         /// <param name="webspaceName">Web space to create site in.</param>
+        /// <param name="disablesClone">Flag to control cloning the website configuration.</param>
         /// <param name="siteToCreate">Details about the site to create.</param>
-        /// <returns></returns>
-        Site CreateWebsite(string webspaceName, SiteWithWebSpace siteToCreate);
+        /// <param name="slot">The slot name.</param>
+        /// <returns>The created site object</returns>
+        Site CreateWebsite(string webspaceName, SiteWithWebSpace siteToCreate, string slot);
 
         /// <summary>
         /// Update the set of host names for a website.
@@ -89,6 +125,14 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
         /// <param name="site">The website name.</param>
         /// <param name="hostNames">The new host names.</param>
         void UpdateWebsiteHostNames(Site site, IEnumerable<string> hostNames);
+
+        /// <summary>
+        /// Update the set of host names for a website slot.
+        /// </summary>
+        /// <param name="site">The website name.</param>
+        /// <param name="hostNames">The new host names.</param>
+        /// <param name="slot">The website slot name.</param>
+        void UpdateWebsiteHostNames(Site site, IEnumerable<string> hostNames, string slot);
 
         /// <summary>
         /// Gets the website configuration.
@@ -112,13 +156,29 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
         void UpdateWebsiteConfiguration(string name, SiteConfig newConfiguration);
 
         /// <summary>
+        /// Update the website slot configuration
+        /// </summary>
+        /// <param name="name">The website name</param>
+        /// <param name="newConfiguration">The website configuration object containing updates.</param>
+        /// <param name="slot">The website slot name</param>
+        void UpdateWebsiteConfiguration(string name, SiteConfig newConfiguration, string slot);
+
+        /// <summary>
         /// Delete a website.
         /// </summary>
         /// <param name="webspaceName">webspace the site is in.</param>
         /// <param name="websiteName">website name.</param>
-        /// <param name="deleteMetrics"></param>
-        /// <param name="deleteEmptyServerFarm"></param>
+        /// <param name="deleteMetrics">pass true to delete stored metrics as part of removing site.</param>
+        /// <param name="deleteEmptyServerFarm">Pass true to delete server farm is this was the last website in it.</param>
         void DeleteWebsite(string webspaceName, string websiteName, bool deleteMetrics = false, bool deleteEmptyServerFarm = false);
+
+        /// <summary>
+        /// Delete a website slot.
+        /// </summary>
+        /// <param name="webspaceName">webspace the site is in.</param>
+        /// <param name="websiteName">website name.</param>
+        /// <param name="slot">The website slot name</param>
+        void DeleteWebsite(string webspaceName, string websiteName, string slot);
 
         /// <summary>
         /// Get the WebSpaces.
@@ -217,6 +277,135 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
         /// </summary>
         /// <returns>The default location name.</returns>
         string GetDefaultLocation();
+
+        /// <summary>
+        /// Checks if a website exists.
+        /// </summary>
+        /// <param name="name">The website name.</param>
+        /// <returns>True if exists, false otherwise.</returns>
+        bool WebsiteExists(string name);
+
+        /// <summary>
+        /// Checks if a website exists.
+        /// </summary>
+        /// <param name="name">The website name.</param>
+        /// <param name="name">The website slot name.</param>
+        /// <returns>True if exists, false otherwise.</returns>
+        bool WebsiteExists(string name, string slot);
+
+        /// <summary>
+        /// Updates a website compute mode.
+        /// </summary>
+        /// <param name="websiteToUpdate">The website to update</param>
+        void UpdateWebsiteComputeMode(Site websiteToUpdate);
+
+        /// <summary>
+        /// Gets a website slot DNS name.
+        /// </summary>
+        /// <param name="name">The website name</param>
+        /// <param name="slot">The slot name</param>
+        /// <returns>the slot DNS name</returns>
+        string GetSlotDnsName(string name, string slot);
+
+        /// <summary>
+        /// Gets a website slot.
+        /// </summary>
+        /// <param name="Name">The website name</param>
+        /// <param name="Slot">The website slot name</param>
+        /// <returns>The website slot object</returns>
+        Site GetWebsite(string name, string slot);
+
+        /// <summary>
+        /// Gets all slots for a website
+        /// </summary>
+        /// <param name="Name">The website name</param>
+        /// <returns>The website slots list</returns>
+        List<Site> GetWebsiteSlots(string name);
+
+        /// <summary>
+        /// Lists all websites under the current subscription
+        /// </summary>
+        /// <returns>List of websites</returns>
+        List<Site> ListWebsites();
+
+        /// <summary>
+        /// Lists all websites with the provided slot name.
+        /// </summary>
+        /// <param name="slot">The slot name</param>
+        /// <returns>The list if websites</returns>
+        List<Site> ListWebsites(string slot);
+
+        /// <summary>
+        /// Gets a website slot configuration
+        /// </summary>
+        /// <param name="name">The website name</param>
+        /// <param name="slot">The website slot name</param>
+        /// <returns>The website cobfiguration object</returns>
+        SiteConfig GetWebsiteConfiguration(string name, string slot);
+
+        /// <summary>
+        /// Enables application diagnostic on website slot.
+        /// </summary>
+        /// <param name="name">The website name</param>
+        /// <param name="output">The application log output, FileSystem or StorageTable</param>
+        /// <param name="properties">The diagnostic setting properties</param>
+        /// <param name="slot">The website slot name</param>
+        void EnableApplicationDiagnostic(
+            string name,
+            WebsiteDiagnosticOutput output,
+            Dictionary<DiagnosticProperties, object> properties,
+            string slot);
+
+        /// <summary>
+        /// Disables application diagnostic.
+        /// </summary>
+        /// <param name="name">The website name</param>
+        /// <param name="output">The application log output, FileSystem or StorageTable</param>
+        /// <param name="slot">The website slot name</param>
+        void DisableApplicationDiagnostic(string name, WebsiteDiagnosticOutput output, string slot);
+
+        /// <summary>
+        /// Restarts a website.
+        /// </summary>
+        /// <param name="name">The website name</param>
+        /// <param name="slot">The website slot name</param>
+        void RestartWebsite(string name, string slot);
+
+        /// <summary>
+        /// Starts a website.
+        /// </summary>
+        /// <param name="name">The website name</param>
+        /// <param name="slot">The website slot name</param>
+        void StartWebsite(string name, string slot);
+
+        /// <summary>
+        /// Stops a website.
+        /// </summary>
+        /// <param name="name">The website name</param>
+        /// <param name="slot">The website slot name</param>
+        void StopWebsite(string name, string slot);
+
+        /// <summary>
+        /// Switches the given website slot with the production slot
+        /// </summary>
+        /// <param name="webspaceName">The webspace name</param>
+        /// <param name="websiteName">The website name</param>
+        /// <param name="slot">The website slot name</param>
+        void SwitchSlot(string webspaceName, string websiteName, string slot);
+
+        /// <summary>
+        /// Gets the slot name from the website name
+        /// </summary>
+        /// <param name="name">The website name</param>
+        /// <returns>The slot name</returns>
+        string GetSlotName(string name);
+
+        /// <summary>
+        /// Gets the website name without slot part
+        /// </summary>
+        /// <param name="name">The website full name which may include slot name</param>
+        /// <returns>The website name</returns>
+        string GetWebsiteNameFromFullName(string name);
     }
 
     public enum WebsiteState
@@ -241,5 +430,11 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
     {
         StorageAccountName,
         LogLevel
+    }
+
+    public enum WebsiteSlotName
+    {
+        Production,
+        Staging
     }
 }

@@ -43,7 +43,6 @@ namespace Microsoft.WindowsAzure.Commands.Websites
         [Parameter(Mandatory = false, ParameterSetName = StorageParameterSetName)]
         public string StorageAccountName { get; set; }
 
-
         public override void ExecuteCmdlet()
         {
             var properties = new Dictionary<DiagnosticProperties, object>();
@@ -51,14 +50,14 @@ namespace Microsoft.WindowsAzure.Commands.Websites
 
             if (File.IsPresent)
             {
-                WebsitesClient.EnableApplicationDiagnostic(Name, WebsiteDiagnosticOutput.FileSystem, properties);
+                WebsitesClient.EnableApplicationDiagnostic(Name, WebsiteDiagnosticOutput.FileSystem, properties, Slot);
             }
             else if (Storage.IsPresent)
             {
                 string storageName = string.IsNullOrEmpty(StorageAccountName) ?
                     CurrentSubscription.CurrentStorageAccountName : StorageAccountName;
                 properties[DiagnosticProperties.StorageAccountName] = storageName;
-                WebsitesClient.EnableApplicationDiagnostic(Name, WebsiteDiagnosticOutput.StorageTable, properties);
+                WebsitesClient.EnableApplicationDiagnostic(Name, WebsiteDiagnosticOutput.StorageTable, properties, Slot);
             }
             else
             {

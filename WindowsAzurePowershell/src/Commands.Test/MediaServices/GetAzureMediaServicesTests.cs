@@ -92,10 +92,10 @@ namespace Microsoft.WindowsAzure.Commands.Test.MediaServices
             const string expectedName = "WAMS Account 1";
             MediaServicesAccountGetResponse detail = new MediaServicesAccountGetResponse
             {
-                AccountName = expectedName
+                Account = new MediaServicesAccount() { AccountName = expectedName }
             };
 
-            clientMock.Setup(f => f.GetMediaServiceAsync(detail.AccountName)).Returns(Task.Factory.StartNew(() => detail));
+            clientMock.Setup(f => f.GetMediaServiceAsync(detail.Account.AccountName)).Returns(Task.Factory.StartNew(() => detail));
 
             // Test
             GetAzureMediaServiceCommand getAzureMediaServiceCommand = new GetAzureMediaServiceCommand

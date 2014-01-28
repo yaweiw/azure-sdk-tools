@@ -47,5 +47,16 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Common
 
             return Channel;
         }
+
+        /// <summary>
+        /// Queue request options
+        /// </summary>
+        public QueueRequestOptions RequestOptions
+        {
+            get
+            {
+                return (QueueRequestOptions)GetRequestOptions(StorageServiceType.Queue);
+            }
+        }
     }
 }

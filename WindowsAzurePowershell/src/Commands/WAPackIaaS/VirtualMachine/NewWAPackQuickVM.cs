@@ -59,8 +59,8 @@ namespace Microsoft.WindowsAzure.Commands.WAPackIaaS.VirtualMachine
             {
                 Name = Name,
                 VMTemplateId = Template.ID,
-                UserName = VMCredential.UserName,
-                Password = ExtractSecureString(VMCredential.Password),
+                LocalAdminUserName = VMCredential.UserName,
+                LocalAdminPassword = ExtractSecureString(VMCredential.Password),
             };
 
             pendingVirtualMachine = virtualMachineOperations.Create(newVirtualMachine, out jobId);

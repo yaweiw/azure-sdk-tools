@@ -1251,7 +1251,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Your credentials have expired. Please use Add-AzureAccount to log in again..
+        ///   Looks up a localized string similar to Your Windows Azure credential in the Windows PowerShell session has expired. Please use Add-AzureAccount to login again..
         /// </summary>
         public static string ExpiredRefreshToken {
             get {
@@ -1476,7 +1476,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Call Set-AzureSubscription and Select-AzureSubscription first..
+        ///   Looks up a localized string similar to No current subscription has been designated. Use Select-AzureSubscription -Current &lt;subscriptionName&gt; to set the current subscription..
         /// </summary>
         public static string InvalidCurrentSubscription {
             get {
@@ -1485,7 +1485,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to You MUST specify a subscription Id. Call Set-AzureSubscription and Select-AzureSubscription first..
+        ///   Looks up a localized string similar to The ID of the current subscription is invalid. Use Set-AzureSubscription to fix the subscription ID or use Select-AzureSubscription to use a different subscription..
         /// </summary>
         public static string InvalidCurrentSubscriptionId {
             get {
@@ -1494,7 +1494,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to You MUST specify a certificate. Call Set-AzureSubscription and Select-AzureSubscription first..
+        ///   Looks up a localized string similar to The management certificate of the current subscription is invalid. Use Set-AzureSubscription to fix the management certificate or use Select-AzureSubscription to use a different subscription..
         /// </summary>
         public static string InvalidCurrentSuscriptionCertificate {
             get {
@@ -1503,7 +1503,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to No default subscription has been designated. Use Set-AzureSubscription -DefaultSubscription &lt;subscriptionName&gt; to set the default subscription..
+        ///   Looks up a localized string similar to No default subscription has been designated. Use Select-AzureSubscription -Default &lt;subscriptionName&gt; to set the default subscription..
         /// </summary>
         public static string InvalidDefaultSubscription {
             get {
@@ -3727,6 +3727,24 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Properties {
         public static string Suspend {
             get {
                 return ResourceManager.GetString("Suspend", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Swapping website production slot ....
+        /// </summary>
+        public static string SwappingWebsite {
+            get {
+                return ResourceManager.GetString("SwappingWebsite", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Are you sure you want to swap the website production slot with slot &apos;{0}&apos;?.
+        /// </summary>
+        public static string SwapWebsiteSlotWarning {
+            get {
+                return ResourceManager.GetString("SwapWebsiteSlotWarning", resourceCulture);
             }
         }
         

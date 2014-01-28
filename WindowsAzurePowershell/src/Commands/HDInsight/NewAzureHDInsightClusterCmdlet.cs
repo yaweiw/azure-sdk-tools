@@ -235,6 +235,12 @@ namespace Microsoft.WindowsAzure.Management.HDInsight.Cmdlet.PSCmdlets
         }
 
         /// <inheritdoc />
+        [Parameter(Position = 13, Mandatory = false, HelpMessage = "Enables High availability for the Head Node in your Hadoop cluster.",
+            ParameterSetName = AzureHdInsightPowerShellConstants.ParameterSetClusterByNameWithSpecificSubscriptionCredentials)]
+        [Alias(AzureHdInsightPowerShellConstants.EnableHeadNodeHighAvailibility)]
+        public SwitchParameter EnableHeadNodeHigAvailability { get; set; }
+
+        /// <inheritdoc />
         protected override void BeginProcessing()
         {
             base.BeginProcessing();
@@ -249,7 +255,8 @@ namespace Microsoft.WindowsAzure.Management.HDInsight.Cmdlet.PSCmdlets
             try
             {
                 this.command.Logger = this.Logger;
-            this.command.CurrentSubscription = this.GetCurrentSubscription(this.Subscription, this.Certificate);
+                this.command.EnableHighAvailability = this.EnableHeadNodeHigAvailability.IsPresent;
+                this.command.CurrentSubscription = this.GetCurrentSubscription(this.Subscription, this.Certificate);
                 Task task = this.command.EndProcessing();
                 CancellationToken token = this.command.CancellationToken;
                 while (!task.IsCompleted)

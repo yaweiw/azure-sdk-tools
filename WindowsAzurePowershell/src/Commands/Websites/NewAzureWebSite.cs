@@ -24,6 +24,8 @@ namespace Microsoft.WindowsAzure.Commands.Websites
     using System.Security.Permissions;
     using System.ServiceModel;
     using System.Text.RegularExpressions;
+    using Microsoft.WindowsAzure.Commands.Utilities.Websites;
+    using Microsoft.WindowsAzure.Management.WebSites.Models;
     using Utilities.Properties;
     using Utilities.Websites.Common;
     using Utilities.Websites.Services;
@@ -184,16 +186,33 @@ namespace Microsoft.WindowsAzure.Commands.Websites
         {
             // Get remote repos
             IList<string> remoteRepositories = GitClass.GetRemoteRepositories();
-            if (remoteRepositories.Any(repository => repository.Equals("azure")))
+            string repositoryUri = website.GetProperty("RepositoryUri");
+            string uri = GitClass.GetUri(
+                repositoryUri,
+                website.RepositorySiteName,
+                PublishingUsername);
+
+            string remoteName;
+
+            if (string.IsNullOrEmpty(Slot))
             {
-                // Removing existing azure remote alias
-                GitClass.RemoveRemoteRepository("azure");
+                remoteName = "azure";
+            }
+            else
+            {
+                remoteName = "azure-" + Slot;
             }
 
-            string repositoryUri = website.GetProperty("RepositoryUri");
+            foreach (string name in remoteRepositories)
+            {
+                if (name.Equals(remoteName))
+                {
+                    GitClass.RemoveRemoteRepository(remoteName);
+                    break;
+                }
+            }
 
-            string uri = GitClass.GetUri(repositoryUri, Name, PublishingUsername);
-            GitClass.AddRemoteRepository("azure", uri);
+            GitClass.AddRemoteRepository(remoteName, uri);
         }
 
         [EnvironmentPermission(SecurityAction.Demand, Unrestricted = true)]
@@ -211,14 +230,14 @@ namespace Microsoft.WindowsAzure.Commands.Websites
                 PublishingUsername = GetPublishingUser();
             }
 
-            var webspace = CreateNewSite(suffix);
+            Site createdWebsite = CreateNewSite(suffix);
             if (Git || GitHub)
             {
-                UpdateSourceControlPublishing(webspace);
+                UpdateSourceControlPublishing(createdWebsite);
             }
         }
 
-        private void UpdateSourceControlPublishing(WebSpace webspace)
+        private void UpdateSourceControlPublishing(Site createdWebsite)
         {
             try
             {
@@ -234,11 +253,11 @@ namespace Microsoft.WindowsAzure.Commands.Websites
                 linkedRevisionControl.Init();
 
                 CopyIisNodeWhenServerJsPresent();
-                UpdateLocalConfigWithSiteName(Name, webspace.Name);
+                UpdateLocalConfigWithSiteName(createdWebsite.Name, createdWebsite.WebSpace);
 
-                InitializeRemoteRepo(webspace.Name, Name);
+                InitializeRemoteRepo(createdWebsite.WebSpace, createdWebsite.Name);
 
-                Site updatedWebsite = WebsitesClient.GetWebsite(Name);
+                Site updatedWebsite = WebsitesClient.GetWebsite(createdWebsite.Name);
 
                 if (Git)
                 {
@@ -258,7 +277,7 @@ namespace Microsoft.WindowsAzure.Commands.Websites
             return new GithubClient(this, GithubCredentials, GithubRepository);
         }
 
-        private WebSpace CreateNewSite(string suffix)
+        private Site CreateNewSite(string suffix)
         {
             var webspaceList = WebsitesClient.ListWebSpaces();
             if (Git && webspaceList.Count == 0)
@@ -272,33 +291,23 @@ namespace Microsoft.WindowsAzure.Commands.Websites
             var website = new SiteWithWebSpace
             {
                 Name = Name,
-                HostNames = BuildHostNames(suffix),
                 WebSpace = webspace.Name,
                 WebSpaceToCreate = webspace
             };
+            Site result;
 
             try
             {
-                CreateSite(webspace, website);
+                result = CreateSite(webspace, website);
             }
             catch (EndpointNotFoundException)
             {
                 // Create webspace with VirtualPlan failed, try with subscription id
                 // This supports Windows Azure Pack
                 webspace.Plan = CurrentSubscription.SubscriptionId;
-                CreateSite(webspace, website);
+                result = CreateSite(webspace, website);
             }
-            return webspace;
-        }
-        
-        private string[] BuildHostNames(string suffix)
-        {
-            var hostnames = new List<string> { string.Format(CultureInfo.InvariantCulture, "{0}.{1}", Name, suffix) };
-            if (!string.IsNullOrEmpty(Hostname))
-            {
-                hostnames.Add(Hostname);
-            }
-            return hostnames.ToArray();
+            return result;
         }
 
         private WebSpace FindWebSpace(IList<WebSpace> webspaceList)
@@ -346,14 +355,36 @@ namespace Microsoft.WindowsAzure.Commands.Websites
             };
         }
 
-        private void CreateSite(WebSpace webspace, SiteWithWebSpace website)
+        private Site CreateSite(WebSpace webspace, SiteWithWebSpace website)
         {
+            Site createdWebsite = null;
+
             try
             {
-                WebsitesClient.CreateWebsite(webspace.Name, website);
-                Cache.AddSite(CurrentSubscription.SubscriptionId, website);
-                SiteConfig websiteConfiguration = WebsitesClient.GetWebsiteConfiguration(Name);
-                WriteObject(new SiteWithConfig(website, websiteConfiguration));
+                if (WebsitesClient.WebsiteExists(website.Name) && !string.IsNullOrEmpty(Slot))
+                {
+                    createdWebsite = WebsitesClient.GetWebsite(website.Name);
+
+                    // Make sure that the website is in Standard mode
+                    if (createdWebsite.ComputeMode == WebSiteComputeMode.Dedicated)
+                    {
+                        WebsitesClient.CreateWebsite(webspace.Name, website, Slot);
+                    }
+                    else
+                    {
+                        throw new Exception("Can not create slot in a website not in Standard mode");
+                    }
+                }
+                else
+                {
+                    WebsitesClient.CreateWebsite(webspace.Name, website, null);
+                }
+
+                createdWebsite = WebsitesClient.GetWebsite(website.Name);
+
+                Cache.AddSite(CurrentSubscription.SubscriptionId, createdWebsite);
+                SiteConfig websiteConfiguration = WebsitesClient.GetWebsiteConfiguration(createdWebsite.Name, Slot);
+                WriteObject(new SiteWithConfig(createdWebsite, websiteConfiguration));
             }
             catch (CloudException ex)
             {
@@ -362,6 +393,7 @@ namespace Microsoft.WindowsAzure.Commands.Websites
                     // Handle conflict - it's ok to attempt to use cmdlet on an
                     // existing website if you're updating the source control stuff.
                     WriteWarning(ex.Message);
+                    createdWebsite = WebsitesClient.GetWebsite(website.Name, null);
                 }
                 else if (HostNameValidationFailed(ex))
                 {
@@ -376,6 +408,8 @@ namespace Microsoft.WindowsAzure.Commands.Websites
                     WriteExceptionError(new Exception(ex.Message));
                 }
             }
+
+            return createdWebsite;
         }
 
         public Action<string> GetLogger()
