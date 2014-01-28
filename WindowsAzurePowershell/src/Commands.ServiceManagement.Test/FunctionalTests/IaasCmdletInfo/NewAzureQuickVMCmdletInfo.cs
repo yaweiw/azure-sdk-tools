@@ -92,6 +92,28 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
             }
         }
 
+        public NewAzureQuickVMCmdletInfo(OS os, string name, string serviceName, string imageName, InstanceSize? instanceSize, string userName, string password, string vNetName, string[] subnetNames, string affinityGroup)
+            : this(os, name, serviceName, imageName, userName, password)
+        {
+            if (!string.IsNullOrEmpty(affinityGroup))
+            {
+                cmdletParams.Add(new CmdletParam("AffinityGroup", affinityGroup));
+            }
+            if (instanceSize.HasValue)
+            {
+                cmdletParams.Add(new CmdletParam("InstanceSize", instanceSize.ToString()));
+            }
+            if (!string.IsNullOrEmpty(vNetName))
+            {
+                cmdletParams.Add(new CmdletParam("VNetName", vNetName));
+            }
+            if (subnetNames != null)
+            {
+                cmdletParams.Add(new CmdletParam("SubnetNames", subnetNames));
+            }                      
+
+        }
+
         public NewAzureQuickVMCmdletInfo(
 
             OS os,
