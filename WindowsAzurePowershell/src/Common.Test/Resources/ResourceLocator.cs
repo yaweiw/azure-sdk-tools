@@ -11,7 +11,7 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Commands.Test.Utilities.Resources
+namespace Microsoft.WindowsAzure.Commands.Common.Test.Resources
 {
     /// <summary>
     /// A dummy class used to located the resources in this folder/namespace.
