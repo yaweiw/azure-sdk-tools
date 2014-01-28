@@ -26,10 +26,9 @@ namespace Microsoft.WindowsAzure.Commands.Websites
         [Parameter(Mandatory = false)]
         public SwitchParameter PassThru { get; set; }
 
-
         public override void ExecuteCmdlet()
         {
-            WebsitesClient.StartAzureWebsite(Name);
+            WebsitesClient.StartWebsite(Name, Slot);
 
             if (PassThru.IsPresent)
             {

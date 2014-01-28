@@ -53,6 +53,11 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Model.ResourceModel
         public DateTimeOffset? SnapshotTime  { get; private set; }
 
         /// <summary>
+        /// Blob continuation token
+        /// </summary>
+        public BlobContinuationToken ContinuationToken { get; set; }
+
+        /// <summary>
         /// Azure storage blob constructor
         /// </summary>
         /// <param name="blob">ICloud blob object</param>

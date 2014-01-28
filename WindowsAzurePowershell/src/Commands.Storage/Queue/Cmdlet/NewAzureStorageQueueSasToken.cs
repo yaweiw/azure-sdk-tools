@@ -14,15 +14,12 @@
 
 namespace Microsoft.WindowsAzure.Commands.Storage.Queue.Cmdlet
 {
+    using System;
+    using System.Management.Automation;
+    using System.Security.Permissions;
     using Microsoft.WindowsAzure.Commands.Storage.Common;
     using Microsoft.WindowsAzure.Commands.Storage.Model.Contract;
     using Microsoft.WindowsAzure.Storage.Queue;
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Management.Automation;
-    using System.Security.Permissions;
-    using System.Text;
 
     [Cmdlet(VerbsCommon.New, StorageNouns.QueueSas), OutputType(typeof(String))]
     public class NewAzureStorageQueueSasTokenCommand : StorageQueueBaseCmdlet
@@ -65,6 +62,10 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Queue.Cmdlet
 
         [Parameter(Mandatory = false, HelpMessage = "Display full uri with sas token")]
         public SwitchParameter FullUri { get; set; }
+
+        //Override the useless parameters
+        public override int? ServerTimeoutPerRequest { get; set; }
+        public override int? ClientTimeoutPerRequest { get; set; }
 
         /// <summary>
         /// Initializes a new instance of the NewAzureStorageQueueSasCommand class.

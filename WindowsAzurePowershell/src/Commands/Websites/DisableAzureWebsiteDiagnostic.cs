@@ -41,12 +41,12 @@ namespace Microsoft.WindowsAzure.Commands.Websites
             {
                 if (File.IsPresent)
                 {
-                    WebsitesClient.DisableApplicationDiagnostic(Name, WebsiteDiagnosticOutput.FileSystem);
+                    WebsitesClient.DisableApplicationDiagnostic(Name, WebsiteDiagnosticOutput.FileSystem, Slot);
                 }
 
                 if (Storage.IsPresent)
                 {
-                    WebsitesClient.DisableApplicationDiagnostic(Name, WebsiteDiagnosticOutput.StorageTable);
+                    WebsitesClient.DisableApplicationDiagnostic(Name, WebsiteDiagnosticOutput.StorageTable, Slot);
                 }
             }
 
