@@ -78,6 +78,8 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
             }
         }
 
+
+
         //DomainJoinParameterSet with X509Certificate2 Certificate
         public SetAzureServiceDomainJoinExtensionCmdletInfo(string domainName, X509Certificate2 x509Certificate,
             JoinOptions? options, PSCredential unjoinDomainCredential, string[] role, string slot, string serviceName,
@@ -86,7 +88,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
         {
             if (x509Certificate != null)
             {
-                this.cmdletParams.Add(new CmdletParam("X509Certificate2", x509Certificate));
+                this.cmdletParams.Add(new CmdletParam("X509Certificate", x509Certificate));
             }
             if (options.HasValue)
             {
@@ -104,7 +106,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
             {
                 this.cmdletParams.Add(new CmdletParam("X509Certificate2", x509Certificate));
             }
-            if (!joinOption.HasValue)
+            if (joinOption.HasValue)
             {
                 this.cmdletParams.Add(new CmdletParam("JoinOption", joinOption.Value));
             }
@@ -144,7 +146,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
 
         //DomainJoinParameterSet with Workgroup name
         public SetAzureServiceDomainJoinExtensionCmdletInfo(string workGroupName, X509Certificate2 x509Certificate,
-            string[] role, string slot, string serviceName, string thumbprintAlgorithm, bool restart,
+            string[] role, string slot, string serviceName, bool restart, string thumbprintAlgorithm,
             PSCredential credential)
             : this(DomainJoinExtensionParameterSetType.WorkGroupName, workGroupName, role, slot, serviceName, thumbprintAlgorithm, restart, credential)
         {
@@ -162,6 +164,17 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
             if (!string.IsNullOrEmpty(certificateThumbprint))
             {
                 this.cmdletParams.Add(new CmdletParam("CertificateThumbprint", certificateThumbprint));
+            }
+        }
+
+        public SetAzureServiceDomainJoinExtensionCmdletInfo(string workGroupName, X509Certificate2 x509Certificate,
+            string[] role, string slot, string serviceName, bool restart, string thumbprintAlgorithm,
+            PSCredential credential,PSCredential unjoinCredential)
+            : this(DomainJoinExtensionParameterSetType.WorkGroupName, workGroupName, role, slot, serviceName, thumbprintAlgorithm, restart, credential)
+        {
+            if (x509Certificate != null)
+            {
+                this.cmdletParams.Add(new CmdletParam("X509Certificate2", x509Certificate));
             }
         }
     }

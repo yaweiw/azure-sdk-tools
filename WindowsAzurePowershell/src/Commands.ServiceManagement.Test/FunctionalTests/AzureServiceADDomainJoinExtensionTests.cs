@@ -41,12 +41,12 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
         private PSCredential _cred;
 
         const string CerFileName = "testcert.cer";
-        const string DomainName = "djtest.com";
+        const string DomainName = "proddjtest.com";
         const string ThumbprintAlgorithm = "sha1";
 
         const string DeploymentNamePrefix = "psdeployment";
         const string DeploymentLabelPrefix = "psdeploymentlabel";
-        private const string DomainUserName = "pstestuser@djtest.com";
+        private const string DomainUserName = "pstestuser@proddjtest.com";
         private const string AffinityGroupName = "WestUsAffinityGroup";
 
         // Choose the package and config files from local machine
@@ -75,6 +75,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
             testStartTime = DateTime.Now;
         }
 
+        #region join domain cmdlet tests
         [TestMethod(), TestCategory("ADDomain"), TestProperty("Feature", "PAAS"), Priority(0), Owner("hylee"), Description("Test the cmdlet ((Get,Set,Remove)-AzureServiceADDomainExtension)")]
         [DataSource("Microsoft.VisualStudio.TestTools.DataSource.CSV", "|DataDirectory|\\Resources\\packageADDomain.csv", "packageADDomain#csv", DataAccessMethod.Sequential)]
         public void SetAzureServiceDomainJoinExtensionwithDefaultParamterSetTest()
@@ -87,7 +88,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
                 NewAzureDeployment();
 
                 //Join Domain with default parameter set.
-                Console.Write("Joining domain with default parameter set");
+                Console.WriteLine("Joining domain with default parameter set");
                 vmPowershellCmdlets.SetAzureServiceDomainJoinExtension(DomainName, _cred, 35, true, _serviceName,
                     DeploymentSlotType.Production, null);
                 Console.WriteLine("Servie {0} added to domain {1} successfully.", _serviceName, DomainName);
@@ -119,7 +120,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
                 NewAzureDeployment();
 
                 //Join Domian with DomainJoinParmaterSet with JoinOptions.JoinDomain
-                Console.Write("Joining domain with domain join parameter set with JoinOptions.JoinDomain");
+                Console.WriteLine("Joining domain with domain join parameter set with JoinOptions.JoinDomain");
 
                 vmPowershellCmdlets.SetAzureServiceDomainJoinExtension(DomainName, _cred, JoinOptions.JoinDomain, true,
                     _serviceName, DeploymentSlotType.Production, _role);
@@ -151,7 +152,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
                 NewAzureDeployment();
 
                 //Join Domian with DomainParmaterSet
-                Console.Write("Joining domain with domian parameter set");
+                Console.WriteLine("Joining domain with domian parameter set");
                 vmPowershellCmdlets.SetAzureServiceDomainJoinExtension(DomainName, _cred, null, true, _serviceName,
                     DeploymentSlotType.Production, _role, _installedCert, ThumbprintAlgorithm);
                 Console.WriteLine("Servie {0} added to domain {1} successfully.", _serviceName, DomainName);
@@ -307,7 +308,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
                 //Prepare a new domain join config with default parameter set
                 ExtensionConfigurationInput domainJoinExtensionConfig =
                     vmPowershellCmdlets.NewAzureServiceDomainJoinExtensionConfig(DomainName, null, null, null, null,
-                        _role, null, false, _cred);
+                        _role, null, true, _cred);
 
                 //Create a new Azure Iaas VM and set Domain Join extension, get domain join extension and then remove domain join extension
                 NewAzureDeployment(domainJoinExtensionConfig);
@@ -316,7 +317,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
 
                 RemoveAzureServiceDomainJoinExtesnion(_role);
 
-                vmPowershellCmdlets.RemoveAzureDeployment(_serviceName, DeploymentSlotType.Staging, true);
+                vmPowershellCmdlets.RemoveAzureDeployment(_serviceName, DeploymentSlotType.Production, true);
                 //TO DO: add test cases to test cmdlet with UnjoinCrednetial patameter.
                 pass = true;
             }
@@ -338,13 +339,13 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
                 //Prepare a new domain join config with default parameter set and one of the join options
                 ExtensionConfigurationInput domainJoinExtensionConfig =
                     vmPowershellCmdlets.NewAzureServiceDomainJoinExtensionConfig(DomainName, null,
-                        JoinOptions.JoinDomain, null, null, null, null, false, _cred);
+                        JoinOptions.JoinDomain, null, null, null, null, true, _cred);
 
                 //Create a new Azure Iaas VM and set Domain Join extension, get domain join extension and then remove domain join extension
                 NewAzureDeployment(domainJoinExtensionConfig);
                 GetAzureServiceDomainJoinExtension();
                 RemoveAzureServiceDomainJoinExtesnion();
-                vmPowershellCmdlets.RemoveAzureDeployment(_serviceName, DeploymentSlotType.Staging, true);
+                vmPowershellCmdlets.RemoveAzureDeployment(_serviceName, DeploymentSlotType.Production, true);
 
                 //TO DO: add test cases to test cmdlet with UnjoinCrednetial patameter.
                 pass = true;
@@ -367,7 +368,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
                 //Prepare a new domain join config with DomainParameterSet (using only X509certicate2)
                 ExtensionConfigurationInput domainJoinExtensionConfig =
                     vmPowershellCmdlets.NewAzureServiceDomainJoinExtensionConfig(DomainName, _installedCert, null, null,
-                        null, null, null, false, _cred);
+                        null, null, null, true, _cred);
 
                 NewAzureDeployment(domainJoinExtensionConfig);
 
@@ -405,7 +406,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
 
                 RemoveAzureServiceDomainJoinExtesnion();
 
-                vmPowershellCmdlets.RemoveAzureDeployment(_serviceName, DeploymentSlotType.Staging, true);
+                vmPowershellCmdlets.RemoveAzureDeployment(_serviceName, DeploymentSlotType.Production, true);
                 pass = true;
             }
             catch (Exception e)
@@ -426,7 +427,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
                 //Prepare a new domain join config with DomianThumbprintParameterSet
                 ExtensionConfigurationInput domainJoinExtensionConfig =
                     vmPowershellCmdlets.NewAzureServiceDomainJoinExtensionConfig(DomainName, _installedCert.Thumbprint,
-                        null, null, _role, ThumbprintAlgorithm, null, false, _cred);
+                        null, null, _role, ThumbprintAlgorithm, null, true, _cred);
 
                 NewAzureDeployment(domainJoinExtensionConfig);
 
@@ -434,7 +435,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
 
                 RemoveAzureServiceDomainJoinExtesnion(_role);
 
-                vmPowershellCmdlets.RemoveAzureDeployment(_serviceName, DeploymentSlotType.Staging, true);
+                vmPowershellCmdlets.RemoveAzureDeployment(_serviceName, DeploymentSlotType.Production, true);
                 //TO DO: add test cases to test cmdlet with UnjoinCrednetial patameter.
                 pass = true;
             }
@@ -456,7 +457,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
                 //Prepare a new domain join config with default parameter set and joinOption 35
                 ExtensionConfigurationInput domainJoinExtensionConfig =
                     vmPowershellCmdlets.NewAzureServiceDomainJoinExtensionConfig(DomainName, null, null, null, _role,
-                        null, 35, false, _cred);
+                        null, 35, true, _cred);
                 NewAzureDeployment(domainJoinExtensionConfig);
 
                 GetAzureServiceDomainJoinExtension();
@@ -485,7 +486,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
             {
                 ExtensionConfigurationInput domainJoinExtensionConfig =
                     vmPowershellCmdlets.NewAzureServiceDomainJoinExtensionConfig(DomainName, _installedCert.Thumbprint,
-                        null, null, _role, ThumbprintAlgorithm, 35, false, _cred);
+                        null, null, _role, ThumbprintAlgorithm, 35, true, _cred);
 
                 NewAzureDeployment(domainJoinExtensionConfig);
 
@@ -493,7 +494,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
 
                 RemoveAzureServiceDomainJoinExtesnion(_role);
 
-                vmPowershellCmdlets.RemoveAzureDeployment(_serviceName, DeploymentSlotType.Staging, true);
+                vmPowershellCmdlets.RemoveAzureDeployment(_serviceName, DeploymentSlotType.Production, true);
 
                 //TO DO: add test cases to test cmdlet with UnjoinCrednetial patameter.
                 pass = true;
@@ -504,6 +505,315 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
                 throw;
             }
         }
+        #endregion join domain cmdlet tests
+
+        #region join workgroup cmdlet tests
+        [TestMethod(), TestCategory("ADDomain"), TestProperty("Feature", "PAAS"), Priority(0), Owner("hylee"), Description("Test the cmdlet ((Get,Set,Remove)-AzureServiceADDomainExtension)")]
+        [DataSource("Microsoft.VisualStudio.TestTools.DataSource.CSV", "|DataDirectory|\\Resources\\packageADDomain.csv", "packageADDomain#csv", DataAccessMethod.Sequential)]
+        public void SetAzureServiceDomainJoinExtensionwithWorkGroupDefaultParamterSetTest()
+        {
+            StartTest(MethodBase.GetCurrentMethod().Name, testStartTime);
+            Console.WriteLine(_cred.UserName);
+            try
+            {
+                string workgroup = "WORKGROUP1";
+                //Create a new Azure Iaas VM and set Domain Join extension, get domain join extension and then remove domain join extension
+                NewAzureDeployment();
+
+                //Join Domain with default parameter set.
+                Console.WriteLine("Joining domain with Workgroup default parameter set");
+                vmPowershellCmdlets.SetAzureServiceDomainJoinExtension(workgroup, _serviceName, DeploymentSlotType.Production, null, null, true, null, null);
+
+                Console.WriteLine("Servie {0} added to workgroup {1} successfully.", _serviceName, workgroup);
+
+                GetAzureServiceDomainJoinExtension();
+
+                RemoveAzureServiceDomainJoinExtesnion();
+
+                vmPowershellCmdlets.RemoveAzureDeployment(_serviceName, DeploymentSlotType.Production, true);
+                pass = true;
+
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("Exception occurred: {0}", e);
+                throw;
+            }
+        }
+
+        [TestMethod(), TestCategory("ADDomain"), TestProperty("Feature", "PAAS"), Priority(0), Owner("hylee"), Description("Test the cmdlet ((Get,Set,Remove)-AzureServiceADDomainExtension)")]
+        [DataSource("Microsoft.VisualStudio.TestTools.DataSource.CSV", "|DataDirectory|\\Resources\\packageADDomain.csv", "packageADDomain#csv", DataAccessMethod.Sequential)]
+        public void UpdateWorkGroupWithSetAzureDomainJoinExtensionTest()
+        {
+            StartTest(MethodBase.GetCurrentMethod().Name, testStartTime);
+            Console.WriteLine(_cred.UserName);
+            try
+            {
+                string workgroup1 = "WORKGROUP1";
+                string workgroup2 = "WORKGROUP2";
+                //Create a new Azure Iaas VM and set Domain Join extension, get domain join extension and then remove domain join extension
+                NewAzureDeployment();
+
+                //Join Domain with default parameter set.
+                Console.WriteLine("Joining domain with Workgroup default parameter set");
+                vmPowershellCmdlets.SetAzureServiceDomainJoinExtension(workgroup1, _serviceName, DeploymentSlotType.Production, null, restart: true,credential: _cred);
+                Console.WriteLine("Servie {0} added to workgroup {1} successfully.", _serviceName, workgroup1);
+
+                GetAzureServiceDomainJoinExtension();
+
+                Console.WriteLine("Joining domain with Workgroup default parameter set");
+                vmPowershellCmdlets.SetAzureServiceDomainJoinExtension(workgroup2, _serviceName, DeploymentSlotType.Production, null, restart: true);
+                Console.WriteLine("Servie {0} added to workgroup {1} successfully.", _serviceName, workgroup2);
+
+                RemoveAzureServiceDomainJoinExtesnion();
+
+                vmPowershellCmdlets.RemoveAzureDeployment(_serviceName, DeploymentSlotType.Production, true);
+                pass = true;
+
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("Exception occurred: {0}", e);
+                throw;
+            }
+        }
+
+        [TestMethod(), TestCategory("ADDomain"), TestProperty("Feature", "PAAS"), Priority(0), Owner("hylee"), Description("Test the cmdlet ((Get,Set,Remove)-AzureServiceADDomainExtension)")]
+        [DataSource("Microsoft.VisualStudio.TestTools.DataSource.CSV", "|DataDirectory|\\Resources\\packageADDomain.csv", "packageADDomain#csv", DataAccessMethod.Sequential)]
+        public void JoinDomainAndUpdateToWorkGroupWithSetAzureDomainJoinExtensionTest()
+        {
+            StartTest(MethodBase.GetCurrentMethod().Name, testStartTime);
+            Console.WriteLine(_cred.UserName);
+            try
+            {
+                string workgroup1 = "WORKGROUP1";
+                //Create a new Azure Iaas VM and set Domain Join extension, get domain join extension and then remove domain join extension
+                NewAzureDeployment();
+
+                //Join Domain with default parameter set.
+                Console.WriteLine("Joining domain with default parameter set");
+                
+                vmPowershellCmdlets.SetAzureServiceDomainJoinExtension(DomainName, _cred, 35, true, _serviceName, DeploymentSlotType.Production, null, unjoinDomainCredential: _cred);
+                Console.WriteLine("Servie {0} added to domain {1} successfully.", _serviceName, DomainName);
+
+                GetAzureServiceDomainJoinExtension();
+
+                //Join workgroup
+                Console.WriteLine("Joining domain with Workgroup default parameter set");
+                vmPowershellCmdlets.SetAzureServiceDomainJoinExtension(workgroup1, _serviceName, DeploymentSlotType.Production, null, null, true, null, null);
+                //vmPowershellCmdlets.SetAzureServiceDomainJoinExtension(workgroup1, _serviceName, DeploymentSlotType.Production, null, restart: true);
+                Console.WriteLine("Servie {0} added to workgroup {1} successfully.", _serviceName, workgroup1);
+
+                GetAzureServiceDomainJoinExtension();
+
+                RemoveAzureServiceDomainJoinExtesnion();
+
+                vmPowershellCmdlets.RemoveAzureDeployment(_serviceName, DeploymentSlotType.Production, true);
+                pass = true;
+
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("Exception occurred: {0}", e);
+                throw;
+            }
+        }
+
+        [TestMethod(), TestCategory("ADDomain"), TestProperty("Feature", "PAAS"), Priority(0), Owner("hylee"), Description("Test the cmdlet ((Get,Set,Remove)-AzureServiceADDomainExtension)")]
+        [DataSource("Microsoft.VisualStudio.TestTools.DataSource.CSV", "|DataDirectory|\\Resources\\packageADDomain.csv", "packageADDomain#csv", DataAccessMethod.Sequential)]
+        public void JoinWorkgroupAndThenJoinDomainWithSetAzureDomainJoinExtensionTest()
+        {
+            StartTest(MethodBase.GetCurrentMethod().Name, testStartTime);
+            Console.WriteLine(_cred.UserName); 
+            try
+            {
+                string workgroup1 = "WORKGROUP1";
+                //Create a new Azure Iaas VM and set Domain Join extension, get domain join extension and then remove domain join extension
+                NewAzureDeployment();
+
+                //Join workgroup
+                Console.WriteLine("Joining domain with Workgroup default parameter set");
+                vmPowershellCmdlets.SetAzureServiceDomainJoinExtension(workgroup1, _serviceName, DeploymentSlotType.Production, null, restart: true);
+                Console.WriteLine("Servie {0} added to workgroup {1} successfully.", _serviceName, workgroup1);
+
+                GetAzureServiceDomainJoinExtension();
+
+                //Join Domain with default parameter set.
+                Console.WriteLine("Joining domain with default parameter set");
+                vmPowershellCmdlets.SetAzureServiceDomainJoinExtension(DomainName, _cred, 35, true, _serviceName, DeploymentSlotType.Production, null, unjoinDomainCredential: _cred);
+                Console.WriteLine("Servie {0} added to domain {1} successfully.", _serviceName, DomainName);
+
+                GetAzureServiceDomainJoinExtension();
+
+                RemoveAzureServiceDomainJoinExtesnion();
+
+                vmPowershellCmdlets.RemoveAzureDeployment(_serviceName, DeploymentSlotType.Production, true);
+                pass = true;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("Exception occurred: {0}", e);
+                throw;
+            }
+        }
+
+        [TestMethod(), TestCategory("ADDomain"), TestProperty("Feature", "PAAS"), Priority(0), Owner("hylee"), Description("Test the cmdlet ((Get,Set,Remove)-AzureServiceADDomainExtension)")]
+        [DataSource("Microsoft.VisualStudio.TestTools.DataSource.CSV", "|DataDirectory|\\Resources\\packageADDomain.csv", "packageADDomain#csv", DataAccessMethod.Sequential)]
+        public void SetAzureServiceDomainJoinExtensionwithWorkGroupThumbprintParamterSetTest()
+        {
+            StartTest(MethodBase.GetCurrentMethod().Name, testStartTime);
+            Console.WriteLine(_cred.UserName);
+            try
+            {
+                string workgroup = "WORKGROUP1";
+                //Create a new Azure Iaas VM and set Domain Join extension, get domain join extension and then remove domain join extension
+                NewAzureDeployment();
+
+                //Join Domain with default parameter set.
+                Console.WriteLine("Joining domain with Workgroup thumbprint parameter set");
+                vmPowershellCmdlets.SetAzureServiceDomainJoinExtension(workgroup, _serviceName, DeploymentSlotType.Production, _role, _installedCert.Thumbprint,ThumbprintAlgorithm,true);
+                Console.WriteLine("Servie {0} added to workgroup {1} successfully.", _serviceName, workgroup);
+
+                GetAzureServiceDomainJoinExtension();
+
+                RemoveAzureServiceDomainJoinExtesnion();
+
+                vmPowershellCmdlets.RemoveAzureDeployment(_serviceName, DeploymentSlotType.Production, true);
+                pass = true;
+
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("Exception occurred: {0}", e);
+                throw;
+            }
+        }
+
+        [TestMethod(), TestCategory("ADDomain"), TestProperty("Feature", "PAAS"), Priority(0), Owner("hylee"), Description("Test the cmdlet ((Get,Set,Remove)-AzureServiceADDomainExtension)")]
+        [DataSource("Microsoft.VisualStudio.TestTools.DataSource.CSV", "|DataDirectory|\\Resources\\packageADDomain.csv", "packageADDomain#csv", DataAccessMethod.Sequential)]
+        public void SetAzureServiceDomainJoinExtensionwithWorkGroupCertificateParamterSetTest()
+        {
+            StartTest(MethodBase.GetCurrentMethod().Name, testStartTime);
+            Console.WriteLine(_cred.UserName);
+            try
+            {
+                string workgroup = "WORKGROUP1";
+                //Create a new Azure Iaas VM and set Domain Join extension, get domain join extension and then remove domain join extension
+                NewAzureDeployment();
+
+                //Join Domain with default parameter set.
+                Console.WriteLine("Joining domain with Workgroup certificate parameter set");
+                vmPowershellCmdlets.SetAzureServiceDomainJoinExtension(workgroup, _serviceName, DeploymentSlotType.Production, null, _installedCert, true, null, null);
+
+                Console.WriteLine("Servie {0} added to workgroup {1} successfully.", _serviceName, workgroup);
+
+                GetAzureServiceDomainJoinExtension();
+
+                RemoveAzureServiceDomainJoinExtesnion();
+
+                vmPowershellCmdlets.RemoveAzureDeployment(_serviceName, DeploymentSlotType.Production, true);
+                pass = true;
+
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("Exception occurred: {0}", e);
+                throw;
+            }
+        }
+
+        [TestMethod(), TestCategory("ADDomain"), TestProperty("Feature", "PAAS"), Priority(1), Owner("hylee"), Description("Test the cmdlet ((New)-AzureServiceADDomainExtensionConfig)")]
+        [DataSource("Microsoft.VisualStudio.TestTools.DataSource.CSV", "|DataDirectory|\\Resources\\packageADDomain.csv", "packageADDomain#csv", DataAccessMethod.Sequential)]
+        public void NewAzureServiceDomainJoinExtensionConfigWithWorkgroupDefaultParmateSetTests()
+        {
+            StartTest(MethodBase.GetCurrentMethod().Name, testStartTime);
+
+            try
+            {
+                string workgroup = "WORKGROUP1";
+                //Prepare a new domain join config with workgroup default parameter set
+                ExtensionConfigurationInput domainJoinExtensionConfig = vmPowershellCmdlets.NewAzureServiceDomainJoinExtensionConfig(workgroup, null, true,credential: _cred);
+
+                //Create a new Azure Iaas VM and set Domain Join extension, get domain join extension and then remove domain join extension
+                NewAzureDeployment(domainJoinExtensionConfig);
+
+                GetAzureServiceDomainJoinExtension();
+
+                RemoveAzureServiceDomainJoinExtesnion(_role);
+
+                vmPowershellCmdlets.RemoveAzureDeployment(_serviceName, DeploymentSlotType.Production, true);
+                //TO DO: add test cases to test cmdlet with UnjoinCrednetial patameter.
+                pass = true;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("Exception occurred: {0}", e);
+                throw;
+            }
+        }
+
+        [TestMethod(), TestCategory("ADDomain"), TestProperty("Feature", "PAAS"), Priority(1), Owner("hylee"), Description("Test the cmdlet ((New)-AzureServiceADDomainExtensionConfig)")]
+        [DataSource("Microsoft.VisualStudio.TestTools.DataSource.CSV", "|DataDirectory|\\Resources\\packageADDomain.csv", "packageADDomain#csv", DataAccessMethod.Sequential)]
+        public void NewAzureServiceDomainJoinExtensionConfigWithWorkgroupThumbprintParmateSetTests()
+        {
+            StartTest(MethodBase.GetCurrentMethod().Name, testStartTime);
+
+            try
+            {
+                string workgroup = "WORKGROUP1";
+                //Prepare a new domain join config with workgroup default parameter set
+                ExtensionConfigurationInput domainJoinExtensionConfig = vmPowershellCmdlets.NewAzureServiceDomainJoinExtensionConfig(workgroup, _installedCert.Thumbprint,null, true, thumbprintAlgorithm: ThumbprintAlgorithm);
+
+                //Create a new Azure Iaas VM and set Domain Join extension, get domain join extension and then remove domain join extension
+                NewAzureDeployment(domainJoinExtensionConfig);
+
+                GetAzureServiceDomainJoinExtension();
+
+                RemoveAzureServiceDomainJoinExtesnion(_role);
+
+                vmPowershellCmdlets.RemoveAzureDeployment(_serviceName, DeploymentSlotType.Production, true);
+                //TO DO: add test cases to test cmdlet with UnjoinCrednetial patameter.
+                pass = true;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("Exception occurred: {0}", e);
+                throw;
+            }
+        }
+
+        [TestMethod(), TestCategory("ADDomain"), TestProperty("Feature", "PAAS"), Priority(1), Owner("hylee"), Description("Test the cmdlet ((New)-AzureServiceADDomainExtensionConfig)")]
+        [DataSource("Microsoft.VisualStudio.TestTools.DataSource.CSV", "|DataDirectory|\\Resources\\packageADDomain.csv", "packageADDomain#csv", DataAccessMethod.Sequential)]
+        public void NewAzureServiceDomainJoinExtensionConfigWithWorkgroupCertificateParmateSetTests()
+        {
+            StartTest(MethodBase.GetCurrentMethod().Name, testStartTime);
+
+            try
+            {
+                string workgroup = "WORKGROUP1";
+                //Prepare a new domain join config with workgroup default parameter set
+                ExtensionConfigurationInput domainJoinExtensionConfig = vmPowershellCmdlets.NewAzureServiceDomainJoinExtensionConfig(workgroup, _installedCert,true);
+
+                //Create a new Azure Iaas VM and set Domain Join extension, get domain join extension and then remove domain join extension
+                NewAzureDeployment(domainJoinExtensionConfig);
+
+                GetAzureServiceDomainJoinExtension();
+
+                RemoveAzureServiceDomainJoinExtesnion(_role);
+
+                vmPowershellCmdlets.RemoveAzureDeployment(_serviceName, DeploymentSlotType.Production, true);
+                //TO DO: add test cases to test cmdlet with UnjoinCrednetial patameter.
+                pass = true;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("Exception occurred: {0}", e);
+                throw;
+            }
+        }
+
+
+        #endregion join workgroup cmdlet tests
 
         private void InstallCertificate()
         {
