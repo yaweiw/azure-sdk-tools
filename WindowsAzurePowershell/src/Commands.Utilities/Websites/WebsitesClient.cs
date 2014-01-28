@@ -1001,45 +1001,59 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
         {
             options.Name = SetWebsiteName(options.Name, options.Slot);
             IWebSiteExtensionsClient client = GetWebSiteExtensionsClient(options.Name);
+            List<WebJob> result = new List<WebJob>();
 
             if (string.IsNullOrEmpty(options.JobName) && string.IsNullOrEmpty(options.JobType))
             {
-                return client.WebJobs.List(new WebJobListParameters()).Jobs.ToList();
+                result = client.WebJobs.List(new WebJobListParameters()).Jobs.ToList();
             }
             else if (string.IsNullOrEmpty(options.JobName) && !string.IsNullOrEmpty(options.JobType))
             {
                 if (string.Compare(options.JobType, WebJobType.Continuous.ToString(), true) == 0)
                 {
-                    return client.WebJobs.ListContinuous(new WebJobListParameters()).Jobs.ToList();
+                    result = client.WebJobs.ListContinuous(new WebJobListParameters()).Jobs.ToList();
                 }
                 else if (string.Compare(options.JobType, WebJobType.Triggered.ToString(), true) == 0)
                 {
-                    return client.WebJobs.ListTriggered(new WebJobListParameters()).Jobs.ToList();
+                    result = client.WebJobs.ListTriggered(new WebJobListParameters()).Jobs.ToList();
                 }
                 else
                 {
-                    throw new ArgumentOutOfRangeException("options.JobType");
+                    throw new ArgumentOutOfRangeException("JobType");
                 }
             }
             else if (!string.IsNullOrEmpty(options.JobName) && !string.IsNullOrEmpty(options.JobType))
             {
                 if (string.Compare(options.JobType, WebJobType.Continuous.ToString(), true) == 0)
                 {
-                    return new List<WebJob>() { client.WebJobs.GetContinuous(options.JobName).WebJob };
+                    result = new List<WebJob>() { client.WebJobs.GetContinuous(options.JobName).WebJob };
                 }
                 else if (string.Compare(options.JobType, WebJobType.Triggered.ToString(), true) == 0)
                 {
-                    return new List<WebJob>() { client.WebJobs.GetTriggered(options.JobName).WebJob };
+                    result = new List<WebJob>() { client.WebJobs.GetTriggered(options.JobName).WebJob };
                 }
                 else
                 {
-                    throw new ArgumentOutOfRangeException("options.JobType");
+                    throw new ArgumentOutOfRangeException("JobType");
                 }
             }
             else
             {
-                throw new ArgumentOutOfRangeException("options");
+                if (string.IsNullOrEmpty(options.JobName))
+                {
+                    throw new ArgumentOutOfRangeException("JobName");
+                }
+                else if (string.IsNullOrEmpty(options.JobType))
+                {
+                    throw new ArgumentOutOfRangeException("JobType");
+                }
+                else
+                {
+                    throw new ArgumentOutOfRangeException("options");
+                }
             }
+
+            return result;
         }
 
         /// <summary>
@@ -1091,7 +1105,14 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
             name = SetWebsiteName(name, slot);
             IWebSiteExtensionsClient client = GetWebSiteExtensionsClient(name);
 
-            throw new NotImplementedException();
+            if (jobType == WebJobType.Continuous)
+            {
+                client.WebJobs.StartContinous(jobName);
+            }
+            else
+            {
+                client.WebJobs.RunTriggered(jobName);
+            }
         }
 
         /// <summary>
@@ -1106,7 +1127,14 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
             name = SetWebsiteName(name, slot);
             IWebSiteExtensionsClient client = GetWebSiteExtensionsClient(name);
 
-            throw new NotImplementedException();
+            if (jobType == WebJobType.Continuous)
+            {
+                client.WebJobs.StopContinous(jobName);
+            }
+            else
+            {
+                throw new InvalidOperationException();
+            }
         }
 
         /// <summary>
