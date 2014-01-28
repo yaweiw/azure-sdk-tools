@@ -14,13 +14,12 @@
 
 namespace Microsoft.WindowsAzure.Commands.Test.Websites
 {
-    using System.Collections.Generic;
-    using System.Management.Automation;
     using Commands.Utilities.Websites;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
-    using Microsoft.WindowsAzure.Commands.Utilities.Websites.Services;
     using Microsoft.WindowsAzure.Commands.Websites.WebJobs;
+    using Microsoft.WindowsAzure.WebSitesExtensions.Models;
     using Moq;
+    using System.Management.Automation;
     using Utilities.Websites;
 
     [TestClass]
@@ -56,10 +55,9 @@ namespace Microsoft.WindowsAzure.Commands.Test.Websites
         {
             // Setup
             string jobName = "myWebJob";
-            WebJobType jobType = WebJobType.Triggered;
+            WebJobType jobType = WebJobType.Continuous;
             websitesClientMock.Setup(f => f.StopWebJob(websiteName, slot, jobName, jobType)).Verifiable();
             cmdlet.JobName = jobName;
-            cmdlet.JobType = jobType;
 
             // Test
             cmdlet.ExecuteCmdlet();
