@@ -75,7 +75,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.Websites
         {
             // Setup
             string jobName = "webJobName";
-            string type = WebJobType.Continuous.ToString();
+            WebJobType type = WebJobType.Continuous;
             List<WebJob> output = new List<WebJob>() { new WebJob() { Name = jobName, Type = type } };
             WebJobFilterOptions options = null;
             websitesClientMock.Setup(f => f.FilterWebJobs(It.IsAny<WebJobFilterOptions>()))
@@ -83,7 +83,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.Websites
                 .Callback((WebJobFilterOptions actual) => options = actual)
                 .Verifiable();
             cmdlet.JobName = jobName;
-            cmdlet.JobType = type;
+            cmdlet.JobType = type.ToString();
 
             // Test
             cmdlet.ExecuteCmdlet();
@@ -100,9 +100,9 @@ namespace Microsoft.WindowsAzure.Commands.Test.Websites
             string jobName1 = "webJobName1";
             string jobName2 = "webJobName2";
             string jobName3 = "webJobName3";
-            string type1 = WebJobType.Continuous.ToString();
-            string type2 = WebJobType.Continuous.ToString();
-            string type3 = WebJobType.Triggered.ToString();
+            WebJobType type1 = WebJobType.Continuous;
+            WebJobType type2 = WebJobType.Continuous;
+            WebJobType type3 = WebJobType.Triggered;
             WebJobFilterOptions options = null;
             List<WebJob> output = new List<WebJob>() {
                 new WebJob() { Name = jobName1, Type = type1 },
