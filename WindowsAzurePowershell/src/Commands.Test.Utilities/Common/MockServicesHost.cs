@@ -26,7 +26,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.Utilities.Common
     using Management.Compute;
     using Management.Compute.Models;
     using Moq;
-    
+
     /// <summary>
     /// This class simulates querying and updating hosted services.
     /// </summary>
