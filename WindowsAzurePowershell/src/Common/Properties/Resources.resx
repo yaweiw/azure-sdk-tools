@@ -1464,4 +1464,7 @@ use and privacy statement at &lt;url&gt; and (c) agree to sharing my contact inf
   <data name="YesHint" xml:space="preserve">
     <value>Yes, I agree</value>
   </data>
+  <data name="BlobAlreadyExistsInTheAccount" xml:space="preserve">
+    <value>Blob with the name {0} already exists in the account.</value>
+  </data>
 </root>
