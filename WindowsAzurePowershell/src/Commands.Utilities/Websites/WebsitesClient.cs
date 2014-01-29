@@ -17,6 +17,9 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
     using CloudService;
     using Management.WebSites;
     using Management.WebSites.Models;
+    using Microsoft.WindowsAzure.Commands.Utilities.Websites.Services.WebJobs;
+    using Microsoft.WindowsAzure.WebSitesExtensions;
+    using Microsoft.WindowsAzure.WebSitesExtensions.Models;
     using Newtonsoft.Json.Linq;
     using Properties;
     using Services;
@@ -24,16 +27,13 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
     using Services.WebEntities;
     using System;
     using System.Collections.Generic;
+    using System.Diagnostics;
+    using System.IO;
     using System.Linq;
     using System.Net;
     using System.Net.Http;
     using System.Web;
     using Utilities.Common;
-    using System.Diagnostics;
-    using System.Globalization;
-    using Microsoft.WindowsAzure.Commands.Utilities.Websites.Services.WebJobs;
-    using Microsoft.WindowsAzure.WebSitesExtensions;
-    using Microsoft.WindowsAzure.WebSitesExtensions.Models;
 
     public class WebsitesClient : IWebsitesClient
     {
@@ -1072,10 +1072,24 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
                 throw new InvalidOperationException(Resources.InvalidWebJobSingleton);
             }
 
+            WebJobFilterOptions options = new WebJobFilterOptions() { Name = name, Slot = slot, JobName = jobName, JobType = jobType.ToString() };
             name = SetWebsiteName(name, slot);
             IWebSiteExtensionsClient client = GetWebSiteExtensionsClient(name);
 
-            throw new NotImplementedException();
+            switch (jobType)
+            {
+                case WebJobType.Continuous:
+                    client.WebJobs.UploadContinuous(jobName, File.OpenRead(jobFile));
+                    client.WebJobs.SetSingleton(jobName, singleton);
+                    break;
+                case WebJobType.Triggered:
+                    client.WebJobs.UploadTriggered(jobName, File.OpenRead(jobFile));
+                    break;
+                default:
+                    break;
+            }
+
+            return FilterWebJobs(options).FirstOrDefault();
         }
 
         /// <summary>
@@ -1146,8 +1160,22 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
         {
             options.Name = SetWebsiteName(options.Name, options.Slot);
             IWebSiteExtensionsClient client = GetWebSiteExtensionsClient(options.Name);
+            List<WebJobRun> result = new List<WebJobRun>();
 
-            throw new NotImplementedException();
+            if (options.Latest)
+            {
+                result.Add(client.WebJobs.GetTriggered(options.JobName).WebJob.LatestRun);
+            }
+            else if (!string.IsNullOrEmpty(options.RunId))
+            {
+                result.Add(client.WebJobs.GetRun(options.JobName, options.RunId).JobRun);
+            }
+            else
+            {
+                result.AddRange(client.WebJobs.ListRuns(options.JobName, new WebJobRunListParameters()));
+            }
+
+            return result;
         }
 
         /// <summary>
