@@ -208,6 +208,7 @@
     <Compile Include="ServiceBusTests\ServiceBusNamespaceTests.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\WebsiteJobTestCmd.cmd" />
     <Resource Include="Resources\Common.ps1">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
