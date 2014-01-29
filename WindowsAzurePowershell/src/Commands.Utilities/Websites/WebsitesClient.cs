@@ -1003,6 +1003,16 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
             return slotName;
         }
 
+        /// <summary>
+        /// Checks whether a website name is available or not.
+        /// </summary>
+        /// <param name="name">The website name</param>
+        /// <returns>True means available, false otherwise</returns>
+        public bool CheckWebsiteNameAvailability(string name)
+        {
+            return WebsiteManagementClient.WebSites.IsHostnameAvailable(name).IsAvailable;
+        }
+
         #region WebJobs
 
         /// <summary>
