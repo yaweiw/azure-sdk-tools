@@ -482,6 +482,14 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
         /// <param name="output">The output file name</param>
         /// <param name="runId">The job run id</param>
         void SaveWebJobLog(string name, string slot, string jobName, WebJobType jobType, string output, string runId);
+
+        /// <summary>
+        /// Gets the hostname of the website
+        /// </summary>
+        /// <param name="name">The website name</param>
+        /// <param name="slot">The website slot name</param>
+        /// <returns>The hostname</returns>
+        string GetHostName(string name, string slot);
     }
 
     public enum WebsiteState
