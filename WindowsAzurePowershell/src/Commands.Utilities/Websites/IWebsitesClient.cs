@@ -490,6 +490,13 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
         /// <param name="slot">The website slot name</param>
         /// <returns>The hostname</returns>
         string GetHostName(string name, string slot);
+
+        /// <summary>
+        /// Checks whether a website name is available or not.
+        /// </summary>
+        /// <param name="name">The website name</param>
+        /// <returns>True means available, false otherwise</returns>
+        bool CheckWebsiteNameAvailability(string name);
     }
 
     public enum WebsiteState

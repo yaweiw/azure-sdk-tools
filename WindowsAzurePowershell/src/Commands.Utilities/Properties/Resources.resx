@@ -1462,7 +1462,7 @@ Please follow these steps in the portal:
     <value>Swapping website production slot ...</value>
   </data>
   <data name="SwapWebsiteSlotWarning" xml:space="preserve">
-    <value>Are you sure you want to swap the website production slot with slot '{0}'?</value>
+    <value>Are you sure you want to swap the website '{0}' production slot with slot '{1}'?</value>
   </data>
   <data name="InvalidWebJobSingleton" xml:space="preserve">
     <value>Singleton option works for continuous jobs only.</value>
