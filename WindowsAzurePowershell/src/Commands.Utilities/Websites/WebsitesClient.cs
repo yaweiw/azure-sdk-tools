@@ -458,6 +458,32 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
         }
 
         /// <summary>
+        /// Gets the hostname of the website
+        /// </summary>
+        /// <param name="name">The website name</param>
+        /// <param name="slot">The website slot name</param>
+        /// <returns>The hostname</returns>
+        public string GetHostName(string name, string slot)
+        {
+            slot = string.IsNullOrEmpty(slot) ? GetSlotName(name) : slot;
+            name = SetWebsiteName(name, slot);
+            string hostname = null;
+            string dnsSuffix = GetWebsiteDnsSuffix();
+
+            if (!string.IsNullOrEmpty(slot) &&
+                !slot.Equals(WebsiteSlotName.Production.ToString(), StringComparison.OrdinalIgnoreCase))
+            {
+                hostname = string.Format("{0}-{1}.{2}", GetWebsiteNameFromFullName(name), slot, dnsSuffix);
+            }
+            else
+            {
+                hostname = string.Format("{0}.{1}", name, dnsSuffix);
+            }
+
+            return hostname;
+        }
+
+        /// <summary>
         /// Create a new website.
         /// </summary>
         /// <param name="webspaceName">Web space to create site in.</param>
@@ -467,21 +493,8 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
         /// <returns>The created site object</returns>
         public Site CreateWebsite(string webspaceName, SiteWithWebSpace siteToCreate, string slot)
         {
-            slot = string.IsNullOrEmpty(slot) ? GetSlotName(siteToCreate.Name) : slot;
             siteToCreate.Name = SetWebsiteName(siteToCreate.Name, slot);
-            string[] hostNames = new string[1];
-            string dnsSuffix = GetWebsiteDnsSuffix();
-
-            if (!string.IsNullOrEmpty(slot) && 
-                !slot.Equals(WebsiteSlotName.Production.ToString(), StringComparison.OrdinalIgnoreCase))
-            {
-                hostNames[0] = string.Format("{0}-{1}.{2}", GetWebsiteNameFromFullName(siteToCreate.Name), slot, dnsSuffix);
-            }
-            else
-            {
-                hostNames[0] = string.Format("{0}.{1}", siteToCreate.Name, dnsSuffix);
-            }
-
+            string[] hostNames = { GetHostName(siteToCreate.Name, slot) };
             siteToCreate.HostNames = hostNames;
             return CreateWebsite(webspaceName, siteToCreate);
         }

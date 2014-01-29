@@ -14,14 +14,15 @@
 
 namespace Microsoft.WindowsAzure.Commands.Websites
 {
+    using Microsoft.WindowsAzure.Commands.Utilities.Websites;
+    using Microsoft.WindowsAzure.Management.WebSites.Models;
     using System.Collections;
     using System.Collections.Generic;
+    using System.Linq;
     using System.Management.Automation;
+    using Utilities.Common;
     using Utilities.Websites.Common;
     using Utilities.Websites.Services.WebEntities;
-    using Utilities.Common;
-    using Microsoft.WindowsAzure.Management.WebSites.Models;
-    using Microsoft.WindowsAzure.Commands.Utilities.Websites;
 
     /// <summary>
     /// Sets an azure website properties.
@@ -129,10 +130,18 @@ namespace Microsoft.WindowsAzure.Commands.Websites
         {
             if (HostNames != null)
             {
-                string suffix = WebsitesClient.GetWebsiteDnsSuffix(); 
-                var newHostNames = new List<string> { string.Format("{0}.{1}", Name, suffix) };
-                newHostNames.AddRange(HostNames);
-                WebsitesClient.UpdateWebsiteHostNames(website, newHostNames, Slot);
+                string hostname = WebsitesClient.GetHostName(Name, Slot);
+                List<string> newHostNames = new List<string>();
+                if (!HostNames.Contains(hostname))
+                {
+                    newHostNames.Add(hostname);
+                    newHostNames.AddRange(HostNames);
+                }
+
+                if (newHostNames.Count > 0)
+                {
+                    WebsitesClient.UpdateWebsiteHostNames(website, newHostNames, Slot);
+                }
             }
             
         }
