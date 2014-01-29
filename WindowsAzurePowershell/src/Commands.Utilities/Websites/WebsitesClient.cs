@@ -1090,7 +1090,18 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
             name = SetWebsiteName(name, slot);
             IWebSiteExtensionsClient client = GetWebSiteExtensionsClient(name);
 
-            throw new NotImplementedException();
+            if (jobType == WebJobType.Continuous)
+            {
+                client.WebJobs.DeleteContinuous(jobName, true);
+            }
+            else if (jobType == WebJobType.Triggered)
+            {
+                client.WebJobs.DeleteTriggered(jobName, true);
+            }
+            else
+            {
+                throw new ArgumentException("jobType");
+            }
         }
 
         /// <summary>
