@@ -859,3 +859,25 @@ function Test-SetAzureWebsite
 	Assert-AreEqual Classic $website.ManagedPipelineMode
 	Assert-AreEqual $true $website.WebSocketsEnabled
 }
+
+########################################################################### Test-RemoveAzureWebsiteJob Scenario Tests ###########################################################################
+
+<#
+.SYNOPSIS
+Tests Remove-AzureWebsiteJob cmdlet
+#>
+function Test-RemoveAzureWebsiteJob
+{
+	# Setup
+	$webSiteName = Get-WebsiteName
+	$webSiteJobName = Get-WebsiteJobName
+	New-AzureWebsite $webSiteName
+	New-AzureWebsiteJob -Name $webSiteName -JobName $webSiteJobName -JobType Triggered -JobFile ".\WebsiteJobTestCmd.cmd"
+
+	# Test
+	Get-AzureWebsiteJob -Name $webSiteName -JobName $webSiteJobName -JobType Triggered
+	Remove-AzureWebsiteJob -Name $webSiteName -JobName $webSiteJobName -JobType Triggered –Force
+
+	# Assert
+	Assert-Throws { Get-AzureWebsiteJob -Name $webSiteName -JobName $webSiteJobName -JobType Triggered } $expected
+}

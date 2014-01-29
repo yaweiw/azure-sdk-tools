@@ -385,5 +385,17 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.WebsitesTests
 
         #endregion
 
+        #region Remove-AzureWebsiteJob Scenario Tests
+        [TestMethod]
+        [TestCategory(Category.All)]
+        [TestCategory(Category.Websites)]
+        [TestCategory(Category.WAPack)]
+        public void TestRemoveAzureWebsiteJob()
+        {
+            RunPowerShellTest("Test-RemoveAzureWebsiteJob");
+        }
+
+        #endregion
+
     }
 }

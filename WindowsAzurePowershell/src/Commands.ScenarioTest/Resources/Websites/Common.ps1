@@ -26,6 +26,15 @@ function Get-WebsiteName
 
 <#
 .SYNOPSIS
+Gets valid website job name.
+#>
+function Get-WebsiteJobName
+{
+	return "OneSDKWebsiteJob" + (Get-Random).ToString()
+}
+
+<#
+.SYNOPSIS
 Creates websites with the count specified
 
 .PARAMETER count
