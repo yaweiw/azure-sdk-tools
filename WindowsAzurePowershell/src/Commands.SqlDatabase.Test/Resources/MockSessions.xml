@@ -9055,6 +9055,7 @@
           </Headers>
           <Cookies />
           <RequestText>&lt;ImportInput xmlns="http://schemas.datacontract.org/2004/07/Microsoft.SqlServer.Management.Dac.ServiceTypes"&gt;
+  &lt;AzureEdition&gt;Business&lt;/AzureEdition&gt;
   &lt;BlobCredentials p2:type="BlobStorageAccessKeyCredentials" xmlns:p2="http://www.w3.org/2001/XMLSchema-instance"&gt;
     &lt;Uri&gt;https://teststore001.blob.core.windows.net/testcontainer001/backup1&lt;/Uri&gt;
     &lt;StorageAccessKey&gt;MBa5B5VhKcnx/tJlPfIOB44BiAfTkFYBb1uyMVzNFJN2S7FW10dxcC0ScfoPQJKIIi3dFaeLTuc39vATKlDrLA==&lt;/StorageAccessKey&gt;
@@ -9065,7 +9066,7 @@
     &lt;ServerName&gt;testserver.database.windows.net&lt;/ServerName&gt;
     &lt;UserName&gt;mylogin&lt;/UserName&gt;
   &lt;/ConnectionInfo&gt;
-  &lt;DatabaseSizeInGB&gt;0&lt;/DatabaseSizeInGB&gt;
+  &lt;DatabaseSizeInGB&gt;10&lt;/DatabaseSizeInGB&gt;
 &lt;/ImportInput&gt;</RequestText>
           <ContentType>application/xml</ContentType>
           <Accept i:nil="true" />
