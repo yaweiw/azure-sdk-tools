@@ -57,6 +57,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Extensions
         public virtual string PrivateConfiguration { get; set; }
         public virtual string ProviderNamespace { get; set; }
         public virtual string ExtensionName { get; set; }
+        public virtual string Version { get; set; }
 
         public BaseAzureServiceExtensionCmdlet()
             : base()
