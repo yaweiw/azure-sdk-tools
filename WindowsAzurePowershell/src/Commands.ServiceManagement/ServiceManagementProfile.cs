@@ -233,10 +233,11 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement
                   .ForMember(c => c.OperationStatus, o => o.MapFrom(r => r.Status.ToString()));
 
             //Service mapping
+            Mapper.CreateMap<HostedServiceProperties, HostedServiceDetailedContext>()
+                  .ForMember(c => c.Description, o => o.MapFrom(r => string.IsNullOrEmpty(r.Description) ? null : r.Description))
+                  .ForMember(c => c.DateModified, o => o.MapFrom(r => r.DateLastModified));
             Mapper.CreateMap<HostedServiceGetResponse, HostedServiceDetailedContext>()
                   .ForMember(c => c.Url, o => o.MapFrom(r => r.Uri));
-            Mapper.CreateMap<HostedServiceProperties, HostedServiceDetailedContext>()
-                  .ForMember(c => c.Description, o => o.MapFrom(r => string.IsNullOrEmpty(r.Description) ? null : r.Description));
             Mapper.CreateMap<HostedServiceListResponse.HostedService, HostedServiceDetailedContext>()
                   .ForMember(c => c.Url, o => o.MapFrom(r => r.Uri));
             Mapper.CreateMap<OperationStatusResponse, HostedServiceDetailedContext>()
@@ -447,7 +448,8 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement
 
             Mapper.CreateMap<OperationStatusResponse, VirtualNetworkSiteContext>()
                   .ForMember(c => c.OperationId, o => o.MapFrom(r => r.Id))
-                  .ForMember(c => c.OperationStatus, o => o.MapFrom(r => r.Status.ToString()));
+                  .ForMember(c => c.OperationStatus, o => o.MapFrom(r => r.Status.ToString()))
+                  .ForMember(c => c.Id, o => o.Ignore());
 
             // Check Static IP Availability Response Mapping
             Mapper.CreateMap<NVM.NetworkStaticIPAvailabilityResponse, VirtualNetworkStaticIPAvailabilityContext>();

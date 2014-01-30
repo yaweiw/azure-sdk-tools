@@ -39,8 +39,9 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
             cmdletParams.Add(new CmdletParam("ServiceName", serviceName));                
             cmdletParams.Add(new CmdletParam("Password", password));
         }
-        
-        public NewAzureQuickVMCmdletInfo(OS os, string name, string serviceName, string imageName, string userName, string password, string locationName)
+
+        public NewAzureQuickVMCmdletInfo(OS os, string name, string serviceName, string imageName, string userName,
+            string password, string locationName)
             : this(os, name, serviceName, imageName, userName, password)
         {
             if (!string.IsNullOrEmpty(locationName))
@@ -49,7 +50,8 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
             }
         }
 
-        public NewAzureQuickVMCmdletInfo(OS os, string name, string serviceName, string imageName, string userName, string password, string locationName, string instanceSize)
+        public NewAzureQuickVMCmdletInfo(OS os, string name, string serviceName, string imageName, string userName,
+            string password, string locationName, string instanceSize)
             : this(os, name, serviceName, imageName, userName, password, locationName)
         {
             if (! string.IsNullOrEmpty(instanceSize))
@@ -58,14 +60,57 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
             }
         }
 
-        public NewAzureQuickVMCmdletInfo(OS os, string name, string serviceName, string imageName, string userName, string password, string locationName, string instanceSize, string disableWinRMHttps)
+        public NewAzureQuickVMCmdletInfo(OS os, string name, string serviceName, string imageName, string userName,
+            string password, string locationName, string instanceSize, string disableWinRMHttps)
             : this(os, name, serviceName, imageName, userName, password, locationName, instanceSize)
         {
             if (!string.IsNullOrEmpty(disableWinRMHttps))
             {
-
                 cmdletParams.Add(new CmdletParam("DisableWinRMHttps",disableWinRMHttps));
             }
+        }
+
+        public NewAzureQuickVMCmdletInfo(OS os, string name, string serviceName, string imageName, string instanceSize,
+            string userName, string password, string vNetName, string[] subnetNames, string affinityGroup)
+            : this(os, name, serviceName, imageName, userName, password)
+        {
+            if (!string.IsNullOrEmpty(affinityGroup))
+            {
+                cmdletParams.Add(new CmdletParam("AffinityGroup", affinityGroup));
+            }
+            if (!string.IsNullOrEmpty(instanceSize))
+            {
+                cmdletParams.Add(new CmdletParam("InstanceSize", instanceSize));
+            }
+            if (!string.IsNullOrEmpty(vNetName))
+            {
+                cmdletParams.Add(new CmdletParam("VNetName", vNetName));
+            }
+            if (subnetNames != null)
+            {
+                cmdletParams.Add(new CmdletParam("SubnetNames", subnetNames));
+            }
+        }
+
+        public NewAzureQuickVMCmdletInfo(OS os, string name, string serviceName, string imageName, InstanceSize? instanceSize, string userName, string password, string vNetName, string[] subnetNames, string affinityGroup)
+            : this(os, name, serviceName, imageName, userName, password)
+        {
+            if (!string.IsNullOrEmpty(affinityGroup))
+            {
+                cmdletParams.Add(new CmdletParam("AffinityGroup", affinityGroup));
+            }
+            if (instanceSize.HasValue)
+            {
+                cmdletParams.Add(new CmdletParam("InstanceSize", instanceSize.ToString()));
+            }
+            if (!string.IsNullOrEmpty(vNetName))
+            {
+                cmdletParams.Add(new CmdletParam("VNetName", vNetName));
+            }
+            if (subnetNames != null)
+            {
+                cmdletParams.Add(new CmdletParam("SubnetNames", subnetNames));
+            }                      
 
         }
 
@@ -133,6 +178,5 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
                 cmdletParams.Add(new CmdletParam("VNetName", vnetName));
             }                               
         }
-        
     }
 }

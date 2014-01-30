@@ -15,7 +15,6 @@
 
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
 {
-    using Commands.Utilities.Common;
     using ConfigDataInfo;
     using Extensions;
     using Model;
@@ -35,11 +34,8 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
     using System.Xml.Linq;
     using VisualStudio.TestTools.UnitTesting;
     using WindowsAzure.ServiceManagement;
-    using System.Security.Cryptography.X509Certificates;
-    using Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.PersistentVMs;
-    
-    
-    
+    using IaaS.PersistentVMs;
+    using System.Linq;
 
     [TestClass]
     public class ScenarioTest : ServiceManagementTest
@@ -721,7 +717,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
         /// AzureVNetGatewayTest()
         /// </summary>
         /// Note: Create a VNet, a LocalNet from the portal without creating a gateway.
-        [TestMethod(), TestCategory("LongRunningTest"), TestProperty("Feature", "IAAS"), Priority(1), Owner("hylee"),
+        [TestMethod(), TestCategory("Scenario"), TestProperty("Feature", "IAAS"), Priority(1), Owner("hylee"),
         Description("Test the cmdlet ((Set,Remove)-AzureVNetConfig, Get-AzureVNetSite, (New,Get,Set,Remove)-AzureVNetGateway, Get-AzureVNetConnection)")]
         public void VNetTest()
         {
@@ -736,18 +732,37 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
             List<string> localNets = new List<string>();
             List<string> virtualNets = new List<string>();
             HashSet<string> affinityGroups = new HashSet<string>();
+            Dictionary<string,string> dns = new Dictionary<string,string>();
+            List<LocalNetworkSite> localNetworkSites = new List<LocalNetworkSite>();
+            AddressPrefixList prefixlist = null;
 
             foreach (XElement el in vnetconfigxml.Descendants())
             {
                 switch (el.Name.LocalName)
                 {
                     case "LocalNetworkSite":
-                        localNets.Add(el.FirstAttribute.Value);
+                        {
+                            localNets.Add(el.FirstAttribute.Value);
+                            List<XElement> elements = el.Elements().ToList<XElement>();
+                            prefixlist = new AddressPrefixList();
+                            prefixlist.Add(elements[0].Elements().First().Value);
+                            localNetworkSites.Add(new LocalNetworkSite()
+                                {
+                                    VpnGatewayAddress = elements[1].Value,
+                                    AddressSpace = new AddressSpace() { AddressPrefixes = prefixlist }
+                                }
+                            );
+                        }
                         break;
                     case "VirtualNetworkSite":
                         virtualNets.Add(el.Attribute("name").Value);
                         affinityGroups.Add(el.Attribute("AffinityGroup").Value);
                         break;
+                    case "DnsServer":
+                        {
+                            dns.Add(el.Attribute("name").Value, el.Attribute("IPAddress").Value);
+                            break;
+                        }
                     default:
                         break;
                 }
@@ -779,7 +794,18 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
 
                 foreach (string vnet in virtualNets)
                 {
-                    Assert.AreEqual(vnet, vmPowershellCmdlets.GetAzureVNetSite(vnet)[0].Name);
+                    VirtualNetworkSiteContext vnetsite = vmPowershellCmdlets.GetAzureVNetSite(vnet)[0];
+                    Assert.AreEqual(vnet, vnetsite.Name);
+                    //Verify DNS and IPAddress
+                    Assert.AreEqual(1, vnetsite.DnsServers.Count());
+                    Assert.IsTrue(dns.ContainsKey(vnetsite.DnsServers.First().Name));
+                    Assert.AreEqual(dns[vnetsite.DnsServers.First().Name], vnetsite.DnsServers.First().Address);
+
+                    //Verify the Gateway sites
+                    Assert.AreEqual(1,vnetsite.GatewaySites.Count);
+                    Assert.AreEqual(localNetworkSites[0].VpnGatewayAddress, vnetsite.GatewaySites[0].VpnGatewayAddress);
+                    Assert.IsTrue(localNetworkSites[0].AddressSpace.AddressPrefixes.All(c => vnetsite.GatewaySites[0].AddressSpace.AddressPrefixes.Contains(c)));
+
                     Assert.AreEqual(ProvisioningState.NotProvisioned, vmPowershellCmdlets.GetAzureVNetGateway(vnet)[0].State);
                 }
 
