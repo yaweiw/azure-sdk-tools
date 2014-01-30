@@ -43,7 +43,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
             ExtensionName = ExtensionDefaultName;
         }
 
-        protected string GetPublicConfiguration()
+        protected string GetPrivateConfiguration()
         {
             XDocument config = null;
             if (Disable.IsPresent)
