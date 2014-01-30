@@ -93,7 +93,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
         {
             base.ValidateParameters();
             this.Version = this.Version ?? VMAccessAgentLegacyVersion;
-            this.PrivateConfiguration = GetPublicConfiguration();
+            this.PrivateConfiguration = GetPrivateConfiguration();
         }
 
         protected override void ProcessRecord()
