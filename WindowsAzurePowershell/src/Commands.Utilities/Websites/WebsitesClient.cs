@@ -1155,7 +1155,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
 
             if (jobType == WebJobType.Continuous)
             {
-                client.WebJobs.StartContinous(jobName);
+                client.WebJobs.StartContinuous(jobName);
             }
             else
             {
@@ -1177,7 +1177,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
 
             if (jobType == WebJobType.Continuous)
             {
-                client.WebJobs.StopContinous(jobName);
+                client.WebJobs.StopContinuous(jobName);
             }
             else
             {
