@@ -24,7 +24,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
         private enum DomainJoinExtensionParameterSetType
         {
             DomainName,
-            WorkGroupName
+            WorkgroupName
         }
 
         //Constructor with parameters applicable to all ParameterSets
@@ -64,9 +64,9 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
         //constructors for each parameter set
 
         //BasicDomainParameterSet
-        public SetAzureServiceDomainJoinExtensionCmdletInfo(string domainName,PSCredential unjoinDomainCredential,
-            string[] role,  string slot, string serviceName, string thumbprintAlgorithm, bool restart, PSCredential credential, string oUPath)
-            : this(DomainJoinExtensionParameterSetType.DomainName, domainName,role,slot,serviceName,thumbprintAlgorithm,restart,credential)
+        private SetAzureServiceDomainJoinExtensionCmdletInfo(string domainName, PSCredential unjoinDomainCredential,
+            string[] role, string slot, string serviceName, string thumbprintAlgorithm, bool restart, PSCredential credential, string oUPath)
+            : this(DomainJoinExtensionParameterSetType.DomainName, domainName, role, slot, serviceName, thumbprintAlgorithm, restart, credential)
         {
             if (unjoinDomainCredential != null)
             {
@@ -104,7 +104,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
         {
             if (x509Certificate != null)
             {
-                this.cmdletParams.Add(new CmdletParam("X509Certificate2", x509Certificate));
+                this.cmdletParams.Add(new CmdletParam("X509Certificate", x509Certificate));
             }
             if (joinOption.HasValue)
             {
@@ -144,37 +144,27 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
             }
         }
 
-        //DomainJoinParameterSet with Workgroup name
+        // WorkgroupParameterSet
         public SetAzureServiceDomainJoinExtensionCmdletInfo(string workGroupName, X509Certificate2 x509Certificate,
             string[] role, string slot, string serviceName, bool restart, string thumbprintAlgorithm,
             PSCredential credential)
-            : this(DomainJoinExtensionParameterSetType.WorkGroupName, workGroupName, role, slot, serviceName, thumbprintAlgorithm, restart, credential)
+            : this(DomainJoinExtensionParameterSetType.WorkgroupName, workGroupName, role, slot, serviceName, thumbprintAlgorithm, restart, credential)
         {
             if (x509Certificate != null)
             {
-                this.cmdletParams.Add(new CmdletParam("X509Certificate2", x509Certificate));
+                this.cmdletParams.Add(new CmdletParam("X509Certificate", x509Certificate));
             }
         }
 
+        // WorkgroupThumbprintParameterSet
         public SetAzureServiceDomainJoinExtensionCmdletInfo(string workGroupName, string certificateThumbprint,
             string[] role, string slot, string serviceName, string thumbprintAlgorithm, bool restart,
             PSCredential credential)
-            : this(DomainJoinExtensionParameterSetType.WorkGroupName, workGroupName, role, slot, serviceName, thumbprintAlgorithm, restart, credential)
+            : this(DomainJoinExtensionParameterSetType.WorkgroupName, workGroupName, role, slot, serviceName, thumbprintAlgorithm, restart, credential)
         {
             if (!string.IsNullOrEmpty(certificateThumbprint))
             {
                 this.cmdletParams.Add(new CmdletParam("CertificateThumbprint", certificateThumbprint));
-            }
-        }
-
-        public SetAzureServiceDomainJoinExtensionCmdletInfo(string workGroupName, X509Certificate2 x509Certificate,
-            string[] role, string slot, string serviceName, bool restart, string thumbprintAlgorithm,
-            PSCredential credential,PSCredential unjoinCredential)
-            : this(DomainJoinExtensionParameterSetType.WorkGroupName, workGroupName, role, slot, serviceName, thumbprintAlgorithm, restart, credential)
-        {
-            if (x509Certificate != null)
-            {
-                this.cmdletParams.Add(new CmdletParam("X509Certificate2", x509Certificate));
             }
         }
     }

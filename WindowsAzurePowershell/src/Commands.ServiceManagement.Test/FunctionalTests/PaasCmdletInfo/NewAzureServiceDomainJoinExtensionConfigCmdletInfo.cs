@@ -1,7 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿// ----------------------------------------------------------------------------------
+//
+// Copyright Microsoft Corporation
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+// http://www.apache.org/licenses/LICENSE-2.0
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+// ----------------------------------------------------------------------------------
 
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests.PaasCmdletInfo
 {
@@ -11,20 +20,21 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
     using System.Security.Cryptography.X509Certificates;
     public class NewAzureServiceDomainJoinExtensionConfigCmdletInfo: CmdletsInfo
     {
-        public NewAzureServiceDomainJoinExtensionConfigCmdletInfo(string[] role = null, string thumbprintAlgorithm = null, bool restart = false, PSCredential credential = null)
+        private NewAzureServiceDomainJoinExtensionConfigCmdletInfo(string[] role, string thumbprintAlgorithm, bool restart, PSCredential credential)
         {
             this.cmdletName = Utilities.NewAzureServiceDomainJoinExtensionConfig;
+
             if(role != null)
             {
-                this.cmdletParams.Add(new CmdletParam("Role",role));
+                this.cmdletParams.Add(new CmdletParam("Role", role));
             }
             if(!string.IsNullOrEmpty(thumbprintAlgorithm))
             {
-                this.cmdletParams.Add(new CmdletParam("ThumbprintAlgorithm",thumbprintAlgorithm));
+                this.cmdletParams.Add(new CmdletParam("ThumbprintAlgorithm", thumbprintAlgorithm));
             }
             if (restart)
             {
-                this.cmdletParams.Add(new CmdletParam("Restart", restart));
+                this.cmdletParams.Add(new CmdletParam("Restart"));
             }
             if (credential != null)
             {
@@ -32,17 +42,19 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
             }
         }
 
-        public NewAzureServiceDomainJoinExtensionConfigCmdletInfo(string workGroupName,X509Certificate2 certificate,string[] role = null, string thumbprintAlgorithm = null, bool restart = false, PSCredential credential = null)
-            : this(role,thumbprintAlgorithm,restart,credential)
+        // WorkgroupParameterSet
+        public NewAzureServiceDomainJoinExtensionConfigCmdletInfo(string workGroupName, X509Certificate2 certificate,string[] role, string thumbprintAlgorithm, bool restart, PSCredential credential)
+            : this(role, thumbprintAlgorithm, restart, credential)
         {
             this.cmdletParams.Add(new CmdletParam("WorkGroupName", workGroupName));
             if (certificate != null)
             {
-                this.cmdletParams.Add(new CmdletParam("Certificate", certificate));
+                this.cmdletParams.Add(new CmdletParam("X509Certificate", certificate));
             }
         }
 
-        public NewAzureServiceDomainJoinExtensionConfigCmdletInfo(string workGroupName, string certificateThumbprint = null, string[] role = null, string thumbprintAlgorithm = null, bool restart = false, PSCredential credential = null)
+        // WorkgroupThumbprintParameterSet
+        public NewAzureServiceDomainJoinExtensionConfigCmdletInfo(string workGroupName, string certificateThumbprint, string[] role, string thumbprintAlgorithm, bool restart, PSCredential credential)
             : this(role, thumbprintAlgorithm, restart, credential)
         {
             this.cmdletParams.Add(new CmdletParam("WorkGroupName", workGroupName));
@@ -52,8 +64,8 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
             }
         }
 
-        public NewAzureServiceDomainJoinExtensionConfigCmdletInfo(string domainName, string oUPath = null, PSCredential unjoinDomainCredential = null,
-            string[] role = null, string thumbprintAlgorithm = null, bool restart = false, PSCredential credential = null)
+        private NewAzureServiceDomainJoinExtensionConfigCmdletInfo(string domainName, string oUPath, PSCredential unjoinDomainCredential,
+            string[] role, string thumbprintAlgorithm, bool restart, PSCredential credential)
             : this(role, thumbprintAlgorithm, restart, credential)
         {
             this.cmdletParams.Add(new CmdletParam("DomainName", domainName));
@@ -67,32 +79,67 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
             }
         }
 
-        public NewAzureServiceDomainJoinExtensionConfigCmdletInfo(string domainName,X509Certificate2 x509Certificate,JoinOptions? options = null,  string oUPath= null, PSCredential unjoinDomainCredential = null,
-            string[] role = null, string thumbprintAlgorithm = null, bool restart = false, PSCredential credential = null)
-            : this(domainName,oUPath,unjoinDomainCredential,role, thumbprintAlgorithm, restart, credential)
+        private NewAzureServiceDomainJoinExtensionConfigCmdletInfo(string domainName, JoinOptions? options, string oUPath, PSCredential unjoinDomainCredential,
+            string[] role, string thumbprintAlgorithm, bool restart, PSCredential credential)
+            : this(domainName, oUPath, unjoinDomainCredential, role, thumbprintAlgorithm, restart, credential)
+        {
+            if (options.HasValue)
+            {
+                this.cmdletParams.Add(new CmdletParam("Options", options.Value));
+            }
+        }
+
+        private NewAzureServiceDomainJoinExtensionConfigCmdletInfo(string domainName, uint? joinOption, string oUPath, PSCredential unjoinDomainCredential,
+            string[] role, string thumbprintAlgorithm, bool restart, PSCredential credential)
+            : this(domainName, oUPath, unjoinDomainCredential, role, thumbprintAlgorithm, restart, credential)
+        {
+            if (joinOption.HasValue)
+            {
+                this.cmdletParams.Add(new CmdletParam("JoinOption", joinOption.Value));
+            }
+        }
+
+        // DomainParameterSet
+        public NewAzureServiceDomainJoinExtensionConfigCmdletInfo(string domainName,X509Certificate2 x509Certificate,JoinOptions? options,  string oUPath, PSCredential unjoinDomainCredential,
+            string[] role, string thumbprintAlgorithm, bool restart, PSCredential credential)
+            : this(domainName, options, oUPath, unjoinDomainCredential, role, thumbprintAlgorithm, restart, credential)
         {
             if (x509Certificate != null)
             {
-                this.cmdletParams.Add(new CmdletParam("X509Certificate",x509Certificate));
+                this.cmdletParams.Add(new CmdletParam("X509Certificate", x509Certificate));
             }
-            if (options.HasValue)
-            {
-                this.cmdletParams.Add(new CmdletParam("Options",options.Value));
-            }
-
         }
 
-        public NewAzureServiceDomainJoinExtensionConfigCmdletInfo(string domainName, string certificateThumbprint, uint? joinOption = null, string oUPath = null, PSCredential unjoinDomainCredential = null,
-            string[] role = null, string thumbprintAlgorithm = null, bool restart = false, PSCredential credential = null)
-            : this(domainName, oUPath, unjoinDomainCredential, role, thumbprintAlgorithm, restart, credential)
+        // DomainJoinOptionParameterSet
+        public NewAzureServiceDomainJoinExtensionConfigCmdletInfo(string domainName, X509Certificate2 x509Certificate, uint? joinOption, string oUPath, PSCredential unjoinDomainCredential,
+            string[] role, string thumbprintAlgorithm, bool restart, PSCredential credential)
+            : this(domainName, joinOption, oUPath, unjoinDomainCredential, role, thumbprintAlgorithm, restart, credential)
+        {
+            if (x509Certificate != null)
+            {
+                this.cmdletParams.Add(new CmdletParam("X509Certificate", x509Certificate));
+            }
+        }
+
+        // DomainThumbprintParameterSet
+        public NewAzureServiceDomainJoinExtensionConfigCmdletInfo(string domainName, string certificateThumbprint, JoinOptions? options, string oUPath, PSCredential unjoinDomainCredential,
+            string[] role, string thumbprintAlgorithm, bool restart, PSCredential credential)
+            : this(domainName, options, oUPath, unjoinDomainCredential, role, thumbprintAlgorithm, restart, credential)
         {
             if (!string.IsNullOrEmpty(certificateThumbprint))
             {
                 this.cmdletParams.Add(new CmdletParam("CertificateThumbprint", certificateThumbprint));
             }
-            if (joinOption.HasValue)
+        }
+
+        // DomainJoinOptionThumbprintParameterSet
+        public NewAzureServiceDomainJoinExtensionConfigCmdletInfo(string domainName, string certificateThumbprint, uint? joinOption, string oUPath, PSCredential unjoinDomainCredential,
+            string[] role, string thumbprintAlgorithm, bool restart, PSCredential credential)
+            : this(domainName, joinOption, oUPath, unjoinDomainCredential, role, thumbprintAlgorithm, restart, credential)
+        {
+            if (!string.IsNullOrEmpty(certificateThumbprint))
             {
-                this.cmdletParams.Add(new CmdletParam("JoinOption", joinOption.Value));
+                this.cmdletParams.Add(new CmdletParam("CertificateThumbprint", certificateThumbprint));
             }
         }
     }
