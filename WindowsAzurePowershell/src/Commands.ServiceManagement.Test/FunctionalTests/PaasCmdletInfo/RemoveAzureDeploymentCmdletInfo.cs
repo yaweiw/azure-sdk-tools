@@ -12,22 +12,25 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests.IaasCmdletInfo
+namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests.PaasCmdletInfo
 {
     using PowershellCore;
 
-    public class GetAzureDeploymentCmdletInfo : CmdletsInfo
+    public class RemoveAzureDeploymentCmdletInfo : CmdletsInfo
     {
-        public GetAzureDeploymentCmdletInfo(string serviceName, string slot)
+        public RemoveAzureDeploymentCmdletInfo(string serviceName, string slot, bool force)
         {
-            cmdletName = Utilities.GetAzureDeploymentCmdletName;
+            cmdletName = Utilities.RemoveAzureDeploymentCmdletName;
 
             cmdletParams.Add(new CmdletParam("ServiceName", serviceName));
-
             if (slot != null)
             {
                 cmdletParams.Add(new CmdletParam("Slot", slot));
-            }            
+            }
+            if (force)
+            {
+                cmdletParams.Add(new CmdletParam("Force"));
+            }
         }
     }
 }
