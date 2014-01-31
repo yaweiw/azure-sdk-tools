@@ -898,6 +898,10 @@ function Test-RemoveAzureWebsiteContinuousJob
 	Remove-AzureWebsite $webSiteName -Force
 }
 
+<#
+.SYNOPSIS
+A convinience function for you to pass in existing web site name and preferred web job information 
+#>
 function Test-CreateAndRemoveAJob
 {
 	param([string] $webSiteName, [string] $webSiteJobName, [string] $webSiteJobType, [string] $testCommandFile)
@@ -916,6 +920,12 @@ function Test-CreateAndRemoveAJob
 	Get-AzureWebsiteJob -Name $webSiteName -JobName $webSiteJobName -JobType $webSiteJobType
 
 	# Test
+	If ($webSiteJobType -eq "Continuous")
+	{
+		$stopped = Stop-AzureWebsiteJob -Name $webSiteName -JobName $webSiteJobName -PassThru
+		Assert-True { $stopped }
+	}
+
 	$removed = Remove-AzureWebsiteJob -Name $webSiteName -JobName $webSiteJobName -JobType $webSiteJobType –Force
 
 	# Assert
