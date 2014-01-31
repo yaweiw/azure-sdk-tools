@@ -26,13 +26,14 @@ namespace Microsoft.WindowsAzure.Commands.Websites
         [ValidateNotNullOrEmpty]
         public string Configuration { get; set; }
 
-        [Parameter(ParameterSetName = "ProjectFile", Position = 3, Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "The MSBuild properties used to build the Visual Studio web application project.")]
-        [ValidateNotNullOrEmpty]
-        public Hashtable BuildProperty { get; set; }
-
         [Parameter(ParameterSetName = "Package", Position = 1, Mandatory = true, ValueFromPipelineByPropertyName = true, HelpMessage = "The WebDeploy package folder for zip file of the Visual Studio web application project to be published.")]
         [ValidateNotNullOrEmpty]
         public string Package { get; set; }
+
+        [Parameter(ParameterSetName = "ProjectFile", Position = 3, Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "The connection strings to use for the deployment.")]
+        [Parameter(ParameterSetName = "Package", Position = 2, Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "The connection strings to use for the deployment.")]
+        [ValidateNotNullOrEmpty]
+        public Hashtable ConnectionString { get; set; }
 
         private string fullProjectFile;
         private string fullWebConfigFileWithConfiguration;
@@ -44,172 +45,48 @@ namespace Microsoft.WindowsAzure.Commands.Websites
 
         public override void ExecuteCmdlet()
         {
-            DeploymentChangeSummary result = null;
-
+            PrepareFileFullPaths();
+            
             // If a project file is specified, use MSBuild to build the package zip file.
-            if (String.Equals(ParameterSetName, "ProjectFile", StringComparison.OrdinalIgnoreCase))
+            if (!string.IsNullOrEmpty(ProjectFile))
             {
-                fullPackage = this.BuildWebProject();
+                WriteVerbose(string.Format("[Start]    Building project {0}", fullProjectFile));
+                fullPackage = BuildWebProject(fullProjectFile, configuration, Path.Combine(CurrentPath(), "build.log"));
+                WriteVerbose(string.Format("[Complete] Building project {0}", fullProjectFile));
             }
-
-            WriteObject(string.Format("[Start]    Publishing package {0}", fullPackage));
 
             // Resolve the full path of the package file or folder when the "Package" parameter set is used.
             fullPackage = string.IsNullOrEmpty(fullPackage) ? this.TryResolvePath(Package) : fullPackage;
+            WriteVerbose(string.Format("[Start]    Publishing package {0}", fullPackage));
 
-            // Publish the package zip file or folder.
-            result = File.GetAttributes(fullPackage).HasFlag(FileAttributes.Directory) ? this.PublishWebProjectFromPackagePath() : this.PublishWebProjectFromPackageFile();
-
-            WriteObject(string.Format("{0} Publishing package {1}", (result.Errors == 0 ? "[Complete]" : "[Fail]    "), fullPackage));
-        }
-
-        /// <summary>
-        /// Build a Visual Studio Web Project using MS build.
-        /// </summary>
-        /// <returns>The location of the WebDeploy package file.</returns>
-        private string BuildWebProject()
-        {
-            if (File.Exists(fullWebConfigFile)) // Make sure the Web.config for the configuration exists.
+            // Convert dynamic parameters to a connection string hash table.
+            var connectionStrings = ConnectionString;
+            if (connectionStrings == null)
             {
-                ProjectCollection pc = new ProjectCollection();
-                Project project = pc.LoadProject(fullProjectFile);
-
-                // Use a file logger to store detailed build info.
-                FileLogger fileLogger = new FileLogger();
-                var logFile = Path.Combine(CurrentPath(), "build.log");
-                fileLogger.Parameters = string.Format("logfile={0}", logFile);
-                fileLogger.Verbosity = LoggerVerbosity.Diagnostic;
-
-                // Set the configuration used by MSBuild.
-                project.SetProperty("Configuration", configuration);
-
-                // Set other MSBuild properties. Ignore "Configuration" since it should be specified by the -Configuration parameter directly.
-                if (BuildProperty != null)
+                connectionStrings = new Hashtable();
+                if (dynamicParameters != null)
                 {
-                    foreach (DictionaryEntry property in BuildProperty)
+                    foreach (var dp in dynamicParameters)
                     {
-                        if (!string.Equals("Configuration", property.Key.ToString(), StringComparison.OrdinalIgnoreCase))
+                        if (MyInvocation.BoundParameters.ContainsKey(dp.Key))
                         {
-                            project.SetProperty(property.Key.ToString(), property.Value.ToString());
+                            connectionStrings[dp.Value.Name.ToString()] = dp.Value.Value.ToString();
                         }
-
                     }
                 }
-
-                WriteObject(string.Format("[Start]    Building project {0}", fullProjectFile));
-                // Build the project.
-                var buildSucceed = project.Build("Package", new ILogger[] { fileLogger });
-
-                if (buildSucceed)
-                {
-                    // If build succeeds, delete the build.log file since there is no use of it.
-                    WriteObject(string.Format("[Complete] Building project {0}", fullProjectFile));
-                    File.Delete(logFile);
-                    return Path.Combine(Path.GetDirectoryName(fullProjectFile), "obj", configuration, "Package", Path.GetFileNameWithoutExtension(fullProjectFile) + ".zip");
-                }
-                else
-                {
-                    // If build fails, tell the user to look at the build.log file.
-                    WriteObject(string.Format("[Fail]     Building project {0}", fullProjectFile));
-                    throw new Exception(string.Format("Cannot build the project successfully. Please see logs in {0}.", logFile));
-                }
             }
-            else
+
+            try
             {
-                throw new FileNotFoundException(string.Format("Cannot find file {0} for configuration {1}", fullProjectFile, configuration));
+                // Publish the package.
+                WebsitesClient.PublishWebProject(Name, Slot, fullPackage, connectionStrings);
+                WriteVerbose(string.Format("[Complete] Publishing package {0}", fullPackage));
             }
-        }
-
-        /// <summary>
-        /// Publish a Visual Studio Web Project to a website using the package folder.
-        /// </summary>
-        /// <returns>The change summary of the deployment.</returns>
-        private DeploymentChangeSummary PublishWebProjectFromPackagePath()
-        {
-            DeploymentBaseOptions remoteBaseOptions = CreateRemoteDeploymentBaseOptions();
-            DeploymentBaseOptions localBaseOptions = new DeploymentBaseOptions();
-
-            using (var deploypment = DeploymentManager.CreateObject(DeploymentWellKnownProvider.ContentPath, fullPackage, localBaseOptions))
+            catch (Exception)
             {
-                DeploymentSyncOptions syncOptions = new DeploymentSyncOptions();
-                return deploypment.SyncTo(DeploymentWellKnownProvider.ContentPath, Name, remoteBaseOptions, syncOptions);
+                WriteVerbose(string.Format("[Fail]     Publishing package {0}", fullPackage));
+                throw;
             }
-        }
-
-        /// <summary>
-        /// Publish a Visual Studio Web Project to a website using the package zip file.
-        /// </summary>
-        /// <returns>The change summary of the deployment.</returns>
-        private DeploymentChangeSummary PublishWebProjectFromPackageFile()
-        {
-            DeploymentBaseOptions remoteBaseOptions = CreateRemoteDeploymentBaseOptions();
-            DeploymentBaseOptions localBaseOptions = new DeploymentBaseOptions();
-
-            DeploymentProviderOptions remoteProviderOptions = new DeploymentProviderOptions(DeploymentWellKnownProvider.Auto);
-
-            using (var deployment = DeploymentManager.CreateObject(DeploymentWellKnownProvider.Package, fullPackage, localBaseOptions))
-            {
-                DeploymentSyncParameter providerPathParameter = new DeploymentSyncParameter(
-                    "Provider Path Parameter",
-                    "Provider Path Parameter",
-                    Name,
-                    null);
-                DeploymentSyncParameterEntry iisAppEntry = new DeploymentSyncParameterEntry(
-                    DeploymentSyncParameterEntryKind.ProviderPath,
-                    DeploymentWellKnownProvider.IisApp.ToString(),
-                    ".*",
-                    null);
-                DeploymentSyncParameterEntry setAclEntry = new DeploymentSyncParameterEntry(
-                    DeploymentSyncParameterEntryKind.ProviderPath,
-                    DeploymentWellKnownProvider.SetAcl.ToString(),
-                    ".*",
-                    null);
-                providerPathParameter.Add(iisAppEntry);
-                providerPathParameter.Add(setAclEntry);
-                deployment.SyncParameters.Add(providerPathParameter);
-
-                // Replace the connection strings in Web.config with the ones user specifies from the cmdlet.
-                foreach (var dp in dynamicParameters)
-                {
-                    if (MyInvocation.BoundParameters.ContainsKey(dp.Value.Name))
-                    {
-                        var deploymentSyncParameterName = string.Format("Connection String {0} Parameter", dp.Value.Name);
-                        DeploymentSyncParameter connectionStringParameter = new DeploymentSyncParameter(
-                            deploymentSyncParameterName,
-                            deploymentSyncParameterName,
-                            dp.Value.Value.ToString(),
-                            null);
-                        DeploymentSyncParameterEntry connectionStringEntry = new DeploymentSyncParameterEntry(
-                            DeploymentSyncParameterEntryKind.XmlFile,
-                            @"\\web.config$",
-                            string.Format(@"//connectionStrings/add[@name='{0}']/@connectionString", dp.Value.Name),
-                            null);
-                        connectionStringParameter.Add(connectionStringEntry);
-                        deployment.SyncParameters.Add(connectionStringParameter);
-                    }
-                }
-
-                DeploymentSyncOptions syncOptions = new DeploymentSyncOptions();
-                return deployment.SyncTo(remoteProviderOptions, remoteBaseOptions, syncOptions);
-            }
-        }
-
-        /// <summary>
-        /// Parse the Web.config files to get the connection string names.
-        /// </summary>
-        /// <returns>An array of connection string names</returns>
-        private string[] ParseConnectionStringNamesFromWebConfig()
-        {
-            var names = new List<string>();
-            var webConfigFiles = new string[] { fullWebConfigFile, fullWebConfigFileWithConfiguration };
-
-            foreach (var file in webConfigFiles)
-            {
-                XDocument xdoc = XDocument.Load(file);
-                names.AddRange(xdoc.Descendants("connectionStrings").SelectMany(css => css.Descendants("add")).Select(add => add.Attribute("name").Value));
-            }
-
-            return names.Distinct().ToArray<string>();
         }
 
         /// <summary>
@@ -217,23 +94,21 @@ namespace Microsoft.WindowsAzure.Commands.Websites
         /// It will look at 2 Web.config files:
         /// 1. Web.config
         /// 2. Web.<configuration>.config (like Web.Release.config)
+        /// This only works when -ProjectFile is used and -ConnectionString is not used.
         /// </summary>
         /// <returns>The dynamic parameters.</returns>
         public override object GetDynamicParameters()
         {
-            if (!string.IsNullOrEmpty(ProjectFile))
+            if (!string.IsNullOrEmpty(ProjectFile) && ConnectionString == null)
             {
                 // Get the 2 Web.config files.
-                fullProjectFile = this.TryResolvePath(ProjectFile).Trim(new char[] { '"' });
-                fullWebConfigFile = Path.Combine(Path.GetDirectoryName(fullProjectFile), "Web.config");
-                configuration = string.IsNullOrEmpty(Configuration) ? "Release" : Configuration;
-                fullWebConfigFileWithConfiguration = Path.Combine(Path.GetDirectoryName(fullProjectFile), string.Format("Web.{0}.config", configuration));
+                PrepareFileFullPaths();
 
                 dynamicParameters = new RuntimeDefinedParameterDictionary();
                 if (string.Compare("ProjectFile", ParameterSetName) == 0)
                 {
                     // Parse the connection strings from the Web.config files.
-                    var names = ParseConnectionStringNamesFromWebConfig();
+                    var names = WebsitesClient.ParseConnectionStringNamesFromWebConfig(fullWebConfigFile, fullWebConfigFileWithConfiguration);
 
                     // Create a dynmaic parameter for each connection string using the same name.
                     foreach (var name in names)
@@ -257,24 +132,61 @@ namespace Microsoft.WindowsAzure.Commands.Websites
         }
 
         /// <summary>
-        /// Create remote deployment base options using the web site publish profile.
+        /// Prepare the full path of the project file and Web.config files.
         /// </summary>
-        /// <returns>The remote deployment base options.</returns>
-        private DeploymentBaseOptions CreateRemoteDeploymentBaseOptions()
+        private void PrepareFileFullPaths()
         {
-            // Get the web site publish profile.
-            var publishProfile = WebsitesClient.GetWebDeployPublishProfile(Name, Slot);
-
-            DeploymentBaseOptions remoteBaseOptions = new DeploymentBaseOptions()
+            if (!string.IsNullOrEmpty(ProjectFile))
             {
-                UserName = publishProfile.UserName,
-                Password = publishProfile.UserPassword,
-                ComputerName = string.Format("https://{0}/msdeploy.axd?site={1}", publishProfile.PublishUrl, WebsitesClient.SetWebsiteName(Name, Slot)),
-                AuthenticationType = "Basic",
-                TempAgent = false
-            };
+                fullProjectFile = this.TryResolvePath(ProjectFile).Trim(new char[] { '"' });
+                fullWebConfigFile = Path.Combine(Path.GetDirectoryName(fullProjectFile), "Web.config");
+                configuration = string.IsNullOrEmpty(Configuration) ? "Release" : Configuration;
+                fullWebConfigFileWithConfiguration = Path.Combine(Path.GetDirectoryName(fullProjectFile), string.Format("Web.{0}.config", configuration));
+            }
+        }
 
-            return remoteBaseOptions;
+        /// <summary>
+        /// Build a Visual Studio web project using msbuild to get a WebDeploy package zip file.
+        /// </summary>
+        /// <param name="projectFile">The project file (csproj or vbproj).</param>
+        /// <param name="configuration">The configuration used to build the project, like "Release", "Debug", etc.</param>
+        /// <param name="logFile">The file for build log if there are some errors.</param>
+        /// <returns>The full path of the WebDeploy package zip file.</returns>
+        private string BuildWebProject(string projectFile, string configuration, string logFile)
+        {
+            var webConfigFile = Path.Combine(Path.GetDirectoryName(projectFile), "Web.config");
+            if (File.Exists(webConfigFile)) // Make sure the Web.config for the configuration exists.
+            {
+                ProjectCollection pc = new ProjectCollection();
+                Project project = pc.LoadProject(projectFile);
+
+                // Use a file logger to store detailed build info.
+                FileLogger fileLogger = new FileLogger();
+                fileLogger.Parameters = string.Format("logfile={0}", logFile);
+                fileLogger.Verbosity = LoggerVerbosity.Diagnostic;
+
+                // Set the configuration used by MSBuild.
+                project.SetProperty("Configuration", configuration);
+
+                // Build the project.
+                var buildSucceed = project.Build("Package", new ILogger[] { fileLogger });
+
+                if (buildSucceed)
+                {
+                    // If build succeeds, delete the build.log file since there is no use of it.
+                    File.Delete(logFile);
+                    return Path.Combine(Path.GetDirectoryName(projectFile), "obj", configuration, "Package", Path.GetFileNameWithoutExtension(projectFile) + ".zip");
+                }
+                else
+                {
+                    // If build fails, tell the user to look at the build.log file.
+                    throw new Exception(string.Format("Cannot build the project successfully. Please see logs in {0}.", logFile));
+                }
+            }
+            else
+            {
+                throw new FileNotFoundException(string.Format("Cannot find file {0} for configuration {1}", webConfigFile, configuration));
+            }
         }
     }
 }
