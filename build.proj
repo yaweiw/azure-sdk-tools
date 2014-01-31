@@ -27,7 +27,7 @@
     <PackageDirectory>.\Package</PackageDirectory>
     <BuildOutputDirectory>$(PublishDirectory)\Build</BuildOutputDirectory>
     <SetupOutputDirectory>$(PublishDirectory)\Setup</SetupOutputDirectory>
-    <TestFilter>"!Functional&#x26;!Scenario&#x26;!LongRunningTest&#x26;!Sequential&#x26;!PIRTest&#x26;!Preview&#x26;!ADDomain"</TestFilter>
+    <TestFilter>"!Functional&#x26;!Scenario&#x26;!Sequential&#x26;!PIRTest&#x26;!Preview&#x26;!ADDomain"</TestFilter>
     <ScenarioTestFilter>All</ScenarioTestFilter>
 	<OneSDKCITFilter>"OneSDK&#x26;CIT"</OneSDKCITFilter>
 	<AzureRTAllTestFilter>"Functional|Scenario"</AzureRTAllTestFilter>

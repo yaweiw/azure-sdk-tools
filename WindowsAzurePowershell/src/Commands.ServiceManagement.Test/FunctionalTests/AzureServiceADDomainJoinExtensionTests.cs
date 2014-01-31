@@ -27,27 +27,27 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
     public class AzureServiceADDomainJoinExtensionTests:ServiceManagementTest
     {
         private string _serviceName;
-        PSObject _certToUpload;
-        X509Certificate2 _installedCert;
         private string _deploymentName;
         private string _deploymentLabel;
         private string _packageName;
         private string _configName;
         private string _rdpCertName;
+        private X509Certificate2 _cert;
 
         private FileInfo _packagePath1;
         private FileInfo _configPath1;
         private FileInfo _rdpCertPath;
         private PSCredential _cred;
 
-        const string CerFileName = "testcert.cer";
-        const string DomainName = "proddjtest.com";
+        const string DomainName = "djtest.com";
         const string ThumbprintAlgorithm = "sha1";
 
         const string DeploymentNamePrefix = "psdeployment";
         const string DeploymentLabelPrefix = "psdeploymentlabel";
-        private const string DomainUserName = "pstestuser@proddjtest.com";
+        private const string DomainUserName = "pstestuser@djtest.com";
         private const string AffinityGroupName = "WestUsAffinityGroup";
+
+        private const string WorkgroupName = "WORKGROUP1";
 
         // Choose the package and config files from local machine
         readonly string[] _role = { "WebRole1" };
@@ -60,7 +60,6 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
             _deploymentLabel = Utilities.GetUniqueShortName(DeploymentLabelPrefix);
 
             pass = false;
-            InstallCertificate();
 
             // Choose the package and config files from local machine
             _packageName = Convert.ToString(TestContext.DataRow["packageName"]);
@@ -69,6 +68,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
             _packagePath1 = new FileInfo(Directory.GetCurrentDirectory() + "\\" + _packageName);
             _configPath1 = new FileInfo(Directory.GetCurrentDirectory() + "\\" + _configName);
             _rdpCertPath = new FileInfo(Directory.GetCurrentDirectory() + "\\" + _rdpCertName);
+            _cert = new X509Certificate2(_rdpCertPath.FullName, password);
             _cred = new PSCredential(DomainUserName, Utilities.convertToSecureString(password));
 
             CheckIfPackageAndConfigFilesExists();
@@ -89,8 +89,13 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
 
                 //Join Domain with default parameter set.
                 Console.WriteLine("Joining domain with default parameter set");
-                vmPowershellCmdlets.SetAzureServiceDomainJoinExtension(DomainName, _cred, 35, true, _serviceName,
-                    DeploymentSlotType.Production, null);
+                vmPowershellCmdlets.SetAzureServiceDomainJoinExtension(
+                    domainName: DomainName,
+                    credential: _cred,
+                    joinOption: 35,
+                    restart:true,
+                    serviceName:_serviceName,
+                    slot: DeploymentSlotType.Production);
                 Console.WriteLine("Servie {0} added to domain {1} successfully.", _serviceName, DomainName);
 
                 GetAzureServiceDomainJoinExtension();
@@ -122,8 +127,14 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
                 //Join Domian with DomainJoinParmaterSet with JoinOptions.JoinDomain
                 Console.WriteLine("Joining domain with domain join parameter set with JoinOptions.JoinDomain");
 
-                vmPowershellCmdlets.SetAzureServiceDomainJoinExtension(DomainName, _cred, JoinOptions.JoinDomain, true,
-                    _serviceName, DeploymentSlotType.Production, _role);
+                vmPowershellCmdlets.SetAzureServiceDomainJoinExtension(
+                    domainName: DomainName,
+                    credential: _cred,
+                    options: JoinOptions.JoinDomain,
+                    restart: true,
+                    serviceName: _serviceName,
+                    slot: DeploymentSlotType.Production,
+                    role: _role);
 
                 Console.WriteLine("Servie {0} added to domain {1} successfully using join option.", _serviceName, DomainName);
 
@@ -153,8 +164,16 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
 
                 //Join Domian with DomainParmaterSet
                 Console.WriteLine("Joining domain with domian parameter set");
-                vmPowershellCmdlets.SetAzureServiceDomainJoinExtension(DomainName, _cred, null, true, _serviceName,
-                    DeploymentSlotType.Production, _role, _installedCert, ThumbprintAlgorithm);
+                vmPowershellCmdlets.SetAzureServiceDomainJoinExtension(
+                    domainName: DomainName,
+                    credential: _cred,
+                    options: null,
+                    restart: true,
+                    serviceName: _serviceName,
+                    slot: DeploymentSlotType.Production,
+                    role: _role,
+                    x509Certificate: _cert,
+                    thumbprintAlgorithm: ThumbprintAlgorithm);
                 Console.WriteLine("Servie {0} added to domain {1} successfully.", _serviceName, DomainName);
                 GetAzureServiceDomainJoinExtension();
 
@@ -181,8 +200,16 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
                 NewAzureDeployment();
 
                 //Join Domian with DomainJoinParmaterSet and certificate
-                vmPowershellCmdlets.SetAzureServiceDomainJoinExtension(DomainName, _cred, JoinOptions.JoinDomain, true,
-                    _serviceName, DeploymentSlotType.Production, _role, _installedCert, ThumbprintAlgorithm);
+                vmPowershellCmdlets.SetAzureServiceDomainJoinExtension(
+                    domainName: DomainName,
+                    credential:_cred,
+                    options:JoinOptions.JoinDomain,
+                    restart: true,
+                    serviceName:_serviceName,
+                    slot: DeploymentSlotType.Production,
+                    role:_role,
+                    x509Certificate:_cert,
+                    thumbprintAlgorithm: ThumbprintAlgorithm);
 
                 Console.WriteLine("Servie {0} added to domain {1} successfully.", _serviceName, DomainName);
                 GetAzureServiceDomainJoinExtension();
@@ -210,19 +237,24 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
                 //Create a new Azure Iaas VM and set Domain Join extension, get domain join extension and then remove domain join extension
                 NewAzureDeployment();
 
-                vmPowershellCmdlets.AddAzureCertificate(_serviceName, _certToUpload, password);
-
                 //Join domain with DomainThumbprintParameterSet
-                vmPowershellCmdlets.SetAzureServiceDomainJoinExtension(DomainName, _cred, null, true,
-                    _serviceName, DeploymentSlotType.Production, _role,
-                    _installedCert.Thumbprint, ThumbprintAlgorithm);
+                vmPowershellCmdlets.SetAzureServiceDomainJoinExtension(
+                    domainName: DomainName,
+                    credential: _cred,
+                    options: null,
+                    restart: true,
+                    serviceName: _serviceName,
+                    slot: DeploymentSlotType.Production,
+                    role: _role,
+                    certificateThumbprint: _cert.Thumbprint,
+                    thumbprintAlgorithm: ThumbprintAlgorithm);
+
                 Console.WriteLine("Servie {0} added to domain {1} successfully.", _serviceName, DomainName);
                 GetAzureServiceDomainJoinExtension();
 
                 RemoveAzureServiceDomainJoinExtesnion(_role);
 
                 vmPowershellCmdlets.RemoveAzureDeployment(_serviceName, DeploymentSlotType.Production, true);
-                vmPowershellCmdlets.RemoveAzureService(_serviceName, true);
                 pass = true;
             }
             catch (Exception e)
@@ -243,11 +275,15 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
                 //Create a new Azure Iaas VM and set Domain Join extension, get domain join extension and then remove domain join extension
                 NewAzureDeployment();
 
-                vmPowershellCmdlets.AddAzureCertificate(_serviceName, _certToUpload, password);
-
                 //Join domain with DomainJoinThumbprintParameterSet
-                vmPowershellCmdlets.SetAzureServiceDomainJoinExtension(DomainName, _cred, 35, true,
-                    _serviceName, DeploymentSlotType.Production, _role);
+                vmPowershellCmdlets.SetAzureServiceDomainJoinExtension(
+                    domainName: DomainName,
+                    credential: _cred,
+                    joinOption: 35,
+                    restart: true,
+                    serviceName: _serviceName,
+                    slot: DeploymentSlotType.Production,
+                    role: _role);
                 Console.WriteLine("Servie {0} added to domain {1} successfully", _serviceName, DomainName);
 
                 GetAzureServiceDomainJoinExtension();
@@ -275,12 +311,17 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
                 //Create a new Azure Iaas VM and set Domain Join extension, get domain join extension and then remove domain join extension
                 NewAzureDeployment();
 
-                vmPowershellCmdlets.AddAzureCertificate(_serviceName, _certToUpload, password);
-
                 //Join domain with DomainJoinThumbprintParameterSet and join oprtion 35
-                vmPowershellCmdlets.SetAzureServiceDomainJoinExtension(DomainName, _cred, 35, true,
-                    _serviceName, DeploymentSlotType.Production, _role,
-                    _installedCert.Thumbprint, ThumbprintAlgorithm);
+                vmPowershellCmdlets.SetAzureServiceDomainJoinExtension(
+                    domainName: DomainName,
+                    credential: _cred,
+                    joinOption: 35,
+                    restart: true,
+                    serviceName: _serviceName,
+                    slot: DeploymentSlotType.Production,
+                    role: _role,
+                    certificateThumbprint: _cert.Thumbprint,
+                    thumbprintAlgorithm: ThumbprintAlgorithm);
                 Console.WriteLine("Servie {0} added to domain {1} successfully using join option 35", _serviceName, DomainName);
 
                 GetAzureServiceDomainJoinExtension();
@@ -306,9 +347,16 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
             try
             {
                 //Prepare a new domain join config with default parameter set
-                ExtensionConfigurationInput domainJoinExtensionConfig =
-                    vmPowershellCmdlets.NewAzureServiceDomainJoinExtensionConfig(DomainName, null, null, null, null,
-                        _role, null, true, _cred);
+                ExtensionConfigurationInput domainJoinExtensionConfig = vmPowershellCmdlets.NewAzureServiceDomainJoinExtensionConfig(
+                    domainName: DomainName,
+                    x509Certificate: null,
+                    options: null,
+                    oUPath: null,
+                    unjoinDomainCredential: null,
+                    role: _role,
+                    thumbprintAlgorithm: null,
+                    restart: true,
+                    credential: _cred);
 
                 //Create a new Azure Iaas VM and set Domain Join extension, get domain join extension and then remove domain join extension
                 NewAzureDeployment(domainJoinExtensionConfig);
@@ -337,9 +385,16 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
             try
             {
                 //Prepare a new domain join config with default parameter set and one of the join options
-                ExtensionConfigurationInput domainJoinExtensionConfig =
-                    vmPowershellCmdlets.NewAzureServiceDomainJoinExtensionConfig(DomainName, null,
-                        JoinOptions.JoinDomain, null, null, null, null, true, _cred);
+                ExtensionConfigurationInput domainJoinExtensionConfig = vmPowershellCmdlets.NewAzureServiceDomainJoinExtensionConfig(
+                    domainName: DomainName,
+                    x509Certificate: null,
+                    options: JoinOptions.JoinDomain,
+                    oUPath: null,
+                    unjoinDomainCredential: null,
+                    role: null,
+                    thumbprintAlgorithm: null,
+                    restart: true,
+                    credential: _cred);
 
                 //Create a new Azure Iaas VM and set Domain Join extension, get domain join extension and then remove domain join extension
                 NewAzureDeployment(domainJoinExtensionConfig);
@@ -366,9 +421,16 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
             try
             {
                 //Prepare a new domain join config with DomainParameterSet (using only X509certicate2)
-                ExtensionConfigurationInput domainJoinExtensionConfig =
-                    vmPowershellCmdlets.NewAzureServiceDomainJoinExtensionConfig(DomainName, _installedCert, null, null,
-                        null, null, null, true, _cred);
+                ExtensionConfigurationInput domainJoinExtensionConfig = vmPowershellCmdlets.NewAzureServiceDomainJoinExtensionConfig(
+                    domainName: DomainName,
+                    x509Certificate: _cert,
+                    //options: null,
+                    //oUPath: null,
+                    unjoinDomainCredential: null,
+                    role: null,
+                    thumbprintAlgorithm: null,
+                    restart: true,
+                    credential:_cred);
 
                 NewAzureDeployment(domainJoinExtensionConfig);
 
@@ -396,9 +458,16 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
 
             try
             {
-                ExtensionConfigurationInput domainJoinExtensionConfig =
-                    vmPowershellCmdlets.NewAzureServiceDomainJoinExtensionConfig(DomainName, _installedCert,
-                        JoinOptions.JoinDomain, null, null, null, null, true, _cred);
+                ExtensionConfigurationInput domainJoinExtensionConfig = vmPowershellCmdlets.NewAzureServiceDomainJoinExtensionConfig(
+                    domainName: DomainName,
+                    x509Certificate: _cert,
+                    options: JoinOptions.JoinDomain,
+                    oUPath: null,
+                    unjoinDomainCredential: null,
+                    role: null,
+                    thumbprintAlgorithm: null,
+                    restart: true,
+                    credential: _cred);
 
                 NewAzureDeployment(domainJoinExtensionConfig);
 
@@ -425,9 +494,16 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
             try
             {
                 //Prepare a new domain join config with DomianThumbprintParameterSet
-                ExtensionConfigurationInput domainJoinExtensionConfig =
-                    vmPowershellCmdlets.NewAzureServiceDomainJoinExtensionConfig(DomainName, _installedCert.Thumbprint,
-                        null, null, _role, ThumbprintAlgorithm, null, true, _cred);
+                ExtensionConfigurationInput domainJoinExtensionConfig = vmPowershellCmdlets.NewAzureServiceDomainJoinExtensionConfig(
+                    domainName: DomainName,
+                    certificateThumbprint: _cert.Thumbprint,
+                    joinOption: null,
+                    oUPath: null,
+                    unjoinDomainCredential: null,
+                    role:_role,
+                    thumbprintAlgorithm: ThumbprintAlgorithm,
+                    restart: true,
+                    credential: _cred);
 
                 NewAzureDeployment(domainJoinExtensionConfig);
 
@@ -455,9 +531,16 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
             try
             {
                 //Prepare a new domain join config with default parameter set and joinOption 35
-                ExtensionConfigurationInput domainJoinExtensionConfig =
-                    vmPowershellCmdlets.NewAzureServiceDomainJoinExtensionConfig(DomainName, null, null, null, _role,
-                        null, 35, true, _cred);
+                ExtensionConfigurationInput domainJoinExtensionConfig = vmPowershellCmdlets.NewAzureServiceDomainJoinExtensionConfig(
+                    domainName: DomainName,
+                    certificateThumbprint: null,
+                    joinOption: 35,
+                    oUPath: null,
+                    unjoinDomainCredential: null,
+                    role:_role,
+                    thumbprintAlgorithm: null,
+                    restart: true,
+                    credential:_cred);
                 NewAzureDeployment(domainJoinExtensionConfig);
 
                 GetAzureServiceDomainJoinExtension();
@@ -484,9 +567,16 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
 
             try
             {
-                ExtensionConfigurationInput domainJoinExtensionConfig =
-                    vmPowershellCmdlets.NewAzureServiceDomainJoinExtensionConfig(DomainName, _installedCert.Thumbprint,
-                        null, null, _role, ThumbprintAlgorithm, 35, true, _cred);
+                ExtensionConfigurationInput domainJoinExtensionConfig = vmPowershellCmdlets.NewAzureServiceDomainJoinExtensionConfig(
+                    domainName: DomainName,
+                    certificateThumbprint: _cert.Thumbprint,
+                    oUPath: null,
+                    unjoinDomainCredential: null,
+                    role: _role,
+                    thumbprintAlgorithm: ThumbprintAlgorithm,
+                    joinOption: 35,
+                    restart: true,
+                    credential: _cred);
 
                 NewAzureDeployment(domainJoinExtensionConfig);
 
@@ -515,16 +605,17 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
             StartTest(MethodBase.GetCurrentMethod().Name, testStartTime);
             Console.WriteLine(_cred.UserName);
             try
-            {
-                string workgroup = "WORKGROUP1";
+            {                
                 //Create a new Azure Iaas VM and set Domain Join extension, get domain join extension and then remove domain join extension
                 NewAzureDeployment();
 
                 //Join Domain with default parameter set.
                 Console.WriteLine("Joining domain with Workgroup default parameter set");
-                vmPowershellCmdlets.SetAzureServiceDomainJoinExtension(workgroup, _serviceName, DeploymentSlotType.Production, null, null, true, null, null);
+                vmPowershellCmdlets.SetAzureServiceDomainJoinExtension(
+                    workGroupName: WorkgroupName,
+                    serviceName: _serviceName);
 
-                Console.WriteLine("Servie {0} added to workgroup {1} successfully.", _serviceName, workgroup);
+                Console.WriteLine("Servie {0} added to workgroup {1} successfully.", _serviceName, WorkgroupName);
 
                 GetAzureServiceDomainJoinExtension();
 
@@ -549,20 +640,24 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
             Console.WriteLine(_cred.UserName);
             try
             {
-                string workgroup1 = "WORKGROUP1";
-                string workgroup2 = "WORKGROUP2";
+                const string workgroup2 = "WORKGROUP2";
                 //Create a new Azure Iaas VM and set Domain Join extension, get domain join extension and then remove domain join extension
                 NewAzureDeployment();
 
                 //Join Domain with default parameter set.
                 Console.WriteLine("Joining domain with Workgroup default parameter set");
-                vmPowershellCmdlets.SetAzureServiceDomainJoinExtension(workgroup1, _serviceName, DeploymentSlotType.Production, null, restart: true,credential: _cred);
-                Console.WriteLine("Servie {0} added to workgroup {1} successfully.", _serviceName, workgroup1);
+                vmPowershellCmdlets.SetAzureServiceDomainJoinExtension(
+                    workGroupName: WorkgroupName,
+                    serviceName: _serviceName,
+                    credential: _cred);
+                Console.WriteLine("Servie {0} added to workgroup {1} successfully.", _serviceName, WorkgroupName);
 
                 GetAzureServiceDomainJoinExtension();
 
                 Console.WriteLine("Joining domain with Workgroup default parameter set");
-                vmPowershellCmdlets.SetAzureServiceDomainJoinExtension(workgroup2, _serviceName, DeploymentSlotType.Production, null, restart: true);
+                vmPowershellCmdlets.SetAzureServiceDomainJoinExtension(
+                    workGroupName: workgroup2,
+                    serviceName: _serviceName);
                 Console.WriteLine("Servie {0} added to workgroup {1} successfully.", _serviceName, workgroup2);
 
                 RemoveAzureServiceDomainJoinExtesnion();
@@ -586,23 +681,32 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
             Console.WriteLine(_cred.UserName);
             try
             {
-                string workgroup1 = "WORKGROUP1";
                 //Create a new Azure Iaas VM and set Domain Join extension, get domain join extension and then remove domain join extension
                 NewAzureDeployment();
 
                 //Join Domain with default parameter set.
                 Console.WriteLine("Joining domain with default parameter set");
                 
-                vmPowershellCmdlets.SetAzureServiceDomainJoinExtension(DomainName, _cred, 35, true, _serviceName, DeploymentSlotType.Production, null, unjoinDomainCredential: _cred);
+                vmPowershellCmdlets.SetAzureServiceDomainJoinExtension(
+                    domainName: DomainName,
+                    credential: _cred,
+                    joinOption: 35,
+                    restart: true,
+                    serviceName: _serviceName,
+                    slot: DeploymentSlotType.Production,
+                    role: null,
+                    unjoinDomainCredential: _cred);
                 Console.WriteLine("Servie {0} added to domain {1} successfully.", _serviceName, DomainName);
 
                 GetAzureServiceDomainJoinExtension();
 
                 //Join workgroup
                 Console.WriteLine("Joining domain with Workgroup default parameter set");
-                vmPowershellCmdlets.SetAzureServiceDomainJoinExtension(workgroup1, _serviceName, DeploymentSlotType.Production, null, null, true, null, null);
+                vmPowershellCmdlets.SetAzureServiceDomainJoinExtension(
+                    workGroupName: WorkgroupName,
+                    serviceName: _serviceName);
                 //vmPowershellCmdlets.SetAzureServiceDomainJoinExtension(workgroup1, _serviceName, DeploymentSlotType.Production, null, restart: true);
-                Console.WriteLine("Servie {0} added to workgroup {1} successfully.", _serviceName, workgroup1);
+                Console.WriteLine("Servie {0} added to workgroup {1} successfully.", _serviceName, WorkgroupName);
 
                 GetAzureServiceDomainJoinExtension();
 
@@ -627,20 +731,29 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
             Console.WriteLine(_cred.UserName); 
             try
             {
-                string workgroup1 = "WORKGROUP1";
                 //Create a new Azure Iaas VM and set Domain Join extension, get domain join extension and then remove domain join extension
                 NewAzureDeployment();
 
                 //Join workgroup
                 Console.WriteLine("Joining domain with Workgroup default parameter set");
-                vmPowershellCmdlets.SetAzureServiceDomainJoinExtension(workgroup1, _serviceName, DeploymentSlotType.Production, null, restart: true);
-                Console.WriteLine("Servie {0} added to workgroup {1} successfully.", _serviceName, workgroup1);
+                vmPowershellCmdlets.SetAzureServiceDomainJoinExtension(
+                    workGroupName: WorkgroupName,
+                    serviceName: _serviceName);
+                Console.WriteLine("Servie {0} added to workgroup {1} successfully.", _serviceName, WorkgroupName);
 
                 GetAzureServiceDomainJoinExtension();
 
                 //Join Domain with default parameter set.
                 Console.WriteLine("Joining domain with default parameter set");
-                vmPowershellCmdlets.SetAzureServiceDomainJoinExtension(DomainName, _cred, 35, true, _serviceName, DeploymentSlotType.Production, null, unjoinDomainCredential: _cred);
+                vmPowershellCmdlets.SetAzureServiceDomainJoinExtension(
+                    domainName: DomainName,
+                    credential: _cred,
+                    joinOption: 35,
+                    restart: true,
+                    serviceName: _serviceName,
+                    slot: DeploymentSlotType.Production,
+                    role: null,
+                    unjoinDomainCredential: _cred);
                 Console.WriteLine("Servie {0} added to domain {1} successfully.", _serviceName, DomainName);
 
                 GetAzureServiceDomainJoinExtension();
@@ -665,14 +778,21 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
             Console.WriteLine(_cred.UserName);
             try
             {
-                string workgroup = "WORKGROUP1";
                 //Create a new Azure Iaas VM and set Domain Join extension, get domain join extension and then remove domain join extension
                 NewAzureDeployment();
 
                 //Join Domain with default parameter set.
                 Console.WriteLine("Joining domain with Workgroup thumbprint parameter set");
-                vmPowershellCmdlets.SetAzureServiceDomainJoinExtension(workgroup, _serviceName, DeploymentSlotType.Production, _role, _installedCert.Thumbprint,ThumbprintAlgorithm,true);
-                Console.WriteLine("Servie {0} added to workgroup {1} successfully.", _serviceName, workgroup);
+
+                vmPowershellCmdlets.SetAzureServiceDomainJoinExtension(
+                    workGroupName: WorkgroupName,
+                    serviceName:_serviceName,
+                    slot: DeploymentSlotType.Production,
+                    role: _role,
+                    certificateThumbprint: _cert.Thumbprint,
+                    thumbprintAlgorithm: ThumbprintAlgorithm,
+                    restart: true);
+                Console.WriteLine("Servie {0} added to workgroup {1} successfully.", _serviceName, WorkgroupName);
 
                 GetAzureServiceDomainJoinExtension();
 
@@ -697,15 +817,17 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
             Console.WriteLine(_cred.UserName);
             try
             {
-                string workgroup = "WORKGROUP1";
                 //Create a new Azure Iaas VM and set Domain Join extension, get domain join extension and then remove domain join extension
                 NewAzureDeployment();
 
                 //Join Domain with default parameter set.
                 Console.WriteLine("Joining domain with Workgroup certificate parameter set");
-                vmPowershellCmdlets.SetAzureServiceDomainJoinExtension(workgroup, _serviceName, DeploymentSlotType.Production, null, _installedCert, true, null, null);
+                vmPowershellCmdlets.SetAzureServiceDomainJoinExtension(
+                    workGroupName: WorkgroupName,
+                    serviceName: _serviceName,
+                    x509Certificate: _cert);
 
-                Console.WriteLine("Servie {0} added to workgroup {1} successfully.", _serviceName, workgroup);
+                Console.WriteLine("Servie {0} added to workgroup {1} successfully.", _serviceName, WorkgroupName);
 
                 GetAzureServiceDomainJoinExtension();
 
@@ -730,9 +852,11 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
 
             try
             {
-                string workgroup = "WORKGROUP1";
                 //Prepare a new domain join config with workgroup default parameter set
-                ExtensionConfigurationInput domainJoinExtensionConfig = vmPowershellCmdlets.NewAzureServiceDomainJoinExtensionConfig(workgroup, null, true,credential: _cred);
+                ExtensionConfigurationInput domainJoinExtensionConfig = vmPowershellCmdlets.NewAzureServiceDomainJoinExtensionConfig(
+                    workGroupName: WorkgroupName,
+                    x509Certificate: null,
+                    credential: _cred);
 
                 //Create a new Azure Iaas VM and set Domain Join extension, get domain join extension and then remove domain join extension
                 NewAzureDeployment(domainJoinExtensionConfig);
@@ -760,9 +884,13 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
 
             try
             {
-                string workgroup = "WORKGROUP1";
                 //Prepare a new domain join config with workgroup default parameter set
-                ExtensionConfigurationInput domainJoinExtensionConfig = vmPowershellCmdlets.NewAzureServiceDomainJoinExtensionConfig(workgroup, _installedCert.Thumbprint,null, true, thumbprintAlgorithm: ThumbprintAlgorithm);
+                ExtensionConfigurationInput domainJoinExtensionConfig = vmPowershellCmdlets.NewAzureServiceDomainJoinExtensionConfig(
+                    workGroupName: WorkgroupName,
+                    certificateThumbprint: _cert.Thumbprint,
+                    role: null,
+                    restart: true,
+                    thumbprintAlgorithm: ThumbprintAlgorithm);
 
                 //Create a new Azure Iaas VM and set Domain Join extension, get domain join extension and then remove domain join extension
                 NewAzureDeployment(domainJoinExtensionConfig);
@@ -790,9 +918,11 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
 
             try
             {
-                string workgroup = "WORKGROUP1";
                 //Prepare a new domain join config with workgroup default parameter set
-                ExtensionConfigurationInput domainJoinExtensionConfig = vmPowershellCmdlets.NewAzureServiceDomainJoinExtensionConfig(workgroup, _installedCert,true);
+                ExtensionConfigurationInput domainJoinExtensionConfig = vmPowershellCmdlets.NewAzureServiceDomainJoinExtensionConfig(
+                    workGroupName: WorkgroupName,
+                    x509Certificate: _cert,
+                    restart: true);
 
                 //Create a new Azure Iaas VM and set Domain Join extension, get domain join extension and then remove domain join extension
                 NewAzureDeployment(domainJoinExtensionConfig);
@@ -812,24 +942,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
             }
         }
 
-
         #endregion join workgroup cmdlet tests
-
-        private void InstallCertificate()
-        {
-            // Create a certificate
-            X509Certificate2 certCreated = Utilities.CreateCertificate(password);
-            byte[] certData2 = certCreated.Export(X509ContentType.Cert);
-            File.WriteAllBytes(CerFileName, certData2);
-
-            // Install the .cer file to local machine.
-            const StoreLocation certStoreLocation = StoreLocation.CurrentUser;
-            const StoreName certStoreName = StoreName.My;
-            _installedCert = Utilities.InstallCert(CerFileName);
-
-            _certToUpload = vmPowershellCmdlets.RunPSScript(
-                String.Format("Get-Item cert:\\{0}\\{1}\\{2}", certStoreLocation, certStoreName, _installedCert.Thumbprint))[0];
-        }
 
         [TestCleanup]
         public virtual void CleanUp()
