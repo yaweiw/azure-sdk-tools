@@ -31,9 +31,17 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
     {
         protected const string SetByExtensionParamSetName = "SetByExtensionName";
         protected const string SetByReferenceParamSetName = "SetByReferenceName";
+        protected const string SetByExtensionAndConfigFileParamSetName = "SetByExtensionNameAndConfigFile";
+        protected const string SetByReferenceAndConfigFileParamSetName = "SetByReferenceNameAndConfigFile";
 
         [Parameter(
             ParameterSetName = SetByExtensionParamSetName,
+            Mandatory = true,
+            Position = 1,
+            ValueFromPipelineByPropertyName = true,
+            HelpMessage = "The Extension Name.")]
+        [Parameter(
+            ParameterSetName = SetByExtensionAndConfigFileParamSetName,
             Mandatory = true,
             Position = 1,
             ValueFromPipelineByPropertyName = true,
@@ -51,6 +59,12 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
             Position = 2,
             ValueFromPipelineByPropertyName = true,
             HelpMessage = "The Extension Publisher.")]
+        [Parameter(
+            ParameterSetName = SetByExtensionAndConfigFileParamSetName,
+            Mandatory = true,
+            Position = 2,
+            ValueFromPipelineByPropertyName = true,
+            HelpMessage = "The Extension Publisher.")]
         [ValidateNotNullOrEmpty]
         public override string Publisher
         {
@@ -60,6 +74,11 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
 
         [Parameter(
             ParameterSetName = SetByExtensionParamSetName,
+            Position = 3,
+            ValueFromPipelineByPropertyName = true,
+            HelpMessage = "The Extension Version.")]
+        [Parameter(
+            ParameterSetName = SetByExtensionAndConfigFileParamSetName,
             Position = 3,
             ValueFromPipelineByPropertyName = true,
             HelpMessage = "The Extension Version.")]
@@ -77,6 +96,17 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
             HelpMessage = "The Extension Reference Name.")]
         [Parameter(
             ParameterSetName = SetByReferenceParamSetName,
+            Mandatory = true,
+            Position = 1,
+            ValueFromPipelineByPropertyName = true,
+            HelpMessage = "The Extension Reference Name.")]
+        [Parameter(
+            ParameterSetName = SetByExtensionAndConfigFileParamSetName,
+            Position = 4,
+            ValueFromPipelineByPropertyName = true,
+            HelpMessage = "The Extension Reference Name.")]
+        [Parameter(
+            ParameterSetName = SetByReferenceAndConfigFileParamSetName,
             Mandatory = true,
             Position = 1,
             ValueFromPipelineByPropertyName = true,
@@ -106,6 +136,23 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
         }
 
         [Parameter(
+            ParameterSetName = SetByExtensionAndConfigFileParamSetName,
+            Position = 5,
+            ValueFromPipelineByPropertyName = true,
+            HelpMessage = "The Extension Public Configuration.")]
+        [Parameter(
+            ParameterSetName = SetByReferenceAndConfigFileParamSetName,
+            Position = 2,
+            ValueFromPipelineByPropertyName = true,
+            HelpMessage = "The Extension Public Configuration.")]
+        [ValidateNotNullOrEmpty]
+        public override string PublicConfigPath
+        {
+            get;
+            set;
+        }
+
+        [Parameter(
             ParameterSetName = SetByExtensionParamSetName,
             Position = 6,
             ValueFromPipelineByPropertyName = true,
@@ -123,12 +170,39 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
         }
 
         [Parameter(
+            ParameterSetName = SetByExtensionAndConfigFileParamSetName,
+            Position = 6,
+            ValueFromPipelineByPropertyName = true,
+            HelpMessage = "The Extension Private Configuration.")]
+        [Parameter(
+            ParameterSetName = SetByReferenceAndConfigFileParamSetName,
+            Position = 3,
+            ValueFromPipelineByPropertyName = true,
+            HelpMessage = "The Extension Private Configuration.")]
+        [ValidateNotNullOrEmpty]
+        public override string PrivateConfigPath
+        {
+            get;
+            set;
+        }
+
+        [Parameter(
             ParameterSetName = SetByExtensionParamSetName,
             Position = 7,
             ValueFromPipelineByPropertyName = true,
             HelpMessage = "To Set the Extension State to 'Disable'.")]
         [Parameter(
             ParameterSetName = SetByReferenceParamSetName,
+            Position = 4,
+            ValueFromPipelineByPropertyName = true,
+            HelpMessage = "To Set the Extension State to 'Disable'.")]
+        [Parameter(
+            ParameterSetName = SetByExtensionAndConfigFileParamSetName,
+            Position = 7,
+            ValueFromPipelineByPropertyName = true,
+            HelpMessage = "To Set the Extension State to 'Disable'.")]
+        [Parameter(
+            ParameterSetName = SetByReferenceAndConfigFileParamSetName,
             Position = 4,
             ValueFromPipelineByPropertyName = true,
             HelpMessage = "To Set the Extension State to 'Disable'.")]

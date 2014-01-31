@@ -34,7 +34,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
                 extensionRefs == null ? null : extensionRefs.Select(
                 r =>
                 {
-                    GetEnableVMAccessAgentValues(r.ResourceExtensionParameterValues);
+                    GetVMAccessExtensionValues(r);
                     return new VirtualMachineAccessExtensionContext
                     {
                         ExtensionName = r.Name,

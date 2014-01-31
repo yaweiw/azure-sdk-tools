@@ -40,7 +40,19 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
 
         [Parameter(
             Mandatory = false,
-            Position = 1,
+            Position = 2,
+            ValueFromPipelineByPropertyName = true,
+            HelpMessage = "The Extension Reference Name.")]
+        [ValidateNotNullOrEmpty]
+        public override string ReferenceName
+        {
+            get;
+            set;
+        }
+
+        [Parameter(
+            Mandatory = false,
+            Position = 3,
             ValueFromPipelineByPropertyName = true,
             HelpMessage = "The Extension Version.")]
         [ValidateNotNullOrEmpty]
@@ -56,6 +68,12 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
             RemovePredicateExtensions();
             AddResourceExtension();
             WriteObject(VM);
+        }
+
+        protected override void ValidateParameters()
+        {
+            base.ValidateParameters();
+            this.ReferenceName = this.ReferenceName ?? LegacyReferenceName;
         }
 
         protected override void ProcessRecord()

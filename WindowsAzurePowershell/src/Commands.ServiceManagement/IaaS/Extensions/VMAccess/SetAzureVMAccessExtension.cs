@@ -68,10 +68,27 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
             ParameterSetName = EnableExtensionParamSetName,
             Position = 3,
             ValueFromPipelineByPropertyName = true,
-            HelpMessage = "The Extension Version.")]
+            HelpMessage = "The Extension Reference Name.")]
         [Parameter(
             ParameterSetName = DisableExtensionParamSetName,
             Position = 2,
+            ValueFromPipelineByPropertyName = true,
+            HelpMessage = "The Extension Reference Name.")]
+        [ValidateNotNullOrEmpty]
+        public override string ReferenceName
+        {
+            get;
+            set;
+        }
+
+        [Parameter(
+            ParameterSetName = EnableExtensionParamSetName,
+            Position = 4,
+            ValueFromPipelineByPropertyName = true,
+            HelpMessage = "The Extension Version.")]
+        [Parameter(
+            ParameterSetName = DisableExtensionParamSetName,
+            Position = 3,
             ValueFromPipelineByPropertyName = true,
             HelpMessage = "The Extension Version.")]
         [ValidateNotNullOrEmpty]
@@ -92,8 +109,16 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
         protected override void ValidateParameters()
         {
             base.ValidateParameters();
-            this.Version = this.Version ?? VMAccessAgentLegacyVersion;
-            this.PrivateConfiguration = GetPrivateConfiguration();
+            if (IsLegacyExtension())
+            {
+                this.PublicConfiguration = GetLegacyConfiguration();
+            }
+            else
+            {
+                this.ReferenceName = this.ReferenceName ?? LegacyReferenceName;
+                this.PublicConfiguration = GetPublicConfiguration();
+                this.PrivateConfiguration = GetPrivateConfiguration();
+            }
         }
 
         protected override void ProcessRecord()
