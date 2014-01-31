@@ -385,5 +385,16 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.WebsitesTests
 
         #endregion
 
+        #region Publish-AzureWebsiteProject Scenario Tests
+
+        [TestMethod]
+        [TestCategory(Category.All)]
+        [TestCategory(Category.Websites)]
+        public void TestPublishWebsiteProjectFromPackage()
+        {
+            RunPowerShellTest("Publish-AzureWebsiteProjectFromPackage");
+        }
+
+        #endregion
     }
 }

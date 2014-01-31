@@ -20671,6 +20671,13 @@ PS C:\&gt; Set-WAPackVM -VM $vm -VMSizeProfile $sizeProfile
 				  </maml:description>
 				  <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
 			  </command:parameter>
+        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="3">
+          <maml:name>ConnectionString</maml:name>
+          <maml:description>
+            <maml:para>The connection strings to use for the deployment.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">Hashtable</command:parameterValue>
+        </command:parameter>
 			  <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="named">
 				  <maml:name>Slot</maml:name>
 				  <maml:description>
@@ -20702,13 +20709,13 @@ PS C:\&gt; Set-WAPackVM -VM $vm -VMSizeProfile $sizeProfile
 				  </maml:description>
 				  <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
 			  </command:parameter>
-			  <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="4">
-				  <maml:name>BuildProperty</maml:name>
-				  <maml:description>
-					  <maml:para>The MSBuild properties used to build the Visual Studio web application project.</maml:para>
-				  </maml:description>
-				  <command:parameterValue required="true" variableLength="false">hashtable</command:parameterValue>
-			  </command:parameter>
+        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="4">
+          <maml:name>ConnectionString</maml:name>
+          <maml:description>
+            <maml:para>The connection strings to use for the deployment.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">Hashtable</command:parameterValue>
+        </command:parameter>
 			  <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="named">
 				  <maml:name>Slot</maml:name>
 				  <maml:description>
@@ -20772,19 +20779,6 @@ PS C:\&gt; Set-WAPackVM -VM $vm -VMSizeProfile $sizeProfile
 			  </dev:type>
 			  <dev:defaultValue>Release</dev:defaultValue>
 		  </command:parameter>
-		  <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="4">
-			  <maml:name>BuildProperty</maml:name>
-			  <maml:description>
-				  <maml:para>The MSBuild properties used to build the Visual Studio web application project.</maml:para>
-								
-			  </maml:description>
-			  <command:parameterValue required="true" variableLength="false">hashtable</command:parameterValue>
-			  <dev:type>
-				  <maml:name>hashtable</maml:name>
-				  <maml:uri/>
-			  </dev:type>
-			  <dev:defaultValue></dev:defaultValue>
-		  </command:parameter>
 		  <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="2">
 			  <maml:name>Package</maml:name>
 			  <maml:description>
@@ -20798,6 +20792,19 @@ PS C:\&gt; Set-WAPackVM -VM $vm -VMSizeProfile $sizeProfile
 			  </dev:type>
 			  <dev:defaultValue></dev:defaultValue>
 		  </command:parameter>
+      <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="4">
+        <maml:name>ConnectionString</maml:name>
+        <maml:description>
+          <maml:para>The connection strings to use for the deployment.</maml:para>
+
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">Hashtable</command:parameterValue>
+        <dev:type>
+          <maml:name>Hashtable</maml:name>
+          <maml:uri/>
+        </dev:type>
+        <dev:defaultValue></dev:defaultValue>
+      </command:parameter>
 	  </command:parameters>
 	  <!-- Input - Output section-->
 	  <command:inputTypes>
@@ -20923,9 +20930,35 @@ PS C:\&gt; Set-WAPackVM -VM $vm -VMSizeProfile $sizeProfile
 			  </command:commandLines>
 		  </command:example>
 
-		  <command:example>
+      <command:example>
+        <maml:title>
+          -------------------------- EXAMPLE 4 --------------------------
+        </maml:title>
+        <maml:introduction>
+          <maml:para>C:\PS&gt;</maml:para>
+        </maml:introduction>
+        <dev:code>
+          Publish-AzureWebsiteProject -Name site1 -ProjectFile .\WebApplication1.csproj -ConnectionString @{ DefaultConnection = &quot;my connection string&quot; }
+        </dev:code>
+        <dev:remarks>
+          <maml:para>Description</maml:para>
+          <maml:para>-----------</maml:para>
+          <maml:para>Build a Visual Studio web project, overwrite the &quot;DefaultConnection&quot; connection string in Web.config and publish to a Windows Azure Web Site using WebDeploy.</maml:para>
+          <maml:para></maml:para>
+          <maml:para></maml:para>
+          <maml:para></maml:para>
+          <maml:para></maml:para>
+        </dev:remarks>
+        <command:commandLines>
+          <command:commandLine>
+            <command:commandText></command:commandText>
+          </command:commandLine>
+        </command:commandLines>
+      </command:example>
+
+      <command:example>
 			  <maml:title>
-				  -------------------------- EXAMPLE 4 --------------------------
+				  -------------------------- EXAMPLE 5 --------------------------
 			  </maml:title> 
 			  <maml:introduction>
 				  <maml:para>C:\PS&gt;</maml:para>

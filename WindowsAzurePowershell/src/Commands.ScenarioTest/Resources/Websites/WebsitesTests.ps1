@@ -859,3 +859,52 @@ function Test-SetAzureWebsite
 	Assert-AreEqual Classic $website.ManagedPipelineMode
 	Assert-AreEqual $true $website.WebSocketsEnabled
 }
+
+########################################################################### Publish-AzureWebsiteProject Scenario Tests ################################################################
+function Publish-AzureWebsiteProjectFromProjectFile
+{
+	# Setup
+	$name = Get-WebsiteName
+	New-AzureWebsite $name
+	$projectFile = ""
+	$connectionString = "test-connection-string"
+
+	# Test
+	Publish-AzureWebsiteProject -Name $name -ProjectFile $projectFile -DefaultConnection $connectionString
+
+	#Assert
+	$website = Get-AzureWebsite $name
+	$response = Invoke-WebRequest $website.HostNames[0]
+	$hasConnectionString = $response.Content -like "*" + $connectionString + "*"
+	Assert-AreEqual $true $hasConnectionString
+}
+
+function Publish-AzureWebsiteProjectFromPackage
+{
+	# Setup
+	$name = Get-WebsiteName
+	New-AzureWebsite $name
+	$package = "C:\azure-sdk-tools-new\WindowsAzurePowershell\src\Commands.ScenarioTest\Resources\Websites\webdeploypackage.zip"
+	$connectionString = @{ DefaultConnection = "test-connection-string" }
+
+	# Test
+	Publish-AzureWebsiteProject -Name $name -Package $package -ConnectionString $connectionString
+
+	#Assert
+	$website = Get-AzureWebsite $name
+	$response = Invoke-WebRequest $website.HostNames[0]
+	$hasConnectionString = $response.Content -like "*test-connection-string*"
+	Assert-AreEqual $true $hasConnectionString
+}
+
+function New-WebsiteProjectBuildFail
+{
+	# Setup
+	$projectFileWithErrors = ""
+
+	#Test
+	Publish-AzureWebsiteProject -Name "fake-name" -ProjectFile $projectFileWithErrors
+
+	#Assert
+	Test-Path .\build.log
+}
