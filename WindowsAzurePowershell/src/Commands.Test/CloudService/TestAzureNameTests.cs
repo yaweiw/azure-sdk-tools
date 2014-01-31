@@ -24,28 +24,32 @@ namespace Microsoft.WindowsAzure.Commands.Test.CloudService
     using Microsoft.WindowsAzure.Commands.Utilities.ServiceBus;
     using Microsoft.WindowsAzure.Commands.Utilities.CloudService;
     using Microsoft.WindowsAzure.Management.Compute.Models;
+    using Microsoft.WindowsAzure.Commands.Utilities.Websites;
 
     [TestClass]
     public class TestAzureNameTests : TestBase
     {
-        private Mock<ICloudServiceClient> clientMock;
-        MockCommandRuntime mockCommandRuntime;
+        private Mock<ICloudServiceClient> cloudServiceClientMock;
+        private Mock<IWebsitesClient> websitesClientMock;
+        MockCommandRuntime commandRuntimeMock;
         TestAzureNameCommand cmdlet;
-        Mock<ServiceBusClientExtensions> serviceBusClient;
+        Mock<ServiceBusClientExtensions> serviceBusClientMock;
         string subscriptionId = "my subscription Id";
 
         [TestInitialize]
         public void SetupTest()
         {
-            clientMock = new Mock<ICloudServiceClient>();
-            
-            mockCommandRuntime = new MockCommandRuntime();
-            serviceBusClient = new Mock<ServiceBusClientExtensions>();
+            cloudServiceClientMock = new Mock<ICloudServiceClient>();
+            commandRuntimeMock = new MockCommandRuntime();
+            serviceBusClientMock = new Mock<ServiceBusClientExtensions>();
+            websitesClientMock = new Mock<IWebsitesClient>();
+
             cmdlet = new TestAzureNameCommand()
             {
-                CommandRuntime = mockCommandRuntime,
-                ServiceBusClient = serviceBusClient.Object,
-                CloudServiceClient = clientMock.Object
+                CommandRuntime = commandRuntimeMock,
+                ServiceBusClient = serviceBusClientMock.Object,
+                CloudServiceClient = cloudServiceClientMock.Object,
+                WebsitesClient = websitesClientMock.Object
             };
         }
 
@@ -53,11 +57,11 @@ namespace Microsoft.WindowsAzure.Commands.Test.CloudService
         public void TestAzureServiceNameUsed()
         {
             string name = "test";
-            clientMock.Setup(f => f.CheckHostedServiceNameAvailability(name)).Returns(false);
+            cloudServiceClientMock.Setup(f => f.CheckHostedServiceNameAvailability(name)).Returns(false);
 
             cmdlet.IsDNSAvailable(null, name);
 
-            bool actual = (bool)mockCommandRuntime.OutputPipeline[0];
+            bool actual = (bool)commandRuntimeMock.OutputPipeline[0];
             Assert.IsTrue(actual);
         }
 
@@ -65,11 +69,11 @@ namespace Microsoft.WindowsAzure.Commands.Test.CloudService
         public void TestAzureServiceNameIsNotUsed()
         {
             string name = "test";
-            clientMock.Setup(f => f.CheckHostedServiceNameAvailability(name)).Returns(true);
+            cloudServiceClientMock.Setup(f => f.CheckHostedServiceNameAvailability(name)).Returns(true);
 
             cmdlet.IsDNSAvailable(null, name);
 
-            bool actual = (bool)mockCommandRuntime.OutputPipeline[0];
+            bool actual = (bool)commandRuntimeMock.OutputPipeline[0];
             Assert.IsFalse(actual);
         }
 
@@ -77,11 +81,11 @@ namespace Microsoft.WindowsAzure.Commands.Test.CloudService
         public void TestAzureStorageNameUsed()
         {
             string name = "test";
-            clientMock.Setup(f => f.CheckStorageServiceAvailability(name)).Returns(false);
+            cloudServiceClientMock.Setup(f => f.CheckStorageServiceAvailability(name)).Returns(false);
 
             cmdlet.IsStorageServiceAvailable(null, name);
 
-            bool actual = (bool)mockCommandRuntime.OutputPipeline[0];
+            bool actual = (bool)commandRuntimeMock.OutputPipeline[0];
             Assert.IsTrue(actual);
         }
 
@@ -89,11 +93,11 @@ namespace Microsoft.WindowsAzure.Commands.Test.CloudService
         public void TestAzureStorageNameIsNotUsed()
         {
             string name = "test";
-            clientMock.Setup(f => f.CheckStorageServiceAvailability(name)).Returns(true);
+            cloudServiceClientMock.Setup(f => f.CheckStorageServiceAvailability(name)).Returns(true);
 
             cmdlet.IsStorageServiceAvailable(null, name);
 
-            bool actual = (bool)mockCommandRuntime.OutputPipeline[0];
+            bool actual = (bool)commandRuntimeMock.OutputPipeline[0];
             Assert.IsFalse(actual);
         }
 
@@ -101,11 +105,11 @@ namespace Microsoft.WindowsAzure.Commands.Test.CloudService
         public void TestAzureServiceBusNamespaceUsed()
         {
             string name = "test";
-            serviceBusClient.Setup(f => f.IsAvailableNamespace(name)).Returns(false);
+            serviceBusClientMock.Setup(f => f.IsAvailableNamespace(name)).Returns(false);
 
             cmdlet.IsServiceBusNamespaceAvailable(subscriptionId, name);
 
-            bool actual = (bool)mockCommandRuntime.OutputPipeline[0];
+            bool actual = (bool)commandRuntimeMock.OutputPipeline[0];
 
             Assert.IsTrue(actual);
         }
@@ -114,12 +118,36 @@ namespace Microsoft.WindowsAzure.Commands.Test.CloudService
         public void TestAzureServiceBusNamespaceIsNotUsed()
         {
             string name = "test";
-            serviceBusClient.Setup(f => f.IsAvailableNamespace(name)).Returns(true);
+            serviceBusClientMock.Setup(f => f.IsAvailableNamespace(name)).Returns(true);
 
             cmdlet.IsServiceBusNamespaceAvailable(subscriptionId, name);
 
-            bool actual = (bool)mockCommandRuntime.OutputPipeline[0];
+            bool actual = (bool)commandRuntimeMock.OutputPipeline[0];
             
+            Assert.IsFalse(actual);
+        }
+
+        [TestMethod]
+        public void TestAzureWebsiteNameUsed()
+        {
+            string name = "test";
+            websitesClientMock.Setup(f => f.CheckWebsiteNameAvailability(name)).Returns(false);
+
+            cmdlet.IsWebsiteAvailable(name);
+
+            bool actual = (bool)commandRuntimeMock.OutputPipeline[0];
+            Assert.IsTrue(actual);
+        }
+
+        [TestMethod]
+        public void TestAzureWebsiteNameIsNotUsed()
+        {
+            string name = "test";
+            websitesClientMock.Setup(f => f.CheckWebsiteNameAvailability(name)).Returns(true);
+
+            cmdlet.IsWebsiteAvailable(name);
+
+            bool actual = (bool)commandRuntimeMock.OutputPipeline[0];
             Assert.IsFalse(actual);
         }
     }

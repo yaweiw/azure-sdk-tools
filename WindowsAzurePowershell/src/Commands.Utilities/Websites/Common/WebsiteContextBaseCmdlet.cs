@@ -37,7 +37,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites.Common
         public string Slot { get; set; }
 
         [EnvironmentPermission(SecurityAction.Demand, Unrestricted = true)]
-        protected override void ProcessRecord()
+        public override void ExecuteCmdlet()
         {
             try
             {
@@ -47,8 +47,6 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites.Common
                     Name = GitWebsite.ReadConfiguration().Name;
                 }
                 Slot = string.IsNullOrEmpty(Slot) ? WebsitesClient.GetSlotName(Name) : Slot;
-
-                base.ProcessRecord();
             }
             catch (Exception ex)
             {
