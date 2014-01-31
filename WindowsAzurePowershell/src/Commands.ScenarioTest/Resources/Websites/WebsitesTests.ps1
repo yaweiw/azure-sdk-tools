@@ -874,9 +874,10 @@ function Test-RemoveAzureWebsiteTriggeredJob
 	# Set up
 	New-AzureWebsite $webSiteName
 
+	# Test
 	Test-CreateAndRemoveAJob $webSiteName $webSiteJobName Triggered "WebsiteJobTestCmd.zip"
 
-	#Clean up
+	# Clean up
 	Remove-AzureWebsite $webSiteName -Force
 }
 
@@ -892,9 +893,10 @@ function Test-RemoveAzureWebsiteContinuousJob
 	# Set up
 	New-AzureWebsite $webSiteName
 
+	# Test
 	Test-CreateAndRemoveAJob $webSiteName $webSiteJobName Continuous "WebsiteJobTestCmd.zip"
 
-	#Clean up
+	# Clean up
 	Remove-AzureWebsite $webSiteName -Force
 }
 
