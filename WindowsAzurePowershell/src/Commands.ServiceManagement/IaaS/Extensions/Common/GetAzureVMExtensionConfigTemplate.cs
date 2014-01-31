@@ -99,20 +99,23 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
                         return this.ComputeClient.VirtualMachineExtensions.ListVersions(this.Publisher, this.ExtensionName);
                     }
                 },
-                (op, response) => GetVersionedExtensionImage(response, this.Version).Select(
-                     extension => new VirtualMachineExtensionConfigContext
-                     {
-                         OperationDescription = CommandRuntime.ToString(),
-                         OperationStatus = op.Status.ToString(),
-                         OperationId = op.Id,
-                         ExtensionName = extension.Name,
-                         Publisher = extension.Publisher,
-                         Version = extension.Version,
-                         SampleConfig = extension.SampleConfig
-                     }));
+                (op, response) =>
+                {
+                    var extension = GetVersionedExtensionImage(response, this.Version);
+                    return new VirtualMachineExtensionConfigContext
+                    {
+                        OperationDescription = CommandRuntime.ToString(),
+                        OperationStatus = op.Status.ToString(),
+                        OperationId = op.Id,
+                        ExtensionName = extension == null ? null : extension.Name,
+                        Publisher = extension == null ? null : extension.Publisher,
+                        Version = extension == null ? null : extension.Version,
+                        SampleConfig = extension == null ? null : extension.SampleConfig
+                    };
+                });
         }
 
-        protected IEnumerable<VirtualMachineExtensionListResponse.ResourceExtension> GetVersionedExtensionImage(
+        protected VirtualMachineExtensionListResponse.ResourceExtension GetVersionedExtensionImage(
             VirtualMachineExtensionListResponse response,
             string version)
         {
@@ -128,9 +131,10 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
                  (x, f) => string.IsNullOrEmpty(x) ? truePred : s => string.Equals(x, f(s), StringComparison.OrdinalIgnoreCase);
 
             var result = response.Where(predFunc(this.ExtensionName, s => s.Name))
-                                 .Where(predFunc(version, s => s.Version));
-            
-            var sampleConfig = result.Select(r => r.SampleConfig).FirstOrDefault();
+                                 .Where(predFunc(version, s => s.Version))
+                                 .FirstOrDefault();
+
+            var sampleConfig = result == null ? null : result.SampleConfig;
             if (!string.IsNullOrEmpty(this.SampleConfigPath))
             {
                 WriteWarning(string.Format(Resources.ResourceExtensionConfigTemplateWritingPath, this.SampleConfigPath));
