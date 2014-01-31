@@ -1090,11 +1090,6 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
         /// <param name="singleton">True if you only want the job to run in 1 instance of the web site</param>
         public WebJob CreateWebJob(string name, string slot, string jobName, WebJobType jobType, string jobFile)
         {
-            if (jobType == WebJobType.Triggered)
-            {
-                throw new InvalidOperationException(Resources.InvalidWebJobSingleton);
-            }
-
             WebJobFilterOptions options = new WebJobFilterOptions() { Name = name, Slot = slot, JobName = jobName, JobType = jobType.ToString() };
             name = SetWebsiteName(name, slot);
             IWebSiteExtensionsClient client = GetWebSiteExtensionsClient(name);
