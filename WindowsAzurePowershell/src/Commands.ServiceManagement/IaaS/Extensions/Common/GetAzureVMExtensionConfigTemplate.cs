@@ -21,6 +21,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
     using System.Management.Automation;
     using Management.Compute;
     using Management.Compute.Models;
+    using Properties;
     using Utilities.Common;
 
     /// <summary>
@@ -71,7 +72,6 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
         }
 
         [Parameter(
-            Mandatory = true,
             Position = 3,
             ValueFromPipelineByPropertyName = true,
             HelpMessage = "The File Path to Save the Sample Config Template.")]
@@ -81,8 +81,6 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
             get;
             set;
         }
-
-        protected string sampleConfig;
 
         public void ExecuteCommand()
         {
@@ -101,7 +99,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
                         return this.ComputeClient.VirtualMachineExtensions.ListVersions(this.Publisher, this.ExtensionName);
                     }
                 },
-                (op, response) => GetVersionedExtensionImage(response, this.Version, out sampleConfig).Select(
+                (op, response) => GetVersionedExtensionImage(response, this.Version).Select(
                      extension => new VirtualMachineExtensionConfigContext
                      {
                          OperationDescription = CommandRuntime.ToString(),
@@ -112,17 +110,11 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
                          Version = extension.Version,
                          SampleConfig = extension.SampleConfig
                      }));
-
-            if (!string.IsNullOrEmpty(this.SampleConfigPath))
-            {
-                File.WriteAllText(this.SampleConfigPath, sampleConfig);
-            }
         }
 
         protected IEnumerable<VirtualMachineExtensionListResponse.ResourceExtension> GetVersionedExtensionImage(
             VirtualMachineExtensionListResponse response,
-            string version,
-            out string sampleConfig)
+            string version)
         {
             if (response == null)
             {
@@ -135,8 +127,16 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
                  Func<VirtualMachineExtensionListResponse.ResourceExtension, bool>> predFunc =
                  (x, f) => string.IsNullOrEmpty(x) ? truePred : s => string.Equals(x, f(s), StringComparison.OrdinalIgnoreCase);
 
-            var result = response.Where(predFunc(version, s => s.Version));
-            sampleConfig = result.Select(r => r.SampleConfig).FirstOrDefault();
+            var result = response.Where(predFunc(this.ExtensionName, s => s.Name))
+                                 .Where(predFunc(version, s => s.Version));
+            
+            var sampleConfig = result.Select(r => r.SampleConfig).FirstOrDefault();
+            if (!string.IsNullOrEmpty(this.SampleConfigPath))
+            {
+                WriteWarning(string.Format(Resources.ResourceExtensionConfigTemplateWritingPath, this.SampleConfigPath));
+                File.WriteAllText(this.SampleConfigPath, sampleConfig);
+            }
+
             return result;
         }
 

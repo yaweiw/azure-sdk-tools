@@ -588,4 +588,7 @@
   <data name="ResourceExtensionReferencesIsNullOrEmpty" xml:space="preserve">
     <value>The resource extension reference list is null or empty.</value>
   </data>
+  <data name="ResourceExtensionConfigTemplateWritingPath" xml:space="preserve">
+    <value>Writing Config Template to the following file path: '{0}'.</value>
+  </data>
 </root>

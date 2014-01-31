@@ -1096,6 +1096,15 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Writing Config Template to the following file path: &apos;{0}&apos;..
+        /// </summary>
+        internal static string ResourceExtensionConfigTemplateWritingPath {
+            get {
+                return ResourceManager.GetString("ResourceExtensionConfigTemplateWritingPath", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The specified resource extension reference cannot be found..
         /// </summary>
         internal static string ResourceExtensionReferenceCannotBeFound {
