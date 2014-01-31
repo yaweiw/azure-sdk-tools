@@ -15,11 +15,13 @@
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.PersistentVMs
 {
     using System;
+    using System.Collections.Generic;
     using System.Linq;
     using System.Management.Automation;
     using System.Net;
     using AutoMapper;
     using Helpers;
+    using IaaS.Extensions;
     using Management.Compute;
     using Management.Compute.Models;
     using Model;
@@ -284,7 +286,9 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.PersistentVMs
                     AvailabilitySetName = persistentVMs[i].AvailabilitySetName,
                     OSVirtualHardDisk = persistentVMs[i].OSVirtualHardDisk,
                     RoleName = persistentVMs[i].RoleName,
-                    RoleSize = persistentVMs[i].RoleSize
+                    RoleSize = persistentVMs[i].RoleSize,
+                    ProvisionGuestAgent = persistentVMs[i].ProvisionGuestAgent,
+                    ResourceExtensionReferences = persistentVMs[i].ProvisionGuestAgent != null && persistentVMs[i].ProvisionGuestAgent.Value ? persistentVMs[i].ResourceExtensionReferences : null
                 };
 
                 persistentVMs[i].DataVirtualHardDisks.ForEach(c => parameter.DataVirtualHardDisks.Add(c));
@@ -325,7 +329,9 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.PersistentVMs
                 RoleName = persistentVM.RoleName,
                 RoleSize = persistentVM.RoleSize,
                 RoleType = persistentVM.RoleType,
-                Label = persistentVM.Label
+                Label = persistentVM.Label,
+                ProvisionGuestAgent = persistentVM.ProvisionGuestAgent,
+                ResourceExtensionReferences = persistentVM.ProvisionGuestAgent != null && persistentVM.ProvisionGuestAgent.Value ? Mapper.Map<List<ResourceExtensionReference>>(persistentVM.ResourceExtensionReferences) : null
             };
 
             if (persistentVM.DataVirtualHardDisks != null)

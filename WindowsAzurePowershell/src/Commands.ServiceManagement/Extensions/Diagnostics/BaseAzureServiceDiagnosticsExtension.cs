@@ -44,8 +44,8 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Extensions
 
         protected void Initialize()
         {
-            ExtensionNameSpace = DiagnosticsExtensionNamespace;
-            ExtensionType = DiagnosticsExtensionType;
+            ProviderNamespace = DiagnosticsExtensionNamespace;
+            ExtensionName = DiagnosticsExtensionType;
 
             XNamespace configNameSpace = "http://schemas.microsoft.com/ServiceHosting/2010/10/DiagnosticsConfiguration";
 
