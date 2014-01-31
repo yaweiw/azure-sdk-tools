@@ -406,6 +406,5 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.WebsitesTests
         }
 
         #endregion
-
     }
 }
