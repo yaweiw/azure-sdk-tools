@@ -23,12 +23,14 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
 
         protected const string ExtensionDefaultPublisher = "Microsoft.Compute";
         protected const string ExtensionDefaultName = "VMAccessAgent";
+        protected const string LegacyReferenceName = "MyPasswordResetExtension";
 
         protected const string VMAccessAgentLegacyVersion = "0.1";
 
         private const string ConfigurationElem = "Configuration";
         private const string PublicElem = "Public";
         private const string PublicConfigElem = "PublicConfig";
+        private const string PrivateConfigElem = "PrivateConfig";
         private const string AccountElem = "Account";
         private const string EnabledElem = "Enabled";
         private const string UserNameElem = "UserName";
@@ -43,7 +45,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
             ExtensionName = ExtensionDefaultName;
         }
 
-        protected string GetPrivateConfiguration()
+        protected string GetLegacyConfiguration()
         {
             XDocument config = null;
             if (Disable.IsPresent)
@@ -75,27 +77,81 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
 
             return config.ToString();
         }
-        protected void GetEnableVMAccessAgentValues(ResourceExtensionParameterValueList paramVals)
+
+        protected string GetPublicConfiguration()
+        {
+            XDocument config = new XDocument(
+                new XDeclaration("1.0", "utf-8", null),
+                new XElement(PublicConfigElem,
+                    new XElement(UserNameElem, UserName)
+                )
+            );
+
+            return config.ToString();
+        }
+
+        protected string GetPrivateConfiguration()
+        {
+            XDocument config = new XDocument(
+                new XDeclaration("1.0", "utf-8", null),
+                new XElement(PrivateConfigElem,
+                    new XElement(PasswordElem, Password)
+                )
+            );
+
+            return config.ToString();
+        }
+
+        protected void GetVMAccessExtensionValues(ResourceExtensionReference extensionRef)
+        {
+            if (extensionRef != null && extensionRef.ResourceExtensionParameterValues != null)
+            {
+                if (IsLegacyExtension(extensionRef.Name, extensionRef.Publisher, extensionRef.Version))
+                {
+                    GetVMAccessExtensionLegacyValues(extensionRef.ResourceExtensionParameterValues);
+                }
+                else
+                {
+                    GetVMAccessExtensionValues(extensionRef.ResourceExtensionParameterValues);
+                }
+            }
+        }
+
+        private void GetVMAccessExtensionValues(ResourceExtensionParameterValueList paramVals)
         {
             if (paramVals != null && paramVals.Any())
             {
-                GetEnableVMAccessAgentValues(paramVals.FirstOrDefault(r => !string.IsNullOrEmpty(r.Value)));
+                var publicParamVal = paramVals.FirstOrDefault(
+                    r => !string.IsNullOrEmpty(r.Value) && string.Equals(r.Type, PublicTypeStr));
+                if (publicParamVal != null && !string.IsNullOrEmpty(publicParamVal.Value))
+                {
+                    this.PublicConfiguration = publicParamVal.Value;
+                    this.UserName = GetConfigValue(this.PublicConfiguration, UserNameElem);
+                }
+
+                var privateParamVal = paramVals.FirstOrDefault(
+                    r => !string.IsNullOrEmpty(r.Value) && string.Equals(r.Type, PrivateTypeStr));
+                if (privateParamVal != null && !string.IsNullOrEmpty(privateParamVal.Value))
+                {
+                    this.PrivateConfiguration = privateParamVal.Value;
+                    this.Password = GetConfigValue(this.PrivateConfiguration, PasswordElem);
+                }
             }
         }
 
-        protected void GetEnableVMAccessAgentValues(ResourceExtensionParameterValue paramVal)
+        private void GetVMAccessExtensionLegacyValues(ResourceExtensionParameterValueList paramVals)
         {
-            if (paramVal != null && !string.IsNullOrEmpty(paramVal.Value))
+            if (paramVals != null && paramVals.Any())
             {
-                GetEnableVMAccessAgentValues(paramVal.Value);
+                var paramVal = paramVals.FirstOrDefault(r => !string.IsNullOrEmpty(r.Value));
+                if (paramVal != null && !string.IsNullOrEmpty(paramVal.Value))
+                {
+                    this.PublicConfiguration = paramVal.Value;
+                    this.Disable = !bool.Parse(GetConfigValue(this.PublicConfiguration, EnabledElem).ToLower());
+                    this.UserName = GetConfigValue(this.PublicConfiguration, UserNameElem);
+                    this.Password = GetConfigValue(this.PublicConfiguration, PasswordElem);
+                }
             }
-        }
-
-        protected void GetEnableVMAccessAgentValues(string config)
-        {
-            this.Disable = !bool.Parse(GetConfigValue(config, EnabledElem).ToLower());
-            this.UserName = GetConfigValue(config, UserNameElem);
-            this.Password = GetConfigValue(config, PasswordElem);
         }
     }
 }

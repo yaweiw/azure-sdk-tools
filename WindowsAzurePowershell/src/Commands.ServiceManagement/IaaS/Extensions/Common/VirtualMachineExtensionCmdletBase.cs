@@ -16,6 +16,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
 {
     using System;
     using System.Collections.Generic;
+    using System.IO;
     using System.Linq;
     using System.Management.Automation;
     using System.Xml;
@@ -43,6 +44,8 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
         public virtual string ReferenceName { get; set; }
         public virtual string PublicConfiguration { get; set; }
         public virtual string PrivateConfiguration { get; set; }
+        public virtual string PublicConfigPath { get; set; }
+        public virtual string PrivateConfigPath { get; set; }
         public virtual SwitchParameter Disable { get; set; }
 
         static VirtualMachineExtensionCmdletBase()
@@ -55,7 +58,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
                     Publisher = "Microsoft.Compute",
                     Version = "0.1"
                 },
-            
+
                 new VirtualMachineExtensionImageContext
                 {
                     ExtensionName = "DiagnosticsAgent",
@@ -177,6 +180,11 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
                     extensionRef.Version);
             }
 
+            if (!string.IsNullOrEmpty(this.PublicConfigPath))
+            {
+                this.PublicConfiguration = File.ReadAllText(this.PublicConfigPath);
+            }
+
             if (!string.IsNullOrEmpty(this.PublicConfiguration))
             {
                 extensionRef.ResourceExtensionParameterValues.Add(
@@ -186,6 +194,11 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
                         Type = IsLegacyExtension() ? null : PublicTypeStr,
                         Value = PublicConfiguration
                     });
+            }
+
+            if (!string.IsNullOrEmpty(this.PrivateConfigPath))
+            {
+                this.PrivateConfiguration = File.ReadAllText(this.PrivateConfigPath);
             }
 
             if (!string.IsNullOrEmpty(this.PrivateConfiguration))
