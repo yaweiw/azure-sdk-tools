@@ -18,11 +18,12 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Extensions
     using System.Management.Automation;
     using System.Security.Cryptography.X509Certificates;
     using Model.PersistentVMModel;
+    using Utilities.Common;
 
     /// <summary>
     /// Set Windows Azure Service Extension.
     /// </summary>
-    [Cmdlet(VerbsCommon.Set, "AzureServiceExtension", DefaultParameterSetName = "SetExtension"), OutputType(typeof(ExtensionConfigurationInput))]
+    [Cmdlet(VerbsCommon.Set, "AzureServiceExtension", DefaultParameterSetName = "SetExtension"), OutputType(typeof(ManagementOperationContext))]
     public class SetAzureServiceExtensionCommand : BaseAzureServiceExtensionCmdlet
     {
         [Parameter(Position = 0, ValueFromPipelineByPropertyName = true, ParameterSetName = "SetExtension", HelpMessage = "Cloud Service Name")]
