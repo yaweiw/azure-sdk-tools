@@ -864,20 +864,60 @@ function Test-SetAzureWebsite
 
 <#
 .SYNOPSIS
-Tests Remove-AzureWebsiteJob cmdlet
+Tests Remove-AzureWebsiteJob cmdlet using 'Triggered' job type 
 #>
-function Test-RemoveAzureWebsiteJob
+function Test-RemoveAzureWebsiteTriggeredJob
 {
-	# Setup
 	$webSiteName = Get-WebsiteName
 	$webSiteJobName = Get-WebsiteJobName
+
+	# Set up
 	New-AzureWebsite $webSiteName
-	New-AzureWebsiteJob -Name $webSiteName -JobName $webSiteJobName -JobType Triggered -JobFile ".\WebsiteJobTestCmd.cmd"
+
+	Test-CreateAndRemoveAJob $webSiteName $webSiteJobName Triggered "WebsiteJobTestCmd.zip"
+
+	#Clean up
+	Remove-AzureWebsite $webSiteName -Force
+}
+
+<#
+.SYNOPSIS
+Tests Remove-AzureWebsiteJob cmdlet using 'Continuous' job type 
+#>
+function Test-RemoveAzureWebsiteContinuousJob
+{
+	$webSiteName = Get-WebsiteName
+	$webSiteJobName = Get-WebsiteJobName
+
+	# Set up
+	New-AzureWebsite $webSiteName
+
+	Test-CreateAndRemoveAJob $webSiteName $webSiteJobName Continuous "WebsiteJobTestCmd.zip"
+
+	#Clean up
+	Remove-AzureWebsite $webSiteName -Force
+}
+
+function Test-CreateAndRemoveAJob
+{
+	param([string] $webSiteName, [string] $webSiteJobName, [string] $webSiteJobType, [string] $testCommandFile)
+
+	If($webSiteJobType -eq "Continuous")
+	{
+		$extraParameter = 1
+	}
+	else
+	{
+		$extraParameter = 0
+	}
+
+	# Setup
+	New-AzureWebsiteJob -Name $webSiteName -JobName $webSiteJobName -JobType $webSiteJobType -JobFile $testCommandFile -Singleton:$extraParameter
+	Get-AzureWebsiteJob -Name $webSiteName -JobName $webSiteJobName -JobType $webSiteJobType
 
 	# Test
-	Get-AzureWebsiteJob -Name $webSiteName -JobName $webSiteJobName -JobType Triggered
-	Remove-AzureWebsiteJob -Name $webSiteName -JobName $webSiteJobName -JobType Triggered –Force
+	$removed = Remove-AzureWebsiteJob -Name $webSiteName -JobName $webSiteJobName -JobType $webSiteJobType –Force
 
 	# Assert
-	Assert-Throws { Get-AzureWebsiteJob -Name $webSiteName -JobName $webSiteJobName -JobType Triggered } $expected
+	Assert-True { $removed }
 }

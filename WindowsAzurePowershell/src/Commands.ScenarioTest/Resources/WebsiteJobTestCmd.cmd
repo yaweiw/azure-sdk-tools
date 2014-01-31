@@ -1,1 +1,0 @@
-echo hello world from a web job
