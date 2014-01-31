@@ -34,22 +34,27 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
     using System.Xml.Linq;
     using VisualStudio.TestTools.UnitTesting;
     using WindowsAzure.ServiceManagement;
-    using IaaS.PersistentVMs;
+    
+    using System.Security.Cryptography.X509Certificates;
     using System.Linq;
+    using Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.PersistentVMs;
+
+
+
 
     [TestClass]
     public class ScenarioTest : ServiceManagementTest
     {
         private const string ReadyState = "ReadyRole";
         private string serviceName;
-        
+
         string perfFile;
 
         [TestInitialize]
         public void Initialize()
         {
             serviceName = Utilities.GetUniqueShortName(serviceNamePrefix);
-            
+
             pass = false;
             testStartTime = DateTime.Now;
         }
@@ -75,7 +80,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
                 vmPowershellCmdlets.NewAzureQuickVM(OS.Windows, newAzureQuickVMName2, serviceName, imageName, username, password);
                 // Verify
                 Assert.AreEqual(newAzureQuickVMName2, vmPowershellCmdlets.GetAzureVM(newAzureQuickVMName2, serviceName).Name, true);
-                
+
                 try
                 {
                     vmPowershellCmdlets.RemoveAzureVM(newAzureQuickVMName1 + "wrongVMName", serviceName);
@@ -94,12 +99,12 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
                 Assert.AreEqual(newAzureQuickVMName2, vmPowershellCmdlets.GetAzureVM(newAzureQuickVMName2, serviceName).Name, true);
                 vmPowershellCmdlets.RemoveAzureVM(newAzureQuickVMName2, serviceName);
                 Assert.AreEqual(null, vmPowershellCmdlets.GetAzureVM(newAzureQuickVMName2, serviceName));
-                
+
                 //Remove the service after removing the VM above
                 vmPowershellCmdlets.RemoveAzureService(serviceName);
 
                 //DisableWinRMHttps Test Case
-                              
+
                 try
                 {
                     NewQuickVM quickVM = new NewQuickVM();
@@ -119,15 +124,15 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
                     {
                         throw;
                     }
-                    
+
                 }
                 finally
                 {
                     if (pass == true) pass = true;
                     vmPowershellCmdlets.RemoveAzureVM(newAzureQuickVMName2, serviceName);
-                    Assert.AreEqual(null, vmPowershellCmdlets.GetAzureVM(newAzureQuickVMName2, serviceName));                   
+                    Assert.AreEqual(null, vmPowershellCmdlets.GetAzureVM(newAzureQuickVMName2, serviceName));
                 }
-                
+
                 //End DisableWinRMHttps Test Case
 
                 // Negative Test Case--It should Fail
@@ -148,8 +153,8 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
                     pass = true;
                 }
                 // End of Negative Test Case -- It should Fail]
-                                 
-                
+
+
             }
             catch (Exception e)
             {
@@ -163,8 +168,8 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
         /// </summary>
         [TestMethod(), TestCategory("Scenario"), TestCategory("BVT"), TestProperty("Feature", "IaaS"), Priority(1), Owner("v-rakonj"), Description("Test the cmdlets (Get-AzureWinRMUri)")]
         public void GetAzureWinRMUri()
-        {          
-           StartTest(MethodBase.GetCurrentMethod().Name, testStartTime);
+        {
+            StartTest(MethodBase.GetCurrentMethod().Name, testStartTime);
             try
             {
                 string newAzureQuickVMName = Utilities.GetUniqueShortName(vmNamePrefix);
@@ -181,7 +186,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
                 var resultUri = vmPowershellCmdlets.GetAzureWinRMUri(serviceName, vmRoleCtxt.Name);
 
                 // starting the test.
-                InputEndpointContext winRMEndpoint =null;
+                InputEndpointContext winRMEndpoint = null;
 
                 foreach (InputEndpointContext inputEndpointCtxt in vmPowershellCmdlets.GetAzureEndPoint(vmRoleCtxt))
                 {
@@ -198,7 +203,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
                 Console.WriteLine("InputEndpointContext port: {0}", winRMEndpoint.Port);
                 Console.WriteLine("InputEndpointContext protocol: {0}", winRMEndpoint.Protocol);
 
-                Console.WriteLine("WinRM Uri: {0}",  resultUri.AbsoluteUri);
+                Console.WriteLine("WinRM Uri: {0}", resultUri.AbsoluteUri);
                 Console.WriteLine("WinRM Port: {0}", resultUri.Port);
                 Console.WriteLine("WinRM Scheme: {0}", resultUri.Scheme);
 
@@ -211,7 +216,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
                 Console.WriteLine(e);
                 throw;
             }
-        } 
+        }
 
 
         /// <summary>
@@ -257,6 +262,61 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
                 Console.WriteLine(e.ToString());
                 throw;
             }
+        }
+
+        /// <summary>
+        /// Verify Advanced Provisioning for the Dev/Test Scenario
+        /// Make an Service
+        /// Make a VM
+        /// Add 4 additonal endpoints
+        /// Makes a storage account
+        /// </summary>
+        [TestMethod(), TestCategory("Scenario"), TestProperty("Feature", "IaaS"), Priority(1), Owner("msampson"), Description("Test the cmdlets (Get-AzureDeployment, New-AzureVMConfig, Add-AzureProvisioningConfig, Add-AzureEndpoint, New-AzureVM, New-AzureStorageAccount)")]
+        public void DevTestProvisioning()
+        {
+            StartTest(MethodBase.GetCurrentMethod().Name, testStartTime);
+
+            string newAzureVM1Name = Utilities.GetUniqueShortName(vmNamePrefix);
+            //Find a Windows VM Image
+            imageName = vmPowershellCmdlets.GetAzureVMImageName(new[] { "Windows" }, false);
+            
+            //Specify a small Windows image, with username and pw
+            AzureVMConfigInfo azureVMConfigInfo1 = new AzureVMConfigInfo(newAzureVM1Name, InstanceSize.ExtraSmall.ToString(), imageName);
+            AzureProvisioningConfigInfo azureProvisioningConfig = new AzureProvisioningConfigInfo(OS.Windows, username, password);
+            AzureEndPointConfigInfo azureEndPointConfigInfo = new AzureEndPointConfigInfo(AzureEndPointConfigInfo.ParameterSet.NoLB, ProtocolInfo.tcp, 80, 80, "Http");
+
+            PersistentVMConfigInfo persistentVMConfigInfo1 = new PersistentVMConfigInfo(azureVMConfigInfo1, azureProvisioningConfig, null, azureEndPointConfigInfo);
+            PersistentVM persistentVM1 = vmPowershellCmdlets.GetPersistentVM(persistentVMConfigInfo1);
+
+            //Add all the endpoints that are added by the Dev Test feature in Azure Tools
+            azureEndPointConfigInfo = new AzureEndPointConfigInfo(AzureEndPointConfigInfo.ParameterSet.NoLB, ProtocolInfo.tcp, 443, 443, "Https");
+            azureEndPointConfigInfo.Vm = persistentVM1;
+            persistentVM1 = vmPowershellCmdlets.AddAzureEndPoint(azureEndPointConfigInfo);
+            azureEndPointConfigInfo = new AzureEndPointConfigInfo(AzureEndPointConfigInfo.ParameterSet.NoLB, ProtocolInfo.tcp, 1433, 1433, "MSSQL");
+            azureEndPointConfigInfo.Vm = persistentVM1;
+            persistentVM1 = vmPowershellCmdlets.AddAzureEndPoint(azureEndPointConfigInfo);
+            azureEndPointConfigInfo = new AzureEndPointConfigInfo(AzureEndPointConfigInfo.ParameterSet.NoLB, ProtocolInfo.tcp, 8172, 8172, "WebDeploy");
+            azureEndPointConfigInfo.Vm = persistentVM1;
+            persistentVM1 = vmPowershellCmdlets.AddAzureEndPoint(azureEndPointConfigInfo);
+
+            // Make a storage account named "devtestNNNNN"
+            string storageAcctName = "devtest" + new Random().Next(10000, 99999);
+            vmPowershellCmdlets.NewAzureStorageAccount(storageAcctName, locationName);
+
+            // When making a new azure VM, you can't specify a location if you want to use the existing service
+            PersistentVM[] VMs = { persistentVM1 };
+            vmPowershellCmdlets.NewAzureVM(serviceName, VMs, locationName);
+
+            var svcDeployment = vmPowershellCmdlets.GetAzureDeployment(serviceName);
+            Assert.AreEqual(svcDeployment.ServiceName, serviceName);
+            var vmDeployment = vmPowershellCmdlets.GetAzureVM(newAzureVM1Name, serviceName);
+            Assert.AreEqual(vmDeployment.InstanceName, newAzureVM1Name);
+
+            // Cleanup
+            vmPowershellCmdlets.RemoveAzureVM(newAzureVM1Name, serviceName);
+            Assert.AreEqual(null, vmPowershellCmdlets.GetAzureVM(newAzureVM1Name, serviceName));
+            Utilities.RetryActionUntilSuccess(() => vmPowershellCmdlets.RemoveAzureStorageAccount(storageAcctName), "in use", 10, 30);
+            pass = true;
         }
 
         /// <summary>
@@ -1196,8 +1256,8 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
             Assert.IsTrue(File.Exists(packagePath1.FullName), "file not exist={0}", packagePath1);
             Assert.IsTrue(File.Exists(configPath1.FullName), "file not exist={0}", configPath1);
 
-            string deploymentName = Utilities.GetUniqueShortName("ResetRoleInst",20);
-            string deploymentLabel = Utilities.GetUniqueShortName("ResetRoleInstDepLabel",20);
+            string deploymentName = Utilities.GetUniqueShortName("ResetRoleInst", 20);
+            string deploymentLabel = Utilities.GetUniqueShortName("ResetRoleInstDepLabel", 20);
             DeploymentInfoContext result;
 
             try
@@ -1272,7 +1332,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
             {
                 if (string.IsNullOrEmpty(imageName))
                 {
-                    imageName = vmPowershellCmdlets.GetAzureVMImageName(new[] {"Windows"}, false);
+                    imageName = vmPowershellCmdlets.GetAzureVMImageName(new[] { "Windows" }, false);
                 }
 
                 vmPowershellCmdlets.NewAzureService(serviceName, serviceName, locationName);
@@ -1285,7 +1345,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
                                                                         null);
                 PersistentVM persistentVM = vmPowershellCmdlets.GetPersistentVM(persistentVMConfigInfo);
 
-                PersistentVM[] VMs = {persistentVM};
+                PersistentVM[] VMs = { persistentVM };
                 vmPowershellCmdlets.NewAzureVM(serviceName, VMs);
 
                 // Todo: Check the domain of the VM
