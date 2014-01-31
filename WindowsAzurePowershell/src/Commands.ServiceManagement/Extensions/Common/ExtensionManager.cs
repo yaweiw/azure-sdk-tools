@@ -76,7 +76,9 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Extensions
 
         public bool CheckNameSpaceType(HostedServiceListExtensionsResponse.Extension extension, string nameSpace, string type)
         {
-            return extension != null && extension.ProviderNamespace == nameSpace && extension.Type == type;
+            return extension != null
+                && (!string.IsNullOrEmpty(nameSpace) && string.Equals(extension.ProviderNamespace, nameSpace, StringComparison.OrdinalIgnoreCase))
+                && (!string.IsNullOrEmpty(type) && string.Equals(extension.Type, type, StringComparison.OrdinalIgnoreCase));
         }
 
         public ExtensionConfigurationBuilder GetBuilder()
