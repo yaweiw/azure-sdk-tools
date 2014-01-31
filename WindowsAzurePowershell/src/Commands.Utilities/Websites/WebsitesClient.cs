@@ -110,7 +110,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
         {
             WebsiteManagementClient.WebSites.Update(webspace, name, new WebSiteUpdateParameters
             {
-                State = state == WebsiteState.Running ? WebSiteState.Running : WebSiteState.Stopped,
+                State = state.ToString(),
                 // Set the following 3 collection properties to null since by default they are empty lists,
                 // which will clear the corresponding settings of the web site, thus results in a 404 when browsing the web site.
                 HostNames = null,
@@ -1088,9 +1088,9 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
         /// <param name="jobType">The web job type</param>
         /// <param name="jobFile">The web job file name</param>
         /// <param name="singleton">True if you only want the job to run in 1 instance of the web site</param>
-        public WebJob CreateWebJob(string name, string slot, string jobName, WebJobType jobType, string jobFile, bool singleton)
+        public WebJob CreateWebJob(string name, string slot, string jobName, WebJobType jobType, string jobFile)
         {
-            if (jobType == WebJobType.Triggered && singleton)
+            if (jobType == WebJobType.Triggered)
             {
                 throw new InvalidOperationException(Resources.InvalidWebJobSingleton);
             }
@@ -1103,7 +1103,6 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
             {
                 case WebJobType.Continuous:
                     client.WebJobs.UploadContinuous(jobName, File.OpenRead(jobFile));
-                    client.WebJobs.SetSingleton(jobName, singleton);
                     break;
                 case WebJobType.Triggered:
                     client.WebJobs.UploadTriggered(jobName, File.OpenRead(jobFile));
