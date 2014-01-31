@@ -58,17 +58,16 @@ namespace Microsoft.WindowsAzure.Commands.Test.Websites
             string jobFile = "job.bat";
             WebJobType jobType = WebJobType.Triggered;
             WebJob output = new WebJob() { Name = jobName, Type = jobType };
-            websitesClientMock.Setup(f => f.CreateWebJob(websiteName, slot, jobName, jobType, jobFile, false)).Returns(output);
+            websitesClientMock.Setup(f => f.CreateWebJob(websiteName, slot, jobName, jobType, jobFile)).Returns(output);
             cmdlet.JobName = jobName;
             cmdlet.JobType = jobType;
             cmdlet.JobFile = jobFile;
-            cmdlet.Singleton = false;
 
             // Test
             cmdlet.ExecuteCmdlet();
 
             // Assert
-            websitesClientMock.Verify(f => f.CreateWebJob(websiteName, slot, jobName, jobType, jobFile, false), Times.Once());
+            websitesClientMock.Verify(f => f.CreateWebJob(websiteName, slot, jobName, jobType, jobFile), Times.Once());
             commandRuntimeMock.Verify(f => f.WriteObject(output), Times.Once());
         }
     }
