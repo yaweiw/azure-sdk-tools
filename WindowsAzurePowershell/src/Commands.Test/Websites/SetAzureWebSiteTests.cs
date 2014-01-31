@@ -64,6 +64,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.Websites
                         Assert.IsTrue(names.Any(hostname => hostname.Equals("stuff.com")));
                         updatedSite = true;
                     });
+            clientMock.Setup(f => f.GetHostName(websiteName, null)).Returns(string.Format("{0}.{1}", websiteName, suffix));
 
             // Test
             SetAzureWebsiteCommand setAzureWebsiteCommand = new SetAzureWebsiteCommand
@@ -131,6 +132,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.Websites
                     Assert.IsTrue(names.Any(hostname => hostname.Equals("stuff.com")));
                     updatedSite = true;
                 });
+            clientMock.Setup(f => f.GetHostName(websiteName, slot)).Returns(string.Format("{0}.{1}", websiteName, suffix));
 
             // Test
             SetAzureWebsiteCommand setAzureWebsiteCommand = new SetAzureWebsiteCommand
