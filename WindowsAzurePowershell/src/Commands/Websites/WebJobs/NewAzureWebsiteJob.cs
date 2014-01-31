@@ -32,12 +32,9 @@ namespace Microsoft.WindowsAzure.Commands.Websites.WebJobs
         [Parameter(Mandatory = true, ValueFromPipelineByPropertyName = true, HelpMessage = "The web job file.")]
         public string JobFile { get; set; }
 
-        [Parameter(Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "Sepcify if you only want the job to run in 1 instance of the web site.")]
-        public SwitchParameter Singleton { get; set; }
-
         public override void ExecuteCmdlet()
         {
-            WriteObject(WebsitesClient.CreateWebJob(Name, Slot, JobName, JobType, this.ResolvePath(JobFile), Singleton));
+            WriteObject(WebsitesClient.CreateWebJob(Name, Slot, JobName, JobType, this.ResolvePath(JobFile)));
         }
     }
 }

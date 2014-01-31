@@ -425,9 +425,8 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
         /// <param name="jobName">The web job name</param>
         /// <param name="jobType">The web job type</param>
         /// <param name="jobFile">The web job file name</param>
-        /// <param name="singleton">True if you only want the job to run in 1 instance of the web site</param>
         /// <returns>The created web job instance</returns>
-        WebJob CreateWebJob(string name, string slot, string jobName, WebJobType jobType, string jobFile, bool singleton);
+        WebJob CreateWebJob(string name, string slot, string jobName, WebJobType jobType, string jobFile);
 
         /// <summary>
         /// Deletes a web job for a website.
@@ -490,6 +489,13 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
         /// <param name="slot">The website slot name</param>
         /// <returns>The hostname</returns>
         string GetHostName(string name, string slot);
+
+        /// <summary>
+        /// Checks whether a website name is available or not.
+        /// </summary>
+        /// <param name="name">The website name</param>
+        /// <returns>True means available, false otherwise</returns>
+        bool CheckWebsiteNameAvailability(string name);
     }
 
     public enum WebsiteState

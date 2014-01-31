@@ -90,11 +90,10 @@ namespace Microsoft.WindowsAzure.Commands.Websites
 
         public override void ExecuteCmdlet()
         {
-            base.ExecuteCmdlet();
-
             GetCurrentSiteState();
             UpdateConfig();
             UpdateHostNames();
+            Slot = null;
 
             if (PassThru.IsPresent)
             {
