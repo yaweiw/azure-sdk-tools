@@ -900,30 +900,29 @@ function Test-RemoveAzureWebsiteContinuousJob
 
 <#
 .SYNOPSIS
-A convinience function for you to pass in existing web site name and preferred web job information 
+A convinience function for you to pass in existing web site name and preferred web job configuration 
 #>
 function Test-CreateAndRemoveAJob
 {
 	param([string] $webSiteName, [string] $webSiteJobName, [string] $webSiteJobType, [string] $testCommandFile)
 
-	If($webSiteJobType -eq "Continuous")
-	{
-		$extraParameter = 1
-	}
-	else
-	{
-		$extraParameter = 0
-	}
-
 	# Setup
-	New-AzureWebsiteJob -Name $webSiteName -JobName $webSiteJobName -JobType $webSiteJobType -JobFile $testCommandFile -Singleton:$extraParameter
+	New-AzureWebsiteJob -Name $webSiteName -JobName $webSiteJobName -JobType $webSiteJobType -JobFile $testCommandFile
 	Get-AzureWebsiteJob -Name $webSiteName -JobName $webSiteJobName -JobType $webSiteJobType
 
 	# Test
 	If ($webSiteJobType -eq "Continuous")
 	{
 		$stopped = Stop-AzureWebsiteJob -Name $webSiteName -JobName $webSiteJobName -PassThru
-		Assert-True { $stopped }
+		Write-Host "Wait and retry to work around a known limitation, that a newly created job might not be immiediately available."
+		$count = 0
+		while (!$stopped -and ($count -le 60))
+		{
+			Sleep -Seconds 5
+			$count += 5
+			$stopped = Stop-AzureWebsiteJob -Name $webSiteName -JobName $webSiteJobName -PassThru
+		}
+		Assert-True { $stopped, "Failed to stop a continuous job before delete it." }
 	}
 
 	$removed = Remove-AzureWebsiteJob -Name $webSiteName -JobName $webSiteJobName -JobType $webSiteJobType –Force
