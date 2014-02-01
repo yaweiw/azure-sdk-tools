@@ -259,9 +259,9 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
                 vmPowershellCmdlets.RemoveAzureService(serviceName);
 
                 // New-AzureVMConfig test for VM size
-                AzureVMConfigInfo azureVMConfigInfo = new AzureVMConfigInfo(vmName, InstanceSize.A7.ToString(), imageName);
-                AzureProvisioningConfigInfo azureProvisioningConfig = new AzureProvisioningConfigInfo(OS.Windows, username, password);
-                PersistentVMConfigInfo persistentVMConfigInfo = new PersistentVMConfigInfo(azureVMConfigInfo, azureProvisioningConfig, null, null);
+                var azureVMConfigInfo = new AzureVMConfigInfo(vmName, InstanceSize.A7.ToString(), imageName);
+                var azureProvisioningConfig = new AzureProvisioningConfigInfo(OS.Windows, username, password);
+                var persistentVMConfigInfo = new PersistentVMConfigInfo(azureVMConfigInfo, azureProvisioningConfig, null, null);
                 PersistentVM vm = vmPowershellCmdlets.GetPersistentVM(persistentVMConfigInfo);
                 vmPowershellCmdlets.NewAzureVM(serviceName, new[] { vm }, locationName);
                 result = vmPowershellCmdlets.GetAzureVM(vmName, serviceName);
