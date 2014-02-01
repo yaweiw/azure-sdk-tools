@@ -19,7 +19,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
         protected const string VirtualMachineBGInfoExtensionNoun = "AzureVMBGInfoExtension";
 
         protected const string ExtensionDefaultPublisher = "Microsoft.Compute";
-        protected const string ExtensionDefaultName = "BGInfoAgent";
+        protected const string ExtensionDefaultName = "BGInfo";
         protected const string LegacyReferenceName = "MyBGInfoExtension";
 
         public VirtualMachineBGInfoExtensionCmdletBase()

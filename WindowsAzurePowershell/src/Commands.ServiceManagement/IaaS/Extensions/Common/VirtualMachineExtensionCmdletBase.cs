@@ -173,11 +173,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
             }
             else
             {
-                extensionRef.ReferenceName = string.Format(
-                    ExtensionReferenceNameFormat,
-                    extensionRef.Publisher,
-                    extensionRef.Name,
-                    extensionRef.Version);
+                extensionRef.ReferenceName = extensionRef.Name;
             }
 
             if (!string.IsNullOrEmpty(this.PublicConfigPath))
