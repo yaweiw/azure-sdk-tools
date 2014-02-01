@@ -85,8 +85,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
                 string.IsNullOrEmpty(ReferenceName) && string.IsNullOrEmpty(ExtensionName) ?
                 ResourceExtensionReferences : GetPredicateExtensionList();
 
-            WriteObject(
-                extensionRefs == null ? null : extensionRefs.Select(
+            var extensions = extensionRefs == null ? null : extensionRefs.Select(
                 r => new VirtualMachineExtensionContext
                 {
                     ExtensionName = r.Name,
@@ -97,7 +96,16 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
                     PublicConfiguration = IsLegacyExtension(r.Name, r.Publisher, r.Version)
                                         ? GetConfiguration(r) : GetConfiguration(r, PublicTypeStr),
                     PrivateConfiguration = GetConfiguration(r, PrivateTypeStr)
-                }));
+                });
+
+            if (extensions == null || extensions.Count() <= 1)
+            {
+                WriteObject(extensions == null ? null : extensions.FirstOrDefault());
+            }
+            else
+            {
+                WriteObject(extensions.ToArray());
+            }
         }
 
         protected override void ProcessRecord()

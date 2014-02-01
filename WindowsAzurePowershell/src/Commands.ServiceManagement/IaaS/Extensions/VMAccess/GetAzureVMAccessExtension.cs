@@ -48,7 +48,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
                         PublicConfiguration = PublicConfiguration,
                         PrivateConfiguration = PrivateConfiguration
                     };
-                }));
+                }).FirstOrDefault());
         }
 
         protected override void ProcessRecord()

@@ -40,7 +40,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
                     ReferenceName = r.ReferenceName,
                     Version = r.Version,
                     State = r.State
-                }));
+                }).FirstOrDefault());
         }
 
         protected override void ProcessRecord()
