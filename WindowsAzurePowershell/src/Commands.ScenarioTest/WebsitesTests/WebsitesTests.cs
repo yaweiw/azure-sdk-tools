@@ -405,6 +405,15 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.WebsitesTests
             RunPowerShellTest("Test-RemoveAzureWebsiteContinuousJob");
         }
 
+        [TestMethod]
+        [TestCategory(Category.All)]
+        [TestCategory(Category.Websites)]
+        [TestCategory(Category.WAPack)]
+        public void TestRemoveNonExistingAzureWebsiteJob()
+        {
+            RunPowerShellTest("Test-RemoveNonExistingAzureWebsiteJob");
+        }
+
         #endregion
     }
 }

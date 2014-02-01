@@ -902,33 +902,20 @@ function Test-RemoveAzureWebsiteContinuousJob
 
 <#
 .SYNOPSIS
-A convinience function for you to pass in existing web site name and preferred web job configuration 
+Tests Remove-AzureWebsiteJob cmdlet using a job which doesn't exist
 #>
-function Test-CreateAndRemoveAJob
+function Test-RemoveNonExistingAzureWebsiteJob
 {
-	param([string] $webSiteName, [string] $webSiteJobName, [string] $webSiteJobType, [string] $testCommandFile)
+	$webSiteName = Get-WebsiteName
+	$nonExistingWebSiteJobName = Get-WebsiteJobName
 
-	# Setup
-	New-AzureWebsiteJob -Name $webSiteName -JobName $webSiteJobName -JobType $webSiteJobType -JobFile $testCommandFile
-	Get-AzureWebsiteJob -Name $webSiteName -JobName $webSiteJobName -JobType $webSiteJobType
+	# Set up
+	New-AzureWebsite $webSiteName
 
 	# Test
-	If ($webSiteJobType -eq "Continuous")
-	{
-		$stopped = Stop-AzureWebsiteJob -Name $webSiteName -JobName $webSiteJobName -PassThru
-		Write-Host "Wait and retry to work around a known limitation, that a newly created job might not be immiediately available."
-		$count = 0
-		while (!$stopped -and ($count -le 60))
-		{
-			Sleep -Seconds 5
-			$count += 5
-			$stopped = Stop-AzureWebsiteJob -Name $webSiteName -JobName $webSiteJobName -PassThru
-		}
-		Assert-True { $stopped, "Failed to stop a continuous job before delete it." }
-	}
+	Remove-AzureWebsiteJob -Name $webSiteName -JobName $nonExistingWebSiteJobName -JobType Triggered –Force
+	Assert-True { $error[0].ToString().Contains("not found.") }
 
-	$removed = Remove-AzureWebsiteJob -Name $webSiteName -JobName $webSiteJobName -JobType $webSiteJobType –Force
-
-	# Assert
-	Assert-True { $removed }
+	# Clean up
+	Remove-AzureWebsite $webSiteName -Force
 }
