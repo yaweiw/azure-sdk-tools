@@ -186,7 +186,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
                 extensionRef.ResourceExtensionParameterValues.Add(
                     new ResourceExtensionParameterValue
                     {
-                        Key = ExtensionName + "ConfigParameter",
+                        Key = ExtensionName + PublicTypeStr + "ConfigParameter",
                         Type = IsLegacyExtension() ? null : PublicTypeStr,
                         Value = PublicConfiguration
                     });
@@ -202,7 +202,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
                 extensionRef.ResourceExtensionParameterValues.Add(
                     new ResourceExtensionParameterValue
                     {
-                        Key = ExtensionName + "ConfigParameter",
+                        Key = ExtensionName + PrivateTypeStr + "ConfigParameter",
                         Type = IsLegacyExtension() ? null : PrivateTypeStr,
                         Value = PrivateConfiguration
                     });
