@@ -245,43 +245,10 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
 
         protected virtual void ValidateParameters()
         {
-            // GA must be enabled before setting WAD
+            // GA must be enabled before setting extensions
             if (VM.GetInstance().ProvisionGuestAgent != null && !VM.GetInstance().ProvisionGuestAgent.Value)
             {
                 throw new ArgumentException(Resources.ProvisionGuestAgentMustBeEnabledBeforeSettingIaaSVMAccessExtension);
-            }
-        }
-
-        protected static void SetConfigValue(XDocument config, string element, Object value)
-        {
-            if (config != null && value != null)
-            {
-                var ds = config.Descendants();
-                foreach (var e in ds)
-                {
-                    if (e.Name.LocalName == element)
-                    {
-                        if (value.GetType().Equals(typeof(XmlDocument)))
-                        {
-                            e.ReplaceAll(XElement.Load(new XmlNodeReader(value as XmlDocument)));
-
-                            var es = e.Descendants();
-                            foreach (var d in es)
-                            {
-                                if (string.IsNullOrEmpty(d.Name.NamespaceName))
-                                {
-                                    d.Name = e.Name.Namespace + d.Name.LocalName;
-                                }
-                            };
-                        }
-                        else
-                        {
-                            e.SetValue(value.ToString());
-                        }
-
-                        break;
-                    }
-                };
             }
         }
 
