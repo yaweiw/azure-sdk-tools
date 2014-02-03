@@ -250,21 +250,10 @@
     <Compile Include="IaaS\Extensions\BGInfo\SetAzureVMBGInfoExtension.cs" />
     <Compile Include="IaaS\Extensions\BGInfo\VirtualMachineBGInfoExtensionCmdletBase.cs" />
     <Compile Include="IaaS\Extensions\BGInfo\VirtualMachineBGInfoExtensionContext.cs" />
-    <Compile Include="IaaS\Extensions\Common\GetAzureVMExtension.cs" />
-    <Compile Include="IaaS\Extensions\Common\GetAzureVMExtensionConfigTemplate.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="IaaS\Extensions\Common\RemoveAzureVMExtension.cs" />
     <Compile Include="IaaS\Extensions\Common\VirtualMachineExtensionCmdletBase.cs" />
     <Compile Include="IaaS\Extensions\Common\VirtualMachineExtensionContext.cs" />
     <Compile Include="IaaS\Extensions\Common\VirtualMachineExtensionConfigContext.cs" />
     <Compile Include="IaaS\Extensions\Common\GetAzureVMAvailableExtension.cs" />
-    <Compile Include="IaaS\Extensions\VMAccess\GetAzureVMAccessExtension.cs" />
-    <Compile Include="IaaS\Extensions\VMAccess\RemoveAzureVMAccessExtension.cs" />
-    <Compile Include="IaaS\Extensions\VMAccess\SetAzureVMAccessExtension.cs" />
-    <Compile Include="IaaS\Extensions\Common\SetAzureVMExtension.cs" />
-    <Compile Include="IaaS\Extensions\VMAccess\VirtualMachineAccessExtensionCmdletBase.cs" />
-    <Compile Include="IaaS\Extensions\VMAccess\VirtualMachineAccessExtensionContext.cs" />
     <Compile Include="IaaS\Extensions\Common\VirtualMachineExtensionImageContext.cs" />
     <Compile Include="IaaS\Network\GetAzureStaticVNetIP.cs" />
     <Compile Include="IaaS\Network\RemoveAzureStaticVNetIP.cs" />
