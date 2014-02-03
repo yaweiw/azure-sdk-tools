@@ -72,9 +72,9 @@ namespace Microsoft.WindowsAzure.Commands.Test.Websites
         {
             var websiteName = "test-site";
             string slot = null;
-            var projectFile = "WebApplication4.csproj";
+            var projectFile = string.Format(@"{0}\Resources\MyWebApplication\WebApplication4.csproj", Directory.GetCurrentDirectory());
             var configuration = "Debug";
-            var logFile = "build.log";
+            var logFile = string.Format(@"{0}\build.log", Directory.GetCurrentDirectory());
             var connectionStrings = new Hashtable();
             connectionStrings["DefaultConnection"] = "test-connection-string";
 
@@ -96,6 +96,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.Websites
             Mock<IWebsitesClient> clientMock = new Mock<IWebsitesClient>();
 
             clientMock.Setup(c => c.GetWebDeployPublishProfile(websiteName, slot)).Returns(publishProfile);
+            clientMock.Setup(c => c.BuildWebProject(projectFile, configuration, logFile)).Returns(package);
             clientMock.Setup(c => c.PublishWebProject(websiteName, slot, package, connectionStrings))
                 .Callback((string n, string s, string p, Hashtable cs) =>
                 {
@@ -122,68 +123,6 @@ namespace Microsoft.WindowsAzure.Commands.Test.Websites
 
             powerShellMock.Verify(f => f.WriteVerbose(string.Format("[Complete] Publishing package {0}", package)), Times.Once());
             Assert.IsTrue(published);
-        }
-
-        [TestMethod]
-        [ExpectedException(typeof(FileNotFoundException))]
-        public void PublishProjectFileNotExist()
-        {
-            var websiteName = "test-site";
-            var projectFile = "file-not-exist.csproj";
-            var configuration = "Debug";
-
-            var publishProfile = new WebSiteGetPublishProfileResponse.PublishProfile()
-            {
-                UserName = "test-user-name",
-                UserPassword = "test-password",
-                PublishUrl = "test-publlish-url"
-            };
-
-            Mock<IWebsitesClient> clientMock = new Mock<IWebsitesClient>();
-
-            Mock<ICommandRuntime> powerShellMock = new Mock<ICommandRuntime>();
-
-            var command = new PublishAzureWebsiteProject()
-            {
-                CommandRuntime = powerShellMock.Object,
-                WebsitesClient = clientMock.Object,
-                Name = websiteName,
-                ProjectFile = projectFile,
-                Configuration = configuration
-            };
-
-            command.ExecuteCmdlet();
-        }
-
-        [TestMethod]
-        [ExpectedException(typeof(FileNotFoundException))]
-        public void PublishWebConfigFileNotExist()
-        {
-            var websiteName = "test-site";
-            var projectFile = "WebApplication4.csproj";
-            var configuration = "not-exist";
-
-            var publishProfile = new WebSiteGetPublishProfileResponse.PublishProfile()
-            {
-                UserName = "test-user-name",
-                UserPassword = "test-password",
-                PublishUrl = "test-publlish-url"
-            };
-
-            Mock<IWebsitesClient> clientMock = new Mock<IWebsitesClient>();
-
-            Mock<ICommandRuntime> powerShellMock = new Mock<ICommandRuntime>();
-
-            var command = new PublishAzureWebsiteProject()
-            {
-                CommandRuntime = powerShellMock.Object,
-                WebsitesClient = clientMock.Object,
-                Name = websiteName,
-                ProjectFile = projectFile,
-                Configuration = configuration
-            };
-
-            command.ExecuteCmdlet();
         }
     }
 }

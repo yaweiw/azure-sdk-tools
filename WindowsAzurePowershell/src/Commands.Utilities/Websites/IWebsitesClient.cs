@@ -405,6 +405,15 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
         string GetSlotName(string name);
 
         /// <summary>
+        /// Build a Visual Studio web project and generate a WebDeploy package.
+        /// </summary>
+        /// <param name="projectFile">The project file.</param>
+        /// <param name="configuration">The configuration of the build, like Release or Debug.</param>
+        /// <param name="logFile">The build log file if there is any error.</param>
+        /// <returns>The full path of the generated WebDeploy package.</returns>
+        string BuildWebProject(string projectFile, string configuration, string logFile);
+
+        /// <summary>
         /// Gets the website WebDeploy publish profile.
         /// </summary>
         /// <param name="websiteName">Website name.</param>

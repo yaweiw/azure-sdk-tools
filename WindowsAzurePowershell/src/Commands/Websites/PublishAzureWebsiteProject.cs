@@ -51,7 +51,7 @@ namespace Microsoft.WindowsAzure.Commands.Websites
             if (!string.IsNullOrEmpty(ProjectFile))
             {
                 WriteVerbose(string.Format("[Start]    Building project {0}", fullProjectFile));
-                fullPackage = BuildWebProject(fullProjectFile, configuration, Path.Combine(CurrentPath(), "build.log"));
+                fullPackage = WebsitesClient.BuildWebProject(fullProjectFile, configuration, Path.Combine(CurrentPath(), "build.log"));
                 WriteVerbose(string.Format("[Complete] Building project {0}", fullProjectFile));
             }
 
@@ -142,50 +142,6 @@ namespace Microsoft.WindowsAzure.Commands.Websites
                 fullWebConfigFile = Path.Combine(Path.GetDirectoryName(fullProjectFile), "Web.config");
                 configuration = string.IsNullOrEmpty(Configuration) ? "Release" : Configuration;
                 fullWebConfigFileWithConfiguration = Path.Combine(Path.GetDirectoryName(fullProjectFile), string.Format("Web.{0}.config", configuration));
-            }
-        }
-
-        /// <summary>
-        /// Build a Visual Studio web project using msbuild to get a WebDeploy package zip file.
-        /// </summary>
-        /// <param name="projectFile">The project file (csproj or vbproj).</param>
-        /// <param name="configuration">The configuration used to build the project, like "Release", "Debug", etc.</param>
-        /// <param name="logFile">The file for build log if there are some errors.</param>
-        /// <returns>The full path of the WebDeploy package zip file.</returns>
-        private string BuildWebProject(string projectFile, string configuration, string logFile)
-        {
-            var webConfigFile = Path.Combine(Path.GetDirectoryName(projectFile), "Web.config");
-            if (File.Exists(webConfigFile)) // Make sure the Web.config for the configuration exists.
-            {
-                ProjectCollection pc = new ProjectCollection();
-                Project project = pc.LoadProject(projectFile);
-
-                // Use a file logger to store detailed build info.
-                FileLogger fileLogger = new FileLogger();
-                fileLogger.Parameters = string.Format("logfile={0}", logFile);
-                fileLogger.Verbosity = LoggerVerbosity.Diagnostic;
-
-                // Set the configuration used by MSBuild.
-                project.SetProperty("Configuration", configuration);
-
-                // Build the project.
-                var buildSucceed = project.Build("Package", new ILogger[] { fileLogger });
-
-                if (buildSucceed)
-                {
-                    // If build succeeds, delete the build.log file since there is no use of it.
-                    File.Delete(logFile);
-                    return Path.Combine(Path.GetDirectoryName(projectFile), "obj", configuration, "Package", Path.GetFileNameWithoutExtension(projectFile) + ".zip");
-                }
-                else
-                {
-                    // If build fails, tell the user to look at the build.log file.
-                    throw new Exception(string.Format("Cannot build the project successfully. Please see logs in {0}.", logFile));
-                }
-            }
-            else
-            {
-                throw new FileNotFoundException(string.Format("Cannot find file {0} for configuration {1}", webConfigFile, configuration));
             }
         }
     }
