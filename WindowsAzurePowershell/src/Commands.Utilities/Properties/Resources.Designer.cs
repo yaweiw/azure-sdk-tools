@@ -3767,7 +3767,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Are you sure you want to swap the website production slot with slot &apos;{0}&apos;?.
+        ///   Looks up a localized string similar to Are you sure you want to swap the website &apos;{0}&apos; production slot with slot &apos;{1}&apos;?.
         /// </summary>
         public static string SwapWebsiteSlotWarning {
             get {
