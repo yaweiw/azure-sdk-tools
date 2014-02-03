@@ -20,7 +20,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
 
     public static class ConversionUtils
     {
-        public static Dictionary<TK, TV> ToDictionary<TK, TV>(this Hashtable hashtable)
+        public static Dictionary<string, object> ToMultidimentionalDictionary(this Hashtable hashtable)
         {
             if (hashtable == null)
             {
@@ -28,11 +28,45 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
             }
             else
             {
-                return hashtable.Cast<DictionaryEntry>().ToDictionary(d => (TK) d.Key, d => (TV) d.Value);
+                var dictionary = new Dictionary<string, object>();
+                foreach (var entry in hashtable.Cast<DictionaryEntry>())
+                {
+                    var valueAsHashtable = entry.Value as Hashtable;
+                    if (valueAsHashtable != null)
+                    {
+                        dictionary[(string) entry.Key] = valueAsHashtable.ToMultidimentionalDictionary();
+                    }
+                    else
+                    {
+                        dictionary[(string) entry.Key] = entry.Value;
+                    }
+                }
+                return dictionary;
             }
         }
 
-        public static Hashtable ToHashtable<TK, TV>(this IDictionary<TK, TV> dictionary)
+        public static Dictionary<string, TV> ToFlatDictionary<TV>(this Hashtable hashtable) where TV : class
+        {
+            if (hashtable == null)
+            {
+                return null;
+            }
+            else
+            {
+                var dictionary = new Dictionary<string, TV>();
+                foreach (var entry in hashtable.Cast<DictionaryEntry>())
+                {
+                    var value = entry.Value as TV;
+                    if (value != null)
+                    {
+                        dictionary[(string)entry.Key] = value;
+                    }
+                }
+                return dictionary;
+            }
+        }
+
+        public static Hashtable ToHashtable<TV>(this IDictionary<string, TV> dictionary)
         {
             if (dictionary == null)
             {
@@ -40,7 +74,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
             }
             else
             {
-                return new Hashtable((Dictionary<TK, TV>) dictionary);
+                return new Hashtable((Dictionary<string, TV>)dictionary);
             }
         }
     }
