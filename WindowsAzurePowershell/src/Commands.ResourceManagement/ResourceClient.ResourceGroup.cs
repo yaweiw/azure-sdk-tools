@@ -17,6 +17,7 @@ using System.IO;
 using System.Linq;
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.Serialization.Formatters;
 using Microsoft.Azure.Commands.ResourceManagement.Entities;
 using Microsoft.Azure.Commands.ResourceManagement.Properties;
 using Microsoft.Azure.Commands.ResourceManagement.ResourceGroups;
@@ -24,6 +25,7 @@ using Microsoft.Azure.Management.Resources.Models;
 using Microsoft.Azure.Management.Resources;
 using Microsoft.WindowsAzure.Commands.Utilities.Common;
 using Microsoft.WindowsAzure.Commands.Utilities.Common.Storage;
+using Newtonsoft.Json;
 
 namespace Microsoft.Azure.Commands.ResourceManagement
 {
@@ -34,7 +36,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement
         public Group CreateOrUpdateResourceGroup(NewAzureResourceGroup parameters)
         {
             // Validate that parameter group doesn't already exist
-            if (ResourceManagementClient.ResourceGroups.Get(parameters.Name) != null)
+            if (ResourceManagementClient.ResourceGroups.Exists(parameters.Name).Exists)
             {
                 throw new ArgumentException(Resources.ResourceGroupAlreadyExists);
             }
@@ -42,37 +44,64 @@ namespace Microsoft.Azure.Commands.ResourceManagement
             // Create resource group and deploy a template from file
             if (parameters.TemplateFile != null)
             {
-                var storageAccountName = GetStorageAccountNameOrThrowException(parameters);
-                var uploadedFilePath = StorageClientWrapper.UploadFileToBlob(new BlobUploadParameters {
-                    StorageName = storageAccountName,
-                    FileLocalPath = parameters.TemplateFile,
-                    FileRemoteName = Path.GetFileNameWithoutExtension(parameters.TemplateFile),
-                    OverrideIfExists = true,
-                    ContainerPublic = true,
-                    ContainerName = DeploymentTemplateStorageContainerName
-                });
-                var resourceGroupCreateOrUpdateResult = ResourceManagementClient.ResourceGroups.CreateOrUpdate(parameters.Name,
-                                                                                    new BasicResourceGroup
-                                                                                    {
-                                                                                        Location = parameters.Location,
-                                                                                        Tags = parameters.Tag
-                                                                                    .ToDictionary<string, string>()
-                                                                                    });
+                Uri templateFilePath = null;
+
+                // If local file - upload it to storage, if remote file - pass the string over as-is
+                if (parameters.TemplateFile.StartsWith("http://", StringComparison.OrdinalIgnoreCase) ||
+                    parameters.TemplateFile.StartsWith("https://", StringComparison.OrdinalIgnoreCase))
+                {
+                    templateFilePath = new Uri(parameters.TemplateFile);
+                }
+                else
+                {
+                    var storageAccountName = GetStorageAccountNameOrThrowException(parameters);
+                    templateFilePath = StorageClientWrapper.UploadFileToBlob(new BlobUploadParameters
+                        {
+                            StorageName = storageAccountName,
+                            FileLocalPath = parameters.TemplateFile,
+                            FileRemoteName = Path.GetFileNameWithoutExtension(parameters.TemplateFile),
+                            OverrideIfExists = true,
+                            ContainerPublic = true,
+                            ContainerName = DeploymentTemplateStorageContainerName
+                        });
+                }
+
+                var resourceGroupCreateOrUpdateResult =
+                    ResourceManagementClient.ResourceGroups.CreateOrUpdate(parameters.Name,
+                                                    new BasicResourceGroup
+                                                        {
+                                                            Location = parameters.Location,
+                                                            Tags = parameters.Tag.ToFlatDictionary<string>()
+                                                        });
+
+                var templateDeployment = new BasicTemplateDeployment()
+                    {
+                        Mode = TemplateDeploymentMode.Incremental,
+                        TemplateLink = new TemplateLink
+                            {
+                                Uri = templateFilePath
+                            }
+                    };
+
+                if (parameters.ParameterObject != null)
+                {
+                    var paramDictionary = parameters.ParameterObject.ToMultidimentionalDictionary();
+                    var serializedParamDictionary = JsonConvert.SerializeObject(paramDictionary, new JsonSerializerSettings
+                        {
+                            TypeNameAssemblyFormat = FormatterAssemblyStyle.Simple,
+                            TypeNameHandling = TypeNameHandling.None
+                        });
+                    templateDeployment.Parameters = serializedParamDictionary;
+                }
+                
                 ResourceManagementClient.TemplateDeployments.Create(parameters.Name,
-                                                            Path.GetFileName(uploadedFilePath.ToString()),
-                                                            new BasicTemplateDeployment
-                                                                {
-                                                                    Mode = TemplateDeploymentMode.New,
-                                                                    TemplateLink = new TemplateLink
-                                                                        {
-                                                                            Uri = uploadedFilePath
-                                                                        }
-                                                                });
+                                                Path.GetFileName(templateFilePath.ToString()),
+                                                templateDeployment);
 
                 var group = Group.CreateFromResultGroup(resourceGroupCreateOrUpdateResult.ResourceGroup);
                 return group;
             }
-            // Create just resource group
+                // Create just resource group
             else
             {
                 var resourceGroup = CreateResourceGroup(parameters);
@@ -100,12 +129,11 @@ namespace Microsoft.Azure.Commands.ResourceManagement
         private ResourceGroupCreateOrUpdateResult CreateResourceGroup(NewAzureResourceGroup parameters)
         {
             var result = ResourceManagementClient.ResourceGroups.CreateOrUpdate(parameters.Name,
-                                                                                new BasicResourceGroup
-                                                                                    {
-                                                                                        Location = parameters.Location,
-                                                                                        Tags = parameters.Tag
-                                                                                                         .ToDictionary<string, string>()
-                                                                                    });
+                                                    new BasicResourceGroup
+                                                        {
+                                                            Location = parameters.Location,
+                                                            Tags = parameters.Tag.ToFlatDictionary<string>()
+                                                        });
             return result;
         }
 

@@ -92,8 +92,8 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common.Storage
                 }
                 else
                 {
-                    throw new ArgumentException(string.Format(CultureInfo.CurrentCulture, 
-                        Properties.Resources.BlobAlreadyExistsInTheAccount, blobName));
+                    throw new ArgumentException(string.Format(CultureInfo.CurrentCulture,
+                        Commands.Common.Properties.Resources.BlobAlreadyExistsInTheAccount, blobName));
                 }
             }
 
