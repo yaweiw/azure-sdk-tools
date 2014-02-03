@@ -78,18 +78,6 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement
             return Initialize();
         }
 
-        public static bool Initialize(GetAzureVMExtensionConfigTemplateCommand command)
-        {
-            Mapper.CreateMap<OperationStatusResponse, VirtualMachineExtensionImageContext>()
-                  .ForMember(c => c.OperationId, o => o.MapFrom(r => r.Id))
-                  .ForMember(c => c.OperationStatus, o => o.MapFrom(r => r.Status.ToString()));
-
-            Mapper.CreateMap<VirtualMachineExtensionListResponse.ResourceExtension, VirtualMachineExtensionImageContext>()
-                  .ForMember(c => c.ExtensionName, o => o.MapFrom(r => r.Name));
-
-            return Initialize();
-        }
-
         protected override void Configure()
         {
             //SM to NewSM mapping
