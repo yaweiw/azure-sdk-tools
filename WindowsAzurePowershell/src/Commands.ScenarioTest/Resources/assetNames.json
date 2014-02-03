@@ -1,0 +1,26 @@
+{
+  "Test-GetAzureSBNamespaceWithMultipleNamespaces": [
+    "onesdk2667",
+    "onesdk5005",
+    "onesdk1213"
+  ],
+  "Test-GetAzureSBNamespaceWithValidExisitingNamespace": [
+    "onesdk3926"
+  ],
+  "Test-GetAzureSBNamespaceWithOneNamespace": [
+    "onesdk8974"
+  ],
+  "Test-NewAzureSBNamespaceWithDefaultLocation": [
+    "onesdk2120"
+  ],
+  "Test-RemoveAzureSBNamespaceInputPiping": [
+    "onesdk1006"
+  ],
+  "Test-ListAzureSBLocation1": [
+    "onesdk5859"
+  ],
+  "Test-GetAzureSBNamespacePipedToRemoveAzureSBNamespace": [
+    "onesdk7229",
+    "onesdk291"
+  ]
+}
