@@ -34,11 +34,6 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
     using System.Net.Http;
     using System.Web;
     using Utilities.Common;
-    using System.Diagnostics;
-    using Microsoft.WindowsAzure.Commands.Utilities.Websites.Services.WebJobs;
-    using Microsoft.WindowsAzure.WebSitesExtensions;
-    using Microsoft.WindowsAzure.WebSitesExtensions.Models;
-    using System.IO;
     using System.Collections;
     using Microsoft.Web.Deployment;
     using System.Xml.Linq;
