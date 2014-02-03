@@ -68,5 +68,24 @@ namespace Microsoft.WindowsAzure.Commands.Test.Websites
             websitesClientMock.Verify(f => f.DeleteWebJob(websiteName, slot, jobName, jobType), Times.Once());
             commandRuntimeMock.Verify(f => f.WriteObject(true), Times.Once());
         }
+
+        [TestMethod]
+        public void DeletesContinuousWebJob()
+        {
+            // Setup
+            string jobName = "myWebJob";
+            WebJobType jobType = WebJobType.Continuous;
+            websitesClientMock.Setup(f => f.DeleteWebJob(websiteName, slot, jobName, jobType)).Verifiable();
+            cmdlet.JobName = jobName;
+            cmdlet.JobType = jobType;
+            commandRuntimeMock.Setup(f => f.ShouldProcess(It.IsAny<string>(), It.IsAny<string>())).Returns(true);
+
+            // Test
+            cmdlet.ExecuteCmdlet();
+
+            // Assert
+            websitesClientMock.Verify(f => f.DeleteWebJob(websiteName, slot, jobName, jobType), Times.Once());
+            commandRuntimeMock.Verify(f => f.WriteObject(true), Times.Once());
+        }
     }
 }

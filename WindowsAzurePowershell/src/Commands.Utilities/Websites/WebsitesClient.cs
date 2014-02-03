@@ -17,6 +17,9 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
     using CloudService;
     using Management.WebSites;
     using Management.WebSites.Models;
+    using Microsoft.WindowsAzure.Commands.Utilities.Websites.Services.WebJobs;
+    using Microsoft.WindowsAzure.WebSitesExtensions;
+    using Microsoft.WindowsAzure.WebSitesExtensions.Models;
     using Newtonsoft.Json.Linq;
     using Properties;
     using Services;
@@ -24,16 +27,13 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
     using Services.WebEntities;
     using System;
     using System.Collections.Generic;
+    using System.Diagnostics;
+    using System.IO;
     using System.Linq;
     using System.Net;
     using System.Net.Http;
     using System.Web;
     using Utilities.Common;
-    using System.Diagnostics;
-    using System.Globalization;
-    using Microsoft.WindowsAzure.Commands.Utilities.Websites.Services.WebJobs;
-    using Microsoft.WindowsAzure.WebSitesExtensions;
-    using Microsoft.WindowsAzure.WebSitesExtensions.Models;
 
     public class WebsitesClient : IWebsitesClient
     {
@@ -110,7 +110,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
         {
             WebsiteManagementClient.WebSites.Update(webspace, name, new WebSiteUpdateParameters
             {
-                State = state == WebsiteState.Running ? WebSiteState.Running : WebSiteState.Stopped,
+                State = state.ToString(),
                 // Set the following 3 collection properties to null since by default they are empty lists,
                 // which will clear the corresponding settings of the web site, thus results in a 404 when browsing the web site.
                 HostNames = null,
@@ -458,6 +458,32 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
         }
 
         /// <summary>
+        /// Gets the hostname of the website
+        /// </summary>
+        /// <param name="name">The website name</param>
+        /// <param name="slot">The website slot name</param>
+        /// <returns>The hostname</returns>
+        public string GetHostName(string name, string slot)
+        {
+            slot = string.IsNullOrEmpty(slot) ? GetSlotName(name) : slot;
+            name = SetWebsiteName(name, slot);
+            string hostname = null;
+            string dnsSuffix = GetWebsiteDnsSuffix();
+
+            if (!string.IsNullOrEmpty(slot) &&
+                !slot.Equals(WebsiteSlotName.Production.ToString(), StringComparison.OrdinalIgnoreCase))
+            {
+                hostname = string.Format("{0}-{1}.{2}", GetWebsiteNameFromFullName(name), slot, dnsSuffix);
+            }
+            else
+            {
+                hostname = string.Format("{0}.{1}", name, dnsSuffix);
+            }
+
+            return hostname;
+        }
+
+        /// <summary>
         /// Create a new website.
         /// </summary>
         /// <param name="webspaceName">Web space to create site in.</param>
@@ -467,21 +493,8 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
         /// <returns>The created site object</returns>
         public Site CreateWebsite(string webspaceName, SiteWithWebSpace siteToCreate, string slot)
         {
-            slot = string.IsNullOrEmpty(slot) ? GetSlotName(siteToCreate.Name) : slot;
             siteToCreate.Name = SetWebsiteName(siteToCreate.Name, slot);
-            string[] hostNames = new string[1];
-            string dnsSuffix = GetWebsiteDnsSuffix();
-
-            if (!string.IsNullOrEmpty(slot) && 
-                !slot.Equals(WebsiteSlotName.Production.ToString(), StringComparison.OrdinalIgnoreCase))
-            {
-                hostNames[0] = string.Format("{0}-{1}.{2}", GetWebsiteNameFromFullName(siteToCreate.Name), slot, dnsSuffix);
-            }
-            else
-            {
-                hostNames[0] = string.Format("{0}.{1}", siteToCreate.Name, dnsSuffix);
-            }
-
+            string[] hostNames = { GetHostName(siteToCreate.Name, slot) };
             siteToCreate.HostNames = hostNames;
             return CreateWebsite(webspaceName, siteToCreate);
         }
@@ -990,6 +1003,16 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
             return slotName;
         }
 
+        /// <summary>
+        /// Checks whether a website name is available or not.
+        /// </summary>
+        /// <param name="name">The website name</param>
+        /// <returns>True means available, false otherwise</returns>
+        public bool CheckWebsiteNameAvailability(string name)
+        {
+            return WebsiteManagementClient.WebSites.IsHostnameAvailable(name).IsAvailable;
+        }
+
         #region WebJobs
 
         /// <summary>
@@ -1065,17 +1088,25 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
         /// <param name="jobType">The web job type</param>
         /// <param name="jobFile">The web job file name</param>
         /// <param name="singleton">True if you only want the job to run in 1 instance of the web site</param>
-        public WebJob CreateWebJob(string name, string slot, string jobName, WebJobType jobType, string jobFile, bool singleton)
+        public WebJob CreateWebJob(string name, string slot, string jobName, WebJobType jobType, string jobFile)
         {
-            if (jobType == WebJobType.Triggered && singleton)
-            {
-                throw new InvalidOperationException(Resources.InvalidWebJobSingleton);
-            }
-
+            WebJobFilterOptions options = new WebJobFilterOptions() { Name = name, Slot = slot, JobName = jobName, JobType = jobType.ToString() };
             name = SetWebsiteName(name, slot);
             IWebSiteExtensionsClient client = GetWebSiteExtensionsClient(name);
 
-            throw new NotImplementedException();
+            switch (jobType)
+            {
+                case WebJobType.Continuous:
+                    client.WebJobs.UploadContinuous(jobName, File.OpenRead(jobFile));
+                    break;
+                case WebJobType.Triggered:
+                    client.WebJobs.UploadTriggered(jobName, File.OpenRead(jobFile));
+                    break;
+                default:
+                    break;
+            }
+
+            return FilterWebJobs(options).FirstOrDefault();
         }
 
         /// <summary>
@@ -1090,7 +1121,18 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
             name = SetWebsiteName(name, slot);
             IWebSiteExtensionsClient client = GetWebSiteExtensionsClient(name);
 
-            throw new NotImplementedException();
+            if (jobType == WebJobType.Continuous)
+            {
+                client.WebJobs.DeleteContinuous(jobName, true);
+            }
+            else if (jobType == WebJobType.Triggered)
+            {
+                client.WebJobs.DeleteTriggered(jobName, true);
+            }
+            else
+            {
+                throw new ArgumentException("jobType");
+            }
         }
 
         /// <summary>
@@ -1107,7 +1149,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
 
             if (jobType == WebJobType.Continuous)
             {
-                client.WebJobs.StartContinous(jobName);
+                client.WebJobs.StartContinuous(jobName);
             }
             else
             {
@@ -1129,7 +1171,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
 
             if (jobType == WebJobType.Continuous)
             {
-                client.WebJobs.StopContinous(jobName);
+                client.WebJobs.StopContinuous(jobName);
             }
             else
             {
@@ -1146,8 +1188,22 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
         {
             options.Name = SetWebsiteName(options.Name, options.Slot);
             IWebSiteExtensionsClient client = GetWebSiteExtensionsClient(options.Name);
+            List<WebJobRun> result = new List<WebJobRun>();
 
-            throw new NotImplementedException();
+            if (options.Latest)
+            {
+                result.Add(client.WebJobs.GetTriggered(options.JobName).WebJob.LatestRun);
+            }
+            else if (!string.IsNullOrEmpty(options.RunId))
+            {
+                result.Add(client.WebJobs.GetRun(options.JobName, options.RunId).JobRun);
+            }
+            else
+            {
+                result.AddRange(client.WebJobs.ListRuns(options.JobName, new WebJobRunListParameters()));
+            }
+
+            return result;
         }
 
         /// <summary>
