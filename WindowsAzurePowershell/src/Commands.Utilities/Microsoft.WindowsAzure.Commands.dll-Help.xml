@@ -5508,6 +5508,23 @@
           <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
         </command:parameter>
       </command:syntaxItem>
+      <command:syntaxItem>
+        <maml:name>Test-AzureName</maml:name>
+        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="1" aliases="">
+          <maml:name>Website</maml:name>
+          <maml:description>
+            <maml:para>Specifies to test for an existing website.</maml:para>
+          </maml:description>
+          <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="2" aliases="">
+          <maml:name>Name</maml:name>
+          <maml:description>
+            <maml:para>Specifies the name of the service bus namespace to test.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        </command:parameter>
+      </command:syntaxItem>
     </command:syntax>
     <command:parameters>
       <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="2" aliases="">
@@ -5546,6 +5563,20 @@
         </dev:type>
         <dev:defaultValue></dev:defaultValue>
       </command:parameter>
+      <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="1" aliases="">
+        <maml:name>ServiceBusNamespace</maml:name>
+        <maml:description>
+          <maml:para>Specifies to test for an existing service bus namespace.</maml:para>
+        </maml:description>
+      <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
+      </command:parameter>
+      <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="1" aliases="">
+          <maml:name>Website</maml:name>
+          <maml:description>
+            <maml:para>Specifies to test for an existing website.</maml:para>
+          </maml:description>
+          <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
+        </command:parameter>
     </command:parameters>
     <command:inputTypes>
       <command:inputType>
@@ -12377,13 +12408,6 @@
           </maml:description>
           <command:parameterValue required="true" variableLength = "false" >String</command:parameterValue>
         </command:parameter>
-        <command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "true (ByPropertyName)">
-          <maml:name>Singleton</maml:name>
-          <maml:description>
-            <maml:para>Only for continuous jobs. True if you only want the job to run in 1 instance of the web sites.</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength = "false" >SwitchParameter</command:parameterValue>
-        </command:parameter>
       </command:syntaxItem>
     </command:syntax>
     <command:parameters>
@@ -12421,13 +12445,6 @@
           <maml:para>The web job file</maml:para>
         </maml:description>
         <command:parameterValue required="true" variableLength = "false" >String</command:parameterValue>
-      </command:parameter>
-      <command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "true (ByPropertyName)">
-        <maml:name>Singleton</maml:name>
-        <maml:description>
-          <maml:para>Only for continuous jobs. True if you only want the job to run in 1 instance of the web sites.</maml:para>
-        </maml:description>
-        <command:parameterValue required="true" variableLength = "false" >SwitchParameter</command:parameterValue>
       </command:parameter>
     </command:parameters>
     <command:inputTypes>
