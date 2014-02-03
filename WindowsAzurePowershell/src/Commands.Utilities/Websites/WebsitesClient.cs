@@ -37,6 +37,9 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
     using System.Collections;
     using Microsoft.Web.Deployment;
     using System.Xml.Linq;
+    using Microsoft.Build.Evaluation;
+    using Microsoft.Build.Logging;
+    using Microsoft.Build.Framework;
 
     public class WebsitesClient : IWebsitesClient
     {
@@ -1028,6 +1031,43 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
         }
 
         #region WebDeploy
+
+        /// <summary>
+        /// Build a Visual Studio web project and generate a WebDeploy package.
+        /// </summary>
+        /// <param name="projectFile">The project file.</param>
+        /// <param name="configuration">The configuration of the build, like Release or Debug.</param>
+        /// <param name="logFile">The build log file if there is any error.</param>
+        /// <returns>The full path of the generated WebDeploy package.</returns>
+        public string BuildWebProject(string projectFile, string configuration, string logFile)
+        {
+
+            ProjectCollection pc = new ProjectCollection();
+            Project project = pc.LoadProject(projectFile);
+
+            // Use a file logger to store detailed build info.
+            FileLogger fileLogger = new FileLogger();
+            fileLogger.Parameters = string.Format("logfile={0}", logFile);
+            fileLogger.Verbosity = LoggerVerbosity.Diagnostic;
+
+            // Set the configuration used by MSBuild.
+            project.SetProperty("Configuration", configuration);
+
+            // Build the project.
+            var buildSucceed = project.Build("Package", new ILogger[] { fileLogger });
+
+            if (buildSucceed)
+            {
+                // If build succeeds, delete the build.log file since there is no use of it.
+                File.Delete(logFile);
+                return Path.Combine(Path.GetDirectoryName(projectFile), "obj", configuration, "Package", Path.GetFileNameWithoutExtension(projectFile) + ".zip");
+            }
+            else
+            {
+                // If build fails, tell the user to look at the build.log file.
+                throw new Exception(string.Format("Cannot build the project successfully. Please see logs in {0}.", logFile));
+            }
+        }
 
         /// <summary>
         /// Gets the website WebDeploy publish profile.
