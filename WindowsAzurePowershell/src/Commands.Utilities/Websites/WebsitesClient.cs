@@ -1362,7 +1362,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
 
             if (jobType == WebJobType.Continuous)
             {
-                client.WebJobs.StartContinous(jobName);
+                client.WebJobs.StartContinuous(jobName);
             }
             else
             {

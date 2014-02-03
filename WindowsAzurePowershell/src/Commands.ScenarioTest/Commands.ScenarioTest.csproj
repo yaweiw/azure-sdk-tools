@@ -212,12 +212,6 @@
     <Compile Include="ServiceBusTests\ServiceBusNamespaceTests.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Resources\Websites\testwebapp.zip">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Resources\Websites\webdeploypackage.zip">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
     <Resource Include="Resources\Common.ps1">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
