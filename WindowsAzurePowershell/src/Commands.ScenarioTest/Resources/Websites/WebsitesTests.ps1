@@ -859,3 +859,63 @@ function Test-SetAzureWebsite
 	Assert-AreEqual Classic $website.ManagedPipelineMode
 	Assert-AreEqual $true $website.WebSocketsEnabled
 }
+
+########################################################################### Test-RemoveAzureWebsiteJob Scenario Tests ###########################################################################
+
+<#
+.SYNOPSIS
+Tests Remove-AzureWebsiteJob cmdlet using 'Triggered' job type 
+#>
+function Test-RemoveAzureWebsiteTriggeredJob
+{
+	$webSiteName = Get-WebsiteName
+	$webSiteJobName = Get-WebsiteJobName
+
+	# Set up
+	New-AzureWebsite $webSiteName
+
+	# Test
+	Test-CreateAndRemoveAJob $webSiteName $webSiteJobName Triggered "WebsiteJobTestCmd.zip"
+
+	# Clean up
+	Remove-AzureWebsite $webSiteName -Force
+}
+
+<#
+.SYNOPSIS
+Tests Remove-AzureWebsiteJob cmdlet using 'Continuous' job type 
+#>
+function Test-RemoveAzureWebsiteContinuousJob
+{
+	$webSiteName = Get-WebsiteName
+	$webSiteJobName = Get-WebsiteJobName
+
+	# Set up
+	New-AzureWebsite $webSiteName
+
+	# Test
+	Test-CreateAndRemoveAJob $webSiteName $webSiteJobName Continuous "WebsiteJobTestCmd.zip"
+
+	# Clean up
+	Remove-AzureWebsite $webSiteName -Force
+}
+
+<#
+.SYNOPSIS
+Tests Remove-AzureWebsiteJob cmdlet using a job which doesn't exist
+#>
+function Test-RemoveNonExistingAzureWebsiteJob
+{
+	$webSiteName = Get-WebsiteName
+	$nonExistingWebSiteJobName = Get-WebsiteJobName
+
+	# Set up
+	New-AzureWebsite $webSiteName
+
+	# Test
+	Remove-AzureWebsiteJob -Name $webSiteName -JobName $nonExistingWebSiteJobName -JobType Triggered –Force
+	Assert-True { $error[0].ToString().Contains("not found.") }
+
+	# Clean up
+	Remove-AzureWebsite $webSiteName -Force
+}
