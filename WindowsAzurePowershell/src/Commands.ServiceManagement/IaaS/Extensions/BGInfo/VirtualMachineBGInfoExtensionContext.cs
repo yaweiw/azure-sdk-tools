@@ -12,17 +12,9 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Extensions
+namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
 {
-    using Utilities.Common;
-
-    public class ExtensionContext : ManagementOperationContext
+    public class VirtualMachineBGInfoExtensionContext : VirtualMachineExtensionContext
     {
-        public ExtensionRole Role { get; set; }
-        public string Extension { get; set; }
-        public string ProviderNameSpace { get; set; }
-        public string Version { get; set; }
-        public string Id { get; set; }
-        public string PublicConfiguration { get; set; }
     }
 }

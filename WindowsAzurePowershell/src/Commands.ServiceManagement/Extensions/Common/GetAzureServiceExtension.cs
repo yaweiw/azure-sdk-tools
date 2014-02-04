@@ -20,21 +20,37 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Extensions
     using Model.PersistentVMModel;
 
     /// <summary>
-    /// Get Windows Azure Service ADDomain Extension.
+    /// Get Windows Azure Service Extension.
     /// </summary>
-    [Cmdlet(VerbsCommon.Get, ADDomainExtensionNoun), OutputType(typeof(ADDomainExtensionContext))]
-    public class GetAzureServiceADDomainExtensionCommand : BaseAzureServiceADDomainExtensionCmdlet
+    [Cmdlet(VerbsCommon.Get, "AzureServiceExtension"), OutputType(typeof(ExtensionContext))]
+    public class GetAzureServiceExtensionCommand : BaseAzureServiceExtensionCmdlet
     {
-        [Parameter(Position = 0, ValueFromPipelineByPropertyName = true, HelpMessage = ExtensionParameterPropertyHelper.ServiceNameHelpMessage)]
+        [Parameter(Position = 0, ValueFromPipelineByPropertyName = true, HelpMessage = "Service Name")]
         public override string ServiceName
         {
             get;
             set;
         }
 
-        [Parameter(Position = 1, ValueFromPipelineByPropertyName = true, HelpMessage = ExtensionParameterPropertyHelper.SlotHelpMessage)]
+        [Parameter(Position = 1, ValueFromPipelineByPropertyName = true, HelpMessage = "Deployment Slot: Production (default) or Staging")]
         [ValidateSet(DeploymentSlotType.Production, DeploymentSlotType.Staging, IgnoreCase = true)]
         public override string Slot
+        {
+            get;
+            set;
+        }
+
+        [Parameter(Position = 2, Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "Extension Name")]
+        [ValidateNotNullOrEmptyAttribute]
+        public override string ExtensionName
+        {
+            get;
+            set;
+        }
+
+        [Parameter(Position = 3, Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "Extension Provider Namespace")]
+        [ValidateNotNullOrEmptyAttribute]
+        public override string ProviderNamespace
         {
             get;
             set;
@@ -61,9 +77,18 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Extensions
 
                     return from role in extensionRoleList
                            from extension in r.Extensions
-                           where ExtensionManager.CheckNameSpaceType(extension, ProviderNamespace, ExtensionName)
-                              && ExtensionManager.GetBuilder(Deployment.ExtensionConfiguration).Exist(role, extension.Id)
-                           select GetContext(s, role, extension) as ADDomainExtensionContext;
+                           where ExtensionManager.GetBuilder(Deployment.ExtensionConfiguration).Exist(role, extension.Id)
+                           select new ExtensionContext
+                           {
+                               OperationId = s.Id,
+                               OperationDescription = CommandRuntime.ToString(),
+                               OperationStatus = s.Status.ToString(),
+                               Extension = extension.Type,
+                               ProviderNameSpace = extension.ProviderNamespace,
+                               Id = extension.Id,
+                               Role = role,
+                               PublicConfiguration = extension.PublicConfiguration
+                           };
                 });
         }
 

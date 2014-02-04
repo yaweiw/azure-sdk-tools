@@ -17,18 +17,18 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Extensions
     using System.Linq;
     using System.Management.Automation;
     using System.Security.Cryptography.X509Certificates;
-    using System.Xml;
     using Model.PersistentVMModel;
     using Utilities.Common;
 
     /// <summary>
-    /// Set Windows Azure Service Diagnostics Extension.
+    /// Set Windows Azure Service Extension.
     /// </summary>
-    [Cmdlet(VerbsCommon.Set, "AzureServiceDiagnosticsExtension", DefaultParameterSetName = "SetExtension"), OutputType(typeof(ManagementOperationContext))]
-    public class SetAzureServiceDiagnosticsExtensionCommand : BaseAzureServiceDiagnosticsExtensionCmdlet
+    [Cmdlet(VerbsCommon.Set, "AzureServiceExtension", DefaultParameterSetName = "SetExtension"), OutputType(typeof(ManagementOperationContext))]
+    public class SetAzureServiceExtensionCommand : BaseAzureServiceExtensionCmdlet
     {
         [Parameter(Position = 0, ValueFromPipelineByPropertyName = true, ParameterSetName = "SetExtension", HelpMessage = "Cloud Service Name")]
         [Parameter(Position = 0, ValueFromPipelineByPropertyName = true, ParameterSetName = "SetExtensionUsingThumbprint", HelpMessage = "Cloud Service Name")]
+        [ValidateNotNullOrEmpty]
         public override string ServiceName
         {
             get;
@@ -78,19 +78,38 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Extensions
             set;
         }
 
-        [Parameter(Position = 5, ValueFromPipelineByPropertyName = true, Mandatory = true, ParameterSetName = "SetExtension", HelpMessage = "Diagnostics Storage Account Name")]
-        [Parameter(Position = 5, ValueFromPipelineByPropertyName = true, Mandatory = true, ParameterSetName = "SetExtensionUsingThumbprint", HelpMessage = "Diagnostics Storage Account Name")]
-        [ValidateNotNullOrEmpty]
-        public override string StorageAccountName
+        [Parameter(Position = 5, Mandatory = true, ValueFromPipelineByPropertyName = true, ParameterSetName = "SetExtension", HelpMessage = "Extension Name")]
+        [Parameter(Position = 5, Mandatory = true, ValueFromPipelineByPropertyName = true, ParameterSetName = "SetExtensionUsingThumbprint", HelpMessage = "Extension Name")]
+        [ValidateNotNullOrEmptyAttribute]
+        public override string ExtensionName
         {
             get;
             set;
         }
 
-        [Parameter(Position = 6, ValueFromPipelineByPropertyName = true, ParameterSetName = "SetExtension", HelpMessage = "Diagnostics Configuration")]
-        [Parameter(Position = 6, ValueFromPipelineByPropertyName = true, ParameterSetName = "SetExtensionUsingThumbprint", HelpMessage = "Diagnostics Configuration")]
+        [Parameter(Position = 6, Mandatory = true, ValueFromPipelineByPropertyName = true, ParameterSetName = "SetExtension", HelpMessage = "Extension Provider Namespace")]
+        [Parameter(Position = 6, Mandatory = true, ValueFromPipelineByPropertyName = true, ParameterSetName = "SetExtensionUsingThumbprint", HelpMessage = "Extension Provider Namespace")]
+        [ValidateNotNullOrEmptyAttribute]
+        public override string ProviderNamespace
+        {
+            get;
+            set;
+        }
+
+        [Parameter(Position = 7, Mandatory = true, ValueFromPipelineByPropertyName = true, ParameterSetName = "SetExtension", HelpMessage = "Extension Public Configuration.")]
+        [Parameter(Position = 7, Mandatory = true, ValueFromPipelineByPropertyName = true, ParameterSetName = "SetExtensionUsingThumbprint", HelpMessage = "Extension Public Configuration.")]
         [ValidateNotNullOrEmpty]
-        public override XmlDocument DiagnosticsConfiguration
+        public override string PublicConfiguration
+        {
+            get;
+            set;
+        }
+
+
+        [Parameter(Position = 8, Mandatory = true, ValueFromPipelineByPropertyName = true, ParameterSetName = "SetExtension", HelpMessage = "Extension Private Configuration.")]
+        [Parameter(Position = 8, Mandatory = true, ValueFromPipelineByPropertyName = true, ParameterSetName = "SetExtensionUsingThumbprint", HelpMessage = "Extension Private Configuration.")]
+        [ValidateNotNullOrEmpty]
+        public override string PrivateConfiguration
         {
             get;
             set;
@@ -103,7 +122,6 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Extensions
             ValidateDeployment();
             ValidateRoles();
             ValidateThumbprint(true);
-            ValidateStorageAccount();
             ValidateConfiguration();
         }
 
