@@ -353,9 +353,13 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
 
         #region AzureDeployment
 
-        public ManagementOperationContext NewAzureDeployment(string serviceName, string packagePath, string configPath, string slot, string label, string name, bool doNotStart, bool warning, ExtensionConfigurationInput config = null)
+        public ManagementOperationContext NewAzureDeployment(string serviceName, string packagePath, string configPath,
+            string slot, string label, string name, bool doNotStart, bool warning,
+            ExtensionConfigurationInput config = null)
         {
-            return RunPSCmdletAndReturnFirst<ManagementOperationContext>(new NewAzureDeploymentCmdletInfo(serviceName, packagePath, configPath, slot, label, name, doNotStart, warning, config));
+            return
+                RunPSCmdletAndReturnFirst<ManagementOperationContext>(new NewAzureDeploymentCmdletInfo(serviceName,
+                    packagePath, configPath, slot, label, name, doNotStart, warning, config));
         }
 
         public SM.DeploymentInfoContext GetAzureDeployment(string serviceName, string slot)
@@ -774,8 +778,6 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
 
         #endregion
 
-
-
         #region AzurePublishSettingsFile
 
         internal void ImportAzurePublishSettingsFile()
@@ -1058,6 +1060,94 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
         }
 
         #endregion
+
+        #region AzureServiceExtension
+
+        // New-AzureServiceExtensionConfig
+        public ExtensionConfigurationInput NewAzureServiceExtensionConfig(string extensionName, string providerNamespace,
+            string publicConfig, string privateConfig, string[] roles = null)
+        {
+            return
+                RunPSCmdletAndReturnFirst<ExtensionConfigurationInput>(
+                    new NewAzureServiceExtensionConfigCmdletInfo(roles, extensionName, providerNamespace,
+                        publicConfig, privateConfig));
+        }
+
+        public ExtensionConfigurationInput NewAzureServiceExtensionConfig(string extensionName, string providerNamespace,
+            string publicConfig, string privateConfig, X509Certificate2 cert, string alg = null, string[] roles = null)
+        {
+            return
+                RunPSCmdletAndReturnFirst<ExtensionConfigurationInput>(new NewAzureServiceExtensionConfigCmdletInfo(
+                    cert, alg, roles, extensionName, providerNamespace, publicConfig, privateConfig));
+        }
+
+        public ExtensionConfigurationInput NewAzureServiceExtensionConfig(string extensionName, string providerNamespace,
+            string publicConfig, string privateConfig, string thumbprint, string algorithm = null, string[] roles = null)
+        {
+            return
+                RunPSCmdletAndReturnFirst<ExtensionConfigurationInput>(
+                    new NewAzureServiceExtensionConfigCmdletInfo(thumbprint, algorithm, roles, extensionName,
+                        providerNamespace, publicConfig, privateConfig));
+        }
+
+        // Set-AzureServiceExtension
+        public ManagementOperationContext SetAzureServiceExtension(string serviceName, string extensionName,
+            string providerNamespace, string publicConfig, string privateConfig, string[] roles = null, string slot = null)
+        {
+            return
+                RunPSCmdletAndReturnFirst<ManagementOperationContext>(
+                    new SetAzureServiceExtensionCmdletInfo(serviceName, roles, slot, extensionName, providerNamespace,
+                        publicConfig, privateConfig));
+        }
+
+        public ManagementOperationContext SetAzureServiceExtension(string serviceName, string extensionName,
+            string providerNamespace, string publicConfig, string privateConfig, X509Certificate2 cert, string[] roles = null, string slot = null)
+        {
+            return
+                RunPSCmdletAndReturnFirst<ManagementOperationContext>(
+                    new SetAzureServiceExtensionCmdletInfo(serviceName, cert, roles, slot, extensionName,
+                        providerNamespace, publicConfig, privateConfig));
+        }
+
+        public ManagementOperationContext SetAzureServiceExtension(string serviceName, string extensionName,
+            string providerNamespace, string publicConfig, string privateConfig, string thumbprint, string algorithm = null, string[] roles = null, string slot = null)
+        {
+            return
+                RunPSCmdletAndReturnFirst<ManagementOperationContext>(
+                    new SetAzureServiceExtensionCmdletInfo(serviceName, thumbprint, algorithm, roles, slot,
+                        extensionName, providerNamespace, publicConfig, privateConfig));
+        }
+
+        // Get-AzureServiceExtension
+        public Collection<ExtensionContext> GetAzureServiceExtension(string serviceName, string slot = null, string extensionName = null, string providerNamespace = null)
+        {
+            return
+                RunPSCmdletAndReturnAll<ExtensionContext>(new GetAzureServiceExtensionCmdletInfo(serviceName, slot,
+                    extensionName, providerNamespace));
+        }
+
+        // Remove-AzureServiceExtension
+        public ManagementOperationContext RemoveAzureServiceExtension(string serviceName, string extensionName,
+            string providerNamespace, bool uninstall = false, string[] roles = null, string slot = null)
+        {
+            return
+                RunPSCmdletAndReturnFirst<ManagementOperationContext>(
+                    new RemoveAzureServiceExtensionCmdletInfo(serviceName, uninstall, roles, slot, extensionName,
+                        providerNamespace));
+        }
+
+        // Get-AzureServiceAvailableExtension
+        public Collection<ExtensionImageContext> GetAzureServiceAvailableExtension(string extensionName = null,
+            string providerNamespace = null, string version = null, bool allVersion = false)
+        {
+            return
+                RunPSCmdletAndReturnAll<ExtensionImageContext>(
+                    new GetAzureServiceAvailableExtensionCmdletInfo(extensionName, providerNamespace, version,
+                        allVersion));
+        }
+
+        #endregion
+
 
         #region AzureVM
 
