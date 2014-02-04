@@ -1065,7 +1065,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
             else
             {
                 // If build fails, tell the user to look at the build.log file.
-                throw new Exception(string.Format("Cannot build the project successfully. Please see logs in {0}.", logFile));
+                throw new Exception(string.Format(Resources.WebProjectBuildFailTemplate, logFile));
             }
         }
 
@@ -1083,7 +1083,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
 
             foreach (var profile in response)
             {
-                if (string.Compare(profile.PublishMethod, "MSDeploy") == 0)
+                if (string.Compare(profile.PublishMethod, Resources.WebDeployKeywordInWebSitePublishProfile) == 0)
                 {
                     return profile;
                 }
@@ -1208,7 +1208,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
             {
                 UserName = publishProfile.UserName,
                 Password = publishProfile.UserPassword,
-                ComputerName = string.Format("https://{0}/msdeploy.axd?site={1}", publishProfile.PublishUrl, SetWebsiteNameForWebDeploy(websiteName, slot)),
+                ComputerName = string.Format(Resources.WebSiteWebDeployUriTemplate, publishProfile.PublishUrl, SetWebsiteNameForWebDeploy(websiteName, slot)),
                 AuthenticationType = "Basic",
                 TempAgent = false
             };

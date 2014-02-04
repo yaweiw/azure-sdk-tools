@@ -1,20 +1,14 @@
-﻿using Microsoft.Build.Evaluation;
-using Microsoft.Build.Framework;
-using Microsoft.Build.Logging;
-using Microsoft.Web.Deployment;
-using Microsoft.WindowsAzure.Commands.Utilities.Common;
-using Microsoft.WindowsAzure.Commands.Utilities.Websites;
-using Microsoft.WindowsAzure.Commands.Utilities.Websites.Common;
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Management.Automation;
-using System.Xml.Linq;
-
-namespace Microsoft.WindowsAzure.Commands.Websites
+﻿namespace Microsoft.WindowsAzure.Commands.Websites
 {
+    using Microsoft.WindowsAzure.Commands.Properties;
+    using Microsoft.WindowsAzure.Commands.Utilities.Common;
+    using Microsoft.WindowsAzure.Commands.Utilities.Websites;
+    using Microsoft.WindowsAzure.Commands.Utilities.Websites.Common;
+    using System;
+    using System.Collections;
+    using System.IO;
+    using System.Management.Automation;
+
     [Cmdlet(VerbsData.Publish, "AzureWebsiteProject")]
     public class PublishAzureWebsiteProject : WebsiteContextBaseCmdlet, IDynamicParameters
     {
@@ -50,14 +44,14 @@ namespace Microsoft.WindowsAzure.Commands.Websites
             // If a project file is specified, use MSBuild to build the package zip file.
             if (!string.IsNullOrEmpty(ProjectFile))
             {
-                WriteVerbose(string.Format("[Start]    Building project {0}", fullProjectFile));
+                WriteVerbose(string.Format(Resources.StartBuildingProjectTemplate, fullProjectFile));
                 fullPackage = WebsitesClient.BuildWebProject(fullProjectFile, configuration, Path.Combine(CurrentPath(), "build.log"));
-                WriteVerbose(string.Format("[Complete] Building project {0}", fullProjectFile));
+                WriteVerbose(string.Format(Resources.CompleteBuildingProjectTemplate, fullProjectFile));
             }
 
             // Resolve the full path of the package file or folder when the "Package" parameter set is used.
             fullPackage = string.IsNullOrEmpty(fullPackage) ? this.TryResolvePath(Package) : fullPackage;
-            WriteVerbose(string.Format("[Start]    Publishing package {0}", fullPackage));
+            WriteVerbose(string.Format(Resources.StartPublishingProjectTemplate, fullPackage));
 
             // Convert dynamic parameters to a connection string hash table.
             var connectionStrings = ConnectionString;
@@ -80,11 +74,11 @@ namespace Microsoft.WindowsAzure.Commands.Websites
             {
                 // Publish the package.
                 WebsitesClient.PublishWebProject(Name, Slot, fullPackage, connectionStrings);
-                WriteVerbose(string.Format("[Complete] Publishing package {0}", fullPackage));
+                WriteVerbose(string.Format(Resources.CompletePublishingProjectTemplate, fullPackage));
             }
             catch (Exception)
             {
-                WriteVerbose(string.Format("[Fail]     Publishing package {0}", fullPackage));
+                WriteVerbose(string.Format(Resources.FailPublishingProjectTemplate, fullPackage));
                 throw;
             }
         }
