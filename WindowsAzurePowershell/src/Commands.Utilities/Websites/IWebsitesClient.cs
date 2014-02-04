@@ -15,8 +15,11 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
 {
     using System;
     using System.Collections.Generic;
+    using Microsoft.WindowsAzure.Commands.Utilities.Websites.Services;
+    using Microsoft.WindowsAzure.Commands.Utilities.Websites.Services.WebJobs;
     using Services.DeploymentEntities;
     using Services.WebEntities;
+    using Microsoft.WindowsAzure.WebSitesExtensions.Models;
 
     public interface IWebsitesClient
     {
@@ -406,6 +409,93 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
         /// <param name="name">The website full name which may include slot name</param>
         /// <returns>The website name</returns>
         string GetWebsiteNameFromFullName(string name);
+
+        /// <summary>
+        /// Filters the web jobs.
+        /// </summary>
+        /// <param name="options">The web job filter options</param>
+        /// <returns>The filtered web jobs list</returns>
+        List<WebJob> FilterWebJobs(WebJobFilterOptions options);
+
+        /// <summary>
+        /// Creates new web job for a website
+        /// </summary>
+        /// <param name="name">The website name</param>
+        /// <param name="slot">The website slot name</param>
+        /// <param name="jobName">The web job name</param>
+        /// <param name="jobType">The web job type</param>
+        /// <param name="jobFile">The web job file name</param>
+        /// <returns>The created web job instance</returns>
+        WebJob CreateWebJob(string name, string slot, string jobName, WebJobType jobType, string jobFile);
+
+        /// <summary>
+        /// Deletes a web job for a website.
+        /// </summary>
+        /// <param name="name">The website name</param>
+        /// <param name="slot">The slot name</param>
+        /// <param name="jobName">The web job name</param>
+        /// <param name="jobType">The web job type</param>
+        void DeleteWebJob(string name, string slot, string jobName, WebJobType jobType);
+
+        /// <summary>
+        /// Starts a web job in a website.
+        /// </summary>
+        /// <param name="name">The website name</param>
+        /// <param name="slot">The slot name</param>
+        /// <param name="jobName">The web job name</param>
+        /// <param name="jobType">The web job type</param>
+        void StartWebJob(string name, string slot, string jobName, WebJobType jobType);
+
+        /// <summary>
+        /// Stops a web job in a website.
+        /// </summary>
+        /// <param name="name">The website name</param>
+        /// <param name="slot">The slot name</param>
+        /// <param name="jobName">The web job name</param>
+        /// <param name="jobType">The web job type</param>
+        void StopWebJob(string name, string slot, string jobName, WebJobType jobType);
+
+        /// <summary>
+        /// Filters a web job history.
+        /// </summary>
+        /// <param name="options">The web job filter options</param>
+        /// <returns>The filtered web jobs run list</returns>
+        List<WebJobRun> FilterWebJobHistory(WebJobHistoryFilterOptions options);
+
+        /// <summary>
+        /// Saves a web job logs to file.
+        /// </summary>
+        /// <param name="name">The website name</param>
+        /// <param name="slot">The slot name</param>
+        /// <param name="jobName">The web job name</param>
+        /// <param name="jobType">The web job type</param>
+        void SaveWebJobLog(string name, string slot, string jobName, WebJobType jobType);
+
+        /// <summary>
+        /// Saves a web job logs to file.
+        /// </summary>
+        /// <param name="name">The website name</param>
+        /// <param name="slot">The slot name</param>
+        /// <param name="jobName">The web job name</param>
+        /// <param name="jobType">The web job type</param>
+        /// <param name="output">The output file name</param>
+        /// <param name="runId">The job run id</param>
+        void SaveWebJobLog(string name, string slot, string jobName, WebJobType jobType, string output, string runId);
+
+        /// <summary>
+        /// Gets the hostname of the website
+        /// </summary>
+        /// <param name="name">The website name</param>
+        /// <param name="slot">The website slot name</param>
+        /// <returns>The hostname</returns>
+        string GetHostName(string name, string slot);
+
+        /// <summary>
+        /// Checks whether a website name is available or not.
+        /// </summary>
+        /// <param name="name">The website name</param>
+        /// <returns>True means available, false otherwise</returns>
+        bool CheckWebsiteNameAvailability(string name);
     }
 
     public enum WebsiteState

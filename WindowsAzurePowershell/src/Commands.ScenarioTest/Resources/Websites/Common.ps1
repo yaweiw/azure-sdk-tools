@@ -26,6 +26,15 @@ function Get-WebsiteName
 
 <#
 .SYNOPSIS
+Gets valid website job name.
+#>
+function Get-WebsiteJobName
+{
+	return "OneSDKWebsiteJob" + (Get-Random).ToString()
+}
+
+<#
+.SYNOPSIS
 Creates websites with the count specified
 
 .PARAMETER count
@@ -182,4 +191,30 @@ function Git-PushLocalGitToWebSite
 	
 	# Expected message "remote: Updating branch 'master'"
 	Assert-Throws { git push $remoteAlias master }
+}
+
+<#
+.SYNOPSIS
+A convinience function for you to pass in existing web site name and preferred web job configuration 
+#>
+function Test-CreateAndRemoveAJob
+{
+    param([string] $webSiteName, [string] $webSiteJobName, [string] $webSiteJobType, [string] $testCommandFile)
+    
+    # Setup
+    New-AzureWebsiteJob -Name $webSiteName -JobName $webSiteJobName -JobType $webSiteJobType -JobFile $testCommandFile
+    Get-AzureWebsiteJob -Name $webSiteName -JobName $webSiteJobName -JobType $webSiteJobType
+
+    # Test
+    If ($webSiteJobType -eq "Continuous")
+    {
+        Write-Host "Wait and retry to work around a known limitation, that a newly created job might not be immiediately available."
+        $waitScriptBlock = { Stop-AzureWebsiteJob -Name $webSiteName -JobName $webSiteJobName -PassThru }
+        Wait-Function $waitScriptBlock $TRUE
+    }
+    
+    $removed = Remove-AzureWebsiteJob -Name $webSiteName -JobName $webSiteJobName -JobType $webSiteJobType –Force
+
+    # Assert
+    Assert-True { $removed }
 }
