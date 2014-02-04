@@ -117,4 +117,19 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="CompleteBuildingProjectTemplate" xml:space="preserve">
+    <value>[Complete] Building project {0}</value>
+  </data>
+  <data name="CompletePublishingProjectTemplate" xml:space="preserve">
+    <value>[Complete] Publishing package {0}</value>
+  </data>
+  <data name="FailPublishingProjectTemplate" xml:space="preserve">
+    <value>[Fail]     Publishing package {0}</value>
+  </data>
+  <data name="StartBuildingProjectTemplate" xml:space="preserve">
+    <value>[Start]    Building project {0}</value>
+  </data>
+  <data name="StartPublishingProjectTemplate" xml:space="preserve">
+    <value>[Start]    Publishing package {0}</value>
+  </data>
 </root>
