@@ -12,17 +12,21 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
+
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Extensions
 {
     using Utilities.Common;
 
-    public class ExtensionContext : ManagementOperationContext
+    public class ExtensionImageContext : ManagementOperationContext
     {
-        public ExtensionRole Role { get; set; }
-        public string Extension { get; set; }
         public string ProviderNameSpace { get; set; }
+        public string ExtensionName { get; set; }
         public string Version { get; set; }
-        public string Id { get; set; }
-        public string PublicConfiguration { get; set; }
+        public string Label { get; set; }
+        public string Description { get; set; }
+        public string HostingResources { get; set; }
+        public string ThumbprintAlgorithm { get; set; }
+        public string PublicConfigurationSchema { get; set; }
+        public string PrivateConfigurationSchema { get; set; }
     }
 }
