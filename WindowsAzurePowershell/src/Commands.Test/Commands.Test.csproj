@@ -127,6 +127,10 @@
       <HintPath>..\packages\Microsoft.Bcl.Async.1.0.165\lib\net40\Microsoft.Threading.Tasks.Extensions.Desktop.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
+    <Reference Include="Microsoft.Web.Deployment, Version=9.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\lib\Microsoft.Web.Deployment.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.WindowsAzure.Common">
       <HintPath>..\packages\Microsoft.WindowsAzure.Common.0.9.9-preview\lib\net40\Microsoft.WindowsAzure.Common.dll</HintPath>
     </Reference>
@@ -354,6 +358,7 @@
     <Compile Include="WAPackIaaS\WebClient\GetAbsoluteUriTests.cs" />
     <Compile Include="WAPackIaaS\WebClient\JsonHelperTests.cs" />
     <Compile Include="WAPackIaaS\WebClient\WAPackWebClientTests.cs" />
+    <Compile Include="Websites\PublishAzureWebsiteProjectTests.cs" />
     <Compile Include="Websites\UpdateAzureWebsiteRepositoryTests.cs" />
     <Compile Include="Websites\SwitchAzureWebSiteSlotTests.cs" />
     <Compile Include="Websites\DisableAzureWebsiteDiagnosticTests.cs" />
@@ -384,6 +389,9 @@
     <Compile Include="Websites\WebJobs\GetAzureWebsiteJobTests.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Resources\MyWebApplication\WebApplication4.csproj">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="Resources\MyWebTemplateFolder\WebRole.xml">
       <SubType>Designer</SubType>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -431,6 +439,15 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Resources\TemplateMissingScaffoldXml\setup_worker.cmd">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\MyWebApplication\Web.config">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\MyWebApplication\Web.Debug.config">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\MyWebApplication\Web.Release.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
