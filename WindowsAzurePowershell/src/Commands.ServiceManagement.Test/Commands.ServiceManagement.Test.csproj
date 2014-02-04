@@ -209,6 +209,7 @@
     <Compile Include="FunctionalTests\AddAzureVhdSASUriTest.cs" />
     <Compile Include="FunctionalTests\AddAzureVhdTest.cs" />
     <Compile Include="FunctionalTests\AzureServiceADDomainJoinExtensionTests.cs" />
+    <Compile Include="FunctionalTests\AzureServiceExtensionTests.cs" />
     <Compile Include="FunctionalTests\AzureVhdTest.cs" />
     <Compile Include="FunctionalTests\BVTTest.cs" />
     <Compile Include="FunctionalTests\ConfigDataInfo\ACLAction.cs" />
@@ -241,7 +242,6 @@
     <Compile Include="FunctionalTests\ConfigDataInfo\VMSizeInfo.cs" />
     <Compile Include="FunctionalTests\FunctionalTest.cs" />
     <Compile Include="FunctionalTests\IaasCmdletInfo\AddAzureVhdCmdletInfo.cs" />
-    <Compile Include="FunctionalTests\IaasCmdletInfo\GetAzureDeploymentCmdletInfo.cs" />
     <Compile Include="FunctionalTests\IaasCmdletInfo\GetAzureDiskCmdletInfo.cs" />
     <Compile Include="FunctionalTests\IaasCmdletInfo\GetAzureDns.cs" />
     <Compile Include="FunctionalTests\IaasCmdletInfo\GetAzureEndpointCmdletInfo.cs" />
@@ -264,7 +264,6 @@
     <Compile Include="FunctionalTests\IaasCmdletInfo\NewAzureAclConfigCmdletInfo.cs" />
     <Compile Include="FunctionalTests\IaasCmdletInfo\NewAzureAffinityGroupCmdletInfo.cs" />
     <Compile Include="FunctionalTests\IaasCmdletInfo\NewAzureCertificateSettingCmdletInfo.cs" />
-    <Compile Include="FunctionalTests\IaasCmdletInfo\NewAzureDeploymentCmdletInfo.cs" />
     <Compile Include="FunctionalTests\IaasCmdletInfo\NewAzureDns.cs" />
     <Compile Include="FunctionalTests\IaasCmdletInfo\NewAzureServiceCmdletInfo.cs" />
     <Compile Include="FunctionalTests\IaasCmdletInfo\NewAzureSSHKeyCmdletInfo.cs" />
@@ -273,7 +272,6 @@
     <Compile Include="FunctionalTests\IaasCmdletInfo\RemoveAzureAffinityGroupCmdletInfo.cs" />
     <Compile Include="FunctionalTests\IaasCmdletInfo\RemoveAzureCertificateCmdletInfo.cs" />
     <Compile Include="FunctionalTests\IaasCmdletInfo\RemoveAzureDataDiskCmdletInfo.cs" />
-    <Compile Include="FunctionalTests\IaasCmdletInfo\RemoveAzureDeploymentCmdletInfo.cs" />
     <Compile Include="FunctionalTests\IaasCmdletInfo\RemoveAzureDiskCmdletInfo.cs" />
     <Compile Include="FunctionalTests\IaasCmdletInfo\RemoveAzureEndpointCmdletInfo.cs" />
     <Compile Include="FunctionalTests\IaasCmdletInfo\RemoveAzureStaticVNetIPCmdletInfo.cs" />
@@ -312,24 +310,32 @@
     <Compile Include="FunctionalTests\IaasCmdletInfo\WindowsAzurePowershellScript.cs" />
     <Compile Include="FunctionalTests\IaasCmdletInfo\WinRMCmdletInfo.cs" />
     <Compile Include="FunctionalTests\LBandEndPointACLsTest.cs" />
+    <Compile Include="FunctionalTests\PaasCmdletInfo\GetAzureDeploymentCmdletInfo.cs" />
+    <Compile Include="FunctionalTests\PaasCmdletInfo\GetAzureServiceAvailableExtensionCmdletInfo.cs" />
     <Compile Include="FunctionalTests\PaasCmdletInfo\GetAzureServiceDiagnosticsExtensionCmdletInfo.cs" />
     <Compile Include="FunctionalTests\PaasCmdletInfo\GetAzureServiceDomainJoinExtensionCmdletInfo.cs" />
+    <Compile Include="FunctionalTests\PaasCmdletInfo\GetAzureServiceExtensionCmdletInfo.cs" />
     <Compile Include="FunctionalTests\PaasCmdletInfo\GetAzureServiceRemoteDesktopExtensionCmdletInfo.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="FunctionalTests\PaasCmdletInfo\NewAzureDeploymentCmdletInfo.cs" />
     <Compile Include="FunctionalTests\PaasCmdletInfo\NewAzureServiceDiagnosticsExtensionConfigCmdletInfo.cs" />
     <Compile Include="FunctionalTests\PaasCmdletInfo\NewAzureServiceDomainJoinExtensionConfigCmdletInfo.cs" />
+    <Compile Include="FunctionalTests\PaasCmdletInfo\NewAzureServiceExtensionConfigCmdletInfo.cs" />
     <Compile Include="FunctionalTests\PaasCmdletInfo\NewAzureServiceRemoteDesktopExtensionConfigCmdletInfo.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="FunctionalTests\PaasCmdletInfo\RemoveAzureDeploymentCmdletInfo.cs" />
     <Compile Include="FunctionalTests\PaasCmdletInfo\RemoveAzureServiceDiagnosticsExtensionCmdletInfo.cs" />
     <Compile Include="FunctionalTests\PaasCmdletInfo\RemoveAzureServiceDomainJoinExtensionCmdletInfo.cs" />
+    <Compile Include="FunctionalTests\PaasCmdletInfo\RemoveAzureServiceExtensionCmdletInfo.cs" />
     <Compile Include="FunctionalTests\PaasCmdletInfo\RemoveAzureServiceRemoteDesktopExtensionCmdletInfo.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="FunctionalTests\PaasCmdletInfo\ResetAzureRoleInstanceCmdletInfo.cs" />
     <Compile Include="FunctionalTests\PaasCmdletInfo\SetAzureServiceDiagnosticsExtensionCmdletInfo.cs" />
     <Compile Include="FunctionalTests\PaasCmdletInfo\SetAzureServiceDomainJoinExtensionCmdletInfo.cs" />
+    <Compile Include="FunctionalTests\PaasCmdletInfo\SetAzureServiceExtensionCmdletInfo.cs" />
     <Compile Include="FunctionalTests\PaasCmdletInfo\SetAzureServiceRemoteDesktopExtensionCmdletInfo.cs">
       <SubType>Code</SubType>
     </Compile>

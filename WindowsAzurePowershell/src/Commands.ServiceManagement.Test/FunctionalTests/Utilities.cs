@@ -147,6 +147,15 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
         public const string SetAzureServiceCmdletName = "Set-AzureService";
         public const string RemoveAzureServiceCmdletName = "Remove-AzureService";
 
+        // AzureServiceAvailableExtension
+        public const string GetAzureServiceAvailableExtensionCmdletName = "Get-AzureServiceAvailableExtension";
+
+        // AzureServiceExtension
+        public const string NewAzureServiceExtensionConfigCmdletName = "New-AzureServiceExtensionConfig";
+        public const string SetAzureServiceExtensionCmdletName = "Set-AzureServiceExtension";
+        public const string GetAzureServiceExtensionCmdletName = "Get-AzureServiceExtension";
+        public const string RemoveAzureServiceExtensionCmdletName = "Remove-AzureServiceExtension";
+
         // AzureServiceRemoteDesktopExtension
         public const string NewAzureServiceRemoteDesktopExtensionConfigCmdletName = "New-AzureServiceRemoteDesktopExtensionConfig";
         public const string SetAzureServiceRemoteDesktopExtensionCmdletName = "Set-AzureServiceRemoteDesktopExtension";
