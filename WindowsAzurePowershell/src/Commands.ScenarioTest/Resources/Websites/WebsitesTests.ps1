@@ -860,6 +860,70 @@ function Test-SetAzureWebsite
 	Assert-AreEqual $true $website.WebSocketsEnabled
 }
 
+########################################################################### Test-StartAzureWebsiteTriggeredJob Scenario Tests ###########################################################################
+<#
+.SYNOPSIS 
+Tests Start AzureWebsiteJob cmdlet using "triggered" job type
+#>
+function Test-StartAzureWebsiteTriggeredJob
+{
+    $webSiteName = Get-WebsiteName
+    $webSiteJobName = Get-WebsiteJobName
+    $jobType = "Triggered"
+
+    # Set up
+    New-AzureWebsite $webSiteName
+    New-AzureWebsiteJob -Name $webSiteName -JobName $webSiteJobName -JobType $jobType -JobFile "WebsiteJobTestCmd.zip"
+
+    # Test
+    $started = Start-AzureWebsiteJob -Name $webSiteName -JobName $webSiteJobName -JobType $jobType -PassThru
+
+    #Assert 
+    Assert-True{ $started }    
+}
+
+########################################################################### Test-StartAndStopAzureWebsiteContinuousJob Scenario Tests ###########################################################################
+<#
+.SYNOPSIS 
+Tests Start and stop AzureWebsiteJob cmdlet using "Continuous" job type
+#>
+function Test-StartAndStopAzureWebsiteContinuousJob
+{
+    $webSiteName = Get-WebsiteName
+    $webSiteJobName = Get-WebsiteJobName
+    $jobType = "Continuous"
+    # Set up
+    New-AzureWebsite $webSiteName
+    New-AzureWebsiteJob -Name $webSiteName -JobName $webSiteJobName -JobType $jobType -JobFile "WebsiteJobTestCmd.zip"
+
+    # Make sure the job is initialized by polling the status 
+    $waitScriptBlock = { (Get-AzureWebsiteJob -Name $webSiteName -JobName $webSiteJobName -JobType $jobType)[0].Status }
+    Wait-Function $waitScriptBlock "PendingRestart"
+
+    # Test
+
+    # First, test 'Stop'
+    $stopped = Stop-AzureWebsiteJob -Name $webSiteName -JobName $webSiteJobName -PassThru
+
+    # Assert
+    Assert-True{ $stopped }
+    $jobStatus = Get-AzureWebsiteJob -Name $webSiteName -JobName $webSiteJobName -JobType $jobType
+    Assert-True { $jobStatus[0].Status -eq "Stopped" }
+
+    # Then, test 'Start'
+    $started = Start-AzureWebsiteJob -Name $webSiteName -JobName $webSiteJobName -JobType $jobType -PassThru
+
+    #Assert
+    Assert-True{ $started }
+    $jobStatus = Get-AzureWebsiteJob -Name $webSiteName -JobName $webSiteJobName -JobType $jobType
+    Assert-True { $jobStatus[0].Status -eq "PendingRestart" }
+
+    # Clean up
+    Stop-AzureWebsiteJob -Name $webSiteName -JobName $webSiteJobName 
+    Remove-AzureWebsite $webSiteName -Force
+}
+
+
 ########################################################################### Test-RemoveAzureWebsiteJob Scenario Tests ###########################################################################
 
 <#
@@ -868,17 +932,17 @@ Tests Remove-AzureWebsiteJob cmdlet using 'Triggered' job type
 #>
 function Test-RemoveAzureWebsiteTriggeredJob
 {
-	$webSiteName = Get-WebsiteName
-	$webSiteJobName = Get-WebsiteJobName
-
-	# Set up
-	New-AzureWebsite $webSiteName
-
-	# Test
-	Test-CreateAndRemoveAJob $webSiteName $webSiteJobName Triggered "WebsiteJobTestCmd.zip"
-
-	# Clean up
-	Remove-AzureWebsite $webSiteName -Force
+    $webSiteName = Get-WebsiteName
+    $webSiteJobName = Get-WebsiteJobName
+        
+    # Set up
+    New-AzureWebsite $webSiteName
+    
+    # Test
+    Test-CreateAndRemoveAJob $webSiteName $webSiteJobName Triggered "WebsiteJobTestCmd.zip"
+    
+    # Clean up
+    Remove-AzureWebsite $webSiteName -Force
 }
 
 <#
@@ -887,17 +951,17 @@ Tests Remove-AzureWebsiteJob cmdlet using 'Continuous' job type
 #>
 function Test-RemoveAzureWebsiteContinuousJob
 {
-	$webSiteName = Get-WebsiteName
-	$webSiteJobName = Get-WebsiteJobName
-
-	# Set up
-	New-AzureWebsite $webSiteName
-
-	# Test
-	Test-CreateAndRemoveAJob $webSiteName $webSiteJobName Continuous "WebsiteJobTestCmd.zip"
-
-	# Clean up
-	Remove-AzureWebsite $webSiteName -Force
+    $webSiteName = Get-WebsiteName
+    $webSiteJobName = Get-WebsiteJobName
+    
+    # Set up
+    New-AzureWebsite $webSiteName
+    
+    # Test
+    Test-CreateAndRemoveAJob $webSiteName $webSiteJobName Continuous "WebsiteJobTestCmd.zip"
+    
+    # Clean up
+    Remove-AzureWebsite $webSiteName -Force
 }
 
 <#
@@ -906,16 +970,16 @@ Tests Remove-AzureWebsiteJob cmdlet using a job which doesn't exist
 #>
 function Test-RemoveNonExistingAzureWebsiteJob
 {
-	$webSiteName = Get-WebsiteName
-	$nonExistingWebSiteJobName = Get-WebsiteJobName
-
-	# Set up
-	New-AzureWebsite $webSiteName
-
-	# Test
-	Remove-AzureWebsiteJob -Name $webSiteName -JobName $nonExistingWebSiteJobName -JobType Triggered –Force
-	Assert-True { $error[0].ToString().Contains("not found.") }
-
-	# Clean up
-	Remove-AzureWebsite $webSiteName -Force
+    $webSiteName = Get-WebsiteName
+    $nonExistingWebSiteJobName = Get-WebsiteJobName
+    
+    # Set up
+    New-AzureWebsite $webSiteName
+    
+    # Test
+    Remove-AzureWebsiteJob -Name $webSiteName -JobName $nonExistingWebSiteJobName -JobType Triggered –Force
+    Assert-True { $error[0].ToString().Contains("not found.") }
+    
+    # Clean up
+    Remove-AzureWebsite $webSiteName -Force
 }
