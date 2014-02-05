@@ -14,6 +14,7 @@
 
 $createdWebsites = @()
 $currentWebsite = $null
+$jobFile = "Websites\WebsiteJobTestCmd.zip"
 
 <#
 .SYNOPSIS
