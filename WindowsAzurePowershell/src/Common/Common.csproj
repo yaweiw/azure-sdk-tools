@@ -158,6 +158,7 @@
     <Compile Include="Authentication\ITokenProvider.cs" />
     <Compile Include="Authentication\LoginType.cs" />
     <Compile Include="Authentication\RegistryBackedDictionary.cs" />
+    <Compile Include="ClientCreatedArgs.cs" />
     <Compile Include="CloudService\AzureTools\AzureTool.cs" />
     <Compile Include="CloudService\AzureTools\CsEncrypt.cs" />
     <Compile Include="CloudService\AzureTools\CsPack.cs" />

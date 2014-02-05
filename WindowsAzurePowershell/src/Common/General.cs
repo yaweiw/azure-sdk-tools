@@ -37,6 +37,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
     using XmlSchema.ServiceConfigurationSchema;
     using JsonFormatting = Newtonsoft.Json.Formatting;
     using System.Net.Http;
+    using System.Web.Script.Serialization;
 
     public static class General
     {
@@ -950,6 +951,31 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
         public static string CombinePath(params string[] paths)
         {
             return Path.Combine(paths);
+        }
+
+        public static void SerializeJson<T>(T data, string path)
+        {
+            JavaScriptSerializer javaScriptSerializer = new JavaScriptSerializer();
+            javaScriptSerializer.MaxJsonLength = int.MaxValue;
+            File.WriteAllText(path, TryFormatJson(javaScriptSerializer.Serialize(data)));
+        }
+
+        public static T DeserializeJson<T>(string path)
+        {
+            string json = File.ReadAllText(path);
+            JavaScriptSerializer javaScriptSerializer = new JavaScriptSerializer();
+            javaScriptSerializer.MaxJsonLength = int.MaxValue;
+            return javaScriptSerializer.Deserialize<T>(json);
+        }
+
+        public static void RecreateDirectory(string dir)
+        {
+            if (Directory.Exists(dir))
+            {
+                Directory.Delete(dir, true);
+            }
+
+            Directory.CreateDirectory(dir);
         }
     }
 }
