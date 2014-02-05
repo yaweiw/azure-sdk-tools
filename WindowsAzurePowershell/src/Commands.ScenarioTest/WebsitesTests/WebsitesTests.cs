@@ -385,12 +385,11 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.WebsitesTests
 
         #endregion
 
-        #region Remove-AzureWebsiteJob Scenario Tests
+        #region WebJob Scenario Tests
 
         [TestMethod]
         [TestCategory(Category.All)]
         [TestCategory(Category.Websites)]
-        [TestCategory(Category.WAPack)]
         public void TestRemoveAzureWebsiteTriggeredJob()
         {
             RunPowerShellTest("Test-RemoveAzureWebsiteTriggeredJob");
@@ -399,7 +398,6 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.WebsitesTests
         [TestMethod]
         [TestCategory(Category.All)]
         [TestCategory(Category.Websites)]
-        [TestCategory(Category.WAPack)]
         public void TestRemoveAzureWebsiteContinuousJob()
         {
             RunPowerShellTest("Test-RemoveAzureWebsiteContinuousJob");
@@ -408,7 +406,6 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.WebsitesTests
         [TestMethod]
         [TestCategory(Category.All)]
         [TestCategory(Category.Websites)]
-        [TestCategory(Category.WAPack)]
         public void TestRemoveNonExistingAzureWebsiteJob()
         {
             RunPowerShellTest("Test-RemoveNonExistingAzureWebsiteJob");
@@ -417,7 +414,6 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.WebsitesTests
         [TestMethod]
         [TestCategory(Category.All)]
         [TestCategory(Category.Websites)]
-        [TestCategory(Category.WAPack)]
         public void TestStartAzureWebsiteTriggeredJob()
         {
             RunPowerShellTest("Test-StartAzureWebsiteTriggeredJob");
@@ -426,10 +422,41 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.WebsitesTests
         [TestMethod]
         [TestCategory(Category.All)]
         [TestCategory(Category.Websites)]
-        [TestCategory(Category.WAPack)]
         public void TestStartAndStopAzureWebsiteContinuousJob()
         {
             RunPowerShellTest("Test-StartAndStopAzureWebsiteContinuousJob");
+        }
+
+        [TestMethod]
+        [TestCategory(Category.All)]
+        [TestCategory(Category.Websites)]
+        public void TestGetsAllWebsiteJobs()
+        {
+            RunPowerShellTest("Test-GetsAllWebsiteJobs");
+        }
+
+        [TestMethod]
+        [TestCategory(Category.All)]
+        [TestCategory(Category.Websites)]
+        public void TestGetsAllTriggeredJobs()
+        {
+            RunPowerShellTest("Test-GetsAllTriggeredJobs");
+        }
+
+        [TestMethod]
+        [TestCategory(Category.All)]
+        [TestCategory(Category.Websites)]
+        public void TestGetsSpecificJob()
+        {
+            RunPowerShellTest("Test-GetsSpecificJob");
+        }
+
+        [TestMethod]
+        [TestCategory(Category.All)]
+        [TestCategory(Category.Websites)]
+        public void TestGetsNotExistingJob()
+        {
+            RunPowerShellTest("Test-GetsNotExistingJob");
         }
 
         #endregion
