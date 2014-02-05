@@ -1020,8 +1020,10 @@ function Test-GettingWebsiteJobs
 	
 	Assert-AreEqual $job1 $webjob.Name
 
-	# Test fails with non-existing job
-	Assert-Throws { Get-AzureWebsiteJob -Name $webSiteName -JobType Triggered -JobName "foo" } "Not Found"
+	# Test does not throw exception with non-existing job
+	Get-AzureWebsiteJob -Name $webSiteName -JobType Triggered -JobName "foo"
+
+	Assert-True { $true }
 }
 
 ########################################################################### Get-AzureWebsiteJobHistory Scenario Tests ###########################################################################
