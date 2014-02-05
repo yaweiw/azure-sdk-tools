@@ -19,7 +19,6 @@ namespace Microsoft.WindowsAzure.Commands.Websites.WebJobs
     using System.Management.Automation;
     using Utilities.Websites.Common;
 
-    //[Cmdlet(VerbsData.Save, "AzureWebsiteJobLog"), OutputType(typeof(bool))]
     public class SaveAzureWebsiteJobLogCommand : WebsiteContextBaseCmdlet
     {
         [Parameter(Mandatory = true, ValueFromPipelineByPropertyName = true, HelpMessage = "The web job name.")]
