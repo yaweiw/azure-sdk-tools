@@ -101,7 +101,7 @@ namespace Microsoft.Azure.Utilities.HttpRecorder
                     while (names[testName].Any(n => n.Equals(generated)))
                     {
                         generated = prefix + new Random().Next(9999);
-                    };
+                    }
                 }
                 names.Enqueue(testName, generated);
 
