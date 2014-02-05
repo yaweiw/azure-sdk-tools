@@ -29,7 +29,6 @@ namespace Microsoft.WindowsAzure.Commands.ExpressRoute.Test
     using Microsoft.WindowsAzure.Management.ExpressRoute;
     using Microsoft.WindowsAzure.Management.ExpressRoute.Models;
 
-
     [TestClass]
     public class AzureDedicatedCircuitTests : TestBase
     {
@@ -193,8 +192,6 @@ namespace Microsoft.WindowsAzure.Commands.ExpressRoute.Test
             Assert.IsTrue(mockCommandRuntime.VerboseStream[0].Contains(serviceKey));
         }
 
-        
-
         [TestMethod]
         public void ListAzureDedicatedCircuitSuccessful()
         {
@@ -220,15 +217,12 @@ namespace Microsoft.WindowsAzure.Commands.ExpressRoute.Test
                 new AzureDedicatedCircuit(){ Bandwidth = bandwidth1, CircuitName = circuitName1, ServiceKey = serviceKey1, Location = location1, ServiceProviderName = serviceProviderName1, ServiceProviderProvisioningState = ProviderProvisioningState.NotProvisioned, Status = DedicatedCircuitState.Enabled}, 
                 new AzureDedicatedCircuit(){ Bandwidth = bandwidth2, CircuitName = circuitName2, ServiceKey = serviceKey2, Location = location2, ServiceProviderName = serviceProviderName2, ServiceProviderProvisioningState = ProviderProvisioningState.Provisioned, Status = DedicatedCircuitState.Enabled}
             };
-           
-            
+                 
             DedicatedCircuitListResponse expected =
                 new DedicatedCircuitListResponse()
                 {
                     DedicatedCircuits = dedicatedCircuits,
-                    StatusCode = HttpStatusCode.OK
-                       
-                    
+                    StatusCode = HttpStatusCode.OK                 
                 };
 
             var t = new Task<DedicatedCircuitListResponse>(() => expected);

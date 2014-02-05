@@ -41,8 +41,7 @@ namespace Microsoft.WindowsAzure.Commands.ExpressRoute
         {
             var circuit = ExpressRouteClient.NewAzureDedicatedCircuit(CircuitName, Bandwidth, Location,
                 ServiceProviderName);
-            WriteObject(circuit, false);
-            
+            WriteObject(circuit, false);         
         }
     }
 }

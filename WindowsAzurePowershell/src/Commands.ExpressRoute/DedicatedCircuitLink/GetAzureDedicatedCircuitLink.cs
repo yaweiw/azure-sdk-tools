@@ -41,8 +41,7 @@ namespace Microsoft.WindowsAzure.Commands.ExpressRoute
             else
             {
                 GetNoVNetName();
-            }
-            
+            }          
         }
 
         private void GetByVNetName()
