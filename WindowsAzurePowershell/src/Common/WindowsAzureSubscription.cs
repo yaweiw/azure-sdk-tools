@@ -24,6 +24,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
     using Management;
     using WindowsAzure.Common;
     using Commands.Common.Properties;
+    using Commands.Common;
 
     /// <summary>
     /// Representation of a subscription in memory
@@ -36,9 +37,11 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
         public Uri CloudServiceEndpoint { get; set; }
 
         public string ActiveDirectoryEndpoint { get; set; }
+
         public string ActiveDirectoryTenantId { get; set; }
 
         public bool IsDefault { get; set; }
+        
         public X509Certificate2 Certificate { get; set; }
         internal object currentCloudStorageAccount;
         internal string currentStorageAccountName;
@@ -55,6 +58,11 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
         /// when cached list of resource providers is updated.
         /// </summary>
         internal Action Save { get; set; }
+
+        /// <summary>
+        /// Event that's trigged when a new client has been created.
+        /// </summary>
+        public static event EventHandler<ClientCreatedArgs> OnClientCreated;
 
         public string CurrentStorageAccountName
         {
@@ -174,17 +182,22 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
                 throw new InvalidOperationException(string.Format(Resources.InvalidManagementClientType, typeof(TClient).Name));
             }
 
-            // Dispose the client because the WithHandler call will create a
-            // new instance that we'll be using with our commands
-            using (var client = (TClient)constructor.Invoke(new object[] { credential, endpoint }))
+            TClient client = (TClient)constructor.Invoke(new object[] { credential, ServiceEndpoint });
+            client.UserAgent.Add(ApiConstants.UserAgentValue);
+            EventHandler<ClientCreatedArgs> clientCreatedHandler = OnClientCreated;
+            if (clientCreatedHandler != null)
             {
-                // Set the UserAgent
-                client.UserAgent.Add(ApiConstants.UserAgentValue);
-
-                // Add the logging handler
-                var withHandlerMethod = typeof(TClient).GetMethod("WithHandler", new[] { typeof(DelegatingHandler) });
-                return (TClient)withHandlerMethod.Invoke(client, new object[] { new HttpRestCallLogger() });
+                ClientCreatedArgs args = new ClientCreatedArgs { CreatedClient = client, ClientType = typeof(TClient) };
+                clientCreatedHandler(this, args);
+                client = (TClient)args.CreatedClient;
             }
+
+            // Add the logging handler
+            var withHandlerMethod = typeof(TClient).GetMethod("WithHandler", new[] { typeof(DelegatingHandler) });
+            TClient finalClient = (TClient)withHandlerMethod.Invoke(client, new object[] { new HttpRestCallLogger() });
+            client.Dispose();
+
+            return finalClient;
         }
 
         private void RegisterRequiredResourceProviders<T>(SubscriptionCloudCredentials credentials) where T : ServiceClient<T>

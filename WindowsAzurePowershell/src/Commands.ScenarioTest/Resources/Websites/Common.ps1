@@ -21,7 +21,7 @@ Gets valid website name.
 #>
 function Get-WebsiteName
 {
-	return "OneSDKWebsite" + (Get-Random).ToString()
+	return getAssetName
 }
 
 <#
