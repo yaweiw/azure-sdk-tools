@@ -200,7 +200,9 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
 
         private IWebSiteExtensionsClient GetWebSiteExtensionsClient(string websiteName)
         {
-            return new WebSiteExtensionsClient(websiteName, GetWebSiteExtensionsCredentials(websiteName))
+            Site website = GetWebsite(websiteName);
+            Uri endpointUrl = new Uri("https://" + website.EnabledHostNames.First(url => url.Contains(".scm.")));
+            return new WebSiteExtensionsClient(websiteName, GetWebSiteExtensionsCredentials(websiteName), endpointUrl)
                 .WithHandler(new HttpRestCallLogger());
         }
 
@@ -1343,6 +1345,11 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
             name = SetWebsiteName(name, slot);
             IWebSiteExtensionsClient client = GetWebSiteExtensionsClient(name);
 
+            if (Path.GetExtension(jobFile).ToLower() != ".zip")
+            {
+                throw new InvalidOperationException(Resources.InvalidWebJobFile);
+            }
+
             switch (jobType)
             {
                 case WebJobType.Continuous:
@@ -1384,6 +1391,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
             }
         }
 
+        /// <summary>
         /// Starts a web job in a website.
         /// </summary>
         /// <param name="name">The website name</param>
