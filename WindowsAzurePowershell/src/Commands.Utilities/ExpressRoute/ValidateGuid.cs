@@ -12,7 +12,7 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Commands.ExpressRoute
+namespace Microsoft.WindowsAzure.Commands.Utilities.ExpressRoute
 {
     using System;
     using System.Management.Automation;

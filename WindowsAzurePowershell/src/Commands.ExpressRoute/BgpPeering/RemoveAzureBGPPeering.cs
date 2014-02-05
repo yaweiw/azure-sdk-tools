@@ -21,7 +21,7 @@ namespace Microsoft.WindowsAzure.Commands.ExpressRoute
     using Utilities.Properties;
     using System.ComponentModel;
 
-    [Cmdlet(VerbsCommon.Remove, "AzureBGPPeering")]
+    [Cmdlet(VerbsCommon.Remove, "AzureBGPPeering"),OutputType(typeof(bool))]
     public class RemoveAzureBGPPeeringCommand : ExpressRouteBaseCmdlet
     {
         [Parameter(Mandatory = true, ValueFromPipelineByPropertyName = true,
@@ -35,11 +35,10 @@ namespace Microsoft.WindowsAzure.Commands.ExpressRoute
         public BgpPeeringAccessType AccessType { get; set; }
 
         [Parameter(HelpMessage = "Do not confirm Azure BGP Peering deletion")]
-        public SwitchParameter Force
-        {
-            get;
-            set;
-        }
+        public SwitchParameter Force { get; set; }
+        
+        [Parameter(Mandatory = false)]
+        public SwitchParameter PassThru { get; set; }
 
         public override void ExecuteCmdlet()
         {
@@ -50,13 +49,18 @@ namespace Microsoft.WindowsAzure.Commands.ExpressRoute
                 ServiceKey,
                 () =>
                 {
+                   
                     if(!ExpressRouteClient.RemoveAzureBGPPeering(ServiceKey, AccessType))
                     {
-                        throw new Exception("Remove-AzureBGPPeering Operation failed!");
+                        throw new Exception(Resources.RemoveAzureBGPPeeringFailed);
                     }
                     else
                     {
-                        WriteVerboseWithTimestamp("Successfully removed Azure BGP Peering with service key {0}", ServiceKey);
+                        WriteVerboseWithTimestamp(Resources.RemoveAzureBGPPeeringSucceeded, ServiceKey);
+                        if (PassThru.IsPresent)
+                        {
+                            WriteObject(true);
+                        }
                     }
                 });
         }

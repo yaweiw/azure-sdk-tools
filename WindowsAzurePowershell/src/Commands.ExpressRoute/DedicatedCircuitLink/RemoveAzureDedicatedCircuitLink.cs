@@ -20,7 +20,7 @@ namespace Microsoft.WindowsAzure.Commands.ExpressRoute
     using Utilities.Properties;
     using Microsoft.WindowsAzure.Management.ExpressRoute.Models;
 
-    [Cmdlet(VerbsCommon.Remove, "AzureDedicatedCircuitLink")]
+    [Cmdlet(VerbsCommon.Remove, "AzureDedicatedCircuitLink"), OutputType(typeof(bool))]
     public class RemoveAzureDedicatedCircuitLinkCommand : ExpressRouteBaseCmdlet
     {
         [Parameter(Mandatory = true, ValueFromPipelineByPropertyName = true,
@@ -35,11 +35,10 @@ namespace Microsoft.WindowsAzure.Commands.ExpressRoute
         public string VNetName { get; set; }
 
         [Parameter(HelpMessage = "Do not confirm Azure Circuit Route deletion")]
-        public SwitchParameter Force
-        {
-            get;
-            set;
-        }
+        public SwitchParameter Force { get; set; }
+
+        [Parameter(Mandatory = false)]
+        public SwitchParameter PassThru { get; set; }
 
         public override void ExecuteCmdlet()
         {
@@ -47,19 +46,22 @@ namespace Microsoft.WindowsAzure.Commands.ExpressRoute
                 Force.IsPresent,
                 string.Format(Resources.RemoveAzureDedicatedCircuitLinkWarning, ServiceKey, VNetName),
                 Resources.RemoveAzureDedicatedCircuitLinkMessage,
-                ServiceKey+VNetName,
+                ServiceKey+" "+VNetName,
                 () =>
                 {
                     if (!ExpressRouteClient.RemoveAzureDedicatedCircuitLink(ServiceKey, VNetName))
                     {
-                        throw new Exception("Remove-AzureDedicatedCircuitLink Operation failed!");
+                        throw new Exception(Resources.RemoveAzureDedicatedCircuitLinkFailed);
                     }
                     else
                     {
-                        WriteVerboseWithTimestamp("Successfully removed Azure Circuit Vnet Mapping with service key {0} and Vnet name {1}", ServiceKey, VNetName);
+                        WriteVerboseWithTimestamp(Resources.RemoveAzureDedicatedCircuitLinkSucceeded, ServiceKey, VNetName);
+                        if (PassThru.IsPresent)
+                        {
+                            WriteObject(true);
+                        }
                     }
                 });
         }
     }
 }
-

@@ -914,24 +914,6 @@ use and privacy statement at {0} and (c) agree to sharing my contact information
   <data name="RemoveAzureServiceWaitMessage" xml:space="preserve">
     <value>Removing cloud service {0}...</value>
   </data>
-  <data name="RemoveAzureDedicatdCircuitWarning" xml:space="preserve">
-    <value>Are you sure you want to remove the Dedicated Circuit with service key '{0}'?</value>
-  </data>
-  <data name="RemoveAzureDedicatedCircuitMessage" xml:space="preserve">
-    <value>Removing Dedicated Circuit</value>
-  </data>
-  <data name="RemoveAzureBGPPeeringWarning" xml:space="preserve">
-    <value>Are you sure you want to remove the Bgp Peering with service key '{0}'?</value>
-  </data>
-  <data name="RemoveAzureBGPPeeringMessage" xml:space="preserve">
-    <value>Removing Bgp Peering</value>
-  </data>
-  <data name="RemoveAzureDedicatedCircuitLinkWarning" xml:space="preserve">
-    <value>Are you sure you want to remove the Dedicated Circuit Link with service key '{0}' and virtual network name '{1}'?</value>
-  </data>
-  <data name="RemoveAzureDedicatedCircuitLinkMessage" xml:space="preserve">
-    <value>Removing Dedicated Circui Link</value>
-    </data>
   <data name="RemoveCurrentSubscription" xml:space="preserve">
     <value>The current subscription is being removed. Use Select-Subscription &lt;subscriptionName&gt; to select a new current subscription.</value>
   </data>
@@ -1523,5 +1505,35 @@ Please follow these steps in the portal:
   </data>
   <data name="WebProjectBuildFailTemplate" xml:space="preserve">
     <value>Cannot build the project successfully. Please see logs in {0}.</value>
+  </data>
+  <data name="PeerAsnRequired" xml:space="preserve">
+    <value>A value for the  Peer Asn has to be provided.</value>
+  </data>
+  <data name="PrimaryPeerSubnetRequired" xml:space="preserve">
+    <value>A value for the Primary Peer Subnet has to be provided.</value>
+  </data>
+  <data name="RemoveAzureBGPPeeringFailed" xml:space="preserve">
+    <value>Remove-AzureBGPPeering Operation failed.</value>
+  </data>
+  <data name="RemoveAzureBGPPeeringSucceeded" xml:space="preserve">
+    <value>Successfully removed Azure Bgp Peering with Service Key {0}.</value>
+  </data>
+  <data name="RemoveAzureDedicatedCircuitFailed" xml:space="preserve">
+    <value>Remove-AzureDedicatedCircuit Operation failed.</value>
+  </data>
+  <data name="RemoveAzureDedicatedCircuitLinkFailed" xml:space="preserve">
+    <value>Remove-AzureDedicatedCircuitLink Operation failed.</value>
+  </data>
+  <data name="RemoveAzureDedicatedCircuitLinkSucceeded" xml:space="preserve">
+    <value>Successfully removed Azure Dedicated Circuit Link with Service Key {0} and Vnet Name {1}</value>
+  </data>
+  <data name="RemoveAzureDedicatedCircuitSucceeded" xml:space="preserve">
+    <value>Successfully removed Azure Dedicated Circuit with Service Key {0}.</value>
+  </data>
+  <data name="SecondaryPeerSubnetRequired" xml:space="preserve">
+    <value>A value for the Secondary Peer Subnet has to be provided.</value>
+  </data>
+  <data name="VlanIdRequired" xml:space="preserve">
+    <value>A value for the VLan Id has to be provided.</value>
   </data>
 </root>

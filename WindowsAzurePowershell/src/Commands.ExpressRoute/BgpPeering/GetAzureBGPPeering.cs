@@ -36,7 +36,7 @@ namespace Microsoft.WindowsAzure.Commands.ExpressRoute
         public override void ExecuteCmdlet()
         {
             var route = ExpressRouteClient.GetAzureBGPPeering(ServiceKey, AccessType);
-            WriteObject(route, false);
+            WriteObject(route);
         }
     }
 }
