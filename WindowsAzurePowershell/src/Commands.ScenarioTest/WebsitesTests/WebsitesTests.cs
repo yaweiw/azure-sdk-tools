@@ -385,5 +385,53 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.WebsitesTests
 
         #endregion
 
+        #region Remove-AzureWebsiteJob Scenario Tests
+
+        [TestMethod]
+        [TestCategory(Category.All)]
+        [TestCategory(Category.Websites)]
+        [TestCategory(Category.WAPack)]
+        public void TestRemoveAzureWebsiteTriggeredJob()
+        {
+            RunPowerShellTest("Test-RemoveAzureWebsiteTriggeredJob");
+        }
+
+        [TestMethod]
+        [TestCategory(Category.All)]
+        [TestCategory(Category.Websites)]
+        [TestCategory(Category.WAPack)]
+        public void TestRemoveAzureWebsiteContinuousJob()
+        {
+            RunPowerShellTest("Test-RemoveAzureWebsiteContinuousJob");
+        }
+
+        [TestMethod]
+        [TestCategory(Category.All)]
+        [TestCategory(Category.Websites)]
+        [TestCategory(Category.WAPack)]
+        public void TestRemoveNonExistingAzureWebsiteJob()
+        {
+            RunPowerShellTest("Test-RemoveNonExistingAzureWebsiteJob");
+        }
+
+        [TestMethod]
+        [TestCategory(Category.All)]
+        [TestCategory(Category.Websites)]
+        [TestCategory(Category.WAPack)]
+        public void TestStartAzureWebsiteTriggeredJob()
+        {
+            RunPowerShellTest("Test-StartAzureWebsiteTriggeredJob");
+        }
+
+        [TestMethod]
+        [TestCategory(Category.All)]
+        [TestCategory(Category.Websites)]
+        [TestCategory(Category.WAPack)]
+        public void TestStartAndStopAzureWebsiteContinuousJob()
+        {
+            RunPowerShellTest("Test-StartAndStopAzureWebsiteContinuousJob");
+        }
+
+        #endregion
     }
 }
