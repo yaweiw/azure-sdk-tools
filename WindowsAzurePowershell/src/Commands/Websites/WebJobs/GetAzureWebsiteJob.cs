@@ -35,7 +35,17 @@ namespace Microsoft.WindowsAzure.Commands.Websites.WebJobs
         public override void ExecuteCmdlet()
         {
             WebJobFilterOptions options = new WebJobFilterOptions() { Name = Name, Slot = Slot, JobName = JobName, JobType = JobType };
-            WriteObject(WebsitesClient.FilterWebJobs(options), true);
+            List<PSWebJob> jobs = new List<PSWebJob>();
+            try
+            {
+                jobs = WebsitesClient.FilterWebJobs(options);
+            }
+            catch
+            {
+                // Ignore exceptions, just show empty list.
+            }
+
+            WriteObject(jobs, true);
         }
     }
 }

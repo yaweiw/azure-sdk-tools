@@ -1536,4 +1536,7 @@ Please follow these steps in the portal:
   <data name="VlanIdRequired" xml:space="preserve">
     <value>A value for the VLan Id has to be provided.</value>
   </data>
+  <data name="InvalidWebJobFile" xml:space="preserve">
+    <value>The web job file must have *.zip extension</value>
+  </data>
 </root>
