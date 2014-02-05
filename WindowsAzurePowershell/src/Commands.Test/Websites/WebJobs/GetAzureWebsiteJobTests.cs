@@ -55,7 +55,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.Websites
         public void GetEmptyWebJobList()
         {
             // Setup
-            List<WebJobWrapper> output = new List<WebJobWrapper>();
+            List<PSWebJob> output = new List<PSWebJob>();
             WebJobFilterOptions options = null;
             websitesClientMock.Setup(f => f.FilterWebJobs(It.IsAny<WebJobFilterOptions>()))
                 .Returns(output)
@@ -76,7 +76,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.Websites
             // Setup
             string jobName = "webJobName";
             WebJobType type = WebJobType.Continuous;
-            List<WebJobWrapper> output = new List<WebJobWrapper>() { new WebJobWrapper() { JobName = jobName, JobType = type } };
+            List<PSWebJob> output = new List<PSWebJob>() { new PSWebJob() { JobName = jobName, JobType = type } };
             WebJobFilterOptions options = null;
             websitesClientMock.Setup(f => f.FilterWebJobs(It.IsAny<WebJobFilterOptions>()))
                 .Returns(output)
@@ -104,10 +104,10 @@ namespace Microsoft.WindowsAzure.Commands.Test.Websites
             WebJobType type2 = WebJobType.Continuous;
             WebJobType type3 = WebJobType.Triggered;
             WebJobFilterOptions options = null;
-            List<WebJobWrapper> output = new List<WebJobWrapper>() {
-                new WebJobWrapper() { JobName = jobName1, JobType = type1 },
-                new WebJobWrapper() { JobName = jobName2, JobType = type2 },
-                new WebJobWrapper() { JobName = jobName3, JobType = type3 }
+            List<PSWebJob> output = new List<PSWebJob>() {
+                new PSWebJob() { JobName = jobName1, JobType = type1 },
+                new PSWebJob() { JobName = jobName2, JobType = type2 },
+                new PSWebJob() { JobName = jobName3, JobType = type3 }
             };
             websitesClientMock.Setup(f => f.FilterWebJobs(It.IsAny<WebJobFilterOptions>()))
                 .Returns(output)

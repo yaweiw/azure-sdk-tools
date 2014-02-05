@@ -22,7 +22,7 @@ namespace Microsoft.WindowsAzure.Commands.Websites.WebJobs
     using Utilities.Websites.Common;
     using Microsoft.WindowsAzure.WebSitesExtensions.Models;
     
-    [Cmdlet(VerbsCommon.Get, "AzureWebsiteJob"), OutputType(typeof(List<WebJobWrapper>))]
+    [Cmdlet(VerbsCommon.Get, "AzureWebsiteJob"), OutputType(typeof(List<PSWebJob>))]
     public class GetAzureWebsiteJobCommand : WebsiteContextBaseCmdlet
     {
         [Parameter(Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "The web job name.")]

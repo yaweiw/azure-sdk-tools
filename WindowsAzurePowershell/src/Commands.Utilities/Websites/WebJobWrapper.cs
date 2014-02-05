@@ -14,22 +14,23 @@
 
 namespace Microsoft.WindowsAzure.Commands.Websites.WebJobs
 {
+    using System;
     using Microsoft.WindowsAzure.WebSitesExtensions.Models;
 
     /// <summary>
     /// The purpose of the wrapping is to surface a Web Job's "Name" property as "JobName",
     /// and "Type" as "JobType". This is needed for PowerShell pipeline.
     /// </summary>
-    public class WebJobWrapper
+    public class PSWebJob
     {
         private WebJob _webJob;
 
-        public WebJobWrapper(WebJob webJob)
+        public PSWebJob(WebJob webJob)
         {
             _webJob = webJob;
         }
 
-        public WebJobWrapper()
+        public PSWebJob()
         {
             _webJob = new WebJob();
         }
@@ -64,6 +65,10 @@ namespace Microsoft.WindowsAzure.Commands.Websites.WebJobs
             {
                 return _webJob.DetailedStatus;
             }
+            set
+            {
+                _webJob.DetailedStatus = value;
+            }
         }
 
         public string ExtraInfoUrl
@@ -71,6 +76,10 @@ namespace Microsoft.WindowsAzure.Commands.Websites.WebJobs
             get
             {
                 return _webJob.ExtraInfoUrl;
+            }
+            set
+            {
+                _webJob.ExtraInfoUrl = value;
             }
         }
 
@@ -80,6 +89,10 @@ namespace Microsoft.WindowsAzure.Commands.Websites.WebJobs
             {
                 return _webJob.HistoryUrl;
             }
+            set
+            {
+                _webJob.HistoryUrl = value;
+            }
         }
 
         public WebJobRun LatestRun
@@ -87,6 +100,10 @@ namespace Microsoft.WindowsAzure.Commands.Websites.WebJobs
             get
             {
                 return _webJob.LatestRun;
+            }
+            set
+            {
+                _webJob.LatestRun = value;
             }
         }
 
@@ -96,6 +113,10 @@ namespace Microsoft.WindowsAzure.Commands.Websites.WebJobs
             {
                 return _webJob.LogUrl;
             }
+            set
+            {
+                _webJob.LogUrl = value;
+            }
         }
 
         public string RunCommand 
@@ -103,6 +124,10 @@ namespace Microsoft.WindowsAzure.Commands.Websites.WebJobs
             get
             {
                 return _webJob.RunCommand;
+            }
+            set
+            {
+                _webJob.RunCommand = value;
             }
         }
 
@@ -112,13 +137,21 @@ namespace Microsoft.WindowsAzure.Commands.Websites.WebJobs
             {
                 return _webJob.Status;
             }
+            set
+            {
+                _webJob.Status = value;
+            }
         }
 
-        public System.Uri Url 
+        public Uri Url 
         {
             get
             {
                 return _webJob.Url;
+            }
+            set
+            {
+                _webJob.Url = value;
             }
         }
     }

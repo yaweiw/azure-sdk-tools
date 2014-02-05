@@ -57,7 +57,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.Websites
             string jobName = "myWebJob";
             string jobFile = "job.bat";
             WebJobType jobType = WebJobType.Triggered;
-            WebJobWrapper output = new WebJobWrapper() { JobName = jobName, JobType = jobType };
+            PSWebJob output = new PSWebJob() { JobName = jobName, JobType = jobType };
             websitesClientMock.Setup(f => f.CreateWebJob(websiteName, slot, jobName, jobType, jobFile)).Returns(output);
             cmdlet.JobName = jobName;
             cmdlet.JobType = jobType;

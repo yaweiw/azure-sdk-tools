@@ -450,7 +450,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
         /// </summary>
         /// <param name="options">The web job filter options</param>
         /// <returns>The filtered web jobs list</returns>
-        List<WebJobWrapper> FilterWebJobs(WebJobFilterOptions options);
+        List<PSWebJob> FilterWebJobs(WebJobFilterOptions options);
 
         /// <summary>
         /// Creates new web job for a website
@@ -461,7 +461,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
         /// <param name="jobType">The web job type</param>
         /// <param name="jobFile">The web job file name</param>
         /// <returns>The created web job instance</returns>
-        WebJobWrapper CreateWebJob(string name, string slot, string jobName, WebJobType jobType, string jobFile);
+        PSWebJob CreateWebJob(string name, string slot, string jobName, WebJobType jobType, string jobFile);
 
         /// <summary>
         /// Deletes a web job for a website.
