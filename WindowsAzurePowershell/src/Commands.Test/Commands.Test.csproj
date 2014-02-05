@@ -384,6 +384,7 @@
     <Compile Include="Websites\WebJobs\RemoveAzureWebsiteJobTests.cs" />
     <Compile Include="Websites\WebJobs\NewAzureWebsiteJobTests.cs" />
     <Compile Include="Websites\WebJobs\GetAzureWebsiteJobTests.cs" />
+    <Compile Include="Websites\WebJobs\WebJobWrapperTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Resources\MyWebApplication\WebApplication4.csproj">
