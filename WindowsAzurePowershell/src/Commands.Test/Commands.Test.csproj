@@ -106,10 +106,11 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Microsoft.Data.Services.Client.5.6.0\lib\net40\Microsoft.Data.Services.Client.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.Hadoop.Client">
+      <HintPath>..\packages\Microsoft.Hadoop.Client.1.0.5.2\lib\net40\Microsoft.Hadoop.Client.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.Hadoop.Client, Version=1.0.5.2, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-    </Reference>
-    <Reference Include="Microsoft.Hadoop.Client">
       <HintPath>..\packages\Microsoft.Hadoop.Client.1.0.5.2\lib\net40\Microsoft.Hadoop.Client.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.ServiceBus, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
@@ -126,11 +127,18 @@
       <HintPath>..\packages\Microsoft.Bcl.Async.1.0.165\lib\net40\Microsoft.Threading.Tasks.Extensions.Desktop.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
+    <Reference Include="Microsoft.Web.Deployment, Version=9.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\lib\Microsoft.Web.Deployment.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.WindowsAzure.Common">
       <HintPath>..\packages\Microsoft.WindowsAzure.Common.0.9.9-preview\lib\net40\Microsoft.WindowsAzure.Common.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.WindowsAzure.Common.NetFramework">
       <HintPath>..\packages\Microsoft.WindowsAzure.Common.0.9.9-preview\lib\net40\Microsoft.WindowsAzure.Common.NetFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.WindowsAzure.Configuration">
+      <HintPath>..\packages\Microsoft.WindowsAzure.ConfigurationManager.1.8.0.0\lib\net35-full\Microsoft.WindowsAzure.Configuration.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.WindowsAzure.Management">
       <HintPath>..\packages\Microsoft.WindowsAzure.Management.0.9.4-preview\lib\net40\Microsoft.WindowsAzure.Management.dll</HintPath>
@@ -138,24 +146,25 @@
     <Reference Include="Microsoft.WindowsAzure.Management.Compute">
       <HintPath>..\packages\Microsoft.WindowsAzure.Management.Compute.0.9.6-preview\lib\net40\Microsoft.WindowsAzure.Management.Compute.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.WindowsAzure.Management.HDInsight, Version=1.0.5.2, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
+    <Reference Include="Microsoft.WindowsAzure.Management.HDInsight">
       <HintPath>..\packages\Microsoft.WindowsAzure.Management.HDInsight.1.0.5.2\lib\net40\Microsoft.WindowsAzure.Management.HDInsight.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.WindowsAzure.Management.HDInsight.Framework, Version=1.0.5.2, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+    <Reference Include="Microsoft.WindowsAzure.Management.HDInsight, Version=1.0.5.2, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Microsoft.Hadoop.Client.1.0.5.2\lib\net40\Microsoft.WindowsAzure.Management.HDInsight.Framework.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.WindowsAzure.Management.HDInsight.Framework.Core, Version=1.0.5.2, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-    </Reference>
-    <Reference Include="Microsoft.WindowsAzure.Management.HDInsight">
       <HintPath>..\packages\Microsoft.WindowsAzure.Management.HDInsight.1.0.5.2\lib\net40\Microsoft.WindowsAzure.Management.HDInsight.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.WindowsAzure.Management.HDInsight.Framework">
       <HintPath>..\packages\Microsoft.Hadoop.Client.1.0.5.2\lib\net40\Microsoft.WindowsAzure.Management.HDInsight.Framework.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.WindowsAzure.Management.HDInsight.Framework, Version=1.0.5.2, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.Hadoop.Client.1.0.5.2\lib\net40\Microsoft.WindowsAzure.Management.HDInsight.Framework.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.WindowsAzure.Management.HDInsight.Framework.Core">
+      <HintPath>..\packages\Microsoft.Hadoop.Client.1.0.5.2\lib\net40\Microsoft.WindowsAzure.Management.HDInsight.Framework.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.WindowsAzure.Management.HDInsight.Framework.Core, Version=1.0.5.2, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Microsoft.Hadoop.Client.1.0.5.2\lib\net40\Microsoft.WindowsAzure.Management.HDInsight.Framework.Core.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.WindowsAzure.Management.MediaServices">
@@ -178,11 +187,7 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\lib\Microsoft.WindowsAzure.ServiceManagement.Client.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.WindowsAzure.Configuration, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.WindowsAzure.ConfigurationManager.2.0.1.0\lib\net40\Microsoft.WindowsAzure.Configuration.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.WindowsAzure.Storage, Version=3.0.2.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
+    <Reference Include="Microsoft.WindowsAzure.Storage">
       <HintPath>..\packages\WindowsAzure.Storage.3.0.2.0\lib\net40\Microsoft.WindowsAzure.Storage.dll</HintPath>
     </Reference>
     <Reference Include="Moq, Version=4.2.1312.1622, Culture=neutral, PublicKeyToken=69f491c39445e920, processorArchitecture=MSIL">
@@ -353,6 +358,7 @@
     <Compile Include="WAPackIaaS\WebClient\GetAbsoluteUriTests.cs" />
     <Compile Include="WAPackIaaS\WebClient\JsonHelperTests.cs" />
     <Compile Include="WAPackIaaS\WebClient\WAPackWebClientTests.cs" />
+    <Compile Include="Websites\PublishAzureWebsiteProjectTests.cs" />
     <Compile Include="Websites\UpdateAzureWebsiteRepositoryTests.cs" />
     <Compile Include="Websites\SwitchAzureWebSiteSlotTests.cs" />
     <Compile Include="Websites\DisableAzureWebsiteDiagnosticTests.cs" />
@@ -383,6 +389,9 @@
     <Compile Include="Websites\WebJobs\GetAzureWebsiteJobTests.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Resources\MyWebApplication\WebApplication4.csproj">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="Resources\MyWebTemplateFolder\WebRole.xml">
       <SubType>Designer</SubType>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -430,6 +439,15 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Resources\TemplateMissingScaffoldXml\setup_worker.cmd">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\MyWebApplication\Web.config">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\MyWebApplication\Web.Debug.config">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\MyWebApplication\Web.Release.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>

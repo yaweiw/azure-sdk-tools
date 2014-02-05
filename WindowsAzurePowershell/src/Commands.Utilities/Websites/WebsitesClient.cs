@@ -34,6 +34,12 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
     using System.Net.Http;
     using System.Web;
     using Utilities.Common;
+    using System.Collections;
+    using Microsoft.Web.Deployment;
+    using System.Xml.Linq;
+    using Microsoft.Build.Evaluation;
+    using Microsoft.Build.Logging;
+    using Microsoft.Build.Framework;
 
     public class WebsitesClient : IWebsitesClient
     {
@@ -135,7 +141,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
                     case WebsiteDiagnosticOutput.FileSystem:
                         diagnosticsSettings.AzureDriveTraceEnabled = setFlag;
                         diagnosticsSettings.AzureDriveTraceLevel = setFlag ?
-                        (LogEntryType)properties[DiagnosticProperties.LogLevel] : 
+                        (LogEntryType)properties[DiagnosticProperties.LogLevel] :
                         diagnosticsSettings.AzureDriveTraceLevel;
                         break;
 
@@ -148,9 +154,9 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
                             string connectionString = cloudServiceClient.GetStorageServiceConnectionString(
                                 storageAccountName);
                             SetConnectionString(website.Name, storageTableName, connectionString, DatabaseType.Custom);
-                            
+
                             diagnosticsSettings.AzureTableTraceLevel = setFlag ?
-                                (LogEntryType)properties[DiagnosticProperties.LogLevel] : 
+                                (LogEntryType)properties[DiagnosticProperties.LogLevel] :
                                 diagnosticsSettings.AzureTableTraceLevel;
                         }
                         break;
@@ -187,7 +193,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
 
         private bool IsProductionSlot(string slot)
         {
-            return (!string.IsNullOrEmpty(slot)) && 
+            return (!string.IsNullOrEmpty(slot)) &&
                 (slot.Equals(WebsiteSlotName.Production.ToString(), StringComparison.OrdinalIgnoreCase));
         }
 
@@ -432,7 +438,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
         {
             name = SetWebsiteName(name, null);
             return ListWebsites()
-                .Where(s => 
+                .Where(s =>
                     s.Name.IndexOf(string.Format("{0}(", name), StringComparison.OrdinalIgnoreCase) >= 0 ||
                     s.Name.Equals(name, StringComparison.OrdinalIgnoreCase))
                 .ToList();
@@ -582,12 +588,18 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
             return GetWebsiteConfiguration(website.Name);
         }
 
+        /// <summary>
+        /// Get the real website name.
+        /// </summary>
+        /// <param name="name">The website name from the -Name parameter.</param>
+        /// <param name="slot">The website name from the -Slot parameter.</param>
+        /// <returns>The real website name.</returns>
         private string SetWebsiteName(string name, string slot)
         {
             name = GetWebsiteName(name);
             slot = slot ?? GetSlotName(name);
 
-            if (string.IsNullOrEmpty(slot) || 
+            if (string.IsNullOrEmpty(slot) ||
                 slot.Equals(WebsiteSlotName.Production.ToString(), StringComparison.OrdinalIgnoreCase))
             {
                 return GetWebsiteNameFromFullName(name);
@@ -606,6 +618,11 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
             {
                 return GetSlotDnsName(name, slot);
             }
+        }
+
+        private string SetWebsiteNameForWebDeploy(string name, string slot)
+        {
+            return SetWebsiteName(name, slot).Replace("(", "__").Replace(")", string.Empty);
         }
 
         /// <summary>
@@ -732,7 +749,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
         {
             Site website = GetWebsite(name);
             var update = WebsiteManagementClient.WebSites.GetConfiguration(website.WebSpace, website.Name).ToUpdate();
-            
+
             update.AppSettings[name] = key;
 
             WebsiteManagementClient.WebSites.UpdateConfiguration(website.WebSpace, website.Name, update);
@@ -1013,6 +1030,232 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
             return WebsiteManagementClient.WebSites.IsHostnameAvailable(name).IsAvailable;
         }
 
+        #region WebDeploy
+
+        /// <summary>
+        /// Build a Visual Studio web project and generate a WebDeploy package.
+        /// </summary>
+        /// <param name="projectFile">The project file.</param>
+        /// <param name="configuration">The configuration of the build, like Release or Debug.</param>
+        /// <param name="logFile">The build log file if there is any error.</param>
+        /// <returns>The full path of the generated WebDeploy package.</returns>
+        public string BuildWebProject(string projectFile, string configuration, string logFile)
+        {
+
+            ProjectCollection pc = new ProjectCollection();
+            Project project = pc.LoadProject(projectFile);
+
+            // Use a file logger to store detailed build info.
+            FileLogger fileLogger = new FileLogger();
+            fileLogger.Parameters = string.Format("logfile={0}", logFile);
+            fileLogger.Verbosity = LoggerVerbosity.Diagnostic;
+
+            // Set the configuration used by MSBuild.
+            project.SetProperty("Configuration", configuration);
+
+            // Build the project.
+            var buildSucceed = project.Build("Package", new ILogger[] { fileLogger });
+
+            if (buildSucceed)
+            {
+                // If build succeeds, delete the build.log file since there is no use of it.
+                File.Delete(logFile);
+                return Path.Combine(Path.GetDirectoryName(projectFile), "obj", configuration, "Package", Path.GetFileNameWithoutExtension(projectFile) + ".zip");
+            }
+            else
+            {
+                // If build fails, tell the user to look at the build.log file.
+                throw new Exception(string.Format(Resources.WebProjectBuildFailTemplate, logFile));
+            }
+        }
+
+        /// <summary>
+        /// Gets the website WebDeploy publish profile.
+        /// </summary>
+        /// <param name="websiteName">Website name.</param>
+        /// <param name="slot">Slot name. By default is null.</param>
+        /// <returns>The publish profile.</returns>
+        public WebSiteGetPublishProfileResponse.PublishProfile GetWebDeployPublishProfile(string websiteName, string slot = null)
+        {
+            var site = this.GetWebsite(websiteName);
+
+            var response = WebsiteManagementClient.WebSites.GetPublishProfile(site.WebSpace, SetWebsiteName(websiteName, slot));
+
+            foreach (var profile in response)
+            {
+                if (string.Compare(profile.PublishMethod, Resources.WebDeployKeywordInWebSitePublishProfile) == 0)
+                {
+                    return profile;
+                }
+            }
+
+            return null;
+        }
+
+        /// <summary>
+        /// Publish a WebDeploy package folder to a web site.
+        /// </summary>
+        /// <param name="websiteName">The name of the web site.</param>
+        /// <param name="slot">The name of the slot.</param>
+        /// <param name="package">The WebDeploy package.</param>
+        /// <param name="connectionStrings">The connection strings to overwrite the ones in the Web.config file.</param>
+        public void PublishWebProject(string websiteName, string slot, string package, Hashtable connectionStrings)
+        {
+            if (File.GetAttributes(package).HasFlag(FileAttributes.Directory))
+            {
+                PublishWebProjectFromPackagePath(websiteName, slot, package, connectionStrings);
+            }
+            else
+            {
+                PublishWebProjectFromPackageFile(websiteName, slot, package, connectionStrings);
+            }
+        }
+
+        /// <summary>
+        /// Publish a WebDeploy package zip file to a web site.
+        /// </summary>
+        /// <param name="websiteName">The name of the web site.</param>
+        /// <param name="slot">The name of the slot.</param>
+        /// <param name="package">The WebDeploy package zip file.</param>
+        /// <param name="connectionStrings">The connection strings to overwrite the ones in the Web.config file.</param>
+        private void PublishWebProjectFromPackageFile(string websiteName, string slot, string package, Hashtable connectionStrings)
+        {
+            DeploymentBaseOptions remoteBaseOptions = CreateRemoteDeploymentBaseOptions(websiteName, slot);
+            DeploymentBaseOptions localBaseOptions = new DeploymentBaseOptions();
+
+            DeploymentProviderOptions remoteProviderOptions = new DeploymentProviderOptions(DeploymentWellKnownProvider.Auto);
+
+            using (var deployment = DeploymentManager.CreateObject(DeploymentWellKnownProvider.Package, package, localBaseOptions))
+            {
+                DeploymentSyncParameter providerPathParameter = new DeploymentSyncParameter(
+                    "Provider Path Parameter",
+                    "Provider Path Parameter",
+                    SetWebsiteNameForWebDeploy(websiteName, slot),
+                    null);
+                DeploymentSyncParameterEntry iisAppEntry = new DeploymentSyncParameterEntry(
+                    DeploymentSyncParameterEntryKind.ProviderPath,
+                    DeploymentWellKnownProvider.IisApp.ToString(),
+                    ".*",
+                    null);
+                DeploymentSyncParameterEntry setAclEntry = new DeploymentSyncParameterEntry(
+                    DeploymentSyncParameterEntryKind.ProviderPath,
+                    DeploymentWellKnownProvider.SetAcl.ToString(),
+                    ".*",
+                    null);
+                providerPathParameter.Add(iisAppEntry);
+                providerPathParameter.Add(setAclEntry);
+                deployment.SyncParameters.Add(providerPathParameter);
+
+                // Replace the connection strings in Web.config with the ones user specifies from the cmdlet.
+                ReplaceConnectionStrings(deployment, connectionStrings);
+
+                DeploymentSyncOptions syncOptions = new DeploymentSyncOptions();
+
+                deployment.SyncTo(remoteProviderOptions, remoteBaseOptions, syncOptions);
+            }
+        }
+
+        /// <summary>
+        /// Publish a WebDeploy package zip file to a web site.
+        /// </summary>
+        /// <param name="websiteName">The name of the web site.</param>
+        /// <param name="slot">The name of the slot.</param>
+        /// <param name="package">The WebDeploy package zip file.</param>
+        /// <param name="connectionStrings">The connection strings to overwrite the ones in the Web.config file.</param>
+        private void PublishWebProjectFromPackagePath(string websiteName, string slot, string package, Hashtable connectionStrings)
+        {
+            DeploymentBaseOptions remoteBaseOptions = CreateRemoteDeploymentBaseOptions(websiteName, slot);
+            DeploymentBaseOptions localBaseOptions = new DeploymentBaseOptions();
+
+            using (var deployment = DeploymentManager.CreateObject(DeploymentWellKnownProvider.ContentPath, package, localBaseOptions))
+            {
+                ReplaceConnectionStrings(deployment, connectionStrings);
+                DeploymentSyncOptions syncOptions = new DeploymentSyncOptions();
+                deployment.SyncTo(DeploymentWellKnownProvider.ContentPath, SetWebsiteNameForWebDeploy(websiteName, slot), remoteBaseOptions, syncOptions);
+            }
+        }
+
+        /// <summary>
+        /// Parse the Web.config files to get the connection string names.
+        /// </summary>
+        /// <param name="defaultWebConfigFile">The default Web.config file.</param>
+        /// <param name="overwriteWebConfigFile">The additional Web.config file for the specificed configuration, like Web.Release.Config file.</param>
+        /// <returns>An array of connection string names from the Web.config files.</returns>
+        public string[] ParseConnectionStringNamesFromWebConfig(string defaultWebConfigFile, string overwriteWebConfigFile)
+        {
+            var names = new List<string>();
+            var webConfigFiles = new string[] { defaultWebConfigFile, overwriteWebConfigFile };
+
+            foreach (var file in webConfigFiles)
+            {
+                XDocument xdoc = XDocument.Load(file);
+                names.AddRange(xdoc.Descendants("connectionStrings").SelectMany(css => css.Descendants("add")).Select(add => add.Attribute("name").Value));
+            }
+
+            return names.Distinct().ToArray<string>();
+        }
+
+        /// <summary>
+        /// Create remote deployment base options using the web site publish profile.
+        /// </summary>
+        /// <returns>The remote deployment base options.</returns>
+        private DeploymentBaseOptions CreateRemoteDeploymentBaseOptions(string websiteName, string slot)
+        {
+            // Get the web site publish profile.
+            var publishProfile = GetWebDeployPublishProfile(websiteName, slot);
+
+            DeploymentBaseOptions remoteBaseOptions = new DeploymentBaseOptions()
+            {
+                UserName = publishProfile.UserName,
+                Password = publishProfile.UserPassword,
+                ComputerName = string.Format(Resources.WebSiteWebDeployUriTemplate, publishProfile.PublishUrl, SetWebsiteNameForWebDeploy(websiteName, slot)),
+                AuthenticationType = "Basic",
+                TempAgent = false
+            };
+
+            return remoteBaseOptions;
+        }
+
+        /// <summary>
+        /// Replace all the connection strings in the deployment.
+        /// </summary>
+        /// <param name="deployment">The deployment object.</param>
+        private void ReplaceConnectionStrings(DeploymentObject deployment, Hashtable connectionStrings)
+        {
+            if (connectionStrings != null)
+            {
+                foreach (var key in connectionStrings.Keys)
+                {
+                    AddConnectionString(deployment, key.ToString(), connectionStrings[key].ToString());
+                }
+            }
+        }
+
+        /// <summary>
+        /// Add a connection string parameter to the deployment.
+        /// </summary>
+        /// <param name="deployment">The deployment object.</param>
+        /// <param name="name">Connection string name.</param>
+        /// <param name="value">Connection string value.</param>
+        private void AddConnectionString(DeploymentObject deployment, string name, string value)
+        {
+            var deploymentSyncParameterName = string.Format("Connection String {0} Parameter", name);
+            DeploymentSyncParameter connectionStringParameter = new DeploymentSyncParameter(
+                deploymentSyncParameterName,
+                deploymentSyncParameterName,
+                value,
+                null);
+            DeploymentSyncParameterEntry connectionStringEntry = new DeploymentSyncParameterEntry(
+                DeploymentSyncParameterEntryKind.XmlFile,
+                @"\\web.config$",
+                string.Format(@"//connectionStrings/add[@name='{0}']/@connectionString", name),
+                null);
+            connectionStringParameter.Add(connectionStringEntry);
+            deployment.SyncParameters.Add(connectionStringParameter);
+        }
+
+        #endregion
+
         #region WebJobs
 
         /// <summary>
@@ -1135,7 +1378,6 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
             }
         }
 
-        /// <summary>
         /// Starts a web job in a website.
         /// </summary>
         /// <param name="name">The website name</param>
@@ -1218,9 +1460,9 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
         public void SaveWebJobLog(string name, string slot, string jobName, WebJobType jobType, string output, string runId)
         {
             if (jobType == WebJobType.Continuous && !string.IsNullOrEmpty(runId))
-	        {
-		        throw new InvalidOperationException();
-	        }
+            {
+                throw new InvalidOperationException();
+            }
             name = SetWebsiteName(name, slot);
             IWebSiteExtensionsClient client = GetWebSiteExtensionsClient(name);
 

@@ -15,11 +15,12 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
 {
     using System;
     using System.Collections.Generic;
-    using Microsoft.WindowsAzure.Commands.Utilities.Websites.Services;
     using Microsoft.WindowsAzure.Commands.Utilities.Websites.Services.WebJobs;
     using Services.DeploymentEntities;
     using Services.WebEntities;
+    using Microsoft.WindowsAzure.Management.WebSites.Models;
     using Microsoft.WindowsAzure.WebSitesExtensions.Models;
+    using System.Collections;
 
     public interface IWebsitesClient
     {
@@ -404,13 +405,46 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
         string GetSlotName(string name);
 
         /// <summary>
+        /// Build a Visual Studio web project and generate a WebDeploy package.
+        /// </summary>
+        /// <param name="projectFile">The project file.</param>
+        /// <param name="configuration">The configuration of the build, like Release or Debug.</param>
+        /// <param name="logFile">The build log file if there is any error.</param>
+        /// <returns>The full path of the generated WebDeploy package.</returns>
+        string BuildWebProject(string projectFile, string configuration, string logFile);
+
+        /// <summary>
+        /// Gets the website WebDeploy publish profile.
+        /// </summary>
+        /// <param name="websiteName">Website name.</param>
+        /// <param name="slot">Slot name. By default is null.</param>
+        /// <returns>The publish profile.</returns>
+        WebSiteGetPublishProfileResponse.PublishProfile GetWebDeployPublishProfile(string websiteName, string slot = null);
+
+        /// <summary>
+        /// Publish a WebDeploy package folder to a web site.
+        /// </summary>
+        /// <param name="websiteName">The name of the web site.</param>
+        /// <param name="slot">The name of the slot.</param>
+        /// <param name="package">The WebDeploy package.</param>
+        /// <param name="connectionStrings">The connection strings to overwrite the ones in the Web.config file.</param>
+        void PublishWebProject(string websiteName, string slot, string package, Hashtable connectionStrings);
+
+        /// <summary>
+        /// Parse the Web.config files to get the connection string names.
+        /// </summary>
+        /// <param name="defaultWebConfigFile">The default Web.config file.</param>
+        /// <param name="overwriteWebConfigFile">The additional Web.config file for the specificed configuration, like Web.Release.Config file.</param>
+        /// <returns>An array of connection string names from the Web.config files.</returns>
+        string[] ParseConnectionStringNamesFromWebConfig(string defaultWebConfigFile, string overwriteWebConfigFile);
+
+        /// <summary>
         /// Gets the website name without slot part
         /// </summary>
         /// <param name="name">The website full name which may include slot name</param>
         /// <returns>The website name</returns>
         string GetWebsiteNameFromFullName(string name);
 
-        /// <summary>
         /// Filters the web jobs.
         /// </summary>
         /// <param name="options">The web job filter options</param>

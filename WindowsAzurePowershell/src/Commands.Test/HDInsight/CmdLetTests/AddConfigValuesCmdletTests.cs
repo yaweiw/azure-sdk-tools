@@ -228,6 +228,59 @@ namespace Microsoft.WindowsAzure.Commands.Test.HDInsight.CmdLetTests
                     clusterConfig.OozieMetastore.Credential.GetCleartextPassword(), config.OozieMetastore.Credential.GetCleartextPassword());
             }
         }
+        [TestMethod]
+        [TestCategory("CheckIn")]
+        public void CanCallTheAddConfigValuesCmdletTestsCmdlet_PreserveHiveConfig()
+        {
+            using (IRunspace runspace = this.GetPowerShellRunspace())
+            {
+                var hiveConfig = new Hashtable();
+                hiveConfig.Add("hadoop.logfiles.size", "12345");
+
+                var hiveServiceConfig = new AzureHDInsightHiveConfiguration
+                {
+                    Configuration = hiveConfig,
+                    AdditionalLibraries =
+                        new AzureHDInsightDefaultStorageAccount
+                        {
+                            StorageAccountKey = Guid.NewGuid().ToString(),
+                            StorageAccountName = Guid.NewGuid().ToString(),
+                            StorageContainerName = Guid.NewGuid().ToString()
+                        }
+                };
+
+                var hiveConfig2 = new Hashtable();
+                hiveConfig2.Add("hadoop.logfiles.size2", "12345");
+
+                var hiveServiceConfig2 = new AzureHDInsightHiveConfiguration
+                {
+                    Configuration = hiveConfig2,
+                    AdditionalLibraries =
+                        new AzureHDInsightDefaultStorageAccount
+                        {
+                            StorageAccountKey = Guid.NewGuid().ToString(),
+                            StorageAccountName = Guid.NewGuid().ToString(),
+                            StorageContainerName = Guid.NewGuid().ToString()
+                        }
+                };
+
+                IPipelineResult results =
+                    runspace.NewPipeline()
+                            .AddCommand(CmdletConstants.AddAzureHDInsightConfigValues)
+                            .WithParameter(CmdletConstants.ClusterConfig, new AzureHDInsightConfig())
+                            .WithParameter(CmdletConstants.HiveConfig, hiveServiceConfig)
+                            .AddCommand(CmdletConstants.AddAzureHDInsightConfigValues)
+                            .WithParameter(CmdletConstants.HiveConfig, hiveServiceConfig2)
+                            .Invoke();
+                AzureHDInsightConfig config = results.Results.ToEnumerable<AzureHDInsightConfig>().First();
+                ValidateConfigurationOptions(hiveConfig, config.HiveConfiguration.ConfigurationCollection);
+                Assert.IsNotNull(config.HiveConfiguration.AdditionalLibraries);
+
+                Assert.AreEqual(config.HiveConfiguration.AdditionalLibraries.Container, hiveServiceConfig2.AdditionalLibraries.StorageContainerName);
+                Assert.AreEqual(config.HiveConfiguration.AdditionalLibraries.Key, hiveServiceConfig2.AdditionalLibraries.StorageAccountKey);
+                Assert.AreEqual(config.HiveConfiguration.AdditionalLibraries.Name, hiveServiceConfig2.AdditionalLibraries.StorageAccountName);
+            }
+        }
 
         [TestInitialize]
         public override void Initialize()
