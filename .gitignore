@@ -4,8 +4,8 @@ _ReSharper*
 /WindowsAzurePowershell/src/packages
 /WindowsAzurePowershell/setup/build
 /WindowsAzurePowershell/setup/*/bin
-/WindowsAzurePowershell/tools/WindowsAzurePowerShell.Test.Commands/packages
-/WindowsAzurePowershell/tools/WindowsAzurePowerShell.Test.Commands/WindowsAzurePowerShell.Test.Commands/bin/Debug
+/WindowsAzurePowershell/tools/*/packages
+/WindowsAzurePowershell/tools/*/bin
 obj
 TestResults
 *.user
