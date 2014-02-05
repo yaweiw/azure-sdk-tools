@@ -151,8 +151,8 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Extensions
             }
         }
 
-        [Parameter(Position = 7, ValueFromPipelineByPropertyName = true, ParameterSetName = DomainJoinOptionParameterSet)]
-        [Parameter(Position = 7, ValueFromPipelineByPropertyName = true, ParameterSetName = DomainJoinOptionThumbprintParameterSet)]
+        [Parameter(Position = 7, Mandatory = true, ValueFromPipelineByPropertyName = true, ParameterSetName = DomainJoinOptionParameterSet)]
+        [Parameter(Position = 7, Mandatory = true, ValueFromPipelineByPropertyName = true, ParameterSetName = DomainJoinOptionThumbprintParameterSet)]
         [ValidateNotNullOrEmpty]
         public override uint JoinOption
         {
@@ -197,8 +197,8 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Extensions
             {
                 CertificateThumbprint = CertificateThumbprint,
                 ThumbprintAlgorithm = ThumbprintAlgorithm,
-                ProviderNameSpace = ExtensionNameSpace,
-                Type = ExtensionType,
+                ProviderNameSpace = ProviderNamespace,
+                Type = ExtensionName,
                 PublicConfiguration = PublicConfiguration,
                 PrivateConfiguration = PrivateConfiguration,
                 X509Certificate = X509Certificate,
