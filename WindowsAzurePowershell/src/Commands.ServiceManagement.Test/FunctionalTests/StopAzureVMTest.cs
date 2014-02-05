@@ -109,6 +109,16 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
 
                 WaitForStartingState(svcName, vmName1);
                 vmPowershellCmdlets.StopAzureVM(vmName1, svcName, true); // Stop-AzureVM -StayProvisioned against VM1
+
+                for (int i = 0; i < 10 ; i++)
+                {
+                    if (CheckRoleInstanceState(svcName, vmName1, new string[] {stoppedProvisionedState}))
+                    {
+                        break;
+                    }
+                    Thread.Sleep(1000);
+                }
+
                 Assert.IsTrue(CheckRoleInstanceState(svcName, vmName1, new string[] { stoppedProvisionedState }));
 
                 // Stop-AzureVM -StayProvisioned against VM2
@@ -912,13 +922,22 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
                     {
                         Console.WriteLine(e.ToString());
                         Thread.Sleep(60 * 1000);
-                        continue;
                     }
                 }
 
                 WaitForReadyState(svcName, vmName1);
                 Utilities.RecordTimeTaken(ref prevTime);
-                Assert.IsTrue(CheckRoleInstanceState(svcName, vmName1, new string[] { readyState }));
+                Assert.IsTrue(CheckRoleInstanceState(svcName, vmName1, new [] { readyState }));
+
+                var vm = vmPowershellCmdlets.GetAzureVM(vmName1, svcName).VM;
+                var vmSizeConfig = new SetAzureVMSizeConfig(InstanceSize.Medium.ToString());
+                vmSizeConfig.Vm = vm;
+                vm = vmPowershellCmdlets.SetAzureVMSize(vmSizeConfig);
+                vmPowershellCmdlets.UpdateAzureVM(vmName1, svcName, vm);
+
+                vm = vmPowershellCmdlets.GetAzureVM(vmName1, svcName).VM;
+                Console.WriteLine("RoleSize: {0}", vm.RoleSize);
+                Assert.AreEqual(InstanceSize.Medium.ToString(), vm.RoleSize);
 
                 pass = true;
             }
