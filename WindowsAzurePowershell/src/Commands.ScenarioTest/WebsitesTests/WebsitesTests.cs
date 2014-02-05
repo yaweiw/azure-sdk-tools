@@ -430,65 +430,17 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.WebsitesTests
         [TestMethod]
         [TestCategory(Category.All)]
         [TestCategory(Category.Websites)]
-        public void TestGetsAllWebsiteJobs()
+        public void GettingWebsiteJobs()
         {
-            RunPowerShellTest("Test-GetsAllWebsiteJobs");
+            RunPowerShellTest("Test-GettingWebsiteJobs");
         }
 
         [TestMethod]
         [TestCategory(Category.All)]
         [TestCategory(Category.Websites)]
-        public void TestGetsAllTriggeredJobs()
+        public void TestGetsJobHistory()
         {
-            RunPowerShellTest("Test-GetsAllTriggeredJobs");
-        }
-
-        [TestMethod]
-        [TestCategory(Category.All)]
-        [TestCategory(Category.Websites)]
-        public void TestGetsSpecificJob()
-        {
-            RunPowerShellTest("Test-GetsSpecificJob");
-        }
-
-        [TestMethod]
-        [TestCategory(Category.All)]
-        [TestCategory(Category.Websites)]
-        public void TestGetsNotExistingJob()
-        {
-            RunPowerShellTest("Test-GetsNotExistingJob");
-        }
-
-        [TestMethod]
-        [TestCategory(Category.All)]
-        [TestCategory(Category.Websites)]
-        public void TestGetsLatestJobRun()
-        {
-            RunPowerShellTest("Test-GetsLatestJobRun");
-        }
-
-        [TestMethod]
-        [TestCategory(Category.All)]
-        [TestCategory(Category.Websites)]
-        public void TestGetsNullRun()
-        {
-            RunPowerShellTest("Test-GetsNullRun");
-        }
-
-        [TestMethod]
-        [TestCategory(Category.All)]
-        [TestCategory(Category.Websites)]
-        public void TestGetsSpecificRun()
-        {
-            RunPowerShellTest("Test-GetsSpecificRun");
-        }
-
-        [TestMethod]
-        [TestCategory(Category.All)]
-        [TestCategory(Category.Websites)]
-        public void TestListRuns()
-        {
-            RunPowerShellTest("Test-ListRuns");
+            RunPowerShellTest("Test-GettingJobHistory");
         }
 
         #endregion
