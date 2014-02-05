@@ -873,7 +873,7 @@ function Test-StartAzureWebsiteTriggeredJob
 
     # Set up
     New-AzureWebsite $webSiteName
-    New-AzureWebsiteJob -Name $webSiteName -JobName $webSiteJobName -JobType $jobType -JobFile "WebsiteJobTestCmd.zip"
+    New-AzureWebsiteJob -Name $webSiteName -JobName $webSiteJobName -JobType $jobType -JobFile $global:jobFile
 
     # Test
     $started = Start-AzureWebsiteJob -Name $webSiteName -JobName $webSiteJobName -JobType $jobType -PassThru
@@ -894,7 +894,7 @@ function Test-StartAndStopAzureWebsiteContinuousJob
     $jobType = "Continuous"
     # Set up
     New-AzureWebsite $webSiteName
-    New-AzureWebsiteJob -Name $webSiteName -JobName $webSiteJobName -JobType $jobType -JobFile "WebsiteJobTestCmd.zip"
+    New-AzureWebsiteJob -Name $webSiteName -JobName $webSiteJobName -JobType $jobType -JobFile $global:jobFile
 
     # Make sure the job is initialized by polling the status 
     $waitScriptBlock = { (Get-AzureWebsiteJob -Name $webSiteName -JobName $webSiteJobName -JobType $jobType)[0].Status }
@@ -939,7 +939,7 @@ function Test-RemoveAzureWebsiteTriggeredJob
     New-AzureWebsite $webSiteName
     
     # Test
-    Test-CreateAndRemoveAJob $webSiteName $webSiteJobName Triggered "WebsiteJobTestCmd.zip"
+    Test-CreateAndRemoveAJob $webSiteName $webSiteJobName Triggered $global:jobFile
     
     # Clean up
     Remove-AzureWebsite $webSiteName -Force
@@ -958,7 +958,7 @@ function Test-RemoveAzureWebsiteContinuousJob
     New-AzureWebsite $webSiteName
     
     # Test
-    Test-CreateAndRemoveAJob $webSiteName $webSiteJobName Continuous "WebsiteJobTestCmd.zip"
+    Test-CreateAndRemoveAJob $webSiteName $webSiteJobName Continuous $global:jobFile
     
     # Clean up
     Remove-AzureWebsite $webSiteName -Force
@@ -982,4 +982,102 @@ function Test-RemoveNonExistingAzureWebsiteJob
     
     # Clean up
     Remove-AzureWebsite $webSiteName -Force
+}
+
+########################################################################### Get-AzureWebsiteJob Scenario Tests ###########################################################################
+
+<#
+.SYNOPSIS
+Tests Get-AzureWebsiteJob cmdlet ability to get all webjob for a given website
+#>
+function Test-GetsAllWebsiteJobs
+{
+    $webSiteName = Get-WebsiteName
+    $job1 = Get-WebsiteJobName
+    $job2 = Get-WebsiteJobName
+    $job3 = Get-WebsiteJobName
+        
+    # Set up
+    New-AzureWebsite $webSiteName
+    New-AzureWebsiteJob -Name $webSiteName -JobName $job1 -JobType Triggered -JobFile $global:jobFile
+    New-AzureWebsiteJob -Name $webSiteName -JobName $job2 -JobType Triggered -JobFile $global:jobFile
+    New-AzureWebsiteJob -Name $webSiteName -JobName $job3 -JobType Triggered -JobFile $global:jobFile
+
+    # Test
+    $webjobs = Get-AzureWebsiteJob -Name $webSiteName
+    
+	# Assert
+	Assert-AreEqual 3 $webjobs.Count
+}
+
+<#
+.SYNOPSIS
+Tests Get-AzureWebsiteJob cmdlet ability to get all triggered webjob for a given website
+#>
+function Test-GetsAllTriggeredJobs
+{
+    $webSiteName = Get-WebsiteName
+    $job1 = Get-WebsiteJobName
+    $job2 = Get-WebsiteJobName
+    $job3 = Get-WebsiteJobName
+        
+    # Set up
+    New-AzureWebsite $webSiteName
+    New-AzureWebsiteJob -Name $webSiteName -JobName $job1 -JobType Triggered -JobFile $global:jobFile
+    New-AzureWebsiteJob -Name $webSiteName -JobName $job2 -JobType Triggered -JobFile $global:jobFile
+    New-AzureWebsiteJob -Name $webSiteName -JobName $job3 -JobType Continuous -JobFile $global:jobFile
+
+    # Test
+    $webjobs = Get-AzureWebsiteJob -Name $webSiteName -JobType Triggered
+    
+	# Assert
+	Assert-AreEqual 2 $webjobs.Count
+}
+
+<#
+.SYNOPSIS
+Tests Get-AzureWebsiteJob cmdlet ability to get specific webjob
+#>
+function Test-GetsSpecificJob
+{
+    $webSiteName = Get-WebsiteName
+    $job1 = Get-WebsiteJobName
+    $job2 = Get-WebsiteJobName
+    $job3 = Get-WebsiteJobName
+        
+    # Set up
+    New-AzureWebsite $webSiteName
+    New-AzureWebsiteJob -Name $webSiteName -JobName $job1 -JobType Triggered -JobFile $global:jobFile
+    New-AzureWebsiteJob -Name $webSiteName -JobName $job2 -JobType Triggered -JobFile $global:jobFile
+    New-AzureWebsiteJob -Name $webSiteName -JobName $job3 -JobType Triggered -JobFile $global:jobFile
+
+    # Test
+    $webjob = Get-AzureWebsiteJob -Name $webSiteName -JobType Triggered -JobName $job1
+    
+	# Assert
+	Assert-AreEqual $job1 $webjob.Name
+}
+
+# Assert
+	Assert-Throws { Get-AzureWebsite $name } $expected
+
+<#
+.SYNOPSIS
+Tests Get-AzureWebsiteJob cmdlet throws an exception when a webjob doesn't exist
+#>
+function Test-GetsNotExistingJob
+{
+    $webSiteName = Get-WebsiteName
+    $job1 = Get-WebsiteJobName
+    $job2 = Get-WebsiteJobName
+    $job3 = Get-WebsiteJobName
+        
+    # Set up
+    New-AzureWebsite $webSiteName
+    New-AzureWebsiteJob -Name $webSiteName -JobName $job1 -JobType Triggered -JobFile $global:jobFile
+    New-AzureWebsiteJob -Name $webSiteName -JobName $job2 -JobType Triggered -JobFile $global:jobFile
+    New-AzureWebsiteJob -Name $webSiteName -JobName $job3 -JobType Triggered -JobFile $global:jobFile
+    
+	# Assert
+	Assert-Throws { Get-AzureWebsiteJob -Name $webSiteName -JobType Triggered -JobName "foo" } "Not Found"
 }
