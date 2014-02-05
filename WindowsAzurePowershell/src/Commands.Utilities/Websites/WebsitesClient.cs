@@ -1337,6 +1337,11 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
             name = SetWebsiteName(name, slot);
             IWebSiteExtensionsClient client = GetWebSiteExtensionsClient(name);
 
+            if (Path.GetExtension(jobFile) != "zip")
+            {
+                throw new InvalidOperationException(Resources.InvalidWebJobFile);
+            }
+
             switch (jobType)
             {
                 case WebJobType.Continuous:
