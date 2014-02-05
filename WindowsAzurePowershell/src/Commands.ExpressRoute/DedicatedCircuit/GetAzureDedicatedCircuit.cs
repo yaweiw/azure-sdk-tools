@@ -45,7 +45,7 @@ namespace Microsoft.WindowsAzure.Commands.ExpressRoute
         private void GetByServiceKey()
         {
             var circuit = ExpressRouteClient.GetAzureDedicatedCircuit(ServiceKey);
-            WriteObject(circuit, false);
+            WriteObject(circuit);
         }
 
         private void GetNoServiceKey()
@@ -54,6 +54,4 @@ namespace Microsoft.WindowsAzure.Commands.ExpressRoute
             WriteObject(circuits, true);   
         }
     }
-} 
-
-       
+}

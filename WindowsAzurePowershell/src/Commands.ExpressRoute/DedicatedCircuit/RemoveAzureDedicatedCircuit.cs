@@ -20,7 +20,7 @@ namespace Microsoft.WindowsAzure.Commands.ExpressRoute
     using Utilities.Properties;
     using Microsoft.WindowsAzure.Management.ExpressRoute.Models;
 
-    [Cmdlet(VerbsCommon.Remove, "AzureDedicatedCircuit")]
+    [Cmdlet(VerbsCommon.Remove, "AzureDedicatedCircuit"),OutputType(typeof(bool))]
     public class RemoveAzureDedicatedCircuitCommand : ExpressRouteBaseCmdlet
     {
         [Parameter(Mandatory = true, ValueFromPipelineByPropertyName = true,
@@ -30,11 +30,10 @@ namespace Microsoft.WindowsAzure.Commands.ExpressRoute
         public string ServiceKey { get; set; }
 
         [Parameter(HelpMessage = "Do not confirm Azure Dedicated Circuit deletion")]
-        public SwitchParameter Force
-        {
-            get;
-            set;
-        }
+        public SwitchParameter Force { get; set; }
+
+        [Parameter(Mandatory = false)]
+        public SwitchParameter PassThru { get; set; }
 
         public override void ExecuteCmdlet()
         {
@@ -47,11 +46,15 @@ namespace Microsoft.WindowsAzure.Commands.ExpressRoute
                     {
                         if (!ExpressRouteClient.RemoveAzureDedicatedCircuit(ServiceKey))
                         {
-                            throw new Exception("Remove-AzureDedicatedCircuit Operation failed!");
+                            throw new Exception(Resources.RemoveAzureDedicatedCircuitFailed);
                         }
                         else
                         {
-                            WriteVerboseWithTimestamp("Successfully removed Azure Circuit with service key {0}",ServiceKey);
+                            WriteVerboseWithTimestamp(Resources.RemoveAzureDedicatedCircuitSucceeded,ServiceKey);
+                            if (PassThru.IsPresent)
+                            {
+                                WriteObject(true);
+                            }
                         }
                     });
         }

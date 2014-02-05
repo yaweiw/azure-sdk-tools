@@ -47,7 +47,7 @@ namespace Microsoft.WindowsAzure.Commands.ExpressRoute
         private void GetByVNetName()
         {
             var link = ExpressRouteClient.GetAzureDedicatedCircuitLink(ServiceKey, VNetName);
-            WriteObject(link, false);
+            WriteObject(link);
         }
 
         private void GetNoVNetName()

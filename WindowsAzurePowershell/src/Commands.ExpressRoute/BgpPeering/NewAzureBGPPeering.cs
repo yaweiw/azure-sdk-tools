@@ -55,7 +55,7 @@ namespace Microsoft.WindowsAzure.Commands.ExpressRoute
         {
             var route = ExpressRouteClient.NewAzureBGPPeering(ServiceKey, PeerAsn, PrimaryPeerSubnet,
                 SecondaryPeerSubnet, VlanId, AccessType, SharedKey);
-            WriteObject(route, false);
+            WriteObject(route);
         }
     }
 }

@@ -12,6 +12,8 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
+using Microsoft.WindowsAzure.Commands.Utilities.Properties;
+
 namespace Microsoft.WindowsAzure.Commands.ExpressRoute
 {
     using System;
@@ -66,27 +68,27 @@ namespace Microsoft.WindowsAzure.Commands.ExpressRoute
             {
                 if (!PeerAsn.HasValue)
                 {
-                    throw new ArgumentException("A value for Peer Asn has to be specified");
+                    throw new ArgumentException(Resources.PeerAsnRequired);
                 }
 
                 if (!VlanId.HasValue)
                 {
-                    throw new ArgumentException("A value for Vlan Id has to be specified");
+                    throw new ArgumentException(Resources.VlanIdRequired);
                 }
 
                 if (PrimaryPeerSubnet == null)
                 {
-                    throw new ArgumentException("A value for the Primary Peer Subnet has to be provided");
+                    throw new ArgumentException(Resources.PrimaryPeerSubnetRequired);
                 }
 
                 if (SecondaryPeerSubnet == null)
                 {
-                    throw new ArgumentException("A value for the Secondary Peer Subnet has to be specified");
+                    throw new ArgumentException(Resources.SecondaryPeerSubnetRequired);
                 }
 
                 var newRoute = ExpressRouteClient.NewAzureBGPPeering(ServiceKey, PeerAsn.Value, PrimaryPeerSubnet,
                     SecondaryPeerSubnet, VlanId.Value, AccessType, SharedKey);
-                WriteObject(newRoute, false);
+                WriteObject(newRoute);
             }
         }
     }

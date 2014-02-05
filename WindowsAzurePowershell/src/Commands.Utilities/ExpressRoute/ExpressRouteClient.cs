@@ -66,7 +66,8 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.ExpressRoute
             return result.HttpStatusCode.Equals(HttpStatusCode.OK);
         }
 
-        public AzureBgpPeering UpdateAzureBGPPeering(string serviceKey, BgpPeeringAccessType accessType, UInt32 peerAsn, string primaryPeerSubnet,
+        public AzureBgpPeering UpdateAzureBGPPeering(string serviceKey, 
+            BgpPeeringAccessType accessType, UInt32 peerAsn, string primaryPeerSubnet,
             string secondaryPeerSubnet, UInt32 vlanId, string sharedKey)
         {
             return
@@ -85,7 +86,8 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.ExpressRoute
             return (Client.DedicatedCircuit.Get(serviceKey)).DedicatedCircuit;
         }
 
-        public AzureDedicatedCircuit NewAzureDedicatedCircuit(string circuitName, UInt32 bandwidth, string location, string serviceProviderName)
+		public AzureDedicatedCircuit NewAzureDedicatedCircuit(string circuitName, 
+            UInt32 bandwidth, string location, string serviceProviderName)
         {
             return (Client.DedicatedCircuit.New(new DedicatedCircuitNewParameters()
             {
@@ -134,4 +136,3 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.ExpressRoute
         }
     }    
 }
-

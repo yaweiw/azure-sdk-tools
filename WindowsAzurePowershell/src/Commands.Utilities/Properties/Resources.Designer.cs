@@ -2464,6 +2464,15 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to A value for the  Peer Asn has to be provided..
+        /// </summary>
+        public static string PeerAsnRequired {
+            get {
+                return ResourceManager.GetString("PeerAsnRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to 5.4.0.
         /// </summary>
         public static string PHPDefaultRuntimeVersion {
@@ -2529,6 +2538,15 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Properties {
         public static string PortalInstructionsGit {
             get {
                 return ResourceManager.GetString("PortalInstructionsGit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to A value for the Primary Peer Subnet has to be provided..
+        /// </summary>
+        public static string PrimaryPeerSubnetRequired {
+            get {
+                return ResourceManager.GetString("PrimaryPeerSubnetRequired", resourceCulture);
             }
         }
         
@@ -2848,11 +2866,29 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Remove-AzureBGPPeering Operation failed..
+        /// </summary>
+        public static string RemoveAzureBGPPeeringFailed {
+            get {
+                return ResourceManager.GetString("RemoveAzureBGPPeeringFailed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Removing Bgp Peering.
         /// </summary>
         public static string RemoveAzureBGPPeeringMessage {
             get {
                 return ResourceManager.GetString("RemoveAzureBGPPeeringMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Successfully removed Azure Bgp Peering with Service Key {0}..
+        /// </summary>
+        public static string RemoveAzureBGPPeeringSucceeded {
+            get {
+                return ResourceManager.GetString("RemoveAzureBGPPeeringSucceeded", resourceCulture);
             }
         }
         
@@ -2875,11 +2911,38 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Remove-AzureDedicatedCircuit Operation failed..
+        /// </summary>
+        public static string RemoveAzureDedicatedCircuitFailed {
+            get {
+                return ResourceManager.GetString("RemoveAzureDedicatedCircuitFailed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Remove-AzureDedicatedCircuitLink Operation failed..
+        /// </summary>
+        public static string RemoveAzureDedicatedCircuitLinkFailed {
+            get {
+                return ResourceManager.GetString("RemoveAzureDedicatedCircuitLinkFailed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Removing Dedicated Circui Link.
         /// </summary>
         public static string RemoveAzureDedicatedCircuitLinkMessage {
             get {
                 return ResourceManager.GetString("RemoveAzureDedicatedCircuitLinkMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Successfully removed Azure Dedicated Circuit Link with Service Key {0} and Vnet Name {1}.
+        /// </summary>
+        public static string RemoveAzureDedicatedCircuitLinkSucceeded {
+            get {
+                return ResourceManager.GetString("RemoveAzureDedicatedCircuitLinkSucceeded", resourceCulture);
             }
         }
         
@@ -2898,6 +2961,15 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Properties {
         public static string RemoveAzureDedicatedCircuitMessage {
             get {
                 return ResourceManager.GetString("RemoveAzureDedicatedCircuitMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Successfully removed Azure Dedicated Circuit with Service Key {0}..
+        /// </summary>
+        public static string RemoveAzureDedicatedCircuitSucceeded {
+            get {
+                return ResourceManager.GetString("RemoveAzureDedicatedCircuitSucceeded", resourceCulture);
             }
         }
         
@@ -3285,6 +3357,15 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Properties {
         public static string ScaffoldXml {
             get {
                 return ResourceManager.GetString("ScaffoldXml", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to A value for the Secondary Peer Subnet has to be provided..
+        /// </summary>
+        public static string SecondaryPeerSubnetRequired {
+            get {
+                return ResourceManager.GetString("SecondaryPeerSubnetRequired", resourceCulture);
             }
         }
         
@@ -3889,6 +3970,15 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Properties {
         public static string UpdatedSettings {
             get {
                 return ResourceManager.GetString("UpdatedSettings", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to A value for the VLan Id has to be provided..
+        /// </summary>
+        public static string VlanIdRequired {
+            get {
+                return ResourceManager.GetString("VlanIdRequired", resourceCulture);
             }
         }
         
