@@ -662,6 +662,7 @@
     <Compile Include="Websites\Services\WebsitesExtensionMethods.cs" />
     <Compile Include="Websites\Services\WebSitesManagementExtensionMethods.cs" />
     <Compile Include="Websites\UriElements.cs" />
+    <Compile Include="Websites\WebJobWrapper.cs" />
     <Compile Include="Websites\WebsitesClient.cs" />
   </ItemGroup>
   <ItemGroup>
