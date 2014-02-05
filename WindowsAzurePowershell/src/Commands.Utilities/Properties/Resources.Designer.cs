@@ -3758,6 +3758,15 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        public static string String1 {
+            get {
+                return ResourceManager.GetString("String1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The subscription named {0} already exists..
         /// </summary>
         public static string SubscriptionAlreadyExists {
@@ -3911,6 +3920,24 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to MSDeploy.
+        /// </summary>
+        public static string WebDeployKeywordInWebSitePublishProfile {
+            get {
+                return ResourceManager.GetString("WebDeployKeywordInWebSitePublishProfile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Cannot build the project successfully. Please see logs in {0}..
+        /// </summary>
+        public static string WebProjectBuildFailTemplate {
+            get {
+                return ResourceManager.GetString("WebProjectBuildFailTemplate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to WebRole.
         /// </summary>
         public static string WebRole {
@@ -3970,6 +3997,15 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Properties {
         public static string WebsiteSufixUrl {
             get {
                 return ResourceManager.GetString("WebsiteSufixUrl", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to https://{0}/msdeploy.axd?site={1}.
+        /// </summary>
+        public static string WebSiteWebDeployUriTemplate {
+            get {
+                return ResourceManager.GetString("WebSiteWebDeployUriTemplate", resourceCulture);
             }
         }
         
