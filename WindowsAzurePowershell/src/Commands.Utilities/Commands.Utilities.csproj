@@ -191,6 +191,10 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Microsoft.WindowsAzure.Management.Compute.0.9.10-preview\lib\net40\Microsoft.WindowsAzure.Management.Compute.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.WindowsAzure.Management.ExpressRoute, Version=0.9.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.WindowsAzure.Management.ExpressRoute.0.1.1-preview\lib\net40\Microsoft.WindowsAzure.Management.ExpressRoute.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.WindowsAzure.Management.HDInsight, Version=1.0.5.2, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Microsoft.WindowsAzure.Management.HDInsight.1.0.5.2\lib\net40\Microsoft.WindowsAzure.Management.HDInsight.dll</HintPath>
@@ -377,6 +381,15 @@
     <Compile Include="Common\ChannelHelper.cs" />
     <Compile Include="Common\Validate.cs" />
     <Compile Include="Common\XmlSchema\PublishProfile.cs" />
+    <Compile Include="ExpressRoute\ExpressRouteBaseCmdlet.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ExpressRoute\ExpressRouteClient.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ExpressRoute\ValidateGuid.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="HDInsight\Commands\BaseCommandInterfaces\IAddAzureHDInsightConfigValuesBase.cs" />
     <Compile Include="HDInsight\Commands\BaseCommandInterfaces\IAddAzureHDInsightMetaStoreBase.cs" />
     <Compile Include="HDInsight\Commands\BaseCommandInterfaces\IAddAzureHDInsightStorageBase.cs" />
