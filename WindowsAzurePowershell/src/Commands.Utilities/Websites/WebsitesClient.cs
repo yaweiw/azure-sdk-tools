@@ -17,6 +17,10 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
     using CloudService;
     using Management.WebSites;
     using Management.WebSites.Models;
+    using Microsoft.Build.Evaluation;
+    using Microsoft.Build.Framework;
+    using Microsoft.Build.Logging;
+    using Microsoft.Web.Deployment;
     using Microsoft.WindowsAzure.Commands.Utilities.Websites.Services.WebJobs;
     using Microsoft.WindowsAzure.WebSitesExtensions;
     using Microsoft.WindowsAzure.WebSitesExtensions.Models;
@@ -26,6 +30,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
     using Services.DeploymentEntities;
     using Services.WebEntities;
     using System;
+    using System.Collections;
     using System.Collections.Generic;
     using System.Diagnostics;
     using System.IO;
@@ -33,13 +38,8 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
     using System.Net;
     using System.Net.Http;
     using System.Web;
-    using Utilities.Common;
-    using System.Collections;
-    using Microsoft.Web.Deployment;
     using System.Xml.Linq;
-    using Microsoft.Build.Evaluation;
-    using Microsoft.Build.Logging;
-    using Microsoft.Build.Framework;
+    using Utilities.Common;
 
     public class WebsitesClient : IWebsitesClient
     {
