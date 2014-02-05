@@ -20,6 +20,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Extensions
     {
         public string ProviderNameSpace { get; set; }
         public string Type { get; set; }
+        public string Version { get; set; }
         public string CertificateThumbprint { get; set; }
         public string ThumbprintAlgorithm { get; set; }
         public string PublicConfiguration { get; set; }
