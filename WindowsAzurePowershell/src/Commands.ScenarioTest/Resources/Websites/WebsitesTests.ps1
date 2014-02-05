@@ -871,7 +871,7 @@ function Test-StartAzureWebsiteTriggeredJob
     $webSiteJobName = Get-WebsiteJobName
     $jobType = "Triggered"
 
-    # Set up
+    # Setup
     New-AzureWebsite $webSiteName
     New-AzureWebsiteJob -Name $webSiteName -JobName $webSiteJobName -JobType $jobType -JobFile $global:jobFile
 
@@ -892,7 +892,7 @@ function Test-StartAndStopAzureWebsiteContinuousJob
     $webSiteName = Get-WebsiteName
     $webSiteJobName = Get-WebsiteJobName
     $jobType = "Continuous"
-    # Set up
+    # Setup
     New-AzureWebsite $webSiteName
     New-AzureWebsiteJob -Name $webSiteName -JobName $webSiteJobName -JobType $jobType -JobFile $global:jobFile
 
@@ -935,7 +935,7 @@ function Test-RemoveAzureWebsiteTriggeredJob
     $webSiteName = Get-WebsiteName
     $webSiteJobName = Get-WebsiteJobName
         
-    # Set up
+    # Setup
     New-AzureWebsite $webSiteName
     
     # Test
@@ -954,7 +954,7 @@ function Test-RemoveAzureWebsiteContinuousJob
     $webSiteName = Get-WebsiteName
     $webSiteJobName = Get-WebsiteJobName
     
-    # Set up
+    # Setup
     New-AzureWebsite $webSiteName
     
     # Test
@@ -973,7 +973,7 @@ function Test-RemoveNonExistingAzureWebsiteJob
     $webSiteName = Get-WebsiteName
     $nonExistingWebSiteJobName = Get-WebsiteJobName
     
-    # Set up
+    # Setup
     New-AzureWebsite $webSiteName
     
     # Test
@@ -997,7 +997,7 @@ function Test-GetsAllWebsiteJobs
     $job2 = Get-WebsiteJobName
     $job3 = Get-WebsiteJobName
         
-    # Set up
+    # Setup
     New-AzureWebsite $webSiteName
     New-AzureWebsiteJob -Name $webSiteName -JobName $job1 -JobType Triggered -JobFile $global:jobFile
     New-AzureWebsiteJob -Name $webSiteName -JobName $job2 -JobType Triggered -JobFile $global:jobFile
@@ -1021,7 +1021,7 @@ function Test-GetsAllTriggeredJobs
     $job2 = Get-WebsiteJobName
     $job3 = Get-WebsiteJobName
         
-    # Set up
+    # Setup
     New-AzureWebsite $webSiteName
     New-AzureWebsiteJob -Name $webSiteName -JobName $job1 -JobType Triggered -JobFile $global:jobFile
     New-AzureWebsiteJob -Name $webSiteName -JobName $job2 -JobType Triggered -JobFile $global:jobFile
@@ -1045,7 +1045,7 @@ function Test-GetsSpecificJob
     $job2 = Get-WebsiteJobName
     $job3 = Get-WebsiteJobName
         
-    # Set up
+    # Setup
     New-AzureWebsite $webSiteName
     New-AzureWebsiteJob -Name $webSiteName -JobName $job1 -JobType Triggered -JobFile $global:jobFile
     New-AzureWebsiteJob -Name $webSiteName -JobName $job2 -JobType Triggered -JobFile $global:jobFile
@@ -1072,7 +1072,7 @@ function Test-GetsNotExistingJob
     $job2 = Get-WebsiteJobName
     $job3 = Get-WebsiteJobName
         
-    # Set up
+    # Setup
     New-AzureWebsite $webSiteName
     New-AzureWebsiteJob -Name $webSiteName -JobName $job1 -JobType Triggered -JobFile $global:jobFile
     New-AzureWebsiteJob -Name $webSiteName -JobName $job2 -JobType Triggered -JobFile $global:jobFile
@@ -1080,4 +1080,95 @@ function Test-GetsNotExistingJob
     
 	# Assert
 	Assert-Throws { Get-AzureWebsiteJob -Name $webSiteName -JobType Triggered -JobName "foo" } "Not Found"
+}
+
+########################################################################### Get-AzureWebsiteJobHistory Scenario Tests ###########################################################################
+
+<#
+.SYNOPSIS
+Tests Get-AzureWebsiteJobHistory cmdlet can get latest job run
+#>
+function Test-GetsLatestJobRun
+{
+    $webSiteName = Get-WebsiteName
+    $jobName = Get-WebsiteJobName
+        
+    # Setup
+    New-AzureWebsite $webSiteName
+    New-AzureWebsiteJob -Name $webSiteName -JobName $jobName -JobType Triggered -JobFile $global:jobFile
+	Start-AzureWebsiteJob -Name $webSiteName -JobName $jobName -JobType Triggered
+    
+	# Test
+	$run = Get-AzureWebsiteJobHistory -Name $webSiteName -JobName $jobName -Latest
+	$webjob = Get-AzureWebsiteJob -Name $webSiteName -JobName $jobName -JobType Triggered
+
+	# Assert
+	Assert-AreEqual $webjob.LatestRun.Id $run.Id
+}
+
+<#
+.SYNOPSIS
+Tests Get-AzureWebsiteJobHistory cmdlet can get a job without history
+#>
+function Test-GetsNullRun
+{
+    $webSiteName = Get-WebsiteName
+    $jobName = Get-WebsiteJobName
+        
+    # Setup
+    New-AzureWebsite $webSiteName
+    New-AzureWebsiteJob -Name $webSiteName -JobName $jobName -JobType Triggered -JobFile $global:jobFile
+    
+	# Test
+	$run = Get-AzureWebsiteJobHistory -Name $webSiteName -JobName $jobName -Latest
+
+	# Assert
+	Assert-Null $run
+}
+
+<#
+.SYNOPSIS
+Tests Get-AzureWebsiteJobHistory cmdlet can get specific run with id.
+#>
+function Test-GetsSpecificRun
+{
+    $webSiteName = Get-WebsiteName
+    $jobName = Get-WebsiteJobName
+        
+    # Setup
+    New-AzureWebsite $webSiteName
+    New-AzureWebsiteJob -Name $webSiteName -JobName $jobName -JobType Triggered -JobFile $global:jobFile
+	Start-AzureWebsiteJob -Name $webSiteName -JobName $jobName -JobType Triggered
+	Start-AzureWebsiteJob -Name $webSiteName -JobName $jobName -JobType Triggered
+	$webjob = Get-AzureWebsiteJob -Name $webSiteName -JobName $jobName -JobType Triggered
+    $runId = $webjob.LatestRun.Id
+
+	# Test
+	$run = Get-AzureWebsiteJobHistory -Name $webSiteName -JobName $jobName -RunId $runId
+
+	# Assert
+	Assert-AreEqual $runId $run.Id
+}
+
+<#
+.SYNOPSIS
+Tests Get-AzureWebsiteJobHistory cmdlet can list complete job history
+#>
+function Test-ListRuns
+{
+    $webSiteName = Get-WebsiteName
+    $jobName = Get-WebsiteJobName
+        
+    # Setup
+    New-AzureWebsite $webSiteName
+    New-AzureWebsiteJob -Name $webSiteName -JobName $jobName -JobType Triggered -JobFile $global:jobFile
+	Start-AzureWebsiteJob -Name $webSiteName -JobName $jobName -JobType Triggered
+	Start-AzureWebsiteJob -Name $webSiteName -JobName $jobName -JobType Triggered
+	Start-AzureWebsiteJob -Name $webSiteName -JobName $jobName -JobType Triggered
+
+	# Test
+	$runs = Get-AzureWebsiteJobHistory -Name $webSiteName -JobName $jobName
+
+	# Assert
+	Assert-AreEqual 3 $runs.Count
 }

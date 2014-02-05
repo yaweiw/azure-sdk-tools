@@ -459,6 +459,38 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.WebsitesTests
             RunPowerShellTest("Test-GetsNotExistingJob");
         }
 
+        [TestMethod]
+        [TestCategory(Category.All)]
+        [TestCategory(Category.Websites)]
+        public void TestGetsLatestJobRun()
+        {
+            RunPowerShellTest("Test-GetsLatestJobRun");
+        }
+
+        [TestMethod]
+        [TestCategory(Category.All)]
+        [TestCategory(Category.Websites)]
+        public void TestGetsNullRun()
+        {
+            RunPowerShellTest("Test-GetsNullRun");
+        }
+
+        [TestMethod]
+        [TestCategory(Category.All)]
+        [TestCategory(Category.Websites)]
+        public void TestGetsSpecificRun()
+        {
+            RunPowerShellTest("Test-GetsSpecificRun");
+        }
+
+        [TestMethod]
+        [TestCategory(Category.All)]
+        [TestCategory(Category.Websites)]
+        public void TestListRuns()
+        {
+            RunPowerShellTest("Test-ListRuns");
+        }
+
         #endregion
     }
 }
