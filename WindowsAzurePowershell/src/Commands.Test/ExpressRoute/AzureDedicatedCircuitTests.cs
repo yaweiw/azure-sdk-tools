@@ -12,14 +12,14 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Commands.ExpressRoute.Test
+namespace Microsoft.WindowsAzure.Commands.Test.ExpressRoute
 {
     using System;
     using System.Collections.Generic;
+    using Commands.Utilities.ExpressRoute;
     using Commands.ExpressRoute;
     using VisualStudio.TestTools.UnitTesting;
     using Moq;
-    using Utilities.ExpressRoute;
     using System.Linq;
     using System.Net;
     using System.Security.Cryptography.X509Certificates;
