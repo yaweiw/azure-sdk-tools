@@ -59,12 +59,10 @@ namespace Microsoft.WindowsAzure.Commands.ExpressRoute.Test
                         AzureAsn = azureAsn,
                         PeerAsn = peerAsn,
                         PrimaryAzurePort = primaryAzurePort,
-                        PrimaryPeerSubnet = primaryPeerSubnet,
-                       
+                        PrimaryPeerSubnet = primaryPeerSubnet,   
                         SecondaryAzurePort = secondaryAzurePort,
                         SecondaryPeerSubnet = secondayPeerSubnet,
-                        State = state,
-                        
+                        State = state,         
                         VlanId = vlanId
                     },
                     RequestId = "",
@@ -136,11 +134,9 @@ namespace Microsoft.WindowsAzure.Commands.ExpressRoute.Test
                         PeerAsn = peerAsn,
                         PrimaryAzurePort = primaryAzurePort,
                         PrimaryPeerSubnet = primaryPeerSubnet,
-
                         SecondaryAzurePort = secondaryAzurePort,
                         SecondaryPeerSubnet = secondayPeerSubnet,
                         State = state,
-
                         VlanId = vlanId
                     },
                     RequestId = "",
@@ -245,11 +241,9 @@ namespace Microsoft.WindowsAzure.Commands.ExpressRoute.Test
                         PeerAsn = peerAsn,
                         PrimaryAzurePort = primaryAzurePort,
                         PrimaryPeerSubnet = primaryPeerSubnet,
-
                         SecondaryAzurePort = secondaryAzurePort,
                         SecondaryPeerSubnet = secondayPeerSubnet,
                         State = state,
-
                         VlanId = vlanId
                     },
                     RequestId = "",
@@ -267,11 +261,9 @@ namespace Microsoft.WindowsAzure.Commands.ExpressRoute.Test
                        PeerAsn = peerAsn,
                        PrimaryAzurePort = primaryAzurePort,
                        PrimaryPeerSubnet = newPrimaryPeerSubnet,
-
                        SecondaryAzurePort = secondaryAzurePort,
                        SecondaryPeerSubnet = secondayPeerSubnet,
                        State = state,
-
                        VlanId = vlanId
                    },
                    RequestId = "",

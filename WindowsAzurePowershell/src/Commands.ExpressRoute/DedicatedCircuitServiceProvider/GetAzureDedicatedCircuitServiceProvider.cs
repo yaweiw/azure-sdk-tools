@@ -19,7 +19,6 @@ namespace Microsoft.WindowsAzure.Commands.ExpressRoute
     using Utilities.ExpressRoute;
     using Microsoft.WindowsAzure.Management.ExpressRoute.Models;
 
-
     [Cmdlet(VerbsCommon.Get, "AzureDedicatedCircuitServiceProvider"), OutputType(typeof(IEnumerable<AzureDedicatedCircuitServiceProvider>))]
     public class GetAzureDedicatedCircuitServiceProviderCommand : ExpressRouteBaseCmdlet
     {

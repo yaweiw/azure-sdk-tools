@@ -51,10 +51,8 @@ namespace Microsoft.WindowsAzure.Commands.ExpressRoute
         [DefaultValue("Private")]
         public BgpPeeringAccessType AccessType { get; set; }
 
-
         public override void ExecuteCmdlet()
         {
-
             try
             {
                 var route = ExpressRouteClient.GetAzureBGPPeering(ServiceKey, AccessType);
@@ -64,7 +62,7 @@ namespace Microsoft.WindowsAzure.Commands.ExpressRoute
                     SharedKey);
                 WriteObject(updatedRoute, false);
             }
-            catch (Exception )
+            catch
             {
                 if (!PeerAsn.HasValue)
                 {

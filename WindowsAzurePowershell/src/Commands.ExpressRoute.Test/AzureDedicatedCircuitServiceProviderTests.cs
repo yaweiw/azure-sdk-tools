@@ -38,7 +38,6 @@
             var type1 = "IXP";
             var type2 = "Telco";
            
-
             MockCommandRuntime mockCommandRuntime = new MockCommandRuntime();
             Mock<ExpressRouteManagementClient> client = InitExpressRouteManagementClient();
             var dcsMock = new Mock<IDedicatedCircuitServiceProviderOperations>();

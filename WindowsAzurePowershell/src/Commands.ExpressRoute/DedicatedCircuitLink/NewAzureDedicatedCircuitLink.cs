@@ -35,7 +35,6 @@ namespace Microsoft.WindowsAzure.Commands.ExpressRoute
         {
             var mapping = ExpressRouteClient.NewAzureDedicatedCircuitLink(ServiceKey, VNetName);
             WriteObject(mapping, false);
-
         }
     }
 }
