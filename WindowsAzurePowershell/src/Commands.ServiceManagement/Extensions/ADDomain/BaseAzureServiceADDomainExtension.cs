@@ -150,8 +150,8 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Extensions
 
         protected void Initialize()
         {
-            ExtensionNameSpace = DomainExtensionNamespace;
-            ExtensionType = DomainExtensionType;
+            ProviderNamespace = DomainExtensionNamespace;
+            ExtensionName = DomainExtensionType;
             PublicConfig = new PublicConfig();
             PrivateConfig = new PrivateConfig();
             PrivateConfig.Password = string.Empty;
