@@ -44,12 +44,6 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
         }
 
 
-        [ClassCleanup]
-        public static void ClassCleanUp()
-        {
-
-        }
-
         [TestMethod(), TestCategory("Sequential"), TestProperty("Feature", "IAAS"), Priority(0), Owner("hylee"), Description("Test the cmdlet ((Get,Set,Remove)-AzureVMBGInfoExtension)")]
         public void GetAzureVMBGInfoExtensionTest()
         {
@@ -217,9 +211,6 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
             Console.WriteLine("BGIinfo extension verified successfully.");
         }
 
-        private void PrintVirtualMachineBGInfoExtensionContext()
-        {
-        }
-
+        
     }
 }
