@@ -1,0 +1,822 @@
+[
+  {
+    "RequestUri": "https://management.core.windows.net//2c224e7e-3ef5-431d-a57b-e71f4662e3a6/services/servicebus/namespaces/onesdk7229",
+    "RequestMethod": "GET",
+    "RequestBody": "",
+    "RequestHeaders": {
+      "Accept": [
+        "application/atom+xml"
+      ],
+      "x-ms-version": [
+        "2013-08-01"
+      ],
+      "User-Agent": [
+        "Microsoft.WindowsAzure.Management.ServiceBus.ServiceBusManagementClient/1.0.0.0",
+        "WindowsAzurePowershell/v0.7.2.1"
+      ]
+    },
+    "ResponseBody": "<entry xmlns=\"http://www.w3.org/2005/Atom\">\r\n  <id>uuid:4c70a3c5-c679-4c07-b48c-549a61d6fa0a;id=5020852</id>\r\n  <title type=\"text\"></title>\r\n  <updated>2013-12-19T03:53:45Z</updated>\r\n  <content type=\"application/xml\">\r\n    <NamespaceDescription xmlns=\"http://schemas.microsoft.com/netservices/2010/10/servicebus/connect\" xmlns:i=\"http://www.w3.org/2001/XMLSchema-instance\">\r\n      <Name>onesdk7229</Name>\r\n      <Region>East Asia</Region>\r\n      <Status>Activating</Status>\r\n      <CreatedAt>2013-12-19T03:53:15.54Z</CreatedAt>\r\n      <AcsManagementEndpoint>https://onesdk7229-sb.accesscontrol.windows.net/</AcsManagementEndpoint>\r\n      <ServiceBusEndpoint>https://onesdk7229.servicebus.windows.net/</ServiceBusEndpoint>\r\n      <SubscriptionId>2c224e7e3ef5431da57be71f4662e3a6</SubscriptionId>\r\n      <Enabled>true</Enabled>\r\n      <UpdatedAt>2013-12-19T03:53:15.54Z</UpdatedAt>\r\n    </NamespaceDescription>\r\n  </content>\r\n</entry>",
+    "ResponseHeaders": {
+      "x-ms-servedbyregion": [
+        "ussouth"
+      ],
+      "Server-SB": [
+        "Service-Bus-Resource-Provider/SN1"
+      ],
+      "x-ms-request-id": [
+        "90c328ae2f6e5b5f85bb94541eb6f580"
+      ],
+      "Cache-Control": [
+        "no-cache"
+      ],
+      "Date": [
+        "Thu, 19 Dec 2013 03:53:45 GMT"
+      ],
+      "Server": [
+        "1.0.6198.37",
+        "(rd_rdfe_stable.131213-1504)",
+        "Microsoft-HTTPAPI/2.0"
+      ]
+    },
+    "StatusCode": 200
+  },
+  {
+    "RequestUri": "https://management.core.windows.net//2c224e7e-3ef5-431d-a57b-e71f4662e3a6/services/servicebus/namespaces/onesdk7229",
+    "RequestMethod": "GET",
+    "RequestBody": "",
+    "RequestHeaders": {
+      "Accept": [
+        "application/atom+xml"
+      ],
+      "x-ms-version": [
+        "2013-08-01"
+      ],
+      "User-Agent": [
+        "Microsoft.WindowsAzure.Management.ServiceBus.ServiceBusManagementClient/1.0.0.0",
+        "WindowsAzurePowershell/v0.7.2.1"
+      ]
+    },
+    "ResponseBody": "<entry xmlns=\"http://www.w3.org/2005/Atom\">\r\n  <id>uuid:4c70a3c5-c679-4c07-b48c-549a61d6fa0a;id=5020905</id>\r\n  <title type=\"text\"></title>\r\n  <updated>2013-12-19T03:53:51Z</updated>\r\n  <content type=\"application/xml\">\r\n    <NamespaceDescription xmlns=\"http://schemas.microsoft.com/netservices/2010/10/servicebus/connect\" xmlns:i=\"http://www.w3.org/2001/XMLSchema-instance\">\r\n      <Name>onesdk7229</Name>\r\n      <Region>East Asia</Region>\r\n      <Status>Activating</Status>\r\n      <CreatedAt>2013-12-19T03:53:15.54Z</CreatedAt>\r\n      <AcsManagementEndpoint>https://onesdk7229-sb.accesscontrol.windows.net/</AcsManagementEndpoint>\r\n      <ServiceBusEndpoint>https://onesdk7229.servicebus.windows.net/</ServiceBusEndpoint>\r\n      <SubscriptionId>2c224e7e3ef5431da57be71f4662e3a6</SubscriptionId>\r\n      <Enabled>true</Enabled>\r\n      <UpdatedAt>2013-12-19T03:53:15.54Z</UpdatedAt>\r\n    </NamespaceDescription>\r\n  </content>\r\n</entry>",
+    "ResponseHeaders": {
+      "x-ms-servedbyregion": [
+        "ussouth"
+      ],
+      "Server-SB": [
+        "Service-Bus-Resource-Provider/SN1"
+      ],
+      "x-ms-request-id": [
+        "467f663e8ae45b598c311eecef52ad8f"
+      ],
+      "Cache-Control": [
+        "no-cache"
+      ],
+      "Date": [
+        "Thu, 19 Dec 2013 03:53:50 GMT"
+      ],
+      "Server": [
+        "1.0.6198.37",
+        "(rd_rdfe_stable.131213-1504)",
+        "Microsoft-HTTPAPI/2.0"
+      ]
+    },
+    "StatusCode": 200
+  },
+  {
+    "RequestUri": "https://management.core.windows.net//2c224e7e-3ef5-431d-a57b-e71f4662e3a6/services/servicebus/namespaces/onesdk7229",
+    "RequestMethod": "GET",
+    "RequestBody": "",
+    "RequestHeaders": {
+      "Accept": [
+        "application/atom+xml"
+      ],
+      "x-ms-version": [
+        "2013-08-01"
+      ],
+      "User-Agent": [
+        "Microsoft.WindowsAzure.Management.ServiceBus.ServiceBusManagementClient/1.0.0.0",
+        "WindowsAzurePowershell/v0.7.2.1"
+      ]
+    },
+    "ResponseBody": "<entry xmlns=\"http://www.w3.org/2005/Atom\">\r\n  <id>uuid:4c70a3c5-c679-4c07-b48c-549a61d6fa0a;id=5020955</id>\r\n  <title type=\"text\"></title>\r\n  <updated>2013-12-19T03:53:59Z</updated>\r\n  <content type=\"application/xml\">\r\n    <NamespaceDescription xmlns=\"http://schemas.microsoft.com/netservices/2010/10/servicebus/connect\" xmlns:i=\"http://www.w3.org/2001/XMLSchema-instance\">\r\n      <Name>onesdk7229</Name>\r\n      <Region>East Asia</Region>\r\n      <Status>Activating</Status>\r\n      <CreatedAt>2013-12-19T03:53:15.54Z</CreatedAt>\r\n      <AcsManagementEndpoint>https://onesdk7229-sb.accesscontrol.windows.net/</AcsManagementEndpoint>\r\n      <ServiceBusEndpoint>https://onesdk7229.servicebus.windows.net/</ServiceBusEndpoint>\r\n      <SubscriptionId>2c224e7e3ef5431da57be71f4662e3a6</SubscriptionId>\r\n      <Enabled>true</Enabled>\r\n      <UpdatedAt>2013-12-19T03:53:15.54Z</UpdatedAt>\r\n    </NamespaceDescription>\r\n  </content>\r\n</entry>",
+    "ResponseHeaders": {
+      "x-ms-servedbyregion": [
+        "ussouth"
+      ],
+      "Server-SB": [
+        "Service-Bus-Resource-Provider/SN1"
+      ],
+      "x-ms-request-id": [
+        "fa7b9f240aa55f4aa6d6a3ccb4286c49"
+      ],
+      "Cache-Control": [
+        "no-cache"
+      ],
+      "Date": [
+        "Thu, 19 Dec 2013 03:53:59 GMT"
+      ],
+      "Server": [
+        "1.0.6198.37",
+        "(rd_rdfe_stable.131213-1504)",
+        "Microsoft-HTTPAPI/2.0"
+      ]
+    },
+    "StatusCode": 200
+  },
+  {
+    "RequestUri": "https://management.core.windows.net//2c224e7e-3ef5-431d-a57b-e71f4662e3a6/services/servicebus/namespaces/onesdk7229",
+    "RequestMethod": "GET",
+    "RequestBody": "",
+    "RequestHeaders": {
+      "Accept": [
+        "application/atom+xml"
+      ],
+      "x-ms-version": [
+        "2013-08-01"
+      ],
+      "User-Agent": [
+        "Microsoft.WindowsAzure.Management.ServiceBus.ServiceBusManagementClient/1.0.0.0",
+        "WindowsAzurePowershell/v0.7.2.1"
+      ]
+    },
+    "ResponseBody": "<entry xmlns=\"http://www.w3.org/2005/Atom\">\r\n  <id>uuid:4c70a3c5-c679-4c07-b48c-549a61d6fa0a;id=5021001</id>\r\n  <title type=\"text\"></title>\r\n  <updated>2013-12-19T03:54:09Z</updated>\r\n  <content type=\"application/xml\">\r\n    <NamespaceDescription xmlns=\"http://schemas.microsoft.com/netservices/2010/10/servicebus/connect\" xmlns:i=\"http://www.w3.org/2001/XMLSchema-instance\">\r\n      <Name>onesdk7229</Name>\r\n      <Region>East Asia</Region>\r\n      <Status>Activating</Status>\r\n      <CreatedAt>2013-12-19T03:53:15.54Z</CreatedAt>\r\n      <AcsManagementEndpoint>https://onesdk7229-sb.accesscontrol.windows.net/</AcsManagementEndpoint>\r\n      <ServiceBusEndpoint>https://onesdk7229.servicebus.windows.net/</ServiceBusEndpoint>\r\n      <SubscriptionId>2c224e7e3ef5431da57be71f4662e3a6</SubscriptionId>\r\n      <Enabled>true</Enabled>\r\n      <UpdatedAt>2013-12-19T03:53:15.54Z</UpdatedAt>\r\n    </NamespaceDescription>\r\n  </content>\r\n</entry>",
+    "ResponseHeaders": {
+      "x-ms-servedbyregion": [
+        "ussouth"
+      ],
+      "Server-SB": [
+        "Service-Bus-Resource-Provider/SN1"
+      ],
+      "x-ms-request-id": [
+        "0808737528af5b7ab5222d24e2a14c7b"
+      ],
+      "Cache-Control": [
+        "no-cache"
+      ],
+      "Date": [
+        "Thu, 19 Dec 2013 03:54:09 GMT"
+      ],
+      "Server": [
+        "1.0.6198.37",
+        "(rd_rdfe_stable.131213-1504)",
+        "Microsoft-HTTPAPI/2.0"
+      ]
+    },
+    "StatusCode": 200
+  },
+  {
+    "RequestUri": "https://management.core.windows.net//2c224e7e-3ef5-431d-a57b-e71f4662e3a6/services/servicebus/namespaces/onesdk7229",
+    "RequestMethod": "GET",
+    "RequestBody": "",
+    "RequestHeaders": {
+      "Accept": [
+        "application/atom+xml"
+      ],
+      "x-ms-version": [
+        "2013-08-01"
+      ],
+      "User-Agent": [
+        "Microsoft.WindowsAzure.Management.ServiceBus.ServiceBusManagementClient/1.0.0.0",
+        "WindowsAzurePowershell/v0.7.2.1"
+      ]
+    },
+    "ResponseBody": "<entry xmlns=\"http://www.w3.org/2005/Atom\">\r\n  <id>uuid:4c70a3c5-c679-4c07-b48c-549a61d6fa0a;id=5021039</id>\r\n  <title type=\"text\"></title>\r\n  <updated>2013-12-19T03:54:14Z</updated>\r\n  <content type=\"application/xml\">\r\n    <NamespaceDescription xmlns=\"http://schemas.microsoft.com/netservices/2010/10/servicebus/connect\" xmlns:i=\"http://www.w3.org/2001/XMLSchema-instance\">\r\n      <Name>onesdk7229</Name>\r\n      <Region>East Asia</Region>\r\n      <Status>Activating</Status>\r\n      <CreatedAt>2013-12-19T03:53:15.54Z</CreatedAt>\r\n      <AcsManagementEndpoint>https://onesdk7229-sb.accesscontrol.windows.net/</AcsManagementEndpoint>\r\n      <ServiceBusEndpoint>https://onesdk7229.servicebus.windows.net/</ServiceBusEndpoint>\r\n      <SubscriptionId>2c224e7e3ef5431da57be71f4662e3a6</SubscriptionId>\r\n      <Enabled>true</Enabled>\r\n      <UpdatedAt>2013-12-19T03:53:15.54Z</UpdatedAt>\r\n    </NamespaceDescription>\r\n  </content>\r\n</entry>",
+    "ResponseHeaders": {
+      "x-ms-servedbyregion": [
+        "ussouth"
+      ],
+      "Server-SB": [
+        "Service-Bus-Resource-Provider/SN1"
+      ],
+      "x-ms-request-id": [
+        "e606e6dc47c652d6b5e38f09fd55c2dd"
+      ],
+      "Cache-Control": [
+        "no-cache"
+      ],
+      "Date": [
+        "Thu, 19 Dec 2013 03:54:14 GMT"
+      ],
+      "Server": [
+        "1.0.6198.37",
+        "(rd_rdfe_stable.131213-1504)",
+        "Microsoft-HTTPAPI/2.0"
+      ]
+    },
+    "StatusCode": 200
+  },
+  {
+    "RequestUri": "https://management.core.windows.net//2c224e7e-3ef5-431d-a57b-e71f4662e3a6/services/servicebus/namespaces/onesdk7229",
+    "RequestMethod": "GET",
+    "RequestBody": "",
+    "RequestHeaders": {
+      "Accept": [
+        "application/atom+xml"
+      ],
+      "x-ms-version": [
+        "2013-08-01"
+      ],
+      "User-Agent": [
+        "Microsoft.WindowsAzure.Management.ServiceBus.ServiceBusManagementClient/1.0.0.0",
+        "WindowsAzurePowershell/v0.7.2.1"
+      ]
+    },
+    "ResponseBody": "<entry xmlns=\"http://www.w3.org/2005/Atom\">\r\n  <id>uuid:4c70a3c5-c679-4c07-b48c-549a61d6fa0a;id=5021044</id>\r\n  <title type=\"text\"></title>\r\n  <updated>2013-12-19T03:54:20Z</updated>\r\n  <content type=\"application/xml\">\r\n    <NamespaceDescription xmlns=\"http://schemas.microsoft.com/netservices/2010/10/servicebus/connect\" xmlns:i=\"http://www.w3.org/2001/XMLSchema-instance\">\r\n      <Name>onesdk7229</Name>\r\n      <Region>East Asia</Region>\r\n      <Status>Activating</Status>\r\n      <CreatedAt>2013-12-19T03:53:15.54Z</CreatedAt>\r\n      <AcsManagementEndpoint>https://onesdk7229-sb.accesscontrol.windows.net/</AcsManagementEndpoint>\r\n      <ServiceBusEndpoint>https://onesdk7229.servicebus.windows.net/</ServiceBusEndpoint>\r\n      <SubscriptionId>2c224e7e3ef5431da57be71f4662e3a6</SubscriptionId>\r\n      <Enabled>true</Enabled>\r\n      <UpdatedAt>2013-12-19T03:53:15.54Z</UpdatedAt>\r\n    </NamespaceDescription>\r\n  </content>\r\n</entry>",
+    "ResponseHeaders": {
+      "x-ms-servedbyregion": [
+        "ussouth"
+      ],
+      "Server-SB": [
+        "Service-Bus-Resource-Provider/SN1"
+      ],
+      "x-ms-request-id": [
+        "ec1c327537675a0badd6339df0a50432"
+      ],
+      "Cache-Control": [
+        "no-cache"
+      ],
+      "Date": [
+        "Thu, 19 Dec 2013 03:54:19 GMT"
+      ],
+      "Server": [
+        "1.0.6198.37",
+        "(rd_rdfe_stable.131213-1504)",
+        "Microsoft-HTTPAPI/2.0"
+      ]
+    },
+    "StatusCode": 200
+  },
+  {
+    "RequestUri": "https://management.core.windows.net//2c224e7e-3ef5-431d-a57b-e71f4662e3a6/services/servicebus/namespaces/onesdk7229",
+    "RequestMethod": "GET",
+    "RequestBody": "",
+    "RequestHeaders": {
+      "Accept": [
+        "application/atom+xml"
+      ],
+      "x-ms-version": [
+        "2013-08-01"
+      ],
+      "User-Agent": [
+        "Microsoft.WindowsAzure.Management.ServiceBus.ServiceBusManagementClient/1.0.0.0",
+        "WindowsAzurePowershell/v0.7.2.1"
+      ]
+    },
+    "ResponseBody": "<entry xmlns=\"http://www.w3.org/2005/Atom\">\r\n  <id>uuid:4c70a3c5-c679-4c07-b48c-549a61d6fa0a;id=5021086</id>\r\n  <title type=\"text\"></title>\r\n  <updated>2013-12-19T03:54:25Z</updated>\r\n  <content type=\"application/xml\">\r\n    <NamespaceDescription xmlns=\"http://schemas.microsoft.com/netservices/2010/10/servicebus/connect\" xmlns:i=\"http://www.w3.org/2001/XMLSchema-instance\">\r\n      <Name>onesdk7229</Name>\r\n      <Region>East Asia</Region>\r\n      <Status>Activating</Status>\r\n      <CreatedAt>2013-12-19T03:53:15.54Z</CreatedAt>\r\n      <AcsManagementEndpoint>https://onesdk7229-sb.accesscontrol.windows.net/</AcsManagementEndpoint>\r\n      <ServiceBusEndpoint>https://onesdk7229.servicebus.windows.net/</ServiceBusEndpoint>\r\n      <SubscriptionId>2c224e7e3ef5431da57be71f4662e3a6</SubscriptionId>\r\n      <Enabled>true</Enabled>\r\n      <UpdatedAt>2013-12-19T03:53:15.54Z</UpdatedAt>\r\n    </NamespaceDescription>\r\n  </content>\r\n</entry>",
+    "ResponseHeaders": {
+      "x-ms-servedbyregion": [
+        "ussouth"
+      ],
+      "Server-SB": [
+        "Service-Bus-Resource-Provider/SN1"
+      ],
+      "x-ms-request-id": [
+        "c114f383071a54ee9777f5ff989f63f2"
+      ],
+      "Cache-Control": [
+        "no-cache"
+      ],
+      "Date": [
+        "Thu, 19 Dec 2013 03:54:24 GMT"
+      ],
+      "Server": [
+        "1.0.6198.37",
+        "(rd_rdfe_stable.131213-1504)",
+        "Microsoft-HTTPAPI/2.0"
+      ]
+    },
+    "StatusCode": 200
+  },
+  {
+    "RequestUri": "https://management.core.windows.net//2c224e7e-3ef5-431d-a57b-e71f4662e3a6/services/servicebus/namespaces/onesdk7229",
+    "RequestMethod": "GET",
+    "RequestBody": "",
+    "RequestHeaders": {
+      "Accept": [
+        "application/atom+xml"
+      ],
+      "x-ms-version": [
+        "2013-08-01"
+      ],
+      "User-Agent": [
+        "Microsoft.WindowsAzure.Management.ServiceBus.ServiceBusManagementClient/1.0.0.0",
+        "WindowsAzurePowershell/v0.7.2.1"
+      ]
+    },
+    "ResponseBody": "<entry xmlns=\"http://www.w3.org/2005/Atom\">\r\n  <id>uuid:4c70a3c5-c679-4c07-b48c-549a61d6fa0a;id=5021099</id>\r\n  <title type=\"text\"></title>\r\n  <updated>2013-12-19T03:54:30Z</updated>\r\n  <content type=\"application/xml\">\r\n    <NamespaceDescription xmlns=\"http://schemas.microsoft.com/netservices/2010/10/servicebus/connect\" xmlns:i=\"http://www.w3.org/2001/XMLSchema-instance\">\r\n      <Name>onesdk7229</Name>\r\n      <Region>East Asia</Region>\r\n      <Status>Activating</Status>\r\n      <CreatedAt>2013-12-19T03:53:15.54Z</CreatedAt>\r\n      <AcsManagementEndpoint>https://onesdk7229-sb.accesscontrol.windows.net/</AcsManagementEndpoint>\r\n      <ServiceBusEndpoint>https://onesdk7229.servicebus.windows.net/</ServiceBusEndpoint>\r\n      <SubscriptionId>2c224e7e3ef5431da57be71f4662e3a6</SubscriptionId>\r\n      <Enabled>true</Enabled>\r\n      <UpdatedAt>2013-12-19T03:53:15.54Z</UpdatedAt>\r\n    </NamespaceDescription>\r\n  </content>\r\n</entry>",
+    "ResponseHeaders": {
+      "x-ms-servedbyregion": [
+        "ussouth"
+      ],
+      "Server-SB": [
+        "Service-Bus-Resource-Provider/SN1"
+      ],
+      "x-ms-request-id": [
+        "ef614a09829c5d53a17280eb0a55d89d"
+      ],
+      "Cache-Control": [
+        "no-cache"
+      ],
+      "Date": [
+        "Thu, 19 Dec 2013 03:54:30 GMT"
+      ],
+      "Server": [
+        "1.0.6198.37",
+        "(rd_rdfe_stable.131213-1504)",
+        "Microsoft-HTTPAPI/2.0"
+      ]
+    },
+    "StatusCode": 200
+  },
+  {
+    "RequestUri": "https://management.core.windows.net//2c224e7e-3ef5-431d-a57b-e71f4662e3a6/services/servicebus/namespaces/onesdk7229",
+    "RequestMethod": "GET",
+    "RequestBody": "",
+    "RequestHeaders": {
+      "Accept": [
+        "application/atom+xml"
+      ],
+      "x-ms-version": [
+        "2013-08-01"
+      ],
+      "User-Agent": [
+        "Microsoft.WindowsAzure.Management.ServiceBus.ServiceBusManagementClient/1.0.0.0",
+        "WindowsAzurePowershell/v0.7.2.1"
+      ]
+    },
+    "ResponseBody": "<entry xmlns=\"http://www.w3.org/2005/Atom\">\r\n  <id>uuid:4c70a3c5-c679-4c07-b48c-549a61d6fa0a;id=5021131</id>\r\n  <title type=\"text\"></title>\r\n  <updated>2013-12-19T03:54:36Z</updated>\r\n  <content type=\"application/xml\">\r\n    <NamespaceDescription xmlns=\"http://schemas.microsoft.com/netservices/2010/10/servicebus/connect\" xmlns:i=\"http://www.w3.org/2001/XMLSchema-instance\">\r\n      <Name>onesdk7229</Name>\r\n      <Region>East Asia</Region>\r\n      <Status>Activating</Status>\r\n      <CreatedAt>2013-12-19T03:53:15.54Z</CreatedAt>\r\n      <AcsManagementEndpoint>https://onesdk7229-sb.accesscontrol.windows.net/</AcsManagementEndpoint>\r\n      <ServiceBusEndpoint>https://onesdk7229.servicebus.windows.net/</ServiceBusEndpoint>\r\n      <SubscriptionId>2c224e7e3ef5431da57be71f4662e3a6</SubscriptionId>\r\n      <Enabled>true</Enabled>\r\n      <UpdatedAt>2013-12-19T03:53:15.54Z</UpdatedAt>\r\n    </NamespaceDescription>\r\n  </content>\r\n</entry>",
+    "ResponseHeaders": {
+      "x-ms-servedbyregion": [
+        "ussouth"
+      ],
+      "Server-SB": [
+        "Service-Bus-Resource-Provider/SN1"
+      ],
+      "x-ms-request-id": [
+        "f0c71a5bad2c54b2bc2ee605fd9a6120"
+      ],
+      "Cache-Control": [
+        "no-cache"
+      ],
+      "Date": [
+        "Thu, 19 Dec 2013 03:54:36 GMT"
+      ],
+      "Server": [
+        "1.0.6198.37",
+        "(rd_rdfe_stable.131213-1504)",
+        "Microsoft-HTTPAPI/2.0"
+      ]
+    },
+    "StatusCode": 200
+  },
+  {
+    "RequestUri": "https://management.core.windows.net//2c224e7e-3ef5-431d-a57b-e71f4662e3a6/services/servicebus/namespaces/onesdk7229",
+    "RequestMethod": "GET",
+    "RequestBody": "",
+    "RequestHeaders": {
+      "Accept": [
+        "application/atom+xml"
+      ],
+      "x-ms-version": [
+        "2013-08-01"
+      ],
+      "User-Agent": [
+        "Microsoft.WindowsAzure.Management.ServiceBus.ServiceBusManagementClient/1.0.0.0",
+        "WindowsAzurePowershell/v0.7.2.1"
+      ]
+    },
+    "ResponseBody": "<entry xmlns=\"http://www.w3.org/2005/Atom\">\r\n  <id>uuid:4c70a3c5-c679-4c07-b48c-549a61d6fa0a;id=5021173</id>\r\n  <title type=\"text\"></title>\r\n  <updated>2013-12-19T03:54:41Z</updated>\r\n  <content type=\"application/xml\">\r\n    <NamespaceDescription xmlns=\"http://schemas.microsoft.com/netservices/2010/10/servicebus/connect\" xmlns:i=\"http://www.w3.org/2001/XMLSchema-instance\">\r\n      <Name>onesdk7229</Name>\r\n      <Region>East Asia</Region>\r\n      <Status>Activating</Status>\r\n      <CreatedAt>2013-12-19T03:53:15.54Z</CreatedAt>\r\n      <AcsManagementEndpoint>https://onesdk7229-sb.accesscontrol.windows.net/</AcsManagementEndpoint>\r\n      <ServiceBusEndpoint>https://onesdk7229.servicebus.windows.net/</ServiceBusEndpoint>\r\n      <SubscriptionId>2c224e7e3ef5431da57be71f4662e3a6</SubscriptionId>\r\n      <Enabled>true</Enabled>\r\n      <UpdatedAt>2013-12-19T03:53:15.54Z</UpdatedAt>\r\n    </NamespaceDescription>\r\n  </content>\r\n</entry>",
+    "ResponseHeaders": {
+      "x-ms-servedbyregion": [
+        "ussouth"
+      ],
+      "Server-SB": [
+        "Service-Bus-Resource-Provider/SN1"
+      ],
+      "x-ms-request-id": [
+        "868e0d1e0392556f8bbeecde67beabea"
+      ],
+      "Cache-Control": [
+        "no-cache"
+      ],
+      "Date": [
+        "Thu, 19 Dec 2013 03:54:40 GMT"
+      ],
+      "Server": [
+        "1.0.6198.37",
+        "(rd_rdfe_stable.131213-1504)",
+        "Microsoft-HTTPAPI/2.0"
+      ]
+    },
+    "StatusCode": 200
+  },
+  {
+    "RequestUri": "https://management.core.windows.net//2c224e7e-3ef5-431d-a57b-e71f4662e3a6/services/servicebus/namespaces/onesdk7229",
+    "RequestMethod": "GET",
+    "RequestBody": "",
+    "RequestHeaders": {
+      "Accept": [
+        "application/atom+xml"
+      ],
+      "x-ms-version": [
+        "2013-08-01"
+      ],
+      "User-Agent": [
+        "Microsoft.WindowsAzure.Management.ServiceBus.ServiceBusManagementClient/1.0.0.0",
+        "WindowsAzurePowershell/v0.7.2.1"
+      ]
+    },
+    "ResponseBody": "<entry xmlns=\"http://www.w3.org/2005/Atom\">\r\n  <id>uuid:4c70a3c5-c679-4c07-b48c-549a61d6fa0a;id=5021235</id>\r\n  <title type=\"text\"></title>\r\n  <updated>2013-12-19T03:54:49Z</updated>\r\n  <content type=\"application/xml\">\r\n    <NamespaceDescription xmlns=\"http://schemas.microsoft.com/netservices/2010/10/servicebus/connect\" xmlns:i=\"http://www.w3.org/2001/XMLSchema-instance\">\r\n      <Name>onesdk7229</Name>\r\n      <Region>East Asia</Region>\r\n      <Status>Activating</Status>\r\n      <CreatedAt>2013-12-19T03:53:15.54Z</CreatedAt>\r\n      <AcsManagementEndpoint>https://onesdk7229-sb.accesscontrol.windows.net/</AcsManagementEndpoint>\r\n      <ServiceBusEndpoint>https://onesdk7229.servicebus.windows.net/</ServiceBusEndpoint>\r\n      <SubscriptionId>2c224e7e3ef5431da57be71f4662e3a6</SubscriptionId>\r\n      <Enabled>true</Enabled>\r\n      <UpdatedAt>2013-12-19T03:53:15.54Z</UpdatedAt>\r\n    </NamespaceDescription>\r\n  </content>\r\n</entry>",
+    "ResponseHeaders": {
+      "x-ms-servedbyregion": [
+        "ussouth"
+      ],
+      "Server-SB": [
+        "Service-Bus-Resource-Provider/SN1"
+      ],
+      "x-ms-request-id": [
+        "5a98649d1b565f249764d78cdcc3b8ab"
+      ],
+      "Cache-Control": [
+        "no-cache"
+      ],
+      "Date": [
+        "Thu, 19 Dec 2013 03:54:49 GMT"
+      ],
+      "Server": [
+        "1.0.6198.37",
+        "(rd_rdfe_stable.131213-1504)",
+        "Microsoft-HTTPAPI/2.0"
+      ]
+    },
+    "StatusCode": 200
+  },
+  {
+    "RequestUri": "https://management.core.windows.net//2c224e7e-3ef5-431d-a57b-e71f4662e3a6/services/servicebus/namespaces/onesdk7229",
+    "RequestMethod": "GET",
+    "RequestBody": "",
+    "RequestHeaders": {
+      "Accept": [
+        "application/atom+xml"
+      ],
+      "x-ms-version": [
+        "2013-08-01"
+      ],
+      "User-Agent": [
+        "Microsoft.WindowsAzure.Management.ServiceBus.ServiceBusManagementClient/1.0.0.0",
+        "WindowsAzurePowershell/v0.7.2.1"
+      ]
+    },
+    "ResponseBody": "<entry xmlns=\"http://www.w3.org/2005/Atom\">\r\n  <id>uuid:4c70a3c5-c679-4c07-b48c-549a61d6fa0a;id=5021256</id>\r\n  <title type=\"text\"></title>\r\n  <updated>2013-12-19T03:54:54Z</updated>\r\n  <content type=\"application/xml\">\r\n    <NamespaceDescription xmlns=\"http://schemas.microsoft.com/netservices/2010/10/servicebus/connect\" xmlns:i=\"http://www.w3.org/2001/XMLSchema-instance\">\r\n      <Name>onesdk7229</Name>\r\n      <Region>East Asia</Region>\r\n      <Status>Activating</Status>\r\n      <CreatedAt>2013-12-19T03:53:15.54Z</CreatedAt>\r\n      <AcsManagementEndpoint>https://onesdk7229-sb.accesscontrol.windows.net/</AcsManagementEndpoint>\r\n      <ServiceBusEndpoint>https://onesdk7229.servicebus.windows.net/</ServiceBusEndpoint>\r\n      <SubscriptionId>2c224e7e3ef5431da57be71f4662e3a6</SubscriptionId>\r\n      <Enabled>true</Enabled>\r\n      <UpdatedAt>2013-12-19T03:53:15.54Z</UpdatedAt>\r\n    </NamespaceDescription>\r\n  </content>\r\n</entry>",
+    "ResponseHeaders": {
+      "x-ms-servedbyregion": [
+        "ussouth"
+      ],
+      "Server-SB": [
+        "Service-Bus-Resource-Provider/SN1"
+      ],
+      "x-ms-request-id": [
+        "56cdbf5223055d459fdc7f559bdb6ad3"
+      ],
+      "Cache-Control": [
+        "no-cache"
+      ],
+      "Date": [
+        "Thu, 19 Dec 2013 03:54:54 GMT"
+      ],
+      "Server": [
+        "1.0.6198.37",
+        "(rd_rdfe_stable.131213-1504)",
+        "Microsoft-HTTPAPI/2.0"
+      ]
+    },
+    "StatusCode": 200
+  },
+  {
+    "RequestUri": "https://management.core.windows.net//2c224e7e-3ef5-431d-a57b-e71f4662e3a6/services/servicebus/namespaces/onesdk7229",
+    "RequestMethod": "GET",
+    "RequestBody": "",
+    "RequestHeaders": {
+      "Accept": [
+        "application/atom+xml"
+      ],
+      "x-ms-version": [
+        "2013-08-01"
+      ],
+      "User-Agent": [
+        "Microsoft.WindowsAzure.Management.ServiceBus.ServiceBusManagementClient/1.0.0.0",
+        "WindowsAzurePowershell/v0.7.2.1"
+      ]
+    },
+    "ResponseBody": "<entry xmlns=\"http://www.w3.org/2005/Atom\">\r\n  <id>uuid:4c70a3c5-c679-4c07-b48c-549a61d6fa0a;id=5021277</id>\r\n  <title type=\"text\"></title>\r\n  <updated>2013-12-19T03:55:00Z</updated>\r\n  <content type=\"application/xml\">\r\n    <NamespaceDescription xmlns=\"http://schemas.microsoft.com/netservices/2010/10/servicebus/connect\" xmlns:i=\"http://www.w3.org/2001/XMLSchema-instance\">\r\n      <Name>onesdk7229</Name>\r\n      <Region>East Asia</Region>\r\n      <Status>Activating</Status>\r\n      <CreatedAt>2013-12-19T03:53:15.54Z</CreatedAt>\r\n      <AcsManagementEndpoint>https://onesdk7229-sb.accesscontrol.windows.net/</AcsManagementEndpoint>\r\n      <ServiceBusEndpoint>https://onesdk7229.servicebus.windows.net/</ServiceBusEndpoint>\r\n      <SubscriptionId>2c224e7e3ef5431da57be71f4662e3a6</SubscriptionId>\r\n      <Enabled>true</Enabled>\r\n      <UpdatedAt>2013-12-19T03:53:15.54Z</UpdatedAt>\r\n    </NamespaceDescription>\r\n  </content>\r\n</entry>",
+    "ResponseHeaders": {
+      "x-ms-servedbyregion": [
+        "ussouth"
+      ],
+      "Server-SB": [
+        "Service-Bus-Resource-Provider/SN1"
+      ],
+      "x-ms-request-id": [
+        "5784f8a7218b5789bb8270590a7e9b88"
+      ],
+      "Cache-Control": [
+        "no-cache"
+      ],
+      "Date": [
+        "Thu, 19 Dec 2013 03:55:00 GMT"
+      ],
+      "Server": [
+        "1.0.6198.37",
+        "(rd_rdfe_stable.131213-1504)",
+        "Microsoft-HTTPAPI/2.0"
+      ]
+    },
+    "StatusCode": 200
+  },
+  {
+    "RequestUri": "https://management.core.windows.net//2c224e7e-3ef5-431d-a57b-e71f4662e3a6/services/servicebus/namespaces/onesdk7229",
+    "RequestMethod": "GET",
+    "RequestBody": "",
+    "RequestHeaders": {
+      "Accept": [
+        "application/atom+xml"
+      ],
+      "x-ms-version": [
+        "2013-08-01"
+      ],
+      "User-Agent": [
+        "Microsoft.WindowsAzure.Management.ServiceBus.ServiceBusManagementClient/1.0.0.0",
+        "WindowsAzurePowershell/v0.7.2.1"
+      ]
+    },
+    "ResponseBody": "<entry xmlns=\"http://www.w3.org/2005/Atom\">\r\n  <id>uuid:4c70a3c5-c679-4c07-b48c-549a61d6fa0a;id=5021322</id>\r\n  <title type=\"text\"></title>\r\n  <updated>2013-12-19T03:55:05Z</updated>\r\n  <content type=\"application/xml\">\r\n    <NamespaceDescription xmlns=\"http://schemas.microsoft.com/netservices/2010/10/servicebus/connect\" xmlns:i=\"http://www.w3.org/2001/XMLSchema-instance\">\r\n      <Name>onesdk7229</Name>\r\n      <Region>East Asia</Region>\r\n      <Status>Activating</Status>\r\n      <CreatedAt>2013-12-19T03:53:15.54Z</CreatedAt>\r\n      <AcsManagementEndpoint>https://onesdk7229-sb.accesscontrol.windows.net/</AcsManagementEndpoint>\r\n      <ServiceBusEndpoint>https://onesdk7229.servicebus.windows.net/</ServiceBusEndpoint>\r\n      <SubscriptionId>2c224e7e3ef5431da57be71f4662e3a6</SubscriptionId>\r\n      <Enabled>true</Enabled>\r\n      <UpdatedAt>2013-12-19T03:53:15.54Z</UpdatedAt>\r\n    </NamespaceDescription>\r\n  </content>\r\n</entry>",
+    "ResponseHeaders": {
+      "x-ms-servedbyregion": [
+        "ussouth"
+      ],
+      "Server-SB": [
+        "Service-Bus-Resource-Provider/SN1"
+      ],
+      "x-ms-request-id": [
+        "eeefe7b8286959979ea633feb3c8f5e4"
+      ],
+      "Cache-Control": [
+        "no-cache"
+      ],
+      "Date": [
+        "Thu, 19 Dec 2013 03:55:05 GMT"
+      ],
+      "Server": [
+        "1.0.6198.37",
+        "(rd_rdfe_stable.131213-1504)",
+        "Microsoft-HTTPAPI/2.0"
+      ]
+    },
+    "StatusCode": 200
+  },
+  {
+    "RequestUri": "https://management.core.windows.net//2c224e7e-3ef5-431d-a57b-e71f4662e3a6/services/servicebus/namespaces/onesdk7229",
+    "RequestMethod": "GET",
+    "RequestBody": "",
+    "RequestHeaders": {
+      "Accept": [
+        "application/atom+xml"
+      ],
+      "x-ms-version": [
+        "2013-08-01"
+      ],
+      "User-Agent": [
+        "Microsoft.WindowsAzure.Management.ServiceBus.ServiceBusManagementClient/1.0.0.0",
+        "WindowsAzurePowershell/v0.7.2.1"
+      ]
+    },
+    "ResponseBody": "<entry xmlns=\"http://www.w3.org/2005/Atom\">\r\n  <id>uuid:4c70a3c5-c679-4c07-b48c-549a61d6fa0a;id=5021335</id>\r\n  <title type=\"text\"></title>\r\n  <updated>2013-12-19T03:55:10Z</updated>\r\n  <content type=\"application/xml\">\r\n    <NamespaceDescription xmlns=\"http://schemas.microsoft.com/netservices/2010/10/servicebus/connect\" xmlns:i=\"http://www.w3.org/2001/XMLSchema-instance\">\r\n      <Name>onesdk7229</Name>\r\n      <Region>East Asia</Region>\r\n      <Status>Activating</Status>\r\n      <CreatedAt>2013-12-19T03:53:15.54Z</CreatedAt>\r\n      <AcsManagementEndpoint>https://onesdk7229-sb.accesscontrol.windows.net/</AcsManagementEndpoint>\r\n      <ServiceBusEndpoint>https://onesdk7229.servicebus.windows.net/</ServiceBusEndpoint>\r\n      <SubscriptionId>2c224e7e3ef5431da57be71f4662e3a6</SubscriptionId>\r\n      <Enabled>true</Enabled>\r\n      <UpdatedAt>2013-12-19T03:53:15.54Z</UpdatedAt>\r\n    </NamespaceDescription>\r\n  </content>\r\n</entry>",
+    "ResponseHeaders": {
+      "x-ms-servedbyregion": [
+        "ussouth"
+      ],
+      "Server-SB": [
+        "Service-Bus-Resource-Provider/SN1"
+      ],
+      "x-ms-request-id": [
+        "2cedabd127ab5bba98974637bdb7c45d"
+      ],
+      "Cache-Control": [
+        "no-cache"
+      ],
+      "Date": [
+        "Thu, 19 Dec 2013 03:55:10 GMT"
+      ],
+      "Server": [
+        "1.0.6198.37",
+        "(rd_rdfe_stable.131213-1504)",
+        "Microsoft-HTTPAPI/2.0"
+      ]
+    },
+    "StatusCode": 200
+  },
+  {
+    "RequestUri": "https://management.core.windows.net//2c224e7e-3ef5-431d-a57b-e71f4662e3a6/services/servicebus/namespaces/onesdk7229",
+    "RequestMethod": "GET",
+    "RequestBody": "",
+    "RequestHeaders": {
+      "Accept": [
+        "application/atom+xml"
+      ],
+      "x-ms-version": [
+        "2013-08-01"
+      ],
+      "User-Agent": [
+        "Microsoft.WindowsAzure.Management.ServiceBus.ServiceBusManagementClient/1.0.0.0",
+        "WindowsAzurePowershell/v0.7.2.1"
+      ]
+    },
+    "ResponseBody": "<entry xmlns=\"http://www.w3.org/2005/Atom\">\r\n  <id>uuid:4c70a3c5-c679-4c07-b48c-549a61d6fa0a;id=5021373</id>\r\n  <title type=\"text\"></title>\r\n  <updated>2013-12-19T03:55:18Z</updated>\r\n  <content type=\"application/xml\">\r\n    <NamespaceDescription xmlns=\"http://schemas.microsoft.com/netservices/2010/10/servicebus/connect\" xmlns:i=\"http://www.w3.org/2001/XMLSchema-instance\">\r\n      <Name>onesdk7229</Name>\r\n      <Region>East Asia</Region>\r\n      <Status>Activating</Status>\r\n      <CreatedAt>2013-12-19T03:53:15.54Z</CreatedAt>\r\n      <AcsManagementEndpoint>https://onesdk7229-sb.accesscontrol.windows.net/</AcsManagementEndpoint>\r\n      <ServiceBusEndpoint>https://onesdk7229.servicebus.windows.net/</ServiceBusEndpoint>\r\n      <SubscriptionId>2c224e7e3ef5431da57be71f4662e3a6</SubscriptionId>\r\n      <Enabled>true</Enabled>\r\n      <UpdatedAt>2013-12-19T03:53:15.54Z</UpdatedAt>\r\n    </NamespaceDescription>\r\n  </content>\r\n</entry>",
+    "ResponseHeaders": {
+      "x-ms-servedbyregion": [
+        "ussouth"
+      ],
+      "Server-SB": [
+        "Service-Bus-Resource-Provider/SN1"
+      ],
+      "x-ms-request-id": [
+        "a875ff25bd23550782cb0c37ee360ab5"
+      ],
+      "Cache-Control": [
+        "no-cache"
+      ],
+      "Date": [
+        "Thu, 19 Dec 2013 03:55:17 GMT"
+      ],
+      "Server": [
+        "1.0.6198.37",
+        "(rd_rdfe_stable.131213-1504)",
+        "Microsoft-HTTPAPI/2.0"
+      ]
+    },
+    "StatusCode": 200
+  },
+  {
+    "RequestUri": "https://management.core.windows.net//2c224e7e-3ef5-431d-a57b-e71f4662e3a6/services/servicebus/namespaces/onesdk7229",
+    "RequestMethod": "GET",
+    "RequestBody": "",
+    "RequestHeaders": {
+      "Accept": [
+        "application/atom+xml"
+      ],
+      "x-ms-version": [
+        "2013-08-01"
+      ],
+      "User-Agent": [
+        "Microsoft.WindowsAzure.Management.ServiceBus.ServiceBusManagementClient/1.0.0.0",
+        "WindowsAzurePowershell/v0.7.2.1"
+      ]
+    },
+    "ResponseBody": "<entry xmlns=\"http://www.w3.org/2005/Atom\">\r\n  <id>uuid:4c70a3c5-c679-4c07-b48c-549a61d6fa0a;id=5021385</id>\r\n  <title type=\"text\"></title>\r\n  <updated>2013-12-19T03:55:24Z</updated>\r\n  <content type=\"application/xml\">\r\n    <NamespaceDescription xmlns=\"http://schemas.microsoft.com/netservices/2010/10/servicebus/connect\" xmlns:i=\"http://www.w3.org/2001/XMLSchema-instance\">\r\n      <Name>onesdk7229</Name>\r\n      <Region>East Asia</Region>\r\n      <Status>Activating</Status>\r\n      <CreatedAt>2013-12-19T03:53:15.54Z</CreatedAt>\r\n      <AcsManagementEndpoint>https://onesdk7229-sb.accesscontrol.windows.net/</AcsManagementEndpoint>\r\n      <ServiceBusEndpoint>https://onesdk7229.servicebus.windows.net/</ServiceBusEndpoint>\r\n      <SubscriptionId>2c224e7e3ef5431da57be71f4662e3a6</SubscriptionId>\r\n      <Enabled>true</Enabled>\r\n      <UpdatedAt>2013-12-19T03:53:15.54Z</UpdatedAt>\r\n    </NamespaceDescription>\r\n  </content>\r\n</entry>",
+    "ResponseHeaders": {
+      "x-ms-servedbyregion": [
+        "ussouth"
+      ],
+      "Server-SB": [
+        "Service-Bus-Resource-Provider/SN1"
+      ],
+      "x-ms-request-id": [
+        "338344ac08485339bfcfb5525b46d783"
+      ],
+      "Cache-Control": [
+        "no-cache"
+      ],
+      "Date": [
+        "Thu, 19 Dec 2013 03:55:24 GMT"
+      ],
+      "Server": [
+        "1.0.6198.37",
+        "(rd_rdfe_stable.131213-1504)",
+        "Microsoft-HTTPAPI/2.0"
+      ]
+    },
+    "StatusCode": 200
+  },
+  {
+    "RequestUri": "https://management.core.windows.net//2c224e7e-3ef5-431d-a57b-e71f4662e3a6/services/servicebus/namespaces/onesdk7229",
+    "RequestMethod": "GET",
+    "RequestBody": "",
+    "RequestHeaders": {
+      "Accept": [
+        "application/atom+xml"
+      ],
+      "x-ms-version": [
+        "2013-08-01"
+      ],
+      "User-Agent": [
+        "Microsoft.WindowsAzure.Management.ServiceBus.ServiceBusManagementClient/1.0.0.0",
+        "WindowsAzurePowershell/v0.7.2.1"
+      ]
+    },
+    "ResponseBody": "<entry xmlns=\"http://www.w3.org/2005/Atom\">\r\n  <id>uuid:4c70a3c5-c679-4c07-b48c-549a61d6fa0a;id=5021404</id>\r\n  <title type=\"text\"></title>\r\n  <updated>2013-12-19T03:55:29Z</updated>\r\n  <content type=\"application/xml\">\r\n    <NamespaceDescription xmlns=\"http://schemas.microsoft.com/netservices/2010/10/servicebus/connect\" xmlns:i=\"http://www.w3.org/2001/XMLSchema-instance\">\r\n      <Name>onesdk7229</Name>\r\n      <Region>East Asia</Region>\r\n      <Status>Activating</Status>\r\n      <CreatedAt>2013-12-19T03:53:15.54Z</CreatedAt>\r\n      <AcsManagementEndpoint>https://onesdk7229-sb.accesscontrol.windows.net/</AcsManagementEndpoint>\r\n      <ServiceBusEndpoint>https://onesdk7229.servicebus.windows.net/</ServiceBusEndpoint>\r\n      <SubscriptionId>2c224e7e3ef5431da57be71f4662e3a6</SubscriptionId>\r\n      <Enabled>true</Enabled>\r\n      <UpdatedAt>2013-12-19T03:53:15.54Z</UpdatedAt>\r\n    </NamespaceDescription>\r\n  </content>\r\n</entry>",
+    "ResponseHeaders": {
+      "x-ms-servedbyregion": [
+        "ussouth"
+      ],
+      "Server-SB": [
+        "Service-Bus-Resource-Provider/SN1"
+      ],
+      "x-ms-request-id": [
+        "9fbecd4b21d453f18db2fd400b8abd39"
+      ],
+      "Cache-Control": [
+        "no-cache"
+      ],
+      "Date": [
+        "Thu, 19 Dec 2013 03:55:29 GMT"
+      ],
+      "Server": [
+        "1.0.6198.37",
+        "(rd_rdfe_stable.131213-1504)",
+        "Microsoft-HTTPAPI/2.0"
+      ]
+    },
+    "StatusCode": 200
+  },
+  {
+    "RequestUri": "https://management.core.windows.net//2c224e7e-3ef5-431d-a57b-e71f4662e3a6/services/servicebus/namespaces/onesdk7229",
+    "RequestMethod": "GET",
+    "RequestBody": "",
+    "RequestHeaders": {
+      "Accept": [
+        "application/atom+xml"
+      ],
+      "x-ms-version": [
+        "2013-08-01"
+      ],
+      "User-Agent": [
+        "Microsoft.WindowsAzure.Management.ServiceBus.ServiceBusManagementClient/1.0.0.0",
+        "WindowsAzurePowershell/v0.7.2.1"
+      ]
+    },
+    "ResponseBody": "<entry xmlns=\"http://www.w3.org/2005/Atom\">\r\n  <id>uuid:4c70a3c5-c679-4c07-b48c-549a61d6fa0a;id=5021419</id>\r\n  <title type=\"text\"></title>\r\n  <updated>2013-12-19T03:55:34Z</updated>\r\n  <content type=\"application/xml\">\r\n    <NamespaceDescription xmlns=\"http://schemas.microsoft.com/netservices/2010/10/servicebus/connect\" xmlns:i=\"http://www.w3.org/2001/XMLSchema-instance\">\r\n      <Name>onesdk7229</Name>\r\n      <Region>East Asia</Region>\r\n      <Status>Activating</Status>\r\n      <CreatedAt>2013-12-19T03:53:15.54Z</CreatedAt>\r\n      <AcsManagementEndpoint>https://onesdk7229-sb.accesscontrol.windows.net/</AcsManagementEndpoint>\r\n      <ServiceBusEndpoint>https://onesdk7229.servicebus.windows.net/</ServiceBusEndpoint>\r\n      <SubscriptionId>2c224e7e3ef5431da57be71f4662e3a6</SubscriptionId>\r\n      <Enabled>true</Enabled>\r\n      <UpdatedAt>2013-12-19T03:53:15.54Z</UpdatedAt>\r\n    </NamespaceDescription>\r\n  </content>\r\n</entry>",
+    "ResponseHeaders": {
+      "x-ms-servedbyregion": [
+        "ussouth"
+      ],
+      "Server-SB": [
+        "Service-Bus-Resource-Provider/SN1"
+      ],
+      "x-ms-request-id": [
+        "220607f14d4c5c01bf87c351023f024a"
+      ],
+      "Cache-Control": [
+        "no-cache"
+      ],
+      "Date": [
+        "Thu, 19 Dec 2013 03:55:34 GMT"
+      ],
+      "Server": [
+        "1.0.6198.37",
+        "(rd_rdfe_stable.131213-1504)",
+        "Microsoft-HTTPAPI/2.0"
+      ]
+    },
+    "StatusCode": 200
+  },
+  {
+    "RequestUri": "https://management.core.windows.net//2c224e7e-3ef5-431d-a57b-e71f4662e3a6/services/servicebus/namespaces/onesdk7229",
+    "RequestMethod": "GET",
+    "RequestBody": "",
+    "RequestHeaders": {
+      "Accept": [
+        "application/atom+xml"
+      ],
+      "x-ms-version": [
+        "2013-08-01"
+      ],
+      "User-Agent": [
+        "Microsoft.WindowsAzure.Management.ServiceBus.ServiceBusManagementClient/1.0.0.0",
+        "WindowsAzurePowershell/v0.7.2.1"
+      ]
+    },
+    "ResponseBody": "<entry xmlns=\"http://www.w3.org/2005/Atom\">\r\n  <id>uuid:4c70a3c5-c679-4c07-b48c-549a61d6fa0a;id=5021431</id>\r\n  <title type=\"text\"></title>\r\n  <updated>2013-12-19T03:55:41Z</updated>\r\n  <content type=\"application/xml\">\r\n    <NamespaceDescription xmlns=\"http://schemas.microsoft.com/netservices/2010/10/servicebus/connect\" xmlns:i=\"http://www.w3.org/2001/XMLSchema-instance\">\r\n      <Name>onesdk7229</Name>\r\n      <Region>East Asia</Region>\r\n      <Status>Activating</Status>\r\n      <CreatedAt>2013-12-19T03:53:15.54Z</CreatedAt>\r\n      <AcsManagementEndpoint>https://onesdk7229-sb.accesscontrol.windows.net/</AcsManagementEndpoint>\r\n      <ServiceBusEndpoint>https://onesdk7229.servicebus.windows.net/</ServiceBusEndpoint>\r\n      <SubscriptionId>2c224e7e3ef5431da57be71f4662e3a6</SubscriptionId>\r\n      <Enabled>true</Enabled>\r\n      <UpdatedAt>2013-12-19T03:53:15.54Z</UpdatedAt>\r\n    </NamespaceDescription>\r\n  </content>\r\n</entry>",
+    "ResponseHeaders": {
+      "x-ms-servedbyregion": [
+        "ussouth"
+      ],
+      "Server-SB": [
+        "Service-Bus-Resource-Provider/SN1"
+      ],
+      "x-ms-request-id": [
+        "581a0486970f5824aaa87a057abc449a"
+      ],
+      "Cache-Control": [
+        "no-cache"
+      ],
+      "Date": [
+        "Thu, 19 Dec 2013 03:55:42 GMT"
+      ],
+      "Server": [
+        "1.0.6198.37",
+        "(rd_rdfe_stable.131213-1504)",
+        "Microsoft-HTTPAPI/2.0"
+      ]
+    },
+    "StatusCode": 200
+  }
+]
