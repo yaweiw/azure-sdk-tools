@@ -1485,4 +1485,7 @@ Please follow these steps in the portal:
   <data name="WebProjectBuildFailTemplate" xml:space="preserve">
     <value>Cannot build the project successfully. Please see logs in {0}.</value>
   </data>
+  <data name="InvalidWebJobFile" xml:space="preserve">
+    <value>The web job file must have *.zip extension</value>
+  </data>
 </root>
