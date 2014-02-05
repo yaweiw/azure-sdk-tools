@@ -1018,7 +1018,7 @@ function Test-GettingWebsiteJobs
 	# Test gets specific job
 	$webjob = Get-AzureWebsiteJob -Name $webSiteName -JobType Triggered -JobName $job1
 	
-	Assert-AreEqual $job1 $webjob.Name
+	Assert-AreEqual $job1 $webjob.JobName
 
 	# Test fails with non-existing job
 	Assert-Throws { Get-AzureWebsiteJob -Name $webSiteName -JobType Triggered -JobName "foo" } "Not Found"
