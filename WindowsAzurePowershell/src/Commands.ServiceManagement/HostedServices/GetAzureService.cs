@@ -42,30 +42,28 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.HostedServices
 
             if (this.ServiceName != null)
             {
-                //TODO: https://github.com/WindowsAzure/azure-sdk-for-net-pr/issues/111
-                ExecuteClientActionNewSM(
-                    null,
+                ExecuteClientActionNewSM(null,
                     CommandRuntime.ToString(),
                     () => this.ComputeClient.HostedServices.Get(this.ServiceName),
-                    (operation, service) => new int[1].Select(i =>
-                                                                  {
-                                                                      var context = ContextFactory<HostedServiceGetResponse, HostedServiceDetailedContext>(service, operation);
-                                                                      Mapper.Map(service.Properties, context);
-                                                                      return context;
-                                                                  }));
+                    (operation, service) =>
+                    {
+                        var context = ContextFactory<HostedServiceGetResponse, HostedServiceDetailedContext>(service, operation);
+                        Mapper.Map(service.Properties, context);
+                        return context;
+                    });
             }
             else
             {
-                ExecuteClientActionNewSM(
-                    null,
+                ExecuteClientActionNewSM(null,
                     CommandRuntime.ToString(),
                     () => this.ComputeClient.HostedServices.List(),
-                    (operation, services) => services.HostedServices.Select(service =>
-                                                                                {
-                                                                                    var context = ContextFactory<HostedServiceListResponse.HostedService, HostedServiceDetailedContext>(service, operation);
-                                                                                    Mapper.Map(service.Properties, context);
-                                                                                    return context;
-                                                                                }));
+                    (operation, services) => services.HostedServices.Select(
+                        service =>
+                        {
+                            var context = ContextFactory<HostedServiceListResponse.HostedService, HostedServiceDetailedContext>(service, operation);
+                            Mapper.Map(service.Properties, context);
+                            return context;
+                        }));
             }
         }
     }
