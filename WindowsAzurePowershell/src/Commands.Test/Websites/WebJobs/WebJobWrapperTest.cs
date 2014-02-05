@@ -14,6 +14,7 @@
 
 namespace Microsoft.WindowsAzure.Commands.Test.Websites
 {
+    using System;
     using System.ComponentModel;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using Microsoft.WindowsAzure.Commands.Websites.WebJobs;
@@ -42,7 +43,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.Websites
             };
 
             // Test
-            WebJobWrapper wrapper = new WebJobWrapper(webJob);
+            PSWebJob wrapper = new PSWebJob(webJob);
 
             // Assert
             Assert.AreEqual(webJob.DetailedStatus, wrapper.DetailedStatus);
@@ -67,19 +68,51 @@ namespace Microsoft.WindowsAzure.Commands.Test.Websites
                 Type = WebJobType.Triggered,
             };
 
-            string newJobName = "My Job Name";
-            WebJobType newJobType = WebJobType.Triggered;
+            string jobName = "My Job Name";
+            WebJobType jobType = WebJobType.Triggered;
+            string detailedStatus = "some details";
+            string extraInfoUrl = "an extra info url";
+            string historyUrl = "a history url";
+            WebJobRun latestRun = new WebJobRun();
+            string logUrl = "a log url";
+            string status = "my web job status";
+            string runCommand = "my run command";
+            Uri url = new System.Uri("http://myWebJobUrl");
 
             // Test
-            WebJobWrapper wrapper = new WebJobWrapper(webJob);
-            wrapper.JobType = newJobType;
-            wrapper.JobName = newJobName;
+            PSWebJob wrapper = new PSWebJob(webJob);
+            wrapper.JobType = jobType;
+            wrapper.JobName = jobName;
+            wrapper.DetailedStatus = detailedStatus;
+            wrapper.ExtraInfoUrl = extraInfoUrl;
+            wrapper.HistoryUrl = historyUrl;
+            wrapper.LatestRun = latestRun;
+            wrapper.LogUrl = logUrl;
+            wrapper.Status = status;
+            wrapper.RunCommand = runCommand;
+            wrapper.Url = url;
 
             // Assert
-            Assert.AreEqual(newJobName, wrapper.JobName);
-            Assert.AreEqual(newJobName, webJob.Name);
-            Assert.AreEqual(newJobType, wrapper.JobType);
-            Assert.AreEqual(newJobType, webJob.Type);
+            Assert.AreEqual(jobName, wrapper.JobName);
+            Assert.AreEqual(jobType, wrapper.JobType);
+            Assert.AreEqual(detailedStatus, wrapper.DetailedStatus);
+            Assert.AreEqual(extraInfoUrl, wrapper.ExtraInfoUrl);
+            Assert.AreEqual(historyUrl, wrapper.HistoryUrl);
+            Assert.AreEqual(latestRun, wrapper.LatestRun);
+            Assert.AreEqual(logUrl, wrapper.LogUrl);
+            Assert.AreEqual(status, wrapper.Status);
+            Assert.AreEqual(runCommand, wrapper.RunCommand);
+            Assert.AreEqual(url, wrapper.Url);
+            Assert.AreEqual(jobName, webJob.Name);
+            Assert.AreEqual(jobType, webJob.Type);
+            Assert.AreEqual(detailedStatus, webJob.DetailedStatus);
+            Assert.AreEqual(extraInfoUrl, webJob.ExtraInfoUrl);
+            Assert.AreEqual(historyUrl, webJob.HistoryUrl);
+            Assert.AreEqual(latestRun, webJob.LatestRun);
+            Assert.AreEqual(logUrl, webJob.LogUrl);
+            Assert.AreEqual(status, webJob.Status);
+            Assert.AreEqual(runCommand, webJob.RunCommand);
+            Assert.AreEqual(url, webJob.Url);
         }
 
         [TestMethod]
@@ -87,7 +120,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.Websites
         {
             // Setup & Test
             int webJobPropertyNumber = TypeDescriptor.GetProperties(typeof(WebJob)).Count;
-            int webJobWrapperPropertyNumber = TypeDescriptor.GetProperties(typeof(WebJobWrapper)).Count;
+            int webJobWrapperPropertyNumber = TypeDescriptor.GetProperties(typeof(PSWebJob)).Count;
 
             // Assert
             Assert.AreEqual(webJobPropertyNumber, webJobWrapperPropertyNumber,

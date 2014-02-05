@@ -1264,7 +1264,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
         /// </summary>
         /// <param name="options">The web job filter options</param>
         /// <returns>The filtered web jobs list</returns>
-        public List<WebJobWrapper> FilterWebJobs(WebJobFilterOptions options)
+        public List<PSWebJob> FilterWebJobs(WebJobFilterOptions options)
         {
             options.Name = SetWebsiteName(options.Name, options.Slot);
             IWebSiteExtensionsClient client = GetWebSiteExtensionsClient(options.Name);
@@ -1320,10 +1320,10 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
                 }
             }
 
-            List<WebJobWrapper> result = new List<WebJobWrapper>();
+            List<PSWebJob> result = new List<PSWebJob>();
             foreach(WebJob job in jobList)
             {
-                result.Add(new WebJobWrapper(job));
+                result.Add(new PSWebJob(job));
             }
             return result;
         }
@@ -1337,7 +1337,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
         /// <param name="jobType">The web job type</param>
         /// <param name="jobFile">The web job file name</param>
         /// <param name="singleton">True if you only want the job to run in 1 instance of the web site</param>
-        public WebJobWrapper CreateWebJob(string name, string slot, string jobName, WebJobType jobType, string jobFile)
+        public PSWebJob CreateWebJob(string name, string slot, string jobName, WebJobType jobType, string jobFile)
         {
             WebJobFilterOptions options = new WebJobFilterOptions() { Name = name, Slot = slot, JobName = jobName, JobType = jobType.ToString() };
             name = SetWebsiteName(name, slot);
