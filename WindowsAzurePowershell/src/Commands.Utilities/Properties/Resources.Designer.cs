@@ -413,7 +413,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Properties {
         ///    &lt;dataCacheClient name=&quot;DefaultShimConfig&quot; useLegacyProtocol=&quot;false&quot;&gt;
         ///      &lt;autoDiscover isEnabled=&quot;true&quot; identifier=&quot;$RoleName$&quot; /&gt;
         ///    &lt;/dataCacheClient&gt;
-        ///  &lt;/dataCacheCl [rest of string was truncated]&quot;;.
+        ///  &lt;/da [rest of string was truncated]&quot;;.
         /// </summary>
         public static string CacheAutoDiscoveryConfig {
             get {
@@ -1603,6 +1603,15 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Properties {
         public static string InvalidInstancesCount {
             get {
                 return ResourceManager.GetString("InvalidInstancesCount", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to There was an error creating your webjob. Please make sure that the script is in the root folder of the zip file..
+        /// </summary>
+        public static string InvalidJobFile {
+            get {
+                return ResourceManager.GetString("InvalidJobFile", resourceCulture);
             }
         }
         
