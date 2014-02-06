@@ -12400,21 +12400,21 @@
         </maml:description>
         <command:parameterValue required="true" variableLength = "false" >String</command:parameterValue>
       </command:parameter>
-      <command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "true (ByPropertyName)">
+      <command:parameter required = "true" variableLength = "false" globbing = "false" pipelineInput = "true (ByPropertyName)">
         <maml:name>JobName</maml:name>
         <maml:description>
           <maml:para>The web job name</maml:para>
         </maml:description>
         <command:parameterValue required="true" variableLength = "false" >String</command:parameterValue>
       </command:parameter>
-      <command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "true (ByPropertyName)">
-        <maml:name>Type</maml:name>
+      <command:parameter required = "true" variableLength = "false" globbing = "false" pipelineInput = "true (ByPropertyName)">
+        <maml:name>JobType</maml:name>
         <maml:description>
           <maml:para>The web job type. Can be 'triggered' or 'continuous'</maml:para>
         </maml:description>
         <command:parameterValue required="true" variableLength = "false" >String</command:parameterValue>
       </command:parameter>
-      <command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "true (ByPropertyName)">
+      <command:parameter required = "true" variableLength = "false" globbing = "false" pipelineInput = "true (ByPropertyName)">
         <maml:name>JobFile</maml:name>
         <maml:description>
           <maml:para>The web job file</maml:para>
@@ -12569,15 +12569,15 @@
         </maml:description>
         <command:parameterValue required="true" variableLength = "false" >String</command:parameterValue>
       </command:parameter>
-      <command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "true (ByPropertyName)">
+      <command:parameter required = "true" variableLength = "false" globbing = "false" pipelineInput = "true (ByPropertyName)">
         <maml:name>JobName</maml:name>
         <maml:description>
           <maml:para>The web job name</maml:para>
         </maml:description>
         <command:parameterValue required="true" variableLength = "false" >String</command:parameterValue>
       </command:parameter>
-      <command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "true (ByPropertyName)">
-        <maml:name>Type</maml:name>
+      <command:parameter required = "true" variableLength = "false" globbing = "false" pipelineInput = "true (ByPropertyName)">
+        <maml:name>JobType</maml:name>
         <maml:description>
           <maml:para>The web job type. Can be 'triggered' or 'continuous'</maml:para>
         </maml:description>
@@ -12731,7 +12731,7 @@
         </maml:description>
         <command:parameterValue required="true" variableLength = "false" >String</command:parameterValue>
       </command:parameter>
-      <command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "true (ByPropertyName)">
+      <command:parameter required = "true" variableLength = "false" globbing = "false" pipelineInput = "true (ByPropertyName)">
         <maml:name>JobName</maml:name>
         <maml:description>
           <maml:para>The web job name</maml:para>
@@ -12900,15 +12900,15 @@
         </maml:description>
         <command:parameterValue required="true" variableLength = "false" >String</command:parameterValue>
       </command:parameter>
-      <command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "true (ByPropertyName)">
+      <command:parameter required = "true" variableLength = "false" globbing = "false" pipelineInput = "true (ByPropertyName)">
         <maml:name>JobName</maml:name>
         <maml:description>
           <maml:para>The web job name</maml:para>
         </maml:description>
         <command:parameterValue required="true" variableLength = "false" >String</command:parameterValue>
       </command:parameter>
-      <command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "true (ByPropertyName)">
-        <maml:name>Type</maml:name>
+      <command:parameter required = "true" variableLength = "false" globbing = "false" pipelineInput = "true (ByPropertyName)">
+        <maml:name>JobType</maml:name>
         <maml:description>
           <maml:para>The web job type. Can be 'triggered' or 'continuous'</maml:para>
         </maml:description>
@@ -13076,7 +13076,7 @@
         </maml:description>
         <command:parameterValue required="true" variableLength = "false" >String</command:parameterValue>
       </command:parameter>
-      <command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "true (ByPropertyName)">
+      <command:parameter required = "true" variableLength = "false" globbing = "false" pipelineInput = "true (ByPropertyName)">
         <maml:name>JobName</maml:name>
         <maml:description>
           <maml:para>The web job name</maml:para>
