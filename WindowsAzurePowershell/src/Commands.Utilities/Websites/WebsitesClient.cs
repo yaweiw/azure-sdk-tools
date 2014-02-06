@@ -38,12 +38,15 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
     using System.Linq;
     using System.Net;
     using System.Net.Http;
+    using System.Threading;
     using System.Web;
     using System.Xml.Linq;
     using Utilities.Common;
 
     public class WebsitesClient : IWebsitesClient
     {
+        private const int UploadJobWaitTime = 2000;
+
         private readonly CloudServiceClient cloudServiceClient;
 
         public static string SlotFormat = "{0}({1})";
@@ -1361,8 +1364,24 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
                 default:
                     break;
             }
+            PSWebJob webjob = null;
 
-            return FilterWebJobs(options).FirstOrDefault();
+            Thread.Sleep(UploadJobWaitTime);
+
+            try
+            {
+                webjob = FilterWebJobs(options).FirstOrDefault();
+            }
+            catch (CloudException e)
+            {
+                if (e.Response.StatusCode == HttpStatusCode.NotFound)
+	            {
+                    throw new ArgumentException(Resources.InvalidJobFile);
+	            }
+            }
+
+
+            return webjob;
         }
 
         /// <summary>
