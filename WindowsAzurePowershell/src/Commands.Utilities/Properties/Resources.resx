@@ -1539,4 +1539,7 @@ Please follow these steps in the portal:
   <data name="InvalidWebJobFile" xml:space="preserve">
     <value>The web job file must have *.zip extension</value>
   </data>
+  <data name="InvalidJobFile" xml:space="preserve">
+    <value>There was an error creating your webjob. Please make sure that the script is in the root folder of the zip file.</value>
+  </data>
 </root>
