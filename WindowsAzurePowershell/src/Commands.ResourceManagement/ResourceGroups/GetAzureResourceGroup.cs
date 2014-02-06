@@ -15,48 +15,23 @@
 using System.Collections;
 using System.Linq;
 using System.Management.Automation;
-using Microsoft.Azure.Commands.ResourceManagement.Entities;
+using Microsoft.Azure.Management.Resources.Models;
 
 namespace Microsoft.Azure.Commands.ResourceManagement.ResourceGroups
 {
     /// <summary>
     /// Creates a new resource group.
     /// </summary>
-    [Cmdlet(VerbsCommon.Get, "AzureResourceGroup"), OutputType(typeof(Group))]
+    [Cmdlet(VerbsCommon.Get, "AzureResourceGroup"), OutputType(typeof(ResourceGroup))]
     public class GetAzureResourceGroup : ResourceBaseCmdlet
     {
-        [Parameter(ParameterSetName = "name", 
-            Position = 0, Mandatory = true, ValueFromPipelineByPropertyName = true, HelpMessage = "The name of the resource group.")]
+        [Parameter(Mandatory = true, ValueFromPipelineByPropertyName = true, HelpMessage = "The name of the resource group.")]
         [ValidateNotNullOrEmpty]
-        public string Name
-        {
-            get;
-            set;
-        }
-
-        [Parameter(ParameterSetName = "tag", 
-            Position = 1, Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "Tags of the resource group.")]
-        public Hashtable Tag
-        {
-            get;
-            set;
-        }
-
+        public string Name {get; set;}
+        
         public override void ExecuteCmdlet()
         {
-            var groups = ResourceClient.GetResourceGroups(this);
-            if (groups != null)
-            {
-                var groupsList = groups.ToList();
-                if (groupsList.Count == 1)
-                {
-                    WriteObject(groupsList[0]);
-                }
-                else
-                {
-                    WriteObject(groupsList);
-                }
-            }
+            WriteObject(ResourceClient.GetResourceGroups(this));
         }
     }
 }

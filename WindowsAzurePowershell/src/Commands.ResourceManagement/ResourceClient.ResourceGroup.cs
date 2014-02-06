@@ -14,11 +14,8 @@
 
 using System;
 using System.IO;
-using System.Linq;
-using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.Serialization.Formatters;
-using Microsoft.Azure.Commands.ResourceManagement.Entities;
 using Microsoft.Azure.Commands.ResourceManagement.Properties;
 using Microsoft.Azure.Commands.ResourceManagement.ResourceGroups;
 using Microsoft.Azure.Management.Resources.Models;
@@ -33,7 +30,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement
     {
         private static string DeploymentTemplateStorageContainerName = "deployment-templates";
 
-        public Group CreateOrUpdateResourceGroup(NewAzureResourceGroup parameters)
+        public ResourceGroup CreateOrUpdateResourceGroup(NewAzureResourceGroup parameters)
         {
             // Validate that parameter group doesn't already exist
             if (ResourceManagementClient.ResourceGroups.Exists(parameters.Name).Exists)
@@ -70,8 +67,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement
                     ResourceManagementClient.ResourceGroups.CreateOrUpdate(parameters.Name,
                                                     new BasicResourceGroup
                                                         {
-                                                            Location = parameters.Location,
-                                                            Tags = parameters.Tag.ToFlatDictionary<string>()
+                                                            Location = parameters.Location
                                                         });
 
                 var templateDeployment = new BasicTemplateDeployment()
@@ -98,15 +94,12 @@ namespace Microsoft.Azure.Commands.ResourceManagement
                                                 Path.GetFileName(templateFilePath.ToString()),
                                                 templateDeployment);
 
-                var group = Group.CreateFromResultGroup(resourceGroupCreateOrUpdateResult.ResourceGroup);
-                return group;
+                return resourceGroupCreateOrUpdateResult.ResourceGroup;
             }
                 // Create just resource group
             else
             {
-                var resourceGroup = CreateResourceGroup(parameters);
-                var group = Group.CreateFromResultGroup(resourceGroup.ResourceGroup);
-                return group;
+                return CreateResourceGroup(parameters).ResourceGroup;
             }
         }
 
@@ -131,38 +124,22 @@ namespace Microsoft.Azure.Commands.ResourceManagement
             var result = ResourceManagementClient.ResourceGroups.CreateOrUpdate(parameters.Name,
                                                     new BasicResourceGroup
                                                         {
-                                                            Location = parameters.Location,
-                                                            Tags = parameters.Tag.ToFlatDictionary<string>()
+                                                            Location = parameters.Location
                                                         });
             return result;
         }
 
-        public IEnumerable<Group> GetResourceGroups(GetAzureResourceGroup parameters)
+        public IEnumerable<ResourceGroup> GetResourceGroups(GetAzureResourceGroup parameters)
         {
             // Get all resource groups
-            if (parameters.Name == null && parameters.Tag == null)
+            if (parameters.Name == null)
             {
-                return ResourceManagementClient.ResourceGroups.List(null).
-                    ResourceGroups.Select(Group.CreateFromResultGroup);
+                return ResourceManagementClient.ResourceGroups.List(null).ResourceGroups;
             }
             // Get one group by name 
             else if (parameters.Name != null)
             {
-                return new[] { Group.CreateFromResultGroup(ResourceManagementClient.ResourceGroups.Get(parameters.Name).ResourceGroup) };
-            }
-            // Get groups by tag
-            else if (parameters.Tag != null && parameters.Tag.Count > 0)
-            {
-                var resultGroups = new List<Group>();
-                foreach (DictionaryEntry entry in parameters.Tag)
-                {
-                    resultGroups.AddRange(ResourceManagementClient.ResourceGroups.List(new ResourceGroupListParameter
-                        {
-                            TagName = entry.Key as string,
-                            TagValue = entry.Value as string,
-                        }).ResourceGroups.Select(Group.CreateFromResultGroup));
-                }
-                return resultGroups;
+                return new[] { ResourceManagementClient.ResourceGroups.Get(parameters.Name).ResourceGroup };
             }
             return null;
         }

@@ -16,9 +16,6 @@ using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
-using Microsoft.Azure.Commands.Common;
-using Microsoft.Azure.Commands.Common.Test.Utilities.Common;
-using Microsoft.Azure.Commands.ResourceManagement.Entities;
 using Microsoft.Azure.Commands.ResourceManagement.ResourceGroups;
 using Microsoft.Azure.Management.Resources;
 using Microsoft.Azure.Management.Resources.Models;
@@ -120,7 +117,7 @@ namespace Commands.ResourceManagement.Test
                 SetupListAllReturnsThreeValues();
 
                 getAzureResourceGroup.ExecuteCmdlet();
-                var listOfGroups = _mockCommandRuntime.OutputPipeline[0] as List<Group>;
+                var listOfGroups = _mockCommandRuntime.OutputPipeline[0] as List<ResourceGroup>;
 
                 Assert.IsNotNull(listOfGroups);
                 Assert.AreEqual(2, listOfGroups.Count);
@@ -141,7 +138,7 @@ namespace Commands.ResourceManagement.Test
                 getAzureResourceGroup.Name = "foo";
 
                 getAzureResourceGroup.ExecuteCmdlet();
-                var pipelineValue = _mockCommandRuntime.OutputPipeline[0] as Group;
+                var pipelineValue = _mockCommandRuntime.OutputPipeline[0] as ResourceGroup;
 
                 Assert.IsNotNull(pipelineValue);
                 Assert.AreEqual("foo", pipelineValue.Name);
@@ -180,7 +177,7 @@ namespace Commands.ResourceManagement.Test
                 newAzureResourceGroup.Location = "WestUS";
 
                 newAzureResourceGroup.ExecuteCmdlet();
-                var listOfGroups = _mockCommandRuntime.OutputPipeline[0] as List<Group>;
+                var listOfGroups = _mockCommandRuntime.OutputPipeline[0] as List<ResourceGroup>;
 
                 Assert.IsNotNull(listOfGroups);
                 Assert.AreEqual(2, listOfGroups.Count);
