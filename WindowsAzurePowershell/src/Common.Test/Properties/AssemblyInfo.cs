@@ -20,11 +20,11 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyTitle("Windows Azure Powershell - Common Library")]
 [assembly: AssemblyCompany("Microsoft")]
 [assembly: AssemblyProduct("Windows Azure Powershell")]
-[assembly: AssemblyCopyright("Copyright © Microsoft 2014")]
+[assembly: AssemblyCopyright("Copyright © Microsoft")]
 
 [assembly: ComVisible(false)]
 [assembly: CLSCompliant(false)]
-[assembly: Guid("080bc9b8-3c00-4d0e-bec2-38d2fd0d7061")]
+[assembly: Guid("080bc9b8-3c00-4d0e-bec2-38d2fd0d")]
 [assembly: AssemblyVersion("0.7.2.1")]
 [assembly: AssemblyFileVersion("0.7.2.1")]
 #if SIGN
