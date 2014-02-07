@@ -24,7 +24,7 @@ using System.Runtime.InteropServices;
 
 [assembly: ComVisible(false)]
 [assembly: CLSCompliant(false)]
-[assembly: Guid("080bc9b8-3c00-4d0e-bec2-38d2fd0d")]
+[assembly: Guid("080bc9b8-3c00-4d0e-bec2-38d2fd0d7061")]
 [assembly: AssemblyVersion("0.7.2.1")]
 [assembly: AssemblyFileVersion("0.7.2.1")]
 #if SIGN
