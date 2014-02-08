@@ -55,13 +55,7 @@ namespace Commands.ResourceManagement.Test
                                                ResourceGroup = new ResourceGroup
                                                    {
                                                        Name = "foo",
-                                                       Location = "EastUS",
-                                                       Tags =
-                                                           new Dictionary<string, string>
-                                                               {
-                                                                   {"key1", "value1"},
-                                                                   {"key2", "value2"}
-                                                               }
+                                                       Location = "EastUS"
                                                    }
                                            }));
         }
@@ -84,24 +78,12 @@ namespace Commands.ResourceManagement.Test
                                                        new ResourceGroup
                                                            {
                                                                Name = "foo",
-                                                               Location = "EastUS",
-                                                               Tags =
-                                                                   new Dictionary<string, string>
-                                                                       {
-                                                                           {"key1", "value1"},
-                                                                           {"key2", "value2"}
-                                                                       }
+                                                               Location = "EastUS"
                                                            },
                                                        new ResourceGroup
                                                            {
                                                                Name = "bar",
-                                                               Location = "WestUS",
-                                                               Tags =
-                                                                   new Dictionary<string, string>
-                                                                       {
-                                                                           {"key1", "value2"},
-                                                                           {"key2", "value2"}
-                                                                       }
+                                                               Location = "WestUS"
                                                            }
                                                    }
                                            }));
