@@ -70,9 +70,9 @@ namespace Microsoft.Azure.Commands.ResourceManagement
                                                             Location = parameters.Location
                                                         });
 
-                var templateDeployment = new BasicTemplateDeployment()
+                var templateDeployment = new BasicDeployment()
                     {
-                        Mode = TemplateDeploymentMode.Incremental,
+                        Mode = DeploymentMode.Incremental,
                         TemplateLink = new TemplateLink
                             {
                                 Uri = templateFilePath
@@ -90,7 +90,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement
                     templateDeployment.Parameters = serializedParamDictionary;
                 }
                 
-                ResourceManagementClient.TemplateDeployments.Create(parameters.Name,
+                ResourceManagementClient.Deployments.Create(parameters.Name,
                                                 Path.GetFileName(templateFilePath.ToString()),
                                                 templateDeployment);
 
