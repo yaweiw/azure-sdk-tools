@@ -22,7 +22,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
     {
 
         public NewAzureVMCmdletInfo(string serviceName, PersistentVM[] vMs, string vnetName, DnsServer[] dnsSettings,
-            string serviceLabel, string serviceDescription, string deploymentLabel, string deploymentDescription, string location, string affinityGroup, string rsvIPName)
+            string serviceLabel, string serviceDescription, string deploymentLabel, string deploymentName, string location, string affinityGroup, string rsvIPName)
         {
             this.cmdletName = Utilities.NewAzureVMCmdletName;
 
@@ -53,9 +53,9 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
             {
                 this.cmdletParams.Add(new CmdletParam("DeploymentLabel", deploymentLabel));
             }
-            if (!string.IsNullOrEmpty(deploymentDescription))
+            if (!string.IsNullOrEmpty(deploymentName))
             {
-                this.cmdletParams.Add(new CmdletParam("DeploymentDescription", deploymentDescription));
+                this.cmdletParams.Add(new CmdletParam("DeploymentName", deploymentName));
             }
             if (!string.IsNullOrEmpty(location))
             {
