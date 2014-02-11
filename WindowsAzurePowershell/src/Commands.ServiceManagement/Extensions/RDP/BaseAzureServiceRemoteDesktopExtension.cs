@@ -35,8 +35,8 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Extensions
 
         protected void Initialize()
         {
-            ExtensionNameSpace = RDPExtensionNamespace;
-            ExtensionType = RDPExtensionType;
+            ProviderNamespace = RDPExtensionNamespace;
+            ExtensionName = RDPExtensionType;
 
             PublicConfigurationXmlTemplate = new XDocument(
                 new XDeclaration("1.0", "utf-8", null),
