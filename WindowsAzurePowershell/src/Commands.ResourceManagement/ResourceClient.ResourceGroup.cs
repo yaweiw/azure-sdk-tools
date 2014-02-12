@@ -30,7 +30,7 @@ namespace Microsoft.WindowsAzure.Commands.ResourceManagement
     {
         private static string DeploymentTemplateStorageContainerName = "deployment-templates";
 
-        public ResourceGroup CreateOrUpdateResourceGroup(NewAzureResourceGroup parameters)
+        public ResourceGroup CreateOrUpdateResourceGroup(CreateResourceGroupParameters parameters)
         {
             // Validate that parameter group doesn't already exist
             if (ResourceManagementClient.ResourceGroups.Exists(parameters.Name).Exists)
@@ -103,7 +103,7 @@ namespace Microsoft.WindowsAzure.Commands.ResourceManagement
             }
         }
 
-        private string GetStorageAccountNameOrThrowException(NewAzureResourceGroup parameters)
+        private string GetStorageAccountNameOrThrowException(CreateResourceGroupParameters parameters)
         {
             string subscriptionStorageAccountName = null;
             if (WindowsAzureProfile.Instance.CurrentSubscription != null)
@@ -119,7 +119,7 @@ namespace Microsoft.WindowsAzure.Commands.ResourceManagement
             return storageName;
         }
 
-        private ResourceGroupCreateOrUpdateResult CreateResourceGroup(NewAzureResourceGroup parameters)
+        private ResourceGroupCreateOrUpdateResult CreateResourceGroup(CreateResourceGroupParameters parameters)
         {
             var result = ResourceManagementClient.ResourceGroups.CreateOrUpdate(parameters.Name,
                 new BasicResourceGroup

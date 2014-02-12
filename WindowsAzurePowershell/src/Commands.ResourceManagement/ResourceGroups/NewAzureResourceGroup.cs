@@ -108,8 +108,7 @@ namespace Microsoft.WindowsAzure.Commands.ResourceManagement.ResourceGroups
 
         public override void ExecuteCmdlet()
         {
-            var group = ResourceClient.CreateOrUpdateResourceGroup(this);
-            WriteObject(group);
+            WriteObject(ResourceClient.CreateOrUpdateResourceGroup(new CreateResourceGroupParameters(MyInvocation.BoundParameters)));
         }
     }
 }
