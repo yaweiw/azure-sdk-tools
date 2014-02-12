@@ -293,21 +293,19 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService
         /// Starts azure emulator for this service.
         /// </summary>
         /// <remarks>This methods removes all deployments already in the emulator.</remarks>
-        /// <param name="launch">Switch to control opening a browser for web roles.</param>
+        /// <param name="launchBrowser">Switch to control opening a browser for web roles.</param>
         /// <param name="standardOutput">Output result from csrun.exe</param>
         /// <param name="standardError">Error result from csrun.exe</param>
-        [PermissionSet(SecurityAction.LinkDemand, Name = "FullTrust")]
-        public void StartEmulator(bool launch, out string standardOutput, out string standardError)
+        public void StartEmulator(bool launchBrowser, bool useEmulatorExpress, out string standardOutput, out string standardError)
         {
-            var runTool = new CsRun();
-            runTool.StartEmulator(Paths.LocalPackage, Paths.LocalConfiguration, launch, out standardOutput, out standardError);
+            var runTool = new CsRun(useEmulatorExpress);
+            runTool.StartEmulator(Paths.LocalPackage, Paths.LocalConfiguration, launchBrowser, out standardOutput, out standardError);
         }
 
-        [PermissionSet(SecurityAction.LinkDemand, Name = "FullTrust")]
-        public void StopEmulator(out string standardOutput, out string standardError)
+        public void StopEmulator()
         {
             var runTool = new CsRun();
-            runTool.StopEmulator(out standardOutput, out standardError);
+            runTool.StopEmulator();
         }
 
         public void ChangeServiceName(string newName, CloudProjectPathInfo paths)

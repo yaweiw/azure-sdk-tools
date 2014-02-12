@@ -27,8 +27,14 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService.AzureTools
     {
         public int DeploymentId { get; private set; }
         private string csrunPath;
+        private bool _useEmulatorExpress;
+        public CsRun(bool useEmulatorExpress)
+        {
+            _useEmulatorExpress = useEmulatorExpress;
+            csrunPath = Path.Combine(base.AzureEmulatorDirectory, Resources.CsRunExe);
+        }
 
-        public CsRun()
+        public CsRun() 
         {
             csrunPath = Path.Combine(base.AzureEmulatorDirectory, Resources.CsRunExe);
         }
@@ -46,7 +52,6 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService.AzureTools
         /// <param name="standardOutput">Standard output of deployment</param>
         /// <param name="standardError">Standard error of deployment</param>
         /// <returns>Deployment id associated with the deployment</returns>
-        [PermissionSet(SecurityAction.LinkDemand, Name = "FullTrust")]
         public int StartEmulator(string packagePath, string configPath, bool launch, out string standardOutput, out string standardError)
         {
             // Starts compute emulator.
@@ -69,45 +74,51 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService.AzureTools
             return DeploymentId;
         }
 
-        [PermissionSet(SecurityAction.LinkDemand, Name = "FullTrust")]
-        public void StopEmulator(out string standardOutput, out string standardError)
+        public void StopEmulator()
         {
-            StartCsRunProcess(Resources.CsRunStopEmulatorArg, out standardOutput, out standardError);
+            string standardOutput, standardError;
+            ProcessStartInfo pi = new ProcessStartInfo(csrunPath, Resources.CsRunStopEmulatorArg);
+            ProcessHelper.StartAndWaitForProcess(pi, out standardOutput, out standardError);
+
+            if (!string.IsNullOrEmpty(standardError))
+            {
+                throw new InvalidOperationException(
+                    string.Format(Resources.CsRun_StartCsRunProcess_UnexpectedFailure, standardError));
+            }
         }
 
-        [PermissionSet(SecurityAction.LinkDemand, Name = "FullTrust")]
         private void StartStorageEmulator(out string standardOutput, out string standardError)
         {
             StartCsRunProcess(Resources.CsRunStartStorageEmulatorArg, out standardOutput, out standardError);
         }
 
-        [PermissionSet(SecurityAction.LinkDemand, Name = "FullTrust")]
         private void StartComputeEmulator(out string standardOutput, out string standardError)
         {
             StartCsRunProcess(Resources.CsRunStartComputeEmulatorArg, out standardOutput, out standardError);
         }
 
-        [PermissionSet(SecurityAction.LinkDemand, Name = "FullTrust")]
         public void RemoveDeployment(int deploymentId, out string standardOutput, out string standardError)
         {
             StartCsRunProcess(string.Format(Resources.CsRunRemoveDeploymentArg, deploymentId), out standardOutput, out standardError);
         }
 
-        [PermissionSet(SecurityAction.LinkDemand, Name = "FullTrust")]
         public void RemoveAllDeployments(out string standardOutput, out string standardError)
         {
             StartCsRunProcess(Resources.CsRunRemoveAllDeploymentsArg, out standardOutput, out standardError);
         }
 
-        [PermissionSet(SecurityAction.LinkDemand, Name = "FullTrust")]
         public void UpdateDeployment(int deploymentId, string configPath, out string standardOutput, out string standardError)
         {
             StartCsRunProcess(string.Format(Resources.CsRunUpdateDeploymentArg, deploymentId, configPath), out standardOutput, out standardError);
         }
 
-        [PermissionSet(SecurityAction.LinkDemand, Name = "FullTrust")]
         private void StartCsRunProcess(string arguments, out string standardOutput, out string standardError)
         {
+            if (_useEmulatorExpress)
+            {
+                arguments += " /useemulatorexpress";
+            }
+
             ProcessStartInfo pi = new ProcessStartInfo(csrunPath, arguments);
             ProcessHelper.StartAndWaitForProcess(pi, out standardOutput, out standardError);
 
