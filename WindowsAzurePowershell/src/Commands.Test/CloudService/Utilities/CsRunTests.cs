@@ -34,17 +34,16 @@ namespace Microsoft.WindowsAzure.Commands.Test.CloudService.Utilities
         }
 
         [TestMethod]
-        public void StartEmulatorUsingExpressMode()
+        public void StartEmulatorUsingExpressMode_VerifyCommandLineArguments()
         {
             StartEmulatorCommonTest(true);
         }
 
         [TestMethod]
-        public void StartEmulatorUsingFullMode()
+        public void StartEmulatorUsingFullMode_VerifyCommandLineArguments()
         {
             StartEmulatorCommonTest(false);
         }
-
 
         private void StartEmulatorCommonTest(bool useEmulatorExpress)
         {
