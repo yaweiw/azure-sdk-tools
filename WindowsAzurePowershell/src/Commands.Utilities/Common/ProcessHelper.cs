@@ -23,13 +23,13 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
         public string StandardError { get; set;}
 
         [PermissionSet(SecurityAction.LinkDemand, Name = "FullTrust")]
-        internal static void Start(string target)
+        public static void Start(string target)
         {
             Process.Start(target);
         }
 
         [PermissionSet(SecurityAction.LinkDemand, Name = "FullTrust")]
-        internal static void StartAndWaitForProcess(ProcessStartInfo processInfo, out string standardOutput, out string standardError)
+        public static void StartAndWaitForProcess(ProcessStartInfo processInfo, out string standardOutput, out string standardError)
         {
             processInfo.CreateNoWindow = true;
             processInfo.UseShellExecute = false;
