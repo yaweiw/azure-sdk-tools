@@ -298,13 +298,13 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService
         /// <param name="standardError">Error result from csrun.exe</param>
         public void StartEmulator(bool launchBrowser, bool useEmulatorExpress, out string standardOutput, out string standardError)
         {
-            var runTool = new CsRun(useEmulatorExpress);
+            var runTool = new CsRun(useEmulatorExpress, (new AzureTool()).AzureEmulatorDirectory);
             runTool.StartEmulator(Paths.LocalPackage, Paths.LocalConfiguration, launchBrowser, out standardOutput, out standardError);
         }
 
         public void StopEmulator()
         {
-            var runTool = new CsRun();
+            var runTool = new CsRun((new AzureTool()).AzureEmulatorDirectory);
             runTool.StopEmulator();
         }
 

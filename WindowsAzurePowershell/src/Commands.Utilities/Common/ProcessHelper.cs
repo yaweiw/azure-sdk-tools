@@ -17,8 +17,11 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
     using System.Diagnostics;
     using System.Security.Permissions;
 
-    internal static class ProcessHelper
+    public class ProcessHelper
     {
+        public string StandardOutput { get; set;}
+        public string StandardError { get; set;}
+
         [PermissionSet(SecurityAction.LinkDemand, Name = "FullTrust")]
         internal static void Start(string target)
         {
@@ -37,6 +40,15 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
             p.WaitForExit();
             standardOutput = p.StandardOutput.ReadToEnd();
             standardError = p.StandardError.ReadToEnd();
+        }
+
+        public virtual void StartAndWaitForProcess(string command, string arguments)
+        {
+            ProcessStartInfo startInfo = new ProcessStartInfo(command, arguments);
+            string output, error;
+            StartAndWaitForProcess(startInfo, out output, out error);
+            StandardOutput = output;
+            StandardError = error;
         }
     }
 }
