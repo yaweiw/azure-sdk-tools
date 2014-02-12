@@ -108,7 +108,21 @@ namespace Microsoft.Azure.Commands.ResourceManagement.ResourceGroups
 
         public override void ExecuteCmdlet()
         {
-            WriteObject(ResourceClient.CreateOrUpdateResourceGroup(new CreateResourceGroupParameters(MyInvocation.BoundParameters)));
+            CreateResourceGroupParameters parameters = new CreateResourceGroupParameters()
+            {
+                Name = Name,
+                Location = Location,
+                DeploymentName = DeploymentName,
+                GalleryTemplateName = GalleryTemplateName,
+                TemplateFile = TemplateFile,
+                ParameterObject = ParameterObject,
+                TemplateVersion = TemplateVersion,
+                TemplateHash = TemplateHash,
+                TemplateHashAlgorithm = TemplateHashAlgorithm,
+                StorageAccountName = StorageAccountName,
+                Async = Async
+            };
+            WriteObject(ResourceClient.CreateOrUpdateResourceGroup(parameters));
         }
     }
 }

@@ -42,20 +42,5 @@ namespace Microsoft.Azure.Commands.ResourceManagement
         public string StorageAccountName { get; set; }
 
         public bool Async { get; set; }
-
-        public CreateResourceGroupParameters(Dictionary<string, object> dictionary)
-        {
-            Name = General.GetValue<string>(dictionary, "Name");
-            Location = General.GetValue<string>(dictionary, "Location");
-            DeploymentName = General.GetValue<string>(dictionary, "DeploymentName");
-            GalleryTemplateName = General.GetValue<string>(dictionary, "GalleryTemplateName");
-            TemplateFile = General.GetValue<string>(dictionary, "TemplateFile");
-            ParameterObject = General.GetValue<Hashtable>(dictionary, "ParameterObject");
-            TemplateVersion = General.GetValue<string>(dictionary, "TemplateVersion");
-            TemplateHash = General.GetValue<string>(dictionary, "TemplateHash");
-            TemplateHashAlgorithm = General.GetValue<string>(dictionary, "TemplateHashAlgorithm");
-            StorageAccountName = General.GetValue<string>(dictionary, "StorageAccountName");
-            Async = General.GetValue<bool>(dictionary, "Async");
-        }
     }
 }

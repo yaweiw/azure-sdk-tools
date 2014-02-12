@@ -977,16 +977,5 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
 
             Directory.CreateDirectory(dir);
         }
-
-        public static T GetValue<T>(Dictionary<string, object> dictionary, string key)
-        {
-            T value = default(T);
-            if (dictionary.ContainsKey(key))
-            {
-                value = (T)dictionary[key];
-            }
-
-            return value;
-        }
     }
 }
