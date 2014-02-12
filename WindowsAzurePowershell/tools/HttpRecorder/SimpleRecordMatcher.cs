@@ -12,9 +12,9 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-using Microsoft.Azure.Utilities.HttpRecorder;
+using Microsoft.WindowsAzure.Utilities.HttpRecorder;
 
-namespace Microsoft.WindowsAzure.Commands.Utilities.Common.HttpRecorder
+namespace Microsoft.WindowsAzure.Utilities.HttpRecorder
 {
     using System;
     using System.Collections.Generic;
