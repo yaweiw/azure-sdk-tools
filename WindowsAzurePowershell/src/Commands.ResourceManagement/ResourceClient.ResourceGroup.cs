@@ -65,10 +65,10 @@ namespace Microsoft.Azure.Commands.ResourceManagement
 
                 var resourceGroupCreateOrUpdateResult =
                     ResourceManagementClient.ResourceGroups.CreateOrUpdate(parameters.Name,
-                                                    new BasicResourceGroup
-                                                        {
-                                                            Location = parameters.Location
-                                                        });
+                    new BasicResourceGroup
+                        {
+                            Location = parameters.Location
+                        });
 
                 var templateDeployment = new BasicDeployment()
                     {
@@ -122,10 +122,10 @@ namespace Microsoft.Azure.Commands.ResourceManagement
         private ResourceGroupCreateOrUpdateResult CreateResourceGroup(NewAzureResourceGroup parameters)
         {
             var result = ResourceManagementClient.ResourceGroups.CreateOrUpdate(parameters.Name,
-                                                    new BasicResourceGroup
-                                                        {
-                                                            Location = parameters.Location
-                                                        });
+                new BasicResourceGroup
+                    {
+                        Location = parameters.Location
+                    });
             return result;
         }
 

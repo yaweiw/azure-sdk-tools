@@ -25,7 +25,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement.ResourceGroups
     [Cmdlet(VerbsCommon.Get, "AzureResourceGroup"), OutputType(typeof(ResourceGroup))]
     public class GetAzureResourceGroup : ResourceBaseCmdlet
     {
-        [Parameter(Mandatory = true, ValueFromPipelineByPropertyName = true, HelpMessage = "The name of the resource group.")]
+        [Parameter(Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "The name of the resource group.")]
         [ValidateNotNullOrEmpty]
         public string Name {get; set;}
         

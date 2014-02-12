@@ -337,7 +337,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
             }
         }
 
-        private void Load()
+        public void Load()
         {
             if (profileStore != null)
             {
