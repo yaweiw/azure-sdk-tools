@@ -33,7 +33,10 @@ namespace Microsoft.WindowsAzure.Commands.CloudService.Development
         [Alias("ln")]
         public SwitchParameter Launch { get; set; }
 
-        [PermissionSet(SecurityAction.LinkDemand, Name = "FullTrust")]
+        [Parameter(Mandatory = false)]
+        [ValidateSet(new string[] { "Full", "Express" }, IgnoreCase = true)]
+        public string Mode { get; set; }
+
         public CloudServiceProject StartAzureEmulatorProcess(string rootPath)
         {
             string standardOutput;
@@ -42,10 +45,12 @@ namespace Microsoft.WindowsAzure.Commands.CloudService.Development
             StringBuilder message = new StringBuilder();
             CloudServiceProject cloudServiceProject = new CloudServiceProject(rootPath ,null);
 
+            bool useEmulatorExpress = string.IsNullOrEmpty(Mode) || Mode == "Express";
+
             if (Directory.Exists(cloudServiceProject.Paths.LocalPackage))
             {
                 WriteVerbose(Resources.StopEmulatorMessage);
-                cloudServiceProject.StopEmulator(out standardOutput, out standardError);
+                cloudServiceProject.StopEmulator();
                 WriteVerbose(Resources.StoppedEmulatorMessage);
                 WriteVerbose(string.Format(Resources.RemovePackage, cloudServiceProject.Paths.LocalPackage));
                 Directory.Delete(cloudServiceProject.Paths.LocalPackage, true);
@@ -56,7 +61,7 @@ namespace Microsoft.WindowsAzure.Commands.CloudService.Development
             
             WriteVerbose(Resources.StartingEmulator);
             cloudServiceProject.ResolveRuntimePackageUrls();
-            cloudServiceProject.StartEmulator(Launch.ToBool(), out standardOutput, out standardError);
+            cloudServiceProject.StartEmulator(Launch.ToBool(), useEmulatorExpress, out standardOutput, out standardError);
             
             WriteVerbose(standardOutput);
             WriteVerbose(Resources.StartedEmulator);
