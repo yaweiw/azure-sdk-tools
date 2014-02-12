@@ -14,7 +14,7 @@
 
 using Microsoft.WindowsAzure.Commands.Utilities.Common;
 
-namespace Microsoft.Azure.Commands.ResourceManagement
+namespace Microsoft.WindowsAzure.Commands.ResourceManagement
 {
     public abstract class ResourceBaseCmdlet : CmdletWithSubscriptionBase
     {

@@ -17,7 +17,7 @@ using Microsoft.WindowsAzure.Commands.Utilities.Common;
 using Microsoft.WindowsAzure.Commands.Utilities.Common.Storage;
 using Microsoft.WindowsAzure.Management.Storage;
 
-namespace Microsoft.Azure.Commands.ResourceManagement
+namespace Microsoft.WindowsAzure.Commands.ResourceManagement
 {
     public partial class ResourceClient
     {

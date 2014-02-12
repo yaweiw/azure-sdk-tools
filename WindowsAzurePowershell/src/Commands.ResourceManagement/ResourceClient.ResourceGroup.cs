@@ -16,15 +16,15 @@ using System;
 using System.IO;
 using System.Collections.Generic;
 using System.Runtime.Serialization.Formatters;
-using Microsoft.Azure.Commands.ResourceManagement.Properties;
-using Microsoft.Azure.Commands.ResourceManagement.ResourceGroups;
+using Microsoft.WindowsAzure.Commands.ResourceManagement.Properties;
+using Microsoft.WindowsAzure.Commands.ResourceManagement.ResourceGroups;
 using Microsoft.Azure.Management.Resources.Models;
 using Microsoft.Azure.Management.Resources;
 using Microsoft.WindowsAzure.Commands.Utilities.Common;
 using Microsoft.WindowsAzure.Commands.Utilities.Common.Storage;
 using Newtonsoft.Json;
 
-namespace Microsoft.Azure.Commands.ResourceManagement
+namespace Microsoft.WindowsAzure.Commands.ResourceManagement
 {
     public partial class ResourceClient
     {
