@@ -15,13 +15,12 @@
 
 namespace Microsoft.WindowsAzure.Commands.ScenarioTest.Common
 {
-    using Utilities.Common;
-    using Utilities.Common.HttpRecorder;
     using System;
     using System.Collections.Generic;
     using VisualStudio.TestTools.UnitTesting;
-    using Azure.Utilities.HttpRecorder;
     using Commands.Common;
+    using Microsoft.WindowsAzure.Utilities.HttpRecorder;
+    using Microsoft.WindowsAzure.Commands.Utilities.Common;
 
     [TestClass]
     public class WindowsAzurePowerShellTest : PowerShellTest
@@ -29,6 +28,8 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.Common
         protected TestCredentialHelper credentials;
         
         protected string credentialFile;
+
+        protected string profileFile;
         
         protected List<HttpMockServer> mockServers;
 
@@ -44,6 +45,7 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.Common
         {
             this.credentials = new TestCredentialHelper(Environment.CurrentDirectory);
             this.credentialFile = TestCredentialHelper.DefaultCredentialFile;
+            this.profileFile = TestCredentialHelper.WindowsAzureProfileFile;
         }
 
         [TestInitialize]
@@ -52,7 +54,7 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.Common
             base.TestSetup();
             this.mockServers = new List<HttpMockServer>();
             WindowsAzureSubscription.OnClientCreated += OnClientCreated;
-            this.credentials.SetupPowerShellEnvironment(powershell, this.credentialFile);
+            this.credentials.SetupPowerShellEnvironment(powershell, this.credentialFile, this.profileFile);
             System.Net.ServicePointManager.ServerCertificateValidationCallback += (se, cert, chain, sslerror) =>
             {
                 return true;

@@ -16,7 +16,7 @@ using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Collections;
 
-namespace Microsoft.Azure.Utilities.HttpRecorder
+namespace Microsoft.WindowsAzure.Utilities.HttpRecorder
 {
     /// <summary>
     /// This data structure is used to record the asset names (like website name, etc..) 

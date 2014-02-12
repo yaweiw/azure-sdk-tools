@@ -331,7 +331,7 @@ function getAssetName
         }
     }
 	
-    $assetName = [Microsoft.WindowsAzure.Commands.Utilities.Common.HttpRecorder.HttpMockServer]::GetAssetName($testName, "onesdk")
+    $assetName = [Microsoft.WindowsAzure.Utilities.HttpRecorder.HttpMockServer]::GetAssetName($testName, "onesdk")
 
     return $assetName
 }
