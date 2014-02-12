@@ -8,7 +8,7 @@ using System.Text;
 using System.Xml.Linq;
 using Newtonsoft.Json;
 
-namespace Microsoft.Azure.Utilities.HttpRecorder
+namespace Microsoft.WindowsAzure.Utilities.HttpRecorder
 {
     public static class Utilities
     {
