@@ -15,6 +15,9 @@
 namespace Microsoft.WindowsAzure.Commands.Test.CloudService.Utilities
 {
     using Commands.Utilities.CloudService.AzureTools;
+    using Microsoft.WindowsAzure.Commands.Utilities.Common;
+    using Microsoft.WindowsAzure.Commands.Utilities.Properties;
+    using Moq;
     using Test.Utilities.Common;
     using VisualStudio.TestTools.UnitTesting;
 
@@ -28,6 +31,56 @@ namespace Microsoft.WindowsAzure.Commands.Test.CloudService.Utilities
             var output = CsRun.GetRoleInfoMessage(dummyEmulatorOutput);
             Assert.IsTrue(output.Contains("Role is running at http://127.0.0.1:81"));
             Assert.IsTrue(output.Contains("Role is running at tcp://127.0.0.1:8080"));
+        }
+
+        [TestMethod]
+        public void StartEmulatorUsingExpressMode()
+        {
+            StartEmulatorCommonTest(true);
+        }
+
+        [TestMethod]
+        public void StartEmulatorUsingFullMode()
+        {
+            StartEmulatorCommonTest(false);
+        }
+
+
+        private void StartEmulatorCommonTest(bool useEmulatorExpress)
+        {
+            // Setup
+            string testEmulatorFolder = @"C:\foo-bar";
+            string testPackagePath = @"c:\foo-bar\local_package.csx";
+            string testConfigPath = @"c:\foo-bar\ServiceConfiguration.Local.cscfg";
+            string expectedCsrunCommand = testEmulatorFolder + @"\" + Resources.CsRunExe;
+            string expectedComputeArguments = Resources.CsRunStartComputeEmulatorArg;
+            string expectedStorageArgument = Resources.CsRunStartStorageEmulatorArg;
+            string expectedRemoveAllDeploymentsArgument = Resources.CsRunRemoveAllDeploymentsArg;
+            string expectedAzureProjectArgument = string.Format(Resources.RunInEmulatorArguments,
+                testPackagePath, testConfigPath, Resources.CsRunLanuchBrowserArg);
+            if (useEmulatorExpress)
+            {
+                expectedComputeArguments += " " + Resources.CsRunEmulatorExpressArg;
+                expectedAzureProjectArgument += " " + Resources.CsRunEmulatorExpressArg;
+            }      
+      
+            string testOutput = "Role is running at tcp://127.0.0.1:8080";
+
+            CsRun csRun = new CsRun(useEmulatorExpress, testEmulatorFolder);
+            Mock<ProcessHelper> commandRunner = new Mock<ProcessHelper>();
+            commandRunner.Setup(p => p.StartAndWaitForProcess(expectedCsrunCommand, expectedComputeArguments));
+            commandRunner.Setup(p => p.StartAndWaitForProcess(expectedCsrunCommand, expectedStorageArgument));
+            commandRunner.Setup(p => p.StartAndWaitForProcess(expectedCsrunCommand, expectedRemoveAllDeploymentsArgument));
+            commandRunner.Setup(p => p.StartAndWaitForProcess(expectedCsrunCommand, expectedAzureProjectArgument))
+                .Callback(() => { commandRunner.Object.StandardOutput = testOutput; });
+
+            // Execute
+            csRun.CommandRunner = commandRunner.Object;
+            string output, error;
+            csRun.StartEmulator(testPackagePath, testConfigPath, true, out output, out error);
+
+            // Assert
+            commandRunner.VerifyAll();
         }
     }
 }
