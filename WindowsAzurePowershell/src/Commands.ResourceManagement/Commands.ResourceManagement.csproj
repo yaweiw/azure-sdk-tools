@@ -7,8 +7,8 @@
     <ProjectGuid>{E1F5201D-6067-430E-B303-4E367652991B}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Microsoft.WindowsAzure.Commands.ResourceManagement</RootNamespace>
-    <AssemblyName>Microsoft.WindowsAzure.Commands.ResourceManagement</AssemblyName>
+    <RootNamespace>Microsoft.Azure.Commands.ResourceManagement</RootNamespace>
+    <AssemblyName>Microsoft.Azure.Commands.ResourceManagement</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
@@ -197,9 +197,8 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Microsoft.WindowsAzure.Commands.ResourceManagement.format.ps1xml">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
+    <None Include="Microsoft.Azure.Commands.ResourceManagement.format.ps1xml" />
+    <None Include="MSSharedLibKey.snk" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>

@@ -17,7 +17,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Microsoft.WindowsAzure.Commands.ResourceManagement
+namespace Microsoft.Azure.Commands.ResourceManagement
 {
     public class CreateResourceGroupParameters
     {
