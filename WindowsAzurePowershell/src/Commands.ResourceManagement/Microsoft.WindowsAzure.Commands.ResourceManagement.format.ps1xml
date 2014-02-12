@@ -2,9 +2,9 @@
 <Configuration>
   <ViewDefinitions>
     <View>
-      <Name>Microsoft.Azure.Commands.ResourceManagement.Entities.Group</Name>
+      <Name>Microsoft.WindowsAzure.Commands.ResourceManagement.Entities.Group</Name>
       <ViewSelectedBy>
-        <TypeName>Microsoft.Azure.Commands.ResourceManagement.Entities.Group</TypeName>
+        <TypeName>Microsoft.WindowsAzure.Commands.ResourceManagement.Entities.Group</TypeName>
       </ViewSelectedBy>
       <ListControl>
         <ListEntries>
