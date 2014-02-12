@@ -29,12 +29,15 @@ namespace Microsoft.WindowsAzure.Commands.CloudService.Development
     [Cmdlet(VerbsLifecycle.Start, "AzureEmulator"), OutputType(typeof(CloudServiceProject))]
     public class StartAzureEmulatorCommand : CmdletBase
     {
+        private const string ExpressMode = "Express";
+        private const string FullMode = "Full";
+
         [Parameter(Mandatory = false)]
         [Alias("ln")]
         public SwitchParameter Launch { get; set; }
 
-        [Parameter(Mandatory = false)]
-        [ValidateSet(new string[] { "Full", "Express" }, IgnoreCase = true)]
+        [Parameter(Mandatory = false, HelpMessage="The emulator type")]
+        [ValidateSet(new string[] { ExpressMode, FullMode }, IgnoreCase = true)]
         public string Mode { get; set; }
 
         public CloudServiceProject StartAzureEmulatorProcess(string rootPath)
@@ -45,7 +48,7 @@ namespace Microsoft.WindowsAzure.Commands.CloudService.Development
             StringBuilder message = new StringBuilder();
             CloudServiceProject cloudServiceProject = new CloudServiceProject(rootPath ,null);
 
-            bool useEmulatorExpress = string.IsNullOrEmpty(Mode) || Mode == "Express";
+            bool useEmulatorExpress = string.IsNullOrEmpty(Mode) || Mode == ExpressMode;
 
             if (Directory.Exists(cloudServiceProject.Paths.LocalPackage))
             {
@@ -73,7 +76,6 @@ namespace Microsoft.WindowsAzure.Commands.CloudService.Development
             return cloudServiceProject;
         }
 
-        [PermissionSet(SecurityAction.Demand, Name = "FullTrust")]
         public override void ExecuteCmdlet()
         {
             AzureTool.Validate();
