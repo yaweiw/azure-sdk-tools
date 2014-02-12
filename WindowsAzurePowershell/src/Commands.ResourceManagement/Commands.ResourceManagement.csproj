@@ -197,7 +197,9 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Microsoft.Azure.Commands.ResourceManagement.format.ps1xml" />
+    <Content Include="Microsoft.Azure.Commands.ResourceManagement.format.ps1xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <None Include="MSSharedLibKey.snk" />
     <None Include="packages.config" />
   </ItemGroup>
