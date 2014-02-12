@@ -16,7 +16,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
-using Microsoft.WindowsAzure.Commands.ResourceManagement.ResourceGroups;
+using Microsoft.Azure.Commands.ResourceManagement.ResourceGroups;
 using Microsoft.Azure.Management.Resources;
 using Microsoft.Azure.Management.Resources.Models;
 using Microsoft.VisualStudio.TestTools.UnitTesting;

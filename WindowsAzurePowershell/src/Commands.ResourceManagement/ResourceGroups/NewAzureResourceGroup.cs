@@ -18,7 +18,7 @@ using System.Management.Automation;
 using Microsoft.Azure.Management.Resources.Models;
 using Microsoft.WindowsAzure;
 
-namespace Microsoft.WindowsAzure.Commands.ResourceManagement.ResourceGroups
+namespace Microsoft.Azure.Commands.ResourceManagement.ResourceGroups
 {
     /// <summary>
     /// Creates a new resource group.
