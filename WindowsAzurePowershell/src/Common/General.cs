@@ -15,8 +15,8 @@
 namespace Microsoft.WindowsAzure.Commands.Utilities.Common
 {
     using CloudService;
-    using Newtonsoft.Json;
     using Commands.Common.Properties;
+    using Newtonsoft.Json;
     using System;
     using System.Collections.Generic;
     using System.Diagnostics;
@@ -25,19 +25,19 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
     using System.IO;
     using System.Linq;
     using System.Net;
+    using System.Net.Http;
     using System.Net.Http.Headers;
     using System.Reflection;
     using System.Security.Cryptography.X509Certificates;
     using System.Security.Permissions;
     using System.ServiceModel.Channels;
     using System.Text;
+    using System.Web.Script.Serialization;
     using System.Xml;
     using System.Xml.Linq;
     using System.Xml.Serialization;
     using XmlSchema.ServiceConfigurationSchema;
     using JsonFormatting = Newtonsoft.Json.Formatting;
-    using System.Net.Http;
-    using System.Web.Script.Serialization;
 
     public static class General
     {
@@ -976,6 +976,17 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
             }
 
             Directory.CreateDirectory(dir);
+        }
+
+        public static T GetValue<T>(Dictionary<string, object> dictionary, string key)
+        {
+            T value = default(T);
+            if (dictionary.ContainsKey(key))
+            {
+                value = (T)dictionary[key];
+            }
+
+            return value;
         }
     }
 }
