@@ -405,7 +405,7 @@
     DependsOnTargets="Clean;BuildDebug;BuildReleaseSigned;Test;BuildSetupDebug;BuildSetup;RunOneSDKCIT" />
 
   <!-- Build the Cmdlets in ReleaseSigned configuration -->
-  <Target Name="BuildReleaseSigned">
+  <Target Name="BuildReleaseSigned" DependsOnTargets="ForceRestorePackages">
     <Message Importance="high" Text="Building Cmdlets in ReleaseSigned config..." />
     <MSBuild
       Projects="@(CmdletSln)"
@@ -415,7 +415,7 @@
   </Target>
 
   <!-- Build the Cmdlets in Debug configuration -->
-  <Target Name="BuildDebug">
+  <Target Name="BuildDebug" DependsOnTargets="ForceRestorePackages">
     <Message Importance="high" Text="Building Cmdlets in Debug config..." />
     <MSBuild
       Projects="@(CmdletSln)"
