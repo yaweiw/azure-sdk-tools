@@ -182,7 +182,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
                 throw new InvalidOperationException(string.Format(Resources.InvalidManagementClientType, typeof(TClient).Name));
             }
 
-            TClient client = (TClient)constructor.Invoke(new object[] { credential, ServiceEndpoint });
+            TClient client = (TClient)constructor.Invoke(new object[] { credential, endpoint });
             client.UserAgent.Add(ApiConstants.UserAgentValue);
             EventHandler<ClientCreatedArgs> clientCreatedHandler = OnClientCreated;
             if (clientCreatedHandler != null)

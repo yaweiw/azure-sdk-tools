@@ -12,7 +12,7 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Commands.Utilities.Common.HttpRecorder
+namespace Microsoft.WindowsAzure.Utilities.HttpRecorder
 {
     /// <summary>
     /// Enum that holds possible modes for the http recorder.

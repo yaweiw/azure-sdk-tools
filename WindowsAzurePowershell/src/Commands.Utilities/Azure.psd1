@@ -68,13 +68,15 @@ FormatsToProcess = @(
     'Microsoft.WindowsAzure.Commands.CloudService.format.ps1xml',
     'Microsoft.WindowsAzure.Commands.ServiceBus.format.ps1xml',
     'Microsoft.WindowsAzure.Commands.Storage.format.ps1xml',
-    'Microsoft.WindowsAzure.Commands.Store.format.ps1xml'
+    'Microsoft.WindowsAzure.Commands.Store.format.ps1xml',
+    'Microsoft.Azure.Commands.ResourceManagement.format.ps1xml'
 )
 
 # Modules to import as nested modules of the module specified in ModuleToProcess
 NestedModules = '.\Microsoft.WindowsAzure.Commands.SqlDatabase.dll',
                 '.\Microsoft.WindowsAzure.Commands.ServiceManagement.dll',
-                '.\Microsoft.WindowsAzure.Commands.Storage.dll'
+                '.\Microsoft.WindowsAzure.Commands.Storage.dll',
+                '.\Microsoft.Azure.Commands.ResourceManagement.dll'
 
 # Functions to export from this module
 FunctionsToExport = '*'
