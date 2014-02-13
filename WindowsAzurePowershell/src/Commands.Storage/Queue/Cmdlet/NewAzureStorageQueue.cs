@@ -14,11 +14,11 @@
 
 namespace Microsoft.WindowsAzure.Commands.Storage.Queue
 {
-    using Common;
-    using Microsoft.WindowsAzure.Storage.Queue;
     using System;
     using System.Management.Automation;
     using System.Security.Permissions;
+    using Common;
+    using Microsoft.WindowsAzure.Storage.Queue;
     using Model.Contract;
     using Model.ResourceModel;
 
@@ -61,7 +61,7 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Queue
                 throw new ArgumentException(String.Format(Resources.InvalidQueueName, name));
             }
 
-            QueueRequestOptions requestOptions = null;
+            QueueRequestOptions requestOptions = RequestOptions;
             CloudQueue queue = Channel.GetQueueReference(name);
             bool created = Channel.CreateQueueIfNotExists(queue, requestOptions, OperationContext);
 

@@ -34,10 +34,10 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
             }
         }
 
-        public AddAzureVMImageCmdletInfo(string imageName, string mediaLocation, OS os, string label, InstanceSize? recommendedSize)
+        public AddAzureVMImageCmdletInfo(string imageName, string mediaLocation, OS os, string label, string recommendedSize)
             : this(imageName, mediaLocation, os, label)
         {
-            if (recommendedSize.HasValue)
+            if (!string.IsNullOrEmpty(recommendedSize))
             {
                 cmdletParams.Add(new CmdletParam("RecommendedVMSize", recommendedSize));
             }
@@ -48,7 +48,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
             string mediaLocation,
             OS os,
             string label,
-            InstanceSize? recommendedSize,
+            string recommendedSize,
             string description,
             string eula,
             string imageFamily,

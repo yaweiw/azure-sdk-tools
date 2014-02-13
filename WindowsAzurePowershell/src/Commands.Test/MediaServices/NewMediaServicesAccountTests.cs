@@ -52,9 +52,11 @@ namespace Microsoft.WindowsAzure.Commands.Test.MediaServices
             clientMock.Setup(f => f.CreateNewAzureMediaServiceAsync(It.Is<MediaServicesAccountCreateParameters>(creationRequest => request.AccountName == accountName))).Returns(
                 Task.Factory.StartNew(() => new MediaServicesAccountCreateResponse
                 {
-                    AccountId = Guid.NewGuid().ToString(),
-                    AccountName = request.AccountName,
-                    SubscriptionId = Guid.NewGuid().ToString()
+                    Account = new MediaServicesCreatedAccount {
+                        AccountId = Guid.NewGuid().ToString(),
+                        AccountName = request.AccountName,
+                        SubscriptionId = Guid.NewGuid().ToString()
+                   }
                 }));
 
 

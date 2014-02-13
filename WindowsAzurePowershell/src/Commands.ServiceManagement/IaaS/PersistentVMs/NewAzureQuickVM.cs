@@ -121,7 +121,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.PersistentVMs
 
         [Parameter(Mandatory = false, ParameterSetName = "Windows", HelpMessage = "Set of certificates to install in the VM.")]
         [ValidateNotNullOrEmpty]
-        public Microsoft.WindowsAzure.Commands.ServiceManagement.Model.PersistentVMModel.CertificateSettingList Certificates
+        public Model.PersistentVMModel.CertificateSettingList Certificates
         {
             get;
             set;
@@ -184,14 +184,14 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.PersistentVMs
         }
 
         [Parameter(Mandatory = false, ParameterSetName = "Linux", HelpMessage = "SSH Public Key List")]
-        public Microsoft.WindowsAzure.Commands.ServiceManagement.Model.PersistentVMModel.LinuxProvisioningConfigurationSet.SSHPublicKeyList SSHPublicKeys
+        public Model.PersistentVMModel.LinuxProvisioningConfigurationSet.SSHPublicKeyList SSHPublicKeys
         {
             get;
             set;
         }
 
         [Parameter(Mandatory = false, ParameterSetName = "Linux", HelpMessage = "SSH Key Pairs")]
-        public Microsoft.WindowsAzure.Commands.ServiceManagement.Model.PersistentVMModel.LinuxProvisioningConfigurationSet.SSHKeyPairList SSHKeyPairs
+        public Model.PersistentVMModel.LinuxProvisioningConfigurationSet.SSHKeyPairList SSHKeyPairs
         {
             get;
             set;
@@ -215,7 +215,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.PersistentVMs
 
         [Parameter(HelpMessage = "DNS Settings for Deployment.")]
         [ValidateNotNullOrEmpty]
-        public Microsoft.WindowsAzure.Commands.ServiceManagement.Model.PersistentVMModel.DnsServer[] DnsSettings
+        public Model.PersistentVMModel.DnsServer[] DnsSettings
         {
             get;
             set;
@@ -237,8 +237,8 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.PersistentVMs
             set;
         }
 
-        [Parameter(HelpMessage = "Represents the size of the machine.")]
-        [ValidateSet("ExtraSmall", "Small", "Medium", "Large", "ExtraLarge", "A5", "A6", "A7", IgnoreCase = true)]
+        [Parameter(ValueFromPipelineByPropertyName = true, HelpMessage = "Represents the size of the machine.")]
+        [ValidateNotNullOrEmpty]
         public string InstanceSize
         {
             get;
@@ -305,6 +305,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.PersistentVMs
                         Description = String.Format("Implicitly created hosted service{0}", DateTime.Now.ToUniversalTime().ToString("yyyy-MM-dd HH:mm")),
                         Label = this.ServiceName
                     };
+
                     ExecuteClientActionNewSM(
                         parameter,
                         CommandRuntime + Resources.QuickVMCreateCloudService,
@@ -413,7 +414,6 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.PersistentVMs
                 }
             }
 
-
             // Only create the VM when a new VM was added and it was not created during the deployment phase.
             if ((_createdDeployment == false))
             {
@@ -427,6 +427,8 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.PersistentVMs
                         OSVirtualHardDisk = Mapper.Map(vm.OSVirtualHardDisk, new Management.Compute.Models.OSVirtualHardDisk()),
                         RoleName = vm.RoleName,
                         RoleSize = vm.RoleSize,
+                        ResourceExtensionReferences = null,
+                        ProvisionGuestAgent = true
                     };
 
                     vm.DataVirtualHardDisks.ForEach(c => parameter.DataVirtualHardDisks.Add(c));
@@ -456,8 +458,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.PersistentVMs
             {
                 AvailabilitySetName = AvailabilitySetName,
                 RoleName = String.IsNullOrEmpty(Name) ? ServiceName : Name, // default like the portal
-                RoleSize = string.IsNullOrEmpty(InstanceSize) ? null :
-                           (VirtualMachineRoleSize?)Enum.Parse(typeof(VirtualMachineRoleSize), InstanceSize, true),
+                RoleSize = InstanceSize,
                 RoleType = "PersistentVMRole",
                 Label = ServiceName,
                 OSVirtualHardDisk = Mapper.Map(new OSVirtualHardDisk
@@ -466,7 +467,9 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.PersistentVMs
                     SourceImageName = ImageName,
                     MediaLink = string.IsNullOrEmpty(MediaLocation) ? null : new Uri(MediaLocation),
                     HostCaching = HostCaching
-                }, new Management.Compute.Models.OSVirtualHardDisk())
+                }, new Management.Compute.Models.OSVirtualHardDisk()),
+                ResourceExtensionReferences = null,
+                ProvisionGuestAgent = true
             };
 
             if (vm.OSVirtualHardDisk.MediaLink == null && String.IsNullOrEmpty(vm.OSVirtualHardDisk.DiskName))
@@ -534,21 +537,26 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.PersistentVMs
             return vm;
         }
 
-        private Microsoft.WindowsAzure.Commands.ServiceManagement.Model.PersistentVMModel.NetworkConfigurationSet CreateNetworkConfigurationSet()
+        private Model.PersistentVMModel.NetworkConfigurationSet CreateNetworkConfigurationSet()
         {
-            var netConfig = new Microsoft.WindowsAzure.Commands.ServiceManagement.Model.PersistentVMModel.NetworkConfigurationSet {InputEndpoints = new Collection<InputEndpoint>()};
+            var netConfig = new Model.PersistentVMModel.NetworkConfigurationSet
+            {
+                InputEndpoints = new Collection<InputEndpoint>()
+            };
+
             if (SubnetNames != null)
             {
-                netConfig.SubnetNames = new Microsoft.WindowsAzure.Commands.ServiceManagement.Model.PersistentVMModel.SubnetNamesCollection();
+                netConfig.SubnetNames = new Model.PersistentVMModel.SubnetNamesCollection();
                 foreach (var subnet in SubnetNames)
                 {
                     netConfig.SubnetNames.Add(subnet);
                 }
             }
+
             return netConfig;
         }
 
-        private Microsoft.WindowsAzure.Commands.ServiceManagement.Model.PersistentVMModel.WindowsProvisioningConfigurationSet.WinRmConfiguration GetWinRmConfiguration()
+        private Model.PersistentVMModel.WindowsProvisioningConfigurationSet.WinRmConfiguration GetWinRmConfiguration()
         {
             if(this.DisableWinRMHttps.IsPresent)
             {
@@ -560,6 +568,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.PersistentVMs
             {
                 builder.AddHttpListener();
             }
+
             builder.AddHttpsListener(WinRMCertificate);
             return builder.Configuration;
         }

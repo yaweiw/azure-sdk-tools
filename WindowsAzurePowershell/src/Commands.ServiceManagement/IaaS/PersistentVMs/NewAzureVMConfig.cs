@@ -36,47 +36,15 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
             set;
         }
 
-        [Parameter(Position = 1, Mandatory = true, HelpMessage = "Represents the size of the machine.")]
-        [ValidateSet("ExtraSmall", "Small", "Medium", "Large", "ExtraLarge", "A5", "A6", "A7", IgnoreCase = true)]
+        [Parameter(Position = 1, Mandatory = true, ValueFromPipelineByPropertyName = true, HelpMessage = "Represents the size of the machine.")]
+        [ValidateNotNullOrEmpty]
         public string InstanceSize
         {
             get;
             set;
         }
 
-        [Parameter(Position = 2, Mandatory = true, ParameterSetName = "ImageName", HelpMessage = "Reference to a platform stock image or a user image from the image repository.")]
-        [ValidateNotNullOrEmpty]
-        public string ImageName
-        {
-            get;
-            set;
-        }
-
-        [Parameter(Position = 2, Mandatory = false, ParameterSetName = "ImageName", HelpMessage = "Location of the where the VHD should be created. This link refers to a blob in a storage account. If not specified the VHD will be created in the default storage account with the following format :vhds/servicename-vmname-year-month-day-ms")]
-        [ValidateNotNullOrEmpty]
-        public string MediaLocation
-        {
-            get;
-            set;
-        }
-
-        [Parameter(Position = 3, Mandatory = false, ParameterSetName = "ImageName", HelpMessage = "Label of the new disk to be created.")]
-        [ValidateNotNullOrEmpty]
-        public string DiskLabel
-        {
-            get;
-            set;
-        }
-
-        [Parameter(Position = 2, Mandatory = true, ParameterSetName = "DiskName", HelpMessage = "Friendly name of the OS disk in the disk repository.")]
-        [ValidateNotNullOrEmpty]
-        public string DiskName
-        {
-            get;
-            set;
-        }
-
-        [Parameter(HelpMessage = "Controls the platform caching behavior of the OS disk.")]
+        [Parameter(Position = 2, HelpMessage = "Controls the platform caching behavior of the OS disk.")]
         [ValidateSet("ReadWrite", "ReadOnly", IgnoreCase = true)]
         public string HostCaching
         {
@@ -84,7 +52,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
             set;
         }
 
-        [Parameter(HelpMessage = "The name of the availability set.")]
+        [Parameter(Position = 3, HelpMessage = "The name of the availability set.")]
         [ValidateNotNullOrEmpty]
         public string AvailabilitySetName
         {
@@ -92,9 +60,41 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
             set;
         }
 
-        [Parameter(Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "The VM label.")]
+        [Parameter(Position = 4, Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "The VM label.")]
         [ValidateNotNullOrEmpty]
         public string Label
+        {
+            get;
+            set;
+        }
+
+        [Parameter(Position = 5, Mandatory = true, ParameterSetName = "DiskName", HelpMessage = "Friendly name of the OS disk in the disk repository.")]
+        [ValidateNotNullOrEmpty]
+        public string DiskName
+        {
+            get;
+            set;
+        }
+
+        [Parameter(Position = 5, Mandatory = true, ParameterSetName = "ImageName", HelpMessage = "Reference to a platform stock image or a user image from the image repository.")]
+        [ValidateNotNullOrEmpty]
+        public string ImageName
+        {
+            get;
+            set;
+        }
+
+        [Parameter(Position = 6, Mandatory = false, ParameterSetName = "ImageName", HelpMessage = "Location of the where the VHD should be created. This link refers to a blob in a storage account. If not specified the VHD will be created in the default storage account with the following format :vhds/servicename-vmname-year-month-day-ms")]
+        [ValidateNotNullOrEmpty]
+        public string MediaLocation
+        {
+            get;
+            set;
+        }
+
+        [Parameter(Position = 7, Mandatory = false, ParameterSetName = "ImageName", HelpMessage = "Label of the new disk to be created.")]
+        [ValidateNotNullOrEmpty]
+        public string DiskLabel
         {
             get;
             set;

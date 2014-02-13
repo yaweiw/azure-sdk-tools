@@ -62,7 +62,6 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.DiskRepository
         public Uri PrivacyUri { get; set; }
 
         [Parameter(Position = 9, ValueFromPipelineByPropertyName = true, HelpMessage = " Specifies the size to use for the virtual machine that is created from the OS image.")]
-        [ValidateSet("Small", "Medium", "Large", "ExtraLarge", "A5", "A6", "A7", IgnoreCase = true)]
         public string RecommendedVMSize { get; set; }
 
         public void ExecuteCommand()
@@ -78,8 +77,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.DiskRepository
                 ImageFamily = this.ImageFamily,
                 PublishedDate = this.PublishedDate,
                 PrivacyUri = this.PrivacyUri,
-                RecommendedVMSize = string.IsNullOrEmpty(this.RecommendedVMSize) ? null :
-                                    (VirtualMachineRoleSize?)Enum.Parse(typeof(VirtualMachineRoleSize), this.RecommendedVMSize, true)
+                RecommendedVMSize = this.RecommendedVMSize
             };
 
             this.ExecuteClientActionNewSM(

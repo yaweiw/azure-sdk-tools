@@ -1251,7 +1251,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Your credentials have expired. Please use Add-AzureAccount to log in again..
+        ///   Looks up a localized string similar to Your Windows Azure credential in the Windows PowerShell session has expired. Please use Add-AzureAccount to login again..
         /// </summary>
         public static string ExpiredRefreshToken {
             get {
@@ -1476,7 +1476,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Call Set-AzureSubscription and Select-AzureSubscription first..
+        ///   Looks up a localized string similar to No current subscription has been designated. Use Select-AzureSubscription -Current &lt;subscriptionName&gt; to set the current subscription..
         /// </summary>
         public static string InvalidCurrentSubscription {
             get {
@@ -1485,7 +1485,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to You MUST specify a subscription Id. Call Set-AzureSubscription and Select-AzureSubscription first..
+        ///   Looks up a localized string similar to The ID of the current subscription is invalid. Use Set-AzureSubscription to fix the subscription ID or use Select-AzureSubscription to use a different subscription..
         /// </summary>
         public static string InvalidCurrentSubscriptionId {
             get {
@@ -1494,7 +1494,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to You MUST specify a certificate. Call Set-AzureSubscription and Select-AzureSubscription first..
+        ///   Looks up a localized string similar to The management certificate of the current subscription is invalid. Use Set-AzureSubscription to fix the management certificate or use Select-AzureSubscription to use a different subscription..
         /// </summary>
         public static string InvalidCurrentSuscriptionCertificate {
             get {
@@ -1503,7 +1503,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to No default subscription has been designated. Use Set-AzureSubscription -DefaultSubscription &lt;subscriptionName&gt; to set the default subscription..
+        ///   Looks up a localized string similar to No default subscription has been designated. Use Select-AzureSubscription -Default &lt;subscriptionName&gt; to set the default subscription..
         /// </summary>
         public static string InvalidDefaultSubscription {
             get {
@@ -1580,6 +1580,15 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The value {0} provided is not a valid GUID. Please provide a valid GUID..
+        /// </summary>
+        public static string InvalidGuid {
+            get {
+                return ResourceManager.GetString("InvalidGuid", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The specified hostname does not exist. Please specify a valid hostname for the site..
         /// </summary>
         public static string InvalidHostnameValidation {
@@ -1594,6 +1603,15 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Properties {
         public static string InvalidInstancesCount {
             get {
                 return ResourceManager.GetString("InvalidInstancesCount", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to There was an error creating your webjob. Please make sure that the script is in the root folder of the zip file..
+        /// </summary>
+        public static string InvalidJobFile {
+            get {
+                return ResourceManager.GetString("InvalidJobFile", resourceCulture);
             }
         }
         
@@ -1846,6 +1864,24 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Properties {
         public static string InvalidVMSize {
             get {
                 return ResourceManager.GetString("InvalidVMSize", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The web job file must have *.zip extension.
+        /// </summary>
+        public static string InvalidWebJobFile {
+            get {
+                return ResourceManager.GetString("InvalidWebJobFile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Singleton option works for continuous jobs only..
+        /// </summary>
+        public static string InvalidWebJobSingleton {
+            get {
+                return ResourceManager.GetString("InvalidWebJobSingleton", resourceCulture);
             }
         }
         
@@ -2446,6 +2482,15 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to A value for the  Peer Asn has to be provided..
+        /// </summary>
+        public static string PeerAsnRequired {
+            get {
+                return ResourceManager.GetString("PeerAsnRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to 5.4.0.
         /// </summary>
         public static string PHPDefaultRuntimeVersion {
@@ -2511,6 +2556,15 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Properties {
         public static string PortalInstructionsGit {
             get {
                 return ResourceManager.GetString("PortalInstructionsGit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to A value for the Primary Peer Subnet has to be provided..
+        /// </summary>
+        public static string PrimaryPeerSubnetRequired {
+            get {
+                return ResourceManager.GetString("PrimaryPeerSubnetRequired", resourceCulture);
             }
         }
         
@@ -2830,6 +2884,114 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Remove-AzureBGPPeering Operation failed..
+        /// </summary>
+        public static string RemoveAzureBGPPeeringFailed {
+            get {
+                return ResourceManager.GetString("RemoveAzureBGPPeeringFailed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Removing Bgp Peering.
+        /// </summary>
+        public static string RemoveAzureBGPPeeringMessage {
+            get {
+                return ResourceManager.GetString("RemoveAzureBGPPeeringMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Successfully removed Azure Bgp Peering with Service Key {0}..
+        /// </summary>
+        public static string RemoveAzureBGPPeeringSucceeded {
+            get {
+                return ResourceManager.GetString("RemoveAzureBGPPeeringSucceeded", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Are you sure you want to remove the Bgp Peering with service key &apos;{0}&apos;?.
+        /// </summary>
+        public static string RemoveAzureBGPPeeringWarning {
+            get {
+                return ResourceManager.GetString("RemoveAzureBGPPeeringWarning", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Are you sure you want to remove the Dedicated Circuit with service key &apos;{0}&apos;?.
+        /// </summary>
+        public static string RemoveAzureDedicatdCircuitWarning {
+            get {
+                return ResourceManager.GetString("RemoveAzureDedicatdCircuitWarning", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Remove-AzureDedicatedCircuit Operation failed..
+        /// </summary>
+        public static string RemoveAzureDedicatedCircuitFailed {
+            get {
+                return ResourceManager.GetString("RemoveAzureDedicatedCircuitFailed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Remove-AzureDedicatedCircuitLink Operation failed..
+        /// </summary>
+        public static string RemoveAzureDedicatedCircuitLinkFailed {
+            get {
+                return ResourceManager.GetString("RemoveAzureDedicatedCircuitLinkFailed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Removing Dedicated Circui Link.
+        /// </summary>
+        public static string RemoveAzureDedicatedCircuitLinkMessage {
+            get {
+                return ResourceManager.GetString("RemoveAzureDedicatedCircuitLinkMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Successfully removed Azure Dedicated Circuit Link with Service Key {0} and Vnet Name {1}.
+        /// </summary>
+        public static string RemoveAzureDedicatedCircuitLinkSucceeded {
+            get {
+                return ResourceManager.GetString("RemoveAzureDedicatedCircuitLinkSucceeded", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Are you sure you want to remove the Dedicated Circuit Link with service key &apos;{0}&apos; and virtual network name &apos;{1}&apos;?.
+        /// </summary>
+        public static string RemoveAzureDedicatedCircuitLinkWarning {
+            get {
+                return ResourceManager.GetString("RemoveAzureDedicatedCircuitLinkWarning", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Removing Dedicated Circuit.
+        /// </summary>
+        public static string RemoveAzureDedicatedCircuitMessage {
+            get {
+                return ResourceManager.GetString("RemoveAzureDedicatedCircuitMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Successfully removed Azure Dedicated Circuit with Service Key {0}..
+        /// </summary>
+        public static string RemoveAzureDedicatedCircuitSucceeded {
+            get {
+                return ResourceManager.GetString("RemoveAzureDedicatedCircuitSucceeded", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Removing cloud service {0}....
         /// </summary>
         public static string RemoveAzureServiceWaitMessage {
@@ -2961,6 +3123,24 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Properties {
         public static string RemoveVMMessage {
             get {
                 return ResourceManager.GetString("RemoveVMMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Removing WebJob....
+        /// </summary>
+        public static string RemoveWebJobMessage {
+            get {
+                return ResourceManager.GetString("RemoveWebJobMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Are you sure you want to remove job &apos;{0}&apos;?.
+        /// </summary>
+        public static string RemoveWebJobWarning {
+            get {
+                return ResourceManager.GetString("RemoveWebJobWarning", resourceCulture);
             }
         }
         
@@ -3195,6 +3375,15 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Properties {
         public static string ScaffoldXml {
             get {
                 return ResourceManager.GetString("ScaffoldXml", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to A value for the Secondary Peer Subnet has to be provided..
+        /// </summary>
+        public static string SecondaryPeerSubnetRequired {
+            get {
+                return ResourceManager.GetString("SecondaryPeerSubnetRequired", resourceCulture);
             }
         }
         
@@ -3668,6 +3857,15 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        public static string String1 {
+            get {
+                return ResourceManager.GetString("String1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The subscription named {0} already exists..
         /// </summary>
         public static string SubscriptionAlreadyExists {
@@ -3731,6 +3929,24 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Swapping website production slot ....
+        /// </summary>
+        public static string SwappingWebsite {
+            get {
+                return ResourceManager.GetString("SwappingWebsite", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Are you sure you want to swap the website &apos;{0}&apos; production slot with slot &apos;{1}&apos;?.
+        /// </summary>
+        public static string SwapWebsiteSlotWarning {
+            get {
+                return ResourceManager.GetString("SwapWebsiteSlotWarning", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Unable to create Django application: {0}.
         /// </summary>
         public static string UnableToCreateDjangoApp {
@@ -3776,6 +3992,15 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to A value for the VLan Id has to be provided..
+        /// </summary>
+        public static string VlanIdRequired {
+            get {
+                return ResourceManager.GetString("VlanIdRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Please wait....
         /// </summary>
         public static string WaitMessage {
@@ -3799,6 +4024,24 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Properties {
         public static string WebConfigTemplateFileName {
             get {
                 return ResourceManager.GetString("WebConfigTemplateFileName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to MSDeploy.
+        /// </summary>
+        public static string WebDeployKeywordInWebSitePublishProfile {
+            get {
+                return ResourceManager.GetString("WebDeployKeywordInWebSitePublishProfile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Cannot build the project successfully. Please see logs in {0}..
+        /// </summary>
+        public static string WebProjectBuildFailTemplate {
+            get {
+                return ResourceManager.GetString("WebProjectBuildFailTemplate", resourceCulture);
             }
         }
         
@@ -3862,6 +4105,15 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Properties {
         public static string WebsiteSufixUrl {
             get {
                 return ResourceManager.GetString("WebsiteSufixUrl", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to https://{0}/msdeploy.axd?site={1}.
+        /// </summary>
+        public static string WebSiteWebDeployUriTemplate {
+            get {
+                return ResourceManager.GetString("WebSiteWebDeployUriTemplate", resourceCulture);
             }
         }
         

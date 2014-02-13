@@ -17,22 +17,39 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
     using CloudService;
     using Management.WebSites;
     using Management.WebSites.Models;
+    using Microsoft.Build.Evaluation;
+    using Microsoft.Build.Framework;
+    using Microsoft.Build.Logging;
+    using Microsoft.Web.Deployment;
+    using Microsoft.WindowsAzure.Commands.Utilities.Websites.Services.WebJobs;
+    using Microsoft.WindowsAzure.Commands.Websites.WebJobs;
+    using Microsoft.WindowsAzure.WebSitesExtensions;
+    using Microsoft.WindowsAzure.WebSitesExtensions.Models;
     using Newtonsoft.Json.Linq;
     using Properties;
     using Services;
     using Services.DeploymentEntities;
     using Services.WebEntities;
     using System;
+    using System.Collections;
     using System.Collections.Generic;
+    using System.Diagnostics;
+    using System.IO;
     using System.Linq;
     using System.Net;
     using System.Net.Http;
+    using System.Threading;
     using System.Web;
+    using System.Xml.Linq;
     using Utilities.Common;
 
     public class WebsitesClient : IWebsitesClient
     {
+        private const int UploadJobWaitTime = 2000;
+
         private readonly CloudServiceClient cloudServiceClient;
+
+        public static string SlotFormat = "{0}({1})";
 
         public const string WebsitesServiceVersion = "2012-12-01";
 
@@ -86,7 +103,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
             out Repository repository,
             out ICredentials credentials)
         {
-            name = GetWebsiteName(name);
+            name = SetWebsiteName(name, null);
             repository = GetRepository(name);
             credentials = new NetworkCredential(
                 repository.PublishingUsername,
@@ -103,7 +120,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
         {
             WebsiteManagementClient.WebSites.Update(webspace, name, new WebSiteUpdateParameters
             {
-                State = state == WebsiteState.Running ? WebSiteState.Running : WebSiteState.Stopped,
+                State = state.ToString(),
                 // Set the following 3 collection properties to null since by default they are empty lists,
                 // which will clear the corresponding settings of the web site, thus results in a 404 when browsing the web site.
                 HostNames = null,
@@ -128,7 +145,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
                     case WebsiteDiagnosticOutput.FileSystem:
                         diagnosticsSettings.AzureDriveTraceEnabled = setFlag;
                         diagnosticsSettings.AzureDriveTraceLevel = setFlag ?
-                        (LogEntryType)properties[DiagnosticProperties.LogLevel] : 
+                        (LogEntryType)properties[DiagnosticProperties.LogLevel] :
                         diagnosticsSettings.AzureDriveTraceLevel;
                         break;
 
@@ -141,9 +158,9 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
                             string connectionString = cloudServiceClient.GetStorageServiceConnectionString(
                                 storageAccountName);
                             SetConnectionString(website.Name, storageTableName, connectionString, DatabaseType.Custom);
-                            
+
                             diagnosticsSettings.AzureTableTraceLevel = setFlag ?
-                                (LogEntryType)properties[DiagnosticProperties.LogLevel] : 
+                                (LogEntryType)properties[DiagnosticProperties.LogLevel] :
                                 diagnosticsSettings.AzureTableTraceLevel;
                         }
                         break;
@@ -176,6 +193,65 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
             update.RequestTracingEnabled = failedRequestTracing ? setFlag : update.RequestTracingEnabled;
 
             WebsiteManagementClient.WebSites.UpdateConfiguration(website.WebSpace, website.Name, update);
+        }
+
+        private bool IsProductionSlot(string slot)
+        {
+            return (!string.IsNullOrEmpty(slot)) &&
+                (slot.Equals(WebsiteSlotName.Production.ToString(), StringComparison.OrdinalIgnoreCase));
+        }
+
+        private IWebSiteExtensionsClient GetWebSiteExtensionsClient(string websiteName)
+        {
+            Site website = GetWebsite(websiteName);
+            Uri endpointUrl = new Uri("https://" + website.EnabledHostNames.First(url => url.Contains(".scm.")));
+            return new WebSiteExtensionsClient(websiteName, GetWebSiteExtensionsCredentials(websiteName), endpointUrl)
+                .WithHandler(new HttpRestCallLogger());
+        }
+
+        private BasicAuthenticationCloudCredentials GetWebSiteExtensionsCredentials(string name)
+        {
+            name = SetWebsiteName(name, null);
+            Repository repository = GetRepository(name);
+            return new BasicAuthenticationCloudCredentials()
+            {
+                Username = repository.PublishingUsername,
+                Password = repository.PublishingPassword
+            };
+        }
+
+        /// <summary>
+        /// Starts log streaming for the given website.
+        /// </summary>
+        /// <param name="name">The website name</param>
+        /// <param name="slot">The website slot name</param>
+        /// <param name="path">The log path, by default root</param>
+        /// <param name="message">The substring message</param>
+        /// <param name="endStreaming">Predicate to end streaming</param>
+        /// <param name="waitInternal">The fetch wait interval</param>
+        /// <returns>The log line</returns>
+        public IEnumerable<string> StartLogStreaming(
+            string name,
+            string slot,
+            string path,
+            string message,
+            Predicate<string> endStreaming,
+            int waitInternal)
+        {
+            name = SetWebsiteName(name, slot);
+            return StartLogStreaming(name, path, message, endStreaming, waitInternal);
+        }
+
+        /// <summary>
+        /// List log paths for a given website.
+        /// </summary>
+        /// <param name="name">The website name</param>
+        /// <param name="slot">The website slot name</param>
+        /// <returns>The list of log paths</returns>
+        public List<LogPath> ListLogPaths(string name, string slot)
+        {
+            name = SetWebsiteName(name, slot);
+            return ListLogPaths(name);
         }
 
         /// <summary>
@@ -252,10 +328,22 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
         }
 
         /// <summary>
+        /// Gets the application diagnostics settings
+        /// </summary>
+        /// <param name="name">The website name</param>
+        /// <param name="slot">The website slot name</param>
+        /// <returns>The website application diagnostics settings</returns>
+        public DiagnosticsSettings GetApplicationDiagnosticsSettings(string name, string slot)
+        {
+            name = SetWebsiteName(name, slot);
+            return GetApplicationDiagnosticsSettings(name);
+        }
+
+        /// <summary>
         /// Restarts a website.
         /// </summary>
         /// <param name="name">The website name</param>
-        public void RestartAzureWebsite(string name)
+        public void RestartWebsite(string name)
         {
             Site website = GetWebsite(name);
             ChangeWebsiteState(website.Name, website.WebSpace, WebsiteState.Stopped);
@@ -266,7 +354,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
         /// Starts a website.
         /// </summary>
         /// <param name="name">The website name</param>
-        public void StartAzureWebsite(string name)
+        public void StartWebsite(string name)
         {
             Site website = GetWebsite(name);
             ChangeWebsiteState(website.Name, website.WebSpace, WebsiteState.Running);
@@ -276,10 +364,56 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
         /// Stops a website.
         /// </summary>
         /// <param name="name">The website name</param>
-        public void StopAzureWebsite(string name)
+        public void StopWebsite(string name)
         {
             Site website = GetWebsite(name);
             ChangeWebsiteState(website.Name, website.WebSpace, WebsiteState.Stopped);
+        }
+
+        /// <summary>
+        /// Restarts a website.
+        /// </summary>
+        /// <param name="name">The website name</param>
+        /// <param name="slot">The website slot name</param>
+        public void RestartWebsite(string name, string slot)
+        {
+            Site website = GetWebsite(name, slot);
+            ChangeWebsiteState(website.Name, website.WebSpace, WebsiteState.Stopped);
+            ChangeWebsiteState(website.Name, website.WebSpace, WebsiteState.Running);
+        }
+
+        /// <summary>
+        /// Starts a website.
+        /// </summary>
+        /// <param name="name">The website name</param>
+        /// <param name="slot">The website slot name</param>
+        public void StartWebsite(string name, string slot)
+        {
+            Site website = GetWebsite(name, slot);
+            ChangeWebsiteState(website.Name, website.WebSpace, WebsiteState.Running);
+        }
+
+        /// <summary>
+        /// Stops a website.
+        /// </summary>
+        /// <param name="name">The website name</param>
+        /// <param name="slot">The website slot name</param>
+        public void StopWebsite(string name, string slot)
+        {
+            Site website = GetWebsite(name, slot);
+            ChangeWebsiteState(website.Name, website.WebSpace, WebsiteState.Stopped);
+        }
+
+        /// <summary>
+        /// Gets a website slot instance.
+        /// </summary>
+        /// <param name="name">The website name</param>
+        /// <param name="slot">The slot name</param>
+        /// <returns>The website instance</returns>
+        public Site GetWebsite(string name, string slot)
+        {
+            name = SetWebsiteName(name, slot);
+            return GetWebsite(name);
         }
 
         /// <summary>
@@ -289,15 +423,76 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
         /// <returns>The website instance</returns>
         public Site GetWebsite(string name)
         {
-            name = GetWebsiteName(name);
+            name = SetWebsiteName(name, null);
+
             Site website = WebsiteManagementClient.GetSiteWithCache(name);
 
             if (website == null)
             {
-                throw new Exception(string.Format(Resources.InvalidWebsite, name));
+                throw new CloudException(string.Format(Resources.InvalidWebsite, name));
             }
 
             return website;
+        }
+
+        /// <summary>
+        /// Gets all slots for a website
+        /// </summary>
+        /// <param name="Name">The website name</param>
+        /// <returns>The website slots list</returns>
+        public List<Site> GetWebsiteSlots(string name)
+        {
+            name = SetWebsiteName(name, null);
+            return ListWebsites()
+                .Where(s =>
+                    s.Name.IndexOf(string.Format("{0}(", name), StringComparison.OrdinalIgnoreCase) >= 0 ||
+                    s.Name.Equals(name, StringComparison.OrdinalIgnoreCase))
+                .ToList();
+        }
+
+        /// <summary>
+        /// Lists all websites under the current subscription
+        /// </summary>
+        /// <returns>List of websites</returns>
+        public List<Site> ListWebsites()
+        {
+            return ListWebSpaces().SelectMany(space => ListSitesInWebSpace(space.Name)).ToList();
+        }
+
+        /// <summary>
+        /// Lists all websites with the provided slot name.
+        /// </summary>
+        /// <param name="slot">The slot name</param>
+        /// <returns>The list if websites</returns>
+        public List<Site> ListWebsites(string slot)
+        {
+            return ListWebsites().Where(s => s.Name.Contains(string.Format("({0})", slot))).ToList();
+        }
+
+        /// <summary>
+        /// Gets the hostname of the website
+        /// </summary>
+        /// <param name="name">The website name</param>
+        /// <param name="slot">The website slot name</param>
+        /// <returns>The hostname</returns>
+        public string GetHostName(string name, string slot)
+        {
+            slot = string.IsNullOrEmpty(slot) ? GetSlotName(name) : slot;
+            name = SetWebsiteName(name, slot);
+            string hostname = null;
+            string dnsSuffix = GetWebsiteDnsSuffix();
+
+            if (!string.IsNullOrEmpty(slot) &&
+                !slot.Equals(WebsiteSlotName.Production.ToString(), StringComparison.OrdinalIgnoreCase))
+            {
+                hostname = string.Format("{0}-{1}.{2}", GetWebsiteNameFromFullName(name), slot, dnsSuffix);
+            }
+            else
+            {
+                hostname = string.Format("{0}.{1}", name, dnsSuffix);
+            }
+
+            return hostname;
         }
 
         /// <summary>
@@ -305,8 +500,25 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
         /// </summary>
         /// <param name="webspaceName">Web space to create site in.</param>
         /// <param name="siteToCreate">Details about the site to create.</param>
-        /// <returns></returns>
-        public Site CreateWebsite(string webspaceName, SiteWithWebSpace siteToCreate)
+        /// <param name="slot">The slot name.</param>
+        /// <param name="disablesClone">Flag to control cloning the website configuration.</param>
+        /// <returns>The created site object</returns>
+        public Site CreateWebsite(string webspaceName, SiteWithWebSpace siteToCreate, string slot)
+        {
+            siteToCreate.Name = SetWebsiteName(siteToCreate.Name, slot);
+            string[] hostNames = { GetHostName(siteToCreate.Name, slot) };
+            siteToCreate.HostNames = hostNames;
+            return CreateWebsite(webspaceName, siteToCreate);
+        }
+
+        /// <summary>
+        /// Create a new website in production.
+        /// </summary>
+        /// <param name="webspaceName">Web space to create site in.</param>
+        /// <param name="disablesClone">Flag to control cloning the website configuration.</param>
+        /// <param name="siteToCreate">Details about the site to create.</param>
+        /// <returns>The created site object</returns>
+        private Site CreateWebsite(string webspaceName, SiteWithWebSpace siteToCreate)
         {
             var options = new WebSiteCreateParameters
             {
@@ -314,11 +526,12 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
                 WebSpaceName = siteToCreate.WebSpaceToCreate.Name,
                 WebSpace = new WebSiteCreateParameters.WebSpaceDetails
                 {
-                     GeoRegion = siteToCreate.WebSpaceToCreate.GeoRegion,
-                     Name = siteToCreate.WebSpaceToCreate.Name,
-                     Plan = siteToCreate.WebSpaceToCreate.Plan,
+                    GeoRegion = siteToCreate.WebSpaceToCreate.GeoRegion,
+                    Name = siteToCreate.WebSpaceToCreate.Name,
+                    Plan = siteToCreate.WebSpaceToCreate.Plan
                 }
             };
+
             siteToCreate.HostNames.ForEach(s => options.HostNames.Add(s));
 
             var response = WebsiteManagementClient.WebSites.Create(webspaceName, options);
@@ -342,6 +555,19 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
         }
 
         /// <summary>
+        /// Update the set of host names for a website slot.
+        /// </summary>
+        /// <param name="site">The website name.</param>
+        /// <param name="hostNames">The new host names.</param>
+        /// <param name="slot">The website slot name.</param>
+        public void UpdateWebsiteHostNames(Site site, IEnumerable<string> hostNames, string slot)
+        {
+            site.Name = SetWebsiteName(site.Name, slot);
+
+            UpdateWebsiteHostNames(site, hostNames);
+        }
+
+        /// <summary>
         /// Gets the website configuration.
         /// </summary>
         /// <param name="name">The website name</param>
@@ -356,6 +582,71 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
         }
 
         /// <summary>
+        /// Gets a website slot configuration
+        /// </summary>
+        /// <param name="name">The website name</param>
+        /// <param name="slot">The website slot name</param>
+        /// <returns>The website cobfiguration object</returns>
+        public SiteConfig GetWebsiteConfiguration(string name, string slot)
+        {
+            Site website = GetWebsite(name);
+            website.Name = SetWebsiteName(website.Name, slot);
+            return GetWebsiteConfiguration(website.Name);
+        }
+
+        /// <summary>
+        /// Get the real website name.
+        /// </summary>
+        /// <param name="name">The website name from the -Name parameter.</param>
+        /// <param name="slot">The website name from the -Slot parameter.</param>
+        /// <returns>The real website name.</returns>
+        private string SetWebsiteName(string name, string slot)
+        {
+            name = GetWebsiteName(name);
+            slot = slot ?? GetSlotName(name);
+
+            if (string.IsNullOrEmpty(slot) ||
+                slot.Equals(WebsiteSlotName.Production.ToString(), StringComparison.OrdinalIgnoreCase))
+            {
+                return GetWebsiteNameFromFullName(name);
+            }
+            else if (name.Contains('(') && name.Contains(')'))
+            {
+                string currentSlot = GetSlotName(name);
+                if (currentSlot.Equals(WebsiteSlotName.Production.ToString(), StringComparison.OrdinalIgnoreCase))
+                {
+                    return GetWebsiteNameFromFullName(name);
+                }
+
+                return name;
+            }
+            else
+            {
+                return GetSlotDnsName(name, slot);
+            }
+        }
+
+        private string SetWebsiteNameForWebDeploy(string name, string slot)
+        {
+            return SetWebsiteName(name, slot).Replace("(", "__").Replace(")", string.Empty);
+        }
+
+        /// <summary>
+        /// Gets the website name without slot part
+        /// </summary>
+        /// <param name="name">The website full name which may include slot name</param>
+        /// <returns>The website name</returns>
+        public string GetWebsiteNameFromFullName(string name)
+        {
+            if (!string.IsNullOrEmpty(GetSlotName(name)))
+            {
+                name = name.Split('(')[0];
+            }
+
+            return name;
+        }
+
+        /// <summary>
         /// Update the website configuration
         /// </summary>
         /// <param name="name">The website name</param>
@@ -365,6 +656,18 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
             Site website = GetWebsite(name);
             WebsiteManagementClient.WebSites.UpdateConfiguration(website.WebSpace, name,
                 newConfiguration.ToConfigUpdateParameters());
+        }
+
+        /// <summary>
+        /// Update the website slot configuration
+        /// </summary>
+        /// <param name="name">The website name</param>
+        /// <param name="newConfiguration">The website configuration object containing updates.</param>
+        /// <param name="slot">The website slot name</param>
+        public void UpdateWebsiteConfiguration(string name, SiteConfig newConfiguration, string slot)
+        {
+            name = SetWebsiteName(name, slot);
+            UpdateWebsiteConfiguration(name, newConfiguration);
         }
 
         /// <summary>
@@ -386,7 +689,37 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
         /// <param name="deleteEmptyServerFarm">Pass true to delete server farm is this was the last website in it.</param>
         public void DeleteWebsite(string webspaceName, string websiteName, bool deleteMetrics = false, bool deleteEmptyServerFarm = false)
         {
-            WebsiteManagementClient.WebSites.Delete(webspaceName, websiteName, deleteEmptyServerFarm, deleteMetrics);
+            WebSiteDeleteParameters input = new WebSiteDeleteParameters()
+            {
+                DeleteAllSlots = true,
+                DeleteEmptyServerFarm = deleteEmptyServerFarm,
+                DeleteMetrics = deleteMetrics
+            };
+            WebsiteManagementClient.WebSites.Delete(webspaceName, websiteName, input);
+        }
+
+        /// <summary>
+        /// Delete a website slot.
+        /// </summary>
+        /// <param name="webspaceName">webspace the site is in.</param>
+        /// <param name="websiteName">website name.</param>
+        /// <param name="slot">The website slot name</param>
+        public void DeleteWebsite(string webspaceName, string websiteName, string slot)
+        {
+            slot = slot ?? GetSlotName(websiteName) ?? WebsiteSlotName.Production.ToString();
+            websiteName = SetWebsiteName(websiteName, slot);
+            WebSiteDeleteParameters input = new WebSiteDeleteParameters()
+            {
+                /**
+                 * DeleteAllSlots is set to true in case that:
+                 * 1) We are trying to delete a production slot and,
+                 * 2) The website has more than one slot.
+                 */
+                DeleteAllSlots = IsProductionSlot(slot) && GetWebsiteSlots(websiteName).Count != 1,
+                DeleteEmptyServerFarm = false,
+                DeleteMetrics = false
+            };
+            WebsiteManagementClient.WebSites.Delete(webspaceName, websiteName, input);
         }
 
         /// <summary>
@@ -422,7 +755,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
         {
             Site website = GetWebsite(name);
             var update = WebsiteManagementClient.WebSites.GetConfiguration(website.WebSpace, website.Name).ToUpdate();
-            
+
             update.AppSettings[name] = key;
 
             WebsiteManagementClient.WebSites.UpdateConfiguration(website.WebSpace, website.Name, update);
@@ -493,6 +826,39 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
             SetSiteDiagnosticsSettings(name, webServerLogging, detailedErrorMessages, failedRequestTracing, false);
         }
 
+        /// <summary>
+        /// Enables application diagnostic on website slot.
+        /// </summary>
+        /// <param name="name">The website name</param>
+        /// <param name="output">The application log output, FileSystem or StorageTable</param>
+        /// <param name="properties">The diagnostic setting properties</param>
+        /// <param name="slot">The website slot name</param>
+        public void EnableApplicationDiagnostic(
+            string name,
+            WebsiteDiagnosticOutput output,
+            Dictionary<DiagnosticProperties, object> properties,
+            string slot)
+        {
+            SetApplicationDiagnosticsSettings(SetWebsiteName(name, slot), output, true, properties);
+        }
+
+        /// <summary>
+        /// Disables application diagnostic.
+        /// </summary>
+        /// <param name="name">The website name</param>
+        /// <param name="output">The application log output, FileSystem or StorageTable</param>
+        /// <param name="slot">The website slot name</param>
+        public void DisableApplicationDiagnostic(string name, WebsiteDiagnosticOutput output, string slot)
+        {
+            SetApplicationDiagnosticsSettings(SetWebsiteName(name, slot), output, false);
+        }
+
+        /// <summary>
+        /// Enables application diagnostic on website slot.
+        /// </summary>
+        /// <param name="name">The website name</param>
+        /// <param name="output">The application log output, FileSystem or StorageTable</param>
+        /// <param name="properties">The diagnostic setting properties</param>
         public void EnableApplicationDiagnostic(
             string name,
             WebsiteDiagnosticOutput output,
@@ -501,6 +867,11 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
             SetApplicationDiagnosticsSettings(name, output, true, properties);
         }
 
+        /// <summary>
+        /// Disables application diagnostic.
+        /// </summary>
+        /// <param name="name">The website name</param>
+        /// <param name="output">The application log output, FileSystem or StorageTable</param>
         public void DisableApplicationDiagnostic(string name, WebsiteDiagnosticOutput output)
         {
             SetApplicationDiagnosticsSettings(name, output, false);
@@ -547,5 +918,603 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
             return WebsiteManagementClient.WebSpaces.ListPublishingUsers()
                 .Users.Select(u => u.Name).Where(n => !string.IsNullOrEmpty(n)).ToList();
         }
+
+        /// <summary>
+        /// Checks if a website exists or not.
+        /// </summary>
+        /// <param name="name">The website name</param>
+        /// <returns>True if exists, false otherwise</returns>
+        public bool WebsiteExists(string name)
+        {
+            Site website = null;
+
+            try
+            {
+                website = GetWebsite(name);
+            }
+            catch
+            {
+                // Ignore exception.
+            }
+
+            return website != null;
+        }
+
+        /// <summary>
+        /// Checks if a website slot exists or not.
+        /// </summary>
+        /// <param name="name">The website name</param>
+        /// <param name="slot">The website slot name</param>
+        /// <returns>True if exists, false otherwise</returns>
+        public bool WebsiteExists(string name, string slot)
+        {
+            Site website = null;
+
+            try
+            {
+                website = GetWebsite(name, slot);
+            }
+            catch
+            {
+                // Ignore exception.
+            }
+
+            return website != null;
+        }
+
+        /// <summary>
+        /// Updates a website compute mode.
+        /// </summary>
+        /// <param name="websiteToUpdate">The website to update</param>
+        public void UpdateWebsiteComputeMode(Site websiteToUpdate)
+        {
+            WebsiteManagementClient.WebSites.Update(
+                websiteToUpdate.WebSpace,
+                websiteToUpdate.Name,
+                new WebSiteUpdateParameters
+                {
+                    ComputeMode = websiteToUpdate.ComputeMode,
+                    // Set the following 3 collection properties to null since by default they are empty lists,
+                    // which will clear the corresponding settings of the web site, thus results in a 404 when browsing the web site.
+                    HostNames = null,
+                    HostNameSslStates = null,
+                    SslCertificates = null
+                });
+        }
+
+        /// <summary>
+        /// Gets a website slot DNS name.
+        /// </summary>
+        /// <param name="name">The website name</param>
+        /// <param name="slot">The slot name</param>
+        /// <returns>the slot DNS name</returns>
+        public string GetSlotDnsName(string name, string slot)
+        {
+            return string.Format(SlotFormat, name, slot);
+        }
+
+        /// <summary>
+        /// Switches the given website slot with the production slot
+        /// </summary>
+        /// <param name="webspaceName">The webspace name</param>
+        /// <param name="websiteName">The website name</param>
+        /// <param name="slot">The website slot name</param>
+        public void SwitchSlot(string webspaceName, string websiteName, string slot)
+        {
+            Debug.Assert(!string.IsNullOrEmpty(slot));
+
+            WebsiteManagementClient.WebSites.SwapSlots(webspaceName, websiteName, slot);
+        }
+
+        /// <summary>
+        /// Gets the slot name from the website name.
+        /// </summary>
+        /// <param name="name">The website name</param>
+        /// <returns>The slot name</returns>
+        public string GetSlotName(string name)
+        {
+            string slotName = null;
+            if (!string.IsNullOrEmpty(name))
+            {
+                if (name.Contains('(') && name.Contains(')'))
+                {
+                    string[] split = name.Split('(');
+                    slotName = split[1].TrimEnd(')').ToLower();
+                }
+            }
+
+            return slotName;
+        }
+
+        /// <summary>
+        /// Checks whether a website name is available or not.
+        /// </summary>
+        /// <param name="name">The website name</param>
+        /// <returns>True means available, false otherwise</returns>
+        public bool CheckWebsiteNameAvailability(string name)
+        {
+            return WebsiteManagementClient.WebSites.IsHostnameAvailable(name).IsAvailable;
+        }
+
+        #region WebDeploy
+
+        /// <summary>
+        /// Build a Visual Studio web project and generate a WebDeploy package.
+        /// </summary>
+        /// <param name="projectFile">The project file.</param>
+        /// <param name="configuration">The configuration of the build, like Release or Debug.</param>
+        /// <param name="logFile">The build log file if there is any error.</param>
+        /// <returns>The full path of the generated WebDeploy package.</returns>
+        public string BuildWebProject(string projectFile, string configuration, string logFile)
+        {
+
+            ProjectCollection pc = new ProjectCollection();
+            Project project = pc.LoadProject(projectFile);
+
+            // Use a file logger to store detailed build info.
+            FileLogger fileLogger = new FileLogger();
+            fileLogger.Parameters = string.Format("logfile={0}", logFile);
+            fileLogger.Verbosity = LoggerVerbosity.Diagnostic;
+
+            // Set the configuration used by MSBuild.
+            project.SetProperty("Configuration", configuration);
+
+            // Build the project.
+            var buildSucceed = project.Build("Package", new ILogger[] { fileLogger });
+
+            if (buildSucceed)
+            {
+                // If build succeeds, delete the build.log file since there is no use of it.
+                File.Delete(logFile);
+                return Path.Combine(Path.GetDirectoryName(projectFile), "obj", configuration, "Package", Path.GetFileNameWithoutExtension(projectFile) + ".zip");
+            }
+            else
+            {
+                // If build fails, tell the user to look at the build.log file.
+                throw new Exception(string.Format(Resources.WebProjectBuildFailTemplate, logFile));
+            }
+        }
+
+        /// <summary>
+        /// Gets the website WebDeploy publish profile.
+        /// </summary>
+        /// <param name="websiteName">Website name.</param>
+        /// <param name="slot">Slot name. By default is null.</param>
+        /// <returns>The publish profile.</returns>
+        public WebSiteGetPublishProfileResponse.PublishProfile GetWebDeployPublishProfile(string websiteName, string slot = null)
+        {
+            var site = this.GetWebsite(websiteName);
+
+            var response = WebsiteManagementClient.WebSites.GetPublishProfile(site.WebSpace, SetWebsiteName(websiteName, slot));
+
+            foreach (var profile in response)
+            {
+                if (string.Compare(profile.PublishMethod, Resources.WebDeployKeywordInWebSitePublishProfile) == 0)
+                {
+                    return profile;
+                }
+            }
+
+            return null;
+        }
+
+        /// <summary>
+        /// Publish a WebDeploy package folder to a web site.
+        /// </summary>
+        /// <param name="websiteName">The name of the web site.</param>
+        /// <param name="slot">The name of the slot.</param>
+        /// <param name="package">The WebDeploy package.</param>
+        /// <param name="connectionStrings">The connection strings to overwrite the ones in the Web.config file.</param>
+        public void PublishWebProject(string websiteName, string slot, string package, Hashtable connectionStrings)
+        {
+            if (File.GetAttributes(package).HasFlag(FileAttributes.Directory))
+            {
+                PublishWebProjectFromPackagePath(websiteName, slot, package, connectionStrings);
+            }
+            else
+            {
+                PublishWebProjectFromPackageFile(websiteName, slot, package, connectionStrings);
+            }
+        }
+
+        /// <summary>
+        /// Publish a WebDeploy package zip file to a web site.
+        /// </summary>
+        /// <param name="websiteName">The name of the web site.</param>
+        /// <param name="slot">The name of the slot.</param>
+        /// <param name="package">The WebDeploy package zip file.</param>
+        /// <param name="connectionStrings">The connection strings to overwrite the ones in the Web.config file.</param>
+        private void PublishWebProjectFromPackageFile(string websiteName, string slot, string package, Hashtable connectionStrings)
+        {
+            DeploymentBaseOptions remoteBaseOptions = CreateRemoteDeploymentBaseOptions(websiteName, slot);
+            DeploymentBaseOptions localBaseOptions = new DeploymentBaseOptions();
+
+            DeploymentProviderOptions remoteProviderOptions = new DeploymentProviderOptions(DeploymentWellKnownProvider.Auto);
+
+            using (var deployment = DeploymentManager.CreateObject(DeploymentWellKnownProvider.Package, package, localBaseOptions))
+            {
+                DeploymentSyncParameter providerPathParameter = new DeploymentSyncParameter(
+                    "Provider Path Parameter",
+                    "Provider Path Parameter",
+                    SetWebsiteNameForWebDeploy(websiteName, slot),
+                    null);
+                DeploymentSyncParameterEntry iisAppEntry = new DeploymentSyncParameterEntry(
+                    DeploymentSyncParameterEntryKind.ProviderPath,
+                    DeploymentWellKnownProvider.IisApp.ToString(),
+                    ".*",
+                    null);
+                DeploymentSyncParameterEntry setAclEntry = new DeploymentSyncParameterEntry(
+                    DeploymentSyncParameterEntryKind.ProviderPath,
+                    DeploymentWellKnownProvider.SetAcl.ToString(),
+                    ".*",
+                    null);
+                providerPathParameter.Add(iisAppEntry);
+                providerPathParameter.Add(setAclEntry);
+                deployment.SyncParameters.Add(providerPathParameter);
+
+                // Replace the connection strings in Web.config with the ones user specifies from the cmdlet.
+                ReplaceConnectionStrings(deployment, connectionStrings);
+
+                DeploymentSyncOptions syncOptions = new DeploymentSyncOptions();
+
+                deployment.SyncTo(remoteProviderOptions, remoteBaseOptions, syncOptions);
+            }
+        }
+
+        /// <summary>
+        /// Publish a WebDeploy package zip file to a web site.
+        /// </summary>
+        /// <param name="websiteName">The name of the web site.</param>
+        /// <param name="slot">The name of the slot.</param>
+        /// <param name="package">The WebDeploy package zip file.</param>
+        /// <param name="connectionStrings">The connection strings to overwrite the ones in the Web.config file.</param>
+        private void PublishWebProjectFromPackagePath(string websiteName, string slot, string package, Hashtable connectionStrings)
+        {
+            DeploymentBaseOptions remoteBaseOptions = CreateRemoteDeploymentBaseOptions(websiteName, slot);
+            DeploymentBaseOptions localBaseOptions = new DeploymentBaseOptions();
+
+            using (var deployment = DeploymentManager.CreateObject(DeploymentWellKnownProvider.ContentPath, package, localBaseOptions))
+            {
+                ReplaceConnectionStrings(deployment, connectionStrings);
+                DeploymentSyncOptions syncOptions = new DeploymentSyncOptions();
+                deployment.SyncTo(DeploymentWellKnownProvider.ContentPath, SetWebsiteNameForWebDeploy(websiteName, slot), remoteBaseOptions, syncOptions);
+            }
+        }
+
+        /// <summary>
+        /// Parse the Web.config files to get the connection string names.
+        /// </summary>
+        /// <param name="defaultWebConfigFile">The default Web.config file.</param>
+        /// <param name="overwriteWebConfigFile">The additional Web.config file for the specificed configuration, like Web.Release.Config file.</param>
+        /// <returns>An array of connection string names from the Web.config files.</returns>
+        public string[] ParseConnectionStringNamesFromWebConfig(string defaultWebConfigFile, string overwriteWebConfigFile)
+        {
+            var names = new List<string>();
+            var webConfigFiles = new string[] { defaultWebConfigFile, overwriteWebConfigFile };
+
+            foreach (var file in webConfigFiles)
+            {
+                XDocument xdoc = XDocument.Load(file);
+                names.AddRange(xdoc.Descendants("connectionStrings").SelectMany(css => css.Descendants("add")).Select(add => add.Attribute("name").Value));
+            }
+
+            return names.Distinct().ToArray<string>();
+        }
+
+        /// <summary>
+        /// Create remote deployment base options using the web site publish profile.
+        /// </summary>
+        /// <returns>The remote deployment base options.</returns>
+        private DeploymentBaseOptions CreateRemoteDeploymentBaseOptions(string websiteName, string slot)
+        {
+            // Get the web site publish profile.
+            var publishProfile = GetWebDeployPublishProfile(websiteName, slot);
+
+            DeploymentBaseOptions remoteBaseOptions = new DeploymentBaseOptions()
+            {
+                UserName = publishProfile.UserName,
+                Password = publishProfile.UserPassword,
+                ComputerName = string.Format(Resources.WebSiteWebDeployUriTemplate, publishProfile.PublishUrl, SetWebsiteNameForWebDeploy(websiteName, slot)),
+                AuthenticationType = "Basic",
+                TempAgent = false
+            };
+
+            return remoteBaseOptions;
+        }
+
+        /// <summary>
+        /// Replace all the connection strings in the deployment.
+        /// </summary>
+        /// <param name="deployment">The deployment object.</param>
+        private void ReplaceConnectionStrings(DeploymentObject deployment, Hashtable connectionStrings)
+        {
+            if (connectionStrings != null)
+            {
+                foreach (var key in connectionStrings.Keys)
+                {
+                    AddConnectionString(deployment, key.ToString(), connectionStrings[key].ToString());
+                }
+            }
+        }
+
+        /// <summary>
+        /// Add a connection string parameter to the deployment.
+        /// </summary>
+        /// <param name="deployment">The deployment object.</param>
+        /// <param name="name">Connection string name.</param>
+        /// <param name="value">Connection string value.</param>
+        private void AddConnectionString(DeploymentObject deployment, string name, string value)
+        {
+            var deploymentSyncParameterName = string.Format("Connection String {0} Parameter", name);
+            DeploymentSyncParameter connectionStringParameter = new DeploymentSyncParameter(
+                deploymentSyncParameterName,
+                deploymentSyncParameterName,
+                value,
+                null);
+            DeploymentSyncParameterEntry connectionStringEntry = new DeploymentSyncParameterEntry(
+                DeploymentSyncParameterEntryKind.XmlFile,
+                @"\\web.config$",
+                string.Format(@"//connectionStrings/add[@name='{0}']/@connectionString", name),
+                null);
+            connectionStringParameter.Add(connectionStringEntry);
+            deployment.SyncParameters.Add(connectionStringParameter);
+        }
+
+        #endregion
+
+        #region WebJobs
+
+        /// <summary>
+        /// Filters the web jobs.
+        /// </summary>
+        /// <param name="options">The web job filter options</param>
+        /// <returns>The filtered web jobs list</returns>
+        public List<PSWebJob> FilterWebJobs(WebJobFilterOptions options)
+        {
+            options.Name = SetWebsiteName(options.Name, options.Slot);
+            IWebSiteExtensionsClient client = GetWebSiteExtensionsClient(options.Name);
+            List<WebJob> jobList = new List<WebJob>();
+
+            if (string.IsNullOrEmpty(options.JobName) && string.IsNullOrEmpty(options.JobType))
+            {
+                jobList = client.WebJobs.List(new WebJobListParameters()).Jobs.ToList();
+            }
+            else if (string.IsNullOrEmpty(options.JobName) && !string.IsNullOrEmpty(options.JobType))
+            {
+                if (string.Compare(options.JobType, WebJobType.Continuous.ToString(), true) == 0)
+                {
+                    jobList = client.WebJobs.ListContinuous(new WebJobListParameters()).Jobs.ToList();
+                }
+                else if (string.Compare(options.JobType, WebJobType.Triggered.ToString(), true) == 0)
+                {
+                    jobList = client.WebJobs.ListTriggered(new WebJobListParameters()).Jobs.ToList();
+                }
+                else
+                {
+                    throw new ArgumentOutOfRangeException("JobType");
+                }
+            }
+            else if (!string.IsNullOrEmpty(options.JobName) && !string.IsNullOrEmpty(options.JobType))
+            {
+                if (string.Compare(options.JobType, WebJobType.Continuous.ToString(), true) == 0)
+                {
+                    jobList = new List<WebJob>() { client.WebJobs.GetContinuous(options.JobName).WebJob };
+                }
+                else if (string.Compare(options.JobType, WebJobType.Triggered.ToString(), true) == 0)
+                {
+                    jobList = new List<WebJob>() { client.WebJobs.GetTriggered(options.JobName).WebJob };
+                }
+                else
+                {
+                    throw new ArgumentOutOfRangeException("JobType");
+                }
+            }
+            else
+            {
+                if (string.IsNullOrEmpty(options.JobName))
+                {
+                    throw new ArgumentOutOfRangeException("JobName");
+                }
+                else if (string.IsNullOrEmpty(options.JobType))
+                {
+                    throw new ArgumentOutOfRangeException("JobType");
+                }
+                else
+                {
+                    throw new ArgumentOutOfRangeException("options");
+                }
+            }
+
+            List<PSWebJob> result = new List<PSWebJob>();
+            foreach(WebJob job in jobList)
+            {
+                result.Add(new PSWebJob(job));
+            }
+            return result;
+        }
+
+        /// <summary>
+        /// Creates new web job for a website
+        /// </summary>
+        /// <param name="name">The website name</param>
+        /// <param name="slot">The website slot name</param>
+        /// <param name="jobName">The web job name</param>
+        /// <param name="jobType">The web job type</param>
+        /// <param name="jobFile">The web job file name</param>
+        /// <param name="singleton">True if you only want the job to run in 1 instance of the web site</param>
+        public PSWebJob CreateWebJob(string name, string slot, string jobName, WebJobType jobType, string jobFile)
+        {
+            WebJobFilterOptions options = new WebJobFilterOptions() { Name = name, Slot = slot, JobName = jobName, JobType = jobType.ToString() };
+            name = SetWebsiteName(name, slot);
+            IWebSiteExtensionsClient client = GetWebSiteExtensionsClient(name);
+
+            if (Path.GetExtension(jobFile).ToLower() != ".zip")
+            {
+                throw new InvalidOperationException(Resources.InvalidWebJobFile);
+            }
+
+            switch (jobType)
+            {
+                case WebJobType.Continuous:
+                    client.WebJobs.UploadContinuous(jobName, File.OpenRead(jobFile));
+                    break;
+                case WebJobType.Triggered:
+                    client.WebJobs.UploadTriggered(jobName, File.OpenRead(jobFile));
+                    break;
+                default:
+                    break;
+            }
+            PSWebJob webjob = null;
+
+            Thread.Sleep(UploadJobWaitTime);
+
+            try
+            {
+                webjob = FilterWebJobs(options).FirstOrDefault();
+            }
+            catch (CloudException e)
+            {
+                if (e.Response.StatusCode == HttpStatusCode.NotFound)
+	            {
+                    throw new ArgumentException(Resources.InvalidJobFile);
+	            }
+            }
+
+
+            return webjob;
+        }
+
+        /// <summary>
+        /// Deletes a web job for a website.
+        /// </summary>
+        /// <param name="name">The website name</param>
+        /// <param name="slot">The slot name</param>
+        /// <param name="jobName">The web job name</param>
+        /// <param name="jobType">The web job type</param>
+        public void DeleteWebJob(string name, string slot, string jobName, WebJobType jobType)
+        {
+            name = SetWebsiteName(name, slot);
+            IWebSiteExtensionsClient client = GetWebSiteExtensionsClient(name);
+
+            if (jobType == WebJobType.Continuous)
+            {
+                client.WebJobs.DeleteContinuous(jobName, true);
+            }
+            else if (jobType == WebJobType.Triggered)
+            {
+                client.WebJobs.DeleteTriggered(jobName, true);
+            }
+            else
+            {
+                throw new ArgumentException("jobType");
+            }
+        }
+
+        /// <summary>
+        /// Starts a web job in a website.
+        /// </summary>
+        /// <param name="name">The website name</param>
+        /// <param name="slot">The slot name</param>
+        /// <param name="jobName">The web job name</param>
+        /// <param name="jobType">The web job type</param>
+        public void StartWebJob(string name, string slot, string jobName, WebJobType jobType)
+        {
+            name = SetWebsiteName(name, slot);
+            IWebSiteExtensionsClient client = GetWebSiteExtensionsClient(name);
+
+            if (jobType == WebJobType.Continuous)
+            {
+                client.WebJobs.StartContinuous(jobName);
+            }
+            else
+            {
+                client.WebJobs.RunTriggered(jobName);
+            }
+        }
+
+        /// <summary>
+        /// Stops a web job in a website.
+        /// </summary>
+        /// <param name="name">The website name</param>
+        /// <param name="slot">The slot name</param>
+        /// <param name="jobName">The web job name</param>
+        /// <param name="jobType">The web job type</param>
+        public void StopWebJob(string name, string slot, string jobName, WebJobType jobType)
+        {
+            name = SetWebsiteName(name, slot);
+            IWebSiteExtensionsClient client = GetWebSiteExtensionsClient(name);
+
+            if (jobType == WebJobType.Continuous)
+            {
+                client.WebJobs.StopContinuous(jobName);
+            }
+            else
+            {
+                throw new InvalidOperationException();
+            }
+        }
+
+        /// <summary>
+        /// Filters a web job history.
+        /// </summary>
+        /// <param name="options">The web job filter options</param>
+        /// <returns>The filtered web jobs run list</returns>
+        public List<WebJobRun> FilterWebJobHistory(WebJobHistoryFilterOptions options)
+        {
+            options.Name = SetWebsiteName(options.Name, options.Slot);
+            IWebSiteExtensionsClient client = GetWebSiteExtensionsClient(options.Name);
+            List<WebJobRun> result = new List<WebJobRun>();
+
+            if (options.Latest)
+            {
+                result.Add(client.WebJobs.GetTriggered(options.JobName).WebJob.LatestRun);
+            }
+            else if (!string.IsNullOrEmpty(options.RunId))
+            {
+                result.Add(client.WebJobs.GetRun(options.JobName, options.RunId).JobRun);
+            }
+            else
+            {
+                result.AddRange(client.WebJobs.ListRuns(options.JobName, new WebJobRunListParameters()));
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        /// Saves a web job logs to file.
+        /// </summary>
+        /// <param name="name">The website name</param>
+        /// <param name="slot">The slot name</param>
+        /// <param name="jobName">The web job name</param>
+        /// <param name="jobType">The web job type</param>
+        /// <param name="output">The output file name</param>
+        /// <param name="runId">The job run id</param>
+        public void SaveWebJobLog(string name, string slot, string jobName, WebJobType jobType, string output, string runId)
+        {
+            if (jobType == WebJobType.Continuous && !string.IsNullOrEmpty(runId))
+            {
+                throw new InvalidOperationException();
+            }
+            name = SetWebsiteName(name, slot);
+            IWebSiteExtensionsClient client = GetWebSiteExtensionsClient(name);
+
+            throw new NotImplementedException();
+        }
+
+        /// <summary>
+        /// Saves a web job logs to file.
+        /// </summary>
+        /// <param name="name">The website name</param>
+        /// <param name="slot">The slot name</param>
+        /// <param name="jobName">The web job name</param>
+        /// <param name="jobType">The web job type</param>
+        public void SaveWebJobLog(string name, string slot, string jobName, WebJobType jobType)
+        {
+            const string defaultLogFile = ".\\jobLog.zip";
+            SaveWebJobLog(name, slot, jobName, jobType, defaultLogFile, null);
+        }
+
+        #endregion
     }
 }

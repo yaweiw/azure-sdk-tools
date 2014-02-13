@@ -29,7 +29,7 @@ namespace Microsoft.WindowsAzure.Commands.Websites
 
         public override void ExecuteCmdlet()
         {
-            WebsitesClient.StopAzureWebsite(Name);
+            WebsitesClient.StopWebsite(Name, Slot);
 
             if (PassThru.IsPresent)
             {

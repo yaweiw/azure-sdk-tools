@@ -21,7 +21,10 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
         Medium,
         Large,
         ExtraLarge,
+        A5,
         A6,
-        A7
+        A7,
+        A8,
+        A9
     }
 }

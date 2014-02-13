@@ -42,5 +42,7 @@ namespace Microsoft.WindowsAzure.Management.HDInsight.Cmdlet.Commands.CommandInt
         ClusterState State { get; }
 
         string Location { get; set; }
+
+        bool EnableHighAvailability { get; set; }
     }
 }
