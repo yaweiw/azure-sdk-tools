@@ -27,7 +27,6 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Extensions
     public class SetAzureServiceADDomainExtensionCommand : BaseAzureServiceADDomainExtensionCmdlet
     {
         [Parameter(Position = 0, ValueFromPipelineByPropertyName = true, HelpMessage = ExtensionParameterPropertyHelper.ServiceNameHelpMessage)]
-        [ValidateNotNullOrEmpty]
         public override string ServiceName
         {
             get;
@@ -169,8 +168,8 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Extensions
             }
         }
 
-        [Parameter(Position = 10, ValueFromPipelineByPropertyName = true, ParameterSetName = DomainJoinOptionParameterSet)]
-        [Parameter(Position = 10, ValueFromPipelineByPropertyName = true, ParameterSetName = DomainJoinOptionThumbprintParameterSet)]
+        [Parameter(Position = 10, Mandatory = true, ValueFromPipelineByPropertyName = true, ParameterSetName = DomainJoinOptionParameterSet)]
+        [Parameter(Position = 10, Mandatory = true, ValueFromPipelineByPropertyName = true, ParameterSetName = DomainJoinOptionThumbprintParameterSet)]
         [ValidateNotNullOrEmpty]
         public override uint JoinOption
         {
@@ -216,8 +215,8 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Extensions
             this.ValidateParameters();
             ExtensionConfigurationInput context = new ExtensionConfigurationInput
             {
-                ProviderNameSpace = ExtensionNameSpace,
-                Type = ExtensionType,
+                ProviderNameSpace = ProviderNamespace,
+                Type = ExtensionName,
                 CertificateThumbprint = CertificateThumbprint,
                 ThumbprintAlgorithm = ThumbprintAlgorithm,
                 X509Certificate = X509Certificate,

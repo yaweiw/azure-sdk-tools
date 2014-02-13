@@ -108,6 +108,19 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Model
             set;
         }
 
+
+        public bool? ProvisionGuestAgent
+        {
+            get;
+            set;
+        }
+
+        public ResourceExtensionReferenceList ResourceExtensionReferences
+        {
+            get;
+            set;
+        }
+		
         [XmlIgnore]
         public Collection<DataVirtualHardDisk> DataVirtualHardDisksToBeDeleted
         {

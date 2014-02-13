@@ -1,4 +1,72 @@
-﻿2012.12.19 Version 0.7.2.1
+﻿2014.02.12 Version 0.7.3
+* Web Site cmdlets
+  * Slot
+    * All Web Site cmdlets takes a new -Slot parameter
+    * Switch-AzureWebsiteSlot to swap slots
+  * WebJob
+    * Get-AzureWebsiteJob
+    * New-AzureWebsiteJob
+    * Remove-AzureWebsiteJob
+    * Start-AzureWebsiteJob
+    * Stop-AzureWebsiteJob
+    * Get-AzureWebsiteJobHistory
+  * Publish project to Web Site via WebDeploy
+    * Publish-AzureWebsiteProject
+  * Test Web Site name availability
+    * Test-AzureName -Website
+* Virtual Machine cmdlets
+  * Generic extension
+    * Get-AzureVMAvailableExtension
+    * Get-AzureServiceAvailableExtension
+  * BGInfo extension
+    * Get-AzureVMBGInfoExtension
+    * Set-AzureVMBGInfoExtension
+    * Remove-AzureBMBGInfoExtension
+  * VM role size
+    * Get-AzureRoleSize
+    * New-AzureQuickVM -InstanceSize takes a string instead of enum
+  * Other improvements
+    * Add-AzureProvisioningConfig will enable guest agent by default. Use -DisableGuestAgent to disable it
+* Cloud Service cmdlets
+  * Generic extension
+    * Get-AzureServiceExtension
+    * Set-AzureServiceExtension
+    * Remove-AzureServiceExtension
+  * Active directory domain extension
+    * Get-AzureServiceADDomainExtension
+    * Set-AzureServiceADDomainExtension
+    * Remove-AzureServiceADDomainExtension
+    * New-AzureServiceADDomainExtensionConfig
+Virtual Network cmdlets
+  * Get-AzureStaticVNetIP
+  * Set-AzureStaticVNetIP
+  * Remove-AzureStaticVNetIP
+  * Test-AzureStaticVNetIP
+* Storage cmdlets
+  * Metrics and logging
+    * Get-AzureStorageServiceLoggingProperty
+    * Set-AzureStorageServiceLoggingProperty
+    * Get-AzureStorageServiceMetricsProperty
+    * Set-AzureStorageServiceMetricsProperty
+  * Timeout configuration via -ServerTimeoutRequest and -ClientTimeoutRequest parameters
+  * Paging support via -MaxCount and -ContinuationToken parameters
+    * Get-AzureStorageBlob
+    * Get-AzureStorageContainer
+* ExpressRoute cmdlets (in ExpressRoute module)
+  * Get-AzureDedicatedCircuit
+  * Get-AzureDedicatedCircuitLink
+  * Get-AzureDedicatedCircuitServiceProvider
+  * New-AzureDedicatedCircuit
+  * New-AzureDedicatedCircuitLink
+  * Remove-AzureDedicatedCircuit
+  * Remove-AzureDedicatedCircuitLink
+  * Get-AzureBGPPeering
+  * New-AzureBGPPeering
+  * Remove-AzureBGPPeering
+  * Set-AzureBGPPeering
+
+
+2013.12.19 Version 0.7.2.1
 ﻿* Hotfix for some encoding issue with Hive query which contain "%".
 ﻿
 ﻿2013.12.10 Version 0.7.2

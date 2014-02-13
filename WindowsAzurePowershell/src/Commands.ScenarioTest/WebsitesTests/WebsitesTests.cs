@@ -385,12 +385,11 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.WebsitesTests
 
         #endregion
 
-        #region Remove-AzureWebsiteJob Scenario Tests
+        #region WebJob Scenario Tests
 
         [TestMethod]
         [TestCategory(Category.All)]
         [TestCategory(Category.Websites)]
-        [TestCategory(Category.WAPack)]
         public void TestRemoveAzureWebsiteTriggeredJob()
         {
             RunPowerShellTest("Test-RemoveAzureWebsiteTriggeredJob");
@@ -399,7 +398,6 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.WebsitesTests
         [TestMethod]
         [TestCategory(Category.All)]
         [TestCategory(Category.Websites)]
-        [TestCategory(Category.WAPack)]
         public void TestRemoveAzureWebsiteContinuousJob()
         {
             RunPowerShellTest("Test-RemoveAzureWebsiteContinuousJob");
@@ -408,10 +406,41 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.WebsitesTests
         [TestMethod]
         [TestCategory(Category.All)]
         [TestCategory(Category.Websites)]
-        [TestCategory(Category.WAPack)]
         public void TestRemoveNonExistingAzureWebsiteJob()
         {
             RunPowerShellTest("Test-RemoveNonExistingAzureWebsiteJob");
+        }
+
+        [TestMethod]
+        [TestCategory(Category.All)]
+        [TestCategory(Category.Websites)]
+        public void TestStartAzureWebsiteTriggeredJob()
+        {
+            RunPowerShellTest("Test-StartAzureWebsiteTriggeredJob");
+        }
+
+        [TestMethod]
+        [TestCategory(Category.All)]
+        [TestCategory(Category.Websites)]
+        public void TestStartAndStopAzureWebsiteContinuousJob()
+        {
+            RunPowerShellTest("Test-StartAndStopAzureWebsiteContinuousJob");
+        }
+
+        [TestMethod]
+        [TestCategory(Category.All)]
+        [TestCategory(Category.Websites)]
+        public void GettingWebsiteJobs()
+        {
+            RunPowerShellTest("Test-GettingWebsiteJobs");
+        }
+
+        [TestMethod]
+        [TestCategory(Category.All)]
+        [TestCategory(Category.Websites)]
+        public void TestGetsJobHistory()
+        {
+            RunPowerShellTest("Test-GettingJobHistory");
         }
 
         #endregion

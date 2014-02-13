@@ -65,6 +65,14 @@ namespace Microsoft.WindowsAzure.Management.HDInsight.Cmdlet.PSCmdlets
                 this.command.Config.AdditionalStorageAccounts.AddRange(value.AdditionalStorageAccounts);
                 this.command.Config.HiveMetastore = value.HiveMetastore ?? this.command.Config.HiveMetastore;
                 this.command.Config.OozieMetastore = value.OozieMetastore ?? this.command.Config.OozieMetastore;
+                this.command.Config.CoreConfiguration.AddRange(value.CoreConfiguration);
+                this.command.Config.HdfsConfiguration.AddRange(value.HdfsConfiguration);
+                this.command.Config.MapReduceConfiguration.ConfigurationCollection.AddRange(value.MapReduceConfiguration.ConfigurationCollection);
+                this.command.Config.MapReduceConfiguration.CapacitySchedulerConfigurationCollection.AddRange(
+                    value.MapReduceConfiguration.CapacitySchedulerConfigurationCollection);
+                this.command.Config.HiveConfiguration.ConfigurationCollection.AddRange(value.HiveConfiguration.ConfigurationCollection);
+                this.command.Config.OozieConfiguration.ConfigurationCollection.AddRange(value.OozieConfiguration.ConfigurationCollection);
+
             }
         }
 
