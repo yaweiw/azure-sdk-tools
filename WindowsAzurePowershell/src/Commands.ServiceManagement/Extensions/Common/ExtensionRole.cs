@@ -14,8 +14,6 @@
 
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Extensions
 {
-    using Management.Compute.Models;
-
     public class ExtensionRole
     {
         protected const string DefaultExtensionIdPrefixStr = "Default";

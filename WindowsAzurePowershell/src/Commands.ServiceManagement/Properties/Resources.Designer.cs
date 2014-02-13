@@ -340,6 +340,24 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Diagnostics Configuration Xml or File Path, only one of them needs to be specified..
+        /// </summary>
+        internal static string EitherDiagnosticsConfigurationXmlOrFilePathBeSpecified {
+            get {
+                return ResourceManager.GetString("EitherDiagnosticsConfigurationXmlOrFilePathBeSpecified", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Either Diagnostics Configuration Xml or File Path must be specified..
+        /// </summary>
+        internal static string EitherDiagnosticsConfigurationXmlOrFilePathMustBeSpecified {
+            get {
+                return ResourceManager.GetString("EitherDiagnosticsConfigurationXmlOrFilePathMustBeSpecified", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Location or AffinityGroup, only one of them needs to be specified..
         /// </summary>
         internal static string EitherLocationOrAffinityGroupBeSpecified {
@@ -736,6 +754,24 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Provision Guest Agent must be enabled on the VM object before setting IaaS Diagnostics Extension..
+        /// </summary>
+        internal static string ProvisionGuestAgentMustBeEnabledBeforeSettingIaaSDiagnosticsExtension {
+            get {
+                return ResourceManager.GetString("ProvisionGuestAgentMustBeEnabledBeforeSettingIaaSDiagnosticsExtension", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Provision Guest Agent must be enabled on the VM object before setting IaaS VM Access Extension..
+        /// </summary>
+        internal static string ProvisionGuestAgentMustBeEnabledBeforeSettingIaaSVMAccessExtension {
+            get {
+                return ResourceManager.GetString("ProvisionGuestAgentMustBeEnabledBeforeSettingIaaSVMAccessExtension", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Calculating MD5 Hash.
         /// </summary>
         internal static string PSSyncOutputEventsCalculatingMD5Hash {
@@ -1060,6 +1096,33 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Writing Config Template to the following file path: &apos;{0}&apos;..
+        /// </summary>
+        internal static string ResourceExtensionConfigTemplateWritingPath {
+            get {
+                return ResourceManager.GetString("ResourceExtensionConfigTemplateWritingPath", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The specified resource extension reference cannot be found..
+        /// </summary>
+        internal static string ResourceExtensionReferenceCannotBeFound {
+            get {
+                return ResourceManager.GetString("ResourceExtensionReferenceCannotBeFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The resource extension reference list is null or empty..
+        /// </summary>
+        internal static string ResourceExtensionReferencesIsNullOrEmpty {
+            get {
+                return ResourceManager.GetString("ResourceExtensionReferencesIsNullOrEmpty", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Roleinstance cannot be found.
         /// </summary>
         internal static string RoleInstanceCanNotBeFound {
@@ -1267,7 +1330,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Call Set-AzureSubscription and Select-AzureSubscription first..
+        ///   Looks up a localized string similar to No current subscription has been designated. Use Select-AzureSubscription -Current &lt;subscriptionName&gt; to set the current subscription..
         /// </summary>
         internal static string StorageCredentialsFactoryCurrentSubscriptionNotSet {
             get {

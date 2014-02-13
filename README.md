@@ -20,6 +20,9 @@ This repository contains a set of PowerShell cmdlets for developers and administ
   * Manage AffinityGroup
 * Website
   * Manage website, such as CRUD, start and stop.
+  * Manage slot
+  * Manage WebJob
+  * Deploy project via WebDeploy
   * Diagnostics
       * Configure site and application diagnostics
       * Log streaming
@@ -27,7 +30,7 @@ This repository contains a set of PowerShell cmdlets for developers and administ
 * Cloud Services
   * Create scaffolding for cloud service and role. Role support includes Node.js, PHP, Django and Cache.
   * Manage cloud service and role, such as CRUD, start and stop.
-  * Enable/Disable remote desktop.
+  * Manage extension
   * Start/Stop Azure emulator.
   * Manage certificate.
   * Manage cloud service extensions
@@ -35,11 +38,13 @@ This repository contains a set of PowerShell cmdlets for developers and administ
     * Diagnostics
 * Storage
   * Manage storage account and access key.
-  * Manage storage container and blob.
+  * Manage storage container and blob, with paging.
   * Copy storage blob.
   * Manage storage table.
   * Manage storage queue.
   * Create SAS token.
+  * Manage metrics and logging.
+  * Configure timeout
 * SQL Azure
   * CRUD support for database server, database and firewall rule.
   * Get database server quota.
@@ -54,11 +59,13 @@ This repository contains a set of PowerShell cmdlets for developers and administ
   * Get/Set VM sub net.
   * Manage certificate and SSH key.
   * PowerShell remoting
+  * Manage extension
 * Deployment
   * Manage deployment, such as CRUD, move, upgrade and restore.
   * Get/Create DNS settings of a deployment.
 * VNet
   * Manage virtual network config, connection and gateway.
+  * Manage static IP
 * HDInsight
   * Manage clusters, such as CRUD, add/set storage
   * Manage jobs, such as CRUD, start/stop/wait/invoke
@@ -75,6 +82,9 @@ This repository contains a set of PowerShell cmdlets for developers and administ
   * Web Site: CRUD web site, deployment, configure and get log, start/stop/restart/show web site
   * Service Bus: CRD namespace
   * VM: CRUD VM, get OS disk, size profile and VM template, start/stop/restart/suspend/resume VM
+* ExpressRoute
+  * Manage dedicated circuit
+  * Manage BGP peering
 
 For detail descriptions and examples of the cmdlets, type
 * ```help azure``` to get all the cmdlets.

@@ -19,6 +19,8 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement
     using System.Linq;
     using System.Net;
     using AutoMapper;
+    using Extensions;
+    using IaaS.Extensions;
     using Management.Compute.Models;
     using Management.Models;
     using Management.Storage.Models;
@@ -42,14 +44,38 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement
             });
         }
 
+        public override string ProfileName
+        {
+            get { return "ServiceManagementProfile"; }
+        }
+
         public static bool Initialize()
         {
             return initialize.Value;
         }
 
-        public override string ProfileName
+        public static bool Initialize(GetAzureServiceAvailableExtensionCommand command)
         {
-            get { return "ServiceManagementProfile"; }
+            Mapper.CreateMap<OperationStatusResponse, ExtensionImageContext>()
+                  .ForMember(c => c.OperationId, o => o.MapFrom(r => r.Id))
+                  .ForMember(c => c.OperationStatus, o => o.MapFrom(r => r.Status.ToString()));
+
+            Mapper.CreateMap<HostedServiceListAvailableExtensionsResponse.ExtensionImage, ExtensionImageContext>()
+                  .ForMember(c => c.ExtensionName, o => o.MapFrom(r => r.Type));
+
+            return Initialize();
+        }
+
+        public static bool Initialize(GetAzureVMAvailableExtensionCommand command)
+        {
+            Mapper.CreateMap<OperationStatusResponse, VirtualMachineExtensionImageContext>()
+                  .ForMember(c => c.OperationId, o => o.MapFrom(r => r.Id))
+                  .ForMember(c => c.OperationStatus, o => o.MapFrom(r => r.Status.ToString()));
+
+            Mapper.CreateMap<VirtualMachineExtensionListResponse.ResourceExtension, VirtualMachineExtensionImageContext>()
+                  .ForMember(c => c.ExtensionName, o => o.MapFrom(r => r.Name));
+
+            return Initialize();
         }
 
         protected override void Configure()
@@ -180,13 +206,13 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement
             Mapper.CreateMap<List<NSM.VirtualMachineUpdateLoadBalancedSetParameters.InputEndpoint>, PVM.LoadBalancedEndpointList>();
 
             //Common mapping
-            Mapper.CreateMap<OperationStatusResponse, ManagementOperationContext>()
-                  .ForMember(c => c.OperationId, o => o.MapFrom(r => r.Id))
-                  .ForMember(c => c.OperationStatus, o => o.MapFrom(r => r.Status.ToString()));
-
             Mapper.CreateMap<OperationResponse, ManagementOperationContext>()
                   .ForMember(c => c.OperationId, o => o.MapFrom(r => r.RequestId))
                   .ForMember(c => c.OperationStatus, o => o.MapFrom(r => r.StatusCode.ToString()));
+
+            Mapper.CreateMap<OperationStatusResponse, ManagementOperationContext>()
+                  .ForMember(c => c.OperationId, o => o.MapFrom(r => r.Id))
+                  .ForMember(c => c.OperationStatus, o => o.MapFrom(r => r.Status.ToString()));
 
             //AffinityGroup mapping
             Mapper.CreateMap<AffinityGroupGetResponse, AffinityGroupContext>();
@@ -233,10 +259,11 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement
                   .ForMember(c => c.OperationStatus, o => o.MapFrom(r => r.Status.ToString()));
 
             //Service mapping
+            Mapper.CreateMap<HostedServiceProperties, HostedServiceDetailedContext>()
+                  .ForMember(c => c.Description, o => o.MapFrom(r => string.IsNullOrEmpty(r.Description) ? null : r.Description))
+                  .ForMember(c => c.DateModified, o => o.MapFrom(r => r.DateLastModified));
             Mapper.CreateMap<HostedServiceGetResponse, HostedServiceDetailedContext>()
                   .ForMember(c => c.Url, o => o.MapFrom(r => r.Uri));
-            Mapper.CreateMap<HostedServiceProperties, HostedServiceDetailedContext>()
-                  .ForMember(c => c.Description, o => o.MapFrom(r => string.IsNullOrEmpty(r.Description) ? null : r.Description));
             Mapper.CreateMap<HostedServiceListResponse.HostedService, HostedServiceDetailedContext>()
                   .ForMember(c => c.Url, o => o.MapFrom(r => r.Uri));
             Mapper.CreateMap<OperationStatusResponse, HostedServiceDetailedContext>()
@@ -447,7 +474,8 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement
 
             Mapper.CreateMap<OperationStatusResponse, VirtualNetworkSiteContext>()
                   .ForMember(c => c.OperationId, o => o.MapFrom(r => r.Id))
-                  .ForMember(c => c.OperationStatus, o => o.MapFrom(r => r.Status.ToString()));
+                  .ForMember(c => c.OperationStatus, o => o.MapFrom(r => r.Status.ToString()))
+                  .ForMember(c => c.Id, o => o.Ignore());
 
             // Check Static IP Availability Response Mapping
             Mapper.CreateMap<NVM.NetworkStaticIPAvailabilityResponse, VirtualNetworkStaticIPAvailabilityContext>();
@@ -482,6 +510,109 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement
                           }
                       }
                   });
+
+            // Resource Reference Mapping - NSM to PVM
+            Mapper.CreateMap<NSM.ResourceExtensionParameterValue, PVM.ResourceExtensionParameterValue>();
+            Mapper.CreateMap<IList<NSM.ResourceExtensionParameterValue>, PVM.ResourceExtensionParameterValueList>()
+                  .AfterMap((c, s) =>
+                  {
+                      if (c != null)
+                      {
+                          c.ForEach(r => s.Add(Mapper.Map<PVM.ResourceExtensionParameterValue>(r)));
+                      }
+                  });
+            Mapper.CreateMap<IEnumerable<NSM.ResourceExtensionParameterValue>, PVM.ResourceExtensionParameterValueList>()
+                  .AfterMap((c, s) =>
+                  {
+                      if (c != null)
+                      {
+                          c.ForEach(r => s.Add(Mapper.Map<PVM.ResourceExtensionParameterValue>(r)));
+                      }
+                  });
+            Mapper.CreateMap<List<NSM.ResourceExtensionParameterValue>, PVM.ResourceExtensionParameterValueList>()
+                  .AfterMap((c, s) =>
+                  {
+                      if (c != null)
+                      {
+                          c.ForEach(r => s.Add(Mapper.Map<PVM.ResourceExtensionParameterValue>(r)));
+                      }
+                  });
+            Mapper.CreateMap<NSM.ResourceExtensionReference, PVM.ResourceExtensionReference>();
+            Mapper.CreateMap<IList<NSM.ResourceExtensionReference>, List<PVM.ResourceExtensionReference>>()
+                  .Include<IList<NSM.ResourceExtensionReference>, PVM.ResourceExtensionReferenceList>();
+            Mapper.CreateMap<IEnumerable<NSM.ResourceExtensionReference>, List<PVM.ResourceExtensionReference>>()
+                  .Include<IEnumerable<NSM.ResourceExtensionReference>, PVM.ResourceExtensionReferenceList>();
+            Mapper.CreateMap<List<NSM.ResourceExtensionReference>, List<PVM.ResourceExtensionReference>>()
+                  .Include<List<NSM.ResourceExtensionReference>, PVM.ResourceExtensionReferenceList>();
+            Mapper.CreateMap<IList<NSM.ResourceExtensionReference>, PVM.ResourceExtensionReferenceList>()
+                  .AfterMap((c, s) =>
+                  {
+                      if (c != null)
+                      {
+                          c.ForEach(r => s.Add(Mapper.Map<PVM.ResourceExtensionReference>(r)));
+                      }
+                  });
+            Mapper.CreateMap<IEnumerable<NSM.ResourceExtensionReference>, PVM.ResourceExtensionReferenceList>()
+                  .AfterMap((c, s) =>
+                  {
+                      if (c != null)
+                      {
+                          c.ForEach(r => s.Add(Mapper.Map<PVM.ResourceExtensionReference>(r)));
+                      }
+                  });
+            Mapper.CreateMap<List<NSM.ResourceExtensionReference>, PVM.ResourceExtensionReferenceList>()
+                  .AfterMap((c, s) =>
+                  {
+                      if (c != null)
+                      {
+                          c.ForEach(r => s.Add(Mapper.Map<PVM.ResourceExtensionReference>(r)));
+                      }
+                  });
+            // Resource Reference Mapping - PVM to NSM
+            Mapper.CreateMap<PVM.ResourceExtensionParameterValue, NSM.ResourceExtensionParameterValue>();
+            Mapper.CreateMap<PVM.ResourceExtensionParameterValueList, IList<NSM.ResourceExtensionParameterValue>>()
+                  .AfterMap((c, s) =>
+                  {
+                      if (c != null)
+                      {
+                          c.ForEach(r => s.Add(Mapper.Map<NSM.ResourceExtensionParameterValue>(r)));
+                      }
+                  });
+            Mapper.CreateMap<PVM.ResourceExtensionParameterValueList, IEnumerable<NSM.ResourceExtensionParameterValue>>();
+            Mapper.CreateMap<PVM.ResourceExtensionParameterValueList, List<NSM.ResourceExtensionParameterValue>>()
+                  .AfterMap((c, s) =>
+                  {
+                      if (c != null)
+                      {
+                          c.ForEach(r => s.Add(Mapper.Map<NSM.ResourceExtensionParameterValue>(r)));
+                      }
+                  });
+            Mapper.CreateMap<PVM.ResourceExtensionReference, NSM.ResourceExtensionReference>();
+            Mapper.CreateMap<PVM.ResourceExtensionReference, NSM.ResourceExtensionReference>();
+            Mapper.CreateMap<List<PVM.ResourceExtensionReference>, IList<NSM.ResourceExtensionReference>>()
+                  .Include<PVM.ResourceExtensionReferenceList, IList<NSM.ResourceExtensionReference>>();
+            Mapper.CreateMap<List<PVM.ResourceExtensionReference>, IEnumerable<NSM.ResourceExtensionReference>>()
+                  .Include<PVM.ResourceExtensionReferenceList, IEnumerable<NSM.ResourceExtensionReference>>();
+            Mapper.CreateMap<List<PVM.ResourceExtensionReference>, List<NSM.ResourceExtensionReference>>()
+                  .Include<PVM.ResourceExtensionReferenceList, List<NSM.ResourceExtensionReference>>();
+            Mapper.CreateMap<PVM.ResourceExtensionReferenceList, IList<NSM.ResourceExtensionReference>>()
+                  .AfterMap((c, s) =>
+                  {
+                      if (c != null)
+                      {
+                          c.ForEach(r => s.Add(Mapper.Map<NSM.ResourceExtensionReference>(r)));
+                      }
+                  });
+            Mapper.CreateMap<PVM.ResourceExtensionReferenceList, IEnumerable<NSM.ResourceExtensionReference>>();
+            Mapper.CreateMap<PVM.ResourceExtensionReferenceList, List<NSM.ResourceExtensionReference>>()
+                  .AfterMap((c, s) =>
+                  {
+                      if (c != null)
+                      {
+                          c.ForEach(r => s.Add(Mapper.Map<NSM.ResourceExtensionReference>(r)));
+                      }
+                  });
+
 
             // WSM to PVM
             Mapper.CreateMap<WSM.LoadBalancerProbe,                                           PVM.LoadBalancerProbe>();

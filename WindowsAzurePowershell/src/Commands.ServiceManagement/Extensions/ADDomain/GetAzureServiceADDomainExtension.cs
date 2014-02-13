@@ -26,7 +26,6 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Extensions
     public class GetAzureServiceADDomainExtensionCommand : BaseAzureServiceADDomainExtensionCmdlet
     {
         [Parameter(Position = 0, ValueFromPipelineByPropertyName = true, HelpMessage = ExtensionParameterPropertyHelper.ServiceNameHelpMessage)]
-        [ValidateNotNullOrEmpty]
         public override string ServiceName
         {
             get;
@@ -62,7 +61,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Extensions
 
                     return from role in extensionRoleList
                            from extension in r.Extensions
-                           where ExtensionManager.CheckNameSpaceType(extension, ExtensionNameSpace, ExtensionType)
+                           where ExtensionManager.CheckNameSpaceType(extension, ProviderNamespace, ExtensionName)
                               && ExtensionManager.GetBuilder(Deployment.ExtensionConfiguration).Exist(role, extension.Id)
                            select GetContext(s, role, extension) as ADDomainExtensionContext;
                 });
