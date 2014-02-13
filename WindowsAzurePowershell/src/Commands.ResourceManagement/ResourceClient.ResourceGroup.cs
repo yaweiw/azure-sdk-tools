@@ -23,6 +23,7 @@ using Microsoft.Azure.Management.Resources;
 using Microsoft.WindowsAzure.Commands.Utilities.Common;
 using Microsoft.WindowsAzure.Commands.Utilities.Common.Storage;
 using Newtonsoft.Json;
+using System.Linq;
 
 namespace Microsoft.Azure.Commands.ResourceManagement
 {
@@ -30,7 +31,106 @@ namespace Microsoft.Azure.Commands.ResourceManagement
     {
         private static string DeploymentTemplateStorageContainerName = "deployment-templates";
 
-        public ResourceGroup CreateOrUpdateResourceGroup(CreateResourceGroupParameters parameters)
+        private string GetDeploymentParameters(PSCreateResourceGroupParameters parameters)
+        {
+            string deploymentParameters = null;
+
+            if (parameters.ParameterObject != null)
+            {
+                Dictionary<string, object> parametersDictionary = parameters.ParameterObject.ToMultidimentionalDictionary();
+                deploymentParameters = JsonConvert.SerializeObject(parametersDictionary, new JsonSerializerSettings
+                {
+                    TypeNameAssemblyFormat = FormatterAssemblyStyle.Simple,
+                    TypeNameHandling = TypeNameHandling.None
+                });
+
+            }
+            else
+            {
+                deploymentParameters = File.ReadAllText(parameters.ParameterFile);
+            }
+
+            return deploymentParameters;
+        }
+
+        private Uri GetTemplateUri(PSCreateResourceGroupParameters parameters)
+        {
+            Uri templateFileUri;
+
+            if (!string.IsNullOrEmpty(parameters.TemplateFile))
+            {
+                if (Uri.IsWellFormedUriString(parameters.TemplateFile, UriKind.Absolute))
+                {
+                    templateFileUri = new Uri(parameters.TemplateFile);
+                }
+                else
+                {
+                    string storageAccountName = GetStorageAccountName(parameters);
+                    templateFileUri = StorageClientWrapper.UploadFileToBlob(new BlobUploadParameters
+                    {
+                        StorageName = storageAccountName,
+                        FileLocalPath = parameters.TemplateFile,
+                        FileRemoteName = Path.GetFileName(parameters.TemplateFile),
+                        OverrideIfExists = true,
+                        ContainerPublic = true,
+                        ContainerName = DeploymentTemplateStorageContainerName
+                    });
+                }
+            }
+            else
+            {
+                // To do: get the actual GalleryTemplateName uri
+                // templateFileUri = ResourceManagementClient.Gallary.GetTemplateFile(parameters.GalleryTemplateName).TemplateFileUri
+                templateFileUri = new Uri("http://microsoft.com");
+            }
+
+            return templateFileUri;
+        }
+
+        private string GetStorageAccountName(PSCreateResourceGroupParameters parameters)
+        {
+            string currentStorageName = null;
+            if (WindowsAzureProfile.Instance.CurrentSubscription != null)
+            {
+                currentStorageName = WindowsAzureProfile.Instance.CurrentSubscription.CurrentStorageAccountName;
+            }
+
+            string storageName = parameters.StorageAccountName ?? currentStorageName;
+
+            if (string.IsNullOrEmpty(storageName))
+            {
+                throw new ArgumentException(Resources.StorageAccountNameNeedsToBeSpecified);
+            }
+
+            return storageName;
+        }
+
+        private ContentHash GetTemplateContentHash(PSCreateResourceGroupParameters parameters)
+        {
+            ContentHash contentHash = null;
+
+            if (!string.IsNullOrEmpty(parameters.TemplateHash))
+            {
+                contentHash.Value = parameters.TemplateHash;
+                contentHash.Algorithm = string.IsNullOrEmpty(parameters.TemplateHashAlgorithm) ? ContentHashAlgorithm.Sha256 :
+                    (ContentHashAlgorithm)Enum.Parse(typeof(ContentHashAlgorithm), parameters.TemplateHashAlgorithm);
+            }
+
+            return contentHash;
+        }
+
+        private ResourceGroup CreateResourceGroup(string name, string location)
+        {
+            var result = ResourceManagementClient.ResourceGroups.CreateOrUpdate(name,
+                new BasicResourceGroup
+                {
+                    Location = location
+                });
+
+            return result.ResourceGroup;
+        }
+
+        public PSResourceGroup CreatePSResourceGroup(PSCreateResourceGroupParameters parameters)
         {
             // Validate that parameter group doesn't already exist
             if (ResourceManagementClient.ResourceGroups.Exists(parameters.Name).Exists)
@@ -38,95 +138,28 @@ namespace Microsoft.Azure.Commands.ResourceManagement
                 throw new ArgumentException(Resources.ResourceGroupAlreadyExists);
             }
 
-            // Create resource group and deploy a template from file
-            if (parameters.TemplateFile != null)
+            ResourceGroup resourceGroup = CreateResourceGroup(parameters.Name, parameters.Location);
+            DeploymentProperties properties = null;
+            bool createDeployment = !string.IsNullOrEmpty(parameters.GalleryTemplateName) || !string.IsNullOrEmpty(parameters.TemplateFile);
+
+            if (createDeployment)
             {
-                Uri templateFilePath = null;
-
-                // If local file - upload it to storage, if remote file - pass the string over as-is
-                if (parameters.TemplateFile.StartsWith("http://", StringComparison.OrdinalIgnoreCase) ||
-                    parameters.TemplateFile.StartsWith("https://", StringComparison.OrdinalIgnoreCase))
+                BasicDeployment deployment = new BasicDeployment()
                 {
-                    templateFilePath = new Uri(parameters.TemplateFile);
-                }
-                else
-                {
-                    var storageAccountName = GetStorageAccountNameOrThrowException(parameters);
-                    templateFilePath = StorageClientWrapper.UploadFileToBlob(new BlobUploadParameters
-                        {
-                            StorageName = storageAccountName,
-                            FileLocalPath = parameters.TemplateFile,
-                            FileRemoteName = Path.GetFileNameWithoutExtension(parameters.TemplateFile),
-                            OverrideIfExists = true,
-                            ContainerPublic = true,
-                            ContainerName = DeploymentTemplateStorageContainerName
-                        });
-                }
-
-                var resourceGroupCreateOrUpdateResult =
-                    ResourceManagementClient.ResourceGroups.CreateOrUpdate(parameters.Name,
-                    new BasicResourceGroup
-                        {
-                            Location = parameters.Location
-                        });
-
-                var templateDeployment = new BasicDeployment()
-                    {
-                        Mode = DeploymentMode.Incremental,
-                        TemplateLink = new TemplateLink
-                            {
-                                Uri = templateFilePath
-                            }
-                    };
-
-                if (parameters.ParameterObject != null)
-                {
-                    var paramDictionary = parameters.ParameterObject.ToMultidimentionalDictionary();
-                    var serializedParamDictionary = JsonConvert.SerializeObject(paramDictionary, new JsonSerializerSettings
-                        {
-                            TypeNameAssemblyFormat = FormatterAssemblyStyle.Simple,
-                            TypeNameHandling = TypeNameHandling.None
-                        });
-                    templateDeployment.Parameters = serializedParamDictionary;
-                }
+                    Mode = DeploymentMode.Incremental,
+                    TemplateLink = new TemplateLink() {
+                        Uri = GetTemplateUri(parameters),
+                        ContentVersion = parameters.TemplateVersion,
+                        ContentHash = GetTemplateContentHash(parameters)
+                    },
+                    Parameters = GetDeploymentParameters(parameters)
+                };
                 
-                ResourceManagementClient.Deployments.Create(parameters.Name,
-                                                Path.GetFileName(templateFilePath.ToString()),
-                                                templateDeployment);
+                properties = ResourceManagementClient.Deployments.Create(parameters.Name, parameters.DeploymentName, deployment).Properties;
+            }
 
-                return resourceGroupCreateOrUpdateResult.ResourceGroup;
-            }
-                // Create just resource group
-            else
-            {
-                return CreateResourceGroup(parameters).ResourceGroup;
-            }
-        }
-
-        private string GetStorageAccountNameOrThrowException(CreateResourceGroupParameters parameters)
-        {
-            string subscriptionStorageAccountName = null;
-            if (WindowsAzureProfile.Instance.CurrentSubscription != null)
-            {
-                subscriptionStorageAccountName =
-                    WindowsAzureProfile.Instance.CurrentSubscription.CurrentStorageAccountName;
-            }
-            var storageName = parameters.StorageAccountName ?? subscriptionStorageAccountName;
-            if (string.IsNullOrEmpty(storageName))
-            {
-                throw new ArgumentException(Resources.StorageAccountNameNeedsToBeSpecified);
-            }
-            return storageName;
-        }
-
-        private ResourceGroupCreateOrUpdateResult CreateResourceGroup(CreateResourceGroupParameters parameters)
-        {
-            var result = ResourceManagementClient.ResourceGroups.CreateOrUpdate(parameters.Name,
-                new BasicResourceGroup
-                    {
-                        Location = parameters.Location
-                    });
-            return result;
+            List<Resource> resources = ResourceManagementClient.Resources.ListForResourceGroup(resourceGroup.Name, new ResourceListParameters()).Resources.ToList();
+            return new PSResourceGroup() { Name = resourceGroup.Name, Location = resourceGroup.Location, Resources = resources };
         }
 
         public IEnumerable<ResourceGroup> GetResourceGroups(GetAzureResourceGroup parameters)
