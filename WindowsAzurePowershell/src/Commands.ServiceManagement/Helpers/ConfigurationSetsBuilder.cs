@@ -139,8 +139,28 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Helpers
 
         public void AddWinRmEndpoint()
         {
-            var winRmEndpoint = new InputEndpoint { LocalPort = WinRMPortNumber, Protocol = TcpProtocol, Name = WinRMConstants.EndpointName };
-            NetworkConfigurationSet.InputEndpoints.Add(winRmEndpoint);
+            var winRmEndpoint = GetWinRmEndpoint(NetworkConfigurationSet);
+            if (winRmEndpoint != null)
+            {
+                winRmEndpoint.Port = null; // null out to avoid conflicts
+            }
+            else
+            {
+                NetworkConfigurationSet.InputEndpoints.Add(
+                    new InputEndpoint
+                    {
+                        LocalPort = WinRMPortNumber,
+                        Protocol = TcpProtocol,
+                        Name = WinRMConstants.EndpointName
+                    });
+            }
+        }
+
+        private static InputEndpoint GetWinRmEndpoint(NetworkConfigurationSet networkConfigurationSet)
+        {
+            return networkConfigurationSet.InputEndpoints.FirstOrDefault(
+                ep => string.Equals(WinRMConstants.EndpointName, ep.Name, StringComparison.OrdinalIgnoreCase)
+                   || ep.LocalPort == WinRMPortNumber);
         }
 
         public void AddRdpEndpoint()
