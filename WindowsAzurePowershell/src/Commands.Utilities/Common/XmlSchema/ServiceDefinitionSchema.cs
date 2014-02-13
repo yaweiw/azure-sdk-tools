@@ -2713,7 +2713,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common.XmlSchema.ServiceDefi
         unspecified,
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlEnumAttribute("2013-10.2.2")]
+        [System.Xml.Serialization.XmlEnumAttribute("2014-01.2.3")]
         Item20131022,
     }
 

@@ -2030,7 +2030,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to v2.2.
+        ///   Looks up a localized string similar to v2.3.
         /// </summary>
         public static string MaxSupportAzureSdkVersion {
             get {
@@ -2057,7 +2057,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to v2.2.
+        ///   Looks up a localized string similar to v2.3.
         /// </summary>
         public static string MinSupportAzureSdkVersion {
             get {
