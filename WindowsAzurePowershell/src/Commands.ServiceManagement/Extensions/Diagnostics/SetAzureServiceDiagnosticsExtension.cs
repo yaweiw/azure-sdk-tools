@@ -29,7 +29,6 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Extensions
     {
         [Parameter(Position = 0, ValueFromPipelineByPropertyName = true, ParameterSetName = "SetExtension", HelpMessage = "Cloud Service Name")]
         [Parameter(Position = 0, ValueFromPipelineByPropertyName = true, ParameterSetName = "SetExtensionUsingThumbprint", HelpMessage = "Cloud Service Name")]
-        [ValidateNotNullOrEmpty]
         public override string ServiceName
         {
             get;
@@ -113,8 +112,8 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Extensions
             ValidateParameters();
             ExtensionConfigurationInput context = new ExtensionConfigurationInput
             {
-                ProviderNameSpace = ExtensionNameSpace,
-                Type = ExtensionType,
+                ProviderNameSpace = ProviderNamespace,
+                Type = ExtensionName,
                 CertificateThumbprint = CertificateThumbprint,
                 ThumbprintAlgorithm = ThumbprintAlgorithm,
                 X509Certificate = X509Certificate,
