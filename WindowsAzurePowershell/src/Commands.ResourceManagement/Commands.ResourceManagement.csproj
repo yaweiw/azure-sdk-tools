@@ -173,7 +173,8 @@
     <Reference Include="System.Management.Automation, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CreateResourceGroupParameters.cs" />
+    <Compile Include="PSResourceGroup.cs" />
+    <Compile Include="PSCreateResourceGroupParameters.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -197,6 +198,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Microsoft.Azure.Commands.ResourceManagement.dll-Help.xml" />
     <Content Include="Microsoft.Azure.Commands.ResourceManagement.format.ps1xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

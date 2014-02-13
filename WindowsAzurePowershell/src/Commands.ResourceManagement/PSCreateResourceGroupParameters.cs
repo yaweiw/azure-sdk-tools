@@ -12,6 +12,7 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
+using Microsoft.Azure.Management.Resources.Models;
 using Microsoft.WindowsAzure.Commands.Utilities.Common;
 using System.Collections;
 using System.Collections.Generic;
@@ -19,7 +20,7 @@ using System.Linq;
 
 namespace Microsoft.Azure.Commands.ResourceManagement
 {
-    public class CreateResourceGroupParameters
+    public class PSCreateResourceGroupParameters
     {
         public string Name { get; set; }
 
@@ -32,6 +33,8 @@ namespace Microsoft.Azure.Commands.ResourceManagement
         public string TemplateFile { get; set; }
 
         public Hashtable ParameterObject { get; set; }
+
+        public string ParameterFile { get; set; }
 
         public string TemplateVersion { get; set; }
 
