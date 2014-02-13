@@ -29,7 +29,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites.Common
 
         private Repository GetRepository(string websiteName)
         {
-            Site site = WebsitesClient.GetWebsite(websiteName);
+            Site site = WebsitesClient.GetWebsite(websiteName, Slot);
             if (site != null)
             {
                 return new Repository(site);

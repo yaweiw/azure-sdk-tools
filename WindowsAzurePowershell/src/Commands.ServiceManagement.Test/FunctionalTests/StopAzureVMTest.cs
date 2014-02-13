@@ -92,14 +92,14 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
             try
             {
                 // starting the test.
-                AzureVMConfigInfo azureVMConfigInfo1 = new AzureVMConfigInfo(vmName1, InstanceSize.ExtraSmall, imageName);
-                AzureProvisioningConfigInfo azureProvisioningConfig1 = new AzureProvisioningConfigInfo(OS.Windows, username, password);
-                PersistentVMConfigInfo persistentVMConfigInfo1 = new PersistentVMConfigInfo(azureVMConfigInfo1, azureProvisioningConfig1, null, null);
+                var azureVMConfigInfo1 = new AzureVMConfigInfo(vmName1, InstanceSize.ExtraSmall.ToString(), imageName);
+                var azureProvisioningConfig1 = new AzureProvisioningConfigInfo(OS.Windows, username, password);
+                var persistentVMConfigInfo1 = new PersistentVMConfigInfo(azureVMConfigInfo1, azureProvisioningConfig1, null, null);
                 PersistentVM persistentVM1 = vmPowershellCmdlets.GetPersistentVM(persistentVMConfigInfo1);
 
-                AzureVMConfigInfo azureVMConfigInfo2 = new AzureVMConfigInfo(vmName2, InstanceSize.Small, imageName);
-                AzureProvisioningConfigInfo azureProvisioningConfig2 = new AzureProvisioningConfigInfo(OS.Windows, username, password);
-                PersistentVMConfigInfo persistentVMConfigInfo2 = new PersistentVMConfigInfo(azureVMConfigInfo2, azureProvisioningConfig2, null, null);
+                var azureVMConfigInfo2 = new AzureVMConfigInfo(vmName2, InstanceSize.Small.ToString(), imageName);
+                var azureProvisioningConfig2 = new AzureProvisioningConfigInfo(OS.Windows, username, password);
+                var persistentVMConfigInfo2 = new PersistentVMConfigInfo(azureVMConfigInfo2, azureProvisioningConfig2, null, null);
                 PersistentVM persistentVM2 = vmPowershellCmdlets.GetPersistentVM(persistentVMConfigInfo2);
 
                 PersistentVM[] VMs = { persistentVM1, persistentVM2 };
@@ -109,6 +109,16 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
 
                 WaitForStartingState(svcName, vmName1);
                 vmPowershellCmdlets.StopAzureVM(vmName1, svcName, true); // Stop-AzureVM -StayProvisioned against VM1
+
+                for (int i = 0; i < 10 ; i++)
+                {
+                    if (CheckRoleInstanceState(svcName, vmName1, new string[] {stoppedProvisionedState}))
+                    {
+                        break;
+                    }
+                    Thread.Sleep(1000);
+                }
+
                 Assert.IsTrue(CheckRoleInstanceState(svcName, vmName1, new string[] { stoppedProvisionedState }));
 
                 // Stop-AzureVM -StayProvisioned against VM2
@@ -145,14 +155,14 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
             try
             {
                 // starting the test.
-                AzureVMConfigInfo azureVMConfigInfo1 = new AzureVMConfigInfo(vmName1, InstanceSize.ExtraSmall, imageName);
-                AzureProvisioningConfigInfo azureProvisioningConfig1 = new AzureProvisioningConfigInfo(OS.Windows, username, password);
-                PersistentVMConfigInfo persistentVMConfigInfo1 = new PersistentVMConfigInfo(azureVMConfigInfo1, azureProvisioningConfig1, null, null);
+                var azureVMConfigInfo1 = new AzureVMConfigInfo(vmName1, InstanceSize.ExtraSmall.ToString(), imageName);
+                var azureProvisioningConfig1 = new AzureProvisioningConfigInfo(OS.Windows, username, password);
+                var persistentVMConfigInfo1 = new PersistentVMConfigInfo(azureVMConfigInfo1, azureProvisioningConfig1, null, null);
                 PersistentVM persistentVM1 = vmPowershellCmdlets.GetPersistentVM(persistentVMConfigInfo1);
 
-                AzureVMConfigInfo azureVMConfigInfo2 = new AzureVMConfigInfo(vmName2, InstanceSize.Small, imageName);
-                AzureProvisioningConfigInfo azureProvisioningConfig2 = new AzureProvisioningConfigInfo(OS.Windows, username, password);
-                PersistentVMConfigInfo persistentVMConfigInfo2 = new PersistentVMConfigInfo(azureVMConfigInfo2, azureProvisioningConfig2, null, null);
+                var azureVMConfigInfo2 = new AzureVMConfigInfo(vmName2, InstanceSize.Small.ToString(), imageName);
+                var azureProvisioningConfig2 = new AzureProvisioningConfigInfo(OS.Windows, username, password);
+                var persistentVMConfigInfo2 = new PersistentVMConfigInfo(azureVMConfigInfo2, azureProvisioningConfig2, null, null);
                 PersistentVM persistentVM2 = vmPowershellCmdlets.GetPersistentVM(persistentVMConfigInfo2);
 
                 PersistentVM[] VMs = { persistentVM1, persistentVM2 };
@@ -199,14 +209,14 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
             try
             {
                 // starting the test.
-                AzureVMConfigInfo azureVMConfigInfo1 = new AzureVMConfigInfo(vmName1, InstanceSize.ExtraSmall, imageName);
-                AzureProvisioningConfigInfo azureProvisioningConfig1 = new AzureProvisioningConfigInfo(OS.Windows, username, password);
-                PersistentVMConfigInfo persistentVMConfigInfo1 = new PersistentVMConfigInfo(azureVMConfigInfo1, azureProvisioningConfig1, null, null);
+                var azureVMConfigInfo1 = new AzureVMConfigInfo(vmName1, InstanceSize.ExtraSmall.ToString(), imageName);
+                var azureProvisioningConfig1 = new AzureProvisioningConfigInfo(OS.Windows, username, password);
+                var persistentVMConfigInfo1 = new PersistentVMConfigInfo(azureVMConfigInfo1, azureProvisioningConfig1, null, null);
                 PersistentVM persistentVM1 = vmPowershellCmdlets.GetPersistentVM(persistentVMConfigInfo1);
 
-                AzureVMConfigInfo azureVMConfigInfo2 = new AzureVMConfigInfo(vmName2, InstanceSize.Small, imageName);
-                AzureProvisioningConfigInfo azureProvisioningConfig2 = new AzureProvisioningConfigInfo(OS.Windows, username, password);
-                PersistentVMConfigInfo persistentVMConfigInfo2 = new PersistentVMConfigInfo(azureVMConfigInfo2, azureProvisioningConfig2, null, null);
+                var azureVMConfigInfo2 = new AzureVMConfigInfo(vmName2, InstanceSize.Small.ToString(), imageName);
+                var azureProvisioningConfig2 = new AzureProvisioningConfigInfo(OS.Windows, username, password);
+                var persistentVMConfigInfo2 = new PersistentVMConfigInfo(azureVMConfigInfo2, azureProvisioningConfig2, null, null);
                 PersistentVM persistentVM2 = vmPowershellCmdlets.GetPersistentVM(persistentVMConfigInfo2);
 
                 PersistentVM[] VMs = { persistentVM1, persistentVM2 };
@@ -275,14 +285,14 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
             try
             {
                 // starting the test.
-                AzureVMConfigInfo azureVMConfigInfo1 = new AzureVMConfigInfo(vmName1, InstanceSize.ExtraSmall, imageName);
-                AzureProvisioningConfigInfo azureProvisioningConfig1 = new AzureProvisioningConfigInfo(OS.Windows, username, password);
-                PersistentVMConfigInfo persistentVMConfigInfo1 = new PersistentVMConfigInfo(azureVMConfigInfo1, azureProvisioningConfig1, null, null);
+                var azureVMConfigInfo1 = new AzureVMConfigInfo(vmName1, InstanceSize.ExtraSmall.ToString(), imageName);
+                var azureProvisioningConfig1 = new AzureProvisioningConfigInfo(OS.Windows, username, password);
+                var persistentVMConfigInfo1 = new PersistentVMConfigInfo(azureVMConfigInfo1, azureProvisioningConfig1, null, null);
                 PersistentVM persistentVM1 = vmPowershellCmdlets.GetPersistentVM(persistentVMConfigInfo1);
 
-                AzureVMConfigInfo azureVMConfigInfo2 = new AzureVMConfigInfo(vmName2, InstanceSize.Small, imageName);
-                AzureProvisioningConfigInfo azureProvisioningConfig2 = new AzureProvisioningConfigInfo(OS.Windows, username, password);
-                PersistentVMConfigInfo persistentVMConfigInfo2 = new PersistentVMConfigInfo(azureVMConfigInfo2, azureProvisioningConfig2, null, null);
+                var azureVMConfigInfo2 = new AzureVMConfigInfo(vmName2, InstanceSize.Small.ToString(), imageName);
+                var azureProvisioningConfig2 = new AzureProvisioningConfigInfo(OS.Windows, username, password);
+                var persistentVMConfigInfo2 = new PersistentVMConfigInfo(azureVMConfigInfo2, azureProvisioningConfig2, null, null);
                 PersistentVM persistentVM2 = vmPowershellCmdlets.GetPersistentVM(persistentVMConfigInfo2);
 
                 PersistentVM[] VMs = { persistentVM1, persistentVM2 };
@@ -368,9 +378,9 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
             try
             {
                 // starting the test.
-                AzureVMConfigInfo azureVMConfigInfo1 = new AzureVMConfigInfo(vmName1, InstanceSize.Small, imageName);
-                AzureProvisioningConfigInfo azureProvisioningConfig1 = new AzureProvisioningConfigInfo(OS.Windows, username, password);
-                PersistentVMConfigInfo persistentVMConfigInfo1 = new PersistentVMConfigInfo(azureVMConfigInfo1, azureProvisioningConfig1, null, null);
+                var azureVMConfigInfo1 = new AzureVMConfigInfo(vmName1, InstanceSize.Small.ToString(), imageName);
+                var azureProvisioningConfig1 = new AzureProvisioningConfigInfo(OS.Windows, username, password);
+                var persistentVMConfigInfo1 = new PersistentVMConfigInfo(azureVMConfigInfo1, azureProvisioningConfig1, null, null);
                 PersistentVM persistentVM1 = vmPowershellCmdlets.GetPersistentVM(persistentVMConfigInfo1);
 
                 PersistentVM[] VMs = { persistentVM1 };
@@ -437,15 +447,15 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
             try
             {
                 // Configure VM1
-                AzureVMConfigInfo azureVMConfigInfo1 = new AzureVMConfigInfo(vmName1, InstanceSize.ExtraSmall, imageName);
-                AzureProvisioningConfigInfo azureProvisioningConfig1 = new AzureProvisioningConfigInfo(OS.Windows, username, password);
-                PersistentVMConfigInfo persistentVMConfigInfo1 = new PersistentVMConfigInfo(azureVMConfigInfo1, azureProvisioningConfig1, null, null);
+                var azureVMConfigInfo1 = new AzureVMConfigInfo(vmName1, InstanceSize.ExtraSmall.ToString(), imageName);
+                var azureProvisioningConfig1 = new AzureProvisioningConfigInfo(OS.Windows, username, password);
+                var persistentVMConfigInfo1 = new PersistentVMConfigInfo(azureVMConfigInfo1, azureProvisioningConfig1, null, null);
                 PersistentVM persistentVM1 = vmPowershellCmdlets.GetPersistentVM(persistentVMConfigInfo1);
 
                 // Configure VM2
-                AzureVMConfigInfo azureVMConfigInfo2 = new AzureVMConfigInfo(vmName2, InstanceSize.Small, imageName);
-                AzureProvisioningConfigInfo azureProvisioningConfig2 = new AzureProvisioningConfigInfo(OS.Windows, username, password);
-                PersistentVMConfigInfo persistentVMConfigInfo2 = new PersistentVMConfigInfo(azureVMConfigInfo2, azureProvisioningConfig2, null, null);
+                var azureVMConfigInfo2 = new AzureVMConfigInfo(vmName2, InstanceSize.Small.ToString(), imageName);
+                var azureProvisioningConfig2 = new AzureProvisioningConfigInfo(OS.Windows, username, password);
+                var persistentVMConfigInfo2 = new PersistentVMConfigInfo(azureVMConfigInfo2, azureProvisioningConfig2, null, null);
                 PersistentVM persistentVM2 = vmPowershellCmdlets.GetPersistentVM(persistentVMConfigInfo2);
 
                 PersistentVM[] VMs = { persistentVM1, persistentVM2 };
@@ -526,9 +536,9 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
             try
             {
                 // starting the test.
-                AzureVMConfigInfo azureVMConfigInfo1 = new AzureVMConfigInfo(vmName1, InstanceSize.Small, imageName);
-                AzureProvisioningConfigInfo azureProvisioningConfig1 = new AzureProvisioningConfigInfo(OS.Windows, username, password);
-                PersistentVMConfigInfo persistentVMConfigInfo1 = new PersistentVMConfigInfo(azureVMConfigInfo1, azureProvisioningConfig1, null, null);
+                var azureVMConfigInfo1 = new AzureVMConfigInfo(vmName1, InstanceSize.Small.ToString(), imageName);
+                var azureProvisioningConfig1 = new AzureProvisioningConfigInfo(OS.Windows, username, password);
+                var persistentVMConfigInfo1 = new PersistentVMConfigInfo(azureVMConfigInfo1, azureProvisioningConfig1, null, null);
                 PersistentVM persistentVM1 = vmPowershellCmdlets.GetPersistentVM(persistentVMConfigInfo1);
 
                 PersistentVM[] VMs = { persistentVM1 };
@@ -610,15 +620,15 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
             try
             {
                 // Configure VM1
-                AzureVMConfigInfo azureVMConfigInfo1 = new AzureVMConfigInfo(vmName1, InstanceSize.ExtraSmall, imageName);
-                AzureProvisioningConfigInfo azureProvisioningConfig1 = new AzureProvisioningConfigInfo(OS.Windows, username, password);
-                PersistentVMConfigInfo persistentVMConfigInfo1 = new PersistentVMConfigInfo(azureVMConfigInfo1, azureProvisioningConfig1, null, null);
+                var azureVMConfigInfo1 = new AzureVMConfigInfo(vmName1, InstanceSize.ExtraSmall.ToString(), imageName);
+                var azureProvisioningConfig1 = new AzureProvisioningConfigInfo(OS.Windows, username, password);
+                var persistentVMConfigInfo1 = new PersistentVMConfigInfo(azureVMConfigInfo1, azureProvisioningConfig1, null, null);
                 PersistentVM persistentVM1 = vmPowershellCmdlets.GetPersistentVM(persistentVMConfigInfo1);
 
                 // Configure VM2
-                AzureVMConfigInfo azureVMConfigInfo2 = new AzureVMConfigInfo(vmName2, InstanceSize.Small, imageName);
-                AzureProvisioningConfigInfo azureProvisioningConfig2 = new AzureProvisioningConfigInfo(OS.Windows, username, password);
-                PersistentVMConfigInfo persistentVMConfigInfo2 = new PersistentVMConfigInfo(azureVMConfigInfo2, azureProvisioningConfig2, null, null);
+                var azureVMConfigInfo2 = new AzureVMConfigInfo(vmName2, InstanceSize.Small.ToString(), imageName);
+                var azureProvisioningConfig2 = new AzureProvisioningConfigInfo(OS.Windows, username, password);
+                var persistentVMConfigInfo2 = new PersistentVMConfigInfo(azureVMConfigInfo2, azureProvisioningConfig2, null, null);
                 PersistentVM persistentVM2 = vmPowershellCmdlets.GetPersistentVM(persistentVMConfigInfo2);
 
                 PersistentVM[] VMs = { persistentVM1, persistentVM2 };
@@ -717,9 +727,9 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
                 DateTime prevTime = DateTime.Now;
 
                 // starting the test.
-                AzureVMConfigInfo azureVMConfigInfo1 = new AzureVMConfigInfo(vmName1, InstanceSize.Small, imageName);
-                AzureProvisioningConfigInfo azureProvisioningConfig1 = new AzureProvisioningConfigInfo(OS.Windows, username, password);
-                PersistentVMConfigInfo persistentVMConfigInfo1 = new PersistentVMConfigInfo(azureVMConfigInfo1, azureProvisioningConfig1, null, null);
+                var azureVMConfigInfo1 = new AzureVMConfigInfo(vmName1, InstanceSize.Small.ToString(), imageName);
+                var azureProvisioningConfig1 = new AzureProvisioningConfigInfo(OS.Windows, username, password);
+                var persistentVMConfigInfo1 = new PersistentVMConfigInfo(azureVMConfigInfo1, azureProvisioningConfig1, null, null);
                 PersistentVM persistentVM1 = vmPowershellCmdlets.GetPersistentVM(persistentVMConfigInfo1);
 
                 PersistentVM[] VMs = { persistentVM1 };
@@ -777,15 +787,15 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
                 DateTime prevTime = DateTime.Now;
 
                 // Configure VM1
-                AzureVMConfigInfo azureVMConfigInfo1 = new AzureVMConfigInfo(vmName1, InstanceSize.ExtraSmall, imageName);
-                AzureProvisioningConfigInfo azureProvisioningConfig1 = new AzureProvisioningConfigInfo(OS.Windows, username, password);
-                PersistentVMConfigInfo persistentVMConfigInfo1 = new PersistentVMConfigInfo(azureVMConfigInfo1, azureProvisioningConfig1, null, null);
+                var azureVMConfigInfo1 = new AzureVMConfigInfo(vmName1, InstanceSize.ExtraSmall.ToString(), imageName);
+                var azureProvisioningConfig1 = new AzureProvisioningConfigInfo(OS.Windows, username, password);
+                var persistentVMConfigInfo1 = new PersistentVMConfigInfo(azureVMConfigInfo1, azureProvisioningConfig1, null, null);
                 PersistentVM persistentVM1 = vmPowershellCmdlets.GetPersistentVM(persistentVMConfigInfo1);
 
                 // Configure VM2
-                AzureVMConfigInfo azureVMConfigInfo2 = new AzureVMConfigInfo(vmName2, InstanceSize.Small, imageName);
-                AzureProvisioningConfigInfo azureProvisioningConfig2 = new AzureProvisioningConfigInfo(OS.Windows, username, password);
-                PersistentVMConfigInfo persistentVMConfigInfo2 = new PersistentVMConfigInfo(azureVMConfigInfo2, azureProvisioningConfig2, null, null);
+                var azureVMConfigInfo2 = new AzureVMConfigInfo(vmName2, InstanceSize.Small.ToString(), imageName);
+                var azureProvisioningConfig2 = new AzureProvisioningConfigInfo(OS.Windows, username, password);
+                var persistentVMConfigInfo2 = new PersistentVMConfigInfo(azureVMConfigInfo2, azureProvisioningConfig2, null, null);
                 PersistentVM persistentVM2 = vmPowershellCmdlets.GetPersistentVM(persistentVMConfigInfo2);
 
                 PersistentVM[] VMs = { persistentVM1, persistentVM2 };
@@ -876,9 +886,9 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
                 DateTime prevTime = DateTime.Now;
 
                 // starting the test.
-                AzureVMConfigInfo azureVMConfigInfo1 = new AzureVMConfigInfo(vmName1, InstanceSize.Small, imageName);
-                AzureProvisioningConfigInfo azureProvisioningConfig1 = new AzureProvisioningConfigInfo(OS.Windows, username, password);
-                PersistentVMConfigInfo persistentVMConfigInfo1 = new PersistentVMConfigInfo(azureVMConfigInfo1, azureProvisioningConfig1, null, null);
+                var azureVMConfigInfo1 = new AzureVMConfigInfo(vmName1, InstanceSize.Small.ToString(), imageName);
+                var azureProvisioningConfig1 = new AzureProvisioningConfigInfo(OS.Windows, username, password);
+                var persistentVMConfigInfo1 = new PersistentVMConfigInfo(azureVMConfigInfo1, azureProvisioningConfig1, null, null);
                 PersistentVM persistentVM1 = vmPowershellCmdlets.GetPersistentVM(persistentVMConfigInfo1);
 
                 PersistentVM[] VMs = { persistentVM1 };
@@ -912,13 +922,22 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
                     {
                         Console.WriteLine(e.ToString());
                         Thread.Sleep(60 * 1000);
-                        continue;
                     }
                 }
 
                 WaitForReadyState(svcName, vmName1);
                 Utilities.RecordTimeTaken(ref prevTime);
-                Assert.IsTrue(CheckRoleInstanceState(svcName, vmName1, new string[] { readyState }));
+                Assert.IsTrue(CheckRoleInstanceState(svcName, vmName1, new [] { readyState }));
+
+                var vm = vmPowershellCmdlets.GetAzureVM(vmName1, svcName).VM;
+                var vmSizeConfig = new SetAzureVMSizeConfig(InstanceSize.Medium.ToString());
+                vmSizeConfig.Vm = vm;
+                vm = vmPowershellCmdlets.SetAzureVMSize(vmSizeConfig);
+                vmPowershellCmdlets.UpdateAzureVM(vmName1, svcName, vm);
+
+                vm = vmPowershellCmdlets.GetAzureVM(vmName1, svcName).VM;
+                Console.WriteLine("RoleSize: {0}", vm.RoleSize);
+                Assert.AreEqual(InstanceSize.Medium.ToString(), vm.RoleSize);
 
                 pass = true;
             }
@@ -951,15 +970,15 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
                 DateTime prevTime = DateTime.Now;
 
                 // Configure VM1
-                AzureVMConfigInfo azureVMConfigInfo1 = new AzureVMConfigInfo(vmName1, InstanceSize.ExtraSmall, imageName);
-                AzureProvisioningConfigInfo azureProvisioningConfig1 = new AzureProvisioningConfigInfo(OS.Windows, username, password);
-                PersistentVMConfigInfo persistentVMConfigInfo1 = new PersistentVMConfigInfo(azureVMConfigInfo1, azureProvisioningConfig1, null, null);
+                var azureVMConfigInfo1 = new AzureVMConfigInfo(vmName1, InstanceSize.ExtraSmall.ToString(), imageName);
+                var azureProvisioningConfig1 = new AzureProvisioningConfigInfo(OS.Windows, username, password);
+                var persistentVMConfigInfo1 = new PersistentVMConfigInfo(azureVMConfigInfo1, azureProvisioningConfig1, null, null);
                 PersistentVM persistentVM1 = vmPowershellCmdlets.GetPersistentVM(persistentVMConfigInfo1);
 
                 // Configure VM2
-                AzureVMConfigInfo azureVMConfigInfo2 = new AzureVMConfigInfo(vmName2, InstanceSize.Small, imageName);
-                AzureProvisioningConfigInfo azureProvisioningConfig2 = new AzureProvisioningConfigInfo(OS.Windows, username, password);
-                PersistentVMConfigInfo persistentVMConfigInfo2 = new PersistentVMConfigInfo(azureVMConfigInfo2, azureProvisioningConfig2, null, null);
+                var azureVMConfigInfo2 = new AzureVMConfigInfo(vmName2, InstanceSize.Small.ToString(), imageName);
+                var azureProvisioningConfig2 = new AzureProvisioningConfigInfo(OS.Windows, username, password);
+                var persistentVMConfigInfo2 = new PersistentVMConfigInfo(azureVMConfigInfo2, azureProvisioningConfig2, null, null);
                 PersistentVM persistentVM2 = vmPowershellCmdlets.GetPersistentVM(persistentVMConfigInfo2);
 
                 PersistentVM[] VMs = { persistentVM1, persistentVM2 };

@@ -51,36 +51,6 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Test.Blob.Cmdlet
         }
 
         [TestMethod]
-        public void ListContainersByNameWithEmptyNameTest()
-        {
-            //List all the azure container
-            IEnumerable<CloudBlobContainer> containerList = command.ListContainersByName(String.Empty);
-            Assert.IsFalse(containerList.Any());
-
-            AddTestContainers();
-
-            containerList = command.ListContainersByName(String.Empty);
-            Assert.AreEqual(5, containerList.Count());
-        }
-
-        [TestMethod]
-        public void ListContainersByNameWithWildCardsTest()
-        {
-            AddTestContainers();
-
-            IEnumerable<CloudBlobContainer> containerList = command.ListContainersByName("te*t");
-            Assert.AreEqual(2, containerList.Count());
-
-            containerList = command.ListContainersByName("tx*t");
-            Assert.IsFalse(containerList.Any());
-
-            containerList = command.ListContainersByName("t?st");
-            Assert.AreEqual(1, containerList.Count());
-            
-            Assert.AreEqual("test", containerList.First().Name);
-        }
-
-        [TestMethod]
         public void ListContainersByNameWithInvalidNameTest()
         {
             string invalidName = "a";
@@ -95,9 +65,9 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Test.Blob.Cmdlet
         public void ListContainersByNameWithContainerNameTest()
         {
             AddTestContainers();
-            IEnumerable<CloudBlobContainer> containerList = command.ListContainersByName("text");
+            IEnumerable<Tuple<CloudBlobContainer, BlobContinuationToken>> containerList = command.ListContainersByName("text");
             Assert.AreEqual(1, containerList.Count());
-            Assert.AreEqual("text", containerList.First().Name);
+            Assert.AreEqual("text", containerList.First().Item1.Name);
         }
 
         [TestMethod]
@@ -109,30 +79,11 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Test.Blob.Cmdlet
         }
 
         [TestMethod]
-        public void ListContainersByPrefixTest()
-        {
-            AddTestContainers();
-
-            IEnumerable<CloudBlobContainer> containerList = command.ListContainersByPrefix("te");
-            Assert.AreEqual(2, containerList.Count());
-            
-            containerList = command.ListContainersByPrefix("tes");
-            Assert.AreEqual(1, containerList.Count());
-            Assert.AreEqual("test", containerList.First().Name);
-
-            ((MockCommandRuntime)command.CommandRuntime).ResetPipelines();
-            containerList = command.ListContainersByPrefix("testx");
-            Assert.IsFalse(containerList.Any());
-        }
-
-        [TestMethod]
         public void ListContainerByPrefixWithInvalidPrefixTest()
         {
             ((MockCommandRuntime)command.CommandRuntime).ResetPipelines();
             string prefix = "?";
-            AssertThrows<ArgumentException>(() => command.ListContainersByPrefix(prefix), String.Format(Resources.InvalidContainerName, prefix));
-            prefix = string.Empty;
-            AssertThrows<ArgumentException>(() => command.ListContainersByPrefix(prefix), String.Format(Resources.InvalidContainerName, prefix));
+            AssertThrows<ArgumentException>(() => command.ListContainersByPrefix(prefix).ToList(), String.Format(Resources.InvalidContainerName, prefix));
         }
 
         [TestMethod]
@@ -141,14 +92,14 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Test.Blob.Cmdlet
             IEnumerable<AzureStorageContainer> containerList = command.PackCloudBlobContainerWithAcl(null);
             Assert.IsFalse(containerList.Any());
 
-            containerList = command.PackCloudBlobContainerWithAcl(BlobMock.ContainerList);
+            containerList = command.PackCloudBlobContainerWithAcl(BlobMock.ContainerAndTokenList);
             Assert.IsFalse(containerList.Any());
 
             AddTestContainers();
-            containerList = command.PackCloudBlobContainerWithAcl(BlobMock.ContainerList);
+            containerList = command.PackCloudBlobContainerWithAcl(BlobMock.ContainerAndTokenList);
             Assert.AreEqual(5, containerList.Count());
         }
-        
+
         [TestMethod]
         public void ExecuteCommandGetContainerTest()
         {

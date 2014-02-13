@@ -28,14 +28,11 @@ namespace Microsoft.WindowsAzure.Commands.Websites
     /// Gets an azure website.
     /// </summary>
     [Cmdlet(VerbsCommon.Get, "AzureWebsite"), OutputType(typeof(SiteWithConfig), typeof(IEnumerable<Site>))]
-    public class GetAzureWebsiteCommand : WebsiteBaseCmdlet
+    public class GetAzureWebsiteCommand : WebsiteContextBaseCmdlet
     {
-        [Parameter(Position = 0, Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "The web site name.")]
-        [ValidateNotNullOrEmpty]
-        public string Name
+        public GetAzureWebsiteCommand()
         {
-            get;
-            set;
+            websiteNameDiscovery = false;
         }
 
         protected virtual void WriteWebsites(IEnumerable<Site> websites)
@@ -59,31 +56,60 @@ namespace Microsoft.WindowsAzure.Commands.Websites
         {
             Do(() =>
                 {
-                    Site websiteObject = WebsitesClient.GetWebsite(Name);
-                    SiteConfig config = WebsitesClient.GetWebsiteConfiguration(Name);
-                    Cache.AddSite(CurrentSubscription.SubscriptionId, websiteObject);
-
-                    var diagnosticSettings = new DiagnosticsSettings();
-                    try
+                    if (string.IsNullOrEmpty(Slot))
                     {
-                        diagnosticSettings = WebsitesClient.GetApplicationDiagnosticsSettings(Name);
-                    }
-                    catch
-                    {
-                        // Ignore exception and use default values
-                    }
+                        List<Site> websites = WebsitesClient.GetWebsiteSlots(Name);
+                        Cache.SaveSites(CurrentSubscription.SubscriptionId, new Sites(websites));
 
-                    WriteObject(new SiteWithConfig(websiteObject, config, diagnosticSettings), false);
+                        if (websites.Count > 1)
+                        {
+                            WriteWebsites(websites);
+                        }
+                        else if(websites.Count == 1)
+                        {
+                            Site websiteObject = websites[0];
+                            WriteWebsite(websiteObject);
+                        }
+                    }
+                    else
+                    {
+                        Site websiteObject = WebsitesClient.GetWebsite(Name, Slot);
+                        WriteWebsite(websiteObject);
+                    }
                 });
+        }
+
+        private void WriteWebsite(Site websiteObject)
+        {
+            SiteConfig config = WebsitesClient.GetWebsiteConfiguration(websiteObject.Name);
+
+            var diagnosticSettings = new DiagnosticsSettings();
+            try
+            {
+                diagnosticSettings = WebsitesClient.GetApplicationDiagnosticsSettings(websiteObject.Name);
+            }
+            catch
+            {
+                // Ignore exception and use default values
+            }
+
+            WriteObject(new SiteWithConfig(websiteObject, config, diagnosticSettings), false);
         }
 
         private void GetNoName()
         {
             Do(() =>
                 {
-                    var websites = WebsitesClient.ListWebSpaces()
-                        .SelectMany(space => WebsitesClient.ListSitesInWebSpace(space.Name))
-                        .ToList();
+                    List<Site> websites;
+                    if (string.IsNullOrEmpty(Slot))
+                    {
+                        websites = WebsitesClient.ListWebsites();
+                    }
+                    else
+                    {
+                        websites = WebsitesClient.ListWebsites(Slot);
+                    }
+
                     Cache.SaveSites(CurrentSubscription.SubscriptionId, new Sites(websites));
                     WriteWebsites(websites);
                 });

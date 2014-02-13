@@ -157,7 +157,7 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Database.Cmdlet
             SqlManagementClient sqlManagementClient = SqlDatabaseCmdletBase.GetCurrentSqlClient();
 
             // Start the database export operation
-            DacImportExportResponse response = sqlManagementClient.Dacs.Import(
+            DacImportExportResponse response = sqlManagementClient.Dac.Import(
                 serverName,
                 new DacImportParameters()
                 {
@@ -172,7 +172,9 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Database.Cmdlet
                         DatabaseName = databaseName,
                         UserName = sqlCredentials.UserName,
                         Password = sqlCredentials.Password,
-                    }
+                    },
+                    AzureEdition = edition,
+                    DatabaseSizeInGB = maxDatabaseSizeInGB
                 });
 
             ImportExportRequest result = new ImportExportRequest()

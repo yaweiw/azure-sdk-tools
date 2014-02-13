@@ -16,11 +16,14 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
 {
     using System;
     using System.Collections.Generic;
+    using System.Linq;
     using System.Management.Automation;
     using System.Security.Cryptography.X509Certificates;
     using Common;
     using Helpers;
+    using IaaS.Extensions;
     using Model;
+    using Model.PersistentVMModel;
     using Properties;
 
     /// <summary>
@@ -38,8 +41,16 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
             set;
         }
 
+        [Parameter(HelpMessage = "To disable IaaS provision guest agent.")]
+        public SwitchParameter DisableGuestAgent
+        {
+            get;
+            set;
+        }
+
         internal void ExecuteCommand()
         {
+            ServiceManagementProfile.Initialize();
             var role = VM.GetInstance();
             var configSetbuilder = new ConfigurationSetsBuilder(role.ConfigurationSets);
             if (Linux.IsPresent)
@@ -48,7 +59,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
                 SetProvisioningConfiguration(configSetbuilder.LinuxConfigurationBuilder.Provisioning);
                 configSetbuilder.LinuxConfigurationBuilder.Provisioning.HostName = role.RoleName;
 
-                if (DisableSSH.IsPresent == false || NoSSHEndpoint.IsPresent)
+                if (!(DisableSSH.IsPresent || NoSSHEndpoint.IsPresent))
                 {
                     configSetbuilder.NetworkConfigurationBuilder.AddSshEndpoint();
                 }
@@ -88,6 +99,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
                     role.X509Certificates.AddRange(this.X509Certificates);
                 }
                 role.NoExportPrivateKey = this.NoExportPrivateKey.IsPresent;
+                role.ProvisionGuestAgent = !DisableGuestAgent.IsPresent;
             }
 
             WriteObject(VM, true);

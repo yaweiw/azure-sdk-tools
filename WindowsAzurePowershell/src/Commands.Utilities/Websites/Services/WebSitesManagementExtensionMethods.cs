@@ -128,7 +128,8 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites.Services
                 AvailabilityState = (SiteAvailabilityState) (int) response.WebSite.AvailabilityState,
                 SSLCertificates = response.WebSite.SslCertificates.Select(ToCertificate).ToArray(),
                 SiteMode = response.WebSite.SiteMode.ToString(),
-                HostNameSslStates = new HostNameSslStates(response.WebSite.HostNameSslStates.Select(ToNameSslState).ToList())
+                HostNameSslStates = new HostNameSslStates(response.WebSite.HostNameSslStates.Select(ToNameSslState).ToList()),
+                ComputeMode = response.WebSite.ComputeMode
             };
         }
 
@@ -155,7 +156,8 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites.Services
                 AvailabilityState = (SiteAvailabilityState) (int) site.AvailabilityState,
                 SSLCertificates = site.SslCertificates.Select(ToCertificate).ToArray(),
                 SiteMode = site.SiteMode.ToString(),
-                HostNameSslStates = new HostNameSslStates(site.HostNameSslStates.Select(ToNameSslState).ToList())
+                HostNameSslStates = new HostNameSslStates(site.HostNameSslStates.Select(ToNameSslState).ToList()),
+                ComputeMode = site.ComputeMode
             };
         }
 
@@ -183,8 +185,8 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites.Services
                 SiteName = certificate.SiteName,
                 SelfLink = certificate.SelfLinkUri,
                 Issuer = certificate.Issuer,
-                IssueDate = certificate.IssueDate,
-                ExpirationDate = certificate.ExpirationDate,
+                IssueDate = certificate.IssueDate.Value,
+                ExpirationDate = certificate.ExpirationDate.Value,
                 Password = certificate.Password,
                 Thumbprint = certificate.Thumbprint,
                 Valid = certificate.IsValid

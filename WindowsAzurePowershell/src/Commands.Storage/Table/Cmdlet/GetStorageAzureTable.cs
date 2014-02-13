@@ -14,12 +14,12 @@
 
 namespace Microsoft.WindowsAzure.Commands.Storage.Table.Cmdlet
 {
-    using Common;
-    using Microsoft.WindowsAzure.Storage.Table;
     using System;
     using System.Collections.Generic;
     using System.Management.Automation;
     using System.Security.Permissions;
+    using Common;
+    using Microsoft.WindowsAzure.Storage.Table;
     using Model.Contract;
     using Model.ResourceModel;
 
@@ -76,7 +76,7 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Table.Cmdlet
         /// <returns>An enumerable collection of CloudTable object</returns>
         internal IEnumerable<CloudTable> ListTablesByName(string name)
         {
-            TableRequestOptions requestOptions = null;
+            TableRequestOptions requestOptions = RequestOptions;
             String prefix = String.Empty;
 
             if (String.IsNullOrEmpty(name) || WildcardPattern.ContainsWildcardCharacters(name))
@@ -125,7 +125,7 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Table.Cmdlet
         /// <returns>An enumerable collection of CloudTable object</returns>
         internal IEnumerable<CloudTable> ListTablesByPrefix(string prefix)
         {
-            TableRequestOptions reqesutOptions = null;
+            TableRequestOptions reqesutOptions = RequestOptions;
 
             if (!NameUtil.IsValidTablePrefix(prefix))
             {

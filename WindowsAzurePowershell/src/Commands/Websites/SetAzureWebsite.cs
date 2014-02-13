@@ -14,13 +14,15 @@
 
 namespace Microsoft.WindowsAzure.Commands.Websites
 {
+    using Microsoft.WindowsAzure.Commands.Utilities.Websites;
+    using Microsoft.WindowsAzure.Management.WebSites.Models;
     using System.Collections;
     using System.Collections.Generic;
+    using System.Linq;
     using System.Management.Automation;
+    using Utilities.Common;
     using Utilities.Websites.Common;
     using Utilities.Websites.Services.WebEntities;
-    using Utilities.Common;
-using Microsoft.WindowsAzure.Management.WebSites.Models;
 
     /// <summary>
     /// Sets an azure website properties.
@@ -88,11 +90,10 @@ using Microsoft.WindowsAzure.Management.WebSites.Models;
 
         public override void ExecuteCmdlet()
         {
-            base.ExecuteCmdlet();
-
             GetCurrentSiteState();
             UpdateConfig();
             UpdateHostNames();
+            Slot = null;
 
             if (PassThru.IsPresent)
             {
@@ -102,8 +103,8 @@ using Microsoft.WindowsAzure.Management.WebSites.Models;
 
         private void GetCurrentSiteState()
         {
-            website = WebsitesClient.GetWebsite(Name);
-            currentSiteConfig = WebsitesClient.GetWebsiteConfiguration(Name);
+            website = WebsitesClient.GetWebsite(Name, Slot);
+            currentSiteConfig = WebsitesClient.GetWebsiteConfiguration(Name, Slot);
         }
 
         private void UpdateConfig()
@@ -120,7 +121,7 @@ using Microsoft.WindowsAzure.Management.WebSites.Models;
 
             if (changes)
             {
-                WebsitesClient.UpdateWebsiteConfiguration(Name, websiteConfigUpdate.GetSiteConfig());
+                WebsitesClient.UpdateWebsiteConfiguration(Name, websiteConfigUpdate.GetSiteConfig(), Slot);
             }
         }
 
@@ -128,10 +129,18 @@ using Microsoft.WindowsAzure.Management.WebSites.Models;
         {
             if (HostNames != null)
             {
-                string suffix = WebsitesClient.GetWebsiteDnsSuffix(); 
-                var newHostNames = new List<string> { string.Format("{0}.{1}", Name, suffix) };
-                newHostNames.AddRange(HostNames);
-                WebsitesClient.UpdateWebsiteHostNames(website, newHostNames);
+                string hostname = WebsitesClient.GetHostName(Name, Slot);
+                List<string> newHostNames = new List<string>();
+                if (!HostNames.Contains(hostname))
+                {
+                    newHostNames.Add(hostname);
+                    newHostNames.AddRange(HostNames);
+                }
+
+                if (newHostNames.Count > 0)
+                {
+                    WebsitesClient.UpdateWebsiteHostNames(website, newHostNames, Slot);
+                }
             }
             
         }

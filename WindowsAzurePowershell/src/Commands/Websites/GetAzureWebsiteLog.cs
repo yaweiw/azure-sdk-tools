@@ -80,6 +80,7 @@ namespace Microsoft.WindowsAzure.Commands.Websites
             {
                 foreach (string logLine in WebsitesClient.StartLogStreaming(
                     Name,
+                    Slot,
                     Path,
                     Message,
                     StopCondition,
@@ -90,7 +91,7 @@ namespace Microsoft.WindowsAzure.Commands.Websites
             }
             else if (ListPath.IsPresent)
             {
-                WriteObject(WebsitesClient.ListLogPaths(Name).Select(i => i.Name), true);
+                WriteObject(WebsitesClient.ListLogPaths(Name, Slot).Select(i => i.Name), true);
             }
         }
     }

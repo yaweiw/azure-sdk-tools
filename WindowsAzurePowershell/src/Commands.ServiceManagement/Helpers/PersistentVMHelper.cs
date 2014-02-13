@@ -138,6 +138,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Helpers
             {
                 result.Add(Mapper.Map<Management.Compute.Models.ConfigurationSet>(networkConfig));
             }
+
             foreach (var windowsConfig in configurationSets.OfType<WindowsProvisioningConfigurationSet>())
             {
                 var newWinCfg = Mapper.Map<Management.Compute.Models.ConfigurationSet>(windowsConfig);
@@ -158,12 +159,15 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Helpers
                         }
                     }
                 }
+
                 result.Add(newWinCfg);
             }
+
             foreach (var linuxConfig in configurationSets.OfType<LinuxProvisioningConfigurationSet>())
             {
                 result.Add(Mapper.Map<Management.Compute.Models.ConfigurationSet>(linuxConfig));
             }
+
             return result;
         }
 

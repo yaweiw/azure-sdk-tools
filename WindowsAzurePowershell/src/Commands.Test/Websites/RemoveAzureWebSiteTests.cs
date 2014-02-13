@@ -31,10 +31,11 @@ namespace Microsoft.WindowsAzure.Commands.Test.Websites
         {
             // Setup
             var mockClient = new Mock<IWebsitesClient>();
+            string slot = "staging";
 
-            mockClient.Setup(c => c.GetWebsite("website1"))
+            mockClient.Setup(c => c.GetWebsite("website1", slot))
                 .Returns(new Site { Name = "website1", WebSpace = "webspace1" });
-            mockClient.Setup(c => c.DeleteWebsite("webspace1", "website1", false, false)).Verifiable();
+            mockClient.Setup(c => c.DeleteWebsite("webspace1", "website1", slot)).Verifiable();
 
             // Test
             RemoveAzureWebsiteCommand removeAzureWebsiteCommand = new RemoveAzureWebsiteCommand
@@ -42,12 +43,13 @@ namespace Microsoft.WindowsAzure.Commands.Test.Websites
                 CommandRuntime = new MockCommandRuntime(),
                 WebsitesClient = mockClient.Object,
                 Name = "website1",
-                CurrentSubscription = new WindowsAzureSubscription { SubscriptionId = base.subscriptionId }
+                CurrentSubscription = new WindowsAzureSubscription { SubscriptionId = base.subscriptionId },
+                Slot = slot
             };
 
             // Delete existing website
             removeAzureWebsiteCommand.ExecuteCmdlet();
-            mockClient.Verify(c => c.DeleteWebsite("webspace1", "website1", false, false), Times.Once());
+            mockClient.Verify(c => c.DeleteWebsite("webspace1", "website1", slot), Times.Once());
         }
     }
 }
