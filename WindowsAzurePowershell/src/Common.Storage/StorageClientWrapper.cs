@@ -62,11 +62,15 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common.Storage
         {
             var credentials = new StorageCredentials(storageName, storageKey);
             var client = new CloudBlobClient(blobEndpointUri, credentials);
-            string blobName = string.Format(
-                CultureInfo.InvariantCulture,
-                "{0}_{1}",
-                DateTime.UtcNow.ToString("yyyyMMdd_HHmmss", CultureInfo.InvariantCulture),
-                Path.GetFileName(parameters.FileLocalPath));
+            string blobName = parameters.FileRemoteName;
+            if (string.IsNullOrEmpty(blobName))
+            {
+                blobName = string.Format(
+                    CultureInfo.InvariantCulture,
+                    "{0}_{1}",
+                    DateTime.UtcNow.ToString("yyyyMMdd_HHmmss", CultureInfo.InvariantCulture),
+                    Path.GetFileName(parameters.FileLocalPath));
+            }
 
             CloudBlobContainer container = client.GetContainerReference(parameters.ContainerName);
             var wasCreated = container.CreateIfNotExists();
@@ -79,6 +83,19 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common.Storage
             }
 
             CloudBlockBlob blob = container.GetBlockBlobReference(blobName);
+
+            if (blob.Exists())
+            {
+                if (parameters.OverrideIfExists)
+                {
+                    blob.DeleteIfExists();
+                }
+                else
+                {
+                    throw new ArgumentException(string.Format(CultureInfo.CurrentCulture,
+                        Commands.Common.Properties.Resources.BlobAlreadyExistsInTheAccount, blobName));
+                }
+            }
 
             using (FileStream readStream = File.OpenRead(parameters.FileLocalPath))
             {

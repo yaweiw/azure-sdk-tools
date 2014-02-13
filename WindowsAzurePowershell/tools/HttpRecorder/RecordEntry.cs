@@ -17,7 +17,7 @@ using System.Net.Http;
 using System.Linq;
 using System.Net;
 
-namespace Microsoft.Azure.Utilities.HttpRecorder
+namespace Microsoft.WindowsAzure.Utilities.HttpRecorder
 {
     public class RecordEntry
     {

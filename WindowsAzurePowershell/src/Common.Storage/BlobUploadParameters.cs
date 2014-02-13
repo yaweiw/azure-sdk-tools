@@ -20,14 +20,17 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common.Storage
     {
         public string StorageName {get; set;}
         public string FileLocalPath { get; set; }
+        public string FileRemoteName { get; set; }
         public string ContainerName { get; set; }
         public bool ContainerPublic { get; set; }
+        public bool OverrideIfExists { get; set; }
         public BlobRequestOptions BlobRequestOptions { get; set; }
 
         public BlobUploadParameters()
         {
             ContainerPublic = false;
             ContainerName = "mydeployments";
+            OverrideIfExists = false;
         }
     }
 }

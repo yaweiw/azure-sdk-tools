@@ -19,9 +19,8 @@ using System.Linq;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
-using Microsoft.WindowsAzure.Commands.Utilities.Common.HttpRecorder;
 
-namespace Microsoft.Azure.Utilities.HttpRecorder
+namespace Microsoft.WindowsAzure.Utilities.HttpRecorder
 {
     public class HttpMockServer : DelegatingHandler
     {
@@ -45,7 +44,8 @@ namespace Microsoft.Azure.Utilities.HttpRecorder
 
         private static HttpRecorderMode GetCurrentMode()
         {
-            string input = Environment.GetEnvironmentVariable(modeEnvironmentVariableName);
+
+            string input =  Environment.GetEnvironmentVariable(modeEnvironmentVariableName);
             HttpRecorderMode mode;
 
             if (string.IsNullOrEmpty(input))
