@@ -97,7 +97,14 @@ namespace Microsoft.WindowsAzure.Commands.Subscription
 
             if (string.IsNullOrEmpty(CloudServiceEndpoint))
             {
-                subscription.CloudServiceEndpoint = new Uri(Profile.CurrentEnvironment.CloudServiceEndpoint);
+                if (Profile.CurrentEnvironment.CloudServiceEndpoint != null)
+                {
+                    subscription.CloudServiceEndpoint = new Uri(Profile.CurrentEnvironment.CloudServiceEndpoint);
+                }
+                else
+                {
+                    subscription.CloudServiceEndpoint = null;
+                }
             }
             else
             {
