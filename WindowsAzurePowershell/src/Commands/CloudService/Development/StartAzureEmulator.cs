@@ -33,7 +33,9 @@ namespace Microsoft.WindowsAzure.Commands.CloudService.Development
         [Alias("ln")]
         public SwitchParameter Launch { get; set; }
 
-        [PermissionSet(SecurityAction.LinkDemand, Name = "FullTrust")]
+        [Parameter(Mandatory = false, HelpMessage="The emulator type")]
+        public ComputeEmulatorMode Mode { get; set; }
+
         public CloudServiceProject StartAzureEmulatorProcess(string rootPath)
         {
             string standardOutput;
@@ -45,7 +47,7 @@ namespace Microsoft.WindowsAzure.Commands.CloudService.Development
             if (Directory.Exists(cloudServiceProject.Paths.LocalPackage))
             {
                 WriteVerbose(Resources.StopEmulatorMessage);
-                cloudServiceProject.StopEmulator(out standardOutput, out standardError);
+                cloudServiceProject.StopEmulator();
                 WriteVerbose(Resources.StoppedEmulatorMessage);
                 WriteVerbose(string.Format(Resources.RemovePackage, cloudServiceProject.Paths.LocalPackage));
                 Directory.Delete(cloudServiceProject.Paths.LocalPackage, true);
@@ -56,7 +58,7 @@ namespace Microsoft.WindowsAzure.Commands.CloudService.Development
             
             WriteVerbose(Resources.StartingEmulator);
             cloudServiceProject.ResolveRuntimePackageUrls();
-            cloudServiceProject.StartEmulator(Launch.ToBool(), out standardOutput, out standardError);
+            cloudServiceProject.StartEmulator(Launch.ToBool(), Mode, out standardOutput, out standardError);
             
             WriteVerbose(standardOutput);
             WriteVerbose(Resources.StartedEmulator);
@@ -68,7 +70,6 @@ namespace Microsoft.WindowsAzure.Commands.CloudService.Development
             return cloudServiceProject;
         }
 
-        [PermissionSet(SecurityAction.Demand, Name = "FullTrust")]
         public override void ExecuteCmdlet()
         {
             AzureTool.Validate();
