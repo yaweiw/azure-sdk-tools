@@ -266,7 +266,8 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService
         {
             VerifyCloudServiceProjectComponents();
             CsPack packageTool = new CsPack();
-            packageTool.CreatePackage(Components.Definition, Paths, type, out standardOutput, out standardError);
+            AzureTool azureTool = new AzureTool();
+            packageTool.CreatePackage(Components.Definition, Paths, type, azureTool.AzureSdkBinDirectory, out standardOutput, out standardError);
         }
 
         private void VerifyCloudServiceProjectComponents()

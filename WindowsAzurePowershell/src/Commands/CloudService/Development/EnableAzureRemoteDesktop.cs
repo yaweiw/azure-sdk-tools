@@ -117,7 +117,9 @@ namespace Microsoft.WindowsAzure.Commands.CloudService.Development
             X509Certificate2 cert = FindCertificate();
             if (cert == null)
             {
-                new CsEncrypt().CreateCertificate();
+                AzureTool azureTool = new AzureTool();
+                CsEncrypt csEncrypt = new CsEncrypt(azureTool.AzureSdkBinDirectory);
+                csEncrypt.CreateCertificate();
                 cert = FindCertificate();
             }
             return cert;
