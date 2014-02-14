@@ -25,14 +25,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService.AzureTools
     {
         public int DeploymentId { get; private set; }
         private string _csrunPath;
-        private bool _useEmulatorExpress;
-        public CsRun(bool useEmulatorExpress, string emulatorDirectory)
-        {
-            _useEmulatorExpress = useEmulatorExpress;
-            _csrunPath = Path.Combine(emulatorDirectory, Resources.CsRunExe);
-        }
-
-        public CsRun(string emulatorDirectory) 
+        public CsRun(string emulatorDirectory)
         {
             _csrunPath = Path.Combine(emulatorDirectory, Resources.CsRunExe);
         }
@@ -49,13 +42,19 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService.AzureTools
         /// <param name="packagePath">Path to package which will be deployed</param>
         /// <param name="configPath">Local configuration path to used with the package</param>
         /// <param name="launch">Switch which opens browser for web roles after deployment</param>
+        /// <param name="mode">Emulator mode: Full or Express</param>
         /// <param name="standardOutput">Standard output of deployment</param>
         /// <param name="standardError">Standard error of deployment</param>
         /// <returns>Deployment id associated with the deployment</returns>
-        public int StartEmulator(string packagePath, string configPath, bool launch, out string standardOutput, out string standardError)
+        public int StartEmulator(string packagePath, 
+                string configPath, 
+                bool launch, 
+                ComputeEmulatorMode mode,
+                out string standardOutput, 
+                out string standardError)
         {
             // Starts compute emulator.
-            StartComputeEmulator(out standardOutput, out standardError);
+            StartComputeEmulator(mode, out standardOutput, out standardError);
 
             // Starts storage emulator.
             StartStorageEmulator(out standardOutput, out standardError);
@@ -65,7 +64,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService.AzureTools
 
             // Deploys the package on local machine.
             string arguments = string.Format(Resources.RunInEmulatorArguments, packagePath, configPath, (launch) ? Resources.CsRunLanuchBrowserArg : string.Empty);
-            StartCsRunProcess(_useEmulatorExpress, arguments, out standardOutput, out standardError);
+            StartCsRunProcess(mode, arguments, out standardOutput, out standardError);
 
             // Get deployment id for future use.
             DeploymentId = GetDeploymentCount(standardOutput);
@@ -85,9 +84,9 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService.AzureTools
             StartCsRunProcess(Resources.CsRunStartStorageEmulatorArg, out standardOutput, out standardError);
         }
 
-        private void StartComputeEmulator(out string standardOutput, out string standardError)
+        private void StartComputeEmulator(ComputeEmulatorMode mode, out string standardOutput, out string standardError)
         {
-            StartCsRunProcess(_useEmulatorExpress, Resources.CsRunStartComputeEmulatorArg, out standardOutput, out standardError);
+            StartCsRunProcess(mode, Resources.CsRunStartComputeEmulatorArg, out standardOutput, out standardError);
         }
 
         public void RemoveDeployment(int deploymentId, out string standardOutput, out string standardError)
@@ -123,9 +122,9 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService.AzureTools
             }
         }
 
-        private void StartCsRunProcess(bool useEmulatorExpress, string arguments, out string standardOutput, out string standardError)
+        private void StartCsRunProcess(ComputeEmulatorMode mode, string arguments, out string standardOutput, out string standardError)
         {
-            if (useEmulatorExpress)
+            if (mode == ComputeEmulatorMode.Express)
             {
                 arguments += " " + Resources.CsRunEmulatorExpressArg;
             }

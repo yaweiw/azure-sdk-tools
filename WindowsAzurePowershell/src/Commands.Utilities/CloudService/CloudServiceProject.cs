@@ -296,10 +296,11 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService
         /// <param name="launchBrowser">Switch to control opening a browser for web roles.</param>
         /// <param name="standardOutput">Output result from csrun.exe</param>
         /// <param name="standardError">Error result from csrun.exe</param>
-        public void StartEmulator(bool launchBrowser, bool useEmulatorExpress, out string standardOutput, out string standardError)
+        public void StartEmulator(bool launchBrowser, ComputeEmulatorMode mode , out string standardOutput, out string standardError)
         {
-            var runTool = new CsRun(useEmulatorExpress, (new AzureTool()).AzureEmulatorDirectory);
-            runTool.StartEmulator(Paths.LocalPackage, Paths.LocalConfiguration, launchBrowser, out standardOutput, out standardError);
+            AzureTool tool = new AzureTool();
+            var runTool = new CsRun(tool.AzureEmulatorDirectory);
+            runTool.StartEmulator(Paths.LocalPackage, Paths.LocalConfiguration, launchBrowser, mode, out standardOutput, out standardError);
         }
 
         public void StopEmulator()
