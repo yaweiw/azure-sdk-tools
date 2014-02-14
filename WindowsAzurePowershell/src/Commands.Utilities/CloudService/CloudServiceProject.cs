@@ -266,7 +266,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService
         {
             VerifyCloudServiceProjectComponents();
             CsPack packageTool = new CsPack();
-            packageTool.CreatePackage(Components.Definition, Paths, type, out standardOutput, out standardError);
+            packageTool.CreatePackage(Components.Definition, Paths, type, AzureTool.GetAzureSdkBinDirectory(), out standardOutput, out standardError);
         }
 
         private void VerifyCloudServiceProjectComponents()
@@ -296,15 +296,15 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService
         /// <param name="launchBrowser">Switch to control opening a browser for web roles.</param>
         /// <param name="standardOutput">Output result from csrun.exe</param>
         /// <param name="standardError">Error result from csrun.exe</param>
-        public void StartEmulator(bool launchBrowser, bool useEmulatorExpress, out string standardOutput, out string standardError)
+        public void StartEmulator(bool launchBrowser, ComputeEmulatorMode mode , out string standardOutput, out string standardError)
         {
-            var runTool = new CsRun(useEmulatorExpress, (new AzureTool()).AzureEmulatorDirectory);
-            runTool.StartEmulator(Paths.LocalPackage, Paths.LocalConfiguration, launchBrowser, out standardOutput, out standardError);
+            var runTool = new CsRun(AzureTool.GetAzureEmulatorDirectory());
+            runTool.StartEmulator(Paths.LocalPackage, Paths.LocalConfiguration, launchBrowser, mode, out standardOutput, out standardError);
         }
 
         public void StopEmulator()
         {
-            var runTool = new CsRun((new AzureTool()).AzureEmulatorDirectory);
+            var runTool = new CsRun(AzureTool.GetAzureEmulatorDirectory());
             runTool.StopEmulator();
         }
 
