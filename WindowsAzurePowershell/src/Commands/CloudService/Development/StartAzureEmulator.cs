@@ -29,16 +29,12 @@ namespace Microsoft.WindowsAzure.Commands.CloudService.Development
     [Cmdlet(VerbsLifecycle.Start, "AzureEmulator"), OutputType(typeof(CloudServiceProject))]
     public class StartAzureEmulatorCommand : CmdletBase
     {
-        private const string ExpressMode = "Express";
-        private const string FullMode = "Full";
-
         [Parameter(Mandatory = false)]
         [Alias("ln")]
         public SwitchParameter Launch { get; set; }
 
         [Parameter(Mandatory = false, HelpMessage="The emulator type")]
-        [ValidateSet(new string[] { ExpressMode, FullMode }, IgnoreCase = true)]
-        public string Mode { get; set; }
+        public ComputeEmulatorMode Mode { get; set; }
 
         public CloudServiceProject StartAzureEmulatorProcess(string rootPath)
         {
@@ -47,8 +43,6 @@ namespace Microsoft.WindowsAzure.Commands.CloudService.Development
 
             StringBuilder message = new StringBuilder();
             CloudServiceProject cloudServiceProject = new CloudServiceProject(rootPath ,null);
-
-            bool useEmulatorExpress = string.IsNullOrEmpty(Mode) || Mode == ExpressMode;
 
             if (Directory.Exists(cloudServiceProject.Paths.LocalPackage))
             {
@@ -64,7 +58,7 @@ namespace Microsoft.WindowsAzure.Commands.CloudService.Development
             
             WriteVerbose(Resources.StartingEmulator);
             cloudServiceProject.ResolveRuntimePackageUrls();
-            cloudServiceProject.StartEmulator(Launch.ToBool(), useEmulatorExpress, out standardOutput, out standardError);
+            cloudServiceProject.StartEmulator(Launch.ToBool(), Mode, out standardOutput, out standardError);
             
             WriteVerbose(standardOutput);
             WriteVerbose(Resources.StartedEmulator);

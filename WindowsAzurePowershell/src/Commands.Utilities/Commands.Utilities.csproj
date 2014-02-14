@@ -303,6 +303,7 @@
     <Compile Include="CloudService\CloudRuntimeCollection.cs" />
     <Compile Include="CloudService\CloudRuntimePackage.cs" />
     <Compile Include="CloudService\CloudServiceClient.cs" />
+    <Compile Include="CloudService\ComputeEmulatorMode.cs" />
     <Compile Include="CloudService\Model\ConfigurationSet.cs" />
     <Compile Include="CloudService\Model\Deployment.cs" />
     <Compile Include="CloudService\Model\DeploymentStatus.cs" />

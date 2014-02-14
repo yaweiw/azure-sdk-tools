@@ -17,6 +17,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.CloudService.Utilities
     using Commands.Utilities.CloudService.AzureTools;
     using Microsoft.WindowsAzure.Commands.Utilities.Common;
     using Microsoft.WindowsAzure.Commands.Utilities.Properties;
+    using Microsoft.WindowsAzure.Commands.Utilities.CloudService;
     using Moq;
     using Test.Utilities.Common;
     using VisualStudio.TestTools.UnitTesting;
@@ -36,16 +37,16 @@ namespace Microsoft.WindowsAzure.Commands.Test.CloudService.Utilities
         [TestMethod]
         public void StartEmulatorUsingExpressMode_VerifyCommandLineArguments()
         {
-            StartEmulatorCommonTest(true);
+            StartEmulatorCommonTest(ComputeEmulatorMode.Express);
         }
 
         [TestMethod]
         public void StartEmulatorUsingFullMode_VerifyCommandLineArguments()
         {
-            StartEmulatorCommonTest(false);
+            StartEmulatorCommonTest(ComputeEmulatorMode.Full);
         }
 
-        private void StartEmulatorCommonTest(bool useEmulatorExpress)
+        private void StartEmulatorCommonTest(ComputeEmulatorMode mode)
         {
             // Setup
             string testEmulatorFolder = @"C:\foo-bar";
@@ -57,7 +58,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.CloudService.Utilities
             string expectedRemoveAllDeploymentsArgument = Resources.CsRunRemoveAllDeploymentsArg;
             string expectedAzureProjectArgument = string.Format(Resources.RunInEmulatorArguments,
                 testPackagePath, testConfigPath, Resources.CsRunLanuchBrowserArg);
-            if (useEmulatorExpress)
+            if (mode== ComputeEmulatorMode.Express)
             {
                 expectedComputeArguments += " " + Resources.CsRunEmulatorExpressArg;
                 expectedAzureProjectArgument += " " + Resources.CsRunEmulatorExpressArg;
@@ -65,7 +66,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.CloudService.Utilities
       
             string testOutput = "Role is running at tcp://127.0.0.1:8080";
 
-            CsRun csRun = new CsRun(useEmulatorExpress, testEmulatorFolder);
+            CsRun csRun = new CsRun(testEmulatorFolder);
             Mock<ProcessHelper> commandRunner = new Mock<ProcessHelper>();
             commandRunner.Setup(p => p.StartAndWaitForProcess(expectedCsrunCommand, expectedComputeArguments));
             commandRunner.Setup(p => p.StartAndWaitForProcess(expectedCsrunCommand, expectedStorageArgument));
@@ -76,7 +77,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.CloudService.Utilities
             // Execute
             csRun.CommandRunner = commandRunner.Object;
             string output, error;
-            csRun.StartEmulator(testPackagePath, testConfigPath, true, out output, out error);
+            csRun.StartEmulator(testPackagePath, testConfigPath, true, mode, out output, out error);
 
             // Assert
             commandRunner.VerifyAll();
