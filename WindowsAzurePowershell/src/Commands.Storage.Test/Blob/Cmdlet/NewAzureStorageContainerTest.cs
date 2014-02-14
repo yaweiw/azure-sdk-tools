@@ -21,7 +21,6 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Test.Blob
     using Model.ResourceModel;
     using Storage.Blob.Cmdlet;
     using Storage.Common;
-    using Microsoft.WindowsAzure.Storage.Blob;
 
     [TestClass]
     public class NewAzureStorageContainerTest : StorageBlobTestBase
