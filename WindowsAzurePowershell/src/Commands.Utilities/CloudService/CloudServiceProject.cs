@@ -266,8 +266,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService
         {
             VerifyCloudServiceProjectComponents();
             CsPack packageTool = new CsPack();
-            AzureTool azureTool = new AzureTool();
-            packageTool.CreatePackage(Components.Definition, Paths, type, azureTool.AzureSdkBinDirectory, out standardOutput, out standardError);
+            packageTool.CreatePackage(Components.Definition, Paths, type, AzureTool.GetAzureSdkBinDirectory(), out standardOutput, out standardError);
         }
 
         private void VerifyCloudServiceProjectComponents()
@@ -299,14 +298,13 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService
         /// <param name="standardError">Error result from csrun.exe</param>
         public void StartEmulator(bool launchBrowser, ComputeEmulatorMode mode , out string standardOutput, out string standardError)
         {
-            AzureTool tool = new AzureTool();
-            var runTool = new CsRun(tool.AzureEmulatorDirectory);
+            var runTool = new CsRun(AzureTool.GetAzureEmulatorDirectory());
             runTool.StartEmulator(Paths.LocalPackage, Paths.LocalConfiguration, launchBrowser, mode, out standardOutput, out standardError);
         }
 
         public void StopEmulator()
         {
-            var runTool = new CsRun((new AzureTool()).AzureEmulatorDirectory);
+            var runTool = new CsRun(AzureTool.GetAzureEmulatorDirectory());
             runTool.StopEmulator();
         }
 
