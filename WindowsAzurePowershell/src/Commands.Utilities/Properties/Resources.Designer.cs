@@ -3803,6 +3803,15 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to start.
+        /// </summary>
+        public static string StartStorageEmulatorCommandArgument {
+            get {
+                return ResourceManager.GetString("StartStorageEmulatorCommandArgument", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Stop.
         /// </summary>
         public static string Stop {
@@ -3826,6 +3835,15 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Properties {
         public static string StoppedEmulatorMessage {
             get {
                 return ResourceManager.GetString("StoppedEmulatorMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to stop.
+        /// </summary>
+        public static string StopStorageEmulatorCommandArgument {
+            get {
+                return ResourceManager.GetString("StopStorageEmulatorCommandArgument", resourceCulture);
             }
         }
         
@@ -4042,6 +4060,15 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Properties {
         public static string WaitMessage {
             get {
                 return ResourceManager.GetString("WaitMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The azure storage emulator is not installed, skip launching....
+        /// </summary>
+        public static string WarningWhenStorageEmulatorIsMissing {
+            get {
+                return ResourceManager.GetString("WarningWhenStorageEmulatorIsMissing", resourceCulture);
             }
         }
         

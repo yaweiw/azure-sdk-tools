@@ -20,29 +20,50 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService.AzureTools
     using Microsoft.WindowsAzure.Commands.Utilities.Common;
     public class WAStorageEmulator
     {
-        private string _emulatorPath;
+        private string _emulatorPath = string.Empty;
+        private bool _storageEmulatorInstalled = false;
 
         public WAStorageEmulator(string emulatorDirectory)
         {
-            _emulatorPath = Path.Combine(emulatorDirectory, Resources.StorageEmulatorExe);
+            if (!string.IsNullOrEmpty(emulatorDirectory))
+            {
+                _storageEmulatorInstalled = true;
+                _emulatorPath = Path.Combine(emulatorDirectory, Resources.StorageEmulatorExe);
+            }
         }
 
         internal ProcessHelper CommandRunner { get; set; } 
 
         public void Start(out string standardOutput, out string standardError)
         {
-            ProcessHelper runner = GetCommandRunner();
-            runner.StartAndWaitForProcess(_emulatorPath, "start");
-            standardOutput = CommandRunner.StandardOutput;
-            standardError = CommandRunner.StandardError;
+            if (_storageEmulatorInstalled)
+            {
+                ProcessHelper runner = GetCommandRunner();
+                runner.StartAndWaitForProcess(_emulatorPath, Resources.StartStorageEmulatorCommandArgument);
+                standardOutput = CommandRunner.StandardOutput;
+                standardError = CommandRunner.StandardError;
+            }
+            else
+            {
+                standardOutput = string.Empty;
+                standardError = Resources.WarningWhenStorageEmulatorIsMissing;
+            }
         }
 
         public void Stop(out string standardOutput, out string standardError)
         {
-            ProcessHelper runner = GetCommandRunner();
-            runner.StartAndWaitForProcess(_emulatorPath, "stop");
-            standardOutput = CommandRunner.StandardOutput;
-            standardError = CommandRunner.StandardError;
+            if (_storageEmulatorInstalled)
+            {
+                ProcessHelper runner = GetCommandRunner();
+                runner.StartAndWaitForProcess(_emulatorPath, Resources.StopStorageEmulatorCommandArgument);
+                standardOutput = CommandRunner.StandardOutput;
+                standardError = CommandRunner.StandardError;
+            }
+            else
+            {
+                standardError = string.Empty;
+                standardOutput = string.Empty;
+            }
         }
 
         private ProcessHelper GetCommandRunner()
