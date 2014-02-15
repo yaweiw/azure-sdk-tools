@@ -56,9 +56,6 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService.AzureTools
             // Starts compute emulator.
             StartComputeEmulator(mode, out standardOutput, out standardError);
 
-            // Starts storage emulator.
-            StartStorageEmulator(out standardOutput, out standardError);
-
             // Remove all previous deployments in the emulator.
             RemoveAllDeployments(out standardOutput, out standardError);
 
@@ -73,49 +70,16 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService.AzureTools
             return DeploymentId;
         }
 
-        public void StopEmulator()
-        {
-            ProcessHelper commandRunner = GetCommandRunner();
-            string emulatorCommand = GetStorageEmulatorExecutablePath();
-            if (!string.IsNullOrEmpty(emulatorCommand))
-            {
-                commandRunner.StartAndWaitForProcess(emulatorCommand, "stop");
-            }
-            string output, error;
-            StartCsRunProcess(Resources.CsRunStopEmulatorArg, out output, out error);
-        }   
-     
-        private void StartStorageEmulator(out string standardOutput, out string standardError)
-        {
-            ProcessHelper commandRunner = GetCommandRunner();
-            string emulatorCommand = GetStorageEmulatorExecutablePath();
-            if (!string.IsNullOrEmpty(emulatorCommand))
-            {
-                commandRunner.StartAndWaitForProcess(emulatorCommand, "start");
-            }
-            standardOutput = commandRunner.StandardOutput;
-            standardError = commandRunner.StandardError;
-        }
-
-        private string GetStorageEmulatorExecutablePath()
-        {
-            Win32.RegistryKey storageEmulatorKey = Microsoft.Win32.RegistryKey.OpenBaseKey(Win32.RegistryHive.LocalMachine, Win32.RegistryView.Registry32)
-                .OpenSubKey(@"SOFTWARE\Microsoft\Windows Azure Storage Emulator");
-            if (storageEmulatorKey != null)
-            {
-                string installDirectory = (string)storageEmulatorKey.GetValue("InstallPath", string.Empty);
-                if (!string.IsNullOrEmpty(installDirectory))
-                {
-                    return System.IO.Path.Combine(installDirectory, "WAStorageEmulator.exe");
-                }
-            }
-            return string.Empty;
-        }
-        
         private void StartComputeEmulator(ComputeEmulatorMode mode, out string standardOutput, out string standardError)
         {
             StartCsRunProcess(mode, Resources.CsRunStartComputeEmulatorArg, out standardOutput, out standardError);
         }
+      
+        public void StopComputeEmulator()
+        {
+            string output, error;
+            StartCsRunProcess(Resources.CsRunStopEmulatorArg, out output, out error);
+        }   
 
         public void RemoveDeployment(int deploymentId, out string standardOutput, out string standardError)
         {

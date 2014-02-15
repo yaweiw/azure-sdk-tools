@@ -296,16 +296,37 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService
         /// <param name="launchBrowser">Switch to control opening a browser for web roles.</param>
         /// <param name="standardOutput">Output result from csrun.exe</param>
         /// <param name="standardError">Error result from csrun.exe</param>
-        public void StartEmulator(bool launchBrowser, ComputeEmulatorMode mode , out string standardOutput, out string standardError)
+        public void StartEmulators(bool launchBrowser, ComputeEmulatorMode mode , out string standardOutput, out string standardError)
         {
-            var runTool = new CsRun(AzureTool.GetAzureEmulatorDirectory());
-            runTool.StartEmulator(Paths.LocalPackage, Paths.LocalConfiguration, launchBrowser, mode, out standardOutput, out standardError);
+            string output, error;
+
+            var runTool = new CsRun(AzureTool.GetComputeEmulatorDirectory());
+            runTool.StartEmulator(Paths.LocalPackage, Paths.LocalConfiguration, launchBrowser, mode, out output, out error);
+            standardOutput = output;
+            standardError = error;
+            
+            var storageEmulator = new WAStorageEmulator(AzureTool.GetStorageEmulatorDirectory());
+            storageEmulator.Start(out output, out error);
+
+            standardOutput += Environment.NewLine + output;
+            if (!string.IsNullOrEmpty(standardError))
+            {
+                standardError += Environment.NewLine + error;
+            }
+            else
+            {
+                standardError = error;
+            }
         }
 
-        public void StopEmulator()
+        public void StopEmulators()
         {
-            var runTool = new CsRun(AzureTool.GetAzureEmulatorDirectory());
-            runTool.StopEmulator();
+            var runTool = new CsRun(AzureTool.GetComputeEmulatorDirectory());
+            runTool.StopComputeEmulator();
+
+            string output, error;
+            var storageEmulator = new WAStorageEmulator(AzureTool.GetStorageEmulatorDirectory());
+            storageEmulator.Stop(out output, out error);
         }
 
         public void ChangeServiceName(string newName, CloudProjectPathInfo paths)
