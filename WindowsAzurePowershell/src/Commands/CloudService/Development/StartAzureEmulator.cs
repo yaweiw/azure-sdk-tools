@@ -47,7 +47,7 @@ namespace Microsoft.WindowsAzure.Commands.CloudService.Development
             if (Directory.Exists(cloudServiceProject.Paths.LocalPackage))
             {
                 WriteVerbose(Resources.StopEmulatorMessage);
-                cloudServiceProject.StopEmulator();
+                cloudServiceProject.StopEmulators();
                 WriteVerbose(Resources.StoppedEmulatorMessage);
                 WriteVerbose(string.Format(Resources.RemovePackage, cloudServiceProject.Paths.LocalPackage));
                 Directory.Delete(cloudServiceProject.Paths.LocalPackage, true);
@@ -58,9 +58,13 @@ namespace Microsoft.WindowsAzure.Commands.CloudService.Development
             
             WriteVerbose(Resources.StartingEmulator);
             cloudServiceProject.ResolveRuntimePackageUrls();
-            cloudServiceProject.StartEmulator(Launch.ToBool(), Mode, out standardOutput, out standardError);
-            
+            cloudServiceProject.StartEmulators(Launch.ToBool(), Mode, out standardOutput, out standardError);
             WriteVerbose(standardOutput);
+            if (!string.IsNullOrEmpty(standardError))
+            {
+                WriteWarning(standardError);
+            }
+
             WriteVerbose(Resources.StartedEmulator);
             SafeWriteOutputPSObject(
                 cloudServiceProject.GetType().FullName,

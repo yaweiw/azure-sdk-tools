@@ -171,6 +171,9 @@
   <data name="AzureEmulatorRegistryKey" xml:space="preserve">
     <value>SOFTWARE\Microsoft\Windows Azure Emulator</value>
   </data>
+  <data name="StorageEmulatorRegistryKey" xml:space="preserve">
+    <value>SOFTWARE\Microsoft\Windows Azure Storage Emulator</value>
+  </data>
   <data name="AzurePortalUrl" xml:space="preserve">
     <value>https://manage.windowsazure.com</value>
   </data>
@@ -186,6 +189,12 @@
   <data name="AzureSdkInstallPathRegistryKeyValue" xml:space="preserve">
     <value>InstallPath</value>
   </data>
+  <data name="StorageEmulatorExe" xml:space="preserve">
+    <value>WAStorageEmulator.exe</value>
+  </data>
+  <data name="StorageEmulatorInstallPathRegistryKeyValue" xml:space="preserve">
+    <value>InstallPath</value>
+  </data>  
   <data name="AzureSdkRegistryKeyName" xml:space="preserve">
     <value>SOFTWARE\Microsoft\Microsoft SDKs\ServiceHosting</value>
   </data>

@@ -3848,6 +3848,33 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to WAStorageEmulator.exe.
+        /// </summary>
+        public static string StorageEmulatorExe {
+            get {
+                return ResourceManager.GetString("StorageEmulatorExe", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to InstallPath.
+        /// </summary>
+        public static string StorageEmulatorInstallPathRegistryKeyValue {
+            get {
+                return ResourceManager.GetString("StorageEmulatorInstallPathRegistryKeyValue", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to SOFTWARE\Microsoft\Windows Azure Storage Emulator.
+        /// </summary>
+        public static string StorageEmulatorRegistryKey {
+            get {
+                return ResourceManager.GetString("StorageEmulatorRegistryKey", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Primary Key:.
         /// </summary>
         public static string StoragePrimaryKey {
