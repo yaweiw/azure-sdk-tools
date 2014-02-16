@@ -35,13 +35,13 @@ namespace Microsoft.WindowsAzure.Commands.Test.CloudService.Utilities
         }
 
         [TestMethod]
-        public void StartEmulatorUsingExpressMode_VerifyCommandLineArguments()
+        public void StartEmulatorUsingExpressMode_VerifyCommandLine()
         {
             StartEmulatorCommonTest(ComputeEmulatorMode.Express);
         }
 
         [TestMethod]
-        public void StartEmulatorUsingFullMode_VerifyCommandLineArguments()
+        public void StartEmulatorUsingFullMode_VerifyCommandLine()
         {
             StartEmulatorCommonTest(ComputeEmulatorMode.Full);
         }
@@ -54,7 +54,6 @@ namespace Microsoft.WindowsAzure.Commands.Test.CloudService.Utilities
             string testConfigPath = @"c:\foo-bar\ServiceConfiguration.Local.cscfg";
             string expectedCsrunCommand = testEmulatorFolder + @"\" + Resources.CsRunExe;
             string expectedComputeArguments = Resources.CsRunStartComputeEmulatorArg;
-            string expectedStorageArgument = Resources.CsRunStartStorageEmulatorArg;
             string expectedRemoveAllDeploymentsArgument = Resources.CsRunRemoveAllDeploymentsArg;
             string expectedAzureProjectArgument = string.Format(Resources.RunInEmulatorArguments,
                 testPackagePath, testConfigPath, Resources.CsRunLanuchBrowserArg);
@@ -69,7 +68,6 @@ namespace Microsoft.WindowsAzure.Commands.Test.CloudService.Utilities
             CsRun csRun = new CsRun(testEmulatorFolder);
             Mock<ProcessHelper> commandRunner = new Mock<ProcessHelper>();
             commandRunner.Setup(p => p.StartAndWaitForProcess(expectedCsrunCommand, expectedComputeArguments));
-            commandRunner.Setup(p => p.StartAndWaitForProcess(expectedCsrunCommand, expectedStorageArgument));
             commandRunner.Setup(p => p.StartAndWaitForProcess(expectedCsrunCommand, expectedRemoveAllDeploymentsArgument));
             commandRunner.Setup(p => p.StartAndWaitForProcess(expectedCsrunCommand, expectedAzureProjectArgument))
                 .Callback(() => { commandRunner.Object.StandardOutput = testOutput; });
