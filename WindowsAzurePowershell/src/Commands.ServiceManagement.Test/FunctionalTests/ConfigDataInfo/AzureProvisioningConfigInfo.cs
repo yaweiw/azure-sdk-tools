@@ -56,7 +56,8 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
         public string TimeZone = null;
 
         // WindowsDomain paramenter set
-        public AzureProvisioningConfigInfo(string option, string user, string password, string joinDomain, string domain, string domainUserName, string domainPassword, string objectOU = null)
+        public AzureProvisioningConfigInfo(string option, string user, string password, string joinDomain, string domain,
+            string domainUserName, string domainPassword, string objectOU = null)
         {
             if (string.Compare(option, WindowsDomain, StringComparison.CurrentCultureIgnoreCase) == 0)
             {
@@ -104,6 +105,32 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
 
         }
 
+        public AzureProvisioningConfigInfo(string linuxUser, string password, bool noSshEndpoint = false,
+            bool disableSSH = false, LinuxProvisioningConfigurationSet.SSHKeyPairList sSHKeyPairList = null,
+            LinuxProvisioningConfigurationSet.SSHPublicKeyList sSHPublicKeyList = null)
+        {
+            this.OS = OS.Linux;
+            this.Password = password;
+            this.LinuxUser = linuxUser;
+            this.DisableSSH = disableSSH;
+            this.NoSSHEndpoint = noSshEndpoint;
+            if (sSHKeyPairList != null)
+            {
+                this.SSHKeyPairs = sSHKeyPairList;
+            }
+            if (sSHPublicKeyList != null)
+            {
+                this.SshPublicKeys = sSHPublicKeyList;
+            }
+        }
+
+        public AzureProvisioningConfigInfo(string adminUsername, string password, X509Certificate2 winRMCertificate)
+        {
+            this.OS= OS.Windows;
+            this.AdminUsername = adminUsername;
+            this.Password = password;
+            this.WinRMCertificate = winRMCertificate;
+        }
 
         public PersistentVM  Vm { get; set; }
     }

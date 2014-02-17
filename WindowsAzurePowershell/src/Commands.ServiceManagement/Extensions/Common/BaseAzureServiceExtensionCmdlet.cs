@@ -40,14 +40,10 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Extensions
         protected const string RemoveAllRolesParameterSet = "RemoveAllRoles";
 
         protected ExtensionManager ExtensionManager { get; set; }
-        protected string ExtensionNameSpace { get; set; }
-        protected string ExtensionType { get; set; }
         protected XDocument PublicConfigurationXmlTemplate { get; set; }
         protected XDocument PrivateConfigurationXmlTemplate { get; set; }
         protected XDocument PublicConfigurationXml { get; set; }
         protected XDocument PrivateConfigurationXml { get; set; }
-        protected string PublicConfiguration { get; set; }
-        protected string PrivateConfiguration { get; set; }
         protected DeploymentGetResponse Deployment { get; set; }
 
         public virtual string ServiceName { get; set; }
@@ -57,6 +53,11 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Extensions
         public virtual string CertificateThumbprint { get; set; }
         public virtual string ThumbprintAlgorithm { get; set; }
         public virtual SwitchParameter UninstallConfiguration { get; set; }
+        public virtual string PublicConfiguration { get; set; }
+        public virtual string PrivateConfiguration { get; set; }
+        public virtual string ProviderNamespace { get; set; }
+        public virtual string ExtensionName { get; set; }
+        public virtual string Version { get; set; }
 
         public BaseAzureServiceExtensionCmdlet()
             : base()
@@ -285,7 +286,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Extensions
         {
             return new ExtensionContext
             {
-                OperationId = op.RequestId,
+                OperationId = op.Id,
                 OperationDescription = CommandRuntime.ToString(),
                 OperationStatus = op.Status.ToString(),
                 Extension = ext.Type,
@@ -297,28 +298,28 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Extensions
         protected void RemoveExtension()
         {
             ExtensionConfigurationBuilder configBuilder = ExtensionManager.GetBuilder(Deployment != null ? Deployment.ExtensionConfiguration : null);
-            if (UninstallConfiguration && configBuilder.ExistAny(ExtensionNameSpace, ExtensionType))
+            if (UninstallConfiguration && configBuilder.ExistAny(ProviderNamespace, ExtensionName))
             {
-                configBuilder.RemoveAny(ExtensionNameSpace, ExtensionType);
-                WriteWarning(string.Format(Resources.ServiceExtensionRemovingFromAllRoles, ExtensionType, ServiceName));
+                configBuilder.RemoveAny(ProviderNamespace, ExtensionName);
+                WriteWarning(string.Format(Resources.ServiceExtensionRemovingFromAllRoles, ExtensionName, ServiceName));
                 ChangeDeployment(configBuilder.ToConfiguration());
             }
-            else if (configBuilder.Exist(Role, ExtensionNameSpace, ExtensionType))
+            else if (configBuilder.Exist(Role, ProviderNamespace, ExtensionName))
             {
-                configBuilder.Remove(Role, ExtensionNameSpace, ExtensionType);
+                configBuilder.Remove(Role, ProviderNamespace, ExtensionName);
                 if (Role == null || !Role.Any())
                 {
-                    WriteWarning(string.Format(Resources.ServiceExtensionRemovingFromAllRoles, ExtensionType, ServiceName));
+                    WriteWarning(string.Format(Resources.ServiceExtensionRemovingFromAllRoles, ExtensionName, ServiceName));
                 }
                 else
                 {
-                    bool defaultExists = configBuilder.ExistDefault(ExtensionNameSpace, ExtensionType);
+                    bool defaultExists = configBuilder.ExistDefault(ProviderNamespace, ExtensionName);
                     foreach (var r in Role)
                     {
-                        WriteWarning(string.Format(Resources.ServiceExtensionRemovingFromSpecificRoles, ExtensionType, r, ServiceName));
+                        WriteWarning(string.Format(Resources.ServiceExtensionRemovingFromSpecificRoles, ExtensionName, r, ServiceName));
                         if (defaultExists)
                         {
-                            WriteWarning(string.Format(Resources.ServiceExtensionRemovingSpecificAndApplyingDefault, ExtensionType, r));
+                            WriteWarning(string.Format(Resources.ServiceExtensionRemovingSpecificAndApplyingDefault, ExtensionName, r));
                         }
                     }
                 }
@@ -327,7 +328,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Extensions
             }
             else
             {
-                WriteWarning(string.Format(Resources.ServiceExtensionNoExistingExtensionsEnabledOnRoles, ExtensionNameSpace, ExtensionType));
+                WriteWarning(string.Format(Resources.ServiceExtensionNoExistingExtensionsEnabledOnRoles, ProviderNamespace, ExtensionName));
             }
 
             if (UninstallConfiguration)
@@ -338,7 +339,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Extensions
                                       where d != null
                                       select d).ToList();
                 deploymentList.ForEach(d => allConfig.Add(d.ExtensionConfiguration));
-                ExtensionManager.Uninstall(ExtensionNameSpace, ExtensionType, allConfig.ToConfiguration());
+                ExtensionManager.Uninstall(ProviderNamespace, ExtensionName, allConfig.ToConfiguration());
             }
         }
     }

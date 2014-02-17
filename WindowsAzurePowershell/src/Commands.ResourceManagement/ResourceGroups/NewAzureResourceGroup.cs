@@ -17,41 +17,65 @@ using System.Collections;
 using System.Management.Automation;
 using Microsoft.Azure.Management.Resources.Models;
 using Microsoft.WindowsAzure;
+using Microsoft.WindowsAzure.Commands.Utilities.Common;
+using System.Linq;
+using System.Collections.Generic;
+using Microsoft.Azure.Commands.ResourceManagement.Models;
 
 namespace Microsoft.Azure.Commands.ResourceManagement.ResourceGroups
 {
     /// <summary>
     /// Creates a new resource group.
     /// </summary>
-    [Cmdlet(VerbsCommon.New, "AzureResourceGroup", DefaultParameterSetName = BaseParameterSetName), OutputType(typeof(ResourceGroup))]
-    public class NewAzureResourceGroup : ResourceBaseCmdlet
+    [Cmdlet(VerbsCommon.New, "AzureResourceGroup", DefaultParameterSetName = BaseParameterSetName), OutputType(typeof(PSResourceGroup))]
+    public class NewAzureResourceGroup : ResourceBaseCmdlet, IDynamicParameters
     {
         internal const string BaseParameterSetName = "basic";
         internal const string GalleryTemplateParameterObjectParameterSetName = "galery-template-parameter-object";
-        internal const string TemplateFileParameterObjectParameterSetName = "template-file-parameter-object";
         internal const string GalleryTemplateParameterFileParameterSetName = "galery-template-parameter-file";
+        internal const string GalleryTemplateDynamicParametersParameterSetName = "galery-template-dynamic-parameters";
+        internal const string TemplateFileParameterObjectParameterSetName = "template-file-parameter-object";
         internal const string TemplateFileParameterFileParameterSetName = "template-file-parameter-file";
+        private RuntimeDefinedParameterDictionary dynamicParameters;
+        private string galleryTemplateName;
 
-        [Parameter(Mandatory = true, ValueFromPipelineByPropertyName = true, HelpMessage = "The name of the resource group")]
+        public NewAzureResourceGroup()
+        {
+            dynamicParameters = new RuntimeDefinedParameterDictionary();
+            galleryTemplateName = null;
+        }
+
+        [Parameter(Mandatory = true, ValueFromPipelineByPropertyName = true, HelpMessage = "The resource group name.")]
         [ValidateNotNullOrEmpty]
         public string Name { get; set; }
 
-        [Parameter(Mandatory = true, ValueFromPipelineByPropertyName = true, HelpMessage = "The location of the resource group")]
+        [Parameter(Mandatory = true, ValueFromPipelineByPropertyName = true, HelpMessage = "The resource group location.")]
         [ValidateNotNullOrEmpty]
         public string Location { get; set; }
 
-        [Parameter(ParameterSetName = GalleryTemplateParameterObjectParameterSetName,
-            Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "The name of the deployment it's going to create. Only valid when a template is used. When a template is used, if the user doesn't specify a deployment name, use the current time, like \"20131223140835\".")]
-        [Parameter(ParameterSetName = TemplateFileParameterObjectParameterSetName,
-            Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "The name of the deployment it's going to create. Only valid when a template is used. When a template is used, if the user doesn't specify a deployment name, use the current time, like \"20131223140835\".")]
-        [Parameter(ParameterSetName = GalleryTemplateParameterFileParameterSetName,
-            Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "The name of the deployment it's going to create. Only valid when a template is used. When a template is used, if the user doesn't specify a deployment name, use the current time, like \"20131223140835\".")]
-        [Parameter(ParameterSetName = TemplateFileParameterFileParameterSetName,
-            Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "The name of the deployment it's going to create. Only valid when a template is used. When a template is used, if the user doesn't specify a deployment name, use the current time, like \"20131223140835\".")]
+        [Parameter(Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "The name of the deployment it's going to create. Only valid when a template is used. When a template is used, if the user doesn't specify a deployment name, use the current time, like \"20131223140835\".")]
         [ValidateNotNullOrEmpty]
         public string DeploymentName { get; set; }
 
+        [Parameter(Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "The expect content version of the template.")]
+        [ValidateNotNullOrEmpty]
+        public string TemplateVersion { get; set; }
+
+        [Parameter(Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "The expect content hash of the template.")]
+        [ValidateNotNullOrEmpty]
+        public string TemplateHash { get; set; }
+
+        [Parameter(Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "The algorithm used to hash the template content.")]
+        [ValidateNotNullOrEmpty]
+        public string TemplateHashAlgorithm { get; set; }
+
+        [Parameter(Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "The storage account which the cmdlet to upload the template file to. If not specified, the current storage account of the subscription will be used.")]
+        [ValidateNotNullOrEmpty]
+        public string StorageAccountName { get; set; }
+
         [Parameter(ParameterSetName = GalleryTemplateParameterObjectParameterSetName,
+            Mandatory = true, ValueFromPipelineByPropertyName = true, HelpMessage = "Name of the template in the gallery.")]
+        [Parameter(ParameterSetName = GalleryTemplateDynamicParametersParameterSetName,
             Mandatory = true, ValueFromPipelineByPropertyName = true, HelpMessage = "Name of the template in the gallery.")]
         [Parameter(ParameterSetName = GalleryTemplateParameterFileParameterSetName,
             Mandatory = true, ValueFromPipelineByPropertyName = true, HelpMessage = "Name of the template in the gallery.")]
@@ -66,71 +90,17 @@ namespace Microsoft.Azure.Commands.ResourceManagement.ResourceGroups
         public string TemplateFile { get; set; }
 
         [Parameter(ParameterSetName = GalleryTemplateParameterObjectParameterSetName,
-            Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "A hash table which represents the parameters.")]
+            Mandatory = true, ValueFromPipelineByPropertyName = true, HelpMessage = "A hash table which represents the parameters.")]
         [Parameter(ParameterSetName = TemplateFileParameterObjectParameterSetName,
-            Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "A hash table which represents the parameters.")]
+            Mandatory = true, ValueFromPipelineByPropertyName = true, HelpMessage = "A hash table which represents the parameters.")]
         public Hashtable ParameterObject { get; set; }
 
         [Parameter(ParameterSetName = GalleryTemplateParameterFileParameterSetName,
-            Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "A file that has the template parameters.")]
+            Mandatory = true, ValueFromPipelineByPropertyName = true, HelpMessage = "A file that has the template parameters.")]
         [Parameter(ParameterSetName = TemplateFileParameterFileParameterSetName,
-            Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "A file that has the template parameters.")]
+            Mandatory = true, ValueFromPipelineByPropertyName = true, HelpMessage = "A file that has the template parameters.")]
         [ValidateNotNullOrEmpty]
         public string ParameterFile { get; set; }
-
-        [Parameter(ParameterSetName = GalleryTemplateParameterObjectParameterSetName,
-            Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "The expect content version of the template.")]
-        [Parameter(ParameterSetName = TemplateFileParameterObjectParameterSetName,
-            Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "The expect content version of the template.")]
-        [Parameter(ParameterSetName = GalleryTemplateParameterFileParameterSetName,
-            Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "The expect content version of the template.")]
-        [Parameter(ParameterSetName = TemplateFileParameterFileParameterSetName,
-            Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "The expect content version of the template.")]
-        [ValidateNotNullOrEmpty]
-        public string TemplateVersion { get; set; }
-
-        [Parameter(ParameterSetName = GalleryTemplateParameterObjectParameterSetName,
-            Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "The expect content hash of the template.")]
-        [Parameter(ParameterSetName = TemplateFileParameterObjectParameterSetName,
-            Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "The expect content hash of the template.")]
-        [Parameter(ParameterSetName = GalleryTemplateParameterFileParameterSetName,
-            Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "The expect content hash of the template.")]
-        [Parameter(ParameterSetName = TemplateFileParameterFileParameterSetName,
-            Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "The expect content hash of the template.")]
-        [ValidateNotNullOrEmpty]
-        public string TemplateHash { get; set; }
-
-        [Parameter(ParameterSetName = GalleryTemplateParameterObjectParameterSetName,
-            Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "The algorithm used to hash the template content.")]
-        [Parameter(ParameterSetName = TemplateFileParameterObjectParameterSetName,
-            Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "The algorithm used to hash the template content.")]
-        [Parameter(ParameterSetName = GalleryTemplateParameterFileParameterSetName,
-            Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "The algorithm used to hash the template content.")]
-        [Parameter(ParameterSetName = TemplateFileParameterFileParameterSetName,
-            Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "The algorithm used to hash the template content.")]
-        [ValidateNotNullOrEmpty]
-        public string TemplateHashAlgorithm { get; set; }
-
-        [Parameter(ParameterSetName = GalleryTemplateParameterObjectParameterSetName,
-            Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "The storage account which the cmdlet to upload the template file to. If not specified, the current storage account of the subscription will be used.")]
-        [Parameter(ParameterSetName = TemplateFileParameterObjectParameterSetName,
-            Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "The storage account which the cmdlet to upload the template file to. If not specified, the current storage account of the subscription will be used.")]
-        [Parameter(ParameterSetName = GalleryTemplateParameterFileParameterSetName,
-            Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "The storage account which the cmdlet to upload the template file to. If not specified, the current storage account of the subscription will be used.")]
-        [Parameter(ParameterSetName = TemplateFileParameterFileParameterSetName,
-            Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "The storage account which the cmdlet to upload the template file to. If not specified, the current storage account of the subscription will be used.")]
-        [ValidateNotNullOrEmpty]
-        public string StorageAccountName { get; set; }
-
-        [Parameter(ParameterSetName = GalleryTemplateParameterObjectParameterSetName,
-            Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "By default the command will wait until the resource group is created. Using this switch parameter will make it return immediately.")]
-        [Parameter(ParameterSetName = TemplateFileParameterObjectParameterSetName,
-            Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "By default the command will wait until the resource group is created. Using this switch parameter will make it return immediately.")]
-        [Parameter(ParameterSetName = GalleryTemplateParameterFileParameterSetName,
-            Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "By default the command will wait until the resource group is created. Using this switch parameter will make it return immediately.")]
-        [Parameter(ParameterSetName = TemplateFileParameterFileParameterSetName,
-            Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "By default the command will wait until the resource group is created. Using this switch parameter will make it return immediately.")]
-        public SwitchParameter Async { get; set; }
 
         public override void ExecuteCmdlet()
         {
@@ -141,15 +111,47 @@ namespace Microsoft.Azure.Commands.ResourceManagement.ResourceGroups
                 DeploymentName = DeploymentName,
                 GalleryTemplateName = GalleryTemplateName,
                 TemplateFile = TemplateFile,
-                ParameterObject = ParameterObject,
+                ParameterObject = GetParameterObject(ParameterObject),
                 ParameterFile = ParameterFile,
                 TemplateVersion = TemplateVersion,
                 TemplateHash = TemplateHash,
                 TemplateHashAlgorithm = TemplateHashAlgorithm,
                 StorageAccountName = StorageAccountName,
-                Async = Async
             };
+
             WriteObject(ResourceClient.CreatePSResourceGroup(parameters));
+        }
+
+        private Hashtable GetParameterObject(Hashtable parameterObject)
+        {
+            Hashtable finalParameterObject = new Hashtable();
+            IEnumerable<RuntimeDefinedParameter> parameters = General.GetUsedDynamicParameters(dynamicParameters, MyInvocation);
+
+            if (parameters.Count() > 0)
+            {
+                parameters.ForEach(dp => finalParameterObject.Add(dp.Name, dp.Value));
+            }
+            else
+            {
+                finalParameterObject = new Hashtable(parameterObject);
+            }
+
+            return finalParameterObject;
+        }
+
+        public object GetDynamicParameters()
+        {
+            if (!string.IsNullOrEmpty(GalleryTemplateName) && 
+                !GalleryTemplateName.Equals(galleryTemplateName, StringComparison.OrdinalIgnoreCase))
+            {
+                galleryTemplateName = GalleryTemplateName;
+                dynamicParameters = ResourceClient.GetTemplateParameters(
+                    GalleryTemplateName,
+                    MyInvocation.MyCommand.Parameters.Keys.ToArray(),
+                    GalleryTemplateDynamicParametersParameterSetName);
+            }
+            
+            return dynamicParameters;
         }
     }
 }
