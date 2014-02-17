@@ -32,37 +32,35 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService.AzureTools
             }
         }
 
+        public string Error { get; private set; }
+
         internal ProcessHelper CommandRunner { get; set; } 
 
-        public void Start(out string standardOutput, out string standardError)
+        public void Start()
         {
             if (_storageEmulatorInstalled)
             {
                 ProcessHelper runner = GetCommandRunner();
                 runner.StartAndWaitForProcess(_emulatorPath, Resources.StartStorageEmulatorCommandArgument);
-                standardOutput = CommandRunner.StandardOutput;
-                standardError = CommandRunner.StandardError;
+                Error = CommandRunner.StandardError;
             }
             else
             {
-                standardOutput = string.Empty;
-                standardError = Resources.WarningWhenStorageEmulatorIsMissing;
+                Error = Resources.WarningWhenStorageEmulatorIsMissing;
             }
         }
 
-        public void Stop(out string standardOutput, out string standardError)
+        public void Stop()
         {
             if (_storageEmulatorInstalled)
             {
                 ProcessHelper runner = GetCommandRunner();
                 runner.StartAndWaitForProcess(_emulatorPath, Resources.StopStorageEmulatorCommandArgument);
-                standardOutput = CommandRunner.StandardOutput;
-                standardError = CommandRunner.StandardError;
+                Error = CommandRunner.StandardError;
             }
             else
             {
-                standardError = string.Empty;
-                standardOutput = string.Empty;
+                Error = string.Empty;
             }
         }
 

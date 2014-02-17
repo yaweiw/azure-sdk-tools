@@ -38,8 +38,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.CloudService.Utilities
             emulator.CommandRunner = commandRunner.Object;
 
             // Execute
-            string output, error;
-            emulator.Start(out output, out error);
+            emulator.Start();
 
             // Assert
             commandRunner.Verify();
@@ -58,8 +57,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.CloudService.Utilities
             emulator.CommandRunner = commandRunner.Object;
 
             // Execute
-            string output, error;
-            emulator.Stop(out output, out error);
+            emulator.Stop();
 
             // Assert
             commandRunner.Verify();
@@ -73,12 +71,10 @@ namespace Microsoft.WindowsAzure.Commands.Test.CloudService.Utilities
             Mock<ProcessHelper> commandRunner = new Mock<ProcessHelper>();
 
             // Execute
-            string output, error;
-            emulator.Start(out output, out error);
+            emulator.Start();
 
             // Assert
-            Assert.IsTrue(string.IsNullOrEmpty(output));
-            Assert.AreEqual(Resources.WarningWhenStorageEmulatorIsMissing, error);
+            Assert.AreEqual(Resources.WarningWhenStorageEmulatorIsMissing, emulator.Error);
         }
     }
 }

@@ -1125,15 +1125,6 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to ((http|tcp)://[0-9.:/]*).
-        /// </summary>
-        public static string EmulatorOutputSitesRegex {
-            get {
-                return ResourceManager.GetString("EmulatorOutputSitesRegex", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Role is running at {0}.
         /// </summary>
         public static string EmulatorRoleRunningMessage {
