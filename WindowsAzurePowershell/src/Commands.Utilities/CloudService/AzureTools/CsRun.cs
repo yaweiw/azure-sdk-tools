@@ -15,24 +15,23 @@
 namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService.AzureTools
 {
     using System;
-    using System.Diagnostics;
     using System.IO;
-    using System.Security.Permissions;
     using System.Text;
     using System.Text.RegularExpressions;
     using Common;
     using Microsoft.WindowsAzure.Commands.Utilities.Properties;
 
-    public class CsRun : AzureTool
+    public class CsRun 
     {
         public int DeploymentId { get; private set; }
-        private string csrunPath;
-
-        public CsRun()
+        private string _csrunPath;
+        public CsRun(string emulatorDirectory)
         {
-            csrunPath = Path.Combine(base.AzureEmulatorDirectory, Resources.CsRunExe);
+            _csrunPath = Path.Combine(emulatorDirectory, Resources.CsRunExe);
         }
 
+        // a test seam used for unit testing this class 
+        internal ProcessHelper CommandRunner { get; set; }
         /// <summary>
         /// Deploys package on local machine. This method does following:
         /// 1. Starts compute emulator.
@@ -43,14 +42,19 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService.AzureTools
         /// <param name="packagePath">Path to package which will be deployed</param>
         /// <param name="configPath">Local configuration path to used with the package</param>
         /// <param name="launch">Switch which opens browser for web roles after deployment</param>
+        /// <param name="mode">Emulator mode: Full or Express</param>
         /// <param name="standardOutput">Standard output of deployment</param>
         /// <param name="standardError">Standard error of deployment</param>
         /// <returns>Deployment id associated with the deployment</returns>
-        [PermissionSet(SecurityAction.LinkDemand, Name = "FullTrust")]
-        public int StartEmulator(string packagePath, string configPath, bool launch, out string standardOutput, out string standardError)
+        public int StartEmulator(string packagePath, 
+                string configPath, 
+                bool launch, 
+                ComputeEmulatorMode mode,
+                out string standardOutput, 
+                out string standardError)
         {
             // Starts compute emulator.
-            StartComputeEmulator(out standardOutput, out standardError);
+            StartComputeEmulator(mode, out standardOutput, out standardError);
 
             // Starts storage emulator.
             StartStorageEmulator(out standardOutput, out standardError);
@@ -60,7 +64,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService.AzureTools
 
             // Deploys the package on local machine.
             string arguments = string.Format(Resources.RunInEmulatorArguments, packagePath, configPath, (launch) ? Resources.CsRunLanuchBrowserArg : string.Empty);
-            StartCsRunProcess(arguments, out standardOutput, out standardError);
+            StartCsRunProcess(mode, arguments, out standardOutput, out standardError);
 
             // Get deployment id for future use.
             DeploymentId = GetDeploymentCount(standardOutput);
@@ -69,48 +73,43 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService.AzureTools
             return DeploymentId;
         }
 
-        [PermissionSet(SecurityAction.LinkDemand, Name = "FullTrust")]
-        public void StopEmulator(out string standardOutput, out string standardError)
+        public void StopEmulator()
         {
-            StartCsRunProcess(Resources.CsRunStopEmulatorArg, out standardOutput, out standardError);
+            string output, error;
+            StartCsRunProcess(Resources.CsRunStopEmulatorArg, out output, out error);
         }
 
-        [PermissionSet(SecurityAction.LinkDemand, Name = "FullTrust")]
         private void StartStorageEmulator(out string standardOutput, out string standardError)
         {
             StartCsRunProcess(Resources.CsRunStartStorageEmulatorArg, out standardOutput, out standardError);
         }
 
-        [PermissionSet(SecurityAction.LinkDemand, Name = "FullTrust")]
-        private void StartComputeEmulator(out string standardOutput, out string standardError)
+        private void StartComputeEmulator(ComputeEmulatorMode mode, out string standardOutput, out string standardError)
         {
-            StartCsRunProcess(Resources.CsRunStartComputeEmulatorArg, out standardOutput, out standardError);
+            StartCsRunProcess(mode, Resources.CsRunStartComputeEmulatorArg, out standardOutput, out standardError);
         }
 
-        [PermissionSet(SecurityAction.LinkDemand, Name = "FullTrust")]
         public void RemoveDeployment(int deploymentId, out string standardOutput, out string standardError)
         {
             StartCsRunProcess(string.Format(Resources.CsRunRemoveDeploymentArg, deploymentId), out standardOutput, out standardError);
         }
 
-        [PermissionSet(SecurityAction.LinkDemand, Name = "FullTrust")]
         public void RemoveAllDeployments(out string standardOutput, out string standardError)
         {
             StartCsRunProcess(Resources.CsRunRemoveAllDeploymentsArg, out standardOutput, out standardError);
         }
 
-        [PermissionSet(SecurityAction.LinkDemand, Name = "FullTrust")]
         public void UpdateDeployment(int deploymentId, string configPath, out string standardOutput, out string standardError)
         {
             StartCsRunProcess(string.Format(Resources.CsRunUpdateDeploymentArg, deploymentId, configPath), out standardOutput, out standardError);
         }
 
-        [PermissionSet(SecurityAction.LinkDemand, Name = "FullTrust")]
         private void StartCsRunProcess(string arguments, out string standardOutput, out string standardError)
         {
-            ProcessStartInfo pi = new ProcessStartInfo(csrunPath, arguments);
-            ProcessHelper.StartAndWaitForProcess(pi, out standardOutput, out standardError);
-
+            ProcessHelper runner = GetCommandRunner();
+            runner.StartAndWaitForProcess(_csrunPath, arguments);
+            standardOutput = runner.StandardOutput;
+            standardError = runner.StandardError;
             // If there's an error from the CsRun tool, we want to display that
             // error message.
             if (!string.IsNullOrEmpty(standardError))
@@ -121,6 +120,24 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService.AzureTools
                         string.Format(Resources.CsRun_StartCsRunProcess_UnexpectedFailure, standardError));
                 }
             }
+        }
+
+        private void StartCsRunProcess(ComputeEmulatorMode mode, string arguments, out string standardOutput, out string standardError)
+        {
+            if (mode == ComputeEmulatorMode.Express)
+            {
+                arguments += " " + Resources.CsRunEmulatorExpressArg;
+            }
+            StartCsRunProcess(arguments, out standardOutput, out standardError);
+        }
+
+        private ProcessHelper GetCommandRunner()
+        {
+            if (CommandRunner == null)
+            {
+                CommandRunner = new ProcessHelper();
+            }
+            return CommandRunner;
         }
 
         private bool IsStorageEmulatorError(string error)
