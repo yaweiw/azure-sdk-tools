@@ -441,9 +441,6 @@
   <data name="EmulatorConnectionString" xml:space="preserve">
     <value>UseDevelopmentStorage=true</value>
   </data>
-  <data name="EmulatorOutputSitesRegex" xml:space="preserve">
-    <value>((http|tcp)://[0-9.:/]*)</value>
-  </data>
   <data name="EmulatorRoleRunningMessage" xml:space="preserve">
     <value>Role is running at {0}</value>
   </data>

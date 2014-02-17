@@ -262,8 +262,9 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService
         }
 
         [PermissionSet(SecurityAction.LinkDemand, Name = "FullTrust")]
-        public void CreatePackage(DevEnv type, out string standardOutput, out string standardError)
+        public void CreatePackage(DevEnv type)
         {
+            string standardOutput, standardError;
             VerifyCloudServiceProjectComponents();
             CsPack packageTool = new CsPack();
             packageTool.CreatePackage(Components.Definition, Paths, type, AzureTool.GetAzureSdkBinDirectory(), out standardOutput, out standardError);
@@ -296,37 +297,29 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService
         /// <param name="launchBrowser">Switch to control opening a browser for web roles.</param>
         /// <param name="standardOutput">Output result from csrun.exe</param>
         /// <param name="standardError">Error result from csrun.exe</param>
-        public void StartEmulators(bool launchBrowser, ComputeEmulatorMode mode , out string standardOutput, out string standardError)
+        public void StartEmulators(bool launchBrowser, ComputeEmulatorMode mode , out string roleInformation, out string warning)
         {
-            string output, error;
-
             var runTool = new CsRun(AzureTool.GetComputeEmulatorDirectory());
-            runTool.StartEmulator(Paths.LocalPackage, Paths.LocalConfiguration, launchBrowser, mode, out output, out error);
-            standardOutput = output;
-            standardError = error;
-            
-            var storageEmulator = new WAStorageEmulator(AzureTool.GetStorageEmulatorDirectory());
-            storageEmulator.Start(out output, out error);
+            runTool.StartEmulator(Paths.LocalPackage, Paths.LocalConfiguration, launchBrowser, mode);
 
-            standardOutput += Environment.NewLine + output;
-            if (!string.IsNullOrEmpty(standardError))
-            {
-                standardError += Environment.NewLine + error;
-            }
-            else
-            {
-                standardError = error;
-            }
+            roleInformation = runTool.RoleInformation;
+
+            var storageEmulator = new WAStorageEmulator(AzureTool.GetStorageEmulatorDirectory());
+            storageEmulator.Start();
+
+            //for now, errors related with storage emulator are treated as non-fatal  
+            warning = storageEmulator.Error;
         }
 
-        public void StopEmulators()
+        public void StopEmulators(out string warning)
         {
             var runTool = new CsRun(AzureTool.GetComputeEmulatorDirectory());
             runTool.StopComputeEmulator();
 
-            string output, error;
             var storageEmulator = new WAStorageEmulator(AzureTool.GetStorageEmulatorDirectory());
-            storageEmulator.Stop(out output, out error);
+            storageEmulator.Stop();
+            //for now, errors related with storage emulator are treated as non-fatal  
+            warning = storageEmulator.Error;
         }
 
         public void ChangeServiceName(string newName, CloudProjectPathInfo paths)

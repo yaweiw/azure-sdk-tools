@@ -74,8 +74,8 @@ namespace Microsoft.WindowsAzure.Commands.Test.CloudService.Utilities
 
             // Execute
             csRun.CommandRunner = commandRunner.Object;
-            string output, error;
-            csRun.StartEmulator(testPackagePath, testConfigPath, true, mode, out output, out error);
+            
+            csRun.StartEmulator(testPackagePath, testConfigPath, true, mode);
 
             // Assert
             commandRunner.VerifyAll();
