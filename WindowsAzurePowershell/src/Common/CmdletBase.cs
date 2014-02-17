@@ -19,7 +19,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
     using System.Management.Automation;
     using Commands.Common.Properties;
 
-    public abstract class CmdletBase : PSCmdlet, IDynamicParameters
+    public abstract class CmdletBase : PSCmdlet
     {
         protected string CurrentPath()
         {
@@ -34,11 +34,6 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
         {
             bool verbose = MyInvocation.BoundParameters.ContainsKey("Verbose") && ((SwitchParameter)MyInvocation.BoundParameters["Verbose"]).ToBool();
             return verbose;
-        }
-
-        public virtual object GetDynamicParameters()
-        {
-            return null;
         }
 
         protected void WriteVerboseWithTimestamp(string message, params object[] args)

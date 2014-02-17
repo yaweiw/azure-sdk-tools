@@ -12,21 +12,22 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
+using Microsoft.Azure.Commands.ResourceManagement.Models;
 using Microsoft.WindowsAzure.Commands.Utilities.Common;
 
 namespace Microsoft.Azure.Commands.ResourceManagement
 {
     public abstract class ResourceBaseCmdlet : CmdletWithSubscriptionBase
     {
-        private ResourceClient _resourceClient;
+        private ResourcesClient _resourceClient;
 
-        public ResourceClient ResourceClient
+        public ResourcesClient ResourceClient
         {
             get
             {
                 if (_resourceClient == null)
                 {
-                    _resourceClient = new ResourceClient(CurrentSubscription);
+                    _resourceClient = new ResourcesClient(CurrentSubscription);
                 }
                 return _resourceClient;
             }

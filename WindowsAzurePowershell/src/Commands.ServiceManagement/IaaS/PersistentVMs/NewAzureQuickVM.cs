@@ -414,7 +414,6 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.PersistentVMs
                 }
             }
 
-
             // Only create the VM when a new VM was added and it was not created during the deployment phase.
             if ((_createdDeployment == false))
             {
@@ -428,6 +427,8 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.PersistentVMs
                         OSVirtualHardDisk = Mapper.Map(vm.OSVirtualHardDisk, new Management.Compute.Models.OSVirtualHardDisk()),
                         RoleName = vm.RoleName,
                         RoleSize = vm.RoleSize,
+                        ResourceExtensionReferences = null,
+                        ProvisionGuestAgent = true
                     };
 
                     vm.DataVirtualHardDisks.ForEach(c => parameter.DataVirtualHardDisks.Add(c));
@@ -466,7 +467,9 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.PersistentVMs
                     SourceImageName = ImageName,
                     MediaLink = string.IsNullOrEmpty(MediaLocation) ? null : new Uri(MediaLocation),
                     HostCaching = HostCaching
-                }, new Management.Compute.Models.OSVirtualHardDisk())
+                }, new Management.Compute.Models.OSVirtualHardDisk()),
+                ResourceExtensionReferences = null,
+                ProvisionGuestAgent = true
             };
 
             if (vm.OSVirtualHardDisk.MediaLink == null && String.IsNullOrEmpty(vm.OSVirtualHardDisk.DiskName))

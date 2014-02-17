@@ -1,4 +1,4 @@
-﻿// ----------------------------------------------------------------------------------
+﻿﻿// ----------------------------------------------------------------------------------
 //
 // Copyright Microsoft Corporation
 // Licensed under the Apache License, Version 2.0 (the "License");
@@ -12,10 +12,6 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-using System;
-using System.Collections.Generic;
-using System.Threading;
-using System.Threading.Tasks;
 using Microsoft.Azure.Commands.ResourceManagement.ResourceGroups;
 using Microsoft.Azure.Management.Resources;
 using Microsoft.Azure.Management.Resources.Models;
@@ -23,6 +19,10 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Microsoft.WindowsAzure.Commands.Test.Utilities.Common;
 using Microsoft.WindowsAzure.Commands.Utilities.Common;
 using Moq;
+using System;
+using System.Collections.Generic;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Commands.ResourceManagement.Test
 {
@@ -49,15 +49,15 @@ namespace Commands.ResourceManagement.Test
         {
             _resourceGroupOperationMock.Setup(rgo => rgo.GetAsync("foo", new CancellationToken()))
                                        .Returns(Task.Factory.StartNew(() => new ResourceGroupGetResult
+                                       {
+                                           RequestId = "abc",
+                                           StatusCode = System.Net.HttpStatusCode.OK,
+                                           ResourceGroup = new ResourceGroup
                                            {
-                                               RequestId = "abc",
-                                               StatusCode = System.Net.HttpStatusCode.OK,
-                                               ResourceGroup = new ResourceGroup
-                                                   {
-                                                       Name = "foo",
-                                                       Location = "EastUS"
-                                                   }
-                                           }));
+                                               Name = "foo",
+                                               Location = "EastUS"
+                                           }
+                                       }));
         }
 
         private void SetupGetFooReturnsNull()
@@ -70,10 +70,10 @@ namespace Commands.ResourceManagement.Test
         {
             _resourceGroupOperationMock.Setup(rgo => rgo.ListAsync(null, new CancellationToken()))
                                        .Returns(Task.Factory.StartNew(() => new ResourceGroupListResult
-                                           {
-                                               RequestId = "abc",
-                                               StatusCode = System.Net.HttpStatusCode.OK,
-                                               ResourceGroups = new[]
+                                       {
+                                           RequestId = "abc",
+                                           StatusCode = System.Net.HttpStatusCode.OK,
+                                           ResourceGroups = new[]
                                                    {
                                                        new ResourceGroup
                                                            {
@@ -86,7 +86,7 @@ namespace Commands.ResourceManagement.Test
                                                                Location = "WestUS"
                                                            }
                                                    }
-                                           }));
+                                       }));
         }
 
         [TestMethod]
@@ -188,10 +188,10 @@ namespace Commands.ResourceManagement.Test
         private GetAzureResourceGroup InitializeGetAzureResourceGroupCommandlet()
         {
             var getAzureResourceGroup = new GetAzureResourceGroup
-                {
-                    CommandRuntime = _mockCommandRuntime,
-                    CurrentSubscription = WindowsAzureProfile.Instance.CurrentSubscription
-                };
+            {
+                CommandRuntime = _mockCommandRuntime,
+                CurrentSubscription = WindowsAzureProfile.Instance.CurrentSubscription
+            };
             getAzureResourceGroup.CurrentSubscription.CloudServiceEndpoint = new Uri("http://foo");
             getAzureResourceGroup.ResourceClient.ResourceManagementClient = _resourceMgmtClientMock.Object;
             return getAzureResourceGroup;

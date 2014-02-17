@@ -59,6 +59,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
             svcNameLoc = Utilities.GetUniqueShortName(serviceNamePrefix);
             svcNameAG = Utilities.GetUniqueShortName(serviceNamePrefix);
             vmName = Utilities.GetUniqueShortName(vmNamePrefix);
+            testStartTime = DateTime.Now;
         }
 
         /// <summary>

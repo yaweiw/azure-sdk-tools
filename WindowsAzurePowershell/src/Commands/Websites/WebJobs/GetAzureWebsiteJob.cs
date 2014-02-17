@@ -20,9 +20,9 @@ namespace Microsoft.WindowsAzure.Commands.Websites.WebJobs
     using Microsoft.WindowsAzure.Commands.Utilities.Websites.Services.WebJobs;
     using Utilities.Websites;
     using Utilities.Websites.Common;
-using Microsoft.WindowsAzure.WebSitesExtensions.Models;
+    using Microsoft.WindowsAzure.WebSitesExtensions.Models;
     
-    [Cmdlet(VerbsCommon.Get, "AzureWebsiteJob"), OutputType(typeof(List<WebJob>))]
+    [Cmdlet(VerbsCommon.Get, "AzureWebsiteJob"), OutputType(typeof(List<PSWebJob>))]
     public class GetAzureWebsiteJobCommand : WebsiteContextBaseCmdlet
     {
         [Parameter(Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "The web job name.")]
@@ -35,7 +35,17 @@ using Microsoft.WindowsAzure.WebSitesExtensions.Models;
         public override void ExecuteCmdlet()
         {
             WebJobFilterOptions options = new WebJobFilterOptions() { Name = Name, Slot = Slot, JobName = JobName, JobType = JobType };
-            WriteObject(WebsitesClient.FilterWebJobs(options), true);
+            List<PSWebJob> jobs = new List<PSWebJob>();
+            try
+            {
+                jobs = WebsitesClient.FilterWebJobs(options);
+            }
+            catch
+            {
+                // Ignore exceptions, just show empty list.
+            }
+
+            WriteObject(jobs, true);
         }
     }
 }

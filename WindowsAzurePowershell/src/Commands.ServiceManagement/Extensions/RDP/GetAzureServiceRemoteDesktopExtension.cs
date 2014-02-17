@@ -14,7 +14,6 @@
 
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Extensions
 {
-    using System.Collections.Generic;
     using System.Linq;
     using System.Management.Automation;
     using Management.Compute;
@@ -27,7 +26,6 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Extensions
     public class GetAzureServiceRemoteDesktopExtensionCommand : BaseAzureServiceRemoteDesktopExtensionCmdlet
     {
         [Parameter(Position = 0, ValueFromPipelineByPropertyName = true, HelpMessage = "Service Name")]
-        [ValidateNotNullOrEmpty]
         public override string ServiceName
         {
             get;
@@ -63,7 +61,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Extensions
 
                     return from role in extensionRoleList
                            from extension in r.Extensions
-                           where ExtensionManager.CheckNameSpaceType(extension, ExtensionNameSpace, ExtensionType)
+                           where ExtensionManager.CheckNameSpaceType(extension, ProviderNamespace, ExtensionName)
                               && ExtensionManager.GetBuilder(Deployment.ExtensionConfiguration).Exist(role, extension.Id)
                            select new RemoteDesktopExtensionContext
                            {

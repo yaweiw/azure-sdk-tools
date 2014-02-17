@@ -28,9 +28,9 @@
       </ListControl>
     </View>
     <View>
-      <Name>Microsoft.Azure.Commands.ResourceManagement.PSResourceGroup</Name>
+      <Name>Microsoft.Azure.Commands.ResourceManagement.Models.PSResourceGroup</Name>
       <ViewSelectedBy>
-        <TypeName>Microsoft.Azure.Commands.ResourceManagement.PSResourceGroup</TypeName>
+        <TypeName>Microsoft.Azure.Commands.ResourceManagement.Models.PSResourceGroup</TypeName>
       </ViewSelectedBy>
       <ListControl>
         <ListEntries>
@@ -47,7 +47,7 @@
               <ListItem>
                 <Label>Resources</Label>
                 <ScriptBlock>
-                  $_.Location
+                  $_.ResourcesTable
                 </ScriptBlock>
               </ListItem>
             </ListItems>
