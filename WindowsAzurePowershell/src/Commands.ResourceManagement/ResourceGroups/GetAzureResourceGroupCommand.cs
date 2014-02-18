@@ -29,7 +29,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement.ResourceGroups
         
         public override void ExecuteCmdlet()
         {
-            WriteObject(ResourceClient.GetResourceGroups(this));
+            WriteObject(ResourceClient.FilterResourceGroups(Name), true);
         }
     }
 }

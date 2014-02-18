@@ -57,6 +57,18 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Test.Models
         private string requestId = "1234567890";
 
         private string resourceName = "myResource";
+
+        private void SetupListForResourceGroupAsync(string name, List<Resource> result)
+        {
+            resourceOperationsMock.Setup(f => f.ListForResourceGroupAsync(
+                name,
+                It.IsAny<ResourceListParameters>(),
+                new CancellationToken()))
+                    .Returns(Task.Factory.StartNew(() => new ResourceListResult
+                    {
+                        Resources = result
+                    }));
+        }
         
         public ResourceClientTests()
         {
@@ -108,14 +120,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Test.Models
                     {
                         ResourceGroup = new ResourceGroup() { Name = parameters.Name, Location = parameters.Location }
                     }));
-            resourceOperationsMock.Setup(f => f.ListForResourceGroupAsync(
-                parameters.Name,
-                It.IsAny<ResourceListParameters>(),
-                new CancellationToken()))
-                    .Returns(Task.Factory.StartNew(() => new ResourceListResult
-                    {
-                        Resources = new List<Resource>()
-                    }));
+            SetupListForResourceGroupAsync(parameters.Name, new List<Resource>());
 
             PSResourceGroup result = resourcesClient.CreatePSResourceGroup(parameters);
 
@@ -159,14 +164,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Test.Models
                     RequestId = requestId
                 }))
                 .Callback((string name, string dName, BasicDeployment bDeploy, CancellationToken token) => { deploymentInfo = bDeploy; });
-            resourceOperationsMock.Setup(f => f.ListForResourceGroupAsync(
-                parameters.Name,
-                It.IsAny<ResourceListParameters>(),
-                new CancellationToken()))
-                    .Returns(Task.Factory.StartNew(() => new ResourceListResult
-                    {
-                        Resources = new List<Resource>() { new Resource() { Name = "website", ResourceGroup = parameters.Name} }
-                    }));
+            SetupListForResourceGroupAsync(parameters.Name, new List<Resource>() { new Resource() { Name = "website", ResourceGroup = parameters.Name } });
 
             PSResourceGroup result = resourcesClient.CreatePSResourceGroup(parameters);
 
@@ -241,6 +239,55 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Test.Models
 
             Assert.Equal(2, result.Count);
             Assert.True(string.IsNullOrEmpty(actualParameters.ResourceType));
+        }
+
+        [Fact]
+        public void GetsSpecificResourceGroup()
+        {
+            string name = resourceGroupName;
+            Resource resource1 = new Resource() { Id = "resourceId", Location = resourceGroupLocation, Name = resourceName, ResourceGroup = name };
+            Resource resource2 = new Resource() { Id = "resourceId2", Location = resourceGroupLocation, Name = resourceName + "2", ResourceGroup = name };
+            ResourceGroup resourceGroup = new ResourceGroup() { Name = name, Location = resourceGroupLocation };
+            resourceGroupOperationsMock.Setup(f => f.GetAsync(name, new CancellationToken()))
+                .Returns(Task.Factory.StartNew(() => new ResourceGroupGetResult
+                {
+                    ResourceGroup = resourceGroup
+                }));
+            SetupListForResourceGroupAsync(name, new List<Resource>() { resource1, resource2 });
+
+            List<PSResourceGroup> actual = resourcesClient.FilterResourceGroups(name);
+
+            Assert.Equal(1, actual.Count);
+            Assert.Equal(name, actual[0].Name);
+            Assert.Equal(resourceGroupLocation, actual[0].Location);
+            Assert.Equal(2, actual[0].Resources.Count);
+            Assert.True(!string.IsNullOrEmpty(actual[0].ResourcesTable));
+        }
+
+        [Fact]
+        public void GetsAllResourceGroups()
+        {
+            ResourceGroup resourceGroup1 = new ResourceGroup() { Name = resourceGroupName + 1, Location = resourceGroupLocation };
+            ResourceGroup resourceGroup2 = new ResourceGroup() { Name = resourceGroupName + 2, Location = resourceGroupLocation };
+            ResourceGroup resourceGroup3 = new ResourceGroup() { Name = resourceGroupName + 3, Location = resourceGroupLocation };
+            ResourceGroup resourceGroup4 = new ResourceGroup() { Name = resourceGroupName + 4, Location = resourceGroupLocation };
+            resourceGroupOperationsMock.Setup(f => f.ListAsync(null, new CancellationToken()))
+                .Returns(Task.Factory.StartNew(() => new ResourceGroupListResult
+                {
+                    ResourceGroups = new List<ResourceGroup>() { resourceGroup1, resourceGroup2, resourceGroup3, resourceGroup4 }
+                }));
+            SetupListForResourceGroupAsync(resourceGroup1.Name, new List<Resource>() { new Resource() { Name = "resource" } });
+            SetupListForResourceGroupAsync(resourceGroup2.Name, new List<Resource>() { new Resource() { Name = "resource" } });
+            SetupListForResourceGroupAsync(resourceGroup3.Name, new List<Resource>() { new Resource() { Name = "resource" } });
+            SetupListForResourceGroupAsync(resourceGroup4.Name, new List<Resource>() { new Resource() { Name = "resource" } });
+
+            List<PSResourceGroup> actual = resourcesClient.FilterResourceGroups(null);
+
+            Assert.Equal(4, actual.Count);
+            Assert.Equal(resourceGroup1.Name, actual[0].Name);
+            Assert.Equal(resourceGroup2.Name, actual[1].Name);
+            Assert.Equal(resourceGroup3.Name, actual[2].Name);
+            Assert.Equal(resourceGroup4.Name, actual[3].Name);
         }
     }
 }
