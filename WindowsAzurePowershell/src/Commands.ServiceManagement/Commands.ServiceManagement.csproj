@@ -251,7 +251,6 @@
     <Compile Include="IaaS\Extensions\BGInfo\VirtualMachineBGInfoExtensionCmdletBase.cs" />
     <Compile Include="IaaS\Extensions\BGInfo\VirtualMachineBGInfoExtensionContext.cs" />
     <Compile Include="IaaS\Extensions\Common\GetAzureVMExtension.cs" />
-    <Compile Include="IaaS\Extensions\Common\GetAzureVMExtensionConfigTemplate.cs" />
     <Compile Include="IaaS\Extensions\Common\RemoveAzureVMExtension.cs" />
     <Compile Include="IaaS\Extensions\Common\SetAzureVMExtension.cs" />
     <Compile Include="IaaS\Extensions\Common\VirtualMachineExtensionCmdletBase.cs" />
