@@ -22,7 +22,7 @@ using Xunit;
 
 namespace Microsoft.Azure.Commands.ResourceManagement.Test.Resources
 {
-    public class NewAzureResourceGroupTests
+    public class NewAzureResourceGroupCommandTests
     {
         private NewAzureResourceGroupCommand cmdlet;
 
@@ -42,7 +42,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Test.Resources
 
         private string storageAccountName = "myStorageAccount";
 
-        public NewAzureResourceGroupTests()
+        public NewAzureResourceGroupCommandTests()
         {
             resourcesClientMock = new Mock<ResourcesClient>();
             commandRuntimeMock = new Mock<ICommandRuntime>();
