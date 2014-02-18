@@ -27,6 +27,12 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Models
 {
     public partial class ResourcesClient
     {
+        /// <summary>
+        /// Creates a new resource group and deployment using the passed template file option which
+        /// can be user customized or from gallery tenplates.
+        /// </summary>
+        /// <param name="parameters">The create parameters</param>
+        /// <returns>The created resource group</returns>
         public virtual PSResourceGroup CreatePSResourceGroup(CreatePSResourceGroupParameters parameters)
         {
             // Validate that parameter group doesn't already exist
@@ -36,19 +42,16 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Models
             }
 
             ResourceGroup resourceGroup = CreateResourceGroup(parameters.Name, parameters.Location);
-
             CreateDeployment(resourceGroup.Name, parameters);
-            List<Resource> resources = FilterResources(new FilterResourcesOptions() { ResourceGroup = resourceGroup.Name } );
 
-            return new PSResourceGroup()
-            {
-                Name = resourceGroup.Name,
-                Location = resourceGroup.Location,
-                Resources = resources,
-                ResourcesTable = ConstructResourcesTable(resources)
-            };
+            return resourceGroup.ToPSResourceGroup(this);
         }
 
+        /// <summary>
+        /// Filters a given resource group resources.
+        /// </summary>
+        /// <param name="options">The filtering options</param>
+        /// <returns>The filtered set of resources matching the filter criteria</returns>
         public virtual List<Resource> FilterResources(FilterResourcesOptions options)
         {
             List<Resource> resources = new List<Resource>();
@@ -80,6 +83,13 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Models
             return resources;
         }
 
+        /// <summary>
+        /// Creates new deployment using the passed template file which can be user customized or
+        /// from gallery templates.
+        /// </summary>
+        /// <param name="resourceGroup">The resource group name</param>
+        /// <param name="parameters">The create deployment parameters</param>
+        /// <returns>The created deployment instance</returns>
         public virtual DeploymentProperties CreateDeployment(string resourceGroup, CreatePSDeploymentParameters parameters)
         {
             DeploymentProperties result = null;
@@ -105,6 +115,13 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Models
             return result;
         }
 
+        /// <summary>
+        /// Gets the parameters for a given gallery template.
+        /// </summary>
+        /// <param name="templateName">The gallery template name</param>
+        /// <param name="parameters">The existing PowerShell cmdlet parameters</param>
+        /// <param name="parameterSetNames">The parameter set which the dynamic parameters should be added to</param>
+        /// <returns>The template parameters</returns>
         public virtual RuntimeDefinedParameterDictionary GetTemplateParameters(string templateName, string[] parameters, params string[] parameterSetNames)
         {
             const string duplicatedParameterSuffix = "FromTemplate";
@@ -138,19 +155,25 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Models
             return dynamicParameters;
         }
 
-        public virtual IEnumerable<ResourceGroup> GetResourceGroups(GetAzureResourceGroupCommand parameters)
+        /// <summary>
+        /// Filters the subscription's resource groups.
+        /// </summary>
+        /// <param name="name">The resource group name.</param>
+        /// <returns>The filtered resource groups</returns>
+        public virtual List<PSResourceGroup> FilterResourceGroups(string name)
         {
-            // Get all resource groups
-            if (parameters.Name == null)
+            List<PSResourceGroup> result = new List<PSResourceGroup>();
+            if (string.IsNullOrEmpty(name))
             {
-                return ResourceManagementClient.ResourceGroups.List(null).ResourceGroups;
+                result.AddRange(ResourceManagementClient.ResourceGroups.List(null).ResourceGroups
+                    .Select(rg => rg.ToPSResourceGroup(this)));
             }
-            // Get one group by name 
-            else if (parameters.Name != null)
+            else
             {
-                return new[] { ResourceManagementClient.ResourceGroups.Get(parameters.Name).ResourceGroup };
+                result.Add(ResourceManagementClient.ResourceGroups.Get(name).ResourceGroup.ToPSResourceGroup(this));
             }
-            return null;
+
+            return result;
         }
     }
 }

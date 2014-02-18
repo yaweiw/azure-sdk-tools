@@ -197,32 +197,5 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Models
 
             return typeObject;
         }
-
-        private string ConstructResourcesTable(List<Resource> resources)
-        {
-            StringBuilder resourcesTable = new StringBuilder();
-
-            if (resources.Count > 0)
-            {
-                string rowFormat = "{0, -15}  {1, -25}  {2, -10}\r\n";
-                resourcesTable.AppendLine();
-                resourcesTable.AppendFormat(rowFormat, "Name", "Type", "Location");
-                resourcesTable.AppendFormat(rowFormat, GenerateSeparator(15, "="), GenerateSeparator(25, "="), GenerateSeparator(10, "="));
-
-                foreach (Resource resource in resources)
-                {
-                    resourcesTable.AppendFormat(rowFormat, resource.Name, resource.Type, resource.Location);
-                }
-            }
-
-            return resourcesTable.ToString();
-        }
-
-        private string GenerateSeparator(int amount, string separator)
-        {
-            string result = string.Empty;
-            while (amount-- != 0) result += separator;
-            return result;
-        }
     }
 }
