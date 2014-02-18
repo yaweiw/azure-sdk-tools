@@ -20,12 +20,12 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
     [Cmdlet(
         VerbsCommon.Set,
         VirtualMachineBGInfoExtensionNoun,
-        DefaultParameterSetName = RemoveBGInfoExtensionParamSetName),
+        DefaultParameterSetName = SetBGInfoExtensionParamSetName),
     OutputType(
         typeof(IPersistentVM))]
     public class SetAzureVMBGInfoExtensionCommand : VirtualMachineBGInfoExtensionCmdletBase
     {
-        protected const string RemoveBGInfoExtensionParamSetName = "RemoveBGInfoExtension";
+        protected const string SetBGInfoExtensionParamSetName = "SetBGInfoExtension";
 
         [Parameter(
             Mandatory = false,
