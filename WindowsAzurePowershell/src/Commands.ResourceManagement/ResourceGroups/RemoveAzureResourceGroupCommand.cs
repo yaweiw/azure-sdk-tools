@@ -12,24 +12,41 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
+using Microsoft.Azure.Commands.ResourceManagement.Properties;
 using Microsoft.Azure.Management.Resources.Models;
 using System.Management.Automation;
 
 namespace Microsoft.Azure.Commands.ResourceManagement.ResourceGroups
 {
     /// <summary>
-    /// Filters resource groups.
+    /// Removes a new resource group.
     /// </summary>
-    [Cmdlet(VerbsCommon.Get, "AzureResourceGroup"), OutputType(typeof(ResourceGroup))]
-    public class GetAzureResourceGroupCommand : ResourceBaseCmdlet
+    [Cmdlet(VerbsCommon.Remove, "AzureResourceGroup"), OutputType(typeof(bool))]
+    public class RemoveAzureResourceGroupCommand : ResourceBaseCmdlet
     {
-        [Parameter(Position = 0, Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "The name of the resource group.")]
+        [Parameter(Position = 0, Mandatory = true, ValueFromPipelineByPropertyName = true, HelpMessage = "The name of the resource group.")]
         [ValidateNotNullOrEmpty]
         public string Name {get; set;}
+
+        [Parameter(Mandatory = false, HelpMessage = "Do not ask for confirmation.")]
+        public SwitchParameter Force { get; set; }
+
+        [Parameter(Mandatory = false)]
+        public SwitchParameter PassThru { get; set; }
         
         public override void ExecuteCmdlet()
         {
-            WriteObject(ResourceClient.FilterResourceGroups(Name), true);
+            ConfirmAction(
+                Force.IsPresent,
+                string.Format(Resources.RemovingResourceGroup, Name),
+                Resources.RemoveResourceGroupMessage,
+                Name,
+                () => ResourceClient.DeleteResourceGroup(Name));
+
+            if (PassThru)
+            {
+                WriteObject(true);
+            }
         }
     }
 }
