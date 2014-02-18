@@ -47,7 +47,7 @@
 
   <UsingTask 
     AssemblyFile="$(MSBuildProjectDirectory)\WindowsAzurePowershell\src\packages\xunit.1.9.2\lib\net20\xunit.runner.msbuild.dll"
-	TaskName="Xunit.Runner.MSBuild.xunit" />
+    TaskName="Xunit.Runner.MSBuild.xunit" />
   
   <!-- Clean the build in all configurations -->
   <Target Name="Clean">
