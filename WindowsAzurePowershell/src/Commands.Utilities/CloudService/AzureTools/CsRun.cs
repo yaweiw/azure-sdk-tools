@@ -23,10 +23,13 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService.AzureTools
 
     public class CsRun 
     {
+        private string _csrunPath;
+
+        private string _standardOutput;
+
         public string RoleInformation { get; private set; }
         public int DeploymentId { get; private set; }
 
-        private string _csrunPath;
         public CsRun(string emulatorDirectory)
         {
             _csrunPath = Path.Combine(emulatorDirectory, Resources.CsRunExe);
@@ -64,6 +67,9 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService.AzureTools
             string arguments = string.Format(Resources.RunInEmulatorArguments, packagePath, configPath, (launch) ? Resources.CsRunLanuchBrowserArg : string.Empty);
             StartCsRunProcess(mode, arguments);
 
+            DeploymentId = GetDeploymentCount(_standardOutput);
+            RoleInformation = GetRoleInfoMessage(_standardOutput);
+
             return DeploymentId;
         }
 
@@ -86,7 +92,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService.AzureTools
         {
             ProcessHelper runner = GetCommandRunner();
             runner.StartAndWaitForProcess(_csrunPath, arguments);
-            string standardOutput = runner.StandardOutput;
+            _standardOutput = runner.StandardOutput;
             string standardError = runner.StandardError;
             // If there's an error from the CsRun tool, we want to display that
             // error message.
@@ -94,9 +100,6 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService.AzureTools
             {
                 throw new InvalidOperationException(string.Format(Resources.CsRun_StartCsRunProcess_UnexpectedFailure, standardError));
             }
-
-            DeploymentId = GetDeploymentCount(standardOutput);
-            RoleInformation = GetRoleInfoMessage(standardOutput);
         }
 
         private void StartCsRunProcess(ComputeEmulatorMode mode, string arguments)
