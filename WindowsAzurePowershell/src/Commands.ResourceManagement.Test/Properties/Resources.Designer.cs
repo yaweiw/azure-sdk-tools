@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Microsoft.Azure.Commands.ResourceManagement.Properties
+namespace Microsoft.Azure.Commands.ResourceManagement.Test.Properties
 {
 
 
@@ -39,7 +39,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Properties
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Microsoft.Azure.Commands.ResourceManagement.Properties.Resources", typeof(Resources).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Microsoft.Azure.Commands.ResourceManagement.Test.Properties.Resources", typeof(Resources).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -57,24 +57,6 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Properties
             }
             set {
                 resourceCulture = value;
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Provided resource group already exists..
-        /// </summary>
-        internal static string ResourceGroupAlreadyExists {
-            get {
-                return ResourceManager.GetString("ResourceGroupAlreadyExists", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Either StorageAccountName or storage account on the subscription need to be specefied..
-        /// </summary>
-        internal static string StorageAccountNameNeedsToBeSpecified {
-            get {
-                return ResourceManager.GetString("StorageAccountNameNeedsToBeSpecified", resourceCulture);
             }
         }
     }

@@ -24,6 +24,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
     using System.Globalization;
     using System.IO;
     using System.Linq;
+    using System.Management.Automation;
     using System.Net;
     using System.Net.Http;
     using System.Net.Http.Headers;
@@ -976,6 +977,28 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
             }
 
             Directory.CreateDirectory(dir);
+        }
+
+        public static string DownloadFile(Uri uri)
+        {
+            string contents = null;
+
+            using (WebClient webClient = new WebClient())
+            {
+                contents = webClient.DownloadString(uri);
+            }
+
+            return contents;
+        }
+
+        public static string ToUpperFirstLetter(string word)
+        {
+            return string.IsNullOrEmpty(word) ? word : word.Substring(0, 1).ToUpper() + word.Substring(1);
+        }
+
+        public static IEnumerable<RuntimeDefinedParameter> GetUsedDynamicParameters(RuntimeDefinedParameterDictionary dynamicParameters, InvocationInfo MyInvocation)
+        {
+            return dynamicParameters.Values.Where(dp => MyInvocation.BoundParameters.Keys.Any(bp => bp.Equals(dp.Name)));
         }
     }
 }

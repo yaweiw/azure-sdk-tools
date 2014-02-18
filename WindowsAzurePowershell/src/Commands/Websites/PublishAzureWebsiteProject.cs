@@ -91,7 +91,7 @@
         /// This only works when -ProjectFile is used and -ConnectionString is not used.
         /// </summary>
         /// <returns>The dynamic parameters.</returns>
-        public override object GetDynamicParameters()
+        public object GetDynamicParameters()
         {
             if (!string.IsNullOrEmpty(ProjectFile) && ConnectionString == null)
             {

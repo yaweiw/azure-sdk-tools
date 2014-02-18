@@ -12,27 +12,24 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-using Microsoft.Azure.Commands.ResourceManagement.Models;
-using Microsoft.WindowsAzure.Commands.Utilities.Common;
+using Microsoft.Azure.Management.Resources.Models;
+using System.Management.Automation;
 
-namespace Microsoft.Azure.Commands.ResourceManagement
+namespace Microsoft.Azure.Commands.ResourceManagement.ResourceGroups
 {
-    public abstract class ResourceBaseCmdlet : CmdletWithSubscriptionBase
+    /// <summary>
+    /// Creates a new resource group.
+    /// </summary>
+    [Cmdlet(VerbsCommon.Get, "AzureResourceGroup"), OutputType(typeof(ResourceGroup))]
+    public class GetAzureResourceGroupCommand : ResourceBaseCmdlet
     {
-        private ResourcesClient _resourceClient;
-
-        public ResourcesClient ResourceClient
+        [Parameter(Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "The name of the resource group.")]
+        [ValidateNotNullOrEmpty]
+        public string Name {get; set;}
+        
+        public override void ExecuteCmdlet()
         {
-            get
-            {
-                if (_resourceClient == null)
-                {
-                    _resourceClient = new ResourcesClient(CurrentSubscription);
-                }
-                return _resourceClient;
-            }
-
-            set { _resourceClient = value; }
+            WriteObject(ResourceClient.GetResourceGroups(this));
         }
     }
 }

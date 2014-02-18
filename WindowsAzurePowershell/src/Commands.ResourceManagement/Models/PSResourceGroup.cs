@@ -12,27 +12,19 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-using Microsoft.Azure.Commands.ResourceManagement.Models;
-using Microsoft.WindowsAzure.Commands.Utilities.Common;
+using Microsoft.Azure.Management.Resources.Models;
+using System.Collections.Generic;
 
-namespace Microsoft.Azure.Commands.ResourceManagement
+namespace Microsoft.Azure.Commands.ResourceManagement.Models
 {
-    public abstract class ResourceBaseCmdlet : CmdletWithSubscriptionBase
+    public class PSResourceGroup
     {
-        private ResourcesClient _resourceClient;
+        public string Name { get; set; }
 
-        public ResourcesClient ResourceClient
-        {
-            get
-            {
-                if (_resourceClient == null)
-                {
-                    _resourceClient = new ResourcesClient(CurrentSubscription);
-                }
-                return _resourceClient;
-            }
+        public string Location { get; set; }
 
-            set { _resourceClient = value; }
-        }
+        public List<Resource> Resources { get; set; }
+
+        public string ResourcesTable { get; set; }
     }
 }
