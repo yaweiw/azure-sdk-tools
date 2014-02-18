@@ -55,6 +55,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Models
         /// </summary>
         /// <param name="resourceManagementClient">The IResourceManagementClient instance</param>
         /// <param name="storageClientWrapper">The IStorageClientWrapper instance</param>
+        /// <param name="galleryClient">The IGalleryClient instance</param>
         public ResourcesClient(
             IResourceManagementClient resourceManagementClient,
             IStorageClientWrapper storageClientWrapper,
@@ -97,7 +98,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Models
             return deploymentParameters;
         }
 
-        private Uri GetTemplateUri(string templateFile, string storageAccountName)
+        private Uri GetTemplateUri(string templateFile, string galleryTemplateName, string storageAccountName)
         {
             Uri templateFileUri;
 
@@ -123,9 +124,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Models
             }
             else
             {
-                // To do: get the actual GalleryTemplateName uri
-                // templateFileUri = ResourceManagementClient.Gallary.GetTemplateFile(parameters.GalleryTemplateName).TemplateFileUri
-                templateFileUri = new Uri("http://microsoft.com");
+                templateFileUri = GetGalleryTemplateFile(galleryTemplateName);
             }
 
             return templateFileUri;
@@ -155,6 +154,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Models
 
             if (!string.IsNullOrEmpty(templateHash))
             {
+                contentHash = new ContentHash();
                 contentHash.Value = templateHash;
                 contentHash.Algorithm = string.IsNullOrEmpty(templateHashAlgorithm) ? ContentHashAlgorithm.Sha256 :
                     (ContentHashAlgorithm)Enum.Parse(typeof(ContentHashAlgorithm), templateHashAlgorithm);

@@ -20,7 +20,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Models
 {
     public partial class ResourcesClient
     {
-        public virtual Uri GetGallaryTemplateFile(string templateName)
+        public virtual Uri GetGalleryTemplateFile(string templateName)
         {
             return new Uri(GalleryClient.Items.Get(templateName).Item.DefinitionTemplates.DeploymentTemplateFileUrls.First().Value);
         }
