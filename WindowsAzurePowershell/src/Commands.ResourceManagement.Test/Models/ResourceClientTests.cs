@@ -289,5 +289,13 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Test.Models
             Assert.Equal(resourceGroup3.Name, actual[2].Name);
             Assert.Equal(resourceGroup4.Name, actual[3].Name);
         }
+
+        [Fact]
+        public void DeletesResourcesGroup()
+        {
+            resourcesClient.DeleteResourceGroup(resourceGroupName);
+
+            resourceGroupOperationsMock.Verify(f => f.DeleteAsync(resourceGroupName, It.IsAny<CancellationToken>()), Times.Once());
+        }
     }
 }

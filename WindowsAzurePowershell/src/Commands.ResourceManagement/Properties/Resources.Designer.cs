@@ -8,10 +8,10 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Microsoft.Azure.Commands.ResourceManagement.Properties
-{
-
-
+namespace Microsoft.Azure.Commands.ResourceManagement.Properties {
+    using System;
+    
+    
     /// <summary>
     ///   A strongly-typed resource class, for looking up localized strings, etc.
     /// </summary>
@@ -57,6 +57,24 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Properties
             }
             set {
                 resourceCulture = value;
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Removing resource group ....
+        /// </summary>
+        internal static string RemoveResourceGroupMessage {
+            get {
+                return ResourceManager.GetString("RemoveResourceGroupMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Are you sure you want to remove resource group &apos;{0}&apos;.
+        /// </summary>
+        internal static string RemovingResourceGroup {
+            get {
+                return ResourceManager.GetString("RemovingResourceGroup", resourceCulture);
             }
         }
         
