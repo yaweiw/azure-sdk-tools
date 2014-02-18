@@ -92,7 +92,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Models
                     Mode = DeploymentMode.Incremental,
                     TemplateLink = new TemplateLink()
                     {
-                        Uri = GetTemplateUri(parameters.TemplateFile, parameters.StorageAccountName),
+                        Uri = GetTemplateUri(parameters.TemplateFile, parameters.GalleryTemplateName, parameters.StorageAccountName),
                         ContentVersion = parameters.TemplateVersion,
                         ContentHash = GetTemplateContentHash(parameters.TemplateHash, parameters.TemplateHashAlgorithm)
                     },
@@ -110,7 +110,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Models
             const string duplicatedParameterSuffix = "FromTemplate";
             RuntimeDefinedParameterDictionary dynamicParameters = new RuntimeDefinedParameterDictionary();
 
-            string templateContest = General.DownloadFile(GetGallaryTemplateFile(templateName));
+            string templateContest = General.DownloadFile(GetGalleryTemplateFile(templateName));
             Dictionary<string, dynamic> template = JsonConvert.DeserializeObject<Dictionary<string, dynamic>>(templateContest);
 
             foreach (var parameter in template["parameters"])
