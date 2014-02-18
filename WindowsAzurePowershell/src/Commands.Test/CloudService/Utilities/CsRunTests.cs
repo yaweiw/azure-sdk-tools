@@ -14,6 +14,7 @@
 
 namespace Microsoft.WindowsAzure.Commands.Test.CloudService.Utilities
 {
+    using System;
     using Commands.Utilities.CloudService.AzureTools;
     using Microsoft.WindowsAzure.Commands.Utilities.Common;
     using Microsoft.WindowsAzure.Commands.Utilities.Properties;
@@ -61,9 +62,12 @@ namespace Microsoft.WindowsAzure.Commands.Test.CloudService.Utilities
             {
                 expectedComputeArguments += " " + Resources.CsRunEmulatorExpressArg;
                 expectedAzureProjectArgument += " " + Resources.CsRunEmulatorExpressArg;
-            }      
-      
-            string testOutput = "Role is running at tcp://127.0.0.1:8080";
+            }
+
+            string testRoleUrl = "http://127.0.0.1:8080/";
+            int testDeploymentId = 58;
+            string testOutput = string.Format("Started: deployment23({0}) Role is running at " + testRoleUrl + ".", testDeploymentId.ToString());
+            string expectedRoleRunningMessage = string.Format(Resources.EmulatorRoleRunningMessage, testRoleUrl) + Environment.NewLine; 
 
             CsRun csRun = new CsRun(testEmulatorFolder);
             Mock<ProcessHelper> commandRunner = new Mock<ProcessHelper>();
@@ -79,6 +83,8 @@ namespace Microsoft.WindowsAzure.Commands.Test.CloudService.Utilities
 
             // Assert
             commandRunner.VerifyAll();
+            Assert.AreEqual(csRun.DeploymentId, testDeploymentId);
+            Assert.AreEqual(csRun.RoleInformation, expectedRoleRunningMessage);
         }
     }
 }
