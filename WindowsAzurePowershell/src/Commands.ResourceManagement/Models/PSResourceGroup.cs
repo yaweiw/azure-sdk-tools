@@ -13,10 +13,7 @@
 // ----------------------------------------------------------------------------------
 
 using Microsoft.Azure.Management.Resources.Models;
-using Microsoft.WindowsAzure.Commands.Utilities.Common;
-using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace Microsoft.Azure.Commands.ResourceManagement.Models
 {

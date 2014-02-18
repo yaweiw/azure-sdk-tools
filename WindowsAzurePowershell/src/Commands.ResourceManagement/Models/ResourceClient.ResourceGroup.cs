@@ -12,25 +12,16 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-using System;
-using System.IO;
-using System.Collections.Generic;
-using System.Runtime.Serialization.Formatters;
 using Microsoft.Azure.Commands.ResourceManagement.Properties;
 using Microsoft.Azure.Commands.ResourceManagement.ResourceGroups;
-using Microsoft.Azure.Management.Resources.Models;
 using Microsoft.Azure.Management.Resources;
+using Microsoft.Azure.Management.Resources.Models;
 using Microsoft.WindowsAzure.Commands.Utilities.Common;
-using Microsoft.WindowsAzure.Commands.Utilities.Common.Storage;
 using Newtonsoft.Json;
+using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Management.Automation;
-using Microsoft.CSharp.RuntimeBinder;
-using System.Diagnostics;
-using System.Security;
-using System.Threading;
-using Microsoft.Azure.Gallery;
-using Microsoft.Azure.Gallery.Models;
 
 namespace Microsoft.Azure.Commands.ResourceManagement.Models
 {

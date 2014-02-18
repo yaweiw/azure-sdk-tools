@@ -12,10 +12,8 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-using System.Collections;
-using System.Linq;
-using System.Management.Automation;
 using Microsoft.Azure.Management.Resources.Models;
+using System.Management.Automation;
 
 namespace Microsoft.Azure.Commands.ResourceManagement.ResourceGroups
 {
