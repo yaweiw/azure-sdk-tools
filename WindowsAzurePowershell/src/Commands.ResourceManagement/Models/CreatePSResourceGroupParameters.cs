@@ -12,28 +12,12 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-using System.Collections;
-
 namespace Microsoft.Azure.Commands.ResourceManagement.Models
 {
-    public class PSCreateDeploymentParameters
+    public class CreatePSResourceGroupParameters : CreatePSDeploymentParameters
     {
-        public string DeploymentName { get; set; }
+        public string Name { get; set; }
 
-        public string GalleryTemplateName { get; set; }
-
-        public string TemplateFile { get; set; }
-
-        public Hashtable ParameterObject { get; set; }
-
-        public string ParameterFile { get; set; }
-
-        public string TemplateVersion { get; set; }
-
-        public string TemplateHash { get; set; }
-
-        public string TemplateHashAlgorithm { get; set; }
-
-        public string StorageAccountName { get; set; }
+        public string Location { get; set; }
     }
 }

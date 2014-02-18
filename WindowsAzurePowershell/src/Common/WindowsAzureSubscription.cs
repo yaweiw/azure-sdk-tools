@@ -32,9 +32,14 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
     public class WindowsAzureSubscription
     {
         public string SubscriptionName { get; set; }
+        
         public string SubscriptionId { get; set; }
+        
         public Uri ServiceEndpoint { get; set; }
+        
         public Uri CloudServiceEndpoint { get; set; }
+
+        public Uri GalleryEndpoint { get; set; }
 
         public string ActiveDirectoryEndpoint { get; set; }
 
@@ -148,6 +153,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
             ServiceEndpoint = newSubscription.ServiceEndpoint;
             CloudServiceEndpoint = newSubscription.CloudServiceEndpoint;
             SubscriptionName = newSubscription.SubscriptionName;
+            GalleryEndpoint = newSubscription.GalleryEndpoint;
         }
 
         /// <summary>
@@ -167,12 +173,17 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
         /// </summary>
         /// <typeparam name="TClient">Type of client to create, must be derived from <see cref="ServiceClient{T}"/></typeparam>
         /// <returns>The service client instance</returns>
+        public TClient CreateGalleryClient<TClient>() where TClient : ServiceClient<TClient>
+        {
+            return ClientClientFromEndpoint<TClient>(GalleryEndpoint);
+        }
+
         public TClient CreateCloudServiceClient<TClient>() where TClient : ServiceClient<TClient>
         {
             return ClientClientFromEndpoint<TClient>(CloudServiceEndpoint);
         }
 
-        private TClient ClientClientFromEndpoint<TClient>(Uri endpoint) where TClient : ServiceClient<TClient>
+        public TClient ClientClientFromEndpoint<TClient>(Uri endpoint) where TClient : ServiceClient<TClient>
         {
             var credential = CreateCredentials();
             RegisterRequiredResourceProviders<TClient>(credential);

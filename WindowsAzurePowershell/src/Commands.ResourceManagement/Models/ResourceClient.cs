@@ -13,6 +13,7 @@
 // ----------------------------------------------------------------------------------
 
 using Microsoft.Azure.Commands.ResourceManagement.Properties;
+using Microsoft.Azure.Gallery;
 using Microsoft.Azure.Management.Resources;
 using Microsoft.Azure.Management.Resources.Models;
 using Microsoft.WindowsAzure.Commands.Utilities.Common;
@@ -35,13 +36,16 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Models
         public IResourceManagementClient ResourceManagementClient { get; set; }
         public IStorageClientWrapper StorageClientWrapper { get; set; }
 
+        public IGalleryClient GalleryClient { get; set; }
+
         /// <summary>
         /// Creates new ResourceManagementClient
         /// </summary>
         /// <param name="subscription">Subscription containing resources to manipulate</param>
         public ResourcesClient(WindowsAzureSubscription subscription) : this (
             subscription.CreateCloudServiceClient<ResourceManagementClient>(),
-            new StorageClientWrapper(subscription.CreateClient<StorageManagementClient>()))
+            new StorageClientWrapper(subscription.CreateClient<StorageManagementClient>()),
+            subscription.CreateGalleryClient<GalleryClient>())
         {
             
         }
@@ -51,10 +55,22 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Models
         /// </summary>
         /// <param name="resourceManagementClient">The IResourceManagementClient instance</param>
         /// <param name="storageClientWrapper">The IStorageClientWrapper instance</param>
-        public ResourcesClient(IResourceManagementClient resourceManagementClient, IStorageClientWrapper storageClientWrapper)
+        public ResourcesClient(
+            IResourceManagementClient resourceManagementClient,
+            IStorageClientWrapper storageClientWrapper,
+            IGalleryClient galleryClient)
         {
             ResourceManagementClient = resourceManagementClient;
             StorageClientWrapper = storageClientWrapper;
+            GalleryClient = galleryClient;
+        }
+
+        /// <summary>
+        /// Parameterless constructor for mocking
+        /// </summary>
+        public ResourcesClient()
+        {
+
         }
 
         private static string DeploymentTemplateStorageContainerName = "deployment-templates";
@@ -185,14 +201,18 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Models
         private string ConstructResourcesTable(List<Resource> resources)
         {
             StringBuilder resourcesTable = new StringBuilder();
-            string rowFormat = "{0, -15}  {1, -25}  {2, -10}\r\n";
-            resourcesTable.AppendLine();
-            resourcesTable.AppendFormat(rowFormat, "Name", "Type", "Location");
-            resourcesTable.AppendFormat(rowFormat, GenerateSeparator(15, "="), GenerateSeparator(25, "="), GenerateSeparator(10, "="));
 
-            foreach (Resource resource in resources)
+            if (resources.Count > 0)
             {
-                resourcesTable.AppendFormat(rowFormat, resource.Name, resource.Type, resource.Location);
+                string rowFormat = "{0, -15}  {1, -25}  {2, -10}\r\n";
+                resourcesTable.AppendLine();
+                resourcesTable.AppendFormat(rowFormat, "Name", "Type", "Location");
+                resourcesTable.AppendFormat(rowFormat, GenerateSeparator(15, "="), GenerateSeparator(25, "="), GenerateSeparator(10, "="));
+
+                foreach (Resource resource in resources)
+                {
+                    resourcesTable.AppendFormat(rowFormat, resource.Name, resource.Type, resource.Location);
+                }
             }
 
             return resourcesTable.ToString();

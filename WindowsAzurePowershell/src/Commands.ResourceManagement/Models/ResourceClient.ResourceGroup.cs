@@ -28,12 +28,15 @@ using System.Management.Automation;
 using Microsoft.CSharp.RuntimeBinder;
 using System.Diagnostics;
 using System.Security;
+using System.Threading;
+using Microsoft.Azure.Gallery;
+using Microsoft.Azure.Gallery.Models;
 
 namespace Microsoft.Azure.Commands.ResourceManagement.Models
 {
     public partial class ResourcesClient
     {
-        public virtual PSResourceGroup CreatePSResourceGroup(PSCreateResourceGroupParameters parameters)
+        public virtual PSResourceGroup CreatePSResourceGroup(CreatePSResourceGroupParameters parameters)
         {
             // Validate that parameter group doesn't already exist
             if (ResourceManagementClient.ResourceGroups.Exists(parameters.Name).Exists)
@@ -86,7 +89,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Models
             return resources;
         }
 
-        public virtual DeploymentProperties CreateDeployment(string resourceGroup, PSCreateDeploymentParameters parameters)
+        public virtual DeploymentProperties CreateDeployment(string resourceGroup, CreatePSDeploymentParameters parameters)
         {
             DeploymentProperties result = null;
             bool createDeployment = !string.IsNullOrEmpty(parameters.GalleryTemplateName) || !string.IsNullOrEmpty(parameters.TemplateFile);
@@ -116,9 +119,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Models
             const string duplicatedParameterSuffix = "FromTemplate";
             RuntimeDefinedParameterDictionary dynamicParameters = new RuntimeDefinedParameterDictionary();
 
-            // To do: get template Uri using the Gallary WAML
-            Uri templateUri = new Uri("https://gallerydevstore.blob.core.windows.net/dev-microsoft-windowsazure-gallery/8d6b920b-10f4-4b5a-b3da-9d398fbcf3ee.PublicGalleryItems.Microsoft.SQLDatabase.0.1.0-preview1/CSMTemplates/NewDatabaseExistingServer.json");
-            string templateContest = General.DownloadFile(templateUri);
+            string templateContest = General.DownloadFile(GetGallaryTemplateFile(templateName));
             Dictionary<string, dynamic> template = JsonConvert.DeserializeObject<Dictionary<string, dynamic>>(templateContest);
 
             foreach (var parameter in template["parameters"])
@@ -134,7 +135,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Models
                     runtimeParameter.Attributes.Add(new ParameterAttribute()
                     {
                         ParameterSetName = parameterSetName,
-                        Mandatory = true,
+                        Mandatory = false,
                         ValueFromPipelineByPropertyName = true,
                         HelpMessage = "dynamically generated template parameter",
                     });
@@ -146,7 +147,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Models
             return dynamicParameters;
         }
 
-        public virtual IEnumerable<ResourceGroup> GetResourceGroups(GetAzureResourceGroup parameters)
+        public virtual IEnumerable<ResourceGroup> GetResourceGroups(GetAzureResourceGroupCommand parameters)
         {
             // Get all resource groups
             if (parameters.Name == null)

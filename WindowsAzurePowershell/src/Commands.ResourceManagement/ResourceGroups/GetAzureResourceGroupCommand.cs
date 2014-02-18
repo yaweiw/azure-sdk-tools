@@ -23,7 +23,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement.ResourceGroups
     /// Creates a new resource group.
     /// </summary>
     [Cmdlet(VerbsCommon.Get, "AzureResourceGroup"), OutputType(typeof(ResourceGroup))]
-    public class GetAzureResourceGroup : ResourceBaseCmdlet
+    public class GetAzureResourceGroupCommand : ResourceBaseCmdlet
     {
         [Parameter(Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "The name of the resource group.")]
         [ValidateNotNullOrEmpty]
