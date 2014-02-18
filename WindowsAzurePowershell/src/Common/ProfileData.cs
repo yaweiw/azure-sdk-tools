@@ -69,6 +69,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
             StorageEndpointSuffix = inMemoryEnvironment.StorageEndpointSuffix;
             AdTenantUrl = inMemoryEnvironment.ActiveDirectoryEndpoint;
             CommonTenantId = inMemoryEnvironment.ActiveDirectoryCommonTenantId;
+            GalleryEndpoint = inMemoryEnvironment.GalleryEndpoint;
         }
 
         /// <summary>
@@ -85,7 +86,8 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
                 ManagementPortalUrl = this.ManagementPortalUrl,
                 StorageEndpointSuffix = this.StorageEndpointSuffix,
                 ActiveDirectoryEndpoint = this.AdTenantUrl,
-                ActiveDirectoryCommonTenantId = this.CommonTenantId
+                ActiveDirectoryCommonTenantId = this.CommonTenantId,
+                GalleryEndpoint = this.GalleryEndpoint
             };
         }
 
@@ -112,6 +114,9 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
 
         [DataMember]
         public string CommonTenantId { get; set; }
+
+        [DataMember]
+        public string GalleryEndpoint { get; set; }
     }
 
     /// <summary>
@@ -146,6 +151,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
             ManagementCertificate = inMemorySubscription.Certificate != null ? inMemorySubscription.Certificate.Thumbprint : null;
             CloudStorageAccount = inMemorySubscription.CurrentStorageAccountName;
             RegisteredResourceProviders = inMemorySubscription.RegisteredResourceProviders;
+            GalleryEndpoint = inMemorySubscription.GalleryEndpoint != null ? inMemorySubscription.GalleryEndpoint.ToString() : null;
         }
 
         /// <summary>
@@ -165,7 +171,8 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
                 ActiveDirectoryUserId = ActiveDirectoryUserId,
                 IsDefault = this.IsDefault,
                 Certificate = !string.IsNullOrEmpty(ManagementCertificate) ? WindowsAzureCertificate.FromThumbprint(ManagementCertificate) : null,
-                CurrentStorageAccountName = CloudStorageAccount
+                CurrentStorageAccountName = CloudStorageAccount,
+                GalleryEndpoint = !string.IsNullOrEmpty(GalleryEndpoint) ? new Uri(GalleryEndpoint) : null,
             };
             RegisteredResourceProviders = RegisteredResourceProviders ?? new string[0];
             foreach (var resource in RegisteredResourceProviders)
@@ -209,6 +216,9 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
         public string CloudStorageAccount { get; set; }
 
         [DataMember]
-        public IEnumerable<string> RegisteredResourceProviders { get; set; } 
+        public IEnumerable<string> RegisteredResourceProviders { get; set; }
+
+        [DataMember]
+        public string GalleryEndpoint { get; set; }
     }
 }

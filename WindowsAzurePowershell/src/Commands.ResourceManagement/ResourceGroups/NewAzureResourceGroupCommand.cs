@@ -28,7 +28,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement.ResourceGroups
     /// Creates a new resource group.
     /// </summary>
     [Cmdlet(VerbsCommon.New, "AzureResourceGroup", DefaultParameterSetName = BaseParameterSetName), OutputType(typeof(PSResourceGroup))]
-    public class NewAzureResourceGroup : ResourceBaseCmdlet, IDynamicParameters
+    public class NewAzureResourceGroupCommand : ResourceBaseCmdlet, IDynamicParameters
     {
         internal const string BaseParameterSetName = "basic";
         internal const string GalleryTemplateParameterObjectParameterSetName = "galery-template-parameter-object";
@@ -39,7 +39,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement.ResourceGroups
         private RuntimeDefinedParameterDictionary dynamicParameters;
         private string galleryTemplateName;
 
-        public NewAzureResourceGroup()
+        public NewAzureResourceGroupCommand()
         {
             dynamicParameters = new RuntimeDefinedParameterDictionary();
             galleryTemplateName = null;
@@ -104,7 +104,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement.ResourceGroups
 
         public override void ExecuteCmdlet()
         {
-            PSCreateResourceGroupParameters parameters = new PSCreateResourceGroupParameters()
+            CreatePSResourceGroupParameters parameters = new CreatePSResourceGroupParameters()
             {
                 Name = Name,
                 Location = Location,
@@ -124,19 +124,15 @@ namespace Microsoft.Azure.Commands.ResourceManagement.ResourceGroups
 
         private Hashtable GetParameterObject(Hashtable parameterObject)
         {
-            Hashtable finalParameterObject = new Hashtable();
             IEnumerable<RuntimeDefinedParameter> parameters = General.GetUsedDynamicParameters(dynamicParameters, MyInvocation);
 
             if (parameters.Count() > 0)
             {
-                parameters.ForEach(dp => finalParameterObject.Add(dp.Name, dp.Value));
-            }
-            else
-            {
-                finalParameterObject = new Hashtable(parameterObject);
+                parameterObject = parameterObject ?? new Hashtable();
+                parameters.ForEach(dp => parameterObject.Add(dp.Name, dp.Value));
             }
 
-            return finalParameterObject;
+            return parameterObject;
         }
 
         public object GetDynamicParameters()

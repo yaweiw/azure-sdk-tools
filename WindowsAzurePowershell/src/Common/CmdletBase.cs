@@ -21,6 +21,11 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
 
     public abstract class CmdletBase : PSCmdlet
     {
+        public CmdletBase()
+        {
+            HttpRestCallLogger.CurrentCmdlet = this;
+        }
+
         protected string CurrentPath()
         {
             // SessionState is only available within Powershell so default to
@@ -86,7 +91,6 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
         {
             try
             {
-                HttpRestCallLogger.CurrentCmdlet = this;
                 base.ProcessRecord();
                 ExecuteCmdlet();
             }

@@ -177,9 +177,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Models\FilterResourcesOptions.cs" />
-    <Compile Include="Models\PSCreateDeploymentParameters.cs" />
+    <Compile Include="Models\CreatePSDeploymentParameters.cs" />
     <Compile Include="Models\PSResourceGroup.cs" />
-    <Compile Include="Models\PSCreateResourceGroupParameters.cs" />
+    <Compile Include="Models\CreatePSResourceGroupParameters.cs" />
+    <Compile Include="Models\ResourceClient.Gallery.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -187,8 +188,8 @@
     </Compile>
     <Compile Include="Models\ResourceClient.ResourceGroup.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ResourceGroups\GetAzureResourceGroup.cs" />
-    <Compile Include="ResourceGroups\NewAzureResourceGroup.cs" />
+    <Compile Include="ResourceGroups\GetAzureResourceGroupCommand.cs" />
+    <Compile Include="ResourceGroups\NewAzureResourceGroupCommand.cs" />
     <Compile Include="ResourceBaseCmdlet.cs" />
     <Compile Include="Models\ResourceClient.cs" />
   </ItemGroup>

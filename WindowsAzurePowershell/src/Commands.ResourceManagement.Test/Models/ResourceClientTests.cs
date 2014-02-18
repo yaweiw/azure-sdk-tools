@@ -70,13 +70,15 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Test.Models
             resourceManagementClientMock.Setup(f => f.ResourceGroups).Returns(resourceGroupOperationsMock.Object);
             resourceManagementClientMock.Setup(f => f.Resources).Returns(resourceOperationsMock.Object);
             storageClientWrapperMock = new Mock<IStorageClientWrapper>();
-            resourcesClient = new ResourcesClient(resourceManagementClientMock.Object, storageClientWrapperMock.Object);
+            resourcesClient = new ResourcesClient(
+                resourceManagementClientMock.Object,
+                storageClientWrapperMock.Object, null);
         }
 
         [Fact]
         public void ThrowsExceptionForExistingResourceGroup()
         {
-            PSCreateResourceGroupParameters parameters = new PSCreateResourceGroupParameters() { Name = resourceGroupName };
+            CreatePSResourceGroupParameters parameters = new CreatePSResourceGroupParameters() { Name = resourceGroupName };
             resourceGroupOperationsMock.Setup(f => f.ExistsAsync(parameters.Name, new CancellationToken()))
                 .Returns(Task.Factory.StartNew(() => new ResourceGroupExistsResult
                 {
@@ -89,7 +91,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Test.Models
         [Fact]
         public void CreatesBasicResourceGroup()
         {
-            PSCreateResourceGroupParameters parameters = new PSCreateResourceGroupParameters()
+            CreatePSResourceGroupParameters parameters = new CreatePSResourceGroupParameters()
             {
                 Name = resourceGroupName,
                 Location = resourceGroupLocation
@@ -129,7 +131,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Test.Models
         {
             Uri templateUri = new Uri("http://templateuri.microsoft.com");
             BasicDeployment deploymentInfo = new BasicDeployment();
-            PSCreateResourceGroupParameters parameters = new PSCreateResourceGroupParameters()
+            CreatePSResourceGroupParameters parameters = new CreatePSResourceGroupParameters()
             {
                 Name = resourceGroupName,
                 Location = resourceGroupLocation,
@@ -190,7 +192,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Test.Models
                 {
                     Resource = expected
                 }))
-                .Callback((string rgm, ResourceParameters p, CancellationToken ct) => { actualParameters = p; });
+                .Callback((ResourceParameters p, CancellationToken ct) => { actualParameters = p; });
             
             List<Resource> result = resourcesClient.FilterResources(options);
 
