@@ -12,27 +12,17 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-using Microsoft.Azure.Commands.ResourceManagement.Models;
-using Microsoft.WindowsAzure.Commands.Utilities.Common;
+using Microsoft.Azure.Gallery;
+using System;
+using System.Linq;
 
-namespace Microsoft.Azure.Commands.ResourceManagement
+namespace Microsoft.Azure.Commands.ResourceManagement.Models
 {
-    public abstract class ResourceBaseCmdlet : CmdletWithSubscriptionBase
+    public partial class ResourcesClient
     {
-        private ResourcesClient _resourceClient;
-
-        public ResourcesClient ResourceClient
+        public virtual Uri GetGalleryTemplateFile(string templateName)
         {
-            get
-            {
-                if (_resourceClient == null)
-                {
-                    _resourceClient = new ResourcesClient(CurrentSubscription);
-                }
-                return _resourceClient;
-            }
-
-            set { _resourceClient = value; }
+            return new Uri(GalleryClient.Items.Get(templateName).Item.DefinitionTemplates.DeploymentTemplateFileUrls.First().Value);
         }
     }
 }

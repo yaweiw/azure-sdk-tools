@@ -144,7 +144,8 @@ namespace Microsoft.WindowsAzure.Commands.Test.Common
                 ServiceEndpoint = sourceEnv.ServiceEndpoint,
                 ActiveDirectoryEndpoint = sourceEnv.AdTenantUrl,
                 ActiveDirectoryCommonTenantId = sourceEnv.CommonTenantId,
-                StorageEndpointSuffix = sourceEnv.StorageEndpointSuffix
+                StorageEndpointSuffix = sourceEnv.StorageEndpointSuffix,
+                GalleryEndpoint = sourceEnv.GalleryEndpoint
             });
 
             var locator = typeof (ResourceLocator);

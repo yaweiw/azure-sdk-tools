@@ -12,27 +12,28 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-using Microsoft.Azure.Commands.ResourceManagement.Models;
-using Microsoft.WindowsAzure.Commands.Utilities.Common;
+using System.Collections;
 
-namespace Microsoft.Azure.Commands.ResourceManagement
+namespace Microsoft.Azure.Commands.ResourceManagement.Models
 {
-    public abstract class ResourceBaseCmdlet : CmdletWithSubscriptionBase
+    public class CreatePSDeploymentParameters
     {
-        private ResourcesClient _resourceClient;
+        public string DeploymentName { get; set; }
 
-        public ResourcesClient ResourceClient
-        {
-            get
-            {
-                if (_resourceClient == null)
-                {
-                    _resourceClient = new ResourcesClient(CurrentSubscription);
-                }
-                return _resourceClient;
-            }
+        public string GalleryTemplateName { get; set; }
 
-            set { _resourceClient = value; }
-        }
+        public string TemplateFile { get; set; }
+
+        public Hashtable ParameterObject { get; set; }
+
+        public string ParameterFile { get; set; }
+
+        public string TemplateVersion { get; set; }
+
+        public string TemplateHash { get; set; }
+
+        public string TemplateHashAlgorithm { get; set; }
+
+        public string StorageAccountName { get; set; }
     }
 }

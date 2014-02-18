@@ -57,7 +57,8 @@ namespace Microsoft.WindowsAzure.Commands.Test.Environment
                 PublishSettingsFileUrl = "http://microsoft.com",
                 ServiceEndpoint = "endpoint.net",
                 ManagementPortalUrl = "management portal url",
-                StorageEndpoint = "endpoint.net"
+                StorageEndpoint = "endpoint.net",
+                GalleryEndpoint = "galleryendpoint"
             };
 
             cmdlet.ExecuteCmdlet();
@@ -71,6 +72,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.Environment
             Assert.AreEqual(env.StorageBlobEndpointFormat, "{0}://{1}.blob.endpoint.net/");
             Assert.AreEqual(env.StorageQueueEndpointFormat, "{0}://{1}.queue.endpoint.net/");
             Assert.AreEqual(env.StorageTableEndpointFormat, "{0}://{1}.table.endpoint.net/");
+            Assert.AreEqual(env.GalleryEndpoint, "galleryendpoint");
         }
 
         [TestMethod]

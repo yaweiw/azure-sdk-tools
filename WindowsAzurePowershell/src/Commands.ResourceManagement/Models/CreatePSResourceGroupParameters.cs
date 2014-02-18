@@ -12,26 +12,12 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-using System.Collections;
-using System.Linq;
-using System.Management.Automation;
-using Microsoft.Azure.Management.Resources.Models;
-
-namespace Microsoft.Azure.Commands.ResourceManagement.ResourceGroups
+namespace Microsoft.Azure.Commands.ResourceManagement.Models
 {
-    /// <summary>
-    /// Creates a new resource group.
-    /// </summary>
-    [Cmdlet(VerbsCommon.Get, "AzureResourceGroup"), OutputType(typeof(ResourceGroup))]
-    public class GetAzureResourceGroup : ResourceBaseCmdlet
+    public class CreatePSResourceGroupParameters : CreatePSDeploymentParameters
     {
-        [Parameter(Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "The name of the resource group.")]
-        [ValidateNotNullOrEmpty]
-        public string Name {get; set;}
-        
-        public override void ExecuteCmdlet()
-        {
-            WriteObject(ResourceClient.GetResourceGroups(this));
-        }
+        public string Name { get; set; }
+
+        public string Location { get; set; }
     }
 }

@@ -110,6 +110,8 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
             get { return EndpointFormatFor("table"); }
         }
 
+        public string GalleryEndpoint { get; set; }
+
         /// <summary>
         /// Gets the endpoint for storage blob.
         /// </summary>
@@ -233,10 +235,11 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
                     ServiceEndpoint = WindowsAzureEnvironmentConstants.AzureServiceEndpoint,
                     CloudServiceEndpoint = WindowsAzureEnvironmentConstants.AzureCloudServiceEndpoint,
                     ManagementPortalUrl = WindowsAzureEnvironmentConstants.AzureManagementPortalUrl,
-                    // TODO: Get real endpoint for prod
                     ActiveDirectoryEndpoint = "https://login.windows.net/",
                     ActiveDirectoryCommonTenantId = "common",
-                    StorageEndpointSuffix = WindowsAzureEnvironmentConstants.AzureStorageEndpointSuffix
+                    StorageEndpointSuffix = WindowsAzureEnvironmentConstants.AzureStorageEndpointSuffix,
+                    // TODO: Get real endpoint for prod
+                    GalleryEndpoint = "http://public.us.com"
                 }
             },
             {
@@ -248,7 +251,9 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
                     ServiceEndpoint = WindowsAzureEnvironmentConstants.ChinaServiceEndpoint,
                     CloudServiceEndpoint = WindowsAzureEnvironmentConstants.ChinaCloudServiceEndpoint,
                     ManagementPortalUrl = WindowsAzureEnvironmentConstants.ChinaManagementPortalUrl,
-                    StorageEndpointSuffix = WindowsAzureEnvironmentConstants.ChinaStorageEndpointSuffix
+                    StorageEndpointSuffix = WindowsAzureEnvironmentConstants.ChinaStorageEndpointSuffix,
+                    // TODO: Get real endpoint for prod
+                    GalleryEndpoint = "http://public.ch.com"
                 }
             }
         };

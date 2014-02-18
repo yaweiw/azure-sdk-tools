@@ -12,35 +12,14 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-using Microsoft.WindowsAzure.Commands.Utilities.Common;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-
-namespace Microsoft.Azure.Commands.ResourceManagement
+namespace Microsoft.Azure.Commands.ResourceManagement.Models
 {
-    public class CreateResourceGroupParameters
+    public class FilterResourcesOptions
     {
         public string Name { get; set; }
 
-        public string Location { get; set; }
+        public string ResourceGroup { get; set; }
 
-        public string DeploymentName { get; set; }
-
-        public string GalleryTemplateName { get; set; }
-
-        public string TemplateFile { get; set; }
-
-        public Hashtable ParameterObject { get; set; }
-
-        public string TemplateVersion { get; set; }
-
-        public string TemplateHash { get; set; }
-
-        public string TemplateHashAlgorithm { get; set; }
-
-        public string StorageAccountName { get; set; }
-
-        public bool Async { get; set; }
+        public string ResourceType { get; set; }
     }
 }
