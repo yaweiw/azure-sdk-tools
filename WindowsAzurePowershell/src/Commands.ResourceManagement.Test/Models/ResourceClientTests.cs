@@ -16,17 +16,15 @@ using Microsoft.Azure.Commands.ResourceManagement.Models;
 using Microsoft.Azure.Management.Resources;
 using Microsoft.Azure.Management.Resources.Models;
 using Microsoft.WindowsAzure.Commands.Test.Utilities.Common;
-using Microsoft.WindowsAzure.Commands.Utilities.Common;
 using Microsoft.WindowsAzure.Commands.Utilities.Common.Storage;
-using System.Threading.Tasks;
 using Moq;
 using System;
-using Xunit;
-using System.Threading;
 using System.Collections.Generic;
-using System.Collections;
 using System.IO;
 using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
+using Xunit;
 
 namespace Microsoft.Azure.Commands.ResourceManagement.Test.Models
 {
