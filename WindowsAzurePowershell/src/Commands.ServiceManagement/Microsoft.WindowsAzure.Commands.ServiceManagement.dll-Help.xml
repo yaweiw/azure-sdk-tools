@@ -22940,6 +22940,416 @@ New-AzureDeployment -ServiceName $cloudSvc -Slot Production -Package $pkg -Confi
     </maml:relatedLinks>
   </command:command>
 
+  <!-- v 1.3.0.36 -->
+  <command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10">
+    <command:details>
+      <command:name>
+        Set-AzureServiceExtension
+      </command:name>
+      <maml:description>
+        <maml:para>This cmdlet adds a cloud service extension to a deployment.</maml:para>
+      </maml:description>
+      <maml:copyright>
+        <maml:para></maml:para>
+      </maml:copyright>
+      <command:verb>Set</command:verb>
+      <command:noun>AzureServiceExtension</command:noun>
+      <dev:version></dev:version>
+    </command:details>
+    <maml:description>
+      <maml:para>This cmdlet adds a cloud service extension to a deployment.</maml:para>
+    </maml:description>
+    <!-- Cmdlet syntax section-->
+    <command:syntax>
+      <command:syntaxItem>
+        <maml:name>Set-AzureServiceExtension</maml:name>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="1">
+          <maml:name>ServiceName</maml:name>
+          <maml:description>
+            <maml:para>Specifies the Windows Azure service name of the deployment.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="2">
+          <maml:name>Slot</maml:name>
+          <maml:description>
+            <maml:para>Specifies the environment of the deployment to modify. Supported values are &quot;Production&quot; or &quot;Staging&quot;.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="false" position="3">
+          <maml:name>Role</maml:name>
+          <maml:description>
+            <maml:para>An optional array of roles to specify the remote desktop configuration for. If not specified the remote desktop configuration is applied as the default configuration for all roles.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="true">string[]</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="6">
+          <maml:name>X509Certificate</maml:name>
+          <maml:description>
+            <maml:para>An x509 certificate that when specified will be automatically uploaded to the cloud service and used for encrypting the extension private configuration.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">X509Certificate2</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named">
+          <maml:name>ExtensionName</maml:name>
+          <maml:description>
+            <maml:para></maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named">
+          <maml:name>PrivateConfiguration</maml:name>
+          <maml:description>
+            <maml:para>The private configuration text.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named">
+          <maml:name>ProviderNamespace</maml:name>
+          <maml:description>
+            <maml:para>The Extension's Provider Namespace.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named">
+          <maml:name>PublicConfiguration</maml:name>
+          <maml:description>
+            <maml:para>The public configuration text.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named">
+          <maml:name>Version</maml:name>
+          <maml:description>
+            <maml:para>The Extension Version.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+        </command:parameter>
+      </command:syntaxItem>
+      <command:syntaxItem>
+        <maml:name>Set-AzureServiceExtension</maml:name>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="1">
+          <maml:name>ServiceName</maml:name>
+          <maml:description>
+            <maml:para>Specifies the Windows Azure service name of the deployment.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="2">
+          <maml:name>Slot</maml:name>
+          <maml:description>
+            <maml:para>Specifies the environment of the deployment to modify. Supported values are &quot;Production&quot; or &quot;Staging&quot;.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="false" position="3">
+          <maml:name>Role</maml:name>
+          <maml:description>
+            <maml:para>An optional array of roles to specify the remote desktop configuration for. If not specified the remote desktop configuration is applied as the default configuration for all roles.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="true">string[]</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="6">
+          <maml:name>CertificateThumbprint</maml:name>
+          <maml:description>
+            <maml:para>A certificate thumbprint to use for encrypting the private configuration. If not specified a certificate will be created for you. This certificate has to already exist in the certificate store.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named">
+          <maml:name>ExtensionName</maml:name>
+          <maml:description>
+            <maml:para></maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named">
+          <maml:name>PrivateConfiguration</maml:name>
+          <maml:description>
+            <maml:para>The private configuration text.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named">
+          <maml:name>ProviderNamespace</maml:name>
+          <maml:description>
+            <maml:para>The Extension's Provider Namespace.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named">
+          <maml:name>PublicConfiguration</maml:name>
+          <maml:description>
+            <maml:para>The public configuration text.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named">
+          <maml:name>Version</maml:name>
+          <maml:description>
+            <maml:para>The Extension Version.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+        </command:parameter>
+      </command:syntaxItem>
+    </command:syntax>
+    <!-- Cmdlet parameter section  -->
+    <command:parameters>
+      <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="6">
+        <maml:name>CertificateThumbprint</maml:name>
+        <maml:description>
+          <maml:para>A certificate thumbprint to use for encrypting the private configuration. If not specified a certificate will be created for you. This certificate has to already exist in the certificate store.</maml:para>
+
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+        <dev:type>
+          <maml:name>string</maml:name>
+          <maml:uri/>
+        </dev:type>
+        <dev:defaultValue></dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named">
+        <maml:name>ExtensionName</maml:name>
+        <maml:description>
+          <maml:para></maml:para>
+
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+        <dev:type>
+          <maml:name>string</maml:name>
+          <maml:uri/>
+        </dev:type>
+        <dev:defaultValue></dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named">
+        <maml:name>PrivateConfiguration</maml:name>
+        <maml:description>
+          <maml:para>The private configuration text.</maml:para>
+
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+        <dev:type>
+          <maml:name>string</maml:name>
+          <maml:uri/>
+        </dev:type>
+        <dev:defaultValue></dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named">
+        <maml:name>ProviderNamespace</maml:name>
+        <maml:description>
+          <maml:para>The Extension's Provider Namespace.</maml:para>
+
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+        <dev:type>
+          <maml:name>string</maml:name>
+          <maml:uri/>
+        </dev:type>
+        <dev:defaultValue></dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named">
+        <maml:name>PublicConfiguration</maml:name>
+        <maml:description>
+          <maml:para>The public configuration text.</maml:para>
+
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+        <dev:type>
+          <maml:name>string</maml:name>
+          <maml:uri/>
+        </dev:type>
+        <dev:defaultValue></dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="false" position="3">
+        <maml:name>Role</maml:name>
+        <maml:description>
+          <maml:para>An optional array of roles to specify the remote desktop configuration for. If not specified the remote desktop configuration is applied as the default configuration for all roles.</maml:para>
+
+        </maml:description>
+        <command:parameterValue required="true" variableLength="true">string[]</command:parameterValue>
+        <dev:type>
+          <maml:name>string[]</maml:name>
+          <maml:uri/>
+        </dev:type>
+        <dev:defaultValue></dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="1">
+        <maml:name>ServiceName</maml:name>
+        <maml:description>
+          <maml:para>Specifies the Windows Azure service name of the deployment.</maml:para>
+
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+        <dev:type>
+          <maml:name>string</maml:name>
+          <maml:uri/>
+        </dev:type>
+        <dev:defaultValue></dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="2">
+        <maml:name>Slot</maml:name>
+        <maml:description>
+          <maml:para>Specifies the environment of the deployment to modify. Supported values are &quot;Production&quot; or &quot;Staging&quot;.</maml:para>
+
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+        <dev:type>
+          <maml:name>string</maml:name>
+          <maml:uri/>
+        </dev:type>
+        <dev:defaultValue></dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="" variableLength="false" globbing="false" pipelineInput="false" position="named">
+        <maml:name>ThumbprintAlgorithm</maml:name>
+        <maml:description>
+          <maml:para>Thumbprint hashing algorithm which is used with the thumbprint to identify the certificate. This parameter is optional and the default is sha1.</maml:para>
+
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+        <dev:type>
+          <maml:name>string</maml:name>
+          <maml:uri/>
+        </dev:type>
+        <dev:defaultValue></dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named">
+        <maml:name>Version</maml:name>
+        <maml:description>
+          <maml:para>The Extension Version.</maml:para>
+
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+        <dev:type>
+          <maml:name>string</maml:name>
+          <maml:uri/>
+        </dev:type>
+        <dev:defaultValue></dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="6">
+        <maml:name>X509Certificate</maml:name>
+        <maml:description>
+          <maml:para>An x509 certificate that when specified will be automatically uploaded to the cloud service and used for encrypting the extension private configuration.</maml:para>
+
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">X509Certificate2</command:parameterValue>
+        <dev:type>
+          <maml:name>X509Certificate2</maml:name>
+          <maml:uri/>
+        </dev:type>
+        <dev:defaultValue></dev:defaultValue>
+      </command:parameter>
+    </command:parameters>
+    <!-- Input - Output section-->
+    <command:inputTypes>
+      <command:inputType>
+        <dev:type>
+          <maml:name></maml:name>
+          <maml:uri/>
+          <maml:description />
+        </dev:type>
+        <maml:description>
+          <maml:para>
+            <!-- description  -->
+
+          </maml:para>
+        </maml:description>
+      </command:inputType>
+    </command:inputTypes>
+    <command:returnValues>
+      <command:returnValue>
+        <dev:type>
+          <maml:name></maml:name>
+          <maml:uri />
+          <maml:description />
+        </dev:type>
+        <maml:description>
+          <maml:para>
+            <!-- description  -->
+
+          </maml:para>
+        </maml:description>
+      </command:returnValue>
+    </command:returnValues>
+    <!-- Error section-->
+    <command:terminatingErrors />
+    <command:nonTerminatingErrors />
+    <!-- Notes section  -->
+    <maml:alertSet>
+      <maml:title></maml:title>
+      <maml:alert>
+        <maml:para>
+
+        </maml:para>
+      </maml:alert>
+      <maml:alert>
+        <maml:para></maml:para>
+      </maml:alert>
+    </maml:alertSet>
+    <!-- Example section  -->
+    <command:examples>
+
+      <command:example>
+        <maml:title>
+          -------------------------- EXAMPLE 1 --------------------------
+        </maml:title>
+        <maml:introduction>
+          <maml:para>C:\PS&gt;</maml:para>
+        </maml:introduction>
+        <dev:code>
+          Set-AzureServiceExtension -Service $svc -Slot Production -ExtensionName 'RDP' -Version '1.0' -PublicConfiguration $p1 -PrivateConfiguration $p2;
+        </dev:code>
+        <dev:remarks>
+          <maml:para>Description</maml:para>
+          <maml:para>-----------</maml:para>
+          <maml:para>Set the Remote Desktop Extension for all roles in the cloud service.</maml:para>
+          <maml:para></maml:para>
+          <maml:para></maml:para>
+          <maml:para></maml:para>
+          <maml:para></maml:para>
+        </dev:remarks>
+        <command:commandLines>
+          <command:commandLine>
+            <command:commandText></command:commandText>
+          </command:commandLine>
+        </command:commandLines>
+      </command:example>
+
+      <command:example>
+        <maml:title>
+          -------------------------- EXAMPLE 2 --------------------------
+        </maml:title>
+        <maml:introduction>
+          <maml:para>C:\PS&gt;</maml:para>
+        </maml:introduction>
+        <dev:code>
+          Set-AzureServiceExtension -Service $svc -Slot Production -Role WebRole1 -ExtensionName 'RDP' -Version '1.0' -PublicConfiguration $p1 -PrivateConfiguration $p2;
+        </dev:code>
+        <dev:remarks>
+          <maml:para>Description</maml:para>
+          <maml:para>-----------</maml:para>
+          <maml:para>Set the Remote Desktop Extension for the 'WebRole1' role in the cloud service.</maml:para>
+          <maml:para></maml:para>
+          <maml:para></maml:para>
+          <maml:para></maml:para>
+          <maml:para></maml:para>
+        </dev:remarks>
+        <command:commandLines>
+          <command:commandLine>
+            <command:commandText></command:commandText>
+          </command:commandLine>
+        </command:commandLines>
+      </command:example>
+    </command:examples>
+    <!-- Link section  -->
+    <maml:relatedLinks>
+      <maml:navigationLink>
+        <maml:linkText></maml:linkText>
+        <maml:uri/>
+      </maml:navigationLink>
+    </maml:relatedLinks>
+  </command:command>
+
 
 
 </helpItems>
