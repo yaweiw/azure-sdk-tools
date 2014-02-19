@@ -23,7 +23,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.CloudService.Utilities
     using System.IO;
 
     [TestClass]
-    public class WAStorageEmulatorTests : TestBase
+    public class StorageEmulatorTests : TestBase
     {
         [TestMethod]
         public void Start_StorageEmulatorInstalled_UseCorrectCommand()
@@ -32,7 +32,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.CloudService.Utilities
             string testFolder = @"c:\foo-bar";
             string expectedCommand = Path.Combine(testFolder, Resources.StorageEmulatorExe);
 
-            WAStorageEmulator emulator = new WAStorageEmulator(@"c:\foo-bar");
+            StorageEmulator emulator = new StorageEmulator(@"c:\foo-bar");
             Mock<ProcessHelper> commandRunner = new Mock<ProcessHelper>();
             commandRunner.Setup(p=>p.StartAndWaitForProcess(expectedCommand, Resources.StartStorageEmulatorCommandArgument));
             emulator.CommandRunner = commandRunner.Object;
@@ -51,7 +51,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.CloudService.Utilities
             string testFolder = @"c:\foo-bar";
             string expectedCommand = Path.Combine(testFolder, Resources.StorageEmulatorExe);
 
-            WAStorageEmulator emulator = new WAStorageEmulator(@"c:\foo-bar");
+            StorageEmulator emulator = new StorageEmulator(@"c:\foo-bar");
             Mock<ProcessHelper> commandRunner = new Mock<ProcessHelper>();
             commandRunner.Setup(p => p.StartAndWaitForProcess(expectedCommand, Resources.StopStorageEmulatorCommandArgument));
             emulator.CommandRunner = commandRunner.Object;
@@ -67,7 +67,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.CloudService.Utilities
         public void Start_StorageEmulatorNotInstalled_GetWarning()
         {
             // Setup 
-            WAStorageEmulator emulator = new WAStorageEmulator(null);
+            StorageEmulator emulator = new StorageEmulator(null);
             Mock<ProcessHelper> commandRunner = new Mock<ProcessHelper>();
 
             // Execute

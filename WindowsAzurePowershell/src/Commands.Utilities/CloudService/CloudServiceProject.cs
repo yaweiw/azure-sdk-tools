@@ -304,7 +304,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService
 
             roleInformation = runTool.RoleInformation;
 
-            var storageEmulator = new WAStorageEmulator(AzureTool.GetStorageEmulatorDirectory());
+            var storageEmulator = new StorageEmulator(AzureTool.GetStorageEmulatorDirectory());
             storageEmulator.Start();
 
             //for now, errors related with storage emulator are treated as non-fatal  
@@ -316,7 +316,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService
             var runTool = new CsRun(AzureTool.GetComputeEmulatorDirectory());
             runTool.StopComputeEmulator();
 
-            var storageEmulator = new WAStorageEmulator(AzureTool.GetStorageEmulatorDirectory());
+            var storageEmulator = new StorageEmulator(AzureTool.GetStorageEmulatorDirectory());
             storageEmulator.Stop();
             //for now, errors related with storage emulator are treated as non-fatal  
             warning = storageEmulator.Error;
