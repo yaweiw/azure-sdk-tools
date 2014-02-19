@@ -13,7 +13,6 @@
 // ----------------------------------------------------------------------------------
 
 using Microsoft.Azure.Commands.ResourceManagement.Properties;
-using Microsoft.Azure.Management.Resources.Models;
 using System.Management.Automation;
 
 namespace Microsoft.Azure.Commands.ResourceManagement.ResourceGroups
