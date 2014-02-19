@@ -1125,15 +1125,6 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to ((http|tcp)://[0-9.:/]*).
-        /// </summary>
-        public static string EmulatorOutputSitesRegex {
-            get {
-                return ResourceManager.GetString("EmulatorOutputSitesRegex", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Role is running at {0}.
         /// </summary>
         public static string EmulatorRoleRunningMessage {
@@ -2012,7 +2003,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to http://az413943.vo.msecnd.net/node/runtimemanifest_0.7.2.xml.
+        ///   Looks up a localized string similar to http://az413943.vo.msecnd.net/node/runtimemanifest_0.7.3.xml.
         /// </summary>
         public static string ManifestUri {
             get {
@@ -2030,7 +2021,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to v2.2.
+        ///   Looks up a localized string similar to v2.3.
         /// </summary>
         public static string MaxSupportAzureSdkVersion {
             get {
@@ -2057,7 +2048,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to v2.2.
+        ///   Looks up a localized string similar to v2.3.
         /// </summary>
         public static string MinSupportAzureSdkVersion {
             get {
@@ -3803,6 +3794,15 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to start.
+        /// </summary>
+        public static string StartStorageEmulatorCommandArgument {
+            get {
+                return ResourceManager.GetString("StartStorageEmulatorCommandArgument", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Stop.
         /// </summary>
         public static string Stop {
@@ -3830,6 +3830,15 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to stop.
+        /// </summary>
+        public static string StopStorageEmulatorCommandArgument {
+            get {
+                return ResourceManager.GetString("StopStorageEmulatorCommandArgument", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Account Name:.
         /// </summary>
         public static string StorageAccountName {
@@ -3844,6 +3853,33 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Properties {
         public static string StorageAccountNotFound {
             get {
                 return ResourceManager.GetString("StorageAccountNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to WAStorageEmulator.exe.
+        /// </summary>
+        public static string StorageEmulatorExe {
+            get {
+                return ResourceManager.GetString("StorageEmulatorExe", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to InstallPath.
+        /// </summary>
+        public static string StorageEmulatorInstallPathRegistryKeyValue {
+            get {
+                return ResourceManager.GetString("StorageEmulatorInstallPathRegistryKeyValue", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to SOFTWARE\Microsoft\Windows Azure Storage Emulator.
+        /// </summary>
+        public static string StorageEmulatorRegistryKey {
+            get {
+                return ResourceManager.GetString("StorageEmulatorRegistryKey", resourceCulture);
             }
         }
         
@@ -4015,6 +4051,15 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Properties {
         public static string WaitMessage {
             get {
                 return ResourceManager.GetString("WaitMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The azure storage emulator is not installed, skip launching....
+        /// </summary>
+        public static string WarningWhenStorageEmulatorIsMissing {
+            get {
+                return ResourceManager.GetString("WarningWhenStorageEmulatorIsMissing", resourceCulture);
             }
         }
         
