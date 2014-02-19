@@ -1000,5 +1000,18 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
         {
             return dynamicParameters.Values.Where(dp => MyInvocation.BoundParameters.Keys.Any(bp => bp.Equals(dp.Name)));
         }
+
+        public static object GetValue(dynamic variable, string property)
+        {
+            object value = null;
+            IDictionary<String, object> expanded = (IDictionary<String, object>)variable;
+
+            if (expanded.ContainsKey(property))
+            {
+                value = expanded[property];
+            }
+
+            return value;
+        }
     }
 }

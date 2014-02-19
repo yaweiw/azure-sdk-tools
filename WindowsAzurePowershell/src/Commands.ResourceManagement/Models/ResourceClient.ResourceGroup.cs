@@ -123,32 +123,15 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Models
         /// <returns>The template parameters</returns>
         public virtual RuntimeDefinedParameterDictionary GetTemplateParameters(string templateName, string[] parameters, params string[] parameterSetNames)
         {
-            const string duplicatedParameterSuffix = "FromTemplate";
             RuntimeDefinedParameterDictionary dynamicParameters = new RuntimeDefinedParameterDictionary();
 
-            string templateContest = General.DownloadFile(GetGalleryTemplateFile(templateName));
-            Dictionary<string, dynamic> template = JsonConvert.DeserializeObject<Dictionary<string, dynamic>>(templateContest);
+            string templateContent = General.DownloadFile(GetGalleryTemplateFile(templateName));
+            TemplateFile templateFile = JsonConvert.DeserializeObject<TemplateFile>(templateContent);
 
-            foreach (var parameter in template["parameters"])
+            foreach (KeyValuePair<string, TemplateFileParameter> parameter in templateFile.Parameters)
             {
-                string name = General.ToUpperFirstLetter(parameter.Name);
-                RuntimeDefinedParameter runtimeParameter = new RuntimeDefinedParameter()
-                {
-                    Name = parameters.Contains(name) ? name + duplicatedParameterSuffix : name,
-                    ParameterType = GetParameterType((string)parameter.Value.type)
-                };
-                foreach (string parameterSetName in parameterSetNames)
-                {
-                    runtimeParameter.Attributes.Add(new ParameterAttribute()
-                    {
-                        ParameterSetName = parameterSetName,
-                        Mandatory = false,
-                        ValueFromPipelineByPropertyName = true,
-                        HelpMessage = "dynamically generated template parameter",
-                    });
-                }
-
-                dynamicParameters.Add(runtimeParameter.Name, runtimeParameter);
+                RuntimeDefinedParameter dynamicParameter = ConstructDynamicParameter(parameters, parameterSetNames, parameter);
+                dynamicParameters.Add(dynamicParameter.Name, dynamicParameter);
             }
 
             return dynamicParameters;

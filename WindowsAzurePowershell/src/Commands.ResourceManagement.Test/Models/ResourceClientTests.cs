@@ -13,6 +13,7 @@
 // ----------------------------------------------------------------------------------
 
 using Microsoft.Azure.Commands.ResourceManagement.Models;
+using Microsoft.Azure.Gallery;
 using Microsoft.Azure.Management.Resources;
 using Microsoft.Azure.Management.Resources.Models;
 using Microsoft.WindowsAzure.Commands.Test.Utilities.Common;
@@ -22,6 +23,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Management.Automation;
 using System.Threading;
 using System.Threading.Tasks;
 using Xunit;
@@ -39,6 +41,8 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Test.Models
         private Mock<IResourceGroupOperations> resourceGroupOperationsMock;
 
         private Mock<IResourceOperations> resourceOperationsMock;
+
+        private Mock<IGalleryClient> galleryClientMock;
 
         private ResourcesClient resourcesClient;
 
@@ -76,13 +80,15 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Test.Models
             deploymentOperationsMock = new Mock<IDeploymentOperations>();
             resourceGroupOperationsMock = new Mock<IResourceGroupOperations>();
             resourceOperationsMock = new Mock<IResourceOperations>();
+            galleryClientMock = new Mock<IGalleryClient>();
             resourceManagementClientMock.Setup(f => f.Deployments).Returns(deploymentOperationsMock.Object);
             resourceManagementClientMock.Setup(f => f.ResourceGroups).Returns(resourceGroupOperationsMock.Object);
             resourceManagementClientMock.Setup(f => f.Resources).Returns(resourceOperationsMock.Object);
             storageClientWrapperMock = new Mock<IStorageClientWrapper>();
             resourcesClient = new ResourcesClient(
                 resourceManagementClientMock.Object,
-                storageClientWrapperMock.Object, null);
+                storageClientWrapperMock.Object,
+                galleryClientMock.Object);
         }
 
         [Fact]
@@ -296,6 +302,91 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Test.Models
             resourcesClient.DeleteResourceGroup(resourceGroupName);
 
             resourceGroupOperationsMock.Verify(f => f.DeleteAsync(resourceGroupName, It.IsAny<CancellationToken>()), Times.Once());
+        }
+
+        [Fact]
+        public void ConstructsDynamicParameter()
+        {
+            string[] parameters = { "Name", "Location", "Mode" };
+            string[] parameterSetNames = { "DPSet1" };
+            string key = "computeMode";
+            TemplateFileParameter value = new TemplateFileParameter()
+            {
+                AllowedValues = "Mode1, Mode2, Mode3",
+                DefaultValue = "Mode1",
+                MaxLength = "5",
+                MinLength = "1",
+                Type = "string"
+            };
+            KeyValuePair<string, TemplateFileParameter> parameter = new KeyValuePair<string, TemplateFileParameter>(key, value);
+
+            RuntimeDefinedParameter dynamicParameter = resourcesClient.ConstructDynamicParameter(parameters, parameterSetNames, parameter);
+
+            Assert.Equal("ComputeMode", dynamicParameter.Name);
+            Assert.Equal(value.DefaultValue, dynamicParameter.Value);
+            Assert.Equal(typeof(string), dynamicParameter.ParameterType);
+            Assert.Equal(3, dynamicParameter.Attributes.Count);
+            
+            ParameterAttribute parameterAttribute = (ParameterAttribute)dynamicParameter.Attributes[0];
+            Assert.False(parameterAttribute.Mandatory);
+            Assert.True(parameterAttribute.ValueFromPipelineByPropertyName);
+            Assert.Equal(parameterSetNames[0], parameterAttribute.ParameterSetName);
+
+            ValidateSetAttribute validateSetAttribute = (ValidateSetAttribute)dynamicParameter.Attributes[1];
+            Assert.Equal(3, validateSetAttribute.ValidValues.Count);
+            Assert.True(validateSetAttribute.IgnoreCase);
+            Assert.True(value.AllowedValues.Contains(validateSetAttribute.ValidValues[0]));
+            Assert.True(value.AllowedValues.Contains(validateSetAttribute.ValidValues[1]));
+            Assert.True(value.AllowedValues.Contains(validateSetAttribute.ValidValues[2]));
+            Assert.False(validateSetAttribute.ValidValues[0].Contains(' '));
+            Assert.False(validateSetAttribute.ValidValues[1].Contains(' '));
+            Assert.False(validateSetAttribute.ValidValues[2].Contains(' '));
+            
+            ValidateRangeAttribute validateRangeAttribute = (ValidateRangeAttribute)dynamicParameter.Attributes[2];
+            Assert.Equal(value.MinLength, validateRangeAttribute.MinRange);
+            Assert.Equal(value.MaxLength, validateRangeAttribute.MaxRange);
+        }
+
+        [Fact]
+        public void ResolvesDuplicatedDynamicParameterName()
+        {
+            string[] parameters = { "Name", "Location", "Mode" };
+            string[] parameterSetNames = { "DPSet1" };
+            string key = "Name";
+            TemplateFileParameter value = new TemplateFileParameter()
+            {
+                AllowedValues = "Mode1, Mode2, Mode3",
+                MaxLength = "5",
+                MinLength = "1",
+                Type = "bool"
+            };
+            KeyValuePair<string, TemplateFileParameter> parameter = new KeyValuePair<string, TemplateFileParameter>(key, value);
+
+            RuntimeDefinedParameter dynamicParameter = resourcesClient.ConstructDynamicParameter(parameters, parameterSetNames, parameter);
+
+            Assert.Equal(key + "FromTemplate", dynamicParameter.Name);
+            Assert.Equal(value.DefaultValue, dynamicParameter.Value);
+            Assert.Equal(typeof(bool), dynamicParameter.ParameterType);
+            Assert.Equal(3, dynamicParameter.Attributes.Count);
+
+            ParameterAttribute parameterAttribute = (ParameterAttribute)dynamicParameter.Attributes[0];
+            Assert.True(parameterAttribute.Mandatory);
+            Assert.True(parameterAttribute.ValueFromPipelineByPropertyName);
+            Assert.Equal(parameterSetNames[0], parameterAttribute.ParameterSetName);
+
+            ValidateSetAttribute validateSetAttribute = (ValidateSetAttribute)dynamicParameter.Attributes[1];
+            Assert.Equal(3, validateSetAttribute.ValidValues.Count);
+            Assert.True(validateSetAttribute.IgnoreCase);
+            Assert.True(value.AllowedValues.Contains(validateSetAttribute.ValidValues[0]));
+            Assert.True(value.AllowedValues.Contains(validateSetAttribute.ValidValues[1]));
+            Assert.True(value.AllowedValues.Contains(validateSetAttribute.ValidValues[2]));
+            Assert.False(validateSetAttribute.ValidValues[0].Contains(' '));
+            Assert.False(validateSetAttribute.ValidValues[1].Contains(' '));
+            Assert.False(validateSetAttribute.ValidValues[2].Contains(' '));
+
+            ValidateRangeAttribute validateRangeAttribute = (ValidateRangeAttribute)dynamicParameter.Attributes[2];
+            Assert.Equal(value.MinLength, validateRangeAttribute.MinRange);
+            Assert.Equal(value.MaxLength, validateRangeAttribute.MaxRange);
         }
     }
 }
