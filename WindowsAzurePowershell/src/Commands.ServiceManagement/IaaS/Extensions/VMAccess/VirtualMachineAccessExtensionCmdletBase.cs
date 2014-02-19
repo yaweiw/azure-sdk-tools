@@ -112,8 +112,13 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
                 }
                 else
                 {
+                    Disable = string.Equals(extensionRef.State, ReferenceDisableStr);
                     GetVMAccessExtensionValues(extensionRef.ResourceExtensionParameterValues);
                 }
+            }
+            else
+            {
+                Disable = extensionRef == null ? true : string.Equals(extensionRef.State, ReferenceDisableStr);
             }
         }
 
