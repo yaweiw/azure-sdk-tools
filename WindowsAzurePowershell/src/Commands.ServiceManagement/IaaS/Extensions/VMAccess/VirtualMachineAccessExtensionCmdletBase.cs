@@ -144,6 +144,17 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
             }
         }
 
+        private bool ParseStrToBool(string value)
+        {
+            bool result = false;
+            if (!string.IsNullOrEmpty(value))
+            {
+                bool.TryParse(value, out result);
+            }
+
+            return result;
+        }
+
         private void GetVMAccessExtensionLegacyValues(ResourceExtensionParameterValueList paramVals)
         {
             if (paramVals != null && paramVals.Any())
@@ -152,7 +163,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
                 if (paramVal != null && !string.IsNullOrEmpty(paramVal.Value))
                 {
                     this.PublicConfiguration = paramVal.Value;
-                    this.Disable = !bool.Parse(GetConfigValue(this.PublicConfiguration, EnabledElem).ToLower());
+                    this.Disable = ParseStrToBool(GetConfigValue(this.PublicConfiguration, EnabledElem));
                     this.UserName = GetConfigValue(this.PublicConfiguration, UserNameElem);
                     this.Password = GetConfigValue(this.PublicConfiguration, PasswordElem);
                 }

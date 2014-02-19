@@ -324,14 +324,14 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement
                   .ForMember(c => c.OS, o => o.MapFrom(r => r.OperatingSystemType))
                   .ForMember(c => c.PublishedDate, o => o.MapFrom(r => new DateTime?(r.PublishedDate)))
                   .ForMember(c => c.IconUri, o => o.MapFrom(r => r.SmallIconUri))
-                  .ForMember(c => c.LogicalSizeInGB, o => o.MapFrom(r => r.LogicalSizeInGB));
+                  .ForMember(c => c.LogicalSizeInGB, o => o.MapFrom(r => (int)r.LogicalSizeInGB));
 
             Mapper.CreateMap<VirtualMachineImageGetResponse, OSImageContext>()
                   .ForMember(c => c.ImageName, o => o.MapFrom(r => r.Name))
                   .ForMember(c => c.MediaLink, o => o.MapFrom(r => r.MediaLinkUri))
                   .ForMember(c => c.OS, o => o.MapFrom(r => r.OperatingSystemType))
                   .ForMember(c => c.PublishedDate, o => o.MapFrom(r => new DateTime?(r.PublishedDate)))
-                  .ForMember(c => c.LogicalSizeInGB, o => o.MapFrom(r => r.LogicalSizeInGB));
+                  .ForMember(c => c.LogicalSizeInGB, o => o.MapFrom(r => (int)r.LogicalSizeInGB));
 
             Mapper.CreateMap<VirtualMachineImageCreateResponse, OSImageContext>()
                   .ForMember(c => c.ImageName, o => o.MapFrom(r => r.Name))
@@ -339,7 +339,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement
                   .ForMember(c => c.IconUri, o => o.MapFrom(r => r.SmallIconUri))
                   .ForMember(c => c.OS, o => o.MapFrom(r => r.OperatingSystemType))
                   .ForMember(c => c.PublishedDate, o => o.MapFrom(r => r.PublishedDate))
-                  .ForMember(c => c.LogicalSizeInGB, o => o.MapFrom(r => r.LogicalSizeInGB));
+                  .ForMember(c => c.LogicalSizeInGB, o => o.MapFrom(r => (int)r.LogicalSizeInGB));
             
             Mapper.CreateMap<VirtualMachineImageUpdateResponse, OSImageContext>()
                   .ForMember(c => c.ImageName, o => o.MapFrom(r => r.Name))
@@ -347,7 +347,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement
                   .ForMember(c => c.IconUri, o => o.MapFrom(r => r.SmallIconUri))
                   .ForMember(c => c.OS, o => o.MapFrom(r => r.OperatingSystemType))
                   .ForMember(c => c.PublishedDate, o => o.MapFrom(r => r.PublishedDate))
-                  .ForMember(c => c.LogicalSizeInGB, o => o.MapFrom(r => r.LogicalSizeInGB));
+                  .ForMember(c => c.LogicalSizeInGB, o => o.MapFrom(r => (int)r.LogicalSizeInGB));
 
             Mapper.CreateMap<OperationStatusResponse, OSImageContext>()
                   .ForMember(c => c.OperationId, o => o.MapFrom(r => r.Id))
