@@ -38,8 +38,8 @@ namespace Microsoft.WindowsAzure.Commands.CloudService.Development
 
         public CloudServiceProject StartAzureEmulatorProcess(string rootPath)
         {
-            string standardOutput;
-            string standardError;
+            string warning;
+            string roleInformation;
 
             StringBuilder message = new StringBuilder();
             CloudServiceProject cloudServiceProject = new CloudServiceProject(rootPath ,null);
@@ -47,20 +47,28 @@ namespace Microsoft.WindowsAzure.Commands.CloudService.Development
             if (Directory.Exists(cloudServiceProject.Paths.LocalPackage))
             {
                 WriteVerbose(Resources.StopEmulatorMessage);
-                cloudServiceProject.StopEmulator();
+                cloudServiceProject.StopEmulators(out warning);
+                if (!string.IsNullOrEmpty(warning))
+                {
+                    WriteWarning(warning);
+                }
                 WriteVerbose(Resources.StoppedEmulatorMessage);
                 WriteVerbose(string.Format(Resources.RemovePackage, cloudServiceProject.Paths.LocalPackage));
                 Directory.Delete(cloudServiceProject.Paths.LocalPackage, true);
             }
             
             WriteVerbose(string.Format(Resources.CreatingPackageMessage, "local"));
-            cloudServiceProject.CreatePackage(DevEnv.Local, out standardOutput, out standardError);
+            cloudServiceProject.CreatePackage(DevEnv.Local);
             
             WriteVerbose(Resources.StartingEmulator);
             cloudServiceProject.ResolveRuntimePackageUrls();
-            cloudServiceProject.StartEmulator(Launch.ToBool(), Mode, out standardOutput, out standardError);
-            
-            WriteVerbose(standardOutput);
+            cloudServiceProject.StartEmulators(Launch.ToBool(), Mode, out roleInformation, out warning);
+            WriteVerbose(roleInformation);
+            if (!string.IsNullOrEmpty(warning))
+            {
+                WriteWarning(warning);
+            }
+
             WriteVerbose(Resources.StartedEmulator);
             SafeWriteOutputPSObject(
                 cloudServiceProject.GetType().FullName,

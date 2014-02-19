@@ -707,8 +707,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService
                 File.Delete(context.PackagePath);
             }
             CloudServiceProject cloudServiceProject = new CloudServiceProject(context.RootPath, null);
-            string unused;
-            cloudServiceProject.CreatePackage(DevEnv.Cloud, out unused, out unused);
+            cloudServiceProject.CreatePackage(DevEnv.Cloud);
 
             // Publish cloud service
             WriteVerboseWithTimestamp(Resources.PublishConnectingMessage);

@@ -33,8 +33,6 @@ namespace Microsoft.WindowsAzure.Commands.Test.CloudService.Utilities
         {
             using (FileSystemHelper files = new FileSystemHelper(this))
             {
-                string standardOutput;
-                string standardError;
                 CloudServiceProject service = new CloudServiceProject(files.RootPath, serviceName, null);
                 RoleInfo webRoleInfo = service.AddWebRole(Data.NodeWebRoleScaffoldingPath);
                 string logsDir = Path.Combine(service.Paths.RootPath, webRoleInfo.Name, "server.js.logs");
@@ -42,7 +40,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.CloudService.Utilities
                 string targetLogsFile = Path.Combine(service.Paths.LocalPackage, "roles", webRoleInfo.Name, @"approot\server.js.logs\0.txt");
                 files.CreateDirectory(logsDir);
                 files.CreateEmptyFile(logFile);
-                service.CreatePackage(DevEnv.Local, out standardOutput, out standardError);
+                service.CreatePackage(DevEnv.Local);
 
                 AzureAssert.ScaffoldingExists(Path.Combine(service.Paths.LocalPackage, @"roles\WebRole1\approot"), Path.Combine(Resources.NodeScaffolding, Resources.WebRole));
                 Assert.IsTrue(File.Exists(targetLogsFile));
@@ -54,8 +52,6 @@ namespace Microsoft.WindowsAzure.Commands.Test.CloudService.Utilities
         {
             using (FileSystemHelper files = new FileSystemHelper(this))
             {
-                string standardOutput;
-                string standardError;
                 CloudServiceProject service = new CloudServiceProject(files.RootPath, serviceName, null);
                 RoleInfo webRoleInfo = service.AddWebRole(Data.PHPWebRoleScaffoldingPath);
                 string logsDir = Path.Combine(service.Paths.RootPath, webRoleInfo.Name, "server.js.logs");
@@ -63,7 +59,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.CloudService.Utilities
                 string targetLogsFile = Path.Combine(service.Paths.LocalPackage, "roles", webRoleInfo.Name, @"approot\server.js.logs\0.txt");
                 files.CreateDirectory(logsDir);
                 files.CreateEmptyFile(logFile);
-                service.CreatePackage(DevEnv.Local, out standardOutput, out standardError);
+                service.CreatePackage(DevEnv.Local);
 
                 AzureAssert.ScaffoldingExists(Path.Combine(service.Paths.LocalPackage, @"roles\WebRole1\approot"), Path.Combine(Resources.PHPScaffolding, Resources.WebRole));
                 Assert.IsTrue(File.Exists(targetLogsFile));
@@ -75,11 +71,9 @@ namespace Microsoft.WindowsAzure.Commands.Test.CloudService.Utilities
         {
             using (FileSystemHelper files = new FileSystemHelper(this))
             {
-                string standardOutput;
-                string standardError;
                 CloudServiceProject service = new CloudServiceProject(files.RootPath, serviceName, null);
                 service.AddWorkerRole(Data.NodeWorkerRoleScaffoldingPath);
-                service.CreatePackage(DevEnv.Local, out standardOutput, out standardError);
+                service.CreatePackage(DevEnv.Local);
 
                 AzureAssert.ScaffoldingExists(Path.Combine(service.Paths.LocalPackage, @"roles\WorkerRole1\approot"), Path.Combine(Resources.NodeScaffolding, Resources.WorkerRole));
             }
@@ -90,11 +84,9 @@ namespace Microsoft.WindowsAzure.Commands.Test.CloudService.Utilities
         {
             using (FileSystemHelper files = new FileSystemHelper(this))
             {
-                string standardOutput;
-                string standardError;
                 CloudServiceProject service = new CloudServiceProject(files.RootPath, serviceName, null);
                 service.AddWorkerRole(Data.PHPWorkerRoleScaffoldingPath);
-                service.CreatePackage(DevEnv.Local, out standardOutput, out standardError);
+                service.CreatePackage(DevEnv.Local);
 
                 AzureAssert.ScaffoldingExists(Path.Combine(service.Paths.LocalPackage, @"roles\WorkerRole1\approot"), Path.Combine(Resources.PHPScaffolding, Resources.WorkerRole));
             }
@@ -105,14 +97,12 @@ namespace Microsoft.WindowsAzure.Commands.Test.CloudService.Utilities
         {
             using (FileSystemHelper files = new FileSystemHelper(this))
             {
-                string standardOutput;
-                string standardError;
                 CloudServiceProject service = new CloudServiceProject(files.RootPath, serviceName, null);
                 service.AddWorkerRole(Data.NodeWorkerRoleScaffoldingPath);
                 service.AddWebRole(Data.NodeWebRoleScaffoldingPath);
                 service.AddWorkerRole(Data.PHPWorkerRoleScaffoldingPath);
                 service.AddWebRole(Data.PHPWebRoleScaffoldingPath);
-                service.CreatePackage(DevEnv.Local, out standardOutput, out standardError);
+                service.CreatePackage(DevEnv.Local);
 
                 AzureAssert.ScaffoldingExists(Path.Combine(service.Paths.LocalPackage, @"roles\WorkerRole1\approot"), Path.Combine(Resources.NodeScaffolding, Resources.WorkerRole));
                 AzureAssert.ScaffoldingExists(Path.Combine(service.Paths.LocalPackage, @"roles\WebRole1\approot"), Path.Combine(Resources.NodeScaffolding, Resources.WebRole));
@@ -126,14 +116,12 @@ namespace Microsoft.WindowsAzure.Commands.Test.CloudService.Utilities
         {
             using (FileSystemHelper files = new FileSystemHelper(this))
             {
-                string standardOutput;
-                string standardError;
                 CloudServiceProject service = new CloudServiceProject(files.RootPath, serviceName, null);
                 service.AddWorkerRole(Data.NodeWorkerRoleScaffoldingPath);
                 service.AddWebRole(Data.NodeWebRoleScaffoldingPath);
                 service.AddWorkerRole(Data.PHPWorkerRoleScaffoldingPath);
                 service.AddWebRole(Data.PHPWebRoleScaffoldingPath);
-                service.CreatePackage(DevEnv.Cloud, out standardOutput, out standardError);
+                service.CreatePackage(DevEnv.Cloud);
 
                 using (Package package = Package.Open(service.Paths.CloudPackage))
                 {
