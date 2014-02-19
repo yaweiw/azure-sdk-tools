@@ -204,9 +204,26 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Models
             return typeObject;
         }
 
-        private string[] GetValidSet(string allowedSetString)
+        private Attribute GetValidationAttribute(string allowedSetString)
         {
-            return allowedSetString.Split(',').Select(v => v.Trim()).ToArray();
+            Attribute attribute;
+            bool isRangeSet = allowedSetString.Count(c => c == '-') == 1 &&
+                              allowedSetString.Count(c => c == ',') == 0;
+            if (isRangeSet)
+            {
+                string[] ranges = allowedSetString.Split('-');
+                attribute = new ValidateRangeAttribute(int.Parse(ranges[0]), int.Parse(ranges[1]));
+            }
+            else
+            {
+                attribute = new ValidateSetAttribute(allowedSetString.Split(',').Select(v => v.Trim()).ToArray())
+                {
+                    IgnoreCase = true,
+                };
+            }
+
+
+            return attribute;
         }
 
         internal RuntimeDefinedParameter ConstructDynamicParameter(string[] parameters, string[] parameterSetNames, KeyValuePair<string, TemplateFileParameter> parameter)
@@ -234,13 +251,13 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Models
 
             if (!string.IsNullOrEmpty(parameter.Value.AllowedValues))
             {
-                runtimeParameter.Attributes.Add(new ValidateSetAttribute(GetValidSet(parameter.Value.AllowedValues)) { IgnoreCase = true });
+                runtimeParameter.Attributes.Add(GetValidationAttribute(parameter.Value.AllowedValues));
             }
 
             if (!string.IsNullOrEmpty(parameter.Value.MinLength) &&
                 !string.IsNullOrEmpty(parameter.Value.MaxLength))
             {
-                runtimeParameter.Attributes.Add(new ValidateRangeAttribute(parameter.Value.MinLength, parameter.Value.MaxLength));
+                runtimeParameter.Attributes.Add(new ValidateLengthAttribute(int.Parse(parameter.Value.MinLength), int.Parse(parameter.Value.MaxLength)));
             }
 
             return runtimeParameter;
