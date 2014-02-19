@@ -182,6 +182,8 @@
     <Compile Include="Models\CreatePSResourceGroupParameters.cs" />
     <Compile Include="Models\ResourceClient.Gallery.cs" />
     <Compile Include="Models\ResourceGroupExtensions.cs" />
+    <Compile Include="Models\TemplateFile.cs" />
+    <Compile Include="Models\TemplateFileParameter.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

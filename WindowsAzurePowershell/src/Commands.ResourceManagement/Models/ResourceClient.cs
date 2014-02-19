@@ -25,6 +25,8 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
+using System.Management.Automation;
 using System.Runtime.Serialization.Formatters;
 using System.Security;
 
@@ -178,6 +180,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Models
             Debug.Assert(!string.IsNullOrEmpty(resourceParameterType));
             const string stringType = "string";
             const string intType = "int";
+            const string boolType = "bool";
             const string secureStringType = "SecureString";
             Type typeObject = typeof(object);
 
@@ -193,8 +196,87 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Models
             {
                 typeObject = typeof(SecureString);
             }
+            else if (resourceParameterType.Equals(boolType, StringComparison.OrdinalIgnoreCase))
+            {
+                typeObject = typeof(bool);
+            }
 
             return typeObject;
+        }
+
+        private Attribute GetValidationAttribute(string allowedSetString)
+        {
+            Attribute attribute;
+            bool isRangeSet = allowedSetString.Count(c => c == '-') == 1 &&
+                              allowedSetString.Count(c => c == ',') == 0;
+            if (isRangeSet)
+            {
+                string[] ranges = allowedSetString.Trim().Split('-');
+                int minRange = 0;
+                int maxRange = int.MaxValue;
+                if (string.IsNullOrEmpty(ranges[0]) && !string.IsNullOrEmpty(ranges[1]))
+                {
+                    maxRange = int.Parse(ranges[1]);
+                }
+                else if (!string.IsNullOrEmpty(ranges[0]) && string.IsNullOrEmpty(ranges[1]))
+                {
+                    minRange = int.Parse(ranges[0]);
+                }
+                else
+                {
+                    minRange = int.Parse(ranges[0]);
+                    maxRange = int.Parse(ranges[1]);
+                }
+
+                attribute = new ValidateRangeAttribute(minRange, maxRange);
+            }
+            else
+            {
+                attribute = new ValidateSetAttribute(allowedSetString.Split(',').Select(v => v.Trim()).ToArray())
+                {
+                    IgnoreCase = true,
+                };
+            }
+
+
+            return attribute;
+        }
+
+        internal RuntimeDefinedParameter ConstructDynamicParameter(string[] parameters, string[] parameterSetNames, KeyValuePair<string, TemplateFileParameter> parameter)
+        {
+            const string duplicatedParameterSuffix = "FromTemplate";
+            string name = General.ToUpperFirstLetter(parameter.Key);
+            object defaultValue = parameter.Value.DefaultValue;
+
+            RuntimeDefinedParameter runtimeParameter = new RuntimeDefinedParameter()
+            {
+                Name = parameters.Contains(name) ? name + duplicatedParameterSuffix : name,
+                ParameterType = GetParameterType(parameter.Value.Type),
+                Value = defaultValue
+            };
+            foreach (string parameterSetName in parameterSetNames)
+            {
+                runtimeParameter.Attributes.Add(new ParameterAttribute()
+                {
+                    ParameterSetName = parameterSetName,
+                    Mandatory = defaultValue == null ? true : false,
+                    ValueFromPipelineByPropertyName = true,
+                    HelpMessage = "dynamically generated template parameter"
+                });
+            }
+
+            if (!string.IsNullOrEmpty(parameter.Value.AllowedValues))
+            {
+                runtimeParameter.Attributes.Add(GetValidationAttribute(parameter.Value.AllowedValues));
+            }
+
+            if (!string.IsNullOrEmpty(parameter.Value.MinLength) &&
+                !string.IsNullOrEmpty(parameter.Value.MaxLength))
+            {
+                runtimeParameter.Attributes.Add(new ValidateLengthAttribute(int.Parse(parameter.Value.MinLength), int.Parse(parameter.Value.MaxLength)));
+            }
+
+            return runtimeParameter;
         }
     }
 }
