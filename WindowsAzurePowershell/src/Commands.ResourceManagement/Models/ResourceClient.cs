@@ -211,8 +211,24 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Models
                               allowedSetString.Count(c => c == ',') == 0;
             if (isRangeSet)
             {
-                string[] ranges = allowedSetString.Split('-');
-                attribute = new ValidateRangeAttribute(int.Parse(ranges[0]), int.Parse(ranges[1]));
+                string[] ranges = allowedSetString.Trim().Split('-');
+                int minRange = 0;
+                int maxRange = int.MaxValue;
+                if (string.IsNullOrEmpty(ranges[0]) && !string.IsNullOrEmpty(ranges[1]))
+                {
+                    maxRange = int.Parse(ranges[1]);
+                }
+                else if (!string.IsNullOrEmpty(ranges[0]) && string.IsNullOrEmpty(ranges[1]))
+                {
+                    minRange = int.Parse(ranges[0]);
+                }
+                else
+                {
+                    minRange = int.Parse(ranges[0]);
+                    maxRange = int.Parse(ranges[1]);
+                }
+
+                attribute = new ValidateRangeAttribute(minRange, maxRange);
             }
             else
             {
