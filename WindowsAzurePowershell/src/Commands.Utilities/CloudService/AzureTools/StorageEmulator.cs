@@ -18,17 +18,18 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService.AzureTools
     using System.IO;
     using Microsoft.WindowsAzure.Commands.Utilities.Properties;
     using Microsoft.WindowsAzure.Commands.Utilities.Common;
-    public class WAStorageEmulator
-    {
-        private string _emulatorPath = string.Empty;
-        private bool _storageEmulatorInstalled = false;
 
-        public WAStorageEmulator(string emulatorDirectory)
+    public class StorageEmulator
+    {
+        private string emulatorPath = string.Empty;
+        private bool storageEmulatorInstalled = false;
+
+        public StorageEmulator(string emulatorDirectory)
         {
             if (!string.IsNullOrEmpty(emulatorDirectory))
             {
-                _storageEmulatorInstalled = true;
-                _emulatorPath = Path.Combine(emulatorDirectory, Resources.StorageEmulatorExe);
+                storageEmulatorInstalled = true;
+                emulatorPath = Path.Combine(emulatorDirectory, Resources.StorageEmulatorExe);
             }
         }
 
@@ -38,10 +39,10 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService.AzureTools
 
         public void Start()
         {
-            if (_storageEmulatorInstalled)
+            if (storageEmulatorInstalled)
             {
                 ProcessHelper runner = GetCommandRunner();
-                runner.StartAndWaitForProcess(_emulatorPath, Resources.StartStorageEmulatorCommandArgument);
+                runner.StartAndWaitForProcess(emulatorPath, Resources.StartStorageEmulatorCommandArgument);
                 Error = CommandRunner.StandardError;
             }
             else
@@ -52,10 +53,10 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService.AzureTools
 
         public void Stop()
         {
-            if (_storageEmulatorInstalled)
+            if (storageEmulatorInstalled)
             {
                 ProcessHelper runner = GetCommandRunner();
-                runner.StartAndWaitForProcess(_emulatorPath, Resources.StopStorageEmulatorCommandArgument);
+                runner.StartAndWaitForProcess(emulatorPath, Resources.StopStorageEmulatorCommandArgument);
                 Error = CommandRunner.StandardError;
             }
             else
