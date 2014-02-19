@@ -174,5 +174,14 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Models
 
             return result;
         }
+
+        /// <summary>
+        /// Deletes a given resource group
+        /// </summary>
+        /// <param name="name">The resource group name</param>
+        public virtual void DeleteResourceGroup(string name)
+        {
+            ResourceManagementClient.ResourceGroups.Delete(name);
+        }
     }
 }
