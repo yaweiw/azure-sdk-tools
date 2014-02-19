@@ -447,5 +447,67 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Test.Models
             Assert.True(parameterAttribute.ValueFromPipelineByPropertyName);
             Assert.Equal(parameterSetNames[0], parameterAttribute.ParameterSetName);
         }
+
+        [Fact]
+        public void ConstructsDynamicParameterWithMinRangeValidation()
+        {
+            string[] parameters = { "Name", "Location", "Mode" };
+            string[] parameterSetNames = { "DPSet1" };
+            string key = "computeMode";
+            TemplateFileParameter value = new TemplateFileParameter()
+            {
+                AllowedValues = "5-",
+                DefaultValue = "Mode1",
+                Type = "securestring"
+            };
+            KeyValuePair<string, TemplateFileParameter> parameter = new KeyValuePair<string, TemplateFileParameter>(key, value);
+
+            RuntimeDefinedParameter dynamicParameter = resourcesClient.ConstructDynamicParameter(parameters, parameterSetNames, parameter);
+
+            Assert.Equal("ComputeMode", dynamicParameter.Name);
+            Assert.Equal(value.DefaultValue, dynamicParameter.Value);
+            Assert.Equal(typeof(SecureString), dynamicParameter.ParameterType);
+            Assert.Equal(2, dynamicParameter.Attributes.Count);
+
+            ParameterAttribute parameterAttribute = (ParameterAttribute)dynamicParameter.Attributes[0];
+            Assert.False(parameterAttribute.Mandatory);
+            Assert.True(parameterAttribute.ValueFromPipelineByPropertyName);
+            Assert.Equal(parameterSetNames[0], parameterAttribute.ParameterSetName);
+
+            ValidateRangeAttribute validateRangeAttribute = (ValidateRangeAttribute)dynamicParameter.Attributes[1];
+            Assert.Equal(5, validateRangeAttribute.MinRange);
+            Assert.Equal(int.MaxValue, validateRangeAttribute.MaxRange);
+        }
+
+        [Fact]
+        public void ConstructsDynamicParameterWithMaxRangeValidation()
+        {
+            string[] parameters = { "Name", "Location", "Mode" };
+            string[] parameterSetNames = { "DPSet1" };
+            string key = "computeMode";
+            TemplateFileParameter value = new TemplateFileParameter()
+            {
+                AllowedValues = "-200",
+                DefaultValue = "Mode1",
+                Type = "securestring"
+            };
+            KeyValuePair<string, TemplateFileParameter> parameter = new KeyValuePair<string, TemplateFileParameter>(key, value);
+
+            RuntimeDefinedParameter dynamicParameter = resourcesClient.ConstructDynamicParameter(parameters, parameterSetNames, parameter);
+
+            Assert.Equal("ComputeMode", dynamicParameter.Name);
+            Assert.Equal(value.DefaultValue, dynamicParameter.Value);
+            Assert.Equal(typeof(SecureString), dynamicParameter.ParameterType);
+            Assert.Equal(2, dynamicParameter.Attributes.Count);
+
+            ParameterAttribute parameterAttribute = (ParameterAttribute)dynamicParameter.Attributes[0];
+            Assert.False(parameterAttribute.Mandatory);
+            Assert.True(parameterAttribute.ValueFromPipelineByPropertyName);
+            Assert.Equal(parameterSetNames[0], parameterAttribute.ParameterSetName);
+
+            ValidateRangeAttribute validateRangeAttribute = (ValidateRangeAttribute)dynamicParameter.Attributes[1];
+            Assert.Equal(0, validateRangeAttribute.MinRange);
+            Assert.Equal(200, validateRangeAttribute.MaxRange);
+        }
     }
 }
