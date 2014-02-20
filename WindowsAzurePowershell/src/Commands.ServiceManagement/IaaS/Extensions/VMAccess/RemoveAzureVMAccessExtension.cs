@@ -14,18 +14,29 @@
 
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
 {
-    public class VirtualMachineBGInfoExtensionCmdletBase : VirtualMachineExtensionCmdletBase
+    using System.Management.Automation;
+    using Model;
+
+    [Cmdlet(
+        VerbsCommon.Remove,
+        VirtualMachineAccessExtensionNoun,
+        DefaultParameterSetName = RemoveAccessExtensionParamSetName),
+    OutputType(
+        typeof(IPersistentVM))]
+    public class RemoveAzureVMAccessExtensionCommand : VirtualMachineAccessExtensionCmdletBase
     {
-        protected const string VirtualMachineBGInfoExtensionNoun = "AzureVMBGInfoExtension";
+        protected const string RemoveAccessExtensionParamSetName = "RemoveAccessExtension";
 
-        protected const string ExtensionDefaultPublisher = "Microsoft.Compute";
-        protected const string ExtensionDefaultName = "BGInfo";
-        protected const string LegacyReferenceName = "MyBGInfoExtension";
-
-        public VirtualMachineBGInfoExtensionCmdletBase()
+        internal void ExecuteCommand()
         {
-            base.publisherName = ExtensionDefaultPublisher;
-            base.extensionName = ExtensionDefaultName;
+            RemovePredicateExtensions();
+            WriteObject(VM);
+        }
+
+        protected override void ProcessRecord()
+        {
+            base.ProcessRecord();
+            ExecuteCommand();
         }
     }
 }
