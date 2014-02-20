@@ -51,6 +51,27 @@ namespace Microsoft.WindowsAzure.Commands.Test.HDInsight.CommandTests
                 newConfig.CoreConfiguration.Any(configOption => configOption.Key == "hadoop.log.file.size" && configOption.Value == "12345"));
         }
 
+
+        [TestMethod]
+        [TestCategory("CheckIn")]
+        public void CanAddYarnConfigValues()
+        {
+            var config = new AzureHDInsightConfig();
+            IAddAzureHDInsightConfigValuesCommand addYarnConfigValues =
+                ServiceLocator.Instance.Locate<IAzureHDInsightCommandFactory>().CreateAddConfig();
+
+            addYarnConfigValues.Core.Add("yarn.fakekey", "12345");
+            addYarnConfigValues.Config = config;
+            addYarnConfigValues.EndProcessing();
+
+            AzureHDInsightConfig newConfig = addYarnConfigValues.Output.First();
+
+            Assert.AreEqual(config.ClusterSizeInNodes, newConfig.ClusterSizeInNodes);
+            Assert.AreEqual(config.DefaultStorageAccount, newConfig.DefaultStorageAccount);
+            Assert.IsTrue(
+                newConfig.CoreConfiguration.Any(configOption => configOption.Key == "yarn.fakekey" && configOption.Value == "12345"));
+        }
+
         [TestMethod]
         [TestCategory("CheckIn")]
         public void CanAddHdfsConfigValues()
