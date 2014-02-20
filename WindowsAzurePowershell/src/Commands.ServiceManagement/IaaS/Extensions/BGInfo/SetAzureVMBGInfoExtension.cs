@@ -32,11 +32,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
             Position = 1,
             ValueFromPipelineByPropertyName = true,
             HelpMessage = "Disable VM BGInfo Extension")]
-        public override SwitchParameter Disable
-        {
-            get;
-            set;
-        }
+        public override SwitchParameter Disable { get; set; }
 
         [Parameter(
             Mandatory = false,
@@ -44,11 +40,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
             ValueFromPipelineByPropertyName = true,
             HelpMessage = "The Extension Reference Name.")]
         [ValidateNotNullOrEmpty]
-        public override string ReferenceName
-        {
-            get;
-            set;
-        }
+        public override string ReferenceName { get; set; }
 
         [Parameter(
             Mandatory = false,
@@ -56,11 +48,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
             ValueFromPipelineByPropertyName = true,
             HelpMessage = "The Extension Version.")]
         [ValidateNotNullOrEmpty]
-        public override string Version
-        {
-            get;
-            set;
-        }
+        public override string Version { get; set; }
 
         internal void ExecuteCommand()
         {

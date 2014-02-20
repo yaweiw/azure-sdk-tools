@@ -66,18 +66,6 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement
             return Initialize();
         }
 
-        public static bool Initialize(GetAzureVMExtensionConfigTemplateCommand command)
-        {
-            Mapper.CreateMap<OperationStatusResponse, ExtensionImageContext>()
-                  .ForMember(c => c.OperationId, o => o.MapFrom(r => r.Id))
-                  .ForMember(c => c.OperationStatus, o => o.MapFrom(r => r.Status.ToString()));
-
-            Mapper.CreateMap<HostedServiceListAvailableExtensionsResponse.ExtensionImage, ExtensionImageContext>()
-                  .ForMember(c => c.ExtensionName, o => o.MapFrom(r => r.Type));
-
-            return Initialize();
-        }
-
         public static bool Initialize(GetAzureVMAvailableExtensionCommand command)
         {
             Mapper.CreateMap<OperationStatusResponse, VirtualMachineExtensionImageContext>()
