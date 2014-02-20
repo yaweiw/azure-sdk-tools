@@ -37,11 +37,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
             ValueFromPipelineByPropertyName = true,
             HelpMessage = "The Extension Name.")]
         [ValidateNotNullOrEmpty]
-        public override string ExtensionName
-        {
-            get;
-            set;
-        }
+        public override string ExtensionName { get; set; }
 
         [Parameter(
             ParameterSetName = RemoveByExtensionParamSetName,
@@ -50,11 +46,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
             ValueFromPipelineByPropertyName = true,
             HelpMessage = "The Extension Publisher.")]
         [ValidateNotNullOrEmpty]
-        public override string Publisher
-        {
-            get;
-            set;
-        }
+        public override string Publisher { get; set; }
 
         [Parameter(
             ParameterSetName = RemoveByReferenceParamSetName,
@@ -63,11 +55,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
             ValueFromPipelineByPropertyName = true,
             HelpMessage = "The Extension Reference Name.")]
         [ValidateNotNullOrEmpty]
-        public override string ReferenceName
-        {
-            get;
-            set;
-        }
+        public override string ReferenceName { get; set; }
 
         [Parameter(
             ParameterSetName = RemoveAllParamSetName,
@@ -75,11 +63,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
             Position = 1,
             ValueFromPipelineByPropertyName = true,
             HelpMessage = "Specify to remove all extensions.")]
-        public SwitchParameter RemoveAll
-        {
-            get;
-            set;
-        }
+        public SwitchParameter RemoveAll { get; set; }
 
         internal void ExecuteCommand()
         {
