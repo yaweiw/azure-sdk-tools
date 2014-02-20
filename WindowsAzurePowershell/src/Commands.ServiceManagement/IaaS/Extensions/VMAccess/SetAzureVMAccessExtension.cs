@@ -34,11 +34,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
             Position = 1,
             ValueFromPipelineByPropertyName = true,
             HelpMessage = "New or Existing User Name")]
-        public override string UserName
-        {
-            get;
-            set;
-        }
+        public override string UserName { get; set; }
 
         [Parameter(
             ParameterSetName = EnableExtensionParamSetName,
@@ -46,11 +42,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
             Position = 2,
             ValueFromPipelineByPropertyName = true,
             HelpMessage = "New or Existing User Password")]
-        public override string Password
-        {
-            get;
-            set;
-        }
+        public override string Password { get; set; }
 
         [Parameter(
             ParameterSetName = DisableExtensionParamSetName,
@@ -58,11 +50,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
             Position = 1,
             ValueFromPipelineByPropertyName = true,
             HelpMessage = "Disable VM Access Extension")]
-        public override SwitchParameter Disable
-        {
-            get;
-            set;
-        }
+        public override SwitchParameter Disable { get; set; }
 
         [Parameter(
             ParameterSetName = EnableExtensionParamSetName,
@@ -75,11 +63,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
             ValueFromPipelineByPropertyName = true,
             HelpMessage = "The Extension Reference Name.")]
         [ValidateNotNullOrEmpty]
-        public override string ReferenceName
-        {
-            get;
-            set;
-        }
+        public override string ReferenceName { get; set; }
 
         [Parameter(
             ParameterSetName = EnableExtensionParamSetName,
@@ -92,11 +76,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
             ValueFromPipelineByPropertyName = true,
             HelpMessage = "The Extension Version.")]
         [ValidateNotNullOrEmpty]
-        public override string Version
-        {
-            get;
-            set;
-        }
+        public override string Version { get; set; }
 
         internal void ExecuteCommand()
         {

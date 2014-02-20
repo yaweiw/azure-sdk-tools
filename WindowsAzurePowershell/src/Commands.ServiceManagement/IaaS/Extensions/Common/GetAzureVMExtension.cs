@@ -36,11 +36,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
             ValueFromPipelineByPropertyName = true,
             HelpMessage = "The Extension Name.")]
         [ValidateNotNullOrEmpty]
-        public override string ExtensionName
-        {
-            get;
-            set;
-        }
+        public override string ExtensionName { get; set; }
 
         [Parameter(
             ParameterSetName = ListByExtensionParamSetName,
@@ -49,11 +45,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
             ValueFromPipelineByPropertyName = true,
             HelpMessage = "The Extension Publisher.")]
         [ValidateNotNullOrEmpty]
-        public override string Publisher
-        {
-            get;
-            set;
-        }
+        public override string Publisher { get; set; }
 
         [Parameter(
             ParameterSetName = ListByExtensionParamSetName,
@@ -61,11 +53,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
             ValueFromPipelineByPropertyName = true,
             HelpMessage = "The Extension Version.")]
         [ValidateNotNullOrEmpty]
-        public override string Version
-        {
-            get;
-            set;
-        }
+        public override string Version { get; set; }
 
         [Parameter(
             ParameterSetName = ListByReferenceParamSetName,
@@ -73,11 +61,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
             ValueFromPipelineByPropertyName = true,
             HelpMessage = "The Extension Reference Name.")]
         [ValidateNotNullOrEmpty]
-        public override string ReferenceName
-        {
-            get;
-            set;
-        }
+        public override string ReferenceName { get; set; }
 
         internal void ExecuteCommand()
         {
@@ -98,14 +82,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
                     PrivateConfiguration = GetConfiguration(r, PrivateTypeStr)
                 });
 
-            if (extensions == null || extensions.Count() <= 1)
-            {
-                WriteObject(extensions == null ? null : extensions.FirstOrDefault());
-            }
-            else
-            {
-                WriteObject(extensions.ToArray());
-            }
+            WriteObject(extensions, true);
         }
 
         protected override void ProcessRecord()
