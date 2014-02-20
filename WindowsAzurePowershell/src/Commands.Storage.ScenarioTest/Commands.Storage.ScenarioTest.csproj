@@ -222,7 +222,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Commands.ScenarioTest\Commands.ScenarioTest.csproj">
-      <Project>{a3965b66-5a3e-4b8c-9574-28e5958d4828}</Project>
+      <Project>{A3965B66-5A3E-4B8C-9574-28E5958D4828}</Project>
       <Name>Commands.ScenarioTest</Name>
     </ProjectReference>
     <ProjectReference Include="..\Commands.Storage.MsTest2\Commands.Storage.MsTest2.csproj">

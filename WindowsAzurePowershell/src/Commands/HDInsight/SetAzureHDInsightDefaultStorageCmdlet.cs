@@ -59,6 +59,11 @@ namespace Microsoft.WindowsAzure.Management.HDInsight.Cmdlet.PSCmdlets
                 {
                     this.command.Config.CoreConfiguration.AddRange(value.CoreConfiguration);
                 }
+
+                if (value.YarnConfiguration != null)
+                {
+                    this.command.Config.YarnConfiguration.AddRange(value.YarnConfiguration);
+                }
                 this.command.Config.ClusterSizeInNodes = value.ClusterSizeInNodes;
                 this.command.Config.AdditionalStorageAccounts.AddRange(value.AdditionalStorageAccounts);
                 this.command.Config.HiveMetastore = value.HiveMetastore ?? this.command.Config.HiveMetastore;
