@@ -12,6 +12,8 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
+using Microsoft.WindowsAzure.Management.HDInsight.Framework.Core.Library.WebRequest;
+
 namespace Microsoft.WindowsAzure.Commands.Test.Utilities.HDInsight.Simulators
 {
     using System;
@@ -513,5 +515,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.Utilities.HDInsight.Simulators
         {
             this.jobOutput[jobId] = stdoutContent;
         }
+
+        public ILogger Logger { get; private set; }
     }
 }
