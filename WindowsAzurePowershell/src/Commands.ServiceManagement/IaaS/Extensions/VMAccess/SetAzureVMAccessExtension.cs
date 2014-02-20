@@ -19,19 +19,45 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
 
     [Cmdlet(
         VerbsCommon.Set,
-        VirtualMachineBGInfoExtensionNoun,
-        DefaultParameterSetName = SetBGInfoExtensionParamSetName),
+        VirtualMachineAccessExtensionNoun,
+        DefaultParameterSetName = EnableExtensionParamSetName),
     OutputType(
         typeof(IPersistentVM))]
-    public class SetAzureVMBGInfoExtensionCommand : VirtualMachineBGInfoExtensionCmdletBase
+    public class SetAzureVMAccessExtensionCommand : VirtualMachineAccessExtensionCmdletBase
     {
-        protected const string SetBGInfoExtensionParamSetName = "SetBGInfoExtension";
+        public const string EnableExtensionParamSetName = "EnableAccessExtension";
+        public const string DisableExtensionParamSetName = "DisableAccessExtension";
 
         [Parameter(
+            ParameterSetName = EnableExtensionParamSetName,
             Mandatory = false,
             Position = 1,
             ValueFromPipelineByPropertyName = true,
-            HelpMessage = "Disable VM BGInfo Extension")]
+            HelpMessage = "New or Existing User Name")]
+        public override string UserName
+        {
+            get;
+            set;
+        }
+
+        [Parameter(
+            ParameterSetName = EnableExtensionParamSetName,
+            Mandatory = false,
+            Position = 2,
+            ValueFromPipelineByPropertyName = true,
+            HelpMessage = "New or Existing User Password")]
+        public override string Password
+        {
+            get;
+            set;
+        }
+
+        [Parameter(
+            ParameterSetName = DisableExtensionParamSetName,
+            Mandatory = true,
+            Position = 1,
+            ValueFromPipelineByPropertyName = true,
+            HelpMessage = "Disable VM Access Extension")]
         public override SwitchParameter Disable
         {
             get;
@@ -39,7 +65,12 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
         }
 
         [Parameter(
-            Mandatory = false,
+            ParameterSetName = EnableExtensionParamSetName,
+            Position = 3,
+            ValueFromPipelineByPropertyName = true,
+            HelpMessage = "The Extension Reference Name.")]
+        [Parameter(
+            ParameterSetName = DisableExtensionParamSetName,
             Position = 2,
             ValueFromPipelineByPropertyName = true,
             HelpMessage = "The Extension Reference Name.")]
@@ -51,7 +82,12 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
         }
 
         [Parameter(
-            Mandatory = false,
+            ParameterSetName = EnableExtensionParamSetName,
+            Position = 4,
+            ValueFromPipelineByPropertyName = true,
+            HelpMessage = "The Extension Version.")]
+        [Parameter(
+            ParameterSetName = DisableExtensionParamSetName,
             Position = 3,
             ValueFromPipelineByPropertyName = true,
             HelpMessage = "The Extension Version.")]
@@ -73,7 +109,16 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
         protected override void ValidateParameters()
         {
             base.ValidateParameters();
-            this.ReferenceName = this.ReferenceName ?? LegacyReferenceName;
+            if (IsLegacyExtension())
+            {
+                this.PublicConfiguration = GetLegacyConfiguration();
+            }
+            else
+            {
+                this.ReferenceName = this.ReferenceName ?? LegacyReferenceName;
+                this.PublicConfiguration = GetPublicConfiguration();
+                this.PrivateConfiguration = GetPrivateConfiguration();
+            }
         }
 
         protected override void ProcessRecord()
