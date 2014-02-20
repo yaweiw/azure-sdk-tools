@@ -41,8 +41,8 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
 
         public VirtualMachineAccessExtensionCmdletBase()
         {
-            Publisher = ExtensionDefaultPublisher;
-            ExtensionName = ExtensionDefaultName;
+            base.publisherName = ExtensionDefaultPublisher;
+            base.extensionName = ExtensionDefaultName;
         }
 
         protected string GetLegacyConfiguration()

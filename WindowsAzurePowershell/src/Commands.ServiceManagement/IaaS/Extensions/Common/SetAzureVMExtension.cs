@@ -47,11 +47,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
             ValueFromPipelineByPropertyName = true,
             HelpMessage = "The Extension Name.")]
         [ValidateNotNullOrEmpty]
-        public override string ExtensionName
-        {
-            get;
-            set;
-        }
+        public override string ExtensionName { get; set; }
 
         [Parameter(
             ParameterSetName = SetByExtensionParamSetName,
@@ -66,11 +62,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
             ValueFromPipelineByPropertyName = true,
             HelpMessage = "The Extension Publisher.")]
         [ValidateNotNullOrEmpty]
-        public override string Publisher
-        {
-            get;
-            set;
-        }
+        public override string Publisher { get; set; }
 
         [Parameter(
             ParameterSetName = SetByExtensionParamSetName,
@@ -83,11 +75,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
             ValueFromPipelineByPropertyName = true,
             HelpMessage = "The Extension Version.")]
         [ValidateNotNullOrEmpty]
-        public override string Version
-        {
-            get;
-            set;
-        }
+        public override string Version { get; set; }
 
         [Parameter(
             ParameterSetName = SetByExtensionParamSetName,
@@ -112,11 +100,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
             ValueFromPipelineByPropertyName = true,
             HelpMessage = "The Extension Reference Name.")]
         [ValidateNotNullOrEmpty]
-        public override string ReferenceName
-        {
-            get;
-            set;
-        }
+        public override string ReferenceName { get; set; }
 
         [Parameter(
             ParameterSetName = SetByExtensionParamSetName,
@@ -129,11 +113,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
             ValueFromPipelineByPropertyName = true,
             HelpMessage = "The Extension Public Configuration.")]
         [ValidateNotNullOrEmpty]
-        public override string PublicConfiguration
-        {
-            get;
-            set;
-        }
+        public override string PublicConfiguration { get; set; }
 
         [Parameter(
             ParameterSetName = SetByExtensionAndConfigFileParamSetName,
@@ -146,11 +126,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
             ValueFromPipelineByPropertyName = true,
             HelpMessage = "The Extension Public Configuration.")]
         [ValidateNotNullOrEmpty]
-        public override string PublicConfigPath
-        {
-            get;
-            set;
-        }
+        public override string PublicConfigPath { get; set; }
 
         [Parameter(
             ParameterSetName = SetByExtensionParamSetName,
@@ -163,11 +139,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
             ValueFromPipelineByPropertyName = true,
             HelpMessage = "The Extension Private Configuration.")]
         [ValidateNotNullOrEmpty]
-        public override string PrivateConfiguration
-        {
-            get;
-            set;
-        }
+        public override string PrivateConfiguration { get; set; }
 
         [Parameter(
             ParameterSetName = SetByExtensionAndConfigFileParamSetName,
@@ -180,11 +152,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
             ValueFromPipelineByPropertyName = true,
             HelpMessage = "The Extension Private Configuration.")]
         [ValidateNotNullOrEmpty]
-        public override string PrivateConfigPath
-        {
-            get;
-            set;
-        }
+        public override string PrivateConfigPath { get; set; }
 
         [Parameter(
             ParameterSetName = SetByExtensionParamSetName,
@@ -206,11 +174,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
             Position = 4,
             ValueFromPipelineByPropertyName = true,
             HelpMessage = "To Set the Extension State to 'Disable'.")]
-        public override SwitchParameter Disable
-        {
-            get;
-            set;
-        }
+        public override SwitchParameter Disable { get; set; }
 
         internal void ExecuteCommand()
         {
