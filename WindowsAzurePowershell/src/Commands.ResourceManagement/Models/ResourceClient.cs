@@ -131,6 +131,10 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Models
                         ContainerPublic = true,
                         ContainerName = DeploymentTemplateStorageContainerName
                     });
+                    WriteProgress(string.Format(
+                        "Upload template '{0}' to {1}.",
+                        Path.GetFileName(templateFile),
+                        templateFileUri.ToString()));
                 }
             }
             else
@@ -181,6 +185,8 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Models
                 {
                     Location = location
                 });
+
+            WriteProgress(string.Format("Create resource group '{0}' in location '{1}'", name, location));
 
             return result.ResourceGroup;
         }

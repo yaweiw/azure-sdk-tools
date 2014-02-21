@@ -94,6 +94,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Models
 
             if (createDeployment)
             {
+                parameters.DeploymentName = string.IsNullOrEmpty(parameters.DeploymentName) ? Guid.NewGuid().ToString() : parameters.DeploymentName;
                 BasicDeployment deployment = new BasicDeployment()
                 {
                     Mode = DeploymentMode.Incremental,
@@ -107,6 +108,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Models
                 };
                 
                 result = ResourceManagementClient.Deployments.Create(resourceGroup, parameters.DeploymentName, deployment).Properties;
+                WriteProgress(string.Format("Create template deployment '{0}' using template {1}.", parameters.DeploymentName, deployment.TemplateLink.Uri));
                 ProvisionDeploymentStatus(resourceGroup, parameters.DeploymentName);
             }
 
