@@ -688,6 +688,17 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService
             WriteVerboseWithTimestamp(Resources.RuntimeDeploymentStart, context.ServiceName);
             PrepareCloudServicePackagesRuntime(context);
 
+            // Verify storage account exists
+            WriteVerboseWithTimestamp(
+                Resources.PublishVerifyingStorageMessage,
+                context.ServiceSettings.StorageServiceName);
+
+            CreateStorageServiceIfNotExist(
+                context.ServiceSettings.StorageServiceName,
+                context.ServiceName,
+                context.ServiceSettings.Location,
+                context.ServiceSettings.AffinityGroup);
+
             // Update cache worker roles configuration
             WriteVerboseWithTimestamp(
                     Resources.PublishPreparingDeploymentMessage,
@@ -742,15 +753,6 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService
                 cloudServiceProject);
             context.PackagePath = packageFullPath;
 
-            WriteVerbose(string.Format(Resources.PublishServiceStartMessage, context.ServiceName));
-
-            DeploymentGetResponse deployment = UploadPackage(launch, forceUpgrade, context);
-
-            return new Deployment(deployment);
-        }
-
-        private DeploymentGetResponse UploadPackage(bool launch, bool forceUpgrade, PublishContext context)
-        {
             // Verify storage account exists
             WriteVerboseWithTimestamp(
                 Resources.PublishVerifyingStorageMessage,
@@ -762,6 +764,15 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService
                 context.ServiceSettings.Location,
                 context.ServiceSettings.AffinityGroup);
 
+            WriteVerbose(string.Format(Resources.PublishServiceStartMessage, context.ServiceName));
+
+            DeploymentGetResponse deployment = UploadPackage(launch, forceUpgrade, context);
+
+            return new Deployment(deployment);
+        }
+
+        private DeploymentGetResponse UploadPackage(bool launch, bool forceUpgrade, PublishContext context)
+        {
             // Publish cloud service
             WriteVerboseWithTimestamp(Resources.PublishConnectingMessage);
             CreateCloudServiceIfNotExist(
