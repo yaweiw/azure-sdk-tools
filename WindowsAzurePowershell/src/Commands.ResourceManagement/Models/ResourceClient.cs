@@ -29,26 +29,31 @@ using System.Linq;
 using System.Management.Automation;
 using System.Runtime.Serialization.Formatters;
 using System.Security;
+using System.Threading;
 
 namespace Microsoft.Azure.Commands.ResourceManagement.Models
 {
     public partial class ResourcesClient
     {
         public IResourceManagementClient ResourceManagementClient { get; set; }
+        
         public IStorageClientWrapper StorageClientWrapper { get; set; }
 
         public IGalleryClient GalleryClient { get; set; }
+
+        public Action<string> ProgressLogger { get; set; }
 
         /// <summary>
         /// Creates new ResourceManagementClient
         /// </summary>
         /// <param name="subscription">Subscription containing resources to manipulate</param>
-        public ResourcesClient(WindowsAzureSubscription subscription) : this (
-            subscription.CreateCloudServiceClient<ResourceManagementClient>(),
-            new StorageClientWrapper(subscription.CreateClient<StorageManagementClient>()),
-            subscription.CreateGalleryClient<GalleryClient>())
+        public ResourcesClient(WindowsAzureSubscription subscription)
+            : this(
+                subscription.CreateCloudServiceClient<ResourceManagementClient>(),
+                new StorageClientWrapper(subscription.CreateClient<StorageManagementClient>()),
+                subscription.CreateGalleryClient<GalleryClient>())
         {
-            
+
         }
 
         /// <summary>
@@ -171,7 +176,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Models
                 {
                     Location = location
                 });
-            
+
             return result.ResourceGroup;
         }
 
@@ -238,8 +243,86 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Models
                 };
             }
 
-
             return attribute;
+        }
+        
+        private void WriteProgress(string progress)
+        {
+            if (ProgressLogger != null)
+            {
+                ProgressLogger(progress);
+            }
+        }
+
+        private void ProvisionDeploymentStatus(string resourceGroup, string deploymentName)
+        {
+            //WaitDeploymentStatus(resourceGroup, deploymentName, (s1, s2) => { }, "Running");
+
+            WaitDeploymentStatus(resourceGroup, deploymentName, WriteDeploymentProgress, "Cancelled", "Succeeded", "Failed");
+        }
+
+        private void WriteDeploymentProgress(string resourceGroup, string deploymentName)
+        {
+            const string statusFormat = "{0} {1} '{2}' in location '{4}' is {5}";
+            List<DeploymentOperation> operations = new List<DeploymentOperation>();
+            List<DeploymentOperation> newOperations = new List<DeploymentOperation>();
+            DeploymentOperationsListResult result = null;
+            string location = ResourceManagementClient.ResourceGroups.Get(resourceGroup).ResourceGroup.Location;
+
+            do
+            {
+                result = ResourceManagementClient.DeploymentOperations.List(resourceGroup, deploymentName, null);
+                newOperations = GetNewOperations(operations, result.Operations);
+
+            } while (!string.IsNullOrEmpty(result.NextLink));
+
+            foreach (DeploymentOperation operation in newOperations)
+            {
+                string statusMessage = string.Format(statusFormat,
+                    operation.Properties.Details.Operation,
+                    operation.Properties.TargetResource.ResourceType,
+                    operation.Properties.TargetResource.ResourceName,
+                    location,
+                    operation.Properties.ProvisioningState);
+
+                WriteProgress(statusMessage);
+            }
+        }
+
+        private void WaitDeploymentStatus(string resourceGroup, string deploymentName, Action<string, string> job, params string[] status)
+        {
+            DeploymentProperties deployment = new DeploymentProperties();
+
+            do
+            {
+                if (job != null)
+                {
+                    job(resourceGroup, deploymentName);
+                }
+
+                deployment = ResourceManagementClient.Deployments.Get(resourceGroup, deploymentName).Properties;
+                Thread.Sleep(2000);
+
+            } while (!status.Any(s => s.Equals(deployment.ProvisioningState, StringComparison.OrdinalIgnoreCase)));
+        }
+
+        private List<DeploymentOperation> GetNewOperations(List<DeploymentOperation> old, IList<DeploymentOperation> current)
+        {
+            List<DeploymentOperation> newOperations = new List<DeploymentOperation>();
+            foreach (DeploymentOperation operation in current)
+            {
+                if (!old.Exists(o => o.OperationId.Equals(operation.OperationId)))
+                {
+                    if (operation.Properties.Details == null)
+                    {
+                        operation.Properties.Details = new OperationDetails();
+                    }
+
+                    newOperations.Add(operation);
+                }
+            }
+
+            return newOperations;
         }
 
         internal RuntimeDefinedParameter ConstructDynamicParameter(string[] parameters, string[] parameterSetNames, KeyValuePair<string, TemplateFileParameter> parameter)

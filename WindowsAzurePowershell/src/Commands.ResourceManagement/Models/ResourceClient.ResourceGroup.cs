@@ -21,6 +21,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Management.Automation;
+using System.Threading;
 
 namespace Microsoft.Azure.Commands.ResourceManagement.Models
 {
@@ -35,7 +36,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Models
         public virtual PSResourceGroup CreatePSResourceGroup(CreatePSResourceGroupParameters parameters)
         {
             // Validate that parameter group doesn't already exist
-            if (ResourceManagementClient.ResourceGroups.Exists(parameters.Name).Exists)
+            if (ResourceManagementClient.ResourceGroups.CheckExistence(parameters.Name).Exists)
             {
                 throw new ArgumentException(Resources.ResourceGroupAlreadyExists);
             }
@@ -57,26 +58,24 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Models
 
             if (!string.IsNullOrEmpty(options.ResourceGroup) && !string.IsNullOrEmpty(options.Name))
             {
-                resources.Add(ResourceManagementClient.Resources.Get(
-                    new ResourceParameters() {
-                        ResourceGroupName = options.ResourceGroup,
-                        ResourceName = options.Name }).Resource);
+                resources.Add(ResourceManagementClient.Resources.Get(options.ResourceGroup,
+                    new ResourceIdentity() { ResourceName = options.Name }).Resource);
             }
-            else if (!string.IsNullOrEmpty(options.ResourceGroup) && !string.IsNullOrEmpty(options.ResourceType))
+            else
             {
-                resources.AddRange(ResourceManagementClient.Resources.ListForResourceGroup(
-                    options.ResourceGroup,
-                    new ResourceListParameters() { ResourceType = options.ResourceType }).Resources);
-            }
-            else if (!string.IsNullOrEmpty(options.ResourceGroup))
-            {
-                resources.AddRange(ResourceManagementClient.Resources
-                    .ListForResourceGroup(options.ResourceGroup, new ResourceListParameters()).Resources);
-            }
-            else if (!string.IsNullOrEmpty(options.ResourceType))
-            {
-                resources.AddRange(ResourceManagementClient.Resources
-                    .List(new ResourceListParameters() { ResourceType = options.ResourceType }).Resources);
+                ResourceListResult result = ResourceManagementClient.Resources.List(new ResourceListParameters()
+                {
+                    ResourceGroupName = options.ResourceGroup,
+                    ResourceType = options.ResourceType
+                });
+
+                resources.AddRange(result.Resources);
+
+                while (!string.IsNullOrEmpty(result.NextLink))
+                {
+                    result = ResourceManagementClient.Resources.ListNext(result.NextLink);
+                    resources.AddRange(result.Resources);
+                };
             }
 
             return resources;
@@ -107,8 +106,9 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Models
                     },
                     Parameters = GetDeploymentParameters(parameters.ParameterFile, parameters.ParameterObject)
                 };
-
+                
                 result = ResourceManagementClient.Deployments.Create(resourceGroup, parameters.DeploymentName, deployment).Properties;
+                ProvisionDeploymentStatus(resourceGroup, parameters.DeploymentName);
             }
 
             return result;
@@ -133,7 +133,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Models
                 RuntimeDefinedParameter dynamicParameter = ConstructDynamicParameter(parameters, parameterSetNames, parameter);
                 dynamicParameters.Add(dynamicParameter.Name, dynamicParameter);
             }
-
+            
             return dynamicParameters;
         }
 
