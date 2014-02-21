@@ -15,6 +15,7 @@
 namespace Microsoft.WindowsAzure.Commands.Test.CloudService.Utilities
 {
     using System;
+    using System.IO;
     using System.Net;
     using System.Security.Cryptography.X509Certificates;
     using System.Threading;
@@ -375,6 +376,35 @@ namespace Microsoft.WindowsAzure.Commands.Test.CloudService.Utilities
                     It.IsAny<string>(),
                     It.IsAny<BlobRequestOptions>()), Times.Once());
             }           
+        }
+
+        [TestMethod]
+        public void TestPublishFromPackageUsingCurrentStorageAccount()
+        {
+            RemoveDeployments();
+
+            clientMocks.ComputeManagementClientMock.Setup(
+                c =>
+                c.HostedServices.CreateAsync(It.IsAny<HostedServiceCreateParameters>(), It.IsAny<CancellationToken>()))
+                .Returns(Tasks.FromResult(new OperationResponse
+                {
+                    RequestId = "request001",
+                    StatusCode = HttpStatusCode.OK
+                }));
+
+            using (var files = new FileSystemHelper(this) { EnableMonitoring = true })
+            {
+                // Setup
+                string package, configuration;
+                files.CreateDirectoryWithPrebuiltPackage(serviceName, TestContext.TestName, out package, out configuration);
+                files.CreateAzureSdkDirectoryAndImportPublishSettings();
+
+                ExecuteInTempCurrentDirectory(Path.GetDirectoryName(package), 
+                    () => client.PublishCloudService(package, configuration, "West US", null, null, null, null, false, false));
+
+                clientMocks.ComputeManagementClientMock.Verify(c => c.Deployments.CreateAsync(
+                    serviceName, DeploymentSlot.Production, It.IsAny<DeploymentCreateParameters>(), It.IsAny<CancellationToken>()), Times.Once);
+            }
         }
 
         [TestMethod]

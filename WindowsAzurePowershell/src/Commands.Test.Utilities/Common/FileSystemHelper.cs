@@ -310,5 +310,20 @@ namespace Microsoft.WindowsAzure.Commands.Test.Utilities.Common
 
             return path;
         }
+
+        public void CreateDirectoryWithPrebuiltPackage(string directoryName, string packageName, out string package, out string configuration)
+        {
+            string testDirectory = CreateDirectory(directoryName);
+            package = Path.Combine(testDirectory, packageName + ".cspkg");
+            File.CreateText(package);
+            configuration = Path.Combine(testDirectory, "ServiceConfiguration.Cloud.cscfg");
+            File.CreateText(configuration);
+            string template = "<?xml version=\"1.0\" encoding=\"utf-8\"?>" 
+                + Environment.NewLine
+                + "<ServiceConfiguration serviceName=\"$ServiceName$\" " 
+                + "xmlns=\"http://schemas.microsoft.com/ServiceHosting/2008/10/ServiceConfiguration\" " 
+                + "osFamily=\"2\" osVersion=\"*\" />";
+            File.WriteAllText(configuration, template);
+        }
     }
 }
