@@ -277,6 +277,17 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
         public const string SetAzureVMBGInfoExtensionCmdletName = "Set-AzureVMBGInfoExtension";
         public const string RemoveAzureVMBGInfoExtensionCmdletName = "Remove-AzureVMBGInfoExtension";
 
+        // Generic Azure VM  Extension cmdlets
+        public const string GetAzureVMExtensionCmdletName = "Get-AzureVMExtension";
+        public const string SetAzureVMExtensionCmdletName = "Set-AzureVMExtension";
+        public const string RemoveAzureVMExtensionCmdletName = "Remove-AzureVMExtension";
+        public const string GetAzureVMAvailableExtensionCmdletName = "Get-AzureVMAvailableExtension";
+        public const string GetAzureVMExtensionConfigTemplateCmdletName = "Get-AzureVMExtensionConfigTemplate";
+
+        // VM Access Extesnion
+        public const string GetAzureVMAccessExtensionCmdletName = "Get-AzureVMAccessExtension";
+        public const string SetAzureVMAccessExtensionCmdletName = "Set-AzureVMAccessExtension";
+        public const string RemoveAzureVMAccessExtensionCmdletName = "Remove-AzureVMAccessExtension";
         #endregion
 
 
@@ -664,6 +675,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
         {
             RegisterDllsForRDP();
 
+            Console.WriteLine(String.Format("IaaS {0} {1} {2} {3} {4}", dns, port.ToString(), user, psswrd, shouldSucceed.ToString()));
             int returnCode = ExecuteSimpleProcess(RDPTestPath,
                  String.Format("IaaS {0} {1} {2} {3} {4}", dns, port.ToString(), user, psswrd, shouldSucceed.ToString()));
             if (returnCode == 0)
