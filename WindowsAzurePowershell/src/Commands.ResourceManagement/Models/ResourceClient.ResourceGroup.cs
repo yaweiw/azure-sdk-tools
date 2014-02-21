@@ -35,7 +35,6 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Models
         /// <returns>The created resource group</returns>
         public virtual PSResourceGroup CreatePSResourceGroup(CreatePSResourceGroupParameters parameters)
         {
-            // Validate that parameter group doesn't already exist
             if (ResourceManagementClient.ResourceGroups.CheckExistence(parameters.Name).Exists)
             {
                 throw new ArgumentException(Resources.ResourceGroupAlreadyExists);

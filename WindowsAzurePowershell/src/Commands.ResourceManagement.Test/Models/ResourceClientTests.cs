@@ -45,6 +45,10 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Test.Models
 
         private Mock<IGalleryClient> galleryClientMock;
 
+        private Mock<IDeploymentOperationOperations> deploymentOperationMock;
+
+        private Mock<Action<string>> progressLoggerMock;
+
         private ResourcesClient resourcesClient;
 
         private string resourceGroupName = "myResourceGroup";
@@ -81,14 +85,20 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Test.Models
             resourceGroupOperationsMock = new Mock<IResourceGroupOperations>();
             resourceOperationsMock = new Mock<IResourceOperations>();
             galleryClientMock = new Mock<IGalleryClient>();
+            deploymentOperationMock = new Mock<IDeploymentOperationOperations>();
+            progressLoggerMock = new Mock<Action<string>>();
             resourceManagementClientMock.Setup(f => f.Deployments).Returns(deploymentOperationsMock.Object);
             resourceManagementClientMock.Setup(f => f.ResourceGroups).Returns(resourceGroupOperationsMock.Object);
             resourceManagementClientMock.Setup(f => f.Resources).Returns(resourceOperationsMock.Object);
+            resourceManagementClientMock.Setup(f => f.DeploymentOperations).Returns(deploymentOperationMock.Object);
             storageClientWrapperMock = new Mock<IStorageClientWrapper>();
             resourcesClient = new ResourcesClient(
                 resourceManagementClientMock.Object,
                 storageClientWrapperMock.Object,
-                galleryClientMock.Object);
+                galleryClientMock.Object)
+                {
+                    ProgressLogger = progressLoggerMock.Object
+                };
         }
 
         [Fact]
@@ -163,6 +173,11 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Test.Models
                     {
                         ResourceGroup = new ResourceGroup() { Name = parameters.Name, Location = parameters.Location }
                     }));
+            resourceGroupOperationsMock.Setup(f => f.GetAsync(resourceGroupName, new CancellationToken()))
+                .Returns(Task.Factory.StartNew(() => new ResourceGroupGetResult
+                {
+                    ResourceGroup = new ResourceGroup() { Location = resourceGroupLocation }
+                }));
             storageClientWrapperMock.Setup(f => f.UploadFileToBlob(It.IsAny<BlobUploadParameters>())).Returns(templateUri);
             deploymentOperationsMock.Setup(f => f.CreateAsync(resourceGroupName, deploymentName, It.IsAny<BasicDeployment>(), new CancellationToken()))
                 .Returns(Task.Factory.StartNew(() => new DeploymentOperationsCreateResult
@@ -170,7 +185,41 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Test.Models
                     RequestId = requestId
                 }))
                 .Callback((string name, string dName, BasicDeployment bDeploy, CancellationToken token) => { deploymentInfo = bDeploy; });
+            deploymentOperationsMock.Setup(f => f.GetAsync(resourceGroupName, deploymentName, new CancellationToken()))
+                .Returns(Task.Factory.StartNew(() => new DeploymentGetResult
+                {
+                    Name = deploymentName,
+                    Properties = new DeploymentProperties()
+                    {
+                        Mode = DeploymentMode.Incremental,
+                        ProvisioningState = ProvisioningState.Succeeded
+                    },
+                    ResourceGroup = resourceGroupName
+                }));
             SetupListForResourceGroupAsync(parameters.Name, new List<Resource>() { new Resource() { Name = "website"} });
+            deploymentOperationMock.Setup(f => f.ListAsync(resourceGroupName, deploymentName, null, new CancellationToken()))
+                .Returns(Task.Factory.StartNew(() => new DeploymentOperationsListResult
+                {
+                    Operations = new List<DeploymentOperation>()
+                    {
+                        new DeploymentOperation()
+                        {
+                            DeploymentName = deploymentName,
+                            OperationId = Guid.NewGuid().ToString(),
+                            ResourceGroup = resourceGroupName,
+                            Properties = new DeploymentOperationProperties()
+                            {
+                                ProvisioningState = ProvisioningState.Succeeded,
+                                TargetResource = new TargetResource()
+                                {
+                                    ResourceGroup = resourceGroupName,
+                                    ResourceName = resourceName,
+                                    ResourceType = "Microsoft.Website"
+                                }
+                            }
+                        }
+                    }
+                }));
 
             PSResourceGroup result = resourcesClient.CreatePSResourceGroup(parameters);
 
@@ -181,6 +230,14 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Test.Models
             Assert.Equal(templateUri, deploymentInfo.TemplateLink.Uri);
             Assert.Equal(File.ReadAllText(parameters.ParameterFile), deploymentInfo.Parameters);
             Assert.Equal(1, result.Resources.Count);
+            progressLoggerMock.Verify(
+                f => f(string.Format("{0} operation on '{1}' of type {2} in location '{3}' is {4}",
+                        "Unknown",
+                        resourceName,
+                        "Microsoft.Website",
+                        resourceGroupLocation,
+                        ProvisioningState.Succeeded)),
+                Times.Once());
         }
 
         [Fact]
@@ -219,7 +276,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Test.Models
                 {
                     Resources = new List<Resource>() { resource1, resource2 }
                 }))
-                .Callback((string rgm, ResourceListParameters p, CancellationToken ct) => { actualParameters = p; });
+                .Callback((ResourceListParameters p, CancellationToken ct) => { actualParameters = p; });
 
             List<Resource> result = resourcesClient.FilterResources(options);
 
@@ -239,7 +296,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Test.Models
                 {
                     Resources = new List<Resource>() { resource1, resource2 }
                 }))
-                .Callback((string rgm, ResourceListParameters p, CancellationToken ct) => { actualParameters = p; });
+                .Callback((ResourceListParameters p, CancellationToken ct) => { actualParameters = p; });
 
             List<Resource> result = resourcesClient.FilterResources(options);
 
