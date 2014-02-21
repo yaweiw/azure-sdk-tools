@@ -74,12 +74,12 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.CloudServiceTests
             RunPowerShellTest("Test-StartAzureEmulatorTwice");
         }
 
-        [TestMethod]
-        [TestCategory(Category.All)]
-        [TestCategory(Category.CloudService)]
-        public void TestStartAzureEmulatorExpress()
-        {
-            RunPowerShellTest("Test-StartAzureEmulatorExpress");
-        }
+        //[TestMethod]
+        //[TestCategory(Category.All)]
+        //[TestCategory(Category.CloudService)]
+        //public void TestStartAzureEmulatorExpress()
+        //{
+        //    RunPowerShellTest("Test-StartAzureEmulatorExpress");
+        //}
     }
 }
