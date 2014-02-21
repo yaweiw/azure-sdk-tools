@@ -688,17 +688,6 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService
             WriteVerboseWithTimestamp(Resources.RuntimeDeploymentStart, context.ServiceName);
             PrepareCloudServicePackagesRuntime(context);
 
-            // Verify storage account exists
-            WriteVerboseWithTimestamp(
-                Resources.PublishVerifyingStorageMessage,
-                context.ServiceSettings.StorageServiceName);
-
-            CreateStorageServiceIfNotExist(
-                context.ServiceSettings.StorageServiceName,
-                context.ServiceName,
-                context.ServiceSettings.Location,
-                context.ServiceSettings.AffinityGroup);
-
             // Update cache worker roles configuration
             WriteVerboseWithTimestamp(
                     Resources.PublishPreparingDeploymentMessage,
@@ -712,45 +701,12 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService
             {
                 File.Delete(context.PackagePath);
             }
-            
-            cloudServiceProject = new CloudServiceProject(context.RootPath, null);
             cloudServiceProject.CreatePackage(DevEnv.Cloud);
 
-            // Publish cloud service
-            WriteVerboseWithTimestamp(Resources.PublishConnectingMessage);
-            CreateCloudServiceIfNotExist(
-                context.ServiceName,
-                affinityGroup: context.ServiceSettings.AffinityGroup,
-                location: context.ServiceSettings.Location);
-
-            if (DeploymentExists(context.ServiceName, context.ServiceSettings.Slot))
-            {
-                // Upgrade the deployment
-                UpgradeDeployment(context, forceUpgrade);
-            }
-            else
-            {
-                // Create new deployment
-                CreateDeployment(context);
-            }
-
-            // Get the deployment id and show it.
-            WriteVerboseWithTimestamp(Resources.PublishCreatedDeploymentMessage, GetDeploymentId(context));
-
-            // Verify the deployment succeeded by checking that each of the roles are running
-            VerifyDeployment(context);
-
-            // Get object of the published deployment
-            DeploymentGetResponse deployment = ComputeClient.Deployments.GetBySlot(context.ServiceName, GetSlot(context.ServiceSettings.Slot));
-
-            if (launch)
-            {
-                General.LaunchWebPage(deployment.Uri.ToString());
-            }
+            DeploymentGetResponse deployment = UploadPackage(launch, forceUpgrade, context);
 
             return new Deployment(deployment);
         }
-
         public Deployment PublishCloudService(
             string package,
             string configuration,
@@ -785,8 +741,16 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService
                 deploymentName,
                 cloudServiceProject);
             context.PackagePath = packageFullPath;
+
             WriteVerbose(string.Format(Resources.PublishServiceStartMessage, context.ServiceName));
 
+            DeploymentGetResponse deployment = UploadPackage(launch, forceUpgrade, context);
+
+            return new Deployment(deployment);
+        }
+
+        private DeploymentGetResponse UploadPackage(bool launch, bool forceUpgrade, PublishContext context)
+        {
             // Verify storage account exists
             WriteVerboseWithTimestamp(
                 Resources.PublishVerifyingStorageMessage,
@@ -829,9 +793,9 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService
             {
                 General.LaunchWebPage(deployment.Uri.ToString());
             }
-
-            return new Deployment(deployment);
+            return deployment;
         }
+
         /// <summary>
         /// Checks if a cloud service exists or not.
         /// </summary>
