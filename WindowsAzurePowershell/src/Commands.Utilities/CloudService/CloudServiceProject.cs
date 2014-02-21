@@ -85,7 +85,10 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService
         public CloudServiceProject(string cloudConfigurationFullPath)
         {
             Components = new ServiceComponents(cloudConfigurationFullPath);
-            Paths = new PowerShellProjectPathInfo( Path.GetDirectoryName(cloudConfigurationFullPath));
+            //since we are deploying from a prebuilt package, it doesn't matter whether
+            //it comes from visual studio or powershell tools. 
+            //Here we just go with powershell one, because it is simple.
+            Paths = new PowerShellProjectPathInfo(Path.GetDirectoryName(cloudConfigurationFullPath));
         }
 
         public CloudServiceProject(string rootPath, string scaffoldingPath)

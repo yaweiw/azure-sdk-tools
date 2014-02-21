@@ -158,7 +158,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService
             ServiceSettings local;
             ServiceSettings defaultServiceSettings = new ServiceSettings();
 
-            if (string.IsNullOrEmpty(path))
+            if (string.IsNullOrEmpty(path) || !File.Exists(path))
             {
                 local = new ServiceSettings();
             }
