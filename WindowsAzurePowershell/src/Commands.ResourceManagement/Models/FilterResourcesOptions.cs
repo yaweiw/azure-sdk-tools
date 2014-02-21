@@ -21,5 +21,12 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Models
         public string ResourceGroup { get; set; }
 
         public string ResourceType { get; set; }
+
+        public FilterResourcesOptions()
+        {
+            Name = null;
+            ResourceGroup = null;
+            ResourceType = null;
+        }
     }
 }
