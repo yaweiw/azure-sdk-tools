@@ -34,6 +34,14 @@ namespace Microsoft.WindowsAzure.Commands.CloudService
         public string ServiceName { get; set; }
 
         [Parameter(Mandatory = false, ValueFromPipelineByPropertyName = true)]
+        [Alias("sp")]
+        public string Package { get; set; }
+
+        [Parameter(Mandatory = false, ValueFromPipelineByPropertyName = true)]
+        [Alias("cc")]
+        public string Configuration { get; set; }
+
+        [Parameter(Mandatory = false, ValueFromPipelineByPropertyName = true)]
         [Alias("st")]
         public string StorageAccountName { get; set; }
 
@@ -74,15 +82,33 @@ namespace Microsoft.WindowsAzure.Commands.CloudService
                 WriteVerbose,
                 WriteWarning);
 
-            Deployment deployment = CloudServiceClient.PublishCloudService(
-                ServiceName,
-                Slot,
-                Location,
-                AffinityGroup,
-                StorageAccountName,
-                DeploymentName,
-                Launch,
-                ForceUpgrade);
+            Deployment deployment;
+
+            if (!string.IsNullOrEmpty(Package) && !string.IsNullOrEmpty(Configuration))
+            {
+                deployment = CloudServiceClient.PublishCloudService(
+                    Package,
+                    Configuration,
+                    Slot,
+                    Location,
+                    AffinityGroup,
+                    StorageAccountName,
+                    DeploymentName,
+                    Launch,
+                    ForceUpgrade);
+            }
+            else
+            {
+                deployment = CloudServiceClient.PublishCloudService(
+                    ServiceName,
+                    Slot,
+                    Location,
+                    AffinityGroup,
+                    StorageAccountName,
+                    DeploymentName,
+                    Launch,
+                    ForceUpgrade);
+            }
 
             WriteObject(deployment);
         }

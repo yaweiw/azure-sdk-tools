@@ -186,7 +186,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService
             var deploymentParams = new DeploymentCreateParameters
             {
                 PackageUri = UploadPackage(context),
-                Configuration = General.GetConfiguration(context.ConfigPath),
+                Configuration = General.GetConfiguration(context.CloudConfigPath),
                 Label = context.ServiceName,
                 Name = context.DeploymentName,
                 StartDeployment = true
@@ -204,7 +204,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService
         private void AddCertificates(ServiceCertificateListResponse uploadedCertificates, PublishContext context)
         {
             string name = context.ServiceName;
-            CloudServiceProject cloudServiceProject = new CloudServiceProject(context.RootPath, null);
+            CloudServiceProject cloudServiceProject = context.ServiceProject;
             if (cloudServiceProject.Components.CloudConfig.Role != null)
             {
                 foreach (ConfigCertificate certElement in cloudServiceProject.Components.CloudConfig.Role.
@@ -245,7 +245,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService
         {
             var upgradeParams = new DeploymentUpgradeParameters
             {
-                Configuration = General.GetConfiguration(context.ConfigPath),
+                Configuration = General.GetConfiguration(context.CloudConfigPath),
                 PackageUri = UploadPackage(context),
                 Label = context.ServiceName,
                 Mode = DeploymentUpgradeMode.Auto,
@@ -466,10 +466,10 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService
             string location,
             string affinityGroup,
             string storageServiceName,
-            string deploymentName)
+            string deploymentName,
+            CloudServiceProject cloudServiceProject)
         {
             string serviceName;
-            CloudServiceProject cloudServiceProject = GetCurrentServiceProject();
 
             // If the name provided is different than existing name change it
             if (!string.IsNullOrEmpty(name) && name != cloudServiceProject.ServiceName)
@@ -496,7 +496,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService
                 );
 
             // Use default location if not location and affinity group provided
-            serviceSettings.Location = string.IsNullOrEmpty(serviceSettings.Location) && 
+            serviceSettings.Location = string.IsNullOrEmpty(serviceSettings.Location) &&
                                        string.IsNullOrEmpty(serviceSettings.AffinityGroup) ?
                                        GetDefaultLocation() : serviceSettings.Location;
 
@@ -507,6 +507,8 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService
                 serviceName,
                 deploymentName,
                 cloudServiceProject.Paths.RootPath);
+
+            context.ServiceProject = cloudServiceProject;
 
             return context;
         }
@@ -668,6 +670,8 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService
             bool launch = false,
             bool forceUpgrade = false)
         {
+            CloudServiceProject cloudServiceProject = GetCurrentServiceProject();
+
             // Initialize publish context
             PublishContext context = CreatePublishContext(
                 name,
@@ -675,7 +679,9 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService
                 location,
                 affinityGroup,
                 storageAccount,
-                deploymentName);
+                deploymentName,
+                cloudServiceProject);
+
             WriteVerbose(string.Format(Resources.PublishServiceStartMessage, context.ServiceName));
 
             // Set package runtime information
@@ -706,7 +712,8 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService
             {
                 File.Delete(context.PackagePath);
             }
-            CloudServiceProject cloudServiceProject = new CloudServiceProject(context.RootPath, null);
+            
+            cloudServiceProject = new CloudServiceProject(context.RootPath, null);
             cloudServiceProject.CreatePackage(DevEnv.Cloud);
 
             // Publish cloud service
@@ -744,6 +751,87 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService
             return new Deployment(deployment);
         }
 
+        public Deployment PublishCloudService(
+            string package,
+            string configuration,
+            string slot = null,
+            string location = null,
+            string affinityGroup = null,
+            string storageAccount = null,
+            string deploymentName = null,
+            bool launch = false,
+            bool forceUpgrade = false)
+        {
+            string packageFullPath = package;
+            if (!Path.IsPathRooted(package))
+            {
+                packageFullPath = Path.Combine(GetCurrentDirectory(), package);
+            }
+
+            string cloudConfigFullPath = configuration;
+            if (!Path.IsPathRooted(configuration))
+            {
+                cloudConfigFullPath = Path.Combine(GetCurrentDirectory(), configuration);
+            }
+
+            CloudServiceProject cloudServiceProject = new CloudServiceProject(cloudConfigFullPath);
+            // Initialize publish context
+            PublishContext context = CreatePublishContext(
+                cloudServiceProject.ServiceName,
+                slot,
+                location,
+                affinityGroup,
+                storageAccount,
+                deploymentName,
+                cloudServiceProject);
+            context.PackagePath = packageFullPath;
+            WriteVerbose(string.Format(Resources.PublishServiceStartMessage, context.ServiceName));
+
+            // Verify storage account exists
+            WriteVerboseWithTimestamp(
+                Resources.PublishVerifyingStorageMessage,
+                context.ServiceSettings.StorageServiceName);
+
+            CreateStorageServiceIfNotExist(
+                context.ServiceSettings.StorageServiceName,
+                context.ServiceName,
+                context.ServiceSettings.Location,
+                context.ServiceSettings.AffinityGroup);
+
+            // Publish cloud service
+            WriteVerboseWithTimestamp(Resources.PublishConnectingMessage);
+            CreateCloudServiceIfNotExist(
+                context.ServiceName,
+                affinityGroup: context.ServiceSettings.AffinityGroup,
+                location: context.ServiceSettings.Location);
+
+            if (DeploymentExists(context.ServiceName, context.ServiceSettings.Slot))
+            {
+                // Upgrade the deployment
+                UpgradeDeployment(context, forceUpgrade);
+            }
+            else
+            {
+                // Create new deployment
+                CreateDeployment(context);
+            }
+
+            // Get the deployment id and show it.
+            WriteVerboseWithTimestamp(Resources.PublishCreatedDeploymentMessage, GetDeploymentId(context));
+
+            // Verify the deployment succeeded by checking that each of the roles are running
+            VerifyDeployment(context);
+
+            // Get object of the published deployment
+            DeploymentGetResponse deployment = ComputeClient.Deployments.GetBySlot(context.ServiceName, GetSlot(context.ServiceSettings.Slot));
+
+            if (launch)
+            {
+                General.LaunchWebPage(deployment.Uri.ToString());
+            }
+
+            return new Deployment(deployment);
+        }
         /// <summary>
         /// Checks if a cloud service exists or not.
         /// </summary>
