@@ -40,6 +40,8 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
 
     using Microsoft.WindowsAzure.Storage.Blob;
     using SM = Model;
+    using Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions;
+    using Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests.IaasCmdletInfo.Extensions.BGInfo;
     
 
     public class ServiceManagementCmdletTestHelper
@@ -1725,5 +1727,20 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
             return RunPSCmdletAndReturnFirst<PersistentVM>(new RemoveAzureStaticVNetIPCmdletInfo(vM));
         }
         #endregion StaticCA
+
+        public VirtualMachineBGInfoExtensionContext GetAzureVMBGInfoExtension(IPersistentVM vm, string version = null, string referenceName = null)
+        {
+            return RunPSCmdletAndReturnFirst<VirtualMachineBGInfoExtensionContext>(new GetAzureVMBGInfoExtensionCmdletInfo(vm, version, referenceName));
+        }
+
+        public PersistentVM SetAzureVMBGInfoExtension(IPersistentVM vm, string version = null, string referenceName = null, bool disable = false)
+        {
+            return RunPSCmdletAndReturnFirst<PersistentVM>(new SetAzureVMBGInfoExtensionCmdletInfo(vm, version, referenceName, disable));
+        }
+
+        public PersistentVM RemoveAzureVMBGInfoExtension(IPersistentVM vm, string version = null, string referenceName = null)
+        {
+            return RunPSCmdletAndReturnFirst<PersistentVM>(new RemoveAzureVMBGInfoExtensionCmdletInfo(vm, version, referenceName));
+        }
     }
 }
