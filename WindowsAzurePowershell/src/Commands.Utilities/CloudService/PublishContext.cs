@@ -23,9 +23,9 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService
     {
         public ServiceSettings ServiceSettings { get; private set; }
         
-        public string PackagePath { get; private set; }
+        public string PackagePath { get; set; }
         
-        public string ConfigPath { get; private set; }
+        public string CloudConfigPath { get; private set; }
 
         public string RootPath { get; private set; }
         
@@ -35,22 +35,24 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService
         
         public string SubscriptionId { get; private set; }
 
+        public CloudServiceProject ServiceProject { get; set; }
+
         public PublishContext(
             ServiceSettings settings,
             string packagePath,
-            string configPath,
+            string cloudConfigPath,
             string serviceName,
             string deploymentName,
             string rootPath)
         {
             Validate.ValidateNullArgument(settings, Resources.InvalidServiceSettingMessage);
             Validate.ValidateStringIsNullOrEmpty(packagePath, "packagePath");
-            Validate.ValidateFileFull(configPath, Resources.ServiceConfiguration);
+            Validate.ValidateFileFull(cloudConfigPath, Resources.ServiceConfiguration);
             Validate.ValidateStringIsNullOrEmpty(serviceName, "serviceName");
             
             this.ServiceSettings = settings;
             this.PackagePath = packagePath;
-            this.ConfigPath = configPath;
+            this.CloudConfigPath = cloudConfigPath;
             this.RootPath = rootPath;
             this.ServiceName = serviceName;
             this.DeploymentName = string.IsNullOrEmpty(deploymentName) ? 

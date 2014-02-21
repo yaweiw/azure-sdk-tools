@@ -21,13 +21,22 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService
     {
         public PowerShellProjectPathInfo(string rootPath) : base(rootPath)
         {
-            Definition = Path.Combine(rootPath, Resources.ServiceDefinitionFileName);
+            Definition = EnsureValidPath(Path.Combine(rootPath, Resources.ServiceDefinitionFileName));
             CloudConfiguration = Path.Combine(rootPath, Resources.CloudServiceConfigurationFileName);
-            LocalConfiguration = Path.Combine(rootPath, Resources.LocalServiceConfigurationFileName);
-            Settings = Path.Combine(rootPath, Resources.SettingsFileName);
+            LocalConfiguration = EnsureValidPath(Path.Combine(rootPath, Resources.LocalServiceConfigurationFileName));
+            Settings = EnsureValidPath(Path.Combine(rootPath, Resources.SettingsFileName));
             CloudPackage = Path.Combine(rootPath, Resources.CloudPackageFileName);
-            LocalPackage = Path.Combine(rootPath, Resources.LocalPackageFileName);
+            LocalPackage = EnsureValidPath(Path.Combine(rootPath, Resources.LocalPackageFileName));
             RolesPath = RootPath;
+        }
+
+        private static string EnsureValidPath(string filePath)
+        {
+            if (!File.Exists(filePath))
+            {
+                filePath = string.Empty;
+            }
+            return filePath;
         }
     }
 }
