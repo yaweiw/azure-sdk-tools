@@ -27,7 +27,10 @@ namespace Microsoft.Azure.Commands.ResourceManagement
             {
                 if (_resourceClient == null)
                 {
-                    _resourceClient = new ResourcesClient(CurrentSubscription);
+                    _resourceClient = new ResourcesClient(CurrentSubscription)
+                    {
+                        ProgressLogger = WriteVerboseWithTimestamp
+                    };
                 }
                 return _resourceClient;
             }
