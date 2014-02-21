@@ -33,9 +33,6 @@ namespace Microsoft.WindowsAzure.Commands.CloudService.Development
         [Alias("ln")]
         public SwitchParameter Launch { get; set; }
 
-        //[Parameter(Mandatory = false, HelpMessage="The emulator type")]
-        //public ComputeEmulatorMode Mode { get; set; }
-
         public CloudServiceProject StartAzureEmulatorProcess(string rootPath)
         {
             string standardOutput;
