@@ -16,7 +16,7 @@ using System.Collections;
 
 namespace Microsoft.Azure.Commands.ResourceManagement.Models
 {
-    public class CreatePSDeploymentParameters
+    public class CreatePSResourceGroupDeploymentParameters
     {
         public string DeploymentName { get; set; }
 
