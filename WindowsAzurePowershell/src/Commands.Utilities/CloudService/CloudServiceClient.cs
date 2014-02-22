@@ -689,15 +689,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService
             PrepareCloudServicePackagesRuntime(context);
 
             // Verify storage account exists
-            WriteVerboseWithTimestamp(
-                Resources.PublishVerifyingStorageMessage,
-                context.ServiceSettings.StorageServiceName);
-
-            CreateStorageServiceIfNotExist(
-                context.ServiceSettings.StorageServiceName,
-                context.ServiceName,
-                context.ServiceSettings.Location,
-                context.ServiceSettings.AffinityGroup);
+            SetupStorageService(context);
 
             // Update cache worker roles configuration
             WriteVerboseWithTimestamp(
@@ -718,6 +710,8 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService
 
             return new Deployment(deployment);
         }
+
+
         public Deployment PublishCloudService(
             string package,
             string configuration,
@@ -754,6 +748,17 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService
             context.PackagePath = packageFullPath;
 
             // Verify storage account exists
+            SetupStorageService(context);
+
+            WriteVerbose(string.Format(Resources.PublishServiceStartMessage, context.ServiceName));
+
+            DeploymentGetResponse deployment = UploadPackage(launch, forceUpgrade, context);
+
+            return new Deployment(deployment);
+        }
+
+        private void SetupStorageService(PublishContext context)
+        {
             WriteVerboseWithTimestamp(
                 Resources.PublishVerifyingStorageMessage,
                 context.ServiceSettings.StorageServiceName);
@@ -763,14 +768,8 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService
                 context.ServiceName,
                 context.ServiceSettings.Location,
                 context.ServiceSettings.AffinityGroup);
-
-            WriteVerbose(string.Format(Resources.PublishServiceStartMessage, context.ServiceName));
-
-            DeploymentGetResponse deployment = UploadPackage(launch, forceUpgrade, context);
-
-            return new Deployment(deployment);
-        }
-
+        }        
+        
         private DeploymentGetResponse UploadPackage(bool launch, bool forceUpgrade, PublishContext context)
         {
             // Publish cloud service

@@ -84,7 +84,7 @@ namespace Microsoft.WindowsAzure.Commands.CloudService
 
             Deployment deployment;
 
-            if (!string.IsNullOrEmpty(Package) && !string.IsNullOrEmpty(Configuration))
+            if (!string.IsNullOrEmpty(Package))
             {
                 deployment = CloudServiceClient.PublishCloudService(
                     Package,
