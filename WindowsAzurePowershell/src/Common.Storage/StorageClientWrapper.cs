@@ -102,7 +102,25 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common.Storage
                 blob.UploadFromStream(readStream, AccessCondition.GenerateEmptyCondition(), parameters.BlobRequestOptions);
             }
 
-            return new Uri(string.Format(CultureInfo.InvariantCulture, "{0}{1}{2}{3}", client.BaseUri, parameters.ContainerName, client.DefaultDelimiter, blobName));
+            blob = container.GetBlockBlobReference(blobName);
+
+            string sasContainerToken = string.Empty;
+
+            if (!parameters.ContainerPublic)
+            {
+                //Set the expiry time and permissions for the blob.
+                //Start time is specified as a few minutes in the past, to mitigate clock skew.
+                //The shared access signature will be valid immediately.
+                SharedAccessBlobPolicy sasConstraints = new SharedAccessBlobPolicy();
+                sasConstraints.SharedAccessStartTime = DateTime.UtcNow.AddMinutes(-5);
+                sasConstraints.SharedAccessExpiryTime = DateTime.UtcNow.AddHours(parameters.SasTokenDurationInHours);
+                sasConstraints.Permissions = SharedAccessBlobPermissions.Read;
+
+                //Generate the shared access signature on the blob, setting the constraints directly on the signature.
+                sasContainerToken = blob.GetSharedAccessSignature(sasConstraints);
+            }
+
+            return new Uri(string.Format(CultureInfo.InvariantCulture, "{0}{1}{2}{3}{4}", client.BaseUri, parameters.ContainerName, client.DefaultDelimiter, blobName, sasContainerToken));
         }
     }
 }

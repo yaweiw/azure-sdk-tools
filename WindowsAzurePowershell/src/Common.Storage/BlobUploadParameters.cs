@@ -24,12 +24,14 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common.Storage
         public string ContainerName { get; set; }
         public bool ContainerPublic { get; set; }
         public bool OverrideIfExists { get; set; }
+        public int SasTokenDurationInHours { get; set; }
         public BlobRequestOptions BlobRequestOptions { get; set; }
 
         public BlobUploadParameters()
         {
             ContainerPublic = false;
             ContainerName = "mydeployments";
+            SasTokenDurationInHours = 24;
             OverrideIfExists = false;
         }
     }
