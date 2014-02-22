@@ -12,12 +12,16 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
+using Newtonsoft.Json;
+
 namespace Microsoft.Azure.Commands.ResourceManagement.Models
 {
-    public class CreatePSResourceGroupParameters : CreatePSResourceGroupDeploymentParameters
+    public class DeploymentVariable
     {
-        public string Name { get; set; }
+        [JsonProperty("type")]
+        public string Type { get; set; }
 
-        public string Location { get; set; }
+        [JsonProperty("value")]
+        public object Value { get; set; }
     }
 }
