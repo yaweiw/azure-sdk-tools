@@ -35,6 +35,11 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Models
 {
     public partial class ResourcesClient
     {
+        /// <summary>
+        /// Used when provisioning the deployment status.
+        /// </summary>
+        private List<DeploymentOperation> operations;
+
         public IResourceManagementClient ResourceManagementClient { get; set; }
         
         public IStorageClientWrapper StorageClientWrapper { get; set; }
@@ -125,6 +130,10 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Models
                         ContainerPublic = false,
                         ContainerName = DeploymentTemplateStorageContainerName
                     });
+                    WriteProgress(string.Format(
+                        "Upload template '{0}' to {1}.",
+                        Path.GetFileName(templateFile),
+                        templateFileUri.ToString()));
                 }
             }
             else
@@ -175,6 +184,8 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Models
                 {
                     Location = location
                 });
+
+            WriteProgress(string.Format("Create resource group '{0}' in location '{1}'", name, location));
 
             return result.ResourceGroup;
         }
@@ -255,15 +266,20 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Models
 
         private void ProvisionDeploymentStatus(string resourceGroup, string deploymentName)
         {
-            //WaitDeploymentStatus(resourceGroup, deploymentName, (s1, s2) => { }, "Running");
+            operations = new List<DeploymentOperation>();
 
-            WaitDeploymentStatus(resourceGroup, deploymentName, WriteDeploymentProgress, "Cancelled", "Succeeded", "Failed");
+            WaitDeploymentStatus(
+                resourceGroup,
+                deploymentName,
+                WriteDeploymentProgress,
+                ProvisioningState.Canceled,
+                ProvisioningState.Succeeded,
+                ProvisioningState.Failed);
         }
 
         private void WriteDeploymentProgress(string resourceGroup, string deploymentName)
         {
-            const string statusFormat = "{0} {1} '{2}' in location '{4}' is {5}";
-            List<DeploymentOperation> operations = new List<DeploymentOperation>();
+            const string statusFormat = "{0} operation on '{1}' of type {2} in location '{3}' is {4}";
             List<DeploymentOperation> newOperations = new List<DeploymentOperation>();
             DeploymentOperationsListResult result = null;
             string location = ResourceManagementClient.ResourceGroups.Get(resourceGroup).ResourceGroup.Location;
@@ -272,6 +288,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Models
             {
                 result = ResourceManagementClient.DeploymentOperations.List(resourceGroup, deploymentName, null);
                 newOperations = GetNewOperations(operations, result.Operations);
+                operations.AddRange(newOperations);
 
             } while (!string.IsNullOrEmpty(result.NextLink));
 
@@ -279,8 +296,8 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Models
             {
                 string statusMessage = string.Format(statusFormat,
                     operation.Properties.Details.Operation,
-                    operation.Properties.TargetResource.ResourceType,
                     operation.Properties.TargetResource.ResourceName,
+                    operation.Properties.TargetResource.ResourceType,
                     location,
                     operation.Properties.ProvisioningState);
 
@@ -314,7 +331,10 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Models
                 {
                     if (operation.Properties.Details == null)
                     {
-                        operation.Properties.Details = new OperationDetails();
+                        operation.Properties.Details = new OperationDetails()
+                        {
+                            Operation = "Unknown"
+                        };
                     }
 
                     newOperations.Add(operation);
