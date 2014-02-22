@@ -37,17 +37,20 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
 
         private void WriteLog(string log)
         {
-            string debugPreference = CurrentCmdlet.GetVariableValue("DebugPreference").ToString();
-            if (CurrentCmdlet.MyInvocation.BoundParameters.ContainsKey("Debug") ||
-                debugPreference.Equals("Continue"))
+            if (CurrentCmdlet != null)
             {
-                using (PowerShell ps = PowerShell.Create())
+                string debugPreference = CurrentCmdlet.GetVariableValue("DebugPreference").ToString();
+                if (CurrentCmdlet.MyInvocation.BoundParameters.ContainsKey("Debug") ||
+                    debugPreference.Equals("Continue"))
                 {
-                    ps.Runspace = RunspaceFactory.CreateRunspace(CurrentCmdlet.Host);
-                    ps.Runspace.Open();
-                    ps.AddScript("$DebugPreference='Continue'");
-                    ps.AddScript(string.Format("Write-Debug @'\n{0}\n'@", log));
-                    ps.Invoke();
+                    using (PowerShell ps = PowerShell.Create())
+                    {
+                        ps.Runspace = RunspaceFactory.CreateRunspace(CurrentCmdlet.Host);
+                        ps.Runspace.Open();
+                        ps.AddScript("$DebugPreference='Continue'");
+                        ps.AddScript(string.Format("Write-Debug @'\n{0}\n'@", log));
+                        ps.Invoke();
+                    }
                 }
             }
         }
