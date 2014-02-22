@@ -1755,7 +1755,7 @@ using Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests.Iaa
              publicConfiguration, privateConfiguration,publicConfigPath,privateConfigPath, disable));
         }
 
-        public PersistentVM RemoveAzureVMExtension(PersistentVM vm, string extensionName, string publisher, string referenceName, bool removeAll)
+        public PersistentVM RemoveAzureVMExtension(PersistentVM vm, string extensionName, string publisher, string referenceName=null, bool removeAll=false)
         {
             return RunPSCmdletAndReturnFirst<PersistentVM>(new RemoveAzureVMExtensionCmdletInfo(vm, extensionName, publisher, referenceName, removeAll));
         }

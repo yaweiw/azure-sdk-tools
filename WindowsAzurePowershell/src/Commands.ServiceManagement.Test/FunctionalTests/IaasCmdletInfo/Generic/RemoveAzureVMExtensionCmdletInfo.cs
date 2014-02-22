@@ -14,10 +14,22 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
         {
             cmdletName = Utilities.RemoveAzureVMExtensionCmdletName;
             cmdletParams.Add(new CmdletParam("VM", vm));
-            cmdletParams.Add(new CmdletParam("ExtensionName", extensionName));
-            cmdletParams.Add(new CmdletParam("Publisher", publisher));
-            cmdletParams.Add(new CmdletParam("ReferenceName", referenceName));
-            cmdletParams.Add(new CmdletParam("RemoveAll", removeAll));
+            if (!string.IsNullOrEmpty(extensionName))
+            {
+                cmdletParams.Add(new CmdletParam("ExtensionName", extensionName));
+            }
+            if (!string.IsNullOrEmpty(publisher))
+            {
+                cmdletParams.Add(new CmdletParam("Publisher", publisher));
+            }
+            if (!string.IsNullOrEmpty(referenceName))
+            {
+                cmdletParams.Add(new CmdletParam("ReferenceName", referenceName));
+            } 
+            if (removeAll)
+            {
+                cmdletParams.Add(new CmdletParam("RemoveAll", removeAll));
+            } 
         }
     }
 }
