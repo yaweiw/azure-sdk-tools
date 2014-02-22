@@ -311,19 +311,20 @@ namespace Microsoft.WindowsAzure.Commands.Test.Utilities.Common
             return path;
         }
 
-        public void CreateDirectoryWithPrebuiltPackage(string directoryName, string packageName, out string package, out string configuration)
+        public void CreateDirectoryWithPrebuiltPackage(string packageName, out string package, out string configuration)
         {
-            string testDirectory = CreateDirectory(directoryName);
-            package = Path.Combine(testDirectory, packageName + ".cspkg");
-            File.CreateText(package);
-            configuration = Path.Combine(testDirectory, "ServiceConfiguration.Cloud.cscfg");
-            File.CreateText(configuration);
+            string serviceName = packageName;
+            package = Path.Combine(RootPath, packageName + ".cspkg");
+            File.WriteAllText(package,"does not matter");
+            configuration = Path.Combine(RootPath, "ServiceConfiguration.Cloud.cscfg");
             string template = "<?xml version=\"1.0\" encoding=\"utf-8\"?>" 
                 + Environment.NewLine
-                + "<ServiceConfiguration serviceName=\"$ServiceName$\" " 
+                + "<ServiceConfiguration serviceName=\"" + serviceName + "\" " 
                 + "xmlns=\"http://schemas.microsoft.com/ServiceHosting/2008/10/ServiceConfiguration\" " 
                 + "osFamily=\"2\" osVersion=\"*\" />";
             File.WriteAllText(configuration, template);
+            _previousDirectory = Environment.CurrentDirectory;
+            Environment.CurrentDirectory = RootPath;
         }
     }
 }
