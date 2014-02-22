@@ -120,7 +120,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common.Storage
                 sasContainerToken = blob.GetSharedAccessSignature(sasConstraints);
             }
 
-            return new Uri(string.Format(CultureInfo.InvariantCulture, "{0}{1}{2}{3}{4}", client.BaseUri, parameters.ContainerName, client.DefaultDelimiter, blobName, sasContainerToken));
+            return new Uri(string.Format(CultureInfo.InvariantCulture, "{0}{1}{2}{3}", client.BaseUri, parameters.ContainerName, client.DefaultDelimiter, blobName) + sasContainerToken);
         }
     }
 }
