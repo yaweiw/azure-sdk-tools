@@ -103,7 +103,10 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Models
             }
             else
             {
-                deploymentParameters = File.ReadAllText(parameterFile);
+                if (!string.IsNullOrEmpty(parameterFile))
+                {
+                    deploymentParameters = File.ReadAllText(parameterFile);
+                }
             }
 
             return deploymentParameters;

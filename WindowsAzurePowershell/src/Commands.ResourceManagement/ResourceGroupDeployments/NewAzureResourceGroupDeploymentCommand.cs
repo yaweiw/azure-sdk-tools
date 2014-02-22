@@ -20,13 +20,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Management.Automation;
 
-namespace Microsoft.Azure.Commands.ResourceManagement.ResourceGroups
+namespace Microsoft.Azure.Commands.ResourceManagement.ResourceGroupDeployments
 {
     /// <summary>
-    /// Creates a new resource group.
+    /// Creates a new resource group deployment.
     /// </summary>
-    [Cmdlet(VerbsCommon.New, "AzureResourceGroup", DefaultParameterSetName = BaseParameterSetName), OutputType(typeof(PSResourceGroup))]
-    public class NewAzureResourceGroupCommand : ResourceBaseCmdlet, IDynamicParameters
+    [Cmdlet(VerbsCommon.New, "AzureResourceGroupDeployment", DefaultParameterSetName = BaseParameterSetName), OutputType(typeof(PSResourceGroupDeployment))]
+    public class NewAzureResourceGroupDeploymentCommand : ResourceBaseCmdlet, IDynamicParameters
     {
         internal const string BaseParameterSetName = "basic";
         internal const string GalleryTemplateParameterObjectParameterSetName = "galery-template-parameter-object";
@@ -36,11 +36,11 @@ namespace Microsoft.Azure.Commands.ResourceManagement.ResourceGroups
         internal const string TemplateFileParameterFileParameterSetName = "template-file-parameter-file";
         internal const string ParameterlessTemplateFileParameterSetName = "parameterless-template-file";
         internal const string ParameterlessGalleryTemplateParameterSetName = "parameterless-gallery-template";
-        
+
         private RuntimeDefinedParameterDictionary dynamicParameters;
         private string galleryTemplateName;
 
-        public NewAzureResourceGroupCommand()
+        public NewAzureResourceGroupDeploymentCommand()
         {
             dynamicParameters = new RuntimeDefinedParameterDictionary();
             galleryTemplateName = null;
@@ -48,15 +48,11 @@ namespace Microsoft.Azure.Commands.ResourceManagement.ResourceGroups
 
         [Parameter(Mandatory = true, ValueFromPipelineByPropertyName = true, HelpMessage = "The resource group name.")]
         [ValidateNotNullOrEmpty]
-        public string Name { get; set; }
-
-        [Parameter(Mandatory = true, ValueFromPipelineByPropertyName = true, HelpMessage = "The resource group location.")]
-        [ValidateNotNullOrEmpty]
-        public string Location { get; set; }
+        public string ResourceGroupName { get; set; }
 
         [Parameter(Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "The name of the deployment it's going to create. Only valid when a template is used. When a template is used, if the user doesn't specify a deployment name, use the current time, like \"20131223140835\".")]
         [ValidateNotNullOrEmpty]
-        public string DeploymentName { get; set; }
+        public string Name { get; set; }
 
         [Parameter(Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "The expect content version of the template.")]
         [ValidateNotNullOrEmpty]
@@ -109,11 +105,9 @@ namespace Microsoft.Azure.Commands.ResourceManagement.ResourceGroups
 
         public override void ExecuteCmdlet()
         {
-            CreatePSResourceGroupParameters parameters = new CreatePSResourceGroupParameters()
+            CreatePSResourceGroupDeploymentParameters parameters = new CreatePSResourceGroupDeploymentParameters()
             {
-                Name = Name,
-                Location = Location,
-                DeploymentName = DeploymentName,
+                DeploymentName = Name,
                 GalleryTemplateName = GalleryTemplateName,
                 TemplateFile = TemplateFile,
                 ParameterObject = GetParameterObject(ParameterObject),
@@ -124,7 +118,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement.ResourceGroups
                 StorageAccountName = StorageAccountName,
             };
 
-            WriteObject(ResourceClient.CreatePSResourceGroup(parameters));
+            WriteObject(ResourceClient.CreatePSResourceGroupDeployment(ResourceGroupName, parameters));
         }
 
         private Hashtable GetParameterObject(Hashtable parameterObject)

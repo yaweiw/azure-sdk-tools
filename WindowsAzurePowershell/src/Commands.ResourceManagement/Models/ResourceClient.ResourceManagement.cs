@@ -21,7 +21,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Management.Automation;
-using System.Threading;
 
 namespace Microsoft.Azure.Commands.ResourceManagement.Models
 {
@@ -41,7 +40,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Models
             }
 
             ResourceGroup resourceGroup = CreateResourceGroup(parameters.Name, parameters.Location);
-            CreateDeployment(resourceGroup.Name, parameters);
+            CreatePSResourceGroupDeployment(resourceGroup.Name, parameters);
 
             return resourceGroup.ToPSResourceGroup(this);
         }
@@ -87,9 +86,9 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Models
         /// <param name="resourceGroup">The resource group name</param>
         /// <param name="parameters">The create deployment parameters</param>
         /// <returns>The created deployment instance</returns>
-        public virtual DeploymentProperties CreateDeployment(string resourceGroup, CreatePSDeploymentParameters parameters)
+        public virtual PSResourceGroupDeployment CreatePSResourceGroupDeployment(string resourceGroup, CreatePSResourceGroupDeploymentParameters parameters)
         {
-            DeploymentProperties result = null;
+            DeploymentOperationsCreateResult result = null;
             bool createDeployment = !string.IsNullOrEmpty(parameters.GalleryTemplateName) || !string.IsNullOrEmpty(parameters.TemplateFile);
 
             if (createDeployment)
@@ -107,12 +106,12 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Models
                     Parameters = GetDeploymentParameters(parameters.ParameterFile, parameters.ParameterObject)
                 };
                 
-                result = ResourceManagementClient.Deployments.Create(resourceGroup, parameters.DeploymentName, deployment).Properties;
+                result = ResourceManagementClient.Deployments.Create(resourceGroup, parameters.DeploymentName, deployment);
                 WriteProgress(string.Format("Create template deployment '{0}' using template {1}.", parameters.DeploymentName, deployment.TemplateLink.Uri));
                 ProvisionDeploymentStatus(resourceGroup, parameters.DeploymentName);
             }
 
-            return result;
+            return result.ToPSResourceGroupDeployment(this);
         }
 
         /// <summary>
