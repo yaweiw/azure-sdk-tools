@@ -34,6 +34,9 @@ namespace Microsoft.Azure.Commands.ResourceManagement.ResourceGroups
         internal const string GalleryTemplateDynamicParametersParameterSetName = "galery-template-dynamic-parameters";
         internal const string TemplateFileParameterObjectParameterSetName = "template-file-parameter-object";
         internal const string TemplateFileParameterFileParameterSetName = "template-file-parameter-file";
+        internal const string ParameterlessTemplateFileParameterSetName = "parameterless-template-file";
+        internal const string ParameterlessGalleryTemplateParameterSetName = "parameterless-gallery-template";
+        
         private RuntimeDefinedParameterDictionary dynamicParameters;
         private string galleryTemplateName;
 
@@ -77,6 +80,8 @@ namespace Microsoft.Azure.Commands.ResourceManagement.ResourceGroups
             Mandatory = true, ValueFromPipelineByPropertyName = true, HelpMessage = "Name of the template in the gallery.")]
         [Parameter(ParameterSetName = GalleryTemplateParameterFileParameterSetName,
             Mandatory = true, ValueFromPipelineByPropertyName = true, HelpMessage = "Name of the template in the gallery.")]
+        [Parameter(ParameterSetName = ParameterlessGalleryTemplateParameterSetName,
+            Mandatory = true, ValueFromPipelineByPropertyName = true, HelpMessage = "Name of the template in the gallery.")]
         [ValidateNotNullOrEmpty]
         public string GalleryTemplateName { get; set; }
 
@@ -84,6 +89,8 @@ namespace Microsoft.Azure.Commands.ResourceManagement.ResourceGroups
             Mandatory = true, ValueFromPipelineByPropertyName = true, HelpMessage = "Path to the template file, local or remote.")]
         [Parameter(ParameterSetName = TemplateFileParameterFileParameterSetName,
             Mandatory = true, ValueFromPipelineByPropertyName = true, HelpMessage = "Path to the template file, local or remote.")]
+        [Parameter(ParameterSetName = ParameterlessTemplateFileParameterSetName,
+            Mandatory = true, ValueFromPipelineByPropertyName = true, HelpMessage = "Name of the template in the gallery.")]
         [ValidateNotNullOrEmpty]
         public string TemplateFile { get; set; }
 
