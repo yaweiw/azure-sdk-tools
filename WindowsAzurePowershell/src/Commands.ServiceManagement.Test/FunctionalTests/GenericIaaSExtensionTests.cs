@@ -21,7 +21,6 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
         private const string referenceNamePrefix = "Reference";
         private string vmAccessUserName;
         private string vmAccessPassword;
-        private string completeConfiguraion;
         private string publicConfiguration;
         private string privateConfiguration;
         private string publicConfigPath;
@@ -78,7 +77,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
                 if (availableExtensions.Count > 0)
                 {
                     
-                    var VMExtensionConfigTemplate = vmPowershellCmdlets.GetAzureVMExtensionConfigTemplate(vmAccessExtension.ExtensionName, vmAccessExtension.Publisher, localPath, version);
+                    //var VMExtensionConfigTemplate = vmPowershellCmdlets.GetAzureVMExtensionConfigTemplate(vmAccessExtension.ExtensionName, vmAccessExtension.Publisher, localPath, version);
 
                     //Deploy a new IaaS VM with Extension using Add-AzureVMExtension
                     Console.WriteLine("Create a new VM with VM access extension.");
@@ -88,15 +87,14 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
                     vmPowershellCmdlets.NewAzureVM(serviceName,new[] {vm},locationName,true);
                     Console.WriteLine("Created a new VM {0} with VM access extension. Service Name : {1}",vmName,serviceName);
 
-                    var vmExtension = GetAzureVMExtesnion(vmName,serviceName);
-
+                    ValidateVMExtension(vmName, serviceName, true);
                     //Verify that the extension actually work
                     VerifyRDPExtension(vmName, serviceName);
 
                     //Disbale extesnion
                     DisableExtension(vmName, serviceName);
 
-                    VerifyDisabledExtension(vmName, serviceName);
+                    ValidateVMExtension(vmName, serviceName, false);
                     pass = true;
                 }
                 else
@@ -121,23 +119,23 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
                 if (availableExtensions.Count > 0)
                 {
                     
-                    vmAccessExtension = availableExtensions[1];
+                    vmAccessExtension = availableExtensions[2];
 
                     //Deploy a new IaaS VM with Extension using Add-AzureVMExtension
                     var vm = CreateIaaSVMObject(vmName);
-                    vmPowershellCmdlets.NewAzureVM(serviceName, new[] { vm }, locationName);
+                    vmPowershellCmdlets.NewAzureVM(serviceName, new[] { vm }, locationName,true);
 
                     vm = GetAzureVM(vmName, serviceName);
                     //Set extension without version
                     vm = vmPowershellCmdlets.SetAzureVMExtension(vm, vmAccessExtension.ExtensionName, vmAccessExtension.Publisher, null,referenceName, publicConfiguration, privateConfiguration);
                     vmPowershellCmdlets.UpdateAzureVM(vmName, serviceName, vm);
 
-                    var vmExtension = GetAzureVMExtesnion(vmName, serviceName);
-
+                    ValidateVMExtension(vmName, serviceName, true);
+                    Thread.Sleep(120000);
                     //Verify that the extension actually work
                     VerifyRDPExtension(vmName, serviceName);
 
-                    vmPowershellCmdlets.RemoveAzureVMExtension(GetAzureVM(vmName, serviceName), vmAccessExtension.ExtensionName, vmAccessExtension.Publisher, referenceName, false);
+                    vmPowershellCmdlets.RemoveAzureVMExtension(GetAzureVM(vmName, serviceName), vmAccessExtension.ExtensionName, vmAccessExtension.Publisher);
                     pass = true;
                 }
                 else
@@ -154,54 +152,6 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
             }
         }
 
-        //[TestMethod(), TestCategory("Scenario"), TestProperty("Feature", "IAAS"), Priority(0), Owner("hylee"), Description("Test the cmdlet ((Get,Set)-AzureVMExtension)")]
-        //public void DisableVMExtensionTest()
-        //{
-        //    try
-        //    {
-
-        //        //Get the available VM Extension 
-        //        var availableExtensions = vmPowershellCmdlets.GetAzureVMAvailableExtension();
-        //        if (availableExtensions.Count > 0)
-        //        {
-        //            //string publicConfiguration = GetVmAccessConfiguration();
-        //            string privateConfiguration = string.Empty;
-        //            string version = "0.1";
-        //            var vmAccessExtension = availableExtensions[1];
-        //            string referenceName = Utilities.GetUniqueShortName(referenceNamePrefix);
-        //            //Get the extension config template
-        //            string localPath = Path.Combine(Environment.CurrentDirectory, serviceName + ".xml").ToString();
-        //            vmPowershellCmdlets.GetAzureVMExtensionConfigTemplate(vmAccessExtension.ExtensionName, vmAccessExtension.Publisher, localPath, version);
-
-        //            //Deploy a new IaaS VM with Extension using Add-AzureVMExtension
-        //            var vm = CreateIaaSVMObject(vmName);
-        //            vm = vmPowershellCmdlets.SetAzureVMExtension(vm, vmAccessExtension.ExtensionName, vmAccessExtension.Publisher, version, referenceName, publicConfiguration, privateConfiguration, disable:false);
-        //            //string extension, string publisher, string version, string referenceName, string publicConfiguraion, string privateConfiguraion, bool state
-
-        //            vmPowershellCmdlets.NewAzureVM(serviceName, new[] { vm }, locationName);
-
-        //            var vmRoleContext = vmPowershellCmdlets.GetAzureVM(vmName, serviceName);
-        //            vm = vmPowershellCmdlets.SetAzureVMExtension(vm, vmAccessExtension.ExtensionName, vmAccessExtension.Publisher, version, referenceName, publicConfiguration, privateConfiguration, disable: true);
-        //            vmPowershellCmdlets.UpdateAzureVM(vmName, serviceName, vm);
-
-        //            vmRoleContext = vmPowershellCmdlets.GetAzureVM(vmName, serviceName);
-        //            var vmExtension = vmPowershellCmdlets.GetAzureVMExtension(vmRoleContext.VM, vmAccessExtension.ExtensionName, vmAccessExtension.Publisher, version);
-        //            Utilities.PrintContext(vmExtension);
-
-        //            //Verify that the extension actually work
-        //        }
-        //        else
-        //        {
-        //            Console.WriteLine("There are no Azure VM extension available");
-        //        }
-        //        pass = true;
-        //    }
-        //    catch (Exception e)
-        //    {
-        //        Console.WriteLine(e.ToString());
-        //        throw;
-        //    }
-        //}
 
         [TestMethod(), TestCategory("Scenario"), TestProperty("Feature", "IAAS"), Priority(0), Owner("hylee"), Description("Test the cmdlet ((Get,Set)-AzureVMExtension)")]
         public void AddRoleWithExtensionTest()
@@ -220,12 +170,12 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
                 string vmName2 = Utilities.GetUniqueShortName(vmNamePrefix);
                 var vm2 = CreateIaaSVMObject(vmName2);
                 vm2 = vmPowershellCmdlets.SetAzureVMExtension(vm2, vmAccessExtension.ExtensionName, vmAccessExtension.Publisher, version, referenceName, publicConfiguration, privateConfiguration, disable: false);
-                vmPowershellCmdlets.NewAzureVM(serviceName, new[] { vm2 }, locationName);
+                vmPowershellCmdlets.NewAzureVM(serviceName, new[] { vm2 }, waitForBoot:true);
 
-                var vmExtension = GetAzureVMExtesnion(vmName, serviceName);
-
+                ValidateVMExtension(vmName2, serviceName, true);
+                Thread.Sleep(120000);
                 //Verify that the extension actually work
-                VerifyRDPExtension(vmName, serviceName);
+                VerifyRDPExtension(vmName2, serviceName);
                 pass = true;
             }
             catch (Exception e)
@@ -244,18 +194,22 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
             {
                 var availableExtensions = vmPowershellCmdlets.GetAzureVMAvailableExtension();
                 var vmAccessExtension = availableExtensions[2];
-                string referenceName = Utilities.GetUniqueShortName(referenceNamePrefix);
+                
                 var vm1 = CreateIaaSVMObject(vmName);
+                
                 string vmName2 = Utilities.GetUniqueShortName(vmNamePrefix);
                 var vm2 = CreateIaaSVMObject(vmName2);
-                vmPowershellCmdlets.NewAzureVM(serviceName, new[] { vm1, vm2 }, locationName);
-                var vmroleContext = vmPowershellCmdlets.GetAzureVM(vmName2, serviceName);
-                vmPowershellCmdlets.SetAzureVMExtension(vmroleContext.VM, vmAccessExtension.ExtensionName, vmAccessExtension.Publisher, vmAccessExtension.Version, referenceName, publicConfiguration, privateConfiguration, disable: false);
+                vmPowershellCmdlets.NewAzureVM(serviceName, new[] { vm1, vm2 }, locationName,true);
+                
+                vm2 = GetAzureVM(vmName2, serviceName);
+                vm2 = vmPowershellCmdlets.SetAzureVMExtension(vm2, vmAccessExtension.ExtensionName, vmAccessExtension.Publisher, vmAccessExtension.Version, referenceName, publicConfiguration, privateConfiguration, disable: false);
                 vmPowershellCmdlets.UpdateAzureVM(vmName2, serviceName, vm2);
-                var vmExtension = GetAzureVMExtesnion(vmName, serviceName);
 
+
+                ValidateVMExtension(vmName2, serviceName, true);
+                Thread.Sleep(240000);
                 //Verify that the extension actually work
-                VerifyRDPExtension(vmName, serviceName);
+                VerifyRDPExtension(vmName2, serviceName);
                 pass = true;
             }
             catch (Exception e)
@@ -347,7 +301,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
             Console.WriteLine("Azure VM RDP file downloaded.");
 
             Console.WriteLine("Waiting for a minute vefore trying to connect to VM");
-            Thread.Sleep(60000);
+            Thread.Sleep(120000);
             Utilities.RetryActionUntilSuccess(() => ValidateLogin(dns, port, vmAccessUserName, vmAccessPassword), "Cannot RDP to the instance!!", 5, 10000);
 
         }
@@ -362,15 +316,26 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
         }
 
 
-        private void VerifyDisabledExtension(string vmName, string serviceName)
+
+
+        private void ValidateVMExtension(string vmName, string serviceName, bool enabled)
         {
-            Console.WriteLine("Verifying the disabled extension");
             var vmExtension = GetAzureVMExtesnion(vmName, serviceName);
             Utilities.PrintContext(vmExtension);
-            Assert.AreEqual("Disable", vmExtension.State, "State is not Disable");
+            if(enabled)
+            {
+                Console.WriteLine("Verifying the enabled extension");
+                Assert.AreEqual("Enable", vmExtension.State, "State is not Enable");
+                Assert.IsFalse(string.IsNullOrEmpty(vmExtension.PublicConfiguration), "PublicConfiguration is empty.");
+                Console.WriteLine("Verifed the enabled extension successfully.");
+            }
+            else
+            {
+                Console.WriteLine("Verifying the disabled extension");
+                Assert.AreEqual("Disable", vmExtension.State, "State is not Disable");
+                Console.WriteLine("Verifed the disabled extension successfully.");
+            }
             Assert.IsTrue(string.IsNullOrEmpty(vmExtension.PrivateConfiguration), "PrivateConfiguration is not empty.");
-            Assert.IsTrue(string.IsNullOrEmpty(vmExtension.PublicConfiguration), "PublicConfiguration is not empty.");
-            Console.WriteLine("Verifed the disabled extension successfully.");
         }
 
     }
