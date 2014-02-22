@@ -24,20 +24,22 @@ namespace Microsoft.WindowsAzure.Commands.CloudService
     /// Create a new deployment. Note that there shouldn't be a deployment 
     /// of the same name or in the same slot when executing this command.
     /// </summary>
-    [Cmdlet(VerbsData.Publish, "AzureServiceProject"), OutputType(typeof(Deployment))]
+    [Cmdlet(VerbsData.Publish, "AzureServiceProject", DefaultParameterSetName = ServicePublishParamSet), OutputType(typeof(Deployment))]
     public class PublishAzureServiceProjectCommand : CmdletWithSubscriptionBase
     {
+        private const string ServicePublishParamSet = "PublishFromServiceDefinition";
+        private const string PackagePublishParamSet = "PublishFromPackage";
         public ICloudServiceClient CloudServiceClient { get; set; }
 
-        [Parameter(Mandatory = false, ValueFromPipelineByPropertyName = true)]
+        [Parameter(Mandatory = false, Position = 0, ParameterSetName = ServicePublishParamSet, ValueFromPipelineByPropertyName = true)]
         [Alias("sv")]
         public string ServiceName { get; set; }
 
-        [Parameter(Mandatory = false, ValueFromPipelineByPropertyName = true)]
+        [Parameter(Mandatory = false, Position = 0, ParameterSetName = PackagePublishParamSet, ValueFromPipelineByPropertyName = true)]
         [Alias("sp")]
         public string Package { get; set; }
 
-        [Parameter(Mandatory = false, ValueFromPipelineByPropertyName = true)]
+        [Parameter(Mandatory = true, Position = 1, ParameterSetName = PackagePublishParamSet, ValueFromPipelineByPropertyName = true)]
         [Alias("cc")]
         public string Configuration { get; set; }
 

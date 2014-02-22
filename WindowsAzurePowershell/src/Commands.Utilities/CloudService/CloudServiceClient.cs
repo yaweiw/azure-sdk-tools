@@ -183,9 +183,11 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService
 
         private void CreateDeployment(PublishContext context)
         {
+            Uri packageUri = UploadPackageIfNeeded(context);
+
             var deploymentParams = new DeploymentCreateParameters
             {
-                PackageUri = UploadPackage(context),
+                PackageUri = packageUri,
                 Configuration = General.GetConfiguration(context.CloudConfigPath),
                 Label = context.ServiceName,
                 Name = context.DeploymentName,
@@ -200,6 +202,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService
             ComputeClient.Deployments.Create(context.ServiceName, GetSlot(context.ServiceSettings.Slot),
                 deploymentParams);
         }
+
 
         private void AddCertificates(ServiceCertificateListResponse uploadedCertificates, PublishContext context)
         {
@@ -243,10 +246,12 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService
 
         private void UpgradeDeployment(PublishContext context, bool forceUpgrade)
         {
+            Uri packageUri = UploadPackageIfNeeded(context);
+
             var upgradeParams = new DeploymentUpgradeParameters
             {
                 Configuration = General.GetConfiguration(context.CloudConfigPath),
-                PackageUri = UploadPackage(context),
+                PackageUri = packageUri,
                 Label = context.ServiceName,
                 Mode = DeploymentUpgradeMode.Auto,
                 Force = forceUpgrade
@@ -258,6 +263,20 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService
             AddCertificates(uploadedCertificates, context);
 
             ComputeClient.Deployments.UpgradeBySlot(context.ServiceName, GetSlot(context.ServiceSettings.Slot), upgradeParams);
+        }
+
+        private Uri UploadPackageIfNeeded(PublishContext context)
+        {
+            Uri packageUri;
+            if (context.PackageIsFromStorageAccount)
+            {
+                packageUri = new Uri(context.PackagePath);
+            }
+            else
+            {
+                packageUri = UploadPackage(context);
+            }
+            return packageUri;
         }
 
         private void VerifyDeployment(PublishContext context)
@@ -706,7 +725,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService
             }
             cloudServiceProject.CreatePackage(DevEnv.Cloud);
 
-            DeploymentGetResponse deployment = UploadPackage(launch, forceUpgrade, context);
+            DeploymentGetResponse deployment = DeployPackage(launch, forceUpgrade, context);
 
             return new Deployment(deployment);
         }
@@ -723,19 +742,16 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService
             bool launch = false,
             bool forceUpgrade = false)
         {
-            string packageFullPath = package;
-            if (!Path.IsPathRooted(package))
-            {
-                packageFullPath = Path.Combine(GetCurrentDirectory(), package);
-            }
+            string workingDirectory = GetCurrentDirectory();
 
             string cloudConfigFullPath = configuration;
             if (!Path.IsPathRooted(configuration))
             {
-                cloudConfigFullPath = Path.Combine(GetCurrentDirectory(), configuration);
+                cloudConfigFullPath = Path.Combine(workingDirectory, configuration);
             }
 
             CloudServiceProject cloudServiceProject = new CloudServiceProject(cloudConfigFullPath);
+
             // Initialize publish context
             PublishContext context = CreatePublishContext(
                 cloudServiceProject.ServiceName,
@@ -745,14 +761,18 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService
                 storageAccount,
                 deploymentName,
                 cloudServiceProject);
-            context.PackagePath = packageFullPath;
+
+            context.ConfigPackageSettings(package, workingDirectory) ;
 
             // Verify storage account exists
-            SetupStorageService(context);
+            if (!context.PackageIsFromStorageAccount)
+            {
+                SetupStorageService(context);
+            }
 
             WriteVerbose(string.Format(Resources.PublishServiceStartMessage, context.ServiceName));
 
-            DeploymentGetResponse deployment = UploadPackage(launch, forceUpgrade, context);
+            DeploymentGetResponse deployment = DeployPackage(launch, forceUpgrade, context);
 
             return new Deployment(deployment);
         }
@@ -770,7 +790,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService
                 context.ServiceSettings.AffinityGroup);
         }        
         
-        private DeploymentGetResponse UploadPackage(bool launch, bool forceUpgrade, PublishContext context)
+        private DeploymentGetResponse DeployPackage(bool launch, bool forceUpgrade, PublishContext context)
         {
             // Publish cloud service
             WriteVerboseWithTimestamp(Resources.PublishConnectingMessage);

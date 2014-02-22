@@ -15,6 +15,7 @@
 namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService
 {
     using System;
+    using System.IO;
     using System.Linq;
     using Common;
     using Microsoft.WindowsAzure.Commands.Utilities.Properties;
@@ -36,6 +37,8 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService
         public string SubscriptionId { get; private set; }
 
         public CloudServiceProject ServiceProject { get; set; }
+
+        public bool PackageIsFromStorageAccount { get; set; }
 
         public PublishContext(
             ServiceSettings settings,
@@ -77,6 +80,32 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService
             {
                 throw new ArgumentNullException("settings.Subscription", Resources.InvalidSubscriptionNameMessage);
             }
+        }
+
+        public void ConfigPackageSettings(string package, string workingDirectory)
+        {
+            PackagePath = package;
+            PackageIsFromStorageAccount = IsStorageAccountUrl(package);
+            if (!PackageIsFromStorageAccount)
+            {
+                if (!Path.IsPathRooted(package))
+                {
+                    PackagePath = Path.Combine(workingDirectory, package);
+                }
+            }
+        }
+
+        private bool IsStorageAccountUrl(string packagePath)
+        {
+            bool result = false;
+            try
+            {
+                Uri uri = new Uri(packagePath);
+                return uri.Scheme.Equals("http", StringComparison.OrdinalIgnoreCase) && 
+                    uri.Host.EndsWith("blob.core.windows.net", StringComparison.OrdinalIgnoreCase);
+            }
+            catch { }
+            return result;
         }
     }
 }
