@@ -97,9 +97,9 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Models
 
         private static string GenerateSeparator(int amount, string separator)
         {
-            string result = string.Empty;
-            while (amount-- != 0) result += separator;
-            return result;
+            StringBuilder result = new StringBuilder();
+            while (amount-- != 0) result.Append(separator);
+            return result.ToString();
         }
 
         private static string ToString(TemplateLink templateLink)
