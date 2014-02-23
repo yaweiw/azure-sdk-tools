@@ -113,11 +113,11 @@
     </Reference>
     <Reference Include="Microsoft.WindowsAzure.Common, Version=0.9.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Microsoft.WindowsAzure.Common.0.9.9-preview\lib\net40\Microsoft.WindowsAzure.Common.dll</HintPath>
+      <HintPath>..\packages\Microsoft.WindowsAzure.Common.0.9.10-preview\lib\net40\Microsoft.WindowsAzure.Common.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.WindowsAzure.Common.NetFramework, Version=0.9.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Microsoft.WindowsAzure.Common.0.9.9-preview\lib\net40\Microsoft.WindowsAzure.Common.NetFramework.dll</HintPath>
+      <HintPath>..\packages\Microsoft.WindowsAzure.Common.0.9.10-preview\lib\net40\Microsoft.WindowsAzure.Common.NetFramework.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.WindowsAzure.Management, Version=0.9.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -217,12 +217,16 @@
     <Compile Include="FunctionalTests\ConfigDataInfo\SetACLConfig.cs" />
     <Compile Include="FunctionalTests\ConfigDataInfo\VMPowerState.cs" />
     <Compile Include="FunctionalTests\CredentialHelper.cs" />
+    <Compile Include="FunctionalTests\ExtensionTests\AzureVMBGInfoExtensionTests.cs" />
     <Compile Include="FunctionalTests\FunctionalTestCommonVhd.cs" />
     <Compile Include="FunctionalTests\FunctionalTestCommonVM.cs" />
     <Compile Include="FunctionalTests\IaasCmdletInfo\AddAzureCertificateCmdletInfo.cs" />
     <Compile Include="FunctionalTests\IaasCmdletInfo\AddAzureDiskCmdletInfo.cs" />
     <Compile Include="FunctionalTests\IaasCmdletInfo\AddAzureVMImageCmdletInfo.cs" />
     <Compile Include="FunctionalTests\IaasCmdletInfo\ExportAzureVMCmdletInfo.cs" />
+    <Compile Include="FunctionalTests\IaasCmdletInfo\Extesnions\BGInfo\GetAzureVMBGInfoExtensionCmdletInfo.cs" />
+    <Compile Include="FunctionalTests\IaasCmdletInfo\Extesnions\BGInfo\RemoveAzureVMBGInfoExtensionCmdletInfo.cs" />
+    <Compile Include="FunctionalTests\IaasCmdletInfo\Extesnions\BGInfo\SetAzureVMBGInfoExtensionCmdletInfo.cs" />
     <Compile Include="FunctionalTests\IaasCmdletInfo\GetAzureAclConfigCmdletInfo.cs" />
     <Compile Include="FunctionalTests\IaasCmdletInfo\GetAzureAffinityGroupCmdletInfo.cs" />
     <Compile Include="FunctionalTests\IaasCmdletInfo\GetAzureCertificateCmdletInfo.cs" />
