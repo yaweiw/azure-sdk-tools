@@ -40,8 +40,22 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService
         
         private string scaffoldingFolderPath;
 
-        public string ServiceName { get { return this.Components.Definition.name; } }
+        public string ServiceName 
+        { 
+            get 
+            {
+                if (Components.Definition != null)
+                {
+                    return this.Components.Definition.name;
+                }
+                else
+                {
+                    return this.Components.CloudConfig.serviceName;
+                }
+            } 
+        }
 
+        
         public CloudServiceProject(string rootPath, string name, string scaffoldingPath)
             : this()
         {
@@ -66,6 +80,15 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService
         //for stopping the emulator none of the path info is required
         public CloudServiceProject()
         {
+        }
+
+        public CloudServiceProject(string cloudConfigurationFullPath)
+        {
+            Components = new ServiceComponents(cloudConfigurationFullPath);
+            //since we are deploying from a prebuilt package, it doesn't matter whether
+            //it comes from visual studio or powershell tools. 
+            //Here we just go with powershell one, because it is simple.
+            Paths = new PowerShellProjectPathInfo(Path.GetDirectoryName(cloudConfigurationFullPath));
         }
 
         public CloudServiceProject(string rootPath, string scaffoldingPath)
