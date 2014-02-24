@@ -12,11 +12,12 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService
+namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
 {
-    public enum ComputeEmulatorMode
+    public class VirtualMachineAccessExtensionContext : VirtualMachineExtensionContext
     {
-        Full,
-        Express
+        public string UserName { get; set; }
+        public string Password { get; set; }
+        public bool Enabled { get; set; }
     }
 }
