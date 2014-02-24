@@ -14,7 +14,6 @@
 
 using Commands.Storage.ScenarioTest.Util;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-//using Microsoft.WindowsAzure.Commands.ScenarioTest.Common;
 using Microsoft.WindowsAzure.Commands.ScenarioTest.Common;
 using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure.Storage.Blob;
