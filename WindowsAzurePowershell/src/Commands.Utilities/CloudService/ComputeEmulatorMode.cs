@@ -12,20 +12,11 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
+namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService
 {
-    public class VirtualMachineBGInfoExtensionCmdletBase : VirtualMachineExtensionCmdletBase
+    public enum ComputeEmulatorMode
     {
-        protected const string VirtualMachineBGInfoExtensionNoun = "AzureVMBGInfoExtension";
-
-        protected const string ExtensionDefaultPublisher = "Microsoft.Compute";
-        protected const string ExtensionDefaultName = "BGInfo";
-        protected const string LegacyReferenceName = "MyBGInfoExtension";
-
-        public VirtualMachineBGInfoExtensionCmdletBase()
-        {
-            base.publisherName = ExtensionDefaultPublisher;
-            base.extensionName = ExtensionDefaultName;
-        }
+        Full,
+        Express
     }
 }
