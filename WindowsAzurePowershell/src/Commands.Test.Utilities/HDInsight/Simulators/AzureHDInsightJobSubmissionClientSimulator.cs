@@ -12,7 +12,6 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-using Microsoft.WindowsAzure.Management.HDInsight.Framework.Core.Library.WebRequest;
 
 namespace Microsoft.WindowsAzure.Commands.Test.Utilities.HDInsight.Simulators
 {
@@ -27,6 +26,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.Utilities.HDInsight.Simulators
     using System.Threading;
     using System.Threading.Tasks;
     using Hadoop.Client;
+    using Microsoft.WindowsAzure.Management.HDInsight.Framework.Core.Library.WebRequest;
     using Management.HDInsight.Cmdlet.GetAzureHDInsightClusters.Extensions;
     using Management.HDInsight.Logging;
     using Utilities;
