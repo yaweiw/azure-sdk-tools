@@ -291,7 +291,6 @@
     <Compile Include="CloudService\CacheConfigurationFactory.cs" />
     <Compile Include="CloudService\CloudServiceClient.cs" />
     <Compile Include="CloudService\ICloudServiceClient.cs" />
-    <Compile Include="CloudService\ComputeEmulatorMode.cs" />
     <Compile Include="CloudService\Model\ConfigurationSet.cs" />
     <Compile Include="CloudService\Model\Deployment.cs" />
     <Compile Include="CloudService\Model\DeploymentStatus.cs" />
