@@ -1467,4 +1467,7 @@ use and privacy statement at &lt;url&gt; and (c) agree to sharing my contact inf
   <data name="BlobAlreadyExistsInTheAccount" xml:space="preserve">
     <value>Blob with the name {0} already exists in the account.</value>
   </data>
+  <data name="CsRunEmulatorExpressArg" xml:space="preserve">
+    <value>/useemulatorexpress</value>
+  </data>
 </root>
