@@ -24,8 +24,8 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
 
         public VirtualMachineBGInfoExtensionCmdletBase()
         {
-            base.Publisher = ExtensionDefaultPublisher;
-            base.ExtensionName = ExtensionDefaultName;
+            base.publisherName = ExtensionDefaultPublisher;
+            base.extensionName = ExtensionDefaultName;
         }
     }
 }
