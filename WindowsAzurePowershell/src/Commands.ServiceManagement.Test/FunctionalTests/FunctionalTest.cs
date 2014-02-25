@@ -1018,6 +1018,12 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
                 string vnetConfigFilePathCopy = Directory.GetCurrentDirectory() + "\\vnetconfigCopy.netcfg";
 
                 var result = vmPowershellCmdlets.GetAzureVNetConfig(vnetConfigFilePathCopy);
+                var streamReader = new StreamReader(vnetConfigFilePathCopy);
+                string text = streamReader.ReadToEnd();
+                streamReader.Close();
+                Assert.AreEqual(text, result[0].XMLConfiguration, string.Format("netcfg does not match!!!\n Original:{0}\n Returned:{1}\n", text, result[0].XMLConfiguration));
+
+
 
                 vmPowershellCmdlets.SetAzureVNetConfig(vnetConfigFilePathCopy);
 
