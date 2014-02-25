@@ -273,6 +273,10 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
         public const string GetAzureStaticVNetIPCmdletName = "Get-AzureStaticVNetIP";
         public const string RemoveAzureStaticVNetIPCmdletName = "Remove-AzureStaticVNetIP";
 
+        public const string GetAzureVMBGInfoExtensionCmdletName = "Get-AzureVMBGInfoExtension";
+        public const string SetAzureVMBGInfoExtensionCmdletName = "Set-AzureVMBGInfoExtension";
+        public const string RemoveAzureVMBGInfoExtensionCmdletName = "Remove-AzureVMBGInfoExtension";
+
         #endregion
 
 
@@ -773,6 +777,29 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
             Type type = typeof(T);
 
             foreach (PropertyInfo property in type.GetProperties(BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly))
+            {
+                string typeName = property.PropertyType.FullName;
+                if (typeName.Equals("System.String") || typeName.Equals("System.Int32") || typeName.Equals("System.Uri") ||
+                    typeName.Contains("Nullable"))
+                {
+                    Console.WriteLine("{0}: {1}", property.Name, property.GetValue(obj, null));
+                }
+                else if (typeName.Contains("Boolean"))
+                {
+                    Console.WriteLine("{0}: {1}", property.Name, property.GetValue(obj, null).ToString());
+                }
+                else
+                {
+                    Console.WriteLine("This type is not printed: {0}", typeName);
+                }
+            }
+        }
+
+        public static void PrintCompleteContext<T>(T obj)
+        {
+            Type type = typeof(T);
+
+            foreach (PropertyInfo property in type.GetProperties())
             {
                 string typeName = property.PropertyType.FullName;
                 if (typeName.Equals("System.String") || typeName.Equals("System.Int32") || typeName.Equals("System.Uri") ||

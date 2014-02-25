@@ -30,11 +30,11 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Extensions
         public BaseAzureServiceRemoteDesktopExtensionCmdlet()
             : base()
         {
-            Initialize();
         }
 
-        protected void Initialize()
+        protected override void ValidateParameters()
         {
+            base.ValidateParameters();
             ProviderNamespace = RDPExtensionNamespace;
             ExtensionName = RDPExtensionType;
 
