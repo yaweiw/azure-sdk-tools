@@ -496,10 +496,6 @@
       <Project>{bc420543-c04e-4bf3-96e1-cd81b823bdd7}</Project>
       <Name>Commands.Test.Utilities</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Commands.Test\Commands.Test.csproj">
-      <Project>{B7FD03F6-98BC-4F54-9A14-0455E579FCD4}</Project>
-      <Name>Commands.Test</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Commands.Utilities\Commands.Utilities.csproj">
       <Project>{4900ec4e-8deb-4412-9108-0bc52f81d457}</Project>
       <Name>Commands.Utilities</Name>
