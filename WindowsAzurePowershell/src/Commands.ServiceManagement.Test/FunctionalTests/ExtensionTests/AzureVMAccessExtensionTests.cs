@@ -90,7 +90,8 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
                     Console.WriteLine("Created a new VM {0} with VM access extension. Service Name : {1}", vmName, serviceName);
 
                     ValidateVMAccessExtension(vmName, serviceName, true);
-                    Thread.Sleep(120000);
+
+                    Utilities.GetAzureVMAndWaitForReady(serviceName, vmName, 30000, 300000);
                     //Verify that the extension actually work
                     VerifyRDPExtension(vmName, serviceName);
 
@@ -123,7 +124,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
                 vmPowershellCmdlets.UpdateAzureVM(vmName, serviceName, vm);
 
                 ValidateVMAccessExtension(vmName, serviceName, true);
-                Thread.Sleep(120000);
+
                 //Verify that the extension actually work
                 VerifyRDPExtension(vmName, serviceName);
 
@@ -156,7 +157,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
                 vmPowershellCmdlets.NewAzureVM(serviceName, new[] { vm2 },waitForBoot: true);
 
                 ValidateVMAccessExtension(vmName2, serviceName, true);
-                Thread.Sleep(120000);
+
                 //Verify that the extension actually work
                 VerifyRDPExtension(vmName2, serviceName);
                 pass = true;
@@ -189,7 +190,6 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
                 Console.WriteLine("Role Instance  Status:{0} of VM {1}", result.InstanceStatus, vmName2);
 
                 ValidateVMAccessExtension(vmName2, serviceName, true);
-                Thread.Sleep(120000);
                 //Verify that the extension actually work
                 VerifyRDPExtension(vmName2, serviceName);
                 pass = true;
@@ -285,9 +285,9 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
             }
             Console.WriteLine("Azure VM RDP file downloaded.");
 
-            Console.WriteLine("Waiting for a minute vefore trying to connect to VM");
-            Thread.Sleep(60000);
-            Utilities.RetryActionUntilSuccess(() => ValidateLogin(dns, port, vmAccessUserName, vmAccessPassword), "Cannot RDP to the instance!!", 5, 10000);
+            Console.WriteLine("Waiting to sleep for 4 mins before trying to login VM ");
+            Thread.Sleep(240000);
+            ValidateLogin(dns, port, vmAccessUserName, vmAccessPassword);
 
         }
 
@@ -300,16 +300,6 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
             Console.WriteLine("Disabled VM Access extesnion for the vm {0}", vmName);
         }
 
-        //private void VerifyDisabledExtension(string vmName, string serviceName)
-        //{
-        //    Console.WriteLine("Verifying the disabled extension");
-        //    var vmExtension = GetAzureVMAccessExtesnion(vmName, serviceName);
-        //    Utilities.PrintContext(vmExtension);
-        //    Assert.IsFalse(vmExtension.Enabled, "Extension state should be Disabled");
-        //    Assert.IsTrue(string.IsNullOrEmpty(vmExtension.UserName), "UserName is not empty.");
-        //    Assert.IsTrue(string.IsNullOrEmpty(vmExtension.Password), "Password is not empty.");
-        //    Console.WriteLine("Verifed the disabled extension successfully.");
-        //}
 
         private void ValidateLogin(string dns, int port, string vmAccessUserName, string vmAccessPassword)
         {

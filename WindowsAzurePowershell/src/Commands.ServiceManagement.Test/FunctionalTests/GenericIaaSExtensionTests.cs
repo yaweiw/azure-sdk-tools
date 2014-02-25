@@ -131,7 +131,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
                     vmPowershellCmdlets.UpdateAzureVM(vmName, serviceName, vm);
 
                     ValidateVMExtension(vmName, serviceName, true);
-                    Thread.Sleep(120000);
+
                     //Verify that the extension actually work
                     VerifyRDPExtension(vmName, serviceName);
 
@@ -173,7 +173,6 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
                 vmPowershellCmdlets.NewAzureVM(serviceName, new[] { vm2 }, waitForBoot:true);
 
                 ValidateVMExtension(vmName2, serviceName, true);
-                Thread.Sleep(120000);
                 //Verify that the extension actually work
                 VerifyRDPExtension(vmName2, serviceName);
                 pass = true;
@@ -205,9 +204,8 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
                 vm2 = vmPowershellCmdlets.SetAzureVMExtension(vm2, vmAccessExtension.ExtensionName, vmAccessExtension.Publisher, vmAccessExtension.Version, referenceName, publicConfiguration, privateConfiguration, disable: false);
                 vmPowershellCmdlets.UpdateAzureVM(vmName2, serviceName, vm2);
 
-
                 ValidateVMExtension(vmName2, serviceName, true);
-                Thread.Sleep(240000);
+
                 //Verify that the extension actually work
                 VerifyRDPExtension(vmName2, serviceName);
                 pass = true;
@@ -301,7 +299,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
             Console.WriteLine("Azure VM RDP file downloaded.");
 
             Console.WriteLine("Waiting for a minute vefore trying to connect to VM");
-            Thread.Sleep(120000);
+            Thread.Sleep(240000);
             Utilities.RetryActionUntilSuccess(() => ValidateLogin(dns, port, vmAccessUserName, vmAccessPassword), "Cannot RDP to the instance!!", 5, 10000);
 
         }
@@ -326,7 +324,12 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
             {
                 Console.WriteLine("Verifying the enabled extension");
                 Assert.AreEqual("Enable", vmExtension.State, "State is not Enable");
-                Assert.IsFalse(string.IsNullOrEmpty(vmExtension.PublicConfiguration), "PublicConfiguration is empty.");
+                //Assert.IsFalse(string.IsNullOrEmpty(vmExtension.PublicConfiguration), "PublicConfiguration is empty.");
+                XmlDocument doc = new XmlDocument();
+                doc.LoadXml(vmExtension.PublicConfiguration);
+                XmlDocument inputPublicConfigDoc = new XmlDocument();
+                inputPublicConfigDoc.LoadXml(publicConfiguration);
+                Assert.AreEqual(inputPublicConfigDoc.GetElementsByTagName("PublicConfig")[0].InnerXml, doc.GetElementsByTagName("PublicConfig")[0].InnerXml);
                 Console.WriteLine("Verifed the enabled extension successfully.");
             }
             else
