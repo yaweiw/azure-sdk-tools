@@ -375,6 +375,38 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
             
         }
 
+        public static bool GetAzureVMAndWaitForReady(string serviceName, string vmName,int waitTime, int maxWaitTime )
+        {
+            Console.WriteLine("Waiting for the vm {0} to reach \"ReadyRole\" ");
+            ServiceManagementCmdletTestHelper vmPowershellCmdlets = new ServiceManagementCmdletTestHelper();
+            DateTime startTime = DateTime.Now;
+            DateTime MaxEndTime = startTime.AddMilliseconds(maxWaitTime);
+            while (true)
+            {
+                Console.WriteLine("Getting vm '{0}' details:",vmName);
+                var vmRoleContext = vmPowershellCmdlets.GetAzureVM(vmName, serviceName);
+                Console.WriteLine("Current status of the VM is {0} ", vmRoleContext.InstanceStatus);
+                if (vmRoleContext.InstanceStatus == "ReadyRole")
+                {
+                    Console.WriteLine("Instance status reached expected ReadyRole state. Exiting wait.");
+                    return true;
+                }
+                else
+                {
+                    if (DateTime.Compare(DateTime.Now, MaxEndTime) > 0)
+                    {
+                        Console.WriteLine("Maximum wait time reached and instance status didnt reach \"ReadyRole\" state. Exiting wait. ");
+                        return false;
+                    }
+                    else
+                    {
+                        Console.WriteLine("Waiting for {0} seconds for the {1} status to be ReadyRole", waitTime / 1000, vmName);
+                        Thread.Sleep(waitTime);
+                    }
+                }
+            }
+        }
+
         public static bool PrintAndCompareDeployment
             (DeploymentInfoContext deployment, string serviceName, string deploymentName, string deploymentLabel, string slot, string status, int instanceCount)
         {
