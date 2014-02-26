@@ -20,6 +20,7 @@ using Microsoft.WindowsAzure.Commands.Test.Utilities.Common;
 using Microsoft.WindowsAzure.Commands.Utilities.Common.Storage;
 using Moq;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -336,6 +337,119 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Test.Models
             Assert.Equal(DeploymentMode.Incremental, deploymentFromValidate.Mode);
             Assert.Equal(templateUri, deploymentFromValidate.TemplateLink.Uri);
             Assert.Equal(File.ReadAllText(parameters.ParameterFile), deploymentFromValidate.Parameters);
+
+            progressLoggerMock.Verify(
+                f => f(string.Format("Resource {0} '{1}' provisioning status in location '{2}' is {3}",
+                        "Microsoft.Website",
+                        resourceName,
+                        resourceGroupLocation,
+                        ProvisioningState.Succeeded)),
+                Times.Once());
+        }
+
+        [Fact]
+        public void CreatesResourceGroupWithDeploymentFromParameterObject()
+        {
+            Uri templateUri = new Uri("http://templateuri.microsoft.com");
+            BasicDeployment deploymentFromGet = new BasicDeployment();
+            BasicDeployment deploymentFromValidate = new BasicDeployment();
+            CreatePSResourceGroupParameters parameters = new CreatePSResourceGroupParameters()
+            {
+                Name = resourceGroupName,
+                Location = resourceGroupLocation,
+                DeploymentName = deploymentName,
+                TemplateFile = templateFile,
+                ParameterObject = new Hashtable()
+                {
+                    { "string", "myvalue" },
+                    { "securestring", "myvalue" },
+                    { "int", 12 },
+                    { "bool", true },
+                },
+                StorageAccountName = storageAccountName
+            };
+            resourceGroupMock.Setup(f => f.CheckExistenceAsync(parameters.Name, new CancellationToken()))
+                .Returns(Task.Factory.StartNew(() => new ResourceGroupExistsResult
+                {
+                    Exists = false
+                }));
+
+            resourceGroupMock.Setup(f => f.CreateOrUpdateAsync(
+                parameters.Name,
+                It.IsAny<BasicResourceGroup>(),
+                new CancellationToken()))
+                    .Returns(Task.Factory.StartNew(() => new ResourceGroupCreateOrUpdateResult
+                    {
+                        ResourceGroup = new ResourceGroup() { Name = parameters.Name, Location = parameters.Location }
+                    }));
+            resourceGroupMock.Setup(f => f.GetAsync(resourceGroupName, new CancellationToken()))
+                .Returns(Task.Factory.StartNew(() => new ResourceGroupGetResult
+                {
+                    ResourceGroup = new ResourceGroup() { Location = resourceGroupLocation }
+                }));
+            storageClientWrapperMock.Setup(f => f.UploadFileToBlob(It.IsAny<BlobUploadParameters>())).Returns(templateUri);
+            deploymentsMock.Setup(f => f.CreateAsync(resourceGroupName, deploymentName, It.IsAny<BasicDeployment>(), new CancellationToken()))
+                .Returns(Task.Factory.StartNew(() => new DeploymentOperationsCreateResult
+                {
+                    RequestId = requestId
+                }))
+                .Callback((string name, string dName, BasicDeployment bDeploy, CancellationToken token) => { deploymentFromGet = bDeploy; });
+            deploymentsMock.Setup(f => f.GetAsync(resourceGroupName, deploymentName, new CancellationToken()))
+                .Returns(Task.Factory.StartNew(() => new DeploymentGetResult
+                {
+                    Name = deploymentName,
+                    Properties = new DeploymentProperties()
+                    {
+                        Mode = DeploymentMode.Incremental,
+                        ProvisioningState = ProvisioningState.Succeeded
+                    },
+                    ResourceGroup = resourceGroupName
+                }));
+            deploymentsMock.Setup(f => f.ValidateAsync(resourceGroupName, DeploymentValidationMode.Full, It.IsAny<BasicDeployment>(), new CancellationToken()))
+                .Returns(Task.Factory.StartNew(() => new DeploymentValidateResponse
+                {
+                    Errors = new List<Microsoft.Azure.Management.Resources.Models.ErrorDetails>()
+                }))
+                .Callback((string rg, DeploymentValidationMode m, BasicDeployment d, CancellationToken c) => { deploymentFromValidate = d; });
+            SetupListForResourceGroupAsync(parameters.Name, new List<Resource>() { new Resource() { Name = "website" } });
+            deploymentOperationsMock.Setup(f => f.ListAsync(resourceGroupName, deploymentName, null, new CancellationToken()))
+                .Returns(Task.Factory.StartNew(() => new DeploymentOperationsListResult
+                {
+                    Operations = new List<DeploymentOperation>()
+                    {
+                        new DeploymentOperation()
+                        {
+                            DeploymentName = deploymentName,
+                            OperationId = Guid.NewGuid().ToString(),
+                            ResourceGroup = resourceGroupName,
+                            Properties = new DeploymentOperationProperties()
+                            {
+                                ProvisioningState = ProvisioningState.Succeeded,
+                                TargetResource = new TargetResource()
+                                {
+                                    ResourceGroup = resourceGroupName,
+                                    ResourceName = resourceName,
+                                    ResourceType = "Microsoft.Website"
+                                }
+                            }
+                        }
+                    }
+                }));
+
+            PSResourceGroup result = resourcesClient.CreatePSResourceGroup(parameters);
+
+            deploymentsMock.Verify((f => f.CreateAsync(resourceGroupName, deploymentName, deploymentFromGet, new CancellationToken())), Times.Once());
+            Assert.Equal(parameters.Name, result.ResourceGroupName);
+            Assert.Equal(parameters.Location, result.Location);
+            Assert.Equal(1, result.Resources.Count);
+
+            Assert.Equal(DeploymentMode.Incremental, deploymentFromGet.Mode);
+            Assert.Equal(templateUri, deploymentFromGet.TemplateLink.Uri);
+            Assert.Equal(File.ReadAllText(parameterFile), deploymentFromGet.Parameters);
+
+            Assert.Equal(DeploymentMode.Incremental, deploymentFromValidate.Mode);
+            Assert.Equal(templateUri, deploymentFromValidate.TemplateLink.Uri);
+            Assert.Equal(File.ReadAllText(parameterFile), deploymentFromValidate.Parameters);
 
             progressLoggerMock.Verify(
                 f => f(string.Format("Resource {0} '{1}' provisioning status in location '{2}' is {3}",

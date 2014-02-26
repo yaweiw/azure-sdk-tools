@@ -94,12 +94,14 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Models
 
             if (parameterObject != null)
             {
-                Dictionary<string, object> parametersDictionary = parameterObject.ToMultidimentionalDictionary();
-                deploymentParameters = JsonConvert.SerializeObject(parametersDictionary, new JsonSerializerSettings
-                {
-                    TypeNameAssemblyFormat = FormatterAssemblyStyle.Simple,
-                    TypeNameHandling = TypeNameHandling.None
-                });
+                deploymentParameters = JsonConvert.SerializeObject(
+                    parameterObject.ToMultidimentionalDictionary(),
+                    new JsonSerializerSettings
+                    {
+                        TypeNameAssemblyFormat = FormatterAssemblyStyle.Simple,
+                        TypeNameHandling = TypeNameHandling.None,
+                        Formatting = Formatting.Indented
+                    });
 
             }
             else
