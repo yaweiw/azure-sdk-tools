@@ -145,13 +145,13 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Extensions
         public BaseAzureServiceADDomainExtensionCmdlet()
             : base()
         {
-            Initialize();
         }
 
-        protected void Initialize()
+        protected override void ValidateParameters()
         {
-            ExtensionNameSpace = DomainExtensionNamespace;
-            ExtensionType = DomainExtensionType;
+            base.ValidateParameters();
+            ProviderNamespace = DomainExtensionNamespace;
+            ExtensionName = DomainExtensionType;
             PublicConfig = new PublicConfig();
             PrivateConfig = new PrivateConfig();
             PrivateConfig.Password = string.Empty;

@@ -65,6 +65,15 @@ namespace Microsoft.WindowsAzure.Management.HDInsight.Cmdlet.PSCmdlets
                 this.command.Config.AdditionalStorageAccounts.AddRange(value.AdditionalStorageAccounts);
                 this.command.Config.HiveMetastore = value.HiveMetastore ?? this.command.Config.HiveMetastore;
                 this.command.Config.OozieMetastore = value.OozieMetastore ?? this.command.Config.OozieMetastore;
+                this.command.Config.CoreConfiguration.AddRange(value.CoreConfiguration);
+                this.command.Config.YarnConfiguration.AddRange(value.YarnConfiguration);
+                this.command.Config.HdfsConfiguration.AddRange(value.HdfsConfiguration);
+                this.command.Config.MapReduceConfiguration.ConfigurationCollection.AddRange(value.MapReduceConfiguration.ConfigurationCollection);
+                this.command.Config.MapReduceConfiguration.CapacitySchedulerConfigurationCollection.AddRange(
+                    value.MapReduceConfiguration.CapacitySchedulerConfigurationCollection);
+                this.command.Config.HiveConfiguration.ConfigurationCollection.AddRange(value.HiveConfiguration.ConfigurationCollection);
+                this.command.Config.OozieConfiguration.ConfigurationCollection.AddRange(value.OozieConfiguration.ConfigurationCollection);
+
             }
         }
 
@@ -77,6 +86,17 @@ namespace Microsoft.WindowsAzure.Management.HDInsight.Cmdlet.PSCmdlets
         {
             get { return this.command.Core; }
             set { this.command.Core = value; }
+        }
+
+        /// <summary>
+        ///     Gets or sets a collection of configuration properties to customize the Yarn Hadoop service.
+        /// </summary>
+        [SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly", Justification = "Ease of use in Powershell")]
+        [Parameter(Mandatory = false, HelpMessage = "a collection of configuration properties to customize the Yarn Hadoop service.")]
+        public Hashtable Yarn
+        {
+            get { return this.command.Yarn; }
+            set { this.command.Yarn = value; }
         }
 
         /// <summary>

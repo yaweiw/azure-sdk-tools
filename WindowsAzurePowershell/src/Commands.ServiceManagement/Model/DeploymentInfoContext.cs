@@ -189,9 +189,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Model
                 }
             }
 
-            bool result = false;
-            bool.TryParse(deployment.RollbackAllowed, out result);
-            this.RollbackAllowed = result;
+            this.RollbackAllowed = deployment.RollbackAllowed;
 
             if (deployment.UpgradeStatus != null)
             {

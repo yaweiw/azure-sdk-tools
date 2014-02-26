@@ -47,6 +47,18 @@ namespace Microsoft.WindowsAzure.Commands.Test.HDInsight.CmdLetTests
 
         [TestMethod]
         [TestCategory("CheckIn")]
+        public void CanCallTheAddConfigValuesCmdletTestsCmdlet_YarnConfig()
+        {
+            using (IRunspace runspace = this.GetPowerShellRunspace())
+            {
+                var yarnConfig = new Hashtable();
+                yarnConfig.Add("yarn.fakeconfig.value", "12345");
+                RunConfigOptionstest(runspace, CmdletConstants.YarnConfig, yarnConfig, c => c.YarnConfiguration);
+            }
+        }
+
+        [TestMethod]
+        [TestCategory("CheckIn")]
         public void CanCallTheAddConfigValuesCmdletTestsCmdlet_HdfsConfig()
         {
             using (IRunspace runspace = this.GetPowerShellRunspace())
@@ -179,6 +191,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.HDInsight.CmdLetTests
             using (IRunspace runspace = this.GetPowerShellRunspace())
             {
                 var coreConfig = new Hashtable();
+                var yarnConfig = new Hashtable();
                 var clusterConfig = new AzureHDInsightConfig
                 {
                     HiveMetastore =
@@ -204,10 +217,12 @@ namespace Microsoft.WindowsAzure.Commands.Test.HDInsight.CmdLetTests
                             .AddCommand(CmdletConstants.AddAzureHDInsightConfigValues)
                             .WithParameter(CmdletConstants.ClusterConfig, clusterConfig)
                             .WithParameter(CmdletConstants.CoreConfig, coreConfig)
+                            .WithParameter(CmdletConstants.YarnConfig, yarnConfig)
                             .Invoke();
                 AzureHDInsightConfig config = results.Results.ToEnumerable<AzureHDInsightConfig>().First();
 
                 Assert.AreEqual(config.CoreConfiguration.Count, coreConfig.Count);
+                Assert.AreEqual(config.YarnConfiguration.Count, yarnConfig.Count);
 
                 foreach (object entry in coreConfig.Keys)
                 {
@@ -216,6 +231,15 @@ namespace Microsoft.WindowsAzure.Commands.Test.HDInsight.CmdLetTests
                     Assert.IsNotNull(configUnderTest, "Unable to find core config option with name '{0}'", entry);
                     Assert.AreEqual(coreConfig[entry], configUnderTest.Value, "value doesn't match for core config option with name '{0}'", entry);
                 }
+
+                foreach (object entry in yarnConfig.Keys)
+                {
+                    KeyValuePair<string, string> configUnderTest =
+                        config.YarnConfiguration.FirstOrDefault(c => string.Equals(c.Key, entry.ToString(), StringComparison.Ordinal));
+                    Assert.IsNotNull(configUnderTest, "Unable to find yarn config option with name '{0}'", entry);
+                    Assert.AreEqual(yarnConfig[entry], configUnderTest.Value, "value doesn't match for yarn config option with name '{0}'", entry);
+                }
+
                 Assert.AreEqual(clusterConfig.HiveMetastore.DatabaseName, config.HiveMetastore.DatabaseName);
                 Assert.AreEqual(clusterConfig.HiveMetastore.SqlAzureServerName, config.HiveMetastore.SqlAzureServerName);
                 Assert.AreEqual(clusterConfig.HiveMetastore.Credential.UserName, config.HiveMetastore.Credential.UserName);
@@ -226,6 +250,59 @@ namespace Microsoft.WindowsAzure.Commands.Test.HDInsight.CmdLetTests
                 Assert.AreEqual(clusterConfig.OozieMetastore.Credential.UserName, config.OozieMetastore.Credential.UserName);
                 Assert.AreEqual(
                     clusterConfig.OozieMetastore.Credential.GetCleartextPassword(), config.OozieMetastore.Credential.GetCleartextPassword());
+            }
+        }
+        [TestMethod]
+        [TestCategory("CheckIn")]
+        public void CanCallTheAddConfigValuesCmdletTestsCmdlet_PreserveHiveConfig()
+        {
+            using (IRunspace runspace = this.GetPowerShellRunspace())
+            {
+                var hiveConfig = new Hashtable();
+                hiveConfig.Add("hadoop.logfiles.size", "12345");
+
+                var hiveServiceConfig = new AzureHDInsightHiveConfiguration
+                {
+                    Configuration = hiveConfig,
+                    AdditionalLibraries =
+                        new AzureHDInsightDefaultStorageAccount
+                        {
+                            StorageAccountKey = Guid.NewGuid().ToString(),
+                            StorageAccountName = Guid.NewGuid().ToString(),
+                            StorageContainerName = Guid.NewGuid().ToString()
+                        }
+                };
+
+                var hiveConfig2 = new Hashtable();
+                hiveConfig2.Add("hadoop.logfiles.size2", "12345");
+
+                var hiveServiceConfig2 = new AzureHDInsightHiveConfiguration
+                {
+                    Configuration = hiveConfig2,
+                    AdditionalLibraries =
+                        new AzureHDInsightDefaultStorageAccount
+                        {
+                            StorageAccountKey = Guid.NewGuid().ToString(),
+                            StorageAccountName = Guid.NewGuid().ToString(),
+                            StorageContainerName = Guid.NewGuid().ToString()
+                        }
+                };
+
+                IPipelineResult results =
+                    runspace.NewPipeline()
+                            .AddCommand(CmdletConstants.AddAzureHDInsightConfigValues)
+                            .WithParameter(CmdletConstants.ClusterConfig, new AzureHDInsightConfig())
+                            .WithParameter(CmdletConstants.HiveConfig, hiveServiceConfig)
+                            .AddCommand(CmdletConstants.AddAzureHDInsightConfigValues)
+                            .WithParameter(CmdletConstants.HiveConfig, hiveServiceConfig2)
+                            .Invoke();
+                AzureHDInsightConfig config = results.Results.ToEnumerable<AzureHDInsightConfig>().First();
+                ValidateConfigurationOptions(hiveConfig, config.HiveConfiguration.ConfigurationCollection);
+                Assert.IsNotNull(config.HiveConfiguration.AdditionalLibraries);
+
+                Assert.AreEqual(config.HiveConfiguration.AdditionalLibraries.Container, hiveServiceConfig2.AdditionalLibraries.StorageContainerName);
+                Assert.AreEqual(config.HiveConfiguration.AdditionalLibraries.Key, hiveServiceConfig2.AdditionalLibraries.StorageAccountKey);
+                Assert.AreEqual(config.HiveConfiguration.AdditionalLibraries.Name, hiveServiceConfig2.AdditionalLibraries.StorageAccountName);
             }
         }
 
