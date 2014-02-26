@@ -284,7 +284,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Models
 
         private void WriteDeploymentProgress(string resourceGroup, string deploymentName)
         {
-            const string statusFormat = "{0} operation on '{1}' of type {2} in location '{3}' is {4}";
+            const string statusFormat = "Resource {0} '{1}' provisioning status in location '{2}' is {3}";
             List<DeploymentOperation> newOperations = new List<DeploymentOperation>();
             DeploymentOperationsListResult result = null;
             string location = ResourceManagementClient.ResourceGroups.Get(resourceGroup).ResourceGroup.Location;
@@ -300,9 +300,8 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Models
             foreach (DeploymentOperation operation in newOperations)
             {
                 string statusMessage = string.Format(statusFormat,
-                    operation.Properties.Details.Operation,
-                    operation.Properties.TargetResource.ResourceName,
                     operation.Properties.TargetResource.ResourceType,
+                    operation.Properties.TargetResource.ResourceName,
                     location,
                     operation.Properties.ProvisioningState);
 
@@ -334,14 +333,6 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Models
             {
                 if (!old.Exists(o => o.OperationId.Equals(operation.OperationId)))
                 {
-                    if (operation.Properties.Details == null)
-                    {
-                        operation.Properties.Details = new OperationDetails()
-                        {
-                            Operation = "Unknown"
-                        };
-                    }
-
                     newOperations.Add(operation);
                 }
             }

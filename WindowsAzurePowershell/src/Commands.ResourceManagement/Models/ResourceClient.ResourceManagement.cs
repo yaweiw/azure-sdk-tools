@@ -203,9 +203,10 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Models
             }
             else if (!string.IsNullOrEmpty(resourceGroup))
             {
-                DeploymentListResult result = ResourceManagementClient.Deployments.ListForResourceGroup(resourceGroup,
+                DeploymentListResult result = ResourceManagementClient.Deployments.List(
                     new DeploymentListParameters()
                     {
+                        ResourceGroupName = resourceGroup,
                         ProvisioningState = provisioningState
                     });
 

@@ -338,10 +338,9 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Test.Models
             Assert.Equal(File.ReadAllText(parameters.ParameterFile), deploymentFromValidate.Parameters);
 
             progressLoggerMock.Verify(
-                f => f(string.Format("{0} operation on '{1}' of type {2} in location '{3}' is {4}",
-                        "Unknown",
-                        resourceName,
+                f => f(string.Format("Resource {0} '{1}' provisioning status in location '{2}' is {3}",
                         "Microsoft.Website",
+                        resourceName,
                         resourceGroupLocation,
                         ProvisioningState.Succeeded)),
                 Times.Once());
@@ -702,8 +701,8 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Test.Models
         [Fact]
         public void FiltersResourceGroupDeployments()
         {
-            deploymentsMock.Setup(f => f.ListForResourceGroupAsync(
-                resourceGroupName,
+            DeploymentListParameters actualParameters = new DeploymentListParameters();
+            deploymentsMock.Setup(f => f.ListAsync(
                 It.IsAny<DeploymentListParameters>(),
                 new CancellationToken()))
                 .Returns(Task.Factory.StartNew(() => new DeploymentListResult
@@ -725,7 +724,8 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Test.Models
                         }
                     },
                     NextLink = "nextLink"
-                }));
+                }))
+                .Callback((DeploymentListParameters p, CancellationToken t) => { actualParameters = p; });
 
             deploymentsMock.Setup(f => f.ListNextAsync(
                 "nextLink",
@@ -762,6 +762,8 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Test.Models
             Assert.Equal(resourceGroupName, result[1].ResourceGroupName);
             Assert.Equal(DeploymentMode.Incremental, result[1].Mode);
             Assert.Equal(new Uri("http://microsoft2.com").ToString(), result[1].TemplateLink.Uri.ToString());
+
+            Assert.Equal(resourceGroupName, actualParameters.ResourceGroupName);
         }
 
         [Fact]
