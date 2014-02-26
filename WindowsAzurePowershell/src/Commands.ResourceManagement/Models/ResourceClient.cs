@@ -284,7 +284,8 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Models
 
         private void WriteDeploymentProgress(string resourceGroup, string deploymentName)
         {
-            const string statusFormat = "Resource {0} '{1}' provisioning status in location '{2}' is {3}";
+            const string normalStatusFormat = "Resource {0} '{1}' provisioning status in location '{2}' is {3}";
+            const string failureStatusFormat = "Resource {0} '{1}' in location '{2}' failed with message {3}";
             List<DeploymentOperation> newOperations = new List<DeploymentOperation>();
             DeploymentOperationsListResult result = null;
             string location = ResourceManagementClient.ResourceGroups.Get(resourceGroup).ResourceGroup.Location;
@@ -299,11 +300,24 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Models
 
             foreach (DeploymentOperation operation in newOperations)
             {
-                string statusMessage = string.Format(statusFormat,
-                    operation.Properties.TargetResource.ResourceType,
-                    operation.Properties.TargetResource.ResourceName,
-                    location,
-                    operation.Properties.ProvisioningState);
+                string statusMessage = string.Empty;
+
+                if (operation.Properties.ProvisioningState != ProvisioningState.Failed)
+                {
+                    statusMessage = string.Format(normalStatusFormat,
+                        operation.Properties.TargetResource.ResourceType,
+                        operation.Properties.TargetResource.ResourceName,
+                        location,
+                        operation.Properties.ProvisioningState);
+                }
+                else
+                {
+                    statusMessage = string.Format(failureStatusFormat,
+                        operation.Properties.TargetResource.ResourceType,
+                        operation.Properties.TargetResource.ResourceName,
+                        location,
+                        operation.Properties.StatusMessage);
+                }
 
                 WriteProgress(statusMessage);
             }
