@@ -111,6 +111,15 @@ namespace Microsoft.WindowsAzure.Commands.Subscription
                 subscription.CloudServiceEndpoint = new Uri(CloudServiceEndpoint);
             }
 
+            if (Profile.CurrentEnvironment.GalleryEndpoint != null)
+            {
+                subscription.GalleryEndpoint = new Uri(Profile.CurrentEnvironment.GalleryEndpoint);
+            }
+            else
+            {
+                subscription.GalleryEndpoint = null;
+            }
+
             Profile.AddSubscription(subscription);
         }
 

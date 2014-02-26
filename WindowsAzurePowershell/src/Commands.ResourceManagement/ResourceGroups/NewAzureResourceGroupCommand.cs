@@ -38,7 +38,10 @@ namespace Microsoft.Azure.Commands.ResourceManagement.ResourceGroups
         internal const string ParameterlessGalleryTemplateParameterSetName = "parameterless-gallery-template";
         
         private RuntimeDefinedParameterDictionary dynamicParameters;
+        
         private string galleryTemplateName;
+        
+        private string templateFile;
 
         public NewAzureResourceGroupCommand()
         {
@@ -115,9 +118,9 @@ namespace Microsoft.Azure.Commands.ResourceManagement.ResourceGroups
                 Location = Location,
                 DeploymentName = DeploymentName,
                 GalleryTemplateName = GalleryTemplateName,
-                TemplateFile = TemplateFile,
+                TemplateFile = this.TryResolvePath(TemplateFile),
                 ParameterObject = GetParameterObject(ParameterObject),
-                ParameterFile = ParameterFile,
+                ParameterFile = this.TryResolvePath(ParameterFile),
                 TemplateVersion = TemplateVersion,
                 TemplateHash = TemplateHash,
                 TemplateHashAlgorithm = TemplateHashAlgorithm,
@@ -148,6 +151,16 @@ namespace Microsoft.Azure.Commands.ResourceManagement.ResourceGroups
                 galleryTemplateName = GalleryTemplateName;
                 dynamicParameters = ResourceClient.GetTemplateParameters(
                     GalleryTemplateName,
+                    MyInvocation.MyCommand.Parameters.Keys.ToArray(),
+                    GalleryTemplateDynamicParametersParameterSetName);
+            }
+
+            if (!string.IsNullOrEmpty(TemplateFile) &&
+                !TemplateFile.Equals(templateFile, StringComparison.OrdinalIgnoreCase))
+            {
+                templateFile = TemplateFile;
+                dynamicParameters = ResourceClient.GetTemplateParameters(
+                    this.TryResolvePath(TemplateFile),
                     MyInvocation.MyCommand.Parameters.Keys.ToArray(),
                     GalleryTemplateDynamicParametersParameterSetName);
             }

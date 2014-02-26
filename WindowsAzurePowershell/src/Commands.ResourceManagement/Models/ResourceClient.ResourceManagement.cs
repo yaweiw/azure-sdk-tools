@@ -19,6 +19,7 @@ using Microsoft.WindowsAzure.Commands.Utilities.Common;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Management.Automation;
 
@@ -105,13 +106,15 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Models
                     },
                     Parameters = GetDeploymentParameters(parameters.ParameterFile, parameters.ParameterObject)
                 };
+
+                ValidateDeployment(resourceGroup, deployment);
                 
                 result = ResourceManagementClient.Deployments.Create(resourceGroup, parameters.DeploymentName, deployment);
                 WriteProgress(string.Format("Create template deployment '{0}' using template {1}.", parameters.DeploymentName, deployment.TemplateLink.Uri));
                 ProvisionDeploymentStatus(resourceGroup, parameters.DeploymentName);
             }
 
-            return result.ToPSResourceGroupDeployment(this);
+            return result.ToPSResourceGroupDeployment();
         }
 
         /// <summary>
@@ -124,8 +127,21 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Models
         public virtual RuntimeDefinedParameterDictionary GetTemplateParameters(string templateName, string[] parameters, params string[] parameterSetNames)
         {
             RuntimeDefinedParameterDictionary dynamicParameters = new RuntimeDefinedParameterDictionary();
-
-            string templateContent = General.DownloadFile(GetGalleryTemplateFile(templateName));
+            string templateContent = null;
+            
+            if (Uri.IsWellFormedUriString(templateName, UriKind.Absolute))
+            {
+                templateContent = General.DownloadFile(GetGalleryTemplateFile(templateName));
+            }
+            else if (File.Exists(templateName))
+            {
+                templateContent = File.ReadAllText(templateName);
+            }
+            else
+            {
+                throw new ArgumentException("templateName");
+            }
+            
             TemplateFile templateFile = JsonConvert.DeserializeObject<TemplateFile>(templateContent);
 
             foreach (KeyValuePair<string, TemplateFileParameter> parameter in templateFile.Parameters)
@@ -165,6 +181,45 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Models
         public virtual void DeleteResourceGroup(string name)
         {
             ResourceManagementClient.ResourceGroups.Delete(name);
+        }
+
+        /// <summary>
+        /// Filters resource group deployments for a subscription
+        /// </summary>
+        /// <param name="resourceGroup">The resource group name</param>
+        /// <param name="name">The deployment name</param>
+        /// <param name="provisioningState">The provisioning state</param>
+        /// <returns>The deployments that match the search criteria</returns>
+        public virtual List<PSResourceGroupDeployment> FilterResourceGroupDeployments(
+            string resourceGroup,
+            string name,
+            string provisioningState)
+        {
+            List<PSResourceGroupDeployment> deployments = new List<PSResourceGroupDeployment>();
+
+            if (!string.IsNullOrEmpty(resourceGroup) && !string.IsNullOrEmpty(name))
+            {
+                deployments.Add(ResourceManagementClient.Deployments.Get(resourceGroup, name).ToPSResourceGroupDeployment());
+            }
+            else if (!string.IsNullOrEmpty(resourceGroup))
+            {
+                DeploymentListResult result = ResourceManagementClient.Deployments.List(
+                    new DeploymentListParameters()
+                    {
+                        ResourceGroupName = resourceGroup,
+                        ProvisioningState = provisioningState
+                    });
+
+                deployments.AddRange(result.Deployments.Select(d => d.ToPSResourceGroupDeployment()));
+
+                while (!string.IsNullOrEmpty(result.NextLink))
+                {
+                    result = ResourceManagementClient.Deployments.ListNext(result.NextLink);
+                    deployments.AddRange(result.Deployments.Select(d => d.ToPSResourceGroupDeployment()));
+                };
+            }
+
+            return deployments;
         }
     }
 }
