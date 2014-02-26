@@ -199,7 +199,8 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
                         SubscriptionName = subscription.SubscriptionName,
                         ServiceEndpoint = !string.IsNullOrEmpty(ServiceEndpoint) ? new Uri(ServiceEndpoint) : null,
                         CloudServiceEndpoint = !string.IsNullOrEmpty(CloudServiceEndpoint) ? new Uri(CloudServiceEndpoint) : null,
-                        TokenProvider = tokenProvider
+                        TokenProvider = tokenProvider,
+                        GalleryEndpoint = !string.IsNullOrEmpty(GalleryEndpoint) ? new Uri(GalleryEndpoint) : null
                     };
 
                     if (mainToken.LoginType == LoginType.LiveId)
