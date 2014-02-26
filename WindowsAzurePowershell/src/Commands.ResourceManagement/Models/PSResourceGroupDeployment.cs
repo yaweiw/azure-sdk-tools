@@ -20,9 +20,9 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Models
 {
     public class PSResourceGroupDeployment
     {
-        public string Name { get; set; }
+        public string DeploymentName { get; set; }
 
-        public string ResourceGroup { get; set; }
+        public string ResourceGroupName { get; set; }
 
         public string ProvisioningState { get; set; }
 

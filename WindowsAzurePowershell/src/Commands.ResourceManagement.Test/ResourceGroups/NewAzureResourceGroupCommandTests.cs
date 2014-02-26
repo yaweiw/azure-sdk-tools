@@ -72,7 +72,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Test.Resources
             PSResourceGroup expected = new PSResourceGroup()
             {
                 Location = expectedParameters.Location,
-                Name = expectedParameters.Name,
+                ResourceGroupName = expectedParameters.Name,
                 Resources = new List<Resource>() { new Resource() { Name = "resource1"} }
             };
             resourcesClientMock.Setup(f => f.CreatePSResourceGroup(It.IsAny<CreatePSResourceGroupParameters>()))
@@ -125,7 +125,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Test.Resources
             PSResourceGroup expected = new PSResourceGroup()
             {
                 Location = expectedParameters.Location,
-                Name = expectedParameters.Name,
+                ResourceGroupName = expectedParameters.Name,
                 Resources = new List<Resource>() { new Resource() { Name = "resource1" } }
             };
             resourcesClientMock.Setup(f => f.CreatePSResourceGroup(It.IsAny<CreatePSResourceGroupParameters>()))

@@ -22,9 +22,9 @@ using Xunit;
 
 namespace Microsoft.Azure.Commands.ResourceManagement.Test.Resources
 {
-    public class GetAzureResourceGroupCommandTests
+    public class GetAzureResourceGroupDeploymentCommandTests
     {
-        private GetAzureResourceGroupCommand cmdlet;
+        private GetAzureResourceGroupDeploymentCommand cmdlet;
 
         private Mock<ResourcesClient> resourcesClientMock;
 
@@ -32,13 +32,13 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Test.Resources
 
         private string resourceGroupName = "myResourceGroup";
 
-        private string resourceGroupLocation = "West US";
+        private string deploymentName = "TheDeploymentName";
 
-        public GetAzureResourceGroupCommandTests()
+        public GetAzureResourceGroupDeploymentCommandTests()
         {
             resourcesClientMock = new Mock<ResourcesClient>();
             commandRuntimeMock = new Mock<ICommandRuntime>();
-            cmdlet = new GetAzureResourceGroupCommand()
+            cmdlet = new GetAzureResourceGroupDeploymentCommand()
             {
                 CommandRuntime = commandRuntimeMock.Object,
                 ResourceClient = resourcesClientMock.Object
@@ -46,26 +46,44 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Test.Resources
         }
 
         [Fact]
-        public void GetsResourcesGroups()
+        public void GetsResourcesGroupDeployments()
         {
-            List<PSResourceGroup> result = new List<PSResourceGroup>();
-            PSResourceGroup expected = new PSResourceGroup()
+            List<PSResourceGroupDeployment> result = new List<PSResourceGroupDeployment>();
+            PSResourceGroupDeployment expected = new PSResourceGroupDeployment()
             {
-                Location = resourceGroupLocation,
+                DeploymentName = deploymentName,
                 ResourceGroupName = resourceGroupName,
-                Resources = new List<Resource>() { new Resource() { Name = "resource1" } }
+                Mode = DeploymentMode.Incremental
             };
             result.Add(expected);
-            resourcesClientMock.Setup(f => f.FilterResourceGroups(resourceGroupName)).Returns(result);
+            resourcesClientMock.Setup(f => f.FilterResourceGroupDeployments(resourceGroupName, null, null))
+                .Returns(result);
 
-            cmdlet.Name = resourceGroupName;
+            cmdlet.ResourceGroupName = resourceGroupName;
 
             cmdlet.ExecuteCmdlet();
 
-            Assert.Equal(1, result.Count);
-            Assert.Equal(resourceGroupName, result[0].ResourceGroupName);
-            Assert.Equal(resourceGroupLocation, result[0].Location);
-            Assert.Equal(1, result[0].Resources.Count);
+            commandRuntimeMock.Verify(f => f.WriteObject(result, true), Times.Once());
+        }
+
+        [Fact]
+        public void GetSepcificResourcesGroupDeployment()
+        {
+            List<PSResourceGroupDeployment> result = new List<PSResourceGroupDeployment>();
+            PSResourceGroupDeployment expected = new PSResourceGroupDeployment()
+            {
+                DeploymentName = deploymentName,
+                ResourceGroupName = resourceGroupName,
+                Mode = DeploymentMode.Incremental
+            };
+            result.Add(expected);
+            resourcesClientMock.Setup(f => f.FilterResourceGroupDeployments(resourceGroupName, deploymentName, null))
+                .Returns(result);
+
+            cmdlet.ResourceGroupName = resourceGroupName;
+            cmdlet.Name = deploymentName;
+
+            cmdlet.ExecuteCmdlet();
 
             commandRuntimeMock.Verify(f => f.WriteObject(result, true), Times.Once());
         }

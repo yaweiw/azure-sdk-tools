@@ -69,7 +69,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Test.Resources
             PSResourceGroupDeployment expected = new PSResourceGroupDeployment()
             {
                 Mode = DeploymentMode.Incremental,
-                Name = deploymentName,
+                DeploymentName = deploymentName,
                 Outputs = new Dictionary<string, DeploymentVariable>()
                 {
                     { "Variable1", new DeploymentVariable() { Value = "true", Type = "bool" } },
@@ -83,7 +83,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Test.Resources
                     { "Parameter3", new DeploymentVariable() { Value = "hello world", Type = "string" } }
                 },
                 ProvisioningState = ProvisioningState.Succeeded,
-                ResourceGroup = resourceGroupName,
+                ResourceGroupName = resourceGroupName,
                 TemplateLink = new TemplateLink()
                 {
                     ContentHash = new ContentHash()
@@ -142,7 +142,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Test.Resources
             PSResourceGroupDeployment expected = new PSResourceGroupDeployment()
             {
                 Mode = DeploymentMode.Incremental,
-                Name = deploymentName,
+                DeploymentName = deploymentName,
                 Outputs = new Dictionary<string, DeploymentVariable>()
                 {
                     { "Variable1", new DeploymentVariable() { Value = "true", Type = "bool" } },
@@ -156,7 +156,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Test.Resources
                     { "Parameter3", new DeploymentVariable() { Value = "hello world", Type = "string" } }
                 },
                 ProvisioningState = ProvisioningState.Succeeded,
-                ResourceGroup = resourceGroupName,
+                ResourceGroupName = resourceGroupName,
                 TemplateLink = new TemplateLink()
                 {
                     ContentHash = new ContentHash()
