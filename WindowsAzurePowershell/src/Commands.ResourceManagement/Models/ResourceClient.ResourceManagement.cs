@@ -106,6 +106,8 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Models
                     },
                     Parameters = GetDeploymentParameters(parameters.ParameterFile, parameters.ParameterObject)
                 };
+
+                ValidateDeployment(resourceGroup, deployment);
                 
                 result = ResourceManagementClient.Deployments.Create(resourceGroup, parameters.DeploymentName, deployment);
                 WriteProgress(string.Format("Create template deployment '{0}' using template {1}.", parameters.DeploymentName, deployment.TemplateLink.Uri));
