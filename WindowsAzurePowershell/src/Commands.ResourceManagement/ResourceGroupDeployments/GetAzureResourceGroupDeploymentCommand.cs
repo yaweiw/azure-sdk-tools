@@ -19,18 +19,26 @@ using System.Management.Automation;
 namespace Microsoft.Azure.Commands.ResourceManagement.ResourceGroups
 {
     /// <summary>
-    /// Filters resource groups.
+    /// Filters resource group deployments.
     /// </summary>
-    [Cmdlet(VerbsCommon.Get, "AzureResourceGroup"), OutputType(typeof(List<PSResourceGroup>))]
-    public class GetAzureResourceGroupCommand : ResourceBaseCmdlet
+    [Cmdlet(VerbsCommon.Get, "AzureResourceGroupDeployment"), OutputType(typeof(List<PSResourceGroupDeployment>))]
+    public class GetAzureResourceGroupDeploymentCommand : ResourceBaseCmdlet
     {
-        [Parameter(Position = 0, Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "The name of the resource group.")]
+        [Parameter(Position = 0, Mandatory = true, ValueFromPipelineByPropertyName = true, HelpMessage = "The name of the resource group.")]
         [ValidateNotNullOrEmpty]
-        public string Name {get; set;}
+        public string ResourceGroupName { get; set; }
+
+        [Parameter(Position = 1, Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "The name of the resource group deployment.")]
+        [ValidateNotNullOrEmpty]
+        public string Name { get; set; }
+
+        [Parameter(Position = 2, Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "The provisioning state of the resource group deployment.")]
+        [ValidateNotNullOrEmpty]
+        public string ProvisioningState { get; set; }
         
         public override void ExecuteCmdlet()
         {
-            WriteObject(ResourceClient.FilterResourceGroups(Name), true);
+            WriteObject(ResourceClient.FilterResourceGroupDeployments(ResourceGroupName, Name, ProvisioningState), true);
         }
     }
 }

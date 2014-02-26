@@ -108,11 +108,13 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
     {
         public const string AzureServiceEndpoint = "https://management.core.windows.net/";
 
-        public const string AzureCloudServiceEndpoint = null;
+        // To Do: get real AzureCloudServiceEndpoint
+        public const string AzureCloudServiceEndpoint = "https://microsoft.com";
 
         public const string ChinaServiceEndpoint = "https://management.core.chinacloudapi.cn/";
 
-        public const string ChinaCloudServiceEndpoint = null;
+        // To Do: get real ChinaCloudServiceEndpoint
+        public const string ChinaCloudServiceEndpoint = "https://microsoft.com";
 
         public const string AzurePublishSettingsFileUrl = "http://go.microsoft.com/fwlink/?LinkID=301775";
 

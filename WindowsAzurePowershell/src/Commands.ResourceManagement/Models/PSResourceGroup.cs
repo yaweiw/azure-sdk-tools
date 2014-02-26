@@ -19,7 +19,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Models
 {
     public class PSResourceGroup
     {
-        public string Name { get; set; }
+        public string ResourceGroupName { get; set; }
 
         public string Location { get; set; }
 

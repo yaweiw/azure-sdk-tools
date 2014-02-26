@@ -140,7 +140,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Test.Models
 
             PSResourceGroup result = resourcesClient.CreatePSResourceGroup(parameters);
 
-            Assert.Equal(parameters.Name, result.Name);
+            Assert.Equal(parameters.Name, result.ResourceGroupName);
             Assert.Equal(parameters.Location, result.Location);
             Assert.Empty(result.Resources);
         }
@@ -224,7 +224,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Test.Models
             PSResourceGroup result = resourcesClient.CreatePSResourceGroup(parameters);
 
             deploymentOperationsMock.Verify((f => f.CreateAsync(resourceGroupName, deploymentName, deploymentInfo, new CancellationToken())), Times.Once());
-            Assert.Equal(parameters.Name, result.Name);
+            Assert.Equal(parameters.Name, result.ResourceGroupName);
             Assert.Equal(parameters.Location, result.Location);
             Assert.Equal(DeploymentMode.Incremental, deploymentInfo.Mode);
             Assert.Equal(templateUri, deploymentInfo.TemplateLink.Uri);
@@ -321,7 +321,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Test.Models
             List<PSResourceGroup> actual = resourcesClient.FilterResourceGroups(name);
 
             Assert.Equal(1, actual.Count);
-            Assert.Equal(name, actual[0].Name);
+            Assert.Equal(name, actual[0].ResourceGroupName);
             Assert.Equal(resourceGroupLocation, actual[0].Location);
             Assert.Equal(2, actual[0].Resources.Count);
             Assert.True(!string.IsNullOrEmpty(actual[0].ResourcesTable));
@@ -347,10 +347,10 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Test.Models
             List<PSResourceGroup> actual = resourcesClient.FilterResourceGroups(null);
 
             Assert.Equal(4, actual.Count);
-            Assert.Equal(resourceGroup1.Name, actual[0].Name);
-            Assert.Equal(resourceGroup2.Name, actual[1].Name);
-            Assert.Equal(resourceGroup3.Name, actual[2].Name);
-            Assert.Equal(resourceGroup4.Name, actual[3].Name);
+            Assert.Equal(resourceGroup1.Name, actual[0].ResourceGroupName);
+            Assert.Equal(resourceGroup2.Name, actual[1].ResourceGroupName);
+            Assert.Equal(resourceGroup3.Name, actual[2].ResourceGroupName);
+            Assert.Equal(resourceGroup4.Name, actual[3].ResourceGroupName);
         }
 
         [Fact]
@@ -564,6 +564,97 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Test.Models
             ValidateRangeAttribute validateRangeAttribute = (ValidateRangeAttribute)dynamicParameter.Attributes[1];
             Assert.Equal(0, validateRangeAttribute.MinRange);
             Assert.Equal(200, validateRangeAttribute.MaxRange);
+        }
+
+        [Fact]
+        public void FiltersOneResourceGroupDeployment()
+        {
+            deploymentOperationsMock.Setup(f => f.GetAsync(resourceGroupName, deploymentName, new CancellationToken()))
+                .Returns(Task.Factory.StartNew(() => new DeploymentGetResult
+                {
+                    Name = deploymentName,
+                    Properties = new DeploymentProperties()
+                    {
+                        Mode = DeploymentMode.Incremental,
+                        TemplateLink = new TemplateLink()
+                        {
+                            Uri = new Uri("http://microsoft.com")
+                        }
+                    },
+                    ResourceGroup = resourceGroupName
+                }));
+
+            List<PSResourceGroupDeployment> result = resourcesClient.FilterResourceGroupDeployments(resourceGroupName, deploymentName, null);
+
+            Assert.Equal(deploymentName, result[0].DeploymentName);
+            Assert.Equal(resourceGroupName, result[0].ResourceGroupName);
+            Assert.Equal(DeploymentMode.Incremental, result[0].Mode);
+            Assert.Equal(new Uri("http://microsoft.com").ToString(), result[0].TemplateLink.Uri.ToString());
+        }
+
+        [Fact]
+        public void FiltersResourceGroupDeployments()
+        {
+            deploymentOperationsMock.Setup(f => f.ListForResourceGroupAsync(
+                resourceGroupName,
+                It.IsAny<DeploymentListParameters>(),
+                new CancellationToken()))
+                .Returns(Task.Factory.StartNew(() => new DeploymentListResult
+                {
+                    Deployments = new List<Deployment>()
+                    {
+                        new Deployment()
+                        {
+                            DeploymentName = deploymentName + 1,
+                            Properties = new DeploymentProperties()
+                            {
+                                Mode = DeploymentMode.Incremental,
+                                TemplateLink = new TemplateLink()
+                                {
+                                    Uri = new Uri("http://microsoft1.com")
+                                }
+                            },
+                            ResourceGroup = resourceGroupName
+                        }
+                    },
+                    NextLink = "nextLink"
+                }));
+
+            deploymentOperationsMock.Setup(f => f.ListNextAsync(
+                "nextLink",
+                new CancellationToken()))
+                .Returns(Task.Factory.StartNew(() => new DeploymentListResult
+                {
+                    Deployments = new List<Deployment>()
+                    {
+                        new Deployment()
+                        {
+                            DeploymentName = deploymentName + 2,
+                            Properties = new DeploymentProperties()
+                            {
+                                Mode = DeploymentMode.Incremental,
+                                TemplateLink = new TemplateLink()
+                                {
+                                    Uri = new Uri("http://microsoft2.com")
+                                }
+                            },
+                            ResourceGroup = resourceGroupName
+                        }
+                    }
+                }));
+
+            List<PSResourceGroupDeployment> result = resourcesClient.FilterResourceGroupDeployments(resourceGroupName, null, null);
+
+            Assert.Equal(2, result.Count);
+            Assert.Equal(deploymentName + 1, result[0].DeploymentName);
+            Assert.Equal(resourceGroupName, result[0].ResourceGroupName);
+            Assert.Equal(DeploymentMode.Incremental, result[0].Mode);
+            Assert.Equal(new Uri("http://microsoft1.com").ToString(), result[0].TemplateLink.Uri.ToString());
+
+            Assert.Equal(deploymentName + 2, result[1].DeploymentName);
+            Assert.Equal(resourceGroupName, result[1].ResourceGroupName);
+            Assert.Equal(DeploymentMode.Incremental, result[1].Mode);
+            Assert.Equal(new Uri("http://microsoft2.com").ToString(), result[1].TemplateLink.Uri.ToString());
         }
     }
 }
