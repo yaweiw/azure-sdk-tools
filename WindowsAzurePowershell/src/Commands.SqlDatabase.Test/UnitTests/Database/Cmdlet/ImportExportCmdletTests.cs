@@ -17,6 +17,7 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Test.UnitTests.Database.Cm
     using System.Collections.ObjectModel;
     using System.Linq;
     using System.Management.Automation;
+    using System.Text.RegularExpressions;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using Microsoft.WindowsAzure.Commands.SqlDatabase.Test.UnitTests.MockServer;
     using Microsoft.WindowsAzure.Commands.SqlDatabase.Test.UnitTests.Server.Cmdlet;
@@ -86,6 +87,13 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Test.UnitTests.Database.Cm
                     (expected, actual) =>
                     {
                         Assert.AreEqual(expected.RequestInfo.Method, actual.Method);
+                        string expectedRequestText = RequestTextToString(expected.RequestInfo);
+                        string actualRequestText = RequestTextToString(actual);
+                        // When checking out from GitHub, different new line setting may lead to different char \r\n or \n
+                        // Replace them with String.Empty before comparison
+                        Assert.AreEqual(
+                            Regex.Replace(expectedRequestText, @"\s+", String.Empty),
+                            Regex.Replace(actualRequestText, @"\s+", String.Empty));
                         Assert.IsTrue(
                             actual.UserAgent.Contains(ApiConstants.UserAgentHeaderValue),
                             "Missing proper UserAgent string.");
@@ -162,6 +170,8 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Test.UnitTests.Database.Cm
                             @"Start-AzureSqlDatabaseImport" +
                             @" -SqlConnectionContext $databaseContext" +
                             @" -DatabaseName $targetDB" +
+                            @" -Edition Business" +
+                            @" -DatabaseMaxSize 10" +
                             @" -StorageContext $storageContext" +
                             @" -StorageContainerName $storageContainerName" +
                             @" -BlobName backup1");
@@ -186,6 +196,10 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Test.UnitTests.Database.Cm
                 Assert.AreEqual(0, powershell.Streams.Error.Count, "Unexpected Errors during run!");
                 Assert.AreEqual(0, powershell.Streams.Warning.Count, "Unexpected Warnings during run!");
             }
+        }
+        private static string RequestTextToString(HttpMessage.Request request)
+        {
+            return request.RequestText == null ? String.Empty : request.RequestText;
         }
     }
 }

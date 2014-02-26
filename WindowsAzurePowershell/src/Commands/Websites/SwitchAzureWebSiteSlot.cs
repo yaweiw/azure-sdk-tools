@@ -43,6 +43,7 @@ namespace Microsoft.WindowsAzure.Commands.Websites
                 Name = GitWebsite.ReadConfiguration().Name;
             }
 
+            Name = WebsitesClient.GetWebsiteNameFromFullName(Name);
             List<Site> sites = WebsitesClient.GetWebsiteSlots(Name);
             string slotName = null;
             string webspace = null;
@@ -55,7 +56,7 @@ namespace Microsoft.WindowsAzure.Commands.Websites
             {
                 foreach (Site website in sites)
                 {
-                    string currentSlotName = WebsitesClient.GetSlotName(website.Name);
+                    string currentSlotName = WebsitesClient.GetSlotName(website.Name) ?? WebsiteSlotName.Production.ToString();
                     if (!currentSlotName.Equals(WebsiteSlotName.Production.ToString(), System.StringComparison.OrdinalIgnoreCase))
                     {
                         slotName = currentSlotName;
@@ -67,7 +68,7 @@ namespace Microsoft.WindowsAzure.Commands.Websites
 
             ConfirmAction(
                 Force.IsPresent,
-                string.Format(Resources.SwapWebsiteSlotWarning, slotName),
+                string.Format(Resources.SwapWebsiteSlotWarning, Name, slotName),
                 Resources.SwappingWebsite,
                 Name,
                 () =>

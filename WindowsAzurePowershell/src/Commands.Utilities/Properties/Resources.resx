@@ -893,6 +893,24 @@ use and privacy statement at {0} and (c) agree to sharing my contact information
   <data name="RemoveAddOnMessage" xml:space="preserve">
     <value>If you delete this add-on, your data may be deleted and the operation may not be undone.  You may have to purchase it again from the Windows Azure Store to use it. The price of the add-on  may not be refunded. Are you sure you want to delete this add-on? Enter “Yes” to confirm.</value>
   </data>
+  <data name="RemoveAzureDedicatdCircuitWarning" xml:space="preserve">
+    <value>Are you sure you want to remove the Dedicated Circuit with service key '{0}'?</value>
+  </data>
+  <data name="RemoveAzureDedicatedCircuitMessage" xml:space="preserve">
+    <value>Removing Dedicated Circuit</value>
+  </data>
+  <data name="RemoveAzureBGPPeeringWarning" xml:space="preserve">
+    <value>Are you sure you want to remove the Bgp Peering with service key '{0}'?</value>
+  </data>
+  <data name="RemoveAzureBGPPeeringMessage" xml:space="preserve">
+    <value>Removing Bgp Peering</value>
+  </data>
+  <data name="RemoveAzureDedicatedCircuitLinkWarning" xml:space="preserve">
+    <value>Are you sure you want to remove the Dedicated Circuit Link with service key '{0}' and virtual network name '{1}'?</value>
+  </data>
+  <data name="RemoveAzureDedicatedCircuitLinkMessage" xml:space="preserve">
+    <value>Removing Dedicated Circui Link</value>
+  </data>
   <data name="RemoveAzureServiceWaitMessage" xml:space="preserve">
     <value>Removing cloud service {0}...</value>
   </data>
@@ -1462,6 +1480,69 @@ Please follow these steps in the portal:
     <value>Swapping website production slot ...</value>
   </data>
   <data name="SwapWebsiteSlotWarning" xml:space="preserve">
-    <value>Are you sure you want to swap the website production slot with slot '{0}'?</value>
+    <value>Are you sure you want to swap the website '{0}' production slot with slot '{1}'?</value>
+  </data>
+  <data name="InvalidWebJobSingleton" xml:space="preserve">
+    <value>Singleton option works for continuous jobs only.</value>
+  </data>
+  <data name="RemoveWebJobMessage" xml:space="preserve">
+    <value>Removing WebJob...</value>
+  </data>
+  <data name="RemoveWebJobWarning" xml:space="preserve">
+    <value>Are you sure you want to remove job '{0}'?</value>
+  </data>
+  <data name="InvalidGuid" xml:space="preserve">
+    <value>The value {0} provided is not a valid GUID. Please provide a valid GUID.</value>
+  </data>
+  <data name="WebDeployKeywordInWebSitePublishProfile" xml:space="preserve">
+    <value>MSDeploy</value>
+  </data>
+  <data name="WebSiteWebDeployUriTemplate" xml:space="preserve">
+    <value>https://{0}/msdeploy.axd?site={1}</value>
+  </data>
+  <data name="String1" xml:space="preserve">
+    <value />
+  </data>
+  <data name="WebProjectBuildFailTemplate" xml:space="preserve">
+    <value>Cannot build the project successfully. Please see logs in {0}.</value>
+  </data>
+  <data name="PeerAsnRequired" xml:space="preserve">
+    <value>A value for the  Peer Asn has to be provided.</value>
+  </data>
+  <data name="PrimaryPeerSubnetRequired" xml:space="preserve">
+    <value>A value for the Primary Peer Subnet has to be provided.</value>
+  </data>
+  <data name="RemoveAzureBGPPeeringFailed" xml:space="preserve">
+    <value>Remove-AzureBGPPeering Operation failed.</value>
+  </data>
+  <data name="RemoveAzureBGPPeeringSucceeded" xml:space="preserve">
+    <value>Successfully removed Azure Bgp Peering with Service Key {0}.</value>
+  </data>
+  <data name="RemoveAzureDedicatedCircuitFailed" xml:space="preserve">
+    <value>Remove-AzureDedicatedCircuit Operation failed.</value>
+  </data>
+  <data name="RemoveAzureDedicatedCircuitLinkFailed" xml:space="preserve">
+    <value>Remove-AzureDedicatedCircuitLink Operation failed.</value>
+  </data>
+  <data name="RemoveAzureDedicatedCircuitLinkSucceeded" xml:space="preserve">
+    <value>Successfully removed Azure Dedicated Circuit Link with Service Key {0} and Vnet Name {1}</value>
+  </data>
+  <data name="RemoveAzureDedicatedCircuitSucceeded" xml:space="preserve">
+    <value>Successfully removed Azure Dedicated Circuit with Service Key {0}.</value>
+  </data>
+  <data name="SecondaryPeerSubnetRequired" xml:space="preserve">
+    <value>A value for the Secondary Peer Subnet has to be provided.</value>
+  </data>
+  <data name="VlanIdRequired" xml:space="preserve">
+    <value>A value for the VLan Id has to be provided.</value>
+  </data>
+  <data name="InvalidWebJobFile" xml:space="preserve">
+    <value>The web job file must have *.zip extension</value>
+  </data>
+  <data name="InvalidJobFile" xml:space="preserve">
+    <value>There was an error creating your webjob. Please make sure that the script is in the root folder of the zip file.</value>
+  </data>
+  <data name="CsRunEmulatorExpressArg" xml:space="preserve">
+    <value>/useemulatorexpress</value>
   </data>
 </root>

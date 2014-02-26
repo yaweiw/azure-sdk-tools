@@ -12,8 +12,6 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-using System.Reflection;
-
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
 {
     using Model;
@@ -25,6 +23,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
     using System;
     using System.Diagnostics;
     using System.IO;
+    using System.Reflection;
     using System.Security;
     using System.Security.Cryptography;
     using System.Security.Cryptography.X509Certificates;
@@ -148,6 +147,15 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
         public const string SetAzureServiceCmdletName = "Set-AzureService";
         public const string RemoveAzureServiceCmdletName = "Remove-AzureService";
 
+        // AzureServiceAvailableExtension
+        public const string GetAzureServiceAvailableExtensionCmdletName = "Get-AzureServiceAvailableExtension";
+
+        // AzureServiceExtension
+        public const string NewAzureServiceExtensionConfigCmdletName = "New-AzureServiceExtensionConfig";
+        public const string SetAzureServiceExtensionCmdletName = "Set-AzureServiceExtension";
+        public const string GetAzureServiceExtensionCmdletName = "Get-AzureServiceExtension";
+        public const string RemoveAzureServiceExtensionCmdletName = "Remove-AzureServiceExtension";
+
         // AzureServiceRemoteDesktopExtension
         public const string NewAzureServiceRemoteDesktopExtensionConfigCmdletName = "New-AzureServiceRemoteDesktopExtensionConfig";
         public const string SetAzureServiceRemoteDesktopExtensionCmdletName = "Set-AzureServiceRemoteDesktopExtension";
@@ -168,6 +176,12 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
         public const string GetAzureStorageAccountCmdletName = "Get-AzureStorageAccount";        
         public const string SetAzureStorageAccountCmdletName = "Set-AzureStorageAccount";        
         public static string RemoveAzureStorageAccountCmdletName = "Remove-AzureStorageAccount";
+
+        //AzureDomainJoinExtension
+        public const string NewAzureServiceDomainJoinExtensionConfig = "New-AzureServiceADDomainExtensionConfig";
+        public const string SetAzureServiceDomainJoinExtension = "Set-AzureServiceADDomainExtension";
+        public const string RemoveAzureServiceDomainJoinExtension = "Remove-AzureServiceADDomainExtension";
+        public const string GetAzureServiceDomainJoinExtension = "Get-AzureServiceADDomainExtension";
 
         // AzureStorageKey
         public static string NewAzureStorageKeyCmdletName = "New-AzureStorageKey";
@@ -251,6 +265,17 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
         public static string SetAzureLoadBalancedEndpointCmdletName = "Set-AzureLoadBalancedEndpoint";
 
         public const string ResetAzureRoleInstanceCmdletName = "ReSet-AzureRoleInstance";
+
+        //Static CA cmdlets
+
+        public const string TestAzureStaticVNetIPCmdletName = "Test-AzureStaticVNetIP";
+        public const string SetAzureStaticVNetIPCmdletName = "Set-AzureStaticVNetIP";
+        public const string GetAzureStaticVNetIPCmdletName = "Get-AzureStaticVNetIP";
+        public const string RemoveAzureStaticVNetIPCmdletName = "Remove-AzureStaticVNetIP";
+
+        public const string GetAzureVMBGInfoExtensionCmdletName = "Get-AzureVMBGInfoExtension";
+        public const string SetAzureVMBGInfoExtensionCmdletName = "Set-AzureVMBGInfoExtension";
+        public const string RemoveAzureVMBGInfoExtensionCmdletName = "Remove-AzureVMBGInfoExtension";
 
         #endregion
 
@@ -542,8 +567,8 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
 
         public static X509Certificate2 InstallCert(string certFile, StoreLocation location = StoreLocation.CurrentUser, StoreName name = StoreName.My)
         {
-            X509Certificate2 cert = new X509Certificate2(certFile);
-            X509Store certStore = new X509Store(name, location);
+            var cert = new X509Certificate2(certFile);
+            var certStore = new X509Store(name, location);
             certStore.Open(OpenFlags.ReadWrite);
             certStore.Add(cert);
             certStore.Close();
@@ -752,6 +777,29 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
             Type type = typeof(T);
 
             foreach (PropertyInfo property in type.GetProperties(BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly))
+            {
+                string typeName = property.PropertyType.FullName;
+                if (typeName.Equals("System.String") || typeName.Equals("System.Int32") || typeName.Equals("System.Uri") ||
+                    typeName.Contains("Nullable"))
+                {
+                    Console.WriteLine("{0}: {1}", property.Name, property.GetValue(obj, null));
+                }
+                else if (typeName.Contains("Boolean"))
+                {
+                    Console.WriteLine("{0}: {1}", property.Name, property.GetValue(obj, null).ToString());
+                }
+                else
+                {
+                    Console.WriteLine("This type is not printed: {0}", typeName);
+                }
+            }
+        }
+
+        public static void PrintCompleteContext<T>(T obj)
+        {
+            Type type = typeof(T);
+
+            foreach (PropertyInfo property in type.GetProperties())
             {
                 string typeName = property.PropertyType.FullName;
                 if (typeName.Equals("System.String") || typeName.Equals("System.Int32") || typeName.Equals("System.Uri") ||
