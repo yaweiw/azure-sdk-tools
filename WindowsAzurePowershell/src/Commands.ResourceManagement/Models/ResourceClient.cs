@@ -29,6 +29,7 @@ using System.Linq;
 using System.Management.Automation;
 using System.Runtime.Serialization.Formatters;
 using System.Security;
+using System.Text;
 using System.Threading;
 
 namespace Microsoft.Azure.Commands.ResourceManagement.Models
@@ -383,6 +384,22 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Models
             }
 
             return runtimeParameter;
+        }
+
+        private void ValidateDeployment(string resourceGroup, BasicDeployment deployment)
+        {
+            DeploymentValidateResponse result = ResourceManagementClient.Deployments.Validate(
+                resourceGroup,
+                DeploymentValidationMode.Full,
+                deployment);
+
+            if (result.Errors.Count != 0)
+            {
+                string errorFormat = "Code={0}; Message={1}; Target={2}\r\n";
+                StringBuilder errors = new StringBuilder();
+                result.Errors.ForEach(e => errors.AppendFormat(errorFormat, e.Code, e.Message, e.Target));
+                throw new ArgumentException(errors.ToString());
+            }
         }
     }
 }
