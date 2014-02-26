@@ -26,53 +26,47 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Models
             List<Resource> resources = client.FilterResources(new FilterResourcesOptions() { ResourceGroup = resourceGroup.Name });
             return new PSResourceGroup()
             {
-                Name = resourceGroup.Name,
+                ResourceGroupName = resourceGroup.Name,
                 Location = resourceGroup.Location,
                 Resources = resources,
                 ResourcesTable = ConstructResourcesTable(resources)
             };
         }
 
-        public static PSResourceGroupDeployment ToPSResourceGroupDeployment(this DeploymentOperationsCreateResult result, ResourcesClient client)
+        public static PSResourceGroupDeployment ToPSResourceGroupDeployment(this DeploymentGetResult result)
         {
-            Dictionary<string, DeploymentVariable> outputs = new Dictionary<string, DeploymentVariable>();
-            Dictionary<string, DeploymentVariable> parameters = new Dictionary<string, DeploymentVariable>();
-            PSResourceGroupDeployment deploymentObject = new PSResourceGroupDeployment();
+            PSResourceGroupDeployment deployment = new PSResourceGroupDeployment();
 
             if (result != null)
             {
-                deploymentObject.Name = result.Name;
-                deploymentObject.ResourceGroup = result.ResourceGroup;
-
-                if (result.Properties != null)
-                {
-                    deploymentObject.Mode = result.Properties.Mode;
-                    deploymentObject.ProvisioningState = result.Properties.ProvisioningState;
-                    deploymentObject.TemplateLink = result.Properties.TemplateLink;
-                    deploymentObject.Timestamp = result.Properties.Timestamp;
-
-                    if (!string.IsNullOrEmpty(result.Properties.Outputs))
-                    {
-                        outputs = JsonConvert.DeserializeObject<Dictionary<string, DeploymentVariable>>(result.Properties.Outputs);
-                        deploymentObject.Outputs = outputs;
-                        deploymentObject.OutputsString = ToString(outputs);
-                    }
-
-                    if (!string.IsNullOrEmpty(result.Properties.Parameters))
-                    {
-                        parameters = JsonConvert.DeserializeObject<Dictionary<string, DeploymentVariable>>(result.Properties.Parameters);
-                        deploymentObject.Parameters = parameters;
-                        deploymentObject.ParametersString = ToString(parameters);
-                    }
-
-                    if (result.Properties.TemplateLink != null)
-                    {
-                        deploymentObject.TemplateLinkString = ToString(result.Properties.TemplateLink);
-                    }
-                }
+                deployment = CreatePSResourceGroupDeployment(result.Name, result.ResourceGroup, result.Properties);
             }
 
-            return deploymentObject;
+            return deployment;
+        }
+
+        public static PSResourceGroupDeployment ToPSResourceGroupDeployment(this DeploymentOperationsCreateResult result)
+        {
+            PSResourceGroupDeployment deployment = new PSResourceGroupDeployment();
+
+            if (result != null)
+            {
+                deployment = CreatePSResourceGroupDeployment(result.Name, result.ResourceGroup, result.Properties);
+            }
+
+            return deployment;
+        }
+
+        public static PSResourceGroupDeployment ToPSResourceGroupDeployment(this Deployment result)
+        {
+            PSResourceGroupDeployment deployment = new PSResourceGroupDeployment();
+
+            if (result != null)
+            {
+                deployment = CreatePSResourceGroupDeployment(result.DeploymentName, result.ResourceGroup, result.Properties);
+            }
+
+            return deployment;
         }
 
         private static string ConstructResourcesTable(List<Resource> resources)
@@ -141,6 +135,48 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Models
             }
 
             return result.ToString();
+        }
+
+        private static PSResourceGroupDeployment CreatePSResourceGroupDeployment(
+            string name,
+            string gesourceGroup,
+            DeploymentProperties properties)
+        {
+            Dictionary<string, DeploymentVariable> outputs = new Dictionary<string, DeploymentVariable>();
+            Dictionary<string, DeploymentVariable> parameters = new Dictionary<string, DeploymentVariable>();
+            PSResourceGroupDeployment deploymentObject = new PSResourceGroupDeployment();
+
+            deploymentObject.DeploymentName = name;
+            deploymentObject.ResourceGroupName = gesourceGroup;
+
+            if (properties != null)
+            {
+                deploymentObject.Mode = properties.Mode;
+                deploymentObject.ProvisioningState = properties.ProvisioningState;
+                deploymentObject.TemplateLink = properties.TemplateLink;
+                deploymentObject.Timestamp = properties.Timestamp;
+
+                if (!string.IsNullOrEmpty(properties.Outputs))
+                {
+                    outputs = JsonConvert.DeserializeObject<Dictionary<string, DeploymentVariable>>(properties.Outputs);
+                    deploymentObject.Outputs = outputs;
+                    deploymentObject.OutputsString = ToString(outputs);
+                }
+
+                if (!string.IsNullOrEmpty(properties.Parameters))
+                {
+                    parameters = JsonConvert.DeserializeObject<Dictionary<string, DeploymentVariable>>(properties.Parameters);
+                    deploymentObject.Parameters = parameters;
+                    deploymentObject.ParametersString = ToString(parameters);
+                }
+
+                if (properties.TemplateLink != null)
+                {
+                    deploymentObject.TemplateLinkString = ToString(properties.TemplateLink);
+                }
+            }
+
+            return deploymentObject;
         }
     }
 }
