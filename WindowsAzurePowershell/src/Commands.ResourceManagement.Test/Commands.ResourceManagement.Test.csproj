@@ -133,6 +133,7 @@
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ResourceGroupDeployments\GetAzureResourceGroupDeploymentCommandTests.cs" />
     <Compile Include="ResourceGroupDeployments\NewAzureResourceGroupDeploymentCommandTests.cs" />
     <Compile Include="ResourceGroups\RemoveAzureResourceGroupCommandTests.cs" />
     <Compile Include="ResourceGroups\GetAzureResourceGroupCommandTests.cs" />

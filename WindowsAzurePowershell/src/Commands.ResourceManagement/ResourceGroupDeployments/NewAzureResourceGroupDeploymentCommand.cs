@@ -38,7 +38,10 @@ namespace Microsoft.Azure.Commands.ResourceManagement.ResourceGroupDeployments
         internal const string ParameterlessGalleryTemplateParameterSetName = "parameterless-gallery-template";
 
         private RuntimeDefinedParameterDictionary dynamicParameters;
+
         private string galleryTemplateName;
+
+        private string templateFile;
 
         public NewAzureResourceGroupDeploymentCommand()
         {
@@ -109,9 +112,9 @@ namespace Microsoft.Azure.Commands.ResourceManagement.ResourceGroupDeployments
             {
                 DeploymentName = Name,
                 GalleryTemplateName = GalleryTemplateName,
-                TemplateFile = TemplateFile,
+                TemplateFile = this.TryResolvePath(TemplateFile),
                 ParameterObject = GetParameterObject(ParameterObject),
-                ParameterFile = ParameterFile,
+                ParameterFile = this.TryResolvePath(ParameterFile),
                 TemplateVersion = TemplateVersion,
                 TemplateHash = TemplateHash,
                 TemplateHashAlgorithm = TemplateHashAlgorithm,
@@ -136,7 +139,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement.ResourceGroupDeployments
 
         public object GetDynamicParameters()
         {
-            if (!string.IsNullOrEmpty(GalleryTemplateName) && 
+            if (!string.IsNullOrEmpty(GalleryTemplateName) &&
                 !GalleryTemplateName.Equals(galleryTemplateName, StringComparison.OrdinalIgnoreCase))
             {
                 galleryTemplateName = GalleryTemplateName;
@@ -145,7 +148,17 @@ namespace Microsoft.Azure.Commands.ResourceManagement.ResourceGroupDeployments
                     MyInvocation.MyCommand.Parameters.Keys.ToArray(),
                     GalleryTemplateDynamicParametersParameterSetName);
             }
-            
+
+            if (!string.IsNullOrEmpty(TemplateFile) &&
+                !TemplateFile.Equals(templateFile, StringComparison.OrdinalIgnoreCase))
+            {
+                templateFile = TemplateFile;
+                dynamicParameters = ResourceClient.GetTemplateParameters(
+                    this.TryResolvePath(TemplateFile),
+                    MyInvocation.MyCommand.Parameters.Keys.ToArray(),
+                    GalleryTemplateDynamicParametersParameterSetName);
+            }
+
             return dynamicParameters;
         }
     }
