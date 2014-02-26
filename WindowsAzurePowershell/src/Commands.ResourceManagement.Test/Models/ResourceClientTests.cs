@@ -656,5 +656,28 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Test.Models
             Assert.Equal(DeploymentMode.Incremental, result[1].Mode);
             Assert.Equal(new Uri("http://microsoft2.com").ToString(), result[1].TemplateLink.Uri.ToString());
         }
+
+        [Fact]
+        public void GetsDynamicParametersForTemplateFile()
+        {
+            RuntimeDefinedParameterDictionary result = resourcesClient.GetTemplateParameters(
+                templateFile,
+                new string[] { },
+                "TestPS");
+
+            Assert.Equal(4, result.Count);
+
+            Assert.Equal("String", result["String"].Name);
+            Assert.Equal(typeof(string), result["String"].ParameterType);
+
+            Assert.Equal("Int", result["Int"].Name);
+            Assert.Equal(typeof(int), result["Int"].ParameterType);
+            
+            Assert.Equal("Securestring", result["Securestring"].Name);
+            Assert.Equal(typeof(SecureString), result["Securestring"].ParameterType);
+
+            Assert.Equal("Bool", result["Bool"].Name);
+            Assert.Equal(typeof(bool), result["Bool"].ParameterType);
+        }
     }
 }

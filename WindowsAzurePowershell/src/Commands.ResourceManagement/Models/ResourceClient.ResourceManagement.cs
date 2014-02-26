@@ -19,6 +19,7 @@ using Microsoft.WindowsAzure.Commands.Utilities.Common;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Management.Automation;
 
@@ -124,8 +125,21 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Models
         public virtual RuntimeDefinedParameterDictionary GetTemplateParameters(string templateName, string[] parameters, params string[] parameterSetNames)
         {
             RuntimeDefinedParameterDictionary dynamicParameters = new RuntimeDefinedParameterDictionary();
-
-            string templateContent = General.DownloadFile(GetGalleryTemplateFile(templateName));
+            string templateContent = null;
+            
+            if (Uri.IsWellFormedUriString(templateName, UriKind.Absolute))
+            {
+                templateContent = General.DownloadFile(GetGalleryTemplateFile(templateName));
+            }
+            else if (File.Exists(templateName))
+            {
+                templateContent = File.ReadAllText(templateName);
+            }
+            else
+            {
+                throw new ArgumentException("templateName");
+            }
+            
             TemplateFile templateFile = JsonConvert.DeserializeObject<TemplateFile>(templateContent);
 
             foreach (KeyValuePair<string, TemplateFileParameter> parameter in templateFile.Parameters)
