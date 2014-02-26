@@ -32,13 +32,14 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
                 foreach (var entry in hashtable.Cast<DictionaryEntry>())
                 {
                     var valueAsHashtable = entry.Value as Hashtable;
+
                     if (valueAsHashtable != null)
                     {
-                        dictionary[(string) entry.Key] = valueAsHashtable.ToMultidimentionalDictionary();
+                        dictionary[(string)entry.Key] = valueAsHashtable.ToMultidimentionalDictionary();
                     }
                     else
                     {
-                        dictionary[(string) entry.Key] = entry.Value;
+                        dictionary[(string)entry.Key] = new Hashtable() { { "value", entry.Value.ToString() } };
                     }
                 }
                 return dictionary;
