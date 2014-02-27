@@ -101,7 +101,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Models
         /// <param name="group"></param>
         /// <param name="identity"></param>
         /// <returns></returns>
-        private bool CheckResourceExistence(string group, ResourceIdentity identity)
+        public virtual bool CheckResourceExistence(string group, ResourceIdentity identity)
         {
             try
             {
@@ -112,6 +112,20 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Models
             {
                 return false;
             }
+        }
+
+        /// <summary>
+        /// Get an existing resource.
+        /// </summary>
+        /// <param name="parameters">The create parameters</param>
+        /// <returns>The created resource group</returns>
+        public virtual List<PSResource> FilterResource(GetPSResourceParameters parameters)
+        {
+            if (string.IsNullOrEmpty(parameters.Name))
+            {
+                
+            }
+            return null;
         }
 
         /// <summary>

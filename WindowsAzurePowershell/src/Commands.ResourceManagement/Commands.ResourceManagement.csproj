@@ -176,6 +176,7 @@
     <Reference Include="System.Management.Automation, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Models\GetPSResourceParameters.cs" />
     <Compile Include="Models\CreatePSResourceParameters.cs" />
     <Compile Include="Models\PSResource.cs" />
     <Compile Include="Models\DeploymentVariable.cs" />
@@ -202,6 +203,7 @@
     <Compile Include="ResourceGroups\NewAzureResourceGroupCommand.cs" />
     <Compile Include="ResourceBaseCmdlet.cs" />
     <Compile Include="Models\ResourceClient.cs" />
+    <Compile Include="Resources\GetAzureResourceCommand.cs" />
     <Compile Include="Resources\NewAzureResourceCommand.cs" />
   </ItemGroup>
   <ItemGroup>
