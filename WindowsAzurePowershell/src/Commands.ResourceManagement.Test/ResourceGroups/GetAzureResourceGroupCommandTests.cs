@@ -58,7 +58,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Test.Resources
             result.Add(expected);
             resourcesClientMock.Setup(f => f.FilterResourceGroups(resourceGroupName)).Returns(result);
 
-            cmdlet.Name = resourceGroupName;
+            cmdlet.ResourceGroupName = resourceGroupName;
 
             cmdlet.ExecuteCmdlet();
 

@@ -25,7 +25,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement.ResourceGroups
     {
         [Parameter(Position = 0, Mandatory = true, ValueFromPipelineByPropertyName = true, HelpMessage = "The name of the resource group.")]
         [ValidateNotNullOrEmpty]
-        public string Name {get; set;}
+        public string ResourceGroupName {get; set;}
 
         [Parameter(Mandatory = false, HelpMessage = "Do not ask for confirmation.")]
         public SwitchParameter Force { get; set; }
@@ -37,10 +37,10 @@ namespace Microsoft.Azure.Commands.ResourceManagement.ResourceGroups
         {
             ConfirmAction(
                 Force.IsPresent,
-                string.Format(Resources.RemovingResourceGroup, Name),
+                string.Format(Resources.RemovingResourceGroup, ResourceGroupName),
                 Resources.RemoveResourceGroupMessage,
-                Name,
-                () => ResourceClient.DeleteResourceGroup(Name));
+                ResourceGroupName,
+                () => ResourceClient.DeleteResourceGroup(ResourceGroupName));
 
             if (PassThru)
             {
