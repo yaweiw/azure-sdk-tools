@@ -14,10 +14,12 @@
 
 using Microsoft.Azure.Commands.ResourceManagement.Models;
 using Microsoft.Azure.Gallery;
+using Microsoft.Azure.Gallery.Models;
 using Microsoft.Azure.Management.Resources;
 using Microsoft.Azure.Management.Resources.Models;
 using Microsoft.WindowsAzure.Commands.Test.Utilities.Common;
 using Microsoft.WindowsAzure.Commands.Utilities.Common.Storage;
+using Microsoft.WindowsAzure.Common.OData;
 using Moq;
 using System;
 using System.Collections;
@@ -201,9 +203,9 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Test.Models
             deploymentsMock.Setup(f => f.ValidateAsync(resourceGroupName, DeploymentValidationMode.Full, It.IsAny<BasicDeployment>(), new CancellationToken()))
                 .Returns(Task.Factory.StartNew(() => new DeploymentValidateResponse
                 {
-                    Errors = new List<Microsoft.Azure.Management.Resources.Models.ErrorDetails>()
+                    Errors = new List<ResourceManagementError>()
                     {
-                        new Microsoft.Azure.Management.Resources.Models.ErrorDetails()
+                        new ResourceManagementError()
                         {
                             Code = "404",
                             Message = "Awesome error message",
@@ -295,7 +297,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Test.Models
             deploymentsMock.Setup(f => f.ValidateAsync(resourceGroupName, DeploymentValidationMode.Full, It.IsAny<BasicDeployment>(), new CancellationToken()))
                 .Returns(Task.Factory.StartNew(() => new DeploymentValidateResponse
                 {
-                    Errors = new List<Microsoft.Azure.Management.Resources.Models.ErrorDetails>()
+                    Errors = new List<ResourceManagementError>()
                 }))
                 .Callback((string rg, DeploymentValidationMode m, BasicDeployment d, CancellationToken c) => { deploymentFromValidate = d; });
             SetupListForResourceGroupAsync(parameters.Name, new List<Resource>() { new Resource() { Name = "website" } });
@@ -408,7 +410,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Test.Models
             deploymentsMock.Setup(f => f.ValidateAsync(resourceGroupName, DeploymentValidationMode.Full, It.IsAny<BasicDeployment>(), new CancellationToken()))
                 .Returns(Task.Factory.StartNew(() => new DeploymentValidateResponse
                 {
-                    Errors = new List<Microsoft.Azure.Management.Resources.Models.ErrorDetails>()
+                    Errors = new List<ResourceManagementError>()
                 }))
                 .Callback((string rg, DeploymentValidationMode m, BasicDeployment d, CancellationToken c) => { deploymentFromValidate = d; });
             SetupListForResourceGroupAsync(parameters.Name, new List<Resource>() { new Resource() { Name = "website" } });
@@ -515,7 +517,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Test.Models
             deploymentsMock.Setup(f => f.ValidateAsync(resourceGroupName, DeploymentValidationMode.Full, It.IsAny<BasicDeployment>(), new CancellationToken()))
                 .Returns(Task.Factory.StartNew(() => new DeploymentValidateResponse
                 {
-                    Errors = new List<Microsoft.Azure.Management.Resources.Models.ErrorDetails>()
+                    Errors = new List<ResourceManagementError>()
                 }))
                 .Callback((string rg, DeploymentValidationMode m, BasicDeployment d, CancellationToken c) => { deploymentFromValidate = d; });
             SetupListForResourceGroupAsync(parameters.Name, new List<Resource>() { new Resource() { Name = "website" } });
@@ -1071,6 +1073,42 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Test.Models
             resourcesClient.CancelDeployment(resourceGroupName);
 
             deploymentsMock.Verify(f => f.CancelAsync(resourceGroupName, deploymentName + 3, new CancellationToken()), Times.Once());
+        }
+
+        [Fact]
+        public void FiltersGalleryTemplates()
+        {
+            string filterString = FilterString.Generate<ItemListFilter>(f => f.Publisher == "Microsoft");
+            ItemListParameters actual = new ItemListParameters();
+            galleryClientMock.Setup(f => f.Items.ListAsync(It.IsAny<ItemListParameters>(), new CancellationToken()))
+                .Returns(Task.Factory.StartNew(() => new ItemListResult
+                {
+                    Items = new List<GalleryItem>()
+                    {
+                        new GalleryItem()
+                        {
+                            Name = "Template1",
+                            Publisher = "Microsoft"
+                        },
+                        new GalleryItem()
+                        {
+                            Name = "Template2",
+                            Publisher = "Microsoft"
+                        }
+                    }
+                }))
+                .Callback((ItemListParameters p, CancellationToken c) => actual = p);
+
+            FilterGalleryTemplatesOptions options = new FilterGalleryTemplatesOptions()
+            {
+                Publisher = "Microsoft"
+            };
+
+            List<GalleryItem> result = resourcesClient.FilterGalleryTemplates(options);
+
+            Assert.Equal(2, result.Count);
+            Assert.True(result.All(g => g.Publisher == "Microsoft"));
+            Assert.Equal(filterString, actual.Filter);
         }
     }
 }
