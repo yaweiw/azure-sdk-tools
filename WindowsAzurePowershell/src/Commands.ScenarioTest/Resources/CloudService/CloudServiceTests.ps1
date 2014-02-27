@@ -472,13 +472,36 @@ Executes Start-AzureEmulator two times and expect to proceed.
 #>
 function Test-StartAzureEmulatorTwice
 {
-	# Setup
-	New-TinyCloudServiceProject test
-	Start-AzureEmulator
-
-	# Test
-	$service = Start-AzureEmulator
-	
-	# Assert
-	Assert-NotNull $service
+    # Setup
+    New-TinyCloudServiceProject test
+    Start-AzureEmulator -Mode Full
+    
+    # Test
+    $service = Start-AzureEmulator -Mode Full
+    
+    # Clean up
+    Stop-AzureEmulator
+     
+    # Assert
+    Assert-NotNull $service
 }
+
+<#
+.SYNOPSIS
+Executes Start-AzureEmulator using Express mode.
+#>
+function Test-StartAzureEmulatorExpress
+{
+    # Setup
+    New-TinyCloudServiceProject test
+    
+    # Test
+    $service = Start-AzureEmulator -Mode Express
+    
+    # Clean up
+    Stop-AzureEmulator
+    
+    # Assert
+    Assert-NotNull $service
+}
+
