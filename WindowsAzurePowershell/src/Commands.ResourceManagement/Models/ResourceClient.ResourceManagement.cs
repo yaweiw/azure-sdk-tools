@@ -187,6 +187,33 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Models
         /// Filters resource group deployments for a subscription
         /// </summary>
         /// <param name="resourceGroup">The resource group name</param>
+        /// <param name="provisioningState">The targeted provisioning states</param>
+        /// <returns>The deployments that match the search criteria</returns>
+        public virtual List<PSResourceGroupDeployment> FilterResourceGroupDeployments(
+            string resourceGroup,
+            params string[] provisioningStates)
+        {
+            List<PSResourceGroupDeployment> deployments = new List<PSResourceGroupDeployment>();
+
+            if (provisioningStates.Length == 0)
+            {
+                deployments.AddRange(FilterResourceGroupDeployments(resourceGroup, null, null));
+            }
+            else
+            {
+                foreach (string provisioningState in provisioningStates)
+                {
+                    deployments.AddRange(FilterResourceGroupDeployments(resourceGroup, null, provisioningState));
+                }
+            }
+
+            return deployments;
+        }
+
+        /// <summary>
+        /// Filters resource group deployments for a subscription
+        /// </summary>
+        /// <param name="resourceGroup">The resource group name</param>
         /// <param name="name">The deployment name</param>
         /// <param name="provisioningState">The provisioning state</param>
         /// <returns>The deployments that match the search criteria</returns>
@@ -220,6 +247,25 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Models
             }
 
             return deployments;
+        }
+
+        /// <summary>
+        /// Cancels the active deployment.
+        /// </summary>
+        /// <param name="resourceGroup">The resource group name</param>
+        public virtual void CancelDeployment(string resourceGroup)
+        {
+            List<PSResourceGroupDeployment> deployments = FilterResourceGroupDeployments(resourceGroup);
+
+            foreach (PSResourceGroupDeployment deployment in deployments)
+            {
+                if (deployment.ProvisioningState != ProvisioningState.Failed && 
+                    deployment.ProvisioningState != ProvisioningState.Succeeded)
+                {
+                    ResourceManagementClient.Deployments.Cancel(resourceGroup, deployment.DeploymentName);
+                    break;
+                }
+            }
         }
     }
 }

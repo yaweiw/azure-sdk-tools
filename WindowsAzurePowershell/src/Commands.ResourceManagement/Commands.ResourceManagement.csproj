@@ -192,6 +192,7 @@
     </Compile>
     <Compile Include="Models\ResourceClient.ResourceManagement.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ResourceGroupDeployments\StopAzureResourceGroupDeploymentCommand.cs" />
     <Compile Include="ResourceGroupDeployments\GetAzureResourceGroupDeploymentCommand.cs" />
     <Compile Include="ResourceGroupDeployments\NewAzureResourceGroupDeploymentCommand.cs" />
     <Compile Include="Models\PSResourceGroupDeployment.cs" />
@@ -217,6 +218,7 @@
     </Content>
     <Content Include="Microsoft.Azure.Commands.ResourceManagement.format.ps1xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <SubType>Designer</SubType>
     </Content>
     <None Include="MSSharedLibKey.snk" />
     <None Include="packages.config" />
