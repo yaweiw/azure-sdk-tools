@@ -106,7 +106,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Models
             return deploymentParameters;
         }
 
-        private static string SerializeHashtable(Hashtable parameterObject)
+        private string SerializeHashtable(Hashtable parameterObject)
         {
             if (parameterObject == null)
             {
@@ -340,14 +340,6 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Models
             {
                 if (!old.Exists(o => o.OperationId.Equals(operation.OperationId)))
                 {
-                    //if (operation.Properties.Details == null)
-                    //{
-                    //    operation.Properties.Details = new OperationDetails()
-                    //    {
-                    //        Operation = "Unknown"
-                    //    };
-                    //}
-
                     newOperations.Add(operation);
                 }
             }

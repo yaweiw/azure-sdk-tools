@@ -73,7 +73,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Models
 
             WriteProgress(string.Format("{0, -15} Creating resource \"{1}\".", "[Start]", parameters.Name));
             
-            var createOrUpdateResult = ResourceManagementClient.Resources.CreateOrUpdate(parameters.ResourceGroupName, resourceIdentity, 
+            ResourceCreateOrUpdateResult createOrUpdateResult = ResourceManagementClient.Resources.CreateOrUpdate(parameters.ResourceGroupName, resourceIdentity, 
                 new ResourceCreateOrUpdateParameters
                 {
                     ValidationMode = ResourceValidationMode.NameValidation,
@@ -89,7 +89,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Models
                 WriteProgress(string.Format("{0, -15} Creating resource \"{1}\".", "[Complete]", parameters.Name));
             }
 
-            var getResult = ResourceManagementClient.Resources.Get(parameters.ResourceGroupName, resourceIdentity);
+            ResourceGetResult getResult = ResourceManagementClient.Resources.Get(parameters.ResourceGroupName, resourceIdentity);
 
             return getResult.Resource.ToPSResource(this);
         }
@@ -161,7 +161,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Models
                 {
                     result = ResourceManagementClient.Resources.ListNext(result.NextLink);
                     resources.AddRange(result.Resources);
-                };
+                }
             }
 
             return resources;
