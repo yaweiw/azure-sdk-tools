@@ -15,17 +15,26 @@
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
 {
     using System.Management.Automation;
-    using Management.Compute;
     using Management.Compute.Models;
     using Utilities.Common;
 
-    [Cmdlet(VerbsData.Save, "AzureVMImage", DefaultParameterSetName = OSImageParamSet), OutputType(typeof(ManagementOperationContext))]
+    [Cmdlet(
+        VerbsData.Save,
+        AzureVMImageNoun,
+        DefaultParameterSetName = OSImageParamSet),
+    OutputType(
+        typeof(ManagementOperationContext))]
     public class SaveAzureVMImageCommand : IaaSDeploymentManagementCmdletBase
     {
+        protected const string AzureVMImageNoun = "AzureVMImage";
         protected const string OSImageParamSet = "OSImage";
         protected const string VMImageParamSet = "VMImage";
 
-        [Parameter(Position = 1, Mandatory = true, ValueFromPipelineByPropertyName = true, HelpMessage = "The name of the virtual machine to export.")]
+        [Parameter(
+            Position = 1,
+            Mandatory = true,
+            ValueFromPipelineByPropertyName = true,
+            HelpMessage = "The name of the virtual machine to export.")]
         [ValidateNotNullOrEmpty]
         public string Name
         {
@@ -33,7 +42,12 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
             set;
         }
 
-        [Parameter(Position = 2, Mandatory = true, ParameterSetName = OSImageParamSet, ValueFromPipelineByPropertyName = true, HelpMessage = "The name that will have the new image.")]
+        [Parameter(
+            ParameterSetName = OSImageParamSet,
+            Position = 2,
+            Mandatory = true,
+            ValueFromPipelineByPropertyName = true,
+            HelpMessage = "The name that will have the new image.")]
         [ValidateNotNullOrEmpty]
         public string NewImageName
         {
@@ -41,7 +55,12 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
             set;
         }
 
-        [Parameter(Position = 2, Mandatory = true, ParameterSetName = VMImageParamSet, ValueFromPipelineByPropertyName = true, HelpMessage = "The name that will have the new VM image.")]
+        [Parameter(
+            ParameterSetName = VMImageParamSet,
+            Position = 2,
+            Mandatory = true,
+            ValueFromPipelineByPropertyName = true,
+            HelpMessage = "The name that will have the new VM image.")]
         [ValidateNotNullOrEmpty]
         public string NewVMImageName
         {
@@ -49,7 +68,11 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
             set;
         }
 
-        [Parameter(Position = 3, Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "The label that will have the new image.")]
+        [Parameter(
+            Position = 3,
+            Mandatory = false,
+            ValueFromPipelineByPropertyName = true,
+            HelpMessage = "The label that will have the new image.")]
         [ValidateNotNullOrEmpty]
         public string NewImageLabel
         {
@@ -57,7 +80,12 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
             set;
         }
 
-        [Parameter(Position = 4, Mandatory = false, ParameterSetName = VMImageParamSet, ValueFromPipelineByPropertyName = true, HelpMessage = "The OS state.")]
+        [Parameter(
+            ParameterSetName = VMImageParamSet,
+            Position = 4,
+            Mandatory = false,
+            ValueFromPipelineByPropertyName = true,
+            HelpMessage = "The OS state.")]
         [ValidateNotNullOrEmpty]
         [ValidateSet("Generalized", "Specialized", IgnoreCase = true)]
         public string OSState
