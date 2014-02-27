@@ -94,7 +94,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Models
 
             if (parameterObject != null)
             {
-                deploymentParameters = SerializeHashtable(parameterObject);
+                deploymentParameters = SerializeHashtable(parameterObject, addValueLayer: true);
             }
             else
             {
@@ -107,13 +107,13 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Models
             return deploymentParameters;
         }
 
-        private string SerializeHashtable(Hashtable parameterObject)
+        private string SerializeHashtable(Hashtable parameterObject, bool addValueLayer)
         {
             if (parameterObject == null)
             {
                 return null;
             }
-            Dictionary<string, object> parametersDictionary = parameterObject.ToMultidimentionalDictionary();
+            Dictionary<string, object> parametersDictionary = parameterObject.ToDictionary(addValueLayer);
             return JsonConvert.SerializeObject(parametersDictionary, new JsonSerializerSettings
                 {
                     TypeNameAssemblyFormat = FormatterAssemblyStyle.Simple,
