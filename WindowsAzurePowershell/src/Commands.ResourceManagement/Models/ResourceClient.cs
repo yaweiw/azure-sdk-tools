@@ -94,15 +94,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Models
 
             if (parameterObject != null)
             {
-                deploymentParameters = JsonConvert.SerializeObject(
-                    parameterObject.ToMultidimentionalDictionary(),
-                    new JsonSerializerSettings
-                    {
-                        TypeNameAssemblyFormat = FormatterAssemblyStyle.Simple,
-                        TypeNameHandling = TypeNameHandling.None,
-                        Formatting = Formatting.Indented
-                    });
-
+                deploymentParameters = SerializeHashtable(parameterObject);
             }
             else
             {
@@ -113,6 +105,21 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Models
             }
 
             return deploymentParameters;
+        }
+
+        private string SerializeHashtable(Hashtable parameterObject)
+        {
+            if (parameterObject == null)
+            {
+                return null;
+            }
+            Dictionary<string, object> parametersDictionary = parameterObject.ToMultidimentionalDictionary();
+            return JsonConvert.SerializeObject(parametersDictionary, new JsonSerializerSettings
+                {
+                    TypeNameAssemblyFormat = FormatterAssemblyStyle.Simple,
+                    TypeNameHandling = TypeNameHandling.None,
+                    Formatting = Formatting.Indented
+                });
         }
 
         private Uri GetTemplateUri(string templateFile, string galleryTemplateName, string storageAccountName)
