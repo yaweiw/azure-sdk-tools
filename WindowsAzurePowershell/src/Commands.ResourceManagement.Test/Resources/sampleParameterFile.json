@@ -1,14 +1,14 @@
 {
-	"string" : {
-		"value" : "myvalue"
-	},
-	"securestring" : {
-		"value" : "myvalue"
-	},
-	"int" : {
-		"value" : 42
-	},
-	"bool" : {
-		"value" : true
-	}
+  "securestring": {
+    "value": "myvalue"
+  },
+  "bool": {
+    "value": "True"
+  },
+  "string": {
+    "value": "myvalue"
+  },
+  "int": {
+    "value": "12"
+  }
 }

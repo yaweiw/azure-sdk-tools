@@ -193,6 +193,8 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Models
                     },
                     Parameters = GetDeploymentParameters(parameters.ParameterFile, parameters.ParameterObject)
                 };
+
+                ValidateDeployment(resourceGroup, deployment);
                 
                 result = ResourceManagementClient.Deployments.Create(resourceGroup, parameters.DeploymentName, deployment);
                 WriteProgress(string.Format("Create template deployment '{0}' using template {1}.", parameters.DeploymentName, deployment.TemplateLink.Uri));
@@ -288,7 +290,8 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Models
             }
             else if (!string.IsNullOrEmpty(resourceGroup))
             {
-                DeploymentListResult result = ResourceManagementClient.Deployments.List(new DeploymentListParameters()
+                DeploymentListResult result = ResourceManagementClient.Deployments.List(
+                    new DeploymentListParameters()
                     {
                         ResourceGroupName = resourceGroup,
                         ProvisioningState = provisioningState
