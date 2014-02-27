@@ -30,7 +30,7 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Common
     {
         /// <summary>
         /// Task number counter
-        ///     The following counter should be used with Interlocked
+        /// The following counter should be used with Interlocked
         /// </summary>
         private long totalTaskCount = 0;
         private long failedTaskCount = 0;
