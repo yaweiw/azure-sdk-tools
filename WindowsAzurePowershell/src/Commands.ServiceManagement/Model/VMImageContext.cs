@@ -85,7 +85,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Model
             set;
         }
 
-        public DateTime CreatedTime
+        public DateTime? CreatedTime
         {
             get;
             set;

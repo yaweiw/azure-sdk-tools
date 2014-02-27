@@ -20,6 +20,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement
     using System.Net;
     using AutoMapper;
     using Extensions;
+    using IaaS.DiskRepository;
     using IaaS.Extensions;
     using Management.Compute.Models;
     using Management.Models;
@@ -74,6 +75,63 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement
 
             Mapper.CreateMap<VirtualMachineExtensionListResponse.ResourceExtension, VirtualMachineExtensionImageContext>()
                   .ForMember(c => c.ExtensionName, o => o.MapFrom(r => r.Name));
+
+            return Initialize();
+        }
+
+        public static bool Initialize(GetAzureVMImage command)
+        {
+            //Image mapping
+            Mapper.CreateMap<VirtualMachineImageListResponse.VirtualMachineImage, OSImageContext>()
+                  .ForMember(c => c.MediaLink, o => o.MapFrom(r => r.MediaLinkUri))
+                  .ForMember(c => c.ImageName, o => o.MapFrom(r => r.Name))
+                  .ForMember(c => c.OS, o => o.MapFrom(r => r.OperatingSystemType))
+                  .ForMember(c => c.PublishedDate, o => o.MapFrom(r => new DateTime?(r.PublishedDate)))
+                  .ForMember(c => c.IconUri, o => o.MapFrom(r => r.SmallIconUri))
+                  .ForMember(c => c.LogicalSizeInGB, o => o.MapFrom(r => (int)r.LogicalSizeInGB));
+
+            Mapper.CreateMap<VirtualMachineImageGetResponse, OSImageContext>()
+                  .ForMember(c => c.ImageName, o => o.MapFrom(r => r.Name))
+                  .ForMember(c => c.MediaLink, o => o.MapFrom(r => r.MediaLinkUri))
+                  .ForMember(c => c.OS, o => o.MapFrom(r => r.OperatingSystemType))
+                  .ForMember(c => c.PublishedDate, o => o.MapFrom(r => new DateTime?(r.PublishedDate)))
+                  .ForMember(c => c.LogicalSizeInGB, o => o.MapFrom(r => (int)r.LogicalSizeInGB));
+
+            Mapper.CreateMap<VirtualMachineImageCreateResponse, OSImageContext>()
+                  .ForMember(c => c.ImageName, o => o.MapFrom(r => r.Name))
+                  .ForMember(c => c.MediaLink, o => o.MapFrom(r => r.MediaLinkUri))
+                  .ForMember(c => c.IconUri, o => o.MapFrom(r => r.SmallIconUri))
+                  .ForMember(c => c.OS, o => o.MapFrom(r => r.OperatingSystemType))
+                  .ForMember(c => c.PublishedDate, o => o.MapFrom(r => r.PublishedDate))
+                  .ForMember(c => c.LogicalSizeInGB, o => o.MapFrom(r => (int)r.LogicalSizeInGB));
+
+            Mapper.CreateMap<VirtualMachineImageUpdateResponse, OSImageContext>()
+                  .ForMember(c => c.ImageName, o => o.MapFrom(r => r.Name))
+                  .ForMember(c => c.MediaLink, o => o.MapFrom(r => r.MediaLinkUri))
+                  .ForMember(c => c.IconUri, o => o.MapFrom(r => r.SmallIconUri))
+                  .ForMember(c => c.OS, o => o.MapFrom(r => r.OperatingSystemType))
+                  .ForMember(c => c.PublishedDate, o => o.MapFrom(r => r.PublishedDate))
+                  .ForMember(c => c.LogicalSizeInGB, o => o.MapFrom(r => (int)r.LogicalSizeInGB));
+
+            Mapper.CreateMap<OperationStatusResponse, OSImageContext>()
+                  .ForMember(c => c.OperationId, o => o.MapFrom(r => r.Id))
+                  .ForMember(c => c.OperationStatus, o => o.MapFrom(r => r.Status.ToString()));
+
+            Mapper.CreateMap<VirtualMachineDiskCreateResponse, OSImageContext>()
+                  .ForMember(c => c.MediaLink, o => o.MapFrom(r => r.MediaLinkUri))
+                  .ForMember(c => c.ImageName, o => o.MapFrom(r => r.Name))
+                  .ForMember(c => c.OS, o => o.MapFrom(r => r.OperatingSystem));
+
+            // VM Image mapping
+            Mapper.CreateMap<VirtualMachineVMImageListResponse.OSDiskConfiguration, PVM.OSDiskConfiguration>()
+                  .ForMember(c => c.OS, o => o.MapFrom(r => r.OperatingSystem));
+            Mapper.CreateMap<VirtualMachineVMImageListResponse.DataDiskConfiguration, PVM.DataDiskConfiguration>()
+                  .ForMember(c => c.Lun, o => o.MapFrom(r => r.LogicalUnitNumber));
+            Mapper.CreateMap<VirtualMachineVMImageListResponse.VirtualMachineVMImage, VMImageContext>();
+
+            Mapper.CreateMap<OperationStatusResponse, VMImageContext>()
+                  .ForMember(c => c.OperationId, o => o.MapFrom(r => r.Id))
+                  .ForMember(c => c.OperationStatus, o => o.MapFrom(r => r.Status.ToString()));
 
             return Initialize();
         }
@@ -302,56 +360,6 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement
                   .ForMember(c => c.DiskSizeInGB, o => o.MapFrom(r => r.LogicalSizeInGB));
 
             Mapper.CreateMap<OperationStatusResponse, DiskContext>()
-                  .ForMember(c => c.OperationId, o => o.MapFrom(r => r.Id))
-                  .ForMember(c => c.OperationStatus, o => o.MapFrom(r => r.Status.ToString()));
-
-            //Image mapping
-            Mapper.CreateMap<VirtualMachineImageListResponse.VirtualMachineImage, OSImageContext>()
-                  .ForMember(c => c.MediaLink, o => o.MapFrom(r => r.MediaLinkUri))
-                  .ForMember(c => c.ImageName, o => o.MapFrom(r => r.Name))
-                  .ForMember(c => c.OS, o => o.MapFrom(r => r.OperatingSystemType))
-                  .ForMember(c => c.PublishedDate, o => o.MapFrom(r => new DateTime?(r.PublishedDate)))
-                  .ForMember(c => c.IconUri, o => o.MapFrom(r => r.SmallIconUri))
-                  .ForMember(c => c.LogicalSizeInGB, o => o.MapFrom(r => (int)r.LogicalSizeInGB));
-
-            Mapper.CreateMap<VirtualMachineImageGetResponse, OSImageContext>()
-                  .ForMember(c => c.ImageName, o => o.MapFrom(r => r.Name))
-                  .ForMember(c => c.MediaLink, o => o.MapFrom(r => r.MediaLinkUri))
-                  .ForMember(c => c.OS, o => o.MapFrom(r => r.OperatingSystemType))
-                  .ForMember(c => c.PublishedDate, o => o.MapFrom(r => new DateTime?(r.PublishedDate)))
-                  .ForMember(c => c.LogicalSizeInGB, o => o.MapFrom(r => (int)r.LogicalSizeInGB));
-
-            Mapper.CreateMap<VirtualMachineImageCreateResponse, OSImageContext>()
-                  .ForMember(c => c.ImageName, o => o.MapFrom(r => r.Name))
-                  .ForMember(c => c.MediaLink, o => o.MapFrom(r => r.MediaLinkUri))
-                  .ForMember(c => c.IconUri, o => o.MapFrom(r => r.SmallIconUri))
-                  .ForMember(c => c.OS, o => o.MapFrom(r => r.OperatingSystemType))
-                  .ForMember(c => c.PublishedDate, o => o.MapFrom(r => r.PublishedDate))
-                  .ForMember(c => c.LogicalSizeInGB, o => o.MapFrom(r => (int)r.LogicalSizeInGB));
-            
-            Mapper.CreateMap<VirtualMachineImageUpdateResponse, OSImageContext>()
-                  .ForMember(c => c.ImageName, o => o.MapFrom(r => r.Name))
-                  .ForMember(c => c.MediaLink, o => o.MapFrom(r => r.MediaLinkUri))
-                  .ForMember(c => c.IconUri, o => o.MapFrom(r => r.SmallIconUri))
-                  .ForMember(c => c.OS, o => o.MapFrom(r => r.OperatingSystemType))
-                  .ForMember(c => c.PublishedDate, o => o.MapFrom(r => r.PublishedDate))
-                  .ForMember(c => c.LogicalSizeInGB, o => o.MapFrom(r => (int)r.LogicalSizeInGB));
-
-            Mapper.CreateMap<OperationStatusResponse, OSImageContext>()
-                  .ForMember(c => c.OperationId, o => o.MapFrom(r => r.Id))
-                  .ForMember(c => c.OperationStatus, o => o.MapFrom(r => r.Status.ToString()));
-
-            Mapper.CreateMap<VirtualMachineDiskCreateResponse, OSImageContext>()
-                  .ForMember(c => c.MediaLink, o => o.MapFrom(r => r.MediaLinkUri))
-                  .ForMember(c => c.ImageName, o => o.MapFrom(r => r.Name))
-                  .ForMember(c => c.OS, o => o.MapFrom(r => r.OperatingSystem));
-
-            // VM Image mapping
-            Mapper.CreateMap<VirtualMachineVMImageListResponse.OSDiskConfiguration, PVM.OSDiskConfiguration>();
-            Mapper.CreateMap<VirtualMachineVMImageListResponse.DataDiskConfiguration, PVM.DataDiskConfiguration>();
-            Mapper.CreateMap<VirtualMachineVMImageListResponse.VirtualMachineVMImage, VMImageContext>();
-
-            Mapper.CreateMap<OperationStatusResponse, VMImageContext>()
                   .ForMember(c => c.OperationId, o => o.MapFrom(r => r.Id))
                   .ForMember(c => c.OperationStatus, o => o.MapFrom(r => r.Status.ToString()));
 

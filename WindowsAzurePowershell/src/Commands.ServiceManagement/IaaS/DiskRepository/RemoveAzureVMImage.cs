@@ -15,23 +15,42 @@
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.DiskRepository
 {
     using System.Management.Automation;
-    using Management.Compute;
     using Utilities.Common;
 
-    [Cmdlet(VerbsCommon.Remove, "AzureVMImage", DefaultParameterSetName = OSImageParamSet), OutputType(typeof(ManagementOperationContext))]
+    [Cmdlet(
+        VerbsCommon.Remove,
+        AzureVMImageNoun,
+        DefaultParameterSetName = OSImageParamSet),
+    OutputType(
+        typeof(ManagementOperationContext))]
     public class RemoveAzureVMImage : ServiceManagementBaseCmdlet
     {
+        protected const string AzureVMImageNoun = "AzureVMImage";
         protected const string OSImageParamSet = "OSImage";
         protected const string VMImageParamSet = "VMImage";
 
-        [Parameter(ParameterSetName = OSImageParamSet, Position = 0, Mandatory = true, ValueFromPipelineByPropertyName = true, HelpMessage = "Name of the image in the image library to remove.")]
+        [Parameter(
+            ParameterSetName = OSImageParamSet,
+            Position = 0,
+            Mandatory = true,
+            ValueFromPipelineByPropertyName = true,
+            HelpMessage = "Name of the image in the image library to remove.")]
         [ValidateNotNullOrEmpty]
         public string ImageName { get; set; }
 
-        [Parameter(ParameterSetName = OSImageParamSet, Mandatory = false, HelpMessage = "Specify to remove the underlying VHD from the blob storage.")]
+        [Parameter(
+            ParameterSetName = OSImageParamSet,
+            Position = 1,
+            Mandatory = false,
+            HelpMessage = "Specify to remove the underlying VHD from the blob storage.")]
         public SwitchParameter DeleteVHD { get; set; }
 
-        [Parameter(ParameterSetName = VMImageParamSet, Position = 0, Mandatory = true, ValueFromPipelineByPropertyName = true, HelpMessage = "Name of the image in the image library to remove.")]
+        [Parameter(
+            ParameterSetName = VMImageParamSet,
+            Position = 0,
+            Mandatory = true,
+            ValueFromPipelineByPropertyName = true,
+            HelpMessage = "Name of the image in the image library to remove.")]
         [ValidateNotNullOrEmpty]
         public string VMImageName { get; set; }
 
