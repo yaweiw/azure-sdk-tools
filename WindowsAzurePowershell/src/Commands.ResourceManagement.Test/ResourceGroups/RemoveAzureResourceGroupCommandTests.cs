@@ -47,7 +47,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Test.Resources
             commandRuntimeMock.Setup(f => f.ShouldProcess(It.IsAny<string>(), It.IsAny<string>())).Returns(true);
             resourcesClientMock.Setup(f => f.DeleteResourceGroup(resourceGroupName));
 
-            cmdlet.Name = resourceGroupName;
+            cmdlet.ResourceGroupName = resourceGroupName;
             cmdlet.PassThru = true;
             cmdlet.Force = true;
 

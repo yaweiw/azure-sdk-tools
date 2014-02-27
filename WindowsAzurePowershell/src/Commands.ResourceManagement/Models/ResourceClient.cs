@@ -395,10 +395,19 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Models
 
         private void ValidateDeployment(string resourceGroup, BasicDeployment deployment)
         {
-            DeploymentValidateResponse result = ResourceManagementClient.Deployments.Validate(
-                resourceGroup,
-                DeploymentValidationMode.Full,
-                deployment);
+            DeploymentValidateResponse result = new DeploymentValidateResponse();
+
+            try
+            {
+                result = ResourceManagementClient.Deployments.Validate(
+                    resourceGroup,
+                    DeploymentValidationMode.Full,
+                    deployment);
+            }
+            catch
+            {
+                // To Do: remove the try-catch when the API is available.
+            }
 
             if (result.Errors.Count != 0)
             {
