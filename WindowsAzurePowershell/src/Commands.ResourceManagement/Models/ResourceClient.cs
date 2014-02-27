@@ -29,6 +29,7 @@ using System.Linq;
 using System.Management.Automation;
 using System.Runtime.Serialization.Formatters;
 using System.Security;
+using System.Text;
 using System.Threading;
 
 namespace Microsoft.Azure.Commands.ResourceManagement.Models
@@ -116,7 +117,8 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Models
             return JsonConvert.SerializeObject(parametersDictionary, new JsonSerializerSettings
                 {
                     TypeNameAssemblyFormat = FormatterAssemblyStyle.Simple,
-                    TypeNameHandling = TypeNameHandling.None
+                    TypeNameHandling = TypeNameHandling.None,
+                    Formatting = Formatting.Indented
                 });
         }
 
@@ -290,7 +292,8 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Models
 
         private void WriteDeploymentProgress(string resourceGroup, string deploymentName)
         {
-            const string statusFormat = "Operation on '{0}' of type {1} in location '{2}' is {3}";
+            const string normalStatusFormat = "Resource {0} '{1}' provisioning status in location '{2}' is {3}";
+            const string failureStatusFormat = "Resource {0} '{1}' in location '{2}' failed with message {3}";
             List<DeploymentOperation> newOperations = new List<DeploymentOperation>();
             DeploymentOperationsListResult result = null;
             string location = ResourceManagementClient.ResourceGroups.Get(resourceGroup).ResourceGroup.Location;
@@ -305,12 +308,24 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Models
 
             foreach (DeploymentOperation operation in newOperations)
             {
-                string statusMessage = string.Format(statusFormat,
-                    //operation.Properties.Details.Operation,
-                    operation.Properties.TargetResource.ResourceName,
-                    operation.Properties.TargetResource.ResourceType,
-                    location,
-                    operation.Properties.ProvisioningState);
+                string statusMessage = string.Empty;
+
+                if (operation.Properties.ProvisioningState != ProvisioningState.Failed)
+                {
+                    statusMessage = string.Format(normalStatusFormat,
+                        operation.Properties.TargetResource.ResourceType,
+                        operation.Properties.TargetResource.ResourceName,
+                        location,
+                        operation.Properties.ProvisioningState);
+                }
+                else
+                {
+                    statusMessage = string.Format(failureStatusFormat,
+                        operation.Properties.TargetResource.ResourceType,
+                        operation.Properties.TargetResource.ResourceName,
+                        location,
+                        operation.Properties.StatusMessage);
+                }
 
                 WriteProgress(statusMessage);
             }
@@ -382,6 +397,22 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Models
             }
 
             return runtimeParameter;
+        }
+
+        private void ValidateDeployment(string resourceGroup, BasicDeployment deployment)
+        {
+            DeploymentValidateResponse result = ResourceManagementClient.Deployments.Validate(
+                resourceGroup,
+                DeploymentValidationMode.Full,
+                deployment);
+
+            if (result.Errors.Count != 0)
+            {
+                string errorFormat = "Code={0}; Message={1}; Target={2}\r\n";
+                StringBuilder errors = new StringBuilder();
+                result.Errors.ForEach(e => errors.AppendFormat(errorFormat, e.Code, e.Message, e.Target));
+                throw new ArgumentException(errors.ToString());
+            }
         }
     }
 }

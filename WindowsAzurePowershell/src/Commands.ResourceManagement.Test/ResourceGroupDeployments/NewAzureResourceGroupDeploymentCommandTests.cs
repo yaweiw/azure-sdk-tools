@@ -20,7 +20,7 @@ using System.Collections.Generic;
 using System.Management.Automation;
 using Xunit;
 
-namespace Microsoft.Azure.Commands.ResourceManagement.Test.ResourceManagement
+namespace Microsoft.Azure.Commands.ResourceManagement.Test
 {
     public class NewAzureResourceGroupDeploymentCommandTests
     {
