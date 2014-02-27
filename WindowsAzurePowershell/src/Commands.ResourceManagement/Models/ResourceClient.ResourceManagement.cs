@@ -121,11 +121,45 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Models
         /// <returns>The created resource group</returns>
         public virtual List<PSResource> FilterResource(GetPSResourceParameters parameters)
         {
-            if (string.IsNullOrEmpty(parameters.Name))
+            List<PSResource> resources = new List<PSResource>();
+
+            if (!string.IsNullOrEmpty(parameters.Name))
             {
-                
+                if (string.IsNullOrEmpty(parameters.ResourceType))
+                {
+                    throw new ArgumentNullException("ResourceType");
+                }
+
+                string[] resourceType = parameters.ResourceType.Split('/');
+                if (resourceType.Length != 2)
+                {
+                    throw new ArgumentException(Resources.ResourceTypeFormat);
+                }
+
+                ResourceGetResult getResult = ResourceManagementClient.Resources.Get(parameters.ResourceGroupName, new ResourceIdentity
+                    {
+                        ResourceName = parameters.Name,
+                        ParentResourcePath = parameters.ParentResourceName,
+                        ResourceProviderNamespace = resourceType[0],
+                        ResourceType = resourceType[1]
+                    });
+
+                resources.Add(getResult.Resource.ToPSResource(this));
             }
-            return null;
+            else
+            {
+                ResourceListResult listResult = ResourceManagementClient.Resources.List(new ResourceListParameters
+                    {
+                        ResourceGroupName = parameters.ResourceGroupName,
+                        ResourceType = parameters.ResourceType
+                    });
+
+                if (listResult.Resources != null)
+                {
+                    resources.AddRange(listResult.Resources.Select(r => r.ToPSResource(this)));
+                }
+            }
+            return resources;
         }
 
         /// <summary>
