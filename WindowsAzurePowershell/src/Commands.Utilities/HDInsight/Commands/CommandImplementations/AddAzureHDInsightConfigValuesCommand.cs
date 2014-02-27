@@ -26,6 +26,7 @@ namespace Microsoft.WindowsAzure.Management.HDInsight.Cmdlet.Commands.CommandImp
         {
             this.Config = new AzureHDInsightConfig();
             this.Core = new Hashtable();
+            this.Yarn = new Hashtable();
             this.Hdfs = new Hashtable();
             this.MapReduce = new AzureHDInsightMapReduceConfiguration();
             this.Hive = new AzureHDInsightHiveConfiguration();
@@ -35,6 +36,8 @@ namespace Microsoft.WindowsAzure.Management.HDInsight.Cmdlet.Commands.CommandImp
         public AzureHDInsightConfig Config { get; set; }
 
         public Hashtable Core { get; set; }
+
+        public Hashtable Yarn { get; set; }
 
         public Hashtable Hdfs { get; set; }
 
@@ -47,6 +50,7 @@ namespace Microsoft.WindowsAzure.Management.HDInsight.Cmdlet.Commands.CommandImp
         public override Task EndProcessing()
         {
             this.Config.CoreConfiguration.AddRange(this.Core.ToKeyValuePairs());
+            this.Config.YarnConfiguration.AddRange(this.Yarn.ToKeyValuePairs());
             this.Config.HdfsConfiguration.AddRange(this.Hdfs.ToKeyValuePairs());
             this.Config.MapReduceConfiguration.ConfigurationCollection.AddRange(this.MapReduce.Configuration.ToKeyValuePairs());
             this.Config.MapReduceConfiguration.CapacitySchedulerConfigurationCollection.AddRange(
