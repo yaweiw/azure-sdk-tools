@@ -80,7 +80,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Models
                     Resource = new BasicResource
                         {
                             Location = parameters.Location,
-                            Properties = SerializeHashtable(parameters.PropertyObject)
+                            Properties = SerializeHashtable(parameters.PropertyObject, addValueLayer: false)
                         }
                 });
 
