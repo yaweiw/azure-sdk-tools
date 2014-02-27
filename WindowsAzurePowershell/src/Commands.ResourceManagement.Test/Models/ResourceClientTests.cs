@@ -284,6 +284,93 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Test.Models
         }
 
         [Fact]
+        public void GetPSResourceWithAllParametersReturnsOneItem()
+        {
+            GetPSResourceParameters parameters = new GetPSResourceParameters()
+            {
+                Name = resourceIdentity.ResourceName,
+                ParentResourceName = resourceIdentity.ParentResourcePath,
+                ResourceGroupName = resourceGroupName,
+                ResourceType = resourceIdentity.ResourceProviderNamespace + "/" + resourceIdentity.ResourceType,
+            };
+
+            resourceOperationsMock.Setup(f => f.GetAsync(resourceGroupName, It.IsAny<ResourceIdentity>(), It.IsAny<CancellationToken>()))
+                .Returns(() => Task.Factory.StartNew(() => new ResourceGetResult
+                    {
+                        StatusCode = HttpStatusCode.OK,
+                        Resource = new Resource
+                            {
+                                Name = parameters.Name,
+                                Properties = serializedProperties,
+                                ProvisioningState = ProvisioningState.Running,
+                                ResourceGroup = parameters.ResourceGroupName,
+                                Location = "West US"
+                            }
+                    }));
+
+            
+            List<PSResource> result = resourcesClient.FilterResource(parameters);
+
+            Assert.NotNull(result);
+            Assert.Equal(1, result.Count);
+        }
+
+        [Fact]
+        public void GetPSResourceWithSomeParametersReturnsList()
+        {
+            GetPSResourceParameters parameters = new GetPSResourceParameters()
+            {
+                ResourceGroupName = resourceGroupName,
+            };
+
+            resourceOperationsMock.Setup(f => f.ListAsync(It.IsAny<ResourceListParameters>(), It.IsAny<CancellationToken>()))
+                .Returns(() => Task.Factory.StartNew(() => new ResourceListResult
+                {
+                    StatusCode = HttpStatusCode.OK,
+                    Resources = new List<Resource>(new []
+                        {
+                            new Resource
+                            {
+                                Name = "foo",
+                                Properties = serializedProperties,
+                                ProvisioningState = ProvisioningState.Running,
+                                ResourceGroup = parameters.ResourceGroupName,
+                                Location = "West US"
+                            },
+                            new Resource
+                            {
+                                Name = "bar",
+                                Properties = serializedProperties,
+                                ProvisioningState = ProvisioningState.Running,
+                                ResourceGroup = parameters.ResourceGroupName,
+                                Location = "West US"
+                            }
+                        })
+                    
+                }));
+
+
+            List<PSResource> result = resourcesClient.FilterResource(parameters);
+
+            Assert.NotNull(result);
+            Assert.Equal(2, result.Count);
+        }
+
+        [Fact]
+        public void GetPSResourceWithIncorrectTypeThrowsException()
+        {
+            GetPSResourceParameters parameters = new GetPSResourceParameters()
+            {
+                Name = resourceIdentity.ResourceName,
+                ParentResourceName = resourceIdentity.ParentResourcePath,
+                ResourceGroupName = resourceGroupName,
+                ResourceType = "abc",
+            };
+
+            Assert.Throws<ArgumentException>(() => resourcesClient.FilterResource(parameters));
+        }
+
+        [Fact]
         public void FailsResourceGroupWithInvalidDeployment()
         {
             Uri templateUri = new Uri("http://templateuri.microsoft.com");
