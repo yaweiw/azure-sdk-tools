@@ -20,7 +20,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
 
     public static class ConversionUtils
     {
-        public static Dictionary<string, object> ToMultidimentionalDictionary(this Hashtable hashtable)
+        public static Dictionary<string, object> ToDictionary(this Hashtable hashtable, bool addValueLayer)
         {
             if (hashtable == null)
             {
@@ -35,32 +35,18 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
 
                     if (valueAsHashtable != null)
                     {
-                        dictionary[(string)entry.Key] = valueAsHashtable.ToMultidimentionalDictionary();
+                        dictionary[(string)entry.Key] = valueAsHashtable.ToDictionary(addValueLayer);
                     }
                     else
                     {
-                        dictionary[(string)entry.Key] = new Hashtable() { { "value", entry.Value.ToString() } };
-                    }
-                }
-                return dictionary;
-            }
-        }
-
-        public static Dictionary<string, TV> ToFlatDictionary<TV>(this Hashtable hashtable) where TV : class
-        {
-            if (hashtable == null)
-            {
-                return null;
-            }
-            else
-            {
-                var dictionary = new Dictionary<string, TV>();
-                foreach (var entry in hashtable.Cast<DictionaryEntry>())
-                {
-                    var value = entry.Value as TV;
-                    if (value != null)
-                    {
-                        dictionary[(string)entry.Key] = value;
+                        if (addValueLayer)
+                        {
+                            dictionary[(string) entry.Key] = new Hashtable() {{"value", entry.Value.ToString()}};
+                        }
+                        else
+                        {
+                            dictionary[(string) entry.Key] = entry.Value.ToString();
+                        }
                     }
                 }
                 return dictionary;
