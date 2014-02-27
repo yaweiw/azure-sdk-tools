@@ -39,7 +39,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
                     null,
                     this.CommandRuntime.ToString(),
                     () => this.ComputeClient.VirtualMachineDisks.GetDisk(this.DiskName),
-                    (s, response) => this.ContextFactory<VirtualMachineDiskGetDiskResponse, DiskContext>(response, s));
+                    (s, response) => this.ContextFactory<VirtualMachineDiskGetResponse, DiskContext>(response, s));
             }
             else
             {

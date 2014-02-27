@@ -279,24 +279,24 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement
                   .ForMember(c => c.AttachedTo, o => o.MapFrom(r => r.UsageDetails));
             Mapper.CreateMap<VirtualMachineDiskListResponse.VirtualMachineDiskUsageDetails, DiskContext.RoleReference>();
 
-            Mapper.CreateMap<VirtualMachineDiskGetDiskResponse, DiskContext>()
+            Mapper.CreateMap<VirtualMachineDiskGetResponse, DiskContext>()
                   .ForMember(c => c.AttachedTo, o => o.MapFrom(r => r.UsageDetails))
                   .ForMember(c => c.DiskName, o => o.MapFrom(r => r.Name))
                   .ForMember(c => c.DiskSizeInGB, o => o.MapFrom(r => r.LogicalSizeInGB))
                   .ForMember(c => c.IsCorrupted, o => o.MapFrom(r => r.IsCorrupted))
                   .ForMember(c => c.MediaLink, o => o.MapFrom(r => r.MediaLinkUri))
                   .ForMember(c => c.OS, o => o.MapFrom(r => r.OperatingSystemType));
-            Mapper.CreateMap<VirtualMachineDiskGetDiskResponse.VirtualMachineDiskUsageDetails, DiskContext.RoleReference>();
+            Mapper.CreateMap<VirtualMachineDiskGetResponse.VirtualMachineDiskUsageDetails, DiskContext.RoleReference>();
 
-            Mapper.CreateMap<VirtualMachineDiskCreateDiskResponse, DiskContext>()
+            Mapper.CreateMap<VirtualMachineDiskCreateResponse, DiskContext>()
                   .ForMember(c => c.DiskName, o => o.MapFrom(r => r.Name))
                   .ForMember(c => c.OS, o => o.MapFrom(r => r.OperatingSystem))
                   .ForMember(c => c.MediaLink, o => o.MapFrom(r => r.MediaLinkUri))
                   .ForMember(c => c.DiskSizeInGB, o => o.MapFrom(r => r.LogicalSizeInGB))
                   .ForMember(c => c.AttachedTo, o => o.MapFrom(r => r.UsageDetails));
-            Mapper.CreateMap<VirtualMachineDiskCreateDiskResponse.VirtualMachineDiskUsageDetails, DiskContext.RoleReference>();
+            Mapper.CreateMap<VirtualMachineDiskCreateResponse.VirtualMachineDiskUsageDetails, DiskContext.RoleReference>();
 
-            Mapper.CreateMap<VirtualMachineDiskUpdateDiskResponse, DiskContext>()
+            Mapper.CreateMap<VirtualMachineDiskUpdateResponse, DiskContext>()
                   .ForMember(c => c.DiskName, o => o.MapFrom(r => r.Name))
                   .ForMember(c => c.MediaLink, o => o.MapFrom(r => r.MediaLinkUri))
                   .ForMember(c => c.DiskSizeInGB, o => o.MapFrom(r => r.LogicalSizeInGB));
@@ -341,10 +341,19 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement
                   .ForMember(c => c.OperationId, o => o.MapFrom(r => r.Id))
                   .ForMember(c => c.OperationStatus, o => o.MapFrom(r => r.Status.ToString()));
 
-            Mapper.CreateMap<VirtualMachineDiskCreateDiskResponse, OSImageContext>()
+            Mapper.CreateMap<VirtualMachineDiskCreateResponse, OSImageContext>()
                   .ForMember(c => c.MediaLink, o => o.MapFrom(r => r.MediaLinkUri))
                   .ForMember(c => c.ImageName, o => o.MapFrom(r => r.Name))
                   .ForMember(c => c.OS, o => o.MapFrom(r => r.OperatingSystem));
+
+            // VM Image mapping
+            Mapper.CreateMap<VirtualMachineVMImageListResponse.OSDiskConfiguration, PVM.OSDiskConfiguration>();
+            Mapper.CreateMap<VirtualMachineVMImageListResponse.DataDiskConfiguration, PVM.DataDiskConfiguration>();
+            Mapper.CreateMap<VirtualMachineVMImageListResponse.VirtualMachineVMImage, VMImageContext>();
+
+            Mapper.CreateMap<OperationStatusResponse, VMImageContext>()
+                  .ForMember(c => c.OperationId, o => o.MapFrom(r => r.Id))
+                  .ForMember(c => c.OperationStatus, o => o.MapFrom(r => r.Status.ToString()));
 
             //Storage mapping
             Mapper.CreateMap<StorageServiceGetResponse, StorageServicePropertiesOperationContext>()

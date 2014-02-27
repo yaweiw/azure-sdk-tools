@@ -2333,6 +2333,193 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Model.PersistentVMMo
     {
         public ExtensionDataObject ExtensionData { get; set; }
     }
+
+    [DataContract(Namespace = Constants.ServiceManagementNS)]
+    public class OSDiskConfiguration : IExtensibleDataObject
+    {
+        [DataMember(EmitDefaultValue = false, Order = 0)]
+        public string Name
+        {
+            get;
+            set;
+        }
+
+        [DataMember(EmitDefaultValue = false, Order = 1)]
+        public string HostCaching
+        {
+            get;
+            set;
+        }
+
+
+        [DataMember(EmitDefaultValue = false, Order = 2)]
+        public string OSState
+        {
+            get;
+            set;
+        }
+
+        [DataMember(EmitDefaultValue = false, Order = 3)]
+        public string OS
+        {
+            get;
+            set;
+        }
+
+        [DataMember(EmitDefaultValue = false, Order = 4)]
+        public Uri MediaLink
+        {
+            get;
+            set;
+        }
+
+        [DataMember(EmitDefaultValue = false, Order = 5)]
+        public int LogicalDiskSizeInGB
+        {
+            get;
+            set;
+        }
+
+        public ExtensionDataObject ExtensionData { get; set; }
+    }
+
+    [DataContract(Namespace = Constants.ServiceManagementNS)]
+    public class DataDiskConfiguration : IExtensibleDataObject
+    {
+        [DataMember(EmitDefaultValue = false, Order = 0)]
+        public string Name
+        {
+            get;
+            set;
+        }
+
+        [DataMember(EmitDefaultValue = false, Order = 1)]
+        public string HostCaching
+        {
+            get;
+            set;
+        }
+
+        [DataMember(EmitDefaultValue = false, Order = 2)]
+        public int Lun
+        {
+            get;
+            set;
+        }
+
+        [DataMember(EmitDefaultValue = false, Order = 3)]
+        public Uri MediaLink
+        {
+            get;
+            set;
+        }
+
+        [DataMember(EmitDefaultValue = false, Order = 4)]
+        public int LogicalDiskSizeInGB
+        {
+            get;
+            set;
+        }
+
+        public ExtensionDataObject ExtensionData { get; set; }
+    }
+
+    [CollectionDataContract(Name = "DataDiskConfigurations", ItemName = "DataDiskConfiguration", Namespace = Constants.ServiceManagementNS)]
+    public class DataDiskConfigurationList : Collection<DataDiskConfiguration> { }
+
+    [DataContract(Namespace = Constants.ServiceManagementNS)]
+    public class VMImage
+    {
+        [DataMember(EmitDefaultValue = false, Order = 0)]
+        public string Name
+        {
+            get;
+            set;
+        }
+
+        [DataMember(EmitDefaultValue = false, Order = 1)]
+        public string Label
+        {
+            get;
+            set;
+        }
+
+        [DataMember(EmitDefaultValue = false, Order = 2)]
+        public string Category
+        {
+            get;
+            set;
+        }
+
+        [DataMember(EmitDefaultValue = false, Order = 3)]
+        public string Description
+        {
+            get;
+            set;
+        }
+
+        [DataMember(EmitDefaultValue = false, Order = 3)]
+        public OSDiskConfiguration OSDiskConfiguration
+        {
+            get;
+            set;
+        }
+
+        [DataMember(EmitDefaultValue = false, Order = 4)]
+        public DataDiskConfigurationList DataDiskConfigurations
+        {
+            get;
+            set;
+        }
+
+
+        [DataMember(EmitDefaultValue = false, Order = 5)]
+        public string ServiceName
+        {
+            get;
+            set;
+        }
+
+        [DataMember(EmitDefaultValue = false, Order = 6)]
+        public string DeploymentName
+        {
+            get;
+            set;
+        }
+
+        [DataMember(EmitDefaultValue = false, Order = 7)]
+        public string RoleName
+        {
+            get;
+            set;
+        }
+
+        [DataMember(EmitDefaultValue = false, Order = 8)]
+        public string Location
+        {
+            get;
+            set;
+        }
+
+        [DataMember(EmitDefaultValue = false, Order = 9)]
+        public string AffinityGroup
+        {
+            get;
+            set;
+        }
+
+        [DataMember(EmitDefaultValue = false, Order = 10)]
+        public DateTime CreatedTime
+        {
+            get;
+            set;
+        }
+    }
+
+    [CollectionDataContract(Name = "VMImages", ItemName = "VMImage", Namespace = Constants.ServiceManagementNS)]
+    public class VMImageList : Collection<VMImage>
+    {
+    }
 }
 
 
