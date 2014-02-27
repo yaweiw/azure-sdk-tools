@@ -123,8 +123,17 @@
   <data name="RemovingResourceGroup" xml:space="preserve">
     <value>Are you sure you want to remove resource group '{0}'</value>
   </data>
+  <data name="ResourceAlreadyExists" xml:space="preserve">
+    <value>Provided resource already exists.</value>
+  </data>
   <data name="ResourceGroupAlreadyExists" xml:space="preserve">
     <value>Provided resource group already exists.</value>
+  </data>
+  <data name="ResourceGroupDoesntExists" xml:space="preserve">
+    <value>Provided resource group does not exist.</value>
+  </data>
+  <data name="ResourceTypeFormat" xml:space="preserve">
+    <value>Resource type needs to be in the ResourceProvider/type format. For example Microsoft.Web/sites.</value>
   </data>
   <data name="StorageAccountNameNeedsToBeSpecified" xml:space="preserve">
     <value>Either StorageAccountName or storage account on the subscription need to be specefied.</value>

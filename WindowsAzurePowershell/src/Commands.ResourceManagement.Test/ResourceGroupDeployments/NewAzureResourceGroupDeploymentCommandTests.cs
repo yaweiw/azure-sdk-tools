@@ -13,7 +13,6 @@
 // ----------------------------------------------------------------------------------
 
 using Microsoft.Azure.Commands.ResourceManagement.Models;
-using Microsoft.Azure.Commands.ResourceManagement.ResourceGroupDeployments;
 using Microsoft.Azure.Management.Resources.Models;
 using Moq;
 using System;
@@ -21,7 +20,7 @@ using System.Collections.Generic;
 using System.Management.Automation;
 using Xunit;
 
-namespace Microsoft.Azure.Commands.ResourceManagement.Test.Resources
+namespace Microsoft.Azure.Commands.ResourceManagement.Test.ResourceManagement
 {
     public class NewAzureResourceGroupDeploymentCommandTests
     {

@@ -176,6 +176,8 @@
     <Reference Include="System.Management.Automation, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Models\CreatePSResourceParameters.cs" />
+    <Compile Include="Models\PSResource.cs" />
     <Compile Include="Models\DeploymentVariable.cs" />
     <Compile Include="Models\FilterResourcesOptions.cs" />
     <Compile Include="Models\CreatePSDeploymentParameters.cs" />
@@ -200,6 +202,7 @@
     <Compile Include="ResourceGroups\NewAzureResourceGroupCommand.cs" />
     <Compile Include="ResourceBaseCmdlet.cs" />
     <Compile Include="Models\ResourceClient.cs" />
+    <Compile Include="Resources\NewAzureResourceCommand.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Common.Storage\Common.Storage.csproj">
@@ -225,6 +228,7 @@
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
