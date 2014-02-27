@@ -169,6 +169,7 @@
     <Compile Include="CloudService\CloudRuntimePackage.cs" />
     <Compile Include="CloudService\CloudServicePathInfo.cs" />
     <Compile Include="CloudService\CloudServiceProject.cs" />
+    <Compile Include="CloudService\ComputeEmulatorMode.cs" />
     <Compile Include="CloudService\JavaScriptPackageHelpers.cs" />
     <Compile Include="CloudService\PublishContext.cs" />
     <Compile Include="CloudService\RoleInfo.cs" />

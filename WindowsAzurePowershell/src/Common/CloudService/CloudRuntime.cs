@@ -547,7 +547,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService
                     string version;
                     if (!environment.TryGetValue(Resources.CacheRuntimeVersionKey, out version))
                     {
-                        version = new AzureTool().AzureSdkVersion;
+                        version = AzureTool.GetAzureSdkVersion();
                     }
 
                     this.Version = version;
