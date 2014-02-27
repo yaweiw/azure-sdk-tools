@@ -49,7 +49,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Gallery
                 Publisher = Publisher
             };
 
-            WriteObject(ResourceClient.FilterGalleryTemplates(options));
+            WriteObject(ResourceClient.FilterGalleryTemplates(options), true);
         }
     }
 }
