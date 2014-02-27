@@ -12,10 +12,14 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
+using System.Collections;
+using System.Net;
+using System.Runtime.Serialization.Formatters;
 using Microsoft.Azure.Commands.ResourceManagement.Models;
 using Microsoft.Azure.Gallery;
 using Microsoft.Azure.Management.Resources;
 using Microsoft.Azure.Management.Resources.Models;
+using Microsoft.WindowsAzure;
 using Microsoft.WindowsAzure.Commands.Test.Utilities.Common;
 using Microsoft.WindowsAzure.Commands.Utilities.Common.Storage;
 using Moq;
@@ -27,6 +31,7 @@ using System.Management.Automation;
 using System.Security;
 using System.Threading;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
 using Xunit;
 
 namespace Microsoft.Azure.Commands.ResourceManagement.Test.Models
@@ -67,6 +72,12 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Test.Models
 
         private string resourceName = "myResource";
 
+        private ResourceIdentity resourceIdentity;
+
+        private Dictionary<string, object> properties;
+        
+        private string serializedProperties;
+
         private void SetupListForResourceGroupAsync(string name, List<Resource> result)
         {
             resourceOperationsMock.Setup(f => f.ListAsync(
@@ -99,6 +110,25 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Test.Models
                 {
                     ProgressLogger = progressLoggerMock.Object
                 };
+
+            resourceIdentity = new ResourceIdentity
+            {
+                ParentResourcePath = "sites/siteA",
+                ResourceName = "myResource",
+                ResourceProviderNamespace = "Microsoft.Web",
+                ResourceType = "sites"
+            };
+            properties = new Dictionary<string, object>
+                {
+                    {"name", "site1"},
+                    {"siteMode", "Standard"},
+                    {"computeMode", "Dedicated"}
+                };
+            serializedProperties = JsonConvert.SerializeObject(properties, new JsonSerializerSettings
+            {
+                TypeNameAssemblyFormat = FormatterAssemblyStyle.Simple,
+                TypeNameHandling = TypeNameHandling.None
+            });
         }
 
         [Fact]
@@ -143,6 +173,113 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Test.Models
             Assert.Equal(parameters.Name, result.ResourceGroupName);
             Assert.Equal(parameters.Location, result.Location);
             Assert.Empty(result.Resources);
+        }
+
+        [Fact]
+        public void CreatesNewPSResourceWithExistingResourceThrowsException()
+        {
+            CreatePSResourceParameters parameters = new CreatePSResourceParameters()
+            {
+                Location = "West US",
+                Name = resourceIdentity.ResourceName,
+                ParentResourceName = resourceIdentity.ParentResourcePath,
+                PropertyObject = new Hashtable(properties),
+                ResourceGroupName = resourceGroupName,
+                ResourceType = resourceIdentity.ResourceProviderNamespace + "/" + resourceIdentity.ResourceType,
+            };
+
+            resourceOperationsMock.Setup(f => f.GetAsync(resourceGroupName, resourceIdentity, It.IsAny<CancellationToken>()))
+                .Returns(Task.Factory.StartNew(() => new ResourceGetResult
+                    {
+                        Resource = new Resource
+                            {
+                                Location = "West US",
+                                Properties = serializedProperties,
+                                ProvisioningState = ProvisioningState.Running
+                            }
+                    }));
+
+            Assert.Throws<ArgumentException>(() => resourcesClient.CreatePSResource(parameters));
+        }
+
+        [Fact]
+        public void CreatesNewPSResourceWithIncorrectTypeThrowsException()
+        {
+            CreatePSResourceParameters parameters = new CreatePSResourceParameters()
+            {
+                Location = "West US",
+                Name = resourceIdentity.ResourceName,
+                ParentResourceName = resourceIdentity.ParentResourcePath,
+                PropertyObject = new Hashtable(properties),
+                ResourceGroupName = resourceGroupName,
+                ResourceType = "abc",
+            };
+
+            Assert.Throws<ArgumentException>(() => resourcesClient.CreatePSResource(parameters));
+        }
+
+        [Fact]
+        public void CreatesNewPSResourceWithAllParameters()
+        {
+            CreatePSResourceParameters parameters = new CreatePSResourceParameters()
+            {
+                Location = "West US",
+                Name = resourceIdentity.ResourceName,
+                ParentResourceName = resourceIdentity.ParentResourcePath,
+                PropertyObject = new Hashtable(properties),
+                ResourceGroupName = resourceGroupName,
+                ResourceType = resourceIdentity.ResourceProviderNamespace + "/" + resourceIdentity.ResourceType,
+            };
+
+            int counter = 0;
+            resourceOperationsMock.Setup(f => f.GetAsync(resourceGroupName, It.IsAny<ResourceIdentity>(), It.IsAny<CancellationToken>()))
+                .Returns(() =>
+                    {
+                        counter++;
+                        if (counter == 1)
+                        {
+                            throw new CloudException("Resource does not exist.");
+                        }
+                        else
+                        {
+                            return Task.Factory.StartNew(() => new ResourceGetResult
+                            {
+                                StatusCode = HttpStatusCode.OK,
+                                Resource = new Resource
+                                {
+                                    Name = parameters.Name,
+                                    Location = parameters.Location,
+                                    Properties = serializedProperties,
+                                    ProvisioningState = ProvisioningState.Running,
+                                    ResourceGroup = parameters.ResourceGroupName
+                                }
+                            });
+                        }
+                    }
+                );
+
+            resourceGroupOperationsMock.Setup(f => f.CheckExistenceAsync(resourceGroupName, It.IsAny<CancellationToken>()))
+                .Returns(Task.Factory.StartNew(() => new ResourceGroupExistsResult
+                {
+                    Exists = true
+                }));
+
+            resourceOperationsMock.Setup(f => f.CreateOrUpdateAsync(resourceGroupName, It.IsAny<ResourceIdentity>(), It.IsAny<ResourceCreateOrUpdateParameters>(), It.IsAny<CancellationToken>()))
+                .Returns(Task.Factory.StartNew(() => new ResourceCreateOrUpdateResult
+                {
+                    RequestId = "123",
+                    StatusCode = HttpStatusCode.OK,
+                    Resource = new BasicResource
+                    {
+                        Location = "West US",
+                        Properties = serializedProperties,
+                        ProvisioningState = ProvisioningState.Running
+                    }
+                }));
+
+            PSResource result = resourcesClient.CreatePSResource(parameters);
+
+            Assert.NotNull(result);
         }
 
         [Fact]
@@ -595,8 +732,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Test.Models
         [Fact]
         public void FiltersResourceGroupDeployments()
         {
-            deploymentOperationsMock.Setup(f => f.ListForResourceGroupAsync(
-                resourceGroupName,
+            deploymentOperationsMock.Setup(f => f.ListAsync(
                 It.IsAny<DeploymentListParameters>(),
                 new CancellationToken()))
                 .Returns(Task.Factory.StartNew(() => new DeploymentListResult

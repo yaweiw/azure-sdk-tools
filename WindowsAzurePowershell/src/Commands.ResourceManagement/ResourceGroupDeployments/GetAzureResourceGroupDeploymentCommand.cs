@@ -16,7 +16,7 @@ using Microsoft.Azure.Commands.ResourceManagement.Models;
 using System.Collections.Generic;
 using System.Management.Automation;
 
-namespace Microsoft.Azure.Commands.ResourceManagement.ResourceGroups
+namespace Microsoft.Azure.Commands.ResourceManagement
 {
     /// <summary>
     /// Filters resource group deployments.

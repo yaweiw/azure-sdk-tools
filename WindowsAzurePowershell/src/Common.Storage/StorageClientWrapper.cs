@@ -30,9 +30,12 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common.Storage
     {
         public IStorageManagementClient StorageManagementClient { get; set; }
 
+        public Func<Uri, StorageCredentials, CloudBlobClient> CloudBlobClientFactory { get; set; }
+
         public StorageClientWrapper(IStorageManagementClient storageManagementClient)
         {
             StorageManagementClient = storageManagementClient;
+            CloudBlobClientFactory = (uri, cred) => new CloudBlobClient(uri, cred);
         }
 
         public void DeletePackageFromBlob(string storageName, Uri packageUri)
@@ -120,7 +123,9 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common.Storage
                 sasContainerToken = blob.GetSharedAccessSignature(sasConstraints);
             }
 
-            return new Uri(string.Format(CultureInfo.InvariantCulture, "{0}{1}{2}{3}", client.BaseUri, parameters.ContainerName, client.DefaultDelimiter, blobName) + sasContainerToken);
+            string fullUrl = client.BaseUri + parameters.ContainerName + client.DefaultDelimiter + blobName + sasContainerToken;
+
+            return new Uri(fullUrl);
         }
     }
 }

@@ -93,13 +93,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Models
 
             if (parameterObject != null)
             {
-                Dictionary<string, object> parametersDictionary = parameterObject.ToMultidimentionalDictionary();
-                deploymentParameters = JsonConvert.SerializeObject(parametersDictionary, new JsonSerializerSettings
-                {
-                    TypeNameAssemblyFormat = FormatterAssemblyStyle.Simple,
-                    TypeNameHandling = TypeNameHandling.None
-                });
-
+                deploymentParameters = SerializeHashtable(parameterObject);
             }
             else
             {
@@ -110,6 +104,20 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Models
             }
 
             return deploymentParameters;
+        }
+
+        private static string SerializeHashtable(Hashtable parameterObject)
+        {
+            if (parameterObject == null)
+            {
+                return null;
+            }
+            Dictionary<string, object> parametersDictionary = parameterObject.ToMultidimentionalDictionary();
+            return JsonConvert.SerializeObject(parametersDictionary, new JsonSerializerSettings
+                {
+                    TypeNameAssemblyFormat = FormatterAssemblyStyle.Simple,
+                    TypeNameHandling = TypeNameHandling.None
+                });
         }
 
         private Uri GetTemplateUri(string templateFile, string galleryTemplateName, string storageAccountName)
@@ -130,7 +138,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Models
                         StorageName = storageAccountName,
                         FileLocalPath = templateFile,
                         OverrideIfExists = true,
-                        ContainerPublic = true,
+                        ContainerPublic = false,
                         ContainerName = DeploymentTemplateStorageContainerName
                     });
                     WriteProgress(string.Format(
@@ -282,7 +290,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Models
 
         private void WriteDeploymentProgress(string resourceGroup, string deploymentName)
         {
-            const string statusFormat = "{0} operation on '{1}' of type {2} in location '{3}' is {4}";
+            const string statusFormat = "Operation on '{0}' of type {1} in location '{2}' is {3}";
             List<DeploymentOperation> newOperations = new List<DeploymentOperation>();
             DeploymentOperationsListResult result = null;
             string location = ResourceManagementClient.ResourceGroups.Get(resourceGroup).ResourceGroup.Location;
@@ -298,7 +306,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Models
             foreach (DeploymentOperation operation in newOperations)
             {
                 string statusMessage = string.Format(statusFormat,
-                    operation.Properties.Details.Operation,
+                    //operation.Properties.Details.Operation,
                     operation.Properties.TargetResource.ResourceName,
                     operation.Properties.TargetResource.ResourceType,
                     location,
@@ -332,13 +340,13 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Models
             {
                 if (!old.Exists(o => o.OperationId.Equals(operation.OperationId)))
                 {
-                    if (operation.Properties.Details == null)
-                    {
-                        operation.Properties.Details = new OperationDetails()
-                        {
-                            Operation = "Unknown"
-                        };
-                    }
+                    //if (operation.Properties.Details == null)
+                    //{
+                    //    operation.Properties.Details = new OperationDetails()
+                    //    {
+                    //        Operation = "Unknown"
+                    //    };
+                    //}
 
                     newOperations.Add(operation);
                 }
