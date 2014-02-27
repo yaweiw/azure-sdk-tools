@@ -18,6 +18,7 @@ using Microsoft.Azure.Gallery.Models;
 using Microsoft.Azure.Management.Resources;
 using Microsoft.Azure.Management.Resources.Models;
 using Microsoft.WindowsAzure.Commands.Test.Utilities.Common;
+using Microsoft.WindowsAzure.Commands.Utilities.Common;
 using Microsoft.WindowsAzure.Commands.Utilities.Common.Storage;
 using Microsoft.WindowsAzure.Common.OData;
 using Moq;
@@ -1109,6 +1110,93 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Test.Models
             Assert.Equal(2, result.Count);
             Assert.True(result.All(g => g.Publisher == "Microsoft"));
             Assert.Equal(filterString, actual.Filter);
+        }
+
+        [Fact]
+        public void DownloadsGalleryTemplateFile()
+        {
+            string galleryTemplateFileName = "myFile";
+            string expectedFilePath = Path.Combine(Directory.GetCurrentDirectory(), galleryTemplateFileName + ".json");
+            galleryClientMock.Setup(f => f.Items.GetAsync(galleryTemplateFileName, new CancellationToken()))
+                .Returns(Task.Factory.StartNew(() => new ItemGetParameters()
+                {
+                    Item = new GalleryItem()
+                    {
+                        Name = galleryTemplateFileName,
+                        Publisher = "Microsoft",
+                        DefinitionTemplates = new DefinitionTemplates()
+                        {
+                            DeploymentTemplateFileUrls = new Dictionary<string, string>()
+                            {
+                                { "DefaultUri", "http://onesdkauremustinvalid-uri12" }
+                            }
+                        }
+                    }
+                }));
+
+            resourcesClient.DownloadGalleryTemplateFile(
+                galleryTemplateFileName,
+                Path.Combine(Directory.GetCurrentDirectory(), galleryTemplateFileName));
+
+            Assert.Equal(string.Empty, File.ReadAllText(expectedFilePath));
+        }
+
+        [Fact]
+        public void DownloadsGalleryTemplateFileFromDirectoryName()
+        {
+            string galleryTemplateFileName = "myFile";
+            string expectedFilePath = Path.Combine(Directory.GetCurrentDirectory(), galleryTemplateFileName + ".json");
+            galleryClientMock.Setup(f => f.Items.GetAsync(galleryTemplateFileName, new CancellationToken()))
+                .Returns(Task.Factory.StartNew(() => new ItemGetParameters()
+                {
+                    Item = new GalleryItem()
+                    {
+                        Name = galleryTemplateFileName,
+                        Publisher = "Microsoft",
+                        DefinitionTemplates = new DefinitionTemplates()
+                        {
+                            DeploymentTemplateFileUrls = new Dictionary<string, string>()
+                            {
+                                { "DefaultUri", "http://onesdkauremustinvalid-uri12" }
+                            }
+                        }
+                    }
+                }));
+
+            resourcesClient.DownloadGalleryTemplateFile(
+                galleryTemplateFileName,
+                Directory.GetCurrentDirectory());
+
+            Assert.Equal(string.Empty, File.ReadAllText(expectedFilePath));
+        }
+
+        [Fact]
+        public void DownloadsGalleryTemplateFileFromFileName()
+        {
+            string galleryTemplateFileName = "myFile.adeek";
+            string expectedFilePath = Path.Combine(Directory.GetCurrentDirectory(), galleryTemplateFileName + ".adeek");
+            galleryClientMock.Setup(f => f.Items.GetAsync(galleryTemplateFileName, new CancellationToken()))
+                .Returns(Task.Factory.StartNew(() => new ItemGetParameters()
+                {
+                    Item = new GalleryItem()
+                    {
+                        Name = galleryTemplateFileName,
+                        Publisher = "Microsoft",
+                        DefinitionTemplates = new DefinitionTemplates()
+                        {
+                            DeploymentTemplateFileUrls = new Dictionary<string, string>()
+                            {
+                                { "DefaultUri", "http://onesdkauremustinvalid-uri12" }
+                            }
+                        }
+                    }
+                }));
+
+            resourcesClient.DownloadGalleryTemplateFile(
+                galleryTemplateFileName,
+                expectedFilePath);
+
+            Assert.Equal(string.Empty, File.ReadAllText(expectedFilePath));
         }
     }
 }

@@ -14,9 +14,11 @@
 
 using Microsoft.Azure.Gallery;
 using Microsoft.Azure.Gallery.Models;
+using Microsoft.WindowsAzure.Commands.Utilities.Common;
 using Microsoft.WindowsAzure.Common.OData;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 
@@ -60,6 +62,33 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Models
             });
 
             return filtered.Items.ToList();
+        }
+
+        /// <summary>
+        /// Downloads a gallery template file into specific directory.
+        /// </summary>
+        /// <param name="name">The gallery template file name</param>
+        /// <param name="outputPath">The output file path</param>
+        public virtual void DownloadGalleryTemplateFile(string name, string outputPath)
+        {
+            Uri fileUri = GetGalleryTemplateFile(name);
+            StringBuilder finalOutputPath = new StringBuilder();
+            string contents = General.DownloadFile(fileUri);
+
+            if (General.IsFilePath(outputPath))
+            {
+                finalOutputPath.Append(outputPath);
+                if (!Path.HasExtension(outputPath))
+                {
+                    finalOutputPath.Append(".json");
+                }
+            }
+            else
+            {
+                finalOutputPath.Append(Path.Combine(outputPath, name + ".json"));
+            }
+
+            File.WriteAllText(finalOutputPath.ToString(), contents);
         }
     }
 }

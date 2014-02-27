@@ -985,7 +985,14 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
 
             using (WebClient webClient = new WebClient())
             {
-                contents = webClient.DownloadString(uri);
+                try
+                {
+                    contents = webClient.DownloadString(uri);
+                }
+                catch
+                {
+                    // Ignore the exception and return empty contents
+                }
             }
 
             return contents;
@@ -1012,6 +1019,21 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
             }
 
             return value;
+        }
+
+        public static bool IsFilePath(string path)
+        {
+            bool valid = false;
+            try
+            {
+                new FileInfo(path);
+                valid = true;
+            }
+            catch (ArgumentException) { }
+            catch (PathTooLongException) { }
+            catch (NotSupportedException) { }
+
+            return valid;
         }
     }
 }
