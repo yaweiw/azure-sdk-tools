@@ -1010,5 +1010,67 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Test.Models
             Assert.Equal("Bool", result["Bool"].Name);
             Assert.Equal(typeof(bool), result["Bool"].ParameterType);
         }
+
+        [Fact]
+        public void CancelsActiveDeployment()
+        {
+            DeploymentListParameters actualParameters = new DeploymentListParameters();
+            deploymentsMock.Setup(f => f.ListAsync(
+                It.IsAny<DeploymentListParameters>(),
+                new CancellationToken()))
+                .Returns(Task.Factory.StartNew(() => new DeploymentListResult
+                {
+                    Deployments = new List<Deployment>()
+                    {
+                        new Deployment()
+                        {
+                            DeploymentName = deploymentName + 1,
+                            Properties = new DeploymentProperties()
+                            {
+                                Mode = DeploymentMode.Incremental,
+                                TemplateLink = new TemplateLink()
+                                {
+                                    Uri = new Uri("http://microsoft1.com")
+                                },
+                                ProvisioningState = ProvisioningState.Succeeded
+                            },
+                            ResourceGroup = resourceGroupName
+                        },
+                        new Deployment()
+                        {
+                            DeploymentName = deploymentName + 2,
+                            Properties = new DeploymentProperties()
+                            {
+                                Mode = DeploymentMode.Incremental,
+                                TemplateLink = new TemplateLink()
+                                {
+                                    Uri = new Uri("http://microsoft1.com")
+                                },
+                                ProvisioningState = ProvisioningState.Failed
+                            },
+                            ResourceGroup = resourceGroupName
+                        },
+                        new Deployment()
+                        {
+                            DeploymentName = deploymentName + 3,
+                            Properties = new DeploymentProperties()
+                            {
+                                Mode = DeploymentMode.Incremental,
+                                TemplateLink = new TemplateLink()
+                                {
+                                    Uri = new Uri("http://microsoft1.com")
+                                },
+                                ProvisioningState = ProvisioningState.Running
+                            },
+                            ResourceGroup = resourceGroupName
+                        }
+                    }
+                }))
+                .Callback((DeploymentListParameters p, CancellationToken t) => { actualParameters = p; });
+
+            resourcesClient.CancelDeployment(resourceGroupName);
+
+            deploymentsMock.Verify(f => f.CancelAsync(resourceGroupName, deploymentName + 3, new CancellationToken()), Times.Once());
+        }
     }
 }
