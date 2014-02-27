@@ -98,7 +98,7 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Blob.Cmdlet
             get { return InternalMaxCount; }
             set 
             {
-                if(value.Value <= 0)
+                if (value.Value <= 0)
                 {
                     InternalMaxCount = int.MaxValue;
                 }
