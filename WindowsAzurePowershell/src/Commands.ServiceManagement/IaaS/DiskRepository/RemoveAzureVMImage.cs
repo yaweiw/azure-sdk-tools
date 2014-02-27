@@ -18,25 +18,42 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.DiskRepository
     using Management.Compute;
     using Utilities.Common;
 
-    [Cmdlet(VerbsCommon.Remove, "AzureVMImage"), OutputType(typeof(ManagementOperationContext))]
+    [Cmdlet(VerbsCommon.Remove, "AzureVMImage", DefaultParameterSetName = OSImageParamSet), OutputType(typeof(ManagementOperationContext))]
     public class RemoveAzureVMImage : ServiceManagementBaseCmdlet
     {
-        [Parameter(Position = 0, Mandatory = true, ValueFromPipelineByPropertyName = true, HelpMessage = "Name of the image in the image library to remove.")]
+        protected const string OSImageParamSet = "OSImage";
+        protected const string VMImageParamSet = "VMImage";
+
+        [Parameter(ParameterSetName = OSImageParamSet, Position = 0, Mandatory = true, ValueFromPipelineByPropertyName = true, HelpMessage = "Name of the image in the image library to remove.")]
         [ValidateNotNullOrEmpty]
         public string ImageName { get; set; }
 
-        [Parameter(Mandatory = false, HelpMessage = "Specify to remove the underlying VHD from the blob storage.")]
+        [Parameter(ParameterSetName = OSImageParamSet, Mandatory = false, HelpMessage = "Specify to remove the underlying VHD from the blob storage.")]
         public SwitchParameter DeleteVHD { get; set; }
+
+        [Parameter(ParameterSetName = VMImageParamSet, Position = 0, Mandatory = true, ValueFromPipelineByPropertyName = true, HelpMessage = "Name of the image in the image library to remove.")]
+        [ValidateNotNullOrEmpty]
+        public string VMImageName { get; set; }
 
         public void RemoveVMImageProcess()
         {
             ServiceManagementProfile.Initialize();
 
-            // Remove the image from the image repository
-            this.ExecuteClientActionNewSM(
-                null,
-                this.CommandRuntime.ToString(),
-                () => this.ComputeClient.VirtualMachineImages.Delete(this.ImageName, this.DeleteVHD.IsPresent));
+            if (string.Equals(this.ParameterSetName, OSImageParamSet, System.StringComparison.OrdinalIgnoreCase))
+            {
+                // Remove the image from the image repository
+                this.ExecuteClientActionNewSM(
+                    null,
+                    this.CommandRuntime.ToString(),
+                    () => this.ComputeClient.VirtualMachineImages.Delete(this.ImageName, this.DeleteVHD.IsPresent));
+            }
+            else
+            {
+                this.ExecuteClientActionNewSM(
+                    null,
+                    this.CommandRuntime.ToString(),
+                    () => this.ComputeClient.VirtualMachineVMImages.Delete(this.ImageName));
+            }
         }
 
         protected override void OnProcessRecord()

@@ -22,32 +22,59 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.DiskRepository
     using Model;
     using Utilities.Common;
 
-    [Cmdlet(VerbsCommon.Get, "AzureVMImage"), OutputType(typeof(OSImageContext))]
+    [Cmdlet(VerbsCommon.Get, "AzureVMImage", DefaultParameterSetName = OSImageParamSet), OutputType(typeof(OSImageContext))]
     public class GetAzureVMImage : ServiceManagementBaseCmdlet
     {
-        [Parameter(Position = 0, ValueFromPipelineByPropertyName = true, Mandatory = false, HelpMessage = "Name of the image in the image library.")]
+        protected const string OSImageParamSet = "OSImage";
+        protected const string VMImageParamSet = "VMImage";
+
+        [Parameter(Position = 0, ValueFromPipelineByPropertyName = true, ParameterSetName = OSImageParamSet, Mandatory = false, HelpMessage = "Name of the image in the image library.")]
         [ValidateNotNullOrEmpty]
         public string ImageName { get; set; }
+
+        [Parameter(Position = 0, ValueFromPipelineByPropertyName = true, ParameterSetName = VMImageParamSet, Mandatory = false, HelpMessage = "Name of the VM image in the image library.")]
+        [ValidateNotNullOrEmpty]
+        public string VMImageName { get; set; }
+
+        [Parameter(Position = 1, ValueFromPipelineByPropertyName = true, ParameterSetName = VMImageParamSet, Mandatory = false, HelpMessage = "List VM Images only.")]
+        public SwitchParameter VMImageOnly { get; set; }
 
         protected void GetAzureVMImageProcess()
         {
             ServiceManagementProfile.Initialize();
 
-            if (!string.IsNullOrEmpty(this.ImageName))
+            if (string.Equals(this.ParameterSetName, OSImageParamSet, System.StringComparison.OrdinalIgnoreCase))
             {
-                this.ExecuteClientActionNewSM(
-                    null,
-                    this.CommandRuntime.ToString(),
-                    () => this.ComputeClient.VirtualMachineImages.Get(this.ImageName),
-                    (s, response) => this.ContextFactory<VirtualMachineImageGetResponse, OSImageContext>(response, s));
+                if (!string.IsNullOrEmpty(this.ImageName))
+                {
+                    this.ExecuteClientActionNewSM(
+                        null,
+                        this.CommandRuntime.ToString(),
+                        () => this.ComputeClient.VirtualMachineImages.Get(this.ImageName),
+                        (s, response) => this.ContextFactory<VirtualMachineImageGetResponse, OSImageContext>(response, s));
+                }
+                else
+                {
+                    this.ExecuteClientActionNewSM(
+                        null,
+                        this.CommandRuntime.ToString(),
+                        () => this.ComputeClient.VirtualMachineImages.List(),
+                        (s, response) => response.Images.Select(image => this.ContextFactory<VirtualMachineImageListResponse.VirtualMachineImage, OSImageContext>(image, s)));
+                }
             }
             else
             {
                 this.ExecuteClientActionNewSM(
                     null,
                     this.CommandRuntime.ToString(),
-                    () => this.ComputeClient.VirtualMachineImages.List(),
-                    (s, response) => response.Images.Select(image => this.ContextFactory<VirtualMachineImageListResponse.VirtualMachineImage, OSImageContext>(image, s)));
+                    () => this.ComputeClient.VirtualMachineVMImages.List(),
+                    (s, response) =>
+                    {
+                        var results = response.VMImages.Select(
+                            image => this.ContextFactory<VirtualMachineVMImageListResponse.VirtualMachineVMImage, VMImageContext>(image, s));
+
+                        return string.IsNullOrEmpty(this.VMImageName) ? results : results.Where(t => string.Equals(t.Name, this.VMImageName, System.StringComparison.OrdinalIgnoreCase));
+                    });
             }
         }
 

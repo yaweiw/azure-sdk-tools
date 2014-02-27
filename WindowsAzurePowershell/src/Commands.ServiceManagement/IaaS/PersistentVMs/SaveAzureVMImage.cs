@@ -19,9 +19,12 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
     using Management.Compute.Models;
     using Utilities.Common;
 
-    [Cmdlet(VerbsData.Save, "AzureVMImage"), OutputType(typeof(ManagementOperationContext))]
+    [Cmdlet(VerbsData.Save, "AzureVMImage", DefaultParameterSetName = OSImageParamSet), OutputType(typeof(ManagementOperationContext))]
     public class SaveAzureVMImageCommand : IaaSDeploymentManagementCmdletBase
     {
+        protected const string OSImageParamSet = "OSImage";
+        protected const string VMImageParamSet = "VMImage";
+
         [Parameter(Position = 1, Mandatory = true, ValueFromPipelineByPropertyName = true, HelpMessage = "The name of the virtual machine to export.")]
         [ValidateNotNullOrEmpty]
         public string Name
@@ -30,9 +33,17 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
             set;
         }
 
-        [Parameter(Position = 2, Mandatory = true, ValueFromPipelineByPropertyName = true, HelpMessage = "The name that will have the new image.")]
+        [Parameter(Position = 2, Mandatory = true, ParameterSetName = OSImageParamSet, ValueFromPipelineByPropertyName = true, HelpMessage = "The name that will have the new image.")]
         [ValidateNotNullOrEmpty]
         public string NewImageName
+        {
+            get;
+            set;
+        }
+
+        [Parameter(Position = 2, Mandatory = true, ParameterSetName = VMImageParamSet, ValueFromPipelineByPropertyName = true, HelpMessage = "The name that will have the new VM image.")]
+        [ValidateNotNullOrEmpty]
+        public string NewVMImageName
         {
             get;
             set;
@@ -46,6 +57,15 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
             set;
         }
 
+        [Parameter(Position = 4, Mandatory = false, ParameterSetName = VMImageParamSet, ValueFromPipelineByPropertyName = true, HelpMessage = "The OS state.")]
+        [ValidateNotNullOrEmpty]
+        [ValidateSet("Generalized", "Specialized", IgnoreCase = true)]
+        public string OSState
+        {
+            get;
+            set;
+        }
+        
         protected override void ExecuteCommand()
         {
             ServiceManagementProfile.Initialize();
@@ -56,17 +76,34 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
                 return;
             }
 
-            var parameter = new VirtualMachineCaptureParameters
+            if (string.IsNullOrEmpty(this.NewVMImageName))
             {
-                PostCaptureAction = PostCaptureAction.Delete,
-                TargetImageLabel = string.IsNullOrEmpty(this.NewImageLabel) ? this.NewImageName : this.NewImageLabel,
-                TargetImageName = this.NewImageName
-            };
+                var parameter = new VirtualMachineCaptureParameters
+                {
+                    PostCaptureAction = PostCaptureAction.Delete,
+                    TargetImageLabel = string.IsNullOrEmpty(this.NewImageLabel) ? this.NewImageName : this.NewImageLabel,
+                    TargetImageName = this.NewImageName
+                };
 
-            ExecuteClientActionNewSM(
-                null,
-                CommandRuntime.ToString(),
-                () => this.ComputeClient.VirtualMachines.Capture(this.ServiceName, CurrentDeploymentNewSM.Name, this.Name, parameter));
+                ExecuteClientActionNewSM(
+                    null,
+                    CommandRuntime.ToString(),
+                    () => this.ComputeClient.VirtualMachines.Capture(this.ServiceName, CurrentDeploymentNewSM.Name, this.Name, parameter));
+            }
+            else
+            {
+                var parameter = new VirtualMachineVMImageCaptureParameters
+                {
+                    VMImageName = this.NewVMImageName,
+                    VMImageLabel = string.IsNullOrEmpty(this.NewImageLabel) ? this.NewImageName : this.NewImageLabel,
+                    OSState = this.OSState
+                };
+
+                ExecuteClientActionNewSM(
+                    null,
+                    CommandRuntime.ToString(),
+                    () => this.ComputeClient.VirtualMachineVMImages.Capture(this.ServiceName, CurrentDeploymentNewSM.Name, this.Name, parameter));
+            }
         }
     }
 }
