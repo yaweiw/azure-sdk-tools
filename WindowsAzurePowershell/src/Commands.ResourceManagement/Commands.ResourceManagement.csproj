@@ -176,8 +176,8 @@
     <Reference Include="System.Management.Automation, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Gallery\SaveAzureResourceGroupGalleryTemplateCommand.cs" />
-    <Compile Include="Gallery\GetAzureResourceGroupGalleryTemplateCommand.cs" />
+    <Compile Include="Templates\SaveAzureResourceGroupGalleryTemplateCommand.cs" />
+    <Compile Include="Templates\GetAzureResourceGroupGalleryTemplateCommand.cs" />
     <Compile Include="Models\DeploymentVariable.cs" />
     <Compile Include="Models\FilterPSGalleryTemplatesOptions.cs" />
     <Compile Include="Models\FilterResourcesOptions.cs" />
