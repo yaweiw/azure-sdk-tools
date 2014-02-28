@@ -57,7 +57,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Test
         {
             CreatePSResourceGroupParameters expectedParameters = new CreatePSResourceGroupParameters()
             {
-                Name = resourceGroupName,
+                ResourceGroupName = resourceGroupName,
                 Location = resourceGroupLocation,
                 ParameterFile = parameterFile,
                 TemplateFile = templateFile,
@@ -71,14 +71,14 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Test
             PSResourceGroup expected = new PSResourceGroup()
             {
                 Location = expectedParameters.Location,
-                ResourceGroupName = expectedParameters.Name,
+                ResourceGroupName = expectedParameters.ResourceGroupName,
                 Resources = new List<Resource>() { new Resource() { Name = "resource1"} }
             };
             resourcesClientMock.Setup(f => f.CreatePSResourceGroup(It.IsAny<CreatePSResourceGroupParameters>()))
                 .Returns(expected)
                 .Callback((CreatePSResourceGroupParameters p) => { actualParameters = p; });
 
-            cmdlet.Name = expectedParameters.Name;
+            cmdlet.Name = expectedParameters.ResourceGroupName;
             cmdlet.Location = expectedParameters.Location;
             cmdlet.ParameterFile = expectedParameters.ParameterFile;
             cmdlet.TemplateFile = expectedParameters.TemplateFile;
@@ -90,7 +90,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Test
 
             cmdlet.ExecuteCmdlet();
 
-            Assert.Equal(expectedParameters.Name, actualParameters.Name);
+            Assert.Equal(expectedParameters.ResourceGroupName, actualParameters.ResourceGroupName);
             Assert.Equal(expectedParameters.Location, actualParameters.Location);
             Assert.Equal(expectedParameters.DeploymentName, actualParameters.DeploymentName);
             Assert.Equal(expectedParameters.GalleryTemplateName, actualParameters.GalleryTemplateName);
@@ -110,7 +110,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Test
         {
             CreatePSResourceGroupParameters expectedParameters = new CreatePSResourceGroupParameters()
             {
-                Name = resourceGroupName,
+                ResourceGroupName = resourceGroupName,
                 Location = resourceGroupLocation,
                 ParameterFile = parameterFile,
                 GalleryTemplateName = "sqlServer",
@@ -124,14 +124,14 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Test
             PSResourceGroup expected = new PSResourceGroup()
             {
                 Location = expectedParameters.Location,
-                ResourceGroupName = expectedParameters.Name,
+                ResourceGroupName = expectedParameters.ResourceGroupName,
                 Resources = new List<Resource>() { new Resource() { Name = "resource1" } }
             };
             resourcesClientMock.Setup(f => f.CreatePSResourceGroup(It.IsAny<CreatePSResourceGroupParameters>()))
                 .Returns(expected)
                 .Callback((CreatePSResourceGroupParameters p) => { actualParameters = p; });
 
-            cmdlet.Name = expectedParameters.Name;
+            cmdlet.Name = expectedParameters.ResourceGroupName;
             cmdlet.Location = expectedParameters.Location;
             cmdlet.ParameterFile = expectedParameters.ParameterFile;
             cmdlet.GalleryTemplateName = expectedParameters.GalleryTemplateName;
@@ -143,7 +143,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Test
 
             cmdlet.ExecuteCmdlet();
 
-            Assert.Equal(expectedParameters.Name, actualParameters.Name);
+            Assert.Equal(expectedParameters.ResourceGroupName, actualParameters.ResourceGroupName);
             Assert.Equal(expectedParameters.Location, actualParameters.Location);
             Assert.Equal(expectedParameters.DeploymentName, actualParameters.DeploymentName);
             Assert.Equal(expectedParameters.GalleryTemplateName, actualParameters.GalleryTemplateName);

@@ -979,13 +979,20 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
             Directory.CreateDirectory(dir);
         }
 
-        public static string DownloadFile(Uri uri)
+        public static string DownloadFile(string uri)
         {
             string contents = null;
 
             using (WebClient webClient = new WebClient())
             {
-                contents = webClient.DownloadString(uri);
+                try
+                {
+                    contents = webClient.DownloadString(new Uri(uri));
+                }
+                catch
+                {
+                    // Ignore the exception and return empty contents
+                }
             }
 
             return contents;
@@ -1012,6 +1019,21 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
             }
 
             return value;
+        }
+
+        public static bool IsFilePath(string path)
+        {
+            bool valid = false;
+            try
+            {
+                new FileInfo(path);
+                valid = true;
+            }
+            catch (ArgumentException) { }
+            catch (PathTooLongException) { }
+            catch (NotSupportedException) { }
+
+            return valid;
         }
     }
 }

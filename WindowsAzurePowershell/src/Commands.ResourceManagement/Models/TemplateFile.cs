@@ -21,5 +21,8 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Models
     {
         [JsonProperty("parameters")]
         public IDictionary<string, TemplateFileParameter> Parameters { get; set; }
+
+        [JsonProperty("resources")]
+        public List<TemplateFileResource> Resources { get; set; }
     }
 }

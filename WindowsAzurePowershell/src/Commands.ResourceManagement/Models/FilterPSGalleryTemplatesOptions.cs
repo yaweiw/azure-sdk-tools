@@ -14,8 +14,14 @@
 
 namespace Microsoft.Azure.Commands.ResourceManagement.Models
 {
-    public class CreatePSResourceGroupParameters : CreatePSResourceGroupDeploymentParameters
+    public class FilterGalleryTemplatesOptions
     {
-        public string Location { get; set; }
+        public string Name { get; set; }
+
+        public string Category { get; set; }
+
+        public string Publisher { get; set; }
+
+        public string Country { get; set; }
     }
 }
