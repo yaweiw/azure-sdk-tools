@@ -13,6 +13,8 @@
 // ----------------------------------------------------------------------------------
 
 
+using System.Collections;
+
 namespace Microsoft.Azure.Commands.ResourceManagement.Models
 {
     public class PSResource
