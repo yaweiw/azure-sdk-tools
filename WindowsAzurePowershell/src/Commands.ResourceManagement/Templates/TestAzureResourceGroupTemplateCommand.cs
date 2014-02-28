@@ -20,13 +20,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Management.Automation;
 
-namespace Microsoft.Azure.Commands.ResourceManagement.ResourceGroups
+namespace Microsoft.Azure.Commands.ResourceManagement.ResourceGroupDeployments
 {
     /// <summary>
-    /// Creates a new resource group.
+    /// Validate a template to see whether it's using the right syntax, resource providers, resource types, etc.
     /// </summary>
-    [Cmdlet(VerbsCommon.New, "AzureResourceGroup", DefaultParameterSetName = BaseParameterSetName), OutputType(typeof(PSResourceGroup))]
-    public class NewAzureResourceGroupCommand : ResourceBaseCmdlet, IDynamicParameters
+    [Cmdlet(VerbsDiagnostic.Test, "AzureResourceGroupTemplate", DefaultParameterSetName = BaseParameterSetName), OutputType(typeof(bool))]
+    public class TestAzureResourceGroupTemplateCommand : ResourceBaseCmdlet, IDynamicParameters
     {
         internal const string BaseParameterSetName = "basic";
         internal const string GalleryTemplateParameterObjectParameterSetName = "galery-template-parameter-object";
@@ -36,14 +36,14 @@ namespace Microsoft.Azure.Commands.ResourceManagement.ResourceGroups
         internal const string TemplateFileParameterFileParameterSetName = "template-file-parameter-file";
         internal const string ParameterlessTemplateFileParameterSetName = "parameterless-template-file";
         internal const string ParameterlessGalleryTemplateParameterSetName = "parameterless-gallery-template";
-        
+
         private RuntimeDefinedParameterDictionary dynamicParameters;
-        
+
         private string galleryTemplateName;
-        
+
         private string templateFile;
 
-        public NewAzureResourceGroupCommand()
+        public TestAzureResourceGroupTemplateCommand()
         {
             dynamicParameters = new RuntimeDefinedParameterDictionary();
             galleryTemplateName = null;
@@ -51,15 +51,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement.ResourceGroups
 
         [Parameter(Mandatory = true, ValueFromPipelineByPropertyName = true, HelpMessage = "The resource group name.")]
         [ValidateNotNullOrEmpty]
-        public string Name { get; set; }
-
-        [Parameter(Mandatory = true, ValueFromPipelineByPropertyName = true, HelpMessage = "The resource group location.")]
-        [ValidateNotNullOrEmpty]
-        public string Location { get; set; }
-
-        [Parameter(Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "The name of the deployment it's going to create. Only valid when a template is used. When a template is used, if the user doesn't specify a deployment name, use the current time, like \"20131223140835\".")]
-        [ValidateNotNullOrEmpty]
-        public string DeploymentName { get; set; }
+        public string ResourceGroupName { get; set; }
 
         [Parameter(Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "The expect content version of the template.")]
         [ValidateNotNullOrEmpty]
@@ -112,11 +104,9 @@ namespace Microsoft.Azure.Commands.ResourceManagement.ResourceGroups
 
         public override void ExecuteCmdlet()
         {
-            CreatePSResourceGroupParameters parameters = new CreatePSResourceGroupParameters()
+            ValidatePSResourceGroupDeploymentParameters parameters = new ValidatePSResourceGroupDeploymentParameters()
             {
-                ResourceGroupName = Name,
-                Location = Location,
-                DeploymentName = DeploymentName,
+                ResourceGroupName = ResourceGroupName,
                 GalleryTemplateName = GalleryTemplateName,
                 TemplateFile = this.TryResolvePath(TemplateFile),
                 ParameterObject = GetParameterObject(ParameterObject),
@@ -127,7 +117,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement.ResourceGroups
                 StorageAccountName = StorageAccountName,
             };
 
-            WriteObject(ResourceClient.CreatePSResourceGroup(parameters));
+            WriteObject(ResourceClient.ValidatePSResourceGroupDeployment(parameters));
         }
 
         private Hashtable GetParameterObject(Hashtable parameterObject)
@@ -145,7 +135,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement.ResourceGroups
 
         public object GetDynamicParameters()
         {
-            if (!string.IsNullOrEmpty(GalleryTemplateName) && 
+            if (!string.IsNullOrEmpty(GalleryTemplateName) &&
                 !GalleryTemplateName.Equals(galleryTemplateName, StringComparison.OrdinalIgnoreCase))
             {
                 galleryTemplateName = GalleryTemplateName;
@@ -164,7 +154,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement.ResourceGroups
                     MyInvocation.MyCommand.Parameters.Keys.ToArray(),
                     GalleryTemplateDynamicParametersParameterSetName);
             }
-            
+
             return dynamicParameters;
         }
     }

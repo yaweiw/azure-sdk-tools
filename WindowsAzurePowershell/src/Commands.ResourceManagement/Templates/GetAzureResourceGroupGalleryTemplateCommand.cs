@@ -15,7 +15,7 @@
 using Microsoft.Azure.Commands.ResourceManagement.Models;
 using System.Management.Automation;
 
-namespace Microsoft.Azure.Commands.ResourceManagement.Gallery
+namespace Microsoft.Azure.Commands.ResourceManagement.Templates
 {
     /// <summary>
     /// Get one template or a list of templates from the gallery.

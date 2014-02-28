@@ -16,16 +16,15 @@ using Microsoft.Azure.Commands.ResourceManagement.Models;
 using Microsoft.Azure.Commands.ResourceManagement.ResourceGroupDeployments;
 using Microsoft.Azure.Management.Resources.Models;
 using Moq;
-using System;
 using System.Collections.Generic;
 using System.Management.Automation;
 using Xunit;
 
 namespace Microsoft.Azure.Commands.ResourceManagement.Test.Resources
 {
-    public class NewAzureResourceGroupDeploymentCommandTests
+    public class TestAzureResourceGroupTemplateCommandTests
     {
-        private NewAzureResourceGroupDeploymentCommand cmdlet;
+        private TestAzureResourceGroupTemplateCommand cmdlet;
 
         private Mock<ResourcesClient> resourcesClientMock;
 
@@ -41,11 +40,11 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Test.Resources
 
         private string storageAccountName = "myStorageAccount";
 
-        public NewAzureResourceGroupDeploymentCommandTests()
+        public TestAzureResourceGroupTemplateCommandTests()
         {
             resourcesClientMock = new Mock<ResourcesClient>();
             commandRuntimeMock = new Mock<ICommandRuntime>();
-            cmdlet = new NewAzureResourceGroupDeploymentCommand()
+            cmdlet = new TestAzureResourceGroupTemplateCommand()
             {
                 CommandRuntime = commandRuntimeMock.Object,
                 ResourceClient = resourcesClientMock.Object
@@ -53,56 +52,45 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Test.Resources
         }
 
         [Fact]
-        public void CreatesNewPSResourceGroupDeploymentWithUserTemplate()
+        public void ValidatesPSResourceGroupDeploymentWithUserTemplate()
         {
-            CreatePSResourceGroupDeploymentParameters expectedParameters = new CreatePSResourceGroupDeploymentParameters()
+            ValidatePSResourceGroupDeploymentParameters expectedParameters = new ValidatePSResourceGroupDeploymentParameters()
             {
                 ParameterFile = parameterFile,
                 TemplateFile = templateFile,
-                DeploymentName = deploymentName,
                 StorageAccountName = storageAccountName,
                 TemplateHash = "hash",
                 TemplateHashAlgorithm = "Sha256",
                 TemplateVersion = "1.0"
             };
-            CreatePSResourceGroupDeploymentParameters actualParameters = new CreatePSResourceGroupDeploymentParameters();
-            PSResourceGroupDeployment expected = new PSResourceGroupDeployment()
+            ValidatePSResourceGroupDeploymentParameters actualParameters = new ValidatePSResourceGroupDeploymentParameters();
+            List<ResourceManagementError> expected = new List<ResourceManagementError>()
             {
-                Mode = DeploymentMode.Incremental,
-                DeploymentName = deploymentName,
-                Outputs = new Dictionary<string, DeploymentVariable>()
+                new ResourceManagementError()
                 {
-                    { "Variable1", new DeploymentVariable() { Value = "true", Type = "bool" } },
-                    { "Variable2", new DeploymentVariable() { Value = "10", Type = "int" } },
-                    { "Variable3", new DeploymentVariable() { Value = "hello world", Type = "string" } }
+                    Code = "202",
+                    Message = "bad input",
+                    Target = "bad target"
                 },
-                Parameters = new Dictionary<string, DeploymentVariable>()
+                new ResourceManagementError()
                 {
-                    { "Parameter1", new DeploymentVariable() { Value = "true", Type = "bool" } },
-                    { "Parameter2", new DeploymentVariable() { Value = "10", Type = "int" } },
-                    { "Parameter3", new DeploymentVariable() { Value = "hello world", Type = "string" } }
+                    Code = "203",
+                    Message = "bad input 2",
+                    Target = "bad target 2"
                 },
-                ProvisioningState = ProvisioningState.Succeeded,
-                ResourceGroupName = resourceGroupName,
-                TemplateLink = new TemplateLink()
+                new ResourceManagementError()
                 {
-                    ContentHash = new ContentHash()
-                    {
-                        Algorithm = ContentHashAlgorithm.Sha256,
-                        Value = "hash"
-                    },
-                    ContentVersion = "1.0",
-                    Uri = new Uri("http://mytemplate.com")
-                },
-                Timestamp = new DateTime(2014, 2, 13)
+                    Code = "203",
+                    Message = "bad input 3",
+                    Target = "bad target 3"
+                }
             };
-            resourcesClientMock.Setup(f => f.CreatePSResourceGroupDeployment(
-                It.IsAny<CreatePSResourceGroupDeploymentParameters>()))
+            resourcesClientMock.Setup(f => f.ValidatePSResourceGroupDeployment(
+                It.IsAny<ValidatePSResourceGroupDeploymentParameters>()))
                 .Returns(expected)
-                .Callback((CreatePSResourceGroupDeploymentParameters p) => { actualParameters = p; });
+                .Callback((ValidatePSResourceGroupDeploymentParameters p) => { actualParameters = p; });
 
             cmdlet.ResourceGroupName = resourceGroupName;
-            cmdlet.Name = expectedParameters.DeploymentName;
             cmdlet.ParameterFile = expectedParameters.ParameterFile;
             cmdlet.TemplateFile = expectedParameters.TemplateFile;
             cmdlet.StorageAccountName = expectedParameters.StorageAccountName;
@@ -112,7 +100,6 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Test.Resources
 
             cmdlet.ExecuteCmdlet();
 
-            Assert.Equal(expectedParameters.DeploymentName, actualParameters.DeploymentName);
             Assert.Equal(expectedParameters.GalleryTemplateName, actualParameters.GalleryTemplateName);
             Assert.Equal(expectedParameters.TemplateFile, actualParameters.TemplateFile);
             Assert.Equal(expectedParameters.ParameterObject, actualParameters.ParameterObject);
@@ -126,56 +113,45 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Test.Resources
         }
 
         [Fact]
-        public void CreatesNewPSResourceGroupDeploymentWithGalleryTemplate()
+        public void ValidatesPSResourceGroupDeploymentWithGalleryTemplate()
         {
-            CreatePSResourceGroupDeploymentParameters expectedParameters = new CreatePSResourceGroupDeploymentParameters()
+            ValidatePSResourceGroupDeploymentParameters expectedParameters = new ValidatePSResourceGroupDeploymentParameters()
             {
                 ParameterFile = parameterFile,
                 GalleryTemplateName = "sqlServer",
-                DeploymentName = deploymentName,
                 StorageAccountName = storageAccountName,
                 TemplateHash = "hash",
                 TemplateHashAlgorithm = "Sha256",
                 TemplateVersion = "1.0"
             };
-            CreatePSResourceGroupDeploymentParameters actualParameters = new CreatePSResourceGroupDeploymentParameters();
-            PSResourceGroupDeployment expected = new PSResourceGroupDeployment()
+            ValidatePSResourceGroupDeploymentParameters actualParameters = new ValidatePSResourceGroupDeploymentParameters();
+            List<ResourceManagementError> expected = new List<ResourceManagementError>()
             {
-                Mode = DeploymentMode.Incremental,
-                DeploymentName = deploymentName,
-                Outputs = new Dictionary<string, DeploymentVariable>()
+                new ResourceManagementError()
                 {
-                    { "Variable1", new DeploymentVariable() { Value = "true", Type = "bool" } },
-                    { "Variable2", new DeploymentVariable() { Value = "10", Type = "int" } },
-                    { "Variable3", new DeploymentVariable() { Value = "hello world", Type = "string" } }
+                    Code = "202",
+                    Message = "bad input",
+                    Target = "bad target"
                 },
-                Parameters = new Dictionary<string, DeploymentVariable>()
+                new ResourceManagementError()
                 {
-                    { "Parameter1", new DeploymentVariable() { Value = "true", Type = "bool" } },
-                    { "Parameter2", new DeploymentVariable() { Value = "10", Type = "int" } },
-                    { "Parameter3", new DeploymentVariable() { Value = "hello world", Type = "string" } }
+                    Code = "203",
+                    Message = "bad input 2",
+                    Target = "bad target 2"
                 },
-                ProvisioningState = ProvisioningState.Succeeded,
-                ResourceGroupName = resourceGroupName,
-                TemplateLink = new TemplateLink()
+                new ResourceManagementError()
                 {
-                    ContentHash = new ContentHash()
-                    {
-                        Algorithm = ContentHashAlgorithm.Sha256,
-                        Value = "hash"
-                    },
-                    ContentVersion = "1.0",
-                    Uri = new Uri("http://mytemplate.com")
-                },
-                Timestamp = new DateTime(2014, 2, 13)
+                    Code = "203",
+                    Message = "bad input 3",
+                    Target = "bad target 3"
+                }
             };
-            resourcesClientMock.Setup(f => f.CreatePSResourceGroupDeployment(
-                It.IsAny<CreatePSResourceGroupDeploymentParameters>()))
+            resourcesClientMock.Setup(f => f.ValidatePSResourceGroupDeployment(
+                It.IsAny<ValidatePSResourceGroupDeploymentParameters>()))
                 .Returns(expected)
-                .Callback((CreatePSResourceGroupDeploymentParameters p) => { actualParameters = p; });
+                .Callback((ValidatePSResourceGroupDeploymentParameters p) => { actualParameters = p; });
 
             cmdlet.ResourceGroupName = resourceGroupName;
-            cmdlet.Name = expectedParameters.DeploymentName;
             cmdlet.ParameterFile = expectedParameters.ParameterFile;
             cmdlet.GalleryTemplateName = expectedParameters.GalleryTemplateName;
             cmdlet.StorageAccountName = expectedParameters.StorageAccountName;
@@ -185,7 +161,6 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Test.Resources
 
             cmdlet.ExecuteCmdlet();
 
-            Assert.Equal(expectedParameters.DeploymentName, actualParameters.DeploymentName);
             Assert.Equal(expectedParameters.GalleryTemplateName, actualParameters.GalleryTemplateName);
             Assert.Equal(expectedParameters.TemplateFile, actualParameters.TemplateFile);
             Assert.Equal(expectedParameters.ParameterObject, actualParameters.ParameterObject);
