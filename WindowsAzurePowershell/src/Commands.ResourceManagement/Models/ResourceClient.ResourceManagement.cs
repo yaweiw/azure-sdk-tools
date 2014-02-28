@@ -172,7 +172,6 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Models
         /// Creates new deployment using the passed template file which can be user customized or
         /// from gallery templates.
         /// </summary>
-        /// <param name="resourceGroup">The resource group name</param>
         /// <param name="parameters">The create deployment parameters</param>
         /// <returns>The created deployment instance</returns>
         public virtual PSResourceGroupDeployment CreatePSResourceGroupDeployment(CreatePSResourceGroupDeploymentParameters parameters)
@@ -270,33 +269,6 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Models
         public virtual void DeleteResourceGroup(string name)
         {
             ResourceManagementClient.ResourceGroups.Delete(name);
-        }
-
-        /// <summary>
-        /// Filters resource group deployments for a subscription
-        /// </summary>
-        /// <param name="resourceGroup">The resource group name</param>
-        /// <param name="provisioningState">The targeted provisioning states</param>
-        /// <returns>The deployments that match the search criteria</returns>
-        public virtual List<PSResourceGroupDeployment> FilterResourceGroupDeployments(
-            string resourceGroup,
-            params string[] provisioningStates)
-        {
-            List<PSResourceGroupDeployment> deployments = new List<PSResourceGroupDeployment>();
-
-            if (provisioningStates.Length == 0)
-            {
-                deployments.AddRange(FilterResourceGroupDeployments(resourceGroup, null, null));
-            }
-            else
-            {
-                foreach (string provisioningState in provisioningStates)
-                {
-                    deployments.AddRange(FilterResourceGroupDeployments(resourceGroup, null, provisioningState));
-                }
-            }
-
-            return deployments;
         }
 
         /// <summary>
