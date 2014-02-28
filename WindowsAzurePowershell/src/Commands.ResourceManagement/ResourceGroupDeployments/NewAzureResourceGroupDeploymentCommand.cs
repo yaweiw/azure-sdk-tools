@@ -121,7 +121,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement
                 StorageAccountName = StorageAccountName,
             };
 
-            WriteObject(ResourceClient.CreatePSResourceGroupDeployment(ResourceGroupName, parameters));
+            WriteObject(ResourceClient.CreatePSResourceGroupDeployment(parameters));
         }
 
         private Hashtable GetParameterObject(Hashtable parameterObject)
