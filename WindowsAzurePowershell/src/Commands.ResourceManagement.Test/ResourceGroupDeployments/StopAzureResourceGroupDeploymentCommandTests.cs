@@ -13,17 +13,16 @@
 // ----------------------------------------------------------------------------------
 
 using Microsoft.Azure.Commands.ResourceManagement.Models;
-using Microsoft.Azure.Management.Resources.Models;
+using Microsoft.Azure.Commands.ResourceManagement.ResourceGroups;
 using Moq;
-using System.Collections.Generic;
 using System.Management.Automation;
 using Xunit;
 
-namespace Microsoft.Azure.Commands.ResourceManagement.Test
+namespace Microsoft.Azure.Commands.ResourceManagement.Test.Resources
 {
-    public class GetAzureResourceGroupCommandTests
+    public class StopAzureResourceGroupDeploymentCommandTests
     {
-        private GetAzureResourceGroupCommand cmdlet;
+        private StopAzureResourceGroupDeploymentCommand cmdlet;
 
         private Mock<ResourcesClient> resourcesClientMock;
 
@@ -31,13 +30,11 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Test
 
         private string resourceGroupName = "myResourceGroup";
 
-        private string resourceGroupLocation = "West US";
-
-        public GetAzureResourceGroupCommandTests()
+        public StopAzureResourceGroupDeploymentCommandTests()
         {
             resourcesClientMock = new Mock<ResourcesClient>();
             commandRuntimeMock = new Mock<ICommandRuntime>();
-            cmdlet = new GetAzureResourceGroupCommand()
+            cmdlet = new StopAzureResourceGroupDeploymentCommand()
             {
                 CommandRuntime = commandRuntimeMock.Object,
                 ResourceClient = resourcesClientMock.Object
@@ -45,28 +42,17 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Test
         }
 
         [Fact]
-        public void GetsResourcesGroups()
+        public void StopsActiveDeployment()
         {
-            List<PSResourceGroup> result = new List<PSResourceGroup>();
-            PSResourceGroup expected = new PSResourceGroup()
-            {
-                Location = resourceGroupLocation,
-                ResourceGroupName = resourceGroupName,
-                Resources = new List<Resource>() { new Resource() { Name = "resource1" } }
-            };
-            result.Add(expected);
-            resourcesClientMock.Setup(f => f.FilterResourceGroups(resourceGroupName)).Returns(result);
-
+            commandRuntimeMock.Setup(f => f.ShouldProcess(It.IsAny<string>(), It.IsAny<string>())).Returns(true);
+            
             cmdlet.ResourceGroupName = resourceGroupName;
+            cmdlet.PassThru = true;
+            cmdlet.Force = true;
 
             cmdlet.ExecuteCmdlet();
 
-            Assert.Equal(1, result.Count);
-            Assert.Equal(resourceGroupName, result[0].ResourceGroupName);
-            Assert.Equal(resourceGroupLocation, result[0].Location);
-            Assert.Equal(1, result[0].Resources.Count);
-
-            commandRuntimeMock.Verify(f => f.WriteObject(result, true), Times.Once());
+            commandRuntimeMock.Verify(f => f.WriteObject(true), Times.Once());
         }
     }
 }

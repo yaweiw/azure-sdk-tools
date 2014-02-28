@@ -8,10 +8,10 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Microsoft.Azure.Commands.ResourceManagement.Properties {
-    using System;
-    
-    
+namespace Microsoft.Azure.Commands.ResourceManagement.Properties
+{
+
+
     /// <summary>
     ///   A strongly-typed resource class, for looking up localized strings, etc.
     /// </summary>
@@ -57,6 +57,24 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Properties {
             }
             set {
                 resourceCulture = value;
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Are you sure you want to cancel the active deployment of resource group &apos;{0}&apos;?.
+        /// </summary>
+        internal static string CancelResourceGroupDeployment {
+            get {
+                return ResourceManager.GetString("CancelResourceGroupDeployment", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Cancelling active resource group deployment ....
+        /// </summary>
+        internal static string CancelResourceGroupDeploymentMessage {
+            get {
+                return ResourceManager.GetString("CancelResourceGroupDeploymentMessage", resourceCulture);
             }
         }
         
