@@ -185,7 +185,6 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
             Validate.ValidateInternetConnection();
             InitChannelCurrentSubscription();
             base.ProcessRecord();
-            HttpRestCallLogger.CurrentCmdlet = this;
             OnProcessRecord();
         }
 
