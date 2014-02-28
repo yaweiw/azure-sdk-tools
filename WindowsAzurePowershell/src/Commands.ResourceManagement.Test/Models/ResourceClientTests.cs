@@ -309,7 +309,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Test.Models
                     }));
 
             
-            List<PSResource> result = resourcesClient.FilterResource(parameters);
+            List<PSResource> result = resourcesClient.FilterResources(parameters);
 
             Assert.NotNull(result);
             Assert.Equal(1, result.Count);
@@ -350,7 +350,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Test.Models
                 }));
 
 
-            List<PSResource> result = resourcesClient.FilterResource(parameters);
+            List<PSResource> result = resourcesClient.FilterResources(parameters);
 
             Assert.NotNull(result);
             Assert.Equal(2, result.Count);
@@ -367,7 +367,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Test.Models
                 ResourceType = "abc",
             };
 
-            Assert.Throws<ArgumentException>(() => resourcesClient.FilterResource(parameters));
+            Assert.Throws<ArgumentException>(() => resourcesClient.FilterResources(parameters));
         }
 
         [Fact]

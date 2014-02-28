@@ -12,6 +12,7 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
+using System.Collections.Generic;
 using Microsoft.Azure.Commands.ResourceManagement.Models;
 using System.Collections;
 using System.Management.Automation;
@@ -21,7 +22,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement
     /// <summary>
     /// Get an existing resource.
     /// </summary>
-    [Cmdlet(VerbsCommon.Get, "AzureResource", DefaultParameterSetName = BaseParameterSetName), OutputType(typeof(PSResource))]
+    [Cmdlet(VerbsCommon.Get, "AzureResource", DefaultParameterSetName = BaseParameterSetName), OutputType(typeof(List<PSResource>))]
     public class GetAzureResourceCommand : ResourceBaseCmdlet
     {
         internal const string BaseParameterSetName = "basic";
@@ -55,7 +56,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement
                 ParentResourceName = ParentResourceName,
             };
 
-            WriteObject(ResourceClient.FilterResource(parameters));
+            WriteObject(ResourceClient.FilterResources(parameters), true);
         }
     }
 }
