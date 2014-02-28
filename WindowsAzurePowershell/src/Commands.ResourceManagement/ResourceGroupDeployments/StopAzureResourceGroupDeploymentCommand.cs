@@ -15,32 +15,32 @@
 using Microsoft.Azure.Commands.ResourceManagement.Properties;
 using System.Management.Automation;
 
-namespace Microsoft.Azure.Commands.ResourceManagement
+namespace Microsoft.Azure.Commands.ResourceManagement.ResourceGroups
 {
     /// <summary>
-    /// Removes a new resource group.
+    /// Cancel a running deployment.
     /// </summary>
-    [Cmdlet(VerbsCommon.Remove, "AzureResourceGroup"), OutputType(typeof(bool))]
-    public class RemoveAzureResourceGroupCommand : ResourceBaseCmdlet
+    [Cmdlet(VerbsLifecycle.Stop, "AzureResourceGroupDeployment"), OutputType(typeof(bool))]
+    public class StopAzureResourceGroupDeploymentCommand : ResourceBaseCmdlet
     {
         [Parameter(Position = 0, Mandatory = true, ValueFromPipelineByPropertyName = true, HelpMessage = "The name of the resource group.")]
         [ValidateNotNullOrEmpty]
-        public string ResourceGroupName {get; set;}
+        public string ResourceGroupName { get; set; }
 
-        [Parameter(Mandatory = false, HelpMessage = "Do not ask for confirmation.")]
+        [Parameter(Position = 1, Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "Do not confirm the stop.")]
         public SwitchParameter Force { get; set; }
 
-        [Parameter(Mandatory = false)]
+        [Parameter(Position = 2, Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "True if succeed, false otherwise.")]
         public SwitchParameter PassThru { get; set; }
         
         public override void ExecuteCmdlet()
         {
             ConfirmAction(
                 Force.IsPresent,
-                string.Format(Resources.RemovingResourceGroup, ResourceGroupName),
-                Resources.RemoveResourceGroupMessage,
+                string.Format(Resources.CancelResourceGroupDeployment, ResourceGroupName),
+                Resources.CancelResourceGroupDeploymentMessage,
                 ResourceGroupName,
-                () => ResourceClient.DeleteResourceGroup(ResourceGroupName));
+                () => ResourceClient.CancelDeployment(ResourceGroupName));
 
             if (PassThru)
             {

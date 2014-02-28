@@ -92,6 +92,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
             try
             {
                 base.ProcessRecord();
+                HttpRestCallLogger.CurrentCmdlet = this;
                 ExecuteCmdlet();
             }
             catch (Exception ex)
