@@ -56,7 +56,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement
                 ParentResourceName = ParentResourceName,
             };
 
-            WriteObject(ResourceClient.FilterResources(parameters), true);
+            WriteObject(ResourceClient.FilterPSResources(parameters), true);
         }
     }
 }
