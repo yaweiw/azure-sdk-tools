@@ -133,7 +133,12 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Test.Models
                 {
                     {"name", "site1"},
                     {"siteMode", "Standard"},
-                    {"computeMode", "Dedicated"}
+                    {"computeMode", "Dedicated"},
+                    {"misc", new Dictionary<string, object>
+                        {
+                            {"key1", "value1"},
+                            {"key2", "value2"}
+                        }}
                 };
             serializedProperties = JsonConvert.SerializeObject(properties, new JsonSerializerSettings
             {
@@ -314,15 +319,17 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Test.Models
                                 Properties = serializedProperties,
                                 ProvisioningState = ProvisioningState.Running,
                                 ResourceGroup = parameters.ResourceGroupName,
-                                Location = "West US"
+                                Location = "West US",
                             }
                     }));
 
             
-            List<PSResource> result = resourcesClient.FilterResource(parameters);
+            List<PSResource> result = resourcesClient.FilterPSResources(parameters);
 
             Assert.NotNull(result);
             Assert.Equal(1, result.Count);
+            Assert.Equal(4, result[0].ParameterObject.Count);
+            Assert.Equal(2, ((Dictionary<string, object>)result[0].ParameterObject["misc"]).Count);
         }
 
         [Fact]
@@ -342,7 +349,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Test.Models
                             new Resource
                             {
                                 Name = "foo",
-                                Properties = serializedProperties,
+                                Properties = null,
                                 ProvisioningState = ProvisioningState.Running,
                                 ResourceGroup = parameters.ResourceGroupName,
                                 Location = "West US"
@@ -350,7 +357,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Test.Models
                             new Resource
                             {
                                 Name = "bar",
-                                Properties = serializedProperties,
+                                Properties = null,
                                 ProvisioningState = ProvisioningState.Running,
                                 ResourceGroup = parameters.ResourceGroupName,
                                 Location = "West US"
@@ -360,10 +367,11 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Test.Models
                 }));
 
 
-            List<PSResource> result = resourcesClient.FilterResource(parameters);
+            List<PSResource> result = resourcesClient.FilterPSResources(parameters);
 
             Assert.NotNull(result);
             Assert.Equal(2, result.Count);
+            Assert.False(result.Any(r => r.ParameterObject != null));
         }
 
         [Fact]
@@ -377,7 +385,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Test.Models
                 ResourceType = "abc",
             };
 
-            Assert.Throws<ArgumentException>(() => resourcesClient.FilterResource(parameters));
+            Assert.Throws<ArgumentException>(() => resourcesClient.FilterPSResources(parameters));
         }
 
         [Fact]

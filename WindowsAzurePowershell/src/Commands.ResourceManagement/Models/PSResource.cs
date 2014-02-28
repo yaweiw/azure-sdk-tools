@@ -13,6 +13,8 @@
 // ----------------------------------------------------------------------------------
 
 
+using System.Collections;
+
 namespace Microsoft.Azure.Commands.ResourceManagement.Models
 {
     public class PSResource
@@ -24,5 +26,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Models
         public string ResourceType { get; set; }
 
         public string Location { get; set; }
+
+        public IDictionary ParameterObject { get; set; }
     }
 }

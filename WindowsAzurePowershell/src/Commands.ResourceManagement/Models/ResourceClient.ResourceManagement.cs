@@ -116,11 +116,11 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Models
         }
 
         /// <summary>
-        /// Get an existing resource.
+        /// Get existing resource(s).
         /// </summary>
-        /// <param name="parameters">The create parameters</param>
-        /// <returns>The created resource group</returns>
-        public virtual List<PSResource> FilterResource(GetPSResourceParameters parameters)
+        /// <param name="parameters">Get resource parameter.</param>
+        /// <returns>The list of resources</returns>
+        public virtual List<PSResource> FilterPSResources(GetPSResourceParameters parameters)
         {
             List<PSResource> resources = new List<PSResource>();
 
