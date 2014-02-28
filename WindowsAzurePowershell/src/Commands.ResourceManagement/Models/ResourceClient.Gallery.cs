@@ -31,9 +31,9 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Models
         /// </summary>
         /// <param name="templateName">The fully qualified template name</param>
         /// <returns>The template uri</returns>
-        public virtual Uri GetGalleryTemplateFile(string templateName)
+        public virtual string GetGalleryTemplateFile(string templateName)
         {
-            return new Uri(GalleryClient.Items.Get(templateName).Item.DefinitionTemplates.DeploymentTemplateFileUrls.First().Value);
+            return GalleryClient.Items.Get(templateName).Item.DefinitionTemplates.DeploymentTemplateFileUrls.First().Value;
         }
 
         /// <summary>
@@ -76,7 +76,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Models
         /// <param name="outputPath">The output file path</param>
         public virtual void DownloadGalleryTemplateFile(string name, string outputPath)
         {
-            Uri fileUri = GetGalleryTemplateFile(name);
+            string fileUri = GetGalleryTemplateFile(name);
             StringBuilder finalOutputPath = new StringBuilder();
             string contents = General.DownloadFile(fileUri);
 

@@ -1309,7 +1309,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Test.Models
                         {
                             DeploymentTemplateFileUrls = new Dictionary<string, string>()
                             {
-                                { "DefaultUri", "http://onesdkauremustinvalid-uri12" }
+                                { "DefaultUri", "fakeurl" }
                             }
                         }
                     }
@@ -1338,7 +1338,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Test.Models
                         {
                             DeploymentTemplateFileUrls = new Dictionary<string, string>()
                             {
-                                { "DefaultUri", "http://onesdkauremustinvalid-uri12" }
+                                { "DefaultUri", "fakeurl" }
                             }
                         }
                     }
