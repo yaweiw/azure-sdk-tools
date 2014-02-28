@@ -44,7 +44,6 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Models
         public virtual List<GalleryItem> FilterGalleryTemplates(FilterGalleryTemplatesOptions options)
         {
             List<string> filterStrings = new List<string>();
-            string filterString = string.Empty;
             ItemListParameters parameters = null;
 
             if (!string.IsNullOrEmpty(options.Publisher))
