@@ -20,7 +20,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Management.Automation;
 
-namespace Microsoft.Azure.Commands.ResourceManagement.ResourceGroupDeployments
+namespace Microsoft.Azure.Commands.ResourceManagement
 {
     /// <summary>
     /// Creates a new resource group deployment.

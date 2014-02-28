@@ -15,7 +15,7 @@
 using Microsoft.Azure.Commands.ResourceManagement.Properties;
 using System.Management.Automation;
 
-namespace Microsoft.Azure.Commands.ResourceManagement.ResourceGroups
+namespace Microsoft.Azure.Commands.ResourceManagement
 {
     /// <summary>
     /// Removes a new resource group.

@@ -93,15 +93,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Models
 
             if (parameterObject != null)
             {
-                deploymentParameters = JsonConvert.SerializeObject(
-                    parameterObject.ToMultidimentionalDictionary(),
-                    new JsonSerializerSettings
-                    {
-                        TypeNameAssemblyFormat = FormatterAssemblyStyle.Simple,
-                        TypeNameHandling = TypeNameHandling.None,
-                        Formatting = Formatting.Indented
-                    });
-
+                deploymentParameters = SerializeHashtable(parameterObject, addValueLayer: true);
             }
             else
             {
@@ -129,6 +121,21 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Models
                 .ForEach(p => ResourceManagementClient.Providers.Register(p.Namespace));
         }
 
+        private string SerializeHashtable(Hashtable parameterObject, bool addValueLayer)
+        {
+            if (parameterObject == null)
+            {
+                return null;
+            }
+            Dictionary<string, object> parametersDictionary = parameterObject.ToDictionary(addValueLayer);
+            return JsonConvert.SerializeObject(parametersDictionary, new JsonSerializerSettings
+                {
+                    TypeNameAssemblyFormat = FormatterAssemblyStyle.Simple,
+                    TypeNameHandling = TypeNameHandling.None,
+                    Formatting = Formatting.Indented
+                });
+        }
+
         private Uri GetTemplateUri(string templateFile, string galleryTemplateName, string storageAccountName)
         {
             Uri templateFileUri;
@@ -146,9 +153,8 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Models
                     {
                         StorageName = storageAccountName,
                         FileLocalPath = templateFile,
-                        FileRemoteName = Path.GetFileName(templateFile),
                         OverrideIfExists = true,
-                        ContainerPublic = true,
+                        ContainerPublic = false,
                         ContainerName = DeploymentTemplateStorageContainerName
                     });
                     WriteProgress(string.Format(

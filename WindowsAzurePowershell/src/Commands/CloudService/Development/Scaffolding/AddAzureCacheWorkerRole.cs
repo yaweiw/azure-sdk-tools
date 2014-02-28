@@ -64,7 +64,7 @@ namespace Microsoft.WindowsAzure.Commands.CloudService.Development.Scaffolding
         {
             // Create cache worker role.
             Action<string, RoleInfo> cacheWorkerRoleAction = CacheConfigurationFactory.GetCacheRoleConfigurationAction(
-                new AzureTool().AzureSdkVersion);
+                AzureTool.GetAzureSdkVersion());
 
             CloudServiceProject cloudServiceProject = new CloudServiceProject(rootPath, null);
             
