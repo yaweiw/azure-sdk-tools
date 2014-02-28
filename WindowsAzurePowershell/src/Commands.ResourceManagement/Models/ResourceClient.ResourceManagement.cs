@@ -23,6 +23,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Management.Automation;
+using System.Text;
 
 namespace Microsoft.Azure.Commands.ResourceManagement.Models
 {
@@ -170,13 +171,13 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Models
         /// <returns>The created resource group</returns>
         public virtual PSResourceGroup CreatePSResourceGroup(CreatePSResourceGroupParameters parameters)
         {
-            if (ResourceManagementClient.ResourceGroups.CheckExistence(parameters.Name).Exists)
+            if (ResourceManagementClient.ResourceGroups.CheckExistence(parameters.ResourceGroupName).Exists)
             {
                 throw new ArgumentException(Resources.ResourceGroupAlreadyExists);
             }
 
-            ResourceGroup resourceGroup = CreateResourceGroup(parameters.Name, parameters.Location);
-            CreatePSResourceGroupDeployment(resourceGroup.Name, parameters);
+            ResourceGroup resourceGroup = CreateResourceGroup(parameters.ResourceGroupName, parameters.Location);
+            CreatePSResourceGroupDeployment(parameters);
 
             return resourceGroup.ToPSResourceGroup(this);
         }
@@ -219,31 +220,31 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Models
         /// Creates new deployment using the passed template file which can be user customized or
         /// from gallery templates.
         /// </summary>
-        /// <param name="resourceGroup">The resource group name</param>
         /// <param name="parameters">The create deployment parameters</param>
         /// <returns>The created deployment instance</returns>
-        public virtual PSResourceGroupDeployment CreatePSResourceGroupDeployment(string resourceGroup, CreatePSResourceGroupDeploymentParameters parameters)
+        public virtual PSResourceGroupDeployment CreatePSResourceGroupDeployment(CreatePSResourceGroupDeploymentParameters parameters)
         {
             DeploymentOperationsCreateResult result = null;
             bool createDeployment = !string.IsNullOrEmpty(parameters.GalleryTemplateName) || !string.IsNullOrEmpty(parameters.TemplateFile);
+            string resourceGroup = parameters.ResourceGroupName;
+
+            RegisterResourceProviders();
 
             if (createDeployment)
             {
                 parameters.DeploymentName = string.IsNullOrEmpty(parameters.DeploymentName) ? Guid.NewGuid().ToString() : parameters.DeploymentName;
-                BasicDeployment deployment = new BasicDeployment()
-                {
-                    Mode = DeploymentMode.Incremental,
-                    TemplateLink = new TemplateLink()
-                    {
-                        Uri = GetTemplateUri(parameters.TemplateFile, parameters.GalleryTemplateName, parameters.StorageAccountName),
-                        ContentVersion = parameters.TemplateVersion,
-                        ContentHash = GetTemplateContentHash(parameters.TemplateHash, parameters.TemplateHashAlgorithm)
-                    },
-                    Parameters = GetDeploymentParameters(parameters.ParameterFile, parameters.ParameterObject)
-                };
+                BasicDeployment deployment = CreateBasicDeployment(parameters);
+                List<ResourceManagementError> errors = CheckBasicDeploymentErrors(resourceGroup, deployment);
 
-                ValidateDeployment(resourceGroup, deployment);
-                
+                if (errors.Count != 0)
+                {
+                    int counter = 1;
+                    string errorFormat = "Error {0}: Code={1}; Message={2}; Target={3}\r\n";
+                    StringBuilder errorsString = new StringBuilder();
+                    errors.ForEach(e => errorsString.AppendFormat(errorFormat, counter++, e.Code, e.Message, e.Target));
+                    throw new ArgumentException(errors.ToString());
+                }
+
                 result = ResourceManagementClient.Deployments.Create(resourceGroup, parameters.DeploymentName, deployment);
                 WriteProgress(string.Format("Create template deployment '{0}' using template {1}.", parameters.DeploymentName, deployment.TemplateLink.Uri));
                 ProvisionDeploymentStatus(resourceGroup, parameters.DeploymentName);
@@ -355,6 +356,40 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Models
             }
 
             return deployments;
+        }
+
+        /// <summary>
+        /// Cancels the active deployment.
+        /// </summary>
+        /// <param name="resourceGroup">The resource group name</param>
+        public virtual void CancelDeployment(string resourceGroup)
+        {
+            List<PSResourceGroupDeployment> deployments = FilterResourceGroupDeployments(resourceGroup);
+
+            foreach (PSResourceGroupDeployment deployment in deployments)
+            {
+                if (deployment.ProvisioningState != ProvisioningState.Failed && 
+                    deployment.ProvisioningState != ProvisioningState.Succeeded)
+                {
+                    ResourceManagementClient.Deployments.Cancel(resourceGroup, deployment.DeploymentName);
+                    break;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Validates a given deployment.
+        /// </summary>
+        /// <param name="parameters">The deployment create options</param>
+        /// <returns>True if valid, false otherwise.</returns>
+        public virtual List<ResourceManagementError> ValidatePSResourceGroupDeployment(ValidatePSResourceGroupDeploymentParameters parameters)
+        {
+            List<ResourceManagementError> errors = new List<ResourceManagementError>();
+
+            BasicDeployment deployment = CreateBasicDeployment(parameters);
+            errors.AddRange(CheckBasicDeploymentErrors(parameters.ResourceGroupName, deployment));
+
+            return errors;
         }
     }
 }

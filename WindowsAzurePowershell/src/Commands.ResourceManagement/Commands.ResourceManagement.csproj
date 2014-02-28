@@ -112,11 +112,11 @@
     </Reference>
     <Reference Include="Microsoft.WindowsAzure.Common, Version=0.9.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Microsoft.WindowsAzure.Common.0.9.9-preview\lib\net40\Microsoft.WindowsAzure.Common.dll</HintPath>
+      <HintPath>..\packages\Microsoft.WindowsAzure.Common.0.9.11-preview\lib\net40\Microsoft.WindowsAzure.Common.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.WindowsAzure.Common.NetFramework, Version=0.9.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Microsoft.WindowsAzure.Common.0.9.9-preview\lib\net40\Microsoft.WindowsAzure.Common.NetFramework.dll</HintPath>
+      <HintPath>..\packages\Microsoft.WindowsAzure.Common.0.9.11-preview\lib\net40\Microsoft.WindowsAzure.Common.NetFramework.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.WindowsAzure.Configuration, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.WindowsAzure.ConfigurationManager.2.0.3\lib\net40\Microsoft.WindowsAzure.Configuration.dll</HintPath>
@@ -177,9 +177,15 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Models\GetPSResourceParameters.cs" />
+    <Compile Include="Models\TemplateFileResource.cs" />
+    <Compile Include="Models\ValidatePSResourceGroupDeploymentParameters.cs" />
+    <Compile Include="Templates\TestAzureResourceGroupTemplateCommand.cs" />
+    <Compile Include="Templates\SaveAzureResourceGroupGalleryTemplateCommand.cs" />
+    <Compile Include="Templates\GetAzureResourceGroupGalleryTemplateCommand.cs" />
     <Compile Include="Models\CreatePSResourceParameters.cs" />
     <Compile Include="Models\PSResource.cs" />
     <Compile Include="Models\DeploymentVariable.cs" />
+    <Compile Include="Models\FilterPSGalleryTemplatesOptions.cs" />
     <Compile Include="Models\FilterResourcesOptions.cs" />
     <Compile Include="Models\CreatePSDeploymentParameters.cs" />
     <Compile Include="Models\PSResourceGroup.cs" />
@@ -195,6 +201,7 @@
     </Compile>
     <Compile Include="Models\ResourceClient.ResourceManagement.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ResourceGroupDeployments\StopAzureResourceGroupDeploymentCommand.cs" />
     <Compile Include="ResourceGroupDeployments\GetAzureResourceGroupDeploymentCommand.cs" />
     <Compile Include="ResourceGroupDeployments\NewAzureResourceGroupDeploymentCommand.cs" />
     <Compile Include="Models\PSResourceGroupDeployment.cs" />
@@ -222,6 +229,7 @@
     </Content>
     <Content Include="Microsoft.Azure.Commands.ResourceManagement.format.ps1xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <SubType>Designer</SubType>
     </Content>
     <None Include="MSSharedLibKey.snk" />
     <None Include="packages.config" />
