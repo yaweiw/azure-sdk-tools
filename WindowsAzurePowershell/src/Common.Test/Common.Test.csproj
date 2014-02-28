@@ -175,7 +175,6 @@
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <Compile Include="Resources\ResourceLocator.cs" />
-    <Compile Include="Storage\StorageClientWrapperTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Common.Storage\Common.Storage.csproj">

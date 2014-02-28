@@ -15,6 +15,7 @@
 using Microsoft.Azure.Commands.ResourceManagement.Properties;
 using Microsoft.Azure.Management.Resources;
 using Microsoft.Azure.Management.Resources.Models;
+using Microsoft.WindowsAzure;
 using Microsoft.WindowsAzure.Commands.Utilities.Common;
 using Newtonsoft.Json;
 using System;
@@ -28,6 +29,92 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Models
 {
     public partial class ResourcesClient
     {
+        /// <summary>
+        /// Creates a new resource.
+        /// </summary>
+        /// <param name="parameters">The create parameters</param>
+        /// <returns>The created resource group</returns>
+        public virtual PSResource CreatePSResource(CreatePSResourceParameters parameters)
+        {
+            if (string.IsNullOrEmpty(parameters.ResourceType))
+            {
+                throw new ArgumentNullException("ResourceType");
+            }
+
+            string[] resourceType = parameters.ResourceType.Split('/');
+            if (resourceType.Length != 2)
+            {
+                throw new ArgumentException(Resources.ResourceTypeFormat);
+            }
+
+            ResourceIdentity resourceIdentity = new ResourceIdentity
+                {
+                    ParentResourcePath = parameters.ParentResourceName,
+                    ResourceName = parameters.Name,
+                    ResourceProviderNamespace = resourceType[0],
+                    ResourceType = resourceType[1]
+                };
+
+            bool resourceExists = CheckResourceExistence(parameters.ResourceGroupName, resourceIdentity);
+            
+            if (resourceExists)
+            {
+                throw new ArgumentException(Resources.ResourceAlreadyExists);
+            }
+
+            if (ResourceManagementClient.ResourceGroups.CheckExistence(parameters.ResourceGroupName).Exists)
+            {
+                WriteProgress(string.Format("{0, -15} Resource group \"{1}\" is found.", "[Info]",
+                                            parameters.ResourceGroupName));
+            }
+            else
+            {
+                throw new ArgumentException(Resources.ResourceGroupDoesntExists);
+            }
+
+            WriteProgress(string.Format("{0, -15} Creating resource \"{1}\".", "[Start]", parameters.Name));
+            
+            ResourceCreateOrUpdateResult createOrUpdateResult = ResourceManagementClient.Resources.CreateOrUpdate(parameters.ResourceGroupName, resourceIdentity, 
+                new ResourceCreateOrUpdateParameters
+                {
+                    ValidationMode = ResourceValidationMode.NameValidation,
+                    Resource = new BasicResource
+                        {
+                            Location = parameters.Location,
+                            Properties = SerializeHashtable(parameters.PropertyObject, addValueLayer: false)
+                        }
+                });
+
+            if (createOrUpdateResult.Resource != null)
+            {
+                WriteProgress(string.Format("{0, -15} Creating resource \"{1}\".", "[Complete]", parameters.Name));
+            }
+
+            ResourceGetResult getResult = ResourceManagementClient.Resources.Get(parameters.ResourceGroupName, resourceIdentity);
+
+            return getResult.Resource.ToPSResource(this);
+        }
+
+        /// <summary>
+        /// Checks whether resource exists. Replace with ResourceManagementClient.Resources.CheckExistence()
+        /// once implemented accross all providers.
+        /// </summary>
+        /// <param name="group"></param>
+        /// <param name="identity"></param>
+        /// <returns></returns>
+        private bool CheckResourceExistence(string group, ResourceIdentity identity)
+        {
+            try
+            {
+                ResourceManagementClient.Resources.Get(group, identity);
+                return true;
+            }
+            catch (CloudException)
+            {
+                return false;
+            }
+        }
+
         /// <summary>
         /// Creates a new resource group and deployment using the passed template file option which
         /// can be user customized or from gallery tenplates.
@@ -75,7 +162,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Models
                 {
                     result = ResourceManagementClient.Resources.ListNext(result.NextLink);
                     resources.AddRange(result.Resources);
-                };
+                }
             }
 
             return resources;
@@ -245,7 +332,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Models
                 {
                     result = ResourceManagementClient.Deployments.ListNext(result.NextLink);
                     deployments.AddRange(result.Deployments.Select(d => d.ToPSResourceGroupDeployment()));
-                };
+                }
             }
 
             return deployments;

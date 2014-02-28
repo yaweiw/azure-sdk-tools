@@ -32,8 +32,6 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Test.Resources
 
         private string resourceGroupName = "myResourceGroup";
 
-        private string deploymentName = "fooDeployment";
-
         private string templateFile = @"Resources\sampleTemplateFile.json";
 
         private string parameterFile = @"Resources\sampleParameterFile.json";

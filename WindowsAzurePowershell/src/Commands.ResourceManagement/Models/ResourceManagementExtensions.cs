@@ -69,6 +69,17 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Models
             return deployment;
         }
 
+        public static PSResource ToPSResource(this Resource resource, ResourcesClient client)
+        {
+            return new PSResource()
+            {
+                Name = resource.Name,
+                Location = resource.Location,
+                ResourceType = resource.Type,
+                ResourceGroupName = resource.ResourceGroup
+            };
+        }
+
         private static string ConstructResourcesTable(List<Resource> resources)
         {
             StringBuilder resourcesTable = new StringBuilder();

@@ -27,7 +27,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService.AzureTools
     /// <summary>
     /// Package services for deployment to Azure.
     /// </summary>
-    public class CsPack : AzureTool
+    public class CsPack
     {
         /// <summary>
         /// Create a .cspkg package by calling the CsPack.exe tool.
@@ -38,7 +38,12 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService.AzureTools
         /// <param name="standardOutput">Standard output</param>
         /// <param name="standardError">Standard error</param>
         [PermissionSet(SecurityAction.LinkDemand, Name = "FullTrust")]
-        public void CreatePackage(ServiceDefinition definition, CloudProjectPathInfo paths, DevEnv type, out string standardOutput, out string standardError)
+        public void CreatePackage(ServiceDefinition definition, 
+            CloudProjectPathInfo paths, 
+            DevEnv type,
+            string azureSdkBinDirectory,
+            out string standardOutput, 
+            out string standardError)
         {
             if (definition == null)
             {
@@ -98,7 +103,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService.AzureTools
                 // Run CsPack to generate the package
                 ProcessHelper.StartAndWaitForProcess(
                     new ProcessStartInfo(
-                        Path.Combine(AzureSdkBinDirectory, Resources.CsPackExe),
+                        Path.Combine(azureSdkBinDirectory, Resources.CsPackExe),
                         args),
                     out standardOutput,
                     out standardError);
