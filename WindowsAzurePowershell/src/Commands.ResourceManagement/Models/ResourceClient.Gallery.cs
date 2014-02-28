@@ -43,25 +43,31 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Models
         /// <returns>The filtered list</returns>
         public virtual List<GalleryItem> FilterGalleryTemplates(FilterGalleryTemplatesOptions options)
         {
-            StringBuilder filterString = new StringBuilder();
+            List<string> filterStrings = new List<string>();
+            string filterString = string.Empty;
+            ItemListParameters parameters = null;
 
             if (!string.IsNullOrEmpty(options.Publisher))
             {
-                filterString.Append(FilterString.Generate<ItemListFilter>(f => f.Publisher == options.Publisher));
+                filterStrings.Add(FilterString.Generate<ItemListFilter>(f => f.Publisher == options.Publisher));
             }
 
-            // To Do: fix the FilterString to generate valid query for this code
-            //filterString.Append(FilterString.Generate<ItemListFilter>(f => 
-            //    f.Publisher == options.Publisher &&
-            //    f.CategoryIds.Contains(options.Category) &&
-            //    f.Name == options.Name));
-
-            ItemListResult filtered = GalleryClient.Items.List(new ItemListParameters()
+            if (!string.IsNullOrEmpty(options.Category))
             {
-                Filter = filterString.ToString()
-            });
+                filterStrings.Add(FilterString.Generate<ItemListFilter>(f => f.CategoryIds.Contains(options.Category)));
+            }
 
-            return filtered.Items.ToList();
+            if (!string.IsNullOrEmpty(options.Name))
+            {
+                filterStrings.Add(FilterString.Generate<ItemListFilter>(f => f.Name == options.Name));
+            }
+
+            if (filterStrings.Count > 0)
+            {
+                parameters = new ItemListParameters() { Filter = string.Join(" and ", filterStrings) };
+            }
+
+            return GalleryClient.Items.List(parameters).Items.ToList();
         }
 
         /// <summary>

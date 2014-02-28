@@ -126,8 +126,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Gallery\SaveAzureResourceGroupGalleryTemplateCommandTests.cs" />
-    <Compile Include="Gallery\GetAzureResourceGroupGalleryTemplateCommandTests.cs" />
+    <Compile Include="Templates\TestAzureResourceGroupTemplateCommandTests.cs" />
+    <Compile Include="Templates\SaveAzureResourceGroupGalleryTemplateCommandTests.cs" />
+    <Compile Include="Templates\GetAzureResourceGroupGalleryTemplateCommandTests.cs" />
     <Compile Include="Models\ResourceClientTests.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>

@@ -29,7 +29,6 @@ using System.Linq;
 using System.Management.Automation;
 using System.Runtime.Serialization.Formatters;
 using System.Security;
-using System.Text;
 using System.Threading;
 
 namespace Microsoft.Azure.Commands.ResourceManagement.Models
@@ -115,6 +114,21 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Models
             return deploymentParameters;
         }
 
+        private void RegisterResourceProviders()
+        {
+            ProviderListResult result = ResourceManagementClient.Providers.List(null);
+            List<Provider> providers = new List<Provider>(result.Providers);
+
+            while (!string.IsNullOrEmpty(result.NextLink))
+            {
+                result = ResourceManagementClient.Providers.ListNext(result.NextLink);
+                providers.AddRange(result.Providers);
+            }
+
+            providers.Where(p => p.RegistrationState == "NotRegistered")
+                .ForEach(p => ResourceManagementClient.Providers.Register(p.Namespace));
+        }
+
         private Uri GetTemplateUri(string templateFile, string galleryTemplateName, string storageAccountName)
         {
             Uri templateFileUri;
@@ -138,7 +152,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Models
                         ContainerName = DeploymentTemplateStorageContainerName
                     });
                     WriteProgress(string.Format(
-                        "Upload template '{0}' to {1}.",
+                        "Uploading template '{0}' to {1}.",
                         Path.GetFileName(templateFile),
                         templateFileUri.ToString()));
                 }
@@ -393,29 +407,39 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Models
             return runtimeParameter;
         }
 
-        private void ValidateDeployment(string resourceGroup, BasicDeployment deployment)
+        private BasicDeployment CreateBasicDeployment(ValidatePSResourceGroupDeploymentParameters parameters)
         {
-            DeploymentValidateResponse result = new DeploymentValidateResponse();
+            BasicDeployment deployment = new BasicDeployment()
+            {
+                Mode = DeploymentMode.Incremental,
+                TemplateLink = new TemplateLink()
+                {
+                    Uri = GetTemplateUri(parameters.TemplateFile, parameters.GalleryTemplateName, parameters.StorageAccountName),
+                    ContentVersion = parameters.TemplateVersion,
+                    ContentHash = GetTemplateContentHash(parameters.TemplateHash, parameters.TemplateHashAlgorithm)
+                },
+                Parameters = GetDeploymentParameters(parameters.ParameterFile, parameters.ParameterObject)
+            };
 
+            return deployment;
+        }
+
+        private List<ResourceManagementError> CheckBasicDeploymentErrors(string resourceGroup, BasicDeployment deployment)
+        {
+            List<ResourceManagementError> errors = new List<ResourceManagementError>();
             try
             {
-                result = ResourceManagementClient.Deployments.Validate(
+                errors.AddRange(ResourceManagementClient.Deployments.Validate(
                     resourceGroup,
                     DeploymentValidationMode.Full,
-                    deployment);
+                    deployment).Errors);
             }
             catch
             {
                 // To Do: remove the try-catch when the API is available.
             }
 
-            if (result.Errors.Count != 0)
-            {
-                string errorFormat = "Code={0}; Message={1}; Target={2}\r\n";
-                StringBuilder errors = new StringBuilder();
-                result.Errors.ForEach(e => errors.AppendFormat(errorFormat, e.Code, e.Message, e.Target));
-                throw new ArgumentException(errors.ToString());
-            }
+            return errors;
         }
     }
 }

@@ -14,9 +14,7 @@
 
 using Microsoft.Azure.Commands.ResourceManagement.Models;
 using Microsoft.Azure.Commands.ResourceManagement.ResourceGroups;
-using Microsoft.Azure.Management.Resources.Models;
 using Moq;
-using System.Collections.Generic;
 using System.Management.Automation;
 using Xunit;
 
