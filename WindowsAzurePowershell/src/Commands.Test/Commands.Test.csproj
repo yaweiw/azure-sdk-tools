@@ -161,6 +161,9 @@
     <Reference Include="Microsoft.WindowsAzure.Management.MediaServices">
       <HintPath>..\packages\Microsoft.WindowsAzure.Management.MediaServices.0.9.1-preview\lib\net40\Microsoft.WindowsAzure.Management.MediaServices.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.WindowsAzure.Management.Scheduler">
+      <HintPath>..\..\..\..\..\..\SkyDrive @ Microsoft\SchedulerSampleUsingSDK\packages\Microsoft.WindowsAzure.Management.Scheduler.0.9.6-preview\lib\net40\Microsoft.WindowsAzure.Management.Scheduler.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.WindowsAzure.Management.ServiceBus">
       <HintPath>..\packages\Microsoft.WindowsAzure.Management.ServiceBus.0.9.2-preview\lib\net40\Microsoft.WindowsAzure.Management.ServiceBus.dll</HintPath>
     </Reference>
@@ -329,6 +332,8 @@
     <Compile Include="MediaServices\NewAzureMediaServicesKeyTest.cs" />
     <Compile Include="MediaServices\NewMediaServicesAccountTests.cs" />
     <Compile Include="MediaServices\RemoveMediaServicesAccountTests.cs" />
+    <Compile Include="Scheduler\GetAzureSchedulerJobCollectionTests.cs" />
+    <Compile Include="Scheduler\GetAzureSchedulerLocationTests.cs" />
     <Compile Include="ServiceBus\GetAzureSBLocationTest.cs" />
     <Compile Include="ServiceBus\GetAzureSBNamespaceTest.cs" />
     <Compile Include="ServiceBus\NewAzureSBNamespaceTest.cs" />
@@ -397,6 +402,7 @@
       <SubType>Designer</SubType>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <None Include="app.config" />
     <None Include="MSSharedLibKey.snk" />
     <None Include="packages.config">
       <SubType>Designer</SubType>
@@ -452,6 +458,7 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\nuget.targets" />
   <Import Project="..\packages\Microsoft.Bcl.Build.1.0.13\tools\Microsoft.Bcl.Build.targets" Condition="Exists('..\packages\Microsoft.Bcl.Build.1.0.13\tools\Microsoft.Bcl.Build.targets')" />
