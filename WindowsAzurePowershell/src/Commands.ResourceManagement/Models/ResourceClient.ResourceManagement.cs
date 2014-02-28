@@ -32,7 +32,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Models
         /// Creates a new resource.
         /// </summary>
         /// <param name="parameters">The create parameters</param>
-        /// <returns>The created resource group</returns>
+        /// <returns>The created resource</returns>
         public virtual PSResource CreatePSResource(CreatePSResourceParameters parameters)
         {
             if (string.IsNullOrEmpty(parameters.ResourceType))
@@ -95,6 +95,49 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Models
         }
 
         /// <summary>
+        /// Updates an existing resource.
+        /// </summary>
+        /// <param name="parameters">The update parameters</param>
+        /// <returns>The updated resource</returns>
+        public virtual PSResource UpdatePSResource(UpdatePSResourceParameters parameters)
+        {
+            if (string.IsNullOrEmpty(parameters.ResourceType))
+            {
+                throw new ArgumentNullException("ResourceType");
+            }
+
+            string[] resourceType = parameters.ResourceType.Split('/');
+            if (resourceType.Length != 2)
+            {
+                throw new ArgumentException(Resources.ResourceTypeFormat);
+            }
+
+            ResourceIdentity resourceIdentity = new ResourceIdentity
+            {
+                ParentResourcePath = parameters.ParentResourceName,
+                ResourceName = parameters.Name,
+                ResourceProviderNamespace = resourceType[0],
+                ResourceType = resourceType[1]
+            };
+
+            bool resourceExists = CheckResourceExistence(parameters.ResourceGroupName, resourceIdentity);
+
+            if (!resourceExists)
+            {
+                throw new ArgumentException(Resources.ResourceDoesntExists);
+            }
+
+            if (parameters.Mode == SetResourceMode.Update)
+            {
+                // Do logic here
+            }
+
+            ResourceGetResult getResult = ResourceManagementClient.Resources.Get(parameters.ResourceGroupName, resourceIdentity);
+
+            return getResult.Resource.ToPSResource(this);
+        }
+
+        /// <summary>
         /// Checks whether resource exists. Replace with ResourceManagementClient.Resources.CheckExistence()
         /// once implemented accross all providers.
         /// </summary>
@@ -115,10 +158,10 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Models
         }
 
         /// <summary>
-        /// Get an existing resource.
+        /// Get an existing resource or resources.
         /// </summary>
-        /// <param name="parameters">The create parameters</param>
-        /// <returns>The created resource group</returns>
+        /// <param name="parameters">The get parameters</param>
+        /// <returns>List of resources</returns>
         public virtual List<PSResource> FilterResource(GetPSResourceParameters parameters)
         {
             List<PSResource> resources = new List<PSResource>();
