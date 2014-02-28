@@ -29,7 +29,6 @@ using System.Linq;
 using System.Management.Automation;
 using System.Runtime.Serialization.Formatters;
 using System.Security;
-using System.Text;
 using System.Threading;
 
 namespace Microsoft.Azure.Commands.ResourceManagement.Models
@@ -107,6 +106,21 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Models
             return deploymentParameters;
         }
 
+        private void RegisterResourceProviders()
+        {
+            ProviderListResult result = ResourceManagementClient.Providers.List(null);
+            List<Provider> providers = new List<Provider>(result.Providers);
+
+            while (!string.IsNullOrEmpty(result.NextLink))
+            {
+                result = ResourceManagementClient.Providers.ListNext(result.NextLink);
+                providers.AddRange(result.Providers);
+            }
+
+            providers.Where(p => p.RegistrationState == "NotRegistered")
+                .ForEach(p => ResourceManagementClient.Providers.Register(p.Namespace));
+        }
+
         private string SerializeHashtable(Hashtable parameterObject, bool addValueLayer)
         {
             if (parameterObject == null)
@@ -144,14 +158,14 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Models
                         ContainerName = DeploymentTemplateStorageContainerName
                     });
                     WriteProgress(string.Format(
-                        "Upload template '{0}' to {1}.",
+                        "Uploading template '{0}' to {1}.",
                         Path.GetFileName(templateFile),
                         templateFileUri.ToString()));
                 }
             }
             else
             {
-                templateFileUri = GetGalleryTemplateFile(galleryTemplateName);
+                templateFileUri = new Uri(GetGalleryTemplateFile(galleryTemplateName));
             }
 
             return templateFileUri;
@@ -399,20 +413,66 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Models
             return runtimeParameter;
         }
 
-        private void ValidateDeployment(string resourceGroup, BasicDeployment deployment)
+        private BasicDeployment CreateBasicDeployment(ValidatePSResourceGroupDeploymentParameters parameters)
         {
-            DeploymentValidateResponse result = ResourceManagementClient.Deployments.Validate(
-                resourceGroup,
-                DeploymentValidationMode.Full,
-                deployment);
-
-            if (result.Errors.Count != 0)
+            BasicDeployment deployment = new BasicDeployment()
             {
-                string errorFormat = "Code={0}; Message={1}; Target={2}\r\n";
-                StringBuilder errors = new StringBuilder();
-                result.Errors.ForEach(e => errors.AppendFormat(errorFormat, e.Code, e.Message, e.Target));
-                throw new ArgumentException(errors.ToString());
+                Mode = DeploymentMode.Incremental,
+                TemplateLink = new TemplateLink()
+                {
+                    Uri = GetTemplateUri(parameters.TemplateFile, parameters.GalleryTemplateName, parameters.StorageAccountName),
+                    ContentVersion = parameters.TemplateVersion,
+                    ContentHash = GetTemplateContentHash(parameters.TemplateHash, parameters.TemplateHashAlgorithm)
+                },
+                Parameters = GetDeploymentParameters(parameters.ParameterFile, parameters.ParameterObject)
+            };
+
+            return deployment;
+        }
+
+        private List<ResourceManagementError> CheckBasicDeploymentErrors(string resourceGroup, BasicDeployment deployment)
+        {
+            List<ResourceManagementError> errors = new List<ResourceManagementError>();
+            try
+            {
+                errors.AddRange(ResourceManagementClient.Deployments.Validate(
+                    resourceGroup,
+                    DeploymentValidationMode.Full,
+                    deployment).Errors);
             }
+            catch
+            {
+                // To Do: remove the try-catch when the API is available.
+            }
+
+            return errors;
+        }
+
+        /// <summary>
+        /// Filters resource group deployments for a subscription
+        /// </summary>
+        /// <param name="resourceGroup">The resource group name</param>
+        /// <param name="provisioningStates">The targeted provisioning states</param>
+        /// <returns>The deployments that match the search criteria</returns>
+        private List<PSResourceGroupDeployment> FilterResourceGroupDeployments(
+            string resourceGroup,
+            params string[] provisioningStates)
+        {
+            List<PSResourceGroupDeployment> deployments = new List<PSResourceGroupDeployment>();
+
+            if (provisioningStates.Length == 0)
+            {
+                deployments.AddRange(FilterResourceGroupDeployments(resourceGroup, null, null));
+            }
+            else
+            {
+                foreach (string provisioningState in provisioningStates)
+                {
+                    deployments.AddRange(FilterResourceGroupDeployments(resourceGroup, null, provisioningState));
+                }
+            }
+
+            return deployments;
         }
     }
 }
