@@ -26,11 +26,11 @@ namespace Microsoft.Azure.Commands.ResourceManagement
     {
         [Parameter(Position = 0, Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "The name of the resource group.")]
         [ValidateNotNullOrEmpty]
-        public string Name {get; set;}
+        public string ResourceGroupName { get; set; }
         
         public override void ExecuteCmdlet()
         {
-            WriteObject(ResourceClient.FilterResourceGroups(Name), true);
+            WriteObject(ResourceClient.FilterResourceGroups(ResourceGroupName), true);
         }
     }
 }

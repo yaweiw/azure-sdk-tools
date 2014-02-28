@@ -13,16 +13,87 @@
 // ----------------------------------------------------------------------------------
 
 using Microsoft.Azure.Gallery;
+using Microsoft.Azure.Gallery.Models;
+using Microsoft.WindowsAzure.Commands.Utilities.Common;
+using Microsoft.WindowsAzure.Common.OData;
 using System;
+using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Text;
 
 namespace Microsoft.Azure.Commands.ResourceManagement.Models
 {
     public partial class ResourcesClient
     {
-        public virtual Uri GetGalleryTemplateFile(string templateName)
+        /// <summary>
+        /// Gets the uri of the specified template name.
+        /// </summary>
+        /// <param name="templateName">The fully qualified template name</param>
+        /// <returns>The template uri</returns>
+        public virtual string GetGalleryTemplateFile(string templateName)
         {
-            return new Uri(GalleryClient.Items.Get(templateName).Item.DefinitionTemplates.DeploymentTemplateFileUrls.First().Value);
+            return GalleryClient.Items.Get(templateName).Item.DefinitionTemplates.DeploymentTemplateFileUrls.First().Value;
+        }
+
+        /// <summary>
+        /// Filters gallery templates based on the passed options.
+        /// </summary>
+        /// <param name="options">The filter options</param>
+        /// <returns>The filtered list</returns>
+        public virtual List<GalleryItem> FilterGalleryTemplates(FilterGalleryTemplatesOptions options)
+        {
+            List<string> filterStrings = new List<string>();
+            ItemListParameters parameters = null;
+
+            if (!string.IsNullOrEmpty(options.Publisher))
+            {
+                filterStrings.Add(FilterString.Generate<ItemListFilter>(f => f.Publisher == options.Publisher));
+            }
+
+            if (!string.IsNullOrEmpty(options.Category))
+            {
+                filterStrings.Add(FilterString.Generate<ItemListFilter>(f => f.CategoryIds.Contains(options.Category)));
+            }
+
+            if (!string.IsNullOrEmpty(options.Name))
+            {
+                filterStrings.Add(FilterString.Generate<ItemListFilter>(f => f.Name == options.Name));
+            }
+
+            if (filterStrings.Count > 0)
+            {
+                parameters = new ItemListParameters() { Filter = string.Join(" and ", filterStrings) };
+            }
+
+            return GalleryClient.Items.List(parameters).Items.ToList();
+        }
+
+        /// <summary>
+        /// Downloads a gallery template file into specific directory.
+        /// </summary>
+        /// <param name="name">The gallery template file name</param>
+        /// <param name="outputPath">The output file path</param>
+        public virtual void DownloadGalleryTemplateFile(string name, string outputPath)
+        {
+            string fileUri = GetGalleryTemplateFile(name);
+            StringBuilder finalOutputPath = new StringBuilder();
+            string contents = General.DownloadFile(fileUri);
+
+            if (General.IsFilePath(outputPath))
+            {
+                finalOutputPath.Append(outputPath);
+                if (!Path.HasExtension(outputPath))
+                {
+                    finalOutputPath.Append(".json");
+                }
+            }
+            else
+            {
+                finalOutputPath.Append(Path.Combine(outputPath, name + ".json"));
+            }
+
+            File.WriteAllText(finalOutputPath.ToString(), contents);
         }
     }
 }
