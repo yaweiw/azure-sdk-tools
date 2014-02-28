@@ -12,6 +12,8 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
+using Newtonsoft.Json.Linq;
+
 namespace Microsoft.WindowsAzure.Commands.Utilities.Common
 {
     using System.Collections;
@@ -63,6 +65,94 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
             {
                 return new Hashtable((Dictionary<string, TV>)dictionary);
             }
+        }
+
+        public static Dictionary<string, object> DeserializeJson(string jsonString)
+        {
+            Dictionary<string, object> result = new Dictionary<string,object>();
+            if (jsonString == null)
+            {
+                return null;
+            }
+            if (string.IsNullOrWhiteSpace(jsonString))
+            {
+                return result;
+            }
+
+            try
+            {
+                JToken responseDoc = JToken.Parse(jsonString);
+
+                if (responseDoc != null && responseDoc.Type == JTokenType.Object)
+                {
+                    result = DeserializeJObject(responseDoc as JObject);
+                }
+            }
+            catch
+            {
+                result = null;
+            }
+            return result;
+        }
+
+        private static Dictionary<string, object> DeserializeJObject(JObject jsonObject)
+        {
+            Dictionary<string, object> result = new Dictionary<string, object>();
+            if (jsonObject == null || jsonObject.Type == JTokenType.Null)
+            {
+                return result;
+            }
+            foreach (var property in jsonObject)
+            {
+                if (property.Value.Type == JTokenType.Object)
+                {
+                    result[property.Key] = DeserializeJObject(property.Value as JObject);
+                }
+                else if (property.Value.Type == JTokenType.Array)
+                {
+                    result[property.Key] = DeserializeJArray(property.Value as JArray);
+                }
+                else
+                {
+                    result[property.Key] = DeserializeJValue(property.Value as JValue);
+                }
+            }
+            return result;
+        }
+
+        private static List<object> DeserializeJArray(JArray jsonArray)
+        {
+            List<object> result = new List<object>();
+            if (jsonArray == null || jsonArray.Type == JTokenType.Null)
+            {
+                return result;
+            }
+            foreach (var token in jsonArray)
+            {
+                if (token.Type == JTokenType.Object)
+                {
+                    result.Add(DeserializeJObject(token as JObject));
+                }
+                else if (token.Type == JTokenType.Array)
+                {
+                    result.Add(DeserializeJArray(token as JArray));
+                }
+                else
+                {
+                    result.Add(DeserializeJValue(token as JValue));
+                }
+            }
+            return result;
+        }
+
+        private static object DeserializeJValue(JValue jsonObject)
+        {
+            if (jsonObject == null || jsonObject.Type == JTokenType.Null)
+            {
+                return null;
+            }
+            
+            return jsonObject.Value;
         }
     }
 }
