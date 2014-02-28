@@ -1,8 +1,11 @@
 _ReSharper*
 /WindowsAzurePowershell/src/*/bin
 /WindowsAzurePowershell/src/package
+/WindowsAzurePowershell/src/packages
 /WindowsAzurePowershell/setup/build
 /WindowsAzurePowershell/setup/*/bin
+/WindowsAzurePowershell/tools/WindowsAzurePowerShell.Test.Commands/packages
+/WindowsAzurePowershell/tools/WindowsAzurePowerShell.Test.Commands/WindowsAzurePowerShell.Test.Commands/bin/Debug
 obj
 TestResults
 *.user
@@ -12,3 +15,8 @@ TestResults
 *.patch
 /Publish
 /Package
+msbuild.log
+
+# app.config is not useful for PowerShell.
+# please do not commit any app.config files.
+app.config
