@@ -165,7 +165,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Models
             }
             else
             {
-                templateFileUri = GetGalleryTemplateFile(galleryTemplateName);
+                templateFileUri = new Uri(GetGalleryTemplateFile(galleryTemplateName));
             }
 
             return templateFileUri;

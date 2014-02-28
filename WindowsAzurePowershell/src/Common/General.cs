@@ -979,7 +979,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
             Directory.CreateDirectory(dir);
         }
 
-        public static string DownloadFile(Uri uri)
+        public static string DownloadFile(string uri)
         {
             string contents = null;
 
@@ -987,7 +987,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
             {
                 try
                 {
-                    contents = webClient.DownloadString(uri);
+                    contents = webClient.DownloadString(new Uri(uri));
                 }
                 catch
                 {
