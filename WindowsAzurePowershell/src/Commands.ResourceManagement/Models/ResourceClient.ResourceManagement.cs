@@ -219,13 +219,18 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Models
             
             if (Uri.IsWellFormedUriString(templateName, UriKind.Absolute))
             {
-                templateContent = General.DownloadFile(GetGalleryTemplateFile(templateName));
+                templateContent = General.DownloadFile(templateName);
             }
             else if (File.Exists(templateName))
             {
                 templateContent = File.ReadAllText(templateName);
             }
             else
+            {
+                templateContent = General.DownloadFile(GetGalleryTemplateFile(templateName));
+            }
+
+            if (string.IsNullOrEmpty(templateContent))
             {
                 throw new ArgumentException("templateName");
             }
