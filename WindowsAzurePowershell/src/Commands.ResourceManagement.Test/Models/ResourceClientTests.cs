@@ -133,7 +133,12 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Test.Models
                 {
                     {"name", "site1"},
                     {"siteMode", "Standard"},
-                    {"computeMode", "Dedicated"}
+                    {"computeMode", "Dedicated"},
+                    {"misc", new Dictionary<string, object>
+                        {
+                            {"key1", "value1"},
+                            {"key2", "value2"}
+                        }}
                 };
             serializedProperties = JsonConvert.SerializeObject(properties, new JsonSerializerSettings
             {
@@ -291,6 +296,96 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Test.Models
             PSResource result = resourcesClient.CreatePSResource(parameters);
 
             Assert.NotNull(result);
+        }
+
+        [Fact]
+        public void GetPSResourceWithAllParametersReturnsOneItem()
+        {
+            GetPSResourceParameters parameters = new GetPSResourceParameters()
+            {
+                Name = resourceIdentity.ResourceName,
+                ParentResourceName = resourceIdentity.ParentResourcePath,
+                ResourceGroupName = resourceGroupName,
+                ResourceType = resourceIdentity.ResourceProviderNamespace + "/" + resourceIdentity.ResourceType,
+            };
+
+            resourceOperationsMock.Setup(f => f.GetAsync(resourceGroupName, It.IsAny<ResourceIdentity>(), It.IsAny<CancellationToken>()))
+                .Returns(() => Task.Factory.StartNew(() => new ResourceGetResult
+                    {
+                        StatusCode = HttpStatusCode.OK,
+                        Resource = new Resource
+                            {
+                                Name = parameters.Name,
+                                Properties = serializedProperties,
+                                ProvisioningState = ProvisioningState.Running,
+                                ResourceGroup = parameters.ResourceGroupName,
+                                Location = "West US",
+                            }
+                    }));
+
+            
+            List<PSResource> result = resourcesClient.FilterPSResources(parameters);
+
+            Assert.NotNull(result);
+            Assert.Equal(1, result.Count);
+            Assert.Equal(4, result[0].ParameterObject.Count);
+            Assert.Equal(2, ((Dictionary<string, object>)result[0].ParameterObject["misc"]).Count);
+        }
+
+        [Fact]
+        public void GetPSResourceWithSomeParametersReturnsList()
+        {
+            GetPSResourceParameters parameters = new GetPSResourceParameters()
+            {
+                ResourceGroupName = resourceGroupName,
+            };
+
+            resourceOperationsMock.Setup(f => f.ListAsync(It.IsAny<ResourceListParameters>(), It.IsAny<CancellationToken>()))
+                .Returns(() => Task.Factory.StartNew(() => new ResourceListResult
+                {
+                    StatusCode = HttpStatusCode.OK,
+                    Resources = new List<Resource>(new []
+                        {
+                            new Resource
+                            {
+                                Name = "foo",
+                                Properties = null,
+                                ProvisioningState = ProvisioningState.Running,
+                                ResourceGroup = parameters.ResourceGroupName,
+                                Location = "West US"
+                            },
+                            new Resource
+                            {
+                                Name = "bar",
+                                Properties = null,
+                                ProvisioningState = ProvisioningState.Running,
+                                ResourceGroup = parameters.ResourceGroupName,
+                                Location = "West US"
+                            }
+                        })
+                    
+                }));
+
+
+            List<PSResource> result = resourcesClient.FilterPSResources(parameters);
+
+            Assert.NotNull(result);
+            Assert.Equal(2, result.Count);
+            Assert.False(result.Any(r => r.ParameterObject != null));
+        }
+
+        [Fact]
+        public void GetPSResourceWithIncorrectTypeThrowsException()
+        {
+            GetPSResourceParameters parameters = new GetPSResourceParameters()
+            {
+                Name = resourceIdentity.ResourceName,
+                ParentResourceName = resourceIdentity.ParentResourcePath,
+                ResourceGroupName = resourceGroupName,
+                ResourceType = "abc",
+            };
+
+            Assert.Throws<ArgumentException>(() => resourcesClient.FilterPSResources(parameters));
         }
 
         [Fact]
