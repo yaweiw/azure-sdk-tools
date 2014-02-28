@@ -187,7 +187,6 @@
     <Compile Include="Models\FilterPSGalleryTemplatesOptions.cs" />
     <Compile Include="Models\FilterResourcesOptions.cs" />
     <Compile Include="Models\CreatePSDeploymentParameters.cs" />
-    <Compile Include="Models\PSGalleryTemplate.cs" />
     <Compile Include="Models\PSResourceGroup.cs" />
     <Compile Include="Models\CreatePSResourceGroupParameters.cs" />
     <Compile Include="Models\ResourceClient.Gallery.cs" />
