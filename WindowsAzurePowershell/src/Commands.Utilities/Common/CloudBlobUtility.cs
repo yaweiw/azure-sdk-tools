@@ -83,6 +83,13 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
             container.CreateIfNotExists();
             CloudBlockBlob blob = container.GetBlockBlobReference(blobName);
 
+            BlobRequestOptions uploadRequestOption = blobRequestOptions ?? new BlobRequestOptions();
+
+            if (!uploadRequestOption.ServerTimeout.HasValue)
+            {
+                uploadRequestOption.ServerTimeout = TimeSpan.FromMinutes(30);
+            }
+
             using (FileStream readStream = File.OpenRead(filePath))
             {
                 blob.UploadFromStream(readStream, AccessCondition.GenerateEmptyCondition(), blobRequestOptions);
