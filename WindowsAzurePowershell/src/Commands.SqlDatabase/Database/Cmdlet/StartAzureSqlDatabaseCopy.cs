@@ -31,17 +31,19 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Database.Cmdlet
     {
         #region ParameterSets
 
-        internal const string ByInputObjectWithConnectionContext =
-            "ByInputObjectWithConnectionContext";
+        internal const string ByInputObjectWithConnectionContextContinuous =
+            "ByInputObjectWithConnectionContextContinuous";
 
-        internal const string ByInputObjectWithServerName =
-            "ByInputObjectWithServerName";
+        internal const string ByInputObjectContinuous = "ByInputObjectContinuous";
 
-        internal const string ByDatabaseNameWithConnectionContext =
-            "ByDatabaseNameWithConnectionContext";
+        internal const string ByDatabaseNameWithConnectionContextContinuous =
+            "ByDatabaseNameWithConnectionContextContinuous";
 
-        internal const string ByDatabaseNameWithServerName =
-            "ByDatabaseNameWithServerName";
+        internal const string ByDatabaseNameContinuous = "ByDatabaseNameContinuous";
+
+        internal const string ByInputObject = "ByInputObject";
+
+        internal const string ByDatabaseName = "ByDatabaseName";
 
         #endregion
 
@@ -53,11 +55,11 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Database.Cmdlet
         [Alias("Context")]
         [Parameter(Mandatory = true, Position = 0, ValueFromPipeline = true,
             ValueFromPipelineByPropertyName = true,
-            ParameterSetName = ByInputObjectWithConnectionContext,
+            ParameterSetName = ByInputObjectWithConnectionContextContinuous,
             HelpMessage = "The connection context to the specified server.")]
         [Parameter(Mandatory = true, Position = 0, ValueFromPipeline = true,
             ValueFromPipelineByPropertyName = true,
-            ParameterSetName = ByDatabaseNameWithConnectionContext,
+            ParameterSetName = ByDatabaseNameWithConnectionContextContinuous,
             HelpMessage = "The connection context to the specified server.")]
         [ValidateNotNull]
         public IServerDataServiceContext ConnectionContext { get; set; }
@@ -67,21 +69,31 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Database.Cmdlet
         /// </summary>
         [Parameter(Mandatory = true, Position = 0, ValueFromPipeline = true,
             ValueFromPipelineByPropertyName = true,
-            ParameterSetName = ByInputObjectWithServerName,
+            ParameterSetName = ByInputObject,
             HelpMessage = "The name of the server to operate on.")]
         [Parameter(Mandatory = true, Position = 0, ValueFromPipeline = true,
             ValueFromPipelineByPropertyName = true,
-            ParameterSetName = ByDatabaseNameWithServerName,
-            HelpMessage = "The name of the server to operate on")]
+            ParameterSetName = ByDatabaseName,
+            HelpMessage = "The name of the server to operate on.")]
+        [Parameter(Mandatory = true, Position = 0, ValueFromPipeline = true,
+            ValueFromPipelineByPropertyName = true,
+            ParameterSetName = ByDatabaseNameContinuous,
+            HelpMessage = "The name of the server to operate on.")]
+        [Parameter(Mandatory = true, Position = 0, ValueFromPipeline = true,
+            ValueFromPipelineByPropertyName = true,
+            ParameterSetName = ByInputObjectContinuous,
+            HelpMessage = "The name of the server to operate on.")]
         [ValidateNotNullOrEmpty]
         public string ServerName { get; set; }
 
         /// <summary>
         /// Gets or sets the database to copy.
         /// </summary>
-        [Parameter(Mandatory = true, Position = 1, ParameterSetName = ByInputObjectWithConnectionContext,
+        [Parameter(Mandatory = true, Position = 1, ParameterSetName = ByInputObject,
             ValueFromPipeline = true, HelpMessage = "The database object to copy.")]
-        [Parameter(Mandatory = true, Position = 1, ParameterSetName = ByInputObjectWithServerName,
+        [Parameter(Mandatory = true, Position = 1, ParameterSetName = ByInputObjectContinuous,
+            ValueFromPipeline = true, HelpMessage = "The database object to copy.")]
+        [Parameter(Mandatory = true, Position = 1, ParameterSetName = ByInputObjectWithConnectionContextContinuous,
             ValueFromPipeline = true, HelpMessage = "The database object to copy.")]
         [ValidateNotNull]
         public Database Database { get; set; }
@@ -89,9 +101,11 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Database.Cmdlet
         /// <summary>
         /// Gets or sets the name of the database to copy.
         /// </summary>
-        [Parameter(Mandatory = true, Position = 1, ParameterSetName = ByDatabaseNameWithConnectionContext,
+        [Parameter(Mandatory = true, Position = 1, ParameterSetName = ByDatabaseName,
             HelpMessage = "The name of the database to copy.")]
-        [Parameter(Mandatory = true, Position = 1, ParameterSetName = ByDatabaseNameWithServerName,
+        [Parameter(Mandatory = true, Position = 1, ParameterSetName = ByDatabaseNameContinuous,
+            HelpMessage = "The name of the database to copy.")]
+        [Parameter(Mandatory = true, Position = 1, ParameterSetName = ByDatabaseNameWithConnectionContextContinuous,
             HelpMessage = "The name of the database to copy.")]
         [ValidateNotNullOrEmpty]
         public string DatabaseName { get; set; }
@@ -99,36 +113,69 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Database.Cmdlet
         /// <summary>
         /// Gets or sets the name of the partner server.
         /// </summary>
-        [Parameter(Mandatory = true, Position = 2,
-            HelpMessage = "The name of the partner server")]
+        [Parameter(Mandatory = false, ParameterSetName = ByInputObject,
+            HelpMessage = "The name of the partner server.")]
+        [Parameter(Mandatory = false, ParameterSetName = ByDatabaseName,
+            HelpMessage = "The name of the partner server.")]
+        [Parameter(Mandatory = true, ParameterSetName = ByInputObjectContinuous,
+            HelpMessage = "The name of the partner server.")]
+        [Parameter(Mandatory = true, ParameterSetName = ByDatabaseNameContinuous,
+            HelpMessage = "The name of the partner server.")]
+        [Parameter(Mandatory = true, ParameterSetName = ByInputObjectWithConnectionContextContinuous,
+            HelpMessage = "The name of the partner server.")]
+        [Parameter(Mandatory = true, ParameterSetName = ByDatabaseNameWithConnectionContextContinuous,
+            HelpMessage = "The name of the partner server.")]
         [ValidateNotNullOrEmpty]
         public string PartnerServer { get; set; }
 
         /// <summary>
         /// Gets or sets the name of the partner database.
         /// </summary>
-        [Parameter(Mandatory = false,
-            HelpMessage = "The name of the partner database")]
+        [Parameter(Mandatory = true, ParameterSetName = ByInputObject,
+            HelpMessage = "The name of the partner database.")]
+        [Parameter(Mandatory = true, ParameterSetName = ByDatabaseName,
+            HelpMessage = "The name of the partner database.")]
+        [Parameter(Mandatory = false, ParameterSetName = ByInputObjectContinuous,
+            HelpMessage = "The name of the partner database.")]
+        [Parameter(Mandatory = false, ParameterSetName = ByDatabaseNameContinuous,
+            HelpMessage = "The name of the partner database.")]
+        [Parameter(Mandatory = false, ParameterSetName = ByInputObjectWithConnectionContextContinuous,
+            HelpMessage = "The name of the partner database.")]
+        [Parameter(Mandatory = false, ParameterSetName = ByDatabaseNameWithConnectionContextContinuous,
+            HelpMessage = "The name of the partner database.")]
         [ValidateNotNullOrEmpty]
         public string PartnerDatabase { get; set; }
 
         /// <summary>
         /// Gets or sets the maximum lag for the continuous copy operation.
         /// </summary>
-        [Parameter(Mandatory = false,
-            HelpMessage = "The maximum lag for the continuous copy operation")]
+        [Parameter(Mandatory = false, ParameterSetName = ByInputObjectContinuous,
+            HelpMessage = "The maximum lag for the continuous copy operation.")]
+        [Parameter(Mandatory = false, ParameterSetName = ByDatabaseNameContinuous,
+            HelpMessage = "The maximum lag for the continuous copy operation.")]
+        [Parameter(Mandatory = false, ParameterSetName = ByInputObjectWithConnectionContextContinuous,
+            HelpMessage = "The maximum lag for the continuous copy operation.")]
+        [Parameter(Mandatory = false, ParameterSetName = ByDatabaseNameWithConnectionContextContinuous,
+            HelpMessage = "The maximum lag for the continuous copy operation.")]
         public int MaxLagInMinutes { get; set; }
 
         /// <summary>
         /// Gets or sets a value indicating whether to make this a continuous copy.
         /// </summary>
-        [Parameter(HelpMessage = "Make this copy a continuous copy")]
+        [Parameter(Mandatory = true, ParameterSetName = ByInputObjectContinuous,
+            HelpMessage = "The name of the partner database.")]
+        [Parameter(Mandatory = true, ParameterSetName = ByDatabaseNameContinuous,
+            HelpMessage = "The name of the partner database.")]
+        [Parameter(Mandatory = true, ParameterSetName = ByInputObjectWithConnectionContextContinuous,
+            HelpMessage = "The name of the partner database.")]
+        [Parameter(Mandatory = true, ParameterSetName = ByDatabaseNameWithConnectionContextContinuous,
+            HelpMessage = "The name of the partner database.")]
         public SwitchParameter ContinuousCopy { get; set; }
 
         /// <summary>
         /// Gets or sets the switch to not confirm on the start of the database copy.
         /// </summary>
-        [Parameter(HelpMessage = "Do not confirm on the start of the database copy")]
+        [Parameter(HelpMessage = "Do not confirm on the start of the database copy.")]
         public SwitchParameter Force { get; set; }
 
         #endregion
@@ -152,7 +199,19 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Database.Cmdlet
             string serverName = this.MyInvocation.BoundParameters.ContainsKey("ServerName") ?
                 this.ServerName : this.ConnectionContext.ServerName;
 
-            string partnerDatabaseName = this.PartnerDatabase ?? databaseName;
+            string partnerServerName = this.PartnerServer;
+            string partnerDatabaseName = this.PartnerDatabase;
+
+            if (this.ContinuousCopy.IsPresent)
+            {
+                // Default partnerDatabaseName to the only allowed value for continuous copies.
+                partnerDatabaseName = partnerDatabaseName ?? databaseName;
+            }
+            else
+            {
+                // Default partnerServerName to the only allowed value for normal copies.
+                partnerServerName = partnerServerName ?? serverName;
+            }
 
             // Do nothing if force is not specified and user cancelled the operation
             string actionDescription = string.Format(
@@ -160,14 +219,14 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Database.Cmdlet
                 Resources.StartAzureSqlDatabaseCopyDescription,
                 serverName,
                 databaseName,
-                this.PartnerServer,
+                partnerServerName,
                 partnerDatabaseName);
             string actionWarning = string.Format(
                 CultureInfo.InvariantCulture,
                 Resources.StartAzureSqlDatabaseCopyWarning,
                 serverName,
                 databaseName,
-                this.PartnerServer,
+                partnerServerName,
                 partnerDatabaseName);
             this.WriteVerbose(actionDescription);
             if (!this.Force.IsPresent &&
@@ -196,7 +255,7 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Database.Cmdlet
                 // Update the database with the specified name
                 DatabaseCopy databaseCopy = context.StartDatabaseCopy(
                     databaseName,
-                    this.PartnerServer,
+                    partnerServerName,
                     partnerDatabaseName,
                     maxLagInMinutes,
                     this.ContinuousCopy.IsPresent);
