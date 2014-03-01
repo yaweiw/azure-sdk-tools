@@ -204,6 +204,12 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Test.Models
                 ResourceType = resourceIdentity.ResourceProviderNamespace + "/" + resourceIdentity.ResourceType,
             };
 
+            resourceOperationsMock.Setup(f => f.CheckExistenceAsync(resourceGroupName, It.IsAny<ResourceIdentity>(), It.IsAny<CancellationToken>()))
+                .Returns(Task.Factory.StartNew(() => new ResourceExistsResult
+                {
+                    Exists = true
+                }));
+
             resourceOperationsMock.Setup(f => f.GetAsync(resourceGroupName, resourceIdentity, It.IsAny<CancellationToken>()))
                 .Returns(Task.Factory.StartNew(() => new ResourceGetResult
                     {
@@ -247,37 +253,30 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Test.Models
                 ResourceType = resourceIdentity.ResourceProviderNamespace + "/" + resourceIdentity.ResourceType,
             };
 
-            int counter = 0;
             resourceOperationsMock.Setup(f => f.GetAsync(resourceGroupName, It.IsAny<ResourceIdentity>(), It.IsAny<CancellationToken>()))
-                .Returns(() =>
+                .Returns(() => Task.Factory.StartNew(() => new ResourceGetResult
                     {
-                        counter++;
-                        if (counter == 1)
-                        {
-                            throw new CloudException("Resource does not exist.");
-                        }
-                        else
-                        {
-                            return Task.Factory.StartNew(() => new ResourceGetResult
+                        StatusCode = HttpStatusCode.OK,
+                        Resource = new Resource
                             {
-                                StatusCode = HttpStatusCode.OK,
-                                Resource = new Resource
-                                {
-                                    Name = parameters.Name,
-                                    Location = parameters.Location,
-                                    Properties = serializedProperties,
-                                    ProvisioningState = ProvisioningState.Running,
-                                    ResourceGroup = parameters.ResourceGroupName
-                                }
-                            });
-                        }
-                    }
-                );
+                                Name = parameters.Name,
+                                Location = parameters.Location,
+                                Properties = serializedProperties,
+                                ProvisioningState = ProvisioningState.Running,
+                                ResourceGroup = parameters.ResourceGroupName
+                            }
+                    }));
 
             resourceGroupMock.Setup(f => f.CheckExistenceAsync(resourceGroupName, It.IsAny<CancellationToken>()))
                 .Returns(Task.Factory.StartNew(() => new ResourceGroupExistsResult
                 {
                     Exists = true
+                }));
+
+            resourceOperationsMock.Setup(f => f.CheckExistenceAsync(resourceGroupName, It.IsAny<ResourceIdentity>(), It.IsAny<CancellationToken>()))
+                .Returns(Task.Factory.StartNew(() => new ResourceExistsResult
+                {
+                    Exists = false
                 }));
 
             resourceOperationsMock.Setup(f => f.CreateOrUpdateAsync(resourceGroupName, It.IsAny<ResourceIdentity>(), It.IsAny<ResourceCreateOrUpdateParameters>(), It.IsAny<CancellationToken>()))
