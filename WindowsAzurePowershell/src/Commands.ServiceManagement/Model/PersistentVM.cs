@@ -120,6 +120,12 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Model
             get;
             set;
         }
+
+        public string VMImageName
+        {
+            get;
+            set;
+        }
 		
         [XmlIgnore]
         public Collection<DataVirtualHardDisk> DataVirtualHardDisksToBeDeleted
