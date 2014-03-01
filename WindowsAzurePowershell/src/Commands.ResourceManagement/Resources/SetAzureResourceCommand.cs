@@ -19,7 +19,7 @@ using System.Management.Automation;
 namespace Microsoft.Azure.Commands.ResourceManagement
 {
     /// <summary>
-    /// Creates a new resource.
+    /// Updates an existing resource.
     /// </summary>
     [Cmdlet(VerbsCommon.Set, "AzureResource"), OutputType(typeof(PSResource))]
     public class SetAzureResourceCommand : ResourceBaseCmdlet
