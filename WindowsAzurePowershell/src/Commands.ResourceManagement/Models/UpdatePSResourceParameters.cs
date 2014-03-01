@@ -27,7 +27,5 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Models
         public string ParentResourceName { get; set; }
 
         public Hashtable PropertyObject { get; set; }
-
-        public SetResourceMode Mode { get; set; }
     }
 }
