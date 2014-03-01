@@ -607,12 +607,11 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Services.Server
             DatabaseCopyResponse response = sqlManagementClient.DatabaseCopies.Create(
                 this.ServerName,
                 databaseName,
-                new DatabaseCopyCreateParameters()
+                new CreateDatabaseCopyRequest()
                     {
                         PartnerServer = partnerServer,
                         PartnerDatabase = partnerDatabaseName,
                         IsContinuous = continuousCopy,
-                        IsForcedTerminate = false,
                         MaxLagInMinutes = maxLagInMinutes
                     });
 
@@ -649,7 +648,7 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Services.Server
                     this.ServerName,
                     localDatabaseName,
                     databaseCopy.EntityId,
-                    new DatabaseCopyUpdateParameters() {IsForcedTerminate = forcedTermination});
+                    new UpdateDatabaseCopyRequest() {IsForcedTerminate = forcedTermination});
 
                 sqlManagementClient.DatabaseCopies.Delete(
                     this.ServerName,
@@ -665,7 +664,7 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Services.Server
                         this.ServerName,
                         localDatabaseName,
                         databaseCopy.EntityId,
-                        new DatabaseCopyUpdateParameters() {IsForcedTerminate = databaseCopy.IsForcedTerminate.GetValueOrDefault(false)});
+                        new UpdateDatabaseCopyRequest() {IsForcedTerminate = databaseCopy.IsForcedTerminate.GetValueOrDefault(false)});
                 }
 
                 throw;
@@ -996,8 +995,8 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Services.Server
                     LocalDatabaseId = response.LocalDatabaseId,
                     IsLocalDatabaseReplicationTarget = response.IsLocalDatabaseReplicationTarget,
                     IsInterlinkConnected = response.IsInterlinkConnected,
-                    TextStartDate = response.TextStartDate,
-                    TextModifyDate = response.TextModifyDate,
+                    TextStartDate = response.StartDate.ToString(),
+                    TextModifyDate = response.ModifyDate.ToString(),
                     PercentComplete = response.PercentComplete,
                     IsForcedTerminate = response.IsForcedTerminate
                 };
