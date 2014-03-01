@@ -33,8 +33,9 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Test.Blob.Cmdlet
         {
             command = new NewAzureStorageContainerSasTokenCommand(BlobMock)
             {
-                CommandRuntime = new MockCommandRuntime()
+                CommandRuntime = MockCmdRunTime
             };
+            CurrentBlobCmd = command;
         }
 
         [TestCleanup]
