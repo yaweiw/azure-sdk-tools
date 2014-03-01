@@ -55,7 +55,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Models
                     ResourceType = resourceType[1]
                 };
 
-            bool resourceExists = CheckResourceExistence(parameters.ResourceGroupName, resourceIdentity);
+            bool resourceExists = ResourceManagementClient.Resources.CheckExistence(parameters.ResourceGroupName, resourceIdentity).Exists;
             
             if (resourceExists)
             {
@@ -64,7 +64,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Models
 
             if (ResourceManagementClient.ResourceGroups.CheckExistence(parameters.ResourceGroupName).Exists)
             {
-                WriteProgress(string.Format("{0, -15} Resource group \"{1}\" is found.", "[Info]",
+                WriteProgress(string.Format("{0, -10} Resource group \"{1}\" is found.", "[Info]",
                                             parameters.ResourceGroupName));
             }
             else
@@ -72,7 +72,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Models
                 throw new ArgumentException(Resources.ResourceGroupDoesntExists);
             }
 
-            WriteProgress(string.Format("{0, -15} Creating resource \"{1}\".", "[Start]", parameters.Name));
+            WriteProgress(string.Format("{0, -10} Creating resource \"{1}\".", "[Start]", parameters.Name));
             
             ResourceCreateOrUpdateResult createOrUpdateResult = ResourceManagementClient.Resources.CreateOrUpdate(parameters.ResourceGroupName, resourceIdentity, 
                 new ResourceCreateOrUpdateParameters
@@ -87,7 +87,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Models
 
             if (createOrUpdateResult.Resource != null)
             {
-                WriteProgress(string.Format("{0, -15} Creating resource \"{1}\".", "[Complete]", parameters.Name));
+                WriteProgress(string.Format("{0, -10} Creating resource \"{1}\".", "[Complete]", parameters.Name));
             }
 
             ResourceGetResult getResult = ResourceManagementClient.Resources.Get(parameters.ResourceGroupName, resourceIdentity);
@@ -121,41 +121,32 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Models
                 ResourceType = resourceType[1]
             };
 
-            bool resourceExists = CheckResourceExistence(parameters.ResourceGroupName, resourceIdentity);
+            ResourceGetResult getResource;
 
-            if (!resourceExists)
+            try
+            {
+                getResource = ResourceManagementClient.Resources.Get(parameters.ResourceGroupName,
+                                                                     resourceIdentity);
+            }
+            catch (CloudException)
             {
                 throw new ArgumentException(Resources.ResourceDoesntExists);
             }
 
-            if (parameters.Mode == SetResourceMode.Update)
-            {
-                // Do logic here
-            }
+            ResourceManagementClient.Resources.CreateOrUpdate(parameters.ResourceGroupName, resourceIdentity,
+                new ResourceCreateOrUpdateParameters
+                {
+                    ValidationMode = ResourceValidationMode.NameValidation,
+                    Resource = new BasicResource
+                    {
+                        Location = getResource.Resource.Location,
+                        Properties = SerializeHashtable(parameters.PropertyObject, addValueLayer: false)
+                    }
+                });
 
             ResourceGetResult getResult = ResourceManagementClient.Resources.Get(parameters.ResourceGroupName, resourceIdentity);
 
             return getResult.Resource.ToPSResource(this);
-        }
-
-        /// <summary>
-        /// Checks whether resource exists. Replace with ResourceManagementClient.Resources.CheckExistence()
-        /// once implemented accross all providers.
-        /// </summary>
-        /// <param name="group"></param>
-        /// <param name="identity"></param>
-        /// <returns></returns>
-        public virtual bool CheckResourceExistence(string group, ResourceIdentity identity)
-        {
-            try
-            {
-                ResourceManagementClient.Resources.Get(group, identity);
-                return true;
-            }
-            catch (CloudException)
-            {
-                return false;
-            }
         }
 
         /// <summary>
