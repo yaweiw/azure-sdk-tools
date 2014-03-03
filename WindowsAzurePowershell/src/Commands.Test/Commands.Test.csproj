@@ -338,8 +338,6 @@
     <Compile Include="MediaServices\NewAzureMediaServicesKeyTest.cs" />
     <Compile Include="MediaServices\NewMediaServicesAccountTests.cs" />
     <Compile Include="MediaServices\RemoveMediaServicesAccountTests.cs" />
-    <Compile Include="Scheduler\GetAzureSchedulerJobCollectionTests.cs" />
-    <Compile Include="Scheduler\GetAzureSchedulerLocationTests.cs" />
     <Compile Include="ServiceBus\GetAzureSBLocationTest.cs" />
     <Compile Include="ServiceBus\GetAzureSBNamespaceTest.cs" />
     <Compile Include="ServiceBus\NewAzureSBNamespaceTest.cs" />
