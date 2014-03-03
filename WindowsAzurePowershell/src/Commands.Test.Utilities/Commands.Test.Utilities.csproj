@@ -300,7 +300,6 @@
     <Compile Include="Common\SimpleServiceManagementAsyncResult.cs" />
     <Compile Include="Common\TestBase.cs" />
     <Compile Include="Common\Testing.cs" />
-    <Compile Include="Scheduler\SchedulerTestBase.cs" />
     <Compile Include="Websites\SimpleDeploymentServiceManagement.cs" />
     <Compile Include="Websites\SimpleGithubManagement.cs" />
     <Compile Include="Websites\SimpleWebsitesManagement.cs" />
