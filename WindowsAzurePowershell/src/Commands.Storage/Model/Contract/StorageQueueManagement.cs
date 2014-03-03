@@ -15,6 +15,7 @@
 namespace Microsoft.WindowsAzure.Commands.Storage.Model.Contract
 {
     using System.Collections.Generic;
+    using Microsoft.WindowsAzure.Commands.Storage.Model.ResourceModel;
     using Microsoft.WindowsAzure.Storage;
     using Microsoft.WindowsAzure.Storage.Queue;
     using Microsoft.WindowsAzure.Storage.Queue.Protocol;
@@ -30,12 +31,29 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Model.Contract
         private CloudQueueClient queueClient;
 
         /// <summary>
+        /// Internal storage context
+        /// </summary>
+        private AzureStorageContext internalStorageContext;
+
+        /// <summary>
+        /// The azure storage context assoicated with this IStorageBlobManagement
+        /// </summary>
+        public AzureStorageContext StorageContext
+        {
+            get
+            {
+                return internalStorageContext;
+            }
+        }
+
+        /// <summary>
         /// Queue management constructor
         /// </summary>
         /// <param name="client">Cloud queue client</param>
-        public StorageQueueManagement(CloudQueueClient client)
+        public StorageQueueManagement(AzureStorageContext context)
         {
-            queueClient = client;
+            internalStorageContext = context;
+            queueClient = internalStorageContext.StorageAccount.CreateCloudQueueClient();
         }
 
         /// <summary>

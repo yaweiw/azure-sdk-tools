@@ -36,9 +36,10 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Test.Common
         [TestInitialize]
         public void InitCommand()
         {
+            MockCmdRunTime = new MockCommandRuntime();
             command = new StorageCloudCmdletBase<IStorageManagement>
             {
-                CommandRuntime = new MockCommandRuntime()
+                CommandRuntime = MockCmdRunTime
             };
         }
 
@@ -53,7 +54,7 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Test.Common
         {
             CloudStorageAccount account = CloudStorageAccount.DevelopmentStorageAccount;
             command.Context = new AzureStorageContext(account);
-            Assert.AreEqual(account, command.GetCloudStorageAccount());
+            Assert.AreEqual(command.Context, command.GetCmdletStorageContext());
         }
 
         [TestMethod]
@@ -62,7 +63,7 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Test.Common
             AzureStorageBase item = new AzureStorageBase();
             command.WriteObjectWithStorageContext(item);
 
-            AzureStorageBase contextItem = (AzureStorageBase)((MockCommandRuntime)command.CommandRuntime).OutputPipeline.FirstOrDefault();
+            AzureStorageBase contextItem = (AzureStorageBase)MockCmdRunTime.OutputPipeline.FirstOrDefault();
             Assert.IsNotNull(contextItem);
             Assert.IsNull(contextItem.Context);
         }
@@ -76,7 +77,7 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Test.Common
             AzureStorageBase item = new AzureStorageBase();
             command.WriteObjectWithStorageContext(item);
 
-            AzureStorageBase contextItem = (AzureStorageBase)((MockCommandRuntime)command.CommandRuntime).OutputPipeline.FirstOrDefault();
+            AzureStorageBase contextItem = (AzureStorageBase)MockCmdRunTime.OutputPipeline.FirstOrDefault();
             Assert.IsNotNull(contextItem);
             Assert.AreEqual(command.Context, contextItem.Context);
         }
@@ -86,7 +87,7 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Test.Common
         {
             IEnumerable<AzureStorageBase> itemList = null;
             command.WriteObjectWithStorageContext(itemList);
-            Assert.AreEqual(0, ((MockCommandRuntime)command.CommandRuntime).OutputPipeline.Count);
+            Assert.AreEqual(0, MockCmdRunTime.OutputPipeline.Count);
         }
 
         [TestMethod]
@@ -96,7 +97,7 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Test.Common
             itemList.Add(new AzureStorageBase());
             itemList.Add(new AzureStorageBase());
             command.WriteObjectWithStorageContext(itemList);
-            Assert.AreEqual(2, ((MockCommandRuntime)command.CommandRuntime).OutputPipeline.Count);
+            Assert.AreEqual(2, MockCmdRunTime.OutputPipeline.Count);
         }
 
         [TestMethod]
