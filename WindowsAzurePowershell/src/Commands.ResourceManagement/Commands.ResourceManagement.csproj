@@ -177,6 +177,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Models\PSResourceProviderType.cs" />
+    <Compile Include="Models\UpdatePSResourceParameters.cs" />
+    <Compile Include="Models\GetPSResourceParameters.cs" />
     <Compile Include="Models\TemplateFileResource.cs" />
     <Compile Include="Models\ValidatePSResourceGroupDeploymentParameters.cs" />
     <Compile Include="ResourceGroups\GetAzureLocationCommand.cs" />
@@ -193,6 +195,7 @@
     <Compile Include="Models\CreatePSResourceGroupParameters.cs" />
     <Compile Include="Models\ResourceClient.Gallery.cs" />
     <Compile Include="Models\ResourceManagementExtensions.cs" />
+    <Compile Include="Models\SetResourceMode.cs" />
     <Compile Include="Models\TemplateFile.cs" />
     <Compile Include="Models\TemplateFileParameter.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
@@ -211,6 +214,8 @@
     <Compile Include="ResourceGroups\NewAzureResourceGroupCommand.cs" />
     <Compile Include="ResourceBaseCmdlet.cs" />
     <Compile Include="Models\ResourceClient.cs" />
+    <Compile Include="Resources\SetAzureResourceCommand.cs" />
+    <Compile Include="Resources\GetAzureResourceCommand.cs" />
     <Compile Include="Resources\NewAzureResourceCommand.cs" />
   </ItemGroup>
   <ItemGroup>

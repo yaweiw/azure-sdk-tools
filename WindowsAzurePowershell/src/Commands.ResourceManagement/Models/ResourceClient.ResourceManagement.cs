@@ -48,7 +48,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Models
         /// Creates a new resource.
         /// </summary>
         /// <param name="parameters">The create parameters</param>
-        /// <returns>The created resource group</returns>
+        /// <returns>The created resource</returns>
         public virtual PSResource CreatePSResource(CreatePSResourceParameters parameters)
         {
             if (string.IsNullOrEmpty(parameters.ResourceType))
@@ -70,7 +70,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Models
                     ResourceType = resourceType[1]
                 };
 
-            bool resourceExists = CheckResourceExistence(parameters.ResourceGroupName, resourceIdentity);
+            bool resourceExists = ResourceManagementClient.Resources.CheckExistence(parameters.ResourceGroupName, resourceIdentity).Exists;
             
             if (resourceExists)
             {
@@ -79,7 +79,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Models
 
             if (ResourceManagementClient.ResourceGroups.CheckExistence(parameters.ResourceGroupName).Exists)
             {
-                WriteProgress(string.Format("{0, -15} Resource group \"{1}\" is found.", "[Info]",
+                WriteProgress(string.Format("{0, -10} Resource group \"{1}\" is found.", "[Info]",
                                             parameters.ResourceGroupName));
             }
             else
@@ -87,7 +87,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Models
                 throw new ArgumentException(Resources.ResourceGroupDoesntExists);
             }
 
-            WriteProgress(string.Format("{0, -15} Creating resource \"{1}\".", "[Start]", parameters.Name));
+            WriteProgress(string.Format("{0, -10} Creating resource \"{1}\".", "[Start]", parameters.Name));
             
             ResourceCreateOrUpdateResult createOrUpdateResult = ResourceManagementClient.Resources.CreateOrUpdate(parameters.ResourceGroupName, resourceIdentity, 
                 new ResourceCreateOrUpdateParameters
@@ -102,7 +102,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Models
 
             if (createOrUpdateResult.Resource != null)
             {
-                WriteProgress(string.Format("{0, -15} Creating resource \"{1}\".", "[Complete]", parameters.Name));
+                WriteProgress(string.Format("{0, -10} Creating resource \"{1}\".", "[Complete]", parameters.Name));
             }
 
             ResourceGetResult getResult = ResourceManagementClient.Resources.Get(parameters.ResourceGroupName, resourceIdentity);
@@ -111,23 +111,105 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Models
         }
 
         /// <summary>
-        /// Checks whether resource exists. Replace with ResourceManagementClient.Resources.CheckExistence()
-        /// once implemented accross all providers.
+        /// Updates an existing resource.
         /// </summary>
-        /// <param name="group"></param>
-        /// <param name="identity"></param>
-        /// <returns></returns>
-        private bool CheckResourceExistence(string group, ResourceIdentity identity)
+        /// <param name="parameters">The update parameters</param>
+        /// <returns>The updated resource</returns>
+        public virtual PSResource UpdatePSResource(UpdatePSResourceParameters parameters)
         {
+            if (string.IsNullOrEmpty(parameters.ResourceType))
+            {
+                throw new ArgumentNullException("ResourceType");
+            }
+
+            string[] resourceType = parameters.ResourceType.Split('/');
+            if (resourceType.Length != 2)
+            {
+                throw new ArgumentException(Resources.ResourceTypeFormat);
+            }
+
+            ResourceIdentity resourceIdentity = new ResourceIdentity
+            {
+                ParentResourcePath = parameters.ParentResourceName,
+                ResourceName = parameters.Name,
+                ResourceProviderNamespace = resourceType[0],
+                ResourceType = resourceType[1]
+            };
+
+            ResourceGetResult getResource;
+
             try
             {
-                ResourceManagementClient.Resources.Get(group, identity);
-                return true;
+                getResource = ResourceManagementClient.Resources.Get(parameters.ResourceGroupName,
+                                                                     resourceIdentity);
             }
             catch (CloudException)
             {
-                return false;
+                throw new ArgumentException(Resources.ResourceDoesntExists);
             }
+
+            ResourceManagementClient.Resources.CreateOrUpdate(parameters.ResourceGroupName, resourceIdentity,
+                new ResourceCreateOrUpdateParameters
+                {
+                    ValidationMode = ResourceValidationMode.NameValidation,
+                    Resource = new BasicResource
+                    {
+                        Location = getResource.Resource.Location,
+                        Properties = SerializeHashtable(parameters.PropertyObject, addValueLayer: false)
+                    }
+                });
+
+            ResourceGetResult getResult = ResourceManagementClient.Resources.Get(parameters.ResourceGroupName, resourceIdentity);
+
+            return getResult.Resource.ToPSResource(this);
+        }
+
+        /// <summary>
+        /// Get an existing resource or resources.
+        /// </summary>
+        /// <param name="parameters">The get parameters</param>
+        /// <returns>List of resources</returns>
+        public virtual List<PSResource> FilterPSResources(GetPSResourceParameters parameters)
+        {
+            List<PSResource> resources = new List<PSResource>();
+
+            if (!string.IsNullOrEmpty(parameters.Name))
+            {
+                if (string.IsNullOrEmpty(parameters.ResourceType))
+                {
+                    throw new ArgumentNullException("ResourceType");
+                }
+
+                string[] resourceType = parameters.ResourceType.Split('/');
+                if (resourceType.Length != 2)
+                {
+                    throw new ArgumentException(Resources.ResourceTypeFormat);
+                }
+
+                ResourceGetResult getResult = ResourceManagementClient.Resources.Get(parameters.ResourceGroupName, new ResourceIdentity
+                    {
+                        ResourceName = parameters.Name,
+                        ParentResourcePath = parameters.ParentResourceName,
+                        ResourceProviderNamespace = resourceType[0],
+                        ResourceType = resourceType[1]
+                    });
+
+                resources.Add(getResult.Resource.ToPSResource(this));
+            }
+            else
+            {
+                ResourceListResult listResult = ResourceManagementClient.Resources.List(new ResourceListParameters
+                    {
+                        ResourceGroupName = parameters.ResourceGroupName,
+                        ResourceType = parameters.ResourceType
+                    });
+
+                if (listResult.Resources != null)
+                {
+                    resources.AddRange(listResult.Resources.Select(r => r.ToPSResource(this)));
+                }
+            }
+            return resources;
         }
 
         /// <summary>

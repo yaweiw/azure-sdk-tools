@@ -133,7 +133,12 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Test.Models
                 {
                     {"name", "site1"},
                     {"siteMode", "Standard"},
-                    {"computeMode", "Dedicated"}
+                    {"computeMode", "Dedicated"},
+                    {"misc", new Dictionary<string, object>
+                        {
+                            {"key1", "value1"},
+                            {"key2", "value2"}
+                        }}
                 };
             serializedProperties = JsonConvert.SerializeObject(properties, new JsonSerializerSettings
             {
@@ -199,6 +204,12 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Test.Models
                 ResourceType = resourceIdentity.ResourceProviderNamespace + "/" + resourceIdentity.ResourceType,
             };
 
+            resourceOperationsMock.Setup(f => f.CheckExistenceAsync(resourceGroupName, It.IsAny<ResourceIdentity>(), It.IsAny<CancellationToken>()))
+                .Returns(Task.Factory.StartNew(() => new ResourceExistsResult
+                {
+                    Exists = true
+                }));
+
             resourceOperationsMock.Setup(f => f.GetAsync(resourceGroupName, resourceIdentity, It.IsAny<CancellationToken>()))
                 .Returns(Task.Factory.StartNew(() => new ResourceGetResult
                     {
@@ -242,37 +253,30 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Test.Models
                 ResourceType = resourceIdentity.ResourceProviderNamespace + "/" + resourceIdentity.ResourceType,
             };
 
-            int counter = 0;
             resourceOperationsMock.Setup(f => f.GetAsync(resourceGroupName, It.IsAny<ResourceIdentity>(), It.IsAny<CancellationToken>()))
-                .Returns(() =>
+                .Returns(() => Task.Factory.StartNew(() => new ResourceGetResult
                     {
-                        counter++;
-                        if (counter == 1)
-                        {
-                            throw new CloudException("Resource does not exist.");
-                        }
-                        else
-                        {
-                            return Task.Factory.StartNew(() => new ResourceGetResult
+                        StatusCode = HttpStatusCode.OK,
+                        Resource = new Resource
                             {
-                                StatusCode = HttpStatusCode.OK,
-                                Resource = new Resource
-                                {
-                                    Name = parameters.Name,
-                                    Location = parameters.Location,
-                                    Properties = serializedProperties,
-                                    ProvisioningState = ProvisioningState.Running,
-                                    ResourceGroup = parameters.ResourceGroupName
-                                }
-                            });
-                        }
-                    }
-                );
+                                Name = parameters.Name,
+                                Location = parameters.Location,
+                                Properties = serializedProperties,
+                                ProvisioningState = ProvisioningState.Running,
+                                ResourceGroup = parameters.ResourceGroupName
+                            }
+                    }));
 
             resourceGroupMock.Setup(f => f.CheckExistenceAsync(resourceGroupName, It.IsAny<CancellationToken>()))
                 .Returns(Task.Factory.StartNew(() => new ResourceGroupExistsResult
                 {
                     Exists = true
+                }));
+
+            resourceOperationsMock.Setup(f => f.CheckExistenceAsync(resourceGroupName, It.IsAny<ResourceIdentity>(), It.IsAny<CancellationToken>()))
+                .Returns(Task.Factory.StartNew(() => new ResourceExistsResult
+                {
+                    Exists = false
                 }));
 
             resourceOperationsMock.Setup(f => f.CreateOrUpdateAsync(resourceGroupName, It.IsAny<ResourceIdentity>(), It.IsAny<ResourceCreateOrUpdateParameters>(), It.IsAny<CancellationToken>()))
@@ -291,6 +295,173 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Test.Models
             PSResource result = resourcesClient.CreatePSResource(parameters);
 
             Assert.NotNull(result);
+        }
+
+        [Fact]
+        public void SetPSResourceWithoutExistingResourceThrowsException()
+        {
+            UpdatePSResourceParameters parameters = new UpdatePSResourceParameters()
+            {
+                Name = resourceIdentity.ResourceName,
+                ParentResourceName = resourceIdentity.ParentResourcePath,
+                PropertyObject = new Hashtable(properties),
+                ResourceGroupName = resourceGroupName,
+                ResourceType = resourceIdentity.ResourceProviderNamespace + "/" + resourceIdentity.ResourceType,
+            };
+
+            resourceOperationsMock.Setup(f => f.GetAsync(resourceGroupName, It.IsAny<ResourceIdentity>(), It.IsAny<CancellationToken>()))
+                .Returns(() => { throw new CloudException("Resource does not exist."); });
+
+            Assert.Throws<ArgumentException>(() => resourcesClient.UpdatePSResource(parameters));
+        }
+
+        [Fact]
+        public void SetPSResourceWithIncorrectTypeThrowsException()
+        {
+            UpdatePSResourceParameters parameters = new UpdatePSResourceParameters()
+            {
+                Name = resourceIdentity.ResourceName,
+                ParentResourceName = resourceIdentity.ParentResourcePath,
+                PropertyObject = new Hashtable(properties),
+                ResourceGroupName = resourceGroupName,
+                ResourceType = "abc",
+            };
+
+            Assert.Throws<ArgumentException>(() => resourcesClient.UpdatePSResource(parameters));
+        }
+
+        [Fact]
+        public void SetPSResourceWithAllParameters()
+        {
+            UpdatePSResourceParameters parameters = new UpdatePSResourceParameters()
+            {
+                Name = resourceIdentity.ResourceName,
+                ParentResourceName = resourceIdentity.ParentResourcePath,
+                PropertyObject = new Hashtable(properties),
+                ResourceGroupName = resourceGroupName,
+                ResourceType = resourceIdentity.ResourceProviderNamespace + "/" + resourceIdentity.ResourceType,
+            };
+
+            resourceOperationsMock.Setup(f => f.GetAsync(resourceGroupName, It.IsAny<ResourceIdentity>(), It.IsAny<CancellationToken>()))
+                .Returns(() => Task.Factory.StartNew(() => new ResourceGetResult
+                    {
+                        StatusCode = HttpStatusCode.OK,
+                        Resource = new Resource
+                            {
+                                Name = parameters.Name,
+                                Location = "West US",
+                                Properties = serializedProperties,
+                                ProvisioningState = ProvisioningState.Running,
+                                ResourceGroup = parameters.ResourceGroupName
+                            }
+                    }));
+
+            resourceOperationsMock.Setup(f => f.CreateOrUpdateAsync(resourceGroupName, It.IsAny<ResourceIdentity>(), It.IsAny<ResourceCreateOrUpdateParameters>(), It.IsAny<CancellationToken>()))
+                .Returns(Task.Factory.StartNew(() => new ResourceCreateOrUpdateResult
+                {
+                    RequestId = "123",
+                    StatusCode = HttpStatusCode.OK,
+                    Resource = new BasicResource
+                    {
+                        Location = "West US",
+                        Properties = serializedProperties,
+                        ProvisioningState = ProvisioningState.Running
+                    }
+                }));
+
+            PSResource result = resourcesClient.UpdatePSResource(parameters);
+
+            Assert.NotNull(result);
+        }
+
+        [Fact]
+        public void GetPSResourceWithAllParametersReturnsOneItem()
+        {
+            GetPSResourceParameters parameters = new GetPSResourceParameters()
+            {
+                Name = resourceIdentity.ResourceName,
+                ParentResourceName = resourceIdentity.ParentResourcePath,
+                ResourceGroupName = resourceGroupName,
+                ResourceType = resourceIdentity.ResourceProviderNamespace + "/" + resourceIdentity.ResourceType,
+            };
+
+            resourceOperationsMock.Setup(f => f.GetAsync(resourceGroupName, It.IsAny<ResourceIdentity>(), It.IsAny<CancellationToken>()))
+                .Returns(() => Task.Factory.StartNew(() => new ResourceGetResult
+                    {
+                        StatusCode = HttpStatusCode.OK,
+                        Resource = new Resource
+                            {
+                                Name = parameters.Name,
+                                Properties = serializedProperties,
+                                ProvisioningState = ProvisioningState.Running,
+                                ResourceGroup = parameters.ResourceGroupName,
+                                Location = "West US",
+                            }
+                    }));
+
+            
+            List<PSResource> result = resourcesClient.FilterPSResources(parameters);
+
+            Assert.NotNull(result);
+            Assert.Equal(1, result.Count);
+            Assert.Equal(4, result[0].ParameterObject.Count);
+            Assert.Equal(2, ((Dictionary<string, object>)result[0].ParameterObject["misc"]).Count);
+        }
+
+        [Fact]
+        public void GetPSResourceWithSomeParametersReturnsList()
+        {
+            GetPSResourceParameters parameters = new GetPSResourceParameters()
+            {
+                ResourceGroupName = resourceGroupName,
+            };
+
+            resourceOperationsMock.Setup(f => f.ListAsync(It.IsAny<ResourceListParameters>(), It.IsAny<CancellationToken>()))
+                .Returns(() => Task.Factory.StartNew(() => new ResourceListResult
+                {
+                    StatusCode = HttpStatusCode.OK,
+                    Resources = new List<Resource>(new []
+                        {
+                            new Resource
+                            {
+                                Name = "foo",
+                                Properties = null,
+                                ProvisioningState = ProvisioningState.Running,
+                                ResourceGroup = parameters.ResourceGroupName,
+                                Location = "West US"
+                            },
+                            new Resource
+                            {
+                                Name = "bar",
+                                Properties = null,
+                                ProvisioningState = ProvisioningState.Running,
+                                ResourceGroup = parameters.ResourceGroupName,
+                                Location = "West US"
+                            }
+                        })
+                    
+                }));
+
+
+            List<PSResource> result = resourcesClient.FilterPSResources(parameters);
+
+            Assert.NotNull(result);
+            Assert.Equal(2, result.Count);
+            Assert.False(result.Any(r => r.ParameterObject != null));
+        }
+
+        [Fact]
+        public void GetPSResourceWithIncorrectTypeThrowsException()
+        {
+            GetPSResourceParameters parameters = new GetPSResourceParameters()
+            {
+                Name = resourceIdentity.ResourceName,
+                ParentResourceName = resourceIdentity.ParentResourcePath,
+                ResourceGroupName = resourceGroupName,
+                ResourceType = "abc",
+            };
+
+            Assert.Throws<ArgumentException>(() => resourcesClient.FilterPSResources(parameters));
         }
 
         [Fact]
