@@ -132,6 +132,9 @@
   <data name="ResourceAlreadyExists" xml:space="preserve">
     <value>Provided resource already exists.</value>
   </data>
+  <data name="ResourceDoesntExists" xml:space="preserve">
+    <value>Provided resource does not exist.</value>
+  </data>
   <data name="ResourceGroupAlreadyExists" xml:space="preserve">
     <value>Provided resource group already exists.</value>
   </data>

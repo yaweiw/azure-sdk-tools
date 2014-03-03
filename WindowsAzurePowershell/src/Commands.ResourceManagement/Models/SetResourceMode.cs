@@ -12,21 +12,19 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-
-using System.Collections;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
 
 namespace Microsoft.Azure.Commands.ResourceManagement.Models
 {
-    public class PSResource
+    /// <summary>
+    /// Update resource mode.
+    /// </summary>
+    public enum SetResourceMode
     {
-        public string Name { get; set; }
-
-        public string ResourceGroupName { get; set; }
-
-        public string ResourceType { get; set; }
-
-        public string Location { get; set; }
-
-        public IDictionary ParameterObject { get; set; }
+        Update,
+        Replace
     }
 }

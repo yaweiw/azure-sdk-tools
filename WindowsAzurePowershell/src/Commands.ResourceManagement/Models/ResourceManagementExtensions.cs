@@ -13,6 +13,7 @@
 // ----------------------------------------------------------------------------------
 
 using Microsoft.Azure.Management.Resources.Models;
+using Microsoft.WindowsAzure.Commands.Utilities.Common;
 using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.Linq;
@@ -77,7 +78,8 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Models
                 Name = resource.Name,
                 Location = resource.Location,
                 ResourceType = resource.Type,
-                ResourceGroupName = resource.ResourceGroup
+                ResourceGroupName = resource.ResourceGroup,
+                ParameterObject = ConversionUtils.DeserializeJson(resource.Properties)
             };
         }
 

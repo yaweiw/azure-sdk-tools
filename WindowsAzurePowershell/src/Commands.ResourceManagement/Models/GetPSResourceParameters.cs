@@ -12,12 +12,11 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-
 using System.Collections;
 
 namespace Microsoft.Azure.Commands.ResourceManagement.Models
 {
-    public class PSResource
+    public class GetPSResourceParameters
     {
         public string Name { get; set; }
 
@@ -25,8 +24,6 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Models
 
         public string ResourceType { get; set; }
 
-        public string Location { get; set; }
-
-        public IDictionary ParameterObject { get; set; }
+        public string ParentResourceName { get; set; }
     }
 }
