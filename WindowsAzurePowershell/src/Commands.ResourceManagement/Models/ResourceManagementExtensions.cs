@@ -15,6 +15,7 @@
 using Microsoft.Azure.Management.Resources.Models;
 using Newtonsoft.Json;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace Microsoft.Azure.Commands.ResourceManagement.Models
@@ -78,6 +79,27 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Models
                 ResourceType = resource.Type,
                 ResourceGroupName = resource.ResourceGroup
             };
+        }
+
+        public static PSResourceProviderType ToPSResourceProviderType(this ProviderResourceType resourceType, string providerNamespace)
+        {
+            PSResourceProviderType result = new PSResourceProviderType();
+            if (resourceType != null)
+            {
+                for (int i = 0; i < ResourcesClient.KnownLocationsNormalized.Count; i++)
+                {
+                    if (resourceType.Locations.Remove(ResourcesClient.KnownLocationsNormalized[i]))
+                    {
+                        resourceType.Locations.Add(ResourcesClient.KnownLocations[i]);
+                    }
+                }
+
+                result.Name = string.IsNullOrEmpty(providerNamespace) ? resourceType.Name : string.Join("/", providerNamespace, resourceType.Name);
+                result.Locations = resourceType.Locations.Where(s => !string.IsNullOrWhiteSpace(s)).Distinct().ToList();
+                result.LocationsString = string.Join(", ", result.Locations);
+            }
+
+            return result;
         }
 
         private static string ConstructResourcesTable(List<Resource> resources)

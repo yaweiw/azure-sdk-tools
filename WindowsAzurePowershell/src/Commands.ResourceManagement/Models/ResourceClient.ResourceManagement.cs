@@ -20,6 +20,7 @@ using Microsoft.WindowsAzure.Commands.Utilities.Common;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Management.Automation;
@@ -29,6 +30,20 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Models
 {
     public partial class ResourcesClient
     {
+        public const string ResourcGroupTypeName = "ResourceGroup";
+
+        public static List<string> KnownLocations = new List<string>()
+        {
+            "East Asia", "South East Asia", "East US", "West US", "North Central US", 
+            "South Central US", "Central US", "North Europe", "West Europe"
+        };
+
+        internal static List<string> KnownLocationsNormalized = new List<string>()
+        {
+            "eastasia", "southeastasia", "eastus", "westus", "northcentralus", 
+            "southcentralus", "centralus", "northeurope", "westeurope"
+        };
+
         /// <summary>
         /// Creates a new resource.
         /// </summary>
@@ -347,6 +362,46 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Models
             errors.AddRange(CheckBasicDeploymentErrors(parameters.ResourceGroupName, deployment));
 
             return errors;
+        }
+
+        /// <summary>
+        /// Gets available locations for the specified resource type.
+        /// </summary>
+        /// <param name="resourceTypes">The resource types</param>
+        /// <returns>Mapping between each resource type and its available locations</returns>
+        public virtual List<PSResourceProviderType> GetLocations(params string[] resourceTypes)
+        {
+            // Assert that the known location list and normalized list are valid.
+            bool validLocationSets = KnownLocations.Select(x => x.Replace(" ", "").ToLower()).OrderBy(x => x)
+                .SequenceEqual(KnownLocationsNormalized.OrderBy(x => x));
+            Debug.Assert(validLocationSets);
+
+            List<string> providerNames = resourceTypes.Select(r => r.Split('/').First()).ToList();
+            List<PSResourceProviderType> result = new List<PSResourceProviderType>();
+            List<Provider> providers = new List<Provider>();
+
+            if (resourceTypes.Contains(ResourcesClient.ResourcGroupTypeName))
+            {
+                result.Add(new ProviderResourceType()
+                {
+                    Name = ResourcesClient.ResourcGroupTypeName,
+                    Locations = ResourcesClient.KnownLocations
+                }.ToPSResourceProviderType(null));
+            }
+
+            if (resourceTypes.Length > 0)
+            {
+                providers.AddRange(ListResourceProviders()
+                    .Where(p => providerNames.Any(pn => pn.Equals(p.Namespace, StringComparison.OrdinalIgnoreCase))));
+            }
+            else
+            {
+                providers.AddRange(ListResourceProviders());
+            }
+
+            result.AddRange(providers.SelectMany(p => p.ResourceTypes.Select(r => r.ToPSResourceProviderType(p.Namespace))));
+
+            return result;
         }
     }
 }

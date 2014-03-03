@@ -1379,5 +1379,62 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Test.Models
 
             Assert.Equal(string.Empty, File.ReadAllText(expectedFilePath));
         }
+
+        [Fact]
+        public void GetsLocations()
+        {
+            providersMock.Setup(f => f.ListAsync(null, new CancellationToken()))
+                .Returns(Task.Factory.StartNew(() => new ProviderListResult()
+                {
+                    Providers = new List<Provider>()
+                    {
+                        new Provider()
+                        {
+                            Namespace = "Microsoft.Web",
+                            RegistrationState = "Registered",
+                            ResourceTypes = new List<ProviderResourceType>()
+                            {
+                                new ProviderResourceType()
+                                {
+                                    Locations = new List<string>() {"West US", "East US"},
+                                    Name = "database"
+                                },
+                                new ProviderResourceType()
+                                {
+                                    Locations = new List<string>() {"West US", "South Central US"},
+                                    Name = "servers"
+                                }
+                            }
+                        },
+                        new Provider()
+                        {
+                            Namespace = "Microsoft.HDInsight",
+                            RegistrationState = "UnRegistered",
+                            ResourceTypes = new List<ProviderResourceType>()
+                            {
+                                new ProviderResourceType()
+                                {
+                                    Locations = new List<string>() {"West US", "East US"},
+                                    Name = "hadoop"
+                                },
+                                new ProviderResourceType()
+                                {
+                                    Locations = new List<string>() {"West US", "South Central US"},
+                                    Name = "websites"
+                                }
+                            }
+                        }
+                    }
+                }));
+            List<PSResourceProviderType> resourceTypes = resourcesClient.GetLocations(
+                ResourcesClient.ResourcGroupTypeName,
+                "Microsoft.HDInsight");
+
+            Assert.Equal(3, resourceTypes.Count);
+            Assert.Equal(ResourcesClient.ResourcGroupTypeName, resourceTypes[0].Name);
+            Assert.Equal(ResourcesClient.KnownLocations.Count, resourceTypes[0].Locations.Count);
+            Assert.Equal("East Asia", resourceTypes[0].Locations[0]);
+            Assert.Equal("Microsoft.HDInsight/hadoop", resourceTypes[1].Name);
+        }
     }
 }

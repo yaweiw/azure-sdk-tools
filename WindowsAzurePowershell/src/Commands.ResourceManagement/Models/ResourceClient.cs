@@ -108,6 +108,12 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Models
 
         private void RegisterResourceProviders()
         {
+            ListResourceProviders().Where(p => p.RegistrationState == "NotRegistered")
+                .ForEach(p => ResourceManagementClient.Providers.Register(p.Namespace));
+        }
+
+        private List<Provider> ListResourceProviders()
+        {
             ProviderListResult result = ResourceManagementClient.Providers.List(null);
             List<Provider> providers = new List<Provider>(result.Providers);
 
@@ -116,9 +122,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Models
                 result = ResourceManagementClient.Providers.ListNext(result.NextLink);
                 providers.AddRange(result.Providers);
             }
-
-            providers.Where(p => p.RegistrationState == "NotRegistered")
-                .ForEach(p => ResourceManagementClient.Providers.Register(p.Namespace));
+            return providers;
         }
 
         private string SerializeHashtable(Hashtable parameterObject, bool addValueLayer)
@@ -154,7 +158,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Models
                         StorageName = storageAccountName,
                         FileLocalPath = templateFile,
                         OverrideIfExists = true,
-                        ContainerPublic = false,
+                        ContainerPublic = true,
                         ContainerName = DeploymentTemplateStorageContainerName
                     });
                     WriteProgress(string.Format(
