@@ -106,6 +106,15 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Properties
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Provided resource does not exist..
+        /// </summary>
+        internal static string ResourceDoesntExists {
+            get {
+                return ResourceManager.GetString("ResourceDoesntExists", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Provided resource group already exists..
         /// </summary>
         internal static string ResourceGroupAlreadyExists {
