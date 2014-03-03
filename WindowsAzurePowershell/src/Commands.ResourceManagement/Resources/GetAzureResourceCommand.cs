@@ -48,7 +48,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement
 
         public override void ExecuteCmdlet()
         {
-            GetPSResourceParameters parameters = new GetPSResourceParameters()
+            BasePSResourceParameters parameters = new BasePSResourceParameters()
             {
                 Name = Name,
                 ResourceGroupName = ResourceGroupName,

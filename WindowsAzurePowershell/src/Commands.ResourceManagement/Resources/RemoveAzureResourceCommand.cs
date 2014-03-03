@@ -12,6 +12,7 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
+using Microsoft.Azure.Commands.ResourceManagement.Models;
 using Microsoft.Azure.Commands.ResourceManagement.Properties;
 using System.Management.Automation;
 
@@ -47,12 +48,20 @@ namespace Microsoft.Azure.Commands.ResourceManagement
 
         public override void ExecuteCmdlet()
         {
+            BasePSResourceParameters parameters = new BasePSResourceParameters()
+            {
+                Name = Name,
+                ResourceGroupName = ResourceGroupName,
+                ResourceType = ResourceType,
+                ParentResourceName = ParentResourceName,
+            };
+
             ConfirmAction(
                 Force.IsPresent,
                 string.Format(Resources.RemovingResource, Name),
                 Resources.RemoveResourceMessage,
-                ResourceGroupName,
-                () => ResourceClient.DeleteResourceGroup(ResourceGroupName));
+                Name,
+                () => ResourceClient.DeleteResource(parameters));
 
             if (PassThru)
             {
