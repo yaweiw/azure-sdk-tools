@@ -15,6 +15,7 @@
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
 {
     using System;
+    using System.Collections.Generic;
     using System.Linq;
     using System.Management.Automation;
     using AutoMapper;
@@ -102,6 +103,8 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
                 OSVirtualHardDisk = Mapper.Map<OSVirtualHardDisk>(VM.OSVirtualHardDisk),
                 RoleName = VM.RoleName,
                 RoleSize = VM.RoleSize,
+                ProvisionGuestAgent = VM.ProvisionGuestAgent,
+                ResourceExtensionReferences = VM.ProvisionGuestAgent != null && VM.ProvisionGuestAgent.Value ? Mapper.Map<List<ResourceExtensionReference>>(VM.ResourceExtensionReferences) : null
             };
 
             if (VM.DataVirtualHardDisks != null)
