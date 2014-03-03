@@ -83,6 +83,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Models
             if (General.IsFilePath(outputPath))
             {
                 finalOutputPath.Append(outputPath);
+                finalOutputPath.Append(name);
                 if (!Path.HasExtension(outputPath))
                 {
                     finalOutputPath.Append(".json");
