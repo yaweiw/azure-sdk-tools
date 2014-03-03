@@ -16,7 +16,6 @@ using Microsoft.Azure.Gallery;
 using Microsoft.Azure.Gallery.Models;
 using Microsoft.WindowsAzure.Commands.Utilities.Common;
 using Microsoft.WindowsAzure.Common.OData;
-using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
