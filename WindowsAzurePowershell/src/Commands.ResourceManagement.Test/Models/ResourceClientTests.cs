@@ -375,9 +375,73 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Test.Models
         }
 
         [Fact]
+        public void RemovePSResourceWithoutExistingResourceThrowsException()
+        {
+            BasePSResourceParameters parameters = new BasePSResourceParameters()
+            {
+                Name = resourceIdentity.ResourceName,
+                ParentResourceName = resourceIdentity.ParentResourcePath,
+                ResourceGroupName = resourceGroupName,
+                ResourceType = resourceIdentity.ResourceProviderNamespace + "/" + resourceIdentity.ResourceType,
+            };
+
+            resourceOperationsMock.Setup(f => f.CheckExistenceAsync(resourceGroupName, It.IsAny<ResourceIdentity>(), It.IsAny<CancellationToken>()))
+                .Returns(() => Task.Factory.StartNew(() => new ResourceExistsResult
+                            {
+                                Exists = false
+                            }
+                    ));
+
+            Assert.Throws<ArgumentException>(() => resourcesClient.DeleteResource(parameters));
+        }
+
+
+        [Fact]
+        public void RemovePSResourceWithIncorrectTypeThrowsException()
+        {
+            BasePSResourceParameters parameters = new BasePSResourceParameters()
+            {
+                Name = resourceIdentity.ResourceName,
+                ParentResourceName = resourceIdentity.ParentResourcePath,
+                ResourceGroupName = resourceGroupName,
+                ResourceType = "abc",
+            };
+
+            Assert.Throws<ArgumentException>(() => resourcesClient.DeleteResource(parameters));
+        }
+
+        [Fact]
+        public void RemovePSResourceWithAllParameters()
+        {
+            BasePSResourceParameters parameters = new BasePSResourceParameters()
+            {
+                Name = resourceIdentity.ResourceName,
+                ParentResourceName = resourceIdentity.ParentResourcePath,
+                ResourceGroupName = resourceGroupName,
+                ResourceType = resourceIdentity.ResourceProviderNamespace + "/" + resourceIdentity.ResourceType,
+            };
+
+            resourceOperationsMock.Setup(f => f.CheckExistenceAsync(resourceGroupName, It.IsAny<ResourceIdentity>(), It.IsAny<CancellationToken>()))
+                .Returns(() => Task.Factory.StartNew(() => new ResourceExistsResult
+                {
+                    Exists = true
+                }
+            ));
+
+            resourceOperationsMock.Setup(f => f.DeleteAsync(resourceGroupName, It.IsAny<ResourceIdentity>(), It.IsAny<CancellationToken>()))
+                .Returns(Task.Factory.StartNew(() => new OperationResponse
+                {
+                    RequestId = "123",
+                    StatusCode = HttpStatusCode.OK
+                }));
+
+            resourcesClient.DeleteResource(parameters);
+        }
+
+        [Fact]
         public void GetPSResourceWithAllParametersReturnsOneItem()
         {
-            GetPSResourceParameters parameters = new GetPSResourceParameters()
+            BasePSResourceParameters parameters = new BasePSResourceParameters()
             {
                 Name = resourceIdentity.ResourceName,
                 ParentResourceName = resourceIdentity.ParentResourcePath,
@@ -411,7 +475,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Test.Models
         [Fact]
         public void GetPSResourceWithSomeParametersReturnsList()
         {
-            GetPSResourceParameters parameters = new GetPSResourceParameters()
+            BasePSResourceParameters parameters = new BasePSResourceParameters()
             {
                 ResourceGroupName = resourceGroupName,
             };
@@ -453,7 +517,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Test.Models
         [Fact]
         public void GetPSResourceWithIncorrectTypeThrowsException()
         {
-            GetPSResourceParameters parameters = new GetPSResourceParameters()
+            BasePSResourceParameters parameters = new BasePSResourceParameters()
             {
                 Name = resourceIdentity.ResourceName,
                 ParentResourceName = resourceIdentity.ParentResourcePath,
