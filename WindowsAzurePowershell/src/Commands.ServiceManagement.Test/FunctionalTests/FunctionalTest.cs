@@ -334,8 +334,8 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
         {
             StartTest(MethodBase.GetCurrentMethod().Name, testStartTime);
 
-            string dnsName = "OpenDns1";
-            string ipAddress = "208.67.222.222";
+            const string dnsName = "OpenDns1";
+            const string ipAddress = "208.67.222.222";
 
             try
             {
@@ -345,10 +345,8 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
 
                 var azureVMConfigInfo = new AzureVMConfigInfo(vmName, InstanceSize.ExtraSmall.ToString(), imageName);
                 var azureProvisioningConfig = new AzureProvisioningConfigInfo(OS.Windows, username, password);
-           
                 var persistentVMConfigInfo = new PersistentVMConfigInfo(azureVMConfigInfo, azureProvisioningConfig, null, null);
-
-                PersistentVM vm = vmPowershellCmdlets.GetPersistentVM(persistentVMConfigInfo);  
+                PersistentVM vm = vmPowershellCmdlets.GetPersistentVM(persistentVMConfigInfo);
            
                 vmPowershellCmdlets.NewAzureVM(serviceName, new []{vm}, null, new[]{dns}, null, null, null, null);
 
@@ -776,14 +774,15 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
 
             try
             {
-                vmPowershellCmdlets.NewAzureService(serviceName, serviceName, locationName);
+                //vmPowershellCmdlets.NewAzureService(serviceName, serviceName, locationName);
 
-                PersistentVM vm = vmPowershellCmdlets.NewAzureVMConfig(new AzureVMConfigInfo(vmName, InstanceSize.Small.ToString(), imageName));
+                var azureVMConfigInfo = new AzureVMConfigInfo(vmName, InstanceSize.Small.ToString(), imageName);
                 var azureProvisioningConfig = new AzureProvisioningConfigInfo(OS.Windows, username, password);
-                azureProvisioningConfig.Vm = vm;
+                var persistentVMConfigInfo = new PersistentVMConfigInfo(azureVMConfigInfo, azureProvisioningConfig, null, null);
+                vmPowershellCmdlets.GetPersistentVM(persistentVMConfigInfo);
 
-                string [] subs = new []  {"subnet1", "subnet2", "subnet3"};
-                vm = vmPowershellCmdlets.SetAzureSubnet(vmPowershellCmdlets.AddAzureProvisioningConfig(azureProvisioningConfig), subs);
+                string [] subs = {"subnet1", "subnet2", "subnet3"};
+                PersistentVM vm = vmPowershellCmdlets.SetAzureSubnet(vmPowershellCmdlets.AddAzureProvisioningConfig(azureProvisioningConfig), subs);
                 
                 SubnetNamesCollection subnets = vmPowershellCmdlets.GetAzureSubnet(vm);
                 foreach (string subnet in subnets)
@@ -796,8 +795,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
             }
             catch (Exception e)
             {
-                pass = false;
-                Console.WriteLine("Exception occurred: {0}", e.ToString());
+                Console.WriteLine("Exception occurred: {0}", e);
                 throw;
             }
         }
@@ -1012,7 +1010,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
             {
                 if (Utilities.CheckRemove(vmPowershellCmdlets.GetAzureAffinityGroup, affinityGroup))
                 {
-                    vmPowershellCmdlets.NewAzureAffinityGroup(affinityGroup, Resource.Location, null, null);
+                    vmPowershellCmdlets.NewAzureAffinityGroup(affinityGroup, locationName, null, null);
                 }
 
                 vmPowershellCmdlets.SetAzureVNetConfig(vnetConfigFilePath);
@@ -1020,6 +1018,12 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
                 string vnetConfigFilePathCopy = Directory.GetCurrentDirectory() + "\\vnetconfigCopy.netcfg";
 
                 var result = vmPowershellCmdlets.GetAzureVNetConfig(vnetConfigFilePathCopy);
+                var streamReader = new StreamReader(vnetConfigFilePathCopy);
+                string text = streamReader.ReadToEnd();
+                streamReader.Close();
+                Assert.AreEqual(text, result[0].XMLConfiguration, string.Format("netcfg does not match!!!\n Original:{0}\n Returned:{1}\n", text, result[0].XMLConfiguration));
+
+
 
                 vmPowershellCmdlets.SetAzureVNetConfig(vnetConfigFilePathCopy);
 

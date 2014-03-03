@@ -20,43 +20,33 @@ namespace Microsoft.WindowsAzure.Commands.CloudService
     using Microsoft.WindowsAzure.Commands.Utilities.ServiceBus;
     using ServiceManagement;
     using Microsoft.WindowsAzure.Commands.Utilities.CloudService;
+using Microsoft.WindowsAzure.Commands.Utilities.Websites;
 
     [Cmdlet(VerbsDiagnostic.Test, "AzureName"), OutputType(typeof(bool))]
     public class TestAzureNameCommand : CmdletWithSubscriptionBase
     {
         internal ServiceBusClientExtensions ServiceBusClient { get; set; }
         internal ICloudServiceClient CloudServiceClient { get; set; }
+        internal IWebsitesClient WebsitesClient { get; set; }
 
         [Parameter(Position = 0, Mandatory = true, ParameterSetName = "Service", HelpMessage = "Test for a cloud service name.")]
-        public SwitchParameter Service
-        {
-            get;
-            set;
-        }
+        public SwitchParameter Service { get; set; }
 
         [Parameter(Position = 0, Mandatory = true, ParameterSetName = "Storage", HelpMessage = "Test for a storage account name.")]
-        public SwitchParameter Storage
-        {
-            get;
-            set;
-        }
+        public SwitchParameter Storage { get; set; }
 
         [Parameter(Position = 0, Mandatory = true, ParameterSetName = "ServiceBusNamespace", HelpMessage = "Test for a service bus namespace name.")]
-        public SwitchParameter ServiceBusNamespace
-        {
-            get;
-            set;
-        }
+        public SwitchParameter ServiceBusNamespace { get; set; }
+
+        [Parameter(Position = 0, Mandatory = true, ParameterSetName = "Website", HelpMessage = "Test for a website name.")]
+        public SwitchParameter Website { get; set; }
 
         [Parameter(Position = 1, ParameterSetName = "Service", Mandatory = true, ValueFromPipelineByPropertyName = true, HelpMessage = "Cloud service name.")]
         [Parameter(Position = 1, ParameterSetName = "Storage", Mandatory = true, ValueFromPipelineByPropertyName = true, HelpMessage = "Storage account name.")]
         [Parameter(Position = 1, ParameterSetName = "ServiceBusNamespace", Mandatory = true, ValueFromPipelineByPropertyName = true, HelpMessage = "Service bus namespace name.")]
+        [Parameter(Position = 1, ParameterSetName = "Website", Mandatory = true, ValueFromPipelineByPropertyName = true, HelpMessage = "Website name.")]
         [ValidateNotNullOrEmpty]
-        public string Name
-        {
-            get;
-            set;
-        }
+        public string Name { get; set; }
 
         public bool IsDNSAvailable(WindowsAzureSubscription subscription, string name)
         {
@@ -93,6 +83,13 @@ namespace Microsoft.WindowsAzure.Commands.CloudService
                 WriteWarning);
         }
 
+        public bool IsWebsiteAvailable(string name)
+        {
+            bool available = this.WebsitesClient.CheckWebsiteNameAvailability(name);
+            WriteObject(!available);
+            return available;
+        }
+
         public override void ExecuteCmdlet()
         {
             base.ExecuteCmdlet();
@@ -104,6 +101,11 @@ namespace Microsoft.WindowsAzure.Commands.CloudService
             else if (Storage.IsPresent)
             {
                 IsStorageServiceAvailable(CurrentSubscription, Name);
+            }
+            else if (Website.IsPresent)
+            {
+                WebsitesClient = WebsitesClient ?? new WebsitesClient(CurrentSubscription, WriteDebug);
+                IsWebsiteAvailable(Name);
             }
             else
             {

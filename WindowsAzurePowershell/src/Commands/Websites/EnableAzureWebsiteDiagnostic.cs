@@ -43,11 +43,6 @@ namespace Microsoft.WindowsAzure.Commands.Websites
         [Parameter(Mandatory = false, ParameterSetName = StorageParameterSetName)]
         public string StorageAccountName { get; set; }
 
-        [Parameter(Mandatory = false, ParameterSetName = FileParameterSetName)]
-        [Parameter(Mandatory = false, ParameterSetName = StorageParameterSetName)]
-        public string Slot { get; set; }
-
-
         public override void ExecuteCmdlet()
         {
             var properties = new Dictionary<DiagnosticProperties, object>();

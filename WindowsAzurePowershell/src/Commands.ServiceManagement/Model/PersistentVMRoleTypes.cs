@@ -1649,6 +1649,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Model.PersistentVMMo
 
     #endregion // RoleSetOperations
 
+
     #region ResourceExtension
     [DataContract(Name = "ResourceExtensionParameterValue", Namespace = Constants.ServiceManagementNS)]
     public class ResourceExtensionParameterValue : Mergable<ResourceExtensionParameterValue>
@@ -1676,6 +1677,19 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Model.PersistentVMMo
             set
             {
                 base.SetValue("Value", value);
+            }
+        }
+
+        [DataMember(Name = "Type", EmitDefaultValue = false, Order = 2)]
+        public string Type
+        {
+            get
+            {
+                return base.GetValue<string>("Type");
+            }
+            set
+            {
+                base.SetValue("Type", value);
             }
         }
     }
@@ -1751,6 +1765,19 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Model.PersistentVMMo
 
         [DataMember(EmitDefaultValue = false, Order = 4)]
         public ResourceExtensionParameterValueList ResourceExtensionParameterValues { get; set; }
+
+        [DataMember(Name = "State", EmitDefaultValue = false, Order = 5)]
+        public string State
+        {
+            get
+            {
+                return base.GetValue<string>("State");
+            }
+            set
+            {
+                base.SetValue("State", value);
+            }
+        }
     }
 
     [CollectionDataContract(Name = "ResourceExtensionReferences", Namespace = Constants.ServiceManagementNS)]

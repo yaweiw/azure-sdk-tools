@@ -30,9 +30,6 @@ namespace Microsoft.WindowsAzure.Commands.Websites
         [Parameter(Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "Storage switch.")]
         public SwitchParameter Storage { get; set; }
 
-        [Parameter(Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "Slot name.")]
-        public string Slot { get; set; }
-
         public override void ExecuteCmdlet()
         {
             if (!File.IsPresent && !Storage.IsPresent)

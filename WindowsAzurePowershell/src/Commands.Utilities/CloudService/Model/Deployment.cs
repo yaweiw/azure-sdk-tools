@@ -67,7 +67,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService.Model
             }
             SdkVersion = response.SdkVersion;
             Locked = response.Locked;
-            RollbackAllowed = string.Compare(response.RollbackAllowed, "true", StringComparison.InvariantCultureIgnoreCase) == 0;
+            RollbackAllowed = response.RollbackAllowed;
             VirtualNetworkName = response.VirtualNetworkName;
             CreatedTime = response.CreatedTime;
             LastModifiedTime = response.LastModifiedTime;

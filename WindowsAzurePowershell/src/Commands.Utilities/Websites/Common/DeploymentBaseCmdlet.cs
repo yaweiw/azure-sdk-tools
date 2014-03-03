@@ -27,11 +27,9 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites.Common
 
         protected Repository Repository { get; private set; }
 
-        protected string slot;
-
         private Repository GetRepository(string websiteName)
         {
-            Site site = WebsitesClient.GetWebsite(websiteName, slot);
+            Site site = WebsitesClient.GetWebsite(websiteName, Slot);
             if (site != null)
             {
                 return new Repository(site);
