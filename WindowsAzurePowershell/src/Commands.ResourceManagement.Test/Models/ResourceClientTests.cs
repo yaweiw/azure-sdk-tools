@@ -1561,29 +1561,36 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Test.Models
         public void DownloadsGalleryTemplateFileFromDirectoryName()
         {
             string galleryTemplateFileName = "myFile";
-            string expectedFilePath = Path.Combine(Directory.GetCurrentDirectory(), galleryTemplateFileName + ".json");
-            galleryClientMock.Setup(f => f.Items.GetAsync(galleryTemplateFileName, new CancellationToken()))
-                .Returns(Task.Factory.StartNew(() => new ItemGetParameters()
-                {
-                    Item = new GalleryItem()
+            string expectedFilePath = Path.Combine(Path.GetTempPath(), galleryTemplateFileName + ".json");
+            try
+            {
+                galleryClientMock.Setup(f => f.Items.GetAsync(galleryTemplateFileName, new CancellationToken()))
+                    .Returns(Task.Factory.StartNew(() => new ItemGetParameters()
                     {
-                        Name = galleryTemplateFileName,
-                        Publisher = "Microsoft",
-                        DefinitionTemplates = new DefinitionTemplates()
+                        Item = new GalleryItem()
                         {
-                            DeploymentTemplateFileUrls = new Dictionary<string, string>()
+                            Name = galleryTemplateFileName,
+                            Publisher = "Microsoft",
+                            DefinitionTemplates = new DefinitionTemplates()
                             {
-                                { "DefaultUri", "fakeurl" }
+                                DeploymentTemplateFileUrls = new Dictionary<string, string>()
+                                {
+                                    { "DefaultUri", "fakeurl" }
+                                }
                             }
                         }
-                    }
-                }));
+                    }));
 
-            resourcesClient.DownloadGalleryTemplateFile(
-                galleryTemplateFileName,
-                Directory.GetCurrentDirectory());
+                resourcesClient.DownloadGalleryTemplateFile(
+                    galleryTemplateFileName,
+                    Path.GetTempPath());
 
-            Assert.Equal(string.Empty, File.ReadAllText(expectedFilePath));
+                Assert.Equal(string.Empty, File.ReadAllText(expectedFilePath));
+            }
+            finally
+            {
+                File.Delete(expectedFilePath);
+            }
         }
 
         [Fact]
