@@ -375,9 +375,73 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Test.Models
         }
 
         [Fact]
+        public void RemovePSResourceWithoutExistingResourceThrowsException()
+        {
+            BasePSResourceParameters parameters = new BasePSResourceParameters()
+            {
+                Name = resourceIdentity.ResourceName,
+                ParentResourceName = resourceIdentity.ParentResourcePath,
+                ResourceGroupName = resourceGroupName,
+                ResourceType = resourceIdentity.ResourceProviderNamespace + "/" + resourceIdentity.ResourceType,
+            };
+
+            resourceOperationsMock.Setup(f => f.CheckExistenceAsync(resourceGroupName, It.IsAny<ResourceIdentity>(), It.IsAny<CancellationToken>()))
+                .Returns(() => Task.Factory.StartNew(() => new ResourceExistsResult
+                            {
+                                Exists = false
+                            }
+                    ));
+
+            Assert.Throws<ArgumentException>(() => resourcesClient.DeleteResource(parameters));
+        }
+
+
+        [Fact]
+        public void RemovePSResourceWithIncorrectTypeThrowsException()
+        {
+            BasePSResourceParameters parameters = new BasePSResourceParameters()
+            {
+                Name = resourceIdentity.ResourceName,
+                ParentResourceName = resourceIdentity.ParentResourcePath,
+                ResourceGroupName = resourceGroupName,
+                ResourceType = "abc",
+            };
+
+            Assert.Throws<ArgumentException>(() => resourcesClient.DeleteResource(parameters));
+        }
+
+        [Fact]
+        public void RemovePSResourceWithAllParameters()
+        {
+            BasePSResourceParameters parameters = new BasePSResourceParameters()
+            {
+                Name = resourceIdentity.ResourceName,
+                ParentResourceName = resourceIdentity.ParentResourcePath,
+                ResourceGroupName = resourceGroupName,
+                ResourceType = resourceIdentity.ResourceProviderNamespace + "/" + resourceIdentity.ResourceType,
+            };
+
+            resourceOperationsMock.Setup(f => f.CheckExistenceAsync(resourceGroupName, It.IsAny<ResourceIdentity>(), It.IsAny<CancellationToken>()))
+                .Returns(() => Task.Factory.StartNew(() => new ResourceExistsResult
+                {
+                    Exists = true
+                }
+            ));
+
+            resourceOperationsMock.Setup(f => f.DeleteAsync(resourceGroupName, It.IsAny<ResourceIdentity>(), It.IsAny<CancellationToken>()))
+                .Returns(Task.Factory.StartNew(() => new OperationResponse
+                {
+                    RequestId = "123",
+                    StatusCode = HttpStatusCode.OK
+                }));
+
+            resourcesClient.DeleteResource(parameters);
+        }
+
+        [Fact]
         public void GetPSResourceWithAllParametersReturnsOneItem()
         {
-            GetPSResourceParameters parameters = new GetPSResourceParameters()
+            BasePSResourceParameters parameters = new BasePSResourceParameters()
             {
                 Name = resourceIdentity.ResourceName,
                 ParentResourceName = resourceIdentity.ParentResourcePath,
@@ -411,7 +475,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Test.Models
         [Fact]
         public void GetPSResourceWithSomeParametersReturnsList()
         {
-            GetPSResourceParameters parameters = new GetPSResourceParameters()
+            BasePSResourceParameters parameters = new BasePSResourceParameters()
             {
                 ResourceGroupName = resourceGroupName,
             };
@@ -453,7 +517,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Test.Models
         [Fact]
         public void GetPSResourceWithIncorrectTypeThrowsException()
         {
-            GetPSResourceParameters parameters = new GetPSResourceParameters()
+            BasePSResourceParameters parameters = new BasePSResourceParameters()
             {
                 Name = resourceIdentity.ResourceName,
                 ParentResourceName = resourceIdentity.ParentResourcePath,
@@ -1468,87 +1532,108 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Test.Models
         public void DownloadsGalleryTemplateFile()
         {
             string galleryTemplateFileName = "myFile";
-            string expectedFilePath = Path.Combine(Directory.GetCurrentDirectory(), galleryTemplateFileName + ".json");
-            galleryClientMock.Setup(f => f.Items.GetAsync(galleryTemplateFileName, new CancellationToken()))
-                .Returns(Task.Factory.StartNew(() => new ItemGetParameters()
-                {
-                    Item = new GalleryItem()
-                    {
-                        Name = galleryTemplateFileName,
-                        Publisher = "Microsoft",
-                        DefinitionTemplates = new DefinitionTemplates()
-                        {
-                            DeploymentTemplateFileUrls = new Dictionary<string, string>()
-                            {
-                                { "DefaultUri", "fakeurl" }
-                            }
-                        }
-                    }
-                }));
+            string expectedFilePath = Path.Combine(Path.GetTempPath(), galleryTemplateFileName + ".json");
+            try
+            {
+                galleryClientMock.Setup(f => f.Items.GetAsync(galleryTemplateFileName, new CancellationToken()))
+                                 .Returns(Task.Factory.StartNew(() => new ItemGetParameters()
+                                     {
+                                         Item = new GalleryItem()
+                                             {
+                                                 Name = galleryTemplateFileName,
+                                                 Publisher = "Microsoft",
+                                                 DefinitionTemplates = new DefinitionTemplates()
+                                                     {
+                                                         DeploymentTemplateFileUrls = new Dictionary<string, string>()
+                                                             {
+                                                                 {"DefaultUri", "fakeurl"}
+                                                             }
+                                                     }
+                                             }
+                                     }));
 
-            resourcesClient.DownloadGalleryTemplateFile(
-                galleryTemplateFileName,
-                Path.Combine(Directory.GetCurrentDirectory(), galleryTemplateFileName));
+                resourcesClient.DownloadGalleryTemplateFile(
+                    galleryTemplateFileName,
+                    expectedFilePath);
 
-            Assert.Equal(string.Empty, File.ReadAllText(expectedFilePath));
+                Assert.Equal(string.Empty, File.ReadAllText(expectedFilePath));
+            }
+            finally
+            {
+                File.Delete(expectedFilePath);
+            }
         }
 
         [Fact]
         public void DownloadsGalleryTemplateFileFromDirectoryName()
         {
             string galleryTemplateFileName = "myFile";
-            string expectedFilePath = Path.Combine(Directory.GetCurrentDirectory(), galleryTemplateFileName + ".json");
-            galleryClientMock.Setup(f => f.Items.GetAsync(galleryTemplateFileName, new CancellationToken()))
-                .Returns(Task.Factory.StartNew(() => new ItemGetParameters()
-                {
-                    Item = new GalleryItem()
+            string expectedFilePath = Path.Combine(Path.GetTempPath(), galleryTemplateFileName + ".json");
+            try
+            {
+                galleryClientMock.Setup(f => f.Items.GetAsync(galleryTemplateFileName, new CancellationToken()))
+                    .Returns(Task.Factory.StartNew(() => new ItemGetParameters()
                     {
-                        Name = galleryTemplateFileName,
-                        Publisher = "Microsoft",
-                        DefinitionTemplates = new DefinitionTemplates()
+                        Item = new GalleryItem()
                         {
-                            DeploymentTemplateFileUrls = new Dictionary<string, string>()
+                            Name = galleryTemplateFileName,
+                            Publisher = "Microsoft",
+                            DefinitionTemplates = new DefinitionTemplates()
                             {
-                                { "DefaultUri", "fakeurl" }
+                                DeploymentTemplateFileUrls = new Dictionary<string, string>()
+                                {
+                                    { "DefaultUri", "fakeurl" }
+                                }
                             }
                         }
-                    }
-                }));
+                    }));
 
-            resourcesClient.DownloadGalleryTemplateFile(
-                galleryTemplateFileName,
-                Directory.GetCurrentDirectory());
+                resourcesClient.DownloadGalleryTemplateFile(
+                    galleryTemplateFileName,
+                    Path.GetTempPath());
 
-            Assert.Equal(string.Empty, File.ReadAllText(expectedFilePath));
+                Assert.Equal(string.Empty, File.ReadAllText(expectedFilePath));
+            }
+            finally
+            {
+                File.Delete(expectedFilePath);
+            }
         }
 
         [Fact]
         public void DownloadsGalleryTemplateFileFromFileName()
         {
             string galleryTemplateFileName = "myFile.adeek";
-            string expectedFilePath = Path.Combine(Directory.GetCurrentDirectory(), galleryTemplateFileName + ".adeek");
-            galleryClientMock.Setup(f => f.Items.GetAsync(galleryTemplateFileName, new CancellationToken()))
-                .Returns(Task.Factory.StartNew(() => new ItemGetParameters()
-                {
-                    Item = new GalleryItem()
-                    {
-                        Name = galleryTemplateFileName,
-                        Publisher = "Microsoft",
-                        DefinitionTemplates = new DefinitionTemplates()
-                        {
-                            DeploymentTemplateFileUrls = new Dictionary<string, string>()
-                            {
-                                { "DefaultUri", "http://onesdkauremustinvalid-uri12" }
-                            }
-                        }
-                    }
-                }));
+            string expectedFilePath = Path.Combine(Path.GetTempPath(), galleryTemplateFileName + ".adeek");
+            try
+            {
+                galleryClientMock.Setup(f => f.Items.GetAsync(galleryTemplateFileName, new CancellationToken()))
+                                 .Returns(Task.Factory.StartNew(() => new ItemGetParameters()
+                                     {
+                                         Item = new GalleryItem()
+                                             {
+                                                 Name = galleryTemplateFileName,
+                                                 Publisher = "Microsoft",
+                                                 DefinitionTemplates = new DefinitionTemplates()
+                                                     {
+                                                         DeploymentTemplateFileUrls = new Dictionary<string, string>()
+                                                             {
+                                                                 {"DefaultUri", "http://onesdkauremustinvalid-uri12"}
+                                                             }
+                                                     }
+                                             }
+                                     }));
 
-            resourcesClient.DownloadGalleryTemplateFile(
-                galleryTemplateFileName,
-                expectedFilePath);
+                resourcesClient.DownloadGalleryTemplateFile(
+                    galleryTemplateFileName,
+                    expectedFilePath);
 
-            Assert.Equal(string.Empty, File.ReadAllText(expectedFilePath));
+                Assert.Equal(string.Empty, File.ReadAllText(expectedFilePath));
+            }
+            finally
+            {
+                File.Delete(expectedFilePath);
+            }
         }
     }
 }

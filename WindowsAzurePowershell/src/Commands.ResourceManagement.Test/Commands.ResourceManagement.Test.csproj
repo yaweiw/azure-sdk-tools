@@ -126,6 +126,10 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Resources\SetAzureResourceCommandTests.cs" />
+    <Compile Include="Resources\GetAzureResourceCommandTests.cs" />
+    <Compile Include="Resources\NewAzureResourceCommandTests.cs" />
+    <Compile Include="Resources\RemoveAzureResourceCommandTests.cs" />
     <Compile Include="Templates\TestAzureResourceGroupTemplateCommandTests.cs" />
     <Compile Include="Templates\SaveAzureResourceGroupGalleryTemplateCommandTests.cs" />
     <Compile Include="Templates\GetAzureResourceGroupGalleryTemplateCommandTests.cs" />
