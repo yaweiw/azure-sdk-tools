@@ -12,10 +12,10 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
+using System.Collections.Generic;
+
 namespace Microsoft.Azure.Commands.ResourceManagement.Models
 {
-    using System.Collections.Generic;
-
     public class PSResourceProviderType
     {
         public string Name { get; set; }
