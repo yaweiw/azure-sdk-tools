@@ -242,7 +242,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Models
                     throw new ArgumentException(errors.ToString());
                 }
 
-                result = ResourceManagementClient.Deployments.Create(resourceGroup, parameters.DeploymentName, deployment);
+                result = ResourceManagementClient.Deployments.CreateOrUpdate(resourceGroup, parameters.DeploymentName, deployment);
                 WriteProgress(string.Format("Create template deployment '{0}' using template {1}.", parameters.DeploymentName, deployment.TemplateLink.Uri));
                 ProvisionDeploymentStatus(resourceGroup, parameters.DeploymentName);
             }
@@ -358,9 +358,9 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Models
             else if (!string.IsNullOrEmpty(resourceGroup))
             {
                 DeploymentListResult result = ResourceManagementClient.Deployments.List(
+                    resourceGroup,
                     new DeploymentListParameters()
                     {
-                        ResourceGroupName = resourceGroup,
                         ProvisioningState = provisioningState
                     });
 
