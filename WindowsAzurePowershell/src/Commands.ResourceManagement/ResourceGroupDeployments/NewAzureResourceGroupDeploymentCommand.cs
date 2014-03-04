@@ -110,6 +110,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement
         {
             CreatePSResourceGroupDeploymentParameters parameters = new CreatePSResourceGroupDeploymentParameters()
             {
+                ResourceGroupName = ResourceGroupName,
                 DeploymentName = Name,
                 GalleryTemplateName = GalleryTemplateName,
                 TemplateFile = this.TryResolvePath(TemplateFile),
