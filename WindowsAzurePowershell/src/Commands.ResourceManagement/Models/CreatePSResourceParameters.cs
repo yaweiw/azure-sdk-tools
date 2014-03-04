@@ -16,17 +16,9 @@ using System.Collections;
 
 namespace Microsoft.Azure.Commands.ResourceManagement.Models
 {
-    public class CreatePSResourceParameters
+    public class CreatePSResourceParameters : BasePSResourceParameters
     {
-        public string Name { get; set; }
-
-        public string ResourceGroupName { get; set; }
-
-        public string ResourceType { get; set; }
-
         public string Location { get; set; }
-
-        public string ParentResourceName { get; set; }
 
         public Hashtable PropertyObject { get; set; }
     }

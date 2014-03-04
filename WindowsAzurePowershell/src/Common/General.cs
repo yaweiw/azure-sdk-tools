@@ -12,6 +12,8 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
+using System.Windows.Forms;
+
 namespace Microsoft.WindowsAzure.Commands.Utilities.Common
 {
     using CloudService;
@@ -1021,19 +1023,35 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
             return value;
         }
 
-        public static bool IsFilePath(string path)
+        /// <summary>
+        /// Returns true if path is a valid directory.
+        /// </summary>
+        /// <param name="path"></param>
+        /// <returns></returns>
+        public static bool IsValidDirectoryPath(string path)
         {
-            bool valid = false;
+            if (string.IsNullOrEmpty(path))
+            {
+                return false;
+            }
+
             try
             {
-                new FileInfo(path);
-                valid = true;
-            }
-            catch (ArgumentException) { }
-            catch (PathTooLongException) { }
-            catch (NotSupportedException) { }
+                FileAttributes attributes = File.GetAttributes(path);
 
-            return valid;
+                if ((attributes & FileAttributes.Directory) == FileAttributes.Directory)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            catch
+            {
+                return false;
+            }
         }
     }
 }
