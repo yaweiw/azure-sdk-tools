@@ -126,6 +126,12 @@
   <data name="RemoveResourceGroupMessage" xml:space="preserve">
     <value>Removing resource group ...</value>
   </data>
+  <data name="RemoveResourceMessage" xml:space="preserve">
+    <value>Removing resource ...</value>
+  </data>
+  <data name="RemovingResource" xml:space="preserve">
+    <value>Are you sure you want to remove resource '{0}'</value>
+  </data>
   <data name="RemovingResourceGroup" xml:space="preserve">
     <value>Are you sure you want to remove resource group '{0}'</value>
   </data>

@@ -12,11 +12,13 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-using System.Collections;
+using System;
+using Microsoft.Azure.Commands.ResourceManagement.Properties;
+using Microsoft.Azure.Management.Resources.Models;
 
 namespace Microsoft.Azure.Commands.ResourceManagement.Models
 {
-    public class GetPSResourceParameters
+    public class BasePSResourceParameters
     {
         public string Name { get; set; }
 
@@ -25,5 +27,29 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Models
         public string ResourceType { get; set; }
 
         public string ParentResourceName { get; set; }
+
+        public ResourceIdentity ToResourceIdentity()
+        {
+            if (string.IsNullOrEmpty(ResourceType))
+            {
+                throw new ArgumentNullException("ResourceType");
+            }
+
+            string[] resourceType = ResourceType.Split('/');
+            if (resourceType.Length != 2)
+            {
+                throw new ArgumentException(Resources.ResourceTypeFormat);
+            }
+
+            ResourceIdentity identity = new ResourceIdentity
+                {
+                    ResourceName = Name,
+                    ParentResourcePath = ParentResourceName,
+                    ResourceProviderNamespace = resourceType[0],
+                    ResourceType = resourceType[1]
+                };
+
+            return identity;
+        }
     }
 }

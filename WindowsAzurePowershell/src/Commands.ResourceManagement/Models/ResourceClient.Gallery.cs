@@ -80,17 +80,17 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Models
             StringBuilder finalOutputPath = new StringBuilder();
             string contents = General.DownloadFile(fileUri);
 
-            if (General.IsFilePath(outputPath))
+            if (General.IsValidDirectoryPath(outputPath))
+            {
+                finalOutputPath.Append(Path.Combine(outputPath, name + ".json"));
+            }
+            else
             {
                 finalOutputPath.Append(outputPath);
                 if (!Path.HasExtension(outputPath))
                 {
                     finalOutputPath.Append(".json");
                 }
-            }
-            else
-            {
-                finalOutputPath.Append(Path.Combine(outputPath, name + ".json"));
             }
 
             File.WriteAllText(finalOutputPath.ToString(), contents);

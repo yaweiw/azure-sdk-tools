@@ -16,16 +16,8 @@ using System.Collections;
 
 namespace Microsoft.Azure.Commands.ResourceManagement.Models
 {
-    public class UpdatePSResourceParameters
+    public class UpdatePSResourceParameters : BasePSResourceParameters
     {
-        public string Name { get; set; }
-
-        public string ResourceGroupName { get; set; }
-
-        public string ResourceType { get; set; }
-
-        public string ParentResourceName { get; set; }
-
         public Hashtable PropertyObject { get; set; }
     }
 }

@@ -12,39 +12,39 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-using System.Collections.Generic;
 using Microsoft.Azure.Commands.ResourceManagement.Models;
-using System.Collections;
+using Microsoft.Azure.Commands.ResourceManagement.Properties;
 using System.Management.Automation;
 
 namespace Microsoft.Azure.Commands.ResourceManagement
 {
     /// <summary>
-    /// Get an existing resource.
+    /// Deletes an existing resource.
     /// </summary>
-    [Cmdlet(VerbsCommon.Get, "AzureResource", DefaultParameterSetName = BaseParameterSetName), OutputType(typeof(List<PSResource>))]
-    public class GetAzureResourceCommand : ResourceBaseCmdlet
+    [Cmdlet(VerbsCommon.Remove, "AzureResource"), OutputType(typeof(bool))]
+    public class RemoveAzureResourceCommand : ResourceBaseCmdlet
     {
-        internal const string BaseParameterSetName = "basic";
-        internal const string ParameterSetNameWithId = "id";
-
-        [Parameter(ParameterSetName = ParameterSetNameWithId, Mandatory = true, ValueFromPipelineByPropertyName = true, HelpMessage = "The resource name.")]
+        [Parameter(Mandatory = true, ValueFromPipelineByPropertyName = true, HelpMessage = "The resource name.")]
         [ValidateNotNullOrEmpty]
         public string Name { get; set; }
 
-        [Parameter(ParameterSetName = ParameterSetNameWithId, Mandatory = true, ValueFromPipelineByPropertyName = true, HelpMessage = "The resource group name.")]
-        [Parameter(ParameterSetName = BaseParameterSetName, Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "The resource group name.")]
+        [Parameter(Mandatory = true, ValueFromPipelineByPropertyName = true, HelpMessage = "The resource group name.")]
         [ValidateNotNullOrEmpty]
         public string ResourceGroupName { get; set; }
 
-        [Parameter(ParameterSetName = ParameterSetNameWithId, Mandatory = true, ValueFromPipelineByPropertyName = true, HelpMessage = "The resource type. In the format ResourceProvider/type.")]
-        [Parameter(ParameterSetName = BaseParameterSetName, Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "The resource type. In the format ResourceProvider/type.")]
+        [Parameter(Mandatory = true, ValueFromPipelineByPropertyName = true, HelpMessage = "The resource type. In the format ResourceProvider/type.")]
         [ValidateNotNullOrEmpty]
         public string ResourceType { get; set; }
 
-        [Parameter(ParameterSetName = ParameterSetNameWithId, Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "The name of the parent resource if needed. In the format of greatgranda/grandpa/dad.")]
+        [Parameter(Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "The name of the parent resource if needed. In the format of greatgranda/grandpa/dad.")]
         [ValidateNotNullOrEmpty]
         public string ParentResourceName { get; set; }
+
+        [Parameter(Mandatory = false, HelpMessage = "Do not ask for confirmation.")]
+        public SwitchParameter Force { get; set; }
+
+        [Parameter(Mandatory = false)]
+        public SwitchParameter PassThru { get; set; }
 
         public override void ExecuteCmdlet()
         {
@@ -56,7 +56,17 @@ namespace Microsoft.Azure.Commands.ResourceManagement
                 ParentResourceName = ParentResourceName,
             };
 
-            WriteObject(ResourceClient.FilterPSResources(parameters), true);
+            ConfirmAction(
+                Force.IsPresent,
+                string.Format(Resources.RemovingResource, Name),
+                Resources.RemoveResourceMessage,
+                Name,
+                () => ResourceClient.DeleteResource(parameters));
+
+            if (PassThru)
+            {
+                WriteObject(true);
+            }
         }
     }
 }
