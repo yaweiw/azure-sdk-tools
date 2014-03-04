@@ -33,9 +33,6 @@ namespace Microsoft.WindowsAzure.Commands.CloudService.Development
         [Alias("ln")]
         public SwitchParameter Launch { get; set; }
 
-        [Parameter(Mandatory = false, HelpMessage="The emulator type")]
-        public ComputeEmulatorMode Mode { get; set; }
-
         public CloudServiceProject StartAzureEmulatorProcess(string rootPath)
         {
             string standardOutput;
@@ -58,7 +55,7 @@ namespace Microsoft.WindowsAzure.Commands.CloudService.Development
             
             WriteVerbose(Resources.StartingEmulator);
             cloudServiceProject.ResolveRuntimePackageUrls();
-            cloudServiceProject.StartEmulator(Launch.ToBool(), Mode, out standardOutput, out standardError);
+            cloudServiceProject.StartEmulator(Launch.ToBool(), ComputeEmulatorMode.Full, out standardOutput, out standardError);
             
             WriteVerbose(standardOutput);
             WriteVerbose(Resources.StartedEmulator);

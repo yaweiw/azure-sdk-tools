@@ -24,15 +24,10 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Table
     /// </summary>
     public class StorageCloudTableCmdletBase : StorageCloudCmdletBase<IStorageTableManagement>
     {
-        /// <summary>
-        /// get table client
-        /// </summary>
-        /// <returns>a CloudTableClient object</returns>
-        private CloudTableClient GetCloudTableClient()
-        {
-            CloudStorageAccount account = GetCloudStorageAccount();
-            return account.CreateCloudTableClient();
-        }
+        // Overwrite the useless parameter
+        public override int? ServerTimeoutPerRequest { get; set; }
+        public override int? ClientTimeoutPerRequest { get; set; }
+        public override int? ConcurrentTaskCount { get; set; }
 
         /// <summary>
         /// create table storage service management channel.
@@ -43,7 +38,7 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Table
             //Init storage table management channel
             if (Channel == null || !ShareChannel)
             {
-                Channel = new StorageTableManagement(GetCloudTableClient());
+                Channel = new StorageTableManagement(GetCmdletStorageContext());
             }
 
             return Channel;

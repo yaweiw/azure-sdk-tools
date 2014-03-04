@@ -34,7 +34,7 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Test.Queue
         {
             command = new FakeRemoveAzureQueueCommand(queueMock)
                 {
-                    CommandRuntime = new MockCommandRuntime()
+                    CommandRuntime = MockCmdRunTime
                 };
         }
 
@@ -65,19 +65,19 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Test.Queue
         {
             string name = "test";
 
-            ((MockCommandRuntime)command.CommandRuntime).ResetPipelines();
+            MockCmdRunTime.ResetPipelines();
             AddTestQueues();
             bool removed = command.RemoveAzureQueue(name);
             Assert.IsFalse(removed);
 
-            ((MockCommandRuntime)command.CommandRuntime).ResetPipelines();
+            MockCmdRunTime.ResetPipelines();
             AddTestQueues();
             name = "text";
             command.confirm = true;
             removed = command.RemoveAzureQueue(name);
             Assert.IsTrue(removed);
 
-            ((MockCommandRuntime)command.CommandRuntime).ResetPipelines();
+            MockCmdRunTime.ResetPipelines();
             AddTestQueues();
             name = "text";
             command.Force = true;

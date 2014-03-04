@@ -34,7 +34,7 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Test.Queue
         {
             command = new NewAzureStorageQueueCommand(queueMock)
                 {
-                    CommandRuntime = new MockCommandRuntime()
+                    CommandRuntime = MockCmdRunTime
                 };
         }
 
@@ -72,14 +72,12 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Test.Queue
         [TestMethod]
         public void CreateAzureQueueSuccessfullyTest()
         {
-            
-
-            ((MockCommandRuntime)command.CommandRuntime).ResetPipelines();
+            MockCmdRunTime.ResetPipelines();
             string name = "test";
             AzureStorageQueue queue = command.CreateAzureQueue(name);
             Assert.AreEqual("test", queue.Name);
 
-            ((MockCommandRuntime)command.CommandRuntime).ResetPipelines();
+            MockCmdRunTime.ResetPipelines();
             AssertThrows<ResourceAlreadyExistException>(() => command.CreateAzureQueue(name),
                 String.Format(Resources.QueueAlreadyExists, name));
         }
@@ -90,7 +88,7 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Test.Queue
             string name = "queuename";
             command.Name = name;
             command.ExecuteCmdlet();
-            AzureStorageQueue queue = (AzureStorageQueue)((MockCommandRuntime)command.CommandRuntime).OutputPipeline.FirstOrDefault();
+            AzureStorageQueue queue = (AzureStorageQueue)MockCmdRunTime.OutputPipeline.FirstOrDefault();
             Assert.AreEqual(name, queue.Name);
         }
     }
