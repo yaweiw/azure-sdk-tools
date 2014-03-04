@@ -92,7 +92,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
 
             using (FileStream readStream = File.OpenRead(filePath))
             {
-                blob.UploadFromStream(readStream, AccessCondition.GenerateEmptyCondition(), blobRequestOptions);
+                blob.UploadFromStream(readStream, AccessCondition.GenerateEmptyCondition(), uploadRequestOption);
             }
 
             return new Uri(string.Format(CultureInfo.InvariantCulture, "{0}{1}{2}{3}", client.BaseUri, ContainerName, client.DefaultDelimiter, blobName));
