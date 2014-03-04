@@ -34,7 +34,7 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Test.Queue
         {
             command = new NewAzureStorageQueueSasTokenCommand(queueMock)
                 {
-                    CommandRuntime = new MockCommandRuntime()
+                    CommandRuntime = MockCmdRunTime
                 };
         }
 

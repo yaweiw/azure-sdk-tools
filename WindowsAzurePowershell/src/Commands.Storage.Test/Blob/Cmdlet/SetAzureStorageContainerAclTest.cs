@@ -36,8 +36,9 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Test.Blob
         {
             command = new SetAzureStorageContainerAclCommand(BlobMock)
             {
-                CommandRuntime = new MockCommandRuntime()
+                CommandRuntime = MockCmdRunTime
             };
+            CurrentBlobCmd = command;
         }
 
         [TestCleanup]
@@ -51,7 +52,7 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Test.Blob
         {
             string name = "a";
             BlobContainerPublicAccessType accessLevel = BlobContainerPublicAccessType.Off;
-            AssertThrows<ArgumentException>(() => command.SetContainerAcl(name, accessLevel), String.Format(Resources.InvalidContainerName, name));
+            AssertThrowsAsync<ArgumentException>(() => command.SetContainerAcl(InitTaskId, BlobMock, name, accessLevel), String.Format(Resources.InvalidContainerName, name));
         }
 
         [TestMethod]
@@ -59,7 +60,7 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Test.Blob
         {
             string name = "test";
             BlobContainerPublicAccessType accessLevel = BlobContainerPublicAccessType.Off;
-            AssertThrows<ResourceNotFoundException>(() => command.SetContainerAcl(name, accessLevel), String.Format(Resources.ContainerNotFound, name));
+            AssertThrowsAsync<ResourceNotFoundException>(() => command.SetContainerAcl(InitTaskId, BlobMock, name, accessLevel), String.Format(Resources.ContainerNotFound, name));
         }
 
         [TestMethod]
@@ -71,30 +72,37 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Test.Blob
             string name = "test";
             BlobContainerPublicAccessType accessLevel = BlobContainerPublicAccessType.Off;
 
-            ((MockCommandRuntime)command.CommandRuntime).ResetPipelines();
-            command.SetContainerAcl(name, accessLevel);
-            AzureStorageContainer container = (AzureStorageContainer)((MockCommandRuntime)command.CommandRuntime).OutputPipeline.FirstOrDefault();
+            MockCmdRunTime.ResetPipelines();
+            command.Name = name;
+            RunAsyncCommand(() => command.ExecuteCmdlet());
+            AzureStorageContainer container = (AzureStorageContainer)MockCmdRunTime.OutputPipeline.FirstOrDefault();
             Assert.AreEqual(BlobContainerPublicAccessType.Off, container.PublicAccess);
 
-            ((MockCommandRuntime)command.CommandRuntime).ResetPipelines();
+            MockCmdRunTime.ResetPipelines();
             name = "publicoff";
             accessLevel = BlobContainerPublicAccessType.Blob;
-            command.SetContainerAcl(name, accessLevel);
-            container = (AzureStorageContainer)((MockCommandRuntime)command.CommandRuntime).OutputPipeline.FirstOrDefault();
+            command.Name = name;
+            command.Permission = accessLevel;
+            RunAsyncCommand(() => command.ExecuteCmdlet());
+            container = (AzureStorageContainer)MockCmdRunTime.OutputPipeline.FirstOrDefault();
             Assert.AreEqual(BlobContainerPublicAccessType.Blob, container.PublicAccess);
 
-            ((MockCommandRuntime)command.CommandRuntime).ResetPipelines();
+            MockCmdRunTime.ResetPipelines();
             name = "publicblob";
             accessLevel = BlobContainerPublicAccessType.Container;
-            command.SetContainerAcl(name, accessLevel);
-            container = (AzureStorageContainer)((MockCommandRuntime)command.CommandRuntime).OutputPipeline.FirstOrDefault();
+            command.Name = name;
+            command.Permission = accessLevel;
+            RunAsyncCommand(() => command.ExecuteCmdlet());
+            container = (AzureStorageContainer)MockCmdRunTime.OutputPipeline.FirstOrDefault();
             Assert.AreEqual(BlobContainerPublicAccessType.Container, container.PublicAccess);
 
-            ((MockCommandRuntime)command.CommandRuntime).ResetPipelines();
+            MockCmdRunTime.ResetPipelines();
             name = "publiccontainer";
             accessLevel = BlobContainerPublicAccessType.Off;
-            command.SetContainerAcl(name, accessLevel);
-            container = (AzureStorageContainer)((MockCommandRuntime)command.CommandRuntime).OutputPipeline.FirstOrDefault();
+            command.Name = name;
+            command.Permission = accessLevel;
+            RunAsyncCommand(() => command.ExecuteCmdlet());
+            container = (AzureStorageContainer)MockCmdRunTime.OutputPipeline.FirstOrDefault();
             Assert.AreEqual(BlobContainerPublicAccessType.Off, container.PublicAccess);
         }
 
@@ -105,8 +113,8 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Test.Blob
             command.Name = "publicblob";
             command.Permission = BlobContainerPublicAccessType.Container;
             command.PassThru = true;
-            command.ExecuteCmdlet();
-            AzureStorageContainer container = (AzureStorageContainer)((MockCommandRuntime)command.CommandRuntime).OutputPipeline.FirstOrDefault();
+            RunAsyncCommand(() => command.ExecuteCmdlet());
+            AzureStorageContainer container = (AzureStorageContainer)MockCmdRunTime.OutputPipeline.FirstOrDefault();
             Assert.AreEqual(BlobContainerPublicAccessType.Container, container.PublicAccess);
         }
     }

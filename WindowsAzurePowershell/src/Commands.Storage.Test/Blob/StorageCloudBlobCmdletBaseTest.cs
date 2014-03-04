@@ -34,10 +34,10 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Test.Blob
         public void InitCommand()
         {
             command = new StorageCloudBlobCmdletBase(BlobMock)
-                {
-                    Context = new AzureStorageContext(CloudStorageAccount.DevelopmentStorageAccount),
-                    CommandRuntime = new MockCommandRuntime()
-                };
+            {
+                Context = new AzureStorageContext(CloudStorageAccount.DevelopmentStorageAccount),
+                CommandRuntime = MockCmdRunTime
+            };
         }
 
         [TestCleanup]
@@ -57,14 +57,6 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Test.Blob
         {
             CloudBlockBlob blob = new CloudBlockBlob(new Uri("http://127.0.0.1/account/container/"));
             AssertThrows<ArgumentException>(() => command.ValidatePipelineICloudBlob(blob), String.Format(Resources.InvalidBlobName, blob.Name));
-        }
-
-        [TestMethod]
-        public void ValidatePipelineICloudBlobExitsTest()
-        {
-            AddTestContainers();
-            CloudBlockBlob blob = new CloudBlockBlob(new Uri("http://127.0.0.1/account/test/blob"));
-            AssertThrows<ResourceNotFoundException>(() => command.ValidatePipelineICloudBlob(blob), String.Format(Resources.BlobNotFound, blob.Name, blob.Container.Name));
         }
 
         [TestMethod]
@@ -91,25 +83,12 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Test.Blob
         }
 
         [TestMethod]
-        public void ValidatePipelineCloudBlobContainerWithNotExistsContainerTest()
-        {
-            CloudBlobContainer container = BlobMock.GetContainerReference("test");
-            AssertThrows<ResourceNotFoundException>(() => command.ValidatePipelineCloudBlobContainer(container), String.Format(Resources.ContainerNotFound, container.Name));
-        }
-
-        [TestMethod]
         public void ValidatePipelineCloudBlobContainerSuccessfullyTest()
         {
             AddTestContainers();
             string testUri = "http://127.0.0.1/account/test";
             CloudBlobContainer container = new CloudBlobContainer(new Uri(testUri));
             command.ValidatePipelineCloudBlobContainer(container);
-        }
-
-        [TestMethod]
-        public void GetCloudBlobClientTest()
-        {
-            Assert.IsNotNull(command.GetCloudBlobClient());
         }
     }
 }
