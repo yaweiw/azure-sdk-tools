@@ -20,6 +20,7 @@ using Microsoft.WindowsAzure.Commands.Utilities.Common;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Management.Automation;
@@ -29,6 +30,17 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Models
 {
     public partial class ResourcesClient
     {
+        public const string ResourcGroupTypeName = "ResourceGroup";
+
+        public static List<string> KnownLocations = new List<string>()
+        {
+            "East Asia", "South East Asia", "East US", "West US", "North Central US", 
+            "South Central US", "Central US", "North Europe", "West Europe"
+        };
+
+        internal static List<string> KnownLocationsNormalized = KnownLocations
+            .Select(loc => loc.ToLower().Replace(" ", "")).ToList();
+
         /// <summary>
         /// Creates a new resource.
         /// </summary>
@@ -230,7 +242,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Models
                     throw new ArgumentException(errors.ToString());
                 }
 
-                result = ResourceManagementClient.Deployments.Create(resourceGroup, parameters.DeploymentName, deployment);
+                result = ResourceManagementClient.Deployments.CreateOrUpdate(resourceGroup, parameters.DeploymentName, deployment);
                 WriteProgress(string.Format("Create template deployment '{0}' using template {1}.", parameters.DeploymentName, deployment.TemplateLink.Uri));
                 ProvisionDeploymentStatus(resourceGroup, parameters.DeploymentName);
             }
@@ -346,9 +358,9 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Models
             else if (!string.IsNullOrEmpty(resourceGroup))
             {
                 DeploymentListResult result = ResourceManagementClient.Deployments.List(
+                    resourceGroup,
                     new DeploymentListParameters()
                     {
-                        ResourceGroupName = resourceGroup,
                         ProvisioningState = provisioningState
                     });
 
@@ -396,6 +408,41 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Models
             errors.AddRange(CheckBasicDeploymentErrors(parameters.ResourceGroupName, deployment));
 
             return errors;
+        }
+
+        /// <summary>
+        /// Gets available locations for the specified resource type.
+        /// </summary>
+        /// <param name="resourceTypes">The resource types</param>
+        /// <returns>Mapping between each resource type and its available locations</returns>
+        public virtual List<PSResourceProviderType> GetLocations(params string[] resourceTypes)
+        {
+            List<string> providerNames = resourceTypes.Select(r => r.Split('/').First()).ToList();
+            List<PSResourceProviderType> result = new List<PSResourceProviderType>();
+            List<Provider> providers = new List<Provider>();
+
+            if (resourceTypes.Any(r => r.Equals(ResourcesClient.ResourcGroupTypeName, StringComparison.OrdinalIgnoreCase)))
+            {
+                result.Add(new ProviderResourceType()
+                {
+                    Name = ResourcesClient.ResourcGroupTypeName,
+                    Locations = ResourcesClient.KnownLocations
+                }.ToPSResourceProviderType(null));
+            }
+
+            if (resourceTypes.Length > 0)
+            {
+                providers.AddRange(ListResourceProviders()
+                    .Where(p => providerNames.Any(pn => pn.Equals(p.Namespace, StringComparison.OrdinalIgnoreCase))));
+            }
+            else
+            {
+                providers.AddRange(ListResourceProviders());
+            }
+
+            result.AddRange(providers.SelectMany(p => p.ResourceTypes.Select(r => r.ToPSResourceProviderType(p.Namespace))));
+
+            return result;
         }
     }
 }
