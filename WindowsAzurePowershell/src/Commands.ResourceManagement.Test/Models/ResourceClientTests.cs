@@ -1532,29 +1532,36 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Test.Models
         public void DownloadsGalleryTemplateFile()
         {
             string galleryTemplateFileName = "myFile";
-            string expectedFilePath = Path.Combine(Directory.GetCurrentDirectory(), galleryTemplateFileName + ".json");
-            galleryClientMock.Setup(f => f.Items.GetAsync(galleryTemplateFileName, new CancellationToken()))
-                .Returns(Task.Factory.StartNew(() => new ItemGetParameters()
-                {
-                    Item = new GalleryItem()
-                    {
-                        Name = galleryTemplateFileName,
-                        Publisher = "Microsoft",
-                        DefinitionTemplates = new DefinitionTemplates()
-                        {
-                            DeploymentTemplateFileUrls = new Dictionary<string, string>()
-                            {
-                                { "DefaultUri", "fakeurl" }
-                            }
-                        }
-                    }
-                }));
+            string expectedFilePath = Path.Combine(Path.GetTempPath(), galleryTemplateFileName + ".json");
+            try
+            {
+                galleryClientMock.Setup(f => f.Items.GetAsync(galleryTemplateFileName, new CancellationToken()))
+                                 .Returns(Task.Factory.StartNew(() => new ItemGetParameters()
+                                     {
+                                         Item = new GalleryItem()
+                                             {
+                                                 Name = galleryTemplateFileName,
+                                                 Publisher = "Microsoft",
+                                                 DefinitionTemplates = new DefinitionTemplates()
+                                                     {
+                                                         DeploymentTemplateFileUrls = new Dictionary<string, string>()
+                                                             {
+                                                                 {"DefaultUri", "fakeurl"}
+                                                             }
+                                                     }
+                                             }
+                                     }));
 
-            resourcesClient.DownloadGalleryTemplateFile(
-                galleryTemplateFileName,
-                Path.Combine(Directory.GetCurrentDirectory(), galleryTemplateFileName));
+                resourcesClient.DownloadGalleryTemplateFile(
+                    galleryTemplateFileName,
+                    expectedFilePath);
 
-            Assert.Equal(string.Empty, File.ReadAllText(expectedFilePath));
+                Assert.Equal(string.Empty, File.ReadAllText(expectedFilePath));
+            }
+            finally
+            {
+                File.Delete(expectedFilePath);
+            }
         }
 
         [Fact]
@@ -1597,29 +1604,36 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Test.Models
         public void DownloadsGalleryTemplateFileFromFileName()
         {
             string galleryTemplateFileName = "myFile.adeek";
-            string expectedFilePath = Path.Combine(Directory.GetCurrentDirectory(), galleryTemplateFileName + ".adeek");
-            galleryClientMock.Setup(f => f.Items.GetAsync(galleryTemplateFileName, new CancellationToken()))
-                .Returns(Task.Factory.StartNew(() => new ItemGetParameters()
-                {
-                    Item = new GalleryItem()
-                    {
-                        Name = galleryTemplateFileName,
-                        Publisher = "Microsoft",
-                        DefinitionTemplates = new DefinitionTemplates()
-                        {
-                            DeploymentTemplateFileUrls = new Dictionary<string, string>()
-                            {
-                                { "DefaultUri", "http://onesdkauremustinvalid-uri12" }
-                            }
-                        }
-                    }
-                }));
+            string expectedFilePath = Path.Combine(Path.GetTempPath(), galleryTemplateFileName + ".adeek");
+            try
+            {
+                galleryClientMock.Setup(f => f.Items.GetAsync(galleryTemplateFileName, new CancellationToken()))
+                                 .Returns(Task.Factory.StartNew(() => new ItemGetParameters()
+                                     {
+                                         Item = new GalleryItem()
+                                             {
+                                                 Name = galleryTemplateFileName,
+                                                 Publisher = "Microsoft",
+                                                 DefinitionTemplates = new DefinitionTemplates()
+                                                     {
+                                                         DeploymentTemplateFileUrls = new Dictionary<string, string>()
+                                                             {
+                                                                 {"DefaultUri", "http://onesdkauremustinvalid-uri12"}
+                                                             }
+                                                     }
+                                             }
+                                     }));
 
-            resourcesClient.DownloadGalleryTemplateFile(
-                galleryTemplateFileName,
-                expectedFilePath);
+                resourcesClient.DownloadGalleryTemplateFile(
+                    galleryTemplateFileName,
+                    expectedFilePath);
 
-            Assert.Equal(string.Empty, File.ReadAllText(expectedFilePath));
+                Assert.Equal(string.Empty, File.ReadAllText(expectedFilePath));
+            }
+            finally
+            {
+                File.Delete(expectedFilePath);
+            }
         }
     }
 }
