@@ -38,11 +38,8 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Models
             "South Central US", "Central US", "North Europe", "West Europe"
         };
 
-        internal static List<string> KnownLocationsNormalized = new List<string>()
-        {
-            "eastasia", "southeastasia", "eastus", "westus", "northcentralus", 
-            "southcentralus", "centralus", "northeurope", "westeurope"
-        };
+        internal static List<string> KnownLocationsNormalized = KnownLocations
+            .Select(loc => loc.ToLower().Replace(" ", "")).ToList();
 
         /// <summary>
         /// Creates a new resource.
@@ -453,16 +450,11 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Models
         /// <returns>Mapping between each resource type and its available locations</returns>
         public virtual List<PSResourceProviderType> GetLocations(params string[] resourceTypes)
         {
-            // Assert that the known location list and normalized list are valid.
-            bool validLocationSets = KnownLocations.Select(x => x.Replace(" ", "").ToLower()).OrderBy(x => x)
-                .SequenceEqual(KnownLocationsNormalized.OrderBy(x => x));
-            Debug.Assert(validLocationSets);
-
             List<string> providerNames = resourceTypes.Select(r => r.Split('/').First()).ToList();
             List<PSResourceProviderType> result = new List<PSResourceProviderType>();
             List<Provider> providers = new List<Provider>();
 
-            if (resourceTypes.Contains(ResourcesClient.ResourcGroupTypeName))
+            if (resourceTypes.Any(r => r.Equals(ResourcesClient.ResourcGroupTypeName, StringComparison.OrdinalIgnoreCase)))
             {
                 result.Add(new ProviderResourceType()
                 {
