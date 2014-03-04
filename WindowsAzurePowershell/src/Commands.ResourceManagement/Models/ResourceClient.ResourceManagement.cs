@@ -48,24 +48,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Models
         /// <returns>The created resource</returns>
         public virtual PSResource CreatePSResource(CreatePSResourceParameters parameters)
         {
-            if (string.IsNullOrEmpty(parameters.ResourceType))
-            {
-                throw new ArgumentNullException("ResourceType");
-            }
-
-            string[] resourceType = parameters.ResourceType.Split('/');
-            if (resourceType.Length != 2)
-            {
-                throw new ArgumentException(Resources.ResourceTypeFormat);
-            }
-
-            ResourceIdentity resourceIdentity = new ResourceIdentity
-                {
-                    ParentResourcePath = parameters.ParentResourceName,
-                    ResourceName = parameters.Name,
-                    ResourceProviderNamespace = resourceType[0],
-                    ResourceType = resourceType[1]
-                };
+            ResourceIdentity resourceIdentity = parameters.ToResourceIdentity();
 
             bool resourceExists = ResourceManagementClient.Resources.CheckExistence(parameters.ResourceGroupName, resourceIdentity).Exists;
             
@@ -114,24 +97,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Models
         /// <returns>The updated resource</returns>
         public virtual PSResource UpdatePSResource(UpdatePSResourceParameters parameters)
         {
-            if (string.IsNullOrEmpty(parameters.ResourceType))
-            {
-                throw new ArgumentNullException("ResourceType");
-            }
-
-            string[] resourceType = parameters.ResourceType.Split('/');
-            if (resourceType.Length != 2)
-            {
-                throw new ArgumentException(Resources.ResourceTypeFormat);
-            }
-
-            ResourceIdentity resourceIdentity = new ResourceIdentity
-            {
-                ParentResourcePath = parameters.ParentResourceName,
-                ResourceName = parameters.Name,
-                ResourceProviderNamespace = resourceType[0],
-                ResourceType = resourceType[1]
-            };
+            ResourceIdentity resourceIdentity = parameters.ToResourceIdentity();
 
             ResourceGetResult getResource;
 
@@ -166,30 +132,15 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Models
         /// </summary>
         /// <param name="parameters">The get parameters</param>
         /// <returns>List of resources</returns>
-        public virtual List<PSResource> FilterPSResources(GetPSResourceParameters parameters)
+        public virtual List<PSResource> FilterPSResources(BasePSResourceParameters parameters)
         {
             List<PSResource> resources = new List<PSResource>();
 
             if (!string.IsNullOrEmpty(parameters.Name))
             {
-                if (string.IsNullOrEmpty(parameters.ResourceType))
-                {
-                    throw new ArgumentNullException("ResourceType");
-                }
+                ResourceIdentity resourceIdentity = parameters.ToResourceIdentity();
 
-                string[] resourceType = parameters.ResourceType.Split('/');
-                if (resourceType.Length != 2)
-                {
-                    throw new ArgumentException(Resources.ResourceTypeFormat);
-                }
-
-                ResourceGetResult getResult = ResourceManagementClient.Resources.Get(parameters.ResourceGroupName, new ResourceIdentity
-                    {
-                        ResourceName = parameters.Name,
-                        ParentResourcePath = parameters.ParentResourceName,
-                        ResourceProviderNamespace = resourceType[0],
-                        ResourceType = resourceType[1]
-                    });
+                ResourceGetResult getResult = ResourceManagementClient.Resources.Get(parameters.ResourceGroupName, resourceIdentity);
 
                 resources.Add(getResult.Resource.ToPSResource(this));
             }
@@ -304,7 +255,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Models
         /// </summary>
         /// <param name="templateName">The gallery template name</param>
         /// <param name="parameters">The existing PowerShell cmdlet parameters</param>
-        /// <param name="parameterSetNames">The parameter set which the dynamic parameters should be added to</param>
+        /// <param name="parameterSetNames">The parameters set which the dynamic parameters should be added to</param>
         /// <returns>The template parameters</returns>
         public virtual RuntimeDefinedParameterDictionary GetTemplateParameters(string templateName, string[] parameters, params string[] parameterSetNames)
         {
@@ -359,6 +310,22 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Models
             }
 
             return result;
+        }
+
+        /// <summary>
+        /// Deletes a given resource
+        /// </summary>
+        /// <param name="parameters">The resource identification</param>
+        public virtual void DeleteResource(BasePSResourceParameters parameters)
+        {
+            ResourceIdentity resourceIdentity = parameters.ToResourceIdentity();
+
+            if (!ResourceManagementClient.Resources.CheckExistence(parameters.ResourceGroupName, resourceIdentity).Exists)
+            {
+                throw new ArgumentException(Resources.ResourceDoesntExists);
+            }
+
+            ResourceManagementClient.Resources.Delete(parameters.ResourceGroupName, resourceIdentity);
         }
 
         /// <summary>
