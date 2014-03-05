@@ -1765,11 +1765,6 @@ using Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests.Iaa
             return RunPSCmdletAndReturnFirst<VirtualMachineExtensionContext>(new GetAzureVMExtensionCmdletInfo(vm, extensionName, publisher, version, referenceName));
         }
 
-        public VirtualMachineExtensionConfigContext GetAzureVMExtensionConfigTemplate(string extensionName, string publisher, string sampleConfigPath, string version = null)
-        {
-            return RunPSCmdletAndReturnFirst<VirtualMachineExtensionConfigContext>(new GetAzureVMExtensionConfigTemplateCmdletInfo(extensionName, publisher, sampleConfigPath, version));
-        }
-
         //ListAllVersionsParamSetName -> ExtensionName,Publisher,AllVersions
         public Collection<VirtualMachineExtensionImageContext> GetAzureVMAvailableExtension(IPersistentVM vm, string extensionName, string publisher, bool allVersions)
         {
