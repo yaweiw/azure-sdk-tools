@@ -29,6 +29,17 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Models
 {
     public partial class ResourcesClient
     {
+        public const string ResourcGroupTypeName = "ResourceGroup";
+
+        public static List<string> KnownLocations = new List<string>()
+        {
+            "East Asia", "South East Asia", "East US", "West US", "North Central US", 
+            "South Central US", "Central US", "North Europe", "West Europe"
+        };
+
+        internal static List<string> KnownLocationsNormalized = KnownLocations
+            .Select(loc => loc.ToLower().Replace(" ", "")).ToList();
+
         /// <summary>
         /// Creates a new resource.
         /// </summary>
@@ -230,7 +241,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Models
                     throw new ArgumentException(errors.ToString());
                 }
 
-                result = ResourceManagementClient.Deployments.Create(resourceGroup, parameters.DeploymentName, deployment);
+                result = ResourceManagementClient.Deployments.CreateOrUpdate(resourceGroup, parameters.DeploymentName, deployment);
                 WriteProgress(string.Format("Create template deployment '{0}' using template {1}.", parameters.DeploymentName, deployment.TemplateLink.Uri));
                 ProvisionDeploymentStatus(resourceGroup, parameters.DeploymentName);
             }
@@ -326,18 +337,17 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Models
         }
 
         /// <summary>
-        /// Filters resource group deployments for a subscription
+        /// Filters the resource group deployments
         /// </summary>
-        /// <param name="resourceGroup">The resource group name</param>
-        /// <param name="name">The deployment name</param>
-        /// <param name="provisioningState">The provisioning state</param>
-        /// <returns>The deployments that match the search criteria</returns>
-        public virtual List<PSResourceGroupDeployment> FilterResourceGroupDeployments(
-            string resourceGroup,
-            string name,
-            string provisioningState)
+        /// <param name="options">The filtering options</param>
+        /// <returns>The filtered list of deployments</returns>
+        public virtual List<PSResourceGroupDeployment> FilterResourceGroupDeployments(FilterResourceGroupDeploymentOptions options)
         {
             List<PSResourceGroupDeployment> deployments = new List<PSResourceGroupDeployment>();
+            string resourceGroup = options.ResourceGroupName;
+            string name = options.DeploymentName;
+            List<string> excludedProvisioningStates = options.ExcludedProvisioningStates ?? new List<string>();
+            List<string> provisioningStates = options.ProvisioningStates ?? new List<string>();
 
             if (!string.IsNullOrEmpty(resourceGroup) && !string.IsNullOrEmpty(name))
             {
@@ -345,12 +355,14 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Models
             }
             else if (!string.IsNullOrEmpty(resourceGroup))
             {
-                DeploymentListResult result = ResourceManagementClient.Deployments.List(
-                    new DeploymentListParameters()
-                    {
-                        ResourceGroupName = resourceGroup,
-                        ProvisioningState = provisioningState
-                    });
+                DeploymentListParameters parameters = new DeploymentListParameters();
+
+                if (provisioningStates.Count == 1)
+                {
+                    parameters.ProvisioningState = provisioningStates.First();
+                }
+
+                DeploymentListResult result = ResourceManagementClient.Deployments.List(resourceGroup, parameters);
 
                 deployments.AddRange(result.Deployments.Select(d => d.ToPSResourceGroupDeployment()));
 
@@ -361,25 +373,63 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Models
                 }
             }
 
-            return deployments;
+            if (provisioningStates.Count > 1)
+            {
+                return deployments.Where(d => provisioningStates
+                    .Any(s => s.Equals(d.ProvisioningState, StringComparison.OrdinalIgnoreCase))).ToList();
+            }
+            else if (provisioningStates.Count == 0 && excludedProvisioningStates.Count > 0)
+            {
+                return deployments.Where(d => excludedProvisioningStates
+                    .All(s => !s.Equals(d.ProvisioningState, StringComparison.OrdinalIgnoreCase))).ToList();
+            }
+            else
+            {
+                return deployments;
+            }
         }
 
         /// <summary>
         /// Cancels the active deployment.
         /// </summary>
         /// <param name="resourceGroup">The resource group name</param>
-        public virtual void CancelDeployment(string resourceGroup)
+        public virtual void CancelDeployment(string resourceGroup, string name)
         {
-            List<PSResourceGroupDeployment> deployments = FilterResourceGroupDeployments(resourceGroup);
-
-            foreach (PSResourceGroupDeployment deployment in deployments)
+            FilterResourceGroupDeploymentOptions options = new FilterResourceGroupDeploymentOptions()
             {
-                if (deployment.ProvisioningState != ProvisioningState.Failed && 
-                    deployment.ProvisioningState != ProvisioningState.Succeeded)
+                DeploymentName = name,
+                ResourceGroupName = resourceGroup
+            };
+
+            if (string.IsNullOrEmpty(name))
+            {
+                options.ExcludedProvisioningStates = new List<string>()
                 {
-                    ResourceManagementClient.Deployments.Cancel(resourceGroup, deployment.DeploymentName);
-                    break;
+                    ProvisioningState.Failed,
+                    ProvisioningState.Succeeded
+                };
+            }
+
+            List<PSResourceGroupDeployment> deployments = FilterResourceGroupDeployments(options);
+
+            if (deployments.Count == 0)
+            {
+                if (string.IsNullOrEmpty(name))
+                {
+                    throw new ArgumentException(string.Format("There is no deployment called '{0}' to cancel", name));
                 }
+                else
+                {
+                    throw new ArgumentException(string.Format("There are no running deployemnts under resource group '{0}'", resourceGroup));
+                }
+            }
+            else if (deployments.Count == 1)
+            {
+                ResourceManagementClient.Deployments.Cancel(resourceGroup, deployments.First().DeploymentName);
+            }
+            else
+            {
+                throw new ArgumentException("There are more than one running deployment please specify one");
             }
         }
 
@@ -396,6 +446,41 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Models
             errors.AddRange(CheckBasicDeploymentErrors(parameters.ResourceGroupName, deployment));
 
             return errors;
+        }
+
+        /// <summary>
+        /// Gets available locations for the specified resource type.
+        /// </summary>
+        /// <param name="resourceTypes">The resource types</param>
+        /// <returns>Mapping between each resource type and its available locations</returns>
+        public virtual List<PSResourceProviderType> GetLocations(params string[] resourceTypes)
+        {
+            List<string> providerNames = resourceTypes.Select(r => r.Split('/').First()).ToList();
+            List<PSResourceProviderType> result = new List<PSResourceProviderType>();
+            List<Provider> providers = new List<Provider>();
+
+            if (resourceTypes.Any(r => r.Equals(ResourcesClient.ResourcGroupTypeName, StringComparison.OrdinalIgnoreCase)))
+            {
+                result.Add(new ProviderResourceType()
+                {
+                    Name = ResourcesClient.ResourcGroupTypeName,
+                    Locations = ResourcesClient.KnownLocations
+                }.ToPSResourceProviderType(null));
+            }
+
+            if (resourceTypes.Length > 0)
+            {
+                providers.AddRange(ListResourceProviders()
+                    .Where(p => providerNames.Any(pn => pn.Equals(p.Namespace, StringComparison.OrdinalIgnoreCase))));
+            }
+            else
+            {
+                providers.AddRange(ListResourceProviders());
+            }
+
+            result.AddRange(providers.SelectMany(p => p.ResourceTypes.Select(r => r.ToPSResourceProviderType(p.Namespace))));
+
+            return result;
         }
     }
 }

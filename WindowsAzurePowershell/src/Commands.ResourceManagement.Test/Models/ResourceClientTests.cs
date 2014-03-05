@@ -563,7 +563,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Test.Models
                     ResourceGroup = new ResourceGroup() { Location = resourceGroupLocation }
                 }));
             storageClientWrapperMock.Setup(f => f.UploadFileToBlob(It.IsAny<BlobUploadParameters>())).Returns(templateUri);
-            deploymentsMock.Setup(f => f.CreateAsync(resourceGroupName, deploymentName, It.IsAny<BasicDeployment>(), new CancellationToken()))
+            deploymentsMock.Setup(f => f.CreateOrUpdateAsync(resourceGroupName, deploymentName, It.IsAny<BasicDeployment>(), new CancellationToken()))
                 .Returns(Task.Factory.StartNew(() => new DeploymentOperationsCreateResult
                 {
                     RequestId = requestId
@@ -657,7 +657,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Test.Models
                     ResourceGroup = new ResourceGroup() { Location = resourceGroupLocation }
                 }));
             storageClientWrapperMock.Setup(f => f.UploadFileToBlob(It.IsAny<BlobUploadParameters>())).Returns(templateUri);
-            deploymentsMock.Setup(f => f.CreateAsync(resourceGroupName, deploymentName, It.IsAny<BasicDeployment>(), new CancellationToken()))
+            deploymentsMock.Setup(f => f.CreateOrUpdateAsync(resourceGroupName, deploymentName, It.IsAny<BasicDeployment>(), new CancellationToken()))
                 .Returns(Task.Factory.StartNew(() => new DeploymentOperationsCreateResult
                 {
                     RequestId = requestId
@@ -707,7 +707,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Test.Models
 
             PSResourceGroup result = resourcesClient.CreatePSResourceGroup(parameters);
 
-            deploymentsMock.Verify((f => f.CreateAsync(resourceGroupName, deploymentName, deploymentFromGet, new CancellationToken())), Times.Once());
+            deploymentsMock.Verify((f => f.CreateOrUpdateAsync(resourceGroupName, deploymentName, deploymentFromGet, new CancellationToken())), Times.Once());
             Assert.Equal(parameters.ResourceGroupName, result.ResourceGroupName);
             Assert.Equal(parameters.Location, result.Location);
             Assert.Equal(1, result.Resources.Count);
@@ -770,7 +770,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Test.Models
                     ResourceGroup = new ResourceGroup() { Location = resourceGroupLocation }
                 }));
             storageClientWrapperMock.Setup(f => f.UploadFileToBlob(It.IsAny<BlobUploadParameters>())).Returns(templateUri);
-            deploymentsMock.Setup(f => f.CreateAsync(resourceGroupName, deploymentName, It.IsAny<BasicDeployment>(), new CancellationToken()))
+            deploymentsMock.Setup(f => f.CreateOrUpdateAsync(resourceGroupName, deploymentName, It.IsAny<BasicDeployment>(), new CancellationToken()))
                 .Returns(Task.Factory.StartNew(() => new DeploymentOperationsCreateResult
                 {
                     RequestId = requestId
@@ -820,7 +820,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Test.Models
 
             PSResourceGroup result = resourcesClient.CreatePSResourceGroup(parameters);
 
-            deploymentsMock.Verify((f => f.CreateAsync(resourceGroupName, deploymentName, deploymentFromGet, new CancellationToken())), Times.Once());
+            deploymentsMock.Verify((f => f.CreateOrUpdateAsync(resourceGroupName, deploymentName, deploymentFromGet, new CancellationToken())), Times.Once());
             Assert.Equal(parameters.ResourceGroupName, result.ResourceGroupName);
             Assert.Equal(parameters.Location, result.Location);
             Assert.Equal(1, result.Resources.Count);
@@ -877,7 +877,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Test.Models
                     ResourceGroup = new ResourceGroup() { Location = resourceGroupLocation }
                 }));
             storageClientWrapperMock.Setup(f => f.UploadFileToBlob(It.IsAny<BlobUploadParameters>())).Returns(templateUri);
-            deploymentsMock.Setup(f => f.CreateAsync(resourceGroupName, deploymentName, It.IsAny<BasicDeployment>(), new CancellationToken()))
+            deploymentsMock.Setup(f => f.CreateOrUpdateAsync(resourceGroupName, deploymentName, It.IsAny<BasicDeployment>(), new CancellationToken()))
                 .Returns(Task.Factory.StartNew(() => new DeploymentOperationsCreateResult
                 {
                     RequestId = requestId
@@ -928,7 +928,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Test.Models
 
             PSResourceGroup result = resourcesClient.CreatePSResourceGroup(parameters);
 
-            deploymentsMock.Verify((f => f.CreateAsync(resourceGroupName, deploymentName, deploymentFromGet, new CancellationToken())), Times.Once());
+            deploymentsMock.Verify((f => f.CreateOrUpdateAsync(resourceGroupName, deploymentName, deploymentFromGet, new CancellationToken())), Times.Once());
             Assert.Equal(parameters.ResourceGroupName, result.ResourceGroupName);
             Assert.Equal(parameters.Location, result.Location);
             Assert.Equal(1, result.Resources.Count);
@@ -1279,6 +1279,11 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Test.Models
         [Fact]
         public void FiltersOneResourceGroupDeployment()
         {
+            FilterResourceGroupDeploymentOptions options = new FilterResourceGroupDeploymentOptions()
+            {
+                DeploymentName = deploymentName,
+                ResourceGroupName = resourceGroupName
+            };
             deploymentsMock.Setup(f => f.GetAsync(resourceGroupName, deploymentName, new CancellationToken()))
                 .Returns(Task.Factory.StartNew(() => new DeploymentGetResult
                 {
@@ -1294,7 +1299,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Test.Models
                     ResourceGroup = resourceGroupName
                 }));
 
-            List<PSResourceGroupDeployment> result = resourcesClient.FilterResourceGroupDeployments(resourceGroupName, deploymentName, null);
+            List<PSResourceGroupDeployment> result = resourcesClient.FilterResourceGroupDeployments(options);
 
             Assert.Equal(deploymentName, result[0].DeploymentName);
             Assert.Equal(resourceGroupName, result[0].ResourceGroupName);
@@ -1305,8 +1310,13 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Test.Models
         [Fact]
         public void FiltersResourceGroupDeployments()
         {
+            FilterResourceGroupDeploymentOptions options = new FilterResourceGroupDeploymentOptions()
+            {
+                ResourceGroupName = resourceGroupName
+            };
             DeploymentListParameters actualParameters = new DeploymentListParameters();
             deploymentsMock.Setup(f => f.ListAsync(
+                resourceGroupName,
                 It.IsAny<DeploymentListParameters>(),
                 new CancellationToken()))
                 .Returns(Task.Factory.StartNew(() => new DeploymentListResult
@@ -1329,7 +1339,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Test.Models
                     },
                     NextLink = "nextLink"
                 }))
-                .Callback((DeploymentListParameters p, CancellationToken t) => { actualParameters = p; });
+                .Callback((string rgn, DeploymentListParameters p, CancellationToken t) => { actualParameters = p; });
 
             deploymentsMock.Setup(f => f.ListNextAsync(
                 "nextLink",
@@ -1354,7 +1364,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Test.Models
                     }
                 }));
 
-            List<PSResourceGroupDeployment> result = resourcesClient.FilterResourceGroupDeployments(resourceGroupName, null, null);
+            List<PSResourceGroupDeployment> result = resourcesClient.FilterResourceGroupDeployments(options);
 
             Assert.Equal(2, result.Count);
             Assert.Equal(deploymentName + 1, result[0].DeploymentName);
@@ -1366,8 +1376,6 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Test.Models
             Assert.Equal(resourceGroupName, result[1].ResourceGroupName);
             Assert.Equal(DeploymentMode.Incremental, result[1].Mode);
             Assert.Equal(new Uri("http://microsoft2.com").ToString(), result[1].TemplateLink.Uri.ToString());
-
-            Assert.Equal(resourceGroupName, actualParameters.ResourceGroupName);
         }
 
         [Fact]
@@ -1398,6 +1406,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Test.Models
         {
             DeploymentListParameters actualParameters = new DeploymentListParameters();
             deploymentsMock.Setup(f => f.ListAsync(
+                resourceGroupName,
                 It.IsAny<DeploymentListParameters>(),
                 new CancellationToken()))
                 .Returns(Task.Factory.StartNew(() => new DeploymentListResult
@@ -1448,9 +1457,9 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Test.Models
                         }
                     }
                 }))
-                .Callback((DeploymentListParameters p, CancellationToken t) => { actualParameters = p; });
+                .Callback((string rgn, DeploymentListParameters p, CancellationToken t) => { actualParameters = p; });
 
-            resourcesClient.CancelDeployment(resourceGroupName);
+            resourcesClient.CancelDeployment(resourceGroupName, null);
 
             deploymentsMock.Verify(f => f.CancelAsync(resourceGroupName, deploymentName + 3, new CancellationToken()), Times.Once());
         }
@@ -1634,6 +1643,63 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Test.Models
             {
                 File.Delete(expectedFilePath);
             }
+        }
+
+        [Fact]
+        public void GetsLocations()
+        {
+            providersMock.Setup(f => f.ListAsync(null, new CancellationToken()))
+                .Returns(Task.Factory.StartNew(() => new ProviderListResult()
+                {
+                    Providers = new List<Provider>()
+                    {
+                        new Provider()
+                        {
+                            Namespace = "Microsoft.Web",
+                            RegistrationState = "Registered",
+                            ResourceTypes = new List<ProviderResourceType>()
+                            {
+                                new ProviderResourceType()
+                                {
+                                    Locations = new List<string>() {"West US", "East US"},
+                                    Name = "database"
+                                },
+                                new ProviderResourceType()
+                                {
+                                    Locations = new List<string>() {"West US", "South Central US"},
+                                    Name = "servers"
+                                }
+                            }
+                        },
+                        new Provider()
+                        {
+                            Namespace = "Microsoft.HDInsight",
+                            RegistrationState = "UnRegistered",
+                            ResourceTypes = new List<ProviderResourceType>()
+                            {
+                                new ProviderResourceType()
+                                {
+                                    Locations = new List<string>() {"West US", "East US"},
+                                    Name = "hadoop"
+                                },
+                                new ProviderResourceType()
+                                {
+                                    Locations = new List<string>() {"West US", "South Central US"},
+                                    Name = "websites"
+                                }
+                            }
+                        }
+                    }
+                }));
+            List<PSResourceProviderType> resourceTypes = resourcesClient.GetLocations(
+                ResourcesClient.ResourcGroupTypeName,
+                "Microsoft.HDInsight");
+
+            Assert.Equal(3, resourceTypes.Count);
+            Assert.Equal(ResourcesClient.ResourcGroupTypeName, resourceTypes[0].Name);
+            Assert.Equal(ResourcesClient.KnownLocations.Count, resourceTypes[0].Locations.Count);
+            Assert.Equal("East Asia", resourceTypes[0].Locations[0]);
+            Assert.Equal("Microsoft.HDInsight/hadoop", resourceTypes[1].Name);
         }
     }
 }
