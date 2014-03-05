@@ -38,7 +38,15 @@ namespace Microsoft.Azure.Commands.ResourceManagement
         
         public override void ExecuteCmdlet()
         {
-            WriteObject(ResourceClient.FilterResourceGroupDeployments(ResourceGroupName, Name, ProvisioningState), true);
+            FilterResourceGroupDeploymentOptions options = new FilterResourceGroupDeploymentOptions()
+            {
+                ResourceGroupName = ResourceGroupName,
+                DeploymentName = Name,
+                ProvisioningStates = string.IsNullOrEmpty(ProvisioningState) ? new List<string>() : 
+                    new List<string>() { ProvisioningState }
+            };
+
+            WriteObject(ResourceClient.FilterResourceGroupDeployments(options), true);
         }
     }
 }

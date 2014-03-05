@@ -12,13 +12,13 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-using System.Runtime.Serialization.Formatters;
 using Microsoft.Azure.Commands.ResourceManagement.Models;
 using Microsoft.Azure.Management.Resources.Models;
 using Moq;
+using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.Management.Automation;
-using Newtonsoft.Json;
+using System.Runtime.Serialization.Formatters;
 using Xunit;
 
 namespace Microsoft.Azure.Commands.ResourceManagement.Test

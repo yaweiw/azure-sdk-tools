@@ -125,8 +125,7 @@
       <HintPath>..\packages\xunit.1.9.2\lib\net20\xunit.dll</HintPath>
     </Reference>
   </ItemGroup>
-  <ItemGroup>
-    <Compile Include="Resources\SetAzureResourceCommandTests.cs" />
+  <ItemGroup>    <Compile Include="ResourceGroups\GetAzureLocationCommandTests.cs" />
     <Compile Include="Resources\GetAzureResourceCommandTests.cs" />
     <Compile Include="Resources\NewAzureResourceCommandTests.cs" />
     <Compile Include="Resources\RemoveAzureResourceCommandTests.cs" />
