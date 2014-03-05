@@ -451,32 +451,5 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Models
 
             return errors;
         }
-
-        /// <summary>
-        /// Filters resource group deployments for a subscription
-        /// </summary>
-        /// <param name="resourceGroup">The resource group name</param>
-        /// <param name="provisioningStates">The targeted provisioning states</param>
-        /// <returns>The deployments that match the search criteria</returns>
-        private List<PSResourceGroupDeployment> FilterResourceGroupDeployments(
-            string resourceGroup,
-            params string[] provisioningStates)
-        {
-            List<PSResourceGroupDeployment> deployments = new List<PSResourceGroupDeployment>();
-
-            if (provisioningStates.Length == 0)
-            {
-                deployments.AddRange(FilterResourceGroupDeployments(resourceGroup, null, null));
-            }
-            else
-            {
-                foreach (string provisioningState in provisioningStates)
-                {
-                    deployments.AddRange(FilterResourceGroupDeployments(resourceGroup, null, provisioningState));
-                }
-            }
-
-            return deployments;
-        }
     }
 }
