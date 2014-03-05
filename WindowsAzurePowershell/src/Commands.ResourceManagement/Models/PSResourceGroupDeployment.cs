@@ -22,6 +22,8 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Models
     {
         public string DeploymentName { get; set; }
 
+        public string TrackingId { get; set; }
+
         public string ResourceGroupName { get; set; }
 
         public string ProvisioningState { get; set; }
