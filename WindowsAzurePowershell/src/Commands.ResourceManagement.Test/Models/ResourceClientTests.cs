@@ -572,13 +572,16 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Test.Models
             deploymentsMock.Setup(f => f.GetAsync(resourceGroupName, deploymentName, new CancellationToken()))
                 .Returns(Task.Factory.StartNew(() => new DeploymentGetResult
                 {
-                    Name = deploymentName,
-                    Properties = new DeploymentProperties()
-                    {
-                        Mode = DeploymentMode.Incremental,
-                        ProvisioningState = ProvisioningState.Succeeded
-                    },
-                    ResourceGroup = resourceGroupName
+                    Deployment = new Deployment
+                        {
+                            DeploymentName = deploymentName,
+                            Properties = new DeploymentProperties()
+                            {
+                                Mode = DeploymentMode.Incremental,
+                                ProvisioningState = ProvisioningState.Succeeded
+                            },
+                            ResourceGroup = resourceGroupName
+                        }
                 }));
             deploymentsMock.Setup(f => f.ValidateAsync(resourceGroupName, DeploymentValidationMode.Full, It.IsAny<BasicDeployment>(), new CancellationToken()))
                 .Returns(Task.Factory.StartNew(() => new DeploymentValidateResponse
@@ -666,13 +669,17 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Test.Models
             deploymentsMock.Setup(f => f.GetAsync(resourceGroupName, deploymentName, new CancellationToken()))
                 .Returns(Task.Factory.StartNew(() => new DeploymentGetResult
                 {
-                    Name = deploymentName,
-                    Properties = new DeploymentProperties()
-                    {
-                        Mode = DeploymentMode.Incremental,
-                        ProvisioningState = ProvisioningState.Succeeded
-                    },
-                    ResourceGroup = resourceGroupName
+                    Deployment = new Deployment
+                        {
+                            DeploymentName = deploymentName,
+                            Properties = new DeploymentProperties()
+                            {
+                                Mode = DeploymentMode.Incremental,
+                                TrackingId = "123",
+                                ProvisioningState = ProvisioningState.Succeeded
+                            },
+                            ResourceGroup = resourceGroupName
+                        }
                 }));
             deploymentsMock.Setup(f => f.ValidateAsync(resourceGroupName, DeploymentValidationMode.Full, It.IsAny<BasicDeployment>(), new CancellationToken()))
                 .Returns(Task.Factory.StartNew(() => new DeploymentValidateResponse
@@ -779,13 +786,16 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Test.Models
             deploymentsMock.Setup(f => f.GetAsync(resourceGroupName, deploymentName, new CancellationToken()))
                 .Returns(Task.Factory.StartNew(() => new DeploymentGetResult
                 {
-                    Name = deploymentName,
-                    Properties = new DeploymentProperties()
-                    {
-                        Mode = DeploymentMode.Incremental,
-                        ProvisioningState = ProvisioningState.Succeeded
-                    },
-                    ResourceGroup = resourceGroupName
+                    Deployment = new Deployment
+                        {
+                            DeploymentName = deploymentName,
+                            Properties = new DeploymentProperties()
+                            {
+                                Mode = DeploymentMode.Incremental,
+                                ProvisioningState = ProvisioningState.Succeeded
+                            },
+                            ResourceGroup = resourceGroupName
+                        }
                 }));
             deploymentsMock.Setup(f => f.ValidateAsync(resourceGroupName, DeploymentValidationMode.Full, It.IsAny<BasicDeployment>(), new CancellationToken()))
                 .Returns(Task.Factory.StartNew(() => new DeploymentValidateResponse
@@ -886,13 +896,16 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Test.Models
             deploymentsMock.Setup(f => f.GetAsync(resourceGroupName, deploymentName, new CancellationToken()))
                 .Returns(Task.Factory.StartNew(() => new DeploymentGetResult
                 {
-                    Name = deploymentName,
-                    Properties = new DeploymentProperties()
-                    {
-                        Mode = DeploymentMode.Incremental,
-                        ProvisioningState = ProvisioningState.Succeeded
-                    },
-                    ResourceGroup = resourceGroupName
+                    Deployment = new Deployment
+                        {
+                            DeploymentName = deploymentName,
+                            Properties = new DeploymentProperties()
+                            {
+                                Mode = DeploymentMode.Incremental,
+                                ProvisioningState = ProvisioningState.Succeeded
+                            },
+                            ResourceGroup = resourceGroupName
+                        }
                 }));
             deploymentsMock.Setup(f => f.ValidateAsync(resourceGroupName, DeploymentValidationMode.Full, It.IsAny<BasicDeployment>(), new CancellationToken()))
                 .Returns(Task.Factory.StartNew(() => new DeploymentValidateResponse
@@ -1287,16 +1300,20 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Test.Models
             deploymentsMock.Setup(f => f.GetAsync(resourceGroupName, deploymentName, new CancellationToken()))
                 .Returns(Task.Factory.StartNew(() => new DeploymentGetResult
                 {
-                    Name = deploymentName,
-                    Properties = new DeploymentProperties()
-                    {
-                        Mode = DeploymentMode.Incremental,
-                        TemplateLink = new TemplateLink()
+                    Deployment = new Deployment
                         {
-                            Uri = new Uri("http://microsoft.com")
+                            DeploymentName = deploymentName,
+                            Properties = new DeploymentProperties()
+                            {
+                                Mode = DeploymentMode.Incremental,
+                                TrackingId = "123",
+                                TemplateLink = new TemplateLink()
+                                {
+                                    Uri = new Uri("http://microsoft.com")
+                                }
+                            },
+                            ResourceGroup = resourceGroupName
                         }
-                    },
-                    ResourceGroup = resourceGroupName
                 }));
 
             List<PSResourceGroupDeployment> result = resourcesClient.FilterResourceGroupDeployments(options);
@@ -1304,6 +1321,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Test.Models
             Assert.Equal(deploymentName, result[0].DeploymentName);
             Assert.Equal(resourceGroupName, result[0].ResourceGroupName);
             Assert.Equal(DeploymentMode.Incremental, result[0].Mode);
+            Assert.Equal("123", result[0].TrackingId);
             Assert.Equal(new Uri("http://microsoft.com").ToString(), result[0].TemplateLink.Uri.ToString());
         }
 
@@ -1329,6 +1347,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Test.Models
                             Properties = new DeploymentProperties()
                             {
                                 Mode = DeploymentMode.Incremental,
+                                TrackingId = "123",
                                 TemplateLink = new TemplateLink()
                                 {
                                     Uri = new Uri("http://microsoft1.com")
@@ -1354,6 +1373,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Test.Models
                             Properties = new DeploymentProperties()
                             {
                                 Mode = DeploymentMode.Incremental,
+                                TrackingId = "456",
                                 TemplateLink = new TemplateLink()
                                 {
                                     Uri = new Uri("http://microsoft2.com")
@@ -1368,12 +1388,14 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Test.Models
 
             Assert.Equal(2, result.Count);
             Assert.Equal(deploymentName + 1, result[0].DeploymentName);
+            Assert.Equal("123", result[0].TrackingId);
             Assert.Equal(resourceGroupName, result[0].ResourceGroupName);
             Assert.Equal(DeploymentMode.Incremental, result[0].Mode);
             Assert.Equal(new Uri("http://microsoft1.com").ToString(), result[0].TemplateLink.Uri.ToString());
 
             Assert.Equal(deploymentName + 2, result[1].DeploymentName);
             Assert.Equal(resourceGroupName, result[1].ResourceGroupName);
+            Assert.Equal("456", result[1].TrackingId);
             Assert.Equal(DeploymentMode.Incremental, result[1].Mode);
             Assert.Equal(new Uri("http://microsoft2.com").ToString(), result[1].TemplateLink.Uri.ToString());
         }

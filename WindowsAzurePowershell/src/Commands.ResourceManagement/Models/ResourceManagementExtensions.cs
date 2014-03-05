@@ -41,7 +41,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Models
 
             if (result != null)
             {
-                deployment = CreatePSResourceGroupDeployment(result.Name, result.ResourceGroup, result.Properties);
+                deployment = CreatePSResourceGroupDeployment(result.Deployment.DeploymentName, result.Deployment.ResourceGroup, result.Deployment.Properties);
             }
 
             return deployment;
@@ -190,6 +190,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Models
                 deploymentObject.ProvisioningState = properties.ProvisioningState;
                 deploymentObject.TemplateLink = properties.TemplateLink;
                 deploymentObject.Timestamp = properties.Timestamp;
+                deploymentObject.TrackingId = properties.TrackingId;
 
                 if (!string.IsNullOrEmpty(properties.Outputs))
                 {
