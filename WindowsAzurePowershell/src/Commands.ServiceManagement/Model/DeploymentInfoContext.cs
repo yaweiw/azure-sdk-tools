@@ -190,7 +190,6 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Model
             }
 
             this.RollbackAllowed = deployment.RollbackAllowed;
-
             if (deployment.UpgradeStatus != null)
             {
                 this.CurrentUpgradeDomain = deployment.UpgradeStatus.CurrentUpgradeDomain;

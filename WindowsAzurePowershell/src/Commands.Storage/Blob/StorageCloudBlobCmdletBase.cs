@@ -71,12 +71,12 @@ namespace Microsoft.WindowsAzure.Commands.Storage
             }
 
             ValidatePipelineCloudBlobContainer(blob.Container);
-            BlobRequestOptions requestOptions = RequestOptions;
+            //BlobRequestOptions requestOptions = RequestOptions;
 
-            if (!Channel.DoesBlobExist(blob, requestOptions, OperationContext))
-            {
-                throw new ResourceNotFoundException(String.Format(Resources.BlobNotFound, blob.Name, blob.Container.Name));
-            }
+            //if (!Channel.DoesBlobExist(blob, requestOptions, OperationContext))
+            //{
+            //    throw new ResourceNotFoundException(String.Format(Resources.BlobNotFound, blob.Name, blob.Container.Name));
+            //}
         }
 
         /// <summary>
@@ -95,24 +95,13 @@ namespace Microsoft.WindowsAzure.Commands.Storage
                 throw new ArgumentException(String.Format(Resources.InvalidContainerName, container.Name));
             }
 
-            BlobRequestOptions requestOptions = RequestOptions;
+            //BlobRequestOptions requestOptions = RequestOptions;
 
-            if (container.ServiceClient.Credentials.IsSharedKey 
-                && !Channel.DoesContainerExist(container, requestOptions, OperationContext))
-            {
-                throw new ResourceNotFoundException(String.Format(Resources.ContainerNotFound, container.Name));
-            }
-        }
-
-        /// <summary>
-        /// Get blob client
-        /// </summary>
-        /// <returns>CloudBlobClient with default retry policy and settings</returns>
-        internal CloudBlobClient GetCloudBlobClient()
-        {
-            //Use the default retry policy in storage client
-            CloudStorageAccount account = GetCloudStorageAccount();
-            return account.CreateCloudBlobClient();
+            //if (container.ServiceClient.Credentials.IsSharedKey 
+            //    && !Channel.DoesContainerExist(container, requestOptions, OperationContext))
+            //{
+            //    throw new ResourceNotFoundException(String.Format(Resources.ContainerNotFound, container.Name));
+            //}
         }
 
         /// <summary>
@@ -124,7 +113,7 @@ namespace Microsoft.WindowsAzure.Commands.Storage
             //Init storage blob management channel
             if (Channel == null || !ShareChannel)
             {
-                Channel = new StorageBlobManagement(GetCloudBlobClient());
+                Channel = new StorageBlobManagement(GetCmdletStorageContext());
             }
 
             return Channel;
@@ -135,9 +124,9 @@ namespace Microsoft.WindowsAzure.Commands.Storage
         /// </summary>
         /// <param name="account">Cloud storage account object</param>
         /// <returns>IStorageBlobManagement channel object</returns>
-        protected IStorageBlobManagement CreateChannel(CloudStorageAccount account)
+        protected IStorageBlobManagement CreateChannel(AzureStorageContext context)
         {
-            return new StorageBlobManagement(account.CreateCloudBlobClient());
+            return new StorageBlobManagement(context);
         }
 
         /// <summary>
@@ -155,19 +144,26 @@ namespace Microsoft.WindowsAzure.Commands.Storage
         /// </summary>
         /// <param name="blob">The output ICloudBlob object</param>
         /// <param name="channel">IStorageBlobManagement channel object</param>
-        internal void WriteICloudBlobWithProperties(ICloudBlob blob, IStorageBlobManagement channel = null)
+        internal void WriteICloudBlobObject(long taskId, IStorageBlobManagement channel, ICloudBlob blob, BlobContinuationToken continuationToken = null)
         {
-            if (channel == null)
-            {
-                channel = Channel;
-            }
-
-            AccessCondition accessCondition = null;
-            BlobRequestOptions options = null;
-            channel.FetchBlobAttributes(blob, accessCondition, options, OperationContext);
             AzureStorageBlob azureBlob = new AzureStorageBlob(blob);
+            azureBlob.Context = channel.StorageContext;
+            azureBlob.ContinuationToken = continuationToken;
+            OutputStream.WriteObject(taskId, azureBlob);
+        }
 
-            WriteObjectWithStorageContext(azureBlob);
+        /// <summary>
+        /// Write ICloudBlob to output using specified service channel
+        /// </summary>
+        /// <param name="blob">The output ICloudBlob object</param>
+        /// <param name="channel">IStorageBlobManagement channel object</param>
+        internal void WriteCloudContainerObject(long taskId, IStorageBlobManagement channel,
+            CloudBlobContainer container, BlobContainerPermissions permissions, BlobContinuationToken continuationToken = null)
+        {
+            AzureStorageContainer azureContainer = new AzureStorageContainer(container, permissions);
+            azureContainer.Context = channel.StorageContext;
+            azureContainer.ContinuationToken = continuationToken;
+            OutputStream.WriteObject(taskId, azureContainer);
         }
         
         /// <summary>

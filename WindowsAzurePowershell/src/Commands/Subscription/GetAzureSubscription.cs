@@ -146,6 +146,7 @@ namespace Microsoft.WindowsAzure.Commands.Subscription
                 SubscriptionDataExtended result = new SubscriptionDataExtended
                 {
                     AccountAdminLiveEmailId = response.AccountAdminLiveEmailId,
+                    ActiveDirectoryUserId = subscription.ActiveDirectoryUserId,
                     CurrentCoreCount = response.CurrentCoreCount,
                     CurrentHostedServices = response.CurrentHostedServices,
                     CurrentDnsServers = 0, // TODO: Add to spec

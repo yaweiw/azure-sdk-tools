@@ -34,9 +34,9 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Test.Queue
         public void InitCommand()
         {
             command = new GetAzureStorageQueueCommand(queueMock)
-                {
-                    CommandRuntime = new MockCommandRuntime()
-                };
+            {
+                CommandRuntime = MockCmdRunTime
+            };
         }
 
         [TestCleanup]
@@ -99,7 +99,7 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Test.Queue
         {
             AddTestQueues();
 
-            ((MockCommandRuntime)command.CommandRuntime).ResetPipelines();
+            MockCmdRunTime.ResetPipelines();
             List<CloudQueue> queueList = command.ListQueuesByName("text").ToList();
             Assert.AreEqual(1, queueList.Count);
             Assert.AreEqual("text", queueList[0].Name);
@@ -137,16 +137,16 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Test.Queue
         public void WriteQueueWithCountTest()
         {
             command.WriteQueueWithCount(null);
-            Assert.AreEqual(0, ((MockCommandRuntime)command.CommandRuntime).OutputPipeline.Count);
+            Assert.AreEqual(0, MockCmdRunTime.OutputPipeline.Count);
 
-            ((MockCommandRuntime)command.CommandRuntime).ResetPipelines();
+            MockCmdRunTime.ResetPipelines();
             command.WriteQueueWithCount(queueMock.queueList);
-            Assert.AreEqual(0, ((MockCommandRuntime)command.CommandRuntime).OutputPipeline.Count);
+            Assert.AreEqual(0, MockCmdRunTime.OutputPipeline.Count);
 
             AddTestQueues();
-            ((MockCommandRuntime)command.CommandRuntime).ResetPipelines();
+            MockCmdRunTime.ResetPipelines();
             command.WriteQueueWithCount(queueMock.queueList);
-            Assert.AreEqual(2, ((MockCommandRuntime)command.CommandRuntime).OutputPipeline.Count);
+            Assert.AreEqual(2, MockCmdRunTime.OutputPipeline.Count);
         }
 
         [TestMethod]
@@ -155,9 +155,9 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Test.Queue
             AddTestQueues();
             command.Name = "test";
             command.ExecuteCmdlet();
-            Assert.AreEqual(1, ((MockCommandRuntime)command.CommandRuntime).OutputPipeline.Count);
+            Assert.AreEqual(1, MockCmdRunTime.OutputPipeline.Count);
 
-            AzureStorageQueue queue = (AzureStorageQueue)((MockCommandRuntime)command.CommandRuntime).OutputPipeline.FirstOrDefault();
+            AzureStorageQueue queue = (AzureStorageQueue)MockCmdRunTime.OutputPipeline.FirstOrDefault();
             Assert.AreEqual(command.Name, queue.Name);
         }
     }
