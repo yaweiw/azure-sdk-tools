@@ -12,15 +12,26 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
+using System.Collections.Generic;
 
 namespace Microsoft.Azure.Commands.ResourceManagement.Models
 {
-    /// <summary>
-    /// Update resource mode.
-    /// </summary>
-    public enum SetResourceMode
+    public class FilterResourceGroupDeploymentOptions
     {
-        Update,
-        Replace
+        public string DeploymentName { get; set; }
+
+        public string ResourceGroupName { get; set; }
+
+        public List<string> ProvisioningStates { get; set; }
+
+        public List<string> ExcludedProvisioningStates { get; set; }
+
+        public FilterResourceGroupDeploymentOptions()
+        {
+            DeploymentName = null;
+            ResourceGroupName = null;
+            ProvisioningStates = new List<string>();
+            ExcludedProvisioningStates = new List<string>();
+        }
     }
 }
