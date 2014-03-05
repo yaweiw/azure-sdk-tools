@@ -27,7 +27,6 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Scheduler
 
     public class SchedulerMgmntClient
     {
-        private readonly CertificateCloudCredentials certCloudCredentials;
         private SchedulerManagementClient schedulerManagementClient;
         private CloudServiceManagementClient csmClient;
         private const string SupportedRegionsKey = "SupportedGeoRegions";
@@ -38,33 +37,9 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Scheduler
         /// <param name="subscription">Subscription containing websites to manipulate</param>
         public SchedulerMgmntClient(WindowsAzureSubscription subscription)
         {
-            certCloudCredentials = new CertificateCloudCredentials(subscription.SubscriptionId, subscription.Certificate);
-            //certCloudCredentials = new CertificateCloudCredentials(subscription.SubscriptionId,
-                //new System.Security.Cryptography.X509Certificates.X509Certificate2("C:\\Users\\visriniv\\Downloads\\VivekAuxPortal2.pfx", "test@Vivek", X509KeyStorageFlags.PersistKeySet | X509KeyStorageFlags.Exportable));
-            schedulerManagementClient = new SchedulerManagementClient(certCloudCredentials);
-            csmClient = new CloudServiceManagementClient(certCloudCredentials);
+            csmClient = subscription.CreateClient<CloudServiceManagementClient>();
             schedulerManagementClient = subscription.CreateClient<SchedulerManagementClient>();
-        }
-
-        private List<CloudServiceGetResponse> GetMatchingCloudServices(string RegionName)
-        {
-            List<CloudServiceGetResponse> lstCloudServiceGetResponse = new List<CloudServiceGetResponse>();
-            CloudServiceListResponse csList = csmClient.CloudServices.List();
-            if (string.IsNullOrEmpty(RegionName))
-            {
-                csList.CloudServices.ForEach(x => lstCloudServiceGetResponse.Add(csmClient.CloudServices.Get(x.Name)));
-            }
-            else
-            {
-                foreach (CloudServiceListResponse.CloudService cs in csList.CloudServices)
-                {
-                    if (cs.Name.Trim().ToLower().Contains(RegionName.Trim().ToLower()))
-                    {
-                        lstCloudServiceGetResponse.Add(csmClient.CloudServices.Get(cs.Name));
-                    }
-                }
-            }
-            return lstCloudServiceGetResponse;
+            
         }
 
         #region Get Available Regions
@@ -179,7 +154,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Scheduler
             {
                 if (csRes.ResourceProviderNamespace.Equals(Constants.SchedulerRPNameProvider, StringComparison.OrdinalIgnoreCase) && csRes.Name.Equals(jobCollection, StringComparison.OrdinalIgnoreCase))
                 {
-                    SchedulerClient schedClient = new SchedulerClient(certCloudCredentials, cloudService, jobCollection);
+                    SchedulerClient schedClient = new SchedulerClient(csmClient.Credentials, cloudService, jobCollection);
                     JobListResponse jobs = schedClient.Jobs.List(new JobListParameters
                     {
                         Skip = 0,
@@ -234,7 +209,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Scheduler
             {
                 if (csRes.ResourceProviderNamespace.Equals(Constants.SchedulerRPNameProvider, StringComparison.InvariantCultureIgnoreCase) && csRes.Name.Equals(jobCollection, StringComparison.OrdinalIgnoreCase))
                 {
-                    SchedulerClient schedClient = new SchedulerClient(certCloudCredentials, cloudService, jobCollection.Trim());
+                    SchedulerClient schedClient = new SchedulerClient(csmClient.Credentials, cloudService, jobCollection.Trim());
                     List<JobGetHistoryResponse.JobHistoryEntry> lstHistory = new List<JobGetHistoryResponse.JobHistoryEntry>();
                     int currentTop = 100;
 
@@ -350,7 +325,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Scheduler
             {
                 if (csRes.ResourceProviderNamespace.Equals(Constants.SchedulerRPNameProvider, StringComparison.OrdinalIgnoreCase) && csRes.Name.Equals(jobCollection, StringComparison.OrdinalIgnoreCase))
                 {
-                    SchedulerClient schedClient = new SchedulerClient(certCloudCredentials, cloudService, jobCollection);
+                    SchedulerClient schedClient = new SchedulerClient(csmClient.Credentials, cloudService, jobCollection);
                     JobListResponse jobs = schedClient.Jobs.List(new JobListParameters
                     {
                         Skip = 0,
@@ -419,7 +394,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Scheduler
         {
             if (!string.IsNullOrEmpty(region))
             {
-                SchedulerClient schedulerClient = new SchedulerClient(certCloudCredentials, region.toCloudServiceName(), jobCollection);
+                SchedulerClient schedulerClient = new SchedulerClient(csmClient.Credentials, region.toCloudServiceName(), jobCollection);
                 OperationResponse response = schedulerClient.Jobs.Delete(jobName);
                 return response.StatusCode.ToString();
             }
@@ -439,7 +414,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Scheduler
                                 {
                                     if (job.JobName.Equals(jobName, StringComparison.OrdinalIgnoreCase))
                                     {
-                                        SchedulerClient schedulerClient = new SchedulerClient(certCloudCredentials, cs.Name, jobCollection);
+                                        SchedulerClient schedulerClient = new SchedulerClient(csmClient.Credentials, cs.Name, jobCollection);
                                         OperationResponse response = schedulerClient.Jobs.Delete(jobName);
                                         return response.StatusCode.ToString();
                                     }
@@ -533,7 +508,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Scheduler
    
         public PSJobDetail CreateHttpJob(PSCreateJobParams jobRequest, out string status)
         {
-            SchedulerClient schedulerClient = new SchedulerClient(certCloudCredentials, jobRequest.Region.toCloudServiceName(), jobRequest.JobCollectionName);
+            SchedulerClient schedulerClient = new SchedulerClient(csmClient.Credentials, jobRequest.Region.toCloudServiceName(), jobRequest.JobCollectionName);
             JobCreateOrUpdateParameters jobCreateParams = new JobCreateOrUpdateParameters
             {
                 Action = new JobAction
@@ -585,7 +560,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Scheduler
       
         public PSJobDetail CreateStorageJob(PSCreateJobParams jobRequest, out string status)
         {
-            SchedulerClient schedulerClient = new SchedulerClient(certCloudCredentials, jobRequest.Region.toCloudServiceName(), jobRequest.JobCollectionName);
+            SchedulerClient schedulerClient = new SchedulerClient(csmClient.Credentials, jobRequest.Region.toCloudServiceName(), jobRequest.JobCollectionName);
             JobCreateOrUpdateParameters jobCreateParams = new JobCreateOrUpdateParameters
             {
                 Action = new JobAction
@@ -635,7 +610,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Scheduler
       
         public PSJobDetail PatchHttpJob(PSCreateJobParams jobRequest, out string status)
         {
-            SchedulerClient schedulerClient = new SchedulerClient(certCloudCredentials, jobRequest.Region.toCloudServiceName(), jobRequest.JobCollectionName);
+            SchedulerClient schedulerClient = new SchedulerClient(csmClient.Credentials, jobRequest.Region.toCloudServiceName(), jobRequest.JobCollectionName);
 
             //Get Existing job
             Job job = schedulerClient.Jobs.Get(jobRequest.JobName).Job;
@@ -855,7 +830,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Scheduler
 
         public PSJobDetail PatchStorageJob(PSCreateJobParams jobRequest, out string status)
         {
-            SchedulerClient schedulerClient = new SchedulerClient(certCloudCredentials, jobRequest.Region.toCloudServiceName(), jobRequest.JobCollectionName);
+            SchedulerClient schedulerClient = new SchedulerClient(csmClient.Credentials, jobRequest.Region.toCloudServiceName(), jobRequest.JobCollectionName);
 
             //Get Existing job
             Job job = schedulerClient.Jobs.Get(jobRequest.JobName).Job;
