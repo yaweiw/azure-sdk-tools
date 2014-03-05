@@ -27,10 +27,14 @@ namespace Microsoft.Azure.Commands.ResourceManagement.ResourceGroups
         [ValidateNotNullOrEmpty]
         public string ResourceGroupName { get; set; }
 
-        [Parameter(Position = 1, Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "Do not confirm the stop.")]
+        [Parameter(Position = 1, Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "The name of the deployment.")]
+        [ValidateNotNullOrEmpty]
+        public string Name { get; set; }
+
+        [Parameter(Position = 2, Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "Do not confirm the stop.")]
         public SwitchParameter Force { get; set; }
 
-        [Parameter(Position = 2, Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "True if succeed, false otherwise.")]
+        [Parameter(Position = 3, Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "True if succeed, false otherwise.")]
         public SwitchParameter PassThru { get; set; }
         
         public override void ExecuteCmdlet()
@@ -40,7 +44,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement.ResourceGroups
                 string.Format(Resources.CancelResourceGroupDeployment, ResourceGroupName),
                 Resources.CancelResourceGroupDeploymentMessage,
                 ResourceGroupName,
-                () => ResourceClient.CancelDeployment(ResourceGroupName));
+                () => ResourceClient.CancelDeployment(ResourceGroupName, Name));
 
             if (PassThru)
             {

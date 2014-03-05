@@ -1279,6 +1279,11 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Test.Models
         [Fact]
         public void FiltersOneResourceGroupDeployment()
         {
+            FilterResourceGroupDeploymentOptions options = new FilterResourceGroupDeploymentOptions()
+            {
+                DeploymentName = deploymentName,
+                ResourceGroupName = resourceGroupName
+            };
             deploymentsMock.Setup(f => f.GetAsync(resourceGroupName, deploymentName, new CancellationToken()))
                 .Returns(Task.Factory.StartNew(() => new DeploymentGetResult
                 {
@@ -1294,7 +1299,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Test.Models
                     ResourceGroup = resourceGroupName
                 }));
 
-            List<PSResourceGroupDeployment> result = resourcesClient.FilterResourceGroupDeployments(resourceGroupName, deploymentName, null);
+            List<PSResourceGroupDeployment> result = resourcesClient.FilterResourceGroupDeployments(options);
 
             Assert.Equal(deploymentName, result[0].DeploymentName);
             Assert.Equal(resourceGroupName, result[0].ResourceGroupName);
@@ -1305,6 +1310,10 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Test.Models
         [Fact]
         public void FiltersResourceGroupDeployments()
         {
+            FilterResourceGroupDeploymentOptions options = new FilterResourceGroupDeploymentOptions()
+            {
+                ResourceGroupName = resourceGroupName
+            };
             DeploymentListParameters actualParameters = new DeploymentListParameters();
             deploymentsMock.Setup(f => f.ListAsync(
                 resourceGroupName,
@@ -1355,7 +1364,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Test.Models
                     }
                 }));
 
-            List<PSResourceGroupDeployment> result = resourcesClient.FilterResourceGroupDeployments(resourceGroupName, null, null);
+            List<PSResourceGroupDeployment> result = resourcesClient.FilterResourceGroupDeployments(options);
 
             Assert.Equal(2, result.Count);
             Assert.Equal(deploymentName + 1, result[0].DeploymentName);
@@ -1450,7 +1459,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Test.Models
                 }))
                 .Callback((string rgn, DeploymentListParameters p, CancellationToken t) => { actualParameters = p; });
 
-            resourcesClient.CancelDeployment(resourceGroupName);
+            resourcesClient.CancelDeployment(resourceGroupName, null);
 
             deploymentsMock.Verify(f => f.CancelAsync(resourceGroupName, deploymentName + 3, new CancellationToken()), Times.Once());
         }
