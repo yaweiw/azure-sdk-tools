@@ -30,11 +30,14 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Common.Cmdlet
         [Parameter(Mandatory = true, Position = 0, HelpMessage = ServiceTypeHelpMessage)]
         public StorageServiceType ServiceType { get; set; }
 
-        //public override int? ConcurrentTaskCount { get; set; }
+        // Overwrite the useless parameter
+        public override int? ServerTimeoutPerRequest { get; set; }
+        public override int? ClientTimeoutPerRequest { get; set; }
+        public override int? ConcurrentTaskCount { get; set; }
 
         public GetAzureStorageServiceLoggingCommand()
         {
-            //EnableMultiThread = false;
+            EnableMultiThread = false;
         }
 
         /// <summary>
@@ -43,8 +46,7 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Common.Cmdlet
         [PermissionSet(SecurityAction.Demand, Name = "FullTrust")]
         public override void ExecuteCmdlet()
         {
-            CloudStorageAccount account = GetCloudStorageAccount();
-            ServiceProperties serviceProperties = Channel.GetStorageServiceProperties(account, ServiceType, GetRequestOptions(ServiceType), OperationContext);
+            ServiceProperties serviceProperties = Channel.GetStorageServiceProperties(ServiceType, GetRequestOptions(ServiceType), OperationContext);
             WriteObject(serviceProperties.Logging);
         }
     }

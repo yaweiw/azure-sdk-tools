@@ -22,7 +22,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
     {
 
         public NewAzureVMCmdletInfo(string serviceName, PersistentVM[] vMs, string vnetName, DnsServer[] dnsSettings,
-            string serviceLabel, string serviceDescription, string deploymentLabel, string deploymentName, string location, string affinityGroup, string rsvIPName)
+            string serviceLabel, string serviceDescription, string deploymentLabel, string deploymentName, string location, string affinityGroup, string rsvIPName, bool waitForBoot)
         {
             this.cmdletName = Utilities.NewAzureVMCmdletName;
 
@@ -64,6 +64,10 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
             if (!string.IsNullOrEmpty(rsvIPName))
             {
                 this.cmdletParams.Add(new CmdletParam("ReservedIPName", rsvIPName));
+            }
+            if (waitForBoot)
+            {
+                this.cmdletParams.Add(new CmdletParam("WaitForBoot", waitForBoot));
             }
         }
     }

@@ -224,7 +224,7 @@
     <value>Blob type mismatched, the current blob type of '{0}' is {1}.</value>
   </data>
   <data name="CannotSendDirectory" xml:space="preserve">
-    <value>Can not send the directory '{0}' to azure. If you want to send directory to azure, please use "ls -File | Set-AzureStorageBlobContent -Container containerName".</value>
+    <value>Can not upload the directory '{0}' to azure. If you want to upload directory, please use "ls -File -Recurse | Set-AzureStorageBlobContent -Container containerName".</value>
   </data>
   <data name="PrepareUploadingBlob" xml:space="preserve">
     <value>Prepare to upload blob.</value>
@@ -596,6 +596,20 @@ Failed: {2}.</value>
   <data name="InvalidRetentionDay" xml:space="preserve">
     <value>The minimum value of retention days is 1, the largest value is 365 (one year). -1 means turn off the retention policy. Current is {0}.</value>
     <comment>0 for the user specified retention day</comment>
+  </data>
+  <data name="ConfirmCaption" xml:space="preserve">
+    <value>Confirm</value>
+  </data>
+  <data name="TransmitActiveSummary" xml:space="preserve">
+    <value>Total: {0}. Successful: {1}. Failed: {2}. Active: {3}.</value>
+    <comment>0 for total task count, 1 for successful count, 2 for failed count, 3 for active count.</comment>
+  </data>
+  <data name="TransmitActivity" xml:space="preserve">
+    <value>{0} task status :</value>
+    <comment>0 for cmdlet name.</comment>
+  </data>
+  <data name="BlobNameShouldBeEmptyWhenUploading" xml:space="preserve">
+    <value>Blob name should be empty when uploading multiple files.</value>
   </data>
   <data name="NoneAndAllOperationShouldBeAlone" xml:space="preserve">
     <value>None or All operation can't be used with other operations.</value>
