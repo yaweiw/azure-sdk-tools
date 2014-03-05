@@ -12,13 +12,8 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-using System.Windows.Forms;
-
 namespace Microsoft.WindowsAzure.Commands.Utilities.Common
 {
-    using CloudService;
-    using Commands.Common.Properties;
-    using Newtonsoft.Json;
     using System;
     using System.Collections.Generic;
     using System.Diagnostics;
@@ -39,6 +34,9 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
     using System.Xml;
     using System.Xml.Linq;
     using System.Xml.Serialization;
+    using CloudService;
+    using Commands.Common.Properties;
+    using Newtonsoft.Json;
     using XmlSchema.ServiceConfigurationSchema;
     using JsonFormatting = Newtonsoft.Json.Formatting;
 
@@ -915,7 +913,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
         {
             try
             {
-                XDocument doc = XDocument.Parse(content);
+                XDocument.Parse(content);
                 return true;
             }
             catch (Exception)
