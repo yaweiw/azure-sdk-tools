@@ -13,6 +13,8 @@
 // ----------------------------------------------------------------------------------
 
 using Microsoft.Azure.Commands.ResourceManagement.Models;
+using Microsoft.Azure.Gallery;
+using System.Collections.Generic;
 using System.Management.Automation;
 
 namespace Microsoft.Azure.Commands.ResourceManagement.Templates
@@ -20,7 +22,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Templates
     /// <summary>
     /// Get one template or a list of templates from the gallery.
     /// </summary>
-    [Cmdlet(VerbsCommon.Get, "AzureResourceGroupGalleryTemplate"), OutputType(typeof(bool))]
+    [Cmdlet(VerbsCommon.Get, "AzureResourceGroupGalleryTemplate"), OutputType(typeof(List<GalleryItem>))]
     public class GetAzureResourceGroupGalleryTemplateCommand : ResourceBaseCmdlet
     {
         [Parameter(Position = 0, Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "Optional. Name of the template.")]
