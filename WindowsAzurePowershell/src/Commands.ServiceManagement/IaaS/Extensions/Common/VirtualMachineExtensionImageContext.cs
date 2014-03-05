@@ -24,10 +24,11 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
         public string Version { get; set; }
         public string PublicConfigurationSchema { get; set; }
         public string PrivateConfigurationSchema { get; set; }
-        public bool ReplicationCompleted { get; set; }
-        public Uri Eula { get; set; }
-        public Uri PrivacyUri { get; set; }
-        public Uri HomepageUri { get; set; }
-        public bool IsJsonExtension { get; set; }
+        public string SampleConfig { get; set; }
+        public bool ReplicationCompleted { get; private set; }
+        public Uri Eula { get; private set; }
+        public Uri PrivacyUri { get; private set; }
+        public Uri HomepageUri { get; private set; }
+        public bool IsJsonExtension { get; private set; }
     }
 }
