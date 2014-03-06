@@ -165,7 +165,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Models
                         StorageName = storageAccountName,
                         FileLocalPath = templateFile,
                         OverrideIfExists = true,
-                        ContainerPublic = true,
+                        ContainerPublic = false,
                         ContainerName = DeploymentTemplateStorageContainerName
                     });
                     WriteProgress(string.Format(
