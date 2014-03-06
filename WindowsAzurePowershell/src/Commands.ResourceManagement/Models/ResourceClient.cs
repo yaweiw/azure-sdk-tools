@@ -360,7 +360,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Models
                     job(resourceGroup, deploymentName);
                 }
 
-                deployment = ResourceManagementClient.Deployments.Get(resourceGroup, deploymentName).Properties;
+                deployment = ResourceManagementClient.Deployments.Get(resourceGroup, deploymentName).Deployment.Properties;
                 Thread.Sleep(2000);
 
             } while (!status.Any(s => s.Equals(deployment.ProvisioningState, StringComparison.OrdinalIgnoreCase)));

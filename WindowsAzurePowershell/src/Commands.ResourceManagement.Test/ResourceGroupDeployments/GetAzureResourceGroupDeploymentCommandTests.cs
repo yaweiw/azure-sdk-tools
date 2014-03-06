@@ -51,6 +51,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Test
             PSResourceGroupDeployment expected = new PSResourceGroupDeployment()
             {
                 DeploymentName = deploymentName,
+                TrackingId = "123",
                 ResourceGroupName = resourceGroupName,
                 Mode = DeploymentMode.Incremental
             };
@@ -88,6 +89,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Test
             PSResourceGroupDeployment expected = new PSResourceGroupDeployment()
             {
                 DeploymentName = deploymentName,
+                TrackingId = "123",
                 ResourceGroupName = resourceGroupName,
                 Mode = DeploymentMode.Incremental
             };
