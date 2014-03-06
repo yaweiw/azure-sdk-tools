@@ -18,6 +18,7 @@ using Microsoft.Azure.Management.Resources;
 using Microsoft.Azure.Management.Resources.Models;
 using Microsoft.WindowsAzure.Commands.Utilities.Common;
 using Microsoft.WindowsAzure.Commands.Utilities.Common.Storage;
+using Microsoft.WindowsAzure.Management.Monitoring.Events;
 using Microsoft.WindowsAzure.Management.Storage;
 using Newtonsoft.Json;
 using System;
@@ -46,6 +47,8 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Models
 
         public IGalleryClient GalleryClient { get; set; }
 
+        public IEventsClient EventsClient { get; set; }
+
         public Action<string> ProgressLogger { get; set; }
 
         /// <summary>
@@ -56,7 +59,8 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Models
             : this(
                 subscription.CreateCloudServiceClient<ResourceManagementClient>(),
                 new StorageClientWrapper(subscription.CreateClient<StorageManagementClient>()),
-                subscription.CreateGalleryClient<GalleryClient>())
+                subscription.CreateGalleryClient<GalleryClient>(),
+                subscription.CreateCloudServiceClient<EventsClient>())
         {
 
         }
@@ -67,14 +71,17 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Models
         /// <param name="resourceManagementClient">The IResourceManagementClient instance</param>
         /// <param name="storageClientWrapper">The IStorageClientWrapper instance</param>
         /// <param name="galleryClient">The IGalleryClient instance</param>
+        /// <param name="eventsClient">The IEventsClient instance</param>
         public ResourcesClient(
             IResourceManagementClient resourceManagementClient,
             IStorageClientWrapper storageClientWrapper,
-            IGalleryClient galleryClient)
+            IGalleryClient galleryClient,
+            IEventsClient eventsClient)
         {
             ResourceManagementClient = resourceManagementClient;
             StorageClientWrapper = storageClientWrapper;
             GalleryClient = galleryClient;
+            EventsClient = eventsClient;
         }
 
         /// <summary>
