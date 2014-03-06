@@ -124,6 +124,15 @@ namespace Microsoft.WindowsAzure.Commands.Storage {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Blob name should be empty when uploading multiple files..
+        /// </summary>
+        internal static string BlobNameShouldBeEmptyWhenUploading {
+            get {
+                return ResourceManager.GetString("BlobNameShouldBeEmptyWhenUploading", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Can not find blob &apos;{0}&apos; in container &apos;{1}&apos;..
         /// </summary>
         internal static string BlobNotFound {
@@ -169,7 +178,7 @@ namespace Microsoft.WindowsAzure.Commands.Storage {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Can not send the directory &apos;{0}&apos; to azure. If you want to send directory to azure, please use &quot;ls -File | Set-AzureStorageBlobContent -Container containerName&quot;..
+        ///   Looks up a localized string similar to Can not upload the directory &apos;{0}&apos; to azure. If you want to upload directory, please use &quot;ls -File -Recurse | Set-AzureStorageBlobContent -Container containerName&quot;..
         /// </summary>
         internal static string CannotSendDirectory {
             get {
@@ -201,6 +210,15 @@ namespace Microsoft.WindowsAzure.Commands.Storage {
         internal static string ConfirmAbortCopyOperation {
             get {
                 return ResourceManager.GetString("ConfirmAbortCopyOperation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Confirm.
+        /// </summary>
+        internal static string ConfirmCaption {
+            get {
+                return ResourceManager.GetString("ConfirmCaption", resourceCulture);
             }
         }
         
@@ -1213,6 +1231,24 @@ namespace Microsoft.WindowsAzure.Commands.Storage {
         internal static string TransferSummary {
             get {
                 return ResourceManager.GetString("TransferSummary", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Total: {0}. Successful: {1}. Failed: {2}. Active: {3}..
+        /// </summary>
+        internal static string TransmitActiveSummary {
+            get {
+                return ResourceManager.GetString("TransmitActiveSummary", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {0} task status :.
+        /// </summary>
+        internal static string TransmitActivity {
+            get {
+                return ResourceManager.GetString("TransmitActivity", resourceCulture);
             }
         }
         

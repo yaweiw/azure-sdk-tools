@@ -15,38 +15,20 @@
 namespace Microsoft.WindowsAzure.Commands.Storage.Blob
 {
     using System;
+    using System.Diagnostics;
     using System.Management.Automation;
     using System.Net;
     using System.Threading;
+    using Microsoft.WindowsAzure.Commands.Storage.Common;
     using Microsoft.WindowsAzure.Storage.Blob;
     using Microsoft.WindowsAzure.Storage.DataMovement;
 
     public class StorageDataMovementCmdletBase : StorageCloudBlobCmdletBase, IDisposable
     {
         /// <summary>
-        /// Amount of concurrent async tasks to run per available core.
-        /// </summary>
-        protected int concurrentTaskCount = 0;
-
-        /// <summary>
-        /// whether the transfer progress finished
-        /// </summary>
-        private bool finished;
-
-        /// <summary>
-        /// exception thrown during transfer
-        /// </summary>
-        private Exception runtimeException;
-
-        /// <summary>
         /// Blob Transfer Manager
         /// </summary>
-        private BlobTransferManager transferManager;
-
-        /// <summary>
-        /// Default task per core
-        /// </summary>
-        private const int asyncTasksPerCoreMultiplier = 8;
+        protected BlobTransferManager transferManager;
 
         [Parameter(HelpMessage = "Force to overwrite the existing blob or file")]
         public SwitchParameter Force
@@ -58,124 +40,131 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Blob
         protected bool overwrite;
 
         /// <summary>
-        /// Copy task count
-        /// </summary>
-        private int TotalCount = 0;
-        private int FailedCount = 0;
-        private int FinishedCount = 0;
-
-        /// <summary>
-        /// Size formats
-        /// </summary>
-        private string[] sizeFormats =
-        {
-            Resources.HumanReadableSizeFormat_Bytes,
-            Resources.HumanReadableSizeFormat_KiloBytes,
-            Resources.HumanReadableSizeFormat_MegaBytes,
-            Resources.HumanReadableSizeFormat_GigaBytes,
-            Resources.HumanReadableSizeFormat_TeraBytes,
-            Resources.HumanReadableSizeFormat_PetaBytes,
-            Resources.HumanReadableSizeFormat_ExaBytes
-        };
-
-        /// <summary>
-        /// Translate a size in bytes to human readable form.
-        /// </summary>
-        /// <param name="size">Size in bytes.</param>
-        /// <returns>Human readable form string.</returns>
-        internal string BytesToHumanReadableSize(double size)
-        {
-            int order = 0;
-
-            while (size >= 1024 && order + 1 < sizeFormats.Length)
-            {
-                ++order;
-                size /= 1024;
-            }
-
-            return string.Format(sizeFormats[order], size);
-        }
-
-        /// <summary>
         /// Confirm the overwrite operation
         /// </summary>
         /// <param name="msg">Confirmation message</param>
-        /// <returns>True if the operation is confirmed, otherwise return false</returns>
-        internal virtual bool ConfirmOverwrite(string destinationPath)
+        /// <returns>True if the opeation is confirmed, otherwise return false</returns>
+        internal virtual bool ConfirmOverwrite(string sourcePath, string destinationPath)
         {
             string overwriteMessage = String.Format(Resources.OverwriteConfirmation, destinationPath);
-            return overwrite || ShouldProcess(destinationPath);
+            return overwrite || OutputStream.ConfirmAsync(overwriteMessage).Result;
         }
 
         /// <summary>
-        /// Configure Service Point
+        /// On Task run successfully
         /// </summary>
-        private void ConfigureServicePointManager()
-        {
-            ServicePointManager.DefaultConnectionLimit = concurrentTaskCount;
-            ServicePointManager.Expect100Continue = false;
-            ServicePointManager.UseNagleAlgorithm = true;
-        }
+        /// <param name="data">User data</param>
+        protected virtual void OnTaskSuccessful(DataMovementUserData data)
+        { }
 
         /// <summary>
-        /// on download start
+        /// on data movement job start
         /// </summary>
-        /// <param name="progress">progress information</param>
-        internal virtual void OnTaskStart(object progress)
+        /// <param name="data">User data</param>
+        protected virtual void OnDMJobStart(object data)
         {
-            ProgressRecord pr = progress as ProgressRecord;
+            if (ShouldForceQuit)
+            {
+                return;
+            }
+
+            DataMovementUserData userData = data as DataMovementUserData;
+            if (null == userData)
+            {
+                return;
+            }
+
+            ProgressRecord pr = userData.Record;
 
             if (null != pr)
             {
                 pr.PercentComplete = 0;
+                OutputStream.WriteProgress(pr);
             }
         }
 
         /// <summary>
-        /// on downloading 
+        /// on data movement job progress 
         /// </summary>
         /// <param name="progress">progress information</param>
         /// <param name="speed">download speed</param>
         /// <param name="percent">download percent</param>
-        internal virtual void OnTaskProgress(object progress, double speed, double percent)
+        protected virtual void OnDMJobProgress(object data, double speed, double percent)
         {
-            ProgressRecord pr = progress as ProgressRecord;
-
-            if (null == pr)
+            if (ShouldForceQuit)
             {
                 return;
             }
 
+            DataMovementUserData userData = data as DataMovementUserData;
+
+            if (null == userData)
+            {
+                return;
+            }
+
+            ProgressRecord pr = userData.Record;
+
             pr.PercentComplete = (int)percent;
-            pr.StatusDescription = String.Format(Resources.FileTransmitStatus, pr.PercentComplete, BytesToHumanReadableSize(speed));
+            pr.StatusDescription = String.Format(Resources.FileTransmitStatus, pr.PercentComplete, Util.BytesToHumanReadableSize(speed));
+            OutputStream.WriteProgress(pr);
         }
 
         /// <summary>
-        /// on downloading finish
+        /// on data movement job finish
         /// </summary>
         /// <param name="progress">progress information</param>
         /// <param name="e">run time exception</param>
-        internal virtual void OnTaskFinish(object progress, Exception e)
+        protected virtual void OnDMJobFinish(object data, Exception e)
         {
-            finished = true;
-            runtimeException = e;
-
-            ProgressRecord pr = progress as ProgressRecord;
-
-            if (null == pr)
+            try
             {
-                return;
+                if (ShouldForceQuit)
+                {
+                    return;
+                }
+
+                DataMovementUserData userData = data as DataMovementUserData;
+
+                string status = string.Empty;
+
+                if (null == e)
+                {
+                    try
+                    {
+                        OnTaskSuccessful(userData);
+                    }
+                    catch (Exception postProcessException)
+                    {
+                        e = postProcessException;
+                    }
+                }
+
+                if (null == e)
+                {
+                    status = Resources.TransmitSuccessfully;
+                    userData.taskSource.SetResult(true);
+                }
+                else
+                {
+                    status = String.Format(Resources.TransmitFailed, e.Message);
+                    userData.taskSource.SetException(e);
+                }
+
+                if (userData != null && userData.Record != null)
+                {
+                    if (e == null)
+                    {
+                        userData.Record.PercentComplete = 100;
+                    }
+
+                    userData.Record.StatusDescription = status;
+                    OutputStream.WriteProgress(userData.Record);
+                }
             }
-
-            pr.PercentComplete = 100;
-
-            if (null == e)
+            catch (Exception unknownException)
             {
-                pr.StatusDescription = Resources.TransmitSuccessfully;
-            }
-            else
-            {
-                pr.StatusDescription = String.Format(Resources.TransmitFailed, e.Message);
+                Debug.Fail(unknownException.ToString());
             }
         }
 
@@ -184,28 +173,26 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Blob
         /// </summary>
         protected override void BeginProcessing()
         {
-            if (concurrentTaskCount == 0)
-            {
-                concurrentTaskCount = Environment.ProcessorCount * asyncTasksPerCoreMultiplier;
-            }
-            
-            ConfigureServicePointManager();
+            base.BeginProcessing();
 
             BlobTransferOptions opts = new BlobTransferOptions();
-            opts.Concurrency = concurrentTaskCount;
+            opts.Concurrency = GetCmdletConcurrency();
+            opts.AppendToClientRequestId(CmdletOperationContext.ClientRequestId);
+            opts.OverwritePromptCallback = ConfirmOverwrite;
             SetRequestOptionsInDataMovement(opts);
             transferManager = new BlobTransferManager(opts);
-            
-            base.BeginProcessing();
+            CmdletCancellationToken.Register(() => transferManager.CancelWork());
         }
 
         private void SetRequestOptionsInDataMovement(BlobTransferOptions opts)
         {
             BlobRequestOptions cmdletOptions = RequestOptions;
+
             if (cmdletOptions == null)
             {
                 return;
             }
+            
             foreach (BlobRequestOperation operation in Enum.GetValues(typeof(BlobRequestOperation)))
             {
                 BlobRequestOptions requestOptions = opts.GetBlobRequestOptions(operation);
@@ -224,58 +211,10 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Blob
             }
         }
 
-        /// <summary>
-        /// Cmdlet end processing
-        /// </summary>
         protected override void EndProcessing()
         {
-            WriteVerbose(String.Format(Resources.TransferSummary, TotalCount, FinishedCount, FailedCount));
-
             base.EndProcessing();
-        }
-
-        /// <summary>
-        /// Start sync task using transfermanager from datamovement library.
-        /// </summary>
-        /// <param name="taskAction"></param>
-        /// <param name="record"></param>
-        protected void StartSyncTaskInTransferManager(Action<BlobTransferManager> taskAction, ProgressRecord record = null)
-        {
-            finished = false;
-            TotalCount++;
-
-            //status update interval
-            int interval = 1 * 1000; //in millisecond
-
-            taskAction(transferManager);
-
-            while (!finished)
-            {
-                if (record != null)
-                {
-                    WriteProgress(record);
-                }
-
-                Thread.Sleep(interval);
-                if (ShouldForceQuit)
-                {
-                    //can't output verbose log for this operation since the Output stream is already stopped.
-                    transferManager.CancelWork();
-                    transferManager.WaitForCompletion();
-                    break;
-                }
-            }
-
-            if (runtimeException != null)
-            {
-                FailedCount++;
-                RuntimeException rtException = new RuntimeException(runtimeException.Message, runtimeException);
-                throw rtException;
-            }
-            else
-            {
-                FinishedCount++;
-            }
+            WriteTaskSummary();
         }
 
         /// <summary>

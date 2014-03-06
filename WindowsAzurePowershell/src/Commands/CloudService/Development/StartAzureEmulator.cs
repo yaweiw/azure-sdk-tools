@@ -33,7 +33,7 @@ namespace Microsoft.WindowsAzure.Commands.CloudService.Development
         [Alias("ln")]
         public SwitchParameter Launch { get; set; }
 
-        [Parameter(Mandatory = false, HelpMessage="The emulator type")]
+        [Parameter(Mandatory = false, HelpMessage = "The emulator type")]
         public ComputeEmulatorMode Mode { get; set; }
 
         public CloudServiceProject StartAzureEmulatorProcess(string rootPath)
@@ -42,7 +42,7 @@ namespace Microsoft.WindowsAzure.Commands.CloudService.Development
             string roleInformation;
 
             StringBuilder message = new StringBuilder();
-            CloudServiceProject cloudServiceProject = new CloudServiceProject(rootPath ,null);
+            CloudServiceProject cloudServiceProject = new CloudServiceProject(rootPath, null);
 
             if (Directory.Exists(cloudServiceProject.Paths.LocalPackage))
             {
@@ -56,10 +56,10 @@ namespace Microsoft.WindowsAzure.Commands.CloudService.Development
                 WriteVerbose(string.Format(Resources.RemovePackage, cloudServiceProject.Paths.LocalPackage));
                 Directory.Delete(cloudServiceProject.Paths.LocalPackage, true);
             }
-            
+
             WriteVerbose(string.Format(Resources.CreatingPackageMessage, "local"));
             cloudServiceProject.CreatePackage(DevEnv.Local);
-            
+
             WriteVerbose(Resources.StartingEmulator);
             cloudServiceProject.ResolveRuntimePackageUrls();
             cloudServiceProject.StartEmulators(Launch.ToBool(), Mode, out roleInformation, out warning);

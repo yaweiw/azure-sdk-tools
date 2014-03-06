@@ -208,6 +208,11 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Common
             }
         }
 
+        public static string ResolveBlobName(string blobName)
+        {
+            return blobName.Replace('\\', '/');
+        }
+
         /// <summary>
         /// convert blob name into valid file name
         /// </summary>
