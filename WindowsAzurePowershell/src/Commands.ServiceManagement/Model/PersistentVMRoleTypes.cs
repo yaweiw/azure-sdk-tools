@@ -2520,6 +2520,30 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Model.PersistentVMMo
     public class VMImageList : Collection<VMImage>
     {
     }
+
+    public class FormattedMessage
+    {
+        public string Language { get; set; }
+        public string Message { get; set; }
+    }
+
+    public class GuestAgentStatus
+    {
+        public string ProtocolVersion { get; set; }
+        public string Timestamp { get; set; }
+        public string GuestAgentVersion { get; set; }
+        public string Status { get; set; }
+        public FormattedMessage FormattedMessage { get; set; }
+    }
+
+    public class ResourceExtensionStatus
+    {
+        public string HandlerName { get; set; }
+        public string Version { get; set; }
+        public string Status { get; set; }
+        public string Code { get; set; }
+        public FormattedMessage FormattedMessage { get; set; }
+    }
 }
 
 
