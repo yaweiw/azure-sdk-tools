@@ -14,7 +14,41 @@
 
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Model
 {
+    using System.Collections.Generic;
     using PersistentVMModel;
+
+    public class FormattedMessage
+    {
+        public string Language { get; set; }
+
+        public string Message { get; set; }
+    }
+
+    public class GuestAgentStatus
+    {
+        public string ProtocolVersion { get; set; }
+
+        public string Timestamp { get; set; }
+
+        public string GuestAgentVersion { get; set; }
+
+        public string Status { get; set; }
+
+        public FormattedMessage FormattedMessage { get; set; }
+    }
+
+    public class ResourceExtensionStatus
+    {
+        public string HandlerName { get; set; }
+
+        public string Version { get; set; }
+
+        public string Status { get; set; }
+
+        public string Code { get; set; }
+
+        public FormattedMessage FormattedMessage { get; set; }
+    }
 
     public class RoleInstanceContext : ServiceOperationContext
     {
@@ -37,5 +71,9 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Model
         public string RoleName { get; set; }
 
         public string DeploymentID { get; set; }
+
+        public GuestAgentStatus GuestAgentStatus { get; set; }
+
+        public List<ResourceExtensionStatus> ResourceExtensionStatusList { get; set; }
     }
 }

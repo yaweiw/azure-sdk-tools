@@ -224,7 +224,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.Utilities.Common
         {
             return Tasks.FromResult(new ComputeOperationStatusResponse
             {
-                Status = OperationStatus.InProgress
+                Status = ComputeOperationStatus.InProgress
             });
         }
     }

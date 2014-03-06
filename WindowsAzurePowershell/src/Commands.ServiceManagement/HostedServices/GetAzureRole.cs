@@ -100,7 +100,9 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.HostedServices
                             InstanceUpgradeDomain = role.InstanceUpgradeDomain,
                             RoleName              = role.RoleName,
                             DeploymentID          = currentDeployment.PrivateId,
-                            InstanceEndpoints     = Mapper.Map<PVM.InstanceEndpointList>(role.InstanceEndpoints)
+                            InstanceEndpoints     = Mapper.Map<PVM.InstanceEndpointList>(role.InstanceEndpoints),
+                            GuestAgentStatus      = Mapper.Map<Microsoft.WindowsAzure.Commands.ServiceManagement.Model.GuestAgentStatus>(role.GuestAgentStatus),
+                            ResourceExtensionStatusList = Mapper.Map<List<Microsoft.WindowsAzure.Commands.ServiceManagement.Model.ResourceExtensionStatus>>(role.ResourceExtensionStatusList),
                         });
                     }
 
@@ -140,7 +142,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.HostedServices
 
         protected override void OnProcessRecord()
         {
-            ServiceManagementProfile.Initialize();
+            ServiceManagementProfile.Initialize(this);
             this.GetRoleProcess();
         }
 
