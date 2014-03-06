@@ -29,7 +29,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement.ResourceGroups
 
         [Parameter(Position = 1, Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "The name of the deployment.")]
         [ValidateNotNullOrEmpty]
-        public string Name { get; set; }
+        public string DeploymentName { get; set; }
 
         [Parameter(Position = 2, Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "Do not confirm the stop.")]
         public SwitchParameter Force { get; set; }
@@ -44,7 +44,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement.ResourceGroups
                 string.Format(Resources.CancelResourceGroupDeployment, ResourceGroupName),
                 Resources.CancelResourceGroupDeploymentMessage,
                 ResourceGroupName,
-                () => ResourceClient.CancelDeployment(ResourceGroupName, Name));
+                () => ResourceClient.CancelDeployment(ResourceGroupName, DeploymentName));
 
             if (PassThru)
             {

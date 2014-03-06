@@ -26,7 +26,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement
     {
         [Parameter(Mandatory = true, ValueFromPipelineByPropertyName = true, HelpMessage = "The resource name.")]
         [ValidateNotNullOrEmpty]
-        public string Name { get; set; }
+        public string ResourceName { get; set; }
 
         [Parameter(Mandatory = true, ValueFromPipelineByPropertyName = true, HelpMessage = "The resource group name.")]
         [ValidateNotNullOrEmpty]
@@ -51,7 +51,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement
         {
             CreatePSResourceParameters parameters = new CreatePSResourceParameters()
             {
-                Name = Name,
+                ResourceName = ResourceName,
                 ResourceGroupName = ResourceGroupName,
                 ResourceType = ResourceType,
                 Location = Location,

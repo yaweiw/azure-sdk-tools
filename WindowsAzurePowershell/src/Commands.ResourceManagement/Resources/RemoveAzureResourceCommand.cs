@@ -26,7 +26,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement
     {
         [Parameter(Mandatory = true, ValueFromPipelineByPropertyName = true, HelpMessage = "The resource name.")]
         [ValidateNotNullOrEmpty]
-        public string Name { get; set; }
+        public string ResourceName { get; set; }
 
         [Parameter(Mandatory = true, ValueFromPipelineByPropertyName = true, HelpMessage = "The resource group name.")]
         [ValidateNotNullOrEmpty]
@@ -50,7 +50,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement
         {
             BasePSResourceParameters parameters = new BasePSResourceParameters()
             {
-                Name = Name,
+                ResourceName = ResourceName,
                 ResourceGroupName = ResourceGroupName,
                 ResourceType = ResourceType,
                 ParentResourceName = ParentResourceName,
@@ -58,9 +58,9 @@ namespace Microsoft.Azure.Commands.ResourceManagement
 
             ConfirmAction(
                 Force.IsPresent,
-                string.Format(Resources.RemovingResource, Name),
+                string.Format(Resources.RemovingResource, ResourceName),
                 Resources.RemoveResourceMessage,
-                Name,
+                ResourceName,
                 () => ResourceClient.DeleteResource(parameters));
 
             if (PassThru)

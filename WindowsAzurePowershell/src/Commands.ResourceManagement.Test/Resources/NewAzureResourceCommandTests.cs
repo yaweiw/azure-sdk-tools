@@ -68,7 +68,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Test
         {
             CreatePSResourceParameters expectedParameters = new CreatePSResourceParameters()
             {
-                Name = resourceName,
+                ResourceName = resourceName,
                 ParentResourceName = resourceParentName,
                 ResourceType = resourceType,
                 ResourceGroupName = resourceGroupName,
@@ -77,7 +77,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Test
             CreatePSResourceParameters actualParameters = new CreatePSResourceParameters();
             PSResource expected = new PSResource()
             {
-                Name = expectedParameters.Name,
+                Name = expectedParameters.ResourceName,
                 Location = resourceGroupLocation,
                 ResourceGroupName = expectedParameters.ResourceGroupName,
                 ParameterObject = expectedParameters.PropertyObject,
@@ -87,7 +87,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Test
                 .Returns(expected)
                 .Callback((CreatePSResourceParameters p) => { actualParameters = p; });
 
-            cmdlet.Name = expectedParameters.Name;
+            cmdlet.ResourceName = expectedParameters.ResourceName;
             cmdlet.ResourceGroupName = expectedParameters.ResourceGroupName;
             cmdlet.ResourceType = expectedParameters.ResourceType;
             cmdlet.ParentResourceName = expectedParameters.ParentResourceName;
@@ -95,7 +95,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Test
 
             cmdlet.ExecuteCmdlet();
 
-            Assert.Equal(expectedParameters.Name, actualParameters.Name);
+            Assert.Equal(expectedParameters.ResourceName, actualParameters.ResourceName);
             Assert.Equal(expectedParameters.ResourceGroupName, actualParameters.ResourceGroupName);
             Assert.Equal(expectedParameters.ResourceType, actualParameters.ResourceType);
             Assert.Equal(expectedParameters.ParentResourceName, actualParameters.ParentResourceName);

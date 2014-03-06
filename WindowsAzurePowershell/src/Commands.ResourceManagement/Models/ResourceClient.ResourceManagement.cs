@@ -66,7 +66,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Models
                 throw new ArgumentException(Resources.ResourceGroupDoesntExists);
             }
 
-            WriteProgress(string.Format("{0, -10} Creating resource \"{1}\".", "[Start]", parameters.Name));
+            WriteProgress(string.Format("{0, -10} Creating resource \"{1}\".", "[Start]", parameters.ResourceName));
             
             ResourceCreateOrUpdateResult createOrUpdateResult = ResourceManagementClient.Resources.CreateOrUpdate(parameters.ResourceGroupName, resourceIdentity, 
                 new ResourceCreateOrUpdateParameters
@@ -81,7 +81,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Models
 
             if (createOrUpdateResult.Resource != null)
             {
-                WriteProgress(string.Format("{0, -10} Creating resource \"{1}\".", "[Complete]", parameters.Name));
+                WriteProgress(string.Format("{0, -10} Creating resource \"{1}\".", "[Complete]", parameters.ResourceName));
             }
 
             ResourceGetResult getResult = ResourceManagementClient.Resources.Get(parameters.ResourceGroupName, resourceIdentity);
@@ -135,7 +135,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Models
         {
             List<PSResource> resources = new List<PSResource>();
 
-            if (!string.IsNullOrEmpty(parameters.Name))
+            if (!string.IsNullOrEmpty(parameters.ResourceName))
             {
                 ResourceIdentity resourceIdentity = parameters.ToResourceIdentity();
 

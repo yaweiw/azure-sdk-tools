@@ -1,0 +1,99 @@
+﻿// ----------------------------------------------------------------------------------
+//
+// Copyright Microsoft Corporation
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+// http://www.apache.org/licenses/LICENSE-2.0
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+// ----------------------------------------------------------------------------------
+
+using System;
+using Microsoft.Azure.Commands.ResourceManagement.Properties;
+using Microsoft.Azure.Gallery;
+using Microsoft.Azure.Gallery.Models;
+using Microsoft.Azure.Management.Resources;
+using Microsoft.Azure.Management.Resources.Models;
+using Microsoft.WindowsAzure.Commands.Utilities.Common;
+using Microsoft.WindowsAzure.Common.OData;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Text;
+using Microsoft.WindowsAzure.Management.Monitoring.Events;
+using Microsoft.WindowsAzure.Management.Monitoring.Events.Models;
+
+namespace Microsoft.Azure.Commands.ResourceManagement.Models
+{
+    public partial class ResourcesClient
+    {
+        /// <summary>
+        /// Gets event logs.
+        /// </summary>
+        /// <param name="parameters">Input parameters</param>
+        /// <returns>Logs.</returns>
+        public virtual IEnumerable<PSDeploymentEventData> GetResourceGroupLogs(GetPSResourceGroupLogParameters parameters)
+        {
+            if (parameters.All)
+            {
+                EventDataListResponse listOfEvents = EventsClient.EventData.ListEvents(null);
+                return listOfEvents.EventDataCollection.Value.Select(e => e.ToPSDeploymentEventData());
+            }
+            else if (!string.IsNullOrEmpty(parameters.DeploymentName))
+            {
+                DeploymentGetResult deploymentGetResult;
+                try
+                {
+                    deploymentGetResult = ResourceManagementClient.Deployments.Get(parameters.ResourceGroupName,
+                                                                                   parameters.DeploymentName);
+                }
+                catch
+                {
+                    throw new ArgumentException(Resources.DeploymentNotFound);
+                }
+
+                return GetDeploymentLogs(deploymentGetResult.Deployment.Properties.TrackingId);
+            }
+            else
+            {
+                DeploymentListResult deploymentListResult;
+                try
+                {
+                    deploymentListResult = ResourceManagementClient.Deployments.List(parameters.ResourceGroupName,
+                                                                            new DeploymentListParameters
+                                                                                {
+                                                                                    Top = 1
+                                                                                });
+                    if (deploymentListResult.Deployments.Count == 0)
+                    {
+                        throw new ArgumentException(Resources.DeploymentNotFound);
+                    }
+                }
+                catch
+                {
+                    throw new ArgumentException(Resources.DeploymentNotFound);
+                }
+
+                return GetDeploymentLogs(deploymentListResult.Deployments[0].Properties.TrackingId);
+            }
+        }
+
+        /// <summary>
+        /// Gets event logs by tracking Id.
+        /// </summary>
+        /// <param name="trackingId">Tracking Id of the deployment</param>
+        /// <returns>Logs.</returns>
+        public virtual IEnumerable<PSDeploymentEventData> GetDeploymentLogs(string trackingId)
+        {
+            EventDataListResponse listOfEvents = EventsClient.EventData.ListEventsForCorrelationId(new ListEventsForCorrelationIdParameters
+                {
+                    CorrelationId = trackingId,
+                });
+            return listOfEvents.EventDataCollection.Value.Select(e => e.ToPSDeploymentEventData());
+        }
+    }
+}

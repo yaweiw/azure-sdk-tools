@@ -102,7 +102,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Test
                 .Callback((CreatePSResourceGroupDeploymentParameters p) => { actualParameters = p; });
 
             cmdlet.ResourceGroupName = resourceGroupName;
-            cmdlet.Name = expectedParameters.DeploymentName;
+            cmdlet.DeploymentName = expectedParameters.DeploymentName;
             cmdlet.ParameterFile = expectedParameters.ParameterFile;
             cmdlet.TemplateFile = expectedParameters.TemplateFile;
             cmdlet.StorageAccountName = expectedParameters.StorageAccountName;
@@ -176,7 +176,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Test
                 .Callback((CreatePSResourceGroupDeploymentParameters p) => { actualParameters = p; });
 
             cmdlet.ResourceGroupName = resourceGroupName;
-            cmdlet.Name = expectedParameters.DeploymentName;
+            cmdlet.DeploymentName = expectedParameters.DeploymentName;
             cmdlet.ParameterFile = expectedParameters.ParameterFile;
             cmdlet.GalleryTemplateName = expectedParameters.GalleryTemplateName;
             cmdlet.StorageAccountName = expectedParameters.StorageAccountName;

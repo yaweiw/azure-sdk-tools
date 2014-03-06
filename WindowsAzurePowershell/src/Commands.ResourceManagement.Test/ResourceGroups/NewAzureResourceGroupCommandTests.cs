@@ -78,7 +78,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Test
                 .Returns(expected)
                 .Callback((CreatePSResourceGroupParameters p) => { actualParameters = p; });
 
-            cmdlet.Name = expectedParameters.ResourceGroupName;
+            cmdlet.ResourceGroupName = expectedParameters.ResourceGroupName;
             cmdlet.Location = expectedParameters.Location;
             cmdlet.ParameterFile = expectedParameters.ParameterFile;
             cmdlet.TemplateFile = expectedParameters.TemplateFile;
@@ -131,7 +131,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Test
                 .Returns(expected)
                 .Callback((CreatePSResourceGroupParameters p) => { actualParameters = p; });
 
-            cmdlet.Name = expectedParameters.ResourceGroupName;
+            cmdlet.ResourceGroupName = expectedParameters.ResourceGroupName;
             cmdlet.Location = expectedParameters.Location;
             cmdlet.ParameterFile = expectedParameters.ParameterFile;
             cmdlet.GalleryTemplateName = expectedParameters.GalleryTemplateName;

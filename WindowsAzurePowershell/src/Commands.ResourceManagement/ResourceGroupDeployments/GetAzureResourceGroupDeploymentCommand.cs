@@ -30,7 +30,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement
 
         [Parameter(Position = 1, Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "The name of the resource group deployment.")]
         [ValidateNotNullOrEmpty]
-        public string Name { get; set; }
+        public string DeploymentName { get; set; }
 
         [Parameter(Position = 2, Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "The provisioning state of the resource group deployment.")]
         [ValidateNotNullOrEmpty]
@@ -41,7 +41,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement
             FilterResourceGroupDeploymentOptions options = new FilterResourceGroupDeploymentOptions()
             {
                 ResourceGroupName = ResourceGroupName,
-                DeploymentName = Name,
+                DeploymentName = DeploymentName,
                 ProvisioningStates = string.IsNullOrEmpty(ProvisioningState) ? new List<string>() : 
                     new List<string>() { ProvisioningState }
             };
