@@ -495,8 +495,8 @@ function Test-StartAzureEmulatorExpress
     # Setup
     New-TinyCloudServiceProject test
     
-    # Test (Express is the default)
-    $service = Start-AzureEmulator
+    # Test
+    $service = Start-AzureEmulator -Mode Express
     
     # Clean up
     Stop-AzureEmulator

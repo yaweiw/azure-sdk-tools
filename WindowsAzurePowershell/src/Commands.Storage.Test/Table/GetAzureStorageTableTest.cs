@@ -34,7 +34,7 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Test.Table
         {
             command = new GetAzureStorageTableCommand(tableMock)
                 {
-                    CommandRuntime = new MockCommandRuntime()
+                    CommandRuntime = MockCmdRunTime
                 };
         }
 
@@ -115,7 +115,7 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Test.Table
         public void ListTablesByPrefixSuccessfullyTest()
         {
             AddTestTables();
-            ((MockCommandRuntime)command.CommandRuntime).ResetPipelines();
+            MockCmdRunTime.ResetPipelines();
             List<CloudTable> tableList = command.ListTablesByPrefix("te").ToList();
             Assert.AreEqual(2, tableList.Count);
 
@@ -131,25 +131,25 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Test.Table
         public void WriteTablesWithStorageContextTest()
         {
             command.WriteTablesWithStorageContext(null);
-            Assert.AreEqual(0, ((MockCommandRuntime)command.CommandRuntime).OutputPipeline.Count);
+            Assert.AreEqual(0, MockCmdRunTime.OutputPipeline.Count);
 
-            ((MockCommandRuntime)command.CommandRuntime).ResetPipelines();
+            MockCmdRunTime.ResetPipelines();
             command.WriteTablesWithStorageContext(tableMock.tableList);
-            Assert.AreEqual(0, ((MockCommandRuntime)command.CommandRuntime).OutputPipeline.Count);
+            Assert.AreEqual(0, MockCmdRunTime.OutputPipeline.Count);
 
             AddTestTables();
-            ((MockCommandRuntime)command.CommandRuntime).ResetPipelines();
+            MockCmdRunTime.ResetPipelines();
             command.WriteTablesWithStorageContext(tableMock.tableList);
-            Assert.AreEqual(2, ((MockCommandRuntime)command.CommandRuntime).OutputPipeline.Count);
+            Assert.AreEqual(2, MockCmdRunTime.OutputPipeline.Count);
         }
 
         [TestMethod]
-        public void ExecuteCommandGetContainerTest()
+        public void ExecuteCommandGetTableTest()
         {
             AddTestTables();
             command.Name = "test";
             command.ExecuteCmdlet();
-            Assert.AreEqual(1, ((MockCommandRuntime)command.CommandRuntime).OutputPipeline.Count);
+            Assert.AreEqual(1, MockCmdRunTime.OutputPipeline.Count);
         }
     }
 }
