@@ -21,6 +21,7 @@ using Microsoft.WindowsAzure;
 using Microsoft.WindowsAzure.Commands.Test.Utilities.Common;
 using Microsoft.WindowsAzure.Commands.Utilities.Common.Storage;
 using Microsoft.WindowsAzure.Common.OData;
+using Microsoft.WindowsAzure.Management.Monitoring.Events;
 using Moq;
 using Newtonsoft.Json;
 using System;
@@ -52,7 +53,11 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Test.Models
 
         private Mock<IGalleryClient> galleryClientMock;
 
+        private Mock<IEventsClient> eventsClientMock;
+
         private Mock<IDeploymentOperationOperations> deploymentOperationsMock;
+
+        private Mock<IEventDataOperations> eventDataOperationsMock;
 
         private Mock<IProviderOperations> providersMock;
 
@@ -100,7 +105,9 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Test.Models
             resourceGroupMock = new Mock<IResourceGroupOperations>();
             resourceOperationsMock = new Mock<IResourceOperations>();
             galleryClientMock = new Mock<IGalleryClient>();
+            eventsClientMock = new Mock<IEventsClient>();
             deploymentOperationsMock = new Mock<IDeploymentOperationOperations>();
+            eventDataOperationsMock = new Mock<IEventDataOperations>();
             providersMock = new Mock<IProviderOperations>();
             providersMock.Setup(f => f.ListAsync(null, new CancellationToken()))
                 .Returns(Task.Factory.StartNew(() => new ProviderListResult
@@ -113,11 +120,13 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Test.Models
             resourceManagementClientMock.Setup(f => f.Resources).Returns(resourceOperationsMock.Object);
             resourceManagementClientMock.Setup(f => f.DeploymentOperations).Returns(deploymentOperationsMock.Object);
             resourceManagementClientMock.Setup(f => f.Providers).Returns(providersMock.Object);
+            eventsClientMock.Setup(f => f.EventData).Returns(eventDataOperationsMock.Object);
             storageClientWrapperMock = new Mock<IStorageClientWrapper>();
             resourcesClient = new ResourcesClient(
                 resourceManagementClientMock.Object,
                 storageClientWrapperMock.Object,
-                galleryClientMock.Object)
+                galleryClientMock.Object,
+                eventsClientMock.Object)
                 {
                     ProgressLogger = progressLoggerMock.Object
                 };
