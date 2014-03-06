@@ -29,7 +29,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement
 
         [Parameter(ParameterSetName = ParameterSetNameWithId, Mandatory = true, ValueFromPipelineByPropertyName = true, HelpMessage = "The resource name.")]
         [ValidateNotNullOrEmpty]
-        public string Name { get; set; }
+        public string ResourceName { get; set; }
 
         [Parameter(ParameterSetName = ParameterSetNameWithId, Mandatory = true, ValueFromPipelineByPropertyName = true, HelpMessage = "The resource group name.")]
         [Parameter(ParameterSetName = BaseParameterSetName, Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "The resource group name.")]
@@ -49,7 +49,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement
         {
             BasePSResourceParameters parameters = new BasePSResourceParameters()
             {
-                Name = Name,
+                ResourceName = ResourceName,
                 ResourceGroupName = ResourceGroupName,
                 ResourceType = ResourceType,
                 ParentResourceName = ParentResourceName,

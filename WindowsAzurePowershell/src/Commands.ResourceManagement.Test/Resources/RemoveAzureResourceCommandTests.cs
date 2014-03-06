@@ -52,7 +52,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Test
             BasePSResourceParameters actualParameters = new BasePSResourceParameters();
             BasePSResourceParameters expectedParameters = new BasePSResourceParameters()
             {
-                Name = resourceName,
+                ResourceName = resourceName,
                 ResourceType = resourceType,
                 ResourceGroupName = resourceGroupName,
                 ParentResourceName = resourceParentName,
@@ -66,7 +66,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Test
                         actualParameters = p;
                     });
 
-            cmdlet.Name = resourceName;
+            cmdlet.ResourceName = resourceName;
             cmdlet.ResourceType = resourceType;
             cmdlet.ResourceGroupName = resourceGroupName;
             cmdlet.ParentResourceName = resourceParentName;
@@ -75,7 +75,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Test
 
             cmdlet.ExecuteCmdlet();
 
-            Assert.Equal(expectedParameters.Name, actualParameters.Name);
+            Assert.Equal(expectedParameters.ResourceName, actualParameters.ResourceName);
             Assert.Equal(expectedParameters.ResourceGroupName, actualParameters.ResourceGroupName);
             Assert.Equal(expectedParameters.ResourceType, actualParameters.ResourceType);
             Assert.Equal(expectedParameters.ParentResourceName, actualParameters.ParentResourceName);

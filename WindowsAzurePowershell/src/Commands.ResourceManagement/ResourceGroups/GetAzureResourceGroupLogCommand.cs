@@ -19,33 +19,41 @@ using System.Management.Automation;
 namespace Microsoft.Azure.Commands.ResourceManagement
 {
     /// <summary>
-    /// Get the available locations for certain resource types.
+    /// Get the list of events for a deployment.
     /// </summary>
-    [Cmdlet(VerbsCommon.Get, "AzureResourceGroupLog"), OutputType(typeof(List<PSResourceProviderType>))]
+    [Cmdlet(VerbsCommon.Get, "AzureResourceGroupLog", DefaultParameterSetName = LastDeploymentSetName), OutputType(typeof(List<PSDeploymentEventData>))]
     public class GetAzureResourceGroupLogCommand : ResourceBaseCmdlet
     {
-        [Parameter(Position = 0, Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "specifies resource type provider.")]
-        [ValidateNotNullOrEmpty]
-        public string[] ResourceType { get; set; }
+        internal const string AllSetName = "all";
+        internal const string LastDeploymentSetName = "lastDeployment";
+        internal const string DeploymentNameSetName = "deploymentName";
 
-        [Parameter(Position = 1, Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "specifies resource group provider.")]
+        [Parameter(Position = 0, ParameterSetName = AllSetName, Mandatory = true, ValueFromPipelineByPropertyName = true, HelpMessage = "Name of the resource group you want to see the logs.")]
+        [Parameter(Position = 0, ParameterSetName = LastDeploymentSetName, Mandatory = true, ValueFromPipelineByPropertyName = true, HelpMessage = "Name of the resource group you want to see the logs.")]
+        [Parameter(Position = 0, ParameterSetName = DeploymentNameSetName, Mandatory = true, ValueFromPipelineByPropertyName = true, HelpMessage = "Name of the resource group you want to see the logs.")]
         [ValidateNotNullOrEmpty]
-        public SwitchParameter ResourceGroup { get; set; }
+        public string ResourceGroupName { get; set; }
+
+        [Parameter(ParameterSetName = DeploymentNameSetName, Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "Name of the deployment whose logs you want to see.")]
+        [ValidateNotNullOrEmpty]
+        public string DeploymentName { get; set; }
         
+        [Parameter(ParameterSetName = AllSetName, HelpMessage = "Optional. If given, return logs of all the operations including CRUD and deployment.")]
+        public SwitchParameter All { get; set; }
+
+        [Parameter(ParameterSetName = LastDeploymentSetName, HelpMessage = "Optional. If given, return logs of the last deployment.")]
+        public SwitchParameter LastDeployment { get; set; }
+
         public override void ExecuteCmdlet()
         {
-            List<string> resourceTypes = new List<string>();
-            if (ResourceType != null)
-            {
-                resourceTypes.AddRange(ResourceType);
-            }
-
-            if (ResourceGroup.IsPresent)
-            {
-                resourceTypes.Add(ResourcesClient.ResourcGroupTypeName);
-            }
-
-            WriteObject(ResourceClient.GetLocations(resourceTypes.ToArray()), true);
+            GetPSResourceGroupLogParameters parameters = new GetPSResourceGroupLogParameters
+                {
+                    ResourceGroupName = ResourceGroupName,
+                    DeploymentName = DeploymentName,
+                    All = All.IsPresent,
+                    LastDeployment = LastDeployment.IsPresent
+                };
+            WriteObject(ResourceClient.GetResourceGroupLogs(parameters), true);
         }
     }
 }

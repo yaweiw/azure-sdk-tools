@@ -179,6 +179,11 @@
     <Reference Include="System.Management.Automation, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Models\GetPSResourceGroupLogParameters.cs" />
+    <Compile Include="Models\PSDeploymentEventDataAuthorization.cs" />
+    <Compile Include="Models\PSDeploymentEventDataHttpRequest.cs" />
+    <Compile Include="Models\PSDeploymentEventData.cs" />
+    <Compile Include="Models\ResourceClient.Events.cs" />
     <Compile Include="Models\FilterResourceGroupDeploymentOptions.cs" />
     <Compile Include="Models\PSResourceProviderType.cs" />
     <Compile Include="Models\BasePSResourceParameters.cs" />
