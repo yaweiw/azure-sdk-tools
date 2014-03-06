@@ -414,7 +414,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.CloudService.Utilities
             }            
         }
 
-        private ComputeOperationStatusResponse CreateComputeOperationResponse(string requestId, OperationStatus status = OperationStatus.Succeeded)
+        private ComputeOperationStatusResponse CreateComputeOperationResponse(string requestId, ComputeOperationStatus status = ComputeOperationStatus.Succeeded)
         {
             return new ComputeOperationStatusResponse
             {

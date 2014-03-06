@@ -20,6 +20,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement
     using System.Net;
     using AutoMapper;
     using Extensions;
+    using HostedServices;
     using IaaS.DiskRepository;
     using IaaS.Extensions;
     using Management.Compute.Models;
@@ -174,6 +175,17 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement
             Mapper.CreateMap<OperationStatusResponse, VMImageContext>()
                   .ForMember(c => c.OperationId, o => o.MapFrom(r => r.Id))
                   .ForMember(c => c.OperationStatus, o => o.MapFrom(r => r.Status.ToString()));
+
+            return Initialize();
+        }
+
+        public static bool Initialize(GetAzureRoleCommand command)
+        {
+            Mapper.CreateMap<Microsoft.WindowsAzure.Management.Compute.Models.FormattedMessage, Microsoft.WindowsAzure.Commands.ServiceManagement.Model.FormattedMessage>();
+            Mapper.CreateMap<Microsoft.WindowsAzure.Management.Compute.Models.GuestAgentStatus, Microsoft.WindowsAzure.Commands.ServiceManagement.Model.GuestAgentStatus>();
+            Mapper.CreateMap<Microsoft.WindowsAzure.Management.Compute.Models.ResourceExtensionStatus, Microsoft.WindowsAzure.Commands.ServiceManagement.Model.ResourceExtensionStatus>();
+            Mapper.CreateMap<IList<Microsoft.WindowsAzure.Management.Compute.Models.ResourceExtensionStatus>, List<Microsoft.WindowsAzure.Commands.ServiceManagement.Model.ResourceExtensionStatus>>();
+            Mapper.CreateMap<IEnumerable<Microsoft.WindowsAzure.Management.Compute.Models.ResourceExtensionStatus>, List<Microsoft.WindowsAzure.Commands.ServiceManagement.Model.ResourceExtensionStatus>>();
 
             return Initialize();
         }
