@@ -101,8 +101,8 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.HostedServices
                             RoleName              = role.RoleName,
                             DeploymentID          = currentDeployment.PrivateId,
                             InstanceEndpoints     = Mapper.Map<PVM.InstanceEndpointList>(role.InstanceEndpoints),
-                            GuestAgentStatus      = Mapper.Map<Microsoft.WindowsAzure.Commands.ServiceManagement.Model.GuestAgentStatus>(role.GuestAgentStatus),
-                            ResourceExtensionStatusList = Mapper.Map<List<Microsoft.WindowsAzure.Commands.ServiceManagement.Model.ResourceExtensionStatus>>(role.ResourceExtensionStatusList),
+                            GuestAgentStatus      = Mapper.Map<PVM.GuestAgentStatus>(role.GuestAgentStatus),
+                            ResourceExtensionStatusList = Mapper.Map<List<PVM.ResourceExtensionStatus>>(role.ResourceExtensionStatusList),
                         });
                     }
 

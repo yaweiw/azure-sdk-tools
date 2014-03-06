@@ -181,11 +181,9 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement
 
         public static bool Initialize(GetAzureRoleCommand command)
         {
-            Mapper.CreateMap<Microsoft.WindowsAzure.Management.Compute.Models.FormattedMessage, Microsoft.WindowsAzure.Commands.ServiceManagement.Model.FormattedMessage>();
-            Mapper.CreateMap<Microsoft.WindowsAzure.Management.Compute.Models.GuestAgentStatus, Microsoft.WindowsAzure.Commands.ServiceManagement.Model.GuestAgentStatus>();
-            Mapper.CreateMap<Microsoft.WindowsAzure.Management.Compute.Models.ResourceExtensionStatus, Microsoft.WindowsAzure.Commands.ServiceManagement.Model.ResourceExtensionStatus>();
-            Mapper.CreateMap<IList<Microsoft.WindowsAzure.Management.Compute.Models.ResourceExtensionStatus>, List<Microsoft.WindowsAzure.Commands.ServiceManagement.Model.ResourceExtensionStatus>>();
-            Mapper.CreateMap<IEnumerable<Microsoft.WindowsAzure.Management.Compute.Models.ResourceExtensionStatus>, List<Microsoft.WindowsAzure.Commands.ServiceManagement.Model.ResourceExtensionStatus>>();
+            Mapper.CreateMap<NSM.FormattedMessage, PVM.FormattedMessage>();
+            Mapper.CreateMap<NSM.GuestAgentStatus, PVM.GuestAgentStatus>();
+            Mapper.CreateMap<NSM.ResourceExtensionStatus, PVM.ResourceExtensionStatus>();
 
             return Initialize();
         }
