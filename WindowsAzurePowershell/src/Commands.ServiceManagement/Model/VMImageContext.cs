@@ -17,19 +17,33 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Model
     using System;
     using Utilities.Common;
 
-    public class VMImageContext : ManagementOperationContext
+    public class VMImageContext : OSImageContext
     {
-        public string Name { get; set; }
-        public string Label { get; set; }
-        public string Category { get; set; }
-        public string Description { get; set; }
+        public override string ImageName
+        {
+            get
+            {
+                return this.VMImageName;
+            }
+
+            set
+            {
+                this.VMImageName = value;
+            }
+        }
+
+        public override string Label { get; set; }
+        public override string Category { get; set; }
+        public override string Description { get; set; }
+        public override string Location { get; set; }
+        public override string AffinityGroup { get; set; }
+
+        public string VMImageName { get; set; }
         public Model.PersistentVMModel.OSDiskConfiguration OSDiskConfiguration { get; set; }
         public Model.PersistentVMModel.DataDiskConfigurationList DataDiskConfigurations { get; set; }
         public string ServiceName { get; set; }
         public string DeploymentName { get; set; }
         public string RoleName { get; set; }
-        public string Location { get; set; }
-        public string AffinityGroup { get; set; }
         public DateTime? CreatedTime { get; set; }
     }
 }
