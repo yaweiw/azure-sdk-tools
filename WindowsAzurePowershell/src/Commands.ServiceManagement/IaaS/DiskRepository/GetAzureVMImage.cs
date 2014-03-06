@@ -25,8 +25,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.DiskRepository
         AzureVMImageNoun,
         DefaultParameterSetName = OSImageParamSet),
     OutputType(
-        typeof(OSImageContext),
-        typeof(VMImageContext))]
+        typeof(OSImageContext))]
     public class GetAzureVMImage : ServiceManagementBaseCmdlet
     {
         protected const string AzureVMImageNoun = "AzureVMImage";
@@ -34,7 +33,6 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.DiskRepository
         protected const string VMImageParamSet = "ListVMImages";
 
         [Parameter(
-            ParameterSetName = OSImageParamSet,
             Position = 0,
             ValueFromPipelineByPropertyName = true,
             Mandatory = false,
@@ -49,15 +47,6 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.DiskRepository
             Mandatory = false,
             HelpMessage = "List OS Images only.")]
         public SwitchParameter ListOSImages { get; set; }
-
-        [Parameter(
-            ParameterSetName = VMImageParamSet,
-            Position = 0,
-            ValueFromPipelineByPropertyName = true,
-            Mandatory = false,
-            HelpMessage = "Name of the VM image in the image library.")]
-        [ValidateNotNullOrEmpty]
-        public string VMImageName { get; set; }
 
         [Parameter(
             ParameterSetName = VMImageParamSet,
@@ -102,8 +91,8 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.DiskRepository
                         var results = response.VMImages.Select(
                             image => this.ContextFactory<VirtualMachineVMImageListResponse.VirtualMachineVMImage, VMImageContext>(image, s));
 
-                        return string.IsNullOrEmpty(this.VMImageName) ? results
-                             : results.Where(t => string.Equals(t.Name, this.VMImageName, System.StringComparison.OrdinalIgnoreCase));
+                        return string.IsNullOrEmpty(this.ImageName) ? results
+                             : results.Where(t => string.Equals(t.VMImageName, this.ImageName, System.StringComparison.OrdinalIgnoreCase));
                     });
             }
         }
