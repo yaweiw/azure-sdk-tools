@@ -56,6 +56,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement
                 ResourceType = ResourceType,
                 ParentResourceName = ParentResourceName,
                 PropertyObject = PropertyObject,
+                Mode = Mode
             };
 
             WriteObject(ResourceClient.UpdatePSResource(parameters));
