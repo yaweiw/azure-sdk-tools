@@ -25,7 +25,7 @@ namespace Microsoft.WindowsAzure.Commands.Scheduler
     /// <summary>
     /// Cmdlet to create a new HTTP/HTTPS job
     /// </summary>
-    [Cmdlet(VerbsCommon.New, "AzureSchedulerHttpJob"), OutputType(typeof(string))]
+    [Cmdlet(VerbsCommon.New, "AzureSchedulerHttpJob"), OutputType(typeof(PSHttpJobDetail))]
     public class NewSchedulerHttpJobCommand : SchedulerBaseCmdlet
     {
         const string RequiredParamSet = "Required";
