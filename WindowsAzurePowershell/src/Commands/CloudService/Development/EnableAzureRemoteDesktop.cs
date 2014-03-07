@@ -74,7 +74,7 @@ namespace Microsoft.WindowsAzure.Commands.CloudService.Development
                 throw new ArgumentException(Resources.EnableAzureRemoteDesktopCommand_Enable_NeedComplexPassword);
             }
 
-            CloudServiceProject service = new CloudServiceProject(General.GetServiceRootPath(CurrentPath()), null);
+            CloudServiceProject service = new CloudServiceProject(GeneralUtilities.GetServiceRootPath(CurrentPath()), null);
             WebRole[] webRoles = service.Components.Definition.WebRole ?? new WebRole[0];
             WorkerRole[] workerRoles = service.Components.Definition.WorkerRole ?? new WorkerRole[0];
 
@@ -185,7 +185,7 @@ namespace Microsoft.WindowsAzure.Commands.CloudService.Development
                     WorkerRole firstWorkerRole = workerRoles.FirstOrDefault();
                     if (firstWorkerRole != null)
                     {
-                        firstWorkerRole.Imports = General.Append(firstWorkerRole.Imports, new Import { moduleName = "RemoteForwarder" });
+                        firstWorkerRole.Imports = GeneralUtilities.Append(firstWorkerRole.Imports, new Import { moduleName = "RemoteForwarder" });
                         forwarderName = firstWorkerRole.name;
                     }
                     else // no worker role, use a web role
@@ -193,7 +193,7 @@ namespace Microsoft.WindowsAzure.Commands.CloudService.Development
                         WebRole firstWebRole = webRoles.FirstOrDefault();
                         if (firstWebRole != null)
                         {
-                            firstWebRole.Imports = General.Append(firstWebRole.Imports, new Import { moduleName = "RemoteForwarder" });
+                            firstWebRole.Imports = GeneralUtilities.Append(firstWebRole.Imports, new Import { moduleName = "RemoteForwarder" });
                             forwarderName = firstWebRole.name;
                         }
                         else
@@ -234,11 +234,11 @@ namespace Microsoft.WindowsAzure.Commands.CloudService.Development
             // Add RemoteAccess to all roles
             foreach (WebRole webRole in webRoles.Where(r => r.Imports == null || !r.Imports.Any(i => i.moduleName == "RemoteAccess")))
             {
-                webRole.Imports = General.Append(webRole.Imports, new Import { moduleName = "RemoteAccess" });
+                webRole.Imports = GeneralUtilities.Append(webRole.Imports, new Import { moduleName = "RemoteAccess" });
             }
             foreach (WorkerRole workerRole in workerRoles.Where(r => r.Imports == null || !r.Imports.Any(i => i.moduleName == "RemoteAccess")))
             {
-                workerRole.Imports = General.Append(workerRole.Imports, new Import { moduleName = "RemoteAccess" });
+                workerRole.Imports = GeneralUtilities.Append(workerRole.Imports, new Import { moduleName = "RemoteAccess" });
             }
         }
 

@@ -60,7 +60,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService
         [PermissionSet(SecurityAction.Demand, Name = "FullTrust")]
         public override void ExecuteCmdlet()
         {
-            RootPath = RootPath ?? General.GetServiceRootPath(CurrentPath());
+            RootPath = RootPath ?? GeneralUtilities.GetServiceRootPath(CurrentPath());
             CloudServiceProject service = new CloudServiceProject(RootPath, null);
             RoleInfo roleInfo = null;
             

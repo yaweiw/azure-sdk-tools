@@ -39,7 +39,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
                 throw new ArgumentNullException("serviceUrl");
             }
 
-            ServiceUrl = General.EnsureTrailingSlash(serviceUrl);
+            ServiceUrl = GeneralUtilities.EnsureTrailingSlash(serviceUrl);
             Credentials = credentials;
             Client = HttpClientHelper.CreateClient(ServiceUrl, credentials, handler);
         }

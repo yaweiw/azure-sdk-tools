@@ -21,7 +21,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.ServiceBus
     {
         public static PSObject GetNamespacePSObject(ExtendedAuthorizationRule rule)
         {
-            return (null == rule? null : PowerShellUtility.ConstructPSObject(
+            return (null == rule? null : PowerShellUtilities.ConstructPSObject(
                 typeof(ExtendedAuthorizationRule).FullName,
                 "Namespace", rule.Namespace,
                 "Name", rule.Name,

@@ -62,7 +62,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.ServiceBus
 
         public object DeserializeReply(Message message, object[] parameters)
         {
-            XDocument response = XDocument.Parse(General.ReadMessageBody(ref message));
+            XDocument response = XDocument.Parse(GeneralUtilities.ReadMessageBody(ref message));
             List<T> results = new List<T>();
             IEnumerable<XElement> contents = response.Descendants(XName.Get("content", ServiceBusConstants.AtomNamespaceName));
             XmlSerializer serializer = new XmlSerializer(typeof(T));

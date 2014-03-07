@@ -12,6 +12,8 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
+using Microsoft.WindowsAzure.Commands.Utilities.Common;
+
 namespace Microsoft.WindowsAzure.Commands.Test.CloudService.Utilities
 {
     using System;
@@ -29,12 +31,12 @@ namespace Microsoft.WindowsAzure.Commands.Test.CloudService.Utilities
         {
             // Setup
             string outputFileName = "outputFile.txt";
-            ServiceDefinition serviceDefinition = General.DeserializeXmlFile<ServiceDefinition>(
+            ServiceDefinition serviceDefinition = XmlUtilities.DeserializeXmlFile<ServiceDefinition>(
                 Testing.GetTestResourcePath("GB18030ServiceDefinition.csdef"));
 
             // Test
             File.Create(outputFileName).Close();
-            General.SerializeXmlFile<ServiceDefinition>(serviceDefinition, outputFileName);
+            XmlUtilities.SerializeXmlFile(serviceDefinition, outputFileName);
 
             // Assert
             // If reached this point means the test passed

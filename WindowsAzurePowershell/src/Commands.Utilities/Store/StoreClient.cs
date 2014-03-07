@@ -180,12 +180,12 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Store
 
             foreach (CloudService storeService in storeServices)
             {
-                if (General.TryEquals(searchOptions.GeoRegion, storeService.GeoRegion))
+                if (GeneralUtilities.TryEquals(searchOptions.GeoRegion, storeService.GeoRegion))
                 {
                     foreach (Resource resource in storeService.Resources)
                     {
-                        if (General.TryEquals(searchOptions.Name, resource.Name) &&
-                            General.TryEquals(searchOptions.Provider, resource.Namespace))
+                        if (GeneralUtilities.TryEquals(searchOptions.Name, resource.Name) &&
+                            GeneralUtilities.TryEquals(searchOptions.Provider, resource.Namespace))
                         {
                             addOns.Add(new WindowsAzureAddOn(resource, storeService.GeoRegion, storeService.Name));
                         }

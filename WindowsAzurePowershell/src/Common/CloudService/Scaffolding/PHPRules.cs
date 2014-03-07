@@ -12,6 +12,8 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
+using Microsoft.WindowsAzure.Commands.Utilities.Common;
+
 namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService.Scaffolding
 {
     using System.Collections.Generic;
@@ -26,7 +28,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService.Scaffolding
             RoleInfo role = parameters["Role"] as RoleInfo;
             ServiceComponents components = parameters["Components"] as ServiceComponents;
             PowerShellProjectPathInfo paths = parameters["Paths"] as PowerShellProjectPathInfo;
-            RoleSettings settings = General.DeserializeXmlFile<ServiceConfiguration>(path).Role[0];
+            RoleSettings settings = XmlUtilities.DeserializeXmlFile<ServiceConfiguration>(path).Role[0];
 
             components.AddRoleToConfiguration(settings, DevEnv.Cloud);
             components.AddRoleToConfiguration(settings, DevEnv.Local);
@@ -38,7 +40,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService.Scaffolding
             RoleInfo role = parameters["Role"] as RoleInfo;
             ServiceComponents components = parameters["Components"] as ServiceComponents;
             PowerShellProjectPathInfo paths = parameters["Paths"] as PowerShellProjectPathInfo;
-            WebRole webRole = General.DeserializeXmlFile<ServiceDefinition>(path).WebRole[0];
+            WebRole webRole = XmlUtilities.DeserializeXmlFile<ServiceDefinition>(path).WebRole[0];
 
             role.AddRoleToDefinition(components.Definition, webRole);
             components.Save(paths);
@@ -49,7 +51,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService.Scaffolding
             RoleInfo role = parameters["Role"] as RoleInfo;
             ServiceComponents components = parameters["Components"] as ServiceComponents;
             PowerShellProjectPathInfo paths = parameters["Paths"] as PowerShellProjectPathInfo;
-            WorkerRole workerRole = General.DeserializeXmlFile<ServiceDefinition>(path).WorkerRole[0];
+            WorkerRole workerRole = XmlUtilities.DeserializeXmlFile<ServiceDefinition>(path).WorkerRole[0];
 
             role.AddRoleToDefinition(components.Definition, workerRole);
             components.Save(paths);

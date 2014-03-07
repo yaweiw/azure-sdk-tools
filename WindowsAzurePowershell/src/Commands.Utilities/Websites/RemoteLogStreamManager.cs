@@ -106,7 +106,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
         {
             if (Logger != null)
             {
-                Logger(General.GetHttpRequestLog(
+                Logger(GeneralUtilities.GetHttpRequestLog(
                 request.Method,
                 request.RequestUri.ToString(),
                 request.Headers,
