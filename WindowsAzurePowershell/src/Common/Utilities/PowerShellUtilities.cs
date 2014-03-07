@@ -17,7 +17,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
     using System.Diagnostics;
     using System.Management.Automation;
 
-    public static class PowerShellUtils
+    public static class PowerShellUtilities
     {
         public static PSObject ConstructPSObject(string typeName, params object[] args)
         {

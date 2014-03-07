@@ -74,7 +74,7 @@ namespace Microsoft.WindowsAzure.Commands.CloudService.Development
         {
             AzureTool.Validate();
             base.ExecuteCmdlet();
-            StartAzureEmulatorProcess(GeneralUtils.GetServiceRootPath(CurrentPath()));
+            StartAzureEmulatorProcess(GeneralUtilities.GetServiceRootPath(CurrentPath()));
         }
     }
 }

@@ -20,10 +20,9 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
     using System.Xml;
     using System.Xml.Linq;
     using System.Xml.Serialization;
-    using Common;
     using Commands.Common.Properties;
 
-    public static class XmlUtils
+    public static class XmlUtilities
     {
         public static T DeserializeXmlFile<T>(string fileName, string exceptionMessage = null)
         {
@@ -58,7 +57,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
             Validate.ValidateStringIsNullOrEmpty(fileName, String.Empty);
 
             XmlSerializer xmlSerializer = new XmlSerializer(typeof(T));
-            Encoding encoding = FileUtils.GetFileEncoding(fileName);
+            Encoding encoding = FileUtilities.GetFileEncoding(fileName);
             using (TextWriter writer = new StreamWriter(new FileStream(fileName, FileMode.Create), encoding))
             {
                 xmlSerializer.Serialize(writer, obj);

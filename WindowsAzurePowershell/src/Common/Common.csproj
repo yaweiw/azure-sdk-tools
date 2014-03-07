@@ -178,8 +178,8 @@
     <Compile Include="CmdletBase.cs" />
     <Compile Include="CmdletExtensions.cs" />
     <Compile Include="CmdletWithSubscriptionBase.cs" />
-    <Compile Include="Utils\ConversionUtils.cs" />
-    <Compile Include="Utils\GeneralUtils.cs" />
+    <Compile Include="Utilities\ConversionUtilities.cs" />
+    <Compile Include="Utilities\GeneralUtilities.cs" />
     <Compile Include="GlobalPathInfo.cs" />
     <Compile Include="HttpClientExtensions.cs" />
     <Compile Include="HttpClientHelper.cs" />
@@ -192,9 +192,9 @@
     <Compile Include="PowershellDefaultProfileStore.cs" />
     <Compile Include="PowershellOldSettingsProfileStore.cs" />
     <Compile Include="PowershellProfileStore.cs" />
-    <Compile Include="Utils\FileUtils.cs" />
-    <Compile Include="Utils\JsonUtils.cs" />
-    <Compile Include="Utils\PowerShellUtils.cs" />
+    <Compile Include="Utilities\FileUtilities.cs" />
+    <Compile Include="Utilities\JsonUtilities.cs" />
+    <Compile Include="Utilities\PowerShellUtilities.cs" />
     <Compile Include="ProcessHelper.cs" />
     <Compile Include="ProfileData.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -214,7 +214,7 @@
     <Compile Include="PublishSettingsImporter.cs" />
     <Compile Include="RequiredResourceLookup.cs" />
     <Compile Include="Tasks.cs" />
-    <Compile Include="Utils\XmlUtils.cs" />
+    <Compile Include="Utilities\XmlUtilities.cs" />
     <Compile Include="Validate.cs" />
     <Compile Include="CloudService\VisualStudioProjectPathInfo.cs" />
     <Compile Include="WindowsAzureCertificate.cs" />

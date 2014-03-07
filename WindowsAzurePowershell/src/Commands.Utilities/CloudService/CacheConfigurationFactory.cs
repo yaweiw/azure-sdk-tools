@@ -72,7 +72,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService
             RoleSettings cacheRoleSettings = cloudServiceProject.Components.GetCloudConfigRole(cacheRoleInfo.Name);
 
             // Add caching module to the role imports
-            cacheWorkerRole.Imports = GeneralUtils.ExtendArray<Import>(
+            cacheWorkerRole.Imports = GeneralUtilities.ExtendArray<Import>(
                 cacheWorkerRole.Imports,
                 new Import { moduleName = Resources.CachingModuleName });
 
@@ -82,8 +82,8 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService
                 name = Resources.CacheDiagnosticStoreName,
                 cleanOnRoleRecycle = false
             };
-            cacheWorkerRole.LocalResources = GeneralUtils.InitializeIfNull<LocalResources>(cacheWorkerRole.LocalResources);
-            cacheWorkerRole.LocalResources.LocalStorage = GeneralUtils.ExtendArray<LocalStore>(
+            cacheWorkerRole.LocalResources = GeneralUtilities.InitializeIfNull<LocalResources>(cacheWorkerRole.LocalResources);
+            cacheWorkerRole.LocalResources.LocalStorage = GeneralUtilities.ExtendArray<LocalStore>(
                 cacheWorkerRole.LocalResources.LocalStorage,
                 diagnosticStore);
 
@@ -123,7 +123,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService
                 value = connectionString
             });
 
-            cacheRoleSettings.ConfigurationSettings = GeneralUtils.ExtendArray<ConfigConfigurationSetting>(
+            cacheRoleSettings.ConfigurationSettings = GeneralUtilities.ExtendArray<ConfigConfigurationSetting>(
                 cacheRoleSettings.ConfigurationSettings,
                 cachingConfigSettings);
         }
@@ -160,7 +160,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService
             if (cloudServiceProject.Components.IsWebRole(roleName))
             {
                 WebRole webRole = cloudServiceProject.Components.GetWebRole(roleName);
-                webRole.LocalResources = GeneralUtils.InitializeIfNull<LocalResources>(webRole.LocalResources);
+                webRole.LocalResources = GeneralUtilities.InitializeIfNull<LocalResources>(webRole.LocalResources);
                 DefinitionConfigurationSetting[] configurationSettings = webRole.ConfigurationSettings;
 
                 CacheClientCommonConfiguration(
@@ -177,7 +177,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService
             else
             {
                 WorkerRole workerRole = cloudServiceProject.Components.GetWorkerRole(roleName);
-                workerRole.LocalResources = GeneralUtils.InitializeIfNull<LocalResources>(workerRole.LocalResources);
+                workerRole.LocalResources = GeneralUtilities.InitializeIfNull<LocalResources>(workerRole.LocalResources);
                 DefinitionConfigurationSetting[] configurationSettings = workerRole.ConfigurationSettings;
 
                 CacheClientCommonConfiguration(
@@ -236,7 +236,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService
                 protocol = InternalProtocol.tcp,
                 port = Resources.MemcacheEndpointPort
             };
-            endpoints.InternalEndpoint = GeneralUtils.ExtendArray<InternalEndpoint>(endpoints.InternalEndpoint, memcacheEndpoint);
+            endpoints.InternalEndpoint = GeneralUtilities.ExtendArray<InternalEndpoint>(endpoints.InternalEndpoint, memcacheEndpoint);
 
             // Enable cache diagnostic
             LocalStore localStore = new LocalStore
@@ -244,10 +244,10 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService
                 name = Resources.CacheDiagnosticStoreName,
                 cleanOnRoleRecycle = false
             };
-            localResources.LocalStorage = GeneralUtils.ExtendArray<LocalStore>(localResources.LocalStorage, localStore);
+            localResources.LocalStorage = GeneralUtilities.ExtendArray<LocalStore>(localResources.LocalStorage, localStore);
 
             DefinitionConfigurationSetting diagnosticLevel = new DefinitionConfigurationSetting { name = Resources.CacheClientDiagnosticLevelAssemblyName };
-            configurationSettings = GeneralUtils.ExtendArray<DefinitionConfigurationSetting>(configurationSettings, diagnosticLevel);
+            configurationSettings = GeneralUtilities.ExtendArray<DefinitionConfigurationSetting>(configurationSettings, diagnosticLevel);
 
             // Add ClientDiagnosticLevel setting to service configuration.
             AddClientDiagnosticLevelToConfig(cloudServiceProject.Components.GetCloudConfigRole(roleName));
@@ -257,7 +257,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService
         private static void AddClientDiagnosticLevelToConfig(RoleSettings roleSettings)
         {
             ConfigConfigurationSetting clientDiagnosticLevel = new ConfigConfigurationSetting { name = Resources.ClientDiagnosticLevelName, value = Resources.ClientDiagnosticLevelValue };
-            roleSettings.ConfigurationSettings = GeneralUtils.ExtendArray<ConfigConfigurationSetting>(roleSettings.ConfigurationSettings, clientDiagnosticLevel);
+            roleSettings.ConfigurationSettings = GeneralUtilities.ExtendArray<ConfigConfigurationSetting>(roleSettings.ConfigurationSettings, clientDiagnosticLevel);
         }
 
         /// <summary>

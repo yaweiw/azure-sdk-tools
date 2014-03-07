@@ -57,7 +57,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common.Storage
             var storageService = StorageManagementClient.StorageAccounts.Get(parameters.StorageName);
             Uri blobEndpointUri = storageService.Properties.Endpoints[0];
             return UploadFile(parameters.StorageName,
-                GeneralUtils.CreateHttpsEndpoint(blobEndpointUri.ToString()),
+                GeneralUtilities.CreateHttpsEndpoint(blobEndpointUri.ToString()),
                 storageKey, parameters);
         }
 

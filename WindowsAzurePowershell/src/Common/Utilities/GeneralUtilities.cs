@@ -12,8 +12,6 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-using Microsoft.WindowsAzure.Commands.Utilities.Common;
-
 namespace Microsoft.WindowsAzure.Commands.Utilities.Common
 {
     using System;
@@ -36,7 +34,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
     using Commands.Common.Properties;
     using XmlSchema.ServiceConfigurationSchema;
 
-    public static class GeneralUtils
+    public static class GeneralUtilities
     {
         private static Assembly _assembly = Assembly.GetExecutingAssembly();
 
@@ -59,7 +57,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
 
         public static string GetNodeModulesPath()
         {
-            return Path.Combine(FileUtils.GetAssemblyDirectory(), Resources.NodeModulesPath);
+            return Path.Combine(FileUtilities.GetAssemblyDirectory(), Resources.NodeModulesPath);
         }
 
         public static byte[] GetResourceContents(string resourceName)
@@ -172,7 +170,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
                 originalMessage = messageBuffer.CreateMessage();
             }
 
-            return XmlUtils.Beautify(strBuilder.ToString());
+            return XmlUtilities.Beautify(strBuilder.ToString());
         }
 
         public static string GetConfiguration(string configurationPath)
@@ -521,13 +519,13 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
 
         public static string FormatString(string content)
         {
-            if (XmlUtils.IsXml(content))
+            if (XmlUtilities.IsXml(content))
             {
-                return XmlUtils.TryFormatXml(content);
+                return XmlUtilities.TryFormatXml(content);
             }
-            else if (JsonUtils.IsJson(content))
+            else if (JsonUtilities.IsJson(content))
             {
-                return JsonUtils.TryFormatJson(content);
+                return JsonUtilities.TryFormatJson(content);
             }
             else
             {
@@ -556,7 +554,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
                 result.AppendLine(string.Format(
                     "{0,-30}: {1}",
                     key,
-                    ConversionUtils.ArrayToString(headers.GetValues(key), ",")));
+                    ConversionUtilities.ArrayToString(headers.GetValues(key), ",")));
             }
 
             return result.ToString();

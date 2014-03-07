@@ -48,7 +48,7 @@ namespace Microsoft.WindowsAzure.Commands.Common.Test
                  }";
 
             Dictionary<string, object> result;
-            result = JsonUtils.DeserializeJson(json1);
+            result = JsonUtilities.DeserializeJson(json1);
             Assert.IsNotNull(result);
             Assert.AreEqual(5, result.Count);
             Assert.AreEqual(2, ((Dictionary<string, object>)result["address"]).Count);
@@ -70,7 +70,7 @@ namespace Microsoft.WindowsAzure.Commands.Common.Test
                  }";
 
             Dictionary<string, object> result;
-            result = JsonUtils.DeserializeJson(json1);
+            result = JsonUtilities.DeserializeJson(json1);
             Assert.IsNotNull(result);
             Assert.AreEqual(5, result.Count);
             Assert.AreEqual(0, ((Dictionary<string, object>)result["address"]).Count);
@@ -81,10 +81,10 @@ namespace Microsoft.WindowsAzure.Commands.Common.Test
         public void DeserializeJsonAcceptsBadArguments()
         {
             Dictionary<string, object> result;
-            result = JsonUtils.DeserializeJson(null);
+            result = JsonUtilities.DeserializeJson(null);
             Assert.IsNull(result);
 
-            result = JsonUtils.DeserializeJson(string.Empty);
+            result = JsonUtilities.DeserializeJson(string.Empty);
             Assert.IsTrue(result.Count == 0);
         }
 
@@ -113,7 +113,7 @@ namespace Microsoft.WindowsAzure.Commands.Common.Test
                  }";
 
             Dictionary<string, object> result;
-            result = JsonUtils.DeserializeJson(json1);
+            result = JsonUtilities.DeserializeJson(json1);
             Assert.IsNull(result);
         }
     }

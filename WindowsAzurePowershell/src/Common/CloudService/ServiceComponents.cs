@@ -54,9 +54,9 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService
                 File.WriteAllText(paths.Settings, Resources.SettingsFileEmptyContent);
             }
 
-            Definition = XmlUtils.DeserializeXmlFile<ServiceDefinition>(paths.Definition);
-            CloudConfig = XmlUtils.DeserializeXmlFile<ServiceConfiguration>(paths.CloudConfiguration);
-            LocalConfig = XmlUtils.DeserializeXmlFile<ServiceConfiguration>(paths.LocalConfiguration);
+            Definition = XmlUtilities.DeserializeXmlFile<ServiceDefinition>(paths.Definition);
+            CloudConfig = XmlUtilities.DeserializeXmlFile<ServiceConfiguration>(paths.CloudConfiguration);
+            LocalConfig = XmlUtilities.DeserializeXmlFile<ServiceConfiguration>(paths.LocalConfiguration);
             Settings = ServiceSettings.Load(paths.Settings);
         }
 
@@ -65,9 +65,9 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService
             // Validate directory exists and it's valid
             if (paths == null) throw new ArgumentNullException("paths");
 
-            XmlUtils.SerializeXmlFile(Definition, paths.Definition);
-            XmlUtils.SerializeXmlFile(CloudConfig, paths.CloudConfiguration);
-            XmlUtils.SerializeXmlFile(LocalConfig, paths.LocalConfiguration);
+            XmlUtilities.SerializeXmlFile(Definition, paths.Definition);
+            XmlUtilities.SerializeXmlFile(CloudConfig, paths.CloudConfiguration);
+            XmlUtilities.SerializeXmlFile(LocalConfig, paths.LocalConfiguration);
             Settings.Save(paths.Settings);
         }
 
@@ -400,7 +400,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService
                 executionContext = context
             };
 
-            roleStartup.Task = GeneralUtils.ExtendArray<Task>(roleStartup.Task, newTask);
+            roleStartup.Task = GeneralUtilities.ExtendArray<Task>(roleStartup.Task, newTask);
         }
 
         /// <summary>
@@ -456,7 +456,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService
                 if (!found)
                 {
                     Variable var = new Variable() { name = name, value = value };
-                    task.Environment = GeneralUtils.ExtendArray<Variable>(task.Environment, var);
+                    task.Environment = GeneralUtilities.ExtendArray<Variable>(task.Environment, var);
                 }
             }
         }

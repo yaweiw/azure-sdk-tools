@@ -79,7 +79,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Models
                 Location = resource.Location,
                 ResourceType = resource.Type,
                 ResourceGroupName = resource.ResourceGroup,
-                ParameterObject = JsonUtils.DeserializeJson(resource.Properties)
+                ParameterObject = JsonUtilities.DeserializeJson(resource.Properties)
             };
         }
 
