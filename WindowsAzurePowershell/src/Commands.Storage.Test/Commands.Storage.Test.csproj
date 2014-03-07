@@ -105,9 +105,9 @@
     <Reference Include="Microsoft.WindowsAzure.Configuration">
       <HintPath>..\packages\Microsoft.WindowsAzure.ConfigurationManager.2.0.1.0\lib\net40\Microsoft.WindowsAzure.Configuration.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.WindowsAzure.Storage, Version=3.0.2.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+    <Reference Include="Microsoft.WindowsAzure.Storage, Version=3.0.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\WindowsAzure.Storage.3.0.2.0\lib\net40\Microsoft.WindowsAzure.Storage.dll</HintPath>
+      <HintPath>..\packages\WindowsAzure.Storage.3.0.3.0\lib\net40\Microsoft.WindowsAzure.Storage.dll</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -176,7 +176,6 @@
     <Compile Include="Blob\Cmdlet\RemoveAzureStorageContainerTest.cs" />
     <!-- <Compile Include="Blob\Cmdlet\SetAzureStorageBlobContentTest.cs" /> -->
     <Compile Include="Blob\Cmdlet\SetAzureStorageContainerAclTest.cs" />
-    <Compile Include="Blob\FakeRemoveAzureContainerCommand.cs" />
     <Compile Include="Blob\StorageBlobTestBase.cs" />
     <Compile Include="Blob\StorageCloudBlobCmdletBaseTest.cs" />
     <Compile Include="Common\Cmdlet\NewAzureStorageContextTest.cs" />
@@ -215,10 +214,6 @@
     <ProjectReference Include="..\Commands.Test.Utilities\Commands.Test.Utilities.csproj">
       <Project>{bc420543-c04e-4bf3-96e1-cd81b823bdd7}</Project>
       <Name>Commands.Test.Utilities</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Commands.Test\Commands.Test.csproj">
-      <Project>{b7fd03f6-98bc-4f54-9a14-0455e579fcd4}</Project>
-      <Name>Commands.Test</Name>
     </ProjectReference>
     <ProjectReference Include="..\Commands.Utilities\Commands.Utilities.csproj">
       <Project>{4900ec4e-8deb-4412-9108-0bc52f81d457}</Project>

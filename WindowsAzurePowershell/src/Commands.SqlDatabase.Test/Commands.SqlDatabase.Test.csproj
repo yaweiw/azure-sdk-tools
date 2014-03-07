@@ -105,11 +105,11 @@
     <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
     <Reference Include="Microsoft.WindowsAzure.Common, Version=0.9.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Microsoft.WindowsAzure.Common.0.9.9-preview\lib\net40\Microsoft.WindowsAzure.Common.dll</HintPath>
+      <HintPath>..\packages\Microsoft.WindowsAzure.Common.0.9.10-preview\lib\net40\Microsoft.WindowsAzure.Common.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.WindowsAzure.Common.NetFramework, Version=0.9.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Microsoft.WindowsAzure.Common.0.9.9-preview\lib\net40\Microsoft.WindowsAzure.Common.NetFramework.dll</HintPath>
+      <HintPath>..\packages\Microsoft.WindowsAzure.Common.0.9.10-preview\lib\net40\Microsoft.WindowsAzure.Common.NetFramework.dll</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json">
       <HintPath>..\packages\Newtonsoft.Json.5.0.8\lib\net40\Newtonsoft.Json.dll</HintPath>
@@ -222,10 +222,6 @@
       <Project>{bc420543-c04e-4bf3-96e1-cd81b823bdd7}</Project>
       <Name>Commands.Test.Utilities</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Commands.Test\Commands.Test.csproj">
-      <Project>{B7FD03F6-98BC-4F54-9A14-0455E579FCD4}</Project>
-      <Name>Commands.Test</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Commands.Utilities\Commands.Utilities.csproj">
       <Project>{4900ec4e-8deb-4412-9108-0bc52f81d457}</Project>
       <Name>Commands.Utilities</Name>
@@ -245,6 +241,7 @@
     <None Include="Resources\SqlDatabaseSettings.xml" />
     <Content Include="Resources\MockSessions.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <SubType>Designer</SubType>
     </Content>
     <None Include="TestScripts\Database\DeleteDatabase-ScenarioFunctions.ps1" />
     <Content Include="TestScripts\Database\ExpectedFormat.txt" />
