@@ -29,21 +29,11 @@ namespace Microsoft.WindowsAzure.Commands.Scheduler
     {
         [Parameter(Position = 0, Mandatory = false, HelpMessage = "The location name.")]
         [ValidateNotNullOrEmpty]
-        public string Location
-        {
-            get;
-            set;
-        }
+        public string Location { get; set; }
 
         [Parameter(Position = 1, Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "The job collection name.")]
         [ValidateNotNullOrEmpty]
-        public string JobCollectionName
-        {
-            get;
-            set;
-        }
-
-        
+        public string JobCollectionName { get; set; }
 
         public override void ExecuteCmdlet()
         {
@@ -51,8 +41,6 @@ namespace Microsoft.WindowsAzure.Commands.Scheduler
                 WriteWarning(Resources.SchedulerInvalidLocation);
             else
                 WriteObject(SMClient.GetJobCollection(region:Location, jobCollection:JobCollectionName), true); 
-        }
-
-       
+        }      
     }
 }

@@ -60,7 +60,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Scheduler
             
             if (!string.IsNullOrEmpty(region))
             {
-                string cloudService = region.toCloudServiceName();
+                string cloudService = region.ToCloudServiceName();
                 foreach (CloudServiceListResponse.CloudService cs in csList.CloudServices)
                 {
                     if (cs.Name.Equals(cloudService, StringComparison.OrdinalIgnoreCase))
@@ -123,7 +123,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Scheduler
         {
             List<PSSchedulerJob> lstJob = new List<PSSchedulerJob>();
 
-            string cloudService = region.toCloudServiceName();
+            string cloudService = region.ToCloudServiceName();
             if (!string.IsNullOrEmpty(job))
             {
                 PSJobDetail jobDetail = GetJobDetail(jobCollection, job, cloudService);
@@ -203,7 +203,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Scheduler
         public List<PSJobHistory> GetJobHistory(string jobCollection, string job, string region, string jobStatus = "")
         {
             List<PSJobHistory> lstPSJobHistory = new List<PSJobHistory>();
-            string cloudService = region.toCloudServiceName();
+            string cloudService = region.ToCloudServiceName();
             CloudServiceGetResponse csDetails = csmClient.CloudServices.Get(cloudService);
             foreach (CloudServiceGetResponse.Resource csRes in csDetails.Resources)
             {
@@ -248,7 +248,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Scheduler
                         historyObj.Occurence = entry.RepeatCount;
                         if (JobHistoryActionName.ErrorAction == entry.ActionName)
                         {
-                            PSJobHistoryError errorObj = historyObj.toJobHistoryError();
+                            PSJobHistoryError errorObj = historyObj.ToJobHistoryError();
                             errorObj.ErrorAction = JobHistoryActionName.ErrorAction.ToString();
                             lstPSJobHistory.Add(errorObj);
                         }
@@ -394,7 +394,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Scheduler
         {
             if (!string.IsNullOrEmpty(region))
             {
-                SchedulerClient schedulerClient = new SchedulerClient(csmClient.Credentials, region.toCloudServiceName(), jobCollection);
+                SchedulerClient schedulerClient = new SchedulerClient(csmClient.Credentials, region.ToCloudServiceName(), jobCollection);
                 OperationResponse response = schedulerClient.Jobs.Delete(jobName);
                 return response.StatusCode.ToString();
             }
@@ -437,7 +437,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Scheduler
         {
             if (!string.IsNullOrEmpty(region))
             {
-                SchedulerOperationStatusResponse response = schedulerManagementClient.JobCollections.Delete(region.toCloudServiceName(), jobCollection);
+                SchedulerOperationStatusResponse response = schedulerManagementClient.JobCollections.Delete(region.ToCloudServiceName(), jobCollection);
                 return response.StatusCode.ToString();
             }
             else if (string.IsNullOrEmpty(region))
@@ -452,7 +452,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Scheduler
                             JobCollectionGetResponse jcGetResponse = schedulerManagementClient.JobCollections.Get(cs.Name, csRes.Name);
                             if (jcGetResponse.Name.Equals(jobCollection, StringComparison.OrdinalIgnoreCase))
                             {
-                                SchedulerOperationStatusResponse response = schedulerManagementClient.JobCollections.Delete(region.toCloudServiceName(), jobCollection);
+                                SchedulerOperationStatusResponse response = schedulerManagementClient.JobCollections.Delete(region.ToCloudServiceName(), jobCollection);
                                 return response.StatusCode.ToString();
                             }
                         }
@@ -482,7 +482,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Scheduler
 
                 if (jobRequest.ErrorActionHeaders != null)
                 {
-                    errorAction.Request.Headers = jobRequest.ErrorActionHeaders.toDictionary();
+                    errorAction.Request.Headers = jobRequest.ErrorActionHeaders.ToDictionary();
                 }
 
                 if (jobRequest.ErrorActionMethod.Equals("PUT", StringComparison.OrdinalIgnoreCase) || jobRequest.ErrorActionMethod.Equals("POST", StringComparison.OrdinalIgnoreCase))
@@ -508,7 +508,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Scheduler
    
         public PSJobDetail CreateHttpJob(PSCreateJobParams jobRequest, out string status)
         {
-            SchedulerClient schedulerClient = new SchedulerClient(csmClient.Credentials, jobRequest.Region.toCloudServiceName(), jobRequest.JobCollectionName);
+            SchedulerClient schedulerClient = new SchedulerClient(csmClient.Credentials, jobRequest.Region.ToCloudServiceName(), jobRequest.JobCollectionName);
             JobCreateOrUpdateParameters jobCreateParams = new JobCreateOrUpdateParameters
             {
                 Action = new JobAction
@@ -523,7 +523,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Scheduler
 
             if (jobRequest.Headers != null)
             {
-                jobCreateParams.Action.Request.Headers = jobRequest.Headers.toDictionary();
+                jobCreateParams.Action.Request.Headers = jobRequest.Headers.ToDictionary();
             }
 
             if (jobRequest.Method.Equals("PUT", StringComparison.OrdinalIgnoreCase) || jobRequest.Method.Equals("POST", StringComparison.OrdinalIgnoreCase))
@@ -554,13 +554,13 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Scheduler
 
             status = jobCreateResponse.StatusCode.ToString().Equals("OK") ? "Job has been updated" : jobCreateResponse.StatusCode.ToString();
 
-            return GetJobDetail(jobRequest.JobCollectionName, jobRequest.JobName, jobRequest.Region.toCloudServiceName());
+            return GetJobDetail(jobRequest.JobCollectionName, jobRequest.JobName, jobRequest.Region.ToCloudServiceName());
         }
 
       
         public PSJobDetail CreateStorageJob(PSCreateJobParams jobRequest, out string status)
         {
-            SchedulerClient schedulerClient = new SchedulerClient(csmClient.Credentials, jobRequest.Region.toCloudServiceName(), jobRequest.JobCollectionName);
+            SchedulerClient schedulerClient = new SchedulerClient(csmClient.Credentials, jobRequest.Region.ToCloudServiceName(), jobRequest.JobCollectionName);
             JobCreateOrUpdateParameters jobCreateParams = new JobCreateOrUpdateParameters
             {
                 Action = new JobAction
@@ -601,7 +601,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Scheduler
 
             status = jobCreateResponse.StatusCode.ToString().Equals("OK") ? "Job has been updated" : jobCreateResponse.StatusCode.ToString();
 
-            return GetJobDetail(jobRequest.JobCollectionName, jobRequest.JobName, jobRequest.Region.toCloudServiceName());
+            return GetJobDetail(jobRequest.JobCollectionName, jobRequest.JobName, jobRequest.Region.ToCloudServiceName());
            
         }
 
@@ -610,7 +610,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Scheduler
       
         public PSJobDetail PatchHttpJob(PSCreateJobParams jobRequest, out string status)
         {
-            SchedulerClient schedulerClient = new SchedulerClient(csmClient.Credentials, jobRequest.Region.toCloudServiceName(), jobRequest.JobCollectionName);
+            SchedulerClient schedulerClient = new SchedulerClient(csmClient.Credentials, jobRequest.Region.ToCloudServiceName(), jobRequest.JobCollectionName);
 
             //Get Existing job
             Job job = schedulerClient.Jobs.Get(jobRequest.JobName).Job;
@@ -625,7 +625,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Scheduler
 
             status = jobUpdateResponse.StatusCode.ToString().Equals("OK") ? "Job has been updated" : jobUpdateResponse.StatusCode.ToString();
 
-            return GetJobDetail(jobRequest.JobCollectionName, jobRequest.JobName, jobRequest.Region.toCloudServiceName());
+            return GetJobDetail(jobRequest.JobCollectionName, jobRequest.JobName, jobRequest.Region.ToCloudServiceName());
         }
 
         private JobCreateOrUpdateParameters PopulateExistingJobParams(Job job, PSCreateJobParams jobRequest, JobActionType type)
@@ -683,14 +683,14 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Scheduler
                         {
                             jobUpdateParams.Action.Request.Uri = jobRequest.Uri ?? job.Action.Request.Uri;
                             jobUpdateParams.Action.Request.Method = jobRequest.Method ?? job.Action.Request.Method;
-                            jobUpdateParams.Action.Request.Headers = jobRequest.Headers == null ? job.Action.Request.Headers : jobRequest.Headers.toDictionary();
+                            jobUpdateParams.Action.Request.Headers = jobRequest.Headers == null ? job.Action.Request.Headers : jobRequest.Headers.ToDictionary();
                             jobUpdateParams.Action.Request.Body = jobRequest.Body ?? job.Action.Request.Body;
                         }
                         else if (job.Action.Request == null)
                         {
                             jobUpdateParams.Action.Request.Uri = jobRequest.Uri;
                             jobUpdateParams.Action.Request.Method = jobRequest.Method;
-                            jobUpdateParams.Action.Request.Headers = jobRequest.Headers.toDictionary();
+                            jobUpdateParams.Action.Request.Headers = jobRequest.Headers.ToDictionary();
                             jobUpdateParams.Action.Request.Body = jobRequest.Body;
                         }
 
@@ -699,7 +699,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Scheduler
                     {
                         jobUpdateParams.Action.Request.Uri = jobRequest.Uri;
                         jobUpdateParams.Action.Request.Method = jobRequest.Method;
-                        jobUpdateParams.Action.Request.Headers = jobRequest.Headers.toDictionary();
+                        jobUpdateParams.Action.Request.Headers = jobRequest.Headers.ToDictionary();
                         jobUpdateParams.Action.Request.Body = jobRequest.Body;
                     }
                 }
@@ -721,14 +721,14 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Scheduler
                     {
                         jobUpdateParams.Action.ErrorAction.Request.Uri = jobRequest.ErrorActionUri ?? job.Action.ErrorAction.Request.Uri;
                         jobUpdateParams.Action.ErrorAction.Request.Method = jobRequest.ErrorActionMethod ?? job.Action.ErrorAction.Request.Method;
-                        jobUpdateParams.Action.ErrorAction.Request.Headers = jobRequest.ErrorActionHeaders == null ? job.Action.ErrorAction.Request.Headers : jobRequest.Headers.toDictionary();
+                        jobUpdateParams.Action.ErrorAction.Request.Headers = jobRequest.ErrorActionHeaders == null ? job.Action.ErrorAction.Request.Headers : jobRequest.Headers.ToDictionary();
                         jobUpdateParams.Action.ErrorAction.Request.Body = jobRequest.ErrorActionBody ?? job.Action.ErrorAction.Request.Body;
                     }
                     else if (job.Action.ErrorAction.Request == null)
                     {
                         jobUpdateParams.Action.ErrorAction.Request.Uri = jobRequest.ErrorActionUri;
                         jobUpdateParams.Action.ErrorAction.Request.Method = jobRequest.ErrorActionMethod;
-                        jobUpdateParams.Action.ErrorAction.Request.Headers = jobRequest.ErrorActionHeaders.toDictionary();
+                        jobUpdateParams.Action.ErrorAction.Request.Headers = jobRequest.ErrorActionHeaders.ToDictionary();
                         jobUpdateParams.Action.ErrorAction.Request.Body = jobRequest.ErrorActionBody;
                     }
                     if (job.Action.ErrorAction.QueueMessage != null)
@@ -750,7 +750,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Scheduler
                 {
                     jobUpdateParams.Action.ErrorAction.Request.Uri = jobRequest.ErrorActionUri;
                     jobUpdateParams.Action.ErrorAction.Request.Method = jobRequest.ErrorActionMethod;
-                    jobUpdateParams.Action.ErrorAction.Request.Headers = jobRequest.ErrorActionHeaders.toDictionary();
+                    jobUpdateParams.Action.ErrorAction.Request.Headers = jobRequest.ErrorActionHeaders.ToDictionary();
                     jobUpdateParams.Action.ErrorAction.Request.Body = jobRequest.ErrorActionBody;
                     jobUpdateParams.Action.ErrorAction.QueueMessage.Message = jobRequest.ErrorActionQueueBody;
                     jobUpdateParams.Action.ErrorAction.QueueMessage.QueueName = jobRequest.ErrorActionQueueName;
@@ -830,7 +830,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Scheduler
 
         public PSJobDetail PatchStorageJob(PSCreateJobParams jobRequest, out string status)
         {
-            SchedulerClient schedulerClient = new SchedulerClient(csmClient.Credentials, jobRequest.Region.toCloudServiceName(), jobRequest.JobCollectionName);
+            SchedulerClient schedulerClient = new SchedulerClient(csmClient.Credentials, jobRequest.Region.ToCloudServiceName(), jobRequest.JobCollectionName);
 
             //Get Existing job
             Job job = schedulerClient.Jobs.Get(jobRequest.JobName).Job;
@@ -848,7 +848,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Scheduler
 
             status = jobUpdateResponse.StatusCode.ToString().Equals("OK") ? "Job has been updated" : jobUpdateResponse.StatusCode.ToString();
 
-            return GetJobDetail(jobRequest.JobCollectionName, jobRequest.JobName, jobRequest.Region.toCloudServiceName());
+            return GetJobDetail(jobRequest.JobCollectionName, jobRequest.JobName, jobRequest.Region.ToCloudServiceName());
         }
     }
 }
