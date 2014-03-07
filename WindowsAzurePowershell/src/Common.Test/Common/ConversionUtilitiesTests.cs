@@ -19,7 +19,7 @@ using Microsoft.WindowsAzure.Commands.Utilities.Common;
 namespace Microsoft.WindowsAzure.Commands.Common.Test
 {
     [TestClass]
-    public class ConversionUtilsTests
+    public class ConversionUtilitiesTests
     {
         [TestMethod]
         public void DeserializeJsonWorksForSimpleCases()

@@ -18,6 +18,8 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Models
 {
     public class UpdatePSResourceParameters : BasePSResourceParameters
     {
+        public SetResourceMode Mode { get; set; }
+
         public Hashtable PropertyObject { get; set; }
     }
 }

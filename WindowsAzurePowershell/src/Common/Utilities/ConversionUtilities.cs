@@ -47,7 +47,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
                         }
                         else
                         {
-                            dictionary[(string) entry.Key] = entry.Value.ToString();
+                            dictionary[(string) entry.Key] = entry.Value;
                         }
                     }
                 }
