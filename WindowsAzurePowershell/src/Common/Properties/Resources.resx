@@ -1470,4 +1470,7 @@ use and privacy statement at &lt;url&gt; and (c) agree to sharing my contact inf
   <data name="CsRunEmulatorExpressArg" xml:space="preserve">
     <value>/useemulatorexpress</value>
   </data>
+  <data name="UnableToPatchJson" xml:space="preserve">
+    <value>Unable to update mismatching Json structured: {0} {1}.</value>
+  </data>
 </root>
