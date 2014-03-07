@@ -122,7 +122,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement.ResourceGroupDeployments
 
         private Hashtable GetParameterObject(Hashtable parameterObject)
         {
-            IEnumerable<RuntimeDefinedParameter> parameters = General.GetUsedDynamicParameters(dynamicParameters, MyInvocation);
+            IEnumerable<RuntimeDefinedParameter> parameters = GeneralUtils.GetUsedDynamicParameters(dynamicParameters, MyInvocation);
 
             if (parameters.Count() > 0)
             {

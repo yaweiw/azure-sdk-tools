@@ -263,7 +263,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Models
             
             if (Uri.IsWellFormedUriString(templateName, UriKind.Absolute))
             {
-                templateContent = General.DownloadFile(templateName);
+                templateContent = GeneralUtils.DownloadFile(templateName);
             }
             else if (File.Exists(templateName))
             {
@@ -271,7 +271,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Models
             }
             else
             {
-                templateContent = General.DownloadFile(GetGalleryTemplateFile(templateName));
+                templateContent = GeneralUtils.DownloadFile(GetGalleryTemplateFile(templateName));
             }
 
             if (string.IsNullOrEmpty(templateContent))

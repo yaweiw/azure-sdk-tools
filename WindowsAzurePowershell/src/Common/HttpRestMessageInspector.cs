@@ -53,7 +53,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
                 request.Content = new StreamContent(stream);
                 contentHeaders.ForEach(kv => request.Content.Headers.Add(kv.Key, kv.Value));
             }
-            logger(General.GetHttpRequestLog(request.Method.ToString(), request.RequestUri.AbsoluteUri, request.Headers, body));
+            logger(GeneralUtils.GetHttpRequestLog(request.Method.ToString(), request.RequestUri.AbsoluteUri, request.Headers, body));
 
             return request;
         }
@@ -75,7 +75,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
                 response.Content = new StreamContent(stream);
                 contentHeaders.ForEach(kv => response.Content.Headers.Add(kv.Key, kv.Value));
             }
-            logger(General.GetHttpResponseLog(response.StatusCode.ToString(), response.Headers, body));
+            logger(GeneralUtils.GetHttpResponseLog(response.StatusCode.ToString(), response.Headers, body));
             
             return response;
         }
@@ -95,15 +95,15 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
         public virtual void AfterReceiveReply(ref Message reply, object correlationState)
         {
             HttpResponseMessageProperty prop = (HttpResponseMessageProperty)reply.Properties[HttpResponseMessageProperty.Name];
-            string body = General.ReadMessageBody(ref reply);
-            logger(General.GetHttpResponseLog(prop.StatusCode.ToString(), prop.Headers, body));
+            string body = GeneralUtils.ReadMessageBody(ref reply);
+            logger(GeneralUtils.GetHttpResponseLog(prop.StatusCode.ToString(), prop.Headers, body));
         }
 
         public virtual object BeforeSendRequest(ref Message request, IClientChannel channel)
         {
             HttpRequestMessageProperty prop = (HttpRequestMessageProperty)request.Properties[HttpRequestMessageProperty.Name];
-            string body = General.ReadMessageBody(ref request);
-            logger(General.GetHttpRequestLog(prop.Method, request.Headers.To.AbsoluteUri, prop.Headers, body));
+            string body = GeneralUtils.ReadMessageBody(ref request);
+            logger(GeneralUtils.GetHttpRequestLog(prop.Method, request.Headers.To.AbsoluteUri, prop.Headers, body));
 
             return request;
         }

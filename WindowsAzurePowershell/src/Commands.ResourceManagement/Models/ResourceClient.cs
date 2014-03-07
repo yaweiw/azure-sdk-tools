@@ -383,7 +383,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Models
         internal RuntimeDefinedParameter ConstructDynamicParameter(string[] parameters, string[] parameterSetNames, KeyValuePair<string, TemplateFileParameter> parameter)
         {
             const string duplicatedParameterSuffix = "FromTemplate";
-            string name = General.ToUpperFirstLetter(parameter.Key);
+            string name = GeneralUtils.ToUpperFirstLetter(parameter.Key);
             object defaultValue = parameter.Value.DefaultValue;
 
             RuntimeDefinedParameter runtimeParameter = new RuntimeDefinedParameter()

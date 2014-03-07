@@ -12,59 +12,54 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-using Newtonsoft.Json.Linq;
-
 namespace Microsoft.WindowsAzure.Commands.Utilities.Common
 {
-    using System.Collections;
+
+    using System;
     using System.Collections.Generic;
-    using System.Linq;
+    using System.Diagnostics.CodeAnalysis;
+    using System.IO;
+    using System.Web.Script.Serialization;
+    using Newtonsoft.Json;
+    using Newtonsoft.Json.Linq;
 
-    public static class ConversionUtils
+    public static class JsonUtils
     {
-        public static Dictionary<string, object> ToDictionary(this Hashtable hashtable, bool addValueLayer)
+        [SuppressMessage("Microsoft.Design", "CA1031:DoNotCatchGeneralExceptionTypes", Justification = "Handling the failure by returning the original string.")]
+        public static string TryFormatJson(string str)
         {
-            if (hashtable == null)
+            try
             {
-                return null;
+                object parsedJson = JsonConvert.DeserializeObject(str);
+                return JsonConvert.SerializeObject(parsedJson, Formatting.Indented);
             }
-            else
+            catch
             {
-                var dictionary = new Dictionary<string, object>();
-                foreach (var entry in hashtable.Cast<DictionaryEntry>())
-                {
-                    var valueAsHashtable = entry.Value as Hashtable;
-
-                    if (valueAsHashtable != null)
-                    {
-                        dictionary[(string)entry.Key] = valueAsHashtable.ToDictionary(addValueLayer);
-                    }
-                    else
-                    {
-                        if (addValueLayer)
-                        {
-                            dictionary[(string) entry.Key] = new Hashtable() {{"value", entry.Value.ToString()}};
-                        }
-                        else
-                        {
-                            dictionary[(string) entry.Key] = entry.Value.ToString();
-                        }
-                    }
-                }
-                return dictionary;
+                // can't parse JSON, return the original string
+                return str;
             }
         }
 
-        public static Hashtable ToHashtable<TV>(this IDictionary<string, TV> dictionary)
+        public static bool IsJson(string content)
         {
-            if (dictionary == null)
-            {
-                return null;
-            }
-            else
-            {
-                return new Hashtable((Dictionary<string, TV>)dictionary);
-            }
+            content = content.Trim();
+            return content.StartsWith("{") && content.EndsWith("}")
+                   || content.StartsWith("[") && content.EndsWith("]");
+        }
+
+        public static void SerializeJsonFile<T>(T data, string path)
+        {
+            JavaScriptSerializer javaScriptSerializer = new JavaScriptSerializer();
+            javaScriptSerializer.MaxJsonLength = Int32.MaxValue;
+            File.WriteAllText(path, TryFormatJson(javaScriptSerializer.Serialize(data)));
+        }
+
+        public static T DeserializeJsonFile<T>(string path)
+        {
+            string json = File.ReadAllText(path);
+            JavaScriptSerializer javaScriptSerializer = new JavaScriptSerializer();
+            javaScriptSerializer.MaxJsonLength = Int32.MaxValue;
+            return javaScriptSerializer.Deserialize<T>(json);
         }
 
         public static Dictionary<string, object> DeserializeJson(string jsonString)
@@ -74,7 +69,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
             {
                 return null;
             }
-            if (string.IsNullOrWhiteSpace(jsonString))
+            if (String.IsNullOrWhiteSpace(jsonString))
             {
                 return result;
             }

@@ -60,7 +60,7 @@ namespace Microsoft.WindowsAzure.Commands.Websites
                     string.Format(Resources.WebsiteSufixUrl, Name));
             }
 
-            General.LaunchWebPage(managementPortalUrl);
+            GeneralUtils.LaunchWebPage(managementPortalUrl);
         }
     }
 }

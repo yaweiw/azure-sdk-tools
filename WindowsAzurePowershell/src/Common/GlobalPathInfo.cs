@@ -12,6 +12,8 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
+using Microsoft.WindowsAzure.Commands.Utilities.Common;
+
 namespace Microsoft.WindowsAzure.Commands.Utilities.Common
 {
     using System;
@@ -57,11 +59,11 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
 
         public GlobalPathInfo(string rootPath, string subscriptionsDataFile)
         {
-            PublishSettingsFile = General.CombinePath(rootPath, Resources.PublishSettingsFileName);
+            PublishSettingsFile = FileUtils.CombinePath(rootPath, Resources.PublishSettingsFileName);
             SubscriptionsDataFile = subscriptionsDataFile ?? 
-                General.CombinePath(rootPath, Resources.SubscriptionDataFileName);
-            ServiceConfigurationFile = General.CombinePath(rootPath, Resources.ConfigurationFileName);
-            EnvironmentsFile = General.CombinePath(rootPath, Resources.EnvironmentsFileName);
+                FileUtils.CombinePath(rootPath, Resources.SubscriptionDataFileName);
+            ServiceConfigurationFile = FileUtils.CombinePath(rootPath, Resources.ConfigurationFileName);
+            EnvironmentsFile = FileUtils.CombinePath(rootPath, Resources.EnvironmentsFileName);
             AzureDirectory = rootPath;
         }
     }
