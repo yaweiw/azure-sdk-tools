@@ -1,4 +1,7 @@
-﻿2014.02.12 Version 0.7.3
+﻿2014.02.25 Version 0.7.3.1
+* Hotfix for https://github.com/WindowsAzure/azure-sdk-tools/issues/2350
+
+2014.02.12 Version 0.7.3
 * Web Site cmdlets
   * Slot
     * All Web Site cmdlets takes a new -Slot parameter

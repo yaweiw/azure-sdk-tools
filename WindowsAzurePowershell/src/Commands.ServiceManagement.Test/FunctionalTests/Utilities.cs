@@ -273,6 +273,21 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
         public const string GetAzureStaticVNetIPCmdletName = "Get-AzureStaticVNetIP";
         public const string RemoveAzureStaticVNetIPCmdletName = "Remove-AzureStaticVNetIP";
 
+        public const string GetAzureVMBGInfoExtensionCmdletName = "Get-AzureVMBGInfoExtension";
+        public const string SetAzureVMBGInfoExtensionCmdletName = "Set-AzureVMBGInfoExtension";
+        public const string RemoveAzureVMBGInfoExtensionCmdletName = "Remove-AzureVMBGInfoExtension";
+
+        // Generic Azure VM  Extension cmdlets
+        public const string GetAzureVMExtensionCmdletName = "Get-AzureVMExtension";
+        public const string SetAzureVMExtensionCmdletName = "Set-AzureVMExtension";
+        public const string RemoveAzureVMExtensionCmdletName = "Remove-AzureVMExtension";
+        public const string GetAzureVMAvailableExtensionCmdletName = "Get-AzureVMAvailableExtension";
+        public const string GetAzureVMExtensionConfigTemplateCmdletName = "Get-AzureVMExtensionConfigTemplate";
+
+        // VM Access Extesnion
+        public const string GetAzureVMAccessExtensionCmdletName = "Get-AzureVMAccessExtension";
+        public const string SetAzureVMAccessExtensionCmdletName = "Set-AzureVMAccessExtension";
+        public const string RemoveAzureVMAccessExtensionCmdletName = "Remove-AzureVMAccessExtension";
         #endregion
 
 
@@ -358,6 +373,38 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
                 }
             }
             
+        }
+
+        public static bool GetAzureVMAndWaitForReady(string serviceName, string vmName,int waitTime, int maxWaitTime )
+        {
+            Console.WriteLine("Waiting for the vm {0} to reach \"ReadyRole\" ");
+            ServiceManagementCmdletTestHelper vmPowershellCmdlets = new ServiceManagementCmdletTestHelper();
+            DateTime startTime = DateTime.Now;
+            DateTime MaxEndTime = startTime.AddMilliseconds(maxWaitTime);
+            while (true)
+            {
+                Console.WriteLine("Getting vm '{0}' details:",vmName);
+                var vmRoleContext = vmPowershellCmdlets.GetAzureVM(vmName, serviceName);
+                Console.WriteLine("Current status of the VM is {0} ", vmRoleContext.InstanceStatus);
+                if (vmRoleContext.InstanceStatus == "ReadyRole")
+                {
+                    Console.WriteLine("Instance status reached expected ReadyRole state. Exiting wait.");
+                    return true;
+                }
+                else
+                {
+                    if (DateTime.Compare(DateTime.Now, MaxEndTime) > 0)
+                    {
+                        Console.WriteLine("Maximum wait time reached and instance status didnt reach \"ReadyRole\" state. Exiting wait. ");
+                        return false;
+                    }
+                    else
+                    {
+                        Console.WriteLine("Waiting for {0} seconds for the {1} status to be ReadyRole", waitTime / 1000, vmName);
+                        Thread.Sleep(waitTime);
+                    }
+                }
+            }
         }
 
         public static bool PrintAndCompareDeployment
@@ -660,6 +707,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
         {
             RegisterDllsForRDP();
 
+            Console.WriteLine(String.Format("IaaS {0} {1} {2} {3} {4}", dns, port.ToString(), user, psswrd, shouldSucceed.ToString()));
             int returnCode = ExecuteSimpleProcess(RDPTestPath,
                  String.Format("IaaS {0} {1} {2} {3} {4}", dns, port.ToString(), user, psswrd, shouldSucceed.ToString()));
             if (returnCode == 0)
@@ -773,6 +821,29 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
             Type type = typeof(T);
 
             foreach (PropertyInfo property in type.GetProperties(BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly))
+            {
+                string typeName = property.PropertyType.FullName;
+                if (typeName.Equals("System.String") || typeName.Equals("System.Int32") || typeName.Equals("System.Uri") ||
+                    typeName.Contains("Nullable"))
+                {
+                    Console.WriteLine("{0}: {1}", property.Name, property.GetValue(obj, null));
+                }
+                else if (typeName.Contains("Boolean"))
+                {
+                    Console.WriteLine("{0}: {1}", property.Name, property.GetValue(obj, null).ToString());
+                }
+                else
+                {
+                    Console.WriteLine("This type is not printed: {0}", typeName);
+                }
+            }
+        }
+
+        public static void PrintCompleteContext<T>(T obj)
+        {
+            Type type = typeof(T);
+
+            foreach (PropertyInfo property in type.GetProperties())
             {
                 string typeName = property.PropertyType.FullName;
                 if (typeName.Equals("System.String") || typeName.Equals("System.Int32") || typeName.Equals("System.Uri") ||
