@@ -23,9 +23,10 @@ namespace Microsoft.Azure.Commands.ResourceManagement
     [Cmdlet(VerbsCommon.Remove, "AzureResourceGroup"), OutputType(typeof(bool))]
     public class RemoveAzureResourceGroupCommand : ResourceBaseCmdlet
     {
+        [Alias("ResourceGroupName")]
         [Parameter(Position = 0, Mandatory = true, ValueFromPipelineByPropertyName = true, HelpMessage = "The name of the resource group.")]
         [ValidateNotNullOrEmpty]
-        public string ResourceGroupName {get; set;}
+        public string Name {get; set;}
 
         [Parameter(Mandatory = false, HelpMessage = "Do not ask for confirmation.")]
         public SwitchParameter Force { get; set; }
@@ -37,10 +38,10 @@ namespace Microsoft.Azure.Commands.ResourceManagement
         {
             ConfirmAction(
                 Force.IsPresent,
-                string.Format(Resources.RemovingResourceGroup, ResourceGroupName),
+                string.Format(Resources.RemovingResourceGroup, Name),
                 Resources.RemoveResourceGroupMessage,
-                ResourceGroupName,
-                () => ResourceClient.DeleteResourceGroup(ResourceGroupName));
+                Name,
+                () => ResourceClient.DeleteResourceGroup(Name));
 
             if (PassThru)
             {

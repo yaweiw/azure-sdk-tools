@@ -24,6 +24,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement
     [Cmdlet(VerbsCommon.Set, "AzureResource"), OutputType(typeof(PSResource))]
     public class SetAzureResourceCommand : ResourceBaseCmdlet
     {
+        [Alias("ResourceName")]
         [Parameter(Mandatory = true, ValueFromPipelineByPropertyName = true, HelpMessage = "The resource name.")]
         [ValidateNotNullOrEmpty]
         public string Name { get; set; }
