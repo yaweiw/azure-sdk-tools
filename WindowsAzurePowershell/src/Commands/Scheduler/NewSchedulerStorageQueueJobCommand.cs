@@ -31,88 +31,88 @@ namespace Microsoft.WindowsAzure.Commands.Scheduler
         const string RequiredParamSet = "Required";
         const string RecurringParamSet = "Recurring";
 
-        [Parameter(Position = 0, Mandatory = true, ParameterSetName = RequiredParamSet, HelpMessage = "The location name.")]
+        [Parameter(Mandatory = true, ParameterSetName = RequiredParamSet, HelpMessage = "The location name.")]
         [ValidateNotNullOrEmpty]
         public string Location { get; set; }
 
-        [Parameter(Position = 1, Mandatory = true, ValueFromPipelineByPropertyName = true, ParameterSetName = RequiredParamSet, HelpMessage = "The job collection name.")]
+        [Parameter(Mandatory = true, ValueFromPipelineByPropertyName = true, ParameterSetName = RequiredParamSet, HelpMessage = "The job collection name.")]
         [ValidateNotNullOrEmpty]
         public string JobCollectionName { get; set; }
 
-        [Parameter(Position = 2, Mandatory = true, ValueFromPipelineByPropertyName = true, ParameterSetName = RequiredParamSet, HelpMessage = "The job name.")]
+        [Parameter(Mandatory = true, ValueFromPipelineByPropertyName = true, ParameterSetName = RequiredParamSet, HelpMessage = "The job name.")]
         [ValidateNotNullOrEmpty]
         public string JobName { get; set; }
 
-        [Parameter(Position = 3, Mandatory = true, ValueFromPipelineByPropertyName = true, ParameterSetName = RequiredParamSet, HelpMessage = "The Storage account name.")]
+        [Parameter(Mandatory = true, ValueFromPipelineByPropertyName = true, ParameterSetName = RequiredParamSet, HelpMessage = "The Storage account name.")]
         [ValidateNotNullOrEmpty]
         public string StorageQueueAccount { get; set; }
 
-        [Parameter(Position = 4, Mandatory = true, ValueFromPipelineByPropertyName = true, ParameterSetName = RequiredParamSet, HelpMessage = "The Storage Queue name.")]
+        [Parameter(Mandatory = true, ValueFromPipelineByPropertyName = true, ParameterSetName = RequiredParamSet, HelpMessage = "The Storage Queue name.")]
         [ValidateNotNullOrEmpty]
         public string StorageQueueName { get; set; }
 
-        [Parameter(Position = 5, Mandatory = true, ValueFromPipelineByPropertyName = true, ParameterSetName = RequiredParamSet, HelpMessage = "The SAS token for storage queue.")]
+        [Parameter(Mandatory = true, ValueFromPipelineByPropertyName = true, ParameterSetName = RequiredParamSet, HelpMessage = "The SAS token for storage queue.")]
         [ValidateNotNullOrEmpty]
         public string SASToken { get; set; }
 
-        [Parameter(Position = 6, Mandatory = false, ValueFromPipelineByPropertyName = false, HelpMessage = "The queue message for storage job.")]
+        [Parameter(Mandatory = false, ValueFromPipelineByPropertyName = false, HelpMessage = "The queue message for storage job.")]
         [ValidateNotNullOrEmpty]
         public string StorageQueueMessage { get; set; }
 
-        [Parameter(Position = 8, Mandatory = false, ValueFromPipelineByPropertyName = false, ParameterSetName = RequiredParamSet, HelpMessage = "The Start Time")]
+        [Parameter(Mandatory = false, ValueFromPipelineByPropertyName = false, ParameterSetName = RequiredParamSet, HelpMessage = "The Start Time")]
         [ValidateNotNullOrEmpty]
         public DateTime? StartTime { get; set; }
 
-        [Parameter(Position = 9, Mandatory = false, ValueFromPipelineByPropertyName = false, ParameterSetName = RequiredParamSet, HelpMessage = "The frequency count for recurring schedule")]
-        [Parameter(Position = 9, Mandatory = false, ValueFromPipelineByPropertyName = false, ParameterSetName = RecurringParamSet, HelpMessage = "The frequency count for recurring schedule")]
+        [Parameter(Mandatory = false, ValueFromPipelineByPropertyName = false, ParameterSetName = RequiredParamSet, HelpMessage = "The frequency count for recurring schedule")]
+        [Parameter(Mandatory = false, ValueFromPipelineByPropertyName = false, ParameterSetName = RecurringParamSet, HelpMessage = "The frequency count for recurring schedule")]
         [ValidateNotNullOrEmpty]
         public int? Interval { get; set; }
 
-        [Parameter(Position = 10, Mandatory = false, ValueFromPipelineByPropertyName = false, ParameterSetName = RequiredParamSet, HelpMessage = "The interval for recurring schedule")]
-        [Parameter(Position = 10, Mandatory = false, ValueFromPipelineByPropertyName = false, ParameterSetName = RecurringParamSet, HelpMessage = "The interval for recurring schedule")]
+        [Parameter(Mandatory = false, ValueFromPipelineByPropertyName = false, ParameterSetName = RequiredParamSet, HelpMessage = "The interval for recurring schedule")]
+        [Parameter(Mandatory = false, ValueFromPipelineByPropertyName = false, ParameterSetName = RecurringParamSet, HelpMessage = "The interval for recurring schedule")]
         [ValidateSet("Minute", "Hour", "Day", "Week", "Month", "Year", IgnoreCase = true)]
         public string Frequency { get; set; }
 
-        [Parameter(Position = 11, Mandatory = false, ValueFromPipelineByPropertyName = false, ParameterSetName = RequiredParamSet, HelpMessage = "The End Time")]
-        [Parameter(Position = 11, Mandatory = false, ValueFromPipelineByPropertyName = false, ParameterSetName = RecurringParamSet, HelpMessage = "The End Time")]
+        [Parameter(Mandatory = false, ValueFromPipelineByPropertyName = false, ParameterSetName = RequiredParamSet, HelpMessage = "The End Time")]
+        [Parameter(Mandatory = false, ValueFromPipelineByPropertyName = false, ParameterSetName = RecurringParamSet, HelpMessage = "The End Time")]
         [ValidateNotNullOrEmpty]
         public DateTime? EndTime { get; set; }
 
-        [Parameter(Position = 12, Mandatory = false, ValueFromPipelineByPropertyName = false, ParameterSetName = RecurringParamSet, HelpMessage = "Count of occurrences that will execute. Optional. Default will recur infinitely")]
-        [Parameter(Position = 12, Mandatory = false, ValueFromPipelineByPropertyName = false, ParameterSetName = RequiredParamSet, HelpMessage = "Count of occurrences that will execute. Optional. Default will recur infinitely")]
+        [Parameter(Mandatory = false, ValueFromPipelineByPropertyName = false, ParameterSetName = RecurringParamSet, HelpMessage = "Count of occurrences that will execute. Optional. Default will recur infinitely")]
+        [Parameter(Mandatory = false, ValueFromPipelineByPropertyName = false, ParameterSetName = RequiredParamSet, HelpMessage = "Count of occurrences that will execute. Optional. Default will recur infinitely")]
         public int? ExecutionCount { get; set; }
 
-        [Parameter(Position = 13, Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "The job state.")]
+        [Parameter(Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "The job state.")]
         [ValidateSet("Enabled", "Disabled", IgnoreCase = true)]
         public string JobState { get; set; }
 
-        [Parameter(Position = 14, Mandatory = false, ValueFromPipelineByPropertyName = false, ParameterSetName = RequiredParamSet, HelpMessage = "The Method for Http and Https Action types (GET, PUT, POST, HEAD or DELETE).")]
+        [Parameter(Mandatory = false, ValueFromPipelineByPropertyName = false, ParameterSetName = RequiredParamSet, HelpMessage = "The Method for Http and Https Action types (GET, PUT, POST, HEAD or DELETE).")]
         [ValidateSet("GET", "PUT", "POST", "HEAD", "DELETE", IgnoreCase = true)]
         public string ErrorActionMethod { get; set; }
 
-        [Parameter(Position = 15, Mandatory = false, ValueFromPipelineByPropertyName = false, ParameterSetName = RequiredParamSet, HelpMessage = "The Uri for error job action.")]
+        [Parameter(Mandatory = false, ValueFromPipelineByPropertyName = false, ParameterSetName = RequiredParamSet, HelpMessage = "The Uri for error job action.")]
         public Uri ErrorActionURI { get; set; }
 
-        [Parameter(Position = 16, Mandatory = false, ValueFromPipelineByPropertyName = false, ParameterSetName = RequiredParamSet, HelpMessage = "The Body for PUT and POST job actions.")]
+        [Parameter(Mandatory = false, ValueFromPipelineByPropertyName = false, ParameterSetName = RequiredParamSet, HelpMessage = "The Body for PUT and POST job actions.")]
         [ValidateNotNullOrEmpty]
         public string ErrorActionRequestBody { get; set; }
 
-        [Parameter(Position = 17, Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "The header collection.")]
+        [Parameter(Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "The header collection.")]
         public Hashtable ErrorActionHeaders { get; set; }
 
-        [Parameter(Position = 18, Mandatory = false, ValueFromPipelineByPropertyName = true, ParameterSetName = RequiredParamSet, HelpMessage = "The Storage account name.")]
+        [Parameter(Mandatory = false, ValueFromPipelineByPropertyName = true, ParameterSetName = RequiredParamSet, HelpMessage = "The Storage account name.")]
         [ValidateNotNullOrEmpty]
         public string ErrorActionStorageAccount { get; set; }
 
-        [Parameter(Position = 19, Mandatory = false, ValueFromPipelineByPropertyName = true, ParameterSetName = RequiredParamSet, HelpMessage = "The Storage Queue name.")]
+        [Parameter(Mandatory = false, ValueFromPipelineByPropertyName = true, ParameterSetName = RequiredParamSet, HelpMessage = "The Storage Queue name.")]
         [ValidateNotNullOrEmpty]
         public string ErrorActionStorageQueue { get; set; }
 
-        [Parameter(Position = 20, Mandatory = false, ValueFromPipelineByPropertyName = true, ParameterSetName = RequiredParamSet, HelpMessage = "The SAS token for storage queue.")]
+        [Parameter(Mandatory = false, ValueFromPipelineByPropertyName = true, ParameterSetName = RequiredParamSet, HelpMessage = "The SAS token for storage queue.")]
         [ValidateNotNullOrEmpty]
         public string ErrorActionSASToken { get; set; }
 
-        [Parameter(Position = 21, Mandatory = false, ValueFromPipelineByPropertyName = false, ParameterSetName = RequiredParamSet, HelpMessage = "The Body for Storage job actions.")]
+        [Parameter(Mandatory = false, ValueFromPipelineByPropertyName = false, ParameterSetName = RequiredParamSet, HelpMessage = "The Body for Storage job actions.")]
         [ValidateNotNullOrEmpty]
         public string ErrorActionQueueMessageBody { get; set; }
 
@@ -120,7 +120,7 @@ namespace Microsoft.WindowsAzure.Commands.Scheduler
         {
             string status = string.Empty;
             if (!SMClient.GetAvailableRegions().Contains(Location, StringComparer.OrdinalIgnoreCase))
-                WriteWarning(Resources.SchedulerInvalidLocation);
+                throw new Exception(Resources.SchedulerInvalidLocation);
             else
             {
                 WriteObject(SMClient.CreateStorageJob(new PSCreateJobParams

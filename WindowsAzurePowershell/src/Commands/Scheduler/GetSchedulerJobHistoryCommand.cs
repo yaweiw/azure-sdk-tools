@@ -46,12 +46,9 @@ namespace Microsoft.WindowsAzure.Commands.Scheduler
         public override void ExecuteCmdlet()
         {
             if (!SMClient.GetAvailableRegions().Contains(Location, StringComparer.OrdinalIgnoreCase))
-                WriteWarning(Resources.SchedulerInvalidLocation);
+                throw new Exception(Resources.SchedulerInvalidLocation);
             else
-            {
-                WriteVerbose("INFO: This operation can take a long time to complete if there is a lot of history items");
                 WriteObject(SMClient.GetJobHistory(jobCollection: JobCollectionName, job: JobName, region: Location, jobStatus: JobStatus), true);
-            }
         }
     }
 }

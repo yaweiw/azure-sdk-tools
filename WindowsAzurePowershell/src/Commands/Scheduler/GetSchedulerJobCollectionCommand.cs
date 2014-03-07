@@ -38,7 +38,7 @@ namespace Microsoft.WindowsAzure.Commands.Scheduler
         public override void ExecuteCmdlet()
         {
             if (!string.IsNullOrEmpty(Location) && !SMClient.GetAvailableRegions().Contains(Location, StringComparer.OrdinalIgnoreCase))
-                WriteWarning(Resources.SchedulerInvalidLocation);
+                throw new Exception(Resources.SchedulerInvalidLocation);
             else
                 WriteObject(SMClient.GetJobCollection(region:Location, jobCollection:JobCollectionName), true); 
         }      
