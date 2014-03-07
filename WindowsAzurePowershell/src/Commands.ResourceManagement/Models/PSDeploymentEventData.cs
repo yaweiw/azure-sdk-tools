@@ -42,7 +42,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Models
 
         public string SubStatus { get; set; }
 
-        public string ResourceGroup { get; set; }
+        public string ResourceGroupName { get; set; }
 
         public string ResourceProvider { get; set; }
 

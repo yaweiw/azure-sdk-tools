@@ -14,16 +14,10 @@
 
 using System;
 using Microsoft.Azure.Commands.ResourceManagement.Properties;
-using Microsoft.Azure.Gallery;
-using Microsoft.Azure.Gallery.Models;
 using Microsoft.Azure.Management.Resources;
 using Microsoft.Azure.Management.Resources.Models;
-using Microsoft.WindowsAzure.Commands.Utilities.Common;
-using Microsoft.WindowsAzure.Common.OData;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Text;
 using Microsoft.WindowsAzure.Management.Monitoring.Events;
 using Microsoft.WindowsAzure.Management.Monitoring.Events.Models;
 
@@ -31,6 +25,8 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Models
 {
     public partial class ResourcesClient
     {
+        private const int EventRetentionPeriod = 90;
+
         /// <summary>
         /// Gets event logs.
         /// </summary>
@@ -40,7 +36,13 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Models
         {
             if (parameters.All)
             {
-                EventDataListResponse listOfEvents = EventsClient.EventData.ListEvents(null);
+                EventDataListResponse listOfEvents =
+                    EventsClient.EventData.ListEventsForResourceGroup(new ListEventsForResourceGroupParameters
+                        {
+                            ResourceGroupName = parameters.ResourceGroupName,
+                            StartTime = DateTime.UtcNow - TimeSpan.FromDays(EventRetentionPeriod),
+                            EndTime = DateTime.UtcNow
+                        });
                 return listOfEvents.EventDataCollection.Value.Select(e => e.ToPSDeploymentEventData());
             }
             else if (!string.IsNullOrEmpty(parameters.DeploymentName))
@@ -92,6 +94,8 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Models
             EventDataListResponse listOfEvents = EventsClient.EventData.ListEventsForCorrelationId(new ListEventsForCorrelationIdParameters
                 {
                     CorrelationId = trackingId,
+                    StartTime = DateTime.UtcNow - TimeSpan.FromDays(EventRetentionPeriod),
+                    EndTime = DateTime.UtcNow
                 });
             return listOfEvents.EventDataCollection.Value.Select(e => e.ToPSDeploymentEventData());
         }
