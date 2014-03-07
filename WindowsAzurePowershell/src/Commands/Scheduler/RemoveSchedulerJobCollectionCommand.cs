@@ -24,7 +24,7 @@ namespace Microsoft.WindowsAzure.Commands.Scheduler
     /// <summary>
     /// Cmdlet to remove a job
     /// </summary>
-    [Cmdlet(VerbsCommon.Remove, "AzureSchedulerJobCollection"), OutputType(typeof(ICollection<string>))]
+    [Cmdlet(VerbsCommon.Remove, "AzureSchedulerJobCollection"), OutputType(typeof(bool))]
     public class RemoveSchedulerJobCollectionCommand : SchedulerBaseCmdlet
     {
         [Parameter(Mandatory = false, HelpMessage = "Do not confirm job collection deletion")]
@@ -48,7 +48,7 @@ namespace Microsoft.WindowsAzure.Commands.Scheduler
                () =>
                {
                    if (!string.IsNullOrEmpty(Location) && !SMClient.GetAvailableRegions().Contains(Location, StringComparer.OrdinalIgnoreCase))
-                       WriteWarning(Resources.SchedulerInvalidLocation);
+                       throw new Exception(Resources.SchedulerInvalidLocation);
                    else
                        WriteObject(SMClient.DeleteJobCollection(region: Location, jobCollection: JobCollectionName), true);
                });

@@ -390,13 +390,13 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Scheduler
 
         #region Delete Jobs
 
-        public string DeleteJob(string jobCollection, string jobName, string region = "")
+        public bool DeleteJob(string jobCollection, string jobName, string region = "")
         {
             if (!string.IsNullOrEmpty(region))
             {
                 SchedulerClient schedulerClient = new SchedulerClient(csmClient.Credentials, region.ToCloudServiceName(), jobCollection);
                 OperationResponse response = schedulerClient.Jobs.Delete(jobName);
-                return response.StatusCode.ToString();
+                return response.StatusCode == System.Net.HttpStatusCode.OK ? true : false;
             }
             else if (string.IsNullOrEmpty(region))
             {
@@ -416,7 +416,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Scheduler
                                     {
                                         SchedulerClient schedulerClient = new SchedulerClient(csmClient.Credentials, cs.Name, jobCollection);
                                         OperationResponse response = schedulerClient.Jobs.Delete(jobName);
-                                        return response.StatusCode.ToString();
+                                        return response.StatusCode == System.Net.HttpStatusCode.OK ? true : false;
                                     }
                                 }
                             }
@@ -424,21 +424,18 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Scheduler
                     }
                 }
             }
-            return "Cannot find job in job collection";
+            return false;
         }
-
-       
-
         #endregion
 
         #region Delete Job Collection
 
-        public string DeleteJobCollection(string jobCollection, string region = "")
+        public bool DeleteJobCollection(string jobCollection, string region = "")
         {
             if (!string.IsNullOrEmpty(region))
             {
                 SchedulerOperationStatusResponse response = schedulerManagementClient.JobCollections.Delete(region.ToCloudServiceName(), jobCollection);
-                return response.StatusCode.ToString();
+                return response.StatusCode == System.Net.HttpStatusCode.OK ? true: false;
             }
             else if (string.IsNullOrEmpty(region))
             {
@@ -453,17 +450,16 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Scheduler
                             if (jcGetResponse.Name.Equals(jobCollection, StringComparison.OrdinalIgnoreCase))
                             {
                                 SchedulerOperationStatusResponse response = schedulerManagementClient.JobCollections.Delete(region.ToCloudServiceName(), jobCollection);
-                                return response.StatusCode.ToString();
+                                return response.StatusCode == System.Net.HttpStatusCode.OK ? true : false;
                             }
                         }
                     }
                 }
             }
-            return "Job Collection not present in location";
+            return false;
         }
 
         #endregion
-
 
         #region Create Jobs
 
@@ -606,8 +602,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Scheduler
         }
 
         #endregion
-
-      
+    
         public PSJobDetail PatchHttpJob(PSCreateJobParams jobRequest, out string status)
         {
             SchedulerClient schedulerClient = new SchedulerClient(csmClient.Credentials, jobRequest.Region.ToCloudServiceName(), jobRequest.JobCollectionName);
