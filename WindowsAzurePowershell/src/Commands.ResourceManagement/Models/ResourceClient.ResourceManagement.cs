@@ -465,7 +465,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Models
             List<PSResourceProviderType> result = new List<PSResourceProviderType>();
             List<Provider> providers = new List<Provider>();
 
-            if (resourceTypes.Any(r => r.Equals(ResourcesClient.ResourcGroupTypeName, StringComparison.OrdinalIgnoreCase)))
+            if (resourceTypes.Length == 0 || resourceTypes.Any(r => r.Equals(ResourcesClient.ResourcGroupTypeName, StringComparison.OrdinalIgnoreCase)))
             {
                 result.Add(new ProviderResourceType()
                 {
