@@ -14,6 +14,7 @@
 
 using Microsoft.Azure.Management.Resources.Models;
 using Microsoft.WindowsAzure.Commands.Utilities.Common;
+using Microsoft.WindowsAzure.Management.Monitoring.Events.Models;
 using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.Linq;
@@ -102,6 +103,68 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Models
             }
 
             return result;
+        }
+
+        public static PSDeploymentEventData ToPSDeploymentEventData(this EventData eventData)
+        {
+            if (eventData == null)
+            {
+                return null;
+            }
+            PSDeploymentEventData psObject = new PSDeploymentEventData
+                {
+                    EventId = eventData.EventDataId,
+                    EventName = eventData.EventName.LocalizedValue,
+                    EventSource = eventData.EventSource.LocalizedValue,
+                    Channels = eventData.EventChannels.ToString(),
+                    Level = eventData.Level.ToString(),
+                    Description = eventData.Description,
+                    Timestamp = eventData.EventTimestamp,
+                    OperationId = eventData.OperationId,
+                    OperationName = eventData.OperationName.LocalizedValue,
+                    Status = eventData.Status.LocalizedValue,
+                    SubStatus = eventData.SubStatus.LocalizedValue,
+                    ResourceGroupName = eventData.ResourceGroupName,
+                    ResourceProvider = eventData.ResourceProviderName.LocalizedValue,
+                    ResourceUri = eventData.ResourceUri,
+                    HttpRequest = eventData.HttpRequest.ToPSDeploymentEventDataHttpRequest(),
+                    Authorization = eventData.Authorization.ToPSDeploymentEventDataAuthorization(),
+                    Claims = eventData.Claims,
+                    Properties = eventData.Properties
+                };
+            return psObject;
+        }
+
+        public static PSDeploymentEventDataHttpRequest ToPSDeploymentEventDataHttpRequest(this HttpRequestInfo httpRequest)
+        {
+            if (httpRequest == null)
+            {
+                return null;
+            }
+            PSDeploymentEventDataHttpRequest psObject = new PSDeploymentEventDataHttpRequest
+            {
+                ClientId = httpRequest.ClientRequestId,
+                Method = httpRequest.Method,
+                Url = httpRequest.Uri,
+                ClientIpAddress = httpRequest.ClientIpAddress
+            };
+            return psObject;
+        }
+
+        public static PSDeploymentEventDataAuthorization ToPSDeploymentEventDataAuthorization(this SenderAuthorization authorization)
+        {
+            if (authorization == null)
+            {
+                return null;
+            }
+            PSDeploymentEventDataAuthorization psObject = new PSDeploymentEventDataAuthorization
+            {
+                Action = authorization.Action,
+                Role = authorization.Role,
+                Scope = authorization.Scope,
+                Condition = authorization.Condition
+            };
+            return psObject;
         }
 
         private static string ConstructResourcesTable(List<Resource> resources)

@@ -92,6 +92,9 @@
     <Reference Include="Microsoft.Azure.Management.Resources">
       <HintPath>..\packages\Microsoft.Azure.Management.Resources.2.0.0-preview\lib\net40\Microsoft.Azure.Management.Resources.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.Azure.Monitoring">
+      <HintPath>..\packages\Microsoft.Azure.Monitoring.2.0.0-preview\lib\net40\Microsoft.Azure.Monitoring.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.Data.Edm, Version=5.6.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Data.Edm.5.6.0\lib\net40\Microsoft.Data.Edm.dll</HintPath>
     </Reference>
@@ -176,12 +179,18 @@
     <Reference Include="System.Management.Automation, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Models\GetPSResourceGroupLogParameters.cs" />
+    <Compile Include="Models\PSDeploymentEventDataAuthorization.cs" />
+    <Compile Include="Models\PSDeploymentEventDataHttpRequest.cs" />
+    <Compile Include="Models\PSDeploymentEventData.cs" />
+    <Compile Include="Models\ResourceClient.Events.cs" />
     <Compile Include="Models\FilterResourceGroupDeploymentOptions.cs" />
     <Compile Include="Models\PSResourceProviderType.cs" />
     <Compile Include="Models\BasePSResourceParameters.cs" />
     <Compile Include="Models\UpdatePSResourceParameters.cs" />
     <Compile Include="Models\TemplateFileResource.cs" />
     <Compile Include="Models\ValidatePSResourceGroupDeploymentParameters.cs" />
+    <Compile Include="ResourceGroups\GetAzureResourceGroupLogCommand.cs" />
     <Compile Include="ResourceGroups\GetAzureLocationCommand.cs" />
     <Compile Include="Resources\RemoveAzureResourceCommand.cs" />
     <Compile Include="Templates\TestAzureResourceGroupTemplateCommand.cs" />

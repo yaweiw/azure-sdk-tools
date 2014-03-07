@@ -13,10 +13,29 @@
 // ----------------------------------------------------------------------------------
 
 
+using System.Text;
+
 namespace Microsoft.Azure.Commands.ResourceManagement.Models
 {
-    public class CreatePSResourceGroupDeploymentParameters : ValidatePSResourceGroupDeploymentParameters
+    public class PSDeploymentEventDataAuthorization
     {
-        public string Name { get; set; }
+        public string Scope { get; set; }
+
+        public string Action { get; set; }
+
+        public string Role { get; set; }
+
+        public string Condition { get; set; }
+
+        public override string ToString()
+        {
+            StringBuilder output = new StringBuilder();
+            output.AppendLine();
+            output.AppendLine("Scope           : " + Scope);
+            output.AppendLine("Action          : " + Action);
+            output.AppendLine("Role            : " + Role);
+            output.AppendLine("Condition       : " + Condition);
+            return output.ToString();
+        }
     }
 }

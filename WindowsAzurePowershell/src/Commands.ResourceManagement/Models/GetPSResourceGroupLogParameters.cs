@@ -12,26 +12,17 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-using Microsoft.Azure.Commands.ResourceManagement.Models;
-using System.Collections.Generic;
-using System.Management.Automation;
 
-namespace Microsoft.Azure.Commands.ResourceManagement
+namespace Microsoft.Azure.Commands.ResourceManagement.Models
 {
-    /// <summary>
-    /// Filters resource groups.
-    /// </summary>
-    [Cmdlet(VerbsCommon.Get, "AzureResourceGroup"), OutputType(typeof(List<PSResourceGroup>))]
-    public class GetAzureResourceGroupCommand : ResourceBaseCmdlet
+    public class GetPSResourceGroupLogParameters
     {
-        [Alias("ResourceGroupName")]
-        [Parameter(Position = 0, Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "The name of the resource group.")]
-        [ValidateNotNullOrEmpty]
         public string Name { get; set; }
-        
-        public override void ExecuteCmdlet()
-        {
-            WriteObject(ResourceClient.FilterResourceGroups(Name), true);
-        }
+
+        public string DeploymentName { get; set; }
+
+        public bool All { get; set; }
+
+        public bool LastDeployment { get; set; }
     }
 }

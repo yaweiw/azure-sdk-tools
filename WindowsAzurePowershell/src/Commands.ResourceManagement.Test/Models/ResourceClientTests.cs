@@ -21,6 +21,9 @@ using Microsoft.WindowsAzure;
 using Microsoft.WindowsAzure.Commands.Test.Utilities.Common;
 using Microsoft.WindowsAzure.Commands.Utilities.Common.Storage;
 using Microsoft.WindowsAzure.Common.OData;
+using Microsoft.WindowsAzure.Management.Monitoring.Events;
+using Microsoft.WindowsAzure.Management.Monitoring.Events.Models;
+using Microsoft.WindowsAzure.Management.Monitoring.Models;
 using Moq;
 using Newtonsoft.Json;
 using System;
@@ -52,7 +55,11 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Test.Models
 
         private Mock<IGalleryClient> galleryClientMock;
 
+        private Mock<IEventsClient> eventsClientMock;
+
         private Mock<IDeploymentOperationOperations> deploymentOperationsMock;
+
+        private Mock<IEventDataOperations> eventDataOperationsMock;
 
         private Mock<IProviderOperations> providersMock;
 
@@ -82,6 +89,8 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Test.Models
         
         private string serializedProperties;
 
+        private List<EventData> sampleEvents;
+
         private void SetupListForResourceGroupAsync(string name, List<Resource> result)
         {
             resourceOperationsMock.Setup(f => f.ListAsync(
@@ -100,7 +109,9 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Test.Models
             resourceGroupMock = new Mock<IResourceGroupOperations>();
             resourceOperationsMock = new Mock<IResourceOperations>();
             galleryClientMock = new Mock<IGalleryClient>();
+            eventsClientMock = new Mock<IEventsClient>();
             deploymentOperationsMock = new Mock<IDeploymentOperationOperations>();
+            eventDataOperationsMock = new Mock<IEventDataOperations>();
             providersMock = new Mock<IProviderOperations>();
             providersMock.Setup(f => f.ListAsync(null, new CancellationToken()))
                 .Returns(Task.Factory.StartNew(() => new ProviderListResult
@@ -113,11 +124,13 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Test.Models
             resourceManagementClientMock.Setup(f => f.Resources).Returns(resourceOperationsMock.Object);
             resourceManagementClientMock.Setup(f => f.DeploymentOperations).Returns(deploymentOperationsMock.Object);
             resourceManagementClientMock.Setup(f => f.Providers).Returns(providersMock.Object);
+            eventsClientMock.Setup(f => f.EventData).Returns(eventDataOperationsMock.Object);
             storageClientWrapperMock = new Mock<IStorageClientWrapper>();
             resourcesClient = new ResourcesClient(
                 resourceManagementClientMock.Object,
                 storageClientWrapperMock.Object,
-                galleryClientMock.Object)
+                galleryClientMock.Object,
+                eventsClientMock.Object)
                 {
                     ProgressLogger = progressLoggerMock.Object
                 };
@@ -144,6 +157,94 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Test.Models
             {
                 TypeNameAssemblyFormat = FormatterAssemblyStyle.Simple,
                 TypeNameHandling = TypeNameHandling.None
+            });
+
+            sampleEvents = new List<EventData>();
+            sampleEvents.Add(new EventData
+                {
+                    EventDataId = "ac7d2ab5-698a-4c33-9c19-0a93d3d7f527",
+                    EventName = new LocalizableString {LocalizedValue = "Start request"},
+                    EventSource = new LocalizableString {LocalizedValue = "Microsoft Resources"},
+                    EventChannels = EventChannels.Operation,
+                    Level = EventLevel.Informational,
+                    EventTimestamp = DateTime.Now,
+                    OperationId = "c0f2e85f-efb0-47d0-bf90-f983ec8be91d",
+                    OperationName =
+                        new LocalizableString
+                            {
+                                LocalizedValue = "Microsoft.Resources/subscriptions/resourcegroups/deployments/write"
+                            },
+                    Status = new LocalizableString {LocalizedValue = "Succeeded"},
+                    SubStatus = new LocalizableString {LocalizedValue = "Created"},
+                    ResourceGroupName = "foo",
+                    ResourceProviderName = new LocalizableString {LocalizedValue = "Microsoft Resources"},
+                    ResourceUri =
+                        "/subscriptions/ffce8037-a374-48bf-901d-dac4e3ea8c09/resourcegroups/foo/deployments/testdeploy",
+                    HttpRequest = new HttpRequestInfo
+                        {
+                            Uri =
+                                "http://path/subscriptions/ffce8037-a374-48bf-901d-dac4e3ea8c09/resourcegroups/foo/deployments/testdeploy",
+                            Method = "PUT",
+                            ClientRequestId = "1234",
+                            ClientIpAddress = "123.123.123.123"
+                        },
+                    Authorization = new SenderAuthorization
+                        {
+                            Action = "PUT",
+                            Condition = "",
+                            Role = "Sender",
+                            Scope = "None"
+                        },
+                    Claims = new Dictionary<string, string>
+                        {
+                            {"aud", "https://management.core.windows.net/"},
+                            {"iss", "https://sts.windows.net/123456/"},
+                            {"iat", "h123445"}
+                        },
+                    Properties = new Dictionary<string,string>()
+                });
+            sampleEvents.Add(new EventData
+            {
+                EventDataId = "ac7d2ab5-698a-4c33-9c19-0sdfsdf34r54",
+                EventName = new LocalizableString { LocalizedValue = "End request" },
+                EventSource = new LocalizableString { LocalizedValue = "Microsoft Resources" },
+                EventChannels = EventChannels.Operation,
+                Level = EventLevel.Informational,
+                EventTimestamp = DateTime.Now,
+                OperationId = "c0f2e85f-efb0-47d0-bf90-f983ec8be91d",
+                OperationName =
+                    new LocalizableString
+                    {
+                        LocalizedValue = "Microsoft.Resources/subscriptions/resourcegroups/deployments/write"
+                    },
+                Status = new LocalizableString { LocalizedValue = "Succeeded" },
+                SubStatus = new LocalizableString { LocalizedValue = "Created" },
+                ResourceGroupName = "foo",
+                ResourceProviderName = new LocalizableString { LocalizedValue = "Microsoft Resources" },
+                ResourceUri =
+                    "/subscriptions/ffce8037-a374-48bf-901d-dac4e3ea8c09/resourcegroups/foo/deployments/testdeploy",
+                HttpRequest = new HttpRequestInfo
+                {
+                    Uri =
+                        "http://path/subscriptions/ffce8037-a374-48bf-901d-dac4e3ea8c09/resourcegroups/foo/deployments/testdeploy",
+                    Method = "PUT",
+                    ClientRequestId = "1234",
+                    ClientIpAddress = "123.123.123.123"
+                },
+                Authorization = new SenderAuthorization
+                {
+                    Action = "PUT",
+                    Condition = "",
+                    Role = "Sender",
+                    Scope = "None"
+                },
+                Claims = new Dictionary<string, string>
+                        {
+                            {"aud", "https://management.core.windows.net/"},
+                            {"iss", "https://sts.windows.net/123456/"},
+                            {"iat", "h123445"}
+                        },
+                Properties = new Dictionary<string, string>()
             });
         }
 
@@ -538,7 +639,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Test.Models
             {
                 ResourceGroupName = resourceGroupName,
                 Location = resourceGroupLocation,
-                DeploymentName = deploymentName,
+                Name = deploymentName,
                 TemplateFile = templateFile,
                 ParameterFile = parameterFile,
                 StorageAccountName = storageAccountName
@@ -635,7 +736,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Test.Models
             {
                 ResourceGroupName = resourceGroupName,
                 Location = resourceGroupLocation,
-                DeploymentName = deploymentName,
+                Name = deploymentName,
                 TemplateFile = templateFile,
                 ParameterFile = parameterFile,
                 StorageAccountName = storageAccountName
@@ -746,7 +847,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Test.Models
             {
                 ResourceGroupName = resourceGroupName,
                 Location = resourceGroupLocation,
-                DeploymentName = deploymentName,
+                Name = deploymentName,
                 TemplateFile = templateFile,
                 ParameterObject = new Hashtable()
                 {
@@ -862,7 +963,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Test.Models
             {
                 ResourceGroupName = resourceGroupName,
                 Location = resourceGroupLocation,
-                DeploymentName = deploymentName,
+                Name = deploymentName,
                 TemplateFile = templateFile,
                 ParameterFile = parameterFile,
                 StorageAccountName = storageAccountName
@@ -1074,6 +1175,117 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Test.Models
             Assert.Equal(resourceGroup2.Name, actual[1].ResourceGroupName);
             Assert.Equal(resourceGroup3.Name, actual[2].ResourceGroupName);
             Assert.Equal(resourceGroup4.Name, actual[3].ResourceGroupName);
+        }
+
+        [Fact]
+        public void GetAzureResourceGroupLogWithAllCallsListEventsForResourceGroup()
+        {
+            eventDataOperationsMock.Setup(f => f.ListEventsForResourceGroupAsync(It.IsAny<ListEventsForResourceGroupParameters>(), new CancellationToken()))
+                .Returns(Task.Factory.StartNew(() => new EventDataListResponse
+                    {
+                        EventDataCollection = new EventDataCollection
+                            {
+                                Value = sampleEvents
+                            }
+                    }));
+
+            IEnumerable<PSDeploymentEventData> results = resourcesClient.GetResourceGroupLogs(new GetPSResourceGroupLogParameters
+                {
+                    Name = "foo",
+                    All = true
+                });
+
+            Assert.Equal(2, results.Count());
+            eventDataOperationsMock.Verify(f => f.ListEventsForResourceGroupAsync(It.IsAny<ListEventsForResourceGroupParameters>(), It.IsAny<CancellationToken>()), Times.Once());
+        }
+
+        [Fact]
+        public void GetAzureResourceGroupLogWithDeploymentCallsListEventsForCorrelationId()
+        {
+            deploymentsMock.Setup(
+                f => f.GetAsync(resourceGroupName, deploymentName, new CancellationToken()))
+                           .Returns(Task.Factory.StartNew(() => new DeploymentGetResult
+                               {
+                                   Deployment = new Deployment()
+                                        {
+                                            DeploymentName = deploymentName + 1,
+                                            Properties = new DeploymentProperties()
+                                                {
+                                                    Mode = DeploymentMode.Incremental,
+                                                    TrackingId = "123",
+                                                    TemplateLink = new TemplateLink()
+                                                        {
+                                                            Uri = new Uri("http://microsoft1.com")
+                                                        }
+                                                },
+                                            ResourceGroup = resourceGroupName
+                                        }
+                               }));
+
+            eventDataOperationsMock.Setup(f => f.ListEventsForCorrelationIdAsync(It.IsAny<ListEventsForCorrelationIdParameters>(), new CancellationToken()))
+                .Returns(Task.Factory.StartNew(() => new EventDataListResponse
+                {
+                    EventDataCollection = new EventDataCollection
+                    {
+                        Value = sampleEvents
+                    }
+                }));
+
+            IEnumerable<PSDeploymentEventData> results = resourcesClient.GetResourceGroupLogs(new GetPSResourceGroupLogParameters
+            {
+                Name = resourceGroupName,
+                DeploymentName = deploymentName
+            });
+
+            Assert.Equal(2, results.Count());
+            deploymentsMock.Verify(f => f.GetAsync(resourceGroupName, deploymentName, It.IsAny<CancellationToken>()), Times.Once());
+            eventDataOperationsMock.Verify(f => f.ListEventsForCorrelationIdAsync(It.IsAny<ListEventsForCorrelationIdParameters>(), It.IsAny<CancellationToken>()), Times.Once());
+        }
+
+        [Fact]
+        public void GetAzureResourceGroupLogWithLastDeploymentCallsListEventsForCorrelationId()
+        {
+            deploymentsMock.Setup(
+                f => f.ListAsync(resourceGroupName, It.IsAny<DeploymentListParameters>(), new CancellationToken()))
+                           .Returns(Task.Factory.StartNew(() => new DeploymentListResult
+                           {
+                               Deployments = new List<Deployment>()
+                                       {
+                                           new Deployment()
+                                               {
+                                                   DeploymentName = deploymentName + 1,
+                                                   Properties = new DeploymentProperties()
+                                                       {
+                                                           Mode = DeploymentMode.Incremental,
+                                                           TrackingId = "123",
+                                                           TemplateLink = new TemplateLink()
+                                                               {
+                                                                   Uri = new Uri("http://microsoft1.com")
+                                                               }
+                                                       },
+                                                   ResourceGroup = resourceGroupName
+                                               }
+                                       }
+                           }));
+
+            eventDataOperationsMock.Setup(f => f.ListEventsForCorrelationIdAsync(It.IsAny<ListEventsForCorrelationIdParameters>(), new CancellationToken()))
+                .Returns(Task.Factory.StartNew(() => new EventDataListResponse
+                {
+                    EventDataCollection = new EventDataCollection
+                    {
+                        Value = sampleEvents
+                    }
+                }));
+
+            IEnumerable<PSDeploymentEventData> results = resourcesClient.GetResourceGroupLogs(new GetPSResourceGroupLogParameters
+            {
+                Name = resourceGroupName,
+                LastDeployment = true
+            });
+
+            Assert.Equal(2, results.Count());
+            deploymentsMock.Verify(f => f.ListAsync(resourceGroupName, It.IsAny<DeploymentListParameters>(), It.IsAny<CancellationToken>()), Times.Once());
+            eventDataOperationsMock.Verify(f => f.ListEventsForCorrelationIdAsync(It.IsAny<ListEventsForCorrelationIdParameters>(), It.IsAny<CancellationToken>()), Times.Once());
         }
 
         [Fact]
