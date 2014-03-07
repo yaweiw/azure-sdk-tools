@@ -118,7 +118,7 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="CacheRuntimeUrl" xml:space="preserve">
-    <value>http://az413943.vo.msecnd.net/cache/2.2.0.exe</value>
+    <value>http://az413943.vo.msecnd.net/cache/2.3.0.exe</value>
   </data>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="testruntimemanifest" type="System.Resources.ResXFileRef, System.Windows.Forms">
