@@ -35,8 +35,14 @@ namespace Microsoft.WindowsAzure.Commands.CloudService.Development
         {
             CloudServiceProject service = new CloudServiceProject();
             WriteVerbose(Resources.StopEmulatorMessage);
-            service.StopEmulator();
             
+            string warning;
+            service.StopEmulators(out warning);
+            if (!string.IsNullOrEmpty(warning))
+            {
+                WriteWarning(warning);
+            }
+
             WriteVerbose(Resources.StoppedEmulatorMessage);
 
             if (PassThru.IsPresent)

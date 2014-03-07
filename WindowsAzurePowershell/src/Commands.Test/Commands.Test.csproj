@@ -271,6 +271,7 @@
     <Compile Include="CloudService\Utilities\ServiceComponentsTests.cs" />
     <Compile Include="CloudService\Utilities\ServicePathInfoTests.cs" />
     <Compile Include="CloudService\Utilities\ServiceSettingsTests.cs" />
+    <Compile Include="CloudService\Utilities\StorageEmulatorTests.cs" />
     <Compile Include="Common\DeltaMapperTests.cs" />
     <Compile Include="Common\ProfileStorageTests.cs" />
     <Compile Include="Common\ProfileSubscriptionChangeTests.cs" />
