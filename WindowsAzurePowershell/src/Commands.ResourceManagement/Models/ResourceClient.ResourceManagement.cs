@@ -58,15 +58,14 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Models
 
             if (ResourceManagementClient.ResourceGroups.CheckExistence(parameters.ResourceGroupName).Exists)
             {
-                WriteProgress(string.Format("{0, -10} Resource group \"{1}\" is found.", "[Info]",
-                                            parameters.ResourceGroupName));
+                WriteProgress(string.Format("Resource group \"{0}\" is found.", parameters.ResourceGroupName));
             }
             else
             {
                 throw new ArgumentException(Resources.ResourceGroupDoesntExists);
             }
 
-            WriteProgress(string.Format("{0, -10} Creating resource \"{1}\".", "[Start]", parameters.Name));
+            WriteProgress(string.Format("Creating resource \"{0}\" started.", parameters.Name));
             
             ResourceCreateOrUpdateResult createOrUpdateResult = ResourceManagementClient.Resources.CreateOrUpdate(parameters.ResourceGroupName, resourceIdentity, 
                 new ResourceCreateOrUpdateParameters
@@ -81,7 +80,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Models
 
             if (createOrUpdateResult.Resource != null)
             {
-                WriteProgress(string.Format("{0, -10} Creating resource \"{1}\".", "[Complete]", parameters.Name));
+                WriteProgress(string.Format("Creating resource \"{0}\" complete.", parameters.Name));
             }
 
             ResourceGetResult getResult = ResourceManagementClient.Resources.Get(parameters.ResourceGroupName, resourceIdentity);

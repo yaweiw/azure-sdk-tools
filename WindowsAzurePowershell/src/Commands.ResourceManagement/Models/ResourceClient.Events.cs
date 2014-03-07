@@ -25,7 +25,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Models
 {
     public partial class ResourcesClient
     {
-        private const int EventRetentionPeriod = 90;
+        private const int EventRetentionPeriod = 89;
 
         /// <summary>
         /// Gets event logs.

@@ -13,6 +13,8 @@
 // ----------------------------------------------------------------------------------
 
 
+using System.Text;
+
 namespace Microsoft.Azure.Commands.ResourceManagement.Models
 {
     public class PSDeploymentEventDataHttpRequest
@@ -24,5 +26,16 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Models
         public string Url { get; set; }
 
         public string ClientIpAddress { get; set; }
+
+        public override string ToString()
+        {
+            StringBuilder output = new StringBuilder();
+            output.AppendLine();
+            output.AppendLine("ClientId        : " + ClientId);
+            output.AppendLine("Method          : " + Method);
+            output.AppendLine("Url             : " + Url);
+            output.AppendLine("ClientIpAddress : " + ClientIpAddress);
+            return output.ToString();
+        }
     }
 }
