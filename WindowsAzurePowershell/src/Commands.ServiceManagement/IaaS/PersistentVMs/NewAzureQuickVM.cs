@@ -253,6 +253,14 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.PersistentVMs
             set;
         }
 
+        [Parameter(Mandatory = false, ParameterSetName = "Linux", HelpMessage = "Path to filename that contains custom data that will execute inside the VM after boot")]
+        public string CustomData
+        {
+            get;
+            set;
+        }
+
+
         public void NewAzureVMProcess()
         {
             WindowsAzureSubscription currentSubscription = CurrentSubscription;
@@ -514,7 +522,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.PersistentVMs
                     HostName = string.IsNullOrEmpty(this.Name) ? this.ServiceName : this.Name,
                     UserName = this.LinuxUser,
                     UserPassword = this.Password,
-                    DisableSshPasswordAuthentication = false
+                    DisableSshPasswordAuthentication = false,
                 };
 
                 if (this.SSHKeyPairs != null && this.SSHKeyPairs.Count > 0 ||
@@ -529,6 +537,32 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.PersistentVMs
 
                 var rdpEndpoint = new InputEndpoint {LocalPort = 22, Protocol = "tcp", Name = "SSH"};
                 netConfig.InputEndpoints.Add(rdpEndpoint);
+
+                if (this.CustomData != null)
+                {
+                    string fileName = this.TryResolvePath(this.CustomData);
+
+                    // Open the file and then base64 encode it.
+                    System.IO.FileStream fileStream;
+                    byte[] bytes = new byte[3 * 4096]; // Make buffer be a factor of 3 for encoding correctly
+                    System.Text.StringBuilder sb = new System.Text.StringBuilder();
+
+                    try
+                    {
+                        fileStream = new System.IO.FileStream(fileName, System.IO.FileMode.Open);
+
+                        while (fileStream.Position < fileStream.Length)
+                        {
+                            int cb = fileStream.Read(bytes, 0, bytes.Length);
+                            sb.Append(Convert.ToBase64String(bytes, 0, cb));
+                        }
+                    }
+                    catch (Exception)
+                    {
+
+                    }
+                    linuxConfig.CustomData = sb.ToString();
+                }
 
                 var configurationSets = new Collection<ConfigurationSet> { linuxConfig, netConfig };
                 PersistentVMHelper.MapConfigurationSets(configurationSets).ForEach(c => vm.ConfigurationSets.Add(c));

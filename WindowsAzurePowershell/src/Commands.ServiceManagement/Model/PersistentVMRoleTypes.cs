@@ -735,6 +735,19 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Model.PersistentVMMo
             }
         }
 
+        [DataMember(Name = "CustomData", EmitDefaultValue = false, Order = 6)]
+        public string CustomData
+        {
+            get
+            {
+                return base.GetValue<string>("CustomData");
+            }
+            set
+            {
+                base.SetValue("CustomData", value);
+            }
+        }
+
         public override string ConfigurationSetType
         {
             get
