@@ -15,6 +15,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Text;
 
 namespace Microsoft.Azure.Commands.ResourceManagement.Models
 {
@@ -54,6 +55,40 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Models
 
         public Dictionary<string, string> Claims { get; set; }
 
+        public string ClaimsText
+        {
+            get
+            {
+                StringBuilder output = new StringBuilder();
+                if (Claims != null)
+                {
+                    output.AppendLine();
+                    foreach (var keyValuePair in Claims)
+                    {
+                        output.AppendLine(string.Format("{0, -15}: {1}", keyValuePair.Key, keyValuePair.Value));
+                    }
+                }
+                return output.ToString();
+            }
+        }
+
         public Dictionary<string, string> Properties { get; set; }
+
+        public string PropertiesText
+        {
+            get
+            {
+                StringBuilder output = new StringBuilder();
+                if (Properties != null)
+                {
+                    output.AppendLine();
+                    foreach (var keyValuePair in Properties)
+                    {
+                        output.AppendLine(string.Format("{0, -15}: {1}", keyValuePair.Key, keyValuePair.Value));
+                    }
+                }
+                return output.ToString();
+            }
+        }
     }
 }
