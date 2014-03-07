@@ -22,6 +22,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
     using System.Web.Script.Serialization;
     using Newtonsoft.Json;
     using Newtonsoft.Json.Linq;
+    using Commands.Common.Properties;
 
     public static class JsonUtilities
     {
@@ -180,17 +181,10 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
             }
             else
             {
-                throw new ArgumentException("Unable to update mismatching Json structured.");
+                throw new ArgumentException(string.Format(Resources.UnableToPatchJson, originalJson, patchJson));
             }
 
-            if (originalJson == null)
-            {
-                return null;
-            }
-            else
-            {
-                return originalJson.ToString(Formatting.None);
-            }
+            return originalJson.ToString(Formatting.None);
         }
 
         private static void PatchJObject(JObject originalJsonObject, JObject patchJsonObject)
@@ -218,7 +212,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
                     }
                     else
                     {
-                        throw new ArgumentException("Unable to update mismatching Json structured.");
+                        throw new ArgumentException(string.Format(Resources.UnableToPatchJson, originalJson, patchJson));
                     }
                 }
                 else
