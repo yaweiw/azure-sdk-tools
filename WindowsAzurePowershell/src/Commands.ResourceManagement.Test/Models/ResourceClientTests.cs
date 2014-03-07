@@ -298,7 +298,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Test.Models
             CreatePSResourceParameters parameters = new CreatePSResourceParameters()
             {
                 Location = "West US",
-                ResourceName = resourceIdentity.ResourceName,
+                Name = resourceIdentity.ResourceName,
                 ParentResourceName = resourceIdentity.ParentResourcePath,
                 PropertyObject = new Hashtable(properties),
                 ResourceGroupName = resourceGroupName,
@@ -331,7 +331,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Test.Models
             CreatePSResourceParameters parameters = new CreatePSResourceParameters()
             {
                 Location = "West US",
-                ResourceName = resourceIdentity.ResourceName,
+                Name = resourceIdentity.ResourceName,
                 ParentResourceName = resourceIdentity.ParentResourcePath,
                 PropertyObject = new Hashtable(properties),
                 ResourceGroupName = resourceGroupName,
@@ -347,7 +347,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Test.Models
             CreatePSResourceParameters parameters = new CreatePSResourceParameters()
             {
                 Location = "West US",
-                ResourceName = resourceIdentity.ResourceName,
+                Name = resourceIdentity.ResourceName,
                 ParentResourceName = resourceIdentity.ParentResourcePath,
                 PropertyObject = new Hashtable(properties),
                 ResourceGroupName = resourceGroupName,
@@ -360,7 +360,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Test.Models
                         StatusCode = HttpStatusCode.OK,
                         Resource = new Resource
                             {
-                                Name = parameters.ResourceName,
+                                Name = parameters.Name,
                                 Location = parameters.Location,
                                 Properties = serializedProperties,
                                 ProvisioningState = ProvisioningState.Running,
@@ -403,7 +403,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Test.Models
         {
             UpdatePSResourceParameters parameters = new UpdatePSResourceParameters()
             {
-                ResourceName = resourceIdentity.ResourceName,
+                Name = resourceIdentity.ResourceName,
                 ParentResourceName = resourceIdentity.ParentResourcePath,
                 PropertyObject = new Hashtable(properties),
                 ResourceGroupName = resourceGroupName,
@@ -421,7 +421,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Test.Models
         {
             UpdatePSResourceParameters parameters = new UpdatePSResourceParameters()
             {
-                ResourceName = resourceIdentity.ResourceName,
+                Name = resourceIdentity.ResourceName,
                 ParentResourceName = resourceIdentity.ParentResourcePath,
                 PropertyObject = new Hashtable(properties),
                 ResourceGroupName = resourceGroupName,
@@ -436,7 +436,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Test.Models
         {
             UpdatePSResourceParameters parameters = new UpdatePSResourceParameters()
             {
-                ResourceName = resourceIdentity.ResourceName,
+                Name = resourceIdentity.ResourceName,
                 ParentResourceName = resourceIdentity.ParentResourcePath,
                 PropertyObject = new Hashtable(properties),
                 ResourceGroupName = resourceGroupName,
@@ -449,7 +449,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Test.Models
                         StatusCode = HttpStatusCode.OK,
                         Resource = new Resource
                             {
-                                Name = parameters.ResourceName,
+                                Name = parameters.Name,
                                 Location = "West US",
                                 Properties = serializedProperties,
                                 ProvisioningState = ProvisioningState.Running,
@@ -480,7 +480,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Test.Models
         {
             BasePSResourceParameters parameters = new BasePSResourceParameters()
             {
-                ResourceName = resourceIdentity.ResourceName,
+                Name = resourceIdentity.ResourceName,
                 ParentResourceName = resourceIdentity.ParentResourcePath,
                 ResourceGroupName = resourceGroupName,
                 ResourceType = resourceIdentity.ResourceProviderNamespace + "/" + resourceIdentity.ResourceType,
@@ -502,7 +502,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Test.Models
         {
             BasePSResourceParameters parameters = new BasePSResourceParameters()
             {
-                ResourceName = resourceIdentity.ResourceName,
+                Name = resourceIdentity.ResourceName,
                 ParentResourceName = resourceIdentity.ParentResourcePath,
                 ResourceGroupName = resourceGroupName,
                 ResourceType = "abc",
@@ -516,7 +516,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Test.Models
         {
             BasePSResourceParameters parameters = new BasePSResourceParameters()
             {
-                ResourceName = resourceIdentity.ResourceName,
+                Name = resourceIdentity.ResourceName,
                 ParentResourceName = resourceIdentity.ParentResourcePath,
                 ResourceGroupName = resourceGroupName,
                 ResourceType = resourceIdentity.ResourceProviderNamespace + "/" + resourceIdentity.ResourceType,
@@ -544,7 +544,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Test.Models
         {
             BasePSResourceParameters parameters = new BasePSResourceParameters()
             {
-                ResourceName = resourceIdentity.ResourceName,
+                Name = resourceIdentity.ResourceName,
                 ParentResourceName = resourceIdentity.ParentResourcePath,
                 ResourceGroupName = resourceGroupName,
                 ResourceType = resourceIdentity.ResourceProviderNamespace + "/" + resourceIdentity.ResourceType,
@@ -556,7 +556,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Test.Models
                         StatusCode = HttpStatusCode.OK,
                         Resource = new Resource
                             {
-                                Name = parameters.ResourceName,
+                                Name = parameters.Name,
                                 Properties = serializedProperties,
                                 ProvisioningState = ProvisioningState.Running,
                                 ResourceGroup = parameters.ResourceGroupName,
@@ -620,7 +620,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Test.Models
         {
             BasePSResourceParameters parameters = new BasePSResourceParameters()
             {
-                ResourceName = resourceIdentity.ResourceName,
+                Name = resourceIdentity.ResourceName,
                 ParentResourceName = resourceIdentity.ParentResourcePath,
                 ResourceGroupName = resourceGroupName,
                 ResourceType = "abc",
@@ -639,7 +639,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Test.Models
             {
                 ResourceGroupName = resourceGroupName,
                 Location = resourceGroupLocation,
-                DeploymentName = deploymentName,
+                Name = deploymentName,
                 TemplateFile = templateFile,
                 ParameterFile = parameterFile,
                 StorageAccountName = storageAccountName
@@ -736,7 +736,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Test.Models
             {
                 ResourceGroupName = resourceGroupName,
                 Location = resourceGroupLocation,
-                DeploymentName = deploymentName,
+                Name = deploymentName,
                 TemplateFile = templateFile,
                 ParameterFile = parameterFile,
                 StorageAccountName = storageAccountName
@@ -847,7 +847,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Test.Models
             {
                 ResourceGroupName = resourceGroupName,
                 Location = resourceGroupLocation,
-                DeploymentName = deploymentName,
+                Name = deploymentName,
                 TemplateFile = templateFile,
                 ParameterObject = new Hashtable()
                 {
@@ -963,7 +963,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Test.Models
             {
                 ResourceGroupName = resourceGroupName,
                 Location = resourceGroupLocation,
-                DeploymentName = deploymentName,
+                Name = deploymentName,
                 TemplateFile = templateFile,
                 ParameterFile = parameterFile,
                 StorageAccountName = storageAccountName
@@ -1191,7 +1191,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Test.Models
 
             IEnumerable<PSDeploymentEventData> results = resourcesClient.GetResourceGroupLogs(new GetPSResourceGroupLogParameters
                 {
-                    ResourceGroupName = "foo",
+                    Name = "foo",
                     All = true
                 });
 
@@ -1233,7 +1233,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Test.Models
 
             IEnumerable<PSDeploymentEventData> results = resourcesClient.GetResourceGroupLogs(new GetPSResourceGroupLogParameters
             {
-                ResourceGroupName = resourceGroupName,
+                Name = resourceGroupName,
                 DeploymentName = deploymentName
             });
 
@@ -1279,7 +1279,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Test.Models
 
             IEnumerable<PSDeploymentEventData> results = resourcesClient.GetResourceGroupLogs(new GetPSResourceGroupLogParameters
             {
-                ResourceGroupName = resourceGroupName,
+                Name = resourceGroupName,
                 LastDeployment = true
             });
 

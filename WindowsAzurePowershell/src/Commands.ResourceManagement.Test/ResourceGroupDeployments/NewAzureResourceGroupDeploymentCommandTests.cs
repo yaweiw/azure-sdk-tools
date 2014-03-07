@@ -58,7 +58,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Test
             {
                 ParameterFile = parameterFile,
                 TemplateFile = templateFile,
-                DeploymentName = deploymentName,
+                Name = deploymentName,
                 StorageAccountName = storageAccountName,
                 TemplateHash = "hash",
                 TemplateHashAlgorithm = "Sha256",
@@ -102,7 +102,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Test
                 .Callback((CreatePSResourceGroupDeploymentParameters p) => { actualParameters = p; });
 
             cmdlet.ResourceGroupName = resourceGroupName;
-            cmdlet.DeploymentName = expectedParameters.DeploymentName;
+            cmdlet.Name = expectedParameters.Name;
             cmdlet.ParameterFile = expectedParameters.ParameterFile;
             cmdlet.TemplateFile = expectedParameters.TemplateFile;
             cmdlet.StorageAccountName = expectedParameters.StorageAccountName;
@@ -112,7 +112,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Test
 
             cmdlet.ExecuteCmdlet();
 
-            Assert.Equal(expectedParameters.DeploymentName, actualParameters.DeploymentName);
+            Assert.Equal(expectedParameters.Name, actualParameters.Name);
             Assert.Equal(expectedParameters.GalleryTemplateName, actualParameters.GalleryTemplateName);
             Assert.Equal(expectedParameters.TemplateFile, actualParameters.TemplateFile);
             Assert.Equal(expectedParameters.ParameterObject, actualParameters.ParameterObject);
@@ -132,7 +132,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Test
             {
                 ParameterFile = parameterFile,
                 GalleryTemplateName = "sqlServer",
-                DeploymentName = deploymentName,
+                Name = deploymentName,
                 StorageAccountName = storageAccountName,
                 TemplateHash = "hash",
                 TemplateHashAlgorithm = "Sha256",
@@ -176,7 +176,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Test
                 .Callback((CreatePSResourceGroupDeploymentParameters p) => { actualParameters = p; });
 
             cmdlet.ResourceGroupName = resourceGroupName;
-            cmdlet.DeploymentName = expectedParameters.DeploymentName;
+            cmdlet.Name = expectedParameters.Name;
             cmdlet.ParameterFile = expectedParameters.ParameterFile;
             cmdlet.GalleryTemplateName = expectedParameters.GalleryTemplateName;
             cmdlet.StorageAccountName = expectedParameters.StorageAccountName;
@@ -186,7 +186,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Test
 
             cmdlet.ExecuteCmdlet();
 
-            Assert.Equal(expectedParameters.DeploymentName, actualParameters.DeploymentName);
+            Assert.Equal(expectedParameters.Name, actualParameters.Name);
             Assert.Equal(expectedParameters.GalleryTemplateName, actualParameters.GalleryTemplateName);
             Assert.Equal(expectedParameters.TemplateFile, actualParameters.TemplateFile);
             Assert.Equal(expectedParameters.ParameterObject, actualParameters.ParameterObject);

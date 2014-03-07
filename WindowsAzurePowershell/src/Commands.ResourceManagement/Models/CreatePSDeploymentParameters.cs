@@ -17,6 +17,6 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Models
 {
     public class CreatePSResourceGroupDeploymentParameters : ValidatePSResourceGroupDeploymentParameters
     {
-        public string DeploymentName { get; set; }
+        public string Name { get; set; }
     }
 }

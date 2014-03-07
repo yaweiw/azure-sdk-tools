@@ -99,7 +99,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Test
                 .Callback((FilterResourceGroupDeploymentOptions o) => { actual = o; });
 
             cmdlet.ResourceGroupName = resourceGroupName;
-            cmdlet.DeploymentName = deploymentName;
+            cmdlet.Name = deploymentName;
 
             cmdlet.ExecuteCmdlet();
 

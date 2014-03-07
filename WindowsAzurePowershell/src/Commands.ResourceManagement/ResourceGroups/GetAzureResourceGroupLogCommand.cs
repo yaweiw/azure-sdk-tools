@@ -28,11 +28,12 @@ namespace Microsoft.Azure.Commands.ResourceManagement
         internal const string LastDeploymentSetName = "lastDeployment";
         internal const string DeploymentNameSetName = "deploymentName";
 
+        [Alias("ResourceGroupName")]
         [Parameter(Position = 0, ParameterSetName = AllSetName, Mandatory = true, ValueFromPipelineByPropertyName = true, HelpMessage = "Name of the resource group you want to see the logs.")]
         [Parameter(Position = 0, ParameterSetName = LastDeploymentSetName, Mandatory = true, ValueFromPipelineByPropertyName = true, HelpMessage = "Name of the resource group you want to see the logs.")]
         [Parameter(Position = 0, ParameterSetName = DeploymentNameSetName, Mandatory = true, ValueFromPipelineByPropertyName = true, HelpMessage = "Name of the resource group you want to see the logs.")]
         [ValidateNotNullOrEmpty]
-        public string ResourceGroupName { get; set; }
+        public string Name { get; set; }
 
         [Parameter(ParameterSetName = DeploymentNameSetName, Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "Name of the deployment whose logs you want to see.")]
         [ValidateNotNullOrEmpty]
@@ -48,7 +49,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement
         {
             GetPSResourceGroupLogParameters parameters = new GetPSResourceGroupLogParameters
                 {
-                    ResourceGroupName = ResourceGroupName,
+                    Name = Name,
                     DeploymentName = DeploymentName,
                     All = All.IsPresent,
                     LastDeployment = LastDeployment.IsPresent

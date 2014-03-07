@@ -20,7 +20,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Models
 {
     public class BasePSResourceParameters
     {
-        public string ResourceName { get; set; }
+        public string Name { get; set; }
 
         public string ResourceGroupName { get; set; }
 
@@ -43,7 +43,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Models
 
             ResourceIdentity identity = new ResourceIdentity
                 {
-                    ResourceName = ResourceName,
+                    ResourceName = Name,
                     ParentResourcePath = ParentResourceName,
                     ResourceProviderNamespace = resourceType[0],
                     ResourceType = resourceType[1]
