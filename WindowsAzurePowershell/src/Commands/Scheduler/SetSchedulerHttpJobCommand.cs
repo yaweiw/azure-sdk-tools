@@ -32,122 +32,128 @@ namespace Microsoft.WindowsAzure.Commands.Scheduler
         const string PutPostParamSet = "PutPost";
         const string RecurringParamSet = "Recurring";
 
-        [Parameter(Position = 0, Mandatory = true, ParameterSetName = RequiredParamSet, HelpMessage = "The location name.")]
+        [Parameter(Mandatory = true, ParameterSetName = RequiredParamSet, HelpMessage = "The location name.")]
         [ValidateNotNullOrEmpty]
         public string Location { get; set; }
 
-        [Parameter(Position = 1, Mandatory = true, ValueFromPipelineByPropertyName = true, ParameterSetName = RequiredParamSet, HelpMessage = "The job collection name.")]
+        [Parameter(Mandatory = true, ValueFromPipelineByPropertyName = true, ParameterSetName = RequiredParamSet, HelpMessage = "The job collection name.")]
         [ValidateNotNullOrEmpty]
         public string JobCollectionName { get; set; }
 
-        [Parameter(Position = 2, Mandatory = true, ValueFromPipelineByPropertyName = true, ParameterSetName = RequiredParamSet, HelpMessage = "The job name.")]
+        [Parameter(Mandatory = true, ValueFromPipelineByPropertyName = true, ParameterSetName = RequiredParamSet, HelpMessage = "The job name.")]
         [ValidateNotNullOrEmpty]
         public string JobName { get; set; }
 
-        [Parameter(Position = 3, Mandatory = false, ValueFromPipelineByPropertyName = false, ParameterSetName = RequiredParamSet, HelpMessage = "The Method for Http and Https Action types (GET, PUT, POST, HEAD or DELETE).")]
+        [Parameter(Mandatory = false, ValueFromPipelineByPropertyName = false, ParameterSetName = RequiredParamSet, HelpMessage = "The Method for Http and Https Action types (GET, PUT, POST, HEAD or DELETE).")]
         [ValidateSet("GET", "PUT", "POST", "HEAD", "DELETE", IgnoreCase = true)]
         public string Method { get; set; }
 
-        [Parameter(Position = 4, Mandatory = false, ValueFromPipelineByPropertyName = false, ParameterSetName = RequiredParamSet, HelpMessage = "The Uri for job action.")]
+        [Parameter(Mandatory = false, ValueFromPipelineByPropertyName = false, ParameterSetName = RequiredParamSet, HelpMessage = "The Uri for job action.")]
         public Uri URI { get; set; }
 
-        [Parameter(Position = 5, Mandatory = false, ValueFromPipelineByPropertyName = false, ParameterSetName = PutPostParamSet, HelpMessage = "The Body for PUT and POST job actions.")]
-        [Parameter(Position = 5, Mandatory = false, ValueFromPipelineByPropertyName = false, ParameterSetName = RequiredParamSet, HelpMessage = "The Body for PUT and POST job actions.")]
+        [Parameter(Mandatory = false, ValueFromPipelineByPropertyName = false, ParameterSetName = PutPostParamSet, HelpMessage = "The Body for PUT and POST job actions.")]
+        [Parameter(Mandatory = false, ValueFromPipelineByPropertyName = false, ParameterSetName = RequiredParamSet, HelpMessage = "The Body for PUT and POST job actions.")]
         [ValidateNotNullOrEmpty]
         public string RequestBody { get; set; }
 
-        [Parameter(Position = 6, Mandatory = false, ValueFromPipelineByPropertyName = false, ParameterSetName = RequiredParamSet, HelpMessage = "The Start Time")]
+        [Parameter(Mandatory = false, ValueFromPipelineByPropertyName = false, ParameterSetName = RequiredParamSet, HelpMessage = "The Start Time")]
         [ValidateNotNullOrEmpty]
         public DateTime? StartTime { get; set; }
 
-        [Parameter(Position = 7, Mandatory = false, ValueFromPipelineByPropertyName = false, ParameterSetName = RecurringParamSet, HelpMessage = "Interval of the recurrence at the given frequency")]
-        [Parameter(Position = 7, Mandatory = false, ValueFromPipelineByPropertyName = false, ParameterSetName = RequiredParamSet, HelpMessage = "Interval of the recurrence at the given frequency")]
+        [Parameter(Mandatory = false, ValueFromPipelineByPropertyName = false, ParameterSetName = RecurringParamSet, HelpMessage = "Interval of the recurrence at the given frequency")]
+        [Parameter(Mandatory = false, ValueFromPipelineByPropertyName = false, ParameterSetName = RequiredParamSet, HelpMessage = "Interval of the recurrence at the given frequency")]
         [ValidateNotNullOrEmpty]
         public int? Interval { get; set; }
 
-        [Parameter(Position = 8, Mandatory = false, ValueFromPipelineByPropertyName = false, ParameterSetName = RecurringParamSet, HelpMessage = "The frequency of recurrence")]
-        [Parameter(Position = 8, Mandatory = false, ValueFromPipelineByPropertyName = false, ParameterSetName = RequiredParamSet, HelpMessage = "The frequency of recurrence")]
+        [Parameter(Mandatory = false, ValueFromPipelineByPropertyName = false, ParameterSetName = RecurringParamSet, HelpMessage = "The frequency of recurrence")]
+        [Parameter(Mandatory = false, ValueFromPipelineByPropertyName = false, ParameterSetName = RequiredParamSet, HelpMessage = "The frequency of recurrence")]
         [ValidateSet("Minute", "Hour", "Day", "Week", "Month", "Year", IgnoreCase = true)]
         public string Frequency { get; set; }
 
-        [Parameter(Position = 9, Mandatory = false, ValueFromPipelineByPropertyName = false, ParameterSetName = RecurringParamSet, HelpMessage = "Count of occurrences that will execute. Optional. Default will recur infinitely")]
-        [Parameter(Position = 9, Mandatory = false, ValueFromPipelineByPropertyName = false, ParameterSetName = RequiredParamSet, HelpMessage = "Count of occurrences that will execute. Optional. Default will recur infinitely")]
+        [Parameter(Mandatory = false, ValueFromPipelineByPropertyName = false, ParameterSetName = RecurringParamSet, HelpMessage = "Count of occurrences that will execute. Optional. Default will recur infinitely")]
+        [Parameter(Mandatory = false, ValueFromPipelineByPropertyName = false, ParameterSetName = RequiredParamSet, HelpMessage = "Count of occurrences that will execute. Optional. Default will recur infinitely")]
         public int? ExecutionCount { get; set; }
 
-        [Parameter(Position = 10, Mandatory = false, ValueFromPipelineByPropertyName = false, ParameterSetName = RecurringParamSet, HelpMessage = "The End Time")]
-        [Parameter(Position = 10, Mandatory = false, ValueFromPipelineByPropertyName = false, ParameterSetName = RequiredParamSet, HelpMessage = "The End Time")]
+        [Parameter(Mandatory = false, ValueFromPipelineByPropertyName = false, ParameterSetName = RecurringParamSet, HelpMessage = "The End Time")]
+        [Parameter(Mandatory = false, ValueFromPipelineByPropertyName = false, ParameterSetName = RequiredParamSet, HelpMessage = "The End Time")]
         [ValidateNotNullOrEmpty]
         public DateTime? EndTime { get; set; }
 
-        [Parameter(Position = 11, Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "The job state.")]
+        [Parameter(Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "The job state.")]
         [ValidateSet("Enabled", "Disabled", IgnoreCase = true)]
         public string JobState { get; set; }
 
-        [Parameter(Position = 12, Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "The header collection.")]
+        [Parameter(Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "The header collection.")]
         public Hashtable Headers { get; set; }
 
-        [Parameter(Position = 13, Mandatory = false, ValueFromPipelineByPropertyName = false, ParameterSetName = RequiredParamSet, HelpMessage = "The Method for Http and Https Action types (GET, PUT, POST, HEAD or DELETE).")]
+        [Parameter(Mandatory = false, ValueFromPipelineByPropertyName = false, ParameterSetName = RequiredParamSet, HelpMessage = "The Method for Http and Https Action types (GET, PUT, POST, HEAD or DELETE).")]
         [ValidateSet("GET", "PUT", "POST", "HEAD", "DELETE", IgnoreCase = true)]
         public string ErrorActionMethod { get; set; }
 
-        [Parameter(Position = 14, Mandatory = false, ValueFromPipelineByPropertyName = false, ParameterSetName = RequiredParamSet, HelpMessage = "The Uri for error job action.")]
+        [Parameter(Mandatory = false, ValueFromPipelineByPropertyName = false, ParameterSetName = RequiredParamSet, HelpMessage = "The Uri for error job action.")]
         public Uri ErrorActionURI { get; set; }
 
-        [Parameter(Position = 15, Mandatory = false, ValueFromPipelineByPropertyName = false, ParameterSetName = RequiredParamSet, HelpMessage = "The Body for PUT and POST job actions.")]
+        [Parameter(Mandatory = false, ValueFromPipelineByPropertyName = false, ParameterSetName = RequiredParamSet, HelpMessage = "The Body for PUT and POST job actions.")]
         [ValidateNotNullOrEmpty]
         public string ErrorActionRequestBody { get; set; }
 
-        [Parameter(Position = 16, Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "The header collection.")]
+        [Parameter(Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "The header collection.")]
         public Hashtable ErrorActionHeaders { get; set; }
 
-        [Parameter(Position = 17, Mandatory = false, ValueFromPipelineByPropertyName = true, ParameterSetName = RequiredParamSet, HelpMessage = "The Storage account name.")]
+        [Parameter(Mandatory = false, ValueFromPipelineByPropertyName = true, ParameterSetName = RequiredParamSet, HelpMessage = "The Storage account name.")]
         [ValidateNotNullOrEmpty]
         public string ErrorActionStorageAccount { get; set; }
 
-        [Parameter(Position = 18, Mandatory = false, ValueFromPipelineByPropertyName = true, ParameterSetName = RequiredParamSet, HelpMessage = "The Storage Queue name.")]
+        [Parameter(Mandatory = false, ValueFromPipelineByPropertyName = true, ParameterSetName = RequiredParamSet, HelpMessage = "The Storage Queue name.")]
         [ValidateNotNullOrEmpty]
         public string ErrorActionStorageQueue { get; set; }
 
-        [Parameter(Position = 19, Mandatory = false, ValueFromPipelineByPropertyName = true, ParameterSetName = RequiredParamSet, HelpMessage = "The SAS token for storage queue.")]
+        [Parameter(Mandatory = false, ValueFromPipelineByPropertyName = true, ParameterSetName = RequiredParamSet, HelpMessage = "The SAS token for storage queue.")]
         [ValidateNotNullOrEmpty]
         public string ErrorActionSASToken { get; set; }
 
-        [Parameter(Position = 20, Mandatory = false, ValueFromPipelineByPropertyName = false, ParameterSetName = RequiredParamSet, HelpMessage = "The Body for Storage job actions.")]
+        [Parameter(Mandatory = false, ValueFromPipelineByPropertyName = false, ParameterSetName = RequiredParamSet, HelpMessage = "The Body for Storage job actions.")]
         [ValidateNotNullOrEmpty]
         public string ErrorActionQueueMessageBody { get; set; }
 
+        [Parameter(Mandatory = false)]
+        public SwitchParameter PassThru { get; set; }
+
         public override void ExecuteCmdlet()
         {
-            string status = string.Empty;
-            if (!SMClient.GetAvailableRegions().Contains(Location, StringComparer.OrdinalIgnoreCase))
-                WriteWarning(Resources.SchedulerInvalidLocation);
-            else
+            if (PassThru.IsPresent)
             {
-                WriteObject(SMClient.PatchHttpJob(new PSCreateJobParams
+                string status = string.Empty;
+                if (!SMClient.GetAvailableRegions().Contains(Location, StringComparer.OrdinalIgnoreCase))
+                    WriteWarning(Resources.SchedulerInvalidLocation);
+                else
                 {
-                    Region = Location,
-                    JobCollectionName = JobCollectionName,
-                    JobName = JobName,
-                    Method = Method,
-                    Headers = Headers,
-                    Uri = URI,
-                    Body = RequestBody,
-                    StartTime = StartTime,
-                    Interval = Interval,
-                    Frequency = Frequency,
-                    EndTime = EndTime,
-                    ExecutionCount = ExecutionCount,
-                    JobState = JobState,
-                    ErrorActionMethod = ErrorActionMethod,
-                    ErrorActionBody = ErrorActionRequestBody,
-                    ErrorActionHeaders = ErrorActionHeaders,
-                    ErrorActionUri = ErrorActionURI,
-                    ErrorActionStorageAccount = ErrorActionStorageAccount,
-                    ErrorActionQueueName = ErrorActionStorageQueue,
-                    ErrorActionQueueBody = ErrorActionQueueMessageBody,
-                    ErrorActionSasToken = ErrorActionSASToken
-                }, out status), true);
-                WriteObject(status);
+                    WriteObject(SMClient.PatchHttpJob(new PSCreateJobParams
+                    {
+                        Region = Location,
+                        JobCollectionName = JobCollectionName,
+                        JobName = JobName,
+                        Method = Method,
+                        Headers = Headers,
+                        Uri = URI,
+                        Body = RequestBody,
+                        StartTime = StartTime,
+                        Interval = Interval,
+                        Frequency = Frequency,
+                        EndTime = EndTime,
+                        ExecutionCount = ExecutionCount,
+                        JobState = JobState,
+                        ErrorActionMethod = ErrorActionMethod,
+                        ErrorActionBody = ErrorActionRequestBody,
+                        ErrorActionHeaders = ErrorActionHeaders,
+                        ErrorActionUri = ErrorActionURI,
+                        ErrorActionStorageAccount = ErrorActionStorageAccount,
+                        ErrorActionQueueName = ErrorActionStorageQueue,
+                        ErrorActionQueueBody = ErrorActionQueueMessageBody,
+                        ErrorActionSasToken = ErrorActionSASToken
+                    }, out status), true);
+                    WriteObject(status);
+                }
             }
         }
     }
