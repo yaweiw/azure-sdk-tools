@@ -29,35 +29,19 @@ namespace Microsoft.WindowsAzure.Commands.Scheduler
     {
         [Parameter(Position = 0, Mandatory = true, ValueFromPipelineByPropertyName = true, HelpMessage = "The location name.")]
         [ValidateNotNullOrEmpty]
-        public string Location
-        {
-            get;
-            set;
-        }
+        public string Location { get; set; }
 
         [Parameter(Position = 1, Mandatory = true, ValueFromPipelineByPropertyName = true, HelpMessage = "The job collection name.")]
         [ValidateNotNullOrEmpty]
-        public string JobCollectionName
-        {
-            get;
-            set;
-        }
+        public string JobCollectionName { get; set; }
 
         [Parameter(Position = 2, Mandatory = true, ValueFromPipelineByPropertyName = true, HelpMessage = "The job name.")]
         [ValidateNotNullOrEmpty]
-        public string JobName
-        {
-            get;
-            set;
-        }
+        public string JobName { get; set; }
 
         [Parameter(Position = 3, Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "The job state.")]
-        [ValidateSet("Completed", "Failed", IgnoreCase = true)]        
-        public string JobStatus
-        {
-            get;
-            set;
-        }
+        [ValidateSet("Completed", "Failed", IgnoreCase = true)]
+        public string JobStatus { get; set; }
 
         public override void ExecuteCmdlet()
         {
@@ -69,7 +53,5 @@ namespace Microsoft.WindowsAzure.Commands.Scheduler
                 WriteObject(SMClient.GetJobHistory(jobCollection: JobCollectionName, job: JobName, region: Location, jobStatus: JobStatus), true);
             }
         }
-
-
     }
 }
