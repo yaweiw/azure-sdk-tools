@@ -12,7 +12,6 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-
 using System.Text;
 
 namespace Microsoft.Azure.Commands.ResourceManagement.Models
