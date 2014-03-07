@@ -116,37 +116,43 @@ namespace Microsoft.WindowsAzure.Commands.Scheduler
         [ValidateNotNullOrEmpty]
         public string ErrorActionQueueMessageBody { get; set; }
 
+        [Parameter(Mandatory = false)]
+        public SwitchParameter PassThru { get; set; }
+
         public override void ExecuteCmdlet()
         {
-            string status = string.Empty;
-            if (!SMClient.GetAvailableRegions().Contains(Location, StringComparer.OrdinalIgnoreCase))
-                WriteWarning(Resources.SchedulerInvalidLocation);
-            else
+            if (PassThru.IsPresent)
             {
-                WriteObject(SMClient.PatchStorageJob(new PSCreateJobParams
+                string status = string.Empty;
+                if (!SMClient.GetAvailableRegions().Contains(Location, StringComparer.OrdinalIgnoreCase))
+                    WriteWarning(Resources.SchedulerInvalidLocation);
+                else
                 {
-                    Region = Location,
-                    JobCollectionName = JobCollectionName,
-                    JobName = JobName,
-                    StorageAccount = StorageQueueAccount,
-                    QueueName = StorageQueueName,
-                    SasToken = SASToken,
-                    StorageQueueMessage = StorageQueueMessage,
-                    StartTime = StartTime,
-                    Interval = Interval,
-                    Frequency = Frequency,
-                    EndTime = EndTime,
-                    ExecutionCount = ExecutionCount,
-                    JobState = JobState,
-                    ErrorActionMethod = ErrorActionMethod,
-                    ErrorActionBody = ErrorActionRequestBody,
-                    ErrorActionHeaders = ErrorActionHeaders,
-                    ErrorActionUri = ErrorActionURI,
-                    ErrorActionStorageAccount = ErrorActionStorageAccount,
-                    ErrorActionQueueName = ErrorActionStorageQueue,
-                    ErrorActionQueueBody = ErrorActionQueueMessageBody,
-                    ErrorActionSasToken = ErrorActionSASToken
-                }, out status), true);
+                    WriteObject(SMClient.PatchStorageJob(new PSCreateJobParams
+                    {
+                        Region = Location,
+                        JobCollectionName = JobCollectionName,
+                        JobName = JobName,
+                        StorageAccount = StorageQueueAccount,
+                        QueueName = StorageQueueName,
+                        SasToken = SASToken,
+                        StorageQueueMessage = StorageQueueMessage,
+                        StartTime = StartTime,
+                        Interval = Interval,
+                        Frequency = Frequency,
+                        EndTime = EndTime,
+                        ExecutionCount = ExecutionCount,
+                        JobState = JobState,
+                        ErrorActionMethod = ErrorActionMethod,
+                        ErrorActionBody = ErrorActionRequestBody,
+                        ErrorActionHeaders = ErrorActionHeaders,
+                        ErrorActionUri = ErrorActionURI,
+                        ErrorActionStorageAccount = ErrorActionStorageAccount,
+                        ErrorActionQueueName = ErrorActionStorageQueue,
+                        ErrorActionQueueBody = ErrorActionQueueMessageBody,
+                        ErrorActionSasToken = ErrorActionSASToken
+                    }, out status), true);
+                }
             }
         }
     }
