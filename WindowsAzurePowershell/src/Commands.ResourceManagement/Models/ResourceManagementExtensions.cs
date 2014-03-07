@@ -124,7 +124,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Models
                     OperationName = eventData.OperationName.LocalizedValue,
                     Status = eventData.Status.LocalizedValue,
                     SubStatus = eventData.SubStatus.LocalizedValue,
-                    ResourceGroup = eventData.ResourceGroupName,
+                    ResourceGroupName = eventData.ResourceGroupName,
                     ResourceProvider = eventData.ResourceProviderName.LocalizedValue,
                     ResourceUri = eventData.ResourceUri,
                     HttpRequest = eventData.HttpRequest.ToPSDeploymentEventDataHttpRequest(),
