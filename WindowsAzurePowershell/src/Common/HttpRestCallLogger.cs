@@ -25,13 +25,13 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
 
         protected override HttpResponseMessage ProcessResponse(HttpResponseMessage response, CancellationToken cancellationToken)
         {
-            WriteLog(General.GetLog(response));
+            WriteLog(GeneralUtils.GetLog(response));
             return response;
         }
 
         protected override HttpRequestMessage ProcessRequest(HttpRequestMessage request, CancellationToken cancellationToken)
         {
-            WriteLog(General.GetLog(request));
+            WriteLog(GeneralUtils.GetLog(request));
             return request;
         }
 

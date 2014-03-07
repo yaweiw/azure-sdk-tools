@@ -176,7 +176,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.HostedServices
             var deploymentInput = new DeploymentCreateParameters
             {
                 PackageUri = packageUrl,
-                Configuration = General.GetConfiguration(this.Configuration),
+                Configuration = GeneralUtils.GetConfiguration(this.Configuration),
                 ExtensionConfiguration = extConfig,
                 Label = this.Label,
                 Name = this.Name,

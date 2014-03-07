@@ -12,6 +12,8 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
+using Microsoft.WindowsAzure.Commands.Utilities.Common;
+
 namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService
 {
     using AzureTools;
@@ -180,8 +182,8 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService
         private void AddRoleCore(string scaffolding, RoleInfo role)
         {
             Dictionary<string, object> parameters = CreateDefaultParameters(role);
-            parameters[ScaffoldParams.NodeModules] = General.GetNodeModulesPath();
-            parameters[ScaffoldParams.NodeJsProgramFilesX86] = General.GetWithProgramFilesPath(Resources.NodeProgramFilesFolderName, false);
+            parameters[ScaffoldParams.NodeModules] = GeneralUtils.GetNodeModulesPath();
+            parameters[ScaffoldParams.NodeJsProgramFilesX86] = FileUtils.GetWithProgramFilesPath(Resources.NodeProgramFilesFolderName, false);
 
             GenerateScaffolding(scaffolding, role.Name, parameters);
         }

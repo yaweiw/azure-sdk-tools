@@ -61,7 +61,7 @@ namespace Microsoft.WindowsAzure.Commands.Subscription
             }
 
             string url = environment.PublishSettingsFileUrlWithRealm(Realm);
-            General.LaunchWebPage(url);
+            GeneralUtils.LaunchWebPage(url);
 
             if (PassThru)
             {

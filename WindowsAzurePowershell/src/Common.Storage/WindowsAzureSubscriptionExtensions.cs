@@ -40,9 +40,9 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
 
                     subscription.currentCloudStorageAccount = new CloudStorageAccount(
                         new StorageCredentials(storageServiceResponse.ServiceName, storageKeysResponse.PrimaryKey),
-                        General.CreateHttpsEndpoint(storageServiceResponse.Properties.Endpoints[0].ToString()),
-                        General.CreateHttpsEndpoint(storageServiceResponse.Properties.Endpoints[1].ToString()),
-                        General.CreateHttpsEndpoint(storageServiceResponse.Properties.Endpoints[2].ToString()));
+                        GeneralUtils.CreateHttpsEndpoint(storageServiceResponse.Properties.Endpoints[0].ToString()),
+                        GeneralUtils.CreateHttpsEndpoint(storageServiceResponse.Properties.Endpoints[1].ToString()),
+                        GeneralUtils.CreateHttpsEndpoint(storageServiceResponse.Properties.Endpoints[2].ToString()));
 
                     return subscription.currentCloudStorageAccount as CloudStorageAccount;
                 }
