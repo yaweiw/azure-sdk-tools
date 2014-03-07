@@ -17,7 +17,6 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
     using System;
     using System.Collections.Generic;
     using System.Diagnostics;
-    using System.Diagnostics.CodeAnalysis;
     using System.Globalization;
     using System.IO;
     using System.Linq;
@@ -30,17 +29,12 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
     using System.Security.Permissions;
     using System.ServiceModel.Channels;
     using System.Text;
-    using System.Web.Script.Serialization;
     using System.Xml;
-    using System.Xml.Linq;
-    using System.Xml.Serialization;
     using CloudService;
     using Commands.Common.Properties;
-    using Newtonsoft.Json;
     using XmlSchema.ServiceConfigurationSchema;
-    using JsonFormatting = Newtonsoft.Json.Formatting;
 
-    public static class General
+    public static class GeneralUtilities
     {
         private static Assembly _assembly = Assembly.GetExecutingAssembly();
 
@@ -63,104 +57,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
 
         public static string GetNodeModulesPath()
         {
-            return Path.Combine(GetAssemblyDirectory(), Resources.NodeModulesPath);
-        }
-
-        public static string GetAssemblyDirectory()
-        {
-            return Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
-        }
-
-        public static string GetWithProgramFilesPath(string directoryName, bool throwIfNotFound)
-        {
-            string programFilesPath = Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles);
-            if (Directory.Exists(Path.Combine(programFilesPath, directoryName)))
-            {
-                return Path.Combine(programFilesPath, directoryName);
-            }
-            else
-            {
-                if (programFilesPath.IndexOf(Resources.x86InProgramFiles) == -1)
-                {
-                    programFilesPath += Resources.x86InProgramFiles;
-                    if (throwIfNotFound)
-                    {
-                        Validate.ValidateDirectoryExists(Path.Combine(programFilesPath, directoryName));
-                    }
-                    return Path.Combine(programFilesPath, directoryName);
-                }
-                else
-                {
-                    programFilesPath = programFilesPath.Replace(Resources.x86InProgramFiles, string.Empty);
-                    if (throwIfNotFound)
-                    {
-                        Validate.ValidateDirectoryExists(Path.Combine(programFilesPath, directoryName));
-                    }
-                    return Path.Combine(programFilesPath, directoryName);
-                }
-            }
-        }
-
-        public static T DeserializeXmlFile<T>(string fileName, string exceptionMessage = null)
-        {
-            // TODO: fix and uncomment. second parameter is wrong
-            // Validate.ValidateFileFull(fileName, string.Format(Resources.PathDoesNotExistForElement, string.Empty, fileName));
-
-            T item = default(T);
-
-            XmlSerializer xmlSerializer = new XmlSerializer(typeof(T));
-            using (TextReader reader = new StreamReader(fileName, true))
-            {
-                try { item = (T)xmlSerializer.Deserialize(reader); }
-                catch
-                {
-                    if (!string.IsNullOrEmpty(exceptionMessage))
-                    {
-                        throw new InvalidOperationException(exceptionMessage);
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-            }
-
-            return item;
-        }
-
-        public static void SerializeXmlFile<T>(T obj, string fileName)
-        {
-            Validate.ValidatePathName(fileName, string.Format(Resources.PathDoesNotExistForElement, string.Empty, fileName));
-            Validate.ValidateStringIsNullOrEmpty(fileName, string.Empty);
-
-            XmlSerializer xmlSerializer = new XmlSerializer(typeof(T));
-            Encoding encoding = GetFileEncoding(fileName);
-            using (TextWriter writer = new StreamWriter(new FileStream(fileName, FileMode.Create), encoding))
-            {
-                xmlSerializer.Serialize(writer, obj);
-            }
-        }
-
-        public static T DeserializeXmlStream<T>(Stream stream)
-        {
-            XmlSerializer xmlSerializer = new XmlSerializer(typeof(T));
-            T obj = (T)xmlSerializer.Deserialize(stream);
-            stream.Close();
-
-            return obj;
-        }
-
-        public static T DeserializeXmlString<T>(string contents)
-        {
-            XmlSerializer xmlSerializer = new XmlSerializer(typeof(T));
-            T obj;
-
-            using (StringReader reader = new StringReader(contents))
-            {
-                obj = (T)xmlSerializer.Deserialize(reader);
-            }
-
-            return obj;
+            return Path.Combine(FileUtilities.GetAssemblyDirectory(), Resources.NodeModulesPath);
         }
 
         public static byte[] GetResourceContents(string resourceName)
@@ -175,57 +72,6 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
         public static void LaunchWebPage(string target)
         {
             ProcessHelper.Start(target);
-        }
-
-        public static void CreateDirectories(IEnumerable<string> directories)
-        {
-            foreach (string directoryName in directories)
-            {
-                Directory.CreateDirectory(directoryName);
-            }
-        }
-
-        public static void CopyFilesFromResources(IDictionary<string, string> filesPair)
-        {
-            foreach (KeyValuePair<string, string> filePair in filesPair)
-            {
-                File.WriteAllBytes(filePair.Value, General.GetResourceContents(filePair.Key));
-            }
-        }
-
-        /// <summary>
-        /// Write all of the given bytes to a file.
-        /// </summary>
-        /// <param name="path">Path to the file.</param>
-        /// <param name="mode">Mode to open the file.</param>
-        /// <param name="bytes">Contents of the file.</param>
-        public static void WriteAllBytes(string path, FileMode mode, byte[] bytes)
-        {
-            Debug.Assert(!string.IsNullOrEmpty(path));
-            Debug.Assert(Enum.IsDefined(typeof(FileMode), mode));
-            Debug.Assert(bytes != null && bytes.Length > 0);
-
-            // Note: We're not wrapping the file in a using statement because
-            // that could lead to a double dispose when the writer is disposed.
-            FileStream file = null;
-            try
-            {
-                file = new FileStream(path, mode);
-                using (BinaryWriter writer = new BinaryWriter(file))
-                {
-                    // Clear the reference to file so it won't get disposed twice
-                    file = null;
-
-                    writer.Write(bytes);
-                }
-            }
-            finally
-            {
-                if (file != null)
-                {
-                    file.Dispose();
-                }
-            }
         }
 
         public static int GetRandomFromTwo(int first, int second)
@@ -292,67 +138,6 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
         }
 
         /// <summary>
-        /// Convert the given array into string.
-        /// </summary>
-        /// <typeparam name="T">The type of the object array is holding</typeparam>
-        /// <param name="array">The collection</param>
-        /// <param name="delimiter">The used delimiter between array elements</param>
-        /// <returns>The array into string representation</returns>
-        public static string ArrayToString<T>(this T[] array, string delimiter)
-        {
-            return (array == null) ? null : (array.Length == 0) ? string.Empty : array.Skip(1).Aggregate(new StringBuilder(array[0].ToString()), (s, i) => s.Append(delimiter).Append(i), s => s.ToString());
-        }
-
-        /// <summary>
-        /// Copies a directory.
-        /// </summary>
-        /// <param name="sourceDirName">The source directory name</param>
-        /// <param name="destDirName">The destination directory name</param>
-        /// <param name="copySubDirs">Should the copy be recursive</param>
-        public static void DirectoryCopy(string sourceDirName, string destDirName, bool copySubDirs)
-        {
-            DirectoryInfo dir = new DirectoryInfo(sourceDirName);
-            DirectoryInfo[] dirs = dir.GetDirectories();
-
-            if (!dir.Exists)
-            {
-                throw new DirectoryNotFoundException(string.Format(Resources.PathDoesNotExist, sourceDirName));
-            }
-
-            Directory.CreateDirectory(destDirName);
-
-            FileInfo[] files = dir.GetFiles();
-            foreach (FileInfo file in files)
-            {
-                string tempPath = Path.Combine(destDirName, file.Name);
-                file.CopyTo(tempPath, false);
-            }
-
-            if (copySubDirs)
-            {
-                foreach (DirectoryInfo subdir in dirs)
-                {
-                    string temppath = Path.Combine(destDirName, subdir.Name);
-                    DirectoryCopy(subdir.FullName, temppath, copySubDirs);
-                }
-            }
-        }
-
-        /// <summary>
-        /// Ensures that a directory exists beofre attempting to write a file
-        /// </summary>
-        /// <param name="pathName">The path to the file that will be created</param>
-        public static void EnsureDirectoryExists(string pathName)
-        {
-            Validate.ValidateStringIsNullOrEmpty(pathName, "Settings directory");
-            string directoryPath = Path.GetDirectoryName(pathName);
-            if (!Directory.Exists(directoryPath))
-            {
-                Directory.CreateDirectory(directoryPath);
-            }
-        }
-
-        /// <summary>
         /// Compares two strings with handling special case that base string can be empty.
         /// </summary>
         /// <param name="leftHandSide">The base string.</param>
@@ -385,89 +170,13 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
                 originalMessage = messageBuffer.CreateMessage();
             }
 
-            return Beautify(strBuilder.ToString());
-        }
-
-        /// <summary>
-        /// Formats given string into well formatted XML.
-        /// </summary>
-        /// <param name="unformattedXml">The unformatted xml string</param>
-        /// <returns>The formatted XML string</returns>
-        public static string Beautify(string unformattedXml)
-        {
-            string formattedXml = string.Empty;
-            if (!string.IsNullOrEmpty(unformattedXml))
-            {
-                XmlDocument doc = new XmlDocument();
-                doc.LoadXml(unformattedXml);
-                StringBuilder stringBuilder = new StringBuilder();
-                XmlWriterSettings settings = new XmlWriterSettings()
-                {
-                    Indent = true,
-                    IndentChars = "\t",
-                    NewLineChars = Environment.NewLine,
-                    NewLineHandling = NewLineHandling.Replace
-                };
-                using (XmlWriter writer = XmlWriter.Create(stringBuilder, settings))
-                {
-                    doc.Save(writer);
-                }
-                formattedXml = stringBuilder.ToString();
-            }
-
-            return formattedXml;
+            return XmlUtilities.Beautify(strBuilder.ToString());
         }
 
         public static string GetConfiguration(string configurationPath)
         {
             var configuration = string.Join(string.Empty, File.ReadAllLines(configurationPath));
             return configuration;
-        }
-
-        /// <summary>
-        /// Create a unique temp directory.
-        /// </summary>
-        /// <returns>Path to the temp directory.</returns>
-        public static string CreateTempDirectory()
-        {
-            string tempPath = null;
-            do
-            {
-                tempPath = Path.Combine(Path.GetTempPath(), Path.GetRandomFileName());
-            }
-            while (Directory.Exists(tempPath) || File.Exists(tempPath));
-
-            Directory.CreateDirectory(tempPath);
-            return tempPath;
-        }
-
-        /// <summary>
-        /// Copy a directory from one path to another.
-        /// </summary>
-        /// <param name="sourceDirectory">Source directory.</param>
-        /// <param name="destinationDirectory">Destination directory.</param>
-        public static void CopyDirectory(string sourceDirectory, string destinationDirectory)
-        {
-            Debug.Assert(!string.IsNullOrEmpty(sourceDirectory), "sourceDictory cannot be null or empty!");
-            Debug.Assert(Directory.Exists(sourceDirectory), "sourceDirectory must exist!");
-            Debug.Assert(!string.IsNullOrEmpty(destinationDirectory), "destinationDirectory cannot be null or empty!");
-            Debug.Assert(!Directory.Exists(destinationDirectory), "destinationDirectory must not exist!");
-
-            foreach (string file in Directory.GetFiles(sourceDirectory, "*", SearchOption.AllDirectories))
-            {
-                string relativePath = file.Substring(
-                    sourceDirectory.Length + 1,
-                    file.Length - sourceDirectory.Length - 1);
-                string destinationPath = Path.Combine(destinationDirectory, relativePath);
-
-                string destinationDir = Path.GetDirectoryName(destinationPath);
-                if (!Directory.Exists(destinationDir))
-                {
-                    Directory.CreateDirectory(destinationDir);
-                }
-
-                File.Copy(file, destinationPath);
-            }
         }
 
         /// <summary>
@@ -810,13 +519,13 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
 
         public static string FormatString(string content)
         {
-            if (IsXml(content))
+            if (XmlUtilities.IsXml(content))
             {
-                return TryFormatXml(content);
+                return XmlUtilities.TryFormatXml(content);
             }
-            else if (IsJson(content))
+            else if (JsonUtilities.IsJson(content))
             {
-                return General.TryFormatJson(content);
+                return JsonUtilities.TryFormatJson(content);
             }
             else
             {
@@ -845,30 +554,10 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
                 result.AppendLine(string.Format(
                     "{0,-30}: {1}",
                     key,
-                    General.ArrayToString<string>(headers.GetValues(key), ",")));
+                    ConversionUtilities.ArrayToString(headers.GetValues(key), ",")));
             }
 
             return result.ToString();
-        }
-
-        public static Encoding GetFileEncoding(string path)
-        {
-            Encoding encoding;
-
-
-            if (File.Exists(path))
-            {
-                using (StreamReader r = new StreamReader(path, true))
-                {
-                    encoding = r.CurrentEncoding;
-                }
-            }
-            else
-            {
-                encoding = Encoding.Default;
-            }
-
-            return encoding;
         }
 
         /// <summary>
@@ -886,97 +575,9 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
             return new Uri(endpoint);
         }
 
-        /// <summary>
-        /// Formats the given XML into indented way.
-        /// </summary>
-        /// <param name="content">The input xml string</param>
-        /// <returns>The formatted xml string</returns>
-        public static string TryFormatXml(string content)
-        {
-            try
-            {
-                XDocument doc = XDocument.Parse(content);
-                return doc.ToString();
-            }
-            catch (Exception)
-            {
-                return content;
-            }
-        }
-
-        /// <summary>
-        /// Checks if the content is valid XML or not.
-        /// </summary>
-        /// <param name="content">The text to check</param>
-        /// <returns>True if XML, false otherwise</returns>
-        public static bool IsXml(string content)
-        {
-            try
-            {
-                XDocument.Parse(content);
-                return true;
-            }
-            catch (Exception)
-            {
-                return false;
-            }
-        }
-
-        [SuppressMessage("Microsoft.Design", "CA1031:DoNotCatchGeneralExceptionTypes", Justification = "Handling the failure by returning the original string.")]
-        public static string TryFormatJson(string str)
-        {
-            try
-            {
-                object parsedJson = JsonConvert.DeserializeObject(str);
-                return JsonConvert.SerializeObject(parsedJson, JsonFormatting.Indented);
-            }
-            catch
-            {
-                // can't parse JSON, return the original string
-                return str;
-            }
-        }
-
-        public static bool IsJson(string content)
-        {
-            content = content.Trim();
-            return content.StartsWith("{") && content.EndsWith("}")
-                   || content.StartsWith("[") && content.EndsWith("]");
-        }
-
         public static string GetNonEmptyValue(string oldValue, string newValue)
         {
             return string.IsNullOrEmpty(newValue) ? oldValue : newValue;
-        }
-
-        public static string CombinePath(params string[] paths)
-        {
-            return Path.Combine(paths);
-        }
-
-        public static void SerializeJson<T>(T data, string path)
-        {
-            JavaScriptSerializer javaScriptSerializer = new JavaScriptSerializer();
-            javaScriptSerializer.MaxJsonLength = int.MaxValue;
-            File.WriteAllText(path, TryFormatJson(javaScriptSerializer.Serialize(data)));
-        }
-
-        public static T DeserializeJson<T>(string path)
-        {
-            string json = File.ReadAllText(path);
-            JavaScriptSerializer javaScriptSerializer = new JavaScriptSerializer();
-            javaScriptSerializer.MaxJsonLength = int.MaxValue;
-            return javaScriptSerializer.Deserialize<T>(json);
-        }
-
-        public static void RecreateDirectory(string dir)
-        {
-            if (Directory.Exists(dir))
-            {
-                Directory.Delete(dir, true);
-            }
-
-            Directory.CreateDirectory(dir);
         }
 
         public static string DownloadFile(string uri)
@@ -1019,37 +620,6 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
             }
 
             return value;
-        }
-
-        /// <summary>
-        /// Returns true if path is a valid directory.
-        /// </summary>
-        /// <param name="path"></param>
-        /// <returns></returns>
-        public static bool IsValidDirectoryPath(string path)
-        {
-            if (string.IsNullOrEmpty(path))
-            {
-                return false;
-            }
-
-            try
-            {
-                FileAttributes attributes = File.GetAttributes(path);
-
-                if ((attributes & FileAttributes.Directory) == FileAttributes.Directory)
-                {
-                    return true;
-                }
-                else
-                {
-                    return false;
-                }
-            }
-            catch
-            {
-                return false;
-            }
         }
     }
 }

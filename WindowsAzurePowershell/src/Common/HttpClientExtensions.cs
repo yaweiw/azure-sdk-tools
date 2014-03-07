@@ -13,6 +13,7 @@
 // ----------------------------------------------------------------------------------
 
 
+using Microsoft.WindowsAzure.Commands.Utilities.Common;
 
 namespace Microsoft.WindowsAzure.Commands.Utilities.Common
 {
@@ -42,7 +43,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
         {
             if (logger != null)
             {
-                logger(General.GetHttpResponseLog(statusCode, headers, content));
+                logger(GeneralUtilities.GetHttpResponseLog(statusCode, headers, content));
             }
         }
 
@@ -55,7 +56,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
         {
             if (logger != null)
             {
-                logger(General.GetHttpRequestLog(method, requestUri, headers, body));
+                logger(GeneralUtilities.GetHttpRequestLog(method, requestUri, headers, body));
             }
         }
 
@@ -137,7 +138,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
             LogResponse(
                 response.StatusCode.ToString(),
                 response.Headers,
-                General.TryFormatJson(content),
+                JsonUtilities.TryFormatJson(content),
                 logger);
 
             return JsonConvert.DeserializeObject<T>(content);
@@ -147,20 +148,20 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
             where T : class, new()
         {
             client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-            return GetFormat<T>(client, requestUri, logger, General.TryFormatJson, JsonConvert.DeserializeObject<T>);
+            return GetFormat<T>(client, requestUri, logger, JsonUtilities.TryFormatJson, JsonConvert.DeserializeObject<T>);
         }
 
         public static string GetXml(this HttpClient client, string requestUri, Action<string> logger)
         {
             client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/xml"));
-            return GetRawBody(client, requestUri, logger, General.TryFormatXml);
+            return GetRawBody(client, requestUri, logger, XmlUtilities.TryFormatXml);
         }
 
         public static T GetXml<T>(this HttpClient client, string requestUri, Action<string> logger)
             where T: class, new()
         {
             client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/xml"));
-            return GetFormat<T>(client, requestUri, logger, General.TryFormatXml, General.DeserializeXmlString<T>);
+            return GetFormat<T>(client, requestUri, logger, XmlUtilities.TryFormatXml, XmlUtilities.DeserializeXmlString<T>);
         }
 
         public static T PostJson<T>(

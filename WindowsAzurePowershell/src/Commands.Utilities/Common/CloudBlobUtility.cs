@@ -41,7 +41,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
             var storageService = channel.GetStorageKeys(subscriptionId, storageName);
             var storageKey = storageService.StorageServiceKeys.Primary;
             storageService = channel.GetStorageService(subscriptionId, storageName);
-            var blobStorageEndpoint = General.CreateHttpsEndpoint(
+            var blobStorageEndpoint = GeneralUtilities.CreateHttpsEndpoint(
                 storageService.StorageServiceProperties.Endpoints.Find(p => p.Contains(BlobEndpointIdentifier)));
             var credentials = new StorageCredentials(storageName, storageKey);
             var client = new CloudBlobClient(blobStorageEndpoint, credentials);
@@ -105,7 +105,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
 
             return UploadFile(
                 storageName,
-                General.CreateHttpsEndpoint(blobEndpointUri), storageKey, packagePath, blobRequestOptions);
+                GeneralUtilities.CreateHttpsEndpoint(blobEndpointUri), storageKey, packagePath, blobRequestOptions);
         }
 
         public virtual Uri UploadPackageToBlob(
@@ -119,7 +119,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
             var storageService = storageClient.StorageAccounts.Get(storageName);
             Uri blobEndpointUri = storageService.Properties.Endpoints[0];
             return UploadFile(storageName,
-                General.CreateHttpsEndpoint(blobEndpointUri.ToString()),
+                GeneralUtilities.CreateHttpsEndpoint(blobEndpointUri.ToString()),
                 storageKey, packagePath, blobRequestOptions);
         }
     }

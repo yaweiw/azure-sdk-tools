@@ -45,7 +45,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.PersistentVMs
         {
             string vhdname = String.Format("{0}-{1}-{2}-{3}.vhd", serviceName, roleName, DateTimeToString(), counter++);
             string blobEndpoint = currentStorage.BlobEndpoint.AbsoluteUri;
-            return new Uri(General.EnsureTrailingSlash(General.EnsureTrailingSlash(blobEndpoint) + containerName) + vhdname);
+            return new Uri(GeneralUtilities.EnsureTrailingSlash(GeneralUtilities.EnsureTrailingSlash(blobEndpoint) + containerName) + vhdname);
         }
 
         private string DateTimeToString()
