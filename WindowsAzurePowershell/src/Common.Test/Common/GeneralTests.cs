@@ -28,26 +28,26 @@ namespace Microsoft.WindowsAzure.Commands.Common.Test.Common
         [TestMethod]
         public void IsValidDirectoryPathReturnsTrueForExistingFolders()
         {
-            Assert.IsTrue(FileUtils.IsValidDirectoryPath(Path.GetTempPath()));
-            Assert.IsTrue(FileUtils.IsValidDirectoryPath(Directory.GetCurrentDirectory()));
-            Assert.IsTrue(FileUtils.IsValidDirectoryPath("C:\\"));
+            Assert.IsTrue(FileUtilities.IsValidDirectoryPath(Path.GetTempPath()));
+            Assert.IsTrue(FileUtilities.IsValidDirectoryPath(Directory.GetCurrentDirectory()));
+            Assert.IsTrue(FileUtilities.IsValidDirectoryPath("C:\\"));
         }
 
         [TestMethod]
         public void IsValidDirectoryPathReturnsFalseForFilePaths()
         {
-            Assert.IsFalse(FileUtils.IsValidDirectoryPath(Path.GetTempPath() + "\\file.tst"));
-            Assert.IsFalse(FileUtils.IsValidDirectoryPath(Path.GetTempPath() + "\\" + Guid.NewGuid() + "\\file.tst"));
-            Assert.IsFalse(FileUtils.IsValidDirectoryPath("C:\\file.tst"));
+            Assert.IsFalse(FileUtilities.IsValidDirectoryPath(Path.GetTempPath() + "\\file.tst"));
+            Assert.IsFalse(FileUtilities.IsValidDirectoryPath(Path.GetTempPath() + "\\" + Guid.NewGuid() + "\\file.tst"));
+            Assert.IsFalse(FileUtilities.IsValidDirectoryPath("C:\\file.tst"));
         }
 
         [TestMethod]
         public void IsValidDirectoryPathReturnsFalseForNonExistingFolders()
         {
-            Assert.IsFalse(FileUtils.IsValidDirectoryPath(""));
-            Assert.IsFalse(FileUtils.IsValidDirectoryPath(null));
-            Assert.IsFalse(FileUtils.IsValidDirectoryPath(Path.GetTempPath() + "\\" + Guid.NewGuid()));
-            Assert.IsFalse(FileUtils.IsValidDirectoryPath("XYZ:\\"));
+            Assert.IsFalse(FileUtilities.IsValidDirectoryPath(""));
+            Assert.IsFalse(FileUtilities.IsValidDirectoryPath(null));
+            Assert.IsFalse(FileUtilities.IsValidDirectoryPath(Path.GetTempPath() + "\\" + Guid.NewGuid()));
+            Assert.IsFalse(FileUtilities.IsValidDirectoryPath("XYZ:\\"));
         }
     }
 }

@@ -12,17 +12,15 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-
-using System;
-using System.Text;
-
 namespace Microsoft.WindowsAzure.Commands.Utilities.Common
 {
+    using System;
+    using System.Text;
     using System.Collections;
     using System.Collections.Generic;
     using System.Linq;
 
-    public static class ConversionUtils
+    public static class ConversionUtilities
     {
         public static Dictionary<string, object> ToDictionary(this Hashtable hashtable, bool addValueLayer)
         {

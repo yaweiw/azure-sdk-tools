@@ -73,7 +73,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
 
         protected PSObject ConstructPSObject(string typeName, params object[] args)
         {
-            return PowerShellUtils.ConstructPSObject(typeName, args);
+            return PowerShellUtilities.ConstructPSObject(typeName, args);
         }
 
         protected void SafeWriteOutputPSObject(string typeName, params object[] args)

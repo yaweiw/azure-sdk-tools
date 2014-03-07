@@ -22,7 +22,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
     using System.Text;
     using Commands.Common.Properties;
 
-    public static class FileUtils
+    public static class FileUtilities
     {
         public static string GetAssemblyDirectory()
         {
@@ -71,7 +71,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
         {
             foreach (KeyValuePair<string, string> filePair in filesPair)
             {
-                File.WriteAllBytes(filePair.Value, GeneralUtils.GetResourceContents(filePair.Key));
+                File.WriteAllBytes(filePair.Value, GeneralUtilities.GetResourceContents(filePair.Key));
             }
         }
 

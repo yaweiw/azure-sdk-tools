@@ -77,9 +77,9 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Models
         {
             string fileUri = GetGalleryTemplateFile(name);
             StringBuilder finalOutputPath = new StringBuilder();
-            string contents = GeneralUtils.DownloadFile(fileUri);
+            string contents = GeneralUtilities.DownloadFile(fileUri);
 
-            if (FileUtils.IsValidDirectoryPath(outputPath))
+            if (FileUtilities.IsValidDirectoryPath(outputPath))
             {
                 finalOutputPath.Append(Path.Combine(outputPath, name + ".json"));
             }

@@ -182,8 +182,8 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService
         private void AddRoleCore(string scaffolding, RoleInfo role)
         {
             Dictionary<string, object> parameters = CreateDefaultParameters(role);
-            parameters[ScaffoldParams.NodeModules] = GeneralUtils.GetNodeModulesPath();
-            parameters[ScaffoldParams.NodeJsProgramFilesX86] = FileUtils.GetWithProgramFilesPath(Resources.NodeProgramFilesFolderName, false);
+            parameters[ScaffoldParams.NodeModules] = GeneralUtilities.GetNodeModulesPath();
+            parameters[ScaffoldParams.NodeJsProgramFilesX86] = FileUtilities.GetWithProgramFilesPath(Resources.NodeProgramFilesFolderName, false);
 
             GenerateScaffolding(scaffolding, role.Name, parameters);
         }

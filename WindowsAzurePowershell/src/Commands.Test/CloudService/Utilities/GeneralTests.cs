@@ -31,12 +31,12 @@ namespace Microsoft.WindowsAzure.Commands.Test.CloudService.Utilities
         {
             // Setup
             string outputFileName = "outputFile.txt";
-            ServiceDefinition serviceDefinition = XmlUtils.DeserializeXmlFile<ServiceDefinition>(
+            ServiceDefinition serviceDefinition = XmlUtilities.DeserializeXmlFile<ServiceDefinition>(
                 Testing.GetTestResourcePath("GB18030ServiceDefinition.csdef"));
 
             // Test
             File.Create(outputFileName).Close();
-            XmlUtils.SerializeXmlFile(serviceDefinition, outputFileName);
+            XmlUtilities.SerializeXmlFile(serviceDefinition, outputFileName);
 
             // Assert
             // If reached this point means the test passed

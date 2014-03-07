@@ -23,7 +23,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
     using Newtonsoft.Json;
     using Newtonsoft.Json.Linq;
 
-    public static class JsonUtils
+    public static class JsonUtilities
     {
         [SuppressMessage("Microsoft.Design", "CA1031:DoNotCatchGeneralExceptionTypes", Justification = "Handling the failure by returning the original string.")]
         public static string TryFormatJson(string str)

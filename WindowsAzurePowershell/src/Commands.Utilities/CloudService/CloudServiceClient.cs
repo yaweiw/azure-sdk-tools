@@ -186,7 +186,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService
             var deploymentParams = new DeploymentCreateParameters
             {
                 PackageUri = UploadPackage(context),
-                Configuration = GeneralUtils.GetConfiguration(context.ConfigPath),
+                Configuration = GeneralUtilities.GetConfiguration(context.ConfigPath),
                 Label = context.ServiceName,
                 Name = context.DeploymentName,
                 StartDeployment = true
@@ -213,7 +213,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService
                     if (uploadedCertificates == null || (uploadedCertificates.Certificates.Count(c => c.Thumbprint.Equals(
                         certElement.thumbprint, StringComparison.OrdinalIgnoreCase)) < 1))
                     {
-                        X509Certificate2 cert = GeneralUtils.GetCertificateFromStore(certElement.thumbprint);
+                        X509Certificate2 cert = GeneralUtilities.GetCertificateFromStore(certElement.thumbprint);
                         UploadCertificate(cert, certElement, name);
                     }
                 }
@@ -245,7 +245,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService
         {
             var upgradeParams = new DeploymentUpgradeParameters
             {
-                Configuration = GeneralUtils.GetConfiguration(context.ConfigPath),
+                Configuration = GeneralUtilities.GetConfiguration(context.ConfigPath),
                 PackageUri = UploadPackage(context),
                 Label = context.ServiceName,
                 Mode = DeploymentUpgradeMode.Auto,
@@ -457,7 +457,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService
 
         private CloudServiceProject GetCurrentServiceProject()
         {
-            return new CloudServiceProject(GeneralUtils.GetServiceRootPath(GetCurrentDirectory()), null);
+            return new CloudServiceProject(GeneralUtilities.GetServiceRootPath(GetCurrentDirectory()), null);
         }
 
         private PublishContext CreatePublishContext(
@@ -739,7 +739,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService
 
             if (launch)
             {
-                GeneralUtils.LaunchWebPage(deployment.Uri.ToString());
+                GeneralUtilities.LaunchWebPage(deployment.Uri.ToString());
             }
 
             return new Deployment(deployment);
@@ -892,9 +892,9 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService
 
             CloudStorageAccount cloudStorageAccount = new CloudStorageAccount(
                 credentials,
-                GeneralUtils.CreateHttpsEndpoint(storageService.Properties.Endpoints[0].ToString()),
-                GeneralUtils.CreateHttpsEndpoint(storageService.Properties.Endpoints[1].ToString()),
-                GeneralUtils.CreateHttpsEndpoint(storageService.Properties.Endpoints[2].ToString())
+                GeneralUtilities.CreateHttpsEndpoint(storageService.Properties.Endpoints[0].ToString()),
+                GeneralUtilities.CreateHttpsEndpoint(storageService.Properties.Endpoints[1].ToString()),
+                GeneralUtilities.CreateHttpsEndpoint(storageService.Properties.Endpoints[2].ToString())
                 );
 
             return cloudStorageAccount.ToString(true);
