@@ -90,14 +90,14 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Test
                 .Returns(result)
                 .Callback((GetPSResourceGroupLogParameters r) => expected = r);
 
-            cmdlet.ResourceGroupName = "foo";
+            cmdlet.Name = "foo";
             cmdlet.LastDeployment = true;
 
             cmdlet.ExecuteCmdlet();
 
             Assert.Equal(1, result.Count());
             Assert.Equal(true, expected.LastDeployment);
-            Assert.Equal("foo", expected.ResourceGroupName);
+            Assert.Equal("foo", expected.Name);
         }
     }
 }

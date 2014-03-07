@@ -24,9 +24,10 @@ namespace Microsoft.Azure.Commands.ResourceManagement
     [Cmdlet(VerbsCommon.Remove, "AzureResource"), OutputType(typeof(bool))]
     public class RemoveAzureResourceCommand : ResourceBaseCmdlet
     {
+        [Alias("ResourceName")]
         [Parameter(Mandatory = true, ValueFromPipelineByPropertyName = true, HelpMessage = "The resource name.")]
         [ValidateNotNullOrEmpty]
-        public string ResourceName { get; set; }
+        public string Name { get; set; }
 
         [Parameter(Mandatory = true, ValueFromPipelineByPropertyName = true, HelpMessage = "The resource group name.")]
         [ValidateNotNullOrEmpty]
@@ -50,7 +51,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement
         {
             BasePSResourceParameters parameters = new BasePSResourceParameters()
             {
-                ResourceName = ResourceName,
+                Name = Name,
                 ResourceGroupName = ResourceGroupName,
                 ResourceType = ResourceType,
                 ParentResourceName = ParentResourceName,
@@ -58,9 +59,9 @@ namespace Microsoft.Azure.Commands.ResourceManagement
 
             ConfirmAction(
                 Force.IsPresent,
-                string.Format(Resources.RemovingResource, ResourceName),
+                string.Format(Resources.RemovingResource, Name),
                 Resources.RemoveResourceMessage,
-                ResourceName,
+                Name,
                 () => ResourceClient.DeleteResource(parameters));
 
             if (PassThru)

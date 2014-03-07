@@ -17,7 +17,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Models
 {
     public class GetPSResourceGroupLogParameters
     {
-        public string ResourceGroupName { get; set; }
+        public string Name { get; set; }
 
         public string DeploymentName { get; set; }
 

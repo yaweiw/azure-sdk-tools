@@ -39,7 +39,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Models
                 EventDataListResponse listOfEvents =
                     EventsClient.EventData.ListEventsForResourceGroup(new ListEventsForResourceGroupParameters
                         {
-                            ResourceGroupName = parameters.ResourceGroupName,
+                            ResourceGroupName = parameters.Name,
                             StartTime = DateTime.UtcNow - TimeSpan.FromDays(EventRetentionPeriod),
                             EndTime = DateTime.UtcNow
                         });
@@ -50,7 +50,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Models
                 DeploymentGetResult deploymentGetResult;
                 try
                 {
-                    deploymentGetResult = ResourceManagementClient.Deployments.Get(parameters.ResourceGroupName,
+                    deploymentGetResult = ResourceManagementClient.Deployments.Get(parameters.Name,
                                                                                    parameters.DeploymentName);
                 }
                 catch
@@ -65,7 +65,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Models
                 DeploymentListResult deploymentListResult;
                 try
                 {
-                    deploymentListResult = ResourceManagementClient.Deployments.List(parameters.ResourceGroupName,
+                    deploymentListResult = ResourceManagementClient.Deployments.List(parameters.Name,
                                                                             new DeploymentListParameters
                                                                                 {
                                                                                     Top = 1

@@ -66,7 +66,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Models
                 throw new ArgumentException(Resources.ResourceGroupDoesntExists);
             }
 
-            WriteProgress(string.Format("{0, -10} Creating resource \"{1}\".", "[Start]", parameters.ResourceName));
+            WriteProgress(string.Format("{0, -10} Creating resource \"{1}\".", "[Start]", parameters.Name));
             
             ResourceCreateOrUpdateResult createOrUpdateResult = ResourceManagementClient.Resources.CreateOrUpdate(parameters.ResourceGroupName, resourceIdentity, 
                 new ResourceCreateOrUpdateParameters
@@ -81,7 +81,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Models
 
             if (createOrUpdateResult.Resource != null)
             {
-                WriteProgress(string.Format("{0, -10} Creating resource \"{1}\".", "[Complete]", parameters.ResourceName));
+                WriteProgress(string.Format("{0, -10} Creating resource \"{1}\".", "[Complete]", parameters.Name));
             }
 
             ResourceGetResult getResult = ResourceManagementClient.Resources.Get(parameters.ResourceGroupName, resourceIdentity);
@@ -135,7 +135,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Models
         {
             List<PSResource> resources = new List<PSResource>();
 
-            if (!string.IsNullOrEmpty(parameters.ResourceName))
+            if (!string.IsNullOrEmpty(parameters.Name))
             {
                 ResourceIdentity resourceIdentity = parameters.ToResourceIdentity();
 
@@ -228,7 +228,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Models
 
             if (createDeployment)
             {
-                parameters.DeploymentName = string.IsNullOrEmpty(parameters.DeploymentName) ? Guid.NewGuid().ToString() : parameters.DeploymentName;
+                parameters.Name = string.IsNullOrEmpty(parameters.Name) ? Guid.NewGuid().ToString() : parameters.Name;
                 BasicDeployment deployment = CreateBasicDeployment(parameters);
                 List<ResourceManagementError> errors = CheckBasicDeploymentErrors(resourceGroup, deployment);
 
@@ -241,9 +241,9 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Models
                     throw new ArgumentException(errors.ToString());
                 }
 
-                result = ResourceManagementClient.Deployments.CreateOrUpdate(resourceGroup, parameters.DeploymentName, deployment);
-                WriteProgress(string.Format("Create template deployment '{0}' using template {1}.", parameters.DeploymentName, deployment.TemplateLink.Uri));
-                ProvisionDeploymentStatus(resourceGroup, parameters.DeploymentName);
+                result = ResourceManagementClient.Deployments.CreateOrUpdate(resourceGroup, parameters.Name, deployment);
+                WriteProgress(string.Format("Create template deployment '{0}' using template {1}.", parameters.Name, deployment.TemplateLink.Uri));
+                ProvisionDeploymentStatus(resourceGroup, parameters.Name);
             }
 
             return result.ToPSResourceGroupDeployment();

@@ -24,9 +24,10 @@ namespace Microsoft.Azure.Commands.ResourceManagement
     [Cmdlet(VerbsCommon.New, "AzureResource"), OutputType(typeof(PSResource))]
     public class NewAzureResourceCommand : ResourceBaseCmdlet
     {
+        [Alias("ResourceName")]
         [Parameter(Mandatory = true, ValueFromPipelineByPropertyName = true, HelpMessage = "The resource name.")]
         [ValidateNotNullOrEmpty]
-        public string ResourceName { get; set; }
+        public string Name { get; set; }
 
         [Parameter(Mandatory = true, ValueFromPipelineByPropertyName = true, HelpMessage = "The resource group name.")]
         [ValidateNotNullOrEmpty]
@@ -51,7 +52,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement
         {
             CreatePSResourceParameters parameters = new CreatePSResourceParameters()
             {
-                ResourceName = ResourceName,
+                Name = Name,
                 ResourceGroupName = ResourceGroupName,
                 ResourceType = ResourceType,
                 Location = Location,
