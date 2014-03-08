@@ -461,6 +461,10 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Models
         /// <returns>Mapping between each resource type and its available locations</returns>
         public virtual List<PSResourceProviderType> GetLocations(params string[] resourceTypes)
         {
+            if (resourceTypes == null)
+            {
+                resourceTypes = new string[0];
+            }
             List<string> providerNames = resourceTypes.Select(r => r.Split('/').First()).ToList();
             List<PSResourceProviderType> result = new List<PSResourceProviderType>();
             List<Provider> providers = new List<Provider>();
