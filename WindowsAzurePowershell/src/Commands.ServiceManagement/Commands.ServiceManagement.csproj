@@ -477,6 +477,10 @@
     <None Include="Extensions\ADDomain\ADPublicSchema.xsd">
       <SubType>Designer</SubType>
     </None>
+    <Content Include="Microsoft.WindowsAzure.Commands.ServiceManagement.format.ps1xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <SubType>Designer</SubType>
+    </Content>
     <None Include="MSSharedLibKey.snk" />
     <None Include="packages.config" />
   </ItemGroup>
