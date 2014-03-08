@@ -109,16 +109,23 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Models
                 throw new ArgumentException(Resources.ResourceDoesntExists);
             }
 
+            string newProperty = SerializeHashtable(parameters.PropertyObject,
+                                                    addValueLayer: false);
+
+            if (parameters.Mode == SetResourceMode.Update)
+            {
+                newProperty = JsonUtilities.Patch(getResource.Resource.Properties, newProperty);
+            }
             ResourceManagementClient.Resources.CreateOrUpdate(parameters.ResourceGroupName, resourceIdentity,
-                new ResourceCreateOrUpdateParameters
-                {
-                    ValidationMode = ResourceValidationMode.NameValidation,
-                    Resource = new BasicResource
-                    {
-                        Location = getResource.Resource.Location,
-                        Properties = SerializeHashtable(parameters.PropertyObject, addValueLayer: false)
-                    }
-                });
+                        new ResourceCreateOrUpdateParameters
+                            {
+                                ValidationMode = ResourceValidationMode.NameValidation,
+                                    Resource = new BasicResource
+                                        {
+                                            Location = getResource.Resource.Location,
+                                            Properties = newProperty
+                                        }
+                            });
 
             ResourceGetResult getResult = ResourceManagementClient.Resources.Get(parameters.ResourceGroupName, resourceIdentity);
 

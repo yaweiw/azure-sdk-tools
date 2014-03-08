@@ -22,6 +22,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
     using System.Web.Script.Serialization;
     using Newtonsoft.Json;
     using Newtonsoft.Json.Linq;
+    using Commands.Common.Properties;
 
     public static class JsonUtilities
     {
@@ -148,6 +149,77 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
             }
             
             return jsonObject.Value;
+        }
+
+        public static string Patch(string originalJsonString, string patchJsonString)
+        {
+            if (string.IsNullOrWhiteSpace(originalJsonString))
+            {
+                return patchJsonString;
+            }
+            else if (string.IsNullOrWhiteSpace(patchJsonString))
+            {
+                return originalJsonString;
+            }
+
+            JToken originalJson = JToken.Parse(originalJsonString);
+            JToken patchJson = JToken.Parse(patchJsonString);
+
+            if (originalJson != null && originalJson.Type == JTokenType.Object &&
+                patchJson != null && patchJson.Type == JTokenType.Object)
+            {
+                PatchJObject(originalJson as JObject, patchJson as JObject);
+            }
+            else if (originalJson != null && originalJson.Type == JTokenType.Array &&
+                patchJson != null && patchJson.Type == JTokenType.Array)
+            {
+                originalJson = patchJson;
+            }
+            else if (originalJson != null && patchJson != null && originalJson.Type == patchJson.Type)
+            {
+                originalJson = patchJson;
+            }
+            else
+            {
+                throw new ArgumentException(string.Format(Resources.UnableToPatchJson, originalJson, patchJson));
+            }
+
+            return originalJson.ToString(Formatting.None);
+        }
+
+        private static void PatchJObject(JObject originalJsonObject, JObject patchJsonObject)
+        {
+            foreach (var patchProperty in patchJsonObject)
+            {
+                if (originalJsonObject[patchProperty.Key] != null)
+                {
+                    JToken originalJson = originalJsonObject[patchProperty.Key];
+                    JToken patchJson = patchProperty.Value;
+
+                    if (originalJson != null && originalJson.Type == JTokenType.Object &&
+                        patchJson != null && patchJson.Type == JTokenType.Object)
+                    {
+                        PatchJObject(originalJson as JObject, patchJson as JObject);
+                    }
+                    else if (originalJson != null && originalJson.Type == JTokenType.Array &&
+                        patchJson != null && patchJson.Type == JTokenType.Array)
+                    {
+                        originalJsonObject[patchProperty.Key] = patchJson;
+                    }
+                    else if (originalJson != null && patchJson != null && originalJson.Type == patchJson.Type)
+                    {
+                        originalJsonObject[patchProperty.Key] = patchJson;
+                    }
+                    else
+                    {
+                        throw new ArgumentException(string.Format(Resources.UnableToPatchJson, originalJson, patchJson));
+                    }
+                }
+                else
+                {
+                    originalJsonObject[patchProperty.Key] = patchProperty.Value;
+                }
+            }
         }
     }
 }
