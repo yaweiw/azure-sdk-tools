@@ -37,6 +37,7 @@ using System.Runtime.Serialization.Formatters;
 using System.Security;
 using System.Threading;
 using System.Threading.Tasks;
+using Newtonsoft.Json.Linq;
 using Xunit;
 
 namespace Microsoft.Azure.Commands.ResourceManagement.Test.Models
@@ -473,6 +474,175 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Test.Models
             PSResource result = resourcesClient.UpdatePSResource(parameters);
 
             Assert.NotNull(result);
+        }
+
+        [Fact]
+        public void SetPSResourceWithUpdatePatchesResource()
+        {
+            var originalProperties = new Dictionary<string, object>
+                {
+                    {"name", "site1"},
+                    {"siteMode", "Standard"},
+                    {"computeMode", "Dedicated"},
+                    {"list", new [] {1,2,3}},
+                    {"misc", new Dictionary<string, object>
+                        {
+                            {"key1", "value1"},
+                            {"key2", "value2"}
+                        }}};
+
+            var originalPropertiesSerialized = JsonConvert.SerializeObject(originalProperties, new JsonSerializerSettings
+            {
+                TypeNameAssemblyFormat = FormatterAssemblyStyle.Simple,
+                TypeNameHandling = TypeNameHandling.None
+            });
+
+            var patchProperties = new Dictionary<string, object>
+                {
+                    {"siteMode", "Dedicated"},
+                    {"newMode", "NewValue"},
+                    {"list", new [] {4,5,6}},
+                    {"misc", new Dictionary<string, object>
+                        {
+                            {"key3", "value3"}
+                        }}};
+            
+            UpdatePSResourceParameters parameters = new UpdatePSResourceParameters()
+            {
+                Name = resourceIdentity.ResourceName,
+                ParentResourceName = resourceIdentity.ParentResourcePath,
+                PropertyObject = new Hashtable(patchProperties),
+                ResourceGroupName = resourceGroupName,
+                ResourceType = resourceIdentity.ResourceProviderNamespace + "/" + resourceIdentity.ResourceType,
+            };
+
+            ResourceCreateOrUpdateParameters actual = new ResourceCreateOrUpdateParameters();
+
+            resourceOperationsMock.Setup(f => f.GetAsync(resourceGroupName, It.IsAny<ResourceIdentity>(), It.IsAny<CancellationToken>()))
+                .Returns(() => Task.Factory.StartNew(() => new ResourceGetResult
+                {
+                    StatusCode = HttpStatusCode.OK,
+                    Resource = new Resource
+                    {
+                        Name = parameters.Name,
+                        Location = "West US",
+                        Properties = originalPropertiesSerialized,
+                        ProvisioningState = ProvisioningState.Running,
+                        ResourceGroup = parameters.ResourceGroupName
+                    }
+                }));
+
+            resourceOperationsMock.Setup(f => f.CreateOrUpdateAsync(resourceGroupName, It.IsAny<ResourceIdentity>(), It.IsAny<ResourceCreateOrUpdateParameters>(), It.IsAny<CancellationToken>()))
+                .Returns(Task.Factory.StartNew(() => new ResourceCreateOrUpdateResult
+                {
+                    RequestId = "123",
+                    StatusCode = HttpStatusCode.OK,
+                    Resource = new BasicResource
+                    {
+                        Location = "West US",
+                        Properties = originalPropertiesSerialized,
+                        ProvisioningState = ProvisioningState.Running
+                    }
+                }))
+                .Callback((string groupName, ResourceIdentity id, ResourceCreateOrUpdateParameters p, CancellationToken token) => actual = p);
+
+            resourcesClient.UpdatePSResource(parameters);
+
+            JToken actualJson = JToken.Parse(actual.Resource.Properties);
+
+            Assert.Equal("site1", actualJson["name"].ToObject<string>());
+            Assert.Equal("Dedicated", actualJson["siteMode"].ToObject<string>());
+            Assert.Equal("Dedicated", actualJson["computeMode"].ToObject<string>());
+            Assert.Equal("NewValue", actualJson["newMode"].ToObject<string>());
+            Assert.Equal("[4,5,6]", actualJson["list"].ToString(Formatting.None));
+            Assert.Equal("value1", actualJson["misc"]["key1"].ToObject<string>());
+            Assert.Equal("value2", actualJson["misc"]["key2"].ToObject<string>());
+            Assert.Equal("value3", actualJson["misc"]["key3"].ToObject<string>());
+        }
+
+        [Fact]
+        public void SetPSResourceWithReplaceRewritesResource()
+        {
+            var originalProperties = new Dictionary<string, object>
+                {
+                    {"name", "site1"},
+                    {"siteMode", "Standard"},
+                    {"computeMode", "Dedicated"},
+                    {"list", new [] {1,2,3}},
+                    {"misc", new Dictionary<string, object>
+                        {
+                            {"key1", "value1"},
+                            {"key2", "value2"}
+                        }}};
+
+            var originalPropertiesSerialized = JsonConvert.SerializeObject(originalProperties, new JsonSerializerSettings
+            {
+                TypeNameAssemblyFormat = FormatterAssemblyStyle.Simple,
+                TypeNameHandling = TypeNameHandling.None
+            });
+
+            var patchProperties = new Dictionary<string, object>
+                {
+                    {"siteMode", "Dedicated"},
+                    {"newMode", "NewValue"},
+                    {"list", new [] {4,5,6}},
+                    {"misc", new Dictionary<string, object>
+                        {
+                            {"key3", "value3"}
+                        }}};
+
+            UpdatePSResourceParameters parameters = new UpdatePSResourceParameters()
+            {
+                Name = resourceIdentity.ResourceName,
+                ParentResourceName = resourceIdentity.ParentResourcePath,
+                PropertyObject = new Hashtable(patchProperties),
+                ResourceGroupName = resourceGroupName,
+                ResourceType = resourceIdentity.ResourceProviderNamespace + "/" + resourceIdentity.ResourceType,
+                Mode = SetResourceMode.Replace
+            };
+
+            ResourceCreateOrUpdateParameters actual = new ResourceCreateOrUpdateParameters();
+
+            resourceOperationsMock.Setup(f => f.GetAsync(resourceGroupName, It.IsAny<ResourceIdentity>(), It.IsAny<CancellationToken>()))
+                .Returns(() => Task.Factory.StartNew(() => new ResourceGetResult
+                {
+                    StatusCode = HttpStatusCode.OK,
+                    Resource = new Resource
+                    {
+                        Name = parameters.Name,
+                        Location = "West US",
+                        Properties = originalPropertiesSerialized,
+                        ProvisioningState = ProvisioningState.Running,
+                        ResourceGroup = parameters.ResourceGroupName
+                    }
+                }));
+
+            resourceOperationsMock.Setup(f => f.CreateOrUpdateAsync(resourceGroupName, It.IsAny<ResourceIdentity>(), It.IsAny<ResourceCreateOrUpdateParameters>(), It.IsAny<CancellationToken>()))
+                .Returns(Task.Factory.StartNew(() => new ResourceCreateOrUpdateResult
+                {
+                    RequestId = "123",
+                    StatusCode = HttpStatusCode.OK,
+                    Resource = new BasicResource
+                    {
+                        Location = "West US",
+                        Properties = originalPropertiesSerialized,
+                        ProvisioningState = ProvisioningState.Running
+                    }
+                }))
+                .Callback((string groupName, ResourceIdentity id, ResourceCreateOrUpdateParameters p, CancellationToken token) => actual = p);
+
+            resourcesClient.UpdatePSResource(parameters);
+
+            JToken actualJson = JToken.Parse(actual.Resource.Properties);
+
+            Assert.Null(actualJson["name"]);
+            Assert.Equal("Dedicated", actualJson["siteMode"].ToObject<string>());
+            Assert.Null(actualJson["computeMode"]);
+            Assert.Equal("NewValue", actualJson["newMode"].ToObject<string>());
+            Assert.Equal("[4,5,6]", actualJson["list"].ToString(Formatting.None));
+            Assert.Null(actualJson["misc"]["key1"]);
+            Assert.Null(actualJson["misc"]["key2"]);
+            Assert.Equal("value3", actualJson["misc"]["key3"].ToObject<string>());
         }
 
         [Fact]
