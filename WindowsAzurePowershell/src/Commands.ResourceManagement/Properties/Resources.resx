@@ -154,6 +154,6 @@
     <value>Resource type needs to be in the ResourceProvider/type format. For example Microsoft.Web/sites.</value>
   </data>
   <data name="StorageAccountNameNeedsToBeSpecified" xml:space="preserve">
-    <value>Either StorageAccountName or storage account on the subscription need to be specefied.</value>
+    <value>Either StorageAccountName or storage account on the subscription need to be specified.</value>
   </data>
 </root>
