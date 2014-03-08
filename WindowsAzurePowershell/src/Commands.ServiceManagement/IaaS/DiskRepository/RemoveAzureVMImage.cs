@@ -14,23 +14,22 @@
 
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.DiskRepository
 {
+    using System;
+    using System.Linq;
     using System.Management.Automation;
     using Utilities.Common;
+    using Properties;
 
     [Cmdlet(
         VerbsCommon.Remove,
-        AzureVMImageNoun,
-        DefaultParameterSetName = OSImageParamSet),
+        AzureVMImageNoun),
     OutputType(
         typeof(ManagementOperationContext))]
     public class RemoveAzureVMImage : ServiceManagementBaseCmdlet
     {
         protected const string AzureVMImageNoun = "AzureVMImage";
-        protected const string OSImageParamSet = "OSImage";
-        protected const string VMImageParamSet = "VMImage";
 
         [Parameter(
-            ParameterSetName = OSImageParamSet,
             Position = 0,
             Mandatory = true,
             ValueFromPipelineByPropertyName = true,
@@ -39,40 +38,59 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.DiskRepository
         public string ImageName { get; set; }
 
         [Parameter(
-            ParameterSetName = OSImageParamSet,
             Position = 1,
             Mandatory = false,
             HelpMessage = "Specify to remove the underlying VHD from the blob storage.")]
         public SwitchParameter DeleteVHD { get; set; }
 
-        [Parameter(
-            ParameterSetName = VMImageParamSet,
-            Position = 0,
-            Mandatory = true,
-            ValueFromPipelineByPropertyName = true,
-            HelpMessage = "Name of the image in the image library to remove.")]
-        [ValidateNotNullOrEmpty]
-        public string VMImageName { get; set; }
-
         public void RemoveVMImageProcess()
         {
             ServiceManagementProfile.Initialize();
+            
+            this.ExecuteClientActionNewSM(
+                    null,
+                    this.CommandRuntime.ToString(),
+                    () =>
+                    {
+                        OperationResponse op = null;
 
-            if (string.Equals(this.ParameterSetName, OSImageParamSet, System.StringComparison.OrdinalIgnoreCase))
-            {
-                // Remove the image from the image repository
-                this.ExecuteClientActionNewSM(
-                    null,
-                    this.CommandRuntime.ToString(),
-                    () => this.ComputeClient.VirtualMachineImages.Delete(this.ImageName, this.DeleteVHD.IsPresent));
-            }
-            else
-            {
-                this.ExecuteClientActionNewSM(
-                    null,
-                    this.CommandRuntime.ToString(),
-                    () => this.ComputeClient.VirtualMachineVMImages.Delete(this.ImageName));
-            }
+                        bool isOSImage = IsOSImage(this.ImageName);
+                        bool isVMImage = IsVMImage(this.ImageName);
+
+                        if (isOSImage && isVMImage)
+                        {
+                            var errorMsg = string.Format(Resources.DuplicateNamesFoundInBothVMAndOSImages, this.ImageName);
+                            WriteError(new ErrorRecord(new Exception(errorMsg), string.Empty, ErrorCategory.CloseError, null));
+                        }
+                        else if (isVMImage)
+                        {
+                            if (this.DeleteVHD.IsPresent)
+                            {
+                                WriteWarning(Resources.DeleteVHDParameterDoesNotApplyToVMImageWarning);
+                            }
+
+                            op = this.ComputeClient.VirtualMachineVMImages.Delete(this.ImageName);
+                        }
+                        else
+                        {
+                            // Remove the image from the image repository
+                            op = this.ComputeClient.VirtualMachineImages.Delete(this.ImageName, this.DeleteVHD.IsPresent);
+                        }
+
+                        return op;
+                    });
+        }
+
+        protected bool IsOSImage(string imageName)
+        {
+            return this.ComputeClient.VirtualMachineImages.List().Images.Any(
+                e => string.Equals(e.Name, imageName, StringComparison.OrdinalIgnoreCase));
+        }
+
+        protected bool IsVMImage(string imageName)
+        {
+            return this.ComputeClient.VirtualMachineVMImages.List().VMImages.Any(
+                e => string.Equals(e.Name, imageName, StringComparison.OrdinalIgnoreCase));
         }
 
         protected override void OnProcessRecord()
