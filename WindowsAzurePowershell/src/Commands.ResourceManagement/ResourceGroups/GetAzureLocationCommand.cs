@@ -42,7 +42,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement
 
             if (ResourceGroup.IsPresent)
             {
-                resourceTypes.Add(ResourcesClient.ResourcGroupTypeName);
+                resourceTypes.Add(ResourcesClient.ResourceGroupTypeName);
             }
 
             WriteObject(ResourceClient.GetLocations(resourceTypes.ToArray()), true);
