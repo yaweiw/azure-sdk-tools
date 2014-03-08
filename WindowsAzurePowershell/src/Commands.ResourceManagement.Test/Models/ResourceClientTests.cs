@@ -2096,11 +2096,11 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Test.Models
                     }
                 }));
             List<PSResourceProviderType> resourceTypes = resourcesClient.GetLocations(
-                ResourcesClient.ResourcGroupTypeName,
+                ResourcesClient.ResourceGroupTypeName,
                 "Microsoft.HDInsight");
 
             Assert.Equal(3, resourceTypes.Count);
-            Assert.Equal(ResourcesClient.ResourcGroupTypeName, resourceTypes[0].Name);
+            Assert.Equal(ResourcesClient.ResourceGroupTypeName, resourceTypes[0].Name);
             Assert.Equal(ResourcesClient.KnownLocations.Count, resourceTypes[0].Locations.Count);
             Assert.Equal("East Asia", resourceTypes[0].Locations[0]);
             Assert.Equal("Microsoft.HDInsight/hadoop", resourceTypes[1].Name);
