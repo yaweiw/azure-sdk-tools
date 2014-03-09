@@ -23,6 +23,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.PersistentVMs
     using System.Security.Cryptography.X509Certificates;
     using AutoMapper;
     using Common;
+    using DiskRepository;
     using Helpers;
     using Management.Compute;
     using Management.Compute.Models;
@@ -40,14 +41,13 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.PersistentVMs
     public class NewQuickVM : IaaSDeploymentManagementCmdletBase
     {
         protected const string WindowsParamSet= "Windows";
-        protected const string WindowsVMImageParamSet = "WindowsVMImage";
         protected const string LinuxParamSet = "Linux";
-        protected const string LinuxVMImageParamSet = "LinuxVMImage";
 
         private bool _createdDeployment;
+        private bool _isVMImage;
+        private bool _isOSImage;
 
         [Parameter(Mandatory = true, ParameterSetName = WindowsParamSet, HelpMessage = "Create a Windows VM")]
-        [Parameter(Mandatory = true, ParameterSetName = WindowsVMImageParamSet, HelpMessage = "Create a Windows VM")]
         public SwitchParameter Windows
         {
             get;
@@ -55,7 +55,6 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.PersistentVMs
         }
 
         [Parameter(Mandatory = true, ParameterSetName = LinuxParamSet, HelpMessage = "Create a Linux VM")]
-        [Parameter(Mandatory = true, ParameterSetName = LinuxVMImageParamSet, HelpMessage = "Create a Linux VM")]
         public SwitchParameter Linux
         {
             get;
@@ -87,16 +86,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.PersistentVMs
             set;
         }
 
-        [Parameter(Mandatory = true, ParameterSetName = WindowsVMImageParamSet, HelpMessage = "Reference to a VM image.")]
-        [Parameter(Mandatory = true, ParameterSetName = LinuxVMImageParamSet, HelpMessage = "Reference to a VM image.")]
-        [ValidateNotNullOrEmpty]
-        public string VMImageName
-        {
-            get;
-            set;
-        }
-
-        [Parameter(Mandatory = true, HelpMessage = "Administrator password to use for the role.")]
+        [Parameter(Mandatory = false, HelpMessage = "Administrator password to use for the role.")]
         [ValidateNotNullOrEmpty]
         public string Password
         {
@@ -120,8 +110,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.PersistentVMs
             set;
         }
 
-        [Parameter(Mandatory = true, ParameterSetName = LinuxParamSet, HelpMessage = "User to Create")]
-        [Parameter(Mandatory = true, ParameterSetName = LinuxVMImageParamSet, HelpMessage = "User to Create")]
+        [Parameter(Mandatory = false, ParameterSetName = LinuxParamSet, HelpMessage = "User to Create")]
         [ValidateNotNullOrEmpty]
         public string LinuxUser
         {
@@ -129,8 +118,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.PersistentVMs
             set;
         }
 
-        [Parameter(Mandatory = true, ParameterSetName = WindowsParamSet, HelpMessage = "Specifies the Administrator to create.")]
-        [Parameter(Mandatory = true, ParameterSetName = WindowsVMImageParamSet, HelpMessage = "Specifies the Administrator to create.")]
+        [Parameter(Mandatory = false, ParameterSetName = WindowsParamSet, HelpMessage = "Specifies the Administrator to create.")]
         [ValidateNotNullOrEmpty]
         public string AdminUsername
         {
@@ -139,7 +127,6 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.PersistentVMs
         }
 
         [Parameter(Mandatory = false, ParameterSetName = WindowsParamSet, HelpMessage = "Set of certificates to install in the VM.")]
-        [Parameter(Mandatory = false, ParameterSetName = WindowsVMImageParamSet, HelpMessage = "Set of certificates to install in the VM.")]
         [ValidateNotNullOrEmpty]
         public Model.PersistentVMModel.CertificateSettingList Certificates
         {
@@ -156,7 +143,6 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.PersistentVMs
         }
 
         [Parameter(Mandatory = false, ParameterSetName = WindowsParamSet, HelpMessage = "Disables WinRM on https")]
-        [Parameter(Mandatory = false, ParameterSetName = WindowsVMImageParamSet, HelpMessage = "Disables WinRM on https")]
         [ValidateNotNullOrEmpty]
         public SwitchParameter DisableWinRMHttps
         {
@@ -165,7 +151,6 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.PersistentVMs
         }
 
         [Parameter(Mandatory = false, ParameterSetName = WindowsParamSet, HelpMessage = "Enables WinRM over http")]
-        [Parameter(Mandatory = false, ParameterSetName = WindowsVMImageParamSet, HelpMessage = "Enables WinRM over http")]
         [ValidateNotNullOrEmpty]
         public SwitchParameter EnableWinRMHttp
         {
@@ -174,7 +159,6 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.PersistentVMs
         }
 
         [Parameter(Mandatory = false, ParameterSetName = WindowsParamSet, HelpMessage = "Certificate that will be associated with WinRM endpoint")]
-        [Parameter(Mandatory = false, ParameterSetName = WindowsVMImageParamSet, HelpMessage = "Certificate that will be associated with WinRM endpoint")]
         [ValidateNotNullOrEmpty]
         public X509Certificate2 WinRMCertificate
         {
@@ -183,7 +167,6 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.PersistentVMs
         }
 
         [Parameter(Mandatory = false, ParameterSetName = WindowsParamSet, HelpMessage = "X509Certificates that will be deployed")]
-        [Parameter(Mandatory = false, ParameterSetName = WindowsVMImageParamSet, HelpMessage = "X509Certificates that will be deployed")]
         [ValidateNotNullOrEmpty]
         public X509Certificate2[] X509Certificates
         {
@@ -192,7 +175,6 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.PersistentVMs
         }
 
         [Parameter(Mandatory = false, ParameterSetName = WindowsParamSet, HelpMessage = "Prevents the private key from being uploaded")]
-        [Parameter(Mandatory = false, ParameterSetName = WindowsVMImageParamSet, HelpMessage = "Prevents the private key from being uploaded")]
         [ValidateNotNullOrEmpty]
         public SwitchParameter NoExportPrivateKey
         {
@@ -201,7 +183,6 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.PersistentVMs
         }
 
         [Parameter(Mandatory = false, ParameterSetName = WindowsParamSet, HelpMessage = "Prevents the WinRM endpoint from being added")]
-        [Parameter(Mandatory = false, ParameterSetName = WindowsVMImageParamSet, HelpMessage = "Prevents the WinRM endpoint from being added")]
         [ValidateNotNullOrEmpty]
         public SwitchParameter NoWinRMEndpoint
         {
@@ -210,7 +191,6 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.PersistentVMs
         }
 
         [Parameter(Mandatory = false, ParameterSetName = LinuxParamSet, HelpMessage = "SSH Public Key List")]
-        [Parameter(Mandatory = false, ParameterSetName = LinuxVMImageParamSet, HelpMessage = "SSH Public Key List")]
         public Model.PersistentVMModel.LinuxProvisioningConfigurationSet.SSHPublicKeyList SSHPublicKeys
         {
             get;
@@ -218,7 +198,6 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.PersistentVMs
         }
 
         [Parameter(Mandatory = false, ParameterSetName = LinuxParamSet, HelpMessage = "SSH Key Pairs")]
-        [Parameter(Mandatory = false, ParameterSetName = LinuxVMImageParamSet, HelpMessage = "SSH Key Pairs")]
         public Model.PersistentVMModel.LinuxProvisioningConfigurationSet.SSHKeyPairList SSHKeyPairs
         {
             get;
@@ -463,11 +442,15 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.PersistentVMs
                         RoleName = vm.RoleName,
                         RoleSize = vm.RoleSize,
                         ResourceExtensionReferences = null,
-                        VMImageName = this.VMImageName,
+                        VMImageName = this.ImageName,
                         ProvisionGuestAgent = !this.DisableGuestAgent
                     };
 
-                    vm.DataVirtualHardDisks.ForEach(c => parameter.DataVirtualHardDisks.Add(c));
+                    if (!_isVMImage)
+                    {
+                        vm.DataVirtualHardDisks.ForEach(c => parameter.DataVirtualHardDisks.Add(c));
+                    }
+
                     vm.ConfigurationSets.ForEach(c => parameter.ConfigurationSets.Add(c));
 
                     ExecuteClientActionNewSM(
@@ -497,41 +480,48 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.PersistentVMs
                 RoleSize = InstanceSize,
                 RoleType = "PersistentVMRole",
                 Label = ServiceName,
-                OSVirtualHardDisk = Mapper.Map(new OSVirtualHardDisk
+                OSVirtualHardDisk = _isVMImage ? null : Mapper.Map<Management.Compute.Models.OSVirtualHardDisk>(new OSVirtualHardDisk
                 {
                     DiskName = null,
                     SourceImageName = ImageName,
                     MediaLink = string.IsNullOrEmpty(MediaLocation) ? null : new Uri(MediaLocation),
                     HostCaching = HostCaching
-                }, new Management.Compute.Models.OSVirtualHardDisk()),
+                }),
                 ResourceExtensionReferences = null,
-                ProvisionGuestAgent = true
+                VMImageName = this.ImageName,
+                ProvisionGuestAgent = !this.DisableGuestAgent
             };
 
-            if (vm.OSVirtualHardDisk.MediaLink == null && String.IsNullOrEmpty(vm.OSVirtualHardDisk.Name))
+            if (!_isVMImage && vm.OSVirtualHardDisk.MediaLink == null && String.IsNullOrEmpty(vm.OSVirtualHardDisk.Name))
             {
                 var mediaLinkFactory = new MediaLinkFactory(currentStorage, this.ServiceName, vm.RoleName);
                 vm.OSVirtualHardDisk.MediaLink = mediaLinkFactory.Create();
             }
 
+            var configurationSets = new Collection<ConfigurationSet>();
             var netConfig = CreateNetworkConfigurationSet();
 
             if (ParameterSetName.Equals(WindowsParamSet, StringComparison.OrdinalIgnoreCase))
             {
-                var windowsConfig = new Microsoft.WindowsAzure.Commands.ServiceManagement.Model.PersistentVMModel.WindowsProvisioningConfigurationSet
+                if (this.AdminUsername != null && this.Password != null)
                 {
-                    AdminUsername = this.AdminUsername,
-                    AdminPassword = Password,
-                    ComputerName = string.IsNullOrEmpty(Name) ? ServiceName : Name,
-                    EnableAutomaticUpdates = true,
-                    ResetPasswordOnFirstLogon = false,
-                    StoredCertificateSettings = CertUtilsNewSM.GetCertificateSettings(this.Certificates, this.X509Certificates),
-                    WinRM = GetWinRmConfiguration()
-                };
+                    var windowsConfig = new Microsoft.WindowsAzure.Commands.ServiceManagement.Model.PersistentVMModel.WindowsProvisioningConfigurationSet
+                    {
+                        AdminUsername = this.AdminUsername,
+                        AdminPassword = Password,
+                        ComputerName = string.IsNullOrEmpty(Name) ? ServiceName : Name,
+                        EnableAutomaticUpdates = true,
+                        ResetPasswordOnFirstLogon = false,
+                        StoredCertificateSettings = CertUtilsNewSM.GetCertificateSettings(this.Certificates, this.X509Certificates),
+                        WinRM = GetWinRmConfiguration()
+                    };
 
-                if (windowsConfig.StoredCertificateSettings == null)
-                {
-                    windowsConfig.StoredCertificateSettings = new Model.PersistentVMModel.CertificateSettingList();
+                    if (windowsConfig.StoredCertificateSettings == null)
+                    {
+                        windowsConfig.StoredCertificateSettings = new Model.PersistentVMModel.CertificateSettingList();
+                    }
+
+                    configurationSets.Add(windowsConfig);
                 }
 
                 netConfig.InputEndpoints.Add(new InputEndpoint {LocalPort = 3389, Protocol = "tcp", Name = "RemoteDesktop"});
@@ -539,35 +529,40 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.PersistentVMs
                 {
                     netConfig.InputEndpoints.Add(new InputEndpoint {LocalPort = WinRMConstants.HttpsListenerPort, Protocol = "tcp", Name = WinRMConstants.EndpointName});
                 }
-                var configurationSets = new Collection<ConfigurationSet>{windowsConfig, netConfig};
-                PersistentVMHelper.MapConfigurationSets(configurationSets).ForEach(c => vm.ConfigurationSets.Add(c));
+
+                configurationSets.Add(netConfig);
             }
             else if (ParameterSetName.Equals(LinuxParamSet, StringComparison.OrdinalIgnoreCase))
             {
-                var linuxConfig = new Microsoft.WindowsAzure.Commands.ServiceManagement.Model.PersistentVMModel.LinuxProvisioningConfigurationSet
+                if (this.AdminUsername != null && this.Password != null)
                 {
-                    HostName = string.IsNullOrEmpty(this.Name) ? this.ServiceName : this.Name,
-                    UserName = this.LinuxUser,
-                    UserPassword = this.Password,
-                    DisableSshPasswordAuthentication = false
-                };
-
-                if (this.SSHKeyPairs != null && this.SSHKeyPairs.Count > 0 ||
-                    this.SSHPublicKeys != null && this.SSHPublicKeys.Count > 0)
-                {
-                    linuxConfig.SSH = new Microsoft.WindowsAzure.Commands.ServiceManagement.Model.PersistentVMModel.LinuxProvisioningConfigurationSet.SSHSettings
+                    var linuxConfig = new Microsoft.WindowsAzure.Commands.ServiceManagement.Model.PersistentVMModel.LinuxProvisioningConfigurationSet
                     {
-                        PublicKeys = this.SSHPublicKeys, 
-                        KeyPairs = this.SSHKeyPairs
+                        HostName = string.IsNullOrEmpty(this.Name) ? this.ServiceName : this.Name,
+                        UserName = this.LinuxUser,
+                        UserPassword = this.Password,
+                        DisableSshPasswordAuthentication = false
                     };
+
+                    if (this.SSHKeyPairs != null && this.SSHKeyPairs.Count > 0 ||
+                        this.SSHPublicKeys != null && this.SSHPublicKeys.Count > 0)
+                    {
+                        linuxConfig.SSH = new Microsoft.WindowsAzure.Commands.ServiceManagement.Model.PersistentVMModel.LinuxProvisioningConfigurationSet.SSHSettings
+                        {
+                            PublicKeys = this.SSHPublicKeys,
+                            KeyPairs = this.SSHKeyPairs
+                        };
+                    }
+
+                    configurationSets.Add(linuxConfig);
                 }
 
                 var rdpEndpoint = new InputEndpoint {LocalPort = 22, Protocol = "tcp", Name = "SSH"};
                 netConfig.InputEndpoints.Add(rdpEndpoint);
-
-                var configurationSets = new Collection<ConfigurationSet> { linuxConfig, netConfig };
-                PersistentVMHelper.MapConfigurationSets(configurationSets).ForEach(c => vm.ConfigurationSets.Add(c));
+                configurationSets.Add(netConfig);
             }
+
+            PersistentVMHelper.MapConfigurationSets(configurationSets).ForEach(c => vm.ConfigurationSets.Add(c));
 
             return vm;
         }
@@ -610,11 +605,25 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.PersistentVMs
 
         protected override void ProcessRecord()
         {
+            base.ProcessRecord();
+
+            if (!string.IsNullOrEmpty(this.ImageName))
+            {
+                _isOSImage = GetAzureVMImage.CheckImageType(this.ComputeClient, this.ImageName, ImageType.OSImage);
+                _isVMImage = GetAzureVMImage.CheckImageType(this.ComputeClient, this.ImageName, ImageType.VMImage);
+                if (_isOSImage && _isVMImage)
+                {
+                    var errorMsg = string.Format(Resources.DuplicateNamesFoundInBothVMAndOSImages, this.ImageName);
+                    WriteError(new ErrorRecord(new Exception(errorMsg), string.Empty, ErrorCategory.CloseError, null));
+                }
+
+                //return;
+            }
+
             try
             {
                 ServiceManagementProfile.Initialize();
                 this.ValidateParameters();
-                base.ProcessRecord();
                 this.NewAzureVMProcess();
             }
             catch (Exception ex)
@@ -656,12 +665,12 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.PersistentVMs
                 throw new ArgumentException(Resources.SpecifyLinuxUserWhenCreatingLinuxVMs);
             }
 
-            if (this.ParameterSetName.Contains(LinuxParamSet) && !ValidationHelpers.IsLinuxPasswordValid(this.Password))
+            if (this.ParameterSetName.Contains(LinuxParamSet) && this.Password != null && !ValidationHelpers.IsLinuxPasswordValid(this.Password))
             {
                 throw new ArgumentException(Resources.PasswordNotComplexEnough);
             }
 
-            if (this.ParameterSetName.Contains(WindowsParamSet) && !ValidationHelpers.IsWindowsPasswordValid(this.Password))
+            if (this.ParameterSetName.Contains(WindowsParamSet) && this.Password != null && !ValidationHelpers.IsWindowsPasswordValid(this.Password))
             {
                 throw new ArgumentException(Resources.PasswordNotComplexEnough);
             }
