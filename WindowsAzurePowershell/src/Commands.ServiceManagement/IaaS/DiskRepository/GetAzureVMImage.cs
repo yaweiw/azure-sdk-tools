@@ -14,11 +14,15 @@
 
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.DiskRepository
 {
+    using System;
     using System.Linq;
     using System.Management.Automation;
+    using Management.Compute;
     using Management.Compute.Models;
     using Model;
     using Utilities.Common;
+
+    internal enum ImageType { VMImage, OSImage };
 
     [Cmdlet(
         VerbsCommon.Get,
@@ -36,6 +40,23 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.DiskRepository
             HelpMessage = "Name of the image in the image library.")]
         [ValidateNotNullOrEmpty]
         public string ImageName { get; set; }
+
+        internal static bool CheckImageType(ComputeManagementClient computeClient, string imageName, ImageType imageType)
+        {
+            if (imageType == ImageType.OSImage)
+            {
+                return computeClient == null ? false : computeClient.VirtualMachineImages.List().Images.Any(
+                    e => string.Equals(e.Name, imageName, StringComparison.OrdinalIgnoreCase));
+            }
+            else if (imageType == ImageType.VMImage)
+            {
+                return computeClient == null ? false : computeClient.VirtualMachineVMImages.List().VMImages.Any(
+                    e => string.Equals(e.Name, imageName, StringComparison.OrdinalIgnoreCase));
+            }
+
+            return false;
+        }
+
         protected void GetAzureVMImageProcess()
         {
             ServiceManagementProfile.Initialize(this);
