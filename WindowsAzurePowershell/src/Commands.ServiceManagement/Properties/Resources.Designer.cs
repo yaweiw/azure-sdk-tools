@@ -304,7 +304,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The &apos;-DeleteVHD&apos; parameter does not apply to VM image, and it will be ignored..
+        ///   Looks up a localized string similar to The &apos;-DeleteVHD&apos; parameter does not apply to VM image removal call yet, so it will be ignored..
         /// </summary>
         internal static string DeleteVHDParameterDoesNotApplyToVMImageWarning {
             get {
@@ -349,7 +349,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Duplicate names &apos;{0}&apos; found in both VM and OS images. Please delete one of them and try again..
+        ///   Looks up a localized string similar to Duplicate names &apos;{0}&apos; found in both VM and OS images. Please delete one of them, using other method such as Portal or Invoke-RestMethod call, and try again..
         /// </summary>
         internal static string DuplicateNamesFoundInBothVMAndOSImages {
             get {
