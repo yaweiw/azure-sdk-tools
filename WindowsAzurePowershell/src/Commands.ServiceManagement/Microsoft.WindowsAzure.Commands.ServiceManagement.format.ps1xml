@@ -23,7 +23,7 @@
                 <PropertyName>Version</PropertyName>
               </ListItem>
               <ListItem>
-                <Label>Public Configuration Schema</Label>
+                <Label>PublicConfigurationSchema</Label>
                 <ScriptBlock>
                   $len = 100;
                   if ($_.PublicConfigurationSchema -ne $null)
@@ -44,7 +44,7 @@
                 </ScriptBlock>
               </ListItem>
               <ListItem>
-                <Label>Private Configuration Schema</Label>
+                <Label>PrivateConfigurationSchema</Label>
                 <ScriptBlock>
                   $len = 100;
                   if ($_.PrivateConfigurationSchema -ne $null)
@@ -65,7 +65,7 @@
                 </ScriptBlock>
               </ListItem>
               <ListItem>
-                <Label>Sample Config</Label>
+                <Label>SampleConfig</Label>
                 <ScriptBlock>
                   $len = 100;
                   if ($_.SampleConfig -ne $null)
@@ -86,7 +86,7 @@
                 </ScriptBlock>
               </ListItem>
               <ListItem>
-                <Label>Replication Completed?</Label>
+                <Label>ReplicationCompleted</Label>
                 <PropertyName>ReplicationCompleted</PropertyName>
               </ListItem>
               <ListItem>
@@ -94,15 +94,15 @@
                 <PropertyName>Eula</PropertyName>
               </ListItem>
               <ListItem>
-                <Label>Privacy Uri</Label>
+                <Label>PrivacyUri</Label>
                 <PropertyName>PrivacyUri</PropertyName>
               </ListItem>
               <ListItem>
-                <Label>Homepage Uri</Label>
+                <Label>HomepageUri</Label>
                 <PropertyName>HomepageUri</PropertyName>
               </ListItem>
               <ListItem>
-                <Label>Is Json Extension?</Label>
+                <Label>IsJsonExtension</Label>
                 <PropertyName>IsJsonExtension</PropertyName>
               </ListItem>
             </ListItems>
