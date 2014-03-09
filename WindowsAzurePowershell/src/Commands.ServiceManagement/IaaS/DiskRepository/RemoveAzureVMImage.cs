@@ -17,6 +17,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.DiskRepository
     using System;
     using System.Linq;
     using System.Management.Automation;
+    using Microsoft.WindowsAzure.Management.Compute;
     using Utilities.Common;
     using Properties;
 
@@ -54,8 +55,8 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.DiskRepository
                     {
                         OperationResponse op = null;
 
-                        bool isOSImage = IsOSImage(this.ImageName);
-                        bool isVMImage = IsVMImage(this.ImageName);
+                        bool isOSImage = GetAzureVMImage.CheckImageType(this.ComputeClient, this.ImageName, ImageType.OSImage);
+                        bool isVMImage = GetAzureVMImage.CheckImageType(this.ComputeClient, this.ImageName, ImageType.VMImage);
 
                         if (isOSImage && isVMImage)
                         {
@@ -79,18 +80,6 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.DiskRepository
 
                         return op;
                     });
-        }
-
-        protected bool IsOSImage(string imageName)
-        {
-            return this.ComputeClient.VirtualMachineImages.List().Images.Any(
-                e => string.Equals(e.Name, imageName, StringComparison.OrdinalIgnoreCase));
-        }
-
-        protected bool IsVMImage(string imageName)
-        {
-            return this.ComputeClient.VirtualMachineVMImages.List().VMImages.Any(
-                e => string.Equals(e.Name, imageName, StringComparison.OrdinalIgnoreCase));
         }
 
         protected override void OnProcessRecord()

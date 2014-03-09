@@ -421,6 +421,15 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to There is another image in &apos;{0}&apos; type found with the same name &apos;{1}&apos; exists; WAPS will stop here to avoid duplicates and potential conflicts. Please use another name for the image..
+        /// </summary>
+        internal static string ErrorAnotherImageTypeFoundWithTheSameName {
+            get {
+                return ResourceManager.GetString("ErrorAnotherImageTypeFoundWithTheSameName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Operation Status: .
         /// </summary>
         internal static string GatewayOperationStatus {
@@ -669,6 +678,15 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Properties {
         internal static string NoCorrespondingRoleCanBeFoundInDeployment {
             get {
                 return ResourceManager.GetString("NoCorrespondingRoleCanBeFoundInDeployment", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to No VM deployment found by service name &apos;{0}&apos; and VM name &apos;{1}&apos;..
+        /// </summary>
+        internal static string NoDeploymentFoundByServiceAndVMName {
+            get {
+                return ResourceManager.GetString("NoDeploymentFoundByServiceAndVMName", resourceCulture);
             }
         }
         
