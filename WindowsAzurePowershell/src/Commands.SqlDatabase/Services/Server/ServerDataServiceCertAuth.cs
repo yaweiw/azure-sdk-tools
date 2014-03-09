@@ -995,8 +995,7 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Services.Server
                     IsInterlinkConnected = response.IsInterlinkConnected,
                     TextStartDate = response.StartDate.ToString(),
                     TextModifyDate = response.ModifyDate.ToString(),
-                    PercentComplete = response.PercentComplete,
-                    IsForcedTerminate = response.IsForcedTerminate
+                    PercentComplete = response.PercentComplete
                 };
         }
         
