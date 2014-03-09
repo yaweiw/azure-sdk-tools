@@ -23,19 +23,70 @@
                 <PropertyName>Version</PropertyName>
               </ListItem>
               <ListItem>
-                <Label>PublicConfigurationSchema</Label>
-                <ScriptBlock>if ($_.PublicConfigurationSchema -ne $null) { if ($_.PublicConfigurationSchema.Length -gt 100) { $_.PublicConfigurationSchema.Substring(0, 100) + '...' } else { $_.PublicConfigurationSchema } }</ScriptBlock>
+                <Label>Public Configuration Schema</Label>
+                <ScriptBlock>
+                  $len = 100;
+                  if ($_.PublicConfigurationSchema -ne $null)
+                  {
+                      if ($_.PublicConfigurationSchema.Length -gt $len)
+                      {
+                          $_.PublicConfigurationSchema.Substring(0, $len) + '...';
+                      }
+                      else
+                      {
+                          $_.PublicConfigurationSchema;
+                      }
+                  }
+                  else
+                  {
+                      $_.PublicConfigurationSchema;
+                  }
+                </ScriptBlock>
               </ListItem>
               <ListItem>
-                <Label>PrivateConfigurationSchema</Label>
-                <ScriptBlock>if ($_.PrivateConfigurationSchema -ne $null) { if ($_.PrivateConfigurationSchema.Length -gt 100) { $_.PrivateConfigurationSchema.Substring(0, 100) + '...' } else { $_.PrivateConfigurationSchema } }</ScriptBlock>
+                <Label>Private Configuration Schema</Label>
+                <ScriptBlock>
+                  $len = 100;
+                  if ($_.PrivateConfigurationSchema -ne $null)
+                  {
+                      if ($_.PrivateConfigurationSchema.Length -gt $len)
+                      {
+                          $_.PrivateConfigurationSchema.Substring(0, $len) + '...';
+                      }
+                      else
+                      {
+                          $_.PrivateConfigurationSchema;
+                      }
+                  }
+                  else
+                  {
+                      $_.PrivateConfigurationSchema;
+                  }
+                </ScriptBlock>
               </ListItem>
               <ListItem>
-                <Label>SampleConfig</Label>
-                <ScriptBlock>if ($_.SampleConfig -ne $null) { if ($_.SampleConfig.Length -gt 100) { $_.SampleConfig.Substring(0, 100) + '...' } else { $_.SampleConfig } }</ScriptBlock>
+                <Label>Sample Config</Label>
+                <ScriptBlock>
+                  $len = 100;
+                  if ($_.SampleConfig -ne $null)
+                  {
+                      if ($_.SampleConfig.Length -gt $len)
+                      {
+                          $_.SampleConfig.Substring(0, $len) + '...';
+                      }
+                      else
+                      {
+                          $_.SampleConfig;
+                      }
+                  }
+                  else
+                  {
+                      $_.SampleConfig;
+                  }
+                </ScriptBlock>
               </ListItem>
               <ListItem>
-                <Label>ReplicationCompleted</Label>
+                <Label>Replication Completed?</Label>
                 <PropertyName>ReplicationCompleted</PropertyName>
               </ListItem>
               <ListItem>
@@ -43,15 +94,15 @@
                 <PropertyName>Eula</PropertyName>
               </ListItem>
               <ListItem>
-                <Label>PrivacyUri</Label>
+                <Label>Privacy Uri</Label>
                 <PropertyName>PrivacyUri</PropertyName>
               </ListItem>
               <ListItem>
-                <Label>HomepageUri</Label>
+                <Label>Homepage Uri</Label>
                 <PropertyName>HomepageUri</PropertyName>
               </ListItem>
               <ListItem>
-                <Label>IsJsonExtension</Label>
+                <Label>Is Json Extension?</Label>
                 <PropertyName>IsJsonExtension</PropertyName>
               </ListItem>
             </ListItems>
