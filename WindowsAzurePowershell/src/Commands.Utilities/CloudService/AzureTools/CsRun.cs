@@ -23,8 +23,13 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService.AzureTools
 
     public class CsRun 
     {
-        public int DeploymentId { get; private set; }
         private string _csrunPath;
+
+        private string _standardOutput;
+
+        public string RoleInformation { get; private set; }
+        public int DeploymentId { get; private set; }
+
         public CsRun(string emulatorDirectory)
         {
             _csrunPath = Path.Combine(emulatorDirectory, Resources.CsRunExe);
@@ -35,100 +40,75 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService.AzureTools
         /// <summary>
         /// Deploys package on local machine. This method does following:
         /// 1. Starts compute emulator.
-        /// 2. Starts storage emulator.
-        /// 3. Remove all previous deployments in the emulator.
-        /// 4. Deploys the package on local machine.
+        /// 2. Remove all previous deployments in the emulator.
+        /// 3. Deploys the package on local machine.
         /// </summary>
         /// <param name="packagePath">Path to package which will be deployed</param>
         /// <param name="configPath">Local configuration path to used with the package</param>
         /// <param name="launch">Switch which opens browser for web roles after deployment</param>
         /// <param name="mode">Emulator mode: Full or Express</param>
-        /// <param name="standardOutput">Standard output of deployment</param>
+        /// <param name="roleInformation">Standard output of deployment</param>
         /// <param name="standardError">Standard error of deployment</param>
         /// <returns>Deployment id associated with the deployment</returns>
         public int StartEmulator(string packagePath, 
                 string configPath, 
                 bool launch, 
-                ComputeEmulatorMode mode,
-                out string standardOutput, 
-                out string standardError)
+                ComputeEmulatorMode mode)
         {
-            // Starts compute emulator.
-            StartComputeEmulator(mode, out standardOutput, out standardError);
+            RoleInformation = string.Empty;
 
-            // Starts storage emulator.
-            StartStorageEmulator(out standardOutput, out standardError);
+            // Starts compute emulator.
+            StartComputeEmulator(mode);
 
             // Remove all previous deployments in the emulator.
-            RemoveAllDeployments(out standardOutput, out standardError);
+            RemoveAllDeployments();
 
             // Deploys the package on local machine.
             string arguments = string.Format(Resources.RunInEmulatorArguments, packagePath, configPath, (launch) ? Resources.CsRunLanuchBrowserArg : string.Empty);
-            StartCsRunProcess(mode, arguments, out standardOutput, out standardError);
+            StartCsRunProcess(mode, arguments);
 
-            // Get deployment id for future use.
-            DeploymentId = GetDeploymentCount(standardOutput);
-            standardOutput = GetRoleInfoMessage(standardOutput);
+            DeploymentId = GetDeploymentCount(_standardOutput);
+            RoleInformation = GetRoleInfoMessage(_standardOutput);
 
             return DeploymentId;
         }
 
-        public void StopEmulator()
+        public void StopComputeEmulator()
         {
-            string output, error;
-            StartCsRunProcess(Resources.CsRunStopEmulatorArg, out output, out error);
+            StartCsRunProcess(Resources.CsRunStopEmulatorArg);
+        }   
+
+        public void RemoveAllDeployments()
+        {
+            StartCsRunProcess(Resources.CsRunRemoveAllDeploymentsArg);
         }
 
-        private void StartStorageEmulator(out string standardOutput, out string standardError)
+        private void StartComputeEmulator(ComputeEmulatorMode mode)
         {
-            StartCsRunProcess(Resources.CsRunStartStorageEmulatorArg, out standardOutput, out standardError);
+            StartCsRunProcess(mode, Resources.CsRunStartComputeEmulatorArg);
         }
-
-        private void StartComputeEmulator(ComputeEmulatorMode mode, out string standardOutput, out string standardError)
-        {
-            StartCsRunProcess(mode, Resources.CsRunStartComputeEmulatorArg, out standardOutput, out standardError);
-        }
-
-        public void RemoveDeployment(int deploymentId, out string standardOutput, out string standardError)
-        {
-            StartCsRunProcess(string.Format(Resources.CsRunRemoveDeploymentArg, deploymentId), out standardOutput, out standardError);
-        }
-
-        public void RemoveAllDeployments(out string standardOutput, out string standardError)
-        {
-            StartCsRunProcess(Resources.CsRunRemoveAllDeploymentsArg, out standardOutput, out standardError);
-        }
-
-        public void UpdateDeployment(int deploymentId, string configPath, out string standardOutput, out string standardError)
-        {
-            StartCsRunProcess(string.Format(Resources.CsRunUpdateDeploymentArg, deploymentId, configPath), out standardOutput, out standardError);
-        }
-
-        private void StartCsRunProcess(string arguments, out string standardOutput, out string standardError)
+      
+        private void StartCsRunProcess(string arguments)
         {
             ProcessHelper runner = GetCommandRunner();
             runner.StartAndWaitForProcess(_csrunPath, arguments);
-            standardOutput = runner.StandardOutput;
-            standardError = runner.StandardError;
+            _standardOutput = runner.StandardOutput;
+            string standardError = runner.StandardError;
             // If there's an error from the CsRun tool, we want to display that
             // error message.
             if (!string.IsNullOrEmpty(standardError))
             {
-                if (!IsStorageEmulatorError(standardError))
-                {
-                    throw new InvalidOperationException(
-                        string.Format(Resources.CsRun_StartCsRunProcess_UnexpectedFailure, standardError));
-                }
+                throw new InvalidOperationException(string.Format(Resources.CsRun_StartCsRunProcess_UnexpectedFailure, standardError));
             }
         }
 
-        private void StartCsRunProcess(ComputeEmulatorMode mode, string arguments, out string standardOutput, out string standardError)
+        private void StartCsRunProcess(ComputeEmulatorMode mode, string arguments)
         {
             if (mode == ComputeEmulatorMode.Express)
             {
                 arguments += " " + Resources.CsRunEmulatorExpressArg;
             }
-            StartCsRunProcess(arguments, out standardOutput, out standardError);
+            StartCsRunProcess(arguments);
         }
 
         private ProcessHelper GetCommandRunner()
@@ -140,39 +120,34 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService.AzureTools
             return CommandRunner;
         }
 
-        private bool IsStorageEmulatorError(string error)
-        {
-            return error.IndexOf("storage emulator", StringComparison.OrdinalIgnoreCase) != -1;
-        }
-
         private int GetDeploymentCount(string text)
         {
-            Regex deploymentRegex = new Regex("deployment16\\((\\d+)\\)", RegexOptions.Multiline);
+            //Parse output, like 'Created: deployment23(55)', and extract the deployment ID of '55'
+            Regex deploymentRegex = new Regex(@"deployment\d+\((?<Number>\d+)\)", RegexOptions.Multiline);
             int value = -1;
 
             Match match = deploymentRegex.Match(text);
 
             if (match.Success)
             {
-                string digits = match.Captures[0].Value;
+                string digits = match.Groups["Number"].Value;
                 int.TryParse(digits, out value);
             }
 
             return value;
-
         }
 
         public static string GetRoleInfoMessage(string emulatorOutput)
         {
-            var regex = new Regex(Resources.EmulatorOutputSitesRegex);
+            var regex = new Regex(@"(?<RoleUrl>(http|tcp)://[\d.]+:\d+/?)");
             var match = regex.Match(emulatorOutput);
             var builder = new StringBuilder();
             while (match.Success)
             {
-                builder.AppendLine(string.Format(Resources.EmulatorRoleRunningMessage, match.Value.Substring(0, match.Value.Length - 2)));
+                builder.AppendLine(string.Format(Resources.EmulatorRoleRunningMessage, match.Groups["RoleUrl"].Value));
                 match = match.NextMatch();
             }
-            var roleInfo = builder.ToString(0, builder.Length - 2);
+            var roleInfo = builder.ToString();
             return roleInfo;
         }
     }
