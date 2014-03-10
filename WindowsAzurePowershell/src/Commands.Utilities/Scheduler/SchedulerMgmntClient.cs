@@ -25,21 +25,20 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Scheduler
     using System.Linq;
     using Utilities.Common;
 
-    public class SchedulerMgmntClient
+    public partial class SchedulerMgmntClient
     {
         private SchedulerManagementClient schedulerManagementClient;
         private CloudServiceManagementClient csmClient;
         private const string SupportedRegionsKey = "SupportedGeoRegions";
       
         /// <summary>
-        /// Creates new Scheduler Management Client
+        /// Creates new Scheduler Management Convenience Client
         /// </summary>
         /// <param name="subscription">Subscription containing websites to manipulate</param>
         public SchedulerMgmntClient(WindowsAzureSubscription subscription)
         {
             csmClient = subscription.CreateClient<CloudServiceManagementClient>();
             schedulerManagementClient = subscription.CreateClient<SchedulerManagementClient>();
-            
         }
 
         #region Get Available Regions
@@ -461,6 +460,8 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Scheduler
 
         #endregion
 
+       
+        /*
         #region Create Jobs
 
         private JobErrorAction PopulateErrorAction(PSCreateJobParams jobRequest)
@@ -845,5 +846,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Scheduler
 
             return GetJobDetail(jobRequest.JobCollectionName, jobRequest.JobName, jobRequest.Region.ToCloudServiceName());
         }
+         *  * */
     }
+        
 }

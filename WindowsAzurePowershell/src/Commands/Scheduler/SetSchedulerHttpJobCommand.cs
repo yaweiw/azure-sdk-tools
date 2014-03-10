@@ -120,13 +120,13 @@ namespace Microsoft.WindowsAzure.Commands.Scheduler
         public SwitchParameter PassThru { get; set; }
 
         public override void ExecuteCmdlet()
-        {
-            if (PassThru.IsPresent)
+        { 
+            string status = string.Empty;
+            if (!SMClient.GetAvailableRegions().Contains(Location, StringComparer.OrdinalIgnoreCase))
+                WriteWarning(Resources.SchedulerInvalidLocation);
+            else
             {
-                string status = string.Empty;
-                if (!SMClient.GetAvailableRegions().Contains(Location, StringComparer.OrdinalIgnoreCase))
-                    WriteWarning(Resources.SchedulerInvalidLocation);
-                else
+                if (PassThru.IsPresent)
                 {
                     WriteObject(SMClient.PatchHttpJob(new PSCreateJobParams
                     {
@@ -154,7 +154,35 @@ namespace Microsoft.WindowsAzure.Commands.Scheduler
                     }, out status), true);
                     WriteObject(status);
                 }
-            }
-        }
+                else
+                {
+                    SMClient.PatchHttpJob(new PSCreateJobParams
+                    {
+                        Region = Location,
+                        JobCollectionName = JobCollectionName,
+                        JobName = JobName,
+                        Method = Method,
+                        Headers = Headers,
+                        Uri = URI,
+                        Body = RequestBody,
+                        StartTime = StartTime,
+                        Interval = Interval,
+                        Frequency = Frequency,
+                        EndTime = EndTime,
+                        ExecutionCount = ExecutionCount,
+                        JobState = JobState,
+                        ErrorActionMethod = ErrorActionMethod,
+                        ErrorActionBody = ErrorActionRequestBody,
+                        ErrorActionHeaders = ErrorActionHeaders,
+                        ErrorActionUri = ErrorActionURI,
+                        ErrorActionStorageAccount = ErrorActionStorageAccount,
+                        ErrorActionQueueName = ErrorActionStorageQueue,
+                        ErrorActionQueueBody = ErrorActionQueueMessageBody,
+                        ErrorActionSasToken = ErrorActionSASToken
+                    }, out status);
+                    WriteDebug(status);
+                }
+            }       
+        }   
     }
 }

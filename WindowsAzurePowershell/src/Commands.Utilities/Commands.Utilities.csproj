@@ -568,6 +568,7 @@
     </Compile>
     <Compile Include="Scheduler\Common\ExtensionMethods.cs" />
     <Compile Include="Scheduler\Common\Constants.cs" />
+    <Compile Include="Scheduler\SchedulerMgmntClient.CreateJobs.cs" />
     <Compile Include="Scheduler\Model\PSJobHistoryStorageDetail.cs" />
     <Compile Include="Scheduler\Model\PSJobHistoryHttpDetail.cs" />
     <Compile Include="Scheduler\Model\PSJobHistoryDetail.cs" />
