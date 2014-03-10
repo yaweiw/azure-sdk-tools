@@ -31,7 +31,7 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Test.Table
         {
             command = new FakeRemoveAzureTableCommand(tableMock)
                 {
-                    CommandRuntime = new MockCommandRuntime()
+                    CommandRuntime = MockCmdRunTime
                 };
         }
 

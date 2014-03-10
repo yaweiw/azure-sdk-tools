@@ -16,13 +16,24 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Test
 {
     using System;
     using System.Diagnostics;
+    using System.Threading.Tasks;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using Microsoft.WindowsAzure.Commands.Test.Utilities.Common;
 
     /// <summary>
     /// Test base class for storage package
     /// </summary>
     public class StorageTestBase
     {
+        /// <summary>
+        /// Mock command line run time
+        /// </summary>
+        public MockCommandRuntime MockCmdRunTime
+        {
+            get;
+            set;
+        }
+
         /// <summary>
         /// Get an unique string
         /// </summary>
@@ -82,6 +93,34 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Test
             {
                 Assert.IsInstanceOfType(ex, typeof(T));
                 Assert.AreEqual<string>(expectedMessage, ex.Message);
+            }
+        }
+
+        /// <summary>
+        /// Ensure an async action throws a specific type of Exception.
+        /// </summary>
+        /// <typeparam name="T">Expected exception type.</typeparam>
+        /// <param name="action">
+        /// The action that should throw when executed.
+        /// </param>
+        /// <param name="expectedMessage">
+        /// Expected exception message.
+        /// </param>
+        public static void AssertThrowsAsync<T>(Func<Task> action, string expectedMessage)
+            where T : Exception
+        {
+            Debug.Assert(action != null);
+
+            try
+            {
+                action().Wait();
+                Assert.Fail("No exception was thrown!");
+            }
+            catch (AggregateException ex)
+            {
+                Exception innerException = ex.InnerException;
+                Assert.IsInstanceOfType(innerException, typeof(T));
+                Assert.AreEqual<string>(expectedMessage, innerException.Message);
             }
         }
     }

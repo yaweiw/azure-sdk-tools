@@ -96,6 +96,7 @@ namespace Microsoft.WindowsAzure.Management.HDInsight.Cmdlet.PSCmdlets
                 result.DefaultStorageAccount.StorageContainerName = this.command.DefaultStorageContainerName;
                 result.AdditionalStorageAccounts.AddRange(this.command.AdditionalStorageAccounts);
                 result.CoreConfiguration.AddRange(this.command.CoreConfiguration);
+                result.YarnConfiguration.AddRange(this.command.YarnConfiguration);
                 result.HdfsConfiguration.AddRange(this.command.HdfsConfiguration);
                 result.OozieConfiguration.ConfigurationCollection.AddRange(this.command.OozieConfiguration.ConfigurationCollection);
                 result.HiveConfiguration.AdditionalLibraries = this.command.HiveConfiguration.AdditionalLibraries;
@@ -118,6 +119,7 @@ namespace Microsoft.WindowsAzure.Management.HDInsight.Cmdlet.PSCmdlets
                 this.command.DefaultStorageContainerName = value.DefaultStorageAccount.StorageContainerName;
                 this.command.AdditionalStorageAccounts.AddRange(value.AdditionalStorageAccounts);
                 this.command.CoreConfiguration.AddRange(value.CoreConfiguration);
+                this.command.YarnConfiguration.AddRange(value.YarnConfiguration);
                 this.command.HdfsConfiguration.AddRange(value.HdfsConfiguration);
                 this.command.MapReduceConfiguration.ConfigurationCollection.AddRange(value.MapReduceConfiguration.ConfigurationCollection);
                 this.command.MapReduceConfiguration.CapacitySchedulerConfigurationCollection.AddRange(

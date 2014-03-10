@@ -58,6 +58,7 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Queue
         public RemoveAzureStorageQueueCommand(IStorageQueueManagement channel)
         {
             Channel = channel;
+            EnableMultiThread = false;
         }
 
         /// <summary>

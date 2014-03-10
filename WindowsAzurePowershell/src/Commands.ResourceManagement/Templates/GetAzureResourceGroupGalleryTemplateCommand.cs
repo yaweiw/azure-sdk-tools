@@ -29,24 +29,19 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Templates
         [ValidateNotNullOrEmpty]
         public string Name { get; set; }
 
-        [Parameter(Position = 0, Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "Optional. Category of the template.")]
-        [ValidateNotNullOrEmpty]
-        public string Category { get; set; }
-
-        [Parameter(Position = 0, Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "Optional. Publisher of the template.")]
+        [Parameter(Position = 1, Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "Optional. Publisher of the template.")]
         [ValidateNotNullOrEmpty]
         public string Publisher { get; set; }
 
-        [Parameter(Position = 0, Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "Optional. Country of the template.")]
+        [Parameter(Position = 2, Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "Optional. Category of the template.")]
         [ValidateNotNullOrEmpty]
-        public string Country { get; set; }
+        public string Category { get; set; }
 
         public override void ExecuteCmdlet()
         {
             FilterGalleryTemplatesOptions options = new FilterGalleryTemplatesOptions()
             {
                 Category = Category,
-                Country = Country,
                 Name = Name,
                 Publisher = Publisher
             };
