@@ -323,7 +323,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Test.Models
                             }
                     }));
 
-            Assert.Throws<ArgumentException>(() => resourcesClient.CreatePSResource(parameters));
+            Assert.Throws<ArgumentException>(() => resourcesClient.CreateResource(parameters));
         }
 
         [Fact]
@@ -339,7 +339,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Test.Models
                 ResourceType = "abc",
             };
 
-            Assert.Throws<ArgumentException>(() => resourcesClient.CreatePSResource(parameters));
+            Assert.Throws<ArgumentException>(() => resourcesClient.CreateResource(parameters));
         }
 
         [Fact]
@@ -394,7 +394,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Test.Models
                     }
                 }));
 
-            PSResource result = resourcesClient.CreatePSResource(parameters);
+            PSResource result = resourcesClient.CreateResource(parameters);
 
             Assert.NotNull(result);
         }
