@@ -250,7 +250,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Test.Models
         }
 
         [Fact]
-        public void ThrowsExceptionForExistingResourceGroup()
+        public void NewResourceGroupThrowsExceptionForExistingResourceGroup()
         {
             CreatePSResourceGroupParameters parameters = new CreatePSResourceGroupParameters() { ResourceGroupName = resourceGroupName };
             resourceGroupMock.Setup(f => f.CheckExistenceAsync(parameters.ResourceGroupName, new CancellationToken()))
@@ -263,7 +263,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Test.Models
         }
 
         [Fact]
-        public void CreatesBasicResourceGroup()
+        public void NewResourceGroupWithoutDeploymentSucceeds()
         {
             CreatePSResourceGroupParameters parameters = new CreatePSResourceGroupParameters()
             {
@@ -294,7 +294,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Test.Models
         }
 
         [Fact]
-        public void CreatesNewPSResourceWithExistingResourceThrowsException()
+        public void NewResourceWithExistingResourceThrowsException()
         {
             CreatePSResourceParameters parameters = new CreatePSResourceParameters()
             {
@@ -327,7 +327,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Test.Models
         }
 
         [Fact]
-        public void CreatesNewPSResourceWithIncorrectTypeThrowsException()
+        public void NewResourceWithIncorrectTypeThrowsException()
         {
             CreatePSResourceParameters parameters = new CreatePSResourceParameters()
             {
@@ -343,7 +343,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Test.Models
         }
 
         [Fact]
-        public void CreatesNewPSResourceWithAllParameters()
+        public void NewResourceWithAllParametersSucceeds()
         {
             CreatePSResourceParameters parameters = new CreatePSResourceParameters()
             {
@@ -400,7 +400,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Test.Models
         }
 
         [Fact]
-        public void SetPSResourceWithoutExistingResourceThrowsException()
+        public void SetResourceWithoutExistingResourceThrowsException()
         {
             UpdatePSResourceParameters parameters = new UpdatePSResourceParameters()
             {
@@ -418,7 +418,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Test.Models
         }
 
         [Fact]
-        public void SetPSResourceWithIncorrectTypeThrowsException()
+        public void SetResourceWithIncorrectTypeThrowsException()
         {
             UpdatePSResourceParameters parameters = new UpdatePSResourceParameters()
             {
@@ -433,7 +433,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Test.Models
         }
 
         [Fact]
-        public void SetPSResourceWithAllParameters()
+        public void SetResourceWithAllParameters()
         {
             UpdatePSResourceParameters parameters = new UpdatePSResourceParameters()
             {
@@ -477,7 +477,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Test.Models
         }
 
         [Fact]
-        public void SetPSResourceWithUpdatePatchesResource()
+        public void SetResourceWithUpdatePatchesResource()
         {
             var originalProperties = new Dictionary<string, object>
                 {
@@ -561,7 +561,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Test.Models
         }
 
         [Fact]
-        public void SetPSResourceWithReplaceRewritesResource()
+        public void SetResourceWithReplaceRewritesResource()
         {
             var originalProperties = new Dictionary<string, object>
                 {
@@ -646,7 +646,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Test.Models
         }
 
         [Fact]
-        public void RemovePSResourceWithoutExistingResourceThrowsException()
+        public void RemoveResourceWithoutExistingResourceThrowsException()
         {
             BasePSResourceParameters parameters = new BasePSResourceParameters()
             {
@@ -668,7 +668,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Test.Models
 
 
         [Fact]
-        public void RemovePSResourceWithIncorrectTypeThrowsException()
+        public void RemoveResourceWithIncorrectTypeThrowsException()
         {
             BasePSResourceParameters parameters = new BasePSResourceParameters()
             {
@@ -682,7 +682,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Test.Models
         }
 
         [Fact]
-        public void RemovePSResourceWithAllParameters()
+        public void RemoveResourceWithAllParametersSucceeds()
         {
             BasePSResourceParameters parameters = new BasePSResourceParameters()
             {
@@ -710,7 +710,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Test.Models
         }
 
         [Fact]
-        public void GetPSResourceWithAllParametersReturnsOneItem()
+        public void GetResourceWithAllParametersReturnsOneItem()
         {
             BasePSResourceParameters parameters = new BasePSResourceParameters()
             {
@@ -744,7 +744,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Test.Models
         }
 
         [Fact]
-        public void GetPSResourceWithSomeParametersReturnsList()
+        public void GetResourceWithSomeParametersReturnsList()
         {
             BasePSResourceParameters parameters = new BasePSResourceParameters()
             {
@@ -786,7 +786,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Test.Models
         }
 
         [Fact]
-        public void GetPSResourceWithIncorrectTypeThrowsException()
+        public void GetResourceWithIncorrectTypeThrowsException()
         {
             BasePSResourceParameters parameters = new BasePSResourceParameters()
             {
