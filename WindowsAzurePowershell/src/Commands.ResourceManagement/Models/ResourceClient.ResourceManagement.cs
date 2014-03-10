@@ -182,7 +182,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Models
 
             if (createDeployment)
             {
-                ValidateStorageAccount(parameters);
+                ValidateStorageAccount(parameters.StorageAccountName);
             }
 
             ResourceGroup resourceGroup = CreateResourceGroup(parameters.ResourceGroupName, parameters.Location);
@@ -198,10 +198,10 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Models
         /// <summary>
         /// Verify Storage account has been specified. 
         /// </summary>
-        /// <param name="parameters"></param>
-        private void ValidateStorageAccount(CreatePSResourceGroupParameters parameters)
+        /// <param name="storageAccountName"></param>
+        private void ValidateStorageAccount(string storageAccountName)
         {
-            GetStorageAccountName(parameters.StorageAccountName);
+            GetStorageAccountName(storageAccountName);
         }
 
         /// <summary>
