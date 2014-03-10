@@ -21,7 +21,5 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Models
         public string Category { get; set; }
 
         public string Publisher { get; set; }
-
-        public string Country { get; set; }
     }
 }

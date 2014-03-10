@@ -47,6 +47,18 @@ namespace Microsoft.WindowsAzure.Commands.Test.HDInsight.CmdLetTests
 
         [TestMethod]
         [TestCategory("CheckIn")]
+        public void CanCallTheAddConfigValuesCmdletTestsCmdlet_YarnConfig()
+        {
+            using (IRunspace runspace = this.GetPowerShellRunspace())
+            {
+                var yarnConfig = new Hashtable();
+                yarnConfig.Add("yarn.fakeconfig.value", "12345");
+                RunConfigOptionstest(runspace, CmdletConstants.YarnConfig, yarnConfig, c => c.YarnConfiguration);
+            }
+        }
+
+        [TestMethod]
+        [TestCategory("CheckIn")]
         public void CanCallTheAddConfigValuesCmdletTestsCmdlet_HdfsConfig()
         {
             using (IRunspace runspace = this.GetPowerShellRunspace())
@@ -179,6 +191,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.HDInsight.CmdLetTests
             using (IRunspace runspace = this.GetPowerShellRunspace())
             {
                 var coreConfig = new Hashtable();
+                var yarnConfig = new Hashtable();
                 var clusterConfig = new AzureHDInsightConfig
                 {
                     HiveMetastore =
@@ -204,10 +217,12 @@ namespace Microsoft.WindowsAzure.Commands.Test.HDInsight.CmdLetTests
                             .AddCommand(CmdletConstants.AddAzureHDInsightConfigValues)
                             .WithParameter(CmdletConstants.ClusterConfig, clusterConfig)
                             .WithParameter(CmdletConstants.CoreConfig, coreConfig)
+                            .WithParameter(CmdletConstants.YarnConfig, yarnConfig)
                             .Invoke();
                 AzureHDInsightConfig config = results.Results.ToEnumerable<AzureHDInsightConfig>().First();
 
                 Assert.AreEqual(config.CoreConfiguration.Count, coreConfig.Count);
+                Assert.AreEqual(config.YarnConfiguration.Count, yarnConfig.Count);
 
                 foreach (object entry in coreConfig.Keys)
                 {
@@ -216,6 +231,15 @@ namespace Microsoft.WindowsAzure.Commands.Test.HDInsight.CmdLetTests
                     Assert.IsNotNull(configUnderTest, "Unable to find core config option with name '{0}'", entry);
                     Assert.AreEqual(coreConfig[entry], configUnderTest.Value, "value doesn't match for core config option with name '{0}'", entry);
                 }
+
+                foreach (object entry in yarnConfig.Keys)
+                {
+                    KeyValuePair<string, string> configUnderTest =
+                        config.YarnConfiguration.FirstOrDefault(c => string.Equals(c.Key, entry.ToString(), StringComparison.Ordinal));
+                    Assert.IsNotNull(configUnderTest, "Unable to find yarn config option with name '{0}'", entry);
+                    Assert.AreEqual(yarnConfig[entry], configUnderTest.Value, "value doesn't match for yarn config option with name '{0}'", entry);
+                }
+
                 Assert.AreEqual(clusterConfig.HiveMetastore.DatabaseName, config.HiveMetastore.DatabaseName);
                 Assert.AreEqual(clusterConfig.HiveMetastore.SqlAzureServerName, config.HiveMetastore.SqlAzureServerName);
                 Assert.AreEqual(clusterConfig.HiveMetastore.Credential.UserName, config.HiveMetastore.Credential.UserName);

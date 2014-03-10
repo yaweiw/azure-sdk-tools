@@ -18,6 +18,7 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Blob.Cmdlet
     using System.Collections.Generic;
     using System.Management.Automation;
     using System.Security.Permissions;
+    using System.Threading.Tasks;
     using Common;
     using Microsoft.WindowsAzure.Storage;
     using Microsoft.WindowsAzure.Storage.Blob;
@@ -115,6 +116,7 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Blob.Cmdlet
                 }
 
                 Func<CloudBlobContainer, bool> containerFilter = (container) => null == wildcard || wildcard.IsMatch(container.Name);
+
                 IEnumerable<Tuple<CloudBlobContainer, BlobContinuationToken>> containerList = ListContainersByPrefix(prefix, containerFilter);
 
                 foreach (var containerInfo in containerList)
@@ -196,35 +198,47 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Blob.Cmdlet
         /// </summary>
         /// <param name="containerList">An enumerable collection of CloudBlobContainer</param>
         /// <returns>An enumerable collection of AzureStorageContainer</returns>
-        internal IEnumerable<AzureStorageContainer> PackCloudBlobContainerWithAcl(IEnumerable<Tuple<CloudBlobContainer, BlobContinuationToken>> containerList)
+        internal void PackCloudBlobContainerWithAcl(IEnumerable<Tuple<CloudBlobContainer, BlobContinuationToken>> containerList)
         {
             if (null == containerList)
             {
-                yield break;
+                return;
             }
 
+            IStorageBlobManagement localChannel = Channel;
+            foreach (Tuple<CloudBlobContainer, BlobContinuationToken> containerInfo in containerList)
+            {
+                Func<long, Task> generator = (taskId) => GetContainerPermission(taskId, localChannel, containerInfo.Item1, containerInfo.Item2);
+                RunTask(generator);
+            }
+        }
+
+        /// <summary>
+        /// Async get container permission
+        /// </summary>
+        /// <param name="container">CloudBlobContainer object</param>
+        /// <param name="taskId">Task id</param>
+        /// <param name="context">Azure storage context</param>
+        /// <returns></returns>
+        internal async Task GetContainerPermission(long taskId, IStorageBlobManagement localChannel, CloudBlobContainer container, BlobContinuationToken continuationToken)
+        {
             BlobRequestOptions requestOptions = RequestOptions;
             AccessCondition accessCondition = null;
-
-            foreach (Tuple<CloudBlobContainer, BlobContinuationToken> containerItem in containerList)
+            BlobContainerPermissions permissions = null;
+            try
             {
-                CloudBlobContainer container = containerItem.Item1;
-                BlobContainerPermissions permissions = null;
-
-                try
-                {
-                    permissions = Channel.GetContainerPermissions(container, accessCondition, requestOptions, OperationContext);
-                }
-                catch (Exception e)
-                {
-                    //Log the error message and continue the process
-                    WriteVerboseWithTimestamp(String.Format(Resources.GetContainerPermissionException, container.Name, e.Message));
-                }
-
-                AzureStorageContainer azureContainer = new AzureStorageContainer(container, permissions);
-                azureContainer.ContinuationToken = containerItem.Item2;
-                yield return azureContainer;
+                permissions = await localChannel.GetContainerPermissionsAsync(container, accessCondition,
+                    requestOptions, OperationContext, CmdletCancellationToken);
             }
+            catch(StorageException e)
+            {
+                if(!e.IsNotFoundException())
+                {
+                    throw;
+                }
+                //404 Not found means we don't have permission to query the Permission of the specified container.
+            }
+            WriteCloudContainerObject(taskId, localChannel, container, permissions, continuationToken);
         }
 
         /// <summary>
@@ -244,8 +258,7 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Blob.Cmdlet
                 containerList = ListContainersByName(Name);
             }
 
-            IEnumerable<AzureStorageContainer> azureContainers = PackCloudBlobContainerWithAcl(containerList);
-            WriteObjectWithStorageContext(azureContainers);
+            PackCloudBlobContainerWithAcl(containerList);
         }
     }
 }

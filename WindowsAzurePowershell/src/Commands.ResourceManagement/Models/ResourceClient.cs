@@ -378,7 +378,15 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Models
             List<DeploymentOperation> newOperations = new List<DeploymentOperation>();
             foreach (DeploymentOperation operation in current)
             {
-                if (!old.Exists(o => o.OperationId.Equals(operation.OperationId)))
+                DeploymentOperation temp = old.Find(o => o.OperationId.Equals(operation.OperationId));
+                if (temp != null)
+                {
+                    if (!temp.Properties.ProvisioningState.Equals(operation.Properties.ProvisioningState))
+                    {
+                        newOperations.Add(operation);
+                    }
+                }
+                else
                 {
                     newOperations.Add(operation);
                 }

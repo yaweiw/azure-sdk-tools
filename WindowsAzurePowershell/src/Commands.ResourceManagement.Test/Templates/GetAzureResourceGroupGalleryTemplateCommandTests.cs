@@ -48,7 +48,6 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Test.Resources
             FilterGalleryTemplatesOptions options = new FilterGalleryTemplatesOptions()
             {
                 Category = "category",
-                Country = "US",
                 Name = "hobba",
                 Publisher = "Microsoft"
             };
@@ -71,7 +70,6 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Test.Resources
                 .Callback((FilterGalleryTemplatesOptions o) => actual = o);
 
             cmdlet.Category = options.Category;
-            cmdlet.Country = options.Country;
             cmdlet.Name = options.Name;
             cmdlet.Publisher = options.Publisher;
 
