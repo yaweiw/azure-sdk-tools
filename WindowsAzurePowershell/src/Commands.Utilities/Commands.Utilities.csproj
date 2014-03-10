@@ -295,6 +295,7 @@
     <Compile Include="CloudService\AzureTools\CsPack.cs" />
     <Compile Include="CloudService\AzureTools\CsRun.cs" />
     <Compile Include="CloudService\AddRole.cs" />
+    <Compile Include="CloudService\AzureTools\StorageEmulator.cs" />
     <Compile Include="CloudService\CacheConfigurationFactory.cs" />
     <Compile Include="CloudService\CloudServicePathInfo.cs" />
     <Compile Include="CloudService\CloudServiceProject.cs" />
