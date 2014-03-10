@@ -19,6 +19,7 @@ using Microsoft.Azure.Management.Resources;
 using Microsoft.Azure.Management.Resources.Models;
 using Microsoft.WindowsAzure;
 using Microsoft.WindowsAzure.Commands.Test.Utilities.Common;
+using Microsoft.WindowsAzure.Commands.Utilities.Common;
 using Microsoft.WindowsAzure.Commands.Utilities.Common.Storage;
 using Microsoft.WindowsAzure.Common.OData;
 using Microsoft.WindowsAzure.Management.Monitoring.Events;
@@ -1010,6 +1011,8 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Test.Models
         [Fact]
         public void NewResourceGroupWithDeploymentFailsWithoutStorageName()
         {
+            WindowsAzureProfile.Instance.CurrentSubscription.CurrentStorageAccountName = null;
+
             CreatePSResourceGroupParameters parameters = new CreatePSResourceGroupParameters()
             {
                 ResourceGroupName = resourceGroupName,
