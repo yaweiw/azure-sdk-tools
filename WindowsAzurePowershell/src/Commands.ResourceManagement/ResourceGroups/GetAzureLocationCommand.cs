@@ -21,14 +21,14 @@ namespace Microsoft.Azure.Commands.ResourceManagement
     /// <summary>
     /// Get the available locations for certain resource types.
     /// </summary>
-    [Cmdlet(VerbsCommon.Get, "AzureResourceGroupLocation"), OutputType(typeof(List<PSResourceProviderType>))]
+    [Cmdlet(VerbsCommon.Get, "AzureLocation"), OutputType(typeof(List<PSResourceProviderType>))]
     public class GetAzureLocationCommand : ResourceBaseCmdlet
     {
-        [Parameter(Position = 0, Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "specifies resource type provider.")]
+        [Parameter(Position = 0, Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "If specified, check the available locations for the given resource types.")]
         [ValidateNotNullOrEmpty]
         public string[] ResourceType { get; set; }
 
-        [Parameter(Position = 1, Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "specifies resource group provider.")]
+        [Parameter(Position = 1, Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "If specified, check the available locations for Resource Groups.")]
         [ValidateNotNullOrEmpty]
         public SwitchParameter ResourceGroup { get; set; }
         
@@ -42,7 +42,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement
 
             if (ResourceGroup.IsPresent)
             {
-                resourceTypes.Add(ResourcesClient.ResourcGroupTypeName);
+                resourceTypes.Add(ResourcesClient.ResourceGroupTypeName);
             }
 
             WriteObject(ResourceClient.GetLocations(resourceTypes.ToArray()), true);
