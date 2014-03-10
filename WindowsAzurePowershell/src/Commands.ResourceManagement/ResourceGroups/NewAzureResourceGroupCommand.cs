@@ -49,6 +49,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement
             galleryTemplateName = null;
         }
 
+        [Alias("ResourceGroupName")]
         [Parameter(Mandatory = true, ValueFromPipelineByPropertyName = true, HelpMessage = "The resource group name.")]
         [ValidateNotNullOrEmpty]
         public string Name { get; set; }
@@ -116,7 +117,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement
             {
                 ResourceGroupName = Name,
                 Location = Location,
-                DeploymentName = DeploymentName,
+                Name = DeploymentName,
                 GalleryTemplateName = GalleryTemplateName,
                 TemplateFile = this.TryResolvePath(TemplateFile),
                 ParameterObject = GetParameterObject(ParameterObject),
@@ -132,7 +133,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement
 
         private Hashtable GetParameterObject(Hashtable parameterObject)
         {
-            IEnumerable<RuntimeDefinedParameter> parameters = General.GetUsedDynamicParameters(dynamicParameters, MyInvocation);
+            IEnumerable<RuntimeDefinedParameter> parameters = GeneralUtilities.GetUsedDynamicParameters(dynamicParameters, MyInvocation);
 
             if (parameters.Count() > 0)
             {

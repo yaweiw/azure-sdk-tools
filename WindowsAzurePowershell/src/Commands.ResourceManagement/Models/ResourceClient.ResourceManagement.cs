@@ -29,7 +29,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Models
 {
     public partial class ResourcesClient
     {
-        public const string ResourcGroupTypeName = "ResourceGroup";
+        public const string ResourceGroupTypeName = "ResourceGroup";
 
         public static List<string> KnownLocations = new List<string>()
         {
@@ -58,15 +58,14 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Models
 
             if (ResourceManagementClient.ResourceGroups.CheckExistence(parameters.ResourceGroupName).Exists)
             {
-                WriteProgress(string.Format("{0, -10} Resource group \"{1}\" is found.", "[Info]",
-                                            parameters.ResourceGroupName));
+                WriteProgress(string.Format("Resource group \"{0}\" is found.", parameters.ResourceGroupName));
             }
             else
             {
                 throw new ArgumentException(Resources.ResourceGroupDoesntExists);
             }
 
-            WriteProgress(string.Format("{0, -10} Creating resource \"{1}\".", "[Start]", parameters.Name));
+            WriteProgress(string.Format("Creating resource \"{0}\" started.", parameters.Name));
             
             ResourceCreateOrUpdateResult createOrUpdateResult = ResourceManagementClient.Resources.CreateOrUpdate(parameters.ResourceGroupName, resourceIdentity, 
                 new ResourceCreateOrUpdateParameters
@@ -81,7 +80,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Models
 
             if (createOrUpdateResult.Resource != null)
             {
-                WriteProgress(string.Format("{0, -10} Creating resource \"{1}\".", "[Complete]", parameters.Name));
+                WriteProgress(string.Format("Creating resource \"{0}\" complete.", parameters.Name));
             }
 
             ResourceGetResult getResult = ResourceManagementClient.Resources.Get(parameters.ResourceGroupName, resourceIdentity);
@@ -110,16 +109,23 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Models
                 throw new ArgumentException(Resources.ResourceDoesntExists);
             }
 
+            string newProperty = SerializeHashtable(parameters.PropertyObject,
+                                                    addValueLayer: false);
+
+            if (parameters.Mode == SetResourceMode.Update)
+            {
+                newProperty = JsonUtilities.Patch(getResource.Resource.Properties, newProperty);
+            }
             ResourceManagementClient.Resources.CreateOrUpdate(parameters.ResourceGroupName, resourceIdentity,
-                new ResourceCreateOrUpdateParameters
-                {
-                    ValidationMode = ResourceValidationMode.NameValidation,
-                    Resource = new BasicResource
-                    {
-                        Location = getResource.Resource.Location,
-                        Properties = SerializeHashtable(parameters.PropertyObject, addValueLayer: false)
-                    }
-                });
+                        new ResourceCreateOrUpdateParameters
+                            {
+                                ValidationMode = ResourceValidationMode.NameValidation,
+                                    Resource = new BasicResource
+                                        {
+                                            Location = getResource.Resource.Location,
+                                            Properties = newProperty
+                                        }
+                            });
 
             ResourceGetResult getResult = ResourceManagementClient.Resources.Get(parameters.ResourceGroupName, resourceIdentity);
 
@@ -228,7 +234,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Models
 
             if (createDeployment)
             {
-                parameters.DeploymentName = string.IsNullOrEmpty(parameters.DeploymentName) ? Guid.NewGuid().ToString() : parameters.DeploymentName;
+                parameters.Name = string.IsNullOrEmpty(parameters.Name) ? Guid.NewGuid().ToString() : parameters.Name;
                 BasicDeployment deployment = CreateBasicDeployment(parameters);
                 List<ResourceManagementError> errors = CheckBasicDeploymentErrors(resourceGroup, deployment);
 
@@ -241,9 +247,9 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Models
                     throw new ArgumentException(errors.ToString());
                 }
 
-                result = ResourceManagementClient.Deployments.CreateOrUpdate(resourceGroup, parameters.DeploymentName, deployment);
-                WriteProgress(string.Format("Create template deployment '{0}' using template {1}.", parameters.DeploymentName, deployment.TemplateLink.Uri));
-                ProvisionDeploymentStatus(resourceGroup, parameters.DeploymentName);
+                result = ResourceManagementClient.Deployments.CreateOrUpdate(resourceGroup, parameters.Name, deployment);
+                WriteProgress(string.Format("Create template deployment '{0}' using template {1}.", parameters.Name, deployment.TemplateLink.Uri));
+                ProvisionDeploymentStatus(resourceGroup, parameters.Name);
             }
 
             return result.ToPSResourceGroupDeployment();
@@ -263,7 +269,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Models
             
             if (Uri.IsWellFormedUriString(templateName, UriKind.Absolute))
             {
-                templateContent = General.DownloadFile(templateName);
+                templateContent = GeneralUtilities.DownloadFile(templateName);
             }
             else if (File.Exists(templateName))
             {
@@ -271,7 +277,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Models
             }
             else
             {
-                templateContent = General.DownloadFile(GetGalleryTemplateFile(templateName));
+                templateContent = GeneralUtilities.DownloadFile(GetGalleryTemplateFile(templateName));
             }
 
             if (string.IsNullOrEmpty(templateContent))
@@ -455,15 +461,19 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Models
         /// <returns>Mapping between each resource type and its available locations</returns>
         public virtual List<PSResourceProviderType> GetLocations(params string[] resourceTypes)
         {
+            if (resourceTypes == null)
+            {
+                resourceTypes = new string[0];
+            }
             List<string> providerNames = resourceTypes.Select(r => r.Split('/').First()).ToList();
             List<PSResourceProviderType> result = new List<PSResourceProviderType>();
             List<Provider> providers = new List<Provider>();
 
-            if (resourceTypes.Any(r => r.Equals(ResourcesClient.ResourcGroupTypeName, StringComparison.OrdinalIgnoreCase)))
+            if (resourceTypes.Length == 0 || resourceTypes.Any(r => r.Equals(ResourcesClient.ResourceGroupTypeName, StringComparison.OrdinalIgnoreCase)))
             {
                 result.Add(new ProviderResourceType()
                 {
-                    Name = ResourcesClient.ResourcGroupTypeName,
+                    Name = ResourcesClient.ResourceGroupTypeName,
                     Locations = ResourcesClient.KnownLocations
                 }.ToPSResourceProviderType(null));
             }

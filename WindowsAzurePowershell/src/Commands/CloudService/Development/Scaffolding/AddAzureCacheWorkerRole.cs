@@ -49,7 +49,7 @@ namespace Microsoft.WindowsAzure.Commands.CloudService.Development.Scaffolding
         [PermissionSet(SecurityAction.Demand, Name = "FullTrust")]
         public override void ExecuteCmdlet()
         {
-            AddAzureCacheWorkerRoleProcess(Name, Instances, General.GetServiceRootPath(CurrentPath()));
+            AddAzureCacheWorkerRoleProcess(Name, Instances, GeneralUtilities.GetServiceRootPath(CurrentPath()));
         }
 
         /// <summary>

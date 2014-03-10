@@ -24,13 +24,14 @@ namespace Microsoft.Azure.Commands.ResourceManagement
     [Cmdlet(VerbsCommon.Get, "AzureResourceGroup"), OutputType(typeof(List<PSResourceGroup>))]
     public class GetAzureResourceGroupCommand : ResourceBaseCmdlet
     {
+        [Alias("ResourceGroupName")]
         [Parameter(Position = 0, Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "The name of the resource group.")]
         [ValidateNotNullOrEmpty]
-        public string ResourceGroupName { get; set; }
+        public string Name { get; set; }
         
         public override void ExecuteCmdlet()
         {
-            WriteObject(ResourceClient.FilterResourceGroups(ResourceGroupName), true);
+            WriteObject(ResourceClient.FilterResourceGroups(Name), true);
         }
     }
 }

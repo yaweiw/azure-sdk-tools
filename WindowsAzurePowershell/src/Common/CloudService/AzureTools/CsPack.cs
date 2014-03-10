@@ -12,6 +12,8 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
+using Microsoft.WindowsAzure.Commands.Utilities.Common;
+
 namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService.AzureTools
 {
     using System;
@@ -154,12 +156,12 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService.AzureTools
             else
             {
                 // Create a temporary directory
-                string tempPath = General.CreateTempDirectory();
+                string tempPath = FileUtilities.CreateTempDirectory();
                 tempDirectories[name] = tempPath;
                 
                 // Copy the role's directory to the temp directory
                 string newPath = Path.Combine(tempPath, name);
-                General.CopyDirectory(Path.Combine(root, name), newPath);
+                FileUtilities.CopyDirectory(Path.Combine(root, name), newPath);
 
                 // Remove the offending files
                 GetLogDirectories(newPath)
