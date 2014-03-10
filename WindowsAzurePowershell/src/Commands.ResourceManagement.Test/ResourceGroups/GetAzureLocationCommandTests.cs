@@ -52,7 +52,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Test
             };
             cmdlet.ResourceGroup = true;
             cmdlet.ResourceType = new string[] { "Microsoft.Web", "Microsoft.HDInsight" };
-            resourcesClientMock.Setup(f => f.GetLocations("Microsoft.Web", "Microsoft.HDInsight", ResourcesClient.ResourcGroupTypeName)).Returns(result);
+            resourcesClientMock.Setup(f => f.GetLocations("Microsoft.Web", "Microsoft.HDInsight", ResourcesClient.ResourceGroupTypeName)).Returns(result);
 
             cmdlet.ExecuteCmdlet();
 

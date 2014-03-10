@@ -29,7 +29,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Models
 {
     public partial class ResourcesClient
     {
-        public const string ResourcGroupTypeName = "ResourceGroup";
+        public const string ResourceGroupTypeName = "ResourceGroup";
 
         public static List<string> KnownLocations = new List<string>()
         {
@@ -461,15 +461,19 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Models
         /// <returns>Mapping between each resource type and its available locations</returns>
         public virtual List<PSResourceProviderType> GetLocations(params string[] resourceTypes)
         {
+            if (resourceTypes == null)
+            {
+                resourceTypes = new string[0];
+            }
             List<string> providerNames = resourceTypes.Select(r => r.Split('/').First()).ToList();
             List<PSResourceProviderType> result = new List<PSResourceProviderType>();
             List<Provider> providers = new List<Provider>();
 
-            if (resourceTypes.Any(r => r.Equals(ResourcesClient.ResourcGroupTypeName, StringComparison.OrdinalIgnoreCase)))
+            if (resourceTypes.Length == 0 || resourceTypes.Any(r => r.Equals(ResourcesClient.ResourceGroupTypeName, StringComparison.OrdinalIgnoreCase)))
             {
                 result.Add(new ProviderResourceType()
                 {
-                    Name = ResourcesClient.ResourcGroupTypeName,
+                    Name = ResourcesClient.ResourceGroupTypeName,
                     Locations = ResourcesClient.KnownLocations
                 }.ToPSResourceProviderType(null));
             }
