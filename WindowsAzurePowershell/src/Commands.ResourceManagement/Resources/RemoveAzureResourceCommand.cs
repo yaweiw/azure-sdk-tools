@@ -21,7 +21,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement
     /// <summary>
     /// Deletes an existing resource.
     /// </summary>
-    [Cmdlet(VerbsCommon.Remove, "AzureResource"), OutputType(typeof(bool))]
+    [Cmdlet(VerbsCommon.Remove, "AzureResource", SupportsShouldProcess = true), OutputType(typeof(bool))]
     public class RemoveAzureResourceCommand : ResourceBaseCmdlet
     {
         [Alias("ResourceName")]
