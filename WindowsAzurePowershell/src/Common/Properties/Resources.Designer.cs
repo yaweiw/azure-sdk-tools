@@ -1859,6 +1859,15 @@ namespace Microsoft.WindowsAzure.Commands.Common.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Please run Add-AzureAccount to finish setting up the subscription..
+        /// </summary>
+        public static string InvalidSubscriptionState {
+            get {
+                return ResourceManager.GetString("InvalidSubscriptionState", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Role {0} VM size should be ExtraSmall, Small, Medium, Large or ExtraLarge..
         /// </summary>
         public static string InvalidVMSize {

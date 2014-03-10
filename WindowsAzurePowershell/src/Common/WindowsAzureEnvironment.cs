@@ -239,8 +239,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
                     ActiveDirectoryEndpoint = "https://login.windows.net/",
                     ActiveDirectoryCommonTenantId = "common",
                     StorageEndpointSuffix = WindowsAzureEnvironmentConstants.AzureStorageEndpointSuffix,
-                    // TODO: Get real endpoint for prod
-                    GalleryEndpoint = "http://public.us.com"
+                    GalleryEndpoint = WindowsAzureEnvironmentConstants.GalleryEndpoint
                 }
             },
             {
@@ -253,8 +252,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
                     CloudServiceEndpoint = WindowsAzureEnvironmentConstants.ChinaCloudServiceEndpoint,
                     ManagementPortalUrl = WindowsAzureEnvironmentConstants.ChinaManagementPortalUrl,
                     StorageEndpointSuffix = WindowsAzureEnvironmentConstants.ChinaStorageEndpointSuffix,
-                    // TODO: Get real endpoint for prod
-                    GalleryEndpoint = "http://public.ch.com"
+                    GalleryEndpoint = WindowsAzureEnvironmentConstants.ChinaGalleryEndpoint
                 }
             }
         };
