@@ -350,6 +350,19 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
             }
         }
 
+        private void MigrateExistingEnvironments(string environmentName)
+        {
+            WindowsAzureEnvironment azureEnvironment = environments[environmentName];
+            if (string.IsNullOrEmpty(azureEnvironment.CloudServiceEndpoint))
+            {
+                azureEnvironment.CloudServiceEndpoint = environments[EnvironmentName.AzureCloud].CloudServiceEndpoint;
+            }
+            if (string.IsNullOrEmpty(azureEnvironment.GalleryEndpoint))
+            {
+                azureEnvironment.GalleryEndpoint = environments[EnvironmentName.AzureCloud].GalleryEndpoint;
+            }
+        }
+
         private void Save()
         {
             var profileData = new ProfileData();
@@ -380,6 +393,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
                 foreach (var e in data.Environments.Select(e => e.ToAzureEnvironment()))
                 {
                     environments[e.Name] = e;
+                    MigrateExistingEnvironments(e.Name);
                 }
                 if (environments.ContainsKey(data.DefaultEnvironmentName))
                 {
