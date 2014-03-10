@@ -19,6 +19,7 @@ using Microsoft.Azure.Management.Resources;
 using Microsoft.Azure.Management.Resources.Models;
 using Microsoft.WindowsAzure;
 using Microsoft.WindowsAzure.Commands.Test.Utilities.Common;
+using Microsoft.WindowsAzure.Commands.Utilities.Common;
 using Microsoft.WindowsAzure.Commands.Utilities.Common.Storage;
 using Microsoft.WindowsAzure.Common.OData;
 using Microsoft.WindowsAzure.Management.Monitoring.Events;
@@ -800,7 +801,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Test.Models
         }
 
         [Fact]
-        public void FailsResourceGroupWithInvalidDeployment()
+        public void NewResourceGroupFailsWithInvalidDeployment()
         {
             Uri templateUri = new Uri("http://templateuri.microsoft.com");
             BasicDeployment deploymentFromGet = new BasicDeployment();
@@ -897,7 +898,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Test.Models
         }
 
         [Fact]
-        public void CreatesResourceGroupWithDeployment()
+        public void NewResourceGroupWithDeploymentSucceeds()
         {
             Uri templateUri = new Uri("http://templateuri.microsoft.com");
             BasicDeployment deploymentFromGet = new BasicDeployment();
@@ -1005,6 +1006,52 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Test.Models
                         resourceGroupLocation,
                         ProvisioningState.Succeeded)),
                 Times.Once());
+        }
+
+        [Fact]
+        public void NewResourceGroupWithDeploymentFailsWithoutStorageName()
+        {
+            WindowsAzureProfile.Instance.CurrentSubscription.CurrentStorageAccountName = null;
+
+            CreatePSResourceGroupParameters parameters = new CreatePSResourceGroupParameters()
+            {
+                ResourceGroupName = resourceGroupName,
+                Location = resourceGroupLocation,
+                Name = deploymentName,
+                TemplateFile = templateFile,
+                ParameterFile = parameterFile,
+                StorageAccountName = null
+            };
+            resourceGroupMock.Setup(f => f.CheckExistenceAsync(parameters.ResourceGroupName, new CancellationToken()))
+                .Returns(Task.Factory.StartNew(() => new ResourceGroupExistsResult
+                {
+                    Exists = false
+                }));
+
+            Assert.Throws<ArgumentException>(() => resourcesClient.CreatePSResourceGroup(parameters));
+            deploymentsMock.Verify((f => f.CreateOrUpdateAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<BasicDeployment>(), new CancellationToken())), Times.Never());
+            resourceGroupMock.Verify((f => f.CreateOrUpdateAsync(It.IsAny<string>(), It.IsAny<BasicResourceGroup>(), new CancellationToken())), Times.Never());
+        }
+
+        [Fact]
+        public void NewResourceGroupWithDeploymentFailsWithExistingGroup()
+        {
+            CreatePSResourceGroupParameters parameters = new CreatePSResourceGroupParameters()
+            {
+                ResourceGroupName = resourceGroupName,
+                Location = resourceGroupLocation,
+                Name = deploymentName,
+                TemplateFile = templateFile,
+                ParameterFile = parameterFile,
+                StorageAccountName = storageAccountName
+            };
+            resourceGroupMock.Setup(f => f.CheckExistenceAsync(parameters.ResourceGroupName, new CancellationToken()))
+                .Returns(Task.Factory.StartNew(() => new ResourceGroupExistsResult
+                {
+                    Exists = true
+                }));
+
+            Assert.Throws<ArgumentException>(()=>resourcesClient.CreatePSResourceGroup(parameters));
         }
 
         [Fact]
