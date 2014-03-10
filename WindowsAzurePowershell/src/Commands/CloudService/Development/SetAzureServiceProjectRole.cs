@@ -138,8 +138,8 @@ namespace Microsoft.WindowsAzure.Commands.CloudService.Development
         [PermissionSet(SecurityAction.Demand, Name = "FullTrust")]
         public override void  ExecuteCmdlet()
         {
-            string rootPath = General.GetServiceRootPath(CurrentPath());
-            RoleName = string.IsNullOrEmpty(RoleName) ? General.GetRoleName(rootPath, CurrentPath()) : RoleName;
+            string rootPath = GeneralUtilities.GetServiceRootPath(CurrentPath());
+            RoleName = string.IsNullOrEmpty(RoleName) ? GeneralUtilities.GetRoleName(rootPath, CurrentPath()) : RoleName;
 
             if (string.Equals(this.ParameterSetName, InstancesParameterSet, StringComparison.OrdinalIgnoreCase))
             {

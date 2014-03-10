@@ -24,6 +24,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement
     [Cmdlet(VerbsCommon.Set, "AzureResource"), OutputType(typeof(PSResource))]
     public class SetAzureResourceCommand : ResourceBaseCmdlet
     {
+        [Alias("ResourceName")]
         [Parameter(Mandatory = true, ValueFromPipelineByPropertyName = true, HelpMessage = "The resource name.")]
         [ValidateNotNullOrEmpty]
         public string Name { get; set; }
@@ -43,9 +44,8 @@ namespace Microsoft.Azure.Commands.ResourceManagement
         [Parameter(Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "A hash table which represents resource properties.")]
         public Hashtable PropertyObject { get; set; }
 
-        // TODO: Add back once we have support for patch operation
-        //[Parameter(Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "Update operation mode. Replace, will update the entire resource while update will only update the properties specified by the command. Default is Update.")]
-        //public SetResourceMode Mode { get; set; }
+        [Parameter(Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "Update operation mode. Replace, will update the entire resource while update will only update the properties specified by the command. Default is Update.")]
+        public SetResourceMode Mode { get; set; }
 
         public override void ExecuteCmdlet()
         {
@@ -56,6 +56,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement
                 ResourceType = ResourceType,
                 ParentResourceName = ParentResourceName,
                 PropertyObject = PropertyObject,
+                Mode = Mode
             };
 
             WriteObject(ResourceClient.UpdatePSResource(parameters));

@@ -2,7 +2,7 @@
 <Project
   xmlns="http://schemas.microsoft.com/developer/msbuild/2003"
   ToolsVersion="4.0"
-  DefaultTargets="Clean;BuildDebug;BuildReleaseSigned;BuildSetupDebug">
+  DefaultTargets="ForceRestorePackages;Clean;BuildDebug;BuildReleaseSigned;BuildSetupDebug">
 
   <!-- Define build properties -->
   <PropertyGroup>
@@ -116,6 +116,12 @@
       <NuGetRestoreConfigFile>$(MSBuildProjectDirectory)\WindowsAzurePowershell\src\restore.config</NuGetRestoreConfigFile>
       <NuGetRestoreConfigSwitch>-ConfigFile &quot;$(NuGetRestoreConfigFile)&quot;</NuGetRestoreConfigSwitch>
     </PropertyGroup>
+    <ItemGroup>
+      <NuGetCache Include="$(LOCALAPPDATA)\NuGet\Cache\*.nupkg"/>
+    </ItemGroup>
+
+    <!-- Delete NuGet cache-->
+    <Delete Files="@(NuGetCache)" />
 
     <Error Text="The code generation target ForceRestorePackages requires an environment variable: PRIVATE_FEED_URL. Please see libraries.msbuild for more information." Condition=" '$(PRIVATE_FEED_URL)'=='' " />
     <Error Text="The code generation target ForceRestorePackages requires an environment variable: PRIVATE_FEED_USER_NAME. Please see libraries.msbuild for more information." Condition=" '$(PRIVATE_FEED_USER_NAME)'=='' " />
@@ -406,12 +412,12 @@
   <!-- Do everything possible -->
   <Target
     Name="Full"
-    DependsOnTargets="Clean;BuildDebug;BuildReleaseSigned;Test;BuildSetupDebug;BuildSetup" />
+    DependsOnTargets="ForceRestorePackages;Clean;BuildDebug;BuildReleaseSigned;Test;BuildSetupDebug;BuildSetup" />
 
   <!-- Run Full switch with scenario tests -->
   <Target
     Name="FullWithScenarioTests"
-    DependsOnTargets="Clean;BuildDebug;BuildReleaseSigned;Test;BuildSetupDebug;BuildSetup;RunOneSDKCIT" />
+    DependsOnTargets="ForceRestorePackages;Clean;BuildDebug;BuildReleaseSigned;Test;BuildSetupDebug;BuildSetup;RunOneSDKCIT" />
 
   <!-- Build the Cmdlets in ReleaseSigned configuration -->
   <Target Name="BuildReleaseSigned" DependsOnTargets="ForceRestorePackages">

@@ -12,6 +12,8 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
+using Microsoft.WindowsAzure.Commands.Utilities.Common;
+
 namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService
 {
     using System;
@@ -52,9 +54,9 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService
                 File.WriteAllText(paths.Settings, Resources.SettingsFileEmptyContent);
             }
 
-            Definition = General.DeserializeXmlFile<ServiceDefinition>(paths.Definition);
-            CloudConfig = General.DeserializeXmlFile<ServiceConfiguration>(paths.CloudConfiguration);
-            LocalConfig = General.DeserializeXmlFile<ServiceConfiguration>(paths.LocalConfiguration);
+            Definition = XmlUtilities.DeserializeXmlFile<ServiceDefinition>(paths.Definition);
+            CloudConfig = XmlUtilities.DeserializeXmlFile<ServiceConfiguration>(paths.CloudConfiguration);
+            LocalConfig = XmlUtilities.DeserializeXmlFile<ServiceConfiguration>(paths.LocalConfiguration);
             Settings = ServiceSettings.Load(paths.Settings);
         }
 
@@ -63,9 +65,9 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService
             // Validate directory exists and it's valid
             if (paths == null) throw new ArgumentNullException("paths");
 
-            General.SerializeXmlFile<ServiceDefinition>(Definition, paths.Definition);
-            General.SerializeXmlFile<ServiceConfiguration>(CloudConfig, paths.CloudConfiguration);
-            General.SerializeXmlFile<ServiceConfiguration>(LocalConfig, paths.LocalConfiguration);
+            XmlUtilities.SerializeXmlFile(Definition, paths.Definition);
+            XmlUtilities.SerializeXmlFile(CloudConfig, paths.CloudConfiguration);
+            XmlUtilities.SerializeXmlFile(LocalConfig, paths.LocalConfiguration);
             Settings.Save(paths.Settings);
         }
 
@@ -398,7 +400,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService
                 executionContext = context
             };
 
-            roleStartup.Task = General.ExtendArray<Task>(roleStartup.Task, newTask);
+            roleStartup.Task = GeneralUtilities.ExtendArray<Task>(roleStartup.Task, newTask);
         }
 
         /// <summary>
@@ -454,7 +456,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService
                 if (!found)
                 {
                     Variable var = new Variable() { name = name, value = value };
-                    task.Environment = General.ExtendArray<Variable>(task.Environment, var);
+                    task.Environment = GeneralUtilities.ExtendArray<Variable>(task.Environment, var);
                 }
             }
         }

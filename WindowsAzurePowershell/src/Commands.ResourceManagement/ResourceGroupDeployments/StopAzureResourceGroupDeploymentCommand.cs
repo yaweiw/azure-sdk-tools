@@ -27,6 +27,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement.ResourceGroups
         [ValidateNotNullOrEmpty]
         public string ResourceGroupName { get; set; }
 
+        [Alias("DeploymentName")]
         [Parameter(Position = 1, Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "The name of the deployment.")]
         [ValidateNotNullOrEmpty]
         public string Name { get; set; }
