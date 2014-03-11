@@ -740,8 +740,8 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Test.Models
 
             Assert.NotNull(result);
             Assert.Equal(1, result.Count);
-            Assert.Equal(4, result[0].ParameterObject.Count);
-            Assert.Equal(2, ((Dictionary<string, object>)result[0].ParameterObject["misc"]).Count);
+            Assert.Equal(4, result[0].Properties.Count);
+            Assert.Equal(2, ((Dictionary<string, object>)result[0].Properties["misc"]).Count);
         }
 
         [Fact]
@@ -783,7 +783,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Test.Models
 
             Assert.NotNull(result);
             Assert.Equal(2, result.Count);
-            Assert.False(result.Any(r => r.ParameterObject != null));
+            Assert.False(result.Any(r => r.Properties != null));
         }
 
         [Fact]
