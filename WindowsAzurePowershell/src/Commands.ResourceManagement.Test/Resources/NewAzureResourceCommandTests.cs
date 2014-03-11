@@ -80,7 +80,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Test
                 Name = expectedParameters.Name,
                 Location = resourceGroupLocation,
                 ResourceGroupName = expectedParameters.ResourceGroupName,
-                ParameterObject = expectedParameters.PropertyObject,
+                Properties = expectedParameters.PropertyObject,
                 ResourceType = expectedParameters.ResourceType
             };
             resourcesClientMock.Setup(f => f.CreateResource(It.IsAny<CreatePSResourceParameters>()))
