@@ -12,10 +12,16 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
+using System;
+
 namespace Microsoft.Azure.Commands.ResourceManagement.Models
 {
     public class CreatePSResourceGroupParameters : CreatePSResourceGroupDeploymentParameters
     {
         public string Location { get; set; }
+
+        public bool Force { get; set; }
+
+        public Action<bool, string, string, string, Action> ConfirmAction { get; set; }
     }
 }
