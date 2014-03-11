@@ -88,6 +88,24 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Replacing resource group ....
+        /// </summary>
+        internal static string NewResourceGroupMessage {
+            get {
+                return ResourceManager.GetString("NewResourceGroupMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Replacing resource ....
+        /// </summary>
+        internal static string NewResourceMessage {
+            get {
+                return ResourceManager.GetString("NewResourceMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Removing resource group ....
         /// </summary>
         internal static string RemoveResourceGroupMessage {
@@ -124,7 +142,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Provided resource already exists..
+        ///   Looks up a localized string similar to Provided resource already exists. Are you sure you want to replace it?.
         /// </summary>
         internal static string ResourceAlreadyExists {
             get {
@@ -142,7 +160,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Provided resource group already exists..
+        ///   Looks up a localized string similar to Provided resource group already exists. Are you sure you want to replace it?.
         /// </summary>
         internal static string ResourceGroupAlreadyExists {
             get {

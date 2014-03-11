@@ -111,6 +111,9 @@ namespace Microsoft.Azure.Commands.ResourceManagement
         [ValidateNotNullOrEmpty]
         public string ParameterFile { get; set; }
 
+        [Parameter(Mandatory = false, HelpMessage = "Do not ask for confirmation.")]
+        public SwitchParameter Force { get; set; }
+
         public override void ExecuteCmdlet()
         {
             CreatePSResourceGroupParameters parameters = new CreatePSResourceGroupParameters()
@@ -126,6 +129,8 @@ namespace Microsoft.Azure.Commands.ResourceManagement
                 TemplateHash = TemplateHash,
                 TemplateHashAlgorithm = TemplateHashAlgorithm,
                 StorageAccountName = StorageAccountName,
+                Force = Force.IsPresent,
+                ConfirmAction = ConfirmAction
             };
 
             WriteObject(ResourceClient.CreatePSResourceGroup(parameters));

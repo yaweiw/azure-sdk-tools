@@ -83,7 +83,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Test
                 Properties = expectedParameters.PropertyObject,
                 ResourceType = expectedParameters.ResourceType
             };
-            resourcesClientMock.Setup(f => f.CreatePSResource(It.IsAny<CreatePSResourceParameters>()))
+            resourcesClientMock.Setup(f => f.CreateResource(It.IsAny<CreatePSResourceParameters>()))
                 .Returns(expected)
                 .Callback((CreatePSResourceParameters p) => { actualParameters = p; });
 

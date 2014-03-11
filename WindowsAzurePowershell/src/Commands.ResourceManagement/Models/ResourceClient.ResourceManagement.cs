@@ -45,16 +45,9 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Models
         /// </summary>
         /// <param name="parameters">The create parameters</param>
         /// <returns>The created resource</returns>
-        public virtual PSResource CreatePSResource(CreatePSResourceParameters parameters)
+        public virtual PSResource CreateResource(CreatePSResourceParameters parameters)
         {
             ResourceIdentity resourceIdentity = parameters.ToResourceIdentity();
-
-            bool resourceExists = ResourceManagementClient.Resources.CheckExistence(parameters.ResourceGroupName, resourceIdentity).Exists;
-            
-            if (resourceExists)
-            {
-                throw new ArgumentException(Resources.ResourceAlreadyExists);
-            }
 
             if (ResourceManagementClient.ResourceGroups.CheckExistence(parameters.ResourceGroupName).Exists)
             {
@@ -65,24 +58,43 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Models
                 throw new ArgumentException(Resources.ResourceGroupDoesntExists);
             }
 
-            WriteProgress(string.Format("Creating resource \"{0}\" started.", parameters.Name));
-            
-            ResourceCreateOrUpdateResult createOrUpdateResult = ResourceManagementClient.Resources.CreateOrUpdate(parameters.ResourceGroupName, resourceIdentity, 
-                new ResourceCreateOrUpdateParameters
+            bool resourceExists = ResourceManagementClient.Resources.CheckExistence(parameters.ResourceGroupName, resourceIdentity).Exists;
+
+            Action createOrUpdateResource = () =>
                 {
-                    ValidationMode = ResourceValidationMode.NameValidation,
-                    Resource = new BasicResource
-                        {
-                            Location = parameters.Location,
-                            Properties = SerializeHashtable(parameters.PropertyObject, addValueLayer: false)
-                        }
-                });
+                    WriteProgress(string.Format("Creating resource \"{0}\" started.", parameters.Name));
 
-            if (createOrUpdateResult.Resource != null)
+                    ResourceCreateOrUpdateResult createOrUpdateResult = ResourceManagementClient.Resources.CreateOrUpdate(parameters.ResourceGroupName, 
+                        resourceIdentity,
+                        new ResourceCreateOrUpdateParameters
+                            {
+                                ValidationMode = ResourceValidationMode.NameValidation,
+                                Resource = new BasicResource
+                                    {
+                                        Location = parameters.Location,
+                                        Properties = SerializeHashtable(parameters.PropertyObject, addValueLayer: false)
+                                    }
+                            });
+
+                    if (createOrUpdateResult.Resource != null)
+                    {
+                        WriteProgress(string.Format("Creating resource \"{0}\" complete.", parameters.Name));
+                    }
+                };
+            
+            if (resourceExists && !parameters.Force)
             {
-                WriteProgress(string.Format("Creating resource \"{0}\" complete.", parameters.Name));
+                parameters.ConfirmAction(parameters.Force,
+                                         Resources.ResourceAlreadyExists,
+                                         Resources.NewResourceMessage,
+                                         parameters.Name,
+                                         createOrUpdateResource);
             }
-
+            else
+            {
+                createOrUpdateResource();
+            }
+            
             ResourceGetResult getResult = ResourceManagementClient.Resources.Get(parameters.ResourceGroupName, resourceIdentity);
 
             return getResult.Resource.ToPSResource(this);
@@ -175,21 +187,36 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Models
         {
             bool createDeployment = !string.IsNullOrEmpty(parameters.GalleryTemplateName) || !string.IsNullOrEmpty(parameters.TemplateFile);
 
-            if (ResourceManagementClient.ResourceGroups.CheckExistence(parameters.ResourceGroupName).Exists)
-            {
-                throw new ArgumentException(Resources.ResourceGroupAlreadyExists);
-            }
-
             if (createDeployment)
             {
                 ValidateStorageAccount(parameters.StorageAccountName);
             }
 
-            ResourceGroup resourceGroup = CreateResourceGroup(parameters.ResourceGroupName, parameters.Location);
+            bool resourceExists = ResourceManagementClient.ResourceGroups.CheckExistence(parameters.ResourceGroupName).Exists;
 
-            if (createDeployment)
+            ResourceGroup resourceGroup = null;
+            Action createOrUpdateResourceGroup = () =>
+                {
+                    resourceGroup = CreateResourceGroup(parameters.ResourceGroupName, parameters.Location);
+
+                    if (createDeployment)
+                    {
+                        CreatePSResourceGroupDeployment(parameters);
+                    }
+                };
+
+            if (resourceExists && !parameters.Force)
             {
-                CreatePSResourceGroupDeployment(parameters);
+                parameters.ConfirmAction(parameters.Force,
+                                         Resources.ResourceGroupAlreadyExists,
+                                         Resources.NewResourceGroupMessage,
+                                         parameters.Name,
+                                         createOrUpdateResourceGroup);
+                resourceGroup = ResourceManagementClient.ResourceGroups.Get(parameters.ResourceGroupName).ResourceGroup;
+            }
+            else
+            {
+                createOrUpdateResourceGroup();
             }
 
             return resourceGroup.ToPSResourceGroup(this);

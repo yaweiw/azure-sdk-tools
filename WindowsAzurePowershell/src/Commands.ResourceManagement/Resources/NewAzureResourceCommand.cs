@@ -12,9 +12,12 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
+using System;
 using Microsoft.Azure.Commands.ResourceManagement.Models;
 using System.Collections;
 using System.Management.Automation;
+using Microsoft.Azure.Commands.ResourceManagement.Properties;
+using Microsoft.Azure.Management.Resources;
 
 namespace Microsoft.Azure.Commands.ResourceManagement
 {
@@ -48,6 +51,9 @@ namespace Microsoft.Azure.Commands.ResourceManagement
         [Parameter(Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "A hash table which represents resource properties.")]
         public Hashtable PropertyObject { get; set; }
 
+        [Parameter(Mandatory = false, HelpMessage = "Do not ask for confirmation.")]
+        public SwitchParameter Force { get; set; }
+
         public override void ExecuteCmdlet()
         {
             CreatePSResourceParameters parameters = new CreatePSResourceParameters()
@@ -57,10 +63,12 @@ namespace Microsoft.Azure.Commands.ResourceManagement
                 ResourceType = ResourceType,
                 Location = Location,
                 ParentResourceName = ParentResourceName,
-                PropertyObject = PropertyObject
+                PropertyObject = PropertyObject,
+                Force = Force.IsPresent,
+                ConfirmAction = ConfirmAction
             };
 
-            WriteObject(ResourceClient.CreatePSResource(parameters));
+            WriteObject(ResourceClient.CreateResource(parameters));
         }
     }
 }
