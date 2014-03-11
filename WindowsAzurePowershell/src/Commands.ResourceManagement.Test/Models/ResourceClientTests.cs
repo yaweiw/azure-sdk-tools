@@ -93,6 +93,21 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Test.Models
 
         private List<EventData> sampleEvents;
 
+        private int ConfirmActionCounter = 0;
+
+        private void ConfirmAction(bool force, string actionMessage, string processMessage, string target, Action action)
+        {
+            ConfirmActionCounter++;
+            action();
+        }
+
+        private int RejectActionCounter = 0;
+
+        private void RejectAction(bool force, string actionMessage, string processMessage, string target, Action action)
+        {
+            RejectActionCounter++;
+        }
+
         private void SetupListForResourceGroupAsync(string name, List<Resource> result)
         {
             resourceOperationsMock.Setup(f => f.ListAsync(
@@ -251,16 +266,52 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Test.Models
         }
 
         [Fact]
-        public void NewResourceGroupThrowsExceptionForExistingResourceGroup()
+        public void NewResourceGroupChecksForPermissionForExistingResource()
         {
-            CreatePSResourceGroupParameters parameters = new CreatePSResourceGroupParameters() { ResourceGroupName = resourceGroupName };
+            RejectActionCounter = 0;
+            CreatePSResourceGroupParameters parameters = new CreatePSResourceGroupParameters() { ResourceGroupName = resourceGroupName, ConfirmAction = RejectAction };
             resourceGroupMock.Setup(f => f.CheckExistenceAsync(parameters.ResourceGroupName, new CancellationToken()))
                 .Returns(Task.Factory.StartNew(() => new ResourceGroupExistsResult
                 {
                     Exists = true
                 }));
 
-            Assert.Throws<ArgumentException>(() => resourcesClient.CreatePSResourceGroup(parameters));
+            resourceGroupMock.Setup(f => f.GetAsync(
+                parameters.ResourceGroupName,
+                new CancellationToken()))
+                    .Returns(Task.Factory.StartNew(() => new ResourceGroupGetResult
+                    {
+                        ResourceGroup = new ResourceGroup() { Name = parameters.ResourceGroupName, Location = parameters.Location }
+                    }));
+
+            resourceOperationsMock.Setup(f => f.ListAsync(It.IsAny<ResourceListParameters>(), It.IsAny<CancellationToken>()))
+                .Returns(() => Task.Factory.StartNew(() => new ResourceListResult
+                {
+                    StatusCode = HttpStatusCode.OK,
+                    Resources = new List<Resource>(new[]
+                        {
+                            new Resource
+                            {
+                                Name = "foo",
+                                Properties = null,
+                                ProvisioningState = ProvisioningState.Running,
+                                ResourceGroup = parameters.ResourceGroupName,
+                                Location = "West US"
+                            },
+                            new Resource
+                            {
+                                Name = "bar",
+                                Properties = null,
+                                ProvisioningState = ProvisioningState.Running,
+                                ResourceGroup = parameters.ResourceGroupName,
+                                Location = "West US"
+                            }
+                        })
+
+                }));
+
+            resourcesClient.CreatePSResourceGroup(parameters);
+            Assert.Equal(1, RejectActionCounter);
         }
 
         [Fact]
@@ -269,7 +320,8 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Test.Models
             CreatePSResourceGroupParameters parameters = new CreatePSResourceGroupParameters()
             {
                 ResourceGroupName = resourceGroupName,
-                Location = resourceGroupLocation
+                Location = resourceGroupLocation,
+                ConfirmAction = ConfirmAction
             };
             resourceGroupMock.Setup(f => f.CheckExistenceAsync(parameters.ResourceGroupName, new CancellationToken()))
                 .Returns(Task.Factory.StartNew(() => new ResourceGroupExistsResult
@@ -295,7 +347,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Test.Models
         }
 
         [Fact]
-        public void NewResourceWithExistingResourceThrowsException()
+        public void NewResourceWithExistingResourceAsksForUserConfirmation()
         {
             CreatePSResourceParameters parameters = new CreatePSResourceParameters()
             {
@@ -305,7 +357,10 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Test.Models
                 PropertyObject = new Hashtable(properties),
                 ResourceGroupName = resourceGroupName,
                 ResourceType = resourceIdentity.ResourceProviderNamespace + "/" + resourceIdentity.ResourceType,
+                ConfirmAction = RejectAction
             };
+
+            RejectActionCounter = 0;
 
             resourceOperationsMock.Setup(f => f.CheckExistenceAsync(resourceGroupName, It.IsAny<ResourceIdentity>(), It.IsAny<CancellationToken>()))
                 .Returns(Task.Factory.StartNew(() => new ResourceExistsResult
@@ -313,7 +368,13 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Test.Models
                     Exists = true
                 }));
 
-            resourceOperationsMock.Setup(f => f.GetAsync(resourceGroupName, resourceIdentity, It.IsAny<CancellationToken>()))
+            resourceGroupMock.Setup(f => f.CheckExistenceAsync(resourceGroupName, It.IsAny<CancellationToken>()))
+                .Returns(Task.Factory.StartNew(() => new ResourceGroupExistsResult
+                {
+                    Exists = true
+                }));
+
+            resourceOperationsMock.Setup(f => f.GetAsync(resourceGroupName, It.IsAny<ResourceIdentity>(), It.IsAny<CancellationToken>()))
                 .Returns(Task.Factory.StartNew(() => new ResourceGetResult
                     {
                         Resource = new Resource
@@ -324,7 +385,8 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Test.Models
                             }
                     }));
 
-            Assert.Throws<ArgumentException>(() => resourcesClient.CreateResource(parameters));
+            resourcesClient.CreateResource(parameters);
+            Assert.Equal(1, RejectActionCounter);
         }
 
         [Fact]
@@ -338,6 +400,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Test.Models
                 PropertyObject = new Hashtable(properties),
                 ResourceGroupName = resourceGroupName,
                 ResourceType = "abc",
+                ConfirmAction = ConfirmAction
             };
 
             Assert.Throws<ArgumentException>(() => resourcesClient.CreateResource(parameters));
@@ -354,6 +417,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Test.Models
                 PropertyObject = new Hashtable(properties),
                 ResourceGroupName = resourceGroupName,
                 ResourceType = resourceIdentity.ResourceProviderNamespace + "/" + resourceIdentity.ResourceType,
+                ConfirmAction = ConfirmAction
             };
 
             resourceOperationsMock.Setup(f => f.GetAsync(resourceGroupName, It.IsAny<ResourceIdentity>(), It.IsAny<CancellationToken>()))
@@ -813,7 +877,8 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Test.Models
                 Name = deploymentName,
                 TemplateFile = templateFile,
                 ParameterFile = parameterFile,
-                StorageAccountName = storageAccountName
+                StorageAccountName = storageAccountName,
+                ConfirmAction = ConfirmAction
             };
             resourceGroupMock.Setup(f => f.CheckExistenceAsync(parameters.ResourceGroupName, new CancellationToken()))
                 .Returns(Task.Factory.StartNew(() => new ResourceGroupExistsResult
@@ -910,7 +975,8 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Test.Models
                 Name = deploymentName,
                 TemplateFile = templateFile,
                 ParameterFile = parameterFile,
-                StorageAccountName = storageAccountName
+                StorageAccountName = storageAccountName,
+                ConfirmAction = ConfirmAction
             };
             resourceGroupMock.Setup(f => f.CheckExistenceAsync(parameters.ResourceGroupName, new CancellationToken()))
                 .Returns(Task.Factory.StartNew(() => new ResourceGroupExistsResult
@@ -1020,7 +1086,8 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Test.Models
                 Name = deploymentName,
                 TemplateFile = templateFile,
                 ParameterFile = parameterFile,
-                StorageAccountName = null
+                StorageAccountName = null,
+                ConfirmAction = ConfirmAction
             };
             resourceGroupMock.Setup(f => f.CheckExistenceAsync(parameters.ResourceGroupName, new CancellationToken()))
                 .Returns(Task.Factory.StartNew(() => new ResourceGroupExistsResult
@@ -1031,27 +1098,6 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Test.Models
             Assert.Throws<ArgumentException>(() => resourcesClient.CreatePSResourceGroup(parameters));
             deploymentsMock.Verify((f => f.CreateOrUpdateAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<BasicDeployment>(), new CancellationToken())), Times.Never());
             resourceGroupMock.Verify((f => f.CreateOrUpdateAsync(It.IsAny<string>(), It.IsAny<BasicResourceGroup>(), new CancellationToken())), Times.Never());
-        }
-
-        [Fact]
-        public void NewResourceGroupWithDeploymentFailsWithExistingGroup()
-        {
-            CreatePSResourceGroupParameters parameters = new CreatePSResourceGroupParameters()
-            {
-                ResourceGroupName = resourceGroupName,
-                Location = resourceGroupLocation,
-                Name = deploymentName,
-                TemplateFile = templateFile,
-                ParameterFile = parameterFile,
-                StorageAccountName = storageAccountName
-            };
-            resourceGroupMock.Setup(f => f.CheckExistenceAsync(parameters.ResourceGroupName, new CancellationToken()))
-                .Returns(Task.Factory.StartNew(() => new ResourceGroupExistsResult
-                {
-                    Exists = true
-                }));
-
-            Assert.Throws<ArgumentException>(()=>resourcesClient.CreatePSResourceGroup(parameters));
         }
 
         [Fact]
@@ -1073,7 +1119,8 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Test.Models
                     { "int", 12 },
                     { "bool", true },
                 },
-                StorageAccountName = storageAccountName
+                StorageAccountName = storageAccountName,
+                ConfirmAction = ConfirmAction
             };
             resourceGroupMock.Setup(f => f.CheckExistenceAsync(parameters.ResourceGroupName, new CancellationToken()))
                 .Returns(Task.Factory.StartNew(() => new ResourceGroupExistsResult
@@ -1183,7 +1230,8 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Test.Models
                 Name = deploymentName,
                 TemplateFile = templateFile,
                 ParameterFile = parameterFile,
-                StorageAccountName = storageAccountName
+                StorageAccountName = storageAccountName,
+                ConfirmAction = ConfirmAction
             };
             resourceGroupMock.Setup(f => f.CheckExistenceAsync(parameters.ResourceGroupName, new CancellationToken()))
                 .Returns(Task.Factory.StartNew(() => new ResourceGroupExistsResult

@@ -128,7 +128,9 @@ namespace Microsoft.Azure.Commands.ResourceManagement
                 TemplateVersion = TemplateVersion,
                 TemplateHash = TemplateHash,
                 TemplateHashAlgorithm = TemplateHashAlgorithm,
-                StorageAccountName = StorageAccountName
+                StorageAccountName = StorageAccountName,
+                Force = Force.IsPresent,
+                ConfirmAction = ConfirmAction
             };
 
             WriteObject(ResourceClient.CreatePSResourceGroup(parameters));

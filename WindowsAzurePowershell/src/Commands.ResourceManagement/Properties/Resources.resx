@@ -126,6 +126,9 @@
   <data name="DeploymentNotFound" xml:space="preserve">
     <value>No deployments were found that satisfy the criteria.</value>
   </data>
+  <data name="NewResourceGroupMessage" xml:space="preserve">
+    <value>Replacing resource group ...</value>
+  </data>
   <data name="NewResourceMessage" xml:space="preserve">
     <value>Replacing resource ...</value>
   </data>
@@ -148,7 +151,7 @@
     <value>Provided resource does not exist.</value>
   </data>
   <data name="ResourceGroupAlreadyExists" xml:space="preserve">
-    <value>Provided resource group already exists.</value>
+    <value>Provided resource group already exists. Are you sure you want to replace it?</value>
   </data>
   <data name="ResourceGroupDoesntExists" xml:space="preserve">
     <value>Provided resource group does not exist.</value>

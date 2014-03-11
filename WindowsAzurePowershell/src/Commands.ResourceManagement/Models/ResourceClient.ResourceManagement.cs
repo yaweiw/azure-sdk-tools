@@ -187,21 +187,36 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Models
         {
             bool createDeployment = !string.IsNullOrEmpty(parameters.GalleryTemplateName) || !string.IsNullOrEmpty(parameters.TemplateFile);
 
-            if (ResourceManagementClient.ResourceGroups.CheckExistence(parameters.ResourceGroupName).Exists)
-            {
-                throw new ArgumentException(Resources.ResourceGroupAlreadyExists);
-            }
-
             if (createDeployment)
             {
                 ValidateStorageAccount(parameters.StorageAccountName);
             }
 
-            ResourceGroup resourceGroup = CreateResourceGroup(parameters.ResourceGroupName, parameters.Location);
+            bool resourceExists = ResourceManagementClient.ResourceGroups.CheckExistence(parameters.ResourceGroupName).Exists;
 
-            if (createDeployment)
+            ResourceGroup resourceGroup = null;
+            Action createOrUpdateResourceGroup = () =>
+                {
+                    resourceGroup = CreateResourceGroup(parameters.ResourceGroupName, parameters.Location);
+
+                    if (createDeployment)
+                    {
+                        CreatePSResourceGroupDeployment(parameters);
+                    }
+                };
+
+            if (resourceExists && !parameters.Force)
             {
-                CreatePSResourceGroupDeployment(parameters);
+                parameters.ConfirmAction(parameters.Force,
+                                         Resources.ResourceGroupAlreadyExists,
+                                         Resources.NewResourceGroupMessage,
+                                         parameters.Name,
+                                         createOrUpdateResourceGroup);
+                resourceGroup = ResourceManagementClient.ResourceGroups.Get(parameters.ResourceGroupName).ResourceGroup;
+            }
+            else
+            {
+                createOrUpdateResourceGroup();
             }
 
             return resourceGroup.ToPSResourceGroup(this);
