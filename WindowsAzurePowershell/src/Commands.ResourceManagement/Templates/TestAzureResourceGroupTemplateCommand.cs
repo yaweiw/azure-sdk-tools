@@ -29,9 +29,9 @@ namespace Microsoft.Azure.Commands.ResourceManagement.ResourceGroupDeployments
     public class TestAzureResourceGroupTemplateCommand : ResourceBaseCmdlet, IDynamicParameters
     {
         internal const string BaseParameterSetName = "basic";
-        internal const string GalleryTemplateParameterObjectParameterSetName = "galery-template-parameter-object";
-        internal const string GalleryTemplateParameterFileParameterSetName = "galery-template-parameter-file";
-        internal const string GalleryTemplateDynamicParametersParameterSetName = "galery-template-dynamic-parameters";
+        internal const string GalleryTemplateParameterObjectParameterSetName = "gallery-template-parameter-object";
+        internal const string GalleryTemplateParameterFileParameterSetName = "gallery-template-parameter-file";
+        internal const string GalleryTemplateDynamicParametersParameterSetName = "gallery-template-dynamic-parameters";
         internal const string TemplateFileParameterObjectParameterSetName = "template-file-parameter-object";
         internal const string TemplateFileParameterFileParameterSetName = "template-file-parameter-file";
         internal const string ParameterlessTemplateFileParameterSetName = "parameterless-template-file";
