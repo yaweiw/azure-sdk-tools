@@ -64,7 +64,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.CloudService.Utilities
         {
             try
             {
-                ServiceComponents components = new ServiceComponents(null);
+                ServiceComponents components = new ServiceComponents(null as CloudProjectPathInfo);
                 Assert.Fail("No exception was thrown");
             }
             catch (Exception ex)

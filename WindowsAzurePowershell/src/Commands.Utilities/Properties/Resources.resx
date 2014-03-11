@@ -171,6 +171,15 @@
   <data name="AzureEmulatorRegistryKey" xml:space="preserve">
     <value>SOFTWARE\Microsoft\Windows Azure Emulator</value>
   </data>
+  <data name="StorageEmulatorRegistryKey" xml:space="preserve">
+    <value>SOFTWARE\Microsoft\Windows Azure Storage Emulator</value>
+  </data>
+  <data name="StartStorageEmulatorCommandArgument" xml:space="preserve">
+    <value>start</value>
+  </data>
+  <data name="StopStorageEmulatorCommandArgument" xml:space="preserve">
+    <value>stop</value>
+  </data>
   <data name="AzurePortalUrl" xml:space="preserve">
     <value>https://manage.windowsazure.com</value>
   </data>
@@ -185,6 +194,15 @@
   </data>
   <data name="AzureSdkInstallPathRegistryKeyValue" xml:space="preserve">
     <value>InstallPath</value>
+  </data>
+  <data name="StorageEmulatorExe" xml:space="preserve">
+    <value>WAStorageEmulator.exe</value>
+  </data>
+  <data name="StorageEmulatorInstallPathRegistryKeyValue" xml:space="preserve">
+    <value>InstallPath</value>
+  </data>
+  <data name="WarningWhenStorageEmulatorIsMissing" xml:space="preserve">
+    <value>The azure storage emulator is not installed, skip launching...</value>
   </data>
   <data name="AzureSdkRegistryKeyName" xml:space="preserve">
     <value>SOFTWARE\Microsoft\Microsoft SDKs\ServiceHosting</value>
@@ -423,9 +441,6 @@
   <data name="EmulatorConnectionString" xml:space="preserve">
     <value>UseDevelopmentStorage=true</value>
   </data>
-  <data name="EmulatorOutputSitesRegex" xml:space="preserve">
-    <value>((http|tcp)://[0-9.:/]*)</value>
-  </data>
   <data name="EmulatorRoleRunningMessage" xml:space="preserve">
     <value>Role is running at {0}</value>
   </data>
@@ -640,13 +655,13 @@
     <value>uri</value>
   </data>
   <data name="ManifestUri" xml:space="preserve">
-    <value>http://az413943.vo.msecnd.net/node/runtimemanifest_0.7.2.xml</value>
+    <value>http://az413943.vo.msecnd.net/node/runtimemanifest_0.7.3.xml</value>
   </data>
   <data name="MarketplaceEndpoint" xml:space="preserve">
     <value>http://api.datamarket.azure.com/CatalogService.svc</value>
   </data>
   <data name="MaxSupportAzureSdkVersion" xml:space="preserve">
-    <value>v2.2</value>
+    <value>v2.3</value>
   </data>
   <data name="MemcacheEndpointName" xml:space="preserve">
     <value>memcache_default</value>
@@ -655,7 +670,7 @@
     <value>11211</value>
   </data>
   <data name="MinSupportAzureSdkVersion" xml:space="preserve">
-    <value>v2.2</value>
+    <value>v2.3</value>
   </data>
   <data name="MissingPythonPreReq" xml:space="preserve">
     <value>Python 2.7 is not installed.  Please install it as well as Django 1.4.</value>
