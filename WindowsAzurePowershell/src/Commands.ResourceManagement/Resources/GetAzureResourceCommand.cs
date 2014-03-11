@@ -24,8 +24,8 @@ namespace Microsoft.Azure.Commands.ResourceManagement
     [Cmdlet(VerbsCommon.Get, "AzureResource", DefaultParameterSetName = BaseParameterSetName), OutputType(typeof(List<PSResource>))]
     public class GetAzureResourceCommand : ResourceBaseCmdlet
     {
-        internal const string BaseParameterSetName = "List of resources";
-        internal const string ParameterSetNameWithId = "Specific resource";
+        internal const string BaseParameterSetName = "List resources";
+        internal const string ParameterSetNameWithId = "Get a single resource";
 
         [Alias("ResourceName")]
         [Parameter(ParameterSetName = ParameterSetNameWithId, Mandatory = true, ValueFromPipelineByPropertyName = true, HelpMessage = "The resource name.")]
