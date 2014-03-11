@@ -24,9 +24,9 @@ namespace Microsoft.Azure.Commands.ResourceManagement
     [Cmdlet(VerbsCommon.Get, "AzureResourceGroupLog", DefaultParameterSetName = LastDeploymentSetName), OutputType(typeof(List<PSDeploymentEventData>))]
     public class GetAzureResourceGroupLogCommand : ResourceBaseCmdlet
     {
-        internal const string AllSetName = "all";
-        internal const string LastDeploymentSetName = "lastDeployment";
-        internal const string DeploymentNameSetName = "deploymentName";
+        internal const string AllSetName = "All";
+        internal const string LastDeploymentSetName = "Last deployment";
+        internal const string DeploymentNameSetName = "Deployment by name";
 
         [Alias("ResourceGroupName")]
         [Parameter(Position = 0, ParameterSetName = AllSetName, Mandatory = true, ValueFromPipelineByPropertyName = true, HelpMessage = "Name of the resource group you want to see the logs.")]
