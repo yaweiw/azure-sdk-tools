@@ -28,7 +28,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement
         internal const string ParameterSetNameWithId = "id";
 
         [Alias("ResourceName")]
-        [Parameter(ParameterSetName = ParameterSetNameWithId, Mandatory = true, ValueFromPipelineByPropertyName = true, HelpMessage = "The resource name.")]
+        [Parameter(ParameterSetName = ParameterSetNameWithId, Position=0, Mandatory = true, ValueFromPipelineByPropertyName = true, HelpMessage = "The resource name.")]
         [ValidateNotNullOrEmpty]
         public string Name { get; set; }
 
