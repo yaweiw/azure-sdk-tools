@@ -28,14 +28,14 @@ namespace Microsoft.Azure.Commands.ResourceManagement
     [Cmdlet(VerbsCommon.New, "AzureResourceGroupDeployment", DefaultParameterSetName = BaseParameterSetName), OutputType(typeof(PSResourceGroupDeployment))]
     public class NewAzureResourceGroupDeploymentCommand : ResourceBaseCmdlet, IDynamicParameters
     {
-        internal const string BaseParameterSetName = "basic";
-        internal const string GalleryTemplateParameterObjectParameterSetName = "galery-template-parameter-object";
-        internal const string GalleryTemplateParameterFileParameterSetName = "galery-template-parameter-file";
-        internal const string GalleryTemplateDynamicParametersParameterSetName = "galery-template-dynamic-parameters";
-        internal const string TemplateFileParameterObjectParameterSetName = "template-file-parameter-object";
-        internal const string TemplateFileParameterFileParameterSetName = "template-file-parameter-file";
-        internal const string ParameterlessTemplateFileParameterSetName = "parameterless-template-file";
-        internal const string ParameterlessGalleryTemplateParameterSetName = "parameterless-gallery-template";
+        internal const string BaseParameterSetName = "Default";
+        internal const string GalleryTemplateParameterObjectParameterSetName = "Deployment via Gallery and parameters object";
+        internal const string GalleryTemplateParameterFileParameterSetName = "Deployment via Gallery and parameters file";
+        internal const string GalleryTemplateDynamicParametersParameterSetName = "Deployment via Gallery and inline parameters";
+        internal const string TemplateFileParameterObjectParameterSetName = "Deployment via template file and parameters object";
+        internal const string TemplateFileParameterFileParameterSetName = "Deployment via template file and parameters file";
+        internal const string ParameterlessTemplateFileParameterSetName = "Deployment via template file without parameters";
+        internal const string ParameterlessGalleryTemplateParameterSetName = "Deployment via Gallery without parameters";
 
         private RuntimeDefinedParameterDictionary dynamicParameters;
 
