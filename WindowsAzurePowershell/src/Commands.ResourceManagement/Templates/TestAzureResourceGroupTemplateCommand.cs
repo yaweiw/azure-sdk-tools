@@ -139,17 +139,16 @@ namespace Microsoft.Azure.Commands.ResourceManagement.ResourceGroupDeployments
                 !GalleryTemplateName.Equals(galleryTemplateName, StringComparison.OrdinalIgnoreCase))
             {
                 galleryTemplateName = GalleryTemplateName;
-                dynamicParameters = ResourceClient.GetTemplateParameters(
+                dynamicParameters = ResourceClient.GetTemplateParametersFromGallery(
                     GalleryTemplateName,
                     MyInvocation.MyCommand.Parameters.Keys.ToArray(),
                     GalleryTemplateDynamicParametersParameterSetName);
-            }
-
-            if (!string.IsNullOrEmpty(TemplateFile) &&
+            } 
+            else if (!string.IsNullOrEmpty(TemplateFile) &&
                 !TemplateFile.Equals(templateFile, StringComparison.OrdinalIgnoreCase))
             {
                 templateFile = TemplateFile;
-                dynamicParameters = ResourceClient.GetTemplateParameters(
+                dynamicParameters = ResourceClient.GetTemplateParametersFromFile(
                     this.TryResolvePath(TemplateFile),
                     MyInvocation.MyCommand.Parameters.Keys.ToArray(),
                     GalleryTemplateDynamicParametersParameterSetName);

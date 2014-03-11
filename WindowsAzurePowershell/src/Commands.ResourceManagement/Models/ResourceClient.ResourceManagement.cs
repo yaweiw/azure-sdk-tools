@@ -296,43 +296,70 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Models
         }
 
         /// <summary>
+        /// Gets the parameters for a given template file.
+        /// </summary>
+        /// <param name="templateFilePath">The gallery template path (local or remote)</param>
+        /// <param name="parameters">The existing PowerShell cmdlet parameters</param>
+        /// <param name="parameterSetNames">The parameters set which the dynamic parameters should be added to</param>
+        /// <returns>The template parameters</returns>
+        public virtual RuntimeDefinedParameterDictionary GetTemplateParametersFromFile(string templateFilePath, string[] parameters, params string[] parameterSetNames)
+        {
+            RuntimeDefinedParameterDictionary dynamicParameters = new RuntimeDefinedParameterDictionary();
+            string templateContent = null;
+
+            if (templateFilePath != null)
+            {
+                templateFilePath = templateFilePath.Trim('"', '\'', ' ');
+            }
+            
+            if (Uri.IsWellFormedUriString(templateFilePath, UriKind.Absolute))
+            {
+                templateContent = GeneralUtilities.DownloadFile(templateFilePath);
+            }
+            else if (File.Exists(templateFilePath))
+            {
+                templateContent = File.ReadAllText(templateFilePath);
+            }
+
+            if (!string.IsNullOrEmpty(templateContent))
+            {
+                TemplateFile templateFile = JsonConvert.DeserializeObject<TemplateFile>(templateContent);
+
+                foreach (KeyValuePair<string, TemplateFileParameter> parameter in templateFile.Parameters)
+                {
+                    RuntimeDefinedParameter dynamicParameter = ConstructDynamicParameter(parameters, parameterSetNames,
+                                                                                         parameter);
+                    dynamicParameters.Add(dynamicParameter.Name, dynamicParameter);
+                }
+            }
+            return dynamicParameters;
+        }
+
+        /// <summary>
         /// Gets the parameters for a given gallery template.
         /// </summary>
         /// <param name="templateName">The gallery template name</param>
         /// <param name="parameters">The existing PowerShell cmdlet parameters</param>
         /// <param name="parameterSetNames">The parameters set which the dynamic parameters should be added to</param>
         /// <returns>The template parameters</returns>
-        public virtual RuntimeDefinedParameterDictionary GetTemplateParameters(string templateName, string[] parameters, params string[] parameterSetNames)
+        public virtual RuntimeDefinedParameterDictionary GetTemplateParametersFromGallery(string templateName, string[] parameters, params string[] parameterSetNames)
         {
             RuntimeDefinedParameterDictionary dynamicParameters = new RuntimeDefinedParameterDictionary();
             string templateContent = null;
-            
-            if (Uri.IsWellFormedUriString(templateName, UriKind.Absolute))
-            {
-                templateContent = GeneralUtilities.DownloadFile(templateName);
-            }
-            else if (File.Exists(templateName))
-            {
-                templateContent = File.ReadAllText(templateName);
-            }
-            else
-            {
-                templateContent = GeneralUtilities.DownloadFile(GetGalleryTemplateFile(templateName));
-            }
 
-            if (string.IsNullOrEmpty(templateContent))
-            {
-                throw new ArgumentException("templateName");
-            }
-            
-            TemplateFile templateFile = JsonConvert.DeserializeObject<TemplateFile>(templateContent);
+            templateContent = GeneralUtilities.DownloadFile(GetGalleryTemplateFile(templateName));
 
-            foreach (KeyValuePair<string, TemplateFileParameter> parameter in templateFile.Parameters)
+            if (!string.IsNullOrEmpty(templateContent))
             {
-                RuntimeDefinedParameter dynamicParameter = ConstructDynamicParameter(parameters, parameterSetNames, parameter);
-                dynamicParameters.Add(dynamicParameter.Name, dynamicParameter);
+                TemplateFile templateFile = JsonConvert.DeserializeObject<TemplateFile>(templateContent);
+
+                foreach (KeyValuePair<string, TemplateFileParameter> parameter in templateFile.Parameters)
+                {
+                    RuntimeDefinedParameter dynamicParameter = ConstructDynamicParameter(parameters, parameterSetNames,
+                                                                                         parameter);
+                    dynamicParameters.Add(dynamicParameter.Name, dynamicParameter);
+                }
             }
-            
             return dynamicParameters;
         }
 

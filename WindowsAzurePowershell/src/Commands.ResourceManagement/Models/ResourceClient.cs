@@ -407,16 +407,12 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Models
                 ParameterType = GetParameterType(parameter.Value.Type),
                 Value = defaultValue
             };
-            foreach (string parameterSetName in parameterSetNames)
+            runtimeParameter.Attributes.Add(new ParameterAttribute()
             {
-                runtimeParameter.Attributes.Add(new ParameterAttribute()
-                {
-                    ParameterSetName = parameterSetName,
-                    Mandatory = defaultValue == null ? true : false,
-                    ValueFromPipelineByPropertyName = true,
-                    HelpMessage = "dynamically generated template parameter"
-                });
-            }
+                Mandatory = defaultValue == null ? true : false,
+                ValueFromPipelineByPropertyName = true,
+                HelpMessage = "dynamically generated template parameter"
+            });
 
             if (!string.IsNullOrEmpty(parameter.Value.AllowedValues))
             {

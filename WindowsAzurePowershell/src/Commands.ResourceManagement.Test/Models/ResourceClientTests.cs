@@ -1880,7 +1880,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Test.Models
         [Fact]
         public void GetsDynamicParametersForTemplateFile()
         {
-            RuntimeDefinedParameterDictionary result = resourcesClient.GetTemplateParameters(
+            RuntimeDefinedParameterDictionary result = resourcesClient.GetTemplateParametersFromFile(
                 templateFile,
                 new string[] { },
                 "TestPS");
