@@ -19,5 +19,7 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Model
         public string AdministratorLogin { get; set; }
 
         public string Location { get; set; }
+
+        public string Version { get; set; }
     }
 }

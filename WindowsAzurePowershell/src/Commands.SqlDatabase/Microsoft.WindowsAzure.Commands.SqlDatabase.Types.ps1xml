@@ -36,6 +36,7 @@
               <Name>ServerName</Name>
               <Name>Location</Name>
               <Name>AdministratorLogin</Name>
+              <Name>Version</Name>
             </ReferencedProperties>
           </PropertySet>
         </Members>
