@@ -85,7 +85,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
                             this.CurrentDeploymentNewSM.Name,
                             roleNames[0],
                             new VirtualMachineShutdownParameters { PostShutdownAction = PostShutdownAction.Stopped }),
-                        (s, response) => this.ContextFactory<ComputeOperationStatusResponse, ManagementOperationContext>(response, s));
+                        (s, response) => this.ContextFactory<OperationStatusResponse, ManagementOperationContext>(response, s));
                 }
                 else
                 {
@@ -103,7 +103,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
                                     this.CurrentDeploymentNewSM.Name,
                                     roleNames[0],
                                     new VirtualMachineShutdownParameters { PostShutdownAction = PostShutdownAction.StoppedDeallocated }),
-                                (s, response) => ContextFactory<ComputeOperationStatusResponse, ManagementOperationContext>(response, s)));
+                                (s, response) => ContextFactory<OperationStatusResponse, ManagementOperationContext>(response, s)));
                     }
                     else
                     {
@@ -115,7 +115,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
                                     this.CurrentDeploymentNewSM.Name,
                                     roleNames[0], 
                                     new VirtualMachineShutdownParameters { PostShutdownAction = PostShutdownAction.StoppedDeallocated }),
-                                (s, response) => this.ContextFactory<ComputeOperationStatusResponse, ManagementOperationContext>(response, s));
+                                (s, response) => this.ContextFactory<OperationStatusResponse, ManagementOperationContext>(response, s));
                     }
                 }
             }

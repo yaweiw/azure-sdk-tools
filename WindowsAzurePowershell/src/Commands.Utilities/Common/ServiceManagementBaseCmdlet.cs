@@ -17,26 +17,21 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
 {
     using System;
     using System.Collections.Generic;
-    using System.Collections.ObjectModel;
     using System.Globalization;
-    using System.Linq;
     using System.Management.Automation;
     using System.Management.Automation.Runspaces;
     using System.Reflection;
     using System.ServiceModel;
     using System.ServiceModel.Dispatcher;
     using AutoMapper;
-    using Commands;
     using Management.Compute;
-    using Management.Models;
     using Management;
     using Management.Storage;
     using ServiceManagement;
-    using Microsoft.WindowsAzure.Commands.Utilities.Properties;
-    using WindowsAzure.Common;
-    using Microsoft.WindowsAzure;
-    using Management.VirtualNetworks;
-    using Management.VirtualNetworks.Models;
+    using Properties;
+    using WindowsAzure;
+    using Management.Network;
+    using Management.Network.Models;
     using System.Threading;
 
     public abstract class ServiceManagementBaseCmdlet : CloudBaseCmdlet<IServiceManagement>
@@ -282,7 +277,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
             {
                 operation = GetOperationStatusNewSM(operationId);
 
-                if (operation.Status == Management.Models.OperationStatus.Failed)
+                if (operation.Status == OperationStatus.Failed)
                 {
                     var errorMessage = string.Format(CultureInfo.InvariantCulture, "{0}: {1}", operation.Status, operation.Error.Message);
                     var exception = new Exception(errorMessage);

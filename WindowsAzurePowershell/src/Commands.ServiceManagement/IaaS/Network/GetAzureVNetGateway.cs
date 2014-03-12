@@ -16,7 +16,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
 {
     using System;
     using System.Management.Automation;
-    using Management.VirtualNetworks;
+    using Management.Network;
     using Model;
     using Service.Gateway;
     using Utilities.Common;
@@ -51,7 +51,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
                 });
         }
 
-        private int GetEventId(Microsoft.WindowsAzure.Management.VirtualNetworks.Models.GatewayEvent gatewayEvent)
+        private int GetEventId(Management.Network.Models.GatewayEvent gatewayEvent)
         {
             int val = -1;
             if (gatewayEvent != null)
