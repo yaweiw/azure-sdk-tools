@@ -1476,4 +1476,22 @@ use and privacy statement at &lt;url&gt; and (c) agree to sharing my contact inf
   <data name="InvalidSubscriptionState" xml:space="preserve">
     <value>Please run Add-AzureAccount to finish setting up the subscription.</value>
   </data>
+  <data name="StorageEmulatorInstallPathRegistryKeyValue" xml:space="preserve">
+    <value>InstallPath</value>
+  </data>
+  <data name="StorageEmulatorRegistryKey" xml:space="preserve">
+    <value>SOFTWARE\Microsoft\Windows Azure Storage Emulator</value>
+  </data>
+  <data name="StorageEmulatorExe" xml:space="preserve">
+    <value>WAStorageEmulator.exe</value>
+  </data>
+  <data name="StartStorageEmulatorCommandArgument" xml:space="preserve">
+    <value>start</value>
+  </data>
+  <data name="StopStorageEmulatorCommandArgument" xml:space="preserve">
+    <value>stop</value>
+  </data>
+  <data name="WarningWhenStorageEmulatorIsMissing" xml:space="preserve">
+    <value>The azure storage emulator is not installed, skip launching...</value>
+  </data>
 </root>
