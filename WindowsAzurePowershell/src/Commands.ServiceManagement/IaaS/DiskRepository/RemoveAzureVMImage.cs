@@ -75,7 +75,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.DiskRepository
                         else
                         {
                             // Remove the image from the image repository
-                            op = this.ComputeClient.VirtualMachineImages.Delete(this.ImageName, this.DeleteVHD.IsPresent);
+                            op = this.ComputeClient.VirtualMachineOSImages.Delete(this.ImageName, this.DeleteVHD.IsPresent);
                         }
 
                         return op;

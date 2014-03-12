@@ -83,7 +83,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement
         public static bool Initialize(GetAzureVMImage command)
         {
             //Image mapping
-            Mapper.CreateMap<VirtualMachineImageListResponse.VirtualMachineImage, OSImageContext>()
+            Mapper.CreateMap<VirtualMachineOSImageListResponse.VirtualMachineOSImage, OSImageContext>()
                   .ForMember(c => c.MediaLink, o => o.MapFrom(r => r.MediaLinkUri))
                   .ForMember(c => c.OSImageName, o => o.MapFrom(r => r.Name))
                   .ForMember(c => c.OS, o => o.MapFrom(r => r.OperatingSystemType))
@@ -91,14 +91,14 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement
                   .ForMember(c => c.IconUri, o => o.MapFrom(r => r.SmallIconUri))
                   .ForMember(c => c.LogicalSizeInGB, o => o.MapFrom(r => (int)r.LogicalSizeInGB));
 
-            Mapper.CreateMap<VirtualMachineImageGetResponse, OSImageContext>()
+            Mapper.CreateMap<VirtualMachineOSImageGetResponse, OSImageContext>()
                   .ForMember(c => c.ImageName, o => o.MapFrom(r => r.Name))
                   .ForMember(c => c.MediaLink, o => o.MapFrom(r => r.MediaLinkUri))
                   .ForMember(c => c.OS, o => o.MapFrom(r => r.OperatingSystemType))
                   .ForMember(c => c.PublishedDate, o => o.MapFrom(r => new DateTime?(r.PublishedDate)))
                   .ForMember(c => c.LogicalSizeInGB, o => o.MapFrom(r => (int)r.LogicalSizeInGB));
 
-            Mapper.CreateMap<VirtualMachineImageCreateResponse, OSImageContext>()
+            Mapper.CreateMap<VirtualMachineOSImageCreateResponse, OSImageContext>()
                   .ForMember(c => c.OSImageName, o => o.MapFrom(r => r.Name))
                   .ForMember(c => c.MediaLink, o => o.MapFrom(r => r.MediaLinkUri))
                   .ForMember(c => c.IconUri, o => o.MapFrom(r => r.SmallIconUri))
@@ -106,7 +106,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement
                   .ForMember(c => c.PublishedDate, o => o.MapFrom(r => r.PublishedDate))
                   .ForMember(c => c.LogicalSizeInGB, o => o.MapFrom(r => (int)r.LogicalSizeInGB));
 
-            Mapper.CreateMap<VirtualMachineImageUpdateResponse, OSImageContext>()
+            Mapper.CreateMap<VirtualMachineOSImageUpdateResponse, OSImageContext>()
                   .ForMember(c => c.OSImageName, o => o.MapFrom(r => r.Name))
                   .ForMember(c => c.MediaLink, o => o.MapFrom(r => r.MediaLinkUri))
                   .ForMember(c => c.IconUri, o => o.MapFrom(r => r.SmallIconUri))
@@ -124,7 +124,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement
                   .ForMember(c => c.OS, o => o.MapFrom(r => r.OperatingSystem));
 
             // VM Image mapping
-            Mapper.CreateMap<VirtualMachineImageListResponse.VirtualMachineImage, VMImageContext>()
+            Mapper.CreateMap<VirtualMachineOSImageListResponse.VirtualMachineOSImage, VMImageContext>()
                   .ForMember(c => c.MediaLink, o => o.MapFrom(r => r.MediaLinkUri))
                   .ForMember(c => c.VMImageName, o => o.MapFrom(r => r.Name))
                   .ForMember(c => c.OS, o => o.MapFrom(r => r.OperatingSystemType))
@@ -132,14 +132,14 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement
                   .ForMember(c => c.IconUri, o => o.MapFrom(r => r.SmallIconUri))
                   .ForMember(c => c.LogicalSizeInGB, o => o.MapFrom(r => (int)r.LogicalSizeInGB));
 
-            Mapper.CreateMap<VirtualMachineImageGetResponse, VMImageContext>()
+            Mapper.CreateMap<VirtualMachineOSImageGetResponse, VMImageContext>()
                   .ForMember(c => c.VMImageName, o => o.MapFrom(r => r.Name))
                   .ForMember(c => c.MediaLink, o => o.MapFrom(r => r.MediaLinkUri))
                   .ForMember(c => c.OS, o => o.MapFrom(r => r.OperatingSystemType))
                   .ForMember(c => c.PublishedDate, o => o.MapFrom(r => new DateTime?(r.PublishedDate)))
                   .ForMember(c => c.LogicalSizeInGB, o => o.MapFrom(r => (int)r.LogicalSizeInGB));
 
-            Mapper.CreateMap<VirtualMachineImageCreateResponse, VMImageContext>()
+            Mapper.CreateMap<VirtualMachineOSImageCreateResponse, VMImageContext>()
                   .ForMember(c => c.VMImageName, o => o.MapFrom(r => r.Name))
                   .ForMember(c => c.MediaLink, o => o.MapFrom(r => r.MediaLinkUri))
                   .ForMember(c => c.IconUri, o => o.MapFrom(r => r.SmallIconUri))
@@ -147,7 +147,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement
                   .ForMember(c => c.PublishedDate, o => o.MapFrom(r => r.PublishedDate))
                   .ForMember(c => c.LogicalSizeInGB, o => o.MapFrom(r => (int)r.LogicalSizeInGB));
 
-            Mapper.CreateMap<VirtualMachineImageUpdateResponse, VMImageContext>()
+            Mapper.CreateMap<VirtualMachineOSImageUpdateResponse, VMImageContext>()
                   .ForMember(c => c.VMImageName, o => o.MapFrom(r => r.Name))
                   .ForMember(c => c.MediaLink, o => o.MapFrom(r => r.MediaLinkUri))
                   .ForMember(c => c.IconUri, o => o.MapFrom(r => r.SmallIconUri))

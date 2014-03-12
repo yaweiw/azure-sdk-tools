@@ -45,7 +45,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.DiskRepository
         {
             if (imageType == ImageType.OSImage)
             {
-                return computeClient == null ? false : computeClient.VirtualMachineImages.List().Images.Any(
+                return computeClient == null ? false : computeClient.VirtualMachineOSImages.List().Images.Any(
                     e => string.Equals(e.Name, imageName, StringComparison.OrdinalIgnoreCase));
             }
             else if (imageType == ImageType.VMImage)
@@ -66,17 +66,17 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.DiskRepository
                 this.ExecuteClientActionNewSM(
                     null,
                     this.CommandRuntime.ToString(),
-                    () => this.ComputeClient.VirtualMachineImages.Get(this.ImageName),
-                    (s, response) => this.ContextFactory<VirtualMachineImageGetResponse, OSImageContext>(response, s));
+                    () => this.ComputeClient.VirtualMachineOSImages.Get(this.ImageName),
+                    (s, response) => this.ContextFactory<VirtualMachineOSImageGetResponse, OSImageContext>(response, s));
             }
             else
             {
                 this.ExecuteClientActionNewSM(
                     null,
                     this.CommandRuntime.ToString(),
-                    () => this.ComputeClient.VirtualMachineImages.List(),
+                    () => this.ComputeClient.VirtualMachineOSImages.List(),
                     (s, response) => response.Images.Select(
-                        image => this.ContextFactory<VirtualMachineImageListResponse.VirtualMachineImage, OSImageContext>(image, s)));
+                        image => this.ContextFactory<VirtualMachineOSImageListResponse.VirtualMachineOSImage, OSImageContext>(image, s)));
             }
 
             this.ExecuteClientActionNewSM(
