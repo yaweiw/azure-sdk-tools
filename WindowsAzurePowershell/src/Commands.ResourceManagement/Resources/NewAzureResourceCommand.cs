@@ -12,12 +12,9 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-using System;
 using Microsoft.Azure.Commands.ResourceManagement.Models;
 using System.Collections;
 using System.Management.Automation;
-using Microsoft.Azure.Commands.ResourceManagement.Properties;
-using Microsoft.Azure.Management.Resources;
 
 namespace Microsoft.Azure.Commands.ResourceManagement
 {

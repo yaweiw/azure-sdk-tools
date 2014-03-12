@@ -27,6 +27,7 @@ using Microsoft.WindowsAzure.Management.Monitoring.Events.Models;
 using Microsoft.WindowsAzure.Management.Monitoring.Models;
 using Moq;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -38,7 +39,6 @@ using System.Runtime.Serialization.Formatters;
 using System.Security;
 using System.Threading;
 using System.Threading.Tasks;
-using Newtonsoft.Json.Linq;
 using Xunit;
 
 namespace Microsoft.Azure.Commands.ResourceManagement.Test.Models
