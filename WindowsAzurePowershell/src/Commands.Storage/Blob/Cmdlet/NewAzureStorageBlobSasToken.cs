@@ -88,9 +88,10 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Blob.Cmdlet
         [Parameter(Mandatory = false, HelpMessage = "Display full uri with sas token")]
         public SwitchParameter FullUri { get; set; }
 
-        // Override the useless parameters
+        // Overwrite the useless parameter
         public override int? ServerTimeoutPerRequest { get; set; }
         public override int? ClientTimeoutPerRequest { get; set; }
+        public override int? ConcurrentTaskCount { get; set; }
 
         /// <summary>
         /// Initializes a new instance of the NewAzureStorageBlobSasCommand class.
@@ -107,6 +108,7 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Blob.Cmdlet
         public NewAzureStorageBlobSasTokenCommand(IStorageBlobManagement channel)
         {
             Channel = channel;
+            EnableMultiThread = false;
         }
 
         /// <summary>

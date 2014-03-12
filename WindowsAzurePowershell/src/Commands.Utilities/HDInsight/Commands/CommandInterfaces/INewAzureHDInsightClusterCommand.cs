@@ -27,6 +27,8 @@ namespace Microsoft.WindowsAzure.Management.HDInsight.Cmdlet.Commands.CommandInt
 
         ConfigValuesCollection CoreConfiguration { get; set; }
 
+        ConfigValuesCollection YarnConfiguration { get; set; }
+
         ConfigValuesCollection HdfsConfiguration { get; set; }
 
         HiveConfiguration HiveConfiguration { get; set; }

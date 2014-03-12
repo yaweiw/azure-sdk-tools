@@ -170,6 +170,9 @@ namespace Microsoft.WindowsAzure.Commands.Test.HDInsight.CmdLetTests
             var coreConfig = new Hashtable();
             coreConfig.Add("hadoop.logfile.size", "10000");
 
+            var yarnConfig = new Hashtable();
+            yarnConfig.Add("yarn.fakevalue", "12345");
+
             string dnsName = this.GetRandomClusterName();
             using (IRunspace runspace = this.GetPowerShellRunspace())
             {
@@ -189,6 +192,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.HDInsight.CmdLetTests
                             .WithParameter(CmdletConstants.StorageContainerName, TestCredentials.Environments[0].DefaultStorageAccount.Container)
                             .AddCommand(CmdletConstants.AddAzureHDInsightConfigValues)
                             .WithParameter(CmdletConstants.CoreConfig, coreConfig)
+                            .WithParameter(CmdletConstants.YarnConfig, yarnConfig)
                             .AddCommand(CmdletConstants.NewAzureHDInsightCluster)
                     // Ensure that the subscription Id can be accepted as a guid as well as a string.
                             .WithParameter(CmdletConstants.Name, dnsName)

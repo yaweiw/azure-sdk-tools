@@ -40,6 +40,10 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
 
     using Microsoft.WindowsAzure.Storage.Blob;
     using SM = Model;
+    using Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions;
+    using Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests.IaasCmdletInfo.Extensions.BGInfo;
+    using Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests.IaasCmdletInfo.Extensions.Common;
+using Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests.IaasCmdletInfo.Extesnions.VMAccess;
     
 
     public class ServiceManagementCmdletTestHelper
@@ -1151,9 +1155,9 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
 
         #region AzureVM
 
-        internal Collection<ManagementOperationContext> NewAzureVM(string serviceName, PersistentVM[] VMs, string location = null)
+        internal Collection<ManagementOperationContext> NewAzureVM(string serviceName, PersistentVM[] VMs, string location = null, bool waitForBoot = false)
         {
-            return NewAzureVM(serviceName, VMs, null, null, null, null, null, null, location);
+            return NewAzureVM(serviceName, VMs, null, null, null, null, null, null, location,waitForBoot: waitForBoot);
         }
 
         internal Collection<ManagementOperationContext> NewAzureVMWithAG(string serviceName, PersistentVM[] VMs, string affGroupName)
@@ -1170,7 +1174,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
         internal Collection<ManagementOperationContext> NewAzureVM(string serviceName, PersistentVM[] vms,
             string vnetName, DnsServer[] dnsSettings,
             string serviceLabel, string serviceDescription, string deploymentLabel, string deploymentDescription,
-            string location = null, string affinityGroup = null, string rsvIPName = null)
+            string location = null, string affinityGroup = null, string rsvIPName = null, bool waitForBoot = false)
         {
             Collection<ManagementOperationContext> result = new Collection<ManagementOperationContext>();
             Utilities.RetryActionUntilSuccess(
@@ -1178,7 +1182,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
                     result =
                         RunPSCmdletAndReturnAll<ManagementOperationContext>(new NewAzureVMCmdletInfo(serviceName, vms,
                             vnetName, dnsSettings, serviceLabel, serviceDescription, deploymentLabel,
-                            deploymentDescription, location, affinityGroup, rsvIPName)),
+                            deploymentDescription, location, affinityGroup, rsvIPName, waitForBoot)),
                 "409", 5, 60);
             return result;
         }
@@ -1725,5 +1729,83 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
             return RunPSCmdletAndReturnFirst<PersistentVM>(new RemoveAzureStaticVNetIPCmdletInfo(vM));
         }
         #endregion StaticCA
+
+        #region AzureVM BGInfo Extension
+        public VirtualMachineBGInfoExtensionContext GetAzureVMBGInfoExtension(IPersistentVM vm, string version = null, string referenceName = null)
+        {
+            return RunPSCmdletAndReturnFirst<VirtualMachineBGInfoExtensionContext>(new GetAzureVMBGInfoExtensionCmdletInfo(vm, version, referenceName));
+        }
+
+        public PersistentVM SetAzureVMBGInfoExtension(IPersistentVM vm, string version = null, string referenceName = null, bool disable = false)
+        {
+            return RunPSCmdletAndReturnFirst<PersistentVM>(new SetAzureVMBGInfoExtensionCmdletInfo(vm, version, referenceName, disable));
+        }
+
+        public PersistentVM RemoveAzureVMBGInfoExtension(IPersistentVM vm, string version = null, string referenceName = null)
+        {
+            return RunPSCmdletAndReturnFirst<PersistentVM>(new RemoveAzureVMBGInfoExtensionCmdletInfo(vm, version, referenceName));
+        }
+        #endregion AzureVM BGInfo Extension
+
+        #region Generic VM Extension cmdlets
+        public PersistentVM SetAzureVMExtension(IPersistentVM vm, string extensionName, string publisher, string version = null, string referenceName = null,
+            string publicConfiguration = null, string privateConfiguration = null, string publicConfigPath = null, string privateConfigPath = null, bool disable = false)
+        {
+            return RunPSCmdletAndReturnFirst<PersistentVM>(new SetAzureVMExtensionCmdletInfo(vm, extensionName, publisher, version, referenceName,
+             publicConfiguration, privateConfiguration,publicConfigPath,privateConfigPath, disable));
+        }
+
+        public PersistentVM RemoveAzureVMExtension(PersistentVM vm, string extensionName, string publisher, string referenceName=null, bool removeAll=false)
+        {
+            return RunPSCmdletAndReturnFirst<PersistentVM>(new RemoveAzureVMExtensionCmdletInfo(vm, extensionName, publisher, referenceName, removeAll));
+        }
+
+        public VirtualMachineExtensionContext GetAzureVMExtension(PersistentVM vm, string extensionName = null, string publisher = null, string version = null, string referenceName = null)
+        {
+            return RunPSCmdletAndReturnFirst<VirtualMachineExtensionContext>(new GetAzureVMExtensionCmdletInfo(vm, extensionName, publisher, version, referenceName));
+        }
+
+        public VirtualMachineExtensionConfigContext GetAzureVMExtensionConfigTemplate(string extensionName, string publisher, string sampleConfigPath, string version = null)
+        {
+            return RunPSCmdletAndReturnFirst<VirtualMachineExtensionConfigContext>(new GetAzureVMExtensionConfigTemplateCmdletInfo(extensionName, publisher, sampleConfigPath, version));
+        }
+
+        //ListAllVersionsParamSetName -> ExtensionName,Publisher,AllVersions
+        public Collection<VirtualMachineExtensionImageContext> GetAzureVMAvailableExtension(IPersistentVM vm, string extensionName, string publisher, bool allVersions)
+        {
+            return RunPSCmdletAndReturnAll<VirtualMachineExtensionImageContext>(new GetAzureVMAvailableExtensionCmdletInfo(vm, extensionName, publisher, allVersions));
+        }
+
+        //ListLatestExtensionsParamSet -> ExtensionName,Publisher
+        public Collection<VirtualMachineExtensionImageContext> GetAzureVMAvailableExtension(IPersistentVM vm = null, string extensionName = null, string publisher = null)
+        {
+            return RunPSCmdletAndReturnAll<VirtualMachineExtensionImageContext>(new GetAzureVMAvailableExtensionCmdletInfo(vm, extensionName, publisher));
+        }
+
+        //ListSingleVersionParamSetName -> ExtensionName,Publisher,Version
+        public Collection<VirtualMachineExtensionImageContext> GetAzureVMAvailableExtension(IPersistentVM vm, string extensionName, string publisher, string version)
+        {
+            return RunPSCmdletAndReturnAll<VirtualMachineExtensionImageContext>(new GetAzureVMAvailableExtensionCmdletInfo(vm, extensionName, publisher, version));
+        }
+        #endregion Generic VM Extension cmdlets
+
+        #region AzureVMAccessExtension cmdlets
+
+        public Collection<VirtualMachineAccessExtensionContext> GetAzureVMAccessExtension(IPersistentVM vm,string userName= null, string password = null, string version= null,string referenceName= null)
+        {
+            return RunPSCmdletAndReturnAll<VirtualMachineAccessExtensionContext>(new GetAzureVMAccessExtensionCmdletInfo(vm, userName, password, version, referenceName));
+        }
+
+        public PersistentVM SetAzureVMAccessExtension(IPersistentVM vm, string userName= null, string password=null, string version = null, string referenceName =null,bool disable = false)
+        {
+            return RunPSCmdletAndReturnFirst<PersistentVM>(new SetAzureVMAccessExtensionCmdletInfo( vm,  userName,  password,  version,  referenceName, disable));
+        }
+
+        public PersistentVM RemoveAzureVMAccessExtension(IPersistentVM vm)
+        {
+            return RunPSCmdletAndReturnFirst<PersistentVM>(new RemoveAzureVMAccessExtensionCmdleteInfo(vm));
+        }
+
+        #endregion AzureVMAccessExtension cmdlets
     }
 }

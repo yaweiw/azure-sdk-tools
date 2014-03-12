@@ -38,8 +38,35 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
 
         protected static VirtualMachineExtensionImageContext[] LegacyExtensionImages;
 
-        public virtual string ExtensionName { get; set; }
-        public virtual string Publisher { get; set; }
+        protected string extensionName;
+        protected string publisherName;
+
+        public virtual string ExtensionName
+        {
+            get
+            {
+                return extensionName;
+            }
+
+            set
+            {
+                extensionName = value;
+            }
+        }
+
+        public virtual string Publisher
+        {
+            get
+            {
+                return publisherName;
+            }
+
+            set
+            {
+                publisherName = value;
+            }
+        }
+
         public virtual string Version { get; set; }
         public virtual string ReferenceName { get; set; }
         public virtual string PublicConfiguration { get; set; }

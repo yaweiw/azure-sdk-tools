@@ -22,13 +22,13 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService.AzureTools
     using Common;
     using Microsoft.WindowsAzure.Commands.Utilities.Properties;
 
-    public class CsEncrypt : AzureTool
+    public class CsEncrypt
     {
         private string _toolPath = null;
 
-        public CsEncrypt()
+        public CsEncrypt(string azureSdkBinDirectory)
         {
-            _toolPath = Path.Combine(AzureSdkBinDirectory, Resources.CsEncryptExe);
+            _toolPath = Path.Combine(azureSdkBinDirectory, Resources.CsEncryptExe);
         }
         
         [PermissionSet(SecurityAction.LinkDemand, Name = "FullTrust")]
