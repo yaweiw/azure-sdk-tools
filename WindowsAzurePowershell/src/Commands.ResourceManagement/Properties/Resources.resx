@@ -171,4 +171,7 @@
   <data name="StorageAccountNameNeedsToBeSpecified" xml:space="preserve">
     <value>Either StorageAccountName or storage account on the subscription need to be specified.</value>
   </data>
+  <data name="UnableToFindGallery" xml:space="preserve">
+    <value>Unable to find Gallery item '{0}'</value>
+  </data>
 </root>
