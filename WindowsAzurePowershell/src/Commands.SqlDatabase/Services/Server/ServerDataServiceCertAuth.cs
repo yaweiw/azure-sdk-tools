@@ -612,7 +612,6 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Services.Server
                         PartnerServer = partnerServer,
                         PartnerDatabase = partnerDatabaseName,
                         IsContinuous = continuousCopy,
-                        MaxLagInMinutes = maxLagInMinutes
                     });
 
             return CreateDatabaseCopyFromResponse(response);
@@ -988,7 +987,6 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Services.Server
                     SourceDatabaseName = response.SourceDatabaseName,
                     DestinationServerName = response.DestinationServerName,
                     DestinationDatabaseName = response.DestinationDatabaseName,
-                    MaximumLag = response.MaxLagInMinutes,
                     IsContinuous = response.IsContinuous,
                     ReplicationState = response.ReplicationState,
                     ReplicationStateDescription = response.ReplicationStateDescription,

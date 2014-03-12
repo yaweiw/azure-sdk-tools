@@ -207,11 +207,10 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Test.UnitTests.Database.Cm
                 @" -ServerName $homeServerName" +
                 @" -PartnerServer $partnerServerName" +
                 @" -DatabaseName $dbName0" +
-                @" -MaxLagInMinutes 60" +
                 @" -ContinuousCopy",
                 @"$copy1");
 
-            VerifyCcResponse(response, HomeServer, dbNames[0], PartnerServer, false, 60);
+            VerifyCcResponse(response, HomeServer, dbNames[0], PartnerServer, false);
 
             response = PowerShell.InvokeBatchScript(
                 @"$copy2 = Start-AzureSqlDatabaseCopy" +
@@ -219,12 +218,11 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Test.UnitTests.Database.Cm
                 @" -Database $db1" +
                 @" -PartnerServer $partnerServerName" +
                 @" -PartnerDatabase $dbName1" +
-                @" -MaxLagInMinutes 1440" +
                 @" -Force" +
                 @" -ContinuousCopy",
                 @"$copy2");
 
-            VerifyCcResponse(response, HomeServer, dbNames[1], PartnerServer, false, 1440);
+            VerifyCcResponse(response, HomeServer, dbNames[1], PartnerServer, false);
 
             response = PowerShell.InvokeBatchScript(
                 @"$copy3 = Start-AzureSqlDatabaseCopy" +
@@ -235,7 +233,7 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Test.UnitTests.Database.Cm
                 @"$copy3");
 
             // null = no RPO (the default)
-            VerifyCcResponse(response, PartnerServer, dbNames[2], HomeServer, false, null);
+            VerifyCcResponse(response, PartnerServer, dbNames[2], HomeServer, false);
 
             response = PowerShell.InvokeBatchScript(
                 @"$copy4 = Start-AzureSqlDatabaseCopy" +
@@ -243,18 +241,17 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Test.UnitTests.Database.Cm
                 @" -Database $db3" +
                 @" -PartnerServer $homeServerName" +
                 @" -PartnerDatabase $dbName3" +
-                @" -MaxLagInMinutes 300" +
                 @" -Force" +
                 @" -ContinuousCopy",
                 @"$copy4");
 
-            VerifyCcResponse(response, PartnerServer, dbNames[3], HomeServer, false, 300);
+            VerifyCcResponse(response, PartnerServer, dbNames[3], HomeServer, false);
 
             // Wait for all of the new copies to reach catchup.
-            WaitForSeedingCompletion(HomeServer, dbNames[0], PartnerServer, 60);
-            WaitForSeedingCompletion(HomeServer, dbNames[1], PartnerServer, 1440);
-            WaitForSeedingCompletion(PartnerServer, dbNames[2], HomeServer, null);
-            WaitForSeedingCompletion(PartnerServer, dbNames[3], HomeServer, 300);
+            WaitForSeedingCompletion(HomeServer, dbNames[0], PartnerServer);
+            WaitForSeedingCompletion(HomeServer, dbNames[1], PartnerServer);
+            WaitForSeedingCompletion(PartnerServer, dbNames[2], HomeServer);
+            WaitForSeedingCompletion(PartnerServer, dbNames[3], HomeServer);
 
             // Do some Get-AzureSqlDatabaseCopy calls with different parameter sets.
 
@@ -263,7 +260,7 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Test.UnitTests.Database.Cm
                 @" -ServerName $homeServerName" +
                 @" -DatabaseCopy $copy1");
 
-            VerifyCcResponse(response, HomeServer, dbNames[0], PartnerServer, false, 60);
+            VerifyCcResponse(response, HomeServer, dbNames[0], PartnerServer, false);
 
             response = PowerShell.InvokeBatchScript(
                 @"Get-AzureSqlDatabaseCopy" +
@@ -272,14 +269,14 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Test.UnitTests.Database.Cm
                 @" -PartnerServer $partnerServerName" +
                 @" -PartnerDatabase $dbName1");
 
-            VerifyCcResponse(response, HomeServer, dbNames[1], PartnerServer, false, 1440);
+            VerifyCcResponse(response, HomeServer, dbNames[1], PartnerServer, false);
 
             response = PowerShell.InvokeBatchScript(
                 @"Get-AzureSqlDatabaseCopy" +
                 @" -ServerName $partnerServerName" +
                 @" -Database $db0");
 
-            VerifyCcResponse(response, HomeServer, dbNames[0], PartnerServer, true, null);
+            VerifyCcResponse(response, HomeServer, dbNames[0], PartnerServer, true);
 
             response = PowerShell.InvokeBatchScript(
                 @"Get-AzureSqlDatabaseCopy" +
@@ -295,10 +292,10 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Test.UnitTests.Database.Cm
             Array.Sort(allCopies,
                         (dbc1, dbc2) => string.Compare(dbc1.SourceDatabaseName, dbc2.SourceDatabaseName));
 
-            VerifyCopyResponse(allCopies[0], HomeServer, dbNames[0], PartnerServer, dbNames[0], false, 60, true);
-            VerifyCopyResponse(allCopies[1], HomeServer, dbNames[1], PartnerServer, dbNames[1], false, 1440, true);
-            VerifyCopyResponse(allCopies[2], PartnerServer, dbNames[2], HomeServer, dbNames[2], true, null, true);
-            VerifyCopyResponse(allCopies[3], PartnerServer, dbNames[3], HomeServer, dbNames[3], true, null, true);
+            VerifyCopyResponse(allCopies[0], HomeServer, dbNames[0], PartnerServer, dbNames[0], false, true);
+            VerifyCopyResponse(allCopies[1], HomeServer, dbNames[1], PartnerServer, dbNames[1], false,true);
+            VerifyCopyResponse(allCopies[2], PartnerServer, dbNames[2], HomeServer, dbNames[2], true, true);
+            VerifyCopyResponse(allCopies[3], PartnerServer, dbNames[3], HomeServer, dbNames[3], true, true);
 
             response = PowerShell.InvokeBatchScript(
                 @"Get-AzureSqlDatabaseCopy" +
@@ -306,7 +303,7 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Test.UnitTests.Database.Cm
                 @" -PartnerServer $partnerServerName" +
                 @" -PartnerDatabase $dbName0");
 
-            VerifyCcResponse(response, HomeServer, dbNames[0], PartnerServer, false, 60);
+            VerifyCcResponse(response, HomeServer, dbNames[0], PartnerServer, false);
 
             // Call Stop-AzureSqlDatbaseCopy with different parameter sets.
 
@@ -350,8 +347,7 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Test.UnitTests.Database.Cm
             Assert.AreEqual(0, PowerShell.Streams.Warning.Count, "Unexpected Warnings during run!");
         }
 
-        private void WaitForSeedingCompletion(string sourceServer, string sourceDb,
-                                              string destServer, int? maximumLag)
+        private void WaitForSeedingCompletion(string sourceServer, string sourceDb, string destServer)
         {
             for (int i = 0; i < 20; i++)
             {
@@ -362,7 +358,7 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Test.UnitTests.Database.Cm
                         @" -DatabaseName " + sourceDb +
                         @" -PartnerServer " + destServer);
 
-                VerifyCcResponse(testCopyCompleteResponse, sourceServer, sourceDb, destServer, false, maximumLag);
+                VerifyCcResponse(testCopyCompleteResponse, sourceServer, sourceDb, destServer, false);
 
                 var testCopyComplete = (DatabaseCopy)testCopyCompleteResponse.First().BaseObject;
                 if (testCopyComplete.ReplicationStateDescription == "CATCH_UP")
@@ -405,32 +401,30 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Test.UnitTests.Database.Cm
         }
 
         private void VerifyCcResponse(Collection<PSObject> result, string sourceServer, string sourceDb,
-                                        string destServer, bool isLocalDatabaseReplicationTarget, int? maximumLag)
+                                        string destServer, bool isLocalDatabaseReplicationTarget)
         {
-            VerifyCopyResponse(result, sourceServer, sourceDb, destServer, sourceDb, isLocalDatabaseReplicationTarget,
-                               maximumLag, true);
+            VerifyCopyResponse(result, sourceServer, sourceDb, destServer, sourceDb, isLocalDatabaseReplicationTarget, true);
         }
 
         private void VerifyDbCopyResponse(Collection<PSObject> result, string sourceServer, string sourceDb, 
                                         string destDb, bool isLocalDatabaseReplicationTarget)
         {
-            VerifyCopyResponse(result, sourceServer, sourceDb, sourceServer, destDb, isLocalDatabaseReplicationTarget,
-                               null, false);
+            VerifyCopyResponse(result, sourceServer, sourceDb, sourceServer, destDb, isLocalDatabaseReplicationTarget, false);
         }
 
         private void VerifyCopyResponse(Collection<PSObject> result, string sourceServer, string sourceDb,
                                         string destServer,  string destDb, bool isLocalDatabaseReplicationTarget,
-                                        int? maximumLag, bool isContinuous)
+                                        bool isContinuous)
         {
             Assert.AreEqual(1, result.Count, "Expected exactly one result from cmdlet");
             var copy = result.First().BaseObject as DatabaseCopy;
             Assert.IsNotNull(copy, "Expected object of type DatabaseCopy");
-            VerifyCopyResponse(copy, sourceServer, sourceDb, destServer, destDb, isLocalDatabaseReplicationTarget, maximumLag, isContinuous);
+            VerifyCopyResponse(copy, sourceServer, sourceDb, destServer, destDb, isLocalDatabaseReplicationTarget, isContinuous);
         }
 
         private void VerifyCopyResponse(DatabaseCopy copy, string sourceServer, string sourceDb,
                                         string destServer, string destDb, bool isLocalDatabaseReplicationTarget,
-                                        int? maximumLag, bool isContinuous)
+                                        bool isContinuous)
         {
             Assert.AreEqual(sourceServer, copy.SourceServerName);
             Assert.AreEqual(sourceDb, copy.SourceDatabaseName);
@@ -438,7 +432,6 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Test.UnitTests.Database.Cm
             Assert.AreEqual(destDb, copy.DestinationDatabaseName);
             Assert.AreEqual(isContinuous, copy.IsContinuous);
             Assert.AreEqual(isLocalDatabaseReplicationTarget, copy.IsLocalDatabaseReplicationTarget);
-            Assert.AreEqual(maximumLag, copy.MaximumLag);
             Assert.IsTrue(copy.PercentComplete.HasValue);
             Assert.IsTrue(copy.IsInterlinkConnected);
             Assert.AreEqual(copy.IsForcedTerminate, null);
