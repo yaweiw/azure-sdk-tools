@@ -40,10 +40,13 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
             p.WaitForExit();
             standardOutput = p.StandardOutput.ReadToEnd();
             standardError = p.StandardError.ReadToEnd();
+            p.Close();
         }
 
         public virtual void StartAndWaitForProcess(string command, string arguments)
         {
+            StandardOutput = string.Empty;
+            StandardError = string.Empty;
             ProcessStartInfo startInfo = new ProcessStartInfo(command, arguments);
             string output, error;
             StartAndWaitForProcess(startInfo, out output, out error);

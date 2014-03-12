@@ -1,4 +1,4 @@
-﻿﻿// ----------------------------------------------------------------------------------
+﻿// ----------------------------------------------------------------------------------
 //
 // Copyright Microsoft Corporation
 // Licensed under the Apache License, Version 2.0 (the "License");
@@ -12,23 +12,21 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Commands.Storage.Test.Blob
+namespace Microsoft.WindowsAzure.Commands.Scheduler
 {
-    using Model.Contract;
-    using Storage.Blob.Cmdlet;
+    using System.Collections.Generic;
+    using System.Management.Automation;
+    using Utilities.Websites.Common;
 
-    internal class FakeRemoveAzureContainerCommand : RemoveAzureStorageContainerCommand
+    /// <summary>
+    /// Cmdlet to list available regions
+    /// </summary>
+    [Cmdlet(VerbsCommon.Get, "AzureSchedulerLocation"), OutputType(typeof(IList<string>))]
+    public class GetSchedulerLocationCommand : SchedulerBaseCmdlet
     {
-        public FakeRemoveAzureContainerCommand(IStorageBlobManagement channel)
-            : base(channel)
+        public override void ExecuteCmdlet()
         {
-        }
-
-        public bool confirm = false;
-
-        internal override bool ConfirmRemove(string message)
-        {
-            return confirm;
+            WriteObject(SMClient.GetAvailableRegions(), true);
         }
     }
 }

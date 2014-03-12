@@ -17,11 +17,10 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Test.Blob
     using System;
     using System.Linq;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
-    using Commands.Test.Utilities.Common;
+    using Microsoft.WindowsAzure.Storage.Blob;
     using Model.ResourceModel;
     using Storage.Blob.Cmdlet;
     using Storage.Common;
-    using Microsoft.WindowsAzure.Storage.Blob;
 
     [TestClass]
     public class NewAzureStorageContainerTest : StorageBlobTestBase
@@ -30,11 +29,12 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Test.Blob
 
         [TestInitialize]
         public void InitCommand()
-        {
+        {            
             command = new NewAzureStorageContainerCommand(BlobMock)
-                {
-                    CommandRuntime = new MockCommandRuntime()
-                };
+            {
+                CommandRuntime = MockCmdRunTime
+            };
+            CurrentBlobCmd = command;
         }
 
         [TestCleanup]
@@ -49,15 +49,15 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Test.Blob
             string name = String.Empty;
             BlobContainerPublicAccessType accesslevel = BlobContainerPublicAccessType.Off;
 
-            AssertThrows<ArgumentException>(() => command.CreateAzureContainer(name, accesslevel),
+            AssertThrowsAsync<ArgumentException>(() => command.CreateAzureContainer(InitTaskId, BlobMock, name, accesslevel),
                 String.Format(Resources.InvalidContainerName, name));
 
             name = "a";
-            AssertThrows<ArgumentException>(() => command.CreateAzureContainer(name, accesslevel),
+            AssertThrowsAsync<ArgumentException>(() => command.CreateAzureContainer(InitTaskId, BlobMock, name, accesslevel),
                 String.Format(Resources.InvalidContainerName, name));
 
             name = "&*(";
-            AssertThrows<ArgumentException>(() => command.CreateAzureContainer(name, accesslevel),
+            AssertThrowsAsync<ArgumentException>(() => command.CreateAzureContainer(InitTaskId, BlobMock, name, accesslevel),
                 String.Format(Resources.InvalidContainerName, name));
         }
 
@@ -68,7 +68,7 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Test.Blob
             string name = "text";
             BlobContainerPublicAccessType accesslevel = BlobContainerPublicAccessType.Off;
 
-            AssertThrows<ResourceAlreadyExistException>(() => command.CreateAzureContainer(name, accesslevel),
+            AssertThrowsAsync<ResourceAlreadyExistException>(() => command.CreateAzureContainer(InitTaskId, BlobMock, name, accesslevel),
                 String.Format(Resources.ContainerAlreadyExists, name));
         }
 
@@ -78,13 +78,15 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Test.Blob
             string name = String.Empty;
             BlobContainerPublicAccessType accesslevel = BlobContainerPublicAccessType.Off;
 
-            ((MockCommandRuntime)command.CommandRuntime).ResetPipelines();
+            MockCmdRunTime.ResetPipelines();
             name = "test";
-            AzureStorageContainer container = command.CreateAzureContainer(name, accesslevel);
+            command.Name = name;
+            RunAsyncCommand(() => command.ExecuteCmdlet());
+            AzureStorageContainer container = (AzureStorageContainer)MockCmdRunTime.OutputPipeline.FirstOrDefault();
             Assert.AreEqual("test", container.Name);
 
-            ((MockCommandRuntime)command.CommandRuntime).ResetPipelines();
-            AssertThrows<ResourceAlreadyExistException>(() => command.CreateAzureContainer(name, accesslevel),
+            MockCmdRunTime.ResetPipelines();
+            AssertThrowsAsync<ResourceAlreadyExistException>(() => command.CreateAzureContainer(InitTaskId, BlobMock, name, accesslevel),
                 String.Format(Resources.ContainerAlreadyExists, name));
         }
 
@@ -93,8 +95,8 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Test.Blob
         {
             string name = "containername";
             command.Name = name;
-            command.ExecuteCmdlet();
-            AzureStorageContainer container = (AzureStorageContainer)((MockCommandRuntime)command.CommandRuntime).OutputPipeline.FirstOrDefault();
+            RunAsyncCommand(() => command.ExecuteCmdlet());
+            AzureStorageContainer container = (AzureStorageContainer)MockCmdRunTime.OutputPipeline.FirstOrDefault();
             Assert.AreEqual(name, container.Name);
         }
     }

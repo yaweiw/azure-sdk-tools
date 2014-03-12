@@ -158,5 +158,10 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Test.Service
         {
             throw new NotImplementedException();
         }
+
+        public Model.ResourceModel.AzureStorageContext StorageContext
+        {
+            get { throw new NotImplementedException(); }
+        }
     }
 }

@@ -19,7 +19,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService.AzureTools
     using System.IO;
     using System.Linq;
     using Microsoft.WindowsAzure.Commands.Utilities.Properties;
-    using Win32;
+    using Microsoft.Win32;
 
     public class AzureTool
     {
@@ -27,7 +27,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService.AzureTools
         {
             // This instantiation will throw if user is running with incompatible Windows Azure SDK version.
             GetAzureSdkBinDirectory();
-            GetAzureEmulatorDirectory();
+            GetComputeEmulatorDirectory();
         }
 
         public static string GetAzureSdkVersion()
@@ -54,7 +54,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService.AzureTools
             return Path.Combine(sdkDirectory, Resources.RoleBinFolderName);
         }
 
-        public static string GetAzureEmulatorDirectory()
+        public static string GetComputeEmulatorDirectory()
         {
             var emulatorPath = Registry.GetValue(Path.Combine(Registry.LocalMachine.Name, Resources.AzureEmulatorRegistryKey), Resources.AzureSdkInstallPathRegistryKeyValue, null);
             if (emulatorPath == null)
@@ -64,6 +64,20 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService.AzureTools
             return Path.Combine((string)emulatorPath, Resources.AzureEmulatorDirectory);
         }      
         
+        public static string GetStorageEmulatorDirectory()
+        {
+            string installDirectory = string.Empty;
+            using (RegistryKey storageEmulatorKey = RegistryKey.OpenBaseKey(RegistryHive.LocalMachine, RegistryView.Registry32)
+                .OpenSubKey(Resources.StorageEmulatorRegistryKey))
+            {
+                if (storageEmulatorKey != null)
+                {
+                    installDirectory = (string)storageEmulatorKey.GetValue(Resources.StorageEmulatorInstallPathRegistryKeyValue, string.Empty);
+                }
+            }
+            return installDirectory;
+        }
+
         private static string GetSdkVersionRegistryValue()
         {
             string version = string.Empty; 

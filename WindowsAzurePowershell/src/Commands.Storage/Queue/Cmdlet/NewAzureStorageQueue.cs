@@ -47,6 +47,7 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Queue
         public NewAzureStorageQueueCommand(IStorageQueueManagement channel)
         {
             Channel = channel;
+            EnableMultiThread = false;
         }
 
         /// <summary>

@@ -176,7 +176,6 @@
     <Compile Include="Blob\Cmdlet\RemoveAzureStorageContainerTest.cs" />
     <!-- <Compile Include="Blob\Cmdlet\SetAzureStorageBlobContentTest.cs" /> -->
     <Compile Include="Blob\Cmdlet\SetAzureStorageContainerAclTest.cs" />
-    <Compile Include="Blob\FakeRemoveAzureContainerCommand.cs" />
     <Compile Include="Blob\StorageBlobTestBase.cs" />
     <Compile Include="Blob\StorageCloudBlobCmdletBaseTest.cs" />
     <Compile Include="Common\Cmdlet\NewAzureStorageContextTest.cs" />

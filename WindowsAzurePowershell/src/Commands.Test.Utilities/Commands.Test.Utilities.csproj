@@ -316,7 +316,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Resources\ValidProfile2.PublishSettings" />
     <EmbeddedResource Include="Resources\GB18030ServiceDefinition.csdef" />
-    <None Include="packages.config" />
+    <None Include="packages.config">
+      <SubType>Designer</SubType>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Commands.Utilities\Commands.Utilities.csproj">
