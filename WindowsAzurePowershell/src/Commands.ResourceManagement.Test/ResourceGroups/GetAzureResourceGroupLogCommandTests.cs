@@ -12,11 +12,11 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-using System;
-using System.Linq;
 using Microsoft.Azure.Commands.ResourceManagement.Models;
 using Moq;
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Management.Automation;
 using Xunit;
 
