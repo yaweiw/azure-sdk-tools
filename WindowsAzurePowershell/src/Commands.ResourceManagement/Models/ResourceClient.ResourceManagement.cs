@@ -301,7 +301,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Models
         /// </summary>
         /// <param name="templateFilePath">The gallery template path (local or remote)</param>
         /// <param name="parameterObject">Existing parameter object</param>
-        /// <param name="parameterFilePath">Path to paremeter file if present</param>
+        /// <param name="parameterFilePath">Path to the parameter file if present</param>
         /// <param name="staticParameters">The existing PowerShell cmdlet parameters</param>
         /// <returns>The template parameters</returns>
         public virtual RuntimeDefinedParameterDictionary GetTemplateParametersFromFile(string templateFilePath, Hashtable parameterObject, string parameterFilePath, string[] staticParameters)
@@ -337,7 +337,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Models
         /// </summary>
         /// <param name="templateName">The gallery template name</param>
         /// <param name="parameterObject">Existing parameter object</param>
-        /// <param name="parameterFilePath">Path to paremeter file if present</param>
+        /// <param name="parameterFilePath">Path to the parameter file if present</param>
         /// <param name="staticParameters">The existing PowerShell cmdlet parameters</param>
         /// <returns>The template parameters</returns>
         public virtual RuntimeDefinedParameterDictionary GetTemplateParametersFromGallery(string templateName, Hashtable parameterObject, string parameterFilePath, string[] staticParameters)
