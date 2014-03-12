@@ -221,5 +221,14 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Properties {
                 return ResourceManager.GetString("StorageAccountNameNeedsToBeSpecified", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Unable to find Gallery item &apos;{0}&apos;.
+        /// </summary>
+        internal static string UnableToFindGallery {
+            get {
+                return ResourceManager.GetString("UnableToFindGallery", resourceCulture);
+            }
+        }
     }
 }
