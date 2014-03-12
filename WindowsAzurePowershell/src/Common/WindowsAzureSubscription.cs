@@ -223,20 +223,19 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
 
         private void RegisterRequiredResourceProviders<T>(SubscriptionCloudCredentials credentials) where T : ServiceClient<T>
         {
-            IResourceManagementClient client = new ResourceManagementClient(credentials, CloudServiceEndpoint);
-            ProviderListResult result = client.Providers.List(null);
-            List<Provider> providers = new List<Provider>(result.Providers);
-
-            while (!string.IsNullOrEmpty(result.NextLink))
-            {
-                result = client.Providers.ListNext(result.NextLink);
-                providers.AddRange(result.Providers);
-            }
-
             RegisterServiceManagementProviders<T>(credentials);
-            RegisterResourceManagementProviders<T>(credentials);
+
+            if (CloudServiceEndpoint != null)
+            {
+                RegisterResourceManagementProviders<T>(credentials);
+            }
         }
 
+        /// <summary>
+        /// Registers resource providers for Sparta.
+        /// </summary>
+        /// <typeparam name="T">The client type</typeparam>
+        /// <param name="credentials">The subscription credentials</param>
         private void RegisterResourceManagementProviders<T>(SubscriptionCloudCredentials credentials) where T : ServiceClient<T>
         {
             List<string> requiredProviders = RequiredResourceLookup.RequiredProvidersForResourceManagement<T>().ToList();
@@ -260,6 +259,11 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
             }
         }
 
+        /// <summary>
+        /// Registers resource providers for RDFE.
+        /// </summary>
+        /// <typeparam name="T">The client type</typeparam>
+        /// <param name="credentials">The subscription credentials</param>
         private void RegisterServiceManagementProviders<T>(SubscriptionCloudCredentials credentials) where T : ServiceClient<T>
         {
             var requiredProviders = RequiredResourceLookup.RequiredProvidersForServiceManagement<T>();
