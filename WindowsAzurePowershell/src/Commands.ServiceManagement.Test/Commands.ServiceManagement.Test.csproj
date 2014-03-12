@@ -406,6 +406,7 @@
     <None Include="packages.config" />
     <None Include="Resources\affinityGroupData.csv" />
     <None Include="Resources\certificateData.csv" />
+    <None Include="Resources\cloudinittest.sh" />
     <None Include="Resources\download_VHD.csv" />
     <None Include="Resources\HelloNoDiag.cscfg" />
     <None Include="Resources\HelloNoDiag.cspkg" />

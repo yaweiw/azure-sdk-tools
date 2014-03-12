@@ -38,8 +38,8 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
                 this.ExecuteClientActionNewSM(
                     null,
                     this.CommandRuntime.ToString(),
-                    () => this.ComputeClient.VirtualMachineDisks.GetDisk(this.DiskName),
-                    (s, response) => this.ContextFactory<VirtualMachineDiskGetDiskResponse, DiskContext>(response, s));
+                    () => Microsoft.WindowsAzure.VirtualMachineDiskOperationsExtensions.GetDisk(this.ComputeClient.VirtualMachineDisks, this.DiskName),
+                    (s, response) => this.ContextFactory<VirtualMachineDiskGetResponse, DiskContext>(response, s));
             }
             else
             {

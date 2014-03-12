@@ -607,81 +607,76 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
         #endregion
 
         #region AzureQuickVM
-
-        public ManagementOperationContext NewAzureQuickVM(OS os, string name, string serviceName, string imageName, string userName, string password, string locationName, string instanceSize)
-        {
-            ManagementOperationContext result = new ManagementOperationContext();
-            try
-            {
-                result = RunPSCmdletAndReturnFirst<ManagementOperationContext>(new NewAzureQuickVMCmdletInfo(os, name, serviceName, imageName, userName, password, locationName, instanceSize));
-            }
-            catch (Exception e)
-            {
-                if (e.ToString().Contains("409"))
-                {
-                    Utilities.RetryActionUntilSuccess(
-                        () => result = RunPSCmdletAndReturnFirst<ManagementOperationContext>(new NewAzureQuickVMCmdletInfo(os, name, serviceName, imageName, userName, password, null, instanceSize)),
-                        "409", 4, 60);
-                }
-                else
-                {
-                    Console.WriteLine(e.InnerException.ToString());
-                    throw;
-                }
-            }
-            return result;
-        }
-
-        public ManagementOperationContext NewAzureQuickVM(OS os, string name, string serviceName, string imageName,
-            string userName, string password, string locationName, string instanceSize, string disableWinRMHttps)
-        {
-            var result = new ManagementOperationContext();
-            try
-            {
-                result =
-                    RunPSCmdletAndReturnFirst<ManagementOperationContext>(new NewAzureQuickVMCmdletInfo(os, name,
-                        serviceName, imageName, userName, password, locationName, instanceSize, disableWinRMHttps));
-            }
-            catch (Exception e)
-            {
-                if (e.ToString().Contains("409"))
-                {
-                    Utilities.RetryActionUntilSuccess(
-                        () =>
-                            result =
-                                RunPSCmdletAndReturnFirst<ManagementOperationContext>(new NewAzureQuickVMCmdletInfo(os,
-                                    name, serviceName, imageName, userName, password, null, instanceSize,
-                                    disableWinRMHttps)),
-                        "409", 4, 60);
-                }
-                else
-                {
-                    Console.WriteLine(e.InnerException.ToString());
-                    throw;
-                }
-            }
-            return result;
-        }
-
-        public ManagementOperationContext NewAzureQuickVM(OS os, string name, string serviceName, string imageName, string userName, string password, string locationName = null)
+        public ManagementOperationContext NewAzureQuickVM(
+            OS os,
+            string name,
+            string serviceName,
+            string imageName,
+            string userName,
+            string password,
+            string locationName = null)
         {
             return NewAzureQuickVM(os, name, serviceName, imageName, userName, password, locationName, null);
         }
 
-        public ManagementOperationContext NewAzureQuickVM(OS os, string name, string serviceName, string imageName, string instanceSize, string userName, string password, string vNetName, string[] subnetNames, string affinityGroup)
+
+        public ManagementOperationContext NewAzureQuickVM(
+            OS os, 
+            string name, 
+            string serviceName, 
+            string imageName, 
+            string userName, 
+            string password, 
+            string locationName, 
+            string instanceSize)
+        {
+            return NewAzureQuickVM(os, name, serviceName, imageName, userName, password, locationName, instanceSize, null);
+        }
+
+        public ManagementOperationContext NewAzureQuickVM(
+            OS os, 
+            string name, 
+            string serviceName, 
+            string imageName,
+            string userName, 
+            string password, 
+            string locationName, 
+            string instanceSize, 
+            string disableWinRMHttps)
+        {
+            return NewAzureQuickVM(os, name, serviceName, imageName, userName, password, locationName, instanceSize, disableWinRMHttps, null, null, null);
+        }
+
+        public ManagementOperationContext NewAzureQuickVM(
+            OS os, 
+            string name, 
+            string serviceName, 
+            string imageName, 
+            string userName, 
+            string password, 
+            string locationName,
+            string instanceSize,
+            string disableWinRMHttps,
+            string vNetName, 
+            string[] subnetNames, 
+            string affinityGroup)
+        {
+            return NewAzureQuickVM(new NewAzureQuickVMCmdletInfo(os, name, serviceName, imageName, userName, password, null, instanceSize, null, vNetName, subnetNames, affinityGroup));
+        }
+
+        public ManagementOperationContext NewAzureQuickVM(NewAzureQuickVMCmdletInfo cmdletInfo)
         {
             var result = new ManagementOperationContext();
             try
             {
-                result = RunPSCmdletAndReturnFirst<ManagementOperationContext>(new NewAzureQuickVMCmdletInfo(os,name,serviceName,imageName,instanceSize,userName,password,vNetName,subnetNames,affinityGroup));
+                result = RunPSCmdletAndReturnFirst<ManagementOperationContext>(cmdletInfo);
             }
             catch (Exception e)
             {
                 if (e.ToString().Contains("409"))
                 {
                     Utilities.RetryActionUntilSuccess(
-                        () => result = RunPSCmdletAndReturnFirst<ManagementOperationContext>(new NewAzureQuickVMCmdletInfo(os, name, serviceName, imageName, userName, password, null, instanceSize)),
-                        "409", 4, 60);
+                        () => result = RunPSCmdletAndReturnFirst<ManagementOperationContext>(cmdletInfo), "409", 4, 60);
                 }
                 else
                 {
@@ -690,8 +685,8 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
                 }
             }
             return result;
-        }
 
+        }
         #endregion
 
         #region WinRM

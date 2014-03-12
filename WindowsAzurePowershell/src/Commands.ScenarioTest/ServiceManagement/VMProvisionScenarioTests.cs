@@ -61,5 +61,35 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.ServiceManagemenet
 
             Assert.AreEqual(null, vmPowershellCmdlets.GetAzureVM(newAzureQuickVMName, newAzureQuickVMSvcName));
         }
+
+        [TestMethod]
+        [TestCategory(Category.All)]
+        [TestCategory(Category.ServiceManagement)]
+        [TestProperty("Feature", "IaaS"), Priority(2), Description("Test the New-AzureQuickVM by creating a linux VM with some customdata")]
+        public void NewWindowsAzureQuickVMCustomData()
+        {
+            powershell.Invoke(); 
+
+            ServiceManagementCmdletTestHelper vmPowershellCmdlets = new ServiceManagementCmdletTestHelper();
+
+            string imageName = vmPowershellCmdlets.GetAzureVMImageName(new[] { "b39f27a8b8c64d52b05eac6a62ebad85__Ubuntu-14_04-LTS-amd64-server-20140122.1-alpha2-en-us-30GB" }, false);
+            string locationName = vmPowershellCmdlets.GetAzureLocationName(new[] { Resource.Location });
+
+            string newAzureQuickVMName = Utilities.GetUniqueShortName("PSTestVM");
+            string newAzureQuickVMSvcName = Utilities.GetUniqueShortName("PSTestService");
+
+            vmPowershellCmdlets.NewAzureQuickVM(
+                new ServiceManagement.Test.FunctionalTests.IaasCmdletInfo.NewAzureQuickVMCmdletInfo(
+                    OS.Linux, newAzureQuickVMName, newAzureQuickVMSvcName, imageName, "pstestuser", "p@ssw0rd", locationName, null, null, null, null, null, null, null, null, null, null, null, @".\cloudinittest.sh"));
+
+            // Verify
+            PersistentVMRoleContext vmRoleCtxt = vmPowershellCmdlets.GetAzureVM(newAzureQuickVMName, newAzureQuickVMSvcName);
+            Assert.AreEqual(newAzureQuickVMName, vmRoleCtxt.Name, true);
+
+            // Cleanup
+            vmPowershellCmdlets.RemoveAzureVM(newAzureQuickVMName, newAzureQuickVMSvcName);
+
+            Assert.AreEqual(null, vmPowershellCmdlets.GetAzureVM(newAzureQuickVMName, newAzureQuickVMSvcName));
+        }
     }
 }

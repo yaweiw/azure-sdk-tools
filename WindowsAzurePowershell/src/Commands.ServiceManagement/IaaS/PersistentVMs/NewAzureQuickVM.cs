@@ -480,7 +480,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.PersistentVMs
                 ProvisionGuestAgent = true
             };
 
-            if (vm.OSVirtualHardDisk.MediaLink == null && String.IsNullOrEmpty(vm.OSVirtualHardDisk.DiskName))
+            if (vm.OSVirtualHardDisk.MediaLink == null && String.IsNullOrEmpty(vm.OSVirtualHardDisk.Name))
             {
                 var mediaLinkFactory = new MediaLinkFactory(currentStorage, this.ServiceName, vm.RoleName);
                 vm.OSVirtualHardDisk.MediaLink = mediaLinkFactory.Create();
@@ -543,7 +543,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.PersistentVMs
                     string fileName = this.TryResolvePath(this.CustomData);
 
                     // Open the file and then base64 encode it.
-                    System.IO.FileStream fileStream;
+                    System.IO.FileStream fileStream = null;
                     byte[] bytes = new byte[3 * 4096]; // Make buffer be a factor of 3 for encoding correctly
                     System.Text.StringBuilder sb = new System.Text.StringBuilder();
 
@@ -557,9 +557,12 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.PersistentVMs
                             sb.Append(Convert.ToBase64String(bytes, 0, cb));
                         }
                     }
-                    catch (Exception)
+                    finally
                     {
-
+                        if (fileStream != null)
+                        {
+                            fileStream.Close();
+                        }
                     }
                     linuxConfig.CustomData = sb.ToString();
                 }
