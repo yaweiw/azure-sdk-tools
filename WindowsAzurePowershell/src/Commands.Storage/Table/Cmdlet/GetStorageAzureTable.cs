@@ -67,6 +67,7 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Table.Cmdlet
         public GetAzureStorageTableCommand(IStorageTableManagement channel)
         {
             Channel = channel;
+            EnableMultiThread = false;
         }
 
         /// <summary>

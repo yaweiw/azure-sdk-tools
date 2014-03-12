@@ -21,7 +21,7 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Model.Contract
     /// <summary>
     /// Storage table management interface
     /// </summary>
-    public interface IStorageTableManagement
+    public interface IStorageTableManagement : IStorageManagement
     {
         /// <summary>
         /// List azure storage tables

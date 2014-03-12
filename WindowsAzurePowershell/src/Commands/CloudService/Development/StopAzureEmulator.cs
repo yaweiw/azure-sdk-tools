@@ -33,12 +33,9 @@ namespace Microsoft.WindowsAzure.Commands.CloudService.Development
         [PermissionSet(SecurityAction.LinkDemand, Name = "FullTrust")]
         public void StopAzureEmulatorProcess()
         {
-            string standardOutput;
-            string standardError;
-
             CloudServiceProject service = new CloudServiceProject();
             WriteVerbose(Resources.StopEmulatorMessage);
-            service.StopEmulator(out standardOutput, out standardError);
+            service.StopEmulator();
             
             WriteVerbose(Resources.StoppedEmulatorMessage);
 

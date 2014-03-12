@@ -66,7 +66,7 @@ namespace Microsoft.WindowsAzure.Commands.CloudService.Development
 
         public EnableAzureMemcacheRoleCommand()
         {
-            CacheRuntimeVersion = new AzureTool().AzureSdkVersion;
+            CacheRuntimeVersion = AzureTool.GetAzureSdkVersion();
         }
 
         [PermissionSet(SecurityAction.Demand, Name = "FullTrust")]

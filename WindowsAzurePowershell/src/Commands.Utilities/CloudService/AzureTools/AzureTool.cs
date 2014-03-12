@@ -15,6 +15,7 @@
 namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService.AzureTools
 {
     using System;
+    using System.Diagnostics;
     using System.IO;
     using System.Linq;
     using Microsoft.WindowsAzure.Commands.Utilities.Properties;
@@ -22,62 +23,72 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService.AzureTools
 
     public class AzureTool
     {
-        public string AzureSdkDirectory { get; private set; }
-        public string AzureSdkBinDirectory { get; private set; }
-        public string AzureEmulatorDirectory { get; private set; }
-        public string AzureSdkVersion { get; private set; }
-
         public static void Validate()
         {
             // This instantiation will throw if user is running with incompatible Windows Azure SDK version.
-            new AzureTool();
+            GetAzureSdkBinDirectory();
+            GetAzureEmulatorDirectory();
         }
 
-        public AzureTool()
+        public static string GetAzureSdkVersion()
         {
-            string min = Resources.MinSupportAzureSdkVersion;
-            string max = Resources.MaxSupportAzureSdkVersion;
-            RegistryKey key = Registry.LocalMachine.OpenSubKey(Resources.AzureSdkRegistryKeyName);
-            if (key == null)
-            {
-                throw new Exception(Resources.AzureToolsNotInstalledMessage);
-            }
+            string versionKeyValue = GetSdkVersionRegistryValue();
 
-            AzureSdkVersion = key.GetSubKeyNames().Where(n => (n.CompareTo(min) == 1 && n.CompareTo(max) == -1) || n.CompareTo(min) == 0 || n.CompareTo(max) == 0).Max<string>();
-            
-            if (string.IsNullOrEmpty(AzureSdkVersion) && key.GetSubKeyNames().Length > 0)
-            {
-                throw new Exception(string.Format(Resources.AzureSdkVersionNotSupported, min, max));
-            }
-            else if (string.IsNullOrEmpty(AzureSdkVersion) && key.GetSubKeyNames().Length == 0)
-            {
-                throw new Exception(Resources.AzureToolsNotInstalledMessage);
-            }
-            else
-            {
-                string keyName = Path.Combine(Resources.AzureSdkRegistryKeyName, AzureSdkVersion);
-                AzureSdkDirectory = (string)Registry.GetValue(Path.Combine(Registry.LocalMachine.Name, keyName), Resources.AzureSdkInstallPathRegistryKeyValue, null);
-                AzureSdkBinDirectory = Path.Combine(AzureSdkDirectory, Resources.RoleBinFolderName);
-
-                var emulatorPath = Registry.GetValue(Path.Combine(Registry.LocalMachine.Name, Resources.AzureEmulatorRegistryKey), Resources.AzureSdkInstallPathRegistryKeyValue, null);
-                if (emulatorPath == null)
-                {
-                    throw new Exception(Resources.AzureEmulatorNotInstalledMessage);
-                }
-
-                AzureEmulatorDirectory = Path.Combine((string)emulatorPath, 
-                    Resources.AzureEmulatorDirectory);
-            }
-
-            // Removes the leading 'v'
-            AzureSdkVersion = AzureSdkVersion.Remove(0, 1);
+            Debug.Assert(versionKeyValue.StartsWith("v", StringComparison.OrdinalIgnoreCase), "Unexpected SDK version registry value");
+            string version = versionKeyValue.Remove(0, 1);
 
             // Add build version if it does not exist. For example, if the version is 1.7
             // this code changes it to be 1.7.0
-            if (AzureSdkVersion.Split('.').Length == 2)
+            if (version.Split('.').Length == 2)
             {
-                AzureSdkVersion = AzureSdkVersion + ".0";
+                version = version + ".0";
             }
+            return version;
+        }
+
+        public static string GetAzureSdkBinDirectory()
+        {
+            string versionKeyValue = GetSdkVersionRegistryValue();
+            string keyName = Path.Combine(Resources.AzureSdkRegistryKeyName, versionKeyValue);
+            string sdkDirectory = (string)Registry.GetValue(Path.Combine(Registry.LocalMachine.Name, keyName), Resources.AzureSdkInstallPathRegistryKeyValue, null);
+            return Path.Combine(sdkDirectory, Resources.RoleBinFolderName);
+        }
+
+        public static string GetAzureEmulatorDirectory()
+        {
+            var emulatorPath = Registry.GetValue(Path.Combine(Registry.LocalMachine.Name, Resources.AzureEmulatorRegistryKey), Resources.AzureSdkInstallPathRegistryKeyValue, null);
+            if (emulatorPath == null)
+            {
+                throw new Exception(Resources.AzureEmulatorNotInstalledMessage);
+            }
+            return Path.Combine((string)emulatorPath, Resources.AzureEmulatorDirectory);
+        }      
+        
+        private static string GetSdkVersionRegistryValue()
+        {
+            string version = string.Empty; 
+            string min = Resources.MinSupportAzureSdkVersion;
+            string max = Resources.MaxSupportAzureSdkVersion;           
+            using (RegistryKey key = Registry.LocalMachine.OpenSubKey(Resources.AzureSdkRegistryKeyName))
+            {
+                if (key == null)
+                {
+                    throw new Exception(Resources.AzureToolsNotInstalledMessage);
+                }
+                version = key.GetSubKeyNames()
+                    .Where(n => (n.CompareTo(min) == 1 && n.CompareTo(max) == -1) || n.CompareTo(min) == 0 || n.CompareTo(max) == 0)
+                    .Max<string>();
+
+                if (string.IsNullOrEmpty(version) && key.GetSubKeyNames().Length > 0)
+                {
+                    throw new Exception(string.Format(Resources.AzureSdkVersionNotSupported, min, max));
+                }
+                else if (string.IsNullOrEmpty(version) && key.GetSubKeyNames().Length == 0)
+                {
+                    throw new Exception(Resources.AzureToolsNotInstalledMessage);
+                }
+            }
+            return version;
         }
     }
 }

@@ -166,10 +166,6 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Microsoft.WindowsAzure.Management.Compute.0.9.12-preview\lib\net40\Microsoft.WindowsAzure.Management.Compute.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.WindowsAzure.Storage, Version=3.0.2.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\WindowsAzure.Storage.3.0.2.0\lib\net40\Microsoft.WindowsAzure.Storage.dll</HintPath>
-    </Reference>
     <Reference Include="Microsoft.WindowsAzure.Management, Version=0.9.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Microsoft.WindowsAzure.Management.0.9.5-preview\lib\net40\Microsoft.WindowsAzure.Management.dll</HintPath>
@@ -181,6 +177,10 @@
     <Reference Include="Microsoft.WindowsAzure.Management.VirtualNetworks, Version=0.9.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Microsoft.WindowsAzure.Management.VirtualNetworks.0.9.3-preview\lib\net40\Microsoft.WindowsAzure.Management.VirtualNetworks.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.WindowsAzure.Storage, Version=3.0.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\WindowsAzure.Storage.3.0.3.0\lib\net40\Microsoft.WindowsAzure.Storage.dll</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -250,11 +250,19 @@
     <Compile Include="IaaS\Extensions\BGInfo\SetAzureVMBGInfoExtension.cs" />
     <Compile Include="IaaS\Extensions\BGInfo\VirtualMachineBGInfoExtensionCmdletBase.cs" />
     <Compile Include="IaaS\Extensions\BGInfo\VirtualMachineBGInfoExtensionContext.cs" />
+    <Compile Include="IaaS\Extensions\Common\GetAzureVMExtension.cs" />
+    <Compile Include="IaaS\Extensions\Common\RemoveAzureVMExtension.cs" />
+    <Compile Include="IaaS\Extensions\Common\SetAzureVMExtension.cs" />
     <Compile Include="IaaS\Extensions\Common\VirtualMachineExtensionCmdletBase.cs" />
     <Compile Include="IaaS\Extensions\Common\VirtualMachineExtensionContext.cs" />
     <Compile Include="IaaS\Extensions\Common\VirtualMachineExtensionConfigContext.cs" />
     <Compile Include="IaaS\Extensions\Common\GetAzureVMAvailableExtension.cs" />
     <Compile Include="IaaS\Extensions\Common\VirtualMachineExtensionImageContext.cs" />
+    <Compile Include="IaaS\Extensions\VMAccess\GetAzureVMAccessExtension.cs" />
+    <Compile Include="IaaS\Extensions\VMAccess\RemoveAzureVMAccessExtension.cs" />
+    <Compile Include="IaaS\Extensions\VMAccess\SetAzureVMAccessExtension.cs" />
+    <Compile Include="IaaS\Extensions\VMAccess\VirtualMachineAccessExtensionCmdletBase.cs" />
+    <Compile Include="IaaS\Extensions\VMAccess\VirtualMachineAccessExtensionContext.cs" />
     <Compile Include="IaaS\Network\GetAzureStaticVNetIP.cs" />
     <Compile Include="IaaS\Network\RemoveAzureStaticVNetIP.cs" />
     <Compile Include="IaaS\Network\SetAzureStaticVNetIP.cs" />

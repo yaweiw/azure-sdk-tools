@@ -24,7 +24,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <RunCodeAnalysis>true</RunCodeAnalysis>
+    <RunCodeAnalysis>false</RunCodeAnalysis>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
@@ -106,9 +106,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Microsoft.WindowsAzure.ConfigurationManager.2.0.1.0\lib\net40\Microsoft.WindowsAzure.Configuration.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.WindowsAzure.Storage, Version=3.0.2.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+    <Reference Include="Microsoft.WindowsAzure.Storage, Version=3.0.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\WindowsAzure.Storage.3.0.2.0\lib\net40\Microsoft.WindowsAzure.Storage.dll</HintPath>
+      <HintPath>..\packages\WindowsAzure.Storage.3.0.3.0\lib\net40\Microsoft.WindowsAzure.Storage.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.WindowsAzure.Storage.DataMovement">
       <HintPath>..\lib\Microsoft.WindowsAzure.Storage.DataMovement.dll</HintPath>
@@ -173,6 +173,8 @@
     <Compile Include="Blob\Cmdlet\RemoveAzureStorageContainer.cs" />
     <Compile Include="Blob\Cmdlet\SetAzureStorageBlobContent.cs" />
     <Compile Include="Blob\Cmdlet\SetAzureStorageContainerAcl.cs" />
+    <Compile Include="Blob\DataMovementUserData.cs" />
+    <Compile Include="Common\BlobUploadRequestQueue.cs" />
     <Compile Include="Common\CmdletOperationContext.cs" />
     <Compile Include="Blob\StorageDataMovementCmdletBase.cs" />
     <Compile Include="Common\AzureToFileSystemFileNameResolver.cs" />
@@ -183,6 +185,8 @@
     <Compile Include="Common\Cmdlet\SetAzureStorageServiceLogging.cs" />
     <Compile Include="Common\Cmdlet\SetAzureStorageServiceMetrics.cs" />
     <Compile Include="Common\CommunicationExceptionUtil.cs" />
+    <Compile Include="Common\ConfirmTaskCompletionSource.cs" />
+    <Compile Include="Common\LimitedConcurrencyTaskScheduler.cs" />
     <Compile Include="Common\NameUtil.cs" />
     <Compile Include="Common\Cmdlet\NewAzureStorageContext.cs" />
     <Compile Include="Common\ResourceAlreadyExistException.cs" />
@@ -194,6 +198,9 @@
     <Compile Include="Blob\StorageCloudBlobCmdletBase.cs" />
     <Compile Include="Common\StorageExceptionUtil.cs" />
     <Compile Include="Common\StorageNouns.cs" />
+    <Compile Include="Common\TaskOutputStream.cs" />
+    <Compile Include="Common\Util.cs" />
+    <Compile Include="Model\Contract\IStorageManagement.cs" />
     <Compile Include="Common\StorageServiceType.cs" />
     <Compile Include="Model\Contract\IStorageQueueManagement.cs" />
     <Compile Include="Model\Contract\IStorageTableManagement.cs" />
@@ -246,7 +253,9 @@
       <SubType>Designer</SubType>
     </None>
     <None Include="MSSharedLibKey.snk" />
-    <None Include="packages.config" />
+    <None Include="packages.config">
+      <SubType>Designer</SubType>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Resources.resx">

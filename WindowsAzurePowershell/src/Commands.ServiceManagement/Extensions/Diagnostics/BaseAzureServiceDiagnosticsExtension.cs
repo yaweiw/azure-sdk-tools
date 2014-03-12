@@ -39,11 +39,12 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Extensions
         public BaseAzureServiceDiagnosticsExtensionCmdlet()
             : base()
         {
-            Initialize();
         }
 
-        protected void Initialize()
+        protected override void ValidateParameters()
         {
+            base.ValidateParameters();
+
             ProviderNamespace = DiagnosticsExtensionNamespace;
             ExtensionName = DiagnosticsExtensionType;
 

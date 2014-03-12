@@ -43,7 +43,7 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Model.ResourceModel
         public DateTimeOffset? LastModified { get; private set; }
 
         /// <summary>
-        /// Blob continuation token
+        /// Container continuation token
         /// </summary>
         public BlobContinuationToken ContinuationToken { get; set; }
 

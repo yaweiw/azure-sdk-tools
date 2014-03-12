@@ -28,6 +28,7 @@ namespace Microsoft.WindowsAzure.Management.HDInsight.Cmdlet.Commands.CommandImp
         {
             this.AdditionalStorageAccounts = new List<AzureHDInsightStorageAccount>();
             this.CoreConfiguration = new ConfigValuesCollection();
+            this.YarnConfiguration = new ConfigValuesCollection();
             this.HdfsConfiguration = new ConfigValuesCollection();
             this.MapReduceConfiguration = new MapReduceConfiguration();
             this.HiveConfiguration = new HiveConfiguration();
@@ -41,6 +42,9 @@ namespace Microsoft.WindowsAzure.Management.HDInsight.Cmdlet.Commands.CommandImp
 
         /// <inheritdoc />
         public ConfigValuesCollection CoreConfiguration { get; set; }
+
+        /// <inheritdoc />
+        public ConfigValuesCollection YarnConfiguration { get; set; }
 
         /// <inheritdoc />
         public PSCredential Credential { get; set; }
@@ -98,6 +102,7 @@ namespace Microsoft.WindowsAzure.Management.HDInsight.Cmdlet.Commands.CommandImp
             createClusterRequest.Location = this.Location;
             createClusterRequest.EnsureHighAvailability = EnableHighAvailability;
             createClusterRequest.CoreConfiguration.AddRange(this.CoreConfiguration);
+            createClusterRequest.YarnConfiguration.AddRange(this.YarnConfiguration);
             createClusterRequest.HdfsConfiguration.AddRange(this.HdfsConfiguration);
             createClusterRequest.MapReduceConfiguration.ConfigurationCollection.AddRange(this.MapReduceConfiguration.ConfigurationCollection);
             createClusterRequest.MapReduceConfiguration.CapacitySchedulerConfigurationCollection.AddRange(

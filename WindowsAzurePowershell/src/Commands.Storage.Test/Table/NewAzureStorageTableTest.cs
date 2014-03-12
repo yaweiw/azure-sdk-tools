@@ -34,7 +34,7 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Test.Table
         {
             command = new NewAzureStorageTableCommand(tableMock)
                 {
-                    CommandRuntime = new MockCommandRuntime()
+                    CommandRuntime = MockCmdRunTime
                 };
         }
 
@@ -86,7 +86,7 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Test.Table
             string name = "tablename";
             command.Name = name;
             command.ExecuteCmdlet();
-            AzureStorageTable table = (AzureStorageTable)((MockCommandRuntime)command.CommandRuntime).OutputPipeline.FirstOrDefault();
+            AzureStorageTable table = (AzureStorageTable)MockCmdRunTime.OutputPipeline.FirstOrDefault();
             Assert.AreEqual(name, table.Name);
         }
     }

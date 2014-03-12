@@ -17,6 +17,7 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Test.Blob
     using System;
     using System.Collections.Generic;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using Microsoft.WindowsAzure.Commands.Test.Utilities.Common;
     using Microsoft.WindowsAzure.Storage.Blob;
     using Service;
 
@@ -26,6 +27,23 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Test.Blob
     [TestClass]
     public class StorageBlobTestBase : StorageTestBase
     {
+        /// <summary>
+        /// Init task id 
+        /// </summary>
+        public static long InitTaskId = 0;
+
+        /// <summary>
+        /// Current blob command
+        /// </summary>
+        protected StorageCloudBlobCmdletBase CurrentBlobCmd { get; set; }
+
+        protected bool Confirmed = true;
+
+        protected bool ConfirmWriter(string msg1, string msg2, string msg3)
+        {
+            return Confirmed;
+        }
+
         /// <summary>
         /// Mock blob management
         /// </summary>
@@ -39,6 +57,7 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Test.Blob
         public void InitMock()
         {
             BlobMock = new MockStorageBlobManagement();
+            MockCmdRunTime = new MockCommandRuntime();
         }
 
         [TestCleanup]
@@ -132,6 +151,20 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Test.Blob
                 CloudBlockBlob blob = new CloudBlockBlob(new Uri(uri));
                 blobList.Add(blob);
             }
+        }
+
+        /// <summary>
+        /// Run async command
+        /// </summary>
+        /// <param name="cmd">Storage command</param>
+        /// <param name="asyncAction">Async action</param>
+        protected void RunAsyncCommand(Action asyncAction)
+        {
+            MockCmdRunTime.ResetPipelines();
+            CurrentBlobCmd.SetUpMultiThreadEnvironment();
+            CurrentBlobCmd.OutputStream.ConfirmWriter = ConfirmWriter;
+            asyncAction();
+            CurrentBlobCmd.MultiThreadEndProcessing();
         }
     }
 }

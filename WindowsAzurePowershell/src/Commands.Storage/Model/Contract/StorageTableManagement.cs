@@ -15,6 +15,7 @@
 namespace Microsoft.WindowsAzure.Commands.Storage.Model.Contract
 {
     using System.Collections.Generic;
+    using Microsoft.WindowsAzure.Commands.Storage.Model.ResourceModel;
     using Microsoft.WindowsAzure.Storage;
     using Microsoft.WindowsAzure.Storage.Table;
 
@@ -29,12 +30,29 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Model.Contract
         private CloudTableClient tableClient;
 
         /// <summary>
+        /// Internal storage context
+        /// </summary>
+        private AzureStorageContext internalStorageContext;
+
+        /// <summary>
+        /// The azure storage context assoicated with this IStorageBlobManagement
+        /// </summary>
+        public AzureStorageContext StorageContext
+        {
+            get
+            {
+                return internalStorageContext;
+            }
+        }
+
+        /// <summary>
         /// Storage table management constructor
         /// </summary>
         /// <param name="client">Cloud table client</param>
-        public StorageTableManagement(CloudTableClient client)
+        public StorageTableManagement(AzureStorageContext context)
         {
-            tableClient = client;
+            internalStorageContext = context;
+            tableClient = internalStorageContext.StorageAccount.CreateCloudTableClient();
         }
 
         /// <summary>
