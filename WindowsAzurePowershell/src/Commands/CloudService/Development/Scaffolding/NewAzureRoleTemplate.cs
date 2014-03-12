@@ -12,6 +12,8 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
+using Microsoft.WindowsAzure.Commands.Utilities.Common;
+
 namespace Microsoft.WindowsAzure.Commands.CloudService.Development.Scaffolding
 {
     using System.IO;
@@ -50,7 +52,7 @@ namespace Microsoft.WindowsAzure.Commands.CloudService.Development.Scaffolding
                 Path.Combine(CurrentPath(), DefaultWorkerRoleTemplate);
             string source = Web.IsPresent ? Path.Combine(Resources.GeneralScaffolding, Resources.WebRole) : Path.Combine(Resources.GeneralScaffolding, Resources.WorkerRole);
 
-            General.DirectoryCopy(Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), source), output, true);
+            FileUtilities.DirectoryCopy(Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), source), output, true);
 
             SafeWriteOutputPSObject(null, Parameters.Path, output);
         }

@@ -18,6 +18,7 @@
     <DeploymentItem filename="Commands.ServiceManagement.Test\vendor\VhdFiles\dynamic_50.vhd" />
     <DeploymentItem filename="Commands.ScenarioTest\Resources\" />
     <DeploymentItem filename="Commands.ServiceManagement.Test\vendor\VhdFiles\fixed_50_child01.vhd" />
+	<DeploymentItem filename="Commands.ResourceManagement.Test\Resources\" />
   </Deployment>
   <Execution>
     <Timeouts testTimeout="3000000" />

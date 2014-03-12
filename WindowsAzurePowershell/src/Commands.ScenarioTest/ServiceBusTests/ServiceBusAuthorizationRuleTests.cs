@@ -24,7 +24,7 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.ServiceBusTests
             : base("ServiceBus\\Common.ps1",
                    "ServiceBus\\AuthorizationRuleScenarioTests.ps1")
         {
-
+            
         }
 
         #region New-AzureSBAuthorizationRule Scenario Tests

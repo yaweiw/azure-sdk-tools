@@ -29,7 +29,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.CloudService.Development.Tests
     using VisualStudio.TestTools.UnitTesting;
     using ConfigConfigurationSetting = Commands.Utilities.Common.XmlSchema.ServiceConfigurationSchema.ConfigurationSetting;
     using DefinitionConfigurationSetting = Commands.Utilities.Common.XmlSchema.ServiceDefinitionSchema.ConfigurationSetting;
-    using TestResources = Test.Utilities.Properties.Resources;
+    using TestResources = Commands.Common.Test.Properties.Resources;
 
     [TestClass]
     public class EnableAzureMemcacheRoleTests : TestBase

@@ -318,3 +318,20 @@ function Retry-Function
     
     return $result;
 }
+
+function getAssetName
+{
+    $stack = Get-PSCallStack
+    $testName = $null;
+    foreach ($frame in $stack)
+    {
+        if ($frame.Command.StartsWith("Test-", "CurrentCultureIgnoreCase"))
+        {
+            $testName = $frame.Command
+        }
+    }
+	
+    $assetName = [Microsoft.WindowsAzure.Utilities.HttpRecorder.HttpMockServer]::GetAssetName($testName, "onesdk")
+
+    return $assetName
+}

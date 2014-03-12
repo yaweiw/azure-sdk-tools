@@ -614,6 +614,13 @@
           </maml:description>
           <command:parameterValue required="true" variableLength = "false" >String</command:parameterValue>
         </command:parameter>
+        <command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "true (ByPropertyName)" position = "named" >
+          <maml:name>CloudServiceEndpoint</maml:name>
+          <maml:description>
+            <maml:para>The cloud service endpoint</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength = "false" >String</command:parameterValue>
+        </command:parameter>
       </command:syntaxItem>
       </command:syntax>
     <command:parameters>
@@ -767,6 +774,13 @@
           <command:parameterValue required="true" variableLength = "false" >String</command:parameterValue>
         </command:parameter>
         <command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "true (ByPropertyName)" position = "named" >
+          <maml:name>CloudServiceEndpoint</maml:name>
+          <maml:description>
+            <maml:para>The cloud service endpoint</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength = "false" >String</command:parameterValue>
+        </command:parameter>
+        <command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "true (ByPropertyName)" position = "named" >
           <maml:name>ManagementPortalUrl</maml:name>
           <maml:description>
             <maml:para>The management portal url</maml:para>
@@ -815,6 +829,13 @@
           <maml:name>StorageEndpoint</maml:name>
           <maml:description>
             <maml:para>The storage endpoint. Must be valid URI</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength = "false" >String</command:parameterValue>
+     </command:parameter>
+     <command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "true (ByPropertyName)" position = "named" >
+          <maml:name>ActiveDirectoryEndpoint</maml:name>
+          <maml:description>
+            <maml:para>The Active Directory endpoint. Must be valid URI</maml:para>
           </maml:description>
           <command:parameterValue required="true" variableLength = "false" >String</command:parameterValue>
         </command:parameter>
