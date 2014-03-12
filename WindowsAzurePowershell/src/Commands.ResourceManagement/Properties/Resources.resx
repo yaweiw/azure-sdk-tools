@@ -126,6 +126,9 @@
   <data name="DeploymentNotFound" xml:space="preserve">
     <value>No deployments were found that satisfy the criteria.</value>
   </data>
+  <data name="FailedToParseProperty" xml:space="preserve">
+    <value>Failed to parse {0} '{1}'</value>
+  </data>
   <data name="FailureParsingParameterFile" xml:space="preserve">
     <value>Unable to set parameter '{0}' from ParameterFile. Incompatible value '{1}'.</value>
   </data>

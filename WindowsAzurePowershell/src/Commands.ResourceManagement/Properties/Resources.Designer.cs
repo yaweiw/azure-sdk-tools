@@ -8,10 +8,10 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Microsoft.Azure.Commands.ResourceManagement.Properties
-{
-
-
+namespace Microsoft.Azure.Commands.ResourceManagement.Properties {
+    using System;
+    
+    
     /// <summary>
     ///   A strongly-typed resource class, for looking up localized strings, etc.
     /// </summary>
@@ -84,6 +84,15 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Properties
         internal static string DeploymentNotFound {
             get {
                 return ResourceManager.GetString("DeploymentNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Failed to parse {0} &apos;{1}&apos;.
+        /// </summary>
+        internal static string FailedToParseProperty {
+            get {
+                return ResourceManager.GetString("FailedToParseProperty", resourceCulture);
             }
         }
         

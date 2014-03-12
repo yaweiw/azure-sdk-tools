@@ -13,6 +13,7 @@
 // ----------------------------------------------------------------------------------
 
 using Microsoft.Azure.Commands.ResourceManagement.Models;
+using Microsoft.Azure.Commands.ResourceManagement.Properties;
 using Microsoft.WindowsAzure.Commands.Utilities.Common;
 using Newtonsoft.Json;
 using System;
@@ -110,12 +111,19 @@ namespace Microsoft.Azure.Commands.ResourceManagement
             else if (!string.IsNullOrEmpty(TemplateFile) &&
                 !TemplateFile.Equals(templateFile, StringComparison.OrdinalIgnoreCase))
             {
-                templateFile = TemplateFile;
-                dynamicParameters = ResourceClient.GetTemplateParametersFromFile(
-                    this.TryResolvePath(TemplateFile),
-                    ParameterObject,
-                    ParameterFile,
-                    MyInvocation.MyCommand.Parameters.Keys.ToArray());
+                try
+                {
+                    templateFile = TemplateFile;
+                    dynamicParameters = ResourceClient.GetTemplateParametersFromFile(
+                        this.TryResolvePath(TemplateFile),
+                        ParameterObject,
+                        ParameterFile,
+                        MyInvocation.MyCommand.Parameters.Keys.ToArray());
+                } 
+                catch
+                {
+                    throw new ArgumentException(string.Format(Resources.FailedToParseProperty, "TemplateFile", TemplateFile));
+                }
             }
 
             return dynamicParameters;
