@@ -98,6 +98,7 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Table.Cmdlet
         public NewAzureStorageTableSasTokenCommand(IStorageTableManagement channel)
         {
             Channel = channel;
+            EnableMultiThread = false;
         }
 
         /// <summary>

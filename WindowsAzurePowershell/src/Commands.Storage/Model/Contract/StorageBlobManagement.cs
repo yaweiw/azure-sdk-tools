@@ -17,6 +17,9 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Model.Contract
     using System;
     using System.Collections.Generic;
     using System.Globalization;
+    using System.Threading;
+    using System.Threading.Tasks;
+    using Microsoft.WindowsAzure.Commands.Storage.Model.ResourceModel;
     using Microsoft.WindowsAzure.Storage;
     using Microsoft.WindowsAzure.Storage.Blob;
     using Microsoft.WindowsAzure.Storage.Queue;
@@ -35,12 +38,29 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Model.Contract
         private CloudBlobClient blobClient;
 
         /// <summary>
+        /// Internal storage context
+        /// </summary>
+        private AzureStorageContext internalStorageContext;
+
+        /// <summary>
+        /// The azure storage context assoicated with this IStorageBlobManagement
+        /// </summary>
+        public AzureStorageContext StorageContext
+        {
+            get
+            {
+                return internalStorageContext;
+            }
+        }
+
+        /// <summary>
         /// Init blob management
         /// </summary>
         /// <param name="client">a cloud blob object</param>
-        public StorageBlobManagement(CloudBlobClient client)
+        public StorageBlobManagement(AzureStorageContext context)
         {
-            blobClient = client;
+            internalStorageContext = context;
+            blobClient = internalStorageContext.StorageAccount.CreateCloudBlobClient();
         }
 
         /// <summary>
@@ -293,16 +313,17 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Model.Contract
         /// <param name="options">Request options</param>
         /// <param name="operationContext">Operation context</param>
         /// <returns>The service properties of the specified service type</returns>
-        public ServiceProperties GetStorageServiceProperties(CloudStorageAccount account, StorageServiceType type, IRequestOptions options, OperationContext operationContext)
+        public ServiceProperties GetStorageServiceProperties(StorageServiceType type, IRequestOptions options, OperationContext operationContext)
         {
+            CloudStorageAccount account = StorageContext.StorageAccount;
             switch (type)
             {
                 case StorageServiceType.Blob:
-                    return account.CreateCloudBlobClient().GetServiceProperties((BlobRequestOptions)options, operationContext);
+                    return account.CreateCloudBlobClient().GetServiceProperties((BlobRequestOptions) options, operationContext);
                 case StorageServiceType.Queue:
-                    return account.CreateCloudQueueClient().GetServiceProperties((QueueRequestOptions)options, operationContext);
+                    return account.CreateCloudQueueClient().GetServiceProperties((QueueRequestOptions) options, operationContext);
                 case StorageServiceType.Table:
-                    return account.CreateCloudTableClient().GetServiceProperties((TableRequestOptions)options, operationContext);
+                    return account.CreateCloudTableClient().GetServiceProperties((TableRequestOptions) options, operationContext);
                 default:
                     throw new ArgumentException(Resources.InvalidStorageServiceType, "type");
             }
@@ -316,8 +337,9 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Model.Contract
         /// <param name="properties">Service properties</param>
         /// <param name="options">Request options</param>
         /// <param name="operationContext">Operation context</param>
-        public void SetStorageServiceProperties(CloudStorageAccount account, StorageServiceType type, ServiceProperties properties, IRequestOptions options, OperationContext operationContext)
+        public void SetStorageServiceProperties(StorageServiceType type, ServiceProperties properties, IRequestOptions options, OperationContext operationContext)
         {
+            CloudStorageAccount account = StorageContext.StorageAccount;
             switch (type)
             {
                 case StorageServiceType.Blob:
@@ -335,6 +357,204 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Model.Contract
         }
 
         /// <summary>
+        /// Async Get container presssions
+        /// </summary>
+        /// <param name="container">A cloudblobcontainer object</param>
+        /// <param name="accessCondition">Access condition</param>
+        /// <param name="options">Blob request option</param>
+        /// <param name="operationContext">Operation context</param>
+        /// <param name="cancellationToken">User cancellation token</param>
+        /// <returns>A task object which retrieve the permission of the specified container</returns>
+        public Task<BlobContainerPermissions> GetContainerPermissionsAsync(CloudBlobContainer container,
+            AccessCondition accessCondition, BlobRequestOptions options, OperationContext operationContext,
+            CancellationToken cancellationToken)
+        {
+            return container.GetPermissionsAsync(accessCondition, options, operationContext, cancellationToken);
+        }
+
+        /// <summary>
+        /// Return a task that asynchronously check whether the specified container exists.
+        /// </summary>
+        /// <param name="container">CloudBlobContainer object</param>
+        /// <param name="requestOptions">Blob request option</param>
+        /// <param name="operationContext">Operation context</param>
+        /// <param name="cmdletCancellationToken">Cancellation token</param>
+        /// <returns>A task object that asynchronously check whether the specified container exists </returns>
+        public Task<bool> DoesContainerExistAsync(CloudBlobContainer container, BlobRequestOptions requestOptions, OperationContext OperationContext, CancellationToken cancellationToken)
+        {
+            return container.ExistsAsync(requestOptions, OperationContext, cancellationToken);
+        }
+
+        /// <summary>
+        /// Return a task that asynchronously get the blob reference from server
+        /// </summary>
+        /// <param name="container">CloudBlobContainer object</param>
+        /// <param name="blobName">Blob name</param>
+        /// <param name="accessCondition">Access condition</param>
+        /// <param name="options">Blob request options</param>
+        /// <param name="operationContext">Operation context</param>
+        /// <param name="cmdletCancellationToken">Cancellation token</param>
+        /// <returns>A task object that asynchronously get the blob reference from server</returns>
+        public async Task<ICloudBlob> GetBlobReferenceFromServerAsync(CloudBlobContainer container, string blobName, AccessCondition accessCondition, BlobRequestOptions options, OperationContext operationContext, CancellationToken cancellationToken)
+        {
+            try
+            {
+                ICloudBlob blob = await container.GetBlobReferenceFromServerAsync(blobName, accessCondition, options, operationContext, cancellationToken);
+                return blob;
+            }
+            catch (StorageException e)
+            {
+                if (e.IsNotFoundException())
+                {
+                    return null;
+                }
+                else
+                {
+                    throw;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Return a task that asynchronously fetch blob attributes
+        /// </summary>
+        /// <param name="blob">ICloud blob object</param>
+        /// <param name="accessCondition">Access condition</param>
+        /// <param name="options">Blob request options</param>
+        /// <param name="operationContext">Operation context</param>
+        /// <param name="cmdletCancellationToken">Cancellation token</param>
+        /// <returns>Return a task that asynchronously fetch blob attributes</returns>
+        public Task FetchBlobAttributesAsync(ICloudBlob blob, AccessCondition accessCondition, BlobRequestOptions options, OperationContext operationContext, CancellationToken cancellationToken)
+        {
+            return blob.FetchAttributesAsync(accessCondition, options, operationContext, cancellationToken);
+        }
+
+        /// <summary>
+        /// Return a task that asynchronously create a container if it doesn't exist.
+        /// </summary>
+        /// <param name="container">CloudBlobContainer object</param>
+        /// <param name="accessType">Blob container public access type</param>
+        /// <param name="requestOptions">Blob request options</param>
+        /// <param name="operationContext">Operation context</param>
+        /// <param name="cmdletCancellationToken">Cancellation token</param>
+        /// <returns>Return a task that asynchronously create a container if it doesn't exist.</returns>
+        public Task<bool> CreateContainerIfNotExistsAsync(CloudBlobContainer container, BlobContainerPublicAccessType accessType, BlobRequestOptions requestOptions, OperationContext operationContext, CancellationToken cancellationToken)
+        {
+            return container.CreateIfNotExistsAsync(accessType, requestOptions, operationContext, cancellationToken);
+        }
+
+        /// <summary>
+        /// Return a task that asynchronously delete the specified container.
+        /// </summary>
+        /// <param name="container">CloudBlobContainer object</param>
+        /// <param name="accessCondition">Access condition</param>
+        /// <param name="requestOptions">Blob request option</param>
+        /// <param name="operationContext">Operation context</param>
+        /// <param name="cmdletCancellationToken">Cancellation token</param>
+        /// <returns>Return a task that asynchronously delete the specified container.</returns>
+        public Task DeleteContainerAsync(CloudBlobContainer container, AccessCondition accessCondition, BlobRequestOptions requestOptions, OperationContext operationContext, CancellationToken cancellationToken)
+        {
+            return container.DeleteAsync(accessCondition, requestOptions, operationContext, cancellationToken);
+        }
+
+        /// <summary>
+        /// Return a task that asynchronously abort the blob copy operation
+        /// </summary>
+        /// <param name="blob">ICloudBlob object</param>
+        /// <param name="abortCopyId">Copy id</param>
+        /// <param name="accessCondition">Access condition</param>
+        /// <param name="abortRequestOption">Blob request options</param>
+        /// <param name="operationContext">Operation context</param>
+        /// <param name="cmdletCancellationToken">Cancellation token</param>
+        /// <returns>Return a task that asynchronously abort the blob copy operation</returns>
+        public Task AbortCopyAsync(ICloudBlob blob, string copyId, AccessCondition accessCondition, BlobRequestOptions requestOptions, OperationContext operationContext, CancellationToken cancellationToken)
+        {
+            return blob.AbortCopyAsync(copyId, accessCondition, requestOptions, operationContext, cancellationToken);
+        }
+
+        /// <summary>
+        /// Return a task that asynchronously set the container permission
+        /// </summary>
+        /// <param name="container">CloudBlobContainer object</param>
+        /// <param name="permissions">Container permission</param>
+        /// <param name="accessCondition">Access condition</param>
+        /// <param name="requestOptions">Blob request option</param>
+        /// <param name="operationContext">Operation context</param>
+        /// <param name="cmdletCancellationToken">cancellation token</param>
+        /// <returns>Return a task that asynchronously set the container permission</returns>
+        public Task SetContainerPermissionsAsync(CloudBlobContainer container, BlobContainerPermissions permissions, AccessCondition accessCondition, BlobRequestOptions requestOptions, OperationContext operationContext, CancellationToken cancellationToken)
+        {
+            return container.SetPermissionsAsync(permissions, accessCondition, requestOptions, operationContext, cancellationToken);
+        }
+
+        /// <summary>
+        /// Return a task that asynchronously delete the specified blob
+        /// </summary>
+        /// <param name="blob">ICloudBlob object</param>
+        /// <param name="deleteSnapshotsOption">Snapshot delete option</param>
+        /// <param name="accessCondition">Access condition</param>
+        /// <param name="requestOptions">Blob request option</param>
+        /// <param name="operationContext">Operation context</param>
+        /// <param name="cmdletCancellationToken">Cancellation token</param>
+        /// <returns>Return a task that asynchronously delete the specified blob</returns>
+        public Task DeleteICloudBlobAsync(ICloudBlob blob, DeleteSnapshotsOption deleteSnapshotsOption, AccessCondition accessCondition, BlobRequestOptions requestOptions, OperationContext operationContext, CancellationToken cancellationToken)
+        {
+            return blob.DeleteAsync(deleteSnapshotsOption, accessCondition, requestOptions, operationContext, cancellationToken);
+        }
+
+        /// <summary>
+        /// Return a task that asynchronously check whether the specified blob exists.
+        /// </summary>
+        /// <param name="blob">ICloudBlob object</param>
+        /// <param name="options">Blob request options</param>
+        /// <param name="operationContext">Operation context</param>
+        /// <param name="cmdletCancellationToken">Cancellation token</param>
+        /// <returns>A task object that asynchronously check whether the specified blob exists.</returns>
+        public Task<bool> DoesBlobExistAsync(ICloudBlob blob, BlobRequestOptions options, OperationContext operationContext, CancellationToken cmdletCancellationToken)
+        {
+            return blob.ExistsAsync(options, operationContext, cmdletCancellationToken);
+        }
+
+        /// <summary>
+        /// Return a task that asynchronously set blob properties
+        /// </summary>
+        /// <param name="blob">ICloud blob object</param>
+        /// <param name="accessCondition">Access condition</param>
+        /// <param name="options">Blob request options</param>
+        /// <param name="operationContext">An object that represents the context for the current operation.</param>
+        public Task SetBlobPropertiesAsync(ICloudBlob blob, AccessCondition accessCondition,
+            BlobRequestOptions options, OperationContext operationContext, CancellationToken cmdletCancellationToken)
+        {
+            return blob.SetPropertiesAsync(accessCondition, options, operationContext, cmdletCancellationToken);
+        }
+
+        /// <summary>
+        /// Return a task that asynchronously set blob meta data
+        /// </summary>
+        /// <param name="blob">ICloud blob object</param>
+        /// <param name="accessCondition">Access condition</param>
+        /// <param name="options">Blob request options</param>
+        /// <param name="operationContext">An object that represents the context for the current operation.</param>
+        public Task SetBlobMetadataAsync(ICloudBlob blob, AccessCondition accessCondition,
+            BlobRequestOptions options, OperationContext operationContext, CancellationToken cmdletCancellationToken)
+        {
+            return blob.SetMetadataAsync(accessCondition, options, operationContext, cmdletCancellationToken);
+        }
+
+        /// <summary>
+        /// List the blobs segmented in specified containers
+        /// </summary>
+        /// <param name="container">A cloudblobcontainer object</param>
+        /// <param name="prefix">Blob prefix</param>
+        /// <param name="useFlatBlobListing">Use flat blob listing(whether treat "container/" as directory)</param>
+        /// <param name="blobListingDetails">Blob listing details</param>
+        /// <param name="options">Blob request option</param>
+        /// <param name="operationContext">Operation context</param>
+        public Task<BlobResultSegment> ListBlobsSegmentedAsync(CloudBlobContainer container, string prefix, bool useFlatBlobListing, BlobListingDetails blobListingDetails, int? maxResults, BlobContinuationToken currentToken, BlobRequestOptions options, OperationContext operationContext, CancellationToken cancellationToken)
+        {
+            return container.ListBlobsSegmentedAsync(prefix, useFlatBlobListing, blobListingDetails, maxResults, currentToken, options, operationContext, cancellationToken);
+        }
+
         /// List part of blobs.
         /// </summary>
         /// <param name="prefix">Blob prefix</param>

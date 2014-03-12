@@ -4125,6 +4125,20 @@
           </maml:description>
           <command:parameterValue required="true" variableLength = "false" >String</command:parameterValue>
         </command:parameter>
+        <command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "true (ByPropertyName)" position = "named" >
+          <maml:name>Package</maml:name>
+          <maml:description>
+            <maml:para>The package file to deploy. Possible value are either a local .cspkg file or a blob uri containing the package. When you use this option, you don't need to specify 'ServiceName' parameter.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength = "false" >String</command:parameterValue>
+        </command:parameter>
+        <command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "true (ByPropertyName)" position = "named" >
+          <maml:name>Configuration</maml:name>
+          <maml:description>
+            <maml:para>The service configuration file. This value is used together with the 'Package' parameter.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength = "false" >String</command:parameterValue>
+        </command:parameter>        
         <command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "false" position = "named" >
           <maml:name>StorageAccountName</maml:name>
           <maml:description>
@@ -4173,6 +4187,30 @@
         <maml:name>ServiceName</maml:name>
         <maml:description>
           <maml:para>The name to be used for the service when publishing to the cloud. The name determines the subdomain label in the cloudapp.net subdomain that will be used to address the service when hosted in Azure (that is, &lt;Name&gt;.cloudapp.net). Any name specified while publishing the service will override the name given when creating the service (see the New-AzureServiceProject commandlet).</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        <dev:type>
+          <maml:name>String</maml:name>
+          <maml:uri/>
+        </dev:type>
+        <dev:defaultValue></dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="named">
+        <maml:name>Package</maml:name>
+        <maml:description>
+          <maml:para>The package file to deploy. Possible value are either a local .cspkg file or a blob uri containing the package. When you use this option, you don't need to specify 'ServiceName' parameter.</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        <dev:type>
+          <maml:name>String</maml:name>
+          <maml:uri/>
+        </dev:type>
+        <dev:defaultValue></dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="named">
+        <maml:name>Configuration</maml:name>
+        <maml:description>
+          <maml:para>The service configuration file. This value is used together with the 'Package' parameter.</maml:para>
         </maml:description>
         <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
         <dev:type>
@@ -4975,6 +5013,13 @@
 				</maml:description>
 				<command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
 			</command:parameter>
+			<command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named">
+				<maml:name>Mode</maml:name>
+				<maml:description>
+					<maml:para>Emulator mode. Valid values are &apos;Full&apos; and &apos;Express&apos;. Default value is &apos;Express&apos;</maml:para>
+				</maml:description>
+				<command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+			</command:parameter>
 		</command:syntaxItem>
 	</command:syntax>
 	<command:parameters>
@@ -4989,6 +5034,18 @@
 				<maml:uri/>
 			</dev:type>
 			<dev:defaultValue></dev:defaultValue>
+		</command:parameter>
+		<command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named">
+			<maml:name>Mode</maml:name>
+			<maml:description>
+				<maml:para>Emulator mode. Valid values are &apos;Full&apos; and &apos;Express&apos;. Default value is &apos;Express&apos;</maml:para>
+			</maml:description>
+			<command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+			<dev:type>
+				<maml:name>String</maml:name>
+				<maml:uri/>
+			</dev:type>
+			<dev:defaultValue>Express</dev:defaultValue>
 		</command:parameter>
 	</command:parameters>
 	<command:inputTypes>
@@ -20766,4 +20823,1588 @@ PS C:\&gt; Set-WAPackVM -VM $vm -VMSizeProfile $sizeProfile
 	  </maml:relatedLinks>
   </command:command>
 
+  <command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10">
+    <command:details>
+      <command:name>Get-AzureSchedulerLocation</command:name>
+      <maml:description>
+        <maml:para>Get available scheduler locations</maml:para>
+      </maml:description>
+      <maml:copyright>
+        <maml:para />
+        <!--Add copy right info here.-->
+      </maml:copyright>
+      <command:verb>Get</command:verb>
+      <command:noun>AzureSchedulerLocation</command:noun>
+      <!--Add Dev version info here.-->
+      <dev:version />
+    </command:details>
+    <maml:description>
+      <!--This is the Description section-->
+      <maml:para>Get available scheduler locations</maml:para>
+    </maml:description>
+    <command:syntax>
+      <command:syntaxItem>
+        <maml:name>Get-AzureSchedulerLocation</maml:name>
+      </command:syntaxItem>
+    </command:syntax>
+    <command:returnValues>
+      <command:returnValue>
+        <dev:type>
+          <maml:name></maml:name>
+          <maml:uri />
+          <maml:description>
+            <maml:para></maml:para>
+          </maml:description>
+        </dev:type>
+        <maml:description></maml:description>
+      </command:returnValue>
+    </command:returnValues>
+    <command:terminatingErrors>
+    </command:terminatingErrors>
+    <command:nonTerminatingErrors>
+    </command:nonTerminatingErrors>
+    <maml:alertSet>
+      <maml:title></maml:title>
+      <maml:alert>
+        <maml:para></maml:para>
+      </maml:alert>
+    </maml:alertSet>
+    <command:examples>
+      <command:example>
+        <maml:title>
+          --------------  Get Azure Scheduler Location --------------
+        </maml:title>
+        <maml:introduction>
+          <maml:para>C:\PS&gt;</maml:para>
+          C:\PS&gt;
+        </maml:introduction>
+        <dev:code>Get-AzureSchedulerLocation</dev:code>
+        <dev:remarks>
+          <maml:para>Get available scheduler locations</maml:para>
+          <maml:para></maml:para>
+          <maml:para></maml:para>
+          <maml:para>
+          </maml:para>
+          <maml:para></maml:para>
+        </dev:remarks>
+        <command:commandLines>
+          <command:commandLine>
+            <command:commandText>
+            </command:commandText>
+          </command:commandLine>
+        </command:commandLines>
+      </command:example>
+    </command:examples>
+  </command:command>
+  <command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10">
+    <command:details>
+      <command:name>Get-AzureSchedulerJobCollection</command:name>
+      <maml:description>
+        <maml:para>Get a list of scheduler job collections or a particular scheduler job collection</maml:para>
+      </maml:description>
+      <maml:copyright>
+        <maml:para />
+        <!--Add copy right info here.-->
+      </maml:copyright>
+      <command:verb>Get</command:verb>
+      <command:noun>AzureSchedulerJobCollection</command:noun>
+      <!--Add Dev version info here.-->
+      <dev:version />
+    </command:details>
+    <maml:description>
+      <!--This is the Description section-->
+      <maml:para>Get a list of scheduler job collections or a particular scheduler job collection</maml:para>
+    </maml:description>
+    <command:syntax>
+      <command:syntaxItem>
+        <maml:name>Get-AzureSchedulerJobCollection</maml:name>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="1">
+          <maml:name>Location</maml:name>
+          <maml:description>
+            <maml:para>The location name.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="2">
+          <maml:name>Job Collection Name</maml:name>
+          <maml:description>
+            <maml:para>The name of scheduler job collection.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+        </command:parameter>
+      </command:syntaxItem>
+    </command:syntax>
+    <command:returnValues>
+      <command:returnValue>
+        <dev:type>
+          <maml:name></maml:name>
+          <maml:uri />
+          <maml:description>
+            <maml:para></maml:para>
+          </maml:description>
+        </dev:type>
+        <maml:description></maml:description>
+      </command:returnValue>
+    </command:returnValues>
+    <command:terminatingErrors>
+    </command:terminatingErrors>
+    <command:nonTerminatingErrors>
+    </command:nonTerminatingErrors>
+    <maml:alertSet>
+      <maml:title></maml:title>
+      <maml:alert>
+        <maml:para></maml:para>
+      </maml:alert>
+    </maml:alertSet>
+    <command:examples>
+      <command:example>
+        <maml:title>
+          --------------  Example 1 --------------
+        </maml:title>
+        <maml:introduction>
+          <maml:para>C:\PS&gt;</maml:para>
+          C:\PS&gt;
+        </maml:introduction>
+        <dev:code>Get-AzureSchedulerJobCollection</dev:code>
+        <dev:remarks>
+          <maml:para>Get all scheduler job collections across all locations in the current subscription</maml:para>
+          <maml:para></maml:para>
+          <maml:para></maml:para>
+          <maml:para>
+          </maml:para>
+          <maml:para></maml:para>
+        </dev:remarks>
+        <command:commandLines>
+          <command:commandLine>
+            <command:commandText>
+            </command:commandText>
+          </command:commandLine>
+        </command:commandLines>
+      </command:example>
+      <command:example>
+        <maml:title>
+          --------------  Example 2 --------------
+        </maml:title>
+        <maml:introduction>
+          <maml:para>C:\PS&gt;</maml:para>
+          C:\PS&gt;
+        </maml:introduction>
+        <dev:code>Get-AzureSchedulerJobCollection -Location "North Central US"</dev:code>
+        <dev:remarks>
+          <maml:para>Get all scheduler job collections under location North Central US</maml:para>
+          <maml:para></maml:para>
+          <maml:para></maml:para>
+          <maml:para>
+          </maml:para>
+          <maml:para></maml:para>
+        </dev:remarks>
+        <command:commandLines>
+          <command:commandLine>
+            <command:commandText>
+            </command:commandText>
+          </command:commandLine>
+        </command:commandLines>
+      </command:example>
+      <command:example>
+        <maml:title>
+          --------------  Example 3 --------------
+        </maml:title>
+        <maml:introduction>
+          <maml:para>C:\PS&gt;</maml:para>
+          C:\PS&gt;
+        </maml:introduction>
+        <dev:code>Get-AzureSchedulerJobCollection -Location "North Central US" -JobCollectionName jobCollection1</dev:code>
+        <dev:remarks>
+          <maml:para>Get details of jobCollection1</maml:para>
+          <maml:para></maml:para>
+          <maml:para></maml:para>
+          <maml:para>
+          </maml:para>
+          <maml:para></maml:para>
+        </dev:remarks>
+        <command:commandLines>
+          <command:commandLine>
+            <command:commandText>
+            </command:commandText>
+          </command:commandLine>
+        </command:commandLines>
+      </command:example>
+    </command:examples>
+  </command:command>
+  <command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10">
+    <command:details>
+      <command:name>Get-AzureSchedulerJob</command:name>
+      <maml:description>
+        <maml:para>Get a list of scheduler jobs or a particular scheduler job under a job collection and location</maml:para>
+      </maml:description>
+      <maml:copyright>
+        <maml:para />
+        <!--Add copy right info here.-->
+      </maml:copyright>
+      <command:verb>Get</command:verb>
+      <command:noun>AzureSchedulerJob</command:noun>
+      <!--Add Dev version info here.-->
+      <dev:version />
+    </command:details>
+    <maml:description>
+      <!--This is the Description section-->
+      <maml:para>Get a list of scheduler jobs or a particular scheduler job under a job collection and location</maml:para>
+    </maml:description>
+    <command:syntax>
+      <command:syntaxItem>
+        <maml:name>Get-AzureSchedulerJob</maml:name>
+        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="1">
+          <maml:name>Location</maml:name>
+          <maml:description>
+            <maml:para>The location name.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="2">
+          <maml:name>Job Collection Name</maml:name>
+          <maml:description>
+            <maml:para>The name of scheduler job collection.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="2">
+          <maml:name>Job Name</maml:name>
+          <maml:description>
+            <maml:para>The name of scheduler job.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="2">
+          <maml:name>Job State</maml:name>
+          <maml:description>
+            <maml:para>The scheduler job state.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+        </command:parameter>
+      </command:syntaxItem>
+    </command:syntax>
+    <command:returnValues>
+      <command:returnValue>
+        <dev:type>
+          <maml:name></maml:name>
+          <maml:uri />
+          <maml:description>
+            <maml:para></maml:para>
+          </maml:description>
+        </dev:type>
+        <maml:description></maml:description>
+      </command:returnValue>
+    </command:returnValues>
+    <command:terminatingErrors>
+    </command:terminatingErrors>
+    <command:nonTerminatingErrors>
+    </command:nonTerminatingErrors>
+    <maml:alertSet>
+      <maml:title></maml:title>
+      <maml:alert>
+        <maml:para></maml:para>
+      </maml:alert>
+    </maml:alertSet>
+    <command:examples>
+      <command:example>
+        <maml:title>
+          --------------  Example 1 --------------
+        </maml:title>
+        <maml:introduction>
+          <maml:para>C:\PS&gt;</maml:para>
+          C:\PS&gt;
+        </maml:introduction>
+        <dev:code>Get-AzureSchedulerJob -Location "North Central US" -JobCollectionName jobCollection1</dev:code>
+        <dev:remarks>
+          <maml:para>Get scheduler jobs under jobCollection1</maml:para>
+          <maml:para></maml:para>
+          <maml:para></maml:para>
+          <maml:para>
+          </maml:para>
+          <maml:para></maml:para>
+        </dev:remarks>
+        <command:commandLines>
+          <command:commandLine>
+            <command:commandText>
+            </command:commandText>
+          </command:commandLine>
+        </command:commandLines>
+      </command:example>
+      <command:example>
+        <maml:title>
+          --------------  Example 2 --------------
+        </maml:title>
+        <maml:introduction>
+          <maml:para>C:\PS&gt;</maml:para>
+          C:\PS&gt;
+        </maml:introduction>
+        <dev:code>Get-AzureSchedulerJob -Location "North Central US" -JobCollectionName jobCollection1 -JobName job1</dev:code>
+        <dev:remarks>
+          <maml:para>Get details of job1 under jobCollection1</maml:para>
+          <maml:para></maml:para>
+          <maml:para></maml:para>
+          <maml:para>
+          </maml:para>
+          <maml:para></maml:para>
+        </dev:remarks>
+        <command:commandLines>
+          <command:commandLine>
+            <command:commandText>
+            </command:commandText>
+          </command:commandLine>
+        </command:commandLines>
+      </command:example>
+      <command:example>
+        <maml:title>
+          --------------  Example 3 --------------
+        </maml:title>
+        <maml:introduction>
+          <maml:para>C:\PS&gt;</maml:para>
+          C:\PS&gt;
+        </maml:introduction>
+        <dev:code>Get-AzureSchedulerJobCollection -Location "North Central US" -JobCollectionName jobCollection1 -JobState Disabled</dev:code>
+        <dev:remarks>
+          <maml:para>Get all disabled scheduler jobs under jobCollection1</maml:para>
+          <maml:para></maml:para>
+          <maml:para></maml:para>
+          <maml:para>
+          </maml:para>
+          <maml:para></maml:para>
+        </dev:remarks>
+        <command:commandLines>
+          <command:commandLine>
+            <command:commandText>
+            </command:commandText>
+          </command:commandLine>
+        </command:commandLines>
+      </command:example>
+    </command:examples>
+  </command:command>
+  <command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10">
+    <command:details>
+      <command:name>Get-AzureSchedulerJobHistory</command:name>
+      <maml:description>
+        <maml:para>Get history for a scheduler job</maml:para>
+      </maml:description>
+      <maml:copyright>
+        <maml:para />
+        <!--Add copy right info here.-->
+      </maml:copyright>
+      <command:verb>Get</command:verb>
+      <command:noun>AzureSchedulerJobHistory</command:noun>
+      <!--Add Dev version info here.-->
+      <dev:version />
+    </command:details>
+    <maml:description>
+      <!--This is the Description section-->
+      <maml:para>Get history for a scheduler job</maml:para>
+    </maml:description>
+    <command:syntax>
+      <command:syntaxItem>
+        <maml:name>Get-AzureSchedulerJobHistory</maml:name>
+        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="1">
+          <maml:name>Location</maml:name>
+          <maml:description>
+            <maml:para>The location name.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="2">
+          <maml:name>Job Collection Name</maml:name>
+          <maml:description>
+            <maml:para>The name of scheduler job collection.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="2">
+          <maml:name>Job Name</maml:name>
+          <maml:description>
+            <maml:para>The name of scheduler job.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="2">
+          <maml:name>Job Status</maml:name>
+          <maml:description>
+            <maml:para>The scheduler job status.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+        </command:parameter>
+      </command:syntaxItem>
+    </command:syntax>
+    <command:returnValues>
+      <command:returnValue>
+        <dev:type>
+          <maml:name></maml:name>
+          <maml:uri />
+          <maml:description>
+            <maml:para></maml:para>
+          </maml:description>
+        </dev:type>
+        <maml:description></maml:description>
+      </command:returnValue>
+    </command:returnValues>
+    <command:terminatingErrors>
+    </command:terminatingErrors>
+    <command:nonTerminatingErrors>
+    </command:nonTerminatingErrors>
+    <maml:alertSet>
+      <maml:title></maml:title>
+      <maml:alert>
+        <maml:para></maml:para>
+      </maml:alert>
+    </maml:alertSet>
+    <command:examples>
+      <command:example>
+        <maml:title>
+          --------------  Example 1 --------------
+        </maml:title>
+        <maml:introduction>
+          <maml:para>C:\PS&gt;</maml:para>
+          C:\PS&gt;
+        </maml:introduction>
+        <dev:code>Get-AzureSchedulerJobHistory -Location "North Central US" -JobCollectionName jobCollection1 -JobName job1</dev:code>
+        <dev:remarks>
+          <maml:para>Get history of job1</maml:para>
+          <maml:para></maml:para>
+          <maml:para></maml:para>
+          <maml:para>
+          </maml:para>
+          <maml:para></maml:para>
+        </dev:remarks>
+        <command:commandLines>
+          <command:commandLine>
+            <command:commandText>
+            </command:commandText>
+          </command:commandLine>
+        </command:commandLines>
+      </command:example>
+      <command:example>
+        <maml:title>
+          --------------  Example 2 --------------
+        </maml:title>
+        <maml:introduction>
+          <maml:para>C:\PS&gt;</maml:para>
+          C:\PS&gt;
+        </maml:introduction>
+        <dev:code>Get-AzureSchedulerJobHistory -Location "North Central US" -JobCollectionName jobCollection1 -JobName job1 -JobStatus Failed</dev:code>
+        <dev:remarks>
+          <maml:para>Get history of job1 with Failed status</maml:para>
+          <maml:para></maml:para>
+          <maml:para></maml:para>
+          <maml:para>
+          </maml:para>
+          <maml:para></maml:para>
+        </dev:remarks>
+        <command:commandLines>
+          <command:commandLine>
+            <command:commandText>
+            </command:commandText>
+          </command:commandLine>
+        </command:commandLines>
+      </command:example>
+    </command:examples>
+  </command:command>
+
+  <command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10">
+    <command:details>
+      <command:name>Remove-AzureSchedulerJobCollection</command:name>
+      <maml:description>
+        <maml:para>Deletes a particular scheduler job collection and the job(s) under it</maml:para>
+      </maml:description>
+      <maml:copyright>
+        <maml:para />
+        <!--Add copy right info here.-->
+      </maml:copyright>
+      <command:verb>Remove</command:verb>
+      <command:noun>AzureSchedulerJobCollection</command:noun>
+      <!--Add Dev version info here.-->
+      <dev:version />
+    </command:details>
+    <maml:description>
+      <!--This is the Description section-->
+      <maml:para>Deletes a particular scheduler job collection and the job(s) under it</maml:para>
+    </maml:description>
+    <command:syntax>
+      <command:syntaxItem>
+        <maml:name>Remove-AzureSchedulerJobCollection</maml:name>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="1">
+          <maml:name>Location</maml:name>
+          <maml:description>
+            <maml:para>The location name.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="2">
+          <maml:name>Job Collection Name</maml:name>
+          <maml:description>
+            <maml:para>The name of scheduler job collection to be deleted.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+        </command:parameter>
+      </command:syntaxItem>
+    </command:syntax>
+    <command:returnValues>
+      <command:returnValue>
+        <dev:type>
+          <maml:name></maml:name>
+          <maml:uri />
+          <maml:description>
+            <maml:para></maml:para>
+          </maml:description>
+        </dev:type>
+        <maml:description></maml:description>
+      </command:returnValue>
+    </command:returnValues>
+    <command:terminatingErrors>
+    </command:terminatingErrors>
+    <command:nonTerminatingErrors>
+    </command:nonTerminatingErrors>
+    <maml:alertSet>
+      <maml:title></maml:title>
+      <maml:alert>
+        <maml:para></maml:para>
+      </maml:alert>
+    </maml:alertSet>
+    <command:examples>
+      <command:example>
+        <maml:title>
+          --------------  Example 1 --------------
+        </maml:title>
+        <maml:introduction>
+          <maml:para>C:\PS&gt;</maml:para>
+          C:\PS&gt;
+        </maml:introduction>
+        <dev:code>Remove-AzureSchedulerJobCollection -Location "North Central US" -JobCollectionName jobCollection1</dev:code>
+        <dev:remarks>
+          <maml:para>Deletes jobCollection1 and the job(s) under it</maml:para>
+          <maml:para></maml:para>
+          <maml:para></maml:para>
+          <maml:para>
+          </maml:para>
+          <maml:para></maml:para>
+        </dev:remarks>
+        <command:commandLines>
+          <command:commandLine>
+            <command:commandText>
+            </command:commandText>
+          </command:commandLine>
+        </command:commandLines>
+      </command:example>
+      <command:example>
+        <maml:title>
+          --------------  Example 2 --------------
+        </maml:title>
+        <maml:introduction>
+          <maml:para>C:\PS&gt;</maml:para>
+          C:\PS&gt;
+        </maml:introduction>
+        <dev:code>Remove-AzureSchedulerJobCollection -JobCollectionName jobCollection1</dev:code>
+        <dev:remarks>
+          <maml:para>Deletes jobCollection1 and the job(s) under it</maml:para>
+          <maml:para></maml:para>
+          <maml:para></maml:para>
+          <maml:para>
+          </maml:para>
+          <maml:para></maml:para>
+        </dev:remarks>
+        <command:commandLines>
+          <command:commandLine>
+            <command:commandText>
+            </command:commandText>
+          </command:commandLine>
+        </command:commandLines>
+      </command:example>
+    </command:examples>
+  </command:command>
+  <command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10">
+    <command:details>
+      <command:name>New-AzureSchedulerStorageQueueJob</command:name>
+      <maml:description>
+        <maml:para>Create a scheduler job with a storage action</maml:para>
+      </maml:description>
+      <maml:copyright>
+        <maml:para />
+        <!--Add copy right info here.-->
+      </maml:copyright>
+      <command:verb>New</command:verb>
+      <command:noun>AzureSchedulerStorageQueueJob</command:noun>
+      <!--Add Dev version info here.-->
+      <dev:version />
+    </command:details>
+    <maml:description>
+      <!--This is the Description section-->
+      <maml:para>Create a scheduler job with a storage action</maml:para>
+    </maml:description>
+    <command:syntax>
+      <command:syntaxItem>
+        <maml:name>New-AzureSchedulerStorageQueueJob</maml:name>
+        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)">
+          <maml:name>Location</maml:name>
+          <maml:description>
+            <maml:para>The location name.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)">
+          <maml:name>Job Collection Name</maml:name>
+          <maml:description>
+            <maml:para>The name of scheduler job collection.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)">
+          <maml:name>Job Name</maml:name>
+          <maml:description>
+            <maml:para>The name of scheduler job.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)">
+          <maml:name>StorageQueueAccount</maml:name>
+          <maml:description>
+            <maml:para>The Storage account name.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)">
+          <maml:name>StorageQueueName</maml:name>
+          <maml:description>
+            <maml:para>The Storage Queue name.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)">
+          <maml:name>SASToken</maml:name>
+          <maml:description>
+            <maml:para>The SAS token for storage queue.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)">
+          <maml:name>StorageQueueMessage</maml:name>
+          <maml:description>
+            <maml:para>The queue message for storage job.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)">
+          <maml:name>StartTime</maml:name>
+          <maml:description>
+            <maml:para>The Start time.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">DateTime</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)">
+          <maml:name>Interval</maml:name>
+          <maml:description>
+            <maml:para>Interval of the recurrence at the given frequency.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">integer</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)">
+          <maml:name>Frequency</maml:name>
+          <maml:description>
+            <maml:para>The frequency of recurrence.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)">
+          <maml:name>ExecutionCount</maml:name>
+          <maml:description>
+            <maml:para>Count of occurrences that will execute. Optional. Default will recur infinitely.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">integer</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)">
+          <maml:name>EndTime</maml:name>
+          <maml:description>
+            <maml:para>The End time.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">DateTime</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)">
+          <maml:name>JobState</maml:name>
+          <maml:description>
+            <maml:para>The scheduler job state.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)">
+          <maml:name>Headers</maml:name>
+          <maml:description>
+            <maml:para>The header collection.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">HashTable</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)">
+          <maml:name>ErrorActionMethod</maml:name>
+          <maml:description>
+            <maml:para>The Method for Http and Https Action types (GET, PUT, POST, HEAD or DELETE).</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)">
+          <maml:name>ErrorActionURI</maml:name>
+          <maml:description>
+            <maml:para>The Uri for error job action.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">Uri</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)">
+          <maml:name>ErrorActionRequestBody</maml:name>
+          <maml:description>
+            <maml:para>The Body for PUT and POST job actions.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)">
+          <maml:name>ErrorActionHeaders</maml:name>
+          <maml:description>
+            <maml:para>The header collection.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">HashTable</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)">
+          <maml:name>ErrorActionStorageAccount</maml:name>
+          <maml:description>
+            <maml:para>The Storage account name.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)">
+          <maml:name>ErrorActionStorageQueue</maml:name>
+          <maml:description>
+            <maml:para>The Storage queue name.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)">
+          <maml:name>ErrorActionSASToken</maml:name>
+          <maml:description>
+            <maml:para>The Sas token for storage queue.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)">
+          <maml:name>ErrorActionQueueMessageBody</maml:name>
+          <maml:description>
+            <maml:para>The body for storage job acitons.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+        </command:parameter>
+      </command:syntaxItem>
+    </command:syntax>
+    <command:returnValues>
+      <command:returnValue>
+        <dev:type>
+          <maml:name></maml:name>
+          <maml:uri />
+          <maml:description>
+            <maml:para></maml:para>
+          </maml:description>
+        </dev:type>
+        <maml:description></maml:description>
+      </command:returnValue>
+    </command:returnValues>
+    <command:terminatingErrors>
+    </command:terminatingErrors>
+    <command:nonTerminatingErrors>
+    </command:nonTerminatingErrors>
+    <maml:alertSet>
+      <maml:title></maml:title>
+      <maml:alert>
+        <maml:para></maml:para>
+      </maml:alert>
+    </maml:alertSet>
+    <command:examples>
+      <command:example>
+        <maml:title>
+          --------------  Example 1 --------------
+        </maml:title>
+        <maml:introduction>
+          <maml:para>C:\PS&gt;</maml:para>
+          C:\PS&gt;
+        </maml:introduction>
+        <dev:code>New-AzureSchedulerStorageQueueJob -Location "North Central US" -JobCollectionName jobCollection1 -JobName job1 -StorageQueueAccount myStorageAccount -StorageQueueName myStorageQueue -SASToken "?sv=2012-02-12&amp;si=samplePolicy%2F30%2F2014%206%3A37%3A36%20PM&amp;sig=vLQEbSfZbTFh7q3YrzlxBeL%2BjiYKp0gE6lMJ0a5Nb4M%3D"</dev:code>
+        <dev:remarks>
+          <maml:para>Create a new scheduler storage job under jobCollection1 with the provided storage credentials (storage account, queue name, sas token). The job's schedule will be default - runs once immediately</maml:para>
+          <maml:para></maml:para>
+          <maml:para></maml:para>
+          <maml:para>
+          </maml:para>
+          <maml:para></maml:para>
+        </dev:remarks>
+        <command:commandLines>
+          <command:commandLine>
+            <command:commandText>
+            </command:commandText>
+          </command:commandLine>
+        </command:commandLines>
+      </command:example>
+      <command:example>
+        <maml:title>
+          --------------  Example 2 --------------
+        </maml:title>
+        <maml:introduction>
+          <maml:para>C:\PS&gt;</maml:para>
+          C:\PS&gt;
+        </maml:introduction>
+        <dev:code>New-AzureSchedulerStorageQueueJob -Location "North Central US" -JobCollectionName jobCollection1 -JobName job1 -StorageQueueAccount myStorageAccount -StorageQueueName myStorageQueue -SASToken "?sv=2012-02-12&amp;si=samplePolicy%2F30%2F2014%206%3A37%3A36%20PM&amp;sig=vLQEbSfZbTFh7q3YrzlxBeL%2BjiYKp0gE6lMJ0a5Nb4M%3D" -ExecutionCount 20 -Frequency Hour -Interval 2</dev:code>
+        <dev:remarks>
+          <maml:para>Create a new scheduler storage job under jobCollection1 with the provided storage credentials (storage account, queue name, sas token). The job will execute 20 times in total, twice every hour</maml:para>
+          <maml:para></maml:para>
+          <maml:para></maml:para>
+          <maml:para>
+          </maml:para>
+          <maml:para></maml:para>
+        </dev:remarks>
+        <command:commandLines>
+          <command:commandLine>
+            <command:commandText>
+            </command:commandText>
+          </command:commandLine>
+        </command:commandLines>
+      </command:example>
+    </command:examples>
+  </command:command>
+  <command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10">
+    <command:details>
+      <command:name>New-AzureSchedulerHttpJob</command:name>
+      <maml:description>
+        <maml:para>Create a scheduler job with an Http action</maml:para>
+      </maml:description>
+      <maml:copyright>
+        <maml:para />
+        <!--Add copy right info here.-->
+      </maml:copyright>
+      <command:verb>New</command:verb>
+      <command:noun>AzureSchedulerHttpJob</command:noun>
+      <!--Add Dev version info here.-->
+      <dev:version />
+    </command:details>
+    <maml:description>
+      <!--This is the Description section-->
+      <maml:para>Create a scheduler job with an Http action</maml:para>
+    </maml:description>
+    <command:syntax>
+      <command:syntaxItem>
+        <maml:name>New-AzureSchedulerHttpJob</maml:name>
+        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)">
+          <maml:name>Location</maml:name>
+          <maml:description>
+            <maml:para>The location name.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)">
+          <maml:name>Job Collection Name</maml:name>
+          <maml:description>
+            <maml:para>The name of scheduler job collection.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)">
+          <maml:name>Job Name</maml:name>
+          <maml:description>
+            <maml:para>The name of scheduler job.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)">
+          <maml:name>Method</maml:name>
+          <maml:description>
+            <maml:para>The Method for Http and Https Action types (GET, PUT, POST, HEAD or DELETE).</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)">
+          <maml:name>URI</maml:name>
+          <maml:description>
+            <maml:para>The Uri for job action.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">Uri</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)">
+          <maml:name>RequestBody</maml:name>
+          <maml:description>
+            <maml:para>The Body for PUT and POST job actions.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)">
+          <maml:name>StartTime</maml:name>
+          <maml:description>
+            <maml:para>The Start time.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">DateTime</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)">
+          <maml:name>Interval</maml:name>
+          <maml:description>
+            <maml:para>Interval of the recurrence at the given frequency.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">integer</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)">
+          <maml:name>Frequency</maml:name>
+          <maml:description>
+            <maml:para>The frequency of recurrence.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)">
+          <maml:name>ExecutionCount</maml:name>
+          <maml:description>
+            <maml:para>Count of occurrences that will execute. Optional. Default will recur infinitely.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">integer</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)">
+          <maml:name>EndTime</maml:name>
+          <maml:description>
+            <maml:para>The End time.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">DateTime</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)">
+          <maml:name>JobState</maml:name>
+          <maml:description>
+            <maml:para>The scheduler job state.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)">
+          <maml:name>Headers</maml:name>
+          <maml:description>
+            <maml:para>The header collection.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">HashTable</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)">
+          <maml:name>ErrorActionMethod</maml:name>
+          <maml:description>
+            <maml:para>The Method for Http and Https Action types (GET, PUT, POST, HEAD or DELETE).</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)">
+          <maml:name>ErrorActionURI</maml:name>
+          <maml:description>
+            <maml:para>The Uri for error job action.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">Uri</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)">
+          <maml:name>ErrorActionRequestBody</maml:name>
+          <maml:description>
+            <maml:para>The Body for PUT and POST job actions.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)">
+          <maml:name>ErrorActionHeaders</maml:name>
+          <maml:description>
+            <maml:para>The header collection.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">HashTable</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)">
+          <maml:name>ErrorActionStorageAccount</maml:name>
+          <maml:description>
+            <maml:para>The Storage account name.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)">
+          <maml:name>ErrorActionStorageQueue</maml:name>
+          <maml:description>
+            <maml:para>The Storage queue name.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)">
+          <maml:name>ErrorActionSASToken</maml:name>
+          <maml:description>
+            <maml:para>The Sas token for storage queue.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)">
+          <maml:name>ErrorActionQueueMessageBody</maml:name>
+          <maml:description>
+            <maml:para>The body for storage job acitons.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+        </command:parameter>
+      </command:syntaxItem>
+    </command:syntax>
+    <command:returnValues>
+      <command:returnValue>
+        <dev:type>
+          <maml:name></maml:name>
+          <maml:uri />
+          <maml:description>
+            <maml:para></maml:para>
+          </maml:description>
+        </dev:type>
+        <maml:description></maml:description>
+      </command:returnValue>
+    </command:returnValues>
+    <command:terminatingErrors>
+    </command:terminatingErrors>
+    <command:nonTerminatingErrors>
+    </command:nonTerminatingErrors>
+    <maml:alertSet>
+      <maml:title></maml:title>
+      <maml:alert>
+        <maml:para></maml:para>
+      </maml:alert>
+    </maml:alertSet>
+    <command:examples>
+      <command:example>
+        <maml:title>
+          --------------  Example 1 --------------
+        </maml:title>
+        <maml:introduction>
+          <maml:para>C:\PS&gt;</maml:para>
+          C:\PS&gt;
+        </maml:introduction>
+        <dev:code>New-AzureSchedulerHttpJob -Location "North Central US" -JobCollectionName jobCollection1 -JobName job1 -Method GET -URI http://www.bing.com</dev:code>
+        <dev:remarks>
+          <maml:para>Create a new scheduler http job under jobCollection1. The method is GET and Uri is http://www.bing.com. The job's schedule will be default - runs once immediately</maml:para>
+          <maml:para></maml:para>
+          <maml:para></maml:para>
+          <maml:para>
+          </maml:para>
+          <maml:para></maml:para>
+        </dev:remarks>
+        <command:commandLines>
+          <command:commandLine>
+            <command:commandText>
+            </command:commandText>
+          </command:commandLine>
+        </command:commandLines>
+      </command:example>
+      <command:example>
+        <maml:title>
+          --------------  Example 2 --------------
+        </maml:title>
+        <maml:introduction>
+          <maml:para>C:\PS&gt;</maml:para>
+          C:\PS&gt;
+        </maml:introduction>
+        <dev:code>New-AzureSchedulerHttpJob -Location "North Central US" -JobCollectionName jobCollection1 -JobName job1 -Method GET -URI http://www.bing.com -ExecutionCount 20</dev:code>
+        <dev:remarks>
+          <maml:para>Create a new scheduler http job under jobCollection1. The method is GET and Uri is http://www.bing.com. The job will execute 20 times with default schedule</maml:para>
+          <maml:para></maml:para>
+          <maml:para></maml:para>
+          <maml:para>
+          </maml:para>
+          <maml:para></maml:para>
+        </dev:remarks>
+        <command:commandLines>
+          <command:commandLine>
+            <command:commandText>
+            </command:commandText>
+          </command:commandLine>
+        </command:commandLines>
+      </command:example>
+    </command:examples>
+  </command:command>
+  <command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10">
+    <command:details>
+      <command:name>Set-AzureSchedulerHttpJob</command:name>
+      <maml:description>
+        <maml:para>Update a scheduler job with an Http action</maml:para>
+      </maml:description>
+      <maml:copyright>
+        <maml:para />
+        <!--Add copy right info here.-->
+      </maml:copyright>
+      <command:verb>Set</command:verb>
+      <command:noun>AzureSchedulerHttpJob</command:noun>
+      <!--Add Dev version info here.-->
+      <dev:version />
+    </command:details>
+    <maml:description>
+      <!--This is the Description section-->
+      <maml:para>Update a scheduler job with an Http action</maml:para>
+    </maml:description>
+    <command:syntax>
+      <command:syntaxItem>
+        <maml:name>Set-AzureSchedulerHttpJob</maml:name>
+        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)">
+          <maml:name>Location</maml:name>
+          <maml:description>
+            <maml:para>The location name.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)">
+          <maml:name>Job Collection Name</maml:name>
+          <maml:description>
+            <maml:para>The name of scheduler job collection.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)">
+          <maml:name>Job Name</maml:name>
+          <maml:description>
+            <maml:para>The name of scheduler job.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)">
+          <maml:name>Method</maml:name>
+          <maml:description>
+            <maml:para>The Method for Http and Https Action types (GET, PUT, POST, HEAD or DELETE).</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)">
+          <maml:name>URI</maml:name>
+          <maml:description>
+            <maml:para>The Uri for job action.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">Uri</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)">
+          <maml:name>RequestBody</maml:name>
+          <maml:description>
+            <maml:para>The Body for PUT and POST job actions.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)">
+          <maml:name>StartTime</maml:name>
+          <maml:description>
+            <maml:para>The Start time.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">DateTime</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)">
+          <maml:name>Interval</maml:name>
+          <maml:description>
+            <maml:para>Interval of the recurrence at the given frequency.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">integer</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)">
+          <maml:name>Frequency</maml:name>
+          <maml:description>
+            <maml:para>The frequency of recurrence.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)">
+          <maml:name>ExecutionCount</maml:name>
+          <maml:description>
+            <maml:para>Count of occurrences that will execute. Optional. Default will recur infinitely.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">integer</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)">
+          <maml:name>EndTime</maml:name>
+          <maml:description>
+            <maml:para>The End time.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">DateTime</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)">
+          <maml:name>JobState</maml:name>
+          <maml:description>
+            <maml:para>The scheduler job state.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)">
+          <maml:name>Headers</maml:name>
+          <maml:description>
+            <maml:para>The header collection.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">HashTable</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)">
+          <maml:name>ErrorActionMethod</maml:name>
+          <maml:description>
+            <maml:para>The Method for Http and Https Action types (GET, PUT, POST, HEAD or DELETE).</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)">
+          <maml:name>ErrorActionURI</maml:name>
+          <maml:description>
+            <maml:para>The Uri for error job action.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">Uri</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)">
+          <maml:name>ErrorActionRequestBody</maml:name>
+          <maml:description>
+            <maml:para>The Body for PUT and POST job actions.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)">
+          <maml:name>ErrorActionHeaders</maml:name>
+          <maml:description>
+            <maml:para>The header collection.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">HashTable</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)">
+          <maml:name>ErrorActionStorageAccount</maml:name>
+          <maml:description>
+            <maml:para>The Storage account name.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)">
+          <maml:name>ErrorActionStorageQueue</maml:name>
+          <maml:description>
+            <maml:para>The Storage queue name.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)">
+          <maml:name>ErrorActionSASToken</maml:name>
+          <maml:description>
+            <maml:para>The Sas token for storage queue.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)">
+          <maml:name>ErrorActionQueueMessageBody</maml:name>
+          <maml:description>
+            <maml:para>The body for storage job actions.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+        </command:parameter>
+      </command:syntaxItem>
+    </command:syntax>
+    <command:returnValues>
+      <command:returnValue>
+        <dev:type>
+          <maml:name></maml:name>
+          <maml:uri />
+          <maml:description>
+            <maml:para></maml:para>
+          </maml:description>
+        </dev:type>
+        <maml:description></maml:description>
+      </command:returnValue>
+    </command:returnValues>
+    <command:terminatingErrors>
+    </command:terminatingErrors>
+    <command:nonTerminatingErrors>
+    </command:nonTerminatingErrors>
+    <maml:alertSet>
+      <maml:title></maml:title>
+      <maml:alert>
+        <maml:para></maml:para>
+      </maml:alert>
+    </maml:alertSet>
+    <command:examples>
+      <command:example>
+        <maml:title>
+          --------------  Example 1 --------------
+        </maml:title>
+        <maml:introduction>
+          <maml:para>C:\PS&gt;</maml:para>
+          C:\PS&gt;
+        </maml:introduction>
+        <dev:code>Set-AzureSchedulerHttpJob -Location "North Central US" -JobCollectionName jobCollection1 -JobName job1 -JobState Disabled</dev:code>
+        <dev:remarks>
+          <maml:para>Set job1 state to disabled</maml:para>
+          <maml:para></maml:para>
+          <maml:para></maml:para>
+          <maml:para>
+          </maml:para>
+          <maml:para></maml:para>
+        </dev:remarks>
+        <command:commandLines>
+          <command:commandLine>
+            <command:commandText>
+            </command:commandText>
+          </command:commandLine>
+        </command:commandLines>
+      </command:example>
+      <command:example>
+        <maml:title>
+          --------------  Example 2 --------------
+        </maml:title>
+        <maml:introduction>
+          <maml:para>C:\PS&gt;</maml:para>
+          C:\PS&gt;
+        </maml:introduction>
+        <dev:code>Set-AzureSchedulerHttpJob -Location "North Central US" -JobCollectionName jobCollection1 -JobName job1 -URI http://www.bing.com</dev:code>
+        <dev:remarks>
+          <maml:para>Update job1 Uri to http://www.bing.com</maml:para>
+          <maml:para></maml:para>
+          <maml:para></maml:para>
+          <maml:para>
+          </maml:para>
+          <maml:para></maml:para>
+        </dev:remarks>
+        <command:commandLines>
+          <command:commandLine>
+            <command:commandText>
+            </command:commandText>
+          </command:commandLine>
+        </command:commandLines>
+      </command:example>
+    </command:examples>
+  </command:command>
+  <command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10">
+    <command:details>
+      <command:name>Set-AzureSchedulerStorageQueueJob</command:name>
+      <maml:description>
+        <maml:para>Update a scheduler job with a storage action</maml:para>
+      </maml:description>
+      <maml:copyright>
+        <maml:para />
+        <!--Add copy right info here.-->
+      </maml:copyright>
+      <command:verb>Set</command:verb>
+      <command:noun>AzureSchedulerStorageQueueJob</command:noun>
+      <!--Add Dev version info here.-->
+      <dev:version />
+    </command:details>
+    <maml:description>
+      <!--This is the Description section-->
+      <maml:para>Update a scheduler job with a storage action</maml:para>
+    </maml:description>
+    <command:syntax>
+      <command:syntaxItem>
+        <maml:name>Set-AzureSchedulerStorageQueueJob</maml:name>
+        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)">
+          <maml:name>Location</maml:name>
+          <maml:description>
+            <maml:para>The location name.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)">
+          <maml:name>Job Collection Name</maml:name>
+          <maml:description>
+            <maml:para>The name of scheduler job collection.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)">
+          <maml:name>Job Name</maml:name>
+          <maml:description>
+            <maml:para>The name of scheduler job.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)">
+          <maml:name>StorageQueueAccount</maml:name>
+          <maml:description>
+            <maml:para>The Storage account name.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)">
+          <maml:name>StorageQueueName</maml:name>
+          <maml:description>
+            <maml:para>The Storage Queue name.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)">
+          <maml:name>SASToken</maml:name>
+          <maml:description>
+            <maml:para>The SAS token for storage queue.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)">
+          <maml:name>StorageQueueMessage</maml:name>
+          <maml:description>
+            <maml:para>The queue message for storage job.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)">
+          <maml:name>StartTime</maml:name>
+          <maml:description>
+            <maml:para>The Start time.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">DateTime</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)">
+          <maml:name>Interval</maml:name>
+          <maml:description>
+            <maml:para>Interval of the recurrence at the given frequency.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">integer</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)">
+          <maml:name>Frequency</maml:name>
+          <maml:description>
+            <maml:para>The frequency of recurrence.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)">
+          <maml:name>ExecutionCount</maml:name>
+          <maml:description>
+            <maml:para>Count of occurrences that will execute. Optional. Default will recur infinitely.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">integer</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)">
+          <maml:name>EndTime</maml:name>
+          <maml:description>
+            <maml:para>The End time.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">DateTime</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)">
+          <maml:name>JobState</maml:name>
+          <maml:description>
+            <maml:para>The scheduler job state.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)">
+          <maml:name>Headers</maml:name>
+          <maml:description>
+            <maml:para>The header collection.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">HashTable</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)">
+          <maml:name>ErrorActionMethod</maml:name>
+          <maml:description>
+            <maml:para>The Method for Http and Https Action types (GET, PUT, POST, HEAD or DELETE).</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)">
+          <maml:name>ErrorActionURI</maml:name>
+          <maml:description>
+            <maml:para>The Uri for error job action.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">Uri</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)">
+          <maml:name>ErrorActionRequestBody</maml:name>
+          <maml:description>
+            <maml:para>The Body for PUT and POST job actions.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)">
+          <maml:name>ErrorActionHeaders</maml:name>
+          <maml:description>
+            <maml:para>The header collection.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">HashTable</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)">
+          <maml:name>ErrorActionStorageAccount</maml:name>
+          <maml:description>
+            <maml:para>The Storage account name.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)">
+          <maml:name>ErrorActionStorageQueue</maml:name>
+          <maml:description>
+            <maml:para>The Storage queue name.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)">
+          <maml:name>ErrorActionSASToken</maml:name>
+          <maml:description>
+            <maml:para>The Sas token for storage queue.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)">
+          <maml:name>ErrorActionQueueMessageBody</maml:name>
+          <maml:description>
+            <maml:para>The body for storage job actions.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+        </command:parameter>
+      </command:syntaxItem>
+    </command:syntax>
+    <command:returnValues>
+      <command:returnValue>
+        <dev:type>
+          <maml:name></maml:name>
+          <maml:uri />
+          <maml:description>
+            <maml:para></maml:para>
+          </maml:description>
+        </dev:type>
+        <maml:description></maml:description>
+      </command:returnValue>
+    </command:returnValues>
+    <command:terminatingErrors>
+    </command:terminatingErrors>
+    <command:nonTerminatingErrors>
+    </command:nonTerminatingErrors>
+    <maml:alertSet>
+      <maml:title></maml:title>
+      <maml:alert>
+        <maml:para></maml:para>
+      </maml:alert>
+    </maml:alertSet>
+    <command:examples>
+      <command:example>
+        <maml:title>
+          --------------  Example 1 --------------
+        </maml:title>
+        <maml:introduction>
+          <maml:para>C:\PS&gt;</maml:para>
+          C:\PS&gt;
+        </maml:introduction>
+        <dev:code>Set-AzureSchedulerStorageQueueJob -Location "North Central US" -JobCollectionName jobCollection1 -JobName job1 -StorageQueueMessage "Updated message"</dev:code>
+        <dev:remarks>
+          <maml:para>Update queue message for storage job job1</maml:para>
+          <maml:para></maml:para>
+          <maml:para></maml:para>
+          <maml:para>
+          </maml:para>
+          <maml:para></maml:para>
+        </dev:remarks>
+        <command:commandLines>
+          <command:commandLine>
+            <command:commandText>
+            </command:commandText>
+          </command:commandLine>
+        </command:commandLines>
+      </command:example>
+      <command:example>
+        <maml:title>
+          --------------  Example 2 --------------
+        </maml:title>
+        <maml:introduction>
+          <maml:para>C:\PS&gt;</maml:para>
+          C:\PS&gt;
+        </maml:introduction>
+        <dev:code>Set-AzureSchedulerStorageQueueJob -Location "North Central US" -JobCollectionName jobCollection1 -JobName job1 -JobState Enabled</dev:code>
+        <dev:remarks>
+          <maml:para>Enable job1</maml:para>
+          <maml:para></maml:para>
+          <maml:para></maml:para>
+          <maml:para>
+          </maml:para>
+          <maml:para></maml:para>
+        </dev:remarks>
+        <command:commandLines>
+          <command:commandLine>
+            <command:commandText>
+            </command:commandText>
+          </command:commandLine>
+        </command:commandLines>
+      </command:example>
+    </command:examples>
+  </command:command>
 </helpItems>
