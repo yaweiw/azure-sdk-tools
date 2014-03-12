@@ -120,7 +120,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
                 return;
             }
 
-            Func<ComputeOperationStatusResponse> action = null;
+            Func<OperationStatusResponse> action = null;
 
             if (string.IsNullOrEmpty(this.OSState) && ValidateImageType(ImageType.VMImage))
             {

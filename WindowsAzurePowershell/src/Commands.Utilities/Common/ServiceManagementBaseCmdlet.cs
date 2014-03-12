@@ -38,6 +38,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
     using Management.VirtualNetworks;
     using Management.VirtualNetworks.Models;
     using System.Threading;
+    using OperationStatusResponse = Management.Models.OperationStatusResponse;
 
     public abstract class ServiceManagementBaseCmdlet : CloudBaseCmdlet<IServiceManagement>
     {
