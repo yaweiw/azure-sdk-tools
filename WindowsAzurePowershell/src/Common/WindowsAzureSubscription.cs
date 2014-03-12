@@ -1,4 +1,5 @@
-﻿// ----------------------------------------------------------------------------------
+﻿using Microsoft.WindowsAzure.Commands.Common;
+// ----------------------------------------------------------------------------------
 //
 // Copyright Microsoft Corporation
 // Licensed under the Apache License, Version 2.0 (the "License");
@@ -25,6 +26,8 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
     using WindowsAzure.Common;
     using Commands.Common.Properties;
     using Commands.Common;
+    using Microsoft.Azure.Management.Resources;
+    using Microsoft.Azure.Management.Resources.Models;
 
     /// <summary>
     /// Representation of a subscription in memory
@@ -178,7 +181,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
             return ClientClientFromEndpoint<TClient>(GalleryEndpoint);
         }
 
-        public TClient CreateCloudServiceClient<TClient>() where TClient : ServiceClient<TClient>
+        public TClient CreateClientFromCloudServiceEndpoint<TClient>() where TClient : ServiceClient<TClient>
         {
             return ClientClientFromEndpoint<TClient>(CloudServiceEndpoint);
         }
@@ -213,12 +216,51 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
 
         private void RegisterRequiredResourceProviders<T>(SubscriptionCloudCredentials credentials) where T : ServiceClient<T>
         {
-            var requiredProviders = RequiredResourceLookup.RequiredProvidersFor<T>();
+            IResourceManagementClient client = new ResourceManagementClient(credentials, CloudServiceEndpoint);
+            ProviderListResult result = client.Providers.List(null);
+            List<Provider> providers = new List<Provider>(result.Providers);
+
+            while (!string.IsNullOrEmpty(result.NextLink))
+            {
+                result = client.Providers.ListNext(result.NextLink);
+                providers.AddRange(result.Providers);
+            }
+
+            RegisterServiceManagementProviders<T>(credentials);
+            RegisterResourceManagementProviders<T>(credentials);
+        }
+
+        private void RegisterResourceManagementProviders<T>(SubscriptionCloudCredentials credentials) where T : ServiceClient<T>
+        {
+            List<string> requiredProviders = RequiredResourceLookup.RequiredProvidersForResourceManagement<T>().ToList();
+            IResourceManagementClient client = new ResourceManagementClient(credentials, CloudServiceEndpoint);
+            ProviderListResult result = client.Providers.List(null);
+            List<Provider> providers = new List<Provider>(result.Providers);
+
+            while (!string.IsNullOrEmpty(result.NextLink))
+            {
+                result = client.Providers.ListNext(result.NextLink);
+                providers.AddRange(result.Providers);
+            }
+
+            List<string> unregisteredProviders = providers.Where(p => p.RegistrationState
+                .Equals(ProviderRegistrationState.NotRegistered, StringComparison.OrdinalIgnoreCase)).Select(p => p.Namespace).ToList();
+            List<string> toRegister = requiredProviders.Intersect(unregisteredProviders).Distinct().ToList();
+
+            foreach (string provider in toRegister)
+            {
+                client.Providers.Register(provider);
+            }
+        }
+
+        private void RegisterServiceManagementProviders<T>(SubscriptionCloudCredentials credentials) where T : ServiceClient<T>
+        {
+            var requiredProviders = RequiredResourceLookup.RequiredProvidersForServiceManagement<T>();
             var unregisteredProviders = requiredProviders.Where(p => !RegisteredResourceProviders.Contains(p)).ToList();
 
             if (unregisteredProviders.Count > 0)
             {
-                using(var client = new ManagementClient(credentials, ServiceEndpoint))
+                using (var client = new ManagementClient(credentials, ServiceEndpoint))
                 {
                     foreach (var provider in unregisteredProviders)
                     {
