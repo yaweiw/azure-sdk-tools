@@ -8,10 +8,10 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Microsoft.Azure.Commands.ResourceManagement.Properties
-{
-
-
+namespace Microsoft.Azure.Commands.ResourceManagement.Properties {
+    using System;
+    
+    
     /// <summary>
     ///   A strongly-typed resource class, for looking up localized strings, etc.
     /// </summary>
@@ -79,7 +79,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Properties
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to No deployments were found that satisfy the criteria..
+        ///   Looks up a localized string similar to Cannot find a deployment that matches the parameter values..
         /// </summary>
         internal static string DeploymentNotFound {
             get {
@@ -88,7 +88,16 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Properties
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Unable to set parameter &apos;{0}&apos; from ParameterFile. Incompatible value &apos;{1}&apos;..
+        ///   Looks up a localized string similar to Cannot parse {0} &apos;{1}&apos;.
+        /// </summary>
+        internal static string FailedToParseProperty {
+            get {
+                return ResourceManager.GetString("FailedToParseProperty", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Cannot set parameter &apos;{0}&apos; from ParameterFile. Incompatible value &apos;{1}&apos;..
         /// </summary>
         internal static string FailureParsingParameterFile {
             get {
@@ -97,7 +106,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Properties
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Unable to set parameter &apos;{0}&apos; from ParameterObject. Incompatible value &apos;{1}&apos;..
+        ///   Looks up a localized string similar to Cannot set parameter &apos;{0}&apos; from ParameterObject. Incompatible value &apos;{1}&apos;..
         /// </summary>
         internal static string FailureParsingParameterObject {
             get {
@@ -205,11 +214,20 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Properties
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Either StorageAccountName or storage account on the subscription need to be specified..
+        ///   Looks up a localized string similar to You must specify either StorageAccountName or storage account on the subscription need to be specified..
         /// </summary>
         internal static string StorageAccountNameNeedsToBeSpecified {
             get {
                 return ResourceManager.GetString("StorageAccountNameNeedsToBeSpecified", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Cannot find Gallery item &apos;{0}&apos;.
+        /// </summary>
+        internal static string UnableToFindGallery {
+            get {
+                return ResourceManager.GetString("UnableToFindGallery", resourceCulture);
             }
         }
     }
