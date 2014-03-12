@@ -12,14 +12,14 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-using System;
 using Microsoft.Azure.Commands.ResourceManagement.Properties;
 using Microsoft.Azure.Management.Resources;
 using Microsoft.Azure.Management.Resources.Models;
-using System.Collections.Generic;
-using System.Linq;
 using Microsoft.WindowsAzure.Management.Monitoring.Events;
 using Microsoft.WindowsAzure.Management.Monitoring.Events.Models;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Microsoft.Azure.Commands.ResourceManagement.Models
 {
