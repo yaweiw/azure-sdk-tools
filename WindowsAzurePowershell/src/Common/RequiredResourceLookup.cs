@@ -26,11 +26,28 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
         // Trivial implementation for now, will replace with lookup
         // based on data in service client types themselves once
         // it gets implemented.
-        internal static IList<string> RequiredProvidersFor<T>() where T : ServiceClient<T>
+        internal static IList<string> RequiredProvidersForServiceManagement<T>() where T : ServiceClient<T>
         {
             if (typeof(T).FullName.EndsWith("WebSiteManagementClient"))
             {
                 return new[] { "website" };
+            }
+
+            if (typeof(T).FullName.EndsWith("ResourceManagementClient"))
+            {
+                return new[] { "microsoft.sql",
+                               "microsoft.visualstudio",
+                               "microsoft.web" };
+            }
+
+            return new string[0];
+        }
+
+        internal static IList<string> RequiredProvidersForResourceManagement<T>() where T : ServiceClient<T>
+        {
+            if (typeof(T).FullName.EndsWith("ResourceManagementClient"))
+            {
+                return new[] { "microsoft.insights" };
             }
 
             return new string[0];
