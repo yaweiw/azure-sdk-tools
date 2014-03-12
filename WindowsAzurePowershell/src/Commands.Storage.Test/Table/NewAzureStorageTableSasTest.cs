@@ -33,7 +33,7 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Test.Table
         {
             command = new NewAzureStorageTableSasTokenCommand(tableMock)
                 {
-                    CommandRuntime = new MockCommandRuntime()
+                    CommandRuntime = MockCmdRunTime
                 };
         }
 

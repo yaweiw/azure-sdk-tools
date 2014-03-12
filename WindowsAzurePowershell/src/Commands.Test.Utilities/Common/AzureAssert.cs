@@ -55,19 +55,19 @@ namespace Microsoft.WindowsAzure.Commands.Test.Utilities.Common
 
         public static void AreEqualDeploymentSettings(PublishContext expected, PublishContext actual)
         {
-            AreEqualPublishContext(expected.ServiceSettings, expected.ConfigPath, expected.DeploymentName, expected.ServiceName, expected.PackagePath, expected.SubscriptionId, actual);
+            AreEqualPublishContext(expected.ServiceSettings, expected.CloudConfigPath, expected.DeploymentName, expected.ServiceName, expected.PackagePath, expected.SubscriptionId, actual);
         }
 
         public static void AreEqualPublishContext(ServiceSettings settings, string configPath, string deploymentName, string label, string packagePath, string subscriptionId, PublishContext actual)
         {
             AreEqualServiceSettings(settings, actual.ServiceSettings);
-            Assert.AreEqual<string>(configPath, actual.ConfigPath);
+            Assert.AreEqual<string>(configPath, actual.CloudConfigPath);
             Assert.AreEqual<string>(deploymentName, actual.DeploymentName);
             Assert.AreEqual<string>(label, actual.ServiceName);
             Assert.AreEqual<string>(packagePath, actual.PackagePath);
             Assert.AreEqual<string>(subscriptionId, actual.SubscriptionId);
 
-            Assert.IsTrue(File.Exists(actual.ConfigPath));
+            Assert.IsTrue(File.Exists(actual.CloudConfigPath));
             Assert.IsTrue(File.Exists(actual.PackagePath));
         }
 

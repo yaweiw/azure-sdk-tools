@@ -19,6 +19,9 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Common
     using System.Diagnostics;
     using System.Globalization;
     using System.Management.Automation;
+    using System.Net;
+    using System.Threading;
+    using System.Threading.Tasks;
     using Commands.Utilities.Common;
     using Microsoft.WindowsAzure.Storage;
     using Microsoft.WindowsAzure.Storage.Blob;
@@ -44,9 +47,62 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Common
         public virtual int? ClientTimeoutPerRequest { get; set; }
 
         /// <summary>
+        /// Amount of concurrent async tasks to run per available core.
+        /// </summary>
+        protected int concurrentTaskCount = 10;
+
+        /// <summary>
+        /// Amount of concurrent async tasks to run per available core.
+        /// </summary>
+        [Parameter(HelpMessage = "The total amount of concurrent async tasks. The default value is 10.")]
+        public virtual int? ConcurrentTaskCount
+        {
+            get { return concurrentTaskCount; }
+            set
+            {
+                int count = value.Value;
+
+                if (count > 0)
+                {
+                    concurrentTaskCount = count;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Cancellation Token Source
+        /// </summary>
+        private CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
+        protected CancellationToken CmdletCancellationToken;
+
+        /// <summary>
         /// whether stop processing
         /// </summary>
-        protected bool ShouldForceQuit = false;
+        protected bool ShouldForceQuit { get { return cancellationTokenSource.Token.IsCancellationRequested; } }
+
+        /// <summary>
+        /// Enable or disable multithread
+        ///     If the storage cmdlet want to disable the multithread feature,
+        ///     it can disable when construct and beginProcessing
+        /// </summary>
+        protected bool EnableMultiThread
+        {
+            get { return enableMultiThread; }
+            set { enableMultiThread = value; }
+        }
+        private bool enableMultiThread = true;
+
+        internal TaskOutputStream OutputStream;
+
+        //CountDownEvent wait time out and output time interval.
+        protected const int WaitTimeout = 1000;//ms
+
+        /// <summary>
+        /// Summary progress record on multithread task
+        /// </summary>
+        protected ProgressRecord summaryRecord;
+
+        private LimitedConcurrencyTaskScheduler taskScheduler;
 
         /// <summary>
         /// Cmdlet operation context.
@@ -114,12 +170,11 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Common
         /// Get cloud storage account 
         /// </summary>
         /// <returns>Storage account</returns>
-        internal CloudStorageAccount GetCloudStorageAccount()
+        internal AzureStorageContext GetCmdletStorageContext()
         {
             if (Context != null)
             {
                 WriteDebugLog(String.Format(Resources.UseStorageAccountFromContext, Context.StorageAccountName));
-                return Context.StorageAccount;
             }
             else
             {
@@ -145,9 +200,9 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Common
 
                 //Set the storage context and use it in pipeline
                 Context = new AzureStorageContext(account);
-
-                return account;
             }
+
+            return Context;
         }
 
         /// <summary>
@@ -326,12 +381,134 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Common
         }
 
         /// <summary>
+        /// Get the concurrency value
+        /// </summary>
+        /// <returns>The max number of concurrent task/rest call</returns>
+        protected int GetCmdletConcurrency()
+        {
+            return concurrentTaskCount;
+        }
+
+        /// <summary>
+        /// Configure Service Point
+        /// </summary>
+        private void ConfigureServicePointManager()
+        {
+            int maxConcurrency = 1000;
+            int cmdletConcurrency = GetCmdletConcurrency();
+            maxConcurrency = Math.Max(maxConcurrency, cmdletConcurrency);
+            //Set the default connection limit to a very high value and control the concurrency with LimitedConcurrencyTaskScheduler.
+            //If so, there is no need to set the ConnectionLimit for each ServicePoint.
+            ServicePointManager.DefaultConnectionLimit = maxConcurrency;
+            ServicePointManager.Expect100Continue = false;
+            ServicePointManager.UseNagleAlgorithm = true;
+        }
+
+        private void TaskErrorHandler(object sender, TaskExceptionEventArgs args)
+        {
+            if (OutputStream != null)
+            {
+                OutputStream.WriteError(args.TaskId, args.Exception);
+            }
+        }
+
+        /// <summary>
+        /// Init the multithread run time resource
+        /// </summary>
+        internal void InitMutltiThreadResources()
+        {
+            taskScheduler = new LimitedConcurrencyTaskScheduler(GetCmdletConcurrency(), CmdletCancellationToken);
+            OutputStream = new TaskOutputStream(CmdletCancellationToken);
+            OutputStream.OutputWriter = WriteObject;
+            OutputStream.ErrorWriter = WriteExceptionError;
+            OutputStream.ProgressWriter = WriteProgress;
+            OutputStream.VerboseWriter = WriteVerbose;
+            OutputStream.DebugWriter = WriteDebugWithTimestamp;
+            OutputStream.ConfirmWriter = ShouldProcess;
+            OutputStream.TaskStatusQueryer = taskScheduler.IsTaskCompleted;
+            taskScheduler.OnError += TaskErrorHandler;
+
+            int summaryRecordId = 0;
+            string summary = String.Format(Resources.TransmitActiveSummary, taskScheduler.TotalTaskCount,
+                taskScheduler.FinishedTaskCount, taskScheduler.FailedTaskCount, taskScheduler.ActiveTaskCount);
+            string activity = string.Format(Resources.TransmitActivity, this.MyInvocation.MyCommand);
+            summaryRecord = new ProgressRecord(summaryRecordId, activity, summary);
+            CmdletCancellationToken.Register(() => OutputStream.CancelConfirmRequest());
+        }
+
+        /// <summary>
+        /// Set up MultiThread environment
+        /// </summary>
+        internal void SetUpMultiThreadEnvironment()
+        {
+            ConfigureServicePointManager();
+            InitMutltiThreadResources();
+        }
+
+        /// <summary>
+        /// End processing in multi thread environment
+        /// </summary>
+        internal void MultiThreadEndProcessing()
+        {
+            do
+            {
+                WriteTransmitSummaryStatus();
+                //When task add to datamovement library, it will immediately start.
+                //So, we'd better output status at first.
+                OutputStream.Output();
+            }
+            while (!taskScheduler.WaitForComplete(WaitTimeout, CmdletCancellationToken));
+
+            CloseSummaryProgressBar();
+            OutputStream.Output();
+        }
+
+        protected void WriteTaskSummary()
+        {
+            WriteVerbose(String.Format(Resources.TransferSummary, taskScheduler.TotalTaskCount,
+                taskScheduler.FinishedTaskCount, taskScheduler.FailedTaskCount, taskScheduler.ActiveTaskCount));
+        }
+
+        /// <summary>
+        /// Close the summary progress bar, otherwise it'll cause a very bad performance on output.
+        /// </summary>
+        private void CloseSummaryProgressBar()
+        {
+            OutputStream.DisableProgressBar = true;
+            summaryRecord.RecordType = ProgressRecordType.Completed;
+            WriteProgress(summaryRecord);
+        }
+
+        internal void RunTask(Func<long, Task> taskGenerator)
+        {
+            taskScheduler.RunTask(taskGenerator);
+        }
+
+        /// <summary>
+        /// Write transmit summary status
+        /// </summary>
+        protected virtual void WriteTransmitSummaryStatus()
+        {
+            string summary = String.Format(Resources.TransmitActiveSummary, taskScheduler.TotalTaskCount,
+                taskScheduler.FinishedTaskCount, taskScheduler.FailedTaskCount, taskScheduler.ActiveTaskCount);
+            summaryRecord.StatusDescription = summary;
+            WriteProgress(summaryRecord);
+        }
+
+        /// <summary>
         /// Cmdlet begin process
         /// </summary>
         protected override void BeginProcessing()
         {
             CmdletOperationContext.Init();
+            CmdletCancellationToken = cancellationTokenSource.Token;
             WriteDebugLog(String.Format(Resources.InitOperationContextLog, this.GetType().Name, CmdletOperationContext.ClientRequestId));
+            
+            if (enableMultiThread)
+            {
+                SetUpMultiThreadEnvironment();
+            }
+
             base.BeginProcessing();
         }
 
@@ -340,6 +517,11 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Common
         /// </summary>
         protected override void EndProcessing()
         {
+            if (enableMultiThread)
+            {
+                MultiThreadEndProcessing();
+            }
+
             double timespan = CmdletOperationContext.GetRunningMilliseconds();
             string message = string.Format(Resources.EndProcessingLog,
                 this.GetType().Name, CmdletOperationContext.StartedRemoteCallCounter, CmdletOperationContext.FinishedRemoteCallCounter, timespan, CmdletOperationContext.ClientRequestId);
@@ -354,7 +536,7 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Common
         protected override void StopProcessing()
         {
             //ctrl + c and etc
-            ShouldForceQuit = true;
+            cancellationTokenSource.Cancel();
             base.StopProcessing();
         }
     }

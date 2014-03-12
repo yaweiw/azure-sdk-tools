@@ -23,7 +23,7 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Model.Contract
     /// <summary>
     /// Storage queue management interface
     /// </summary>
-    public interface IStorageQueueManagement
+    public interface IStorageQueueManagement : IStorageManagement
     {
         /// <summary>
         /// List storage queues
