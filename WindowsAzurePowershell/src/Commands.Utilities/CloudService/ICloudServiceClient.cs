@@ -69,6 +69,18 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService
             bool launch = false,
             bool forceUpgrade = false);
 
+        Deployment PublishCloudService(
+            string package,
+            string Configuration,
+            string slot = null,
+            string location = null,
+            string affinityGroup = null,
+            string storageAccount = null,
+            string deploymentName = null,
+            bool launch = false,
+            bool forceUpgrade = false);
+
+
         /// <summary>
         /// Creates storage service if it does not exist.
         /// </summary>
