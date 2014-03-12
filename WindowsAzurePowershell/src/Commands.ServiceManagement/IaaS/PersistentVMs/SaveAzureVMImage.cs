@@ -137,7 +137,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
             }
             else if (ValidateImageType(ImageType.OSImage))
             {
-                action = () => this.ComputeClient.VirtualMachineVMImages.Capture(
+                action = () => this.ComputeClient.VirtualMachines.CaptureVMImage(
                     this.ServiceName,
                     CurrentDeploymentNewSM.Name,
                     this.Name, new VirtualMachineVMImageCaptureParameters
