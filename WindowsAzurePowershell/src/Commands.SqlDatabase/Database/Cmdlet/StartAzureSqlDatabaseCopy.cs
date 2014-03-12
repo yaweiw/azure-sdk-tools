@@ -149,10 +149,6 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Database.Cmdlet
         /// <summary>
         /// Gets or sets the maximum lag for the continuous copy operation.
         /// </summary>
-        [Parameter(Mandatory = false, ParameterSetName = ByInputObjectContinuous,
-            HelpMessage = "The maximum lag for the continuous copy operation.")]
-        [Parameter(Mandatory = false, ParameterSetName = ByDatabaseNameContinuous,
-            HelpMessage = "The maximum lag for the continuous copy operation.")]
         [Parameter(Mandatory = false, ParameterSetName = ByInputObjectWithConnectionContextContinuous,
             HelpMessage = "The maximum lag for the continuous copy operation.")]
         [Parameter(Mandatory = false, ParameterSetName = ByDatabaseNameWithConnectionContextContinuous,
