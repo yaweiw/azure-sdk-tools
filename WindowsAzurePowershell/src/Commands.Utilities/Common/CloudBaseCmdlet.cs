@@ -34,7 +34,11 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
 
         private string _serviceEndpoint;
 
+        private string _cloudServiceEndpoint;
+
         public string CurrentServiceEndpoint { get; set; }
+
+        public string CurrentCloudServiceEndpoint { get; set; }
 
         public Binding ServiceBinding
         {
@@ -75,6 +79,33 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
             set
             {
                 _serviceEndpoint = value;
+            }
+        }
+
+        public string CloudServiceEndpoint
+        {
+            get
+            {
+                if (!string.IsNullOrEmpty(CurrentCloudServiceEndpoint))
+                {
+                    _cloudServiceEndpoint = CurrentCloudServiceEndpoint;
+                }
+                else if (CurrentSubscription != null && CurrentSubscription.CloudServiceEndpoint != null)
+                {
+                    _cloudServiceEndpoint = CurrentSubscription.CloudServiceEndpoint.ToString();
+                }
+                else
+                {
+                    // Use default endpoint
+                    _cloudServiceEndpoint = Profile.CurrentEnvironment.CloudServiceEndpoint;
+                }
+
+                return _cloudServiceEndpoint;
+            }
+
+            set
+            {
+                _cloudServiceEndpoint = value;
             }
         }
 
@@ -154,7 +185,6 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
             Validate.ValidateInternetConnection();
             InitChannelCurrentSubscription();
             base.ProcessRecord();
-            HttpRestCallLogger.CurrentCmdlet = this;
             OnProcessRecord();
         }
 

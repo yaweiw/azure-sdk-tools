@@ -151,11 +151,11 @@
     </Reference>
     <Reference Include="Microsoft.WindowsAzure.Common, Version=0.9.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Microsoft.WindowsAzure.Common.0.9.10-preview\lib\net40\Microsoft.WindowsAzure.Common.dll</HintPath>
+      <HintPath>..\packages\Microsoft.WindowsAzure.Common.0.9.11-preview\lib\net40\Microsoft.WindowsAzure.Common.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.WindowsAzure.Common.NetFramework, Version=0.9.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Microsoft.WindowsAzure.Common.0.9.10-preview\lib\net40\Microsoft.WindowsAzure.Common.NetFramework.dll</HintPath>
+      <HintPath>..\packages\Microsoft.WindowsAzure.Common.0.9.11-preview\lib\net40\Microsoft.WindowsAzure.Common.NetFramework.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.WindowsAzure.Configuration, Version=1.8.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -260,6 +260,10 @@
     <ProjectReference Include="..\Commands\Commands.csproj">
       <Project>{cd5aa507-f5ef-473d-855b-84b91a1abe54}</Project>
       <Name>Commands</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Common\Common.csproj">
+      <Project>{5ee72c53-1720-4309-b54b-5fb79703195f}</Project>
+      <Name>Common</Name>
     </ProjectReference>
     <ProjectReference Include="..\ConsoleAppUtils\ConsoleAppUtils.csproj">
       <Project>{ed57ecaf-ad30-4c7a-99a6-8757a83b19f0}</Project>

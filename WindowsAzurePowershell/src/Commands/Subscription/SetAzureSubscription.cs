@@ -45,6 +45,9 @@ namespace Microsoft.WindowsAzure.Commands.Subscription
         [Parameter(Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "Service endpoint.", ParameterSetName = "CommonSettings")]
         public string ServiceEndpoint { get; set; }
 
+        [Parameter(Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "Cloud service endpoint.", ParameterSetName = "CommonSettings")]
+        public string CloudServiceEndpoint { get; set; }
+
         [Parameter(Mandatory = false, HelpMessage = "Current storage account name.", ParameterSetName = "CommonSettings")]
         [ValidateNotNullOrEmpty]
         public string CurrentStorageAccountName { get; set; }
@@ -92,6 +95,31 @@ namespace Microsoft.WindowsAzure.Commands.Subscription
                 subscription.ServiceEndpoint = new Uri(ServiceEndpoint);
             }
 
+            if (string.IsNullOrEmpty(CloudServiceEndpoint))
+            {
+                if (Profile.CurrentEnvironment.CloudServiceEndpoint != null)
+                {
+                    subscription.CloudServiceEndpoint = new Uri(Profile.CurrentEnvironment.CloudServiceEndpoint);
+                }
+                else
+                {
+                    subscription.CloudServiceEndpoint = null;
+                }
+            }
+            else
+            {
+                subscription.CloudServiceEndpoint = new Uri(CloudServiceEndpoint);
+            }
+
+            if (Profile.CurrentEnvironment.GalleryEndpoint != null)
+            {
+                subscription.GalleryEndpoint = new Uri(Profile.CurrentEnvironment.GalleryEndpoint);
+            }
+            else
+            {
+                subscription.GalleryEndpoint = null;
+            }
+
             Profile.AddSubscription(subscription);
         }
 
@@ -110,6 +138,11 @@ namespace Microsoft.WindowsAzure.Commands.Subscription
             if (ServiceEndpoint != null)
             {
                 subscription.ServiceEndpoint = new Uri(ServiceEndpoint);
+            }
+
+            if (CloudServiceEndpoint != null)
+            {
+                subscription.CloudServiceEndpoint = new Uri(CloudServiceEndpoint);
             }
 
             if (CurrentStorageAccountName != null)

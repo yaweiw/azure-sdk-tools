@@ -21,6 +21,8 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.Common
 
         public const string ServiceManagement = "ServiceManagement";
 
+        public const string ResourceManagement = "ResourceManagement";
+
         // Owners
 
         public const string OneSDK = "OneSDK";

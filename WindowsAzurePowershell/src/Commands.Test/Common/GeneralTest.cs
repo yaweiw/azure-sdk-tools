@@ -44,7 +44,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.Common
         {
             string accountName = "azure awesome account";
             string expected = string.Format(Resources.BlobEndpointUri, accountName);
-            string actual = General.BlobEndpointUri(accountName);
+            string actual = GeneralUtilities.BlobEndpointUri(accountName);
 
             Assert.AreEqual<string>(expected, actual);
         }
