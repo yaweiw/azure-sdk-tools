@@ -94,23 +94,16 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Models
 
         private static string DeploymentTemplateStorageContainerName = "deployment-templates";
 
-        private string GetDeploymentParameters(string parameterFile, Hashtable parameterObject)
+        private string GetDeploymentParameters(Hashtable parameterObject)
         {
-            string deploymentParameters = null;
-
             if (parameterObject != null)
             {
-                deploymentParameters = SerializeHashtable(parameterObject, addValueLayer: true);
+                return SerializeHashtable(parameterObject, addValueLayer: true);
             }
             else
             {
-                if (!string.IsNullOrEmpty(parameterFile))
-                {
-                    deploymentParameters = File.ReadAllText(parameterFile);
-                }
+                return null;
             }
-
-            return deploymentParameters;
         }
 
         private void RegisterResourceProviders()
@@ -395,7 +388,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Models
             return newOperations;
         }
 
-        internal RuntimeDefinedParameter ConstructDynamicParameter(string[] parameters, string[] parameterSetNames, KeyValuePair<string, TemplateFileParameter> parameter)
+        internal RuntimeDefinedParameter ConstructDynamicParameter(string[] staticParameters, KeyValuePair<string, TemplateFileParameter> parameter)
         {
             const string duplicatedParameterSuffix = "FromTemplate";
             string name = GeneralUtilities.ToUpperFirstLetter(parameter.Key);
@@ -403,7 +396,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Models
 
             RuntimeDefinedParameter runtimeParameter = new RuntimeDefinedParameter()
             {
-                Name = parameters.Contains(name) ? name + duplicatedParameterSuffix : name,
+                Name = staticParameters.Contains(name) ? name + duplicatedParameterSuffix : name,
                 ParameterType = GetParameterType(parameter.Value.Type),
                 Value = defaultValue
             };
@@ -439,7 +432,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Models
                     ContentVersion = parameters.TemplateVersion,
                     ContentHash = GetTemplateContentHash(parameters.TemplateHash, parameters.TemplateHashAlgorithm)
                 },
-                Parameters = GetDeploymentParameters(parameters.ParameterFile, parameters.ParameterObject)
+                Parameters = GetDeploymentParameters(parameters.ParameterObject)
             };
 
             return deployment;

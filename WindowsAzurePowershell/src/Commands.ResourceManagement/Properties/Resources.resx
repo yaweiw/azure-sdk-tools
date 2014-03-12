@@ -126,6 +126,12 @@
   <data name="DeploymentNotFound" xml:space="preserve">
     <value>No deployments were found that satisfy the criteria.</value>
   </data>
+  <data name="FailureParsingParameterFile" xml:space="preserve">
+    <value>Unable to set parameter '{0}' from ParameterFile. Incompatible value '{1}'.</value>
+  </data>
+  <data name="FailureParsingParameterObject" xml:space="preserve">
+    <value>Unable to set parameter '{0}' from ParameterObject. Incompatible value '{1}'.</value>
+  </data>
   <data name="NewResourceGroupMessage" xml:space="preserve">
     <value>Replacing resource group ...</value>
   </data>

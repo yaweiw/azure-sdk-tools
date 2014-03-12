@@ -88,6 +88,24 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Unable to set parameter &apos;{0}&apos; from ParameterFile. Incompatible value &apos;{1}&apos;..
+        /// </summary>
+        internal static string FailureParsingParameterFile {
+            get {
+                return ResourceManager.GetString("FailureParsingParameterFile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Unable to set parameter &apos;{0}&apos; from ParameterObject. Incompatible value &apos;{1}&apos;..
+        /// </summary>
+        internal static string FailureParsingParameterObject {
+            get {
+                return ResourceManager.GetString("FailureParsingParameterObject", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Replacing resource group ....
         /// </summary>
         internal static string NewResourceGroupMessage {
