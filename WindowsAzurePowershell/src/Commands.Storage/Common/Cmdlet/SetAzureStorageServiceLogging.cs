@@ -46,11 +46,14 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Common.Cmdlet
         [Parameter(Mandatory = false, HelpMessage = "Display ServiceProperties")]
         public SwitchParameter PassThru { get; set; }
 
-        //public override int? ConcurrentTaskCount { get; set; }
+        // Overwrite the useless parameter
+        public override int? ServerTimeoutPerRequest { get; set; }
+        public override int? ClientTimeoutPerRequest { get; set; }
+        public override int? ConcurrentTaskCount { get; set; }
 
         public SetAzureStorageServiceLoggingCommand()
         {
-            //EnableMultiThread = false;
+            EnableMultiThread = false;
         }
 
         /// <summary>
@@ -160,15 +163,14 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Common.Cmdlet
         [PermissionSet(SecurityAction.Demand, Name = "FullTrust")]
         public override void ExecuteCmdlet()
         {
-            CloudStorageAccount account = GetCloudStorageAccount();
-            ServiceProperties currentServiceProperties = Channel.GetStorageServiceProperties(account, ServiceType, GetRequestOptions(ServiceType), OperationContext);
+            ServiceProperties currentServiceProperties = Channel.GetStorageServiceProperties(ServiceType, GetRequestOptions(ServiceType), OperationContext);
             ServiceProperties serviceProperties = new ServiceProperties();
             serviceProperties.Clean();
             serviceProperties.Logging = currentServiceProperties.Logging;
 
             UpdateServiceProperties(serviceProperties.Logging);
 
-            Channel.SetStorageServiceProperties(account, ServiceType, serviceProperties,
+            Channel.SetStorageServiceProperties(ServiceType, serviceProperties,
                 GetRequestOptions(ServiceType), OperationContext);
 
             if (PassThru)

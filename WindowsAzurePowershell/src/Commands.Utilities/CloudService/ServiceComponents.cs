@@ -35,6 +35,12 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService
             LoadComponents(paths);
         }
 
+        public ServiceComponents(string cloudConfiguration)
+        {
+            Validate.ValidateFileFull(cloudConfiguration, Resources.ServiceConfiguration);
+            CloudConfig = General.DeserializeXmlFile<ServiceConfiguration>(cloudConfiguration);
+        }
+
         private void LoadComponents(CloudProjectPathInfo paths)
         {
             Validate.ValidateNullArgument(paths, string.Format(Resources.NullObjectMessage, "paths"));

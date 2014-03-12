@@ -241,6 +241,7 @@
     <None Include="Resources\SqlDatabaseSettings.xml" />
     <Content Include="Resources\MockSessions.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <SubType>Designer</SubType>
     </Content>
     <None Include="TestScripts\Database\DeleteDatabase-ScenarioFunctions.ps1" />
     <Content Include="TestScripts\Database\ExpectedFormat.txt" />
