@@ -188,7 +188,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService
             var deploymentParams = new DeploymentCreateParameters
             {
                 PackageUri = packageUri,
-                Configuration = General.GetConfiguration(context.CloudConfigPath),
+                Configuration = GeneralUtilities.GetConfiguration(context.CloudConfigPath),
                 Label = context.ServiceName,
                 Name = context.DeploymentName,
                 StartDeployment = true
@@ -250,7 +250,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService
 
             var upgradeParams = new DeploymentUpgradeParameters
             {
-                Configuration = General.GetConfiguration(context.CloudConfigPath),
+                Configuration = GeneralUtilities.GetConfiguration(context.CloudConfigPath),
                 PackageUri = packageUri,
                 Label = context.ServiceName,
                 Mode = DeploymentUpgradeMode.Auto,

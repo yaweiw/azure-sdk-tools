@@ -40,7 +40,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService
         public ServiceComponents(string cloudConfiguration)
         {
             Validate.ValidateFileFull(cloudConfiguration, Resources.ServiceConfiguration);
-            CloudConfig = General.DeserializeXmlFile<ServiceConfiguration>(cloudConfiguration);
+            CloudConfig = XmlUtilities.DeserializeXmlFile<ServiceConfiguration>(cloudConfiguration);
         }
 
         private void LoadComponents(CloudProjectPathInfo paths)
@@ -232,7 +232,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService
         /// <summary>
         /// Applied given action to all matching 
         /// </summary>
-        /// <param name="roleNames"></param>
+        /// <param name="predicate"></param>
         /// <param name="action"></param>
         public void ForEachRoleSettings(Func<RoleSettings, bool> predicate, Action<RoleSettings> action)
         {
@@ -370,7 +370,6 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService
         public bool IsWebRole(string roleName)
         {
             WebRole webRole = GetWebRole(roleName);
-            WorkerRole workerRole = GetWorkerRole(roleName);
             return webRole != null ? true : false;
         }
 

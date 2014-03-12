@@ -14,10 +14,9 @@
 
 namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService.AzureTools
 {
-    using System;
     using System.IO;
-    using Microsoft.WindowsAzure.Commands.Utilities.Properties;
-    using Microsoft.WindowsAzure.Commands.Utilities.Common;
+    using Commands.Common.Properties;
+    using Common;
 
     public class StorageEmulator
     {
