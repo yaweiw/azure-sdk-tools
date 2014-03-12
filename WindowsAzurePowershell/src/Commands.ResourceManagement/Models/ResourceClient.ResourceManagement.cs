@@ -345,6 +345,11 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Models
             RuntimeDefinedParameterDictionary dynamicParameters = new RuntimeDefinedParameterDictionary();
             string templateContent = null;
 
+            if (parameterFilePath != null)
+            {
+                parameterFilePath = parameterFilePath.Trim('"', '\'', ' ');
+            }
+
             templateContent = GeneralUtilities.DownloadFile(GetGalleryTemplateFile(templateName));
 
             dynamicParameters = ParseTemplateAndExtractParameters(templateContent, parameterObject, parameterFilePath, staticParameters);
