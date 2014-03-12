@@ -124,11 +124,11 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
 
             if (string.IsNullOrEmpty(this.OSState) && ValidateImageType(ImageType.VMImage))
             {
-                action = () => this.ComputeClient.VirtualMachines.Capture(
+                action = () => this.ComputeClient.VirtualMachines.CaptureOSImage(
                     this.ServiceName,
                     CurrentDeploymentNewSM.Name,
                     this.Name,
-                    new VirtualMachineCaptureParameters
+                    new VirtualMachineCaptureOSImageParameters
                     {
                         PostCaptureAction = PostCaptureAction.Delete,
                         TargetImageLabel = string.IsNullOrEmpty(this.ImageLabel) ? this.ImageName : this.ImageLabel,
@@ -140,7 +140,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
                 action = () => this.ComputeClient.VirtualMachines.CaptureVMImage(
                     this.ServiceName,
                     CurrentDeploymentNewSM.Name,
-                    this.Name, new VirtualMachineVMImageCaptureParameters
+                    this.Name, new VirtualMachineCaptureVMImageParameters
                     {
                         VMImageName = this.ImageName,
                         VMImageLabel = string.IsNullOrEmpty(this.ImageLabel) ? this.ImageName : this.ImageLabel,
