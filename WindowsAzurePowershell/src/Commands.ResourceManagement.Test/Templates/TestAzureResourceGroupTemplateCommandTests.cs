@@ -34,8 +34,6 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Test.Resources
 
         private string templateFile = @"Resources\sampleTemplateFile.json";
 
-        private string parameterFile = @"Resources\sampleParameterFile.json";
-
         private string storageAccountName = "myStorageAccount";
 
         public TestAzureResourceGroupTemplateCommandTests()

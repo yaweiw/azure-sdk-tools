@@ -12,13 +12,8 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-using System.IO;
 using Microsoft.Azure.Commands.ResourceManagement.Models;
 using Microsoft.WindowsAzure.Commands.Utilities.Common;
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
 using System.Management.Automation;
 
 namespace Microsoft.Azure.Commands.ResourceManagement.ResourceGroupDeployments
