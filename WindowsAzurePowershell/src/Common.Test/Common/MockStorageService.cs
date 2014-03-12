@@ -18,11 +18,12 @@ using System.Linq;
 using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
-using Microsoft.Azure.Commands.Common;
+using Microsoft.WindowsAzure;
 using Microsoft.WindowsAzure.Commands.Test.Utilities.Common;
 using Microsoft.WindowsAzure.Commands.Utilities.Common;
 using Microsoft.WindowsAzure.Management.Storage;
 using Microsoft.WindowsAzure.Management.Storage.Models;
+using Microsoft.WindowsAzure.ServiceManagement;
 using Moq;
 
 namespace Microsoft.Azure.Commands.Common.Test.Utilities.Common
@@ -108,30 +109,33 @@ namespace Microsoft.Azure.Commands.Common.Test.Utilities.Common
                 .Returns(CreateCreateResponse);
         }
 
-        private Task<StorageServiceGetResponse> CreateGetResponse(string serviceName)
+        private Task<StorageAccountGetResponse> CreateGetResponse(string serviceName)
         {
-            Task<StorageServiceGetResponse> resultTask;
+            Task<StorageAccountGetResponse> resultTask;
             var data = accounts.FirstOrDefault(a => a.Name == serviceName);
             if (data != null)
             {
-                var storageServiceGetResponse = new StorageServiceGetResponse
+                var storageServiceGetResponse = new StorageAccountGetResponse
                 {
-                    ServiceName = data.Name,
-                    Properties = new StorageServiceProperties
-                    {
-                        Endpoints =
+                    StorageAccount = new StorageAccount
                         {
-                            new Uri(data.BlobEndpoint),
-                            new Uri(data.QueueEndpoint),
-                            new Uri(data.TableEndpoint)
-                        }
-                    }
+                            Name = data.Name,
+                            Properties = new StorageAccountProperties
+                            {
+                                Endpoints =
+                                {
+                                    new Uri(data.BlobEndpoint),
+                                    new Uri(data.QueueEndpoint),
+                                    new Uri(data.TableEndpoint)
+                                }
+                            }
+                        }                    
                 };
                 resultTask = Tasks.FromResult(storageServiceGetResponse);
             }
             else
             {
-                resultTask = Tasks.FromException<StorageServiceGetResponse>(ClientMocks.Make404Exception());
+                resultTask = Tasks.FromException<StorageAccountGetResponse>(ClientMocks.Make404Exception());
             }
             return resultTask;
         }
@@ -161,12 +165,13 @@ namespace Microsoft.Azure.Commands.Common.Test.Utilities.Common
         {
             Add(a =>
             {
-                a.Name = createParameters.ServiceName;
+                a.Name = createParameters.Name;
             });
         }
-        private Task<StorageOperationStatusResponse> CreateCreateResponse()
+
+        private Task<OperationStatusResponse> CreateCreateResponse()
         {
-            return Tasks.FromResult(new StorageOperationStatusResponse
+            return Tasks.FromResult(new OperationStatusResponse
             {
                 RequestId = "unused",
                 StatusCode = HttpStatusCode.OK,
