@@ -59,7 +59,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Models
             : this(
                 subscription.CreateClientFromCloudServiceEndpoint<ResourceManagementClient>(),
                 new StorageClientWrapper(subscription.CreateClient<StorageManagementClient>()),
-                subscription.CreateGalleryClient<GalleryClient>(),
+                subscription.CreateGalleryClientFromGalleryEndpoint<GalleryClient>(),
                 subscription.CreateClientFromCloudServiceEndpoint<EventsClient>())
         {
 

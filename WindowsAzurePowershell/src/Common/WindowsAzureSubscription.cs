@@ -175,7 +175,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
         /// </summary>
         /// <typeparam name="TClient">Type of client to create, must be derived from <see cref="ServiceClient{T}"/></typeparam>
         /// <returns>The service client instance</returns>
-        public TClient CreateGalleryClient<TClient>() where TClient : ServiceClient<TClient>
+        public TClient CreateGalleryClientFromGalleryEndpoint<TClient>() where TClient : ServiceClient<TClient>
         {
             if (GalleryEndpoint == null)
             {
