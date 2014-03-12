@@ -12,6 +12,7 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
+using System.Collections;
 using Microsoft.Azure.Commands.ResourceManagement.Properties;
 using Microsoft.Azure.Management.Resources;
 using Microsoft.Azure.Management.Resources.Models;
@@ -201,7 +202,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Models
 
                     if (createDeployment)
                     {
-                        CreatePSResourceGroupDeployment(parameters);
+                        ExecuteDeployment(parameters);
                     }
                 };
 
@@ -271,7 +272,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Models
         /// </summary>
         /// <param name="parameters">The create deployment parameters</param>
         /// <returns>The created deployment instance</returns>
-        public virtual PSResourceGroupDeployment CreatePSResourceGroupDeployment(CreatePSResourceGroupDeploymentParameters parameters)
+        public virtual PSResourceGroupDeployment ExecuteDeployment(CreatePSResourceGroupDeploymentParameters parameters)
         {
             RegisterResourceProviders();
 
@@ -296,44 +297,124 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Models
         }
 
         /// <summary>
-        /// Gets the parameters for a given gallery template.
+        /// Gets the parameters for a given template file.
         /// </summary>
-        /// <param name="templateName">The gallery template name</param>
-        /// <param name="parameters">The existing PowerShell cmdlet parameters</param>
-        /// <param name="parameterSetNames">The parameters set which the dynamic parameters should be added to</param>
+        /// <param name="templateFilePath">The gallery template path (local or remote)</param>
+        /// <param name="parameterObject">Existing parameter object</param>
+        /// <param name="parameterFilePath">Path to the parameter file if present</param>
+        /// <param name="staticParameters">The existing PowerShell cmdlet parameters</param>
         /// <returns>The template parameters</returns>
-        public virtual RuntimeDefinedParameterDictionary GetTemplateParameters(string templateName, string[] parameters, params string[] parameterSetNames)
+        public virtual RuntimeDefinedParameterDictionary GetTemplateParametersFromFile(string templateFilePath, Hashtable parameterObject, string parameterFilePath, string[] staticParameters)
         {
             RuntimeDefinedParameterDictionary dynamicParameters = new RuntimeDefinedParameterDictionary();
             string templateContent = null;
-            
-            if (Uri.IsWellFormedUriString(templateName, UriKind.Absolute))
+
+            if (parameterFilePath != null)
             {
-                templateContent = GeneralUtilities.DownloadFile(templateName);
-            }
-            else if (File.Exists(templateName))
-            {
-                templateContent = File.ReadAllText(templateName);
-            }
-            else
-            {
-                templateContent = GeneralUtilities.DownloadFile(GetGalleryTemplateFile(templateName));
+                parameterFilePath = parameterFilePath.Trim('"', '\'', ' ');
             }
 
-            if (string.IsNullOrEmpty(templateContent))
+            if (templateFilePath != null)
             {
-                throw new ArgumentException("templateName");
-            }
-            
-            TemplateFile templateFile = JsonConvert.DeserializeObject<TemplateFile>(templateContent);
+                templateFilePath = templateFilePath.Trim('"', '\'', ' ');
 
-            foreach (KeyValuePair<string, TemplateFileParameter> parameter in templateFile.Parameters)
-            {
-                RuntimeDefinedParameter dynamicParameter = ConstructDynamicParameter(parameters, parameterSetNames, parameter);
-                dynamicParameters.Add(dynamicParameter.Name, dynamicParameter);
+                if (Uri.IsWellFormedUriString(templateFilePath, UriKind.Absolute))
+                {
+                    templateContent = GeneralUtilities.DownloadFile(templateFilePath);
+                }
+                else if (File.Exists(templateFilePath))
+                {
+                    templateContent = File.ReadAllText(templateFilePath);
+                }
             }
-            
+
+            dynamicParameters = ParseTemplateAndExtractParameters(templateContent, parameterObject, parameterFilePath, staticParameters);
             return dynamicParameters;
+        }
+
+        /// <summary>
+        /// Gets the parameters for a given gallery template.
+        /// </summary>
+        /// <param name="templateName">The gallery template name</param>
+        /// <param name="parameterObject">Existing parameter object</param>
+        /// <param name="parameterFilePath">Path to the parameter file if present</param>
+        /// <param name="staticParameters">The existing PowerShell cmdlet parameters</param>
+        /// <returns>The template parameters</returns>
+        public virtual RuntimeDefinedParameterDictionary GetTemplateParametersFromGallery(string templateName, Hashtable parameterObject, string parameterFilePath, string[] staticParameters)
+        {
+            RuntimeDefinedParameterDictionary dynamicParameters = new RuntimeDefinedParameterDictionary();
+            string templateContent = null;
+
+            if (parameterFilePath != null)
+            {
+                parameterFilePath = parameterFilePath.Trim('"', '\'', ' ');
+            }
+
+            templateContent = GeneralUtilities.DownloadFile(GetGalleryTemplateFile(templateName));
+
+            dynamicParameters = ParseTemplateAndExtractParameters(templateContent, parameterObject, parameterFilePath, staticParameters);
+            return dynamicParameters;
+        }
+
+        private RuntimeDefinedParameterDictionary ParseTemplateAndExtractParameters(string templateContent, Hashtable parameterObject, string parameterFilePath, string[] staticParameters)
+        {
+            RuntimeDefinedParameterDictionary dynamicParameters = new RuntimeDefinedParameterDictionary();
+
+            if (!string.IsNullOrEmpty(templateContent))
+            {
+                TemplateFile templateFile = JsonConvert.DeserializeObject<TemplateFile>(templateContent);
+
+                foreach (KeyValuePair<string, TemplateFileParameter> parameter in templateFile.Parameters)
+                {
+                    RuntimeDefinedParameter dynamicParameter = ConstructDynamicParameter(staticParameters, parameter);
+                    dynamicParameters.Add(dynamicParameter.Name, dynamicParameter);
+                }
+            }
+            if (parameterObject != null)
+            {
+                UpdateParametersWithObject(dynamicParameters, parameterObject);
+            }
+            if (parameterFilePath != null && File.Exists(parameterFilePath))
+            {
+                var parametersFromFile = JsonConvert.DeserializeObject<Dictionary<string, TemplateFileParameter>>(File.ReadAllText(parameterFilePath));
+                UpdateParametersWithObject(dynamicParameters, new Hashtable(parametersFromFile));
+            }
+            return dynamicParameters;
+        }
+
+        private void UpdateParametersWithObject(RuntimeDefinedParameterDictionary dynamicParameters, Hashtable parameterObject)
+        {
+            if (parameterObject != null)
+            {
+                foreach (KeyValuePair<string, RuntimeDefinedParameter> dynamicParameter in dynamicParameters)
+                {
+                    try
+                    {
+                        foreach (string key in parameterObject.Keys)
+                        {
+                            if (key.Equals(dynamicParameter.Key, StringComparison.InvariantCultureIgnoreCase))
+                            {
+                                if (parameterObject[key] is TemplateFileParameter)
+                                {
+                                    dynamicParameter.Value.Value = (parameterObject[key] as TemplateFileParameter).Value;
+                                }
+                                else
+                                {
+                                    dynamicParameter.Value.Value = parameterObject[key];
+                                }
+                                dynamicParameter.Value.IsSet = true;
+                                ((ParameterAttribute) dynamicParameter.Value.Attributes[0]).Mandatory = false;
+                            }
+                        }
+                    }
+                    catch
+                    {
+                        throw new ArgumentException(string.Format(Resources.FailureParsingParameterObject,
+                                                                  dynamicParameter.Key,
+                                                                  parameterObject[dynamicParameter.Key]));
+                    }
+                }
+            }
         }
 
         /// <summary>
