@@ -26,8 +26,6 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Models
 
         public Hashtable ParameterObject { get; set; }
 
-        public string ParameterFile { get; set; }
-
         public string TemplateVersion { get; set; }
 
         public string TemplateHash { get; set; }

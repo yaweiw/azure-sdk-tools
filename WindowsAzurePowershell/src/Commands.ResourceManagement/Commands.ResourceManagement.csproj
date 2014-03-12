@@ -179,6 +179,7 @@
     <Reference Include="System.Management.Automation, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ResourceBaseCmdlet.cs" />
     <Compile Include="Models\GetPSResourceGroupLogParameters.cs" />
     <Compile Include="Models\PSDeploymentEventDataAuthorization.cs" />
     <Compile Include="Models\PSDeploymentEventDataHttpRequest.cs" />
@@ -223,7 +224,7 @@
     <Compile Include="ResourceGroups\RemoveAzureResourceGroupCommand.cs" />
     <Compile Include="ResourceGroups\GetAzureResourceGroupCommand.cs" />
     <Compile Include="ResourceGroups\NewAzureResourceGroupCommand.cs" />
-    <Compile Include="ResourceBaseCmdlet.cs" />
+    <Compile Include="ResourceWithParameterBaseCmdlet.cs" />
     <Compile Include="Models\ResourceClient.cs" />
     <Compile Include="Resources\SetAzureResourceCommand.cs" />
     <Compile Include="Resources\GetAzureResourceCommand.cs" />
