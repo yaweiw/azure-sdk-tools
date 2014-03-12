@@ -1894,6 +1894,34 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Test.Models
         }
 
         [Fact]
+        public void GetTemplateParametersFromFileMergesObjects()
+        {
+            Hashtable hashtable = new Hashtable();
+            hashtable["Bool"] = true;
+            hashtable["Foo"] = "bar";
+            RuntimeDefinedParameterDictionary result = resourcesClient.GetTemplateParametersFromFile(
+                templateFile,
+                null,
+                parameterFile,
+                new[] { "TestPS" });
+
+            Assert.Equal(4, result.Count);
+
+            Assert.Equal("String", result["String"].Name);
+            Assert.Equal(typeof(string), result["String"].ParameterType);
+            Assert.Equal("myvalue", result["String"].Value);
+
+
+            Assert.Equal("Int", result["Int"].Name);
+            Assert.Equal(typeof(int), result["Int"].ParameterType);
+            Assert.Equal("12", result["Int"].Value);
+
+            Assert.Equal("Bool", result["Bool"].Name);
+            Assert.Equal(typeof(bool), result["Bool"].ParameterType);
+            Assert.Equal("True", result["Bool"].Value);
+        }
+
+        [Fact]
         public void CancelsActiveDeployment()
         {
             DeploymentListParameters actualParameters = new DeploymentListParameters();
