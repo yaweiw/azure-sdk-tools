@@ -876,7 +876,6 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Test.Models
                 Location = resourceGroupLocation,
                 Name = deploymentName,
                 TemplateFile = templateFile,
-                ParameterFile = parameterFile,
                 StorageAccountName = storageAccountName,
                 ConfirmAction = ConfirmAction
             };
@@ -974,7 +973,6 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Test.Models
                 Location = resourceGroupLocation,
                 Name = deploymentName,
                 TemplateFile = templateFile,
-                ParameterFile = parameterFile,
                 StorageAccountName = storageAccountName,
                 ConfirmAction = ConfirmAction
             };
@@ -1059,11 +1057,9 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Test.Models
 
             Assert.Equal(DeploymentMode.Incremental, deploymentFromGet.Mode);
             Assert.Equal(templateUri, deploymentFromGet.TemplateLink.Uri);
-            Assert.Equal(File.ReadAllText(parameters.ParameterFile), deploymentFromGet.Parameters);
 
             Assert.Equal(DeploymentMode.Incremental, deploymentFromValidate.Mode);
             Assert.Equal(templateUri, deploymentFromValidate.TemplateLink.Uri);
-            Assert.Equal(File.ReadAllText(parameters.ParameterFile), deploymentFromValidate.Parameters);
 
             progressLoggerMock.Verify(
                 f => f(string.Format("Resource {0} '{1}' provisioning status in location '{2}' is {3}",
@@ -1085,7 +1081,6 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Test.Models
                 Location = resourceGroupLocation,
                 Name = deploymentName,
                 TemplateFile = templateFile,
-                ParameterFile = parameterFile,
                 StorageAccountName = null,
                 ConfirmAction = ConfirmAction
             };
@@ -1229,7 +1224,6 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Test.Models
                 Location = resourceGroupLocation,
                 Name = deploymentName,
                 TemplateFile = templateFile,
-                ParameterFile = parameterFile,
                 StorageAccountName = storageAccountName,
                 ConfirmAction = ConfirmAction
             };
@@ -1314,11 +1308,9 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Test.Models
 
             Assert.Equal(DeploymentMode.Incremental, deploymentFromGet.Mode);
             Assert.Equal(templateUri, deploymentFromGet.TemplateLink.Uri);
-            Assert.Equal(File.ReadAllText(parameters.ParameterFile), deploymentFromGet.Parameters);
 
             Assert.Equal(DeploymentMode.Incremental, deploymentFromValidate.Mode);
             Assert.Equal(templateUri, deploymentFromValidate.TemplateLink.Uri);
-            Assert.Equal(File.ReadAllText(parameters.ParameterFile), deploymentFromValidate.Parameters);
 
             progressLoggerMock.Verify(
                 f => f(string.Format("Resource {0} '{1}' in location '{2}' failed with message {3}",
@@ -1565,7 +1557,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Test.Models
         public void ConstructsDynamicParameter()
         {
             string[] parameters = { "Name", "Location", "Mode" };
-            string[] parameterSetNames = { "DPSet1" };
+            string[] parameterSetNames = { "__AllParameterSets" };
             string key = "computeMode";
             TemplateFileParameter value = new TemplateFileParameter()
             {
@@ -1577,7 +1569,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Test.Models
             };
             KeyValuePair<string, TemplateFileParameter> parameter = new KeyValuePair<string, TemplateFileParameter>(key, value);
 
-            RuntimeDefinedParameter dynamicParameter = resourcesClient.ConstructDynamicParameter(parameters, parameterSetNames, parameter);
+            RuntimeDefinedParameter dynamicParameter = resourcesClient.ConstructDynamicParameter(parameters, parameter);
 
             Assert.Equal("ComputeMode", dynamicParameter.Name);
             Assert.Equal(value.DefaultValue, dynamicParameter.Value);
@@ -1608,7 +1600,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Test.Models
         public void ResolvesDuplicatedDynamicParameterName()
         {
             string[] parameters = { "Name", "Location", "Mode" };
-            string[] parameterSetNames = { "DPSet1" };
+            string[] parameterSetNames = { "__AllParameterSets" };
             string key = "Name";
             TemplateFileParameter value = new TemplateFileParameter()
             {
@@ -1619,7 +1611,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Test.Models
             };
             KeyValuePair<string, TemplateFileParameter> parameter = new KeyValuePair<string, TemplateFileParameter>(key, value);
 
-            RuntimeDefinedParameter dynamicParameter = resourcesClient.ConstructDynamicParameter(parameters, parameterSetNames, parameter);
+            RuntimeDefinedParameter dynamicParameter = resourcesClient.ConstructDynamicParameter(parameters, parameter);
 
             Assert.Equal(key + "FromTemplate", dynamicParameter.Name);
             Assert.Equal(value.DefaultValue, dynamicParameter.Value);
@@ -1650,7 +1642,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Test.Models
         public void ConstructsDynamicParameterWithRangeValidation()
         {
             string[] parameters = { "Name", "Location", "Mode" };
-            string[] parameterSetNames = { "DPSet1" };
+            string[] parameterSetNames = { "__AllParameterSets" };
             string key = "computeMode";
             TemplateFileParameter value = new TemplateFileParameter()
             {
@@ -1660,7 +1652,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Test.Models
             };
             KeyValuePair<string, TemplateFileParameter> parameter = new KeyValuePair<string, TemplateFileParameter>(key, value);
 
-            RuntimeDefinedParameter dynamicParameter = resourcesClient.ConstructDynamicParameter(parameters, parameterSetNames, parameter);
+            RuntimeDefinedParameter dynamicParameter = resourcesClient.ConstructDynamicParameter(parameters, parameter);
 
             Assert.Equal("ComputeMode", dynamicParameter.Name);
             Assert.Equal(value.DefaultValue, dynamicParameter.Value);
@@ -1681,7 +1673,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Test.Models
         public void ConstructsDynamicParameterNoValidation()
         {
             string[] parameters = { "Name", "Location", "Mode" };
-            string[] parameterSetNames = { "DPSet1" };
+            string[] parameterSetNames = { "__AllParameterSets" };
             string key = "computeMode";
             TemplateFileParameter value = new TemplateFileParameter()
             {
@@ -1691,7 +1683,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Test.Models
             };
             KeyValuePair<string, TemplateFileParameter> parameter = new KeyValuePair<string, TemplateFileParameter>(key, value);
 
-            RuntimeDefinedParameter dynamicParameter = resourcesClient.ConstructDynamicParameter(parameters, parameterSetNames, parameter);
+            RuntimeDefinedParameter dynamicParameter = resourcesClient.ConstructDynamicParameter(parameters, parameter);
 
             Assert.Equal("ComputeMode", dynamicParameter.Name);
             Assert.Equal(value.DefaultValue, dynamicParameter.Value);
@@ -1708,7 +1700,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Test.Models
         public void ConstructsDynamicParameterWithMinRangeValidation()
         {
             string[] parameters = { "Name", "Location", "Mode" };
-            string[] parameterSetNames = { "DPSet1" };
+            string[] parameterSetNames = { "__AllParameterSets" };
             string key = "computeMode";
             TemplateFileParameter value = new TemplateFileParameter()
             {
@@ -1718,7 +1710,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Test.Models
             };
             KeyValuePair<string, TemplateFileParameter> parameter = new KeyValuePair<string, TemplateFileParameter>(key, value);
 
-            RuntimeDefinedParameter dynamicParameter = resourcesClient.ConstructDynamicParameter(parameters, parameterSetNames, parameter);
+            RuntimeDefinedParameter dynamicParameter = resourcesClient.ConstructDynamicParameter(parameters, parameter);
 
             Assert.Equal("ComputeMode", dynamicParameter.Name);
             Assert.Equal(value.DefaultValue, dynamicParameter.Value);
@@ -1739,7 +1731,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Test.Models
         public void ConstructsDynamicParameterWithMaxRangeValidation()
         {
             string[] parameters = { "Name", "Location", "Mode" };
-            string[] parameterSetNames = { "DPSet1" };
+            string[] parameterSetNames = { "__AllParameterSets" };
             string key = "computeMode";
             TemplateFileParameter value = new TemplateFileParameter()
             {
@@ -1749,7 +1741,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Test.Models
             };
             KeyValuePair<string, TemplateFileParameter> parameter = new KeyValuePair<string, TemplateFileParameter>(key, value);
 
-            RuntimeDefinedParameter dynamicParameter = resourcesClient.ConstructDynamicParameter(parameters, parameterSetNames, parameter);
+            RuntimeDefinedParameter dynamicParameter = resourcesClient.ConstructDynamicParameter(parameters, parameter);
 
             Assert.Equal("ComputeMode", dynamicParameter.Name);
             Assert.Equal(value.DefaultValue, dynamicParameter.Value);
@@ -1882,8 +1874,9 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Test.Models
         {
             RuntimeDefinedParameterDictionary result = resourcesClient.GetTemplateParametersFromFile(
                 templateFile,
-                new string[] { },
-                "TestPS");
+                null,
+                null,
+                new [] {"TestPS"});
 
             Assert.Equal(4, result.Count);
 

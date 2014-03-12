@@ -54,7 +54,6 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Test.Resources
         {
             ValidatePSResourceGroupDeploymentParameters expectedParameters = new ValidatePSResourceGroupDeploymentParameters()
             {
-                ParameterFile = parameterFile,
                 TemplateFile = templateFile,
                 StorageAccountName = storageAccountName,
                 TemplateHash = "hash",
@@ -89,7 +88,6 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Test.Resources
                 .Callback((ValidatePSResourceGroupDeploymentParameters p) => { actualParameters = p; });
 
             cmdlet.ResourceGroupName = resourceGroupName;
-            cmdlet.ParameterFile = expectedParameters.ParameterFile;
             cmdlet.TemplateFile = expectedParameters.TemplateFile;
             cmdlet.StorageAccountName = expectedParameters.StorageAccountName;
             cmdlet.TemplateHash = expectedParameters.TemplateHash;
@@ -100,8 +98,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Test.Resources
 
             Assert.Equal(expectedParameters.GalleryTemplateName, actualParameters.GalleryTemplateName);
             Assert.Equal(expectedParameters.TemplateFile, actualParameters.TemplateFile);
-            Assert.Equal(expectedParameters.ParameterObject, actualParameters.ParameterObject);
-            Assert.Equal(expectedParameters.ParameterFile, actualParameters.ParameterFile);
+            Assert.NotNull(actualParameters.ParameterObject);
             Assert.Equal(expectedParameters.TemplateVersion, actualParameters.TemplateVersion);
             Assert.Equal(expectedParameters.TemplateHash, actualParameters.TemplateHash);
             Assert.Equal(expectedParameters.TemplateHashAlgorithm, actualParameters.TemplateHashAlgorithm);
@@ -115,7 +112,6 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Test.Resources
         {
             ValidatePSResourceGroupDeploymentParameters expectedParameters = new ValidatePSResourceGroupDeploymentParameters()
             {
-                ParameterFile = parameterFile,
                 GalleryTemplateName = "sqlServer",
                 StorageAccountName = storageAccountName,
                 TemplateHash = "hash",
@@ -150,7 +146,6 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Test.Resources
                 .Callback((ValidatePSResourceGroupDeploymentParameters p) => { actualParameters = p; });
 
             cmdlet.ResourceGroupName = resourceGroupName;
-            cmdlet.ParameterFile = expectedParameters.ParameterFile;
             cmdlet.GalleryTemplateName = expectedParameters.GalleryTemplateName;
             cmdlet.StorageAccountName = expectedParameters.StorageAccountName;
             cmdlet.TemplateHash = expectedParameters.TemplateHash;
@@ -161,8 +156,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Test.Resources
 
             Assert.Equal(expectedParameters.GalleryTemplateName, actualParameters.GalleryTemplateName);
             Assert.Equal(expectedParameters.TemplateFile, actualParameters.TemplateFile);
-            Assert.Equal(expectedParameters.ParameterObject, actualParameters.ParameterObject);
-            Assert.Equal(expectedParameters.ParameterFile, actualParameters.ParameterFile);
+            Assert.NotNull(actualParameters.ParameterObject);
             Assert.Equal(expectedParameters.TemplateVersion, actualParameters.TemplateVersion);
             Assert.Equal(expectedParameters.TemplateHash, actualParameters.TemplateHash);
             Assert.Equal(expectedParameters.TemplateHashAlgorithm, actualParameters.TemplateHashAlgorithm);
