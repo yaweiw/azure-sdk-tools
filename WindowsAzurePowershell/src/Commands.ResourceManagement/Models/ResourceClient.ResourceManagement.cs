@@ -12,6 +12,7 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
+using System.Collections;
 using Microsoft.Azure.Commands.ResourceManagement.Properties;
 using Microsoft.Azure.Management.Resources;
 using Microsoft.Azure.Management.Resources.Models;
@@ -45,16 +46,9 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Models
         /// </summary>
         /// <param name="parameters">The create parameters</param>
         /// <returns>The created resource</returns>
-        public virtual PSResource CreatePSResource(CreatePSResourceParameters parameters)
+        public virtual PSResource CreateResource(CreatePSResourceParameters parameters)
         {
             ResourceIdentity resourceIdentity = parameters.ToResourceIdentity();
-
-            bool resourceExists = ResourceManagementClient.Resources.CheckExistence(parameters.ResourceGroupName, resourceIdentity).Exists;
-            
-            if (resourceExists)
-            {
-                throw new ArgumentException(Resources.ResourceAlreadyExists);
-            }
 
             if (ResourceManagementClient.ResourceGroups.CheckExistence(parameters.ResourceGroupName).Exists)
             {
@@ -65,24 +59,43 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Models
                 throw new ArgumentException(Resources.ResourceGroupDoesntExists);
             }
 
-            WriteProgress(string.Format("Creating resource \"{0}\" started.", parameters.Name));
-            
-            ResourceCreateOrUpdateResult createOrUpdateResult = ResourceManagementClient.Resources.CreateOrUpdate(parameters.ResourceGroupName, resourceIdentity, 
-                new ResourceCreateOrUpdateParameters
+            bool resourceExists = ResourceManagementClient.Resources.CheckExistence(parameters.ResourceGroupName, resourceIdentity).Exists;
+
+            Action createOrUpdateResource = () =>
                 {
-                    ValidationMode = ResourceValidationMode.NameValidation,
-                    Resource = new BasicResource
-                        {
-                            Location = parameters.Location,
-                            Properties = SerializeHashtable(parameters.PropertyObject, addValueLayer: false)
-                        }
-                });
+                    WriteProgress(string.Format("Creating resource \"{0}\" started.", parameters.Name));
 
-            if (createOrUpdateResult.Resource != null)
+                    ResourceCreateOrUpdateResult createOrUpdateResult = ResourceManagementClient.Resources.CreateOrUpdate(parameters.ResourceGroupName, 
+                        resourceIdentity,
+                        new ResourceCreateOrUpdateParameters
+                            {
+                                ValidationMode = ResourceValidationMode.NameValidation,
+                                Resource = new BasicResource
+                                    {
+                                        Location = parameters.Location,
+                                        Properties = SerializeHashtable(parameters.PropertyObject, addValueLayer: false)
+                                    }
+                            });
+
+                    if (createOrUpdateResult.Resource != null)
+                    {
+                        WriteProgress(string.Format("Creating resource \"{0}\" complete.", parameters.Name));
+                    }
+                };
+            
+            if (resourceExists && !parameters.Force)
             {
-                WriteProgress(string.Format("Creating resource \"{0}\" complete.", parameters.Name));
+                parameters.ConfirmAction(parameters.Force,
+                                         Resources.ResourceAlreadyExists,
+                                         Resources.NewResourceMessage,
+                                         parameters.Name,
+                                         createOrUpdateResource);
             }
-
+            else
+            {
+                createOrUpdateResource();
+            }
+            
             ResourceGetResult getResult = ResourceManagementClient.Resources.Get(parameters.ResourceGroupName, resourceIdentity);
 
             return getResult.Resource.ToPSResource(this);
@@ -173,15 +186,50 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Models
         /// <returns>The created resource group</returns>
         public virtual PSResourceGroup CreatePSResourceGroup(CreatePSResourceGroupParameters parameters)
         {
-            if (ResourceManagementClient.ResourceGroups.CheckExistence(parameters.ResourceGroupName).Exists)
+            bool createDeployment = !string.IsNullOrEmpty(parameters.GalleryTemplateName) || !string.IsNullOrEmpty(parameters.TemplateFile);
+
+            if (createDeployment)
             {
-                throw new ArgumentException(Resources.ResourceGroupAlreadyExists);
+                ValidateStorageAccount(parameters.StorageAccountName);
             }
 
-            ResourceGroup resourceGroup = CreateResourceGroup(parameters.ResourceGroupName, parameters.Location);
-            CreatePSResourceGroupDeployment(parameters);
+            bool resourceExists = ResourceManagementClient.ResourceGroups.CheckExistence(parameters.ResourceGroupName).Exists;
+
+            ResourceGroup resourceGroup = null;
+            Action createOrUpdateResourceGroup = () =>
+                {
+                    resourceGroup = CreateResourceGroup(parameters.ResourceGroupName, parameters.Location);
+
+                    if (createDeployment)
+                    {
+                        ExecuteDeployment(parameters);
+                    }
+                };
+
+            if (resourceExists && !parameters.Force)
+            {
+                parameters.ConfirmAction(parameters.Force,
+                                         Resources.ResourceGroupAlreadyExists,
+                                         Resources.NewResourceGroupMessage,
+                                         parameters.Name,
+                                         createOrUpdateResourceGroup);
+                resourceGroup = ResourceManagementClient.ResourceGroups.Get(parameters.ResourceGroupName).ResourceGroup;
+            }
+            else
+            {
+                createOrUpdateResourceGroup();
+            }
 
             return resourceGroup.ToPSResourceGroup(this);
+        }
+
+        /// <summary>
+        /// Verify Storage account has been specified. 
+        /// </summary>
+        /// <param name="storageAccountName"></param>
+        private void ValidateStorageAccount(string storageAccountName)
+        {
+            GetStorageAccountName(storageAccountName);
         }
 
         /// <summary>
@@ -224,76 +272,149 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Models
         /// </summary>
         /// <param name="parameters">The create deployment parameters</param>
         /// <returns>The created deployment instance</returns>
-        public virtual PSResourceGroupDeployment CreatePSResourceGroupDeployment(CreatePSResourceGroupDeploymentParameters parameters)
+        public virtual PSResourceGroupDeployment ExecuteDeployment(CreatePSResourceGroupDeploymentParameters parameters)
         {
-            DeploymentOperationsCreateResult result = null;
-            bool createDeployment = !string.IsNullOrEmpty(parameters.GalleryTemplateName) || !string.IsNullOrEmpty(parameters.TemplateFile);
-            string resourceGroup = parameters.ResourceGroupName;
-
             RegisterResourceProviders();
 
-            if (createDeployment)
+            parameters.Name = string.IsNullOrEmpty(parameters.Name) ? Guid.NewGuid().ToString() : parameters.Name;
+            BasicDeployment deployment = CreateBasicDeployment(parameters);
+            List<ResourceManagementError> errors = CheckBasicDeploymentErrors(parameters.ResourceGroupName, deployment);
+
+            if (errors.Count != 0)
             {
-                parameters.Name = string.IsNullOrEmpty(parameters.Name) ? Guid.NewGuid().ToString() : parameters.Name;
-                BasicDeployment deployment = CreateBasicDeployment(parameters);
-                List<ResourceManagementError> errors = CheckBasicDeploymentErrors(resourceGroup, deployment);
-
-                if (errors.Count != 0)
-                {
-                    int counter = 1;
-                    string errorFormat = "Error {0}: Code={1}; Message={2}; Target={3}\r\n";
-                    StringBuilder errorsString = new StringBuilder();
-                    errors.ForEach(e => errorsString.AppendFormat(errorFormat, counter++, e.Code, e.Message, e.Target));
-                    throw new ArgumentException(errors.ToString());
-                }
-
-                result = ResourceManagementClient.Deployments.CreateOrUpdate(resourceGroup, parameters.Name, deployment);
-                WriteProgress(string.Format("Create template deployment '{0}' using template {1}.", parameters.Name, deployment.TemplateLink.Uri));
-                ProvisionDeploymentStatus(resourceGroup, parameters.Name);
+                int counter = 1;
+                string errorFormat = "Error {0}: Code={1}; Message={2}; Target={3}\r\n";
+                StringBuilder errorsString = new StringBuilder();
+                errors.ForEach(e => errorsString.AppendFormat(errorFormat, counter++, e.Code, e.Message, e.Target));
+                throw new ArgumentException(errors.ToString());
             }
 
+            DeploymentOperationsCreateResult result = ResourceManagementClient.Deployments.CreateOrUpdate(parameters.ResourceGroupName, parameters.Name, deployment);
+            WriteProgress(string.Format("Create template deployment '{0}' using template {1}.", parameters.Name, deployment.TemplateLink.Uri));
+            ProvisionDeploymentStatus(parameters.ResourceGroupName, parameters.Name);
+
             return result.ToPSResourceGroupDeployment();
+        }
+
+        /// <summary>
+        /// Gets the parameters for a given template file.
+        /// </summary>
+        /// <param name="templateFilePath">The gallery template path (local or remote)</param>
+        /// <param name="parameterObject">Existing parameter object</param>
+        /// <param name="parameterFilePath">Path to the parameter file if present</param>
+        /// <param name="staticParameters">The existing PowerShell cmdlet parameters</param>
+        /// <returns>The template parameters</returns>
+        public virtual RuntimeDefinedParameterDictionary GetTemplateParametersFromFile(string templateFilePath, Hashtable parameterObject, string parameterFilePath, string[] staticParameters)
+        {
+            RuntimeDefinedParameterDictionary dynamicParameters = new RuntimeDefinedParameterDictionary();
+            string templateContent = null;
+
+            if (parameterFilePath != null)
+            {
+                parameterFilePath = parameterFilePath.Trim('"', '\'', ' ');
+            }
+
+            if (templateFilePath != null)
+            {
+                templateFilePath = templateFilePath.Trim('"', '\'', ' ');
+
+                if (Uri.IsWellFormedUriString(templateFilePath, UriKind.Absolute))
+                {
+                    templateContent = GeneralUtilities.DownloadFile(templateFilePath);
+                }
+                else if (File.Exists(templateFilePath))
+                {
+                    templateContent = File.ReadAllText(templateFilePath);
+                }
+            }
+
+            dynamicParameters = ParseTemplateAndExtractParameters(templateContent, parameterObject, parameterFilePath, staticParameters);
+            return dynamicParameters;
         }
 
         /// <summary>
         /// Gets the parameters for a given gallery template.
         /// </summary>
         /// <param name="templateName">The gallery template name</param>
-        /// <param name="parameters">The existing PowerShell cmdlet parameters</param>
-        /// <param name="parameterSetNames">The parameters set which the dynamic parameters should be added to</param>
+        /// <param name="parameterObject">Existing parameter object</param>
+        /// <param name="parameterFilePath">Path to the parameter file if present</param>
+        /// <param name="staticParameters">The existing PowerShell cmdlet parameters</param>
         /// <returns>The template parameters</returns>
-        public virtual RuntimeDefinedParameterDictionary GetTemplateParameters(string templateName, string[] parameters, params string[] parameterSetNames)
+        public virtual RuntimeDefinedParameterDictionary GetTemplateParametersFromGallery(string templateName, Hashtable parameterObject, string parameterFilePath, string[] staticParameters)
         {
             RuntimeDefinedParameterDictionary dynamicParameters = new RuntimeDefinedParameterDictionary();
             string templateContent = null;
-            
-            if (Uri.IsWellFormedUriString(templateName, UriKind.Absolute))
+
+            if (parameterFilePath != null)
             {
-                templateContent = GeneralUtilities.DownloadFile(templateName);
-            }
-            else if (File.Exists(templateName))
-            {
-                templateContent = File.ReadAllText(templateName);
-            }
-            else
-            {
-                templateContent = GeneralUtilities.DownloadFile(GetGalleryTemplateFile(templateName));
+                parameterFilePath = parameterFilePath.Trim('"', '\'', ' ');
             }
 
-            if (string.IsNullOrEmpty(templateContent))
-            {
-                throw new ArgumentException("templateName");
-            }
-            
-            TemplateFile templateFile = JsonConvert.DeserializeObject<TemplateFile>(templateContent);
+            templateContent = GeneralUtilities.DownloadFile(GetGalleryTemplateFile(templateName));
 
-            foreach (KeyValuePair<string, TemplateFileParameter> parameter in templateFile.Parameters)
-            {
-                RuntimeDefinedParameter dynamicParameter = ConstructDynamicParameter(parameters, parameterSetNames, parameter);
-                dynamicParameters.Add(dynamicParameter.Name, dynamicParameter);
-            }
-            
+            dynamicParameters = ParseTemplateAndExtractParameters(templateContent, parameterObject, parameterFilePath, staticParameters);
             return dynamicParameters;
+        }
+
+        private RuntimeDefinedParameterDictionary ParseTemplateAndExtractParameters(string templateContent, Hashtable parameterObject, string parameterFilePath, string[] staticParameters)
+        {
+            RuntimeDefinedParameterDictionary dynamicParameters = new RuntimeDefinedParameterDictionary();
+
+            if (!string.IsNullOrEmpty(templateContent))
+            {
+                TemplateFile templateFile = JsonConvert.DeserializeObject<TemplateFile>(templateContent);
+
+                foreach (KeyValuePair<string, TemplateFileParameter> parameter in templateFile.Parameters)
+                {
+                    RuntimeDefinedParameter dynamicParameter = ConstructDynamicParameter(staticParameters, parameter);
+                    dynamicParameters.Add(dynamicParameter.Name, dynamicParameter);
+                }
+            }
+            if (parameterObject != null)
+            {
+                UpdateParametersWithObject(dynamicParameters, parameterObject);
+            }
+            if (parameterFilePath != null && File.Exists(parameterFilePath))
+            {
+                var parametersFromFile = JsonConvert.DeserializeObject<Dictionary<string, TemplateFileParameter>>(File.ReadAllText(parameterFilePath));
+                UpdateParametersWithObject(dynamicParameters, new Hashtable(parametersFromFile));
+            }
+            return dynamicParameters;
+        }
+
+        private void UpdateParametersWithObject(RuntimeDefinedParameterDictionary dynamicParameters, Hashtable parameterObject)
+        {
+            if (parameterObject != null)
+            {
+                foreach (KeyValuePair<string, RuntimeDefinedParameter> dynamicParameter in dynamicParameters)
+                {
+                    try
+                    {
+                        foreach (string key in parameterObject.Keys)
+                        {
+                            if (key.Equals(dynamicParameter.Key, StringComparison.InvariantCultureIgnoreCase))
+                            {
+                                if (parameterObject[key] is TemplateFileParameter)
+                                {
+                                    dynamicParameter.Value.Value = (parameterObject[key] as TemplateFileParameter).Value;
+                                }
+                                else
+                                {
+                                    dynamicParameter.Value.Value = parameterObject[key];
+                                }
+                                dynamicParameter.Value.IsSet = true;
+                                ((ParameterAttribute) dynamicParameter.Value.Attributes[0]).Mandatory = false;
+                            }
+                        }
+                    }
+                    catch
+                    {
+                        throw new ArgumentException(string.Format(Resources.FailureParsingParameterObject,
+                                                                  dynamicParameter.Key,
+                                                                  parameterObject[dynamicParameter.Key]));
+                    }
+                }
+            }
         }
 
         /// <summary>
@@ -399,15 +520,16 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Models
         /// Cancels the active deployment.
         /// </summary>
         /// <param name="resourceGroup">The resource group name</param>
-        public virtual void CancelDeployment(string resourceGroup, string name)
+        /// <param name="deploymentName">Deployment name</param>
+        public virtual void CancelDeployment(string resourceGroup, string deploymentName)
         {
             FilterResourceGroupDeploymentOptions options = new FilterResourceGroupDeploymentOptions()
             {
-                DeploymentName = name,
+                DeploymentName = deploymentName,
                 ResourceGroupName = resourceGroup
             };
 
-            if (string.IsNullOrEmpty(name))
+            if (string.IsNullOrEmpty(deploymentName))
             {
                 options.ExcludedProvisioningStates = new List<string>()
                 {
@@ -420,9 +542,9 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Models
 
             if (deployments.Count == 0)
             {
-                if (string.IsNullOrEmpty(name))
+                if (string.IsNullOrEmpty(deploymentName))
                 {
-                    throw new ArgumentException(string.Format("There is no deployment called '{0}' to cancel", name));
+                    throw new ArgumentException(string.Format("There is no deployment called '{0}' to cancel", deploymentName));
                 }
                 else
                 {

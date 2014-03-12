@@ -178,11 +178,19 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
         /// <returns>The service client instance</returns>
         public TClient CreateGalleryClient<TClient>() where TClient : ServiceClient<TClient>
         {
+            if (GalleryEndpoint == null)
+            {
+                throw new ArgumentException(Resources.InvalidSubscriptionState);
+            }
             return ClientClientFromEndpoint<TClient>(GalleryEndpoint);
         }
 
         public TClient CreateClientFromCloudServiceEndpoint<TClient>() where TClient : ServiceClient<TClient>
         {
+            if (CloudServiceEndpoint == null)
+            {
+                throw new ArgumentException(Resources.InvalidSubscriptionState);
+            }
             return ClientClientFromEndpoint<TClient>(CloudServiceEndpoint);
         }
 

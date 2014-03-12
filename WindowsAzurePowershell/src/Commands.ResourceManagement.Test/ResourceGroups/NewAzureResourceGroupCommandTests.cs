@@ -59,7 +59,6 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Test
             {
                 ResourceGroupName = resourceGroupName,
                 Location = resourceGroupLocation,
-                ParameterFile = parameterFile,
                 TemplateFile = templateFile,
                 Name = deploymentName,
                 StorageAccountName = storageAccountName,
@@ -80,7 +79,6 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Test
 
             cmdlet.Name = expectedParameters.ResourceGroupName;
             cmdlet.Location = expectedParameters.Location;
-            cmdlet.ParameterFile = expectedParameters.ParameterFile;
             cmdlet.TemplateFile = expectedParameters.TemplateFile;
             cmdlet.DeploymentName = expectedParameters.Name;
             cmdlet.StorageAccountName = expectedParameters.StorageAccountName;
@@ -95,8 +93,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Test
             Assert.Equal(expectedParameters.Name, actualParameters.Name);
             Assert.Equal(expectedParameters.GalleryTemplateName, actualParameters.GalleryTemplateName);
             Assert.Equal(expectedParameters.TemplateFile, actualParameters.TemplateFile);
-            Assert.Equal(expectedParameters.ParameterObject, actualParameters.ParameterObject);
-            Assert.Equal(expectedParameters.ParameterFile, actualParameters.ParameterFile);
+            Assert.NotNull(actualParameters.ParameterObject);
             Assert.Equal(expectedParameters.TemplateVersion, actualParameters.TemplateVersion);
             Assert.Equal(expectedParameters.TemplateHash, actualParameters.TemplateHash);
             Assert.Equal(expectedParameters.TemplateHashAlgorithm, actualParameters.TemplateHashAlgorithm);
@@ -112,7 +109,6 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Test
             {
                 ResourceGroupName = resourceGroupName,
                 Location = resourceGroupLocation,
-                ParameterFile = parameterFile,
                 GalleryTemplateName = "sqlServer",
                 Name = deploymentName,
                 StorageAccountName = storageAccountName,
@@ -133,7 +129,6 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Test
 
             cmdlet.Name = expectedParameters.ResourceGroupName;
             cmdlet.Location = expectedParameters.Location;
-            cmdlet.ParameterFile = expectedParameters.ParameterFile;
             cmdlet.GalleryTemplateName = expectedParameters.GalleryTemplateName;
             cmdlet.DeploymentName = expectedParameters.Name;
             cmdlet.StorageAccountName = expectedParameters.StorageAccountName;
@@ -148,8 +143,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Test
             Assert.Equal(expectedParameters.Name, actualParameters.Name);
             Assert.Equal(expectedParameters.GalleryTemplateName, actualParameters.GalleryTemplateName);
             Assert.Equal(expectedParameters.TemplateFile, actualParameters.TemplateFile);
-            Assert.Equal(expectedParameters.ParameterObject, actualParameters.ParameterObject);
-            Assert.Equal(expectedParameters.ParameterFile, actualParameters.ParameterFile);
+            Assert.NotNull(actualParameters.ParameterObject);
             Assert.Equal(expectedParameters.TemplateVersion, actualParameters.TemplateVersion);
             Assert.Equal(expectedParameters.TemplateHash, actualParameters.TemplateHash);
             Assert.Equal(expectedParameters.TemplateHashAlgorithm, actualParameters.TemplateHashAlgorithm);

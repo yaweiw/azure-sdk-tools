@@ -56,7 +56,6 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Test
         {
             CreatePSResourceGroupDeploymentParameters expectedParameters = new CreatePSResourceGroupDeploymentParameters()
             {
-                ParameterFile = parameterFile,
                 TemplateFile = templateFile,
                 Name = deploymentName,
                 StorageAccountName = storageAccountName,
@@ -96,14 +95,13 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Test
                 },
                 Timestamp = new DateTime(2014, 2, 13)
             };
-            resourcesClientMock.Setup(f => f.CreatePSResourceGroupDeployment(
+            resourcesClientMock.Setup(f => f.ExecuteDeployment(
                 It.IsAny<CreatePSResourceGroupDeploymentParameters>()))
                 .Returns(expected)
                 .Callback((CreatePSResourceGroupDeploymentParameters p) => { actualParameters = p; });
 
             cmdlet.ResourceGroupName = resourceGroupName;
             cmdlet.Name = expectedParameters.Name;
-            cmdlet.ParameterFile = expectedParameters.ParameterFile;
             cmdlet.TemplateFile = expectedParameters.TemplateFile;
             cmdlet.StorageAccountName = expectedParameters.StorageAccountName;
             cmdlet.TemplateHash = expectedParameters.TemplateHash;
@@ -115,8 +113,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Test
             Assert.Equal(expectedParameters.Name, actualParameters.Name);
             Assert.Equal(expectedParameters.GalleryTemplateName, actualParameters.GalleryTemplateName);
             Assert.Equal(expectedParameters.TemplateFile, actualParameters.TemplateFile);
-            Assert.Equal(expectedParameters.ParameterObject, actualParameters.ParameterObject);
-            Assert.Equal(expectedParameters.ParameterFile, actualParameters.ParameterFile);
+            Assert.NotNull(actualParameters.ParameterObject);
             Assert.Equal(expectedParameters.TemplateVersion, actualParameters.TemplateVersion);
             Assert.Equal(expectedParameters.TemplateHash, actualParameters.TemplateHash);
             Assert.Equal(expectedParameters.TemplateHashAlgorithm, actualParameters.TemplateHashAlgorithm);
@@ -130,7 +127,6 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Test
         {
             CreatePSResourceGroupDeploymentParameters expectedParameters = new CreatePSResourceGroupDeploymentParameters()
             {
-                ParameterFile = parameterFile,
                 GalleryTemplateName = "sqlServer",
                 Name = deploymentName,
                 StorageAccountName = storageAccountName,
@@ -170,14 +166,13 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Test
                 },
                 Timestamp = new DateTime(2014, 2, 13)
             };
-            resourcesClientMock.Setup(f => f.CreatePSResourceGroupDeployment(
+            resourcesClientMock.Setup(f => f.ExecuteDeployment(
                 It.IsAny<CreatePSResourceGroupDeploymentParameters>()))
                 .Returns(expected)
                 .Callback((CreatePSResourceGroupDeploymentParameters p) => { actualParameters = p; });
 
             cmdlet.ResourceGroupName = resourceGroupName;
             cmdlet.Name = expectedParameters.Name;
-            cmdlet.ParameterFile = expectedParameters.ParameterFile;
             cmdlet.GalleryTemplateName = expectedParameters.GalleryTemplateName;
             cmdlet.StorageAccountName = expectedParameters.StorageAccountName;
             cmdlet.TemplateHash = expectedParameters.TemplateHash;
@@ -189,8 +184,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Test
             Assert.Equal(expectedParameters.Name, actualParameters.Name);
             Assert.Equal(expectedParameters.GalleryTemplateName, actualParameters.GalleryTemplateName);
             Assert.Equal(expectedParameters.TemplateFile, actualParameters.TemplateFile);
-            Assert.Equal(expectedParameters.ParameterObject, actualParameters.ParameterObject);
-            Assert.Equal(expectedParameters.ParameterFile, actualParameters.ParameterFile);
+            Assert.NotNull(actualParameters.ParameterObject);
             Assert.Equal(expectedParameters.TemplateVersion, actualParameters.TemplateVersion);
             Assert.Equal(expectedParameters.TemplateHash, actualParameters.TemplateHash);
             Assert.Equal(expectedParameters.TemplateHashAlgorithm, actualParameters.TemplateHashAlgorithm);

@@ -21,6 +21,9 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Models
         [JsonProperty("type")]
         public string Type { get; set; }
 
+        [JsonProperty("value")]
+        public string Value { get; set; }
+
         [JsonProperty("defaultValue")]
         public object DefaultValue { get; set; }
 
