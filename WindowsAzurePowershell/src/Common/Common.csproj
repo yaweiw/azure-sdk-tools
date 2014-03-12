@@ -167,6 +167,7 @@
     <Compile Include="CloudService\AzureTools\CsEncrypt.cs" />
     <Compile Include="CloudService\AzureTools\CsPack.cs" />
     <Compile Include="CloudService\AzureTools\CsRun.cs" />
+    <Compile Include="CloudService\AzureTools\StorageEmulator.cs" />
     <Compile Include="CloudService\CloudRuntime.cs" />
     <Compile Include="CloudService\CloudRuntimeApplicator.cs" />
     <Compile Include="CloudService\CloudRuntimeCollection.cs" />
