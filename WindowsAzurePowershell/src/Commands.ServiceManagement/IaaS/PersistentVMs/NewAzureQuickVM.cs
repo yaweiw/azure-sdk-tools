@@ -348,7 +348,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.PersistentVMs
                         null,
                         operationDescription,
                         () => this.ComputeClient.ServiceCertificates.Create(this.ServiceName, parameters),
-                        (s, r) => ContextFactory<ComputeOperationStatusResponse, ManagementOperationContext>(r, s));
+                        (s, r) => ContextFactory<OperationStatusResponse, ManagementOperationContext>(r, s));
                 }
 
                 if (X509Certificates != null)
@@ -366,7 +366,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.PersistentVMs
                             null,
                             operationDescription,
                             () => this.ComputeClient.ServiceCertificates.Create(this.ServiceName, current.CertificateFile),
-                            (s, r) => ContextFactory<ComputeOperationStatusResponse, ManagementOperationContext>(r, s));
+                            (s, r) => ContextFactory<OperationStatusResponse, ManagementOperationContext>(r, s));
                     }
                 }
             }

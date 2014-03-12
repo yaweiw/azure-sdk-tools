@@ -86,7 +86,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
                 {
                     lastVM = role.RoleName;
                     var vm = role;
-                    var roleInstance = CurrentDeploymentNewSM.RoleInstances.First(r => r.RoleName == vm.RoleName);
+                    var roleInstance = CurrentDeploymentNewSM.RoleInstances.FirstOrDefault(r => r.RoleName == vm.RoleName);
                     var vmContext = new PersistentVMRoleContext
                     {
                         ServiceName = ServiceName,
@@ -95,14 +95,14 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
                         AvailabilitySetName = vm.AvailabilitySetName,
                         Label = vm.Label,
                         InstanceSize = vm.RoleSize.ToString(),
-                        InstanceStatus = roleInstance.InstanceStatus,
-                        IpAddress = roleInstance.IPAddress,
-                        InstanceStateDetails = roleInstance.InstanceStateDetails,
-                        PowerState = roleInstance.PowerState.ToString(),
-                        InstanceErrorCode = roleInstance.InstanceErrorCode,
-                        InstanceName = roleInstance.InstanceName,
-                        InstanceFaultDomain = roleInstance.InstanceFaultDomain.HasValue ? roleInstance.InstanceFaultDomain.Value.ToString(CultureInfo.InvariantCulture) : null,
-                        InstanceUpgradeDomain = roleInstance.InstanceUpgradeDomain.HasValue ? roleInstance.InstanceUpgradeDomain.Value.ToString(CultureInfo.InvariantCulture) : null,
+                        InstanceStatus = roleInstance == null ? null : roleInstance.InstanceStatus,
+                        IpAddress = roleInstance == null ? null : roleInstance.IPAddress,
+                        InstanceStateDetails = roleInstance == null ? null : roleInstance.InstanceStateDetails,
+                        PowerState = roleInstance == null ? null : roleInstance.PowerState.ToString(),
+                        InstanceErrorCode = roleInstance == null ? null : roleInstance.InstanceErrorCode,
+                        InstanceName = roleInstance == null ? null : roleInstance.InstanceName,
+                        InstanceFaultDomain = roleInstance == null ? null : roleInstance.InstanceFaultDomain.HasValue ? roleInstance.InstanceFaultDomain.Value.ToString(CultureInfo.InvariantCulture) : null,
+                        InstanceUpgradeDomain = roleInstance == null ? null : roleInstance.InstanceUpgradeDomain.HasValue ? roleInstance.InstanceUpgradeDomain.Value.ToString(CultureInfo.InvariantCulture) : null,
                         OperationDescription = CommandRuntime.ToString(),
                         OperationId = GetDeploymentOperationNewSM.Id,
                         OperationStatus = GetDeploymentOperationNewSM.Status.ToString(),
@@ -150,12 +150,12 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
                     {
                         if (role.RoleType == "PersistentVMRole")
                         {
-                            RoleInstance instance = deploymentGetResponse.RoleInstances.First(r => r.RoleName == role.RoleName);
+                            RoleInstance instance = deploymentGetResponse.RoleInstances.FirstOrDefault(r => r.RoleName == role.RoleName);
                             var vmContext = new PersistentVMRoleListContext
                                             {
                                                 ServiceName = service.ServiceName,
-                                                Status = instance.InstanceStatus,
-                                                Name = instance.RoleName
+                                                Status = instance == null ? null : instance.InstanceStatus,
+                                                Name = instance == null ? null : instance.RoleName
                                             };
 
                             WriteObject(vmContext, true);
