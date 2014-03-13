@@ -1491,6 +1491,22 @@ Please follow these steps in the portal:
   <data name="ReservedIPNameNoLongerInUseButStillBeingReserved" xml:space="preserve">
     <value>Reserved IP with the Name:'{0}' will no longer be in use after the deployment is deleted, and it is still reserved for later use.</value>
   </data>
+
+  <data name="RemoveJobCollectionWarning" xml:space="preserve">
+    <value>Are you sure you want to remove the job collection "{0}"</value>
+  </data>
+  <data name="RemoveJobCollectionMessage" xml:space="preserve">
+    <value>Removing job collection</value>
+  </data>
+  <data name="RemoveJobMessage" xml:space="preserve">
+    <value>Removing job</value>
+  </data>
+  <data name="RemoveJobWarning" xml:space="preserve">
+    <value>Are you sure you want to remove the job "{0}"</value>
+  </data>
+  <data name="SchedulerInvalidLocation" xml:space="preserve">
+    <value>Invalid location entered. Pick one of the locations from Get-AzureSchedulerLocation</value>
+</data>
   <data name="SwappingWebsite" xml:space="preserve">
     <value>Swapping website production slot ...</value>
   </data>
