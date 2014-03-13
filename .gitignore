@@ -1,0 +1,22 @@
+_ReSharper*
+/WindowsAzurePowershell/src/*/bin
+/WindowsAzurePowershell/src/package
+/WindowsAzurePowershell/src/packages
+/WindowsAzurePowershell/setup/build
+/WindowsAzurePowershell/setup/*/bin
+/WindowsAzurePowershell/tools/*/packages
+/WindowsAzurePowershell/tools/*/bin
+obj
+TestResults
+*.user
+*.suo
+*.orig
+*.ncrunchsolution
+*.patch
+/Publish
+/Package
+msbuild.log
+
+# app.config is not useful for PowerShell.
+# please do not commit any app.config files.
+app.config

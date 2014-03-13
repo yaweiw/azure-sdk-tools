@@ -1,0 +1,14 @@
+{
+  "securestring": {
+    "value": "myvalue"
+  },
+  "bool": {
+    "value": "True"
+  },
+  "string": {
+    "value": "myvalue"
+  },
+  "int": {
+    "value": "12"
+  }
+}
