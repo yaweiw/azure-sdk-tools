@@ -15,6 +15,7 @@
 namespace Microsoft.WindowsAzure.Commands.Test.CloudService.Utilities
 {
     using System;
+    using System.IO;
     using System.Net;
     using System.Security.Cryptography.X509Certificates;
     using System.Threading;
@@ -28,7 +29,6 @@ namespace Microsoft.WindowsAzure.Commands.Test.CloudService.Utilities
     using Management.Storage.Models;
     using Moq;
     using Storage.Blob;
-    using OperationStatus = Management.Compute.Models.OperationStatus;
 
     [TestClass]
     public class CloudServiceClientTests : TestBase
@@ -414,9 +414,97 @@ namespace Microsoft.WindowsAzure.Commands.Test.CloudService.Utilities
             }            
         }
 
-        private ComputeOperationStatusResponse CreateComputeOperationResponse(string requestId, OperationStatus status = OperationStatus.Succeeded)
+        [TestMethod]
+        public void TestPublishFromPackageUsingDefaultLocation()
         {
-            return new ComputeOperationStatusResponse
+            RemoveDeployments();
+
+            clientMocks.ComputeManagementClientMock.Setup(
+                c =>
+                c.HostedServices.CreateAsync(It.IsAny<HostedServiceCreateParameters>(), It.IsAny<CancellationToken>()))
+                .Returns(Tasks.FromResult(new OperationResponse
+                {
+                    RequestId = "request001",
+                    StatusCode = HttpStatusCode.OK
+                }));
+
+            clientMocks.ManagementClientMock.Setup(c => c.Locations.ListAsync(It.IsAny<CancellationToken>()))
+                .Returns(Tasks.FromResult(new LocationsListResponse
+                {
+                    Locations =
+                    {
+                        new LocationsListResponse.Location {DisplayName = "East US", Name = "EastUS"}
+                    }
+                }));
+
+            using (var files = new FileSystemHelper(this) { EnableMonitoring = false })
+            {
+                // Setup
+                string packageName = serviceName;
+                string package, configuration;
+                files.CreateDirectoryWithPrebuiltPackage(packageName, out package, out configuration);
+                files.CreateAzureSdkDirectoryAndImportPublishSettings();
+
+                // Execute
+                ExecuteInTempCurrentDirectory(Path.GetDirectoryName(package),
+                    () => client.PublishCloudService(package, configuration, null, null, null, null, null, false, false));
+
+                // Verify
+                clientMocks.ComputeManagementClientMock.Verify(c => c.Deployments.CreateAsync(
+                    serviceName, DeploymentSlot.Production, It.IsAny<DeploymentCreateParameters>(), It.IsAny<CancellationToken>()), Times.Once);
+            }
+        }
+
+        [TestMethod]
+        public void TestUpgradeCloudServiceFromAPackage()
+        {
+            clientMocks.ComputeManagementClientMock.Setup(
+                c =>
+                c.HostedServices.CreateAsync(It.IsAny<HostedServiceCreateParameters>(), It.IsAny<CancellationToken>()))
+                .Returns(Tasks.FromResult(new OperationResponse
+                {
+                    RequestId = "request001",
+                    StatusCode = HttpStatusCode.OK
+                }));
+
+            clientMocks.ComputeManagementClientMock.Setup(
+                c =>
+                c.Deployments.UpgradeBySlotAsync(It.IsAny<string>(), DeploymentSlot.Production,
+                                                 It.IsAny<DeploymentUpgradeParameters>(),
+                                                 It.IsAny<CancellationToken>()))
+                .Returns(Tasks.FromResult(CreateComputeOperationResponse("req002")));
+
+
+            clientMocks.ManagementClientMock.Setup(c => c.Locations.ListAsync(It.IsAny<CancellationToken>()))
+                .Returns(Tasks.FromResult(new LocationsListResponse
+                {
+                    Locations =
+                    {
+                        new LocationsListResponse.Location {DisplayName = "East US", Name = "EastUS"}
+                    }
+                }));
+
+            using (var files = new FileSystemHelper(this) { EnableMonitoring = true })
+            {
+                // Setup
+                string packageName = serviceName;
+                string package, configuration;
+                files.CreateDirectoryWithPrebuiltPackage(packageName, out package, out configuration);
+                files.CreateAzureSdkDirectoryAndImportPublishSettings();
+
+                // Execute
+                ExecuteInTempCurrentDirectory(Path.GetDirectoryName(package),
+                    () => client.PublishCloudService(package, configuration, null, null, null, null, null, false, false));
+
+                // Verify
+                clientMocks.ComputeManagementClientMock.Verify(c => c.Deployments.UpgradeBySlotAsync(serviceName, 
+                    DeploymentSlot.Production, It.IsAny<DeploymentUpgradeParameters>(), It.IsAny<CancellationToken>()), Times.Once);
+            }
+        }
+
+        private OperationStatusResponse CreateComputeOperationResponse(string requestId, OperationStatus status = OperationStatus.Succeeded)
+        {
+            return new OperationStatusResponse
             {
                 Error = null,
                 HttpStatusCode = HttpStatusCode.OK,

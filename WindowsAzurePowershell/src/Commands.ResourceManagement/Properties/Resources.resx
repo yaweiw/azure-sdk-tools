@@ -124,13 +124,16 @@
     <value>Cancelling active resource group deployment ...</value>
   </data>
   <data name="DeploymentNotFound" xml:space="preserve">
-    <value>No deployments were found that satisfy the criteria.</value>
+    <value>Cannot find a deployment that matches the parameter values.</value>
+  </data>
+  <data name="FailedToParseProperty" xml:space="preserve">
+    <value>Cannot parse {0} '{1}'</value>
   </data>
   <data name="FailureParsingParameterFile" xml:space="preserve">
-    <value>Unable to set parameter '{0}' from ParameterFile. Incompatible value '{1}'.</value>
+    <value>Cannot set parameter '{0}' from ParameterFile. Incompatible value '{1}'.</value>
   </data>
   <data name="FailureParsingParameterObject" xml:space="preserve">
-    <value>Unable to set parameter '{0}' from ParameterObject. Incompatible value '{1}'.</value>
+    <value>Cannot set parameter '{0}' from ParameterObject. Incompatible value '{1}'.</value>
   </data>
   <data name="NewResourceGroupMessage" xml:space="preserve">
     <value>Replacing resource group ...</value>
@@ -166,6 +169,9 @@
     <value>Resource type needs to be in the ResourceProvider/type format. For example Microsoft.Web/sites.</value>
   </data>
   <data name="StorageAccountNameNeedsToBeSpecified" xml:space="preserve">
-    <value>Either StorageAccountName or storage account on the subscription need to be specified.</value>
+    <value>You must specify either StorageAccountName or storage account on the subscription need to be specified.</value>
+  </data>
+  <data name="UnableToFindGallery" xml:space="preserve">
+    <value>Cannot find Gallery item '{0}'</value>
   </data>
 </root>

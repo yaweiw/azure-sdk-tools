@@ -13,6 +13,8 @@
 // ----------------------------------------------------------------------------------
 
 using Microsoft.Azure.Commands.ResourceManagement.Models;
+using Microsoft.Azure.Commands.ResourceManagement.Properties;
+using Microsoft.WindowsAzure;
 using Microsoft.WindowsAzure.Commands.Utilities.Common;
 using Newtonsoft.Json;
 using System;
@@ -101,21 +103,35 @@ namespace Microsoft.Azure.Commands.ResourceManagement
                 !GalleryTemplateName.Equals(galleryTemplateName, StringComparison.OrdinalIgnoreCase))
             {
                 galleryTemplateName = GalleryTemplateName;
-                dynamicParameters = ResourceClient.GetTemplateParametersFromGallery(
-                    GalleryTemplateName,
-                    ParameterObject,
-                    ParameterFile,
-                    MyInvocation.MyCommand.Parameters.Keys.ToArray());
+                try
+                {
+                    dynamicParameters = ResourceClient.GetTemplateParametersFromGallery(
+                        GalleryTemplateName,
+                        ParameterObject,
+                        ParameterFile,
+                        MyInvocation.MyCommand.Parameters.Keys.ToArray());
+                }
+                catch (CloudException)
+                {
+                    throw new ArgumentException(string.Format(Resources.UnableToFindGallery, GalleryTemplateName));
+                }
             }
             else if (!string.IsNullOrEmpty(TemplateFile) &&
                 !TemplateFile.Equals(templateFile, StringComparison.OrdinalIgnoreCase))
             {
-                templateFile = TemplateFile;
-                dynamicParameters = ResourceClient.GetTemplateParametersFromFile(
-                    this.TryResolvePath(TemplateFile),
-                    ParameterObject,
-                    ParameterFile,
-                    MyInvocation.MyCommand.Parameters.Keys.ToArray());
+                try
+                {
+                    templateFile = TemplateFile;
+                    dynamicParameters = ResourceClient.GetTemplateParametersFromFile(
+                        this.TryResolvePath(TemplateFile),
+                        ParameterObject,
+                        ParameterFile,
+                        MyInvocation.MyCommand.Parameters.Keys.ToArray());
+                } 
+                catch
+                {
+                    throw new ArgumentException(string.Format(Resources.FailedToParseProperty, "TemplateFile", TemplateFile));
+                }
             }
 
             return dynamicParameters;

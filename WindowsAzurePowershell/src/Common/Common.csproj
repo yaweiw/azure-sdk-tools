@@ -88,14 +88,15 @@
     </Reference>
     <Reference Include="Microsoft.WindowsAzure.Common, Version=0.9.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Microsoft.WindowsAzure.Common.0.9.11-preview\lib\net40\Microsoft.WindowsAzure.Common.dll</HintPath>
+      <HintPath>..\packages\Microsoft.WindowsAzure.Common.0.9.12-preview\lib\net40\Microsoft.WindowsAzure.Common.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.WindowsAzure.Common.NetFramework, Version=0.9.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Microsoft.WindowsAzure.Common.0.9.11-preview\lib\net40\Microsoft.WindowsAzure.Common.NetFramework.dll</HintPath>
+      <HintPath>..\packages\Microsoft.WindowsAzure.Common.0.9.12-preview\lib\net40\Microsoft.WindowsAzure.Common.NetFramework.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.WindowsAzure.Management">
-      <HintPath>..\packages\Microsoft.WindowsAzure.Management.0.9.5-preview\lib\net40\Microsoft.WindowsAzure.Management.dll</HintPath>
+    <Reference Include="Microsoft.WindowsAzure.Management, Version=0.9.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.WindowsAzure.Management.0.9.7-preview\lib\net40\Microsoft.WindowsAzure.Management.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.WindowsAzure.ServiceManagement.Client">
       <HintPath>..\lib\Microsoft.WindowsAzure.ServiceManagement.Client.dll</HintPath>
@@ -167,6 +168,7 @@
     <Compile Include="CloudService\AzureTools\CsEncrypt.cs" />
     <Compile Include="CloudService\AzureTools\CsPack.cs" />
     <Compile Include="CloudService\AzureTools\CsRun.cs" />
+    <Compile Include="CloudService\AzureTools\StorageEmulator.cs" />
     <Compile Include="CloudService\CloudRuntime.cs" />
     <Compile Include="CloudService\CloudRuntimeApplicator.cs" />
     <Compile Include="CloudService\CloudRuntimeCollection.cs" />

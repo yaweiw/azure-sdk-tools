@@ -19,7 +19,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
     using System.Management.Automation;
     using Management.Compute;
     using Management.Compute.Models;
-    using Management.VirtualNetworks;
+    using Management.Network;
     using Properties;
     using Utilities.Common;
 
