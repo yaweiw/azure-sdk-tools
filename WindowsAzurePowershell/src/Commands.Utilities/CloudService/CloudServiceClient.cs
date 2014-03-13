@@ -893,7 +893,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService
         {
             if (!StorageServiceExists(name))
             {
-                var createParameters = new StorageAccountCreateParameters {ServiceName = name, Label = label};
+                var createParameters = new StorageAccountCreateParameters {Name = name, Label = label};
              
                 if (!string.IsNullOrEmpty(affinityGroup))
                 {
@@ -951,7 +951,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService
         /// <returns>The connection string</returns>
         public string GetStorageServiceConnectionString(string name)
         {
-            StorageServiceGetResponse storageService;
+            StorageAccountGetResponse storageService;
             StorageAccountGetKeysResponse storageKeys;
 
             try
@@ -964,18 +964,18 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService
                 throw new Exception(string.Format(Resources.StorageAccountNotFound, name));
             }
 
-            Debug.Assert(storageService.ServiceName != null);
+            Debug.Assert(storageService.StorageAccount.Name != null);
             Debug.Assert(storageKeys != null);
 
             StorageCredentials credentials = new StorageCredentials(
-                storageService.ServiceName,
+                storageService.StorageAccount.Name,
                 storageKeys.PrimaryKey);
 
             CloudStorageAccount cloudStorageAccount = new CloudStorageAccount(
                 credentials,
-                GeneralUtilities.CreateHttpsEndpoint(storageService.Properties.Endpoints[0].ToString()),
-                GeneralUtilities.CreateHttpsEndpoint(storageService.Properties.Endpoints[1].ToString()),
-                GeneralUtilities.CreateHttpsEndpoint(storageService.Properties.Endpoints[2].ToString())
+                GeneralUtilities.CreateHttpsEndpoint(storageService.StorageAccount.Properties.Endpoints[0].ToString()),
+                GeneralUtilities.CreateHttpsEndpoint(storageService.StorageAccount.Properties.Endpoints[1].ToString()),
+                GeneralUtilities.CreateHttpsEndpoint(storageService.StorageAccount.Properties.Endpoints[2].ToString())
                 );
 
             return cloudStorageAccount.ToString(true);
