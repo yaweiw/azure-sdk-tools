@@ -129,11 +129,11 @@
   <data name="FailedToParseProperty" xml:space="preserve">
     <value>Cannot parse {0} '{1}'</value>
   </data>
-  <data name="FailureParsingParameterFile" xml:space="preserve">
-    <value>Cannot set parameter '{0}' from ParameterFile. Incompatible value '{1}'.</value>
+  <data name="FailureParsingTemplateParameterFile" xml:space="preserve">
+    <value>Cannot set parameter '{0}' from TemplateParameterFile. Incompatible value '{1}'.</value>
   </data>
-  <data name="FailureParsingParameterObject" xml:space="preserve">
-    <value>Cannot set parameter '{0}' from ParameterObject. Incompatible value '{1}'.</value>
+  <data name="FailureParsingTemplateParameterObject" xml:space="preserve">
+    <value>Cannot set parameter '{0}' from TemplateParameterObject. Incompatible value '{1}'.</value>
   </data>
   <data name="NewResourceGroupMessage" xml:space="preserve">
     <value>Replacing resource group ...</value>

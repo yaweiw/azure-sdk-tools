@@ -97,20 +97,20 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Cannot set parameter &apos;{0}&apos; from ParameterFile. Incompatible value &apos;{1}&apos;..
+        ///   Looks up a localized string similar to Cannot set parameter &apos;{0}&apos; from TemplateParameterFile. Incompatible value &apos;{1}&apos;..
         /// </summary>
-        internal static string FailureParsingParameterFile {
+        internal static string FailureParsingTemplateParameterFile {
             get {
-                return ResourceManager.GetString("FailureParsingParameterFile", resourceCulture);
+                return ResourceManager.GetString("FailureParsingTemplateParameterFile", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Cannot set parameter &apos;{0}&apos; from ParameterObject. Incompatible value &apos;{1}&apos;..
+        ///   Looks up a localized string similar to Cannot set parameter &apos;{0}&apos; from TemplateParameterObject. Incompatible value &apos;{1}&apos;..
         /// </summary>
-        internal static string FailureParsingParameterObject {
+        internal static string FailureParsingTemplateParameterObject {
             get {
-                return ResourceManager.GetString("FailureParsingParameterObject", resourceCulture);
+                return ResourceManager.GetString("FailureParsingTemplateParameterObject", resourceCulture);
             }
         }
         
