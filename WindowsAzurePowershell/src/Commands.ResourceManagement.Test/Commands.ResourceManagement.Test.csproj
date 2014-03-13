@@ -134,6 +134,7 @@
     <Compile Include="Resources\GetAzureResourceCommandTests.cs" />
     <Compile Include="Resources\NewAzureResourceCommandTests.cs" />
     <Compile Include="Resources\RemoveAzureResourceCommandTests.cs" />
+    <Compile Include="Resources\SetAzureResourceCommandTests.cs" />
     <Compile Include="Templates\TestAzureResourceGroupTemplateCommandTests.cs" />
     <Compile Include="Templates\SaveAzureResourceGroupGalleryTemplateCommandTests.cs" />
     <Compile Include="Templates\GetAzureResourceGroupGalleryTemplateCommandTests.cs" />
@@ -170,11 +171,12 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <None Include="MSSharedLibKey.snk" />
     <None Include="packages.config" />
-    <Content Include="Resources\sampleParameterFile.json">
+    <Content Include="Resources\sampleTemplateFile.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Resources\sampleTemplateFile.json">
+    <Content Include="Resources\sampleTemplateParameterFile.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>

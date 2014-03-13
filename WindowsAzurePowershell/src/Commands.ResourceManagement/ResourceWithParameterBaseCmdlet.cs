@@ -29,11 +29,11 @@ namespace Microsoft.Azure.Commands.ResourceManagement
     public abstract class ResourceWithParameterBaseCmdlet : ResourceBaseCmdlet
     {
         protected const string BaseParameterSetName = "Default";
-        protected const string GalleryTemplateParameterObjectParameterSetName = "Deployment via Gallery and parameters object";
-        protected const string GalleryTemplateParameterFileParameterSetName = "Deployment via Gallery and parameters file";
+        protected const string GalleryTemplateParameterObjectParameterSetName = "Deployment via Gallery and template parameters object";
+        protected const string GalleryTemplateParameterFileParameterSetName = "Deployment via Gallery and template parameters file";
         protected const string GalleryTemplateDynamicParametersParameterSetName = "Deployment via Gallery and inline parameters";
-        protected const string TemplateFileParameterObjectParameterSetName = "Deployment via template file and parameters object";
-        protected const string TemplateFileParameterFileParameterSetName = "Deployment via template file and parameters file";
+        protected const string TemplateFileParameterObjectParameterSetName = "Deployment via template file and template parameters object";
+        protected const string TemplateFileParameterFileParameterSetName = "Deployment via template file and template parameters file";
         protected const string ParameterlessTemplateFileParameterSetName = "Deployment via template file without parameters";
         protected const string ParameterlessGalleryTemplateParameterSetName = "Deployment via Gallery without parameters";
         protected RuntimeDefinedParameterDictionary dynamicParameters;
@@ -52,14 +52,14 @@ namespace Microsoft.Azure.Commands.ResourceManagement
             Mandatory = true, ValueFromPipelineByPropertyName = true, HelpMessage = "A hash table which represents the parameters.")]
         [Parameter(ParameterSetName = TemplateFileParameterObjectParameterSetName,
             Mandatory = true, ValueFromPipelineByPropertyName = true, HelpMessage = "A hash table which represents the parameters.")]
-        public Hashtable ParameterObject { get; set; }
+        public Hashtable TemplateParameterObject { get; set; }
 
         [Parameter(ParameterSetName = GalleryTemplateParameterFileParameterSetName,
             Mandatory = true, ValueFromPipelineByPropertyName = true, HelpMessage = "A file that has the template parameters.")]
         [Parameter(ParameterSetName = TemplateFileParameterFileParameterSetName,
             Mandatory = true, ValueFromPipelineByPropertyName = true, HelpMessage = "A file that has the template parameters.")]
         [ValidateNotNullOrEmpty]
-        public string ParameterFile { get; set; }
+        public string TemplateParameterFile { get; set; }
 
         [Parameter(ParameterSetName = GalleryTemplateParameterObjectParameterSetName,
             Mandatory = true, ValueFromPipelineByPropertyName = true, HelpMessage = "Name of the template in the gallery.")]
@@ -107,8 +107,8 @@ namespace Microsoft.Azure.Commands.ResourceManagement
                 {
                     dynamicParameters = ResourceClient.GetTemplateParametersFromGallery(
                         GalleryTemplateName,
-                        ParameterObject,
-                        ParameterFile,
+                        TemplateParameterObject,
+                        TemplateParameterFile,
                         MyInvocation.MyCommand.Parameters.Keys.ToArray());
                 }
                 catch (CloudException)
@@ -124,8 +124,8 @@ namespace Microsoft.Azure.Commands.ResourceManagement
                     templateFile = TemplateFile;
                     dynamicParameters = ResourceClient.GetTemplateParametersFromFile(
                         this.TryResolvePath(TemplateFile),
-                        ParameterObject,
-                        ParameterFile,
+                        TemplateParameterObject,
+                        TemplateParameterFile,
                         MyInvocation.MyCommand.Parameters.Keys.ToArray());
                 } 
                 catch
@@ -137,26 +137,26 @@ namespace Microsoft.Azure.Commands.ResourceManagement
             return dynamicParameters;
         }
 
-        protected Hashtable GetParameterObject(Hashtable parameterObject)
+        protected Hashtable GetTemplateParameterObject(Hashtable templateParameterObject)
         {
-            parameterObject = parameterObject ?? new Hashtable();
+            templateParameterObject = templateParameterObject ?? new Hashtable();
 
             // Load parameters from the file
-            string parameterFilePath = this.TryResolvePath(ParameterFile);
-            if (parameterFilePath != null && File.Exists(parameterFilePath))
+            string templateParameterFilePath = this.TryResolvePath(TemplateParameterFile);
+            if (templateParameterFilePath != null && File.Exists(templateParameterFilePath))
             {
-                var parametersFromFile = JsonConvert.DeserializeObject<Dictionary<string, TemplateFileParameter>>(File.ReadAllText(parameterFilePath));
-                parametersFromFile.ForEach(dp => parameterObject[dp.Key] = dp.Value.Value);
+                var parametersFromFile = JsonConvert.DeserializeObject<Dictionary<string, TemplateFileParameter>>(File.ReadAllText(templateParameterFilePath));
+                parametersFromFile.ForEach(dp => templateParameterObject[dp.Key] = dp.Value.Value);
             }
 
             // Load dynamic parameters
             IEnumerable<RuntimeDefinedParameter> parameters = GeneralUtilities.GetUsedDynamicParameters(dynamicParameters, MyInvocation);
             if (parameters.Any())
             {
-                parameters.ForEach(dp => parameterObject[dp.Name] = dp.Value);
+                parameters.ForEach(dp => templateParameterObject[dp.Name] = dp.Value);
             }
 
-            return parameterObject;
+            return templateParameterObject;
         }
     }
 }

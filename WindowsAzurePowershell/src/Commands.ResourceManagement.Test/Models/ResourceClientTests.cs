@@ -79,7 +79,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Test.Models
 
         private string templateFile = @"Resources\sampleTemplateFile.json";
 
-        private string parameterFile = @"Resources\sampleParameterFile.json";
+        private string templateParameterFile = @"Resources\sampleTemplateParameterFile.json";
 
         private string storageAccountName = "myStorageAccount";
 
@@ -1100,7 +1100,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Test.Models
         }
 
         [Fact]
-        public void CreatesResourceGroupWithDeploymentFromParameterObject()
+        public void CreatesResourceGroupWithDeploymentFromTemplateParameterObject()
         {
             Uri templateUri = new Uri("http://templateuri.microsoft.com");
             BasicDeployment deploymentFromGet = new BasicDeployment();
@@ -1111,7 +1111,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Test.Models
                 Location = resourceGroupLocation,
                 Name = deploymentName,
                 TemplateFile = templateFile,
-                ParameterObject = new Hashtable()
+                TemplateParameterObject = new Hashtable()
                 {
                     { "string", "myvalue" },
                     { "securestring", "myvalue" },
@@ -1201,11 +1201,11 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Test.Models
 
             Assert.Equal(DeploymentMode.Incremental, deploymentFromGet.Mode);
             Assert.Equal(templateUri, deploymentFromGet.TemplateLink.Uri);
-            Assert.Equal(File.ReadAllText(parameterFile), deploymentFromGet.Parameters);
+            Assert.Equal(File.ReadAllText(templateParameterFile), deploymentFromGet.Parameters);
 
             Assert.Equal(DeploymentMode.Incremental, deploymentFromValidate.Mode);
             Assert.Equal(templateUri, deploymentFromValidate.TemplateLink.Uri);
-            Assert.Equal(File.ReadAllText(parameterFile), deploymentFromValidate.Parameters);
+            Assert.Equal(File.ReadAllText(templateParameterFile), deploymentFromValidate.Parameters);
 
             progressLoggerMock.Verify(
                 f => f(string.Format("Resource {0} '{1}' provisioning status in location '{2}' is {3}",
@@ -2018,7 +2018,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Test.Models
             RuntimeDefinedParameterDictionary result = resourcesClient.GetTemplateParametersFromFile(
                 templateFile,
                 null,
-                parameterFile,
+                templateParameterFile,
                 new[] { "TestPS" });
 
             Assert.Equal(4, result.Count);

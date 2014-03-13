@@ -41,7 +41,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement
                 Name = Name,
                 GalleryTemplateName = GalleryTemplateName,
                 TemplateFile = this.TryResolvePath(TemplateFile),
-                ParameterObject = GetParameterObject(ParameterObject),
+                TemplateParameterObject = GetTemplateParameterObject(TemplateParameterObject),
                 TemplateVersion = TemplateVersion,
                 TemplateHash = TemplateHash,
                 TemplateHashAlgorithm = TemplateHashAlgorithm,

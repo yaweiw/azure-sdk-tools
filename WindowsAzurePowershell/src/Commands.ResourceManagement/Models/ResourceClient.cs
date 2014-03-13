@@ -97,11 +97,11 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Models
 
         private static string DeploymentTemplateStorageContainerName = "deployment-templates";
 
-        private string GetDeploymentParameters(Hashtable parameterObject)
+        private string GetDeploymentParameters(Hashtable templateParameterObject)
         {
-            if (parameterObject != null)
+            if (templateParameterObject != null)
             {
-                return SerializeHashtable(parameterObject, addValueLayer: true);
+                return SerializeHashtable(templateParameterObject, addValueLayer: true);
             }
             else
             {
@@ -128,13 +128,13 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Models
             return providers;
         }
 
-        private string SerializeHashtable(Hashtable parameterObject, bool addValueLayer)
+        private string SerializeHashtable(Hashtable templateParameterObject, bool addValueLayer)
         {
-            if (parameterObject == null)
+            if (templateParameterObject == null)
             {
                 return null;
             }
-            Dictionary<string, object> parametersDictionary = parameterObject.ToDictionary(addValueLayer);
+            Dictionary<string, object> parametersDictionary = templateParameterObject.ToDictionary(addValueLayer);
             return JsonConvert.SerializeObject(parametersDictionary, new JsonSerializerSettings
                 {
                     TypeNameAssemblyFormat = FormatterAssemblyStyle.Simple,
@@ -467,7 +467,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Models
                     ContentVersion = parameters.TemplateVersion,
                     ContentHash = GetTemplateContentHash(parameters.TemplateHash, parameters.TemplateHashAlgorithm)
                 },
-                Parameters = GetDeploymentParameters(parameters.ParameterObject)
+                Parameters = GetDeploymentParameters(parameters.TemplateParameterObject)
             };
 
             return deployment;
