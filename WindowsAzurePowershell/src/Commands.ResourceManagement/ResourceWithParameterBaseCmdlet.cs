@@ -146,14 +146,14 @@ namespace Microsoft.Azure.Commands.ResourceManagement
             if (parameterFilePath != null && File.Exists(parameterFilePath))
             {
                 var parametersFromFile = JsonConvert.DeserializeObject<Dictionary<string, TemplateFileParameter>>(File.ReadAllText(parameterFilePath));
-                parametersFromFile.ForEach(dp => parameterObject[GeneralUtilities.ToUpperFirstLetter(dp.Key)] = dp.Value.Value);
+                parametersFromFile.ForEach(dp => parameterObject[dp.Key] = dp.Value.Value);
             }
 
             // Load dynamic parameters
             IEnumerable<RuntimeDefinedParameter> parameters = GeneralUtilities.GetUsedDynamicParameters(dynamicParameters, MyInvocation);
             if (parameters.Any())
             {
-                parameters.ForEach(dp => parameterObject[GeneralUtilities.ToUpperFirstLetter(dp.Name)] = dp.Value);
+                parameters.ForEach(dp => parameterObject[dp.Name] = dp.Value);
             }
 
             return parameterObject;

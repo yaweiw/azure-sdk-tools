@@ -67,6 +67,8 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Test.Models
 
         private Mock<Action<string>> progressLoggerMock;
 
+        private Mock<Action<string>> errorLoggerMock;
+
         private ResourcesClient resourcesClient;
 
         private string resourceGroupName = "myResourceGroup";
@@ -136,6 +138,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Test.Models
                     Providers = new List<Provider>()
                 }));
             progressLoggerMock = new Mock<Action<string>>();
+            errorLoggerMock = new Mock<Action<string>>();
             resourceManagementClientMock.Setup(f => f.Deployments).Returns(deploymentsMock.Object);
             resourceManagementClientMock.Setup(f => f.ResourceGroups).Returns(resourceGroupMock.Object);
             resourceManagementClientMock.Setup(f => f.Resources).Returns(resourceOperationsMock.Object);
@@ -149,7 +152,8 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Test.Models
                 galleryClientMock.Object,
                 eventsClientMock.Object)
                 {
-                    ProgressLogger = progressLoggerMock.Object
+                    ProgressLogger = progressLoggerMock.Object,
+                    ErrorLogger = errorLoggerMock.Object
                 };
 
             resourceIdentity = new ResourceIdentity
@@ -1312,8 +1316,120 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Test.Models
             Assert.Equal(DeploymentMode.Incremental, deploymentFromValidate.Mode);
             Assert.Equal(templateUri, deploymentFromValidate.TemplateLink.Uri);
 
-            progressLoggerMock.Verify(
-                f => f(string.Format("Resource {0} '{1}' in location '{2}' failed with message {3}",
+            errorLoggerMock.Verify(
+                f => f(string.Format("Resource {0} '{1}' in location '{2}' failed with message '{3}'",
+                        "Microsoft.Website",
+                        resourceName,
+                        resourceGroupLocation,
+                        "A really bad error occured")),
+                Times.Once());
+        }
+
+        [Fact]
+        public void ExtractsErrorMessageFromFailedDeploymentOperation()
+        {
+            Uri templateUri = new Uri("http://templateuri.microsoft.com");
+            BasicDeployment deploymentFromGet = new BasicDeployment();
+            BasicDeployment deploymentFromValidate = new BasicDeployment();
+            CreatePSResourceGroupParameters parameters = new CreatePSResourceGroupParameters()
+            {
+                ResourceGroupName = resourceGroupName,
+                Location = resourceGroupLocation,
+                Name = deploymentName,
+                TemplateFile = templateFile,
+                StorageAccountName = storageAccountName,
+                ConfirmAction = ConfirmAction
+            };
+            resourceGroupMock.Setup(f => f.CheckExistenceAsync(parameters.ResourceGroupName, new CancellationToken()))
+                .Returns(Task.Factory.StartNew(() => new ResourceGroupExistsResult
+                {
+                    Exists = false
+                }));
+
+            resourceGroupMock.Setup(f => f.CreateOrUpdateAsync(
+                parameters.ResourceGroupName,
+                It.IsAny<BasicResourceGroup>(),
+                new CancellationToken()))
+                    .Returns(Task.Factory.StartNew(() => new ResourceGroupCreateOrUpdateResult
+                    {
+                        ResourceGroup = new ResourceGroup() { Name = parameters.ResourceGroupName, Location = parameters.Location }
+                    }));
+            resourceGroupMock.Setup(f => f.GetAsync(resourceGroupName, new CancellationToken()))
+                .Returns(Task.Factory.StartNew(() => new ResourceGroupGetResult
+                {
+                    ResourceGroup = new ResourceGroup() { Location = resourceGroupLocation }
+                }));
+            storageClientWrapperMock.Setup(f => f.UploadFileToBlob(It.IsAny<BlobUploadParameters>())).Returns(templateUri);
+            deploymentsMock.Setup(f => f.CreateOrUpdateAsync(resourceGroupName, deploymentName, It.IsAny<BasicDeployment>(), new CancellationToken()))
+                .Returns(Task.Factory.StartNew(() => new DeploymentOperationsCreateResult
+                {
+                    RequestId = requestId
+                }))
+                .Callback((string name, string dName, BasicDeployment bDeploy, CancellationToken token) => { deploymentFromGet = bDeploy; });
+            deploymentsMock.Setup(f => f.GetAsync(resourceGroupName, deploymentName, new CancellationToken()))
+                .Returns(Task.Factory.StartNew(() => new DeploymentGetResult
+                {
+                    Deployment = new Deployment
+                    {
+                        DeploymentName = deploymentName,
+                        Properties = new DeploymentProperties()
+                        {
+                            Mode = DeploymentMode.Incremental,
+                            ProvisioningState = ProvisioningState.Succeeded
+                        },
+                        ResourceGroup = resourceGroupName
+                    }
+                }));
+            deploymentsMock.Setup(f => f.ValidateAsync(resourceGroupName, DeploymentValidationMode.Full, It.IsAny<BasicDeployment>(), new CancellationToken()))
+                .Returns(Task.Factory.StartNew(() => new DeploymentValidateResponse
+                {
+                    Errors = new List<ResourceManagementError>()
+                }))
+                .Callback((string rg, DeploymentValidationMode m, BasicDeployment d, CancellationToken c) => { deploymentFromValidate = d; });
+            SetupListForResourceGroupAsync(parameters.ResourceGroupName, new List<Resource>() { new Resource() { Name = "website" } });
+            deploymentOperationsMock.Setup(f => f.ListAsync(resourceGroupName, deploymentName, null, new CancellationToken()))
+                .Returns(Task.Factory.StartNew(() => new DeploymentOperationsListResult
+                {
+                    Operations = new List<DeploymentOperation>()
+                    {
+                        new DeploymentOperation()
+                        {
+                            DeploymentName = deploymentName,
+                            OperationId = Guid.NewGuid().ToString(),
+                            ResourceGroup = resourceGroupName,
+                            Properties = new DeploymentOperationProperties()
+                            {
+                                ProvisioningState = ProvisioningState.Failed,
+                                StatusMessage = JsonConvert.SerializeObject(new ResourceManagementError()
+                                {
+                                    Message = "A really bad error occured"
+                                }),
+                                TargetResource = new TargetResource()
+                                {
+                                    ResourceGroup = resourceGroupName,
+                                    ResourceName = resourceName,
+                                    ResourceType = "Microsoft.Website"
+                                }
+                            }
+                        }
+                    }
+                }));
+
+            PSResourceGroup result = resourcesClient.CreatePSResourceGroup(parameters);
+
+            deploymentsMock.Verify((f => f.CreateOrUpdateAsync(resourceGroupName, deploymentName, deploymentFromGet, new CancellationToken())), Times.Once());
+            Assert.Equal(parameters.ResourceGroupName, result.ResourceGroupName);
+            Assert.Equal(parameters.Location, result.Location);
+            Assert.Equal(1, result.Resources.Count);
+
+            Assert.Equal(DeploymentMode.Incremental, deploymentFromGet.Mode);
+            Assert.Equal(templateUri, deploymentFromGet.TemplateLink.Uri);
+
+            Assert.Equal(DeploymentMode.Incremental, deploymentFromValidate.Mode);
+            Assert.Equal(templateUri, deploymentFromValidate.TemplateLink.Uri);
+
+            errorLoggerMock.Verify(
+                f => f(string.Format("Resource {0} '{1}' in location '{2}' failed with message '{3}'",
                         "Microsoft.Website",
                         resourceName,
                         resourceGroupLocation,
@@ -1571,7 +1687,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Test.Models
 
             RuntimeDefinedParameter dynamicParameter = resourcesClient.ConstructDynamicParameter(parameters, parameter);
 
-            Assert.Equal("ComputeMode", dynamicParameter.Name);
+            Assert.Equal("computeMode", dynamicParameter.Name);
             Assert.Equal(value.DefaultValue, dynamicParameter.Value);
             Assert.Equal(typeof(string), dynamicParameter.ParameterType);
             Assert.Equal(3, dynamicParameter.Attributes.Count);
@@ -1654,7 +1770,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Test.Models
 
             RuntimeDefinedParameter dynamicParameter = resourcesClient.ConstructDynamicParameter(parameters, parameter);
 
-            Assert.Equal("ComputeMode", dynamicParameter.Name);
+            Assert.Equal("computeMode", dynamicParameter.Name);
             Assert.Equal(value.DefaultValue, dynamicParameter.Value);
             Assert.Equal(typeof(SecureString), dynamicParameter.ParameterType);
             Assert.Equal(2, dynamicParameter.Attributes.Count);
@@ -1685,7 +1801,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Test.Models
 
             RuntimeDefinedParameter dynamicParameter = resourcesClient.ConstructDynamicParameter(parameters, parameter);
 
-            Assert.Equal("ComputeMode", dynamicParameter.Name);
+            Assert.Equal("computeMode", dynamicParameter.Name);
             Assert.Equal(value.DefaultValue, dynamicParameter.Value);
             Assert.Equal(typeof(SecureString), dynamicParameter.ParameterType);
             Assert.Equal(1, dynamicParameter.Attributes.Count);
@@ -1712,7 +1828,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Test.Models
 
             RuntimeDefinedParameter dynamicParameter = resourcesClient.ConstructDynamicParameter(parameters, parameter);
 
-            Assert.Equal("ComputeMode", dynamicParameter.Name);
+            Assert.Equal("computeMode", dynamicParameter.Name);
             Assert.Equal(value.DefaultValue, dynamicParameter.Value);
             Assert.Equal(typeof(SecureString), dynamicParameter.ParameterType);
             Assert.Equal(2, dynamicParameter.Attributes.Count);
@@ -1743,7 +1859,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Test.Models
 
             RuntimeDefinedParameter dynamicParameter = resourcesClient.ConstructDynamicParameter(parameters, parameter);
 
-            Assert.Equal("ComputeMode", dynamicParameter.Name);
+            Assert.Equal("computeMode", dynamicParameter.Name);
             Assert.Equal(value.DefaultValue, dynamicParameter.Value);
             Assert.Equal(typeof(SecureString), dynamicParameter.ParameterType);
             Assert.Equal(2, dynamicParameter.Attributes.Count);
@@ -1880,17 +1996,17 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Test.Models
 
             Assert.Equal(4, result.Count);
 
-            Assert.Equal("String", result["String"].Name);
+            Assert.Equal("string", result["string"].Name);
             Assert.Equal(typeof(string), result["String"].ParameterType);
 
-            Assert.Equal("Int", result["Int"].Name);
-            Assert.Equal(typeof(int), result["Int"].ParameterType);
+            Assert.Equal("int", result["int"].Name);
+            Assert.Equal(typeof(int), result["int"].ParameterType);
             
-            Assert.Equal("Securestring", result["Securestring"].Name);
-            Assert.Equal(typeof(SecureString), result["Securestring"].ParameterType);
+            Assert.Equal("securestring", result["securestring"].Name);
+            Assert.Equal(typeof(SecureString), result["securestring"].ParameterType);
 
-            Assert.Equal("Bool", result["Bool"].Name);
-            Assert.Equal(typeof(bool), result["Bool"].ParameterType);
+            Assert.Equal("bool", result["bool"].Name);
+            Assert.Equal(typeof(bool), result["bool"].ParameterType);
         }
 
         [Fact]
@@ -1907,18 +2023,18 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Test.Models
 
             Assert.Equal(4, result.Count);
 
-            Assert.Equal("String", result["String"].Name);
-            Assert.Equal(typeof(string), result["String"].ParameterType);
-            Assert.Equal("myvalue", result["String"].Value);
+            Assert.Equal("string", result["string"].Name);
+            Assert.Equal(typeof(string), result["string"].ParameterType);
+            Assert.Equal("myvalue", result["string"].Value);
 
 
-            Assert.Equal("Int", result["Int"].Name);
-            Assert.Equal(typeof(int), result["Int"].ParameterType);
-            Assert.Equal("12", result["Int"].Value);
+            Assert.Equal("int", result["int"].Name);
+            Assert.Equal(typeof(int), result["int"].ParameterType);
+            Assert.Equal("12", result["int"].Value);
 
-            Assert.Equal("Bool", result["Bool"].Name);
-            Assert.Equal(typeof(bool), result["Bool"].ParameterType);
-            Assert.Equal("True", result["Bool"].Value);
+            Assert.Equal("bool", result["bool"].Name);
+            Assert.Equal(typeof(bool), result["bool"].ParameterType);
+            Assert.Equal("True", result["bool"].Value);
         }
 
         [Fact]
