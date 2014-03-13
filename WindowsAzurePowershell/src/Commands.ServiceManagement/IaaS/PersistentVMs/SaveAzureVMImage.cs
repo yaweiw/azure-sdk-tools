@@ -114,6 +114,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
             ServiceManagementProfile.Initialize();
             
             base.ExecuteCommand();
+
             if (CurrentDeploymentNewSM == null)
             {
                 WriteWarning(string.Format(Resources.NoDeploymentFoundByServiceAndVMName, this.ServiceName, this.Name));
@@ -135,7 +136,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
                         TargetImageName = this.ImageName
                     });
             }
-            else if (ValidateImageType(ImageType.OSImage))
+            else if (!string.IsNullOrEmpty(this.OSState) && ValidateImageType(ImageType.OSImage))
             {
                 action = () => this.ComputeClient.VirtualMachines.CaptureVMImage(
                     this.ServiceName,
@@ -148,7 +149,10 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
                     });
             }
 
-            ExecuteClientActionNewSM(null, CommandRuntime.ToString(), action);
+            if (action != null)
+            {
+                ExecuteClientActionNewSM(null, CommandRuntime.ToString(), action);
+            }
         }
     }
 }

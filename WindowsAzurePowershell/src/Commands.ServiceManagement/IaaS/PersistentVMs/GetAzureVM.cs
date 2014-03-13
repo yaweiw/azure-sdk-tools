@@ -52,7 +52,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
 
         protected override void ExecuteCommand()
         {
-            ServiceManagementProfile.Initialize();
+            ServiceManagementProfile.Initialize(this);
 
             base.ExecuteCommand();
             if (!string.IsNullOrEmpty(ServiceName) && CurrentDeploymentNewSM == null)
@@ -103,6 +103,8 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
                         InstanceName = roleInstance == null ? null : roleInstance.InstanceName,
                         InstanceFaultDomain = roleInstance == null ? null : roleInstance.InstanceFaultDomain.HasValue ? roleInstance.InstanceFaultDomain.Value.ToString(CultureInfo.InvariantCulture) : null,
                         InstanceUpgradeDomain = roleInstance == null ? null : roleInstance.InstanceUpgradeDomain.HasValue ? roleInstance.InstanceUpgradeDomain.Value.ToString(CultureInfo.InvariantCulture) : null,
+                        GuestAgentStatus = Mapper.Map<PVM.GuestAgentStatus>(roleInstance.GuestAgentStatus),
+                        ResourceExtensionStatusList = Mapper.Map<List<PVM.ResourceExtensionStatus>>(roleInstance.ResourceExtensionStatusList),
                         OperationDescription = CommandRuntime.ToString(),
                         OperationId = GetDeploymentOperationNewSM.Id,
                         OperationStatus = GetDeploymentOperationNewSM.Status.ToString(),

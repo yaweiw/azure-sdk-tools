@@ -14,7 +14,6 @@
 
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Model
 {
-    using System.Collections.Generic;
     using PersistentVMModel;
 
     public class RoleInstanceContext : ServiceOperationContext
@@ -38,9 +37,5 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Model
         public string RoleName { get; set; }
 
         public string DeploymentID { get; set; }
-
-        public GuestAgentStatus GuestAgentStatus { get; set; }
-
-        public List<ResourceExtensionStatus> ResourceExtensionStatusList { get; set; }
     }
 }

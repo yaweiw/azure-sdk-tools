@@ -21,6 +21,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement
     using AutoMapper;
     using Extensions;
     using HostedServices;
+    using IaaS;
     using IaaS.DiskRepository;
     using IaaS.Extensions;
     using Management.Compute.Models;
@@ -179,7 +180,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement
             return Initialize();
         }
 
-        public static bool Initialize(GetAzureRoleCommand command)
+        public static bool Initialize(GetAzureVMCommand command)
         {
             Mapper.CreateMap<NSM.FormattedMessage, PVM.FormattedMessage>();
             Mapper.CreateMap<NSM.GuestAgentStatus, PVM.GuestAgentStatus>();
