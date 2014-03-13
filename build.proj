@@ -236,7 +236,7 @@
     <MakeDir Directories="$(TestOutputDirectory)" ContinueOnError="false" />
 
     <Message Importance="high" Text="Debug tests:" />
-    <CallTarget Targets="TestManagement; TestResourceManagement; TestServiceManagement; TestSqlDatabase; TestStorage;" />
+    <!--CallTarget Targets="TestManagement; TestResourceManagement; TestServiceManagement; TestSqlDatabase; TestStorage;" /-->
   </Target>
 
   <Target Name="TestManagement">
