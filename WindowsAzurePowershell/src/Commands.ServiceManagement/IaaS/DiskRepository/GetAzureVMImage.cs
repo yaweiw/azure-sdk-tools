@@ -61,36 +61,19 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.DiskRepository
         {
             ServiceManagementProfile.Initialize(this);
 
-            if (!string.IsNullOrEmpty(this.ImageName))
-            {
-                this.ExecuteClientActionNewSM(
-                    null,
-                    this.CommandRuntime.ToString(),
-                    () => this.ComputeClient.VirtualMachineOSImages.Get(this.ImageName),
-                    (s, response) => this.ContextFactory<VirtualMachineOSImageGetResponse, OSImageContext>(response, s));
-            }
-            else
-            {
-                this.ExecuteClientActionNewSM(
+            this.ExecuteClientActionNewSM(
                     null,
                     this.CommandRuntime.ToString(),
                     () => this.ComputeClient.VirtualMachineOSImages.List(),
-                    (s, response) => response.Images.Select(
+                    (s, response) => response.Images.Where(t => string.Equals(t.Name, this.ImageName, StringComparison.OrdinalIgnoreCase)).Select(
                         image => this.ContextFactory<VirtualMachineOSImageListResponse.VirtualMachineOSImage, OSImageContext>(image, s)));
-            }
 
             this.ExecuteClientActionNewSM(
                 null,
                 this.CommandRuntime.ToString(),
                 () => this.ComputeClient.VirtualMachineVMImages.List(),
-                (s, response) =>
-                {
-                    var results = response.VMImages.Select(
-                        image => this.ContextFactory<VirtualMachineVMImageListResponse.VirtualMachineVMImage, VMImageContext>(image, s));
-
-                    return string.IsNullOrEmpty(this.ImageName) ? results
-                            : results.Where(t => string.Equals(t.VMImageName, this.ImageName, System.StringComparison.OrdinalIgnoreCase));
-                });
+                (s, response) => response.VMImages.Where(t => string.Equals(t.Name, this.ImageName, StringComparison.OrdinalIgnoreCase)).Select(
+                    image => this.ContextFactory<VirtualMachineVMImageListResponse.VirtualMachineVMImage, VMImageContext>(image, s)));
         }
 
         protected override void OnProcessRecord()
