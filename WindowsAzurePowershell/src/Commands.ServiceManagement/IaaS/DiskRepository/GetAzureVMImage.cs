@@ -65,15 +65,15 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.DiskRepository
                     null,
                     this.CommandRuntime.ToString(),
                     () => this.ComputeClient.VirtualMachineOSImages.List(),
-                    (s, response) => response.Images.Where(t => string.Equals(t.Name, this.ImageName, StringComparison.OrdinalIgnoreCase)).Select(
-                        image => this.ContextFactory<VirtualMachineOSImageListResponse.VirtualMachineOSImage, OSImageContext>(image, s)));
+                    (s, response) => response.Images.Where(t => string.IsNullOrEmpty(this.ImageName) || string.Equals(t.Name, this.ImageName, StringComparison.OrdinalIgnoreCase))
+                                                    .Select(t => this.ContextFactory<VirtualMachineOSImageListResponse.VirtualMachineOSImage, OSImageContext>(t, s)));
 
             this.ExecuteClientActionNewSM(
                 null,
                 this.CommandRuntime.ToString(),
                 () => this.ComputeClient.VirtualMachineVMImages.List(),
-                (s, response) => response.VMImages.Where(t => string.Equals(t.Name, this.ImageName, StringComparison.OrdinalIgnoreCase)).Select(
-                    image => this.ContextFactory<VirtualMachineVMImageListResponse.VirtualMachineVMImage, VMImageContext>(image, s)));
+                (s, response) => response.VMImages.Where(t => string.IsNullOrEmpty(this.ImageName) || string.Equals(t.Name, this.ImageName, StringComparison.OrdinalIgnoreCase))
+                                                  .Select(t => this.ContextFactory<VirtualMachineVMImageListResponse.VirtualMachineVMImage, VMImageContext>(t, s)));
         }
 
         protected override void OnProcessRecord()
