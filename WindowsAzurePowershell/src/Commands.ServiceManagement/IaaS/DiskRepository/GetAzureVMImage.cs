@@ -61,23 +61,12 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.DiskRepository
         {
             ServiceManagementProfile.Initialize(this);
 
-            if (!string.IsNullOrEmpty(this.ImageName))
-            {
-                this.ExecuteClientActionNewSM(
-                    null,
-                    this.CommandRuntime.ToString(),
-                    () => this.ComputeClient.VirtualMachineOSImages.Get(this.ImageName),
-                    (s, response) => this.ContextFactory<VirtualMachineOSImageGetResponse, OSImageContext>(response, s));
-            }
-            else
-            {
-                this.ExecuteClientActionNewSM(
+            this.ExecuteClientActionNewSM(
                     null,
                     this.CommandRuntime.ToString(),
                     () => this.ComputeClient.VirtualMachineOSImages.List(),
                     (s, response) => response.Images.Select(
                         image => this.ContextFactory<VirtualMachineOSImageListResponse.VirtualMachineOSImage, OSImageContext>(image, s)));
-            }
 
             this.ExecuteClientActionNewSM(
                 null,
