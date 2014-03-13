@@ -73,7 +73,7 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Test.UnitTests.Database.Cm
             // When testing OneBox use Mock RDFE:
             if (IsRunningAgainstOneBox)
             {
-                testSession.ServiceBaseUri = new Uri("https://management.dev.mscds.com:12346/MockRDFE/");
+                testSession.ServiceBaseUri = new Uri("https://management.dev.mscds.com:12346/");
             }
 
             testSession.RequestValidator =

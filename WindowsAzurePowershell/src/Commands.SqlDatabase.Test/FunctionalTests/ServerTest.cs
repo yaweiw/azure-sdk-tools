@@ -45,7 +45,7 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Test.FunctionalTests
         /// <summary>
         /// The end point to use for the tests
         /// </summary>
-        private const string LocalRdfeEndpoint = @"https://management.dev.mscds.com:12346/MockRDFE/";
+        private const string LocalRdfeEndpoint = @"https://management.dev.mscds.com:12346/";
          
         [TestInitialize]
         public void Setup()

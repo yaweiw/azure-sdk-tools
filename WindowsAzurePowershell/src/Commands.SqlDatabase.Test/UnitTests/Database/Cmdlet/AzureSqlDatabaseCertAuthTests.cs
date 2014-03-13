@@ -65,7 +65,7 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Test.UnitTests.Database.Cm
                 // When testing production use RDFE 
                 // testSession.ServiceBaseUri = new Uri("https://management.core.windows.net");
                 // When testing onebox use Mock RDFE
-                // testSession.ServiceBaseUri = new Uri("https://management.dev.mscds.com:12346/MockRDFE/");                
+                //testSession.ServiceBaseUri = new Uri("https://management.dev.mscds.com:12346/");
 
                 testSession.RequestValidator =
                     new Action<HttpMessage, HttpMessage.Request>(
