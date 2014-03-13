@@ -74,7 +74,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.StorageServices
 
             var parameters = new StorageAccountCreateParameters
             {
-                ServiceName =  this.StorageAccountName,
+                Name =  this.StorageAccountName,
                 Label =  this.Label,
                 Description = this.Description,
                 AffinityGroup = this.AffinityGroup,

@@ -239,23 +239,41 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
         private void RegisterResourceManagementProviders<T>(SubscriptionCloudCredentials credentials) where T : ServiceClient<T>
         {
             List<string> requiredProviders = RequiredResourceLookup.RequiredProvidersForResourceManagement<T>().ToList();
-            IResourceManagementClient client = new ResourceManagementClient(credentials, CloudServiceEndpoint);
-            ProviderListResult result = client.Providers.List(null);
-            List<Provider> providers = new List<Provider>(result.Providers);
-
-            while (!string.IsNullOrEmpty(result.NextLink))
+            if (requiredProviders.Count > 0)
             {
-                result = client.Providers.ListNext(result.NextLink);
-                providers.AddRange(result.Providers);
-            }
+                using (IResourceManagementClient client = new ResourceManagementClient(credentials, CloudServiceEndpoint))
+                {
+                    try
+                    {
+                        ProviderListResult result = client.Providers.List(null);
+                        List<Provider> providers = new List<Provider>(result.Providers);
 
-            List<string> unregisteredProviders = providers.Where(p => p.RegistrationState
-                .Equals(ProviderRegistrationState.NotRegistered, StringComparison.OrdinalIgnoreCase)).Select(p => p.Namespace).ToList();
-            List<string> toRegister = requiredProviders.Intersect(unregisteredProviders).Distinct().ToList();
+                        while (!string.IsNullOrEmpty(result.NextLink))
+                        {
+                            result = client.Providers.ListNext(result.NextLink);
+                            providers.AddRange(result.Providers);
+                        }
 
-            foreach (string provider in toRegister)
-            {
-                client.Providers.Register(provider);
+                        List<string> unregisteredProviders = providers.Where(p => p.RegistrationState
+                                                                                   .Equals(
+                                                                                       ProviderRegistrationState
+                                                                                           .NotRegistered,
+                                                                                       StringComparison
+                                                                                           .OrdinalIgnoreCase))
+                                                                      .Select(p => p.Namespace)
+                                                                      .ToList();
+                        List<string> toRegister = requiredProviders.Intersect(unregisteredProviders).Distinct().ToList();
+
+                        foreach (string provider in toRegister)
+                        {
+                            client.Providers.Register(provider);
+                        }
+                    }
+                    catch
+                    {
+                        // Ignore this as the user may not have access to Sparta endpoint or the provider is already registered
+                    }
+                }
             }
         }
 

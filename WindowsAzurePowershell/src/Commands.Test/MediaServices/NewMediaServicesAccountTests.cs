@@ -72,11 +72,14 @@ namespace Microsoft.WindowsAzure.Commands.Test.MediaServices
 
             clientMock.Setup(f => f.GetStorageServicePropertiesAsync(storageAccountName)).Returns(Task.Factory.StartNew(() =>
             {
-                StorageServiceGetResponse response = new StorageServiceGetResponse
+                StorageAccountGetResponse response = new StorageAccountGetResponse
                 {
-                    Properties = new StorageServiceProperties()
+                    StorageAccount = new StorageAccount
+                        {
+                            Properties = new StorageAccountProperties()   
+                        }
                 };
-                response.Properties.Endpoints.Add(new Uri(blobStorageEndpointUri));
+                response.StorageAccount.Properties.Endpoints.Add(new Uri(blobStorageEndpointUri));
                 return response;
             }));
 

@@ -145,7 +145,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
                     case WebsiteDiagnosticOutput.FileSystem:
                         diagnosticsSettings.AzureDriveTraceEnabled = setFlag;
                         diagnosticsSettings.AzureDriveTraceLevel = setFlag ?
-                        (LogEntryType)properties[DiagnosticProperties.LogLevel] :
+                        (Services.DeploymentEntities.LogEntryType)properties[DiagnosticProperties.LogLevel] :
                         diagnosticsSettings.AzureDriveTraceLevel;
                         break;
 
@@ -160,7 +160,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
                             SetConnectionString(website.Name, storageTableName, connectionString, DatabaseType.Custom);
 
                             diagnosticsSettings.AzureTableTraceLevel = setFlag ?
-                                (LogEntryType)properties[DiagnosticProperties.LogLevel] :
+                                (Services.DeploymentEntities.LogEntryType)properties[DiagnosticProperties.LogLevel] :
                                 diagnosticsSettings.AzureTableTraceLevel;
                         }
                         break;
@@ -438,7 +438,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
         /// <summary>
         /// Gets all slots for a website
         /// </summary>
-        /// <param name="Name">The website name</param>
+        /// <param name="name">The website name</param>
         /// <returns>The website slots list</returns>
         public List<Site> GetWebsiteSlots(string name)
         {
@@ -501,7 +501,6 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
         /// <param name="webspaceName">Web space to create site in.</param>
         /// <param name="siteToCreate">Details about the site to create.</param>
         /// <param name="slot">The slot name.</param>
-        /// <param name="disablesClone">Flag to control cloning the website configuration.</param>
         /// <returns>The created site object</returns>
         public Site CreateWebsite(string webspaceName, SiteWithWebSpace siteToCreate, string slot)
         {
@@ -515,7 +514,6 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
         /// Create a new website in production.
         /// </summary>
         /// <param name="webspaceName">Web space to create site in.</param>
-        /// <param name="disablesClone">Flag to control cloning the website configuration.</param>
         /// <param name="siteToCreate">Details about the site to create.</param>
         /// <returns>The created site object</returns>
         private Site CreateWebsite(string webspaceName, SiteWithWebSpace siteToCreate)
@@ -1230,6 +1228,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
         /// Replace all the connection strings in the deployment.
         /// </summary>
         /// <param name="deployment">The deployment object.</param>
+        /// <param name="connectionStrings">Connection strings.</param>
         private void ReplaceConnectionStrings(DeploymentObject deployment, Hashtable connectionStrings)
         {
             if (connectionStrings != null)
@@ -1345,7 +1344,6 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
         /// <param name="jobName">The web job name</param>
         /// <param name="jobType">The web job type</param>
         /// <param name="jobFile">The web job file name</param>
-        /// <param name="singleton">True if you only want the job to run in 1 instance of the web site</param>
         public PSWebJob CreateWebJob(string name, string slot, string jobName, WebJobType jobType, string jobFile)
         {
             WebJobFilterOptions options = new WebJobFilterOptions() { Name = name, Slot = slot, JobName = jobName, JobType = jobType.ToString() };

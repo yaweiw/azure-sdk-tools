@@ -48,8 +48,8 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.StorageServices
                     () => this.StorageClient.StorageAccounts.Get(this.StorageAccountName),
                     (s, response) =>
                     {
-                        var context = ContextFactory<StorageServiceGetResponse, StorageServicePropertiesOperationContext>(response, s);
-                        Mapper.Map(response.Properties, context);
+                        var context = ContextFactory<StorageAccountGetResponse, StorageServicePropertiesOperationContext>(response, s);
+                        Mapper.Map(response.StorageAccount.Properties, context);
                         return context;
                     });
             }
@@ -60,9 +60,9 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.StorageServices
                     CommandRuntime.ToString(),
                     () => this.StorageClient.StorageAccounts.List(),
                     (s, storageServices) => 
-                        storageServices.StorageServices.Select(r =>
+                        storageServices.StorageAccounts.Select(r =>
                         {
-                            var context = ContextFactory<StorageServiceListResponse.StorageService, StorageServicePropertiesOperationContext>(r, s);
+                            var context = ContextFactory<StorageAccount, StorageServicePropertiesOperationContext>(r, s);
                             Mapper.Map(r.Properties, context);
                             return context;
                         }));

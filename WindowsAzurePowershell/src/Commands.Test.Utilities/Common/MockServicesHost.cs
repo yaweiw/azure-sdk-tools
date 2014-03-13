@@ -211,18 +211,18 @@ namespace Microsoft.WindowsAzure.Commands.Test.Utilities.Common
             });
         }
 
-        private Task<ComputeOperationStatusResponse> CreateDeploymentCreateResponse()
+        private Task<OperationStatusResponse> CreateDeploymentCreateResponse()
         {
-            return Tasks.FromResult(new ComputeOperationStatusResponse
+            return Tasks.FromResult(new OperationStatusResponse
             {
                 RequestId = "someid",
                 StatusCode = HttpStatusCode.OK
             });
         }
 
-        private Task<ComputeOperationStatusResponse> CreateUpdateStatusResponse()
+        private Task<OperationStatusResponse> CreateUpdateStatusResponse()
         {
-            return Tasks.FromResult(new ComputeOperationStatusResponse
+            return Tasks.FromResult(new OperationStatusResponse
             {
                 Status = OperationStatus.InProgress
             });

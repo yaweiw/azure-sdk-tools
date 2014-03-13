@@ -57,7 +57,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
             StorageAccountGetKeysResponse keys = storageClient.StorageAccounts.GetKeys(storageName);
             string storageKey = keys.PrimaryKey;
             var storageService = storageClient.StorageAccounts.Get(storageName);
-            var blobStorageEndpoint = storageService.Properties.Endpoints[0];
+            var blobStorageEndpoint = storageService.StorageAccount.Properties.Endpoints[0];
             var credentials = new StorageCredentials(storageName, storageKey);
             var client = new CloudBlobClient(blobStorageEndpoint, credentials);
             ICloudBlob blob = client.GetBlobReferenceFromServer(packageUri);
@@ -117,7 +117,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
             StorageAccountGetKeysResponse keys = storageClient.StorageAccounts.GetKeys(storageName);
             string storageKey = keys.PrimaryKey;
             var storageService = storageClient.StorageAccounts.Get(storageName);
-            Uri blobEndpointUri = storageService.Properties.Endpoints[0];
+            Uri blobEndpointUri = storageService.StorageAccount.Properties.Endpoints[0];
             return UploadFile(storageName,
                 GeneralUtilities.CreateHttpsEndpoint(blobEndpointUri.ToString()),
                 storageKey, packagePath, blobRequestOptions);

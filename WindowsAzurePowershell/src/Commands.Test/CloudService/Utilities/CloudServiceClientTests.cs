@@ -29,7 +29,6 @@ namespace Microsoft.WindowsAzure.Commands.Test.CloudService.Utilities
     using Management.Storage.Models;
     using Moq;
     using Storage.Blob;
-    using OperationStatus = Management.Compute.Models.OperationStatus;
 
     [TestClass]
     public class CloudServiceClientTests : TestBase
@@ -503,9 +502,9 @@ namespace Microsoft.WindowsAzure.Commands.Test.CloudService.Utilities
             }
         }
 
-        private ComputeOperationStatusResponse CreateComputeOperationResponse(string requestId, OperationStatus status = OperationStatus.Succeeded)
+        private OperationStatusResponse CreateComputeOperationResponse(string requestId, OperationStatus status = OperationStatus.Succeeded)
         {
-            return new ComputeOperationStatusResponse
+            return new OperationStatusResponse
             {
                 Error = null,
                 HttpStatusCode = HttpStatusCode.OK,
