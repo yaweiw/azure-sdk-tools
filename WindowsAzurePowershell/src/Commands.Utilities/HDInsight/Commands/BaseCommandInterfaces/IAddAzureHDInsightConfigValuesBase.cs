@@ -32,6 +32,11 @@ namespace Microsoft.WindowsAzure.Management.HDInsight.Cmdlet.Commands.BaseComman
         Hashtable Core { get; set; }
 
         /// <summary>
+        ///     Gets or sets a collection of configuration properties to customize the Yarn Hadoop service.
+        /// </summary>
+        Hashtable Yarn { get; set; }
+
+        /// <summary>
         ///     Gets or sets a collection of configuration properties to customize the Hdfs Hadoop service.
         /// </summary>
         Hashtable Hdfs { get; set; }

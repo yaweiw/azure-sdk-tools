@@ -100,6 +100,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Extensions
 
         [Parameter(
             ParameterSetName = ListAllVersionsParamSetName,
+            Mandatory = true,
             Position = 2,
             ValueFromPipelineByPropertyName = true,
             HelpMessage = "Specify to list all versions of an extension.")]

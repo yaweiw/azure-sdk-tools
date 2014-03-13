@@ -28,6 +28,7 @@ namespace Microsoft.WindowsAzure.Management.HDInsight.Cmdlet.DataObjects
             this.DefaultStorageAccount = new AzureHDInsightDefaultStorageAccount();
             this.AdditionalStorageAccounts = new List<AzureHDInsightStorageAccount>();
             this.CoreConfiguration = new ConfigValuesCollection();
+            this.YarnConfiguration = new ConfigValuesCollection();
             this.HdfsConfiguration = new ConfigValuesCollection();
             this.MapReduceConfiguration = new MapReduceConfiguration();
             this.HiveConfiguration = new HiveConfiguration();
@@ -48,6 +49,11 @@ namespace Microsoft.WindowsAzure.Management.HDInsight.Cmdlet.DataObjects
         ///     Gets a collection of configuration properties to customize the Core Hadoop service.
         /// </summary>
         public ConfigValuesCollection CoreConfiguration { get; private set; }
+
+        /// <summary>
+        ///     Gets a collection of configuration properties to customize the Yarn Hadoop service.
+        /// </summary>
+        public ConfigValuesCollection YarnConfiguration { get; private set; }
 
         /// <summary>
         ///     Gets or sets the default storage account for the HDInsight cluster.

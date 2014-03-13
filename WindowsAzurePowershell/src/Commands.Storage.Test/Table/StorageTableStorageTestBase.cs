@@ -20,15 +20,17 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Test.Table
     using System.Linq;
     using System.Text;
     using Service;
+    using Microsoft.WindowsAzure.Commands.Test.Utilities.Common;
 
     public class StorageTableStorageTestBase : StorageTestBase
     {
         public MockStorageTableManagement tableMock = null;
 
         [TestInitialize]
-        public void initMock()
+        public void InitMock()
         {
             tableMock = new MockStorageTableManagement();
+            MockCmdRunTime = new MockCommandRuntime();
         }
 
         [TestCleanup]

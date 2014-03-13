@@ -79,6 +79,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Extensions
 
         protected override void ValidateParameters()
         {
+            base.ValidateParameters();
             ValidateThumbprint(false);
             ValidateStorageAccount();
             ValidateConfiguration();

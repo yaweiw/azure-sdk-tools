@@ -20,6 +20,7 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Test.Queue
     using System.Linq;
     using System.Text;
     using Service;
+    using Microsoft.WindowsAzure.Commands.Test.Utilities.Common;
 
     public class StorageQueueTestBase : StorageTestBase
     {
@@ -29,6 +30,7 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Test.Queue
         public void InitMock()
         {
             queueMock = new MockStorageQueueManagement();
+            MockCmdRunTime = new MockCommandRuntime();
         }
 
         [TestCleanup]

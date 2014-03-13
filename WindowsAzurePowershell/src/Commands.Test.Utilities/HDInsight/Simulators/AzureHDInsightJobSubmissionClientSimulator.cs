@@ -12,6 +12,7 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
+
 namespace Microsoft.WindowsAzure.Commands.Test.Utilities.HDInsight.Simulators
 {
     using System;
@@ -25,6 +26,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.Utilities.HDInsight.Simulators
     using System.Threading;
     using System.Threading.Tasks;
     using Hadoop.Client;
+    using Microsoft.WindowsAzure.Management.HDInsight.Framework.Core.Library.WebRequest;
     using Management.HDInsight.Cmdlet.GetAzureHDInsightClusters.Extensions;
     using Management.HDInsight.Logging;
     using Utilities;
@@ -513,5 +515,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.Utilities.HDInsight.Simulators
         {
             this.jobOutput[jobId] = stdoutContent;
         }
+
+        public ILogger Logger { get; private set; }
     }
 }

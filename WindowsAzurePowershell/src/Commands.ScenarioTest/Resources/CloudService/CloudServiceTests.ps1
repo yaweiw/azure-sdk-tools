@@ -474,10 +474,10 @@ function Test-StartAzureEmulatorTwice
 {
     # Setup
     New-TinyCloudServiceProject test
-    Start-AzureEmulator -Mode Full
+    Start-AzureEmulator
     
     # Test
-    $service = Start-AzureEmulator -Mode Full
+    $service = Start-AzureEmulator
     
     # Clean up
     Stop-AzureEmulator

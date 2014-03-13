@@ -1,4 +1,4 @@
-﻿﻿// ----------------------------------------------------------------------------------
+﻿// ----------------------------------------------------------------------------------
 //
 // Copyright Microsoft Corporation
 // Licensed under the Apache License, Version 2.0 (the "License");
@@ -12,23 +12,12 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Commands.Storage.Test.Blob
+namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
 {
-    using Model.Contract;
-    using Storage.Blob.Cmdlet;
-
-    internal class FakeRemoveAzureContainerCommand : RemoveAzureStorageContainerCommand
+    public class VirtualMachineAccessExtensionContext : VirtualMachineExtensionContext
     {
-        public FakeRemoveAzureContainerCommand(IStorageBlobManagement channel)
-            : base(channel)
-        {
-        }
-
-        public bool confirm = false;
-
-        internal override bool ConfirmRemove(string message)
-        {
-            return confirm;
-        }
+        public string UserName { get; set; }
+        public string Password { get; set; }
+        public bool Enabled { get; set; }
     }
 }

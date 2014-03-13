@@ -426,5 +426,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.Utilities.HDInsight.Simulators
                 }
             }
         }
+
+        public ILogger Logger { get; private set; }
     }
 }

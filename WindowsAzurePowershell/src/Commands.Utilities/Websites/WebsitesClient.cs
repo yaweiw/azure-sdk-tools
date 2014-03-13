@@ -1059,6 +1059,10 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
             // Set the configuration used by MSBuild.
             project.SetProperty("Configuration", configuration);
 
+            // Set this property use "managedRuntimeVersion=v4.0".
+            // Otherwise, WebDeploy will fail becasue Azure Web Site is expecting v4.0.
+            project.SetProperty("VisualStudioVersion", "11.0");
+
             // Build the project.
             var buildSucceed = project.Build("Package", new ILogger[] { fileLogger });
 
