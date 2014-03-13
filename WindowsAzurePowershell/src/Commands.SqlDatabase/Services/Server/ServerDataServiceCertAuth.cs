@@ -946,6 +946,15 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Services.Server
             if (!string.IsNullOrEmpty(serviceObjectiveId))
             {
                 result.ServiceObjectiveId = Guid.Parse(serviceObjectiveId);
+                Guid sloId = Guid.Empty;
+                if (Guid.TryParse(serviceObjectiveId, out sloId))
+                {
+                    result.ServiceObjective = GetServiceObjective(new ServiceObjective() { Id = sloId });
+                    if (result.ServiceObjective != null)
+                    {
+                        result.ServiceObjectiveName = result.ServiceObjective.Name;
+                    }
+                }
             }
 
             this.LoadExtraProperties(result);
