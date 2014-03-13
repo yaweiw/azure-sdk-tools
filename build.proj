@@ -237,6 +237,7 @@
 
     <Message Importance="high" Text="Debug tests:" />
     <!--CallTarget Targets="TestManagement; TestResourceManagement; TestServiceManagement; TestSqlDatabase; TestStorage;" /-->
+    <CallTarget Targets="TestManagement; TestResourceManagement; TestServiceManagement; TestStorage;" />
   </Target>
 
   <Target Name="TestManagement">
