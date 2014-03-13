@@ -34,7 +34,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
         internal void ExecuteCommand()
         {
             ServiceManagementProfile.Initialize();
-            var parameters = new VirtualMachineDiskUpdateParameters
+            var parameters = new VirtualMachineDiskUpdateDiskParameters
             {
                 Name = this.DiskName,
                 Label = this.Label
@@ -44,7 +44,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
                 null,
                 this.CommandRuntime.ToString(),
                 () => Microsoft.WindowsAzure.VirtualMachineDiskOperationsExtensions.UpdateDisk(this.ComputeClient.VirtualMachineDisks, this.DiskName, parameters),
-                (s, response) => this.ContextFactory<VirtualMachineDiskUpdateResponse, DiskContext>(response, s));
+                (s, response) => this.ContextFactory<VirtualMachineDiskUpdateDiskResponse, DiskContext>(response, s));
         }
 
         protected override void OnProcessRecord()
