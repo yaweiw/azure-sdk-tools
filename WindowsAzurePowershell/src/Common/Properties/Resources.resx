@@ -105,14 +105,14 @@
       </xsd:complexType>
     </xsd:element>
   </xsd:schema>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
   <resheader name="resmimetype">
     <value>text/microsoft-resx</value>
   </resheader>
   <resheader name="version">
     <value>2.0</value>
-  </resheader>
-  <resheader name="reader">
-    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
@@ -223,6 +223,9 @@
   </data>
   <data name="BeginProcessingWithParameterSetLog" xml:space="preserve">
     <value>{0} begin processing with ParameterSet '{1}'.</value>
+  </data>
+  <data name="BlobAlreadyExistsInTheAccount" xml:space="preserve">
+    <value>Blob with the name {0} already exists in the account.</value>
   </data>
   <data name="BlobEndpointUri" xml:space="preserve">
     <value>https://{0}.blob.core.windows.net/</value>
@@ -373,14 +376,14 @@
   <data name="CreatingPackageMessage" xml:space="preserve">
     <value>Creating {0} package...</value>
   </data>
+  <data name="CsEncrypt_CreateCertificate_CreationFailed" xml:space="preserve">
+    <value>CsEncrypt.exe failed to generate a certificate ({0})</value>
+  </data>
   <data name="CsEncryptCreateCertificateArg" xml:space="preserve">
     <value>New-PasswordEncryptionCertificate -FriendlyName "Windows Azure Certificate"</value>
   </data>
   <data name="CsEncryptExe" xml:space="preserve">
     <value>csencrypt.exe</value>
-  </data>
-  <data name="CsEncrypt_CreateCertificate_CreationFailed" xml:space="preserve">
-    <value>CsEncrypt.exe failed to generate a certificate ({0})</value>
   </data>
   <data name="CsPackCloudArg" xml:space="preserve">
     <value>"{0}\ServiceDefinition.csdef" /out:"{0}\cloud_package.cspkg" {1} {2}</value>
@@ -390,6 +393,13 @@
   </data>
   <data name="CsPackLocalArg" xml:space="preserve">
     <value>"{0}\ServiceDefinition.csdef" /out:"{0}\local_package.csx" {1} {2} /copyOnly</value>
+  </data>
+  <data name="CsRun_StartCsRunProcess_UnexpectedFailure" xml:space="preserve">
+    <value>An unexpected failure occurred.  Details:
+{0}</value>
+  </data>
+  <data name="CsRunEmulatorExpressArg" xml:space="preserve">
+    <value>/useemulatorexpress</value>
   </data>
   <data name="CsRunExe" xml:space="preserve">
     <value>csrun.exe</value>
@@ -414,10 +424,6 @@
   </data>
   <data name="CsRunUpdateDeploymentArg" xml:space="preserve">
     <value>/update:{0};{1}</value>
-  </data>
-  <data name="CsRun_StartCsRunProcess_UnexpectedFailure" xml:space="preserve">
-    <value>An unexpected failure occurred.  Details:
-{0}</value>
   </data>
   <data name="DataCacheClientsType" xml:space="preserve">
     <value>Microsoft.ApplicationServer.Caching.DataCacheClientsSection, Microsoft.ApplicationServer.Caching.Core</value>
@@ -486,11 +492,11 @@
   <data name="EmulatorRoleRunningMessage" xml:space="preserve">
     <value>Role is running at {0}</value>
   </data>
-  <data name="EnableAzureRemoteDesktopCommand_Enable_NeedComplexPassword" xml:space="preserve">
-    <value>Password is not complex enough. The password should include at least three different kinds of characters (uppercase, lowercase, digits, and other symbols) and be at least six characters long.</value>
-  </data>
   <data name="EnableAzureRemoteDesktop_Enable_NoRoles" xml:space="preserve">
     <value>Cannot enable Remote Desktop because there are no roles</value>
+  </data>
+  <data name="EnableAzureRemoteDesktopCommand_Enable_NeedComplexPassword" xml:space="preserve">
+    <value>Password is not complex enough. The password should include at least three different kinds of characters (uppercase, lowercase, digits, and other symbols) and be at least six characters long.</value>
   </data>
   <data name="EnableMemcacheMessage" xml:space="preserve">
     <value>Memcache is enabled for role '{0}' using cache role '{1}' to connect use server name 'localhost_{0}' with port {2}.</value>
@@ -641,11 +647,17 @@ Please follow these steps in the portal:
 3. Choose "Setup Git Publishing" or "Reset deployment credentials"
 4. Back in the PowerShell window, rerun this command by typing "New-AzureWebSite {site name} -Git -PublishingUsername {username}</value>
   </data>
+  <data name="InvalidGuid" xml:space="preserve">
+    <value>The value {0} provided is not a valid GUID. Please provide a valid GUID.</value>
+  </data>
   <data name="InvalidHostnameValidation" xml:space="preserve">
     <value>The specified hostname does not exist. Please specify a valid hostname for the site.</value>
   </data>
   <data name="InvalidInstancesCount" xml:space="preserve">
     <value>Role {0} instances must be greater than or equal 0 and less than or equal 20</value>
+  </data>
+  <data name="InvalidJobFile" xml:space="preserve">
+    <value>There was an error creating your webjob. Please make sure that the script is in the root folder of the zip file.</value>
   </data>
   <data name="InvalidManagementClientType" xml:space="preserve">
     <value>Cannot create instance of management client type {0}. It does not have the expected constructor.</value>
@@ -728,8 +740,17 @@ Please follow these steps in the portal:
   <data name="InvalidSubscriptionsDataSchema" xml:space="preserve">
     <value>The provided subscriptions file {0} has invalid content.</value>
   </data>
+  <data name="InvalidSubscriptionState" xml:space="preserve">
+    <value>Please run Add-AzureAccount to finish setting up the subscription.</value>
+  </data>
   <data name="InvalidVMSize" xml:space="preserve">
     <value>Role {0} VM size should be ExtraSmall, Small, Medium, Large or ExtraLarge.</value>
+  </data>
+  <data name="InvalidWebJobFile" xml:space="preserve">
+    <value>The web job file must have *.zip extension</value>
+  </data>
+  <data name="InvalidWebJobSingleton" xml:space="preserve">
+    <value>Singleton option works for continuous jobs only.</value>
   </data>
   <data name="InvalidWebsite" xml:space="preserve">
     <value>The website {0} was not found. Please specify a valid website name.</value>
@@ -772,13 +793,13 @@ Please follow these steps in the portal:
     <value>uri</value>
   </data>
   <data name="ManifestUri" xml:space="preserve">
-    <value>http://az413943.vo.msecnd.net/node/runtimemanifest_0.7.2.xml</value>
+    <value>http://az413943.vo.msecnd.net/node/runtimemanifest_0.7.3.xml</value>
   </data>
   <data name="MarketplaceEndpoint" xml:space="preserve">
     <value>http://api.datamarket.azure.com/CatalogService.svc</value>
   </data>
   <data name="MaxSupportAzureSdkVersion" xml:space="preserve">
-    <value>v2.2</value>
+    <value>v2.3</value>
   </data>
   <data name="MemcacheEndpointName" xml:space="preserve">
     <value>memcache_default</value>
@@ -787,7 +808,7 @@ Please follow these steps in the portal:
     <value>11211</value>
   </data>
   <data name="MinSupportAzureSdkVersion" xml:space="preserve">
-    <value>v2.2</value>
+    <value>v2.3</value>
   </data>
   <data name="MissingPythonPreReq" xml:space="preserve">
     <value>Python 2.7 is not installed.  Please install it as well as Django 1.4.</value>
@@ -947,6 +968,9 @@ use and privacy statement at {0} and (c) agree to sharing my contact information
   <data name="PathDoesNotExistForElement" xml:space="preserve">
     <value>Path for {0} doesn't exist in {1}.</value>
   </data>
+  <data name="PeerAsnRequired" xml:space="preserve">
+    <value>A value for the  Peer Asn has to be provided.</value>
+  </data>
   <data name="PHPDefaultRuntimeVersion" xml:space="preserve">
     <value>5.4.0</value>
   </data>
@@ -973,6 +997,9 @@ Please follow these steps in the portal:
   </data>
   <data name="PortalInstructionsGit" xml:space="preserve">
     <value>6. Back in the console window, rerun this command by typing "New-AzureWebsite &lt;site name&gt; -Git"</value>
+  </data>
+  <data name="PrimaryPeerSubnetRequired" xml:space="preserve">
+    <value>A value for the Primary Peer Subnet has to be provided.</value>
   </data>
   <data name="PromotionCodeWithCurrentPlanMessage" xml:space="preserve">
     <value>Promotion code can be used only when updating to a new plan.</value>
@@ -1079,6 +1106,42 @@ Please follow these steps in the portal:
   <data name="RemoveAddOnMessage" xml:space="preserve">
     <value>If you delete this add-on, your data may be deleted and the operation may not be undone.  You may have to purchase it again from the Windows Azure Store to use it. The price of the add-on  may not be refunded. Are you sure you want to delete this add-on? Enter “Yes” to confirm.</value>
   </data>
+  <data name="RemoveAzureBGPPeeringFailed" xml:space="preserve">
+    <value>Remove-AzureBGPPeering Operation failed.</value>
+  </data>
+  <data name="RemoveAzureBGPPeeringMessage" xml:space="preserve">
+    <value>Removing Bgp Peering</value>
+  </data>
+  <data name="RemoveAzureBGPPeeringSucceeded" xml:space="preserve">
+    <value>Successfully removed Azure Bgp Peering with Service Key {0}.</value>
+  </data>
+  <data name="RemoveAzureBGPPeeringWarning" xml:space="preserve">
+    <value>Are you sure you want to remove the Bgp Peering with service key '{0}'?</value>
+  </data>
+  <data name="RemoveAzureDedicatdCircuitWarning" xml:space="preserve">
+    <value>Are you sure you want to remove the Dedicated Circuit with service key '{0}'?</value>
+  </data>
+  <data name="RemoveAzureDedicatedCircuitFailed" xml:space="preserve">
+    <value>Remove-AzureDedicatedCircuit Operation failed.</value>
+  </data>
+  <data name="RemoveAzureDedicatedCircuitLinkFailed" xml:space="preserve">
+    <value>Remove-AzureDedicatedCircuitLink Operation failed.</value>
+  </data>
+  <data name="RemoveAzureDedicatedCircuitLinkMessage" xml:space="preserve">
+    <value>Removing Dedicated Circui Link</value>
+  </data>
+  <data name="RemoveAzureDedicatedCircuitLinkSucceeded" xml:space="preserve">
+    <value>Successfully removed Azure Dedicated Circuit Link with Service Key {0} and Vnet Name {1}</value>
+  </data>
+  <data name="RemoveAzureDedicatedCircuitLinkWarning" xml:space="preserve">
+    <value>Are you sure you want to remove the Dedicated Circuit Link with service key '{0}' and virtual network name '{1}'?</value>
+  </data>
+  <data name="RemoveAzureDedicatedCircuitMessage" xml:space="preserve">
+    <value>Removing Dedicated Circuit</value>
+  </data>
+  <data name="RemoveAzureDedicatedCircuitSucceeded" xml:space="preserve">
+    <value>Successfully removed Azure Dedicated Circuit with Service Key {0}.</value>
+  </data>
   <data name="RemoveAzureServiceWaitMessage" xml:space="preserve">
     <value>Removing cloud service {0}...</value>
   </data>
@@ -1090,6 +1153,18 @@ Please follow these steps in the portal:
   </data>
   <data name="RemoveDeploymentWaitMessage" xml:space="preserve">
     <value>Removing {0} deployment for {1} service</value>
+  </data>
+  <data name="RemoveJobCollectionMessage" xml:space="preserve">
+    <value>Removing job collection</value>
+  </data>
+  <data name="RemoveJobCollectionWarning" xml:space="preserve">
+    <value>Are you sure you want to remove the job collection "{0}"</value>
+  </data>
+  <data name="RemoveJobMessage" xml:space="preserve">
+    <value>Removing job</value>
+  </data>
+  <data name="RemoveJobWarning" xml:space="preserve">
+    <value>Are you sure you want to remove the job "{0}"</value>
   </data>
   <data name="RemoveMediaAccountWarning" xml:space="preserve">
     <value>Are you sure you want to remove the account?</value>
@@ -1123,6 +1198,12 @@ Please follow these steps in the portal:
   </data>
   <data name="RemoveVMMessage" xml:space="preserve">
     <value>Deleting VM.</value>
+  </data>
+  <data name="RemoveWebJobMessage" xml:space="preserve">
+    <value>Removing WebJob...</value>
+  </data>
+  <data name="RemoveWebJobWarning" xml:space="preserve">
+    <value>Are you sure you want to remove job '{0}'?</value>
   </data>
   <data name="RemoveWebsiteMessage" xml:space="preserve">
     <value>Removing website</value>
@@ -1205,6 +1286,12 @@ Please follow these steps in the portal:
   <data name="ScaffoldXml" xml:space="preserve">
     <value>scaffold.xml</value>
   </data>
+  <data name="SchedulerInvalidLocation" xml:space="preserve">
+    <value>Invalid location entered. Pick one of the locations from Get-AzureSchedulerLocation</value>
+</data>
+  <data name="SecondaryPeerSubnetRequired" xml:space="preserve">
+    <value>A value for the Secondary Peer Subnet has to be provided.</value>
+  </data>
   <data name="ServiceAlreadyExistsOnDisk" xml:space="preserve">
     <value>Service {0} already exists on disk in location {1}</value>
   </data>
@@ -1274,14 +1361,14 @@ Please follow these steps in the portal:
   <data name="ServiceSettings" xml:space="preserve">
     <value>service settings</value>
   </data>
-  <data name="ServiceSettings1" xml:space="preserve">
-    <value>service settings</value>
-  </data>
   <data name="ServiceSettings_ValidateStorageAccountName_InvalidName" xml:space="preserve">
     <value>The storage account name '{0}' is invalid.  Storage account names must be between 3 and 24 characters in length and use numbers and lower-case letters only.</value>
   </data>
   <data name="ServiceSettings_ValidateStorageAccountName_InvalidName1" xml:space="preserve">
     <value>The storage account name '{0}' is invalid.  Storage account names must be between 3 and 24 characters in length and use numbers and lower-case letters only.</value>
+  </data>
+  <data name="ServiceSettings1" xml:space="preserve">
+    <value>service settings</value>
   </data>
   <data name="ServiceSlotDoesNotExist" xml:space="preserve">
     <value>The {0} slot for cloud service {1} doesn't exist.</value>
@@ -1349,6 +1436,9 @@ use and privacy statement at &lt;url&gt; and (c) agree to sharing my contact inf
   <data name="StartingEmulator" xml:space="preserve">
     <value>Starting Emulator...</value>
   </data>
+  <data name="StartStorageEmulatorCommandArgument" xml:space="preserve">
+    <value>start</value>
+  </data>
   <data name="Stop" xml:space="preserve">
     <value>Stop</value>
     <comment>WAPackIaaS</comment>
@@ -1359,11 +1449,23 @@ use and privacy statement at &lt;url&gt; and (c) agree to sharing my contact inf
   <data name="StoppedEmulatorMessage" xml:space="preserve">
     <value>Stopped</value>
   </data>
+  <data name="StopStorageEmulatorCommandArgument" xml:space="preserve">
+    <value>stop</value>
+  </data>
   <data name="StorageAccountName" xml:space="preserve">
     <value>Account Name:</value>
   </data>
   <data name="StorageAccountNotFound" xml:space="preserve">
     <value>Cannot find storage account '{0}' please type the name of an existing storage account.</value>
+  </data>
+  <data name="StorageEmulatorExe" xml:space="preserve">
+    <value>WAStorageEmulator.exe</value>
+  </data>
+  <data name="StorageEmulatorInstallPathRegistryKeyValue" xml:space="preserve">
+    <value>InstallPath</value>
+  </data>
+  <data name="StorageEmulatorRegistryKey" xml:space="preserve">
+    <value>SOFTWARE\Microsoft\Windows Azure Storage Emulator</value>
   </data>
   <data name="StoragePrimaryKey" xml:space="preserve">
     <value>Primary Key:</value>
@@ -1398,13 +1500,16 @@ use and privacy statement at &lt;url&gt; and (c) agree to sharing my contact inf
     <value>Swapping website production slot ...</value>
   </data>
   <data name="SwapWebsiteSlotWarning" xml:space="preserve">
-    <value>Are you sure you want to swap the website production slot with slot '{0}'?</value>
+    <value>Are you sure you want to swap the website '{0}' production slot with slot '{1}'?</value>
   </data>
   <data name="UnableToCreateDjangoApp" xml:space="preserve">
     <value>Unable to create Django application: {0}</value>
   </data>
   <data name="UnableToCreateDjangoAppFix" xml:space="preserve">
     <value>Make sure you have Python 2.7 installed along with Django installed to site-packages.</value>
+  </data>
+  <data name="UnableToPatchJson" xml:space="preserve">
+    <value>Unable to update mismatching Json structured: {0} {1}.</value>
   </data>
   <data name="UnknownProviderMessage" xml:space="preserve">
     <value>The provider {0} is unknown.</value>
@@ -1416,14 +1521,26 @@ use and privacy statement at &lt;url&gt; and (c) agree to sharing my contact inf
   <data name="UpdatedSettings" xml:space="preserve">
     <value>Updated settings for subscription '{0}'. Current subscription is '{1}'.</value>
   </data>
+  <data name="VlanIdRequired" xml:space="preserve">
+    <value>A value for the VLan Id has to be provided.</value>
+  </data>
   <data name="WaitMessage" xml:space="preserve">
     <value>Please wait...</value>
+  </data>
+  <data name="WarningWhenStorageEmulatorIsMissing" xml:space="preserve">
+    <value>The azure storage emulator is not installed, skip launching...</value>
   </data>
   <data name="WebCloudConfig" xml:space="preserve">
     <value>Web.cloud.config</value>
   </data>
   <data name="WebConfigTemplateFileName" xml:space="preserve">
     <value>web.config</value>
+  </data>
+  <data name="WebDeployKeywordInWebSitePublishProfile" xml:space="preserve">
+    <value>MSDeploy</value>
+  </data>
+  <data name="WebProjectBuildFailTemplate" xml:space="preserve">
+    <value>Cannot build the project successfully. Please see logs in {0}.</value>
   </data>
   <data name="WebRole" xml:space="preserve">
     <value>WebRole</value>
@@ -1446,6 +1563,9 @@ use and privacy statement at &lt;url&gt; and (c) agree to sharing my contact inf
   <data name="WebsiteSufixUrl" xml:space="preserve">
     <value>Workspaces/WebsiteExtension/Website/{0}/dashboard/</value>
   </data>
+  <data name="WebSiteWebDeployUriTemplate" xml:space="preserve">
+    <value>https://{0}/msdeploy.axd?site={1}</value>
+  </data>
   <data name="WorkerRole" xml:space="preserve">
     <value>WorkerRole</value>
   </data>
@@ -1463,17 +1583,5 @@ use and privacy statement at &lt;url&gt; and (c) agree to sharing my contact inf
   </data>
   <data name="YesHint" xml:space="preserve">
     <value>Yes, I agree</value>
-  </data>
-  <data name="BlobAlreadyExistsInTheAccount" xml:space="preserve">
-    <value>Blob with the name {0} already exists in the account.</value>
-  </data>
-  <data name="CsRunEmulatorExpressArg" xml:space="preserve">
-    <value>/useemulatorexpress</value>
-  </data>
-  <data name="UnableToPatchJson" xml:space="preserve">
-    <value>Unable to update mismatching Json structured: {0} {1}.</value>
-  </data>
-  <data name="InvalidSubscriptionState" xml:space="preserve">
-    <value>Please run Add-AzureAccount to finish setting up the subscription.</value>
   </data>
 </root>

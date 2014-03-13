@@ -16,8 +16,7 @@
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
 {
     using System.Xml.Linq;
-    using Management.VirtualNetworks;
-    using Management.VirtualNetworks.Models;
+    using Management.Network.Models;
     using System.Management.Automation;
     using Utilities.Common;
 

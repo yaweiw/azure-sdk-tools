@@ -20,7 +20,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.HostedServices
     using AutoMapper;
     using Management.Compute;
     using Management.Compute.Models;
-    using Management.VirtualNetworks;
+    using Management.Network;
     using Model.PersistentVMModel;
     using Properties;
     using Utilities.Common;

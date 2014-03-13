@@ -39,10 +39,10 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
                     var storageKeysResponse = storageClient.StorageAccounts.GetKeys(subscription.currentStorageAccountName);
 
                     subscription.currentCloudStorageAccount = new CloudStorageAccount(
-                        new StorageCredentials(storageServiceResponse.ServiceName, storageKeysResponse.PrimaryKey),
-                        GeneralUtilities.CreateHttpsEndpoint(storageServiceResponse.Properties.Endpoints[0].ToString()),
-                        GeneralUtilities.CreateHttpsEndpoint(storageServiceResponse.Properties.Endpoints[1].ToString()),
-                        GeneralUtilities.CreateHttpsEndpoint(storageServiceResponse.Properties.Endpoints[2].ToString()));
+                        new StorageCredentials(storageServiceResponse.StorageAccount.Name, storageKeysResponse.PrimaryKey),
+                        GeneralUtilities.CreateHttpsEndpoint(storageServiceResponse.StorageAccount.Properties.Endpoints[0].ToString()),
+                        GeneralUtilities.CreateHttpsEndpoint(storageServiceResponse.StorageAccount.Properties.Endpoints[1].ToString()),
+                        GeneralUtilities.CreateHttpsEndpoint(storageServiceResponse.StorageAccount.Properties.Endpoints[2].ToString()));
 
                     return subscription.currentCloudStorageAccount as CloudStorageAccount;
                 }
