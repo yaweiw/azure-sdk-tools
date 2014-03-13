@@ -61,6 +61,15 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
             WriteDebug(string.Format("{0:T} - {1}", DateTime.Now, message));
         }
 
+        protected void WriteErrorWithTimestamp(string message)
+        {
+            WriteError(
+                new ErrorRecord(new Exception(string.Format("{0:T} - {1}", DateTime.Now, message)),
+                string.Empty,
+                ErrorCategory.NotSpecified,
+                null));
+        }
+
         /// <summary>
         /// Write an error message for a given exception.
         /// </summary>
