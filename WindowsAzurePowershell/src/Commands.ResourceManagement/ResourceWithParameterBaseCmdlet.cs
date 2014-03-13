@@ -29,11 +29,11 @@ namespace Microsoft.Azure.Commands.ResourceManagement
     public abstract class ResourceWithParameterBaseCmdlet : ResourceBaseCmdlet
     {
         protected const string BaseParameterSetName = "Default";
-        protected const string GalleryTemplateTemplateParameterObjectParameterSetName = "Deployment via Gallery and template parameters object";
-        protected const string GalleryTemplateTemplateParameterFileParameterSetName = "Deployment via Gallery and template parameters file";
+        protected const string GalleryTemplateParameterObjectParameterSetName = "Deployment via Gallery and template parameters object";
+        protected const string GalleryTemplateParameterFileParameterSetName = "Deployment via Gallery and template parameters file";
         protected const string GalleryTemplateDynamicParametersParameterSetName = "Deployment via Gallery and inline parameters";
-        protected const string TemplateFileTemplateParameterObjectParameterSetName = "Deployment via template file and template parameters object";
-        protected const string TemplateFileTemplateParameterFileParameterSetName = "Deployment via template file and template parameters file";
+        protected const string TemplateFileParameterObjectParameterSetName = "Deployment via template file and template parameters object";
+        protected const string TemplateFileParameterFileParameterSetName = "Deployment via template file and template parameters file";
         protected const string ParameterlessTemplateFileParameterSetName = "Deployment via template file without parameters";
         protected const string ParameterlessGalleryTemplateParameterSetName = "Deployment via Gallery without parameters";
         protected RuntimeDefinedParameterDictionary dynamicParameters;
@@ -48,33 +48,33 @@ namespace Microsoft.Azure.Commands.ResourceManagement
             galleryTemplateName = null;
         }
 
-        [Parameter(ParameterSetName = GalleryTemplateTemplateParameterObjectParameterSetName,
+        [Parameter(ParameterSetName = GalleryTemplateParameterObjectParameterSetName,
             Mandatory = true, ValueFromPipelineByPropertyName = true, HelpMessage = "A hash table which represents the parameters.")]
-        [Parameter(ParameterSetName = TemplateFileTemplateParameterObjectParameterSetName,
+        [Parameter(ParameterSetName = TemplateFileParameterObjectParameterSetName,
             Mandatory = true, ValueFromPipelineByPropertyName = true, HelpMessage = "A hash table which represents the parameters.")]
         public Hashtable TemplateParameterObject { get; set; }
 
-        [Parameter(ParameterSetName = GalleryTemplateTemplateParameterFileParameterSetName,
+        [Parameter(ParameterSetName = GalleryTemplateParameterFileParameterSetName,
             Mandatory = true, ValueFromPipelineByPropertyName = true, HelpMessage = "A file that has the template parameters.")]
-        [Parameter(ParameterSetName = TemplateFileTemplateParameterFileParameterSetName,
+        [Parameter(ParameterSetName = TemplateFileParameterFileParameterSetName,
             Mandatory = true, ValueFromPipelineByPropertyName = true, HelpMessage = "A file that has the template parameters.")]
         [ValidateNotNullOrEmpty]
         public string TemplateParameterFile { get; set; }
 
-        [Parameter(ParameterSetName = GalleryTemplateTemplateParameterObjectParameterSetName,
+        [Parameter(ParameterSetName = GalleryTemplateParameterObjectParameterSetName,
             Mandatory = true, ValueFromPipelineByPropertyName = true, HelpMessage = "Name of the template in the gallery.")]
         [Parameter(ParameterSetName = GalleryTemplateDynamicParametersParameterSetName,
             Mandatory = true, ValueFromPipelineByPropertyName = true, HelpMessage = "Name of the template in the gallery.")]
-        [Parameter(ParameterSetName = GalleryTemplateTemplateParameterFileParameterSetName,
+        [Parameter(ParameterSetName = GalleryTemplateParameterFileParameterSetName,
             Mandatory = true, ValueFromPipelineByPropertyName = true, HelpMessage = "Name of the template in the gallery.")]
         [Parameter(ParameterSetName = ParameterlessGalleryTemplateParameterSetName,
             Mandatory = true, ValueFromPipelineByPropertyName = true, HelpMessage = "Name of the template in the gallery.")]
         [ValidateNotNullOrEmpty]
         public string GalleryTemplateName { get; set; }
 
-        [Parameter(ParameterSetName = TemplateFileTemplateParameterObjectParameterSetName,
+        [Parameter(ParameterSetName = TemplateFileParameterObjectParameterSetName,
             Mandatory = true, ValueFromPipelineByPropertyName = true, HelpMessage = "Path to the template file, local or remote.")]
-        [Parameter(ParameterSetName = TemplateFileTemplateParameterFileParameterSetName,
+        [Parameter(ParameterSetName = TemplateFileParameterFileParameterSetName,
             Mandatory = true, ValueFromPipelineByPropertyName = true, HelpMessage = "Path to the template file, local or remote.")]
         [Parameter(ParameterSetName = ParameterlessTemplateFileParameterSetName,
             Mandatory = true, ValueFromPipelineByPropertyName = true, HelpMessage = "Name of the template in the gallery.")]
