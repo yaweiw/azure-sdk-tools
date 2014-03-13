@@ -12,8 +12,6 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-using Microsoft.WindowsAzure.ServiceManagement;
-
 namespace Microsoft.WindowsAzure.Commands.Test.Utilities.Common
 {
     using System;
