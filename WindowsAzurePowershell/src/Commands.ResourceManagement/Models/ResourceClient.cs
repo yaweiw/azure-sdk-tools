@@ -20,6 +20,7 @@ using Microsoft.WindowsAzure.Commands.Utilities.Common;
 using Microsoft.WindowsAzure.Commands.Utilities.Common.Storage;
 using Microsoft.WindowsAzure.Management.Monitoring.Events;
 using Microsoft.WindowsAzure.Management.Storage;
+using Microsoft.WindowsAzure;
 using Newtonsoft.Json;
 using System;
 using System.Collections;
@@ -50,6 +51,8 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Models
         public IEventsClient EventsClient { get; set; }
 
         public Action<string> ProgressLogger { get; set; }
+
+        public Action<string> ErrorLogger { get; set; }
 
         /// <summary>
         /// Creates new ResourceManagementClient
@@ -295,6 +298,14 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Models
             }
         }
 
+        private void WriteError(string error)
+        {
+            if (ErrorLogger != null)
+            {
+                ErrorLogger(error);
+            }
+        }
+
         private void ProvisionDeploymentStatus(string resourceGroup, string deploymentName)
         {
             operations = new List<DeploymentOperation>();
@@ -311,11 +322,11 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Models
         private void WriteDeploymentProgress(string resourceGroup, string deploymentName)
         {
             const string normalStatusFormat = "Resource {0} '{1}' provisioning status in location '{2}' is {3}";
-            const string failureStatusFormat = "Resource {0} '{1}' in location '{2}' failed with message {3}";
+            const string failureStatusFormat = "Resource {0} '{1}' in location '{2}' failed with message '{3}'";
             List<DeploymentOperation> newOperations = new List<DeploymentOperation>();
             DeploymentOperationsListResult result = null;
             string location = ResourceManagementClient.ResourceGroups.Get(resourceGroup).ResourceGroup.Location;
-
+            
             do
             {
                 result = ResourceManagementClient.DeploymentOperations.List(resourceGroup, deploymentName, null);
@@ -335,18 +346,42 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Models
                         operation.Properties.TargetResource.ResourceName,
                         location,
                         operation.Properties.ProvisioningState);
+
+                    WriteProgress(statusMessage);
                 }
                 else
                 {
+                    string errorMessage = GetDeploymentOperationErrorMessage(operation.Properties.StatusMessage);
+
                     statusMessage = string.Format(failureStatusFormat,
                         operation.Properties.TargetResource.ResourceType,
                         operation.Properties.TargetResource.ResourceName,
                         location,
-                        operation.Properties.StatusMessage);
-                }
+                        errorMessage);
 
-                WriteProgress(statusMessage);
+                    WriteError(statusMessage);
+                }
             }
+        }
+
+        private string GetDeploymentOperationErrorMessage(string statusMessage)
+        {
+            string errorMessage = null;
+
+            if (JsonUtilities.IsJson(statusMessage))
+            {
+                errorMessage = JsonConvert.DeserializeObject<ResourceManagementError>(statusMessage).Message;
+            }
+            else if (XmlUtilities.IsXml(statusMessage))
+            {
+                errorMessage = XmlUtilities.DeserializeXmlString<ResourceManagementError>(statusMessage).Message;
+            }
+            else
+            {
+                errorMessage = statusMessage;
+            }
+
+            return errorMessage;
         }
 
         private void WaitDeploymentStatus(string resourceGroup, string deploymentName, Action<string, string> job, params string[] status)
@@ -391,7 +426,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Models
         internal RuntimeDefinedParameter ConstructDynamicParameter(string[] staticParameters, KeyValuePair<string, TemplateFileParameter> parameter)
         {
             const string duplicatedParameterSuffix = "FromTemplate";
-            string name = GeneralUtilities.ToUpperFirstLetter(parameter.Key);
+            string name = parameter.Key;
             object defaultValue = parameter.Value.DefaultValue;
 
             RuntimeDefinedParameter runtimeParameter = new RuntimeDefinedParameter()
