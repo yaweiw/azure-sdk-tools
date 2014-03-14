@@ -434,7 +434,6 @@
     <Compile Include="Model\OSVersionsContext.cs" />
     <Compile Include="Model\PersistentVM.cs" />
     <Compile Include="Model\PersistentVMRoleContext.cs" />
-    <Compile Include="Model\PersistentVMRoleListContext.cs" />
     <Compile Include="Model\PSSyncOutputEvents.cs" />
     <Compile Include="Model\RoleConfiguration.cs" />
     <Compile Include="Model\RoleContext.cs" />
