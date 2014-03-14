@@ -26,5 +26,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Models
         public List<Resource> Resources { get; set; }
 
         public string ResourcesTable { get; set; }
+
+        public string ProvisioningState { get; set; }
     }
 }

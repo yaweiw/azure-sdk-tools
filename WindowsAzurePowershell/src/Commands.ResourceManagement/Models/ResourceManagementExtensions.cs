@@ -32,7 +32,8 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Models
                 ResourceGroupName = resourceGroup.Name,
                 Location = resourceGroup.Location,
                 Resources = resources,
-                ResourcesTable = ConstructResourcesTable(resources)
+                ResourcesTable = ConstructResourcesTable(resources),
+                ProvisioningState = resourceGroup.ProvisioningState
             };
         }
 
