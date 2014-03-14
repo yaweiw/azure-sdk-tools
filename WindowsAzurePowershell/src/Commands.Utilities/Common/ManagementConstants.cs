@@ -51,6 +51,8 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
         public const string Version200 = "2.0.0";
 
         public const string Version220 = "2.2.0";
+
+        public const string Version230 = "2.3.0";
     }
 
     public enum DevEnv
