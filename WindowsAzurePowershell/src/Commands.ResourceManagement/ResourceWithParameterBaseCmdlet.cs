@@ -85,14 +85,6 @@ namespace Microsoft.Azure.Commands.ResourceManagement
         [ValidateNotNullOrEmpty]
         public string TemplateVersion { get; set; }
 
-        [Parameter(Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "The expect content hash of the template.")]
-        [ValidateNotNullOrEmpty]
-        public string TemplateHash { get; set; }
-
-        [Parameter(Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "The algorithm used to hash the template content.")]
-        [ValidateNotNullOrEmpty]
-        public string TemplateHashAlgorithm { get; set; }
-
         [Parameter(Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "The storage account which the cmdlet to upload the template file to. If not specified, the current storage account of the subscription will be used.")]
         [ValidateNotNullOrEmpty]
         public string StorageAccountName { get; set; }
