@@ -196,21 +196,6 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Models
             return storageName;
         }
 
-        private ContentHash GetTemplateContentHash(string templateHash, string templateHashAlgorithm)
-        {
-            ContentHash contentHash = null;
-
-            if (!string.IsNullOrEmpty(templateHash))
-            {
-                contentHash = new ContentHash();
-                contentHash.Value = templateHash;
-                contentHash.Algorithm = string.IsNullOrEmpty(templateHashAlgorithm) ? ContentHashAlgorithm.Sha256 :
-                    (ContentHashAlgorithm)Enum.Parse(typeof(ContentHashAlgorithm), templateHashAlgorithm);
-            }
-
-            return contentHash;
-        }
-
         private ResourceGroup CreateResourceGroup(string name, string location)
         {
             var result = ResourceManagementClient.ResourceGroups.CreateOrUpdate(name,
@@ -464,8 +449,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Models
                 TemplateLink = new TemplateLink()
                 {
                     Uri = GetTemplateUri(parameters.TemplateFile, parameters.GalleryTemplateName, parameters.StorageAccountName),
-                    ContentVersion = parameters.TemplateVersion,
-                    ContentHash = GetTemplateContentHash(parameters.TemplateHash, parameters.TemplateHashAlgorithm)
+                    ContentVersion = parameters.TemplateVersion
                 },
                 Parameters = GetDeploymentParameters(parameters.TemplateParameterObject)
             };

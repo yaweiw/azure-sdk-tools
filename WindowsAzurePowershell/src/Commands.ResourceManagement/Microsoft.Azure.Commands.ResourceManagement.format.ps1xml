@@ -19,6 +19,10 @@
                 <PropertyName>Location</PropertyName>
               </ListItem>
               <ListItem>
+                <Label>ProvisioningState</Label>
+                <PropertyName>ProvisioningState</PropertyName>
+              </ListItem>
+              <ListItem>
                 <Label>Resources</Label>
                 <PropertyName>ResourcesTable</PropertyName>
               </ListItem>
