@@ -18,8 +18,9 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
     using System.Management.Automation;
     using Model;
     using Model.PersistentVMModel;
+    using Utilities.Common;
 
-    public class VirtualMachineConfigurationCmdletBase : PSCmdlet
+    public class VirtualMachineConfigurationCmdletBase : ServiceManagementBaseCmdlet
     {
         protected const string StaticVNetIPNoun = "AzureStaticVNetIP";
 

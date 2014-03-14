@@ -39,7 +39,10 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
                     Publisher = r.Publisher,
                     ReferenceName = r.ReferenceName,
                     Version = r.Version,
-                    State = r.State
+                    State = r.State,
+                    PublicConfiguration = PublicConfiguration,
+                    PrivateConfiguration = PrivateConfiguration,
+                    RoleName = VM.GetInstance().RoleName
                 }).FirstOrDefault());
         }
 
