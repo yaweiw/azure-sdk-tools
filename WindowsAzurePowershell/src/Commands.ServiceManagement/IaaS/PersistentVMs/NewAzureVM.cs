@@ -360,12 +360,16 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.PersistentVMs
 
             if (persistentVM.DataVirtualHardDisks != null && !tuple.Item3)
             {
-                persistentVM.DataVirtualHardDisks.ForEach(c => 
+                persistentVM.DataVirtualHardDisks.ForEach(c =>
                 {
                     var dataDisk = Mapper.Map(c, new Microsoft.WindowsAzure.Management.Compute.Models.DataVirtualHardDisk());
                     dataDisk.LogicalUnitNumber = dataDisk.LogicalUnitNumber;
                     result.DataVirtualHardDisks.Add(dataDisk);
                 });
+            }
+            else
+            {
+                result.DataVirtualHardDisks = null;
             }
 
             if (persistentVM.ConfigurationSets != null)
@@ -435,6 +439,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.PersistentVMs
                 {
                     isOSImage = GetAzureVMImage.CheckImageType(this.ComputeClient, pVM.OSVirtualHardDisk.SourceImageName, ImageType.OSImage);
                     isVMImage = GetAzureVMImage.CheckImageType(this.ComputeClient, pVM.OSVirtualHardDisk.SourceImageName, ImageType.VMImage);
+                    this.VMTuples[index++] = new Tuple<PersistentVM, bool, bool>(pVM, isOSImage, isVMImage);
                 }
 
                 if (isOSImage && isVMImage)
@@ -446,20 +451,11 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.PersistentVMs
                 var provisioningConfiguration = pVM.ConfigurationSets
                     .OfType<Model.PersistentVMModel.ProvisioningConfigurationSet>()
                     .SingleOrDefault();
-
-                if (isOSImage)
-                {
-                    if (provisioningConfiguration == null && pVM.OSVirtualHardDisk.SourceImageName != null)
-                    {
-                        throw new ArgumentException(string.Format(Resources.VMMissingProvisioningConfiguration, pVM.RoleName));
-                    }
-                }
-                else
-                {
-                    pVM.ConfigurationSets.Remove(provisioningConfiguration);
-                }
                 
-                this.VMTuples[index++] = new Tuple<PersistentVM, bool, bool>(pVM, isOSImage, isVMImage);
+                if (isOSImage && provisioningConfiguration == null && pVM.OSVirtualHardDisk.SourceImageName != null)
+                {
+                    throw new ArgumentException(string.Format(Resources.VMMissingProvisioningConfiguration, pVM.RoleName));
+                }
             }
         }
     }

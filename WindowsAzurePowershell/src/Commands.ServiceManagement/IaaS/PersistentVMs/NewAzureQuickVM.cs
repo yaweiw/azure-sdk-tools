@@ -438,11 +438,11 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.PersistentVMs
                     var parameter = new VirtualMachineCreateParameters
                     {
                         AvailabilitySetName = vm.AvailabilitySetName,
-                        OSVirtualHardDisk = Mapper.Map(vm.OSVirtualHardDisk, new Management.Compute.Models.OSVirtualHardDisk()),
+                        OSVirtualHardDisk = _isVMImage ? null : Mapper.Map(vm.OSVirtualHardDisk, new Management.Compute.Models.OSVirtualHardDisk()),
                         RoleName = vm.RoleName,
                         RoleSize = vm.RoleSize,
                         ResourceExtensionReferences = null,
-                        VMImageName = this.ImageName,
+                        VMImageName = _isVMImage ? this.ImageName : null,
                         ProvisionGuestAgent = !this.DisableGuestAgent
                     };
 
@@ -488,7 +488,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.PersistentVMs
                     HostCaching = HostCaching
                 }),
                 ResourceExtensionReferences = null,
-                VMImageName = this.ImageName,
+                VMImageName = _isVMImage ? this.ImageName : null,
                 ProvisionGuestAgent = !this.DisableGuestAgent
             };
 
