@@ -28,6 +28,8 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Models
 
         public string ParentResourceName { get; set; }
 
+        public string ApiVersion { get; set; }
+
         public ResourceIdentity ToResourceIdentity()
         {
             if (string.IsNullOrEmpty(ResourceType))
@@ -46,7 +48,8 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Models
                     ResourceName = Name,
                     ParentResourcePath = ParentResourceName,
                     ResourceProviderNamespace = resourceType[0],
-                    ResourceType = resourceType[1]
+                    ResourceType = resourceType[1],
+                    ResourceProviderApiVersion = ApiVersion
                 };
 
             return identity;
