@@ -21,6 +21,7 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Database.Cmdlet
     using Properties;
     using Services.Common;
     using Services.Server;
+    using DatabaseCopyModel = Microsoft.WindowsAzure.Commands.SqlDatabase.Model.DatabaseCopy;
 
     /// <summary>
     /// Start a copy operation for a Windows Azure SQL Database in the given server context.
@@ -147,15 +148,6 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Database.Cmdlet
         public string PartnerDatabase { get; set; }
 
         /// <summary>
-        /// Gets or sets the maximum lag for the continuous copy operation.
-        /// </summary>
-        [Parameter(Mandatory = false, ParameterSetName = ByInputObjectWithConnectionContextContinuous,
-            HelpMessage = "The maximum lag for the continuous copy operation.")]
-        [Parameter(Mandatory = false, ParameterSetName = ByDatabaseNameWithConnectionContextContinuous,
-            HelpMessage = "The maximum lag for the continuous copy operation.")]
-        public int MaxLagInMinutes { get; set; }
-
-        /// <summary>
         /// Gets or sets a value indicating whether to make this a continuous copy.
         /// </summary>
         [Parameter(Mandatory = true, ParameterSetName = ByInputObjectContinuous,
@@ -242,18 +234,13 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Database.Cmdlet
                     : ServerDataServiceCertAuth.Create(this.ServerName,
                         WindowsAzureProfile.Instance.CurrentSubscription);
 
-            int? maxLagInMinutes =
-                    this.MyInvocation.BoundParameters.ContainsKey("MaxLagInMinutes") ?
-                    (int?)this.MaxLagInMinutes : null;
-
             try
             {
                 // Update the database with the specified name
-                DatabaseCopy databaseCopy = context.StartDatabaseCopy(
+                DatabaseCopyModel databaseCopy = context.StartDatabaseCopy(
                     databaseName,
                     partnerServerName,
                     partnerDatabaseName,
-                    maxLagInMinutes,
                     this.ContinuousCopy.IsPresent);
 
                 this.WriteObject(databaseCopy, true);

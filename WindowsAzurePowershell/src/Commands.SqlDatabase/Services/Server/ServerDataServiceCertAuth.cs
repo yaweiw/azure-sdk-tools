@@ -23,6 +23,7 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Services.Server
     using Microsoft.WindowsAzure.Commands.Utilities.Common;
     using Microsoft.WindowsAzure.Management.Sql;
     using Microsoft.WindowsAzure.Management.Sql.Models;
+    using DatabaseCopyModel = Microsoft.WindowsAzure.Commands.SqlDatabase.Model.DatabaseCopy;
 
     /// <summary>
     /// Implementation of the <see cref="IServerDataServiceContext"/> with Certificate authentication.
@@ -149,6 +150,8 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Services.Server
                 // Ignore exceptions when loading extra properties, for backward compatibility.
             }
         }
+
+        #endregion
 
         #region Database Operations
 
@@ -484,14 +487,13 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Services.Server
 
         #region Database copy operations
 
-        /// <summary>
         /// Retrieve all database copy objects with matching parameters.
         /// </summary>
         /// <param name="databaseName">The name of the database to copy.</param>
         /// <param name="partnerServer">The name for the partner server.</param>
         /// <param name="partnerDatabaseName">The name of the database on the partner server.</param>
         /// <returns>All database copy objects with matching parameters.</returns>
-        public DatabaseCopy[] GetDatabaseCopy(
+        public DatabaseCopyModel[] GetDatabaseCopy(
             string databaseName,
             string partnerServer,
             string partnerDatabaseName)
@@ -525,7 +527,7 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Services.Server
             }
 
             // Filter the copies by the specified criteria.
-            DatabaseCopy[] databaseCopies = copyResponses.Where(copy =>
+            DatabaseCopyModel[] databaseCopies = copyResponses.Where(copy =>
                 {
                     if (copy.IsLocalDatabaseReplicationTarget)
                     {
@@ -541,12 +543,6 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Services.Server
                 .Select(CreateDatabaseCopyFromResponse)
                 .ToArray();
 
-            // Load the extra properties for all objects.
-            foreach (DatabaseCopy databaseCopy in databaseCopies)
-            {
-                databaseCopy.LoadExtraProperties(this);
-            }
-
             return databaseCopies;
         }
 
@@ -555,7 +551,7 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Services.Server
         /// </summary>
         /// <param name="databaseCopy">The object to refresh.</param>
         /// <returns>The refreshed database copy object.</returns>
-        public DatabaseCopy GetDatabaseCopy(DatabaseCopy databaseCopy)
+        public DatabaseCopyModel GetDatabaseCopy(DatabaseCopyModel databaseCopy)
         {
             this.clientRequestId = SqlDatabaseCmdletBase.GenerateClientTracingId();
 
@@ -569,14 +565,11 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Services.Server
                     ? databaseCopy.DestinationDatabaseName
                     : databaseCopy.SourceDatabaseName;
 
-            DatabaseCopy refreshedDatabaseCopy = CreateDatabaseCopyFromResponse(
+            DatabaseCopyModel refreshedDatabaseCopy = CreateDatabaseCopyFromResponse(
                 sqlManagementClient.DatabaseCopies.Get(
                     this.ServerName,
                     localDatabaseName,
                     databaseCopy.EntityId.ToString()));
-
-            // Load the extra properties for this object.
-            refreshedDatabaseCopy.LoadExtraProperties(this);
 
             return refreshedDatabaseCopy;
         }
@@ -587,14 +580,12 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Services.Server
         /// <param name="databaseName">The name of the database to copy.</param>
         /// <param name="partnerServer">The name for the partner server.</param>
         /// <param name="partnerDatabaseName">The name of the database on the partner server.</param>
-        /// <param name="maxLagInMinutes">The maximum lag for the continuous copy operation.</param>
         /// <param name="continuousCopy"><c>true</c> to make this a continuous copy.</param>
         /// <returns>The new instance of database copy operation.</returns>
-        public DatabaseCopy StartDatabaseCopy(
+        public DatabaseCopyModel StartDatabaseCopy(
             string databaseName,
             string partnerServer,
             string partnerDatabaseName,
-            int? maxLagInMinutes,
             bool continuousCopy)
         {
             // Create a new request Id for this operation
@@ -623,7 +614,7 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Services.Server
         /// <param name="databaseCopy">The database copy to terminate.</param>
         /// <param name="forcedTermination"><c>true</c> to forcefully terminate the copy.</param>
         public void StopDatabaseCopy(
-            DatabaseCopy databaseCopy,
+            DatabaseCopyModel databaseCopy,
             bool forcedTermination)
         {
             // Create a new request Id for this operation
@@ -639,38 +630,19 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Services.Server
                     ? databaseCopy.DestinationDatabaseName
                     : databaseCopy.SourceDatabaseName;
 
-            try
-            {
-                // Update forced termination so that the terminate happens
-                // the way it should.
-                sqlManagementClient.DatabaseCopies.Update(
-                    this.ServerName,
-                    localDatabaseName,
-                    databaseCopy.EntityId,
-                    new UpdateDatabaseCopyRequest() {IsForcedTerminate = forcedTermination});
+            // Update forced termination so that the terminate happens
+            // the way it should.
+            sqlManagementClient.DatabaseCopies.Update(
+                this.ServerName,
+                localDatabaseName,
+                databaseCopy.EntityId,
+                new UpdateDatabaseCopyRequest() {IsForcedTerminate = forcedTermination});
 
-                sqlManagementClient.DatabaseCopies.Delete(
-                    this.ServerName,
-                    localDatabaseName,
-                    databaseCopy.EntityId);
-            }
-            catch (Exception)
-            {
-                if (forcedTermination != databaseCopy.IsForcedTerminate)
-                {
-                    // Try to undo the update to set forced termination.
-                    sqlManagementClient.DatabaseCopies.Update(
-                        this.ServerName,
-                        localDatabaseName,
-                        databaseCopy.EntityId,
-                        new UpdateDatabaseCopyRequest() {IsForcedTerminate = databaseCopy.IsForcedTerminate.GetValueOrDefault(false)});
-                }
-
-                throw;
-            }
+            sqlManagementClient.DatabaseCopies.Delete(
+                this.ServerName,
+                localDatabaseName,
+                databaseCopy.EntityId);
         }
-
-        #endregion
 
         #endregion
 
@@ -978,9 +950,9 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Services.Server
             return result;
         }
 
-        private static DatabaseCopy CreateDatabaseCopyFromResponse(DatabaseCopyResponse response)
+        private static DatabaseCopyModel CreateDatabaseCopyFromResponse(DatabaseCopyResponse response)
         {
-            return new DatabaseCopy()
+            return new DatabaseCopyModel()
                 {
                     EntityId = Guid.Parse(response.Name),
                     SourceServerName = response.SourceServerName,
@@ -993,13 +965,11 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Services.Server
                     LocalDatabaseId = response.LocalDatabaseId,
                     IsLocalDatabaseReplicationTarget = response.IsLocalDatabaseReplicationTarget,
                     IsInterlinkConnected = response.IsInterlinkConnected,
-                    TextStartDate = response.StartDate.ToString(),
-                    TextModifyDate = response.ModifyDate.ToString(),
+                    StartDate = response.StartDate,
+                    ModifyDate = response.ModifyDate,
                     PercentComplete = response.PercentComplete
                 };
         }
-        
-        #endregion
 
         /// <summary>
         /// Add the tracing session and request headers to the client.
@@ -1024,5 +994,7 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Services.Server
             // Fill in the context property
             database.Context = this;
         }
+
+        #endregion
     }
 }

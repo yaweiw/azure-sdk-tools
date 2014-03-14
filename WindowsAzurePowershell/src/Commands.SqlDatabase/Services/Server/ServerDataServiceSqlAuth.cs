@@ -24,6 +24,7 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Services.Server
     using Microsoft.WindowsAzure.Commands.SqlDatabase.Properties;
     using Microsoft.WindowsAzure.Commands.SqlDatabase.Services.Common;
     using Microsoft.WindowsAzure.Commands.Utilities.Common;
+    using DatabaseCopyModel = Microsoft.WindowsAzure.Commands.SqlDatabase.Model.DatabaseCopy;
 
     /// <summary>
     /// Implementation of the <see cref="IServerDataServiceContext"/> with Sql Authentication.
@@ -515,6 +516,41 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Services.Server
         #endregion
         
         #region Database Copy Operations
+
+        private DatabaseCopy GetCopyForCopyModel(DatabaseCopyModel model)
+        {
+            DatabaseCopy retval = this.DatabaseCopies.Where(copy => copy.EntityId == model.EntityId
+                && model.IsLocalDatabaseReplicationTarget == copy.IsLocalDatabaseReplicationTarget)
+                .SingleOrDefault();
+
+            if (retval == null)
+            {
+                throw new ApplicationException(Resources.DatabaseCopyNotFoundGeneric);
+            }
+
+            return retval;
+        }
+
+        private static DatabaseCopyModel CreateCopyModelFromCopy(DatabaseCopy copy)
+        {
+            return new DatabaseCopyModel()
+            {
+                EntityId = copy.EntityId,
+                SourceServerName = copy.SourceServerName,
+                SourceDatabaseName = copy.SourceDatabaseName,
+                DestinationServerName = copy.DestinationServerName,
+                DestinationDatabaseName = copy.DestinationDatabaseName,
+                IsContinuous = copy.IsContinuous,
+                ReplicationState = copy.ReplicationState,
+                ReplicationStateDescription = copy.ReplicationStateDescription,
+                LocalDatabaseId = copy.LocalDatabaseId,
+                IsLocalDatabaseReplicationTarget = copy.IsLocalDatabaseReplicationTarget,
+                IsInterlinkConnected = copy.IsInterlinkConnected,
+                StartDate = DateTime.Parse(copy.TextStartDate),
+                ModifyDate = DateTime.Parse(copy.TextModifyDate),
+                PercentComplete = copy.PercentComplete.GetValueOrDefault()
+            };
+        }
         
         /// <summary>
         /// Retrieve all database copy objects with matching parameters.
@@ -523,7 +559,7 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Services.Server
         /// <param name="partnerServer">The name for the partner server.</param>
         /// <param name="partnerDatabaseName">The name of the database on the partner server.</param>
         /// <returns>All database copy objects with matching parameters.</returns>
-        public DatabaseCopy[] GetDatabaseCopy(
+        public DatabaseCopyModel[] GetDatabaseCopy(
             string databaseName,
             string partnerServer,
             string partnerDatabaseName)
@@ -578,7 +614,7 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Services.Server
                 databaseCopy.LoadExtraProperties(this);
             }
 
-            return databaseCopies;
+            return databaseCopies.Select(CreateCopyModelFromCopy).ToArray();
         }
 
         /// <summary>
@@ -586,7 +622,7 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Services.Server
         /// </summary>
         /// <param name="databaseCopy">The object to refresh.</param>
         /// <returns>The refreshed database copy object.</returns>
-        public DatabaseCopy GetDatabaseCopy(DatabaseCopy databaseCopy)
+        public DatabaseCopyModel GetDatabaseCopy(DatabaseCopyModel databaseCopy)
         {
             DatabaseCopy refreshedDatabaseCopy;
 
@@ -615,7 +651,7 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Services.Server
             // Load the extra properties for this object.
             refreshedDatabaseCopy.LoadExtraProperties(this);
 
-            return refreshedDatabaseCopy;
+            return CreateCopyModelFromCopy(refreshedDatabaseCopy);
         }
 
         /// <summary>
@@ -624,14 +660,12 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Services.Server
         /// <param name="databaseName">The name of the database to copy.</param>
         /// <param name="partnerServer">The name for the partner server.</param>
         /// <param name="partnerDatabaseName">The name of the database on the partner server.</param>
-        /// <param name="maxLagInMinutes">The maximum lag for the continuous copy operation.</param>
         /// <param name="continuousCopy"><c>true</c> to make this a continuous copy.</param>
         /// <returns>The new instance of database copy operation.</returns>
-        public DatabaseCopy StartDatabaseCopy(
+        public DatabaseCopyModel StartDatabaseCopy(
             string databaseName,
             string partnerServer,
             string partnerDatabaseName,
-            int? maxLagInMinutes,
             bool continuousCopy)
         {
             // Create a new request Id for this operation
@@ -646,9 +680,6 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Services.Server
 
             // Set the optional continuous copy flag
             databaseCopy.IsContinuous = continuousCopy;
-
-            // Set the optional Maximum Lag (RPO) value
-            databaseCopy.MaximumLag = maxLagInMinutes;
 
             this.AddToDatabaseCopies(databaseCopy);
             DatabaseCopy trackedDatabaseCopy = databaseCopy;
@@ -669,18 +700,20 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Services.Server
                 throw;
             }
 
-            return databaseCopy;
+            return CreateCopyModelFromCopy(databaseCopy);
         }
 
         /// <summary>
         /// Terminate an ongoing database copy operation.
         /// </summary>
-        /// <param name="databaseCopy">The database copy to terminate.</param>
+        /// <param name="copyModel">The database copy to terminate.</param>
         /// <param name="forcedTermination"><c>true</c> to forcefully terminate the copy.</param>
         public void StopDatabaseCopy(
-            DatabaseCopy databaseCopy,
+            DatabaseCopyModel copyModel,
             bool forcedTermination)
         {
+            DatabaseCopy databaseCopy = GetCopyForCopyModel(copyModel);
+
             // Create a new request Id for this operation
             this.clientRequestId = SqlDatabaseCmdletBase.GenerateClientTracingId();
 

@@ -19,6 +19,7 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Database.Cmdlet
     using Commands.Utilities.Common;
     using Services.Common;
     using Services.Server;
+    using DatabaseCopyModel = Microsoft.WindowsAzure.Commands.SqlDatabase.Model.DatabaseCopy;
 
     /// <summary>
     /// Retrieves a list of all ongoing Windows Azure SQL Database copy operations in the given
@@ -111,7 +112,7 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Database.Cmdlet
         [Parameter(Mandatory = true, Position = 1, ParameterSetName = ByInputObjectWithServerName,
             ValueFromPipeline = true, HelpMessage = "The database copy operation to refresh.")]
         [ValidateNotNull]
-        public DatabaseCopy DatabaseCopy { get; set; }
+        public DatabaseCopyModel DatabaseCopy { get; set; }
 
         /// <summary>
         /// Database to filter copies by.
@@ -205,7 +206,7 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Database.Cmdlet
                 else
                 {
                     // Retrieve all database copy object with matching parameters
-                    DatabaseCopy[] copies = context.GetDatabaseCopy(
+                    DatabaseCopyModel[] copies = context.GetDatabaseCopy(
                         databaseName,
                         this.PartnerServer,
                         this.PartnerDatabase);
