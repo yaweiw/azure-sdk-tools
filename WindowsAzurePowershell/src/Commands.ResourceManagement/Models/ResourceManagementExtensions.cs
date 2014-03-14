@@ -203,7 +203,6 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Models
                 result.AppendLine();
                 result.AppendLine(string.Format("{0, -15}: {1}", "Uri", templateLink.Uri));
                 result.AppendLine(string.Format("{0, -15}: {1}", "ContentVersion", templateLink.ContentVersion));
-                result.AppendLine(string.Format("{0, -15}:", "ContentHash"));
             }
 
             return result.ToString();
