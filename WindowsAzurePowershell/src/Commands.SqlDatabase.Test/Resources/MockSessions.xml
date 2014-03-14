@@ -7965,7 +7965,7 @@
         <RequestInfo>
           <RequestUri>https://localhost:65432/MockTestServer/00000000-0000-0000-0001-000000000001/services/sqlservers/servers</RequestUri>
           <Method>POST</Method>
-          <UserAgent>Microsoft.WindowsAzure.Management.Sql.SqlManagementClient/0.0.1.0 WindowsAzurePowershell/v0.7.4</UserAgent>
+          <UserAgent>Microsoft.WindowsAzure.Management.Sql.SqlManagementClient/0.9.0.0 WindowsAzurePowershell/v0.7.4</UserAgent>
           <Headers>
             <Header>
               <Name>x-ms-version</Name>
@@ -8018,7 +8018,7 @@
         <RequestInfo>
           <RequestUri>https://localhost:65432/MockTestServer/00000000-0000-0000-0001-000000000001/services/sqlservers/servers</RequestUri>
           <Method>GET</Method>
-          <UserAgent>Microsoft.WindowsAzure.Management.Sql.SqlManagementClient/0.0.1.0 WindowsAzurePowershell/v0.7.4</UserAgent>
+          <UserAgent>Microsoft.WindowsAzure.Management.Sql.SqlManagementClient/0.9.0.0 WindowsAzurePowershell/v0.7.4</UserAgent>
           <Headers>
             <Header>
               <Name>x-ms-version</Name>
@@ -8074,7 +8074,7 @@
         <RequestInfo>
           <RequestUri>https://localhost:65432/MockTestServer/00000000-0000-0000-0001-000000000001/services/sqlservers/servers/dy9veutlz0?op=ResetPassword</RequestUri>
           <Method>POST</Method>
-          <UserAgent>Microsoft.WindowsAzure.Management.Sql.SqlManagementClient/0.0.1.0 WindowsAzurePowershell/v0.7.4</UserAgent>
+          <UserAgent>Microsoft.WindowsAzure.Management.Sql.SqlManagementClient/0.9.0.0 WindowsAzurePowershell/v0.7.4</UserAgent>
           <Headers>
             <Header>
               <Name>x-ms-version</Name>
@@ -8119,7 +8119,7 @@
         <RequestInfo>
           <RequestUri>https://localhost:65432/MockTestServer/00000000-0000-0000-0001-000000000001/services/sqlservers/servers</RequestUri>
           <Method>GET</Method>
-          <UserAgent>Microsoft.WindowsAzure.Management.Sql.SqlManagementClient/0.0.1.0 WindowsAzurePowershell/v0.7.4</UserAgent>
+          <UserAgent>Microsoft.WindowsAzure.Management.Sql.SqlManagementClient/0.9.0.0 WindowsAzurePowershell/v0.7.4</UserAgent>
           <Headers>
             <Header>
               <Name>x-ms-version</Name>
@@ -8175,7 +8175,7 @@
         <RequestInfo>
           <RequestUri>https://localhost:65432/MockTestServer/00000000-0000-0000-0001-000000000001/services/sqlservers/servers/dy9veutlz0</RequestUri>
           <Method>DELETE</Method>
-          <UserAgent>Microsoft.WindowsAzure.Management.Sql.SqlManagementClient/0.0.1.0 WindowsAzurePowershell/v0.7.4</UserAgent>
+          <UserAgent>Microsoft.WindowsAzure.Management.Sql.SqlManagementClient/0.9.0.0 WindowsAzurePowershell/v0.7.4</UserAgent>
           <Headers>
             <Header>
               <Name>x-ms-version</Name>
@@ -8220,7 +8220,7 @@
         <RequestInfo>
           <RequestUri>https://localhost:65432/MockTestServer/00000000-0000-0000-0001-000000000001/services/sqlservers/servers</RequestUri>
           <Method>GET</Method>
-          <UserAgent>Microsoft.WindowsAzure.Management.Sql.SqlManagementClient/0.0.1.0 WindowsAzurePowershell/v0.7.4</UserAgent>
+          <UserAgent>Microsoft.WindowsAzure.Management.Sql.SqlManagementClient/0.9.0.0 WindowsAzurePowershell/v0.7.4</UserAgent>
           <Headers>
             <Header>
               <Name>x-ms-version</Name>
@@ -8275,7 +8275,7 @@
         <RequestInfo>
           <RequestUri>https://localhost:65432/MockTestServer/00000000-0000-0000-0001-000000000001/services/sqlservers/servers/testserver/firewallrules</RequestUri>
           <Method>POST</Method>
-          <UserAgent>Microsoft.WindowsAzure.Management.Sql.SqlManagementClient/0.0.1.0 WindowsAzurePowershell/v0.7.4</UserAgent>
+          <UserAgent>Microsoft.WindowsAzure.Management.Sql.SqlManagementClient/0.9.0.0 WindowsAzurePowershell/v0.7.4</UserAgent>
           <Headers>
             <Header>
               <Name>x-ms-version</Name>
@@ -8332,7 +8332,7 @@
         <RequestInfo>
           <RequestUri>https://localhost:65432/MockTestServer/00000000-0000-0000-0001-000000000001/services/sqlservers/servers/testserver/firewallrules</RequestUri>
           <Method>POST</Method>
-          <UserAgent>Microsoft.WindowsAzure.Management.Sql.SqlManagementClient/0.0.1.0 WindowsAzurePowershell/v0.7.4</UserAgent>
+          <UserAgent>Microsoft.WindowsAzure.Management.Sql.SqlManagementClient/0.9.0.0 WindowsAzurePowershell/v0.7.4</UserAgent>
           <Headers>
             <Header>
               <Name>x-ms-version</Name>
@@ -8389,7 +8389,7 @@
         <RequestInfo>
           <RequestUri>https://localhost:65432/MockTestServer/00000000-0000-0000-0001-000000000001/services/sqlservers/servers/testserver/firewallrules</RequestUri>
           <Method>GET</Method>
-          <UserAgent>Microsoft.WindowsAzure.Management.Sql.SqlManagementClient/0.0.1.0 WindowsAzurePowershell/v0.7.4</UserAgent>
+          <UserAgent>Microsoft.WindowsAzure.Management.Sql.SqlManagementClient/0.9.0.0 WindowsAzurePowershell/v0.7.4</UserAgent>
           <Headers>
             <Header>
               <Name>x-ms-version</Name>
@@ -8442,7 +8442,7 @@
         <RequestInfo>
           <RequestUri>https://localhost:65432/MockTestServer/00000000-0000-0000-0001-000000000001/services/sqlservers/servers/testserver/firewallrules/Rule1</RequestUri>
           <Method>PUT</Method>
-          <UserAgent>Microsoft.WindowsAzure.Management.Sql.SqlManagementClient/0.0.1.0 WindowsAzurePowershell/v0.7.4</UserAgent>
+          <UserAgent>Microsoft.WindowsAzure.Management.Sql.SqlManagementClient/0.9.0.0 WindowsAzurePowershell/v0.7.4</UserAgent>
           <Headers>
             <Header>
               <Name>x-ms-version</Name>
@@ -8499,7 +8499,7 @@
         <RequestInfo>
           <RequestUri>https://localhost:65432/MockTestServer/00000000-0000-0000-0001-000000000001/services/sqlservers/servers/testserver/firewallrules</RequestUri>
           <Method>GET</Method>
-          <UserAgent>Microsoft.WindowsAzure.Management.Sql.SqlManagementClient/0.0.1.0 WindowsAzurePowershell/v0.7.4</UserAgent>
+          <UserAgent>Microsoft.WindowsAzure.Management.Sql.SqlManagementClient/0.9.0.0 WindowsAzurePowershell/v0.7.4</UserAgent>
           <Headers>
             <Header>
               <Name>x-ms-version</Name>
@@ -8552,7 +8552,7 @@
         <RequestInfo>
           <RequestUri>https://localhost:65432/MockTestServer/00000000-0000-0000-0001-000000000001/services/sqlservers/servers/testserver/firewallrules/Rule1</RequestUri>
           <Method>DELETE</Method>
-          <UserAgent>Microsoft.WindowsAzure.Management.Sql.SqlManagementClient/0.0.1.0 WindowsAzurePowershell/v0.7.4</UserAgent>
+          <UserAgent>Microsoft.WindowsAzure.Management.Sql.SqlManagementClient/0.9.0.0 WindowsAzurePowershell/v0.7.4</UserAgent>
           <Headers>
             <Header>
               <Name>x-ms-version</Name>
@@ -8601,7 +8601,7 @@
         <RequestInfo>
           <RequestUri>https://localhost:65432/MockTestServer/00000000-0000-0000-0001-000000000001/services/sqlservers/servers/testserver/firewallrules/Rule2</RequestUri>
           <Method>DELETE</Method>
-          <UserAgent>Microsoft.WindowsAzure.Management.Sql.SqlManagementClient/0.0.1.0 WindowsAzurePowershell/v0.7.4</UserAgent>
+          <UserAgent>Microsoft.WindowsAzure.Management.Sql.SqlManagementClient/0.9.0.0 WindowsAzurePowershell/v0.7.4</UserAgent>
           <Headers>
             <Header>
               <Name>x-ms-version</Name>
@@ -8650,7 +8650,7 @@
         <RequestInfo>
           <RequestUri>https://localhost:65432/MockTestServer/00000000-0000-0000-0001-000000000001/services/sqlservers/servers/testserver/firewallrules</RequestUri>
           <Method>GET</Method>
-          <UserAgent>Microsoft.WindowsAzure.Management.Sql.SqlManagementClient/0.0.1.0 WindowsAzurePowershell/v0.7.4</UserAgent>
+          <UserAgent>Microsoft.WindowsAzure.Management.Sql.SqlManagementClient/0.9.0.0 WindowsAzurePowershell/v0.7.4</UserAgent>
           <Headers>
             <Header>
               <Name>x-ms-version</Name>
@@ -8921,7 +8921,7 @@
         <RequestInfo>
           <RequestUri>https://localhost:65432/MockTestServer/00000000-0000-0000-0001-000000000001/services/sqlservers/servers/testserver/DacOperations/Export</RequestUri>
           <Method>POST</Method>
-          <UserAgent>Microsoft.WindowsAzure.Management.Sql.SqlManagementClient/1.0.0.0 WindowsAzurePowershell/v0.7.4</UserAgent>
+          <UserAgent>Microsoft.WindowsAzure.Management.Sql.SqlManagementClient/0.9.0.0 WindowsAzurePowershell/v0.7.4</UserAgent>
           <Headers>
             <Header>
               <Name>x-ms-version</Name>
@@ -8989,7 +8989,7 @@
         <RequestInfo>
           <RequestUri>https://localhost:65432/MockTestServer/00000000-0000-0000-0001-000000000001/services/sqlservers/servers/testserver/DacOperations/Status?servername=testserver.database.windows.net&amp;username=mylogin&amp;password=Pa$$w0rd!&amp;reqId=a0db20f9-9402-4866-bc97-6089b47218ac</RequestUri>
           <Method>GET</Method>
-          <UserAgent>Microsoft.WindowsAzure.Management.Sql.SqlManagementClient/1.0.0.0 WindowsAzurePowershell/v0.7.4</UserAgent>
+          <UserAgent>Microsoft.WindowsAzure.Management.Sql.SqlManagementClient/0.9.0.0 WindowsAzurePowershell/v0.7.4</UserAgent>
           <Headers>
             <Header>
               <Name>x-ms-version</Name>
@@ -9046,7 +9046,7 @@
         <RequestInfo>
           <RequestUri>https://localhost:65432/MockTestServer/00000000-0000-0000-0001-000000000001/services/sqlservers/servers/testserver/DacOperations/Import</RequestUri>
           <Method>POST</Method>
-          <UserAgent>Microsoft.WindowsAzure.Management.Sql.SqlManagementClient/1.0.0.0 WindowsAzurePowershell/v0.7.4</UserAgent>
+          <UserAgent>Microsoft.WindowsAzure.Management.Sql.SqlManagementClient/0.9.0.0 WindowsAzurePowershell/v0.7.4</UserAgent>
           <Headers>
             <Header>
               <Name>x-ms-version</Name>
@@ -9116,7 +9116,7 @@
         <RequestInfo>
           <RequestUri>https://localhost:65432/MockTestServer/00000000-0000-0000-0001-000000000001/services/sqlservers/servers/testserver/DacOperations/Status?servername=testserver.database.windows.net&amp;username=mylogin&amp;password=Pa$$w0rd!&amp;reqId=ed1806ab-d5e8-44e9-a464-16ca73936dc7</RequestUri>
           <Method>GET</Method>
-          <UserAgent>Microsoft.WindowsAzure.Management.Sql.SqlManagementClient/1.0.0.0 WindowsAzurePowershell/v0.7.4</UserAgent>
+          <UserAgent>Microsoft.WindowsAzure.Management.Sql.SqlManagementClient/0.9.0.0 WindowsAzurePowershell/v0.7.4</UserAgent>
           <Headers>
             <Header>
               <Name>x-ms-version</Name>
@@ -9178,7 +9178,7 @@
         <RequestInfo>
           <RequestUri>https://localhost:65432/MockTestServer/00000000-0000-0000-0001-000000000001/services/sqlservers/servers/testserver/databases</RequestUri>
           <Method>POST</Method>
-          <UserAgent>Microsoft.WindowsAzure.Management.Sql.SqlManagementClient/1.0.0.0 WindowsAzurePowershell/v0.7.4</UserAgent>
+          <UserAgent>Microsoft.WindowsAzure.Management.Sql.SqlManagementClient/0.9.0.0 WindowsAzurePowershell/v0.7.4</UserAgent>
           <Headers>
             <Header>
               <Name>x-ms-version</Name>
@@ -9240,7 +9240,7 @@
         <RequestInfo>
           <RequestUri>https://localhost:65432/MockTestServer/00000000-0000-0000-0001-000000000001/services/sqlservers/servers/testserver/databases</RequestUri>
           <Method>POST</Method>
-          <UserAgent>Microsoft.WindowsAzure.Management.Sql.SqlManagementClient/1.0.0.0 WindowsAzurePowershell/v0.7.4</UserAgent>
+          <UserAgent>Microsoft.WindowsAzure.Management.Sql.SqlManagementClient/0.9.0.0 WindowsAzurePowershell/v0.7.4</UserAgent>
           <Headers>
             <Header>
               <Name>x-ms-version</Name>
@@ -9302,7 +9302,7 @@
         <RequestInfo>
           <RequestUri>https://localhost:65432/MockTestServer/00000000-0000-0000-0001-000000000001/services/sqlservers/servers/testserver/databases?contentview=generic</RequestUri>
           <Method>GET</Method>
-          <UserAgent>Microsoft.WindowsAzure.Management.Sql.SqlManagementClient/1.0.0.0 WindowsAzurePowershell/v0.7.4</UserAgent>
+          <UserAgent>Microsoft.WindowsAzure.Management.Sql.SqlManagementClient/0.9.0.0 WindowsAzurePowershell/v0.7.4</UserAgent>
           <Headers>
             <Header>
               <Name>x-ms-version</Name>
@@ -9359,7 +9359,7 @@
         <RequestInfo>
           <RequestUri>https://localhost:65432/MockTestServer/00000000-0000-0000-0001-000000000001/services/sqlservers/servers/testserver/databases/testdbcert1</RequestUri>
           <Method>GET</Method>
-          <UserAgent>Microsoft.WindowsAzure.Management.Sql.SqlManagementClient/1.0.0.0 WindowsAzurePowershell/v0.7.4</UserAgent>
+          <UserAgent>Microsoft.WindowsAzure.Management.Sql.SqlManagementClient/0.9.0.0 WindowsAzurePowershell/v0.7.4</UserAgent>
           <Headers>
             <Header>
               <Name>x-ms-version</Name>
@@ -9416,7 +9416,7 @@
         <RequestInfo>
           <RequestUri>https://localhost:65432/MockTestServer/00000000-0000-0000-0001-000000000001/services/sqlservers/servers/testserver/databases/testdbcert1</RequestUri>
           <Method>GET</Method>
-          <UserAgent>Microsoft.WindowsAzure.Management.Sql.SqlManagementClient/1.0.0.0 WindowsAzurePowershell/v0.7.4</UserAgent>
+          <UserAgent>Microsoft.WindowsAzure.Management.Sql.SqlManagementClient/0.9.0.0 WindowsAzurePowershell/v0.7.4</UserAgent>
           <Headers>
             <Header>
               <Name>x-ms-version</Name>
@@ -9473,7 +9473,7 @@
         <RequestInfo>
           <RequestUri>https://localhost:65432/MockTestServer/00000000-0000-0000-0001-000000000001/services/sqlservers/servers/testserver/databases/testdbcert1</RequestUri>
           <Method>PUT</Method>
-          <UserAgent>Microsoft.WindowsAzure.Management.Sql.SqlManagementClient/1.0.0.0 WindowsAzurePowershell/v0.7.4</UserAgent>
+          <UserAgent>Microsoft.WindowsAzure.Management.Sql.SqlManagementClient/0.9.0.0 WindowsAzurePowershell/v0.7.4</UserAgent>
           <Headers>
             <Header>
               <Name>x-ms-version</Name>
@@ -9536,7 +9536,7 @@
         <RequestInfo>
           <RequestUri>https://localhost:65432/MockTestServer/00000000-0000-0000-0001-000000000001/services/sqlservers/servers/testserver/databases/testdbcert3</RequestUri>
           <Method>GET</Method>
-          <UserAgent>Microsoft.WindowsAzure.Management.Sql.SqlManagementClient/1.0.0.0 WindowsAzurePowershell/v0.7.4</UserAgent>
+          <UserAgent>Microsoft.WindowsAzure.Management.Sql.SqlManagementClient/0.9.0.0 WindowsAzurePowershell/v0.7.4</UserAgent>
           <Headers>
             <Header>
               <Name>x-ms-version</Name>
@@ -9593,7 +9593,7 @@
         <RequestInfo>
           <RequestUri>https://localhost:65432/MockTestServer/00000000-0000-0000-0001-000000000001/services/sqlservers/servers/testserver/databases/testdbcert3</RequestUri>
           <Method>PUT</Method>
-          <UserAgent>Microsoft.WindowsAzure.Management.Sql.SqlManagementClient/1.0.0.0 WindowsAzurePowershell/v0.7.4</UserAgent>
+          <UserAgent>Microsoft.WindowsAzure.Management.Sql.SqlManagementClient/0.9.0.0 WindowsAzurePowershell/v0.7.4</UserAgent>
           <Headers>
             <Header>
               <Name>x-ms-version</Name>
@@ -9656,7 +9656,7 @@
         <RequestInfo>
           <RequestUri>https://localhost:65432/MockTestServer/00000000-0000-0000-0001-000000000001/services/sqlservers/servers/testserver/serviceobjectives</RequestUri>
           <Method>GET</Method>
-          <UserAgent>Microsoft.WindowsAzure.Management.Sql.SqlManagementClient/1.0.0.0 WindowsAzurePowershell/v0.7.4</UserAgent>
+          <UserAgent>Microsoft.WindowsAzure.Management.Sql.SqlManagementClient/0.9.0.0 WindowsAzurePowershell/v0.7.4</UserAgent>
           <Headers>
             <Header>
               <Name>x-ms-version</Name>
@@ -9713,7 +9713,7 @@
         <RequestInfo>
           <RequestUri>https://localhost:65432/MockTestServer/00000000-0000-0000-0001-000000000001/services/sqlservers/servers/testserver/serviceobjectives</RequestUri>
           <Method>GET</Method>
-          <UserAgent>Microsoft.WindowsAzure.Management.Sql.SqlManagementClient/1.0.0.0 WindowsAzurePowershell/v0.7.4</UserAgent>
+          <UserAgent>Microsoft.WindowsAzure.Management.Sql.SqlManagementClient/0.9.0.0 WindowsAzurePowershell/v0.7.4</UserAgent>
           <Headers>
             <Header>
               <Name>x-ms-version</Name>
@@ -9770,7 +9770,7 @@
         <RequestInfo>
           <RequestUri>https://localhost:65432/MockTestServer/00000000-0000-0000-0001-000000000001/services/sqlservers/servers/testserver/serviceobjectives/a7d1b92d-c987-4375-b54d-2b1d0e0f5bb0</RequestUri>
           <Method>GET</Method>
-          <UserAgent>Microsoft.WindowsAzure.Management.Sql.SqlManagementClient/1.0.0.0 WindowsAzurePowershell/v0.7.4</UserAgent>
+          <UserAgent>Microsoft.WindowsAzure.Management.Sql.SqlManagementClient/0.9.0.0 WindowsAzurePowershell/v0.7.4</UserAgent>
           <Headers>
             <Header>
               <Name>x-ms-version</Name>
@@ -9827,7 +9827,7 @@
         <RequestInfo>
           <RequestUri>https://localhost:65432/MockTestServer/00000000-0000-0000-0001-000000000001/services/sqlservers/servers/testserver/databases</RequestUri>
           <Method>POST</Method>
-          <UserAgent>Microsoft.WindowsAzure.Management.Sql.SqlManagementClient/1.0.0.0 WindowsAzurePowershell/v0.7.4</UserAgent>
+          <UserAgent>Microsoft.WindowsAzure.Management.Sql.SqlManagementClient/0.9.0.0 WindowsAzurePowershell/v0.7.4</UserAgent>
           <Headers>
             <Header>
               <Name>x-ms-version</Name>
@@ -9890,7 +9890,7 @@
         <RequestInfo>
           <RequestUri>https://localhost:65432/MockTestServer/00000000-0000-0000-0001-000000000001/services/sqlservers/servers/testserver/databases</RequestUri>
           <Method>POST</Method>
-          <UserAgent>Microsoft.WindowsAzure.Management.Sql.SqlManagementClient/1.0.0.0 WindowsAzurePowershell/v0.7.4</UserAgent>
+          <UserAgent>Microsoft.WindowsAzure.Management.Sql.SqlManagementClient/0.9.0.0 WindowsAzurePowershell/v0.7.4</UserAgent>
           <Headers>
             <Header>
               <Name>x-ms-version</Name>
@@ -9953,7 +9953,7 @@
         <RequestInfo>
           <RequestUri>https://localhost:65432/MockTestServer/00000000-0000-0000-0001-000000000001/services/sqlservers/servers/testserver/databases</RequestUri>
           <Method>POST</Method>
-          <UserAgent>Microsoft.WindowsAzure.Management.Sql.SqlManagementClient/1.0.0.0 WindowsAzurePowershell/v0.7.4</UserAgent>
+          <UserAgent>Microsoft.WindowsAzure.Management.Sql.SqlManagementClient/0.9.0.0 WindowsAzurePowershell/v0.7.4</UserAgent>
           <Headers>
             <Header>
               <Name>x-ms-version</Name>
@@ -10015,7 +10015,7 @@
         <RequestInfo>
           <RequestUri>https://localhost:65432/MockTestServer/00000000-0000-0000-0001-000000000001/services/sqlservers/servers/testserver/databaseoperations?databaseName=testdbcertGetOperationDbName_5d8b5785-0490-402c-b42f-6a5f5d6fbed8</RequestUri>
           <Method>GET</Method>
-          <UserAgent>Microsoft.WindowsAzure.Management.Sql.SqlManagementClient/1.0.0.0 WindowsAzurePowershell/v0.7.4</UserAgent>
+          <UserAgent>Microsoft.WindowsAzure.Management.Sql.SqlManagementClient/0.9.0.0 WindowsAzurePowershell/v0.7.4</UserAgent>
           <Headers>
             <Header>
               <Name>x-ms-version</Name>
@@ -10072,7 +10072,7 @@
         <RequestInfo>
           <RequestUri>https://localhost:65432/MockTestServer/00000000-0000-0000-0001-000000000001/services/sqlservers/servers/testserver/databaseoperations?databaseName=testdbcertGetOperationDbName_5d8b5785-0490-402c-b42f-6a5f5d6fbed8</RequestUri>
           <Method>GET</Method>
-          <UserAgent>Microsoft.WindowsAzure.Management.Sql.SqlManagementClient/1.0.0.0 WindowsAzurePowershell/v0.7.4</UserAgent>
+          <UserAgent>Microsoft.WindowsAzure.Management.Sql.SqlManagementClient/0.9.0.0 WindowsAzurePowershell/v0.7.4</UserAgent>
           <Headers>
             <Header>
               <Name>x-ms-version</Name>
@@ -10129,7 +10129,7 @@
         <RequestInfo>
           <RequestUri>https://localhost:65432/MockTestServer/00000000-0000-0000-0001-000000000001/services/sqlservers/servers/testserver/databaseoperations/17f8e6f9-08dd-4f34-9902-f72db1bc639c</RequestUri>
           <Method>GET</Method>
-          <UserAgent>Microsoft.WindowsAzure.Management.Sql.SqlManagementClient/1.0.0.0 WindowsAzurePowershell/v0.7.4</UserAgent>
+          <UserAgent>Microsoft.WindowsAzure.Management.Sql.SqlManagementClient/0.9.0.0 WindowsAzurePowershell/v0.7.4</UserAgent>
           <Headers>
             <Header>
               <Name>x-ms-version</Name>
@@ -10186,7 +10186,7 @@
         <RequestInfo>
           <RequestUri>https://localhost:65432/MockTestServer/00000000-0000-0000-0001-000000000001/services/sqlservers/servers/testserver/databases/testdbcert3</RequestUri>
           <Method>DELETE</Method>
-          <UserAgent>Microsoft.WindowsAzure.Management.Sql.SqlManagementClient/1.0.0.0 WindowsAzurePowershell/v0.7.4</UserAgent>
+          <UserAgent>Microsoft.WindowsAzure.Management.Sql.SqlManagementClient/0.9.0.0 WindowsAzurePowershell/v0.7.4</UserAgent>
           <Headers>
             <Header>
               <Name>x-ms-version</Name>
@@ -10239,7 +10239,7 @@
         <RequestInfo>
           <RequestUri>https://localhost:65432/MockTestServer/00000000-0000-0000-0001-000000000001/services/sqlservers/servers/testserver/databases/testdbcert2</RequestUri>
           <Method>DELETE</Method>
-          <UserAgent>Microsoft.WindowsAzure.Management.Sql.SqlManagementClient/1.0.0.0 WindowsAzurePowershell/v0.7.4</UserAgent>
+          <UserAgent>Microsoft.WindowsAzure.Management.Sql.SqlManagementClient/0.9.0.0 WindowsAzurePowershell/v0.7.4</UserAgent>
           <Headers>
             <Header>
               <Name>x-ms-version</Name>
@@ -10292,7 +10292,7 @@
         <RequestInfo>
           <RequestUri>https://localhost:65432/MockTestServer/00000000-0000-0000-0001-000000000001/services/sqlservers/servers/testserver/databases/testdbcertPremiumDBP1</RequestUri>
           <Method>DELETE</Method>
-          <UserAgent>Microsoft.WindowsAzure.Management.Sql.SqlManagementClient/1.0.0.0 WindowsAzurePowershell/v0.7.4</UserAgent>
+          <UserAgent>Microsoft.WindowsAzure.Management.Sql.SqlManagementClient/0.9.0.0 WindowsAzurePowershell/v0.7.4</UserAgent>
           <Headers>
             <Header>
               <Name>x-ms-version</Name>
@@ -10345,7 +10345,7 @@
         <RequestInfo>
           <RequestUri>https://localhost:65432/MockTestServer/00000000-0000-0000-0001-000000000001/services/sqlservers/servers/testserver/databases/testdbcertPremiumDBP2</RequestUri>
           <Method>DELETE</Method>
-          <UserAgent>Microsoft.WindowsAzure.Management.Sql.SqlManagementClient/1.0.0.0 WindowsAzurePowershell/v0.7.4</UserAgent>
+          <UserAgent>Microsoft.WindowsAzure.Management.Sql.SqlManagementClient/0.9.0.0 WindowsAzurePowershell/v0.7.4</UserAgent>
           <Headers>
             <Header>
               <Name>x-ms-version</Name>
@@ -10398,7 +10398,7 @@
         <RequestInfo>
           <RequestUri>https://localhost:65432/MockTestServer/00000000-0000-0000-0001-000000000001/services/sqlservers/servers/testserver/databases/testdbcertGetOperationDbName_5d8b5785-0490-402c-b42f-6a5f5d6fbed8</RequestUri>
           <Method>DELETE</Method>
-          <UserAgent>Microsoft.WindowsAzure.Management.Sql.SqlManagementClient/1.0.0.0 WindowsAzurePowershell/v0.7.4</UserAgent>
+          <UserAgent>Microsoft.WindowsAzure.Management.Sql.SqlManagementClient/0.9.0.0 WindowsAzurePowershell/v0.7.4</UserAgent>
           <Headers>
             <Header>
               <Name>x-ms-version</Name>
@@ -10451,7 +10451,7 @@
         <RequestInfo>
           <RequestUri>https://localhost:65432/MockTestServer/00000000-0000-0000-0001-000000000001/services/sqlservers/servers/testserver/databases?contentview=generic</RequestUri>
           <Method>GET</Method>
-          <UserAgent>Microsoft.WindowsAzure.Management.Sql.SqlManagementClient/1.0.0.0 WindowsAzurePowershell/v0.7.4</UserAgent>
+          <UserAgent>Microsoft.WindowsAzure.Management.Sql.SqlManagementClient/0.9.0.0 WindowsAzurePowershell/v0.7.4</UserAgent>
           <Headers>
             <Header>
               <Name>x-ms-version</Name>

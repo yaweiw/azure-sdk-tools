@@ -83,11 +83,6 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Test
                 ResourceGroupName = resourceGroupName,
                 TemplateLink = new TemplateLink()
                 {
-                    ContentHash = new ContentHash()
-                    {
-                        Algorithm = ContentHashAlgorithm.Sha256,
-                        Value = "hash"
-                    },
                     ContentVersion = "1.0",
                     Uri = new Uri("http://mytemplate.com")
                 },
@@ -154,11 +149,6 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Test
                 ResourceGroupName = resourceGroupName,
                 TemplateLink = new TemplateLink()
                 {
-                    ContentHash = new ContentHash()
-                    {
-                        Algorithm = ContentHashAlgorithm.Sha256,
-                        Value = "hash"
-                    },
                     ContentVersion = "1.0",
                     Uri = new Uri("http://mytemplate.com")
                 },
