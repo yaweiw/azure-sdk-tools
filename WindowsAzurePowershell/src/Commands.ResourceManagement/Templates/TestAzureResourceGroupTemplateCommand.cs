@@ -37,8 +37,6 @@ namespace Microsoft.Azure.Commands.ResourceManagement.ResourceGroupDeployments
                 TemplateFile = this.TryResolvePath(TemplateFile),
                 TemplateParameterObject = GetTemplateParameterObject(TemplateParameterObject),
                 TemplateVersion = TemplateVersion,
-                TemplateHash = TemplateHash,
-                TemplateHashAlgorithm = TemplateHashAlgorithm,
                 StorageAccountName = StorageAccountName,
             };
 

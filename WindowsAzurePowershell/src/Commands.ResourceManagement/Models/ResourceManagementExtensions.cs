@@ -32,7 +32,8 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Models
                 ResourceGroupName = resourceGroup.Name,
                 Location = resourceGroup.Location,
                 Resources = resources,
-                ResourcesTable = ConstructResourcesTable(resources)
+                ResourcesTable = ConstructResourcesTable(resources),
+                ProvisioningState = resourceGroup.ProvisioningState
             };
         }
 
@@ -203,13 +204,6 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Models
                 result.AppendLine();
                 result.AppendLine(string.Format("{0, -15}: {1}", "Uri", templateLink.Uri));
                 result.AppendLine(string.Format("{0, -15}: {1}", "ContentVersion", templateLink.ContentVersion));
-                result.AppendLine(string.Format("{0, -15}:", "ContentHash"));
-
-                if (templateLink.ContentHash != null)
-                {
-                    result.AppendLine(string.Format("{0, -25}:", "Algorithm", templateLink.ContentHash.Algorithm));
-                    result.AppendLine(string.Format("{0, -25}:", "Value", templateLink.ContentHash.Value));
-                }
             }
 
             return result.ToString();
