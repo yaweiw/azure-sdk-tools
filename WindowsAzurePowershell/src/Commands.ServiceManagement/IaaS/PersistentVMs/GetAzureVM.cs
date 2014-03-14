@@ -103,6 +103,8 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
                         InstanceFaultDomain = roleInstance == null ? null : roleInstance.InstanceFaultDomain.HasValue ? roleInstance.InstanceFaultDomain.Value.ToString(CultureInfo.InvariantCulture) : null,
                         InstanceUpgradeDomain = roleInstance == null ? null : roleInstance.InstanceUpgradeDomain.HasValue ? roleInstance.InstanceUpgradeDomain.Value.ToString(CultureInfo.InvariantCulture) : null,
                         Status = roleInstance.InstanceStatus,
+                        GuestAgentStatus = Mapper.Map<PVM.GuestAgentStatus>(roleInstance.GuestAgentStatus),
+                        ResourceExtensionStatusList = Mapper.Map<List<PVM.ResourceExtensionStatus>>(roleInstance.ResourceExtensionStatusList),
                         OperationDescription = CommandRuntime.ToString(),
                         OperationId = GetDeploymentOperationNewSM.Id,
                         OperationStatus = GetDeploymentOperationNewSM.Status.ToString(),
@@ -171,6 +173,8 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
                                 OperationDescription = CommandRuntime.ToString(),
                                 OperationId = deploymentGetResponse.RequestId,
                                 OperationStatus = deploymentGetResponse.StatusCode.ToString(),
+                                GuestAgentStatus = Mapper.Map<PVM.GuestAgentStatus>(roleInstance.GuestAgentStatus),
+                                ResourceExtensionStatusList = Mapper.Map<List<PVM.ResourceExtensionStatus>>(roleInstance.ResourceExtensionStatusList),
                                 VM = new PersistentVM
                                 {
                                     AvailabilitySetName = vm.AvailabilitySetName,
