@@ -55,6 +55,8 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
         public LinuxProvisioningConfigurationSet.SSHPublicKeyList SshPublicKeys = null;
         public string TimeZone = null;
 
+        public string customData = null;
+
         // WindowsDomain paramenter set
         public AzureProvisioningConfigInfo(string option, string user, string password, string joinDomain, string domain,
             string domainUserName, string domainPassword, string objectOU = null)
@@ -107,7 +109,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
 
         public AzureProvisioningConfigInfo(string linuxUser, string password, bool noSshEndpoint = false,
             bool disableSSH = false, LinuxProvisioningConfigurationSet.SSHKeyPairList sSHKeyPairList = null,
-            LinuxProvisioningConfigurationSet.SSHPublicKeyList sSHPublicKeyList = null)
+            LinuxProvisioningConfigurationSet.SSHPublicKeyList sSHPublicKeyList = null, string customData = null)
         {
             this.OS = OS.Linux;
             this.Password = password;
@@ -122,6 +124,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
             {
                 this.SshPublicKeys = sSHPublicKeyList;
             }
+            this.customData = customData;
         }
 
         public AzureProvisioningConfigInfo(string adminUsername, string password, X509Certificate2 winRMCertificate)

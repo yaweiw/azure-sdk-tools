@@ -480,7 +480,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.PersistentVMs
                 ProvisionGuestAgent = true
             };
 
-            if (vm.OSVirtualHardDisk.MediaLink == null && String.IsNullOrEmpty(vm.OSVirtualHardDisk.DiskName))
+            if (vm.OSVirtualHardDisk.MediaLink == null && String.IsNullOrEmpty(vm.OSVirtualHardDisk.Name))
             {
                 var mediaLinkFactory = new MediaLinkFactory(currentStorage, this.ServiceName, vm.RoleName);
                 vm.OSVirtualHardDisk.MediaLink = mediaLinkFactory.Create();
@@ -542,29 +542,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.PersistentVMs
                 {
                     string fileName = this.TryResolvePath(this.CustomData);
 
-                    // Open the file and then base64 encode it.
-                    System.IO.FileStream fileStream = null;
-                    byte[] bytes = new byte[3 * 4096]; // Make buffer be a factor of 3 for encoding correctly
-                    System.Text.StringBuilder sb = new System.Text.StringBuilder();
-
-                    try
-                    {
-                        fileStream = new System.IO.FileStream(fileName, System.IO.FileMode.Open);
-
-                        while (fileStream.Position < fileStream.Length)
-                        {
-                            int cb = fileStream.Read(bytes, 0, bytes.Length);
-                            sb.Append(Convert.ToBase64String(bytes, 0, cb));
-                        }
-                    }
-                    finally
-                    {
-                        if (fileStream != null)
-                        {
-                            fileStream.Close();
-                        }
-                    }
-                    linuxConfig.CustomData = sb.ToString();
+                    linuxConfig.CustomData = Model.PersistentVMModel.LinuxProvisioningConfigurationSet.ConvertCustomDataFileToBase64(fileName);
                 }
 
                 var configurationSets = new Collection<ConfigurationSet> { linuxConfig, netConfig };

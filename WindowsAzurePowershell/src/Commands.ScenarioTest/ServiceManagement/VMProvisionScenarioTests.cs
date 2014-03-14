@@ -68,15 +68,26 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.ServiceManagemenet
         [TestProperty("Feature", "IaaS"), Priority(2), Description("Test the New-AzureQuickVM by creating a linux VM with some customdata")]
         public void NewWindowsAzureQuickVMCustomData()
         {
-            powershell.Invoke(); 
+            powershell.Invoke();
 
             ServiceManagementCmdletTestHelper vmPowershellCmdlets = new ServiceManagementCmdletTestHelper();
 
-            string imageName = vmPowershellCmdlets.GetAzureVMImageName(new[] { "b39f27a8b8c64d52b05eac6a62ebad85__Ubuntu-14_04-LTS-amd64-server-20140122.1-alpha2-en-us-30GB" }, false);
-            string locationName = vmPowershellCmdlets.GetAzureLocationName(new[] { Resource.Location });
+            CredentialHelper.GetTestSettings(null);
+
+            vmPowershellCmdlets.SetAzureSubscription(vmPowershellCmdlets.GetCurrentAzureSubscription().SubscriptionName,
+                CredentialHelper.DefaultStorageName);
+
+            System.Collections.ObjectModel.Collection<OSImageContext> images = 
+                vmPowershellCmdlets.GetAzureVMImage("b39f27a8b8c64d52b05eac6a62ebad85__Ubuntu-14_04-LTS-amd64-server-20140122.1-alpha2-en-us-30GB");
+
+            Assert.AreEqual(1, images.Count);
+
+            string imageName = images[0].ImageName;
+            string locationName = CredentialHelper.Location;
 
             string newAzureQuickVMName = Utilities.GetUniqueShortName("PSTestVM");
             string newAzureQuickVMSvcName = Utilities.GetUniqueShortName("PSTestService");
+
 
             vmPowershellCmdlets.NewAzureQuickVM(
                 new ServiceManagement.Test.FunctionalTests.IaasCmdletInfo.NewAzureQuickVMCmdletInfo(

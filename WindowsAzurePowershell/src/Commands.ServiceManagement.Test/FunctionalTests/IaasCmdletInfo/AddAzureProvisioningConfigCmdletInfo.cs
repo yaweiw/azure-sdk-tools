@@ -52,6 +52,10 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
                 {
                     this.cmdletParams.Add(new CmdletParam("SSHPublicKeys", provConfig.SshPublicKeys));
                 }
+                if (provConfig.customData != null)
+                {
+                    this.cmdletParams.Add(new CmdletParam("CustomData", provConfig.customData));
+                }
             }
 
             // For Windows/WindowsDomain parameter set
