@@ -25,7 +25,7 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Test.UnitTests.Database.Cm
     using Microsoft.WindowsAzure.Commands.SqlDatabase.Test.Utilities;
     using Microsoft.WindowsAzure.Commands.Test.Utilities.Common;
     using Microsoft.WindowsAzure.Commands.Utilities.Common;
-    using Microsoft.WindowsAzure.Commands.SqlDatabase.Services.Server;
+    using Microsoft.WindowsAzure.Commands.SqlDatabase.Model;
 
     [TestClass]
     public class AzureSqlDatabaseCopyCertAuthTests : TestBase
@@ -432,26 +432,21 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Test.UnitTests.Database.Cm
             Assert.AreEqual(destDb, copy.DestinationDatabaseName);
             Assert.AreEqual(isContinuous, copy.IsContinuous);
             Assert.AreEqual(isLocalDatabaseReplicationTarget, copy.IsLocalDatabaseReplicationTarget);
-            Assert.IsTrue(copy.PercentComplete.HasValue);
             Assert.IsTrue(copy.IsInterlinkConnected);
-            Assert.AreEqual(copy.IsForcedTerminate, null);
-
-            DateTime startDate = DateTime.Parse(copy.TextStartDate);
-            DateTime modifyDate = DateTime.Parse(copy.TextModifyDate);
 
             if (IsRunningAgainstOneBox)
             {
-                Assert.IsTrue(startDate > TestStartTime);
-                Assert.IsTrue(startDate < DateTime.Now);
-                Assert.IsTrue(modifyDate > TestStartTime);
-                Assert.IsTrue(modifyDate < DateTime.Now);
-                Assert.IsTrue(startDate <= modifyDate);
+                Assert.IsTrue(copy.StartDate > TestStartTime);
+                Assert.IsTrue(copy.StartDate < DateTime.Now);
+                Assert.IsTrue(copy.ModifyDate > TestStartTime);
+                Assert.IsTrue(copy.ModifyDate < DateTime.Now);
+                Assert.IsTrue(copy.StartDate <= copy.ModifyDate);
             }
 
             switch (copy.ReplicationStateDescription)
             {
                 case "PENDING":
-                    Assert.IsTrue((int)copy.PercentComplete.Value == 0);
+                    Assert.IsTrue((int)copy.PercentComplete == 0);
                     break;
 
                 case "SEEDING":
@@ -459,7 +454,7 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Test.UnitTests.Database.Cm
                     break;
 
                 case "CATCH_UP":
-                    Assert.AreEqual(100, copy.PercentComplete.Value);
+                    Assert.AreEqual(100, copy.PercentComplete);
                     Assert.IsTrue(copy.IsContinuous);
                     break;
 

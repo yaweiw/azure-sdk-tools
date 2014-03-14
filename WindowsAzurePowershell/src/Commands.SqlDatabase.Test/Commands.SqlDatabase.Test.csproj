@@ -189,9 +189,6 @@
     <Compile Include="UnitTests\Database\Cmdlet\DatabaseTestHelper.cs" />
     <Compile Include="UnitTests\Database\Cmdlet\RemoveAzureSqlDatabaseTests.cs" />
     <Compile Include="UnitTests\Database\Cmdlet\GetAzureSqlDatabaseTests.cs" />
-    <Compile Include="UnitTests\Database\Cmdlet\StartAzureSqlDatabaseCopyTests.cs" />
-    <Compile Include="UnitTests\Database\Cmdlet\StopAzureSqlDatabaseCopyTests.cs" />
-    <Compile Include="UnitTests\Database\Cmdlet\GetAzureSqlDatabaseCopyTests.cs" />
     <Compile Include="UnitTests\Database\Cmdlet\DatabaseCopyCmdletAttributionTests.cs" />
     <Compile Include="UnitTests\MockServer\HttpSession.cs" />
     <Compile Include="UnitTests\MockServer\HttpMessageCollection.cs" />

@@ -22,6 +22,7 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Database.Cmdlet
     using Properties;
     using Services.Common;
     using Services.Server;
+    using DatabaseCopyModel = Microsoft.WindowsAzure.Commands.SqlDatabase.Model.DatabaseCopy;
 
     /// <summary>
     /// Stop an ongoing copy operation for a Windows Azure SQL Database in the given server context.
@@ -99,7 +100,7 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Database.Cmdlet
         [Parameter(Mandatory = true, Position = 1, ParameterSetName = ByInputObjectWithServerName,
             ValueFromPipeline = true, HelpMessage = "The database copy operation to stop.")]
         [ValidateNotNull]
-        public DatabaseCopy DatabaseCopy { get; set; }
+        public DatabaseCopyModel DatabaseCopy { get; set; }
 
         /// <summary>
         /// Gets or sets the database object to refresh.
@@ -187,7 +188,7 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Database.Cmdlet
                     : ServerDataServiceCertAuth.Create(this.ServerName,
                         WindowsAzureProfile.Instance.CurrentSubscription);
 
-            DatabaseCopy databaseCopy;
+            DatabaseCopyModel databaseCopy;
             if (this.MyInvocation.BoundParameters.ContainsKey("DatabaseCopy"))
             {
                 // Refreshes the given copy object
@@ -196,7 +197,7 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Database.Cmdlet
             else
             {
                 // Retrieve all database copy object with matching parameters
-                DatabaseCopy[] copies = context.GetDatabaseCopy(
+                DatabaseCopyModel[] copies = context.GetDatabaseCopy(
                         databaseName,
                         this.PartnerServer,
                         this.PartnerDatabase);
