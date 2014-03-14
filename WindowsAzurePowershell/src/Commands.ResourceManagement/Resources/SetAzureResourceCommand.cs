@@ -41,6 +41,10 @@ namespace Microsoft.Azure.Commands.ResourceManagement
         [ValidateNotNullOrEmpty]
         public string ParentResourceName { get; set; }
 
+        [Parameter(Mandatory = true, ValueFromPipelineByPropertyName = true, HelpMessage = "Version of the resource provider API.")]
+        [ValidateNotNullOrEmpty]
+        public string ApiVersion { get; set; }
+
         [Parameter(Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "A hash table which represents resource properties.")]
         public Hashtable PropertyObject { get; set; }
 
@@ -56,7 +60,8 @@ namespace Microsoft.Azure.Commands.ResourceManagement
                 ResourceType = ResourceType,
                 ParentResourceName = ParentResourceName,
                 PropertyObject = PropertyObject,
-                Mode = Mode
+                Mode = Mode,
+                ApiVersion = ApiVersion
             };
 
             WriteObject(ResourceClient.UpdatePSResource(parameters));

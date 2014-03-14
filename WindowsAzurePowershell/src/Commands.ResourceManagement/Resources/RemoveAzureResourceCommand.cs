@@ -41,6 +41,10 @@ namespace Microsoft.Azure.Commands.ResourceManagement
         [ValidateNotNullOrEmpty]
         public string ParentResourceName { get; set; }
 
+        [Parameter(Mandatory = true, ValueFromPipelineByPropertyName = true, HelpMessage = "Version of the resource provider API.")]
+        [ValidateNotNullOrEmpty]
+        public string ApiVersion { get; set; }
+
         [Parameter(Mandatory = false, HelpMessage = "Do not ask for confirmation.")]
         public SwitchParameter Force { get; set; }
 
@@ -55,6 +59,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement
                 ResourceGroupName = ResourceGroupName,
                 ResourceType = ResourceType,
                 ParentResourceName = ParentResourceName,
+                ApiVersion = ApiVersion
             };
 
             ConfirmAction(

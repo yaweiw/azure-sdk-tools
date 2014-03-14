@@ -42,9 +42,13 @@ namespace Microsoft.Azure.Commands.ResourceManagement
         [ValidateNotNullOrEmpty]
         public string ResourceType { get; set; }
 
-        [Parameter(ParameterSetName = ParameterSetNameWithId, Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "The name of the parent resource if needed. In the format of greatgranda/grandpa/dad.")]
+        [Parameter(ParameterSetName = ParameterSetNameWithId, Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "The name of the parent resource if needed. In the format of greatgrandpa/grandpa/dad.")]
         [ValidateNotNullOrEmpty]
         public string ParentResourceName { get; set; }
+
+        [Parameter(ParameterSetName = ParameterSetNameWithId, Mandatory = true, ValueFromPipelineByPropertyName = true, HelpMessage = "Version of the resource provider API.")]
+        [ValidateNotNullOrEmpty]
+        public string ApiVersion { get; set; }
 
         public override void ExecuteCmdlet()
         {
@@ -54,6 +58,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement
                 ResourceGroupName = ResourceGroupName,
                 ResourceType = ResourceType,
                 ParentResourceName = ParentResourceName,
+                ApiVersion = ApiVersion
             };
 
             WriteObject(ResourceClient.FilterPSResources(parameters), true);
