@@ -257,6 +257,11 @@
     <Compile Include="IaaS\Extensions\Common\VirtualMachineExtensionContext.cs" />
     <Compile Include="IaaS\Extensions\Common\GetAzureVMAvailableExtension.cs" />
     <Compile Include="IaaS\Extensions\Common\VirtualMachineExtensionImageContext.cs" />
+    <Compile Include="IaaS\Extensions\CustomScript\GetAzureVMCustomScriptExtension.cs" />
+    <Compile Include="IaaS\Extensions\CustomScript\RemoveAzureVMCustomScriptExtension.cs" />
+    <Compile Include="IaaS\Extensions\CustomScript\SetAzureVMCustomScriptExtension.cs" />
+    <Compile Include="IaaS\Extensions\CustomScript\VirtualMachineCustomScriptExtensionCmdletBase.cs" />
+    <Compile Include="IaaS\Extensions\CustomScript\VirtualMachineCustomScriptExtensionContext.cs" />
     <Compile Include="IaaS\Extensions\VMAccess\GetAzureVMAccessExtension.cs" />
     <Compile Include="IaaS\Extensions\VMAccess\RemoveAzureVMAccessExtension.cs" />
     <Compile Include="IaaS\Extensions\VMAccess\SetAzureVMAccessExtension.cs" />
