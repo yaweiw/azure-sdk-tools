@@ -202,6 +202,10 @@
     <Reference Include="Microsoft.WindowsAzure.Management.MediaServices">
       <HintPath>..\packages\Microsoft.WindowsAzure.Management.MediaServices.0.9.1-preview\lib\net40\Microsoft.WindowsAzure.Management.MediaServices.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.WindowsAzure.Management.Scheduler, Version=0.9.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.WindowsAzure.Management.Scheduler.0.9.10-preview\lib\net40\Microsoft.WindowsAzure.Management.Scheduler.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.WindowsAzure.Management.ServiceBus">
       <HintPath>..\packages\Microsoft.WindowsAzure.Management.ServiceBus.0.9.2-preview\lib\net40\Microsoft.WindowsAzure.Management.ServiceBus.dll</HintPath>
     </Reference>
@@ -336,6 +340,16 @@
     <Compile Include="MediaServices\NewAzureMediaServiceCommand.cs" />
     <Compile Include="MediaServices\NewAzureMediaServiceKeyCommand.cs" />
     <Compile Include="MediaServices\RemoveAzureMediaServiceCommand.cs" />
+    <Compile Include="Scheduler\SetSchedulerStorageQueueJobCommand.cs" />
+    <Compile Include="Scheduler\NewSchedulerStorageQueueJobCommand.cs" />
+    <Compile Include="Scheduler\NewSchedulerHttpJobCommand.cs" />
+    <Compile Include="Scheduler\GetSchedulerLocationCommand.cs" />
+    <Compile Include="Scheduler\GetSchedulerJobCollectionCommand.cs" />
+    <Compile Include="Scheduler\GetSchedulerJobHistoryCommand.cs" />
+    <Compile Include="Scheduler\GetSchedulerJobCommand.cs" />
+    <Compile Include="Scheduler\SetSchedulerHttpJobCommand.cs" />
+    <Compile Include="Scheduler\RemoveSchedulerJobCommand.cs" />
+    <Compile Include="Scheduler\RemoveSchedulerJobCollectionCommand.cs" />
     <Compile Include="ServiceBus\GetAzureSBAuthorizationRule.cs" />
     <Compile Include="ServiceBus\RemoveAzureSBAuthorizationRule.cs" />
     <Compile Include="ServiceBus\SetAzureSBAuthorizationRule.cs" />
