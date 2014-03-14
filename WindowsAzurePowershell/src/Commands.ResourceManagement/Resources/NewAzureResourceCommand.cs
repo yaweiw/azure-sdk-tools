@@ -24,26 +24,9 @@ namespace Microsoft.Azure.Commands.ResourceManagement
     [Cmdlet(VerbsCommon.New, "AzureResource"), OutputType(typeof(PSResource))]
     public class NewAzureResourceCommand : ResourceBaseCmdlet
     {
-        [Alias("ResourceName")]
-        [Parameter(Mandatory = true, ValueFromPipelineByPropertyName = true, HelpMessage = "The resource name.")]
-        [ValidateNotNullOrEmpty]
-        public string Name { get; set; }
-
-        [Parameter(Mandatory = true, ValueFromPipelineByPropertyName = true, HelpMessage = "The resource group name.")]
-        [ValidateNotNullOrEmpty]
-        public string ResourceGroupName { get; set; }
-
-        [Parameter(Mandatory = true, ValueFromPipelineByPropertyName = true, HelpMessage = "The resource type. In the format ResourceProvider/type.")]
-        [ValidateNotNullOrEmpty]
-        public string ResourceType { get; set; }
-
         [Parameter(Mandatory = true, ValueFromPipelineByPropertyName = true, HelpMessage = "The resource location.")]
         [ValidateNotNullOrEmpty]
         public string Location { get; set; }
-
-        [Parameter(Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "The name of the parent resource if needed. In the format of greatgranda/grandpa/dad.")]
-        [ValidateNotNullOrEmpty]
-        public string ParentResourceName { get; set; }
 
         [Parameter(Mandatory = true, ValueFromPipelineByPropertyName = true, HelpMessage = "Version of the resource provider API.")]
         [ValidateNotNullOrEmpty]
