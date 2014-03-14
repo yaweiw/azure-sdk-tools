@@ -1507,11 +1507,11 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Test.Models
             string name = resourceGroupName;
             Resource resource1 = new Resource() { Id = "resourceId", Location = resourceGroupLocation, Name = resourceName };
             Resource resource2 = new Resource() { Id = "resourceId2", Location = resourceGroupLocation, Name = resourceName + "2" };
-            ResourceGroup resourceGroup = new ResourceGroup() { Name = name, Location = resourceGroupLocation };
+            ResourceGroup resourceGroup = new ResourceGroup() { Name = name, Location = resourceGroupLocation, ProvisioningState = "Succeeded" };
             resourceGroupMock.Setup(f => f.GetAsync(name, new CancellationToken()))
                 .Returns(Task.Factory.StartNew(() => new ResourceGroupGetResult
                 {
-                    ResourceGroup = resourceGroup
+                    ResourceGroup = resourceGroup,
                 }));
             SetupListForResourceGroupAsync(name, new List<Resource>() { resource1, resource2 });
 
@@ -1521,6 +1521,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Test.Models
             Assert.Equal(name, actual[0].ResourceGroupName);
             Assert.Equal(resourceGroupLocation, actual[0].Location);
             Assert.Equal(2, actual[0].Resources.Count);
+            Assert.Equal("Succeeded", actual[0].ProvisioningState);
             Assert.True(!string.IsNullOrEmpty(actual[0].ResourcesTable));
         }
 
