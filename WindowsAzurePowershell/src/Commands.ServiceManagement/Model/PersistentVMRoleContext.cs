@@ -34,8 +34,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Model
         public string InstanceSize { get; set; }
         public string AvailabilitySetName { get; set; }
         public string DNSName { get; set; }
-        public GuestAgentStatus GuestAgentStatus { get; set; }
-        public List<ResourceExtensionStatus> ResourceExtensionStatusList { get; set; }
+        public string Status { get; set; }
 
         public PersistentVM GetInstance()
         {
