@@ -2521,28 +2521,237 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Model.PersistentVMMo
     {
     }
 
-    public class FormattedMessage
+    [DataContract(Namespace = Constants.ServiceManagementNS)]
+    public class GuestAgentStatus : IExtensibleDataObject
     {
-        public string Language { get; set; }
-        public string Message { get; set; }
-    }
-
-    public class GuestAgentStatus
-    {
+        [DataMember(EmitDefaultValue = false, Order = 1)]
         public string ProtocolVersion { get; set; }
-        public string Timestamp { get; set; }
+
+        [DataMember(EmitDefaultValue = false, Order = 2, Name = "Timestamp")]
+        private string _isoTimestampString { get; set; }
+
+        public DateTime TimestampUtc
+        {
+            get
+            {
+                return (string.IsNullOrEmpty(this._isoTimestampString) ? DateTime.MinValue : DateTime.Parse(this._isoTimestampString));
+            }
+            set
+            {
+                if (value.Equals(DateTime.MinValue))
+                {
+                    this._isoTimestampString = null;
+                }
+                else
+                {
+                    this._isoTimestampString = value.ToUniversalTime().ToString(Constants.StandardTimeFormat);
+                }
+            }
+        }
+
+        [DataMember(EmitDefaultValue = false, Order = 3)]
         public string GuestAgentVersion { get; set; }
+
+        // Status is one of: "Ready", "NotReady".
+        [DataMember(EmitDefaultValue = false, Order = 4)]
         public string Status { get; set; }
-        public FormattedMessage FormattedMessage { get; set; }
+
+        [DataMember(EmitDefaultValue = false, Order = 5)]
+        public int Code { get; set; }
+
+        [DataMember(EmitDefaultValue = false, Order = 6)]
+        public GuestAgentMessage Message { get; set; }
+
+        [DataMember(EmitDefaultValue = false, Order = 7)]
+        public GuestAgentFormattedMessage FormattedMessage { get; set; }
+
+        public ExtensionDataObject ExtensionData { get; set; }
     }
 
-    public class ResourceExtensionStatus
+    [DataContract(Namespace = Constants.ServiceManagementNS)]
+    public class GuestAgentMessage : IExtensibleDataObject
     {
+        [DataMember(EmitDefaultValue = false, Order = 1)]
+        public string MessageResourceId { get; set; }
+
+        [DataMember(EmitDefaultValue = false, Order = 2)]
+        public GuestAgentMessageParamList ParamList { get; set; }
+
+        public ExtensionDataObject ExtensionData { get; set; }
+    }
+
+    [CollectionDataContract(ItemName = "Param", Namespace = Constants.ServiceManagementNS)]
+    public class GuestAgentMessageParamList : List<string>
+    {
+        public GuestAgentMessageParamList()
+        {
+        }
+
+        public GuestAgentMessageParamList(IEnumerable<string> list)
+            : base(list)
+        {
+        }
+    }
+
+    [DataContract(Namespace = Constants.ServiceManagementNS)]
+    public class GuestAgentFormattedMessage : IExtensibleDataObject
+    {
+        // Language is either "Language" or "Language-Locale".
+        [DataMember(EmitDefaultValue = false, Order = 1)]
+        public string Language { get; set; }
+
+        [DataMember(EmitDefaultValue = false, Order = 2)]
+        public string Message { get; set; }
+
+        public ExtensionDataObject ExtensionData { get; set; }
+    }
+
+    [CollectionDataContract(ItemName = "ResourceExtensionStatus", Namespace = Constants.ServiceManagementNS)]
+    public class ResourceExtensionStatusList : List<ResourceExtensionStatus>
+    {
+        public ResourceExtensionStatusList()
+        {
+        }
+
+        public ResourceExtensionStatusList(IEnumerable<ResourceExtensionStatus> list)
+            : base(list)
+        {
+        }
+    }
+
+    [DataContract(Namespace = Constants.ServiceManagementNS)]
+    public class ResourceExtensionStatus : IExtensibleDataObject
+    {
+        [DataMember(EmitDefaultValue = false, Order = 1)]
         public string HandlerName { get; set; }
+
+        [DataMember(EmitDefaultValue = false, Order = 2)]
         public string Version { get; set; }
+
+        // Status is one of: "Installing", "Ready", "NotReady", "Unresponsive".
+        [DataMember(EmitDefaultValue = false, Order = 3)]
         public string Status { get; set; }
-        public string Code { get; set; }
-        public FormattedMessage FormattedMessage { get; set; }
+
+        [DataMember(EmitDefaultValue = false, Order = 4)]
+        public int Code { get; set; }
+
+        [DataMember(EmitDefaultValue = false, Order = 5)]
+        public GuestAgentMessage Message { get; set; }
+
+        [DataMember(EmitDefaultValue = false, Order = 6)]
+        public GuestAgentFormattedMessage FormattedMessage { get; set; }
+
+        [DataMember(EmitDefaultValue = false, Order = 7)]
+        public ResourceExtensionConfigurationStatus ExtensionSettingStatus { get; set; }
+
+        public ExtensionDataObject ExtensionData { get; set; }
+    }
+
+    [DataContract(Namespace = Constants.ServiceManagementNS)]
+    public class ResourceExtensionConfigurationStatus : IExtensibleDataObject
+    {
+        [DataMember(EmitDefaultValue = false, Order = 1, Name = "Timestamp")]
+        private string _isoTimestampString { get; set; }
+
+        public DateTime TimestampUtc
+        {
+            get
+            {
+                return (string.IsNullOrEmpty(this._isoTimestampString) ? DateTime.MinValue : DateTime.Parse(this._isoTimestampString));
+            }
+            set
+            {
+                if (value.Equals(DateTime.MinValue))
+                {
+                    this._isoTimestampString = null;
+                }
+                else
+                {
+                    this._isoTimestampString = value.ToUniversalTime().ToString(Constants.StandardTimeFormat);
+                }
+            }
+        }
+
+        [DataMember(EmitDefaultValue = false, Order = 2, Name = "ConfigurationAppliedTime")]
+        private string _isoConfigurationAppliedTimeString { get; set; }
+
+        public DateTime ConfigurationAppliedTimeUtc
+        {
+            get
+            {
+                return (string.IsNullOrEmpty(this._isoConfigurationAppliedTimeString) ? DateTime.MinValue : DateTime.Parse(this._isoConfigurationAppliedTimeString));
+            }
+            set
+            {
+                if (value.Equals(DateTime.MinValue))
+                {
+                    this._isoConfigurationAppliedTimeString = null;
+                }
+                else
+                {
+                    this._isoConfigurationAppliedTimeString = value.ToUniversalTime().ToString(Constants.StandardTimeFormat);
+                }
+            }
+        }
+
+        [DataMember(EmitDefaultValue = false, Order = 3)]
+        public string Name { get; set; }
+
+        [DataMember(EmitDefaultValue = false, Order = 4)]
+        public string Operation { get; set; }
+
+        // Status is one of: "transitioning", "error", "success", "warning".
+        [DataMember(EmitDefaultValue = false, Order = 5)]
+        public string Status { get; set; }
+
+        [DataMember(EmitDefaultValue = false, Order = 6)]
+        public int Code { get; set; }
+
+        [DataMember(EmitDefaultValue = false, Order = 7)]
+        public GuestAgentMessage Message { get; set; }
+
+        [DataMember(EmitDefaultValue = false, Order = 8)]
+        public GuestAgentFormattedMessage FormattedMessage { get; set; }
+
+        [DataMember(EmitDefaultValue = false, Order = 9)]
+        public ResourceExtensionSubStatusList SubStatusList { get; set; }
+
+        public ExtensionDataObject ExtensionData { get; set; }
+    }
+
+    [CollectionDataContract(ItemName = "SubStatus", Namespace = Constants.ServiceManagementNS)]
+    public class ResourceExtensionSubStatusList : List<ResourceExtensionSubStatus>
+    {
+        public ResourceExtensionSubStatusList()
+        {
+        }
+
+        public ResourceExtensionSubStatusList(IEnumerable<ResourceExtensionSubStatus> list)
+            : base(list)
+        {
+        }
+    }
+
+    [DataContract(Namespace = Constants.ServiceManagementNS)]
+    public class ResourceExtensionSubStatus : IExtensibleDataObject
+    {
+        [DataMember(EmitDefaultValue = false, Order = 1)]
+        public string Name { get; set; }
+
+        // Status is one of: "transitioning", "error", "success", "warning".
+        [DataMember(EmitDefaultValue = false, Order = 2)]
+        public string Status { get; set; }
+
+        [DataMember(EmitDefaultValue = false, Order = 3)]
+        public int Code { get; set; }
+
+        [DataMember(EmitDefaultValue = false, Order = 4)]
+        public GuestAgentMessage Message { get; set; }
+
+        [DataMember(EmitDefaultValue = false, Order = 5)]
+        public GuestAgentFormattedMessage FormattedMessage { get; set; }
+
+        public ExtensionDataObject ExtensionData { get; set; }
     }
 }
 
