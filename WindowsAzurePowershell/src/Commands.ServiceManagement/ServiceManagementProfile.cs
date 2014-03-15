@@ -182,8 +182,14 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement
 
         public static bool Initialize(GetAzureVMCommand command)
         {
-            Mapper.CreateMap<NSM.FormattedMessage, PVM.FormattedMessage>();
+            Mapper.CreateMap<NSM.GuestAgentMessage, PVM.GuestAgentMessage>();
+            Mapper.CreateMap<NSM.GuestAgentFormattedMessage, PVM.GuestAgentFormattedMessage>();
             Mapper.CreateMap<NSM.GuestAgentStatus, PVM.GuestAgentStatus>();
+            Mapper.CreateMap<NSM.ResourceExtensionConfigurationStatus, PVM.ResourceExtensionConfigurationStatus>();
+            Mapper.CreateMap<NSM.ResourceExtensionSubStatus, PVM.ResourceExtensionSubStatus>();
+            Mapper.CreateMap<IList<NSM.ResourceExtensionSubStatus>, PVM.ResourceExtensionStatusList>();
+            Mapper.CreateMap<IEnumerable<NSM.ResourceExtensionSubStatus>, PVM.ResourceExtensionStatusList>();
+            Mapper.CreateMap<List<NSM.ResourceExtensionSubStatus>, PVM.ResourceExtensionStatusList>();
             Mapper.CreateMap<NSM.ResourceExtensionStatus, PVM.ResourceExtensionStatus>();
 
             return Initialize();
