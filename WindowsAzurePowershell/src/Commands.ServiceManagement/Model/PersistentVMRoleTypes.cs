@@ -2557,7 +2557,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Model.PersistentVMMo
         public string Status { get; set; }
 
         [DataMember(EmitDefaultValue = false, Order = 5)]
-        public int Code { get; set; }
+        public int? Code { get; set; }
 
         [DataMember(EmitDefaultValue = false, Order = 6)]
         public GuestAgentMessage Message { get; set; }
@@ -2633,7 +2633,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Model.PersistentVMMo
         public string Status { get; set; }
 
         [DataMember(EmitDefaultValue = false, Order = 4)]
-        public int Code { get; set; }
+        public int? Code { get; set; }
 
         [DataMember(EmitDefaultValue = false, Order = 5)]
         public GuestAgentMessage Message { get; set; }
