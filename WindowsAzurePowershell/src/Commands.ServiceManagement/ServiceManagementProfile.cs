@@ -184,13 +184,22 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement
         {
             Mapper.CreateMap<NSM.GuestAgentMessage, PVM.GuestAgentMessage>();
             Mapper.CreateMap<NSM.GuestAgentFormattedMessage, PVM.GuestAgentFormattedMessage>();
-            Mapper.CreateMap<NSM.GuestAgentStatus, PVM.GuestAgentStatus>();
-            Mapper.CreateMap<NSM.ResourceExtensionConfigurationStatus, PVM.ResourceExtensionConfigurationStatus>();
+            Mapper.CreateMap<NSM.GuestAgentStatus, PVM.GuestAgentStatus>()
+                  .ForMember(c => c.TimestampUtc, o => o.MapFrom(r => r.Timestamp));
+
+            Mapper.CreateMap<NSM.ResourceExtensionConfigurationStatus, PVM.ResourceExtensionConfigurationStatus>()
+                  .ForMember(c => c.TimestampUtc, o => o.MapFrom(r => r.Timestamp))
+                  .ForMember(c => c.ConfigurationAppliedTimeUtc, o => o.MapFrom(r => r.ConfigurationAppliedTime));
+
             Mapper.CreateMap<NSM.ResourceExtensionSubStatus, PVM.ResourceExtensionSubStatus>();
             Mapper.CreateMap<IList<NSM.ResourceExtensionSubStatus>, PVM.ResourceExtensionStatusList>();
             Mapper.CreateMap<IEnumerable<NSM.ResourceExtensionSubStatus>, PVM.ResourceExtensionStatusList>();
             Mapper.CreateMap<List<NSM.ResourceExtensionSubStatus>, PVM.ResourceExtensionStatusList>();
+
             Mapper.CreateMap<NSM.ResourceExtensionStatus, PVM.ResourceExtensionStatus>();
+            Mapper.CreateMap<IList<NSM.ResourceExtensionStatus>, PVM.ResourceExtensionStatusList>();
+            Mapper.CreateMap<IEnumerable<NSM.ResourceExtensionStatus>, PVM.ResourceExtensionStatusList>();
+            Mapper.CreateMap<List<NSM.ResourceExtensionStatus>, PVM.ResourceExtensionStatusList>();
 
             return Initialize();
         }
