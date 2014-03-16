@@ -51,7 +51,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
 
         protected override void ExecuteCommand()
         {
-            ServiceManagementProfile.Initialize();
+            ServiceManagementProfile.Initialize(this);
 
             base.ExecuteCommand();
             if (!string.IsNullOrEmpty(ServiceName) && CurrentDeploymentNewSM == null)
@@ -85,7 +85,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
                 {
                     lastVM = role.RoleName;
                     var vm = role;
-                    var roleInstance = CurrentDeploymentNewSM.RoleInstances.First(r => r.RoleName == vm.RoleName);
+                    var roleInstance = CurrentDeploymentNewSM.RoleInstances.FirstOrDefault(r => r.RoleName == vm.RoleName);
                     var vmContext = new PersistentVMRoleContext
                     {
                         ServiceName = ServiceName,
@@ -94,15 +94,17 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
                         AvailabilitySetName = vm.AvailabilitySetName,
                         Label = vm.Label,
                         InstanceSize = vm.RoleSize.ToString(),
-                        InstanceStatus = roleInstance.InstanceStatus,
-                        IpAddress = roleInstance.IPAddress,
-                        InstanceStateDetails = roleInstance.InstanceStateDetails,
-                        PowerState = roleInstance.PowerState.ToString(),
-                        InstanceErrorCode = roleInstance.InstanceErrorCode,
-                        InstanceName = roleInstance.InstanceName,
-                        InstanceFaultDomain = roleInstance.InstanceFaultDomain.HasValue ? roleInstance.InstanceFaultDomain.Value.ToString(CultureInfo.InvariantCulture) : null,
-                        InstanceUpgradeDomain = roleInstance.InstanceUpgradeDomain.HasValue ? roleInstance.InstanceUpgradeDomain.Value.ToString(CultureInfo.InvariantCulture) : null,
+                        InstanceStatus = roleInstance == null ? null : roleInstance.InstanceStatus,
+                        IpAddress = roleInstance == null ? null : roleInstance.IPAddress,
+                        InstanceStateDetails = roleInstance == null ? null : roleInstance.InstanceStateDetails,
+                        PowerState = roleInstance == null ? null : roleInstance.PowerState.ToString(),
+                        InstanceErrorCode = roleInstance == null ? null : roleInstance.InstanceErrorCode,
+                        InstanceName = roleInstance == null ? null : roleInstance.InstanceName,
+                        InstanceFaultDomain = roleInstance == null ? null : roleInstance.InstanceFaultDomain.HasValue ? roleInstance.InstanceFaultDomain.Value.ToString(CultureInfo.InvariantCulture) : null,
+                        InstanceUpgradeDomain = roleInstance == null ? null : roleInstance.InstanceUpgradeDomain.HasValue ? roleInstance.InstanceUpgradeDomain.Value.ToString(CultureInfo.InvariantCulture) : null,
                         Status = roleInstance.InstanceStatus,
+                        GuestAgentStatus = Mapper.Map<PVM.GuestAgentStatus>(roleInstance.GuestAgentStatus),
+                        ResourceExtensionStatusList = Mapper.Map<List<PVM.ResourceExtensionStatus>>(roleInstance.ResourceExtensionStatusList),
                         OperationDescription = CommandRuntime.ToString(),
                         OperationId = GetDeploymentOperationNewSM.Id,
                         OperationStatus = GetDeploymentOperationNewSM.Status.ToString(),
@@ -171,6 +173,8 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
                                 OperationDescription = CommandRuntime.ToString(),
                                 OperationId = deploymentGetResponse.RequestId,
                                 OperationStatus = deploymentGetResponse.StatusCode.ToString(),
+                                GuestAgentStatus = Mapper.Map<PVM.GuestAgentStatus>(roleInstance.GuestAgentStatus),
+                                ResourceExtensionStatusList = Mapper.Map<List<PVM.ResourceExtensionStatus>>(roleInstance.ResourceExtensionStatusList),
                                 VM = new PersistentVM
                                 {
                                     AvailabilitySetName = vm.AvailabilitySetName,

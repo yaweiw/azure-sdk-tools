@@ -46,7 +46,8 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
                         UserName = UserName,
                         Password = Password,
                         PublicConfiguration = PublicConfiguration,
-                        PrivateConfiguration = PrivateConfiguration
+                        PrivateConfiguration = PrivateConfiguration,
+                        RoleName = VM.GetInstance().RoleName
                     };
                 }).FirstOrDefault());
         }
