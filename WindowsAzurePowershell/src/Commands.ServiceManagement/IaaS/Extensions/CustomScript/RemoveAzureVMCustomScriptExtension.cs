@@ -14,15 +14,29 @@
 
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
 {
-    using Utilities.Common;
+    using System.Management.Automation;
+    using Model;
 
-    public class VirtualMachineExtensionConfigContext : ManagementOperationContext
+    [Cmdlet(
+        VerbsCommon.Remove,
+        VirtualMachineCustomScriptExtensionNoun,
+        DefaultParameterSetName = RemoveCustomScriptExtensionParamSetName),
+    OutputType(
+        typeof(IPersistentVM))]
+    public class RemoveAzureVMCustomScriptExtensionCommand : VirtualMachineCustomScriptExtensionCmdletBase
     {
-        public string Publisher { get; set; }
-        public string ExtensionName { get; set; }
-        public string Version { get; set; }
-        public string SampleConfig { get; set; }
-        public string PrivateConfiguration { get; set; }
-        public string PublicConfiguration { get; set; }
+        protected const string RemoveCustomScriptExtensionParamSetName = "RemoveCustomScriptExtension";
+
+        internal void ExecuteCommand()
+        {
+            RemovePredicateExtensions();
+            WriteObject(VM);
+        }
+
+        protected override void ProcessRecord()
+        {
+            base.ProcessRecord();
+            ExecuteCommand();
+        }
     }
 }

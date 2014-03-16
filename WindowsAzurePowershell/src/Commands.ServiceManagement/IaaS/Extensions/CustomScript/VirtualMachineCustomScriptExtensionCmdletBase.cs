@@ -14,17 +14,18 @@
 
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
 {
-    using Utilities.Common;
-
-    public class VirtualMachineExtensionContext
+    public class VirtualMachineCustomScriptExtensionCmdletBase : VirtualMachineExtensionCmdletBase
     {
-        public string ExtensionName { get; set; }
-        public string Publisher { get; set; }
-        public string Version { get; set; }
-        public string PrivateConfiguration { get; set; }
-        public string PublicConfiguration { get; set; }
-        public string ReferenceName { get; set; }
-        public string State { get; set; }
-        public string RoleName { get; set; }
+        protected const string VirtualMachineCustomScriptExtensionNoun = "AzureVMCustomScriptExtension";
+
+        protected const string ExtensionDefaultPublisher = "Microsoft.Compute";
+        protected const string ExtensionDefaultName = "ScriptHandler";
+        protected const string LegacyReferenceName = "MyCustomScriptExtension";
+
+        public VirtualMachineCustomScriptExtensionCmdletBase()
+        {
+            base.publisherName = ExtensionDefaultPublisher;
+            base.extensionName = ExtensionDefaultName;
+        }
     }
 }
