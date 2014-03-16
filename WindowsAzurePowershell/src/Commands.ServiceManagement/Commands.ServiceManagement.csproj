@@ -256,9 +256,13 @@
     <Compile Include="IaaS\Extensions\Common\SetAzureVMExtension.cs" />
     <Compile Include="IaaS\Extensions\Common\VirtualMachineExtensionCmdletBase.cs" />
     <Compile Include="IaaS\Extensions\Common\VirtualMachineExtensionContext.cs" />
-    <Compile Include="IaaS\Extensions\Common\VirtualMachineExtensionConfigContext.cs" />
     <Compile Include="IaaS\Extensions\Common\GetAzureVMAvailableExtension.cs" />
     <Compile Include="IaaS\Extensions\Common\VirtualMachineExtensionImageContext.cs" />
+    <Compile Include="IaaS\Extensions\CustomScript\GetAzureVMCustomScriptExtension.cs" />
+    <Compile Include="IaaS\Extensions\CustomScript\RemoveAzureVMCustomScriptExtension.cs" />
+    <Compile Include="IaaS\Extensions\CustomScript\SetAzureVMCustomScriptExtension.cs" />
+    <Compile Include="IaaS\Extensions\CustomScript\VirtualMachineCustomScriptExtensionCmdletBase.cs" />
+    <Compile Include="IaaS\Extensions\CustomScript\VirtualMachineCustomScriptExtensionContext.cs" />
     <Compile Include="IaaS\Extensions\VMAccess\GetAzureVMAccessExtension.cs" />
     <Compile Include="IaaS\Extensions\VMAccess\RemoveAzureVMAccessExtension.cs" />
     <Compile Include="IaaS\Extensions\VMAccess\SetAzureVMAccessExtension.cs" />
@@ -431,7 +435,6 @@
     <Compile Include="Model\OSVersionsContext.cs" />
     <Compile Include="Model\PersistentVM.cs" />
     <Compile Include="Model\PersistentVMRoleContext.cs" />
-    <Compile Include="Model\PersistentVMRoleListContext.cs" />
     <Compile Include="Model\PSSyncOutputEvents.cs" />
     <Compile Include="Model\RoleConfiguration.cs" />
     <Compile Include="Model\RoleContext.cs" />

@@ -12,14 +12,9 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Model
+namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
 {
-    public class PersistentVMRoleListContext
+    public class VirtualMachineCustomScriptExtensionContext : VirtualMachineExtensionContext
     {
-        public string ServiceName { get; set; }
-
-        public string Name { get; set; }
-
-        public string Status { get; set; }
     }
 }

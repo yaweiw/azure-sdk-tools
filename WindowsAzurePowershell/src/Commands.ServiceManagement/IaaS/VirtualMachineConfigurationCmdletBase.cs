@@ -23,7 +23,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
     {
         protected const string StaticVNetIPNoun = "AzureStaticVNetIP";
 
-        [Parameter(Position = 0, Mandatory = true, ValueFromPipeline = true, HelpMessage = "Virtual Machine to update.")]
+        [Parameter(Mandatory = true, ValueFromPipeline = true, HelpMessage = "Virtual Machine to update.")]
         [ValidateNotNullOrEmpty]
         [Alias("InputObject")]
         public IPersistentVM VM

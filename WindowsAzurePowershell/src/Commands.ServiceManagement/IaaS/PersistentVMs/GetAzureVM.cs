@@ -15,15 +15,14 @@
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
 {
     using System;
-    using System.Collections.ObjectModel;
     using System.Collections.Generic;
+    using System.Collections.ObjectModel;
     using System.Globalization;
     using System.Linq;
     using System.Management.Automation;
     using System.Net;
     using AutoMapper;
     using Helpers;
-    using Management.Compute;
     using Management.Compute.Models;
     using Model;
     using Properties;
@@ -32,7 +31,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
     using PVM = Model.PersistentVMModel;
     using RoleInstance = Management.Compute.Models.RoleInstance;
 
-    [Cmdlet(VerbsCommon.Get, "AzureVM"), OutputType(typeof(List<PersistentVMRoleContext>), typeof(PersistentVMRoleListContext))]
+    [Cmdlet(VerbsCommon.Get, "AzureVM"), OutputType(typeof(PersistentVMRoleContext))]
     public class GetAzureVMCommand : IaaSDeploymentManagementCmdletBase
     {
         [Parameter(Position = 0, Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "Service name.")]
@@ -103,6 +102,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
                         InstanceName = roleInstance.InstanceName,
                         InstanceFaultDomain = roleInstance.InstanceFaultDomain.HasValue ? roleInstance.InstanceFaultDomain.Value.ToString(CultureInfo.InvariantCulture) : null,
                         InstanceUpgradeDomain = roleInstance.InstanceUpgradeDomain.HasValue ? roleInstance.InstanceUpgradeDomain.Value.ToString(CultureInfo.InvariantCulture) : null,
+                        Status = roleInstance.InstanceStatus,
                         OperationDescription = CommandRuntime.ToString(),
                         OperationId = GetDeploymentOperationNewSM.Id,
                         OperationStatus = GetDeploymentOperationNewSM.Status.ToString(),
@@ -146,17 +146,46 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
                 try
                 {
                     var deploymentGetResponse = this.ComputeClient.Deployments.GetBySlot(service.ServiceName, DeploymentSlot.Production);
-                    foreach (var role in deploymentGetResponse.Roles)
+                    foreach (var vm in deploymentGetResponse.Roles)
                     {
-                        if (role.RoleType == "PersistentVMRole")
+                        if (vm.RoleType == "PersistentVMRole")
                         {
-                            RoleInstance instance = deploymentGetResponse.RoleInstances.First(r => r.RoleName == role.RoleName);
-                            var vmContext = new PersistentVMRoleListContext
-                                            {
-                                                ServiceName = service.ServiceName,
-                                                Status = instance.InstanceStatus,
-                                                Name = instance.RoleName
-                                            };
+                            var roleInstance = deploymentGetResponse.RoleInstances.First(r => r.RoleName == vm.RoleName);
+                            var vmContext = new PersistentVMRoleContext
+                            {
+                                ServiceName = service.ServiceName,
+                                Name = vm.RoleName,
+                                DeploymentName = deploymentGetResponse.Name,
+                                AvailabilitySetName = vm.AvailabilitySetName,
+                                Label = vm.Label,
+                                InstanceSize = vm.RoleSize.ToString(),
+                                InstanceStatus = roleInstance.InstanceStatus,
+                                IpAddress = roleInstance.IPAddress,
+                                InstanceStateDetails = roleInstance.InstanceStateDetails,
+                                PowerState = roleInstance.PowerState.ToString(),
+                                InstanceErrorCode = roleInstance.InstanceErrorCode,
+                                InstanceName = roleInstance.InstanceName,
+                                InstanceFaultDomain = roleInstance.InstanceFaultDomain.HasValue ? roleInstance.InstanceFaultDomain.Value.ToString(CultureInfo.InvariantCulture) : null,
+                                InstanceUpgradeDomain = roleInstance.InstanceUpgradeDomain.HasValue ? roleInstance.InstanceUpgradeDomain.Value.ToString(CultureInfo.InvariantCulture) : null,
+                                Status = roleInstance.InstanceStatus,
+                                OperationDescription = CommandRuntime.ToString(),
+                                OperationId = deploymentGetResponse.RequestId,
+                                OperationStatus = deploymentGetResponse.StatusCode.ToString(),
+                                VM = new PersistentVM
+                                {
+                                    AvailabilitySetName = vm.AvailabilitySetName,
+                                    ConfigurationSets = PersistentVMHelper.MapConfigurationSets(vm.ConfigurationSets),
+                                    DataVirtualHardDisks = Mapper.Map(vm.DataVirtualHardDisks, new Collection<DataVirtualHardDisk>()),
+                                    Label = vm.Label,
+                                    OSVirtualHardDisk = Mapper.Map(vm.OSVirtualHardDisk, new OSVirtualHardDisk()),
+                                    RoleName = vm.RoleName,
+                                    RoleSize = vm.RoleSize.ToString(),
+                                    RoleType = vm.RoleType,
+                                    DefaultWinRmCertificateThumbprint = vm.DefaultWinRmCertificateThumbprint,
+                                    ProvisionGuestAgent = vm.ProvisionGuestAgent,
+                                    ResourceExtensionReferences = Mapper.Map<PVM.ResourceExtensionReferenceList>(vm.ResourceExtensionReferences)
+                                }
+                            };
 
                             WriteObject(vmContext, true);
                         }
