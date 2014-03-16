@@ -12,7 +12,7 @@
 ModuleToProcess = '.\Microsoft.WindowsAzure.Commands.dll'
 
 # Version number of this module.
-ModuleVersion = '0.7.4'
+ModuleVersion = '0.7.4.1'
 
 # ID used to uniquely identify this module
 GUID = '81d522a4-6e5d-4105-8f58-376204c47458'
@@ -24,7 +24,7 @@ Author = 'Microsoft Corporation'
 CompanyName = 'Microsoft Corporation'
 
 # Copyright statement for this module
-Copyright = '© Microsoft Corporation. All rights reserved.'  
+Copyright = '?Microsoft Corporation. All rights reserved.'  
 
 # Description of the functionality provided by this module
 Description = ''
@@ -68,8 +68,8 @@ FormatsToProcess = @(
     'Microsoft.WindowsAzure.Commands.CloudService.format.ps1xml',
     'Microsoft.WindowsAzure.Commands.ServiceBus.format.ps1xml',
     'Microsoft.WindowsAzure.Commands.Storage.format.ps1xml',
-    'Microsoft.WindowsAzure.Commands.Store.format.ps1xml',
-    'Microsoft.WindowsAzure.Commands.Scheduler.format.ps1xml'
+    'Microsoft.WindowsAzure.Commands.Scheduler.format.ps1xml',
+    'Microsoft.WindowsAzure.Commands.ServiceManagement.format.ps1xml'
     'Microsoft.Azure.Commands.ResourceManagement.format.ps1xml'
 )
 

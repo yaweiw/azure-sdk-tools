@@ -14,6 +14,8 @@
 
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Model
 {
+    using System.Collections.Generic;
+    using PersistentVMModel;
 
     public class PersistentVMRoleContext : ServiceOperationContext, IPersistentVM
     {
@@ -33,6 +35,8 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Model
         public string AvailabilitySetName { get; set; }
         public string DNSName { get; set; }
         public string Status { get; set; }
+        public GuestAgentStatus GuestAgentStatus { get; set; }
+        public List<ResourceExtensionStatus> ResourceExtensionStatusList { get; set; }
 
         public PersistentVM GetInstance()
         {

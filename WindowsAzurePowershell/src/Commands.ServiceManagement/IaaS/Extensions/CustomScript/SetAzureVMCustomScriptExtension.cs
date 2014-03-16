@@ -14,6 +14,7 @@
 
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
 {
+    using System;
     using System.Management.Automation;
     using Model;
 
@@ -50,6 +51,22 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
         [ValidateNotNullOrEmpty]
         public override string Version { get; set; }
 
+        [Parameter(
+            Mandatory = false,
+            Position = 4,
+            ValueFromPipelineByPropertyName = true,
+            HelpMessage = "The File URIs.")]
+        [ValidateNotNullOrEmpty]
+        public override Uri[] FileUris { get; set; }
+
+        [Parameter(
+            Mandatory = false,
+            Position = 5,
+            ValueFromPipelineByPropertyName = true,
+            HelpMessage = "The Command to Execute.")]
+        [ValidateNotNullOrEmpty]
+        public override string CommandToExecute { get; set; }
+
         internal void ExecuteCommand()
         {
             ValidateParameters();
@@ -62,6 +79,8 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
         {
             base.ValidateParameters();
             this.ReferenceName = this.ReferenceName ?? LegacyReferenceName;
+            this.PublicConfiguration = GetPublicConfiguration();
+            this.PrivateConfiguration = GetPrivateConfiguration();
         }
 
         protected override void ProcessRecord()

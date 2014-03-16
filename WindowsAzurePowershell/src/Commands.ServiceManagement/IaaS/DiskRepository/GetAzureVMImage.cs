@@ -14,7 +14,7 @@
 
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.DiskRepository
 {
-    using System.Collections.Generic;
+    using System;
     using System.Linq;
     using System.Management.Automation;
     using Management.Compute;
@@ -22,33 +22,58 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.DiskRepository
     using Model;
     using Utilities.Common;
 
-    [Cmdlet(VerbsCommon.Get, "AzureVMImage"), OutputType(typeof(OSImageContext))]
+    internal enum ImageType { VMImage, OSImage };
+
+    [Cmdlet(
+        VerbsCommon.Get,
+        AzureVMImageNoun),
+    OutputType(
+        typeof(OSImageContext))]
     public class GetAzureVMImage : ServiceManagementBaseCmdlet
     {
-        [Parameter(Position = 0, ValueFromPipelineByPropertyName = true, Mandatory = false, HelpMessage = "Name of the image in the image library.")]
+        protected const string AzureVMImageNoun = "AzureVMImage";
+
+        [Parameter(
+            Position = 0,
+            ValueFromPipelineByPropertyName = true,
+            Mandatory = false,
+            HelpMessage = "Name of the image in the image library.")]
         [ValidateNotNullOrEmpty]
         public string ImageName { get; set; }
 
+        internal static bool CheckImageType(ComputeManagementClient computeClient, string imageName, ImageType imageType)
+        {
+            if (imageType == ImageType.OSImage)
+            {
+                return computeClient == null ? false : computeClient.VirtualMachineOSImages.List().Images.Any(
+                    e => string.Equals(e.Name, imageName, StringComparison.OrdinalIgnoreCase));
+            }
+            else if (imageType == ImageType.VMImage)
+            {
+                return computeClient == null ? false : computeClient.VirtualMachineVMImages.List().VMImages.Any(
+                    e => string.Equals(e.Name, imageName, StringComparison.OrdinalIgnoreCase));
+            }
+
+            return false;
+        }
+
         protected void GetAzureVMImageProcess()
         {
-            ServiceManagementProfile.Initialize();
+            ServiceManagementProfile.Initialize(this);
 
-            if (!string.IsNullOrEmpty(this.ImageName))
-            {
-                this.ExecuteClientActionNewSM(
+            this.ExecuteClientActionNewSM(
                     null,
                     this.CommandRuntime.ToString(),
-                    () => this.ComputeClient.VirtualMachineImages.Get(this.ImageName),
-                    (s, response) => this.ContextFactory<VirtualMachineImageGetResponse, OSImageContext>(response, s));
-            }
-            else
-            {
-                this.ExecuteClientActionNewSM(
-                    null,
-                    this.CommandRuntime.ToString(),
-                    () => this.ComputeClient.VirtualMachineImages.List(),
-                    (s, response) => response.Images.Select(image => this.ContextFactory<VirtualMachineImageListResponse.VirtualMachineImage, OSImageContext>(image, s)));
-            }
+                    () => this.ComputeClient.VirtualMachineOSImages.List(),
+                    (s, response) => response.Images.Where(t => string.IsNullOrEmpty(this.ImageName) || string.Equals(t.Name, this.ImageName, StringComparison.OrdinalIgnoreCase))
+                                                    .Select(t => this.ContextFactory<VirtualMachineOSImageListResponse.VirtualMachineOSImage, OSImageContext>(t, s)));
+
+            this.ExecuteClientActionNewSM(
+                null,
+                this.CommandRuntime.ToString(),
+                () => this.ComputeClient.VirtualMachineVMImages.List(),
+                (s, response) => response.VMImages.Where(t => string.IsNullOrEmpty(this.ImageName) || string.Equals(t.Name, this.ImageName, StringComparison.OrdinalIgnoreCase))
+                                                  .Select(t => this.ContextFactory<VirtualMachineVMImageListResponse.VirtualMachineVMImage, VMImageContext>(t, s)));
         }
 
         protected override void OnProcessRecord()
