@@ -58,7 +58,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Models
                     throw new ArgumentException(Resources.DeploymentNotFound);
                 }
 
-                return GetDeploymentLogs(deploymentGetResult.Deployment.Properties.TrackingId);
+                return GetDeploymentLogs(deploymentGetResult.Deployment.Properties.CorrelationId);
             }
             else
             {
@@ -80,20 +80,20 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Models
                     throw new ArgumentException(Resources.DeploymentNotFound);
                 }
 
-                return GetDeploymentLogs(deploymentListResult.Deployments[0].Properties.TrackingId);
+                return GetDeploymentLogs(deploymentListResult.Deployments[0].Properties.CorrelationId);
             }
         }
 
         /// <summary>
         /// Gets event logs by tracking Id.
         /// </summary>
-        /// <param name="trackingId">Tracking Id of the deployment</param>
+        /// <param name="correlationId">CorrelationId Id of the deployment</param>
         /// <returns>Logs.</returns>
-        public virtual IEnumerable<PSDeploymentEventData> GetDeploymentLogs(string trackingId)
+        public virtual IEnumerable<PSDeploymentEventData> GetDeploymentLogs(string correlationId)
         {
             EventDataListResponse listOfEvents = EventsClient.EventData.ListEventsForCorrelationId(new ListEventsForCorrelationIdParameters
                 {
-                    CorrelationId = trackingId,
+                    CorrelationId = correlationId,
                     StartTime = DateTime.UtcNow - TimeSpan.FromDays(EventRetentionPeriod),
                     EndTime = DateTime.UtcNow
                 });

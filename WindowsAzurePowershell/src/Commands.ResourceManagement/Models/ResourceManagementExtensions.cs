@@ -247,7 +247,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Models
                 deploymentObject.ProvisioningState = properties.ProvisioningState;
                 deploymentObject.TemplateLink = properties.TemplateLink;
                 deploymentObject.Timestamp = properties.Timestamp;
-                deploymentObject.TrackingId = properties.TrackingId;
+                deploymentObject.CorrelationId = properties.CorrelationId;
 
                 if (!string.IsNullOrEmpty(properties.Outputs))
                 {
