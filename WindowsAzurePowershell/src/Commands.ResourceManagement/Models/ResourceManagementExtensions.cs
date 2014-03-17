@@ -151,7 +151,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Models
             {
                 return claims[name];
             }
-    }
+        }
 
         public static PSDeploymentEventDataHttpRequest ToPSDeploymentEventDataHttpRequest(this HttpRequestInfo httpRequest)
         {
