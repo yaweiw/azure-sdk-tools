@@ -57,8 +57,6 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Test
                 TemplateFile = templateFile,
                 Name = deploymentName,
                 StorageAccountName = storageAccountName,
-                TemplateHash = "hash",
-                TemplateHashAlgorithm = "Sha256",
                 TemplateVersion = "1.0"
             };
             CreatePSResourceGroupDeploymentParameters actualParameters = new CreatePSResourceGroupDeploymentParameters();
@@ -66,7 +64,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Test
             {
                 Mode = DeploymentMode.Incremental,
                 DeploymentName = deploymentName,
-                TrackingId = "123",
+                CorrelationId = "123",
                 Outputs = new Dictionary<string, DeploymentVariable>()
                 {
                     { "Variable1", new DeploymentVariable() { Value = "true", Type = "bool" } },
@@ -83,11 +81,6 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Test
                 ResourceGroupName = resourceGroupName,
                 TemplateLink = new TemplateLink()
                 {
-                    ContentHash = new ContentHash()
-                    {
-                        Algorithm = ContentHashAlgorithm.Sha256,
-                        Value = "hash"
-                    },
                     ContentVersion = "1.0",
                     Uri = new Uri("http://mytemplate.com")
                 },
@@ -102,8 +95,6 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Test
             cmdlet.Name = expectedParameters.Name;
             cmdlet.TemplateFile = expectedParameters.TemplateFile;
             cmdlet.StorageAccountName = expectedParameters.StorageAccountName;
-            cmdlet.TemplateHash = expectedParameters.TemplateHash;
-            cmdlet.TemplateHashAlgorithm = expectedParameters.TemplateHashAlgorithm;
             cmdlet.TemplateVersion = expectedParameters.TemplateVersion;
 
             cmdlet.ExecuteCmdlet();
@@ -113,8 +104,6 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Test
             Assert.Equal(expectedParameters.TemplateFile, actualParameters.TemplateFile);
             Assert.NotNull(actualParameters.TemplateParameterObject);
             Assert.Equal(expectedParameters.TemplateVersion, actualParameters.TemplateVersion);
-            Assert.Equal(expectedParameters.TemplateHash, actualParameters.TemplateHash);
-            Assert.Equal(expectedParameters.TemplateHashAlgorithm, actualParameters.TemplateHashAlgorithm);
             Assert.Equal(expectedParameters.StorageAccountName, actualParameters.StorageAccountName);
 
             commandRuntimeMock.Verify(f => f.WriteObject(expected), Times.Once());
@@ -128,8 +117,6 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Test
                 GalleryTemplateName = "sqlServer",
                 Name = deploymentName,
                 StorageAccountName = storageAccountName,
-                TemplateHash = "hash",
-                TemplateHashAlgorithm = "Sha256",
                 TemplateVersion = "1.0"
             };
             CreatePSResourceGroupDeploymentParameters actualParameters = new CreatePSResourceGroupDeploymentParameters();
@@ -137,7 +124,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Test
             {
                 Mode = DeploymentMode.Incremental,
                 DeploymentName = deploymentName,
-                TrackingId = "123",
+                CorrelationId = "123",
                 Outputs = new Dictionary<string, DeploymentVariable>()
                 {
                     { "Variable1", new DeploymentVariable() { Value = "true", Type = "bool" } },
@@ -154,11 +141,6 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Test
                 ResourceGroupName = resourceGroupName,
                 TemplateLink = new TemplateLink()
                 {
-                    ContentHash = new ContentHash()
-                    {
-                        Algorithm = ContentHashAlgorithm.Sha256,
-                        Value = "hash"
-                    },
                     ContentVersion = "1.0",
                     Uri = new Uri("http://mytemplate.com")
                 },
@@ -173,8 +155,6 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Test
             cmdlet.Name = expectedParameters.Name;
             cmdlet.GalleryTemplateName = expectedParameters.GalleryTemplateName;
             cmdlet.StorageAccountName = expectedParameters.StorageAccountName;
-            cmdlet.TemplateHash = expectedParameters.TemplateHash;
-            cmdlet.TemplateHashAlgorithm = expectedParameters.TemplateHashAlgorithm;
             cmdlet.TemplateVersion = expectedParameters.TemplateVersion;
 
             cmdlet.ExecuteCmdlet();
@@ -184,8 +164,6 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Test
             Assert.Equal(expectedParameters.TemplateFile, actualParameters.TemplateFile);
             Assert.NotNull(actualParameters.TemplateParameterObject);
             Assert.Equal(expectedParameters.TemplateVersion, actualParameters.TemplateVersion);
-            Assert.Equal(expectedParameters.TemplateHash, actualParameters.TemplateHash);
-            Assert.Equal(expectedParameters.TemplateHashAlgorithm, actualParameters.TemplateHashAlgorithm);
             Assert.Equal(expectedParameters.StorageAccountName, actualParameters.StorageAccountName);
 
             commandRuntimeMock.Verify(f => f.WriteObject(expected), Times.Once());

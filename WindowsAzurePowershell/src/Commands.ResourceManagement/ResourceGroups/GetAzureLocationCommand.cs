@@ -22,7 +22,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement
     /// Get the available locations for certain resource types.
     /// </summary>
     [Cmdlet(VerbsCommon.Get, "AzureLocation"), OutputType(typeof(List<PSResourceProviderType>))]
-    public class GetAzureLocationCommand : ResourceBaseCmdlet
+    public class GetAzureLocationCommand : ResourceManagementBaseCmdlet
     {
         [Parameter(Position = 0, Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "If specified, check the available locations for the given resource types.")]
         [ValidateNotNullOrEmpty]

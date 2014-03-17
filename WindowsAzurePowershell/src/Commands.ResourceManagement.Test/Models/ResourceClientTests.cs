@@ -1015,7 +1015,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Test.Models
                             Properties = new DeploymentProperties()
                             {
                                 Mode = DeploymentMode.Incremental,
-                                TrackingId = "123",
+                                CorrelationId = "123",
                                 ProvisioningState = ProvisioningState.Succeeded
                             },
                             ResourceGroup = resourceGroupName
@@ -1507,11 +1507,11 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Test.Models
             string name = resourceGroupName;
             Resource resource1 = new Resource() { Id = "resourceId", Location = resourceGroupLocation, Name = resourceName };
             Resource resource2 = new Resource() { Id = "resourceId2", Location = resourceGroupLocation, Name = resourceName + "2" };
-            ResourceGroup resourceGroup = new ResourceGroup() { Name = name, Location = resourceGroupLocation };
+            ResourceGroup resourceGroup = new ResourceGroup() { Name = name, Location = resourceGroupLocation, ProvisioningState = "Succeeded" };
             resourceGroupMock.Setup(f => f.GetAsync(name, new CancellationToken()))
                 .Returns(Task.Factory.StartNew(() => new ResourceGroupGetResult
                 {
-                    ResourceGroup = resourceGroup
+                    ResourceGroup = resourceGroup,
                 }));
             SetupListForResourceGroupAsync(name, new List<Resource>() { resource1, resource2 });
 
@@ -1521,6 +1521,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Test.Models
             Assert.Equal(name, actual[0].ResourceGroupName);
             Assert.Equal(resourceGroupLocation, actual[0].Location);
             Assert.Equal(2, actual[0].Resources.Count);
+            Assert.Equal("Succeeded", actual[0].ProvisioningState);
             Assert.True(!string.IsNullOrEmpty(actual[0].ResourcesTable));
         }
 
@@ -1585,7 +1586,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Test.Models
                                             Properties = new DeploymentProperties()
                                                 {
                                                     Mode = DeploymentMode.Incremental,
-                                                    TrackingId = "123",
+                                                    CorrelationId = "123",
                                                     TemplateLink = new TemplateLink()
                                                         {
                                                             Uri = new Uri("http://microsoft1.com")
@@ -1630,7 +1631,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Test.Models
                                                    Properties = new DeploymentProperties()
                                                        {
                                                            Mode = DeploymentMode.Incremental,
-                                                           TrackingId = "123",
+                                                           CorrelationId = "123",
                                                            TemplateLink = new TemplateLink()
                                                                {
                                                                    Uri = new Uri("http://microsoft1.com")
@@ -1891,7 +1892,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Test.Models
                             Properties = new DeploymentProperties()
                             {
                                 Mode = DeploymentMode.Incremental,
-                                TrackingId = "123",
+                                CorrelationId = "123",
                                 TemplateLink = new TemplateLink()
                                 {
                                     Uri = new Uri("http://microsoft.com")
@@ -1906,7 +1907,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Test.Models
             Assert.Equal(deploymentName, result[0].DeploymentName);
             Assert.Equal(resourceGroupName, result[0].ResourceGroupName);
             Assert.Equal(DeploymentMode.Incremental, result[0].Mode);
-            Assert.Equal("123", result[0].TrackingId);
+            Assert.Equal("123", result[0].CorrelationId);
             Assert.Equal(new Uri("http://microsoft.com").ToString(), result[0].TemplateLink.Uri.ToString());
         }
 
@@ -1932,7 +1933,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Test.Models
                             Properties = new DeploymentProperties()
                             {
                                 Mode = DeploymentMode.Incremental,
-                                TrackingId = "123",
+                                CorrelationId = "123",
                                 TemplateLink = new TemplateLink()
                                 {
                                     Uri = new Uri("http://microsoft1.com")
@@ -1958,7 +1959,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Test.Models
                             Properties = new DeploymentProperties()
                             {
                                 Mode = DeploymentMode.Incremental,
-                                TrackingId = "456",
+                                CorrelationId = "456",
                                 TemplateLink = new TemplateLink()
                                 {
                                     Uri = new Uri("http://microsoft2.com")
@@ -1973,14 +1974,14 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Test.Models
 
             Assert.Equal(2, result.Count);
             Assert.Equal(deploymentName + 1, result[0].DeploymentName);
-            Assert.Equal("123", result[0].TrackingId);
+            Assert.Equal("123", result[0].CorrelationId);
             Assert.Equal(resourceGroupName, result[0].ResourceGroupName);
             Assert.Equal(DeploymentMode.Incremental, result[0].Mode);
             Assert.Equal(new Uri("http://microsoft1.com").ToString(), result[0].TemplateLink.Uri.ToString());
 
             Assert.Equal(deploymentName + 2, result[1].DeploymentName);
             Assert.Equal(resourceGroupName, result[1].ResourceGroupName);
-            Assert.Equal("456", result[1].TrackingId);
+            Assert.Equal("456", result[1].CorrelationId);
             Assert.Equal(DeploymentMode.Incremental, result[1].Mode);
             Assert.Equal(new Uri("http://microsoft2.com").ToString(), result[1].TemplateLink.Uri.ToString());
         }
