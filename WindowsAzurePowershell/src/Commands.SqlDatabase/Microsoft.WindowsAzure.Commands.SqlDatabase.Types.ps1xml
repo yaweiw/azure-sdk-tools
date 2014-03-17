@@ -53,9 +53,7 @@
             <Name>DefaultDisplayPropertySet</Name>
             <ReferencedProperties>
               <Name>Name</Name>
-              <Name>Type</Name>
               <Name>Value</Name>
-              <Name>State</Name>
             </ReferencedProperties>
           </PropertySet>
         </Members>

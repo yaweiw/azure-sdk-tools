@@ -51,7 +51,7 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Test.FunctionalTests
         public void Setup()
         {
             XElement root = XElement.Load("SqlDatabaseSettings.xml");
-            this.subscriptionID = root.Element("SubscriptionID").Value;
+            this.subscriptionID = root.Element("SubscriptionId").Value;
             this.serializedCert = root.Element("SerializedCert").Value;
             this.serverLocation = root.Element("ServerLocation").Value;
             this.manageUrl = root.Element("ManageUrl").Value;
