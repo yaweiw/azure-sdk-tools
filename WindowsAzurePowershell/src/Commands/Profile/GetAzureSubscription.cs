@@ -12,7 +12,7 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Commands.Subscription
+namespace Microsoft.WindowsAzure.Commands.Profile
 {
     using System;
     using System.Collections.Generic;
@@ -21,7 +21,7 @@ namespace Microsoft.WindowsAzure.Commands.Subscription
     using Management;
     using Utilities.Common;
     using Utilities.Properties;
-    using Utilities.Subscription;
+    using Utilities.Profile;
 
     /// <summary>
     /// Implementation of the get-azuresubscription cmdlet that works against

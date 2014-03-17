@@ -12,12 +12,12 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Commands.Subscription
+namespace Microsoft.WindowsAzure.Commands.Profile
 {
     using System.Linq;
     using System.Management.Automation;
     using Utilities.Properties;
-    using Utilities.Subscription;
+    using Utilities.Profile;
 
     /// <summary>
     /// Removes subscriptions associated with an account

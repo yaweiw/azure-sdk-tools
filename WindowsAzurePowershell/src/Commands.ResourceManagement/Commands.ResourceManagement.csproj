@@ -250,6 +250,9 @@
     </Content>
     <None Include="MSSharedLibKey.snk" />
     <None Include="packages.config" />
+    <Content Include="Microsoft.Azure.Commands.ResourceManagement.psd1">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Properties\Resources.resx">

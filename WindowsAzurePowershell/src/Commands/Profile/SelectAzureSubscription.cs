@@ -12,14 +12,14 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Commands.Subscription
+namespace Microsoft.WindowsAzure.Commands.Profile
 {
     using System;
     using System.Linq;
     using System.Management.Automation;
     using Utilities.Common;
     using Utilities.Properties;
-    using Utilities.Subscription;
+    using Utilities.Profile;
 
     [Cmdlet(VerbsCommon.Select, "AzureSubscription", DefaultParameterSetName = "Current")]
     [OutputType(typeof(bool))]

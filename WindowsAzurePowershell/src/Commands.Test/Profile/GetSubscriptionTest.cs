@@ -12,10 +12,10 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Commands.Test.Subscription
+namespace Microsoft.WindowsAzure.Commands.Test.Profile
 {
     using System.Linq;
-    using Commands.Subscription;
+    using Commands.Profile;
     using Commands.Utilities.Common;
     using Moq;
     using Utilities.Common;
