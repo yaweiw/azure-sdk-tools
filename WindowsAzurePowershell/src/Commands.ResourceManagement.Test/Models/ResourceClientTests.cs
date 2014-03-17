@@ -1631,7 +1631,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Test.Models
                                                    Properties = new DeploymentProperties()
                                                        {
                                                            Mode = DeploymentMode.Incremental,
-                                                           CorrelationId  = "123",
+                                                           CorrelationId = "123",
                                                            TemplateLink = new TemplateLink()
                                                                {
                                                                    Uri = new Uri("http://microsoft1.com")
@@ -1907,7 +1907,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Test.Models
             Assert.Equal(deploymentName, result[0].DeploymentName);
             Assert.Equal(resourceGroupName, result[0].ResourceGroupName);
             Assert.Equal(DeploymentMode.Incremental, result[0].Mode);
-            Assert.Equal("123", result[0].TrackingId);
+            Assert.Equal("123", result[0].CorrelationId);
             Assert.Equal(new Uri("http://microsoft.com").ToString(), result[0].TemplateLink.Uri.ToString());
         }
 
@@ -1974,14 +1974,14 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Test.Models
 
             Assert.Equal(2, result.Count);
             Assert.Equal(deploymentName + 1, result[0].DeploymentName);
-            Assert.Equal("123", result[0].TrackingId);
+            Assert.Equal("123", result[0].CorrelationId);
             Assert.Equal(resourceGroupName, result[0].ResourceGroupName);
             Assert.Equal(DeploymentMode.Incremental, result[0].Mode);
             Assert.Equal(new Uri("http://microsoft1.com").ToString(), result[0].TemplateLink.Uri.ToString());
 
             Assert.Equal(deploymentName + 2, result[1].DeploymentName);
             Assert.Equal(resourceGroupName, result[1].ResourceGroupName);
-            Assert.Equal("456", result[1].TrackingId);
+            Assert.Equal("456", result[1].CorrelationId);
             Assert.Equal(DeploymentMode.Incremental, result[1].Mode);
             Assert.Equal(new Uri("http://microsoft2.com").ToString(), result[1].TemplateLink.Uri.ToString());
         }

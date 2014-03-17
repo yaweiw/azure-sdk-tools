@@ -87,13 +87,13 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Models
         /// <summary>
         /// Gets event logs by tracking Id.
         /// </summary>
-        /// <param name="trackingId">Tracking Id of the deployment</param>
+        /// <param name="correlationId">CorrelationId Id of the deployment</param>
         /// <returns>Logs.</returns>
-        public virtual IEnumerable<PSDeploymentEventData> GetDeploymentLogs(string trackingId)
+        public virtual IEnumerable<PSDeploymentEventData> GetDeploymentLogs(string correlationId)
         {
             EventDataListResponse listOfEvents = EventsClient.EventData.ListEventsForCorrelationId(new ListEventsForCorrelationIdParameters
                 {
-                    CorrelationId = trackingId,
+                    CorrelationId = correlationId,
                     StartTime = DateTime.UtcNow - TimeSpan.FromDays(EventRetentionPeriod),
                     EndTime = DateTime.UtcNow
                 });
