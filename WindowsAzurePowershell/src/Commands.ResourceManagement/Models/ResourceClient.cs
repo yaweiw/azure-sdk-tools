@@ -97,11 +97,11 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Models
 
         private static string DeploymentTemplateStorageContainerName = "deployment-templates";
 
-        private string GetDeploymentParameters(Hashtable parameterObject)
+        private string GetDeploymentParameters(Hashtable templateParameterObject)
         {
-            if (parameterObject != null)
+            if (templateParameterObject != null)
             {
-                return SerializeHashtable(parameterObject, addValueLayer: true);
+                return SerializeHashtable(templateParameterObject, addValueLayer: true);
             }
             else
             {
@@ -128,13 +128,13 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Models
             return providers;
         }
 
-        private string SerializeHashtable(Hashtable parameterObject, bool addValueLayer)
+        private string SerializeHashtable(Hashtable templateParameterObject, bool addValueLayer)
         {
-            if (parameterObject == null)
+            if (templateParameterObject == null)
             {
                 return null;
             }
-            Dictionary<string, object> parametersDictionary = parameterObject.ToDictionary(addValueLayer);
+            Dictionary<string, object> parametersDictionary = templateParameterObject.ToDictionary(addValueLayer);
             return JsonConvert.SerializeObject(parametersDictionary, new JsonSerializerSettings
                 {
                     TypeNameAssemblyFormat = FormatterAssemblyStyle.Simple,
@@ -194,21 +194,6 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Models
             }
 
             return storageName;
-        }
-
-        private ContentHash GetTemplateContentHash(string templateHash, string templateHashAlgorithm)
-        {
-            ContentHash contentHash = null;
-
-            if (!string.IsNullOrEmpty(templateHash))
-            {
-                contentHash = new ContentHash();
-                contentHash.Value = templateHash;
-                contentHash.Algorithm = string.IsNullOrEmpty(templateHashAlgorithm) ? ContentHashAlgorithm.Sha256 :
-                    (ContentHashAlgorithm)Enum.Parse(typeof(ContentHashAlgorithm), templateHashAlgorithm);
-            }
-
-            return contentHash;
         }
 
         private ResourceGroup CreateResourceGroup(string name, string location)
@@ -464,10 +449,9 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Models
                 TemplateLink = new TemplateLink()
                 {
                     Uri = GetTemplateUri(parameters.TemplateFile, parameters.GalleryTemplateName, parameters.StorageAccountName),
-                    ContentVersion = parameters.TemplateVersion,
-                    ContentHash = GetTemplateContentHash(parameters.TemplateHash, parameters.TemplateHashAlgorithm)
+                    ContentVersion = parameters.TemplateVersion
                 },
-                Parameters = GetDeploymentParameters(parameters.ParameterObject)
+                Parameters = GetDeploymentParameters(parameters.TemplateParameterObject)
             };
 
             return deployment;
