@@ -22,7 +22,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement
     /// Filters resource groups.
     /// </summary>
     [Cmdlet(VerbsCommon.Get, "AzureResourceGroup"), OutputType(typeof(List<PSResourceGroup>))]
-    public class GetAzureResourceGroupCommand : ResourceBaseCmdlet
+    public class GetAzureResourceGroupCommand : ResourceManagementBaseCmdlet
     {
         [Alias("ResourceGroupName")]
         [Parameter(Position = 0, Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "The name of the resource group.")]
