@@ -40,7 +40,13 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Models
 
         public string Status { get; set; }
 
+        public string SubscriptionId { get; set; }
+
         public string SubStatus { get; set; }
+
+        public string Caller { get; set; }
+
+        public string CorrelationId { get; set; }
 
         public string ResourceGroupName { get; set; }
 

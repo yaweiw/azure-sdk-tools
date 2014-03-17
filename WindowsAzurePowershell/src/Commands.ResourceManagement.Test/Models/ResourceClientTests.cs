@@ -190,6 +190,8 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Test.Models
                     Level = EventLevel.Informational,
                     EventTimestamp = DateTime.Now,
                     OperationId = "c0f2e85f-efb0-47d0-bf90-f983ec8be91d",
+                    SubscriptionId = "c0f2e85f-efb0-47d0-bf90-f983ec8be91d",
+                    CorrelationId = "c0f2e85f-efb0-47d0-bf90-f983ec8be91d",
                     OperationName =
                         new LocalizableString
                             {
@@ -220,7 +222,8 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Test.Models
                         {
                             {"aud", "https://management.core.windows.net/"},
                             {"iss", "https://sts.windows.net/123456/"},
-                            {"iat", "h123445"}
+                            {"iat", "h123445"},
+                            {"http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name", "info@mail.com"}
                         },
                     Properties = new Dictionary<string,string>()
                 });
@@ -1660,6 +1663,44 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Test.Models
             Assert.Equal(2, results.Count());
             deploymentsMock.Verify(f => f.ListAsync(resourceGroupName, It.IsAny<DeploymentListParameters>(), It.IsAny<CancellationToken>()), Times.Once());
             eventDataOperationsMock.Verify(f => f.ListEventsForCorrelationIdAsync(It.IsAny<ListEventsForCorrelationIdParameters>(), It.IsAny<CancellationToken>()), Times.Once());
+        }
+
+        [Fact]
+        public void GetAzureResourceGroupLogReturnsAllRequiredFields()
+        {
+            eventDataOperationsMock.Setup(f => f.ListEventsForResourceGroupAsync(It.IsAny<ListEventsForResourceGroupParameters>(), new CancellationToken()))
+                .Returns(Task.Factory.StartNew(() => new EventDataListResponse
+                {
+                    EventDataCollection = new EventDataCollection
+                    {
+                        Value = sampleEvents
+                    }
+                }));
+
+            IEnumerable<PSDeploymentEventData> results = resourcesClient.GetResourceGroupLogs(new GetPSResourceGroupLogParameters
+            {
+                Name = "foo",
+                All = true
+            });
+
+            Assert.Equal(2, results.Count());
+            var first = results.First();
+            Assert.NotNull(first.Authorization);
+            Assert.NotNull(first.ResourceUri);
+            Assert.NotNull(first.SubscriptionId);
+            Assert.NotNull(first.Timestamp);
+            Assert.NotNull(first.OperationName);
+            Assert.NotNull(first.OperationId);
+            Assert.NotNull(first.Status);
+            Assert.NotNull(first.SubStatus);
+            Assert.NotNull(first.Caller);
+            Assert.NotNull(first.CorrelationId);
+            Assert.NotNull(first.HttpRequest);
+            Assert.NotNull(first.Level);
+            Assert.NotNull(first.ResourceGroupName);
+            Assert.NotNull(first.ResourceProvider);
+            Assert.NotNull(first.EventSource);
+            Assert.NotNull(first.PropertiesText);
         }
 
         [Fact]
