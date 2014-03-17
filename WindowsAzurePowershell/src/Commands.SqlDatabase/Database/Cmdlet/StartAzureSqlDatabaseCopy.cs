@@ -32,13 +32,7 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Database.Cmdlet
     {
         #region ParameterSets
 
-        internal const string ByInputObjectWithConnectionContextContinuous =
-            "ByInputObjectWithConnectionContextContinuous";
-
         internal const string ByInputObjectContinuous = "ByInputObjectContinuous";
-
-        internal const string ByDatabaseNameWithConnectionContextContinuous =
-            "ByDatabaseNameWithConnectionContextContinuous";
 
         internal const string ByDatabaseNameContinuous = "ByDatabaseNameContinuous";
 
@@ -51,38 +45,10 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Database.Cmdlet
         #region Parameters
 
         /// <summary>
-        /// Gets or sets the server connection context.
-        /// </summary>
-        [Alias("Context")]
-        [Parameter(Mandatory = true, Position = 0, ValueFromPipeline = true,
-            ValueFromPipelineByPropertyName = true,
-            ParameterSetName = ByInputObjectWithConnectionContextContinuous,
-            HelpMessage = "The connection context to the specified server.")]
-        [Parameter(Mandatory = true, Position = 0, ValueFromPipeline = true,
-            ValueFromPipelineByPropertyName = true,
-            ParameterSetName = ByDatabaseNameWithConnectionContextContinuous,
-            HelpMessage = "The connection context to the specified server.")]
-        [ValidateNotNull]
-        public IServerDataServiceContext ConnectionContext { get; set; }
-
-        /// <summary>
         /// Gets or sets the name of the server upon which to operate
         /// </summary>
         [Parameter(Mandatory = true, Position = 0, ValueFromPipeline = true,
             ValueFromPipelineByPropertyName = true,
-            ParameterSetName = ByInputObject,
-            HelpMessage = "The name of the server to operate on.")]
-        [Parameter(Mandatory = true, Position = 0, ValueFromPipeline = true,
-            ValueFromPipelineByPropertyName = true,
-            ParameterSetName = ByDatabaseName,
-            HelpMessage = "The name of the server to operate on.")]
-        [Parameter(Mandatory = true, Position = 0, ValueFromPipeline = true,
-            ValueFromPipelineByPropertyName = true,
-            ParameterSetName = ByDatabaseNameContinuous,
-            HelpMessage = "The name of the server to operate on.")]
-        [Parameter(Mandatory = true, Position = 0, ValueFromPipeline = true,
-            ValueFromPipelineByPropertyName = true,
-            ParameterSetName = ByInputObjectContinuous,
             HelpMessage = "The name of the server to operate on.")]
         [ValidateNotNullOrEmpty]
         public string ServerName { get; set; }
@@ -94,8 +60,6 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Database.Cmdlet
             ValueFromPipeline = true, HelpMessage = "The database object to copy.")]
         [Parameter(Mandatory = true, Position = 1, ParameterSetName = ByInputObjectContinuous,
             ValueFromPipeline = true, HelpMessage = "The database object to copy.")]
-        [Parameter(Mandatory = true, Position = 1, ParameterSetName = ByInputObjectWithConnectionContextContinuous,
-            ValueFromPipeline = true, HelpMessage = "The database object to copy.")]
         [ValidateNotNull]
         public Database Database { get; set; }
 
@@ -105,8 +69,6 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Database.Cmdlet
         [Parameter(Mandatory = true, Position = 1, ParameterSetName = ByDatabaseName,
             HelpMessage = "The name of the database to copy.")]
         [Parameter(Mandatory = true, Position = 1, ParameterSetName = ByDatabaseNameContinuous,
-            HelpMessage = "The name of the database to copy.")]
-        [Parameter(Mandatory = true, Position = 1, ParameterSetName = ByDatabaseNameWithConnectionContextContinuous,
             HelpMessage = "The name of the database to copy.")]
         [ValidateNotNullOrEmpty]
         public string DatabaseName { get; set; }
@@ -122,10 +84,6 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Database.Cmdlet
             HelpMessage = "The name of the partner server.")]
         [Parameter(Mandatory = true, ParameterSetName = ByDatabaseNameContinuous,
             HelpMessage = "The name of the partner server.")]
-        [Parameter(Mandatory = true, ParameterSetName = ByInputObjectWithConnectionContextContinuous,
-            HelpMessage = "The name of the partner server.")]
-        [Parameter(Mandatory = true, ParameterSetName = ByDatabaseNameWithConnectionContextContinuous,
-            HelpMessage = "The name of the partner server.")]
         [ValidateNotNullOrEmpty]
         public string PartnerServer { get; set; }
 
@@ -140,10 +98,6 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Database.Cmdlet
             HelpMessage = "The name of the partner database.")]
         [Parameter(Mandatory = false, ParameterSetName = ByDatabaseNameContinuous,
             HelpMessage = "The name of the partner database.")]
-        [Parameter(Mandatory = false, ParameterSetName = ByInputObjectWithConnectionContextContinuous,
-            HelpMessage = "The name of the partner database.")]
-        [Parameter(Mandatory = false, ParameterSetName = ByDatabaseNameWithConnectionContextContinuous,
-            HelpMessage = "The name of the partner database.")]
         [ValidateNotNullOrEmpty]
         public string PartnerDatabase { get; set; }
 
@@ -153,10 +107,6 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Database.Cmdlet
         [Parameter(Mandatory = true, ParameterSetName = ByInputObjectContinuous,
             HelpMessage = "The name of the partner database.")]
         [Parameter(Mandatory = true, ParameterSetName = ByDatabaseNameContinuous,
-            HelpMessage = "The name of the partner database.")]
-        [Parameter(Mandatory = true, ParameterSetName = ByInputObjectWithConnectionContextContinuous,
-            HelpMessage = "The name of the partner database.")]
-        [Parameter(Mandatory = true, ParameterSetName = ByDatabaseNameWithConnectionContextContinuous,
             HelpMessage = "The name of the partner database.")]
         public SwitchParameter ContinuousCopy { get; set; }
 
@@ -184,9 +134,6 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Database.Cmdlet
                 databaseName = this.DatabaseName;
             }
 
-            string serverName = this.MyInvocation.BoundParameters.ContainsKey("ServerName") ?
-                this.ServerName : this.ConnectionContext.ServerName;
-
             string partnerServerName = this.PartnerServer;
             string partnerDatabaseName = this.PartnerDatabase;
 
@@ -198,21 +145,21 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Database.Cmdlet
             else
             {
                 // Default partnerServerName to the only allowed value for normal copies.
-                partnerServerName = partnerServerName ?? serverName;
+                partnerServerName = partnerServerName ?? this.ServerName;
             }
 
             // Do nothing if force is not specified and user cancelled the operation
             string actionDescription = string.Format(
                 CultureInfo.InvariantCulture,
                 Resources.StartAzureSqlDatabaseCopyDescription,
-                serverName,
+                this.ServerName,
                 databaseName,
                 partnerServerName,
                 partnerDatabaseName);
             string actionWarning = string.Format(
                 CultureInfo.InvariantCulture,
                 Resources.StartAzureSqlDatabaseCopyWarning,
-                serverName,
+                this.ServerName,
                 databaseName,
                 partnerServerName,
                 partnerDatabaseName);
@@ -228,11 +175,8 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Database.Cmdlet
 
             // Use the provided ServerDataServiceContext or create one from the
             // provided ServerName and the active subscription.
-            IServerDataServiceContext context =
-                this.MyInvocation.BoundParameters.ContainsKey("ConnectionContext")
-                    ? this.ConnectionContext
-                    : ServerDataServiceCertAuth.Create(this.ServerName,
-                        WindowsAzureProfile.Instance.CurrentSubscription);
+            IServerDataServiceContext context = ServerDataServiceCertAuth.Create(this.ServerName,
+                WindowsAzureProfile.Instance.CurrentSubscription);
 
             try
             {

@@ -487,6 +487,7 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Services.Server
 
         #region Database copy operations
 
+        /// <summary>
         /// Retrieve all database copy objects with matching parameters.
         /// </summary>
         /// <param name="databaseName">The name of the database to copy.</param>
