@@ -60,8 +60,6 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Test
                 TemplateFile = templateFile,
                 Name = deploymentName,
                 StorageAccountName = storageAccountName,
-                TemplateHash = "hash",
-                TemplateHashAlgorithm = "sha1",
                 TemplateVersion = "1.0"
             };
             CreatePSResourceGroupParameters actualParameters = new CreatePSResourceGroupParameters();
@@ -80,8 +78,6 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Test
             cmdlet.TemplateFile = expectedParameters.TemplateFile;
             cmdlet.DeploymentName = expectedParameters.Name;
             cmdlet.StorageAccountName = expectedParameters.StorageAccountName;
-            cmdlet.TemplateHash = expectedParameters.TemplateHash;
-            cmdlet.TemplateHashAlgorithm = expectedParameters.TemplateHashAlgorithm;
             cmdlet.TemplateVersion = expectedParameters.TemplateVersion;
 
             cmdlet.ExecuteCmdlet();
@@ -93,8 +89,6 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Test
             Assert.Equal(expectedParameters.TemplateFile, actualParameters.TemplateFile);
             Assert.NotNull(actualParameters.TemplateParameterObject);
             Assert.Equal(expectedParameters.TemplateVersion, actualParameters.TemplateVersion);
-            Assert.Equal(expectedParameters.TemplateHash, actualParameters.TemplateHash);
-            Assert.Equal(expectedParameters.TemplateHashAlgorithm, actualParameters.TemplateHashAlgorithm);
             Assert.Equal(expectedParameters.StorageAccountName, actualParameters.StorageAccountName);
 
             commandRuntimeMock.Verify(f => f.WriteObject(expected), Times.Once());
@@ -110,8 +104,6 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Test
                 GalleryTemplateName = "sqlServer",
                 Name = deploymentName,
                 StorageAccountName = storageAccountName,
-                TemplateHash = "hash",
-                TemplateHashAlgorithm = "sha1",
                 TemplateVersion = "1.0"
             };
             CreatePSResourceGroupParameters actualParameters = new CreatePSResourceGroupParameters();
@@ -130,8 +122,6 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Test
             cmdlet.GalleryTemplateName = expectedParameters.GalleryTemplateName;
             cmdlet.DeploymentName = expectedParameters.Name;
             cmdlet.StorageAccountName = expectedParameters.StorageAccountName;
-            cmdlet.TemplateHash = expectedParameters.TemplateHash;
-            cmdlet.TemplateHashAlgorithm = expectedParameters.TemplateHashAlgorithm;
             cmdlet.TemplateVersion = expectedParameters.TemplateVersion;
 
             cmdlet.ExecuteCmdlet();
@@ -143,8 +133,6 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Test
             Assert.Equal(expectedParameters.TemplateFile, actualParameters.TemplateFile);
             Assert.NotNull(actualParameters.TemplateParameterObject);
             Assert.Equal(expectedParameters.TemplateVersion, actualParameters.TemplateVersion);
-            Assert.Equal(expectedParameters.TemplateHash, actualParameters.TemplateHash);
-            Assert.Equal(expectedParameters.TemplateHashAlgorithm, actualParameters.TemplateHashAlgorithm);
             Assert.Equal(expectedParameters.StorageAccountName, actualParameters.StorageAccountName);
 
             commandRuntimeMock.Verify(f => f.WriteObject(expected), Times.Once());

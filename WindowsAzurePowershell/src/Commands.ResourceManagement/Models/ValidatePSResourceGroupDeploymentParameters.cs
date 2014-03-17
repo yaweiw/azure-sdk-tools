@@ -28,10 +28,6 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Models
 
         public string TemplateVersion { get; set; }
 
-        public string TemplateHash { get; set; }
-
-        public string TemplateHashAlgorithm { get; set; }
-
         public string StorageAccountName { get; set; }
     }
 }

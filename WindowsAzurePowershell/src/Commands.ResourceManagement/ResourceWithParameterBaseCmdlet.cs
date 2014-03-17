@@ -26,7 +26,7 @@ using System.Management.Automation;
 
 namespace Microsoft.Azure.Commands.ResourceManagement
 {
-    public abstract class ResourceWithParameterBaseCmdlet : ResourceBaseCmdlet
+    public abstract class ResourceWithParameterBaseCmdlet : ResourceManagementBaseCmdlet
     {
         protected const string BaseParameterSetName = "Default";
         protected const string GalleryTemplateParameterObjectParameterSetName = "Deployment via Gallery and template parameters object";
@@ -84,14 +84,6 @@ namespace Microsoft.Azure.Commands.ResourceManagement
         [Parameter(Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "The expect content version of the template.")]
         [ValidateNotNullOrEmpty]
         public string TemplateVersion { get; set; }
-
-        [Parameter(Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "The expect content hash of the template.")]
-        [ValidateNotNullOrEmpty]
-        public string TemplateHash { get; set; }
-
-        [Parameter(Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "The algorithm used to hash the template content.")]
-        [ValidateNotNullOrEmpty]
-        public string TemplateHashAlgorithm { get; set; }
 
         [Parameter(Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "The storage account which the cmdlet to upload the template file to. If not specified, the current storage account of the subscription will be used.")]
         [ValidateNotNullOrEmpty]

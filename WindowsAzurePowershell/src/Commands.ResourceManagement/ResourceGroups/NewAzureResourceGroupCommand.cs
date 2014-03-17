@@ -51,8 +51,6 @@ namespace Microsoft.Azure.Commands.ResourceManagement
                 TemplateFile = this.TryResolvePath(TemplateFile),
                 TemplateParameterObject = GetTemplateParameterObject(TemplateParameterObject),
                 TemplateVersion = TemplateVersion,
-                TemplateHash = TemplateHash,
-                TemplateHashAlgorithm = TemplateHashAlgorithm,
                 StorageAccountName = StorageAccountName,
                 Force = Force.IsPresent,
                 ConfirmAction = ConfirmAction

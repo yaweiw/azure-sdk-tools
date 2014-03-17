@@ -21,7 +21,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Templates
     /// Get one template or a list of templates from the gallery.
     /// </summary>
     [Cmdlet(VerbsData.Save, "AzureResourceGroupGalleryTemplate"), OutputType(typeof(bool))]
-    public class SaveAzureResourceGroupGalleryTemplateCommand : ResourceBaseCmdlet
+    public class SaveAzureResourceGroupGalleryTemplateCommand : ResourceManagementBaseCmdlet
     {
         [Parameter(Position = 0, Mandatory = true, ValueFromPipelineByPropertyName = true, HelpMessage = "The gallery template name.")]
         [ValidateNotNullOrEmpty]
