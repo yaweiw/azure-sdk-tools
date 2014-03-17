@@ -12,14 +12,14 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Commands.Subscription
+namespace Microsoft.WindowsAzure.Commands.Profile
 {
     using System;
     using System.Linq;
     using System.Management.Automation;
     using System.Security.Cryptography.X509Certificates;
     using Utilities.Common;
-    using Utilities.Subscription;
+    using Utilities.Profile;
 
     /// <summary>
     /// Sets an azure subscription.

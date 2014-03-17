@@ -12,35 +12,35 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Commands.Test.Subscription
+namespace Microsoft.WindowsAzure.Commands.Test.Profile
 {
     using System.Management.Automation;
     using Commands.Utilities.Common;
-    using Commands.Subscription;
+    using Commands.Profile;
     using Moq;
     using VisualStudio.TestTools.UnitTesting;
 
     [TestClass]
-    public class GetAzurePublishSettingsFileTests
+    public class SelectAzureSubscriptionTests
     {
         [TestMethod]
-        public void GetsPublishSettingsFileUrl()
+        public void CleansDefaultSubscriptionTwice()
         {
             // Setup
             Mock<ICommandRuntime> commandRuntimeMock = new Mock<ICommandRuntime>();
-            GetAzurePublishSettingsFileCommand cmdlet = new GetAzurePublishSettingsFileCommand()
+            SelectAzureSubscriptionCommand cmdlet = new SelectAzureSubscriptionCommand()
             {
                 CommandRuntime = commandRuntimeMock.Object,
                 PassThru = true,
-                Environment = EnvironmentName.AzureCloud,
-                Realm = "microsoft.com"
+                NoDefault = true
             };
 
             // Test
             cmdlet.ExecuteCmdlet();
+            cmdlet.ExecuteCmdlet();
 
-            // Assert
-            commandRuntimeMock.Verify(f => f.WriteObject(true), Times.Once());
+            // Assert that no exception is thrown
+            Assert.IsTrue(true);
         }
     }
 }

@@ -12,7 +12,7 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Commands.Utilities.Subscription
+namespace Microsoft.WindowsAzure.Commands.Utilities.Profile
 {
     using System;
     using System.IO;

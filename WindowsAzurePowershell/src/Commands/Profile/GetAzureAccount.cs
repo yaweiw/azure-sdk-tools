@@ -12,13 +12,13 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Commands.Subscription
+namespace Microsoft.WindowsAzure.Commands.Profile
 {
     using System.Collections.Generic;
     using System.Linq;
     using System.Management.Automation;
     using Utilities.Common;
-    using Utilities.Subscription;
+    using Utilities.Profile;
 
     /// <summary>
     /// Cmdlet to list the currently downloaded accounts and their

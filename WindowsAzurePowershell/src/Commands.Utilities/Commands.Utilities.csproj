@@ -538,7 +538,7 @@
     <Compile Include="Store\ValidateCountryLengthAttribute.cs" />
     <Compile Include="Store\WindowsAzureAddOn.cs" />
     <Compile Include="Store\WindowsAzureOffer.cs" />
-    <Compile Include="Subscription\SubscriptionCmdletBase.cs" />
+    <Compile Include="Profile\SubscriptionCmdletBase.cs" />
     <Compile Include="WAPackIaaS\DataContract\proxy.cs" />
     <Compile Include="WAPackIaaS\Exceptions\WAPackOperationException.cs" />
     <Compile Include="WAPackIaaS\Exceptions\WAPackWebException.cs" />
@@ -650,10 +650,10 @@
       <Link>AutoMapper.Net4.dll</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Azure.psd1">
+    <Content Include="Microsoft.Azure.Commands.Profile.psd1">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="startup.ps1">
+    <Content Include="ServiceManagementStartup.ps1">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Microsoft.WindowsAzure.Commands.ServiceBus.format.ps1xml">
@@ -772,6 +772,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Microsoft.WindowsAzure.Commands.Scheduler.format.ps1xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Microsoft.Azure.Commands.ServiceManagement.psd1">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <None Include="PostBuildCleanup.bat" />

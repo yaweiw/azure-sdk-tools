@@ -12,7 +12,7 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Commands.Subscription
+namespace Microsoft.WindowsAzure.Commands.Profile
 {
     using System;
     using System.IO;
@@ -21,10 +21,10 @@ namespace Microsoft.WindowsAzure.Commands.Subscription
     using System.Security.Permissions;
     using Utilities.Common;
     using Utilities.Properties;
-    using Utilities.Subscription;
+    using Utilities.Profile;
 
     [Cmdlet(VerbsData.Import, "AzurePublishSettingsFile")]
-    public class ImportAzurePublishSettingsCommand : SubscriptionCmdletBase, IModuleAssemblyInitializer
+    public class ImportAzurePublishSettingsCommand : SubscriptionCmdletBase
     {
         public ImportAzurePublishSettingsCommand() : base(true)
         {
@@ -120,20 +120,6 @@ namespace Microsoft.WindowsAzure.Commands.Subscription
                 return CurrentPath();
             }
             return directoryPath;
-        }
-
-        /// <summary>
-        /// Run the startup script that defines aliases when the module is imported (explicitly or through lazy load)
-        /// </summary>
-        public void OnImport()
-        {
-            PowerShell invoker = null;
-            string startupScriptPath = Path.Combine(
-                Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location.ToString()),
-                "startup.ps1");
-            invoker = System.Management.Automation.PowerShell.Create(RunspaceMode.CurrentRunspace);
-            invoker.AddScript(File.ReadAllText(startupScriptPath));
-            invoker.Invoke();
         }
     }
 }
