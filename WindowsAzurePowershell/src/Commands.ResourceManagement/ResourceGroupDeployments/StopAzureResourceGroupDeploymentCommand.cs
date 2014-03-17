@@ -21,7 +21,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement.ResourceGroups
     /// Cancel a running deployment.
     /// </summary>
     [Cmdlet(VerbsLifecycle.Stop, "AzureResourceGroupDeployment"), OutputType(typeof(bool))]
-    public class StopAzureResourceGroupDeploymentCommand : ResourceBaseCmdlet
+    public class StopAzureResourceGroupDeploymentCommand : ResourceManagementBaseCmdlet
     {
         [Parameter(Position = 0, Mandatory = true, ValueFromPipelineByPropertyName = true, HelpMessage = "The name of the resource group.")]
         [ValidateNotNullOrEmpty]
