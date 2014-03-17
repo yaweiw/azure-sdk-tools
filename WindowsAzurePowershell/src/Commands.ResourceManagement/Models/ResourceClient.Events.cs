@@ -58,7 +58,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Models
                     throw new ArgumentException(Resources.DeploymentNotFound);
                 }
 
-                return GetDeploymentLogs(deploymentGetResult.Deployment.Properties.TrackingId);
+                return GetDeploymentLogs(deploymentGetResult.Deployment.Properties.CorrelationId);
             }
             else
             {
@@ -80,7 +80,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Models
                     throw new ArgumentException(Resources.DeploymentNotFound);
                 }
 
-                return GetDeploymentLogs(deploymentListResult.Deployments[0].Properties.TrackingId);
+                return GetDeploymentLogs(deploymentListResult.Deployments[0].Properties.CorrelationId);
             }
         }
 
