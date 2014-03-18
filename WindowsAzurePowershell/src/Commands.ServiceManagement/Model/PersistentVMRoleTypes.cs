@@ -2530,7 +2530,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Model.PersistentVMMo
         [DataMember(EmitDefaultValue = false, Order = 2, Name = "Timestamp")]
         private string _isoTimestampString { get; set; }
 
-        public DateTime TimestampUtc
+        public DateTime? TimestampUtc
         {
             get
             {
@@ -2544,7 +2544,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Model.PersistentVMMo
                 }
                 else
                 {
-                    this._isoTimestampString = value.ToUniversalTime().ToString(Constants.StandardTimeFormat);
+                    this._isoTimestampString = !value.HasValue ? string.Empty : value.Value.ToUniversalTime().ToString(Constants.StandardTimeFormat);
                 }
             }
         }
@@ -2653,7 +2653,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Model.PersistentVMMo
         [DataMember(EmitDefaultValue = false, Order = 1, Name = "Timestamp")]
         private string _isoTimestampString { get; set; }
 
-        public DateTime TimestampUtc
+        public DateTime? TimestampUtc
         {
             get
             {
@@ -2667,7 +2667,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Model.PersistentVMMo
                 }
                 else
                 {
-                    this._isoTimestampString = value.ToUniversalTime().ToString(Constants.StandardTimeFormat);
+                    this._isoTimestampString = !value.HasValue ? string.Empty : value.Value.ToUniversalTime().ToString(Constants.StandardTimeFormat);
                 }
             }
         }
@@ -2675,7 +2675,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Model.PersistentVMMo
         [DataMember(EmitDefaultValue = false, Order = 2, Name = "ConfigurationAppliedTime")]
         private string _isoConfigurationAppliedTimeString { get; set; }
 
-        public DateTime ConfigurationAppliedTimeUtc
+        public DateTime? ConfigurationAppliedTimeUtc
         {
             get
             {
@@ -2689,7 +2689,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Model.PersistentVMMo
                 }
                 else
                 {
-                    this._isoConfigurationAppliedTimeString = value.ToUniversalTime().ToString(Constants.StandardTimeFormat);
+                    this._isoConfigurationAppliedTimeString = !value.HasValue ? string.Empty : value.Value.ToUniversalTime().ToString(Constants.StandardTimeFormat);
                 }
             }
         }
