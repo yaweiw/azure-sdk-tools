@@ -142,6 +142,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
 
         private void ListAllVMs()
         {
+            var roles = new List<PersistentVMRoleListContext>();
             var servicesList = this.ComputeClient.HostedServices.List();
             foreach (var service in servicesList.HostedServices)
             {
@@ -191,7 +192,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
                                 }
                             };
 
-                            WriteObject(vmContext, true);
+                            roles.Add(vmContext);
                         }
                     }
                 }
@@ -203,6 +204,8 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
                     }
                 }
             }
+
+            WriteObject(roles, true);
         }
     }
 }

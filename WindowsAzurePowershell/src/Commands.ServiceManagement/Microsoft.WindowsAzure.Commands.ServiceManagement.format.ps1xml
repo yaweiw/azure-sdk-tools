@@ -115,26 +115,23 @@
       <ViewSelectedBy>
         <TypeName>Microsoft.WindowsAzure.Commands.ServiceManagement.Model.PersistentVMRoleListContext</TypeName>
       </ViewSelectedBy>
-      <ListControl>
-        <ListEntries>
-          <ListEntry>
-            <ListItems>
-              <ListItem>
-                <Label>ServiceName</Label>
+      <TableControl>
+        <TableRowEntries>
+          <TableRowEntry>
+            <TableColumnItems>
+              <TableColumnItem>
                 <PropertyName>ServiceName</PropertyName>
-              </ListItem>
-              <ListItem>
-                <Label>Name</Label>
+              </TableColumnItem>
+              <TableColumnItem>
                 <PropertyName>Name</PropertyName>
-              </ListItem>
-              <ListItem>
-                <Label>Status</Label>
+              </TableColumnItem>
+              <TableColumnItem>
                 <PropertyName>Status</PropertyName>
-              </ListItem>
-            </ListItems>
-          </ListEntry>
-        </ListEntries>
-      </ListControl>
+              </TableColumnItem>
+            </TableColumnItems>
+          </TableRowEntry>
+        </TableRowEntries>
+      </TableControl>
     </View>
   </ViewDefinitions>
 </Configuration>
