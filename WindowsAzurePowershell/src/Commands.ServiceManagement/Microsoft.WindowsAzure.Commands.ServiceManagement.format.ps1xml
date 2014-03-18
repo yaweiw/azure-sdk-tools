@@ -110,5 +110,31 @@
         </ListEntries>
       </ListControl>
     </View>
+    <View>
+      <Name>Microsoft.WindowsAzure.Commands.ServiceManagement.Model.PersistentVMRoleListContext</Name>
+      <ViewSelectedBy>
+        <TypeName>Microsoft.WindowsAzure.Commands.ServiceManagement.Model.PersistentVMRoleListContext</TypeName>
+      </ViewSelectedBy>
+      <ListControl>
+        <ListEntries>
+          <ListEntry>
+            <ListItems>
+              <ListItem>
+                <Label>ServiceName</Label>
+                <PropertyName>ServiceName</PropertyName>
+              </ListItem>
+              <ListItem>
+                <Label>Name</Label>
+                <PropertyName>Name</PropertyName>
+              </ListItem>
+              <ListItem>
+                <Label>Status</Label>
+                <PropertyName>Status</PropertyName>
+              </ListItem>
+            </ListItems>
+          </ListEntry>
+        </ListEntries>
+      </ListControl>
+    </View>
   </ViewDefinitions>
 </Configuration>

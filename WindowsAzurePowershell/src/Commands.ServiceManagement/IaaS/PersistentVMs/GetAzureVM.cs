@@ -153,7 +153,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
                         if (vm.RoleType == "PersistentVMRole")
                         {
                             var roleInstance = deploymentGetResponse.RoleInstances.First(r => r.RoleName == vm.RoleName);
-                            var vmContext = new PersistentVMRoleContext
+                            var vmContext = new PersistentVMRoleListContext
                             {
                                 ServiceName = service.ServiceName,
                                 Name = vm.RoleName,
