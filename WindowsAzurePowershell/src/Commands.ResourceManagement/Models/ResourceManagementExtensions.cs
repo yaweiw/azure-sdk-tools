@@ -114,6 +114,9 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Models
             }
             PSDeploymentEventData psObject = new PSDeploymentEventData
                 {
+                    Authorization = eventData.Authorization.ToPSDeploymentEventDataAuthorization(),
+                    ResourceUri = eventData.ResourceUri,
+                    SubscriptionId = eventData.SubscriptionId,
                     EventId = eventData.EventDataId,
                     EventName = eventData.EventName.LocalizedValue,
                     EventSource = eventData.EventSource.LocalizedValue,
@@ -125,15 +128,29 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Models
                     OperationName = eventData.OperationName.LocalizedValue,
                     Status = eventData.Status.LocalizedValue,
                     SubStatus = eventData.SubStatus.LocalizedValue,
+                    Caller = GetEventDataCaller(eventData.Claims),
+                    CorrelationId = eventData.CorrelationId,
                     ResourceGroupName = eventData.ResourceGroupName,
                     ResourceProvider = eventData.ResourceProviderName.LocalizedValue,
-                    ResourceUri = eventData.ResourceUri,
                     HttpRequest = eventData.HttpRequest.ToPSDeploymentEventDataHttpRequest(),
-                    Authorization = eventData.Authorization.ToPSDeploymentEventDataAuthorization(),
                     Claims = eventData.Claims,
                     Properties = eventData.Properties
                 };
             return psObject;
+        }
+
+        private static string GetEventDataCaller(Dictionary<string, string> claims)
+        {
+            string name = "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name";
+
+            if (claims == null || !claims.ContainsKey(name))
+            {
+                return null;
+            }
+            else
+            {
+                return claims[name];
+            }
         }
 
         public static PSDeploymentEventDataHttpRequest ToPSDeploymentEventDataHttpRequest(this HttpRequestInfo httpRequest)
