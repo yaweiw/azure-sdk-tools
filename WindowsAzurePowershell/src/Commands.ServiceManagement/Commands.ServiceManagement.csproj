@@ -169,11 +169,7 @@
     </Reference>
     <Reference Include="Microsoft.WindowsAzure.Management.Compute, Version=0.9.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Microsoft.WindowsAzure.Management.Compute.0.9.13-preview\lib\net40\Microsoft.WindowsAzure.Management.Compute.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.WindowsAzure.Management.Compute, Version=0.9.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Microsoft.WindowsAzure.Management.Compute.0.9.13.28-preview\lib\net40\Microsoft.WindowsAzure.Management.Compute.dll</HintPath>
+      <HintPath>..\packages\Microsoft.WindowsAzure.Management.Compute.0.9.13.29-preview\lib\net40\Microsoft.WindowsAzure.Management.Compute.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.WindowsAzure.Management.Storage, Version=0.9.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -276,6 +272,7 @@
     <Compile Include="IaaS\Network\RemoveAzureStaticVNetIP.cs" />
     <Compile Include="IaaS\Network\SetAzureStaticVNetIP.cs" />
     <Compile Include="IaaS\Network\TestAzureStaticVNetIP.cs" />
+    <Compile Include="Model\PersistentVMRoleListContext.cs" />
     <Compile Include="Model\RoleSizeContext.cs" />
     <Compile Include="Model\PersistentVMRoleTypes.cs" />
     <Compile Include="Model\VirtualNetworkStaticIPAvailabilityContext.cs" />
@@ -479,6 +476,7 @@
     <Compile Include="StorageServices\StorageCredentialsFactory.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="app.config" />
     <None Include="Extensions\ADDomain\ADBuildSchema.cmd" />
     <None Include="Extensions\ADDomain\ADPrivateSchema.xsd">
       <SubType>Designer</SubType>
