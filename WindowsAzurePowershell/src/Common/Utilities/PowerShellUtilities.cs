@@ -45,7 +45,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
             }
             else
             {
-                psModulePath = string.Join(";", paths);
+                psModulePath = string.Join(";", paths.Distinct());
                 Environment.SetEnvironmentVariable(PSModulePathName, psModulePath, target);
             }
         }

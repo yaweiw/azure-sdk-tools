@@ -20,7 +20,7 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>..\..\..\Package\Debug\</OutputPath>
+    <OutputPath>..\..\..\Package\Debug\AzureResourceManagement\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -31,13 +31,13 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>..\..\..\Package\Release\</OutputPath>
+    <OutputPath>..\..\..\Package\Release\AzureResourceManagement\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)' == 'ReleaseSigned'">
-    <OutputPath>..\..\..\Package\Release\</OutputPath>
+    <OutputPath>..\..\..\Package\Release\Microsoft.Azure.Commands.ResourceManagement\</OutputPath>
     <DefineConstants>TRACE;SIGN</DefineConstants>
     <Optimize>true</Optimize>
     <DebugType>pdbonly</DebugType>
@@ -84,6 +84,9 @@
     <PlatformTarget>x64</PlatformTarget>
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'ReleaseSigned|AnyCPU'">
+    <OutputPath>..\..\..\Package\Release\AzureResourceManagement\</OutputPath>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.Azure.Gallery">
@@ -249,11 +252,11 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <SubType>Designer</SubType>
     </Content>
-    <None Include="MSSharedLibKey.snk" />
-    <None Include="packages.config" />
-    <Content Include="Microsoft.Azure.Commands.ResourceManagement.psd1">
+    <Content Include="AzureResourceManagement.psd1">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <None Include="MSSharedLibKey.snk" />
+    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Properties\Resources.resx">
