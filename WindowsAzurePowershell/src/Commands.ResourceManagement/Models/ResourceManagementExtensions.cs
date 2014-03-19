@@ -73,6 +73,15 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Models
             return deployment;
         }
 
+        public static PSResourceManagementError ToPSResourceManagementError(this ResourceManagementError error)
+        {
+            return new PSResourceManagementError
+                {
+                    Code = error.Code,
+                    Message = error.Message
+                };
+        }
+
         public static PSResource ToPSResource(this Resource resource, string resourceGroup, ResourcesClient client)
         {
             return new PSResource()

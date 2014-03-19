@@ -29,7 +29,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement
                 {
                     _resourceClient = new ResourcesClient(CurrentSubscription)
                     {
-                        ProgressLogger = WriteVerboseWithTimestamp,
+                        VerboseLogger = WriteVerboseWithTimestamp,
                         ErrorLogger = WriteErrorWithTimestamp
                     };
                 }

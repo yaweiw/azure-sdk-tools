@@ -57,25 +57,22 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Test.Resources
                 TemplateVersion = "1.0"
             };
             ValidatePSResourceGroupDeploymentParameters actualParameters = new ValidatePSResourceGroupDeploymentParameters();
-            List<ResourceManagementErrorWithDetails> expected = new List<ResourceManagementErrorWithDetails>()
+            IEnumerable<PSResourceManagementError> expected = new List<PSResourceManagementError>()
             {
-                new ResourceManagementErrorWithDetails()
+                new PSResourceManagementError()
                 {
                     Code = "202",
                     Message = "bad input",
-                    Target = "bad target"
                 },
-                new ResourceManagementErrorWithDetails()
+                new PSResourceManagementError()
                 {
                     Code = "203",
                     Message = "bad input 2",
-                    Target = "bad target 2"
                 },
-                new ResourceManagementErrorWithDetails()
+                new PSResourceManagementError()
                 {
                     Code = "203",
                     Message = "bad input 3",
-                    Target = "bad target 3"
                 }
             };
             resourcesClientMock.Setup(f => f.ValidatePSResourceGroupDeployment(
@@ -109,25 +106,22 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Test.Resources
                 TemplateVersion = "1.0"
             };
             ValidatePSResourceGroupDeploymentParameters actualParameters = new ValidatePSResourceGroupDeploymentParameters();
-            List<ResourceManagementErrorWithDetails> expected = new List<ResourceManagementErrorWithDetails>()
+            IEnumerable<PSResourceManagementError> expected = new List<PSResourceManagementError>()
             {
-                new ResourceManagementErrorWithDetails()
+                new PSResourceManagementError()
                 {
                     Code = "202",
                     Message = "bad input",
-                    Target = "bad target"
                 },
-                new ResourceManagementErrorWithDetails()
+                new PSResourceManagementError()
                 {
                     Code = "203",
                     Message = "bad input 2",
-                    Target = "bad target 2"
                 },
-                new ResourceManagementErrorWithDetails()
+                new PSResourceManagementError()
                 {
                     Code = "203",
                     Message = "bad input 3",
-                    Target = "bad target 3"
                 }
             };
             resourcesClientMock.Setup(f => f.ValidatePSResourceGroupDeployment(
