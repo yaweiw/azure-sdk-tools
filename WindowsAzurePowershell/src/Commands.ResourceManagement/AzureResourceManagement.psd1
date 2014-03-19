@@ -57,10 +57,7 @@ RequiredAssemblies = @()
 ScriptsToProcess = @()
 
 # Type files (.ps1xml) to be loaded when importing this module
-TypesToProcess = @(
-    'Microsoft.WindowsAzure.Commands.Websites.Types.ps1xml',
-    'Microsoft.WindowsAzure.Commands.SqlDatabase.Types.ps1xml'
-)
+TypesToProcess = @()
 
 # Format files (.ps1xml) to be loaded when importing this module
 FormatsToProcess = @('Microsoft.Azure.Commands.ResourceManagement.format.ps1xml')

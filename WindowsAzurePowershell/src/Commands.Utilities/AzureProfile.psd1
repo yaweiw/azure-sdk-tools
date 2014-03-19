@@ -9,13 +9,13 @@
 @{
 
 # Script module or binary module file associated with this manifest
-ModuleToProcess = '.\Microsoft.WindowsAzure.Commands.dll'
+ModuleToProcess = '..\Microsoft.WindowsAzure.Commands.dll'
 
 # Version number of this module.
 ModuleVersion = '0.7.4'
 
 # ID used to uniquely identify this module
-GUID = '81d522a4-6e5d-4105-8f58-376204c47458'
+GUID = '691681E2-BDB1-4FEA-9EB1-87F38D8901D2'
 
 # Author of this module
 Author = 'Microsoft Corporation'
@@ -76,6 +76,10 @@ CmdletsToExport = 'Add-AzureAccount',
 				  'Get-AzureEnvironment',
 				  'Set-AzureEnvironment',
 				  'Remove-AzureEnvironment',
+				  'Get-AzureSubscription',
+				  'Set-AzureSubscription',
+				  'Remove-AzureSubscription',
+				  'Select-AzureSubscription',
 				  'Switch-AzureModule'
 
 # Variables to export from this module

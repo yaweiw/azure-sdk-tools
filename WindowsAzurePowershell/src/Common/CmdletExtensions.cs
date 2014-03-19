@@ -170,10 +170,17 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
             return ExecuteScript<T>(cmdlet, contents);
         }
 
+        #region PowerShell Commands
+
         public static void RemoveModule(this PSCmdlet cmdlet, string moduleName)
         {
             string contents = string.Format("Remove-Module {0}", moduleName);
             ExecuteScript<object>(cmdlet, contents);
+        }
+
+        public static List<PSModuleInfo> GetModules(this PSCmdlet cmdlet)
+        {
+            return ExecuteScript<PSModuleInfo>(cmdlet, "Get-Module");
         }
 
         public static void ImportModule(this PSCmdlet cmdlet, string modulePath)
@@ -195,5 +202,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
             string contents = "$VerbosePreference='Continue'";
             ExecuteScript<object>(cmdlet, contents);
         }
+
+        #endregion
     }
 }
