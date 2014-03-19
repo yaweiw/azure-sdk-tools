@@ -2,6 +2,28 @@
 <Configuration>
   <ViewDefinitions>
     <View>
+      <Name>Microsoft.Azure.Commands.ResourceManagement.Models.PSResourceManagementError</Name>
+      <ViewSelectedBy>
+        <TypeName>Microsoft.Azure.Commands.ResourceManagement.Models.PSResourceManagementError</TypeName>
+      </ViewSelectedBy>
+      <ListControl>
+        <ListEntries>
+          <ListEntry>
+            <ListItems>
+              <ListItem>
+                <Label>Code</Label>
+                <PropertyName>Code</PropertyName>
+              </ListItem>
+              <ListItem>
+                <Label>Message</Label>
+                <PropertyName>Message</PropertyName>
+              </ListItem>              
+            </ListItems>
+          </ListEntry>
+        </ListEntries>
+      </ListControl>
+    </View>
+    <View>
       <Name>Microsoft.Azure.Commands.ResourceManagement.Models.PSResourceGroup</Name>
       <ViewSelectedBy>
         <TypeName>Microsoft.Azure.Commands.ResourceManagement.Models.PSResourceGroup</TypeName>
