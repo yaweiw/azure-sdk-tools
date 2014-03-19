@@ -18,18 +18,18 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
     using System.Linq;
     using Management.Storage;
     using Newtonsoft.Json;
+    using Utilities.Common;
 
     public class VirtualMachineCustomScriptExtensionCmdletBase : VirtualMachineExtensionCmdletBase
     {
         protected const string VirtualMachineCustomScriptExtensionNoun = "AzureVMCustomScriptExtension";
-
         protected const string ExtensionDefaultPublisher = "Microsoft.WindowsAzure.Compute";
         protected const string ExtensionDefaultName = "CustomScriptHandler";
         protected const string LegacyReferenceName = "MyCustomScriptExtension";
 
         public virtual string ContainerName { get; set; }
-        public virtual string[] File { get; set; }
-        public virtual Uri[] Uri{ get; set; }
+        public virtual string[] FileName { get; set; }
+        public virtual Uri[] FileUri{ get; set; }
         public virtual string StorageAccountName { get; set; }
         public virtual string StorageAccountKey { get; set; }
         public virtual string Command { get; set; }
@@ -41,50 +41,39 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
             base.extensionName = ExtensionDefaultName;
         }
 
-        protected Uri GetSasUrl(string storageAccount, string container, string blobFile)
-        {
-            return null;
-        }
-
-        protected string GetStorageKey(string storageName)
-        {
-            string storageKey = string.Empty;
-
-            if (!string.IsNullOrEmpty(storageName))
-            {
-                var storageAccount = this.StorageClient.StorageAccounts.Get(storageName);
-                if (storageAccount != null)
-                {
-                    var keys = this.StorageClient.StorageAccounts.GetKeys(storageName);
-                    if (keys != null)
-                    {
-                        storageKey = !string.IsNullOrEmpty(keys.PrimaryKey) ? keys.PrimaryKey : keys.SecondaryKey;
-                    }
-                }
-            }
-
-            return storageKey;
-        }
-
         protected string GetPublicConfiguration()
         {
-            string commandToExecute = this.Argument == null || this.Argument.Length <= 0 ? this.Command
-                 : string.Concat(this.Command, " ", string.Join(" ", this.Argument.AsEnumerable()));
+            const string SpaceCharStr = " ";
+            string commandToExecute = string.Empty;
 
-            return JsonConvert.SerializeObject(new PublicSettings
+            if (this.Argument == null || !this.Argument.Any())
             {
-                fileUris = this.Uri,
-                commandToExecute = commandToExecute ?? string.Empty
-            });
+                commandToExecute = this.Command ?? string.Empty;
+            }
+            else
+            {
+                commandToExecute = string.Concat(
+                    this.Command,
+                    SpaceCharStr,
+                    string.Join(SpaceCharStr, this.Argument.AsEnumerable())).Trim();
+            }
+
+            return JsonUtilities.TryFormatJson(JsonConvert.SerializeObject(
+               new PublicSettings
+               {
+                   fileUris = this.FileUri,
+                   commandToExecute = commandToExecute
+               }));
         }
 
         protected string GetPrivateConfiguration()
         {
-            return JsonConvert.SerializeObject(new PrivateSettings
-            {
-                storageAccountName = this.StorageAccountName ?? string.Empty,
-                storageAccountKey = !string.IsNullOrEmpty(this.StorageAccountKey) ? this.StorageAccountKey : GetStorageKey(this.StorageAccountName)
-            });
+            return JsonUtilities.TryFormatJson(JsonConvert.SerializeObject(
+               new PrivateSettings
+               {
+                   storageAccountName = this.StorageAccountName ?? string.Empty,
+                   storageAccountKey = this.StorageAccountKey ?? string.Empty
+               }));
         }
     }
 }
