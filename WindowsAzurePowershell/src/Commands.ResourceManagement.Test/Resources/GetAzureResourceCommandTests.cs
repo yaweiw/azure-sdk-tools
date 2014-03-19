@@ -78,7 +78,6 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Test
             {
                 Name = resourceName,
                 Location = resourceGroupLocation,
-                ResourceGroup = resourceGroupName,
                 Type = resourceType,
                 ProvisioningState = "Running",
                 Properties = serializedProperties
@@ -97,7 +96,6 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Test
             cmdlet.ExecuteCmdlet();
 
             Assert.Equal(1, result.Count);
-            Assert.Equal(resourceGroupName, result[0].ResourceGroup);
             Assert.Equal(resourceGroupLocation, result[0].Location);
             Assert.Equal(resourceType, result[0].Type);
             Assert.Equal("Running", result[0].ProvisioningState);

@@ -57,21 +57,21 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Test.Resources
                 TemplateVersion = "1.0"
             };
             ValidatePSResourceGroupDeploymentParameters actualParameters = new ValidatePSResourceGroupDeploymentParameters();
-            List<ResourceManagementError> expected = new List<ResourceManagementError>()
+            List<ResourceManagementErrorWithDetails> expected = new List<ResourceManagementErrorWithDetails>()
             {
-                new ResourceManagementError()
+                new ResourceManagementErrorWithDetails()
                 {
                     Code = "202",
                     Message = "bad input",
                     Target = "bad target"
                 },
-                new ResourceManagementError()
+                new ResourceManagementErrorWithDetails()
                 {
                     Code = "203",
                     Message = "bad input 2",
                     Target = "bad target 2"
                 },
-                new ResourceManagementError()
+                new ResourceManagementErrorWithDetails()
                 {
                     Code = "203",
                     Message = "bad input 3",
@@ -109,21 +109,21 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Test.Resources
                 TemplateVersion = "1.0"
             };
             ValidatePSResourceGroupDeploymentParameters actualParameters = new ValidatePSResourceGroupDeploymentParameters();
-            List<ResourceManagementError> expected = new List<ResourceManagementError>()
+            List<ResourceManagementErrorWithDetails> expected = new List<ResourceManagementErrorWithDetails>()
             {
-                new ResourceManagementError()
+                new ResourceManagementErrorWithDetails()
                 {
                     Code = "202",
                     Message = "bad input",
                     Target = "bad target"
                 },
-                new ResourceManagementError()
+                new ResourceManagementErrorWithDetails()
                 {
                     Code = "203",
                     Message = "bad input 2",
                     Target = "bad target 2"
                 },
-                new ResourceManagementError()
+                new ResourceManagementErrorWithDetails()
                 {
                     Code = "203",
                     Message = "bad input 3",
