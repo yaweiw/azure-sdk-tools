@@ -70,17 +70,17 @@ FunctionsToExport = '*'
 
 # Cmdlets to export from this module
 CmdletsToExport = 'Add-AzureAccount',
-				  'Get-AzureAccount',
-				  'Remove-AzureAccount',
-				  'Add-AzureEnvironment',
-				  'Get-AzureEnvironment',
-				  'Set-AzureEnvironment',
-				  'Remove-AzureEnvironment',
-				  'Get-AzureSubscription',
-				  'Set-AzureSubscription',
-				  'Remove-AzureSubscription',
-				  'Select-AzureSubscription',
-				  'Switch-AzureModule'
+                  'Get-AzureAccount',
+                  'Remove-AzureAccount',
+                  'Add-AzureEnvironment',
+                  'Get-AzureEnvironment',
+                  'Set-AzureEnvironment',
+                  'Remove-AzureEnvironment',
+                  'Get-AzureSubscription',
+                  'Set-AzureSubscription',
+                  'Remove-AzureSubscription',
+                  'Select-AzureSubscription',
+                  'Switch-AzureModule'
 
 # Variables to export from this module
 VariablesToExport = @()
