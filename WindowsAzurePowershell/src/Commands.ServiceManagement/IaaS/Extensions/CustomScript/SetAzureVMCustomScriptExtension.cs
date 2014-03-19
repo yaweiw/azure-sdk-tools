@@ -21,51 +21,144 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
     [Cmdlet(
         VerbsCommon.Set,
         VirtualMachineCustomScriptExtensionNoun,
-        DefaultParameterSetName = SetCustomScriptExtensionParamSetName),
+        DefaultParameterSetName = SetCustomScriptExtensionParamSetNameByBlobs),
     OutputType(
         typeof(IPersistentVM))]
     public class SetAzureVMCustomScriptExtensionCommand : VirtualMachineCustomScriptExtensionCmdletBase
     {
-        protected const string SetCustomScriptExtensionParamSetName = "SetCustomScriptExtension";
+        protected const string SetCustomScriptExtensionParamSetNameByBlobs = "SetCustomScriptExtensionByContainerAndFileNames";
+        protected const string SetCustomScriptExtensionParamSetNameByUris = "SetCustomScriptExtensionByUriLinks";
 
         [Parameter(
+            ParameterSetName = SetCustomScriptExtensionParamSetNameByBlobs,
+            Mandatory = true,
+            Position = 0,
+            ValueFromPipelineByPropertyName = true,
+            HelpMessage = "The Name of the Container.")]
+        [ValidateNotNullOrEmpty]
+        public override string ContainerName { get; set; }
+
+        [Parameter(
+            ParameterSetName = SetCustomScriptExtensionParamSetNameByBlobs,
+            Mandatory = true,
+            Position = 1,
+            ValueFromPipelineByPropertyName = true,
+            HelpMessage = "The Blob Files in the Container.")]
+        [ValidateNotNullOrEmpty]
+        public override string[] File { get; set; }
+
+        [Parameter(
+            ParameterSetName = SetCustomScriptExtensionParamSetNameByUris,
+            Mandatory = false,
+            Position = 0,
+            ValueFromPipelineByPropertyName = true,
+            HelpMessage = "The File URIs.")]
+        [ValidateNotNullOrEmpty]
+        public override Uri[] Uri { get; set; }
+
+        [Parameter(
+            ParameterSetName = SetCustomScriptExtensionParamSetNameByBlobs,
+            Mandatory = false,
+            Position = 2,
+            ValueFromPipelineByPropertyName = true,
+            HelpMessage = "The Command to Execute.")]
+        [Parameter(
+            ParameterSetName = SetCustomScriptExtensionParamSetNameByUris,
             Mandatory = false,
             Position = 1,
             ValueFromPipelineByPropertyName = true,
-            HelpMessage = "Disable VM BGInfo Extension")]
-        public override SwitchParameter Disable { get; set; }
+            HelpMessage = "The Command to Execute.")]
+        [ValidateNotNullOrEmpty]
+        public override string Command { get; set; }
 
         [Parameter(
+            ParameterSetName = SetCustomScriptExtensionParamSetNameByBlobs,
+            Mandatory = false,
+            Position = 3,
+            ValueFromPipelineByPropertyName = true,
+            HelpMessage = "The Argument for the Command.")]
+        [Parameter(
+            ParameterSetName = SetCustomScriptExtensionParamSetNameByUris,
             Mandatory = false,
             Position = 2,
+            ValueFromPipelineByPropertyName = true,
+            HelpMessage = "The Argument for the Command.")]
+        [ValidateNotNullOrEmpty]
+        public override string[] Argument { get; set; }
+
+        [Parameter(
+            ParameterSetName = SetCustomScriptExtensionParamSetNameByBlobs,
+            Mandatory = false,
+            Position = 4,
+            ValueFromPipelineByPropertyName = true,
+            HelpMessage = "The storage account name.")]
+        [Parameter(
+            ParameterSetName = SetCustomScriptExtensionParamSetNameByUris,
+            Mandatory = false,
+            Position = 3,
+            ValueFromPipelineByPropertyName = true,
+            HelpMessage = "The storage account name.")]
+        [ValidateNotNullOrEmpty]
+        public override string StorageAccountName { get; set; }
+
+        [Parameter(
+            ParameterSetName = SetCustomScriptExtensionParamSetNameByBlobs,
+            Mandatory = false,
+            Position = 5,
+            ValueFromPipelineByPropertyName = true,
+            HelpMessage = "The storage account key.")]
+        [Parameter(
+            ParameterSetName = SetCustomScriptExtensionParamSetNameByUris,
+            Mandatory = false,
+            Position = 4,
+            ValueFromPipelineByPropertyName = true,
+            HelpMessage = "The storage account key.")]
+        [ValidateNotNullOrEmpty]
+        public override string StorageAccountKey { get; set; }
+
+        [Parameter(
+            ParameterSetName = SetCustomScriptExtensionParamSetNameByBlobs,
+            Mandatory = false,
+            Position = 6,
+            ValueFromPipelineByPropertyName = true,
+            HelpMessage = "The Extension Reference Name.")]
+        [Parameter(
+            ParameterSetName = SetCustomScriptExtensionParamSetNameByUris,
+            Mandatory = false,
+            Position = 5,
             ValueFromPipelineByPropertyName = true,
             HelpMessage = "The Extension Reference Name.")]
         [ValidateNotNullOrEmpty]
         public override string ReferenceName { get; set; }
 
         [Parameter(
+            ParameterSetName = SetCustomScriptExtensionParamSetNameByBlobs,
             Mandatory = false,
-            Position = 3,
+            Position = 7,
+            ValueFromPipelineByPropertyName = true,
+            HelpMessage = "The Extension Version.")]
+        [Parameter(
+            ParameterSetName = SetCustomScriptExtensionParamSetNameByUris,
+            Mandatory = false,
+            Position = 6,
             ValueFromPipelineByPropertyName = true,
             HelpMessage = "The Extension Version.")]
         [ValidateNotNullOrEmpty]
         public override string Version { get; set; }
 
         [Parameter(
+            ParameterSetName = SetCustomScriptExtensionParamSetNameByBlobs,
             Mandatory = false,
-            Position = 4,
+            Position = 8,
             ValueFromPipelineByPropertyName = true,
-            HelpMessage = "The File URIs.")]
-        [ValidateNotNullOrEmpty]
-        public override Uri[] FileUris { get; set; }
-
+            HelpMessage = "Disable VM BGInfo Extension")]
         [Parameter(
+            ParameterSetName = SetCustomScriptExtensionParamSetNameByUris,
             Mandatory = false,
-            Position = 5,
+            Position = 7,
             ValueFromPipelineByPropertyName = true,
-            HelpMessage = "The Command to Execute.")]
-        [ValidateNotNullOrEmpty]
-        public override string CommandToExecute { get; set; }
+            HelpMessage = "Disable VM BGInfo Extension")]
+        public override SwitchParameter Disable { get; set; }
 
         internal void ExecuteCommand()
         {
