@@ -223,6 +223,15 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Template is valid..
+        /// </summary>
+        internal static string TemplateValid {
+            get {
+                return ResourceManager.GetString("TemplateValid", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Cannot find Gallery item &apos;{0}&apos;.
         /// </summary>
         internal static string UnableToFindGallery {
