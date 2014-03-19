@@ -37,13 +37,13 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Models
             };
         }
 
-        public static PSResourceGroupDeployment ToPSResourceGroupDeployment(this DeploymentGetResult result)
+        public static PSResourceGroupDeployment ToPSResourceGroupDeployment(this DeploymentGetResult result, string resourceGroup)
         {
             PSResourceGroupDeployment deployment = new PSResourceGroupDeployment();
 
             if (result != null)
             {
-                deployment = CreatePSResourceGroupDeployment(result.Deployment.DeploymentName, result.Deployment.ResourceGroup, result.Deployment.Properties);
+                deployment = CreatePSResourceGroupDeployment(result.Deployment.DeploymentName, resourceGroup, result.Deployment.Properties);
             }
 
             return deployment;
@@ -61,26 +61,35 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Models
             return deployment;
         }
 
-        public static PSResourceGroupDeployment ToPSResourceGroupDeployment(this Deployment result)
+        public static PSResourceGroupDeployment ToPSResourceGroupDeployment(this Deployment result, string resourceGroup)
         {
             PSResourceGroupDeployment deployment = new PSResourceGroupDeployment();
 
             if (result != null)
             {
-                deployment = CreatePSResourceGroupDeployment(result.DeploymentName, result.ResourceGroup, result.Properties);
+                deployment = CreatePSResourceGroupDeployment(result.DeploymentName, resourceGroup, result.Properties);
             }
 
             return deployment;
         }
 
-        public static PSResource ToPSResource(this Resource resource, ResourcesClient client)
+        public static PSResourceManagementError ToPSResourceManagementError(this ResourceManagementError error)
+        {
+            return new PSResourceManagementError
+                {
+                    Code = error.Code,
+                    Message = error.Message
+                };
+        }
+
+        public static PSResource ToPSResource(this Resource resource, string resourceGroup, ResourcesClient client)
         {
             return new PSResource()
             {
                 Name = resource.Name,
                 Location = resource.Location,
                 ResourceType = resource.Type,
-                ResourceGroupName = resource.ResourceGroup,
+                ResourceGroupName = resourceGroup,
                 Properties = JsonUtilities.DeserializeJson(resource.Properties)
             };
         }
