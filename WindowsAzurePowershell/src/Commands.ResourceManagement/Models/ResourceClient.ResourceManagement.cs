@@ -98,7 +98,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Models
             
             ResourceGetResult getResult = ResourceManagementClient.Resources.Get(parameters.ResourceGroupName, resourceIdentity);
 
-            return getResult.Resource.ToPSResource(this);
+            return getResult.Resource.ToPSResource(parameters.ResourceGroupName, this);
         }
 
         /// <summary>
@@ -142,7 +142,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Models
 
             ResourceGetResult getResult = ResourceManagementClient.Resources.Get(parameters.ResourceGroupName, resourceIdentity);
 
-            return getResult.Resource.ToPSResource(this);
+            return getResult.Resource.ToPSResource(parameters.ResourceGroupName, this);
         }
 
         /// <summary>
@@ -160,7 +160,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Models
 
                 ResourceGetResult getResult = ResourceManagementClient.Resources.Get(parameters.ResourceGroupName, resourceIdentity);
 
-                resources.Add(getResult.Resource.ToPSResource(this));
+                resources.Add(getResult.Resource.ToPSResource(parameters.ResourceGroupName, this));
             }
             else
             {
@@ -172,7 +172,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Models
 
                 if (listResult.Resources != null)
                 {
-                    resources.AddRange(listResult.Resources.Select(r => r.ToPSResource(this)));
+                    resources.AddRange(listResult.Resources.Select(r => r.ToPSResource(parameters.ResourceGroupName, this)));
                 }
             }
             return resources;
@@ -278,7 +278,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Models
 
             parameters.Name = string.IsNullOrEmpty(parameters.Name) ? Guid.NewGuid().ToString() : parameters.Name;
             BasicDeployment deployment = CreateBasicDeployment(parameters);
-            List<ResourceManagementError> errors = CheckBasicDeploymentErrors(parameters.ResourceGroupName, deployment);
+            List<ResourceManagementErrorWithDetails> errors = CheckBasicDeploymentErrors(parameters.ResourceGroupName, parameters.Name, deployment);
 
             if (errors.Count != 0)
             {
@@ -286,7 +286,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Models
                 string errorFormat = "Error {0}: Code={1}; Message={2}; Target={3}\r\n";
                 StringBuilder errorsString = new StringBuilder();
                 errors.ForEach(e => errorsString.AppendFormat(errorFormat, counter++, e.Code, e.Message, e.Target));
-                throw new ArgumentException(errors.ToString());
+                throw new ArgumentException(errorsString.ToString());
             }
 
             DeploymentOperationsCreateResult result = ResourceManagementClient.Deployments.CreateOrUpdate(parameters.ResourceGroupName, parameters.Name, deployment);
@@ -478,7 +478,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Models
 
             if (!string.IsNullOrEmpty(resourceGroup) && !string.IsNullOrEmpty(name))
             {
-                deployments.Add(ResourceManagementClient.Deployments.Get(resourceGroup, name).ToPSResourceGroupDeployment());
+                deployments.Add(ResourceManagementClient.Deployments.Get(resourceGroup, name).ToPSResourceGroupDeployment(options.ResourceGroupName));
             }
             else if (!string.IsNullOrEmpty(resourceGroup))
             {
@@ -491,12 +491,12 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Models
 
                 DeploymentListResult result = ResourceManagementClient.Deployments.List(resourceGroup, parameters);
 
-                deployments.AddRange(result.Deployments.Select(d => d.ToPSResourceGroupDeployment()));
+                deployments.AddRange(result.Deployments.Select(d => d.ToPSResourceGroupDeployment(options.ResourceGroupName)));
 
                 while (!string.IsNullOrEmpty(result.NextLink))
                 {
                     result = ResourceManagementClient.Deployments.ListNext(result.NextLink);
-                    deployments.AddRange(result.Deployments.Select(d => d.ToPSResourceGroupDeployment()));
+                    deployments.AddRange(result.Deployments.Select(d => d.ToPSResourceGroupDeployment(options.ResourceGroupName)));
                 }
             }
 
@@ -566,12 +566,12 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Models
         /// </summary>
         /// <param name="parameters">The deployment create options</param>
         /// <returns>True if valid, false otherwise.</returns>
-        public virtual List<ResourceManagementError> ValidatePSResourceGroupDeployment(ValidatePSResourceGroupDeploymentParameters parameters)
+        public virtual List<ResourceManagementErrorWithDetails> ValidatePSResourceGroupDeployment(ValidatePSResourceGroupDeploymentParameters parameters)
         {
-            List<ResourceManagementError> errors = new List<ResourceManagementError>();
+            List<ResourceManagementErrorWithDetails> errors = new List<ResourceManagementErrorWithDetails>();
 
             BasicDeployment deployment = CreateBasicDeployment(parameters);
-            errors.AddRange(CheckBasicDeploymentErrors(parameters.ResourceGroupName, deployment));
+            errors.AddRange(CheckBasicDeploymentErrors(parameters.ResourceGroupName, Guid.NewGuid().ToString(), deployment));
 
             return errors;
         }
