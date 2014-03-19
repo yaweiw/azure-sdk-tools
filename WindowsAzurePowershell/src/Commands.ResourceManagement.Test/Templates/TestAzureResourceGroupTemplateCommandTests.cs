@@ -57,7 +57,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Test.Resources
                 TemplateVersion = "1.0"
             };
             ValidatePSResourceGroupDeploymentParameters actualParameters = new ValidatePSResourceGroupDeploymentParameters();
-            IEnumerable<PSResourceManagementError> expected = new List<PSResourceManagementError>()
+            List<PSResourceManagementError> expected = new List<PSResourceManagementError>()
             {
                 new PSResourceManagementError()
                 {
@@ -106,7 +106,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Test.Resources
                 TemplateVersion = "1.0"
             };
             ValidatePSResourceGroupDeploymentParameters actualParameters = new ValidatePSResourceGroupDeploymentParameters();
-            IEnumerable<PSResourceManagementError> expected = new List<PSResourceManagementError>()
+            List<PSResourceManagementError> expected = new List<PSResourceManagementError>()
             {
                 new PSResourceManagementError()
                 {
