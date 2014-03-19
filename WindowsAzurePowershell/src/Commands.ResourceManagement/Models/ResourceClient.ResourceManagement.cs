@@ -52,7 +52,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Models
 
             if (ResourceManagementClient.ResourceGroups.CheckExistence(parameters.ResourceGroupName).Exists)
             {
-                WriteProgress(string.Format("Resource group \"{0}\" is found.", parameters.ResourceGroupName));
+                WriteVerbose(string.Format("Resource group \"{0}\" is found.", parameters.ResourceGroupName));
             }
             else
             {
@@ -63,7 +63,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Models
 
             Action createOrUpdateResource = () =>
                 {
-                    WriteProgress(string.Format("Creating resource \"{0}\" started.", parameters.Name));
+                    WriteVerbose(string.Format("Creating resource \"{0}\" started.", parameters.Name));
 
                     ResourceCreateOrUpdateResult createOrUpdateResult = ResourceManagementClient.Resources.CreateOrUpdate(parameters.ResourceGroupName, 
                         resourceIdentity,
@@ -79,7 +79,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Models
 
                     if (createOrUpdateResult.Resource != null)
                     {
-                        WriteProgress(string.Format("Creating resource \"{0}\" complete.", parameters.Name));
+                        WriteVerbose(string.Format("Creating resource \"{0}\" complete.", parameters.Name));
                     }
                 };
             
@@ -278,19 +278,23 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Models
 
             parameters.Name = string.IsNullOrEmpty(parameters.Name) ? Guid.NewGuid().ToString() : parameters.Name;
             BasicDeployment deployment = CreateBasicDeployment(parameters);
-            List<ResourceManagementErrorWithDetails> errors = CheckBasicDeploymentErrors(parameters.ResourceGroupName, parameters.Name, deployment);
+            List<ResourceManagementError> errors = CheckBasicDeploymentErrors(parameters.ResourceGroupName, parameters.Name, deployment);
 
             if (errors.Count != 0)
             {
                 int counter = 1;
-                string errorFormat = "Error {0}: Code={1}; Message={2}; Target={3}\r\n";
+                string errorFormat = "Error {0}: Code={1}; Message={2}\r\n";
                 StringBuilder errorsString = new StringBuilder();
-                errors.ForEach(e => errorsString.AppendFormat(errorFormat, counter++, e.Code, e.Message, e.Target));
+                errors.ForEach(e => errorsString.AppendFormat(errorFormat, counter++, e.Code, e.Message));
                 throw new ArgumentException(errorsString.ToString());
+            }
+            else
+            {
+                WriteVerbose(Resources.TemplateValid);
             }
 
             DeploymentOperationsCreateResult result = ResourceManagementClient.Deployments.CreateOrUpdate(parameters.ResourceGroupName, parameters.Name, deployment);
-            WriteProgress(string.Format("Create template deployment '{0}' using template {1}.", parameters.Name, deployment.TemplateLink.Uri));
+            WriteVerbose(string.Format("Create template deployment '{0}' using template {1}.", parameters.Name, deployment.TemplateLink.Uri));
             ProvisionDeploymentStatus(parameters.ResourceGroupName, parameters.Name);
 
             return result.ToPSResourceGroupDeployment();
@@ -566,14 +570,16 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Models
         /// </summary>
         /// <param name="parameters">The deployment create options</param>
         /// <returns>True if valid, false otherwise.</returns>
-        public virtual List<ResourceManagementErrorWithDetails> ValidatePSResourceGroupDeployment(ValidatePSResourceGroupDeploymentParameters parameters)
+        public virtual List<PSResourceManagementError> ValidatePSResourceGroupDeployment(ValidatePSResourceGroupDeploymentParameters parameters)
         {
-            List<ResourceManagementErrorWithDetails> errors = new List<ResourceManagementErrorWithDetails>();
-
             BasicDeployment deployment = CreateBasicDeployment(parameters);
-            errors.AddRange(CheckBasicDeploymentErrors(parameters.ResourceGroupName, Guid.NewGuid().ToString(), deployment));
+            List<ResourceManagementError> errors = CheckBasicDeploymentErrors(parameters.ResourceGroupName, Guid.NewGuid().ToString(), deployment);
 
-            return errors;
+            if (errors.Count == 0)
+            {
+                WriteVerbose(Resources.TemplateValid);
+            }
+            return errors.Select(e => e.ToPSResourceManagementError()).ToList();
         }
 
         /// <summary>

@@ -171,6 +171,9 @@
   <data name="StorageAccountNameNeedsToBeSpecified" xml:space="preserve">
     <value>You must specify either StorageAccountName or storage account on the subscription need to be specified.</value>
   </data>
+  <data name="TemplateValid" xml:space="preserve">
+    <value>Template is valid.</value>
+  </data>
   <data name="UnableToFindGallery" xml:space="preserve">
     <value>Cannot find Gallery item '{0}'</value>
   </data>
