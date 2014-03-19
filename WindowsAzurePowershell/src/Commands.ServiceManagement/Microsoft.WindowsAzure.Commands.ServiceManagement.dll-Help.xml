@@ -26225,7 +26225,6 @@ New-AzureDeployment -ServiceName $cloudSvc -Slot Production -Package $pkg -Confi
       </maml:navigationLink>
     </maml:relatedLinks>
   </command:command>
-
   <!-- v 1.3.0.36 -->
   <command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10">
     <command:details>
@@ -26249,6 +26248,20 @@ New-AzureDeployment -ServiceName $cloudSvc -Slot Production -Package $pkg -Confi
     <command:syntax>
       <command:syntaxItem>
         <maml:name>Set-AzureVMCustomScriptExtension</maml:name>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named">
+          <maml:name>Argument</maml:name>
+          <maml:description>
+            <maml:para>Argument for the command to run on the VM.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named">
+          <maml:name>Command</maml:name>
+          <maml:description>
+            <maml:para>The command to run by the extension on the VM, currently only &quot;powershell.exe&quot; is supported.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+        </command:parameter>
         <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named">
           <maml:name>ContainerName</maml:name>
           <maml:description>
@@ -26308,6 +26321,32 @@ New-AzureDeployment -ServiceName $cloudSvc -Slot Production -Package $pkg -Confi
     </command:syntax>
     <!-- Cmdlet parameter section  -->
     <command:parameters>
+      <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named">
+        <maml:name>Argument</maml:name>
+        <maml:description>
+          <maml:para>Argument for the command to run on the VM.</maml:para>
+
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+        <dev:type>
+          <maml:name>string</maml:name>
+          <maml:uri/>
+        </dev:type>
+        <dev:defaultValue></dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named">
+        <maml:name>Command</maml:name>
+        <maml:description>
+          <maml:para>The command to run by the extension on the VM, currently only &quot;powershell.exe&quot; is supported.</maml:para>
+
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+        <dev:type>
+          <maml:name>string</maml:name>
+          <maml:uri/>
+        </dev:type>
+        <dev:defaultValue></dev:defaultValue>
+      </command:parameter>
       <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named">
         <maml:name>ContainerName</maml:name>
         <maml:description>
@@ -26470,7 +26509,7 @@ New-AzureDeployment -ServiceName $cloudSvc -Slot Production -Package $pkg -Confi
           <maml:para>C:\PS&gt;</maml:para>
         </maml:introduction>
         <dev:code>
-          Set-AzureVMCustomScriptExtension -VM $vm -ContainerName 'scriptFolder' -FileName 'script1.ps1','script2.ps1';
+          Set-AzureVMCustomScriptExtension -VM $vm -ContainerName 'scriptFolder' -FileName 'script1.ps1','script2.ps1' -Command 'powershell.exe' -Argument 'script1.ps1';
           Update-AzureVM -ServiceName $svc -Name $name -VM vm;
         </dev:code>
         <dev:remarks>
@@ -26497,7 +26536,7 @@ New-AzureDeployment -ServiceName $cloudSvc -Slot Production -Package $pkg -Confi
           <maml:para>C:\PS&gt;</maml:para>
         </maml:introduction>
         <dev:code>
-          Set-AzureVMCustomScriptExtension -VM $vm -FileUri 'http://foo.blob.core.windows.net/bar/script1.ps1','http://foo.blob.core.windows.net/bar/script2.ps1';
+          Set-AzureVMCustomScriptExtension -VM $vm -FileUri 'http://foo.blob.core.windows.net/bar/script1.ps1','http://foo.blob.core.windows.net/bar/script2.ps1' -Command 'powershell.exe' -Argument 'script2.ps1';
           Update-AzureVM -ServiceName $svc -Name $name -VM vm;
         </dev:code>
         <dev:remarks>
