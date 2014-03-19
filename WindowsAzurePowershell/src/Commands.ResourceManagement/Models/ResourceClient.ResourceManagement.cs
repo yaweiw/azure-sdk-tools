@@ -570,7 +570,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Models
         /// </summary>
         /// <param name="parameters">The deployment create options</param>
         /// <returns>True if valid, false otherwise.</returns>
-        public virtual IEnumerable<PSResourceManagementError> ValidatePSResourceGroupDeployment(ValidatePSResourceGroupDeploymentParameters parameters)
+        public virtual List<PSResourceManagementError> ValidatePSResourceGroupDeployment(ValidatePSResourceGroupDeploymentParameters parameters)
         {
             BasicDeployment deployment = CreateBasicDeployment(parameters);
             List<ResourceManagementError> errors = CheckBasicDeploymentErrors(parameters.ResourceGroupName, Guid.NewGuid().ToString(), deployment);
@@ -579,7 +579,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Models
             {
                 WriteVerbose(Resources.TemplateValid);
             }
-            return errors.Select(e => e.ToPSResourceManagementError());
+            return errors.Select(e => e.ToPSResourceManagementError()).ToList();
         }
 
         /// <summary>
