@@ -457,19 +457,16 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Models
             return deployment;
         }
 
-        private List<ResourceManagementError> CheckBasicDeploymentErrors(string resourceGroup, BasicDeployment deployment)
+        private List<ResourceManagementErrorWithDetails> CheckBasicDeploymentErrors(string resourceGroup, string deploymentName, BasicDeployment deployment)
         {
-            List<ResourceManagementError> errors = new List<ResourceManagementError>();
-            try
+            List<ResourceManagementErrorWithDetails> errors = new List<ResourceManagementErrorWithDetails>();
+            DeploymentValidateResponse validationResult = ResourceManagementClient.Deployments.Validate(
+                resourceGroup,
+                deploymentName,
+                deployment);
+            if (!validationResult.IsValid)
             {
-                errors.AddRange(ResourceManagementClient.Deployments.Validate(
-                    resourceGroup,
-                    DeploymentValidationMode.Full,
-                    deployment).Errors);
-            }
-            catch
-            {
-                // To Do: remove the try-catch when the API is available.
+                errors.Add(validationResult.Error);
             }
 
             return errors;
