@@ -33,7 +33,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
         public virtual string StorageAccountName { get; set; }
         public virtual string StorageAccountKey { get; set; }
         public virtual string Command { get; set; }
-        public virtual string[] Argument { get; set; }
+        public virtual string Argument { get; set; }
 
         public VirtualMachineCustomScriptExtensionCmdletBase()
         {
@@ -44,25 +44,12 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
         protected string GetPublicConfiguration()
         {
             const string SpaceCharStr = " ";
-            string commandToExecute = string.Empty;
-
-            if (this.Argument == null || !this.Argument.Any())
-            {
-                commandToExecute = this.Command ?? string.Empty;
-            }
-            else
-            {
-                commandToExecute = string.Concat(
-                    this.Command,
-                    SpaceCharStr,
-                    string.Join(SpaceCharStr, this.Argument.AsEnumerable())).Trim();
-            }
 
             return JsonUtilities.TryFormatJson(JsonConvert.SerializeObject(
                new PublicSettings
                {
                    fileUris = this.FileUri,
-                   commandToExecute = commandToExecute
+                   commandToExecute = string.Concat(this.Command, SpaceCharStr, this.Argument).Trim()
                }));
         }
 
