@@ -65,7 +65,7 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Test.UnitTests.Database.Cm
                 // When testing production use RDFE 
                 // testSession.ServiceBaseUri = new Uri("https://management.core.windows.net");
                 // When testing onebox use Mock RDFE
-                //testSession.ServiceBaseUri = new Uri("https://management.dev.mscds.com:12346/");
+                // testSession.ServiceBaseUri = new Uri("https://management.dev.mscds.com:12346/");                
 
                 testSession.RequestValidator =
                     new Action<HttpMessage, HttpMessage.Request>(
@@ -158,7 +158,7 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Test.UnitTests.Database.Cm
                         return powershell.InvokeBatchScript(
                             @"$P1 = Get-AzureSqlDatabaseServiceObjective" +
                             @" -Server $serverName" +
-                            @" -ServiceObjectiveName ""Reserved P1""",
+                            @" -ServiceObjectiveName ""P1""",
                             @"$P1");
                     });
 
@@ -174,7 +174,7 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Test.UnitTests.Database.Cm
                         return powershell.InvokeBatchScript(
                             @"$P2 = Get-AzureSqlDatabaseServiceObjective" +
                             @" -Server $serverName" +
-                            @" -ServiceObjective $SLO[1]",
+                            @" -ServiceObjective $SLO[2]",
                             @"$P2");
                     });
 
@@ -184,14 +184,11 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Test.UnitTests.Database.Cm
                     () =>
                     {  
                         return powershell.InvokeBatchScript(
-                            string.Format(
-                                CultureInfo.InvariantCulture,
                                 @"New-AzureSqlDatabase" +
-                                @" -ServerName {0}" +
+                                @" -ServerName $serverName" +
                                 @" -DatabaseName ""testdbcertPremiumDBP1""" +
                                 @" -Edition Premium" +
-                                @" -ServiceObjective $P1",
-                                "testserver"));
+                                @" -ServiceObjective $P1");
                     });
 
                 Collection<PSObject> newPremiumP2DatabaseResult = MockServerHelper.ExecuteWithMock(
@@ -200,14 +197,11 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Test.UnitTests.Database.Cm
                     () =>
                     {
                         return powershell.InvokeBatchScript(
-                            string.Format(
-                                CultureInfo.InvariantCulture,
                                 @"New-AzureSqlDatabase" +
-                                @" -ServerName {0}" +
+                                @" -ServerName $serverName" +
                                 @" -DatabaseName ""testdbcertPremiumDBP2""" +
                                 @" -Edition Premium" +
-                                @" -ServiceObjective $P2",
-                                "testserver"));
+                                @" -ServiceObjective $P2");
                     });
                 // There is a known issue about the Get-AzureSqlDatabaseOperation that it returns all
                 // operations which has the required database name no matter it's been deleted and recreated.
@@ -217,7 +211,7 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Test.UnitTests.Database.Cm
                 // created as a task.
 
                 //string getOperationDbName = "testdbcertGetOperationDbName_" + Guid.NewGuid().ToString();
-                string getOperationDbName = "testdbcertGetOperationDbName_5d8b5785-0490-402c-b42f-6a5f5d6fbed8";
+                string getOperationDbName = "testdbcertGetOperationDbName_99505377-c526-48f4-8c73-271dc9dc31fa";
                 Collection<PSObject> newOperationDbResult = MockServerHelper.ExecuteWithMock(
                     testSession,
                     MockHttpServer.DefaultHttpsServerPrefixUri,
@@ -227,7 +221,7 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Test.UnitTests.Database.Cm
                             string.Format(
                                 CultureInfo.InvariantCulture,
                                 @"$getOperationDb = New-AzureSqlDatabase" +
-                                @" -ServerName testserver" +
+                                @" -ServerName $serverName" +
                                 @" -DatabaseName ""{0}""",
                                 getOperationDbName),
                                 @"$getOperationDb");
@@ -242,7 +236,7 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Test.UnitTests.Database.Cm
                             string.Format(
                                 CultureInfo.InvariantCulture,
                                 @"Get-AzureSqlDatabaseOperation" +
-                                @" -ServerName testserver" +
+                                @" -ServerName $serverName" +
                                 @" -Database $getOperationDb"));
                     });
 
@@ -255,7 +249,7 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Test.UnitTests.Database.Cm
                             string.Format(
                                 CultureInfo.InvariantCulture,
                                 @"$getOperation = Get-AzureSqlDatabaseOperation" +
-                                @" -ServerName testserver" +
+                                @" -ServerName $serverName" +
                                 @" -DatabaseName ""{0}""",
                                 getOperationDbName),
                                 @"$getOperation");
@@ -270,7 +264,7 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Test.UnitTests.Database.Cm
                             string.Format(
                                 CultureInfo.InvariantCulture,
                                 @"Get-AzureSqlDatabaseOperation" +
-                                @" -ServerName testserver" +
+                                @" -ServerName $serverName" +
                                 @" -OperationGuid $getOperation[0].Id"));
                     });
 
@@ -384,18 +378,18 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Test.UnitTests.Database.Cm
 
                 // Validate Get-AzureSqlDatabaseServiceObjective
                 var SLOP1 = P1.Single().BaseObject as ServiceObjective;
-                Assert.AreEqual(SLOP1.Name, "Reserved P1");
-                Assert.AreEqual(SLOP1.Description, "Resource capacity is reserved.");
+                Assert.AreEqual("P1", SLOP1.Name);
+                Assert.AreEqual("Premium P1 resource allocation.", SLOP1.Description);
                 Assert.IsNotNull(SLOP1.DimensionSettings, "Expecting some Dimension Setting objects.");
-                Assert.AreEqual(SLOP1.DimensionSettings.Count(), 1, "Expecting 1 Dimension Setting.");
-                Assert.AreEqual(SLOP1.DimensionSettings[0].Description, "Resource capacity is reserved.", "Expecting Dimension Setting description as Resource capacity is reserved.");
+                Assert.AreEqual(1, SLOP1.DimensionSettings.Count(), "Expecting 1 Dimension Setting.");
+                Assert.AreEqual("Premium P1 resource allocation.", SLOP1.DimensionSettings[0].Description, "Expecting Dimension Setting description as Resource capacity is reserved.");
                 
                 var SLOP2 = P2.Single().BaseObject as ServiceObjective;
-                Assert.AreEqual(SLOP2.Name, "Reserved P2");
-                Assert.AreEqual(SLOP2.Description, "Resource capacity is reserved.");
+                Assert.AreEqual("P2", SLOP2.Name);
+                Assert.AreEqual(SLOP2.Description, "Premium P2 resource allocation.");
                 Assert.IsNotNull(SLOP2.DimensionSettings, "Expecting some Dimension Setting objects.");
-                Assert.AreEqual(SLOP2.DimensionSettings.Count(), 1, "Expecting 1 Dimension Setting.");
-                Assert.AreEqual(SLOP2.DimensionSettings[0].Description, "Resource capacity is reserved.", "Expecting Dimension Setting description as Resource capacity is reserved.");
+                Assert.AreEqual(1, SLOP2.DimensionSettings.Count(), "Expecting 1 Dimension Setting.");
+                Assert.AreEqual("Premium P2 resource allocation.", SLOP2.DimensionSettings[0].Description, "Expecting Dimension Setting description as Resource capacity is reserved.");
                 // Validate Get-AzureSqlDatabaseOperation
                 VerifyGetAzureSqlDatabaseOperation(getOperationDbName, getDatabaseOperationByDbResult);
                 VerifyGetAzureSqlDatabaseOperation(getOperationDbName, getDatabaseOperationByNameResult);
