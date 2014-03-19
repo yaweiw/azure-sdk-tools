@@ -141,7 +141,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
             Position = 3,
             ValueFromPipelineByPropertyName = true,
             HelpMessage = "The Command to Execute.")]
-        [ValidateNotNullOrEmpty]
+        [ValidateSet("powershell.exe", IgnoreCase = true)]
         public override string Command { get; set; }
 
         [Parameter(
@@ -149,15 +149,15 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
             Mandatory = false,
             Position = 7,
             ValueFromPipelineByPropertyName = true,
-            HelpMessage = "The Argument for the Command.")]
+            HelpMessage = "The Argument String for the Command.")]
         [Parameter(
             ParameterSetName = SetCustomScriptExtensionByUrisParamSetName,
             Mandatory = false,
             Position = 4,
             ValueFromPipelineByPropertyName = true,
-            HelpMessage = "The Argument for the Command.")]
+            HelpMessage = "The Argument String for the Command.")]
         [ValidateNotNullOrEmpty]
-        public override string[] Argument { get; set; }
+        public override string Argument { get; set; }
 
         protected override void ProcessRecord()
         {
