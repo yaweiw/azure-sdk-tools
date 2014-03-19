@@ -259,6 +259,8 @@
     <Compile Include="IaaS\Extensions\Common\GetAzureVMAvailableExtension.cs" />
     <Compile Include="IaaS\Extensions\Common\VirtualMachineExtensionImageContext.cs" />
     <Compile Include="IaaS\Extensions\CustomScript\GetAzureVMCustomScriptExtension.cs" />
+    <Compile Include="IaaS\Extensions\CustomScript\PrivateSettings.cs" />
+    <Compile Include="IaaS\Extensions\CustomScript\PublicSettings.cs" />
     <Compile Include="IaaS\Extensions\CustomScript\RemoveAzureVMCustomScriptExtension.cs" />
     <Compile Include="IaaS\Extensions\CustomScript\SetAzureVMCustomScriptExtension.cs" />
     <Compile Include="IaaS\Extensions\CustomScript\VirtualMachineCustomScriptExtensionCmdletBase.cs" />

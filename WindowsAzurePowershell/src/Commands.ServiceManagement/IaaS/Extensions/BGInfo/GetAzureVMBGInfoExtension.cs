@@ -23,7 +23,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
         VirtualMachineBGInfoExtensionNoun,
         DefaultParameterSetName = GetBGInfoExtensionParamSetName),
     OutputType(
-        typeof(IEnumerable<VirtualMachineBGInfoExtensionContext>))]
+        typeof(VirtualMachineBGInfoExtensionContext))]
     public class GetAzureVMBGInfoExtensionCommand : VirtualMachineBGInfoExtensionCmdletBase
     {
         protected const string GetBGInfoExtensionParamSetName = "GetBGInfoExtension";
@@ -41,7 +41,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
                     Version = r.Version,
                     State = r.State,
                     RoleName = VM.GetInstance().RoleName
-                }).FirstOrDefault());
+                }), true);
         }
 
         protected override void ProcessRecord()

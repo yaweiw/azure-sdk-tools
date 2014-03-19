@@ -15,19 +15,25 @@
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
 {
     using System;
+    using System.Linq;
     using Management.Storage;
+    using Newtonsoft.Json;
 
     public class VirtualMachineCustomScriptExtensionCmdletBase : VirtualMachineExtensionCmdletBase
     {
         protected const string VirtualMachineCustomScriptExtensionNoun = "AzureVMCustomScriptExtension";
 
-        protected const string ExtensionDefaultPublisher = "Microsoft.Compute";
-        protected const string ExtensionDefaultName = "ScriptHandler";
+        protected const string ExtensionDefaultPublisher = "Microsoft.WindowsAzure.Compute";
+        protected const string ExtensionDefaultName = "CustomScriptHandler";
         protected const string LegacyReferenceName = "MyCustomScriptExtension";
 
-        public virtual Uri[] FileUris{ get; set; }
+        public virtual string ContainerName { get; set; }
+        public virtual string[] File { get; set; }
+        public virtual Uri[] Uri{ get; set; }
         public virtual string StorageAccountName { get; set; }
-        public virtual string CommandToExecute { get; set; }
+        public virtual string StorageAccountKey { get; set; }
+        public virtual string Command { get; set; }
+        public virtual string[] Argument { get; set; }
 
         public VirtualMachineCustomScriptExtensionCmdletBase()
         {
@@ -35,7 +41,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
             base.extensionName = ExtensionDefaultName;
         }
 
-        protected Uri GetSasUrl(string storageAccount, string container, string file)
+        protected Uri GetSasUrl(string storageAccount, string container, string blobFile)
         {
             return null;
         }
@@ -62,27 +68,23 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
 
         protected string GetPublicConfiguration()
         {
-            const string publicConfigFormat = @"""publicSettings"":
-                                              {
-                                                  ""fileUris"": [{0}],
-                                                  ""commandToExecute"":""{1}""
-                                              },";
+            string commandToExecute = this.Argument == null || this.Argument.Length <= 0 ? this.Command
+                 : string.Concat(this.Command, " ", string.Join(" ", this.Argument.AsEnumerable()));
 
-            string urlString = FileUris == null || FileUris.Length == 0 ? string.Empty
-                                                                        : string.Concat(FileUris, ',');
-
-            return string.Format(publicConfigFormat, urlString, this.CommandToExecute);
+            return JsonConvert.SerializeObject(new PublicSettings
+            {
+                fileUris = this.Uri,
+                commandToExecute = commandToExecute ?? string.Empty
+            });
         }
 
         protected string GetPrivateConfiguration()
         {
-            const string privateConfigFormat = @"""protectedSettings"":
-                                               {
-                                                   ""storageAccountName"": {0},
-                                                   ""storageAccountKey"":""{1}""
-                                               },";
-
-            return string.Format(privateConfigFormat, this.StorageAccountName, GetStorageKey(this.StorageAccountName));
+            return JsonConvert.SerializeObject(new PrivateSettings
+            {
+                storageAccountName = this.StorageAccountName ?? string.Empty,
+                storageAccountKey = !string.IsNullOrEmpty(this.StorageAccountKey) ? this.StorageAccountKey : GetStorageKey(this.StorageAccountName)
+            });
         }
     }
 }

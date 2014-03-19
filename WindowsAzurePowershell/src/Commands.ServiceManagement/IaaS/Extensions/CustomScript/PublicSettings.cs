@@ -16,9 +16,9 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
 {
     using System;
 
-    public class VirtualMachineCustomScriptExtensionContext : VirtualMachineExtensionContext
+    public class PublicSettings
     {
-        public string CommandToExecute { get; set; }
-        public Uri[] Uri { get; set; }
+        public Uri[] fileUris;
+        public string commandToExecute;
     }
 }

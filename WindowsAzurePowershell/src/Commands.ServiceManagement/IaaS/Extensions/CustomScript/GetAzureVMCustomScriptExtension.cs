@@ -23,7 +23,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
         VirtualMachineCustomScriptExtensionNoun,
         DefaultParameterSetName = GetCustomScriptExtensionParamSetName),
     OutputType(
-        typeof(IEnumerable<VirtualMachineCustomScriptExtensionContext>))]
+        typeof(VirtualMachineCustomScriptExtensionContext))]
     public class GetAzureVMCustomScriptExtensionCommand : VirtualMachineCustomScriptExtensionCmdletBase
     {
         protected const string GetCustomScriptExtensionParamSetName = "GetCustomScriptExtension";
@@ -42,8 +42,10 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
                     State = r.State,
                     PublicConfiguration = PublicConfiguration,
                     PrivateConfiguration = PrivateConfiguration,
+                    CommandToExecute = string.Empty,
+                    Uri = null,
                     RoleName = VM.GetInstance().RoleName
-                }).FirstOrDefault());
+                }), true);
         }
 
         protected override void ProcessRecord()
