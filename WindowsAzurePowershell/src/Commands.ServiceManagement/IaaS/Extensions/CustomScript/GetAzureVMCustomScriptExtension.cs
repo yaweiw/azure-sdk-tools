@@ -36,6 +36,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
                 extensionRefs == null ? null : extensionRefs.Select(
                 r =>
                 {
+                    GetExtensionValues(r);
                     var pubSettings = JsonConvert.DeserializeObject<PublicSettings>(PublicConfiguration);
 
                     return new VirtualMachineCustomScriptExtensionContext
