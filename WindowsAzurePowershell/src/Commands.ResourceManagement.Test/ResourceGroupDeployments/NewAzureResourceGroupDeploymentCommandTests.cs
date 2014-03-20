@@ -64,7 +64,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Test
             {
                 Mode = DeploymentMode.Incremental,
                 DeploymentName = deploymentName,
-                TrackingId = "123",
+                CorrelationId = "123",
                 Outputs = new Dictionary<string, DeploymentVariable>()
                 {
                     { "Variable1", new DeploymentVariable() { Value = "true", Type = "bool" } },
@@ -124,7 +124,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Test
             {
                 Mode = DeploymentMode.Incremental,
                 DeploymentName = deploymentName,
-                TrackingId = "123",
+                CorrelationId = "123",
                 Outputs = new Dictionary<string, DeploymentVariable>()
                 {
                     { "Variable1", new DeploymentVariable() { Value = "true", Type = "bool" } },

@@ -37,13 +37,13 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Models
             };
         }
 
-        public static PSResourceGroupDeployment ToPSResourceGroupDeployment(this DeploymentGetResult result)
+        public static PSResourceGroupDeployment ToPSResourceGroupDeployment(this DeploymentGetResult result, string resourceGroup)
         {
             PSResourceGroupDeployment deployment = new PSResourceGroupDeployment();
 
             if (result != null)
             {
-                deployment = CreatePSResourceGroupDeployment(result.Deployment.DeploymentName, result.Deployment.ResourceGroup, result.Deployment.Properties);
+                deployment = CreatePSResourceGroupDeployment(result.Deployment.DeploymentName, resourceGroup, result.Deployment.Properties);
             }
 
             return deployment;
@@ -61,26 +61,35 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Models
             return deployment;
         }
 
-        public static PSResourceGroupDeployment ToPSResourceGroupDeployment(this Deployment result)
+        public static PSResourceGroupDeployment ToPSResourceGroupDeployment(this Deployment result, string resourceGroup)
         {
             PSResourceGroupDeployment deployment = new PSResourceGroupDeployment();
 
             if (result != null)
             {
-                deployment = CreatePSResourceGroupDeployment(result.DeploymentName, result.ResourceGroup, result.Properties);
+                deployment = CreatePSResourceGroupDeployment(result.DeploymentName, resourceGroup, result.Properties);
             }
 
             return deployment;
         }
 
-        public static PSResource ToPSResource(this Resource resource, ResourcesClient client)
+        public static PSResourceManagementError ToPSResourceManagementError(this ResourceManagementError error)
+        {
+            return new PSResourceManagementError
+                {
+                    Code = error.Code,
+                    Message = error.Message
+                };
+        }
+
+        public static PSResource ToPSResource(this Resource resource, string resourceGroup, ResourcesClient client)
         {
             return new PSResource()
             {
                 Name = resource.Name,
                 Location = resource.Location,
                 ResourceType = resource.Type,
-                ResourceGroupName = resource.ResourceGroup,
+                ResourceGroupName = resourceGroup,
                 Properties = JsonUtilities.DeserializeJson(resource.Properties)
             };
         }
@@ -114,6 +123,9 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Models
             }
             PSDeploymentEventData psObject = new PSDeploymentEventData
                 {
+                    Authorization = eventData.Authorization.ToPSDeploymentEventDataAuthorization(),
+                    ResourceUri = eventData.ResourceUri,
+                    SubscriptionId = eventData.SubscriptionId,
                     EventId = eventData.EventDataId,
                     EventName = eventData.EventName.LocalizedValue,
                     EventSource = eventData.EventSource.LocalizedValue,
@@ -125,15 +137,29 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Models
                     OperationName = eventData.OperationName.LocalizedValue,
                     Status = eventData.Status.LocalizedValue,
                     SubStatus = eventData.SubStatus.LocalizedValue,
+                    Caller = GetEventDataCaller(eventData.Claims),
+                    CorrelationId = eventData.CorrelationId,
                     ResourceGroupName = eventData.ResourceGroupName,
                     ResourceProvider = eventData.ResourceProviderName.LocalizedValue,
-                    ResourceUri = eventData.ResourceUri,
                     HttpRequest = eventData.HttpRequest.ToPSDeploymentEventDataHttpRequest(),
-                    Authorization = eventData.Authorization.ToPSDeploymentEventDataAuthorization(),
                     Claims = eventData.Claims,
                     Properties = eventData.Properties
                 };
             return psObject;
+        }
+
+        private static string GetEventDataCaller(Dictionary<string, string> claims)
+        {
+            string name = "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name";
+
+            if (claims == null || !claims.ContainsKey(name))
+            {
+                return null;
+            }
+            else
+            {
+                return claims[name];
+            }
         }
 
         public static PSDeploymentEventDataHttpRequest ToPSDeploymentEventDataHttpRequest(this HttpRequestInfo httpRequest)
@@ -247,7 +273,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Models
                 deploymentObject.ProvisioningState = properties.ProvisioningState;
                 deploymentObject.TemplateLink = properties.TemplateLink;
                 deploymentObject.Timestamp = properties.Timestamp;
-                deploymentObject.TrackingId = properties.TrackingId;
+                deploymentObject.CorrelationId = properties.CorrelationId;
 
                 if (!string.IsNullOrEmpty(properties.Outputs))
                 {

@@ -12,36 +12,14 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-using Microsoft.Azure.Management.Resources.Models;
-using System;
-using System.Collections.Generic;
+using System.Collections;
 
 namespace Microsoft.Azure.Commands.ResourceManagement.Models
 {
-    public class PSResourceGroupDeployment
+    public class PSResourceManagementError
     {
-        public string DeploymentName { get; set; }
+        public string Code { get; set; }
 
-        public string CorrelationId { get; set; }
-
-        public string ResourceGroupName { get; set; }
-
-        public string ProvisioningState { get; set; }
-
-        public DateTime Timestamp { get; set; }
-
-        public DeploymentMode Mode { get; set; }
-
-        public TemplateLink TemplateLink { get; set; }
-
-        public string TemplateLinkString { get; set; }
-
-        public Dictionary<string, DeploymentVariable> Parameters { get; set; }
-
-        public string ParametersString { get; set; }
-
-        public Dictionary<string, DeploymentVariable> Outputs { get; set; }
-
-        public string OutputsString { get; set; }
+        public string Message { get; set; }
     }
 }
