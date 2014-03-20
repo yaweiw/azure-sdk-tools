@@ -50,7 +50,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Models
 
         public IEventsClient EventsClient { get; set; }
 
-        public Action<string> ProgressLogger { get; set; }
+        public Action<string> VerboseLogger { get; set; }
 
         public Action<string> ErrorLogger { get; set; }
 
@@ -164,7 +164,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Models
                         ContainerPublic = false,
                         ContainerName = DeploymentTemplateStorageContainerName
                     });
-                    WriteProgress(string.Format(
+                    WriteVerbose(string.Format(
                         "Uploading template '{0}' to {1}.",
                         Path.GetFileName(templateFile),
                         templateFileUri.ToString()));
@@ -204,7 +204,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Models
                     Location = location
                 });
 
-            WriteProgress(string.Format("Create resource group '{0}' in location '{1}'", name, location));
+            WriteVerbose(string.Format("Create resource group '{0}' in location '{1}'", name, location));
 
             return result.ResourceGroup;
         }
@@ -275,11 +275,11 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Models
             return attribute;
         }
         
-        private void WriteProgress(string progress)
+        private void WriteVerbose(string progress)
         {
-            if (ProgressLogger != null)
+            if (VerboseLogger != null)
             {
-                ProgressLogger(progress);
+                VerboseLogger(progress);
             }
         }
 
@@ -332,7 +332,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Models
                         location,
                         operation.Properties.ProvisioningState);
 
-                    WriteProgress(statusMessage);
+                    WriteVerbose(statusMessage);
                 }
                 else
                 {
@@ -457,19 +457,23 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Models
             return deployment;
         }
 
-        private List<ResourceManagementError> CheckBasicDeploymentErrors(string resourceGroup, BasicDeployment deployment)
+        private List<ResourceManagementError> CheckBasicDeploymentErrors(string resourceGroup, string deploymentName, BasicDeployment deployment)
         {
             List<ResourceManagementError> errors = new List<ResourceManagementError>();
-            try
+            DeploymentValidateResponse validationResult = ResourceManagementClient.Deployments.Validate(
+                resourceGroup,
+                deploymentName,
+                deployment);
+            if (!validationResult.IsValid)
             {
-                errors.AddRange(ResourceManagementClient.Deployments.Validate(
-                    resourceGroup,
-                    DeploymentValidationMode.Full,
-                    deployment).Errors);
-            }
-            catch
-            {
-                // To Do: remove the try-catch when the API is available.
+                if (validationResult.Error != null)
+                {
+                    errors.Add(validationResult.Error);
+                    if (validationResult.Error.Details != null && validationResult.Error.Details.Count > 0)
+                    {
+                        errors.AddRange(validationResult.Error.Details);
+                    }
+                }
             }
 
             return errors;

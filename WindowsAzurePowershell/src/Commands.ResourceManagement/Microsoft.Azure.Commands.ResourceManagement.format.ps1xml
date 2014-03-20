@@ -2,6 +2,28 @@
 <Configuration>
   <ViewDefinitions>
     <View>
+      <Name>Microsoft.Azure.Commands.ResourceManagement.Models.PSResourceManagementError</Name>
+      <ViewSelectedBy>
+        <TypeName>Microsoft.Azure.Commands.ResourceManagement.Models.PSResourceManagementError</TypeName>
+      </ViewSelectedBy>
+      <ListControl>
+        <ListEntries>
+          <ListEntry>
+            <ListItems>
+              <ListItem>
+                <Label>Code</Label>
+                <PropertyName>Code</PropertyName>
+              </ListItem>
+              <ListItem>
+                <Label>Message</Label>
+                <PropertyName>Message</PropertyName>
+              </ListItem>              
+            </ListItems>
+          </ListEntry>
+        </ListEntries>
+      </ListControl>
+    </View>
+    <View>
       <Name>Microsoft.Azure.Commands.ResourceManagement.Models.PSResourceGroup</Name>
       <ViewSelectedBy>
         <TypeName>Microsoft.Azure.Commands.ResourceManagement.Models.PSResourceGroup</TypeName>
@@ -117,15 +139,19 @@
           <ListEntry>
             <ListItems>
               <ListItem>
+                <Label>Authorization</Label>
+                <PropertyName>Authorization</PropertyName>
+              </ListItem>
+              <ListItem>
                 <Label>ResourceUri</Label>
                 <PropertyName>ResourceUri</PropertyName>
               </ListItem>
               <ListItem>
-                <Label>Location</Label>
-                <PropertyName>Location</PropertyName>
+                <Label>SubscriptionId</Label>
+                <PropertyName>SubscriptionId</PropertyName>
               </ListItem>
               <ListItem>
-                <Label>Timestamp</Label>
+                <Label>Timestamp(UTC)</Label>
                 <PropertyName>Timestamp</PropertyName>
               </ListItem>
               <ListItem>
@@ -145,6 +171,14 @@
                 <PropertyName>SubStatus</PropertyName>
               </ListItem>
               <ListItem>
+                <Label>Caller</Label>
+                <PropertyName>Caller</PropertyName>
+              </ListItem>
+              <ListItem>
+                <Label>CorrelationId</Label>
+                <PropertyName>CorrelationId</PropertyName>
+              </ListItem>
+              <ListItem>
                 <Label>Description</Label>
                 <PropertyName>Description</PropertyName>
               </ListItem>
@@ -157,8 +191,8 @@
                 <PropertyName>Level</PropertyName>
               </ListItem>
               <ListItem>
-                <Label>ResourceGroup</Label>
-                <PropertyName>ResourceGroup</PropertyName>
+                <Label>ResourceGroupName</Label>
+                <PropertyName>ResourceGroupName</PropertyName>
               </ListItem>
               <ListItem>
                 <Label>ResourceProvider</Label>
