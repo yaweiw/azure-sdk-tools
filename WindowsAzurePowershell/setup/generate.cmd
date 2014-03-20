@@ -16,21 +16,21 @@ rmdir /S /Q %output%\AzureServiceManagement\ko
 rmdir /S /Q %output%\AzureServiceManagement\ru
 rmdir /S /Q %output%\AzureServiceManagement\zh-Hans
 rmdir /S /Q %output%\AzureServiceManagement\zh-Hant
-rmdir /S /Q %output%\AzureResourceManagement\de
-rmdir /S /Q %output%\AzureResourceManagement\es
-rmdir /S /Q %output%\AzureResourceManagement\fr
-rmdir /S /Q %output%\AzureResourceManagement\it
-rmdir /S /Q %output%\AzureResourceManagement\ja
-rmdir /S /Q %output%\AzureResourceManagement\ko
-rmdir /S /Q %output%\AzureResourceManagement\ru
-rmdir /S /Q %output%\AzureResourceManagement\zh-Hans
-rmdir /S /Q %output%\AzureResourceManagement\zh-Hant
+rmdir /S /Q %output%\AzureResourceManager\de
+rmdir /S /Q %output%\AzureResourceManager\es
+rmdir /S /Q %output%\AzureResourceManager\fr
+rmdir /S /Q %output%\AzureResourceManager\it
+rmdir /S /Q %output%\AzureResourceManager\ja
+rmdir /S /Q %output%\AzureResourceManager\ko
+rmdir /S /Q %output%\AzureResourceManager\ru
+rmdir /S /Q %output%\AzureResourceManager\zh-Hans
+rmdir /S /Q %output%\AzureResourceManager\zh-Hant
 
 echo Delete XML help files for helper dlls from %output%
 :: The xml help files are not being deleted.
 
 echo Delete config files for dlls from %output%
 del %output%\AzureServiceManagement\*.dll.config
-del %output%\AzureResourceManagement\*.dll.config
+del %output%\AzureResourceManager\*.dll.config
 
 heat dir %output% -srd -gg -g1 -cg azurecmdfiles -sfrag -dr PowerShellFolder -var var.sourceDir -o azurecmdfiles.wxi
