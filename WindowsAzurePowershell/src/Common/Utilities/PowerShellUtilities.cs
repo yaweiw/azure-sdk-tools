@@ -14,11 +14,42 @@
 
 namespace Microsoft.WindowsAzure.Commands.Utilities.Common
 {
+    using System;
+    using System.Collections.Generic;
     using System.Diagnostics;
+    using System.Linq;
     using System.Management.Automation;
 
     public static class PowerShellUtilities
     {
+        public const string PSModulePathName = "PSModulePath";
+
+        private static void EditPSModulePath(Func<IEnumerable<string>, IEnumerable<string>> job, EnvironmentVariableTarget target)
+        {
+            ChangeForTargetEnvironment(job, target);
+        }
+
+        private static void ChangeForTargetEnvironment(Func<IEnumerable<string>, IEnumerable<string>> job, EnvironmentVariableTarget target)
+        {
+            string psModulePath = Environment.GetEnvironmentVariable(PSModulePathName, target) ?? string.Empty;
+            IEnumerable<string> paths = psModulePath.Split(';');
+            paths = job(paths);
+
+            if (paths.Count() == 0)
+            {
+                Environment.SetEnvironmentVariable(PSModulePathName, null, target);
+            }
+            else if (paths.Count() == 1)
+            {
+                Environment.SetEnvironmentVariable(PSModulePathName, paths.First(), target);
+            }
+            else
+            {
+                psModulePath = string.Join(";", paths.Distinct());
+                Environment.SetEnvironmentVariable(PSModulePathName, psModulePath, target);
+            }
+        }
+
         public static PSObject ConstructPSObject(string typeName, params object[] args)
         {
             Debug.Assert(args.Length % 2 == 0, "The parameter args length must be even number");
@@ -36,6 +67,26 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
             }
 
             return outputObject;
+        }
+
+        public static void RemoveModuleFromPSModulePath(string modulePath)
+        {
+            EditPSModulePath(list => list.Where(p => !p.Equals(modulePath, StringComparison.OrdinalIgnoreCase)), EnvironmentVariableTarget.Process);
+        }
+
+        public static void RemoveModuleFromPSModulePath(string modulePath, EnvironmentVariableTarget target)
+        {
+            EditPSModulePath(list => list.Where(p => !p.Equals(modulePath, StringComparison.OrdinalIgnoreCase)), target);
+        }
+
+        public static void AddModuleToPSModulePath(string modulePath)
+        {
+            EditPSModulePath(list => new List<string>(list) { modulePath }, EnvironmentVariableTarget.Process);
+        }
+
+        public static void AddModuleToPSModulePath(string modulePath, EnvironmentVariableTarget target)
+        {
+            EditPSModulePath(list => new List<string>(list) { modulePath }, target);
         }
     }
 }
