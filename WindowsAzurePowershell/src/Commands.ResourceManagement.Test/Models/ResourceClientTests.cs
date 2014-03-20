@@ -152,7 +152,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Test.Models
                 galleryClientMock.Object,
                 eventsClientMock.Object)
                 {
-                    ProgressLogger = progressLoggerMock.Object,
+                    VerboseLogger = progressLoggerMock.Object,
                     ErrorLogger = errorLoggerMock.Object
                 };
 
@@ -951,6 +951,83 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Test.Models
                 }));
 
             Assert.Throws<ArgumentException>(() => resourcesClient.CreatePSResourceGroup(parameters));
+        }
+
+        [Fact]
+        public void TestTemplateShowsErrorMessage()
+        {
+            Uri templateUri = new Uri("http://templateuri.microsoft.com");
+            BasicDeployment deploymentFromValidate = new BasicDeployment();
+            ValidatePSResourceGroupDeploymentParameters parameters = new ValidatePSResourceGroupDeploymentParameters()
+            {
+                ResourceGroupName = resourceGroupName,
+                TemplateFile = templateFile,
+                StorageAccountName = storageAccountName,
+            };
+            resourceGroupMock.Setup(f => f.CheckExistenceAsync(parameters.ResourceGroupName, new CancellationToken()))
+                .Returns(Task.Factory.StartNew(() => new ResourceGroupExistsResult
+                {
+                    Exists = true
+                }));
+            storageClientWrapperMock.Setup(f => f.UploadFileToBlob(It.IsAny<BlobUploadParameters>())).Returns(templateUri);
+            deploymentsMock.Setup(f => f.ValidateAsync(resourceGroupName, It.IsAny<string>(), It.IsAny<BasicDeployment>(), new CancellationToken()))
+                .Returns(Task.Factory.StartNew(() => new DeploymentValidateResponse
+                {
+                    IsValid = false,
+                    Error = new ResourceManagementErrorWithDetails()
+                    {
+                        Code = "404",
+                        Message = "Awesome error message",
+                        Details = new List<ResourceManagementError>(new [] { new ResourceManagementError
+                            {
+                                Code = "SubError",
+                                Message = "Sub error message"
+                            }})
+                    }
+                }))
+                .Callback((string rg, string dn, BasicDeployment d, CancellationToken c) => { deploymentFromValidate = d; });
+
+            IEnumerable<PSResourceManagementError> error = resourcesClient.ValidatePSResourceGroupDeployment(parameters);
+            Assert.Equal(2, error.Count());
+        }
+
+        [Fact]
+        public void TestTemplateShowsSuccessMessage()
+        {
+            Uri templateUri = new Uri("http://templateuri.microsoft.com");
+            BasicDeployment deploymentFromValidate = new BasicDeployment();
+            ValidatePSResourceGroupDeploymentParameters parameters = new ValidatePSResourceGroupDeploymentParameters()
+            {
+                ResourceGroupName = resourceGroupName,
+                TemplateFile = templateFile,
+                StorageAccountName = storageAccountName,
+            };
+            resourceGroupMock.Setup(f => f.CheckExistenceAsync(parameters.ResourceGroupName, new CancellationToken()))
+                .Returns(Task.Factory.StartNew(() => new ResourceGroupExistsResult
+                {
+                    Exists = true
+                }));
+            storageClientWrapperMock.Setup(f => f.UploadFileToBlob(It.IsAny<BlobUploadParameters>())).Returns(templateUri);
+            deploymentsMock.Setup(f => f.ValidateAsync(resourceGroupName, It.IsAny<string>(), It.IsAny<BasicDeployment>(), new CancellationToken()))
+                .Returns(Task.Factory.StartNew(() => new DeploymentValidateResponse
+                {
+                    IsValid = true,
+                    Error = new ResourceManagementErrorWithDetails()
+                    {
+                        Code = "404",
+                        Message = "Awesome error message",
+                        Details = new List<ResourceManagementError>(new[] { new ResourceManagementError
+                            {
+                                Code = "SubError",
+                                Message = "Sub error message"
+                            }})
+                    }
+                }))
+                .Callback((string rg, string dn, BasicDeployment d, CancellationToken c) => { deploymentFromValidate = d; });
+
+            IEnumerable<PSResourceManagementError> error = resourcesClient.ValidatePSResourceGroupDeployment(parameters);
+            Assert.Equal(0, error.Count());
+            progressLoggerMock.Verify(f => f("Template is valid."),Times.Once());
         }
 
         [Fact]
