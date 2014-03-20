@@ -80,7 +80,7 @@ CmdletsToExport = 'Add-AzureAccount',
                   'Set-AzureSubscription',
                   'Remove-AzureSubscription',
                   'Select-AzureSubscription',
-                  'Switch-AzureModule'
+                  'Switch-AzureMode'
 
 # Variables to export from this module
 VariablesToExport = @()

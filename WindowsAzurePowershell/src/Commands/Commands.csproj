@@ -342,7 +342,7 @@
     <Compile Include="MediaServices\NewAzureMediaServiceCommand.cs" />
     <Compile Include="MediaServices\NewAzureMediaServiceKeyCommand.cs" />
     <Compile Include="MediaServices\RemoveAzureMediaServiceCommand.cs" />
-    <Compile Include="Profile\SwitchAzureModule.cs" />
+    <Compile Include="Profile\SwitchAzureMode.cs" />
     <Compile Include="Scheduler\SetSchedulerStorageQueueJobCommand.cs" />
     <Compile Include="Scheduler\NewSchedulerStorageQueueJobCommand.cs" />
     <Compile Include="Scheduler\NewSchedulerHttpJobCommand.cs" />
