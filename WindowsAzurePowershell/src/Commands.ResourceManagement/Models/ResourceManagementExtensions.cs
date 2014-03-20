@@ -82,16 +82,31 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Models
                 };
         }
 
-        public static PSResource ToPSResource(this Resource resource, string resourceGroup, ResourcesClient client)
+        public static PSResource ToPSResource(this Resource resource, ResourcesClient client)
         {
             return new PSResource()
             {
                 Name = resource.Name,
                 Location = resource.Location,
                 ResourceType = resource.Type,
-                ResourceGroupName = resourceGroup,
-                Properties = JsonUtilities.DeserializeJson(resource.Properties)
+                ResourceGroupName = GetResourceGroupFromId(resource.Id),
+                Properties = JsonUtilities.DeserializeJson(resource.Properties),
+                PropertiesText = resource.Properties
             };
+        }
+
+        public static string GetResourceGroupFromId(string resourceId)
+        {
+            if (string.IsNullOrEmpty(resourceId))
+            {
+                return null;
+            }
+            string[] tokenizedId = resourceId.Split(new [] { '/' }, System.StringSplitOptions.RemoveEmptyEntries);
+            if (tokenizedId.Length < 4)
+            {
+                return null;
+            }
+            return tokenizedId[3];
         }
 
         public static PSResourceProviderType ToPSResourceProviderType(this ProviderResourceType resourceType, string providerNamespace)
