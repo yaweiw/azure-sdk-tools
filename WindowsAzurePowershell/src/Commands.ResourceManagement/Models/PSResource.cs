@@ -27,5 +27,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Models
         public string Location { get; set; }
 
         public IDictionary Properties { get; set; }
+
+        public string PropertiesText { get; set; }
     }
 }
