@@ -48,7 +48,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
             client = new Lazy<ManagementClient>(CreateClient);
             computeClient = new Lazy<ComputeManagementClient>(CreateComputeClient);
             storageClient = new Lazy<StorageManagementClient>(CreateStorageClient);
-            networkClient = new Lazy<VirtualNetworkManagementClient>(CreateNetworkClient);
+            networkClient = new Lazy<NetworkManagementClient>(CreateNetworkClient);
         }
 
         public ManagementClient CreateClient()
@@ -66,9 +66,9 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
             return this.CurrentSubscription.CreateClient<StorageManagementClient>();
         }
 
-        public VirtualNetworkManagementClient CreateNetworkClient()
+        public NetworkManagementClient CreateNetworkClient()
         {
-            return this.CurrentSubscription.CreateClient<VirtualNetworkManagementClient>();
+            return this.CurrentSubscription.CreateClient<NetworkManagementClient>();
         }
 
         private void LogDebug(string message)
@@ -104,8 +104,8 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
             get { return storageClient.Value; }
         }
         
-        private Lazy<VirtualNetworkManagementClient> networkClient;
-        public VirtualNetworkManagementClient NetworkClient 
+        private Lazy<NetworkManagementClient> networkClient;
+        public NetworkManagementClient NetworkClient 
         {
             get { return networkClient.Value; }
         }

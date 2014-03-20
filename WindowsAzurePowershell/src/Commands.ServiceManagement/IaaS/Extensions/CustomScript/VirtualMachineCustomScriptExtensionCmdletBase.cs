@@ -46,7 +46,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
         {
             const string SpaceCharStr = " ";
 
-            return JsonUtilities.TryFormatJson(JsonConvert.SerializeObject(
+            return "\"publicSettings\" : " + JsonUtilities.TryFormatJson(JsonConvert.SerializeObject(
                new PublicSettings
                {
                    fileUris = this.FileUri,
@@ -56,12 +56,15 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
 
         protected string GetPrivateConfiguration()
         {
+            /*
             return JsonUtilities.TryFormatJson(JsonConvert.SerializeObject(
                new PrivateSettings
                {
                    storageAccountName = this.StorageAccountName ?? string.Empty,
                    storageAccountKey = this.StorageAccountKey ?? string.Empty
                }));
+            */
+            return null;
         }
 
         protected virtual void GetExtensionValues(ResourceExtensionReference extensionRef)
