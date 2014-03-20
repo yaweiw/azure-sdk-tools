@@ -14,11 +14,11 @@
     <DeploymentItem filename="Commands.ServiceManagement.Test\vendor\VhdFiles\fixed_50.vhd" />
     <DeploymentItem filename="Commands.Test.Utilities\Resources\" />
     <DeploymentItem filename="..\..\Package\Debug\AzureServiceManagement" />
-	<DeploymentItem filename="..\..\Package\Debug\AzureResourceManagement" />
+	<DeploymentItem filename="..\..\Package\Debug\AzureResourceManager" />
     <DeploymentItem filename="Commands.ServiceManagement.Test\vendor\VhdFiles\dynamic_50.vhd" />
     <DeploymentItem filename="Commands.ScenarioTest\Resources\" />
     <DeploymentItem filename="Commands.ServiceManagement.Test\vendor\VhdFiles\fixed_50_child01.vhd" />
-	<DeploymentItem filename="Commands.ResourceManagement.Test\Resources\" />
+	<DeploymentItem filename="Commands.ResourceManager.Test\Resources\" />
   </Deployment>
   <Execution>
     <Timeouts testTimeout="3000000" />

@@ -186,20 +186,6 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
         public static void ImportModule(this PSCmdlet cmdlet, string modulePath)
         {
             string contents = string.Format("Import-Module {0}", modulePath);
-            DisableVerbose(cmdlet);
-            ExecuteScript<object>(cmdlet, contents);
-            EnableVerbose(cmdlet);
-        }
-
-        public static void DisableVerbose(this PSCmdlet cmdlet)
-        {
-            string contents = "$VerbosePreference='SilentlyContinue'";
-            ExecuteScript<object>(cmdlet, contents);
-        }
-
-        public static void EnableVerbose(this PSCmdlet cmdlet)
-        {
-            string contents = "$VerbosePreference='Continue'";
             ExecuteScript<object>(cmdlet, contents);
         }
 

@@ -27,7 +27,7 @@ namespace Microsoft.WindowsAzure.Commands.Profile
     using System.Reflection;
 
     /// <summary>
-    /// Switches between ServiceManagement and ResourceManagement modules.
+    /// Switches between ServiceManagement and ResourceManager modules.
     /// </summary>
     [Cmdlet(VerbsCommon.Switch, "AzureModule")]
     public class SwitchAzureAccount : CmdletBase
@@ -36,15 +36,15 @@ namespace Microsoft.WindowsAzure.Commands.Profile
         
         private const string ServiceManagementModuleName = "AzureServiceManagement";
         
-        private const string ResourceManagementModuleName = "AzureResourceManagement";
+        private const string ResourceManagerModuleName = "AzureResourceManager";
 
-        private string resourceManagementModulePath;
+        private string ResourceManagerModulePath;
 
         private string serviceManagementModulePath;
 
         private string profileModulePath;
 
-        [Parameter(Position = 0, Mandatory = true, HelpMessage = "Name of the module to switch to. Valid values are AzureServiceManagement and AzureResourceManagement")]
+        [Parameter(Position = 0, Mandatory = true, HelpMessage = "Name of the module to switch to. Valid values are AzureServiceManagement and AzureResourceManager")]
         public AzureModule Name { get; set; }
 
         [Parameter(Position = 1, Mandatory = false, HelpMessage = "If specified, save the module switch at machine level")]
@@ -54,7 +54,7 @@ namespace Microsoft.WindowsAzure.Commands.Profile
         {
             string rootInstallationPath = Directory.GetParent(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location)).FullName;
             serviceManagementModulePath = Path.Combine(rootInstallationPath, ServiceManagementModuleName);
-            resourceManagementModulePath = Path.Combine(rootInstallationPath, ResourceManagementModuleName);
+            ResourceManagerModulePath = Path.Combine(rootInstallationPath, ResourceManagerModuleName);
             profileModulePath = Path.Combine(serviceManagementModulePath, ProfileModuleName);
         }
 
@@ -62,28 +62,28 @@ namespace Microsoft.WindowsAzure.Commands.Profile
         {
             List<PSModuleInfo> modules = this.GetModules();
             bool serviceManagementModuleLoaded = modules.Exists(m => m.Name.Equals(ServiceManagementModuleName));
-            bool resourceManagementModuleLoaded = modules.Exists(m => m.Name.Equals(ResourceManagementModuleName));
+            bool ResourceManagerModuleLoaded = modules.Exists(m => m.Name.Equals(ResourceManagerModuleName));
 
-            if (serviceManagementModuleLoaded && resourceManagementModuleLoaded)
+            if (serviceManagementModuleLoaded && ResourceManagerModuleLoaded)
             {
                 string warningMessage = string.Format(
                     "{0} module and {1} module are loaded in the current session please consider removing one of them.",
                     ServiceManagementModuleName,
-                    ResourceManagementModuleName);
+                    ResourceManagerModuleName);
             }
-            else if (serviceManagementModuleLoaded && Name == AzureModule.AzureResourceManagement)
+            else if (serviceManagementModuleLoaded && Name == AzureModule.AzureResourceManager)
             {
                 RemoveAzureModule(ServiceManagementModuleName, serviceManagementModulePath);
 
-                if (!resourceManagementModuleLoaded)
+                if (!ResourceManagerModuleLoaded)
                 {
-                    ImportAzureModule(ResourceManagementModuleName, resourceManagementModulePath);
+                    ImportAzureModule(ResourceManagerModuleName, ResourceManagerModulePath);
                     ImportAzureModule(ProfileModuleName, profileModulePath);
                 }
             }
-            else if (resourceManagementModuleLoaded && Name == AzureModule.AzureServiceManagement)
+            else if (ResourceManagerModuleLoaded && Name == AzureModule.AzureServiceManagement)
             {
-                RemoveAzureModule(ResourceManagementModuleName, resourceManagementModulePath);
+                RemoveAzureModule(ResourceManagerModuleName, ResourceManagerModulePath);
                 RemoveAzureModule(ProfileModuleName, profileModulePath);
 
                 if (!serviceManagementModuleLoaded)

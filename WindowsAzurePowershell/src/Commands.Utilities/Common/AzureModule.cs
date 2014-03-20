@@ -17,6 +17,6 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
     public enum AzureModule
     {
         AzureServiceManagement,
-        AzureResourceManagement
+        AzureResourceManager
     }
 }
