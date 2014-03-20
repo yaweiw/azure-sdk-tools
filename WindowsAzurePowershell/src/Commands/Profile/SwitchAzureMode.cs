@@ -27,10 +27,10 @@ namespace Microsoft.WindowsAzure.Commands.Profile
     using System.Reflection;
 
     /// <summary>
-    /// Switches between ServiceManagement and ResourceManager modules.
+    /// Switches between ServiceManagement and ResourceManager modes.
     /// </summary>
-    [Cmdlet(VerbsCommon.Switch, "AzureModule")]
-    public class SwitchAzureAccount : CmdletBase
+    [Cmdlet(VerbsCommon.Switch, "AzureMode")]
+    public class SwitchAzureMode : CmdletBase
     {
         private const string ProfileModuleName = "AzureProfile";
         
@@ -44,13 +44,13 @@ namespace Microsoft.WindowsAzure.Commands.Profile
 
         private string profileModulePath;
 
-        [Parameter(Position = 0, Mandatory = true, HelpMessage = "Name of the module to switch to. Valid values are AzureServiceManagement and AzureResourceManager")]
+        [Parameter(Position = 0, Mandatory = true, HelpMessage = "Name of the mode to switch to. Valid values are AzureServiceManagement and AzureResourceManager")]
         public AzureModule Name { get; set; }
 
         [Parameter(Position = 1, Mandatory = false, HelpMessage = "If specified, save the module switch at machine level")]
         public SwitchParameter Global { get; set; }
 
-        public SwitchAzureAccount()
+        public SwitchAzureMode()
         {
             string rootInstallationPath = Directory.GetParent(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location)).FullName;
             serviceManagementModulePath = Path.Combine(rootInstallationPath, ServiceManagementModuleName);
