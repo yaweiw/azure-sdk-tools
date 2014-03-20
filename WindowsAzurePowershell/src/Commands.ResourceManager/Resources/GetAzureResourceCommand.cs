@@ -62,21 +62,24 @@ namespace Microsoft.Azure.Commands.ResourceManager
             };
 
             List<PSResource> resourceList = ResourceClient.FilterPSResources(parameters);
-            if (resourceList.Count == 1 && Name != null)
+            if (resourceList != null)
             {
-                WriteObject(resourceList[0]);
-            }
-            else
-            {
-                List<PSObject> output = new List<PSObject>();
-                resourceList.ForEach(r => output.Add(base.ConstructPSObject(
-                    null,
-                    "Name", r.Name,
-                    "ResourceGroupName", r.ResourceGroupName,
-                    "ResourceType", r.ResourceType,
-                    "Location", r.Location)));
+                if (resourceList.Count == 1 && Name != null)
+                {
+                    WriteObject(resourceList[0]);
+                }
+                else
+                {
+                    List<PSObject> output = new List<PSObject>();
+                    resourceList.ForEach(r => output.Add(base.ConstructPSObject(
+                        null,
+                        "Name", r.Name,
+                        "ResourceGroupName", r.ResourceGroupName,
+                        "ResourceType", r.ResourceType,
+                        "Location", r.Location)));
 
-                WriteObject(output, true);
+                    WriteObject(output, true);
+                }
             }
         }
     }
