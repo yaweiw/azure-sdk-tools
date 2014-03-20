@@ -1003,7 +1003,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Test.Models
                             Properties = new DeploymentProperties()
                             {
                                 Mode = DeploymentMode.Incremental,
-                                TrackingId = "123",
+                                CorrelationId = "123",
                                 ProvisioningState = ProvisioningState.Succeeded
                             },
                         }
@@ -1566,7 +1566,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Test.Models
                                             Properties = new DeploymentProperties()
                                                 {
                                                     Mode = DeploymentMode.Incremental,
-                                                    TrackingId = "123",
+                                                    CorrelationId = "123",
                                                     TemplateLink = new TemplateLink()
                                                         {
                                                             Uri = new Uri("http://microsoft1.com")
@@ -1610,7 +1610,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Test.Models
                                                    Properties = new DeploymentProperties()
                                                        {
                                                            Mode = DeploymentMode.Incremental,
-                                                           TrackingId = "123",
+                                                           CorrelationId = "123",
                                                            TemplateLink = new TemplateLink()
                                                                {
                                                                    Uri = new Uri("http://microsoft1.com")
@@ -1908,7 +1908,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Test.Models
                             Properties = new DeploymentProperties()
                             {
                                 Mode = DeploymentMode.Incremental,
-                                TrackingId = "123",
+                                CorrelationId = "123",
                                 TemplateLink = new TemplateLink()
                                 {
                                     Uri = new Uri("http://microsoft.com")
@@ -1948,7 +1948,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Test.Models
                             Properties = new DeploymentProperties()
                             {
                                 Mode = DeploymentMode.Incremental,
-                                TrackingId = "123",
+                                CorrelationId = "123",
                                 TemplateLink = new TemplateLink()
                                 {
                                     Uri = new Uri("http://microsoft1.com")
@@ -1973,7 +1973,7 @@ namespace Microsoft.Azure.Commands.ResourceManagement.Test.Models
                             Properties = new DeploymentProperties()
                             {
                                 Mode = DeploymentMode.Incremental,
-                                TrackingId = "456",
+                                CorrelationId = "456",
                                 TemplateLink = new TemplateLink()
                                 {
                                     Uri = new Uri("http://microsoft2.com")
