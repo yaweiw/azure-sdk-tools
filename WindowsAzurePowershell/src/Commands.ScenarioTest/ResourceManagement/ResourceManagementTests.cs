@@ -12,6 +12,11 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
+using System;
+using System.Linq;
+using Microsoft.WindowsAzure.Commands.Test.Utilities.Common;
+using Microsoft.WindowsAzure.Commands.Utilities.Common;
+
 namespace Microsoft.WindowsAzure.Commands.ScenarioTest.ResourceManagementTests
 {
     using System.IO;
@@ -19,7 +24,7 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.ResourceManagementTests
     using Microsoft.VisualStudio.TestTools.UnitTesting;
 
     [TestClass]
-    public class ResourceManagementTests : WindowsAzurePowerShellTest
+    public class ResourceManagementTests : WindowsAzurePowerShellTokenTest
     {
         private string currentDirectory;
 
@@ -27,7 +32,7 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.ResourceManagementTests
             : base("ResourceManagement\\Common.ps1",
                    "ResourceManagement\\ResourceManagementTests.ps1")
         {
-
+            
         }
 
         [TestInitialize]

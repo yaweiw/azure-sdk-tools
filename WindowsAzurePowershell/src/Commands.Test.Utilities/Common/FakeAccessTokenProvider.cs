@@ -14,18 +14,18 @@
 
 namespace Microsoft.WindowsAzure.Commands.Test.Utilities.Common
 {
-    using Microsoft.WindowsAzure.Commands.Test.Utilities.HDInsight.Simulators;
-    using Microsoft.WindowsAzure.Commands.Utilities.Common;
-    using Microsoft.WindowsAzure.Commands.Utilities.Common.Authentication;
+    using Commands.Utilities.Common;
+    using Commands.Utilities.Common.Authentication;
 
-    internal class FakeAccessTokenProvider : ITokenProvider
+    public class FakeAccessTokenProvider : ITokenProvider
     {
         private readonly IAccessToken accessToken;
 
-        internal FakeAccessTokenProvider(string token) : this(token, "user@live.com")
+        public FakeAccessTokenProvider(string token)
+            : this(token, "user@live.com")
         { }
 
-        internal FakeAccessTokenProvider(string token, string userId)
+        public FakeAccessTokenProvider(string token, string userId)
         {
             this.accessToken = new FakeAccessToken()
             {
