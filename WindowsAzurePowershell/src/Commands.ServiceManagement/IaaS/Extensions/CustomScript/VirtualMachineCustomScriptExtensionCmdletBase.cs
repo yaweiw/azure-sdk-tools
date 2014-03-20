@@ -17,6 +17,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
     using System;
     using System.Linq;
     using Management.Storage;
+    using Model.PersistentVMModel;
     using Newtonsoft.Json;
     using Utilities.Common;
 
@@ -24,7 +25,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
     {
         protected const string VirtualMachineCustomScriptExtensionNoun = "AzureVMCustomScriptExtension";
         protected const string ExtensionDefaultPublisher = "Microsoft.WindowsAzure.Compute";
-        protected const string ExtensionDefaultName = "CustomScriptHandler";
+        protected const string ExtensionDefaultName = "ScriptHandler";
         protected const string LegacyReferenceName = "MyCustomScriptExtension";
 
         public virtual string ContainerName { get; set; }
@@ -61,6 +62,39 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
                    storageAccountName = this.StorageAccountName ?? string.Empty,
                    storageAccountKey = this.StorageAccountKey ?? string.Empty
                }));
+        }
+
+        protected virtual void GetExtensionValues(ResourceExtensionReference extensionRef)
+        {
+            if (extensionRef != null && extensionRef.ResourceExtensionParameterValues != null)
+            {
+                Disable = string.Equals(extensionRef.State, ReferenceDisableStr);
+                GetExtensionValues(extensionRef.ResourceExtensionParameterValues);
+            }
+            else
+            {
+                Disable = extensionRef == null ? true : string.Equals(extensionRef.State, ReferenceDisableStr);
+            }
+        }
+
+        protected virtual void GetExtensionValues(ResourceExtensionParameterValueList paramVals)
+        {
+            if (paramVals != null && paramVals.Any())
+            {
+                var publicParamVal = paramVals.FirstOrDefault(
+                    r => !string.IsNullOrEmpty(r.Value) && string.Equals(r.Type, PublicTypeStr));
+                if (publicParamVal != null && !string.IsNullOrEmpty(publicParamVal.Value))
+                {
+                    this.PublicConfiguration = publicParamVal.Value;
+                }
+
+                var privateParamVal = paramVals.FirstOrDefault(
+                    r => !string.IsNullOrEmpty(r.Value) && string.Equals(r.Type, PrivateTypeStr));
+                if (privateParamVal != null && !string.IsNullOrEmpty(privateParamVal.Value))
+                {
+                    this.PrivateConfiguration = privateParamVal.Value;
+                }
+            }
         }
     }
 }
