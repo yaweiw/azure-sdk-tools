@@ -24,8 +24,8 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
     public class VirtualMachineCustomScriptExtensionCmdletBase : VirtualMachineExtensionCmdletBase
     {
         protected const string VirtualMachineCustomScriptExtensionNoun = "AzureVMCustomScriptExtension";
-        protected const string ExtensionDefaultPublisher = "Microsoft.WindowsAzure.Compute";
-        protected const string ExtensionDefaultName = "ScriptHandler";
+        protected const string ExtensionDefaultPublisher = "Microsoft.Compute";
+        protected const string ExtensionDefaultName = "CustomScript";
         protected const string LegacyReferenceName = "MyCustomScriptExtension";
 
         public virtual string ContainerName { get; set; }
