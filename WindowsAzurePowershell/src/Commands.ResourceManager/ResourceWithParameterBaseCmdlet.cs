@@ -100,7 +100,7 @@ namespace Microsoft.Azure.Commands.ResourceManager
                     dynamicParameters = GalleryTemplatesClient.GetTemplateParametersFromGallery(
                         GalleryTemplateName,
                         TemplateParameterObject,
-                        TemplateParameterFile,
+                        this.TryResolvePath(TemplateParameterFile),
                         MyInvocation.MyCommand.Parameters.Keys.ToArray());
                 }
                 catch (CloudException)
@@ -117,7 +117,7 @@ namespace Microsoft.Azure.Commands.ResourceManager
                     dynamicParameters = GalleryTemplatesClient.GetTemplateParametersFromFile(
                         this.TryResolvePath(TemplateFile),
                         TemplateParameterObject,
-                        TemplateParameterFile,
+                        this.TryResolvePath(TemplateParameterFile),
                         MyInvocation.MyCommand.Parameters.Keys.ToArray());
                 } 
                 catch
