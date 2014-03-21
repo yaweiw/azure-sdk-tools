@@ -315,6 +315,84 @@ namespace Microsoft.Azure.Commands.ResourceManager.Test.Models
         }
 
         [Fact]
+        public void NewResourceGroupWithTemplateFileAndWithoutStorageAccountNameFails()
+        {
+            CreatePSResourceGroupParameters parameters = new CreatePSResourceGroupParameters()
+            {
+                ResourceGroupName = resourceGroupName,
+                Location = resourceGroupLocation,
+                ConfirmAction = ConfirmAction,
+                TemplateFile = templateFile
+            };
+
+            Assert.Throws<ArgumentException>(() => resourcesClient.CreatePSResourceGroup(parameters));
+        }
+
+        [Fact]
+        public void NewResourceGroupWithGalleryTemplateAndWithoutStorageAccountNameSucceeds()
+        {
+            CreatePSResourceGroupParameters parameters = new CreatePSResourceGroupParameters()
+            {
+                ResourceGroupName = resourceGroupName,
+                Location = resourceGroupLocation,
+                ConfirmAction = ConfirmAction,
+                GalleryTemplateName = "templateFile"
+            };
+            galleryTemplatesClientMock.Setup(f => f.GetGalleryTemplateFile("templateFile")).Returns("http://microsoft.com");
+            resourceGroupMock.Setup(f => f.CheckExistenceAsync(parameters.ResourceGroupName, new CancellationToken()))
+                .Returns(Task.Factory.StartNew(() => new ResourceGroupExistsResult
+                {
+                    Exists = false
+                }));
+
+            resourceGroupMock.Setup(f => f.CreateOrUpdateAsync(
+                parameters.ResourceGroupName,
+                It.IsAny<BasicResourceGroup>(),
+                new CancellationToken()))
+                    .Returns(Task.Factory.StartNew(() => new ResourceGroupCreateOrUpdateResult
+                    {
+                        ResourceGroup = new ResourceGroup() { Name = parameters.ResourceGroupName, Location = parameters.Location }
+                    }));
+            resourceGroupMock.Setup(f => f.GetAsync(resourceGroupName, new CancellationToken()))
+                .Returns(Task.Factory.StartNew(() => new ResourceGroupGetResult
+                {
+                    ResourceGroup = new ResourceGroup()
+                    {
+                        Name = resourceGroupName,
+                        Location = resourceGroupLocation
+                    }
+                }));
+            SetupListForResourceGroupAsync(parameters.ResourceGroupName, new List<Resource>());
+            deploymentsMock.Setup(f=>f.ValidateAsync(resourceGroupName, It.IsAny<string>(), It.IsAny<BasicDeployment>(), new CancellationToken()))
+                .Returns(Task.Factory.StartNew(() => new DeploymentValidateResponse
+                {
+                    IsValid = true
+                }));
+            deploymentsMock.Setup(f => f.GetAsync(resourceGroupName, It.IsAny<string>(), new CancellationToken()))
+                .Returns(Task.Factory.StartNew(() => new DeploymentGetResult
+                {
+                    Deployment = new Deployment()
+                    {
+                        Properties = new DeploymentProperties()
+                        {
+                            ProvisioningState = ProvisioningState.Succeeded
+                        }
+                    }
+                }));
+            deploymentOperationsMock.Setup(f => f.ListAsync(resourceGroupName, It.IsAny<string>(), null, new CancellationToken()))
+                .Returns(Task.Factory.StartNew(() => new DeploymentOperationsListResult
+                {
+                    Operations = new List<DeploymentOperation>()
+                }));
+
+            PSResourceGroup result = resourcesClient.CreatePSResourceGroup(parameters);
+
+            Assert.Equal(parameters.ResourceGroupName, result.ResourceGroupName);
+            Assert.Equal(parameters.Location, result.Location);
+            Assert.Empty(result.Resources);
+        }
+
+        [Fact]
         public void NewResourceGroupWithoutDeploymentSucceeds()
         {
             CreatePSResourceGroupParameters parameters = new CreatePSResourceGroupParameters()
