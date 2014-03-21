@@ -21,6 +21,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.Utilities.Common
     {
         public void AuthorizeRequest(Action<string, string> authTokenSetter)
         {
+            authTokenSetter("Bearer", AccessToken);
         }
 
         public string AccessToken { get; internal set; }
