@@ -38,6 +38,8 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.Common
             this.modules.Add("Assert.ps1");
             this.modules.Add("Common.ps1");
             this.modules.AddRange(modules);
+
+            CloudContext.Configuration.Tracing.AddTracingInterceptor(new TestingTracingInterceptor());
         }
 
         protected void AddScenarioScript(string script)
