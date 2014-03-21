@@ -183,12 +183,6 @@ namespace Microsoft.Azure.Commands.ResourceManager.Models
         public virtual PSResourceGroup CreatePSResourceGroup(CreatePSResourceGroupParameters parameters)
         {
             bool createDeployment = !string.IsNullOrEmpty(parameters.GalleryTemplateName) || !string.IsNullOrEmpty(parameters.TemplateFile);
-
-            if (createDeployment && string.IsNullOrEmpty(parameters.GalleryTemplateName))
-            {
-                ValidateStorageAccount(parameters.StorageAccountName);
-            }
-
             bool resourceExists = ResourceManagementClient.ResourceGroups.CheckExistence(parameters.ResourceGroupName).Exists;
 
             ResourceGroup resourceGroup = null;

@@ -43,7 +43,7 @@ namespace Microsoft.Azure.Commands.ResourceManager
                 TemplateFile = this.TryResolvePath(TemplateFile),
                 TemplateParameterObject = GetTemplateParameterObject(TemplateParameterObject),
                 TemplateVersion = TemplateVersion,
-                StorageAccountName = StorageAccountName,
+                StorageAccountName = GetStorageAccountName(),
             };
 
             WriteObject(ResourcesClient.ExecuteDeployment(parameters));

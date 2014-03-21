@@ -51,7 +51,7 @@ namespace Microsoft.Azure.Commands.ResourceManager
                 TemplateFile = this.TryResolvePath(TemplateFile),
                 TemplateParameterObject = GetTemplateParameterObject(TemplateParameterObject),
                 TemplateVersion = TemplateVersion,
-                StorageAccountName = StorageAccountName,
+                StorageAccountName = GetStorageAccountName(),
                 Force = Force.IsPresent,
                 ConfirmAction = ConfirmAction
             };

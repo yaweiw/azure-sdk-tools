@@ -214,7 +214,7 @@ namespace Microsoft.Azure.Commands.ResourceManager.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to You must specify StorageAccountName as a parameter or the CurrentStorageAccountName on the current subscription must be specified..
+        ///   Looks up a localized string similar to ecause the current subscription does not have a current storage account, you must specify the StorageAccountName parameter..
         /// </summary>
         internal static string StorageAccountNameNeedsToBeSpecified {
             get {

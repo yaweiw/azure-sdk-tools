@@ -20,6 +20,7 @@ using Newtonsoft.Json;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Management.Automation;
@@ -81,10 +82,6 @@ namespace Microsoft.Azure.Commands.ResourceManager
         [ValidateNotNullOrEmpty]
         public string TemplateVersion { get; set; }
 
-        [Parameter(Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "The storage account which the cmdlet to upload the template file to. If not specified, the current storage account of the subscription will be used.")]
-        [ValidateNotNullOrEmpty]
-        public string StorageAccountName { get; set; }
-
         public object GetDynamicParameters()
         {
             if (!string.IsNullOrEmpty(GalleryTemplateName) &&
@@ -138,13 +135,27 @@ namespace Microsoft.Azure.Commands.ResourceManager
             }
 
             // Load dynamic parameters
-            IEnumerable<RuntimeDefinedParameter> parameters = GeneralUtilities.GetUsedDynamicParameters(dynamicParameters, MyInvocation);
+            IEnumerable<RuntimeDefinedParameter> parameters = PowerShellUtilities.GetUsedDynamicParameters(dynamicParameters, MyInvocation);
             if (parameters.Any())
             {
-                parameters.ForEach(dp => templateParameterObject[dp.Name] = dp.Value);
+                parameters.ForEach(dp => templateParameterObject[((ParameterAttribute)dp.Attributes[0]).HelpMessage] = dp.Value);
             }
 
             return templateParameterObject;
+        }
+
+        protected string GetStorageAccountName()
+        {
+            string storageAccountName = null;
+            IEnumerable<RuntimeDefinedParameter> parameters = PowerShellUtilities.GetUsedDynamicParameters(dynamicParameters, MyInvocation);
+            RuntimeDefinedParameter parameter = parameters.FirstOrDefault(dp => dp.Name.Equals(GalleryTemplatesClient.StorageAccountParameterName));
+
+            if (parameter != null && parameter.Value != null)
+            {
+                storageAccountName = parameter.Value.ToString();
+            }
+
+            return storageAccountName;
         }
     }
 }
