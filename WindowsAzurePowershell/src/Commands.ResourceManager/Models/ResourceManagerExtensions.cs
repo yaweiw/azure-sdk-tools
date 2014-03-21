@@ -97,7 +97,7 @@ namespace Microsoft.Azure.Commands.ResourceManager.Models
 
         /// <summary>
         /// Parses ID in the format:
-        /// /subscriptions/32155b36-f1ca-4346-9c37-53b14f248a06/resourceGroups/foo/providers/Microsoft.Web/serverFarms/ilygreTest4Host
+        /// /subscriptions/abc123/resourceGroups/foo/providers/Microsoft.Web/serverFarms/name
         /// </summary>
         /// <param name="resourceId">Resource ID</param>
         /// <returns>Resource group</returns>
