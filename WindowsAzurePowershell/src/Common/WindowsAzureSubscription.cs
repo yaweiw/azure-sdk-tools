@@ -227,7 +227,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
 
             if (CloudServiceEndpoint != null)
             {
-                RegisterResourceManagementProviders<T>(credentials);
+                RegisterResourceManagerProviders<T>(credentials);
             }
         }
 
@@ -236,9 +236,9 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
         /// </summary>
         /// <typeparam name="T">The client type</typeparam>
         /// <param name="credentials">The subscription credentials</param>
-        private void RegisterResourceManagementProviders<T>(SubscriptionCloudCredentials credentials) where T : ServiceClient<T>
+        private void RegisterResourceManagerProviders<T>(SubscriptionCloudCredentials credentials) where T : ServiceClient<T>
         {
-            List<string> requiredProviders = RequiredResourceLookup.RequiredProvidersForResourceManagement<T>().ToList();
+            List<string> requiredProviders = RequiredResourceLookup.RequiredProvidersForResourceManager<T>().ToList();
             if (requiredProviders.Count > 0)
             {
                 using (IResourceManagementClient client = new ResourceManagementClient(credentials, CloudServiceEndpoint))

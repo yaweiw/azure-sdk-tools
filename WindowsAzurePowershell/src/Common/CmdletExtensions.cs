@@ -1,4 +1,5 @@
-﻿// ----------------------------------------------------------------------------------
+﻿using Microsoft.WindowsAzure.Commands.Common;
+// ----------------------------------------------------------------------------------
 //
 // Copyright Microsoft Corporation
 // Licensed under the Apache License, Version 2.0 (the "License");
@@ -15,11 +16,16 @@
 namespace Microsoft.WindowsAzure.Commands.Utilities.Common
 {
     using System;
+    using System.Collections.Generic;
+    using System.Collections.ObjectModel;
     using System.Data.Services.Client;
+    using System.Diagnostics;
     using System.Diagnostics.CodeAnalysis;
     using System.IO;
     using System.Management.Automation;
+    using System.Management.Automation.Runspaces;
     using System.Runtime.Serialization;
+    using System.Threading;
     using System.Xml;
     using System.Xml.Linq;
 
@@ -129,5 +135,60 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
 
             return ex.InnerException != null ? FindDataServiceClientException(ex.InnerException) : null;
         }
+
+        public static void ExecuteScript(this PSCmdlet cmdlet, string contents)
+        {
+            ExecuteScript<object>(cmdlet, contents);
+        }
+
+        public static void ExecuteScriptFile(this PSCmdlet cmdlet, string absolutePath)
+        {
+            ExecuteScriptFile<object>(cmdlet, absolutePath);
+        }
+
+        public static List<T> ExecuteScript<T>(this PSCmdlet cmdlet, string contents)
+        {
+            List<T> output = new List<T>();
+
+            using (PowerShell powershell = PowerShell.Create(RunspaceMode.CurrentRunspace))
+            {
+                powershell.AddScript(contents);
+                Collection<T> result = powershell.Invoke<T>();
+
+                if (result != null && result.Count > 0)
+                {
+                    output.AddRange(result);
+                }
+            }
+
+            return output;
+        }
+
+        public static List<T> ExecuteScriptFile<T>(this PSCmdlet cmdlet, string absolutePath)
+        {
+            string contents = File.ReadAllText(absolutePath);
+            return ExecuteScript<T>(cmdlet, contents);
+        }
+
+        #region PowerShell Commands
+
+        public static void RemoveModule(this PSCmdlet cmdlet, string moduleName)
+        {
+            string contents = string.Format("Remove-Module {0}", moduleName);
+            ExecuteScript<object>(cmdlet, contents);
+        }
+
+        public static List<PSModuleInfo> GetModules(this PSCmdlet cmdlet)
+        {
+            return ExecuteScript<PSModuleInfo>(cmdlet, "Get-Module");
+        }
+
+        public static void ImportModule(this PSCmdlet cmdlet, string modulePath)
+        {
+            string contents = string.Format("Import-Module {0}", modulePath);
+            ExecuteScript<object>(cmdlet, contents);
+        }
+
+        #endregion
     }
 }
