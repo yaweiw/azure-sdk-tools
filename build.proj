@@ -17,7 +17,7 @@
     <AzureRTTestContainer>.\WindowsAzurePowershell\src\Commands.ServiceManagement.Test\bin\Debug\Microsoft.WindowsAzure.Commands.ServiceManagement.Test.dll</AzureRTTestContainer>
     <StorageScenarioTestDebug>WindowsAzurePowershell\src\Commands.Storage.ScenarioTest\bin\Debug\CLITest.dll</StorageScenarioTestDebug>
     <ManagementTestDebug>.\WindowsAzurePowershell\src\Commands.Test\bin\Debug\Microsoft.WindowsAzure.Commands.Test.dll</ManagementTestDebug>
-    <ResourceManagementTestDebug>.\WindowsAzurePowershell\src\Commands.ResourceManagement.Test\bin\Debug\Microsoft.Azure.Commands.ResourceManagement.Test.dll</ResourceManagementTestDebug>
+    <ResourceManagerTestDebug>.\WindowsAzurePowershell\src\Commands.ResourceManager.Test\bin\Debug\Microsoft.Azure.Commands.ResourceManager.Test.dll</ResourceManagerTestDebug>
     <ServiceManagementTestDebug>.\WindowsAzurePowershell\src\Commands.ServiceManagement.Test\bin\Debug\Microsoft.WindowsAzure.Commands.ServiceManagement.Test.dll</ServiceManagementTestDebug>
     <SqlDatabaseTestDebug>.\WindowsAzurePowershell\src\Commands.SqlDatabase.Test\bin\Debug\Microsoft.WindowsAzure.Commands.SqlDatabase.Test.dll</SqlDatabaseTestDebug>
     <HDInsightTestDebug>.\WindowsAzurePowershell\src\Commands.HDInsight.Test\bin\Debug\Microsoft.WindowsAzure.Commands.HDInsight.Test.dll</HDInsightTestDebug>    
@@ -236,8 +236,8 @@
     <MakeDir Directories="$(TestOutputDirectory)" ContinueOnError="false" />
 
     <Message Importance="high" Text="Debug tests:" />
-    <!--CallTarget Targets="TestManagement; TestResourceManagement; TestServiceManagement; TestSqlDatabase; TestStorage;" /-->
-    <CallTarget Targets="TestManagement; TestResourceManagement; TestServiceManagement; TestStorage;" />
+    <!--CallTarget Targets="TestManagement; TestResourceManager; TestServiceManagement; TestSqlDatabase; TestStorage;" /-->
+    <CallTarget Targets="TestManagement; TestResourceManager; TestServiceManagement; TestStorage;" />
   </Target>
 
   <Target Name="TestManagement">
@@ -246,8 +246,8 @@
       ContinueOnError="false" />
   </Target>
   
-  <Target Name="TestResourceManagement">
-    <Xunit.Runner.MSBuild.xunit Assembly="$(ResourceManagementTestDebug)" Html="$(TestOutputDirectory)\ResourceManagementTestDebug.xunit.dll.html" Verbose="true"/>
+  <Target Name="TestResourceManager">
+    <Xunit.Runner.MSBuild.xunit Assembly="$(ResourceManagerTestDebug)" Html="$(TestOutputDirectory)\ResourceManagerTestDebug.xunit.dll.html" Verbose="true"/>
   </Target>
 
   <Target Name="TestServiceManagement">

@@ -43,7 +43,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
             return new string[0];
         }
 
-        internal static IList<string> RequiredProvidersForResourceManagement<T>() where T : ServiceClient<T>
+        internal static IList<string> RequiredProvidersForResourceManager<T>() where T : ServiceClient<T>
         {
             if (typeof(T).FullName.EndsWith("ResourceManagementClient"))
             {

@@ -1,43 +1,36 @@
 @echo off
 
 set output=..\..\Package\Release
-set resources=%output%\Resources
+set serviceManagementResources=%output%\AzureServiceManagement\Resources
 
-echo Removing Resources folder %resources%
-rmdir /S /Q %resources%
+echo Removing Resources folder %serviceManagementResources%
+rmdir /S /Q %serviceManagementResources%
 
 echo Removing generated NuGet files from %output%
-rmdir /S /Q %output%\de
-rmdir /S /Q %output%\es
-rmdir /S /Q %output%\fr
-rmdir /S /Q %output%\it
-rmdir /S /Q %output%\ja
-rmdir /S /Q %output%\ko
-rmdir /S /Q %output%\ru
-rmdir /S /Q %output%\zh-Hans
-rmdir /S /Q %output%\zh-Hant
+rmdir /S /Q %output%\AzureServiceManagement\de
+rmdir /S /Q %output%\AzureServiceManagement\es
+rmdir /S /Q %output%\AzureServiceManagement\fr
+rmdir /S /Q %output%\AzureServiceManagement\it
+rmdir /S /Q %output%\AzureServiceManagement\ja
+rmdir /S /Q %output%\AzureServiceManagement\ko
+rmdir /S /Q %output%\AzureServiceManagement\ru
+rmdir /S /Q %output%\AzureServiceManagement\zh-Hans
+rmdir /S /Q %output%\AzureServiceManagement\zh-Hant
+rmdir /S /Q %output%\AzureResourceManager\de
+rmdir /S /Q %output%\AzureResourceManager\es
+rmdir /S /Q %output%\AzureResourceManager\fr
+rmdir /S /Q %output%\AzureResourceManager\it
+rmdir /S /Q %output%\AzureResourceManager\ja
+rmdir /S /Q %output%\AzureResourceManager\ko
+rmdir /S /Q %output%\AzureResourceManager\ru
+rmdir /S /Q %output%\AzureResourceManager\zh-Hans
+rmdir /S /Q %output%\AzureResourceManager\zh-Hant
 
 echo Delete XML help files for helper dlls from %output%
-del %output%\Microsoft.Data.Edm.xml
-del %output%\Microsoft.Data.OData.xml
-del %output%\Microsoft.Data.Services.Client.xml
-del %output%\Microsoft.WindowsAzure.Storage.xml
-del %output%\Newtonsoft.Json.xml
-del %output%\System.Net.Http.Formatting.xml
-del %output%\System.Net.Http.xml
-del %output%\System.Spatial.xml
-del %output%\System.Net.Http.WebRequest.xml
-del %output%\AutoMapper.xml
-del %output%\Microsoft.IdentityModel.Clients.ActiveDirectory.xml
-del %output%\Microsoft.Threading.Tasks.Extensions.Desktop.xml
-del %output%\Microsoft.Threading.Tasks.Extensions.xml
-del %output%\Microsoft.Threading.Tasks.xml
-del %output%\Moq.xml
-del %output%\System.IO.xml
-del %output%\System.Net.Http.Extensions.xml
-del %output%\System.Net.Http.Primitives.xml
+:: The xml help files are not being deleted.
 
 echo Delete config files for dlls from %output%
-del %output%\*.dll.config
+del %output%\AzureServiceManagement\*.dll.config
+del %output%\AzureResourceManager\*.dll.config
 
 heat dir %output% -srd -gg -g1 -cg azurecmdfiles -sfrag -dr PowerShellFolder -var var.sourceDir -o azurecmdfiles.wxi
