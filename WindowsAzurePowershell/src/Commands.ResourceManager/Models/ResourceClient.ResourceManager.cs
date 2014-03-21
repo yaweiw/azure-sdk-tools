@@ -42,7 +42,7 @@ namespace Microsoft.Azure.Commands.ResourceManager.Models
         /// </summary>
         /// <param name="parameters">The create parameters</param>
         /// <returns>The created resource</returns>
-        public virtual PSResource CreateResource(CreatePSResourceParameters parameters)
+        public virtual PSResource CreatePSResource(CreatePSResourceParameters parameters)
         {
             ResourceIdentity resourceIdentity = parameters.ToResourceIdentity();
 
