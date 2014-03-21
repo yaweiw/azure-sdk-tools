@@ -46,7 +46,7 @@ namespace Microsoft.Azure.Commands.ResourceManager
                 StorageAccountName = StorageAccountName,
             };
 
-            WriteObject(ResourceClient.ExecuteDeployment(parameters));
+            WriteObject(ResourcesClient.ExecuteDeployment(parameters));
         }
     }
 }

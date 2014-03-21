@@ -25,18 +25,18 @@ namespace Microsoft.Azure.Commands.ResourceManager.Test.Resources
     {
         private SaveAzureResourceGroupGalleryTemplateCommand cmdlet;
 
-        private Mock<ResourcesClient> resourcesClientMock;
+        private Mock<GalleryTemplatesClient> galleryTemplatesClientMock;
 
         private Mock<ICommandRuntime> commandRuntimeMock;
 
         public SaveAzureResourceGroupGalleryTemplateCommandTests()
         {
-            resourcesClientMock = new Mock<ResourcesClient>();
+            galleryTemplatesClientMock = new Mock<GalleryTemplatesClient>();
             commandRuntimeMock = new Mock<ICommandRuntime>();
             cmdlet = new SaveAzureResourceGroupGalleryTemplateCommand()
             {
                 CommandRuntime = commandRuntimeMock.Object,
-                ResourceClient = resourcesClientMock.Object
+                GalleryTemplatesClient = galleryTemplatesClientMock.Object
             };
         }
 
@@ -49,7 +49,7 @@ namespace Microsoft.Azure.Commands.ResourceManager.Test.Resources
 
             cmdlet.ExecuteCmdlet();
 
-            resourcesClientMock.Verify(f => f.DownloadGalleryTemplateFile("fileName", "filePath"), Times.Once());
+            galleryTemplatesClientMock.Verify(f => f.DownloadGalleryTemplateFile("fileName", "filePath"), Times.Once());
 
             commandRuntimeMock.Verify(f => f.WriteObject(true), Times.Once());
         }
@@ -63,7 +63,7 @@ namespace Microsoft.Azure.Commands.ResourceManager.Test.Resources
 
             cmdlet.ExecuteCmdlet();
 
-            resourcesClientMock.Verify(f => f.DownloadGalleryTemplateFile("fileName", expectedPath), Times.Once());
+            galleryTemplatesClientMock.Verify(f => f.DownloadGalleryTemplateFile("fileName", expectedPath), Times.Once());
 
             commandRuntimeMock.Verify(f => f.WriteObject(true), Times.Never());
         }

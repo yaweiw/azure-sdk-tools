@@ -37,7 +37,7 @@ namespace Microsoft.Azure.Commands.ResourceManager.Test.Resources
             cmdlet = new StopAzureResourceGroupDeploymentCommand()
             {
                 CommandRuntime = commandRuntimeMock.Object,
-                ResourceClient = resourcesClientMock.Object
+                ResourcesClient = resourcesClientMock.Object
             };
         }
 

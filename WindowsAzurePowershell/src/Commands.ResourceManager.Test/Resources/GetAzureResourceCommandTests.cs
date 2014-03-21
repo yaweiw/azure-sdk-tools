@@ -50,7 +50,7 @@ namespace Microsoft.Azure.Commands.ResourceManager.Test
             cmdlet = new GetAzureResourceCommand()
             {
                 CommandRuntime = commandRuntimeMock.Object,
-                ResourceClient = resourcesClientMock.Object
+                ResourcesClient = resourcesClientMock.Object
             };
             properties = new Dictionary<string, object>
                 {

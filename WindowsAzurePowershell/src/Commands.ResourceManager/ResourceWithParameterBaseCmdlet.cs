@@ -97,7 +97,7 @@ namespace Microsoft.Azure.Commands.ResourceManager
                 galleryTemplateName = GalleryTemplateName;
                 try
                 {
-                    dynamicParameters = ResourceClient.GetTemplateParametersFromGallery(
+                    dynamicParameters = GalleryTemplatesClient.GetTemplateParametersFromGallery(
                         GalleryTemplateName,
                         TemplateParameterObject,
                         TemplateParameterFile,
@@ -114,7 +114,7 @@ namespace Microsoft.Azure.Commands.ResourceManager
                 try
                 {
                     templateFile = TemplateFile;
-                    dynamicParameters = ResourceClient.GetTemplateParametersFromFile(
+                    dynamicParameters = GalleryTemplatesClient.GetTemplateParametersFromFile(
                         this.TryResolvePath(TemplateFile),
                         TemplateParameterObject,
                         TemplateParameterFile,

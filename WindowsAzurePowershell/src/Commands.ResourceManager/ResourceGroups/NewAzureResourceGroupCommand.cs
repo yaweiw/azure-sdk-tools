@@ -56,7 +56,7 @@ namespace Microsoft.Azure.Commands.ResourceManager
                 ConfirmAction = ConfirmAction
             };
 
-            WriteObject(ResourceClient.CreatePSResourceGroup(parameters));
+            WriteObject(ResourcesClient.CreatePSResourceGroup(parameters));
         }
     }
 }

@@ -27,18 +27,18 @@ namespace Microsoft.Azure.Commands.ResourceManager.Test.Resources
     {
         private GetAzureResourceGroupGalleryTemplateCommand cmdlet;
 
-        private Mock<ResourcesClient> resourcesClientMock;
+        private Mock<GalleryTemplatesClient> galleryTemplatesClientMock;
 
         private Mock<ICommandRuntime> commandRuntimeMock;
 
         public GetAzureResourceGroupGalleryTemplateCommandTests()
         {
-            resourcesClientMock = new Mock<ResourcesClient>();
+            galleryTemplatesClientMock = new Mock<GalleryTemplatesClient>();
             commandRuntimeMock = new Mock<ICommandRuntime>();
             cmdlet = new GetAzureResourceGroupGalleryTemplateCommand()
             {
                 CommandRuntime = commandRuntimeMock.Object,
-                ResourceClient = resourcesClientMock.Object
+                GalleryTemplatesClient = galleryTemplatesClientMock.Object
             };
         }
 
@@ -65,7 +65,7 @@ namespace Microsoft.Azure.Commands.ResourceManager.Test.Resources
                     Name = "T2"
                 },
             };
-            resourcesClientMock.Setup(f => f.FilterGalleryTemplates(It.IsAny<FilterGalleryTemplatesOptions>()))
+            galleryTemplatesClientMock.Setup(f => f.FilterGalleryTemplates(It.IsAny<FilterGalleryTemplatesOptions>()))
                 .Returns(result)
                 .Callback((FilterGalleryTemplatesOptions o) => actual = o);
 
