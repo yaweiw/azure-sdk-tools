@@ -233,15 +233,6 @@ namespace Microsoft.Azure.Commands.ResourceManager.Models
         }
 
         /// <summary>
-        /// Verify Storage account has been specified. 
-        /// </summary>
-        /// <param name="storageAccountName"></param>
-        private void ValidateStorageAccount(string storageAccountName)
-        {
-            GetStorageAccountName(storageAccountName);
-        }
-
-        /// <summary>
         /// Filters a given resource group resources.
         /// </summary>
         /// <param name="options">The filtering options</param>
@@ -367,67 +358,6 @@ namespace Microsoft.Azure.Commands.ResourceManager.Models
 
             dynamicParameters = ParseTemplateAndExtractParameters(templateContent, templateParameterObject, templateParameterFilePath, staticParameters);
             return dynamicParameters;
-        }
-
-        private RuntimeDefinedParameterDictionary ParseTemplateAndExtractParameters(string templateContent, Hashtable templateParameterObject, string templateParameterFilePath, string[] staticParameters)
-        {
-            RuntimeDefinedParameterDictionary dynamicParameters = new RuntimeDefinedParameterDictionary();
-
-            if (!string.IsNullOrEmpty(templateContent))
-            {
-                TemplateFile templateFile = JsonConvert.DeserializeObject<TemplateFile>(templateContent);
-
-                foreach (KeyValuePair<string, TemplateFileParameter> parameter in templateFile.Parameters)
-                {
-                    RuntimeDefinedParameter dynamicParameter = ConstructDynamicParameter(staticParameters, parameter);
-                    dynamicParameters.Add(dynamicParameter.Name, dynamicParameter);
-                }
-            }
-            if (templateParameterObject != null)
-            {
-                UpdateParametersWithObject(dynamicParameters, templateParameterObject);
-            }
-            if (templateParameterFilePath != null && File.Exists(templateParameterFilePath))
-            {
-                var parametersFromFile = JsonConvert.DeserializeObject<Dictionary<string, TemplateFileParameter>>(File.ReadAllText(templateParameterFilePath));
-                UpdateParametersWithObject(dynamicParameters, new Hashtable(parametersFromFile));
-            }
-            return dynamicParameters;
-        }
-
-        private void UpdateParametersWithObject(RuntimeDefinedParameterDictionary dynamicParameters, Hashtable templateParameterObject)
-        {
-            if (templateParameterObject != null)
-            {
-                foreach (KeyValuePair<string, RuntimeDefinedParameter> dynamicParameter in dynamicParameters)
-                {
-                    try
-                    {
-                        foreach (string key in templateParameterObject.Keys)
-                        {
-                            if (key.Equals(dynamicParameter.Key, StringComparison.InvariantCultureIgnoreCase))
-                            {
-                                if (templateParameterObject[key] is TemplateFileParameter)
-                                {
-                                    dynamicParameter.Value.Value = (templateParameterObject[key] as TemplateFileParameter).Value;
-                                }
-                                else
-                                {
-                                    dynamicParameter.Value.Value = templateParameterObject[key];
-                                }
-                                dynamicParameter.Value.IsSet = true;
-                                ((ParameterAttribute) dynamicParameter.Value.Attributes[0]).Mandatory = false;
-                            }
-                        }
-                    }
-                    catch
-                    {
-                        throw new ArgumentException(string.Format(Resources.FailureParsingTemplateParameterObject,
-                                                                  dynamicParameter.Key,
-                                                                  templateParameterObject[dynamicParameter.Key]));
-                    }
-                }
-            }
         }
 
         /// <summary>
@@ -625,7 +555,8 @@ namespace Microsoft.Azure.Commands.ResourceManager.Models
                 providers.AddRange(ListResourceProviders());
             }
 
-            result.AddRange(providers.SelectMany(p => p.ResourceTypes.Select(r => r.ToPSResourceProviderType(p.Namespace))));
+            result.AddRange(providers.SelectMany(p => p.ResourceTypes.Where(r => r.Locations != null && r.Locations.Count > 0)
+                .Select(r => r.ToPSResourceProviderType(p.Namespace))));
 
             return result;
         }

@@ -14,7 +14,12 @@
     <DeploymentItem filename="Commands.ServiceManagement.Test\vendor\VhdFiles\fixed_50.vhd" />
     <DeploymentItem filename="Commands.Test.Utilities\Resources\" />
     <DeploymentItem filename="..\..\Package\Debug\AzureServiceManagement" />
-	<DeploymentItem filename="..\..\Package\Debug\AzureResourceManager" />
+    <DeploymentItem filename="..\..\Package\Debug\AzureResourceManager\AzureResourceManager.psd1" />
+    <DeploymentItem filename="..\..\Package\Debug\AzureResourceManager\Microsoft.Azure.Commands.ResourceManager.dll" />
+    <DeploymentItem filename="..\..\Package\Debug\AzureResourceManager\Microsoft.Azure.Commands.ResourceManager.format.ps1xml" />
+    <DeploymentItem filename="..\..\Package\Debug\AzureResourceManager\Microsoft.Azure.Gallery.dll" />
+    <DeploymentItem filename="..\..\Package\Debug\AzureResourceManager\Microsoft.Azure.Management.Resources.dll" />
+    <DeploymentItem filename="..\..\Package\Debug\AzureResourceManager\Microsoft.Azure.Monitoring.dll" />
     <DeploymentItem filename="Commands.ServiceManagement.Test\vendor\VhdFiles\dynamic_50.vhd" />
     <DeploymentItem filename="Commands.ScenarioTest\Resources\" />
     <DeploymentItem filename="Commands.ServiceManagement.Test\vendor\VhdFiles\fixed_50_child01.vhd" />

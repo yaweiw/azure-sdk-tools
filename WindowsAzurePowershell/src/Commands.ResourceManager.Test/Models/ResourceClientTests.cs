@@ -2445,5 +2445,60 @@ namespace Microsoft.Azure.Commands.ResourceManager.Test.Models
             Assert.Equal("East Asia", resourceTypes[0].Locations[0]);
             Assert.Equal("Microsoft.HDInsight/hadoop", resourceTypes[1].Name);
         }
+
+        [Fact]
+        public void IgnoresResourceTypesWithEmptyLocations()
+        {
+            providersMock.Setup(f => f.ListAsync(null, new CancellationToken()))
+                .Returns(Task.Factory.StartNew(() => new ProviderListResult()
+                {
+                    Providers = new List<Provider>()
+                    {
+                        new Provider()
+                        {
+                            Namespace = "Microsoft.Web",
+                            RegistrationState = "Registered",
+                            ResourceTypes = new List<ProviderResourceType>()
+                            {
+                                new ProviderResourceType()
+                                {
+                                    Name = "database"
+                                },
+                                new ProviderResourceType()
+                                {
+                                    Locations = new List<string>(),
+                                    Name = "servers"
+                                }
+                            }
+                        },
+                        new Provider()
+                        {
+                            Namespace = "Microsoft.HDInsight",
+                            RegistrationState = "UnRegistered",
+                            ResourceTypes = new List<ProviderResourceType>()
+                            {
+                                new ProviderResourceType()
+                                {
+                                    Locations = new List<string>() {"West US", "East US"},
+                                    Name = "hadoop"
+                                },
+                                new ProviderResourceType()
+                                {
+                                    Locations = new List<string>() {"West US", "South Central US"},
+                                    Name = "websites"
+                                }
+                            }
+                        }
+                    }
+                }));
+            List<PSResourceProviderType> resourceTypes = resourcesClient.GetLocations(
+                ResourcesClient.ResourceGroupTypeName,
+                "Microsoft.Web");
+
+            Assert.Equal(1, resourceTypes.Count);
+            Assert.Equal(ResourcesClient.ResourceGroupTypeName, resourceTypes[0].Name);
+            Assert.Equal(ResourcesClient.KnownLocations.Count, resourceTypes[0].Locations.Count);
+            Assert.Equal("East Asia", resourceTypes[0].Locations[0]);
+        }
     }
 }
