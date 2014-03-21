@@ -13,7 +13,7 @@
 // limitations under the License.
 //
 
-namespace Microsoft.WindowsAzure.Commands.ScenarioTest.Common
+namespace Microsoft.WindowsAzure.Commands.Common.Test.Common
 {
     using System;
     using System.Collections.Generic;

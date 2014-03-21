@@ -186,7 +186,6 @@
     <Compile Include="CloudServiceTests\RemoveAzureServiceScenarioTests.cs" />
     <Compile Include="Common\ConnectionStringFields.cs" />
     <Compile Include="Common\Constants.cs" />
-    <Compile Include="Common\TestingTracingInterceptor.cs" />
     <Compile Include="Common\WindowsAzurePowerShellCertificateTest.cs" />
     <Compile Include="Common\CSMTestEnvironmentFactory.cs" />
     <Compile Include="Common\CustomPowerShell\CustomerPSHostUserInterface.cs" />
