@@ -20,7 +20,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
 
         protected const string ExtensionDefaultPublisher = "PuppetLabs.Azure";
         protected const string ExtensionDefaultName = "PuppetAgent";
-        protected const string ExtensionDefaultVersion = "0.5";
+        protected const string ExtensionDefaultVersion = "3.2.1";
         protected const string LegacyReferenceName = "PuppetAgent";
         protected const string PrivateConfigurationTemplate = "{{ \"Puppet_Master_Server\": \"{0}\" }}";
 
