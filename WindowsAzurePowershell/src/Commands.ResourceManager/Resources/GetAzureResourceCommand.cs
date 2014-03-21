@@ -21,7 +21,7 @@ namespace Microsoft.Azure.Commands.ResourceManager
     /// <summary>
     /// Get an existing resource.
     /// </summary>
-    [Cmdlet(VerbsCommon.Get, "AzureResource", DefaultParameterSetName = BaseParameterSetName), OutputType(typeof(List<PSResource>))]
+    [Cmdlet(VerbsCommon.Get, "AzureResource", DefaultParameterSetName = BaseParameterSetName), OutputType(typeof(PSResource))]
     public class GetAzureResourceCommand : ResourceManagerBaseCmdlet
     {
         internal const string BaseParameterSetName = "List resources";
@@ -61,7 +61,26 @@ namespace Microsoft.Azure.Commands.ResourceManager
                 ApiVersion = ApiVersion
             };
 
-            WriteObject(ResourcesClient.FilterPSResources(parameters), true);
+            List<PSResource> resourceList = ResourceClient.FilterPSResources(parameters);
+            if (resourceList != null)
+            {
+                if (resourceList.Count == 1 && Name != null)
+                {
+                    WriteObject(resourceList[0]);
+                }
+                else
+                {
+                    List<PSObject> output = new List<PSObject>();
+                    resourceList.ForEach(r => output.Add(base.ConstructPSObject(
+                        null,
+                        "Name", r.Name,
+                        "ResourceGroupName", r.ResourceGroupName,
+                        "ResourceType", r.ResourceType,
+                        "Location", r.Location)));
+
+                    WriteObject(output, true);
+                }
+            }
         }
     }
 }

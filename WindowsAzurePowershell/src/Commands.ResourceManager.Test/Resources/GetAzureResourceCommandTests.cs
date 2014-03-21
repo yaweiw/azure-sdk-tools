@@ -76,6 +76,7 @@ namespace Microsoft.Azure.Commands.ResourceManager.Test
             List<Resource> result = new List<Resource>();
             Resource expected = new Resource()
             {
+                Id = "/subscriptions/aaaa/resourceGroups/foo/providers/Microsoft.Web/serverFarms/" + resourceName,
                 Name = resourceName,
                 Location = resourceGroupLocation,
                 Type = resourceType,
