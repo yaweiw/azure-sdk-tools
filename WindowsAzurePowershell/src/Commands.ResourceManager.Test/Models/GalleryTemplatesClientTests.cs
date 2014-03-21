@@ -30,7 +30,7 @@ using Xunit;
 
 namespace Microsoft.Azure.Commands.ResourceManager.Test.Models
 {
-    class GalleryTemplatesClientTests : TestBase
+    public class GalleryTemplatesClientTests : TestBase
     {
         private GalleryTemplatesClient galleryTemplatesClient;
 
@@ -95,6 +95,48 @@ namespace Microsoft.Azure.Commands.ResourceManager.Test.Models
             string[] parameters = { "Name", "Location", "Mode" };
             string[] parameterSetNames = { "__AllParameterSets" };
             string key = "Name";
+            TemplateFileParameter value = new TemplateFileParameter()
+            {
+                AllowedValues = "Mode1, Mode2, Mode3",
+                MaxLength = "5",
+                MinLength = "1",
+                Type = "bool"
+            };
+            KeyValuePair<string, TemplateFileParameter> parameter = new KeyValuePair<string, TemplateFileParameter>(key, value);
+
+            RuntimeDefinedParameter dynamicParameter = galleryTemplatesClient.ConstructDynamicParameter(parameters, parameter);
+
+            Assert.Equal(key + "FromTemplate", dynamicParameter.Name);
+            Assert.Equal(value.DefaultValue, dynamicParameter.Value);
+            Assert.Equal(typeof(bool), dynamicParameter.ParameterType);
+            Assert.Equal(3, dynamicParameter.Attributes.Count);
+
+            ParameterAttribute parameterAttribute = (ParameterAttribute)dynamicParameter.Attributes[0];
+            Assert.True(parameterAttribute.Mandatory);
+            Assert.True(parameterAttribute.ValueFromPipelineByPropertyName);
+            Assert.Equal(parameterSetNames[0], parameterAttribute.ParameterSetName);
+
+            ValidateSetAttribute validateSetAttribute = (ValidateSetAttribute)dynamicParameter.Attributes[1];
+            Assert.Equal(3, validateSetAttribute.ValidValues.Count);
+            Assert.True(validateSetAttribute.IgnoreCase);
+            Assert.True(value.AllowedValues.Contains(validateSetAttribute.ValidValues[0]));
+            Assert.True(value.AllowedValues.Contains(validateSetAttribute.ValidValues[1]));
+            Assert.True(value.AllowedValues.Contains(validateSetAttribute.ValidValues[2]));
+            Assert.False(validateSetAttribute.ValidValues[0].Contains(' '));
+            Assert.False(validateSetAttribute.ValidValues[1].Contains(' '));
+            Assert.False(validateSetAttribute.ValidValues[2].Contains(' '));
+
+            ValidateLengthAttribute validateLengthAttribute = (ValidateLengthAttribute)dynamicParameter.Attributes[2];
+            Assert.Equal(int.Parse(value.MinLength), validateLengthAttribute.MinLength);
+            Assert.Equal(int.Parse(value.MaxLength), validateLengthAttribute.MaxLength);
+        }
+
+        [Fact]
+        public void ResolvesDuplicatedDynamicParameterNameCaseInsensitive()
+        {
+            string[] parameters = { "Name", "Location", "Mode" };
+            string[] parameterSetNames = { "__AllParameterSets" };
+            string key = "name";
             TemplateFileParameter value = new TemplateFileParameter()
             {
                 AllowedValues = "Mode1, Mode2, Mode3",
@@ -392,10 +434,11 @@ namespace Microsoft.Azure.Commands.ResourceManager.Test.Models
                                          Publisher = "Microsoft",
                                          DefinitionTemplates = new DefinitionTemplates()
                                          {
+                                             DefaultDeploymentTemplateId = "DefaultUri",
                                              DeploymentTemplateFileUrls = new Dictionary<string, string>()
-                                                             {
-                                                                 {"DefaultUri", "fakeurl"}
-                                                             }
+                                            {
+                                                {"DefaultUri", "fakeurl"}
+                                            }
                                          }
                                      }
                                  }));
@@ -428,6 +471,7 @@ namespace Microsoft.Azure.Commands.ResourceManager.Test.Models
                             Publisher = "Microsoft",
                             DefinitionTemplates = new DefinitionTemplates()
                             {
+                                DefaultDeploymentTemplateId = "DefaultUri",
                                 DeploymentTemplateFileUrls = new Dictionary<string, string>()
                                 {
                                     { "DefaultUri", "fakeurl" }
@@ -452,7 +496,7 @@ namespace Microsoft.Azure.Commands.ResourceManager.Test.Models
         public void DownloadsGalleryTemplateFileFromFileName()
         {
             string galleryTemplateFileName = "myFile.adeek";
-            string expectedFilePath = Path.Combine(Path.GetTempPath(), galleryTemplateFileName + ".adeek");
+            string expectedFilePath = Path.Combine(Path.GetTempPath(), galleryTemplateFileName + ".json");
             try
             {
                 galleryClientMock.Setup(f => f.Items.GetAsync(galleryTemplateFileName, new CancellationToken()))
@@ -464,10 +508,11 @@ namespace Microsoft.Azure.Commands.ResourceManager.Test.Models
                             Publisher = "Microsoft",
                             DefinitionTemplates = new DefinitionTemplates()
                             {
+                                DefaultDeploymentTemplateId = "DefaultUri",
                                 DeploymentTemplateFileUrls = new Dictionary<string, string>()
-                                                {
-                                                    {"DefaultUri", "http://onesdkauremustinvalid-uri12"}
-                                                }
+                                {
+                                    {"DefaultUri", "http://onesdkauremustinvalid-uri12"}
+                                }
                             }
                         }
                     }));

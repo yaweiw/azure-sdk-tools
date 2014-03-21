@@ -270,7 +270,7 @@ namespace Microsoft.Azure.Commands.ResourceManager.Models
 
             RuntimeDefinedParameter runtimeParameter = new RuntimeDefinedParameter()
             {
-                Name = staticParameters.Contains(name) ? name + duplicatedParameterSuffix : name,
+                Name = staticParameters.Any(n => n.Equals(name, StringComparison.OrdinalIgnoreCase)) ? name + duplicatedParameterSuffix : name,
                 ParameterType = GetParameterType(parameter.Value.Type),
                 Value = defaultValue
             };
