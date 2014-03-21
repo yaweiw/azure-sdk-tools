@@ -368,14 +368,5 @@ namespace Microsoft.Azure.Commands.ResourceManager.Models
 
             return errors;
         }
-
-        /// <summary>
-        /// Verify Storage account has been specified. 
-        /// </summary>
-        /// <param name="storageAccountName"></param>
-        private void ValidateStorageAccount(string storageAccountName)
-        {
-            GetStorageAccountName(storageAccountName);
-        }
     }
 }

@@ -15,6 +15,7 @@
 using Microsoft.Azure.Commands.ResourceManager.Properties;
 using Microsoft.Azure.Gallery;
 using Microsoft.Azure.Gallery.Models;
+using Microsoft.WindowsAzure;
 using Microsoft.WindowsAzure.Commands.Utilities.Common;
 using Microsoft.WindowsAzure.Common.OData;
 using Newtonsoft.Json;
@@ -62,8 +63,15 @@ namespace Microsoft.Azure.Commands.ResourceManager.Models
         /// <returns>The template uri</returns>
         public virtual string GetGalleryTemplateFile(string templateName)
         {
-            DefinitionTemplates definitionTemplates = GalleryClient.Items.Get(templateName).Item.DefinitionTemplates;
-            return definitionTemplates.DeploymentTemplateFileUrls[definitionTemplates.DefaultDeploymentTemplateId];
+            try
+            {
+                DefinitionTemplates definitionTemplates = GalleryClient.Items.Get(templateName).Item.DefinitionTemplates;
+                return definitionTemplates.DeploymentTemplateFileUrls[definitionTemplates.DefaultDeploymentTemplateId];
+            }
+            catch (CloudException)
+            {
+                throw new ArgumentException(string.Format(Resources.InvalidTemplateIdentity, templateName));
+            }
         }
 
         /// <summary>
@@ -109,6 +117,12 @@ namespace Microsoft.Azure.Commands.ResourceManager.Models
             string fileUri = GetGalleryTemplateFile(name);
             StringBuilder finalOutputPath = new StringBuilder();
             string contents = GeneralUtilities.DownloadFile(fileUri);
+
+            if (!FileUtilities.IsValidDirectoryPath(outputPath))
+            {
+                // Try create the directory if it does not exist.
+                new FileInfo(outputPath).Directory.Create();
+            }
 
             if (FileUtilities.IsValidDirectoryPath(outputPath))
             {

@@ -135,6 +135,9 @@
   <data name="FailureParsingTemplateParameterObject" xml:space="preserve">
     <value>Cannot set parameter '{0}' from TemplateParameterObject. Incompatible value '{1}'.</value>
   </data>
+  <data name="InvalidTemplateIdentity" xml:space="preserve">
+    <value>'{0}' is invalid template identity and can not be found.</value>
+  </data>
   <data name="NewResourceGroupMessage" xml:space="preserve">
     <value>Replacing resource group ...</value>
   </data>
