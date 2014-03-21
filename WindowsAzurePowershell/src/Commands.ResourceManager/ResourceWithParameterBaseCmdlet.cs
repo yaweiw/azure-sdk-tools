@@ -28,10 +28,8 @@ namespace Microsoft.Azure.Commands.ResourceManager
 {
     public abstract class ResourceWithParameterBaseCmdlet : ResourceManagerBaseCmdlet
     {
-        protected const string BaseParameterSetName = "Default";
         protected const string GalleryTemplateParameterObjectParameterSetName = "Deployment via Gallery and template parameters object";
         protected const string GalleryTemplateParameterFileParameterSetName = "Deployment via Gallery and template parameters file";
-        protected const string GalleryTemplateDynamicParametersParameterSetName = "Deployment via Gallery and inline parameters";
         protected const string TemplateFileParameterObjectParameterSetName = "Deployment via template file and template parameters object";
         protected const string TemplateFileParameterFileParameterSetName = "Deployment via template file and template parameters file";
         protected const string ParameterlessTemplateFileParameterSetName = "Deployment via template file without parameters";
@@ -62,8 +60,6 @@ namespace Microsoft.Azure.Commands.ResourceManager
         public string TemplateParameterFile { get; set; }
 
         [Parameter(ParameterSetName = GalleryTemplateParameterObjectParameterSetName,
-            Mandatory = true, ValueFromPipelineByPropertyName = true, HelpMessage = "Name of the template in the gallery.")]
-        [Parameter(ParameterSetName = GalleryTemplateDynamicParametersParameterSetName,
             Mandatory = true, ValueFromPipelineByPropertyName = true, HelpMessage = "Name of the template in the gallery.")]
         [Parameter(ParameterSetName = GalleryTemplateParameterFileParameterSetName,
             Mandatory = true, ValueFromPipelineByPropertyName = true, HelpMessage = "Name of the template in the gallery.")]
