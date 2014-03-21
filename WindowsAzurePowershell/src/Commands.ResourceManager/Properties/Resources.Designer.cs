@@ -115,6 +115,15 @@ namespace Microsoft.Azure.Commands.ResourceManager.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to &apos;{0}&apos; is invalid template identity and can not be found..
+        /// </summary>
+        internal static string InvalidTemplateIdentity {
+            get {
+                return ResourceManager.GetString("InvalidTemplateIdentity", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Replacing resource group ....
         /// </summary>
         internal static string NewResourceGroupMessage {
