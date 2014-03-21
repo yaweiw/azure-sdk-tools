@@ -24,6 +24,7 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Services.Server
     using Microsoft.WindowsAzure.Management.Sql;
     using Microsoft.WindowsAzure.Management.Sql.Models;
     using DatabaseCopyModel = Microsoft.WindowsAzure.Commands.SqlDatabase.Model.DatabaseCopy;
+    using WamlDatabaseCopy = Microsoft.WindowsAzure.Management.Sql.Models.DatabaseCopy;
 
     /// <summary>
     /// Implementation of the <see cref="IServerDataServiceContext"/> with Certificate authentication.
@@ -55,7 +56,7 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Services.Server
         #endregion
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="ServerDataServicesCertAuth"/> class
+        /// Initializes a new instance of the <see cref="ServerDataServiceCertAuth"/> class
         /// </summary>
         /// <param name="subscription">The subscription used to connect and authenticate.</param>
         /// <param name="serverName">The name of the server to connect to.</param>
@@ -505,7 +506,7 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Services.Server
             SqlManagementClient sqlManagementClient = this.subscription.CreateClient<SqlManagementClient>();
             this.AddTracingHeaders(sqlManagementClient);
 
-            IEnumerable<DatabaseCopyResponse> copyResponses = null;
+            IEnumerable<WamlDatabaseCopy> copyResponses = null;
             if (databaseName != null)
             {
                 copyResponses = sqlManagementClient.DatabaseCopies.List(this.ServerName, databaseName);
@@ -515,12 +516,12 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Services.Server
                 // We want to list all of the copies on the server. Currently, the server-side API doesn't
                 // directly support that. It may at some time in the future, but until then we're doing the
                 // following to avoid breaking compatibility.
-                copyResponses = Enumerable.Empty<DatabaseCopyResponse>();
+                copyResponses = Enumerable.Empty<WamlDatabaseCopy>();
 
                 DatabaseListResponse dbListResponse = sqlManagementClient.Databases.List(this.ServerName);
 
                 // Iterate through the server's databases and add each set of copies to our list.
-                foreach (DatabaseListResponse.Database database in dbListResponse)
+                foreach (var database in dbListResponse)
                 {
                     copyResponses = copyResponses.Concat(
                         sqlManagementClient.DatabaseCopies.List(this.ServerName, database.Name));
@@ -570,7 +571,8 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Services.Server
                 sqlManagementClient.DatabaseCopies.Get(
                     this.ServerName,
                     localDatabaseName,
-                    databaseCopy.EntityId.ToString()));
+                    databaseCopy.EntityId.ToString())
+                    .DatabaseCopy);
 
             return refreshedDatabaseCopy;
         }
@@ -596,17 +598,17 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Services.Server
             SqlManagementClient sqlManagementClient = this.subscription.CreateClient<SqlManagementClient>();
             this.AddTracingHeaders(sqlManagementClient);
 
-            DatabaseCopyResponse response = sqlManagementClient.DatabaseCopies.Create(
+            DatabaseCopyCreateResponse response = sqlManagementClient.DatabaseCopies.Create(
                 this.ServerName,
                 databaseName,
-                new CreateDatabaseCopyRequest()
+                new DatabaseCopyCreateParameters()
                     {
                         PartnerServer = partnerServer,
                         PartnerDatabase = partnerDatabaseName,
                         IsContinuous = continuousCopy,
                     });
 
-            return CreateDatabaseCopyFromResponse(response);
+            return CreateDatabaseCopyFromResponse(response.DatabaseCopy);
         }
 
         /// <summary>
@@ -637,7 +639,7 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Services.Server
                 this.ServerName,
                 localDatabaseName,
                 databaseCopy.EntityId,
-                new UpdateDatabaseCopyRequest() {IsForcedTerminate = forcedTermination});
+                new DatabaseCopyUpdateParameters() {IsForcedTerminate = forcedTermination});
 
             sqlManagementClient.DatabaseCopies.Delete(
                 this.ServerName,
@@ -951,8 +953,12 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Services.Server
             return result;
         }
 
-        private static DatabaseCopyModel CreateDatabaseCopyFromResponse(DatabaseCopyResponse response)
+        private static DatabaseCopyModel CreateDatabaseCopyFromResponse(WamlDatabaseCopy response)
         {
+            DateTime startDate, modifyDate;
+            DateTime.TryParse(response.StartDate, out startDate);
+            DateTime.TryParse(response.StartDate, out modifyDate);
+
             return new DatabaseCopyModel()
                 {
                     EntityId = Guid.Parse(response.Name),
@@ -966,8 +972,8 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Services.Server
                     LocalDatabaseId = response.LocalDatabaseId,
                     IsLocalDatabaseReplicationTarget = response.IsLocalDatabaseReplicationTarget,
                     IsInterlinkConnected = response.IsInterlinkConnected,
-                    StartDate = response.StartDate,
-                    ModifyDate = response.ModifyDate,
+                    StartDate = startDate,
+                    ModifyDate = modifyDate,
                     PercentComplete = response.PercentComplete
                 };
         }
