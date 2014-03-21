@@ -21,7 +21,7 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>..\..\..\Package\Debug\</OutputPath>
+    <OutputPath>..\..\..\Package\Debug\AzureServiceManagement</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -32,7 +32,7 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>..\..\..\Package\Release\</OutputPath>
+    <OutputPath>..\..\..\Package\Release\AzureServiceManagement</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -41,7 +41,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
     <DebugSymbols>true</DebugSymbols>
-    <OutputPath>..\..\..\Package\Debug\</OutputPath>
+    <OutputPath>..\..\..\Package\Debug\AzureServiceManagement</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <DebugType>full</DebugType>
     <PlatformTarget>x64</PlatformTarget>
@@ -58,7 +58,7 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
-    <OutputPath>..\..\..\Package\Release\</OutputPath>
+    <OutputPath>..\..\..\Package\Release\AzureServiceManagement</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <Optimize>true</Optimize>
     <DebugType>pdbonly</DebugType>
@@ -79,7 +79,7 @@
     <RunPostBuildEvent>OnBuildSuccess</RunPostBuildEvent>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'ReleaseSigned|AnyCPU'">
-    <OutputPath>..\..\..\Package\Release\</OutputPath>
+    <OutputPath>..\..\..\Package\Release\AzureServiceManagement</OutputPath>
     <DefineConstants>TRACE;SIGN</DefineConstants>
     <Optimize>true</Optimize>
     <DebugType>pdbonly</DebugType>
@@ -94,7 +94,7 @@
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'ReleaseSigned|x64'">
-    <OutputPath>..\..\..\Package\Release\</OutputPath>
+    <OutputPath>..\..\..\Package\Release\AzureServiceManagement</OutputPath>
     <DefineConstants>TRACE;SIGN</DefineConstants>
     <Optimize>true</Optimize>
     <DebugType>pdbonly</DebugType>
@@ -344,6 +344,7 @@
     <Compile Include="MediaServices\NewAzureMediaServiceCommand.cs" />
     <Compile Include="MediaServices\NewAzureMediaServiceKeyCommand.cs" />
     <Compile Include="MediaServices\RemoveAzureMediaServiceCommand.cs" />
+    <Compile Include="Profile\SwitchAzureMode.cs" />
     <Compile Include="Scheduler\SetSchedulerStorageQueueJobCommand.cs" />
     <Compile Include="Scheduler\NewSchedulerStorageQueueJobCommand.cs" />
     <Compile Include="Scheduler\NewSchedulerHttpJobCommand.cs" />
@@ -366,20 +367,20 @@
     <Compile Include="Store\NewAzureStoreAddOn.cs" />
     <Compile Include="Store\RemoveAzureStoreAddOn.cs" />
     <Compile Include="Store\SetAzureStoreAddOn.cs" />
-    <Compile Include="Subscription\AddAzureAccount.cs" />
-    <Compile Include="Subscription\RemoveAzureSubscription.cs" />
-    <Compile Include="Subscription\GetAzureAccount.cs" />
-    <Compile Include="Subscription\RemoveAzureAccount.cs" />
-    <Compile Include="Subscription\GetAzurePublishSettingsFile.cs" />
+    <Compile Include="Profile\AddAzureAccount.cs" />
+    <Compile Include="Profile\RemoveAzureSubscription.cs" />
+    <Compile Include="Profile\GetAzureAccount.cs" />
+    <Compile Include="Profile\RemoveAzureAccount.cs" />
+    <Compile Include="Profile\GetAzurePublishSettingsFile.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="Subscription\GetAzureSubscription.cs" />
-    <Compile Include="Subscription\ImportAzurePublishSettings.cs" />
-    <Compile Include="Subscription\SelectAzureSubscription.cs" />
-    <Compile Include="Subscription\SetAzureSubscription.cs" />
+    <Compile Include="Profile\GetAzureSubscription.cs" />
+    <Compile Include="Profile\ImportAzurePublishSettings.cs" />
+    <Compile Include="Profile\SelectAzureSubscription.cs" />
+    <Compile Include="Profile\SetAzureSubscription.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="WAPackIaaS\IaaSCmdletBase.cs" />
     <Compile Include="WAPackIaaS\VirtualMachine\GetWAPackVM.cs" />
@@ -453,6 +454,7 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
+    <None Include="PostBuild.bat" />
     <None Include="MSSharedLibKey.snk" />
   </ItemGroup>
   <ItemGroup>
@@ -476,4 +478,7 @@
     <Error Condition="!Exists('..\packages\Microsoft.Bcl.Build.1.0.13\tools\Microsoft.Bcl.Build.targets')" Text="This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=317567." HelpKeyword="BCLBUILD2001" />
     <Error Condition="Exists('..\packages\Microsoft.Bcl.Build.1.0.13\tools\Microsoft.Bcl.Build.targets')" Text="The build restored NuGet packages. Build the project again to include these packages in the build. For more information, see http://go.microsoft.com/fwlink/?LinkID=317568." HelpKeyword="BCLBUILD2002" />
   </Target>
+  <PropertyGroup>
+    <PostBuildEvent>"$(ProjectDir)\PostBuild.bat" "$(TargetDir)"</PostBuildEvent>
+  </PropertyGroup>
 </Project>
