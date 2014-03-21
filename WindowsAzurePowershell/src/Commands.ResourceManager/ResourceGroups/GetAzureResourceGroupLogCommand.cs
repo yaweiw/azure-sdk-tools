@@ -35,7 +35,7 @@ namespace Microsoft.Azure.Commands.ResourceManager
         [ValidateNotNullOrEmpty]
         public string Name { get; set; }
 
-        [Parameter(ParameterSetName = DeploymentNameSetName, Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "Name of the deployment whose logs you want to see.")]
+        [Parameter(ParameterSetName = DeploymentNameSetName, Mandatory = true, ValueFromPipelineByPropertyName = true, HelpMessage = "Name of the deployment whose logs you want to see.")]
         [ValidateNotNullOrEmpty]
         public string DeploymentName { get; set; }
         
