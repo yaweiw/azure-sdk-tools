@@ -141,7 +141,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
             Position = 3,
             ValueFromPipelineByPropertyName = true,
             HelpMessage = "The Command to Execute.")]
-        [ValidateSet("powershell.exe", IgnoreCase = true)]
+        [ValidateSet("powershell -ExecutionPolicy Unrestricted -file", IgnoreCase = true)]
         public override string Command { get; set; }
 
         [Parameter(
