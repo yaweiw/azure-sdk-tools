@@ -54,7 +54,7 @@ namespace Microsoft.Azure.Commands.ResourceManager
                     All = All.IsPresent,
                     LastDeployment = LastDeployment.IsPresent
                 };
-            WriteObject(ResourceClient.GetResourceGroupLogs(parameters), true);
+            WriteObject(ResourcesClient.GetResourceGroupLogs(parameters), true);
         }
     }
 }

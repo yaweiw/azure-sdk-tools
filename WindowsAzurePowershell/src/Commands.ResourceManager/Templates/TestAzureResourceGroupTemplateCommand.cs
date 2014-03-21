@@ -12,10 +12,9 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-using System.Collections.Generic;
 using Microsoft.Azure.Commands.ResourceManager.Models;
-using Microsoft.Azure.Management.Resources.Models;
 using Microsoft.WindowsAzure.Commands.Utilities.Common;
+using System.Collections.Generic;
 using System.Management.Automation;
 
 namespace Microsoft.Azure.Commands.ResourceManager.ResourceGroupDeployments
@@ -42,7 +41,7 @@ namespace Microsoft.Azure.Commands.ResourceManager.ResourceGroupDeployments
                 StorageAccountName = StorageAccountName,
             };
 
-            WriteObject(ResourceClient.ValidatePSResourceGroupDeployment(parameters));
+            WriteObject(ResourcesClient.ValidatePSResourceGroupDeployment(parameters));
         }
     }
 }

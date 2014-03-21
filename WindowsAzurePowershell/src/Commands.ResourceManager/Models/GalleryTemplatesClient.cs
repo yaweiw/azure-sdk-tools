@@ -1,0 +1,347 @@
+﻿// ----------------------------------------------------------------------------------
+//
+// Copyright Microsoft Corporation
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+// http://www.apache.org/licenses/LICENSE-2.0
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+// ----------------------------------------------------------------------------------
+
+using Microsoft.Azure.Commands.ResourceManager.Properties;
+using Microsoft.Azure.Gallery;
+using Microsoft.Azure.Gallery.Models;
+using Microsoft.WindowsAzure.Commands.Utilities.Common;
+using Microsoft.WindowsAzure.Common.OData;
+using Newtonsoft.Json;
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.IO;
+using System.Linq;
+using System.Management.Automation;
+using System.Security;
+using System.Text;
+
+namespace Microsoft.Azure.Commands.ResourceManager.Models
+{
+    public class GalleryTemplatesClient
+    {
+        public IGalleryClient GalleryClient { get; set; }
+
+        public GalleryTemplatesClient(WindowsAzureSubscription subscription)
+            : this(subscription.CreateGalleryClientFromGalleryEndpoint<GalleryClient>())
+        {
+
+        }
+
+        public GalleryTemplatesClient(IGalleryClient galleryClient)
+        {
+            GalleryClient = galleryClient;
+        }
+
+        /// <summary>
+        /// Parameterless constructor for mocking
+        /// </summary>
+        public GalleryTemplatesClient()
+        {
+
+        }
+
+        /// <summary>
+        /// Gets the uri of the specified template name.
+        /// </summary>
+        /// <param name="templateName">The fully qualified template name</param>
+        /// <returns>The template uri</returns>
+        public virtual string GetGalleryTemplateFile(string templateName)
+        {
+            DefinitionTemplates definitionTemplates = GalleryClient.Items.Get(templateName).Item.DefinitionTemplates;
+            return definitionTemplates.DeploymentTemplateFileUrls[definitionTemplates.DefaultDeploymentTemplateId];
+        }
+
+        /// <summary>
+        /// Filters gallery templates based on the passed options.
+        /// </summary>
+        /// <param name="options">The filter options</param>
+        /// <returns>The filtered list</returns>
+        public virtual List<GalleryItem> FilterGalleryTemplates(FilterGalleryTemplatesOptions options)
+        {
+            List<string> filterStrings = new List<string>();
+            ItemListParameters parameters = null;
+
+            if (!string.IsNullOrEmpty(options.Publisher))
+            {
+                filterStrings.Add(FilterString.Generate<ItemListFilter>(f => f.Publisher == options.Publisher));
+            }
+
+            if (!string.IsNullOrEmpty(options.Category))
+            {
+                filterStrings.Add(FilterString.Generate<ItemListFilter>(f => f.CategoryIds.Contains(options.Category)));
+            }
+
+            if (!string.IsNullOrEmpty(options.Name))
+            {
+                filterStrings.Add(FilterString.Generate<ItemListFilter>(f => f.Name == options.Name));
+            }
+
+            if (filterStrings.Count > 0)
+            {
+                parameters = new ItemListParameters() { Filter = string.Join(" and ", filterStrings) };
+            }
+
+            return GalleryClient.Items.List(parameters).Items.ToList();
+        }
+
+        /// <summary>
+        /// Downloads a gallery template file into specific directory.
+        /// </summary>
+        /// <param name="name">The gallery template file name</param>
+        /// <param name="outputPath">The output file path</param>
+        public virtual void DownloadGalleryTemplateFile(string name, string outputPath)
+        {
+            string fileUri = GetGalleryTemplateFile(name);
+            StringBuilder finalOutputPath = new StringBuilder();
+            string contents = GeneralUtilities.DownloadFile(fileUri);
+
+            if (FileUtilities.IsValidDirectoryPath(outputPath))
+            {
+                finalOutputPath.Append(Path.Combine(outputPath, name + ".json"));
+            }
+            else
+            {
+                finalOutputPath.Append(outputPath);
+                if (!outputPath.EndsWith(".json"))
+                {
+                    finalOutputPath.Append(".json");
+                }
+            }
+
+            File.WriteAllText(finalOutputPath.ToString(), contents);
+        }
+
+        /// <summary>
+        /// Gets the parameters for a given gallery template.
+        /// </summary>
+        /// <param name="templateName">The gallery template name</param>
+        /// <param name="templateParameterObject">Existing template parameter object</param>
+        /// <param name="templateParameterFilePath">Path to the template parameter file if present</param>
+        /// <param name="staticParameters">The existing PowerShell cmdlet parameters</param>
+        /// <returns>The template parameters</returns>
+        public virtual RuntimeDefinedParameterDictionary GetTemplateParametersFromGallery(string templateName, Hashtable templateParameterObject, string templateParameterFilePath, string[] staticParameters)
+        {
+            RuntimeDefinedParameterDictionary dynamicParameters = new RuntimeDefinedParameterDictionary();
+            string templateContent = null;
+
+            if (templateParameterFilePath != null)
+            {
+                templateParameterFilePath = templateParameterFilePath.Trim('"', '\'', ' ');
+            }
+
+            templateContent = GeneralUtilities.DownloadFile(GetGalleryTemplateFile(templateName));
+
+            dynamicParameters = ParseTemplateAndExtractParameters(templateContent, templateParameterObject, templateParameterFilePath, staticParameters);
+            return dynamicParameters;
+        }
+
+        /// <summary>
+        /// Gets the parameters for a given template file.
+        /// </summary>
+        /// <param name="templateFilePath">The gallery template path (local or remote)</param>
+        /// <param name="templateParameterObject">Existing template parameter object</param>
+        /// <param name="templateParameterFilePath">Path to the template parameter file if present</param>
+        /// <param name="staticParameters">The existing PowerShell cmdlet parameters</param>
+        /// <returns>The template parameters</returns>
+        public virtual RuntimeDefinedParameterDictionary GetTemplateParametersFromFile(string templateFilePath, Hashtable templateParameterObject, string templateParameterFilePath, string[] staticParameters)
+        {
+            RuntimeDefinedParameterDictionary dynamicParameters = new RuntimeDefinedParameterDictionary();
+            string templateContent = null;
+
+            if (templateParameterFilePath != null)
+            {
+                templateParameterFilePath = templateParameterFilePath.Trim('"', '\'', ' ');
+            }
+
+            if (templateFilePath != null)
+            {
+                templateFilePath = templateFilePath.Trim('"', '\'', ' ');
+
+                if (Uri.IsWellFormedUriString(templateFilePath, UriKind.Absolute))
+                {
+                    templateContent = GeneralUtilities.DownloadFile(templateFilePath);
+                }
+                else if (File.Exists(templateFilePath))
+                {
+                    templateContent = File.ReadAllText(templateFilePath);
+                }
+            }
+
+            dynamicParameters = ParseTemplateAndExtractParameters(templateContent, templateParameterObject, templateParameterFilePath, staticParameters);
+            return dynamicParameters;
+        }
+
+        private RuntimeDefinedParameterDictionary ParseTemplateAndExtractParameters(string templateContent, Hashtable templateParameterObject, string templateParameterFilePath, string[] staticParameters)
+        {
+            RuntimeDefinedParameterDictionary dynamicParameters = new RuntimeDefinedParameterDictionary();
+
+            if (!string.IsNullOrEmpty(templateContent))
+            {
+                TemplateFile templateFile = JsonConvert.DeserializeObject<TemplateFile>(templateContent);
+
+                foreach (KeyValuePair<string, TemplateFileParameter> parameter in templateFile.Parameters)
+                {
+                    RuntimeDefinedParameter dynamicParameter = ConstructDynamicParameter(staticParameters, parameter);
+                    dynamicParameters.Add(dynamicParameter.Name, dynamicParameter);
+                }
+            }
+            if (templateParameterObject != null)
+            {
+                UpdateParametersWithObject(dynamicParameters, templateParameterObject);
+            }
+            if (templateParameterFilePath != null && File.Exists(templateParameterFilePath))
+            {
+                var parametersFromFile = JsonConvert.DeserializeObject<Dictionary<string, TemplateFileParameter>>(File.ReadAllText(templateParameterFilePath));
+                UpdateParametersWithObject(dynamicParameters, new Hashtable(parametersFromFile));
+            }
+            return dynamicParameters;
+        }
+
+        private void UpdateParametersWithObject(RuntimeDefinedParameterDictionary dynamicParameters, Hashtable templateParameterObject)
+        {
+            if (templateParameterObject != null)
+            {
+                foreach (KeyValuePair<string, RuntimeDefinedParameter> dynamicParameter in dynamicParameters)
+                {
+                    try
+                    {
+                        foreach (string key in templateParameterObject.Keys)
+                        {
+                            if (key.Equals(dynamicParameter.Key, StringComparison.InvariantCultureIgnoreCase))
+                            {
+                                if (templateParameterObject[key] is TemplateFileParameter)
+                                {
+                                    dynamicParameter.Value.Value = (templateParameterObject[key] as TemplateFileParameter).Value;
+                                }
+                                else
+                                {
+                                    dynamicParameter.Value.Value = templateParameterObject[key];
+                                }
+                                dynamicParameter.Value.IsSet = true;
+                                ((ParameterAttribute)dynamicParameter.Value.Attributes[0]).Mandatory = false;
+                            }
+                        }
+                    }
+                    catch
+                    {
+                        throw new ArgumentException(string.Format(Resources.FailureParsingTemplateParameterObject,
+                                                                  dynamicParameter.Key,
+                                                                  templateParameterObject[dynamicParameter.Key]));
+                    }
+                }
+            }
+        }
+
+        private Type GetParameterType(string resourceParameterType)
+        {
+            Debug.Assert(!string.IsNullOrEmpty(resourceParameterType));
+            const string stringType = "string";
+            const string intType = "int";
+            const string boolType = "bool";
+            const string secureStringType = "SecureString";
+            Type typeObject = typeof(object);
+
+            if (resourceParameterType.Equals(stringType, StringComparison.OrdinalIgnoreCase))
+            {
+                typeObject = typeof(string);
+            }
+            else if (resourceParameterType.Equals(intType, StringComparison.OrdinalIgnoreCase))
+            {
+                typeObject = typeof(int);
+            }
+            else if (resourceParameterType.Equals(secureStringType, StringComparison.OrdinalIgnoreCase))
+            {
+                typeObject = typeof(SecureString);
+            }
+            else if (resourceParameterType.Equals(boolType, StringComparison.OrdinalIgnoreCase))
+            {
+                typeObject = typeof(bool);
+            }
+
+            return typeObject;
+        }
+
+        internal RuntimeDefinedParameter ConstructDynamicParameter(string[] staticParameters, KeyValuePair<string, TemplateFileParameter> parameter)
+        {
+            const string duplicatedParameterSuffix = "FromTemplate";
+            string name = parameter.Key;
+            object defaultValue = parameter.Value.DefaultValue;
+
+            RuntimeDefinedParameter runtimeParameter = new RuntimeDefinedParameter()
+            {
+                Name = staticParameters.Contains(name) ? name + duplicatedParameterSuffix : name,
+                ParameterType = GetParameterType(parameter.Value.Type),
+                Value = defaultValue
+            };
+            runtimeParameter.Attributes.Add(new ParameterAttribute()
+            {
+                Mandatory = defaultValue == null ? true : false,
+                ValueFromPipelineByPropertyName = true,
+                HelpMessage = "dynamically generated template parameter"
+            });
+
+            if (!string.IsNullOrEmpty(parameter.Value.AllowedValues))
+            {
+                runtimeParameter.Attributes.Add(GetValidationAttribute(parameter.Value.AllowedValues));
+            }
+
+            if (!string.IsNullOrEmpty(parameter.Value.MinLength) &&
+                !string.IsNullOrEmpty(parameter.Value.MaxLength))
+            {
+                runtimeParameter.Attributes.Add(new ValidateLengthAttribute(int.Parse(parameter.Value.MinLength), int.Parse(parameter.Value.MaxLength)));
+            }
+
+            return runtimeParameter;
+        }
+
+        private Attribute GetValidationAttribute(string allowedSetString)
+        {
+            Attribute attribute;
+            bool isRangeSet = allowedSetString.Count(c => c == '-') == 1 &&
+                              allowedSetString.Count(c => c == ',') == 0;
+            if (isRangeSet)
+            {
+                string[] ranges = allowedSetString.Trim().Split('-');
+                int minRange = 0;
+                int maxRange = int.MaxValue;
+                if (string.IsNullOrEmpty(ranges[0]) && !string.IsNullOrEmpty(ranges[1]))
+                {
+                    maxRange = int.Parse(ranges[1]);
+                }
+                else if (!string.IsNullOrEmpty(ranges[0]) && string.IsNullOrEmpty(ranges[1]))
+                {
+                    minRange = int.Parse(ranges[0]);
+                }
+                else
+                {
+                    minRange = int.Parse(ranges[0]);
+                    maxRange = int.Parse(ranges[1]);
+                }
+
+                attribute = new ValidateRangeAttribute(minRange, maxRange);
+            }
+            else
+            {
+                attribute = new ValidateSetAttribute(allowedSetString.Split(',').Select(v => v.Trim()).ToArray())
+                {
+                    IgnoreCase = true,
+                };
+            }
+
+            return attribute;
+        }
+    }
+}

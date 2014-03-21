@@ -47,7 +47,7 @@ namespace Microsoft.Azure.Commands.ResourceManager
                 ApiVersion = ApiVersion
             };
 
-            WriteObject(ResourceClient.UpdatePSResource(parameters));
+            WriteObject(ResourcesClient.UpdatePSResource(parameters));
         }
     }
 }

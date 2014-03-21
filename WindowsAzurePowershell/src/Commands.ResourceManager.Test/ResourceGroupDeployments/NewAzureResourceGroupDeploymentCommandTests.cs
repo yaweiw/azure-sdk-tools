@@ -45,7 +45,7 @@ namespace Microsoft.Azure.Commands.ResourceManager.Test
             cmdlet = new NewAzureResourceGroupDeploymentCommand()
             {
                 CommandRuntime = commandRuntimeMock.Object,
-                ResourceClient = resourcesClientMock.Object
+                ResourcesClient = resourcesClientMock.Object
             };
         }
 

@@ -14,7 +14,6 @@
 
 using Microsoft.Azure.Commands.ResourceManager.Models;
 using Microsoft.Azure.Commands.ResourceManager.ResourceGroupDeployments;
-using Microsoft.Azure.Management.Resources.Models;
 using Moq;
 using System.Collections.Generic;
 using System.Management.Automation;
@@ -43,7 +42,7 @@ namespace Microsoft.Azure.Commands.ResourceManager.Test.Resources
             cmdlet = new TestAzureResourceGroupTemplateCommand()
             {
                 CommandRuntime = commandRuntimeMock.Object,
-                ResourceClient = resourcesClientMock.Object
+                ResourcesClient = resourcesClientMock.Object
             };
         }
 

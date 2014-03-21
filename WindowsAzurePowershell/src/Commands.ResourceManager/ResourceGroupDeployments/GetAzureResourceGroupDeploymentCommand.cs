@@ -47,7 +47,7 @@ namespace Microsoft.Azure.Commands.ResourceManager
                     new List<string>() { ProvisioningState }
             };
 
-            WriteObject(ResourceClient.FilterResourceGroupDeployments(options), true);
+            WriteObject(ResourcesClient.FilterResourceGroupDeployments(options), true);
         }
     }
 }
