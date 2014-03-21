@@ -95,6 +95,12 @@ namespace Microsoft.Azure.Commands.ResourceManager.Models
             };
         }
 
+        /// <summary>
+        /// Parses ID in the format:
+        /// /subscriptions/32155b36-f1ca-4346-9c37-53b14f248a06/resourceGroups/foo/providers/Microsoft.Web/serverFarms/ilygreTest4Host
+        /// </summary>
+        /// <param name="resourceId">Resource ID</param>
+        /// <returns>Resource group</returns>
         public static string GetResourceGroupFromId(string resourceId)
         {
             if (string.IsNullOrEmpty(resourceId))
@@ -102,11 +108,15 @@ namespace Microsoft.Azure.Commands.ResourceManager.Models
                 return null;
             }
             string[] tokenizedId = resourceId.Split(new [] { '/' }, System.StringSplitOptions.RemoveEmptyEntries);
-            if (tokenizedId.Length < 4)
+            
+            // Resource group is a 4th token in ID string
+            int resourceGroupNameTokenPosition = 4;
+
+            if (tokenizedId.Length < resourceGroupNameTokenPosition)
             {
                 return null;
             }
-            return tokenizedId[3];
+            return tokenizedId[resourceGroupNameTokenPosition - 1];
         }
 
         public static PSResourceProviderType ToPSResourceProviderType(this ProviderResourceType resourceType, string providerNamespace)
