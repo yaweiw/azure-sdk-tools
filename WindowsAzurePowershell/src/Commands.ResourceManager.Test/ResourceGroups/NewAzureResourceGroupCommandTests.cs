@@ -77,7 +77,6 @@ namespace Microsoft.Azure.Commands.ResourceManager.Test
             cmdlet.Location = expectedParameters.Location;
             cmdlet.TemplateFile = expectedParameters.TemplateFile;
             cmdlet.DeploymentName = expectedParameters.Name;
-            cmdlet.StorageAccountName = expectedParameters.StorageAccountName;
             cmdlet.TemplateVersion = expectedParameters.TemplateVersion;
 
             cmdlet.ExecuteCmdlet();
@@ -89,7 +88,7 @@ namespace Microsoft.Azure.Commands.ResourceManager.Test
             Assert.Equal(expectedParameters.TemplateFile, actualParameters.TemplateFile);
             Assert.NotNull(actualParameters.TemplateParameterObject);
             Assert.Equal(expectedParameters.TemplateVersion, actualParameters.TemplateVersion);
-            Assert.Equal(expectedParameters.StorageAccountName, actualParameters.StorageAccountName);
+            Assert.Equal(null, actualParameters.StorageAccountName);
 
             commandRuntimeMock.Verify(f => f.WriteObject(expected), Times.Once());
         }
@@ -121,7 +120,6 @@ namespace Microsoft.Azure.Commands.ResourceManager.Test
             cmdlet.Location = expectedParameters.Location;
             cmdlet.GalleryTemplateName = expectedParameters.GalleryTemplateName;
             cmdlet.DeploymentName = expectedParameters.Name;
-            cmdlet.StorageAccountName = expectedParameters.StorageAccountName;
             cmdlet.TemplateVersion = expectedParameters.TemplateVersion;
 
             cmdlet.ExecuteCmdlet();
@@ -133,7 +131,7 @@ namespace Microsoft.Azure.Commands.ResourceManager.Test
             Assert.Equal(expectedParameters.TemplateFile, actualParameters.TemplateFile);
             Assert.NotNull(actualParameters.TemplateParameterObject);
             Assert.Equal(expectedParameters.TemplateVersion, actualParameters.TemplateVersion);
-            Assert.Equal(expectedParameters.StorageAccountName, actualParameters.StorageAccountName);
+            Assert.Equal(null, actualParameters.StorageAccountName);
 
             commandRuntimeMock.Verify(f => f.WriteObject(expected), Times.Once());
         }

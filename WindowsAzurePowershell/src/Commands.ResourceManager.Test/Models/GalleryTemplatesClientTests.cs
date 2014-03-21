@@ -302,7 +302,7 @@ namespace Microsoft.Azure.Commands.ResourceManager.Test.Models
                 null,
                 new[] { "TestPS" });
 
-            Assert.Equal(4, result.Count);
+            Assert.Equal(5, result.Count);
 
             Assert.Equal("string", result["string"].Name);
             Assert.Equal(typeof(string), result["String"].ParameterType);
@@ -329,7 +329,7 @@ namespace Microsoft.Azure.Commands.ResourceManager.Test.Models
                 templateParameterFile,
                 new[] { "TestPS" });
 
-            Assert.Equal(4, result.Count);
+            Assert.Equal(5, result.Count);
 
             Assert.Equal("string", result["string"].Name);
             Assert.Equal(typeof(string), result["string"].ParameterType);

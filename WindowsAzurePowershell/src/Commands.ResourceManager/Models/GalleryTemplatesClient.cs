@@ -32,6 +32,8 @@ namespace Microsoft.Azure.Commands.ResourceManager.Models
 {
     public class GalleryTemplatesClient
     {
+        public const string StorageAccountParameterName = "StorageAccountName";
+
         public IGalleryClient GalleryClient { get; set; }
 
         public GalleryTemplatesClient(WindowsAzureSubscription subscription)
@@ -165,11 +167,34 @@ namespace Microsoft.Azure.Commands.ResourceManager.Models
                 else if (File.Exists(templateFilePath))
                 {
                     templateContent = File.ReadAllText(templateFilePath);
+                    RuntimeDefinedParameter storageAccountNameParameter = ConstructStorageAccountNameParameter();
+                    dynamicParameters.Add(storageAccountNameParameter.Name, storageAccountNameParameter);
                 }
             }
 
-            dynamicParameters = ParseTemplateAndExtractParameters(templateContent, templateParameterObject, templateParameterFilePath, staticParameters);
+            ParseTemplateAndExtractParameters(templateContent, templateParameterObject, templateParameterFilePath, staticParameters)
+                .ForEach(p => dynamicParameters.Add(p.Key, p.Value));
+
             return dynamicParameters;
+        }
+
+        private RuntimeDefinedParameter ConstructStorageAccountNameParameter()
+        {
+            RuntimeDefinedParameter parameter = new RuntimeDefinedParameter()
+            {
+                Name = StorageAccountParameterName,
+                ParameterType = typeof(string)
+            };
+            parameter.Attributes.Add(new ValidateNotNullOrEmptyAttribute());
+            parameter.Attributes.Add(new ParameterAttribute()
+            {
+                HelpMessage = "The storage account which the cmdlet to upload the template file to. If not specified, the current storage account of the subscription will be used.",
+                Mandatory = true,
+                ParameterSetName = ParameterAttribute.AllParameterSets,
+                ValueFromPipeline = true
+            });
+
+            return parameter;
         }
 
         private RuntimeDefinedParameterDictionary ParseTemplateAndExtractParameters(string templateContent, Hashtable templateParameterObject, string templateParameterFilePath, string[] staticParameters)
@@ -270,6 +295,7 @@ namespace Microsoft.Azure.Commands.ResourceManager.Models
 
             RuntimeDefinedParameter runtimeParameter = new RuntimeDefinedParameter()
             {
+                // For duplicated template parameter names, add a sufix FromTemplate to distingush them from the cmdlet parameter.
                 Name = staticParameters.Any(n => n.Equals(name, StringComparison.OrdinalIgnoreCase)) ? name + duplicatedParameterSuffix : name,
                 ParameterType = GetParameterType(parameter.Value.Type),
                 Value = defaultValue
@@ -278,7 +304,8 @@ namespace Microsoft.Azure.Commands.ResourceManager.Models
             {
                 Mandatory = defaultValue == null ? true : false,
                 ValueFromPipelineByPropertyName = true,
-                HelpMessage = "dynamically generated template parameter"
+                // Rely on the HelpMessage property to detect the original name for the dynamic parameter.
+                HelpMessage = name
             });
 
             if (!string.IsNullOrEmpty(parameter.Value.AllowedValues))
