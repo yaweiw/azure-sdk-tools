@@ -247,8 +247,8 @@
       <SubType>Designer</SubType>
     </Content>
     <Content Include="Microsoft.Azure.Commands.ResourceManagement.format.ps1xml">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <None Include="MSSharedLibKey.snk" />
     <None Include="packages.config" />
