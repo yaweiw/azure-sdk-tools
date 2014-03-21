@@ -2370,6 +2370,26 @@ namespace Microsoft.Azure.Commands.ResourceManager.Test.Models
         }
 
         [Fact]
+        public void GetResourceGroupFromIdWorksForGoodIds()
+        {
+            var group =
+                ResourceManagerExtensions.GetResourceGroupFromId(
+                    "/subscriptions/32155b36-f1ca-4346-9c37-53b14f248a06/resourceGroups/foo/providers/Microsoft.Web/serverFarms/ilygreTest4Host");
+            Assert.Equal("foo", group);
+        }
+
+        [Fact]
+        public void GetResourceGroupFromIdWorksForBadIds()
+        {
+            var group = ResourceManagerExtensions.GetResourceGroupFromId(null);
+            Assert.Equal(null, group);
+            group = ResourceManagerExtensions.GetResourceGroupFromId("");
+            Assert.Equal(null, group);
+            group = ResourceManagerExtensions.GetResourceGroupFromId("/subscriptions/32155b36-f1ca-4346-9c37-53b14f248a06/");
+            Assert.Equal(null, group);
+        }
+
+        [Fact]
         public void GetsLocations()
         {
             providersMock.Setup(f => f.ListAsync(null, new CancellationToken()))
