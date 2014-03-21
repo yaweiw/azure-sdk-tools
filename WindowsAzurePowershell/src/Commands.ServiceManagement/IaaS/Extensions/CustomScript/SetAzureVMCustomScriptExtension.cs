@@ -137,12 +137,11 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
             HelpMessage = "The Command to Execute.")]
         [Parameter(
             ParameterSetName = SetCustomScriptExtensionByUrisParamSetName,
-            Mandatory = false,
+            Mandatory = true,
             Position = 3,
             ValueFromPipelineByPropertyName = true,
             HelpMessage = "The Command to Execute.")]
-        [ValidateSet("powershell -ExecutionPolicy Unrestricted -file", IgnoreCase = true)]
-        public override string Command { get; set; }
+        public override string Run { get; set; }
 
         [Parameter(
             ParameterSetName = SetCustomScriptExtensionByContainerBlobsParamSetName,
@@ -186,6 +185,8 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
                 {
                     this.FileUri = (from blobName in this.FileName
                                     select GetSasUrl(this.ContainerName, blobName)).ToArray();
+
+                    this.Run = string.IsNullOrEmpty(this.Run) ? this.FileName[0] : this.Run;
                 }
             }
 
