@@ -12,7 +12,7 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Commands.Subscription
+namespace Microsoft.WindowsAzure.Commands.Profile
 {
     using System.Collections.Generic;
     using System.Management.Automation;
