@@ -170,7 +170,7 @@ namespace Microsoft.Azure.Commands.ResourceManager.Models
         private string GetStorageAccountName(string storageAccountName)
         {
             string currentStorageName = null;
-            if (WindowsAzureProfile.Instance.CurrentSubscription != null)
+            if (WindowsAzureProfile.Instance != null && WindowsAzureProfile.Instance.CurrentSubscription != null)
             {
                 currentStorageName = WindowsAzureProfile.Instance.CurrentSubscription.CurrentStorageAccountName;
             }

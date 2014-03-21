@@ -463,7 +463,7 @@ namespace Microsoft.Azure.Commands.ResourceManager.Test.Models
                             }
                     }));
 
-            resourcesClient.CreateResource(parameters);
+            resourcesClient.CreatePSResource(parameters);
             Assert.Equal(1, RejectActionCounter);
         }
 
@@ -481,7 +481,7 @@ namespace Microsoft.Azure.Commands.ResourceManager.Test.Models
                 ConfirmAction = ConfirmAction
             };
 
-            Assert.Throws<ArgumentException>(() => resourcesClient.CreateResource(parameters));
+            Assert.Throws<ArgumentException>(() => resourcesClient.CreatePSResource(parameters));
         }
 
         [Fact]
@@ -536,7 +536,7 @@ namespace Microsoft.Azure.Commands.ResourceManager.Test.Models
                     }
                 }));
 
-            PSResource result = resourcesClient.CreateResource(parameters);
+            PSResource result = resourcesClient.CreatePSResource(parameters);
 
             Assert.NotNull(result);
         }
