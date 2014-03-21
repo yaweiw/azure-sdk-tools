@@ -104,12 +104,6 @@ namespace Microsoft.Azure.Commands.ResourceManager.Models
             }
         }
 
-        private void RegisterResourceProviders()
-        {
-            ListResourceProviders().Where(p => p.RegistrationState == "NotRegistered")
-                .ForEach(p => ResourceManagementClient.Providers.Register(p.Namespace));
-        }
-
         private List<Provider> ListResourceProviders()
         {
             ProviderListResult result = ResourceManagementClient.Providers.List(null);

@@ -184,7 +184,7 @@ namespace Microsoft.Azure.Commands.ResourceManager.Models
         {
             bool createDeployment = !string.IsNullOrEmpty(parameters.GalleryTemplateName) || !string.IsNullOrEmpty(parameters.TemplateFile);
 
-            if (createDeployment)
+            if (createDeployment && string.IsNullOrEmpty(parameters.GalleryTemplateName))
             {
                 ValidateStorageAccount(parameters.StorageAccountName);
             }
@@ -193,22 +193,22 @@ namespace Microsoft.Azure.Commands.ResourceManager.Models
 
             ResourceGroup resourceGroup = null;
             Action createOrUpdateResourceGroup = () =>
-                {
-                    resourceGroup = CreateResourceGroup(parameters.ResourceGroupName, parameters.Location);
+            {
+                resourceGroup = CreateResourceGroup(parameters.ResourceGroupName, parameters.Location);
 
-                    if (createDeployment)
-                    {
-                        ExecuteDeployment(parameters);
-                    }
-                };
+                if (createDeployment)
+                {
+                    ExecuteDeployment(parameters);
+                }
+            };
 
             if (resourceExists && !parameters.Force)
             {
                 parameters.ConfirmAction(parameters.Force,
-                                         Resources.ResourceGroupAlreadyExists,
-                                         Resources.NewResourceGroupMessage,
-                                         parameters.Name,
-                                         createOrUpdateResourceGroup);
+                    Resources.ResourceGroupAlreadyExists,
+                    Resources.NewResourceGroupMessage,
+                    parameters.Name,
+                    createOrUpdateResourceGroup);
                 resourceGroup = ResourceManagementClient.ResourceGroups.Get(parameters.ResourceGroupName).ResourceGroup;
             }
             else
@@ -261,8 +261,6 @@ namespace Microsoft.Azure.Commands.ResourceManager.Models
         /// <returns>The created deployment instance</returns>
         public virtual PSResourceGroupDeployment ExecuteDeployment(CreatePSResourceGroupDeploymentParameters parameters)
         {
-            RegisterResourceProviders();
-
             parameters.Name = string.IsNullOrEmpty(parameters.Name) ? Guid.NewGuid().ToString() : parameters.Name;
             BasicDeployment deployment = CreateBasicDeployment(parameters);
             List<ResourceManagementError> errors = CheckBasicDeploymentErrors(parameters.ResourceGroupName, parameters.Name, deployment);
