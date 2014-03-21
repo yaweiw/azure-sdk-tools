@@ -117,6 +117,9 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="AddingResourceGroup" xml:space="preserve">
+    <value>Adding resource group...</value>
+  </data>
   <data name="CancelResourceGroupDeployment" xml:space="preserve">
     <value>Are you sure you want to cancel the active deployment of resource group '{0}'?</value>
   </data>
@@ -164,6 +167,9 @@
   </data>
   <data name="ResourceGroupDoesntExists" xml:space="preserve">
     <value>Provided resource group does not exist.</value>
+  </data>
+  <data name="ResourceGroupDoesntExistsAdd" xml:space="preserve">
+    <value>Provided resource group does not exist. Would you like to create it?</value>
   </data>
   <data name="ResourceTypeFormat" xml:space="preserve">
     <value>Resource type needs to be in the ResourceProvider/type format. For example Microsoft.Web/sites.</value>
