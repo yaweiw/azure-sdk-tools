@@ -66,7 +66,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.DiskRepository
 
         public void ExecuteCommand()
         {
-            var parameters = new VirtualMachineImageCreateParameters
+            var parameters = new VirtualMachineOSImageCreateParameters
             {
                 Name = this.ImageName,
                 MediaLinkUri = new Uri(this.MediaLocation),
@@ -83,8 +83,8 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.DiskRepository
             this.ExecuteClientActionNewSM(
                 null,
                 this.CommandRuntime.ToString(),
-                () => this.ComputeClient.VirtualMachineImages.Create(parameters),
-                (s, response) => this.ContextFactory<VirtualMachineImageCreateResponse, OSImageContext>(response, s));
+                () => this.ComputeClient.VirtualMachineOSImages.Create(parameters),
+                (s, response) => this.ContextFactory<VirtualMachineOSImageCreateResponse, OSImageContext>(response, s));
         }
 
         protected override void OnProcessRecord()
