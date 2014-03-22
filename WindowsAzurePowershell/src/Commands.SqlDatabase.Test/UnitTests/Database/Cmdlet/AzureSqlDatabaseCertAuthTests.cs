@@ -15,6 +15,7 @@
 namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Test.UnitTests.Database.Cmdlet
 {
     using System;
+    using System.Collections;
     using System.Collections.ObjectModel;
     using System.Globalization;
     using System.Linq;
@@ -642,6 +643,93 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Test.UnitTests.Database.Cm
             }
         }
 
+        /// <summary>
+        /// Verify that the Get-AzureSqlDatabseServerQuota cmdlets work using certificate authentication
+        /// </summary>
+        [TestMethod]
+        public void AzureSqlDatabaseServerQuotaCertAuthTest()
+        {
+            // This test uses the https endpoint, setup the certificates.
+            MockHttpServer.SetupCertificates();
+
+            using (PowerShell powershell = PowerShell.Create())
+            {
+                // Setup the subscription used for the test
+                WindowsAzureSubscription subscription =
+                    UnitTestHelper.SetupUnitTestSubscription(powershell);
+
+                powershell.Runspace.SessionStateProxy.SetVariable(
+                    "serverName",
+                    SqlDatabaseTestSettings.Instance.ServerV2);
+
+                // Create a new server
+                HttpSession testSession = MockServerHelper.DefaultSessionCollection.GetSession(
+                    "UnitTest.AzureSqlDatabaseServerQuotaCertAuthTest");
+                ServerTestHelper.SetDefaultTestSessionSettings(testSession);
+
+                testSession.RequestValidator =
+                    new Action<HttpMessage, HttpMessage.Request>(
+                        (expected, actual) =>
+                        {
+                            Assert.AreEqual(expected.RequestInfo.Method, actual.Method);
+                            Assert.IsTrue(
+                                actual.UserAgent.Contains(ApiConstants.UserAgentHeaderValue),
+                                "Missing proper UserAgent string.");
+                            Assert.IsTrue(
+                                UnitTestHelper.GetUnitTestClientCertificate().Equals(actual.Certificate),
+                                "Expected correct client certificate");
+                        });
+
+                Collection<PSObject> getQuota1 = MockServerHelper.ExecuteWithMock(
+                    testSession,
+                    MockHttpServer.DefaultHttpsServerPrefixUri,
+                    () =>
+                    {
+                        return powershell.InvokeBatchScript(
+                            @"Get-AzureSqlDatabaseServerQuota -ServerName $serverName");
+                    });
+
+                Collection<PSObject> getQuota2 = MockServerHelper.ExecuteWithMock(
+                    testSession,
+                    MockHttpServer.DefaultHttpsServerPrefixUri,
+                    () =>
+                    {
+                        return powershell.InvokeBatchScript(
+                            @"Get-AzureSqlDatabaseServerQuota -ServerName $serverName -QuotaName premium_databases");
+                    });
+
+                Assert.AreEqual(0, powershell.Streams.Error.Count, "Unexpected Errors during run!");
+                Assert.AreEqual(0, powershell.Streams.Warning.Count, "Unexpected Warnings during run!");
+
+                // Validate Get-AzureSqlDatabaseServerQuota
+                var quotas = getQuota1.Select(x => ((IEnumerable)x.BaseObject).Cast<Model.SqlDatabaseServerQuotaContext>().Single() ).ToArray();
+                Assert.AreEqual(1, quotas.Length, "Expecting one server quota");
+                Assert.IsNotNull(quotas[0], "Expecting a server quota.");
+                Assert.AreEqual("premium_databases", quotas[0].Name);
+                Assert.AreEqual(SqlDatabaseTestSettings.Instance.ServerV2, quotas[0].ServerName);
+                Assert.AreEqual("Microsoft.SqlAzure.ServerQuota", quotas[0].Type);
+                Assert.AreEqual("1000", quotas[0].Value);
+                Assert.AreEqual("Normal", quotas[0].State);
+
+                quotas = getQuota2.Select(x => ((IEnumerable)x.BaseObject).Cast<Model.SqlDatabaseServerQuotaContext>().Single()).ToArray();
+                Assert.AreEqual(1, quotas.Length, "Expecting server quota");
+                Assert.IsNotNull(quotas[0], "Expecting a server quota.");
+                Assert.AreEqual("premium_databases", quotas[0].Name);
+                Assert.AreEqual(SqlDatabaseTestSettings.Instance.ServerV2, quotas[0].ServerName);
+                Assert.AreEqual("Microsoft.SqlAzure.ServerQuota", quotas[0].Type);
+                Assert.AreEqual("1000", quotas[0].Value);
+                Assert.AreEqual("Normal", quotas[0].State);
+            }
+        }
+
+        /// <summary>
+        /// Validate that the service objective properties match the expected values
+        /// </summary>
+        /// <param name="so">The service objective object</param>
+        /// <param name="name">The expected name for the service objective</param>
+        /// <param name="description">The expected description for the service objective</param>
+        /// <param name="dimSettingsCount">The expected number of dimension settings</param>
+        /// <param name="desc">A list of the expected descriptions for each dimension setting</param>
         private static void ValidateServiceObjectiveProperties(ServiceObjective so, string name, string description, int dimSettingsCount, params string[] desc)
         {
 
