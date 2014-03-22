@@ -18,7 +18,7 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.ManagementTests
     using VisualStudio.TestTools.UnitTesting;
 
     [TestClass]
-    public class ManagementTests : WindowsAzurePowerShellTest
+    public class ManagementTests : WindowsAzurePowerShellCertificateTest
     {
         public ManagementTests()
             : base("Management\\ManagementTests.ps1")
