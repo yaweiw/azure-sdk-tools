@@ -12,10 +12,9 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-using System.Collections.Generic;
 using Microsoft.Azure.Commands.ResourceManager.Models;
-using Microsoft.Azure.Management.Resources.Models;
 using Microsoft.WindowsAzure.Commands.Utilities.Common;
+using System.Collections.Generic;
 using System.Management.Automation;
 
 namespace Microsoft.Azure.Commands.ResourceManager.ResourceGroupDeployments
@@ -39,10 +38,10 @@ namespace Microsoft.Azure.Commands.ResourceManager.ResourceGroupDeployments
                 TemplateFile = this.TryResolvePath(TemplateFile),
                 TemplateParameterObject = GetTemplateParameterObject(TemplateParameterObject),
                 TemplateVersion = TemplateVersion,
-                StorageAccountName = StorageAccountName,
+                StorageAccountName = GetStorageAccountName(),
             };
 
-            WriteObject(ResourceClient.ValidatePSResourceGroupDeployment(parameters));
+            WriteObject(ResourcesClient.ValidatePSResourceGroupDeployment(parameters));
         }
     }
 }

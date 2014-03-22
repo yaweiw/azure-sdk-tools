@@ -217,7 +217,7 @@
     <Compile Include="Models\CreatePSDeploymentParameters.cs" />
     <Compile Include="Models\PSResourceGroup.cs" />
     <Compile Include="Models\CreatePSResourceGroupParameters.cs" />
-    <Compile Include="Models\ResourceClient.Gallery.cs" />
+    <Compile Include="Models\GalleryTemplatesClient.cs" />
     <Compile Include="Models\ResourceManagerExtensions.cs" />
     <Compile Include="Models\SetResourceMode.cs" />
     <Compile Include="Models\TemplateFile.cs" />

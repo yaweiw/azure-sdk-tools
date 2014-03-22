@@ -42,7 +42,7 @@ namespace Microsoft.Azure.Commands.ResourceManager.Test
             cmdlet = new RemoveAzureResourceCommand()
             {
                 CommandRuntime = commandRuntimeMock.Object,
-                ResourceClient = resourcesClientMock.Object
+                ResourcesClient = resourcesClientMock.Object
             };
         }
 

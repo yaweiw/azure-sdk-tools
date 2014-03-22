@@ -117,6 +117,9 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="AddingResourceGroup" xml:space="preserve">
+    <value>Adding resource group...</value>
+  </data>
   <data name="CancelResourceGroupDeployment" xml:space="preserve">
     <value>Are you sure you want to cancel the active deployment of resource group '{0}'?</value>
   </data>
@@ -134,6 +137,9 @@
   </data>
   <data name="FailureParsingTemplateParameterObject" xml:space="preserve">
     <value>Cannot set parameter '{0}' from TemplateParameterObject. Incompatible value '{1}'.</value>
+  </data>
+  <data name="InvalidTemplateIdentity" xml:space="preserve">
+    <value>'{0}' is invalid template identity and can not be found.</value>
   </data>
   <data name="NewResourceGroupMessage" xml:space="preserve">
     <value>Replacing resource group ...</value>
@@ -165,11 +171,14 @@
   <data name="ResourceGroupDoesntExists" xml:space="preserve">
     <value>Provided resource group does not exist.</value>
   </data>
+  <data name="ResourceGroupDoesntExistsAdd" xml:space="preserve">
+    <value>Provided resource group does not exist. Would you like to create it?</value>
+  </data>
   <data name="ResourceTypeFormat" xml:space="preserve">
     <value>Resource type needs to be in the ResourceProvider/type format. For example Microsoft.Web/sites.</value>
   </data>
   <data name="StorageAccountNameNeedsToBeSpecified" xml:space="preserve">
-    <value>You must specify either StorageAccountName or storage account on the subscription need to be specified.</value>
+    <value>ecause the current subscription does not have a current storage account, you must specify the StorageAccountName parameter.</value>
   </data>
   <data name="TemplateValid" xml:space="preserve">
     <value>Template is valid.</value>

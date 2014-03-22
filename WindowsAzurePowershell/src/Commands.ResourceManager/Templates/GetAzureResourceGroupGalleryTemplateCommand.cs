@@ -46,7 +46,7 @@ namespace Microsoft.Azure.Commands.ResourceManager.Templates
                 Publisher = Publisher
             };
 
-            WriteObject(ResourceClient.FilterGalleryTemplates(options), true);
+            WriteObject(GalleryTemplatesClient.FilterGalleryTemplates(options), true);
         }
     }
 }

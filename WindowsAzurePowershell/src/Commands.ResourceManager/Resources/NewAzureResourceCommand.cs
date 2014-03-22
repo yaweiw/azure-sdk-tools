@@ -50,10 +50,10 @@ namespace Microsoft.Azure.Commands.ResourceManager
                 PropertyObject = PropertyObject,
                 Force = Force.IsPresent,
                 ConfirmAction = ConfirmAction,
-                ApiVersion = ApiVersion
+                ApiVersion = ApiVersion,
             };
 
-            WriteObject(ResourceClient.CreateResource(parameters));
+            WriteObject(ResourcesClient.CreatePSResource(parameters));
         }
     }
 }

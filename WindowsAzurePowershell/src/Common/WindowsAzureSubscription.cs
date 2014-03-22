@@ -60,6 +60,8 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
             get { return registeredResourceProviders; }
         }
 
+        internal List<Provider> ResourceManagerProviders { get; set; }
+
         /// <summary>
         /// Delegate used to trigger profile to save itself, used
         /// when cached list of resource providers is updated.
@@ -181,7 +183,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
             {
                 throw new ArgumentException(Resources.InvalidSubscriptionState);
             }
-            return ClientClientFromEndpoint<TClient>(GalleryEndpoint);
+            return ClientClientFromEndpoint<TClient>(GalleryEndpoint, false);
         }
 
         public TClient CreateClientFromCloudServiceEndpoint<TClient>() where TClient : ServiceClient<TClient>
@@ -195,8 +197,18 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
 
         public TClient ClientClientFromEndpoint<TClient>(Uri endpoint) where TClient : ServiceClient<TClient>
         {
+            return ClientClientFromEndpoint<TClient>(endpoint, true);
+        }
+
+        public TClient ClientClientFromEndpoint<TClient>(Uri endpoint, bool registerProviders) where TClient : ServiceClient<TClient>
+        {
             var credential = CreateCredentials();
-            RegisterRequiredResourceProviders<TClient>(credential);
+
+            if (registerProviders)
+            {
+                RegisterRequiredResourceProviders<TClient>(credential);
+            }
+
             var constructor = typeof(TClient).GetConstructor(new[] { typeof(SubscriptionCloudCredentials), typeof(Uri) });
             if (constructor == null)
             {
@@ -245,23 +257,11 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
                 {
                     try
                     {
-                        ProviderListResult result = client.Providers.List(null);
-                        List<Provider> providers = new List<Provider>(result.Providers);
-
-                        while (!string.IsNullOrEmpty(result.NextLink))
-                        {
-                            result = client.Providers.ListNext(result.NextLink);
-                            providers.AddRange(result.Providers);
-                        }
+                        List<Provider> providers = GetProviders(client);
 
                         List<string> unregisteredProviders = providers.Where(p => p.RegistrationState
-                                                                                   .Equals(
-                                                                                       ProviderRegistrationState
-                                                                                           .NotRegistered,
-                                                                                       StringComparison
-                                                                                           .OrdinalIgnoreCase))
-                                                                      .Select(p => p.Namespace)
-                                                                      .ToList();
+                            .Equals(ProviderRegistrationState.NotRegistered, StringComparison.OrdinalIgnoreCase))
+                            .Select(p => p.Namespace).ToList();
                         List<string> toRegister = requiredProviders.Intersect(unregisteredProviders).Distinct().ToList();
 
                         foreach (string provider in toRegister)
@@ -275,6 +275,24 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
                     }
                 }
             }
+        }
+
+        private List<Provider> GetProviders(IResourceManagementClient client)
+        {
+            if (ResourceManagerProviders == null)
+            {
+                ResourceManagerProviders = new List<Provider>();
+                ProviderListResult result = client.Providers.List(null);
+                ResourceManagerProviders.AddRange(result.Providers);
+
+                while (!string.IsNullOrEmpty(result.NextLink))
+                {
+                    result = client.Providers.ListNext(result.NextLink);
+                    ResourceManagerProviders.AddRange(result.Providers);
+                }
+            }
+
+            return ResourceManagerProviders;
         }
 
         /// <summary>

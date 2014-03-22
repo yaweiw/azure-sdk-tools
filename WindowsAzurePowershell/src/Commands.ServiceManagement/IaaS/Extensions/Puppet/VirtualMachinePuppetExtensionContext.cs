@@ -12,13 +12,9 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-
-namespace Microsoft.Azure.Commands.ResourceManager.Models
+namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
 {
-    public class PSResourceManagerError
+    public class VirtualMachinePuppetExtensionContext : VirtualMachineExtensionContext
     {
-        public string Code { get; set; }
-
-        public string Message { get; set; }
     }
 }
