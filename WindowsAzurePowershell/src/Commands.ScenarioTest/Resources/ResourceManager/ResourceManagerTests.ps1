@@ -28,5 +28,7 @@ function Test-CreatesNewSimpleResourceGroup
 
 	# Assert
 	Assert-AreEqual $expected.Name $actual.Name
-	Assert-AreEqual $expected.Location $actual.Location
+	
+	# Cleanup
+	Remove-AzureResourceGroup -Name $name
 }
