@@ -45,7 +45,7 @@ namespace Microsoft.Azure.Commands.ResourceManager.ResourceGroups
                 string.Format(Resources.CancelResourceGroupDeployment, ResourceGroupName),
                 Resources.CancelResourceGroupDeploymentMessage,
                 ResourceGroupName,
-                () => ResourceClient.CancelDeployment(ResourceGroupName, Name));
+                () => ResourcesClient.CancelDeployment(ResourceGroupName, Name));
 
             if (PassThru)
             {

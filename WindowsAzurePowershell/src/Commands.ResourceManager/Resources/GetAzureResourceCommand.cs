@@ -61,7 +61,7 @@ namespace Microsoft.Azure.Commands.ResourceManager
                 ApiVersion = ApiVersion
             };
 
-            List<PSResource> resourceList = ResourceClient.FilterPSResources(parameters);
+            List<PSResource> resourceList = ResourcesClient.FilterPSResources(parameters);
             if (resourceList != null)
             {
                 if (resourceList.Count == 1 && Name != null)

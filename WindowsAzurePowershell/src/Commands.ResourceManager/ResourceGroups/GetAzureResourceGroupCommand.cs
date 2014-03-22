@@ -31,7 +31,7 @@ namespace Microsoft.Azure.Commands.ResourceManager
         
         public override void ExecuteCmdlet()
         {
-            WriteObject(ResourceClient.FilterResourceGroups(Name), true);
+            WriteObject(ResourcesClient.FilterResourceGroups(Name), true);
         }
     }
 }

@@ -88,5 +88,10 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
         {
             EditPSModulePath(list => new List<string>(list) { modulePath }, target);
         }
+
+        public static IEnumerable<RuntimeDefinedParameter> GetUsedDynamicParameters(RuntimeDefinedParameterDictionary dynamicParameters, InvocationInfo MyInvocation)
+        {
+            return dynamicParameters.Values.Where(dp => MyInvocation.BoundParameters.Keys.Any(bp => bp.Equals(dp.Name)));
+        }
     }
 }

@@ -261,6 +261,11 @@
     <Compile Include="IaaS\Extensions\Common\VirtualMachineExtensionContext.cs" />
     <Compile Include="IaaS\Extensions\Common\GetAzureVMAvailableExtension.cs" />
     <Compile Include="IaaS\Extensions\Common\VirtualMachineExtensionImageContext.cs" />
+    <Compile Include="IaaS\Extensions\Puppet\GetAzureVMPuppetExtension.cs" />
+    <Compile Include="IaaS\Extensions\Puppet\RemoveAzureVMPuppetExtension.cs" />
+    <Compile Include="IaaS\Extensions\Puppet\SetAzureVMPuppetExtension.cs" />
+    <Compile Include="IaaS\Extensions\Puppet\VirtualMachinePuppetExtensionCmdletBase.cs" />
+    <Compile Include="IaaS\Extensions\Puppet\VirtualMachinePuppetExtensionContext.cs" />
     <Compile Include="IaaS\Extensions\CustomScript\GetAzureVMCustomScriptExtension.cs" />
     <Compile Include="IaaS\Extensions\CustomScript\PrivateSettings.cs" />
     <Compile Include="IaaS\Extensions\CustomScript\PublicSettings.cs" />

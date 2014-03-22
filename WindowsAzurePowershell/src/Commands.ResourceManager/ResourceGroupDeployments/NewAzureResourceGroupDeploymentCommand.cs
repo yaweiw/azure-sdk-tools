@@ -21,7 +21,7 @@ namespace Microsoft.Azure.Commands.ResourceManager
     /// <summary>
     /// Creates a new resource group deployment.
     /// </summary>
-    [Cmdlet(VerbsCommon.New, "AzureResourceGroupDeployment", DefaultParameterSetName = BaseParameterSetName), OutputType(typeof(PSResourceGroupDeployment))]
+    [Cmdlet(VerbsCommon.New, "AzureResourceGroupDeployment"), OutputType(typeof(PSResourceGroupDeployment))]
     public class NewAzureResourceGroupDeploymentCommand : ResourceWithParameterBaseCmdlet, IDynamicParameters
     {
         [Alias("DeploymentName")]
@@ -43,10 +43,10 @@ namespace Microsoft.Azure.Commands.ResourceManager
                 TemplateFile = this.TryResolvePath(TemplateFile),
                 TemplateParameterObject = GetTemplateParameterObject(TemplateParameterObject),
                 TemplateVersion = TemplateVersion,
-                StorageAccountName = StorageAccountName,
+                StorageAccountName = GetStorageAccountName(),
             };
 
-            WriteObject(ResourceClient.ExecuteDeployment(parameters));
+            WriteObject(ResourcesClient.ExecuteDeployment(parameters));
         }
     }
 }

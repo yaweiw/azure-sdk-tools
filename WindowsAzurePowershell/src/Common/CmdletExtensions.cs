@@ -84,6 +84,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
                 return path;
             }
 
+            path = path.Trim('"', '\'', ' ');
             var result = psCmdlet.SessionState.Path.GetResolvedPSPathFromPSPath(path);
             string fullPath = string.Empty;
 
