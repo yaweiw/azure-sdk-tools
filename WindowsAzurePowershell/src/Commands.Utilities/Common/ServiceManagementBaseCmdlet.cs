@@ -103,7 +103,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
         {
             get { return storageClient.Value; }
         }
-        
+
         private Lazy<NetworkManagementClient> networkClient;
         public NetworkManagementClient NetworkClient 
         {
