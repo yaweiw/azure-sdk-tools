@@ -19,24 +19,40 @@ namespace Microsoft.Azure.Commands.ResourceManager
 {
     public abstract class ResourceManagerBaseCmdlet : CmdletWithSubscriptionBase
     {
-        private ResourcesClient _resourceClient;
+        private ResourcesClient resourcesClient;
 
-        public ResourcesClient ResourceClient
+        private GalleryTemplatesClient galleryTemplatesClient;
+
+        public ResourcesClient ResourcesClient
         {
             get
             {
-                if (_resourceClient == null)
+                if (resourcesClient == null)
                 {
-                    _resourceClient = new ResourcesClient(CurrentSubscription)
+                    resourcesClient = new ResourcesClient(CurrentSubscription)
                     {
                         VerboseLogger = WriteVerboseWithTimestamp,
                         ErrorLogger = WriteErrorWithTimestamp
                     };
                 }
-                return _resourceClient;
+                return resourcesClient;
             }
 
-            set { _resourceClient = value; }
+            set { resourcesClient = value; }
+        }
+
+        public GalleryTemplatesClient GalleryTemplatesClient
+        {
+            get
+            {
+                if (galleryTemplatesClient == null)
+                {
+                    galleryTemplatesClient = new GalleryTemplatesClient(CurrentSubscription);
+                }
+                return galleryTemplatesClient;
+            }
+
+            set { galleryTemplatesClient = value; }
         }
     }
 }

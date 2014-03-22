@@ -21,7 +21,7 @@ namespace Microsoft.Azure.Commands.ResourceManager
     /// <summary>
     /// Creates a new resource group.
     /// </summary>
-    [Cmdlet(VerbsCommon.New, "AzureResourceGroup", DefaultParameterSetName = BaseParameterSetName), OutputType(typeof(PSResourceGroup))]
+    [Cmdlet(VerbsCommon.New, "AzureResourceGroup"), OutputType(typeof(PSResourceGroup))]
     public class NewAzureResourceGroupCommand : ResourceWithParameterBaseCmdlet, IDynamicParameters
     {
         [Alias("ResourceGroupName")]
@@ -51,12 +51,12 @@ namespace Microsoft.Azure.Commands.ResourceManager
                 TemplateFile = this.TryResolvePath(TemplateFile),
                 TemplateParameterObject = GetTemplateParameterObject(TemplateParameterObject),
                 TemplateVersion = TemplateVersion,
-                StorageAccountName = StorageAccountName,
+                StorageAccountName = GetStorageAccountName(),
                 Force = Force.IsPresent,
                 ConfirmAction = ConfirmAction
             };
 
-            WriteObject(ResourceClient.CreatePSResourceGroup(parameters));
+            WriteObject(ResourcesClient.CreatePSResourceGroup(parameters));
         }
     }
 }

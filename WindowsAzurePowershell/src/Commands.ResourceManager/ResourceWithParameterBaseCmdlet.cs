@@ -20,6 +20,7 @@ using Newtonsoft.Json;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Management.Automation;
@@ -28,10 +29,8 @@ namespace Microsoft.Azure.Commands.ResourceManager
 {
     public abstract class ResourceWithParameterBaseCmdlet : ResourceManagerBaseCmdlet
     {
-        protected const string BaseParameterSetName = "Default";
         protected const string GalleryTemplateParameterObjectParameterSetName = "Deployment via Gallery and template parameters object";
         protected const string GalleryTemplateParameterFileParameterSetName = "Deployment via Gallery and template parameters file";
-        protected const string GalleryTemplateDynamicParametersParameterSetName = "Deployment via Gallery and inline parameters";
         protected const string TemplateFileParameterObjectParameterSetName = "Deployment via template file and template parameters object";
         protected const string TemplateFileParameterFileParameterSetName = "Deployment via template file and template parameters file";
         protected const string ParameterlessTemplateFileParameterSetName = "Deployment via template file without parameters";
@@ -63,8 +62,6 @@ namespace Microsoft.Azure.Commands.ResourceManager
 
         [Parameter(ParameterSetName = GalleryTemplateParameterObjectParameterSetName,
             Mandatory = true, ValueFromPipelineByPropertyName = true, HelpMessage = "Name of the template in the gallery.")]
-        [Parameter(ParameterSetName = GalleryTemplateDynamicParametersParameterSetName,
-            Mandatory = true, ValueFromPipelineByPropertyName = true, HelpMessage = "Name of the template in the gallery.")]
         [Parameter(ParameterSetName = GalleryTemplateParameterFileParameterSetName,
             Mandatory = true, ValueFromPipelineByPropertyName = true, HelpMessage = "Name of the template in the gallery.")]
         [Parameter(ParameterSetName = ParameterlessGalleryTemplateParameterSetName,
@@ -85,10 +82,6 @@ namespace Microsoft.Azure.Commands.ResourceManager
         [ValidateNotNullOrEmpty]
         public string TemplateVersion { get; set; }
 
-        [Parameter(Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "The storage account which the cmdlet to upload the template file to. If not specified, the current storage account of the subscription will be used.")]
-        [ValidateNotNullOrEmpty]
-        public string StorageAccountName { get; set; }
-
         public object GetDynamicParameters()
         {
             if (!string.IsNullOrEmpty(GalleryTemplateName) &&
@@ -97,10 +90,10 @@ namespace Microsoft.Azure.Commands.ResourceManager
                 galleryTemplateName = GalleryTemplateName;
                 try
                 {
-                    dynamicParameters = ResourceClient.GetTemplateParametersFromGallery(
+                    dynamicParameters = GalleryTemplatesClient.GetTemplateParametersFromGallery(
                         GalleryTemplateName,
                         TemplateParameterObject,
-                        TemplateParameterFile,
+                        this.TryResolvePath(TemplateParameterFile),
                         MyInvocation.MyCommand.Parameters.Keys.ToArray());
                 }
                 catch (CloudException)
@@ -114,10 +107,10 @@ namespace Microsoft.Azure.Commands.ResourceManager
                 try
                 {
                     templateFile = TemplateFile;
-                    dynamicParameters = ResourceClient.GetTemplateParametersFromFile(
+                    dynamicParameters = GalleryTemplatesClient.GetTemplateParametersFromFile(
                         this.TryResolvePath(TemplateFile),
                         TemplateParameterObject,
-                        TemplateParameterFile,
+                        this.TryResolvePath(TemplateParameterFile),
                         MyInvocation.MyCommand.Parameters.Keys.ToArray());
                 } 
                 catch
@@ -142,13 +135,27 @@ namespace Microsoft.Azure.Commands.ResourceManager
             }
 
             // Load dynamic parameters
-            IEnumerable<RuntimeDefinedParameter> parameters = GeneralUtilities.GetUsedDynamicParameters(dynamicParameters, MyInvocation);
+            IEnumerable<RuntimeDefinedParameter> parameters = PowerShellUtilities.GetUsedDynamicParameters(dynamicParameters, MyInvocation);
             if (parameters.Any())
             {
-                parameters.ForEach(dp => templateParameterObject[dp.Name] = dp.Value);
+                parameters.ForEach(dp => templateParameterObject[((ParameterAttribute)dp.Attributes[0]).HelpMessage] = dp.Value);
             }
 
             return templateParameterObject;
+        }
+
+        protected string GetStorageAccountName()
+        {
+            string storageAccountName = null;
+            IEnumerable<RuntimeDefinedParameter> parameters = PowerShellUtilities.GetUsedDynamicParameters(dynamicParameters, MyInvocation);
+            RuntimeDefinedParameter parameter = parameters.FirstOrDefault(dp => dp.Name.Equals(GalleryTemplatesClient.StorageAccountParameterName));
+
+            if (parameter != null && parameter.Value != null)
+            {
+                storageAccountName = parameter.Value.ToString();
+            }
+
+            return storageAccountName;
         }
     }
 }

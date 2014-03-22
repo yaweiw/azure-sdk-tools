@@ -12,7 +12,6 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-using System.Collections;
 
 namespace Microsoft.Azure.Commands.ResourceManager.Models
 {

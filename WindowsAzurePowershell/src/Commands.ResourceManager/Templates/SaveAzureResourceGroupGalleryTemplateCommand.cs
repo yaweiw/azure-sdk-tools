@@ -36,7 +36,7 @@ namespace Microsoft.Azure.Commands.ResourceManager.Templates
 
         public override void ExecuteCmdlet()
         {
-            ResourceClient.DownloadGalleryTemplateFile(
+            GalleryTemplatesClient.DownloadGalleryTemplateFile(
                 Name,
                 string.IsNullOrEmpty(Path) ? System.IO.Path.Combine(CurrentPath(), Name) : this.TryResolvePath(Path));
 
