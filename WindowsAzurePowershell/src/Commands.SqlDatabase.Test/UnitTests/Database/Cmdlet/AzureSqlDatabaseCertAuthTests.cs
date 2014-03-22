@@ -406,6 +406,275 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Test.UnitTests.Database.Cm
             }
         }
 
+        /// <summary>
+        /// Test Get/Set/Remove a database using certificate authentication.
+        /// </summary>
+        [TestMethod]
+        public void AzureSqlDatabaseEditionsTests()
+        {
+            // This test uses the https endpoint, setup the certificates.
+            MockHttpServer.SetupCertificates();
+
+            using (PowerShell powershell = PowerShell.Create())
+            {
+                // Setup the subscription used for the test
+                WindowsAzureSubscription subscription =
+                    UnitTestHelper.SetupUnitTestSubscription(powershell);
+
+                powershell.Runspace.SessionStateProxy.SetVariable(
+                    "serverName",
+                    SqlDatabaseTestSettings.Instance.ServerV2);
+
+                // Create a new server
+                HttpSession testSession = MockServerHelper.DefaultSessionCollection.GetSession(
+                    "UnitTest.AzureSqlDatabaseEditionsTests");
+                ServerTestHelper.SetDefaultTestSessionSettings(testSession);
+
+                testSession.RequestValidator =
+                    new Action<HttpMessage, HttpMessage.Request>(
+                        (expected, actual) =>
+                        {
+                            Assert.AreEqual(expected.RequestInfo.Method, actual.Method);
+                            Assert.IsTrue(
+                                actual.UserAgent.Contains(ApiConstants.UserAgentHeaderValue),
+                                "Missing proper UserAgent string.");
+                            Assert.IsTrue(
+                                UnitTestHelper.GetUnitTestClientCertificate().Equals(actual.Certificate),
+                                "Expected correct client certificate");
+                        });
+
+                Collection<PSObject> newDatabaseResult1 = MockServerHelper.ExecuteWithMock(
+                    testSession,
+                    MockHttpServer.DefaultHttpsServerPrefixUri,
+                    () =>
+                    {
+                        return powershell.InvokeBatchScript(
+                            @"($db = New-AzureSqlDatabase -ServerName $serverName -DatabaseName testdbeditions1)");
+                    });
+
+                Collection<PSObject> newDatabaseResult2 = MockServerHelper.ExecuteWithMock(
+                    testSession,
+                    MockHttpServer.DefaultHttpsServerPrefixUri,
+                    () =>
+                    {
+                        return powershell.InvokeBatchScript(
+                            @"New-AzureSqlDatabase" +
+                            @" -ServerName $serverName" +
+                            @" -DatabaseName testdbeditions2" +
+                            @" -Edition Standard");
+                    });
+
+                Collection<PSObject> newDatabaseResult3 = MockServerHelper.ExecuteWithMock(
+                    testSession,
+                    MockHttpServer.DefaultHttpsServerPrefixUri,
+                    () =>
+                    {
+                        return powershell.InvokeBatchScript(
+                            @"($db3 = New-AzureSqlDatabase" +
+                            @" -ServerName $serverName" +
+                            @" -DatabaseName testdbeditions3" +
+                            @" -Edition Basic)");
+                    });
+
+                Collection<PSObject> newDatabaseResult4 = MockServerHelper.ExecuteWithMock(
+                    testSession,
+                    MockHttpServer.DefaultHttpsServerPrefixUri,
+                    () =>
+                    {
+                        return powershell.InvokeBatchScript(
+                            @"New-AzureSqlDatabase" +
+                            @" -ServerName $serverName" +
+                            @" -DatabaseName testdbeditions4" +
+                            @" -Edition Premium");
+                    });
+
+                Collection<PSObject> serviceObjectives = MockServerHelper.ExecuteWithMock(
+                    testSession,
+                    MockHttpServer.DefaultHttpsServerPrefixUri,
+                    () =>
+                    {
+                        return powershell.InvokeBatchScript(
+                            @"($so = Get-AzureSqlDatabaseServiceObjective -Server $serverName)");
+                    });
+
+                Collection<PSObject> newDatabaseResult5 = MockServerHelper.ExecuteWithMock(
+                    testSession,
+                    MockHttpServer.DefaultHttpsServerPrefixUri,
+                    () =>
+                    {
+                        return powershell.InvokeBatchScript(
+                            @"New-AzureSqlDatabase" +
+                            @" -ServerName $serverName" +
+                            @" -DatabaseName testdbeditions5" +
+                            @" -Edition Standard" +
+                            @" -ServiceObjective $so[0]");
+                    });
+
+                Collection<PSObject> getSingleDatabaseResult1 = MockServerHelper.ExecuteWithMock(
+                    testSession,
+                    MockHttpServer.DefaultHttpsServerPrefixUri,
+                    () =>
+                    {
+                        return powershell.InvokeBatchScript(
+                            @"Get-AzureSqlDatabase $serverName -DatabaseName testdbeditions1");
+                    });
+
+                Collection<PSObject> getSingleDatabaseResult2 = MockServerHelper.ExecuteWithMock(
+                    testSession,
+                    MockHttpServer.DefaultHttpsServerPrefixUri,
+                    () =>
+                    {
+                        return powershell.InvokeBatchScript(
+                            @"$db | Get-AzureSqlDatabase");
+                    });
+
+                Collection<PSObject> setDatabaseObjective1 = MockServerHelper.ExecuteWithMock(
+                    testSession,
+                    MockHttpServer.DefaultHttpsServerPrefixUri,
+                    () =>
+                    {
+                        return powershell.InvokeBatchScript(
+                            @"Set-AzureSqlDatabase -ServerName $serverName -DatabaseName testdbeditions2 -ServiceObjective $so[0] -Force");
+                    });
+
+                Collection<PSObject> setDatabaseObjective2 = MockServerHelper.ExecuteWithMock(
+                    testSession,
+                    MockHttpServer.DefaultHttpsServerPrefixUri,
+                    () =>
+                    {
+                        return powershell.InvokeBatchScript(
+                            @"Set-AzureSqlDatabase -ServerName $serverName -DatabaseName $db3.Name -Edition Standard -MaxSizeGB 1 -Force");
+                    });
+
+                Collection<PSObject> getDatabaseResult = MockServerHelper.ExecuteWithMock(
+                    testSession,
+                    MockHttpServer.DefaultHttpsServerPrefixUri,
+                    () =>
+                    {
+                        return powershell.InvokeBatchScript(
+                            @"Get-AzureSqlDatabase" +
+                            @" $serverName");
+                    });
+
+                Collection<PSObject> removeDatabaseResult = MockServerHelper.ExecuteWithMock(
+                    testSession,
+                    MockHttpServer.DefaultHttpsServerPrefixUri,
+                    () =>
+                    {
+                        powershell.Runspace.SessionStateProxy.SetVariable("db1", newDatabaseResult1.FirstOrDefault());
+                        powershell.Runspace.SessionStateProxy.SetVariable("db2", newDatabaseResult2.FirstOrDefault());
+                        powershell.Runspace.SessionStateProxy.SetVariable("db3", newDatabaseResult3.FirstOrDefault());
+                        powershell.Runspace.SessionStateProxy.SetVariable("db4", newDatabaseResult4.FirstOrDefault());
+                        powershell.Runspace.SessionStateProxy.SetVariable("db5", newDatabaseResult5.FirstOrDefault());
+                        powershell.InvokeBatchScript(@"$db1 | Remove-AzureSqlDatabase -Force");
+                        powershell.InvokeBatchScript(@"$db2 | Remove-AzureSqlDatabase -Force");
+                        powershell.InvokeBatchScript(@"$db3 | Remove-AzureSqlDatabase -Force");
+                        powershell.InvokeBatchScript(@"$db4 | Remove-AzureSqlDatabase -Force");
+                        powershell.InvokeBatchScript(@"$db5 | Remove-AzureSqlDatabase -Force");
+                        return powershell.InvokeBatchScript( @"Get-AzureSqlDatabase $serverName");
+                    });
+
+                Assert.AreEqual(0, powershell.Streams.Error.Count, "Unexpected Errors during run!");
+                Assert.AreEqual(0, powershell.Streams.Warning.Count, "Unexpected Warnings during run!");
+
+                // Validate New-AzureSqlDatabase
+                Database[] databases = new Database[] { newDatabaseResult1.Single().BaseObject as Database };
+                Assert.AreEqual(1, databases.Length, "Expecting one database");
+                Assert.IsNotNull(databases[0], "Expecting a Database object.");
+                ValidateDatabaseProperties(databases[0], "testdbeditions1", "Basic", 0, "SQL_Latin1_General_CP1_CI_AS", "Basic", false);
+
+                databases = new Database[] { newDatabaseResult2.Single().BaseObject as Database };
+                Assert.AreEqual(1, databases.Length, "Expecting one database");
+                Assert.IsNotNull(databases[0], "Expecting a Database object.");
+                ValidateDatabaseProperties(databases[0], "testdbeditions2", null, -1, "SQL_Latin1_General_CP1_CI_AS", "S1", false);
+
+                databases = new Database[] { newDatabaseResult3.Single().BaseObject as Database };
+                Assert.AreEqual(1, databases.Length, "Expecting one database");
+                Assert.IsNotNull(databases[0], "Expecting a Database object.");
+                ValidateDatabaseProperties(databases[0], "testdbeditions3", "Basic", 0, "SQL_Latin1_General_CP1_CI_AS", "Basic", false);
+
+                databases = new Database[] { newDatabaseResult4.Single().BaseObject as Database };
+                Assert.AreEqual(1, databases.Length, "Expecting one database");
+                Assert.IsNotNull(databases[0], "Expecting a Database object.");
+                ValidateDatabaseProperties(databases[0], "testdbeditions4", null, -1, "SQL_Latin1_General_CP1_CI_AS", "P1", false);
+
+                databases = new Database[] { newDatabaseResult5.Single().BaseObject as Database };
+                Assert.AreEqual(1, databases.Length, "Expecting one database");
+                Assert.IsNotNull(databases[0], "Expecting a Database object.");
+                ValidateDatabaseProperties(databases[0], "testdbeditions5", null, -1, "SQL_Latin1_General_CP1_CI_AS", "S2", false);
+
+
+                // Validate Get-AzureSqlDatabase                
+                databases = getDatabaseResult.Select(r => r.BaseObject as Database).ToArray();
+                Assert.AreEqual(6, databases.Length, "Expecting 3 databases");
+                Assert.IsNotNull(databases[0], "Expecting a Database object.");
+                Assert.IsNotNull(databases[1], "Expecting a Database object.");
+                Assert.IsNotNull(databases[2], "Expecting a Database object.");
+                Assert.IsNotNull(databases[3], "Expecting a Database object.");
+                Assert.IsNotNull(databases[4], "Expecting a Database object.");
+                Assert.IsNotNull(databases[5], "Expecting a Database object.");
+                ValidateDatabaseProperties(databases[0], "master", "System", 5, "SQL_Latin1_General_CP1_CI_AS", "System", true);
+                ValidateDatabaseProperties(databases[1], "testdbeditions1", "Basic", 0, "SQL_Latin1_General_CP1_CI_AS", "Basic", false);
+                ValidateDatabaseProperties(databases[2], "testdbeditions2", "Standard", 0, "SQL_Latin1_General_CP1_CI_AS", "S2", false);
+                ValidateDatabaseProperties(databases[3], "testdbeditions3", "Standard", 1, "SQL_Latin1_General_CP1_CI_AS", "S1", false);
+                ValidateDatabaseProperties(databases[4], "testdbeditions4", "Premium", 10, "SQL_Latin1_General_CP1_CI_AS", "P1", false);
+                ValidateDatabaseProperties(databases[5], "testdbeditions5", "Standard", 2, "SQL_Latin1_General_CP1_CI_AS", "S2", false);
+
+                // Validate Get-AzureSqlDatabaseServiceObjective
+                var sos = serviceObjectives.Select(x => x.BaseObject as ServiceObjective).ToArray();
+                Assert.AreEqual(10, sos.Count());
+                ValidateServiceObjectiveProperties(sos[0], "S2", "Standard S2 resource allocation.", 1, "Standard S2 resource allocation.");
+                ValidateServiceObjectiveProperties(sos[1], "P1", "Premium P1 resource allocation.", 1, "Premium P1 resource allocation.");
+                ValidateServiceObjectiveProperties(sos[2], "P2", "Premium P2 resource allocation.", 1, "Premium P2 resource allocation.");
+                ValidateServiceObjectiveProperties(sos[3], "Basic", "Basic resource allocation.", 1, "Basic resource allocation.");
+                ValidateServiceObjectiveProperties(sos[4], "S1", "Standard S1 resource allocation.", 1, "Standard S1 resource allocation.");
+                ValidateServiceObjectiveProperties(sos[5], "P3 deprecated", "Premium P3 deprecated resource allocation.", 1, "Premium P3 deprecated resource allocation.");
+                ValidateServiceObjectiveProperties(sos[6], "P3", "Premium P3 resource allocation.", 1, "Premium P3 resource allocation.");
+                ValidateServiceObjectiveProperties(sos[7], "System", "Used for master database only.", 1, "Used for master database only.");
+                ValidateServiceObjectiveProperties(sos[8], "System Standard", "Used for master database only.", 1, "Shared resource allocation.");
+                ValidateServiceObjectiveProperties(sos[9], "Shared", "Shared resource allocation.", 1, "Shared resource allocation.");
+
+                // Validate Remove-AzureSqlDatabase
+                databases = new Database[] { removeDatabaseResult.Single().BaseObject as Database };
+                Assert.AreEqual(1, databases.Length, "Expecting no databases");
+                Assert.IsNotNull(databases[0], "Expecting a Database object.");
+                ValidateDatabaseProperties(databases[0], "master", "System", 5, "SQL_Latin1_General_CP1_CI_AS", "System", true);
+            }
+        }
+
+        private static void ValidateServiceObjectiveProperties(ServiceObjective so, string name, string description, int dimSettingsCount, params string[] desc)
+        {
+
+            Assert.AreEqual(name, so.Name);
+            Assert.AreEqual(description, so.Description);
+            Assert.IsNotNull(so.DimensionSettings, "Expecting some Dimension Setting objects.");
+            Assert.AreEqual(dimSettingsCount, so.DimensionSettings.Count(), "Expecting 1 Dimension Setting.");
+            for (int i = 0; i < dimSettingsCount; i++)
+            {
+                Assert.AreEqual(desc[i], so.DimensionSettings[i].Description);
+            }
+        }
+
+        /// <summary>
+        /// Validate the properties of a database against the expected values supplied as input.
+        /// </summary>
+        /// <param name="database">The database object to validate</param>
+        /// <param name="name">The expected name of the database</param>
+        /// <param name="edition">The expected edition of the database</param>
+        /// <param name="maxSizeGb">The expected max size of the database in GB</param>
+        /// <param name="collation">The expected Collation of the database</param>
+        /// <param name="sloName">The expected Service Objective name</param>
+        /// <param name="isSystem">Whether or not the database is expected to be a system object.</param>
+        private static void ValidateDatabaseProperties(Database database, string name, string edition, int maxSizeGb, string collation, string sloName, bool isSystem)
+        {
+            Assert.AreEqual(name, database.Name);
+            Assert.AreEqual(edition, database.Edition);
+            Assert.AreEqual(maxSizeGb, database.MaxSizeGB);
+            Assert.AreEqual(collation, database.CollationName);
+            Assert.AreEqual(sloName, database.ServiceObjective.Name);
+            Assert.AreEqual(isSystem, database.IsSystemObject);
+        }
+
         private static void VerifyGetAzureSqlDatabaseOperation(string getOperationDbName, Collection<PSObject> getDatabaseOperationByIdResult)
         {
             var operations = getDatabaseOperationByIdResult.Select(r => r.BaseObject as DatabaseOperation).ToArray();
