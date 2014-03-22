@@ -116,6 +116,15 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
             Mandatory = false,
             Position = 5,
             ValueFromPipelineByPropertyName = true,
+            HelpMessage = "The Storage Endpoint Suffix.")]
+        [ValidateNotNullOrEmpty]
+        public override string StorageEndpointSuffix { get; set; }
+
+        [Parameter(
+            ParameterSetName = SetCustomScriptExtensionByContainerBlobsParamSetName,
+            Mandatory = false,
+            Position = 6,
+            ValueFromPipelineByPropertyName = true,
             HelpMessage = "The Storage Account Key.")]
         [ValidateNotNullOrEmpty]
         public override string StorageAccountKey { get; set; }
@@ -132,29 +141,31 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
         [Parameter(
             ParameterSetName = SetCustomScriptExtensionByContainerBlobsParamSetName,
             Mandatory = false,
-            Position = 6,
+            Position = 7,
             ValueFromPipelineByPropertyName = true,
-            HelpMessage = "The Command to Execute.")]
+            HelpMessage = "The Run File to Execute in PowerShell on the VM.")]
         [Parameter(
             ParameterSetName = SetCustomScriptExtensionByUrisParamSetName,
             Mandatory = true,
             Position = 3,
             ValueFromPipelineByPropertyName = true,
-            HelpMessage = "The Command to Execute.")]
-        public override string Run { get; set; }
+            HelpMessage = "The Run File to Execute in PowerShell on the VM.")]
+        [ValidateNotNullOrEmpty]
+        [Alias("Run")]
+        public override string RunFile { get; set; }
 
         [Parameter(
             ParameterSetName = SetCustomScriptExtensionByContainerBlobsParamSetName,
             Mandatory = false,
-            Position = 7,
+            Position = 8,
             ValueFromPipelineByPropertyName = true,
-            HelpMessage = "The Argument String for the Command.")]
+            HelpMessage = "The Argument String for the Run File.")]
         [Parameter(
             ParameterSetName = SetCustomScriptExtensionByUrisParamSetName,
             Mandatory = false,
             Position = 4,
             ValueFromPipelineByPropertyName = true,
-            HelpMessage = "The Argument String for the Command.")]
+            HelpMessage = "The Argument String for the Run File.")]
         [ValidateNotNullOrEmpty]
         public override string Argument { get; set; }
 
@@ -178,15 +189,15 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
 
             if (string.Equals(this.ParameterSetName, SetCustomScriptExtensionByContainerBlobsParamSetName))
             {
-                this.StorageAccountName = this.StorageAccountName ?? GetStorageName();
-                this.StorageAccountKey = this.StorageAccountKey ?? GetStorageKey(this.StorageAccountName);
+                var sName = this.StorageAccountName ?? GetStorageName();
+                var sKey = this.StorageAccountKey ?? GetStorageKey(this.StorageAccountName);
 
                 if (this.FileName != null && this.FileName.Any())
                 {
                     this.FileUri = (from blobName in this.FileName
-                                    select GetSasUrl(this.ContainerName, blobName)).ToArray();
+                                    select GetSasUrl(sName, sKey, this.ContainerName, blobName)).ToArray();
 
-                    this.Run = string.IsNullOrEmpty(this.Run) ? this.FileName[0] : this.Run;
+                    this.RunFile = string.IsNullOrEmpty(this.RunFile) ? this.FileName[0] : this.RunFile;
                 }
             }
 
@@ -220,24 +231,22 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
             return storageKey;
         }
 
-        protected Uri GetSasUrl(string containerName, string blobName)
+        protected Uri GetSasUrl(string storageName, string storageKey, string containerName, string blobName)
         {
-            var cred = new StorageCredentials(this.StorageAccountName, this.StorageAccountKey);
-            var storageAccount = new CloudStorageAccount(cred, true);
+            var cred = new StorageCredentials(storageName, storageKey);
+            var storageAccount = string.IsNullOrEmpty(this.StorageEndpointSuffix)
+                               ? new CloudStorageAccount(cred, true)
+                               : new CloudStorageAccount(cred, this.StorageEndpointSuffix, true);
+
             var blobClient = storageAccount.CreateCloudBlobClient();
             var container = blobClient.GetContainerReference(containerName);
-
-            var blobPermissions = new BlobContainerPermissions();
-            var policyKey = Guid.NewGuid().ToString();
-            blobPermissions.SharedAccessPolicies.Add(policyKey, new SharedAccessBlobPolicy()
+            var cloudBlob = container.GetBlockBlobReference(blobName);
+            var sasToken = cloudBlob.GetSharedAccessSignature(new SharedAccessBlobPolicy()
             {
                 SharedAccessExpiryTime = DateTime.UtcNow.AddHours(24.0),
                 Permissions = SharedAccessBlobPermissions.Read
             });
 
-            container.SetPermissions(blobPermissions);
-
-            var sasToken = container.GetSharedAccessSignature(new SharedAccessBlobPolicy(), policyKey);
             var blobUri = string.Format("{0}/{1}{2}", container.Uri, blobName, sasToken);
 
             return new Uri(blobUri);
