@@ -50,7 +50,7 @@ namespace Microsoft.Azure.Commands.ResourceManager
                 string.Format(Resources.RemovingResource, Name),
                 Resources.RemoveResourceMessage,
                 Name,
-                () => ResourceClient.DeleteResource(parameters));
+                () => ResourcesClient.DeleteResource(parameters));
 
             if (PassThru)
             {

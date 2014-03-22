@@ -138,6 +138,9 @@
   <data name="FailureParsingTemplateParameterObject" xml:space="preserve">
     <value>Cannot set parameter '{0}' from TemplateParameterObject. Incompatible value '{1}'.</value>
   </data>
+  <data name="InvalidTemplateIdentity" xml:space="preserve">
+    <value>'{0}' is invalid template identity and can not be found.</value>
+  </data>
   <data name="NewResourceGroupMessage" xml:space="preserve">
     <value>Replacing resource group ...</value>
   </data>
@@ -175,7 +178,7 @@
     <value>Resource type needs to be in the ResourceProvider/type format. For example Microsoft.Web/sites.</value>
   </data>
   <data name="StorageAccountNameNeedsToBeSpecified" xml:space="preserve">
-    <value>You must specify either StorageAccountName or storage account on the subscription need to be specified.</value>
+    <value>ecause the current subscription does not have a current storage account, you must specify the StorageAccountName parameter.</value>
   </data>
   <data name="TemplateValid" xml:space="preserve">
     <value>Template is valid.</value>

@@ -17,13 +17,9 @@ using Microsoft.Azure.Management.Resources;
 using Microsoft.Azure.Management.Resources.Models;
 using Microsoft.WindowsAzure;
 using Microsoft.WindowsAzure.Commands.Utilities.Common;
-using Newtonsoft.Json;
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Management.Automation;
 using System.Text;
 
 namespace Microsoft.Azure.Commands.ResourceManager.Models
@@ -46,7 +42,7 @@ namespace Microsoft.Azure.Commands.ResourceManager.Models
         /// </summary>
         /// <param name="parameters">The create parameters</param>
         /// <returns>The created resource</returns>
-        public virtual PSResource CreateResource(CreatePSResourceParameters parameters)
+        public virtual PSResource CreatePSResource(CreatePSResourceParameters parameters)
         {
             ResourceIdentity resourceIdentity = parameters.ToResourceIdentity();
 
@@ -196,32 +192,26 @@ namespace Microsoft.Azure.Commands.ResourceManager.Models
         public virtual PSResourceGroup CreatePSResourceGroup(CreatePSResourceGroupParameters parameters)
         {
             bool createDeployment = !string.IsNullOrEmpty(parameters.GalleryTemplateName) || !string.IsNullOrEmpty(parameters.TemplateFile);
-
-            if (createDeployment)
-            {
-                ValidateStorageAccount(parameters.StorageAccountName);
-            }
-
             bool resourceExists = ResourceManagementClient.ResourceGroups.CheckExistence(parameters.ResourceGroupName).Exists;
 
             ResourceGroup resourceGroup = null;
             Action createOrUpdateResourceGroup = () =>
-                {
-                    resourceGroup = CreateResourceGroup(parameters.ResourceGroupName, parameters.Location);
+            {
+                resourceGroup = CreateResourceGroup(parameters.ResourceGroupName, parameters.Location);
 
-                    if (createDeployment)
-                    {
-                        ExecuteDeployment(parameters);
-                    }
-                };
+                if (createDeployment)
+                {
+                    ExecuteDeployment(parameters);
+                }
+            };
 
             if (resourceExists && !parameters.Force)
             {
                 parameters.ConfirmAction(parameters.Force,
-                                         Resources.ResourceGroupAlreadyExists,
-                                         Resources.NewResourceGroupMessage,
-                                         parameters.Name,
-                                         createOrUpdateResourceGroup);
+                    Resources.ResourceGroupAlreadyExists,
+                    Resources.NewResourceGroupMessage,
+                    parameters.Name,
+                    createOrUpdateResourceGroup);
                 resourceGroup = ResourceManagementClient.ResourceGroups.Get(parameters.ResourceGroupName).ResourceGroup;
             }
             else
@@ -274,8 +264,6 @@ namespace Microsoft.Azure.Commands.ResourceManager.Models
         /// <returns>The created deployment instance</returns>
         public virtual PSResourceGroupDeployment ExecuteDeployment(CreatePSResourceGroupDeploymentParameters parameters)
         {
-            RegisterResourceProviders();
-
             parameters.Name = string.IsNullOrEmpty(parameters.Name) ? Guid.NewGuid().ToString() : parameters.Name;
             BasicDeployment deployment = CreateBasicDeployment(parameters);
             List<ResourceManagementError> errors = CheckBasicDeploymentErrors(parameters.ResourceGroupName, parameters.Name, deployment);
@@ -298,66 +286,6 @@ namespace Microsoft.Azure.Commands.ResourceManager.Models
             ProvisionDeploymentStatus(parameters.ResourceGroupName, parameters.Name);
 
             return result.ToPSResourceGroupDeployment();
-        }
-
-        /// <summary>
-        /// Gets the parameters for a given template file.
-        /// </summary>
-        /// <param name="templateFilePath">The gallery template path (local or remote)</param>
-        /// <param name="templateParameterObject">Existing template parameter object</param>
-        /// <param name="templateParameterFilePath">Path to the template parameter file if present</param>
-        /// <param name="staticParameters">The existing PowerShell cmdlet parameters</param>
-        /// <returns>The template parameters</returns>
-        public virtual RuntimeDefinedParameterDictionary GetTemplateParametersFromFile(string templateFilePath, Hashtable templateParameterObject, string templateParameterFilePath, string[] staticParameters)
-        {
-            RuntimeDefinedParameterDictionary dynamicParameters = new RuntimeDefinedParameterDictionary();
-            string templateContent = null;
-
-            if (templateParameterFilePath != null)
-            {
-                templateParameterFilePath = templateParameterFilePath.Trim('"', '\'', ' ');
-            }
-
-            if (templateFilePath != null)
-            {
-                templateFilePath = templateFilePath.Trim('"', '\'', ' ');
-
-                if (Uri.IsWellFormedUriString(templateFilePath, UriKind.Absolute))
-                {
-                    templateContent = GeneralUtilities.DownloadFile(templateFilePath);
-                }
-                else if (File.Exists(templateFilePath))
-                {
-                    templateContent = File.ReadAllText(templateFilePath);
-                }
-            }
-
-            dynamicParameters = ParseTemplateAndExtractParameters(templateContent, templateParameterObject, templateParameterFilePath, staticParameters);
-            return dynamicParameters;
-        }
-
-        /// <summary>
-        /// Gets the parameters for a given gallery template.
-        /// </summary>
-        /// <param name="templateName">The gallery template name</param>
-        /// <param name="templateParameterObject">Existing template parameter object</param>
-        /// <param name="templateParameterFilePath">Path to the template parameter file if present</param>
-        /// <param name="staticParameters">The existing PowerShell cmdlet parameters</param>
-        /// <returns>The template parameters</returns>
-        public virtual RuntimeDefinedParameterDictionary GetTemplateParametersFromGallery(string templateName, Hashtable templateParameterObject, string templateParameterFilePath, string[] staticParameters)
-        {
-            RuntimeDefinedParameterDictionary dynamicParameters = new RuntimeDefinedParameterDictionary();
-            string templateContent = null;
-
-            if (templateParameterFilePath != null)
-            {
-                templateParameterFilePath = templateParameterFilePath.Trim('"', '\'', ' ');
-            }
-
-            templateContent = GeneralUtilities.DownloadFile(GetGalleryTemplateFile(templateName));
-
-            dynamicParameters = ParseTemplateAndExtractParameters(templateContent, templateParameterObject, templateParameterFilePath, staticParameters);
-            return dynamicParameters;
         }
 
         /// <summary>

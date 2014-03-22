@@ -45,7 +45,7 @@ namespace Microsoft.Azure.Commands.ResourceManager.Test
             cmdlet = new NewAzureResourceGroupDeploymentCommand()
             {
                 CommandRuntime = commandRuntimeMock.Object,
-                ResourceClient = resourcesClientMock.Object
+                ResourcesClient = resourcesClientMock.Object
             };
         }
 
@@ -94,7 +94,6 @@ namespace Microsoft.Azure.Commands.ResourceManager.Test
             cmdlet.ResourceGroupName = resourceGroupName;
             cmdlet.Name = expectedParameters.Name;
             cmdlet.TemplateFile = expectedParameters.TemplateFile;
-            cmdlet.StorageAccountName = expectedParameters.StorageAccountName;
             cmdlet.TemplateVersion = expectedParameters.TemplateVersion;
 
             cmdlet.ExecuteCmdlet();
@@ -104,7 +103,6 @@ namespace Microsoft.Azure.Commands.ResourceManager.Test
             Assert.Equal(expectedParameters.TemplateFile, actualParameters.TemplateFile);
             Assert.NotNull(actualParameters.TemplateParameterObject);
             Assert.Equal(expectedParameters.TemplateVersion, actualParameters.TemplateVersion);
-            Assert.Equal(expectedParameters.StorageAccountName, actualParameters.StorageAccountName);
 
             commandRuntimeMock.Verify(f => f.WriteObject(expected), Times.Once());
         }
@@ -154,7 +152,6 @@ namespace Microsoft.Azure.Commands.ResourceManager.Test
             cmdlet.ResourceGroupName = resourceGroupName;
             cmdlet.Name = expectedParameters.Name;
             cmdlet.GalleryTemplateName = expectedParameters.GalleryTemplateName;
-            cmdlet.StorageAccountName = expectedParameters.StorageAccountName;
             cmdlet.TemplateVersion = expectedParameters.TemplateVersion;
 
             cmdlet.ExecuteCmdlet();
@@ -164,7 +161,7 @@ namespace Microsoft.Azure.Commands.ResourceManager.Test
             Assert.Equal(expectedParameters.TemplateFile, actualParameters.TemplateFile);
             Assert.NotNull(actualParameters.TemplateParameterObject);
             Assert.Equal(expectedParameters.TemplateVersion, actualParameters.TemplateVersion);
-            Assert.Equal(expectedParameters.StorageAccountName, actualParameters.StorageAccountName);
+            Assert.Equal(null, actualParameters.StorageAccountName);
 
             commandRuntimeMock.Verify(f => f.WriteObject(expected), Times.Once());
         }

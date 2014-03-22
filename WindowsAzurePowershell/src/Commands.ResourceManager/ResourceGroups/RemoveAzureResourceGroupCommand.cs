@@ -41,7 +41,7 @@ namespace Microsoft.Azure.Commands.ResourceManager
                 string.Format(Resources.RemovingResourceGroup, Name),
                 Resources.RemoveResourceGroupMessage,
                 Name,
-                () => ResourceClient.DeleteResourceGroup(Name));
+                () => ResourcesClient.DeleteResourceGroup(Name));
 
             if (PassThru)
             {

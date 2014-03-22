@@ -12,14 +12,11 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-using System.Runtime.Serialization.Formatters;
 using Microsoft.Azure.Commands.ResourceManager.Models;
-using Microsoft.Azure.Management.Resources.Models;
 using Microsoft.WindowsAzure.Commands.Utilities.Common;
 using Moq;
 using System.Collections.Generic;
 using System.Management.Automation;
-using Newtonsoft.Json;
 using Xunit;
 
 namespace Microsoft.Azure.Commands.ResourceManager.Test
@@ -51,7 +48,7 @@ namespace Microsoft.Azure.Commands.ResourceManager.Test
             cmdlet = new SetAzureResourceCommand()
             {
                 CommandRuntime = commandRuntimeMock.Object,
-                ResourceClient = resourcesClientMock.Object
+                ResourcesClient = resourcesClientMock.Object
             };
             properties = new Dictionary<string, object>
                 {

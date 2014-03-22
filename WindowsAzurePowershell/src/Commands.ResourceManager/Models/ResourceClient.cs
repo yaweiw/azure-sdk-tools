@@ -13,24 +13,19 @@
 // ----------------------------------------------------------------------------------
 
 using Microsoft.Azure.Commands.ResourceManager.Properties;
-using Microsoft.Azure.Gallery;
 using Microsoft.Azure.Management.Resources;
 using Microsoft.Azure.Management.Resources.Models;
 using Microsoft.WindowsAzure.Commands.Utilities.Common;
 using Microsoft.WindowsAzure.Commands.Utilities.Common.Storage;
 using Microsoft.WindowsAzure.Management.Monitoring.Events;
 using Microsoft.WindowsAzure.Management.Storage;
-using Microsoft.WindowsAzure;
 using Newtonsoft.Json;
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.Management.Automation;
 using System.Runtime.Serialization.Formatters;
-using System.Security;
 using System.Threading;
 
 namespace Microsoft.Azure.Commands.ResourceManager.Models
@@ -46,7 +41,7 @@ namespace Microsoft.Azure.Commands.ResourceManager.Models
         
         public IStorageClientWrapper StorageClientWrapper { get; set; }
 
-        public IGalleryClient GalleryClient { get; set; }
+        public GalleryTemplatesClient GalleryTemplatesClient { get; set; }
 
         public IEventsClient EventsClient { get; set; }
 
@@ -62,7 +57,7 @@ namespace Microsoft.Azure.Commands.ResourceManager.Models
             : this(
                 subscription.CreateClientFromCloudServiceEndpoint<ResourceManagementClient>(),
                 new StorageClientWrapper(subscription.CreateClient<StorageManagementClient>()),
-                subscription.CreateGalleryClientFromGalleryEndpoint<GalleryClient>(),
+                new GalleryTemplatesClient(subscription),
                 subscription.CreateClientFromCloudServiceEndpoint<EventsClient>())
         {
 
@@ -73,17 +68,17 @@ namespace Microsoft.Azure.Commands.ResourceManager.Models
         /// </summary>
         /// <param name="ResourceManagementClient">The IResourceManagementClient instance</param>
         /// <param name="storageClientWrapper">The IStorageClientWrapper instance</param>
-        /// <param name="galleryClient">The IGalleryClient instance</param>
+        /// <param name="galleryTemplatesClient">The IGalleryClient instance</param>
         /// <param name="eventsClient">The IEventsClient instance</param>
         public ResourcesClient(
             IResourceManagementClient resourceManagementClient,
             IStorageClientWrapper storageClientWrapper,
-            IGalleryClient galleryClient,
+            GalleryTemplatesClient galleryTemplatesClient,
             IEventsClient eventsClient)
         {
             ResourceManagementClient = resourceManagementClient;
             StorageClientWrapper = storageClientWrapper;
-            GalleryClient = galleryClient;
+            GalleryTemplatesClient = galleryTemplatesClient;
             EventsClient = eventsClient;
         }
 
@@ -107,12 +102,6 @@ namespace Microsoft.Azure.Commands.ResourceManager.Models
             {
                 return null;
             }
-        }
-
-        private void RegisterResourceProviders()
-        {
-            ListResourceProviders().Where(p => p.RegistrationState == "NotRegistered")
-                .ForEach(p => ResourceManagementClient.Providers.Register(p.Namespace));
         }
 
         private List<Provider> ListResourceProviders()
@@ -172,7 +161,7 @@ namespace Microsoft.Azure.Commands.ResourceManager.Models
             }
             else
             {
-                templateFileUri = new Uri(GetGalleryTemplateFile(galleryTemplateName));
+                templateFileUri = new Uri(GalleryTemplatesClient.GetGalleryTemplateFile(galleryTemplateName));
             }
 
             return templateFileUri;
@@ -181,7 +170,7 @@ namespace Microsoft.Azure.Commands.ResourceManager.Models
         private string GetStorageAccountName(string storageAccountName)
         {
             string currentStorageName = null;
-            if (WindowsAzureProfile.Instance.CurrentSubscription != null)
+            if (WindowsAzureProfile.Instance != null && WindowsAzureProfile.Instance.CurrentSubscription != null)
             {
                 currentStorageName = WindowsAzureProfile.Instance.CurrentSubscription.CurrentStorageAccountName;
             }
@@ -207,72 +196,6 @@ namespace Microsoft.Azure.Commands.ResourceManager.Models
             WriteVerbose(string.Format("Create resource group '{0}' in location '{1}'", name, location));
 
             return result.ResourceGroup;
-        }
-
-        private Type GetParameterType(string resourceParameterType)
-        {
-            Debug.Assert(!string.IsNullOrEmpty(resourceParameterType));
-            const string stringType = "string";
-            const string intType = "int";
-            const string boolType = "bool";
-            const string secureStringType = "SecureString";
-            Type typeObject = typeof(object);
-
-            if (resourceParameterType.Equals(stringType, StringComparison.OrdinalIgnoreCase))
-            {
-                typeObject = typeof(string);
-            }
-            else if (resourceParameterType.Equals(intType, StringComparison.OrdinalIgnoreCase))
-            {
-                typeObject = typeof(int);
-            }
-            else if (resourceParameterType.Equals(secureStringType, StringComparison.OrdinalIgnoreCase))
-            {
-                typeObject = typeof(SecureString);
-            }
-            else if (resourceParameterType.Equals(boolType, StringComparison.OrdinalIgnoreCase))
-            {
-                typeObject = typeof(bool);
-            }
-
-            return typeObject;
-        }
-
-        private Attribute GetValidationAttribute(string allowedSetString)
-        {
-            Attribute attribute;
-            bool isRangeSet = allowedSetString.Count(c => c == '-') == 1 &&
-                              allowedSetString.Count(c => c == ',') == 0;
-            if (isRangeSet)
-            {
-                string[] ranges = allowedSetString.Trim().Split('-');
-                int minRange = 0;
-                int maxRange = int.MaxValue;
-                if (string.IsNullOrEmpty(ranges[0]) && !string.IsNullOrEmpty(ranges[1]))
-                {
-                    maxRange = int.Parse(ranges[1]);
-                }
-                else if (!string.IsNullOrEmpty(ranges[0]) && string.IsNullOrEmpty(ranges[1]))
-                {
-                    minRange = int.Parse(ranges[0]);
-                }
-                else
-                {
-                    minRange = int.Parse(ranges[0]);
-                    maxRange = int.Parse(ranges[1]);
-                }
-
-                attribute = new ValidateRangeAttribute(minRange, maxRange);
-            }
-            else
-            {
-                attribute = new ValidateSetAttribute(allowedSetString.Split(',').Select(v => v.Trim()).ToArray())
-                {
-                    IgnoreCase = true,
-                };
-            }
-
-            return attribute;
         }
         
         private void WriteVerbose(string progress)
@@ -408,39 +331,6 @@ namespace Microsoft.Azure.Commands.ResourceManager.Models
             return newOperations;
         }
 
-        internal RuntimeDefinedParameter ConstructDynamicParameter(string[] staticParameters, KeyValuePair<string, TemplateFileParameter> parameter)
-        {
-            const string duplicatedParameterSuffix = "FromTemplate";
-            string name = parameter.Key;
-            object defaultValue = parameter.Value.DefaultValue;
-
-            RuntimeDefinedParameter runtimeParameter = new RuntimeDefinedParameter()
-            {
-                Name = staticParameters.Contains(name) ? name + duplicatedParameterSuffix : name,
-                ParameterType = GetParameterType(parameter.Value.Type),
-                Value = defaultValue
-            };
-            runtimeParameter.Attributes.Add(new ParameterAttribute()
-            {
-                Mandatory = defaultValue == null ? true : false,
-                ValueFromPipelineByPropertyName = true,
-                HelpMessage = "dynamically generated template parameter"
-            });
-
-            if (!string.IsNullOrEmpty(parameter.Value.AllowedValues))
-            {
-                runtimeParameter.Attributes.Add(GetValidationAttribute(parameter.Value.AllowedValues));
-            }
-
-            if (!string.IsNullOrEmpty(parameter.Value.MinLength) &&
-                !string.IsNullOrEmpty(parameter.Value.MaxLength))
-            {
-                runtimeParameter.Attributes.Add(new ValidateLengthAttribute(int.Parse(parameter.Value.MinLength), int.Parse(parameter.Value.MaxLength)));
-            }
-
-            return runtimeParameter;
-        }
-
         private BasicDeployment CreateBasicDeployment(ValidatePSResourceGroupDeploymentParameters parameters)
         {
             BasicDeployment deployment = new BasicDeployment()
@@ -477,76 +367,6 @@ namespace Microsoft.Azure.Commands.ResourceManager.Models
             }
 
             return errors;
-        }
-
-        /// <summary>
-        /// Verify Storage account has been specified. 
-        /// </summary>
-        /// <param name="storageAccountName"></param>
-        private void ValidateStorageAccount(string storageAccountName)
-        {
-            GetStorageAccountName(storageAccountName);
-        }
-
-        private RuntimeDefinedParameterDictionary ParseTemplateAndExtractParameters(string templateContent, Hashtable templateParameterObject, string templateParameterFilePath, string[] staticParameters)
-        {
-            RuntimeDefinedParameterDictionary dynamicParameters = new RuntimeDefinedParameterDictionary();
-
-            if (!string.IsNullOrEmpty(templateContent))
-            {
-                TemplateFile templateFile = JsonConvert.DeserializeObject<TemplateFile>(templateContent);
-
-                foreach (KeyValuePair<string, TemplateFileParameter> parameter in templateFile.Parameters)
-                {
-                    RuntimeDefinedParameter dynamicParameter = ConstructDynamicParameter(staticParameters, parameter);
-                    dynamicParameters.Add(dynamicParameter.Name, dynamicParameter);
-                }
-            }
-            if (templateParameterObject != null)
-            {
-                UpdateParametersWithObject(dynamicParameters, templateParameterObject);
-            }
-            if (templateParameterFilePath != null && File.Exists(templateParameterFilePath))
-            {
-                var parametersFromFile = JsonConvert.DeserializeObject<Dictionary<string, TemplateFileParameter>>(File.ReadAllText(templateParameterFilePath));
-                UpdateParametersWithObject(dynamicParameters, new Hashtable(parametersFromFile));
-            }
-            return dynamicParameters;
-        }
-
-        private void UpdateParametersWithObject(RuntimeDefinedParameterDictionary dynamicParameters, Hashtable templateParameterObject)
-        {
-            if (templateParameterObject != null)
-            {
-                foreach (KeyValuePair<string, RuntimeDefinedParameter> dynamicParameter in dynamicParameters)
-                {
-                    try
-                    {
-                        foreach (string key in templateParameterObject.Keys)
-                        {
-                            if (key.Equals(dynamicParameter.Key, StringComparison.InvariantCultureIgnoreCase))
-                            {
-                                if (templateParameterObject[key] is TemplateFileParameter)
-                                {
-                                    dynamicParameter.Value.Value = (templateParameterObject[key] as TemplateFileParameter).Value;
-                                }
-                                else
-                                {
-                                    dynamicParameter.Value.Value = templateParameterObject[key];
-                                }
-                                dynamicParameter.Value.IsSet = true;
-                                ((ParameterAttribute)dynamicParameter.Value.Attributes[0]).Mandatory = false;
-                            }
-                        }
-                    }
-                    catch
-                    {
-                        throw new ArgumentException(string.Format(Resources.FailureParsingTemplateParameterObject,
-                                                                  dynamicParameter.Key,
-                                                                  templateParameterObject[dynamicParameter.Key]));
-                    }
-                }
-            }
         }
     }
 }

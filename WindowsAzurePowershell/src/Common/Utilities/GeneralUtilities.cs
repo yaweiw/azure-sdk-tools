@@ -604,11 +604,6 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
             return string.IsNullOrEmpty(word) ? word : word.Substring(0, 1).ToUpper() + word.Substring(1);
         }
 
-        public static IEnumerable<RuntimeDefinedParameter> GetUsedDynamicParameters(RuntimeDefinedParameterDictionary dynamicParameters, InvocationInfo MyInvocation)
-        {
-            return dynamicParameters.Values.Where(dp => MyInvocation.BoundParameters.Keys.Any(bp => bp.Equals(dp.Name)));
-        }
-
         public static object GetValue(dynamic variable, string property)
         {
             object value = null;

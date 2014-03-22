@@ -45,7 +45,7 @@ namespace Microsoft.Azure.Commands.ResourceManager
                 resourceTypes.Add(ResourcesClient.ResourceGroupTypeName);
             }
 
-            WriteObject(ResourceClient.GetLocations(resourceTypes.ToArray()), true);
+            WriteObject(ResourcesClient.GetLocations(resourceTypes.ToArray()), true);
         }
     }
 }
