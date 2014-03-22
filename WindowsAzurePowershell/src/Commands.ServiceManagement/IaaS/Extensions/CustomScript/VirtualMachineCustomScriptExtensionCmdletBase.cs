@@ -33,7 +33,8 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
         public virtual Uri[] FileUri{ get; set; }
         public virtual string StorageAccountName { get; set; }
         public virtual string StorageAccountKey { get; set; }
-        public virtual string Run { get; set; }
+        public virtual string StorageEndpointSuffix { get; set; }
+        public virtual string RunFile { get; set; }
         public virtual string Argument { get; set; }
 
         public VirtualMachineCustomScriptExtensionCmdletBase()
@@ -44,14 +45,17 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
 
         protected string GetPublicConfiguration()
         {
-            const string SpaceCharStr = " ";
-            const string CommandStr = "powershell -ExecutionPolicy Unrestricted -file ";
+            const string poshCmdFormatStr = "powershell {0} -file {1} {2}";
+            const string defaultPolicyStr = "Unrestricted";
+            const string policyFormatStr = "-ExecutionPolicy {0}";
+
+            string policyStr = string.Format(policyFormatStr, defaultPolicyStr);
 
             return JsonUtilities.TryFormatJson(JsonConvert.SerializeObject(
                new PublicSettings
                {
                    fileUris = this.FileUri,
-                   commandToExecute = string.Concat(CommandStr, this.Run, SpaceCharStr, this.Argument).Trim()
+                   commandToExecute = string.Format(poshCmdFormatStr, policyStr, this.RunFile, this.Argument)
                }));
         }
 
