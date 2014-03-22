@@ -261,8 +261,8 @@
       <SubType>Designer</SubType>
     </Content>
     <Content Include="Microsoft.Azure.Commands.ResourceManager.format.ps1xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <SubType>Designer</SubType>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="AzureResourceManager.psd1">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
