@@ -13,8 +13,6 @@
 // limitations under the License.
 //
 
-using Ionic.Zip;
-
 namespace Microsoft.WindowsAzure.Commands.ScenarioTest.Common
 {
     using System.IO.Packaging;
@@ -209,14 +207,31 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.Common
         /// Extract the zip file to the current directory
         /// </summary>
         /// <param name="zipFilePath"></param>
-        /// <param name="directory"></param>
-        private static void ExtractZipFile(string zipFilePath, string directory)
+        /// <param name="outputDir"></param>
+        private static void ExtractZipFile(string zipFilePath, string outputDir)
         {
-            using (ZipFile zip = ZipFile.Read(zipFilePath))
+            using (Package package = Package.Open(zipFilePath, FileMode.Open, FileAccess.Read))
             {
-                foreach (ZipEntry e in zip)
+                if (!Directory.Exists(outputDir))
                 {
-                    e.Extract(directory, ExtractExistingFileAction.OverwriteSilently);
+                    Directory.CreateDirectory(outputDir);
+                }
+                foreach (PackagePart part in package.GetParts())
+                {
+                    string target = Path.Combine(outputDir, part.Uri.OriginalString.Replace("/", "\\").Trim(new[] { '\\' }));
+                    string parentDirectory = Path.GetDirectoryName(target);
+                    Directory.CreateDirectory(parentDirectory);
+
+                    using (Stream source = part.GetStream(FileMode.Open, FileAccess.Read))
+                    using (Stream destination = File.OpenWrite(target))
+                    {
+                        byte[] buffer = new byte[0x1000];
+                        int read;
+                        while ((read = source.Read(buffer, 0, buffer.Length)) > 0)
+                        {
+                            destination.Write(buffer, 0, read);
+                        }
+                    }
                 }
             }
         }
