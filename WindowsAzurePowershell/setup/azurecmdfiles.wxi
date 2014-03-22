@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+<Include xmlns="http://schemas.microsoft.com/wix/2006/wi">
     <Fragment>
         <DirectoryRef Id="PowerShellFolder">
             <Directory Id="dir14C3CF846582F2E07E46B9550CE89EC7" Name="AzureResourceManager">
@@ -9567,4 +9567,4 @@
             <ComponentRef Id="cmpA50A5268A2A18761C39812B653271420" />
         </ComponentGroup>
     </Fragment>
-</Wix>
+</Include>
