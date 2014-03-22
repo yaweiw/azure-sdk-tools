@@ -220,19 +220,20 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Services.Server
             SqlManagementClient sqlManagementClient = this.subscription.CreateClient<SqlManagementClient>();
             this.AddTracingHeaders(sqlManagementClient);
 
+            DatabaseCreateParameters parameters = new DatabaseCreateParameters()
+            {
+                Name = databaseName,
+                Edition = databaseEdition != DatabaseEdition.None ?
+                    databaseEdition.ToString() : null,
+                CollationName = databaseCollation ?? string.Empty,
+                MaximumDatabaseSizeInGB = databaseMaxSizeInGB ?? null,
+                ServiceObjectiveId = serviceObjective != null ? serviceObjective.Id.ToString() : null,
+            };
+
             // Create the database
             DatabaseCreateResponse response = sqlManagementClient.Databases.Create(
                 this.serverName,
-                new DatabaseCreateParameters()
-                {
-                    Name = databaseName,
-                    Edition = databaseEdition != DatabaseEdition.None ?
-                        databaseEdition.ToString() : DatabaseEdition.Web.ToString(),
-                    CollationName = databaseCollation ?? string.Empty,
-                    MaximumDatabaseSizeInGB = databaseMaxSizeInGB ??
-                        (databaseEdition == DatabaseEdition.Business || databaseEdition == DatabaseEdition.Premium ? 10 : 1),
-                    ServiceObjectiveId = serviceObjective != null ? serviceObjective.Id.ToString() : null,
-                });
+                parameters);
 
             // Construct the resulting Database object
             Database database = CreateDatabaseFromResponse(response);
