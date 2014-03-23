@@ -243,6 +243,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
             var cloudBlob = container.GetBlockBlobReference(blobName);
             var sasToken = cloudBlob.GetSharedAccessSignature(new SharedAccessBlobPolicy()
             {
+                SharedAccessStartTime = DateTime.UtcNow.AddHours(-1.0),
                 SharedAccessExpiryTime = DateTime.UtcNow.AddHours(24.0),
                 Permissions = SharedAccessBlobPermissions.Read
             });
