@@ -30,7 +30,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
 
         public virtual string ContainerName { get; set; }
         public virtual string[] FileName { get; set; }
-        public virtual Uri[] FileUri{ get; set; }
+        public virtual string[] FileUri{ get; set; }
         public virtual string StorageAccountName { get; set; }
         public virtual string StorageAccountKey { get; set; }
         public virtual string StorageEndpointSuffix { get; set; }
