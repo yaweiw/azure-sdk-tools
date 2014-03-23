@@ -34,7 +34,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
         public virtual string StorageAccountName { get; set; }
         public virtual string StorageAccountKey { get; set; }
         public virtual string StorageEndpointSuffix { get; set; }
-        public virtual string RunFile { get; set; }
+        public virtual string Run { get; set; }
         public virtual string Argument { get; set; }
 
         public VirtualMachineCustomScriptExtensionCmdletBase()
@@ -55,7 +55,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
                new PublicSettings
                {
                    fileUris = this.FileUri,
-                   commandToExecute = string.Format(poshCmdFormatStr, policyStr, this.RunFile, this.Argument)
+                   commandToExecute = string.Format(poshCmdFormatStr, policyStr, this.Run, this.Argument)
                }));
         }
 
