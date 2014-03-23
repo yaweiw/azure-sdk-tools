@@ -136,7 +136,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
             ValueFromPipelineByPropertyName = true,
             HelpMessage = "The File URIs.")]
         [ValidateNotNullOrEmpty]
-        public override Uri[] FileUri { get; set; }
+        public override string[] FileUri { get; set; }
 
         [Parameter(
             ParameterSetName = SetCustomScriptExtensionByContainerBlobsParamSetName,
@@ -195,7 +195,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
                 if (this.FileName != null && this.FileName.Any())
                 {
                     this.FileUri = (from blobName in this.FileName
-                                    select GetSasUrl(sName, sKey, this.ContainerName, blobName)).ToArray();
+                                    select GetSasUrlStr(sName, sKey, this.ContainerName, blobName)).ToArray();
 
                     this.RunFile = string.IsNullOrEmpty(this.RunFile) ? this.FileName[0] : this.RunFile;
                 }
@@ -231,7 +231,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
             return storageKey;
         }
 
-        protected Uri GetSasUrl(string storageName, string storageKey, string containerName, string blobName)
+        protected string GetSasUrlStr(string storageName, string storageKey, string containerName, string blobName)
         {
             var cred = new StorageCredentials(storageName, storageKey);
             var storageAccount = string.IsNullOrEmpty(this.StorageEndpointSuffix)
@@ -241,16 +241,19 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
             var blobClient = storageAccount.CreateCloudBlobClient();
             var container = blobClient.GetContainerReference(containerName);
             var cloudBlob = container.GetBlockBlobReference(blobName);
-            var sasToken = cloudBlob.GetSharedAccessSignature(new SharedAccessBlobPolicy()
-            {
-                SharedAccessStartTime = DateTime.UtcNow.AddHours(-1.0),
-                SharedAccessExpiryTime = DateTime.UtcNow.AddHours(24.0),
-                Permissions = SharedAccessBlobPermissions.Read
-            });
+            var sasToken = cloudBlob.GetSharedAccessSignature(
+                new SharedAccessBlobPolicy()
+                {
+                    SharedAccessExpiryTime = DateTime.UtcNow.AddHours(24.0),
+                    Permissions = SharedAccessBlobPermissions.Read
+                });
 
-            var blobUri = string.Format("{0}/{1}{2}", container.Uri, blobName, sasToken);
-
-            return new Uri(blobUri);
+            // Try not to use a Uri object in order to keep the following 
+            // special characters in the SAS signature section:
+            //     '+'   ->   '%2B'
+            //     '/'   ->   '%2F'
+            //     '='   ->   '%3D'
+            return cloudBlob.Uri + sasToken;
         }
     }
 }

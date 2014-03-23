@@ -18,7 +18,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
 
     public class PublicSettings
     {
-        public Uri[] fileUris;
+        public string[] fileUris;
         public string commandToExecute;
     }
 }
