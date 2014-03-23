@@ -17,10 +17,11 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
     using System;
     using System.Linq;
     using System.Management.Automation;
+    using Model;
+    using Properties;
     using Storage;
     using Storage.Auth;
     using Storage.Blob;
-    using Model;
 
     [Cmdlet(
         VerbsCommon.Set,
@@ -151,8 +152,8 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
             ValueFromPipelineByPropertyName = true,
             HelpMessage = "The Run File to Execute in PowerShell on the VM.")]
         [ValidateNotNullOrEmpty]
-        [Alias("Run")]
-        public override string RunFile { get; set; }
+        [Alias("RunFile", "Command")]
+        public override string Run { get; set; }
 
         [Parameter(
             ParameterSetName = SetCustomScriptExtensionByContainerBlobsParamSetName,
@@ -197,7 +198,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
                     this.FileUri = (from blobName in this.FileName
                                     select GetSasUrlStr(sName, sKey, this.ContainerName, blobName)).ToArray();
 
-                    this.RunFile = string.IsNullOrEmpty(this.RunFile) ? this.FileName[0] : this.RunFile;
+                    this.Run = string.IsNullOrEmpty(this.Run) ? this.FileName[0] : this.Run;
                 }
             }
 
