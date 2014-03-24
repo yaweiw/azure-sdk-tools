@@ -12,15 +12,16 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Commands.Test.Utilities.HDInsight.Simulators
+namespace Microsoft.WindowsAzure.Commands.Test.Utilities.Common
 {
     using System;
     using Commands.Utilities.Common.Authentication;
 
-    internal class FakeAccessToken : IAccessToken
+    public class FakeAccessToken : IAccessToken
     {
         public void AuthorizeRequest(Action<string, string> authTokenSetter)
         {
+            authTokenSetter("Bearer", AccessToken);
         }
 
         public string AccessToken { get; internal set; }

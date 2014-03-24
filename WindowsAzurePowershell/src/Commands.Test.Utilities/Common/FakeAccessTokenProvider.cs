@@ -12,21 +12,26 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Commands.Test.Utilities.HDInsight.Simulators
+namespace Microsoft.WindowsAzure.Commands.Test.Utilities.Common
 {
     using Commands.Utilities.Common;
     using Commands.Utilities.Common.Authentication;
 
-    internal class FakeAccessTokenProvider : ITokenProvider
+    public class FakeAccessTokenProvider : ITokenProvider
     {
-        private IAccessToken accessToken;
+        private readonly IAccessToken accessToken;
 
-        internal FakeAccessTokenProvider(string token)
+        public FakeAccessTokenProvider(string token)
+            : this(token, "user@live.com")
+        { }
+
+        public FakeAccessTokenProvider(string token, string userId)
         {
             this.accessToken = new FakeAccessToken()
-                {
-                    AccessToken = token
-                };
+            {
+                AccessToken = token,
+                UserId = userId
+            };
         }
 
         public IAccessToken GetCachedToken(WindowsAzureSubscription subscription, string userId)
