@@ -249,28 +249,23 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
         /// <param name="credentials">The subscription credentials</param>
         private void RegisterResourceManagerProviders<T>(SubscriptionCloudCredentials credentials) where T : ServiceClient<T>
         {
-            List<string> requiredProviders = RequiredResourceLookup.RequiredProvidersForResourceManager<T>().ToList();
+            List<string> requiredProviders = RequiredResourceLookup.RequiredProvidersForResourceManager<T>()
+                .Where(p => !RegisteredResourceProviders.Contains(p)).ToList();
             if (requiredProviders.Count > 0)
             {
                 using (IResourceManagementClient client = new ResourceManagementClient(credentials, ResourceManagerEndpoint))
                 {
-                    try
+                    foreach (string provider in requiredProviders)
                     {
-                        List<Provider> providers = GetProviders(client);
-
-                        List<string> unregisteredProviders = providers.Where(p => p.RegistrationState
-                            .Equals(ProviderRegistrationState.NotRegistered, StringComparison.OrdinalIgnoreCase))
-                            .Select(p => p.Namespace).ToList();
-                        List<string> toRegister = requiredProviders.Intersect(unregisteredProviders).Distinct().ToList();
-
-                        foreach (string provider in toRegister)
+                        try
                         {
                             client.Providers.Register(provider);
+                            RegisteredResourceProviders.Add(provider);
                         }
-                    }
-                    catch
-                    {
-                        // Ignore this as the user may not have access to Sparta endpoint or the provider is already registered
+                        catch
+                        {
+                            // Ignore this as the user may not have access to Sparta endpoint or the provider is already registered
+                        }
                     }
                 }
             }
