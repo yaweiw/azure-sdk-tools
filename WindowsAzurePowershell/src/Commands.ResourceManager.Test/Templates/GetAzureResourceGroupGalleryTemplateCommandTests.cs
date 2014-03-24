@@ -48,7 +48,7 @@ namespace Microsoft.Azure.Commands.ResourceManager.Test.Resources
             FilterGalleryTemplatesOptions options = new FilterGalleryTemplatesOptions()
             {
                 Category = "category",
-                Name = "hobba",
+                Identity = "hobba",
                 Publisher = "Microsoft"
             };
             FilterGalleryTemplatesOptions actual = new FilterGalleryTemplatesOptions();
@@ -70,7 +70,7 @@ namespace Microsoft.Azure.Commands.ResourceManager.Test.Resources
                 .Callback((FilterGalleryTemplatesOptions o) => actual = o);
 
             cmdlet.Category = options.Category;
-            cmdlet.Name = options.Name;
+            cmdlet.Identity = options.Identity;
             cmdlet.Publisher = options.Publisher;
 
             cmdlet.ExecuteCmdlet();

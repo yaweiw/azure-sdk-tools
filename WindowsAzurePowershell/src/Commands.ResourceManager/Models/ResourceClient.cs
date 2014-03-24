@@ -338,7 +338,7 @@ namespace Microsoft.Azure.Commands.ResourceManager.Models
                 Mode = DeploymentMode.Incremental,
                 TemplateLink = new TemplateLink()
                 {
-                    Uri = GetTemplateUri(parameters.TemplateFile, parameters.GalleryTemplateName, parameters.StorageAccountName),
+                    Uri = GetTemplateUri(parameters.TemplateFile, parameters.GalleryTemplateIdentity, parameters.StorageAccountName),
                     ContentVersion = parameters.TemplateVersion
                 },
                 Parameters = GetDeploymentParameters(parameters.TemplateParameterObject)

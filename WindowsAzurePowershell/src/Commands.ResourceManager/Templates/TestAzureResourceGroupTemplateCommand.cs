@@ -34,11 +34,11 @@ namespace Microsoft.Azure.Commands.ResourceManager.ResourceGroupDeployments
             ValidatePSResourceGroupDeploymentParameters parameters = new ValidatePSResourceGroupDeploymentParameters()
             {
                 ResourceGroupName = ResourceGroupName,
-                GalleryTemplateName = GalleryTemplateName,
+                GalleryTemplateIdentity = GalleryTemplateIdentity,
                 TemplateFile = this.TryResolvePath(TemplateFile),
                 TemplateParameterObject = GetTemplateParameterObject(TemplateParameterObject),
                 TemplateVersion = TemplateVersion,
-                StorageAccountName = GetStorageAccountName(),
+                StorageAccountName = StorageAccountName
             };
 
             WriteObject(ResourcesClient.ValidatePSResourceGroupDeployment(parameters));
