@@ -212,7 +212,7 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Test.UnitTests.Database.Cm
                 // created as a task.
 
                 //string getOperationDbName = "testdbcertGetOperationDbName_" + Guid.NewGuid().ToString();
-                string getOperationDbName = "testdbcertGetOperationDbName_99505377-c526-48f4-8c73-271dc9dc31fa";
+                string getOperationDbName = "testdbcertGetOperationDbName_b481bd84-a534-4efe-9c21-5127e1a5eba1";
                 Collection<PSObject> newOperationDbResult = MockServerHelper.ExecuteWithMock(
                     testSession,
                     MockHttpServer.DefaultHttpsServerPrefixUri,
@@ -330,7 +330,7 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Test.UnitTests.Database.Cm
                 Assert.IsNotNull(databases[1], "Expecting a Database object.");
                 Assert.IsNotNull(databases[2], "Expecting a Database object.");
                 Assert.AreEqual("master", databases[0].Name);
-                Assert.AreEqual("Web", databases[0].Edition);
+                Assert.AreEqual("System", databases[0].Edition);
                 Assert.AreEqual(5, databases[0].MaxSizeGB);
                 Assert.AreEqual("SQL_Latin1_General_CP1_CI_AS", databases[0].CollationName);
                 Assert.AreEqual(true, databases[0].IsSystemObject);
@@ -401,7 +401,7 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Test.UnitTests.Database.Cm
                 Assert.AreEqual(1, databases.Length, "Expecting no databases");
                 Assert.IsNotNull(databases[0], "Expecting a Database object.");
                 Assert.AreEqual("master", databases[0].Name);
-                Assert.AreEqual("Web", databases[0].Edition);
+                Assert.AreEqual("System", databases[0].Edition);
                 Assert.AreEqual(5, databases[0].MaxSizeGB);
                 Assert.AreEqual("SQL_Latin1_General_CP1_CI_AS", databases[0].CollationName);
             }
