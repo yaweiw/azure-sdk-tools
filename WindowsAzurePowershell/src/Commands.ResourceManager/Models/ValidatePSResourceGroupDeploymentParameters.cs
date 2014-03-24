@@ -20,7 +20,7 @@ namespace Microsoft.Azure.Commands.ResourceManager.Models
     {
         public string ResourceGroupName { get; set; }
 
-        public string GalleryTemplateName { get; set; }
+        public string GalleryTemplateIdentity { get; set; }
 
         public string TemplateFile { get; set; }
 

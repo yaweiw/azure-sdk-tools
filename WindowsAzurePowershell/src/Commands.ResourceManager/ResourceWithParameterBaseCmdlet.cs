@@ -33,8 +33,12 @@ namespace Microsoft.Azure.Commands.ResourceManager
         protected const string GalleryTemplateParameterFileParameterSetName = "Deployment via Gallery and template parameters file";
         protected const string TemplateFileParameterObjectParameterSetName = "Deployment via template file and template parameters object";
         protected const string TemplateFileParameterFileParameterSetName = "Deployment via template file and template parameters file";
+        protected const string TemplateUriParameterObjectParameterSetName = "Deployment via template uri and template parameters object";
+        protected const string TemplateUriParameterFileParameterSetName = "Deployment via template uri and template parameters file";
         protected const string ParameterlessTemplateFileParameterSetName = "Deployment via template file without parameters";
         protected const string ParameterlessGalleryTemplateParameterSetName = "Deployment via Gallery without parameters";
+        protected const string ParameterlessTemplateUriParameterSetName = "Deployment via template uri without parameters";
+        
         protected RuntimeDefinedParameterDictionary dynamicParameters;
 
         private string galleryTemplateName;
@@ -51,11 +55,15 @@ namespace Microsoft.Azure.Commands.ResourceManager
             Mandatory = true, ValueFromPipelineByPropertyName = true, HelpMessage = "A hash table which represents the parameters.")]
         [Parameter(ParameterSetName = TemplateFileParameterObjectParameterSetName,
             Mandatory = true, ValueFromPipelineByPropertyName = true, HelpMessage = "A hash table which represents the parameters.")]
+        [Parameter(ParameterSetName = TemplateUriParameterObjectParameterSetName,
+            Mandatory = true, ValueFromPipelineByPropertyName = true, HelpMessage = "A hash table which represents the parameters.")]
         public Hashtable TemplateParameterObject { get; set; }
 
         [Parameter(ParameterSetName = GalleryTemplateParameterFileParameterSetName,
             Mandatory = true, ValueFromPipelineByPropertyName = true, HelpMessage = "A file that has the template parameters.")]
         [Parameter(ParameterSetName = TemplateFileParameterFileParameterSetName,
+            Mandatory = true, ValueFromPipelineByPropertyName = true, HelpMessage = "A file that has the template parameters.")]
+        [Parameter(ParameterSetName = TemplateUriParameterFileParameterSetName,
             Mandatory = true, ValueFromPipelineByPropertyName = true, HelpMessage = "A file that has the template parameters.")]
         [ValidateNotNullOrEmpty]
         public string TemplateParameterFile { get; set; }
@@ -67,16 +75,34 @@ namespace Microsoft.Azure.Commands.ResourceManager
         [Parameter(ParameterSetName = ParameterlessGalleryTemplateParameterSetName,
             Mandatory = true, ValueFromPipelineByPropertyName = true, HelpMessage = "Name of the template in the gallery.")]
         [ValidateNotNullOrEmpty]
-        public string GalleryTemplateName { get; set; }
+        public string GalleryTemplateIdentity { get; set; }
 
         [Parameter(ParameterSetName = TemplateFileParameterObjectParameterSetName,
-            Mandatory = true, ValueFromPipelineByPropertyName = true, HelpMessage = "Path to the template file, local or remote.")]
+            Mandatory = true, ValueFromPipelineByPropertyName = true, HelpMessage = "Local path to the template file.")]
         [Parameter(ParameterSetName = TemplateFileParameterFileParameterSetName,
-            Mandatory = true, ValueFromPipelineByPropertyName = true, HelpMessage = "Path to the template file, local or remote.")]
+            Mandatory = true, ValueFromPipelineByPropertyName = true, HelpMessage = "Local path to the template file.")]
         [Parameter(ParameterSetName = ParameterlessTemplateFileParameterSetName,
-            Mandatory = true, ValueFromPipelineByPropertyName = true, HelpMessage = "Name of the template in the gallery.")]
+            Mandatory = true, ValueFromPipelineByPropertyName = true, HelpMessage = "Local path to the template file.")]
         [ValidateNotNullOrEmpty]
         public string TemplateFile { get; set; }
+
+        [Parameter(ParameterSetName = TemplateUriParameterObjectParameterSetName,
+            Mandatory = true, ValueFromPipelineByPropertyName = true, HelpMessage = "Uri to the template file.")]
+        [Parameter(ParameterSetName = TemplateUriParameterFileParameterSetName,
+            Mandatory = true, ValueFromPipelineByPropertyName = true, HelpMessage = "Uri to the template file.")]
+        [Parameter(ParameterSetName = ParameterlessTemplateUriParameterSetName,
+            Mandatory = true, ValueFromPipelineByPropertyName = true, HelpMessage = "Uri to the template file.")]
+        [ValidateNotNullOrEmpty]
+        public string TemplateUri { get; set; }
+
+        [Parameter(ParameterSetName = TemplateFileParameterObjectParameterSetName,
+            Mandatory = true, ValueFromPipelineByPropertyName = true, HelpMessage = "The storage account which the cmdlet to upload the template file to. If not specified, the current storage account of the subscription will be used.")]
+        [Parameter(ParameterSetName = TemplateFileParameterFileParameterSetName,
+            Mandatory = true, ValueFromPipelineByPropertyName = true, HelpMessage = "The storage account which the cmdlet to upload the template file to. If not specified, the current storage account of the subscription will be used.")]
+        [Parameter(ParameterSetName = ParameterlessTemplateFileParameterSetName,
+            Mandatory = true, ValueFromPipelineByPropertyName = true, HelpMessage = "The storage account which the cmdlet to upload the template file to. If not specified, the current storage account of the subscription will be used.")]
+        [ValidateNotNullOrEmpty]
+        public string StorageAccountName { get; set; }
 
         [Parameter(Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "The expect content version of the template.")]
         [ValidateNotNullOrEmpty]
@@ -84,21 +110,21 @@ namespace Microsoft.Azure.Commands.ResourceManager
 
         public object GetDynamicParameters()
         {
-            if (!string.IsNullOrEmpty(GalleryTemplateName) &&
-                !GalleryTemplateName.Equals(galleryTemplateName, StringComparison.OrdinalIgnoreCase))
+            if (!string.IsNullOrEmpty(GalleryTemplateIdentity) &&
+                !GalleryTemplateIdentity.Equals(galleryTemplateName, StringComparison.OrdinalIgnoreCase))
             {
-                galleryTemplateName = GalleryTemplateName;
+                galleryTemplateName = GalleryTemplateIdentity;
                 try
                 {
                     dynamicParameters = GalleryTemplatesClient.GetTemplateParametersFromGallery(
-                        GalleryTemplateName,
+                        GalleryTemplateIdentity,
                         TemplateParameterObject,
                         this.TryResolvePath(TemplateParameterFile),
                         MyInvocation.MyCommand.Parameters.Keys.ToArray());
                 }
                 catch (CloudException)
                 {
-                    throw new ArgumentException(string.Format(Resources.UnableToFindGallery, GalleryTemplateName));
+                    throw new ArgumentException(string.Format(Resources.UnableToFindGallery, GalleryTemplateIdentity));
                 }
             }
             else if (!string.IsNullOrEmpty(TemplateFile) &&
@@ -142,20 +168,6 @@ namespace Microsoft.Azure.Commands.ResourceManager
             }
 
             return templateParameterObject;
-        }
-
-        protected string GetStorageAccountName()
-        {
-            string storageAccountName = null;
-            IEnumerable<RuntimeDefinedParameter> parameters = PowerShellUtilities.GetUsedDynamicParameters(dynamicParameters, MyInvocation);
-            RuntimeDefinedParameter parameter = parameters.FirstOrDefault(dp => dp.Name.Equals(GalleryTemplatesClient.StorageAccountParameterName));
-
-            if (parameter != null && parameter.Value != null)
-            {
-                storageAccountName = parameter.Value.ToString();
-            }
-
-            return storageAccountName;
         }
     }
 }

@@ -84,7 +84,7 @@ namespace Microsoft.Azure.Commands.ResourceManager.Test
             Assert.Equal(expectedParameters.ResourceGroupName, actualParameters.ResourceGroupName);
             Assert.Equal(expectedParameters.Location, actualParameters.Location);
             Assert.Equal(expectedParameters.Name, actualParameters.Name);
-            Assert.Equal(expectedParameters.GalleryTemplateName, actualParameters.GalleryTemplateName);
+            Assert.Equal(expectedParameters.GalleryTemplateIdentity, actualParameters.GalleryTemplateIdentity);
             Assert.Equal(expectedParameters.TemplateFile, actualParameters.TemplateFile);
             Assert.NotNull(actualParameters.TemplateParameterObject);
             Assert.Equal(expectedParameters.TemplateVersion, actualParameters.TemplateVersion);
@@ -100,7 +100,7 @@ namespace Microsoft.Azure.Commands.ResourceManager.Test
             {
                 ResourceGroupName = resourceGroupName,
                 Location = resourceGroupLocation,
-                GalleryTemplateName = "sqlServer",
+                GalleryTemplateIdentity = "sqlServer",
                 Name = deploymentName,
                 StorageAccountName = storageAccountName,
                 TemplateVersion = "1.0"
@@ -118,7 +118,7 @@ namespace Microsoft.Azure.Commands.ResourceManager.Test
 
             cmdlet.Name = expectedParameters.ResourceGroupName;
             cmdlet.Location = expectedParameters.Location;
-            cmdlet.GalleryTemplateName = expectedParameters.GalleryTemplateName;
+            cmdlet.GalleryTemplateIdentity = expectedParameters.GalleryTemplateIdentity;
             cmdlet.DeploymentName = expectedParameters.Name;
             cmdlet.TemplateVersion = expectedParameters.TemplateVersion;
 
@@ -127,7 +127,7 @@ namespace Microsoft.Azure.Commands.ResourceManager.Test
             Assert.Equal(expectedParameters.ResourceGroupName, actualParameters.ResourceGroupName);
             Assert.Equal(expectedParameters.Location, actualParameters.Location);
             Assert.Equal(expectedParameters.Name, actualParameters.Name);
-            Assert.Equal(expectedParameters.GalleryTemplateName, actualParameters.GalleryTemplateName);
+            Assert.Equal(expectedParameters.GalleryTemplateIdentity, actualParameters.GalleryTemplateIdentity);
             Assert.Equal(expectedParameters.TemplateFile, actualParameters.TemplateFile);
             Assert.NotNull(actualParameters.TemplateParameterObject);
             Assert.Equal(expectedParameters.TemplateVersion, actualParameters.TemplateVersion);

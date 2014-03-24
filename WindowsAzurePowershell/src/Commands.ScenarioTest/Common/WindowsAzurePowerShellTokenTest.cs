@@ -13,6 +13,8 @@
 // ----------------------------------------------------------------------------------
 
 
+using Microsoft.WindowsAzure.Commands.Test.Utilities.Common;
+
 namespace Microsoft.WindowsAzure.Commands.ScenarioTest.Common
 {
     using System;
@@ -23,14 +25,8 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.Common
     using Microsoft.WindowsAzure.Commands.Utilities.Common;
 
     [TestClass]
-    public class WindowsAzurePowerShellTest : PowerShellTest
+    public class WindowsAzurePowerShellTokenTest : PowerShellTest
     {
-        protected TestCredentialHelper credentials;
-        
-        protected string credentialFile;
-
-        protected string profileFile;
-        
         protected List<HttpMockServer> mockServers;
 
         private void OnClientCreated(object sender, ClientCreatedArgs e)
@@ -40,12 +36,22 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.Common
             mockServers.Add(mockServer);
         }
 
-        public WindowsAzurePowerShellTest(params string[] modules)
+        public WindowsAzurePowerShellTokenTest(params string[] modules)
             : base(modules)
         {
-            this.credentials = new TestCredentialHelper(Environment.CurrentDirectory);
-            this.credentialFile = TestCredentialHelper.DefaultCredentialFile;
-            this.profileFile = TestCredentialHelper.WindowsAzureProfileFile;
+            RDFETestEnvironmentFactory rdfeTestEnvironmentFactory = new RDFETestEnvironmentFactory();
+            TestEnvironment rdfeEnvironment = rdfeTestEnvironmentFactory.GetTestEnvironment();
+            CSMTestEnvironmentFactory csmTestEnvironmentFactory = new CSMTestEnvironmentFactory();
+            TestEnvironment csmEnvironment = csmTestEnvironmentFactory.GetTestEnvironment();
+            string jwtToken = ((TokenCloudCredentials)csmEnvironment.Credentials).Token;
+
+            WindowsAzureProfile.Instance.TokenProvider = new FakeAccessTokenProvider(jwtToken, csmEnvironment.UserName);
+            WindowsAzureProfile.Instance.CurrentEnvironment.ActiveDirectoryEndpoint =
+                csmEnvironment.GalleryUri.AbsoluteUri;
+            WindowsAzureProfile.Instance.CurrentEnvironment.ResourceManagerEndpoint =
+                csmEnvironment.BaseUri.AbsoluteUri;
+            WindowsAzureProfile.Instance.CurrentEnvironment.ServiceEndpoint =
+                rdfeEnvironment.BaseUri.AbsoluteUri;
         }
 
         [TestInitialize]
@@ -54,12 +60,23 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.Common
             base.TestSetup();
             this.mockServers = new List<HttpMockServer>();
             WindowsAzureSubscription.OnClientCreated += OnClientCreated;
-            this.credentials.SetupPowerShellEnvironment(powershell, this.credentialFile, this.profileFile);
             System.Net.ServicePointManager.ServerCertificateValidationCallback += (se, cert, chain, sslerror) =>
             {
                 return true;
             };
-
+            RunPowerShellTest("Add-AzureAccount");
+            foreach (var subscription in WindowsAzureProfile.Instance.Subscriptions)
+            {
+                subscription.TokenProvider = WindowsAzureProfile.Instance.TokenProvider;
+                if (subscription.ActiveDirectoryUserId == null)
+                {
+                    subscription.IsDefault = false;
+                }
+                else
+                {
+                    subscription.IsDefault = true;
+                }
+            }
         }
 
         [TestCleanup]

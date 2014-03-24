@@ -39,11 +39,11 @@ namespace Microsoft.Azure.Commands.ResourceManager
             {
                 ResourceGroupName = ResourceGroupName,
                 Name = Name,
-                GalleryTemplateName = GalleryTemplateName,
+                GalleryTemplateIdentity = GalleryTemplateIdentity,
                 TemplateFile = this.TryResolvePath(TemplateFile),
                 TemplateParameterObject = GetTemplateParameterObject(TemplateParameterObject),
                 TemplateVersion = TemplateVersion,
-                StorageAccountName = GetStorageAccountName(),
+                StorageAccountName = StorageAccountName
             };
 
             WriteObject(ResourcesClient.ExecuteDeployment(parameters));

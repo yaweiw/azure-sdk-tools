@@ -41,7 +41,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
         /// <summary>
         /// The service management CSM endpoint.
         /// </summary>
-        public string CloudServiceEndpoint { get; set; }
+        public string ResourceManagerEndpoint { get; set; }
 
         /// <summary>
         /// Url to the Windows Azure management portal.
@@ -198,7 +198,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
                         SubscriptionId = subscription.SubscriptionId,
                         SubscriptionName = subscription.SubscriptionName,
                         ServiceEndpoint = !string.IsNullOrEmpty(ServiceEndpoint) ? new Uri(ServiceEndpoint) : null,
-                        CloudServiceEndpoint = !string.IsNullOrEmpty(CloudServiceEndpoint) ? new Uri(CloudServiceEndpoint) : null,
+                        ResourceManagerEndpoint = !string.IsNullOrEmpty(ResourceManagerEndpoint) ? new Uri(ResourceManagerEndpoint) : null,
                         TokenProvider = tokenProvider,
                         GalleryEndpoint = !string.IsNullOrEmpty(GalleryEndpoint) ? new Uri(GalleryEndpoint) : null
                     };
@@ -234,7 +234,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
                     Name = EnvironmentName.AzureCloud,
                     PublishSettingsFileUrl = WindowsAzureEnvironmentConstants.AzurePublishSettingsFileUrl,
                     ServiceEndpoint = WindowsAzureEnvironmentConstants.AzureServiceEndpoint,
-                    CloudServiceEndpoint = WindowsAzureEnvironmentConstants.AzureCloudServiceEndpoint,
+                    ResourceManagerEndpoint = WindowsAzureEnvironmentConstants.AzureResourceManagerEndpoint,
                     ManagementPortalUrl = WindowsAzureEnvironmentConstants.AzureManagementPortalUrl,
                     ActiveDirectoryEndpoint = "https://login.windows.net/",
                     ActiveDirectoryCommonTenantId = "common",
@@ -249,7 +249,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
                     Name = EnvironmentName.AzureChinaCloud,
                     PublishSettingsFileUrl = WindowsAzureEnvironmentConstants.ChinaPublishSettingsFileUrl,
                     ServiceEndpoint = WindowsAzureEnvironmentConstants.ChinaServiceEndpoint,
-                    CloudServiceEndpoint = WindowsAzureEnvironmentConstants.ChinaCloudServiceEndpoint,
+                    ResourceManagerEndpoint = WindowsAzureEnvironmentConstants.ChinaResourceManagerEndpoint,
                     ManagementPortalUrl = WindowsAzureEnvironmentConstants.ChinaManagementPortalUrl,
                     StorageEndpointSuffix = WindowsAzureEnvironmentConstants.ChinaStorageEndpointSuffix,
                     GalleryEndpoint = WindowsAzureEnvironmentConstants.ChinaGalleryEndpoint
