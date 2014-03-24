@@ -95,11 +95,11 @@ namespace Microsoft.Azure.Commands.ResourceManager
         [ValidateNotNullOrEmpty]
         public string TemplateUri { get; set; }
 
-        [Parameter(ParameterSetName = TemplateUriParameterObjectParameterSetName,
+        [Parameter(ParameterSetName = TemplateFileParameterObjectParameterSetName,
             Mandatory = true, ValueFromPipelineByPropertyName = true, HelpMessage = "The storage account which the cmdlet to upload the template file to. If not specified, the current storage account of the subscription will be used.")]
-        [Parameter(ParameterSetName = TemplateUriParameterFileParameterSetName,
+        [Parameter(ParameterSetName = TemplateFileParameterFileParameterSetName,
             Mandatory = true, ValueFromPipelineByPropertyName = true, HelpMessage = "The storage account which the cmdlet to upload the template file to. If not specified, the current storage account of the subscription will be used.")]
-        [Parameter(ParameterSetName = ParameterlessTemplateUriParameterSetName,
+        [Parameter(ParameterSetName = ParameterlessTemplateFileParameterSetName,
             Mandatory = true, ValueFromPipelineByPropertyName = true, HelpMessage = "The storage account which the cmdlet to upload the template file to. If not specified, the current storage account of the subscription will be used.")]
         [ValidateNotNullOrEmpty]
         public string StorageAccountName { get; set; }
