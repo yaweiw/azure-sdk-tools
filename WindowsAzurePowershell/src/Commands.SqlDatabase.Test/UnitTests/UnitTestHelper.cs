@@ -34,7 +34,7 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Test.UnitTests
         /// <summary>
         /// Manifest file for SqlDatabase Tests.
         /// </summary>
-        private static readonly string SqlDatabaseTestManifest = "Azure.psd1";
+        private static readonly string SqlDatabaseTestManifest = "AzureServiceManagement.psd1";
 
         /// <summary>
         /// The subscription name used in the unit tests.

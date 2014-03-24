@@ -38,16 +38,16 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.DiskRepository
                 this.ExecuteClientActionNewSM(
                     null,
                     this.CommandRuntime.ToString(),
-                    () => this.ComputeClient.VirtualMachineImages.Get(this.ImageName),
-                    (s, response) => this.ContextFactory<VirtualMachineImageGetResponse, OSImageContext>(response, s));
+                    () => this.ComputeClient.VirtualMachineOSImages.Get(this.ImageName),
+                    (s, response) => this.ContextFactory<VirtualMachineOSImageGetResponse, OSImageContext>(response, s));
             }
             else
             {
                 this.ExecuteClientActionNewSM(
                     null,
                     this.CommandRuntime.ToString(),
-                    () => this.ComputeClient.VirtualMachineImages.List(),
-                    (s, response) => response.Images.Select(image => this.ContextFactory<VirtualMachineImageListResponse.VirtualMachineImage, OSImageContext>(image, s)));
+                    () => this.ComputeClient.VirtualMachineOSImages.List(),
+                    (s, response) => response.Images.Select(image => this.ContextFactory<VirtualMachineOSImageListResponse.VirtualMachineOSImage, OSImageContext>(image, s)));
             }
         }
 

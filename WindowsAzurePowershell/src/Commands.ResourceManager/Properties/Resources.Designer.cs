@@ -61,6 +61,15 @@ namespace Microsoft.Azure.Commands.ResourceManager.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Adding resource group....
+        /// </summary>
+        internal static string AddingResourceGroup {
+            get {
+                return ResourceManager.GetString("AddingResourceGroup", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Are you sure you want to cancel the active deployment of resource group &apos;{0}&apos;?.
         /// </summary>
         internal static string CancelResourceGroupDeployment {
@@ -210,6 +219,15 @@ namespace Microsoft.Azure.Commands.ResourceManager.Properties {
         internal static string ResourceGroupDoesntExists {
             get {
                 return ResourceManager.GetString("ResourceGroupDoesntExists", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Provided resource group does not exist. Would you like to create it?.
+        /// </summary>
+        internal static string ResourceGroupDoesntExistsAdd {
+            get {
+                return ResourceManager.GetString("ResourceGroupDoesntExistsAdd", resourceCulture);
             }
         }
         

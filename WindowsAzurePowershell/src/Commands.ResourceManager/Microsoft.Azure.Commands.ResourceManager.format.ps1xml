@@ -26,7 +26,7 @@
     <View>
       <Name>Microsoft.Azure.Commands.ResourceManager.Models.PSResource</Name>
       <ViewSelectedBy>
-        <TypeName>Microsoft.Azure.Commands.ResourceManagement.Models.PSResource</TypeName>
+        <TypeName>Microsoft.Azure.Commands.ResourceManager.Models.PSResource</TypeName>
       </ViewSelectedBy>
       <ListControl>
         <ListEntries>
