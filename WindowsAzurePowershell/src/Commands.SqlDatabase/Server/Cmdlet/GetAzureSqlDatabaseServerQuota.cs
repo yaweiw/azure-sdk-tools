@@ -137,7 +137,7 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Server.Cmdlet
 
                 // Retrieve the list of servers
                 QuotaListResponse response = sqlManagementClient.Quotas.List(this.ServerName);
-                IEnumerable<QuotaListResponse.Quota> quotas = response.Quotas;
+                IEnumerable<Quota> quotas = response.Quotas;
                 if (!string.IsNullOrEmpty(quotaName))
                 {
                     // Quota name is specified, find the one with the
