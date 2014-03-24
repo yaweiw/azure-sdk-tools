@@ -302,7 +302,7 @@ namespace Microsoft.Azure.Commands.ResourceManager.Test.Models
                 null,
                 new[] { "TestPS" });
 
-            Assert.Equal(5, result.Count);
+            Assert.Equal(4, result.Count);
 
             Assert.Equal("string", result["string"].Name);
             Assert.Equal(typeof(string), result["String"].ParameterType);
@@ -329,7 +329,7 @@ namespace Microsoft.Azure.Commands.ResourceManager.Test.Models
                 templateParameterFile,
                 new[] { "TestPS" });
 
-            Assert.Equal(5, result.Count);
+            Assert.Equal(4, result.Count);
 
             Assert.Equal("string", result["string"].Name);
             Assert.Equal(typeof(string), result["string"].ParameterType);
@@ -384,7 +384,7 @@ namespace Microsoft.Azure.Commands.ResourceManager.Test.Models
         [Fact]
         public void FiltersGalleryTemplatesUsingComplexQuery()
         {
-            string filterString = "Publisher eq 'Microsoft' and CategoryIds/any(c: c eq 'awesome') and ItemName eq 'hello world'";
+            string filterString = "Publisher eq 'Microsoft' and CategoryIds/any(c: c eq 'awesome')";
             ItemListParameters actual = new ItemListParameters();
             galleryClientMock.Setup(f => f.Items.ListAsync(It.IsAny<ItemListParameters>(), new CancellationToken()))
                 .Returns(Task.Factory.StartNew(() => new ItemListResult
@@ -408,8 +408,7 @@ namespace Microsoft.Azure.Commands.ResourceManager.Test.Models
             FilterGalleryTemplatesOptions options = new FilterGalleryTemplatesOptions()
             {
                 Publisher = "Microsoft",
-                Category = "awesome",
-                Name = "hello world"
+                Category = "awesome"
             };
 
             List<GalleryItem> result = galleryTemplatesClient.FilterGalleryTemplates(options);

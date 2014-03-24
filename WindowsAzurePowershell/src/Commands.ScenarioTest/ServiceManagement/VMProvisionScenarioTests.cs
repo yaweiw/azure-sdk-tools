@@ -22,7 +22,7 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.ServiceManagemenet
     using ServiceManagement.Test.FunctionalTests.ConfigDataInfo;
 
     [TestClass]
-    public class VMProvisionScenarioTests : WindowsAzurePowerShellTest
+    public class VMProvisionScenarioTests : WindowsAzurePowerShellCertificateTest
     {
         public VMProvisionScenarioTests()
             : base("CloudService\\Common.ps1",

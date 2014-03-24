@@ -322,7 +322,7 @@ namespace Microsoft.Azure.Commands.ResourceManager.Test.Models
                 ResourceGroupName = resourceGroupName,
                 Location = resourceGroupLocation,
                 ConfirmAction = ConfirmAction,
-                GalleryTemplateName = "templateFile"
+                GalleryTemplateIdentity = "templateFile"
             };
             galleryTemplatesClientMock.Setup(f => f.GetGalleryTemplateFile("templateFile")).Returns("http://microsoft.com");
             resourceGroupMock.Setup(f => f.CheckExistenceAsync(parameters.ResourceGroupName, new CancellationToken()))
