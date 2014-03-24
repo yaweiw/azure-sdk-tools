@@ -56,7 +56,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
                 return;
             }
 
-            var parameter = new VirtualMachineCaptureParameters
+            var parameter = new VirtualMachineCaptureOSImageParameters
             {
                 PostCaptureAction = PostCaptureAction.Delete,
                 TargetImageLabel = string.IsNullOrEmpty(this.NewImageLabel) ? this.NewImageName : this.NewImageLabel,
@@ -66,7 +66,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
             ExecuteClientActionNewSM(
                 null,
                 CommandRuntime.ToString(),
-                () => this.ComputeClient.VirtualMachines.Capture(this.ServiceName, CurrentDeploymentNewSM.Name, this.Name, parameter));
+                () => this.ComputeClient.VirtualMachines.CaptureOSImage(this.ServiceName, CurrentDeploymentNewSM.Name, this.Name, parameter));
         }
     }
 }

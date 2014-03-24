@@ -4,7 +4,7 @@
 		"RequestBody" : "",
 		"RequestHeaders" : {
 			"Authorization" : ["Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsIng1dCI6IjVUa0d0S1JrZ2FpZXpFWTJFc0xDMmdPTGpBNCJ9.eyJhdWQiOiJodHRwczovL21hbmFnZW1lbnQuY29yZS53aW5kb3dzLm5ldC8iLCJpc3MiOiJodHRwczovL3N0cy53aW5kb3dzLXBwZS5uZXQvZjFmYjZiN2YtOTYxOC00Y2EwLWI2OGMtMThiZTkwMDUxOWJhLyIsImlhdCI6MTM5MjE2NDQ2OCwibmJmIjoxMzkyMTY0NDY4LCJleHAiOjEzOTIxNjgzNjgsInZlciI6IjEuMCIsInRpZCI6ImYxZmI2YjdmLTk2MTgtNGNhMC1iNjhjLTE4YmU5MDA1MTliYSIsIm9pZCI6IjYyNjU0NzliLTMyNWUtNDM4MS1hMjFkLWVjY2FhMzE0ZWY0MCIsInVwbiI6ImFkbWluQGFhZDEyNC5jY3NjdHAubmV0IiwidW5pcXVlX25hbWUiOiJhZG1pbkBhYWQxMjQuY2NzY3RwLm5ldCIsInN1YiI6IkUwRUtYWkJxWnBEdUR3NGlhWUtfUWRlQ21WSVk1TDhWQk9kWXY1U29YNEUiLCJwdWlkIjoiMTAwMzAwMDA4N0U4QzU0MSIsImZhbWlseV9uYW1lIjoiRG9lIiwiZ2l2ZW5fbmFtZSI6IkpvbiIsImFwcGlkIjoiMTk1MGEyNTgtMjI3Yi00ZTMxLWE5Y2YtNzE3NDk1OTQ1ZmMyIiwiYXBwaWRhY3IiOiIwIiwic2NwIjoidXNlcl9pbXBlcnNvbmF0aW9uIiwiYWNyIjoiMSJ9.UlAxexaobRuzhiYbgx6v4Zo437KeOXHhzcgCOL5VTM5zh5sZcozz5Ak-1MmU5EAifEe1GrLV5MU6XIhcigu-iIUh_d-kNOvjr5JMFpbZPwYGT364lhAs_IfmvT6DfOco_JYe5ImScgSt3upWjT-TlsOu4TeKhrxpoL5VmU1mCsKmixtM9MhbdSJ8wIV-hAK4APhcI08OMLNR9Ou3LejDdPLQvHo-PGitUJJVndI4mlnM6jpnxH7MdvoCQXP41Yfd9LMX3rxYTh8wF_vhIa5zTfBaF6huIs_vE2OlQrnosy-LJBeEDoXD15J_eIfBOyyqsHypXTUZKx01miV-3AGz7w"],
-			"User-Agent" : ["Microsoft.Azure.Management.Resources.ResourceManagementClient/2.0.0.0", "WindowsAzurePowershell/v0.7.2.1"]
+			"User-Agent" : ["Microsoft.Azure.Management.Resources.ResourceManagerClient/2.0.0.0", "WindowsAzurePowershell/v0.7.2.1"]
 		},
 		"ResponseBody" : "",
 		"ResponseHeaders" : {
@@ -21,7 +21,7 @@
 		"RequestBody" : "{\r\n  \"location\": \"South Central US\"\r\n}",
 		"RequestHeaders" : {
 			"Authorization" : ["Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsIng1dCI6IjVUa0d0S1JrZ2FpZXpFWTJFc0xDMmdPTGpBNCJ9.eyJhdWQiOiJodHRwczovL21hbmFnZW1lbnQuY29yZS53aW5kb3dzLm5ldC8iLCJpc3MiOiJodHRwczovL3N0cy53aW5kb3dzLXBwZS5uZXQvZjFmYjZiN2YtOTYxOC00Y2EwLWI2OGMtMThiZTkwMDUxOWJhLyIsImlhdCI6MTM5MjE2NDQ2OCwibmJmIjoxMzkyMTY0NDY4LCJleHAiOjEzOTIxNjgzNjgsInZlciI6IjEuMCIsInRpZCI6ImYxZmI2YjdmLTk2MTgtNGNhMC1iNjhjLTE4YmU5MDA1MTliYSIsIm9pZCI6IjYyNjU0NzliLTMyNWUtNDM4MS1hMjFkLWVjY2FhMzE0ZWY0MCIsInVwbiI6ImFkbWluQGFhZDEyNC5jY3NjdHAubmV0IiwidW5pcXVlX25hbWUiOiJhZG1pbkBhYWQxMjQuY2NzY3RwLm5ldCIsInN1YiI6IkUwRUtYWkJxWnBEdUR3NGlhWUtfUWRlQ21WSVk1TDhWQk9kWXY1U29YNEUiLCJwdWlkIjoiMTAwMzAwMDA4N0U4QzU0MSIsImZhbWlseV9uYW1lIjoiRG9lIiwiZ2l2ZW5fbmFtZSI6IkpvbiIsImFwcGlkIjoiMTk1MGEyNTgtMjI3Yi00ZTMxLWE5Y2YtNzE3NDk1OTQ1ZmMyIiwiYXBwaWRhY3IiOiIwIiwic2NwIjoidXNlcl9pbXBlcnNvbmF0aW9uIiwiYWNyIjoiMSJ9.UlAxexaobRuzhiYbgx6v4Zo437KeOXHhzcgCOL5VTM5zh5sZcozz5Ak-1MmU5EAifEe1GrLV5MU6XIhcigu-iIUh_d-kNOvjr5JMFpbZPwYGT364lhAs_IfmvT6DfOco_JYe5ImScgSt3upWjT-TlsOu4TeKhrxpoL5VmU1mCsKmixtM9MhbdSJ8wIV-hAK4APhcI08OMLNR9Ou3LejDdPLQvHo-PGitUJJVndI4mlnM6jpnxH7MdvoCQXP41Yfd9LMX3rxYTh8wF_vhIa5zTfBaF6huIs_vE2OlQrnosy-LJBeEDoXD15J_eIfBOyyqsHypXTUZKx01miV-3AGz7w"],
-			"User-Agent" : ["Microsoft.Azure.Management.Resources.ResourceManagementClient/2.0.0.0", "WindowsAzurePowershell/v0.7.2.1"]
+			"User-Agent" : ["Microsoft.Azure.Management.Resources.ResourceManagerClient/2.0.0.0", "WindowsAzurePowershell/v0.7.2.1"]
 		},
 		"ResponseBody" : "{\r\n  \"subscriptionId\": \"83b3278c-7234-476d-9e79-acf6cfd532a2\",\r\n  \"name\": \"onesdk9304\",\r\n  \"location\": \"South Central US\"\r\n}",
 		"ResponseHeaders" : {
@@ -38,7 +38,7 @@
 		"RequestBody" : "",
 		"RequestHeaders" : {
 			"Authorization" : ["Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsIng1dCI6IjVUa0d0S1JrZ2FpZXpFWTJFc0xDMmdPTGpBNCJ9.eyJhdWQiOiJodHRwczovL21hbmFnZW1lbnQuY29yZS53aW5kb3dzLm5ldC8iLCJpc3MiOiJodHRwczovL3N0cy53aW5kb3dzLXBwZS5uZXQvZjFmYjZiN2YtOTYxOC00Y2EwLWI2OGMtMThiZTkwMDUxOWJhLyIsImlhdCI6MTM5MjE2NDQ2OCwibmJmIjoxMzkyMTY0NDY4LCJleHAiOjEzOTIxNjgzNjgsInZlciI6IjEuMCIsInRpZCI6ImYxZmI2YjdmLTk2MTgtNGNhMC1iNjhjLTE4YmU5MDA1MTliYSIsIm9pZCI6IjYyNjU0NzliLTMyNWUtNDM4MS1hMjFkLWVjY2FhMzE0ZWY0MCIsInVwbiI6ImFkbWluQGFhZDEyNC5jY3NjdHAubmV0IiwidW5pcXVlX25hbWUiOiJhZG1pbkBhYWQxMjQuY2NzY3RwLm5ldCIsInN1YiI6IkUwRUtYWkJxWnBEdUR3NGlhWUtfUWRlQ21WSVk1TDhWQk9kWXY1U29YNEUiLCJwdWlkIjoiMTAwMzAwMDA4N0U4QzU0MSIsImZhbWlseV9uYW1lIjoiRG9lIiwiZ2l2ZW5fbmFtZSI6IkpvbiIsImFwcGlkIjoiMTk1MGEyNTgtMjI3Yi00ZTMxLWE5Y2YtNzE3NDk1OTQ1ZmMyIiwiYXBwaWRhY3IiOiIwIiwic2NwIjoidXNlcl9pbXBlcnNvbmF0aW9uIiwiYWNyIjoiMSJ9.UlAxexaobRuzhiYbgx6v4Zo437KeOXHhzcgCOL5VTM5zh5sZcozz5Ak-1MmU5EAifEe1GrLV5MU6XIhcigu-iIUh_d-kNOvjr5JMFpbZPwYGT364lhAs_IfmvT6DfOco_JYe5ImScgSt3upWjT-TlsOu4TeKhrxpoL5VmU1mCsKmixtM9MhbdSJ8wIV-hAK4APhcI08OMLNR9Ou3LejDdPLQvHo-PGitUJJVndI4mlnM6jpnxH7MdvoCQXP41Yfd9LMX3rxYTh8wF_vhIa5zTfBaF6huIs_vE2OlQrnosy-LJBeEDoXD15J_eIfBOyyqsHypXTUZKx01miV-3AGz7w"],
-			"User-Agent" : ["Microsoft.Azure.Management.Resources.ResourceManagementClient/2.0.0.0", "WindowsAzurePowershell/v0.7.2.1"]
+			"User-Agent" : ["Microsoft.Azure.Management.Resources.ResourceManagerClient/2.0.0.0", "WindowsAzurePowershell/v0.7.2.1"]
 		},
 		"ResponseBody" : "{\r\n  \"subscriptionId\": \"83b3278c-7234-476d-9e79-acf6cfd532a2\",\r\n  \"name\": \"onesdk9304\",\r\n  \"location\": \"South Central US\"\r\n}",
 		"ResponseHeaders" : {
