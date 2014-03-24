@@ -84,14 +84,6 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
             set;
         }
 
-        [Parameter(Position = 5, Mandatory = true, ParameterSetName = "VMImageName", HelpMessage = "Reference to a platform stock image or a user image from the image repository.")]
-        [ValidateNotNullOrEmpty]
-        public string VMImageName
-        {
-            get;
-            set;
-        }
-
         [Parameter(Position = 6, Mandatory = false, ParameterSetName = "ImageName", HelpMessage = "Location of the where the VHD should be created. This link refers to a blob in a storage account. If not specified the VHD will be created in the default storage account with the following format :vhds/servicename-vmname-year-month-day-ms")]
         [ValidateNotNullOrEmpty]
         public string MediaLocation

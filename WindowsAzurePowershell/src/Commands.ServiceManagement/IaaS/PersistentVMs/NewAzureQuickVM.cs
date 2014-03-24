@@ -77,8 +77,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.PersistentVMs
             set;
         }
 
-        [Parameter(Mandatory = true, ParameterSetName = WindowsParamSet, HelpMessage = "Reference to a platform stock image or a user image from the image repository.")]
-        [Parameter(Mandatory = true, ParameterSetName = LinuxParamSet, HelpMessage = "Reference to a platform stock image or a user image from the image repository.")]
+        [Parameter(Mandatory = true, HelpMessage = "Reference to a platform stock image or a user image from the image repository.")]
         [ValidateNotNullOrEmpty]
         public string ImageName
         {
