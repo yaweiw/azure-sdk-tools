@@ -47,11 +47,11 @@ namespace Microsoft.Azure.Commands.ResourceManager
                 ResourceGroupName = Name,
                 Location = Location,
                 Name = DeploymentName,
-                GalleryTemplateName = GalleryTemplateName,
+                GalleryTemplateIdentity = GalleryTemplateIdentity,
                 TemplateFile = this.TryResolvePath(TemplateFile),
                 TemplateParameterObject = GetTemplateParameterObject(TemplateParameterObject),
                 TemplateVersion = TemplateVersion,
-                StorageAccountName = GetStorageAccountName(),
+                StorageAccountName = StorageAccountName,
                 Force = Force.IsPresent,
                 ConfirmAction = ConfirmAction
             };

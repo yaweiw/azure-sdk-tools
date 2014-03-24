@@ -85,7 +85,7 @@ namespace Microsoft.Azure.Commands.ResourceManager.Test.Resources
 
             cmdlet.ExecuteCmdlet();
 
-            Assert.Equal(expectedParameters.GalleryTemplateName, actualParameters.GalleryTemplateName);
+            Assert.Equal(expectedParameters.GalleryTemplateIdentity, actualParameters.GalleryTemplateIdentity);
             Assert.Equal(expectedParameters.TemplateFile, actualParameters.TemplateFile);
             Assert.NotNull(actualParameters.TemplateParameterObject);
             Assert.Equal(expectedParameters.TemplateVersion, actualParameters.TemplateVersion);
@@ -99,7 +99,7 @@ namespace Microsoft.Azure.Commands.ResourceManager.Test.Resources
         {
             ValidatePSResourceGroupDeploymentParameters expectedParameters = new ValidatePSResourceGroupDeploymentParameters()
             {
-                GalleryTemplateName = "sqlServer",
+                GalleryTemplateIdentity = "sqlServer",
                 StorageAccountName = storageAccountName,
                 TemplateVersion = "1.0"
             };
@@ -128,12 +128,12 @@ namespace Microsoft.Azure.Commands.ResourceManager.Test.Resources
                 .Callback((ValidatePSResourceGroupDeploymentParameters p) => { actualParameters = p; });
 
             cmdlet.ResourceGroupName = resourceGroupName;
-            cmdlet.GalleryTemplateName = expectedParameters.GalleryTemplateName;
+            cmdlet.GalleryTemplateIdentity = expectedParameters.GalleryTemplateIdentity;
             cmdlet.TemplateVersion = expectedParameters.TemplateVersion;
 
             cmdlet.ExecuteCmdlet();
 
-            Assert.Equal(expectedParameters.GalleryTemplateName, actualParameters.GalleryTemplateName);
+            Assert.Equal(expectedParameters.GalleryTemplateIdentity, actualParameters.GalleryTemplateIdentity);
             Assert.Equal(expectedParameters.TemplateFile, actualParameters.TemplateFile);
             Assert.NotNull(actualParameters.TemplateParameterObject);
             Assert.Equal(expectedParameters.TemplateVersion, actualParameters.TemplateVersion);
