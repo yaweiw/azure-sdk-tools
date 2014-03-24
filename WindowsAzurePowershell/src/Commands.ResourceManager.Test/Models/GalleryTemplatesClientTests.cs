@@ -409,7 +409,7 @@ namespace Microsoft.Azure.Commands.ResourceManager.Test.Models
             {
                 Publisher = "Microsoft",
                 Category = "awesome",
-                Name = "hello world"
+                Identity = "hello world"
             };
 
             List<GalleryItem> result = galleryTemplatesClient.FilterGalleryTemplates(options);
