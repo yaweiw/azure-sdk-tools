@@ -62,25 +62,13 @@ namespace Microsoft.Azure.Commands.ResourceManager.Models
             }
             else
             {
-                DeploymentListResult deploymentListResult;
-                try
+                EventDataListResponse listOfEvents = EventsClient.EventData.ListEventsForResourceGroup(new ListEventsForResourceGroupParameters
                 {
-                    deploymentListResult = ResourceManagementClient.Deployments.List(parameters.Name,
-                                                                            new DeploymentListParameters
-                                                                                {
-                                                                                    Top = 1
-                                                                                });
-                    if (deploymentListResult.Deployments.Count == 0)
-                    {
-                        throw new ArgumentException(Resources.DeploymentNotFound);
-                    }
-                }
-                catch
-                {
-                    throw new ArgumentException(Resources.DeploymentNotFound);
-                }
-
-                return GetDeploymentLogs(deploymentListResult.Deployments[0].Properties.CorrelationId);
+                    ResourceGroupName = parameters.Name,
+                    StartTime = DateTime.UtcNow - TimeSpan.FromDays(EventRetentionPeriod),
+                    EndTime = DateTime.UtcNow
+                });
+                return listOfEvents.EventDataCollection.Value.Select(e => e.ToPSDeploymentEventData());
             }
         }
 
