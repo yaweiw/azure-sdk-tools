@@ -26,6 +26,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.HDInsight.CmdLetTests
     using VisualStudio.TestTools.UnitTesting;
 
     [TestClass]
+    [Ignore]
     public class InvokeHiveCmdletTests : HDInsightTestCaseBase
     {
         [TestCleanup]
