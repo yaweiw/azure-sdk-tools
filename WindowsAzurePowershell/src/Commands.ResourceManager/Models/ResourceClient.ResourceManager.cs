@@ -52,7 +52,16 @@ namespace Microsoft.Azure.Commands.ResourceManager.Models
             }
             else
             {
-                throw new ArgumentException(Resources.ResourceGroupDoesntExists);
+                parameters.ConfirmAction(parameters.Force,
+                                             Resources.ResourceGroupDoesntExistsAdd,
+                                             Resources.AddingResourceGroup,
+                                             parameters.Name,
+                                             () => CreateResourceGroup(parameters.ResourceGroupName, parameters.Location));
+
+                if (!ResourceManagementClient.ResourceGroups.CheckExistence(parameters.ResourceGroupName).Exists)
+                {
+                    throw new ArgumentException(Resources.ResourceGroupDoesntExists);
+                }
             }
 
             bool resourceExists = ResourceManagementClient.Resources.CheckExistence(parameters.ResourceGroupName, resourceIdentity).Exists;
