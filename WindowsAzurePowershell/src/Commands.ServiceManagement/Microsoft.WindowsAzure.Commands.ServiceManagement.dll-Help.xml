@@ -26699,6 +26699,7 @@ New-AzureDeployment -ServiceName $cloudSvc -Slot Production -Package $pkg -Confi
       </maml:navigationLink>
     </maml:relatedLinks>
   </command:command>
+
   <!-- v 1.3.0.36 -->
   <command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10">
     <command:details>
@@ -26722,46 +26723,18 @@ New-AzureDeployment -ServiceName $cloudSvc -Slot Production -Package $pkg -Confi
     <command:syntax>
       <command:syntaxItem>
         <maml:name>Set-AzureVMCustomScriptExtension</maml:name>
-        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named">
-          <maml:name>Argument</maml:name>
-          <maml:description>
-            <maml:para>Argument for the command to run on the VM.</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named">
-          <maml:name>Command</maml:name>
-          <maml:description>
-            <maml:para>The command to run by the extension on the VM, currently only &quot;powershell.exe&quot; is supported.</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named">
-          <maml:name>ContainerName</maml:name>
-          <maml:description>
-            <maml:para>The container name within the storage account.</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named">
+        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="named">
           <maml:name>Disable</maml:name>
           <maml:description>
             <maml:para>To Set the Extension State to 'Disable'.</maml:para>
           </maml:description>
         </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="false" position="named">
-          <maml:name>FileName</maml:name>
+        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="named">
+          <maml:name>VM</maml:name>
           <maml:description>
-            <maml:para>The names of the blob files in the specified container.</maml:para>
+            <maml:para>The persistent VM object.</maml:para>
           </maml:description>
-          <command:parameterValue required="true" variableLength="true">string[]</command:parameterValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="false" position="named">
-          <maml:name>FileUri</maml:name>
-          <maml:description>
-            <maml:para>The URLs of the blob files.</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="true">Uri[]</command:parameterValue>
+          <command:parameterValue required="true" variableLength="false">IPersistentVM</command:parameterValue>
         </command:parameter>
         <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named">
           <maml:name>ReferenceName</maml:name>
@@ -26784,21 +26757,152 @@ New-AzureDeployment -ServiceName $cloudSvc -Slot Production -Package $pkg -Confi
           </maml:description>
           <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
         </command:parameter>
-        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named">
+      </command:syntaxItem>
+      <command:syntaxItem>
+        <maml:name>Set-AzureVMCustomScriptExtension</maml:name>
+        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="named">
           <maml:name>VM</maml:name>
           <maml:description>
             <maml:para>The persistent VM object.</maml:para>
           </maml:description>
           <command:parameterValue required="true" variableLength="false">IPersistentVM</command:parameterValue>
         </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named">
+          <maml:name>Argument</maml:name>
+          <maml:description>
+            <maml:para>Argument for the command to run on the VM.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named">
+          <maml:name>ContainerName</maml:name>
+          <maml:description>
+            <maml:para>The container name within the storage account.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="false" position="named">
+          <maml:name>FileName</maml:name>
+          <maml:description>
+            <maml:para>The names of the blob files in the specified container.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="true">string[]</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named">
+          <maml:name>ReferenceName</maml:name>
+          <maml:description>
+            <maml:para>The extension's reference name.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named">
+          <maml:name>Run</maml:name>
+          <maml:description>
+            <maml:para>The command to run by the extension on the VM, currently only &quot;powershell.exe&quot; is supported.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named">
+          <maml:name>StorageAccountKey</maml:name>
+          <maml:description>
+            <maml:para>The storage account key</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named">
+          <maml:name>StorageAccountName</maml:name>
+          <maml:description>
+            <maml:para>The storage account name in the current subscription.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named">
+          <maml:name>StorageEndpointSuffix</maml:name>
+          <maml:description>
+            <maml:para>The storage service endpoint.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named">
+          <maml:name>Version</maml:name>
+          <maml:description>
+            <maml:para>The Extension Version.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+        </command:parameter>
+      </command:syntaxItem>
+      <command:syntaxItem>
+        <maml:name>Set-AzureVMCustomScriptExtension</maml:name>
+        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="named">
+          <maml:name>VM</maml:name>
+          <maml:description>
+            <maml:para>The persistent VM object.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">IPersistentVM</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named">
+          <maml:name>Argument</maml:name>
+          <maml:description>
+            <maml:para>Argument for the command to run on the VM.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="false" position="named">
+          <maml:name>FileUri</maml:name>
+          <maml:description>
+            <maml:para>The URLs of the blob files.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="true">Uri[]</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named">
+          <maml:name>ReferenceName</maml:name>
+          <maml:description>
+            <maml:para>The extension's reference name.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named">
+          <maml:name>Run</maml:name>
+          <maml:description>
+            <maml:para>The command to run by the extension on the VM, currently only &quot;powershell.exe&quot; is supported.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named">
+          <maml:name>StorageAccountName</maml:name>
+          <maml:description>
+            <maml:para>The storage account name in the current subscription.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named">
+          <maml:name>Version</maml:name>
+          <maml:description>
+            <maml:para>The Extension Version.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+        </command:parameter>
       </command:syntaxItem>
     </command:syntax>
     <!-- Cmdlet parameter section  -->
     <command:parameters>
-      <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named">
-        <maml:name>Argument</maml:name>
+      <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="named">
+        <maml:name>Disable</maml:name>
         <maml:description>
-          <maml:para>Argument for the command to run on the VM.</maml:para>
+          <maml:para>To Set the Extension State to 'Disable'.</maml:para>
+
+        </maml:description>
+        <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
+        <dev:type>
+          <maml:name>SwitchParameter</maml:name>
+          <maml:uri/>
+        </dev:type>
+        <dev:defaultValue></dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named">
+        <maml:name>ReferenceName</maml:name>
+        <maml:description>
+          <maml:para>The extension's reference name.</maml:para>
 
         </maml:description>
         <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
@@ -26809,9 +26913,35 @@ New-AzureDeployment -ServiceName $cloudSvc -Slot Production -Package $pkg -Confi
         <dev:defaultValue></dev:defaultValue>
       </command:parameter>
       <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named">
-        <maml:name>Command</maml:name>
+        <maml:name>Version</maml:name>
         <maml:description>
-          <maml:para>The command to run by the extension on the VM, currently only &quot;powershell.exe&quot; is supported.</maml:para>
+          <maml:para>The Extension Version.</maml:para>
+
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+        <dev:type>
+          <maml:name>string</maml:name>
+          <maml:uri/>
+        </dev:type>
+        <dev:defaultValue></dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="named">
+        <maml:name>VM</maml:name>
+        <maml:description>
+          <maml:para>The persistent VM object.</maml:para>
+
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">IPersistentVM</command:parameterValue>
+        <dev:type>
+          <maml:name>IPersistentVM</maml:name>
+          <maml:uri/>
+        </dev:type>
+        <dev:defaultValue></dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named">
+        <maml:name>StorageAccountName</maml:name>
+        <maml:description>
+          <maml:para>The storage account name in the current subscription.</maml:para>
 
         </maml:description>
         <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
@@ -26830,19 +26960,6 @@ New-AzureDeployment -ServiceName $cloudSvc -Slot Production -Package $pkg -Confi
         <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
         <dev:type>
           <maml:name>string</maml:name>
-          <maml:uri/>
-        </dev:type>
-        <dev:defaultValue></dev:defaultValue>
-      </command:parameter>
-      <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named">
-        <maml:name>Disable</maml:name>
-        <maml:description>
-          <maml:para>To Set the Extension State to 'Disable'.</maml:para>
-
-        </maml:description>
-        <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
-        <dev:type>
-          <maml:name>SwitchParameter</maml:name>
           <maml:uri/>
         </dev:type>
         <dev:defaultValue></dev:defaultValue>
@@ -26874,9 +26991,9 @@ New-AzureDeployment -ServiceName $cloudSvc -Slot Production -Package $pkg -Confi
         <dev:defaultValue></dev:defaultValue>
       </command:parameter>
       <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named">
-        <maml:name>ReferenceName</maml:name>
+        <maml:name>Run</maml:name>
         <maml:description>
-          <maml:para>The extension's reference name.</maml:para>
+          <maml:para>The command to run by the extension on the VM, currently only &quot;powershell.exe&quot; is supported.</maml:para>
 
         </maml:description>
         <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
@@ -26887,9 +27004,9 @@ New-AzureDeployment -ServiceName $cloudSvc -Slot Production -Package $pkg -Confi
         <dev:defaultValue></dev:defaultValue>
       </command:parameter>
       <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named">
-        <maml:name>StorageAccountName</maml:name>
+        <maml:name>Argument</maml:name>
         <maml:description>
-          <maml:para>The storage account name in the current subscription.</maml:para>
+          <maml:para>Argument for the command to run on the VM.</maml:para>
 
         </maml:description>
         <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
@@ -26900,9 +27017,9 @@ New-AzureDeployment -ServiceName $cloudSvc -Slot Production -Package $pkg -Confi
         <dev:defaultValue></dev:defaultValue>
       </command:parameter>
       <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named">
-        <maml:name>Version</maml:name>
+        <maml:name>StorageAccountKey</maml:name>
         <maml:description>
-          <maml:para>The Extension Version.</maml:para>
+          <maml:para>The storage account key</maml:para>
 
         </maml:description>
         <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
@@ -26913,14 +27030,14 @@ New-AzureDeployment -ServiceName $cloudSvc -Slot Production -Package $pkg -Confi
         <dev:defaultValue></dev:defaultValue>
       </command:parameter>
       <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named">
-        <maml:name>VM</maml:name>
+        <maml:name>StorageEndpointSuffix</maml:name>
         <maml:description>
-          <maml:para>The persistent VM object.</maml:para>
+          <maml:para>The storage service endpoint.</maml:para>
 
         </maml:description>
-        <command:parameterValue required="true" variableLength="false">IPersistentVM</command:parameterValue>
+        <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
         <dev:type>
-          <maml:name>IPersistentVM</maml:name>
+          <maml:name>string</maml:name>
           <maml:uri/>
         </dev:type>
         <dev:defaultValue></dev:defaultValue>
@@ -26983,8 +27100,9 @@ New-AzureDeployment -ServiceName $cloudSvc -Slot Production -Package $pkg -Confi
           <maml:para>C:\PS&gt;</maml:para>
         </maml:introduction>
         <dev:code>
-          Set-AzureVMCustomScriptExtension -VM $vm -ContainerName 'scriptFolder' -FileName 'script1.ps1','script2.ps1' -Command 'powershell.exe' -Argument 'script1.ps1';
-          Update-AzureVM -ServiceName $svc -Name $name -VM vm;
+          $x = Set-AzureVMCustomScriptExtension -VM $x -ContainerName 'test' -FileName 'script1.ps1','script2.ps1' -Run 'script1.ps1' -Argument 'arg1 arg2';
+
+          New-AzureVM -Location 'West US' -ServiceName $svc -VM $x;
         </dev:code>
         <dev:remarks>
           <maml:para>Description</maml:para>
@@ -27010,7 +27128,7 @@ New-AzureDeployment -ServiceName $cloudSvc -Slot Production -Package $pkg -Confi
           <maml:para>C:\PS&gt;</maml:para>
         </maml:introduction>
         <dev:code>
-          Set-AzureVMCustomScriptExtension -VM $vm -FileUri 'http://foo.blob.core.windows.net/bar/script1.ps1','http://foo.blob.core.windows.net/bar/script2.ps1' -Command 'powershell.exe' -Argument 'script2.ps1';
+          Set-AzureVMCustomScriptExtension -VM $vm -FileUri 'http://foo1.blob.core.windows.net/bar/script1.ps1','http://foo2.blob.core.windows.net/baz/script2.ps1' -Run 'script1.ps1' -Argument 'arg1 arg2';
           Update-AzureVM -ServiceName $svc -Name $name -VM vm;
         </dev:code>
         <dev:remarks>
