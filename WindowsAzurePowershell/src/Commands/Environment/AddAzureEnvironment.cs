@@ -44,7 +44,7 @@ namespace Microsoft.WindowsAzure.Commands.Profile
         public string ActiveDirectoryEndpoint { get; set; }
 
         [Parameter(Position = 6, Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "The cloud service endpoint")]
-        public string CloudServiceEndpoint { get; set; }
+        public string ResourceManagerEndpoint { get; set; }
 
         [Parameter(Position = 7, Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "The public gallery endpoint")]
         public string GalleryEndpoint { get; set; }
@@ -57,7 +57,7 @@ namespace Microsoft.WindowsAzure.Commands.Profile
                 Name = Name,
                 PublishSettingsFileUrl = PublishSettingsFileUrl,
                 ServiceEndpoint = ServiceEndpoint,
-                CloudServiceEndpoint = CloudServiceEndpoint,
+                ResourceManagerEndpoint = ResourceManagerEndpoint,
                 ManagementPortalUrl = ManagementPortalUrl,
                 StorageEndpointSuffix = StorageEndpoint,
                 ActiveDirectoryEndpoint = ActiveDirectoryEndpoint,

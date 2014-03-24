@@ -353,9 +353,9 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
         private void MigrateExistingEnvironments(string environmentName)
         {
             WindowsAzureEnvironment azureEnvironment = environments[environmentName];
-            if (string.IsNullOrEmpty(azureEnvironment.CloudServiceEndpoint))
+            if (string.IsNullOrEmpty(azureEnvironment.ResourceManagerEndpoint))
             {
-                azureEnvironment.CloudServiceEndpoint = environments[EnvironmentName.AzureCloud].CloudServiceEndpoint;
+                azureEnvironment.ResourceManagerEndpoint = environments[EnvironmentName.AzureCloud].ResourceManagerEndpoint;
             }
             if (string.IsNullOrEmpty(azureEnvironment.GalleryEndpoint))
             {

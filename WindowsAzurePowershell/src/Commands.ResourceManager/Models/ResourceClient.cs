@@ -55,10 +55,10 @@ namespace Microsoft.Azure.Commands.ResourceManager.Models
         /// <param name="subscription">Subscription containing resources to manipulate</param>
         public ResourcesClient(WindowsAzureSubscription subscription)
             : this(
-                subscription.CreateClientFromCloudServiceEndpoint<ResourceManagementClient>(),
+                subscription.CreateClientFromResourceManagerEndpoint<ResourceManagementClient>(),
                 new StorageClientWrapper(subscription.CreateClient<StorageManagementClient>()),
                 new GalleryTemplatesClient(subscription),
-                subscription.CreateClientFromCloudServiceEndpoint<EventsClient>())
+                subscription.CreateClientFromResourceManagerEndpoint<EventsClient>())
         {
 
         }
