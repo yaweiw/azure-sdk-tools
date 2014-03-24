@@ -34,7 +34,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
         private readonly IProfileStore profileStore;
 
         // Token provider - talks to Active Directory to get access tokens
-        private readonly ITokenProvider tokenProvider;
+        public ITokenProvider TokenProvider { get; set; }
 
         // Azure environments
         private readonly Dictionary<string, WindowsAzureEnvironment> environments = new Dictionary<string, WindowsAzureEnvironment>(
@@ -70,7 +70,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
         public WindowsAzureProfile(IProfileStore profileStore, ITokenProvider tokenProvider)
         {
             this.profileStore = profileStore;
-            this.tokenProvider = tokenProvider;
+            this.TokenProvider = tokenProvider;
             Load();
         }
 
@@ -309,7 +309,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
         public string AddAccounts(WindowsAzureEnvironment environment)
         {
             environment = environment ?? CurrentEnvironment;
-            var newSubscriptions = environment.AddAccount(tokenProvider).ToList();
+            var newSubscriptions = environment.AddAccount(TokenProvider).ToList();
             AddSubscriptions(newSubscriptions);
             Save();
             return newSubscriptions[0].ActiveDirectoryUserId;
@@ -421,7 +421,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
 
         private void AddSubscriptionInternal(WindowsAzureSubscription subscription)
         {
-            subscription.TokenProvider = tokenProvider;
+            subscription.TokenProvider = TokenProvider;
             subscription.Save = Save;
             subscriptions.Add(subscription);
         }
