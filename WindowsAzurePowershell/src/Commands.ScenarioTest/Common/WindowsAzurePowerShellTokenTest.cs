@@ -48,7 +48,7 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.Common
             WindowsAzureProfile.Instance.TokenProvider = new FakeAccessTokenProvider(jwtToken, csmEnvironment.UserName);
             WindowsAzureProfile.Instance.CurrentEnvironment.ActiveDirectoryEndpoint =
                 csmEnvironment.GalleryUri.AbsoluteUri;
-            WindowsAzureProfile.Instance.CurrentEnvironment.CloudServiceEndpoint =
+            WindowsAzureProfile.Instance.CurrentEnvironment.ResourceManagerEndpoint =
                 csmEnvironment.BaseUri.AbsoluteUri;
             WindowsAzureProfile.Instance.CurrentEnvironment.ServiceEndpoint =
                 rdfeEnvironment.BaseUri.AbsoluteUri;

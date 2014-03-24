@@ -45,7 +45,7 @@ namespace Microsoft.WindowsAzure.Commands.Profile
         public string ActiveDirectoryEndpoint { get; set; }
 
         [Parameter(Position = 6, Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "The cloud service endpoint")]
-        public string CloudServiceEndpoint { get; set; }
+        public string ResourceManagerEndpoint { get; set; }
 
         [Parameter(Position = 7, Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "The public gallery endpoint")]
         public string GalleryEndpoint { get; set; }
@@ -58,7 +58,7 @@ namespace Microsoft.WindowsAzure.Commands.Profile
                 var env = WindowsAzureProfile.Instance.Environments[Name];
                 env.PublishSettingsFileUrl = Value(PublishSettingsFileUrl, env.PublishSettingsFileUrl);
                 env.ServiceEndpoint = Value(ServiceEndpoint, env.ServiceEndpoint);
-                env.CloudServiceEndpoint = Value(CloudServiceEndpoint, env.CloudServiceEndpoint);
+                env.ResourceManagerEndpoint = Value(ResourceManagerEndpoint, env.ResourceManagerEndpoint);
                 env.ManagementPortalUrl = Value(ManagementPortalUrl, env.ManagementPortalUrl);
                 env.StorageEndpointSuffix = Value(StorageEndpoint, env.StorageEndpointSuffix);
                 env.ActiveDirectoryEndpoint = Value(ActiveDirectoryEndpoint, env.ActiveDirectoryEndpoint);
