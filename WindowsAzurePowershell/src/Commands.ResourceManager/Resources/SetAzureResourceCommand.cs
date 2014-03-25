@@ -31,9 +31,6 @@ namespace Microsoft.Azure.Commands.ResourceManager
         [Parameter(Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "A hash table which represents resource properties.")]
         public Hashtable PropertyObject { get; set; }
 
-        [Parameter(Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "Update operation mode. Replace, will update the entire resource while update will only update the properties specified by the command. Default is Update.")]
-        public SetResourceMode Mode { get; set; }
-
         public override void ExecuteCmdlet()
         {
             UpdatePSResourceParameters parameters = new UpdatePSResourceParameters()
@@ -43,7 +40,6 @@ namespace Microsoft.Azure.Commands.ResourceManager
                 ResourceType = ResourceType,
                 ParentResourceName = ParentResourceName,
                 PropertyObject = PropertyObject,
-                Mode = Mode,
                 ApiVersion = ApiVersion
             };
 
