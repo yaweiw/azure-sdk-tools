@@ -92,6 +92,7 @@
               <Name>CollationName</Name>
               <Name>Edition</Name>
               <Name>MaxSizeGB</Name>
+              <Name>MaxSizeBytes</Name>
               <Name>ServiceObjectiveName</Name>
               <Name>ServiceObjectiveAssignmentStateDescription</Name>
               <Name>CreationDate</Name>

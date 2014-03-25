@@ -313,7 +313,8 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Services.Server
         /// <returns>The newly created Sql Database.</returns>
         public Database CreateNewDatabase(
             string databaseName,
-            int? databaseMaxSize,
+            int? databaseMaxSizeGb,
+            long? databaseMaxSizeBytes,
             string databaseCollation,
             DatabaseEdition databaseEdition,
             ServiceObjective serviceObjective)
@@ -325,9 +326,13 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Services.Server
             Database database = new Database();
             database.Name = databaseName;
 
-            if (databaseMaxSize != null)
+            if (databaseMaxSizeGb != null)
             {
-                database.MaxSizeGB = (int)databaseMaxSize;
+                database.MaxSizeGB = (int)databaseMaxSizeGb;
+            }
+            if(databaseMaxSizeBytes != null)
+            {
+                database.MaxSizeBytes = (long)databaseMaxSizeBytes;
             }
 
             if (!string.IsNullOrEmpty(databaseCollation))
@@ -447,7 +452,8 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Services.Server
         public Database UpdateDatabase(
             string databaseName,
             string newDatabaseName,
-            int? databaseMaxSize,
+            int? databaseMaxSizeGb,
+            long? databaseMaxSizeBytes,
             DatabaseEdition? databaseEdition,
             ServiceObjective serviceObjective)
         {
@@ -461,7 +467,15 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Services.Server
             }
 
             // Update the max size and edition properties
-            database.MaxSizeGB = databaseMaxSize;
+            if (databaseMaxSizeGb != null)
+            {
+                database.MaxSizeGB = (int)databaseMaxSizeGb;
+            }
+            if (databaseMaxSizeBytes != null)
+            {
+                database.MaxSizeBytes = (long)databaseMaxSizeBytes;
+            }
+
             database.Edition = databaseEdition == null ? null : databaseEdition.ToString();
 
             database.IsRecursiveTriggersOn = null;
