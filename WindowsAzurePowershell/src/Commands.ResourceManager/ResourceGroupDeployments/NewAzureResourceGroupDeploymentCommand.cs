@@ -21,11 +21,12 @@ namespace Microsoft.Azure.Commands.ResourceManager
     /// <summary>
     /// Creates a new resource group deployment.
     /// </summary>
-    [Cmdlet(VerbsCommon.New, "AzureResourceGroupDeployment"), OutputType(typeof(PSResourceGroupDeployment))]
+    [Cmdlet(VerbsCommon.New, "AzureResourceGroupDeployment", DefaultParameterSetName = BaseParameterSetName), OutputType(typeof(PSResourceGroupDeployment))]
     public class NewAzureResourceGroupDeploymentCommand : ResourceWithParameterBaseCmdlet, IDynamicParameters
     {
         [Alias("DeploymentName")]
-        [Parameter(Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "The name of the deployment it's going to create. Only valid when a template is used. When a template is used, if the user doesn't specify a deployment name, use the current time, like \"20131223140835\".")]
+        [Parameter(Mandatory = false, ValueFromPipelineByPropertyName = true, 
+            HelpMessage = "The name of the deployment it's going to create. Only valid when a template is used. When a template is used, if the user doesn't specify a deployment name, use the current time, like \"20131223140835\".")]
         [ValidateNotNullOrEmpty]
         public string Name { get; set; }
 
