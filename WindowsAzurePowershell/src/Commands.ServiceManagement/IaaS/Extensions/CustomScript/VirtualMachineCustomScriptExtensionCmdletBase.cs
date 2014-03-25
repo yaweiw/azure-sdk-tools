@@ -61,8 +61,9 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
 
         protected string GetPrivateConfiguration()
         {
-            return string.IsNullOrEmpty(this.StorageAccountName) ? string.Empty :
-                   JsonUtilities.TryFormatJson(JsonConvert.SerializeObject(
+            return string.IsNullOrEmpty(this.StorageAccountName)|| string.IsNullOrEmpty(this.StorageAccountKey)
+                 ? string.Empty
+                 : JsonUtilities.TryFormatJson(JsonConvert.SerializeObject(
                    new PrivateSettings
                    {
                        storageAccountName = this.StorageAccountName,
