@@ -22,6 +22,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
     using Storage;
     using Storage.Auth;
     using Storage.Blob;
+    using Utilities.Common;
 
     [Cmdlet(
         VerbsCommon.Set,
@@ -190,8 +191,10 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
 
             if (string.Equals(this.ParameterSetName, SetCustomScriptExtensionByContainerBlobsParamSetName))
             {
-                var sName = this.StorageAccountName ?? GetStorageName();
-                var sKey = this.StorageAccountKey ?? GetStorageKey(this.StorageAccountName);
+                this.StorageEndpointSuffix = string.IsNullOrEmpty(this.StorageEndpointSuffix) ?
+                    WindowsAzureProfile.Instance.CurrentEnvironment.StorageEndpointSuffix : this.StorageEndpointSuffix;
+                var sName = string.IsNullOrEmpty(this.StorageAccountName) ? GetStorageName() : this.StorageAccountName;
+                var sKey = string.IsNullOrEmpty(this.StorageAccountKey) ? GetStorageKey(sName) : this.StorageAccountKey;
 
                 if (this.FileName != null && this.FileName.Any())
                 {
@@ -202,7 +205,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
                 }
             }
 
-            this.ReferenceName = this.ReferenceName ?? LegacyReferenceName;
+            this.ReferenceName = string.IsNullOrEmpty(this.ReferenceName) ? LegacyReferenceName : this.ReferenceName;
             this.PublicConfiguration = GetPublicConfiguration();
             this.PrivateConfiguration = GetPrivateConfiguration();
         }
