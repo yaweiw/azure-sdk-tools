@@ -20,6 +20,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.DiskRepository
     using Management.Compute;
     using Management.Compute.Models;
     using Model;
+    using Properties;
     using Utilities.Common;
 
     [Cmdlet(VerbsCommon.Add, "AzureVMImage"), OutputType(typeof(OSImageContext))]
@@ -66,25 +67,34 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.DiskRepository
 
         public void ExecuteCommand()
         {
-            var parameters = new VirtualMachineOSImageCreateParameters
+            if (GetAzureVMImage.CheckImageType(this.ComputeClient, this.ImageName, ImageType.VMImage))
             {
-                Name = this.ImageName,
-                MediaLinkUri = new Uri(this.MediaLocation),
-                Label = string.IsNullOrEmpty(this.Label) ? this.ImageName : this.Label,
-                OperatingSystemType = this.OS,
-                Eula = this.Eula,
-                Description = this.Description,
-                ImageFamily = this.ImageFamily,
-                PublishedDate = this.PublishedDate,
-                PrivacyUri = this.PrivacyUri,
-                RecommendedVMSize = this.RecommendedVMSize
-            };
+                // If there is another type of image with the same name, WAPS will stop here to avoid duplicates and potential conflicts
+                var errorMsg = string.Format(Resources.ErrorAnotherImageTypeFoundWithTheSameName, ImageType.VMImage, this.ImageName);
+                WriteError(new ErrorRecord(new Exception(errorMsg), string.Empty, ErrorCategory.CloseError, null));
+            }
+            else
+            {
+                var parameters = new VirtualMachineOSImageCreateParameters
+                {
+                    Name = this.ImageName,
+                    MediaLinkUri = new Uri(this.MediaLocation),
+                    Label = string.IsNullOrEmpty(this.Label) ? this.ImageName : this.Label,
+                    OperatingSystemType = this.OS,
+                    Eula = this.Eula,
+                    Description = this.Description,
+                    ImageFamily = this.ImageFamily,
+                    PublishedDate = this.PublishedDate,
+                    PrivacyUri = this.PrivacyUri,
+                    RecommendedVMSize = this.RecommendedVMSize
+                };
 
-            this.ExecuteClientActionNewSM(
-                null,
-                this.CommandRuntime.ToString(),
-                () => this.ComputeClient.VirtualMachineOSImages.Create(parameters),
-                (s, response) => this.ContextFactory<VirtualMachineOSImageCreateResponse, OSImageContext>(response, s));
+                this.ExecuteClientActionNewSM(
+                    null,
+                    this.CommandRuntime.ToString(),
+                    () => this.ComputeClient.VirtualMachineOSImages.Create(parameters),
+                    (s, response) => this.ContextFactory<VirtualMachineOSImageCreateResponse, OSImageContext>(response, s));
+            }
         }
 
         protected override void OnProcessRecord()

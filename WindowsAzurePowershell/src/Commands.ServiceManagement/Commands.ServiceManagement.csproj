@@ -166,7 +166,7 @@
     </Reference>
     <Reference Include="Microsoft.WindowsAzure.Management.Compute, Version=0.9.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Microsoft.WindowsAzure.Management.Compute.0.9.15-preview\lib\net40\Microsoft.WindowsAzure.Management.Compute.dll</HintPath>
+      <HintPath>..\packages\Microsoft.WindowsAzure.Management.Compute.0.9.16-preview\lib\net40\Microsoft.WindowsAzure.Management.Compute.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.WindowsAzure.Management.Network">
       <HintPath>..\packages\Microsoft.WindowsAzure.Management.Network.0.9.7-preview\lib\net40\Microsoft.WindowsAzure.Management.Network.dll</HintPath>
@@ -257,7 +257,6 @@
     <Compile Include="IaaS\Extensions\Common\SetAzureVMExtension.cs" />
     <Compile Include="IaaS\Extensions\Common\VirtualMachineExtensionCmdletBase.cs" />
     <Compile Include="IaaS\Extensions\Common\VirtualMachineExtensionContext.cs" />
-    <Compile Include="IaaS\Extensions\Common\VirtualMachineExtensionConfigContext.cs" />
     <Compile Include="IaaS\Extensions\Common\GetAzureVMAvailableExtension.cs" />
     <Compile Include="IaaS\Extensions\Common\VirtualMachineExtensionImageContext.cs" />
     <Compile Include="IaaS\Extensions\Puppet\GetAzureVMPuppetExtension.cs" />
@@ -265,6 +264,13 @@
     <Compile Include="IaaS\Extensions\Puppet\SetAzureVMPuppetExtension.cs" />
     <Compile Include="IaaS\Extensions\Puppet\VirtualMachinePuppetExtensionCmdletBase.cs" />
     <Compile Include="IaaS\Extensions\Puppet\VirtualMachinePuppetExtensionContext.cs" />
+    <Compile Include="IaaS\Extensions\CustomScript\GetAzureVMCustomScriptExtension.cs" />
+    <Compile Include="IaaS\Extensions\CustomScript\PrivateSettings.cs" />
+    <Compile Include="IaaS\Extensions\CustomScript\PublicSettings.cs" />
+    <Compile Include="IaaS\Extensions\CustomScript\RemoveAzureVMCustomScriptExtension.cs" />
+    <Compile Include="IaaS\Extensions\CustomScript\SetAzureVMCustomScriptExtension.cs" />
+    <Compile Include="IaaS\Extensions\CustomScript\VirtualMachineCustomScriptExtensionCmdletBase.cs" />
+    <Compile Include="IaaS\Extensions\CustomScript\VirtualMachineCustomScriptExtensionContext.cs" />
     <Compile Include="IaaS\Extensions\VMAccess\GetAzureVMAccessExtension.cs" />
     <Compile Include="IaaS\Extensions\VMAccess\RemoveAzureVMAccessExtension.cs" />
     <Compile Include="IaaS\Extensions\VMAccess\SetAzureVMAccessExtension.cs" />
@@ -274,10 +280,12 @@
     <Compile Include="IaaS\Network\RemoveAzureStaticVNetIP.cs" />
     <Compile Include="IaaS\Network\SetAzureStaticVNetIP.cs" />
     <Compile Include="IaaS\Network\TestAzureStaticVNetIP.cs" />
+    <Compile Include="Model\PersistentVMRoleListContext.cs" />
     <Compile Include="Model\RoleSizeContext.cs" />
     <Compile Include="Model\PersistentVMRoleTypes.cs" />
     <Compile Include="Model\VirtualNetworkStaticIPAvailabilityContext.cs" />
     <Compile Include="Model\VirtualNetworkStaticIPContext.cs" />
+    <Compile Include="Model\VMImageContext.cs" />
     <Compile Include="RoleSizes\GetAzureRoleSize.cs" />
     <Compile Include="ServiceManagementProfile.cs" />
     <Compile Include="AffinityGroups\SetAzureAffinityGroup.cs" />
@@ -437,7 +445,6 @@
     <Compile Include="Model\OSVersionsContext.cs" />
     <Compile Include="Model\PersistentVM.cs" />
     <Compile Include="Model\PersistentVMRoleContext.cs" />
-    <Compile Include="Model\PersistentVMRoleListContext.cs" />
     <Compile Include="Model\PSSyncOutputEvents.cs" />
     <Compile Include="Model\RoleConfiguration.cs" />
     <Compile Include="Model\RoleContext.cs" />
@@ -484,14 +491,14 @@
     <None Include="Extensions\ADDomain\ADPublicSchema.xsd">
       <SubType>Designer</SubType>
     </None>
+    <Content Include="Microsoft.WindowsAzure.Commands.ServiceManagement.format.ps1xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <SubType>Designer</SubType>
+    </Content>
     <None Include="MSSharedLibKey.snk" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="..\packages\AutoMapper.3.1.1\lib\net40\AutoMapper.Net4.dll">
-      <Link>AutoMapper.Net4.dll</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
     <Content Include="Microsoft.WindowsAzure.Commands.ServiceManagement.dll-Help.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <SubType>Designer</SubType>

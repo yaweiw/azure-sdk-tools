@@ -15,14 +15,40 @@
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
 {
     using System.Management.Automation;
-    using Management.Compute;
     using Management.Compute.Models;
+    using DiskRepository;
+    using Properties;
     using Utilities.Common;
+    using System;
 
-    [Cmdlet(VerbsData.Save, "AzureVMImage"), OutputType(typeof(ManagementOperationContext))]
+    [Cmdlet(
+        VerbsData.Save,
+        AzureVMImageNoun),
+    OutputType(
+        typeof(ManagementOperationContext))]
     public class SaveAzureVMImageCommand : IaaSDeploymentManagementCmdletBase
     {
-        [Parameter(Position = 1, Mandatory = true, ValueFromPipelineByPropertyName = true, HelpMessage = "The name of the virtual machine to export.")]
+        protected const string AzureVMImageNoun = "AzureVMImage";
+        protected const string GeneralizedStr = "Generalized";
+        protected const string SpecializedStr = "Specialized";
+
+        [Parameter(
+            Position = 0,
+            Mandatory = true,
+            ValueFromPipelineByPropertyName = true,
+            HelpMessage = "The service name.")]
+        [ValidateNotNullOrEmpty]
+        public override string ServiceName
+        {
+            get;
+            set;
+        }
+
+        [Parameter(
+            Position = 1,
+            Mandatory = true,
+            ValueFromPipelineByPropertyName = true,
+            HelpMessage = "The name of the virtual machine to export.")]
         [ValidateNotNullOrEmpty]
         public string Name
         {
@@ -30,43 +56,103 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
             set;
         }
 
-        [Parameter(Position = 2, Mandatory = true, ValueFromPipelineByPropertyName = true, HelpMessage = "The name that will have the new image.")]
+        [Alias("NewImageName")]
+        [Parameter(
+            Position = 2,
+            Mandatory = true,
+            ValueFromPipelineByPropertyName = true,
+            HelpMessage = "The name for the new image.")]
         [ValidateNotNullOrEmpty]
-        public string NewImageName
+        public string ImageName
         {
             get;
             set;
         }
 
-        [Parameter(Position = 3, Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "The label that will have the new image.")]
+        [Alias("NewImageLabel")]
+        [Parameter(
+            Position = 3,
+            Mandatory = false,
+            ValueFromPipelineByPropertyName = true,
+            HelpMessage = "The label for the new image.")]
         [ValidateNotNullOrEmpty]
-        public string NewImageLabel
+        public string ImageLabel
         {
             get;
             set;
         }
 
+        [Parameter(
+            Position = 4,
+            Mandatory = false,
+            ValueFromPipelineByPropertyName = true,
+            HelpMessage = "The OS state.")]
+        [ValidateNotNullOrEmpty]
+        [ValidateSet(GeneralizedStr, SpecializedStr, IgnoreCase = true)]
+        public string OSState
+        {
+            get;
+            set;
+        }
+
+        internal bool ValidateImageType(ImageType againstImageType)
+        {
+            if (GetAzureVMImage.CheckImageType(this.ComputeClient, this.ImageName, againstImageType))
+            {
+                // If there is another type of image with the same name, WAPS will stop here to avoid duplicates and potential conflicts
+                var errorMsg = string.Format(Resources.ErrorAnotherImageTypeFoundWithTheSameName, againstImageType, this.ImageName);
+                WriteError(new ErrorRecord(new Exception(errorMsg), string.Empty, ErrorCategory.CloseError, null));
+
+                return false;
+            }
+
+            return true;
+        }
+        
         protected override void ExecuteCommand()
         {
             ServiceManagementProfile.Initialize();
             
             base.ExecuteCommand();
+
             if (CurrentDeploymentNewSM == null)
             {
+                WriteWarning(string.Format(Resources.NoDeploymentFoundByServiceAndVMName, this.ServiceName, this.Name));
                 return;
             }
 
-            var parameter = new VirtualMachineCaptureOSImageParameters
-            {
-                PostCaptureAction = PostCaptureAction.Delete,
-                TargetImageLabel = string.IsNullOrEmpty(this.NewImageLabel) ? this.NewImageName : this.NewImageLabel,
-                TargetImageName = this.NewImageName
-            };
+            Func<OperationStatusResponse> action = null;
 
-            ExecuteClientActionNewSM(
-                null,
-                CommandRuntime.ToString(),
-                () => this.ComputeClient.VirtualMachines.CaptureOSImage(this.ServiceName, CurrentDeploymentNewSM.Name, this.Name, parameter));
+            if (string.IsNullOrEmpty(this.OSState) && ValidateImageType(ImageType.VMImage))
+            {
+                action = () => this.ComputeClient.VirtualMachines.CaptureOSImage(
+                    this.ServiceName,
+                    CurrentDeploymentNewSM.Name,
+                    this.Name,
+                    new VirtualMachineCaptureOSImageParameters
+                    {
+                        PostCaptureAction = PostCaptureAction.Delete,
+                        TargetImageLabel = string.IsNullOrEmpty(this.ImageLabel) ? this.ImageName : this.ImageLabel,
+                        TargetImageName = this.ImageName
+                    });
+            }
+            else if (!string.IsNullOrEmpty(this.OSState) && ValidateImageType(ImageType.OSImage))
+            {
+                action = () => this.ComputeClient.VirtualMachines.CaptureVMImage(
+                    this.ServiceName,
+                    CurrentDeploymentNewSM.Name,
+                    this.Name, new VirtualMachineCaptureVMImageParameters
+                    {
+                        VMImageName = this.ImageName,
+                        VMImageLabel = string.IsNullOrEmpty(this.ImageLabel) ? this.ImageName : this.ImageLabel,
+                        OSState = this.OSState
+                    });
+            }
+
+            if (action != null)
+            {
+                ExecuteClientActionNewSM(null, CommandRuntime.ToString(), action);
+            }
         }
     }
 }
