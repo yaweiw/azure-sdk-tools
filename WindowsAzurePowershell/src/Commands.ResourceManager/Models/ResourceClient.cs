@@ -55,10 +55,10 @@ namespace Microsoft.Azure.Commands.ResourceManager.Models
         /// <param name="subscription">Subscription containing resources to manipulate</param>
         public ResourcesClient(WindowsAzureSubscription subscription)
             : this(
-                subscription.CreateClientFromCloudServiceEndpoint<ResourceManagementClient>(),
+                subscription.CreateClientFromResourceManagerEndpoint<ResourceManagementClient>(),
                 new StorageClientWrapper(subscription.CreateClient<StorageManagementClient>()),
                 new GalleryTemplatesClient(subscription),
-                subscription.CreateClientFromCloudServiceEndpoint<EventsClient>())
+                subscription.CreateClientFromResourceManagerEndpoint<EventsClient>())
         {
 
         }
@@ -66,7 +66,7 @@ namespace Microsoft.Azure.Commands.ResourceManager.Models
         /// <summary>
         /// Creates new ResourcesClient instance
         /// </summary>
-        /// <param name="ResourceManagementClient">The IResourceManagementClient instance</param>
+        /// <param name="resourceManagementClient">The IResourceManagementClient instance</param>
         /// <param name="storageClientWrapper">The IStorageClientWrapper instance</param>
         /// <param name="galleryTemplatesClient">The IGalleryClient instance</param>
         /// <param name="eventsClient">The IEventsClient instance</param>
@@ -155,8 +155,7 @@ namespace Microsoft.Azure.Commands.ResourceManager.Models
                     });
                     WriteVerbose(string.Format(
                         "Uploading template '{0}' to {1}.",
-                        Path.GetFileName(templateFile),
-                        templateFileUri.ToString()));
+                        Path.GetFileName(templateFile), templateFileUri));
                 }
             }
             else

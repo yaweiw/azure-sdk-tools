@@ -12,6 +12,7 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
+using System.IO;
 using Microsoft.Azure.Commands.ResourceManager.Properties;
 using Microsoft.Azure.Management.Resources;
 using Microsoft.Azure.Management.Resources.Models;
@@ -130,10 +131,6 @@ namespace Microsoft.Azure.Commands.ResourceManager.Models
             string newProperty = SerializeHashtable(parameters.PropertyObject,
                                                     addValueLayer: false);
 
-            if (parameters.Mode == SetResourceMode.Update)
-            {
-                newProperty = JsonUtilities.Patch(getResource.Resource.Properties, newProperty);
-            }
             ResourceManagementClient.Resources.CreateOrUpdate(parameters.ResourceGroupName, resourceIdentity,
                         new ResourceCreateOrUpdateParameters
                             {
@@ -210,7 +207,7 @@ namespace Microsoft.Azure.Commands.ResourceManager.Models
                 parameters.ConfirmAction(parameters.Force,
                     Resources.ResourceGroupAlreadyExists,
                     Resources.NewResourceGroupMessage,
-                    parameters.Name,
+                    parameters.DeploymentName,
                     createOrUpdateResourceGroup);
                 resourceGroup = ResourceManagementClient.ResourceGroups.Get(parameters.ResourceGroupName).ResourceGroup;
             }
@@ -264,9 +261,9 @@ namespace Microsoft.Azure.Commands.ResourceManager.Models
         /// <returns>The created deployment instance</returns>
         public virtual PSResourceGroupDeployment ExecuteDeployment(CreatePSResourceGroupDeploymentParameters parameters)
         {
-            parameters.Name = string.IsNullOrEmpty(parameters.Name) ? Guid.NewGuid().ToString() : parameters.Name;
+            parameters.DeploymentName = GenerateDeploymentName(parameters);
             BasicDeployment deployment = CreateBasicDeployment(parameters);
-            List<ResourceManagementError> errors = CheckBasicDeploymentErrors(parameters.ResourceGroupName, parameters.Name, deployment);
+            List<ResourceManagementError> errors = CheckBasicDeploymentErrors(parameters.ResourceGroupName, parameters.DeploymentName, deployment);
 
             if (errors.Count != 0)
             {
@@ -281,11 +278,31 @@ namespace Microsoft.Azure.Commands.ResourceManager.Models
                 WriteVerbose(Resources.TemplateValid);
             }
 
-            DeploymentOperationsCreateResult result = ResourceManagementClient.Deployments.CreateOrUpdate(parameters.ResourceGroupName, parameters.Name, deployment);
-            WriteVerbose(string.Format("Create template deployment '{0}' using template {1}.", parameters.Name, deployment.TemplateLink.Uri));
-            ProvisionDeploymentStatus(parameters.ResourceGroupName, parameters.Name, deployment);
+            DeploymentOperationsCreateResult result = ResourceManagementClient.Deployments.CreateOrUpdate(parameters.ResourceGroupName, parameters.DeploymentName, deployment);
+            WriteVerbose(string.Format("Create template deployment '{0}' using template {1}.", parameters.DeploymentName, deployment.TemplateLink.Uri));
+            ProvisionDeploymentStatus(parameters.ResourceGroupName, parameters.DeploymentName, deployment);
 
             return result.ToPSResourceGroupDeployment();
+        }
+
+        private string GenerateDeploymentName(CreatePSResourceGroupDeploymentParameters parameters)
+        {
+            if (!string.IsNullOrEmpty(parameters.DeploymentName))
+            {
+                return parameters.DeploymentName;
+            }
+            else if (!string.IsNullOrEmpty(parameters.TemplateFile))
+            {
+                return Path.GetFileNameWithoutExtension(parameters.TemplateFile);
+            }
+            else if (!string.IsNullOrEmpty(parameters.GalleryTemplateIdentity))
+            {
+                return parameters.GalleryTemplateIdentity;
+            }
+            else
+            {
+                return Guid.NewGuid().ToString();
+            }
         }
 
         /// <summary>
