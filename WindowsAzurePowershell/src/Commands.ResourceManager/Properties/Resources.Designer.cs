@@ -124,6 +124,15 @@ namespace Microsoft.Azure.Commands.ResourceManager.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The provided file path &apos;{0}&apos; already exists, do you want to override it?.
+        /// </summary>
+        internal static string FileAlreadyExists {
+            get {
+                return ResourceManager.GetString("FileAlreadyExists", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to &apos;{0}&apos; is invalid template identity and can not be found..
         /// </summary>
         internal static string InvalidTemplateIdentity {
@@ -147,6 +156,15 @@ namespace Microsoft.Azure.Commands.ResourceManager.Properties {
         internal static string NewResourceMessage {
             get {
                 return ResourceManager.GetString("NewResourceMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Overriding the existing file..
+        /// </summary>
+        internal static string OverrdingFile {
+            get {
+                return ResourceManager.GetString("OverrdingFile", resourceCulture);
             }
         }
         
