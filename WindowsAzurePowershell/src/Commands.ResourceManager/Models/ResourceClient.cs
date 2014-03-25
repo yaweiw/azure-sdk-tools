@@ -214,26 +214,26 @@ namespace Microsoft.Azure.Commands.ResourceManager.Models
             }
         }
 
-        private void ProvisionDeploymentStatus(string resourceGroup, string deploymentName)
+        private void ProvisionDeploymentStatus(string resourceGroup, string deploymentName, BasicDeployment deployment)
         {
             operations = new List<DeploymentOperation>();
 
             WaitDeploymentStatus(
                 resourceGroup,
                 deploymentName,
+                deployment,
                 WriteDeploymentProgress,
                 ProvisioningState.Canceled,
                 ProvisioningState.Succeeded,
                 ProvisioningState.Failed);
         }
 
-        private void WriteDeploymentProgress(string resourceGroup, string deploymentName)
+        private void WriteDeploymentProgress(string resourceGroup, string deploymentName, BasicDeployment deployment)
         {
-            const string normalStatusFormat = "Resource {0} '{1}' provisioning status in location '{2}' is {3}";
-            const string failureStatusFormat = "Resource {0} '{1}' in location '{2}' failed with message '{3}'";
+            const string normalStatusFormat = "Resource {0} '{1}' provisioning status is {2}";
+            const string failureStatusFormat = "Resource {0} '{1}' failed with message '{2}'";
             List<DeploymentOperation> newOperations = new List<DeploymentOperation>();
             DeploymentOperationsListResult result = null;
-            string location = ResourceManagementClient.ResourceGroups.Get(resourceGroup).ResourceGroup.Location;
             
             do
             {
@@ -252,8 +252,7 @@ namespace Microsoft.Azure.Commands.ResourceManager.Models
                     statusMessage = string.Format(normalStatusFormat,
                         operation.Properties.TargetResource.ResourceType,
                         operation.Properties.TargetResource.ResourceName,
-                        location,
-                        operation.Properties.ProvisioningState);
+                        operation.Properties.ProvisioningState.ToLower());
 
                     WriteVerbose(statusMessage);
                 }
@@ -264,7 +263,6 @@ namespace Microsoft.Azure.Commands.ResourceManager.Models
                     statusMessage = string.Format(failureStatusFormat,
                         operation.Properties.TargetResource.ResourceType,
                         operation.Properties.TargetResource.ResourceName,
-                        location,
                         errorMessage);
 
                     WriteError(statusMessage);
@@ -292,7 +290,7 @@ namespace Microsoft.Azure.Commands.ResourceManager.Models
             return errorMessage;
         }
 
-        private void WaitDeploymentStatus(string resourceGroup, string deploymentName, Action<string, string> job, params string[] status)
+        private void WaitDeploymentStatus(string resourceGroup, string deploymentName, BasicDeployment basicDeployment, Action<string, string, BasicDeployment> job, params string[] status)
         {
             DeploymentProperties deployment = new DeploymentProperties();
 
@@ -300,7 +298,7 @@ namespace Microsoft.Azure.Commands.ResourceManager.Models
             {
                 if (job != null)
                 {
-                    job(resourceGroup, deploymentName);
+                    job(resourceGroup, deploymentName, basicDeployment);
                 }
 
                 deployment = ResourceManagementClient.Deployments.Get(resourceGroup, deploymentName).Deployment.Properties;
