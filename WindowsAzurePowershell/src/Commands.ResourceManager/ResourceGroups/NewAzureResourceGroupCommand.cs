@@ -47,9 +47,9 @@ namespace Microsoft.Azure.Commands.ResourceManager
             {
                 ResourceGroupName = Name,
                 Location = Location,
-                Name = DeploymentName,
+                DeploymentName = DeploymentName,
                 GalleryTemplateIdentity = GalleryTemplateIdentity,
-                TemplateFile = this.TryResolvePath(TemplateFile),
+                TemplateFile = TemplateUri ?? this.TryResolvePath(TemplateFile),
                 TemplateParameterObject = GetTemplateParameterObject(TemplateParameterObject),
                 TemplateVersion = TemplateVersion,
                 StorageAccountName = StorageAccountName,
