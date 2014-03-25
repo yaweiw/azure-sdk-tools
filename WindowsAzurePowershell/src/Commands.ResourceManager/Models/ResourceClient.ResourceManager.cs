@@ -131,10 +131,6 @@ namespace Microsoft.Azure.Commands.ResourceManager.Models
             string newProperty = SerializeHashtable(parameters.PropertyObject,
                                                     addValueLayer: false);
 
-            if (parameters.Mode == SetResourceMode.Update)
-            {
-                newProperty = JsonUtilities.Patch(getResource.Resource.Properties, newProperty);
-            }
             ResourceManagementClient.Resources.CreateOrUpdate(parameters.ResourceGroupName, resourceIdentity,
                         new ResourceCreateOrUpdateParameters
                             {
