@@ -1358,6 +1358,33 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
             }
         }
 
+        [TestMethod(), TestCategory("Scenario"), TestProperty("Feature", "IaaS"), Priority(1), Owner("hylee"), Description("Test the cmdlets (New-AzureVMConfig,Add-AzureProvisioningConfig,New-AzureVM)")]
+        public void SetProvisionGuestAgentTest()
+        {
+            try
+            {
+                string vmName = Utilities.GetUniqueShortName(vmNamePrefix);
+                Console.WriteLine("VM Name:{0}", vmName);
+                PersistentVM vm = Utilities.CreateIaaSVMObject(vmName, InstanceSize.Small, imageName, true, username, password, true);
+                vmPowershellCmdlets.NewAzureVM(serviceName, new[] { vm }, locationName, false);
+                var vmRoleContext = vmPowershellCmdlets.GetAzureVM(vmName, serviceName);
+                Utilities.PrintContext(vmRoleContext);
+                Assert.IsFalse(vmRoleContext.VM.ProvisionGuestAgent.Value);
+                vmRoleContext.VM.ProvisionGuestAgent = true;
+                vmPowershellCmdlets.UpdateAzureVM(vmName, serviceName, vmRoleContext.VM);
+                vmRoleContext = vmPowershellCmdlets.GetAzureVM(vmName, serviceName);
+                Utilities.PrintContext(vmRoleContext);
+                Assert.IsTrue(vmRoleContext.VM.ProvisionGuestAgent.Value);
+                pass = true;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.ToString());
+                throw;
+            }
+
+        }
+
         [TestCleanup]
         public virtual void CleanUp()
         {

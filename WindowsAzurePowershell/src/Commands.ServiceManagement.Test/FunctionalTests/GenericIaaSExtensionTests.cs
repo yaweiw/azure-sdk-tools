@@ -217,6 +217,61 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
             }
             
         }
+
+        [TestMethod(), TestCategory("Scenario"), TestProperty("Feature", "IAAS"), Priority(0), Owner("hylee"), Description("Test the cmdlet (Get-AzureVMAvailableExtension)")]
+        public void GetAzureVMAvailableExtensionTest()
+        {
+            try
+            {
+                var availableExtensions = vmPowershellCmdlets.GetAzureVMAvailableExtension();
+                foreach (var extension in availableExtensions)
+                {
+                    ValidateAvailableExtesnion(extension);
+                }
+                pass = true;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.ToString());
+                throw;
+            }
+        }
+
+        public void ValidateAvailableExtesnion(VirtualMachineExtensionImageContext extension)
+        {
+            Utilities.PrintContext(extension);
+            Assert.IsFalse(string.IsNullOrEmpty(extension.ExtensionName));
+            Assert.IsFalse(string.IsNullOrEmpty(extension.Publisher));
+            Assert.IsFalse(string.IsNullOrEmpty(extension.Version));
+
+            // Intentionally commented as the cmdlet prod cmdlet doesnt have these properties and dogfood returns errors
+            // now
+            //Assert.IsTrue(extension.ReplicationCompleted);
+            //Assert.IsTrue(Utilities.validateHttpUri(extension.PrivacyUri.ToString()));
+            //Assert.IsTrue(Utilities.validateHttpUri(extension.PrivacyUri.ToString()));
+            //Assert.IsTrue(Utilities.validateHttpUri(extension.Eula.ToString()));
+
+            switch (extension.ExtensionName)
+            {
+                //case "BGInfo":
+                //    {
+                //        Assert.IsTrue(extension.ReplicationCompleted);
+                //        break;
+                //    }
+                case "DiagnosticsAgent":
+                    {
+                        Assert.IsFalse(string.IsNullOrEmpty(extension.PublicConfigurationSchema));
+                        break;
+                    }
+                case "VMAccessAgent":
+                    {
+                        Assert.IsFalse(string.IsNullOrEmpty(extension.PublicConfigurationSchema));
+                        Assert.IsFalse(string.IsNullOrEmpty(extension.PrivateConfigurationSchema));
+                        //Assert.IsFalse(string.IsNullOrEmpty(extension.SampleConfig));
+                        break;
+                    }
+            }
+        }
         
 
         private PersistentVM CreateIaaSVMObject(string vmName)
