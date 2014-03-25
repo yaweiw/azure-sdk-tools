@@ -47,7 +47,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
         {
             if (typeof(T).FullName.EndsWith("ResourceManagementClient"))
             {
-                return new[] { "microsoft.insights" };
+                return new[] { "microsoft.insights", "successbricks.cleardb" };
             }
 
             return new string[0];
