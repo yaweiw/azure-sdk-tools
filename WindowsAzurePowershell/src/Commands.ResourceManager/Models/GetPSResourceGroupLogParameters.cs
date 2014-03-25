@@ -22,7 +22,5 @@ namespace Microsoft.Azure.Commands.ResourceManager.Models
         public string DeploymentName { get; set; }
 
         public bool All { get; set; }
-
-        public bool LastDeployment { get; set; }
     }
 }
