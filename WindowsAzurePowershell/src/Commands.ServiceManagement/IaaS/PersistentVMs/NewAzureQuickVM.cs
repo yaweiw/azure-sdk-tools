@@ -533,7 +533,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.PersistentVMs
             }
             else if (ParameterSetName.Equals(LinuxParamSet, StringComparison.OrdinalIgnoreCase))
             {
-                if (this.AdminUsername != null && this.Password != null)
+                if (this.LinuxUser != null && this.Password != null)
                 {
                     var linuxConfig = new Microsoft.WindowsAzure.Commands.ServiceManagement.Model.PersistentVMModel.LinuxProvisioningConfigurationSet
                     {
@@ -657,11 +657,6 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.PersistentVMs
             if (this.DnsSettings != null && string.IsNullOrEmpty(this.VNetName))
             {
                 throw new ArgumentException(Resources.VNetNameRequiredWhenSpecifyingDNSSettings);
-            }
-
-            if (this.ParameterSetName.Contains(LinuxParamSet) && string.IsNullOrEmpty(this.LinuxUser))
-            {
-                throw new ArgumentException(Resources.SpecifyLinuxUserWhenCreatingLinuxVMs);
             }
 
             if (this.ParameterSetName.Contains(LinuxParamSet) && this.Password != null && !ValidationHelpers.IsLinuxPasswordValid(this.Password))
