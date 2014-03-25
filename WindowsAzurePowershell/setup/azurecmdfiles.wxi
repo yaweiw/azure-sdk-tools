@@ -3,19 +3,19 @@
     <Fragment>
         <DirectoryRef Id="PowerShellFolder">
             <Directory Id="dir14C3CF846582F2E07E46B9550CE89EC7" Name="AzureResourceManager">
-                <Component Id="cmpA5AAAB8C79FE782A10ADA4AA67698DA6" Guid="8E1ACD47-B550-4124-B530-179CF5075362">
+                <Component Id="cmpA5AAAB8C79FE782A10ADA4AA67698DA6" Guid="DC0BAB09-069D-4202-962E-5F461B203AE0">
                     <File Id="fil6867BAB715AFF6EC1C32D5735219C2C5" KeyPath="yes" Source="$(var.sourceDir)\AzureResourceManager\AzureResourceManager.psd1" />
                 </Component>
-                <Component Id="cmp9851DC9E7A8662433F98EBA544A78FC6" Guid="31531CE3-B294-4201-81C3-414946D72F2D">
+                <Component Id="cmp9851DC9E7A8662433F98EBA544A78FC6" Guid="14283E12-0654-4D6E-8369-C1C21760CCCD">
                     <File Id="filE1868858181FE9A7A72A89ADCA579D85" KeyPath="yes" Source="$(var.sourceDir)\AzureResourceManager\Microsoft.Azure.Commands.ResourceManager.dll" />
                 </Component>
-                <Component Id="cmpD5B443A905B9614883B3ACFCC2861DA6" Guid="BC8E88F0-B204-4CCA-8655-309A856C89E6">
+                <Component Id="cmpD5B443A905B9614883B3ACFCC2861DA6" Guid="0FAA26A8-0ECE-4AC3-A2E5-2912430E456E">
                     <File Id="fil9C0CDE122B7FB40D6CC2ECDB8786C0B8" KeyPath="yes" Source="$(var.sourceDir)\AzureResourceManager\Microsoft.Azure.Commands.ResourceManager.format.ps1xml" />
                 </Component>
-                <Component Id="cmp6D0748545B5E6655A0E9299656B8B6C3" Guid="DA1DCADC-A823-4F97-999A-55E15990810B">
+                <Component Id="cmp6D0748545B5E6655A0E9299656B8B6C3" Guid="8F2F5296-4970-4E26-ADF1-534EC7FCAD58">
                     <File Id="fil0B1628E3168B881E742E6E7A2D2CF92B" KeyPath="yes" Source="$(var.sourceDir)\AzureResourceManager\Microsoft.Azure.Commands.ResourceManager.pdb" />
                 </Component>
-                <Component Id="cmp8803337DC7FA789BCE80104FD1C047CC" Guid="1B409172-F4E4-4149-89AC-461381475267">
+                <Component Id="cmp8803337DC7FA789BCE80104FD1C047CC" Guid="963762E1-BD43-48CF-8EC5-F0EBECD3A314">
                     <Class Id="{04BBDF27-E0A8-3256-959A-81E57D11550F}" Context="InprocServer32" Description="Microsoft.Azure.Gallery.Models.ItemListParameters" ThreadingModel="both" ForeignServer="mscoree.dll">
                         <ProgId Id="Microsoft.Azure.Gallery.Models.ItemListParameters" Description="Microsoft.Azure.Gallery.Models.ItemListParameters" />
                     </Class>
@@ -90,10 +90,10 @@
                     <RegistryValue Root="HKCR" Key="CLSID\{BF24048B-F040-3445-AE8B-3E5019A592D0}\InprocServer32" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
                     <RegistryValue Root="HKCR" Key="CLSID\{BF24048B-F040-3445-AE8B-3E5019A592D0}\InprocServer32" Name="CodeBase" Value="file:///[#fil8493388957734265C2D372413BC29EF9]" Type="string" Action="write" />
                 </Component>
-                <Component Id="cmp84DE29EEE9DE551A27F96DAB98EA16EB" Guid="EBB309B2-82FB-4AC6-975C-AA47A59BDE25">
+                <Component Id="cmp84DE29EEE9DE551A27F96DAB98EA16EB" Guid="84C400B5-8109-41C7-B021-1B5AE2E0345F">
                     <File Id="fil9FFC8E1D57ACB9FBE03FB514A67A142B" KeyPath="yes" Source="$(var.sourceDir)\AzureResourceManager\Microsoft.Azure.Gallery.xml" />
                 </Component>
-                <Component Id="cmp2BF9FE3F9EA08A232C41D23FFEF5D3EF" Guid="58C54B70-D440-491C-AE76-A7C1394340C9">
+                <Component Id="cmp2BF9FE3F9EA08A232C41D23FFEF5D3EF" Guid="E0DFF7D2-4064-4044-AD99-2EDCBF3CD5C5">
                     <Class Id="{005CAB4E-5445-36BD-98CD-25FE808D885C}" Context="InprocServer32" Description="Microsoft.Azure.Management.Resources.Models.ResourceGroupGetResult" ThreadingModel="both" ForeignServer="mscoree.dll">
                         <ProgId Id="Microsoft.Azure.Management.Resources.Models.ResourceGroupGetResult" Description="Microsoft.Azure.Management.Resources.Models.ResourceGroupGetResult" />
                     </Class>
@@ -585,10 +585,10 @@
                     <RegistryValue Root="HKCR" Key="Record\{E5586C43-B79A-38FD-A6DD-C0FAC9B9D25E}\2.0.0.0" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
                     <RegistryValue Root="HKCR" Key="Record\{E5586C43-B79A-38FD-A6DD-C0FAC9B9D25E}\2.0.0.0" Name="CodeBase" Value="file:///[#fil0D405EC44BEBB96DD8872C23851F9DB2]" Type="string" Action="write" />
                 </Component>
-                <Component Id="cmp8D4A38E948E54F3EF242E6843DCBAB31" Guid="2B2EAB62-64E0-4ADD-AE78-9F156616BA99">
+                <Component Id="cmp8D4A38E948E54F3EF242E6843DCBAB31" Guid="DE08DFA9-FAA6-4C23-A44E-515CF2B33723">
                     <File Id="fil850D9B820FFC043013B9EFDB1F4141A7" KeyPath="yes" Source="$(var.sourceDir)\AzureResourceManager\Microsoft.Azure.Management.Resources.xml" />
                 </Component>
-                <Component Id="cmp3F08A5E1D42C88084B64014190BCF8E8" Guid="61B7985C-C1B6-41CA-9645-CA3304D441DA">
+                <Component Id="cmp3F08A5E1D42C88084B64014190BCF8E8" Guid="4C77690C-14A8-40FA-A6F4-581021CE2DB1">
                     <Class Id="{003E6AC4-3581-38A9-A4EA-08CE7E8A7B95}" Context="InprocServer32" Description="Microsoft.WindowsAzure.Management.Monitoring.Usages.Models.UsageMetric" ThreadingModel="both" ForeignServer="mscoree.dll">
                         <ProgId Id="Microsoft.WindowsAzure.Management.Monitoring.Usages.Models.UsageMetric" Description="Microsoft.WindowsAzure.Management.Monitoring.Usages.Models.UsageMetric" />
                     </Class>
@@ -1336,31 +1336,13 @@
                     <RegistryValue Root="HKCR" Key="Record\{CF2E4A1F-39E8-3256-BEAC-F4AF9E1952A2}\2.0.0.0" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
                     <RegistryValue Root="HKCR" Key="Record\{CF2E4A1F-39E8-3256-BEAC-F4AF9E1952A2}\2.0.0.0" Name="CodeBase" Value="file:///[#filF206801082660F24FC48466D629A2D60]" Type="string" Action="write" />
                 </Component>
-                <Component Id="cmpB8AD3C747B0F3C08907E844F11E0E77D" Guid="F1111778-6381-4569-8BDB-591005D409F8">
+                <Component Id="cmpB8AD3C747B0F3C08907E844F11E0E77D" Guid="2324DCD1-2FFB-4142-AEFF-DB7B595E9EA7">
                     <File Id="fil10C9F787F6BB25AE960D6936139184EB" KeyPath="yes" Source="$(var.sourceDir)\AzureResourceManager\Microsoft.Azure.Monitoring.xml" />
                 </Component>
-                <Component Id="cmp25B06A7EAD2D0CF4C2643185E4CC1ED7" Guid="8938CB5C-82A2-41B3-8B63-5C1EA8B44819">
-                    <File Id="filD57D0189CF7FDF38CD330F0D9A98E37A" KeyPath="yes" Source="$(var.sourceDir)\AzureResourceManager\Microsoft.Data.Edm.dll" />
-                </Component>
-                <Component Id="cmpD16550322888262E1D3D6C518AEAEFD5" Guid="932C2E9A-FE12-42A6-8F1A-57FDEBD117D8">
-                    <File Id="fil68C19EC07FDDA2B2EFDE070CE34730FA" KeyPath="yes" Source="$(var.sourceDir)\AzureResourceManager\Microsoft.Data.Edm.xml" />
-                </Component>
-                <Component Id="cmpBEDAE70CFCDDC321F9DC589D1676946D" Guid="8F612874-A9AA-469E-B09A-0759F5E9AF45">
-                    <File Id="fil9115160EB4203DE96D2C032CC7758B05" KeyPath="yes" Source="$(var.sourceDir)\AzureResourceManager\Microsoft.Data.OData.dll" />
-                </Component>
-                <Component Id="cmp81DF0B0EE93144317517B47C15140867" Guid="6D743207-602C-4ED0-BDE6-00651CF5BBDB">
-                    <File Id="fil701805CC918A03892E29AD79A3F728C4" KeyPath="yes" Source="$(var.sourceDir)\AzureResourceManager\Microsoft.Data.OData.xml" />
-                </Component>
-                <Component Id="cmp0DA30E039FC6B2D45E870626FCA2BC7D" Guid="C6F8A261-92AF-48D8-B994-D051A1AFC76E">
-                    <File Id="filBE4B6545E41F9A07081A9A1F67D2513D" KeyPath="yes" Source="$(var.sourceDir)\AzureResourceManager\Microsoft.Data.Services.Client.dll" />
-                </Component>
-                <Component Id="cmpD70EB38BDF5CB133CF574275D9D6AFEB" Guid="AD3C58F2-A4D4-42E1-A79B-CB48AF79A4A5">
-                    <File Id="fil4CF182B967295ADF0031B8B531ED97F0" KeyPath="yes" Source="$(var.sourceDir)\AzureResourceManager\Microsoft.Data.Services.Client.xml" />
-                </Component>
-                <Component Id="cmpD5DCA5CDF64157FFD4D921D03109AFE9" Guid="33656440-FB2A-423C-86D3-01C135EA6367">
+                <Component Id="cmpD5DCA5CDF64157FFD4D921D03109AFE9" Guid="74D4CC9E-9275-48DB-9BD1-436F78577FD9">
                     <File Id="fil54687DB096D5DE78891C77C4E59407F5" KeyPath="yes" Source="$(var.sourceDir)\AzureResourceManager\Microsoft.IdentityModel.Clients.ActiveDirectory.dll" />
                 </Component>
-                <Component Id="cmp51B57936D13FDB1447B80C3E0416F250" Guid="A767B378-0FC8-4D53-B7EA-E50635AE02F5">
+                <Component Id="cmp51B57936D13FDB1447B80C3E0416F250" Guid="DD1B8F02-09D5-4D7C-8B9A-DDCE3CC03EE1">
                     <Class Id="{9EB3388F-4E57-37B1-9BC2-7439F2BEC98F}" Context="InprocServer32" Description="Microsoft.IdentityModel.Clients.ActiveDirectory.Internal.WindowsFormsWebAuthenticationDialog" ThreadingModel="both" ForeignServer="mscoree.dll">
                         <ProgId Id="Microsoft.IdentityModel.Clients.ActiveDirectory.Internal.WindowsFormsWebAuthenticationDialog" Description="Microsoft.IdentityModel.Clients.ActiveDirectory.Internal.WindowsFormsWebAuthenticationDialog" />
                     </Class>
@@ -1375,10 +1357,10 @@
                     <RegistryValue Root="HKCR" Key="CLSID\{9EB3388F-4E57-37B1-9BC2-7439F2BEC98F}\InprocServer32" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
                     <RegistryValue Root="HKCR" Key="CLSID\{9EB3388F-4E57-37B1-9BC2-7439F2BEC98F}\InprocServer32" Name="CodeBase" Value="file:///[#filCC49954BDCFD7C7CA77E3B7707D1EC95]" Type="string" Action="write" />
                 </Component>
-                <Component Id="cmpCFBB68D985E6E63237F465FAFBBBD32A" Guid="EA8B9CAD-03BC-4C19-825D-972BCA75E8A7">
+                <Component Id="cmpCFBB68D985E6E63237F465FAFBBBD32A" Guid="DC617FD2-6543-4B37-A470-8CA3AF9ED535">
                     <File Id="fil3B5B92D30D1DC4EBF039FAE5305CC23C" KeyPath="yes" Source="$(var.sourceDir)\AzureResourceManager\Microsoft.IdentityModel.Clients.ActiveDirectory.xml" />
                 </Component>
-                <Component Id="cmp8809B2098BD27AA596333F2B16F3D7CB" Guid="98F2FCE4-798E-412A-AD8A-3D129B99EB28">
+                <Component Id="cmp8809B2098BD27AA596333F2B16F3D7CB" Guid="85744724-06AB-4842-AC61-0DAA4952D14A">
                     <File Id="filE4D5BA2FC4A77BBC328388FE72AECF9F" KeyPath="yes" Source="$(var.sourceDir)\AzureResourceManager\Microsoft.Threading.Tasks.dll" />
                     <RegistryValue Root="HKCR" Key="Record\{2FAF1D94-0A36-3214-B904-3F98E93A1347}\1.0.12.0" Name="Class" Value="Microsoft.Runtime.CompilerServices.YieldAwaitable" Type="string" Action="write" />
                     <RegistryValue Root="HKCR" Key="Record\{2FAF1D94-0A36-3214-B904-3F98E93A1347}\1.0.12.0" Name="Assembly" Value="Microsoft.Threading.Tasks, Version=1.0.12.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" Type="string" Action="write" />
@@ -1401,34 +1383,34 @@
                     <RegistryValue Root="HKCR" Key="Record\{F973E172-9860-3CC1-B846-723D2F159D0B}\1.0.12.0" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
                     <RegistryValue Root="HKCR" Key="Record\{F973E172-9860-3CC1-B846-723D2F159D0B}\1.0.12.0" Name="CodeBase" Value="file:///[#filE4D5BA2FC4A77BBC328388FE72AECF9F]" Type="string" Action="write" />
                 </Component>
-                <Component Id="cmpB80BF003C7B34B8E9B995334CE71CCB9" Guid="B60B48C2-058F-42F2-BE10-8B62B1ADFC52">
+                <Component Id="cmpB80BF003C7B34B8E9B995334CE71CCB9" Guid="F1EC0F29-D99F-4912-82CD-67783607F539">
                     <File Id="filBEA23D089471E2D321A2B2017CE1887E" KeyPath="yes" Source="$(var.sourceDir)\AzureResourceManager\Microsoft.Threading.Tasks.Extensions.Desktop.dll" />
                 </Component>
-                <Component Id="cmpBEEAB8B17CB9698CC3DC0CB2162D79BC" Guid="53F90652-B632-404A-97EF-B69C4F57F3E9">
+                <Component Id="cmpBEEAB8B17CB9698CC3DC0CB2162D79BC" Guid="E14A2D24-84C3-41F5-A08A-AE49A24A339C">
                     <File Id="fil9472FAC89760D507A8605924D8007B5A" KeyPath="yes" Source="$(var.sourceDir)\AzureResourceManager\Microsoft.Threading.Tasks.Extensions.Desktop.xml" />
                 </Component>
-                <Component Id="cmp1628296E103224E282D65F4CEA7D70DC" Guid="C4CA1239-6000-48CE-8F4B-88082BE40D8E">
+                <Component Id="cmp1628296E103224E282D65F4CEA7D70DC" Guid="D4486F36-26D7-41FA-B6B5-162C40D1061F">
                     <File Id="fil95EE94293B316A3088FC8BE313C6064A" KeyPath="yes" Source="$(var.sourceDir)\AzureResourceManager\Microsoft.Threading.Tasks.Extensions.dll" />
                 </Component>
-                <Component Id="cmp477EC185D34912BBC502FE3E1C639006" Guid="6D4EA66C-6CCC-48E2-91BA-CE21F133E544">
+                <Component Id="cmp477EC185D34912BBC502FE3E1C639006" Guid="7F72E0CE-1B84-4B84-8D33-ED74B32C23FD">
                     <File Id="filBB67F7D1156C7874DAE4819EC06EC8ED" KeyPath="yes" Source="$(var.sourceDir)\AzureResourceManager\Microsoft.Threading.Tasks.Extensions.xml" />
                 </Component>
-                <Component Id="cmpFA480E08711E4B0DAABF226D7670D186" Guid="C636672A-0AC9-430C-8105-987A76157032">
+                <Component Id="cmpFA480E08711E4B0DAABF226D7670D186" Guid="0315B83B-CD68-45DF-AA3D-605316907AFF">
                     <File Id="fil408DF6825551DBB9604CE2F244C80AB2" KeyPath="yes" Source="$(var.sourceDir)\AzureResourceManager\Microsoft.Threading.Tasks.xml" />
                 </Component>
-                <Component Id="cmpE58D457AFB2FA5DE6FA55A5A628ED38A" Guid="0A6CDD92-0C20-433A-9C56-BAE4A85B3E8B">
+                <Component Id="cmpE58D457AFB2FA5DE6FA55A5A628ED38A" Guid="C3A162DC-6099-47A6-92B3-6A762E0B25A1">
                     <File Id="fil1FA6D43C5F940CBFCF28F05F83BA18F5" KeyPath="yes" Source="$(var.sourceDir)\AzureResourceManager\Microsoft.WindowsAzure.Commands.Common.dll" />
                 </Component>
-                <Component Id="cmpEA7DDB8757877FD61DD7347642C03600" Guid="FA89DA7F-23EF-4C60-A423-A0B40FC5E90A">
+                <Component Id="cmpEA7DDB8757877FD61DD7347642C03600" Guid="C479B860-AD29-4C56-BBA0-FEB81A2E4F77">
                     <File Id="filC71627574BC3DAAB14DA682BA9061525" KeyPath="yes" Source="$(var.sourceDir)\AzureResourceManager\Microsoft.WindowsAzure.Commands.Common.pdb" />
                 </Component>
-                <Component Id="cmp0D6841315170BE1048439B55FDDFA3C9" Guid="E4276B5C-442D-43E5-9A47-1A78055321E2">
+                <Component Id="cmp0D6841315170BE1048439B55FDDFA3C9" Guid="18D490E0-70D5-4552-A9A0-7D3FB8EABA1D">
                     <File Id="filFA5D6E3435306FE03CF0ADA25694EF27" KeyPath="yes" Source="$(var.sourceDir)\AzureResourceManager\Microsoft.WindowsAzure.Commands.Utilities.Common.Storage.dll" />
                 </Component>
-                <Component Id="cmp77A06702969CD50C11D5E83B4E26994E" Guid="4935A7A7-2F59-4CAE-8D7B-09C0B05767B3">
+                <Component Id="cmp77A06702969CD50C11D5E83B4E26994E" Guid="2E44718D-ED4C-4EEE-A08B-D99CCF463F84">
                     <File Id="fil84A8A1D6A8BF0FE67341AFC99B116F5E" KeyPath="yes" Source="$(var.sourceDir)\AzureResourceManager\Microsoft.WindowsAzure.Commands.Utilities.Common.Storage.pdb" />
                 </Component>
-                <Component Id="cmpF0E53AF7A75450ACC40C0DE1866C75B5" Guid="284EBBA0-DB61-45C2-BFD3-8191900A6BCE">
+                <Component Id="cmpF0E53AF7A75450ACC40C0DE1866C75B5" Guid="5F306D13-5AAA-4FD3-AB8E-69A584CFA1A6">
                     <Class Id="{192A6DDF-5ADC-38F8-8208-A2E527D8269F}" Context="InprocServer32" Description="Microsoft.WindowsAzure.Common.TransientFaultHandling.Incremental" ThreadingModel="both" ForeignServer="mscoree.dll">
                         <ProgId Id="Microsoft.WindowsAzure.Common.TransientFaultHandling.Incremental" Description="Microsoft.WindowsAzure.Common.TransientFaultHandling.Incremental" />
                     </Class>
@@ -1608,22 +1590,22 @@
                     <RegistryValue Root="HKCR" Key="Record\{E07F6A54-0BD2-38E9-ABF3-2197105753DB}\0.9.0.0" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
                     <RegistryValue Root="HKCR" Key="Record\{E07F6A54-0BD2-38E9-ABF3-2197105753DB}\0.9.0.0" Name="CodeBase" Value="file:///[#filF237912D99D6E3100396680C5A35B949]" Type="string" Action="write" />
                 </Component>
-                <Component Id="cmp5018B37F22BE16B96AE3C63131180D90" Guid="1051A595-DE12-45F0-B6F3-1FBC3E8A9D32">
+                <Component Id="cmp5018B37F22BE16B96AE3C63131180D90" Guid="A1891E33-CF86-4000-9787-334E8960CF7A">
                     <File Id="fil46D13FD6F3FDB424F329A978D538F8E4" KeyPath="yes" Source="$(var.sourceDir)\AzureResourceManager\Microsoft.WindowsAzure.Common.NetFramework.dll" />
                 </Component>
-                <Component Id="cmp32B0CFE2564B30B1F44F130F7F0FCFAB" Guid="B2D88B50-D771-48C6-9D39-8ECA33636EE1">
+                <Component Id="cmp32B0CFE2564B30B1F44F130F7F0FCFAB" Guid="42EBEF54-7A58-47F2-8CA2-725BA599B4C3">
                     <File Id="filC63E36E0C499FBCC19F69E29B078C41F" KeyPath="yes" Source="$(var.sourceDir)\AzureResourceManager\Microsoft.WindowsAzure.Common.NetFramework.xml" />
                 </Component>
-                <Component Id="cmpF446E42730AF3046B1E31CD1D5917D1D" Guid="109F48B9-663F-4605-85EB-84800B110459">
+                <Component Id="cmpF446E42730AF3046B1E31CD1D5917D1D" Guid="42A1F579-5735-4BCC-8F9E-BFCF082435BE">
                     <File Id="fil516FA04FED8AEFFD0732DA6FAE387A2E" KeyPath="yes" Source="$(var.sourceDir)\AzureResourceManager\Microsoft.WindowsAzure.Common.xml" />
                 </Component>
-                <Component Id="cmp040D50B010E1B39E300489238DCFAE47" Guid="4A53351B-98B4-4F19-A89A-336FFAF0B58C">
+                <Component Id="cmp040D50B010E1B39E300489238DCFAE47" Guid="386076DA-890C-4536-B4AC-CE908E6D492C">
                     <File Id="fil21F237C8674B800A083A1EBC1E7912F3" KeyPath="yes" Source="$(var.sourceDir)\AzureResourceManager\Microsoft.WindowsAzure.Configuration.dll" />
                 </Component>
-                <Component Id="cmpC564369A0DD179DF7301469A4D9A53EC" Guid="BD60227D-33B6-4447-A359-EC77C4D67B9E">
+                <Component Id="cmpC564369A0DD179DF7301469A4D9A53EC" Guid="2B98D6BB-C3F9-4F28-B771-221239E5CB89">
                     <File Id="fil4FDE582B6678815A231991D79979A9F2" KeyPath="yes" Source="$(var.sourceDir)\AzureResourceManager\Microsoft.WindowsAzure.Configuration.xml" />
                 </Component>
-                <Component Id="cmp91AECB684148723B465A30670E9347A7" Guid="F852A057-AC54-4228-B940-17E46F188952">
+                <Component Id="cmp91AECB684148723B465A30670E9347A7" Guid="F667E14A-5836-40AC-AD9D-923440FE55C8">
                     <Class Id="{05A754E5-F7FC-374B-BBE1-7028651ADDE8}" Context="InprocServer32" Description="Microsoft.WindowsAzure.Management.Models.SubscriptionGetResponse" ThreadingModel="both" ForeignServer="mscoree.dll">
                         <ProgId Id="Microsoft.WindowsAzure.Management.Models.SubscriptionGetResponse" Description="Microsoft.WindowsAzure.Management.Models.SubscriptionGetResponse" />
                     </Class>
@@ -1899,7 +1881,7 @@
                     <RegistryValue Root="HKCR" Key="Record\{51C274D7-97DC-3FE0-8D96-B3662C794461}\0.9.0.0" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
                     <RegistryValue Root="HKCR" Key="Record\{51C274D7-97DC-3FE0-8D96-B3662C794461}\0.9.0.0" Name="CodeBase" Value="file:///[#fil3BBCA78A2A839EA4C81A8120DA978D7C]" Type="string" Action="write" />
                 </Component>
-                <Component Id="cmpA20B96EFE8456F0F040755969D1F2B5F" Guid="D73C837E-331F-4044-9E39-427E8CEE572F">
+                <Component Id="cmpA20B96EFE8456F0F040755969D1F2B5F" Guid="40FB26D7-11CF-4AC3-A7A0-85787A0F5FDF">
                     <Class Id="{21D1AD05-FD93-327C-9DAC-DB3370744FD2}" Context="InprocServer32" Description="Microsoft.WindowsAzure.Management.Storage.Models.StorageAccount" ThreadingModel="both" ForeignServer="mscoree.dll">
                         <ProgId Id="Microsoft.WindowsAzure.Management.Storage.Models.StorageAccount" Description="Microsoft.WindowsAzure.Management.Storage.Models.StorageAccount" />
                     </Class>
@@ -2035,84 +2017,78 @@
                     <RegistryValue Root="HKCR" Key="Record\{9DDDF342-CE11-32A8-81E5-EB78B1D1EAA3}\0.9.0.0" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
                     <RegistryValue Root="HKCR" Key="Record\{9DDDF342-CE11-32A8-81E5-EB78B1D1EAA3}\0.9.0.0" Name="CodeBase" Value="file:///[#filE058FF526EDF6877B1E9919BE46B59E3]" Type="string" Action="write" />
                 </Component>
-                <Component Id="cmp90DA28B4F61FE55BE51FF844D5A0BE3D" Guid="E4F25122-3C2A-4851-BB96-AF18D2C0DD5A">
+                <Component Id="cmp90DA28B4F61FE55BE51FF844D5A0BE3D" Guid="0E0C9B1C-599C-40BF-8058-A3083884DFCF">
                     <File Id="fil68086E6A6FF7439B93764B4E0D30B82F" KeyPath="yes" Source="$(var.sourceDir)\AzureResourceManager\Microsoft.WindowsAzure.Management.Storage.xml" />
                 </Component>
-                <Component Id="cmpD0834CEED17059D8E3CF7F2A1E2303FF" Guid="6C9D26E8-566B-44AD-A5E9-EDD393422E04">
+                <Component Id="cmpD0834CEED17059D8E3CF7F2A1E2303FF" Guid="60103BE8-3C15-4F1D-AF83-317BFBFEE8A7">
                     <File Id="fil88DC2765E6F7524A651DF09F39EDAF59" KeyPath="yes" Source="$(var.sourceDir)\AzureResourceManager\Microsoft.WindowsAzure.Management.xml" />
                 </Component>
-                <Component Id="cmp7FA9D5AE77478F1AB0187774D721368C" Guid="65784B63-429C-4EC1-98BE-492AE8AC44F8">
+                <Component Id="cmp7FA9D5AE77478F1AB0187774D721368C" Guid="293567D2-F6DC-4587-B395-B5CA21720935">
                     <File Id="fil43A84CC4A0949041A49B126970FF9D47" KeyPath="yes" Source="$(var.sourceDir)\AzureResourceManager\Microsoft.WindowsAzure.ServiceManagement.Client.dll" />
                 </Component>
-                <Component Id="cmpBA1BED5604E4F15733C3951898EF28B9" Guid="A1E77801-C857-41AA-B838-C61150213671">
+                <Component Id="cmpBA1BED5604E4F15733C3951898EF28B9" Guid="BC76028B-698E-427C-82E5-558BA68BE382">
                     <File Id="fil9A606F5B03FF6C7E7C5D585B3B805766" KeyPath="yes" Source="$(var.sourceDir)\AzureResourceManager\Microsoft.WindowsAzure.Storage.dll" />
                 </Component>
-                <Component Id="cmp4CFEA244D3DA8BB78ED77D03BFFA54E4" Guid="6C5B599C-460E-4D36-9DB3-CC01921BBE20">
+                <Component Id="cmp4CFEA244D3DA8BB78ED77D03BFFA54E4" Guid="9699A7ED-CDD3-41B0-AE9C-205F99E1756B">
                     <File Id="fil5BA5E01100661B7290CA7CDE50A285FF" KeyPath="yes" Source="$(var.sourceDir)\AzureResourceManager\Microsoft.WindowsAzure.Storage.xml" />
                 </Component>
-                <Component Id="cmpA376A52A04881B3B80A1AB9BC4E2226C" Guid="C6C015B6-17A0-4B6A-A2FB-BD66CD1EAC0E">
+                <Component Id="cmpA376A52A04881B3B80A1AB9BC4E2226C" Guid="0645F686-EA76-4D89-91BE-4E5EB2D19718">
                     <File Id="filD8933168CAB6D0DAB74D189F4A8D257F" KeyPath="yes" Source="$(var.sourceDir)\AzureResourceManager\Newtonsoft.Json.dll" />
                 </Component>
-                <Component Id="cmp0E59CB5B8A98554D44D8EC526A66709B" Guid="50CE4004-DCB8-459A-80D8-1010E939C719">
+                <Component Id="cmp0E59CB5B8A98554D44D8EC526A66709B" Guid="DF7AF422-2F15-44B5-8339-9AC4EF19EF7B">
                     <File Id="fil892E88E572A34B55B1854DAAFAA6C695" KeyPath="yes" Source="$(var.sourceDir)\AzureResourceManager\Newtonsoft.Json.xml" />
                 </Component>
-                <Component Id="cmp3CC67638BE36883CAA73CF98394721C3" Guid="EA2D0B83-18B3-4DDC-A77B-77EF275EF197">
+                <Component Id="cmp3CC67638BE36883CAA73CF98394721C3" Guid="DC20FFFD-4747-4634-B28C-5F8C3A87ED29">
                     <File Id="filC69FDB8F3A9D44F290AA995B6128C610" KeyPath="yes" Source="$(var.sourceDir)\AzureResourceManager\System.IO.dll" />
                 </Component>
-                <Component Id="cmpBBC341287AB8DBBC44E1DC0CA05650EA" Guid="6C9E0AA9-81AF-45B4-A76C-8C0650C6285F">
+                <Component Id="cmpBBC341287AB8DBBC44E1DC0CA05650EA" Guid="3F3C15F6-A151-445E-9ECB-F97DF51B9E96">
                     <File Id="fil843913CD11723AABAEAFA2DB4F1E0C06" KeyPath="yes" Source="$(var.sourceDir)\AzureResourceManager\System.IO.xml" />
                 </Component>
-                <Component Id="cmp7DDD7E88A6455D864D2154720D61D037" Guid="7E690799-860F-4719-BCA0-F7D7D084D0BF">
+                <Component Id="cmp7DDD7E88A6455D864D2154720D61D037" Guid="8CC86CEF-4314-4B16-B97B-63A1A48DB843">
                     <File Id="filF0EA73971A46F0E25A50508C7A40D4DD" KeyPath="yes" Source="$(var.sourceDir)\AzureResourceManager\System.Net.Http.dll" />
                 </Component>
-                <Component Id="cmp549ADE9A437DCFC4E86145BF66654561" Guid="DDDFA701-B710-4C25-8557-5DB847CF064A">
+                <Component Id="cmp549ADE9A437DCFC4E86145BF66654561" Guid="A7CD275E-0E42-4D02-9455-C893A1C389ED">
                     <File Id="filCB8EC5FF36E04CE3D73555DEE490B457" KeyPath="yes" Source="$(var.sourceDir)\AzureResourceManager\System.Net.Http.Extensions.dll" />
                 </Component>
-                <Component Id="cmpC9E03C35F84FE82A1DFEECBFCA8A3B0F" Guid="3DCD3D9F-BFAE-406C-A9CC-F1865FA55B6B">
+                <Component Id="cmpC9E03C35F84FE82A1DFEECBFCA8A3B0F" Guid="61AB8A00-D12E-467B-AEA2-333B8522F69A">
                     <File Id="filAF385A9BBBC2D9BEC5DA6EB175CE61D6" KeyPath="yes" Source="$(var.sourceDir)\AzureResourceManager\System.Net.Http.Extensions.xml" />
                 </Component>
-                <Component Id="cmp78017F49E75672D7C2196FA4292B89BE" Guid="05DADBFD-849A-4980-A4C6-EEE901BF4714">
+                <Component Id="cmp78017F49E75672D7C2196FA4292B89BE" Guid="3289E876-51FB-407C-8A01-EFCC6E8B009B">
                     <File Id="fil71052CE7464C0F7A7B46FE8324A13C8E" KeyPath="yes" Source="$(var.sourceDir)\AzureResourceManager\System.Net.Http.Formatting.dll" />
                 </Component>
-                <Component Id="cmp71DDCD1180D816FA5D73272901E8E5D1" Guid="1E4E4268-E7DE-4DB0-9125-BD855F7374AA">
+                <Component Id="cmp71DDCD1180D816FA5D73272901E8E5D1" Guid="16C5797C-6CCC-485D-8389-98C675109AC6">
                     <File Id="filFFEE31E20AFEECA876E4CD66621EE4E9" KeyPath="yes" Source="$(var.sourceDir)\AzureResourceManager\System.Net.Http.Formatting.xml" />
                 </Component>
-                <Component Id="cmpFDF6E540BFE7CD0F2A417577553448A6" Guid="79917E9C-96B9-4EDE-9845-378CC42D5050">
+                <Component Id="cmpFDF6E540BFE7CD0F2A417577553448A6" Guid="CDBD64E4-BEEB-49A6-8196-A39FDA673002">
                     <File Id="filC60FA3605A641D37BD3AFAB9E1BCCF0F" KeyPath="yes" Source="$(var.sourceDir)\AzureResourceManager\System.Net.Http.Primitives.dll" />
                 </Component>
-                <Component Id="cmp96F2D94C9D933DCA67BFE6A73D4A8AD8" Guid="918CFDB5-9A2C-4A19-9416-48FF4F6F6EA6">
+                <Component Id="cmp96F2D94C9D933DCA67BFE6A73D4A8AD8" Guid="34E6C092-BF12-405C-9A14-D2637E70BA5A">
                     <File Id="filA3A151AA190307669A5A8909C5112C17" KeyPath="yes" Source="$(var.sourceDir)\AzureResourceManager\System.Net.Http.Primitives.xml" />
                 </Component>
-                <Component Id="cmp2DB1C7E943DE95ACF72655F9904CAF66" Guid="094F09E7-40C9-4727-9AC4-D4AAF0EFD760">
+                <Component Id="cmp2DB1C7E943DE95ACF72655F9904CAF66" Guid="16A69B4B-711E-4844-9785-0FCE0AADC9AB">
                     <File Id="fil9302CF71C43ECA7268D494366B00BC68" KeyPath="yes" Source="$(var.sourceDir)\AzureResourceManager\System.Net.Http.WebRequest.dll" />
                 </Component>
-                <Component Id="cmp9E705130B9B15C0C3D503C30A3090762" Guid="FDEC94AC-0D41-4860-86F7-0942AE1ACAB0">
+                <Component Id="cmp9E705130B9B15C0C3D503C30A3090762" Guid="2AF6081C-1B2F-4B15-BB53-11ABDC9FCEFB">
                     <File Id="fil3CCB78248E0688B67633E035FB794B5D" KeyPath="yes" Source="$(var.sourceDir)\AzureResourceManager\System.Net.Http.WebRequest.xml" />
                 </Component>
-                <Component Id="cmp336C6207B3690E84F988347C2584CA13" Guid="D8347CDE-6CE6-45C8-A287-6FF416845914">
+                <Component Id="cmp336C6207B3690E84F988347C2584CA13" Guid="593FA062-A890-486E-A5AD-883C011EBB1C">
                     <File Id="filD2DBCDE52985A94ACD7BFBCF7A6B0AD4" KeyPath="yes" Source="$(var.sourceDir)\AzureResourceManager\System.Net.Http.xml" />
                 </Component>
-                <Component Id="cmpA9595731CD2A089292D1C298D5998259" Guid="E3045BFE-9DED-4BFD-8999-FBC4DAE31478">
+                <Component Id="cmpA9595731CD2A089292D1C298D5998259" Guid="AE6F7442-51B2-49DD-BD3D-BC7A5A45E6B7">
                     <File Id="filEA8064E5AE96414C1E4CDC754B21790A" KeyPath="yes" Source="$(var.sourceDir)\AzureResourceManager\System.Runtime.dll" />
                 </Component>
-                <Component Id="cmp6521E0B4685112390B57B8EFEB3F3440" Guid="6BAC5437-77F0-440E-A614-47B3254713E5">
+                <Component Id="cmp6521E0B4685112390B57B8EFEB3F3440" Guid="7655408B-9C6E-4729-BB69-5D10AEDC8A28">
                     <File Id="fil74399832BB9591CC70E4978ADE9A2ACE" KeyPath="yes" Source="$(var.sourceDir)\AzureResourceManager\System.Runtime.xml" />
                 </Component>
-                <Component Id="cmp83A0E259D5EBF91286EBC8161B3A097C" Guid="703227D5-228B-408D-A724-CAA08D41CE14">
-                    <File Id="fil0EFD0775114097443EC608CA06EAC02F" KeyPath="yes" Source="$(var.sourceDir)\AzureResourceManager\System.Spatial.dll" />
-                </Component>
-                <Component Id="cmpD8BB674C3E65EE473FF93DE3E4EF515D" Guid="A87151E9-379A-44A3-B098-369B417159D5">
-                    <File Id="filD341E25E65D02DC67505F6936E61A742" KeyPath="yes" Source="$(var.sourceDir)\AzureResourceManager\System.Spatial.xml" />
-                </Component>
-                <Component Id="cmp57989DE98BFCF01C414DC4FEAAB0359B" Guid="E7937FDF-EDC4-4FB1-81CE-0E675224D754">
+                <Component Id="cmp57989DE98BFCF01C414DC4FEAAB0359B" Guid="58CB660F-B988-469D-82F9-076C3A083F2B">
                     <File Id="filF97C88623BBB18C41F9225F840ED8ADD" KeyPath="yes" Source="$(var.sourceDir)\AzureResourceManager\System.Threading.Tasks.dll" />
                 </Component>
-                <Component Id="cmp0ABBD0BBAFBEE491E7CD9109D73860C0" Guid="2E3BD651-FAF9-4929-8989-B8F77FCAF914">
+                <Component Id="cmp0ABBD0BBAFBEE491E7CD9109D73860C0" Guid="10E9FFCE-BD11-4796-A2DE-5B11609B94AB">
                     <File Id="filD032F0E53E87511DD611BC4178DF743B" KeyPath="yes" Source="$(var.sourceDir)\AzureResourceManager\System.Threading.Tasks.xml" />
                 </Component>
             </Directory>
             <Directory Id="dir354BCA6A6271C519A5E474718AFABE0F" Name="AzureServiceManagement">
-                <Component Id="cmpC195EEED828FCE56977BCC8D7A402466" Guid="15300149-B28E-4178-9220-2E6D0D99FF0A">
+                <Component Id="cmpC195EEED828FCE56977BCC8D7A402466" Guid="135710CD-48C3-458F-A78F-4C361E4C5B45">
                     <Class Id="{00E7011C-A36F-3416-B849-B8EC81A3B55D}" Context="InprocServer32" Description="AutoMapper.Mappers.FlagsEnumMapper" ThreadingModel="both" ForeignServer="mscoree.dll">
                         <ProgId Id="AutoMapper.Mappers.FlagsEnumMapper" Description="AutoMapper.Mappers.FlagsEnumMapper" />
                     </Class>
@@ -2508,7 +2484,7 @@
                     <RegistryValue Root="HKCR" Key="Record\{360273EC-BFEA-374A-99F8-2D48D8A04F4A}\3.1.1.0" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
                     <RegistryValue Root="HKCR" Key="Record\{360273EC-BFEA-374A-99F8-2D48D8A04F4A}\3.1.1.0" Name="CodeBase" Value="file:///[#filBC4D933A4C3A40920CF9E299CCBDA009]" Type="string" Action="write" />
                 </Component>
-                <Component Id="cmp6721CA6D2D4DFBB0906F097C507BC99F" Guid="459B09A8-5FF4-4046-8E5D-670869EB3A85">
+                <Component Id="cmp6721CA6D2D4DFBB0906F097C507BC99F" Guid="F4C75295-9D74-42CF-95F1-F7EBA40777A2">
                     <Class Id="{081E57DE-6995-314F-953A-A11B92D6EF73}" Context="InprocServer32" Description="AutoMapper.Internal.DictionaryFactoryOverride" ThreadingModel="both" ForeignServer="mscoree.dll">
                         <ProgId Id="AutoMapper.Internal.DictionaryFactoryOverride" Description="AutoMapper.Internal.DictionaryFactoryOverride" />
                     </Class>
@@ -2667,28 +2643,28 @@
                     <RegistryValue Root="HKCR" Key="CLSID\{F2041516-5290-3203-99BA-25B3883741ED}\InprocServer32" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
                     <RegistryValue Root="HKCR" Key="CLSID\{F2041516-5290-3203-99BA-25B3883741ED}\InprocServer32" Name="CodeBase" Value="file:///[#filF90674E4DFFE465094764E15B2FBE52A]" Type="string" Action="write" />
                 </Component>
-                <Component Id="cmpA4B17510436C6E193459FD851E8A4ED3" Guid="16008963-AA2F-4238-88D4-348EF6931591">
+                <Component Id="cmpA4B17510436C6E193459FD851E8A4ED3" Guid="E8F76C2E-C1AF-44CA-93DE-FB68AE165EB7">
                     <File Id="filDDDF3D3CA878E9C6C40ABC803535BD9E" KeyPath="yes" Source="$(var.sourceDir)\AzureServiceManagement\AutoMapper.xml" />
                 </Component>
-                <Component Id="cmp531987EA5B922A0015305E61B8CCE40A" Guid="8AEEDC2F-A7FD-4B1A-8D2F-E0360F3E0448">
+                <Component Id="cmp531987EA5B922A0015305E61B8CCE40A" Guid="6D5E7434-7EF6-40F6-AFC2-7763B09246D8">
                     <File Id="fil3F8CE8F0C54CC9335AFCAED5C842D4E0" KeyPath="yes" Source="$(var.sourceDir)\AzureServiceManagement\AzurePreview.psd1" />
                 </Component>
-                <Component Id="cmpD3E948091993F4D6E8D810416DFA8C24" Guid="A6501498-3EC6-47C8-BB3E-CC4EC4501A0E">
+                <Component Id="cmpD3E948091993F4D6E8D810416DFA8C24" Guid="AA85FD5F-F794-4EA4-A29F-5C7EA31FDEAD">
                     <File Id="filDBF45DCD7296844053EDBDAF586A80FC" KeyPath="yes" Source="$(var.sourceDir)\AzureServiceManagement\AzureProfile.psd1" />
                 </Component>
-                <Component Id="cmp7D3C60F5814FE0AC6229F9285056AD8E" Guid="5D897132-E92A-4789-BC54-C269606D9C45">
+                <Component Id="cmp7D3C60F5814FE0AC6229F9285056AD8E" Guid="DFFFE84F-6958-4FA0-BC84-D44566FA3517">
                     <File Id="fil16EDA8BECC434C57E714C614AC0CFFC4" KeyPath="yes" Source="$(var.sourceDir)\AzureServiceManagement\AzureResourceManager.psd1" />
                 </Component>
-                <Component Id="cmp1F72D3BD679DB7746FCFF50C70076391" Guid="19F50641-EF7A-4985-A528-6C366123390E">
+                <Component Id="cmp1F72D3BD679DB7746FCFF50C70076391" Guid="D21BC01E-FC98-4339-9CC3-8BA19CFACADC">
                     <File Id="fil052112F1E583742AEA8028EA63B01837" KeyPath="yes" Source="$(var.sourceDir)\AzureServiceManagement\AzureServiceManagement.psd1" />
                 </Component>
-                <Component Id="cmp89EB741235BE3994A5C8804E47418695" Guid="6AB79476-4248-458E-996E-96F43E9D81D4">
+                <Component Id="cmp89EB741235BE3994A5C8804E47418695" Guid="97803F94-34CC-4C1F-80D0-D17247B7AE1B">
                     <File Id="fil5050E3192D57463F7E4BD1986D820A6B" KeyPath="yes" Source="$(var.sourceDir)\AzureServiceManagement\ExpressRoute.psd1" />
                 </Component>
-                <Component Id="cmpE36475B841E364A04AE67D77AEE99C27" Guid="740D86B3-1A12-496A-8426-DEB29C63EFD9">
+                <Component Id="cmpE36475B841E364A04AE67D77AEE99C27" Guid="15F4BC5D-7A5A-48E8-A32C-5B416CB6569A">
                     <File Id="fil30F4680EF680E6F62FA416A32ECF7614" KeyPath="yes" Source="$(var.sourceDir)\AzureServiceManagement\Microsoft.Azure.Commands.ResourceManager.format.ps1xml" />
                 </Component>
-                <Component Id="cmp155CBB9B92E0EF8D88A1825DF26C6BC7" Guid="DD422E3E-6968-47BA-98DE-8974ABFFE8A4">
+                <Component Id="cmp155CBB9B92E0EF8D88A1825DF26C6BC7" Guid="0F0B774E-3264-4C19-AB6F-677CCDEB7910">
                     <Class Id="{005CAB4E-5445-36BD-98CD-25FE808D885C}" Context="InprocServer32" Description="Microsoft.Azure.Management.Resources.Models.ResourceGroupGetResult" ThreadingModel="both" ForeignServer="mscoree.dll">
                         <ProgId Id="Microsoft.Azure.Management.Resources.Models.ResourceGroupGetResult" Description="Microsoft.Azure.Management.Resources.Models.ResourceGroupGetResult" />
                     </Class>
@@ -3180,40 +3156,22 @@
                     <RegistryValue Root="HKCR" Key="Record\{E5586C43-B79A-38FD-A6DD-C0FAC9B9D25E}\2.0.0.0" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
                     <RegistryValue Root="HKCR" Key="Record\{E5586C43-B79A-38FD-A6DD-C0FAC9B9D25E}\2.0.0.0" Name="CodeBase" Value="file:///[#fil0D405EC44BEBB96DD8872C23851F9DB2]" Type="string" Action="write" />
                 </Component>
-                <Component Id="cmp3005CDF9C81C13F43EB8738D0BFEFC12" Guid="99E92DC1-203F-460E-935E-5F45E0011333">
+                <Component Id="cmp3005CDF9C81C13F43EB8738D0BFEFC12" Guid="876F5E61-980D-4586-A3FD-D6C15134E9D5">
                     <File Id="fil35BA7B12F4C1F3E8292F3FE87F742F7D" KeyPath="yes" Source="$(var.sourceDir)\AzureServiceManagement\Microsoft.Azure.Management.Resources.xml" />
                 </Component>
-                <Component Id="cmpAAD5FC040659F3D4897E8AF14C81DE85" Guid="AD171F35-72F1-4A85-BA8A-9F76DB6F4718">
-                    <File Id="filDAF1B6DEC039D92C9462722E911730A1" KeyPath="yes" Source="$(var.sourceDir)\AzureServiceManagement\Microsoft.Data.Edm.dll" />
-                </Component>
-                <Component Id="cmp4EB9B62FA4AFDB721F79D0F6F3C9EFF4" Guid="CFEAA706-0275-4FEF-8F86-D623A79AD0EF">
-                    <File Id="fil6E6A1CA800542622EA22D6541A203EC5" KeyPath="yes" Source="$(var.sourceDir)\AzureServiceManagement\Microsoft.Data.Edm.xml" />
-                </Component>
-                <Component Id="cmp776A449E2A08C94C18B5FBA486FF73F2" Guid="284289D7-1247-4AA8-8F14-18F34F384B9C">
-                    <File Id="filDA9A59C223D742A7B0B1DA03759E8BCB" KeyPath="yes" Source="$(var.sourceDir)\AzureServiceManagement\Microsoft.Data.OData.dll" />
-                </Component>
-                <Component Id="cmpB3DB18AE559A0EFC888FB020D94E21E3" Guid="C61F5443-AB82-402F-AC1B-74F7A0449754">
-                    <File Id="filD1F1828DFFD8DD6DFC5FC2C11B97218C" KeyPath="yes" Source="$(var.sourceDir)\AzureServiceManagement\Microsoft.Data.OData.xml" />
-                </Component>
-                <Component Id="cmp371FAFA24851DBBFEDB84530EE21EB0A" Guid="7449167A-87C4-42B2-ABD6-5E950CC4B143">
-                    <File Id="fil652437E1EC1C86D448687048CC92ADD4" KeyPath="yes" Source="$(var.sourceDir)\AzureServiceManagement\Microsoft.Data.Services.Client.dll" />
-                </Component>
-                <Component Id="cmpB28A3436616D3EA49D097AA905EC65FE" Guid="2B45AD6B-11EB-47A1-AB03-B8E97012C2BE">
-                    <File Id="fil8112D3607F5BEAF676A7AE3D121B2D9A" KeyPath="yes" Source="$(var.sourceDir)\AzureServiceManagement\Microsoft.Data.Services.Client.xml" />
-                </Component>
-                <Component Id="cmpFC336F7EDB1A210C529DA97E99C89440" Guid="14FDAA2A-0625-488E-95CB-BAEA0E80CA19">
+                <Component Id="cmpFC336F7EDB1A210C529DA97E99C89440" Guid="FE8DD0C5-6CC8-467D-880A-1AB11DCF679E">
                     <File Id="fil9DCF52158C023BD277F61C195ABB5EF9" KeyPath="yes" Source="$(var.sourceDir)\AzureServiceManagement\Microsoft.Hadoop.Client.dll" />
                 </Component>
-                <Component Id="cmp90DC89BDDA9D9B9666EA155EEA00C7B9" Guid="D4B1F107-44A2-4563-B661-1491895BC206">
+                <Component Id="cmp90DC89BDDA9D9B9666EA155EEA00C7B9" Guid="54324F6F-8850-45DF-A0C8-FBD5710B562A">
                     <File Id="fil58D9E5450A326CDD7D62AA584A69C4AD" KeyPath="yes" Source="$(var.sourceDir)\AzureServiceManagement\Microsoft.Hadoop.Client.xml" />
                 </Component>
-                <Component Id="cmpB830FBE08813773B81441229CB88CF54" Guid="BE5352F4-7ABE-41A5-B687-421F3C77A81A">
+                <Component Id="cmpB830FBE08813773B81441229CB88CF54" Guid="1D49DCF5-CE17-4E2C-8A26-73B9934C9670">
                     <File Id="fil4E4F448C98EA32121224E2CFACC85189" KeyPath="yes" Source="$(var.sourceDir)\AzureServiceManagement\Microsoft.HDInsight.Threading.dll" />
                 </Component>
-                <Component Id="cmp8A08D0AB76C445E7AB9E90B8195B06FD" Guid="4FCE0102-1E35-4BF8-B841-88BB1F977854">
+                <Component Id="cmp8A08D0AB76C445E7AB9E90B8195B06FD" Guid="16FA2D58-BD47-4C35-AE59-096B7E803DA1">
                     <File Id="filEC2A559A98EC091E44DD15E8B40100FB" KeyPath="yes" Source="$(var.sourceDir)\AzureServiceManagement\Microsoft.IdentityModel.Clients.ActiveDirectory.dll" />
                 </Component>
-                <Component Id="cmp7BB4484C80C7D573D90C7A92DDD201E7" Guid="D38BF9DF-4047-441A-BC4D-E24B99C229AD">
+                <Component Id="cmp7BB4484C80C7D573D90C7A92DDD201E7" Guid="B1E74FC6-2C0C-4397-BEB7-EFA4F92B5BB3">
                     <Class Id="{9EB3388F-4E57-37B1-9BC2-7439F2BEC98F}" Context="InprocServer32" Description="Microsoft.IdentityModel.Clients.ActiveDirectory.Internal.WindowsFormsWebAuthenticationDialog" ThreadingModel="both" ForeignServer="mscoree.dll">
                         <ProgId Id="Microsoft.IdentityModel.Clients.ActiveDirectory.Internal.WindowsFormsWebAuthenticationDialog" Description="Microsoft.IdentityModel.Clients.ActiveDirectory.Internal.WindowsFormsWebAuthenticationDialog" />
                     </Class>
@@ -3228,13 +3186,13 @@
                     <RegistryValue Root="HKCR" Key="CLSID\{9EB3388F-4E57-37B1-9BC2-7439F2BEC98F}\InprocServer32" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
                     <RegistryValue Root="HKCR" Key="CLSID\{9EB3388F-4E57-37B1-9BC2-7439F2BEC98F}\InprocServer32" Name="CodeBase" Value="file:///[#filCC49954BDCFD7C7CA77E3B7707D1EC95]" Type="string" Action="write" />
                 </Component>
-                <Component Id="cmpA02263B83007B208F1E4C49CFE1FB05E" Guid="BF342AEE-2F24-4F66-8885-119931FF7B0F">
+                <Component Id="cmpA02263B83007B208F1E4C49CFE1FB05E" Guid="98AED1D6-45E4-4ACD-BD74-4F3C49165C20">
                     <File Id="fil61FA2D6F342D61D97E000500D91BF8BC" KeyPath="yes" Source="$(var.sourceDir)\AzureServiceManagement\Microsoft.IdentityModel.Clients.ActiveDirectory.xml" />
                 </Component>
-                <Component Id="cmp89F7ADEC172C91C1B479761174870323" Guid="D6219982-B4C3-470D-A2A4-D4FBA840220A">
+                <Component Id="cmp89F7ADEC172C91C1B479761174870323" Guid="BB2A7BD8-0AC5-40A7-9786-C9FA6BB8C085">
                     <File Id="filF364EE1E2FB2E82E1179D226414FAF4D" KeyPath="yes" Source="$(var.sourceDir)\AzureServiceManagement\Microsoft.ServiceBus.dll" />
                 </Component>
-                <Component Id="cmpAF2A55350E81B8D2C063F3074C5B363A" Guid="6FAE0893-6722-4DC8-BC8A-4294DB65CBC9">
+                <Component Id="cmpAF2A55350E81B8D2C063F3074C5B363A" Guid="0B7B24B2-FCD6-44C4-8193-0B175A0000B4">
                     <File Id="fil95F3550B1A148F23678FBA16B291E246" KeyPath="yes" Source="$(var.sourceDir)\AzureServiceManagement\Microsoft.Threading.Tasks.dll" />
                     <RegistryValue Root="HKCR" Key="Record\{2FAF1D94-0A36-3214-B904-3F98E93A1347}\1.0.12.0" Name="Class" Value="Microsoft.Runtime.CompilerServices.YieldAwaitable" Type="string" Action="write" />
                     <RegistryValue Root="HKCR" Key="Record\{2FAF1D94-0A36-3214-B904-3F98E93A1347}\1.0.12.0" Name="Assembly" Value="Microsoft.Threading.Tasks, Version=1.0.12.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" Type="string" Action="write" />
@@ -3257,166 +3215,166 @@
                     <RegistryValue Root="HKCR" Key="Record\{F973E172-9860-3CC1-B846-723D2F159D0B}\1.0.12.0" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
                     <RegistryValue Root="HKCR" Key="Record\{F973E172-9860-3CC1-B846-723D2F159D0B}\1.0.12.0" Name="CodeBase" Value="file:///[#filE4D5BA2FC4A77BBC328388FE72AECF9F]" Type="string" Action="write" />
                 </Component>
-                <Component Id="cmp561B75B2D93231CB6E762E4FCCD22899" Guid="2C528440-40BA-427C-991E-DAF197F240C2">
+                <Component Id="cmp561B75B2D93231CB6E762E4FCCD22899" Guid="AF74C7E7-4E36-4C77-8348-04EB1E1C9EBA">
                     <File Id="filCA09A4852B3FBCEF38D635CFDE8BF5EB" KeyPath="yes" Source="$(var.sourceDir)\AzureServiceManagement\Microsoft.Threading.Tasks.Extensions.Desktop.dll" />
                 </Component>
-                <Component Id="cmp75D133DA88636BFA5BB1E23FDE3FC1A5" Guid="27E29F13-CEB8-44FD-B06D-B3213B5F09AE">
+                <Component Id="cmp75D133DA88636BFA5BB1E23FDE3FC1A5" Guid="8586FDD1-F8B1-4047-908B-F9F3F24F8ED1">
                     <File Id="fil5661446A2CAF67A07D1996B734AF6C4F" KeyPath="yes" Source="$(var.sourceDir)\AzureServiceManagement\Microsoft.Threading.Tasks.Extensions.Desktop.xml" />
                 </Component>
-                <Component Id="cmp98D94247684107F2AD3900CA4D156CE0" Guid="F2C44FE4-31AC-4159-94E5-082264E121AF">
+                <Component Id="cmp98D94247684107F2AD3900CA4D156CE0" Guid="CD13C4AA-BC31-4405-B800-0E37405E55FF">
                     <File Id="filC443354A0275637C6E23C4AE3F2ACA32" KeyPath="yes" Source="$(var.sourceDir)\AzureServiceManagement\Microsoft.Threading.Tasks.Extensions.dll" />
                 </Component>
-                <Component Id="cmp93F5059C0B69E1A2C846D3F113545357" Guid="355B07C5-6A84-48B8-B552-1DEFD500BA58">
+                <Component Id="cmp93F5059C0B69E1A2C846D3F113545357" Guid="2099AEF5-1629-4F48-929B-5E0F591E9367">
                     <File Id="fil6E38452DFDD0A7CD200ABBE39C68181D" KeyPath="yes" Source="$(var.sourceDir)\AzureServiceManagement\Microsoft.Threading.Tasks.Extensions.xml" />
                 </Component>
-                <Component Id="cmpDE700783F5B441B91FB956DBBDA354D5" Guid="69466D25-8FCA-4F48-B1FB-6BC6BD7476BF">
+                <Component Id="cmpDE700783F5B441B91FB956DBBDA354D5" Guid="34D5A307-37F5-479A-B962-4B3B56A359D1">
                     <File Id="filB703C3583E6AA5D3875158DA5A22F787" KeyPath="yes" Source="$(var.sourceDir)\AzureServiceManagement\Microsoft.Threading.Tasks.xml" />
                 </Component>
-                <Component Id="cmp14B2615EF81AFF6486E152C70D876868" Guid="A2103C13-9CDE-4776-8DDF-1BCC1AF8CBD9">
+                <Component Id="cmp14B2615EF81AFF6486E152C70D876868" Guid="64EE5666-B3EE-4D83-8048-4EB405729FD7">
                     <File Id="filC54B8F97201D7DE87AC9D57F1D2E1753" KeyPath="yes" Source="$(var.sourceDir)\AzureServiceManagement\Microsoft.WindowsAzure.Commands.CloudService.format.ps1xml" />
                 </Component>
-                <Component Id="cmpCBBFC812F93A655AC50F7263CB593CC7" Guid="5E7981F9-BA5C-4C38-B901-07E5BB8DD9EE">
+                <Component Id="cmpCBBFC812F93A655AC50F7263CB593CC7" Guid="7573311C-D41A-4AA1-8765-CE530BF8E31A">
                     <File Id="fil2AA30AFFC35FDDEFE83D37EE9240AA94" KeyPath="yes" Source="$(var.sourceDir)\AzureServiceManagement\Microsoft.WindowsAzure.Commands.Common.dll" />
                 </Component>
-                <Component Id="cmpDE486E047866DA5D4A9712A05A819B24" Guid="132D8AAC-F911-4F84-AC6F-A61FDA8BBF53">
+                <Component Id="cmpDE486E047866DA5D4A9712A05A819B24" Guid="E8B69FAF-A3EF-4ECC-A8F5-5F22627C1E3F">
                     <File Id="filBADB55962CAF0694B39C02F5ECAE7FCE" KeyPath="yes" Source="$(var.sourceDir)\AzureServiceManagement\Microsoft.WindowsAzure.Commands.Common.pdb" />
                 </Component>
-                <Component Id="cmpE939B340835A9B0E883F07DBFC5A3AD7" Guid="A0E3DD5A-A862-4836-98BE-3CA114FC931D">
+                <Component Id="cmpE939B340835A9B0E883F07DBFC5A3AD7" Guid="94D70C85-4EA4-4186-BF34-A4FFF01099D0">
                     <File Id="filB9969159E33A37DFF7C20FB21443E1D8" KeyPath="yes" Source="$(var.sourceDir)\AzureServiceManagement\Microsoft.WindowsAzure.Commands.Common.Test.dll" />
                 </Component>
-                <Component Id="cmp0652FAC03CF1270471A279AF20E68075" Guid="2388B8BC-D22F-476A-8C8E-AE2F52133184">
+                <Component Id="cmp0652FAC03CF1270471A279AF20E68075" Guid="343FB7C7-74F6-401E-9FA1-FDC95C509AB1">
                     <File Id="filE1CB5583FB8743244C8A916004682769" KeyPath="yes" Source="$(var.sourceDir)\AzureServiceManagement\Microsoft.WindowsAzure.Commands.Common.Test.pdb" />
                 </Component>
-                <Component Id="cmp0AAFE0ADAB7FD6EE62E730FD9E36A9E5" Guid="48118350-4B9D-4F82-8517-08B7783F0CCA">
+                <Component Id="cmp0AAFE0ADAB7FD6EE62E730FD9E36A9E5" Guid="E8E2D603-6269-49E9-A9FC-9696235EDE22">
                     <File Id="fil4A699B991BF73021BB074553DB2FBB44" KeyPath="yes" Source="$(var.sourceDir)\AzureServiceManagement\Microsoft.WindowsAzure.Commands.ConsoleAppUtils.dll" />
                 </Component>
-                <Component Id="cmp3032A00FFC18B4741D67DB09DD328DCD" Guid="2C05382C-0501-4A5F-9CE3-B5B6AF6D3DF4">
+                <Component Id="cmp3032A00FFC18B4741D67DB09DD328DCD" Guid="8D8F47D6-06A8-4948-AC51-01D86706F003">
                     <File Id="fil02F069459980E7EDC54C485D22DE8B70" KeyPath="yes" Source="$(var.sourceDir)\AzureServiceManagement\Microsoft.WindowsAzure.Commands.ConsoleAppUtils.pdb" />
                 </Component>
-                <Component Id="cmpDDEF324D7D5DE03E8B8BD71F3CCB26E3" Guid="1E3A18EE-4142-4EEA-894D-6ABCE410083C">
+                <Component Id="cmpDDEF324D7D5DE03E8B8BD71F3CCB26E3" Guid="BD7D6AAD-FF5E-4A64-BA15-CD648D767690">
                     <File Id="fil66D935BAE328D3DA8DFA83AA53F7C7B6" KeyPath="yes" Source="$(var.sourceDir)\AzureServiceManagement\Microsoft.WindowsAzure.Commands.dll" />
                 </Component>
-                <Component Id="cmpCE46C59DECC9B48DDD849315A934FAB9" Guid="163DD4E3-5CF0-4A0B-9224-FE15039C3A30">
+                <Component Id="cmpCE46C59DECC9B48DDD849315A934FAB9" Guid="06EE8411-2DC8-44C6-AF13-F74FF50C2D07">
                     <File Id="fil036CA4E11BFBB5554AE3AEE0316A84EB" KeyPath="yes" Source="$(var.sourceDir)\AzureServiceManagement\Microsoft.WindowsAzure.Commands.dll-Help.xml" />
                 </Component>
-                <Component Id="cmp40685076D62F7EF0D232F59C494F1AF3" Guid="D95FC62D-E9A6-4FED-921D-2535DFDCF950">
+                <Component Id="cmp40685076D62F7EF0D232F59C494F1AF3" Guid="55B1944A-F31D-4A3A-83D0-654E077D3AB4">
                     <File Id="fil8C1112984E4DABC51B428AC50277067C" KeyPath="yes" Source="$(var.sourceDir)\AzureServiceManagement\Microsoft.WindowsAzure.Commands.ExpressRoute.dll" />
                 </Component>
-                <Component Id="cmp2C4EFA38FD0C84FFCF9ED3B328D5E667" Guid="18D56371-02D5-4F90-B646-EB7078D13C56">
+                <Component Id="cmp2C4EFA38FD0C84FFCF9ED3B328D5E667" Guid="334BF481-EB98-44B0-ADA8-AAF2FC2CCDD6">
                     <File Id="filCDB0846213CFFE394FA572ABDFBB3D24" KeyPath="yes" Source="$(var.sourceDir)\AzureServiceManagement\Microsoft.WindowsAzure.Commands.ExpressRoute.dll-Help.xml" />
                 </Component>
-                <Component Id="cmp603DF3442FDBB4F8A47B9C41C2A0CB55" Guid="E3EB663A-D0C6-4E68-A3CF-73B7C5DF2CDD">
+                <Component Id="cmp603DF3442FDBB4F8A47B9C41C2A0CB55" Guid="8E3FD5C4-0122-4086-98FA-111CC18F2DFE">
                     <File Id="fil0C007B572C8D50A63B6B89F3FA5153BB" KeyPath="yes" Source="$(var.sourceDir)\AzureServiceManagement\Microsoft.WindowsAzure.Commands.ExpressRoute.pdb" />
                 </Component>
-                <Component Id="cmpFACF5E285A7D9896EE6B2BEF644E3B09" Guid="91E117ED-8770-4C94-9105-EA08303B3CA5">
+                <Component Id="cmpFACF5E285A7D9896EE6B2BEF644E3B09" Guid="EA561FB0-FE51-4BE3-A592-606AEC9AEF43">
                     <File Id="fil1E1ED47C920CC829FEB7A9FDD36E6B8A" KeyPath="yes" Source="$(var.sourceDir)\AzureServiceManagement\Microsoft.WindowsAzure.Commands.pdb" />
                 </Component>
-                <Component Id="cmp3897C224ACB66263F593F75D38E95BD4" Guid="73212505-E76E-47BD-A15B-B56FCBC49CDE">
+                <Component Id="cmp3897C224ACB66263F593F75D38E95BD4" Guid="594AC279-7DB2-4536-9369-32C8B2A28AB2">
                     <File Id="filEBEB231AA510DB52489C561BC726533D" KeyPath="yes" Source="$(var.sourceDir)\AzureServiceManagement\Microsoft.WindowsAzure.Commands.Scheduler.format.ps1xml" />
                 </Component>
-                <Component Id="cmpE0BE8EAA2874F8708F8C0519F3D5D67E" Guid="D0D3BE02-BDF4-40C6-8BFF-4AAACCA83B95">
+                <Component Id="cmpE0BE8EAA2874F8708F8C0519F3D5D67E" Guid="E0BDB285-D8B9-44AC-9ADA-BD5666096F77">
                     <File Id="filEBB91C0C3A833936211444C6BFE11D7D" KeyPath="yes" Source="$(var.sourceDir)\AzureServiceManagement\Microsoft.WindowsAzure.Commands.Service.dll" />
                 </Component>
-                <Component Id="cmpF56E36765B81F37645D22D910761C3F8" Guid="62924D3C-F7EE-4443-AAA4-3A08FB08E7FB">
+                <Component Id="cmpF56E36765B81F37645D22D910761C3F8" Guid="3C90A5CB-F171-4DFE-9934-95ED0CD28C65">
                     <File Id="fil3244EC1B6E5E99D22E50D7A63F9C9E7C" KeyPath="yes" Source="$(var.sourceDir)\AzureServiceManagement\Microsoft.WindowsAzure.Commands.Service.pdb" />
                 </Component>
-                <Component Id="cmp0F2FD01DAD6E031DF8732CEFC7894436" Guid="695B2FBE-1C3F-49B4-9DCD-D1F4BB4654CD">
+                <Component Id="cmp0F2FD01DAD6E031DF8732CEFC7894436" Guid="A9C6755F-06A8-40EA-A7A4-F8DEEB81DAF5">
                     <File Id="fil5D9B4723A2212C06FF7F99308EA40C9B" KeyPath="yes" Source="$(var.sourceDir)\AzureServiceManagement\Microsoft.WindowsAzure.Commands.ServiceBus.format.ps1xml" />
                 </Component>
-                <Component Id="cmpF9F2EB1BB37B68401694973D282F22F2" Guid="EA0F2EB3-3A88-4536-B056-DC41180C6877">
+                <Component Id="cmpF9F2EB1BB37B68401694973D282F22F2" Guid="1EA285FB-5B60-40B0-BB87-C3F1BA142E8D">
                     <File Id="fil3D0A9FB439EE0C28F444ADD519BB7A2D" KeyPath="yes" Source="$(var.sourceDir)\AzureServiceManagement\Microsoft.WindowsAzure.Commands.ServiceManagement.dll" />
                 </Component>
-                <Component Id="cmp607B3A52551B342D3B6490499579D517" Guid="27AA1E09-6867-45CF-896B-0E0F5C035F19">
+                <Component Id="cmp607B3A52551B342D3B6490499579D517" Guid="0F89BDF5-D277-493F-935D-AAA795EC0121">
                     <File Id="filCBABFABBE24D52D31FD87F794147812C" KeyPath="yes" Source="$(var.sourceDir)\AzureServiceManagement\Microsoft.WindowsAzure.Commands.ServiceManagement.dll-Help.xml" />
                 </Component>
-                <Component Id="cmp98772396D890ACEF5ED84E7162F84816" Guid="53057EF7-CA63-4E6F-B708-01892A15AC33">
+                <Component Id="cmp98772396D890ACEF5ED84E7162F84816" Guid="50957C2B-C7FD-4034-BC2F-7ED7C84F99AC">
                     <File Id="fil622183CEEE3673CB8852F35484C9CB4F" KeyPath="yes" Source="$(var.sourceDir)\AzureServiceManagement\Microsoft.WindowsAzure.Commands.ServiceManagement.format.ps1xml" />
                 </Component>
-                <Component Id="cmp287D1A54D49377C1D0D072272BDA827D" Guid="20DB92A0-F70E-42D0-A113-2795EA6C2884">
+                <Component Id="cmp287D1A54D49377C1D0D072272BDA827D" Guid="C97B1AB2-3AC3-46DD-9312-FCEFBB78CDB5">
                     <File Id="fil778A52BA268A90D314539886578BE82E" KeyPath="yes" Source="$(var.sourceDir)\AzureServiceManagement\Microsoft.WindowsAzure.Commands.ServiceManagement.pdb" />
                 </Component>
-                <Component Id="cmp11D617505A0D03D9F3304B53BF91D40F" Guid="6DEB3CAC-C8F7-49F5-952F-38A7BE46FCEE">
+                <Component Id="cmp11D617505A0D03D9F3304B53BF91D40F" Guid="57E02292-3B6E-4B82-B4E6-0EF34AA857C5">
                     <File Id="fil527D93182B70FD68EBE233AE967D2394" KeyPath="yes" Source="$(var.sourceDir)\AzureServiceManagement\Microsoft.WindowsAzure.Commands.ServiceManagement.PlatformImageRepository.dll" />
                 </Component>
-                <Component Id="cmp33BC8BCEBA6B34D03CE91BCD54A04457" Guid="F1BD1C4E-EDB1-43F6-AEB1-8977E431BDDA">
+                <Component Id="cmp33BC8BCEBA6B34D03CE91BCD54A04457" Guid="32D48940-F7D5-426D-A23C-231F1FD9B971">
                     <File Id="fil79A8D86805A63A2CDA132DB30BEC0005" KeyPath="yes" Source="$(var.sourceDir)\AzureServiceManagement\Microsoft.WindowsAzure.Commands.ServiceManagement.PlatformImageRepository.dll-Help.xml" />
                 </Component>
-                <Component Id="cmp8897FF0F55EE3F0F04351005464D9161" Guid="D113BB61-18C9-450F-850C-7A1960B6B7EB">
+                <Component Id="cmp8897FF0F55EE3F0F04351005464D9161" Guid="0C0E29F8-DBCB-4CB5-A8B6-8C12F6D68C3F">
                     <File Id="fil811846EF930D413DA342A52B52A0FC38" KeyPath="yes" Source="$(var.sourceDir)\AzureServiceManagement\Microsoft.WindowsAzure.Commands.ServiceManagement.PlatformImageRepository.pdb" />
                 </Component>
-                <Component Id="cmp0EB622275CA170CB3A39C1465DAB7A97" Guid="E738B170-2262-4201-878D-753D950CF151">
+                <Component Id="cmp0EB622275CA170CB3A39C1465DAB7A97" Guid="AD3336AE-15D3-4F73-BF10-DF1DB8F1DE70">
                     <File Id="fil6C33C3C11ACC9AF6BCFD9469FA7C5749" KeyPath="yes" Source="$(var.sourceDir)\AzureServiceManagement\Microsoft.WindowsAzure.Commands.ServiceManagement.Preview.dll" />
                 </Component>
-                <Component Id="cmp2A1F2BFE55661109CA12D15CC6DF18A9" Guid="4AF854A5-7211-4F82-B6E7-F75C738556B0">
+                <Component Id="cmp2A1F2BFE55661109CA12D15CC6DF18A9" Guid="C3A49B88-1BFB-4B9F-A832-4762788EC8AE">
                     <File Id="filDE0DB4D8032B6A3542ACF6658B01FF51" KeyPath="yes" Source="$(var.sourceDir)\AzureServiceManagement\Microsoft.WindowsAzure.Commands.ServiceManagement.Preview.dll-Help.xml" />
                 </Component>
-                <Component Id="cmp45DC6741E60528A7BEA2588D644F6015" Guid="D20B71E8-03D5-4D88-8C79-4E27C42BA533">
+                <Component Id="cmp45DC6741E60528A7BEA2588D644F6015" Guid="3783C079-1AD9-445F-A49B-AB5AC501164E">
                     <File Id="fil483A9A27EEC27416322CC860A7B3EE35" KeyPath="yes" Source="$(var.sourceDir)\AzureServiceManagement\Microsoft.WindowsAzure.Commands.ServiceManagement.Preview.pdb" />
                 </Component>
-                <Component Id="cmpE5079079EFA5CC70A6F1755103B1FC47" Guid="8D642E7D-953D-4249-861A-68F69973D9E0">
+                <Component Id="cmpE5079079EFA5CC70A6F1755103B1FC47" Guid="3683BD04-7505-421B-AE5D-C93DF480F4B6">
                     <File Id="filCBACAE5F054B26689816EDA40F6F7008" KeyPath="yes" Source="$(var.sourceDir)\AzureServiceManagement\Microsoft.WindowsAzure.Commands.SqlDatabase.dll" />
                 </Component>
-                <Component Id="cmp88DDEDA92C77D0BBBDE12D9F28834173" Guid="7B08E124-2E96-4AD4-A6D4-E24ED626D33B">
+                <Component Id="cmp88DDEDA92C77D0BBBDE12D9F28834173" Guid="E2E9C3CB-FD42-46C8-9B95-8E1F6A161E88">
                     <File Id="fil53237576B3CAAF4CFA468E83AB0048BD" KeyPath="yes" Source="$(var.sourceDir)\AzureServiceManagement\Microsoft.WindowsAzure.Commands.SqlDatabase.dll-Help.xml" />
                 </Component>
-                <Component Id="cmp20462241FC62EB2F62EDE033CC3C478E" Guid="323436D7-D45C-4A59-9EB6-D3FC7C33D79E">
+                <Component Id="cmp20462241FC62EB2F62EDE033CC3C478E" Guid="00C309A1-122E-40BC-914C-5F77DA7866C2">
                     <File Id="fil3905C3CB2EF10FD4DE675B9716A27B56" KeyPath="yes" Source="$(var.sourceDir)\AzureServiceManagement\Microsoft.WindowsAzure.Commands.SqlDatabase.pdb" />
                 </Component>
-                <Component Id="cmpBF1C1AFAD6961CA437DC8A4111DC3653" Guid="68381692-5D98-44C8-9EC3-B0B29661025E">
+                <Component Id="cmpBF1C1AFAD6961CA437DC8A4111DC3653" Guid="1D612314-2475-4343-BBC3-6173B032BC49">
                     <File Id="fil41268EDA4CF172ED7137FFD32040CF07" KeyPath="yes" Source="$(var.sourceDir)\AzureServiceManagement\Microsoft.WindowsAzure.Commands.SqlDatabase.Types.ps1xml" />
                 </Component>
-                <Component Id="cmp1E4D02B453E868B9480CF5E1BF171DC7" Guid="5052C6F8-4FE2-441E-9C15-6FA300E72843">
+                <Component Id="cmp1E4D02B453E868B9480CF5E1BF171DC7" Guid="FF66E0B7-46F5-4F4B-84E2-BB3E468C3BC7">
                     <File Id="filE9444C5D8C50C854039B710FE98FE3FB" KeyPath="yes" Source="$(var.sourceDir)\AzureServiceManagement\Microsoft.WindowsAzure.Commands.Storage.dll" />
                 </Component>
-                <Component Id="cmp609E7233059DEA55A64653A69BDD563E" Guid="69C4AFEC-D2BE-40D0-A3A9-B15FB7CBDFEB">
+                <Component Id="cmp609E7233059DEA55A64653A69BDD563E" Guid="4E83C244-8F09-4324-AAF9-7A63A053AD19">
                     <File Id="fil4B63C8DFD9FAA4F1893153B9E30E832B" KeyPath="yes" Source="$(var.sourceDir)\AzureServiceManagement\Microsoft.WindowsAzure.Commands.Storage.dll-Help.xml" />
                 </Component>
-                <Component Id="cmp3C95312FE14CB8CFF5FA19C360CCBBF1" Guid="D25592E3-786C-4A02-90F8-48A634122D51">
+                <Component Id="cmp3C95312FE14CB8CFF5FA19C360CCBBF1" Guid="8000168D-218B-4964-B202-51508B0242F7">
                     <File Id="fil2A44802480B0CC7177D2D98D222E4DE8" KeyPath="yes" Source="$(var.sourceDir)\AzureServiceManagement\Microsoft.WindowsAzure.Commands.Storage.format.ps1xml" />
                 </Component>
-                <Component Id="cmp74A0A825B7D69AEAA92A3B62F1654B83" Guid="8A4D9567-F66C-48F3-9CA0-3D793BC04112">
+                <Component Id="cmp74A0A825B7D69AEAA92A3B62F1654B83" Guid="345FCCE0-9D77-4B43-9404-8D2A383725DD">
                     <File Id="fil24DC25314EA072AD350807AED71B115A" KeyPath="yes" Source="$(var.sourceDir)\AzureServiceManagement\Microsoft.WindowsAzure.Commands.Storage.pdb" />
                 </Component>
-                <Component Id="cmp2284790B0DA6C902F279DE6F79592649" Guid="84EEB4F3-249F-4303-A57C-69CE28BEE560">
+                <Component Id="cmp2284790B0DA6C902F279DE6F79592649" Guid="0174F78C-3136-4ED4-9F49-BAC1F23A173F">
                     <File Id="fil213229145677E4CF2F8808C9B259D11B" KeyPath="yes" Source="$(var.sourceDir)\AzureServiceManagement\Microsoft.WindowsAzure.Commands.Store.format.ps1xml" />
                 </Component>
-                <Component Id="cmp0DB207F72FD3A94E207587ED02BA22A8" Guid="C95C5529-06C3-490A-9654-B014AABF914B">
+                <Component Id="cmp0DB207F72FD3A94E207587ED02BA22A8" Guid="281AFF78-FBA2-4205-B55D-017EA548778B">
                     <File Id="fil67632904F6F41C949D5263F1761AA8BD" KeyPath="yes" Source="$(var.sourceDir)\AzureServiceManagement\Microsoft.WindowsAzure.Commands.Sync.dll" />
                 </Component>
-                <Component Id="cmp2805E72AD2F531EB15342E1AEA147C9E" Guid="9B8031BA-E28D-482E-8EE2-6EEFF013597A">
+                <Component Id="cmp2805E72AD2F531EB15342E1AEA147C9E" Guid="9D2CA65F-C245-4CF4-9666-0B9C3EAABF0C">
                     <File Id="fil1C364A754E3DB0D630C0057DBD6461A7" KeyPath="yes" Source="$(var.sourceDir)\AzureServiceManagement\Microsoft.WindowsAzure.Commands.Sync.pdb" />
                 </Component>
-                <Component Id="cmp7598557982E73AC953DA1DA3F9331C91" Guid="E152018B-8CDD-4521-9FBD-BBBB5F0BD15B">
+                <Component Id="cmp7598557982E73AC953DA1DA3F9331C91" Guid="2436F114-FBE0-4F94-808B-ED28A6594563">
                     <File Id="filAE53A4E3077FFA0FA76FBA82E8B808C8" KeyPath="yes" Source="$(var.sourceDir)\AzureServiceManagement\Microsoft.WindowsAzure.Commands.Test.Utilities.dll" />
                 </Component>
-                <Component Id="cmp63A969579161E25A2BC33C60271EA0CA" Guid="79DF161D-CB23-49A8-A2FE-16F25DDFE8FE">
+                <Component Id="cmp63A969579161E25A2BC33C60271EA0CA" Guid="A6122457-DFB5-44E1-9084-B49E15CF2CBA">
                     <File Id="filB78EE9782728D35EE3A9377871A51863" KeyPath="yes" Source="$(var.sourceDir)\AzureServiceManagement\Microsoft.WindowsAzure.Commands.Test.Utilities.pdb" />
                 </Component>
-                <Component Id="cmp647A3A31C80C60A12871B24552760B94" Guid="62B285A9-FFC9-4A72-80AD-3FC79BEA64FC">
+                <Component Id="cmp647A3A31C80C60A12871B24552760B94" Guid="2176752A-235D-41D0-8524-38D8E9CF6E47">
                     <File Id="fil655ABEF69E05273547FE2B207A09D336" KeyPath="yes" Source="$(var.sourceDir)\AzureServiceManagement\Microsoft.WindowsAzure.Commands.Tools.Vhd.dll" />
                 </Component>
-                <Component Id="cmp092B73F1581A583D8B022E15908579A8" Guid="DA784DED-AB88-468E-A0D5-C20540714806">
+                <Component Id="cmp092B73F1581A583D8B022E15908579A8" Guid="31DE910A-B056-4B7D-A40B-BDC52E012EE2">
                     <File Id="fil1F40526C0DC9E85CB9D3CF620727EF00" KeyPath="yes" Source="$(var.sourceDir)\AzureServiceManagement\Microsoft.WindowsAzure.Commands.Tools.Vhd.pdb" />
                 </Component>
-                <Component Id="cmp4DA8DECC9DA0F5553646C2D83F15DE20" Guid="28739062-E4A2-48C2-954B-320DF1642A6D">
+                <Component Id="cmp4DA8DECC9DA0F5553646C2D83F15DE20" Guid="8A557D42-3541-43A5-8908-8A51B07E84E9">
                     <File Id="fil60E61CB2CF3F3F3B2486696430A3EA96" KeyPath="yes" Source="$(var.sourceDir)\AzureServiceManagement\Microsoft.WindowsAzure.Commands.Utilities.Common.Storage.dll" />
                 </Component>
-                <Component Id="cmpC96590909A8E8312C36494037DCE2C6F" Guid="73D25619-D231-48D9-B474-4E4F1FFBDF3F">
+                <Component Id="cmpC96590909A8E8312C36494037DCE2C6F" Guid="903719D8-3DD7-44ED-89E4-D2DD1A1614C1">
                     <File Id="fil8569F6962C95AE6F07EF31281028148F" KeyPath="yes" Source="$(var.sourceDir)\AzureServiceManagement\Microsoft.WindowsAzure.Commands.Utilities.Common.Storage.pdb" />
                 </Component>
-                <Component Id="cmp1D92B77593A4922EE58AC3E4D402AE4A" Guid="CFFEE21E-2FC5-4AFD-8BC9-AFF65EA6DAFB">
+                <Component Id="cmp1D92B77593A4922EE58AC3E4D402AE4A" Guid="F6C61E0D-CC42-455E-810A-6FEDF708D29C">
                     <File Id="fil2DE0B1A6669FB4E3560C9542EE59980F" KeyPath="yes" Source="$(var.sourceDir)\AzureServiceManagement\Microsoft.WindowsAzure.Commands.Utilities.dll" />
                 </Component>
-                <Component Id="cmpA9F12A9A1EC1238A1206691F672521BD" Guid="2C4BD47C-7F67-46E9-87BB-644DE3A6E389">
+                <Component Id="cmpA9F12A9A1EC1238A1206691F672521BD" Guid="71389198-545A-4D7C-AD21-49618C54B7D1">
                     <File Id="fil032851CB5642F7826BD63D2CF4A217F9" KeyPath="yes" Source="$(var.sourceDir)\AzureServiceManagement\Microsoft.WindowsAzure.Commands.Utilities.pdb" />
                 </Component>
-                <Component Id="cmpAFAE2C4156AEE73C3EE8B195C1EB0D39" Guid="455653E9-3EBB-44C7-8514-8EE152BF9C14">
+                <Component Id="cmpAFAE2C4156AEE73C3EE8B195C1EB0D39" Guid="9CA23287-B647-4C1F-AD26-3B13BE5081D5">
                     <File Id="fil8D054ADAAC3690A872FFFE188663DEDD" KeyPath="yes" Source="$(var.sourceDir)\AzureServiceManagement\Microsoft.WindowsAzure.Commands.WebSites.format.ps1xml" />
                 </Component>
-                <Component Id="cmpBDF2B4BB612FFB8713D67F7F6AB8DF84" Guid="0C7E626A-B74B-4302-AB72-78FDCDF890CD">
+                <Component Id="cmpBDF2B4BB612FFB8713D67F7F6AB8DF84" Guid="40A4AE12-7477-4B97-8855-CCBCFE8440B1">
                     <File Id="fil3C3A798BA7B1612C377F12A2B286F3AC" KeyPath="yes" Source="$(var.sourceDir)\AzureServiceManagement\Microsoft.WindowsAzure.Commands.WebSites.Types.ps1xml" />
                 </Component>
-                <Component Id="cmp3D56D24D7AE362438204B0A00EF7C7FC" Guid="2B6006E6-2C9E-40F1-9D47-CF0913604BC9">
+                <Component Id="cmp3D56D24D7AE362438204B0A00EF7C7FC" Guid="1E4CA49D-9108-448E-B506-6668669C960D">
                     <Class Id="{192A6DDF-5ADC-38F8-8208-A2E527D8269F}" Context="InprocServer32" Description="Microsoft.WindowsAzure.Common.TransientFaultHandling.Incremental" ThreadingModel="both" ForeignServer="mscoree.dll">
                         <ProgId Id="Microsoft.WindowsAzure.Common.TransientFaultHandling.Incremental" Description="Microsoft.WindowsAzure.Common.TransientFaultHandling.Incremental" />
                     </Class>
@@ -3596,22 +3554,22 @@
                     <RegistryValue Root="HKCR" Key="Record\{E07F6A54-0BD2-38E9-ABF3-2197105753DB}\0.9.0.0" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
                     <RegistryValue Root="HKCR" Key="Record\{E07F6A54-0BD2-38E9-ABF3-2197105753DB}\0.9.0.0" Name="CodeBase" Value="file:///[#filF237912D99D6E3100396680C5A35B949]" Type="string" Action="write" />
                 </Component>
-                <Component Id="cmpB193C077931360163AAF69468B3101DA" Guid="8A2D164C-5110-406F-B817-5CD1197BDD6D">
+                <Component Id="cmpB193C077931360163AAF69468B3101DA" Guid="B2813418-A2DD-4D91-854A-0DB5A98B1BE1">
                     <File Id="fil7CCCE58AEDC0A331D3E4D3769B77CCD8" KeyPath="yes" Source="$(var.sourceDir)\AzureServiceManagement\Microsoft.WindowsAzure.Common.NetFramework.dll" />
                 </Component>
-                <Component Id="cmpF6A7EA7F5F004E5D3927E3BDEB202F2E" Guid="05787F85-97D3-4469-B7C8-7B6904815224">
+                <Component Id="cmpF6A7EA7F5F004E5D3927E3BDEB202F2E" Guid="E45ED045-B45E-4248-A5BD-5B0F7530CBC8">
                     <File Id="filCC6ED4BEFE067655ABD53DF61511136B" KeyPath="yes" Source="$(var.sourceDir)\AzureServiceManagement\Microsoft.WindowsAzure.Common.NetFramework.xml" />
                 </Component>
-                <Component Id="cmp032CEEDBF98D30759060388B79E06C19" Guid="3CE5D3F3-2AE4-41B3-9F94-112E1200B5FD">
+                <Component Id="cmp032CEEDBF98D30759060388B79E06C19" Guid="93F8B84A-1A66-4830-AD31-52A84BA28FFC">
                     <File Id="fil22E01E94DC9E8E909AB4A8630B437307" KeyPath="yes" Source="$(var.sourceDir)\AzureServiceManagement\Microsoft.WindowsAzure.Common.xml" />
                 </Component>
-                <Component Id="cmpA1A58DAF5FD1266DEEB3436694A64060" Guid="8D96DA6C-77A0-4EEC-BBED-99930D2342E6">
+                <Component Id="cmpA1A58DAF5FD1266DEEB3436694A64060" Guid="D39BFA6B-AC3B-4FC9-A399-72907D274BAF">
                     <File Id="fil55E13023E9190458AF4D508C91D316C4" KeyPath="yes" Source="$(var.sourceDir)\AzureServiceManagement\Microsoft.WindowsAzure.Configuration.dll" />
                 </Component>
-                <Component Id="cmpBC536E369ABB5C370836A95C1313B5B1" Guid="0266B442-750C-4DE4-AE96-0E3C7E573E95">
+                <Component Id="cmpBC536E369ABB5C370836A95C1313B5B1" Guid="44EFFCF7-2020-472C-9C5D-688433E206B5">
                     <File Id="filCFF6D2729FFD1D46C78F02828621D7C3" KeyPath="yes" Source="$(var.sourceDir)\AzureServiceManagement\Microsoft.WindowsAzure.Configuration.xml" />
                 </Component>
-                <Component Id="cmpB4CA6B66DC588D7303968BF19EA56D8D" Guid="D0EE2716-981F-460B-A357-E97F335AB26A">
+                <Component Id="cmpB4CA6B66DC588D7303968BF19EA56D8D" Guid="207025D0-28AE-4AA5-9AC6-699114D963BB">
                     <Class Id="{037397CE-5704-3347-966A-24AF1BCD9A72}" Context="InprocServer32" Description="Microsoft.WindowsAzure.Management.Compute.Models.SshSettingKeyPair" ThreadingModel="both" ForeignServer="mscoree.dll">
                         <ProgId Id="Microsoft.WindowsAzure.Management.Compute.Models.SshSettingKeyPair" Description="Microsoft.WindowsAzure.Management.Compute.Models.SshSettingKeyPair" />
                     </Class>
@@ -4979,10 +4937,10 @@
                     <RegistryValue Root="HKCR" Key="Record\{F8EDC7DF-D033-3636-A20C-1465B6CA1F2A}\0.9.0.0" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
                     <RegistryValue Root="HKCR" Key="Record\{F8EDC7DF-D033-3636-A20C-1465B6CA1F2A}\0.9.0.0" Name="CodeBase" Value="file:///[#filB44624089606F319C7C237EC3E1ADBF1]" Type="string" Action="write" />
                 </Component>
-                <Component Id="cmpA338429A45C1F42C71EB7043151EEF8D" Guid="1B61F57B-801F-496E-85B2-86A39835F071">
+                <Component Id="cmpA338429A45C1F42C71EB7043151EEF8D" Guid="76DCB844-A4CD-45C8-B8F4-6F3DAC286376">
                     <File Id="fil7F02CF81AF5C7AD728115938C5639570" KeyPath="yes" Source="$(var.sourceDir)\AzureServiceManagement\Microsoft.WindowsAzure.Management.Compute.xml" />
                 </Component>
-                <Component Id="cmp98770CFC433890F431FB549DFE65F542" Guid="EEDEEB80-107A-4A37-9D18-8B743CBF6879">
+                <Component Id="cmp98770CFC433890F431FB549DFE65F542" Guid="0EF49AEB-74A9-4021-841C-E842DD54A419">
                     <Class Id="{05A754E5-F7FC-374B-BBE1-7028651ADDE8}" Context="InprocServer32" Description="Microsoft.WindowsAzure.Management.Models.SubscriptionGetResponse" ThreadingModel="both" ForeignServer="mscoree.dll">
                         <ProgId Id="Microsoft.WindowsAzure.Management.Models.SubscriptionGetResponse" Description="Microsoft.WindowsAzure.Management.Models.SubscriptionGetResponse" />
                     </Class>
@@ -5258,7 +5216,7 @@
                     <RegistryValue Root="HKCR" Key="Record\{51C274D7-97DC-3FE0-8D96-B3662C794461}\0.9.0.0" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
                     <RegistryValue Root="HKCR" Key="Record\{51C274D7-97DC-3FE0-8D96-B3662C794461}\0.9.0.0" Name="CodeBase" Value="file:///[#fil3BBCA78A2A839EA4C81A8120DA978D7C]" Type="string" Action="write" />
                 </Component>
-                <Component Id="cmp5730897E375F4E64861F0CC9A7FC7465" Guid="258913BD-5A90-463D-992E-8DFE41158483">
+                <Component Id="cmp5730897E375F4E64861F0CC9A7FC7465" Guid="0F500DD6-BD20-4546-B192-AFE03DCA8BBC">
                     <Class Id="{0C7DB2E2-7D19-3587-9445-C8066A2FD146}" Context="InprocServer32" Description="Microsoft.WindowsAzure.Management.ExpressRoute.Models.DedicatedCircuitGetResponse" ThreadingModel="both" ForeignServer="mscoree.dll">
                         <ProgId Id="Microsoft.WindowsAzure.Management.ExpressRoute.Models.DedicatedCircuitGetResponse" Description="Microsoft.WindowsAzure.Management.ExpressRoute.Models.DedicatedCircuitGetResponse" />
                     </Class>
@@ -5542,28 +5500,28 @@
                     <RegistryValue Root="HKCR" Key="Record\{EEAC6432-E7F7-33CB-BDCE-0CF8B2D0E386}\0.9.0.0" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
                     <RegistryValue Root="HKCR" Key="Record\{EEAC6432-E7F7-33CB-BDCE-0CF8B2D0E386}\0.9.0.0" Name="CodeBase" Value="file:///[#filC7CD0C9213C139CD13A1D7C4B0CD2B3D]" Type="string" Action="write" />
                 </Component>
-                <Component Id="cmp69CE57BD891D67332EEF975552AA5FBB" Guid="901EC910-B871-4B98-988E-9C235D81A810">
+                <Component Id="cmp69CE57BD891D67332EEF975552AA5FBB" Guid="9DAFF445-C7DE-4807-8745-D3D8782220FD">
                     <File Id="fil656A462385A5C62ACB532DA375A99426" KeyPath="yes" Source="$(var.sourceDir)\AzureServiceManagement\Microsoft.WindowsAzure.Management.ExpressRoute.xml" />
                 </Component>
-                <Component Id="cmp3921E08F43CC6A9044C1BF07E13D4465" Guid="03F1F254-E099-4D2D-853D-2554D8EC99E2">
+                <Component Id="cmp3921E08F43CC6A9044C1BF07E13D4465" Guid="FC91D833-7151-4A30-B6D5-125BCEE67959">
                     <File Id="fil28ED4D07DABD6F89505C3C330F6451C2" KeyPath="yes" Source="$(var.sourceDir)\AzureServiceManagement\Microsoft.WindowsAzure.Management.HDInsight.dll" />
                 </Component>
-                <Component Id="cmp2DB35DB60315F69486550A4DF20AE31E" Guid="17A2DFD8-5C99-4B30-A7BB-88C7657A7EC2">
+                <Component Id="cmp2DB35DB60315F69486550A4DF20AE31E" Guid="B7794278-F838-4CB2-B6AD-4C877A38EA49">
                     <File Id="filD0CE68A46714C2A30B61F3DCFCFC2EB6" KeyPath="yes" Source="$(var.sourceDir)\AzureServiceManagement\Microsoft.WindowsAzure.Management.HDInsight.Framework.Core.dll" />
                 </Component>
-                <Component Id="cmpFEEFD83F49A124342747CC45BB727501" Guid="6BCFEC57-5796-4BA4-8E95-9F0BB50B79FF">
+                <Component Id="cmpFEEFD83F49A124342747CC45BB727501" Guid="1B2905F4-30DF-486F-A56F-54CB140E6186">
                     <File Id="filE4824FE3ADE6ECD40C44B6E1116B388F" KeyPath="yes" Source="$(var.sourceDir)\AzureServiceManagement\Microsoft.WindowsAzure.Management.HDInsight.Framework.Core.xml" />
                 </Component>
-                <Component Id="cmpB2E5D3347D1DC683B5E194BDA40D353C" Guid="EC736FD8-E9A9-4A56-A13C-1C7FF540FB52">
+                <Component Id="cmpB2E5D3347D1DC683B5E194BDA40D353C" Guid="AA8F347F-6EC3-4765-B40C-422E9E59225A">
                     <File Id="fil95E2AFF0A023FB132EE49E6A60D81151" KeyPath="yes" Source="$(var.sourceDir)\AzureServiceManagement\Microsoft.WindowsAzure.Management.HDInsight.Framework.dll" />
                 </Component>
-                <Component Id="cmp923784333EB38D745605865B25500A41" Guid="5C7B801B-F2FC-4455-9688-D26805B8F11B">
+                <Component Id="cmp923784333EB38D745605865B25500A41" Guid="074756D1-7608-4EB9-8B86-372E277067B1">
                     <File Id="fil0A540CCD98C14F9C900900DD258B99BF" KeyPath="yes" Source="$(var.sourceDir)\AzureServiceManagement\Microsoft.WindowsAzure.Management.HDInsight.Framework.xml" />
                 </Component>
-                <Component Id="cmp5C0D3EA2A4A880D02F1EE48C0A50C436" Guid="8908D9B9-4FBD-4A96-AAFF-980E645F8A79">
+                <Component Id="cmp5C0D3EA2A4A880D02F1EE48C0A50C436" Guid="4DA7B1D1-0948-4EF6-BDDB-3310A9EE2277">
                     <File Id="fil3B61AEEEA88CC592BA1666E3E5A3C600" KeyPath="yes" Source="$(var.sourceDir)\AzureServiceManagement\Microsoft.WindowsAzure.Management.HDInsight.xml" />
                 </Component>
-                <Component Id="cmpD3C7C55DEA7C499C6D4068B649027F86" Guid="5750D039-9268-49FF-9153-FA7F497C4254">
+                <Component Id="cmpD3C7C55DEA7C499C6D4068B649027F86" Guid="C22829FC-26DA-4093-B673-32B61E1DDCF6">
                     <Class Id="{0AE96D8E-0EF7-36E0-8D89-6BB6DABAA253}" Context="InprocServer32" Description="Microsoft.WindowsAzure.Management.MediaServices.Models.MediaServicesAccountCreateParameters" ThreadingModel="both" ForeignServer="mscoree.dll">
                         <ProgId Id="Microsoft.WindowsAzure.Management.MediaServices.Models.MediaServicesAccountCreateParameters" Description="Microsoft.WindowsAzure.Management.MediaServices.Models.MediaServicesAccountCreateParameters" />
                     </Class>
@@ -5667,10 +5625,10 @@
                     <RegistryValue Root="HKCR" Key="Record\{3E9CAF8E-B776-390B-9F69-69DC4EC37BD5}\0.9.0.0" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
                     <RegistryValue Root="HKCR" Key="Record\{3E9CAF8E-B776-390B-9F69-69DC4EC37BD5}\0.9.0.0" Name="CodeBase" Value="file:///[#fil271535F6544FA5F7BFFA8C798209DD35]" Type="string" Action="write" />
                 </Component>
-                <Component Id="cmpC31D94DC37D16B1277FF306BC8DCA0BF" Guid="B7560E97-8A6F-40B3-B357-D30DF417E083">
+                <Component Id="cmpC31D94DC37D16B1277FF306BC8DCA0BF" Guid="7AD015BA-D927-406E-A4A3-1C08836BC8AA">
                     <File Id="filD817DEFB33AFA6CDDAE280F24406F0CE" KeyPath="yes" Source="$(var.sourceDir)\AzureServiceManagement\Microsoft.WindowsAzure.Management.MediaServices.xml" />
                 </Component>
-                <Component Id="cmpB10CEDC08BEAA52DFEC66D3D39F9C266" Guid="E6BB3752-B1A3-4D2F-B2BA-84A363D44E61">
+                <Component Id="cmpB10CEDC08BEAA52DFEC66D3D39F9C266" Guid="513FB7A3-E03E-4C32-B11F-BBA2AC2CFD61">
                     <Class Id="{00519023-4D9E-3942-AD59-32BEEF6E0CC4}" Context="InprocServer32" Description="Microsoft.WindowsAzure.Management.Network.Models.GatewayListConnectionsResponse" ThreadingModel="both" ForeignServer="mscoree.dll">
                         <ProgId Id="Microsoft.WindowsAzure.Management.Network.Models.GatewayListConnectionsResponse" Description="Microsoft.WindowsAzure.Management.Network.Models.GatewayListConnectionsResponse" />
                     </Class>
@@ -6158,10 +6116,10 @@
                     <RegistryValue Root="HKCR" Key="Record\{EC264D66-5EE0-352B-B6B8-4D3D11C38319}\0.9.0.0" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
                     <RegistryValue Root="HKCR" Key="Record\{EC264D66-5EE0-352B-B6B8-4D3D11C38319}\0.9.0.0" Name="CodeBase" Value="file:///[#fil3A55AC61541BAA3C4EDFC7A9BC954958]" Type="string" Action="write" />
                 </Component>
-                <Component Id="cmp810048CE991A4338D83FE7D864B19AAC" Guid="1EE95AFF-DAA4-4415-A465-8196181492E8">
+                <Component Id="cmp810048CE991A4338D83FE7D864B19AAC" Guid="AD65E631-8F18-4DFB-8E77-5D5E1B9239CC">
                     <File Id="filB17EDC4925ACBF6B831C26CDBE1C0567" KeyPath="yes" Source="$(var.sourceDir)\AzureServiceManagement\Microsoft.WindowsAzure.Management.Network.xml" />
                 </Component>
-                <Component Id="cmp870DBA132ABB3092930814E6E4057A75" Guid="0574B83C-9FD1-4607-929E-525A9918AD04">
+                <Component Id="cmp870DBA132ABB3092930814E6E4057A75" Guid="A273491E-4FF7-43D4-B4F9-94A71A16ABEB">
                     <Class Id="{030CA7B6-5333-395E-86FC-8CC5CE251350}" Context="InprocServer32" Description="Microsoft.WindowsAzure.Management.Scheduler.Models.CloudServiceListResponse+CloudService+AddOnResource+UsageLimit" ThreadingModel="both" ForeignServer="mscoree.dll">
                         <ProgId Id="Microsoft.WindowsAzure.Management.Scheduler.Models.CloudServiceListResponse+CloudService+AddOnResource+UsageLimit" Description="Microsoft.WindowsAzure.Management.Scheduler.Models.CloudServiceListResponse+CloudService+AddOnResource+UsageLimit" />
                     </Class>
@@ -6849,10 +6807,10 @@
                     <RegistryValue Root="HKCR" Key="Record\{E411067A-795D-37BE-9364-9F9FE4C491BD}\0.9.0.0" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
                     <RegistryValue Root="HKCR" Key="Record\{E411067A-795D-37BE-9364-9F9FE4C491BD}\0.9.0.0" Name="CodeBase" Value="file:///[#filC6B786BF644FDAE9ABB1FBD7F6F25607]" Type="string" Action="write" />
                 </Component>
-                <Component Id="cmpAA1CD53C8B3F53BD30A7ADDF3CF34E76" Guid="71CC61BF-A141-439C-8579-FB863170B561">
+                <Component Id="cmpAA1CD53C8B3F53BD30A7ADDF3CF34E76" Guid="96DD4D12-1FD5-47DD-9424-FE7BCB04CA26">
                     <File Id="fil5A1E6C89BF84133E2054E5831DC2885C" KeyPath="yes" Source="$(var.sourceDir)\AzureServiceManagement\Microsoft.WindowsAzure.Management.Scheduler.xml" />
                 </Component>
-                <Component Id="cmp4809D464BA32C3D5CB1FB27243943839" Guid="9C9B2EB7-3601-4938-96B3-4A85E8EF99D5">
+                <Component Id="cmp4809D464BA32C3D5CB1FB27243943839" Guid="1904C55C-3E62-4775-9813-5B3789B20B45">
                     <Class Id="{03BBF286-7BD4-3BDD-9BA1-7FE76BD341AE}" Context="InprocServer32" Description="Microsoft.WindowsAzure.Management.ServiceBus.Models.ServiceBusRegionsResponse" ThreadingModel="both" ForeignServer="mscoree.dll">
                         <ProgId Id="Microsoft.WindowsAzure.Management.ServiceBus.Models.ServiceBusRegionsResponse" Description="Microsoft.WindowsAzure.Management.ServiceBus.Models.ServiceBusRegionsResponse" />
                     </Class>
@@ -7148,10 +7106,10 @@
                     <RegistryValue Root="HKCR" Key="Record\{0D22DAA5-A73D-3CB5-8C97-9D95249B16CC}\0.9.0.0" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
                     <RegistryValue Root="HKCR" Key="Record\{0D22DAA5-A73D-3CB5-8C97-9D95249B16CC}\0.9.0.0" Name="CodeBase" Value="file:///[#fil6185094CFBF9EB4010AB51F330462840]" Type="string" Action="write" />
                 </Component>
-                <Component Id="cmpA44A987AAF6403091F27D8F442D2ADE9" Guid="8C1AF1B9-3713-45A1-916D-F41678FD17CF">
+                <Component Id="cmpA44A987AAF6403091F27D8F442D2ADE9" Guid="D63B4621-970C-40A2-8CB2-49B8DFF97963">
                     <File Id="filF28AFD4CEE4B57CF14283D4EE6F59FB7" KeyPath="yes" Source="$(var.sourceDir)\AzureServiceManagement\Microsoft.WindowsAzure.Management.ServiceBus.xml" />
                 </Component>
-                <Component Id="cmpE64572052331AF21C318C82CA4907101" Guid="9388D12D-E34F-47CA-AC50-A79632F20516">
+                <Component Id="cmpE64572052331AF21C318C82CA4907101" Guid="AE4D6941-F493-4876-AEC0-259E39261C11">
                     <Class Id="{081AE6A8-B7E6-3CB6-B893-7E38677F5311}" Context="InprocServer32" Description="Microsoft.WindowsAzure.Management.Sql.Models.ServerCreateResponse" ThreadingModel="both" ForeignServer="mscoree.dll">
                         <ProgId Id="Microsoft.WindowsAzure.Management.Sql.Models.ServerCreateResponse" Description="Microsoft.WindowsAzure.Management.Sql.Models.ServerCreateResponse" />
                     </Class>
@@ -7610,10 +7568,10 @@
                     <RegistryValue Root="HKCR" Key="CLSID\{FF3F3CD9-FA99-3C1E-AA77-29A3B1099ED6}\InprocServer32" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
                     <RegistryValue Root="HKCR" Key="CLSID\{FF3F3CD9-FA99-3C1E-AA77-29A3B1099ED6}\InprocServer32" Name="CodeBase" Value="file:///[#filD898BF854A3934D4592F6B8BB4340C21]" Type="string" Action="write" />
                 </Component>
-                <Component Id="cmpFD1B9E943DF03B6CF3168261998FD059" Guid="1A343579-F051-413E-A080-3F557362CA69">
+                <Component Id="cmpFD1B9E943DF03B6CF3168261998FD059" Guid="DB494432-66EA-49AA-B046-B6B9FCE9CFD5">
                     <File Id="fil4C118EF3291431834BB1174132AE5AC6" KeyPath="yes" Source="$(var.sourceDir)\AzureServiceManagement\Microsoft.WindowsAzure.Management.Sql.xml" />
                 </Component>
-                <Component Id="cmp83211A63D2AD88BAF29A2E6B0FA48928" Guid="20C7DA0E-5379-4F95-857D-6A6AE968B63D">
+                <Component Id="cmp83211A63D2AD88BAF29A2E6B0FA48928" Guid="CEC080FD-7298-4553-BFE9-056EB690EAB4">
                     <Class Id="{21D1AD05-FD93-327C-9DAC-DB3370744FD2}" Context="InprocServer32" Description="Microsoft.WindowsAzure.Management.Storage.Models.StorageAccount" ThreadingModel="both" ForeignServer="mscoree.dll">
                         <ProgId Id="Microsoft.WindowsAzure.Management.Storage.Models.StorageAccount" Description="Microsoft.WindowsAzure.Management.Storage.Models.StorageAccount" />
                     </Class>
@@ -7749,10 +7707,10 @@
                     <RegistryValue Root="HKCR" Key="Record\{9DDDF342-CE11-32A8-81E5-EB78B1D1EAA3}\0.9.0.0" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
                     <RegistryValue Root="HKCR" Key="Record\{9DDDF342-CE11-32A8-81E5-EB78B1D1EAA3}\0.9.0.0" Name="CodeBase" Value="file:///[#filE058FF526EDF6877B1E9919BE46B59E3]" Type="string" Action="write" />
                 </Component>
-                <Component Id="cmpC39264E9F760B285EED7E118BFD5186C" Guid="E524E710-3A6A-434F-9163-616965DF8180">
+                <Component Id="cmpC39264E9F760B285EED7E118BFD5186C" Guid="D9A5D2FC-0CA9-47ED-B201-B03DEBE09609">
                     <File Id="filD7B5432236C1E6DFAD2CE0ECF6AEFD7F" KeyPath="yes" Source="$(var.sourceDir)\AzureServiceManagement\Microsoft.WindowsAzure.Management.Storage.xml" />
                 </Component>
-                <Component Id="cmpE4A9A2AE206D6E59ACB5FCEB17CA863B" Guid="28254A3F-89D4-49F5-A782-0E9BAF41ADE3">
+                <Component Id="cmpE4A9A2AE206D6E59ACB5FCEB17CA863B" Guid="8A61D733-50BB-49E7-B71B-EF1DAFC47D10">
                     <Class Id="{4124D31A-118B-341C-867F-9D785C1B70AE}" Context="InprocServer32" Description="Microsoft.WindowsAzure.Management.Store.Models.CloudServiceCreateParameters" ThreadingModel="both" ForeignServer="mscoree.dll">
                         <ProgId Id="Microsoft.WindowsAzure.Management.Store.Models.CloudServiceCreateParameters" Description="Microsoft.WindowsAzure.Management.Store.Models.CloudServiceCreateParameters" />
                     </Class>
@@ -7851,16 +7809,16 @@
                     <RegistryValue Root="HKCR" Key="CLSID\{FD45CE33-E7F6-3C31-8D27-A41CE41320B6}\InprocServer32" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
                     <RegistryValue Root="HKCR" Key="CLSID\{FD45CE33-E7F6-3C31-8D27-A41CE41320B6}\InprocServer32" Name="CodeBase" Value="file:///[#fil417643F4FD08C85C087BFDCE67B5C0AC]" Type="string" Action="write" />
                 </Component>
-                <Component Id="cmpCB68BE630FB1F6E9DB3FE781EE015EC0" Guid="C7AAAF6C-DF62-4439-9B14-3714BE8DBC3D">
+                <Component Id="cmpCB68BE630FB1F6E9DB3FE781EE015EC0" Guid="0664AFA5-45E4-4293-8806-FB75CFF54B67">
                     <File Id="filE3F81FC2056453B0A597511FC94921C6" KeyPath="yes" Source="$(var.sourceDir)\AzureServiceManagement\Microsoft.WindowsAzure.Management.Store.xml" />
                 </Component>
-                <Component Id="cmpD82210A90F80E4648A307008E7D4637E" Guid="C6128D60-D04D-463A-99EE-A170346C45EC">
+                <Component Id="cmpD82210A90F80E4648A307008E7D4637E" Guid="862BE4D4-85CB-4B2C-A176-4D03FADA74AC">
                     <File Id="fil9AA3506AD9741BA3BF8BD3AAFEB1E2C4" KeyPath="yes" Source="$(var.sourceDir)\AzureServiceManagement\Microsoft.WindowsAzure.Management.VirtualNetworks.dll" />
                 </Component>
-                <Component Id="cmpD329A6B3236A474C180C6CEE41E12CC0" Guid="7EA62314-0ECE-4F0B-A9FD-05621470FCB3">
+                <Component Id="cmpD329A6B3236A474C180C6CEE41E12CC0" Guid="306F7165-4584-4B38-95AD-122BA0AE07A9">
                     <File Id="filB5B143E478D065D5B2A517DA7E6DD05D" KeyPath="yes" Source="$(var.sourceDir)\AzureServiceManagement\Microsoft.WindowsAzure.Management.VirtualNetworks.xml" />
                 </Component>
-                <Component Id="cmpC0BCA9A74F4C51AB7409A9E3524ADF27" Guid="C9AA9277-89BA-43A5-AA95-D2739EF055A5">
+                <Component Id="cmpC0BCA9A74F4C51AB7409A9E3524ADF27" Guid="7B6F253E-767E-4643-B10E-FAEF26D8A615">
                     <Class Id="{00981BDA-CD90-332A-9687-FCA7B96BB6FF}" Context="InprocServer32" Description="Microsoft.WindowsAzure.Management.WebSites.Models.WebSiteUpdateParameters+WebSiteSslCertificate" ThreadingModel="both" ForeignServer="mscoree.dll">
                         <ProgId Id="Microsoft.WindowsAzure.Management.WebSites.Models.WebSiteUpdateParameters+WebSiteSslCertificate" Description="Microsoft.WindowsAzure.Management.WebSites.Models.WebSiteUpdateParameters+WebSiteSslCertificate" />
                     </Class>
@@ -8828,385 +8786,379 @@
                     <RegistryValue Root="HKCR" Key="Record\{F85E1E02-3F96-3E28-88F3-B7D00EB9CF3A}\0.9.0.0" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
                     <RegistryValue Root="HKCR" Key="Record\{F85E1E02-3F96-3E28-88F3-B7D00EB9CF3A}\0.9.0.0" Name="CodeBase" Value="file:///[#fil65E838E5F66CEB5CD77517E1C83CA1EA]" Type="string" Action="write" />
                 </Component>
-                <Component Id="cmp5762271D0D3DB87E1DC7C04718E44FD9" Guid="1D86FF0C-6C87-430A-9C6F-C60D85F2790D">
+                <Component Id="cmp5762271D0D3DB87E1DC7C04718E44FD9" Guid="8816ACE2-CEF6-41A5-A9F1-3CD99437104D">
                     <File Id="fil171845B67E85A9D4D39BBA903A1DFE02" KeyPath="yes" Source="$(var.sourceDir)\AzureServiceManagement\Microsoft.WindowsAzure.Management.WebSites.xml" />
                 </Component>
-                <Component Id="cmp78460EBF89DBC7FCEECB3F272FF1C609" Guid="C88E0048-B860-4AD0-8354-5A668292115F">
+                <Component Id="cmp78460EBF89DBC7FCEECB3F272FF1C609" Guid="63113527-EBFD-4A33-A657-A74F8981251E">
                     <File Id="fil04E1A1B853B5202C0D44010DCA6A3940" KeyPath="yes" Source="$(var.sourceDir)\AzureServiceManagement\Microsoft.WindowsAzure.Management.xml" />
                 </Component>
-                <Component Id="cmpFE5044A64923412C9E7563771C15BAD8" Guid="AC2001AB-864A-46F2-A1C7-2AAD4C5EF5DA">
+                <Component Id="cmpFE5044A64923412C9E7563771C15BAD8" Guid="170ADE1C-98AF-4A48-AF1E-C04E24C5F2ED">
                     <File Id="fil4CF9F479CA061E77FC01A5CA69B2BFFE" KeyPath="yes" Source="$(var.sourceDir)\AzureServiceManagement\Microsoft.WindowsAzure.ServiceManagement.Client.dll" />
                 </Component>
-                <Component Id="cmp7341E8E4DB88A33E691587EA6A09AA09" Guid="AC0261D6-D371-4136-B369-67EBFD744A01">
+                <Component Id="cmp7341E8E4DB88A33E691587EA6A09AA09" Guid="39A4168A-0869-4F96-AF9B-EFD59B576C0C">
                     <File Id="fil5449C5E3771DAA4E214E788E411BD6C3" KeyPath="yes" Source="$(var.sourceDir)\AzureServiceManagement\Microsoft.WindowsAzure.Storage.DataMovement.dll" />
                 </Component>
-                <Component Id="cmp5FB8303E8538F443EDBA6888D831EE46" Guid="7110B607-9429-4E09-A044-8A08E5C13321">
+                <Component Id="cmp5FB8303E8538F443EDBA6888D831EE46" Guid="0CCC1EFD-A7B1-4821-B4BA-BC89C45FA404">
                     <File Id="fil04766047376059D480CDF25EAA2004AF" KeyPath="yes" Source="$(var.sourceDir)\AzureServiceManagement\Microsoft.WindowsAzure.Storage.dll" />
                 </Component>
-                <Component Id="cmpBCFEBCC736F33B8FD0D11278C546BA81" Guid="BC781E84-B273-4D1D-BAEA-6CE7A2601E7B">
+                <Component Id="cmpBCFEBCC736F33B8FD0D11278C546BA81" Guid="F8747E45-FFB3-4967-9829-AB4AFA3327DE">
                     <File Id="fil747AC5B4D85B05D65C970DD227C176CA" KeyPath="yes" Source="$(var.sourceDir)\AzureServiceManagement\Microsoft.WindowsAzure.Storage.xml" />
                 </Component>
-                <Component Id="cmp7AC57FE48F3046A6A5A172F0E60025E9" Guid="0C6F3833-2E56-4274-975A-F22440596551">
+                <Component Id="cmp7AC57FE48F3046A6A5A172F0E60025E9" Guid="86DB4C2E-D94F-4D59-929D-05A1DFC11FD9">
                     <File Id="fil4D4F9911C9924BDBBD3C1091CA1CDF74" KeyPath="yes" Source="$(var.sourceDir)\AzureServiceManagement\Moq.dll" />
                 </Component>
-                <Component Id="cmp08FFC2DE8D56BDC190746B908C2690FB" Guid="27560E0C-02B5-4359-9BF9-0EDE4894C455">
+                <Component Id="cmp08FFC2DE8D56BDC190746B908C2690FB" Guid="036DD5E7-DCBC-47CB-B386-4FB2557A4A17">
                     <File Id="filC5994ECBC3476241449E3CA218B5C4C8" KeyPath="yes" Source="$(var.sourceDir)\AzureServiceManagement\Moq.xml" />
                 </Component>
-                <Component Id="cmpF1A428D3C2B9156E4FFA2C3FC638EACD" Guid="A7B7AFFF-B523-485A-9E63-6CF0F934F5CC">
+                <Component Id="cmpF1A428D3C2B9156E4FFA2C3FC638EACD" Guid="978E28BD-066F-4E6C-90FA-570F44832461">
                     <File Id="fil41C00C1FFDF12FAB03259E3899762057" KeyPath="yes" Source="$(var.sourceDir)\AzureServiceManagement\Newtonsoft.Json.dll" />
                 </Component>
-                <Component Id="cmpFDD1C9E57CC8DC785E04827FE253CCA1" Guid="899D00B2-4B55-459F-9543-A6FFB80281D5">
+                <Component Id="cmpFDD1C9E57CC8DC785E04827FE253CCA1" Guid="B7DEA82D-A783-4AE1-86E7-4B6BB57F4294">
                     <File Id="fil96E0EE4F10D6CA4DE4F33DB777FCC8C4" KeyPath="yes" Source="$(var.sourceDir)\AzureServiceManagement\Newtonsoft.Json.xml" />
                 </Component>
-                <Component Id="cmp945CC7B916F7C001410EB25D76E9483A" Guid="92BAF270-AA83-4457-B125-468FC934CACD">
+                <Component Id="cmp945CC7B916F7C001410EB25D76E9483A" Guid="AC89C232-EE16-45EA-8121-42A6462E0E72">
                     <File Id="filDAAD524D73E4F7E95F92A4AF3FC00886" KeyPath="yes" Source="$(var.sourceDir)\AzureServiceManagement\PIR.psd1" />
                 </Component>
-                <Component Id="cmpE3FFB8F6D617C261B0C9090F73EBDE28" Guid="041EDAE8-0084-48FB-AE02-2441C1C1A411">
+                <Component Id="cmpE3FFB8F6D617C261B0C9090F73EBDE28" Guid="0BE5163F-D7D9-465D-81B5-9AC58959C82D">
                     <File Id="fil3BA7AE79364DC495BEAF7136724F4ACE" KeyPath="yes" Source="$(var.sourceDir)\AzureServiceManagement\ServiceManagementStartup.ps1" />
                 </Component>
-                <Component Id="cmp2CD5344249BD0D388DB58CFAF563BBAB" Guid="18F1252D-6BE0-45EF-8B80-62F86A131CDC">
+                <Component Id="cmp2CD5344249BD0D388DB58CFAF563BBAB" Guid="939ACD45-CBF5-42DA-AEDF-D8FB7FA57AE1">
                     <File Id="filAC8580C0A64FA7E052324F62AF5CD0CF" KeyPath="yes" Source="$(var.sourceDir)\AzureServiceManagement\System.IO.dll" />
                 </Component>
-                <Component Id="cmpDE6BB1D07165D10FEE5232ED36277E71" Guid="349ED092-A0A2-4079-85C0-1D49C856785B">
+                <Component Id="cmpDE6BB1D07165D10FEE5232ED36277E71" Guid="4CF48BA9-E60B-4D29-ADE6-63E86CE95393">
                     <File Id="filD25EA482560F67D9435775692B4E4154" KeyPath="yes" Source="$(var.sourceDir)\AzureServiceManagement\System.IO.xml" />
                 </Component>
-                <Component Id="cmp8903482ADBC1C01C2BCFA8CCE14E014E" Guid="E1976395-0DBB-4933-BFBC-529D6EC79D1F">
+                <Component Id="cmp8903482ADBC1C01C2BCFA8CCE14E014E" Guid="3BFBC5BE-F836-43E2-AED8-AB1AF04BA875">
                     <File Id="filBAF6117DD3F1BCC2B60CF272430BF571" KeyPath="yes" Source="$(var.sourceDir)\AzureServiceManagement\System.Net.Http.dll" />
                 </Component>
-                <Component Id="cmpFFD0BA3AA5F811F83210B0A5B564926E" Guid="C845ED3D-F184-4845-A174-24B9216A078C">
+                <Component Id="cmpFFD0BA3AA5F811F83210B0A5B564926E" Guid="61D18F21-C055-4FE1-B276-8B2C506F20C0">
                     <File Id="fil9E4E0B1AB6166BF98415326EEBAF36AB" KeyPath="yes" Source="$(var.sourceDir)\AzureServiceManagement\System.Net.Http.Extensions.dll" />
                 </Component>
-                <Component Id="cmp03D8580BCF7A079E83336310D9FBA884" Guid="BE0D5C5E-DE5A-4B8F-B471-9DD0390C2105">
+                <Component Id="cmp03D8580BCF7A079E83336310D9FBA884" Guid="F1E77D7E-9AF8-47AD-9944-634BB4CE0118">
                     <File Id="filF71C80C37754A012FC32F94950B8ABE9" KeyPath="yes" Source="$(var.sourceDir)\AzureServiceManagement\System.Net.Http.Extensions.xml" />
                 </Component>
-                <Component Id="cmpD5B5EE76AC310031F5A5E94B1D57BC8C" Guid="2216FAEB-F73B-4340-9A90-617418DEBFD1">
+                <Component Id="cmpD5B5EE76AC310031F5A5E94B1D57BC8C" Guid="CEA88161-CAE1-4E61-9F43-9C96B1E26B11">
                     <File Id="fil0EF4819CE71248C536BC97FBCC1CFE0C" KeyPath="yes" Source="$(var.sourceDir)\AzureServiceManagement\System.Net.Http.Formatting.dll" />
                 </Component>
-                <Component Id="cmp7C940A6BB878AA6363D384CA63B0BAA6" Guid="6B74E845-BE1F-415D-BA1F-09D0F86B60F4">
+                <Component Id="cmp7C940A6BB878AA6363D384CA63B0BAA6" Guid="AC28E5C1-749F-404D-B906-C0EC8B816EED">
                     <File Id="filC86868D7753337A59D6F0B55F4855869" KeyPath="yes" Source="$(var.sourceDir)\AzureServiceManagement\System.Net.Http.Formatting.xml" />
                 </Component>
-                <Component Id="cmpDF65808FE531F4D57B1747DAFD567CF3" Guid="D082AF81-D1F9-4536-970D-40BF840C85C3">
+                <Component Id="cmpDF65808FE531F4D57B1747DAFD567CF3" Guid="C85C608A-5F61-440E-918C-DA03E50802F1">
                     <File Id="filA675AB85F98BB530658717022BDB7718" KeyPath="yes" Source="$(var.sourceDir)\AzureServiceManagement\System.Net.Http.Primitives.dll" />
                 </Component>
-                <Component Id="cmp40718D3E8E8B68F4D56BA86D47D0D8C7" Guid="562CCE38-2D38-4C1E-B0F2-71E9A406D126">
+                <Component Id="cmp40718D3E8E8B68F4D56BA86D47D0D8C7" Guid="C21C5DDD-D910-443D-8F32-C6E6BDECE885">
                     <File Id="filF5674A736ACC5D9B80910221DBE073EC" KeyPath="yes" Source="$(var.sourceDir)\AzureServiceManagement\System.Net.Http.Primitives.xml" />
                 </Component>
-                <Component Id="cmpD3CAA32608B935DD195C2FD4693DC736" Guid="A2501D17-7A05-4879-94DD-E80A3A8EB0AA">
+                <Component Id="cmpD3CAA32608B935DD195C2FD4693DC736" Guid="59ABBC77-CEF1-43EB-A3D7-8E0C1499D6C6">
                     <File Id="fil3491651D7B3A6AE13413F26564D108C2" KeyPath="yes" Source="$(var.sourceDir)\AzureServiceManagement\System.Net.Http.WebRequest.dll" />
                 </Component>
-                <Component Id="cmp4CCE9136FE21F6161A0138B009AE0CB3" Guid="6D3DA1C5-ED5A-490B-B403-DB78DEA6272B">
+                <Component Id="cmp4CCE9136FE21F6161A0138B009AE0CB3" Guid="0D686A62-A666-4C9F-B7AF-14C2F5A9FE61">
                     <File Id="fil2813D7129E8FDA7B6F3D72942D8AF506" KeyPath="yes" Source="$(var.sourceDir)\AzureServiceManagement\System.Net.Http.WebRequest.xml" />
                 </Component>
-                <Component Id="cmp67DDAFCF617121B3BD2DDA227AEBA054" Guid="06EF5139-4F6F-4F15-9288-13D31AFBF0E4">
+                <Component Id="cmp67DDAFCF617121B3BD2DDA227AEBA054" Guid="90E9FF14-83E9-45E4-9462-F50B3B030EEF">
                     <File Id="fil5B116B4A9DF9738CE2B6BDE2E72E64E7" KeyPath="yes" Source="$(var.sourceDir)\AzureServiceManagement\System.Net.Http.xml" />
                 </Component>
-                <Component Id="cmp465A3A77B3AF84BD8ECAF4FF84481EE8" Guid="09A85EDD-B378-41FA-8691-E5606EDC04DE">
+                <Component Id="cmp465A3A77B3AF84BD8ECAF4FF84481EE8" Guid="167FC70E-1983-47BE-88F2-F57227DBEED2">
                     <File Id="fil16721D85ABA515D164425B0F0F192B6F" KeyPath="yes" Source="$(var.sourceDir)\AzureServiceManagement\System.Runtime.dll" />
                 </Component>
-                <Component Id="cmp9A994667EA5F3022EF231AF248A0013F" Guid="E4B2BCA0-DD5B-4052-A276-3D023AC5CDC7">
+                <Component Id="cmp9A994667EA5F3022EF231AF248A0013F" Guid="A96A3761-29E1-4EC2-AFE2-EA4A942E6EEF">
                     <File Id="fil40A4AEB72348C5C4849819585FE8A411" KeyPath="yes" Source="$(var.sourceDir)\AzureServiceManagement\System.Runtime.xml" />
                 </Component>
-                <Component Id="cmpD863FB6022F6E82D2972DC0F5B0B4C4F" Guid="DDCFAB06-EBD0-455A-A15C-FA46C4CF620F">
-                    <File Id="fil9A40A6915830CE4DDF461E9EBABACDB7" KeyPath="yes" Source="$(var.sourceDir)\AzureServiceManagement\System.Spatial.dll" />
-                </Component>
-                <Component Id="cmpD50C2F288D6A2E88365E9D74C40D99B1" Guid="599AA921-0ECD-4E2B-B8EA-E9E84C7CF683">
-                    <File Id="fil47B9912FD56F19302D40443116BB5106" KeyPath="yes" Source="$(var.sourceDir)\AzureServiceManagement\System.Spatial.xml" />
-                </Component>
-                <Component Id="cmp186079B657BDDF655C0473EA75EC337C" Guid="488B4CBB-24E7-4EF1-BFF4-480316DE8BE6">
+                <Component Id="cmp186079B657BDDF655C0473EA75EC337C" Guid="710EE025-B673-4014-9F34-7D2BF72291E0">
                     <File Id="fil3764B8A12156E2D1750BC9C1B2EF2967" KeyPath="yes" Source="$(var.sourceDir)\AzureServiceManagement\System.Threading.Tasks.dll" />
                 </Component>
-                <Component Id="cmp4FBFDAFC8C7499D218BF09A6311E9CCE" Guid="FC86251A-FBF7-479C-8701-00A57F138437">
+                <Component Id="cmp4FBFDAFC8C7499D218BF09A6311E9CCE" Guid="85A2224E-1025-40CE-A2A6-DFB1B4940C22">
                     <File Id="fil4228E6C8E99645374B4587C4500F2E0F" KeyPath="yes" Source="$(var.sourceDir)\AzureServiceManagement\System.Threading.Tasks.xml" />
                 </Component>
-                <Component Id="cmpD260EE10B2E4AC36C165018A9196489D" Guid="2DD324FA-EBE3-49F1-A250-F684C94D4BAB">
+                <Component Id="cmpD260EE10B2E4AC36C165018A9196489D" Guid="A7BC4285-48D9-49C8-B2BB-A344DE1949E9">
                     <File Id="fil9E886A8C7620C119382FE897E91693BD" KeyPath="yes" Source="$(var.sourceDir)\AzureServiceManagement\welcome.txt" />
                 </Component>
-                <Component Id="cmp4AEF980AE74EFADAED5BCC8669D71826" Guid="AF6BDA32-FC2E-4D27-A605-26D038BBB22E">
+                <Component Id="cmp4AEF980AE74EFADAED5BCC8669D71826" Guid="FEACEFDE-56FA-4122-AD8B-6F10A5246C7E">
                     <File Id="fil7A078683AAF0624B3BD343F936585750" KeyPath="yes" Source="$(var.sourceDir)\AzureServiceManagement\xunit.dll" />
                 </Component>
-                <Component Id="cmp2A40F5A9C884FCE372ECEA62775734C0" Guid="69F4DCED-9AAD-4CE7-9FE8-2495F0573CB8">
+                <Component Id="cmp2A40F5A9C884FCE372ECEA62775734C0" Guid="434E1CC0-EF73-48F3-B190-7C00240126A4">
                     <File Id="fil22B167F55657A6B6D22098FD424D151F" KeyPath="yes" Source="$(var.sourceDir)\AzureServiceManagement\xunit.xml" />
                 </Component>
                 <Directory Id="dir0C0F56FF8132B40595DFFD6C30A54F98" Name="AzureProfile">
-                    <Component Id="cmp99897058BA9275FC1504BD47C3F2EDF1" Guid="EC2343BD-ABA9-463D-B33D-0706D4C63243">
+                    <Component Id="cmp99897058BA9275FC1504BD47C3F2EDF1" Guid="CEB70022-4EB8-4071-86E8-787D7C4E309F">
                         <File Id="fil474D8E0AC0EC1A9C5844D8485FFB48A7" KeyPath="yes" Source="$(var.sourceDir)\AzureServiceManagement\AzureProfile\AzureProfile.psd1" />
                     </Component>
                 </Directory>
                 <Directory Id="dir0D95D8CBE0DA5D9DDEBE432499EAFD9F" Name="Scaffolding">
                     <Directory Id="dirE7128F5876236B8321526730FE78F6C0" Name="Cache">
                         <Directory Id="dir23FCE9BDC35CE500C6B138CF68DB3C7E" Name="WebRole">
-                            <Component Id="cmp731F6386A2F015AA7389D0A60363E91A" Guid="D3098CF6-C863-4858-A1CA-30EA0F9CA2FB">
+                            <Component Id="cmp731F6386A2F015AA7389D0A60363E91A" Guid="C3FB7FDB-E086-4306-9BED-EC4D611AD548">
                                 <File Id="fil807F6E21842D56E86A47437156BAF38E" KeyPath="yes" Source="$(var.sourceDir)\AzureServiceManagement\Scaffolding\Cache\WebRole\Scaffold.xml" />
                             </Component>
                             <Directory Id="dir7299D14D4D679231D62D4198CF3FC401" Name="bin">
-                                <Component Id="cmp2A45279515FF6803663EBC4F1244195C" Guid="2F88A990-D894-4EB1-A23F-26534E47363C">
+                                <Component Id="cmp2A45279515FF6803663EBC4F1244195C" Guid="98C914AF-2CA6-433F-B4C0-C23F5028DEDD">
                                     <File Id="fil4178BDAD41339CEDFF75D26932FA9133" KeyPath="yes" Source="$(var.sourceDir)\AzureServiceManagement\Scaffolding\Cache\WebRole\bin\setup_cache.cmd" />
                                 </Component>
                             </Directory>
                         </Directory>
                         <Directory Id="dirC02B7536DBE6FCC26EED5C687D070C91" Name="WorkerRole">
-                            <Component Id="cmp2F0889A405BAE93D2BD912E67D3ACA64" Guid="AFAB33BA-EE77-48DC-A81F-294D9FCC92D2">
+                            <Component Id="cmp2F0889A405BAE93D2BD912E67D3ACA64" Guid="58277200-0875-4863-B7AA-27B99A3E0BE6">
                                 <File Id="fil370EC78D80319ED5122A7411D652C862" KeyPath="yes" Source="$(var.sourceDir)\AzureServiceManagement\Scaffolding\Cache\WorkerRole\Scaffold.xml" />
                             </Component>
-                            <Component Id="cmpE6B345F62408B04C081550F2AF12459F" Guid="9E631649-D62B-4E05-A4E8-28A55918500F">
+                            <Component Id="cmpE6B345F62408B04C081550F2AF12459F" Guid="4019D51F-E1A6-4032-8BD0-88164A290BD0">
                                 <File Id="fil89F705E876497E3D9D9E5FFEDA562D5B" KeyPath="yes" Source="$(var.sourceDir)\AzureServiceManagement\Scaffolding\Cache\WorkerRole\setup_cache.cmd" />
                             </Component>
-                            <Component Id="cmpDBCE4D690D2FB6223041DBFD61B4AACD" Guid="B62ABD77-B932-42D2-A610-CB28B290DCA9">
+                            <Component Id="cmpDBCE4D690D2FB6223041DBFD61B4AACD" Guid="150C57D7-ADFC-46CA-8FD7-0CECDCAB217D">
                                 <File Id="fil76D12D30876F2C8F6124CDE3735B7FA3" KeyPath="yes" Source="$(var.sourceDir)\AzureServiceManagement\Scaffolding\Cache\WorkerRole\web.config" />
                             </Component>
                         </Directory>
                     </Directory>
                     <Directory Id="dir029374E3DEC41EB6327A3D0B2CF7B542" Name="General">
-                        <Component Id="cmpD0E49A07C83BF6E136CCD71D7D658240" Guid="3CA8FF52-6856-4B29-A3B9-AEC81C18B59D">
+                        <Component Id="cmpD0E49A07C83BF6E136CCD71D7D658240" Guid="18ADC027-9160-41BB-8D28-31D376363332">
                             <File Id="fil6B195D1A872BE046A3AB90540B5A6F8C" KeyPath="yes" Source="$(var.sourceDir)\AzureServiceManagement\Scaffolding\General\deploymentSettings.json" />
                         </Component>
-                        <Component Id="cmpABF8D141544B7DD211AA4F6F7DFE86C0" Guid="369CE32F-60F9-4A3D-9C37-C754CF63C2F8">
+                        <Component Id="cmpABF8D141544B7DD211AA4F6F7DFE86C0" Guid="48C8E42A-444D-451C-ABBF-FF5DD1F02B18">
                             <File Id="fil71672769E50183D0469FE88E35936F4D" KeyPath="yes" Source="$(var.sourceDir)\AzureServiceManagement\Scaffolding\General\Scaffold.xml" />
                         </Component>
-                        <Component Id="cmp61689ABA4D4D0D56271120F796C43151" Guid="8EE362E6-D6AC-4437-9661-BADB20DF5C43">
+                        <Component Id="cmp61689ABA4D4D0D56271120F796C43151" Guid="B87A0841-5109-4548-B69F-7D6625590F8D">
                             <File Id="filC8C56D0EF57F7CDFD26FACF8F63F3406" KeyPath="yes" Source="$(var.sourceDir)\AzureServiceManagement\Scaffolding\General\ServiceConfiguration.Cloud.cscfg" />
                         </Component>
-                        <Component Id="cmp676DABCA85FD53F6B8C6A250F3535BFC" Guid="24885011-6FE2-4C1F-8BBF-DAF65A59FF90">
+                        <Component Id="cmp676DABCA85FD53F6B8C6A250F3535BFC" Guid="F1F9CF34-493A-4A61-9585-F9301D29E2FB">
                             <File Id="fil5583871048CF20711650F77E6DA817AD" KeyPath="yes" Source="$(var.sourceDir)\AzureServiceManagement\Scaffolding\General\ServiceConfiguration.Local.cscfg" />
                         </Component>
-                        <Component Id="cmpCB27F8A7F3710ED6E2B761B881F3E72C" Guid="C12045A0-0A89-4534-8CA0-64DD8CEC21D7">
+                        <Component Id="cmpCB27F8A7F3710ED6E2B761B881F3E72C" Guid="43B788BB-7477-4DE2-A8F0-522FB81B772C">
                             <File Id="fil57F160E1063B6C595A68561042407005" KeyPath="yes" Source="$(var.sourceDir)\AzureServiceManagement\Scaffolding\General\ServiceDefinition.csdef" />
                         </Component>
                         <Directory Id="dir80D1257956D481BC6F95DFB6D8FA7F0B" Name="WebRole">
-                            <Component Id="cmp71E00AC3C6D08222225DE8C170728FC4" Guid="2A21C082-B095-430C-B8ED-E99EF0BC9A1F">
+                            <Component Id="cmp71E00AC3C6D08222225DE8C170728FC4" Guid="ABCDDA1D-152D-4131-8B6A-CAC7CF1A0994">
                                 <File Id="filF323342A2FA606CFE0FE084989904DC7" KeyPath="yes" Source="$(var.sourceDir)\AzureServiceManagement\Scaffolding\General\WebRole\RoleSettings.xml" />
                             </Component>
-                            <Component Id="cmp06D111C12FF66B9CF11C88E220BA2913" Guid="A9483CF3-1E8E-4923-8C59-14259BEBE0C1">
+                            <Component Id="cmp06D111C12FF66B9CF11C88E220BA2913" Guid="AC61077C-02E9-42A7-A652-D7628958570D">
                                 <File Id="fil3F98B6B984471DBAE69175BCF376D704" KeyPath="yes" Source="$(var.sourceDir)\AzureServiceManagement\Scaffolding\General\WebRole\Scaffold.xml" />
                             </Component>
-                            <Component Id="cmp77585F4D1799849EC1F6C14834F6AFA4" Guid="BDDA53B6-84C6-4A32-AFFB-9522CDE1ECC5">
+                            <Component Id="cmp77585F4D1799849EC1F6C14834F6AFA4" Guid="14FCFB47-0C69-448D-9707-B530674B255C">
                                 <File Id="fil13B31CA90D0F1BF0A3660D187BF25E42" KeyPath="yes" Source="$(var.sourceDir)\AzureServiceManagement\Scaffolding\General\WebRole\startup.cmd" />
                             </Component>
-                            <Component Id="cmpF30BFF23A4CB91DB9FA283E21DE54805" Guid="7371301F-F840-409C-BE12-9871FF3BFBFF">
+                            <Component Id="cmpF30BFF23A4CB91DB9FA283E21DE54805" Guid="594EDAAF-5B69-43BB-85A4-789C4EE03627">
                                 <File Id="filF8E0B665060D8ABAA7A2BE19FEE49BC9" KeyPath="yes" Source="$(var.sourceDir)\AzureServiceManagement\Scaffolding\General\WebRole\Web.cloud.config" />
                             </Component>
-                            <Component Id="cmpF63824C49B953D6134D1D352A4A110B4" Guid="AAF2C860-702B-4546-8D8D-AF91BFA40096">
+                            <Component Id="cmpF63824C49B953D6134D1D352A4A110B4" Guid="AC43F30C-31FC-457A-A06A-7E8FD183E02F">
                                 <File Id="fil2E76DD83E2E754EB5B49388DEC38CD00" KeyPath="yes" Source="$(var.sourceDir)\AzureServiceManagement\Scaffolding\General\WebRole\Web.config" />
                             </Component>
-                            <Component Id="cmp868BF186515B2B94EDE6970E66CC6CCA" Guid="3BE3722F-80DB-4A08-A876-0B911F81681C">
+                            <Component Id="cmp868BF186515B2B94EDE6970E66CC6CCA" Guid="30F83E68-EEB6-48AF-82AF-AB337904FE02">
                                 <File Id="fil7FA7544E2E6263DF40AA397FE6DDBA51" KeyPath="yes" Source="$(var.sourceDir)\AzureServiceManagement\Scaffolding\General\WebRole\WebRole.xml" />
                             </Component>
                             <Directory Id="dir2FD15752B679597A67DD7C444E5161E2" Name="bin">
-                                <Component Id="cmpE3BEDCADFF9D7F5364D366E543E439C9" Guid="0D830648-16D9-4097-A301-A2AB7EB034D1">
+                                <Component Id="cmpE3BEDCADFF9D7F5364D366E543E439C9" Guid="C1B2DC79-C371-4BD4-A2D9-3A8D312F6AC4">
                                     <File Id="fil68C2CE21A5478904CC2B62B8FEC7ADC6" KeyPath="yes" Source="$(var.sourceDir)\AzureServiceManagement\Scaffolding\General\WebRole\bin\download.ps1" />
                                 </Component>
-                                <Component Id="cmp87BF33B757079347AA50558ED4378C03" Guid="0421EDA8-8C46-4A78-B88A-1FFB1B3DA9D5">
+                                <Component Id="cmp87BF33B757079347AA50558ED4378C03" Guid="1998E7E7-2F5B-4493-A506-BB74167427EB">
                                     <File Id="filE6FB4B538D405F64C76E091CCEC44688" KeyPath="yes" Source="$(var.sourceDir)\AzureServiceManagement\Scaffolding\General\WebRole\bin\setup_web.cmd" />
                                 </Component>
                             </Directory>
                         </Directory>
                         <Directory Id="dirFF7A97BA342049B422DE787783231862" Name="WorkerRole">
-                            <Component Id="cmpE7F5F835C020C2AD1D4F92164894BDCE" Guid="C59E6AE2-9EF6-4828-AB0E-88FC5FB3B7C8">
+                            <Component Id="cmpE7F5F835C020C2AD1D4F92164894BDCE" Guid="47A99AF5-D0C9-4843-B09D-771021ADD58F">
                                 <File Id="fil2EF2586D607C2FEC4E8EDDF6F72F8AC2" KeyPath="yes" Source="$(var.sourceDir)\AzureServiceManagement\Scaffolding\General\WorkerRole\download.ps1" />
                             </Component>
-                            <Component Id="cmpD46EA6927324400AB96D84043A1B3036" Guid="64C84290-F8C6-4F01-82DE-C1D18827232F">
+                            <Component Id="cmpD46EA6927324400AB96D84043A1B3036" Guid="DEB8D6BF-D4CC-4335-874D-79D4E8FD5F89">
                                 <File Id="filF0F90DD57000D725B8774C65475B6607" KeyPath="yes" Source="$(var.sourceDir)\AzureServiceManagement\Scaffolding\General\WorkerRole\RoleSettings.xml" />
                             </Component>
-                            <Component Id="cmp686B4042C574D081633A1C4171CA5506" Guid="0090237D-6A72-484B-94FD-134CDE1B467A">
+                            <Component Id="cmp686B4042C574D081633A1C4171CA5506" Guid="01EF7DB1-E1CC-49D4-80F9-AB60DC284635">
                                 <File Id="filF3A48ADB4D6C5FFC2DA352ABA966F3A9" KeyPath="yes" Source="$(var.sourceDir)\AzureServiceManagement\Scaffolding\General\WorkerRole\Scaffold.xml" />
                             </Component>
-                            <Component Id="cmp8C3696BAE5CC5C1DF95AE431B04CCD3D" Guid="00E47D7A-EC13-48FE-ACE1-0E50B93FC2B0">
+                            <Component Id="cmp8C3696BAE5CC5C1DF95AE431B04CCD3D" Guid="B1D549C5-CD98-4CEF-AC7B-17F6D00F3E27">
                                 <File Id="filE0DD9A95FDA7522F6BA2187E29CD1345" KeyPath="yes" Source="$(var.sourceDir)\AzureServiceManagement\Scaffolding\General\WorkerRole\setup_worker.cmd" />
                             </Component>
-                            <Component Id="cmp33FF333D764D40C0657091A3FCD1DEB2" Guid="8D30A303-21F6-4349-8E35-3EC67B2B89C0">
+                            <Component Id="cmp33FF333D764D40C0657091A3FCD1DEB2" Guid="8B3EB503-C019-4F19-A92E-4164933F9992">
                                 <File Id="fil6E07FB8F17592840D1C3B27624234D0C" KeyPath="yes" Source="$(var.sourceDir)\AzureServiceManagement\Scaffolding\General\WorkerRole\startup.cmd" />
                             </Component>
-                            <Component Id="cmpC9136DF3D77134D1F8789FDC27E2D677" Guid="2ACCECB8-67CC-4852-8276-F95FD7677792">
+                            <Component Id="cmpC9136DF3D77134D1F8789FDC27E2D677" Guid="4DC10584-CD39-400E-927A-1815AAA87B2D">
                                 <File Id="fil96AE7577C9A6EBC5CAE29FFA316CB9A5" KeyPath="yes" Source="$(var.sourceDir)\AzureServiceManagement\Scaffolding\General\WorkerRole\worker.cmd" />
                             </Component>
-                            <Component Id="cmp68B4FFAE387E7DD9A4347C77BD12556B" Guid="37997EDA-3D22-4694-A3BC-6654EE253B9B">
+                            <Component Id="cmp68B4FFAE387E7DD9A4347C77BD12556B" Guid="D79D3A3D-5ECC-4B8A-BD9E-7E4455CE7839">
                                 <File Id="fil8D13C88EF07440D1E8A1E484A55F793C" KeyPath="yes" Source="$(var.sourceDir)\AzureServiceManagement\Scaffolding\General\WorkerRole\WorkerRole.xml" />
                             </Component>
                         </Directory>
                     </Directory>
                     <Directory Id="dir1993F6B2BE0C3FA1F38732201E38A78E" Name="Node">
                         <Directory Id="dirF740CC1F20AB51FF41F5105EC302D66E" Name="WebRole">
-                            <Component Id="cmp5E487CBB6A29C9B5A4B35D59480975E4" Guid="CF935F04-541D-45BC-8597-FF57F11BC71A">
+                            <Component Id="cmp5E487CBB6A29C9B5A4B35D59480975E4" Guid="CA2BFD78-9611-4648-9DED-279D3842237B">
                                 <File Id="filD2DB97764FCF5EA69956F2EC5F3C1AD7" KeyPath="yes" Source="$(var.sourceDir)\AzureServiceManagement\Scaffolding\Node\WebRole\RoleSettings.xml" />
                             </Component>
-                            <Component Id="cmpC80E26715F4FB5B27644407EB41AB8B9" Guid="A2063601-0759-48F3-BA7C-47A39C3B0415">
+                            <Component Id="cmpC80E26715F4FB5B27644407EB41AB8B9" Guid="0DCFCFDB-DFB0-468B-A4A4-922E4BC40255">
                                 <File Id="fil43FCD7EC0667DA019683A48B98581B90" KeyPath="yes" Source="$(var.sourceDir)\AzureServiceManagement\Scaffolding\Node\WebRole\Scaffold.xml" />
                             </Component>
-                            <Component Id="cmp102D02EA622E9488C8E4E3DF475C85BD" Guid="CAFEC431-8667-47E9-8A64-06C5FF293558">
+                            <Component Id="cmp102D02EA622E9488C8E4E3DF475C85BD" Guid="5885DF94-F6E8-4D5A-B1B6-8C639425947A">
                                 <File Id="fil6C68F1737C140D623C6972BAA1B1F627" KeyPath="yes" Source="$(var.sourceDir)\AzureServiceManagement\Scaffolding\Node\WebRole\server.js" />
                             </Component>
-                            <Component Id="cmp7A49375B4A0FC7C1568754F915CE92C3" Guid="79596288-62E2-4A85-90B7-84B0C3E293DF">
+                            <Component Id="cmp7A49375B4A0FC7C1568754F915CE92C3" Guid="53F99270-AC0D-4A2C-B569-FE54038CA986">
                                 <File Id="filC918AC31EDE4CDB3F3803A41B6D06932" KeyPath="yes" Source="$(var.sourceDir)\AzureServiceManagement\Scaffolding\Node\WebRole\startup.js" />
                             </Component>
-                            <Component Id="cmp1F1C3CDD27A1EECC9B6B61D2519883BE" Guid="414942C2-BB4B-4B16-B3B7-C9EF9A5BA850">
+                            <Component Id="cmp1F1C3CDD27A1EECC9B6B61D2519883BE" Guid="3AB1702C-79C7-44EE-9071-BEA4CD084842">
                                 <File Id="filCA53188F88A5DB78AAA107CDED45762A" KeyPath="yes" Source="$(var.sourceDir)\AzureServiceManagement\Scaffolding\Node\WebRole\web.cloud.config" />
                             </Component>
-                            <Component Id="cmp12F254E00688CAA0BC0B0E182404AC21" Guid="75BE6636-A38D-4C5B-BCBB-4C8109C6DAAB">
+                            <Component Id="cmp12F254E00688CAA0BC0B0E182404AC21" Guid="ACF50D2D-3A55-4A0D-8753-BD3432958D11">
                                 <File Id="fil9390987A07A4314CB1ADC14EA49D55C8" KeyPath="yes" Source="$(var.sourceDir)\AzureServiceManagement\Scaffolding\Node\WebRole\Web.config" />
                             </Component>
-                            <Component Id="cmp49DEC842C0405B5C8DDB13C609D16D12" Guid="53D689CD-0D18-496D-994E-884ACD245D85">
+                            <Component Id="cmp49DEC842C0405B5C8DDB13C609D16D12" Guid="4807D2B5-3271-488F-A1FC-B21EAB0AB570">
                                 <File Id="filBDDCC9CB09BA9B780C8627A21F73D996" KeyPath="yes" Source="$(var.sourceDir)\AzureServiceManagement\Scaffolding\Node\WebRole\WebRole.xml" />
                             </Component>
                             <Directory Id="dir1BF62B97C2F8406D43FBAC807C3E4E98" Name="bin">
-                                <Component Id="cmp9AC6E7684ACB17CC4D750A6197908319" Guid="D3918322-E213-4DC6-A12D-F86E3D21B18D">
+                                <Component Id="cmp9AC6E7684ACB17CC4D750A6197908319" Guid="7E4D4C4E-CAD7-4C07-80AF-19B2541700B3">
                                     <File Id="fil65005EE9F93C9584B30DA9C42ECE8A6F" KeyPath="yes" Source="$(var.sourceDir)\AzureServiceManagement\Scaffolding\Node\WebRole\bin\ChangeConfig.ps1" />
                                 </Component>
-                                <Component Id="cmp21F941FD51D57E10ED825AADDEDB5A23" Guid="0D083283-9CB5-4E0C-A15B-188F9FB01DA6">
+                                <Component Id="cmp21F941FD51D57E10ED825AADDEDB5A23" Guid="3A1F07DC-1E0D-40A2-9C7C-F2D0E60CFDE0">
                                     <File Id="filA961FCD9D423522AA8FDB95856702113" KeyPath="yes" Source="$(var.sourceDir)\AzureServiceManagement\Scaffolding\Node\WebRole\bin\download.ps1" />
                                 </Component>
-                                <Component Id="cmp09E7D47F7C819659F5A572583995BFBF" Guid="3721DE36-BBEF-4BC2-86B7-57D5BC82462F">
+                                <Component Id="cmp09E7D47F7C819659F5A572583995BFBF" Guid="7A6C277F-6B58-452F-805A-7A2C528C97CD">
                                     <File Id="filF106373C49F759653BD8EA38D4ABF44A" KeyPath="yes" Source="$(var.sourceDir)\AzureServiceManagement\Scaffolding\Node\WebRole\bin\node.cmd" />
                                 </Component>
-                                <Component Id="cmpC4DDFFE26FD86211DCC74C2C4E455C85" Guid="4731F909-FA7E-4B30-A052-50A7EC051FDE">
+                                <Component Id="cmpC4DDFFE26FD86211DCC74C2C4E455C85" Guid="D0833F11-EACC-41D5-AA6A-9E3A4506C331">
                                     <File Id="filDFD53C5DCA78C7216AF04E206AAD5882" KeyPath="yes" Source="$(var.sourceDir)\AzureServiceManagement\Scaffolding\Node\WebRole\bin\setup_web.cmd" />
                                 </Component>
                             </Directory>
                         </Directory>
                         <Directory Id="dirA808196856E1E2AB91C5FB45C3F39618" Name="Website">
-                            <Component Id="cmp485FC46B72B3654EF052996D6F8C6416" Guid="CC591B6D-E367-4411-8747-FC7CEB3B1B4B">
+                            <Component Id="cmp485FC46B72B3654EF052996D6F8C6416" Guid="55B8A76E-70D2-41D6-A1E6-E92672D9E1AA">
                                 <File Id="filA123E97647ED55C5BDDA1710C9C443E7" KeyPath="yes" Source="$(var.sourceDir)\AzureServiceManagement\Scaffolding\Node\Website\.gitignore" />
                             </Component>
-                            <Component Id="cmp5B7D8BC650F71F032E97D9832A47856F" Guid="AD438BAE-1A4A-49FD-B44D-B26C5CC0ED85">
+                            <Component Id="cmp5B7D8BC650F71F032E97D9832A47856F" Guid="3F269D20-43DA-4791-9811-62221D7C4D55">
                                 <File Id="fil6AA9B27709F8D593D708EF5B1EFC364D" KeyPath="yes" Source="$(var.sourceDir)\AzureServiceManagement\Scaffolding\Node\Website\iisnode.yml" />
                             </Component>
                         </Directory>
                         <Directory Id="dirBA5D3D71B4B210690454EE734A77A03D" Name="WorkerRole">
-                            <Component Id="cmp2B1A98CF95981D2A8978A64137B91575" Guid="B5ADFFE3-567E-47D0-B059-CAC31EC874F0">
+                            <Component Id="cmp2B1A98CF95981D2A8978A64137B91575" Guid="F11DA465-3F9C-4F66-86E0-C990CB1E9AE1">
                                 <File Id="fil3A2E32CB43FFD602B404E750EB9BCAC4" KeyPath="yes" Source="$(var.sourceDir)\AzureServiceManagement\Scaffolding\Node\WorkerRole\download.ps1" />
                             </Component>
-                            <Component Id="cmp0BFF8B7DE17BA82A0EC2227108CF580F" Guid="F39BBBC9-5E4B-41FB-8D02-A9D859E12532">
+                            <Component Id="cmp0BFF8B7DE17BA82A0EC2227108CF580F" Guid="7B0F4717-6A68-4A66-8EB7-595AC1CF6EF6">
                                 <File Id="fil2003F5E7645BA009B18155F5C588A368" KeyPath="yes" Source="$(var.sourceDir)\AzureServiceManagement\Scaffolding\Node\WorkerRole\node.cmd" />
                             </Component>
-                            <Component Id="cmp369A3759C7A92838713414C497878D32" Guid="BF9D99C4-6426-494B-8A0D-056FE0F9785C">
+                            <Component Id="cmp369A3759C7A92838713414C497878D32" Guid="A757553B-F8A2-44F6-9E94-2E30F2E2D336">
                                 <File Id="fil1959094DBC952C9FE3A6F0116C340C9F" KeyPath="yes" Source="$(var.sourceDir)\AzureServiceManagement\Scaffolding\Node\WorkerRole\RoleSettings.xml" />
                             </Component>
-                            <Component Id="cmp62F50877141D1A694B05AA86DF307311" Guid="3E8A39F8-FD5E-408E-852A-AD3E0032D554">
+                            <Component Id="cmp62F50877141D1A694B05AA86DF307311" Guid="C4D4E539-836D-408D-96AB-31EA3967F67D">
                                 <File Id="filFB499F1EE9C8A9694BCCA97ABA06D115" KeyPath="yes" Source="$(var.sourceDir)\AzureServiceManagement\Scaffolding\Node\WorkerRole\Scaffold.xml" />
                             </Component>
-                            <Component Id="cmp0E7158D184DDC3B5C9CFE0457C56F354" Guid="D2A7B3A3-8EEA-44A4-8D79-C7A487442DD6">
+                            <Component Id="cmp0E7158D184DDC3B5C9CFE0457C56F354" Guid="9AD84EF3-DF3C-4D05-B50A-3592EE22549D">
                                 <File Id="filF502279FCCB4A3AC00C659D75FF8B3D6" KeyPath="yes" Source="$(var.sourceDir)\AzureServiceManagement\Scaffolding\Node\WorkerRole\server.js" />
                             </Component>
-                            <Component Id="cmp71D39E8671387A9C77B8A47B418A3A5B" Guid="8384CAFF-8C57-4C2D-820D-53C10B360B07">
+                            <Component Id="cmp71D39E8671387A9C77B8A47B418A3A5B" Guid="3CDCF101-2969-4E65-8937-BF2921829A4D">
                                 <File Id="fil90D2860F6B8D2D8C123431CCBA8A917C" KeyPath="yes" Source="$(var.sourceDir)\AzureServiceManagement\Scaffolding\Node\WorkerRole\setup_worker.cmd" />
                             </Component>
-                            <Component Id="cmp54AF5BCCD436E2B4792CEFDEBD64A474" Guid="131C50BA-23CE-49C6-B358-F7CFE6D70088">
+                            <Component Id="cmp54AF5BCCD436E2B4792CEFDEBD64A474" Guid="F5A5BBC1-A58C-4A1A-8FFA-A744726D1845">
                                 <File Id="fil492A64C0850137B28B5BBC04F08A34BD" KeyPath="yes" Source="$(var.sourceDir)\AzureServiceManagement\Scaffolding\Node\WorkerRole\startup.js" />
                             </Component>
-                            <Component Id="cmp73D060E8E8F64346F4D7C818B7FC08B8" Guid="A6DD81EC-83E5-48EB-988B-A5CE3B71385C">
+                            <Component Id="cmp73D060E8E8F64346F4D7C818B7FC08B8" Guid="2A07B56A-6693-490B-A3A4-6E28EEC8B108">
                                 <File Id="filDEBCC56422D1BACDC2906F72C0FD7036" KeyPath="yes" Source="$(var.sourceDir)\AzureServiceManagement\Scaffolding\Node\WorkerRole\WorkerRole.xml" />
                             </Component>
                         </Directory>
                     </Directory>
                     <Directory Id="dirA77D66F33F2295782324A7C79680386C" Name="PHP">
                         <Directory Id="dirB1B49D4F4CCCA56FE4C2D649AAB6479A" Name="WebRole">
-                            <Component Id="cmp775322F30009D9D7683068C76066D42F" Guid="AE5CA09B-20B9-477F-8495-0400C7365A4C">
+                            <Component Id="cmp775322F30009D9D7683068C76066D42F" Guid="38BB78D1-03BE-4C51-857B-C772D2F413AB">
                                 <File Id="filB6F79753BDE121458C9E78C3FCDD2B3F" KeyPath="yes" Source="$(var.sourceDir)\AzureServiceManagement\Scaffolding\PHP\WebRole\index.php" />
                             </Component>
-                            <Component Id="cmpBBC28917E7E771C4F0178533BE963C68" Guid="935317B1-3D1F-42DE-A537-969A58E9667D">
+                            <Component Id="cmpBBC28917E7E771C4F0178533BE963C68" Guid="6B8D3401-9D43-44E1-ACF1-7390DE368293">
                                 <File Id="fil3EB7F56FA87F88A29462354EDA8A33BA" KeyPath="yes" Source="$(var.sourceDir)\AzureServiceManagement\Scaffolding\PHP\WebRole\RoleSettings.xml" />
                             </Component>
-                            <Component Id="cmp3B43F7795D24E0027541BF3B9E365E49" Guid="308C00E0-AB1F-4FF3-A347-1474D965DCE3">
+                            <Component Id="cmp3B43F7795D24E0027541BF3B9E365E49" Guid="63F12380-CA96-4D05-A2C3-7CC8B07D2225">
                                 <File Id="fil55B4421E1CF2E481587D6EFB1D8C3FCE" KeyPath="yes" Source="$(var.sourceDir)\AzureServiceManagement\Scaffolding\PHP\WebRole\Scaffold.xml" />
                             </Component>
-                            <Component Id="cmpD8FA74C38DC6F32FE7FB92DED11067C0" Guid="4B62B0B6-93B1-4DF5-AA2F-15525D58F784">
+                            <Component Id="cmpD8FA74C38DC6F32FE7FB92DED11067C0" Guid="AACE1D52-4954-4CF3-9981-14ED2A2C0A7B">
                                 <File Id="fil6C07A2B002B51BE9AB70B6951F97EE90" KeyPath="yes" Source="$(var.sourceDir)\AzureServiceManagement\Scaffolding\PHP\WebRole\web.cloud.config" />
                             </Component>
-                            <Component Id="cmp59BAF7919DC1036D6859240777641BEE" Guid="F6651C99-4D9B-40B4-9AB4-BE0CF253259C">
+                            <Component Id="cmp59BAF7919DC1036D6859240777641BEE" Guid="629A9F05-EA08-4C55-832F-E071294E87FE">
                                 <File Id="fil77BF8AB65C93E75BAF2C50FAE82E37F7" KeyPath="yes" Source="$(var.sourceDir)\AzureServiceManagement\Scaffolding\PHP\WebRole\Web.config" />
                             </Component>
-                            <Component Id="cmp291E8E602697A1324DFD6DF3B3D4692B" Guid="E8B16D03-A3B5-4B34-8190-011D53030A05">
+                            <Component Id="cmp291E8E602697A1324DFD6DF3B3D4692B" Guid="AA89F101-EE01-49C9-89AC-9B2EE3816F0E">
                                 <File Id="filE11F52F7BDDACE73AFF6E3821B087983" KeyPath="yes" Source="$(var.sourceDir)\AzureServiceManagement\Scaffolding\PHP\WebRole\WebRole.xml" />
                             </Component>
                             <Directory Id="dirEDA69155CC48DFA10184022D2407887B" Name="bin">
-                                <Component Id="cmp4FC79FE20C6365C57C6744E1598C2605" Guid="6FCC5568-54CA-4962-899D-9860E72BA2BA">
+                                <Component Id="cmp4FC79FE20C6365C57C6744E1598C2605" Guid="75DD0316-C11D-434A-B07C-66421C8BB4EE">
                                     <File Id="filBD71C4CF024939CB2E3A157BDBFEDC72" KeyPath="yes" Source="$(var.sourceDir)\AzureServiceManagement\Scaffolding\PHP\WebRole\bin\download.ps1" />
                                 </Component>
-                                <Component Id="cmp010CD077552EC9EA13513E607EADA0F2" Guid="09DB8E08-ED2D-4C32-B822-D7CF1C86C564">
+                                <Component Id="cmp010CD077552EC9EA13513E607EADA0F2" Guid="4EB6D340-CE79-44F3-9F93-7280E9218B84">
                                     <File Id="fil5AAF66445C2116DF13B6FFC6A09F58D4" KeyPath="yes" Source="$(var.sourceDir)\AzureServiceManagement\Scaffolding\PHP\WebRole\bin\php_entry.cmd" />
                                 </Component>
-                                <Component Id="cmpFF0CE8DFB19201B55F3BCAE7703A1428" Guid="0CE3D47D-4ED5-4F02-ACFA-4634B9E9D843">
+                                <Component Id="cmpFF0CE8DFB19201B55F3BCAE7703A1428" Guid="B6420DDF-4A18-4730-8A66-3C6F88F1E418">
                                     <File Id="fil6660EE5E769BAF05FF8B6B756B3EA5BB" KeyPath="yes" Source="$(var.sourceDir)\AzureServiceManagement\Scaffolding\PHP\WebRole\bin\setup.cmd" />
                                 </Component>
-                                <Component Id="cmp110DA0D4FF4B21B0E63E7A68E04DC071" Guid="7087DB14-D61F-4A52-BE25-E644489621F0">
+                                <Component Id="cmp110DA0D4FF4B21B0E63E7A68E04DC071" Guid="688A2B82-D0FD-4C49-9C64-A65397B89BCB">
                                     <File Id="fil8BD9B8301A3B839D22F55D2D067E95A6" KeyPath="yes" Source="$(var.sourceDir)\AzureServiceManagement\Scaffolding\PHP\WebRole\bin\setup.ps1" />
                                 </Component>
-                                <Component Id="cmp6CE619BAFE675F5CC296A8CB9ED07DD9" Guid="5A16F57B-E9A2-4800-A704-1069723C8366">
+                                <Component Id="cmp6CE619BAFE675F5CC296A8CB9ED07DD9" Guid="F77815C3-13D5-4C2F-BDF6-B7F8892ABB8B">
                                     <File Id="fil0F5837A3DCB6CE7099108B6B30C203A5" KeyPath="yes" Source="$(var.sourceDir)\AzureServiceManagement\Scaffolding\PHP\WebRole\bin\setup_web.cmd" />
                                 </Component>
                             </Directory>
                         </Directory>
                         <Directory Id="dir7031172FC61C28BBDB8A6D6A7CF1FFFB" Name="WorkerRole">
-                            <Component Id="cmp079D7FDE4FFA925AE19424E45197DFB5" Guid="EFA9E7D6-DC80-4AFA-B6B1-CB1F8910CFCE">
+                            <Component Id="cmp079D7FDE4FFA925AE19424E45197DFB5" Guid="AF27C9B0-D006-46CD-A04E-C1B9F9C66171">
                                 <File Id="filE311B3ED33A70DAB37936EA845A26592" KeyPath="yes" Source="$(var.sourceDir)\AzureServiceManagement\Scaffolding\PHP\WorkerRole\download.ps1" />
                             </Component>
-                            <Component Id="cmp1095D61739A7C3D2D525FA3FAC4E8ABB" Guid="8387A08D-19A5-42A0-874E-84BC4C11B33F">
+                            <Component Id="cmp1095D61739A7C3D2D525FA3FAC4E8ABB" Guid="8A236E90-0F29-4D0F-AB12-30AF14D46126">
                                 <File Id="fil6BED9F48D5692461A3D7E4EF08FF2BF4" KeyPath="yes" Source="$(var.sourceDir)\AzureServiceManagement\Scaffolding\PHP\WorkerRole\index.php" />
                             </Component>
-                            <Component Id="cmpB30E20D518659C615BA728D7A765C08F" Guid="741EF4DF-495B-4EA0-9E02-952D2924DFC4">
+                            <Component Id="cmpB30E20D518659C615BA728D7A765C08F" Guid="18D724FD-6859-4C6E-9B55-27EAFE9B4383">
                                 <File Id="fil8E0B354402CCBF8D43EBEA55F31AE5C5" KeyPath="yes" Source="$(var.sourceDir)\AzureServiceManagement\Scaffolding\PHP\WorkerRole\php_entry.cmd" />
                             </Component>
-                            <Component Id="cmp218653DD7D53B7CE0DBC6145CEE7863C" Guid="CDD0C70E-C753-4628-BA95-D3EBB5F87276">
+                            <Component Id="cmp218653DD7D53B7CE0DBC6145CEE7863C" Guid="084E0296-6E7A-4A3A-A676-C8032B2D5CE9">
                                 <File Id="filE1BE3F9E9E9CB4B0AA0DB968847FDEDC" KeyPath="yes" Source="$(var.sourceDir)\AzureServiceManagement\Scaffolding\PHP\WorkerRole\RoleSettings.xml" />
                             </Component>
-                            <Component Id="cmp8A11C7D2473CCA309DE80D7BB4DE6616" Guid="F4F0F75D-989C-4401-8DD9-2D841CE24B33">
+                            <Component Id="cmp8A11C7D2473CCA309DE80D7BB4DE6616" Guid="7D20DA46-895B-4C6D-8AB5-3AB769FF3FBC">
                                 <File Id="fil015727D42C7A11F1BFC9A8D2080EEB49" KeyPath="yes" Source="$(var.sourceDir)\AzureServiceManagement\Scaffolding\PHP\WorkerRole\Scaffold.xml" />
                             </Component>
-                            <Component Id="cmp5713AF16AB9E99ED1F5D68C12BE6754E" Guid="480E1C34-A446-408F-96B8-F12248002DB0">
+                            <Component Id="cmp5713AF16AB9E99ED1F5D68C12BE6754E" Guid="DD618EDC-BA3D-4692-87B1-941B84BA00A3">
                                 <File Id="fil151969358E9AE93FD7918919DBA5460D" KeyPath="yes" Source="$(var.sourceDir)\AzureServiceManagement\Scaffolding\PHP\WorkerRole\setup.cmd" />
                             </Component>
-                            <Component Id="cmp3CBCB63509EDA195D6A93382273E268D" Guid="08134763-0006-4B8D-8E64-539E8D0D8D27">
+                            <Component Id="cmp3CBCB63509EDA195D6A93382273E268D" Guid="C5C8334E-584F-43CF-A6F5-79333652793D">
                                 <File Id="filCA39BB30C88588385A773C7BF19A8D54" KeyPath="yes" Source="$(var.sourceDir)\AzureServiceManagement\Scaffolding\PHP\WorkerRole\setup.ps1" />
                             </Component>
-                            <Component Id="cmpC6E39CB943BCD196493360AE16A7F228" Guid="0319BD8A-8952-4455-AAA7-6EB6CC3F2841">
+                            <Component Id="cmpC6E39CB943BCD196493360AE16A7F228" Guid="DFE4D2FE-5D37-42A9-B312-616FD3B7AFDC">
                                 <File Id="fil685BA99278C8DE8D3CFBE6259AA1009C" KeyPath="yes" Source="$(var.sourceDir)\AzureServiceManagement\Scaffolding\PHP\WorkerRole\setup_worker.cmd" />
                             </Component>
-                            <Component Id="cmp775A3FFCBD92FA71AC89BE8DF174CFEC" Guid="30B6B114-ED8C-4183-B827-B5A37FEFB650">
+                            <Component Id="cmp775A3FFCBD92FA71AC89BE8DF174CFEC" Guid="AB0BC041-B09F-4250-9CFD-FEF873F5C6AE">
                                 <File Id="fil111D311045977741BE35E63D5EB3F803" KeyPath="yes" Source="$(var.sourceDir)\AzureServiceManagement\Scaffolding\PHP\WorkerRole\WorkerRole.xml" />
                             </Component>
                         </Directory>
                     </Directory>
                     <Directory Id="dirF08A3CF5F087FB36AF6EB7B473C8FAA0" Name="Python">
                         <Directory Id="dir31F2D8BB80F668DA1B8E19AAEC983470" Name="WebRole">
-                            <Component Id="cmpFBCE544A386E4D0B96119FAC8319B1B8" Guid="7A2BE3C9-5581-4968-95EA-F80B7817720A">
+                            <Component Id="cmpFBCE544A386E4D0B96119FAC8319B1B8" Guid="655D4FA3-C36B-4001-971C-E8253ACD88F4">
                                 <File Id="filA79206330A47095133B4BEC19BF42DA4" KeyPath="yes" Source="$(var.sourceDir)\AzureServiceManagement\Scaffolding\Python\WebRole\AzureSetup.cfg" />
                             </Component>
-                            <Component Id="cmp5F555D4CD12D3B257104CC89FE8636F9" Guid="1A11C1E2-FB07-4DAE-AEE0-0F5E46BA88B7">
+                            <Component Id="cmp5F555D4CD12D3B257104CC89FE8636F9" Guid="21AF04DE-E5F8-472F-9355-49EB636B4FDA">
                                 <File Id="fil104C01DC6C4331EB392109A5D48EB99C" KeyPath="yes" Source="$(var.sourceDir)\AzureServiceManagement\Scaffolding\Python\WebRole\Microsoft.PythonTools.AzureSetup.exe.config" />
                             </Component>
-                            <Component Id="cmp70F1BF80BC777453A714EE3C2F6BBF44" Guid="86FF63F4-FAD5-4436-848A-52B17A043E13">
+                            <Component Id="cmp70F1BF80BC777453A714EE3C2F6BBF44" Guid="6F52B302-6288-4F5A-BF54-0F532D8D53C7">
                                 <File Id="fil722FFAF4B5918DAD0DAA47371EE23717" KeyPath="yes" Source="$(var.sourceDir)\AzureServiceManagement\Scaffolding\Python\WebRole\Microsoft.PythonTools.AzureSetup.exe.content" />
                             </Component>
-                            <Component Id="cmpCACC1F2585114509710D97416A5C4DE2" Guid="91F0B9A9-8AC6-4CAB-B934-F2A798898C9F">
+                            <Component Id="cmpCACC1F2585114509710D97416A5C4DE2" Guid="1DBDD892-74CB-4DB3-A8F6-E89B623DF9FB">
                                 <File Id="fil38BAC6D8B0F3AAC47ED2A0FC55D9E0B4" KeyPath="yes" Source="$(var.sourceDir)\AzureServiceManagement\Scaffolding\Python\WebRole\Microsoft.PythonTools.WebRole.dll.content" />
                             </Component>
-                            <Component Id="cmpB84F6F3B7385FED5AB51F97A33F68205" Guid="27DD7EAF-B2BA-44D2-B366-CBAC1AF6A157">
+                            <Component Id="cmpB84F6F3B7385FED5AB51F97A33F68205" Guid="FBCF571F-21C8-474B-8426-0EB9E58AB5E3">
                                 <File Id="filAFB0382091B47DDE0762B1F5A5488CFB" KeyPath="yes" Source="$(var.sourceDir)\AzureServiceManagement\Scaffolding\Python\WebRole\Microsoft.Web.Deployment.dll.content" />
                             </Component>
-                            <Component Id="cmpBB4F7E3615F842F160D7B76DCF37EB88" Guid="D2F82203-70A0-4ED0-B13C-26FB1F1AB466">
+                            <Component Id="cmpBB4F7E3615F842F160D7B76DCF37EB88" Guid="8119722A-DAC3-4C7F-B353-F2D0CF5B384B">
                                 <File Id="fil8CBCF71FEDC7A5602A985A6FD9D1A38C" KeyPath="yes" Source="$(var.sourceDir)\AzureServiceManagement\Scaffolding\Python\WebRole\Microsoft.Web.PlatformInstaller.dll.content" />
                             </Component>
-                            <Component Id="cmp690BA77E4192261032D3463B40DE2AB1" Guid="C88F5634-7094-46A2-8CAF-46B2AC7CF2B9">
+                            <Component Id="cmp690BA77E4192261032D3463B40DE2AB1" Guid="EF6703F7-C09D-4C1B-BBB7-D9C47089C306">
                                 <File Id="filBCFB867421215AB4E0A16C3CFECB7165" KeyPath="yes" Source="$(var.sourceDir)\AzureServiceManagement\Scaffolding\Python\WebRole\Microsoft.Web.PlatformInstaller.UI.dll.content" />
                             </Component>
-                            <Component Id="cmp431EB56926C96003BB5D6828A0344BED" Guid="75BA54F0-1D56-418E-98FE-C9A854C49E6E">
+                            <Component Id="cmp431EB56926C96003BB5D6828A0344BED" Guid="C7487381-2E3E-47BB-8738-F09AFD60E02D">
                                 <File Id="filBFA4EDCB20AB0B173C884102F8F526F8" KeyPath="yes" Source="$(var.sourceDir)\AzureServiceManagement\Scaffolding\Python\WebRole\RoleSettings.xml" />
                             </Component>
-                            <Component Id="cmpCECDFDB75872B6A4AC50681A40ABB9FB" Guid="575C048B-7287-4051-A276-352247DE33C2">
+                            <Component Id="cmpCECDFDB75872B6A4AC50681A40ABB9FB" Guid="22FBC456-74F7-4372-BC17-C6EA4A86C6C2">
                                 <File Id="filD01201F09398FAA71E4F67A7BD51EC4C" KeyPath="yes" Source="$(var.sourceDir)\AzureServiceManagement\Scaffolding\Python\WebRole\Scaffold.xml" />
                             </Component>
-                            <Component Id="cmpB740B0DF4DFF7DE55DD6ED0D2BB8EC66" Guid="90FF31E2-500D-4469-B99E-FDB20A7CDF8B">
+                            <Component Id="cmpB740B0DF4DFF7DE55DD6ED0D2BB8EC66" Guid="406378FA-CEB3-441C-AA35-531ABF87D025">
                                 <File Id="fil3C0D9AC1DEB63DBF5D838910175AB83E" KeyPath="yes" Source="$(var.sourceDir)\AzureServiceManagement\Scaffolding\Python\WebRole\web.cloud.config" />
                             </Component>
-                            <Component Id="cmpB94382241DF5946976799A4F77FB992D" Guid="54684053-D0A6-4AF8-8907-9E8CB8C33261">
+                            <Component Id="cmpB94382241DF5946976799A4F77FB992D" Guid="6FBAEED7-3AE7-4F62-8918-2E70D27B4023">
                                 <File Id="fil30BBB16022BD7B71755EDE7230CF4173" KeyPath="yes" Source="$(var.sourceDir)\AzureServiceManagement\Scaffolding\Python\WebRole\Web.config" />
                             </Component>
-                            <Component Id="cmp2BD06D1BDAF84CE102453512756C053F" Guid="79137581-586C-4FB5-B203-0C793027D49C">
+                            <Component Id="cmp2BD06D1BDAF84CE102453512756C053F" Guid="4ED65B9C-73B3-44BC-94F1-FACB20296CAC">
                                 <File Id="fil70E48459425BA9E61725AE18E83E23C4" KeyPath="yes" Source="$(var.sourceDir)\AzureServiceManagement\Scaffolding\Python\WebRole\WebPICmdLine.exe.content" />
                             </Component>
-                            <Component Id="cmp5EA171CE2EEC7035D19A558EFDCF3995" Guid="692DC3AF-E4D7-4707-A0BE-71FE36A2FD42">
+                            <Component Id="cmp5EA171CE2EEC7035D19A558EFDCF3995" Guid="35354DD7-C4AE-4CCE-BF0D-C4BC14D65BC3">
                                 <File Id="fil8700C01C8E72F0A51E89A6761D4A5582" KeyPath="yes" Source="$(var.sourceDir)\AzureServiceManagement\Scaffolding\Python\WebRole\WebRole.xml" />
                             </Component>
-                            <Component Id="cmpA50A5268A2A18761C39812B653271420" Guid="847E8395-52F4-4F9F-9733-9F41518FE99A">
+                            <Component Id="cmpA50A5268A2A18761C39812B653271420" Guid="2C9CDE04-A998-4E9E-8717-FAA502E2CB68">
                                 <File Id="fil7D2464FF580F257477F981FCC7125B18" KeyPath="yes" Source="$(var.sourceDir)\AzureServiceManagement\Scaffolding\Python\WebRole\wfastcgi.py" />
                             </Component>
                         </Directory>
@@ -9227,12 +9179,6 @@
             <ComponentRef Id="cmp8D4A38E948E54F3EF242E6843DCBAB31" />
             <ComponentRef Id="cmp3F08A5E1D42C88084B64014190BCF8E8" />
             <ComponentRef Id="cmpB8AD3C747B0F3C08907E844F11E0E77D" />
-            <ComponentRef Id="cmp25B06A7EAD2D0CF4C2643185E4CC1ED7" />
-            <ComponentRef Id="cmpD16550322888262E1D3D6C518AEAEFD5" />
-            <ComponentRef Id="cmpBEDAE70CFCDDC321F9DC589D1676946D" />
-            <ComponentRef Id="cmp81DF0B0EE93144317517B47C15140867" />
-            <ComponentRef Id="cmp0DA30E039FC6B2D45E870626FCA2BC7D" />
-            <ComponentRef Id="cmpD70EB38BDF5CB133CF574275D9D6AFEB" />
             <ComponentRef Id="cmpD5DCA5CDF64157FFD4D921D03109AFE9" />
             <ComponentRef Id="cmp51B57936D13FDB1447B80C3E0416F250" />
             <ComponentRef Id="cmpCFBB68D985E6E63237F465FAFBBBD32A" />
@@ -9275,8 +9221,6 @@
             <ComponentRef Id="cmp336C6207B3690E84F988347C2584CA13" />
             <ComponentRef Id="cmpA9595731CD2A089292D1C298D5998259" />
             <ComponentRef Id="cmp6521E0B4685112390B57B8EFEB3F3440" />
-            <ComponentRef Id="cmp83A0E259D5EBF91286EBC8161B3A097C" />
-            <ComponentRef Id="cmpD8BB674C3E65EE473FF93DE3E4EF515D" />
             <ComponentRef Id="cmp57989DE98BFCF01C414DC4FEAAB0359B" />
             <ComponentRef Id="cmp0ABBD0BBAFBEE491E7CD9109D73860C0" />
             <ComponentRef Id="cmpC195EEED828FCE56977BCC8D7A402466" />
@@ -9290,12 +9234,6 @@
             <ComponentRef Id="cmpE36475B841E364A04AE67D77AEE99C27" />
             <ComponentRef Id="cmp155CBB9B92E0EF8D88A1825DF26C6BC7" />
             <ComponentRef Id="cmp3005CDF9C81C13F43EB8738D0BFEFC12" />
-            <ComponentRef Id="cmpAAD5FC040659F3D4897E8AF14C81DE85" />
-            <ComponentRef Id="cmp4EB9B62FA4AFDB721F79D0F6F3C9EFF4" />
-            <ComponentRef Id="cmp776A449E2A08C94C18B5FBA486FF73F2" />
-            <ComponentRef Id="cmpB3DB18AE559A0EFC888FB020D94E21E3" />
-            <ComponentRef Id="cmp371FAFA24851DBBFEDB84530EE21EB0A" />
-            <ComponentRef Id="cmpB28A3436616D3EA49D097AA905EC65FE" />
             <ComponentRef Id="cmpFC336F7EDB1A210C529DA97E99C89440" />
             <ComponentRef Id="cmp90DC89BDDA9D9B9666EA155EEA00C7B9" />
             <ComponentRef Id="cmpB830FBE08813773B81441229CB88CF54" />
@@ -9417,8 +9355,6 @@
             <ComponentRef Id="cmp67DDAFCF617121B3BD2DDA227AEBA054" />
             <ComponentRef Id="cmp465A3A77B3AF84BD8ECAF4FF84481EE8" />
             <ComponentRef Id="cmp9A994667EA5F3022EF231AF248A0013F" />
-            <ComponentRef Id="cmpD863FB6022F6E82D2972DC0F5B0B4C4F" />
-            <ComponentRef Id="cmpD50C2F288D6A2E88365E9D74C40D99B1" />
             <ComponentRef Id="cmp186079B657BDDF655C0473EA75EC337C" />
             <ComponentRef Id="cmp4FBFDAFC8C7499D218BF09A6311E9CCE" />
             <ComponentRef Id="cmpD260EE10B2E4AC36C165018A9196489D" />
