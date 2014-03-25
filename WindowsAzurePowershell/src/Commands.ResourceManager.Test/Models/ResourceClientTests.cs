@@ -930,7 +930,7 @@ namespace Microsoft.Azure.Commands.ResourceManager.Test.Models
             {
                 ResourceGroupName = resourceGroupName,
                 Location = resourceGroupLocation,
-                Name = deploymentName,
+                DeploymentName = deploymentName,
                 TemplateFile = templateFile,
                 StorageAccountName = storageAccountName,
                 ConfirmAction = ConfirmAction
@@ -1097,7 +1097,7 @@ namespace Microsoft.Azure.Commands.ResourceManager.Test.Models
             {
                 ResourceGroupName = resourceGroupName,
                 Location = resourceGroupLocation,
-                Name = deploymentName,
+                DeploymentName = deploymentName,
                 TemplateFile = templateFile,
                 StorageAccountName = storageAccountName,
                 ConfirmAction = ConfirmAction
@@ -1202,7 +1202,7 @@ namespace Microsoft.Azure.Commands.ResourceManager.Test.Models
             {
                 ResourceGroupName = resourceGroupName,
                 Location = resourceGroupLocation,
-                Name = deploymentName,
+                DeploymentName = deploymentName,
                 TemplateFile = templateFile,
                 TemplateParameterObject = new Hashtable()
                 {
@@ -1315,7 +1315,7 @@ namespace Microsoft.Azure.Commands.ResourceManager.Test.Models
             {
                 ResourceGroupName = resourceGroupName,
                 Location = resourceGroupLocation,
-                Name = deploymentName,
+                DeploymentName = deploymentName,
                 TemplateFile = templateFile,
                 StorageAccountName = storageAccountName,
                 ConfirmAction = ConfirmAction
@@ -1420,7 +1420,7 @@ namespace Microsoft.Azure.Commands.ResourceManager.Test.Models
             {
                 ResourceGroupName = resourceGroupName,
                 Location = resourceGroupLocation,
-                Name = deploymentName,
+                DeploymentName = deploymentName,
                 TemplateFile = templateFile,
                 StorageAccountName = storageAccountName,
                 ConfirmAction = ConfirmAction
