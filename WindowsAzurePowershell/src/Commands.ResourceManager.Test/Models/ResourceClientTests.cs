@@ -723,8 +723,7 @@ namespace Microsoft.Azure.Commands.ResourceManager.Test.Models
                 ParentResourceName = resourceIdentity.ParentResourcePath,
                 PropertyObject = new Hashtable(patchProperties),
                 ResourceGroupName = resourceGroupName,
-                ResourceType = resourceIdentity.ResourceProviderNamespace + "/" + resourceIdentity.ResourceType,
-                Mode = SetResourceMode.Replace
+                ResourceType = resourceIdentity.ResourceProviderNamespace + "/" + resourceIdentity.ResourceType
             };
 
             ResourceCreateOrUpdateParameters actual = new ResourceCreateOrUpdateParameters();
