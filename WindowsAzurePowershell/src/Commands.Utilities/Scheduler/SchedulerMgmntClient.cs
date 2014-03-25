@@ -75,10 +75,13 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Scheduler
             {
                 foreach (CloudServiceListResponse.CloudService cs in csList.CloudServices)
                 {
-                    GetSchedulerJobCollection(cs, jobCollection).ForEach(x => lstSchedulerJobCollection.Add(x));
-                    //If job collection parameter was passed and we found a matching job collection already, exit out of the loop and return the job collection
-                    if (!string.IsNullOrEmpty(jobCollection) && lstSchedulerJobCollection.Count > 0)
-                        return lstSchedulerJobCollection;
+                    if (cs.Name.Equals(Constants.CloudServiceNameFirst + cs.GeoRegion.Replace(" ", string.Empty) + Constants.CloudServiceNameSecond, StringComparison.OrdinalIgnoreCase))
+                    {
+                        GetSchedulerJobCollection(cs, jobCollection).ForEach(x => lstSchedulerJobCollection.Add(x));
+                        //If job collection parameter was passed and we found a matching job collection already, exit out of the loop and return the job collection
+                        if (!string.IsNullOrEmpty(jobCollection) && lstSchedulerJobCollection.Count > 0)
+                            return lstSchedulerJobCollection;
+                    }
                 }
             }
             return lstSchedulerJobCollection;

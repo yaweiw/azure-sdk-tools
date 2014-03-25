@@ -43,7 +43,7 @@ namespace Microsoft.Azure.Commands.ResourceManager.Test.Resources
         [Fact]
         public void SavesGalleryTemplateFile()
         {
-            cmdlet.Name = "fileName";
+            cmdlet.Identity = "fileName";
             cmdlet.Path = "filePath";
             cmdlet.PassThru = true;
 
@@ -59,7 +59,7 @@ namespace Microsoft.Azure.Commands.ResourceManager.Test.Resources
         {
             string expectedPath = Path.Combine(Directory.GetCurrentDirectory(), "fileName");
 
-            cmdlet.Name = "fileName";
+            cmdlet.Identity = "fileName";
 
             cmdlet.ExecuteCmdlet();
 

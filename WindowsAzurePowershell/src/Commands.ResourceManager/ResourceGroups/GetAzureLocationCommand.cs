@@ -24,28 +24,9 @@ namespace Microsoft.Azure.Commands.ResourceManager
     [Cmdlet(VerbsCommon.Get, "AzureLocation"), OutputType(typeof(List<PSResourceProviderType>))]
     public class GetAzureLocationCommand : ResourceManagerBaseCmdlet
     {
-        [Parameter(Position = 0, Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "If specified, check the available locations for the given resource types.")]
-        [ValidateNotNullOrEmpty]
-        public string[] ResourceType { get; set; }
-
-        [Parameter(Position = 1, Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "If specified, check the available locations for Resource Groups.")]
-        [ValidateNotNullOrEmpty]
-        public SwitchParameter ResourceGroup { get; set; }
-        
         public override void ExecuteCmdlet()
         {
-            List<string> resourceTypes = new List<string>();
-            if (ResourceType != null)
-            {
-                resourceTypes.AddRange(ResourceType);
-            }
-
-            if (ResourceGroup.IsPresent)
-            {
-                resourceTypes.Add(ResourcesClient.ResourceGroupTypeName);
-            }
-
-            WriteObject(ResourcesClient.GetLocations(resourceTypes.ToArray()), true);
+            WriteObject(ResourcesClient.GetLocations(), true);
         }
     }
 }
