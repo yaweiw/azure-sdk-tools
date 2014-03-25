@@ -38,7 +38,7 @@ namespace Microsoft.Azure.Commands.ResourceManager
                 Name = Name,
                 ResourceGroupName = ResourceGroupName,
                 ResourceType = ResourceType,
-                ParentResourceName = ParentResourceName,
+                ParentResource = ParentResource,
                 PropertyObject = PropertyObject,
                 ApiVersion = ApiVersion
             };
