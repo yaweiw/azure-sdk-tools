@@ -39,7 +39,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
         
         public Uri ServiceEndpoint { get; set; }
         
-        public Uri CloudServiceEndpoint { get; set; }
+        public Uri ResourceManagerEndpoint { get; set; }
 
         public Uri GalleryEndpoint { get; set; }
 
@@ -94,8 +94,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
         /// <summary>
         /// Set the access token to use for authentication
         /// when creating azure management clients from this
-        /// subscription. This also updates the <see cref="ActiveDirectoryUserId"/> and
-        /// <see cref="ActiveDirectoryLoginType"/> fields.
+        /// subscription. This also updates the <see cref="ActiveDirectoryUserId"/> field.
         /// </summary>
         /// <param name="token">The access token to use. If null,
         /// clears out the token and the active directory login information.</param>
@@ -155,7 +154,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
             // And overwrite the rest
             SubscriptionId = newSubscription.SubscriptionId;
             ServiceEndpoint = newSubscription.ServiceEndpoint;
-            CloudServiceEndpoint = newSubscription.CloudServiceEndpoint;
+            ResourceManagerEndpoint = newSubscription.ResourceManagerEndpoint;
             SubscriptionName = newSubscription.SubscriptionName;
             GalleryEndpoint = newSubscription.GalleryEndpoint;
         }
@@ -186,13 +185,13 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
             return ClientClientFromEndpoint<TClient>(GalleryEndpoint, false);
         }
 
-        public TClient CreateClientFromCloudServiceEndpoint<TClient>() where TClient : ServiceClient<TClient>
+        public TClient CreateClientFromResourceManagerEndpoint<TClient>() where TClient : ServiceClient<TClient>
         {
-            if (CloudServiceEndpoint == null)
+            if (ResourceManagerEndpoint == null)
             {
                 throw new ArgumentException(Resources.InvalidSubscriptionState);
             }
-            return ClientClientFromEndpoint<TClient>(CloudServiceEndpoint);
+            return ClientClientFromEndpoint<TClient>(ResourceManagerEndpoint);
         }
 
         public TClient ClientClientFromEndpoint<TClient>(Uri endpoint) where TClient : ServiceClient<TClient>
@@ -237,7 +236,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
         {
             RegisterServiceManagementProviders<T>(credentials);
 
-            if (CloudServiceEndpoint != null)
+            if (ResourceManagerEndpoint != null)
             {
                 RegisterResourceManagerProviders<T>(credentials);
             }
@@ -250,28 +249,23 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
         /// <param name="credentials">The subscription credentials</param>
         private void RegisterResourceManagerProviders<T>(SubscriptionCloudCredentials credentials) where T : ServiceClient<T>
         {
-            List<string> requiredProviders = RequiredResourceLookup.RequiredProvidersForResourceManager<T>().ToList();
+            List<string> requiredProviders = RequiredResourceLookup.RequiredProvidersForResourceManager<T>()
+                .Where(p => !RegisteredResourceProviders.Contains(p)).ToList();
             if (requiredProviders.Count > 0)
             {
-                using (IResourceManagementClient client = new ResourceManagementClient(credentials, CloudServiceEndpoint))
+                using (IResourceManagementClient client = new ResourceManagementClient(credentials, ResourceManagerEndpoint))
                 {
-                    try
+                    foreach (string provider in requiredProviders)
                     {
-                        List<Provider> providers = GetProviders(client);
-
-                        List<string> unregisteredProviders = providers.Where(p => p.RegistrationState
-                            .Equals(ProviderRegistrationState.NotRegistered, StringComparison.OrdinalIgnoreCase))
-                            .Select(p => p.Namespace).ToList();
-                        List<string> toRegister = requiredProviders.Intersect(unregisteredProviders).Distinct().ToList();
-
-                        foreach (string provider in toRegister)
+                        try
                         {
                             client.Providers.Register(provider);
+                            RegisteredResourceProviders.Add(provider);
                         }
-                    }
-                    catch
-                    {
-                        // Ignore this as the user may not have access to Sparta endpoint or the provider is already registered
+                        catch
+                        {
+                            // Ignore this as the user may not have access to Sparta endpoint or the provider is already registered
+                        }
                     }
                 }
             }

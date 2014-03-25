@@ -191,7 +191,7 @@ namespace Microsoft.Azure.Commands.ResourceManager.Models
         /// <returns>The created resource group</returns>
         public virtual PSResourceGroup CreatePSResourceGroup(CreatePSResourceGroupParameters parameters)
         {
-            bool createDeployment = !string.IsNullOrEmpty(parameters.GalleryTemplateName) || !string.IsNullOrEmpty(parameters.TemplateFile);
+            bool createDeployment = !string.IsNullOrEmpty(parameters.GalleryTemplateIdentity) || !string.IsNullOrEmpty(parameters.TemplateFile);
             bool resourceExists = ResourceManagementClient.ResourceGroups.CheckExistence(parameters.ResourceGroupName).Exists;
 
             ResourceGroup resourceGroup = null;
@@ -210,7 +210,7 @@ namespace Microsoft.Azure.Commands.ResourceManager.Models
                 parameters.ConfirmAction(parameters.Force,
                     Resources.ResourceGroupAlreadyExists,
                     Resources.NewResourceGroupMessage,
-                    parameters.Name,
+                    parameters.DeploymentName,
                     createOrUpdateResourceGroup);
                 resourceGroup = ResourceManagementClient.ResourceGroups.Get(parameters.ResourceGroupName).ResourceGroup;
             }
@@ -264,9 +264,9 @@ namespace Microsoft.Azure.Commands.ResourceManager.Models
         /// <returns>The created deployment instance</returns>
         public virtual PSResourceGroupDeployment ExecuteDeployment(CreatePSResourceGroupDeploymentParameters parameters)
         {
-            parameters.Name = string.IsNullOrEmpty(parameters.Name) ? Guid.NewGuid().ToString() : parameters.Name;
+            parameters.DeploymentName = string.IsNullOrEmpty(parameters.DeploymentName) ? Guid.NewGuid().ToString() : parameters.DeploymentName;
             BasicDeployment deployment = CreateBasicDeployment(parameters);
-            List<ResourceManagementError> errors = CheckBasicDeploymentErrors(parameters.ResourceGroupName, parameters.Name, deployment);
+            List<ResourceManagementError> errors = CheckBasicDeploymentErrors(parameters.ResourceGroupName, parameters.DeploymentName, deployment);
 
             if (errors.Count != 0)
             {
@@ -281,9 +281,9 @@ namespace Microsoft.Azure.Commands.ResourceManager.Models
                 WriteVerbose(Resources.TemplateValid);
             }
 
-            DeploymentOperationsCreateResult result = ResourceManagementClient.Deployments.CreateOrUpdate(parameters.ResourceGroupName, parameters.Name, deployment);
-            WriteVerbose(string.Format("Create template deployment '{0}' using template {1}.", parameters.Name, deployment.TemplateLink.Uri));
-            ProvisionDeploymentStatus(parameters.ResourceGroupName, parameters.Name);
+            DeploymentOperationsCreateResult result = ResourceManagementClient.Deployments.CreateOrUpdate(parameters.ResourceGroupName, parameters.DeploymentName, deployment);
+            WriteVerbose(string.Format("Create template deployment '{0}' using template {1}.", parameters.DeploymentName, deployment.TemplateLink.Uri));
+            ProvisionDeploymentStatus(parameters.ResourceGroupName, parameters.DeploymentName, deployment);
 
             return result.ToPSResourceGroupDeployment();
         }

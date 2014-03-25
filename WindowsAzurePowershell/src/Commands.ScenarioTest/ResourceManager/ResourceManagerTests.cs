@@ -19,7 +19,7 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.ResourceManagerTests
     using Microsoft.VisualStudio.TestTools.UnitTesting;
 
     [TestClass]
-    public class ResourceManagerTests : WindowsAzurePowerShellTest
+    public class ResourceManagerTests : WindowsAzurePowerShellTokenTest
     {
         private string currentDirectory;
 
@@ -27,7 +27,7 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.ResourceManagerTests
             : base("ResourceManager\\Common.ps1",
                    "ResourceManager\\ResourceManagerTests.ps1")
         {
-
+            
         }
 
         [TestInitialize]
