@@ -12,6 +12,7 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
+using System.IO;
 using Microsoft.Azure.Commands.ResourceManager.Properties;
 using Microsoft.Azure.Management.Resources;
 using Microsoft.Azure.Management.Resources.Models;
@@ -264,7 +265,7 @@ namespace Microsoft.Azure.Commands.ResourceManager.Models
         /// <returns>The created deployment instance</returns>
         public virtual PSResourceGroupDeployment ExecuteDeployment(CreatePSResourceGroupDeploymentParameters parameters)
         {
-            parameters.DeploymentName = string.IsNullOrEmpty(parameters.DeploymentName) ? Guid.NewGuid().ToString() : parameters.DeploymentName;
+            parameters.DeploymentName = GenerateDeploymentName(parameters);
             BasicDeployment deployment = CreateBasicDeployment(parameters);
             List<ResourceManagementError> errors = CheckBasicDeploymentErrors(parameters.ResourceGroupName, parameters.DeploymentName, deployment);
 
@@ -286,6 +287,26 @@ namespace Microsoft.Azure.Commands.ResourceManager.Models
             ProvisionDeploymentStatus(parameters.ResourceGroupName, parameters.DeploymentName, deployment);
 
             return result.ToPSResourceGroupDeployment();
+        }
+
+        private string GenerateDeploymentName(CreatePSResourceGroupDeploymentParameters parameters)
+        {
+            if (!string.IsNullOrEmpty(parameters.DeploymentName))
+            {
+                return parameters.DeploymentName;
+            }
+            else if (!string.IsNullOrEmpty(parameters.TemplateFile))
+            {
+                return Path.GetFileNameWithoutExtension(parameters.TemplateFile);
+            }
+            else if (!string.IsNullOrEmpty(parameters.GalleryTemplateIdentity))
+            {
+                return parameters.GalleryTemplateIdentity;
+            }
+            else
+            {
+                return Guid.NewGuid().ToString();
+            }
         }
 
         /// <summary>
