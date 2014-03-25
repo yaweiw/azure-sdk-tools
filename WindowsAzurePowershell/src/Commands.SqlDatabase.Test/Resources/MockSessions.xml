@@ -7986,7 +7986,7 @@
           <Headers>
             <Header>
               <Name>x-ms-request-id</Name>
-              <Value>f41e3695-176e-4e4b-bcf6-119541d813ae</Value>
+              <Value>0e32803e-5047-4905-88dd-77fd583441ef</Value>
             </Header>
             <Header>
               <Name>Content-Type</Name>
@@ -7994,7 +7994,7 @@
             </Header>
             <Header>
               <Name>Date</Name>
-              <Value>Mon, 17 Mar 2014 17:46:51 GMT</Value>
+              <Value>Tue, 25 Mar 2014 19:38:07 GMT</Value>
             </Header>
             <Header>
               <Name>Server</Name>
@@ -8002,7 +8002,7 @@
             </Header>
           </Headers>
           <Cookies />
-          <ResponseText>&lt;ServerName FullyQualifiedDomainName="o75il9x2q0.database.windows.net" xmlns="http://schemas.microsoft.com/sqlazure/2010/12/"&gt;o75il9x2q0&lt;/ServerName&gt;</ResponseText>
+          <ResponseText>&lt;ServerName FullyQualifiedDomainName="testserver.database.windows.net" xmlns="http://schemas.microsoft.com/sqlazure/2010/12/"&gt;testserver&lt;/ServerName&gt;</ResponseText>
         </ResponseInfo>
       </HttpMessage>
       <HttpMessage>
@@ -8027,7 +8027,7 @@
           <Headers>
             <Header>
               <Name>x-ms-request-id</Name>
-              <Value>8656c823-bad5-4f1b-b989-ee114bdd6965</Value>
+              <Value>7b5530ac-9ae7-45fa-b3e4-2e9a99e1450c</Value>
             </Header>
             <Header>
               <Name>Content-Type</Name>
@@ -8035,7 +8035,7 @@
             </Header>
             <Header>
               <Name>Date</Name>
-              <Value>Mon, 17 Mar 2014 17:46:51 GMT</Value>
+              <Value>Tue, 25 Mar 2014 19:38:29 GMT</Value>
             </Header>
             <Header>
               <Name>Server</Name>
@@ -8045,10 +8045,10 @@
           <Cookies />
           <ResponseText>&lt;Servers xmlns="http://schemas.microsoft.com/sqlazure/2010/12/"&gt;
   &lt;Server&gt;
-    &lt;Name&gt;o75il9x2q0&lt;/Name&gt;
+    &lt;Name&gt;testserver&lt;/Name&gt;
     &lt;AdministratorLogin&gt;mylogin&lt;/AdministratorLogin&gt;
     &lt;Location&gt;East Asia&lt;/Location&gt;
-    &lt;FullyQualifiedDomainName&gt;o75il9x2q0.database.windows.net&lt;/FullyQualifiedDomainName&gt;
+    &lt;FullyQualifiedDomainName&gt;testserver.database.windows.net&lt;/FullyQualifiedDomainName&gt;
     &lt;Version&gt;1.0&lt;/Version&gt;
   &lt;/Server&gt;
 &lt;/Servers&gt;</ResponseText>
@@ -8057,7 +8057,7 @@
       <HttpMessage>
         <Index>2</Index>
         <RequestInfo>
-          <RequestUri>https://localhost:65432/00000000-0000-0000-0001-000000000001/services/sqlservers/servers/dy9veutlz0?op=ResetPassword</RequestUri>
+          <RequestUri>https://localhost:65432/00000000-0000-0000-0001-000000000001/services/sqlservers/servers/testserver?op=ResetPassword</RequestUri>
           <Method>POST</Method>
           <UserAgent>Microsoft.WindowsAzure.Management.Sql.SqlManagementClient/0.9.0.0 WindowsAzurePowershell/v0.8.0</UserAgent>
           <Headers>
@@ -8076,11 +8076,11 @@
           <Headers>
             <Header>
               <Name>x-ms-request-id</Name>
-              <Value>ede5a98b-e3af-4a55-8f36-364880ff0d50</Value>
+              <Value>88c60c59-ccbe-427f-81a6-160326a01542</Value>
             </Header>
             <Header>
               <Name>Date</Name>
-              <Value>Mon, 17 Mar 2014 17:46:53 GMT</Value>
+              <Value>Tue, 25 Mar 2014 19:38:36 GMT</Value>
             </Header>
             <Header>
               <Name>Server</Name>
@@ -8113,7 +8113,7 @@
           <Headers>
             <Header>
               <Name>x-ms-request-id</Name>
-              <Value>8ef960b2-dd4f-40c7-b86c-ba2cb1585d1e</Value>
+              <Value>76166a4f-1992-428d-a288-fbcbf418225a</Value>
             </Header>
             <Header>
               <Name>Content-Type</Name>
@@ -8121,7 +8121,7 @@
             </Header>
             <Header>
               <Name>Date</Name>
-              <Value>Mon, 17 Mar 2014 17:46:53 GMT</Value>
+              <Value>Tue, 25 Mar 2014 19:38:36 GMT</Value>
             </Header>
             <Header>
               <Name>Server</Name>
@@ -8131,10 +8131,10 @@
           <Cookies />
           <ResponseText>&lt;Servers xmlns="http://schemas.microsoft.com/sqlazure/2010/12/"&gt;
   &lt;Server&gt;
-    &lt;Name&gt;o75il9x2q0&lt;/Name&gt;
+    &lt;Name&gt;testserver&lt;/Name&gt;
     &lt;AdministratorLogin&gt;mylogin&lt;/AdministratorLogin&gt;
     &lt;Location&gt;East Asia&lt;/Location&gt;
-    &lt;FullyQualifiedDomainName&gt;o75il9x2q0.database.windows.net&lt;/FullyQualifiedDomainName&gt;
+    &lt;FullyQualifiedDomainName&gt;testserver.database.windows.net&lt;/FullyQualifiedDomainName&gt;
     &lt;Version&gt;1.0&lt;/Version&gt;
   &lt;/Server&gt;
 &lt;/Servers&gt;</ResponseText>
@@ -8143,7 +8143,7 @@
       <HttpMessage>
         <Index>4</Index>
         <RequestInfo>
-          <RequestUri>https://localhost:65432/00000000-0000-0000-0001-000000000001/services/sqlservers/servers/dy9veutlz0</RequestUri>
+          <RequestUri>https://localhost:65432/00000000-0000-0000-0001-000000000001/services/sqlservers/servers/testserver</RequestUri>
           <Method>DELETE</Method>
           <UserAgent>Microsoft.WindowsAzure.Management.Sql.SqlManagementClient/0.9.0.0 WindowsAzurePowershell/v0.8.0</UserAgent>
           <Headers>
@@ -8162,11 +8162,11 @@
           <Headers>
             <Header>
               <Name>x-ms-request-id</Name>
-              <Value>c619f7d5-58e9-4e92-81c4-254b4389e840</Value>
+              <Value>ed033786-764b-49d0-8ade-2f218b9bd283</Value>
             </Header>
             <Header>
               <Name>Date</Name>
-              <Value>Mon, 17 Mar 2014 17:46:54 GMT</Value>
+              <Value>Tue, 25 Mar 2014 19:38:38 GMT</Value>
             </Header>
             <Header>
               <Name>Server</Name>
@@ -8199,7 +8199,7 @@
           <Headers>
             <Header>
               <Name>x-ms-request-id</Name>
-              <Value>4d90f09f-0498-47d2-83ac-00737c8bc68b</Value>
+              <Value>1e9fffa7-5c21-4530-87e5-57f4f4bed282</Value>
             </Header>
             <Header>
               <Name>Content-Type</Name>
@@ -8207,7 +8207,7 @@
             </Header>
             <Header>
               <Name>Date</Name>
-              <Value>Mon, 17 Mar 2014 17:46:54 GMT</Value>
+              <Value>Tue, 25 Mar 2014 19:38:38 GMT</Value>
             </Header>
             <Header>
               <Name>Server</Name>
@@ -8215,7 +8215,7 @@
             </Header>
           </Headers>
           <Cookies />
-          <ResponseText>&lt;Servers xmlns="http://schemas.microsoft.com/sqlazure/2010/12/" /&gt;</ResponseText>
+          <ResponseText>&lt;Servers xmlns="http://schemas.microsoft.com/sqlazure/2010/12/"&gt;&lt;/Servers&gt;</ResponseText>
         </ResponseInfo>
       </HttpMessage>
     </Messages>
