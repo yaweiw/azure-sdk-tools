@@ -23,9 +23,27 @@ function Get-ResourceGroupName
 
 <#
 .SYNOPSIS
+Gets valid resource name
+#>
+function Get-ResourceName
+{
+	return getAssetName
+}
+
+<#
+.SYNOPSIS
 Gets the default resource group location
 #>
 function Get-ResourceGroupDefaultLocation
 {
 	return "South Central US"
+}
+
+<#
+.SYNOPSIS
+Gets the default resource location
+#>
+function Get-ResourceDefaultLocation
+{
+	return "West US"
 }
