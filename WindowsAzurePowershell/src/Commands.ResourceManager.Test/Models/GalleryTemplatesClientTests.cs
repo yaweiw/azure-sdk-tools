@@ -395,7 +395,9 @@ namespace Microsoft.Azure.Commands.ResourceManager.Test.Models
 
                 galleryTemplatesClient.DownloadGalleryTemplateFile(
                     galleryTemplateFileName,
-                    expectedFilePath);
+                    expectedFilePath,
+                    true,
+                    null);
 
                 Assert.Equal(string.Empty, File.ReadAllText(expectedFilePath));
             }
@@ -432,7 +434,9 @@ namespace Microsoft.Azure.Commands.ResourceManager.Test.Models
 
                 galleryTemplatesClient.DownloadGalleryTemplateFile(
                     galleryTemplateFileName,
-                    Path.GetTempPath());
+                    Path.GetTempPath(),
+                    true,
+                    null);
 
                 Assert.Equal(string.Empty, File.ReadAllText(expectedFilePath));
             }
@@ -469,7 +473,9 @@ namespace Microsoft.Azure.Commands.ResourceManager.Test.Models
 
                 galleryTemplatesClient.DownloadGalleryTemplateFile(
                     galleryTemplateFileName,
-                    expectedFilePath);
+                    expectedFilePath,
+                    true,
+                    null);
 
                 Assert.Equal(string.Empty, File.ReadAllText(expectedFilePath));
             }
