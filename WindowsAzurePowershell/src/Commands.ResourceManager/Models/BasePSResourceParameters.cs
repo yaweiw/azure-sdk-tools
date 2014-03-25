@@ -26,7 +26,7 @@ namespace Microsoft.Azure.Commands.ResourceManager.Models
 
         public string ResourceType { get; set; }
 
-        public string ParentResourceName { get; set; }
+        public string ParentResource { get; set; }
 
         public string ApiVersion { get; set; }
 
@@ -46,7 +46,7 @@ namespace Microsoft.Azure.Commands.ResourceManager.Models
             ResourceIdentity identity = new ResourceIdentity
                 {
                     ResourceName = Name,
-                    ParentResourcePath = ParentResourceName,
+                    ParentResourcePath = ParentResource,
                     ResourceProviderNamespace = resourceType[0],
                     ResourceType = resourceType[1],
                     ResourceProviderApiVersion = ApiVersion
