@@ -219,6 +219,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement
                   .ForMember(c => c.Name, o => o.MapFrom(r => r.DiskName))
                   .ForMember(c => c.LogicalUnitNumber, o => o.MapFrom(r => r.Lun));
             Mapper.CreateMap<PVM.OSVirtualHardDisk, NSM.OSVirtualHardDisk>()
+                  .ForMember(c => c.Name, o => o.MapFrom(r => r.DiskName))
                   .ForMember(c => c.Label, o => o.MapFrom(r => r.DiskLabel))
                   .ForMember(c => c.OperatingSystem, o => o.MapFrom(r => r.OS));
             Mapper.CreateMap<PVM.NetworkConfigurationSet, NSM.ConfigurationSet>()
@@ -271,6 +272,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement
                   .ForMember(c => c.DiskName, o => o.MapFrom(r => r.Name))
                   .ForMember(c => c.Lun, o => o.MapFrom(r => r.LogicalUnitNumber));
             Mapper.CreateMap<NSM.OSVirtualHardDisk, PVM.OSVirtualHardDisk>()
+                  .ForMember(c => c.DiskName, o => o.MapFrom(r => r.Name))
                   .ForMember(c => c.DiskLabel, o => o.MapFrom(r => r.Label))
                   .ForMember(c => c.OS, o => o.MapFrom(r => r.OperatingSystem));
             Mapper.CreateMap<NSM.ConfigurationSet, PVM.ConfigurationSet>();
