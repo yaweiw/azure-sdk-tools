@@ -21,7 +21,7 @@ namespace Microsoft.Azure.Commands.ResourceManager
     /// <summary>
     /// Creates a new resource group.
     /// </summary>
-    [Cmdlet(VerbsCommon.New, "AzureResourceGroup"), OutputType(typeof(PSResourceGroup))]
+    [Cmdlet(VerbsCommon.New, "AzureResourceGroup", DefaultParameterSetName = BaseParameterSetName), OutputType(typeof(PSResourceGroup))]
     public class NewAzureResourceGroupCommand : ResourceWithParameterBaseCmdlet, IDynamicParameters
     {
         [Alias("ResourceGroupName")]
@@ -33,7 +33,8 @@ namespace Microsoft.Azure.Commands.ResourceManager
         [ValidateNotNullOrEmpty]
         public string Location { get; set; }
 
-        [Parameter(Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "The name of the deployment it's going to create. Only valid when a template is used. When a template is used, if the user doesn't specify a deployment name, use the current time, like \"20131223140835\".")]
+        [Parameter(Mandatory = false, ValueFromPipelineByPropertyName = true, 
+            HelpMessage = "The name of the deployment it's going to create. Only valid when a template is used. When a template is used, if the user doesn't specify a deployment name, use the current time, like \"20131223140835\".")]
         [ValidateNotNullOrEmpty]
         public string DeploymentName { get; set; }
 
@@ -46,12 +47,12 @@ namespace Microsoft.Azure.Commands.ResourceManager
             {
                 ResourceGroupName = Name,
                 Location = Location,
-                Name = DeploymentName,
-                GalleryTemplateName = GalleryTemplateName,
-                TemplateFile = this.TryResolvePath(TemplateFile),
+                DeploymentName = DeploymentName,
+                GalleryTemplateIdentity = GalleryTemplateIdentity,
+                TemplateFile = TemplateUri ?? this.TryResolvePath(TemplateFile),
                 TemplateParameterObject = GetTemplateParameterObject(TemplateParameterObject),
                 TemplateVersion = TemplateVersion,
-                StorageAccountName = GetStorageAccountName(),
+                StorageAccountName = StorageAccountName,
                 Force = Force.IsPresent,
                 ConfirmAction = ConfirmAction
             };

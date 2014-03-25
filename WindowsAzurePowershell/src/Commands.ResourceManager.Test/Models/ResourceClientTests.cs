@@ -322,7 +322,7 @@ namespace Microsoft.Azure.Commands.ResourceManager.Test.Models
                 ResourceGroupName = resourceGroupName,
                 Location = resourceGroupLocation,
                 ConfirmAction = ConfirmAction,
-                GalleryTemplateName = "templateFile"
+                GalleryTemplateIdentity = "templateFile"
             };
             galleryTemplatesClientMock.Setup(f => f.GetGalleryTemplateFile("templateFile")).Returns("http://microsoft.com");
             resourceGroupMock.Setup(f => f.CheckExistenceAsync(parameters.ResourceGroupName, new CancellationToken()))
@@ -930,7 +930,7 @@ namespace Microsoft.Azure.Commands.ResourceManager.Test.Models
             {
                 ResourceGroupName = resourceGroupName,
                 Location = resourceGroupLocation,
-                Name = deploymentName,
+                DeploymentName = deploymentName,
                 TemplateFile = templateFile,
                 StorageAccountName = storageAccountName,
                 ConfirmAction = ConfirmAction
@@ -999,7 +999,6 @@ namespace Microsoft.Azure.Commands.ResourceManager.Test.Models
                                 ProvisioningState = ProvisioningState.Succeeded,
                                 TargetResource = new TargetResource()
                                 {
-                                    ResourceGroup = resourceGroupName,
                                     ResourceName = resourceName,
                                     ResourceType = "Microsoft.Website"
                                 }
@@ -1098,7 +1097,7 @@ namespace Microsoft.Azure.Commands.ResourceManager.Test.Models
             {
                 ResourceGroupName = resourceGroupName,
                 Location = resourceGroupLocation,
-                Name = deploymentName,
+                DeploymentName = deploymentName,
                 TemplateFile = templateFile,
                 StorageAccountName = storageAccountName,
                 ConfirmAction = ConfirmAction
@@ -1164,9 +1163,8 @@ namespace Microsoft.Azure.Commands.ResourceManager.Test.Models
                                 ProvisioningState = ProvisioningState.Succeeded,
                                 TargetResource = new TargetResource()
                                 {
-                                    ResourceGroup = resourceGroupName,
-                                    ResourceName = resourceName,
-                                    ResourceType = "Microsoft.Website"
+                                    ResourceType = "Microsoft.Website",
+                                    ResourceName = resourceName
                                 }
                             }
                         }
@@ -1187,11 +1185,10 @@ namespace Microsoft.Azure.Commands.ResourceManager.Test.Models
             Assert.Equal(templateUri, deploymentFromValidate.TemplateLink.Uri);
 
             progressLoggerMock.Verify(
-                f => f(string.Format("Resource {0} '{1}' provisioning status in location '{2}' is {3}",
+                f => f(string.Format("Resource {0} '{1}' provisioning status is {2}",
                         "Microsoft.Website",
                         resourceName,
-                        resourceGroupLocation,
-                        ProvisioningState.Succeeded)),
+                        ProvisioningState.Succeeded.ToLower())),
                 Times.Once());
         }
 
@@ -1205,7 +1202,7 @@ namespace Microsoft.Azure.Commands.ResourceManager.Test.Models
             {
                 ResourceGroupName = resourceGroupName,
                 Location = resourceGroupLocation,
-                Name = deploymentName,
+                DeploymentName = deploymentName,
                 TemplateFile = templateFile,
                 TemplateParameterObject = new Hashtable()
                 {
@@ -1277,9 +1274,8 @@ namespace Microsoft.Azure.Commands.ResourceManager.Test.Models
                                 ProvisioningState = ProvisioningState.Succeeded,
                                 TargetResource = new TargetResource()
                                 {
-                                    ResourceGroup = resourceGroupName,
-                                    ResourceName = resourceName,
-                                    ResourceType = "Microsoft.Website"
+                                    ResourceType = "Microsoft.Website",
+                                    ResourceName = resourceName
                                 }
                             }
                         }
@@ -1302,11 +1298,10 @@ namespace Microsoft.Azure.Commands.ResourceManager.Test.Models
             Assert.Equal(File.ReadAllText(templateParameterFile), deploymentFromValidate.Parameters);
 
             progressLoggerMock.Verify(
-                f => f(string.Format("Resource {0} '{1}' provisioning status in location '{2}' is {3}",
+                f => f(string.Format("Resource {0} '{1}' provisioning status is {2}",
                         "Microsoft.Website",
                         resourceName,
-                        resourceGroupLocation,
-                        ProvisioningState.Succeeded)),
+                        ProvisioningState.Succeeded.ToLower())),
                 Times.Once());
         }
 
@@ -1320,7 +1315,7 @@ namespace Microsoft.Azure.Commands.ResourceManager.Test.Models
             {
                 ResourceGroupName = resourceGroupName,
                 Location = resourceGroupLocation,
-                Name = deploymentName,
+                DeploymentName = deploymentName,
                 TemplateFile = templateFile,
                 StorageAccountName = storageAccountName,
                 ConfirmAction = ConfirmAction
@@ -1386,9 +1381,8 @@ namespace Microsoft.Azure.Commands.ResourceManager.Test.Models
                                 StatusMessage = "A really bad error occured",
                                 TargetResource = new TargetResource()
                                 {
-                                    ResourceGroup = resourceGroupName,
-                                    ResourceName = resourceName,
-                                    ResourceType = "Microsoft.Website"
+                                    ResourceType = "Microsoft.Website",
+                                    ResourceName = resourceName
                                 }
                             }
                         }
@@ -1409,10 +1403,9 @@ namespace Microsoft.Azure.Commands.ResourceManager.Test.Models
             Assert.Equal(templateUri, deploymentFromValidate.TemplateLink.Uri);
 
             errorLoggerMock.Verify(
-                f => f(string.Format("Resource {0} '{1}' in location '{2}' failed with message '{3}'",
+                f => f(string.Format("Resource {0} '{1}' failed with message '{2}'",
                         "Microsoft.Website",
                         resourceName,
-                        resourceGroupLocation,
                         "A really bad error occured")),
                 Times.Once());
         }
@@ -1427,7 +1420,7 @@ namespace Microsoft.Azure.Commands.ResourceManager.Test.Models
             {
                 ResourceGroupName = resourceGroupName,
                 Location = resourceGroupLocation,
-                Name = deploymentName,
+                DeploymentName = deploymentName,
                 TemplateFile = templateFile,
                 StorageAccountName = storageAccountName,
                 ConfirmAction = ConfirmAction
@@ -1496,9 +1489,8 @@ namespace Microsoft.Azure.Commands.ResourceManager.Test.Models
                                 }),
                                 TargetResource = new TargetResource()
                                 {
-                                    ResourceGroup = resourceGroupName,
-                                    ResourceName = resourceName,
-                                    ResourceType = "Microsoft.Website"
+                                    ResourceType = "Microsoft.Website",
+                                    ResourceName = resourceName
                                 }
                             }
                         }
@@ -1519,10 +1511,9 @@ namespace Microsoft.Azure.Commands.ResourceManager.Test.Models
             Assert.Equal(templateUri, deploymentFromValidate.TemplateLink.Uri);
 
             errorLoggerMock.Verify(
-                f => f(string.Format("Resource {0} '{1}' in location '{2}' failed with message '{3}'",
+                f => f(string.Format("Resource {0} '{1}' failed with message '{2}'",
                         "Microsoft.Website",
                         resourceName,
-                        resourceGroupLocation,
                         "A really bad error occured")),
                 Times.Once());
         }
