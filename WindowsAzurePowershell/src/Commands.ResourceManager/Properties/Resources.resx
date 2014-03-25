@@ -126,8 +126,8 @@
   <data name="CancelResourceGroupDeploymentMessage" xml:space="preserve">
     <value>Cancelling active resource group deployment ...</value>
   </data>
-  <data name="DeploymentNotFound" xml:space="preserve">
-    <value>Cannot find a deployment that matches the parameter values.</value>
+  <data name="DeploymentWithNameNotFound" xml:space="preserve">
+    <value>Cannot find a deployment with name '{0}'.</value>
   </data>
   <data name="FailedToParseProperty" xml:space="preserve">
     <value>Cannot parse {0} '{1}'</value>
@@ -146,6 +146,9 @@
   </data>
   <data name="NewResourceMessage" xml:space="preserve">
     <value>Replacing resource ...</value>
+  </data>
+  <data name="NoDeploymentWereFound" xml:space="preserve">
+    <value>Cannot find any deployments in resource group '{0}'.</value>
   </data>
   <data name="RemoveResourceGroupMessage" xml:space="preserve">
     <value>Removing resource group ...</value>
@@ -184,6 +187,6 @@
     <value>Template is valid.</value>
   </data>
   <data name="UnableToFindGallery" xml:space="preserve">
-    <value>Cannot find Gallery item '{0}'</value>
+    <value>Cannot find Gallery item '{0}'.</value>
   </data>
 </root>
