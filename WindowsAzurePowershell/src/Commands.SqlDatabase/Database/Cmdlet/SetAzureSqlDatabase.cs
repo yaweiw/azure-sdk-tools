@@ -127,8 +127,16 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Database.Cmdlet
         /// <summary>
         /// Gets or sets the new maximum size for the database in GB.
         /// </summary>
-        [Parameter(Mandatory = false, HelpMessage = "The new maximum size for the database in GB.")]
+        [Parameter(Mandatory = false, HelpMessage = "The new maximum size for the database in GB." +
+            "This is not to be used in conjunction with MaxSizeBytes.")]
         public int MaxSizeGB { get; set; }
+
+        /// <summary>
+        /// Gets or sets the new maximum size for the database in GB.
+        /// </summary>
+        [Parameter(Mandatory = false, HelpMessage = "The new maximum size for the database in Bytes." +
+            "This is not to be used in conjunction with MaxSizeGB.")]
+        public long MaxSizeBytes { get; set; }
 
         /// <summary>
         /// Gets or sets the new ServiceObjective for this database.
@@ -185,6 +193,23 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Database.Cmdlet
                 maxSizeGb = this.MaxSizeGB;
             }
 
+            long? maxSizeBytes = null;
+            if (this.MyInvocation.BoundParameters.ContainsKey("MaxSizeBytes"))
+            {
+                maxSizeBytes = this.MaxSizeBytes;
+            }
+
+            if(maxSizeBytes != null && maxSizeGb != null)
+            {
+                this.WriteError(new ErrorRecord(
+                       new PSArgumentException(
+                           String.Format(Resources.InvalidParameterCombination, "MaxSizeGB", "MaxSizeBytes")),
+                       string.Empty,
+                       ErrorCategory.InvalidArgument,
+                       null));
+                return;
+            }
+
             // Determine the edition for the db
             DatabaseEdition? edition = null;
             if (this.MyInvocation.BoundParameters.ContainsKey("Edition"))
@@ -234,12 +259,12 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Database.Cmdlet
             {
                 case ByNameWithConnectionContext:
                 case ByObjectWithConnectionContext:
-                    this.ProcessWithConnectionContext(databaseName, maxSizeGb, edition);
+                    this.ProcessWithConnectionContext(databaseName, maxSizeGb, maxSizeBytes, edition);
                     break;
 
                 case ByNameWithServerName:
                 case ByObjectWithServerName:
-                    this.ProcessWithServerName(databaseName, maxSizeGb, edition);
+                    this.ProcessWithServerName(databaseName, maxSizeGb, maxSizeBytes, edition);
                     break;
             }
         }
@@ -250,7 +275,7 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Database.Cmdlet
         /// <param name="databaseName">The name of the database to update</param>
         /// <param name="maxSizeGb">the new size for the database or null</param>
         /// <param name="edition">the new edition for the database or null</param>
-        private void ProcessWithServerName(string databaseName, int? maxSizeGb, DatabaseEdition? edition)
+        private void ProcessWithServerName(string databaseName, int? maxSizeGb, long? maxSizeBytes, DatabaseEdition? edition)
         {
             Func<string> GetClientRequestId = () => string.Empty;
             try
@@ -269,6 +294,7 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Database.Cmdlet
                     databaseName,
                     this.NewDatabaseName,
                     maxSizeGb,
+                    maxSizeBytes,
                     edition,
                     this.ServiceObjective);
 
@@ -300,7 +326,7 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Database.Cmdlet
         /// <param name="databaseName">the name of the database to alter</param>
         /// <param name="maxSizeGb">the new maximum size for the database</param>
         /// <param name="edition">the new edition for the database</param>
-        private void ProcessWithConnectionContext(string databaseName, int? maxSizeGb, DatabaseEdition? edition)
+        private void ProcessWithConnectionContext(string databaseName, int? maxSizeGb, long? maxSizeBytes, DatabaseEdition? edition)
         {
             try
             {
@@ -309,6 +335,7 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Database.Cmdlet
                     databaseName,
                     this.NewDatabaseName,
                     maxSizeGb,
+                    maxSizeBytes,
                     edition,
                     this.ServiceObjective);
 

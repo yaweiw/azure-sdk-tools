@@ -95,10 +95,20 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Database.Cmdlet
         public ServiceObjective ServiceObjective { get; set; }
 
         /// <summary>
-        /// Gets or sets the maximum size of the newly created database in GB.
+        /// Gets or sets the maximum size of the newly created database in GB.  Not to be used
+        /// in conjunction with MaxSizeBytes.
         /// </summary>
-        [Parameter(Mandatory = false, HelpMessage = "The maximum size for the database in GB.")]
+        [Parameter(Mandatory = false, HelpMessage = "The maximum size for the database in GB.  Not to " +
+            "be used together with MaxSizeBytes")]
         public int MaxSizeGB { get; set; }
+
+        /// <summary>
+        /// Gets or sets the maximum size of the newly created database in Bytes.  Not to be used
+        /// in conjunction with MaxSizeGB
+        /// </summary>
+        [Parameter(Mandatory = false, HelpMessage = "The maximum size for the database in Bytes.  Not to " +
+            "be used together with MaxSizeGB")]
+        public int MaxSizeBytes { get; set; }
 
         /// <summary>
         /// Gets or sets the switch to not confirm on the creation of the database.
@@ -130,13 +140,30 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Database.Cmdlet
                 maxSizeGb = this.MaxSizeGB;
             }
 
+            long? maxSizeBytes = null;
+            if (this.MyInvocation.BoundParameters.ContainsKey("MaxSizeBytes"))
+            {
+                maxSizeBytes = this.MaxSizeBytes;
+            }
+
+            if(maxSizeBytes != null && maxSizeGb != null)
+            {
+                this.WriteError(new ErrorRecord(
+                       new PSArgumentException(
+                           String.Format(Resources.InvalidParameterCombination, "MaxSizeGB", "MaxSizeBytes")),
+                       string.Empty,
+                       ErrorCategory.InvalidArgument,
+                       null));
+                return;
+            }
+
             switch (this.ParameterSetName)
             {
                 case ByConnectionContext:
-                    this.ProcessWithConnectionContext(maxSizeGb);
+                    this.ProcessWithConnectionContext(maxSizeGb, maxSizeBytes);
                     break;
                 case ByServerName:
-                    this.ProcessWithServerName(maxSizeGb);
+                    this.ProcessWithServerName(maxSizeGb, maxSizeBytes);
                     break;
             }
         }
@@ -145,7 +172,7 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Database.Cmdlet
         /// Process the request using the server name
         /// </summary>
         /// <param name="maxSizeGb">the maximum size of the database</param>
-        private void ProcessWithServerName(int? maxSizeGb)
+        private void ProcessWithServerName(int? maxSizeGb, long? maxSizeBytes)
         {
             Func<string> GetClientRequestId = () => string.Empty;
             try
@@ -163,6 +190,7 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Database.Cmdlet
                 this.WriteObject(context.CreateNewDatabase(
                     this.DatabaseName, 
                     maxSizeGb, 
+                    maxSizeBytes,
                     this.Collation,
                     this.Edition,
                     this.ServiceObjective));
@@ -180,13 +208,14 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Database.Cmdlet
         /// Process the request using the connection context.
         /// </summary>
         /// <param name="maxSizeGb">the maximum size for the new database</param>
-        private void ProcessWithConnectionContext(int? maxSizeGb)
+        private void ProcessWithConnectionContext(int? maxSizeGb, long? maxSizeBytes)
         {
             try
             {
                 Database database = this.ConnectionContext.CreateNewDatabase(
                     this.DatabaseName,
                     maxSizeGb,
+                    maxSizeBytes,
                     this.Collation,
                     this.Edition,
                     this.ServiceObjective);

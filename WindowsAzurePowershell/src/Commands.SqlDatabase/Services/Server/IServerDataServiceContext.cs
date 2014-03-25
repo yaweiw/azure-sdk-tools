@@ -69,7 +69,8 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Services.Server
         /// <returns>The newly created Sql Database.</returns>
         Database CreateNewDatabase(
             string databaseName,
-            int? databaseMaxSize,
+            int? databaseMaxSizeGb,
+            long? databaseMaxSizeBytes,
             string databaseCollation,
             DatabaseEdition databaseEdition,
             ServiceObjective serviceObjective);
@@ -94,7 +95,8 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Services.Server
         Database UpdateDatabase(
             string databaseName,
             string newDatabaseName,
-            int? databaseMaxSize,
+            int? databaseMaxSizeGb,
+            long? databaseMaxSizeBytes,
             DatabaseEdition? databaseEdition,
             ServiceObjective serviceObjective);
 

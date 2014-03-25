@@ -34,11 +34,6 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Services.Server
         #region Private Fields
 
         /// <summary>
-        /// The number of bytes in 1 gigabyte.
-        /// </summary>
-        private const long BytesIn1Gb = 1 * 1024L * 1024L * 1024L;
-
-        /// <summary>
         /// The previous request's client request ID
         /// </summary>
         private string clientRequestId;
@@ -210,6 +205,7 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Services.Server
         public Database CreateNewDatabase(
             string databaseName,
             int? databaseMaxSizeInGB,
+            long? databaseMaxSizeInBytes,
             string databaseCollation,
             DatabaseEdition databaseEdition,
             ServiceObjective serviceObjective)
@@ -227,6 +223,7 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Services.Server
                     databaseEdition.ToString() : null,
                 CollationName = databaseCollation ?? string.Empty,
                 MaximumDatabaseSizeInGB = databaseMaxSizeInGB,
+                MaximumDatabaseSizeInBytes = databaseMaxSizeInBytes ?? null,
                 ServiceObjectiveId = serviceObjective != null ? serviceObjective.Id.ToString() : null,
             };
 
@@ -253,6 +250,7 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Services.Server
             string databaseName,
             string newDatabaseName,
             int? databaseMaxSizeInGB,
+            long? databaseMaxSizeInBytes,
             DatabaseEdition? databaseEdition,
             ServiceObjective serviceObjective)
         {
@@ -267,23 +265,31 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Services.Server
                 this.serverName,
                 databaseName);
 
+            DatabaseUpdateParameters parameters = new DatabaseUpdateParameters()
+            {
+                Id = database.Database.Id,
+                Name = !string.IsNullOrEmpty(newDatabaseName) ? newDatabaseName : database.Database.Name,
+                CollationName = database.Database.CollationName ?? string.Empty,
+                MaximumDatabaseSizeInGB = databaseMaxSizeInGB,
+                MaximumDatabaseSizeInBytes = databaseMaxSizeInBytes,
+                ServiceObjectiveId = serviceObjective != null ? serviceObjective.Id.ToString() : null,
+            };
+            parameters.Edition = (database.Database.Edition ?? string.Empty);
+            if(databaseEdition.HasValue)
+            {
+                if (databaseEdition != DatabaseEdition.None)
+                {
+                    parameters.Edition = databaseEdition.ToString();
+                }
+            }
+
+
             // Update the database with the new properties
             DatabaseUpdateResponse response = sqlManagementClient.Databases.Update(
                 this.serverName,
                 databaseName,
-                new DatabaseUpdateParameters()
-                {
-                    Id = database.Database.Id,
-                    Name = !string.IsNullOrEmpty(newDatabaseName) ?
-                        newDatabaseName : database.Database.Name,
-                    Edition = databaseEdition.HasValue && (databaseEdition != DatabaseEdition.None) ?
-                        databaseEdition.ToString() : (database.Database.Edition ?? string.Empty),
-                    CollationName = database.Database.CollationName ?? string.Empty,
-                    MaximumDatabaseSizeInGB = databaseMaxSizeInGB.HasValue ?
-                        databaseMaxSizeInGB.Value : database.Database.MaximumDatabaseSizeInGB,
-                    ServiceObjectiveId = serviceObjective != null ?
-                        serviceObjective.Id.ToString() : null,
-                });
+                parameters
+                );
 
             // Construct the resulting Database object
             Database updatedDatabase = CreateDatabaseFromResponse(response);
@@ -768,6 +774,7 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Services.Server
                 response.Database.Edition,
                 response.Database.CollationName,
                 response.Database.MaximumDatabaseSizeInGB,
+                response.Database.MaximumDatabaseSizeInBytes,
                 response.Database.IsFederationRoot,
                 response.Database.IsSystemObject,
                 response.Database.SizeMB,
@@ -794,6 +801,7 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Services.Server
                 db.Edition,
                 db.CollationName,
                 db.MaximumDatabaseSizeInGB,
+                db.MaximumDatabaseSizeInBytes,
                 db.IsFederationRoot,
                 db.IsSystemObject,
                 db.SizeMB,
@@ -820,6 +828,7 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Services.Server
                response.Database.Edition,
                response.Database.CollationName,
                response.Database.MaximumDatabaseSizeInGB,
+                response.Database.MaximumDatabaseSizeInBytes,
                response.Database.IsFederationRoot,
                response.Database.IsSystemObject,
                response.Database.SizeMB,
@@ -846,6 +855,7 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Services.Server
                 response.Database.Edition,
                 response.Database.CollationName,
                 response.Database.MaximumDatabaseSizeInGB,
+                response.Database.MaximumDatabaseSizeInBytes,
                 response.Database.IsFederationRoot,
                 response.Database.IsSystemObject,
                 response.Database.SizeMB,
@@ -894,6 +904,7 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Services.Server
             string edition,
             string collationName,
             long maximumDatabaseSizeInGB,
+            long maximumDatabaseSizeInBytes,
             bool isFederationRoot,
             bool isSystemObject,
             string sizeMB,
@@ -912,7 +923,7 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Services.Server
                 CreationDate = creationDate,
                 Edition = edition,
                 MaxSizeGB = (int)maximumDatabaseSizeInGB,
-                MaxSizeBytes = maximumDatabaseSizeInGB * BytesIn1Gb,
+                MaxSizeBytes = maximumDatabaseSizeInBytes,
                 IsFederationRoot = isFederationRoot,
                 IsSystemObject = isSystemObject,
             };
