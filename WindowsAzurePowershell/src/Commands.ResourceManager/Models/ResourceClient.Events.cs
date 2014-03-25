@@ -55,20 +55,32 @@ namespace Microsoft.Azure.Commands.ResourceManager.Models
                 }
                 catch
                 {
-                    throw new ArgumentException(Resources.DeploymentNotFound);
+                    throw new ArgumentException(string.Format(Resources.DeploymentWithNameNotFound, parameters.DeploymentName));
                 }
 
                 return GetDeploymentLogs(deploymentGetResult.Deployment.Properties.CorrelationId);
             }
             else
             {
-                EventDataListResponse listOfEvents = EventsClient.EventData.ListEventsForResourceGroup(new ListEventsForResourceGroupParameters
+                DeploymentListResult deploymentListResult;
+                try
                 {
-                    ResourceGroupName = parameters.Name,
-                    StartTime = DateTime.UtcNow - TimeSpan.FromDays(EventRetentionPeriod),
-                    EndTime = DateTime.UtcNow
-                });
-                return listOfEvents.EventDataCollection.Value.Select(e => e.ToPSDeploymentEventData());
+                    deploymentListResult = ResourceManagementClient.Deployments.List(parameters.Name,
+                                                                            new DeploymentListParameters
+                                                                                {
+                                                                                    Top = 1
+                                                                                });
+                    if (deploymentListResult.Deployments.Count == 0)
+                    {
+                        throw new ArgumentException(string.Format(Resources.NoDeploymentWereFound, parameters.Name));
+                    }
+                }
+                catch
+                {
+                    throw new ArgumentException(string.Format(Resources.NoDeploymentWereFound, parameters.Name));
+                }
+
+                return GetDeploymentLogs(deploymentListResult.Deployments[0].Properties.CorrelationId);
             }
         }
 
