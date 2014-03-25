@@ -162,7 +162,7 @@ namespace Microsoft.WindowsAzure.Commands.Profile
                     SubscriptionName = subscription.SubscriptionName,
                     SubscriptionId = subscription.SubscriptionId,
                     ServiceEndpoint = subscription.ServiceEndpoint,
-                    CloudServiceEndpoint = subscription.CloudServiceEndpoint,
+                    ResourceManagerEndpoint = subscription.ResourceManagerEndpoint,
                     IsDefault = subscription.IsDefault,
                     Certificate = subscription.Certificate,
                     CurrentStorageAccountName = subscription.CurrentStorageAccountName

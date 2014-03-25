@@ -99,7 +99,7 @@ namespace Microsoft.Azure.Commands.ResourceManager.Test
             cmdlet.ExecuteCmdlet();
 
             Assert.Equal(expectedParameters.Name, actualParameters.Name);
-            Assert.Equal(expectedParameters.GalleryTemplateName, actualParameters.GalleryTemplateName);
+            Assert.Equal(expectedParameters.GalleryTemplateIdentity, actualParameters.GalleryTemplateIdentity);
             Assert.Equal(expectedParameters.TemplateFile, actualParameters.TemplateFile);
             Assert.NotNull(actualParameters.TemplateParameterObject);
             Assert.Equal(expectedParameters.TemplateVersion, actualParameters.TemplateVersion);
@@ -112,7 +112,7 @@ namespace Microsoft.Azure.Commands.ResourceManager.Test
         {
             CreatePSResourceGroupDeploymentParameters expectedParameters = new CreatePSResourceGroupDeploymentParameters()
             {
-                GalleryTemplateName = "sqlServer",
+                GalleryTemplateIdentity = "sqlServer",
                 Name = deploymentName,
                 StorageAccountName = storageAccountName,
                 TemplateVersion = "1.0"
@@ -151,13 +151,13 @@ namespace Microsoft.Azure.Commands.ResourceManager.Test
 
             cmdlet.ResourceGroupName = resourceGroupName;
             cmdlet.Name = expectedParameters.Name;
-            cmdlet.GalleryTemplateName = expectedParameters.GalleryTemplateName;
+            cmdlet.GalleryTemplateIdentity = expectedParameters.GalleryTemplateIdentity;
             cmdlet.TemplateVersion = expectedParameters.TemplateVersion;
 
             cmdlet.ExecuteCmdlet();
 
             Assert.Equal(expectedParameters.Name, actualParameters.Name);
-            Assert.Equal(expectedParameters.GalleryTemplateName, actualParameters.GalleryTemplateName);
+            Assert.Equal(expectedParameters.GalleryTemplateIdentity, actualParameters.GalleryTemplateIdentity);
             Assert.Equal(expectedParameters.TemplateFile, actualParameters.TemplateFile);
             Assert.NotNull(actualParameters.TemplateParameterObject);
             Assert.Equal(expectedParameters.TemplateVersion, actualParameters.TemplateVersion);

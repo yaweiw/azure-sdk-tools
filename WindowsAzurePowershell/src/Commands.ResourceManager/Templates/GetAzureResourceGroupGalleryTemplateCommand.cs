@@ -16,24 +16,28 @@ using Microsoft.Azure.Commands.ResourceManager.Models;
 using Microsoft.Azure.Gallery;
 using System.Collections.Generic;
 using System.Management.Automation;
+using System.Linq;
 
 namespace Microsoft.Azure.Commands.ResourceManager.Templates
 {
     /// <summary>
     /// Get one template or a list of templates from the gallery.
     /// </summary>
-    [Cmdlet(VerbsCommon.Get, "AzureResourceGroupGalleryTemplate"), OutputType(typeof(List<GalleryItem>))]
+    [Cmdlet(VerbsCommon.Get, "AzureResourceGroupGalleryTemplate", DefaultParameterSetName = BaseParameterSetName), OutputType(typeof(List<GalleryItem>))]
     public class GetAzureResourceGroupGalleryTemplateCommand : ResourceManagerBaseCmdlet
     {
-        [Parameter(Position = 0, Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "Optional. Name of the template.")]
-        [ValidateNotNullOrEmpty]
-        public string Name { get; set; }
+        internal const string BaseParameterSetName = "List gallery templates";
+        internal const string ParameterSetNameWithIdentity = "Get a single gallery template";
 
-        [Parameter(Position = 1, Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "Optional. Publisher of the template.")]
+        [Parameter(Position = 0, ParameterSetName = ParameterSetNameWithIdentity, Mandatory = true, ValueFromPipelineByPropertyName = true, HelpMessage = "Optional. Name of the template.")]
+        [ValidateNotNullOrEmpty]
+        public string Identity { get; set; }
+
+        [Parameter(Position = 1, ParameterSetName = BaseParameterSetName, Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "Optional. Publisher of the template.")]
         [ValidateNotNullOrEmpty]
         public string Publisher { get; set; }
 
-        [Parameter(Position = 2, Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "Optional. Category of the template.")]
+        [Parameter(Position = 2, ParameterSetName = BaseParameterSetName, Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "Optional. Category of the template.")]
         [ValidateNotNullOrEmpty]
         public string Category { get; set; }
 
@@ -42,11 +46,31 @@ namespace Microsoft.Azure.Commands.ResourceManager.Templates
             FilterGalleryTemplatesOptions options = new FilterGalleryTemplatesOptions()
             {
                 Category = Category,
-                Name = Name,
+                Identity = Identity,
                 Publisher = Publisher
             };
 
-            WriteObject(GalleryTemplatesClient.FilterGalleryTemplates(options), true);
+            List<GalleryItem> galleryItems = GalleryTemplatesClient.FilterGalleryTemplates(options);
+
+            if (galleryItems != null)
+            {
+                if (galleryItems.Count == 1 && !string.IsNullOrEmpty(Identity))
+                {
+                    WriteObject(galleryItems[0]);
+                }
+                else
+                {
+                    List<PSObject> output = new List<PSObject>();
+                    galleryItems.Where(gi => !gi.Identity.EndsWith("-placeholder"))
+                    .OrderBy(gi => gi.Identity)
+                    .ToList()
+                    .ForEach(gi => output.Add(base.ConstructPSObject(
+                        null,
+                        "Publisher", gi.Publisher,
+                        "Identity", gi.Identity)));
+                    WriteObject(output, true);
+                }
+            }
         }
     }
 }
