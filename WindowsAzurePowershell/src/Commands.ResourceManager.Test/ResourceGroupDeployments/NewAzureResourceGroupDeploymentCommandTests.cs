@@ -55,7 +55,7 @@ namespace Microsoft.Azure.Commands.ResourceManager.Test
             CreatePSResourceGroupDeploymentParameters expectedParameters = new CreatePSResourceGroupDeploymentParameters()
             {
                 TemplateFile = templateFile,
-                Name = deploymentName,
+                DeploymentName = deploymentName,
                 StorageAccountName = storageAccountName,
                 TemplateVersion = "1.0"
             };
@@ -92,13 +92,13 @@ namespace Microsoft.Azure.Commands.ResourceManager.Test
                 .Callback((CreatePSResourceGroupDeploymentParameters p) => { actualParameters = p; });
 
             cmdlet.ResourceGroupName = resourceGroupName;
-            cmdlet.Name = expectedParameters.Name;
+            cmdlet.Name = expectedParameters.DeploymentName;
             cmdlet.TemplateFile = expectedParameters.TemplateFile;
             cmdlet.TemplateVersion = expectedParameters.TemplateVersion;
 
             cmdlet.ExecuteCmdlet();
 
-            Assert.Equal(expectedParameters.Name, actualParameters.Name);
+            Assert.Equal(expectedParameters.DeploymentName, actualParameters.DeploymentName);
             Assert.Equal(expectedParameters.GalleryTemplateIdentity, actualParameters.GalleryTemplateIdentity);
             Assert.Equal(expectedParameters.TemplateFile, actualParameters.TemplateFile);
             Assert.NotNull(actualParameters.TemplateParameterObject);
@@ -113,7 +113,7 @@ namespace Microsoft.Azure.Commands.ResourceManager.Test
             CreatePSResourceGroupDeploymentParameters expectedParameters = new CreatePSResourceGroupDeploymentParameters()
             {
                 GalleryTemplateIdentity = "sqlServer",
-                Name = deploymentName,
+                DeploymentName = deploymentName,
                 StorageAccountName = storageAccountName,
                 TemplateVersion = "1.0"
             };
@@ -150,13 +150,13 @@ namespace Microsoft.Azure.Commands.ResourceManager.Test
                 .Callback((CreatePSResourceGroupDeploymentParameters p) => { actualParameters = p; });
 
             cmdlet.ResourceGroupName = resourceGroupName;
-            cmdlet.Name = expectedParameters.Name;
+            cmdlet.Name = expectedParameters.DeploymentName;
             cmdlet.GalleryTemplateIdentity = expectedParameters.GalleryTemplateIdentity;
             cmdlet.TemplateVersion = expectedParameters.TemplateVersion;
 
             cmdlet.ExecuteCmdlet();
 
-            Assert.Equal(expectedParameters.Name, actualParameters.Name);
+            Assert.Equal(expectedParameters.DeploymentName, actualParameters.DeploymentName);
             Assert.Equal(expectedParameters.GalleryTemplateIdentity, actualParameters.GalleryTemplateIdentity);
             Assert.Equal(expectedParameters.TemplateFile, actualParameters.TemplateFile);
             Assert.NotNull(actualParameters.TemplateParameterObject);

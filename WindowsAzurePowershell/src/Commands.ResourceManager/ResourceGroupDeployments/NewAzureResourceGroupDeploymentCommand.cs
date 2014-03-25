@@ -39,9 +39,9 @@ namespace Microsoft.Azure.Commands.ResourceManager
             CreatePSResourceGroupDeploymentParameters parameters = new CreatePSResourceGroupDeploymentParameters()
             {
                 ResourceGroupName = ResourceGroupName,
-                Name = Name,
+                DeploymentName = Name,
                 GalleryTemplateIdentity = GalleryTemplateIdentity,
-                TemplateFile = this.TryResolvePath(TemplateFile),
+                TemplateFile = TemplateUri ?? this.TryResolvePath(TemplateFile),
                 TemplateParameterObject = GetTemplateParameterObject(TemplateParameterObject),
                 TemplateVersion = TemplateVersion,
                 StorageAccountName = StorageAccountName
