@@ -999,7 +999,6 @@ namespace Microsoft.Azure.Commands.ResourceManager.Test.Models
                                 ProvisioningState = ProvisioningState.Succeeded,
                                 TargetResource = new TargetResource()
                                 {
-                                    ResourceGroup = resourceGroupName,
                                     ResourceName = resourceName,
                                     ResourceType = "Microsoft.Website"
                                 }
@@ -1164,9 +1163,8 @@ namespace Microsoft.Azure.Commands.ResourceManager.Test.Models
                                 ProvisioningState = ProvisioningState.Succeeded,
                                 TargetResource = new TargetResource()
                                 {
-                                    ResourceGroup = resourceGroupName,
-                                    ResourceName = resourceName,
-                                    ResourceType = "Microsoft.Website"
+                                    ResourceType = "Microsoft.Website",
+                                    ResourceName = resourceName
                                 }
                             }
                         }
@@ -1276,9 +1274,8 @@ namespace Microsoft.Azure.Commands.ResourceManager.Test.Models
                                 ProvisioningState = ProvisioningState.Succeeded,
                                 TargetResource = new TargetResource()
                                 {
-                                    ResourceGroup = resourceGroupName,
-                                    ResourceName = resourceName,
-                                    ResourceType = "Microsoft.Website"
+                                    ResourceType = "Microsoft.Website",
+                                    ResourceName = resourceName
                                 }
                             }
                         }
@@ -1384,9 +1381,8 @@ namespace Microsoft.Azure.Commands.ResourceManager.Test.Models
                                 StatusMessage = "A really bad error occured",
                                 TargetResource = new TargetResource()
                                 {
-                                    ResourceGroup = resourceGroupName,
-                                    ResourceName = resourceName,
-                                    ResourceType = "Microsoft.Website"
+                                    ResourceType = "Microsoft.Website",
+                                    ResourceName = resourceName
                                 }
                             }
                         }
@@ -1493,9 +1489,8 @@ namespace Microsoft.Azure.Commands.ResourceManager.Test.Models
                                 }),
                                 TargetResource = new TargetResource()
                                 {
-                                    ResourceGroup = resourceGroupName,
-                                    ResourceName = resourceName,
-                                    ResourceType = "Microsoft.Website"
+                                    ResourceType = "Microsoft.Website",
+                                    ResourceName = resourceName
                                 }
                             }
                         }
