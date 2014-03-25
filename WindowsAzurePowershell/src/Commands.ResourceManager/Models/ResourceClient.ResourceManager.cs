@@ -283,7 +283,7 @@ namespace Microsoft.Azure.Commands.ResourceManager.Models
 
             DeploymentOperationsCreateResult result = ResourceManagementClient.Deployments.CreateOrUpdate(parameters.ResourceGroupName, parameters.Name, deployment);
             WriteVerbose(string.Format("Create template deployment '{0}' using template {1}.", parameters.Name, deployment.TemplateLink.Uri));
-            ProvisionDeploymentStatus(parameters.ResourceGroupName, parameters.Name);
+            ProvisionDeploymentStatus(parameters.ResourceGroupName, parameters.Name, deployment);
 
             return result.ToPSResourceGroupDeployment();
         }
