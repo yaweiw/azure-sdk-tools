@@ -29,6 +29,7 @@ namespace Microsoft.Azure.Commands.ResourceManager
 {
     public abstract class ResourceWithParameterBaseCmdlet : ResourceManagerBaseCmdlet
     {
+        protected const string BaseParameterSetName = "Default";
         protected const string GalleryTemplateParameterObjectParameterSetName = "Deployment via Gallery and template parameters object";
         protected const string GalleryTemplateParameterFileParameterSetName = "Deployment via Gallery and template parameters file";
         protected const string TemplateFileParameterObjectParameterSetName = "Deployment via template file and template parameters object";
@@ -44,6 +45,8 @@ namespace Microsoft.Azure.Commands.ResourceManager
         private string galleryTemplateName;
 
         private string templateFile;
+
+        private string templateUri;
 
         protected ResourceWithParameterBaseCmdlet()
         {
@@ -96,11 +99,11 @@ namespace Microsoft.Azure.Commands.ResourceManager
         public string TemplateUri { get; set; }
 
         [Parameter(ParameterSetName = TemplateFileParameterObjectParameterSetName,
-            Mandatory = true, ValueFromPipelineByPropertyName = true, HelpMessage = "The storage account which the cmdlet to upload the template file to. If not specified, the current storage account of the subscription will be used.")]
+            Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "The storage account which the cmdlet to upload the template file to. If not specified, the current storage account of the subscription will be used.")]
         [Parameter(ParameterSetName = TemplateFileParameterFileParameterSetName,
-            Mandatory = true, ValueFromPipelineByPropertyName = true, HelpMessage = "The storage account which the cmdlet to upload the template file to. If not specified, the current storage account of the subscription will be used.")]
+            Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "The storage account which the cmdlet to upload the template file to. If not specified, the current storage account of the subscription will be used.")]
         [Parameter(ParameterSetName = ParameterlessTemplateFileParameterSetName,
-            Mandatory = true, ValueFromPipelineByPropertyName = true, HelpMessage = "The storage account which the cmdlet to upload the template file to. If not specified, the current storage account of the subscription will be used.")]
+            Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "The storage account which the cmdlet to upload the template file to. If not specified, the current storage account of the subscription will be used.")]
         [ValidateNotNullOrEmpty]
         public string StorageAccountName { get; set; }
 
@@ -142,6 +145,23 @@ namespace Microsoft.Azure.Commands.ResourceManager
                 catch
                 {
                     throw new ArgumentException(string.Format(Resources.FailedToParseProperty, "TemplateFile", TemplateFile));
+                }
+            }
+            else if (!string.IsNullOrEmpty(TemplateUri) &&
+                !TemplateUri.Equals(templateUri, StringComparison.OrdinalIgnoreCase))
+            {
+                try
+                {
+                    templateUri = TemplateUri;
+                    dynamicParameters = GalleryTemplatesClient.GetTemplateParametersFromFile(
+                        TemplateUri,
+                        TemplateParameterObject,
+                        this.TryResolvePath(TemplateParameterFile),
+                        MyInvocation.MyCommand.Parameters.Keys.ToArray());
+                }
+                catch
+                {
+                    throw new ArgumentException(string.Format(Resources.FailedToParseProperty, "TemplateUri", TemplateUri));
                 }
             }
 
