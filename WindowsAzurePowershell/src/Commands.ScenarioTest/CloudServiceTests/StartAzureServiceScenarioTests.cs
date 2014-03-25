@@ -18,7 +18,7 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.CloudServiceTests
     using VisualStudio.TestTools.UnitTesting;
 
     [TestClass]
-    public class StartAzureServiceScenarioTests : WindowsAzurePowerShellTest
+    public class StartAzureServiceScenarioTests : WindowsAzurePowerShellCertificateTest
     {
         public StartAzureServiceScenarioTests()
             : base("CloudService\\Common.ps1",

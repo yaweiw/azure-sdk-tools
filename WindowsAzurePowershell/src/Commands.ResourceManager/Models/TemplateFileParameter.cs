@@ -13,6 +13,7 @@
 // ----------------------------------------------------------------------------------
 
 using Newtonsoft.Json;
+using System.Collections.Generic;
 
 namespace Microsoft.Azure.Commands.ResourceManager.Models
 {
@@ -28,7 +29,7 @@ namespace Microsoft.Azure.Commands.ResourceManager.Models
         public object DefaultValue { get; set; }
 
         [JsonProperty("allowedValues")]
-        public string AllowedValues { get; set; }
+        public List<string> AllowedValues { get; set; }
 
         [JsonProperty("minLength")]
         public string MinLength { get; set; }

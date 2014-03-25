@@ -16,7 +16,7 @@ namespace Microsoft.Azure.Commands.ResourceManager.Models
 {
     public class FilterGalleryTemplatesOptions
     {
-        public string Name { get; set; }
+        public string Identity { get; set; }
 
         public string Category { get; set; }
 

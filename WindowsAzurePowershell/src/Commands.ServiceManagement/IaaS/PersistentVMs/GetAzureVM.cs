@@ -12,6 +12,8 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
+using Microsoft.WindowsAzure.Commands.Utilities.Common;
+
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
 {
     using System;
@@ -110,7 +112,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
                         {
                             AvailabilitySetName = vm.AvailabilitySetName,
                             ConfigurationSets = PersistentVMHelper.MapConfigurationSets(vm.ConfigurationSets),
-                            DataVirtualHardDisks = Mapper.Map(vm.DataVirtualHardDisks, new Collection<DataVirtualHardDisk>()),
+                            DataVirtualHardDisks = new Collection<DataVirtualHardDisk>(),
                             Label = vm.Label,
                             OSVirtualHardDisk = Mapper.Map(vm.OSVirtualHardDisk, new OSVirtualHardDisk()),
                             RoleName = vm.RoleName,
@@ -121,6 +123,16 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
                             ResourceExtensionReferences = Mapper.Map<PVM.ResourceExtensionReferenceList>(vm.ResourceExtensionReferences)
                         }
                     };
+
+                    if (vm.DataVirtualHardDisks != null)
+                    {
+                        vm.DataVirtualHardDisks.ForEach(
+                            d => vmContext.VM.DataVirtualHardDisks.Add(Mapper.Map<DataVirtualHardDisk>(d)));
+                    }
+                    else
+                    {
+                        vmContext.VM.DataVirtualHardDisks = null;
+                    }
 
                     if (CurrentDeploymentNewSM != null)
                     {

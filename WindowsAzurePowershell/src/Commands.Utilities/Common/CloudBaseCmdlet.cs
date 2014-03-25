@@ -34,11 +34,11 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
 
         private string _serviceEndpoint;
 
-        private string _cloudServiceEndpoint;
+        private string _resourceManagerEndpoint;
 
         public string CurrentServiceEndpoint { get; set; }
 
-        public string CurrentCloudServiceEndpoint { get; set; }
+        public string CurrentResourceManagerEndpoint { get; set; }
 
         public Binding ServiceBinding
         {
@@ -82,30 +82,30 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
             }
         }
 
-        public string CloudServiceEndpoint
+        public string ResourceManagerEndpoint
         {
             get
             {
-                if (!string.IsNullOrEmpty(CurrentCloudServiceEndpoint))
+                if (!string.IsNullOrEmpty(CurrentResourceManagerEndpoint))
                 {
-                    _cloudServiceEndpoint = CurrentCloudServiceEndpoint;
+                    _resourceManagerEndpoint = CurrentResourceManagerEndpoint;
                 }
-                else if (CurrentSubscription != null && CurrentSubscription.CloudServiceEndpoint != null)
+                else if (CurrentSubscription != null && CurrentSubscription.ResourceManagerEndpoint != null)
                 {
-                    _cloudServiceEndpoint = CurrentSubscription.CloudServiceEndpoint.ToString();
+                    _resourceManagerEndpoint = CurrentSubscription.ResourceManagerEndpoint.ToString();
                 }
                 else
                 {
                     // Use default endpoint
-                    _cloudServiceEndpoint = Profile.CurrentEnvironment.CloudServiceEndpoint;
+                    _resourceManagerEndpoint = Profile.CurrentEnvironment.ResourceManagerEndpoint;
                 }
 
-                return _cloudServiceEndpoint;
+                return _resourceManagerEndpoint;
             }
 
             set
             {
-                _cloudServiceEndpoint = value;
+                _resourceManagerEndpoint = value;
             }
         }
 
