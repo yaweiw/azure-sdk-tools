@@ -37,19 +37,6 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
         protected const string DisableCustomScriptExtensionParamSetName = "DisableCustomScriptExtension";
 
         [Parameter(
-            ParameterSetName = SetCustomScriptExtensionByContainerBlobsParamSetName,
-            Mandatory = false,
-            Position = 0,
-            ValueFromPipelineByPropertyName = true,
-            HelpMessage = "The Extension Reference Name.")]
-        [Parameter(
-            ParameterSetName = SetCustomScriptExtensionByUrisParamSetName,
-            Mandatory = false,
-            Position = 0,
-            ValueFromPipelineByPropertyName = true,
-            HelpMessage = "The Extension Reference Name.")]
-        [Parameter(
-            ParameterSetName = DisableCustomScriptExtensionParamSetName,
             Mandatory = false,
             Position = 0,
             ValueFromPipelineByPropertyName = true,
@@ -58,19 +45,6 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
         public override string ReferenceName { get; set; }
 
         [Parameter(
-            ParameterSetName = SetCustomScriptExtensionByContainerBlobsParamSetName,
-            Mandatory = false,
-            Position = 1,
-            ValueFromPipelineByPropertyName = true,
-            HelpMessage = "The Extension Version.")]
-        [Parameter(
-            ParameterSetName = SetCustomScriptExtensionByUrisParamSetName,
-            Mandatory = false,
-            Position = 1,
-            ValueFromPipelineByPropertyName = true,
-            HelpMessage = "The Extension Version.")]
-        [Parameter(
-            ParameterSetName = DisableCustomScriptExtensionParamSetName,
             Mandatory = false,
             Position = 1,
             ValueFromPipelineByPropertyName = true,
@@ -201,7 +175,11 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
                     this.FileUri = (from blobName in this.FileName
                                     select GetSasUrlStr(sName, sKey, this.ContainerName, blobName)).ToArray();
 
-                    this.Run = string.IsNullOrEmpty(this.Run) ? this.FileName[0] : this.Run;
+                    if (string.IsNullOrEmpty(this.Run))
+                    {
+                        WriteWarning(Resources.CustomScriptExtensionTryToUseTheFirstSpecifiedFileAsRunScript);
+                        this.Run = this.FileName[0];
+                    }
                 }
             }
 

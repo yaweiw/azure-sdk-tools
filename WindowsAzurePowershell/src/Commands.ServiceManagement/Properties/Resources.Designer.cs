@@ -277,6 +277,15 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to No Run File has been assigned, and the Custom Script extension will try to use the first specified File Name as the Run File..
+        /// </summary>
+        internal static string CustomScriptExtensionTryToUseTheFirstSpecifiedFileAsRunScript {
+            get {
+                return ResourceManager.GetString("CustomScriptExtensionTryToUseTheFirstSpecifiedFileAsRunScript", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to A data disk is not currently assigned to LUN #{0} in the configuration of this VM..
         /// </summary>
         internal static string DataDiskAlreadyAssignedInVMConfiguration {
