@@ -51,5 +51,13 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.ResourceManagerTests
         {
             RunPowerShellTest("Test-CreatesNewSimpleResourceGroup");
         }
+
+        [TestMethod]
+        [TestCategory(Category.All)]
+        [TestCategory(Category.ResourceManager)]
+        public void TestCreatesNewSimpleResource()
+        {
+            RunPowerShellTest("Test-CreatesNewSimpleResource");
+        }
     }
 }

@@ -32,3 +32,24 @@ function Test-CreatesNewSimpleResourceGroup
 	# Cleanup
 	Remove-AzureResourceGroup -Name $name -Force
 }
+
+function Test-CreatesNewSimpleResource
+{
+	# Setup
+	$rgname = Get-ResourceGroupName
+	$rname = Get-ResourceName
+	$location = Get-ResourceDefaultLocation
+
+	# Test
+	New-AzureResourceGroup -Name $rgname -Location $location
+	$actual = New-AzureResource -Name $rname -Location $location -ResourceGroupName $rgname -ResourceType "Microsoft.Web/sites" -PropertyObject @{"name" = $name; "siteMode" = "Limited"; "computeMode" = "Shared"} -ApiVersion 2004-04-01
+	$expected = Get-AzureResource -Name $rname -ResourceGroupName $rgname -ResourceType "Microsoft.Web/sites" -ApiVersion 2004-04-01
+
+	# Assert
+	Assert-AreEqual $expected.Name $actual.Name
+	Assert-AreEqual $expected.ResourceGroupName $actual.ResourceGroupName
+	Assert-AreEqual $expected.ResourceType $actual.ResourceType
+	
+	# Cleanup
+	Remove-AzureResourceGroup -Name $rgname -Force
+}
