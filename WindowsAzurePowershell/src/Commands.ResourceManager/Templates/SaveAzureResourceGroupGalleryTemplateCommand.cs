@@ -23,9 +23,9 @@ namespace Microsoft.Azure.Commands.ResourceManager.Templates
     [Cmdlet(VerbsData.Save, "AzureResourceGroupGalleryTemplate"), OutputType(typeof(bool))]
     public class SaveAzureResourceGroupGalleryTemplateCommand : ResourceManagerBaseCmdlet
     {
-        [Parameter(Position = 0, Mandatory = true, ValueFromPipelineByPropertyName = true, HelpMessage = "The gallery template name.")]
+        [Parameter(Position = 0, Mandatory = true, ValueFromPipelineByPropertyName = true, HelpMessage = "The gallery template identity.")]
         [ValidateNotNullOrEmpty]
-        public string Name { get; set; }
+        public string Identity { get; set; }
 
         [Parameter(Position = 1, Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "The output path of the file.")]
         [ValidateNotNullOrEmpty]
@@ -37,8 +37,8 @@ namespace Microsoft.Azure.Commands.ResourceManager.Templates
         public override void ExecuteCmdlet()
         {
             GalleryTemplatesClient.DownloadGalleryTemplateFile(
-                Name,
-                string.IsNullOrEmpty(Path) ? System.IO.Path.Combine(CurrentPath(), Name) : this.TryResolvePath(Path));
+                Identity,
+                string.IsNullOrEmpty(Path) ? System.IO.Path.Combine(CurrentPath(), Identity) : this.TryResolvePath(Path));
 
             if (PassThru)
             {

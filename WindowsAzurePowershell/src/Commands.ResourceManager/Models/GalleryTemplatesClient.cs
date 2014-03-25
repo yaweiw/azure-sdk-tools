@@ -33,8 +33,6 @@ namespace Microsoft.Azure.Commands.ResourceManager.Models
 {
     public class GalleryTemplatesClient
     {
-        public const string StorageAccountParameterName = "StorageAccountName";
-
         public IGalleryClient GalleryClient { get; set; }
 
         public GalleryTemplatesClient(WindowsAzureSubscription subscription)
@@ -59,18 +57,18 @@ namespace Microsoft.Azure.Commands.ResourceManager.Models
         /// <summary>
         /// Gets the uri of the specified template name.
         /// </summary>
-        /// <param name="templateName">The fully qualified template name</param>
+        /// <param name="templateIdentity">The fully qualified template name</param>
         /// <returns>The template uri</returns>
-        public virtual string GetGalleryTemplateFile(string templateName)
+        public virtual string GetGalleryTemplateFile(string templateIdentity)
         {
             try
             {
-                DefinitionTemplates definitionTemplates = GalleryClient.Items.Get(templateName).Item.DefinitionTemplates;
+                DefinitionTemplates definitionTemplates = GalleryClient.Items.Get(templateIdentity).Item.DefinitionTemplates;
                 return definitionTemplates.DeploymentTemplateFileUrls[definitionTemplates.DefaultDeploymentTemplateId];
             }
             catch (CloudException)
             {
-                throw new ArgumentException(string.Format(Resources.InvalidTemplateIdentity, templateName));
+                throw new ArgumentException(string.Format(Resources.InvalidTemplateIdentity, templateIdentity));
             }
         }
 
@@ -83,28 +81,18 @@ namespace Microsoft.Azure.Commands.ResourceManager.Models
         {
             List<string> filterStrings = new List<string>();
             ItemListParameters parameters = null;
+            List<GalleryItem> result = new List<GalleryItem>();
 
-            if (!string.IsNullOrEmpty(options.Publisher))
+            if (!string.IsNullOrEmpty(options.Identity))
             {
-                filterStrings.Add(FilterString.Generate<ItemListFilter>(f => f.Publisher == options.Publisher));
+                result.Add(GalleryClient.Items.Get(options.Identity).Item);
+            }
+            else
+            {
+                result.AddRange(QueryGalleryTemplates(options, filterStrings, parameters));
             }
 
-            if (!string.IsNullOrEmpty(options.Category))
-            {
-                filterStrings.Add(FilterString.Generate<ItemListFilter>(f => f.CategoryIds.Contains(options.Category)));
-            }
-
-            if (!string.IsNullOrEmpty(options.Name))
-            {
-                filterStrings.Add(FilterString.Generate<ItemListFilter>(f => f.Name == options.Name));
-            }
-
-            if (filterStrings.Count > 0)
-            {
-                parameters = new ItemListParameters() { Filter = string.Join(" and ", filterStrings) };
-            }
-
-            return GalleryClient.Items.List(parameters).Items.ToList();
+            return result;
         }
 
         /// <summary>
@@ -143,17 +131,17 @@ namespace Microsoft.Azure.Commands.ResourceManager.Models
         /// <summary>
         /// Gets the parameters for a given gallery template.
         /// </summary>
-        /// <param name="templateName">The gallery template name</param>
+        /// <param name="templateIdentity">The gallery template name</param>
         /// <param name="templateParameterObject">Existing template parameter object</param>
         /// <param name="templateParameterFilePath">Path to the template parameter file if present</param>
         /// <param name="staticParameters">The existing PowerShell cmdlet parameters</param>
         /// <returns>The template parameters</returns>
-        public virtual RuntimeDefinedParameterDictionary GetTemplateParametersFromGallery(string templateName, Hashtable templateParameterObject, string templateParameterFilePath, string[] staticParameters)
+        public virtual RuntimeDefinedParameterDictionary GetTemplateParametersFromGallery(string templateIdentity, Hashtable templateParameterObject, string templateParameterFilePath, string[] staticParameters)
         {
             RuntimeDefinedParameterDictionary dynamicParameters = new RuntimeDefinedParameterDictionary();
             string templateContent = null;
 
-            templateContent = GeneralUtilities.DownloadFile(GetGalleryTemplateFile(templateName));
+            templateContent = GeneralUtilities.DownloadFile(GetGalleryTemplateFile(templateIdentity));
 
             dynamicParameters = ParseTemplateAndExtractParameters(templateContent, templateParameterObject, templateParameterFilePath, staticParameters);
             return dynamicParameters;
@@ -181,34 +169,12 @@ namespace Microsoft.Azure.Commands.ResourceManager.Models
                 else if (File.Exists(templateFilePath))
                 {
                     templateContent = File.ReadAllText(templateFilePath);
-                    RuntimeDefinedParameter storageAccountNameParameter = ConstructStorageAccountNameParameter();
-                    dynamicParameters.Add(storageAccountNameParameter.Name, storageAccountNameParameter);
                 }
             }
 
-            ParseTemplateAndExtractParameters(templateContent, templateParameterObject, templateParameterFilePath, staticParameters)
-                .ForEach(p => dynamicParameters.Add(p.Key, p.Value));
+            dynamicParameters = ParseTemplateAndExtractParameters(templateContent, templateParameterObject, templateParameterFilePath, staticParameters);
 
             return dynamicParameters;
-        }
-
-        private RuntimeDefinedParameter ConstructStorageAccountNameParameter()
-        {
-            RuntimeDefinedParameter parameter = new RuntimeDefinedParameter()
-            {
-                Name = StorageAccountParameterName,
-                ParameterType = typeof(string)
-            };
-            parameter.Attributes.Add(new ValidateNotNullOrEmptyAttribute());
-            parameter.Attributes.Add(new ParameterAttribute()
-            {
-                HelpMessage = "The storage account which the cmdlet to upload the template file to. If not specified, the current storage account of the subscription will be used.",
-                Mandatory = true,
-                ParameterSetName = ParameterAttribute.AllParameterSets,
-                ValueFromPipeline = true
-            });
-
-            return parameter;
         }
 
         private RuntimeDefinedParameterDictionary ParseTemplateAndExtractParameters(string templateContent, Hashtable templateParameterObject, string templateParameterFilePath, string[] staticParameters)
@@ -217,7 +183,17 @@ namespace Microsoft.Azure.Commands.ResourceManager.Models
 
             if (!string.IsNullOrEmpty(templateContent))
             {
-                TemplateFile templateFile = JsonConvert.DeserializeObject<TemplateFile>(templateContent);
+                TemplateFile templateFile = null;
+
+                try
+                {
+                    templateFile = JsonConvert.DeserializeObject<TemplateFile>(templateContent);
+                }
+                catch
+                {
+                    // Can't parse the template file, do not generate dynamic parameters
+                    return dynamicParameters;
+                }
 
                 foreach (KeyValuePair<string, TemplateFileParameter> parameter in templateFile.Parameters)
                 {
@@ -322,9 +298,12 @@ namespace Microsoft.Azure.Commands.ResourceManager.Models
                 HelpMessage = name
             });
 
-            if (!string.IsNullOrEmpty(parameter.Value.AllowedValues))
+            if (parameter.Value.AllowedValues != null && parameter.Value.AllowedValues.Count > 0)
             {
-                runtimeParameter.Attributes.Add(GetValidationAttribute(parameter.Value.AllowedValues));
+                runtimeParameter.Attributes.Add(new ValidateSetAttribute(parameter.Value.AllowedValues.ToArray())
+                {
+                    IgnoreCase = true,
+                });
             }
 
             if (!string.IsNullOrEmpty(parameter.Value.MinLength) &&
@@ -336,41 +315,24 @@ namespace Microsoft.Azure.Commands.ResourceManager.Models
             return runtimeParameter;
         }
 
-        private Attribute GetValidationAttribute(string allowedSetString)
+        private List<GalleryItem> QueryGalleryTemplates(FilterGalleryTemplatesOptions options, List<string> filterStrings, ItemListParameters parameters)
         {
-            Attribute attribute;
-            bool isRangeSet = allowedSetString.Count(c => c == '-') == 1 &&
-                              allowedSetString.Count(c => c == ',') == 0;
-            if (isRangeSet)
+            if (!string.IsNullOrEmpty(options.Publisher))
             {
-                string[] ranges = allowedSetString.Trim().Split('-');
-                int minRange = 0;
-                int maxRange = int.MaxValue;
-                if (string.IsNullOrEmpty(ranges[0]) && !string.IsNullOrEmpty(ranges[1]))
-                {
-                    maxRange = int.Parse(ranges[1]);
-                }
-                else if (!string.IsNullOrEmpty(ranges[0]) && string.IsNullOrEmpty(ranges[1]))
-                {
-                    minRange = int.Parse(ranges[0]);
-                }
-                else
-                {
-                    minRange = int.Parse(ranges[0]);
-                    maxRange = int.Parse(ranges[1]);
-                }
-
-                attribute = new ValidateRangeAttribute(minRange, maxRange);
-            }
-            else
-            {
-                attribute = new ValidateSetAttribute(allowedSetString.Split(',').Select(v => v.Trim()).ToArray())
-                {
-                    IgnoreCase = true,
-                };
+                filterStrings.Add(FilterString.Generate<ItemListFilter>(f => f.Publisher == options.Publisher));
             }
 
-            return attribute;
+            if (!string.IsNullOrEmpty(options.Category))
+            {
+                filterStrings.Add(FilterString.Generate<ItemListFilter>(f => f.CategoryIds.Contains(options.Category)));
+            }
+
+            if (filterStrings.Count > 0)
+            {
+                parameters = new ItemListParameters() { Filter = string.Join(" and ", filterStrings) };
+            }
+
+            return GalleryClient.Items.List(parameters).Items.ToList();
         }
     }
 }

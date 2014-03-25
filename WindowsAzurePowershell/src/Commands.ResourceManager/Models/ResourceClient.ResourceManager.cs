@@ -191,7 +191,7 @@ namespace Microsoft.Azure.Commands.ResourceManager.Models
         /// <returns>The created resource group</returns>
         public virtual PSResourceGroup CreatePSResourceGroup(CreatePSResourceGroupParameters parameters)
         {
-            bool createDeployment = !string.IsNullOrEmpty(parameters.GalleryTemplateName) || !string.IsNullOrEmpty(parameters.TemplateFile);
+            bool createDeployment = !string.IsNullOrEmpty(parameters.GalleryTemplateIdentity) || !string.IsNullOrEmpty(parameters.TemplateFile);
             bool resourceExists = ResourceManagementClient.ResourceGroups.CheckExistence(parameters.ResourceGroupName).Exists;
 
             ResourceGroup resourceGroup = null;
@@ -283,7 +283,7 @@ namespace Microsoft.Azure.Commands.ResourceManager.Models
 
             DeploymentOperationsCreateResult result = ResourceManagementClient.Deployments.CreateOrUpdate(parameters.ResourceGroupName, parameters.Name, deployment);
             WriteVerbose(string.Format("Create template deployment '{0}' using template {1}.", parameters.Name, deployment.TemplateLink.Uri));
-            ProvisionDeploymentStatus(parameters.ResourceGroupName, parameters.Name);
+            ProvisionDeploymentStatus(parameters.ResourceGroupName, parameters.Name, deployment);
 
             return result.ToPSResourceGroupDeployment();
         }
