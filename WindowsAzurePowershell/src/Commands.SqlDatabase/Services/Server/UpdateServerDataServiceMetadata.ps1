@@ -20,7 +20,7 @@ $clientModelNamespace = "Microsoft.WindowsAzure.Commands.SqlDatabase.Services.Se
 $clientModelBaseContext = "ServerContextInternal";
 
 ######## Import Server module from the build
-Import-Module ..\..\..\..\..\Package\Debug\Azure.psd1
+Import-Module ..\..\..\..\..\Package\Debug\AzureServiceManagement.psd1
 
 ######## Create a new Server data service context
 Write-Host "Connecting to management service at $ManageUrl"

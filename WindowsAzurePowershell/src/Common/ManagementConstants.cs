@@ -112,10 +112,10 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
 
         public const string ChinaServiceEndpoint = "https://management.core.chinacloudapi.cn/";
 
-        public const string AzureCloudServiceEndpoint = "https://management.azure.com/";
+        public const string AzureResourceManagerEndpoint = "https://management.azure.com/";
 
-        // To Do: get real ChinaCloudServiceEndpoint
-        public const string ChinaCloudServiceEndpoint = "https://not-supported-service.cn/";
+        // To Do: get real ChinaResourceManagerEndpoint
+        public const string ChinaResourceManagerEndpoint = "https://not-supported-service.cn/";
 
         public const string GalleryEndpoint = "https://gallery.azure.com/";
 
