@@ -591,4 +591,19 @@
   <data name="ResourceExtensionConfigTemplateWritingPath" xml:space="preserve">
     <value>Writing Config Template to the following file path: '{0}'.</value>
   </data>
+  <data name="DuplicateNamesFoundInBothVMAndOSImages" xml:space="preserve">
+    <value>Duplicate names '{0}' found in both VM and OS images. Please delete one of them, using other method such as Portal or Invoke-RestMethod call, and try again.</value>
+  </data>
+  <data name="DeleteVHDParameterDoesNotApplyToVMImageWarning" xml:space="preserve">
+    <value>The '-DeleteVHD' parameter does not apply to VM image removal call yet, so it will be ignored.</value>
+  </data>
+  <data name="NoDeploymentFoundByServiceAndVMName" xml:space="preserve">
+    <value>No VM deployment found by service name '{0}' and VM name '{1}'.</value>
+  </data>
+  <data name="ErrorAnotherImageTypeFoundWithTheSameName" xml:space="preserve">
+    <value>There is another image in '{0}' type found with the same name '{1}' exists; WAPS will stop here to avoid duplicates and potential conflicts. Please use another name for the image.</value>
+  </data>
+  <data name="CustomScriptExtensionTryToUseTheFirstSpecifiedFileAsRunScript" xml:space="preserve">
+    <value>No Run File has been assigned, and the Custom Script extension will try to use the first specified File Name as the Run File.</value>
+  </data>
 </root>
