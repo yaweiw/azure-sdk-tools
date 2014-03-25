@@ -42,17 +42,13 @@ namespace Microsoft.Azure.Commands.ResourceManager
         [Parameter(ParameterSetName = AllSetName, HelpMessage = "Optional. If given, return logs of all the operations including CRUD and deployment.")]
         public SwitchParameter All { get; set; }
 
-        [Parameter(ParameterSetName = LastDeploymentSetName, HelpMessage = "Optional. If given, return logs of the last deployment.")]
-        public SwitchParameter LastDeployment { get; set; }
-
         public override void ExecuteCmdlet()
         {
             GetPSResourceGroupLogParameters parameters = new GetPSResourceGroupLogParameters
                 {
                     Name = Name,
                     DeploymentName = DeploymentName,
-                    All = All.IsPresent,
-                    LastDeployment = LastDeployment.IsPresent
+                    All = All.IsPresent
                 };
             WriteObject(ResourcesClient.GetResourceGroupLogs(parameters), true);
         }
