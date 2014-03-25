@@ -64,7 +64,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
             Name = inMemoryEnvironment.Name;
             PublishSettingsFileUrl = inMemoryEnvironment.PublishSettingsFileUrl;
             ServiceEndpoint = inMemoryEnvironment.ServiceEndpoint;
-            CloudServiceEndpoint = inMemoryEnvironment.CloudServiceEndpoint;
+            ResourceManagerEndpoint = inMemoryEnvironment.ResourceManagerEndpoint;
             ManagementPortalUrl = inMemoryEnvironment.ManagementPortalUrl;
             StorageEndpointSuffix = inMemoryEnvironment.StorageEndpointSuffix;
             AdTenantUrl = inMemoryEnvironment.ActiveDirectoryEndpoint;
@@ -82,7 +82,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
                 Name = this.Name,
                 PublishSettingsFileUrl = this.PublishSettingsFileUrl,
                 ServiceEndpoint = this.ServiceEndpoint,
-                CloudServiceEndpoint = this.CloudServiceEndpoint,
+                ResourceManagerEndpoint = this.ResourceManagerEndpoint,
                 ManagementPortalUrl = this.ManagementPortalUrl,
                 StorageEndpointSuffix = this.StorageEndpointSuffix,
                 ActiveDirectoryEndpoint = this.AdTenantUrl,
@@ -101,7 +101,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
         public string ServiceEndpoint { get; set; }
 
         [DataMember]
-        public string CloudServiceEndpoint { get; set; }
+        public string ResourceManagerEndpoint { get; set; }
 
         [DataMember]
         public string ManagementPortalUrl { get; set; }
@@ -143,7 +143,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
             Name = inMemorySubscription.SubscriptionName;
             SubscriptionId = inMemorySubscription.SubscriptionId;
             ManagementEndpoint = inMemorySubscription.ServiceEndpoint != null ? inMemorySubscription.ServiceEndpoint.ToString() : null;
-            CloudServiceEndpoint = inMemorySubscription.CloudServiceEndpoint != null ? inMemorySubscription.CloudServiceEndpoint.ToString() : null;
+            ResourceManagerEndpoint = inMemorySubscription.ResourceManagerEndpoint != null ? inMemorySubscription.ResourceManagerEndpoint.ToString() : null;
             ActiveDirectoryEndpoint = inMemorySubscription.ActiveDirectoryEndpoint;
             ActiveDirectoryTenantId = inMemorySubscription.ActiveDirectoryTenantId;
             ActiveDirectoryUserId = inMemorySubscription.ActiveDirectoryUserId;
@@ -165,7 +165,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
                 SubscriptionName = this.Name,
                 SubscriptionId = this.SubscriptionId,
                 ServiceEndpoint = !string.IsNullOrEmpty(ManagementEndpoint) ? new Uri(ManagementEndpoint) : null,
-                CloudServiceEndpoint = !string.IsNullOrEmpty(CloudServiceEndpoint) ? new Uri(CloudServiceEndpoint) : null,
+                ResourceManagerEndpoint = !string.IsNullOrEmpty(ResourceManagerEndpoint) ? new Uri(ResourceManagerEndpoint) : null,
                 ActiveDirectoryEndpoint = ActiveDirectoryEndpoint,
                 ActiveDirectoryTenantId = ActiveDirectoryTenantId,
                 ActiveDirectoryUserId = ActiveDirectoryUserId,
@@ -192,7 +192,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
         public string ManagementEndpoint { get; set; }
 
         [DataMember]
-        public string CloudServiceEndpoint { get; set; }
+        public string ResourceManagerEndpoint { get; set; }
 
         [DataMember]
         public string ActiveDirectoryEndpoint { get; set; }
