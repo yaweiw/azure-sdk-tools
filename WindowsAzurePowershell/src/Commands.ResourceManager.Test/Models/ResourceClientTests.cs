@@ -35,6 +35,7 @@ using System.Runtime.Serialization.Formatters;
 using System.Threading;
 using System.Threading.Tasks;
 using Xunit;
+using Xunit.Extensions;
 
 namespace Microsoft.Azure.Commands.ResourceManager.Test.Models
 {
@@ -930,7 +931,7 @@ namespace Microsoft.Azure.Commands.ResourceManager.Test.Models
             {
                 ResourceGroupName = resourceGroupName,
                 Location = resourceGroupLocation,
-                Name = deploymentName,
+                DeploymentName = deploymentName,
                 TemplateFile = templateFile,
                 StorageAccountName = storageAccountName,
                 ConfirmAction = ConfirmAction
@@ -1087,6 +1088,157 @@ namespace Microsoft.Azure.Commands.ResourceManager.Test.Models
             progressLoggerMock.Verify(f => f("Template is valid."),Times.Once());
         }
 
+        [Theory]
+        [InlineData("c:\\temp\\path\\file.js", "file")]
+        [InlineData("c:/temp/path/file_path.txt", "file_path")]
+        [InlineData("file.js", "file")]
+        [InlineData("", "GUID")]
+        [InlineData(null, "GUID")]
+        [InlineData("http://path/template_file", "template_file")]
+        [InlineData("http://path/template_file.html", "template_file")]
+        public void NewResourceGroupUsesTemplateNameForDeploymentName(string templatePath, string expectedName)
+        {
+            BasicDeployment deploymentFromGet = new BasicDeployment();
+            BasicDeployment deploymentFromValidate = new BasicDeployment();
+            CreatePSResourceGroupParameters parameters = new CreatePSResourceGroupParameters()
+            {
+                ResourceGroupName = resourceGroupName,
+                Location = resourceGroupLocation,
+                DeploymentName = null,
+                TemplateFile = templatePath,
+                StorageAccountName = storageAccountName,
+                ConfirmAction = ConfirmAction
+            };
+            galleryTemplatesClientMock.Setup(g => g.GetGalleryTemplateFile(It.IsAny<string>())).Returns("http://path/file.html");
+            deploymentsMock.Setup(f => f.ValidateAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<BasicDeployment>(), new CancellationToken()))
+                .Returns(Task.Factory.StartNew(() => new DeploymentValidateResponse
+                {
+                    IsValid = true,
+                    Error = new ResourceManagementErrorWithDetails()
+                }))
+                .Callback((string rg, string dn, BasicDeployment d, CancellationToken c) => { deploymentFromValidate = d; });
+            deploymentsMock.Setup(f => f.CreateOrUpdateAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<BasicDeployment>(), new CancellationToken()))
+                .Returns(Task.Factory.StartNew(() => new DeploymentOperationsCreateResult
+                {
+                    RequestId = requestId
+                }))
+                .Callback((string name, string dName, BasicDeployment bDeploy, CancellationToken token) => { deploymentFromGet = bDeploy; deploymentName= dName; });
+            SetupListForResourceGroupAsync(parameters.ResourceGroupName, new List<Resource>() { new Resource() { Name = "website" } });
+            deploymentOperationsMock.Setup(f => f.ListAsync(It.IsAny<string>(), It.IsAny<string>(), null, new CancellationToken()))
+                .Returns(Task.Factory.StartNew(() => new DeploymentOperationsListResult
+                {
+                    Operations = new List<DeploymentOperation>()
+                    {
+                        new DeploymentOperation()
+                        {
+                            OperationId = Guid.NewGuid().ToString(),
+                            Properties = new DeploymentOperationProperties()
+                            {
+                                ProvisioningState = ProvisioningState.Succeeded,
+                                TargetResource = new TargetResource()
+                                {
+                                    ResourceType = "Microsoft.Website",
+                                    ResourceName = resourceName
+                                }
+                            }
+                        }
+                    }
+                }));
+            deploymentsMock.Setup(f => f.GetAsync(It.IsAny<string>(), It.IsAny<string>(), new CancellationToken()))
+                .Returns(Task.Factory.StartNew(() => new DeploymentGetResult
+                {
+                    Deployment = new Deployment
+                    {
+                        DeploymentName = deploymentName,
+                        Properties = new DeploymentProperties()
+                        {
+                            Mode = DeploymentMode.Incremental,
+                            CorrelationId = "123",
+                            ProvisioningState = ProvisioningState.Succeeded
+                        },
+                    }
+                }));
+
+            resourcesClient.ExecuteDeployment(parameters);
+            if (expectedName == "GUID")
+            {
+                Guid.Parse(deploymentName);
+            }
+            else
+            {
+                Assert.Equal(expectedName, deploymentName);
+            }
+        }
+
+        [Fact]
+        public void NewResourceGroupUsesDeploymentNameForDeploymentName()
+        {
+            string deploymentName = "abc123";
+            BasicDeployment deploymentFromGet = new BasicDeployment();
+            BasicDeployment deploymentFromValidate = new BasicDeployment();
+            CreatePSResourceGroupParameters parameters = new CreatePSResourceGroupParameters()
+            {
+                ResourceGroupName = resourceGroupName,
+                Location = resourceGroupLocation,
+                DeploymentName = deploymentName,
+                GalleryTemplateIdentity = "abc",
+                StorageAccountName = storageAccountName,
+                ConfirmAction = ConfirmAction
+            };
+            galleryTemplatesClientMock.Setup(g => g.GetGalleryTemplateFile(It.IsAny<string>())).Returns("http://path/file.html");
+            deploymentsMock.Setup(f => f.ValidateAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<BasicDeployment>(), new CancellationToken()))
+                .Returns(Task.Factory.StartNew(() => new DeploymentValidateResponse
+                {
+                    IsValid = true,
+                    Error = new ResourceManagementErrorWithDetails()
+                }))
+                .Callback((string rg, string dn, BasicDeployment d, CancellationToken c) => { deploymentFromValidate = d; });
+            deploymentsMock.Setup(f => f.CreateOrUpdateAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<BasicDeployment>(), new CancellationToken()))
+                .Returns(Task.Factory.StartNew(() => new DeploymentOperationsCreateResult
+                {
+                    RequestId = requestId
+                }))
+                .Callback((string name, string dName, BasicDeployment bDeploy, CancellationToken token) => { deploymentFromGet = bDeploy; deploymentName = dName; });
+            SetupListForResourceGroupAsync(parameters.ResourceGroupName, new List<Resource>() { new Resource() { Name = "website" } });
+            deploymentOperationsMock.Setup(f => f.ListAsync(It.IsAny<string>(), It.IsAny<string>(), null, new CancellationToken()))
+                .Returns(Task.Factory.StartNew(() => new DeploymentOperationsListResult
+                {
+                    Operations = new List<DeploymentOperation>()
+                    {
+                        new DeploymentOperation()
+                        {
+                            OperationId = Guid.NewGuid().ToString(),
+                            Properties = new DeploymentOperationProperties()
+                            {
+                                ProvisioningState = ProvisioningState.Succeeded,
+                                TargetResource = new TargetResource()
+                                {
+                                    ResourceType = "Microsoft.Website",
+                                    ResourceName = resourceName
+                                }
+                            }
+                        }
+                    }
+                }));
+            deploymentsMock.Setup(f => f.GetAsync(It.IsAny<string>(), It.IsAny<string>(), new CancellationToken()))
+                .Returns(Task.Factory.StartNew(() => new DeploymentGetResult
+                {
+                    Deployment = new Deployment
+                    {
+                        DeploymentName = deploymentName,
+                        Properties = new DeploymentProperties()
+                        {
+                            Mode = DeploymentMode.Incremental,
+                            CorrelationId = "123",
+                            ProvisioningState = ProvisioningState.Succeeded
+                        },
+                    }
+                }));
+
+            var result = resourcesClient.ExecuteDeployment(parameters);
+            Assert.Equal(deploymentName, deploymentName);
+        }
+
         [Fact]
         public void NewResourceGroupWithDeploymentSucceeds()
         {
@@ -1097,7 +1249,7 @@ namespace Microsoft.Azure.Commands.ResourceManager.Test.Models
             {
                 ResourceGroupName = resourceGroupName,
                 Location = resourceGroupLocation,
-                Name = deploymentName,
+                DeploymentName = deploymentName,
                 TemplateFile = templateFile,
                 StorageAccountName = storageAccountName,
                 ConfirmAction = ConfirmAction
@@ -1202,7 +1354,7 @@ namespace Microsoft.Azure.Commands.ResourceManager.Test.Models
             {
                 ResourceGroupName = resourceGroupName,
                 Location = resourceGroupLocation,
-                Name = deploymentName,
+                DeploymentName = deploymentName,
                 TemplateFile = templateFile,
                 TemplateParameterObject = new Hashtable()
                 {
@@ -1315,7 +1467,7 @@ namespace Microsoft.Azure.Commands.ResourceManager.Test.Models
             {
                 ResourceGroupName = resourceGroupName,
                 Location = resourceGroupLocation,
-                Name = deploymentName,
+                DeploymentName = deploymentName,
                 TemplateFile = templateFile,
                 StorageAccountName = storageAccountName,
                 ConfirmAction = ConfirmAction
@@ -1420,7 +1572,7 @@ namespace Microsoft.Azure.Commands.ResourceManager.Test.Models
             {
                 ResourceGroupName = resourceGroupName,
                 Location = resourceGroupLocation,
-                Name = deploymentName,
+                DeploymentName = deploymentName,
                 TemplateFile = templateFile,
                 StorageAccountName = storageAccountName,
                 ConfirmAction = ConfirmAction
