@@ -305,7 +305,8 @@ namespace Microsoft.Azure.Commands.ResourceManager.Models
             RuntimeDefinedParameter runtimeParameter = new RuntimeDefinedParameter()
             {
                 // For duplicated template parameter names, add a sufix FromTemplate to distingush them from the cmdlet parameter.
-                Name = staticParameters.Any(n => n.Equals(name, StringComparison.OrdinalIgnoreCase)) ? name + duplicatedParameterSuffix : name,
+                Name = staticParameters.Any(n => n.StartsWith(name, StringComparison.OrdinalIgnoreCase)) 
+                    ? name + duplicatedParameterSuffix : name,
                 ParameterType = GetParameterType(parameter.Value.Type),
                 Value = defaultValue
             };
