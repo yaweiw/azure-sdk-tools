@@ -46,7 +46,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.DiskRepository
 
         public void RemoveVMImageProcess()
         {
-            ServiceManagementProfile.Initialize();
+            ServiceManagementProfile.Initialize(this);
             
             this.ExecuteClientActionNewSM(
                     null,

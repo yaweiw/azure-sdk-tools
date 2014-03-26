@@ -81,7 +81,30 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement
             return Initialize();
         }
 
+        public static bool Initialize(SaveAzureVMImageCommand command)
+        {
+            return InitializeImageMapping();
+        }
+
+        public static bool Initialize(AddAzureVMImage command)
+        {
+            return InitializeImageMapping();
+        }
+        public static bool Initialize(RemoveAzureVMImage command)
+        {
+            return InitializeImageMapping();
+        }
+        public static bool Initialize(UpdateAzureVMImage command)
+        {
+            return InitializeImageMapping();
+        }
+
         public static bool Initialize(GetAzureVMImage command)
+        {
+            return InitializeImageMapping();
+        }
+
+        public static bool InitializeImageMapping()
         {
             //Image mapping
             Mapper.CreateMap<VirtualMachineOSImageListResponse.VirtualMachineOSImage, OSImageContext>()
