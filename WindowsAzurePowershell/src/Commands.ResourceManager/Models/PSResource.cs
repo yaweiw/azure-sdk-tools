@@ -24,6 +24,8 @@ namespace Microsoft.Azure.Commands.ResourceManager.Models
 
         public string ResourceType { get; set; }
 
+        public string ParentResource { get; set; }
+
         public string Location { get; set; }
 
         public IDictionary Properties { get; set; }

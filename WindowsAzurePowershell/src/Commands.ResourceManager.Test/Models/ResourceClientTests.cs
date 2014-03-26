@@ -1654,8 +1654,8 @@ namespace Microsoft.Azure.Commands.ResourceManager.Test.Models
         public void GetsSpecificResourceGroup()
         {
             string name = resourceGroupName;
-            Resource resource1 = new Resource() { Id = "resourceId", Location = resourceGroupLocation, Name = resourceName };
-            Resource resource2 = new Resource() { Id = "resourceId2", Location = resourceGroupLocation, Name = resourceName + "2" };
+            Resource resource1 = new Resource() { Id = "/subscriptions/abc123/resourceGroups/group1/providers/Microsoft.Test/servers/r12345sql/db/r45678db", Location = resourceGroupLocation, Name = resourceName };
+            Resource resource2 = new Resource() { Id = "/subscriptions/abc123/resourceGroups/group1/providers/Microsoft.Test/servers/r12345sql/db/r45678db", Location = resourceGroupLocation, Name = resourceName + "2" };
             ResourceGroup resourceGroup = new ResourceGroup() { Name = name, Location = resourceGroupLocation, ProvisioningState = "Succeeded" };
             resourceGroupMock.Setup(f => f.GetAsync(name, new CancellationToken()))
                 .Returns(Task.Factory.StartNew(() => new ResourceGroupGetResult
@@ -2020,26 +2020,6 @@ namespace Microsoft.Azure.Commands.ResourceManager.Test.Models
             resourcesClient.CancelDeployment(resourceGroupName, null);
 
             deploymentsMock.Verify(f => f.CancelAsync(resourceGroupName, deploymentName + 3, new CancellationToken()), Times.Once());
-        }
-
-        [Fact]
-        public void GetResourceGroupFromIdWorksForGoodIds()
-        {
-            var group =
-                ResourceManagerExtensions.GetResourceGroupFromId(
-                    "/subscriptions/32155b36-f1ca-4346-9c37-53b14f248a06/resourceGroups/foo/providers/Microsoft.Web/serverFarms/ilygreTest4Host");
-            Assert.Equal("foo", group);
-        }
-
-        [Fact]
-        public void GetResourceGroupFromIdWorksForBadIds()
-        {
-            var group = ResourceManagerExtensions.GetResourceGroupFromId(null);
-            Assert.Equal(null, group);
-            group = ResourceManagerExtensions.GetResourceGroupFromId("");
-            Assert.Equal(null, group);
-            group = ResourceManagerExtensions.GetResourceGroupFromId("/subscriptions/32155b36-f1ca-4346-9c37-53b14f248a06/");
-            Assert.Equal(null, group);
         }
 
         [Fact]
