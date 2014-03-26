@@ -283,7 +283,6 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Services.Server
                 }
             }
 
-
             // Update the database with the new properties
             DatabaseUpdateResponse response = sqlManagementClient.Databases.Update(
                 this.serverName,
