@@ -888,11 +888,11 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
 
                     for (int j = 0; j < 3; j++)
                     {
-                        vmPowershellCmdlets.SetAzureStorageAccount(storageName[i], label[j], null, geoReplicationSettings[j]);                        
+                        vmPowershellCmdlets.SetAzureStorageAccount(storageName[i], label[j], null, geoReplicationSettings[j]);
                         if (geoReplicationSettings[j] != null)
                         {
                             geoReplicationEnabled = geoReplicationSettings[j].Value;
-                        }                       
+                        }
                         Assert.IsTrue(StorageAccountVerify(vmPowershellCmdlets.GetAzureStorageAccount(storageName[i])[0],
                             storageStaticProperties[i], label[j], null, geoReplicationEnabled));
                     }
@@ -937,14 +937,16 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
                 vmPowershellCmdlets.RemoveAzureAffinityGroup(affinityGroupName);
 
                 pass = true;
-
             }
             catch (Exception e)
             {
                 pass = false;
 
                 Assert.Fail("Exception occurred: {0}", e);
-
+            }
+            finally
+            {
+                Console.WriteLine("Starts cleaning up...");
                 // Clean-up storage if it is not removed.
                 foreach (string storage in storageName)
                 {
@@ -960,7 +962,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
                 {
                     vmPowershellCmdlets.RemoveAzureAffinityGroup(affinityGroupName);
                 }
-            }            
+            }
         }
 
         private bool StorageAccountVerify(StorageServicePropertiesOperationContext storageContext,
@@ -980,12 +982,12 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
 
             try
             {
-                Assert.AreEqual(storageContext.StorageAccountName, name, "Error: Storage Account Name is not equal!");
-                Assert.AreEqual(storageContext.Label, label, "Error: Storage Account Label is not equal!");
-                Assert.AreEqual(storageContext.StorageAccountDescription, description, "Error: Storage Account Description is not equal!");
-                Assert.AreEqual(storageContext.AffinityGroup, affinity, "Error: Affinity Group is not equal!");
-                Assert.AreEqual(storageContext.Location, location, "Error: Location is not equal!");
-                Assert.AreEqual(storageContext.GeoReplicationEnabled, geo, "Error: GeoReplicationEnabled is not equal!");
+                Assert.AreEqual(name, storageContext.StorageAccountName, "Error: Storage Account Name is not equal!");
+                Assert.AreEqual(label, storageContext.Label, "Error: Storage Account Label is not equal!");
+                Assert.AreEqual(description, storageContext.StorageAccountDescription, "Error: Storage Account Description is not equal!");
+                Assert.AreEqual(affinity, storageContext.AffinityGroup, "Error: Affinity Group is not equal!");
+                Assert.AreEqual(location, storageContext.Location, "Error: Location is not equal!");
+                Assert.AreEqual(geo, storageContext.GeoReplicationEnabled, "Error: GeoReplicationEnabled is not equal!");
                 Console.WriteLine("All contexts are matched!!\n");
             }
             catch (Exception e)
