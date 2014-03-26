@@ -36,19 +36,17 @@ namespace Microsoft.Azure.Commands.ResourceManager.Models
             {
                 throw new ArgumentNullException("ResourceType");
             }
-
-            string[] resourceType = ResourceType.Split('/');
-            if (resourceType.Length != 2)
+            if (ResourceType.IndexOf('/') < 0)
             {
-                throw new ArgumentException(Resources.ResourceTypeFormat);
+                throw new ArgumentException(Resources.ResourceTypeFormat, "ResourceType");
             }
 
             ResourceIdentity identity = new ResourceIdentity
                 {
                     ResourceName = Name,
                     ParentResourcePath = ParentResource,
-                    ResourceProviderNamespace = resourceType[0],
-                    ResourceType = resourceType[1],
+                    ResourceProviderNamespace = ResourceIdentifier.GetProviderFromResourceType(ResourceType),
+                    ResourceType = ResourceIdentifier.GetTypeFromResourceType(ResourceType),
                     ResourceProviderApiVersion = ApiVersion
                 };
 

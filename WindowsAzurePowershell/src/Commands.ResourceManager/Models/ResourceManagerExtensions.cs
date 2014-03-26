@@ -16,6 +16,7 @@ using Microsoft.Azure.Management.Resources.Models;
 using Microsoft.WindowsAzure.Commands.Utilities.Common;
 using Microsoft.WindowsAzure.Management.Monitoring.Events.Models;
 using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -26,7 +27,8 @@ namespace Microsoft.Azure.Commands.ResourceManager.Models
     {
         public static PSResourceGroup ToPSResourceGroup(this ResourceGroup resourceGroup, ResourcesClient client)
         {
-            List<Resource> resources = client.FilterResources(new FilterResourcesOptions() { ResourceGroup = resourceGroup.Name });
+            List<PSResource> resources = client.FilterResources(new FilterResourcesOptions { ResourceGroup = resourceGroup.Name })
+                .Select(r => r.ToPSResource(client)).ToList();
             return new PSResourceGroup()
             {
                 ResourceGroupName = resourceGroup.Name,
@@ -84,39 +86,17 @@ namespace Microsoft.Azure.Commands.ResourceManager.Models
 
         public static PSResource ToPSResource(this Resource resource, ResourcesClient client)
         {
+            ResourceIdentifier identifier = new ResourceIdentifier(resource.Id);
             return new PSResource()
             {
-                Name = resource.Name,
+                Name = identifier.ResourceName,
                 Location = resource.Location,
-                ResourceType = resource.Type,
-                ResourceGroupName = GetResourceGroupFromId(resource.Id),
+                ResourceType = identifier.ResourceType,
+                ResourceGroupName = identifier.ResourceGroupName,
+                ParentResource = identifier.ParentResource,
                 Properties = JsonUtilities.DeserializeJson(resource.Properties),
                 PropertiesText = resource.Properties
             };
-        }
-
-        /// <summary>
-        /// Parses ID in the format:
-        /// /subscriptions/abc123/resourceGroups/foo/providers/Microsoft.Web/serverFarms/name
-        /// </summary>
-        /// <param name="resourceId">Resource ID</param>
-        /// <returns>Resource group</returns>
-        public static string GetResourceGroupFromId(string resourceId)
-        {
-            if (string.IsNullOrEmpty(resourceId))
-            {
-                return null;
-            }
-            string[] tokenizedId = resourceId.Split(new [] { '/' }, System.StringSplitOptions.RemoveEmptyEntries);
-            
-            // Resource group is a 4th token in ID string
-            int resourceGroupNameTokenPosition = 4;
-
-            if (tokenizedId.Length < resourceGroupNameTokenPosition)
-            {
-                return null;
-            }
-            return tokenizedId[resourceGroupNameTokenPosition - 1];
         }
 
         public static PSResourceProviderType ToPSResourceProviderType(this ProviderResourceType resourceType, string providerNamespace)
@@ -124,6 +104,7 @@ namespace Microsoft.Azure.Commands.ResourceManager.Models
             PSResourceProviderType result = new PSResourceProviderType();
             if (resourceType != null)
             {
+                resourceType.Locations = resourceType.Locations ?? new List<string>();
                 for (int i = 0; i < ResourcesClient.KnownLocationsNormalized.Count; i++)
                 {
                     if (resourceType.Locations.Remove(ResourcesClient.KnownLocationsNormalized[i]))
@@ -173,20 +154,6 @@ namespace Microsoft.Azure.Commands.ResourceManager.Models
             return psObject;
         }
 
-        private static string GetEventDataCaller(Dictionary<string, string> claims)
-        {
-            string name = "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name";
-
-            if (claims == null || !claims.ContainsKey(name))
-            {
-                return null;
-            }
-            else
-            {
-                return claims[name];
-            }
-        }
-
         public static PSDeploymentEventDataHttpRequest ToPSDeploymentEventDataHttpRequest(this HttpRequestInfo httpRequest)
         {
             if (httpRequest == null)
@@ -219,20 +186,24 @@ namespace Microsoft.Azure.Commands.ResourceManager.Models
             return psObject;
         }
 
-        private static string ConstructResourcesTable(List<Resource> resources)
+        private static string ConstructResourcesTable(List<PSResource> resources)
         {
             StringBuilder resourcesTable = new StringBuilder();
 
             if (resources.Count > 0)
             {
-                string rowFormat = "{0, -15}  {1, -25}  {2, -10}\r\n";
+                int maxNameLength = Math.Max("Name".Length, resources.Where(r => r.Name != null).DefaultIfEmpty(EmptyResource).Max(r => r.Name.Length));
+                int maxTypeLength = Math.Max("Type".Length, resources.Where(r => r.ResourceType != null).DefaultIfEmpty(EmptyResource).Max(r => r.ResourceType.Length));
+                int maxLocationLength = Math.Max("Location".Length, resources.Where(r => r.Location != null).DefaultIfEmpty(EmptyResource).Max(r => r.Location.Length));
+
+                string rowFormat = "{0, -" + maxNameLength + "}  {1, -" + maxTypeLength + "}  {2, -" + maxLocationLength + "}\r\n";
                 resourcesTable.AppendLine();
                 resourcesTable.AppendFormat(rowFormat, "Name", "Type", "Location");
-                resourcesTable.AppendFormat(rowFormat, GenerateSeparator(15, "="), GenerateSeparator(25, "="), GenerateSeparator(10, "="));
+                resourcesTable.AppendFormat(rowFormat, GenerateSeparator(maxNameLength, "="), GenerateSeparator(maxTypeLength, "="), GenerateSeparator(maxLocationLength, "="));
 
-                foreach (Resource resource in resources)
+                foreach (PSResource resource in resources)
                 {
-                    resourcesTable.AppendFormat(rowFormat, resource.Name, resource.Type, resource.Location);
+                    resourcesTable.AppendFormat(rowFormat, resource.Name, resource.ResourceType, resource.Location);
                 }
             }
 
@@ -321,6 +292,37 @@ namespace Microsoft.Azure.Commands.ResourceManager.Models
             }
 
             return deploymentObject;
+        }
+
+        private static string GetEventDataCaller(Dictionary<string, string> claims)
+        {
+            string name = "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name";
+
+            if (claims == null || !claims.ContainsKey(name))
+            {
+                return null;
+            }
+            else
+            {
+                return claims[name];
+            }
+        }
+
+        private static PSResource EmptyResource
+        {
+            get
+            {
+                return new PSResource()
+                {
+                    Name = string.Empty,
+                    Location = string.Empty,
+                    ParentResource = string.Empty,
+                    PropertiesText = string.Empty,
+                    ResourceGroupName = string.Empty,
+                    Properties = new Dictionary<string, string>(),
+                    ResourceType = string.Empty
+                };
+            }
         }
     }
 }
