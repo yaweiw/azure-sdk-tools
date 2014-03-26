@@ -1126,7 +1126,7 @@ namespace Microsoft.Azure.Commands.ResourceManager.Test.Models
                             OperationId = Guid.NewGuid().ToString(),
                             Properties = new DeploymentOperationProperties()
                             {
-                                ProvisioningState = ProvisioningState.Succeeded,
+                                ProvisioningState = ProvisioningState.Accepted,
                                 TargetResource = new TargetResource()
                                 {
                                     ResourceType = "Microsoft.Website",
@@ -1151,8 +1151,9 @@ namespace Microsoft.Azure.Commands.ResourceManager.Test.Models
                     }
                 }));
 
-            var result = resourcesClient.ExecuteDeployment(parameters);
+            PSResourceGroupDeployment result = resourcesClient.ExecuteDeployment(parameters);
             Assert.Equal(deploymentName, deploymentName);
+            Assert.Equal(ProvisioningState.Succeeded, result.ProvisioningState);
         }
 
         [Fact]
