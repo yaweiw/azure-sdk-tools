@@ -58,7 +58,7 @@ namespace Microsoft.Azure.Commands.ResourceManager.Test
                 ResourceGroupName = resourceGroupName,
                 Location = resourceGroupLocation,
                 TemplateFile = templateFile,
-                Name = deploymentName,
+                DeploymentName = deploymentName,
                 StorageAccountName = storageAccountName,
                 TemplateVersion = "1.0"
             };
@@ -76,14 +76,14 @@ namespace Microsoft.Azure.Commands.ResourceManager.Test
             cmdlet.Name = expectedParameters.ResourceGroupName;
             cmdlet.Location = expectedParameters.Location;
             cmdlet.TemplateFile = expectedParameters.TemplateFile;
-            cmdlet.DeploymentName = expectedParameters.Name;
+            cmdlet.DeploymentName = expectedParameters.DeploymentName;
             cmdlet.TemplateVersion = expectedParameters.TemplateVersion;
 
             cmdlet.ExecuteCmdlet();
 
             Assert.Equal(expectedParameters.ResourceGroupName, actualParameters.ResourceGroupName);
             Assert.Equal(expectedParameters.Location, actualParameters.Location);
-            Assert.Equal(expectedParameters.Name, actualParameters.Name);
+            Assert.Equal(expectedParameters.DeploymentName, actualParameters.DeploymentName);
             Assert.Equal(expectedParameters.GalleryTemplateIdentity, actualParameters.GalleryTemplateIdentity);
             Assert.Equal(expectedParameters.TemplateFile, actualParameters.TemplateFile);
             Assert.NotNull(actualParameters.TemplateParameterObject);
@@ -101,7 +101,7 @@ namespace Microsoft.Azure.Commands.ResourceManager.Test
                 ResourceGroupName = resourceGroupName,
                 Location = resourceGroupLocation,
                 GalleryTemplateIdentity = "sqlServer",
-                Name = deploymentName,
+                DeploymentName = deploymentName,
                 StorageAccountName = storageAccountName,
                 TemplateVersion = "1.0"
             };
@@ -119,14 +119,14 @@ namespace Microsoft.Azure.Commands.ResourceManager.Test
             cmdlet.Name = expectedParameters.ResourceGroupName;
             cmdlet.Location = expectedParameters.Location;
             cmdlet.GalleryTemplateIdentity = expectedParameters.GalleryTemplateIdentity;
-            cmdlet.DeploymentName = expectedParameters.Name;
+            cmdlet.DeploymentName = expectedParameters.DeploymentName;
             cmdlet.TemplateVersion = expectedParameters.TemplateVersion;
 
             cmdlet.ExecuteCmdlet();
 
             Assert.Equal(expectedParameters.ResourceGroupName, actualParameters.ResourceGroupName);
             Assert.Equal(expectedParameters.Location, actualParameters.Location);
-            Assert.Equal(expectedParameters.Name, actualParameters.Name);
+            Assert.Equal(expectedParameters.DeploymentName, actualParameters.DeploymentName);
             Assert.Equal(expectedParameters.GalleryTemplateIdentity, actualParameters.GalleryTemplateIdentity);
             Assert.Equal(expectedParameters.TemplateFile, actualParameters.TemplateFile);
             Assert.NotNull(actualParameters.TemplateParameterObject);
