@@ -12,49 +12,52 @@
 # limitations under the License.
 # ----------------------------------------------------------------------------------
 
-# Common alias
-New-Alias Get-WAPackPublishSettingsFile Get-AzurePublishSettingsFile
-New-Alias Get-WAPackSubscription Get-AzureSubscription
-New-Alias Import-WAPackPublishSettingsFile Import-AzurePublishSettingsFile
-New-Alias Remove-WAPackSubscription Remove-AzureSubscription
-New-Alias Select-WAPackSubscription Select-AzureSubscription
-New-Alias Set-WAPackSubscription Set-AzureSubscription
-New-Alias Show-WAPackPortal Show-AzurePortal
-New-Alias Test-WAPackName Test-AzureName
-New-Alias Get-WAPackEnvironment Get-AzureEnvironment
-New-Alias Add-WAPackEnvironment Add-AzureEnvironment
-New-Alias Set-WAPackEnvironment Set-AzureEnvironment
-New-Alias Remove-WAPackEnvironment Remove-AzureEnvironment
+$aliases = @{
+    # Profile aliases
+    "Get-WAPackPublishSettingsFile" = "Get-AzurePublishSettingsFile";
+    "Get-WAPackSubscription" = "Get-AzureSubscription";
+    "Import-WAPackPublishSettingsFile" = "Import-AzurePublishSettingsFile";
+    "Remove-WAPackSubscription" = "Remove-AzureSubscription";
+    "Select-WAPackSubscription" = "Select-AzureSubscription";
+    "Set-WAPackSubscription" = "Set-AzureSubscription";
+    "Show-WAPackPortal" = "Show-AzurePortal";
+    "Test-WAPackName" = "Test-AzureName";
+    "Get-WAPackEnvironment" = "Get-AzureEnvironment";
+    "Add-WAPackEnvironment" = "Add-AzureEnvironment";
+    "Set-WAPackEnvironment" = "Set-AzureEnvironment";
+    "Remove-WAPackEnvironment" = "Remove-AzureEnvironment";
 
-# Websites alias
-New-Alias New-WAPackWebsite New-AzureWebsite
-New-Alias Get-WAPackWebsite Get-AzureWebsite
-New-Alias Set-WAPackWebsite Set-AzureWebsite
-New-Alias Remove-WAPackWebsite Remove-AzureWebsite
-New-Alias Start-WAPackWebsite Start-AzureWebsite
-New-Alias Stop-WAPackWebsite Stop-AzureWebsite
-New-Alias Restart-WAPackWebsite Restart-AzureWebsite
-New-Alias Show-WAPackWebsite Show-AzureWebsite
-New-Alias Get-WAPackWebsiteLog Get-AzureWebsiteLog
-New-Alias Save-WAPackWebsiteLog Save-AzureWebsiteLog
-New-Alias Get-WAPackWebsiteLocation Get-AzureWebsiteLocation
-New-Alias Get-WAPackWebsiteDeployment Get-AzureWebsiteDeployment
-New-Alias Restore-WAPackWebsiteDeployment Restore-AzureWebsiteDeployment
-New-Alias Enable-WAPackWebsiteApplicationDiagnositc Enable-AzureWebsiteApplicationDiagnostic
-New-Alias Disable-WAPackWebsiteApplicationDiagnostic Disable-AzureWebsiteApplicationDiagnostic
+    # Websites aliases
+    "New-WAPackWebsite" = "New-AzureWebsite";
+    "Get-WAPackWebsite" = "Get-AzureWebsite";
+    "Set-WAPackWebsite" = "Set-AzureWebsite";
+    "Remove-WAPackWebsite" = "Remove-AzureWebsite";
+    "Start-WAPackWebsite" = "Start-AzureWebsite";
+    "Stop-WAPackWebsite" = "Stop-AzureWebsite";
+    "Restart-WAPackWebsite" = "Restart-AzureWebsite";
+    "Show-WAPackWebsite" = "Show-AzureWebsite";
+    "Get-WAPackWebsiteLog" = "Get-AzureWebsiteLog";
+    "Save-WAPackWebsiteLog" = "Save-AzureWebsiteLog";
+    "Get-WAPackWebsiteLocation" = "Get-AzureWebsiteLocation";
+    "Get-WAPackWebsiteDeployment" = "Get-AzureWebsiteDeployment";
+    "Restore-WAPackWebsiteDeployment" = "Restore-AzureWebsiteDeployment";
+    "Enable-WAPackWebsiteApplicationDiagnositc" = "Enable-AzureWebsiteApplicationDiagnostic";
+    "Disable-WAPackWebsiteApplicationDiagnostic" = "Disable-AzureWebsiteApplicationDiagnostic";
 
-# Service Bus alias
-New-Alias Get-WAPackSBLocation Get-AzureSBLocation
-New-Alias Get-WAPackSBNamespace Get-AzureSBNamespace
-New-Alias New-WAPackSBNamespace New-AzureSBNamespace
-New-Alias Remove-WAPackSBNamespace Remove-AzureSBNamespace
+    # Service Bus aliases
+    "Get-WAPackSBLocation" = "Get-AzureSBLocation";
+    "Get-WAPackSBNamespace" = "Get-AzureSBNamespace";
+    "New-WAPackSBNamespace" = "New-AzureSBNamespace";
+    "Remove-WAPackSBNamespace" = "Remove-AzureSBNamespace";
 
-# Storage alias
-New-Alias Get-AzureStorageContainerAcl Get-AzureStorageContainer
-New-Alias Start-CopyAzureStorageBlob Start-AzureStorageBlobCopy
-New-Alias Stop-CopyAzureStorageBlob Stop-AzureStorageBlobCopy
+    # Storage aliases
+    "Get-AzureStorageContainerAcl" = "Get-AzureStorageContainer";
+    "Start-CopyAzureStorageBlob" = "Start-AzureStorageBlobCopy";
+    "Stop-CopyAzureStorageBlob" = "Stop-AzureStorageBlobCopy";
 
-# HDInsight alias
+    # HDInsight aliases
+    "Invoke-Hive" = "Invoke-AzureHDInsightHiveJob";
+    "hive" = "Invoke-AzureHDInsightHiveJob"
+}
 
-New-Alias Invoke-Hive Invoke-AzureHDInsightHiveJob
-New-Alias hive Invoke-AzureHDInsightHiveJob
+$aliases.GetEnumerator() | Select @{Name='Name'; Expression={$_.Key}}, @{Name='Value'; Expression={$_.Value}} | New-Alias -Description "AzureAlias"
