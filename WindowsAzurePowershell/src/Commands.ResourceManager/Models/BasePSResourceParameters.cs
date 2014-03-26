@@ -36,6 +36,10 @@ namespace Microsoft.Azure.Commands.ResourceManager.Models
             {
                 throw new ArgumentNullException("ResourceType");
             }
+            if (ResourceType.IndexOf('/') < 0)
+            {
+                throw new ArgumentException(Resources.ResourceTypeFormat, "ResourceType");
+            }
 
             ResourceIdentity identity = new ResourceIdentity
                 {

@@ -1654,8 +1654,8 @@ namespace Microsoft.Azure.Commands.ResourceManager.Test.Models
         public void GetsSpecificResourceGroup()
         {
             string name = resourceGroupName;
-            Resource resource1 = new Resource() { Id = "resourceId", Location = resourceGroupLocation, Name = resourceName };
-            Resource resource2 = new Resource() { Id = "resourceId2", Location = resourceGroupLocation, Name = resourceName + "2" };
+            Resource resource1 = new Resource() { Id = "/subscriptions/abc123/resourceGroups/group1/providers/Microsoft.Test/servers/r12345sql/db/r45678db", Location = resourceGroupLocation, Name = resourceName };
+            Resource resource2 = new Resource() { Id = "/subscriptions/abc123/resourceGroups/group1/providers/Microsoft.Test/servers/r12345sql/db/r45678db", Location = resourceGroupLocation, Name = resourceName + "2" };
             ResourceGroup resourceGroup = new ResourceGroup() { Name = name, Location = resourceGroupLocation, ProvisioningState = "Succeeded" };
             resourceGroupMock.Setup(f => f.GetAsync(name, new CancellationToken()))
                 .Returns(Task.Factory.StartNew(() => new ResourceGroupGetResult
