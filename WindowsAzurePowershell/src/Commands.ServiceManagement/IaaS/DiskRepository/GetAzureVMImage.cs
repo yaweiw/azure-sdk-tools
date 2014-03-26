@@ -61,19 +61,48 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.DiskRepository
         {
             ServiceManagementProfile.Initialize(this);
 
-            this.ExecuteClientActionNewSM(
+            if (string.IsNullOrEmpty(this.ImageName))
+            {
+                this.ExecuteClientActionNewSM(
+                        null,
+                        this.CommandRuntime.ToString(),
+                        () => this.ComputeClient.VirtualMachineOSImages.List(),
+                        (s, response) => response.Images.Select(t => this.ContextFactory<VirtualMachineOSImageListResponse.VirtualMachineOSImage, OSImageContext>(t, s)));
+
+                this.ExecuteClientActionNewSM(
                     null,
                     this.CommandRuntime.ToString(),
-                    () => this.ComputeClient.VirtualMachineOSImages.List(),
-                    (s, response) => response.Images.Where(t => string.IsNullOrEmpty(this.ImageName) || string.Equals(t.Name, this.ImageName, StringComparison.OrdinalIgnoreCase))
-                                                    .Select(t => this.ContextFactory<VirtualMachineOSImageListResponse.VirtualMachineOSImage, OSImageContext>(t, s)));
+                    () => this.ComputeClient.VirtualMachineVMImages.List(),
+                    (s, response) => response.VMImages.Select(t => this.ContextFactory<VirtualMachineVMImageListResponse.VirtualMachineVMImage, VMImageContext>(t, s)));
+            }
+            else
+            {
+                bool isVMImage = CheckImageType(this.ComputeClient, this.ImageName, ImageType.VMImage);
+                if (!isVMImage)
+                {
+                    this.ExecuteClientActionNewSM(
+                            null,
+                            this.CommandRuntime.ToString(),
+                            () => this.ComputeClient.VirtualMachineOSImages.Get(this.ImageName));
+                }
+                else
+                {
+                    this.ExecuteClientActionNewSM(
+                            null,
+                            this.CommandRuntime.ToString(),
+                            () => this.ComputeClient.VirtualMachineOSImages.List(),
+                            (s, response) => response.Images.Where(t => string.Equals(t.Name, this.ImageName, StringComparison.OrdinalIgnoreCase))
+                                                            .Select(t => this.ContextFactory<VirtualMachineOSImageListResponse.VirtualMachineOSImage, OSImageContext>(t, s)));
 
-            this.ExecuteClientActionNewSM(
-                null,
-                this.CommandRuntime.ToString(),
-                () => this.ComputeClient.VirtualMachineVMImages.List(),
-                (s, response) => response.VMImages.Where(t => string.IsNullOrEmpty(this.ImageName) || string.Equals(t.Name, this.ImageName, StringComparison.OrdinalIgnoreCase))
-                                                  .Select(t => this.ContextFactory<VirtualMachineVMImageListResponse.VirtualMachineVMImage, VMImageContext>(t, s)));
+                    this.ExecuteClientActionNewSM(
+                        null,
+                        this.CommandRuntime.ToString(),
+                        () => this.ComputeClient.VirtualMachineVMImages.List(),
+                        (s, response) => response.VMImages.Where(t => string.Equals(t.Name, this.ImageName, StringComparison.OrdinalIgnoreCase))
+                                                          .Select(t => this.ContextFactory<VirtualMachineVMImageListResponse.VirtualMachineVMImage, VMImageContext>(t, s)));
+                }
+            }
+
         }
 
         protected override void OnProcessRecord()
