@@ -180,12 +180,12 @@
     <Compile Include="Common\ConnectionStringFields.cs" />
     <Compile Include="Common\Constants.cs" />
     <Compile Include="Common\WindowsAzurePowerShellCertificateTest.cs" />
-    <Compile Include="Common\CSMTestEnvironmentFactory.cs" />
+    <Compile Include="Common\ResourceManagerTestEnvironmentFactory.cs" />
     <Compile Include="Common\CustomPowerShell\CustomerPSHostUserInterface.cs" />
     <Compile Include="Common\CustomPowerShell\CustomHost.cs" />
     <Compile Include="Common\PowerShellExtensions.cs" />
     <Compile Include="Common\PowerShellTest.cs" />
-    <Compile Include="Common\RDFETestEnvironmentFactory.cs" />
+    <Compile Include="Common\ServiceManagementTestEnvironmentFactory.cs" />
     <Compile Include="Common\TestCredentialHelper.cs" />
     <Compile Include="Common\TestEnvironment.cs" />
     <Compile Include="Common\TestEnvironmentFactory.cs" />
