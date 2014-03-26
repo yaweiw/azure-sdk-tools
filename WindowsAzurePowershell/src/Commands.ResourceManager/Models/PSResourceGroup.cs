@@ -23,7 +23,7 @@ namespace Microsoft.Azure.Commands.ResourceManager.Models
 
         public string Location { get; set; }
 
-        public List<Resource> Resources { get; set; }
+        public List<PSResource> Resources { get; set; }
 
         public string ResourcesTable { get; set; }
 

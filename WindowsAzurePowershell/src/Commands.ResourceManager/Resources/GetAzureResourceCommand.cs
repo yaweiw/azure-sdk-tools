@@ -44,7 +44,7 @@ namespace Microsoft.Azure.Commands.ResourceManager
 
         [Parameter(ParameterSetName = ParameterSetNameWithId, Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "The name of the parent resource if needed. In the format of greatgrandpa/grandpa/dad.")]
         [ValidateNotNullOrEmpty]
-        public string ParentResourceName { get; set; }
+        public string ParentResource { get; set; }
 
         [Parameter(ParameterSetName = ParameterSetNameWithId, Mandatory = true, ValueFromPipelineByPropertyName = true, HelpMessage = "Version of the resource provider API.")]
         [ValidateNotNullOrEmpty]
@@ -57,7 +57,7 @@ namespace Microsoft.Azure.Commands.ResourceManager
                 Name = Name,
                 ResourceGroupName = ResourceGroupName,
                 ResourceType = ResourceType,
-                ParentResource = ParentResourceName,
+                ParentResource = ParentResource,
                 ApiVersion = ApiVersion
             };
 
@@ -76,7 +76,8 @@ namespace Microsoft.Azure.Commands.ResourceManager
                         "Name", r.Name,
                         "ResourceGroupName", r.ResourceGroupName,
                         "ResourceType", r.ResourceType,
-                        "Location", r.Location)));
+                        "Location", r.Location,
+                        "ParentResource", r.ParentResource)));
 
                     WriteObject(output, true);
                 }

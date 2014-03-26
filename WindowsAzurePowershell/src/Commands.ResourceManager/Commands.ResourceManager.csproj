@@ -222,6 +222,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Models\PSResourceManagerError.cs" />
+    <Compile Include="Models\ResourceManagerResourceIdentifier.cs" />
     <Compile Include="ResourceManagerBaseCmdlet.cs" />
     <Compile Include="Models\GetPSResourceGroupLogParameters.cs" />
     <Compile Include="Models\PSDeploymentEventDataAuthorization.cs" />

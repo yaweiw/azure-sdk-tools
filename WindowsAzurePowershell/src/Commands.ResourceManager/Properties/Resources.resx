@@ -195,4 +195,7 @@
   <data name="UnableToFindGallery" xml:space="preserve">
     <value>Cannot find Gallery item '{0}'.</value>
   </data>
+  <data name="InvalidFormatOfResourceId" xml:space="preserve">
+    <value>Invalid format of the resource identifier.</value>
+  </data>
 </root>
