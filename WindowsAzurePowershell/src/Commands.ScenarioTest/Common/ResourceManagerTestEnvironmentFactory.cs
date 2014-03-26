@@ -18,7 +18,7 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.Common
     using Microsoft.WindowsAzure.Common.Internals;
     using System;
 
-    public class CSMTestEnvironmentFactory : TestEnvironmentFactory
+    public class ResourceManagerTestEnvironmentFactory : TestEnvironmentFactory
     {
         /// <summary>
         /// The environment variable name for CSM OrgId authentication
