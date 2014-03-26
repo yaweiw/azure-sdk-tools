@@ -86,7 +86,7 @@ namespace Microsoft.Azure.Commands.ResourceManager.Models
 
         public static PSResource ToPSResource(this Resource resource, ResourcesClient client)
         {
-            ResourceManagerResourceIdentifier identifier = new ResourceManagerResourceIdentifier(resource.Id);
+            ResourceIdentifier identifier = new ResourceIdentifier(resource.Id);
             return new PSResource()
             {
                 Name = identifier.ResourceName,

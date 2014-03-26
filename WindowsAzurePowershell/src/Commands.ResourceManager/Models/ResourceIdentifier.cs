@@ -18,7 +18,7 @@ using Microsoft.Azure.Commands.ResourceManager.Properties;
 
 namespace Microsoft.Azure.Commands.ResourceManager.Models
 {
-    public class ResourceManagerResourceIdentifier
+    public class ResourceIdentifier
     {
         public string ResourceType { get; set; }
 
@@ -30,9 +30,9 @@ namespace Microsoft.Azure.Commands.ResourceManager.Models
 
         public string Subscription { get; set; }
 
-        public ResourceManagerResourceIdentifier() { }
+        public ResourceIdentifier() { }
 
-        public ResourceManagerResourceIdentifier(string idFromServer)
+        public ResourceIdentifier(string idFromServer)
         {
             if (!string.IsNullOrEmpty(idFromServer))
             {

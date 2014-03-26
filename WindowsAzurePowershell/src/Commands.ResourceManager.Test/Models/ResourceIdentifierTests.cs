@@ -21,12 +21,12 @@ using Xunit;
 
 namespace Microsoft.Azure.Commands.ResourceManager.Test.Models
 {
-    public class ResourceManagerResourceIdentifierTests
+    public class ResourceIdentifierTests
     {
         [Fact]
         public void IdentifierIsConstructedFromProvidedValues()
         {
-            ResourceManagerResourceIdentifier id = new ResourceManagerResourceIdentifier();
+            ResourceIdentifier id = new ResourceIdentifier();
             id.Subscription = "abc123";
             id.ResourceGroupName = "group1";
             id.ResourceType = "Microsoft.Test/servers/db";
@@ -39,7 +39,7 @@ namespace Microsoft.Azure.Commands.ResourceManager.Test.Models
         [Fact]
         public void IdentifierIsConstructedWithoutParent()
         {
-            ResourceManagerResourceIdentifier id = new ResourceManagerResourceIdentifier();
+            ResourceIdentifier id = new ResourceIdentifier();
             id.Subscription = "abc123";
             id.ResourceGroupName = "group1";
             id.ResourceType = "Microsoft.Test/db";
@@ -51,7 +51,7 @@ namespace Microsoft.Azure.Commands.ResourceManager.Test.Models
         [Fact]
         public void IdentifierIsConstructedWithMissingParameters()
         {
-            ResourceManagerResourceIdentifier id = new ResourceManagerResourceIdentifier();
+            ResourceIdentifier id = new ResourceIdentifier();
 
             Assert.Equal("/subscriptions//resourceGroups//providers///", id.ToString());
         }
@@ -59,7 +59,7 @@ namespace Microsoft.Azure.Commands.ResourceManager.Test.Models
         [Fact]
         public void IdentifierIsParsedFromShortId()
         {
-            ResourceManagerResourceIdentifier id = new ResourceManagerResourceIdentifier("/subscriptions/abc123/resourceGroups/group1/providers/Microsoft.Test/db/r45678db");
+            ResourceIdentifier id = new ResourceIdentifier("/subscriptions/abc123/resourceGroups/group1/providers/Microsoft.Test/db/r45678db");
             Assert.Equal("abc123", id.Subscription);
             Assert.Equal("group1", id.ResourceGroupName);
             Assert.Equal("Microsoft.Test/db", id.ResourceType);
@@ -70,7 +70,7 @@ namespace Microsoft.Azure.Commands.ResourceManager.Test.Models
         [Fact]
         public void IdentifierIsParsedFromLongId()
         {
-            ResourceManagerResourceIdentifier id = new ResourceManagerResourceIdentifier("/subscriptions/abc123/resourceGroups/group1/providers/Microsoft.Test/servers/r12345sql/db/r45678db");
+            ResourceIdentifier id = new ResourceIdentifier("/subscriptions/abc123/resourceGroups/group1/providers/Microsoft.Test/servers/r12345sql/db/r45678db");
             Assert.Equal("abc123", id.Subscription);
             Assert.Equal("group1", id.ResourceGroupName);
             Assert.Equal("Microsoft.Test/servers/db", id.ResourceType);
@@ -81,7 +81,7 @@ namespace Microsoft.Azure.Commands.ResourceManager.Test.Models
         [Fact]
         public void IdentifierIsParsedFromVeryLongId()
         {
-            ResourceManagerResourceIdentifier id = new ResourceManagerResourceIdentifier("/subscriptions/abc123/resourceGroups/group1/providers/Microsoft.Test/servers/r12345sql/subserver/r5555/db/r45678db");
+            ResourceIdentifier id = new ResourceIdentifier("/subscriptions/abc123/resourceGroups/group1/providers/Microsoft.Test/servers/r12345sql/subserver/r5555/db/r45678db");
             Assert.Equal("abc123", id.Subscription);
             Assert.Equal("group1", id.ResourceGroupName);
             Assert.Equal("Microsoft.Test/servers/subserver/db", id.ResourceType);
@@ -92,20 +92,20 @@ namespace Microsoft.Azure.Commands.ResourceManager.Test.Models
         [Fact]
         public void IdentifierThrowsExceptionFromInvalidId()
         {
-            Assert.Throws<ArgumentException>(()=> new ResourceManagerResourceIdentifier("/subscriptions/abc123/resourceGroups/group1"));
+            Assert.Throws<ArgumentException>(()=> new ResourceIdentifier("/subscriptions/abc123/resourceGroups/group1"));
         }
 
         [Fact]
         public void IdentifierParsedIsSkippedWithEmptyId()
         {
-            ResourceManagerResourceIdentifier id = new ResourceManagerResourceIdentifier(null);
+            ResourceIdentifier id = new ResourceIdentifier(null);
             Assert.Null(id.Subscription);
             Assert.Null(id.ResourceGroupName);
             Assert.Null(id.ResourceType);
             Assert.Null(id.ParentResource);
             Assert.Null(id.ResourceName);
 
-            id = new ResourceManagerResourceIdentifier("");
+            id = new ResourceIdentifier("");
             Assert.Null(id.Subscription);
             Assert.Null(id.ResourceGroupName);
             Assert.Null(id.ResourceType);
