@@ -125,6 +125,7 @@ namespace Microsoft.Azure.Commands.ResourceManager.Models
             PSResourceProviderType result = new PSResourceProviderType();
             if (resourceType != null)
             {
+                resourceType.Locations = resourceType.Locations ?? new List<string>();
                 for (int i = 0; i < ResourcesClient.KnownLocationsNormalized.Count; i++)
                 {
                     if (resourceType.Locations.Remove(ResourcesClient.KnownLocationsNormalized[i]))
