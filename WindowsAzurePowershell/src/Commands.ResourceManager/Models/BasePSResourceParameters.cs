@@ -41,8 +41,8 @@ namespace Microsoft.Azure.Commands.ResourceManager.Models
                 {
                     ResourceName = Name,
                     ParentResourcePath = ParentResource,
-                    ResourceProviderNamespace = ResourceManagerResourceIdentifier.GetProviderFromResourceType(ResourceType),
-                    ResourceType = ResourceManagerResourceIdentifier.GetTypeFromResourceType(ResourceType),
+                    ResourceProviderNamespace = ResourceIdentifier.GetProviderFromResourceType(ResourceType),
+                    ResourceType = ResourceIdentifier.GetTypeFromResourceType(ResourceType),
                     ResourceProviderApiVersion = ApiVersion
                 };
 
