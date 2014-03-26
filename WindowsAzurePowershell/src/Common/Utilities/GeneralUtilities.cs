@@ -38,6 +38,8 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
     {
         private static Assembly _assembly = Assembly.GetExecutingAssembly();
 
+        private static List<string> AuthorizationHeaderNames = new List<string>() { "Authorization" };
+
         private static bool TryFindCertificatesInStore(string thumbprint,
             System.Security.Cryptography.X509Certificates.StoreLocation location, out X509Certificate2Collection certificates)
         {
@@ -538,6 +540,12 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
             WebHeaderCollection webHeaders = new WebHeaderCollection();
             foreach (KeyValuePair<string, IEnumerable<string>> pair in headers)
             {
+                if (AuthorizationHeaderNames.Any(h => h.Equals(pair.Key, StringComparison.OrdinalIgnoreCase)))
+                {
+                    // Skip adding the authorization header
+                    continue;
+                }
+
                 pair.Value.ForEach<string>(v => webHeaders.Add(pair.Key, v));
             }
 
