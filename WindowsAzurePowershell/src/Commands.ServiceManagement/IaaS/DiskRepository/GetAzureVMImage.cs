@@ -18,6 +18,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.DiskRepository
     using System.Collections.Generic;
     using System.Linq;
     using System.Management.Automation;
+    using System.Net;
     using Management.Compute;
     using Management.Compute.Models;
     using Model;
@@ -44,43 +45,41 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.DiskRepository
 
         internal static bool CheckImageType(ComputeManagementClient computeClient, string imageName, ImageType imageType)
         {
-            bool result = false;
-
-            if (computeClient == null)
+            try
             {
-                result = false;
-            }
-            else if (imageType == ImageType.OSImage)
-            {
-                try
+                if (computeClient == null)
                 {
-                    result = string.Equals(
+                    return false;
+                }
+                else if (imageType == ImageType.OSImage)
+                {
+                    return string.Equals(
                         computeClient.VirtualMachineOSImages.Get(imageName).Name,
                         imageName,
                         StringComparison.OrdinalIgnoreCase);
                 }
-                catch
+                else if (imageType == ImageType.VMImage)
                 {
-                    result = false;
-                }
-            }
-            else if (imageType == ImageType.VMImage)
-            {
-                try
-                {
-                    result = computeClient.VirtualMachineVMImages.List().VMImages.Any(
+                    return computeClient.VirtualMachineVMImages.List().VMImages.Any(
                         e => string.Equals(
                             e.Name,
                             imageName,
                             StringComparison.OrdinalIgnoreCase));
                 }
-                catch
+            }
+            catch (CloudException e)
+            {
+                if (e.Response.StatusCode == HttpStatusCode.NotFound)
                 {
-                    result = false;
+                    return false;
+                }
+                else
+                {
+                    throw;
                 }
             }
 
-            return result;
+            return false;
         }
 
         protected void GetAzureVMImageProcess()
@@ -105,62 +104,43 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.DiskRepository
             }
             else
             {
-                bool found = false;
-                var exceptions = new List<Exception>();
+                bool isOSImage = CheckImageType(this.ComputeClient, this.ImageName, ImageType.OSImage);
+                bool isVMImage = CheckImageType(this.ComputeClient, this.ImageName, ImageType.VMImage);
 
-                try
+                if (!isVMImage)
                 {
                     this.ExecuteClientActionNewSM(
                         null,
                         this.CommandRuntime.ToString(),
                         () => this.ComputeClient.VirtualMachineOSImages.Get(this.ImageName),
-                        (s, t) =>
-                        {
-                            found = true;
-                            return this.ContextFactory<VirtualMachineOSImageGetResponse, OSImageContext>(t, s);
-                        });
+                        (s, t) => this.ContextFactory<VirtualMachineOSImageGetResponse, OSImageContext>(t, s));
                 }
-                catch (Exception ex)
+                else
                 {
-                    found = false;
-                    exceptions.Add(ex);
-                }
-
-                this.ExecuteClientActionNewSM(
-                    null,
-                    this.CommandRuntime.ToString(),
-                    () => this.ComputeClient.VirtualMachineVMImages.List(),
-                    (s, response) =>
+                    if (isOSImage)
                     {
-                        var imgs = response.VMImages.Where(
-                            t => string.Equals(
-                                t.Name,
-                                this.ImageName,
-                                StringComparison.OrdinalIgnoreCase));
+                        this.ExecuteClientActionNewSM(
+                            null,
+                            this.CommandRuntime.ToString(),
+                            () => this.ComputeClient.VirtualMachineOSImages.Get(this.ImageName),
+                            (s, t) => this.ContextFactory<VirtualMachineOSImageGetResponse, OSImageContext>(t, s));
+                    }
 
-                        if (imgs.Any())
+                    this.ExecuteClientActionNewSM(
+                        null,
+                        this.CommandRuntime.ToString(),
+                        () => this.ComputeClient.VirtualMachineVMImages.List(),
+                        (s, response) =>
                         {
-                            found = true;
+                            var imgs = response.VMImages.Where(
+                                t => string.Equals(
+                                    t.Name,
+                                    this.ImageName,
+                                    StringComparison.OrdinalIgnoreCase));
+
                             return imgs.Select(
-                                t => this.ContextFactory<VirtualMachineVMImageListResponse.VirtualMachineVMImage, VMImageContext>(t, s));
-                        }
-                        else
-                        {
-                            found = found || false;
-                            return null;
-                        }
-                    });
-
-                if (!found && exceptions.Any())
-                {
-                    if (exceptions.Count() == 1)
-                    {
-                        throw exceptions.FirstOrDefault();
-                    }
-                    else
-                    {
-                        throw new AggregateException(exceptions);
-                    }
+                                    t => this.ContextFactory<VirtualMachineVMImageListResponse.VirtualMachineVMImage, VMImageContext>(t, s));
+                        });
                 }
             }
         }
