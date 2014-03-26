@@ -111,7 +111,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
         
         protected override void ExecuteCommand()
         {
-            ServiceManagementProfile.Initialize();
+            ServiceManagementProfile.Initialize(this);
             
             base.ExecuteCommand();
 
