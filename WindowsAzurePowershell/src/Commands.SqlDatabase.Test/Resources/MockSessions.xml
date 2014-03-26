@@ -9107,11 +9107,11 @@
             </Header>
             <Header>
               <Name>x-ms-client-session-id</Name>
-              <Value>ae185964-bb88-42ec-83ba-bf7ef97f20f8-2014-03-19 14:47:40Z</Value>
+              <Value>f00172bf-3b31-469c-8741-1e100bd912b4-2014-03-24 22:26:22Z</Value>
             </Header>
             <Header>
               <Name>x-ms-client-request-id</Name>
-              <Value>c7dd9d96-aba1-4759-8b13-b008cd3592a8-2014-03-19 14:48:01Z</Value>
+              <Value>f5da7c79-0c00-4b68-96c8-fa391e26befa-2014-03-24 22:26:39Z</Value>
             </Header>
           </Headers>
           <Cookies />
@@ -9124,7 +9124,7 @@
           <Headers>
             <Header>
               <Name>x-ms-request-id</Name>
-              <Value>c7dd9d96-aba1-4759-8b13-b008cd3592a8</Value>
+              <Value>f5da7c79-0c00-4b68-96c8-fa391e26befa</Value>
             </Header>
             <Header>
               <Name>X-Content-Type-Options</Name>
@@ -9140,7 +9140,7 @@
             </Header>
             <Header>
               <Name>Date</Name>
-              <Value>Wed, 19 Mar 2014 14:48:00 GMT</Value>
+              <Value>Mon, 24 Mar 2014 22:26:39 GMT</Value>
             </Header>
             <Header>
               <Name>Server</Name>
@@ -9148,7 +9148,7 @@
             </Header>
           </Headers>
           <Cookies />
-          <ResponseText>&lt;ServiceResource xmlns="http://schemas.microsoft.com/windowsazure" xmlns:i="http://www.w3.org/2001/XMLSchema-instance"&gt;&lt;Name&gt;testdbcert1&lt;/Name&gt;&lt;Type&gt;Microsoft.SqlAzure.Database&lt;/Type&gt;&lt;State&gt;Normal&lt;/State&gt;&lt;SelfLink&gt;https://localhost/servers/serverv1/databases/testdbcert1&lt;/SelfLink&gt;&lt;ParentLink&gt;https://localhost/servers/serverv1&lt;/ParentLink&gt;&lt;Id&gt;4&lt;/Id&gt;&lt;Edition&gt;Web&lt;/Edition&gt;&lt;MaxSizeGB&gt;1&lt;/MaxSizeGB&gt;&lt;CollationName&gt;SQL_Latin1_General_CP1_CI_AS&lt;/CollationName&gt;&lt;CreationDate&gt;2014-03-19T14:47:45.5500000Z&lt;/CreationDate&gt;&lt;IsFederationRoot&gt;False&lt;/IsFederationRoot&gt;&lt;IsSystemObject&gt;False&lt;/IsSystemObject&gt;&lt;SizeMB i:nil="true"/&gt;&lt;MaxSizeBytes&gt;1073741824&lt;/MaxSizeBytes&gt;&lt;ServiceObjectiveId&gt;910b4fcb-8a29-4c3e-958f-f7ba794388b2&lt;/ServiceObjectiveId&gt;&lt;AssignedServiceObjectiveId&gt;910b4fcb-8a29-4c3e-958f-f7ba794388b2&lt;/AssignedServiceObjectiveId&gt;&lt;ServiceObjectiveAssignmentState&gt;1&lt;/ServiceObjectiveAssignmentState&gt;&lt;ServiceObjectiveAssignmentStateDescription&gt;Complete&lt;/ServiceObjectiveAssignmentStateDescription&gt;&lt;ServiceObjectiveAssignmentErrorCode&gt;0&lt;/ServiceObjectiveAssignmentErrorCode&gt;&lt;ServiceObjectiveAssignmentErrorDescription i:nil="true"/&gt;&lt;ServiceObjectiveAssignmentSuccessDate&gt;2014-03-19T14:47:50.3700000Z&lt;/ServiceObjectiveAssignmentSuccessDate&gt;&lt;RecoveryPeriodStartDate&gt;2014-03-19T14:48:44.3370000Z&lt;/RecoveryPeriodStartDate&gt;&lt;IsSuspended&gt;False&lt;/IsSuspended&gt;&lt;/ServiceResource&gt;</ResponseText>
+          <ResponseText>&lt;ServiceResource xmlns="http://schemas.microsoft.com/windowsazure" xmlns:i="http://www.w3.org/2001/XMLSchema-instance"&gt;&lt;Name&gt;testdbcert1&lt;/Name&gt;&lt;Type&gt;Microsoft.SqlAzure.Database&lt;/Type&gt;&lt;State&gt;Normal&lt;/State&gt;&lt;SelfLink&gt;https://localhost/servers/serverv1/databases/testdbcert1&lt;/SelfLink&gt;&lt;ParentLink&gt;https://localhost/servers/serverv1&lt;/ParentLink&gt;&lt;Id&gt;4&lt;/Id&gt;&lt;Edition&gt;Web&lt;/Edition&gt;&lt;MaxSizeGB&gt;1&lt;/MaxSizeGB&gt;&lt;CollationName&gt;SQL_Latin1_General_CP1_CI_AS&lt;/CollationName&gt;&lt;CreationDate&gt;2014-03-24T22:26:24.5300000Z&lt;/CreationDate&gt;&lt;IsFederationRoot&gt;False&lt;/IsFederationRoot&gt;&lt;IsSystemObject&gt;False&lt;/IsSystemObject&gt;&lt;SizeMB i:nil="true"/&gt;&lt;MaxSizeBytes&gt;1073741824&lt;/MaxSizeBytes&gt;&lt;ServiceObjectiveId&gt;910b4fcb-8a29-4c3e-958f-f7ba794388b2&lt;/ServiceObjectiveId&gt;&lt;AssignedServiceObjectiveId&gt;910b4fcb-8a29-4c3e-958f-f7ba794388b2&lt;/AssignedServiceObjectiveId&gt;&lt;ServiceObjectiveAssignmentState&gt;1&lt;/ServiceObjectiveAssignmentState&gt;&lt;ServiceObjectiveAssignmentStateDescription&gt;Complete&lt;/ServiceObjectiveAssignmentStateDescription&gt;&lt;ServiceObjectiveAssignmentErrorCode&gt;0&lt;/ServiceObjectiveAssignmentErrorCode&gt;&lt;ServiceObjectiveAssignmentErrorDescription i:nil="true"/&gt;&lt;ServiceObjectiveAssignmentSuccessDate&gt;2014-03-24T22:26:27.7570000Z&lt;/ServiceObjectiveAssignmentSuccessDate&gt;&lt;RecoveryPeriodStartDate&gt;2014-03-24T22:27:24.1470000Z&lt;/RecoveryPeriodStartDate&gt;&lt;IsSuspended&gt;False&lt;/IsSuspended&gt;&lt;/ServiceResource&gt;</ResponseText>
         </ResponseInfo>
       </HttpMessage>
       <HttpMessage>
@@ -9164,11 +9164,11 @@
             </Header>
             <Header>
               <Name>x-ms-client-session-id</Name>
-              <Value>f00172bf-3b31-469c-8741-1e100bd912b4-2014-03-24 22:26:22Z</Value>
+              <Value>76a75f11-f6f7-4d91-b818-dfdb99165161-2014-03-26 19:35:48Z</Value>
             </Header>
             <Header>
               <Name>x-ms-client-request-id</Name>
-              <Value>4ee4cff1-b72e-47fb-9102-85777192928f-2014-03-24 22:26:22Z</Value>
+              <Value>2ebe513c-43c5-4daa-8bca-d542cbc23b9d-2014-03-26 19:35:48Z</Value>
             </Header>
           </Headers>
           <Cookies />
@@ -9184,7 +9184,7 @@
           <Headers>
             <Header>
               <Name>x-ms-request-id</Name>
-              <Value>4ee4cff1-b72e-47fb-9102-85777192928f</Value>
+              <Value>2ebe513c-43c5-4daa-8bca-d542cbc23b9d</Value>
             </Header>
             <Header>
               <Name>X-Content-Type-Options</Name>
@@ -9200,7 +9200,7 @@
             </Header>
             <Header>
               <Name>Date</Name>
-              <Value>Mon, 24 Mar 2014 22:26:29 GMT</Value>
+              <Value>Wed, 26 Mar 2014 19:36:00 GMT</Value>
             </Header>
             <Header>
               <Name>Server</Name>
@@ -9208,7 +9208,7 @@
             </Header>
           </Headers>
           <Cookies />
-          <ResponseText>&lt;ServiceResource xmlns="http://schemas.microsoft.com/windowsazure" xmlns:i="http://www.w3.org/2001/XMLSchema-instance"&gt;&lt;Name&gt;testdbcert1&lt;/Name&gt;&lt;Type&gt;Microsoft.SqlAzure.Database&lt;/Type&gt;&lt;State&gt;Normal&lt;/State&gt;&lt;SelfLink&gt;https://localhost/servers/serverv1/databases/testdbcert1&lt;/SelfLink&gt;&lt;ParentLink&gt;https://localhost/servers/serverv1&lt;/ParentLink&gt;&lt;Id&gt;4&lt;/Id&gt;&lt;Edition&gt;Web&lt;/Edition&gt;&lt;MaxSizeGB&gt;1&lt;/MaxSizeGB&gt;&lt;CollationName&gt;SQL_Latin1_General_CP1_CI_AS&lt;/CollationName&gt;&lt;CreationDate&gt;2014-03-24T22:26:24.5300000Z&lt;/CreationDate&gt;&lt;IsFederationRoot&gt;False&lt;/IsFederationRoot&gt;&lt;IsSystemObject&gt;False&lt;/IsSystemObject&gt;&lt;SizeMB i:nil="true"/&gt;&lt;MaxSizeBytes&gt;1073741824&lt;/MaxSizeBytes&gt;&lt;ServiceObjectiveId&gt;910b4fcb-8a29-4c3e-958f-f7ba794388b2&lt;/ServiceObjectiveId&gt;&lt;AssignedServiceObjectiveId&gt;910b4fcb-8a29-4c3e-958f-f7ba794388b2&lt;/AssignedServiceObjectiveId&gt;&lt;ServiceObjectiveAssignmentState&gt;1&lt;/ServiceObjectiveAssignmentState&gt;&lt;ServiceObjectiveAssignmentStateDescription&gt;Complete&lt;/ServiceObjectiveAssignmentStateDescription&gt;&lt;ServiceObjectiveAssignmentErrorCode&gt;0&lt;/ServiceObjectiveAssignmentErrorCode&gt;&lt;ServiceObjectiveAssignmentErrorDescription i:nil="true"/&gt;&lt;ServiceObjectiveAssignmentSuccessDate&gt;2014-03-24T22:26:27.7570000Z&lt;/ServiceObjectiveAssignmentSuccessDate&gt;&lt;RecoveryPeriodStartDate&gt;2014-03-24T22:27:24.1470000Z&lt;/RecoveryPeriodStartDate&gt;&lt;IsSuspended&gt;False&lt;/IsSuspended&gt;&lt;/ServiceResource&gt;</ResponseText>
+          <ResponseText>&lt;ServiceResource xmlns="http://schemas.microsoft.com/windowsazure" xmlns:i="http://www.w3.org/2001/XMLSchema-instance"&gt;&lt;Name&gt;testdbcert1&lt;/Name&gt;&lt;Type&gt;Microsoft.SqlAzure.Database&lt;/Type&gt;&lt;State&gt;Normal&lt;/State&gt;&lt;SelfLink&gt;https://localhost/servers/serverv1/databases/testdbcert1&lt;/SelfLink&gt;&lt;ParentLink&gt;https://localhost/servers/serverv1&lt;/ParentLink&gt;&lt;Id&gt;4&lt;/Id&gt;&lt;Edition&gt;Web&lt;/Edition&gt;&lt;MaxSizeGB&gt;1&lt;/MaxSizeGB&gt;&lt;CollationName&gt;SQL_Latin1_General_CP1_CI_AS&lt;/CollationName&gt;&lt;CreationDate&gt;2014-03-26T19:35:51.5200000Z&lt;/CreationDate&gt;&lt;IsFederationRoot&gt;False&lt;/IsFederationRoot&gt;&lt;IsSystemObject&gt;False&lt;/IsSystemObject&gt;&lt;SizeMB i:nil="true"/&gt;&lt;MaxSizeBytes&gt;1073741824&lt;/MaxSizeBytes&gt;&lt;ServiceObjectiveId&gt;910b4fcb-8a29-4c3e-958f-f7ba794388b2&lt;/ServiceObjectiveId&gt;&lt;AssignedServiceObjectiveId&gt;910b4fcb-8a29-4c3e-958f-f7ba794388b2&lt;/AssignedServiceObjectiveId&gt;&lt;ServiceObjectiveAssignmentState&gt;1&lt;/ServiceObjectiveAssignmentState&gt;&lt;ServiceObjectiveAssignmentStateDescription&gt;Complete&lt;/ServiceObjectiveAssignmentStateDescription&gt;&lt;ServiceObjectiveAssignmentErrorCode&gt;0&lt;/ServiceObjectiveAssignmentErrorCode&gt;&lt;ServiceObjectiveAssignmentErrorDescription i:nil="true"/&gt;&lt;ServiceObjectiveAssignmentSuccessDate&gt;2014-03-26T19:35:57.0270000Z&lt;/ServiceObjectiveAssignmentSuccessDate&gt;&lt;RecoveryPeriodStartDate&gt;2014-03-26T19:36:49.9300000Z&lt;/RecoveryPeriodStartDate&gt;&lt;IsSuspended&gt;False&lt;/IsSuspended&gt;&lt;/ServiceResource&gt;</ResponseText>
         </ResponseInfo>
       </HttpMessage>
       <HttpMessage>
@@ -9216,7 +9216,7 @@
         <RequestInfo>
           <RequestUri>https://localhost:65432/00000000-0000-0000-0001-000000000001/services/sqlservers/servers/serverv1/serviceobjectives/910b4fcb-8a29-4c3e-958f-f7ba794388b2</RequestUri>
           <Method>GET</Method>
-          <UserAgent>Microsoft.WindowsAzure.Management.Sql.SqlManagementClient/0.9.0.0 WindowsAzurePowershell/v0.8.0</UserAgent>
+          <UserAgent>Microsoft.WindowsAzure.Management.Sql.SqlManagementClient/0.9.0.0 WindowsAzurePowershell/v0.7.4</UserAgent>
           <Headers>
             <Header>
               <Name>x-ms-version</Name>
@@ -9224,11 +9224,11 @@
             </Header>
             <Header>
               <Name>x-ms-client-session-id</Name>
-              <Value>f00172bf-3b31-469c-8741-1e100bd912b4-2014-03-24 22:26:22Z</Value>
+              <Value>76a75f11-f6f7-4d91-b818-dfdb99165161-2014-03-26 19:35:48Z</Value>
             </Header>
             <Header>
               <Name>x-ms-client-request-id</Name>
-              <Value>f0201eeb-7660-4383-8004-273c4021f467-2014-03-24 22:26:30Z</Value>
+              <Value>741d6477-fffc-4f5e-a515-8793ab456fe2-2014-03-26 19:36:00Z</Value>
             </Header>
           </Headers>
           <Cookies />
@@ -9241,7 +9241,7 @@
           <Headers>
             <Header>
               <Name>x-ms-request-id</Name>
-              <Value>f0201eeb-7660-4383-8004-273c4021f467</Value>
+              <Value>741d6477-fffc-4f5e-a515-8793ab456fe2</Value>
             </Header>
             <Header>
               <Name>X-Content-Type-Options</Name>
@@ -9257,7 +9257,7 @@
             </Header>
             <Header>
               <Name>Date</Name>
-              <Value>Mon, 24 Mar 2014 22:26:29 GMT</Value>
+              <Value>Wed, 26 Mar 2014 19:36:00 GMT</Value>
             </Header>
             <Header>
               <Name>Server</Name>
@@ -9273,7 +9273,7 @@
         <RequestInfo>
           <RequestUri>https://localhost:65432/00000000-0000-0000-0001-000000000001/services/sqlservers/servers/serverv1/databases</RequestUri>
           <Method>POST</Method>
-          <UserAgent>Microsoft.WindowsAzure.Management.Sql.SqlManagementClient/0.9.0.0 WindowsAzurePowershell/v0.8.0</UserAgent>
+          <UserAgent>Microsoft.WindowsAzure.Management.Sql.SqlManagementClient/0.9.0.0 WindowsAzurePowershell/v0.7.4</UserAgent>
           <Headers>
             <Header>
               <Name>x-ms-version</Name>
@@ -9281,11 +9281,11 @@
             </Header>
             <Header>
               <Name>x-ms-client-session-id</Name>
-              <Value>f00172bf-3b31-469c-8741-1e100bd912b4-2014-03-24 22:26:22Z</Value>
+              <Value>76a75f11-f6f7-4d91-b818-dfdb99165161-2014-03-26 19:35:48Z</Value>
             </Header>
             <Header>
               <Name>x-ms-client-request-id</Name>
-              <Value>ca5653ee-e876-464f-a388-56aa746a82db-2014-03-24 22:26:30Z</Value>
+              <Value>22f7ffa8-428b-4208-b1b2-0b72514fd265-2014-03-26 19:36:00Z</Value>
             </Header>
           </Headers>
           <Cookies />
@@ -9303,7 +9303,7 @@
           <Headers>
             <Header>
               <Name>x-ms-request-id</Name>
-              <Value>ca5653ee-e876-464f-a388-56aa746a82db</Value>
+              <Value>22f7ffa8-428b-4208-b1b2-0b72514fd265</Value>
             </Header>
             <Header>
               <Name>X-Content-Type-Options</Name>
@@ -9319,7 +9319,7 @@
             </Header>
             <Header>
               <Name>Date</Name>
-              <Value>Mon, 24 Mar 2014 22:26:37 GMT</Value>
+              <Value>Wed, 26 Mar 2014 19:36:09 GMT</Value>
             </Header>
             <Header>
               <Name>Server</Name>
@@ -9327,7 +9327,7 @@
             </Header>
           </Headers>
           <Cookies />
-          <ResponseText>&lt;ServiceResource xmlns="http://schemas.microsoft.com/windowsazure" xmlns:i="http://www.w3.org/2001/XMLSchema-instance"&gt;&lt;Name&gt;testdbcert2&lt;/Name&gt;&lt;Type&gt;Microsoft.SqlAzure.Database&lt;/Type&gt;&lt;State&gt;Normal&lt;/State&gt;&lt;SelfLink&gt;https://localhost/servers/serverv1/databases/testdbcert2&lt;/SelfLink&gt;&lt;ParentLink&gt;https://localhost/servers/serverv1&lt;/ParentLink&gt;&lt;Id&gt;5&lt;/Id&gt;&lt;Edition&gt;Business&lt;/Edition&gt;&lt;MaxSizeGB&gt;10&lt;/MaxSizeGB&gt;&lt;CollationName&gt;Japanese_CI_AS&lt;/CollationName&gt;&lt;CreationDate&gt;2014-03-24T22:26:31.6170000Z&lt;/CreationDate&gt;&lt;IsFederationRoot&gt;False&lt;/IsFederationRoot&gt;&lt;IsSystemObject&gt;False&lt;/IsSystemObject&gt;&lt;SizeMB i:nil="true"/&gt;&lt;MaxSizeBytes&gt;10737418240&lt;/MaxSizeBytes&gt;&lt;ServiceObjectiveId&gt;910b4fcb-8a29-4c3e-958f-f7ba794388b2&lt;/ServiceObjectiveId&gt;&lt;AssignedServiceObjectiveId&gt;910b4fcb-8a29-4c3e-958f-f7ba794388b2&lt;/AssignedServiceObjectiveId&gt;&lt;ServiceObjectiveAssignmentState&gt;1&lt;/ServiceObjectiveAssignmentState&gt;&lt;ServiceObjectiveAssignmentStateDescription&gt;Complete&lt;/ServiceObjectiveAssignmentStateDescription&gt;&lt;ServiceObjectiveAssignmentErrorCode&gt;0&lt;/ServiceObjectiveAssignmentErrorCode&gt;&lt;ServiceObjectiveAssignmentErrorDescription i:nil="true"/&gt;&lt;ServiceObjectiveAssignmentSuccessDate&gt;2014-03-24T22:26:35.4100000Z&lt;/ServiceObjectiveAssignmentSuccessDate&gt;&lt;RecoveryPeriodStartDate&gt;2014-03-24T22:27:30.8970000Z&lt;/RecoveryPeriodStartDate&gt;&lt;IsSuspended&gt;False&lt;/IsSuspended&gt;&lt;/ServiceResource&gt;</ResponseText>
+          <ResponseText>&lt;ServiceResource xmlns="http://schemas.microsoft.com/windowsazure" xmlns:i="http://www.w3.org/2001/XMLSchema-instance"&gt;&lt;Name&gt;testdbcert2&lt;/Name&gt;&lt;Type&gt;Microsoft.SqlAzure.Database&lt;/Type&gt;&lt;State&gt;Normal&lt;/State&gt;&lt;SelfLink&gt;https://localhost/servers/serverv1/databases/testdbcert2&lt;/SelfLink&gt;&lt;ParentLink&gt;https://localhost/servers/serverv1&lt;/ParentLink&gt;&lt;Id&gt;5&lt;/Id&gt;&lt;Edition&gt;Business&lt;/Edition&gt;&lt;MaxSizeGB&gt;10&lt;/MaxSizeGB&gt;&lt;CollationName&gt;Japanese_CI_AS&lt;/CollationName&gt;&lt;CreationDate&gt;2014-03-26T19:36:03.6300000Z&lt;/CreationDate&gt;&lt;IsFederationRoot&gt;False&lt;/IsFederationRoot&gt;&lt;IsSystemObject&gt;False&lt;/IsSystemObject&gt;&lt;SizeMB i:nil="true"/&gt;&lt;MaxSizeBytes&gt;10737418240&lt;/MaxSizeBytes&gt;&lt;ServiceObjectiveId&gt;910b4fcb-8a29-4c3e-958f-f7ba794388b2&lt;/ServiceObjectiveId&gt;&lt;AssignedServiceObjectiveId&gt;910b4fcb-8a29-4c3e-958f-f7ba794388b2&lt;/AssignedServiceObjectiveId&gt;&lt;ServiceObjectiveAssignmentState&gt;1&lt;/ServiceObjectiveAssignmentState&gt;&lt;ServiceObjectiveAssignmentStateDescription&gt;Complete&lt;/ServiceObjectiveAssignmentStateDescription&gt;&lt;ServiceObjectiveAssignmentErrorCode&gt;0&lt;/ServiceObjectiveAssignmentErrorCode&gt;&lt;ServiceObjectiveAssignmentErrorDescription i:nil="true"/&gt;&lt;ServiceObjectiveAssignmentSuccessDate&gt;2014-03-26T19:36:06.9930000Z&lt;/ServiceObjectiveAssignmentSuccessDate&gt;&lt;RecoveryPeriodStartDate&gt;2014-03-26T19:37:01.4000000Z&lt;/RecoveryPeriodStartDate&gt;&lt;IsSuspended&gt;False&lt;/IsSuspended&gt;&lt;/ServiceResource&gt;</ResponseText>
         </ResponseInfo>
       </HttpMessage>
       <HttpMessage>
@@ -9335,7 +9335,7 @@
         <RequestInfo>
           <RequestUri>https://localhost:65432/00000000-0000-0000-0001-000000000001/services/sqlservers/servers/serverv1/serviceobjectives/910b4fcb-8a29-4c3e-958f-f7ba794388b2</RequestUri>
           <Method>GET</Method>
-          <UserAgent>Microsoft.WindowsAzure.Management.Sql.SqlManagementClient/0.9.0.0 WindowsAzurePowershell/v0.8.0</UserAgent>
+          <UserAgent>Microsoft.WindowsAzure.Management.Sql.SqlManagementClient/0.9.0.0 WindowsAzurePowershell/v0.7.4</UserAgent>
           <Headers>
             <Header>
               <Name>x-ms-version</Name>
@@ -9343,11 +9343,11 @@
             </Header>
             <Header>
               <Name>x-ms-client-session-id</Name>
-              <Value>f00172bf-3b31-469c-8741-1e100bd912b4-2014-03-24 22:26:22Z</Value>
+              <Value>76a75f11-f6f7-4d91-b818-dfdb99165161-2014-03-26 19:35:48Z</Value>
             </Header>
             <Header>
               <Name>x-ms-client-request-id</Name>
-              <Value>8d757972-1b43-468d-a6c4-0de250f75cf8-2014-03-24 22:26:37Z</Value>
+              <Value>4bc7e881-51bf-4438-bcde-59bfce5676d4-2014-03-26 19:36:09Z</Value>
             </Header>
           </Headers>
           <Cookies />
@@ -9360,7 +9360,7 @@
           <Headers>
             <Header>
               <Name>x-ms-request-id</Name>
-              <Value>8d757972-1b43-468d-a6c4-0de250f75cf8</Value>
+              <Value>4bc7e881-51bf-4438-bcde-59bfce5676d4</Value>
             </Header>
             <Header>
               <Name>X-Content-Type-Options</Name>
@@ -9376,7 +9376,7 @@
             </Header>
             <Header>
               <Name>Date</Name>
-              <Value>Mon, 24 Mar 2014 22:26:37 GMT</Value>
+              <Value>Wed, 26 Mar 2014 19:36:09 GMT</Value>
             </Header>
             <Header>
               <Name>Server</Name>
@@ -9390,9 +9390,9 @@
       <HttpMessage>
         <Index>4</Index>
         <RequestInfo>
-          <RequestUri>https://localhost:65432/00000000-0000-0000-0001-000000000001/services/sqlservers/servers/serverv1/databases?contentview=generic</RequestUri>
-          <Method>GET</Method>
-          <UserAgent>Microsoft.WindowsAzure.Management.Sql.SqlManagementClient/0.9.0.0 WindowsAzurePowershell/v0.8.0</UserAgent>
+          <RequestUri>https://localhost:65432/00000000-0000-0000-0001-000000000001/services/sqlservers/servers/serverv1/databases</RequestUri>
+          <Method>POST</Method>
+          <UserAgent>Microsoft.WindowsAzure.Management.Sql.SqlManagementClient/0.9.0.0 WindowsAzurePowershell/v0.7.4</UserAgent>
           <Headers>
             <Header>
               <Name>x-ms-version</Name>
@@ -9400,24 +9400,28 @@
             </Header>
             <Header>
               <Name>x-ms-client-session-id</Name>
-              <Value>f00172bf-3b31-469c-8741-1e100bd912b4-2014-03-24 22:26:22Z</Value>
+              <Value>76a75f11-f6f7-4d91-b818-dfdb99165161-2014-03-26 19:35:48Z</Value>
             </Header>
             <Header>
               <Name>x-ms-client-request-id</Name>
-              <Value>0c4909f3-2f3f-4374-8821-c781d2681fa2-2014-03-24 22:26:37Z</Value>
+              <Value>3ee75d0a-0e82-4046-b421-a21ff31fe1b1-2014-03-26 19:36:10Z</Value>
             </Header>
           </Headers>
           <Cookies />
-          <RequestText i:nil="true" />
-          <ContentType i:nil="true" />
+          <RequestText>&lt;ServiceResource xmlns="http://schemas.microsoft.com/windowsazure"&gt;
+  &lt;Name&gt;testdbcert4&lt;/Name&gt;
+  &lt;CollationName&gt;&lt;/CollationName&gt;
+  &lt;MaxSizeBytes&gt;104857600&lt;/MaxSizeBytes&gt;
+&lt;/ServiceResource&gt;</RequestText>
+          <ContentType>application/xml</ContentType>
           <Accept i:nil="true" />
         </RequestInfo>
         <ResponseInfo>
-          <StatusCode>OK</StatusCode>
+          <StatusCode>Created</StatusCode>
           <Headers>
             <Header>
               <Name>x-ms-request-id</Name>
-              <Value>0c4909f3-2f3f-4374-8821-c781d2681fa2</Value>
+              <Value>3ee75d0a-0e82-4046-b421-a21ff31fe1b1</Value>
             </Header>
             <Header>
               <Name>X-Content-Type-Options</Name>
@@ -9433,7 +9437,7 @@
             </Header>
             <Header>
               <Name>Date</Name>
-              <Value>Mon, 24 Mar 2014 22:26:37 GMT</Value>
+              <Value>Wed, 26 Mar 2014 19:36:18 GMT</Value>
             </Header>
             <Header>
               <Name>Server</Name>
@@ -9441,15 +9445,15 @@
             </Header>
           </Headers>
           <Cookies />
-          <ResponseText>&lt;ServiceResources xmlns="http://schemas.microsoft.com/windowsazure" xmlns:i="http://www.w3.org/2001/XMLSchema-instance"&gt;&lt;ServiceResource&gt;&lt;Name&gt;master&lt;/Name&gt;&lt;Type&gt;Microsoft.SqlAzure.Database&lt;/Type&gt;&lt;State&gt;Normal&lt;/State&gt;&lt;SelfLink&gt;https://localhost/servers/serverv1/databases/master&lt;/SelfLink&gt;&lt;ParentLink&gt;https://localhost/servers/serverv1&lt;/ParentLink&gt;&lt;Id&gt;1&lt;/Id&gt;&lt;Edition&gt;System&lt;/Edition&gt;&lt;MaxSizeGB&gt;5&lt;/MaxSizeGB&gt;&lt;CollationName&gt;SQL_Latin1_General_CP1_CI_AS&lt;/CollationName&gt;&lt;CreationDate&gt;2014-03-20T17:23:47.8000000Z&lt;/CreationDate&gt;&lt;IsFederationRoot&gt;False&lt;/IsFederationRoot&gt;&lt;IsSystemObject&gt;True&lt;/IsSystemObject&gt;&lt;SizeMB i:nil="true"/&gt;&lt;MaxSizeBytes&gt;5368709120&lt;/MaxSizeBytes&gt;&lt;ServiceObjectiveId&gt;26e021db-f1f9-4c98-84c6-92af8ef433d7&lt;/ServiceObjectiveId&gt;&lt;AssignedServiceObjectiveId&gt;26e021db-f1f9-4c98-84c6-92af8ef433d7&lt;/AssignedServiceObjectiveId&gt;&lt;ServiceObjectiveAssignmentState&gt;1&lt;/ServiceObjectiveAssignmentState&gt;&lt;ServiceObjectiveAssignmentStateDescription&gt;Complete&lt;/ServiceObjectiveAssignmentStateDescription&gt;&lt;ServiceObjectiveAssignmentErrorCode&gt;0&lt;/ServiceObjectiveAssignmentErrorCode&gt;&lt;ServiceObjectiveAssignmentErrorDescription i:nil="true"/&gt;&lt;ServiceObjectiveAssignmentSuccessDate&gt;2014-03-20T17:24:07.0200000Z&lt;/ServiceObjectiveAssignmentSuccessDate&gt;&lt;RecoveryPeriodStartDate i:nil="true"/&gt;&lt;IsSuspended&gt;False&lt;/IsSuspended&gt;&lt;/ServiceResource&gt;&lt;ServiceResource&gt;&lt;Name&gt;testdbcert1&lt;/Name&gt;&lt;Type&gt;Microsoft.SqlAzure.Database&lt;/Type&gt;&lt;State&gt;Normal&lt;/State&gt;&lt;SelfLink&gt;https://localhost/servers/serverv1/databases/testdbcert1&lt;/SelfLink&gt;&lt;ParentLink&gt;https://localhost/servers/serverv1&lt;/ParentLink&gt;&lt;Id&gt;4&lt;/Id&gt;&lt;Edition&gt;Web&lt;/Edition&gt;&lt;MaxSizeGB&gt;1&lt;/MaxSizeGB&gt;&lt;CollationName&gt;SQL_Latin1_General_CP1_CI_AS&lt;/CollationName&gt;&lt;CreationDate&gt;2014-03-24T22:26:24.5300000Z&lt;/CreationDate&gt;&lt;IsFederationRoot&gt;False&lt;/IsFederationRoot&gt;&lt;IsSystemObject&gt;False&lt;/IsSystemObject&gt;&lt;SizeMB i:nil="true"/&gt;&lt;MaxSizeBytes&gt;1073741824&lt;/MaxSizeBytes&gt;&lt;ServiceObjectiveId&gt;910b4fcb-8a29-4c3e-958f-f7ba794388b2&lt;/ServiceObjectiveId&gt;&lt;AssignedServiceObjectiveId&gt;910b4fcb-8a29-4c3e-958f-f7ba794388b2&lt;/AssignedServiceObjectiveId&gt;&lt;ServiceObjectiveAssignmentState&gt;1&lt;/ServiceObjectiveAssignmentState&gt;&lt;ServiceObjectiveAssignmentStateDescription&gt;Complete&lt;/ServiceObjectiveAssignmentStateDescription&gt;&lt;ServiceObjectiveAssignmentErrorCode&gt;0&lt;/ServiceObjectiveAssignmentErrorCode&gt;&lt;ServiceObjectiveAssignmentErrorDescription i:nil="true"/&gt;&lt;ServiceObjectiveAssignmentSuccessDate&gt;2014-03-24T22:26:27.7570000Z&lt;/ServiceObjectiveAssignmentSuccessDate&gt;&lt;RecoveryPeriodStartDate&gt;2014-03-24T22:27:24.1470000Z&lt;/RecoveryPeriodStartDate&gt;&lt;IsSuspended&gt;False&lt;/IsSuspended&gt;&lt;/ServiceResource&gt;&lt;ServiceResource&gt;&lt;Name&gt;testdbcert2&lt;/Name&gt;&lt;Type&gt;Microsoft.SqlAzure.Database&lt;/Type&gt;&lt;State&gt;Normal&lt;/State&gt;&lt;SelfLink&gt;https://localhost/servers/serverv1/databases/testdbcert2&lt;/SelfLink&gt;&lt;ParentLink&gt;https://localhost/servers/serverv1&lt;/ParentLink&gt;&lt;Id&gt;5&lt;/Id&gt;&lt;Edition&gt;Business&lt;/Edition&gt;&lt;MaxSizeGB&gt;10&lt;/MaxSizeGB&gt;&lt;CollationName&gt;Japanese_CI_AS&lt;/CollationName&gt;&lt;CreationDate&gt;2014-03-24T22:26:31.6170000Z&lt;/CreationDate&gt;&lt;IsFederationRoot&gt;False&lt;/IsFederationRoot&gt;&lt;IsSystemObject&gt;False&lt;/IsSystemObject&gt;&lt;SizeMB i:nil="true"/&gt;&lt;MaxSizeBytes&gt;10737418240&lt;/MaxSizeBytes&gt;&lt;ServiceObjectiveId&gt;910b4fcb-8a29-4c3e-958f-f7ba794388b2&lt;/ServiceObjectiveId&gt;&lt;AssignedServiceObjectiveId&gt;910b4fcb-8a29-4c3e-958f-f7ba794388b2&lt;/AssignedServiceObjectiveId&gt;&lt;ServiceObjectiveAssignmentState&gt;1&lt;/ServiceObjectiveAssignmentState&gt;&lt;ServiceObjectiveAssignmentStateDescription&gt;Complete&lt;/ServiceObjectiveAssignmentStateDescription&gt;&lt;ServiceObjectiveAssignmentErrorCode&gt;0&lt;/ServiceObjectiveAssignmentErrorCode&gt;&lt;ServiceObjectiveAssignmentErrorDescription i:nil="true"/&gt;&lt;ServiceObjectiveAssignmentSuccessDate&gt;2014-03-24T22:26:35.4100000Z&lt;/ServiceObjectiveAssignmentSuccessDate&gt;&lt;RecoveryPeriodStartDate&gt;2014-03-24T22:27:30.8970000Z&lt;/RecoveryPeriodStartDate&gt;&lt;IsSuspended&gt;False&lt;/IsSuspended&gt;&lt;/ServiceResource&gt;&lt;/ServiceResources&gt;</ResponseText>
+          <ResponseText>&lt;ServiceResource xmlns="http://schemas.microsoft.com/windowsazure" xmlns:i="http://www.w3.org/2001/XMLSchema-instance"&gt;&lt;Name&gt;testdbcert4&lt;/Name&gt;&lt;Type&gt;Microsoft.SqlAzure.Database&lt;/Type&gt;&lt;State&gt;Normal&lt;/State&gt;&lt;SelfLink&gt;https://localhost/servers/serverv1/databases/testdbcert4&lt;/SelfLink&gt;&lt;ParentLink&gt;https://localhost/servers/serverv1&lt;/ParentLink&gt;&lt;Id&gt;6&lt;/Id&gt;&lt;Edition&gt;Web&lt;/Edition&gt;&lt;MaxSizeGB&gt;0&lt;/MaxSizeGB&gt;&lt;CollationName&gt;SQL_Latin1_General_CP1_CI_AS&lt;/CollationName&gt;&lt;CreationDate&gt;2014-03-26T19:36:11.8770000Z&lt;/CreationDate&gt;&lt;IsFederationRoot&gt;False&lt;/IsFederationRoot&gt;&lt;IsSystemObject&gt;False&lt;/IsSystemObject&gt;&lt;SizeMB i:nil="true"/&gt;&lt;MaxSizeBytes&gt;104857600&lt;/MaxSizeBytes&gt;&lt;ServiceObjectiveId&gt;910b4fcb-8a29-4c3e-958f-f7ba794388b2&lt;/ServiceObjectiveId&gt;&lt;AssignedServiceObjectiveId&gt;910b4fcb-8a29-4c3e-958f-f7ba794388b2&lt;/AssignedServiceObjectiveId&gt;&lt;ServiceObjectiveAssignmentState&gt;1&lt;/ServiceObjectiveAssignmentState&gt;&lt;ServiceObjectiveAssignmentStateDescription&gt;Complete&lt;/ServiceObjectiveAssignmentStateDescription&gt;&lt;ServiceObjectiveAssignmentErrorCode&gt;0&lt;/ServiceObjectiveAssignmentErrorCode&gt;&lt;ServiceObjectiveAssignmentErrorDescription i:nil="true"/&gt;&lt;ServiceObjectiveAssignmentSuccessDate&gt;2014-03-26T19:36:15.8870000Z&lt;/ServiceObjectiveAssignmentSuccessDate&gt;&lt;RecoveryPeriodStartDate&gt;2014-03-26T19:37:10.4930000Z&lt;/RecoveryPeriodStartDate&gt;&lt;IsSuspended&gt;False&lt;/IsSuspended&gt;&lt;/ServiceResource&gt;</ResponseText>
         </ResponseInfo>
       </HttpMessage>
       <HttpMessage>
         <Index>5</Index>
         <RequestInfo>
-          <RequestUri>https://localhost:65432/00000000-0000-0000-0001-000000000001/services/sqlservers/servers/serverv1/serviceobjectives/26e021db-f1f9-4c98-84c6-92af8ef433d7</RequestUri>
+          <RequestUri>https://localhost:65432/00000000-0000-0000-0001-000000000001/services/sqlservers/servers/serverv1/serviceobjectives/910b4fcb-8a29-4c3e-958f-f7ba794388b2</RequestUri>
           <Method>GET</Method>
-          <UserAgent>Microsoft.WindowsAzure.Management.Sql.SqlManagementClient/0.9.0.0 WindowsAzurePowershell/v0.8.0</UserAgent>
+          <UserAgent>Microsoft.WindowsAzure.Management.Sql.SqlManagementClient/0.9.0.0 WindowsAzurePowershell/v0.7.4</UserAgent>
           <Headers>
             <Header>
               <Name>x-ms-version</Name>
@@ -9457,11 +9461,11 @@
             </Header>
             <Header>
               <Name>x-ms-client-session-id</Name>
-              <Value>f00172bf-3b31-469c-8741-1e100bd912b4-2014-03-24 22:26:22Z</Value>
+              <Value>76a75f11-f6f7-4d91-b818-dfdb99165161-2014-03-26 19:35:48Z</Value>
             </Header>
             <Header>
               <Name>x-ms-client-request-id</Name>
-              <Value>f0c804f5-f0fe-4bc1-9e64-18adfae2f4fb-2014-03-24 22:26:37Z</Value>
+              <Value>1e2e5a0f-a762-4e69-b7a5-1826ebfe4c0a-2014-03-26 19:36:18Z</Value>
             </Header>
           </Headers>
           <Cookies />
@@ -9474,7 +9478,7 @@
           <Headers>
             <Header>
               <Name>x-ms-request-id</Name>
-              <Value>f0c804f5-f0fe-4bc1-9e64-18adfae2f4fb</Value>
+              <Value>1e2e5a0f-a762-4e69-b7a5-1826ebfe4c0a</Value>
             </Header>
             <Header>
               <Name>X-Content-Type-Options</Name>
@@ -9490,7 +9494,121 @@
             </Header>
             <Header>
               <Name>Date</Name>
-              <Value>Mon, 24 Mar 2014 22:26:38 GMT</Value>
+              <Value>Wed, 26 Mar 2014 19:36:18 GMT</Value>
+            </Header>
+            <Header>
+              <Name>Server</Name>
+              <Value>1.0.6198.12 (rd_rdfe_stable.131001-0757) Microsoft-HTTPAPI/2.0</Value>
+            </Header>
+          </Headers>
+          <Cookies />
+          <ResponseText>&lt;ServiceResource xmlns="http://schemas.microsoft.com/windowsazure" xmlns:i="http://www.w3.org/2001/XMLSchema-instance"&gt;&lt;Name&gt;Shared&lt;/Name&gt;&lt;Type&gt;Microsoft.SqlAzure.ServiceObjective&lt;/Type&gt;&lt;State&gt;Normal&lt;/State&gt;&lt;SelfLink&gt;https://localhost/servers/serverv1/serviceobjectives/910b4fcb-8a29-4c3e-958f-f7ba794388b2&lt;/SelfLink&gt;&lt;ParentLink&gt;https://localhost/servers/serverv1&lt;/ParentLink&gt;&lt;Id&gt;910b4fcb-8a29-4c3e-958f-f7ba794388b2&lt;/Id&gt;&lt;IsDefault&gt;True&lt;/IsDefault&gt;&lt;IsSystem&gt;False&lt;/IsSystem&gt;&lt;Description&gt;Shared resource allocation.&lt;/Description&gt;&lt;Enabled&gt;True&lt;/Enabled&gt;&lt;DimensionSettings&gt;&lt;ServiceResource&gt;&lt;Name&gt;Shared&lt;/Name&gt;&lt;Type&gt;Microsoft.SqlAzure.DimensionSetting&lt;/Type&gt;&lt;State&gt;Normal&lt;/State&gt;&lt;SelfLink&gt;https://localhost/servers/serverv1/dimensionsettings/22467ff6-6823-4d18-a169-913150e7714f&lt;/SelfLink&gt;&lt;ParentLink&gt;https://localhost/servers/serverv1&lt;/ParentLink&gt;&lt;Id&gt;22467ff6-6823-4d18-a169-913150e7714f&lt;/Id&gt;&lt;Description&gt;Shared resource allocation.&lt;/Description&gt;&lt;Ordinal&gt;2&lt;/Ordinal&gt;&lt;IsDefault&gt;True&lt;/IsDefault&gt;&lt;/ServiceResource&gt;&lt;/DimensionSettings&gt;&lt;/ServiceResource&gt;</ResponseText>
+        </ResponseInfo>
+      </HttpMessage>
+      <HttpMessage>
+        <Index>6</Index>
+        <RequestInfo>
+          <RequestUri>https://localhost:65432/00000000-0000-0000-0001-000000000001/services/sqlservers/servers/serverv1/databases?contentview=generic</RequestUri>
+          <Method>GET</Method>
+          <UserAgent>Microsoft.WindowsAzure.Management.Sql.SqlManagementClient/0.9.0.0 WindowsAzurePowershell/v0.7.4</UserAgent>
+          <Headers>
+            <Header>
+              <Name>x-ms-version</Name>
+              <Value>2012-03-01</Value>
+            </Header>
+            <Header>
+              <Name>x-ms-client-session-id</Name>
+              <Value>76a75f11-f6f7-4d91-b818-dfdb99165161-2014-03-26 19:35:48Z</Value>
+            </Header>
+            <Header>
+              <Name>x-ms-client-request-id</Name>
+              <Value>9a3ff35d-a8c0-4c22-a7e3-c2d172a46a06-2014-03-26 19:36:18Z</Value>
+            </Header>
+          </Headers>
+          <Cookies />
+          <RequestText i:nil="true" />
+          <ContentType i:nil="true" />
+          <Accept i:nil="true" />
+        </RequestInfo>
+        <ResponseInfo>
+          <StatusCode>OK</StatusCode>
+          <Headers>
+            <Header>
+              <Name>x-ms-request-id</Name>
+              <Value>9a3ff35d-a8c0-4c22-a7e3-c2d172a46a06</Value>
+            </Header>
+            <Header>
+              <Name>X-Content-Type-Options</Name>
+              <Value>nosniff</Value>
+            </Header>
+            <Header>
+              <Name>Cache-Control</Name>
+              <Value>no-store,no-cache</Value>
+            </Header>
+            <Header>
+              <Name>Content-Type</Name>
+              <Value>application/xml; charset=utf-8</Value>
+            </Header>
+            <Header>
+              <Name>Date</Name>
+              <Value>Wed, 26 Mar 2014 19:36:18 GMT</Value>
+            </Header>
+            <Header>
+              <Name>Server</Name>
+              <Value>1.0.6198.12 (rd_rdfe_stable.131001-0757) Microsoft-HTTPAPI/2.0</Value>
+            </Header>
+          </Headers>
+          <Cookies />
+          <ResponseText>&lt;ServiceResources xmlns="http://schemas.microsoft.com/windowsazure" xmlns:i="http://www.w3.org/2001/XMLSchema-instance"&gt;&lt;ServiceResource&gt;&lt;Name&gt;master&lt;/Name&gt;&lt;Type&gt;Microsoft.SqlAzure.Database&lt;/Type&gt;&lt;State&gt;Normal&lt;/State&gt;&lt;SelfLink&gt;https://localhost/servers/serverv1/databases/master&lt;/SelfLink&gt;&lt;ParentLink&gt;https://localhost/servers/serverv1&lt;/ParentLink&gt;&lt;Id&gt;1&lt;/Id&gt;&lt;Edition&gt;System&lt;/Edition&gt;&lt;MaxSizeGB&gt;5&lt;/MaxSizeGB&gt;&lt;CollationName&gt;SQL_Latin1_General_CP1_CI_AS&lt;/CollationName&gt;&lt;CreationDate&gt;2014-03-20T17:23:47.8000000Z&lt;/CreationDate&gt;&lt;IsFederationRoot&gt;False&lt;/IsFederationRoot&gt;&lt;IsSystemObject&gt;True&lt;/IsSystemObject&gt;&lt;SizeMB i:nil="true"/&gt;&lt;MaxSizeBytes&gt;5368709120&lt;/MaxSizeBytes&gt;&lt;ServiceObjectiveId&gt;26e021db-f1f9-4c98-84c6-92af8ef433d7&lt;/ServiceObjectiveId&gt;&lt;AssignedServiceObjectiveId&gt;26e021db-f1f9-4c98-84c6-92af8ef433d7&lt;/AssignedServiceObjectiveId&gt;&lt;ServiceObjectiveAssignmentState&gt;1&lt;/ServiceObjectiveAssignmentState&gt;&lt;ServiceObjectiveAssignmentStateDescription&gt;Complete&lt;/ServiceObjectiveAssignmentStateDescription&gt;&lt;ServiceObjectiveAssignmentErrorCode&gt;0&lt;/ServiceObjectiveAssignmentErrorCode&gt;&lt;ServiceObjectiveAssignmentErrorDescription i:nil="true"/&gt;&lt;ServiceObjectiveAssignmentSuccessDate&gt;2014-03-20T17:24:07.0200000Z&lt;/ServiceObjectiveAssignmentSuccessDate&gt;&lt;RecoveryPeriodStartDate i:nil="true"/&gt;&lt;IsSuspended&gt;False&lt;/IsSuspended&gt;&lt;/ServiceResource&gt;&lt;ServiceResource&gt;&lt;Name&gt;testdbcert1&lt;/Name&gt;&lt;Type&gt;Microsoft.SqlAzure.Database&lt;/Type&gt;&lt;State&gt;Normal&lt;/State&gt;&lt;SelfLink&gt;https://localhost/servers/serverv1/databases/testdbcert1&lt;/SelfLink&gt;&lt;ParentLink&gt;https://localhost/servers/serverv1&lt;/ParentLink&gt;&lt;Id&gt;4&lt;/Id&gt;&lt;Edition&gt;Web&lt;/Edition&gt;&lt;MaxSizeGB&gt;1&lt;/MaxSizeGB&gt;&lt;CollationName&gt;SQL_Latin1_General_CP1_CI_AS&lt;/CollationName&gt;&lt;CreationDate&gt;2014-03-26T19:35:51.5200000Z&lt;/CreationDate&gt;&lt;IsFederationRoot&gt;False&lt;/IsFederationRoot&gt;&lt;IsSystemObject&gt;False&lt;/IsSystemObject&gt;&lt;SizeMB i:nil="true"/&gt;&lt;MaxSizeBytes&gt;1073741824&lt;/MaxSizeBytes&gt;&lt;ServiceObjectiveId&gt;910b4fcb-8a29-4c3e-958f-f7ba794388b2&lt;/ServiceObjectiveId&gt;&lt;AssignedServiceObjectiveId&gt;910b4fcb-8a29-4c3e-958f-f7ba794388b2&lt;/AssignedServiceObjectiveId&gt;&lt;ServiceObjectiveAssignmentState&gt;1&lt;/ServiceObjectiveAssignmentState&gt;&lt;ServiceObjectiveAssignmentStateDescription&gt;Complete&lt;/ServiceObjectiveAssignmentStateDescription&gt;&lt;ServiceObjectiveAssignmentErrorCode&gt;0&lt;/ServiceObjectiveAssignmentErrorCode&gt;&lt;ServiceObjectiveAssignmentErrorDescription i:nil="true"/&gt;&lt;ServiceObjectiveAssignmentSuccessDate&gt;2014-03-26T19:35:57.0270000Z&lt;/ServiceObjectiveAssignmentSuccessDate&gt;&lt;RecoveryPeriodStartDate&gt;2014-03-26T19:36:49.9300000Z&lt;/RecoveryPeriodStartDate&gt;&lt;IsSuspended&gt;False&lt;/IsSuspended&gt;&lt;/ServiceResource&gt;&lt;ServiceResource&gt;&lt;Name&gt;testdbcert2&lt;/Name&gt;&lt;Type&gt;Microsoft.SqlAzure.Database&lt;/Type&gt;&lt;State&gt;Normal&lt;/State&gt;&lt;SelfLink&gt;https://localhost/servers/serverv1/databases/testdbcert2&lt;/SelfLink&gt;&lt;ParentLink&gt;https://localhost/servers/serverv1&lt;/ParentLink&gt;&lt;Id&gt;5&lt;/Id&gt;&lt;Edition&gt;Business&lt;/Edition&gt;&lt;MaxSizeGB&gt;10&lt;/MaxSizeGB&gt;&lt;CollationName&gt;Japanese_CI_AS&lt;/CollationName&gt;&lt;CreationDate&gt;2014-03-26T19:36:03.6300000Z&lt;/CreationDate&gt;&lt;IsFederationRoot&gt;False&lt;/IsFederationRoot&gt;&lt;IsSystemObject&gt;False&lt;/IsSystemObject&gt;&lt;SizeMB i:nil="true"/&gt;&lt;MaxSizeBytes&gt;10737418240&lt;/MaxSizeBytes&gt;&lt;ServiceObjectiveId&gt;910b4fcb-8a29-4c3e-958f-f7ba794388b2&lt;/ServiceObjectiveId&gt;&lt;AssignedServiceObjectiveId&gt;910b4fcb-8a29-4c3e-958f-f7ba794388b2&lt;/AssignedServiceObjectiveId&gt;&lt;ServiceObjectiveAssignmentState&gt;1&lt;/ServiceObjectiveAssignmentState&gt;&lt;ServiceObjectiveAssignmentStateDescription&gt;Complete&lt;/ServiceObjectiveAssignmentStateDescription&gt;&lt;ServiceObjectiveAssignmentErrorCode&gt;0&lt;/ServiceObjectiveAssignmentErrorCode&gt;&lt;ServiceObjectiveAssignmentErrorDescription i:nil="true"/&gt;&lt;ServiceObjectiveAssignmentSuccessDate&gt;2014-03-26T19:36:06.9930000Z&lt;/ServiceObjectiveAssignmentSuccessDate&gt;&lt;RecoveryPeriodStartDate&gt;2014-03-26T19:37:01.4000000Z&lt;/RecoveryPeriodStartDate&gt;&lt;IsSuspended&gt;False&lt;/IsSuspended&gt;&lt;/ServiceResource&gt;&lt;ServiceResource&gt;&lt;Name&gt;testdbcert4&lt;/Name&gt;&lt;Type&gt;Microsoft.SqlAzure.Database&lt;/Type&gt;&lt;State&gt;Normal&lt;/State&gt;&lt;SelfLink&gt;https://localhost/servers/serverv1/databases/testdbcert4&lt;/SelfLink&gt;&lt;ParentLink&gt;https://localhost/servers/serverv1&lt;/ParentLink&gt;&lt;Id&gt;6&lt;/Id&gt;&lt;Edition&gt;Web&lt;/Edition&gt;&lt;MaxSizeGB&gt;0&lt;/MaxSizeGB&gt;&lt;CollationName&gt;SQL_Latin1_General_CP1_CI_AS&lt;/CollationName&gt;&lt;CreationDate&gt;2014-03-26T19:36:11.8770000Z&lt;/CreationDate&gt;&lt;IsFederationRoot&gt;False&lt;/IsFederationRoot&gt;&lt;IsSystemObject&gt;False&lt;/IsSystemObject&gt;&lt;SizeMB i:nil="true"/&gt;&lt;MaxSizeBytes&gt;104857600&lt;/MaxSizeBytes&gt;&lt;ServiceObjectiveId&gt;910b4fcb-8a29-4c3e-958f-f7ba794388b2&lt;/ServiceObjectiveId&gt;&lt;AssignedServiceObjectiveId&gt;910b4fcb-8a29-4c3e-958f-f7ba794388b2&lt;/AssignedServiceObjectiveId&gt;&lt;ServiceObjectiveAssignmentState&gt;1&lt;/ServiceObjectiveAssignmentState&gt;&lt;ServiceObjectiveAssignmentStateDescription&gt;Complete&lt;/ServiceObjectiveAssignmentStateDescription&gt;&lt;ServiceObjectiveAssignmentErrorCode&gt;0&lt;/ServiceObjectiveAssignmentErrorCode&gt;&lt;ServiceObjectiveAssignmentErrorDescription i:nil="true"/&gt;&lt;ServiceObjectiveAssignmentSuccessDate&gt;2014-03-26T19:36:15.8870000Z&lt;/ServiceObjectiveAssignmentSuccessDate&gt;&lt;RecoveryPeriodStartDate&gt;2014-03-26T19:37:10.4930000Z&lt;/RecoveryPeriodStartDate&gt;&lt;IsSuspended&gt;False&lt;/IsSuspended&gt;&lt;/ServiceResource&gt;&lt;/ServiceResources&gt;</ResponseText>
+        </ResponseInfo>
+      </HttpMessage>
+      <HttpMessage>
+        <Index>7</Index>
+        <RequestInfo>
+          <RequestUri>https://localhost:65432/00000000-0000-0000-0001-000000000001/services/sqlservers/servers/serverv1/serviceobjectives/26e021db-f1f9-4c98-84c6-92af8ef433d7</RequestUri>
+          <Method>GET</Method>
+          <UserAgent>Microsoft.WindowsAzure.Management.Sql.SqlManagementClient/0.9.0.0 WindowsAzurePowershell/v0.7.4</UserAgent>
+          <Headers>
+            <Header>
+              <Name>x-ms-version</Name>
+              <Value>2012-03-01</Value>
+            </Header>
+            <Header>
+              <Name>x-ms-client-session-id</Name>
+              <Value>76a75f11-f6f7-4d91-b818-dfdb99165161-2014-03-26 19:35:48Z</Value>
+            </Header>
+            <Header>
+              <Name>x-ms-client-request-id</Name>
+              <Value>63ca71cd-55d0-4a23-b985-9d6473ffb767-2014-03-26 19:36:18Z</Value>
+            </Header>
+          </Headers>
+          <Cookies />
+          <RequestText i:nil="true" />
+          <ContentType i:nil="true" />
+          <Accept i:nil="true" />
+        </RequestInfo>
+        <ResponseInfo>
+          <StatusCode>OK</StatusCode>
+          <Headers>
+            <Header>
+              <Name>x-ms-request-id</Name>
+              <Value>63ca71cd-55d0-4a23-b985-9d6473ffb767</Value>
+            </Header>
+            <Header>
+              <Name>X-Content-Type-Options</Name>
+              <Value>nosniff</Value>
+            </Header>
+            <Header>
+              <Name>Cache-Control</Name>
+              <Value>no-store,no-cache</Value>
+            </Header>
+            <Header>
+              <Name>Content-Type</Name>
+              <Value>application/xml; charset=utf-8</Value>
+            </Header>
+            <Header>
+              <Name>Date</Name>
+              <Value>Wed, 26 Mar 2014 19:36:18 GMT</Value>
             </Header>
             <Header>
               <Name>Server</Name>
@@ -9502,125 +9620,11 @@
         </ResponseInfo>
       </HttpMessage>
       <HttpMessage>
-        <Index>6</Index>
-        <RequestInfo>
-          <RequestUri>https://localhost:65432/00000000-0000-0000-0001-000000000001/services/sqlservers/servers/serverv1/serviceobjectives/910b4fcb-8a29-4c3e-958f-f7ba794388b2</RequestUri>
-          <Method>GET</Method>
-          <UserAgent>Microsoft.WindowsAzure.Management.Sql.SqlManagementClient/0.9.0.0 WindowsAzurePowershell/v0.8.0</UserAgent>
-          <Headers>
-            <Header>
-              <Name>x-ms-version</Name>
-              <Value>2012-03-01</Value>
-            </Header>
-            <Header>
-              <Name>x-ms-client-session-id</Name>
-              <Value>f00172bf-3b31-469c-8741-1e100bd912b4-2014-03-24 22:26:22Z</Value>
-            </Header>
-            <Header>
-              <Name>x-ms-client-request-id</Name>
-              <Value>4c9f7baa-d3c4-4b1f-8520-7f6ccbf344fb-2014-03-24 22:26:38Z</Value>
-            </Header>
-          </Headers>
-          <Cookies />
-          <RequestText i:nil="true" />
-          <ContentType i:nil="true" />
-          <Accept i:nil="true" />
-        </RequestInfo>
-        <ResponseInfo>
-          <StatusCode>OK</StatusCode>
-          <Headers>
-            <Header>
-              <Name>x-ms-request-id</Name>
-              <Value>4c9f7baa-d3c4-4b1f-8520-7f6ccbf344fb</Value>
-            </Header>
-            <Header>
-              <Name>X-Content-Type-Options</Name>
-              <Value>nosniff</Value>
-            </Header>
-            <Header>
-              <Name>Cache-Control</Name>
-              <Value>no-store,no-cache</Value>
-            </Header>
-            <Header>
-              <Name>Content-Type</Name>
-              <Value>application/xml; charset=utf-8</Value>
-            </Header>
-            <Header>
-              <Name>Date</Name>
-              <Value>Mon, 24 Mar 2014 22:26:38 GMT</Value>
-            </Header>
-            <Header>
-              <Name>Server</Name>
-              <Value>1.0.6198.12 (rd_rdfe_stable.131001-0757) Microsoft-HTTPAPI/2.0</Value>
-            </Header>
-          </Headers>
-          <Cookies />
-          <ResponseText>&lt;ServiceResource xmlns="http://schemas.microsoft.com/windowsazure" xmlns:i="http://www.w3.org/2001/XMLSchema-instance"&gt;&lt;Name&gt;Shared&lt;/Name&gt;&lt;Type&gt;Microsoft.SqlAzure.ServiceObjective&lt;/Type&gt;&lt;State&gt;Normal&lt;/State&gt;&lt;SelfLink&gt;https://localhost/servers/serverv1/serviceobjectives/910b4fcb-8a29-4c3e-958f-f7ba794388b2&lt;/SelfLink&gt;&lt;ParentLink&gt;https://localhost/servers/serverv1&lt;/ParentLink&gt;&lt;Id&gt;910b4fcb-8a29-4c3e-958f-f7ba794388b2&lt;/Id&gt;&lt;IsDefault&gt;True&lt;/IsDefault&gt;&lt;IsSystem&gt;False&lt;/IsSystem&gt;&lt;Description&gt;Shared resource allocation.&lt;/Description&gt;&lt;Enabled&gt;True&lt;/Enabled&gt;&lt;DimensionSettings&gt;&lt;ServiceResource&gt;&lt;Name&gt;Shared&lt;/Name&gt;&lt;Type&gt;Microsoft.SqlAzure.DimensionSetting&lt;/Type&gt;&lt;State&gt;Normal&lt;/State&gt;&lt;SelfLink&gt;https://localhost/servers/serverv1/dimensionsettings/22467ff6-6823-4d18-a169-913150e7714f&lt;/SelfLink&gt;&lt;ParentLink&gt;https://localhost/servers/serverv1&lt;/ParentLink&gt;&lt;Id&gt;22467ff6-6823-4d18-a169-913150e7714f&lt;/Id&gt;&lt;Description&gt;Shared resource allocation.&lt;/Description&gt;&lt;Ordinal&gt;2&lt;/Ordinal&gt;&lt;IsDefault&gt;True&lt;/IsDefault&gt;&lt;/ServiceResource&gt;&lt;/DimensionSettings&gt;&lt;/ServiceResource&gt;</ResponseText>
-        </ResponseInfo>
-      </HttpMessage>
-      <HttpMessage>
-        <Index>7</Index>
-        <RequestInfo>
-          <RequestUri>https://localhost:65432/00000000-0000-0000-0001-000000000001/services/sqlservers/servers/serverv1/serviceobjectives/910b4fcb-8a29-4c3e-958f-f7ba794388b2</RequestUri>
-          <Method>GET</Method>
-          <UserAgent>Microsoft.WindowsAzure.Management.Sql.SqlManagementClient/0.9.0.0 WindowsAzurePowershell/v0.8.0</UserAgent>
-          <Headers>
-            <Header>
-              <Name>x-ms-version</Name>
-              <Value>2012-03-01</Value>
-            </Header>
-            <Header>
-              <Name>x-ms-client-session-id</Name>
-              <Value>f00172bf-3b31-469c-8741-1e100bd912b4-2014-03-24 22:26:22Z</Value>
-            </Header>
-            <Header>
-              <Name>x-ms-client-request-id</Name>
-              <Value>5a441294-a891-4c99-b02c-4977d2c3cdfb-2014-03-24 22:26:38Z</Value>
-            </Header>
-          </Headers>
-          <Cookies />
-          <RequestText i:nil="true" />
-          <ContentType i:nil="true" />
-          <Accept i:nil="true" />
-        </RequestInfo>
-        <ResponseInfo>
-          <StatusCode>OK</StatusCode>
-          <Headers>
-            <Header>
-              <Name>x-ms-request-id</Name>
-              <Value>5a441294-a891-4c99-b02c-4977d2c3cdfb</Value>
-            </Header>
-            <Header>
-              <Name>X-Content-Type-Options</Name>
-              <Value>nosniff</Value>
-            </Header>
-            <Header>
-              <Name>Cache-Control</Name>
-              <Value>no-store,no-cache</Value>
-            </Header>
-            <Header>
-              <Name>Content-Type</Name>
-              <Value>application/xml; charset=utf-8</Value>
-            </Header>
-            <Header>
-              <Name>Date</Name>
-              <Value>Mon, 24 Mar 2014 22:26:38 GMT</Value>
-            </Header>
-            <Header>
-              <Name>Server</Name>
-              <Value>1.0.6198.12 (rd_rdfe_stable.131001-0757) Microsoft-HTTPAPI/2.0</Value>
-            </Header>
-          </Headers>
-          <Cookies />
-          <ResponseText>&lt;ServiceResource xmlns="http://schemas.microsoft.com/windowsazure" xmlns:i="http://www.w3.org/2001/XMLSchema-instance"&gt;&lt;Name&gt;Shared&lt;/Name&gt;&lt;Type&gt;Microsoft.SqlAzure.ServiceObjective&lt;/Type&gt;&lt;State&gt;Normal&lt;/State&gt;&lt;SelfLink&gt;https://localhost/servers/serverv1/serviceobjectives/910b4fcb-8a29-4c3e-958f-f7ba794388b2&lt;/SelfLink&gt;&lt;ParentLink&gt;https://localhost/servers/serverv1&lt;/ParentLink&gt;&lt;Id&gt;910b4fcb-8a29-4c3e-958f-f7ba794388b2&lt;/Id&gt;&lt;IsDefault&gt;True&lt;/IsDefault&gt;&lt;IsSystem&gt;False&lt;/IsSystem&gt;&lt;Description&gt;Shared resource allocation.&lt;/Description&gt;&lt;Enabled&gt;True&lt;/Enabled&gt;&lt;DimensionSettings&gt;&lt;ServiceResource&gt;&lt;Name&gt;Shared&lt;/Name&gt;&lt;Type&gt;Microsoft.SqlAzure.DimensionSetting&lt;/Type&gt;&lt;State&gt;Normal&lt;/State&gt;&lt;SelfLink&gt;https://localhost/servers/serverv1/dimensionsettings/22467ff6-6823-4d18-a169-913150e7714f&lt;/SelfLink&gt;&lt;ParentLink&gt;https://localhost/servers/serverv1&lt;/ParentLink&gt;&lt;Id&gt;22467ff6-6823-4d18-a169-913150e7714f&lt;/Id&gt;&lt;Description&gt;Shared resource allocation.&lt;/Description&gt;&lt;Ordinal&gt;2&lt;/Ordinal&gt;&lt;IsDefault&gt;True&lt;/IsDefault&gt;&lt;/ServiceResource&gt;&lt;/DimensionSettings&gt;&lt;/ServiceResource&gt;</ResponseText>
-        </ResponseInfo>
-      </HttpMessage>
-      <HttpMessage>
         <Index>8</Index>
         <RequestInfo>
-          <RequestUri>https://localhost:65432/00000000-0000-0000-0001-000000000001/services/sqlservers/servers/serverv1/databases/testdbcert1</RequestUri>
+          <RequestUri>https://localhost:65432/00000000-0000-0000-0001-000000000001/services/sqlservers/servers/serverv1/serviceobjectives/910b4fcb-8a29-4c3e-958f-f7ba794388b2</RequestUri>
           <Method>GET</Method>
-          <UserAgent>Microsoft.WindowsAzure.Management.Sql.SqlManagementClient/0.9.0.0 WindowsAzurePowershell/v0.8.0</UserAgent>
+          <UserAgent>Microsoft.WindowsAzure.Management.Sql.SqlManagementClient/0.9.0.0 WindowsAzurePowershell/v0.7.4</UserAgent>
           <Headers>
             <Header>
               <Name>x-ms-version</Name>
@@ -9628,11 +9632,11 @@
             </Header>
             <Header>
               <Name>x-ms-client-session-id</Name>
-              <Value>f00172bf-3b31-469c-8741-1e100bd912b4-2014-03-24 22:26:22Z</Value>
+              <Value>76a75f11-f6f7-4d91-b818-dfdb99165161-2014-03-26 19:35:48Z</Value>
             </Header>
             <Header>
               <Name>x-ms-client-request-id</Name>
-              <Value>fce04fdd-ac07-476b-b6e4-7ec7c5ffd223-2014-03-24 22:26:38Z</Value>
+              <Value>3e5689b0-dd20-4b5e-97f0-2dcc014de334-2014-03-26 19:36:18Z</Value>
             </Header>
           </Headers>
           <Cookies />
@@ -9645,7 +9649,7 @@
           <Headers>
             <Header>
               <Name>x-ms-request-id</Name>
-              <Value>fce04fdd-ac07-476b-b6e4-7ec7c5ffd223</Value>
+              <Value>3e5689b0-dd20-4b5e-97f0-2dcc014de334</Value>
             </Header>
             <Header>
               <Name>X-Content-Type-Options</Name>
@@ -9661,7 +9665,7 @@
             </Header>
             <Header>
               <Name>Date</Name>
-              <Value>Mon, 24 Mar 2014 22:26:38 GMT</Value>
+              <Value>Wed, 26 Mar 2014 19:36:18 GMT</Value>
             </Header>
             <Header>
               <Name>Server</Name>
@@ -9669,7 +9673,7 @@
             </Header>
           </Headers>
           <Cookies />
-          <ResponseText>&lt;ServiceResource xmlns="http://schemas.microsoft.com/windowsazure" xmlns:i="http://www.w3.org/2001/XMLSchema-instance"&gt;&lt;Name&gt;testdbcert1&lt;/Name&gt;&lt;Type&gt;Microsoft.SqlAzure.Database&lt;/Type&gt;&lt;State&gt;Normal&lt;/State&gt;&lt;SelfLink&gt;https://localhost/servers/serverv1/databases/testdbcert1&lt;/SelfLink&gt;&lt;ParentLink&gt;https://localhost/servers/serverv1&lt;/ParentLink&gt;&lt;Id&gt;4&lt;/Id&gt;&lt;Edition&gt;Web&lt;/Edition&gt;&lt;MaxSizeGB&gt;1&lt;/MaxSizeGB&gt;&lt;CollationName&gt;SQL_Latin1_General_CP1_CI_AS&lt;/CollationName&gt;&lt;CreationDate&gt;2014-03-24T22:26:24.5300000Z&lt;/CreationDate&gt;&lt;IsFederationRoot&gt;False&lt;/IsFederationRoot&gt;&lt;IsSystemObject&gt;False&lt;/IsSystemObject&gt;&lt;SizeMB i:nil="true"/&gt;&lt;MaxSizeBytes&gt;1073741824&lt;/MaxSizeBytes&gt;&lt;ServiceObjectiveId&gt;910b4fcb-8a29-4c3e-958f-f7ba794388b2&lt;/ServiceObjectiveId&gt;&lt;AssignedServiceObjectiveId&gt;910b4fcb-8a29-4c3e-958f-f7ba794388b2&lt;/AssignedServiceObjectiveId&gt;&lt;ServiceObjectiveAssignmentState&gt;1&lt;/ServiceObjectiveAssignmentState&gt;&lt;ServiceObjectiveAssignmentStateDescription&gt;Complete&lt;/ServiceObjectiveAssignmentStateDescription&gt;&lt;ServiceObjectiveAssignmentErrorCode&gt;0&lt;/ServiceObjectiveAssignmentErrorCode&gt;&lt;ServiceObjectiveAssignmentErrorDescription i:nil="true"/&gt;&lt;ServiceObjectiveAssignmentSuccessDate&gt;2014-03-24T22:26:27.7570000Z&lt;/ServiceObjectiveAssignmentSuccessDate&gt;&lt;RecoveryPeriodStartDate&gt;2014-03-24T22:27:24.1470000Z&lt;/RecoveryPeriodStartDate&gt;&lt;IsSuspended&gt;False&lt;/IsSuspended&gt;&lt;/ServiceResource&gt;</ResponseText>
+          <ResponseText>&lt;ServiceResource xmlns="http://schemas.microsoft.com/windowsazure" xmlns:i="http://www.w3.org/2001/XMLSchema-instance"&gt;&lt;Name&gt;Shared&lt;/Name&gt;&lt;Type&gt;Microsoft.SqlAzure.ServiceObjective&lt;/Type&gt;&lt;State&gt;Normal&lt;/State&gt;&lt;SelfLink&gt;https://localhost/servers/serverv1/serviceobjectives/910b4fcb-8a29-4c3e-958f-f7ba794388b2&lt;/SelfLink&gt;&lt;ParentLink&gt;https://localhost/servers/serverv1&lt;/ParentLink&gt;&lt;Id&gt;910b4fcb-8a29-4c3e-958f-f7ba794388b2&lt;/Id&gt;&lt;IsDefault&gt;True&lt;/IsDefault&gt;&lt;IsSystem&gt;False&lt;/IsSystem&gt;&lt;Description&gt;Shared resource allocation.&lt;/Description&gt;&lt;Enabled&gt;True&lt;/Enabled&gt;&lt;DimensionSettings&gt;&lt;ServiceResource&gt;&lt;Name&gt;Shared&lt;/Name&gt;&lt;Type&gt;Microsoft.SqlAzure.DimensionSetting&lt;/Type&gt;&lt;State&gt;Normal&lt;/State&gt;&lt;SelfLink&gt;https://localhost/servers/serverv1/dimensionsettings/22467ff6-6823-4d18-a169-913150e7714f&lt;/SelfLink&gt;&lt;ParentLink&gt;https://localhost/servers/serverv1&lt;/ParentLink&gt;&lt;Id&gt;22467ff6-6823-4d18-a169-913150e7714f&lt;/Id&gt;&lt;Description&gt;Shared resource allocation.&lt;/Description&gt;&lt;Ordinal&gt;2&lt;/Ordinal&gt;&lt;IsDefault&gt;True&lt;/IsDefault&gt;&lt;/ServiceResource&gt;&lt;/DimensionSettings&gt;&lt;/ServiceResource&gt;</ResponseText>
         </ResponseInfo>
       </HttpMessage>
       <HttpMessage>
@@ -9677,7 +9681,7 @@
         <RequestInfo>
           <RequestUri>https://localhost:65432/00000000-0000-0000-0001-000000000001/services/sqlservers/servers/serverv1/serviceobjectives/910b4fcb-8a29-4c3e-958f-f7ba794388b2</RequestUri>
           <Method>GET</Method>
-          <UserAgent>Microsoft.WindowsAzure.Management.Sql.SqlManagementClient/0.9.0.0 WindowsAzurePowershell/v0.8.0</UserAgent>
+          <UserAgent>Microsoft.WindowsAzure.Management.Sql.SqlManagementClient/0.9.0.0 WindowsAzurePowershell/v0.7.4</UserAgent>
           <Headers>
             <Header>
               <Name>x-ms-version</Name>
@@ -9685,11 +9689,11 @@
             </Header>
             <Header>
               <Name>x-ms-client-session-id</Name>
-              <Value>f00172bf-3b31-469c-8741-1e100bd912b4-2014-03-24 22:26:22Z</Value>
+              <Value>76a75f11-f6f7-4d91-b818-dfdb99165161-2014-03-26 19:35:48Z</Value>
             </Header>
             <Header>
               <Name>x-ms-client-request-id</Name>
-              <Value>154face6-86e4-4184-b0cd-139bb27f67f9-2014-03-24 22:26:39Z</Value>
+              <Value>2cc53088-9794-4a5d-a0bb-49ef65a4a470-2014-03-26 19:36:19Z</Value>
             </Header>
           </Headers>
           <Cookies />
@@ -9702,7 +9706,7 @@
           <Headers>
             <Header>
               <Name>x-ms-request-id</Name>
-              <Value>154face6-86e4-4184-b0cd-139bb27f67f9</Value>
+              <Value>2cc53088-9794-4a5d-a0bb-49ef65a4a470</Value>
             </Header>
             <Header>
               <Name>X-Content-Type-Options</Name>
@@ -9718,7 +9722,7 @@
             </Header>
             <Header>
               <Name>Date</Name>
-              <Value>Mon, 24 Mar 2014 22:26:39 GMT</Value>
+              <Value>Wed, 26 Mar 2014 19:36:19 GMT</Value>
             </Header>
             <Header>
               <Name>Server</Name>
@@ -9732,7 +9736,7 @@
       <HttpMessage>
         <Index>10</Index>
         <RequestInfo>
-          <RequestUri>https://localhost:65432/00000000-0000-0000-0001-000000000001/services/sqlservers/servers/serverv1/databases/testdbcert1</RequestUri>
+          <RequestUri>https://localhost:65432/00000000-0000-0000-0001-000000000001/services/sqlservers/servers/serverv1/serviceobjectives/910b4fcb-8a29-4c3e-958f-f7ba794388b2</RequestUri>
           <Method>GET</Method>
           <UserAgent>Microsoft.WindowsAzure.Management.Sql.SqlManagementClient/0.9.0.0 WindowsAzurePowershell/v0.7.4</UserAgent>
           <Headers>
@@ -9742,11 +9746,11 @@
             </Header>
             <Header>
               <Name>x-ms-client-session-id</Name>
-              <Value>f00172bf-3b31-469c-8741-1e100bd912b4-2014-03-24 22:26:22Z</Value>
+              <Value>76a75f11-f6f7-4d91-b818-dfdb99165161-2014-03-26 19:35:48Z</Value>
             </Header>
             <Header>
               <Name>x-ms-client-request-id</Name>
-              <Value>f5da7c79-0c00-4b68-96c8-fa391e26befa-2014-03-24 22:26:39Z</Value>
+              <Value>78d5a922-2023-465d-9e86-61c501fe1ffe-2014-03-26 19:36:19Z</Value>
             </Header>
           </Headers>
           <Cookies />
@@ -9759,7 +9763,7 @@
           <Headers>
             <Header>
               <Name>x-ms-request-id</Name>
-              <Value>f5da7c79-0c00-4b68-96c8-fa391e26befa</Value>
+              <Value>78d5a922-2023-465d-9e86-61c501fe1ffe</Value>
             </Header>
             <Header>
               <Name>X-Content-Type-Options</Name>
@@ -9775,7 +9779,7 @@
             </Header>
             <Header>
               <Name>Date</Name>
-              <Value>Mon, 24 Mar 2014 22:26:39 GMT</Value>
+              <Value>Wed, 26 Mar 2014 19:36:19 GMT</Value>
             </Header>
             <Header>
               <Name>Server</Name>
@@ -9783,11 +9787,296 @@
             </Header>
           </Headers>
           <Cookies />
-          <ResponseText>&lt;ServiceResource xmlns="http://schemas.microsoft.com/windowsazure" xmlns:i="http://www.w3.org/2001/XMLSchema-instance"&gt;&lt;Name&gt;testdbcert1&lt;/Name&gt;&lt;Type&gt;Microsoft.SqlAzure.Database&lt;/Type&gt;&lt;State&gt;Normal&lt;/State&gt;&lt;SelfLink&gt;https://localhost/servers/serverv1/databases/testdbcert1&lt;/SelfLink&gt;&lt;ParentLink&gt;https://localhost/servers/serverv1&lt;/ParentLink&gt;&lt;Id&gt;4&lt;/Id&gt;&lt;Edition&gt;Web&lt;/Edition&gt;&lt;MaxSizeGB&gt;1&lt;/MaxSizeGB&gt;&lt;CollationName&gt;SQL_Latin1_General_CP1_CI_AS&lt;/CollationName&gt;&lt;CreationDate&gt;2014-03-24T22:26:24.5300000Z&lt;/CreationDate&gt;&lt;IsFederationRoot&gt;False&lt;/IsFederationRoot&gt;&lt;IsSystemObject&gt;False&lt;/IsSystemObject&gt;&lt;SizeMB i:nil="true"/&gt;&lt;MaxSizeBytes&gt;1073741824&lt;/MaxSizeBytes&gt;&lt;ServiceObjectiveId&gt;910b4fcb-8a29-4c3e-958f-f7ba794388b2&lt;/ServiceObjectiveId&gt;&lt;AssignedServiceObjectiveId&gt;910b4fcb-8a29-4c3e-958f-f7ba794388b2&lt;/AssignedServiceObjectiveId&gt;&lt;ServiceObjectiveAssignmentState&gt;1&lt;/ServiceObjectiveAssignmentState&gt;&lt;ServiceObjectiveAssignmentStateDescription&gt;Complete&lt;/ServiceObjectiveAssignmentStateDescription&gt;&lt;ServiceObjectiveAssignmentErrorCode&gt;0&lt;/ServiceObjectiveAssignmentErrorCode&gt;&lt;ServiceObjectiveAssignmentErrorDescription i:nil="true"/&gt;&lt;ServiceObjectiveAssignmentSuccessDate&gt;2014-03-24T22:26:27.7570000Z&lt;/ServiceObjectiveAssignmentSuccessDate&gt;&lt;RecoveryPeriodStartDate&gt;2014-03-24T22:27:24.1470000Z&lt;/RecoveryPeriodStartDate&gt;&lt;IsSuspended&gt;False&lt;/IsSuspended&gt;&lt;/ServiceResource&gt;</ResponseText>
+          <ResponseText>&lt;ServiceResource xmlns="http://schemas.microsoft.com/windowsazure" xmlns:i="http://www.w3.org/2001/XMLSchema-instance"&gt;&lt;Name&gt;Shared&lt;/Name&gt;&lt;Type&gt;Microsoft.SqlAzure.ServiceObjective&lt;/Type&gt;&lt;State&gt;Normal&lt;/State&gt;&lt;SelfLink&gt;https://localhost/servers/serverv1/serviceobjectives/910b4fcb-8a29-4c3e-958f-f7ba794388b2&lt;/SelfLink&gt;&lt;ParentLink&gt;https://localhost/servers/serverv1&lt;/ParentLink&gt;&lt;Id&gt;910b4fcb-8a29-4c3e-958f-f7ba794388b2&lt;/Id&gt;&lt;IsDefault&gt;True&lt;/IsDefault&gt;&lt;IsSystem&gt;False&lt;/IsSystem&gt;&lt;Description&gt;Shared resource allocation.&lt;/Description&gt;&lt;Enabled&gt;True&lt;/Enabled&gt;&lt;DimensionSettings&gt;&lt;ServiceResource&gt;&lt;Name&gt;Shared&lt;/Name&gt;&lt;Type&gt;Microsoft.SqlAzure.DimensionSetting&lt;/Type&gt;&lt;State&gt;Normal&lt;/State&gt;&lt;SelfLink&gt;https://localhost/servers/serverv1/dimensionsettings/22467ff6-6823-4d18-a169-913150e7714f&lt;/SelfLink&gt;&lt;ParentLink&gt;https://localhost/servers/serverv1&lt;/ParentLink&gt;&lt;Id&gt;22467ff6-6823-4d18-a169-913150e7714f&lt;/Id&gt;&lt;Description&gt;Shared resource allocation.&lt;/Description&gt;&lt;Ordinal&gt;2&lt;/Ordinal&gt;&lt;IsDefault&gt;True&lt;/IsDefault&gt;&lt;/ServiceResource&gt;&lt;/DimensionSettings&gt;&lt;/ServiceResource&gt;</ResponseText>
         </ResponseInfo>
       </HttpMessage>
       <HttpMessage>
         <Index>11</Index>
+        <RequestInfo>
+          <RequestUri>https://localhost:65432/00000000-0000-0000-0001-000000000001/services/sqlservers/servers/serverv1/databases/testdbcert1</RequestUri>
+          <Method>GET</Method>
+          <UserAgent>Microsoft.WindowsAzure.Management.Sql.SqlManagementClient/0.9.0.0 WindowsAzurePowershell/v0.8.0</UserAgent>
+          <Headers>
+            <Header>
+              <Name>x-ms-version</Name>
+              <Value>2012-03-01</Value>
+            </Header>
+            <Header>
+              <Name>x-ms-client-session-id</Name>
+              <Value>76a75f11-f6f7-4d91-b818-dfdb99165161-2014-03-26 19:35:48Z</Value>
+            </Header>
+            <Header>
+              <Name>x-ms-client-request-id</Name>
+              <Value>36611287-c273-4253-be71-1a06a38fe9d2-2014-03-26 19:36:19Z</Value>
+            </Header>
+          </Headers>
+          <Cookies />
+          <RequestText i:nil="true" />
+          <ContentType i:nil="true" />
+          <Accept i:nil="true" />
+        </RequestInfo>
+        <ResponseInfo>
+          <StatusCode>OK</StatusCode>
+          <Headers>
+            <Header>
+              <Name>x-ms-request-id</Name>
+              <Value>36611287-c273-4253-be71-1a06a38fe9d2</Value>
+            </Header>
+            <Header>
+              <Name>X-Content-Type-Options</Name>
+              <Value>nosniff</Value>
+            </Header>
+            <Header>
+              <Name>Cache-Control</Name>
+              <Value>no-store,no-cache</Value>
+            </Header>
+            <Header>
+              <Name>Content-Type</Name>
+              <Value>application/xml; charset=utf-8</Value>
+            </Header>
+            <Header>
+              <Name>Date</Name>
+              <Value>Wed, 26 Mar 2014 19:36:19 GMT</Value>
+            </Header>
+            <Header>
+              <Name>Server</Name>
+              <Value>1.0.6198.12 (rd_rdfe_stable.131001-0757) Microsoft-HTTPAPI/2.0</Value>
+            </Header>
+          </Headers>
+          <Cookies />
+          <ResponseText>&lt;ServiceResource xmlns="http://schemas.microsoft.com/windowsazure" xmlns:i="http://www.w3.org/2001/XMLSchema-instance"&gt;&lt;Name&gt;testdbcert1&lt;/Name&gt;&lt;Type&gt;Microsoft.SqlAzure.Database&lt;/Type&gt;&lt;State&gt;Normal&lt;/State&gt;&lt;SelfLink&gt;https://localhost/servers/serverv1/databases/testdbcert1&lt;/SelfLink&gt;&lt;ParentLink&gt;https://localhost/servers/serverv1&lt;/ParentLink&gt;&lt;Id&gt;4&lt;/Id&gt;&lt;Edition&gt;Web&lt;/Edition&gt;&lt;MaxSizeGB&gt;1&lt;/MaxSizeGB&gt;&lt;CollationName&gt;SQL_Latin1_General_CP1_CI_AS&lt;/CollationName&gt;&lt;CreationDate&gt;2014-03-26T19:35:51.5200000Z&lt;/CreationDate&gt;&lt;IsFederationRoot&gt;False&lt;/IsFederationRoot&gt;&lt;IsSystemObject&gt;False&lt;/IsSystemObject&gt;&lt;SizeMB i:nil="true"/&gt;&lt;MaxSizeBytes&gt;1073741824&lt;/MaxSizeBytes&gt;&lt;ServiceObjectiveId&gt;910b4fcb-8a29-4c3e-958f-f7ba794388b2&lt;/ServiceObjectiveId&gt;&lt;AssignedServiceObjectiveId&gt;910b4fcb-8a29-4c3e-958f-f7ba794388b2&lt;/AssignedServiceObjectiveId&gt;&lt;ServiceObjectiveAssignmentState&gt;1&lt;/ServiceObjectiveAssignmentState&gt;&lt;ServiceObjectiveAssignmentStateDescription&gt;Complete&lt;/ServiceObjectiveAssignmentStateDescription&gt;&lt;ServiceObjectiveAssignmentErrorCode&gt;0&lt;/ServiceObjectiveAssignmentErrorCode&gt;&lt;ServiceObjectiveAssignmentErrorDescription i:nil="true"/&gt;&lt;ServiceObjectiveAssignmentSuccessDate&gt;2014-03-26T19:35:57.0270000Z&lt;/ServiceObjectiveAssignmentSuccessDate&gt;&lt;RecoveryPeriodStartDate&gt;2014-03-26T19:36:49.9300000Z&lt;/RecoveryPeriodStartDate&gt;&lt;IsSuspended&gt;False&lt;/IsSuspended&gt;&lt;/ServiceResource&gt;</ResponseText>
+        </ResponseInfo>
+      </HttpMessage>
+      <HttpMessage>
+        <Index>12</Index>
+        <RequestInfo>
+          <RequestUri>https://localhost:65432/00000000-0000-0000-0001-000000000001/services/sqlservers/servers/serverv1/serviceobjectives/910b4fcb-8a29-4c3e-958f-f7ba794388b2</RequestUri>
+          <Method>GET</Method>
+          <UserAgent>Microsoft.WindowsAzure.Management.Sql.SqlManagementClient/0.9.0.0 WindowsAzurePowershell/v0.8.0</UserAgent>
+          <Headers>
+            <Header>
+              <Name>x-ms-version</Name>
+              <Value>2012-03-01</Value>
+            </Header>
+            <Header>
+              <Name>x-ms-client-session-id</Name>
+              <Value>76a75f11-f6f7-4d91-b818-dfdb99165161-2014-03-26 19:35:48Z</Value>
+            </Header>
+            <Header>
+              <Name>x-ms-client-request-id</Name>
+              <Value>a88a8e88-3f66-424a-9933-b55c357b4a03-2014-03-26 19:36:20Z</Value>
+            </Header>
+          </Headers>
+          <Cookies />
+          <RequestText i:nil="true" />
+          <ContentType i:nil="true" />
+          <Accept i:nil="true" />
+        </RequestInfo>
+        <ResponseInfo>
+          <StatusCode>OK</StatusCode>
+          <Headers>
+            <Header>
+              <Name>x-ms-request-id</Name>
+              <Value>a88a8e88-3f66-424a-9933-b55c357b4a03</Value>
+            </Header>
+            <Header>
+              <Name>X-Content-Type-Options</Name>
+              <Value>nosniff</Value>
+            </Header>
+            <Header>
+              <Name>Cache-Control</Name>
+              <Value>no-store,no-cache</Value>
+            </Header>
+            <Header>
+              <Name>Content-Type</Name>
+              <Value>application/xml; charset=utf-8</Value>
+            </Header>
+            <Header>
+              <Name>Date</Name>
+              <Value>Wed, 26 Mar 2014 19:36:19 GMT</Value>
+            </Header>
+            <Header>
+              <Name>Server</Name>
+              <Value>1.0.6198.12 (rd_rdfe_stable.131001-0757) Microsoft-HTTPAPI/2.0</Value>
+            </Header>
+          </Headers>
+          <Cookies />
+          <ResponseText>&lt;ServiceResource xmlns="http://schemas.microsoft.com/windowsazure" xmlns:i="http://www.w3.org/2001/XMLSchema-instance"&gt;&lt;Name&gt;Shared&lt;/Name&gt;&lt;Type&gt;Microsoft.SqlAzure.ServiceObjective&lt;/Type&gt;&lt;State&gt;Normal&lt;/State&gt;&lt;SelfLink&gt;https://localhost/servers/serverv1/serviceobjectives/910b4fcb-8a29-4c3e-958f-f7ba794388b2&lt;/SelfLink&gt;&lt;ParentLink&gt;https://localhost/servers/serverv1&lt;/ParentLink&gt;&lt;Id&gt;910b4fcb-8a29-4c3e-958f-f7ba794388b2&lt;/Id&gt;&lt;IsDefault&gt;True&lt;/IsDefault&gt;&lt;IsSystem&gt;False&lt;/IsSystem&gt;&lt;Description&gt;Shared resource allocation.&lt;/Description&gt;&lt;Enabled&gt;True&lt;/Enabled&gt;&lt;DimensionSettings&gt;&lt;ServiceResource&gt;&lt;Name&gt;Shared&lt;/Name&gt;&lt;Type&gt;Microsoft.SqlAzure.DimensionSetting&lt;/Type&gt;&lt;State&gt;Normal&lt;/State&gt;&lt;SelfLink&gt;https://localhost/servers/serverv1/dimensionsettings/22467ff6-6823-4d18-a169-913150e7714f&lt;/SelfLink&gt;&lt;ParentLink&gt;https://localhost/servers/serverv1&lt;/ParentLink&gt;&lt;Id&gt;22467ff6-6823-4d18-a169-913150e7714f&lt;/Id&gt;&lt;Description&gt;Shared resource allocation.&lt;/Description&gt;&lt;Ordinal&gt;2&lt;/Ordinal&gt;&lt;IsDefault&gt;True&lt;/IsDefault&gt;&lt;/ServiceResource&gt;&lt;/DimensionSettings&gt;&lt;/ServiceResource&gt;</ResponseText>
+        </ResponseInfo>
+      </HttpMessage>
+      <HttpMessage>
+        <Index>13</Index>
+        <RequestInfo>
+          <RequestUri>https://localhost:65432/00000000-0000-0000-0001-000000000001/services/sqlservers/servers/serverv1/databases/testdbcert4</RequestUri>
+          <Method>GET</Method>
+          <UserAgent>Microsoft.WindowsAzure.Management.Sql.SqlManagementClient/0.9.0.0 WindowsAzurePowershell/v0.8.0</UserAgent>
+          <Headers>
+            <Header>
+              <Name>x-ms-version</Name>
+              <Value>2012-03-01</Value>
+            </Header>
+            <Header>
+              <Name>x-ms-client-session-id</Name>
+              <Value>76a75f11-f6f7-4d91-b818-dfdb99165161-2014-03-26 19:35:48Z</Value>
+            </Header>
+            <Header>
+              <Name>x-ms-client-request-id</Name>
+              <Value>8b28d970-8da2-4ffa-b6ff-64a733313799-2014-03-26 19:36:20Z</Value>
+            </Header>
+          </Headers>
+          <Cookies />
+          <RequestText i:nil="true" />
+          <ContentType i:nil="true" />
+          <Accept i:nil="true" />
+        </RequestInfo>
+        <ResponseInfo>
+          <StatusCode>OK</StatusCode>
+          <Headers>
+            <Header>
+              <Name>x-ms-request-id</Name>
+              <Value>8b28d970-8da2-4ffa-b6ff-64a733313799</Value>
+            </Header>
+            <Header>
+              <Name>X-Content-Type-Options</Name>
+              <Value>nosniff</Value>
+            </Header>
+            <Header>
+              <Name>Cache-Control</Name>
+              <Value>no-store,no-cache</Value>
+            </Header>
+            <Header>
+              <Name>Content-Type</Name>
+              <Value>application/xml; charset=utf-8</Value>
+            </Header>
+            <Header>
+              <Name>Date</Name>
+              <Value>Wed, 26 Mar 2014 19:36:20 GMT</Value>
+            </Header>
+            <Header>
+              <Name>Server</Name>
+              <Value>1.0.6198.12 (rd_rdfe_stable.131001-0757) Microsoft-HTTPAPI/2.0</Value>
+            </Header>
+          </Headers>
+          <Cookies />
+          <ResponseText>&lt;ServiceResource xmlns="http://schemas.microsoft.com/windowsazure" xmlns:i="http://www.w3.org/2001/XMLSchema-instance"&gt;&lt;Name&gt;testdbcert4&lt;/Name&gt;&lt;Type&gt;Microsoft.SqlAzure.Database&lt;/Type&gt;&lt;State&gt;Normal&lt;/State&gt;&lt;SelfLink&gt;https://localhost/servers/serverv1/databases/testdbcert4&lt;/SelfLink&gt;&lt;ParentLink&gt;https://localhost/servers/serverv1&lt;/ParentLink&gt;&lt;Id&gt;6&lt;/Id&gt;&lt;Edition&gt;Web&lt;/Edition&gt;&lt;MaxSizeGB&gt;0&lt;/MaxSizeGB&gt;&lt;CollationName&gt;SQL_Latin1_General_CP1_CI_AS&lt;/CollationName&gt;&lt;CreationDate&gt;2014-03-26T19:36:11.8770000Z&lt;/CreationDate&gt;&lt;IsFederationRoot&gt;False&lt;/IsFederationRoot&gt;&lt;IsSystemObject&gt;False&lt;/IsSystemObject&gt;&lt;SizeMB i:nil="true"/&gt;&lt;MaxSizeBytes&gt;104857600&lt;/MaxSizeBytes&gt;&lt;ServiceObjectiveId&gt;910b4fcb-8a29-4c3e-958f-f7ba794388b2&lt;/ServiceObjectiveId&gt;&lt;AssignedServiceObjectiveId&gt;910b4fcb-8a29-4c3e-958f-f7ba794388b2&lt;/AssignedServiceObjectiveId&gt;&lt;ServiceObjectiveAssignmentState&gt;1&lt;/ServiceObjectiveAssignmentState&gt;&lt;ServiceObjectiveAssignmentStateDescription&gt;Complete&lt;/ServiceObjectiveAssignmentStateDescription&gt;&lt;ServiceObjectiveAssignmentErrorCode&gt;0&lt;/ServiceObjectiveAssignmentErrorCode&gt;&lt;ServiceObjectiveAssignmentErrorDescription i:nil="true"/&gt;&lt;ServiceObjectiveAssignmentSuccessDate&gt;2014-03-26T19:36:15.8870000Z&lt;/ServiceObjectiveAssignmentSuccessDate&gt;&lt;RecoveryPeriodStartDate&gt;2014-03-26T19:37:10.4930000Z&lt;/RecoveryPeriodStartDate&gt;&lt;IsSuspended&gt;False&lt;/IsSuspended&gt;&lt;/ServiceResource&gt;</ResponseText>
+        </ResponseInfo>
+      </HttpMessage>
+      <HttpMessage>
+        <Index>14</Index>
+        <RequestInfo>
+          <RequestUri>https://localhost:65432/00000000-0000-0000-0001-000000000001/services/sqlservers/servers/serverv1/serviceobjectives/910b4fcb-8a29-4c3e-958f-f7ba794388b2</RequestUri>
+          <Method>GET</Method>
+          <UserAgent>Microsoft.WindowsAzure.Management.Sql.SqlManagementClient/0.9.0.0 WindowsAzurePowershell/v0.8.0</UserAgent>
+          <Headers>
+            <Header>
+              <Name>x-ms-version</Name>
+              <Value>2012-03-01</Value>
+            </Header>
+            <Header>
+              <Name>x-ms-client-session-id</Name>
+              <Value>76a75f11-f6f7-4d91-b818-dfdb99165161-2014-03-26 19:35:48Z</Value>
+            </Header>
+            <Header>
+              <Name>x-ms-client-request-id</Name>
+              <Value>c60b14c3-c596-431d-9847-b0f8c012112a-2014-03-26 19:36:20Z</Value>
+            </Header>
+          </Headers>
+          <Cookies />
+          <RequestText i:nil="true" />
+          <ContentType i:nil="true" />
+          <Accept i:nil="true" />
+        </RequestInfo>
+        <ResponseInfo>
+          <StatusCode>OK</StatusCode>
+          <Headers>
+            <Header>
+              <Name>x-ms-request-id</Name>
+              <Value>c60b14c3-c596-431d-9847-b0f8c012112a</Value>
+            </Header>
+            <Header>
+              <Name>X-Content-Type-Options</Name>
+              <Value>nosniff</Value>
+            </Header>
+            <Header>
+              <Name>Cache-Control</Name>
+              <Value>no-store,no-cache</Value>
+            </Header>
+            <Header>
+              <Name>Content-Type</Name>
+              <Value>application/xml; charset=utf-8</Value>
+            </Header>
+            <Header>
+              <Name>Date</Name>
+              <Value>Wed, 26 Mar 2014 19:36:20 GMT</Value>
+            </Header>
+            <Header>
+              <Name>Server</Name>
+              <Value>1.0.6198.12 (rd_rdfe_stable.131001-0757) Microsoft-HTTPAPI/2.0</Value>
+            </Header>
+          </Headers>
+          <Cookies />
+          <ResponseText>&lt;ServiceResource xmlns="http://schemas.microsoft.com/windowsazure" xmlns:i="http://www.w3.org/2001/XMLSchema-instance"&gt;&lt;Name&gt;Shared&lt;/Name&gt;&lt;Type&gt;Microsoft.SqlAzure.ServiceObjective&lt;/Type&gt;&lt;State&gt;Normal&lt;/State&gt;&lt;SelfLink&gt;https://localhost/servers/serverv1/serviceobjectives/910b4fcb-8a29-4c3e-958f-f7ba794388b2&lt;/SelfLink&gt;&lt;ParentLink&gt;https://localhost/servers/serverv1&lt;/ParentLink&gt;&lt;Id&gt;910b4fcb-8a29-4c3e-958f-f7ba794388b2&lt;/Id&gt;&lt;IsDefault&gt;True&lt;/IsDefault&gt;&lt;IsSystem&gt;False&lt;/IsSystem&gt;&lt;Description&gt;Shared resource allocation.&lt;/Description&gt;&lt;Enabled&gt;True&lt;/Enabled&gt;&lt;DimensionSettings&gt;&lt;ServiceResource&gt;&lt;Name&gt;Shared&lt;/Name&gt;&lt;Type&gt;Microsoft.SqlAzure.DimensionSetting&lt;/Type&gt;&lt;State&gt;Normal&lt;/State&gt;&lt;SelfLink&gt;https://localhost/servers/serverv1/dimensionsettings/22467ff6-6823-4d18-a169-913150e7714f&lt;/SelfLink&gt;&lt;ParentLink&gt;https://localhost/servers/serverv1&lt;/ParentLink&gt;&lt;Id&gt;22467ff6-6823-4d18-a169-913150e7714f&lt;/Id&gt;&lt;Description&gt;Shared resource allocation.&lt;/Description&gt;&lt;Ordinal&gt;2&lt;/Ordinal&gt;&lt;IsDefault&gt;True&lt;/IsDefault&gt;&lt;/ServiceResource&gt;&lt;/DimensionSettings&gt;&lt;/ServiceResource&gt;</ResponseText>
+        </ResponseInfo>
+      </HttpMessage>
+      <HttpMessage>
+        <Index>15</Index>
+        <RequestInfo>
+          <RequestUri>https://localhost:65432/00000000-0000-0000-0001-000000000001/services/sqlservers/servers/serverv1/databases/testdbcert1</RequestUri>
+          <Method>GET</Method>
+          <UserAgent>Microsoft.WindowsAzure.Management.Sql.SqlManagementClient/0.9.0.0 WindowsAzurePowershell/v0.8.0</UserAgent>
+          <Headers>
+            <Header>
+              <Name>x-ms-version</Name>
+              <Value>2012-03-01</Value>
+            </Header>
+            <Header>
+              <Name>x-ms-client-session-id</Name>
+              <Value>76a75f11-f6f7-4d91-b818-dfdb99165161-2014-03-26 19:35:48Z</Value>
+            </Header>
+            <Header>
+              <Name>x-ms-client-request-id</Name>
+              <Value>19cd1f59-ba27-41b7-b2cd-79a2a7681076-2014-03-26 19:36:20Z</Value>
+            </Header>
+          </Headers>
+          <Cookies />
+          <RequestText i:nil="true" />
+          <ContentType i:nil="true" />
+          <Accept i:nil="true" />
+        </RequestInfo>
+        <ResponseInfo>
+          <StatusCode>OK</StatusCode>
+          <Headers>
+            <Header>
+              <Name>x-ms-request-id</Name>
+              <Value>19cd1f59-ba27-41b7-b2cd-79a2a7681076</Value>
+            </Header>
+            <Header>
+              <Name>X-Content-Type-Options</Name>
+              <Value>nosniff</Value>
+            </Header>
+            <Header>
+              <Name>Cache-Control</Name>
+              <Value>no-store,no-cache</Value>
+            </Header>
+            <Header>
+              <Name>Content-Type</Name>
+              <Value>application/xml; charset=utf-8</Value>
+            </Header>
+            <Header>
+              <Name>Date</Name>
+              <Value>Wed, 26 Mar 2014 19:36:20 GMT</Value>
+            </Header>
+            <Header>
+              <Name>Server</Name>
+              <Value>1.0.6198.12 (rd_rdfe_stable.131001-0757) Microsoft-HTTPAPI/2.0</Value>
+            </Header>
+          </Headers>
+          <Cookies />
+          <ResponseText>&lt;ServiceResource xmlns="http://schemas.microsoft.com/windowsazure" xmlns:i="http://www.w3.org/2001/XMLSchema-instance"&gt;&lt;Name&gt;testdbcert1&lt;/Name&gt;&lt;Type&gt;Microsoft.SqlAzure.Database&lt;/Type&gt;&lt;State&gt;Normal&lt;/State&gt;&lt;SelfLink&gt;https://localhost/servers/serverv1/databases/testdbcert1&lt;/SelfLink&gt;&lt;ParentLink&gt;https://localhost/servers/serverv1&lt;/ParentLink&gt;&lt;Id&gt;4&lt;/Id&gt;&lt;Edition&gt;Web&lt;/Edition&gt;&lt;MaxSizeGB&gt;1&lt;/MaxSizeGB&gt;&lt;CollationName&gt;SQL_Latin1_General_CP1_CI_AS&lt;/CollationName&gt;&lt;CreationDate&gt;2014-03-26T19:35:51.5200000Z&lt;/CreationDate&gt;&lt;IsFederationRoot&gt;False&lt;/IsFederationRoot&gt;&lt;IsSystemObject&gt;False&lt;/IsSystemObject&gt;&lt;SizeMB i:nil="true"/&gt;&lt;MaxSizeBytes&gt;1073741824&lt;/MaxSizeBytes&gt;&lt;ServiceObjectiveId&gt;910b4fcb-8a29-4c3e-958f-f7ba794388b2&lt;/ServiceObjectiveId&gt;&lt;AssignedServiceObjectiveId&gt;910b4fcb-8a29-4c3e-958f-f7ba794388b2&lt;/AssignedServiceObjectiveId&gt;&lt;ServiceObjectiveAssignmentState&gt;1&lt;/ServiceObjectiveAssignmentState&gt;&lt;ServiceObjectiveAssignmentStateDescription&gt;Complete&lt;/ServiceObjectiveAssignmentStateDescription&gt;&lt;ServiceObjectiveAssignmentErrorCode&gt;0&lt;/ServiceObjectiveAssignmentErrorCode&gt;&lt;ServiceObjectiveAssignmentErrorDescription i:nil="true"/&gt;&lt;ServiceObjectiveAssignmentSuccessDate&gt;2014-03-26T19:35:57.0270000Z&lt;/ServiceObjectiveAssignmentSuccessDate&gt;&lt;RecoveryPeriodStartDate&gt;2014-03-26T19:36:49.9300000Z&lt;/RecoveryPeriodStartDate&gt;&lt;IsSuspended&gt;False&lt;/IsSuspended&gt;&lt;/ServiceResource&gt;</ResponseText>
+        </ResponseInfo>
+      </HttpMessage>
+      <HttpMessage>
+        <Index>16</Index>
         <RequestInfo>
           <RequestUri>https://localhost:65432/00000000-0000-0000-0001-000000000001/services/sqlservers/servers/serverv1/databases/testdbcert1</RequestUri>
           <Method>PUT</Method>
@@ -9799,11 +10088,11 @@
             </Header>
             <Header>
               <Name>x-ms-client-session-id</Name>
-              <Value>f00172bf-3b31-469c-8741-1e100bd912b4-2014-03-24 22:26:22Z</Value>
+              <Value>76a75f11-f6f7-4d91-b818-dfdb99165161-2014-03-26 19:35:48Z</Value>
             </Header>
             <Header>
               <Name>x-ms-client-request-id</Name>
-              <Value>f5da7c79-0c00-4b68-96c8-fa391e26befa-2014-03-24 22:26:39Z</Value>
+              <Value>19cd1f59-ba27-41b7-b2cd-79a2a7681076-2014-03-26 19:36:20Z</Value>
             </Header>
           </Headers>
           <Cookies />
@@ -9811,8 +10100,8 @@
   &lt;Name&gt;testdbcert3&lt;/Name&gt;
   &lt;Id&gt;4&lt;/Id&gt;
   &lt;Edition&gt;Web&lt;/Edition&gt;
-  &lt;MaxSizeGB&gt;1&lt;/MaxSizeGB&gt;
   &lt;CollationName&gt;SQL_Latin1_General_CP1_CI_AS&lt;/CollationName&gt;
+  &lt;ServiceObjectiveId&gt;910b4fcb-8a29-4c3e-958f-f7ba794388b2&lt;/ServiceObjectiveId&gt;
 &lt;/ServiceResource&gt;</RequestText>
           <ContentType>application/xml</ContentType>
           <Accept i:nil="true" />
@@ -9822,7 +10111,7 @@
           <Headers>
             <Header>
               <Name>x-ms-request-id</Name>
-              <Value>f5da7c79-0c00-4b68-96c8-fa391e26befa</Value>
+              <Value>19cd1f59-ba27-41b7-b2cd-79a2a7681076</Value>
             </Header>
             <Header>
               <Name>X-Content-Type-Options</Name>
@@ -9838,7 +10127,7 @@
             </Header>
             <Header>
               <Name>Date</Name>
-              <Value>Mon, 24 Mar 2014 22:26:44 GMT</Value>
+              <Value>Wed, 26 Mar 2014 19:36:27 GMT</Value>
             </Header>
             <Header>
               <Name>Server</Name>
@@ -9846,13 +10135,13 @@
             </Header>
           </Headers>
           <Cookies />
-          <ResponseText>&lt;ServiceResource xmlns="http://schemas.microsoft.com/windowsazure" xmlns:i="http://www.w3.org/2001/XMLSchema-instance"&gt;&lt;Name&gt;testdbcert3&lt;/Name&gt;&lt;Type&gt;Microsoft.SqlAzure.Database&lt;/Type&gt;&lt;State&gt;Normal&lt;/State&gt;&lt;SelfLink&gt;https://localhost/servers/serverv1/databases/testdbcert3&lt;/SelfLink&gt;&lt;ParentLink&gt;https://localhost/servers/serverv1&lt;/ParentLink&gt;&lt;Id&gt;4&lt;/Id&gt;&lt;Edition&gt;Web&lt;/Edition&gt;&lt;MaxSizeGB&gt;1&lt;/MaxSizeGB&gt;&lt;CollationName&gt;SQL_Latin1_General_CP1_CI_AS&lt;/CollationName&gt;&lt;CreationDate&gt;2014-03-24T22:26:24.5300000Z&lt;/CreationDate&gt;&lt;IsFederationRoot&gt;False&lt;/IsFederationRoot&gt;&lt;IsSystemObject&gt;False&lt;/IsSystemObject&gt;&lt;SizeMB i:nil="true"/&gt;&lt;MaxSizeBytes&gt;1073741824&lt;/MaxSizeBytes&gt;&lt;ServiceObjectiveId i:nil="true"/&gt;&lt;AssignedServiceObjectiveId&gt;910b4fcb-8a29-4c3e-958f-f7ba794388b2&lt;/AssignedServiceObjectiveId&gt;&lt;ServiceObjectiveAssignmentState&gt;1&lt;/ServiceObjectiveAssignmentState&gt;&lt;ServiceObjectiveAssignmentStateDescription&gt;Complete&lt;/ServiceObjectiveAssignmentStateDescription&gt;&lt;ServiceObjectiveAssignmentErrorCode&gt;0&lt;/ServiceObjectiveAssignmentErrorCode&gt;&lt;ServiceObjectiveAssignmentErrorDescription i:nil="true"/&gt;&lt;ServiceObjectiveAssignmentSuccessDate&gt;2014-03-24T22:26:27.7570000Z&lt;/ServiceObjectiveAssignmentSuccessDate&gt;&lt;RecoveryPeriodStartDate&gt;2014-03-24T22:27:24.1470000Z&lt;/RecoveryPeriodStartDate&gt;&lt;IsSuspended&gt;False&lt;/IsSuspended&gt;&lt;/ServiceResource&gt;</ResponseText>
+          <ResponseText>&lt;ServiceResource xmlns="http://schemas.microsoft.com/windowsazure" xmlns:i="http://www.w3.org/2001/XMLSchema-instance"&gt;&lt;Name&gt;testdbcert3&lt;/Name&gt;&lt;Type&gt;Microsoft.SqlAzure.Database&lt;/Type&gt;&lt;State&gt;Normal&lt;/State&gt;&lt;SelfLink&gt;https://localhost/servers/serverv1/databases/testdbcert3&lt;/SelfLink&gt;&lt;ParentLink&gt;https://localhost/servers/serverv1&lt;/ParentLink&gt;&lt;Id&gt;4&lt;/Id&gt;&lt;Edition&gt;Web&lt;/Edition&gt;&lt;MaxSizeGB&gt;1&lt;/MaxSizeGB&gt;&lt;CollationName&gt;SQL_Latin1_General_CP1_CI_AS&lt;/CollationName&gt;&lt;CreationDate&gt;2014-03-26T19:35:51.5200000Z&lt;/CreationDate&gt;&lt;IsFederationRoot&gt;False&lt;/IsFederationRoot&gt;&lt;IsSystemObject&gt;False&lt;/IsSystemObject&gt;&lt;SizeMB i:nil="true"/&gt;&lt;MaxSizeBytes&gt;1073741824&lt;/MaxSizeBytes&gt;&lt;ServiceObjectiveId&gt;910b4fcb-8a29-4c3e-958f-f7ba794388b2&lt;/ServiceObjectiveId&gt;&lt;AssignedServiceObjectiveId&gt;910b4fcb-8a29-4c3e-958f-f7ba794388b2&lt;/AssignedServiceObjectiveId&gt;&lt;ServiceObjectiveAssignmentState&gt;1&lt;/ServiceObjectiveAssignmentState&gt;&lt;ServiceObjectiveAssignmentStateDescription&gt;Complete&lt;/ServiceObjectiveAssignmentStateDescription&gt;&lt;ServiceObjectiveAssignmentErrorCode&gt;0&lt;/ServiceObjectiveAssignmentErrorCode&gt;&lt;ServiceObjectiveAssignmentErrorDescription i:nil="true"/&gt;&lt;ServiceObjectiveAssignmentSuccessDate&gt;2014-03-26T19:35:57.0270000Z&lt;/ServiceObjectiveAssignmentSuccessDate&gt;&lt;RecoveryPeriodStartDate&gt;2014-03-26T19:36:49.9300000Z&lt;/RecoveryPeriodStartDate&gt;&lt;IsSuspended&gt;False&lt;/IsSuspended&gt;&lt;/ServiceResource&gt;</ResponseText>
         </ResponseInfo>
       </HttpMessage>
       <HttpMessage>
-        <Index>12</Index>
+        <Index>17</Index>
         <RequestInfo>
-          <RequestUri>https://localhost:65432/00000000-0000-0000-0001-000000000001/services/sqlservers/servers/serverv1/databases/testdbcert3</RequestUri>
+          <RequestUri>https://localhost:65432/00000000-0000-0000-0001-000000000001/services/sqlservers/servers/serverv1/serviceobjectives/910b4fcb-8a29-4c3e-958f-f7ba794388b2</RequestUri>
           <Method>GET</Method>
           <UserAgent>Microsoft.WindowsAzure.Management.Sql.SqlManagementClient/0.9.0.0 WindowsAzurePowershell/v0.8.0</UserAgent>
           <Headers>
@@ -9862,11 +10151,11 @@
             </Header>
             <Header>
               <Name>x-ms-client-session-id</Name>
-              <Value>f00172bf-3b31-469c-8741-1e100bd912b4-2014-03-24 22:26:22Z</Value>
+              <Value>76a75f11-f6f7-4d91-b818-dfdb99165161-2014-03-26 19:35:48Z</Value>
             </Header>
             <Header>
               <Name>x-ms-client-request-id</Name>
-              <Value>68000cf6-b2ab-48e6-bcfb-5b3378b3f9f9-2014-03-24 22:26:44Z</Value>
+              <Value>79b9e597-2762-41b3-b7ed-ce2787df6394-2014-03-26 19:36:27Z</Value>
             </Header>
           </Headers>
           <Cookies />
@@ -9879,7 +10168,7 @@
           <Headers>
             <Header>
               <Name>x-ms-request-id</Name>
-              <Value>68000cf6-b2ab-48e6-bcfb-5b3378b3f9f9</Value>
+              <Value>79b9e597-2762-41b3-b7ed-ce2787df6394</Value>
             </Header>
             <Header>
               <Name>X-Content-Type-Options</Name>
@@ -9895,7 +10184,7 @@
             </Header>
             <Header>
               <Name>Date</Name>
-              <Value>Mon, 24 Mar 2014 22:26:44 GMT</Value>
+              <Value>Wed, 26 Mar 2014 19:36:27 GMT</Value>
             </Header>
             <Header>
               <Name>Server</Name>
@@ -9903,11 +10192,68 @@
             </Header>
           </Headers>
           <Cookies />
-          <ResponseText>&lt;ServiceResource xmlns="http://schemas.microsoft.com/windowsazure" xmlns:i="http://www.w3.org/2001/XMLSchema-instance"&gt;&lt;Name&gt;testdbcert3&lt;/Name&gt;&lt;Type&gt;Microsoft.SqlAzure.Database&lt;/Type&gt;&lt;State&gt;Normal&lt;/State&gt;&lt;SelfLink&gt;https://localhost/servers/serverv1/databases/testdbcert3&lt;/SelfLink&gt;&lt;ParentLink&gt;https://localhost/servers/serverv1&lt;/ParentLink&gt;&lt;Id&gt;4&lt;/Id&gt;&lt;Edition&gt;Web&lt;/Edition&gt;&lt;MaxSizeGB&gt;1&lt;/MaxSizeGB&gt;&lt;CollationName&gt;SQL_Latin1_General_CP1_CI_AS&lt;/CollationName&gt;&lt;CreationDate&gt;2014-03-24T22:26:43.6930000Z&lt;/CreationDate&gt;&lt;IsFederationRoot&gt;False&lt;/IsFederationRoot&gt;&lt;IsSystemObject&gt;False&lt;/IsSystemObject&gt;&lt;SizeMB i:nil="true"/&gt;&lt;MaxSizeBytes&gt;1073741824&lt;/MaxSizeBytes&gt;&lt;ServiceObjectiveId&gt;910b4fcb-8a29-4c3e-958f-f7ba794388b2&lt;/ServiceObjectiveId&gt;&lt;AssignedServiceObjectiveId&gt;910b4fcb-8a29-4c3e-958f-f7ba794388b2&lt;/AssignedServiceObjectiveId&gt;&lt;ServiceObjectiveAssignmentState&gt;1&lt;/ServiceObjectiveAssignmentState&gt;&lt;ServiceObjectiveAssignmentStateDescription&gt;Complete&lt;/ServiceObjectiveAssignmentStateDescription&gt;&lt;ServiceObjectiveAssignmentErrorCode&gt;0&lt;/ServiceObjectiveAssignmentErrorCode&gt;&lt;ServiceObjectiveAssignmentErrorDescription i:nil="true"/&gt;&lt;ServiceObjectiveAssignmentSuccessDate&gt;2014-03-24T22:26:27.7570000Z&lt;/ServiceObjectiveAssignmentSuccessDate&gt;&lt;RecoveryPeriodStartDate&gt;2014-03-24T22:27:24.1470000Z&lt;/RecoveryPeriodStartDate&gt;&lt;IsSuspended&gt;False&lt;/IsSuspended&gt;&lt;/ServiceResource&gt;</ResponseText>
+          <ResponseText>&lt;ServiceResource xmlns="http://schemas.microsoft.com/windowsazure" xmlns:i="http://www.w3.org/2001/XMLSchema-instance"&gt;&lt;Name&gt;Shared&lt;/Name&gt;&lt;Type&gt;Microsoft.SqlAzure.ServiceObjective&lt;/Type&gt;&lt;State&gt;Normal&lt;/State&gt;&lt;SelfLink&gt;https://localhost/servers/serverv1/serviceobjectives/910b4fcb-8a29-4c3e-958f-f7ba794388b2&lt;/SelfLink&gt;&lt;ParentLink&gt;https://localhost/servers/serverv1&lt;/ParentLink&gt;&lt;Id&gt;910b4fcb-8a29-4c3e-958f-f7ba794388b2&lt;/Id&gt;&lt;IsDefault&gt;True&lt;/IsDefault&gt;&lt;IsSystem&gt;False&lt;/IsSystem&gt;&lt;Description&gt;Shared resource allocation.&lt;/Description&gt;&lt;Enabled&gt;True&lt;/Enabled&gt;&lt;DimensionSettings&gt;&lt;ServiceResource&gt;&lt;Name&gt;Shared&lt;/Name&gt;&lt;Type&gt;Microsoft.SqlAzure.DimensionSetting&lt;/Type&gt;&lt;State&gt;Normal&lt;/State&gt;&lt;SelfLink&gt;https://localhost/servers/serverv1/dimensionsettings/22467ff6-6823-4d18-a169-913150e7714f&lt;/SelfLink&gt;&lt;ParentLink&gt;https://localhost/servers/serverv1&lt;/ParentLink&gt;&lt;Id&gt;22467ff6-6823-4d18-a169-913150e7714f&lt;/Id&gt;&lt;Description&gt;Shared resource allocation.&lt;/Description&gt;&lt;Ordinal&gt;2&lt;/Ordinal&gt;&lt;IsDefault&gt;True&lt;/IsDefault&gt;&lt;/ServiceResource&gt;&lt;/DimensionSettings&gt;&lt;/ServiceResource&gt;</ResponseText>
         </ResponseInfo>
       </HttpMessage>
       <HttpMessage>
-        <Index>13</Index>
+        <Index>18</Index>
+        <RequestInfo>
+          <RequestUri>https://localhost:65432/00000000-0000-0000-0001-000000000001/services/sqlservers/servers/serverv1/databases/testdbcert3</RequestUri>
+          <Method>GET</Method>
+          <UserAgent>Microsoft.WindowsAzure.Management.Sql.SqlManagementClient/0.9.0.0 WindowsAzurePowershell/v0.8.0</UserAgent>
+          <Headers>
+            <Header>
+              <Name>x-ms-version</Name>
+              <Value>2012-03-01</Value>
+            </Header>
+            <Header>
+              <Name>x-ms-client-session-id</Name>
+              <Value>76a75f11-f6f7-4d91-b818-dfdb99165161-2014-03-26 19:35:48Z</Value>
+            </Header>
+            <Header>
+              <Name>x-ms-client-request-id</Name>
+              <Value>6033f84b-dc2b-4a52-8aca-97ebdd93b533-2014-03-26 19:36:27Z</Value>
+            </Header>
+          </Headers>
+          <Cookies />
+          <RequestText i:nil="true" />
+          <ContentType i:nil="true" />
+          <Accept i:nil="true" />
+        </RequestInfo>
+        <ResponseInfo>
+          <StatusCode>OK</StatusCode>
+          <Headers>
+            <Header>
+              <Name>x-ms-request-id</Name>
+              <Value>6033f84b-dc2b-4a52-8aca-97ebdd93b533</Value>
+            </Header>
+            <Header>
+              <Name>X-Content-Type-Options</Name>
+              <Value>nosniff</Value>
+            </Header>
+            <Header>
+              <Name>Cache-Control</Name>
+              <Value>no-store,no-cache</Value>
+            </Header>
+            <Header>
+              <Name>Content-Type</Name>
+              <Value>application/xml; charset=utf-8</Value>
+            </Header>
+            <Header>
+              <Name>Date</Name>
+              <Value>Wed, 26 Mar 2014 19:36:27 GMT</Value>
+            </Header>
+            <Header>
+              <Name>Server</Name>
+              <Value>1.0.6198.12 (rd_rdfe_stable.131001-0757) Microsoft-HTTPAPI/2.0</Value>
+            </Header>
+          </Headers>
+          <Cookies />
+          <ResponseText>&lt;ServiceResource xmlns="http://schemas.microsoft.com/windowsazure" xmlns:i="http://www.w3.org/2001/XMLSchema-instance"&gt;&lt;Name&gt;testdbcert3&lt;/Name&gt;&lt;Type&gt;Microsoft.SqlAzure.Database&lt;/Type&gt;&lt;State&gt;Normal&lt;/State&gt;&lt;SelfLink&gt;https://localhost/servers/serverv1/databases/testdbcert3&lt;/SelfLink&gt;&lt;ParentLink&gt;https://localhost/servers/serverv1&lt;/ParentLink&gt;&lt;Id&gt;4&lt;/Id&gt;&lt;Edition&gt;Web&lt;/Edition&gt;&lt;MaxSizeGB&gt;1&lt;/MaxSizeGB&gt;&lt;CollationName&gt;SQL_Latin1_General_CP1_CI_AS&lt;/CollationName&gt;&lt;CreationDate&gt;2014-03-26T19:36:25.7900000Z&lt;/CreationDate&gt;&lt;IsFederationRoot&gt;False&lt;/IsFederationRoot&gt;&lt;IsSystemObject&gt;False&lt;/IsSystemObject&gt;&lt;SizeMB i:nil="true"/&gt;&lt;MaxSizeBytes&gt;1073741824&lt;/MaxSizeBytes&gt;&lt;ServiceObjectiveId&gt;910b4fcb-8a29-4c3e-958f-f7ba794388b2&lt;/ServiceObjectiveId&gt;&lt;AssignedServiceObjectiveId&gt;910b4fcb-8a29-4c3e-958f-f7ba794388b2&lt;/AssignedServiceObjectiveId&gt;&lt;ServiceObjectiveAssignmentState&gt;1&lt;/ServiceObjectiveAssignmentState&gt;&lt;ServiceObjectiveAssignmentStateDescription&gt;Complete&lt;/ServiceObjectiveAssignmentStateDescription&gt;&lt;ServiceObjectiveAssignmentErrorCode&gt;0&lt;/ServiceObjectiveAssignmentErrorCode&gt;&lt;ServiceObjectiveAssignmentErrorDescription i:nil="true"/&gt;&lt;ServiceObjectiveAssignmentSuccessDate&gt;2014-03-26T19:35:57.0270000Z&lt;/ServiceObjectiveAssignmentSuccessDate&gt;&lt;RecoveryPeriodStartDate&gt;2014-03-26T19:36:49.9300000Z&lt;/RecoveryPeriodStartDate&gt;&lt;IsSuspended&gt;False&lt;/IsSuspended&gt;&lt;/ServiceResource&gt;</ResponseText>
+        </ResponseInfo>
+      </HttpMessage>
+      <HttpMessage>
+        <Index>19</Index>
         <RequestInfo>
           <RequestUri>https://localhost:65432/00000000-0000-0000-0001-000000000001/services/sqlservers/servers/serverv1/databases/testdbcert3</RequestUri>
           <Method>PUT</Method>
@@ -9919,11 +10265,11 @@
             </Header>
             <Header>
               <Name>x-ms-client-session-id</Name>
-              <Value>f00172bf-3b31-469c-8741-1e100bd912b4-2014-03-24 22:26:22Z</Value>
+              <Value>76a75f11-f6f7-4d91-b818-dfdb99165161-2014-03-26 19:35:48Z</Value>
             </Header>
             <Header>
               <Name>x-ms-client-request-id</Name>
-              <Value>68000cf6-b2ab-48e6-bcfb-5b3378b3f9f9-2014-03-24 22:26:44Z</Value>
+              <Value>6033f84b-dc2b-4a52-8aca-97ebdd93b533-2014-03-26 19:36:27Z</Value>
             </Header>
           </Headers>
           <Cookies />
@@ -9933,6 +10279,7 @@
   &lt;Edition&gt;Web&lt;/Edition&gt;
   &lt;MaxSizeGB&gt;5&lt;/MaxSizeGB&gt;
   &lt;CollationName&gt;SQL_Latin1_General_CP1_CI_AS&lt;/CollationName&gt;
+  &lt;ServiceObjectiveId&gt;910b4fcb-8a29-4c3e-958f-f7ba794388b2&lt;/ServiceObjectiveId&gt;
 &lt;/ServiceResource&gt;</RequestText>
           <ContentType>application/xml</ContentType>
           <Accept i:nil="true" />
@@ -9942,7 +10289,7 @@
           <Headers>
             <Header>
               <Name>x-ms-request-id</Name>
-              <Value>68000cf6-b2ab-48e6-bcfb-5b3378b3f9f9</Value>
+              <Value>6033f84b-dc2b-4a52-8aca-97ebdd93b533</Value>
             </Header>
             <Header>
               <Name>X-Content-Type-Options</Name>
@@ -9958,7 +10305,7 @@
             </Header>
             <Header>
               <Name>Date</Name>
-              <Value>Mon, 24 Mar 2014 22:26:50 GMT</Value>
+              <Value>Wed, 26 Mar 2014 19:36:32 GMT</Value>
             </Header>
             <Header>
               <Name>Server</Name>
@@ -9966,15 +10313,15 @@
             </Header>
           </Headers>
           <Cookies />
-          <ResponseText>&lt;ServiceResource xmlns="http://schemas.microsoft.com/windowsazure" xmlns:i="http://www.w3.org/2001/XMLSchema-instance"&gt;&lt;Name&gt;testdbcert3&lt;/Name&gt;&lt;Type&gt;Microsoft.SqlAzure.Database&lt;/Type&gt;&lt;State&gt;Normal&lt;/State&gt;&lt;SelfLink&gt;https://localhost/servers/serverv1/databases/testdbcert3&lt;/SelfLink&gt;&lt;ParentLink&gt;https://localhost/servers/serverv1&lt;/ParentLink&gt;&lt;Id&gt;4&lt;/Id&gt;&lt;Edition&gt;Web&lt;/Edition&gt;&lt;MaxSizeGB&gt;5&lt;/MaxSizeGB&gt;&lt;CollationName&gt;SQL_Latin1_General_CP1_CI_AS&lt;/CollationName&gt;&lt;CreationDate&gt;2014-03-24T22:26:43.6930000Z&lt;/CreationDate&gt;&lt;IsFederationRoot&gt;False&lt;/IsFederationRoot&gt;&lt;IsSystemObject&gt;False&lt;/IsSystemObject&gt;&lt;SizeMB i:nil="true"/&gt;&lt;MaxSizeBytes&gt;5368709120&lt;/MaxSizeBytes&gt;&lt;ServiceObjectiveId i:nil="true"/&gt;&lt;AssignedServiceObjectiveId&gt;910b4fcb-8a29-4c3e-958f-f7ba794388b2&lt;/AssignedServiceObjectiveId&gt;&lt;ServiceObjectiveAssignmentState&gt;1&lt;/ServiceObjectiveAssignmentState&gt;&lt;ServiceObjectiveAssignmentStateDescription&gt;Complete&lt;/ServiceObjectiveAssignmentStateDescription&gt;&lt;ServiceObjectiveAssignmentErrorCode&gt;0&lt;/ServiceObjectiveAssignmentErrorCode&gt;&lt;ServiceObjectiveAssignmentErrorDescription i:nil="true"/&gt;&lt;ServiceObjectiveAssignmentSuccessDate&gt;2014-03-24T22:26:27.7570000Z&lt;/ServiceObjectiveAssignmentSuccessDate&gt;&lt;RecoveryPeriodStartDate&gt;2014-03-24T22:27:24.1470000Z&lt;/RecoveryPeriodStartDate&gt;&lt;IsSuspended&gt;False&lt;/IsSuspended&gt;&lt;/ServiceResource&gt;</ResponseText>
+          <ResponseText>&lt;ServiceResource xmlns="http://schemas.microsoft.com/windowsazure" xmlns:i="http://www.w3.org/2001/XMLSchema-instance"&gt;&lt;Name&gt;testdbcert3&lt;/Name&gt;&lt;Type&gt;Microsoft.SqlAzure.Database&lt;/Type&gt;&lt;State&gt;Normal&lt;/State&gt;&lt;SelfLink&gt;https://localhost/servers/serverv1/databases/testdbcert3&lt;/SelfLink&gt;&lt;ParentLink&gt;https://localhost/servers/serverv1&lt;/ParentLink&gt;&lt;Id&gt;4&lt;/Id&gt;&lt;Edition&gt;Web&lt;/Edition&gt;&lt;MaxSizeGB&gt;5&lt;/MaxSizeGB&gt;&lt;CollationName&gt;SQL_Latin1_General_CP1_CI_AS&lt;/CollationName&gt;&lt;CreationDate&gt;2014-03-26T19:36:25.7900000Z&lt;/CreationDate&gt;&lt;IsFederationRoot&gt;False&lt;/IsFederationRoot&gt;&lt;IsSystemObject&gt;False&lt;/IsSystemObject&gt;&lt;SizeMB i:nil="true"/&gt;&lt;MaxSizeBytes&gt;5368709120&lt;/MaxSizeBytes&gt;&lt;ServiceObjectiveId&gt;910b4fcb-8a29-4c3e-958f-f7ba794388b2&lt;/ServiceObjectiveId&gt;&lt;AssignedServiceObjectiveId&gt;910b4fcb-8a29-4c3e-958f-f7ba794388b2&lt;/AssignedServiceObjectiveId&gt;&lt;ServiceObjectiveAssignmentState&gt;1&lt;/ServiceObjectiveAssignmentState&gt;&lt;ServiceObjectiveAssignmentStateDescription&gt;Complete&lt;/ServiceObjectiveAssignmentStateDescription&gt;&lt;ServiceObjectiveAssignmentErrorCode&gt;0&lt;/ServiceObjectiveAssignmentErrorCode&gt;&lt;ServiceObjectiveAssignmentErrorDescription i:nil="true"/&gt;&lt;ServiceObjectiveAssignmentSuccessDate&gt;2014-03-26T19:35:57.0270000Z&lt;/ServiceObjectiveAssignmentSuccessDate&gt;&lt;RecoveryPeriodStartDate&gt;2014-03-26T19:36:49.9300000Z&lt;/RecoveryPeriodStartDate&gt;&lt;IsSuspended&gt;False&lt;/IsSuspended&gt;&lt;/ServiceResource&gt;</ResponseText>
         </ResponseInfo>
       </HttpMessage>
       <HttpMessage>
-        <Index>14</Index>
+        <Index>20</Index>
         <RequestInfo>
-          <RequestUri>https://localhost:65432/00000000-0000-0000-0001-000000000001/services/sqlservers/servers/serverv1/serviceobjectives</RequestUri>
+          <RequestUri>https://localhost:65432/00000000-0000-0000-0001-000000000001/services/sqlservers/servers/serverv1/serviceobjectives/910b4fcb-8a29-4c3e-958f-f7ba794388b2</RequestUri>
           <Method>GET</Method>
-          <UserAgent>Microsoft.WindowsAzure.Management.Sql.SqlManagementClient/0.9.0.0 WindowsAzurePowershell/v0.8.0</UserAgent>
+          <UserAgent>Microsoft.WindowsAzure.Management.Sql.SqlManagementClient/0.9.0.0 WindowsAzurePowershell/v0.7.4</UserAgent>
           <Headers>
             <Header>
               <Name>x-ms-version</Name>
@@ -9982,11 +10329,11 @@
             </Header>
             <Header>
               <Name>x-ms-client-session-id</Name>
-              <Value>f00172bf-3b31-469c-8741-1e100bd912b4-2014-03-24 22:26:22Z</Value>
+              <Value>76a75f11-f6f7-4d91-b818-dfdb99165161-2014-03-26 19:35:48Z</Value>
             </Header>
             <Header>
               <Name>x-ms-client-request-id</Name>
-              <Value>c3ae2b74-abf3-416c-8bc0-86b8ddc051c9-2014-03-24 22:26:50Z</Value>
+              <Value>6aa3dc42-a5fd-44db-a90f-bdf64a2c01b4-2014-03-26 19:36:32Z</Value>
             </Header>
           </Headers>
           <Cookies />
@@ -9999,7 +10346,7 @@
           <Headers>
             <Header>
               <Name>x-ms-request-id</Name>
-              <Value>c3ae2b74-abf3-416c-8bc0-86b8ddc051c9</Value>
+              <Value>6aa3dc42-a5fd-44db-a90f-bdf64a2c01b4</Value>
             </Header>
             <Header>
               <Name>X-Content-Type-Options</Name>
@@ -10015,7 +10362,7 @@
             </Header>
             <Header>
               <Name>Date</Name>
-              <Value>Mon, 24 Mar 2014 22:26:50 GMT</Value>
+              <Value>Wed, 26 Mar 2014 19:36:32 GMT</Value>
             </Header>
             <Header>
               <Name>Server</Name>
@@ -10023,13 +10370,13 @@
             </Header>
           </Headers>
           <Cookies />
-          <ResponseText>&lt;ServiceResources xmlns="http://schemas.microsoft.com/windowsazure" xmlns:i="http://www.w3.org/2001/XMLSchema-instance"&gt;&lt;ServiceResource&gt;&lt;Name&gt;S2&lt;/Name&gt;&lt;Type&gt;Microsoft.SqlAzure.ServiceObjective&lt;/Type&gt;&lt;State&gt;Normal&lt;/State&gt;&lt;SelfLink&gt;https://localhost/servers/serverv1/serviceobjectives/455330e1-00cd-488b-b5fa-177c226f28b7&lt;/SelfLink&gt;&lt;ParentLink&gt;https://localhost/servers/serverv1&lt;/ParentLink&gt;&lt;Id&gt;455330e1-00cd-488b-b5fa-177c226f28b7&lt;/Id&gt;&lt;IsDefault&gt;False&lt;/IsDefault&gt;&lt;IsSystem&gt;False&lt;/IsSystem&gt;&lt;Description&gt;Standard S2 resource allocation.&lt;/Description&gt;&lt;Enabled&gt;True&lt;/Enabled&gt;&lt;DimensionSettings&gt;&lt;ServiceResource&gt;&lt;Name&gt;S2&lt;/Name&gt;&lt;Type&gt;Microsoft.SqlAzure.DimensionSetting&lt;/Type&gt;&lt;State&gt;Normal&lt;/State&gt;&lt;SelfLink&gt;https://localhost/servers/serverv1/dimensionsettings/a6929526-f04f-48d2-8c46-babe799f2192&lt;/SelfLink&gt;&lt;ParentLink&gt;https://localhost/servers/serverv1&lt;/ParentLink&gt;&lt;Id&gt;a6929526-f04f-48d2-8c46-babe799f2192&lt;/Id&gt;&lt;Description&gt;Standard S2 resource allocation.&lt;/Description&gt;&lt;Ordinal&gt;5&lt;/Ordinal&gt;&lt;IsDefault&gt;False&lt;/IsDefault&gt;&lt;/ServiceResource&gt;&lt;/DimensionSettings&gt;&lt;/ServiceResource&gt;&lt;ServiceResource&gt;&lt;Name&gt;P1&lt;/Name&gt;&lt;Type&gt;Microsoft.SqlAzure.ServiceObjective&lt;/Type&gt;&lt;State&gt;Normal&lt;/State&gt;&lt;SelfLink&gt;https://localhost/servers/serverv1/serviceobjectives/7203483a-c4fb-4304-9e9f-17c71c904f5d&lt;/SelfLink&gt;&lt;ParentLink&gt;https://localhost/servers/serverv1&lt;/ParentLink&gt;&lt;Id&gt;7203483a-c4fb-4304-9e9f-17c71c904f5d&lt;/Id&gt;&lt;IsDefault&gt;False&lt;/IsDefault&gt;&lt;IsSystem&gt;False&lt;/IsSystem&gt;&lt;Description&gt;Premium P1 resource allocation.&lt;/Description&gt;&lt;Enabled&gt;True&lt;/Enabled&gt;&lt;DimensionSettings&gt;&lt;ServiceResource&gt;&lt;Name&gt;P1&lt;/Name&gt;&lt;Type&gt;Microsoft.SqlAzure.DimensionSetting&lt;/Type&gt;&lt;State&gt;Normal&lt;/State&gt;&lt;SelfLink&gt;https://localhost/servers/serverv1/dimensionsettings/765fbda3-73c9-4fad-996e-7c0e4e219f68&lt;/SelfLink&gt;&lt;ParentLink&gt;https://localhost/servers/serverv1&lt;/ParentLink&gt;&lt;Id&gt;765fbda3-73c9-4fad-996e-7c0e4e219f68&lt;/Id&gt;&lt;Description&gt;Premium P1 resource allocation.&lt;/Description&gt;&lt;Ordinal&gt;6&lt;/Ordinal&gt;&lt;IsDefault&gt;False&lt;/IsDefault&gt;&lt;/ServiceResource&gt;&lt;/DimensionSettings&gt;&lt;/ServiceResource&gt;&lt;ServiceResource&gt;&lt;Name&gt;P2&lt;/Name&gt;&lt;Type&gt;Microsoft.SqlAzure.ServiceObjective&lt;/Type&gt;&lt;State&gt;Normal&lt;/State&gt;&lt;SelfLink&gt;https://localhost/servers/serverv1/serviceobjectives/a7d1b92d-c987-4375-b54d-2b1d0e0f5bb0&lt;/SelfLink&gt;&lt;ParentLink&gt;https://localhost/servers/serverv1&lt;/ParentLink&gt;&lt;Id&gt;a7d1b92d-c987-4375-b54d-2b1d0e0f5bb0&lt;/Id&gt;&lt;IsDefault&gt;False&lt;/IsDefault&gt;&lt;IsSystem&gt;False&lt;/IsSystem&gt;&lt;Description&gt;Premium P2 resource allocation.&lt;/Description&gt;&lt;Enabled&gt;True&lt;/Enabled&gt;&lt;DimensionSettings&gt;&lt;ServiceResource&gt;&lt;Name&gt;P2&lt;/Name&gt;&lt;Type&gt;Microsoft.SqlAzure.DimensionSetting&lt;/Type&gt;&lt;State&gt;Normal&lt;/State&gt;&lt;SelfLink&gt;https://localhost/servers/serverv1/dimensionsettings/b15e89f1-02b5-4618-b44d-75d37261b94b&lt;/SelfLink&gt;&lt;ParentLink&gt;https://localhost/servers/serverv1&lt;/ParentLink&gt;&lt;Id&gt;b15e89f1-02b5-4618-b44d-75d37261b94b&lt;/Id&gt;&lt;Description&gt;Premium P2 resource allocation.&lt;/Description&gt;&lt;Ordinal&gt;7&lt;/Ordinal&gt;&lt;IsDefault&gt;False&lt;/IsDefault&gt;&lt;/ServiceResource&gt;&lt;/DimensionSettings&gt;&lt;/ServiceResource&gt;&lt;ServiceResource&gt;&lt;Name&gt;Basic&lt;/Name&gt;&lt;Type&gt;Microsoft.SqlAzure.ServiceObjective&lt;/Type&gt;&lt;State&gt;Normal&lt;/State&gt;&lt;SelfLink&gt;https://localhost/servers/serverv1/serviceobjectives/dd6d99bb-f193-4ec1-86f2-43d3bccbc49c&lt;/SelfLink&gt;&lt;ParentLink&gt;https://localhost/servers/serverv1&lt;/ParentLink&gt;&lt;Id&gt;dd6d99bb-f193-4ec1-86f2-43d3bccbc49c&lt;/Id&gt;&lt;IsDefault&gt;False&lt;/IsDefault&gt;&lt;IsSystem&gt;False&lt;/IsSystem&gt;&lt;Description&gt;Basic resource allocation.&lt;/Description&gt;&lt;Enabled&gt;True&lt;/Enabled&gt;&lt;DimensionSettings&gt;&lt;ServiceResource&gt;&lt;Name&gt;Basic&lt;/Name&gt;&lt;Type&gt;Microsoft.SqlAzure.DimensionSetting&lt;/Type&gt;&lt;State&gt;Normal&lt;/State&gt;&lt;SelfLink&gt;https://localhost/servers/serverv1/dimensionsettings/3a2b7a50-065b-4c55-921d-c0ca49e174d3&lt;/SelfLink&gt;&lt;ParentLink&gt;https://localhost/servers/serverv1&lt;/ParentLink&gt;&lt;Id&gt;3a2b7a50-065b-4c55-921d-c0ca49e174d3&lt;/Id&gt;&lt;Description&gt;Basic resource allocation.&lt;/Description&gt;&lt;Ordinal&gt;3&lt;/Ordinal&gt;&lt;IsDefault&gt;False&lt;/IsDefault&gt;&lt;/ServiceResource&gt;&lt;/DimensionSettings&gt;&lt;/ServiceResource&gt;&lt;ServiceResource&gt;&lt;Name&gt;S1&lt;/Name&gt;&lt;Type&gt;Microsoft.SqlAzure.ServiceObjective&lt;/Type&gt;&lt;State&gt;Normal&lt;/State&gt;&lt;SelfLink&gt;https://localhost/servers/serverv1/serviceobjectives/1b1ebd4d-d903-4baa-97f9-4ea675f5e928&lt;/SelfLink&gt;&lt;ParentLink&gt;https://localhost/servers/serverv1&lt;/ParentLink&gt;&lt;Id&gt;1b1ebd4d-d903-4baa-97f9-4ea675f5e928&lt;/Id&gt;&lt;IsDefault&gt;False&lt;/IsDefault&gt;&lt;IsSystem&gt;False&lt;/IsSystem&gt;&lt;Description&gt;Standard S1 resource allocation.&lt;/Description&gt;&lt;Enabled&gt;True&lt;/Enabled&gt;&lt;DimensionSettings&gt;&lt;ServiceResource&gt;&lt;Name&gt;S1&lt;/Name&gt;&lt;Type&gt;Microsoft.SqlAzure.DimensionSetting&lt;/Type&gt;&lt;State&gt;Normal&lt;/State&gt;&lt;SelfLink&gt;https://localhost/servers/serverv1/dimensionsettings/2e9b7ede-a777-4244-945c-9f319b1cec02&lt;/SelfLink&gt;&lt;ParentLink&gt;https://localhost/servers/serverv1&lt;/ParentLink&gt;&lt;Id&gt;2e9b7ede-a777-4244-945c-9f319b1cec02&lt;/Id&gt;&lt;Description&gt;Standard S1 resource allocation.&lt;/Description&gt;&lt;Ordinal&gt;4&lt;/Ordinal&gt;&lt;IsDefault&gt;False&lt;/IsDefault&gt;&lt;/ServiceResource&gt;&lt;/DimensionSettings&gt;&lt;/ServiceResource&gt;&lt;ServiceResource&gt;&lt;Name&gt;P3 deprecated&lt;/Name&gt;&lt;Type&gt;Microsoft.SqlAzure.ServiceObjective&lt;/Type&gt;&lt;State&gt;Normal&lt;/State&gt;&lt;SelfLink&gt;https://localhost/servers/serverv1/serviceobjectives/e210706e-cd95-4f72-b5e5-885f8a1406e8&lt;/SelfLink&gt;&lt;ParentLink&gt;https://localhost/servers/serverv1&lt;/ParentLink&gt;&lt;Id&gt;e210706e-cd95-4f72-b5e5-885f8a1406e8&lt;/Id&gt;&lt;IsDefault&gt;False&lt;/IsDefault&gt;&lt;IsSystem&gt;False&lt;/IsSystem&gt;&lt;Description&gt;Premium P3 deprecated resource allocation.&lt;/Description&gt;&lt;Enabled&gt;False&lt;/Enabled&gt;&lt;DimensionSettings&gt;&lt;ServiceResource&gt;&lt;Name&gt;P3 deprecated&lt;/Name&gt;&lt;Type&gt;Microsoft.SqlAzure.DimensionSetting&lt;/Type&gt;&lt;State&gt;Normal&lt;/State&gt;&lt;SelfLink&gt;https://localhost/servers/serverv1/dimensionsettings/8efe7983-8e31-4ddb-82d2-5c00e4f48631&lt;/SelfLink&gt;&lt;ParentLink&gt;https://localhost/servers/serverv1&lt;/ParentLink&gt;&lt;Id&gt;8efe7983-8e31-4ddb-82d2-5c00e4f48631&lt;/Id&gt;&lt;Description&gt;Premium P3 deprecated resource allocation.&lt;/Description&gt;&lt;Ordinal&gt;9&lt;/Ordinal&gt;&lt;IsDefault&gt;False&lt;/IsDefault&gt;&lt;/ServiceResource&gt;&lt;/DimensionSettings&gt;&lt;/ServiceResource&gt;&lt;ServiceResource&gt;&lt;Name&gt;P3&lt;/Name&gt;&lt;Type&gt;Microsoft.SqlAzure.ServiceObjective&lt;/Type&gt;&lt;State&gt;Normal&lt;/State&gt;&lt;SelfLink&gt;https://localhost/servers/serverv1/serviceobjectives/a7c4c615-cfb1-464b-b252-925be0a19446&lt;/SelfLink&gt;&lt;ParentLink&gt;https://localhost/servers/serverv1&lt;/ParentLink&gt;&lt;Id&gt;a7c4c615-cfb1-464b-b252-925be0a19446&lt;/Id&gt;&lt;IsDefault&gt;False&lt;/IsDefault&gt;&lt;IsSystem&gt;False&lt;/IsSystem&gt;&lt;Description&gt;Premium P3 resource allocation.&lt;/Description&gt;&lt;Enabled&gt;True&lt;/Enabled&gt;&lt;DimensionSettings&gt;&lt;ServiceResource&gt;&lt;Name&gt;P3&lt;/Name&gt;&lt;Type&gt;Microsoft.SqlAzure.DimensionSetting&lt;/Type&gt;&lt;State&gt;Normal&lt;/State&gt;&lt;SelfLink&gt;https://localhost/servers/serverv1/dimensionsettings/c4da00a1-df48-4f87-930e-dbc170fe1cef&lt;/SelfLink&gt;&lt;ParentLink&gt;https://localhost/servers/serverv1&lt;/ParentLink&gt;&lt;Id&gt;c4da00a1-df48-4f87-930e-dbc170fe1cef&lt;/Id&gt;&lt;Description&gt;Premium P3 resource allocation.&lt;/Description&gt;&lt;Ordinal&gt;8&lt;/Ordinal&gt;&lt;IsDefault&gt;False&lt;/IsDefault&gt;&lt;/ServiceResource&gt;&lt;/DimensionSettings&gt;&lt;/ServiceResource&gt;&lt;ServiceResource&gt;&lt;Name&gt;System&lt;/Name&gt;&lt;Type&gt;Microsoft.SqlAzure.ServiceObjective&lt;/Type&gt;&lt;State&gt;Normal&lt;/State&gt;&lt;SelfLink&gt;https://localhost/servers/serverv1/serviceobjectives/26e021db-f1f9-4c98-84c6-92af8ef433d7&lt;/SelfLink&gt;&lt;ParentLink&gt;https://localhost/servers/serverv1&lt;/ParentLink&gt;&lt;Id&gt;26e021db-f1f9-4c98-84c6-92af8ef433d7&lt;/Id&gt;&lt;IsDefault&gt;False&lt;/IsDefault&gt;&lt;IsSystem&gt;True&lt;/IsSystem&gt;&lt;Description&gt;Used for master database only.&lt;/Description&gt;&lt;Enabled&gt;True&lt;/Enabled&gt;&lt;DimensionSettings&gt;&lt;ServiceResource&gt;&lt;Name&gt;System&lt;/Name&gt;&lt;Type&gt;Microsoft.SqlAzure.DimensionSetting&lt;/Type&gt;&lt;State&gt;Normal&lt;/State&gt;&lt;SelfLink&gt;https://localhost/servers/serverv1/dimensionsettings/5b1e7ca2-f1c8-4da8-bb42-7ebe94a92609&lt;/SelfLink&gt;&lt;ParentLink&gt;https://localhost/servers/serverv1&lt;/ParentLink&gt;&lt;Id&gt;5b1e7ca2-f1c8-4da8-bb42-7ebe94a92609&lt;/Id&gt;&lt;Description&gt;Used for master database only.&lt;/Description&gt;&lt;Ordinal&gt;1&lt;/Ordinal&gt;&lt;IsDefault&gt;False&lt;/IsDefault&gt;&lt;/ServiceResource&gt;&lt;/DimensionSettings&gt;&lt;/ServiceResource&gt;&lt;ServiceResource&gt;&lt;Name&gt;System Standard&lt;/Name&gt;&lt;Type&gt;Microsoft.SqlAzure.ServiceObjective&lt;/Type&gt;&lt;State&gt;Normal&lt;/State&gt;&lt;SelfLink&gt;https://localhost/servers/serverv1/serviceobjectives/a45fea0c-e63c-4bf0-9f81-9964c86b7d2a&lt;/SelfLink&gt;&lt;ParentLink&gt;https://localhost/servers/serverv1&lt;/ParentLink&gt;&lt;Id&gt;a45fea0c-e63c-4bf0-9f81-9964c86b7d2a&lt;/Id&gt;&lt;IsDefault&gt;False&lt;/IsDefault&gt;&lt;IsSystem&gt;True&lt;/IsSystem&gt;&lt;Description&gt;Used for master database only.&lt;/Description&gt;&lt;Enabled&gt;True&lt;/Enabled&gt;&lt;DimensionSettings&gt;&lt;ServiceResource&gt;&lt;Name&gt;Shared&lt;/Name&gt;&lt;Type&gt;Microsoft.SqlAzure.DimensionSetting&lt;/Type&gt;&lt;State&gt;Normal&lt;/State&gt;&lt;SelfLink&gt;https://localhost/servers/serverv1/dimensionsettings/22467ff6-6823-4d18-a169-913150e7714f&lt;/SelfLink&gt;&lt;ParentLink&gt;https://localhost/servers/serverv1&lt;/ParentLink&gt;&lt;Id&gt;22467ff6-6823-4d18-a169-913150e7714f&lt;/Id&gt;&lt;Description&gt;Shared resource allocation.&lt;/Description&gt;&lt;Ordinal&gt;2&lt;/Ordinal&gt;&lt;IsDefault&gt;True&lt;/IsDefault&gt;&lt;/ServiceResource&gt;&lt;/DimensionSettings&gt;&lt;/ServiceResource&gt;&lt;ServiceResource&gt;&lt;Name&gt;Shared&lt;/Name&gt;&lt;Type&gt;Microsoft.SqlAzure.ServiceObjective&lt;/Type&gt;&lt;State&gt;Normal&lt;/State&gt;&lt;SelfLink&gt;https://localhost/servers/serverv1/serviceobjectives/910b4fcb-8a29-4c3e-958f-f7ba794388b2&lt;/SelfLink&gt;&lt;ParentLink&gt;https://localhost/servers/serverv1&lt;/ParentLink&gt;&lt;Id&gt;910b4fcb-8a29-4c3e-958f-f7ba794388b2&lt;/Id&gt;&lt;IsDefault&gt;True&lt;/IsDefault&gt;&lt;IsSystem&gt;False&lt;/IsSystem&gt;&lt;Description&gt;Shared resource allocation.&lt;/Description&gt;&lt;Enabled&gt;True&lt;/Enabled&gt;&lt;DimensionSettings&gt;&lt;ServiceResource&gt;&lt;Name&gt;Shared&lt;/Name&gt;&lt;Type&gt;Microsoft.SqlAzure.DimensionSetting&lt;/Type&gt;&lt;State&gt;Normal&lt;/State&gt;&lt;SelfLink&gt;https://localhost/servers/serverv1/dimensionsettings/22467ff6-6823-4d18-a169-913150e7714f&lt;/SelfLink&gt;&lt;ParentLink&gt;https://localhost/servers/serverv1&lt;/ParentLink&gt;&lt;Id&gt;22467ff6-6823-4d18-a169-913150e7714f&lt;/Id&gt;&lt;Description&gt;Shared resource allocation.&lt;/Description&gt;&lt;Ordinal&gt;2&lt;/Ordinal&gt;&lt;IsDefault&gt;True&lt;/IsDefault&gt;&lt;/ServiceResource&gt;&lt;/DimensionSettings&gt;&lt;/ServiceResource&gt;&lt;/ServiceResources&gt;</ResponseText>
+          <ResponseText>&lt;ServiceResource xmlns="http://schemas.microsoft.com/windowsazure" xmlns:i="http://www.w3.org/2001/XMLSchema-instance"&gt;&lt;Name&gt;Shared&lt;/Name&gt;&lt;Type&gt;Microsoft.SqlAzure.ServiceObjective&lt;/Type&gt;&lt;State&gt;Normal&lt;/State&gt;&lt;SelfLink&gt;https://localhost/servers/serverv1/serviceobjectives/910b4fcb-8a29-4c3e-958f-f7ba794388b2&lt;/SelfLink&gt;&lt;ParentLink&gt;https://localhost/servers/serverv1&lt;/ParentLink&gt;&lt;Id&gt;910b4fcb-8a29-4c3e-958f-f7ba794388b2&lt;/Id&gt;&lt;IsDefault&gt;True&lt;/IsDefault&gt;&lt;IsSystem&gt;False&lt;/IsSystem&gt;&lt;Description&gt;Shared resource allocation.&lt;/Description&gt;&lt;Enabled&gt;True&lt;/Enabled&gt;&lt;DimensionSettings&gt;&lt;ServiceResource&gt;&lt;Name&gt;Shared&lt;/Name&gt;&lt;Type&gt;Microsoft.SqlAzure.DimensionSetting&lt;/Type&gt;&lt;State&gt;Normal&lt;/State&gt;&lt;SelfLink&gt;https://localhost/servers/serverv1/dimensionsettings/22467ff6-6823-4d18-a169-913150e7714f&lt;/SelfLink&gt;&lt;ParentLink&gt;https://localhost/servers/serverv1&lt;/ParentLink&gt;&lt;Id&gt;22467ff6-6823-4d18-a169-913150e7714f&lt;/Id&gt;&lt;Description&gt;Shared resource allocation.&lt;/Description&gt;&lt;Ordinal&gt;2&lt;/Ordinal&gt;&lt;IsDefault&gt;True&lt;/IsDefault&gt;&lt;/ServiceResource&gt;&lt;/DimensionSettings&gt;&lt;/ServiceResource&gt;</ResponseText>
         </ResponseInfo>
       </HttpMessage>
       <HttpMessage>
-        <Index>15</Index>
+        <Index>21</Index>
         <RequestInfo>
-          <RequestUri>https://localhost:65432/00000000-0000-0000-0001-000000000001/services/sqlservers/servers/serverv1/serviceobjectives</RequestUri>
+          <RequestUri>https://localhost:65432/00000000-0000-0000-0001-000000000001/services/sqlservers/servers/serverv1/databases/testdbcert4</RequestUri>
           <Method>GET</Method>
           <UserAgent>Microsoft.WindowsAzure.Management.Sql.SqlManagementClient/0.9.0.0 WindowsAzurePowershell/v0.8.0</UserAgent>
           <Headers>
@@ -10039,11 +10386,11 @@
             </Header>
             <Header>
               <Name>x-ms-client-session-id</Name>
-              <Value>f00172bf-3b31-469c-8741-1e100bd912b4-2014-03-24 22:26:22Z</Value>
+              <Value>76a75f11-f6f7-4d91-b818-dfdb99165161-2014-03-26 19:35:48Z</Value>
             </Header>
             <Header>
               <Name>x-ms-client-request-id</Name>
-              <Value>132f09c4-0531-41cc-840a-b6d7d7619bd7-2014-03-24 22:26:50Z</Value>
+              <Value>38c2a30f-7ced-4001-8873-a5158aba9e7f-2014-03-26 19:36:32Z</Value>
             </Header>
           </Headers>
           <Cookies />
@@ -10056,7 +10403,7 @@
           <Headers>
             <Header>
               <Name>x-ms-request-id</Name>
-              <Value>132f09c4-0531-41cc-840a-b6d7d7619bd7</Value>
+              <Value>38c2a30f-7ced-4001-8873-a5158aba9e7f</Value>
             </Header>
             <Header>
               <Name>X-Content-Type-Options</Name>
@@ -10072,7 +10419,185 @@
             </Header>
             <Header>
               <Name>Date</Name>
-              <Value>Mon, 24 Mar 2014 22:26:50 GMT</Value>
+              <Value>Wed, 26 Mar 2014 19:36:32 GMT</Value>
+            </Header>
+            <Header>
+              <Name>Server</Name>
+              <Value>1.0.6198.12 (rd_rdfe_stable.131001-0757) Microsoft-HTTPAPI/2.0</Value>
+            </Header>
+          </Headers>
+          <Cookies />
+          <ResponseText>&lt;ServiceResource xmlns="http://schemas.microsoft.com/windowsazure" xmlns:i="http://www.w3.org/2001/XMLSchema-instance"&gt;&lt;Name&gt;testdbcert4&lt;/Name&gt;&lt;Type&gt;Microsoft.SqlAzure.Database&lt;/Type&gt;&lt;State&gt;Normal&lt;/State&gt;&lt;SelfLink&gt;https://localhost/servers/serverv1/databases/testdbcert4&lt;/SelfLink&gt;&lt;ParentLink&gt;https://localhost/servers/serverv1&lt;/ParentLink&gt;&lt;Id&gt;6&lt;/Id&gt;&lt;Edition&gt;Web&lt;/Edition&gt;&lt;MaxSizeGB&gt;0&lt;/MaxSizeGB&gt;&lt;CollationName&gt;SQL_Latin1_General_CP1_CI_AS&lt;/CollationName&gt;&lt;CreationDate&gt;2014-03-26T19:36:11.8770000Z&lt;/CreationDate&gt;&lt;IsFederationRoot&gt;False&lt;/IsFederationRoot&gt;&lt;IsSystemObject&gt;False&lt;/IsSystemObject&gt;&lt;SizeMB i:nil="true"/&gt;&lt;MaxSizeBytes&gt;104857600&lt;/MaxSizeBytes&gt;&lt;ServiceObjectiveId&gt;910b4fcb-8a29-4c3e-958f-f7ba794388b2&lt;/ServiceObjectiveId&gt;&lt;AssignedServiceObjectiveId&gt;910b4fcb-8a29-4c3e-958f-f7ba794388b2&lt;/AssignedServiceObjectiveId&gt;&lt;ServiceObjectiveAssignmentState&gt;1&lt;/ServiceObjectiveAssignmentState&gt;&lt;ServiceObjectiveAssignmentStateDescription&gt;Complete&lt;/ServiceObjectiveAssignmentStateDescription&gt;&lt;ServiceObjectiveAssignmentErrorCode&gt;0&lt;/ServiceObjectiveAssignmentErrorCode&gt;&lt;ServiceObjectiveAssignmentErrorDescription i:nil="true"/&gt;&lt;ServiceObjectiveAssignmentSuccessDate&gt;2014-03-26T19:36:15.8870000Z&lt;/ServiceObjectiveAssignmentSuccessDate&gt;&lt;RecoveryPeriodStartDate&gt;2014-03-26T19:37:10.4930000Z&lt;/RecoveryPeriodStartDate&gt;&lt;IsSuspended&gt;False&lt;/IsSuspended&gt;&lt;/ServiceResource&gt;</ResponseText>
+        </ResponseInfo>
+      </HttpMessage>
+      <HttpMessage>
+        <Index>22</Index>
+        <RequestInfo>
+          <RequestUri>https://localhost:65432/00000000-0000-0000-0001-000000000001/services/sqlservers/servers/serverv1/databases/testdbcert4</RequestUri>
+          <Method>PUT</Method>
+          <UserAgent>Microsoft.WindowsAzure.Management.Sql.SqlManagementClient/0.9.0.0 WindowsAzurePowershell/v0.8.0</UserAgent>
+          <Headers>
+            <Header>
+              <Name>x-ms-version</Name>
+              <Value>2012-03-01</Value>
+            </Header>
+            <Header>
+              <Name>x-ms-client-session-id</Name>
+              <Value>76a75f11-f6f7-4d91-b818-dfdb99165161-2014-03-26 19:35:48Z</Value>
+            </Header>
+            <Header>
+              <Name>x-ms-client-request-id</Name>
+              <Value>38c2a30f-7ced-4001-8873-a5158aba9e7f-2014-03-26 19:36:32Z</Value>
+            </Header>
+          </Headers>
+          <Cookies />
+          <RequestText>&lt;ServiceResource xmlns="http://schemas.microsoft.com/windowsazure"&gt;
+  &lt;Name&gt;testdbcert4&lt;/Name&gt;
+  &lt;Id&gt;6&lt;/Id&gt;
+  &lt;Edition&gt;Web&lt;/Edition&gt;
+  &lt;CollationName&gt;SQL_Latin1_General_CP1_CI_AS&lt;/CollationName&gt;
+  &lt;MaxSizeBytes&gt;1073741824&lt;/MaxSizeBytes&gt;
+  &lt;ServiceObjectiveId&gt;910b4fcb-8a29-4c3e-958f-f7ba794388b2&lt;/ServiceObjectiveId&gt;
+&lt;/ServiceResource&gt;</RequestText>
+          <ContentType>application/xml</ContentType>
+          <Accept i:nil="true" />
+        </RequestInfo>
+        <ResponseInfo>
+          <StatusCode>OK</StatusCode>
+          <Headers>
+            <Header>
+              <Name>x-ms-request-id</Name>
+              <Value>38c2a30f-7ced-4001-8873-a5158aba9e7f</Value>
+            </Header>
+            <Header>
+              <Name>X-Content-Type-Options</Name>
+              <Value>nosniff</Value>
+            </Header>
+            <Header>
+              <Name>Cache-Control</Name>
+              <Value>no-store,no-cache</Value>
+            </Header>
+            <Header>
+              <Name>Content-Type</Name>
+              <Value>application/xml; charset=utf-8</Value>
+            </Header>
+            <Header>
+              <Name>Date</Name>
+              <Value>Wed, 26 Mar 2014 19:36:36 GMT</Value>
+            </Header>
+            <Header>
+              <Name>Server</Name>
+              <Value>1.0.6198.12 (rd_rdfe_stable.131001-0757) Microsoft-HTTPAPI/2.0</Value>
+            </Header>
+          </Headers>
+          <Cookies />
+          <ResponseText>&lt;ServiceResource xmlns="http://schemas.microsoft.com/windowsazure" xmlns:i="http://www.w3.org/2001/XMLSchema-instance"&gt;&lt;Name&gt;testdbcert4&lt;/Name&gt;&lt;Type&gt;Microsoft.SqlAzure.Database&lt;/Type&gt;&lt;State&gt;Normal&lt;/State&gt;&lt;SelfLink&gt;https://localhost/servers/serverv1/databases/testdbcert4&lt;/SelfLink&gt;&lt;ParentLink&gt;https://localhost/servers/serverv1&lt;/ParentLink&gt;&lt;Id&gt;6&lt;/Id&gt;&lt;Edition&gt;Web&lt;/Edition&gt;&lt;MaxSizeGB&gt;1&lt;/MaxSizeGB&gt;&lt;CollationName&gt;SQL_Latin1_General_CP1_CI_AS&lt;/CollationName&gt;&lt;CreationDate&gt;2014-03-26T19:36:11.8770000Z&lt;/CreationDate&gt;&lt;IsFederationRoot&gt;False&lt;/IsFederationRoot&gt;&lt;IsSystemObject&gt;False&lt;/IsSystemObject&gt;&lt;SizeMB i:nil="true"/&gt;&lt;MaxSizeBytes&gt;1073741824&lt;/MaxSizeBytes&gt;&lt;ServiceObjectiveId&gt;910b4fcb-8a29-4c3e-958f-f7ba794388b2&lt;/ServiceObjectiveId&gt;&lt;AssignedServiceObjectiveId&gt;910b4fcb-8a29-4c3e-958f-f7ba794388b2&lt;/AssignedServiceObjectiveId&gt;&lt;ServiceObjectiveAssignmentState&gt;1&lt;/ServiceObjectiveAssignmentState&gt;&lt;ServiceObjectiveAssignmentStateDescription&gt;Complete&lt;/ServiceObjectiveAssignmentStateDescription&gt;&lt;ServiceObjectiveAssignmentErrorCode&gt;0&lt;/ServiceObjectiveAssignmentErrorCode&gt;&lt;ServiceObjectiveAssignmentErrorDescription i:nil="true"/&gt;&lt;ServiceObjectiveAssignmentSuccessDate&gt;2014-03-26T19:36:15.8870000Z&lt;/ServiceObjectiveAssignmentSuccessDate&gt;&lt;RecoveryPeriodStartDate&gt;2014-03-26T19:37:10.4930000Z&lt;/RecoveryPeriodStartDate&gt;&lt;IsSuspended&gt;False&lt;/IsSuspended&gt;&lt;/ServiceResource&gt;</ResponseText>
+        </ResponseInfo>
+      </HttpMessage>
+      <HttpMessage>
+        <Index>23</Index>
+        <RequestInfo>
+          <RequestUri>https://localhost:65432/00000000-0000-0000-0001-000000000001/services/sqlservers/servers/serverv1/serviceobjectives/910b4fcb-8a29-4c3e-958f-f7ba794388b2</RequestUri>
+          <Method>GET</Method>
+          <UserAgent>Microsoft.WindowsAzure.Management.Sql.SqlManagementClient/0.9.0.0 WindowsAzurePowershell/v0.8.0</UserAgent>
+          <Headers>
+            <Header>
+              <Name>x-ms-version</Name>
+              <Value>2012-03-01</Value>
+            </Header>
+            <Header>
+              <Name>x-ms-client-session-id</Name>
+              <Value>76a75f11-f6f7-4d91-b818-dfdb99165161-2014-03-26 19:35:48Z</Value>
+            </Header>
+            <Header>
+              <Name>x-ms-client-request-id</Name>
+              <Value>e39d8099-4e1a-4c93-8fd3-04fbf5865511-2014-03-26 19:36:36Z</Value>
+            </Header>
+          </Headers>
+          <Cookies />
+          <RequestText i:nil="true" />
+          <ContentType i:nil="true" />
+          <Accept i:nil="true" />
+        </RequestInfo>
+        <ResponseInfo>
+          <StatusCode>OK</StatusCode>
+          <Headers>
+            <Header>
+              <Name>x-ms-request-id</Name>
+              <Value>e39d8099-4e1a-4c93-8fd3-04fbf5865511</Value>
+            </Header>
+            <Header>
+              <Name>X-Content-Type-Options</Name>
+              <Value>nosniff</Value>
+            </Header>
+            <Header>
+              <Name>Cache-Control</Name>
+              <Value>no-store,no-cache</Value>
+            </Header>
+            <Header>
+              <Name>Content-Type</Name>
+              <Value>application/xml; charset=utf-8</Value>
+            </Header>
+            <Header>
+              <Name>Date</Name>
+              <Value>Wed, 26 Mar 2014 19:36:36 GMT</Value>
+            </Header>
+            <Header>
+              <Name>Server</Name>
+              <Value>1.0.6198.12 (rd_rdfe_stable.131001-0757) Microsoft-HTTPAPI/2.0</Value>
+            </Header>
+          </Headers>
+          <Cookies />
+          <ResponseText>&lt;ServiceResource xmlns="http://schemas.microsoft.com/windowsazure" xmlns:i="http://www.w3.org/2001/XMLSchema-instance"&gt;&lt;Name&gt;Shared&lt;/Name&gt;&lt;Type&gt;Microsoft.SqlAzure.ServiceObjective&lt;/Type&gt;&lt;State&gt;Normal&lt;/State&gt;&lt;SelfLink&gt;https://localhost/servers/serverv1/serviceobjectives/910b4fcb-8a29-4c3e-958f-f7ba794388b2&lt;/SelfLink&gt;&lt;ParentLink&gt;https://localhost/servers/serverv1&lt;/ParentLink&gt;&lt;Id&gt;910b4fcb-8a29-4c3e-958f-f7ba794388b2&lt;/Id&gt;&lt;IsDefault&gt;True&lt;/IsDefault&gt;&lt;IsSystem&gt;False&lt;/IsSystem&gt;&lt;Description&gt;Shared resource allocation.&lt;/Description&gt;&lt;Enabled&gt;True&lt;/Enabled&gt;&lt;DimensionSettings&gt;&lt;ServiceResource&gt;&lt;Name&gt;Shared&lt;/Name&gt;&lt;Type&gt;Microsoft.SqlAzure.DimensionSetting&lt;/Type&gt;&lt;State&gt;Normal&lt;/State&gt;&lt;SelfLink&gt;https://localhost/servers/serverv1/dimensionsettings/22467ff6-6823-4d18-a169-913150e7714f&lt;/SelfLink&gt;&lt;ParentLink&gt;https://localhost/servers/serverv1&lt;/ParentLink&gt;&lt;Id&gt;22467ff6-6823-4d18-a169-913150e7714f&lt;/Id&gt;&lt;Description&gt;Shared resource allocation.&lt;/Description&gt;&lt;Ordinal&gt;2&lt;/Ordinal&gt;&lt;IsDefault&gt;True&lt;/IsDefault&gt;&lt;/ServiceResource&gt;&lt;/DimensionSettings&gt;&lt;/ServiceResource&gt;</ResponseText>
+        </ResponseInfo>
+      </HttpMessage>
+      <HttpMessage>
+        <Index>24</Index>
+        <RequestInfo>
+          <RequestUri>https://localhost:65432/00000000-0000-0000-0001-000000000001/services/sqlservers/servers/serverv1/serviceobjectives</RequestUri>
+          <Method>GET</Method>
+          <UserAgent>Microsoft.WindowsAzure.Management.Sql.SqlManagementClient/0.9.0.0 WindowsAzurePowershell/v0.8.0</UserAgent>
+          <Headers>
+            <Header>
+              <Name>x-ms-version</Name>
+              <Value>2012-03-01</Value>
+            </Header>
+            <Header>
+              <Name>x-ms-client-session-id</Name>
+              <Value>76a75f11-f6f7-4d91-b818-dfdb99165161-2014-03-26 19:35:48Z</Value>
+            </Header>
+            <Header>
+              <Name>x-ms-client-request-id</Name>
+              <Value>fe4c8388-f7fc-4b30-90ce-db3ca170abb6-2014-03-26 19:36:37Z</Value>
+            </Header>
+          </Headers>
+          <Cookies />
+          <RequestText i:nil="true" />
+          <ContentType i:nil="true" />
+          <Accept i:nil="true" />
+        </RequestInfo>
+        <ResponseInfo>
+          <StatusCode>OK</StatusCode>
+          <Headers>
+            <Header>
+              <Name>x-ms-request-id</Name>
+              <Value>fe4c8388-f7fc-4b30-90ce-db3ca170abb6</Value>
+            </Header>
+            <Header>
+              <Name>X-Content-Type-Options</Name>
+              <Value>nosniff</Value>
+            </Header>
+            <Header>
+              <Name>Cache-Control</Name>
+              <Value>no-store,no-cache</Value>
+            </Header>
+            <Header>
+              <Name>Content-Type</Name>
+              <Value>application/xml; charset=utf-8</Value>
+            </Header>
+            <Header>
+              <Name>Date</Name>
+              <Value>Wed, 26 Mar 2014 19:36:36 GMT</Value>
             </Header>
             <Header>
               <Name>Server</Name>
@@ -10084,7 +10609,64 @@
         </ResponseInfo>
       </HttpMessage>
       <HttpMessage>
-        <Index>16</Index>
+        <Index>25</Index>
+        <RequestInfo>
+          <RequestUri>https://localhost:65432/00000000-0000-0000-0001-000000000001/services/sqlservers/servers/serverv1/serviceobjectives</RequestUri>
+          <Method>GET</Method>
+          <UserAgent>Microsoft.WindowsAzure.Management.Sql.SqlManagementClient/0.9.0.0 WindowsAzurePowershell/v0.8.0</UserAgent>
+          <Headers>
+            <Header>
+              <Name>x-ms-version</Name>
+              <Value>2012-03-01</Value>
+            </Header>
+            <Header>
+              <Name>x-ms-client-session-id</Name>
+              <Value>76a75f11-f6f7-4d91-b818-dfdb99165161-2014-03-26 19:35:48Z</Value>
+            </Header>
+            <Header>
+              <Name>x-ms-client-request-id</Name>
+              <Value>8d382ae1-e165-4502-8c1a-0e1f0735e042-2014-03-26 19:36:37Z</Value>
+            </Header>
+          </Headers>
+          <Cookies />
+          <RequestText i:nil="true" />
+          <ContentType i:nil="true" />
+          <Accept i:nil="true" />
+        </RequestInfo>
+        <ResponseInfo>
+          <StatusCode>OK</StatusCode>
+          <Headers>
+            <Header>
+              <Name>x-ms-request-id</Name>
+              <Value>8d382ae1-e165-4502-8c1a-0e1f0735e042</Value>
+            </Header>
+            <Header>
+              <Name>X-Content-Type-Options</Name>
+              <Value>nosniff</Value>
+            </Header>
+            <Header>
+              <Name>Cache-Control</Name>
+              <Value>no-store,no-cache</Value>
+            </Header>
+            <Header>
+              <Name>Content-Type</Name>
+              <Value>application/xml; charset=utf-8</Value>
+            </Header>
+            <Header>
+              <Name>Date</Name>
+              <Value>Wed, 26 Mar 2014 19:36:37 GMT</Value>
+            </Header>
+            <Header>
+              <Name>Server</Name>
+              <Value>1.0.6198.12 (rd_rdfe_stable.131001-0757) Microsoft-HTTPAPI/2.0</Value>
+            </Header>
+          </Headers>
+          <Cookies />
+          <ResponseText>&lt;ServiceResources xmlns="http://schemas.microsoft.com/windowsazure" xmlns:i="http://www.w3.org/2001/XMLSchema-instance"&gt;&lt;ServiceResource&gt;&lt;Name&gt;S2&lt;/Name&gt;&lt;Type&gt;Microsoft.SqlAzure.ServiceObjective&lt;/Type&gt;&lt;State&gt;Normal&lt;/State&gt;&lt;SelfLink&gt;https://localhost/servers/serverv1/serviceobjectives/455330e1-00cd-488b-b5fa-177c226f28b7&lt;/SelfLink&gt;&lt;ParentLink&gt;https://localhost/servers/serverv1&lt;/ParentLink&gt;&lt;Id&gt;455330e1-00cd-488b-b5fa-177c226f28b7&lt;/Id&gt;&lt;IsDefault&gt;False&lt;/IsDefault&gt;&lt;IsSystem&gt;False&lt;/IsSystem&gt;&lt;Description&gt;Standard S2 resource allocation.&lt;/Description&gt;&lt;Enabled&gt;True&lt;/Enabled&gt;&lt;DimensionSettings&gt;&lt;ServiceResource&gt;&lt;Name&gt;S2&lt;/Name&gt;&lt;Type&gt;Microsoft.SqlAzure.DimensionSetting&lt;/Type&gt;&lt;State&gt;Normal&lt;/State&gt;&lt;SelfLink&gt;https://localhost/servers/serverv1/dimensionsettings/a6929526-f04f-48d2-8c46-babe799f2192&lt;/SelfLink&gt;&lt;ParentLink&gt;https://localhost/servers/serverv1&lt;/ParentLink&gt;&lt;Id&gt;a6929526-f04f-48d2-8c46-babe799f2192&lt;/Id&gt;&lt;Description&gt;Standard S2 resource allocation.&lt;/Description&gt;&lt;Ordinal&gt;5&lt;/Ordinal&gt;&lt;IsDefault&gt;False&lt;/IsDefault&gt;&lt;/ServiceResource&gt;&lt;/DimensionSettings&gt;&lt;/ServiceResource&gt;&lt;ServiceResource&gt;&lt;Name&gt;P1&lt;/Name&gt;&lt;Type&gt;Microsoft.SqlAzure.ServiceObjective&lt;/Type&gt;&lt;State&gt;Normal&lt;/State&gt;&lt;SelfLink&gt;https://localhost/servers/serverv1/serviceobjectives/7203483a-c4fb-4304-9e9f-17c71c904f5d&lt;/SelfLink&gt;&lt;ParentLink&gt;https://localhost/servers/serverv1&lt;/ParentLink&gt;&lt;Id&gt;7203483a-c4fb-4304-9e9f-17c71c904f5d&lt;/Id&gt;&lt;IsDefault&gt;False&lt;/IsDefault&gt;&lt;IsSystem&gt;False&lt;/IsSystem&gt;&lt;Description&gt;Premium P1 resource allocation.&lt;/Description&gt;&lt;Enabled&gt;True&lt;/Enabled&gt;&lt;DimensionSettings&gt;&lt;ServiceResource&gt;&lt;Name&gt;P1&lt;/Name&gt;&lt;Type&gt;Microsoft.SqlAzure.DimensionSetting&lt;/Type&gt;&lt;State&gt;Normal&lt;/State&gt;&lt;SelfLink&gt;https://localhost/servers/serverv1/dimensionsettings/765fbda3-73c9-4fad-996e-7c0e4e219f68&lt;/SelfLink&gt;&lt;ParentLink&gt;https://localhost/servers/serverv1&lt;/ParentLink&gt;&lt;Id&gt;765fbda3-73c9-4fad-996e-7c0e4e219f68&lt;/Id&gt;&lt;Description&gt;Premium P1 resource allocation.&lt;/Description&gt;&lt;Ordinal&gt;6&lt;/Ordinal&gt;&lt;IsDefault&gt;False&lt;/IsDefault&gt;&lt;/ServiceResource&gt;&lt;/DimensionSettings&gt;&lt;/ServiceResource&gt;&lt;ServiceResource&gt;&lt;Name&gt;P2&lt;/Name&gt;&lt;Type&gt;Microsoft.SqlAzure.ServiceObjective&lt;/Type&gt;&lt;State&gt;Normal&lt;/State&gt;&lt;SelfLink&gt;https://localhost/servers/serverv1/serviceobjectives/a7d1b92d-c987-4375-b54d-2b1d0e0f5bb0&lt;/SelfLink&gt;&lt;ParentLink&gt;https://localhost/servers/serverv1&lt;/ParentLink&gt;&lt;Id&gt;a7d1b92d-c987-4375-b54d-2b1d0e0f5bb0&lt;/Id&gt;&lt;IsDefault&gt;False&lt;/IsDefault&gt;&lt;IsSystem&gt;False&lt;/IsSystem&gt;&lt;Description&gt;Premium P2 resource allocation.&lt;/Description&gt;&lt;Enabled&gt;True&lt;/Enabled&gt;&lt;DimensionSettings&gt;&lt;ServiceResource&gt;&lt;Name&gt;P2&lt;/Name&gt;&lt;Type&gt;Microsoft.SqlAzure.DimensionSetting&lt;/Type&gt;&lt;State&gt;Normal&lt;/State&gt;&lt;SelfLink&gt;https://localhost/servers/serverv1/dimensionsettings/b15e89f1-02b5-4618-b44d-75d37261b94b&lt;/SelfLink&gt;&lt;ParentLink&gt;https://localhost/servers/serverv1&lt;/ParentLink&gt;&lt;Id&gt;b15e89f1-02b5-4618-b44d-75d37261b94b&lt;/Id&gt;&lt;Description&gt;Premium P2 resource allocation.&lt;/Description&gt;&lt;Ordinal&gt;7&lt;/Ordinal&gt;&lt;IsDefault&gt;False&lt;/IsDefault&gt;&lt;/ServiceResource&gt;&lt;/DimensionSettings&gt;&lt;/ServiceResource&gt;&lt;ServiceResource&gt;&lt;Name&gt;Basic&lt;/Name&gt;&lt;Type&gt;Microsoft.SqlAzure.ServiceObjective&lt;/Type&gt;&lt;State&gt;Normal&lt;/State&gt;&lt;SelfLink&gt;https://localhost/servers/serverv1/serviceobjectives/dd6d99bb-f193-4ec1-86f2-43d3bccbc49c&lt;/SelfLink&gt;&lt;ParentLink&gt;https://localhost/servers/serverv1&lt;/ParentLink&gt;&lt;Id&gt;dd6d99bb-f193-4ec1-86f2-43d3bccbc49c&lt;/Id&gt;&lt;IsDefault&gt;False&lt;/IsDefault&gt;&lt;IsSystem&gt;False&lt;/IsSystem&gt;&lt;Description&gt;Basic resource allocation.&lt;/Description&gt;&lt;Enabled&gt;True&lt;/Enabled&gt;&lt;DimensionSettings&gt;&lt;ServiceResource&gt;&lt;Name&gt;Basic&lt;/Name&gt;&lt;Type&gt;Microsoft.SqlAzure.DimensionSetting&lt;/Type&gt;&lt;State&gt;Normal&lt;/State&gt;&lt;SelfLink&gt;https://localhost/servers/serverv1/dimensionsettings/3a2b7a50-065b-4c55-921d-c0ca49e174d3&lt;/SelfLink&gt;&lt;ParentLink&gt;https://localhost/servers/serverv1&lt;/ParentLink&gt;&lt;Id&gt;3a2b7a50-065b-4c55-921d-c0ca49e174d3&lt;/Id&gt;&lt;Description&gt;Basic resource allocation.&lt;/Description&gt;&lt;Ordinal&gt;3&lt;/Ordinal&gt;&lt;IsDefault&gt;False&lt;/IsDefault&gt;&lt;/ServiceResource&gt;&lt;/DimensionSettings&gt;&lt;/ServiceResource&gt;&lt;ServiceResource&gt;&lt;Name&gt;S1&lt;/Name&gt;&lt;Type&gt;Microsoft.SqlAzure.ServiceObjective&lt;/Type&gt;&lt;State&gt;Normal&lt;/State&gt;&lt;SelfLink&gt;https://localhost/servers/serverv1/serviceobjectives/1b1ebd4d-d903-4baa-97f9-4ea675f5e928&lt;/SelfLink&gt;&lt;ParentLink&gt;https://localhost/servers/serverv1&lt;/ParentLink&gt;&lt;Id&gt;1b1ebd4d-d903-4baa-97f9-4ea675f5e928&lt;/Id&gt;&lt;IsDefault&gt;False&lt;/IsDefault&gt;&lt;IsSystem&gt;False&lt;/IsSystem&gt;&lt;Description&gt;Standard S1 resource allocation.&lt;/Description&gt;&lt;Enabled&gt;True&lt;/Enabled&gt;&lt;DimensionSettings&gt;&lt;ServiceResource&gt;&lt;Name&gt;S1&lt;/Name&gt;&lt;Type&gt;Microsoft.SqlAzure.DimensionSetting&lt;/Type&gt;&lt;State&gt;Normal&lt;/State&gt;&lt;SelfLink&gt;https://localhost/servers/serverv1/dimensionsettings/2e9b7ede-a777-4244-945c-9f319b1cec02&lt;/SelfLink&gt;&lt;ParentLink&gt;https://localhost/servers/serverv1&lt;/ParentLink&gt;&lt;Id&gt;2e9b7ede-a777-4244-945c-9f319b1cec02&lt;/Id&gt;&lt;Description&gt;Standard S1 resource allocation.&lt;/Description&gt;&lt;Ordinal&gt;4&lt;/Ordinal&gt;&lt;IsDefault&gt;False&lt;/IsDefault&gt;&lt;/ServiceResource&gt;&lt;/DimensionSettings&gt;&lt;/ServiceResource&gt;&lt;ServiceResource&gt;&lt;Name&gt;P3 deprecated&lt;/Name&gt;&lt;Type&gt;Microsoft.SqlAzure.ServiceObjective&lt;/Type&gt;&lt;State&gt;Normal&lt;/State&gt;&lt;SelfLink&gt;https://localhost/servers/serverv1/serviceobjectives/e210706e-cd95-4f72-b5e5-885f8a1406e8&lt;/SelfLink&gt;&lt;ParentLink&gt;https://localhost/servers/serverv1&lt;/ParentLink&gt;&lt;Id&gt;e210706e-cd95-4f72-b5e5-885f8a1406e8&lt;/Id&gt;&lt;IsDefault&gt;False&lt;/IsDefault&gt;&lt;IsSystem&gt;False&lt;/IsSystem&gt;&lt;Description&gt;Premium P3 deprecated resource allocation.&lt;/Description&gt;&lt;Enabled&gt;False&lt;/Enabled&gt;&lt;DimensionSettings&gt;&lt;ServiceResource&gt;&lt;Name&gt;P3 deprecated&lt;/Name&gt;&lt;Type&gt;Microsoft.SqlAzure.DimensionSetting&lt;/Type&gt;&lt;State&gt;Normal&lt;/State&gt;&lt;SelfLink&gt;https://localhost/servers/serverv1/dimensionsettings/8efe7983-8e31-4ddb-82d2-5c00e4f48631&lt;/SelfLink&gt;&lt;ParentLink&gt;https://localhost/servers/serverv1&lt;/ParentLink&gt;&lt;Id&gt;8efe7983-8e31-4ddb-82d2-5c00e4f48631&lt;/Id&gt;&lt;Description&gt;Premium P3 deprecated resource allocation.&lt;/Description&gt;&lt;Ordinal&gt;9&lt;/Ordinal&gt;&lt;IsDefault&gt;False&lt;/IsDefault&gt;&lt;/ServiceResource&gt;&lt;/DimensionSettings&gt;&lt;/ServiceResource&gt;&lt;ServiceResource&gt;&lt;Name&gt;P3&lt;/Name&gt;&lt;Type&gt;Microsoft.SqlAzure.ServiceObjective&lt;/Type&gt;&lt;State&gt;Normal&lt;/State&gt;&lt;SelfLink&gt;https://localhost/servers/serverv1/serviceobjectives/a7c4c615-cfb1-464b-b252-925be0a19446&lt;/SelfLink&gt;&lt;ParentLink&gt;https://localhost/servers/serverv1&lt;/ParentLink&gt;&lt;Id&gt;a7c4c615-cfb1-464b-b252-925be0a19446&lt;/Id&gt;&lt;IsDefault&gt;False&lt;/IsDefault&gt;&lt;IsSystem&gt;False&lt;/IsSystem&gt;&lt;Description&gt;Premium P3 resource allocation.&lt;/Description&gt;&lt;Enabled&gt;True&lt;/Enabled&gt;&lt;DimensionSettings&gt;&lt;ServiceResource&gt;&lt;Name&gt;P3&lt;/Name&gt;&lt;Type&gt;Microsoft.SqlAzure.DimensionSetting&lt;/Type&gt;&lt;State&gt;Normal&lt;/State&gt;&lt;SelfLink&gt;https://localhost/servers/serverv1/dimensionsettings/c4da00a1-df48-4f87-930e-dbc170fe1cef&lt;/SelfLink&gt;&lt;ParentLink&gt;https://localhost/servers/serverv1&lt;/ParentLink&gt;&lt;Id&gt;c4da00a1-df48-4f87-930e-dbc170fe1cef&lt;/Id&gt;&lt;Description&gt;Premium P3 resource allocation.&lt;/Description&gt;&lt;Ordinal&gt;8&lt;/Ordinal&gt;&lt;IsDefault&gt;False&lt;/IsDefault&gt;&lt;/ServiceResource&gt;&lt;/DimensionSettings&gt;&lt;/ServiceResource&gt;&lt;ServiceResource&gt;&lt;Name&gt;System&lt;/Name&gt;&lt;Type&gt;Microsoft.SqlAzure.ServiceObjective&lt;/Type&gt;&lt;State&gt;Normal&lt;/State&gt;&lt;SelfLink&gt;https://localhost/servers/serverv1/serviceobjectives/26e021db-f1f9-4c98-84c6-92af8ef433d7&lt;/SelfLink&gt;&lt;ParentLink&gt;https://localhost/servers/serverv1&lt;/ParentLink&gt;&lt;Id&gt;26e021db-f1f9-4c98-84c6-92af8ef433d7&lt;/Id&gt;&lt;IsDefault&gt;False&lt;/IsDefault&gt;&lt;IsSystem&gt;True&lt;/IsSystem&gt;&lt;Description&gt;Used for master database only.&lt;/Description&gt;&lt;Enabled&gt;True&lt;/Enabled&gt;&lt;DimensionSettings&gt;&lt;ServiceResource&gt;&lt;Name&gt;System&lt;/Name&gt;&lt;Type&gt;Microsoft.SqlAzure.DimensionSetting&lt;/Type&gt;&lt;State&gt;Normal&lt;/State&gt;&lt;SelfLink&gt;https://localhost/servers/serverv1/dimensionsettings/5b1e7ca2-f1c8-4da8-bb42-7ebe94a92609&lt;/SelfLink&gt;&lt;ParentLink&gt;https://localhost/servers/serverv1&lt;/ParentLink&gt;&lt;Id&gt;5b1e7ca2-f1c8-4da8-bb42-7ebe94a92609&lt;/Id&gt;&lt;Description&gt;Used for master database only.&lt;/Description&gt;&lt;Ordinal&gt;1&lt;/Ordinal&gt;&lt;IsDefault&gt;False&lt;/IsDefault&gt;&lt;/ServiceResource&gt;&lt;/DimensionSettings&gt;&lt;/ServiceResource&gt;&lt;ServiceResource&gt;&lt;Name&gt;System Standard&lt;/Name&gt;&lt;Type&gt;Microsoft.SqlAzure.ServiceObjective&lt;/Type&gt;&lt;State&gt;Normal&lt;/State&gt;&lt;SelfLink&gt;https://localhost/servers/serverv1/serviceobjectives/a45fea0c-e63c-4bf0-9f81-9964c86b7d2a&lt;/SelfLink&gt;&lt;ParentLink&gt;https://localhost/servers/serverv1&lt;/ParentLink&gt;&lt;Id&gt;a45fea0c-e63c-4bf0-9f81-9964c86b7d2a&lt;/Id&gt;&lt;IsDefault&gt;False&lt;/IsDefault&gt;&lt;IsSystem&gt;True&lt;/IsSystem&gt;&lt;Description&gt;Used for master database only.&lt;/Description&gt;&lt;Enabled&gt;True&lt;/Enabled&gt;&lt;DimensionSettings&gt;&lt;ServiceResource&gt;&lt;Name&gt;Shared&lt;/Name&gt;&lt;Type&gt;Microsoft.SqlAzure.DimensionSetting&lt;/Type&gt;&lt;State&gt;Normal&lt;/State&gt;&lt;SelfLink&gt;https://localhost/servers/serverv1/dimensionsettings/22467ff6-6823-4d18-a169-913150e7714f&lt;/SelfLink&gt;&lt;ParentLink&gt;https://localhost/servers/serverv1&lt;/ParentLink&gt;&lt;Id&gt;22467ff6-6823-4d18-a169-913150e7714f&lt;/Id&gt;&lt;Description&gt;Shared resource allocation.&lt;/Description&gt;&lt;Ordinal&gt;2&lt;/Ordinal&gt;&lt;IsDefault&gt;True&lt;/IsDefault&gt;&lt;/ServiceResource&gt;&lt;/DimensionSettings&gt;&lt;/ServiceResource&gt;&lt;ServiceResource&gt;&lt;Name&gt;Shared&lt;/Name&gt;&lt;Type&gt;Microsoft.SqlAzure.ServiceObjective&lt;/Type&gt;&lt;State&gt;Normal&lt;/State&gt;&lt;SelfLink&gt;https://localhost/servers/serverv1/serviceobjectives/910b4fcb-8a29-4c3e-958f-f7ba794388b2&lt;/SelfLink&gt;&lt;ParentLink&gt;https://localhost/servers/serverv1&lt;/ParentLink&gt;&lt;Id&gt;910b4fcb-8a29-4c3e-958f-f7ba794388b2&lt;/Id&gt;&lt;IsDefault&gt;True&lt;/IsDefault&gt;&lt;IsSystem&gt;False&lt;/IsSystem&gt;&lt;Description&gt;Shared resource allocation.&lt;/Description&gt;&lt;Enabled&gt;True&lt;/Enabled&gt;&lt;DimensionSettings&gt;&lt;ServiceResource&gt;&lt;Name&gt;Shared&lt;/Name&gt;&lt;Type&gt;Microsoft.SqlAzure.DimensionSetting&lt;/Type&gt;&lt;State&gt;Normal&lt;/State&gt;&lt;SelfLink&gt;https://localhost/servers/serverv1/dimensionsettings/22467ff6-6823-4d18-a169-913150e7714f&lt;/SelfLink&gt;&lt;ParentLink&gt;https://localhost/servers/serverv1&lt;/ParentLink&gt;&lt;Id&gt;22467ff6-6823-4d18-a169-913150e7714f&lt;/Id&gt;&lt;Description&gt;Shared resource allocation.&lt;/Description&gt;&lt;Ordinal&gt;2&lt;/Ordinal&gt;&lt;IsDefault&gt;True&lt;/IsDefault&gt;&lt;/ServiceResource&gt;&lt;/DimensionSettings&gt;&lt;/ServiceResource&gt;&lt;/ServiceResources&gt;</ResponseText>
+        </ResponseInfo>
+      </HttpMessage>
+      <HttpMessage>
+        <Index>26</Index>
         <RequestInfo>
           <RequestUri>https://localhost:65432/00000000-0000-0000-0001-000000000001/services/sqlservers/servers/serverv1/serviceobjectives/a7d1b92d-c987-4375-b54d-2b1d0e0f5bb0</RequestUri>
           <Method>GET</Method>
@@ -10096,11 +10678,11 @@
             </Header>
             <Header>
               <Name>x-ms-client-session-id</Name>
-              <Value>f00172bf-3b31-469c-8741-1e100bd912b4-2014-03-24 22:26:22Z</Value>
+              <Value>76a75f11-f6f7-4d91-b818-dfdb99165161-2014-03-26 19:35:48Z</Value>
             </Header>
             <Header>
               <Name>x-ms-client-request-id</Name>
-              <Value>48df83af-e9b7-4169-bc78-f34b0f7418ab-2014-03-24 22:26:51Z</Value>
+              <Value>365a6932-a7d5-466c-92ea-108a0d252160-2014-03-26 19:36:38Z</Value>
             </Header>
           </Headers>
           <Cookies />
@@ -10113,7 +10695,7 @@
           <Headers>
             <Header>
               <Name>x-ms-request-id</Name>
-              <Value>48df83af-e9b7-4169-bc78-f34b0f7418ab</Value>
+              <Value>365a6932-a7d5-466c-92ea-108a0d252160</Value>
             </Header>
             <Header>
               <Name>X-Content-Type-Options</Name>
@@ -10129,7 +10711,7 @@
             </Header>
             <Header>
               <Name>Date</Name>
-              <Value>Mon, 24 Mar 2014 22:26:51 GMT</Value>
+              <Value>Wed, 26 Mar 2014 19:36:37 GMT</Value>
             </Header>
             <Header>
               <Name>Server</Name>
@@ -10141,7 +10723,7 @@
         </ResponseInfo>
       </HttpMessage>
       <HttpMessage>
-        <Index>17</Index>
+        <Index>27</Index>
         <RequestInfo>
           <RequestUri>https://localhost:65432/00000000-0000-0000-0001-000000000001/services/sqlservers/servers/serverv1/databases</RequestUri>
           <Method>POST</Method>
@@ -10153,11 +10735,11 @@
             </Header>
             <Header>
               <Name>x-ms-client-session-id</Name>
-              <Value>f00172bf-3b31-469c-8741-1e100bd912b4-2014-03-24 22:26:22Z</Value>
+              <Value>76a75f11-f6f7-4d91-b818-dfdb99165161-2014-03-26 19:35:48Z</Value>
             </Header>
             <Header>
               <Name>x-ms-client-request-id</Name>
-              <Value>b6040528-4e1c-453d-90ca-621d03657210-2014-03-24 22:26:51Z</Value>
+              <Value>135bd8a5-2c15-43e1-ab85-87265bdd2d74-2014-03-26 19:36:38Z</Value>
             </Header>
           </Headers>
           <Cookies />
@@ -10175,7 +10757,7 @@
           <Headers>
             <Header>
               <Name>x-ms-request-id</Name>
-              <Value>b6040528-4e1c-453d-90ca-621d03657210</Value>
+              <Value>135bd8a5-2c15-43e1-ab85-87265bdd2d74</Value>
             </Header>
             <Header>
               <Name>X-Content-Type-Options</Name>
@@ -10191,7 +10773,7 @@
             </Header>
             <Header>
               <Name>Date</Name>
-              <Value>Mon, 24 Mar 2014 22:26:54 GMT</Value>
+              <Value>Wed, 26 Mar 2014 19:36:40 GMT</Value>
             </Header>
             <Header>
               <Name>Server</Name>
@@ -10199,11 +10781,11 @@
             </Header>
           </Headers>
           <Cookies />
-          <ResponseText>&lt;ServiceResource xmlns="http://schemas.microsoft.com/windowsazure" xmlns:i="http://www.w3.org/2001/XMLSchema-instance"&gt;&lt;Name&gt;testdbcertPremiumDBP1&lt;/Name&gt;&lt;Type&gt;Microsoft.SqlAzure.Database&lt;/Type&gt;&lt;State&gt;Creating&lt;/State&gt;&lt;SelfLink&gt;https://localhost/servers/serverv1/databases/testdbcertPremiumDBP1&lt;/SelfLink&gt;&lt;ParentLink&gt;https://localhost/servers/serverv1&lt;/ParentLink&gt;&lt;Id&gt;6&lt;/Id&gt;&lt;Edition/&gt;&lt;MaxSizeGB&gt;-1&lt;/MaxSizeGB&gt;&lt;CollationName&gt;SQL_Latin1_General_CP1_CI_AS&lt;/CollationName&gt;&lt;CreationDate&gt;2014-03-24T22:26:53.5870000Z&lt;/CreationDate&gt;&lt;IsFederationRoot&gt;False&lt;/IsFederationRoot&gt;&lt;IsSystemObject&gt;False&lt;/IsSystemObject&gt;&lt;SizeMB i:nil="true"/&gt;&lt;MaxSizeBytes&gt;-1&lt;/MaxSizeBytes&gt;&lt;ServiceObjectiveId&gt;7203483a-c4fb-4304-9e9f-17c71c904f5d&lt;/ServiceObjectiveId&gt;&lt;AssignedServiceObjectiveId&gt;7203483a-c4fb-4304-9e9f-17c71c904f5d&lt;/AssignedServiceObjectiveId&gt;&lt;ServiceObjectiveAssignmentState&gt;0&lt;/ServiceObjectiveAssignmentState&gt;&lt;ServiceObjectiveAssignmentStateDescription&gt;Pending&lt;/ServiceObjectiveAssignmentStateDescription&gt;&lt;ServiceObjectiveAssignmentErrorCode&gt;0&lt;/ServiceObjectiveAssignmentErrorCode&gt;&lt;ServiceObjectiveAssignmentErrorDescription i:nil="true"/&gt;&lt;ServiceObjectiveAssignmentSuccessDate&gt;2014-03-24T22:23:53.2670000Z&lt;/ServiceObjectiveAssignmentSuccessDate&gt;&lt;RecoveryPeriodStartDate i:nil="true"/&gt;&lt;IsSuspended&gt;False&lt;/IsSuspended&gt;&lt;/ServiceResource&gt;</ResponseText>
+          <ResponseText>&lt;ServiceResource xmlns="http://schemas.microsoft.com/windowsazure" xmlns:i="http://www.w3.org/2001/XMLSchema-instance"&gt;&lt;Name&gt;testdbcertPremiumDBP1&lt;/Name&gt;&lt;Type&gt;Microsoft.SqlAzure.Database&lt;/Type&gt;&lt;State&gt;Creating&lt;/State&gt;&lt;SelfLink&gt;https://localhost/servers/serverv1/databases/testdbcertPremiumDBP1&lt;/SelfLink&gt;&lt;ParentLink&gt;https://localhost/servers/serverv1&lt;/ParentLink&gt;&lt;Id&gt;7&lt;/Id&gt;&lt;Edition/&gt;&lt;MaxSizeGB&gt;-1&lt;/MaxSizeGB&gt;&lt;CollationName&gt;SQL_Latin1_General_CP1_CI_AS&lt;/CollationName&gt;&lt;CreationDate&gt;2014-03-26T19:36:39.5230000Z&lt;/CreationDate&gt;&lt;IsFederationRoot&gt;False&lt;/IsFederationRoot&gt;&lt;IsSystemObject&gt;False&lt;/IsSystemObject&gt;&lt;SizeMB i:nil="true"/&gt;&lt;MaxSizeBytes&gt;-1&lt;/MaxSizeBytes&gt;&lt;ServiceObjectiveId&gt;7203483a-c4fb-4304-9e9f-17c71c904f5d&lt;/ServiceObjectiveId&gt;&lt;AssignedServiceObjectiveId&gt;7203483a-c4fb-4304-9e9f-17c71c904f5d&lt;/AssignedServiceObjectiveId&gt;&lt;ServiceObjectiveAssignmentState&gt;0&lt;/ServiceObjectiveAssignmentState&gt;&lt;ServiceObjectiveAssignmentStateDescription&gt;Pending&lt;/ServiceObjectiveAssignmentStateDescription&gt;&lt;ServiceObjectiveAssignmentErrorCode&gt;0&lt;/ServiceObjectiveAssignmentErrorCode&gt;&lt;ServiceObjectiveAssignmentErrorDescription i:nil="true"/&gt;&lt;ServiceObjectiveAssignmentSuccessDate&gt;2014-03-26T19:33:26.8070000Z&lt;/ServiceObjectiveAssignmentSuccessDate&gt;&lt;RecoveryPeriodStartDate i:nil="true"/&gt;&lt;IsSuspended&gt;False&lt;/IsSuspended&gt;&lt;/ServiceResource&gt;</ResponseText>
         </ResponseInfo>
       </HttpMessage>
       <HttpMessage>
-        <Index>18</Index>
+        <Index>28</Index>
         <RequestInfo>
           <RequestUri>https://localhost:65432/00000000-0000-0000-0001-000000000001/services/sqlservers/servers/serverv1/serviceobjectives/7203483a-c4fb-4304-9e9f-17c71c904f5d</RequestUri>
           <Method>GET</Method>
@@ -10215,11 +10797,11 @@
             </Header>
             <Header>
               <Name>x-ms-client-session-id</Name>
-              <Value>f00172bf-3b31-469c-8741-1e100bd912b4-2014-03-24 22:26:22Z</Value>
+              <Value>76a75f11-f6f7-4d91-b818-dfdb99165161-2014-03-26 19:35:48Z</Value>
             </Header>
             <Header>
               <Name>x-ms-client-request-id</Name>
-              <Value>7af20b63-8c2e-46e7-8e78-57150da7dd7d-2014-03-24 22:26:54Z</Value>
+              <Value>a5313e6a-2899-4577-9601-03262ca78c36-2014-03-26 19:36:40Z</Value>
             </Header>
           </Headers>
           <Cookies />
@@ -10232,7 +10814,7 @@
           <Headers>
             <Header>
               <Name>x-ms-request-id</Name>
-              <Value>7af20b63-8c2e-46e7-8e78-57150da7dd7d</Value>
+              <Value>a5313e6a-2899-4577-9601-03262ca78c36</Value>
             </Header>
             <Header>
               <Name>X-Content-Type-Options</Name>
@@ -10248,7 +10830,7 @@
             </Header>
             <Header>
               <Name>Date</Name>
-              <Value>Mon, 24 Mar 2014 22:26:54 GMT</Value>
+              <Value>Wed, 26 Mar 2014 19:36:40 GMT</Value>
             </Header>
             <Header>
               <Name>Server</Name>
@@ -10260,7 +10842,7 @@
         </ResponseInfo>
       </HttpMessage>
       <HttpMessage>
-        <Index>19</Index>
+        <Index>29</Index>
         <RequestInfo>
           <RequestUri>https://localhost:65432/00000000-0000-0000-0001-000000000001/services/sqlservers/servers/serverv1/databases</RequestUri>
           <Method>POST</Method>
@@ -10272,11 +10854,11 @@
             </Header>
             <Header>
               <Name>x-ms-client-session-id</Name>
-              <Value>f00172bf-3b31-469c-8741-1e100bd912b4-2014-03-24 22:26:22Z</Value>
+              <Value>76a75f11-f6f7-4d91-b818-dfdb99165161-2014-03-26 19:35:48Z</Value>
             </Header>
             <Header>
               <Name>x-ms-client-request-id</Name>
-              <Value>eae2f95b-643e-4abe-8b33-33b3af9d4790-2014-03-24 22:26:54Z</Value>
+              <Value>52563a39-183b-410d-8716-5d10a8795301-2014-03-26 19:36:40Z</Value>
             </Header>
           </Headers>
           <Cookies />
@@ -10294,7 +10876,7 @@
           <Headers>
             <Header>
               <Name>x-ms-request-id</Name>
-              <Value>eae2f95b-643e-4abe-8b33-33b3af9d4790</Value>
+              <Value>52563a39-183b-410d-8716-5d10a8795301</Value>
             </Header>
             <Header>
               <Name>X-Content-Type-Options</Name>
@@ -10310,7 +10892,7 @@
             </Header>
             <Header>
               <Name>Date</Name>
-              <Value>Mon, 24 Mar 2014 22:26:57 GMT</Value>
+              <Value>Wed, 26 Mar 2014 19:36:43 GMT</Value>
             </Header>
             <Header>
               <Name>Server</Name>
@@ -10318,11 +10900,11 @@
             </Header>
           </Headers>
           <Cookies />
-          <ResponseText>&lt;ServiceResource xmlns="http://schemas.microsoft.com/windowsazure" xmlns:i="http://www.w3.org/2001/XMLSchema-instance"&gt;&lt;Name&gt;testdbcertPremiumDBP2&lt;/Name&gt;&lt;Type&gt;Microsoft.SqlAzure.Database&lt;/Type&gt;&lt;State&gt;Creating&lt;/State&gt;&lt;SelfLink&gt;https://localhost/servers/serverv1/databases/testdbcertPremiumDBP2&lt;/SelfLink&gt;&lt;ParentLink&gt;https://localhost/servers/serverv1&lt;/ParentLink&gt;&lt;Id&gt;7&lt;/Id&gt;&lt;Edition/&gt;&lt;MaxSizeGB&gt;-1&lt;/MaxSizeGB&gt;&lt;CollationName&gt;SQL_Latin1_General_CP1_CI_AS&lt;/CollationName&gt;&lt;CreationDate&gt;2014-03-24T22:26:56.3200000Z&lt;/CreationDate&gt;&lt;IsFederationRoot&gt;False&lt;/IsFederationRoot&gt;&lt;IsSystemObject&gt;False&lt;/IsSystemObject&gt;&lt;SizeMB i:nil="true"/&gt;&lt;MaxSizeBytes&gt;-1&lt;/MaxSizeBytes&gt;&lt;ServiceObjectiveId&gt;a7d1b92d-c987-4375-b54d-2b1d0e0f5bb0&lt;/ServiceObjectiveId&gt;&lt;AssignedServiceObjectiveId&gt;a7d1b92d-c987-4375-b54d-2b1d0e0f5bb0&lt;/AssignedServiceObjectiveId&gt;&lt;ServiceObjectiveAssignmentState&gt;0&lt;/ServiceObjectiveAssignmentState&gt;&lt;ServiceObjectiveAssignmentStateDescription&gt;Pending&lt;/ServiceObjectiveAssignmentStateDescription&gt;&lt;ServiceObjectiveAssignmentErrorCode&gt;0&lt;/ServiceObjectiveAssignmentErrorCode&gt;&lt;ServiceObjectiveAssignmentErrorDescription i:nil="true"/&gt;&lt;ServiceObjectiveAssignmentSuccessDate&gt;2014-03-24T22:23:55.6430000Z&lt;/ServiceObjectiveAssignmentSuccessDate&gt;&lt;RecoveryPeriodStartDate i:nil="true"/&gt;&lt;IsSuspended&gt;False&lt;/IsSuspended&gt;&lt;/ServiceResource&gt;</ResponseText>
+          <ResponseText>&lt;ServiceResource xmlns="http://schemas.microsoft.com/windowsazure" xmlns:i="http://www.w3.org/2001/XMLSchema-instance"&gt;&lt;Name&gt;testdbcertPremiumDBP2&lt;/Name&gt;&lt;Type&gt;Microsoft.SqlAzure.Database&lt;/Type&gt;&lt;State&gt;Creating&lt;/State&gt;&lt;SelfLink&gt;https://localhost/servers/serverv1/databases/testdbcertPremiumDBP2&lt;/SelfLink&gt;&lt;ParentLink&gt;https://localhost/servers/serverv1&lt;/ParentLink&gt;&lt;Id&gt;8&lt;/Id&gt;&lt;Edition/&gt;&lt;MaxSizeGB&gt;-1&lt;/MaxSizeGB&gt;&lt;CollationName&gt;SQL_Latin1_General_CP1_CI_AS&lt;/CollationName&gt;&lt;CreationDate&gt;2014-03-26T19:36:42.0430000Z&lt;/CreationDate&gt;&lt;IsFederationRoot&gt;False&lt;/IsFederationRoot&gt;&lt;IsSystemObject&gt;False&lt;/IsSystemObject&gt;&lt;SizeMB i:nil="true"/&gt;&lt;MaxSizeBytes&gt;-1&lt;/MaxSizeBytes&gt;&lt;ServiceObjectiveId&gt;a7d1b92d-c987-4375-b54d-2b1d0e0f5bb0&lt;/ServiceObjectiveId&gt;&lt;AssignedServiceObjectiveId&gt;a7d1b92d-c987-4375-b54d-2b1d0e0f5bb0&lt;/AssignedServiceObjectiveId&gt;&lt;ServiceObjectiveAssignmentState&gt;0&lt;/ServiceObjectiveAssignmentState&gt;&lt;ServiceObjectiveAssignmentStateDescription&gt;Pending&lt;/ServiceObjectiveAssignmentStateDescription&gt;&lt;ServiceObjectiveAssignmentErrorCode&gt;0&lt;/ServiceObjectiveAssignmentErrorCode&gt;&lt;ServiceObjectiveAssignmentErrorDescription i:nil="true"/&gt;&lt;ServiceObjectiveAssignmentSuccessDate&gt;2014-03-26T19:33:29.7770000Z&lt;/ServiceObjectiveAssignmentSuccessDate&gt;&lt;RecoveryPeriodStartDate i:nil="true"/&gt;&lt;IsSuspended&gt;False&lt;/IsSuspended&gt;&lt;/ServiceResource&gt;</ResponseText>
         </ResponseInfo>
       </HttpMessage>
       <HttpMessage>
-        <Index>20</Index>
+        <Index>30</Index>
         <RequestInfo>
           <RequestUri>https://localhost:65432/00000000-0000-0000-0001-000000000001/services/sqlservers/servers/serverv1/serviceobjectives/a7d1b92d-c987-4375-b54d-2b1d0e0f5bb0</RequestUri>
           <Method>GET</Method>
@@ -10334,11 +10916,11 @@
             </Header>
             <Header>
               <Name>x-ms-client-session-id</Name>
-              <Value>f00172bf-3b31-469c-8741-1e100bd912b4-2014-03-24 22:26:22Z</Value>
+              <Value>76a75f11-f6f7-4d91-b818-dfdb99165161-2014-03-26 19:35:48Z</Value>
             </Header>
             <Header>
               <Name>x-ms-client-request-id</Name>
-              <Value>09b2d3ce-ec92-48ef-8795-518e8f262793-2014-03-24 22:26:57Z</Value>
+              <Value>72a86a0c-db4f-47aa-b387-f63a3805cd84-2014-03-26 19:36:43Z</Value>
             </Header>
           </Headers>
           <Cookies />
@@ -10351,7 +10933,7 @@
           <Headers>
             <Header>
               <Name>x-ms-request-id</Name>
-              <Value>09b2d3ce-ec92-48ef-8795-518e8f262793</Value>
+              <Value>72a86a0c-db4f-47aa-b387-f63a3805cd84</Value>
             </Header>
             <Header>
               <Name>X-Content-Type-Options</Name>
@@ -10367,7 +10949,7 @@
             </Header>
             <Header>
               <Name>Date</Name>
-              <Value>Mon, 24 Mar 2014 22:26:57 GMT</Value>
+              <Value>Wed, 26 Mar 2014 19:36:43 GMT</Value>
             </Header>
             <Header>
               <Name>Server</Name>
@@ -10379,7 +10961,7 @@
         </ResponseInfo>
       </HttpMessage>
       <HttpMessage>
-        <Index>21</Index>
+        <Index>31</Index>
         <RequestInfo>
           <RequestUri>https://localhost:65432/00000000-0000-0000-0001-000000000001/services/sqlservers/servers/serverv1/databases</RequestUri>
           <Method>POST</Method>
@@ -10391,16 +10973,16 @@
             </Header>
             <Header>
               <Name>x-ms-client-session-id</Name>
-              <Value>f00172bf-3b31-469c-8741-1e100bd912b4-2014-03-24 22:26:22Z</Value>
+              <Value>76a75f11-f6f7-4d91-b818-dfdb99165161-2014-03-26 19:35:48Z</Value>
             </Header>
             <Header>
               <Name>x-ms-client-request-id</Name>
-              <Value>9e1d7db0-3405-46cc-901d-474d027ba474-2014-03-24 22:26:57Z</Value>
+              <Value>7c5c65f5-7945-480c-83f7-bc59fa7241ff-2014-03-26 19:36:44Z</Value>
             </Header>
           </Headers>
           <Cookies />
           <RequestText>&lt;ServiceResource xmlns="http://schemas.microsoft.com/windowsazure"&gt;
-  &lt;Name&gt;testdbcertGetOperationDbName_b481bd84-a534-4efe-9c21-5127e1a5eba1&lt;/Name&gt;
+  &lt;Name&gt;testdbcertGetOperationDbName_f8fef831-a92e-46a0-9ed3-5f58103674fc&lt;/Name&gt;
   &lt;CollationName&gt;&lt;/CollationName&gt;
 &lt;/ServiceResource&gt;</RequestText>
           <ContentType>application/xml</ContentType>
@@ -10411,7 +10993,7 @@
           <Headers>
             <Header>
               <Name>x-ms-request-id</Name>
-              <Value>9e1d7db0-3405-46cc-901d-474d027ba474</Value>
+              <Value>7c5c65f5-7945-480c-83f7-bc59fa7241ff</Value>
             </Header>
             <Header>
               <Name>X-Content-Type-Options</Name>
@@ -10427,7 +11009,7 @@
             </Header>
             <Header>
               <Name>Date</Name>
-              <Value>Mon, 24 Mar 2014 22:27:06 GMT</Value>
+              <Value>Wed, 26 Mar 2014 19:36:52 GMT</Value>
             </Header>
             <Header>
               <Name>Server</Name>
@@ -10435,11 +11017,11 @@
             </Header>
           </Headers>
           <Cookies />
-          <ResponseText>&lt;ServiceResource xmlns="http://schemas.microsoft.com/windowsazure" xmlns:i="http://www.w3.org/2001/XMLSchema-instance"&gt;&lt;Name&gt;testdbcertGetOperationDbName_b481bd84-a534-4efe-9c21-5127e1a5eba1&lt;/Name&gt;&lt;Type&gt;Microsoft.SqlAzure.Database&lt;/Type&gt;&lt;State&gt;Normal&lt;/State&gt;&lt;SelfLink&gt;https://localhost/servers/serverv1/databases/testdbcertGetOperationDbName_b481bd84-a534-4efe-9c21-5127e1a5eba1&lt;/SelfLink&gt;&lt;ParentLink&gt;https://localhost/servers/serverv1&lt;/ParentLink&gt;&lt;Id&gt;8&lt;/Id&gt;&lt;Edition&gt;Web&lt;/Edition&gt;&lt;MaxSizeGB&gt;1&lt;/MaxSizeGB&gt;&lt;CollationName&gt;SQL_Latin1_General_CP1_CI_AS&lt;/CollationName&gt;&lt;CreationDate&gt;2014-03-24T22:26:59.8800000Z&lt;/CreationDate&gt;&lt;IsFederationRoot&gt;False&lt;/IsFederationRoot&gt;&lt;IsSystemObject&gt;False&lt;/IsSystemObject&gt;&lt;SizeMB i:nil="true"/&gt;&lt;MaxSizeBytes&gt;1073741824&lt;/MaxSizeBytes&gt;&lt;ServiceObjectiveId&gt;910b4fcb-8a29-4c3e-958f-f7ba794388b2&lt;/ServiceObjectiveId&gt;&lt;AssignedServiceObjectiveId&gt;910b4fcb-8a29-4c3e-958f-f7ba794388b2&lt;/AssignedServiceObjectiveId&gt;&lt;ServiceObjectiveAssignmentState&gt;1&lt;/ServiceObjectiveAssignmentState&gt;&lt;ServiceObjectiveAssignmentStateDescription&gt;Complete&lt;/ServiceObjectiveAssignmentStateDescription&gt;&lt;ServiceObjectiveAssignmentErrorCode&gt;0&lt;/ServiceObjectiveAssignmentErrorCode&gt;&lt;ServiceObjectiveAssignmentErrorDescription i:nil="true"/&gt;&lt;ServiceObjectiveAssignmentSuccessDate&gt;2014-03-24T22:27:04.2700000Z&lt;/ServiceObjectiveAssignmentSuccessDate&gt;&lt;RecoveryPeriodStartDate&gt;2014-03-24T22:27:58.6470000Z&lt;/RecoveryPeriodStartDate&gt;&lt;IsSuspended&gt;False&lt;/IsSuspended&gt;&lt;/ServiceResource&gt;</ResponseText>
+          <ResponseText>&lt;ServiceResource xmlns="http://schemas.microsoft.com/windowsazure" xmlns:i="http://www.w3.org/2001/XMLSchema-instance"&gt;&lt;Name&gt;testdbcertGetOperationDbName_f8fef831-a92e-46a0-9ed3-5f58103674fc&lt;/Name&gt;&lt;Type&gt;Microsoft.SqlAzure.Database&lt;/Type&gt;&lt;State&gt;Normal&lt;/State&gt;&lt;SelfLink&gt;https://localhost/servers/serverv1/databases/testdbcertGetOperationDbName_f8fef831-a92e-46a0-9ed3-5f58103674fc&lt;/SelfLink&gt;&lt;ParentLink&gt;https://localhost/servers/serverv1&lt;/ParentLink&gt;&lt;Id&gt;9&lt;/Id&gt;&lt;Edition&gt;Web&lt;/Edition&gt;&lt;MaxSizeGB&gt;1&lt;/MaxSizeGB&gt;&lt;CollationName&gt;SQL_Latin1_General_CP1_CI_AS&lt;/CollationName&gt;&lt;CreationDate&gt;2014-03-26T19:36:45.9230000Z&lt;/CreationDate&gt;&lt;IsFederationRoot&gt;False&lt;/IsFederationRoot&gt;&lt;IsSystemObject&gt;False&lt;/IsSystemObject&gt;&lt;SizeMB i:nil="true"/&gt;&lt;MaxSizeBytes&gt;1073741824&lt;/MaxSizeBytes&gt;&lt;ServiceObjectiveId&gt;910b4fcb-8a29-4c3e-958f-f7ba794388b2&lt;/ServiceObjectiveId&gt;&lt;AssignedServiceObjectiveId&gt;910b4fcb-8a29-4c3e-958f-f7ba794388b2&lt;/AssignedServiceObjectiveId&gt;&lt;ServiceObjectiveAssignmentState&gt;1&lt;/ServiceObjectiveAssignmentState&gt;&lt;ServiceObjectiveAssignmentStateDescription&gt;Complete&lt;/ServiceObjectiveAssignmentStateDescription&gt;&lt;ServiceObjectiveAssignmentErrorCode&gt;0&lt;/ServiceObjectiveAssignmentErrorCode&gt;&lt;ServiceObjectiveAssignmentErrorDescription i:nil="true"/&gt;&lt;ServiceObjectiveAssignmentSuccessDate&gt;2014-03-26T19:36:50.0730000Z&lt;/ServiceObjectiveAssignmentSuccessDate&gt;&lt;RecoveryPeriodStartDate&gt;2014-03-26T19:37:45.0230000Z&lt;/RecoveryPeriodStartDate&gt;&lt;IsSuspended&gt;False&lt;/IsSuspended&gt;&lt;/ServiceResource&gt;</ResponseText>
         </ResponseInfo>
       </HttpMessage>
       <HttpMessage>
-        <Index>22</Index>
+        <Index>32</Index>
         <RequestInfo>
           <RequestUri>https://localhost:65432/00000000-0000-0000-0001-000000000001/services/sqlservers/servers/serverv1/serviceobjectives/910b4fcb-8a29-4c3e-958f-f7ba794388b2</RequestUri>
           <Method>GET</Method>
@@ -10451,11 +11033,11 @@
             </Header>
             <Header>
               <Name>x-ms-client-session-id</Name>
-              <Value>f00172bf-3b31-469c-8741-1e100bd912b4-2014-03-24 22:26:22Z</Value>
+              <Value>76a75f11-f6f7-4d91-b818-dfdb99165161-2014-03-26 19:35:48Z</Value>
             </Header>
             <Header>
               <Name>x-ms-client-request-id</Name>
-              <Value>2ad9d467-35c5-4afd-91b7-d4586b41cc59-2014-03-24 22:27:06Z</Value>
+              <Value>3fbd2840-3edc-42a4-a546-234c989d3d44-2014-03-26 19:36:52Z</Value>
             </Header>
           </Headers>
           <Cookies />
@@ -10468,7 +11050,7 @@
           <Headers>
             <Header>
               <Name>x-ms-request-id</Name>
-              <Value>2ad9d467-35c5-4afd-91b7-d4586b41cc59</Value>
+              <Value>3fbd2840-3edc-42a4-a546-234c989d3d44</Value>
             </Header>
             <Header>
               <Name>X-Content-Type-Options</Name>
@@ -10484,7 +11066,7 @@
             </Header>
             <Header>
               <Name>Date</Name>
-              <Value>Mon, 24 Mar 2014 22:27:06 GMT</Value>
+              <Value>Wed, 26 Mar 2014 19:36:52 GMT</Value>
             </Header>
             <Header>
               <Name>Server</Name>
@@ -10496,9 +11078,9 @@
         </ResponseInfo>
       </HttpMessage>
       <HttpMessage>
-        <Index>23</Index>
+        <Index>33</Index>
         <RequestInfo>
-          <RequestUri>https://localhost:65432/00000000-0000-0000-0001-000000000001/services/sqlservers/servers/serverv1/databaseoperations?databaseName=testdbcertGetOperationDbName_b481bd84-a534-4efe-9c21-5127e1a5eba1</RequestUri>
+          <RequestUri>https://localhost:65432/00000000-0000-0000-0001-000000000001/services/sqlservers/servers/serverv1/databaseoperations?databaseName=testdbcertGetOperationDbName_f8fef831-a92e-46a0-9ed3-5f58103674fc</RequestUri>
           <Method>GET</Method>
           <UserAgent>Microsoft.WindowsAzure.Management.Sql.SqlManagementClient/0.9.0.0 WindowsAzurePowershell/v0.7.4</UserAgent>
           <Headers>
@@ -10508,11 +11090,11 @@
             </Header>
             <Header>
               <Name>x-ms-client-session-id</Name>
-              <Value>f00172bf-3b31-469c-8741-1e100bd912b4-2014-03-24 22:26:22Z</Value>
+              <Value>76a75f11-f6f7-4d91-b818-dfdb99165161-2014-03-26 19:35:48Z</Value>
             </Header>
             <Header>
               <Name>x-ms-client-request-id</Name>
-              <Value>4389e56d-d432-4d46-8ddc-cae5d9474b4a-2014-03-24 22:27:06Z</Value>
+              <Value>b8034f3c-a6f1-4efc-b66b-7f2cd4682ac6-2014-03-26 19:36:53Z</Value>
             </Header>
           </Headers>
           <Cookies />
@@ -10525,7 +11107,7 @@
           <Headers>
             <Header>
               <Name>x-ms-request-id</Name>
-              <Value>4389e56d-d432-4d46-8ddc-cae5d9474b4a</Value>
+              <Value>b8034f3c-a6f1-4efc-b66b-7f2cd4682ac6</Value>
             </Header>
             <Header>
               <Name>X-Content-Type-Options</Name>
@@ -10541,7 +11123,7 @@
             </Header>
             <Header>
               <Name>Date</Name>
-              <Value>Mon, 24 Mar 2014 22:27:06 GMT</Value>
+              <Value>Wed, 26 Mar 2014 19:36:52 GMT</Value>
             </Header>
             <Header>
               <Name>Server</Name>
@@ -10549,13 +11131,13 @@
             </Header>
           </Headers>
           <Cookies />
-          <ResponseText>&lt;ServiceResources xmlns="http://schemas.microsoft.com/windowsazure" xmlns:i="http://www.w3.org/2001/XMLSchema-instance"&gt;&lt;ServiceResource&gt;&lt;Name&gt;CREATE DATABASE&lt;/Name&gt;&lt;Type&gt;Microsoft.SqlAzure.DatabaseOperation&lt;/Type&gt;&lt;State&gt;COMPLETED&lt;/State&gt;&lt;SelfLink&gt;https://localhost/servers/serverv1/databaseoperations/03e2c591-6b40-4f1b-a720-836015e097c4&lt;/SelfLink&gt;&lt;ParentLink&gt;https://localhost/servers/serverv1&lt;/ParentLink&gt;&lt;Id&gt;03e2c591-6b40-4f1b-a720-836015e097c4&lt;/Id&gt;&lt;StateId&gt;2&lt;/StateId&gt;&lt;SessionActivityId&gt;9e1d7db0-3405-46cc-901d-474d027ba474&lt;/SessionActivityId&gt;&lt;DatabaseName&gt;testdbcertGetOperationDbName_b481bd84-a534-4efe-9c21-5127e1a5eba1&lt;/DatabaseName&gt;&lt;PercentComplete&gt;100&lt;/PercentComplete&gt;&lt;ErrorCode&gt;0&lt;/ErrorCode&gt;&lt;Error/&gt;&lt;ErrorSeverity&gt;0&lt;/ErrorSeverity&gt;&lt;ErrorState&gt;0&lt;/ErrorState&gt;&lt;StartTime&gt;2014-03-24T22:26:58.3170000&lt;/StartTime&gt;&lt;LastModifyTime&gt;2014-03-24T22:27:05.0370000&lt;/LastModifyTime&gt;&lt;/ServiceResource&gt;&lt;/ServiceResources&gt;</ResponseText>
+          <ResponseText>&lt;ServiceResources xmlns="http://schemas.microsoft.com/windowsazure" xmlns:i="http://www.w3.org/2001/XMLSchema-instance"&gt;&lt;ServiceResource&gt;&lt;Name&gt;CREATE DATABASE&lt;/Name&gt;&lt;Type&gt;Microsoft.SqlAzure.DatabaseOperation&lt;/Type&gt;&lt;State&gt;COMPLETED&lt;/State&gt;&lt;SelfLink&gt;https://localhost/servers/serverv1/databaseoperations/4d80a816-3755-4723-9310-3704dc0918da&lt;/SelfLink&gt;&lt;ParentLink&gt;https://localhost/servers/serverv1&lt;/ParentLink&gt;&lt;Id&gt;4d80a816-3755-4723-9310-3704dc0918da&lt;/Id&gt;&lt;StateId&gt;2&lt;/StateId&gt;&lt;SessionActivityId&gt;7c5c65f5-7945-480c-83f7-bc59fa7241ff&lt;/SessionActivityId&gt;&lt;DatabaseName&gt;testdbcertGetOperationDbName_f8fef831-a92e-46a0-9ed3-5f58103674fc&lt;/DatabaseName&gt;&lt;PercentComplete&gt;100&lt;/PercentComplete&gt;&lt;ErrorCode&gt;0&lt;/ErrorCode&gt;&lt;Error/&gt;&lt;ErrorSeverity&gt;0&lt;/ErrorSeverity&gt;&lt;ErrorState&gt;0&lt;/ErrorState&gt;&lt;StartTime&gt;2014-03-26T19:36:44.7130000&lt;/StartTime&gt;&lt;LastModifyTime&gt;2014-03-26T19:36:51.9930000&lt;/LastModifyTime&gt;&lt;/ServiceResource&gt;&lt;/ServiceResources&gt;</ResponseText>
         </ResponseInfo>
       </HttpMessage>
       <HttpMessage>
-        <Index>24</Index>
+        <Index>34</Index>
         <RequestInfo>
-          <RequestUri>https://localhost:65432/00000000-0000-0000-0001-000000000001/services/sqlservers/servers/serverv1/databaseoperations?databaseName=testdbcertGetOperationDbName_b481bd84-a534-4efe-9c21-5127e1a5eba1</RequestUri>
+          <RequestUri>https://localhost:65432/00000000-0000-0000-0001-000000000001/services/sqlservers/servers/serverv1/databaseoperations?databaseName=testdbcertGetOperationDbName_f8fef831-a92e-46a0-9ed3-5f58103674fc</RequestUri>
           <Method>GET</Method>
           <UserAgent>Microsoft.WindowsAzure.Management.Sql.SqlManagementClient/0.9.0.0 WindowsAzurePowershell/v0.7.4</UserAgent>
           <Headers>
@@ -10565,11 +11147,11 @@
             </Header>
             <Header>
               <Name>x-ms-client-session-id</Name>
-              <Value>f00172bf-3b31-469c-8741-1e100bd912b4-2014-03-24 22:26:22Z</Value>
+              <Value>76a75f11-f6f7-4d91-b818-dfdb99165161-2014-03-26 19:35:48Z</Value>
             </Header>
             <Header>
               <Name>x-ms-client-request-id</Name>
-              <Value>ed2178f7-76b6-43be-95b5-70d6045ba3c6-2014-03-24 22:27:06Z</Value>
+              <Value>cf1b912d-bc69-4e95-a5ae-91f01327d75a-2014-03-26 19:36:53Z</Value>
             </Header>
           </Headers>
           <Cookies />
@@ -10582,7 +11164,7 @@
           <Headers>
             <Header>
               <Name>x-ms-request-id</Name>
-              <Value>ed2178f7-76b6-43be-95b5-70d6045ba3c6</Value>
+              <Value>cf1b912d-bc69-4e95-a5ae-91f01327d75a</Value>
             </Header>
             <Header>
               <Name>X-Content-Type-Options</Name>
@@ -10598,7 +11180,7 @@
             </Header>
             <Header>
               <Name>Date</Name>
-              <Value>Mon, 24 Mar 2014 22:27:06 GMT</Value>
+              <Value>Wed, 26 Mar 2014 19:36:52 GMT</Value>
             </Header>
             <Header>
               <Name>Server</Name>
@@ -10606,13 +11188,13 @@
             </Header>
           </Headers>
           <Cookies />
-          <ResponseText>&lt;ServiceResources xmlns="http://schemas.microsoft.com/windowsazure" xmlns:i="http://www.w3.org/2001/XMLSchema-instance"&gt;&lt;ServiceResource&gt;&lt;Name&gt;CREATE DATABASE&lt;/Name&gt;&lt;Type&gt;Microsoft.SqlAzure.DatabaseOperation&lt;/Type&gt;&lt;State&gt;COMPLETED&lt;/State&gt;&lt;SelfLink&gt;https://localhost/servers/serverv1/databaseoperations/03e2c591-6b40-4f1b-a720-836015e097c4&lt;/SelfLink&gt;&lt;ParentLink&gt;https://localhost/servers/serverv1&lt;/ParentLink&gt;&lt;Id&gt;03e2c591-6b40-4f1b-a720-836015e097c4&lt;/Id&gt;&lt;StateId&gt;2&lt;/StateId&gt;&lt;SessionActivityId&gt;9e1d7db0-3405-46cc-901d-474d027ba474&lt;/SessionActivityId&gt;&lt;DatabaseName&gt;testdbcertGetOperationDbName_b481bd84-a534-4efe-9c21-5127e1a5eba1&lt;/DatabaseName&gt;&lt;PercentComplete&gt;100&lt;/PercentComplete&gt;&lt;ErrorCode&gt;0&lt;/ErrorCode&gt;&lt;Error/&gt;&lt;ErrorSeverity&gt;0&lt;/ErrorSeverity&gt;&lt;ErrorState&gt;0&lt;/ErrorState&gt;&lt;StartTime&gt;2014-03-24T22:26:58.3170000&lt;/StartTime&gt;&lt;LastModifyTime&gt;2014-03-24T22:27:05.0370000&lt;/LastModifyTime&gt;&lt;/ServiceResource&gt;&lt;/ServiceResources&gt;</ResponseText>
+          <ResponseText>&lt;ServiceResources xmlns="http://schemas.microsoft.com/windowsazure" xmlns:i="http://www.w3.org/2001/XMLSchema-instance"&gt;&lt;ServiceResource&gt;&lt;Name&gt;CREATE DATABASE&lt;/Name&gt;&lt;Type&gt;Microsoft.SqlAzure.DatabaseOperation&lt;/Type&gt;&lt;State&gt;COMPLETED&lt;/State&gt;&lt;SelfLink&gt;https://localhost/servers/serverv1/databaseoperations/4d80a816-3755-4723-9310-3704dc0918da&lt;/SelfLink&gt;&lt;ParentLink&gt;https://localhost/servers/serverv1&lt;/ParentLink&gt;&lt;Id&gt;4d80a816-3755-4723-9310-3704dc0918da&lt;/Id&gt;&lt;StateId&gt;2&lt;/StateId&gt;&lt;SessionActivityId&gt;7c5c65f5-7945-480c-83f7-bc59fa7241ff&lt;/SessionActivityId&gt;&lt;DatabaseName&gt;testdbcertGetOperationDbName_f8fef831-a92e-46a0-9ed3-5f58103674fc&lt;/DatabaseName&gt;&lt;PercentComplete&gt;100&lt;/PercentComplete&gt;&lt;ErrorCode&gt;0&lt;/ErrorCode&gt;&lt;Error/&gt;&lt;ErrorSeverity&gt;0&lt;/ErrorSeverity&gt;&lt;ErrorState&gt;0&lt;/ErrorState&gt;&lt;StartTime&gt;2014-03-26T19:36:44.7130000&lt;/StartTime&gt;&lt;LastModifyTime&gt;2014-03-26T19:36:51.9930000&lt;/LastModifyTime&gt;&lt;/ServiceResource&gt;&lt;/ServiceResources&gt;</ResponseText>
         </ResponseInfo>
       </HttpMessage>
       <HttpMessage>
-        <Index>25</Index>
+        <Index>35</Index>
         <RequestInfo>
-          <RequestUri>https://localhost:65432/00000000-0000-0000-0001-000000000001/services/sqlservers/servers/serverv1/databaseoperations/03e2c591-6b40-4f1b-a720-836015e097c4</RequestUri>
+          <RequestUri>https://localhost:65432/00000000-0000-0000-0001-000000000001/services/sqlservers/servers/serverv1/databaseoperations/4d80a816-3755-4723-9310-3704dc0918da</RequestUri>
           <Method>GET</Method>
           <UserAgent>Microsoft.WindowsAzure.Management.Sql.SqlManagementClient/0.9.0.0 WindowsAzurePowershell/v0.7.4</UserAgent>
           <Headers>
@@ -10622,11 +11204,11 @@
             </Header>
             <Header>
               <Name>x-ms-client-session-id</Name>
-              <Value>f00172bf-3b31-469c-8741-1e100bd912b4-2014-03-24 22:26:22Z</Value>
+              <Value>76a75f11-f6f7-4d91-b818-dfdb99165161-2014-03-26 19:35:48Z</Value>
             </Header>
             <Header>
               <Name>x-ms-client-request-id</Name>
-              <Value>93086fbd-1113-4c4c-bfc7-9db4a585be7b-2014-03-24 22:27:06Z</Value>
+              <Value>f77bf26f-ce8a-4030-bfe8-2a484afee013-2014-03-26 19:36:53Z</Value>
             </Header>
           </Headers>
           <Cookies />
@@ -10639,7 +11221,7 @@
           <Headers>
             <Header>
               <Name>x-ms-request-id</Name>
-              <Value>93086fbd-1113-4c4c-bfc7-9db4a585be7b</Value>
+              <Value>f77bf26f-ce8a-4030-bfe8-2a484afee013</Value>
             </Header>
             <Header>
               <Name>X-Content-Type-Options</Name>
@@ -10655,7 +11237,7 @@
             </Header>
             <Header>
               <Name>Date</Name>
-              <Value>Mon, 24 Mar 2014 22:27:06 GMT</Value>
+              <Value>Wed, 26 Mar 2014 19:36:53 GMT</Value>
             </Header>
             <Header>
               <Name>Server</Name>
@@ -10663,11 +11245,11 @@
             </Header>
           </Headers>
           <Cookies />
-          <ResponseText>&lt;ServiceResource xmlns="http://schemas.microsoft.com/windowsazure" xmlns:i="http://www.w3.org/2001/XMLSchema-instance"&gt;&lt;Name&gt;CREATE DATABASE&lt;/Name&gt;&lt;Type&gt;Microsoft.SqlAzure.DatabaseOperation&lt;/Type&gt;&lt;State&gt;COMPLETED&lt;/State&gt;&lt;SelfLink&gt;https://localhost/servers/serverv1/databaseoperations/03e2c591-6b40-4f1b-a720-836015e097c4&lt;/SelfLink&gt;&lt;ParentLink&gt;https://localhost/servers/serverv1&lt;/ParentLink&gt;&lt;Id&gt;03e2c591-6b40-4f1b-a720-836015e097c4&lt;/Id&gt;&lt;StateId&gt;2&lt;/StateId&gt;&lt;SessionActivityId&gt;9e1d7db0-3405-46cc-901d-474d027ba474&lt;/SessionActivityId&gt;&lt;DatabaseName&gt;testdbcertGetOperationDbName_b481bd84-a534-4efe-9c21-5127e1a5eba1&lt;/DatabaseName&gt;&lt;PercentComplete&gt;100&lt;/PercentComplete&gt;&lt;ErrorCode&gt;0&lt;/ErrorCode&gt;&lt;Error/&gt;&lt;ErrorSeverity&gt;0&lt;/ErrorSeverity&gt;&lt;ErrorState&gt;0&lt;/ErrorState&gt;&lt;StartTime&gt;2014-03-24T22:26:58.3170000&lt;/StartTime&gt;&lt;LastModifyTime&gt;2014-03-24T22:27:05.0370000&lt;/LastModifyTime&gt;&lt;/ServiceResource&gt;</ResponseText>
+          <ResponseText>&lt;ServiceResource xmlns="http://schemas.microsoft.com/windowsazure" xmlns:i="http://www.w3.org/2001/XMLSchema-instance"&gt;&lt;Name&gt;CREATE DATABASE&lt;/Name&gt;&lt;Type&gt;Microsoft.SqlAzure.DatabaseOperation&lt;/Type&gt;&lt;State&gt;COMPLETED&lt;/State&gt;&lt;SelfLink&gt;https://localhost/servers/serverv1/databaseoperations/4d80a816-3755-4723-9310-3704dc0918da&lt;/SelfLink&gt;&lt;ParentLink&gt;https://localhost/servers/serverv1&lt;/ParentLink&gt;&lt;Id&gt;4d80a816-3755-4723-9310-3704dc0918da&lt;/Id&gt;&lt;StateId&gt;2&lt;/StateId&gt;&lt;SessionActivityId&gt;7c5c65f5-7945-480c-83f7-bc59fa7241ff&lt;/SessionActivityId&gt;&lt;DatabaseName&gt;testdbcertGetOperationDbName_f8fef831-a92e-46a0-9ed3-5f58103674fc&lt;/DatabaseName&gt;&lt;PercentComplete&gt;100&lt;/PercentComplete&gt;&lt;ErrorCode&gt;0&lt;/ErrorCode&gt;&lt;Error/&gt;&lt;ErrorSeverity&gt;0&lt;/ErrorSeverity&gt;&lt;ErrorState&gt;0&lt;/ErrorState&gt;&lt;StartTime&gt;2014-03-26T19:36:44.7130000&lt;/StartTime&gt;&lt;LastModifyTime&gt;2014-03-26T19:36:51.9930000&lt;/LastModifyTime&gt;&lt;/ServiceResource&gt;</ResponseText>
         </ResponseInfo>
       </HttpMessage>
       <HttpMessage>
-        <Index>26</Index>
+        <Index>36</Index>
         <RequestInfo>
           <RequestUri>https://localhost:65432/00000000-0000-0000-0001-000000000001/services/sqlservers/servers/serverv1/databases/testdbcert3</RequestUri>
           <Method>DELETE</Method>
@@ -10679,11 +11261,11 @@
             </Header>
             <Header>
               <Name>x-ms-client-session-id</Name>
-              <Value>f00172bf-3b31-469c-8741-1e100bd912b4-2014-03-24 22:26:22Z</Value>
+              <Value>76a75f11-f6f7-4d91-b818-dfdb99165161-2014-03-26 19:35:48Z</Value>
             </Header>
             <Header>
               <Name>x-ms-client-request-id</Name>
-              <Value>82e65f7b-d954-48b7-b550-49053161d65e-2014-03-24 22:27:06Z</Value>
+              <Value>720b0fac-bfe1-4daa-901f-72a2411f2f96-2014-03-26 19:36:53Z</Value>
             </Header>
           </Headers>
           <Cookies />
@@ -10696,7 +11278,7 @@
           <Headers>
             <Header>
               <Name>x-ms-request-id</Name>
-              <Value>82e65f7b-d954-48b7-b550-49053161d65e</Value>
+              <Value>720b0fac-bfe1-4daa-901f-72a2411f2f96</Value>
             </Header>
             <Header>
               <Name>X-Content-Type-Options</Name>
@@ -10708,7 +11290,7 @@
             </Header>
             <Header>
               <Name>Date</Name>
-              <Value>Mon, 24 Mar 2014 22:27:16 GMT</Value>
+              <Value>Wed, 26 Mar 2014 19:37:17 GMT</Value>
             </Header>
             <Header>
               <Name>Server</Name>
@@ -10720,7 +11302,7 @@
         </ResponseInfo>
       </HttpMessage>
       <HttpMessage>
-        <Index>27</Index>
+        <Index>37</Index>
         <RequestInfo>
           <RequestUri>https://localhost:65432/00000000-0000-0000-0001-000000000001/services/sqlservers/servers/serverv1/databases/testdbcert2</RequestUri>
           <Method>DELETE</Method>
@@ -10732,11 +11314,11 @@
             </Header>
             <Header>
               <Name>x-ms-client-session-id</Name>
-              <Value>f00172bf-3b31-469c-8741-1e100bd912b4-2014-03-24 22:26:22Z</Value>
+              <Value>76a75f11-f6f7-4d91-b818-dfdb99165161-2014-03-26 19:35:48Z</Value>
             </Header>
             <Header>
               <Name>x-ms-client-request-id</Name>
-              <Value>d31359cf-a9df-40e3-a300-0dd8ad04d8c6-2014-03-24 22:27:16Z</Value>
+              <Value>351038f8-ccfa-4caa-9ccb-97c00219fe26-2014-03-26 19:37:17Z</Value>
             </Header>
           </Headers>
           <Cookies />
@@ -10749,7 +11331,7 @@
           <Headers>
             <Header>
               <Name>x-ms-request-id</Name>
-              <Value>d31359cf-a9df-40e3-a300-0dd8ad04d8c6</Value>
+              <Value>351038f8-ccfa-4caa-9ccb-97c00219fe26</Value>
             </Header>
             <Header>
               <Name>X-Content-Type-Options</Name>
@@ -10761,7 +11343,7 @@
             </Header>
             <Header>
               <Name>Date</Name>
-              <Value>Mon, 24 Mar 2014 22:27:32 GMT</Value>
+              <Value>Wed, 26 Mar 2014 19:37:36 GMT</Value>
             </Header>
             <Header>
               <Name>Server</Name>
@@ -10773,7 +11355,60 @@
         </ResponseInfo>
       </HttpMessage>
       <HttpMessage>
-        <Index>28</Index>
+        <Index>38</Index>
+        <RequestInfo>
+          <RequestUri>https://localhost:65432/00000000-0000-0000-0001-000000000001/services/sqlservers/servers/serverv1/databases/testdbcert4</RequestUri>
+          <Method>DELETE</Method>
+          <UserAgent>Microsoft.WindowsAzure.Management.Sql.SqlManagementClient/0.9.0.0 WindowsAzurePowershell/v0.7.4</UserAgent>
+          <Headers>
+            <Header>
+              <Name>x-ms-version</Name>
+              <Value>2012-03-01</Value>
+            </Header>
+            <Header>
+              <Name>x-ms-client-session-id</Name>
+              <Value>76a75f11-f6f7-4d91-b818-dfdb99165161-2014-03-26 19:35:48Z</Value>
+            </Header>
+            <Header>
+              <Name>x-ms-client-request-id</Name>
+              <Value>b71a171e-6bfd-456e-8c36-5fdcd4d8c370-2014-03-26 19:37:36Z</Value>
+            </Header>
+          </Headers>
+          <Cookies />
+          <RequestText></RequestText>
+          <ContentType i:nil="true" />
+          <Accept i:nil="true" />
+        </RequestInfo>
+        <ResponseInfo>
+          <StatusCode>OK</StatusCode>
+          <Headers>
+            <Header>
+              <Name>x-ms-request-id</Name>
+              <Value>b71a171e-6bfd-456e-8c36-5fdcd4d8c370</Value>
+            </Header>
+            <Header>
+              <Name>X-Content-Type-Options</Name>
+              <Value>nosniff</Value>
+            </Header>
+            <Header>
+              <Name>Cache-Control</Name>
+              <Value>no-store,no-cache</Value>
+            </Header>
+            <Header>
+              <Name>Date</Name>
+              <Value>Wed, 26 Mar 2014 19:37:47 GMT</Value>
+            </Header>
+            <Header>
+              <Name>Server</Name>
+              <Value>1.0.6198.12 (rd_rdfe_stable.131001-0757) Microsoft-HTTPAPI/2.0</Value>
+            </Header>
+          </Headers>
+          <Cookies />
+          <ResponseText></ResponseText>
+        </ResponseInfo>
+      </HttpMessage>
+      <HttpMessage>
+        <Index>39</Index>
         <RequestInfo>
           <RequestUri>https://localhost:65432/00000000-0000-0000-0001-000000000001/services/sqlservers/servers/serverv1/databases/testdbcertPremiumDBP1</RequestUri>
           <Method>DELETE</Method>
@@ -10785,11 +11420,11 @@
             </Header>
             <Header>
               <Name>x-ms-client-session-id</Name>
-              <Value>f00172bf-3b31-469c-8741-1e100bd912b4-2014-03-24 22:26:22Z</Value>
+              <Value>76a75f11-f6f7-4d91-b818-dfdb99165161-2014-03-26 19:35:48Z</Value>
             </Header>
             <Header>
               <Name>x-ms-client-request-id</Name>
-              <Value>9947241d-a114-4372-8eb2-4cd36433e502-2014-03-24 22:27:32Z</Value>
+              <Value>3913a536-6d79-4d17-a510-eb994a7bb383-2014-03-26 19:37:47Z</Value>
             </Header>
           </Headers>
           <Cookies />
@@ -10802,7 +11437,7 @@
           <Headers>
             <Header>
               <Name>x-ms-request-id</Name>
-              <Value>9947241d-a114-4372-8eb2-4cd36433e502</Value>
+              <Value>3913a536-6d79-4d17-a510-eb994a7bb383</Value>
             </Header>
             <Header>
               <Name>X-Content-Type-Options</Name>
@@ -10814,7 +11449,7 @@
             </Header>
             <Header>
               <Name>Date</Name>
-              <Value>Mon, 24 Mar 2014 22:27:43 GMT</Value>
+              <Value>Wed, 26 Mar 2014 19:38:00 GMT</Value>
             </Header>
             <Header>
               <Name>Server</Name>
@@ -10826,7 +11461,7 @@
         </ResponseInfo>
       </HttpMessage>
       <HttpMessage>
-        <Index>29</Index>
+        <Index>40</Index>
         <RequestInfo>
           <RequestUri>https://localhost:65432/00000000-0000-0000-0001-000000000001/services/sqlservers/servers/serverv1/databases/testdbcertPremiumDBP2</RequestUri>
           <Method>DELETE</Method>
@@ -10838,11 +11473,11 @@
             </Header>
             <Header>
               <Name>x-ms-client-session-id</Name>
-              <Value>f00172bf-3b31-469c-8741-1e100bd912b4-2014-03-24 22:26:22Z</Value>
+              <Value>76a75f11-f6f7-4d91-b818-dfdb99165161-2014-03-26 19:35:48Z</Value>
             </Header>
             <Header>
               <Name>x-ms-client-request-id</Name>
-              <Value>6ac69aeb-94f5-4030-8eed-5c2c52714897-2014-03-24 22:27:43Z</Value>
+              <Value>e895db60-a7d9-48f0-8976-845d38fca450-2014-03-26 19:38:00Z</Value>
             </Header>
           </Headers>
           <Cookies />
@@ -10855,7 +11490,7 @@
           <Headers>
             <Header>
               <Name>x-ms-request-id</Name>
-              <Value>6ac69aeb-94f5-4030-8eed-5c2c52714897</Value>
+              <Value>e895db60-a7d9-48f0-8976-845d38fca450</Value>
             </Header>
             <Header>
               <Name>X-Content-Type-Options</Name>
@@ -10867,7 +11502,7 @@
             </Header>
             <Header>
               <Name>Date</Name>
-              <Value>Mon, 24 Mar 2014 22:27:50 GMT</Value>
+              <Value>Wed, 26 Mar 2014 19:38:08 GMT</Value>
             </Header>
             <Header>
               <Name>Server</Name>
@@ -10879,9 +11514,9 @@
         </ResponseInfo>
       </HttpMessage>
       <HttpMessage>
-        <Index>30</Index>
+        <Index>41</Index>
         <RequestInfo>
-          <RequestUri>https://localhost:65432/00000000-0000-0000-0001-000000000001/services/sqlservers/servers/serverv1/databases/testdbcertGetOperationDbName_b481bd84-a534-4efe-9c21-5127e1a5eba1</RequestUri>
+          <RequestUri>https://localhost:65432/00000000-0000-0000-0001-000000000001/services/sqlservers/servers/serverv1/databases/testdbcertGetOperationDbName_f8fef831-a92e-46a0-9ed3-5f58103674fc</RequestUri>
           <Method>DELETE</Method>
           <UserAgent>Microsoft.WindowsAzure.Management.Sql.SqlManagementClient/0.9.0.0 WindowsAzurePowershell/v0.7.4</UserAgent>
           <Headers>
@@ -10891,11 +11526,11 @@
             </Header>
             <Header>
               <Name>x-ms-client-session-id</Name>
-              <Value>f00172bf-3b31-469c-8741-1e100bd912b4-2014-03-24 22:26:22Z</Value>
+              <Value>76a75f11-f6f7-4d91-b818-dfdb99165161-2014-03-26 19:35:48Z</Value>
             </Header>
             <Header>
               <Name>x-ms-client-request-id</Name>
-              <Value>1ce285a7-9710-4b8b-b66f-0c78ea1590fa-2014-03-24 22:27:50Z</Value>
+              <Value>7a362fd9-42ec-4e78-97c8-c0d6eadbe153-2014-03-26 19:38:09Z</Value>
             </Header>
           </Headers>
           <Cookies />
@@ -10908,7 +11543,7 @@
           <Headers>
             <Header>
               <Name>x-ms-request-id</Name>
-              <Value>1ce285a7-9710-4b8b-b66f-0c78ea1590fa</Value>
+              <Value>7a362fd9-42ec-4e78-97c8-c0d6eadbe153</Value>
             </Header>
             <Header>
               <Name>X-Content-Type-Options</Name>
@@ -10920,7 +11555,7 @@
             </Header>
             <Header>
               <Name>Date</Name>
-              <Value>Mon, 24 Mar 2014 22:28:01 GMT</Value>
+              <Value>Wed, 26 Mar 2014 19:38:20 GMT</Value>
             </Header>
             <Header>
               <Name>Server</Name>
@@ -10932,7 +11567,7 @@
         </ResponseInfo>
       </HttpMessage>
       <HttpMessage>
-        <Index>31</Index>
+        <Index>42</Index>
         <RequestInfo>
           <RequestUri>https://localhost:65432/00000000-0000-0000-0001-000000000001/services/sqlservers/servers/serverv1/databases?contentview=generic</RequestUri>
           <Method>GET</Method>
@@ -10944,11 +11579,11 @@
             </Header>
             <Header>
               <Name>x-ms-client-session-id</Name>
-              <Value>f00172bf-3b31-469c-8741-1e100bd912b4-2014-03-24 22:26:22Z</Value>
+              <Value>76a75f11-f6f7-4d91-b818-dfdb99165161-2014-03-26 19:35:48Z</Value>
             </Header>
             <Header>
               <Name>x-ms-client-request-id</Name>
-              <Value>c08c4d6d-e21d-4b76-903b-24b26949ce51-2014-03-24 22:28:01Z</Value>
+              <Value>380a5dcf-7167-4558-90ce-3932d27622a5-2014-03-26 19:38:21Z</Value>
             </Header>
           </Headers>
           <Cookies />
@@ -10961,7 +11596,7 @@
           <Headers>
             <Header>
               <Name>x-ms-request-id</Name>
-              <Value>c08c4d6d-e21d-4b76-903b-24b26949ce51</Value>
+              <Value>380a5dcf-7167-4558-90ce-3932d27622a5</Value>
             </Header>
             <Header>
               <Name>X-Content-Type-Options</Name>
@@ -10977,7 +11612,7 @@
             </Header>
             <Header>
               <Name>Date</Name>
-              <Value>Mon, 24 Mar 2014 22:28:01 GMT</Value>
+              <Value>Wed, 26 Mar 2014 19:38:20 GMT</Value>
             </Header>
             <Header>
               <Name>Server</Name>
@@ -10989,7 +11624,7 @@
         </ResponseInfo>
       </HttpMessage>
       <HttpMessage>
-        <Index>32</Index>
+        <Index>43</Index>
         <RequestInfo>
           <RequestUri>https://localhost:65432/00000000-0000-0000-0001-000000000001/services/sqlservers/servers/serverv1/serviceobjectives/26e021db-f1f9-4c98-84c6-92af8ef433d7</RequestUri>
           <Method>GET</Method>
@@ -11001,11 +11636,11 @@
             </Header>
             <Header>
               <Name>x-ms-client-session-id</Name>
-              <Value>f00172bf-3b31-469c-8741-1e100bd912b4-2014-03-24 22:26:22Z</Value>
+              <Value>76a75f11-f6f7-4d91-b818-dfdb99165161-2014-03-26 19:35:48Z</Value>
             </Header>
             <Header>
               <Name>x-ms-client-request-id</Name>
-              <Value>5ef44eb8-8968-42f6-a321-a05f86931bd3-2014-03-24 22:28:01Z</Value>
+              <Value>1c6e2c28-473d-45ec-8f0f-5d036fa00bb4-2014-03-26 19:38:21Z</Value>
             </Header>
           </Headers>
           <Cookies />
@@ -11018,7 +11653,7 @@
           <Headers>
             <Header>
               <Name>x-ms-request-id</Name>
-              <Value>5ef44eb8-8968-42f6-a321-a05f86931bd3</Value>
+              <Value>1c6e2c28-473d-45ec-8f0f-5d036fa00bb4</Value>
             </Header>
             <Header>
               <Name>X-Content-Type-Options</Name>
@@ -11034,7 +11669,7 @@
             </Header>
             <Header>
               <Name>Date</Name>
-              <Value>Mon, 24 Mar 2014 22:28:01 GMT</Value>
+              <Value>Wed, 26 Mar 2014 19:38:20 GMT</Value>
             </Header>
             <Header>
               <Name>Server</Name>

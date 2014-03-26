@@ -272,7 +272,6 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Services.Server
                 CollationName = database.Database.CollationName ?? string.Empty,
                 MaximumDatabaseSizeInGB = databaseMaxSizeInGB,
                 MaximumDatabaseSizeInBytes = databaseMaxSizeInBytes,
-                ServiceObjectiveId = serviceObjective != null ? serviceObjective.Id.ToString() : null,
             };
             parameters.Edition = (database.Database.Edition ?? string.Empty);
             if(databaseEdition.HasValue)
@@ -281,6 +280,11 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Services.Server
                 {
                     parameters.Edition = databaseEdition.ToString();
                 }
+            }
+            parameters.ServiceObjectiveId = database.Database.ServiceObjectiveId;
+            if(serviceObjective != null)
+            {
+                parameters.ServiceObjectiveId = serviceObjective.Id.ToString();
             }
 
             // Update the database with the new properties
