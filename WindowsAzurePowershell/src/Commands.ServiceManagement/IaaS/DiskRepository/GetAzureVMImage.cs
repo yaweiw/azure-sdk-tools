@@ -15,6 +15,7 @@
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.DiskRepository
 {
     using System;
+    using System.Collections.Generic;
     using System.Linq;
     using System.Management.Automation;
     using Management.Compute;
@@ -43,37 +44,125 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.DiskRepository
 
         internal static bool CheckImageType(ComputeManagementClient computeClient, string imageName, ImageType imageType)
         {
-            if (imageType == ImageType.OSImage)
+            bool result = false;
+
+            if (computeClient == null)
             {
-                return computeClient == null ? false : computeClient.VirtualMachineOSImages.List().Images.Any(
-                    e => string.Equals(e.Name, imageName, StringComparison.OrdinalIgnoreCase));
+                result = false;
+            }
+            else if (imageType == ImageType.OSImage)
+            {
+                try
+                {
+                    result = string.Equals(
+                        computeClient.VirtualMachineOSImages.Get(imageName).Name,
+                        imageName,
+                        StringComparison.OrdinalIgnoreCase);
+                }
+                catch
+                {
+                    result = false;
+                }
             }
             else if (imageType == ImageType.VMImage)
             {
-                return computeClient == null ? false : computeClient.VirtualMachineVMImages.List().VMImages.Any(
-                    e => string.Equals(e.Name, imageName, StringComparison.OrdinalIgnoreCase));
+                try
+                {
+                    result = computeClient.VirtualMachineVMImages.List().VMImages.Any(
+                        e => string.Equals(
+                            e.Name,
+                            imageName,
+                            StringComparison.OrdinalIgnoreCase));
+                }
+                catch
+                {
+                    result = false;
+                }
             }
 
-            return false;
+            return result;
         }
 
         protected void GetAzureVMImageProcess()
         {
             ServiceManagementProfile.Initialize(this);
 
-            this.ExecuteClientActionNewSM(
+            if (string.IsNullOrEmpty(this.ImageName))
+            {
+                this.ExecuteClientActionNewSM(
                     null,
                     this.CommandRuntime.ToString(),
                     () => this.ComputeClient.VirtualMachineOSImages.List(),
-                    (s, response) => response.Images.Where(t => string.IsNullOrEmpty(this.ImageName) || string.Equals(t.Name, this.ImageName, StringComparison.OrdinalIgnoreCase))
-                                                    .Select(t => this.ContextFactory<VirtualMachineOSImageListResponse.VirtualMachineOSImage, OSImageContext>(t, s)));
+                    (s, response) => response.Images.Select(
+                        t => this.ContextFactory<VirtualMachineOSImageListResponse.VirtualMachineOSImage, OSImageContext>(t, s)));
 
-            this.ExecuteClientActionNewSM(
-                null,
-                this.CommandRuntime.ToString(),
-                () => this.ComputeClient.VirtualMachineVMImages.List(),
-                (s, response) => response.VMImages.Where(t => string.IsNullOrEmpty(this.ImageName) || string.Equals(t.Name, this.ImageName, StringComparison.OrdinalIgnoreCase))
-                                                  .Select(t => this.ContextFactory<VirtualMachineVMImageListResponse.VirtualMachineVMImage, VMImageContext>(t, s)));
+                this.ExecuteClientActionNewSM(
+                    null,
+                    this.CommandRuntime.ToString(),
+                    () => this.ComputeClient.VirtualMachineVMImages.List(),
+                    (s, response) => response.VMImages.Select(
+                        t => this.ContextFactory<VirtualMachineVMImageListResponse.VirtualMachineVMImage, VMImageContext>(t, s)));
+            }
+            else
+            {
+                bool found = false;
+                var exceptions = new List<Exception>();
+
+                try
+                {
+                    this.ExecuteClientActionNewSM(
+                        null,
+                        this.CommandRuntime.ToString(),
+                        () => this.ComputeClient.VirtualMachineOSImages.Get(this.ImageName),
+                        (s, t) =>
+                        {
+                            found = true;
+                            return this.ContextFactory<VirtualMachineOSImageGetResponse, OSImageContext>(t, s);
+                        });
+                }
+                catch (Exception ex)
+                {
+                    found = false;
+                    exceptions.Add(ex);
+                }
+
+                this.ExecuteClientActionNewSM(
+                    null,
+                    this.CommandRuntime.ToString(),
+                    () => this.ComputeClient.VirtualMachineVMImages.List(),
+                    (s, response) =>
+                    {
+                        var imgs = response.VMImages.Where(
+                            t => string.Equals(
+                                t.Name,
+                                this.ImageName,
+                                StringComparison.OrdinalIgnoreCase));
+
+                        if (imgs.Any())
+                        {
+                            found = true;
+                            return imgs.Select(
+                                t => this.ContextFactory<VirtualMachineVMImageListResponse.VirtualMachineVMImage, VMImageContext>(t, s));
+                        }
+                        else
+                        {
+                            found = found || false;
+                            return null;
+                        }
+                    });
+
+                if (!found && exceptions.Any())
+                {
+                    if (exceptions.Count() == 1)
+                    {
+                        throw exceptions.FirstOrDefault();
+                    }
+                    else
+                    {
+                        throw new AggregateException(exceptions);
+                    }
+                }
+            }
         }
 
         protected override void OnProcessRecord()
