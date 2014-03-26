@@ -220,7 +220,7 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Database.Cmdlet
                 string serviceObjectiveWarning = string.Format(
                     CultureInfo.InvariantCulture,
                     Resources.SetAzureSqlDatabaseServiceObjectiveWarning,
-                    this.ConnectionContext.ServerName,
+                    serverName,
                     databaseName);
                 if (!this.ShouldContinue(
                     serviceObjectiveWarning,

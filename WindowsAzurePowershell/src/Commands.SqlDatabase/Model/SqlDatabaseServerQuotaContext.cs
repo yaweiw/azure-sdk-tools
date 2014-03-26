@@ -14,14 +14,29 @@
 
 namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Model
 {
+    /// <summary>
+    /// Represents a server quota and the operation context from which it was obtained.
+    /// </summary>
     public class SqlDatabaseServerQuotaContext : SqlDatabaseServerOperationContext
     {
+        /// <summary>
+        /// Gets or sets the name of the quota.
+        /// </summary>
         public string Name { get; set; }
 
+        /// <summary>
+        /// Gets or sets the type of the quota.
+        /// </summary>
         public string Type { get; set; }
 
+        /// <summary>
+        /// Gets or sets the state of the server quota.
+        /// </summary>
         public string State { get; set; }
 
+        /// <summary>
+        /// Gets or sets the value of the quota.  This will be the maximum for the quota.
+        /// </summary>
         public string Value { get; set; }
     }
 }
