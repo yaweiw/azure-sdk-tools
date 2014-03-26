@@ -25,7 +25,7 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.Common
     using System.Linq;
     using System.Security.Cryptography.X509Certificates;
 
-    public class RDFETestEnvironmentFactory : TestEnvironmentFactory
+    public class ServiceManagementTestEnvironmentFactory : TestEnvironmentFactory
     {
         /// <summary>
         /// The default name for a publishsettings file
@@ -44,7 +44,7 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.Common
         /// The name of an environment variable that provides the path to a publishsettings file that can provide management 
         /// credentials for these tests
         /// 
-        /// Sample: TEST_PUBLISHSETTINGS_FILE=C:\foo\bar\mypublishsettings.publishsettings
+        /// Sample: TEST_PUBLISHSETTINGS_FILE=C:\sample\path\mypublishsettings.publishsettings
         /// </summary>
         public const string TestPublishSettingsFileKey = "TEST_PUBLISHSETTINGS_FILE";
 

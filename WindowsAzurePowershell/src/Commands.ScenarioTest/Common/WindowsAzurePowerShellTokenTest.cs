@@ -39,10 +39,10 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.Common
         public WindowsAzurePowerShellTokenTest(params string[] modules)
             : base(modules)
         {
-            RDFETestEnvironmentFactory rdfeTestEnvironmentFactory = new RDFETestEnvironmentFactory();
-            TestEnvironment rdfeEnvironment = rdfeTestEnvironmentFactory.GetTestEnvironment();
-            CSMTestEnvironmentFactory csmTestEnvironmentFactory = new CSMTestEnvironmentFactory();
-            TestEnvironment csmEnvironment = csmTestEnvironmentFactory.GetTestEnvironment();
+            ServiceManagementTestEnvironmentFactory serviceManagementTestEnvironmentFactory = new ServiceManagementTestEnvironmentFactory();
+            TestEnvironment rdfeEnvironment = serviceManagementTestEnvironmentFactory.GetTestEnvironment();
+            ResourceManagerTestEnvironmentFactory resourceManagerTestEnvironmentFactory = new ResourceManagerTestEnvironmentFactory();
+            TestEnvironment csmEnvironment = resourceManagerTestEnvironmentFactory.GetTestEnvironment();
             string jwtToken = ((TokenCloudCredentials)csmEnvironment.Credentials).Token;
 
             WindowsAzureProfile.Instance.TokenProvider = new FakeAccessTokenProvider(jwtToken, csmEnvironment.UserName);
