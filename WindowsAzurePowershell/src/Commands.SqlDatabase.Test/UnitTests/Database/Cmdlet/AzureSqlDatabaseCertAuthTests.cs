@@ -178,7 +178,8 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Test.UnitTests.Database.Cm
                             @"Set-AzureSqlDatabase" +
                             @" -ServerName $serverName" +
                             @" -DatabaseName testdbcert4" +
-                            @" -MaxSizeBytes 1073741824");
+                            @" -MaxSizeBytes 1073741824" +
+                            @" -passthru");
                     });
 
                 Collection<PSObject> P1 = MockServerHelper.ExecuteWithMock(
@@ -242,8 +243,8 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Test.UnitTests.Database.Cm
                 // This unit test should be updated once that behavior get changed which was already been 
                 // created as a task.
 
-                string getOperationDbName = "testdbcertGetOperationDbName_" + Guid.NewGuid().ToString();
-                //string getOperationDbName = "testdbcertGetOperationDbName_b481bd84-a534-4efe-9c21-5127e1a5eba1";
+                //string getOperationDbName = "testdbcertGetOperationDbName_" + Guid.NewGuid().ToString();
+                string getOperationDbName = "testdbcertGetOperationDbName_f8fef831-a92e-46a0-9ed3-5f58103674fc";
                 Collection<PSObject> newOperationDbResult = MockServerHelper.ExecuteWithMock(
                     testSession,
                     MockHttpServer.DefaultHttpsServerPrefixUri,
@@ -351,7 +352,7 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Test.UnitTests.Database.Cm
                 ValidateDatabaseProperties(databases[0], "master", "System", 5, 5368709120L, "SQL_Latin1_General_CP1_CI_AS", "System", true);
                 ValidateDatabaseProperties(databases[1], "testdbcert1", "Web", 1, 1073741824L, "SQL_Latin1_General_CP1_CI_AS", "Shared", false);
                 ValidateDatabaseProperties(databases[2], "testdbcert2", "Business", 10, 10737418240L, "Japanese_CI_AS", "Shared", false);
-                ValidateDatabaseProperties(databases[3], "testdbcert4", "Web", 10, 104857600, "SQL_Latin1_General_CP1_CI_AS", "Shared", false);
+                ValidateDatabaseProperties(databases[3], "testdbcert4", "Web", 0, 104857600L, "SQL_Latin1_General_CP1_CI_AS", "Shared", false);
 
                 databases = new Database[] { getSingleDatabaseResult.Single().BaseObject as Database };
                 Assert.AreEqual(1, databases.Length, "Expecting one database");
