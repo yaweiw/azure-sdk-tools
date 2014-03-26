@@ -500,8 +500,9 @@ namespace Microsoft.Azure.Commands.ResourceManager.Models
                 providers.AddRange(ListResourceProviders());
             }
 
-            result.AddRange(providers.SelectMany(p => p.ResourceTypes.Where(r => r.Locations != null && r.Locations.Count > 0)
-                .Select(r => r.ToPSResourceProviderType(p.Namespace))));
+            result.AddRange(providers.SelectMany(p => p.ResourceTypes
+                .Select(r => r.ToPSResourceProviderType(p.Namespace)))
+                .Where(r => r.Locations != null && r.Locations.Count > 0));
 
             return result;
         }
