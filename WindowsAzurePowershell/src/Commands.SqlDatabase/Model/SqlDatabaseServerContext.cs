@@ -14,12 +14,24 @@
 
 namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Model
 {
+    /// <summary>
+    /// Represents a server and includes the operation context under which it was obtained.
+    /// </summary>
     public class SqlDatabaseServerContext : SqlDatabaseServerOperationContext
     {
+        /// <summary>
+        /// Gets or sets the administrator login for the server.
+        /// </summary>
         public string AdministratorLogin { get; set; }
 
+        /// <summary>
+        /// Gets or sets the location (region) where the server resides.  Eg: East Asia
+        /// </summary>
         public string Location { get; set; }
 
+        /// <summary>
+        /// Gets or sets the version number of the server.  Valid values are 1.0 and 2.0.
+        /// </summary>
         public string Version { get; set; }
     }
 }

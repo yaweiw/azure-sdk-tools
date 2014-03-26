@@ -103,6 +103,11 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Server.Cmdlet
             }
         }
 
+        /// <summary>
+        /// Process the get quota request using the supplied connection context.  This can be a connection
+        /// context that was created using Sql Authentication or Certificate authentication.
+        /// </summary>
+        /// <param name="quotaName"></param>
         private void ProcessWithConnectionContext(string quotaName)
         {
             try
@@ -127,6 +132,11 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Server.Cmdlet
             }
         }
 
+        /// <summary>
+        /// Process the get quota request using the supplied server name.  This will use the REST API
+        /// to make the request.
+        /// </summary>
+        /// <param name="quotaName"></param>
         private void ProcessWithServerName(string quotaName)
         {
             try
