@@ -52,7 +52,7 @@ namespace Microsoft.Azure.Commands.ResourceManager.Test
             {
                 Location = resourceGroupLocation,
                 ResourceGroupName = resourceGroupName,
-                Resources = new List<Resource>() { new Resource() { Name = "resource1" } }
+                Resources = new List<PSResource>() { new PSResource() { Name = "resource1" } }
             };
             result.Add(expected);
             resourcesClientMock.Setup(f => f.FilterResourceGroups(resourceGroupName)).Returns(result);
