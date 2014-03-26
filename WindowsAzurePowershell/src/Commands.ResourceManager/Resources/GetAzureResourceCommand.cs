@@ -43,7 +43,6 @@ namespace Microsoft.Azure.Commands.ResourceManager
         public string ResourceType { get; set; }
 
         [Parameter(ParameterSetName = ParameterSetNameWithId, Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "The name of the parent resource if needed. In the format of greatgrandpa/grandpa/dad.")]
-        [ValidateNotNullOrEmpty]
         public string ParentResource { get; set; }
 
         [Parameter(ParameterSetName = ParameterSetNameWithId, Mandatory = true, ValueFromPipelineByPropertyName = true, HelpMessage = "Version of the resource provider API.")]
