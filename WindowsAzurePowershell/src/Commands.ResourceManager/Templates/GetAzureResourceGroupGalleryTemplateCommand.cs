@@ -33,11 +33,11 @@ namespace Microsoft.Azure.Commands.ResourceManager.Templates
         [ValidateNotNullOrEmpty]
         public string Identity { get; set; }
 
-        [Parameter(Position = 1, ParameterSetName = BaseParameterSetName, Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "Optional. Publisher of the template.")]
+        [Parameter(Position = 1, ParameterSetName = BaseParameterSetName, Mandatory = false, HelpMessage = "Optional. Publisher of the template.")]
         [ValidateNotNullOrEmpty]
         public string Publisher { get; set; }
 
-        [Parameter(Position = 2, ParameterSetName = BaseParameterSetName, Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "Optional. Category of the template.")]
+        [Parameter(Position = 2, ParameterSetName = BaseParameterSetName, Mandatory = false, HelpMessage = "Optional. Category of the template.")]
         [ValidateNotNullOrEmpty]
         public string Category { get; set; }
 
