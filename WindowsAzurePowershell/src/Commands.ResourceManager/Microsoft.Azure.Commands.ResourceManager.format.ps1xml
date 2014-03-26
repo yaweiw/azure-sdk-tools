@@ -45,6 +45,10 @@
                 <PropertyName>ResourceType</PropertyName>
               </ListItem>
               <ListItem>
+                <Label>ParentResource</Label>
+                <PropertyName>ParentResource</PropertyName>
+              </ListItem>
+              <ListItem>
                 <Label>Location</Label>
                 <PropertyName>Location</PropertyName>
               </ListItem>
