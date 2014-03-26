@@ -98,11 +98,14 @@ namespace Microsoft.Azure.Commands.ResourceManager.Models
         /// <summary>
         /// Downloads a gallery template file into specific directory.
         /// </summary>
-        /// <param name="name">The gallery template file name</param>
-        /// <param name="outputPath">The output file path</param>
-        public virtual void DownloadGalleryTemplateFile(string name, string outputPath)
+        /// <param name="identity">The gallery template file identity</param>
+        /// <param name="outputPath">The file output path</param>
+        /// <param name="overwrite">Overrides existing file</param>
+        /// <param name="confirmAction">The confirmation action</param>
+        /// <returns>The file path</returns>
+        public virtual string DownloadGalleryTemplateFile(string identity, string outputPath, bool overwrite, Action<bool, string, string, string, Action> confirmAction)
         {
-            string fileUri = GetGalleryTemplateFile(name);
+            string fileUri = GetGalleryTemplateFile(identity);
             StringBuilder finalOutputPath = new StringBuilder();
             string contents = GeneralUtilities.DownloadFile(fileUri);
 
@@ -114,7 +117,7 @@ namespace Microsoft.Azure.Commands.ResourceManager.Models
 
             if (FileUtilities.IsValidDirectoryPath(outputPath))
             {
-                finalOutputPath.Append(Path.Combine(outputPath, name + ".json"));
+                finalOutputPath.Append(Path.Combine(outputPath, identity + ".json"));
             }
             else
             {
@@ -125,7 +128,23 @@ namespace Microsoft.Azure.Commands.ResourceManager.Models
                 }
             }
 
-            File.WriteAllText(finalOutputPath.ToString(), contents);
+            Action saveFile = () => File.WriteAllText(finalOutputPath.ToString(), contents);
+
+            if (File.Exists(finalOutputPath.ToString()) && confirmAction != null)
+            {
+                confirmAction(
+                    overwrite,
+                    string.Format(Resources.FileAlreadyExists, finalOutputPath.ToString()),
+                    Resources.OverrdingFile,
+                    finalOutputPath.ToString(),
+                    saveFile);
+            }
+            else
+            {
+                saveFile();
+            }
+
+            return finalOutputPath.ToString();
         }
 
         /// <summary>
@@ -286,7 +305,8 @@ namespace Microsoft.Azure.Commands.ResourceManager.Models
             RuntimeDefinedParameter runtimeParameter = new RuntimeDefinedParameter()
             {
                 // For duplicated template parameter names, add a sufix FromTemplate to distingush them from the cmdlet parameter.
-                Name = staticParameters.Any(n => n.Equals(name, StringComparison.OrdinalIgnoreCase)) ? name + duplicatedParameterSuffix : name,
+                Name = staticParameters.Any(n => n.StartsWith(name, StringComparison.OrdinalIgnoreCase)) 
+                    ? name + duplicatedParameterSuffix : name,
                 ParameterType = GetParameterType(parameter.Value.Type),
                 Value = defaultValue
             };
