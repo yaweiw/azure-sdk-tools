@@ -761,6 +761,12 @@ namespace Microsoft.Azure.Commands.ResourceManager.Test.Models
                 ResourceType = resourceIdentity.ResourceProviderNamespace + "/" + resourceIdentity.ResourceType,
             };
 
+            resourceGroupMock.Setup(f => f.CheckExistenceAsync(parameters.ResourceGroupName, new CancellationToken()))
+                .Returns(Task.Factory.StartNew(() => new ResourceGroupExistsResult
+                {
+                    Exists = true
+                }));
+
             resourceOperationsMock.Setup(f => f.GetAsync(resourceGroupName, It.IsAny<ResourceIdentity>(), It.IsAny<CancellationToken>()))
                 .Returns(() => Task.Factory.StartNew(() => new ResourceGetResult
                     {
@@ -790,6 +796,12 @@ namespace Microsoft.Azure.Commands.ResourceManager.Test.Models
             {
                 ResourceGroupName = resourceGroupName,
             };
+
+            resourceGroupMock.Setup(f => f.CheckExistenceAsync(parameters.ResourceGroupName, new CancellationToken()))
+                .Returns(Task.Factory.StartNew(() => new ResourceGroupExistsResult
+                {
+                    Exists = true
+                }));
 
             resourceOperationsMock.Setup(f => f.ListAsync(It.IsAny<ResourceListParameters>(), It.IsAny<CancellationToken>()))
                 .Returns(() => Task.Factory.StartNew(() => new ResourceListResult
@@ -833,6 +845,12 @@ namespace Microsoft.Azure.Commands.ResourceManager.Test.Models
                 ResourceGroupName = resourceGroupName,
                 ResourceType = "abc",
             };
+
+            resourceGroupMock.Setup(f => f.CheckExistenceAsync(parameters.ResourceGroupName, new CancellationToken()))
+                .Returns(Task.Factory.StartNew(() => new ResourceGroupExistsResult
+                {
+                    Exists = true
+                }));
 
             Assert.Throws<ArgumentException>(() => resourcesClient.FilterPSResources(parameters));
         }

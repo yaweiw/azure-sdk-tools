@@ -156,11 +156,28 @@ namespace Microsoft.Azure.Commands.ResourceManager.Models
         {
             List<PSResource> resources = new List<PSResource>();
 
+            if (!string.IsNullOrEmpty(parameters.ResourceGroupName))
+            {
+                if (!ResourceManagementClient.ResourceGroups.CheckExistence(parameters.ResourceGroupName).Exists)
+                {
+                    throw new ArgumentException(Resources.ResourceGroupDoesntExists);
+                }
+            }
+
             if (!string.IsNullOrEmpty(parameters.Name))
             {
                 ResourceIdentity resourceIdentity = parameters.ToResourceIdentity();
 
-                ResourceGetResult getResult = ResourceManagementClient.Resources.Get(parameters.ResourceGroupName, resourceIdentity);
+                ResourceGetResult getResult;
+
+                try
+                {
+                    getResult = ResourceManagementClient.Resources.Get(parameters.ResourceGroupName, resourceIdentity);
+                }
+                catch (CloudException)
+                {
+                    throw new ArgumentException(Resources.ResourceDoesntExists);
+                }
 
                 resources.Add(getResult.Resource.ToPSResource(this));
             }
