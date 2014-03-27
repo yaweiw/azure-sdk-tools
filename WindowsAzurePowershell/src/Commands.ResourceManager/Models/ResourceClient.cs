@@ -213,11 +213,11 @@ namespace Microsoft.Azure.Commands.ResourceManager.Models
             }
         }
 
-        private void ProvisionDeploymentStatus(string resourceGroup, string deploymentName, BasicDeployment deployment)
+        private Deployment ProvisionDeploymentStatus(string resourceGroup, string deploymentName, BasicDeployment deployment)
         {
             operations = new List<DeploymentOperation>();
 
-            WaitDeploymentStatus(
+            return WaitDeploymentStatus(
                 resourceGroup,
                 deploymentName,
                 deployment,
@@ -289,9 +289,14 @@ namespace Microsoft.Azure.Commands.ResourceManager.Models
             return errorMessage;
         }
 
-        private void WaitDeploymentStatus(string resourceGroup, string deploymentName, BasicDeployment basicDeployment, Action<string, string, BasicDeployment> job, params string[] status)
+        private Deployment WaitDeploymentStatus(
+            string resourceGroup,
+            string deploymentName,
+            BasicDeployment basicDeployment,
+            Action<string, string, BasicDeployment> job,
+            params string[] status)
         {
-            DeploymentProperties deployment = new DeploymentProperties();
+            Deployment deployment = new Deployment();
 
             do
             {
@@ -300,10 +305,12 @@ namespace Microsoft.Azure.Commands.ResourceManager.Models
                     job(resourceGroup, deploymentName, basicDeployment);
                 }
 
-                deployment = ResourceManagementClient.Deployments.Get(resourceGroup, deploymentName).Deployment.Properties;
+                deployment = ResourceManagementClient.Deployments.Get(resourceGroup, deploymentName).Deployment;
                 Thread.Sleep(2000);
 
-            } while (!status.Any(s => s.Equals(deployment.ProvisioningState, StringComparison.OrdinalIgnoreCase)));
+            } while (!status.Any(s => s.Equals(deployment.Properties.ProvisioningState, StringComparison.OrdinalIgnoreCase)));
+
+            return deployment;
         }
 
         private List<DeploymentOperation> GetNewOperations(List<DeploymentOperation> old, IList<DeploymentOperation> current)
