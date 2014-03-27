@@ -66,10 +66,12 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Test.UnitTests.Database.Cm
                     {
                         Assert.AreEqual(expected.RequestInfo.Method, actual.Method);
                         Assert.AreEqual(expected.RequestInfo.UserAgent, actual.UserAgent);
-                        if (expected.Index < 5)
+                        if (expected.Index < 10)
                         {
                             // Request 0-2: Set testdb1 with new MaxSize
-                            // Request 3-4: Get updated testdb1
+                            // Request 3-5: Set testdb2 with new MaxSize
+                            // Request 6-7: Get updated testdb1
+                            // Request 8-9: Get updated testdb2
                             DatabaseTestHelper.ValidateHeadersForODataRequest(
                                 expected.RequestInfo,
                                 actual);
@@ -83,17 +85,26 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Test.UnitTests.Database.Cm
                 using (AsyncExceptionManager exceptionManager = new AsyncExceptionManager())
                 {
                     // Create context with both ManageUrl and ServerName overriden
-                    Collection<PSObject> database;
+                    Collection<PSObject> database1,database2;
                     using (new MockHttpServer(
                         exceptionManager,
                         MockHttpServer.DefaultServerPrefixUri,
                         testSession))
                     {
-                        database = powershell.InvokeBatchScript(
+                        database1 = powershell.InvokeBatchScript(
                             @"Set-AzureSqlDatabase " +
                             @"-Context $context " +
                             @"-DatabaseName testdb1 " +
                             @"-MaxSizeGB 5 " +
+                            @"-Force " +
+                            @"-PassThru");
+
+                        // Set the database to 100MB
+                        database2 = powershell.InvokeBatchScript(
+                            @"Set-AzureSqlDatabase " +
+                            @"-Context $context " +
+                            @"-DatabaseName testdb2 " +
+                            @"-MaxSizeBytes 104857600 " +
                             @"-Force " +
                             @"-PassThru");
                     }
@@ -102,14 +113,13 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Test.UnitTests.Database.Cm
                     Assert.AreEqual(0, powershell.Streams.Warning.Count, "Warnings during run!");
                     powershell.Streams.ClearStreams();
 
-                    Assert.IsTrue(
-                        database.Single().BaseObject is Services.Server.Database,
-                        "Expecting a Database object");
-                    Services.Server.Database databaseObj =
-                        (Services.Server.Database)database.Single().BaseObject;
-                    Assert.AreEqual("testdb1", databaseObj.Name, "Expected db name to be testdb1");
-                    Assert.AreEqual("Web", databaseObj.Edition, "Expected edition to be Web");
-                    Assert.AreEqual(5, databaseObj.MaxSizeGB, "Expected max size to be 5 GB");
+                    Database database = database1.Single().BaseObject as Services.Server.Database;
+                    Assert.IsTrue(database != null, "Expecting a Database object");
+                    DatabaseTestHelper.ValidateDatabaseProperties(database, "testdb1", "Web", 5, 5368709120L, "SQL_Latin1_General_CP1_CI_AS", "Shared", false);
+
+                    database = database2.Single().BaseObject as Services.Server.Database;
+                    Assert.IsTrue(database != null, "Expecting a Database object");
+                    DatabaseTestHelper.ValidateDatabaseProperties(database, "testdb2", "Web", 0, 104857600L, "Japanese_CI_AS", "Shared", false);
                 }
             }
         }

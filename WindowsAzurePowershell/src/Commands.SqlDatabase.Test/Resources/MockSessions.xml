@@ -336,15 +336,15 @@
             </Header>
             <Header>
               <Name>AccessToken</Name>
-              <Value>OBikkOEI5xXC0zKYGwzyCGP+L9KsK77yzc16zVCQO+aG0bcCtKfVj/YgMekZW4rr5qp4LZgl17txKhA/OjGSjYGalmJSL/BhWRZUbToHbhKbZ+MZvZFkeqTQ0T3JISS33dltFK3kESRkpMI3hDqIyWUQug1ipNuCaZ7zgtHk2FISzcbzCBzA+ntzgY9lIxluhP12KjjlwaA9jYxLpxK4Ezwb5wt5+cpQBP0yzgL+vQXxIKEz9cfKJ8h7xA9BQj0bXM8dupzS2SO3veZVpB4mwATEXpFNGWbLcqz+wxwQjw/DNduolhNy8RsAqTjlvhFmYCLP6tX7Upvfy9jTTwqdTX1VQlJeJt053doy9W3ccb7f9kqV3VjaRUEv+qHiTfSs2/rU2WOerCnAg8ho36W7VSk4nW0njb+w/L5pzS6KWWGmao5fQsYqfCekedzobxjb6XgxbZlGZnbhhIZa57Dr8Jx9texJj7vMtCIp4gyEUuDw+LlH2o7i5S9vEXsQivya7O9hd8Wy2QbXOi774yw2yXP/TMEdUg9fSBVg1N9Lpt/usaDQUIpsQhHW928MWeVxBjhRI74i9b+wC+gTUQueQqf1TmkluM+jvC5l4y9ZdPPR+4784IvOdiYX/uk6LaAsz5FC4QoVgSOAHGEy2yuF02tyeOfTJeRGl8IqCWBswUBx6vui7sKeX0Am6FITP0auKwUTIHn2WDUJY9GFSqyDzqglxHzB0GGyjB/rIT3FgvgRKecMqeJHjPatpozd7FijziML+Wjlrkzt9F8TKXVfnw==</Value>
+              <Value>TtCN3gkpbRKhkeEfN+U1EpV0PjUHRAbeWEisC9yF7y08LPrb+AD2NJRNnUay4SMr4Y0MxGyeY0d9C1mSYVRx0Fpgl4wL1id/QcMRJ3ykbUuXrgDiJacq1rtxWGRFJGugaeGFdld0tBGR9z1RML7ZeMmzu9bu9dnbj+a2MEQBMo4Asup7lkPlvV4vsUPiRCEVXUI8yCa17p2O10jO56O+OYlN5alahqRqvaJiLDzlysS0aKrm6rvfKw+Z3zOH6gg81w6ePvg8mUXkfZ0nZnRnjxqSX3QAlCNOrAyuATgS/pJg8pFpPrpP064D4w1sQQ3Y6bdyBuiGoHA26rHjVpbufG1eUgZvZ1yxo4ohMVOHSBsJXriPM/5egJY9m7isyucPNIRbBzrn0v3a0RO0WNjBHqLd6m1OFm2xK0r4Qu1HxtSon84TfCBx5GKrPdoyvsww6VQ2m6qVOL95KRsJrR8wzgYPxcOE9id/LUyIWAvGG8rmYiS9ZESLGccH3xkl0ieaRkDdOB9+uRgWKncIZeXJeCRwrzpuFWDFjpj5oWFf+YhUUwroNKnGzsPn6Bv2Ou7opgc57OT0OqJ/rGBIZSgE8PMn/5Jc+5lRMIeNNY8UK80v28TZyVCUw2TPE5491lbeQsjuIqK30YwqIDasN9TYqdWCWCqI+FVoZGatImSvkSlURhVUtHgo0RsJx8TS6xCkvKhmxZ0YFANeMmZGIT1MRFSTOeYZWPyWvHCsXvltkqyo+3rGcXRYEaGPHEJYh+CX1DtrIEwmrk+wjOgxtC7nZw==</Value>
             </Header>
             <Header>
               <Name>x-ms-client-session-id</Name>
-              <Value>9773bc04-827f-4ef7-9332-fbb87ead8126-2013-06-28 18:54:39Z</Value>
+              <Value>37d9d020-eba7-4d29-a99b-990dcfae0ad7-2014-03-27 21:01:39Z</Value>
             </Header>
             <Header>
               <Name>x-ms-client-request-id</Name>
-              <Value>4ee82d3a-38f1-410c-91dd-30c2b65b9ee8-2013-06-28 18:54:59Z</Value>
+              <Value>75d1fee2-c402-4a11-a7de-ad0dac2e1c47-2014-03-27 21:02:03Z</Value>
             </Header>
             <Header>
               <Name>Accept-Charset</Name>
@@ -352,13 +352,13 @@
             </Header>
             <Header>
               <Name>Cookie</Name>
-              <Value>.SQLSERVERMANAGEMENT=Qg/HFyYw6Tjmj9aa8ZlKTA==</Value>
+              <Value>.SQLSERVERMANAGEMENT=lYe3q1IT21s+U3DcSXsQ6g==</Value>
             </Header>
           </Headers>
           <Cookies>
             <Cookie>
               <Name>.SQLSERVERMANAGEMENT</Name>
-              <Value>Qg/HFyYw6Tjmj9aa8ZlKTA==</Value>
+              <Value>lYe3q1IT21s+U3DcSXsQ6g==</Value>
               <RelativeUri i:nil="true" />
             </Cookie>
           </Cookies>
@@ -371,7 +371,7 @@
           <Headers>
             <Header>
               <Name>x-ms-request-id</Name>
-              <Value>a05c6173-81f1-d509-3e0a-824c895c11c0</Value>
+              <Value>dd0aa36b-d81f-72ff-01bb-eab96f930257</Value>
             </Header>
             <Header>
               <Name>X-Content-Type-Options</Name>
@@ -391,7 +391,7 @@
             </Header>
             <Header>
               <Name>Date</Name>
-              <Value>Fri, 28 Jun 2013 18:54:59 GMT</Value>
+              <Value>Thu, 27 Mar 2014 21:02:03 GMT</Value>
             </Header>
             <Header>
               <Name>Server</Name>
@@ -399,7 +399,7 @@
             </Header>
           </Headers>
           <Cookies />
-          <ResponseText>&lt;?xml version="1.0" encoding="utf-8"?&gt;&lt;feed xml:base="http://localhost:12345/v1/ManagementService.svc/Server2('testserver')/" xmlns="http://www.w3.org/2005/Atom" xmlns:d="http://schemas.microsoft.com/ado/2007/08/dataservices" xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata"&gt;&lt;id&gt;http://localhost:12345/v1/ManagementService.svc/Server2('testserver')/Databases&lt;/id&gt;&lt;title type="text"&gt;Databases&lt;/title&gt;&lt;updated&gt;2013-06-28T18:54:59Z&lt;/updated&gt;&lt;link rel="self" title="Databases" href="Databases" /&gt;&lt;entry&gt;&lt;id&gt;http://localhost:12345/v1/ManagementService.svc/Server2('testserver')/Databases(1)&lt;/id&gt;&lt;category term="Microsoft.SqlServer.Management.Server.Domain.Database" scheme="http://schemas.microsoft.com/ado/2007/08/dataservices/scheme" /&gt;&lt;link rel="edit" title="Database" href="Databases(1)" /&gt;&lt;link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/Server" type="application/atom+xml;type=entry" title="Server" href="Databases(1)/Server" /&gt;&lt;link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/ServiceObjective" type="application/atom+xml;type=entry" title="ServiceObjective" href="Databases(1)/ServiceObjective" /&gt;&lt;link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/DatabaseMetrics" type="application/atom+xml;type=entry" title="DatabaseMetrics" href="Databases(1)/DatabaseMetrics" /&gt;&lt;link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/DatabaseCopies" type="application/atom+xml;type=feed" title="DatabaseCopies" href="Databases(1)/DatabaseCopies" /&gt;&lt;title /&gt;&lt;updated&gt;2013-06-28T18:54:59Z&lt;/updated&gt;&lt;author&gt;&lt;name /&gt;&lt;/author&gt;&lt;content type="application/xml"&gt;&lt;m:properties&gt;&lt;d:Id m:type="Edm.Int32"&gt;1&lt;/d:Id&gt;&lt;d:Name&gt;master&lt;/d:Name&gt;&lt;d:ServiceObjectiveId m:type="Edm.Guid"&gt;a45fea0c-e63c-4bf0-9f81-9964c86b7d2a&lt;/d:ServiceObjectiveId&gt;&lt;d:AssignedServiceObjectiveId m:type="Edm.Guid"&gt;a45fea0c-e63c-4bf0-9f81-9964c86b7d2a&lt;/d:AssignedServiceObjectiveId&gt;&lt;d:ServiceObjectiveAssignmentState m:type="Edm.Byte"&gt;1&lt;/d:ServiceObjectiveAssignmentState&gt;&lt;d:ServiceObjectiveAssignmentStateDescription&gt;Complete&lt;/d:ServiceObjectiveAssignmentStateDescription&gt;&lt;d:ServiceObjectiveAssignmentErrorCode m:type="Edm.Int32"&gt;0&lt;/d:ServiceObjectiveAssignmentErrorCode&gt;&lt;d:ServiceObjectiveAssignmentErrorDescription m:null="true" /&gt;&lt;d:ServiceObjectiveAssignmentSuccessDate m:type="Edm.DateTime"&gt;2013-06-28T18:38:34.18&lt;/d:ServiceObjectiveAssignmentSuccessDate&gt;&lt;d:Edition&gt;Web&lt;/d:Edition&gt;&lt;d:MaxSizeGB m:type="Edm.Int32"&gt;5&lt;/d:MaxSizeGB&gt;&lt;d:MaxSizeBytes m:type="Edm.Int64"&gt;5368709120&lt;/d:MaxSizeBytes&gt;&lt;d:CollationName&gt;SQL_Latin1_General_CP1_CI_AS&lt;/d:CollationName&gt;&lt;d:CreationDate m:type="Edm.DateTime"&gt;2013-06-28T11:38:32.23&lt;/d:CreationDate&gt;&lt;d:RecoveryPeriodStartDate m:type="Edm.DateTime"&gt;2013-06-28T18:38:32.23Z&lt;/d:RecoveryPeriodStartDate&gt;&lt;d:IsSystemObject m:type="Edm.Boolean"&gt;true&lt;/d:IsSystemObject&gt;&lt;d:Status m:type="Edm.Int32"&gt;1&lt;/d:Status&gt;&lt;d:IsFederationRoot m:type="Edm.Boolean"&gt;false&lt;/d:IsFederationRoot&gt;&lt;d:SizeMB m:type="Edm.Decimal"&gt;-1.00&lt;/d:SizeMB&gt;&lt;d:IsRecursiveTriggersOn m:type="Edm.Boolean"&gt;false&lt;/d:IsRecursiveTriggersOn&gt;&lt;d:IsReadOnly m:type="Edm.Boolean"&gt;false&lt;/d:IsReadOnly&gt;&lt;d:IsFederationMember m:type="Edm.Boolean"&gt;false&lt;/d:IsFederationMember&gt;&lt;d:IsQueryStoreOn m:type="Edm.Boolean"&gt;false&lt;/d:IsQueryStoreOn&gt;&lt;d:IsQueryStoreReadOnly m:type="Edm.Boolean" m:null="true" /&gt;&lt;d:QueryStoreMaxSizeMB m:type="Edm.Int32" m:null="true" /&gt;&lt;d:QueryStoreFlushPeriodSeconds m:type="Edm.Int32" m:null="true" /&gt;&lt;d:QueryStoreIntervalLengthMinutes m:type="Edm.Int32" m:null="true" /&gt;&lt;d:QueryStoreClearAll m:type="Edm.Boolean" m:null="true" /&gt;&lt;/m:properties&gt;&lt;/content&gt;&lt;/entry&gt;&lt;entry&gt;&lt;id&gt;http://localhost:12345/v1/ManagementService.svc/Server2('testserver')/Databases(4)&lt;/id&gt;&lt;category term="Microsoft.SqlServer.Management.Server.Domain.Database" scheme="http://schemas.microsoft.com/ado/2007/08/dataservices/scheme" /&gt;&lt;link rel="edit" title="Database" href="Databases(4)" /&gt;&lt;link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/Server" type="application/atom+xml;type=entry" title="Server" href="Databases(4)/Server" /&gt;&lt;link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/ServiceObjective" type="application/atom+xml;type=entry" title="ServiceObjective" href="Databases(4)/ServiceObjective" /&gt;&lt;link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/DatabaseMetrics" type="application/atom+xml;type=entry" title="DatabaseMetrics" href="Databases(4)/DatabaseMetrics" /&gt;&lt;link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/DatabaseCopies" type="application/atom+xml;type=feed" title="DatabaseCopies" href="Databases(4)/DatabaseCopies" /&gt;&lt;title /&gt;&lt;updated&gt;2013-06-28T18:54:59Z&lt;/updated&gt;&lt;author&gt;&lt;name /&gt;&lt;/author&gt;&lt;content type="application/xml"&gt;&lt;m:properties&gt;&lt;d:Id m:type="Edm.Int32"&gt;4&lt;/d:Id&gt;&lt;d:Name&gt;testdb1&lt;/d:Name&gt;&lt;d:ServiceObjectiveId m:type="Edm.Guid"&gt;910b4fcb-8a29-4c3e-958f-f7ba794388b2&lt;/d:ServiceObjectiveId&gt;&lt;d:AssignedServiceObjectiveId m:type="Edm.Guid"&gt;910b4fcb-8a29-4c3e-958f-f7ba794388b2&lt;/d:AssignedServiceObjectiveId&gt;&lt;d:ServiceObjectiveAssignmentState m:type="Edm.Byte"&gt;1&lt;/d:ServiceObjectiveAssignmentState&gt;&lt;d:ServiceObjectiveAssignmentStateDescription&gt;Complete&lt;/d:ServiceObjectiveAssignmentStateDescription&gt;&lt;d:ServiceObjectiveAssignmentErrorCode m:type="Edm.Int32"&gt;0&lt;/d:ServiceObjectiveAssignmentErrorCode&gt;&lt;d:ServiceObjectiveAssignmentErrorDescription m:null="true" /&gt;&lt;d:ServiceObjectiveAssignmentSuccessDate m:type="Edm.DateTime"&gt;2013-06-28T18:54:58.693&lt;/d:ServiceObjectiveAssignmentSuccessDate&gt;&lt;d:Edition&gt;Web&lt;/d:Edition&gt;&lt;d:MaxSizeGB m:type="Edm.Int32"&gt;1&lt;/d:MaxSizeGB&gt;&lt;d:MaxSizeBytes m:type="Edm.Int64"&gt;1073741824&lt;/d:MaxSizeBytes&gt;&lt;d:CollationName&gt;SQL_Latin1_General_CP1_CI_AS&lt;/d:CollationName&gt;&lt;d:CreationDate m:type="Edm.DateTime"&gt;2013-06-28T11:54:57.96&lt;/d:CreationDate&gt;&lt;d:RecoveryPeriodStartDate m:type="Edm.DateTime"&gt;2013-06-28T18:54:57.96Z&lt;/d:RecoveryPeriodStartDate&gt;&lt;d:IsSystemObject m:type="Edm.Boolean"&gt;false&lt;/d:IsSystemObject&gt;&lt;d:Status m:type="Edm.Int32"&gt;1&lt;/d:Status&gt;&lt;d:IsFederationRoot m:type="Edm.Boolean"&gt;false&lt;/d:IsFederationRoot&gt;&lt;d:SizeMB m:type="Edm.Decimal"&gt;-1.00&lt;/d:SizeMB&gt;&lt;d:IsRecursiveTriggersOn m:type="Edm.Boolean"&gt;false&lt;/d:IsRecursiveTriggersOn&gt;&lt;d:IsReadOnly m:type="Edm.Boolean"&gt;false&lt;/d:IsReadOnly&gt;&lt;d:IsFederationMember m:type="Edm.Boolean"&gt;false&lt;/d:IsFederationMember&gt;&lt;d:IsQueryStoreOn m:type="Edm.Boolean"&gt;false&lt;/d:IsQueryStoreOn&gt;&lt;d:IsQueryStoreReadOnly m:type="Edm.Boolean" m:null="true" /&gt;&lt;d:QueryStoreMaxSizeMB m:type="Edm.Int32" m:null="true" /&gt;&lt;d:QueryStoreFlushPeriodSeconds m:type="Edm.Int32" m:null="true" /&gt;&lt;d:QueryStoreIntervalLengthMinutes m:type="Edm.Int32" m:null="true" /&gt;&lt;d:QueryStoreClearAll m:type="Edm.Boolean" m:null="true" /&gt;&lt;/m:properties&gt;&lt;/content&gt;&lt;/entry&gt;&lt;entry&gt;&lt;id&gt;http://localhost:12345/v1/ManagementService.svc/Server2('testserver')/Databases(5)&lt;/id&gt;&lt;category term="Microsoft.SqlServer.Management.Server.Domain.Database" scheme="http://schemas.microsoft.com/ado/2007/08/dataservices/scheme" /&gt;&lt;link rel="edit" title="Database" href="Databases(5)" /&gt;&lt;link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/Server" type="application/atom+xml;type=entry" title="Server" href="Databases(5)/Server" /&gt;&lt;link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/ServiceObjective" type="application/atom+xml;type=entry" title="ServiceObjective" href="Databases(5)/ServiceObjective" /&gt;&lt;link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/DatabaseMetrics" type="application/atom+xml;type=entry" title="DatabaseMetrics" href="Databases(5)/DatabaseMetrics" /&gt;&lt;link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/DatabaseCopies" type="application/atom+xml;type=feed" title="DatabaseCopies" href="Databases(5)/DatabaseCopies" /&gt;&lt;title /&gt;&lt;updated&gt;2013-06-28T18:54:59Z&lt;/updated&gt;&lt;author&gt;&lt;name /&gt;&lt;/author&gt;&lt;content type="application/xml"&gt;&lt;m:properties&gt;&lt;d:Id m:type="Edm.Int32"&gt;5&lt;/d:Id&gt;&lt;d:Name&gt;testdb2&lt;/d:Name&gt;&lt;d:ServiceObjectiveId m:type="Edm.Guid"&gt;910b4fcb-8a29-4c3e-958f-f7ba794388b2&lt;/d:ServiceObjectiveId&gt;&lt;d:AssignedServiceObjectiveId m:type="Edm.Guid"&gt;910b4fcb-8a29-4c3e-958f-f7ba794388b2&lt;/d:AssignedServiceObjectiveId&gt;&lt;d:ServiceObjectiveAssignmentState m:type="Edm.Byte"&gt;1&lt;/d:ServiceObjectiveAssignmentState&gt;&lt;d:ServiceObjectiveAssignmentStateDescription&gt;Complete&lt;/d:ServiceObjectiveAssignmentStateDescription&gt;&lt;d:ServiceObjectiveAssignmentErrorCode m:type="Edm.Int32"&gt;0&lt;/d:ServiceObjectiveAssignmentErrorCode&gt;&lt;d:ServiceObjectiveAssignmentErrorDescription m:null="true" /&gt;&lt;d:ServiceObjectiveAssignmentSuccessDate m:type="Edm.DateTime"&gt;2013-06-28T18:54:59.583&lt;/d:ServiceObjectiveAssignmentSuccessDate&gt;&lt;d:Edition&gt;Web&lt;/d:Edition&gt;&lt;d:MaxSizeGB m:type="Edm.Int32"&gt;5&lt;/d:MaxSizeGB&gt;&lt;d:MaxSizeBytes m:type="Edm.Int64"&gt;5368709120&lt;/d:MaxSizeBytes&gt;&lt;d:CollationName&gt;Japanese_CI_AS&lt;/d:CollationName&gt;&lt;d:CreationDate m:type="Edm.DateTime"&gt;2013-06-28T11:54:58.857&lt;/d:CreationDate&gt;&lt;d:RecoveryPeriodStartDate m:type="Edm.DateTime"&gt;2013-06-28T18:54:58.857Z&lt;/d:RecoveryPeriodStartDate&gt;&lt;d:IsSystemObject m:type="Edm.Boolean"&gt;false&lt;/d:IsSystemObject&gt;&lt;d:Status m:type="Edm.Int32"&gt;1&lt;/d:Status&gt;&lt;d:IsFederationRoot m:type="Edm.Boolean"&gt;false&lt;/d:IsFederationRoot&gt;&lt;d:SizeMB m:type="Edm.Decimal"&gt;-1.00&lt;/d:SizeMB&gt;&lt;d:IsRecursiveTriggersOn m:type="Edm.Boolean"&gt;false&lt;/d:IsRecursiveTriggersOn&gt;&lt;d:IsReadOnly m:type="Edm.Boolean"&gt;false&lt;/d:IsReadOnly&gt;&lt;d:IsFederationMember m:type="Edm.Boolean"&gt;false&lt;/d:IsFederationMember&gt;&lt;d:IsQueryStoreOn m:type="Edm.Boolean"&gt;false&lt;/d:IsQueryStoreOn&gt;&lt;d:IsQueryStoreReadOnly m:type="Edm.Boolean" m:null="true" /&gt;&lt;d:QueryStoreMaxSizeMB m:type="Edm.Int32" m:null="true" /&gt;&lt;d:QueryStoreFlushPeriodSeconds m:type="Edm.Int32" m:null="true" /&gt;&lt;d:QueryStoreIntervalLengthMinutes m:type="Edm.Int32" m:null="true" /&gt;&lt;d:QueryStoreClearAll m:type="Edm.Boolean" m:null="true" /&gt;&lt;/m:properties&gt;&lt;/content&gt;&lt;/entry&gt;&lt;/feed&gt;</ResponseText>
+          <ResponseText>&lt;?xml version="1.0" encoding="utf-8"?&gt;&lt;feed xml:base="http://localhost:12345/v1/ManagementService.svc/Server2('testserver')/" xmlns="http://www.w3.org/2005/Atom" xmlns:d="http://schemas.microsoft.com/ado/2007/08/dataservices" xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata"&gt;&lt;id&gt;http://localhost:12345/v1/ManagementService.svc/Server2('testserver')/Databases&lt;/id&gt;&lt;title type="text"&gt;Databases&lt;/title&gt;&lt;updated&gt;2014-03-27T21:02:03Z&lt;/updated&gt;&lt;link rel="self" title="Databases" href="Databases" /&gt;&lt;entry&gt;&lt;id&gt;http://localhost:12345/v1/ManagementService.svc/Server2('testserver')/Databases(1)&lt;/id&gt;&lt;category term="Microsoft.SqlServer.Management.Server.Domain.Database" scheme="http://schemas.microsoft.com/ado/2007/08/dataservices/scheme" /&gt;&lt;link rel="edit" title="Database" href="Databases(1)" /&gt;&lt;link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/Server" type="application/atom+xml;type=entry" title="Server" href="Databases(1)/Server" /&gt;&lt;link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/ServiceObjective" type="application/atom+xml;type=entry" title="ServiceObjective" href="Databases(1)/ServiceObjective" /&gt;&lt;link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/DatabaseMetrics" type="application/atom+xml;type=entry" title="DatabaseMetrics" href="Databases(1)/DatabaseMetrics" /&gt;&lt;link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/DatabaseCopies" type="application/atom+xml;type=feed" title="DatabaseCopies" href="Databases(1)/DatabaseCopies" /&gt;&lt;title /&gt;&lt;updated&gt;2014-03-27T21:02:03Z&lt;/updated&gt;&lt;author&gt;&lt;name /&gt;&lt;/author&gt;&lt;content type="application/xml"&gt;&lt;m:properties&gt;&lt;d:Id m:type="Edm.Int32"&gt;1&lt;/d:Id&gt;&lt;d:Name&gt;master&lt;/d:Name&gt;&lt;d:ServiceObjectiveId m:type="Edm.Guid"&gt;26e021db-f1f9-4c98-84c6-92af8ef433d7&lt;/d:ServiceObjectiveId&gt;&lt;d:AssignedServiceObjectiveId m:type="Edm.Guid"&gt;26e021db-f1f9-4c98-84c6-92af8ef433d7&lt;/d:AssignedServiceObjectiveId&gt;&lt;d:ServiceObjectiveAssignmentState m:type="Edm.Byte"&gt;1&lt;/d:ServiceObjectiveAssignmentState&gt;&lt;d:ServiceObjectiveAssignmentStateDescription&gt;Complete&lt;/d:ServiceObjectiveAssignmentStateDescription&gt;&lt;d:ServiceObjectiveAssignmentErrorCode m:type="Edm.Int32"&gt;0&lt;/d:ServiceObjectiveAssignmentErrorCode&gt;&lt;d:ServiceObjectiveAssignmentErrorDescription m:null="true" /&gt;&lt;d:ServiceObjectiveAssignmentSuccessDate m:type="Edm.DateTime"&gt;2014-03-26T20:35:16.2&lt;/d:ServiceObjectiveAssignmentSuccessDate&gt;&lt;d:Edition&gt;System&lt;/d:Edition&gt;&lt;d:MaxSizeGB m:type="Edm.Int32"&gt;5&lt;/d:MaxSizeGB&gt;&lt;d:MaxSizeBytes m:type="Edm.Int64"&gt;5368709120&lt;/d:MaxSizeBytes&gt;&lt;d:CollationName&gt;SQL_Latin1_General_CP1_CI_AS&lt;/d:CollationName&gt;&lt;d:CreationDate m:type="Edm.DateTime"&gt;2014-03-26T13:34:55.96&lt;/d:CreationDate&gt;&lt;d:RecoveryPeriodStartDate m:type="Edm.DateTime" m:null="true" /&gt;&lt;d:IsSystemObject m:type="Edm.Boolean"&gt;true&lt;/d:IsSystemObject&gt;&lt;d:Status m:type="Edm.Int32"&gt;1&lt;/d:Status&gt;&lt;d:IsFederationRoot m:type="Edm.Boolean"&gt;false&lt;/d:IsFederationRoot&gt;&lt;d:SizeMB m:type="Edm.Decimal"&gt;-1.00&lt;/d:SizeMB&gt;&lt;d:IsRecursiveTriggersOn m:type="Edm.Boolean"&gt;false&lt;/d:IsRecursiveTriggersOn&gt;&lt;d:IsReadOnly m:type="Edm.Boolean"&gt;false&lt;/d:IsReadOnly&gt;&lt;d:IsFederationMember m:type="Edm.Boolean"&gt;false&lt;/d:IsFederationMember&gt;&lt;d:IsQueryStoreOn m:type="Edm.Boolean"&gt;false&lt;/d:IsQueryStoreOn&gt;&lt;d:IsQueryStoreReadOnly m:type="Edm.Boolean" m:null="true" /&gt;&lt;d:QueryStoreMaxSizeMB m:type="Edm.Int32" m:null="true" /&gt;&lt;d:QueryStoreFlushPeriodSeconds m:type="Edm.Int32" m:null="true" /&gt;&lt;d:QueryStoreIntervalLengthMinutes m:type="Edm.Int32" m:null="true" /&gt;&lt;d:QueryStoreClearAll m:type="Edm.Boolean" m:null="true" /&gt;&lt;d:QueryStoreStaleQueryThresholdDays m:type="Edm.Int32" m:null="true" /&gt;&lt;d:IsSuspended m:type="Edm.Boolean"&gt;false&lt;/d:IsSuspended&gt;&lt;/m:properties&gt;&lt;/content&gt;&lt;/entry&gt;&lt;entry&gt;&lt;id&gt;http://localhost:12345/v1/ManagementService.svc/Server2('testserver')/Databases(4)&lt;/id&gt;&lt;category term="Microsoft.SqlServer.Management.Server.Domain.Database" scheme="http://schemas.microsoft.com/ado/2007/08/dataservices/scheme" /&gt;&lt;link rel="edit" title="Database" href="Databases(4)" /&gt;&lt;link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/Server" type="application/atom+xml;type=entry" title="Server" href="Databases(4)/Server" /&gt;&lt;link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/ServiceObjective" type="application/atom+xml;type=entry" title="ServiceObjective" href="Databases(4)/ServiceObjective" /&gt;&lt;link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/DatabaseMetrics" type="application/atom+xml;type=entry" title="DatabaseMetrics" href="Databases(4)/DatabaseMetrics" /&gt;&lt;link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/DatabaseCopies" type="application/atom+xml;type=feed" title="DatabaseCopies" href="Databases(4)/DatabaseCopies" /&gt;&lt;title /&gt;&lt;updated&gt;2014-03-27T21:02:03Z&lt;/updated&gt;&lt;author&gt;&lt;name /&gt;&lt;/author&gt;&lt;content type="application/xml"&gt;&lt;m:properties&gt;&lt;d:Id m:type="Edm.Int32"&gt;4&lt;/d:Id&gt;&lt;d:Name&gt;testdb1&lt;/d:Name&gt;&lt;d:ServiceObjectiveId m:type="Edm.Guid"&gt;910b4fcb-8a29-4c3e-958f-f7ba794388b2&lt;/d:ServiceObjectiveId&gt;&lt;d:AssignedServiceObjectiveId m:type="Edm.Guid"&gt;910b4fcb-8a29-4c3e-958f-f7ba794388b2&lt;/d:AssignedServiceObjectiveId&gt;&lt;d:ServiceObjectiveAssignmentState m:type="Edm.Byte"&gt;1&lt;/d:ServiceObjectiveAssignmentState&gt;&lt;d:ServiceObjectiveAssignmentStateDescription&gt;Complete&lt;/d:ServiceObjectiveAssignmentStateDescription&gt;&lt;d:ServiceObjectiveAssignmentErrorCode m:type="Edm.Int32"&gt;0&lt;/d:ServiceObjectiveAssignmentErrorCode&gt;&lt;d:ServiceObjectiveAssignmentErrorDescription m:null="true" /&gt;&lt;d:ServiceObjectiveAssignmentSuccessDate m:type="Edm.DateTime"&gt;2014-03-27T21:01:43.037&lt;/d:ServiceObjectiveAssignmentSuccessDate&gt;&lt;d:Edition&gt;Web&lt;/d:Edition&gt;&lt;d:MaxSizeGB m:type="Edm.Int32"&gt;1&lt;/d:MaxSizeGB&gt;&lt;d:MaxSizeBytes m:type="Edm.Int64"&gt;1073741824&lt;/d:MaxSizeBytes&gt;&lt;d:CollationName&gt;SQL_Latin1_General_CP1_CI_AS&lt;/d:CollationName&gt;&lt;d:CreationDate m:type="Edm.DateTime"&gt;2014-03-27T14:01:40.517&lt;/d:CreationDate&gt;&lt;d:RecoveryPeriodStartDate m:type="Edm.DateTime"&gt;2014-03-27T21:02:40.07Z&lt;/d:RecoveryPeriodStartDate&gt;&lt;d:IsSystemObject m:type="Edm.Boolean"&gt;false&lt;/d:IsSystemObject&gt;&lt;d:Status m:type="Edm.Int32"&gt;1&lt;/d:Status&gt;&lt;d:IsFederationRoot m:type="Edm.Boolean"&gt;false&lt;/d:IsFederationRoot&gt;&lt;d:SizeMB m:type="Edm.Decimal"&gt;2.44&lt;/d:SizeMB&gt;&lt;d:IsRecursiveTriggersOn m:type="Edm.Boolean"&gt;false&lt;/d:IsRecursiveTriggersOn&gt;&lt;d:IsReadOnly m:type="Edm.Boolean"&gt;false&lt;/d:IsReadOnly&gt;&lt;d:IsFederationMember m:type="Edm.Boolean"&gt;false&lt;/d:IsFederationMember&gt;&lt;d:IsQueryStoreOn m:type="Edm.Boolean"&gt;false&lt;/d:IsQueryStoreOn&gt;&lt;d:IsQueryStoreReadOnly m:type="Edm.Boolean" m:null="true" /&gt;&lt;d:QueryStoreMaxSizeMB m:type="Edm.Int32" m:null="true" /&gt;&lt;d:QueryStoreFlushPeriodSeconds m:type="Edm.Int32" m:null="true" /&gt;&lt;d:QueryStoreIntervalLengthMinutes m:type="Edm.Int32" m:null="true" /&gt;&lt;d:QueryStoreClearAll m:type="Edm.Boolean" m:null="true" /&gt;&lt;d:QueryStoreStaleQueryThresholdDays m:type="Edm.Int32" m:null="true" /&gt;&lt;d:IsSuspended m:type="Edm.Boolean"&gt;false&lt;/d:IsSuspended&gt;&lt;/m:properties&gt;&lt;/content&gt;&lt;/entry&gt;&lt;entry&gt;&lt;id&gt;http://localhost:12345/v1/ManagementService.svc/Server2('testserver')/Databases(5)&lt;/id&gt;&lt;category term="Microsoft.SqlServer.Management.Server.Domain.Database" scheme="http://schemas.microsoft.com/ado/2007/08/dataservices/scheme" /&gt;&lt;link rel="edit" title="Database" href="Databases(5)" /&gt;&lt;link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/Server" type="application/atom+xml;type=entry" title="Server" href="Databases(5)/Server" /&gt;&lt;link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/ServiceObjective" type="application/atom+xml;type=entry" title="ServiceObjective" href="Databases(5)/ServiceObjective" /&gt;&lt;link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/DatabaseMetrics" type="application/atom+xml;type=entry" title="DatabaseMetrics" href="Databases(5)/DatabaseMetrics" /&gt;&lt;link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/DatabaseCopies" type="application/atom+xml;type=feed" title="DatabaseCopies" href="Databases(5)/DatabaseCopies" /&gt;&lt;title /&gt;&lt;updated&gt;2014-03-27T21:02:03Z&lt;/updated&gt;&lt;author&gt;&lt;name /&gt;&lt;/author&gt;&lt;content type="application/xml"&gt;&lt;m:properties&gt;&lt;d:Id m:type="Edm.Int32"&gt;5&lt;/d:Id&gt;&lt;d:Name&gt;testdb2&lt;/d:Name&gt;&lt;d:ServiceObjectiveId m:type="Edm.Guid"&gt;910b4fcb-8a29-4c3e-958f-f7ba794388b2&lt;/d:ServiceObjectiveId&gt;&lt;d:AssignedServiceObjectiveId m:type="Edm.Guid"&gt;910b4fcb-8a29-4c3e-958f-f7ba794388b2&lt;/d:AssignedServiceObjectiveId&gt;&lt;d:ServiceObjectiveAssignmentState m:type="Edm.Byte"&gt;1&lt;/d:ServiceObjectiveAssignmentState&gt;&lt;d:ServiceObjectiveAssignmentStateDescription&gt;Complete&lt;/d:ServiceObjectiveAssignmentStateDescription&gt;&lt;d:ServiceObjectiveAssignmentErrorCode m:type="Edm.Int32"&gt;0&lt;/d:ServiceObjectiveAssignmentErrorCode&gt;&lt;d:ServiceObjectiveAssignmentErrorDescription m:null="true" /&gt;&lt;d:ServiceObjectiveAssignmentSuccessDate m:type="Edm.DateTime"&gt;2014-03-27T21:01:54.303&lt;/d:ServiceObjectiveAssignmentSuccessDate&gt;&lt;d:Edition&gt;Web&lt;/d:Edition&gt;&lt;d:MaxSizeGB m:type="Edm.Int32"&gt;5&lt;/d:MaxSizeGB&gt;&lt;d:MaxSizeBytes m:type="Edm.Int64"&gt;5368709120&lt;/d:MaxSizeBytes&gt;&lt;d:CollationName&gt;Japanese_CI_AS&lt;/d:CollationName&gt;&lt;d:CreationDate m:type="Edm.DateTime"&gt;2014-03-27T14:01:46.477&lt;/d:CreationDate&gt;&lt;d:RecoveryPeriodStartDate m:type="Edm.DateTime"&gt;2014-03-27T21:02:44.99Z&lt;/d:RecoveryPeriodStartDate&gt;&lt;d:IsSystemObject m:type="Edm.Boolean"&gt;false&lt;/d:IsSystemObject&gt;&lt;d:Status m:type="Edm.Int32"&gt;1&lt;/d:Status&gt;&lt;d:IsFederationRoot m:type="Edm.Boolean"&gt;false&lt;/d:IsFederationRoot&gt;&lt;d:SizeMB m:type="Edm.Decimal"&gt;2.50&lt;/d:SizeMB&gt;&lt;d:IsRecursiveTriggersOn m:type="Edm.Boolean"&gt;false&lt;/d:IsRecursiveTriggersOn&gt;&lt;d:IsReadOnly m:type="Edm.Boolean"&gt;false&lt;/d:IsReadOnly&gt;&lt;d:IsFederationMember m:type="Edm.Boolean"&gt;false&lt;/d:IsFederationMember&gt;&lt;d:IsQueryStoreOn m:type="Edm.Boolean"&gt;false&lt;/d:IsQueryStoreOn&gt;&lt;d:IsQueryStoreReadOnly m:type="Edm.Boolean" m:null="true" /&gt;&lt;d:QueryStoreMaxSizeMB m:type="Edm.Int32" m:null="true" /&gt;&lt;d:QueryStoreFlushPeriodSeconds m:type="Edm.Int32" m:null="true" /&gt;&lt;d:QueryStoreIntervalLengthMinutes m:type="Edm.Int32" m:null="true" /&gt;&lt;d:QueryStoreClearAll m:type="Edm.Boolean" m:null="true" /&gt;&lt;d:QueryStoreStaleQueryThresholdDays m:type="Edm.Int32" m:null="true" /&gt;&lt;d:IsSuspended m:type="Edm.Boolean"&gt;false&lt;/d:IsSuspended&gt;&lt;/m:properties&gt;&lt;/content&gt;&lt;/entry&gt;&lt;entry&gt;&lt;id&gt;http://localhost:12345/v1/ManagementService.svc/Server2('testserver')/Databases(6)&lt;/id&gt;&lt;category term="Microsoft.SqlServer.Management.Server.Domain.Database" scheme="http://schemas.microsoft.com/ado/2007/08/dataservices/scheme" /&gt;&lt;link rel="edit" title="Database" href="Databases(6)" /&gt;&lt;link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/Server" type="application/atom+xml;type=entry" title="Server" href="Databases(6)/Server" /&gt;&lt;link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/ServiceObjective" type="application/atom+xml;type=entry" title="ServiceObjective" href="Databases(6)/ServiceObjective" /&gt;&lt;link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/DatabaseMetrics" type="application/atom+xml;type=entry" title="DatabaseMetrics" href="Databases(6)/DatabaseMetrics" /&gt;&lt;link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/DatabaseCopies" type="application/atom+xml;type=feed" title="DatabaseCopies" href="Databases(6)/DatabaseCopies" /&gt;&lt;title /&gt;&lt;updated&gt;2014-03-27T21:02:03Z&lt;/updated&gt;&lt;author&gt;&lt;name /&gt;&lt;/author&gt;&lt;content type="application/xml"&gt;&lt;m:properties&gt;&lt;d:Id m:type="Edm.Int32"&gt;6&lt;/d:Id&gt;&lt;d:Name&gt;testdb3&lt;/d:Name&gt;&lt;d:ServiceObjectiveId m:type="Edm.Guid"&gt;910b4fcb-8a29-4c3e-958f-f7ba794388b2&lt;/d:ServiceObjectiveId&gt;&lt;d:AssignedServiceObjectiveId m:type="Edm.Guid"&gt;910b4fcb-8a29-4c3e-958f-f7ba794388b2&lt;/d:AssignedServiceObjectiveId&gt;&lt;d:ServiceObjectiveAssignmentState m:type="Edm.Byte"&gt;1&lt;/d:ServiceObjectiveAssignmentState&gt;&lt;d:ServiceObjectiveAssignmentStateDescription&gt;Complete&lt;/d:ServiceObjectiveAssignmentStateDescription&gt;&lt;d:ServiceObjectiveAssignmentErrorCode m:type="Edm.Int32"&gt;0&lt;/d:ServiceObjectiveAssignmentErrorCode&gt;&lt;d:ServiceObjectiveAssignmentErrorDescription m:null="true" /&gt;&lt;d:ServiceObjectiveAssignmentSuccessDate m:type="Edm.DateTime"&gt;2014-03-27T21:02:01.303&lt;/d:ServiceObjectiveAssignmentSuccessDate&gt;&lt;d:Edition&gt;Web&lt;/d:Edition&gt;&lt;d:MaxSizeGB m:type="Edm.Int32"&gt;0&lt;/d:MaxSizeGB&gt;&lt;d:MaxSizeBytes m:type="Edm.Int64"&gt;104857600&lt;/d:MaxSizeBytes&gt;&lt;d:CollationName&gt;SQL_Latin1_General_CP1_CI_AS&lt;/d:CollationName&gt;&lt;d:CreationDate m:type="Edm.DateTime"&gt;2014-03-27T14:01:58.89&lt;/d:CreationDate&gt;&lt;d:RecoveryPeriodStartDate m:type="Edm.DateTime"&gt;2014-03-27T21:02:58.147Z&lt;/d:RecoveryPeriodStartDate&gt;&lt;d:IsSystemObject m:type="Edm.Boolean"&gt;false&lt;/d:IsSystemObject&gt;&lt;d:Status m:type="Edm.Int32"&gt;1&lt;/d:Status&gt;&lt;d:IsFederationRoot m:type="Edm.Boolean"&gt;false&lt;/d:IsFederationRoot&gt;&lt;d:SizeMB m:type="Edm.Decimal"&gt;2.50&lt;/d:SizeMB&gt;&lt;d:IsRecursiveTriggersOn m:type="Edm.Boolean"&gt;false&lt;/d:IsRecursiveTriggersOn&gt;&lt;d:IsReadOnly m:type="Edm.Boolean"&gt;false&lt;/d:IsReadOnly&gt;&lt;d:IsFederationMember m:type="Edm.Boolean"&gt;false&lt;/d:IsFederationMember&gt;&lt;d:IsQueryStoreOn m:type="Edm.Boolean"&gt;false&lt;/d:IsQueryStoreOn&gt;&lt;d:IsQueryStoreReadOnly m:type="Edm.Boolean" m:null="true" /&gt;&lt;d:QueryStoreMaxSizeMB m:type="Edm.Int32" m:null="true" /&gt;&lt;d:QueryStoreFlushPeriodSeconds m:type="Edm.Int32" m:null="true" /&gt;&lt;d:QueryStoreIntervalLengthMinutes m:type="Edm.Int32" m:null="true" /&gt;&lt;d:QueryStoreClearAll m:type="Edm.Boolean" m:null="true" /&gt;&lt;d:QueryStoreStaleQueryThresholdDays m:type="Edm.Int32" m:null="true" /&gt;&lt;d:IsSuspended m:type="Edm.Boolean"&gt;false&lt;/d:IsSuspended&gt;&lt;/m:properties&gt;&lt;/content&gt;&lt;/entry&gt;&lt;/feed&gt;</ResponseText>
         </ResponseInfo>
       </HttpMessage>
       <HttpMessage>
@@ -419,15 +419,15 @@
             </Header>
             <Header>
               <Name>AccessToken</Name>
-              <Value>OBikkOEI5xXC0zKYGwzyCGP+L9KsK77yzc16zVCQO+aG0bcCtKfVj/YgMekZW4rr5qp4LZgl17txKhA/OjGSjYGalmJSL/BhWRZUbToHbhKbZ+MZvZFkeqTQ0T3JISS33dltFK3kESRkpMI3hDqIyWUQug1ipNuCaZ7zgtHk2FISzcbzCBzA+ntzgY9lIxluhP12KjjlwaA9jYxLpxK4Ezwb5wt5+cpQBP0yzgL+vQXxIKEz9cfKJ8h7xA9BQj0bXM8dupzS2SO3veZVpB4mwATEXpFNGWbLcqz+wxwQjw/DNduolhNy8RsAqTjlvhFmYCLP6tX7Upvfy9jTTwqdTX1VQlJeJt053doy9W3ccb7f9kqV3VjaRUEv+qHiTfSs2/rU2WOerCnAg8ho36W7VSk4nW0njb+w/L5pzS6KWWGmao5fQsYqfCekedzobxjb6XgxbZlGZnbhhIZa57Dr8Jx9texJj7vMtCIp4gyEUuDw+LlH2o7i5S9vEXsQivya7O9hd8Wy2QbXOi774yw2yXP/TMEdUg9fSBVg1N9Lpt/usaDQUIpsQhHW928MWeVxBjhRI74i9b+wC+gTUQueQqf1TmkluM+jvC5l4y9ZdPPR+4784IvOdiYX/uk6LaAsz5FC4QoVgSOAHGEy2yuF02tyeOfTJeRGl8IqCWBswUBx6vui7sKeX0Am6FITP0auKwUTIHn2WDUJY9GFSqyDzqglxHzB0GGyjB/rIT3FgvgRKecMqeJHjPatpozd7FijziML+Wjlrkzt9F8TKXVfnw==</Value>
+              <Value>TtCN3gkpbRKhkeEfN+U1EpV0PjUHRAbeWEisC9yF7y08LPrb+AD2NJRNnUay4SMr4Y0MxGyeY0d9C1mSYVRx0Fpgl4wL1id/QcMRJ3ykbUuXrgDiJacq1rtxWGRFJGugaeGFdld0tBGR9z1RML7ZeMmzu9bu9dnbj+a2MEQBMo4Asup7lkPlvV4vsUPiRCEVXUI8yCa17p2O10jO56O+OYlN5alahqRqvaJiLDzlysS0aKrm6rvfKw+Z3zOH6gg81w6ePvg8mUXkfZ0nZnRnjxqSX3QAlCNOrAyuATgS/pJg8pFpPrpP064D4w1sQQ3Y6bdyBuiGoHA26rHjVpbufG1eUgZvZ1yxo4ohMVOHSBsJXriPM/5egJY9m7isyucPNIRbBzrn0v3a0RO0WNjBHqLd6m1OFm2xK0r4Qu1HxtSon84TfCBx5GKrPdoyvsww6VQ2m6qVOL95KRsJrR8wzgYPxcOE9id/LUyIWAvGG8rmYiS9ZESLGccH3xkl0ieaRkDdOB9+uRgWKncIZeXJeCRwrzpuFWDFjpj5oWFf+YhUUwroNKnGzsPn6Bv2Ou7opgc57OT0OqJ/rGBIZSgE8PMn/5Jc+5lRMIeNNY8UK80v28TZyVCUw2TPE5491lbeQsjuIqK30YwqIDasN9TYqdWCWCqI+FVoZGatImSvkSlURhVUtHgo0RsJx8TS6xCkvKhmxZ0YFANeMmZGIT1MRFSTOeYZWPyWvHCsXvltkqyo+3rGcXRYEaGPHEJYh+CX1DtrIEwmrk+wjOgxtC7nZw==</Value>
             </Header>
             <Header>
               <Name>x-ms-client-session-id</Name>
-              <Value>9773bc04-827f-4ef7-9332-fbb87ead8126-2013-06-28 18:54:39Z</Value>
+              <Value>37d9d020-eba7-4d29-a99b-990dcfae0ad7-2014-03-27 21:01:39Z</Value>
             </Header>
             <Header>
               <Name>x-ms-client-request-id</Name>
-              <Value>4ee82d3a-38f1-410c-91dd-30c2b65b9ee8-2013-06-28 18:54:59Z</Value>
+              <Value>75d1fee2-c402-4a11-a7de-ad0dac2e1c47-2014-03-27 21:02:03Z</Value>
             </Header>
             <Header>
               <Name>Accept-Charset</Name>
@@ -435,13 +435,13 @@
             </Header>
             <Header>
               <Name>Cookie</Name>
-              <Value>.SQLSERVERMANAGEMENT=Qg/HFyYw6Tjmj9aa8ZlKTA==</Value>
+              <Value>.SQLSERVERMANAGEMENT=lYe3q1IT21s+U3DcSXsQ6g==</Value>
             </Header>
           </Headers>
           <Cookies>
             <Cookie>
               <Name>.SQLSERVERMANAGEMENT</Name>
-              <Value>Qg/HFyYw6Tjmj9aa8ZlKTA==</Value>
+              <Value>lYe3q1IT21s+U3DcSXsQ6g==</Value>
               <RelativeUri i:nil="true" />
             </Cookie>
           </Cookies>
@@ -454,7 +454,7 @@
           <Headers>
             <Header>
               <Name>x-ms-request-id</Name>
-              <Value>a05c6173-81f1-d509-3e0a-824c895c11c0</Value>
+              <Value>dd0aa36b-d81f-72ff-01bb-eab96f930257</Value>
             </Header>
             <Header>
               <Name>X-Content-Type-Options</Name>
@@ -474,7 +474,7 @@
             </Header>
             <Header>
               <Name>Date</Name>
-              <Value>Fri, 28 Jun 2013 18:54:59 GMT</Value>
+              <Value>Thu, 27 Mar 2014 21:02:03 GMT</Value>
             </Header>
             <Header>
               <Name>Server</Name>
@@ -482,7 +482,7 @@
             </Header>
           </Headers>
           <Cookies />
-          <ResponseText>&lt;?xml version="1.0" encoding="utf-8"?&gt;&lt;entry xml:base="http://localhost:12345/v1/ManagementService.svc/Server2('testserver')/" xmlns="http://www.w3.org/2005/Atom" xmlns:d="http://schemas.microsoft.com/ado/2007/08/dataservices" xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata"&gt;&lt;id&gt;http://localhost:12345/v1/ManagementService.svc/Server2('testserver')/ServiceObjectives(guid'a45fea0c-e63c-4bf0-9f81-9964c86b7d2a')&lt;/id&gt;&lt;category term="Microsoft.SqlServer.Management.Server.Domain.ServiceObjective" scheme="http://schemas.microsoft.com/ado/2007/08/dataservices/scheme" /&gt;&lt;link rel="edit" title="ServiceObjective" href="ServiceObjectives(guid'a45fea0c-e63c-4bf0-9f81-9964c86b7d2a')" /&gt;&lt;link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/DimensionSettings" type="application/atom+xml;type=feed" title="DimensionSettings" href="ServiceObjectives(guid'a45fea0c-e63c-4bf0-9f81-9964c86b7d2a')/DimensionSettings" /&gt;&lt;title /&gt;&lt;updated&gt;2013-06-28T18:54:59Z&lt;/updated&gt;&lt;author&gt;&lt;name /&gt;&lt;/author&gt;&lt;content type="application/xml"&gt;&lt;m:properties&gt;&lt;d:Id m:type="Edm.Guid"&gt;a45fea0c-e63c-4bf0-9f81-9964c86b7d2a&lt;/d:Id&gt;&lt;d:Name&gt;System Standard&lt;/d:Name&gt;&lt;d:Description&gt;Used for master database only.&lt;/d:Description&gt;&lt;d:IsDefault m:type="Edm.Boolean"&gt;false&lt;/d:IsDefault&gt;&lt;d:IsSystem m:type="Edm.Boolean"&gt;true&lt;/d:IsSystem&gt;&lt;d:Enabled m:type="Edm.Boolean"&gt;true&lt;/d:Enabled&gt;&lt;/m:properties&gt;&lt;/content&gt;&lt;/entry&gt;</ResponseText>
+          <ResponseText>&lt;?xml version="1.0" encoding="utf-8"?&gt;&lt;entry xml:base="http://localhost:12345/v1/ManagementService.svc/Server2('testserver')/" xmlns="http://www.w3.org/2005/Atom" xmlns:d="http://schemas.microsoft.com/ado/2007/08/dataservices" xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata"&gt;&lt;id&gt;http://localhost:12345/v1/ManagementService.svc/Server2('testserver')/ServiceObjectives(guid'26e021db-f1f9-4c98-84c6-92af8ef433d7')&lt;/id&gt;&lt;category term="Microsoft.SqlServer.Management.Server.Domain.ServiceObjective" scheme="http://schemas.microsoft.com/ado/2007/08/dataservices/scheme" /&gt;&lt;link rel="edit" title="ServiceObjective" href="ServiceObjectives(guid'26e021db-f1f9-4c98-84c6-92af8ef433d7')" /&gt;&lt;link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/DimensionSettings" type="application/atom+xml;type=feed" title="DimensionSettings" href="ServiceObjectives(guid'26e021db-f1f9-4c98-84c6-92af8ef433d7')/DimensionSettings" /&gt;&lt;title /&gt;&lt;updated&gt;2014-03-27T21:02:04Z&lt;/updated&gt;&lt;author&gt;&lt;name /&gt;&lt;/author&gt;&lt;content type="application/xml"&gt;&lt;m:properties&gt;&lt;d:Id m:type="Edm.Guid"&gt;26e021db-f1f9-4c98-84c6-92af8ef433d7&lt;/d:Id&gt;&lt;d:Name&gt;System&lt;/d:Name&gt;&lt;d:Description&gt;Used for master database only.&lt;/d:Description&gt;&lt;d:IsDefault m:type="Edm.Boolean"&gt;false&lt;/d:IsDefault&gt;&lt;d:IsSystem m:type="Edm.Boolean"&gt;true&lt;/d:IsSystem&gt;&lt;d:Enabled m:type="Edm.Boolean"&gt;true&lt;/d:Enabled&gt;&lt;/m:properties&gt;&lt;/content&gt;&lt;/entry&gt;</ResponseText>
         </ResponseInfo>
       </HttpMessage>
       <HttpMessage>
@@ -502,15 +502,15 @@
             </Header>
             <Header>
               <Name>AccessToken</Name>
-              <Value>OBikkOEI5xXC0zKYGwzyCGP+L9KsK77yzc16zVCQO+aG0bcCtKfVj/YgMekZW4rr5qp4LZgl17txKhA/OjGSjYGalmJSL/BhWRZUbToHbhKbZ+MZvZFkeqTQ0T3JISS33dltFK3kESRkpMI3hDqIyWUQug1ipNuCaZ7zgtHk2FISzcbzCBzA+ntzgY9lIxluhP12KjjlwaA9jYxLpxK4Ezwb5wt5+cpQBP0yzgL+vQXxIKEz9cfKJ8h7xA9BQj0bXM8dupzS2SO3veZVpB4mwATEXpFNGWbLcqz+wxwQjw/DNduolhNy8RsAqTjlvhFmYCLP6tX7Upvfy9jTTwqdTX1VQlJeJt053doy9W3ccb7f9kqV3VjaRUEv+qHiTfSs2/rU2WOerCnAg8ho36W7VSk4nW0njb+w/L5pzS6KWWGmao5fQsYqfCekedzobxjb6XgxbZlGZnbhhIZa57Dr8Jx9texJj7vMtCIp4gyEUuDw+LlH2o7i5S9vEXsQivya7O9hd8Wy2QbXOi774yw2yXP/TMEdUg9fSBVg1N9Lpt/usaDQUIpsQhHW928MWeVxBjhRI74i9b+wC+gTUQueQqf1TmkluM+jvC5l4y9ZdPPR+4784IvOdiYX/uk6LaAsz5FC4QoVgSOAHGEy2yuF02tyeOfTJeRGl8IqCWBswUBx6vui7sKeX0Am6FITP0auKwUTIHn2WDUJY9GFSqyDzqglxHzB0GGyjB/rIT3FgvgRKecMqeJHjPatpozd7FijziML+Wjlrkzt9F8TKXVfnw==</Value>
+              <Value>TtCN3gkpbRKhkeEfN+U1EpV0PjUHRAbeWEisC9yF7y08LPrb+AD2NJRNnUay4SMr4Y0MxGyeY0d9C1mSYVRx0Fpgl4wL1id/QcMRJ3ykbUuXrgDiJacq1rtxWGRFJGugaeGFdld0tBGR9z1RML7ZeMmzu9bu9dnbj+a2MEQBMo4Asup7lkPlvV4vsUPiRCEVXUI8yCa17p2O10jO56O+OYlN5alahqRqvaJiLDzlysS0aKrm6rvfKw+Z3zOH6gg81w6ePvg8mUXkfZ0nZnRnjxqSX3QAlCNOrAyuATgS/pJg8pFpPrpP064D4w1sQQ3Y6bdyBuiGoHA26rHjVpbufG1eUgZvZ1yxo4ohMVOHSBsJXriPM/5egJY9m7isyucPNIRbBzrn0v3a0RO0WNjBHqLd6m1OFm2xK0r4Qu1HxtSon84TfCBx5GKrPdoyvsww6VQ2m6qVOL95KRsJrR8wzgYPxcOE9id/LUyIWAvGG8rmYiS9ZESLGccH3xkl0ieaRkDdOB9+uRgWKncIZeXJeCRwrzpuFWDFjpj5oWFf+YhUUwroNKnGzsPn6Bv2Ou7opgc57OT0OqJ/rGBIZSgE8PMn/5Jc+5lRMIeNNY8UK80v28TZyVCUw2TPE5491lbeQsjuIqK30YwqIDasN9TYqdWCWCqI+FVoZGatImSvkSlURhVUtHgo0RsJx8TS6xCkvKhmxZ0YFANeMmZGIT1MRFSTOeYZWPyWvHCsXvltkqyo+3rGcXRYEaGPHEJYh+CX1DtrIEwmrk+wjOgxtC7nZw==</Value>
             </Header>
             <Header>
               <Name>x-ms-client-session-id</Name>
-              <Value>9773bc04-827f-4ef7-9332-fbb87ead8126-2013-06-28 18:54:39Z</Value>
+              <Value>37d9d020-eba7-4d29-a99b-990dcfae0ad7-2014-03-27 21:01:39Z</Value>
             </Header>
             <Header>
               <Name>x-ms-client-request-id</Name>
-              <Value>4ee82d3a-38f1-410c-91dd-30c2b65b9ee8-2013-06-28 18:54:59Z</Value>
+              <Value>75d1fee2-c402-4a11-a7de-ad0dac2e1c47-2014-03-27 21:02:03Z</Value>
             </Header>
             <Header>
               <Name>Accept-Charset</Name>
@@ -518,13 +518,13 @@
             </Header>
             <Header>
               <Name>Cookie</Name>
-              <Value>.SQLSERVERMANAGEMENT=Qg/HFyYw6Tjmj9aa8ZlKTA==</Value>
+              <Value>.SQLSERVERMANAGEMENT=lYe3q1IT21s+U3DcSXsQ6g==</Value>
             </Header>
           </Headers>
           <Cookies>
             <Cookie>
               <Name>.SQLSERVERMANAGEMENT</Name>
-              <Value>Qg/HFyYw6Tjmj9aa8ZlKTA==</Value>
+              <Value>lYe3q1IT21s+U3DcSXsQ6g==</Value>
               <RelativeUri i:nil="true" />
             </Cookie>
           </Cookies>
@@ -537,7 +537,7 @@
           <Headers>
             <Header>
               <Name>x-ms-request-id</Name>
-              <Value>a05c6173-81f1-d509-3e0a-824c895c11c0</Value>
+              <Value>dd0aa36b-d81f-72ff-01bb-eab96f930257</Value>
             </Header>
             <Header>
               <Name>X-Content-Type-Options</Name>
@@ -557,7 +557,7 @@
             </Header>
             <Header>
               <Name>Date</Name>
-              <Value>Fri, 28 Jun 2013 18:54:59 GMT</Value>
+              <Value>Thu, 27 Mar 2014 21:02:03 GMT</Value>
             </Header>
             <Header>
               <Name>Server</Name>
@@ -565,7 +565,7 @@
             </Header>
           </Headers>
           <Cookies />
-          <ResponseText>&lt;?xml version="1.0" encoding="utf-8"?&gt;&lt;entry xml:base="http://localhost:12345/v1/ManagementService.svc/Server2('testserver')/" xmlns="http://www.w3.org/2005/Atom" xmlns:d="http://schemas.microsoft.com/ado/2007/08/dataservices" xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata"&gt;&lt;id&gt;http://localhost:12345/v1/ManagementService.svc/Server2('testserver')/ServiceObjectives(guid'910b4fcb-8a29-4c3e-958f-f7ba794388b2')&lt;/id&gt;&lt;category term="Microsoft.SqlServer.Management.Server.Domain.ServiceObjective" scheme="http://schemas.microsoft.com/ado/2007/08/dataservices/scheme" /&gt;&lt;link rel="edit" title="ServiceObjective" href="ServiceObjectives(guid'910b4fcb-8a29-4c3e-958f-f7ba794388b2')" /&gt;&lt;link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/DimensionSettings" type="application/atom+xml;type=feed" title="DimensionSettings" href="ServiceObjectives(guid'910b4fcb-8a29-4c3e-958f-f7ba794388b2')/DimensionSettings" /&gt;&lt;title /&gt;&lt;updated&gt;2013-06-28T18:54:59Z&lt;/updated&gt;&lt;author&gt;&lt;name /&gt;&lt;/author&gt;&lt;content type="application/xml"&gt;&lt;m:properties&gt;&lt;d:Id m:type="Edm.Guid"&gt;910b4fcb-8a29-4c3e-958f-f7ba794388b2&lt;/d:Id&gt;&lt;d:Name&gt;Shared&lt;/d:Name&gt;&lt;d:Description&gt;Resource capacity is not reserved.&lt;/d:Description&gt;&lt;d:IsDefault m:type="Edm.Boolean"&gt;true&lt;/d:IsDefault&gt;&lt;d:IsSystem m:type="Edm.Boolean"&gt;false&lt;/d:IsSystem&gt;&lt;d:Enabled m:type="Edm.Boolean"&gt;true&lt;/d:Enabled&gt;&lt;/m:properties&gt;&lt;/content&gt;&lt;/entry&gt;</ResponseText>
+          <ResponseText>&lt;?xml version="1.0" encoding="utf-8"?&gt;&lt;entry xml:base="http://localhost:12345/v1/ManagementService.svc/Server2('testserver')/" xmlns="http://www.w3.org/2005/Atom" xmlns:d="http://schemas.microsoft.com/ado/2007/08/dataservices" xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata"&gt;&lt;id&gt;http://localhost:12345/v1/ManagementService.svc/Server2('testserver')/ServiceObjectives(guid'910b4fcb-8a29-4c3e-958f-f7ba794388b2')&lt;/id&gt;&lt;category term="Microsoft.SqlServer.Management.Server.Domain.ServiceObjective" scheme="http://schemas.microsoft.com/ado/2007/08/dataservices/scheme" /&gt;&lt;link rel="edit" title="ServiceObjective" href="ServiceObjectives(guid'910b4fcb-8a29-4c3e-958f-f7ba794388b2')" /&gt;&lt;link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/DimensionSettings" type="application/atom+xml;type=feed" title="DimensionSettings" href="ServiceObjectives(guid'910b4fcb-8a29-4c3e-958f-f7ba794388b2')/DimensionSettings" /&gt;&lt;title /&gt;&lt;updated&gt;2014-03-27T21:02:04Z&lt;/updated&gt;&lt;author&gt;&lt;name /&gt;&lt;/author&gt;&lt;content type="application/xml"&gt;&lt;m:properties&gt;&lt;d:Id m:type="Edm.Guid"&gt;910b4fcb-8a29-4c3e-958f-f7ba794388b2&lt;/d:Id&gt;&lt;d:Name&gt;Shared&lt;/d:Name&gt;&lt;d:Description&gt;Shared resource allocation.&lt;/d:Description&gt;&lt;d:IsDefault m:type="Edm.Boolean"&gt;true&lt;/d:IsDefault&gt;&lt;d:IsSystem m:type="Edm.Boolean"&gt;false&lt;/d:IsSystem&gt;&lt;d:Enabled m:type="Edm.Boolean"&gt;true&lt;/d:Enabled&gt;&lt;/m:properties&gt;&lt;/content&gt;&lt;/entry&gt;</ResponseText>
         </ResponseInfo>
       </HttpMessage>
       <HttpMessage>
@@ -585,15 +585,15 @@
             </Header>
             <Header>
               <Name>AccessToken</Name>
-              <Value>OBikkOEI5xXC0zKYGwzyCGP+L9KsK77yzc16zVCQO+aG0bcCtKfVj/YgMekZW4rr5qp4LZgl17txKhA/OjGSjYGalmJSL/BhWRZUbToHbhKbZ+MZvZFkeqTQ0T3JISS33dltFK3kESRkpMI3hDqIyWUQug1ipNuCaZ7zgtHk2FISzcbzCBzA+ntzgY9lIxluhP12KjjlwaA9jYxLpxK4Ezwb5wt5+cpQBP0yzgL+vQXxIKEz9cfKJ8h7xA9BQj0bXM8dupzS2SO3veZVpB4mwATEXpFNGWbLcqz+wxwQjw/DNduolhNy8RsAqTjlvhFmYCLP6tX7Upvfy9jTTwqdTX1VQlJeJt053doy9W3ccb7f9kqV3VjaRUEv+qHiTfSs2/rU2WOerCnAg8ho36W7VSk4nW0njb+w/L5pzS6KWWGmao5fQsYqfCekedzobxjb6XgxbZlGZnbhhIZa57Dr8Jx9texJj7vMtCIp4gyEUuDw+LlH2o7i5S9vEXsQivya7O9hd8Wy2QbXOi774yw2yXP/TMEdUg9fSBVg1N9Lpt/usaDQUIpsQhHW928MWeVxBjhRI74i9b+wC+gTUQueQqf1TmkluM+jvC5l4y9ZdPPR+4784IvOdiYX/uk6LaAsz5FC4QoVgSOAHGEy2yuF02tyeOfTJeRGl8IqCWBswUBx6vui7sKeX0Am6FITP0auKwUTIHn2WDUJY9GFSqyDzqglxHzB0GGyjB/rIT3FgvgRKecMqeJHjPatpozd7FijziML+Wjlrkzt9F8TKXVfnw==</Value>
+              <Value>TtCN3gkpbRKhkeEfN+U1EpV0PjUHRAbeWEisC9yF7y08LPrb+AD2NJRNnUay4SMr4Y0MxGyeY0d9C1mSYVRx0Fpgl4wL1id/QcMRJ3ykbUuXrgDiJacq1rtxWGRFJGugaeGFdld0tBGR9z1RML7ZeMmzu9bu9dnbj+a2MEQBMo4Asup7lkPlvV4vsUPiRCEVXUI8yCa17p2O10jO56O+OYlN5alahqRqvaJiLDzlysS0aKrm6rvfKw+Z3zOH6gg81w6ePvg8mUXkfZ0nZnRnjxqSX3QAlCNOrAyuATgS/pJg8pFpPrpP064D4w1sQQ3Y6bdyBuiGoHA26rHjVpbufG1eUgZvZ1yxo4ohMVOHSBsJXriPM/5egJY9m7isyucPNIRbBzrn0v3a0RO0WNjBHqLd6m1OFm2xK0r4Qu1HxtSon84TfCBx5GKrPdoyvsww6VQ2m6qVOL95KRsJrR8wzgYPxcOE9id/LUyIWAvGG8rmYiS9ZESLGccH3xkl0ieaRkDdOB9+uRgWKncIZeXJeCRwrzpuFWDFjpj5oWFf+YhUUwroNKnGzsPn6Bv2Ou7opgc57OT0OqJ/rGBIZSgE8PMn/5Jc+5lRMIeNNY8UK80v28TZyVCUw2TPE5491lbeQsjuIqK30YwqIDasN9TYqdWCWCqI+FVoZGatImSvkSlURhVUtHgo0RsJx8TS6xCkvKhmxZ0YFANeMmZGIT1MRFSTOeYZWPyWvHCsXvltkqyo+3rGcXRYEaGPHEJYh+CX1DtrIEwmrk+wjOgxtC7nZw==</Value>
             </Header>
             <Header>
               <Name>x-ms-client-session-id</Name>
-              <Value>9773bc04-827f-4ef7-9332-fbb87ead8126-2013-06-28 18:54:39Z</Value>
+              <Value>37d9d020-eba7-4d29-a99b-990dcfae0ad7-2014-03-27 21:01:39Z</Value>
             </Header>
             <Header>
               <Name>x-ms-client-request-id</Name>
-              <Value>4ee82d3a-38f1-410c-91dd-30c2b65b9ee8-2013-06-28 18:54:59Z</Value>
+              <Value>75d1fee2-c402-4a11-a7de-ad0dac2e1c47-2014-03-27 21:02:03Z</Value>
             </Header>
             <Header>
               <Name>Accept-Charset</Name>
@@ -601,13 +601,13 @@
             </Header>
             <Header>
               <Name>Cookie</Name>
-              <Value>.SQLSERVERMANAGEMENT=Qg/HFyYw6Tjmj9aa8ZlKTA==</Value>
+              <Value>.SQLSERVERMANAGEMENT=lYe3q1IT21s+U3DcSXsQ6g==</Value>
             </Header>
           </Headers>
           <Cookies>
             <Cookie>
               <Name>.SQLSERVERMANAGEMENT</Name>
-              <Value>Qg/HFyYw6Tjmj9aa8ZlKTA==</Value>
+              <Value>lYe3q1IT21s+U3DcSXsQ6g==</Value>
               <RelativeUri i:nil="true" />
             </Cookie>
           </Cookies>
@@ -620,7 +620,7 @@
           <Headers>
             <Header>
               <Name>x-ms-request-id</Name>
-              <Value>a05c6173-81f1-d509-3e0a-824c895c11c0</Value>
+              <Value>dd0aa36b-d81f-72ff-01bb-eab96f930257</Value>
             </Header>
             <Header>
               <Name>X-Content-Type-Options</Name>
@@ -640,7 +640,7 @@
             </Header>
             <Header>
               <Name>Date</Name>
-              <Value>Fri, 28 Jun 2013 18:54:59 GMT</Value>
+              <Value>Thu, 27 Mar 2014 21:02:03 GMT</Value>
             </Header>
             <Header>
               <Name>Server</Name>
@@ -648,11 +648,94 @@
             </Header>
           </Headers>
           <Cookies />
-          <ResponseText>&lt;?xml version="1.0" encoding="utf-8"?&gt;&lt;entry xml:base="http://localhost:12345/v1/ManagementService.svc/Server2('testserver')/" xmlns="http://www.w3.org/2005/Atom" xmlns:d="http://schemas.microsoft.com/ado/2007/08/dataservices" xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata"&gt;&lt;id&gt;http://localhost:12345/v1/ManagementService.svc/Server2('testserver')/ServiceObjectives(guid'910b4fcb-8a29-4c3e-958f-f7ba794388b2')&lt;/id&gt;&lt;category term="Microsoft.SqlServer.Management.Server.Domain.ServiceObjective" scheme="http://schemas.microsoft.com/ado/2007/08/dataservices/scheme" /&gt;&lt;link rel="edit" title="ServiceObjective" href="ServiceObjectives(guid'910b4fcb-8a29-4c3e-958f-f7ba794388b2')" /&gt;&lt;link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/DimensionSettings" type="application/atom+xml;type=feed" title="DimensionSettings" href="ServiceObjectives(guid'910b4fcb-8a29-4c3e-958f-f7ba794388b2')/DimensionSettings" /&gt;&lt;title /&gt;&lt;updated&gt;2013-06-28T18:54:59Z&lt;/updated&gt;&lt;author&gt;&lt;name /&gt;&lt;/author&gt;&lt;content type="application/xml"&gt;&lt;m:properties&gt;&lt;d:Id m:type="Edm.Guid"&gt;910b4fcb-8a29-4c3e-958f-f7ba794388b2&lt;/d:Id&gt;&lt;d:Name&gt;Shared&lt;/d:Name&gt;&lt;d:Description&gt;Resource capacity is not reserved.&lt;/d:Description&gt;&lt;d:IsDefault m:type="Edm.Boolean"&gt;true&lt;/d:IsDefault&gt;&lt;d:IsSystem m:type="Edm.Boolean"&gt;false&lt;/d:IsSystem&gt;&lt;d:Enabled m:type="Edm.Boolean"&gt;true&lt;/d:Enabled&gt;&lt;/m:properties&gt;&lt;/content&gt;&lt;/entry&gt;</ResponseText>
+          <ResponseText>&lt;?xml version="1.0" encoding="utf-8"?&gt;&lt;entry xml:base="http://localhost:12345/v1/ManagementService.svc/Server2('testserver')/" xmlns="http://www.w3.org/2005/Atom" xmlns:d="http://schemas.microsoft.com/ado/2007/08/dataservices" xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata"&gt;&lt;id&gt;http://localhost:12345/v1/ManagementService.svc/Server2('testserver')/ServiceObjectives(guid'910b4fcb-8a29-4c3e-958f-f7ba794388b2')&lt;/id&gt;&lt;category term="Microsoft.SqlServer.Management.Server.Domain.ServiceObjective" scheme="http://schemas.microsoft.com/ado/2007/08/dataservices/scheme" /&gt;&lt;link rel="edit" title="ServiceObjective" href="ServiceObjectives(guid'910b4fcb-8a29-4c3e-958f-f7ba794388b2')" /&gt;&lt;link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/DimensionSettings" type="application/atom+xml;type=feed" title="DimensionSettings" href="ServiceObjectives(guid'910b4fcb-8a29-4c3e-958f-f7ba794388b2')/DimensionSettings" /&gt;&lt;title /&gt;&lt;updated&gt;2014-03-27T21:02:04Z&lt;/updated&gt;&lt;author&gt;&lt;name /&gt;&lt;/author&gt;&lt;content type="application/xml"&gt;&lt;m:properties&gt;&lt;d:Id m:type="Edm.Guid"&gt;910b4fcb-8a29-4c3e-958f-f7ba794388b2&lt;/d:Id&gt;&lt;d:Name&gt;Shared&lt;/d:Name&gt;&lt;d:Description&gt;Shared resource allocation.&lt;/d:Description&gt;&lt;d:IsDefault m:type="Edm.Boolean"&gt;true&lt;/d:IsDefault&gt;&lt;d:IsSystem m:type="Edm.Boolean"&gt;false&lt;/d:IsSystem&gt;&lt;d:Enabled m:type="Edm.Boolean"&gt;true&lt;/d:Enabled&gt;&lt;/m:properties&gt;&lt;/content&gt;&lt;/entry&gt;</ResponseText>
         </ResponseInfo>
       </HttpMessage>
       <HttpMessage>
         <Index>4</Index>
+        <RequestInfo>
+          <RequestUri>http://localhost:12345/v1/ManagementService.svc/Server2('testserver')/Databases(6)/ServiceObjective</RequestUri>
+          <Method>GET</Method>
+          <UserAgent>WindowsAzurePowershell/v0.7.4</UserAgent>
+          <Headers>
+            <Header>
+              <Name>DataServiceVersion</Name>
+              <Value>1.0;NetFx</Value>
+            </Header>
+            <Header>
+              <Name>MaxDataServiceVersion</Name>
+              <Value>2.0;NetFx</Value>
+            </Header>
+            <Header>
+              <Name>AccessToken</Name>
+              <Value>TtCN3gkpbRKhkeEfN+U1EpV0PjUHRAbeWEisC9yF7y08LPrb+AD2NJRNnUay4SMr4Y0MxGyeY0d9C1mSYVRx0Fpgl4wL1id/QcMRJ3ykbUuXrgDiJacq1rtxWGRFJGugaeGFdld0tBGR9z1RML7ZeMmzu9bu9dnbj+a2MEQBMo4Asup7lkPlvV4vsUPiRCEVXUI8yCa17p2O10jO56O+OYlN5alahqRqvaJiLDzlysS0aKrm6rvfKw+Z3zOH6gg81w6ePvg8mUXkfZ0nZnRnjxqSX3QAlCNOrAyuATgS/pJg8pFpPrpP064D4w1sQQ3Y6bdyBuiGoHA26rHjVpbufG1eUgZvZ1yxo4ohMVOHSBsJXriPM/5egJY9m7isyucPNIRbBzrn0v3a0RO0WNjBHqLd6m1OFm2xK0r4Qu1HxtSon84TfCBx5GKrPdoyvsww6VQ2m6qVOL95KRsJrR8wzgYPxcOE9id/LUyIWAvGG8rmYiS9ZESLGccH3xkl0ieaRkDdOB9+uRgWKncIZeXJeCRwrzpuFWDFjpj5oWFf+YhUUwroNKnGzsPn6Bv2Ou7opgc57OT0OqJ/rGBIZSgE8PMn/5Jc+5lRMIeNNY8UK80v28TZyVCUw2TPE5491lbeQsjuIqK30YwqIDasN9TYqdWCWCqI+FVoZGatImSvkSlURhVUtHgo0RsJx8TS6xCkvKhmxZ0YFANeMmZGIT1MRFSTOeYZWPyWvHCsXvltkqyo+3rGcXRYEaGPHEJYh+CX1DtrIEwmrk+wjOgxtC7nZw==</Value>
+            </Header>
+            <Header>
+              <Name>x-ms-client-session-id</Name>
+              <Value>37d9d020-eba7-4d29-a99b-990dcfae0ad7-2014-03-27 21:01:39Z</Value>
+            </Header>
+            <Header>
+              <Name>x-ms-client-request-id</Name>
+              <Value>75d1fee2-c402-4a11-a7de-ad0dac2e1c47-2014-03-27 21:02:03Z</Value>
+            </Header>
+            <Header>
+              <Name>Accept-Charset</Name>
+              <Value>UTF-8</Value>
+            </Header>
+            <Header>
+              <Name>Cookie</Name>
+              <Value>.SQLSERVERMANAGEMENT=lYe3q1IT21s+U3DcSXsQ6g==</Value>
+            </Header>
+          </Headers>
+          <Cookies>
+            <Cookie>
+              <Name>.SQLSERVERMANAGEMENT</Name>
+              <Value>lYe3q1IT21s+U3DcSXsQ6g==</Value>
+              <RelativeUri i:nil="true" />
+            </Cookie>
+          </Cookies>
+          <RequestText i:nil="true" />
+          <ContentType i:nil="true" />
+          <Accept>application/atom+xml,application/xml</Accept>
+        </RequestInfo>
+        <ResponseInfo>
+          <StatusCode>OK</StatusCode>
+          <Headers>
+            <Header>
+              <Name>x-ms-request-id</Name>
+              <Value>dd0aa36b-d81f-72ff-01bb-eab96f930257</Value>
+            </Header>
+            <Header>
+              <Name>X-Content-Type-Options</Name>
+              <Value>nosniff</Value>
+            </Header>
+            <Header>
+              <Name>DataServiceVersion</Name>
+              <Value>2.0;</Value>
+            </Header>
+            <Header>
+              <Name>Cache-Control</Name>
+              <Value>no-store,no-cache</Value>
+            </Header>
+            <Header>
+              <Name>Content-Type</Name>
+              <Value>application/atom+xml;type=entry;charset=utf-8</Value>
+            </Header>
+            <Header>
+              <Name>Date</Name>
+              <Value>Thu, 27 Mar 2014 21:02:03 GMT</Value>
+            </Header>
+            <Header>
+              <Name>Server</Name>
+              <Value>Microsoft-HTTPAPI/2.0</Value>
+            </Header>
+          </Headers>
+          <Cookies />
+          <ResponseText>&lt;?xml version="1.0" encoding="utf-8"?&gt;&lt;entry xml:base="http://localhost:12345/v1/ManagementService.svc/Server2('testserver')/" xmlns="http://www.w3.org/2005/Atom" xmlns:d="http://schemas.microsoft.com/ado/2007/08/dataservices" xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata"&gt;&lt;id&gt;http://localhost:12345/v1/ManagementService.svc/Server2('testserver')/ServiceObjectives(guid'910b4fcb-8a29-4c3e-958f-f7ba794388b2')&lt;/id&gt;&lt;category term="Microsoft.SqlServer.Management.Server.Domain.ServiceObjective" scheme="http://schemas.microsoft.com/ado/2007/08/dataservices/scheme" /&gt;&lt;link rel="edit" title="ServiceObjective" href="ServiceObjectives(guid'910b4fcb-8a29-4c3e-958f-f7ba794388b2')" /&gt;&lt;link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/DimensionSettings" type="application/atom+xml;type=feed" title="DimensionSettings" href="ServiceObjectives(guid'910b4fcb-8a29-4c3e-958f-f7ba794388b2')/DimensionSettings" /&gt;&lt;title /&gt;&lt;updated&gt;2014-03-27T21:02:04Z&lt;/updated&gt;&lt;author&gt;&lt;name /&gt;&lt;/author&gt;&lt;content type="application/xml"&gt;&lt;m:properties&gt;&lt;d:Id m:type="Edm.Guid"&gt;910b4fcb-8a29-4c3e-958f-f7ba794388b2&lt;/d:Id&gt;&lt;d:Name&gt;Shared&lt;/d:Name&gt;&lt;d:Description&gt;Shared resource allocation.&lt;/d:Description&gt;&lt;d:IsDefault m:type="Edm.Boolean"&gt;true&lt;/d:IsDefault&gt;&lt;d:IsSystem m:type="Edm.Boolean"&gt;false&lt;/d:IsSystem&gt;&lt;d:Enabled m:type="Edm.Boolean"&gt;true&lt;/d:Enabled&gt;&lt;/m:properties&gt;&lt;/content&gt;&lt;/entry&gt;</ResponseText>
+        </ResponseInfo>
+      </HttpMessage>
+      <HttpMessage>
+        <Index>5</Index>
         <RequestInfo>
           <RequestUri>http://localhost:12345/v1/ManagementService.svc/Server2('testserver')/Databases()?$filter=Name%20eq%20'testdb1'&amp;$top=2</RequestUri>
           <Method>GET</Method>
@@ -668,15 +751,15 @@
             </Header>
             <Header>
               <Name>AccessToken</Name>
-              <Value>OBikkOEI5xXC0zKYGwzyCGP+L9KsK77yzc16zVCQO+aG0bcCtKfVj/YgMekZW4rr5qp4LZgl17txKhA/OjGSjYGalmJSL/BhWRZUbToHbhKbZ+MZvZFkeqTQ0T3JISS33dltFK3kESRkpMI3hDqIyWUQug1ipNuCaZ7zgtHk2FISzcbzCBzA+ntzgY9lIxluhP12KjjlwaA9jYxLpxK4Ezwb5wt5+cpQBP0yzgL+vQXxIKEz9cfKJ8h7xA9BQj0bXM8dupzS2SO3veZVpB4mwATEXpFNGWbLcqz+wxwQjw/DNduolhNy8RsAqTjlvhFmYCLP6tX7Upvfy9jTTwqdTX1VQlJeJt053doy9W3ccb7f9kqV3VjaRUEv+qHiTfSs2/rU2WOerCnAg8ho36W7VSk4nW0njb+w/L5pzS6KWWGmao5fQsYqfCekedzobxjb6XgxbZlGZnbhhIZa57Dr8Jx9texJj7vMtCIp4gyEUuDw+LlH2o7i5S9vEXsQivya7O9hd8Wy2QbXOi774yw2yXP/TMEdUg9fSBVg1N9Lpt/usaDQUIpsQhHW928MWeVxBjhRI74i9b+wC+gTUQueQqf1TmkluM+jvC5l4y9ZdPPR+4784IvOdiYX/uk6LaAsz5FC4QoVgSOAHGEy2yuF02tyeOfTJeRGl8IqCWBswUBx6vui7sKeX0Am6FITP0auKwUTIHn2WDUJY9GFSqyDzqglxHzB0GGyjB/rIT3FgvgRKecMqeJHjPatpozd7FijziML+Wjlrkzt9F8TKXVfnw==</Value>
+              <Value>TtCN3gkpbRKhkeEfN+U1EpV0PjUHRAbeWEisC9yF7y08LPrb+AD2NJRNnUay4SMr4Y0MxGyeY0d9C1mSYVRx0Fpgl4wL1id/QcMRJ3ykbUuXrgDiJacq1rtxWGRFJGugaeGFdld0tBGR9z1RML7ZeMmzu9bu9dnbj+a2MEQBMo4Asup7lkPlvV4vsUPiRCEVXUI8yCa17p2O10jO56O+OYlN5alahqRqvaJiLDzlysS0aKrm6rvfKw+Z3zOH6gg81w6ePvg8mUXkfZ0nZnRnjxqSX3QAlCNOrAyuATgS/pJg8pFpPrpP064D4w1sQQ3Y6bdyBuiGoHA26rHjVpbufG1eUgZvZ1yxo4ohMVOHSBsJXriPM/5egJY9m7isyucPNIRbBzrn0v3a0RO0WNjBHqLd6m1OFm2xK0r4Qu1HxtSon84TfCBx5GKrPdoyvsww6VQ2m6qVOL95KRsJrR8wzgYPxcOE9id/LUyIWAvGG8rmYiS9ZESLGccH3xkl0ieaRkDdOB9+uRgWKncIZeXJeCRwrzpuFWDFjpj5oWFf+YhUUwroNKnGzsPn6Bv2Ou7opgc57OT0OqJ/rGBIZSgE8PMn/5Jc+5lRMIeNNY8UK80v28TZyVCUw2TPE5491lbeQsjuIqK30YwqIDasN9TYqdWCWCqI+FVoZGatImSvkSlURhVUtHgo0RsJx8TS6xCkvKhmxZ0YFANeMmZGIT1MRFSTOeYZWPyWvHCsXvltkqyo+3rGcXRYEaGPHEJYh+CX1DtrIEwmrk+wjOgxtC7nZw==</Value>
             </Header>
             <Header>
               <Name>x-ms-client-session-id</Name>
-              <Value>9773bc04-827f-4ef7-9332-fbb87ead8126-2013-06-28 18:54:39Z</Value>
+              <Value>37d9d020-eba7-4d29-a99b-990dcfae0ad7-2014-03-27 21:01:39Z</Value>
             </Header>
             <Header>
               <Name>x-ms-client-request-id</Name>
-              <Value>4ee82d3a-38f1-410c-91dd-30c2b65b9ee8-2013-06-28 18:54:59Z</Value>
+              <Value>75d1fee2-c402-4a11-a7de-ad0dac2e1c47-2014-03-27 21:02:03Z</Value>
             </Header>
             <Header>
               <Name>Accept-Charset</Name>
@@ -684,13 +767,13 @@
             </Header>
             <Header>
               <Name>Cookie</Name>
-              <Value>.SQLSERVERMANAGEMENT=Qg/HFyYw6Tjmj9aa8ZlKTA==</Value>
+              <Value>.SQLSERVERMANAGEMENT=lYe3q1IT21s+U3DcSXsQ6g==</Value>
             </Header>
           </Headers>
           <Cookies>
             <Cookie>
               <Name>.SQLSERVERMANAGEMENT</Name>
-              <Value>Qg/HFyYw6Tjmj9aa8ZlKTA==</Value>
+              <Value>lYe3q1IT21s+U3DcSXsQ6g==</Value>
               <RelativeUri i:nil="true" />
             </Cookie>
           </Cookies>
@@ -703,7 +786,7 @@
           <Headers>
             <Header>
               <Name>x-ms-request-id</Name>
-              <Value>a05c6173-81f1-d509-3e0a-824c895c11c0</Value>
+              <Value>dd0aa36b-d81f-72ff-01bb-eab96f930257</Value>
             </Header>
             <Header>
               <Name>X-Content-Type-Options</Name>
@@ -723,7 +806,7 @@
             </Header>
             <Header>
               <Name>Date</Name>
-              <Value>Fri, 28 Jun 2013 18:54:59 GMT</Value>
+              <Value>Thu, 27 Mar 2014 21:02:03 GMT</Value>
             </Header>
             <Header>
               <Name>Server</Name>
@@ -731,11 +814,11 @@
             </Header>
           </Headers>
           <Cookies />
-          <ResponseText>&lt;?xml version="1.0" encoding="utf-8"?&gt;&lt;feed xml:base="http://localhost:12345/v1/ManagementService.svc/Server2('testserver')/" xmlns="http://www.w3.org/2005/Atom" xmlns:d="http://schemas.microsoft.com/ado/2007/08/dataservices" xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata"&gt;&lt;id&gt;http://localhost:12345/v1/ManagementService.svc/Server2('testserver')/Databases&lt;/id&gt;&lt;title type="text"&gt;Databases&lt;/title&gt;&lt;updated&gt;2013-06-28T18:54:59Z&lt;/updated&gt;&lt;link rel="self" title="Databases" href="Databases" /&gt;&lt;entry&gt;&lt;id&gt;http://localhost:12345/v1/ManagementService.svc/Server2('testserver')/Databases(4)&lt;/id&gt;&lt;category term="Microsoft.SqlServer.Management.Server.Domain.Database" scheme="http://schemas.microsoft.com/ado/2007/08/dataservices/scheme" /&gt;&lt;link rel="edit" title="Database" href="Databases(4)" /&gt;&lt;link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/Server" type="application/atom+xml;type=entry" title="Server" href="Databases(4)/Server" /&gt;&lt;link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/ServiceObjective" type="application/atom+xml;type=entry" title="ServiceObjective" href="Databases(4)/ServiceObjective" /&gt;&lt;link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/DatabaseMetrics" type="application/atom+xml;type=entry" title="DatabaseMetrics" href="Databases(4)/DatabaseMetrics" /&gt;&lt;link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/DatabaseCopies" type="application/atom+xml;type=feed" title="DatabaseCopies" href="Databases(4)/DatabaseCopies" /&gt;&lt;title /&gt;&lt;updated&gt;2013-06-28T18:54:59Z&lt;/updated&gt;&lt;author&gt;&lt;name /&gt;&lt;/author&gt;&lt;content type="application/xml"&gt;&lt;m:properties&gt;&lt;d:Id m:type="Edm.Int32"&gt;4&lt;/d:Id&gt;&lt;d:Name&gt;testdb1&lt;/d:Name&gt;&lt;d:ServiceObjectiveId m:type="Edm.Guid"&gt;910b4fcb-8a29-4c3e-958f-f7ba794388b2&lt;/d:ServiceObjectiveId&gt;&lt;d:AssignedServiceObjectiveId m:type="Edm.Guid"&gt;910b4fcb-8a29-4c3e-958f-f7ba794388b2&lt;/d:AssignedServiceObjectiveId&gt;&lt;d:ServiceObjectiveAssignmentState m:type="Edm.Byte"&gt;1&lt;/d:ServiceObjectiveAssignmentState&gt;&lt;d:ServiceObjectiveAssignmentStateDescription&gt;Complete&lt;/d:ServiceObjectiveAssignmentStateDescription&gt;&lt;d:ServiceObjectiveAssignmentErrorCode m:type="Edm.Int32"&gt;0&lt;/d:ServiceObjectiveAssignmentErrorCode&gt;&lt;d:ServiceObjectiveAssignmentErrorDescription m:null="true" /&gt;&lt;d:ServiceObjectiveAssignmentSuccessDate m:type="Edm.DateTime"&gt;2013-06-28T18:54:58.693&lt;/d:ServiceObjectiveAssignmentSuccessDate&gt;&lt;d:Edition&gt;Web&lt;/d:Edition&gt;&lt;d:MaxSizeGB m:type="Edm.Int32"&gt;1&lt;/d:MaxSizeGB&gt;&lt;d:MaxSizeBytes m:type="Edm.Int64"&gt;1073741824&lt;/d:MaxSizeBytes&gt;&lt;d:CollationName&gt;SQL_Latin1_General_CP1_CI_AS&lt;/d:CollationName&gt;&lt;d:CreationDate m:type="Edm.DateTime"&gt;2013-06-28T11:54:57.96&lt;/d:CreationDate&gt;&lt;d:RecoveryPeriodStartDate m:type="Edm.DateTime"&gt;2013-06-28T18:54:57.96Z&lt;/d:RecoveryPeriodStartDate&gt;&lt;d:IsSystemObject m:type="Edm.Boolean"&gt;false&lt;/d:IsSystemObject&gt;&lt;d:Status m:type="Edm.Int32"&gt;1&lt;/d:Status&gt;&lt;d:IsFederationRoot m:type="Edm.Boolean"&gt;false&lt;/d:IsFederationRoot&gt;&lt;d:SizeMB m:type="Edm.Decimal"&gt;-1.00&lt;/d:SizeMB&gt;&lt;d:IsRecursiveTriggersOn m:type="Edm.Boolean"&gt;false&lt;/d:IsRecursiveTriggersOn&gt;&lt;d:IsReadOnly m:type="Edm.Boolean"&gt;false&lt;/d:IsReadOnly&gt;&lt;d:IsFederationMember m:type="Edm.Boolean"&gt;false&lt;/d:IsFederationMember&gt;&lt;d:IsQueryStoreOn m:type="Edm.Boolean"&gt;false&lt;/d:IsQueryStoreOn&gt;&lt;d:IsQueryStoreReadOnly m:type="Edm.Boolean" m:null="true" /&gt;&lt;d:QueryStoreMaxSizeMB m:type="Edm.Int32" m:null="true" /&gt;&lt;d:QueryStoreFlushPeriodSeconds m:type="Edm.Int32" m:null="true" /&gt;&lt;d:QueryStoreIntervalLengthMinutes m:type="Edm.Int32" m:null="true" /&gt;&lt;d:QueryStoreClearAll m:type="Edm.Boolean" m:null="true" /&gt;&lt;/m:properties&gt;&lt;/content&gt;&lt;/entry&gt;&lt;/feed&gt;</ResponseText>
+          <ResponseText>&lt;?xml version="1.0" encoding="utf-8"?&gt;&lt;feed xml:base="http://localhost:12345/v1/ManagementService.svc/Server2('testserver')/" xmlns="http://www.w3.org/2005/Atom" xmlns:d="http://schemas.microsoft.com/ado/2007/08/dataservices" xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata"&gt;&lt;id&gt;http://localhost:12345/v1/ManagementService.svc/Server2('testserver')/Databases&lt;/id&gt;&lt;title type="text"&gt;Databases&lt;/title&gt;&lt;updated&gt;2014-03-27T21:02:04Z&lt;/updated&gt;&lt;link rel="self" title="Databases" href="Databases" /&gt;&lt;entry&gt;&lt;id&gt;http://localhost:12345/v1/ManagementService.svc/Server2('testserver')/Databases(4)&lt;/id&gt;&lt;category term="Microsoft.SqlServer.Management.Server.Domain.Database" scheme="http://schemas.microsoft.com/ado/2007/08/dataservices/scheme" /&gt;&lt;link rel="edit" title="Database" href="Databases(4)" /&gt;&lt;link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/Server" type="application/atom+xml;type=entry" title="Server" href="Databases(4)/Server" /&gt;&lt;link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/ServiceObjective" type="application/atom+xml;type=entry" title="ServiceObjective" href="Databases(4)/ServiceObjective" /&gt;&lt;link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/DatabaseMetrics" type="application/atom+xml;type=entry" title="DatabaseMetrics" href="Databases(4)/DatabaseMetrics" /&gt;&lt;link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/DatabaseCopies" type="application/atom+xml;type=feed" title="DatabaseCopies" href="Databases(4)/DatabaseCopies" /&gt;&lt;title /&gt;&lt;updated&gt;2014-03-27T21:02:04Z&lt;/updated&gt;&lt;author&gt;&lt;name /&gt;&lt;/author&gt;&lt;content type="application/xml"&gt;&lt;m:properties&gt;&lt;d:Id m:type="Edm.Int32"&gt;4&lt;/d:Id&gt;&lt;d:Name&gt;testdb1&lt;/d:Name&gt;&lt;d:ServiceObjectiveId m:type="Edm.Guid"&gt;910b4fcb-8a29-4c3e-958f-f7ba794388b2&lt;/d:ServiceObjectiveId&gt;&lt;d:AssignedServiceObjectiveId m:type="Edm.Guid"&gt;910b4fcb-8a29-4c3e-958f-f7ba794388b2&lt;/d:AssignedServiceObjectiveId&gt;&lt;d:ServiceObjectiveAssignmentState m:type="Edm.Byte"&gt;1&lt;/d:ServiceObjectiveAssignmentState&gt;&lt;d:ServiceObjectiveAssignmentStateDescription&gt;Complete&lt;/d:ServiceObjectiveAssignmentStateDescription&gt;&lt;d:ServiceObjectiveAssignmentErrorCode m:type="Edm.Int32"&gt;0&lt;/d:ServiceObjectiveAssignmentErrorCode&gt;&lt;d:ServiceObjectiveAssignmentErrorDescription m:null="true" /&gt;&lt;d:ServiceObjectiveAssignmentSuccessDate m:type="Edm.DateTime"&gt;2014-03-27T21:01:43.037&lt;/d:ServiceObjectiveAssignmentSuccessDate&gt;&lt;d:Edition&gt;Web&lt;/d:Edition&gt;&lt;d:MaxSizeGB m:type="Edm.Int32"&gt;1&lt;/d:MaxSizeGB&gt;&lt;d:MaxSizeBytes m:type="Edm.Int64"&gt;1073741824&lt;/d:MaxSizeBytes&gt;&lt;d:CollationName&gt;SQL_Latin1_General_CP1_CI_AS&lt;/d:CollationName&gt;&lt;d:CreationDate m:type="Edm.DateTime"&gt;2014-03-27T14:01:40.517&lt;/d:CreationDate&gt;&lt;d:RecoveryPeriodStartDate m:type="Edm.DateTime"&gt;2014-03-27T21:02:40.07Z&lt;/d:RecoveryPeriodStartDate&gt;&lt;d:IsSystemObject m:type="Edm.Boolean"&gt;false&lt;/d:IsSystemObject&gt;&lt;d:Status m:type="Edm.Int32"&gt;1&lt;/d:Status&gt;&lt;d:IsFederationRoot m:type="Edm.Boolean"&gt;false&lt;/d:IsFederationRoot&gt;&lt;d:SizeMB m:type="Edm.Decimal"&gt;2.44&lt;/d:SizeMB&gt;&lt;d:IsRecursiveTriggersOn m:type="Edm.Boolean"&gt;false&lt;/d:IsRecursiveTriggersOn&gt;&lt;d:IsReadOnly m:type="Edm.Boolean"&gt;false&lt;/d:IsReadOnly&gt;&lt;d:IsFederationMember m:type="Edm.Boolean"&gt;false&lt;/d:IsFederationMember&gt;&lt;d:IsQueryStoreOn m:type="Edm.Boolean"&gt;false&lt;/d:IsQueryStoreOn&gt;&lt;d:IsQueryStoreReadOnly m:type="Edm.Boolean" m:null="true" /&gt;&lt;d:QueryStoreMaxSizeMB m:type="Edm.Int32" m:null="true" /&gt;&lt;d:QueryStoreFlushPeriodSeconds m:type="Edm.Int32" m:null="true" /&gt;&lt;d:QueryStoreIntervalLengthMinutes m:type="Edm.Int32" m:null="true" /&gt;&lt;d:QueryStoreClearAll m:type="Edm.Boolean" m:null="true" /&gt;&lt;d:QueryStoreStaleQueryThresholdDays m:type="Edm.Int32" m:null="true" /&gt;&lt;d:IsSuspended m:type="Edm.Boolean"&gt;false&lt;/d:IsSuspended&gt;&lt;/m:properties&gt;&lt;/content&gt;&lt;/entry&gt;&lt;/feed&gt;</ResponseText>
         </ResponseInfo>
       </HttpMessage>
       <HttpMessage>
-        <Index>5</Index>
+        <Index>6</Index>
         <RequestInfo>
           <RequestUri>http://localhost:12345/v1/ManagementService.svc/Server2('testserver')/Databases(4)/ServiceObjective</RequestUri>
           <Method>GET</Method>
@@ -751,15 +834,15 @@
             </Header>
             <Header>
               <Name>AccessToken</Name>
-              <Value>OBikkOEI5xXC0zKYGwzyCGP+L9KsK77yzc16zVCQO+aG0bcCtKfVj/YgMekZW4rr5qp4LZgl17txKhA/OjGSjYGalmJSL/BhWRZUbToHbhKbZ+MZvZFkeqTQ0T3JISS33dltFK3kESRkpMI3hDqIyWUQug1ipNuCaZ7zgtHk2FISzcbzCBzA+ntzgY9lIxluhP12KjjlwaA9jYxLpxK4Ezwb5wt5+cpQBP0yzgL+vQXxIKEz9cfKJ8h7xA9BQj0bXM8dupzS2SO3veZVpB4mwATEXpFNGWbLcqz+wxwQjw/DNduolhNy8RsAqTjlvhFmYCLP6tX7Upvfy9jTTwqdTX1VQlJeJt053doy9W3ccb7f9kqV3VjaRUEv+qHiTfSs2/rU2WOerCnAg8ho36W7VSk4nW0njb+w/L5pzS6KWWGmao5fQsYqfCekedzobxjb6XgxbZlGZnbhhIZa57Dr8Jx9texJj7vMtCIp4gyEUuDw+LlH2o7i5S9vEXsQivya7O9hd8Wy2QbXOi774yw2yXP/TMEdUg9fSBVg1N9Lpt/usaDQUIpsQhHW928MWeVxBjhRI74i9b+wC+gTUQueQqf1TmkluM+jvC5l4y9ZdPPR+4784IvOdiYX/uk6LaAsz5FC4QoVgSOAHGEy2yuF02tyeOfTJeRGl8IqCWBswUBx6vui7sKeX0Am6FITP0auKwUTIHn2WDUJY9GFSqyDzqglxHzB0GGyjB/rIT3FgvgRKecMqeJHjPatpozd7FijziML+Wjlrkzt9F8TKXVfnw==</Value>
+              <Value>TtCN3gkpbRKhkeEfN+U1EpV0PjUHRAbeWEisC9yF7y08LPrb+AD2NJRNnUay4SMr4Y0MxGyeY0d9C1mSYVRx0Fpgl4wL1id/QcMRJ3ykbUuXrgDiJacq1rtxWGRFJGugaeGFdld0tBGR9z1RML7ZeMmzu9bu9dnbj+a2MEQBMo4Asup7lkPlvV4vsUPiRCEVXUI8yCa17p2O10jO56O+OYlN5alahqRqvaJiLDzlysS0aKrm6rvfKw+Z3zOH6gg81w6ePvg8mUXkfZ0nZnRnjxqSX3QAlCNOrAyuATgS/pJg8pFpPrpP064D4w1sQQ3Y6bdyBuiGoHA26rHjVpbufG1eUgZvZ1yxo4ohMVOHSBsJXriPM/5egJY9m7isyucPNIRbBzrn0v3a0RO0WNjBHqLd6m1OFm2xK0r4Qu1HxtSon84TfCBx5GKrPdoyvsww6VQ2m6qVOL95KRsJrR8wzgYPxcOE9id/LUyIWAvGG8rmYiS9ZESLGccH3xkl0ieaRkDdOB9+uRgWKncIZeXJeCRwrzpuFWDFjpj5oWFf+YhUUwroNKnGzsPn6Bv2Ou7opgc57OT0OqJ/rGBIZSgE8PMn/5Jc+5lRMIeNNY8UK80v28TZyVCUw2TPE5491lbeQsjuIqK30YwqIDasN9TYqdWCWCqI+FVoZGatImSvkSlURhVUtHgo0RsJx8TS6xCkvKhmxZ0YFANeMmZGIT1MRFSTOeYZWPyWvHCsXvltkqyo+3rGcXRYEaGPHEJYh+CX1DtrIEwmrk+wjOgxtC7nZw==</Value>
             </Header>
             <Header>
               <Name>x-ms-client-session-id</Name>
-              <Value>9773bc04-827f-4ef7-9332-fbb87ead8126-2013-06-28 18:54:39Z</Value>
+              <Value>37d9d020-eba7-4d29-a99b-990dcfae0ad7-2014-03-27 21:01:39Z</Value>
             </Header>
             <Header>
               <Name>x-ms-client-request-id</Name>
-              <Value>4ee82d3a-38f1-410c-91dd-30c2b65b9ee8-2013-06-28 18:54:59Z</Value>
+              <Value>75d1fee2-c402-4a11-a7de-ad0dac2e1c47-2014-03-27 21:02:03Z</Value>
             </Header>
             <Header>
               <Name>Accept-Charset</Name>
@@ -767,13 +850,13 @@
             </Header>
             <Header>
               <Name>Cookie</Name>
-              <Value>.SQLSERVERMANAGEMENT=Qg/HFyYw6Tjmj9aa8ZlKTA==</Value>
+              <Value>.SQLSERVERMANAGEMENT=lYe3q1IT21s+U3DcSXsQ6g==</Value>
             </Header>
           </Headers>
           <Cookies>
             <Cookie>
               <Name>.SQLSERVERMANAGEMENT</Name>
-              <Value>Qg/HFyYw6Tjmj9aa8ZlKTA==</Value>
+              <Value>lYe3q1IT21s+U3DcSXsQ6g==</Value>
               <RelativeUri i:nil="true" />
             </Cookie>
           </Cookies>
@@ -786,7 +869,7 @@
           <Headers>
             <Header>
               <Name>x-ms-request-id</Name>
-              <Value>a05c6173-81f1-d509-3e0a-824c895c11c0</Value>
+              <Value>dd0aa36b-d81f-72ff-01bb-eab96f930257</Value>
             </Header>
             <Header>
               <Name>X-Content-Type-Options</Name>
@@ -806,7 +889,7 @@
             </Header>
             <Header>
               <Name>Date</Name>
-              <Value>Fri, 28 Jun 2013 18:54:59 GMT</Value>
+              <Value>Thu, 27 Mar 2014 21:02:03 GMT</Value>
             </Header>
             <Header>
               <Name>Server</Name>
@@ -814,11 +897,11 @@
             </Header>
           </Headers>
           <Cookies />
-          <ResponseText>&lt;?xml version="1.0" encoding="utf-8"?&gt;&lt;entry xml:base="http://localhost:12345/v1/ManagementService.svc/Server2('testserver')/" xmlns="http://www.w3.org/2005/Atom" xmlns:d="http://schemas.microsoft.com/ado/2007/08/dataservices" xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata"&gt;&lt;id&gt;http://localhost:12345/v1/ManagementService.svc/Server2('testserver')/ServiceObjectives(guid'910b4fcb-8a29-4c3e-958f-f7ba794388b2')&lt;/id&gt;&lt;category term="Microsoft.SqlServer.Management.Server.Domain.ServiceObjective" scheme="http://schemas.microsoft.com/ado/2007/08/dataservices/scheme" /&gt;&lt;link rel="edit" title="ServiceObjective" href="ServiceObjectives(guid'910b4fcb-8a29-4c3e-958f-f7ba794388b2')" /&gt;&lt;link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/DimensionSettings" type="application/atom+xml;type=feed" title="DimensionSettings" href="ServiceObjectives(guid'910b4fcb-8a29-4c3e-958f-f7ba794388b2')/DimensionSettings" /&gt;&lt;title /&gt;&lt;updated&gt;2013-06-28T18:54:59Z&lt;/updated&gt;&lt;author&gt;&lt;name /&gt;&lt;/author&gt;&lt;content type="application/xml"&gt;&lt;m:properties&gt;&lt;d:Id m:type="Edm.Guid"&gt;910b4fcb-8a29-4c3e-958f-f7ba794388b2&lt;/d:Id&gt;&lt;d:Name&gt;Shared&lt;/d:Name&gt;&lt;d:Description&gt;Resource capacity is not reserved.&lt;/d:Description&gt;&lt;d:IsDefault m:type="Edm.Boolean"&gt;true&lt;/d:IsDefault&gt;&lt;d:IsSystem m:type="Edm.Boolean"&gt;false&lt;/d:IsSystem&gt;&lt;d:Enabled m:type="Edm.Boolean"&gt;true&lt;/d:Enabled&gt;&lt;/m:properties&gt;&lt;/content&gt;&lt;/entry&gt;</ResponseText>
+          <ResponseText>&lt;?xml version="1.0" encoding="utf-8"?&gt;&lt;entry xml:base="http://localhost:12345/v1/ManagementService.svc/Server2('testserver')/" xmlns="http://www.w3.org/2005/Atom" xmlns:d="http://schemas.microsoft.com/ado/2007/08/dataservices" xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata"&gt;&lt;id&gt;http://localhost:12345/v1/ManagementService.svc/Server2('testserver')/ServiceObjectives(guid'910b4fcb-8a29-4c3e-958f-f7ba794388b2')&lt;/id&gt;&lt;category term="Microsoft.SqlServer.Management.Server.Domain.ServiceObjective" scheme="http://schemas.microsoft.com/ado/2007/08/dataservices/scheme" /&gt;&lt;link rel="edit" title="ServiceObjective" href="ServiceObjectives(guid'910b4fcb-8a29-4c3e-958f-f7ba794388b2')" /&gt;&lt;link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/DimensionSettings" type="application/atom+xml;type=feed" title="DimensionSettings" href="ServiceObjectives(guid'910b4fcb-8a29-4c3e-958f-f7ba794388b2')/DimensionSettings" /&gt;&lt;title /&gt;&lt;updated&gt;2014-03-27T21:02:04Z&lt;/updated&gt;&lt;author&gt;&lt;name /&gt;&lt;/author&gt;&lt;content type="application/xml"&gt;&lt;m:properties&gt;&lt;d:Id m:type="Edm.Guid"&gt;910b4fcb-8a29-4c3e-958f-f7ba794388b2&lt;/d:Id&gt;&lt;d:Name&gt;Shared&lt;/d:Name&gt;&lt;d:Description&gt;Shared resource allocation.&lt;/d:Description&gt;&lt;d:IsDefault m:type="Edm.Boolean"&gt;true&lt;/d:IsDefault&gt;&lt;d:IsSystem m:type="Edm.Boolean"&gt;false&lt;/d:IsSystem&gt;&lt;d:Enabled m:type="Edm.Boolean"&gt;true&lt;/d:Enabled&gt;&lt;/m:properties&gt;&lt;/content&gt;&lt;/entry&gt;</ResponseText>
         </ResponseInfo>
       </HttpMessage>
       <HttpMessage>
-        <Index>6</Index>
+        <Index>7</Index>
         <RequestInfo>
           <RequestUri>http://localhost:12345/v1/ManagementService.svc/Server2('testserver')/Databases()?$filter=Name%20eq%20'testdb2'&amp;$top=2</RequestUri>
           <Method>GET</Method>
@@ -834,15 +917,15 @@
             </Header>
             <Header>
               <Name>AccessToken</Name>
-              <Value>OBikkOEI5xXC0zKYGwzyCGP+L9KsK77yzc16zVCQO+aG0bcCtKfVj/YgMekZW4rr5qp4LZgl17txKhA/OjGSjYGalmJSL/BhWRZUbToHbhKbZ+MZvZFkeqTQ0T3JISS33dltFK3kESRkpMI3hDqIyWUQug1ipNuCaZ7zgtHk2FISzcbzCBzA+ntzgY9lIxluhP12KjjlwaA9jYxLpxK4Ezwb5wt5+cpQBP0yzgL+vQXxIKEz9cfKJ8h7xA9BQj0bXM8dupzS2SO3veZVpB4mwATEXpFNGWbLcqz+wxwQjw/DNduolhNy8RsAqTjlvhFmYCLP6tX7Upvfy9jTTwqdTX1VQlJeJt053doy9W3ccb7f9kqV3VjaRUEv+qHiTfSs2/rU2WOerCnAg8ho36W7VSk4nW0njb+w/L5pzS6KWWGmao5fQsYqfCekedzobxjb6XgxbZlGZnbhhIZa57Dr8Jx9texJj7vMtCIp4gyEUuDw+LlH2o7i5S9vEXsQivya7O9hd8Wy2QbXOi774yw2yXP/TMEdUg9fSBVg1N9Lpt/usaDQUIpsQhHW928MWeVxBjhRI74i9b+wC+gTUQueQqf1TmkluM+jvC5l4y9ZdPPR+4784IvOdiYX/uk6LaAsz5FC4QoVgSOAHGEy2yuF02tyeOfTJeRGl8IqCWBswUBx6vui7sKeX0Am6FITP0auKwUTIHn2WDUJY9GFSqyDzqglxHzB0GGyjB/rIT3FgvgRKecMqeJHjPatpozd7FijziML+Wjlrkzt9F8TKXVfnw==</Value>
+              <Value>TtCN3gkpbRKhkeEfN+U1EpV0PjUHRAbeWEisC9yF7y08LPrb+AD2NJRNnUay4SMr4Y0MxGyeY0d9C1mSYVRx0Fpgl4wL1id/QcMRJ3ykbUuXrgDiJacq1rtxWGRFJGugaeGFdld0tBGR9z1RML7ZeMmzu9bu9dnbj+a2MEQBMo4Asup7lkPlvV4vsUPiRCEVXUI8yCa17p2O10jO56O+OYlN5alahqRqvaJiLDzlysS0aKrm6rvfKw+Z3zOH6gg81w6ePvg8mUXkfZ0nZnRnjxqSX3QAlCNOrAyuATgS/pJg8pFpPrpP064D4w1sQQ3Y6bdyBuiGoHA26rHjVpbufG1eUgZvZ1yxo4ohMVOHSBsJXriPM/5egJY9m7isyucPNIRbBzrn0v3a0RO0WNjBHqLd6m1OFm2xK0r4Qu1HxtSon84TfCBx5GKrPdoyvsww6VQ2m6qVOL95KRsJrR8wzgYPxcOE9id/LUyIWAvGG8rmYiS9ZESLGccH3xkl0ieaRkDdOB9+uRgWKncIZeXJeCRwrzpuFWDFjpj5oWFf+YhUUwroNKnGzsPn6Bv2Ou7opgc57OT0OqJ/rGBIZSgE8PMn/5Jc+5lRMIeNNY8UK80v28TZyVCUw2TPE5491lbeQsjuIqK30YwqIDasN9TYqdWCWCqI+FVoZGatImSvkSlURhVUtHgo0RsJx8TS6xCkvKhmxZ0YFANeMmZGIT1MRFSTOeYZWPyWvHCsXvltkqyo+3rGcXRYEaGPHEJYh+CX1DtrIEwmrk+wjOgxtC7nZw==</Value>
             </Header>
             <Header>
               <Name>x-ms-client-session-id</Name>
-              <Value>9773bc04-827f-4ef7-9332-fbb87ead8126-2013-06-28 18:54:39Z</Value>
+              <Value>37d9d020-eba7-4d29-a99b-990dcfae0ad7-2014-03-27 21:01:39Z</Value>
             </Header>
             <Header>
               <Name>x-ms-client-request-id</Name>
-              <Value>4ee82d3a-38f1-410c-91dd-30c2b65b9ee8-2013-06-28 18:54:59Z</Value>
+              <Value>75d1fee2-c402-4a11-a7de-ad0dac2e1c47-2014-03-27 21:02:03Z</Value>
             </Header>
             <Header>
               <Name>Accept-Charset</Name>
@@ -850,13 +933,13 @@
             </Header>
             <Header>
               <Name>Cookie</Name>
-              <Value>.SQLSERVERMANAGEMENT=Qg/HFyYw6Tjmj9aa8ZlKTA==</Value>
+              <Value>.SQLSERVERMANAGEMENT=lYe3q1IT21s+U3DcSXsQ6g==</Value>
             </Header>
           </Headers>
           <Cookies>
             <Cookie>
               <Name>.SQLSERVERMANAGEMENT</Name>
-              <Value>Qg/HFyYw6Tjmj9aa8ZlKTA==</Value>
+              <Value>lYe3q1IT21s+U3DcSXsQ6g==</Value>
               <RelativeUri i:nil="true" />
             </Cookie>
           </Cookies>
@@ -869,7 +952,7 @@
           <Headers>
             <Header>
               <Name>x-ms-request-id</Name>
-              <Value>a05c6173-81f1-d509-3e0a-824c895c11c0</Value>
+              <Value>dd0aa36b-d81f-72ff-01bb-eab96f930257</Value>
             </Header>
             <Header>
               <Name>X-Content-Type-Options</Name>
@@ -889,7 +972,7 @@
             </Header>
             <Header>
               <Name>Date</Name>
-              <Value>Fri, 28 Jun 2013 18:54:59 GMT</Value>
+              <Value>Thu, 27 Mar 2014 21:02:03 GMT</Value>
             </Header>
             <Header>
               <Name>Server</Name>
@@ -897,11 +980,11 @@
             </Header>
           </Headers>
           <Cookies />
-          <ResponseText>&lt;?xml version="1.0" encoding="utf-8"?&gt;&lt;feed xml:base="http://localhost:12345/v1/ManagementService.svc/Server2('testserver')/" xmlns="http://www.w3.org/2005/Atom" xmlns:d="http://schemas.microsoft.com/ado/2007/08/dataservices" xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata"&gt;&lt;id&gt;http://localhost:12345/v1/ManagementService.svc/Server2('testserver')/Databases&lt;/id&gt;&lt;title type="text"&gt;Databases&lt;/title&gt;&lt;updated&gt;2013-06-28T18:55:00Z&lt;/updated&gt;&lt;link rel="self" title="Databases" href="Databases" /&gt;&lt;entry&gt;&lt;id&gt;http://localhost:12345/v1/ManagementService.svc/Server2('testserver')/Databases(5)&lt;/id&gt;&lt;category term="Microsoft.SqlServer.Management.Server.Domain.Database" scheme="http://schemas.microsoft.com/ado/2007/08/dataservices/scheme" /&gt;&lt;link rel="edit" title="Database" href="Databases(5)" /&gt;&lt;link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/Server" type="application/atom+xml;type=entry" title="Server" href="Databases(5)/Server" /&gt;&lt;link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/ServiceObjective" type="application/atom+xml;type=entry" title="ServiceObjective" href="Databases(5)/ServiceObjective" /&gt;&lt;link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/DatabaseMetrics" type="application/atom+xml;type=entry" title="DatabaseMetrics" href="Databases(5)/DatabaseMetrics" /&gt;&lt;link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/DatabaseCopies" type="application/atom+xml;type=feed" title="DatabaseCopies" href="Databases(5)/DatabaseCopies" /&gt;&lt;title /&gt;&lt;updated&gt;2013-06-28T18:55:00Z&lt;/updated&gt;&lt;author&gt;&lt;name /&gt;&lt;/author&gt;&lt;content type="application/xml"&gt;&lt;m:properties&gt;&lt;d:Id m:type="Edm.Int32"&gt;5&lt;/d:Id&gt;&lt;d:Name&gt;testdb2&lt;/d:Name&gt;&lt;d:ServiceObjectiveId m:type="Edm.Guid"&gt;910b4fcb-8a29-4c3e-958f-f7ba794388b2&lt;/d:ServiceObjectiveId&gt;&lt;d:AssignedServiceObjectiveId m:type="Edm.Guid"&gt;910b4fcb-8a29-4c3e-958f-f7ba794388b2&lt;/d:AssignedServiceObjectiveId&gt;&lt;d:ServiceObjectiveAssignmentState m:type="Edm.Byte"&gt;1&lt;/d:ServiceObjectiveAssignmentState&gt;&lt;d:ServiceObjectiveAssignmentStateDescription&gt;Complete&lt;/d:ServiceObjectiveAssignmentStateDescription&gt;&lt;d:ServiceObjectiveAssignmentErrorCode m:type="Edm.Int32"&gt;0&lt;/d:ServiceObjectiveAssignmentErrorCode&gt;&lt;d:ServiceObjectiveAssignmentErrorDescription m:null="true" /&gt;&lt;d:ServiceObjectiveAssignmentSuccessDate m:type="Edm.DateTime"&gt;2013-06-28T18:54:59.583&lt;/d:ServiceObjectiveAssignmentSuccessDate&gt;&lt;d:Edition&gt;Web&lt;/d:Edition&gt;&lt;d:MaxSizeGB m:type="Edm.Int32"&gt;5&lt;/d:MaxSizeGB&gt;&lt;d:MaxSizeBytes m:type="Edm.Int64"&gt;5368709120&lt;/d:MaxSizeBytes&gt;&lt;d:CollationName&gt;Japanese_CI_AS&lt;/d:CollationName&gt;&lt;d:CreationDate m:type="Edm.DateTime"&gt;2013-06-28T11:54:58.857&lt;/d:CreationDate&gt;&lt;d:RecoveryPeriodStartDate m:type="Edm.DateTime"&gt;2013-06-28T18:54:58.857Z&lt;/d:RecoveryPeriodStartDate&gt;&lt;d:IsSystemObject m:type="Edm.Boolean"&gt;false&lt;/d:IsSystemObject&gt;&lt;d:Status m:type="Edm.Int32"&gt;1&lt;/d:Status&gt;&lt;d:IsFederationRoot m:type="Edm.Boolean"&gt;false&lt;/d:IsFederationRoot&gt;&lt;d:SizeMB m:type="Edm.Decimal"&gt;-1.00&lt;/d:SizeMB&gt;&lt;d:IsRecursiveTriggersOn m:type="Edm.Boolean"&gt;false&lt;/d:IsRecursiveTriggersOn&gt;&lt;d:IsReadOnly m:type="Edm.Boolean"&gt;false&lt;/d:IsReadOnly&gt;&lt;d:IsFederationMember m:type="Edm.Boolean"&gt;false&lt;/d:IsFederationMember&gt;&lt;d:IsQueryStoreOn m:type="Edm.Boolean"&gt;false&lt;/d:IsQueryStoreOn&gt;&lt;d:IsQueryStoreReadOnly m:type="Edm.Boolean" m:null="true" /&gt;&lt;d:QueryStoreMaxSizeMB m:type="Edm.Int32" m:null="true" /&gt;&lt;d:QueryStoreFlushPeriodSeconds m:type="Edm.Int32" m:null="true" /&gt;&lt;d:QueryStoreIntervalLengthMinutes m:type="Edm.Int32" m:null="true" /&gt;&lt;d:QueryStoreClearAll m:type="Edm.Boolean" m:null="true" /&gt;&lt;/m:properties&gt;&lt;/content&gt;&lt;/entry&gt;&lt;/feed&gt;</ResponseText>
+          <ResponseText>&lt;?xml version="1.0" encoding="utf-8"?&gt;&lt;feed xml:base="http://localhost:12345/v1/ManagementService.svc/Server2('testserver')/" xmlns="http://www.w3.org/2005/Atom" xmlns:d="http://schemas.microsoft.com/ado/2007/08/dataservices" xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata"&gt;&lt;id&gt;http://localhost:12345/v1/ManagementService.svc/Server2('testserver')/Databases&lt;/id&gt;&lt;title type="text"&gt;Databases&lt;/title&gt;&lt;updated&gt;2014-03-27T21:02:04Z&lt;/updated&gt;&lt;link rel="self" title="Databases" href="Databases" /&gt;&lt;entry&gt;&lt;id&gt;http://localhost:12345/v1/ManagementService.svc/Server2('testserver')/Databases(5)&lt;/id&gt;&lt;category term="Microsoft.SqlServer.Management.Server.Domain.Database" scheme="http://schemas.microsoft.com/ado/2007/08/dataservices/scheme" /&gt;&lt;link rel="edit" title="Database" href="Databases(5)" /&gt;&lt;link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/Server" type="application/atom+xml;type=entry" title="Server" href="Databases(5)/Server" /&gt;&lt;link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/ServiceObjective" type="application/atom+xml;type=entry" title="ServiceObjective" href="Databases(5)/ServiceObjective" /&gt;&lt;link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/DatabaseMetrics" type="application/atom+xml;type=entry" title="DatabaseMetrics" href="Databases(5)/DatabaseMetrics" /&gt;&lt;link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/DatabaseCopies" type="application/atom+xml;type=feed" title="DatabaseCopies" href="Databases(5)/DatabaseCopies" /&gt;&lt;title /&gt;&lt;updated&gt;2014-03-27T21:02:04Z&lt;/updated&gt;&lt;author&gt;&lt;name /&gt;&lt;/author&gt;&lt;content type="application/xml"&gt;&lt;m:properties&gt;&lt;d:Id m:type="Edm.Int32"&gt;5&lt;/d:Id&gt;&lt;d:Name&gt;testdb2&lt;/d:Name&gt;&lt;d:ServiceObjectiveId m:type="Edm.Guid"&gt;910b4fcb-8a29-4c3e-958f-f7ba794388b2&lt;/d:ServiceObjectiveId&gt;&lt;d:AssignedServiceObjectiveId m:type="Edm.Guid"&gt;910b4fcb-8a29-4c3e-958f-f7ba794388b2&lt;/d:AssignedServiceObjectiveId&gt;&lt;d:ServiceObjectiveAssignmentState m:type="Edm.Byte"&gt;1&lt;/d:ServiceObjectiveAssignmentState&gt;&lt;d:ServiceObjectiveAssignmentStateDescription&gt;Complete&lt;/d:ServiceObjectiveAssignmentStateDescription&gt;&lt;d:ServiceObjectiveAssignmentErrorCode m:type="Edm.Int32"&gt;0&lt;/d:ServiceObjectiveAssignmentErrorCode&gt;&lt;d:ServiceObjectiveAssignmentErrorDescription m:null="true" /&gt;&lt;d:ServiceObjectiveAssignmentSuccessDate m:type="Edm.DateTime"&gt;2014-03-27T21:01:54.303&lt;/d:ServiceObjectiveAssignmentSuccessDate&gt;&lt;d:Edition&gt;Web&lt;/d:Edition&gt;&lt;d:MaxSizeGB m:type="Edm.Int32"&gt;5&lt;/d:MaxSizeGB&gt;&lt;d:MaxSizeBytes m:type="Edm.Int64"&gt;5368709120&lt;/d:MaxSizeBytes&gt;&lt;d:CollationName&gt;Japanese_CI_AS&lt;/d:CollationName&gt;&lt;d:CreationDate m:type="Edm.DateTime"&gt;2014-03-27T14:01:46.477&lt;/d:CreationDate&gt;&lt;d:RecoveryPeriodStartDate m:type="Edm.DateTime"&gt;2014-03-27T21:02:44.99Z&lt;/d:RecoveryPeriodStartDate&gt;&lt;d:IsSystemObject m:type="Edm.Boolean"&gt;false&lt;/d:IsSystemObject&gt;&lt;d:Status m:type="Edm.Int32"&gt;1&lt;/d:Status&gt;&lt;d:IsFederationRoot m:type="Edm.Boolean"&gt;false&lt;/d:IsFederationRoot&gt;&lt;d:SizeMB m:type="Edm.Decimal"&gt;2.50&lt;/d:SizeMB&gt;&lt;d:IsRecursiveTriggersOn m:type="Edm.Boolean"&gt;false&lt;/d:IsRecursiveTriggersOn&gt;&lt;d:IsReadOnly m:type="Edm.Boolean"&gt;false&lt;/d:IsReadOnly&gt;&lt;d:IsFederationMember m:type="Edm.Boolean"&gt;false&lt;/d:IsFederationMember&gt;&lt;d:IsQueryStoreOn m:type="Edm.Boolean"&gt;false&lt;/d:IsQueryStoreOn&gt;&lt;d:IsQueryStoreReadOnly m:type="Edm.Boolean" m:null="true" /&gt;&lt;d:QueryStoreMaxSizeMB m:type="Edm.Int32" m:null="true" /&gt;&lt;d:QueryStoreFlushPeriodSeconds m:type="Edm.Int32" m:null="true" /&gt;&lt;d:QueryStoreIntervalLengthMinutes m:type="Edm.Int32" m:null="true" /&gt;&lt;d:QueryStoreClearAll m:type="Edm.Boolean" m:null="true" /&gt;&lt;d:QueryStoreStaleQueryThresholdDays m:type="Edm.Int32" m:null="true" /&gt;&lt;d:IsSuspended m:type="Edm.Boolean"&gt;false&lt;/d:IsSuspended&gt;&lt;/m:properties&gt;&lt;/content&gt;&lt;/entry&gt;&lt;/feed&gt;</ResponseText>
         </ResponseInfo>
       </HttpMessage>
       <HttpMessage>
-        <Index>7</Index>
+        <Index>8</Index>
         <RequestInfo>
           <RequestUri>http://localhost:12345/v1/ManagementService.svc/Server2('testserver')/Databases(5)/ServiceObjective</RequestUri>
           <Method>GET</Method>
@@ -917,15 +1000,15 @@
             </Header>
             <Header>
               <Name>AccessToken</Name>
-              <Value>OBikkOEI5xXC0zKYGwzyCGP+L9KsK77yzc16zVCQO+aG0bcCtKfVj/YgMekZW4rr5qp4LZgl17txKhA/OjGSjYGalmJSL/BhWRZUbToHbhKbZ+MZvZFkeqTQ0T3JISS33dltFK3kESRkpMI3hDqIyWUQug1ipNuCaZ7zgtHk2FISzcbzCBzA+ntzgY9lIxluhP12KjjlwaA9jYxLpxK4Ezwb5wt5+cpQBP0yzgL+vQXxIKEz9cfKJ8h7xA9BQj0bXM8dupzS2SO3veZVpB4mwATEXpFNGWbLcqz+wxwQjw/DNduolhNy8RsAqTjlvhFmYCLP6tX7Upvfy9jTTwqdTX1VQlJeJt053doy9W3ccb7f9kqV3VjaRUEv+qHiTfSs2/rU2WOerCnAg8ho36W7VSk4nW0njb+w/L5pzS6KWWGmao5fQsYqfCekedzobxjb6XgxbZlGZnbhhIZa57Dr8Jx9texJj7vMtCIp4gyEUuDw+LlH2o7i5S9vEXsQivya7O9hd8Wy2QbXOi774yw2yXP/TMEdUg9fSBVg1N9Lpt/usaDQUIpsQhHW928MWeVxBjhRI74i9b+wC+gTUQueQqf1TmkluM+jvC5l4y9ZdPPR+4784IvOdiYX/uk6LaAsz5FC4QoVgSOAHGEy2yuF02tyeOfTJeRGl8IqCWBswUBx6vui7sKeX0Am6FITP0auKwUTIHn2WDUJY9GFSqyDzqglxHzB0GGyjB/rIT3FgvgRKecMqeJHjPatpozd7FijziML+Wjlrkzt9F8TKXVfnw==</Value>
+              <Value>TtCN3gkpbRKhkeEfN+U1EpV0PjUHRAbeWEisC9yF7y08LPrb+AD2NJRNnUay4SMr4Y0MxGyeY0d9C1mSYVRx0Fpgl4wL1id/QcMRJ3ykbUuXrgDiJacq1rtxWGRFJGugaeGFdld0tBGR9z1RML7ZeMmzu9bu9dnbj+a2MEQBMo4Asup7lkPlvV4vsUPiRCEVXUI8yCa17p2O10jO56O+OYlN5alahqRqvaJiLDzlysS0aKrm6rvfKw+Z3zOH6gg81w6ePvg8mUXkfZ0nZnRnjxqSX3QAlCNOrAyuATgS/pJg8pFpPrpP064D4w1sQQ3Y6bdyBuiGoHA26rHjVpbufG1eUgZvZ1yxo4ohMVOHSBsJXriPM/5egJY9m7isyucPNIRbBzrn0v3a0RO0WNjBHqLd6m1OFm2xK0r4Qu1HxtSon84TfCBx5GKrPdoyvsww6VQ2m6qVOL95KRsJrR8wzgYPxcOE9id/LUyIWAvGG8rmYiS9ZESLGccH3xkl0ieaRkDdOB9+uRgWKncIZeXJeCRwrzpuFWDFjpj5oWFf+YhUUwroNKnGzsPn6Bv2Ou7opgc57OT0OqJ/rGBIZSgE8PMn/5Jc+5lRMIeNNY8UK80v28TZyVCUw2TPE5491lbeQsjuIqK30YwqIDasN9TYqdWCWCqI+FVoZGatImSvkSlURhVUtHgo0RsJx8TS6xCkvKhmxZ0YFANeMmZGIT1MRFSTOeYZWPyWvHCsXvltkqyo+3rGcXRYEaGPHEJYh+CX1DtrIEwmrk+wjOgxtC7nZw==</Value>
             </Header>
             <Header>
               <Name>x-ms-client-session-id</Name>
-              <Value>9773bc04-827f-4ef7-9332-fbb87ead8126-2013-06-28 18:54:39Z</Value>
+              <Value>37d9d020-eba7-4d29-a99b-990dcfae0ad7-2014-03-27 21:01:39Z</Value>
             </Header>
             <Header>
               <Name>x-ms-client-request-id</Name>
-              <Value>4ee82d3a-38f1-410c-91dd-30c2b65b9ee8-2013-06-28 18:54:59Z</Value>
+              <Value>75d1fee2-c402-4a11-a7de-ad0dac2e1c47-2014-03-27 21:02:03Z</Value>
             </Header>
             <Header>
               <Name>Accept-Charset</Name>
@@ -933,13 +1016,13 @@
             </Header>
             <Header>
               <Name>Cookie</Name>
-              <Value>.SQLSERVERMANAGEMENT=Qg/HFyYw6Tjmj9aa8ZlKTA==</Value>
+              <Value>.SQLSERVERMANAGEMENT=lYe3q1IT21s+U3DcSXsQ6g==</Value>
             </Header>
           </Headers>
           <Cookies>
             <Cookie>
               <Name>.SQLSERVERMANAGEMENT</Name>
-              <Value>Qg/HFyYw6Tjmj9aa8ZlKTA==</Value>
+              <Value>lYe3q1IT21s+U3DcSXsQ6g==</Value>
               <RelativeUri i:nil="true" />
             </Cookie>
           </Cookies>
@@ -952,7 +1035,7 @@
           <Headers>
             <Header>
               <Name>x-ms-request-id</Name>
-              <Value>a05c6173-81f1-d509-3e0a-824c895c11c0</Value>
+              <Value>dd0aa36b-d81f-72ff-01bb-eab96f930257</Value>
             </Header>
             <Header>
               <Name>X-Content-Type-Options</Name>
@@ -972,7 +1055,7 @@
             </Header>
             <Header>
               <Name>Date</Name>
-              <Value>Fri, 28 Jun 2013 18:54:59 GMT</Value>
+              <Value>Thu, 27 Mar 2014 21:02:05 GMT</Value>
             </Header>
             <Header>
               <Name>Server</Name>
@@ -980,7 +1063,173 @@
             </Header>
           </Headers>
           <Cookies />
-          <ResponseText>&lt;?xml version="1.0" encoding="utf-8"?&gt;&lt;entry xml:base="http://localhost:12345/v1/ManagementService.svc/Server2('testserver')/" xmlns="http://www.w3.org/2005/Atom" xmlns:d="http://schemas.microsoft.com/ado/2007/08/dataservices" xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata"&gt;&lt;id&gt;http://localhost:12345/v1/ManagementService.svc/Server2('testserver')/ServiceObjectives(guid'910b4fcb-8a29-4c3e-958f-f7ba794388b2')&lt;/id&gt;&lt;category term="Microsoft.SqlServer.Management.Server.Domain.ServiceObjective" scheme="http://schemas.microsoft.com/ado/2007/08/dataservices/scheme" /&gt;&lt;link rel="edit" title="ServiceObjective" href="ServiceObjectives(guid'910b4fcb-8a29-4c3e-958f-f7ba794388b2')" /&gt;&lt;link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/DimensionSettings" type="application/atom+xml;type=feed" title="DimensionSettings" href="ServiceObjectives(guid'910b4fcb-8a29-4c3e-958f-f7ba794388b2')/DimensionSettings" /&gt;&lt;title /&gt;&lt;updated&gt;2013-06-28T18:55:00Z&lt;/updated&gt;&lt;author&gt;&lt;name /&gt;&lt;/author&gt;&lt;content type="application/xml"&gt;&lt;m:properties&gt;&lt;d:Id m:type="Edm.Guid"&gt;910b4fcb-8a29-4c3e-958f-f7ba794388b2&lt;/d:Id&gt;&lt;d:Name&gt;Shared&lt;/d:Name&gt;&lt;d:Description&gt;Resource capacity is not reserved.&lt;/d:Description&gt;&lt;d:IsDefault m:type="Edm.Boolean"&gt;true&lt;/d:IsDefault&gt;&lt;d:IsSystem m:type="Edm.Boolean"&gt;false&lt;/d:IsSystem&gt;&lt;d:Enabled m:type="Edm.Boolean"&gt;true&lt;/d:Enabled&gt;&lt;/m:properties&gt;&lt;/content&gt;&lt;/entry&gt;</ResponseText>
+          <ResponseText>&lt;?xml version="1.0" encoding="utf-8"?&gt;&lt;entry xml:base="http://localhost:12345/v1/ManagementService.svc/Server2('testserver')/" xmlns="http://www.w3.org/2005/Atom" xmlns:d="http://schemas.microsoft.com/ado/2007/08/dataservices" xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata"&gt;&lt;id&gt;http://localhost:12345/v1/ManagementService.svc/Server2('testserver')/ServiceObjectives(guid'910b4fcb-8a29-4c3e-958f-f7ba794388b2')&lt;/id&gt;&lt;category term="Microsoft.SqlServer.Management.Server.Domain.ServiceObjective" scheme="http://schemas.microsoft.com/ado/2007/08/dataservices/scheme" /&gt;&lt;link rel="edit" title="ServiceObjective" href="ServiceObjectives(guid'910b4fcb-8a29-4c3e-958f-f7ba794388b2')" /&gt;&lt;link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/DimensionSettings" type="application/atom+xml;type=feed" title="DimensionSettings" href="ServiceObjectives(guid'910b4fcb-8a29-4c3e-958f-f7ba794388b2')/DimensionSettings" /&gt;&lt;title /&gt;&lt;updated&gt;2014-03-27T21:02:05Z&lt;/updated&gt;&lt;author&gt;&lt;name /&gt;&lt;/author&gt;&lt;content type="application/xml"&gt;&lt;m:properties&gt;&lt;d:Id m:type="Edm.Guid"&gt;910b4fcb-8a29-4c3e-958f-f7ba794388b2&lt;/d:Id&gt;&lt;d:Name&gt;Shared&lt;/d:Name&gt;&lt;d:Description&gt;Shared resource allocation.&lt;/d:Description&gt;&lt;d:IsDefault m:type="Edm.Boolean"&gt;true&lt;/d:IsDefault&gt;&lt;d:IsSystem m:type="Edm.Boolean"&gt;false&lt;/d:IsSystem&gt;&lt;d:Enabled m:type="Edm.Boolean"&gt;true&lt;/d:Enabled&gt;&lt;/m:properties&gt;&lt;/content&gt;&lt;/entry&gt;</ResponseText>
+        </ResponseInfo>
+      </HttpMessage>
+      <HttpMessage>
+        <Index>9</Index>
+        <RequestInfo>
+          <RequestUri>http://localhost:12345/v1/ManagementService.svc/Server2('testserver')/Databases()?$filter=Name%20eq%20'testdb3'&amp;$top=2</RequestUri>
+          <Method>GET</Method>
+          <UserAgent>WindowsAzurePowershell/v0.7.4</UserAgent>
+          <Headers>
+            <Header>
+              <Name>DataServiceVersion</Name>
+              <Value>1.0;NetFx</Value>
+            </Header>
+            <Header>
+              <Name>MaxDataServiceVersion</Name>
+              <Value>2.0;NetFx</Value>
+            </Header>
+            <Header>
+              <Name>AccessToken</Name>
+              <Value>TtCN3gkpbRKhkeEfN+U1EpV0PjUHRAbeWEisC9yF7y08LPrb+AD2NJRNnUay4SMr4Y0MxGyeY0d9C1mSYVRx0Fpgl4wL1id/QcMRJ3ykbUuXrgDiJacq1rtxWGRFJGugaeGFdld0tBGR9z1RML7ZeMmzu9bu9dnbj+a2MEQBMo4Asup7lkPlvV4vsUPiRCEVXUI8yCa17p2O10jO56O+OYlN5alahqRqvaJiLDzlysS0aKrm6rvfKw+Z3zOH6gg81w6ePvg8mUXkfZ0nZnRnjxqSX3QAlCNOrAyuATgS/pJg8pFpPrpP064D4w1sQQ3Y6bdyBuiGoHA26rHjVpbufG1eUgZvZ1yxo4ohMVOHSBsJXriPM/5egJY9m7isyucPNIRbBzrn0v3a0RO0WNjBHqLd6m1OFm2xK0r4Qu1HxtSon84TfCBx5GKrPdoyvsww6VQ2m6qVOL95KRsJrR8wzgYPxcOE9id/LUyIWAvGG8rmYiS9ZESLGccH3xkl0ieaRkDdOB9+uRgWKncIZeXJeCRwrzpuFWDFjpj5oWFf+YhUUwroNKnGzsPn6Bv2Ou7opgc57OT0OqJ/rGBIZSgE8PMn/5Jc+5lRMIeNNY8UK80v28TZyVCUw2TPE5491lbeQsjuIqK30YwqIDasN9TYqdWCWCqI+FVoZGatImSvkSlURhVUtHgo0RsJx8TS6xCkvKhmxZ0YFANeMmZGIT1MRFSTOeYZWPyWvHCsXvltkqyo+3rGcXRYEaGPHEJYh+CX1DtrIEwmrk+wjOgxtC7nZw==</Value>
+            </Header>
+            <Header>
+              <Name>x-ms-client-session-id</Name>
+              <Value>37d9d020-eba7-4d29-a99b-990dcfae0ad7-2014-03-27 21:01:39Z</Value>
+            </Header>
+            <Header>
+              <Name>x-ms-client-request-id</Name>
+              <Value>75d1fee2-c402-4a11-a7de-ad0dac2e1c47-2014-03-27 21:02:03Z</Value>
+            </Header>
+            <Header>
+              <Name>Accept-Charset</Name>
+              <Value>UTF-8</Value>
+            </Header>
+            <Header>
+              <Name>Cookie</Name>
+              <Value>.SQLSERVERMANAGEMENT=lYe3q1IT21s+U3DcSXsQ6g==</Value>
+            </Header>
+          </Headers>
+          <Cookies>
+            <Cookie>
+              <Name>.SQLSERVERMANAGEMENT</Name>
+              <Value>lYe3q1IT21s+U3DcSXsQ6g==</Value>
+              <RelativeUri i:nil="true" />
+            </Cookie>
+          </Cookies>
+          <RequestText i:nil="true" />
+          <ContentType i:nil="true" />
+          <Accept>application/atom+xml,application/xml</Accept>
+        </RequestInfo>
+        <ResponseInfo>
+          <StatusCode>OK</StatusCode>
+          <Headers>
+            <Header>
+              <Name>x-ms-request-id</Name>
+              <Value>dd0aa36b-d81f-72ff-01bb-eab96f930257</Value>
+            </Header>
+            <Header>
+              <Name>X-Content-Type-Options</Name>
+              <Value>nosniff</Value>
+            </Header>
+            <Header>
+              <Name>DataServiceVersion</Name>
+              <Value>2.0;</Value>
+            </Header>
+            <Header>
+              <Name>Cache-Control</Name>
+              <Value>no-store,no-cache</Value>
+            </Header>
+            <Header>
+              <Name>Content-Type</Name>
+              <Value>application/atom+xml;type=feed;charset=utf-8</Value>
+            </Header>
+            <Header>
+              <Name>Date</Name>
+              <Value>Thu, 27 Mar 2014 21:02:05 GMT</Value>
+            </Header>
+            <Header>
+              <Name>Server</Name>
+              <Value>Microsoft-HTTPAPI/2.0</Value>
+            </Header>
+          </Headers>
+          <Cookies />
+          <ResponseText>&lt;?xml version="1.0" encoding="utf-8"?&gt;&lt;feed xml:base="http://localhost:12345/v1/ManagementService.svc/Server2('testserver')/" xmlns="http://www.w3.org/2005/Atom" xmlns:d="http://schemas.microsoft.com/ado/2007/08/dataservices" xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata"&gt;&lt;id&gt;http://localhost:12345/v1/ManagementService.svc/Server2('testserver')/Databases&lt;/id&gt;&lt;title type="text"&gt;Databases&lt;/title&gt;&lt;updated&gt;2014-03-27T21:02:05Z&lt;/updated&gt;&lt;link rel="self" title="Databases" href="Databases" /&gt;&lt;entry&gt;&lt;id&gt;http://localhost:12345/v1/ManagementService.svc/Server2('testserver')/Databases(6)&lt;/id&gt;&lt;category term="Microsoft.SqlServer.Management.Server.Domain.Database" scheme="http://schemas.microsoft.com/ado/2007/08/dataservices/scheme" /&gt;&lt;link rel="edit" title="Database" href="Databases(6)" /&gt;&lt;link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/Server" type="application/atom+xml;type=entry" title="Server" href="Databases(6)/Server" /&gt;&lt;link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/ServiceObjective" type="application/atom+xml;type=entry" title="ServiceObjective" href="Databases(6)/ServiceObjective" /&gt;&lt;link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/DatabaseMetrics" type="application/atom+xml;type=entry" title="DatabaseMetrics" href="Databases(6)/DatabaseMetrics" /&gt;&lt;link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/DatabaseCopies" type="application/atom+xml;type=feed" title="DatabaseCopies" href="Databases(6)/DatabaseCopies" /&gt;&lt;title /&gt;&lt;updated&gt;2014-03-27T21:02:05Z&lt;/updated&gt;&lt;author&gt;&lt;name /&gt;&lt;/author&gt;&lt;content type="application/xml"&gt;&lt;m:properties&gt;&lt;d:Id m:type="Edm.Int32"&gt;6&lt;/d:Id&gt;&lt;d:Name&gt;testdb3&lt;/d:Name&gt;&lt;d:ServiceObjectiveId m:type="Edm.Guid"&gt;910b4fcb-8a29-4c3e-958f-f7ba794388b2&lt;/d:ServiceObjectiveId&gt;&lt;d:AssignedServiceObjectiveId m:type="Edm.Guid"&gt;910b4fcb-8a29-4c3e-958f-f7ba794388b2&lt;/d:AssignedServiceObjectiveId&gt;&lt;d:ServiceObjectiveAssignmentState m:type="Edm.Byte"&gt;1&lt;/d:ServiceObjectiveAssignmentState&gt;&lt;d:ServiceObjectiveAssignmentStateDescription&gt;Complete&lt;/d:ServiceObjectiveAssignmentStateDescription&gt;&lt;d:ServiceObjectiveAssignmentErrorCode m:type="Edm.Int32"&gt;0&lt;/d:ServiceObjectiveAssignmentErrorCode&gt;&lt;d:ServiceObjectiveAssignmentErrorDescription m:null="true" /&gt;&lt;d:ServiceObjectiveAssignmentSuccessDate m:type="Edm.DateTime"&gt;2014-03-27T21:02:01.303&lt;/d:ServiceObjectiveAssignmentSuccessDate&gt;&lt;d:Edition&gt;Web&lt;/d:Edition&gt;&lt;d:MaxSizeGB m:type="Edm.Int32"&gt;0&lt;/d:MaxSizeGB&gt;&lt;d:MaxSizeBytes m:type="Edm.Int64"&gt;104857600&lt;/d:MaxSizeBytes&gt;&lt;d:CollationName&gt;SQL_Latin1_General_CP1_CI_AS&lt;/d:CollationName&gt;&lt;d:CreationDate m:type="Edm.DateTime"&gt;2014-03-27T14:01:58.89&lt;/d:CreationDate&gt;&lt;d:RecoveryPeriodStartDate m:type="Edm.DateTime"&gt;2014-03-27T21:02:58.147Z&lt;/d:RecoveryPeriodStartDate&gt;&lt;d:IsSystemObject m:type="Edm.Boolean"&gt;false&lt;/d:IsSystemObject&gt;&lt;d:Status m:type="Edm.Int32"&gt;1&lt;/d:Status&gt;&lt;d:IsFederationRoot m:type="Edm.Boolean"&gt;false&lt;/d:IsFederationRoot&gt;&lt;d:SizeMB m:type="Edm.Decimal"&gt;2.50&lt;/d:SizeMB&gt;&lt;d:IsRecursiveTriggersOn m:type="Edm.Boolean"&gt;false&lt;/d:IsRecursiveTriggersOn&gt;&lt;d:IsReadOnly m:type="Edm.Boolean"&gt;false&lt;/d:IsReadOnly&gt;&lt;d:IsFederationMember m:type="Edm.Boolean"&gt;false&lt;/d:IsFederationMember&gt;&lt;d:IsQueryStoreOn m:type="Edm.Boolean"&gt;false&lt;/d:IsQueryStoreOn&gt;&lt;d:IsQueryStoreReadOnly m:type="Edm.Boolean" m:null="true" /&gt;&lt;d:QueryStoreMaxSizeMB m:type="Edm.Int32" m:null="true" /&gt;&lt;d:QueryStoreFlushPeriodSeconds m:type="Edm.Int32" m:null="true" /&gt;&lt;d:QueryStoreIntervalLengthMinutes m:type="Edm.Int32" m:null="true" /&gt;&lt;d:QueryStoreClearAll m:type="Edm.Boolean" m:null="true" /&gt;&lt;d:QueryStoreStaleQueryThresholdDays m:type="Edm.Int32" m:null="true" /&gt;&lt;d:IsSuspended m:type="Edm.Boolean"&gt;false&lt;/d:IsSuspended&gt;&lt;/m:properties&gt;&lt;/content&gt;&lt;/entry&gt;&lt;/feed&gt;</ResponseText>
+        </ResponseInfo>
+      </HttpMessage>
+      <HttpMessage>
+        <Index>10</Index>
+        <RequestInfo>
+          <RequestUri>http://localhost:12345/v1/ManagementService.svc/Server2('testserver')/Databases(6)/ServiceObjective</RequestUri>
+          <Method>GET</Method>
+          <UserAgent>WindowsAzurePowershell/v0.7.4</UserAgent>
+          <Headers>
+            <Header>
+              <Name>DataServiceVersion</Name>
+              <Value>1.0;NetFx</Value>
+            </Header>
+            <Header>
+              <Name>MaxDataServiceVersion</Name>
+              <Value>2.0;NetFx</Value>
+            </Header>
+            <Header>
+              <Name>AccessToken</Name>
+              <Value>TtCN3gkpbRKhkeEfN+U1EpV0PjUHRAbeWEisC9yF7y08LPrb+AD2NJRNnUay4SMr4Y0MxGyeY0d9C1mSYVRx0Fpgl4wL1id/QcMRJ3ykbUuXrgDiJacq1rtxWGRFJGugaeGFdld0tBGR9z1RML7ZeMmzu9bu9dnbj+a2MEQBMo4Asup7lkPlvV4vsUPiRCEVXUI8yCa17p2O10jO56O+OYlN5alahqRqvaJiLDzlysS0aKrm6rvfKw+Z3zOH6gg81w6ePvg8mUXkfZ0nZnRnjxqSX3QAlCNOrAyuATgS/pJg8pFpPrpP064D4w1sQQ3Y6bdyBuiGoHA26rHjVpbufG1eUgZvZ1yxo4ohMVOHSBsJXriPM/5egJY9m7isyucPNIRbBzrn0v3a0RO0WNjBHqLd6m1OFm2xK0r4Qu1HxtSon84TfCBx5GKrPdoyvsww6VQ2m6qVOL95KRsJrR8wzgYPxcOE9id/LUyIWAvGG8rmYiS9ZESLGccH3xkl0ieaRkDdOB9+uRgWKncIZeXJeCRwrzpuFWDFjpj5oWFf+YhUUwroNKnGzsPn6Bv2Ou7opgc57OT0OqJ/rGBIZSgE8PMn/5Jc+5lRMIeNNY8UK80v28TZyVCUw2TPE5491lbeQsjuIqK30YwqIDasN9TYqdWCWCqI+FVoZGatImSvkSlURhVUtHgo0RsJx8TS6xCkvKhmxZ0YFANeMmZGIT1MRFSTOeYZWPyWvHCsXvltkqyo+3rGcXRYEaGPHEJYh+CX1DtrIEwmrk+wjOgxtC7nZw==</Value>
+            </Header>
+            <Header>
+              <Name>x-ms-client-session-id</Name>
+              <Value>37d9d020-eba7-4d29-a99b-990dcfae0ad7-2014-03-27 21:01:39Z</Value>
+            </Header>
+            <Header>
+              <Name>x-ms-client-request-id</Name>
+              <Value>75d1fee2-c402-4a11-a7de-ad0dac2e1c47-2014-03-27 21:02:03Z</Value>
+            </Header>
+            <Header>
+              <Name>Accept-Charset</Name>
+              <Value>UTF-8</Value>
+            </Header>
+            <Header>
+              <Name>Cookie</Name>
+              <Value>.SQLSERVERMANAGEMENT=lYe3q1IT21s+U3DcSXsQ6g==</Value>
+            </Header>
+          </Headers>
+          <Cookies>
+            <Cookie>
+              <Name>.SQLSERVERMANAGEMENT</Name>
+              <Value>lYe3q1IT21s+U3DcSXsQ6g==</Value>
+              <RelativeUri i:nil="true" />
+            </Cookie>
+          </Cookies>
+          <RequestText i:nil="true" />
+          <ContentType i:nil="true" />
+          <Accept>application/atom+xml,application/xml</Accept>
+        </RequestInfo>
+        <ResponseInfo>
+          <StatusCode>OK</StatusCode>
+          <Headers>
+            <Header>
+              <Name>x-ms-request-id</Name>
+              <Value>dd0aa36b-d81f-72ff-01bb-eab96f930257</Value>
+            </Header>
+            <Header>
+              <Name>X-Content-Type-Options</Name>
+              <Value>nosniff</Value>
+            </Header>
+            <Header>
+              <Name>DataServiceVersion</Name>
+              <Value>2.0;</Value>
+            </Header>
+            <Header>
+              <Name>Cache-Control</Name>
+              <Value>no-store,no-cache</Value>
+            </Header>
+            <Header>
+              <Name>Content-Type</Name>
+              <Value>application/atom+xml;type=entry;charset=utf-8</Value>
+            </Header>
+            <Header>
+              <Name>Date</Name>
+              <Value>Thu, 27 Mar 2014 21:02:05 GMT</Value>
+            </Header>
+            <Header>
+              <Name>Server</Name>
+              <Value>Microsoft-HTTPAPI/2.0</Value>
+            </Header>
+          </Headers>
+          <Cookies />
+          <ResponseText>&lt;?xml version="1.0" encoding="utf-8"?&gt;&lt;entry xml:base="http://localhost:12345/v1/ManagementService.svc/Server2('testserver')/" xmlns="http://www.w3.org/2005/Atom" xmlns:d="http://schemas.microsoft.com/ado/2007/08/dataservices" xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata"&gt;&lt;id&gt;http://localhost:12345/v1/ManagementService.svc/Server2('testserver')/ServiceObjectives(guid'910b4fcb-8a29-4c3e-958f-f7ba794388b2')&lt;/id&gt;&lt;category term="Microsoft.SqlServer.Management.Server.Domain.ServiceObjective" scheme="http://schemas.microsoft.com/ado/2007/08/dataservices/scheme" /&gt;&lt;link rel="edit" title="ServiceObjective" href="ServiceObjectives(guid'910b4fcb-8a29-4c3e-958f-f7ba794388b2')" /&gt;&lt;link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/DimensionSettings" type="application/atom+xml;type=feed" title="DimensionSettings" href="ServiceObjectives(guid'910b4fcb-8a29-4c3e-958f-f7ba794388b2')/DimensionSettings" /&gt;&lt;title /&gt;&lt;updated&gt;2014-03-27T21:02:05Z&lt;/updated&gt;&lt;author&gt;&lt;name /&gt;&lt;/author&gt;&lt;content type="application/xml"&gt;&lt;m:properties&gt;&lt;d:Id m:type="Edm.Guid"&gt;910b4fcb-8a29-4c3e-958f-f7ba794388b2&lt;/d:Id&gt;&lt;d:Name&gt;Shared&lt;/d:Name&gt;&lt;d:Description&gt;Shared resource allocation.&lt;/d:Description&gt;&lt;d:IsDefault m:type="Edm.Boolean"&gt;true&lt;/d:IsDefault&gt;&lt;d:IsSystem m:type="Edm.Boolean"&gt;false&lt;/d:IsSystem&gt;&lt;d:Enabled m:type="Edm.Boolean"&gt;true&lt;/d:Enabled&gt;&lt;/m:properties&gt;&lt;/content&gt;&lt;/entry&gt;</ResponseText>
         </ResponseInfo>
       </HttpMessage>
     </Messages>
@@ -2113,15 +2362,15 @@
             </Header>
             <Header>
               <Name>AccessToken</Name>
-              <Value>VpeUR/WYdamErHqrBGWfqSfqSXcJjnsPUYYoBWkCf5XNN/HzSTqdQukHhPn4OmsD77YiF/bbCnl0sigRoEKTRpo0WO+WHN0MuMQyd3IC05/F+Z0bjAG1HB+JdjssmkWdyHqa0Hh8GcC+XAyvYp68RVHkkmaoG0SxOOpdRn6B6xu9Wto6RRFlABkW5a9ujLn9vUIq5VLSv9oTG438CHJndj+u4KUOKSv2EEqeSmRdDuXleD7/cp1mTrr6zv+ka1Tgju8Zq279Sicb59ILSbI2tI0fPpCBtZzEsk7lzGJodmNvCWuubNVeD9ZqlFewReaNTdLmcgvcIBKVaw/A/gjDlleRa58lf6HBfFIy/OfhsMOOoiVYecbemaOEz8XOVGEbyyJ/9h5Xf10jM9hABDIQMfEJvmNFKOiMfTGrwwbjpGtQCaHJmTQaFRhe6f0R9p3f8cO0J3EORU75u4eOkDvc0fr1ztAIJPb+7NtfLZix+VrnohVWHAVrIKJVWUTp1U3Hp3h7N3GeLiCTfTAzDSVs0Y+tnH4HrpfFujfKYyzjueERR9pijpfnKIJXmfYd2oos3nahygkY0yjfA/GHC3L6NrPdDfzfu7Nufa3fj7Rzj7hxLJdgt1xb9P5dS+eho8tyz16blCDmqAzJWVI8O/Ho4FVPHqNaUf09yeUW4bFRUq9UVx3V1gk6f6BGQm3z84vhr6foSExCzQvHLnqV+TuslSatUE80h6s+ih3R2T5cH/nfmyO3JR3JPd50hTuuiTKIyRaeMqk9MrZehFrhVnV2aw==</Value>
+              <Value>cKCGkC9gQd0lbuJSLFzOYqTRsN03tjWgiAT7xNL5fBg1OjqlDE/Y/e7QeGH0VTb4axc5INHivlRk8xvRJFYnJAZMTJ28CsMFqlEfQWKP4eDxiHLYQr0rK+HC/GnGrKulHDSmf2WmQTGk4GDJb4CM/xMCrNIMvQeeZ/yv5Vkk6OiKlsCpGhWkpytvz/HG0v/Krrg4hpbxuqjezota5i1igma35teNHwHiUEHWgN/DeyKbUPekk9Vn5IfBdG05JMbb4xrwgHOKCucwsSvTQK+SJP0TB7kDgnzm70mfbbkzuwvm7uxuzCJR0mFAAyn08j4Fv3ToraLpDPy9lxWV/2TN7H92yX1WvPek94Q7JC2ISujJGeUfeq+MFOrceERWhWu68zQEkrakxbV2CHRLLugP5t7XGhjjZzE2pTFaMTU5Fmn/JGqAN3VqfofR+VRjvF2MvpTr8MKmuP0nmAxNcdevUuMQfItBTceGicAZjSEUjhSO8tNmqCftcAxf7dCchMEm9Rqi9jnalF4Rm2az7V/1G3xvWRKEJ6kU8IpfrwMelZF1MvbWzl7fmWA1jrQTnpLCBTjQKhDR5qg/YrisZH1MFlY7IM9JDwrQdwh0s0iVIJAQUutiqblZMOtWt17RB95F+defmn4KLg18n6gSQmoAJQZnmojVzgoPcbzu6Ojx9sV6D1L8cYwfUnqP/DtYGGXQAFJtWdbsV/tZCqkdaMeALb6HNYt5UG9Nvj4p2F7uKU0qrSx7ngFtGQof21HAFR1oKlDFv7xIsCQ6i07mL57viA==</Value>
             </Header>
             <Header>
               <Name>x-ms-client-session-id</Name>
-              <Value>8f9df13c-2440-47d5-bcb0-8ae8d2dc2dc8-2013-11-12 20:06:52Z</Value>
+              <Value>0480d9d6-fba5-499c-9101-be615831a763-2014-03-27 21:23:12Z</Value>
             </Header>
             <Header>
               <Name>x-ms-client-request-id</Name>
-              <Value>77a9bf34-df3f-45f9-ae37-295473c8a9df-2013-11-12 20:07:26Z</Value>
+              <Value>db490dac-66ae-4f62-a901-7f5b91956474-2014-03-27 21:23:35Z</Value>
             </Header>
             <Header>
               <Name>Accept-Charset</Name>
@@ -2129,13 +2378,13 @@
             </Header>
             <Header>
               <Name>Cookie</Name>
-              <Value>.SQLSERVERMANAGEMENT=gdBVS0DG0YhuyhMaGrGgoQ==</Value>
+              <Value>.SQLSERVERMANAGEMENT=Fw7SF+NlDq3BRiGsRB0z0w==</Value>
             </Header>
           </Headers>
           <Cookies>
             <Cookie>
               <Name>.SQLSERVERMANAGEMENT</Name>
-              <Value>gdBVS0DG0YhuyhMaGrGgoQ==</Value>
+              <Value>Fw7SF+NlDq3BRiGsRB0z0w==</Value>
               <RelativeUri i:nil="true" />
             </Cookie>
           </Cookies>
@@ -2148,7 +2397,7 @@
           <Headers>
             <Header>
               <Name>x-ms-request-id</Name>
-              <Value>7398da94-9734-7520-d09e-056130e06f49</Value>
+              <Value>58cb6722-dd9a-22e3-bf73-573b4bab14ca</Value>
             </Header>
             <Header>
               <Name>X-Content-Type-Options</Name>
@@ -2168,7 +2417,7 @@
             </Header>
             <Header>
               <Name>Date</Name>
-              <Value>Tue, 12 Nov 2013 20:07:25 GMT</Value>
+              <Value>Thu, 27 Mar 2014 21:23:37 GMT</Value>
             </Header>
             <Header>
               <Name>Server</Name>
@@ -2176,7 +2425,7 @@
             </Header>
           </Headers>
           <Cookies />
-          <ResponseText>&lt;?xml version="1.0" encoding="utf-8"?&gt;&lt;feed xml:base="http://localhost:12345/v1/ManagementService.svc/Server2('testserver')/" xmlns="http://www.w3.org/2005/Atom" xmlns:d="http://schemas.microsoft.com/ado/2007/08/dataservices" xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata"&gt;&lt;id&gt;http://localhost:12345/v1/ManagementService.svc/Server2('testserver')/Databases&lt;/id&gt;&lt;title type="text"&gt;Databases&lt;/title&gt;&lt;updated&gt;2013-11-12T20:07:25Z&lt;/updated&gt;&lt;link rel="self" title="Databases" href="Databases" /&gt;&lt;entry&gt;&lt;id&gt;http://localhost:12345/v1/ManagementService.svc/Server2('testserver')/Databases(4)&lt;/id&gt;&lt;category term="Microsoft.SqlServer.Management.Server.Domain.Database" scheme="http://schemas.microsoft.com/ado/2007/08/dataservices/scheme" /&gt;&lt;link rel="edit" title="Database" href="Databases(4)" /&gt;&lt;link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/Server" type="application/atom+xml;type=entry" title="Server" href="Databases(4)/Server" /&gt;&lt;link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/ServiceObjective" type="application/atom+xml;type=entry" title="ServiceObjective" href="Databases(4)/ServiceObjective" /&gt;&lt;link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/DatabaseMetrics" type="application/atom+xml;type=entry" title="DatabaseMetrics" href="Databases(4)/DatabaseMetrics" /&gt;&lt;link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/DatabaseCopies" type="application/atom+xml;type=feed" title="DatabaseCopies" href="Databases(4)/DatabaseCopies" /&gt;&lt;title /&gt;&lt;updated&gt;2013-11-12T20:07:25Z&lt;/updated&gt;&lt;author&gt;&lt;name /&gt;&lt;/author&gt;&lt;content type="application/xml"&gt;&lt;m:properties&gt;&lt;d:Id m:type="Edm.Int32"&gt;4&lt;/d:Id&gt;&lt;d:Name&gt;testdb1&lt;/d:Name&gt;&lt;d:ServiceObjectiveId m:type="Edm.Guid"&gt;910b4fcb-8a29-4c3e-958f-f7ba794388b2&lt;/d:ServiceObjectiveId&gt;&lt;d:AssignedServiceObjectiveId m:type="Edm.Guid"&gt;910b4fcb-8a29-4c3e-958f-f7ba794388b2&lt;/d:AssignedServiceObjectiveId&gt;&lt;d:ServiceObjectiveAssignmentState m:type="Edm.Byte"&gt;1&lt;/d:ServiceObjectiveAssignmentState&gt;&lt;d:ServiceObjectiveAssignmentStateDescription&gt;Complete&lt;/d:ServiceObjectiveAssignmentStateDescription&gt;&lt;d:ServiceObjectiveAssignmentErrorCode m:type="Edm.Int32"&gt;0&lt;/d:ServiceObjectiveAssignmentErrorCode&gt;&lt;d:ServiceObjectiveAssignmentErrorDescription m:null="true" /&gt;&lt;d:ServiceObjectiveAssignmentSuccessDate m:type="Edm.DateTime"&gt;2013-11-12T20:07:04.297&lt;/d:ServiceObjectiveAssignmentSuccessDate&gt;&lt;d:Edition&gt;Web&lt;/d:Edition&gt;&lt;d:MaxSizeGB m:type="Edm.Int32"&gt;1&lt;/d:MaxSizeGB&gt;&lt;d:MaxSizeBytes m:type="Edm.Int64"&gt;1073741824&lt;/d:MaxSizeBytes&gt;&lt;d:CollationName&gt;SQL_Latin1_General_CP1_CI_AS&lt;/d:CollationName&gt;&lt;d:CreationDate m:type="Edm.DateTime"&gt;2013-11-12T12:06:55.85&lt;/d:CreationDate&gt;&lt;d:RecoveryPeriodStartDate m:type="Edm.DateTime"&gt;2013-11-12T20:07:54.36Z&lt;/d:RecoveryPeriodStartDate&gt;&lt;d:IsSystemObject m:type="Edm.Boolean"&gt;false&lt;/d:IsSystemObject&gt;&lt;d:Status m:type="Edm.Int32"&gt;1&lt;/d:Status&gt;&lt;d:IsFederationRoot m:type="Edm.Boolean"&gt;false&lt;/d:IsFederationRoot&gt;&lt;d:SizeMB m:type="Edm.Decimal"&gt;2.44&lt;/d:SizeMB&gt;&lt;d:IsRecursiveTriggersOn m:type="Edm.Boolean"&gt;false&lt;/d:IsRecursiveTriggersOn&gt;&lt;d:IsReadOnly m:type="Edm.Boolean"&gt;false&lt;/d:IsReadOnly&gt;&lt;d:IsFederationMember m:type="Edm.Boolean"&gt;false&lt;/d:IsFederationMember&gt;&lt;d:IsQueryStoreOn m:type="Edm.Boolean"&gt;false&lt;/d:IsQueryStoreOn&gt;&lt;d:IsQueryStoreReadOnly m:type="Edm.Boolean" m:null="true" /&gt;&lt;d:QueryStoreMaxSizeMB m:type="Edm.Int32" m:null="true" /&gt;&lt;d:QueryStoreFlushPeriodSeconds m:type="Edm.Int32" m:null="true" /&gt;&lt;d:QueryStoreIntervalLengthMinutes m:type="Edm.Int32" m:null="true" /&gt;&lt;d:QueryStoreClearAll m:type="Edm.Boolean" m:null="true" /&gt;&lt;d:QueryStoreStaleQueryThresholdDays m:type="Edm.Int32" m:null="true" /&gt;&lt;d:IsSuspended m:type="Edm.Boolean"&gt;false&lt;/d:IsSuspended&gt;&lt;/m:properties&gt;&lt;/content&gt;&lt;/entry&gt;&lt;/feed&gt;</ResponseText>
+          <ResponseText>&lt;?xml version="1.0" encoding="utf-8"?&gt;&lt;feed xml:base="http://localhost:12345/v1/ManagementService.svc/Server2('testserver')/" xmlns="http://www.w3.org/2005/Atom" xmlns:d="http://schemas.microsoft.com/ado/2007/08/dataservices" xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata"&gt;&lt;id&gt;http://localhost:12345/v1/ManagementService.svc/Server2('testserver')/Databases&lt;/id&gt;&lt;title type="text"&gt;Databases&lt;/title&gt;&lt;updated&gt;2014-03-27T21:23:36Z&lt;/updated&gt;&lt;link rel="self" title="Databases" href="Databases" /&gt;&lt;entry&gt;&lt;id&gt;http://localhost:12345/v1/ManagementService.svc/Server2('testserver')/Databases(4)&lt;/id&gt;&lt;category term="Microsoft.SqlServer.Management.Server.Domain.Database" scheme="http://schemas.microsoft.com/ado/2007/08/dataservices/scheme" /&gt;&lt;link rel="edit" title="Database" href="Databases(4)" /&gt;&lt;link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/Server" type="application/atom+xml;type=entry" title="Server" href="Databases(4)/Server" /&gt;&lt;link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/ServiceObjective" type="application/atom+xml;type=entry" title="ServiceObjective" href="Databases(4)/ServiceObjective" /&gt;&lt;link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/DatabaseMetrics" type="application/atom+xml;type=entry" title="DatabaseMetrics" href="Databases(4)/DatabaseMetrics" /&gt;&lt;link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/DatabaseCopies" type="application/atom+xml;type=feed" title="DatabaseCopies" href="Databases(4)/DatabaseCopies" /&gt;&lt;title /&gt;&lt;updated&gt;2014-03-27T21:23:36Z&lt;/updated&gt;&lt;author&gt;&lt;name /&gt;&lt;/author&gt;&lt;content type="application/xml"&gt;&lt;m:properties&gt;&lt;d:Id m:type="Edm.Int32"&gt;4&lt;/d:Id&gt;&lt;d:Name&gt;testdb1&lt;/d:Name&gt;&lt;d:ServiceObjectiveId m:type="Edm.Guid"&gt;910b4fcb-8a29-4c3e-958f-f7ba794388b2&lt;/d:ServiceObjectiveId&gt;&lt;d:AssignedServiceObjectiveId m:type="Edm.Guid"&gt;910b4fcb-8a29-4c3e-958f-f7ba794388b2&lt;/d:AssignedServiceObjectiveId&gt;&lt;d:ServiceObjectiveAssignmentState m:type="Edm.Byte"&gt;1&lt;/d:ServiceObjectiveAssignmentState&gt;&lt;d:ServiceObjectiveAssignmentStateDescription&gt;Complete&lt;/d:ServiceObjectiveAssignmentStateDescription&gt;&lt;d:ServiceObjectiveAssignmentErrorCode m:type="Edm.Int32"&gt;0&lt;/d:ServiceObjectiveAssignmentErrorCode&gt;&lt;d:ServiceObjectiveAssignmentErrorDescription m:null="true" /&gt;&lt;d:ServiceObjectiveAssignmentSuccessDate m:type="Edm.DateTime"&gt;2014-03-27T21:23:15.523&lt;/d:ServiceObjectiveAssignmentSuccessDate&gt;&lt;d:Edition&gt;Web&lt;/d:Edition&gt;&lt;d:MaxSizeGB m:type="Edm.Int32"&gt;1&lt;/d:MaxSizeGB&gt;&lt;d:MaxSizeBytes m:type="Edm.Int64"&gt;1073741824&lt;/d:MaxSizeBytes&gt;&lt;d:CollationName&gt;SQL_Latin1_General_CP1_CI_AS&lt;/d:CollationName&gt;&lt;d:CreationDate m:type="Edm.DateTime"&gt;2014-03-27T14:23:13.1&lt;/d:CreationDate&gt;&lt;d:RecoveryPeriodStartDate m:type="Edm.DateTime"&gt;2014-03-27T21:24:12.85Z&lt;/d:RecoveryPeriodStartDate&gt;&lt;d:IsSystemObject m:type="Edm.Boolean"&gt;false&lt;/d:IsSystemObject&gt;&lt;d:Status m:type="Edm.Int32"&gt;1&lt;/d:Status&gt;&lt;d:IsFederationRoot m:type="Edm.Boolean"&gt;false&lt;/d:IsFederationRoot&gt;&lt;d:SizeMB m:type="Edm.Decimal"&gt;2.44&lt;/d:SizeMB&gt;&lt;d:IsRecursiveTriggersOn m:type="Edm.Boolean"&gt;false&lt;/d:IsRecursiveTriggersOn&gt;&lt;d:IsReadOnly m:type="Edm.Boolean"&gt;false&lt;/d:IsReadOnly&gt;&lt;d:IsFederationMember m:type="Edm.Boolean"&gt;false&lt;/d:IsFederationMember&gt;&lt;d:IsQueryStoreOn m:type="Edm.Boolean"&gt;false&lt;/d:IsQueryStoreOn&gt;&lt;d:IsQueryStoreReadOnly m:type="Edm.Boolean" m:null="true" /&gt;&lt;d:QueryStoreMaxSizeMB m:type="Edm.Int32" m:null="true" /&gt;&lt;d:QueryStoreFlushPeriodSeconds m:type="Edm.Int32" m:null="true" /&gt;&lt;d:QueryStoreIntervalLengthMinutes m:type="Edm.Int32" m:null="true" /&gt;&lt;d:QueryStoreClearAll m:type="Edm.Boolean" m:null="true" /&gt;&lt;d:QueryStoreStaleQueryThresholdDays m:type="Edm.Int32" m:null="true" /&gt;&lt;d:IsSuspended m:type="Edm.Boolean"&gt;false&lt;/d:IsSuspended&gt;&lt;/m:properties&gt;&lt;/content&gt;&lt;/entry&gt;&lt;/feed&gt;</ResponseText>
         </ResponseInfo>
       </HttpMessage>
       <HttpMessage>
@@ -2196,15 +2445,15 @@
             </Header>
             <Header>
               <Name>AccessToken</Name>
-              <Value>VpeUR/WYdamErHqrBGWfqSfqSXcJjnsPUYYoBWkCf5XNN/HzSTqdQukHhPn4OmsD77YiF/bbCnl0sigRoEKTRpo0WO+WHN0MuMQyd3IC05/F+Z0bjAG1HB+JdjssmkWdyHqa0Hh8GcC+XAyvYp68RVHkkmaoG0SxOOpdRn6B6xu9Wto6RRFlABkW5a9ujLn9vUIq5VLSv9oTG438CHJndj+u4KUOKSv2EEqeSmRdDuXleD7/cp1mTrr6zv+ka1Tgju8Zq279Sicb59ILSbI2tI0fPpCBtZzEsk7lzGJodmNvCWuubNVeD9ZqlFewReaNTdLmcgvcIBKVaw/A/gjDlleRa58lf6HBfFIy/OfhsMOOoiVYecbemaOEz8XOVGEbyyJ/9h5Xf10jM9hABDIQMfEJvmNFKOiMfTGrwwbjpGtQCaHJmTQaFRhe6f0R9p3f8cO0J3EORU75u4eOkDvc0fr1ztAIJPb+7NtfLZix+VrnohVWHAVrIKJVWUTp1U3Hp3h7N3GeLiCTfTAzDSVs0Y+tnH4HrpfFujfKYyzjueERR9pijpfnKIJXmfYd2oos3nahygkY0yjfA/GHC3L6NrPdDfzfu7Nufa3fj7Rzj7hxLJdgt1xb9P5dS+eho8tyz16blCDmqAzJWVI8O/Ho4FVPHqNaUf09yeUW4bFRUq9UVx3V1gk6f6BGQm3z84vhr6foSExCzQvHLnqV+TuslSatUE80h6s+ih3R2T5cH/nfmyO3JR3JPd50hTuuiTKIyRaeMqk9MrZehFrhVnV2aw==</Value>
+              <Value>cKCGkC9gQd0lbuJSLFzOYqTRsN03tjWgiAT7xNL5fBg1OjqlDE/Y/e7QeGH0VTb4axc5INHivlRk8xvRJFYnJAZMTJ28CsMFqlEfQWKP4eDxiHLYQr0rK+HC/GnGrKulHDSmf2WmQTGk4GDJb4CM/xMCrNIMvQeeZ/yv5Vkk6OiKlsCpGhWkpytvz/HG0v/Krrg4hpbxuqjezota5i1igma35teNHwHiUEHWgN/DeyKbUPekk9Vn5IfBdG05JMbb4xrwgHOKCucwsSvTQK+SJP0TB7kDgnzm70mfbbkzuwvm7uxuzCJR0mFAAyn08j4Fv3ToraLpDPy9lxWV/2TN7H92yX1WvPek94Q7JC2ISujJGeUfeq+MFOrceERWhWu68zQEkrakxbV2CHRLLugP5t7XGhjjZzE2pTFaMTU5Fmn/JGqAN3VqfofR+VRjvF2MvpTr8MKmuP0nmAxNcdevUuMQfItBTceGicAZjSEUjhSO8tNmqCftcAxf7dCchMEm9Rqi9jnalF4Rm2az7V/1G3xvWRKEJ6kU8IpfrwMelZF1MvbWzl7fmWA1jrQTnpLCBTjQKhDR5qg/YrisZH1MFlY7IM9JDwrQdwh0s0iVIJAQUutiqblZMOtWt17RB95F+defmn4KLg18n6gSQmoAJQZnmojVzgoPcbzu6Ojx9sV6D1L8cYwfUnqP/DtYGGXQAFJtWdbsV/tZCqkdaMeALb6HNYt5UG9Nvj4p2F7uKU0qrSx7ngFtGQof21HAFR1oKlDFv7xIsCQ6i07mL57viA==</Value>
             </Header>
             <Header>
               <Name>x-ms-client-session-id</Name>
-              <Value>8f9df13c-2440-47d5-bcb0-8ae8d2dc2dc8-2013-11-12 20:06:52Z</Value>
+              <Value>0480d9d6-fba5-499c-9101-be615831a763-2014-03-27 21:23:12Z</Value>
             </Header>
             <Header>
               <Name>x-ms-client-request-id</Name>
-              <Value>77a9bf34-df3f-45f9-ae37-295473c8a9df-2013-11-12 20:07:26Z</Value>
+              <Value>db490dac-66ae-4f62-a901-7f5b91956474-2014-03-27 21:23:35Z</Value>
             </Header>
             <Header>
               <Name>Accept-Charset</Name>
@@ -2212,13 +2461,13 @@
             </Header>
             <Header>
               <Name>Cookie</Name>
-              <Value>.SQLSERVERMANAGEMENT=gdBVS0DG0YhuyhMaGrGgoQ==</Value>
+              <Value>.SQLSERVERMANAGEMENT=Fw7SF+NlDq3BRiGsRB0z0w==</Value>
             </Header>
           </Headers>
           <Cookies>
             <Cookie>
               <Name>.SQLSERVERMANAGEMENT</Name>
-              <Value>gdBVS0DG0YhuyhMaGrGgoQ==</Value>
+              <Value>Fw7SF+NlDq3BRiGsRB0z0w==</Value>
               <RelativeUri i:nil="true" />
             </Cookie>
           </Cookies>
@@ -2231,7 +2480,7 @@
           <Headers>
             <Header>
               <Name>x-ms-request-id</Name>
-              <Value>7398da94-9734-7520-d09e-056130e06f49</Value>
+              <Value>58cb6722-dd9a-22e3-bf73-573b4bab14ca</Value>
             </Header>
             <Header>
               <Name>X-Content-Type-Options</Name>
@@ -2251,7 +2500,7 @@
             </Header>
             <Header>
               <Name>Date</Name>
-              <Value>Tue, 12 Nov 2013 20:07:25 GMT</Value>
+              <Value>Thu, 27 Mar 2014 21:23:38 GMT</Value>
             </Header>
             <Header>
               <Name>Server</Name>
@@ -2259,7 +2508,7 @@
             </Header>
           </Headers>
           <Cookies />
-          <ResponseText>&lt;?xml version="1.0" encoding="utf-8"?&gt;&lt;entry xml:base="http://localhost:12345/v1/ManagementService.svc/Server2('testserver')/" xmlns="http://www.w3.org/2005/Atom" xmlns:d="http://schemas.microsoft.com/ado/2007/08/dataservices" xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata"&gt;&lt;id&gt;http://localhost:12345/v1/ManagementService.svc/Server2('testserver')/ServiceObjectives(guid'910b4fcb-8a29-4c3e-958f-f7ba794388b2')&lt;/id&gt;&lt;category term="Microsoft.SqlServer.Management.Server.Domain.ServiceObjective" scheme="http://schemas.microsoft.com/ado/2007/08/dataservices/scheme" /&gt;&lt;link rel="edit" title="ServiceObjective" href="ServiceObjectives(guid'910b4fcb-8a29-4c3e-958f-f7ba794388b2')" /&gt;&lt;link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/DimensionSettings" type="application/atom+xml;type=feed" title="DimensionSettings" href="ServiceObjectives(guid'910b4fcb-8a29-4c3e-958f-f7ba794388b2')/DimensionSettings" /&gt;&lt;title /&gt;&lt;updated&gt;2013-11-12T20:07:26Z&lt;/updated&gt;&lt;author&gt;&lt;name /&gt;&lt;/author&gt;&lt;content type="application/xml"&gt;&lt;m:properties&gt;&lt;d:Id m:type="Edm.Guid"&gt;910b4fcb-8a29-4c3e-958f-f7ba794388b2&lt;/d:Id&gt;&lt;d:Name&gt;Shared&lt;/d:Name&gt;&lt;d:Description&gt;Resource capacity is not reserved.&lt;/d:Description&gt;&lt;d:IsDefault m:type="Edm.Boolean"&gt;true&lt;/d:IsDefault&gt;&lt;d:IsSystem m:type="Edm.Boolean"&gt;false&lt;/d:IsSystem&gt;&lt;d:Enabled m:type="Edm.Boolean"&gt;true&lt;/d:Enabled&gt;&lt;/m:properties&gt;&lt;/content&gt;&lt;/entry&gt;</ResponseText>
+          <ResponseText>&lt;?xml version="1.0" encoding="utf-8"?&gt;&lt;entry xml:base="http://localhost:12345/v1/ManagementService.svc/Server2('testserver')/" xmlns="http://www.w3.org/2005/Atom" xmlns:d="http://schemas.microsoft.com/ado/2007/08/dataservices" xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata"&gt;&lt;id&gt;http://localhost:12345/v1/ManagementService.svc/Server2('testserver')/ServiceObjectives(guid'910b4fcb-8a29-4c3e-958f-f7ba794388b2')&lt;/id&gt;&lt;category term="Microsoft.SqlServer.Management.Server.Domain.ServiceObjective" scheme="http://schemas.microsoft.com/ado/2007/08/dataservices/scheme" /&gt;&lt;link rel="edit" title="ServiceObjective" href="ServiceObjectives(guid'910b4fcb-8a29-4c3e-958f-f7ba794388b2')" /&gt;&lt;link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/DimensionSettings" type="application/atom+xml;type=feed" title="DimensionSettings" href="ServiceObjectives(guid'910b4fcb-8a29-4c3e-958f-f7ba794388b2')/DimensionSettings" /&gt;&lt;title /&gt;&lt;updated&gt;2014-03-27T21:23:38Z&lt;/updated&gt;&lt;author&gt;&lt;name /&gt;&lt;/author&gt;&lt;content type="application/xml"&gt;&lt;m:properties&gt;&lt;d:Id m:type="Edm.Guid"&gt;910b4fcb-8a29-4c3e-958f-f7ba794388b2&lt;/d:Id&gt;&lt;d:Name&gt;Shared&lt;/d:Name&gt;&lt;d:Description&gt;Shared resource allocation.&lt;/d:Description&gt;&lt;d:IsDefault m:type="Edm.Boolean"&gt;true&lt;/d:IsDefault&gt;&lt;d:IsSystem m:type="Edm.Boolean"&gt;false&lt;/d:IsSystem&gt;&lt;d:Enabled m:type="Edm.Boolean"&gt;true&lt;/d:Enabled&gt;&lt;/m:properties&gt;&lt;/content&gt;&lt;/entry&gt;</ResponseText>
         </ResponseInfo>
       </HttpMessage>
       <HttpMessage>
@@ -2279,15 +2528,15 @@
             </Header>
             <Header>
               <Name>AccessToken</Name>
-              <Value>VpeUR/WYdamErHqrBGWfqSfqSXcJjnsPUYYoBWkCf5XNN/HzSTqdQukHhPn4OmsD77YiF/bbCnl0sigRoEKTRpo0WO+WHN0MuMQyd3IC05/F+Z0bjAG1HB+JdjssmkWdyHqa0Hh8GcC+XAyvYp68RVHkkmaoG0SxOOpdRn6B6xu9Wto6RRFlABkW5a9ujLn9vUIq5VLSv9oTG438CHJndj+u4KUOKSv2EEqeSmRdDuXleD7/cp1mTrr6zv+ka1Tgju8Zq279Sicb59ILSbI2tI0fPpCBtZzEsk7lzGJodmNvCWuubNVeD9ZqlFewReaNTdLmcgvcIBKVaw/A/gjDlleRa58lf6HBfFIy/OfhsMOOoiVYecbemaOEz8XOVGEbyyJ/9h5Xf10jM9hABDIQMfEJvmNFKOiMfTGrwwbjpGtQCaHJmTQaFRhe6f0R9p3f8cO0J3EORU75u4eOkDvc0fr1ztAIJPb+7NtfLZix+VrnohVWHAVrIKJVWUTp1U3Hp3h7N3GeLiCTfTAzDSVs0Y+tnH4HrpfFujfKYyzjueERR9pijpfnKIJXmfYd2oos3nahygkY0yjfA/GHC3L6NrPdDfzfu7Nufa3fj7Rzj7hxLJdgt1xb9P5dS+eho8tyz16blCDmqAzJWVI8O/Ho4FVPHqNaUf09yeUW4bFRUq9UVx3V1gk6f6BGQm3z84vhr6foSExCzQvHLnqV+TuslSatUE80h6s+ih3R2T5cH/nfmyO3JR3JPd50hTuuiTKIyRaeMqk9MrZehFrhVnV2aw==</Value>
+              <Value>cKCGkC9gQd0lbuJSLFzOYqTRsN03tjWgiAT7xNL5fBg1OjqlDE/Y/e7QeGH0VTb4axc5INHivlRk8xvRJFYnJAZMTJ28CsMFqlEfQWKP4eDxiHLYQr0rK+HC/GnGrKulHDSmf2WmQTGk4GDJb4CM/xMCrNIMvQeeZ/yv5Vkk6OiKlsCpGhWkpytvz/HG0v/Krrg4hpbxuqjezota5i1igma35teNHwHiUEHWgN/DeyKbUPekk9Vn5IfBdG05JMbb4xrwgHOKCucwsSvTQK+SJP0TB7kDgnzm70mfbbkzuwvm7uxuzCJR0mFAAyn08j4Fv3ToraLpDPy9lxWV/2TN7H92yX1WvPek94Q7JC2ISujJGeUfeq+MFOrceERWhWu68zQEkrakxbV2CHRLLugP5t7XGhjjZzE2pTFaMTU5Fmn/JGqAN3VqfofR+VRjvF2MvpTr8MKmuP0nmAxNcdevUuMQfItBTceGicAZjSEUjhSO8tNmqCftcAxf7dCchMEm9Rqi9jnalF4Rm2az7V/1G3xvWRKEJ6kU8IpfrwMelZF1MvbWzl7fmWA1jrQTnpLCBTjQKhDR5qg/YrisZH1MFlY7IM9JDwrQdwh0s0iVIJAQUutiqblZMOtWt17RB95F+defmn4KLg18n6gSQmoAJQZnmojVzgoPcbzu6Ojx9sV6D1L8cYwfUnqP/DtYGGXQAFJtWdbsV/tZCqkdaMeALb6HNYt5UG9Nvj4p2F7uKU0qrSx7ngFtGQof21HAFR1oKlDFv7xIsCQ6i07mL57viA==</Value>
             </Header>
             <Header>
               <Name>x-ms-client-session-id</Name>
-              <Value>8f9df13c-2440-47d5-bcb0-8ae8d2dc2dc8-2013-11-12 20:06:52Z</Value>
+              <Value>0480d9d6-fba5-499c-9101-be615831a763-2014-03-27 21:23:12Z</Value>
             </Header>
             <Header>
               <Name>x-ms-client-request-id</Name>
-              <Value>77a9bf34-df3f-45f9-ae37-295473c8a9df-2013-11-12 20:07:26Z</Value>
+              <Value>db490dac-66ae-4f62-a901-7f5b91956474-2014-03-27 21:23:35Z</Value>
             </Header>
             <Header>
               <Name>Accept-Charset</Name>
@@ -2295,13 +2544,13 @@
             </Header>
             <Header>
               <Name>Cookie</Name>
-              <Value>.SQLSERVERMANAGEMENT=gdBVS0DG0YhuyhMaGrGgoQ==</Value>
+              <Value>.SQLSERVERMANAGEMENT=Fw7SF+NlDq3BRiGsRB0z0w==</Value>
             </Header>
           </Headers>
           <Cookies>
             <Cookie>
               <Name>.SQLSERVERMANAGEMENT</Name>
-              <Value>gdBVS0DG0YhuyhMaGrGgoQ==</Value>
+              <Value>Fw7SF+NlDq3BRiGsRB0z0w==</Value>
               <RelativeUri i:nil="true" />
             </Cookie>
           </Cookies>
@@ -2312,13 +2561,13 @@
   &lt;author&gt;
     &lt;name /&gt;
   &lt;/author&gt;
-  &lt;updated&gt;2013-11-12T20:07:26.637607Z&lt;/updated&gt;
+  &lt;updated&gt;2014-03-27T21:23:38.6506355Z&lt;/updated&gt;
   &lt;id&gt;http://localhost:12345/v1/ManagementService.svc/Server2('testserver')/Databases(4)&lt;/id&gt;
   &lt;content type="application/xml"&gt;
     &lt;m:properties&gt;
       &lt;d:AssignedServiceObjectiveId m:type="Edm.Guid"&gt;910b4fcb-8a29-4c3e-958f-f7ba794388b2&lt;/d:AssignedServiceObjectiveId&gt;
       &lt;d:CollationName&gt;SQL_Latin1_General_CP1_CI_AS&lt;/d:CollationName&gt;
-      &lt;d:CreationDate m:type="Edm.DateTime"&gt;2013-11-12T12:06:55.85&lt;/d:CreationDate&gt;
+      &lt;d:CreationDate m:type="Edm.DateTime"&gt;2014-03-27T14:23:13.1&lt;/d:CreationDate&gt;
       &lt;d:Edition m:null="true" /&gt;
       &lt;d:Id m:type="Edm.Int32"&gt;4&lt;/d:Id&gt;
       &lt;d:IsFederationMember m:type="Edm.Boolean"&gt;false&lt;/d:IsFederationMember&gt;
@@ -2337,12 +2586,12 @@
       &lt;d:QueryStoreIntervalLengthMinutes m:type="Edm.Int32" m:null="true" /&gt;
       &lt;d:QueryStoreMaxSizeMB m:type="Edm.Int32" m:null="true" /&gt;
       &lt;d:QueryStoreStaleQueryThresholdDays m:type="Edm.Int32" m:null="true" /&gt;
-      &lt;d:RecoveryPeriodStartDate m:type="Edm.DateTime"&gt;2013-11-12T20:07:54.36Z&lt;/d:RecoveryPeriodStartDate&gt;
+      &lt;d:RecoveryPeriodStartDate m:type="Edm.DateTime"&gt;2014-03-27T21:24:12.85Z&lt;/d:RecoveryPeriodStartDate&gt;
       &lt;d:ServiceObjectiveAssignmentErrorCode m:type="Edm.Int32"&gt;0&lt;/d:ServiceObjectiveAssignmentErrorCode&gt;
       &lt;d:ServiceObjectiveAssignmentErrorDescription m:null="true" /&gt;
       &lt;d:ServiceObjectiveAssignmentState m:type="Edm.Byte"&gt;1&lt;/d:ServiceObjectiveAssignmentState&gt;
       &lt;d:ServiceObjectiveAssignmentStateDescription&gt;Complete&lt;/d:ServiceObjectiveAssignmentStateDescription&gt;
-      &lt;d:ServiceObjectiveAssignmentSuccessDate m:type="Edm.DateTime"&gt;2013-11-12T20:07:04.297&lt;/d:ServiceObjectiveAssignmentSuccessDate&gt;
+      &lt;d:ServiceObjectiveAssignmentSuccessDate m:type="Edm.DateTime"&gt;2014-03-27T21:23:15.523&lt;/d:ServiceObjectiveAssignmentSuccessDate&gt;
       &lt;d:ServiceObjectiveId m:type="Edm.Guid" m:null="true" /&gt;
       &lt;d:SizeMB m:type="Edm.Decimal"&gt;2.44&lt;/d:SizeMB&gt;
       &lt;d:Status m:type="Edm.Int32"&gt;1&lt;/d:Status&gt;
@@ -2357,7 +2606,7 @@
           <Headers>
             <Header>
               <Name>x-ms-request-id</Name>
-              <Value>7398da94-9734-7520-d09e-056130e06f49</Value>
+              <Value>58cb6722-dd9a-22e3-bf73-573b4bab14ca</Value>
             </Header>
             <Header>
               <Name>X-Content-Type-Options</Name>
@@ -2373,7 +2622,7 @@
             </Header>
             <Header>
               <Name>Date</Name>
-              <Value>Tue, 12 Nov 2013 20:07:36 GMT</Value>
+              <Value>Thu, 27 Mar 2014 21:23:45 GMT</Value>
             </Header>
             <Header>
               <Name>Server</Name>
@@ -2401,15 +2650,15 @@
             </Header>
             <Header>
               <Name>AccessToken</Name>
-              <Value>VpeUR/WYdamErHqrBGWfqSfqSXcJjnsPUYYoBWkCf5XNN/HzSTqdQukHhPn4OmsD77YiF/bbCnl0sigRoEKTRpo0WO+WHN0MuMQyd3IC05/F+Z0bjAG1HB+JdjssmkWdyHqa0Hh8GcC+XAyvYp68RVHkkmaoG0SxOOpdRn6B6xu9Wto6RRFlABkW5a9ujLn9vUIq5VLSv9oTG438CHJndj+u4KUOKSv2EEqeSmRdDuXleD7/cp1mTrr6zv+ka1Tgju8Zq279Sicb59ILSbI2tI0fPpCBtZzEsk7lzGJodmNvCWuubNVeD9ZqlFewReaNTdLmcgvcIBKVaw/A/gjDlleRa58lf6HBfFIy/OfhsMOOoiVYecbemaOEz8XOVGEbyyJ/9h5Xf10jM9hABDIQMfEJvmNFKOiMfTGrwwbjpGtQCaHJmTQaFRhe6f0R9p3f8cO0J3EORU75u4eOkDvc0fr1ztAIJPb+7NtfLZix+VrnohVWHAVrIKJVWUTp1U3Hp3h7N3GeLiCTfTAzDSVs0Y+tnH4HrpfFujfKYyzjueERR9pijpfnKIJXmfYd2oos3nahygkY0yjfA/GHC3L6NrPdDfzfu7Nufa3fj7Rzj7hxLJdgt1xb9P5dS+eho8tyz16blCDmqAzJWVI8O/Ho4FVPHqNaUf09yeUW4bFRUq9UVx3V1gk6f6BGQm3z84vhr6foSExCzQvHLnqV+TuslSatUE80h6s+ih3R2T5cH/nfmyO3JR3JPd50hTuuiTKIyRaeMqk9MrZehFrhVnV2aw==</Value>
+              <Value>cKCGkC9gQd0lbuJSLFzOYqTRsN03tjWgiAT7xNL5fBg1OjqlDE/Y/e7QeGH0VTb4axc5INHivlRk8xvRJFYnJAZMTJ28CsMFqlEfQWKP4eDxiHLYQr0rK+HC/GnGrKulHDSmf2WmQTGk4GDJb4CM/xMCrNIMvQeeZ/yv5Vkk6OiKlsCpGhWkpytvz/HG0v/Krrg4hpbxuqjezota5i1igma35teNHwHiUEHWgN/DeyKbUPekk9Vn5IfBdG05JMbb4xrwgHOKCucwsSvTQK+SJP0TB7kDgnzm70mfbbkzuwvm7uxuzCJR0mFAAyn08j4Fv3ToraLpDPy9lxWV/2TN7H92yX1WvPek94Q7JC2ISujJGeUfeq+MFOrceERWhWu68zQEkrakxbV2CHRLLugP5t7XGhjjZzE2pTFaMTU5Fmn/JGqAN3VqfofR+VRjvF2MvpTr8MKmuP0nmAxNcdevUuMQfItBTceGicAZjSEUjhSO8tNmqCftcAxf7dCchMEm9Rqi9jnalF4Rm2az7V/1G3xvWRKEJ6kU8IpfrwMelZF1MvbWzl7fmWA1jrQTnpLCBTjQKhDR5qg/YrisZH1MFlY7IM9JDwrQdwh0s0iVIJAQUutiqblZMOtWt17RB95F+defmn4KLg18n6gSQmoAJQZnmojVzgoPcbzu6Ojx9sV6D1L8cYwfUnqP/DtYGGXQAFJtWdbsV/tZCqkdaMeALb6HNYt5UG9Nvj4p2F7uKU0qrSx7ngFtGQof21HAFR1oKlDFv7xIsCQ6i07mL57viA==</Value>
             </Header>
             <Header>
               <Name>x-ms-client-session-id</Name>
-              <Value>8f9df13c-2440-47d5-bcb0-8ae8d2dc2dc8-2013-11-12 20:06:52Z</Value>
+              <Value>0480d9d6-fba5-499c-9101-be615831a763-2014-03-27 21:23:12Z</Value>
             </Header>
             <Header>
               <Name>x-ms-client-request-id</Name>
-              <Value>77a9bf34-df3f-45f9-ae37-295473c8a9df-2013-11-12 20:07:26Z</Value>
+              <Value>db490dac-66ae-4f62-a901-7f5b91956474-2014-03-27 21:23:35Z</Value>
             </Header>
             <Header>
               <Name>Accept-Charset</Name>
@@ -2417,13 +2666,13 @@
             </Header>
             <Header>
               <Name>Cookie</Name>
-              <Value>.SQLSERVERMANAGEMENT=gdBVS0DG0YhuyhMaGrGgoQ==</Value>
+              <Value>.SQLSERVERMANAGEMENT=Fw7SF+NlDq3BRiGsRB0z0w==</Value>
             </Header>
           </Headers>
           <Cookies>
             <Cookie>
               <Name>.SQLSERVERMANAGEMENT</Name>
-              <Value>gdBVS0DG0YhuyhMaGrGgoQ==</Value>
+              <Value>Fw7SF+NlDq3BRiGsRB0z0w==</Value>
               <RelativeUri i:nil="true" />
             </Cookie>
           </Cookies>
@@ -2436,7 +2685,7 @@
           <Headers>
             <Header>
               <Name>x-ms-request-id</Name>
-              <Value>7398da94-9734-7520-d09e-056130e06f49</Value>
+              <Value>58cb6722-dd9a-22e3-bf73-573b4bab14ca</Value>
             </Header>
             <Header>
               <Name>X-Content-Type-Options</Name>
@@ -2456,7 +2705,7 @@
             </Header>
             <Header>
               <Name>Date</Name>
-              <Value>Tue, 12 Nov 2013 20:07:38 GMT</Value>
+              <Value>Thu, 27 Mar 2014 21:23:45 GMT</Value>
             </Header>
             <Header>
               <Name>Server</Name>
@@ -2464,7 +2713,7 @@
             </Header>
           </Headers>
           <Cookies />
-          <ResponseText>&lt;?xml version="1.0" encoding="utf-8"?&gt;&lt;feed xml:base="http://localhost:12345/v1/ManagementService.svc/Server2('testserver')/" xmlns="http://www.w3.org/2005/Atom" xmlns:d="http://schemas.microsoft.com/ado/2007/08/dataservices" xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata"&gt;&lt;id&gt;http://localhost:12345/v1/ManagementService.svc/Server2('testserver')/Databases&lt;/id&gt;&lt;title type="text"&gt;Databases&lt;/title&gt;&lt;updated&gt;2013-11-12T20:07:38Z&lt;/updated&gt;&lt;link rel="self" title="Databases" href="Databases" /&gt;&lt;entry&gt;&lt;id&gt;http://localhost:12345/v1/ManagementService.svc/Server2('testserver')/Databases(4)&lt;/id&gt;&lt;category term="Microsoft.SqlServer.Management.Server.Domain.Database" scheme="http://schemas.microsoft.com/ado/2007/08/dataservices/scheme" /&gt;&lt;link rel="edit" title="Database" href="Databases(4)" /&gt;&lt;link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/Server" type="application/atom+xml;type=entry" title="Server" href="Databases(4)/Server" /&gt;&lt;link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/ServiceObjective" type="application/atom+xml;type=entry" title="ServiceObjective" href="Databases(4)/ServiceObjective" /&gt;&lt;link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/DatabaseMetrics" type="application/atom+xml;type=entry" title="DatabaseMetrics" href="Databases(4)/DatabaseMetrics" /&gt;&lt;link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/DatabaseCopies" type="application/atom+xml;type=feed" title="DatabaseCopies" href="Databases(4)/DatabaseCopies" /&gt;&lt;title /&gt;&lt;updated&gt;2013-11-12T20:07:38Z&lt;/updated&gt;&lt;author&gt;&lt;name /&gt;&lt;/author&gt;&lt;content type="application/xml"&gt;&lt;m:properties&gt;&lt;d:Id m:type="Edm.Int32"&gt;4&lt;/d:Id&gt;&lt;d:Name&gt;testdb1&lt;/d:Name&gt;&lt;d:ServiceObjectiveId m:type="Edm.Guid"&gt;910b4fcb-8a29-4c3e-958f-f7ba794388b2&lt;/d:ServiceObjectiveId&gt;&lt;d:AssignedServiceObjectiveId m:type="Edm.Guid"&gt;910b4fcb-8a29-4c3e-958f-f7ba794388b2&lt;/d:AssignedServiceObjectiveId&gt;&lt;d:ServiceObjectiveAssignmentState m:type="Edm.Byte"&gt;1&lt;/d:ServiceObjectiveAssignmentState&gt;&lt;d:ServiceObjectiveAssignmentStateDescription&gt;Complete&lt;/d:ServiceObjectiveAssignmentStateDescription&gt;&lt;d:ServiceObjectiveAssignmentErrorCode m:type="Edm.Int32"&gt;0&lt;/d:ServiceObjectiveAssignmentErrorCode&gt;&lt;d:ServiceObjectiveAssignmentErrorDescription m:null="true" /&gt;&lt;d:ServiceObjectiveAssignmentSuccessDate m:type="Edm.DateTime"&gt;2013-11-12T20:07:04.297&lt;/d:ServiceObjectiveAssignmentSuccessDate&gt;&lt;d:Edition&gt;Web&lt;/d:Edition&gt;&lt;d:MaxSizeGB m:type="Edm.Int32"&gt;5&lt;/d:MaxSizeGB&gt;&lt;d:MaxSizeBytes m:type="Edm.Int64"&gt;5368709120&lt;/d:MaxSizeBytes&gt;&lt;d:CollationName&gt;SQL_Latin1_General_CP1_CI_AS&lt;/d:CollationName&gt;&lt;d:CreationDate m:type="Edm.DateTime"&gt;2013-11-12T12:06:55.85&lt;/d:CreationDate&gt;&lt;d:RecoveryPeriodStartDate m:type="Edm.DateTime"&gt;2013-11-12T20:07:54.36Z&lt;/d:RecoveryPeriodStartDate&gt;&lt;d:IsSystemObject m:type="Edm.Boolean"&gt;false&lt;/d:IsSystemObject&gt;&lt;d:Status m:type="Edm.Int32"&gt;1&lt;/d:Status&gt;&lt;d:IsFederationRoot m:type="Edm.Boolean"&gt;false&lt;/d:IsFederationRoot&gt;&lt;d:SizeMB m:type="Edm.Decimal"&gt;2.44&lt;/d:SizeMB&gt;&lt;d:IsRecursiveTriggersOn m:type="Edm.Boolean"&gt;false&lt;/d:IsRecursiveTriggersOn&gt;&lt;d:IsReadOnly m:type="Edm.Boolean"&gt;false&lt;/d:IsReadOnly&gt;&lt;d:IsFederationMember m:type="Edm.Boolean"&gt;false&lt;/d:IsFederationMember&gt;&lt;d:IsQueryStoreOn m:type="Edm.Boolean"&gt;false&lt;/d:IsQueryStoreOn&gt;&lt;d:IsQueryStoreReadOnly m:type="Edm.Boolean" m:null="true" /&gt;&lt;d:QueryStoreMaxSizeMB m:type="Edm.Int32" m:null="true" /&gt;&lt;d:QueryStoreFlushPeriodSeconds m:type="Edm.Int32" m:null="true" /&gt;&lt;d:QueryStoreIntervalLengthMinutes m:type="Edm.Int32" m:null="true" /&gt;&lt;d:QueryStoreClearAll m:type="Edm.Boolean" m:null="true" /&gt;&lt;d:QueryStoreStaleQueryThresholdDays m:type="Edm.Int32" m:null="true" /&gt;&lt;d:IsSuspended m:type="Edm.Boolean"&gt;false&lt;/d:IsSuspended&gt;&lt;/m:properties&gt;&lt;/content&gt;&lt;/entry&gt;&lt;/feed&gt;</ResponseText>
+          <ResponseText>&lt;?xml version="1.0" encoding="utf-8"?&gt;&lt;feed xml:base="http://localhost:12345/v1/ManagementService.svc/Server2('testserver')/" xmlns="http://www.w3.org/2005/Atom" xmlns:d="http://schemas.microsoft.com/ado/2007/08/dataservices" xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata"&gt;&lt;id&gt;http://localhost:12345/v1/ManagementService.svc/Server2('testserver')/Databases&lt;/id&gt;&lt;title type="text"&gt;Databases&lt;/title&gt;&lt;updated&gt;2014-03-27T21:23:45Z&lt;/updated&gt;&lt;link rel="self" title="Databases" href="Databases" /&gt;&lt;entry&gt;&lt;id&gt;http://localhost:12345/v1/ManagementService.svc/Server2('testserver')/Databases(4)&lt;/id&gt;&lt;category term="Microsoft.SqlServer.Management.Server.Domain.Database" scheme="http://schemas.microsoft.com/ado/2007/08/dataservices/scheme" /&gt;&lt;link rel="edit" title="Database" href="Databases(4)" /&gt;&lt;link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/Server" type="application/atom+xml;type=entry" title="Server" href="Databases(4)/Server" /&gt;&lt;link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/ServiceObjective" type="application/atom+xml;type=entry" title="ServiceObjective" href="Databases(4)/ServiceObjective" /&gt;&lt;link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/DatabaseMetrics" type="application/atom+xml;type=entry" title="DatabaseMetrics" href="Databases(4)/DatabaseMetrics" /&gt;&lt;link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/DatabaseCopies" type="application/atom+xml;type=feed" title="DatabaseCopies" href="Databases(4)/DatabaseCopies" /&gt;&lt;title /&gt;&lt;updated&gt;2014-03-27T21:23:45Z&lt;/updated&gt;&lt;author&gt;&lt;name /&gt;&lt;/author&gt;&lt;content type="application/xml"&gt;&lt;m:properties&gt;&lt;d:Id m:type="Edm.Int32"&gt;4&lt;/d:Id&gt;&lt;d:Name&gt;testdb1&lt;/d:Name&gt;&lt;d:ServiceObjectiveId m:type="Edm.Guid"&gt;910b4fcb-8a29-4c3e-958f-f7ba794388b2&lt;/d:ServiceObjectiveId&gt;&lt;d:AssignedServiceObjectiveId m:type="Edm.Guid"&gt;910b4fcb-8a29-4c3e-958f-f7ba794388b2&lt;/d:AssignedServiceObjectiveId&gt;&lt;d:ServiceObjectiveAssignmentState m:type="Edm.Byte"&gt;1&lt;/d:ServiceObjectiveAssignmentState&gt;&lt;d:ServiceObjectiveAssignmentStateDescription&gt;Complete&lt;/d:ServiceObjectiveAssignmentStateDescription&gt;&lt;d:ServiceObjectiveAssignmentErrorCode m:type="Edm.Int32"&gt;0&lt;/d:ServiceObjectiveAssignmentErrorCode&gt;&lt;d:ServiceObjectiveAssignmentErrorDescription m:null="true" /&gt;&lt;d:ServiceObjectiveAssignmentSuccessDate m:type="Edm.DateTime"&gt;2014-03-27T21:23:15.523&lt;/d:ServiceObjectiveAssignmentSuccessDate&gt;&lt;d:Edition&gt;Web&lt;/d:Edition&gt;&lt;d:MaxSizeGB m:type="Edm.Int32"&gt;5&lt;/d:MaxSizeGB&gt;&lt;d:MaxSizeBytes m:type="Edm.Int64"&gt;5368709120&lt;/d:MaxSizeBytes&gt;&lt;d:CollationName&gt;SQL_Latin1_General_CP1_CI_AS&lt;/d:CollationName&gt;&lt;d:CreationDate m:type="Edm.DateTime"&gt;2014-03-27T14:23:13.1&lt;/d:CreationDate&gt;&lt;d:RecoveryPeriodStartDate m:type="Edm.DateTime"&gt;2014-03-27T21:24:12.85Z&lt;/d:RecoveryPeriodStartDate&gt;&lt;d:IsSystemObject m:type="Edm.Boolean"&gt;false&lt;/d:IsSystemObject&gt;&lt;d:Status m:type="Edm.Int32"&gt;1&lt;/d:Status&gt;&lt;d:IsFederationRoot m:type="Edm.Boolean"&gt;false&lt;/d:IsFederationRoot&gt;&lt;d:SizeMB m:type="Edm.Decimal"&gt;2.44&lt;/d:SizeMB&gt;&lt;d:IsRecursiveTriggersOn m:type="Edm.Boolean"&gt;false&lt;/d:IsRecursiveTriggersOn&gt;&lt;d:IsReadOnly m:type="Edm.Boolean"&gt;false&lt;/d:IsReadOnly&gt;&lt;d:IsFederationMember m:type="Edm.Boolean"&gt;false&lt;/d:IsFederationMember&gt;&lt;d:IsQueryStoreOn m:type="Edm.Boolean"&gt;false&lt;/d:IsQueryStoreOn&gt;&lt;d:IsQueryStoreReadOnly m:type="Edm.Boolean" m:null="true" /&gt;&lt;d:QueryStoreMaxSizeMB m:type="Edm.Int32" m:null="true" /&gt;&lt;d:QueryStoreFlushPeriodSeconds m:type="Edm.Int32" m:null="true" /&gt;&lt;d:QueryStoreIntervalLengthMinutes m:type="Edm.Int32" m:null="true" /&gt;&lt;d:QueryStoreClearAll m:type="Edm.Boolean" m:null="true" /&gt;&lt;d:QueryStoreStaleQueryThresholdDays m:type="Edm.Int32" m:null="true" /&gt;&lt;d:IsSuspended m:type="Edm.Boolean"&gt;false&lt;/d:IsSuspended&gt;&lt;/m:properties&gt;&lt;/content&gt;&lt;/entry&gt;&lt;/feed&gt;</ResponseText>
         </ResponseInfo>
       </HttpMessage>
       <HttpMessage>
@@ -2484,15 +2733,15 @@
             </Header>
             <Header>
               <Name>AccessToken</Name>
-              <Value>VpeUR/WYdamErHqrBGWfqSfqSXcJjnsPUYYoBWkCf5XNN/HzSTqdQukHhPn4OmsD77YiF/bbCnl0sigRoEKTRpo0WO+WHN0MuMQyd3IC05/F+Z0bjAG1HB+JdjssmkWdyHqa0Hh8GcC+XAyvYp68RVHkkmaoG0SxOOpdRn6B6xu9Wto6RRFlABkW5a9ujLn9vUIq5VLSv9oTG438CHJndj+u4KUOKSv2EEqeSmRdDuXleD7/cp1mTrr6zv+ka1Tgju8Zq279Sicb59ILSbI2tI0fPpCBtZzEsk7lzGJodmNvCWuubNVeD9ZqlFewReaNTdLmcgvcIBKVaw/A/gjDlleRa58lf6HBfFIy/OfhsMOOoiVYecbemaOEz8XOVGEbyyJ/9h5Xf10jM9hABDIQMfEJvmNFKOiMfTGrwwbjpGtQCaHJmTQaFRhe6f0R9p3f8cO0J3EORU75u4eOkDvc0fr1ztAIJPb+7NtfLZix+VrnohVWHAVrIKJVWUTp1U3Hp3h7N3GeLiCTfTAzDSVs0Y+tnH4HrpfFujfKYyzjueERR9pijpfnKIJXmfYd2oos3nahygkY0yjfA/GHC3L6NrPdDfzfu7Nufa3fj7Rzj7hxLJdgt1xb9P5dS+eho8tyz16blCDmqAzJWVI8O/Ho4FVPHqNaUf09yeUW4bFRUq9UVx3V1gk6f6BGQm3z84vhr6foSExCzQvHLnqV+TuslSatUE80h6s+ih3R2T5cH/nfmyO3JR3JPd50hTuuiTKIyRaeMqk9MrZehFrhVnV2aw==</Value>
+              <Value>cKCGkC9gQd0lbuJSLFzOYqTRsN03tjWgiAT7xNL5fBg1OjqlDE/Y/e7QeGH0VTb4axc5INHivlRk8xvRJFYnJAZMTJ28CsMFqlEfQWKP4eDxiHLYQr0rK+HC/GnGrKulHDSmf2WmQTGk4GDJb4CM/xMCrNIMvQeeZ/yv5Vkk6OiKlsCpGhWkpytvz/HG0v/Krrg4hpbxuqjezota5i1igma35teNHwHiUEHWgN/DeyKbUPekk9Vn5IfBdG05JMbb4xrwgHOKCucwsSvTQK+SJP0TB7kDgnzm70mfbbkzuwvm7uxuzCJR0mFAAyn08j4Fv3ToraLpDPy9lxWV/2TN7H92yX1WvPek94Q7JC2ISujJGeUfeq+MFOrceERWhWu68zQEkrakxbV2CHRLLugP5t7XGhjjZzE2pTFaMTU5Fmn/JGqAN3VqfofR+VRjvF2MvpTr8MKmuP0nmAxNcdevUuMQfItBTceGicAZjSEUjhSO8tNmqCftcAxf7dCchMEm9Rqi9jnalF4Rm2az7V/1G3xvWRKEJ6kU8IpfrwMelZF1MvbWzl7fmWA1jrQTnpLCBTjQKhDR5qg/YrisZH1MFlY7IM9JDwrQdwh0s0iVIJAQUutiqblZMOtWt17RB95F+defmn4KLg18n6gSQmoAJQZnmojVzgoPcbzu6Ojx9sV6D1L8cYwfUnqP/DtYGGXQAFJtWdbsV/tZCqkdaMeALb6HNYt5UG9Nvj4p2F7uKU0qrSx7ngFtGQof21HAFR1oKlDFv7xIsCQ6i07mL57viA==</Value>
             </Header>
             <Header>
               <Name>x-ms-client-session-id</Name>
-              <Value>8f9df13c-2440-47d5-bcb0-8ae8d2dc2dc8-2013-11-12 20:06:52Z</Value>
+              <Value>0480d9d6-fba5-499c-9101-be615831a763-2014-03-27 21:23:12Z</Value>
             </Header>
             <Header>
               <Name>x-ms-client-request-id</Name>
-              <Value>77a9bf34-df3f-45f9-ae37-295473c8a9df-2013-11-12 20:07:26Z</Value>
+              <Value>db490dac-66ae-4f62-a901-7f5b91956474-2014-03-27 21:23:35Z</Value>
             </Header>
             <Header>
               <Name>Accept-Charset</Name>
@@ -2500,13 +2749,13 @@
             </Header>
             <Header>
               <Name>Cookie</Name>
-              <Value>.SQLSERVERMANAGEMENT=gdBVS0DG0YhuyhMaGrGgoQ==</Value>
+              <Value>.SQLSERVERMANAGEMENT=Fw7SF+NlDq3BRiGsRB0z0w==</Value>
             </Header>
           </Headers>
           <Cookies>
             <Cookie>
               <Name>.SQLSERVERMANAGEMENT</Name>
-              <Value>gdBVS0DG0YhuyhMaGrGgoQ==</Value>
+              <Value>Fw7SF+NlDq3BRiGsRB0z0w==</Value>
               <RelativeUri i:nil="true" />
             </Cookie>
           </Cookies>
@@ -2519,7 +2768,7 @@
           <Headers>
             <Header>
               <Name>x-ms-request-id</Name>
-              <Value>7398da94-9734-7520-d09e-056130e06f49</Value>
+              <Value>58cb6722-dd9a-22e3-bf73-573b4bab14ca</Value>
             </Header>
             <Header>
               <Name>X-Content-Type-Options</Name>
@@ -2539,7 +2788,7 @@
             </Header>
             <Header>
               <Name>Date</Name>
-              <Value>Tue, 12 Nov 2013 20:07:39 GMT</Value>
+              <Value>Thu, 27 Mar 2014 21:23:45 GMT</Value>
             </Header>
             <Header>
               <Name>Server</Name>
@@ -2547,7 +2796,461 @@
             </Header>
           </Headers>
           <Cookies />
-          <ResponseText>&lt;?xml version="1.0" encoding="utf-8"?&gt;&lt;entry xml:base="http://localhost:12345/v1/ManagementService.svc/Server2('testserver')/" xmlns="http://www.w3.org/2005/Atom" xmlns:d="http://schemas.microsoft.com/ado/2007/08/dataservices" xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata"&gt;&lt;id&gt;http://localhost:12345/v1/ManagementService.svc/Server2('testserver')/ServiceObjectives(guid'910b4fcb-8a29-4c3e-958f-f7ba794388b2')&lt;/id&gt;&lt;category term="Microsoft.SqlServer.Management.Server.Domain.ServiceObjective" scheme="http://schemas.microsoft.com/ado/2007/08/dataservices/scheme" /&gt;&lt;link rel="edit" title="ServiceObjective" href="ServiceObjectives(guid'910b4fcb-8a29-4c3e-958f-f7ba794388b2')" /&gt;&lt;link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/DimensionSettings" type="application/atom+xml;type=feed" title="DimensionSettings" href="ServiceObjectives(guid'910b4fcb-8a29-4c3e-958f-f7ba794388b2')/DimensionSettings" /&gt;&lt;title /&gt;&lt;updated&gt;2013-11-12T20:07:39Z&lt;/updated&gt;&lt;author&gt;&lt;name /&gt;&lt;/author&gt;&lt;content type="application/xml"&gt;&lt;m:properties&gt;&lt;d:Id m:type="Edm.Guid"&gt;910b4fcb-8a29-4c3e-958f-f7ba794388b2&lt;/d:Id&gt;&lt;d:Name&gt;Shared&lt;/d:Name&gt;&lt;d:Description&gt;Resource capacity is not reserved.&lt;/d:Description&gt;&lt;d:IsDefault m:type="Edm.Boolean"&gt;true&lt;/d:IsDefault&gt;&lt;d:IsSystem m:type="Edm.Boolean"&gt;false&lt;/d:IsSystem&gt;&lt;d:Enabled m:type="Edm.Boolean"&gt;true&lt;/d:Enabled&gt;&lt;/m:properties&gt;&lt;/content&gt;&lt;/entry&gt;</ResponseText>
+          <ResponseText>&lt;?xml version="1.0" encoding="utf-8"?&gt;&lt;entry xml:base="http://localhost:12345/v1/ManagementService.svc/Server2('testserver')/" xmlns="http://www.w3.org/2005/Atom" xmlns:d="http://schemas.microsoft.com/ado/2007/08/dataservices" xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata"&gt;&lt;id&gt;http://localhost:12345/v1/ManagementService.svc/Server2('testserver')/ServiceObjectives(guid'910b4fcb-8a29-4c3e-958f-f7ba794388b2')&lt;/id&gt;&lt;category term="Microsoft.SqlServer.Management.Server.Domain.ServiceObjective" scheme="http://schemas.microsoft.com/ado/2007/08/dataservices/scheme" /&gt;&lt;link rel="edit" title="ServiceObjective" href="ServiceObjectives(guid'910b4fcb-8a29-4c3e-958f-f7ba794388b2')" /&gt;&lt;link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/DimensionSettings" type="application/atom+xml;type=feed" title="DimensionSettings" href="ServiceObjectives(guid'910b4fcb-8a29-4c3e-958f-f7ba794388b2')/DimensionSettings" /&gt;&lt;title /&gt;&lt;updated&gt;2014-03-27T21:23:46Z&lt;/updated&gt;&lt;author&gt;&lt;name /&gt;&lt;/author&gt;&lt;content type="application/xml"&gt;&lt;m:properties&gt;&lt;d:Id m:type="Edm.Guid"&gt;910b4fcb-8a29-4c3e-958f-f7ba794388b2&lt;/d:Id&gt;&lt;d:Name&gt;Shared&lt;/d:Name&gt;&lt;d:Description&gt;Shared resource allocation.&lt;/d:Description&gt;&lt;d:IsDefault m:type="Edm.Boolean"&gt;true&lt;/d:IsDefault&gt;&lt;d:IsSystem m:type="Edm.Boolean"&gt;false&lt;/d:IsSystem&gt;&lt;d:Enabled m:type="Edm.Boolean"&gt;true&lt;/d:Enabled&gt;&lt;/m:properties&gt;&lt;/content&gt;&lt;/entry&gt;</ResponseText>
+        </ResponseInfo>
+      </HttpMessage>
+      <HttpMessage>
+        <Index>5</Index>
+        <RequestInfo>
+          <RequestUri>http://localhost:12345/v1/ManagementService.svc/Server2('testserver')/Databases()?$filter=Name%20eq%20'testdb2'&amp;$top=2</RequestUri>
+          <Method>GET</Method>
+          <UserAgent>WindowsAzurePowershell/v0.7.4</UserAgent>
+          <Headers>
+            <Header>
+              <Name>DataServiceVersion</Name>
+              <Value>1.0;NetFx</Value>
+            </Header>
+            <Header>
+              <Name>MaxDataServiceVersion</Name>
+              <Value>2.0;NetFx</Value>
+            </Header>
+            <Header>
+              <Name>AccessToken</Name>
+              <Value>cKCGkC9gQd0lbuJSLFzOYqTRsN03tjWgiAT7xNL5fBg1OjqlDE/Y/e7QeGH0VTb4axc5INHivlRk8xvRJFYnJAZMTJ28CsMFqlEfQWKP4eDxiHLYQr0rK+HC/GnGrKulHDSmf2WmQTGk4GDJb4CM/xMCrNIMvQeeZ/yv5Vkk6OiKlsCpGhWkpytvz/HG0v/Krrg4hpbxuqjezota5i1igma35teNHwHiUEHWgN/DeyKbUPekk9Vn5IfBdG05JMbb4xrwgHOKCucwsSvTQK+SJP0TB7kDgnzm70mfbbkzuwvm7uxuzCJR0mFAAyn08j4Fv3ToraLpDPy9lxWV/2TN7H92yX1WvPek94Q7JC2ISujJGeUfeq+MFOrceERWhWu68zQEkrakxbV2CHRLLugP5t7XGhjjZzE2pTFaMTU5Fmn/JGqAN3VqfofR+VRjvF2MvpTr8MKmuP0nmAxNcdevUuMQfItBTceGicAZjSEUjhSO8tNmqCftcAxf7dCchMEm9Rqi9jnalF4Rm2az7V/1G3xvWRKEJ6kU8IpfrwMelZF1MvbWzl7fmWA1jrQTnpLCBTjQKhDR5qg/YrisZH1MFlY7IM9JDwrQdwh0s0iVIJAQUutiqblZMOtWt17RB95F+defmn4KLg18n6gSQmoAJQZnmojVzgoPcbzu6Ojx9sV6D1L8cYwfUnqP/DtYGGXQAFJtWdbsV/tZCqkdaMeALb6HNYt5UG9Nvj4p2F7uKU0qrSx7ngFtGQof21HAFR1oKlDFv7xIsCQ6i07mL57viA==</Value>
+            </Header>
+            <Header>
+              <Name>x-ms-client-session-id</Name>
+              <Value>0480d9d6-fba5-499c-9101-be615831a763-2014-03-27 21:23:12Z</Value>
+            </Header>
+            <Header>
+              <Name>x-ms-client-request-id</Name>
+              <Value>db490dac-66ae-4f62-a901-7f5b91956474-2014-03-27 21:23:35Z</Value>
+            </Header>
+            <Header>
+              <Name>Accept-Charset</Name>
+              <Value>UTF-8</Value>
+            </Header>
+            <Header>
+              <Name>Cookie</Name>
+              <Value>.SQLSERVERMANAGEMENT=Fw7SF+NlDq3BRiGsRB0z0w==</Value>
+            </Header>
+          </Headers>
+          <Cookies>
+            <Cookie>
+              <Name>.SQLSERVERMANAGEMENT</Name>
+              <Value>Fw7SF+NlDq3BRiGsRB0z0w==</Value>
+              <RelativeUri i:nil="true" />
+            </Cookie>
+          </Cookies>
+          <RequestText i:nil="true" />
+          <ContentType i:nil="true" />
+          <Accept>application/atom+xml,application/xml</Accept>
+        </RequestInfo>
+        <ResponseInfo>
+          <StatusCode>OK</StatusCode>
+          <Headers>
+            <Header>
+              <Name>x-ms-request-id</Name>
+              <Value>58cb6722-dd9a-22e3-bf73-573b4bab14ca</Value>
+            </Header>
+            <Header>
+              <Name>X-Content-Type-Options</Name>
+              <Value>nosniff</Value>
+            </Header>
+            <Header>
+              <Name>DataServiceVersion</Name>
+              <Value>2.0;</Value>
+            </Header>
+            <Header>
+              <Name>Cache-Control</Name>
+              <Value>no-store,no-cache</Value>
+            </Header>
+            <Header>
+              <Name>Content-Type</Name>
+              <Value>application/atom+xml;type=feed;charset=utf-8</Value>
+            </Header>
+            <Header>
+              <Name>Date</Name>
+              <Value>Thu, 27 Mar 2014 21:23:46 GMT</Value>
+            </Header>
+            <Header>
+              <Name>Server</Name>
+              <Value>Microsoft-HTTPAPI/2.0</Value>
+            </Header>
+          </Headers>
+          <Cookies />
+          <ResponseText>&lt;?xml version="1.0" encoding="utf-8"?&gt;&lt;feed xml:base="http://localhost:12345/v1/ManagementService.svc/Server2('testserver')/" xmlns="http://www.w3.org/2005/Atom" xmlns:d="http://schemas.microsoft.com/ado/2007/08/dataservices" xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata"&gt;&lt;id&gt;http://localhost:12345/v1/ManagementService.svc/Server2('testserver')/Databases&lt;/id&gt;&lt;title type="text"&gt;Databases&lt;/title&gt;&lt;updated&gt;2014-03-27T21:23:46Z&lt;/updated&gt;&lt;link rel="self" title="Databases" href="Databases" /&gt;&lt;entry&gt;&lt;id&gt;http://localhost:12345/v1/ManagementService.svc/Server2('testserver')/Databases(5)&lt;/id&gt;&lt;category term="Microsoft.SqlServer.Management.Server.Domain.Database" scheme="http://schemas.microsoft.com/ado/2007/08/dataservices/scheme" /&gt;&lt;link rel="edit" title="Database" href="Databases(5)" /&gt;&lt;link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/Server" type="application/atom+xml;type=entry" title="Server" href="Databases(5)/Server" /&gt;&lt;link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/ServiceObjective" type="application/atom+xml;type=entry" title="ServiceObjective" href="Databases(5)/ServiceObjective" /&gt;&lt;link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/DatabaseMetrics" type="application/atom+xml;type=entry" title="DatabaseMetrics" href="Databases(5)/DatabaseMetrics" /&gt;&lt;link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/DatabaseCopies" type="application/atom+xml;type=feed" title="DatabaseCopies" href="Databases(5)/DatabaseCopies" /&gt;&lt;title /&gt;&lt;updated&gt;2014-03-27T21:23:46Z&lt;/updated&gt;&lt;author&gt;&lt;name /&gt;&lt;/author&gt;&lt;content type="application/xml"&gt;&lt;m:properties&gt;&lt;d:Id m:type="Edm.Int32"&gt;5&lt;/d:Id&gt;&lt;d:Name&gt;testdb2&lt;/d:Name&gt;&lt;d:ServiceObjectiveId m:type="Edm.Guid"&gt;910b4fcb-8a29-4c3e-958f-f7ba794388b2&lt;/d:ServiceObjectiveId&gt;&lt;d:AssignedServiceObjectiveId m:type="Edm.Guid"&gt;910b4fcb-8a29-4c3e-958f-f7ba794388b2&lt;/d:AssignedServiceObjectiveId&gt;&lt;d:ServiceObjectiveAssignmentState m:type="Edm.Byte"&gt;1&lt;/d:ServiceObjectiveAssignmentState&gt;&lt;d:ServiceObjectiveAssignmentStateDescription&gt;Complete&lt;/d:ServiceObjectiveAssignmentStateDescription&gt;&lt;d:ServiceObjectiveAssignmentErrorCode m:type="Edm.Int32"&gt;0&lt;/d:ServiceObjectiveAssignmentErrorCode&gt;&lt;d:ServiceObjectiveAssignmentErrorDescription m:null="true" /&gt;&lt;d:ServiceObjectiveAssignmentSuccessDate m:type="Edm.DateTime"&gt;2014-03-27T21:23:22.663&lt;/d:ServiceObjectiveAssignmentSuccessDate&gt;&lt;d:Edition&gt;Web&lt;/d:Edition&gt;&lt;d:MaxSizeGB m:type="Edm.Int32"&gt;5&lt;/d:MaxSizeGB&gt;&lt;d:MaxSizeBytes m:type="Edm.Int64"&gt;5368709120&lt;/d:MaxSizeBytes&gt;&lt;d:CollationName&gt;Japanese_CI_AS&lt;/d:CollationName&gt;&lt;d:CreationDate m:type="Edm.DateTime"&gt;2014-03-27T14:23:18.993&lt;/d:CreationDate&gt;&lt;d:RecoveryPeriodStartDate m:type="Edm.DateTime"&gt;2014-03-27T21:24:18.163Z&lt;/d:RecoveryPeriodStartDate&gt;&lt;d:IsSystemObject m:type="Edm.Boolean"&gt;false&lt;/d:IsSystemObject&gt;&lt;d:Status m:type="Edm.Int32"&gt;1&lt;/d:Status&gt;&lt;d:IsFederationRoot m:type="Edm.Boolean"&gt;false&lt;/d:IsFederationRoot&gt;&lt;d:SizeMB m:type="Edm.Decimal"&gt;2.50&lt;/d:SizeMB&gt;&lt;d:IsRecursiveTriggersOn m:type="Edm.Boolean"&gt;false&lt;/d:IsRecursiveTriggersOn&gt;&lt;d:IsReadOnly m:type="Edm.Boolean"&gt;false&lt;/d:IsReadOnly&gt;&lt;d:IsFederationMember m:type="Edm.Boolean"&gt;false&lt;/d:IsFederationMember&gt;&lt;d:IsQueryStoreOn m:type="Edm.Boolean"&gt;false&lt;/d:IsQueryStoreOn&gt;&lt;d:IsQueryStoreReadOnly m:type="Edm.Boolean" m:null="true" /&gt;&lt;d:QueryStoreMaxSizeMB m:type="Edm.Int32" m:null="true" /&gt;&lt;d:QueryStoreFlushPeriodSeconds m:type="Edm.Int32" m:null="true" /&gt;&lt;d:QueryStoreIntervalLengthMinutes m:type="Edm.Int32" m:null="true" /&gt;&lt;d:QueryStoreClearAll m:type="Edm.Boolean" m:null="true" /&gt;&lt;d:QueryStoreStaleQueryThresholdDays m:type="Edm.Int32" m:null="true" /&gt;&lt;d:IsSuspended m:type="Edm.Boolean"&gt;false&lt;/d:IsSuspended&gt;&lt;/m:properties&gt;&lt;/content&gt;&lt;/entry&gt;&lt;/feed&gt;</ResponseText>
+        </ResponseInfo>
+      </HttpMessage>
+      <HttpMessage>
+        <Index>6</Index>
+        <RequestInfo>
+          <RequestUri>http://localhost:12345/v1/ManagementService.svc/Server2('testserver')/Databases(5)/ServiceObjective</RequestUri>
+          <Method>GET</Method>
+          <UserAgent>WindowsAzurePowershell/v0.7.4</UserAgent>
+          <Headers>
+            <Header>
+              <Name>DataServiceVersion</Name>
+              <Value>1.0;NetFx</Value>
+            </Header>
+            <Header>
+              <Name>MaxDataServiceVersion</Name>
+              <Value>2.0;NetFx</Value>
+            </Header>
+            <Header>
+              <Name>AccessToken</Name>
+              <Value>cKCGkC9gQd0lbuJSLFzOYqTRsN03tjWgiAT7xNL5fBg1OjqlDE/Y/e7QeGH0VTb4axc5INHivlRk8xvRJFYnJAZMTJ28CsMFqlEfQWKP4eDxiHLYQr0rK+HC/GnGrKulHDSmf2WmQTGk4GDJb4CM/xMCrNIMvQeeZ/yv5Vkk6OiKlsCpGhWkpytvz/HG0v/Krrg4hpbxuqjezota5i1igma35teNHwHiUEHWgN/DeyKbUPekk9Vn5IfBdG05JMbb4xrwgHOKCucwsSvTQK+SJP0TB7kDgnzm70mfbbkzuwvm7uxuzCJR0mFAAyn08j4Fv3ToraLpDPy9lxWV/2TN7H92yX1WvPek94Q7JC2ISujJGeUfeq+MFOrceERWhWu68zQEkrakxbV2CHRLLugP5t7XGhjjZzE2pTFaMTU5Fmn/JGqAN3VqfofR+VRjvF2MvpTr8MKmuP0nmAxNcdevUuMQfItBTceGicAZjSEUjhSO8tNmqCftcAxf7dCchMEm9Rqi9jnalF4Rm2az7V/1G3xvWRKEJ6kU8IpfrwMelZF1MvbWzl7fmWA1jrQTnpLCBTjQKhDR5qg/YrisZH1MFlY7IM9JDwrQdwh0s0iVIJAQUutiqblZMOtWt17RB95F+defmn4KLg18n6gSQmoAJQZnmojVzgoPcbzu6Ojx9sV6D1L8cYwfUnqP/DtYGGXQAFJtWdbsV/tZCqkdaMeALb6HNYt5UG9Nvj4p2F7uKU0qrSx7ngFtGQof21HAFR1oKlDFv7xIsCQ6i07mL57viA==</Value>
+            </Header>
+            <Header>
+              <Name>x-ms-client-session-id</Name>
+              <Value>0480d9d6-fba5-499c-9101-be615831a763-2014-03-27 21:23:12Z</Value>
+            </Header>
+            <Header>
+              <Name>x-ms-client-request-id</Name>
+              <Value>db490dac-66ae-4f62-a901-7f5b91956474-2014-03-27 21:23:35Z</Value>
+            </Header>
+            <Header>
+              <Name>Accept-Charset</Name>
+              <Value>UTF-8</Value>
+            </Header>
+            <Header>
+              <Name>Cookie</Name>
+              <Value>.SQLSERVERMANAGEMENT=Fw7SF+NlDq3BRiGsRB0z0w==</Value>
+            </Header>
+          </Headers>
+          <Cookies>
+            <Cookie>
+              <Name>.SQLSERVERMANAGEMENT</Name>
+              <Value>Fw7SF+NlDq3BRiGsRB0z0w==</Value>
+              <RelativeUri i:nil="true" />
+            </Cookie>
+          </Cookies>
+          <RequestText i:nil="true" />
+          <ContentType i:nil="true" />
+          <Accept>application/atom+xml,application/xml</Accept>
+        </RequestInfo>
+        <ResponseInfo>
+          <StatusCode>OK</StatusCode>
+          <Headers>
+            <Header>
+              <Name>x-ms-request-id</Name>
+              <Value>58cb6722-dd9a-22e3-bf73-573b4bab14ca</Value>
+            </Header>
+            <Header>
+              <Name>X-Content-Type-Options</Name>
+              <Value>nosniff</Value>
+            </Header>
+            <Header>
+              <Name>DataServiceVersion</Name>
+              <Value>2.0;</Value>
+            </Header>
+            <Header>
+              <Name>Cache-Control</Name>
+              <Value>no-store,no-cache</Value>
+            </Header>
+            <Header>
+              <Name>Content-Type</Name>
+              <Value>application/atom+xml;type=entry;charset=utf-8</Value>
+            </Header>
+            <Header>
+              <Name>Date</Name>
+              <Value>Thu, 27 Mar 2014 21:23:46 GMT</Value>
+            </Header>
+            <Header>
+              <Name>Server</Name>
+              <Value>Microsoft-HTTPAPI/2.0</Value>
+            </Header>
+          </Headers>
+          <Cookies />
+          <ResponseText>&lt;?xml version="1.0" encoding="utf-8"?&gt;&lt;entry xml:base="http://localhost:12345/v1/ManagementService.svc/Server2('testserver')/" xmlns="http://www.w3.org/2005/Atom" xmlns:d="http://schemas.microsoft.com/ado/2007/08/dataservices" xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata"&gt;&lt;id&gt;http://localhost:12345/v1/ManagementService.svc/Server2('testserver')/ServiceObjectives(guid'910b4fcb-8a29-4c3e-958f-f7ba794388b2')&lt;/id&gt;&lt;category term="Microsoft.SqlServer.Management.Server.Domain.ServiceObjective" scheme="http://schemas.microsoft.com/ado/2007/08/dataservices/scheme" /&gt;&lt;link rel="edit" title="ServiceObjective" href="ServiceObjectives(guid'910b4fcb-8a29-4c3e-958f-f7ba794388b2')" /&gt;&lt;link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/DimensionSettings" type="application/atom+xml;type=feed" title="DimensionSettings" href="ServiceObjectives(guid'910b4fcb-8a29-4c3e-958f-f7ba794388b2')/DimensionSettings" /&gt;&lt;title /&gt;&lt;updated&gt;2014-03-27T21:23:47Z&lt;/updated&gt;&lt;author&gt;&lt;name /&gt;&lt;/author&gt;&lt;content type="application/xml"&gt;&lt;m:properties&gt;&lt;d:Id m:type="Edm.Guid"&gt;910b4fcb-8a29-4c3e-958f-f7ba794388b2&lt;/d:Id&gt;&lt;d:Name&gt;Shared&lt;/d:Name&gt;&lt;d:Description&gt;Shared resource allocation.&lt;/d:Description&gt;&lt;d:IsDefault m:type="Edm.Boolean"&gt;true&lt;/d:IsDefault&gt;&lt;d:IsSystem m:type="Edm.Boolean"&gt;false&lt;/d:IsSystem&gt;&lt;d:Enabled m:type="Edm.Boolean"&gt;true&lt;/d:Enabled&gt;&lt;/m:properties&gt;&lt;/content&gt;&lt;/entry&gt;</ResponseText>
+        </ResponseInfo>
+      </HttpMessage>
+      <HttpMessage>
+        <Index>7</Index>
+        <RequestInfo>
+          <RequestUri>http://localhost:12345/v1/ManagementService.svc/Server2('testserver')/Databases(5)</RequestUri>
+          <Method>MERGE</Method>
+          <UserAgent>WindowsAzurePowershell/v0.7.4</UserAgent>
+          <Headers>
+            <Header>
+              <Name>DataServiceVersion</Name>
+              <Value>1.0;NetFx</Value>
+            </Header>
+            <Header>
+              <Name>MaxDataServiceVersion</Name>
+              <Value>2.0;NetFx</Value>
+            </Header>
+            <Header>
+              <Name>AccessToken</Name>
+              <Value>cKCGkC9gQd0lbuJSLFzOYqTRsN03tjWgiAT7xNL5fBg1OjqlDE/Y/e7QeGH0VTb4axc5INHivlRk8xvRJFYnJAZMTJ28CsMFqlEfQWKP4eDxiHLYQr0rK+HC/GnGrKulHDSmf2WmQTGk4GDJb4CM/xMCrNIMvQeeZ/yv5Vkk6OiKlsCpGhWkpytvz/HG0v/Krrg4hpbxuqjezota5i1igma35teNHwHiUEHWgN/DeyKbUPekk9Vn5IfBdG05JMbb4xrwgHOKCucwsSvTQK+SJP0TB7kDgnzm70mfbbkzuwvm7uxuzCJR0mFAAyn08j4Fv3ToraLpDPy9lxWV/2TN7H92yX1WvPek94Q7JC2ISujJGeUfeq+MFOrceERWhWu68zQEkrakxbV2CHRLLugP5t7XGhjjZzE2pTFaMTU5Fmn/JGqAN3VqfofR+VRjvF2MvpTr8MKmuP0nmAxNcdevUuMQfItBTceGicAZjSEUjhSO8tNmqCftcAxf7dCchMEm9Rqi9jnalF4Rm2az7V/1G3xvWRKEJ6kU8IpfrwMelZF1MvbWzl7fmWA1jrQTnpLCBTjQKhDR5qg/YrisZH1MFlY7IM9JDwrQdwh0s0iVIJAQUutiqblZMOtWt17RB95F+defmn4KLg18n6gSQmoAJQZnmojVzgoPcbzu6Ojx9sV6D1L8cYwfUnqP/DtYGGXQAFJtWdbsV/tZCqkdaMeALb6HNYt5UG9Nvj4p2F7uKU0qrSx7ngFtGQof21HAFR1oKlDFv7xIsCQ6i07mL57viA==</Value>
+            </Header>
+            <Header>
+              <Name>x-ms-client-session-id</Name>
+              <Value>0480d9d6-fba5-499c-9101-be615831a763-2014-03-27 21:23:12Z</Value>
+            </Header>
+            <Header>
+              <Name>x-ms-client-request-id</Name>
+              <Value>db490dac-66ae-4f62-a901-7f5b91956474-2014-03-27 21:23:35Z</Value>
+            </Header>
+            <Header>
+              <Name>Accept-Charset</Name>
+              <Value>UTF-8</Value>
+            </Header>
+            <Header>
+              <Name>Cookie</Name>
+              <Value>.SQLSERVERMANAGEMENT=Fw7SF+NlDq3BRiGsRB0z0w==</Value>
+            </Header>
+          </Headers>
+          <Cookies>
+            <Cookie>
+              <Name>.SQLSERVERMANAGEMENT</Name>
+              <Value>Fw7SF+NlDq3BRiGsRB0z0w==</Value>
+              <RelativeUri i:nil="true" />
+            </Cookie>
+          </Cookies>
+          <RequestText>&lt;?xml version="1.0" encoding="utf-8" standalone="yes"?&gt;
+&lt;entry xmlns:d="http://schemas.microsoft.com/ado/2007/08/dataservices" xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata" xmlns="http://www.w3.org/2005/Atom"&gt;
+  &lt;category scheme="http://schemas.microsoft.com/ado/2007/08/dataservices/scheme" term="Microsoft.SqlServer.Management.Server.Domain.Database" /&gt;
+  &lt;title /&gt;
+  &lt;author&gt;
+    &lt;name /&gt;
+  &lt;/author&gt;
+  &lt;updated&gt;2014-03-27T21:23:47.2086351Z&lt;/updated&gt;
+  &lt;id&gt;http://localhost:12345/v1/ManagementService.svc/Server2('testserver')/Databases(5)&lt;/id&gt;
+  &lt;content type="application/xml"&gt;
+    &lt;m:properties&gt;
+      &lt;d:AssignedServiceObjectiveId m:type="Edm.Guid"&gt;910b4fcb-8a29-4c3e-958f-f7ba794388b2&lt;/d:AssignedServiceObjectiveId&gt;
+      &lt;d:CollationName&gt;Japanese_CI_AS&lt;/d:CollationName&gt;
+      &lt;d:CreationDate m:type="Edm.DateTime"&gt;2014-03-27T14:23:18.993&lt;/d:CreationDate&gt;
+      &lt;d:Edition m:null="true" /&gt;
+      &lt;d:Id m:type="Edm.Int32"&gt;5&lt;/d:Id&gt;
+      &lt;d:IsFederationMember m:type="Edm.Boolean"&gt;false&lt;/d:IsFederationMember&gt;
+      &lt;d:IsFederationRoot m:type="Edm.Boolean"&gt;false&lt;/d:IsFederationRoot&gt;
+      &lt;d:IsQueryStoreOn m:type="Edm.Boolean"&gt;false&lt;/d:IsQueryStoreOn&gt;
+      &lt;d:IsQueryStoreReadOnly m:type="Edm.Boolean" m:null="true" /&gt;
+      &lt;d:IsReadOnly m:type="Edm.Boolean"&gt;false&lt;/d:IsReadOnly&gt;
+      &lt;d:IsRecursiveTriggersOn m:type="Edm.Boolean" m:null="true" /&gt;
+      &lt;d:IsSuspended m:type="Edm.Boolean"&gt;false&lt;/d:IsSuspended&gt;
+      &lt;d:IsSystemObject m:type="Edm.Boolean"&gt;false&lt;/d:IsSystemObject&gt;
+      &lt;d:MaxSizeBytes m:type="Edm.Int64"&gt;104857600&lt;/d:MaxSizeBytes&gt;
+      &lt;d:MaxSizeGB m:type="Edm.Int32"&gt;5&lt;/d:MaxSizeGB&gt;
+      &lt;d:Name&gt;testdb2&lt;/d:Name&gt;
+      &lt;d:QueryStoreClearAll m:type="Edm.Boolean" m:null="true" /&gt;
+      &lt;d:QueryStoreFlushPeriodSeconds m:type="Edm.Int32" m:null="true" /&gt;
+      &lt;d:QueryStoreIntervalLengthMinutes m:type="Edm.Int32" m:null="true" /&gt;
+      &lt;d:QueryStoreMaxSizeMB m:type="Edm.Int32" m:null="true" /&gt;
+      &lt;d:QueryStoreStaleQueryThresholdDays m:type="Edm.Int32" m:null="true" /&gt;
+      &lt;d:RecoveryPeriodStartDate m:type="Edm.DateTime"&gt;2014-03-27T21:24:18.163Z&lt;/d:RecoveryPeriodStartDate&gt;
+      &lt;d:ServiceObjectiveAssignmentErrorCode m:type="Edm.Int32"&gt;0&lt;/d:ServiceObjectiveAssignmentErrorCode&gt;
+      &lt;d:ServiceObjectiveAssignmentErrorDescription m:null="true" /&gt;
+      &lt;d:ServiceObjectiveAssignmentState m:type="Edm.Byte"&gt;1&lt;/d:ServiceObjectiveAssignmentState&gt;
+      &lt;d:ServiceObjectiveAssignmentStateDescription&gt;Complete&lt;/d:ServiceObjectiveAssignmentStateDescription&gt;
+      &lt;d:ServiceObjectiveAssignmentSuccessDate m:type="Edm.DateTime"&gt;2014-03-27T21:23:22.663&lt;/d:ServiceObjectiveAssignmentSuccessDate&gt;
+      &lt;d:ServiceObjectiveId m:type="Edm.Guid" m:null="true" /&gt;
+      &lt;d:SizeMB m:type="Edm.Decimal"&gt;2.50&lt;/d:SizeMB&gt;
+      &lt;d:Status m:type="Edm.Int32"&gt;1&lt;/d:Status&gt;
+    &lt;/m:properties&gt;
+  &lt;/content&gt;
+&lt;/entry&gt;</RequestText>
+          <ContentType>application/atom+xml</ContentType>
+          <Accept>application/atom+xml,application/xml</Accept>
+        </RequestInfo>
+        <ResponseInfo>
+          <StatusCode>NoContent</StatusCode>
+          <Headers>
+            <Header>
+              <Name>x-ms-request-id</Name>
+              <Value>58cb6722-dd9a-22e3-bf73-573b4bab14ca</Value>
+            </Header>
+            <Header>
+              <Name>X-Content-Type-Options</Name>
+              <Value>nosniff</Value>
+            </Header>
+            <Header>
+              <Name>DataServiceVersion</Name>
+              <Value>1.0;</Value>
+            </Header>
+            <Header>
+              <Name>Cache-Control</Name>
+              <Value>no-store,no-cache</Value>
+            </Header>
+            <Header>
+              <Name>Date</Name>
+              <Value>Thu, 27 Mar 2014 21:23:54 GMT</Value>
+            </Header>
+            <Header>
+              <Name>Server</Name>
+              <Value>Microsoft-HTTPAPI/2.0</Value>
+            </Header>
+          </Headers>
+          <Cookies />
+          <ResponseText></ResponseText>
+        </ResponseInfo>
+      </HttpMessage>
+      <HttpMessage>
+        <Index>8</Index>
+        <RequestInfo>
+          <RequestUri>http://localhost:12345/v1/ManagementService.svc/Server2('testserver')/Databases()?$filter=Name%20eq%20'testdb2'&amp;$top=2</RequestUri>
+          <Method>GET</Method>
+          <UserAgent>WindowsAzurePowershell/v0.7.4</UserAgent>
+          <Headers>
+            <Header>
+              <Name>DataServiceVersion</Name>
+              <Value>1.0;NetFx</Value>
+            </Header>
+            <Header>
+              <Name>MaxDataServiceVersion</Name>
+              <Value>2.0;NetFx</Value>
+            </Header>
+            <Header>
+              <Name>AccessToken</Name>
+              <Value>cKCGkC9gQd0lbuJSLFzOYqTRsN03tjWgiAT7xNL5fBg1OjqlDE/Y/e7QeGH0VTb4axc5INHivlRk8xvRJFYnJAZMTJ28CsMFqlEfQWKP4eDxiHLYQr0rK+HC/GnGrKulHDSmf2WmQTGk4GDJb4CM/xMCrNIMvQeeZ/yv5Vkk6OiKlsCpGhWkpytvz/HG0v/Krrg4hpbxuqjezota5i1igma35teNHwHiUEHWgN/DeyKbUPekk9Vn5IfBdG05JMbb4xrwgHOKCucwsSvTQK+SJP0TB7kDgnzm70mfbbkzuwvm7uxuzCJR0mFAAyn08j4Fv3ToraLpDPy9lxWV/2TN7H92yX1WvPek94Q7JC2ISujJGeUfeq+MFOrceERWhWu68zQEkrakxbV2CHRLLugP5t7XGhjjZzE2pTFaMTU5Fmn/JGqAN3VqfofR+VRjvF2MvpTr8MKmuP0nmAxNcdevUuMQfItBTceGicAZjSEUjhSO8tNmqCftcAxf7dCchMEm9Rqi9jnalF4Rm2az7V/1G3xvWRKEJ6kU8IpfrwMelZF1MvbWzl7fmWA1jrQTnpLCBTjQKhDR5qg/YrisZH1MFlY7IM9JDwrQdwh0s0iVIJAQUutiqblZMOtWt17RB95F+defmn4KLg18n6gSQmoAJQZnmojVzgoPcbzu6Ojx9sV6D1L8cYwfUnqP/DtYGGXQAFJtWdbsV/tZCqkdaMeALb6HNYt5UG9Nvj4p2F7uKU0qrSx7ngFtGQof21HAFR1oKlDFv7xIsCQ6i07mL57viA==</Value>
+            </Header>
+            <Header>
+              <Name>x-ms-client-session-id</Name>
+              <Value>0480d9d6-fba5-499c-9101-be615831a763-2014-03-27 21:23:12Z</Value>
+            </Header>
+            <Header>
+              <Name>x-ms-client-request-id</Name>
+              <Value>db490dac-66ae-4f62-a901-7f5b91956474-2014-03-27 21:23:35Z</Value>
+            </Header>
+            <Header>
+              <Name>Accept-Charset</Name>
+              <Value>UTF-8</Value>
+            </Header>
+            <Header>
+              <Name>Cookie</Name>
+              <Value>.SQLSERVERMANAGEMENT=Fw7SF+NlDq3BRiGsRB0z0w==</Value>
+            </Header>
+          </Headers>
+          <Cookies>
+            <Cookie>
+              <Name>.SQLSERVERMANAGEMENT</Name>
+              <Value>Fw7SF+NlDq3BRiGsRB0z0w==</Value>
+              <RelativeUri i:nil="true" />
+            </Cookie>
+          </Cookies>
+          <RequestText i:nil="true" />
+          <ContentType i:nil="true" />
+          <Accept>application/atom+xml,application/xml</Accept>
+        </RequestInfo>
+        <ResponseInfo>
+          <StatusCode>OK</StatusCode>
+          <Headers>
+            <Header>
+              <Name>x-ms-request-id</Name>
+              <Value>58cb6722-dd9a-22e3-bf73-573b4bab14ca</Value>
+            </Header>
+            <Header>
+              <Name>X-Content-Type-Options</Name>
+              <Value>nosniff</Value>
+            </Header>
+            <Header>
+              <Name>DataServiceVersion</Name>
+              <Value>2.0;</Value>
+            </Header>
+            <Header>
+              <Name>Cache-Control</Name>
+              <Value>no-store,no-cache</Value>
+            </Header>
+            <Header>
+              <Name>Content-Type</Name>
+              <Value>application/atom+xml;type=feed;charset=utf-8</Value>
+            </Header>
+            <Header>
+              <Name>Date</Name>
+              <Value>Thu, 27 Mar 2014 21:23:54 GMT</Value>
+            </Header>
+            <Header>
+              <Name>Server</Name>
+              <Value>Microsoft-HTTPAPI/2.0</Value>
+            </Header>
+          </Headers>
+          <Cookies />
+          <ResponseText>&lt;?xml version="1.0" encoding="utf-8"?&gt;&lt;feed xml:base="http://localhost:12345/v1/ManagementService.svc/Server2('testserver')/" xmlns="http://www.w3.org/2005/Atom" xmlns:d="http://schemas.microsoft.com/ado/2007/08/dataservices" xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata"&gt;&lt;id&gt;http://localhost:12345/v1/ManagementService.svc/Server2('testserver')/Databases&lt;/id&gt;&lt;title type="text"&gt;Databases&lt;/title&gt;&lt;updated&gt;2014-03-27T21:23:54Z&lt;/updated&gt;&lt;link rel="self" title="Databases" href="Databases" /&gt;&lt;entry&gt;&lt;id&gt;http://localhost:12345/v1/ManagementService.svc/Server2('testserver')/Databases(5)&lt;/id&gt;&lt;category term="Microsoft.SqlServer.Management.Server.Domain.Database" scheme="http://schemas.microsoft.com/ado/2007/08/dataservices/scheme" /&gt;&lt;link rel="edit" title="Database" href="Databases(5)" /&gt;&lt;link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/Server" type="application/atom+xml;type=entry" title="Server" href="Databases(5)/Server" /&gt;&lt;link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/ServiceObjective" type="application/atom+xml;type=entry" title="ServiceObjective" href="Databases(5)/ServiceObjective" /&gt;&lt;link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/DatabaseMetrics" type="application/atom+xml;type=entry" title="DatabaseMetrics" href="Databases(5)/DatabaseMetrics" /&gt;&lt;link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/DatabaseCopies" type="application/atom+xml;type=feed" title="DatabaseCopies" href="Databases(5)/DatabaseCopies" /&gt;&lt;title /&gt;&lt;updated&gt;2014-03-27T21:23:54Z&lt;/updated&gt;&lt;author&gt;&lt;name /&gt;&lt;/author&gt;&lt;content type="application/xml"&gt;&lt;m:properties&gt;&lt;d:Id m:type="Edm.Int32"&gt;5&lt;/d:Id&gt;&lt;d:Name&gt;testdb2&lt;/d:Name&gt;&lt;d:ServiceObjectiveId m:type="Edm.Guid"&gt;910b4fcb-8a29-4c3e-958f-f7ba794388b2&lt;/d:ServiceObjectiveId&gt;&lt;d:AssignedServiceObjectiveId m:type="Edm.Guid"&gt;910b4fcb-8a29-4c3e-958f-f7ba794388b2&lt;/d:AssignedServiceObjectiveId&gt;&lt;d:ServiceObjectiveAssignmentState m:type="Edm.Byte"&gt;1&lt;/d:ServiceObjectiveAssignmentState&gt;&lt;d:ServiceObjectiveAssignmentStateDescription&gt;Complete&lt;/d:ServiceObjectiveAssignmentStateDescription&gt;&lt;d:ServiceObjectiveAssignmentErrorCode m:type="Edm.Int32"&gt;0&lt;/d:ServiceObjectiveAssignmentErrorCode&gt;&lt;d:ServiceObjectiveAssignmentErrorDescription m:null="true" /&gt;&lt;d:ServiceObjectiveAssignmentSuccessDate m:type="Edm.DateTime"&gt;2014-03-27T21:23:22.663&lt;/d:ServiceObjectiveAssignmentSuccessDate&gt;&lt;d:Edition&gt;Web&lt;/d:Edition&gt;&lt;d:MaxSizeGB m:type="Edm.Int32"&gt;0&lt;/d:MaxSizeGB&gt;&lt;d:MaxSizeBytes m:type="Edm.Int64"&gt;104857600&lt;/d:MaxSizeBytes&gt;&lt;d:CollationName&gt;Japanese_CI_AS&lt;/d:CollationName&gt;&lt;d:CreationDate m:type="Edm.DateTime"&gt;2014-03-27T14:23:18.993&lt;/d:CreationDate&gt;&lt;d:RecoveryPeriodStartDate m:type="Edm.DateTime"&gt;2014-03-27T21:24:18.163Z&lt;/d:RecoveryPeriodStartDate&gt;&lt;d:IsSystemObject m:type="Edm.Boolean"&gt;false&lt;/d:IsSystemObject&gt;&lt;d:Status m:type="Edm.Int32"&gt;1&lt;/d:Status&gt;&lt;d:IsFederationRoot m:type="Edm.Boolean"&gt;false&lt;/d:IsFederationRoot&gt;&lt;d:SizeMB m:type="Edm.Decimal"&gt;2.50&lt;/d:SizeMB&gt;&lt;d:IsRecursiveTriggersOn m:type="Edm.Boolean"&gt;false&lt;/d:IsRecursiveTriggersOn&gt;&lt;d:IsReadOnly m:type="Edm.Boolean"&gt;false&lt;/d:IsReadOnly&gt;&lt;d:IsFederationMember m:type="Edm.Boolean"&gt;false&lt;/d:IsFederationMember&gt;&lt;d:IsQueryStoreOn m:type="Edm.Boolean"&gt;false&lt;/d:IsQueryStoreOn&gt;&lt;d:IsQueryStoreReadOnly m:type="Edm.Boolean" m:null="true" /&gt;&lt;d:QueryStoreMaxSizeMB m:type="Edm.Int32" m:null="true" /&gt;&lt;d:QueryStoreFlushPeriodSeconds m:type="Edm.Int32" m:null="true" /&gt;&lt;d:QueryStoreIntervalLengthMinutes m:type="Edm.Int32" m:null="true" /&gt;&lt;d:QueryStoreClearAll m:type="Edm.Boolean" m:null="true" /&gt;&lt;d:QueryStoreStaleQueryThresholdDays m:type="Edm.Int32" m:null="true" /&gt;&lt;d:IsSuspended m:type="Edm.Boolean"&gt;false&lt;/d:IsSuspended&gt;&lt;/m:properties&gt;&lt;/content&gt;&lt;/entry&gt;&lt;/feed&gt;</ResponseText>
+        </ResponseInfo>
+      </HttpMessage>
+      <HttpMessage>
+        <Index>9</Index>
+        <RequestInfo>
+          <RequestUri>http://localhost:12345/v1/ManagementService.svc/Server2('testserver')/Databases(5)/ServiceObjective</RequestUri>
+          <Method>GET</Method>
+          <UserAgent>WindowsAzurePowershell/v0.7.4</UserAgent>
+          <Headers>
+            <Header>
+              <Name>DataServiceVersion</Name>
+              <Value>1.0;NetFx</Value>
+            </Header>
+            <Header>
+              <Name>MaxDataServiceVersion</Name>
+              <Value>2.0;NetFx</Value>
+            </Header>
+            <Header>
+              <Name>AccessToken</Name>
+              <Value>cKCGkC9gQd0lbuJSLFzOYqTRsN03tjWgiAT7xNL5fBg1OjqlDE/Y/e7QeGH0VTb4axc5INHivlRk8xvRJFYnJAZMTJ28CsMFqlEfQWKP4eDxiHLYQr0rK+HC/GnGrKulHDSmf2WmQTGk4GDJb4CM/xMCrNIMvQeeZ/yv5Vkk6OiKlsCpGhWkpytvz/HG0v/Krrg4hpbxuqjezota5i1igma35teNHwHiUEHWgN/DeyKbUPekk9Vn5IfBdG05JMbb4xrwgHOKCucwsSvTQK+SJP0TB7kDgnzm70mfbbkzuwvm7uxuzCJR0mFAAyn08j4Fv3ToraLpDPy9lxWV/2TN7H92yX1WvPek94Q7JC2ISujJGeUfeq+MFOrceERWhWu68zQEkrakxbV2CHRLLugP5t7XGhjjZzE2pTFaMTU5Fmn/JGqAN3VqfofR+VRjvF2MvpTr8MKmuP0nmAxNcdevUuMQfItBTceGicAZjSEUjhSO8tNmqCftcAxf7dCchMEm9Rqi9jnalF4Rm2az7V/1G3xvWRKEJ6kU8IpfrwMelZF1MvbWzl7fmWA1jrQTnpLCBTjQKhDR5qg/YrisZH1MFlY7IM9JDwrQdwh0s0iVIJAQUutiqblZMOtWt17RB95F+defmn4KLg18n6gSQmoAJQZnmojVzgoPcbzu6Ojx9sV6D1L8cYwfUnqP/DtYGGXQAFJtWdbsV/tZCqkdaMeALb6HNYt5UG9Nvj4p2F7uKU0qrSx7ngFtGQof21HAFR1oKlDFv7xIsCQ6i07mL57viA==</Value>
+            </Header>
+            <Header>
+              <Name>x-ms-client-session-id</Name>
+              <Value>0480d9d6-fba5-499c-9101-be615831a763-2014-03-27 21:23:12Z</Value>
+            </Header>
+            <Header>
+              <Name>x-ms-client-request-id</Name>
+              <Value>db490dac-66ae-4f62-a901-7f5b91956474-2014-03-27 21:23:35Z</Value>
+            </Header>
+            <Header>
+              <Name>Accept-Charset</Name>
+              <Value>UTF-8</Value>
+            </Header>
+            <Header>
+              <Name>Cookie</Name>
+              <Value>.SQLSERVERMANAGEMENT=Fw7SF+NlDq3BRiGsRB0z0w==</Value>
+            </Header>
+          </Headers>
+          <Cookies>
+            <Cookie>
+              <Name>.SQLSERVERMANAGEMENT</Name>
+              <Value>Fw7SF+NlDq3BRiGsRB0z0w==</Value>
+              <RelativeUri i:nil="true" />
+            </Cookie>
+          </Cookies>
+          <RequestText i:nil="true" />
+          <ContentType i:nil="true" />
+          <Accept>application/atom+xml,application/xml</Accept>
+        </RequestInfo>
+        <ResponseInfo>
+          <StatusCode>OK</StatusCode>
+          <Headers>
+            <Header>
+              <Name>x-ms-request-id</Name>
+              <Value>58cb6722-dd9a-22e3-bf73-573b4bab14ca</Value>
+            </Header>
+            <Header>
+              <Name>X-Content-Type-Options</Name>
+              <Value>nosniff</Value>
+            </Header>
+            <Header>
+              <Name>DataServiceVersion</Name>
+              <Value>2.0;</Value>
+            </Header>
+            <Header>
+              <Name>Cache-Control</Name>
+              <Value>no-store,no-cache</Value>
+            </Header>
+            <Header>
+              <Name>Content-Type</Name>
+              <Value>application/atom+xml;type=entry;charset=utf-8</Value>
+            </Header>
+            <Header>
+              <Name>Date</Name>
+              <Value>Thu, 27 Mar 2014 21:23:54 GMT</Value>
+            </Header>
+            <Header>
+              <Name>Server</Name>
+              <Value>Microsoft-HTTPAPI/2.0</Value>
+            </Header>
+          </Headers>
+          <Cookies />
+          <ResponseText>&lt;?xml version="1.0" encoding="utf-8"?&gt;&lt;entry xml:base="http://localhost:12345/v1/ManagementService.svc/Server2('testserver')/" xmlns="http://www.w3.org/2005/Atom" xmlns:d="http://schemas.microsoft.com/ado/2007/08/dataservices" xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata"&gt;&lt;id&gt;http://localhost:12345/v1/ManagementService.svc/Server2('testserver')/ServiceObjectives(guid'910b4fcb-8a29-4c3e-958f-f7ba794388b2')&lt;/id&gt;&lt;category term="Microsoft.SqlServer.Management.Server.Domain.ServiceObjective" scheme="http://schemas.microsoft.com/ado/2007/08/dataservices/scheme" /&gt;&lt;link rel="edit" title="ServiceObjective" href="ServiceObjectives(guid'910b4fcb-8a29-4c3e-958f-f7ba794388b2')" /&gt;&lt;link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/DimensionSettings" type="application/atom+xml;type=feed" title="DimensionSettings" href="ServiceObjectives(guid'910b4fcb-8a29-4c3e-958f-f7ba794388b2')/DimensionSettings" /&gt;&lt;title /&gt;&lt;updated&gt;2014-03-27T21:23:54Z&lt;/updated&gt;&lt;author&gt;&lt;name /&gt;&lt;/author&gt;&lt;content type="application/xml"&gt;&lt;m:properties&gt;&lt;d:Id m:type="Edm.Guid"&gt;910b4fcb-8a29-4c3e-958f-f7ba794388b2&lt;/d:Id&gt;&lt;d:Name&gt;Shared&lt;/d:Name&gt;&lt;d:Description&gt;Shared resource allocation.&lt;/d:Description&gt;&lt;d:IsDefault m:type="Edm.Boolean"&gt;true&lt;/d:IsDefault&gt;&lt;d:IsSystem m:type="Edm.Boolean"&gt;false&lt;/d:IsSystem&gt;&lt;d:Enabled m:type="Edm.Boolean"&gt;true&lt;/d:Enabled&gt;&lt;/m:properties&gt;&lt;/content&gt;&lt;/entry&gt;</ResponseText>
         </ResponseInfo>
       </HttpMessage>
     </Messages>

@@ -20,7 +20,7 @@ $clientModelNamespace = "Microsoft.WindowsAzure.Commands.SqlDatabase.Services.Se
 $clientModelBaseContext = "ServerContextInternal";
 
 ######## Import Server module from the build
-Import-Module ..\..\..\..\..\Package\Debug\Azure.psd1
+Import-Module ..\..\..\..\..\Package\Debug\AzureServiceManagement\AzureServiceManagement.psd1
 
 ######## Create a new Server data service context
 Write-Host "Connecting to management service at $ManageUrl"
@@ -49,6 +49,7 @@ $metadataHash=[Microsoft.WindowsAzure.Commands.SqlDatabase.Services.Common.DataC
 Write-Host "Generating model class file at $clientModelClassFile"
 $Framework35Path=[System.IO.Path]::Combine($env:FrameworkDir, $env:Framework35Version)
 $DataSvcUtil=[System.IO.Path]::Combine($Framework35Path, "DataSvcUtil.exe")
+$DataSvcUtil = "C:\Windows\Microsoft.NET\Framework\v3.5\DataSvcUtil.exe"
 & $DataSvcUtil /in:"$metadataFile" /out:"$clientModelClassFile"
 if ($lastexitcode -eq 1)
 {
@@ -73,7 +74,8 @@ $metadataHashDeclaration="namespace $clientModelNamespace
             `"5A2ABE58F30C9EF4B4F49853CD5FE28BA9FEBCD9`",
             `"68BA8B4EB74E0C5A91D0A734B742001018A9F9D2`",
             `"80A53B80FCD9616E6EEBDCAA3482E30A159C0E1F`",
-            `"3070BEE06139E0754E2F022E56E9798BF8A57F30`"};
+            `"3070BEE06139E0754E2F022E56E9798BF8A57F30`",
+			`"AEF98769F5E946C48ABBE0B212323A857C68C57D`"};
     }
 }"
 $metadataHashDeclaration | Add-Content "$clientModelClassFile"
