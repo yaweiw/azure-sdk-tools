@@ -142,7 +142,7 @@
     <value>The provided file path '{0}' already exists, do you want to override it?</value>
   </data>
   <data name="InvalidTemplateIdentity" xml:space="preserve">
-    <value>'{0}' is invalid template identity and can not be found.</value>
+    <value>Cannot find a template with identity '{0}'. Check the template identity and try the command again.</value>
   </data>
   <data name="NewResourceGroupMessage" xml:space="preserve">
     <value>Replacing resource group ...</value>
