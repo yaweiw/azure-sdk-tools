@@ -700,6 +700,15 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to No deployment found in service: &apos;{0}&apos;..
+        /// </summary>
+        internal static string NoDeploymentFoundInService {
+            get {
+                return ResourceManager.GetString("NoDeploymentFoundInService", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to No deployment found in {0}.
         /// </summary>
         internal static string NoDeploymentFoundToMove {
