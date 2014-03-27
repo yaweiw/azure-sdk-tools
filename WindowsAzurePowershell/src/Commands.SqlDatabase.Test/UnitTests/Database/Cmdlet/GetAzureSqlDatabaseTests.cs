@@ -68,32 +68,26 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Test.UnitTests.Database.Cm
                     {
                         Assert.AreEqual(expected.RequestInfo.Method, actual.Method);
                         Assert.AreEqual(expected.RequestInfo.UserAgent, actual.UserAgent);
-                        switch (expected.Index)
+                        // 0 - 5
+                        // Get all databases + ServiceObjective lookup
+                        // 6 - 11
+                        // get database requests, 2 requests per get.
+                        if(expected.Index > 11)
                         {
-                            // Request 0-3: Get all databases + ServiceObjective lookup for each database
-                            case 0:
-                            case 1:
-                            case 2:
-                            case 3:
-                            // Request 4-7: Get database requests, 2 requests per get
-                            case 4:
-                            case 5:
-                            case 6:
-                            case 7:
-                                DatabaseTestHelper.ValidateHeadersForODataRequest(
-                                    expected.RequestInfo,
-                                    actual);
-                                break;
-                            default:
-                                Assert.Fail("No more requests expected.");
-                                break;
+                            Assert.Fail("No More Requests Expected");
+                        }
+                        else
+                        {
+                            DatabaseTestHelper.ValidateHeadersForODataRequest(
+                                expected.RequestInfo,
+                                actual);
                         }
                     });
 
                 using (AsyncExceptionManager exceptionManager = new AsyncExceptionManager())
                 {
                     // Retrieve all databases then each individual ones
-                    Collection<PSObject> databases, database1, database2;
+                    Collection<PSObject> databases, database1, database2, database3;
                     using (new MockHttpServer(
                         exceptionManager,
                         MockHttpServer.DefaultServerPrefixUri,
@@ -110,43 +104,30 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Test.UnitTests.Database.Cm
                             @"Get-AzureSqlDatabase " +
                             @"-Context $context " +
                             @"-DatabaseName testdb2");
+                        database3 = powershell.InvokeBatchScript(
+                            @"Get-AzureSqlDatabase " +
+                            @"-Context $context " +
+                            @"-DatabaseName testdb3");
                     }
 
                     Assert.AreEqual(0, powershell.Streams.Error.Count, "Errors during run!");
                     Assert.AreEqual(0, powershell.Streams.Warning.Count, "Warnings during run!");
                     powershell.Streams.ClearStreams();
 
-                    // Expecting master, testdb1, testdb2
-                    Assert.AreEqual(
-                        3, 
-                        databases.Count, 
-                        "Expecting three Database objects");
+                    // Expecting master, testdb1, testdb2, testdb3
+                    Assert.AreEqual(4, databases.Count, "Expecting four Database objects");
 
-                    Assert.IsTrue(
-                        database1.Single().BaseObject is Services.Server.Database,
-                        "Expecting a Database object");
-                    Services.Server.Database database1Obj =
-                        (Services.Server.Database)database1.Single().BaseObject;
-                    Assert.AreEqual(
-                        "testdb1", 
-                        database1Obj.Name, 
-                        "Expected db name to be testdb1");
+                    Database database = database1.Single().BaseObject as Services.Server.Database;
+                    Assert.IsNotNull(database, "Expecting a Database object");
+                    DatabaseTestHelper.ValidateDatabaseProperties(database, "testdb1", "Web", 1, 1073741824L, "SQL_Latin1_General_CP1_CI_AS", "Shared", false);
 
-                    Assert.IsTrue(
-                        database2.Single().BaseObject is Services.Server.Database,
-                        "Expecting a Database object");
-                    Services.Server.Database database2Obj =
-                        (Services.Server.Database)database2.Single().BaseObject;
-                    Assert.AreEqual(
-                        "testdb2", 
-                        database2Obj.Name, 
-                        "Expected db name to be testdb2");
-                    Assert.AreEqual(
-                        "Japanese_CI_AS",
-                        database2Obj.CollationName,
-                        "Expected collation to be Japanese_CI_AS");
-                    Assert.AreEqual("Web", database2Obj.Edition, "Expected edition to be Web");
-                    Assert.AreEqual(5, database2Obj.MaxSizeGB, "Expected max size to be 5 GB");
+                    database = database2.Single().BaseObject as Services.Server.Database;
+                    Assert.IsTrue(database != null, "Expecting a Database object");
+                    DatabaseTestHelper.ValidateDatabaseProperties(database, "testdb2", "Web", 5, 5368709120L, "Japanese_CI_AS", "Shared", false);
+
+                    database = database3.Single().BaseObject as Services.Server.Database;
+                    Assert.IsTrue(database != null, "Expecting a Database object");
+                    DatabaseTestHelper.ValidateDatabaseProperties(database, "testdb3", "Web", 0, 104857600L, "SQL_Latin1_General_CP1_CI_AS", "Shared", false);
                 }
             }
         }
