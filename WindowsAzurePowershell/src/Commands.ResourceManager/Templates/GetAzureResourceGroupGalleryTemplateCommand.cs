@@ -23,7 +23,7 @@ namespace Microsoft.Azure.Commands.ResourceManager.Templates
     /// <summary>
     /// Get one template or a list of templates from the gallery.
     /// </summary>
-    [Cmdlet(VerbsCommon.Get, "AzureResourceGroupGalleryTemplate", DefaultParameterSetName = BaseParameterSetName), OutputType(typeof(List<GalleryItem>))]
+    [Cmdlet(VerbsCommon.Get, "AzureResourceGroupGalleryTemplate", DefaultParameterSetName = BaseParameterSetName), OutputType(typeof(List<PSGalleryItem>))]
     public class GetAzureResourceGroupGalleryTemplateCommand : ResourceManagerBaseCmdlet
     {
         internal const string BaseParameterSetName = "List gallery templates";
@@ -50,7 +50,7 @@ namespace Microsoft.Azure.Commands.ResourceManager.Templates
                 Publisher = Publisher
             };
 
-            List<GalleryItem> galleryItems = GalleryTemplatesClient.FilterGalleryTemplates(options);
+            List<PSGalleryItem> galleryItems = GalleryTemplatesClient.FilterGalleryTemplates(options);
 
             if (galleryItems != null)
             {
