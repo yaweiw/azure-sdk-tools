@@ -246,9 +246,9 @@
       </ListControl>
     </View>
     <View>
-      <Name>Microsoft.Azure.Gallery.GalleryItem</Name>
+      <Name>Microsoft.Azure.Commands.ResourceManager.Models.PSGalleryItem</Name>
       <ViewSelectedBy>
-        <TypeName>Microsoft.Azure.Gallery.GalleryItem</TypeName>
+        <TypeName>Microsoft.Azure.Commands.ResourceManager.Models.PSGalleryItem</TypeName>
       </ViewSelectedBy>
       <ListControl>
         <ListEntries>

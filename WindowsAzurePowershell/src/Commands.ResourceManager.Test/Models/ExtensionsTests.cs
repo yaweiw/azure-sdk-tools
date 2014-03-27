@@ -49,5 +49,21 @@ namespace Microsoft.Azure.Commands.ResourceManager.Test.Models
             Assert.Equal(item.DefinitionTemplates.DeploymentTemplateFileUrls["DefaultUri"], psitem.DefinitionTemplates.DeploymentTemplateFileUrls["DefaultUri"]);
             Assert.Equal("fakeurl", psitem.DefinitionTemplatesText);
         }
+
+        [Fact]
+        public void ToPSGalleryItemCreatesANewItemWithNullDeploymentTemplates()
+        {
+            var item = new GalleryItem()
+            {
+                Name = "Name",
+                Publisher = "Microsoft",
+            };
+
+            var psitem = item.ToPSGalleryItem();
+
+            Assert.Equal(item.Name, psitem.Name);
+            Assert.Equal(item.Publisher, psitem.Publisher);
+            Assert.Null(psitem.DefinitionTemplatesText);
+        }
     }
 }
