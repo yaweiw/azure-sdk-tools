@@ -144,14 +144,6 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Server.Cmdlet
                 if (this.MyInvocation.BoundParameters.ContainsKey("Version"))
                 {
                     version = this.Version;
-
-                    // Validate the value passed to the version parameter
-                    if (version != 1.0f && version != 2.0f)
-                    {
-                        // Write a warning and proceed with the request.  The server will reject the create server request
-                        // and create an error message.
-                        WriteWarning("The supplied version number \"" + version + "\" is invalid.  Valid values are: 1.0, 2.0.");
-                    }
                 }
 
                 SqlDatabaseServerContext context = this.NewAzureSqlDatabaseServerProcess(

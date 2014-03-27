@@ -226,7 +226,7 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Services.Server
                 Edition = databaseEdition != DatabaseEdition.None ?
                     databaseEdition.ToString() : null,
                 CollationName = databaseCollation ?? string.Empty,
-                MaximumDatabaseSizeInGB = databaseMaxSizeInGB ?? null,
+                MaximumDatabaseSizeInGB = databaseMaxSizeInGB,
                 ServiceObjectiveId = serviceObjective != null ? serviceObjective.Id.ToString() : null,
             };
 
