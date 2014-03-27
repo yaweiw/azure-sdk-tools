@@ -156,6 +156,10 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
                 powershell.AddScript(contents);
                 Collection<T> result = powershell.Invoke<T>();
 
+                powershell.Streams.Error.ForEach(e => cmdlet.WriteError(e));
+                powershell.Streams.Verbose.ForEach(r => cmdlet.WriteVerbose(r.Message));
+                powershell.Streams.Warning.ForEach(r => cmdlet.WriteWarning(r.Message));
+
                 if (result != null && result.Count > 0)
                 {
                     output.AddRange(result);
@@ -186,7 +190,13 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
 
         public static void ImportModule(this PSCmdlet cmdlet, string modulePath)
         {
-            string contents = string.Format("Import-Module {0}", modulePath);
+            string contents = string.Format("Import-Module '{0}'", modulePath);
+            ExecuteScript<object>(cmdlet, contents);
+        }
+
+        public static void RemoveAzureServiceManagementAliases(this PSCmdlet cmdlet)
+        {
+            string contents = "Get-Alias | where { $_.Description -eq 'AzureAlias' } | foreach { Remove-Item alias:\\$($_.Name) }";
             ExecuteScript<object>(cmdlet, contents);
         }
 

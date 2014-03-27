@@ -295,11 +295,11 @@ namespace Microsoft.Azure.Commands.ResourceManager.Models
                 WriteVerbose(Resources.TemplateValid);
             }
 
-            DeploymentOperationsCreateResult result = ResourceManagementClient.Deployments.CreateOrUpdate(parameters.ResourceGroupName, parameters.DeploymentName, deployment);
+            ResourceManagementClient.Deployments.CreateOrUpdate(parameters.ResourceGroupName, parameters.DeploymentName, deployment);
             WriteVerbose(string.Format("Create template deployment '{0}' using template {1}.", parameters.DeploymentName, deployment.TemplateLink.Uri));
-            ProvisionDeploymentStatus(parameters.ResourceGroupName, parameters.DeploymentName, deployment);
+            Deployment result = ProvisionDeploymentStatus(parameters.ResourceGroupName, parameters.DeploymentName, deployment);
 
-            return result.ToPSResourceGroupDeployment();
+            return result.ToPSResourceGroupDeployment(parameters.ResourceGroupName);
         }
 
         private string GenerateDeploymentName(CreatePSResourceGroupDeploymentParameters parameters)
