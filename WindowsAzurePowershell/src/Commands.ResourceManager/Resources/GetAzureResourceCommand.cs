@@ -78,7 +78,7 @@ namespace Microsoft.Azure.Commands.ResourceManager
                         "Location", r.Location,
                         "ParentResource", r.ParentResource)));
 
-                    WriteObject(output, true);
+                    WriteObject(output);
                 }
             }
         }
