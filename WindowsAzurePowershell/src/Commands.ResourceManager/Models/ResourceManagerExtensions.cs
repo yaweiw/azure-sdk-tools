@@ -12,6 +12,8 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
+using System.Reflection;
+using Microsoft.Azure.Gallery;
 using Microsoft.Azure.Management.Resources.Models;
 using Microsoft.WindowsAzure.Commands.Utilities.Common;
 using Microsoft.WindowsAzure.Management.Monitoring.Events.Models;
@@ -140,6 +142,17 @@ namespace Microsoft.Azure.Commands.ResourceManager.Models
             }
 
             return result;
+        }
+
+        public static PSGalleryItem ToPSGalleryItem(this GalleryItem gallery)
+        {
+            PSGalleryItem psGalleryItem = new PSGalleryItem();
+            foreach (PropertyInfo prop in gallery.GetType().GetProperties())
+            {
+                (typeof(PSGalleryItem)).GetProperty(prop.Name).SetValue(psGalleryItem, prop.GetValue(gallery, null), null);
+            }
+
+            return psGalleryItem;
         }
 
         public static PSDeploymentEventData ToPSDeploymentEventData(this EventData eventData)

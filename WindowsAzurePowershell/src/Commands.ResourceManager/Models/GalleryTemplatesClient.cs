@@ -77,7 +77,7 @@ namespace Microsoft.Azure.Commands.ResourceManager.Models
         /// </summary>
         /// <param name="options">The filter options</param>
         /// <returns>The filtered list</returns>
-        public virtual List<GalleryItem> FilterGalleryTemplates(FilterGalleryTemplatesOptions options)
+        public virtual List<PSGalleryItem> FilterGalleryTemplates(FilterGalleryTemplatesOptions options)
         {
             List<string> filterStrings = new List<string>();
             ItemListParameters parameters = null;
@@ -92,7 +92,7 @@ namespace Microsoft.Azure.Commands.ResourceManager.Models
                 result.AddRange(QueryGalleryTemplates(options, filterStrings, parameters));
             }
 
-            return result;
+            return result.Select(i => i.ToPSGalleryItem()).ToList();
         }
 
         /// <summary>
