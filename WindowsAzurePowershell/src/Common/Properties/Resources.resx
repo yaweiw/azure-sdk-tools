@@ -741,7 +741,7 @@ Please follow these steps in the portal:
     <value>The provided subscriptions file {0} has invalid content.</value>
   </data>
   <data name="InvalidSubscriptionState" xml:space="preserve">
-    <value>Please run Add-AzureAccount to finish setting up the subscription.</value>
+    <value>Your Azure credentials have not been set up or have expired, please run Add-AzureAccount to set up your Azure credentials.</value>
   </data>
   <data name="InvalidVMSize" xml:space="preserve">
     <value>Role {0} VM size should be ExtraSmall, Small, Medium, Large or ExtraLarge.</value>

@@ -367,7 +367,7 @@ namespace Microsoft.Azure.Commands.ResourceManager.Test.Models
                 Publisher = "Microsoft"
             };
 
-            List<GalleryItem> result = galleryTemplatesClient.FilterGalleryTemplates(options);
+            List<PSGalleryItem> result = galleryTemplatesClient.FilterGalleryTemplates(options);
 
             Assert.Equal(2, result.Count);
             Assert.True(result.All(g => g.Publisher == "Microsoft"));
@@ -404,7 +404,7 @@ namespace Microsoft.Azure.Commands.ResourceManager.Test.Models
                 Category = "awesome"
             };
 
-            List<GalleryItem> result = galleryTemplatesClient.FilterGalleryTemplates(options);
+            List<PSGalleryItem> result = galleryTemplatesClient.FilterGalleryTemplates(options);
 
             Assert.Equal(2, result.Count);
             Assert.Equal(filterString, actual.Filter);

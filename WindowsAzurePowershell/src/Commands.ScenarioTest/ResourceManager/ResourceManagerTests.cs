@@ -25,7 +25,8 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.ResourceManagerTests
 
         public ResourceManagerTests()
             : base("ResourceManager\\Common.ps1",
-                   "ResourceManager\\ResourceManagerTests.ps1")
+                   "ResourceManager\\ResourceTests.ps1",
+                   "ResourceManager\\ResourceGroupTests.ps1")
         {
             
         }
@@ -50,6 +51,62 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.ResourceManagerTests
         public void TestCreatesNewSimpleResourceGroup()
         {
             RunPowerShellTest("Test-CreatesNewSimpleResourceGroup");
+        }
+
+        [TestMethod]
+        [TestCategory(Category.All)]
+        [TestCategory(Category.ResourceManager)]
+        public void TestCreatesNewSimpleResource()
+        {
+            RunPowerShellTest("Test-CreatesNewSimpleResource");
+        }
+
+        [TestMethod]
+        [TestCategory(Category.All)]
+        [TestCategory(Category.ResourceManager)]
+        public void TestCreatesNewComplexResource()
+        {
+            RunPowerShellTest("Test-CreatesNewComplexResource");
+        }
+
+        [TestMethod]
+        [TestCategory(Category.All)]
+        [TestCategory(Category.ResourceManager)]
+        public void TestGetResourcesViaPiping()
+        {
+            RunPowerShellTest("Test-GetResourcesViaPiping");
+        }
+
+        [TestMethod]
+        [TestCategory(Category.All)]
+        [TestCategory(Category.ResourceManager)]
+        public void TestGetResourcesFromEmptyGroup()
+        {
+            RunPowerShellTest("Test-GetResourcesFromEmptyGroup");
+        }
+
+        [TestMethod]
+        [TestCategory(Category.All)]
+        [TestCategory(Category.ResourceManager)]
+        public void TestGetResourcesFromNonExisingGroup()
+        {
+            RunPowerShellTest("Test-GetResourcesFromNonExisingGroup");
+        }
+
+        [TestMethod]
+        [TestCategory(Category.All)]
+        [TestCategory(Category.ResourceManager)]
+        public void TestGetResourcesForNonExisingType()
+        {
+            RunPowerShellTest("Test-GetResourcesForNonExisingType");
+        }
+
+        [TestMethod]
+        [TestCategory(Category.All)]
+        [TestCategory(Category.ResourceManager)]
+        public void TestGetResourceForNonExisingResource()
+        {
+            RunPowerShellTest("Test-GetResourceForNonExisingResource");
         }
     }
 }
