@@ -337,7 +337,14 @@ namespace Microsoft.Azure.Commands.ResourceManager.Models
             }
             else
             {
-                result.Add(ResourceManagementClient.ResourceGroups.Get(name).ResourceGroup.ToPSResourceGroup(this));
+                try
+                {
+                    result.Add(ResourceManagementClient.ResourceGroups.Get(name).ResourceGroup.ToPSResourceGroup(this));
+                }
+                catch (CloudException)
+                {
+                    throw new ArgumentException(Resources.ResourceGroupDoesntExists);
+                }
             }
 
             return result;

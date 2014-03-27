@@ -28,6 +28,8 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.Common
     public class WindowsAzurePowerShellTokenTest : PowerShellTest
     {
         protected List<HttpMockServer> mockServers;
+        private string userName;
+        private static string testEnvironmentName = "__test-environment";
 
         private void OnClientCreated(object sender, ClientCreatedArgs e)
         {
@@ -38,21 +40,7 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.Common
 
         public WindowsAzurePowerShellTokenTest(params string[] modules)
             : base(modules)
-        {
-            ServiceManagementTestEnvironmentFactory serviceManagementTestEnvironmentFactory = new ServiceManagementTestEnvironmentFactory();
-            TestEnvironment rdfeEnvironment = serviceManagementTestEnvironmentFactory.GetTestEnvironment();
-            ResourceManagerTestEnvironmentFactory resourceManagerTestEnvironmentFactory = new ResourceManagerTestEnvironmentFactory();
-            TestEnvironment csmEnvironment = resourceManagerTestEnvironmentFactory.GetTestEnvironment();
-            string jwtToken = ((TokenCloudCredentials)csmEnvironment.Credentials).Token;
-
-            WindowsAzureProfile.Instance.TokenProvider = new FakeAccessTokenProvider(jwtToken, csmEnvironment.UserName);
-            WindowsAzureProfile.Instance.CurrentEnvironment.ActiveDirectoryEndpoint =
-                csmEnvironment.GalleryUri.AbsoluteUri;
-            WindowsAzureProfile.Instance.CurrentEnvironment.ResourceManagerEndpoint =
-                csmEnvironment.BaseUri.AbsoluteUri;
-            WindowsAzureProfile.Instance.CurrentEnvironment.ServiceEndpoint =
-                rdfeEnvironment.BaseUri.AbsoluteUri;
-        }
+        { }
 
         [TestInitialize]
         public override void TestSetup()
@@ -64,17 +52,50 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.Common
             {
                 return true;
             };
-            RunPowerShellTest("Add-AzureAccount");
+
+            ServiceManagementTestEnvironmentFactory serviceManagementTestEnvironmentFactory = new ServiceManagementTestEnvironmentFactory();
+            TestEnvironment rdfeEnvironment = serviceManagementTestEnvironmentFactory.GetTestEnvironment();
+            ResourceManagerTestEnvironmentFactory resourceManagerTestEnvironmentFactory = new ResourceManagerTestEnvironmentFactory();
+            TestEnvironment csmEnvironment = resourceManagerTestEnvironmentFactory.GetTestEnvironment();
+            string jwtToken = ((TokenCloudCredentials)csmEnvironment.Credentials).Token;
+
+            WindowsAzureProfile.Instance.TokenProvider = new FakeAccessTokenProvider(jwtToken, csmEnvironment.UserName);
+
+            userName = csmEnvironment.UserName;
+
+            CreateTestAzureEnvironment(csmEnvironment, rdfeEnvironment);
+        }
+
+        private void CreateTestAzureEnvironment(TestEnvironment csmEnvironment, TestEnvironment rdfeEnvironment)
+        {
+            if (!WindowsAzureProfile.Instance.Environments.ContainsKey(testEnvironmentName))
+            {
+                WindowsAzureProfile.Instance.AddEnvironment(new WindowsAzureEnvironment {Name = testEnvironmentName});
+            }
+
+            WindowsAzureProfile.Instance.CurrentEnvironment = WindowsAzureProfile.Instance.Environments[testEnvironmentName];
+
+            WindowsAzureProfile.Instance.CurrentEnvironment.ActiveDirectoryEndpoint =
+                csmEnvironment.ActiveDirectoryEndpoint.AbsoluteUri;
+            WindowsAzureProfile.Instance.CurrentEnvironment.GalleryEndpoint =
+                csmEnvironment.GalleryUri.AbsoluteUri;
+            WindowsAzureProfile.Instance.CurrentEnvironment.ResourceManagerEndpoint =
+                csmEnvironment.BaseUri.AbsoluteUri;
+            WindowsAzureProfile.Instance.CurrentEnvironment.ServiceEndpoint =
+                rdfeEnvironment.BaseUri.AbsoluteUri;
+
+            RunPowerShellTest("Add-AzureAccount -Environment " + testEnvironmentName);
+
             foreach (var subscription in WindowsAzureProfile.Instance.Subscriptions)
             {
                 subscription.TokenProvider = WindowsAzureProfile.Instance.TokenProvider;
-                if (subscription.ActiveDirectoryUserId == null)
+                if (subscription.ActiveDirectoryUserId == userName)
                 {
-                    subscription.IsDefault = false;
+                    subscription.IsDefault = true;
                 }
                 else
                 {
-                    subscription.IsDefault = true;
+                    subscription.IsDefault = false;
                 }
             }
         }
@@ -85,6 +106,8 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.Common
             base.TestCleanup();
             WindowsAzureSubscription.OnClientCreated -= OnClientCreated;
             mockServers.ForEach(ms => ms.Dispose());
+
+            WindowsAzureProfile.Instance.RemoveEnvironment(testEnvironmentName);
         }
     }
 }

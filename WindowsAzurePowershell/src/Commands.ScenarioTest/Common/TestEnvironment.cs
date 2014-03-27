@@ -42,6 +42,12 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.Common
             set;
         }
 
+        public Uri ActiveDirectoryEndpoint
+        {
+            get;
+            set;
+        }
+
         public CloudCredentials Credentials
         {
             get;

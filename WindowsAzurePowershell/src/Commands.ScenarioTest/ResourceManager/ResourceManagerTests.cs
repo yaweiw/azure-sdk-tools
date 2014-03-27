@@ -56,6 +56,22 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.ResourceManagerTests
         [TestMethod]
         [TestCategory(Category.All)]
         [TestCategory(Category.ResourceManager)]
+        public void TestCreatesAndRemoveResourceGroupViaPiping()
+        {
+            RunPowerShellTest("Test-CreatesAndRemoveResourceGroupViaPiping");
+        }
+
+        [TestMethod]
+        [TestCategory(Category.All)]
+        [TestCategory(Category.ResourceManager)]
+        public void TestGetNonExistingResourceGroup()
+        {
+            RunPowerShellTest("Test-GetNonExistingResourceGroup");
+        }
+
+        [TestMethod]
+        [TestCategory(Category.All)]
+        [TestCategory(Category.ResourceManager)]
         public void TestCreatesNewSimpleResource()
         {
             RunPowerShellTest("Test-CreatesNewSimpleResource");
