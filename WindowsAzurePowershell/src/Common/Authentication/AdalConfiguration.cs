@@ -76,14 +76,14 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common.Authentication
         public AdalConfiguration(WindowsAzureEnvironment environment)
             : this()
         {
-            AdEndpoint = environment.ActiveDirectoryEndpoint;
+            AdEndpoint = environment.ActiveDirectoryEndpoint.TrimEnd('/') + '/';
             AdDomain = environment.ActiveDirectoryCommonTenantId;
         }
 
         public AdalConfiguration(WindowsAzureSubscription subscription)
             : this()
         {
-            AdEndpoint = subscription.ActiveDirectoryEndpoint;
+            AdEndpoint = subscription.ActiveDirectoryEndpoint.TrimEnd('/') + '/';
             AdDomain = subscription.ActiveDirectoryTenantId;
         }
     }
