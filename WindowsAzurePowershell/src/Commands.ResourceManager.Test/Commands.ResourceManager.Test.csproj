@@ -132,6 +132,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Models\ExtensionsTests.cs" />
     <Compile Include="Models\GalleryTemplatesClientTests.cs" />
     <Compile Include="Models\ResourceIdentifierTests.cs" />
     <Compile Include="ResourceGroups\GetAzureResourceGroupLogCommandTests.cs" />
