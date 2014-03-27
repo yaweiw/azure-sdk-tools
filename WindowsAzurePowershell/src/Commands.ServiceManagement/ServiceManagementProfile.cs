@@ -81,7 +81,30 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement
             return Initialize();
         }
 
+        public static bool Initialize(SaveAzureVMImageCommand command)
+        {
+            return InitializeImageMapping();
+        }
+
+        public static bool Initialize(AddAzureVMImage command)
+        {
+            return InitializeImageMapping();
+        }
+        public static bool Initialize(RemoveAzureVMImage command)
+        {
+            return InitializeImageMapping();
+        }
+        public static bool Initialize(UpdateAzureVMImage command)
+        {
+            return InitializeImageMapping();
+        }
+
         public static bool Initialize(GetAzureVMImage command)
+        {
+            return InitializeImageMapping();
+        }
+
+        public static bool InitializeImageMapping()
         {
             //Image mapping
             Mapper.CreateMap<VirtualMachineOSImageListResponse.VirtualMachineOSImage, OSImageContext>()
@@ -216,8 +239,11 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement
                   .ForMember(c => c.VirtualIPAddress, o => o.MapFrom(r => r.Vip != null ? IPAddress.Parse(r.Vip) : null))
                   .ForMember(c => c.EndpointAcl, o => o.MapFrom(r => r.EndpointAccessControlList));
             Mapper.CreateMap<PVM.DataVirtualHardDisk, NSM.DataVirtualHardDisk>()
+                  .ForMember(c => c.Name, o => o.MapFrom(r => r.DiskName))
                   .ForMember(c => c.LogicalUnitNumber, o => o.MapFrom(r => r.Lun));
             Mapper.CreateMap<PVM.OSVirtualHardDisk, NSM.OSVirtualHardDisk>()
+                  .ForMember(c => c.Name, o => o.MapFrom(r => r.DiskName))
+                  .ForMember(c => c.Label, o => o.MapFrom(r => r.DiskLabel))
                   .ForMember(c => c.OperatingSystem, o => o.MapFrom(r => r.OS));
             Mapper.CreateMap<PVM.NetworkConfigurationSet, NSM.ConfigurationSet>()
                   .ForMember(c => c.InputEndpoints, o => o.MapFrom(r => r.InputEndpoints != null ? r.InputEndpoints.ToList() : null))
@@ -266,8 +292,11 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement
                   .ForMember(c => c.Vip, o => o.MapFrom(r => r.VirtualIPAddress != null ? r.VirtualIPAddress.ToString() : null))
                   .ForMember(c => c.EndpointAccessControlList, o => o.MapFrom(r => r.EndpointAcl));
             Mapper.CreateMap<NSM.DataVirtualHardDisk, PVM.DataVirtualHardDisk>()
+                  .ForMember(c => c.DiskName, o => o.MapFrom(r => r.Name))
                   .ForMember(c => c.Lun, o => o.MapFrom(r => r.LogicalUnitNumber));
             Mapper.CreateMap<NSM.OSVirtualHardDisk, PVM.OSVirtualHardDisk>()
+                  .ForMember(c => c.DiskName, o => o.MapFrom(r => r.Name))
+                  .ForMember(c => c.DiskLabel, o => o.MapFrom(r => r.Label))
                   .ForMember(c => c.OS, o => o.MapFrom(r => r.OperatingSystem));
             Mapper.CreateMap<NSM.ConfigurationSet, PVM.ConfigurationSet>();
             Mapper.CreateMap<NSM.ConfigurationSet, PVM.NetworkConfigurationSet>();

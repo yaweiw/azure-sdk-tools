@@ -46,7 +46,7 @@ namespace Microsoft.Azure.Commands.ResourceManager
                 ResourceGroupName = ResourceGroupName,
                 ResourceType = ResourceType,
                 Location = Location,
-                ParentResourceName = ParentResourceName,
+                ParentResource = ParentResource,
                 PropertyObject = PropertyObject,
                 Force = Force.IsPresent,
                 ConfirmAction = ConfirmAction,

@@ -22,6 +22,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
     using Storage;
     using Storage.Auth;
     using Storage.Blob;
+    using Utilities.Common;
 
     [Cmdlet(
         VerbsCommon.Set,
@@ -36,19 +37,6 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
         protected const string DisableCustomScriptExtensionParamSetName = "DisableCustomScriptExtension";
 
         [Parameter(
-            ParameterSetName = SetCustomScriptExtensionByContainerBlobsParamSetName,
-            Mandatory = false,
-            Position = 0,
-            ValueFromPipelineByPropertyName = true,
-            HelpMessage = "The Extension Reference Name.")]
-        [Parameter(
-            ParameterSetName = SetCustomScriptExtensionByUrisParamSetName,
-            Mandatory = false,
-            Position = 0,
-            ValueFromPipelineByPropertyName = true,
-            HelpMessage = "The Extension Reference Name.")]
-        [Parameter(
-            ParameterSetName = DisableCustomScriptExtensionParamSetName,
             Mandatory = false,
             Position = 0,
             ValueFromPipelineByPropertyName = true,
@@ -57,19 +45,6 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
         public override string ReferenceName { get; set; }
 
         [Parameter(
-            ParameterSetName = SetCustomScriptExtensionByContainerBlobsParamSetName,
-            Mandatory = false,
-            Position = 1,
-            ValueFromPipelineByPropertyName = true,
-            HelpMessage = "The Extension Version.")]
-        [Parameter(
-            ParameterSetName = SetCustomScriptExtensionByUrisParamSetName,
-            Mandatory = false,
-            Position = 1,
-            ValueFromPipelineByPropertyName = true,
-            HelpMessage = "The Extension Version.")]
-        [Parameter(
-            ParameterSetName = DisableCustomScriptExtensionParamSetName,
             Mandatory = false,
             Position = 1,
             ValueFromPipelineByPropertyName = true,
@@ -190,19 +165,25 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
 
             if (string.Equals(this.ParameterSetName, SetCustomScriptExtensionByContainerBlobsParamSetName))
             {
-                var sName = this.StorageAccountName ?? GetStorageName();
-                var sKey = this.StorageAccountKey ?? GetStorageKey(this.StorageAccountName);
+                this.StorageEndpointSuffix = string.IsNullOrEmpty(this.StorageEndpointSuffix) ?
+                    WindowsAzureProfile.Instance.CurrentEnvironment.StorageEndpointSuffix : this.StorageEndpointSuffix;
+                var sName = string.IsNullOrEmpty(this.StorageAccountName) ? GetStorageName() : this.StorageAccountName;
+                var sKey = string.IsNullOrEmpty(this.StorageAccountKey) ? GetStorageKey(sName) : this.StorageAccountKey;
 
                 if (this.FileName != null && this.FileName.Any())
                 {
                     this.FileUri = (from blobName in this.FileName
                                     select GetSasUrlStr(sName, sKey, this.ContainerName, blobName)).ToArray();
 
-                    this.Run = string.IsNullOrEmpty(this.Run) ? this.FileName[0] : this.Run;
+                    if (string.IsNullOrEmpty(this.Run))
+                    {
+                        WriteWarning(Resources.CustomScriptExtensionTryToUseTheFirstSpecifiedFileAsRunScript);
+                        this.Run = this.FileName[0];
+                    }
                 }
             }
 
-            this.ReferenceName = this.ReferenceName ?? LegacyReferenceName;
+            this.ReferenceName = string.IsNullOrEmpty(this.ReferenceName) ? LegacyReferenceName : this.ReferenceName;
             this.PublicConfiguration = GetPublicConfiguration();
             this.PrivateConfiguration = GetPrivateConfiguration();
         }

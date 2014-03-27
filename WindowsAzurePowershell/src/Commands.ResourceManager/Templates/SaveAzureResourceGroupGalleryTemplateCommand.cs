@@ -18,32 +18,30 @@ using System.Management.Automation;
 namespace Microsoft.Azure.Commands.ResourceManager.Templates
 {
     /// <summary>
-    /// Get one template or a list of templates from the gallery.
+    /// Downloads a template file to the disk.
     /// </summary>
-    [Cmdlet(VerbsData.Save, "AzureResourceGroupGalleryTemplate"), OutputType(typeof(bool))]
+    [Cmdlet(VerbsData.Save, "AzureResourceGroupGalleryTemplate"), OutputType(typeof(PSObject))]
     public class SaveAzureResourceGroupGalleryTemplateCommand : ResourceManagerBaseCmdlet
     {
-        [Parameter(Position = 0, Mandatory = true, ValueFromPipelineByPropertyName = true, HelpMessage = "The gallery template name.")]
+        [Parameter(Position = 0, Mandatory = true, ValueFromPipelineByPropertyName = true, HelpMessage = "The gallery template identity.")]
         [ValidateNotNullOrEmpty]
-        public string Name { get; set; }
+        public string Identity { get; set; }
 
         [Parameter(Position = 1, Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "The output path of the file.")]
         [ValidateNotNullOrEmpty]
         public string Path { get; set; }
 
-        [Parameter(Position = 3, Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "If specified, returns true after saving the file.")]
-        public SwitchParameter PassThru { get; set; }
+        [Parameter(Position = 2, Mandatory = false, HelpMessage = "Do not ask for confirmation.")]
+        public SwitchParameter Force { get; set; }
 
         public override void ExecuteCmdlet()
         {
-            GalleryTemplatesClient.DownloadGalleryTemplateFile(
-                Name,
-                string.IsNullOrEmpty(Path) ? System.IO.Path.Combine(CurrentPath(), Name) : this.TryResolvePath(Path));
-
-            if (PassThru)
-            {
-                WriteObject(true);
-            }
+            string path = GalleryTemplatesClient.DownloadGalleryTemplateFile(
+                Identity,
+                string.IsNullOrEmpty(Path) ? System.IO.Path.Combine(CurrentPath(), Identity) : this.TryResolvePath(Path),
+                Force,
+                ConfirmAction);
+            WriteObject(PowerShellUtilities.ConstructPSObject(null, "Path", path));
         }
     }
 }

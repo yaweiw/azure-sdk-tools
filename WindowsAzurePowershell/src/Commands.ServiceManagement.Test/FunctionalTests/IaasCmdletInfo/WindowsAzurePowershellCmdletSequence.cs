@@ -22,9 +22,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
     {
         private static readonly string[] modules = new[]
         {
-            Path.Combine(Utilities.windowsAzurePowershellPath, Utilities.windowsAzurePowershellModuleManagement),
-            Path.Combine(Utilities.windowsAzurePowershellPath, Utilities.windowsAzurePowershellModuleService),
-            Path.Combine(Utilities.windowsAzurePowershellPath, Utilities.windowsAzurePowershellModuleServiceManagement)
+            Path.Combine(Utilities.windowsAzurePowershellPath, Utilities.windowsAzurePowershellServiceModule)
         };
 
         public WindowsAzurePowershellCmdletSequence(List<CmdletsInfo> cmdlets) : base(cmdlets, ConstructModules())
@@ -47,9 +45,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
         {
             return new[]
             {
-                new PowershellModule(Utilities.windowsAzurePowershellModuleManagement, Utilities.windowsAzurePowershellPath),
-                new PowershellModule(Utilities.windowsAzurePowershellModuleService, Utilities.windowsAzurePowershellPath),
-                new PowershellModule(Utilities.windowsAzurePowershellModuleServiceManagement, Utilities.windowsAzurePowershellPath)
+                new PowershellModule(Utilities.windowsAzurePowershellServiceModule, Utilities.windowsAzurePowershellPath)
             };
         }
     }

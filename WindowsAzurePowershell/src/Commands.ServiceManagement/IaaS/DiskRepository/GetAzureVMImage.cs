@@ -15,8 +15,10 @@
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.DiskRepository
 {
     using System;
+    using System.Collections.Generic;
     using System.Linq;
     using System.Management.Automation;
+    using System.Net;
     using Management.Compute;
     using Management.Compute.Models;
     using Model;
@@ -43,15 +45,38 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.DiskRepository
 
         internal static bool CheckImageType(ComputeManagementClient computeClient, string imageName, ImageType imageType)
         {
-            if (imageType == ImageType.OSImage)
+            try
             {
-                return computeClient == null ? false : computeClient.VirtualMachineOSImages.List().Images.Any(
-                    e => string.Equals(e.Name, imageName, StringComparison.OrdinalIgnoreCase));
+                if (computeClient == null)
+                {
+                    return false;
+                }
+                else if (imageType == ImageType.OSImage)
+                {
+                    return string.Equals(
+                        computeClient.VirtualMachineOSImages.Get(imageName).Name,
+                        imageName,
+                        StringComparison.OrdinalIgnoreCase);
+                }
+                else if (imageType == ImageType.VMImage)
+                {
+                    return computeClient.VirtualMachineVMImages.List().VMImages.Any(
+                        e => string.Equals(
+                            e.Name,
+                            imageName,
+                            StringComparison.OrdinalIgnoreCase));
+                }
             }
-            else if (imageType == ImageType.VMImage)
+            catch (CloudException e)
             {
-                return computeClient == null ? false : computeClient.VirtualMachineVMImages.List().VMImages.Any(
-                    e => string.Equals(e.Name, imageName, StringComparison.OrdinalIgnoreCase));
+                if (e.Response.StatusCode == HttpStatusCode.NotFound)
+                {
+                    return false;
+                }
+                else
+                {
+                    throw;
+                }
             }
 
             return false;
@@ -61,19 +86,63 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.DiskRepository
         {
             ServiceManagementProfile.Initialize(this);
 
-            this.ExecuteClientActionNewSM(
+            if (string.IsNullOrEmpty(this.ImageName))
+            {
+                this.ExecuteClientActionNewSM(
                     null,
                     this.CommandRuntime.ToString(),
                     () => this.ComputeClient.VirtualMachineOSImages.List(),
-                    (s, response) => response.Images.Where(t => string.IsNullOrEmpty(this.ImageName) || string.Equals(t.Name, this.ImageName, StringComparison.OrdinalIgnoreCase))
-                                                    .Select(t => this.ContextFactory<VirtualMachineOSImageListResponse.VirtualMachineOSImage, OSImageContext>(t, s)));
+                    (s, response) => response.Images.Select(
+                        t => this.ContextFactory<VirtualMachineOSImageListResponse.VirtualMachineOSImage, OSImageContext>(t, s)));
 
-            this.ExecuteClientActionNewSM(
-                null,
-                this.CommandRuntime.ToString(),
-                () => this.ComputeClient.VirtualMachineVMImages.List(),
-                (s, response) => response.VMImages.Where(t => string.IsNullOrEmpty(this.ImageName) || string.Equals(t.Name, this.ImageName, StringComparison.OrdinalIgnoreCase))
-                                                  .Select(t => this.ContextFactory<VirtualMachineVMImageListResponse.VirtualMachineVMImage, VMImageContext>(t, s)));
+                this.ExecuteClientActionNewSM(
+                    null,
+                    this.CommandRuntime.ToString(),
+                    () => this.ComputeClient.VirtualMachineVMImages.List(),
+                    (s, response) => response.VMImages.Select(
+                        t => this.ContextFactory<VirtualMachineVMImageListResponse.VirtualMachineVMImage, VMImageContext>(t, s)));
+            }
+            else
+            {
+                bool isOSImage = CheckImageType(this.ComputeClient, this.ImageName, ImageType.OSImage);
+                bool isVMImage = CheckImageType(this.ComputeClient, this.ImageName, ImageType.VMImage);
+
+                if (!isVMImage)
+                {
+                    this.ExecuteClientActionNewSM(
+                        null,
+                        this.CommandRuntime.ToString(),
+                        () => this.ComputeClient.VirtualMachineOSImages.Get(this.ImageName),
+                        (s, t) => this.ContextFactory<VirtualMachineOSImageGetResponse, OSImageContext>(t, s));
+                }
+                else
+                {
+                    if (isOSImage)
+                    {
+                        this.ExecuteClientActionNewSM(
+                            null,
+                            this.CommandRuntime.ToString(),
+                            () => this.ComputeClient.VirtualMachineOSImages.Get(this.ImageName),
+                            (s, t) => this.ContextFactory<VirtualMachineOSImageGetResponse, OSImageContext>(t, s));
+                    }
+
+                    this.ExecuteClientActionNewSM(
+                        null,
+                        this.CommandRuntime.ToString(),
+                        () => this.ComputeClient.VirtualMachineVMImages.List(),
+                        (s, response) =>
+                        {
+                            var imgs = response.VMImages.Where(
+                                t => string.Equals(
+                                    t.Name,
+                                    this.ImageName,
+                                    StringComparison.OrdinalIgnoreCase));
+
+                            return imgs.Select(
+                                    t => this.ContextFactory<VirtualMachineVMImageListResponse.VirtualMachineVMImage, VMImageContext>(t, s));
+                        });
+                }
+            }
         }
 
         protected override void OnProcessRecord()

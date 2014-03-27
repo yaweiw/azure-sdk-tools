@@ -69,7 +69,7 @@ namespace Microsoft.Azure.Commands.ResourceManager.Test
             UpdatePSResourceParameters expectedParameters = new UpdatePSResourceParameters()
             {
                 Name = resourceName,
-                ParentResourceName = resourceParentName,
+                ParentResource = resourceParentName,
                 ResourceType = resourceType,
                 ResourceGroupName = resourceGroupName,
                 PropertyObject = properties.ToHashtable()
@@ -90,7 +90,7 @@ namespace Microsoft.Azure.Commands.ResourceManager.Test
             cmdlet.Name = expectedParameters.Name;
             cmdlet.ResourceGroupName = expectedParameters.ResourceGroupName;
             cmdlet.ResourceType = expectedParameters.ResourceType;
-            cmdlet.ParentResourceName = expectedParameters.ParentResourceName;
+            cmdlet.ParentResource = expectedParameters.ParentResource;
             cmdlet.PropertyObject = expectedParameters.PropertyObject;
             
             cmdlet.ExecuteCmdlet();
@@ -98,7 +98,7 @@ namespace Microsoft.Azure.Commands.ResourceManager.Test
             Assert.Equal(expectedParameters.Name, actualParameters.Name);
             Assert.Equal(expectedParameters.ResourceGroupName, actualParameters.ResourceGroupName);
             Assert.Equal(expectedParameters.ResourceType, actualParameters.ResourceType);
-            Assert.Equal(expectedParameters.ParentResourceName, actualParameters.ParentResourceName);
+            Assert.Equal(expectedParameters.ParentResource, actualParameters.ParentResource);
             Assert.Equal(expectedParameters.PropertyObject, actualParameters.PropertyObject);
             
             commandRuntimeMock.Verify(f => f.WriteObject(expected), Times.Once());

@@ -16,6 +16,7 @@ using Microsoft.Azure.Management.Resources.Models;
 using Microsoft.WindowsAzure.Commands.Utilities.Common;
 using Microsoft.WindowsAzure.Management.Monitoring.Events.Models;
 using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -124,6 +125,7 @@ namespace Microsoft.Azure.Commands.ResourceManager.Models
             PSResourceProviderType result = new PSResourceProviderType();
             if (resourceType != null)
             {
+                resourceType.Locations = resourceType.Locations ?? new List<string>();
                 for (int i = 0; i < ResourcesClient.KnownLocationsNormalized.Count; i++)
                 {
                     if (resourceType.Locations.Remove(ResourcesClient.KnownLocationsNormalized[i]))
@@ -173,20 +175,6 @@ namespace Microsoft.Azure.Commands.ResourceManager.Models
             return psObject;
         }
 
-        private static string GetEventDataCaller(Dictionary<string, string> claims)
-        {
-            string name = "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name";
-
-            if (claims == null || !claims.ContainsKey(name))
-            {
-                return null;
-            }
-            else
-            {
-                return claims[name];
-            }
-        }
-
         public static PSDeploymentEventDataHttpRequest ToPSDeploymentEventDataHttpRequest(this HttpRequestInfo httpRequest)
         {
             if (httpRequest == null)
@@ -225,10 +213,14 @@ namespace Microsoft.Azure.Commands.ResourceManager.Models
 
             if (resources.Count > 0)
             {
-                string rowFormat = "{0, -15}  {1, -25}  {2, -10}\r\n";
+                int maxNameLength = Math.Max("Name".Length, resources.Where(r => r.Name != null).DefaultIfEmpty(EmptyResource).Max(r => r.Name.Length));
+                int maxTypeLength = Math.Max("Type".Length, resources.Where(r => r.Type != null).DefaultIfEmpty(EmptyResource).Max(r => r.Type.Length));
+                int maxLocationLength = Math.Max("Location".Length, resources.Where(r => r.Location != null).DefaultIfEmpty(EmptyResource).Max(r => r.Location.Length));
+
+                string rowFormat = "{0, -" + maxNameLength + "}  {1, -" + maxTypeLength + "}  {2, -" + maxLocationLength + "}\r\n";
                 resourcesTable.AppendLine();
                 resourcesTable.AppendFormat(rowFormat, "Name", "Type", "Location");
-                resourcesTable.AppendFormat(rowFormat, GenerateSeparator(15, "="), GenerateSeparator(25, "="), GenerateSeparator(10, "="));
+                resourcesTable.AppendFormat(rowFormat, GenerateSeparator(maxNameLength, "="), GenerateSeparator(maxTypeLength, "="), GenerateSeparator(maxLocationLength, "="));
 
                 foreach (Resource resource in resources)
                 {
@@ -321,6 +313,36 @@ namespace Microsoft.Azure.Commands.ResourceManager.Models
             }
 
             return deploymentObject;
+        }
+
+        private static string GetEventDataCaller(Dictionary<string, string> claims)
+        {
+            string name = "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name";
+
+            if (claims == null || !claims.ContainsKey(name))
+            {
+                return null;
+            }
+            else
+            {
+                return claims[name];
+            }
+        }
+
+        private static Resource EmptyResource
+        {
+            get
+            {
+                return new Resource()
+                {
+                    Id = string.Empty,
+                    Location = string.Empty,
+                    Name = string.Empty,
+                    Properties = string.Empty,
+                    ProvisioningState = string.Empty,
+                    Type = string.Empty
+                };
+            }
         }
     }
 }

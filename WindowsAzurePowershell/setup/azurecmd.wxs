@@ -1,11 +1,11 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
 
-  <?define productName="Windows Azure PowerShell - March 2014" ?>
+  <?define productName="Windows Azure PowerShell - April 2014" ?>
   <?define sourceDir="$(var.SolutionDir)..\..\Package\$(var.Configuration)" ?>
   <?define caSourceDir="$(var.SolutionDir)setup\bin\$(var.Configuration)" ?>
 
-  <?define version="0.7.4" ?>
+  <?define version="0.8.0" ?>
   <?define versionedStartMenuFolder="Windows Azure" ?>
 
   <Product Id="*"
@@ -75,7 +75,7 @@
                   Name="Windows Azure PowerShell"
                   Description="Windows PowerShell cmdlets"
                   Target="[SystemFolder]\WindowsPowerShell\v1.0\powershell.exe"
-                  Arguments="-NoExit -Command &quot;cd '[PowerShellFolder]'; Import-Module .\AzureServiceManagement\AzureServiceManagement.psd1; Get-Content .\AzureServiceManagement\welcome.txt; $VerbosePreference=\&quot;Continue\&quot;; cd 'C:\'&quot;" />
+                  Arguments="-NoExit -Command &quot;cd '[PowerShellFolder]AzureServiceManagement'; Import-Module .\AzureServiceManagement.psd1; Get-Content .\welcome.txt; cd 'C:\'&quot;" />
         <RemoveFolder Id="AzureSdkMenu" On="uninstall"/>
         <RegistryValue Root="HKCU" Key="SOFTWARE\Microsoft\Microsoft SDKs\WindowsAzure\$(var.version)" Name="installed" Type="integer" Value="1" KeyPath="yes"/>
       </Component>

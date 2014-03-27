@@ -12,6 +12,8 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
+using Microsoft.WindowsAzure.Commands.Common.Test.Common;
+
 namespace Microsoft.WindowsAzure.Commands.Test.Utilities.Common
 {
     using System;
@@ -23,6 +25,10 @@ namespace Microsoft.WindowsAzure.Commands.Test.Utilities.Common
     /// </summary>
     public abstract class TestBase
     {
+        public TestBase()
+        {
+            CloudContext.Configuration.Tracing.AddTracingInterceptor(new TestingTracingInterceptor());
+        }
         /// <summary>
         /// Gets or sets a reference to the TestContext used for interacting
         /// with the test framework.
