@@ -29,7 +29,7 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Test.UnitTests.Database.Cm
         {
             testSession.ServiceBaseUri = MockServerHelper.CommonServiceBaseUri;
             testSession.SessionProperties["Servername"] = "testserver";
-            testSession.SessionProperties["Username"] = "testuser";
+            testSession.SessionProperties["Username"] = "mylogin";
             testSession.SessionProperties["Password"] = "testp@ss1";
             testSession.ResponseModifier =
                 new Action<HttpMessage>(
@@ -153,5 +153,27 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Test.UnitTests.Database.Cm
                     request.RequestText.Replace(mockServerUri.ToString(), serviceUri.ToString());
             }
         }
+
+        /// <summary>
+        /// Validate the properties of a database against the expected values supplied as input.
+        /// </summary>
+        /// <param name="database">The database object to validate</param>
+        /// <param name="name">The expected name of the database</param>
+        /// <param name="edition">The expected edition of the database</param>
+        /// <param name="maxSizeGb">The expected max size of the database in GB</param>
+        /// <param name="collation">The expected Collation of the database</param>
+        /// <param name="sloName">The expected Service Objective name</param>
+        /// <param name="isSystem">Whether or not the database is expected to be a system object.</param>
+        internal static void ValidateDatabaseProperties(Services.Server.Database database, string name, string edition, int maxSizeGb, long maxSizeBytes, string collation, string sloName, bool isSystem)
+        {
+            Assert.AreEqual(name, database.Name);
+            Assert.AreEqual(edition, database.Edition);
+            Assert.AreEqual(maxSizeGb, database.MaxSizeGB);
+            Assert.AreEqual(maxSizeBytes, database.MaxSizeBytes);
+            Assert.AreEqual(collation, database.CollationName);
+            Assert.AreEqual(sloName, database.ServiceObjective.Name);
+            Assert.AreEqual(isSystem, database.IsSystemObject);
+        }
+
     }
 }

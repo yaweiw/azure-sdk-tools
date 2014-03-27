@@ -147,12 +147,16 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Test.UnitTests.Database.Cm
                     {
                         // Request 0-2: Create testdb1
                         // Request 3-5: Create testdb2
+                        // Request 6-8: Create testdb3
                         case 0:
                         case 1:
                         case 2:
                         case 3:
                         case 4:
                         case 5:
+                        case 6:
+                        case 7:
+                        case 8:
                             DatabaseTestHelper.ValidateHeadersForODataRequest(
                                 expected.RequestInfo,
                                 actual);
@@ -241,6 +245,9 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Test.UnitTests.Database.Cm
                         case 3:
                         case 4:
                         case 5:
+                        case 6:
+                        case 7:
+                        case 8:
                             DatabaseTestHelper.ValidateHeadersForODataRequest(
                                 expected.RequestInfo,
                                 actual);
@@ -267,6 +274,11 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Test.UnitTests.Database.Cm
                         @"Remove-AzureSqlDatabase " +
                         @"-Context $context " +
                         @"-DatabaseName testdb2 " +
+                        @"-Force");
+                    powershell.InvokeBatchScript(
+                        @"Remove-AzureSqlDatabase " +
+                        @"-Context $context " +
+                        @"-DatabaseName testdb3 " +
                         @"-Force");
                 }
 
