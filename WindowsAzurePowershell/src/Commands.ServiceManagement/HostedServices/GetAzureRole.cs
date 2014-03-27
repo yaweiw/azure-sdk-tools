@@ -85,23 +85,24 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.HostedServices
 
                     foreach (var role in roleInstances)
                     {
-                        instanceContexts.Add(new RoleInstanceContext()
-                        {
-                            ServiceName           = this.ServiceName,
-                            OperationId           = getDeploymentOperation.Id,
-                            OperationDescription  = this.CommandRuntime.ToString(),
-                            OperationStatus       = getDeploymentOperation.Status.ToString(),
-                            InstanceErrorCode     = role.InstanceErrorCode,
-                            InstanceFaultDomain   = role.InstanceFaultDomain,
-                            InstanceName          = role.InstanceName,
-                            InstanceSize          = role.InstanceSize.ToString(),
-                            InstanceStateDetails  = role.InstanceStateDetails,
-                            InstanceStatus        = role.InstanceStatus,
-                            InstanceUpgradeDomain = role.InstanceUpgradeDomain,
-                            RoleName              = role.RoleName,
-                            DeploymentID          = currentDeployment.PrivateId,
-                            InstanceEndpoints     = Mapper.Map<PVM.InstanceEndpointList>(role.InstanceEndpoints)
-                        });
+                        instanceContexts.Add(
+                            new RoleInstanceContext
+                            {
+                                ServiceName           = this.ServiceName,
+                                OperationId           = getDeploymentOperation.Id,
+                                OperationDescription  = this.CommandRuntime.ToString(),
+                                OperationStatus       = getDeploymentOperation.Status.ToString(),
+                                InstanceErrorCode     = role.InstanceErrorCode,
+                                InstanceFaultDomain   = role.InstanceFaultDomain,
+                                InstanceName          = role.InstanceName,
+                                InstanceSize          = role.InstanceSize.ToString(),
+                                InstanceStateDetails  = role.InstanceStateDetails,
+                                InstanceStatus        = role.InstanceStatus,
+                                InstanceUpgradeDomain = role.InstanceUpgradeDomain,
+                                RoleName              = role.RoleName,
+                                DeploymentID          = currentDeployment.PrivateId,
+                                InstanceEndpoints     = Mapper.Map<PVM.InstanceEndpointList>(role.InstanceEndpoints)
+                            });
                     }
 
                     WriteObject(instanceContexts, true);
