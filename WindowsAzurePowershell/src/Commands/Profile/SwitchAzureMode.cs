@@ -74,6 +74,7 @@ namespace Microsoft.WindowsAzure.Commands.Profile
             else if (serviceManagementModuleLoaded && Name == AzureModule.AzureResourceManager)
             {
                 RemoveAzureModule(ServiceManagementModuleName, serviceManagementModulePath);
+                this.RemoveAzureServiceManagementAliases();
 
                 if (!ResourceManagerModuleLoaded)
                 {

@@ -133,6 +133,15 @@ namespace Microsoft.Azure.Commands.ResourceManager.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Invalid format of the resource identifier..
+        /// </summary>
+        internal static string InvalidFormatOfResourceId {
+            get {
+                return ResourceManager.GetString("InvalidFormatOfResourceId", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to &apos;{0}&apos; is invalid template identity and can not be found..
         /// </summary>
         internal static string InvalidTemplateIdentity {
@@ -158,15 +167,6 @@ namespace Microsoft.Azure.Commands.ResourceManager.Properties {
                 return ResourceManager.GetString("NewResourceMessage", resourceCulture);
             }
         }
-
-        /// <summary>
-        ///   Looks up a localized string similar to Overriding the existing file..
-        /// </summary>
-        internal static string OverrdingFile {
-            get {
-                return ResourceManager.GetString("OverrdingFile", resourceCulture);
-            }
-        }
         
         /// <summary>
         ///   Looks up a localized string similar to Cannot find any deployments in resource group &apos;{0}&apos;..
@@ -174,6 +174,15 @@ namespace Microsoft.Azure.Commands.ResourceManager.Properties {
         internal static string NoDeploymentWereFound {
             get {
                 return ResourceManager.GetString("NoDeploymentWereFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Overriding the existing file..
+        /// </summary>
+        internal static string OverrdingFile {
+            get {
+                return ResourceManager.GetString("OverrdingFile", resourceCulture);
             }
         }
         

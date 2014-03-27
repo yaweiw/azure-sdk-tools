@@ -45,9 +45,7 @@
       <Directory Id="ProgramFilesFolder">
         <Directory Id="MicrosoftSdkFolder" Name="Microsoft SDKs">
           <Directory Id="AzureSdkFolder" Name="Windows Azure">
-            <Directory Id="Powershell" Name="PowerShell">
-              <Directory Id="PowerShellFolder" Name="Azure"/>
-            </Directory>
+            <Directory Id="PowerShellFolder" Name="PowerShell"/>
           </Directory>
         </Directory>
       </Directory>
@@ -56,7 +54,7 @@
       </Directory>
     </Directory>
 
-    <DirectoryRef Id="Powershell">
+    <DirectoryRef Id="PowerShellFolder">
       <Component Id="ModulePath" Guid="2FFD16CE-41A9-4129-A0AB-5AC55E73BEB2">
         <Environment Id="PsModulePathEnvironment"
                      Action="set"

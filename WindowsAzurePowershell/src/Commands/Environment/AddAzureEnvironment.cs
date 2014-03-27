@@ -28,7 +28,7 @@ namespace Microsoft.WindowsAzure.Commands.Profile
         [Parameter(Position = 0, Mandatory = true, ValueFromPipelineByPropertyName = true)]
         public string Name { get; set; }
 
-        [Parameter(Position = 1, Mandatory = true, ValueFromPipelineByPropertyName = true)]
+        [Parameter(Position = 1, Mandatory = false, ValueFromPipelineByPropertyName = true)]
         public string PublishSettingsFileUrl { get; set; }
 
         [Parameter(Position = 2, Mandatory = false, ValueFromPipelineByPropertyName = true)]
