@@ -40,12 +40,12 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Services.Server
         Premium = 3,
 
         /// <summary>
-        /// A server v2 database basic edition
+        /// A database basic edition
         /// </summary>
         Basic = 4,
 
         /// <summary>
-        /// A server v2 database standard edition
+        /// A database standard edition
         /// </summary>
         Standard = 5
     }
