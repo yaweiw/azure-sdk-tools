@@ -17,15 +17,17 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
     using System.Collections.Generic;
     using System.Linq;
     using System.Management.Automation;
+    using Newtonsoft.Json;
 
     [Cmdlet(
         VerbsCommon.Get,
-        VirtualMachineAccessExtensionNoun,
-        DefaultParameterSetName = GetAccessExtensionParamSetName),
-    OutputType(typeof(VirtualMachineAccessExtensionContext))]
-    public class GetAzureVMAccessExtensionCommand : VirtualMachineAccessExtensionCmdletBase
+        VirtualMachineCustomScriptExtensionNoun,
+        DefaultParameterSetName = GetCustomScriptExtensionParamSetName),
+    OutputType(
+        typeof(VirtualMachineCustomScriptExtensionContext))]
+    public class GetAzureVMCustomScriptExtensionCommand : VirtualMachineCustomScriptExtensionCmdletBase
     {
-        protected const string GetAccessExtensionParamSetName = "GetAccessExtension";
+        protected const string GetCustomScriptExtensionParamSetName = "GetCustomScriptExtension";
 
         internal void ExecuteCommand()
         {
@@ -34,19 +36,20 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
                 extensionRefs == null ? null : extensionRefs.Select(
                 r =>
                 {
-                    GetVMAccessExtensionValues(r);
-                    return new VirtualMachineAccessExtensionContext
+                    GetExtensionValues(r);
+                    var pubSettings = JsonConvert.DeserializeObject<PublicSettings>(PublicConfiguration);
+
+                    return new VirtualMachineCustomScriptExtensionContext
                     {
                         ExtensionName = r.Name,
                         Publisher = r.Publisher,
                         ReferenceName = r.ReferenceName,
                         Version = r.Version,
                         State = r.State,
-                        Enabled = !Disable,
-                        UserName = UserName,
-                        Password = Password,
                         PublicConfiguration = PublicConfiguration,
                         PrivateConfiguration = PrivateConfiguration,
+                        CommandToExecute = pubSettings == null ? string.Empty : pubSettings.commandToExecute,
+                        Uri = pubSettings == null ? null : pubSettings.fileUris,
                         RoleName = VM.GetInstance().RoleName
                     };
                 }), true);

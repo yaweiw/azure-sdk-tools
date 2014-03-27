@@ -79,7 +79,8 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
                     State = r.State,
                     PublicConfiguration = IsLegacyExtension(r.Name, r.Publisher, r.Version)
                                         ? GetConfiguration(r) : GetConfiguration(r, PublicTypeStr),
-                    PrivateConfiguration = GetConfiguration(r, PrivateTypeStr)
+                    PrivateConfiguration = GetConfiguration(r, PrivateTypeStr),
+                    RoleName = VM.GetInstance().RoleName
                 });
 
             WriteObject(extensions, true);
