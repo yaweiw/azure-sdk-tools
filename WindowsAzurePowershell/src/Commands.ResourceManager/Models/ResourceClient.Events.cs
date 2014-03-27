@@ -55,7 +55,7 @@ namespace Microsoft.Azure.Commands.ResourceManager.Models
                 }
                 catch
                 {
-                    throw new ArgumentException(Resources.DeploymentNotFound);
+                    throw new ArgumentException(string.Format(Resources.DeploymentWithNameNotFound, parameters.DeploymentName));
                 }
 
                 return GetDeploymentLogs(deploymentGetResult.Deployment.Properties.CorrelationId);
@@ -72,12 +72,12 @@ namespace Microsoft.Azure.Commands.ResourceManager.Models
                                                                                 });
                     if (deploymentListResult.Deployments.Count == 0)
                     {
-                        throw new ArgumentException(Resources.DeploymentNotFound);
+                        throw new ArgumentException(string.Format(Resources.NoDeploymentWereFound, parameters.Name));
                     }
                 }
                 catch
                 {
-                    throw new ArgumentException(Resources.DeploymentNotFound);
+                    throw new ArgumentException(string.Format(Resources.NoDeploymentWereFound, parameters.Name));
                 }
 
                 return GetDeploymentLogs(deploymentListResult.Deployments[0].Properties.CorrelationId);

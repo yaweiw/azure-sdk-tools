@@ -38,6 +38,8 @@ namespace Microsoft.Azure.Commands.ResourceManager.Test.Models
 
         private string templateFile = @"Resources\sampleTemplateFile.json";
 
+        private string invalidTemplateFile = @"Resources\invalidTemplateFile.json";
+
         private string templateParameterFile = @"Resources\sampleTemplateParameterFile.json";
 
         public GalleryTemplatesClientTests()
@@ -54,7 +56,7 @@ namespace Microsoft.Azure.Commands.ResourceManager.Test.Models
             string key = "computeMode";
             TemplateFileParameter value = new TemplateFileParameter()
             {
-                AllowedValues = "Mode1, Mode2, Mode3",
+                AllowedValues = new List<string>() { "Mode1", "Mode2", "Mode3" },
                 DefaultValue = "Mode1",
                 MaxLength = "5",
                 MinLength = "1",
@@ -97,7 +99,49 @@ namespace Microsoft.Azure.Commands.ResourceManager.Test.Models
             string key = "Name";
             TemplateFileParameter value = new TemplateFileParameter()
             {
-                AllowedValues = "Mode1, Mode2, Mode3",
+                AllowedValues = new List<string>() { "Mode1", "Mode2", "Mode3" },
+                MaxLength = "5",
+                MinLength = "1",
+                Type = "bool"
+            };
+            KeyValuePair<string, TemplateFileParameter> parameter = new KeyValuePair<string, TemplateFileParameter>(key, value);
+
+            RuntimeDefinedParameter dynamicParameter = galleryTemplatesClient.ConstructDynamicParameter(parameters, parameter);
+
+            Assert.Equal(key + "FromTemplate", dynamicParameter.Name);
+            Assert.Equal(value.DefaultValue, dynamicParameter.Value);
+            Assert.Equal(typeof(bool), dynamicParameter.ParameterType);
+            Assert.Equal(3, dynamicParameter.Attributes.Count);
+
+            ParameterAttribute parameterAttribute = (ParameterAttribute)dynamicParameter.Attributes[0];
+            Assert.True(parameterAttribute.Mandatory);
+            Assert.True(parameterAttribute.ValueFromPipelineByPropertyName);
+            Assert.Equal(parameterSetNames[0], parameterAttribute.ParameterSetName);
+
+            ValidateSetAttribute validateSetAttribute = (ValidateSetAttribute)dynamicParameter.Attributes[1];
+            Assert.Equal(3, validateSetAttribute.ValidValues.Count);
+            Assert.True(validateSetAttribute.IgnoreCase);
+            Assert.True(value.AllowedValues.Contains(validateSetAttribute.ValidValues[0]));
+            Assert.True(value.AllowedValues.Contains(validateSetAttribute.ValidValues[1]));
+            Assert.True(value.AllowedValues.Contains(validateSetAttribute.ValidValues[2]));
+            Assert.False(validateSetAttribute.ValidValues[0].Contains(' '));
+            Assert.False(validateSetAttribute.ValidValues[1].Contains(' '));
+            Assert.False(validateSetAttribute.ValidValues[2].Contains(' '));
+
+            ValidateLengthAttribute validateLengthAttribute = (ValidateLengthAttribute)dynamicParameter.Attributes[2];
+            Assert.Equal(int.Parse(value.MinLength), validateLengthAttribute.MinLength);
+            Assert.Equal(int.Parse(value.MaxLength), validateLengthAttribute.MaxLength);
+        }
+
+        [Fact]
+        public void ResolvesDuplicatedDynamicParameterNameSubstring()
+        {
+            string[] parameters = { "Username", "Location", "Mode" };
+            string[] parameterSetNames = { "__AllParameterSets" };
+            string key = "user";
+            TemplateFileParameter value = new TemplateFileParameter()
+            {
+                AllowedValues = new List<string>() { "Mode1", "Mode2", "Mode3" },
                 MaxLength = "5",
                 MinLength = "1",
                 Type = "bool"
@@ -139,7 +183,7 @@ namespace Microsoft.Azure.Commands.ResourceManager.Test.Models
             string key = "name";
             TemplateFileParameter value = new TemplateFileParameter()
             {
-                AllowedValues = "Mode1, Mode2, Mode3",
+                AllowedValues = new List<string>() { "Mode1", "Mode2", "Mode3" },
                 MaxLength = "5",
                 MinLength = "1",
                 Type = "bool"
@@ -174,37 +218,6 @@ namespace Microsoft.Azure.Commands.ResourceManager.Test.Models
         }
 
         [Fact]
-        public void ConstructsDynamicParameterWithRangeValidation()
-        {
-            string[] parameters = { "Name", "Location", "Mode" };
-            string[] parameterSetNames = { "__AllParameterSets" };
-            string key = "computeMode";
-            TemplateFileParameter value = new TemplateFileParameter()
-            {
-                AllowedValues = "1-10",
-                DefaultValue = "Mode1",
-                Type = "securestring"
-            };
-            KeyValuePair<string, TemplateFileParameter> parameter = new KeyValuePair<string, TemplateFileParameter>(key, value);
-
-            RuntimeDefinedParameter dynamicParameter = galleryTemplatesClient.ConstructDynamicParameter(parameters, parameter);
-
-            Assert.Equal("computeMode", dynamicParameter.Name);
-            Assert.Equal(value.DefaultValue, dynamicParameter.Value);
-            Assert.Equal(typeof(SecureString), dynamicParameter.ParameterType);
-            Assert.Equal(2, dynamicParameter.Attributes.Count);
-
-            ParameterAttribute parameterAttribute = (ParameterAttribute)dynamicParameter.Attributes[0];
-            Assert.False(parameterAttribute.Mandatory);
-            Assert.True(parameterAttribute.ValueFromPipelineByPropertyName);
-            Assert.Equal(parameterSetNames[0], parameterAttribute.ParameterSetName);
-
-            ValidateRangeAttribute validateRangeAttribute = (ValidateRangeAttribute)dynamicParameter.Attributes[1];
-            Assert.Equal(1, validateRangeAttribute.MinRange);
-            Assert.Equal(10, validateRangeAttribute.MaxRange);
-        }
-
-        [Fact]
         public void ConstructsDynamicParameterNoValidation()
         {
             string[] parameters = { "Name", "Location", "Mode" };
@@ -212,7 +225,7 @@ namespace Microsoft.Azure.Commands.ResourceManager.Test.Models
             string key = "computeMode";
             TemplateFileParameter value = new TemplateFileParameter()
             {
-                AllowedValues = "",
+                AllowedValues = new List<string>(),
                 DefaultValue = "Mode1",
                 Type = "securestring"
             };
@@ -232,14 +245,14 @@ namespace Microsoft.Azure.Commands.ResourceManager.Test.Models
         }
 
         [Fact]
-        public void ConstructsDynamicParameterWithMinRangeValidation()
+        public void ConstructsDynamicParameterWithNullAllowedValues()
         {
             string[] parameters = { "Name", "Location", "Mode" };
             string[] parameterSetNames = { "__AllParameterSets" };
             string key = "computeMode";
             TemplateFileParameter value = new TemplateFileParameter()
             {
-                AllowedValues = "5-",
+                AllowedValues = null,
                 DefaultValue = "Mode1",
                 Type = "securestring"
             };
@@ -250,47 +263,12 @@ namespace Microsoft.Azure.Commands.ResourceManager.Test.Models
             Assert.Equal("computeMode", dynamicParameter.Name);
             Assert.Equal(value.DefaultValue, dynamicParameter.Value);
             Assert.Equal(typeof(SecureString), dynamicParameter.ParameterType);
-            Assert.Equal(2, dynamicParameter.Attributes.Count);
+            Assert.Equal(1, dynamicParameter.Attributes.Count);
 
             ParameterAttribute parameterAttribute = (ParameterAttribute)dynamicParameter.Attributes[0];
             Assert.False(parameterAttribute.Mandatory);
             Assert.True(parameterAttribute.ValueFromPipelineByPropertyName);
             Assert.Equal(parameterSetNames[0], parameterAttribute.ParameterSetName);
-
-            ValidateRangeAttribute validateRangeAttribute = (ValidateRangeAttribute)dynamicParameter.Attributes[1];
-            Assert.Equal(5, validateRangeAttribute.MinRange);
-            Assert.Equal(int.MaxValue, validateRangeAttribute.MaxRange);
-        }
-
-        [Fact]
-        public void ConstructsDynamicParameterWithMaxRangeValidation()
-        {
-            string[] parameters = { "Name", "Location", "Mode" };
-            string[] parameterSetNames = { "__AllParameterSets" };
-            string key = "computeMode";
-            TemplateFileParameter value = new TemplateFileParameter()
-            {
-                AllowedValues = "-200",
-                DefaultValue = "Mode1",
-                Type = "securestring"
-            };
-            KeyValuePair<string, TemplateFileParameter> parameter = new KeyValuePair<string, TemplateFileParameter>(key, value);
-
-            RuntimeDefinedParameter dynamicParameter = galleryTemplatesClient.ConstructDynamicParameter(parameters, parameter);
-
-            Assert.Equal("computeMode", dynamicParameter.Name);
-            Assert.Equal(value.DefaultValue, dynamicParameter.Value);
-            Assert.Equal(typeof(SecureString), dynamicParameter.ParameterType);
-            Assert.Equal(2, dynamicParameter.Attributes.Count);
-
-            ParameterAttribute parameterAttribute = (ParameterAttribute)dynamicParameter.Attributes[0];
-            Assert.False(parameterAttribute.Mandatory);
-            Assert.True(parameterAttribute.ValueFromPipelineByPropertyName);
-            Assert.Equal(parameterSetNames[0], parameterAttribute.ParameterSetName);
-
-            ValidateRangeAttribute validateRangeAttribute = (ValidateRangeAttribute)dynamicParameter.Attributes[1];
-            Assert.Equal(0, validateRangeAttribute.MinRange);
-            Assert.Equal(200, validateRangeAttribute.MaxRange);
         }
 
         [Fact]
@@ -302,7 +280,7 @@ namespace Microsoft.Azure.Commands.ResourceManager.Test.Models
                 null,
                 new[] { "TestPS" });
 
-            Assert.Equal(5, result.Count);
+            Assert.Equal(4, result.Count);
 
             Assert.Equal("string", result["string"].Name);
             Assert.Equal(typeof(string), result["String"].ParameterType);
@@ -329,7 +307,7 @@ namespace Microsoft.Azure.Commands.ResourceManager.Test.Models
                 templateParameterFile,
                 new[] { "TestPS" });
 
-            Assert.Equal(5, result.Count);
+            Assert.Equal(4, result.Count);
 
             Assert.Equal("string", result["string"].Name);
             Assert.Equal(typeof(string), result["string"].ParameterType);
@@ -343,6 +321,21 @@ namespace Microsoft.Azure.Commands.ResourceManager.Test.Models
             Assert.Equal("bool", result["bool"].Name);
             Assert.Equal(typeof(bool), result["bool"].ParameterType);
             Assert.Equal("True", result["bool"].Value);
+        }
+
+        [Fact]
+        public void HandlesInvalidTemplateFiles()
+        {
+            Hashtable hashtable = new Hashtable();
+            hashtable["Bool"] = true;
+            hashtable["Foo"] = "bar";
+            RuntimeDefinedParameterDictionary result = galleryTemplatesClient.GetTemplateParametersFromFile(
+                invalidTemplateFile,
+                null,
+                templateParameterFile,
+                new[] { "TestPS" });
+
+            Assert.Equal(0, result.Count);
         }
 
         [Fact]
@@ -384,7 +377,7 @@ namespace Microsoft.Azure.Commands.ResourceManager.Test.Models
         [Fact]
         public void FiltersGalleryTemplatesUsingComplexQuery()
         {
-            string filterString = "Publisher eq 'Microsoft' and CategoryIds/any(c: c eq 'awesome') and ItemName eq 'hello world'";
+            string filterString = "Publisher eq 'Microsoft' and CategoryIds/any(c: c eq 'awesome')";
             ItemListParameters actual = new ItemListParameters();
             galleryClientMock.Setup(f => f.Items.ListAsync(It.IsAny<ItemListParameters>(), new CancellationToken()))
                 .Returns(Task.Factory.StartNew(() => new ItemListResult
@@ -408,8 +401,7 @@ namespace Microsoft.Azure.Commands.ResourceManager.Test.Models
             FilterGalleryTemplatesOptions options = new FilterGalleryTemplatesOptions()
             {
                 Publisher = "Microsoft",
-                Category = "awesome",
-                Name = "hello world"
+                Category = "awesome"
             };
 
             List<GalleryItem> result = galleryTemplatesClient.FilterGalleryTemplates(options);
@@ -445,7 +437,9 @@ namespace Microsoft.Azure.Commands.ResourceManager.Test.Models
 
                 galleryTemplatesClient.DownloadGalleryTemplateFile(
                     galleryTemplateFileName,
-                    expectedFilePath);
+                    expectedFilePath,
+                    true,
+                    null);
 
                 Assert.Equal(string.Empty, File.ReadAllText(expectedFilePath));
             }
@@ -482,7 +476,9 @@ namespace Microsoft.Azure.Commands.ResourceManager.Test.Models
 
                 galleryTemplatesClient.DownloadGalleryTemplateFile(
                     galleryTemplateFileName,
-                    Path.GetTempPath());
+                    Path.GetTempPath(),
+                    true,
+                    null);
 
                 Assert.Equal(string.Empty, File.ReadAllText(expectedFilePath));
             }
@@ -519,7 +515,9 @@ namespace Microsoft.Azure.Commands.ResourceManager.Test.Models
 
                 galleryTemplatesClient.DownloadGalleryTemplateFile(
                     galleryTemplateFileName,
-                    expectedFilePath);
+                    expectedFilePath,
+                    true,
+                    null);
 
                 Assert.Equal(string.Empty, File.ReadAllText(expectedFilePath));
             }

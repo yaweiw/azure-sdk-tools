@@ -15,6 +15,7 @@
 using Microsoft.Azure.Commands.ResourceManager.Models;
 using Microsoft.Azure.Commands.ResourceManager.Templates;
 using Moq;
+using System;
 using System.IO;
 using System.Management.Automation;
 using Xunit;
@@ -43,15 +44,15 @@ namespace Microsoft.Azure.Commands.ResourceManager.Test.Resources
         [Fact]
         public void SavesGalleryTemplateFile()
         {
-            cmdlet.Name = "fileName";
+            cmdlet.Identity = "fileName";
             cmdlet.Path = "filePath";
-            cmdlet.PassThru = true;
+            cmdlet.Force = true;
 
             cmdlet.ExecuteCmdlet();
 
-            galleryTemplatesClientMock.Verify(f => f.DownloadGalleryTemplateFile("fileName", "filePath"), Times.Once());
+            galleryTemplatesClientMock.Verify(f => f.DownloadGalleryTemplateFile("fileName", "filePath", true, It.IsAny<Action<bool, string, string, string, Action>>()), Times.Once());
 
-            commandRuntimeMock.Verify(f => f.WriteObject(true), Times.Once());
+            commandRuntimeMock.Verify(f => f.WriteObject(It.IsAny<PSObject>()), Times.Once());
         }
 
         [Fact]
@@ -59,13 +60,13 @@ namespace Microsoft.Azure.Commands.ResourceManager.Test.Resources
         {
             string expectedPath = Path.Combine(Directory.GetCurrentDirectory(), "fileName");
 
-            cmdlet.Name = "fileName";
+            cmdlet.Identity = "fileName";
 
             cmdlet.ExecuteCmdlet();
 
-            galleryTemplatesClientMock.Verify(f => f.DownloadGalleryTemplateFile("fileName", expectedPath), Times.Once());
+            galleryTemplatesClientMock.Verify(f => f.DownloadGalleryTemplateFile("fileName", expectedPath, false, It.IsAny<Action<bool, string, string, string, Action>>()), Times.Once());
 
-            commandRuntimeMock.Verify(f => f.WriteObject(true), Times.Never());
+            commandRuntimeMock.Verify(f => f.WriteObject(It.IsAny<PSObject>()), Times.Once());
         }
     }
 }

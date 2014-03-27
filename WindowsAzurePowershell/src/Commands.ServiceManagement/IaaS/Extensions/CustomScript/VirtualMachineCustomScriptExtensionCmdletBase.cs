@@ -24,7 +24,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
     public class VirtualMachineCustomScriptExtensionCmdletBase : VirtualMachineExtensionCmdletBase
     {
         protected const string VirtualMachineCustomScriptExtensionNoun = "AzureVMCustomScriptExtension";
-        protected const string ExtensionDefaultPublisher = "Microsoft.Compute.Test";
+        protected const string ExtensionDefaultPublisher = "Microsoft.Compute";
         protected const string ExtensionDefaultName = "CustomScriptExtension";
         protected const string LegacyReferenceName = "MyCustomScriptExtension";
 
@@ -61,8 +61,9 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
 
         protected string GetPrivateConfiguration()
         {
-            return string.IsNullOrEmpty(this.StorageAccountName) ? string.Empty :
-                   JsonUtilities.TryFormatJson(JsonConvert.SerializeObject(
+            return string.IsNullOrEmpty(this.StorageAccountName)|| string.IsNullOrEmpty(this.StorageAccountKey)
+                 ? string.Empty
+                 : JsonUtilities.TryFormatJson(JsonConvert.SerializeObject(
                    new PrivateSettings
                    {
                        storageAccountName = this.StorageAccountName,

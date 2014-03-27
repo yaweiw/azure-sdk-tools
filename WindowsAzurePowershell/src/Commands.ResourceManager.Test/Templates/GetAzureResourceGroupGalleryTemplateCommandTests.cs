@@ -48,7 +48,7 @@ namespace Microsoft.Azure.Commands.ResourceManager.Test.Resources
             FilterGalleryTemplatesOptions options = new FilterGalleryTemplatesOptions()
             {
                 Category = "category",
-                Name = "hobba",
+                Identity = "hobba",
                 Publisher = "Microsoft"
             };
             FilterGalleryTemplatesOptions actual = new FilterGalleryTemplatesOptions();
@@ -57,12 +57,12 @@ namespace Microsoft.Azure.Commands.ResourceManager.Test.Resources
                 new GalleryItem()
                 {
                     Publisher = "Microsoft",
-                    Name = "T1"
+                    Identity = "T1"
                 },
                 new GalleryItem()
                 {
                     Publisher = "Microsoft",
-                    Name = "T2"
+                    Identity = "T2"
                 },
             };
             galleryTemplatesClientMock.Setup(f => f.FilterGalleryTemplates(It.IsAny<FilterGalleryTemplatesOptions>()))
@@ -70,7 +70,7 @@ namespace Microsoft.Azure.Commands.ResourceManager.Test.Resources
                 .Callback((FilterGalleryTemplatesOptions o) => actual = o);
 
             cmdlet.Category = options.Category;
-            cmdlet.Name = options.Name;
+            cmdlet.Identity = options.Identity;
             cmdlet.Publisher = options.Publisher;
 
             cmdlet.ExecuteCmdlet();
@@ -78,7 +78,7 @@ namespace Microsoft.Azure.Commands.ResourceManager.Test.Resources
             Assert.Equal(2, result.Count);
             Assert.True(result.All(g => g.Publisher == "Microsoft"));
 
-            commandRuntimeMock.Verify(f => f.WriteObject(result, true), Times.Once());
+            commandRuntimeMock.Verify(f => f.WriteObject(It.IsAny<List<PSObject>>(), true), Times.Once());
         }
     }
 }
