@@ -120,6 +120,11 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.Common
                 {
                     orgIdEnvironment.BaseUri = new Uri(authSettings[BaseUriKey]);
                 }
+
+                if (!string.IsNullOrEmpty(authEndpoint))
+                {
+                    orgIdEnvironment.ActiveDirectoryEndpoint = new Uri(authEndpoint);
+                }
             }
 
             return orgIdEnvironment;

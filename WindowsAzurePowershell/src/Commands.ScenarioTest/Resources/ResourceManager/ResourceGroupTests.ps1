@@ -37,3 +37,50 @@ function Test-CreatesNewSimpleResourceGroup
 		Remove-AzureResourceGroup -Name $rgname -Force
 	}
 }
+
+<#
+.SYNOPSIS
+Tests creating new simple resource group and deleting it via piping.
+#>
+function Test-CreatesAndRemoveResourceGroupViaPiping
+{
+	# Setup
+	$rgname1 = Get-ResourceGroupName
+	$rgname2 = Get-ResourceGroupName
+	$location = Get-ProviderLocation ResourceManagement
+
+	try 
+	{
+		# Test
+		New-AzureResourceGroup -Name $rgname1 -Location $location
+		New-AzureResourceGroup -Name $rgname2 -Location $location
+		
+		Get-AzureResourceGroup | where {$_.ResourceGroupName -eq $rgname1 -or $_.ResourceGroupName -eq $rgname2} | Remove-AzureResourceGroup -Force
+
+		# Assert
+		Assert-Throws { Get-AzureResourceGroup -Name $rgname1 } "Provided resource group does not exist."
+		Assert-Throws { Get-AzureResourceGroup -Name $rgname2 } "Provided resource group does not exist."
+	}
+	finally
+	{
+		# Cleanup
+		try {
+			Remove-AzureResourceGroup -Name $rgname1 -Force
+		} finally { }
+		try {
+			Remove-AzureResourceGroup -Name $rgname2 -Force
+		} finally { }
+	}
+}
+
+<#
+.SYNOPSIS
+Tests getting non-existing resource group.
+#>
+function Test-GetNonExistingResourceGroup
+{
+	# Setup
+	$rgname = Get-ResourceGroupName
+
+	Assert-Throws { Get-AzureResourceGroup -Name $rgname } "Provided resource group does not exist."
+}
