@@ -52,14 +52,14 @@ namespace Microsoft.Azure.Commands.ResourceManager.Test.Resources
                 Publisher = "Microsoft"
             };
             FilterGalleryTemplatesOptions actual = new FilterGalleryTemplatesOptions();
-            List<GalleryItem> result = new List<GalleryItem>()
+            List<PSGalleryItem> result = new List<PSGalleryItem>()
             {
-                new GalleryItem()
+                new PSGalleryItem()
                 {
                     Publisher = "Microsoft",
                     Identity = "T1"
                 },
-                new GalleryItem()
+                new PSGalleryItem()
                 {
                     Publisher = "Microsoft",
                     Identity = "T2"
