@@ -24,13 +24,14 @@ function Test-CreatesNewSimpleResource
 	$rglocation = Get-ProviderLocation ResourceManagement
 	$location = Get-ProviderLocation "Microsoft.Web/sites"
 	$apiversion = "2014-04-01"
+	$resourceType = "Microsoft.Web/sites"
 
 	# Test
-	Try 
+	try 
 	{
 		New-AzureResourceGroup -Name $rgname -Location $rglocation
-		$actual = New-AzureResource -Name $rname -Location $location -ResourceGroupName $rgname -ResourceType "Microsoft.Web/sites" -PropertyObject @{"name" = $name; "siteMode" = "Limited"; "computeMode" = "Shared"} -ApiVersion $apiversion
-		$expected = Get-AzureResource -Name $rname -ResourceGroupName $rgname -ResourceType "Microsoft.Web/sites" -ApiVersion $apiversion
+		$actual = New-AzureResource -Name $rname -Location $location -ResourceGroupName $rgname -ResourceType $resourceType -PropertyObject @{"name" = $name; "siteMode" = "Limited"; "computeMode" = "Shared"} -ApiVersion $apiversion
+		$expected = Get-AzureResource -Name $rname -ResourceGroupName $rgname -ResourceType $resourceType -ApiVersion $apiversion
 	
 		$list = Get-AzureResource -ResourceGroupName $rgname
 
@@ -41,7 +42,7 @@ function Test-CreatesNewSimpleResource
 		Assert-AreEqual 1 $list.Count
 		Assert-AreEqual $expected.Name $list[0].Name	
 	}
-	Finally
+	finally
 	{
 		# Cleanup
 		Remove-AzureResourceGroup -Name $rgname -Force
@@ -58,27 +59,29 @@ function Test-CreatesNewComplexResource
 	$rgname = Get-ResourceGroupName
 	$rnameParent = Get-ResourceName
 	$rnameChild = Get-ResourceName
+	$resourceTypeParent = "Microsoft.Sql/servers"
+	$resourceTypeChild = "Microsoft.Sql/servers/databases"
 	$rglocation = Get-ProviderLocation ResourceManagement
-	$location = Get-ProviderLocation "Microsoft.Sql/servers"
+	$location = Get-ProviderLocation $resourceTypeParent
 	$apiversion = "2014-04-01"
 
 	# Test
-	Try 
+	try 
 	{
 		New-AzureResourceGroup -Name $rgname -Location $rglocation
-		$actualParent = New-AzureResource -Name $rnameParent -Location $location -ResourceGroupName $rgname -ResourceType "Microsoft.Sql/servers" -PropertyObject @{"administratorLogin" = "adminuser"; "administratorLoginPassword" = "P@ssword1"} -ApiVersion $apiversion
-		$expectedParent = Get-AzureResource -Name $rnameParent -ResourceGroupName $rgname -ResourceType "Microsoft.Sql/servers" -ApiVersion $apiversion
+		$actualParent = New-AzureResource -Name $rnameParent -Location $location -ResourceGroupName $rgname -ResourceType $resourceTypeParent -PropertyObject @{"administratorLogin" = "adminuser"; "administratorLoginPassword" = "P@ssword1"} -ApiVersion $apiversion
+		$expectedParent = Get-AzureResource -Name $rnameParent -ResourceGroupName $rgname -ResourceType $resourceTypeParent -ApiVersion $apiversion
 
-		$actualChild = New-AzureResource -Name $rnameChild -Location $location -ResourceGroupName $rgname -ResourceType "Microsoft.Sql/servers/databases" -ParentResource servers/$rnameParent -PropertyObject @{"edition" = "Web"; "collation" = "SQL_Latin1_General_CP1_CI_AS"; "maxSizeBytes" = "1073741824"} -ApiVersion $apiversion
-		$expectedChild = Get-AzureResource -Name $rnameChild -ResourceGroupName $rgname -ResourceType "Microsoft.Sql/servers/databases" -ParentResource servers/$rnameParent -ApiVersion $apiversion
+		$actualChild = New-AzureResource -Name $rnameChild -Location $location -ResourceGroupName $rgname -ResourceType $resourceTypeChild -ParentResource servers/$rnameParent -PropertyObject @{"edition" = "Web"; "collation" = "SQL_Latin1_General_CP1_CI_AS"; "maxSizeBytes" = "1073741824"} -ApiVersion $apiversion
+		$expectedChild = Get-AzureResource -Name $rnameChild -ResourceGroupName $rgname -ResourceType $resourceTypeChild -ParentResource servers/$rnameParent -ApiVersion $apiversion
 
 		$list = Get-AzureResource -ResourceGroupName $rgname
 
-		$parentFromList = $list | where {$_.ResourceType -eq 'Microsoft.Sql/servers'} | Select-Object -First 1
-		$childFromList = $list | where {$_.ResourceType -eq 'Microsoft.Sql/servers/databases'} | Select-Object -First 1
+		$parentFromList = $list | where {$_.ResourceType -eq $resourceTypeParent} | Select-Object -First 1
+		$childFromList = $list | where {$_.ResourceType -eq $resourceTypeChild} | Select-Object -First 1
 
-		$listOfServers = Get-AzureResource -ResourceType 'Microsoft.Sql/servers' -ResourceGroupName $rgname
-		$listOfDatabases = Get-AzureResource -ResourceType 'Microsoft.Sql/servers/databases' -ResourceGroupName $rgname
+		$listOfServers = Get-AzureResource -ResourceType $resourceTypeParent -ResourceGroupName $rgname
+		$listOfDatabases = Get-AzureResource -ResourceType $resourceTypeChild -ResourceGroupName $rgname
 
 		# Assert
 		Assert-AreEqual $expectedParent.Name $actualParent.Name
@@ -95,7 +98,7 @@ function Test-CreatesNewComplexResource
 		Assert-AreEqual 1 $listOfServers.Count
 		Assert-AreEqual 1 $listOfDatabases.Count
 	}
-	Finally
+	finally
 	{
 		# Cleanup
 		Remove-AzureResourceGroup -Name $rgname -Force
@@ -112,29 +115,31 @@ function Test-GetResourcesViaPiping
 	$rgname = Get-ResourceGroupName
 	$rnameParent = Get-ResourceName
 	$rnameChild = Get-ResourceName
+	$resourceTypeParent = "Microsoft.Sql/servers"
+	$resourceTypeChild = "Microsoft.Sql/servers/databases"
 	$rglocation = Get-ProviderLocation ResourceManagement
-	$location = Get-ProviderLocation "Microsoft.Sql/servers"
+	$location = Get-ProviderLocation $resourceTypeParent
 	$apiversion = "2014-04-01"
 
 	# Test
-	Try 
+	try 
 	{
 		New-AzureResourceGroup -Name $rgname -Location $rglocation
-		New-AzureResource -Name $rnameParent -Location $location -ResourceGroupName $rgname -ResourceType "Microsoft.Sql/servers" -PropertyObject @{"administratorLogin" = "adminuser"; "administratorLoginPassword" = "P@ssword1"} -ApiVersion $apiversion		
-		New-AzureResource -Name $rnameChild -Location $location -ResourceGroupName $rgname -ResourceType "Microsoft.Sql/servers/databases" -ParentResource servers/$rnameParent -PropertyObject @{"edition" = "Web"; "collation" = "SQL_Latin1_General_CP1_CI_AS"; "maxSizeBytes" = "1073741824"} -ApiVersion $apiversion
+		New-AzureResource -Name $rnameParent -Location $location -ResourceGroupName $rgname -ResourceType $resourceTypeParent -PropertyObject @{"administratorLogin" = "adminuser"; "administratorLoginPassword" = "P@ssword1"} -ApiVersion $apiversion		
+		New-AzureResource -Name $rnameChild -Location $location -ResourceGroupName $rgname -ResourceType $resourceTypeChild -ParentResource servers/$rnameParent -PropertyObject @{"edition" = "Web"; "collation" = "SQL_Latin1_General_CP1_CI_AS"; "maxSizeBytes" = "1073741824"} -ApiVersion $apiversion
 		
 		$list = Get-AzureResourceGroup -Name $rgname | Get-AzureResource
-		$serverFromList = $list | where {$_.ResourceType -eq 'Microsoft.Sql/servers'} | Select-Object -First 1
-		$databaseFromList = $list | where {$_.ResourceType -eq 'Microsoft.Sql/servers/databases'} | Select-Object -First 1
+		$serverFromList = $list | where {$_.ResourceType -eq $resourceTypeParent} | Select-Object -First 1
+		$databaseFromList = $list | where {$_.ResourceType -eq $resourceTypeChild} | Select-Object -First 1
 
 		# Assert
 		Assert-AreEqual 2 $list.Count
 		Assert-AreEqual $rnameParent $serverFromList.Name
 		Assert-AreEqual $rnameChild $databaseFromList.Name
-		Assert-AreEqual "Microsoft.Sql/servers" $serverFromList.ResourceType
-		Assert-AreEqual "Microsoft.Sql/servers/databases" $databaseFromList.ResourceType
+		Assert-AreEqual $resourceTypeParent $serverFromList.ResourceType
+		Assert-AreEqual $resourceTypeChild $databaseFromList.ResourceType
 	}
-	Finally
+	finally
 	{
 		# Cleanup
 		Remove-AzureResourceGroup -Name $rgname -Force
@@ -151,7 +156,7 @@ function Test-GetResourcesFromEmptyGroup
 	$rgname = Get-ResourceGroupName
 	$location = Get-ProviderLocation ResourceManagement
 
-	Try 
+	try 
 	{
 		# Test
 		New-AzureResourceGroup -Name $rgname -Location $location
@@ -162,7 +167,7 @@ function Test-GetResourcesFromEmptyGroup
 		Assert-AreEqual 0 $listViaPiping.Count
 		Assert-AreEqual 0 $listViaDirect.Count
 	}
-	Finally
+	finally
 	{
 		# Cleanup
 		Remove-AzureResourceGroup -Name $rgname -Force
@@ -205,17 +210,19 @@ function Test-GetResourceForNonExisingResource
 	$rgname = Get-ResourceGroupName
 	$rname = Get-ResourceGroupName
 	$location = Get-ProviderLocation ResourceManagement
+	$resourceTypeWeb = "Microsoft.Web/sites"
+	$resourceTypeSql = "Microsoft.Sql/servers"
 	$apiversion = "2014-04-01"
 
-	Try 
+	try 
 	{
 		# Test
 		New-AzureResourceGroup -Name $rgname -Location $location
-		Assert-Throws { Get-AzureResource -Name $rname -ResourceGroupName $rgname -ResourceType 'Microsoft.Web/sites' -ApiVersion $apiversion } "Provided resource does not exist."
-		Assert-Throws { Get-AzureResource -Name $rname -ResourceGroupName $rgname -ResourceType 'Microsoft.Sql/servers' -ApiVersion $apiversion } "Provided resource does not exist."
+		Assert-Throws { Get-AzureResource -Name $rname -ResourceGroupName $rgname -ResourceType $resourceTypeWeb -ApiVersion $apiversion } "Provided resource does not exist."
+		Assert-Throws { Get-AzureResource -Name $rname -ResourceGroupName $rgname -ResourceType $resourceTypeSql -ApiVersion $apiversion } "Provided resource does not exist."
 		Assert-Throws { Get-AzureResource -Name $rname -ResourceGroupName $rgname -ResourceType 'Microsoft.Fake/nonexisting' -ApiVersion $apiversion } "Provided resource does not exist."
 	}
-	Finally
+	finally
 	{
 		# Cleanup
 		Remove-AzureResourceGroup -Name $rgname -Force

@@ -22,7 +22,7 @@ function Test-CreatesNewSimpleResourceGroup
 	$rgname = Get-ResourceGroupName
 	$location = Get-ProviderLocation ResourceManagement
 
-	Try 
+	try 
 	{
 		# Test
 		$actual = New-AzureResourceGroup -Name $rgname -Location $location
@@ -31,7 +31,7 @@ function Test-CreatesNewSimpleResourceGroup
 		# Assert
 		Assert-AreEqual $expected.Name $actual.Name	
 	}
-	Finally
+	finally
 	{
 		# Cleanup
 		Remove-AzureResourceGroup -Name $rgname -Force
