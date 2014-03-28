@@ -64,6 +64,19 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
             }
         }
 
+        public static string SerializeXmlString<T>(T obj)
+        {
+            XmlSerializer xmlSerializer = new XmlSerializer(typeof(T));
+            StringBuilder sBuilder = new StringBuilder();
+
+            using (StringWriter writer = new StringWriter(sBuilder))
+            {
+                xmlSerializer.Serialize(writer, obj);
+            }
+
+            return sBuilder.ToString();
+        }
+
         public static T DeserializeXmlStream<T>(Stream stream)
         {
             XmlSerializer xmlSerializer = new XmlSerializer(typeof(T));
