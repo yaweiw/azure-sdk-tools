@@ -197,7 +197,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
     <Compile Include="MediaServicesTests\MediaServicesTests.cs" />
-    <Compile Include="ResourceManager\ResourceManagerTests.cs" />
+    <Compile Include="ResourceManager\DeploymentTests.cs" />
+    <Compile Include="ResourceManager\ResourceTests.cs" />
+    <Compile Include="ResourceManager\ResourceGroupTests.cs" />
     <Compile Include="ServiceBusTests\ServiceBusAuthorizationRuleTests.cs" />
     <Compile Include="StorageTests\StorageContainerTest.cs" />
     <Compile Include="StorageTests\StorageContextTest.cs" />
@@ -238,6 +240,10 @@
     </Resource>
     <EmbeddedResource Include="Resources\node-token.zip" />
     <Resource Include="Resources\ResourceManager\ResourceGroupTests.ps1">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <None Include="Resources\Build2014_Website_App.json" />
+    <Resource Include="Resources\ResourceManager\DeploymentTests.ps1">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
     <None Include="Resources\Websites\WebsiteJobTestCmd.zip" />
