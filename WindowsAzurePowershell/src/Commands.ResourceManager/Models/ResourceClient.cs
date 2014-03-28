@@ -270,32 +270,33 @@ namespace Microsoft.Azure.Commands.ResourceManager.Models
             }
         }
 
-        private string ParseErrorMessage(string statusMessage)
+        public static string ParseErrorMessage(string statusMessage)
         {
-            string errorMessage = null;
-
-            if (JsonUtilities.IsJson(statusMessage))
+            try
             {
-                var statusMessageJson = JObject.Parse(statusMessage);
-                if (statusMessageJson["message"] != null)
+                if (JsonUtilities.IsJson(statusMessage))
                 {
-                    return statusMessageJson["message"].ToString();
+                    var statusMessageJson = JObject.Parse(statusMessage);
+                    if (statusMessageJson["message"] != null)
+                    {
+                        return statusMessageJson["message"].ToString();
+                    }
+                    else if (statusMessageJson["error"] != null)
+                    {
+                        return statusMessageJson["error"]["message"].ToString();
+                    }
                 }
-                else if (statusMessageJson["error"] != null)
+                else if (XmlUtilities.IsXml(statusMessage))
                 {
-                    return statusMessageJson["error"]["message"].ToString();
+                    return XmlUtilities.DeserializeXmlString<ResourceManagementError>(statusMessage).Message;
                 }
-            }
-            else if (XmlUtilities.IsXml(statusMessage))
-            {
-                errorMessage = XmlUtilities.DeserializeXmlString<ResourceManagementError>(statusMessage).Message;
-            }
-            else
-            {
-                errorMessage = statusMessage;
-            }
 
-            return errorMessage;
+                return statusMessage;
+            }
+            catch
+            {
+                return statusMessage;
+            }
         }
 
         private Deployment WaitDeploymentStatus(

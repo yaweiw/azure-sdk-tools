@@ -2158,5 +2158,104 @@ namespace Microsoft.Azure.Commands.ResourceManager.Test.Models
             Assert.Equal(ResourcesClient.KnownLocations.Count, resourceTypes[0].Locations.Count);
             Assert.Equal("East Asia", resourceTypes[0].Locations[0]);
         }
+
+        [Fact]
+        public void ParseErrorMessageSupportsFlatErrors()
+        {
+            string jsonErrorMessageString = @"{
+                                    'code': 'BadRequest',
+                                    'message': 'The provided database ‘foo’ has an invalid username.',
+                                    'target': 'query',
+                                    'details': [
+                                      {
+                                       'code': '301',
+                                       'target': '$search',
+                                       'message': '$search query option not supported.',
+                                      }
+                                    ]
+                                }";
+
+            Assert.Equal("The provided database ‘foo’ has an invalid username.",
+                         ResourcesClient.ParseErrorMessage(jsonErrorMessageString));
+        }
+
+        [Fact]
+        public void ParseErrorMessageSupportsDeepErrors()
+        {
+            string jsonErrorMessageWithParent = @"{
+                                    'error' : {
+                                        'code': 'BadRequest',
+                                        'message': 'The provided database ‘foo’ has an invalid username.',
+                                        'target': 'query',
+                                        'details': [
+                                        {
+                                            'code': '301',
+                                            'target': '$search',
+                                            'message': '$search query option not supported.',
+                                        }
+                                        ]
+                                    }
+                                }";
+
+            Assert.Equal("The provided database ‘foo’ has an invalid username.",
+                         ResourcesClient.ParseErrorMessage(jsonErrorMessageWithParent));
+        }
+
+        [Fact]
+        public void ParseErrorMessageSupportsXmlErrors()
+        {
+            var errorObject = new ResourceManagementError { Message = "The provided database ‘foo’ has an invalid username." };
+            string xmlErrorMessage = XmlUtilities.SerializeXmlString(errorObject);
+
+            Assert.Equal("The provided database ‘foo’ has an invalid username.",
+                         ResourcesClient.ParseErrorMessage(xmlErrorMessage));
+        }
+
+        [Fact]
+        public void ParseErrorMessageSupportsEmptyErrors()
+        {
+            Assert.Null(ResourcesClient.ParseErrorMessage(null));
+            Assert.Equal(string.Empty, ResourcesClient.ParseErrorMessage(string.Empty));
+        }
+
+        [Fact]
+        public void ParseErrorMessageSupportsIncorrectlyFormattedJsonErrors()
+        {
+            string jsonErrorMessageWithBadParent = @"{
+                                    'some error' : {
+                                        'some message': 'The provided database ‘foo’ has an invalid username.',
+                                    }
+                                }";
+
+            string jsonErrorMessageWithGoodParent = @"{
+                                    'error' : {
+                                        'some message': 'The provided database ‘foo’ has an invalid username.',
+                                    }
+                                }";
+
+            string badJsonErrorMessage = @"{
+                                    'error' : {
+                                        'some message': 'The provided database ‘foo’ has an invalid username.'";
+
+            Assert.Equal(jsonErrorMessageWithBadParent, ResourcesClient.ParseErrorMessage(jsonErrorMessageWithBadParent));
+
+            Assert.Equal(jsonErrorMessageWithGoodParent, ResourcesClient.ParseErrorMessage(jsonErrorMessageWithGoodParent));
+
+            Assert.Equal(badJsonErrorMessage, ResourcesClient.ParseErrorMessage(badJsonErrorMessage));
+        }
+
+        [Fact]
+        public void ParseErrorMessageSupportsIncorrectlyFormattedXmlErrors()
+        {
+            string xmlErrorMessage = @"<error><some-message>The provided database ‘foo’ has an invalid username.</some-message></error>";
+            string xmlErrorMessageWithBadParent = @"<some-error><some-message>The provided database ‘foo’ has an invalid username.</some-message></some-error>";
+            string badXmlErrorMessage = @"<some-error><some-message>The provided database ‘foo’ has an invalid username.";
+
+            Assert.Equal(xmlErrorMessage, ResourcesClient.ParseErrorMessage(xmlErrorMessage));
+
+            Assert.Equal(xmlErrorMessageWithBadParent, ResourcesClient.ParseErrorMessage(xmlErrorMessageWithBadParent));
+
+            Assert.Equal(badXmlErrorMessage, ResourcesClient.ParseErrorMessage(badXmlErrorMessage));
+        }
     }
 }
