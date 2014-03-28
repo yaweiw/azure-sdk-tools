@@ -276,14 +276,15 @@ namespace Microsoft.Azure.Commands.ResourceManager.Models
             {
                 if (JsonUtilities.IsJson(statusMessage))
                 {
-                    var statusMessageJson = JObject.Parse(statusMessage);
-                    if (statusMessageJson["message"] != null)
+                    JObject statusMessageJson = JObject.Parse(statusMessage);
+                    if (statusMessageJson.GetValue("message", StringComparison.CurrentCultureIgnoreCase) != null)
                     {
-                        return statusMessageJson["message"].ToString();
+                        return statusMessageJson.GetValue("message", StringComparison.CurrentCultureIgnoreCase).ToString();
                     }
-                    else if (statusMessageJson["error"] != null)
+                    else if (statusMessageJson.GetValue("error", StringComparison.CurrentCultureIgnoreCase) != null)
                     {
-                        return statusMessageJson["error"]["message"].ToString();
+                        JObject errorToken = statusMessageJson.GetValue("error", StringComparison.CurrentCultureIgnoreCase) as JObject;
+                        return errorToken.GetValue("message", StringComparison.CurrentCultureIgnoreCase).ToString();
                     }
                 }
                 else if (XmlUtilities.IsXml(statusMessage))
