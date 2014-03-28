@@ -64,6 +64,8 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.Common
         public const string AADTenant = ConnectionStringFields.AADTenant;
         public const string AADTenantDefault = "common";
 
+        public const string StorageAccountKey = "AZURE_STORAGE_ACCOUNT";
+
         /// <summary>
         /// A raw token to be used for authentication with the give subscription ID
         /// </summary>
@@ -71,7 +73,9 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.Common
 
         public virtual TestEnvironment GetTestEnvironment()
         {
-            return this.GetTestEnvironmentFromContext();
+            var env = this.GetTestEnvironmentFromContext();
+            env.StorageAccount = Environment.GetEnvironmentVariable(StorageAccountKey);
+            return env;
         }
 
         protected abstract TestEnvironment GetTestEnvironmentFromContext();
@@ -125,6 +129,8 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.Common
                 {
                     orgIdEnvironment.ActiveDirectoryEndpoint = new Uri(authEndpoint);
                 }
+
+                orgIdEnvironment.SubscriptionId = subscription;
             }
 
             return orgIdEnvironment;
