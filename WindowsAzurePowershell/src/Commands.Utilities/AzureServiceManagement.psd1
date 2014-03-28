@@ -12,7 +12,7 @@
 ModuleToProcess = '.\Microsoft.WindowsAzure.Commands.dll'
 
 # Version number of this module.
-ModuleVersion = '0.7.4'
+ModuleVersion = '0.8.0'
 
 # ID used to uniquely identify this module
 GUID = 'D48CF693-4125-4D2D-8790-1514F44CE325'
@@ -54,7 +54,7 @@ RequiredModules = @()
 RequiredAssemblies = @()
 
 # Script files (.ps1) that are run in the caller's environment prior to importing this module
-ScriptsToProcess = @('.\ServiceManagementStartup.ps1')
+ScriptsToProcess = @()
 
 # Type files (.ps1xml) to be loaded when importing this module
 TypesToProcess = @(

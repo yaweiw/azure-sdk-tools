@@ -113,7 +113,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService
         {
             if (string.IsNullOrEmpty(scaffoldingFolderDirectory))
             {
-                scaffoldingFolderPath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+                scaffoldingFolderPath = FileUtilities.GetAssemblyDirectory();
             }
             else
             {

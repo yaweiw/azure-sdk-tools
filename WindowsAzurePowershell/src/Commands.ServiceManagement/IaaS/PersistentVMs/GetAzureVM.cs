@@ -190,16 +190,6 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
                 }
             };
 
-            if (vmRole.DataVirtualHardDisks != null)
-            {
-                vmRole.DataVirtualHardDisks.ForEach(
-                    d => vmContext.VM.DataVirtualHardDisks.Add(Mapper.Map<DataVirtualHardDisk>(d)));
-            }
-            else
-            {
-                vmContext.VM.DataVirtualHardDisks = null;
-            }
-
             if (deployment != null)
             {
                 vmContext.DNSName = deployment.Uri.AbsoluteUri;

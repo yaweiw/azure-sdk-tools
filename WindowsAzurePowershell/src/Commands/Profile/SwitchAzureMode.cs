@@ -52,7 +52,7 @@ namespace Microsoft.WindowsAzure.Commands.Profile
 
         public SwitchAzureMode()
         {
-            string rootInstallationPath = Directory.GetParent(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location)).FullName;
+            string rootInstallationPath = Directory.GetParent(FileUtilities.GetAssemblyDirectory()).FullName;
             serviceManagementModulePath = Path.Combine(rootInstallationPath, ServiceManagementModuleName);
             ResourceManagerModulePath = Path.Combine(rootInstallationPath, ResourceManagerModuleName);
             profileModulePath = Path.Combine(serviceManagementModulePath, ProfileModuleName);
@@ -80,6 +80,7 @@ namespace Microsoft.WindowsAzure.Commands.Profile
                 {
                     ImportAzureModule(ResourceManagerModuleName, ResourceManagerModulePath);
                     ImportAzureModule(ProfileModuleName, profileModulePath);
+                    this.RemoveAzureServiceManagementAliases();
                 }
             }
             else if (ResourceManagerModuleLoaded && Name == AzureModule.AzureServiceManagement)
