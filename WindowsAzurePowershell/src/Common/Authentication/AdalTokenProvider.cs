@@ -110,23 +110,42 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common.Authentication
 
         private void Renew(AdalAccessToken token)
         {
+            AuthenticationResult result = null;
+            Exception ex = null;
+
             if (IsExpired(token))
             {
-                var context = CreateContext(token.Configuration);
-                try
+                var thread = new Thread(() =>
                 {
-                    var authResult = context.AcquireTokenByRefreshToken(GetRefreshToken(token),
-                        token.Configuration.ClientId,
-                        token.Configuration.ResourceClientUri);
-                    if (authResult == null)
+                    var context = CreateContext(token.Configuration);
+                    try
                     {
-                        throw new Exception(Resources.ExpiredRefreshToken);
+                        result = context.AcquireTokenByRefreshToken(GetRefreshToken(token),
+                            token.Configuration.ClientId,
+                            token.Configuration.ResourceClientUri);
                     }
-                    token.AuthResult = authResult;
-                }
-                catch (Exception ex)
+                    catch (Exception threadEx)
+                    {
+                        ex = threadEx;
+                    }
+                });
+                thread.SetApartmentState(ApartmentState.STA);
+                thread.Name = "AcquireTokenThread";
+                thread.Start();
+                thread.Join();
+
+                if (ex != null)
                 {
                     throw new AadAuthenticationCantRenewException(Resources.ExpiredRefreshToken, ex);
+                }
+
+                if (result == null)
+                {
+                    throw new Exception(Resources.ExpiredRefreshToken);
+                }
+                else
+                {
+                    token.AuthResult = result;
                 }
             }
         }
