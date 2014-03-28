@@ -89,9 +89,10 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.Common
             foreach (var subscription in WindowsAzureProfile.Instance.Subscriptions)
             {
                 subscription.TokenProvider = WindowsAzureProfile.Instance.TokenProvider;
-                if (subscription.ActiveDirectoryUserId == userName)
+                if (subscription.SubscriptionId == csmEnvironment.SubscriptionId)
                 {
                     subscription.IsDefault = true;
+                    subscription.CurrentStorageAccountName = csmEnvironment.StorageAccount;
                 }
                 else
                 {

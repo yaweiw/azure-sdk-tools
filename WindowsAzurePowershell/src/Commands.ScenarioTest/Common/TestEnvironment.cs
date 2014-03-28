@@ -60,6 +60,18 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.Common
             set;
         }
 
+        public string StorageAccount
+        {
+            get;
+            set;
+        }
+
+        public string SubscriptionId
+        {
+            get;
+            set;
+        }
+
 
         public bool UsesCustomUri()
         {
