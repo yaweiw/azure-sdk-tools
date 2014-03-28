@@ -156,9 +156,12 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
                 powershell.AddScript(contents);
                 Collection<T> result = powershell.Invoke<T>();
 
-                powershell.Streams.Error.ForEach(e => cmdlet.WriteError(e));
-                powershell.Streams.Verbose.ForEach(r => cmdlet.WriteVerbose(r.Message));
-                powershell.Streams.Warning.ForEach(r => cmdlet.WriteWarning(r.Message));
+                if (cmdlet.SessionState != null)
+                {
+                    powershell.Streams.Error.ForEach(e => cmdlet.WriteError(e));
+                    powershell.Streams.Verbose.ForEach(r => cmdlet.WriteVerbose(r.Message));
+                    powershell.Streams.Warning.ForEach(r => cmdlet.WriteWarning(r.Message));
+                }
 
                 if (result != null && result.Count > 0)
                 {
