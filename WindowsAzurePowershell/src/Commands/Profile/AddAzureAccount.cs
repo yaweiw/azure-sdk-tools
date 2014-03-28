@@ -24,7 +24,7 @@ namespace Microsoft.WindowsAzure.Commands.Profile
     /// Cmdlet to log into an environment and download the subscriptions
     /// </summary>
     [Cmdlet(VerbsCommon.Add, "AzureAccount")]
-    public class AddAzureAccount : SubscriptionCmdletBase
+    public class AddAzureAccount : SubscriptionCmdletBase, IModuleAssemblyInitializer
     {
         [Parameter(Mandatory = false, HelpMessage = "Environment containing the account to log into")]
         public string Environment { get; set; }
@@ -57,6 +57,11 @@ namespace Microsoft.WindowsAzure.Commands.Profile
                 throw new Exception(string.Format(Resources.EnvironmentNotFound, Environment));
             }
             return result;
+        }
+
+        public void OnImport()
+        {
+            this.ExecuteScriptFile(FileUtilities.GetContentFilePath("ServiceManagementStartup.ps1"));
         }
     }
 }

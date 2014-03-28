@@ -36,7 +36,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
 
     public static class GeneralUtilities
     {
-        private static Assembly _assembly = Assembly.GetExecutingAssembly();
+        private static Assembly assembly = Assembly.GetExecutingAssembly();
 
         private static List<string> AuthorizationHeaderNames = new List<string>() { "Authorization" };
 
@@ -64,7 +64,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
 
         public static byte[] GetResourceContents(string resourceName)
         {
-            Stream stream = _assembly.GetManifestResourceStream(resourceName);
+            Stream stream = assembly.GetManifestResourceStream(resourceName);
             byte[] contents = new byte[stream.Length];
             stream.Read(contents, (int)stream.Position, (int)stream.Length);
             return contents;
@@ -83,7 +83,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
 
         public static string[] GetResourceNames(string resourcesFullFolderName)
         {
-            return _assembly.GetManifestResourceNames().Where<string>(item => item.StartsWith(resourcesFullFolderName)).ToArray<string>();
+            return assembly.GetManifestResourceNames().Where<string>(item => item.StartsWith(resourcesFullFolderName)).ToArray<string>();
         }
 
         public static TResult InvokeMethod<T, TResult>(string methodName, object instance, params object[] arguments)
