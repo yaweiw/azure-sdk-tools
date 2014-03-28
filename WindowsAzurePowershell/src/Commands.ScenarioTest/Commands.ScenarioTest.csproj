@@ -195,7 +195,8 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
     <Compile Include="MediaServicesTests\MediaServicesTests.cs" />
-    <Compile Include="ResourceManager\ResourceManagerTests.cs" />
+    <Compile Include="ResourceManager\ResourceTests.cs" />
+    <Compile Include="ResourceManager\ResourceGroupTests.cs" />
     <Compile Include="ServiceBusTests\ServiceBusAuthorizationRuleTests.cs" />
     <Compile Include="StorageTests\StorageContainerTest.cs" />
     <Compile Include="StorageTests\StorageContextTest.cs" />
