@@ -766,9 +766,6 @@
     <Content Include="Microsoft.WindowsAzure.Commands.Store.format.ps1xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="welcome.txt">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
     <Content Include="Microsoft.WindowsAzure.Commands.Scheduler.format.ps1xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -947,6 +944,9 @@
       <SubType>Designer</SubType>
     </None>
     <None Include="Service References\MarketplaceServiceReference\service.edmx" />
+    <Content Include="ShortcutStartup.ps1">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Service References\" />
