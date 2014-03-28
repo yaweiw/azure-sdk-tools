@@ -19,14 +19,13 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.ResourceManagerTests
     using Microsoft.VisualStudio.TestTools.UnitTesting;
 
     [TestClass]
-    public class ResourceManagerTests : WindowsAzurePowerShellTokenTest
+    public class ResourceTests : WindowsAzurePowerShellTokenTest
     {
         private string currentDirectory;
 
-        public ResourceManagerTests()
+        public ResourceTests()
             : base("ResourceManager\\Common.ps1",
-                   "ResourceManager\\ResourceTests.ps1",
-                   "ResourceManager\\ResourceGroupTests.ps1")
+                   "ResourceManager\\ResourceTests.ps1")
         {
             
         }
@@ -43,30 +42,6 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.ResourceManagerTests
         {
             base.TestCleanup();
             Directory.SetCurrentDirectory(currentDirectory);
-        }
-
-        [TestMethod]
-        [TestCategory(Category.All)]
-        [TestCategory(Category.ResourceManager)]
-        public void TestCreatesNewSimpleResourceGroup()
-        {
-            RunPowerShellTest("Test-CreatesNewSimpleResourceGroup");
-        }
-
-        [TestMethod]
-        [TestCategory(Category.All)]
-        [TestCategory(Category.ResourceManager)]
-        public void TestCreatesAndRemoveResourceGroupViaPiping()
-        {
-            RunPowerShellTest("Test-CreatesAndRemoveResourceGroupViaPiping");
-        }
-
-        [TestMethod]
-        [TestCategory(Category.All)]
-        [TestCategory(Category.ResourceManager)]
-        public void TestGetNonExistingResourceGroup()
-        {
-            RunPowerShellTest("Test-GetNonExistingResourceGroup");
         }
 
         [TestMethod]
