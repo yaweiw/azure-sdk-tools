@@ -372,6 +372,11 @@ namespace Microsoft.Azure.Commands.ResourceManager.Models
         /// <param name="name">The resource group name</param>
         public virtual void DeleteResourceGroup(string name)
         {
+            if (!ResourceManagementClient.ResourceGroups.CheckExistence(name).Exists)
+            {
+                throw new ArgumentException(Resources.ResourceGroupDoesntExists);
+            }
+
             ResourceManagementClient.ResourceGroups.Delete(name);
         }
 
