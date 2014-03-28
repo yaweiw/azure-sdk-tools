@@ -27,6 +27,7 @@ using System.IO;
 using System.Linq;
 using System.Runtime.Serialization.Formatters;
 using System.Threading;
+using Newtonsoft.Json.Linq;
 
 namespace Microsoft.Azure.Commands.ResourceManager.Models
 {
@@ -257,7 +258,7 @@ namespace Microsoft.Azure.Commands.ResourceManager.Models
                 }
                 else
                 {
-                    string errorMessage = GetDeploymentOperationErrorMessage(operation.Properties.StatusMessage);
+                    string errorMessage = ParseErrorMessage(operation.Properties.StatusMessage);
 
                     statusMessage = string.Format(failureStatusFormat,
                         operation.Properties.TargetResource.ResourceType,
@@ -269,13 +270,21 @@ namespace Microsoft.Azure.Commands.ResourceManager.Models
             }
         }
 
-        private string GetDeploymentOperationErrorMessage(string statusMessage)
+        private string ParseErrorMessage(string statusMessage)
         {
             string errorMessage = null;
 
             if (JsonUtilities.IsJson(statusMessage))
             {
-                errorMessage = JsonConvert.DeserializeObject<ResourceManagementError>(statusMessage).Message;
+                var statusMessageJson = JObject.Parse(statusMessage);
+                if (statusMessageJson["message"] != null)
+                {
+                    return statusMessageJson["message"].ToString();
+                }
+                else if (statusMessageJson["error"] != null)
+                {
+                    return statusMessageJson["error"]["message"].ToString();
+                }
             }
             else if (XmlUtilities.IsXml(statusMessage))
             {
