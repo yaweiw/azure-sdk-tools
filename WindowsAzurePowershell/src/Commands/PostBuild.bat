@@ -6,3 +6,4 @@ set outdir=%1
 md %outdir%AzureProfile
 xcopy %outdir%AzureProfile.psd1 %outdir%AzureProfile
 del %outdir%AzureProfile.psd1
+xcopy %outdir%Microsoft.WindowsAzure.Commands.dll-help.xml %outdir%AzureProfile
