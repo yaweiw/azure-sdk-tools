@@ -187,7 +187,7 @@
     <value>Resource type needs to be in the ResourceProvider/type format. For example Microsoft.Web/sites.</value>
   </data>
   <data name="StorageAccountNameNeedsToBeSpecified" xml:space="preserve">
-    <value>ecause the current subscription does not have a current storage account, you must specify the StorageAccountName parameter.</value>
+    <value>Because the current subscription does not have a current storage account, you must specify the StorageAccountName parameter.</value>
   </data>
   <data name="TemplateValid" xml:space="preserve">
     <value>Template is valid.</value>

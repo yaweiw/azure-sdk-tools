@@ -1868,6 +1868,12 @@ namespace Microsoft.Azure.Commands.ResourceManager.Test.Models
         [Fact]
         public void DeletesResourcesGroup()
         {
+            resourceGroupMock.Setup(f => f.CheckExistenceAsync(resourceGroupName, new CancellationToken()))
+                .Returns(Task.Factory.StartNew(() => new ResourceGroupExistsResult
+                {
+                    Exists = true
+                }));
+
             resourcesClient.DeleteResourceGroup(resourceGroupName);
 
             resourceGroupMock.Verify(f => f.DeleteAsync(resourceGroupName, It.IsAny<CancellationToken>()), Times.Once());
