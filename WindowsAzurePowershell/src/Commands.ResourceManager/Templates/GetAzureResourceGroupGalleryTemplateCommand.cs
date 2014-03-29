@@ -23,7 +23,7 @@ namespace Microsoft.Azure.Commands.ResourceManager.Templates
     /// <summary>
     /// Get one template or a list of templates from the gallery.
     /// </summary>
-    [Cmdlet(VerbsCommon.Get, "AzureResourceGroupGalleryTemplate", DefaultParameterSetName = BaseParameterSetName), OutputType(typeof(List<GalleryItem>))]
+    [Cmdlet(VerbsCommon.Get, "AzureResourceGroupGalleryTemplate", DefaultParameterSetName = BaseParameterSetName), OutputType(typeof(List<PSGalleryItem>))]
     public class GetAzureResourceGroupGalleryTemplateCommand : ResourceManagerBaseCmdlet
     {
         internal const string BaseParameterSetName = "List gallery templates";
@@ -33,11 +33,11 @@ namespace Microsoft.Azure.Commands.ResourceManager.Templates
         [ValidateNotNullOrEmpty]
         public string Identity { get; set; }
 
-        [Parameter(Position = 1, ParameterSetName = BaseParameterSetName, Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "Optional. Publisher of the template.")]
+        [Parameter(Position = 1, ParameterSetName = BaseParameterSetName, Mandatory = false, HelpMessage = "Optional. Publisher of the template.")]
         [ValidateNotNullOrEmpty]
         public string Publisher { get; set; }
 
-        [Parameter(Position = 2, ParameterSetName = BaseParameterSetName, Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "Optional. Category of the template.")]
+        [Parameter(Position = 2, ParameterSetName = BaseParameterSetName, Mandatory = false, HelpMessage = "Optional. Category of the template.")]
         [ValidateNotNullOrEmpty]
         public string Category { get; set; }
 
@@ -50,7 +50,7 @@ namespace Microsoft.Azure.Commands.ResourceManager.Templates
                 Publisher = Publisher
             };
 
-            List<GalleryItem> galleryItems = GalleryTemplatesClient.FilterGalleryTemplates(options);
+            List<PSGalleryItem> galleryItems = GalleryTemplatesClient.FilterGalleryTemplates(options);
 
             if (galleryItems != null)
             {

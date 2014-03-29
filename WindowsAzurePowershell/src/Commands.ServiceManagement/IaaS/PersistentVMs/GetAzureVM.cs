@@ -36,195 +36,166 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
     [Cmdlet(VerbsCommon.Get, "AzureVM"), OutputType(typeof(PersistentVMRoleContext))]
     public class GetAzureVMCommand : IaaSDeploymentManagementCmdletBase
     {
-        [Parameter(Position = 0, Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "Service name.")]
-        [ValidateNotNullOrEmpty]
-        public override string ServiceName
-        {
-            get;
-            set;
-        }
+        protected const string PersistentVMRoleStr = "PersistentVMRole";
 
-        [Parameter(Position = 1, ValueFromPipelineByPropertyName = true, HelpMessage = "The name of the virtual machine to get.")]
-        public virtual string Name
-        {
-            get;
-            set;
-        }
+        [Parameter(
+            Position = 0,
+            Mandatory = false,
+            ValueFromPipelineByPropertyName = true,
+            HelpMessage = "Service name.")]
+        [ValidateNotNullOrEmpty]
+        public override string ServiceName { get; set; }
+
+        [Parameter(
+            Position = 1,
+            ValueFromPipelineByPropertyName = true,
+            HelpMessage = "The name of the virtual machine to get.")]
+        public virtual string Name { get; set; }
 
         protected override void ExecuteCommand()
         {
             ServiceManagementProfile.Initialize(this);
-
             base.ExecuteCommand();
+
             if (!string.IsNullOrEmpty(ServiceName) && CurrentDeploymentNewSM == null)
             {
+                WriteWarning(string.Format(Resources.NoDeploymentFoundInService, ServiceName));
                 return;
             }
-
-            var roles = new List<PersistentVMRoleContext>();
-            IList<Management.Compute.Models.Role> vmRoles;
 
             if (string.IsNullOrEmpty(ServiceName))
             {
-                ListAllVMs();
-                return;
-            }
+                var roleContexts = new List<PersistentVMRoleListContext>();
+                var servicesList = this.ComputeClient.HostedServices.List();
+                foreach (var service in servicesList.HostedServices)
+                {
+                    try
+                    {
+                        var deployment = this.ComputeClient.Deployments.GetBySlot(
+                            service.ServiceName,
+                            DeploymentSlot.Production);
 
-            if (string.IsNullOrEmpty(Name))
-            {
-                vmRoles = CurrentDeploymentNewSM.Roles;
+                        foreach (var vm in deployment.Roles)
+                        {
+                            if (string.Equals(vm.RoleType, PersistentVMRoleStr, StringComparison.OrdinalIgnoreCase))
+                            {
+                                var roleInstance = deployment.RoleInstances.FirstOrDefault(
+                                    r => r.RoleName == vm.RoleName);
+
+                                if (roleInstance == null)
+                                {
+                                    WriteWarning(string.Format(Resources.RoleInstanceCanNotBeFoundWithName, vm.RoleName));
+                                    roleInstance = new RoleInstance();
+                                }
+
+                                var vmContext = (PersistentVMRoleListContext)GetContext(
+                                    service.ServiceName,
+                                    vm,
+                                    roleInstance,
+                                    deployment) as PersistentVMRoleListContext;
+
+                                roleContexts.Add(vmContext);
+                            }
+                        }
+                    }
+                    catch (CloudException e)
+                    {
+                        if (e.Response.StatusCode != HttpStatusCode.NotFound)
+                        {
+                            throw;
+                        }
+                    }
+                }
+
+                WriteObject(roleContexts, true);
             }
             else
             {
-                vmRoles = new List<Management.Compute.Models.Role>(CurrentDeploymentNewSM.Roles.Where(r => r.RoleName.Equals(Name, StringComparison.InvariantCultureIgnoreCase)));
-            }
+                var roleContexts = new List<PersistentVMRoleContext>();
 
-            foreach (var role in vmRoles)
-            {
-                string lastVM = string.Empty;
+                var vmRoles = new List<Role>(CurrentDeploymentNewSM.Roles.Where(
+                    r => string.IsNullOrEmpty(Name) || r.RoleName.Equals(Name, StringComparison.InvariantCultureIgnoreCase)));
 
-                try
+                foreach (var vm in vmRoles)
                 {
-                    lastVM = role.RoleName;
-                    var vm = role;
-                    var roleInstance = CurrentDeploymentNewSM.RoleInstances.FirstOrDefault(r => r.RoleName == vm.RoleName);
-                    var vmContext = new PersistentVMRoleContext
+                    string lastVM = string.Empty;
+
+                    try
                     {
-                        ServiceName = ServiceName,
-                        Name = vm.RoleName,
-                        DeploymentName = CurrentDeploymentNewSM.Name,
-                        AvailabilitySetName = vm.AvailabilitySetName,
-                        Label = vm.Label,
-                        InstanceSize = vm.RoleSize.ToString(),
-                        InstanceStatus = roleInstance == null ? null : roleInstance.InstanceStatus,
-                        IpAddress = roleInstance == null ? null : roleInstance.IPAddress,
-                        InstanceStateDetails = roleInstance == null ? null : roleInstance.InstanceStateDetails,
-                        PowerState = roleInstance == null ? null : roleInstance.PowerState.ToString(),
-                        InstanceErrorCode = roleInstance == null ? null : roleInstance.InstanceErrorCode,
-                        InstanceName = roleInstance == null ? null : roleInstance.InstanceName,
-                        InstanceFaultDomain = roleInstance == null ? null : roleInstance.InstanceFaultDomain.HasValue ? roleInstance.InstanceFaultDomain.Value.ToString(CultureInfo.InvariantCulture) : null,
-                        InstanceUpgradeDomain = roleInstance == null ? null : roleInstance.InstanceUpgradeDomain.HasValue ? roleInstance.InstanceUpgradeDomain.Value.ToString(CultureInfo.InvariantCulture) : null,
-                        Status = roleInstance.InstanceStatus,
-                        GuestAgentStatus = Mapper.Map<PVM.GuestAgentStatus>(roleInstance.GuestAgentStatus),
-                        ResourceExtensionStatusList = Mapper.Map<List<PVM.ResourceExtensionStatus>>(roleInstance.ResourceExtensionStatusList),
-                        OperationDescription = CommandRuntime.ToString(),
-                        OperationId = GetDeploymentOperationNewSM.Id,
-                        OperationStatus = GetDeploymentOperationNewSM.Status.ToString(),
-                        VM = new PersistentVM
+                        lastVM = vm.RoleName;
+                        var roleInstance = CurrentDeploymentNewSM.RoleInstances.FirstOrDefault(
+                            r => r.RoleName == vm.RoleName);
+
+                        if (roleInstance == null)
                         {
-                            AvailabilitySetName = vm.AvailabilitySetName,
-                            ConfigurationSets = PersistentVMHelper.MapConfigurationSets(vm.ConfigurationSets),
-                            DataVirtualHardDisks = new Collection<DataVirtualHardDisk>(),
-                            Label = vm.Label,
-                            OSVirtualHardDisk = Mapper.Map(vm.OSVirtualHardDisk, new OSVirtualHardDisk()),
-                            RoleName = vm.RoleName,
-                            RoleSize = vm.RoleSize.ToString(),
-                            RoleType = vm.RoleType,
-                            DefaultWinRmCertificateThumbprint = vm.DefaultWinRmCertificateThumbprint,
-                            ProvisionGuestAgent = vm.ProvisionGuestAgent,
-                            ResourceExtensionReferences = Mapper.Map<PVM.ResourceExtensionReferenceList>(vm.ResourceExtensionReferences)
+                            WriteWarning(string.Format(Resources.RoleInstanceCanNotBeFoundWithName, vm.RoleName));
+                            roleInstance = new RoleInstance();
                         }
-                    };
 
-                    if (vm.DataVirtualHardDisks != null)
-                    {
-                        vm.DataVirtualHardDisks.ForEach(
-                            d => vmContext.VM.DataVirtualHardDisks.Add(Mapper.Map<DataVirtualHardDisk>(d)));
-                    }
-                    else
-                    {
-                        vmContext.VM.DataVirtualHardDisks = null;
-                    }
+                        var vmContext = GetContext(ServiceName, vm, roleInstance, CurrentDeploymentNewSM);
 
-                    if (CurrentDeploymentNewSM != null)
-                    {
-                        vmContext.DNSName = CurrentDeploymentNewSM.Uri.AbsoluteUri;
+                        roleContexts.Add(vmContext);
                     }
-
-                    roles.Add(vmContext);
+                    catch (Exception e)
+                    {
+                        throw new ApplicationException(string.Format(Resources.VMPropertiesCanNotBeRead, lastVM), e);
+                    }
                 }
-                catch (Exception e)
-                {
-                    throw new ApplicationException(string.Format(Resources.VMPropertiesCanNotBeRead, lastVM), e);
-                }
+
+                WriteObject(roleContexts, true);
             }
-
-            WriteObject(roles, true);
         }
 
-        private void ListAllVMs()
+        private PersistentVMRoleContext GetContext(
+            string serviceName,
+            Role vmRole,
+            RoleInstance roleInstance,
+            DeploymentGetResponse deployment)
         {
-            var roles = new List<PersistentVMRoleListContext>();
-            var servicesList = this.ComputeClient.HostedServices.List();
-            foreach (var service in servicesList.HostedServices)
+            var vmContext = new PersistentVMRoleListContext
             {
-                try
+                ServiceName = serviceName,
+                Name = vmRole.RoleName,
+                DeploymentName = deployment.Name,
+                AvailabilitySetName = vmRole.AvailabilitySetName,
+                Label = vmRole.Label,
+                InstanceSize = vmRole.RoleSize.ToString(),
+                InstanceStatus = roleInstance.InstanceStatus,
+                IpAddress = roleInstance.IPAddress,
+                InstanceStateDetails = roleInstance.InstanceStateDetails,
+                PowerState = roleInstance.PowerState.ToString(),
+                InstanceErrorCode = roleInstance.InstanceErrorCode,
+                InstanceName = roleInstance.InstanceName,
+                InstanceFaultDomain = roleInstance.InstanceFaultDomain.HasValue ? roleInstance.InstanceFaultDomain.Value.ToString(CultureInfo.InvariantCulture) : null,
+                InstanceUpgradeDomain = roleInstance.InstanceUpgradeDomain.HasValue ? roleInstance.InstanceUpgradeDomain.Value.ToString(CultureInfo.InvariantCulture) : null,
+                Status = roleInstance.InstanceStatus,
+                OperationDescription = CommandRuntime.ToString(),
+                OperationId = deployment.RequestId,
+                OperationStatus = deployment.StatusCode.ToString(),
+                GuestAgentStatus = Mapper.Map<PVM.GuestAgentStatus>(roleInstance.GuestAgentStatus),
+                ResourceExtensionStatusList = Mapper.Map<List<PVM.ResourceExtensionStatus>>(roleInstance.ResourceExtensionStatusList),
+                VM = new PersistentVM
                 {
-                    var deploymentGetResponse = this.ComputeClient.Deployments.GetBySlot(service.ServiceName, DeploymentSlot.Production);
-                    foreach (var vm in deploymentGetResponse.Roles)
-                    {
-                        if (vm.RoleType == "PersistentVMRole")
-                        {
-                            var roleInstance = deploymentGetResponse.RoleInstances.FirstOrDefault(r => r.RoleName == vm.RoleName);
-                            if (roleInstance != null)
-                            {
-                                var vmContext = new PersistentVMRoleListContext
-                                {
-                                    ServiceName = service.ServiceName,
-                                    Name = vm.RoleName,
-                                    DeploymentName = deploymentGetResponse.Name,
-                                    AvailabilitySetName = vm.AvailabilitySetName,
-                                    Label = vm.Label,
-                                    InstanceSize = vm.RoleSize.ToString(),
-                                    InstanceStatus = roleInstance.InstanceStatus,
-                                    IpAddress = roleInstance.IPAddress,
-                                    InstanceStateDetails = roleInstance.InstanceStateDetails,
-                                    PowerState = roleInstance.PowerState.ToString(),
-                                    InstanceErrorCode = roleInstance.InstanceErrorCode,
-                                    InstanceName = roleInstance.InstanceName,
-                                    InstanceFaultDomain = roleInstance.InstanceFaultDomain.HasValue ? roleInstance.InstanceFaultDomain.Value.ToString(CultureInfo.InvariantCulture) : null,
-                                    InstanceUpgradeDomain = roleInstance.InstanceUpgradeDomain.HasValue ? roleInstance.InstanceUpgradeDomain.Value.ToString(CultureInfo.InvariantCulture) : null,
-                                    Status = roleInstance.InstanceStatus,
-                                    OperationDescription = CommandRuntime.ToString(),
-                                    OperationId = deploymentGetResponse.RequestId,
-                                    OperationStatus = deploymentGetResponse.StatusCode.ToString(),
-                                    GuestAgentStatus = Mapper.Map<PVM.GuestAgentStatus>(roleInstance.GuestAgentStatus),
-                                    ResourceExtensionStatusList = Mapper.Map<List<PVM.ResourceExtensionStatus>>(roleInstance.ResourceExtensionStatusList),
-                                    VM = new PersistentVM
-                                    {
-                                        AvailabilitySetName = vm.AvailabilitySetName,
-                                        ConfigurationSets = PersistentVMHelper.MapConfigurationSets(vm.ConfigurationSets),
-                                        DataVirtualHardDisks = Mapper.Map(vm.DataVirtualHardDisks, new Collection<DataVirtualHardDisk>()),
-                                        Label = vm.Label,
-                                        OSVirtualHardDisk = Mapper.Map(vm.OSVirtualHardDisk, new OSVirtualHardDisk()),
-                                        RoleName = vm.RoleName,
-                                        RoleSize = vm.RoleSize.ToString(),
-                                        RoleType = vm.RoleType,
-                                        DefaultWinRmCertificateThumbprint = vm.DefaultWinRmCertificateThumbprint,
-                                        ProvisionGuestAgent = vm.ProvisionGuestAgent,
-                                        ResourceExtensionReferences = Mapper.Map<PVM.ResourceExtensionReferenceList>(vm.ResourceExtensionReferences)
-                                    }
-                                };
+                    AvailabilitySetName = vmRole.AvailabilitySetName,
+                    ConfigurationSets = PersistentVMHelper.MapConfigurationSets(vmRole.ConfigurationSets),
+                    DataVirtualHardDisks = Mapper.Map(vmRole.DataVirtualHardDisks, new Collection<DataVirtualHardDisk>()),
+                    Label = vmRole.Label,
+                    OSVirtualHardDisk = Mapper.Map(vmRole.OSVirtualHardDisk, new OSVirtualHardDisk()),
+                    RoleName = vmRole.RoleName,
+                    RoleSize = vmRole.RoleSize.ToString(),
+                    RoleType = vmRole.RoleType,
+                    DefaultWinRmCertificateThumbprint = vmRole.DefaultWinRmCertificateThumbprint,
+                    ProvisionGuestAgent = vmRole.ProvisionGuestAgent,
+                    ResourceExtensionReferences = Mapper.Map<PVM.ResourceExtensionReferenceList>(vmRole.ResourceExtensionReferences)
+                }
+            };
 
-                                roles.Add(vmContext);
-                            }
-                            else
-                            {
-                                WriteWarning(string.Format(Resources.RoleInstanceCanNotBeFoundWithName, vm.RoleName));
-                            }
-                        }
-                    }
-                }
-                catch (CloudException e)
-                {
-                    if (e.Response.StatusCode != HttpStatusCode.NotFound)
-                    {
-                        throw;
-                    }
-                }
+            if (deployment != null)
+            {
+                vmContext.DNSName = deployment.Uri.AbsoluteUri;
             }
 
-            WriteObject(roles, true);
+            return vmContext;
         }
     }
 }

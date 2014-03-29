@@ -25,7 +25,6 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.PersistentVMs
     using Common;
     using DiskRepository;
     using Helpers;
-    using Management.Compute;
     using Management.Compute.Models;
     using Properties;
     using Storage;
@@ -48,223 +47,111 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.PersistentVMs
         private bool _isOSImage;
 
         [Parameter(Mandatory = true, ParameterSetName = WindowsParamSet, HelpMessage = "Create a Windows VM")]
-        public SwitchParameter Windows
-        {
-            get;
-            set;
-        }
+        public SwitchParameter Windows { get; set; }
 
         [Parameter(Mandatory = true, ParameterSetName = LinuxParamSet, HelpMessage = "Create a Linux VM")]
-        public SwitchParameter Linux
-        {
-            get;
-            set;
-        }
+        public SwitchParameter Linux { get; set; }
 
         [Parameter(Mandatory = true, HelpMessage = "Service Name")]
         [ValidateNotNullOrEmpty]
-        override public string ServiceName
-        {
-            get;
-            set;
-        }
+        override public string ServiceName { get; set; }
 
         [Parameter(Mandatory = false, HelpMessage = "Virtual Machine Name")]
         [ValidateNotNullOrEmpty]
-        public string Name
-        {
-            get;
-            set;
-        }
+        public string Name { get; set; }
 
         [Parameter(Mandatory = true, HelpMessage = "Reference to a platform stock image or a user image from the image repository.")]
         [ValidateNotNullOrEmpty]
-        public string ImageName
-        {
-            get;
-            set;
-        }
+        public string ImageName { get; set; }
 
         [Parameter(Mandatory = false, HelpMessage = "Administrator password to use for the role.")]
         [ValidateNotNullOrEmpty]
-        public string Password
-        {
-            get;
-            set;
-        }
+        public string Password { get; set; }
 
         [Parameter(Mandatory = false, HelpMessage = "Use when creating the first virtual machine in a cloud service (or specify affinity group).  The data center region where the cloud service will be created.")]
         [ValidateNotNullOrEmpty]
-        public string Location
-        {
-            get;
-            set;
-        }
+        public string Location { get; set; }
 
         [Parameter(Mandatory = false, HelpMessage = "Use when creating the first virtual machine in a cloud service (or specify location). The name of an existing affinity group associated with this subscription.")]
         [ValidateNotNullOrEmpty]
-        public string AffinityGroup
-        {
-            get;
-            set;
-        }
+        public string AffinityGroup { get; set; }
 
         [Parameter(Mandatory = false, ParameterSetName = LinuxParamSet, HelpMessage = "User to Create")]
         [ValidateNotNullOrEmpty]
-        public string LinuxUser
-        {
-            get;
-            set;
-        }
+        public string LinuxUser { get; set; }
 
         [Parameter(Mandatory = false, ParameterSetName = WindowsParamSet, HelpMessage = "Specifies the Administrator to create.")]
         [ValidateNotNullOrEmpty]
-        public string AdminUsername
-        {
-            get;
-            set;
-        }
+        public string AdminUsername { get; set; }
 
         [Parameter(Mandatory = false, ParameterSetName = WindowsParamSet, HelpMessage = "Set of certificates to install in the VM.")]
         [ValidateNotNullOrEmpty]
-        public Model.PersistentVMModel.CertificateSettingList Certificates
-        {
-            get;
-            set;
-        }
+        public Model.PersistentVMModel.CertificateSettingList Certificates { get; set; }
 
         [Parameter(Mandatory = false, HelpMessage = "Waits for VM to boot")]
         [ValidateNotNullOrEmpty]
-        public SwitchParameter WaitForBoot
-        {
-            get;
-            set;
-        }
+        public SwitchParameter WaitForBoot { get; set; }
 
         [Parameter(Mandatory = false, ParameterSetName = WindowsParamSet, HelpMessage = "Disables WinRM on https")]
         [ValidateNotNullOrEmpty]
-        public SwitchParameter DisableWinRMHttps
-        {
-            get;
-            set;
-        }
+        public SwitchParameter DisableWinRMHttps { get; set; }
 
         [Parameter(Mandatory = false, ParameterSetName = WindowsParamSet, HelpMessage = "Enables WinRM over http")]
         [ValidateNotNullOrEmpty]
-        public SwitchParameter EnableWinRMHttp
-        {
-            get;
-            set;
-        }
+        public SwitchParameter EnableWinRMHttp { get; set; }
 
         [Parameter(Mandatory = false, ParameterSetName = WindowsParamSet, HelpMessage = "Certificate that will be associated with WinRM endpoint")]
         [ValidateNotNullOrEmpty]
-        public X509Certificate2 WinRMCertificate
-        {
-            get;
-            set;
-        }
+        public X509Certificate2 WinRMCertificate { get; set; }
 
         [Parameter(Mandatory = false, ParameterSetName = WindowsParamSet, HelpMessage = "X509Certificates that will be deployed")]
         [ValidateNotNullOrEmpty]
-        public X509Certificate2[] X509Certificates
-        {
-            get;
-            set;
-        }
+        public X509Certificate2[] X509Certificates { get; set; }
 
         [Parameter(Mandatory = false, ParameterSetName = WindowsParamSet, HelpMessage = "Prevents the private key from being uploaded")]
         [ValidateNotNullOrEmpty]
-        public SwitchParameter NoExportPrivateKey
-        {
-            get;
-            set;
-        }
+        public SwitchParameter NoExportPrivateKey { get; set; }
 
         [Parameter(Mandatory = false, ParameterSetName = WindowsParamSet, HelpMessage = "Prevents the WinRM endpoint from being added")]
         [ValidateNotNullOrEmpty]
-        public SwitchParameter NoWinRMEndpoint
-        {
-            get;
-            set;
-        }
+        public SwitchParameter NoWinRMEndpoint { get; set; }
 
         [Parameter(Mandatory = false, ParameterSetName = LinuxParamSet, HelpMessage = "SSH Public Key List")]
-        public Model.PersistentVMModel.LinuxProvisioningConfigurationSet.SSHPublicKeyList SSHPublicKeys
-        {
-            get;
-            set;
-        }
+        public Model.PersistentVMModel.LinuxProvisioningConfigurationSet.SSHPublicKeyList SSHPublicKeys { get; set; }
 
         [Parameter(Mandatory = false, ParameterSetName = LinuxParamSet, HelpMessage = "SSH Key Pairs")]
-        public Model.PersistentVMModel.LinuxProvisioningConfigurationSet.SSHKeyPairList SSHKeyPairs
-        {
-            get;
-            set;
-        }
+        public Model.PersistentVMModel.LinuxProvisioningConfigurationSet.SSHKeyPairList SSHKeyPairs { get; set; }
 
         [Parameter(HelpMessage = "Virtual network name.")]
-        public string VNetName
-        {
-            get;
-            set;
-        }
+        public string VNetName { get; set; }
 
         [Parameter(Mandatory = false, HelpMessage = "The list of subnet names.")]
         [AllowEmptyCollection]
         [AllowNull]
-        public string[] SubnetNames
-        {
-            get;
-            set;
-        }
+        public string[] SubnetNames { get; set; }
 
         [Parameter(HelpMessage = "DNS Settings for Deployment.")]
         [ValidateNotNullOrEmpty]
-        public Model.PersistentVMModel.DnsServer[] DnsSettings
-        {
-            get;
-            set;
-        }
+        public Model.PersistentVMModel.DnsServer[] DnsSettings { get; set; }
 
         [Parameter(HelpMessage = "Controls the platform caching behavior of the OS disk.")]
         [ValidateSet("ReadWrite", "ReadOnly", IgnoreCase = true)]
-        public String HostCaching
-        {
-            get;
-            set;
-        }
+        public String HostCaching { get; set; }
 
         [Parameter(HelpMessage = "The name of the availability set.")]
         [ValidateNotNullOrEmpty]
-        public string AvailabilitySetName
-        {
-            get;
-            set;
-        }
+        public string AvailabilitySetName { get; set; }
 
         [Parameter(ValueFromPipelineByPropertyName = true, HelpMessage = "Represents the size of the machine.")]
         [ValidateNotNullOrEmpty]
-        public string InstanceSize
-        {
-            get;
-            set;
-        }
+        public string InstanceSize { get; set; }
 
         [Parameter(HelpMessage = "Location of the where the VHD should be created. This link refers to a blob in a storage account. If not specified the VHD will be created in the current storage account in the vhds container.")]
         [ValidateNotNullOrEmpty]
-        public string MediaLocation
-        {
-            get;
-            set;
-        }
+        public string MediaLocation { get; set; }
 
         [Parameter(HelpMessage = "To disable IaaS provision guest agent.")]
-        public SwitchParameter DisableGuestAgent
-        {
-            get;
-            set;
-        }
+        public SwitchParameter DisableGuestAgent { get; set; }
 
         public void NewAzureVMProcess()
         {
@@ -615,8 +502,6 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.PersistentVMs
                     var errorMsg = string.Format(Resources.DuplicateNamesFoundInBothVMAndOSImages, this.ImageName);
                     WriteError(new ErrorRecord(new Exception(errorMsg), string.Empty, ErrorCategory.CloseError, null));
                 }
-
-                //return;
             }
 
             try
