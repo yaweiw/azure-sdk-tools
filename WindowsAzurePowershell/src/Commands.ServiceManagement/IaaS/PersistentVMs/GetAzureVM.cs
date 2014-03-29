@@ -88,11 +88,11 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
                                     roleInstance = new RoleInstance();
                                 }
 
-                                var vmContext = (PersistentVMRoleListContext)GetContext(
+                                var vmContext = GetContext<PersistentVMRoleListContext>(
                                     service.ServiceName,
                                     vm,
                                     roleInstance,
-                                    deployment) as PersistentVMRoleListContext;
+                                    deployment);
 
                                 roleContexts.Add(vmContext);
                             }
@@ -132,7 +132,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
                             roleInstance = new RoleInstance();
                         }
 
-                        var vmContext = GetContext(ServiceName, vm, roleInstance, CurrentDeploymentNewSM);
+                        var vmContext = GetContext<PersistentVMRoleContext>(ServiceName, vm, roleInstance, CurrentDeploymentNewSM);
 
                         roleContexts.Add(vmContext);
                     }
@@ -146,13 +146,14 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
             }
         }
 
-        private PersistentVMRoleContext GetContext(
+        private T GetContext<T>(
             string serviceName,
             Role vmRole,
             RoleInstance roleInstance,
             DeploymentGetResponse deployment)
+            where T : PersistentVMRoleContext, new()
         {
-            var vmContext = new PersistentVMRoleListContext
+            var vmContext = new T
             {
                 ServiceName = serviceName,
                 Name = vmRole.RoleName,
