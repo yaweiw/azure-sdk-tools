@@ -175,7 +175,7 @@
     <value>Provided resource does not exist.</value>
   </data>
   <data name="ResourceGroupAlreadyExists" xml:space="preserve">
-    <value>Provided resource group already exists. Are you sure you want to replace it?</value>
+    <value>Provided resource group already exists. Are you sure you want to update it?</value>
   </data>
   <data name="ResourceGroupDoesntExists" xml:space="preserve">
     <value>Provided resource group does not exist.</value>
