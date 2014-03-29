@@ -182,12 +182,12 @@
     <Compile Include="Common\ConnectionStringFields.cs" />
     <Compile Include="Common\Constants.cs" />
     <Compile Include="Common\WindowsAzurePowerShellCertificateTest.cs" />
-    <Compile Include="Common\CSMTestEnvironmentFactory.cs" />
+    <Compile Include="Common\ResourceManagerTestEnvironmentFactory.cs" />
     <Compile Include="Common\CustomPowerShell\CustomerPSHostUserInterface.cs" />
     <Compile Include="Common\CustomPowerShell\CustomHost.cs" />
     <Compile Include="Common\PowerShellExtensions.cs" />
     <Compile Include="Common\PowerShellTest.cs" />
-    <Compile Include="Common\RDFETestEnvironmentFactory.cs" />
+    <Compile Include="Common\ServiceManagementTestEnvironmentFactory.cs" />
     <Compile Include="Common\TestCredentialHelper.cs" />
     <Compile Include="Common\TestEnvironment.cs" />
     <Compile Include="Common\TestEnvironmentFactory.cs" />
@@ -233,10 +233,13 @@
     <Resource Include="Resources\ResourceManager\Common.ps1">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
-    <Resource Include="Resources\ResourceManager\ResourceManagerTests.ps1">
+    <Resource Include="Resources\ResourceManager\ResourceTests.ps1">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
     <EmbeddedResource Include="Resources\node-token.zip" />
+    <Resource Include="Resources\ResourceManager\ResourceGroupTests.ps1">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
     <None Include="Resources\Websites\WebsiteJobTestCmd.zip" />
     <Resource Include="Resources\Common.ps1">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>

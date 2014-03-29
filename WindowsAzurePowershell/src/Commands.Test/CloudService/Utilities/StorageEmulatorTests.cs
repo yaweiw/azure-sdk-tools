@@ -29,10 +29,10 @@ namespace Microsoft.WindowsAzure.Commands.Test.CloudService.Utilities
         public void Start_StorageEmulatorInstalled_UseCorrectCommand()
         {
             // Setup 
-            string testFolder = @"c:\foo-bar";
+            string testFolder = @"c:\sample-path";
             string expectedCommand = Path.Combine(testFolder, Resources.StorageEmulatorExe);
 
-            StorageEmulator emulator = new StorageEmulator(@"c:\foo-bar");
+            StorageEmulator emulator = new StorageEmulator(@"c:\sample-path");
             Mock<ProcessHelper> commandRunner = new Mock<ProcessHelper>();
             commandRunner.Setup(p=>p.StartAndWaitForProcess(expectedCommand, Resources.StartStorageEmulatorCommandArgument));
             emulator.CommandRunner = commandRunner.Object;
@@ -48,10 +48,10 @@ namespace Microsoft.WindowsAzure.Commands.Test.CloudService.Utilities
         public void Stop_StorageEmulatorInstalled_UseCorrectCommand()
         {
             // Setup 
-            string testFolder = @"c:\foo-bar";
+            string testFolder = @"c:\sample-path";
             string expectedCommand = Path.Combine(testFolder, Resources.StorageEmulatorExe);
 
-            StorageEmulator emulator = new StorageEmulator(@"c:\foo-bar");
+            StorageEmulator emulator = new StorageEmulator(@"c:\sample-path");
             Mock<ProcessHelper> commandRunner = new Mock<ProcessHelper>();
             commandRunner.Setup(p => p.StartAndWaitForProcess(expectedCommand, Resources.StopStorageEmulatorCommandArgument));
             emulator.CommandRunner = commandRunner.Object;

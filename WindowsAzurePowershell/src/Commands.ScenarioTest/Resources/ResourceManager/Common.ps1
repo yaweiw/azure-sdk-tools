@@ -23,9 +23,23 @@ function Get-ResourceGroupName
 
 <#
 .SYNOPSIS
-Gets the default resource group location
+Gets valid resource name
 #>
-function Get-ResourceGroupDefaultLocation
+function Get-ResourceName
 {
-	return "South Central US"
+	return getAssetName
+}
+
+<#
+.SYNOPSIS
+Gets the default location for a provider
+#>
+function Get-ProviderLocation($provider)
+{
+	$location = Get-AzureLocation | where {$_.Name -eq $provider}
+	if ($location -eq $null) {
+		"West US"
+	} else {
+		$location.Locations[0]
+	}
 }

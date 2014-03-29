@@ -32,7 +32,6 @@ namespace Microsoft.Azure.Commands.ResourceManager
         public string ResourceType { get; set; }
 
         [Parameter(Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "The name of the parent resource if needed. In the format of greatgranda/grandpa/dad.")]
-        [ValidateNotNullOrEmpty]
         public string ParentResource { get; set; }
     }
 }

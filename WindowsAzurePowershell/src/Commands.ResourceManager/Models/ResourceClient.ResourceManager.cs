@@ -156,11 +156,28 @@ namespace Microsoft.Azure.Commands.ResourceManager.Models
         {
             List<PSResource> resources = new List<PSResource>();
 
+            if (!string.IsNullOrEmpty(parameters.ResourceGroupName))
+            {
+                if (!ResourceManagementClient.ResourceGroups.CheckExistence(parameters.ResourceGroupName).Exists)
+                {
+                    throw new ArgumentException(Resources.ResourceGroupDoesntExists);
+                }
+            }
+
             if (!string.IsNullOrEmpty(parameters.Name))
             {
                 ResourceIdentity resourceIdentity = parameters.ToResourceIdentity();
 
-                ResourceGetResult getResult = ResourceManagementClient.Resources.Get(parameters.ResourceGroupName, resourceIdentity);
+                ResourceGetResult getResult;
+
+                try
+                {
+                    getResult = ResourceManagementClient.Resources.Get(parameters.ResourceGroupName, resourceIdentity);
+                }
+                catch (CloudException)
+                {
+                    throw new ArgumentException(Resources.ResourceDoesntExists);
+                }
 
                 resources.Add(getResult.Resource.ToPSResource(this));
             }
@@ -278,11 +295,11 @@ namespace Microsoft.Azure.Commands.ResourceManager.Models
                 WriteVerbose(Resources.TemplateValid);
             }
 
-            DeploymentOperationsCreateResult result = ResourceManagementClient.Deployments.CreateOrUpdate(parameters.ResourceGroupName, parameters.DeploymentName, deployment);
+            ResourceManagementClient.Deployments.CreateOrUpdate(parameters.ResourceGroupName, parameters.DeploymentName, deployment);
             WriteVerbose(string.Format("Create template deployment '{0}' using template {1}.", parameters.DeploymentName, deployment.TemplateLink.Uri));
-            ProvisionDeploymentStatus(parameters.ResourceGroupName, parameters.DeploymentName, deployment);
+            Deployment result = ProvisionDeploymentStatus(parameters.ResourceGroupName, parameters.DeploymentName, deployment);
 
-            return result.ToPSResourceGroupDeployment();
+            return result.ToPSResourceGroupDeployment(parameters.ResourceGroupName);
         }
 
         private string GenerateDeploymentName(CreatePSResourceGroupDeploymentParameters parameters)

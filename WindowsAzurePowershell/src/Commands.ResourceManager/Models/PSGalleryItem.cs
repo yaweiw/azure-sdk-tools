@@ -12,21 +12,31 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-using Microsoft.Azure.Management.Resources.Models;
+using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using Microsoft.Azure.Gallery;
 
 namespace Microsoft.Azure.Commands.ResourceManager.Models
 {
-    public class PSResourceGroup
+    public class PSGalleryItem : GalleryItem
     {
-        public string ResourceGroupName { get; set; }
-
-        public string Location { get; set; }
-
-        public List<PSResource> Resources { get; set; }
-
-        public string ResourcesTable { get; set; }
-
-        public string ProvisioningState { get; set; }
+        public string DefinitionTemplatesText
+        {
+            get
+            {
+                if (DefinitionTemplates != null &&
+                    DefinitionTemplates.DeploymentTemplateFileUrls != null &&
+                    DefinitionTemplates.DeploymentTemplateFileUrls.ContainsKey(DefinitionTemplates.DefaultDeploymentTemplateId))
+                {
+                    return DefinitionTemplates.DeploymentTemplateFileUrls[DefinitionTemplates.DefaultDeploymentTemplateId];
+                }
+                else
+                {
+                    return null;
+                }
+            }
+        }
     }
 }

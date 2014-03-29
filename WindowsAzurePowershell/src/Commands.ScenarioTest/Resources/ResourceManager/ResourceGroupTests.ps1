@@ -19,16 +19,21 @@ Tests creating new simple resource group.
 function Test-CreatesNewSimpleResourceGroup
 {
 	# Setup
-	$name = Get-ResourceGroupName
-	$location = Get-ResourceGroupDefaultLocation
+	$rgname = Get-ResourceGroupName
+	$location = Get-ProviderLocation ResourceManagement
 
-	# Test
-	$actual = New-AzureResourceGroup -Name $name -Location $location
-	$expected = Get-AzureResourceGroup -Name $name
+	try 
+	{
+		# Test
+		$actual = New-AzureResourceGroup -Name $rgname -Location $location
+		$expected = Get-AzureResourceGroup -Name $rgname
 
-	# Assert
-	Assert-AreEqual $expected.Name $actual.Name
-	
-	# Cleanup
-	Remove-AzureResourceGroup -Name $name -Force
+		# Assert
+		Assert-AreEqual $expected.Name $actual.Name	
+	}
+	finally
+	{
+		# Cleanup
+		Remove-AzureResourceGroup -Name $rgname -Force
+	}
 }
