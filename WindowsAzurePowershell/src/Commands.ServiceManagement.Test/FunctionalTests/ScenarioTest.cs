@@ -544,7 +544,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
             Assert.AreEqual(vmRoleCtxt.InstanceStatus, "StoppedVM", true);
 
             // Save-AzureVMImage
-            vmPowershellCmdlets.SaveAzureVMImage(serviceName, newAzureVMName, newAzureVMName);
+            vmPowershellCmdlets.SaveAzureVMImage(serviceName, newAzureVMName, newAzureVMName, "Generalized");
 
             // Verify VM image.
             var image = vmPowershellCmdlets.GetAzureVMImage(newAzureVMName)[0];
@@ -1369,12 +1369,16 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
                 vmPowershellCmdlets.NewAzureVM(serviceName, new[] { vm }, locationName, false);
                 var vmRoleContext = vmPowershellCmdlets.GetAzureVM(vmName, serviceName);
                 Utilities.PrintContext(vmRoleContext);
+                Assert.IsNotNull(vmRoleContext.VM.ProvisionGuestAgent,"ProvisionGuestAgent value cannot be null");
                 Assert.IsFalse(vmRoleContext.VM.ProvisionGuestAgent.Value);
+                Console.WriteLine("Guest Agent Status: {0}", vmRoleContext.VM.ProvisionGuestAgent.Value);
                 vmRoleContext.VM.ProvisionGuestAgent = true;
                 vmPowershellCmdlets.UpdateAzureVM(vmName, serviceName, vmRoleContext.VM);
                 vmRoleContext = vmPowershellCmdlets.GetAzureVM(vmName, serviceName);
                 Utilities.PrintContext(vmRoleContext);
+                Assert.IsNotNull(vmRoleContext.VM.ProvisionGuestAgent, "ProvisionGuestAgent value cannot be null");
                 Assert.IsTrue(vmRoleContext.VM.ProvisionGuestAgent.Value);
+                Console.WriteLine("Guest Agent Status: {0}", vmRoleContext.VM.ProvisionGuestAgent.Value);
                 pass = true;
             }
             catch (Exception e)

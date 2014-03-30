@@ -31,6 +31,10 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
         string diskLabel1 = "disk1";
         int diskSize1 = 30;
         int lunSlot1 = 0;
+        const string CONSTANT_Specialized = "Specialized";
+        const string CONSTANT_Generalized = "Generalized";
+        HostCaching cahcing = HostCaching.ReadWrite;
+        string vmImageName;
 
         [ClassInitialize]
         public static void ClassIntialize(TestContext context)
@@ -46,7 +50,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
         }
 
         #region TestCases
-        [TestMethod(), TestCategory("Scenario"), TestCategory("BVT"), TestProperty("Feature", "IaaS"), Priority(0), Owner("hylee"), Description("Test the cmdlets (New-AzureQuickVM,Get-AzureVMImage,New-AzureVM,New-AzureVMConfig,Add-AzureDataDisk,Stop-AzureVM,Save-AzureVMImage,Get-AzureVM,Get-AzureVMImage,i.	Remove-AzureVMImage)")]
+        [TestMethod(), TestCategory("Scenario"), TestProperty("Feature", "IaaS"), Priority(0), Owner("hylee"), Description("Test the cmdlets (New-AzureQuickVM,Get-AzureVMImage,New-AzureVM,New-AzureVMConfig,Add-AzureDataDisk,Stop-AzureVM,Save-AzureVMImage,Get-AzureVM,Get-AzureVMImage,i.	Remove-AzureVMImage)")]
         public  void CaptureSpecializedVMAndDeploy()
         {
             StartTest(MethodBase.GetCurrentMethod().Name, testStartTime);
@@ -65,12 +69,12 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
                 Console.WriteLine("--------------------------------Stopped vm :{0}--------------------------------", vmName);
                 //c.	Save the VM image
                 Console.WriteLine("--------------------------------Save the VM image--------------------------------");
-                string vmImageName = vmName + "Image";
-                vmPowershellCmdlets.SaveAzureVMImage(serviceName, vmName, vmImageName, vmImageName, "Specialized");
+                vmImageName = vmName + "Image";
+                vmPowershellCmdlets.SaveAzureVMImage(serviceName, vmName, vmImageName, vmImageName, CONSTANT_Specialized);
                 Console.WriteLine("--------------------------------Saved VM image with name {0}----------------------");
                 //d.	Verify the VM image by Get-AzureVMImage
                 Console.WriteLine("--------------------------------Verify the VM image--------------------------------");
-                VerifyVMImage(vmImageName);
+                VerifyVMImage(vmImageName, OS.Windows, vmImageName, CONSTANT_Specialized, cahcing, lunSlot1, diskSize1,1);
                 Console.WriteLine("--------------------------------Verified that the VM image is saved successfully--------------------------------");
                 //e.	Deploy a new IaaS VM with the save VM image
                 Console.WriteLine("--------------------------------Deploy a new IaaS VM with the saved VM image {0}--------------------------------",vmImageName);
@@ -107,10 +111,11 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
             finally
             {
                 CleanupService(serviceName1);
+                vmPowershellCmdlets.RemoveAzureVMImage(vmImageName);
             }
         }
 
-        [TestMethod(), TestCategory("Scenario"), TestCategory("BVT"), TestProperty("Feature", "IaaS"), Priority(0), Owner("hylee"), Description("Test the cmdlets (New-AzureQuickVM,Get-AzureVMImage,New-AzureVM,New-AzureVMConfig,Add-AzureDataDisk,Stop-AzureVM,Save-AzureVMImage,Get-AzureVM,Get-AzureVMImage,i.	Remove-AzureVMImage)")]
+        [TestMethod(), TestCategory("Scenario"),  TestProperty("Feature", "IaaS"), Priority(0), Owner("hylee"), Description("Test the cmdlets (New-AzureQuickVM,Get-AzureVMImage,New-AzureVM,New-AzureVMConfig,Add-AzureDataDisk,Stop-AzureVM,Save-AzureVMImage,Get-AzureVM,Get-AzureVMImage,i.	Remove-AzureVMImage)")]
         public void CaptureGeneralizedVMAndDeploy()
         {
             string serviceName1 = Utilities.GetUniqueShortName(serviceNamePrefix);
@@ -130,12 +135,12 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
                 Console.WriteLine("--------------------------------Stopped vm :{0}--------------------------------", vmName);
                 //d.	Save the VM image
                 Console.WriteLine("--------------------------------Save the VM image as Generalized image --------------------------------");
-                string vmImageName = vmName + "Image";
-                vmPowershellCmdlets.SaveAzureVMImage(serviceName, vmName, vmImageName, vmImageName, "Generalized");
+                vmImageName = vmName + "Image";
+                vmPowershellCmdlets.SaveAzureVMImage(serviceName, vmName, vmImageName, vmImageName, CONSTANT_Generalized);
                 Console.WriteLine("--------------------------------Saved VM image with name {0}----------------------");
                 //e.	Verify the VM image by Get-AzureVMImage
                 Console.WriteLine("--------------------------------Verify the VM image--------------------------------");
-                VerifyVMImage(vmImageName);
+                VerifyVMImage(vmImageName, OS.Windows, vmImageName, CONSTANT_Specialized, cahcing, lunSlot1, diskSize1,1);
                 Console.WriteLine("--------------------------------Verified that the VM image is saved successfully--------------------------------");
                 //f.	Deploy a new IaaS VM with the save VM image
                 Console.WriteLine("--------------------------------Deploy a new IaaS VM with the saved VM image {0}--------------------------------", vmImageName);
@@ -170,10 +175,11 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
             finally
             {
                 CleanupService(serviceName1);
+                vmPowershellCmdlets.RemoveAzureVMImage(vmImageName);
             }
         }
 
-        [TestMethod(), TestCategory("Scenario"), TestCategory("BVT"), TestProperty("Feature", "IaaS"), Priority(0), Owner("hylee"), Description("Test the cmdlets (New-AzureQuickVM,Get-AzureVMImage,New-AzureVM,New-AzureVMConfig,Add-AzureDataDisk,Stop-AzureVM,Save-AzureVMImage,Get-AzureVM,Get-AzureVMImage,i.	Remove-AzureVMImage)")]
+        [TestMethod(), TestCategory("Scenario"),  TestProperty("Feature", "IaaS"), Priority(0), Owner("hylee"), Description("Test the cmdlets (New-AzureQuickVM,Get-AzureVMImage,New-AzureVM,New-AzureVMConfig,Add-AzureDataDisk,Stop-AzureVM,Save-AzureVMImage,Get-AzureVM,Get-AzureVMImage,i.	Remove-AzureVMImage)")]
         public void CaptureSpecializedLinuxVMAndDeploy()
         {
             StartTest(MethodBase.GetCurrentMethod().Name, testStartTime);
@@ -193,12 +199,12 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
                 Console.WriteLine("--------------------------------Stopped vm :{0}--------------------------------", vmName);
                 //c.	Save the VM image
                 Console.WriteLine("--------------------------------Save the VM image--------------------------------");
-                string vmImageName = vmName + "Image";
-                vmPowershellCmdlets.SaveAzureVMImage(serviceName, vmName, vmImageName, vmImageName, "Specialized");
+                vmImageName = vmName + "Image";
+                vmPowershellCmdlets.SaveAzureVMImage(serviceName, vmName, vmImageName, vmImageName, CONSTANT_Specialized);
                 Console.WriteLine("--------------------------------Saved VM image with name {0}----------------------");
                 //d.	Verify the VM image by Get-AzureVMImage
                 Console.WriteLine("--------------------------------Verify the VM image--------------------------------");
-                VerifyVMImage(vmImageName);
+                VerifyVMImage(vmImageName, OS.Windows, vmImageName, CONSTANT_Specialized, cahcing, lunSlot1, diskSize1,1);
                 Console.WriteLine("--------------------------------Verified that the VM image is saved successfully--------------------------------");
                 //e.	Deploy a new IaaS VM with the save VM image
                 Console.WriteLine("--------------------------------Deploy a new IaaS VM with the saved VM image {0}--------------------------------", vmImageName);
@@ -235,10 +241,11 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
             finally
             {
                 CleanupService(serviceName1);
+                vmPowershellCmdlets.RemoveAzureVMImage(vmImageName);
             }
         }
 
-        [TestMethod(), TestCategory("Scenario"), TestCategory("BVT"), TestProperty("Feature", "IaaS"), Priority(0), Owner("hylee"), Description("Test the cmdlets (New-AzureQuickVM,Get-AzureVMImage,New-AzureVM,New-AzureVMConfig,Add-AzureDataDisk,Stop-AzureVM,Save-AzureVMImage,Get-AzureVM,Get-AzureVMImage,i.	Remove-AzureVMImage)")]
+        [TestMethod(), TestCategory("Scenario"),  TestProperty("Feature", "IaaS"), Priority(0), Owner("hylee"), Description("Test the cmdlets (New-AzureQuickVM,Get-AzureVMImage,New-AzureVM,New-AzureVMConfig,Add-AzureDataDisk,Stop-AzureVM,Save-AzureVMImage,Get-AzureVM,Get-AzureVMImage,i.	Remove-AzureVMImage)")]
         public void CaptureGeneralizedLinuxVMAndDeploy()
         {
             string serviceName1 = Utilities.GetUniqueShortName(serviceNamePrefix);
@@ -257,12 +264,12 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
                 Console.WriteLine("--------------------------------Stopped vm :{0}--------------------------------", vmName);
                 //c.	Save the VM image
                 Console.WriteLine("--------------------------------Save the VM image--------------------------------");
-                string vmImageName = vmName + "Image";
-                vmPowershellCmdlets.SaveAzureVMImage(serviceName, vmName, vmImageName, vmImageName, "Generalized");
+                vmImageName = vmName + "Image";
+                vmPowershellCmdlets.SaveAzureVMImage(serviceName, vmName, vmImageName, vmImageName, CONSTANT_Generalized);
                 Console.WriteLine("--------------------------------Saved VM image with name {0}----------------------");
                 //d.	Verify the VM image by Get-AzureVMImage
                 Console.WriteLine("--------------------------------Verify the VM image--------------------------------");
-                VerifyVMImage(vmImageName);
+                VerifyVMImage(vmImageName, OS.Windows, vmImageName, CONSTANT_Specialized, cahcing, lunSlot1, diskSize1,1);
                 Console.WriteLine("--------------------------------Verified that the VM image is saved successfully--------------------------------");
                 //e.	Deploy a new IaaS VM with the save VM image
                 Console.WriteLine("--------------------------------Deploy a new IaaS VM with the saved VM image {0}--------------------------------", vmImageName);
@@ -299,11 +306,12 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
             finally
             {
                 CleanupService(serviceName1);
+                vmPowershellCmdlets.RemoveAzureVMImage(vmImageName);
             }
         }
 
         [ExpectedException(typeof(Exception))]
-        [TestMethod(),Ignore(), TestCategory("Scenario"), TestCategory("BVT"), TestProperty("Feature", "IaaS"), Priority(0), Owner("hylee"), Description("Test the cmdlets (New-AzureQuickVM,Get-AzureVMImage,New-AzureVM,New-AzureVMConfig,Add-AzureDataDisk,Stop-AzureVM,Save-AzureVMImage,Get-AzureVM,Get-AzureVMImage,i.	Remove-AzureVMImage)")]
+        [TestMethod(),Ignore(), TestCategory("Scenario"), TestProperty("Feature", "IaaS"), Priority(0), Owner("hylee"), Description("Test the cmdlets (New-AzureQuickVM,Get-AzureVMImage,New-AzureVM,New-AzureVMConfig,Add-AzureDataDisk,Stop-AzureVM,Save-AzureVMImage,Get-AzureVM,Get-AzureVMImage,i.	Remove-AzureVMImage)")]
         public void AzureVMImageListRemoveTest()
         {
             StartTest(MethodBase.GetCurrentMethod().Name, testStartTime);
@@ -321,23 +329,23 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
                 var vm = CreateIaaSVMObjectWithDisk(vmName, InstanceSize.Small, newImageName, true, username, password);
                 vmPowershellCmdlets.NewAzureVM(serviceName, new[] { vm }, locationName);
                 //c.	Stop the VM
-                vmPowershellCmdlets.StopAzureVM(vm, serviceName,true);
+                vmPowershellCmdlets.StopAzureVM(vm, serviceName, true);
                 //d.	Try to save the OS image with an existing os image name. (should fail)
-                vmPowershellCmdlets.SaveAzureVMImage(serviceName, vmName, oldLabel, oldLabel, "Specialized");
+                vmPowershellCmdlets.SaveAzureVMImage(serviceName, vmName, oldLabel, oldLabel, CONSTANT_Specialized);
                 //e.	Save the OS image with a new image name.
-                vmPowershellCmdlets.SaveAzureVMImage(serviceName, vmName, newLabel, newLabel, "Specialized");
+                vmPowershellCmdlets.SaveAzureVMImage(serviceName, vmName, newLabel, newLabel, CONSTANT_Specialized);
                 //f.	Deploy a new IaaS VM
                 string vmName1 = Utilities.GetUniqueShortName(vmNamePrefix);
-                vm = CreateIaaSVMObjectWithDisk(vmName, InstanceSize.Small,newLabel,true,username,password);
+                vm = CreateIaaSVMObjectWithDisk(vmName, InstanceSize.Small, newLabel, true, username, password);
                 //g.	Stop the VM
-                vmPowershellCmdlets.StopAzureVM(vm, serviceName);
+                vmPowershellCmdlets.StopAzureVM(vm, serviceName,true);
                 //h.	Save the VM image with the existing os image name (should succeed)
-                string vmImageName = vmName1 + "Image";
-                vmPowershellCmdlets.SaveAzureVMImage(serviceName, vmName1, vmImageName, vmImageName, "Specialized");
+                vmImageName = vmName1 + "Image";
+                vmPowershellCmdlets.SaveAzureVMImage(serviceName, vmName1, vmImageName, vmImageName, CONSTANT_Specialized);
                 //i.	List VM Images
                 //i.	Get-AzureVMImage
                 var vmImages = vmPowershellCmdlets.GetAzureVMImage();
-                VerifyVMImage(vmImageName);
+                VerifyVMImage(vmImageName, OS.Windows, vmImageName, CONSTANT_Specialized, cahcing, lunSlot1, diskSize1, 1);
 
                 vmImages = vmPowershellCmdlets.GetAzureVMImage(oldLabel);
                 Assert.IsTrue(vmImages.Count == 1);
@@ -348,10 +356,14 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
                 Console.WriteLine(ex.ToString());
                 throw;
             }
+            finally
+            {
+                vmPowershellCmdlets.RemoveAzureVMImage(vmImageName);
+            }
         }
 
-        
-        [TestMethod(), TestCategory("Scenario"), TestCategory("BVT"), TestProperty("Feature", "IaaS"), Priority(1), Owner("hylee"), Description("Test the cmdlets (New-AzureQuickVM,Get-AzureVMImage,New-AzureVM,New-AzureVMConfig,Add-AzureDataDisk,Stop-AzureVM,Save-AzureVMImage,Get-AzureVM,Get-AzureVMImage,i.	Remove-AzureVMImage)")]
+        [ExpectedException(typeof(Exception))]
+        [TestMethod(), TestCategory("Scenario"),  TestProperty("Feature", "IaaS"), Priority(1), Owner("hylee"), Description("Test the cmdlets (New-AzureQuickVM,Get-AzureVMImage,New-AzureVM,New-AzureVMConfig,Add-AzureDataDisk,Stop-AzureVM,Save-AzureVMImage,Get-AzureVM,Get-AzureVMImage,i.	Remove-AzureVMImage)")]
         public void GetAzureVMImageNegativeTest()
         {
             try
@@ -368,7 +380,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
             }
         }
 
-        [TestMethod(),Ignore(), TestCategory("Scenario"), TestCategory("BVT"), TestProperty("Feature", "IaaS"), Priority(1), Owner("hylee"), Description("Test the cmdlets (New-AzureQuickVM,Get-AzureVMImage,New-AzureVM,New-AzureVMConfig,Add-AzureDataDisk,Stop-AzureVM,Save-AzureVMImage,Get-AzureVM,Get-AzureVMImage,i.	Remove-AzureVMImage)")]
+        [TestMethod(),Ignore(), TestCategory("Scenario"),  TestProperty("Feature", "IaaS"), Priority(1), Owner("hylee"), Description("Test the cmdlets (New-AzureQuickVM,Get-AzureVMImage,New-AzureVM,New-AzureVMConfig,Add-AzureDataDisk,Stop-AzureVM,Save-AzureVMImage,Get-AzureVM,Get-AzureVMImage,i.	Remove-AzureVMImage)")]
         public void RemoveAzureVMImageNegativeTest()
         {
             try
@@ -387,41 +399,45 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
         }
 
         [ExpectedException(typeof(Exception))]
-        [TestMethod(), TestCategory("Scenario"),TestCategory("BVT"), TestProperty("Feature", "IaaS"), Priority(1), Owner("hylee"), Description("Test the cmdlets (New-AzureQuickVM,Get-AzureVMImage,New-AzureVM,New-AzureVMConfig,Add-AzureDataDisk,Stop-AzureVM,Save-AzureVMImage,Get-AzureVM,Get-AzureVMImage,i.	Remove-AzureVMImage)")]
+        [TestMethod(), TestCategory("Scenario"),TestProperty("Feature", "IaaS"), Priority(1), Owner("hylee"), Description("Test the cmdlets (New-AzureQuickVM,Get-AzureVMImage,New-AzureVM,New-AzureVMConfig,Add-AzureDataDisk,Stop-AzureVM,Save-AzureVMImage,Get-AzureVM,Get-AzureVMImage,i.	Remove-AzureVMImage)")]
         public void SaveAzureVMImageNegativeTest()
         {
             try
             {
                 string vmName = Utilities.GetUniqueShortName(vmNamePrefix);
                 //                a.	Deploy a new IaaS VM
-                var vm = CreateIaaSVMObjectWithDisk(vmName, InstanceSize.Small,imageName, true, username, password);
+                var vm = CreateIaaSVMObjectWithDisk(vmName, InstanceSize.Small, imageName, true, username, password);
                 vmPowershellCmdlets.NewAzureVM(serviceName, new[] { vm }, locationName);
                 //b.	Stop the VM
-                vmPowershellCmdlets.StopAzureVM(vm,serviceName);
+                vmPowershellCmdlets.StopAzureVM(vm, serviceName,force:true);
                 //c.	Save the VM image
-                string vmImageName = vmName + "Image";
-                vmPowershellCmdlets.SaveAzureVMImage(serviceName, vmName, vmImageName, vmImageName, "Specialized");
+                vmImageName = vmName + "Image";
+                vmPowershellCmdlets.SaveAzureVMImage(serviceName, vmName, vmImageName, vmImageName, CONSTANT_Specialized);
                 //d.	Deploy another new IaaS VM
                 string vmName1 = Utilities.GetUniqueShortName(vmNamePrefix);
                 vm = CreateIaaSVMObjectWithDisk(vmName1, InstanceSize.Small, imageName, true, username, password);
                 vmPowershellCmdlets.NewAzureVM(serviceName, new[] { vm }, locationName);
                 //e.	Stop the VM
-                vmPowershellCmdlets.StopAzureVM(vm, serviceName);
+                vmPowershellCmdlets.StopAzureVM(vm, serviceName,force:true);
                 string testImageName = Utilities.GetUniqueShortName(vmNamePrefix);
                 //f.	Try to save the VM image with the existing name (must fail)
-                vmPowershellCmdlets.SaveAzureVMImage(serviceName, vmName1, vmImageName, vmImageName, "Specialized");
+                vmPowershellCmdlets.SaveAzureVMImage(serviceName, vmName1, vmImageName, vmImageName, CONSTANT_Specialized);
                 //g.	Try to save the VM image with the wrong vm name (must fail)
-                vmPowershellCmdlets.SaveAzureVMImage(serviceName, Utilities.GetUniqueShortName(vmNamePrefix), testImageName, testImageName, "Specialized");
+                vmPowershellCmdlets.SaveAzureVMImage(serviceName, Utilities.GetUniqueShortName(vmNamePrefix), testImageName, testImageName, CONSTANT_Specialized);
                 //h.	Try to save the VM image with the wrong service name (must fail)
-                vmPowershellCmdlets.SaveAzureVMImage(Utilities.GetUniqueShortName(vmNamePrefix),vmName1 , testImageName, testImageName, "Specialized");
+                vmPowershellCmdlets.SaveAzureVMImage(Utilities.GetUniqueShortName(vmNamePrefix), vmName1, testImageName, testImageName, CONSTANT_Specialized);
                 //i.	Try to save the VM image with the label longer than maximum length of string (must fail)
-                string LongImageName = Utilities.GetUniqueShortName(vmImageName)+Guid.NewGuid().ToString()+Guid.NewGuid().ToString();
-                vmPowershellCmdlets.SaveAzureVMImage(serviceName, vmName1, testImageName,LongImageName, "Specialized");
+                string LongImageName = Utilities.GetUniqueShortName(vmImageName) + Guid.NewGuid().ToString() + Guid.NewGuid().ToString();
+                vmPowershellCmdlets.SaveAzureVMImage(serviceName, vmName1, testImageName, LongImageName, CONSTANT_Specialized);
             }
             catch (Exception ex)
             {
                 Console.WriteLine(ex.ToString());
                 throw;
+            }
+            finally
+            {
+                vmPowershellCmdlets.RemoveAzureVMImage(vmImageName);
             }
         }
 
@@ -440,16 +456,36 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
         {
         }
         #region Helper Methods
-        public void VerifyVMImage(string vmImageName)
+        public void VerifyVMImage(string vmImageName, OS ImageFamily, string imageLabel, string osState, HostCaching hostCaching, int LUN, int LogicalDiskSizeInGB,int noOfDataDisks)
         {
-           var vmImages = vmPowershellCmdlets.GetAzureVMImage(vmImageName);
-           Assert.IsTrue(vmImages.Count >= 1);
+            var vmImages = vmPowershellCmdlets.GetAzureVMImageReturningVMImages(vmImageName);
+            Assert.IsTrue(vmImages.Count >= 1);
+            var vmImageInfo = vmImages[0];
+            //Verify ImageName
+            Assert.IsTrue(vmImageName.Equals(vmImageInfo.ImageName));
+            Assert.IsTrue(vmImageInfo.Label.Equals(imageLabel));
+            //Verify Category
+            Assert.IsTrue("User".Equals(vmImageInfo.Category,StringComparison.CurrentCultureIgnoreCase));
+            //Verify LogicalDiskSizeInGB, HostCaching
+            Assert.AreEqual(hostCaching.ToString(),vmImageInfo.OSDiskConfiguration.HostCaching,"Property HostCaching is not matching.");
+            Assert.AreEqual(hostCaching.ToString(), vmImageInfo.DataDiskConfigurations[0].HostCaching,"Data disk HostCaching iproperty is not matching.");
+            //Verify LogicalDiskSizeInGB,
+            Assert.AreEqual(LogicalDiskSizeInGB, vmImageInfo.DataDiskConfigurations[0].LogicalDiskSizeInGB);
+            //Verify OSstate
+            Assert.AreEqual(osState, vmImageInfo.OSDiskConfiguration.OSState,"OsState is not matching.");
+            //Verify OS
+            Assert.AreEqual(ImageFamily.ToString(), vmImageInfo.OSDiskConfiguration.OS,"Os Family is not matching.");
+            //Verify  LUN
+            Assert.AreEqual(LUN, vmImageInfo.DataDiskConfigurations[0].Lun);
+            //Verify the no of the data disks 
+            Assert.AreEqual(noOfDataDisks, vmImageInfo.DataDiskConfigurations.Count);
+            
         }
 
         public PersistentVM CreateIaaSVMObjectWithDisk(string vmName, InstanceSize size, string imageName, bool isWindows, string username, string password)
         {
             PersistentVM vm = Utilities.CreateIaaSVMObject(vmName, InstanceSize.Small, imageName, isWindows, username, password);
-            AddAzureDataDiskConfig azureDataDiskConfigInfo1 = new AddAzureDataDiskConfig(DiskCreateOption.CreateNew, diskSize1, diskLabel1, lunSlot1,HostCaching.ReadWrite.ToString());
+            AddAzureDataDiskConfig azureDataDiskConfigInfo1 = new AddAzureDataDiskConfig(DiskCreateOption.CreateNew, diskSize1, diskLabel1, lunSlot1,cahcing.ToString());
             azureDataDiskConfigInfo1.Vm = vm;
             return vmPowershellCmdlets.AddAzureDataDisk(azureDataDiskConfigInfo1);
         }
