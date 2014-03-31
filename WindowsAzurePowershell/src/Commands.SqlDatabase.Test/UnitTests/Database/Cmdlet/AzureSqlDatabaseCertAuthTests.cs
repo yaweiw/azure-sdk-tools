@@ -348,17 +348,17 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Test.UnitTests.Database.Cm
                 Assert.IsNotNull(databases[0], "Expecting a Database object.");
                 // Note: Because the object is piped, this is the final state of the 
                 // database object, after all the Set- cmdlet has run.
-                DatabaseTestHelper.ValidateDatabaseProperties(databases[0], "testdbcert3", "Web", 5, 5368709120L, "SQL_Latin1_General_CP1_CI_AS", "Shared", false);
+                DatabaseTestHelper.ValidateDatabaseProperties(databases[0], "testdbcert3", "Web", 5, 5368709120L, "SQL_Latin1_General_CP1_CI_AS", "Shared", false, new Guid("910b4fcb-8a29-4c3e-958f-f7ba794388b2"));
 
                 databases = new Database[] { newDatabaseResult2.Single().BaseObject as Database };
                 Assert.AreEqual(1, databases.Length, "Expecting one database");
                 Assert.IsNotNull(databases[0], "Expecting a Database object.");
-                DatabaseTestHelper.ValidateDatabaseProperties(databases[0], "testdbcert2", "Business", 10, 10737418240L, "Japanese_CI_AS", "Shared", false);
+                DatabaseTestHelper.ValidateDatabaseProperties(databases[0], "testdbcert2", "Business", 10, 10737418240L, "Japanese_CI_AS", "Shared", false, new Guid("910b4fcb-8a29-4c3e-958f-f7ba794388b2"));
 
                 databases = new Database[] { newDatabaseResult3.Single().BaseObject as Database };
                 Assert.AreEqual(1, databases.Length, "Expecting one database");
                 Assert.IsNotNull(databases[0], "Expecting a Database object.");
-                DatabaseTestHelper.ValidateDatabaseProperties(databases[0], "testdbcert4", "Web", 0, 104857600L, "SQL_Latin1_General_CP1_CI_AS", "Shared", false);
+                DatabaseTestHelper.ValidateDatabaseProperties(databases[0], "testdbcert4", "Web", 0, 104857600L, "SQL_Latin1_General_CP1_CI_AS", "Shared", false, new Guid("910b4fcb-8a29-4c3e-958f-f7ba794388b2"));
 
                 // Validate Get-AzureSqlDatabase                
                 databases = getDatabaseResult.Select(r => r.BaseObject as Database).ToArray();
@@ -367,41 +367,41 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Test.UnitTests.Database.Cm
                 Assert.IsNotNull(databases[1], "Expecting a Database object.");
                 Assert.IsNotNull(databases[2], "Expecting a Database object.");
                 Assert.IsNotNull(databases[3], "Expecting a Database object.");
-                DatabaseTestHelper.ValidateDatabaseProperties(databases[0], "master", "System", 5, 5368709120L, "SQL_Latin1_General_CP1_CI_AS", "System", true);
-                DatabaseTestHelper.ValidateDatabaseProperties(databases[1], "testdbcert1", "Web", 1, 1073741824L, "SQL_Latin1_General_CP1_CI_AS", "Shared", false);
-                DatabaseTestHelper.ValidateDatabaseProperties(databases[2], "testdbcert2", "Business", 10, 10737418240L, "Japanese_CI_AS", "Shared", false);
-                DatabaseTestHelper.ValidateDatabaseProperties(databases[3], "testdbcert4", "Web", 0, 104857600L, "SQL_Latin1_General_CP1_CI_AS", "Shared", false);
+                DatabaseTestHelper.ValidateDatabaseProperties(databases[0], "master", "System", 5, 5368709120L, "SQL_Latin1_General_CP1_CI_AS", "System", true, new Guid("26e021db-f1f9-4c98-84c6-92af8ef433d7"));
+                DatabaseTestHelper.ValidateDatabaseProperties(databases[1], "testdbcert1", "Web", 1, 1073741824L, "SQL_Latin1_General_CP1_CI_AS", "Shared", false, new Guid("910b4fcb-8a29-4c3e-958f-f7ba794388b2"));
+                DatabaseTestHelper.ValidateDatabaseProperties(databases[2], "testdbcert2", "Business", 10, 10737418240L, "Japanese_CI_AS", "Shared", false, new Guid("910b4fcb-8a29-4c3e-958f-f7ba794388b2"));
+                DatabaseTestHelper.ValidateDatabaseProperties(databases[3], "testdbcert4", "Web", 0, 104857600L, "SQL_Latin1_General_CP1_CI_AS", "Shared", false, new Guid("910b4fcb-8a29-4c3e-958f-f7ba794388b2"));
 
                 databases = new Database[] { getSingleDatabaseResult.Single().BaseObject as Database };
                 Assert.AreEqual(1, databases.Length, "Expecting one database");
                 Assert.IsNotNull(databases[0], "Expecting a Database object.");
-                DatabaseTestHelper.ValidateDatabaseProperties(databases[0], "testdbcert1", "Web", 1, 1073741824L, "SQL_Latin1_General_CP1_CI_AS", "Shared", false);
+                DatabaseTestHelper.ValidateDatabaseProperties(databases[0], "testdbcert1", "Web", 1, 1073741824L, "SQL_Latin1_General_CP1_CI_AS", "Shared", false, new Guid("910b4fcb-8a29-4c3e-958f-f7ba794388b2"));
 
                 databases = new Database[] { getSingleDatabaseResult2.Single().BaseObject as Database };
                 Assert.AreEqual(1, databases.Length, "Expecting one database");
                 Assert.IsNotNull(databases[0], "Expecting a Database object.");
-                DatabaseTestHelper.ValidateDatabaseProperties(databases[0], "testdbcert4", "Web", 0, 104857600L, "SQL_Latin1_General_CP1_CI_AS", "Shared", false);
+                DatabaseTestHelper.ValidateDatabaseProperties(databases[0], "testdbcert4", "Web", 0, 104857600L, "SQL_Latin1_General_CP1_CI_AS", "Shared", false, new Guid("910b4fcb-8a29-4c3e-958f-f7ba794388b2"));
 
                 // Validate Set-AzureSqlDatabase
                 databases = new Database[] { setDatabaseNameResult.Single().BaseObject as Database };
                 Assert.AreEqual(1, databases.Length, "Expecting one database");
                 Assert.IsNotNull(databases[0], "Expecting a Database object.");
-                DatabaseTestHelper.ValidateDatabaseProperties(databases[0], "testdbcert3", "Web", 1, 1073741824L, "SQL_Latin1_General_CP1_CI_AS", "Shared", false);
+                DatabaseTestHelper.ValidateDatabaseProperties(databases[0], "testdbcert3", "Web", 1, 1073741824L, "SQL_Latin1_General_CP1_CI_AS", "Shared", false, new Guid("910b4fcb-8a29-4c3e-958f-f7ba794388b2"));
 
                 databases = new Database[] { setDatabaseSizeResult.Single().BaseObject as Database };
                 Assert.AreEqual(1, databases.Length, "Expecting one database");
                 Assert.IsNotNull(databases[0], "Expecting a Database object.");
-                DatabaseTestHelper.ValidateDatabaseProperties(databases[0], "testdbcert3", "Web", 5, 5368709120L, "SQL_Latin1_General_CP1_CI_AS", "Shared", false);
+                DatabaseTestHelper.ValidateDatabaseProperties(databases[0], "testdbcert3", "Web", 5, 5368709120L, "SQL_Latin1_General_CP1_CI_AS", "Shared", false, new Guid("910b4fcb-8a29-4c3e-958f-f7ba794388b2"));
 
                 databases = new Database[] { setDatabaseSizeResult2.Single().BaseObject as Database };
                 Assert.AreEqual(1, databases.Length, "Expecting one database");
                 Assert.IsNotNull(databases[0], "Expecting a Database object.");
-                DatabaseTestHelper.ValidateDatabaseProperties(databases[0], "testdbcert4", "Web", 1, 1073741824L, "SQL_Latin1_General_CP1_CI_AS", "Shared", false);
+                DatabaseTestHelper.ValidateDatabaseProperties(databases[0], "testdbcert4", "Web", 1, 1073741824L, "SQL_Latin1_General_CP1_CI_AS", "Shared", false, new Guid("910b4fcb-8a29-4c3e-958f-f7ba794388b2"));
 
                 databases = new Database[] { setDatabaseSlo.Single().BaseObject as Database };
                 Assert.AreEqual(1, databases.Length, "Expecting one database");
                 Assert.IsNotNull(databases[0], "Expecting a Database object.");
-                DatabaseTestHelper.ValidateDatabaseProperties(databases[0], "testdbcert4", "Premium", 10, 10737418240L, "SQL_Latin1_General_CP1_CI_AS", "P2", false);
+                DatabaseTestHelper.ValidateDatabaseProperties(databases[0], "testdbcert4", "Premium", 10, 10737418240L, "SQL_Latin1_General_CP1_CI_AS", "P2", false, new Guid("910b4fcb-8a29-4c3e-958f-f7ba794388b2"));
 
                 // Validate New-AzureSqlDatabase for Premium Edition Database
                 VerifyCreatePremiumDb(newPremiumP1DatabaseResult, "testdbcertPremiumDBP1", (P1.Single().BaseObject as ServiceObjective).Id.ToString());
@@ -430,7 +430,7 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Test.UnitTests.Database.Cm
                 databases = new Database[] { removeDatabaseResult.Single().BaseObject as Database };
                 Assert.AreEqual(1, databases.Length, "Expecting no databases");
                 Assert.IsNotNull(databases[0], "Expecting a Database object.");
-                DatabaseTestHelper.ValidateDatabaseProperties(databases[0], "master", "System", 5, 5368709120L, "SQL_Latin1_General_CP1_CI_AS", "System", true);
+                DatabaseTestHelper.ValidateDatabaseProperties(databases[0], "master", "System", 5, 5368709120L, "SQL_Latin1_General_CP1_CI_AS", "System", true, new Guid("26e021db-f1f9-4c98-84c6-92af8ef433d7"));
             }
         }
 
@@ -609,27 +609,27 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Test.UnitTests.Database.Cm
                 Database[] databases = new Database[] { newDatabaseResult1.Single().BaseObject as Database };
                 Assert.AreEqual(1, databases.Length, "Expecting one database");
                 Assert.IsNotNull(databases[0], "Expecting a Database object.");
-                DatabaseTestHelper.ValidateDatabaseProperties(databases[0], "testdbeditions1", "Basic", 0, 104857600L, "SQL_Latin1_General_CP1_CI_AS", "Basic", false);
+                DatabaseTestHelper.ValidateDatabaseProperties(databases[0], "testdbeditions1", "Basic", 0, 104857600L, "SQL_Latin1_General_CP1_CI_AS", "Basic", false, new Guid("dd6d99bb-f193-4ec1-86f2-43d3bccbc49c"));
 
                 databases = new Database[] { newDatabaseResult2.Single().BaseObject as Database };
                 Assert.AreEqual(1, databases.Length, "Expecting one database");
                 Assert.IsNotNull(databases[0], "Expecting a Database object.");
-                DatabaseTestHelper.ValidateDatabaseProperties(databases[0], "testdbeditions2", null, -1, -1,  "SQL_Latin1_General_CP1_CI_AS", "S1", false);
+                DatabaseTestHelper.ValidateDatabaseProperties(databases[0], "testdbeditions2", null, -1, -1, "SQL_Latin1_General_CP1_CI_AS", "S1", false, new Guid("1b1ebd4d-d903-4baa-97f9-4ea675f5e928"));
 
                 databases = new Database[] { newDatabaseResult3.Single().BaseObject as Database };
                 Assert.AreEqual(1, databases.Length, "Expecting one database");
                 Assert.IsNotNull(databases[0], "Expecting a Database object.");
-                DatabaseTestHelper.ValidateDatabaseProperties(databases[0], "testdbeditions3", "Basic", 0, 104857600L, "SQL_Latin1_General_CP1_CI_AS", "Basic", false);
+                DatabaseTestHelper.ValidateDatabaseProperties(databases[0], "testdbeditions3", "Basic", 0, 104857600L, "SQL_Latin1_General_CP1_CI_AS", "Basic", false, new Guid("dd6d99bb-f193-4ec1-86f2-43d3bccbc49c"));
 
                 databases = new Database[] { newDatabaseResult4.Single().BaseObject as Database };
                 Assert.AreEqual(1, databases.Length, "Expecting one database");
                 Assert.IsNotNull(databases[0], "Expecting a Database object.");
-                DatabaseTestHelper.ValidateDatabaseProperties(databases[0], "testdbeditions4", null, -1, -1, "SQL_Latin1_General_CP1_CI_AS", "P1", false);
+                DatabaseTestHelper.ValidateDatabaseProperties(databases[0], "testdbeditions4", null, -1, -1, "SQL_Latin1_General_CP1_CI_AS", "P1", false, new Guid("7203483a-c4fb-4304-9e9f-17c71c904f5d"));
 
                 databases = new Database[] { newDatabaseResult5.Single().BaseObject as Database };
                 Assert.AreEqual(1, databases.Length, "Expecting one database");
                 Assert.IsNotNull(databases[0], "Expecting a Database object.");
-                DatabaseTestHelper.ValidateDatabaseProperties(databases[0], "testdbeditions5", null, -1, -1, "SQL_Latin1_General_CP1_CI_AS", "S2", false);
+                DatabaseTestHelper.ValidateDatabaseProperties(databases[0], "testdbeditions5", null, -1, -1, "SQL_Latin1_General_CP1_CI_AS", "S2", false, new Guid("455330e1-00cd-488b-b5fa-177c226f28b7"));
 
 
                 // Validate Get-AzureSqlDatabase                
@@ -641,12 +641,12 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Test.UnitTests.Database.Cm
                 Assert.IsNotNull(databases[3], "Expecting a Database object.");
                 Assert.IsNotNull(databases[4], "Expecting a Database object.");
                 Assert.IsNotNull(databases[5], "Expecting a Database object.");
-                DatabaseTestHelper.ValidateDatabaseProperties(databases[0], "master", "System", 5, 5368709120L, "SQL_Latin1_General_CP1_CI_AS", "System", true);
-                DatabaseTestHelper.ValidateDatabaseProperties(databases[1], "testdbeditions1", "Basic", 0, 104857600L, "SQL_Latin1_General_CP1_CI_AS", "Basic", false);
-                DatabaseTestHelper.ValidateDatabaseProperties(databases[2], "testdbeditions2", "Standard", 0, 524288000L, "SQL_Latin1_General_CP1_CI_AS", "S2", false);
-                DatabaseTestHelper.ValidateDatabaseProperties(databases[3], "testdbeditions3", "Standard", 1, 1073741824L, "SQL_Latin1_General_CP1_CI_AS", "S1", false);
-                DatabaseTestHelper.ValidateDatabaseProperties(databases[4], "testdbeditions4", "Premium", 10, 10737418240L, "SQL_Latin1_General_CP1_CI_AS", "P1", false);
-                DatabaseTestHelper.ValidateDatabaseProperties(databases[5], "testdbeditions5", "Standard", 2, 2147483648L, "SQL_Latin1_General_CP1_CI_AS", "S2", false);
+                DatabaseTestHelper.ValidateDatabaseProperties(databases[0], "master", "System", 5, 5368709120L, "SQL_Latin1_General_CP1_CI_AS", "System", true, new Guid("26e021db-f1f9-4c98-84c6-92af8ef433d7"));
+                DatabaseTestHelper.ValidateDatabaseProperties(databases[1], "testdbeditions1", "Basic", 0, 104857600L, "SQL_Latin1_General_CP1_CI_AS", "Basic", false, new Guid("dd6d99bb-f193-4ec1-86f2-43d3bccbc49c"));
+                DatabaseTestHelper.ValidateDatabaseProperties(databases[2], "testdbeditions2", "Standard", 0, 524288000L, "SQL_Latin1_General_CP1_CI_AS", "S2", false, new Guid("455330e1-00cd-488b-b5fa-177c226f28b7"));
+                DatabaseTestHelper.ValidateDatabaseProperties(databases[3], "testdbeditions3", "Standard", 1, 1073741824L, "SQL_Latin1_General_CP1_CI_AS", "S1", false, new Guid("1b1ebd4d-d903-4baa-97f9-4ea675f5e928"));
+                DatabaseTestHelper.ValidateDatabaseProperties(databases[4], "testdbeditions4", "Premium", 10, 10737418240L, "SQL_Latin1_General_CP1_CI_AS", "P1", false, new Guid("7203483a-c4fb-4304-9e9f-17c71c904f5d"));
+                DatabaseTestHelper.ValidateDatabaseProperties(databases[5], "testdbeditions5", "Standard", 2, 2147483648L, "SQL_Latin1_General_CP1_CI_AS", "S2", false, new Guid("455330e1-00cd-488b-b5fa-177c226f28b7"));
 
                 // Validate Get-AzureSqlDatabaseServiceObjective
                 var sos = serviceObjectives.Select(x => x.BaseObject as ServiceObjective).ToArray();
@@ -666,7 +666,7 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Test.UnitTests.Database.Cm
                 databases = new Database[] { removeDatabaseResult.Single().BaseObject as Database };
                 Assert.AreEqual(1, databases.Length, "Expecting no databases");
                 Assert.IsNotNull(databases[0], "Expecting a Database object.");
-                DatabaseTestHelper.ValidateDatabaseProperties(databases[0], "master", "System", 5, 5368709120L, "SQL_Latin1_General_CP1_CI_AS", "System", true);
+                DatabaseTestHelper.ValidateDatabaseProperties(databases[0], "master", "System", 5, 5368709120L, "SQL_Latin1_General_CP1_CI_AS", "System", true, new Guid("26e021db-f1f9-4c98-84c6-92af8ef433d7"));
             }
         }
 
@@ -791,8 +791,9 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Test.UnitTests.Database.Cm
              * We should active the following asserts once the defect is fixed.
              Assert.AreEqual("Premium", databases[0].Edition);
              Assert.AreEqual(10, databases[0].MaxSizeGB);
-             Assert.AreEqual(databases[0].AssignedServiceObjectiveId, serviceObjectiveId, string.Format("Expecting Database Edition:{0}, actual is:{1}", serviceObjectiveId, databases[0].AssignedServiceObjectiveId));
              */
+             Assert.AreEqual(databases[0].AssignedServiceObjectiveId, Guid.Parse(serviceObjectiveId), string.Format("Expecting Database Edition:{0}, actual is:{1}", serviceObjectiveId, databases[0].AssignedServiceObjectiveId));
+             
             Assert.AreEqual("SQL_Latin1_General_CP1_CI_AS", databases[0].CollationName);
             return databases;
         }

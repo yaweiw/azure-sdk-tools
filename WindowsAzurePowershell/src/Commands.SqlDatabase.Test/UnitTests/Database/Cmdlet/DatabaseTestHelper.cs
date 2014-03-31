@@ -164,7 +164,16 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Test.UnitTests.Database.Cm
         /// <param name="collation">The expected Collation of the database</param>
         /// <param name="sloName">The expected Service Objective name</param>
         /// <param name="isSystem">Whether or not the database is expected to be a system object.</param>
-        internal static void ValidateDatabaseProperties(Services.Server.Database database, string name, string edition, int maxSizeGb, long maxSizeBytes, string collation, string sloName, bool isSystem)
+        internal static void ValidateDatabaseProperties(
+            Services.Server.Database database, 
+            string name, 
+            string edition, 
+            int maxSizeGb, 
+            long maxSizeBytes, 
+            string collation, 
+            string sloName, 
+            bool isSystem, 
+            Guid? assignedServiceObjectiveId)
         {
             Assert.AreEqual(name, database.Name);
             Assert.AreEqual(edition, database.Edition);
@@ -173,6 +182,7 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Test.UnitTests.Database.Cm
             Assert.AreEqual(collation, database.CollationName);
             Assert.AreEqual(sloName, database.ServiceObjective.Name);
             Assert.AreEqual(isSystem, database.IsSystemObject);
+            Assert.AreEqual(assignedServiceObjectiveId, database.AssignedServiceObjectiveId);
         }
 
     }
