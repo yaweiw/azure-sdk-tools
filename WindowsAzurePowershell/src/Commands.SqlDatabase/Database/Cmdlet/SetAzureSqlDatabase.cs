@@ -132,7 +132,7 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Database.Cmdlet
         public int MaxSizeGB { get; set; }
 
         /// <summary>
-        /// Gets or sets the new maximum size for the database in GB.
+        /// Gets or sets the new maximum size for the database in bytes.
         /// </summary>
         [Parameter(Mandatory = false, HelpMessage = "The new maximum size for the database in Bytes." +
             "This is not to be used in conjunction with MaxSizeGB.")]
