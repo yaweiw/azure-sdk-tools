@@ -305,7 +305,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.PersistentVMs
                     VMImageName = VMTuples[i].Item3 ? persistentVMs[i].VMImageName : null
                 };
 
-                if (!VMTuples[i].Item3)
+                if (persistentVMs[i].DataVirtualHardDisks != null && persistentVMs[i].DataVirtualHardDisks.Any())
                 {
                     persistentVMs[i].DataVirtualHardDisks.ForEach(c => parameter.DataVirtualHardDisks.Add(c));
                 }
@@ -330,35 +330,37 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.PersistentVMs
         private Management.Compute.Models.Role CreatePersistentVMRole(Tuple<PersistentVM, bool, bool> tuple, CloudStorageAccount currentStorage)
         {
             PersistentVM persistentVM = tuple.Item1;
+            bool isVMImage = tuple.Item3;
 
-            if (!tuple.Item3)
+            var mediaLinkFactory = new MediaLinkFactory(currentStorage, this.ServiceName, persistentVM.RoleName);
+
+            if (!isVMImage)
             {
-                var mediaLinkFactory = new MediaLinkFactory(currentStorage, this.ServiceName, persistentVM.RoleName);
                 if (persistentVM.OSVirtualHardDisk.MediaLink == null && string.IsNullOrEmpty(persistentVM.OSVirtualHardDisk.DiskName))
                 {
                     persistentVM.OSVirtualHardDisk.MediaLink = mediaLinkFactory.Create();
                 }
+            }
 
-                foreach (var datadisk in persistentVM.DataVirtualHardDisks.Where(d => d.MediaLink == null && string.IsNullOrEmpty(d.DiskName)))
-                {
-                    datadisk.MediaLink = mediaLinkFactory.Create();
-                }
+            foreach (var datadisk in persistentVM.DataVirtualHardDisks.Where(d => d.MediaLink == null && string.IsNullOrEmpty(d.DiskName)))
+            {
+                datadisk.MediaLink = mediaLinkFactory.Create();
             }
 
             var result = new Management.Compute.Models.Role
             {
                 AvailabilitySetName = persistentVM.AvailabilitySetName,
-                OSVirtualHardDisk = tuple.Item3 ? null : Mapper.Map(persistentVM.OSVirtualHardDisk, new Management.Compute.Models.OSVirtualHardDisk()),
+                OSVirtualHardDisk = isVMImage ? null : Mapper.Map(persistentVM.OSVirtualHardDisk, new Management.Compute.Models.OSVirtualHardDisk()),
                 RoleName = persistentVM.RoleName,
                 RoleSize = persistentVM.RoleSize,
                 RoleType = persistentVM.RoleType,
                 Label = persistentVM.Label,
                 ProvisionGuestAgent = persistentVM.ProvisionGuestAgent,
                 ResourceExtensionReferences = persistentVM.ProvisionGuestAgent != null && persistentVM.ProvisionGuestAgent.Value ? Mapper.Map<List<ResourceExtensionReference>>(persistentVM.ResourceExtensionReferences) : null,
-                VMImageName = tuple.Item3 ? persistentVM.OSVirtualHardDisk.SourceImageName : null
+                VMImageName = isVMImage ? persistentVM.OSVirtualHardDisk.SourceImageName : null
             };
 
-            if (persistentVM.DataVirtualHardDisks != null && !tuple.Item3)
+            if (persistentVM.DataVirtualHardDisks != null && persistentVM.DataVirtualHardDisks.Any())
             {
                 persistentVM.DataVirtualHardDisks.ForEach(c =>
                 {
