@@ -786,7 +786,8 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Services.Server
                 response.Database.ServiceObjectiveAssignmentState,
                 response.Database.ServiceObjectiveAssignmentStateDescription,
                 response.Database.ServiceObjectiveAssignmentSuccessDate,
-                response.Database.ServiceObjectiveId);
+                response.Database.ServiceObjectiveId,
+                response.Database.AssignedServiceObjectiveId);
         }
 
         /// <summary>
@@ -813,7 +814,8 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Services.Server
                 db.ServiceObjectiveAssignmentState,
                 db.ServiceObjectiveAssignmentStateDescription,
                 db.ServiceObjectiveAssignmentSuccessDate,
-                db.ServiceObjectiveId)).ToArray();
+                db.ServiceObjectiveId,
+                db.AssignedServiceObjectiveId)).ToArray();
         }
 
         /// <summary>
@@ -831,7 +833,7 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Services.Server
                response.Database.Edition,
                response.Database.CollationName,
                response.Database.MaximumDatabaseSizeInGB,
-                response.Database.MaximumDatabaseSizeInBytes,
+               response.Database.MaximumDatabaseSizeInBytes,
                response.Database.IsFederationRoot,
                response.Database.IsSystemObject,
                response.Database.SizeMB,
@@ -840,7 +842,8 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Services.Server
                response.Database.ServiceObjectiveAssignmentState,
                response.Database.ServiceObjectiveAssignmentStateDescription,
                response.Database.ServiceObjectiveAssignmentSuccessDate,
-               response.Database.ServiceObjectiveId);
+               response.Database.ServiceObjectiveId,
+               response.Database.AssignedServiceObjectiveId);
         }
 
         /// <summary>
@@ -867,7 +870,8 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Services.Server
                 response.Database.ServiceObjectiveAssignmentState,
                 response.Database.ServiceObjectiveAssignmentStateDescription,
                 response.Database.ServiceObjectiveAssignmentSuccessDate,
-                response.Database.ServiceObjectiveId);
+                response.Database.ServiceObjectiveId,
+                response.Database.AssignedServiceObjectiveId);
         }
 
         /// <summary>
@@ -916,7 +920,8 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Services.Server
             string serviceObjectiveAssignmentState,
             string serviceObjectiveAssignmentStateDescription,
             string serviceObjectiveAssignmentSuccessDate,
-            string serviceObjectiveId)
+            string serviceObjectiveId,
+            string assignedServiceObjectiveId)
         {
             Database result = new Database()
             {
@@ -938,6 +943,14 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Services.Server
             }
 
             // Parse the service objective information
+            if(!string.IsNullOrEmpty(assignedServiceObjectiveId))
+            {
+                Guid guid = Guid.Empty;
+                if(Guid.TryParse(assignedServiceObjectiveId, out guid))
+                {
+                    result.AssignedServiceObjectiveId = guid;
+                }
+            }
             if (!string.IsNullOrEmpty(serviceObjectiveAssignmentErrorCode))
             {
                 result.ServiceObjectiveAssignmentErrorCode = int.Parse(serviceObjectiveAssignmentErrorCode);
