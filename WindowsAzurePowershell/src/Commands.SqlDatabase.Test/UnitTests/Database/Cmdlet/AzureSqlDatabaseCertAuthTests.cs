@@ -270,6 +270,7 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Test.UnitTests.Database.Cm
                 {
                     getOperationDbName = "testdbcertGetOperationDbName_" + Guid.NewGuid().ToString();
                 }
+
                 Collection<PSObject> newOperationDbResult = MockServerHelper.ExecuteWithMock(
                     testSession,
                     MockHttpServer.DefaultHttpsServerPrefixUri,
