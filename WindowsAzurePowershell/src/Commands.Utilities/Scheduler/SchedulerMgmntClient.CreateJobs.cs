@@ -367,26 +367,21 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Scheduler
         /// <returns></returns>
         private JobRecurrenceSchedule SetRecurrenceSchedule(JobRecurrenceSchedule jobRecurrenceSchedule)
         {
-            JobRecurrenceSchedule schedule = new JobRecurrenceSchedule();
             if (jobRecurrenceSchedule != null)
             {
+                JobRecurrenceSchedule schedule = new JobRecurrenceSchedule();
                 schedule.Days = jobRecurrenceSchedule.Days.Count == 0 ? null : jobRecurrenceSchedule.Days;
                 schedule.Hours = jobRecurrenceSchedule.Hours.Count == 0 ? null : jobRecurrenceSchedule.Hours;
                 schedule.Minutes = jobRecurrenceSchedule.Minutes.Count == 0 ? null : jobRecurrenceSchedule.Minutes;
                 schedule.MonthDays = jobRecurrenceSchedule.MonthDays.Count == 0 ? null : jobRecurrenceSchedule.MonthDays;
                 schedule.MonthlyOccurrences = jobRecurrenceSchedule.MonthlyOccurrences.Count == 0 ? null : jobRecurrenceSchedule.MonthlyOccurrences;
                 schedule.Months = jobRecurrenceSchedule.Months.Count == 0 ? null : jobRecurrenceSchedule.Months;
+                return schedule;
             }
             else
             {
-                schedule.Days = null;
-                schedule.Hours =  null;
-                schedule.Minutes = null;
-                schedule.MonthDays = null;
-                schedule.MonthlyOccurrences = null;
-                schedule.Months =  null;
+                return null;
             }
-            return schedule;
         }
 
         public PSJobDetail PatchStorageJob(PSCreateJobParams jobRequest, out string status)
