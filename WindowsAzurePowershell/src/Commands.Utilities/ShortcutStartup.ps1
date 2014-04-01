@@ -17,7 +17,7 @@ function Get-ScriptDirectory
     Split-Path $Invocation.MyCommand.Path
 }
 
-$modulePath = Join-Path (Get-ScriptDirectory) AzureServiceManagement.psd1
+$modulePath = Join-Path (Get-ScriptDirectory) Azure.psd1
 Import-Module $modulePath
 $VerbosePreference="Continue"
 $welcomeMessage = @"

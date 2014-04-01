@@ -29,14 +29,14 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
     /// primary error message.
     /// </summary>
     [Serializable]
-    public class AzureServiceManagementException : Exception
+    public class AzureException : Exception
     {
         /// <summary>
-        /// Initializes a new instance of the AzureServiceManagementException.
+        /// Initializes a new instance of the AzureException.
         /// </summary>
         /// <param name="message">Azure error message.</param>
         /// <param name="innerException">The original exception.</param>
-        private AzureServiceManagementException(string message, Exception innerException)
+        private AzureException(string message, Exception innerException)
             : base(message, innerException)
         {
         }
@@ -80,10 +80,10 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
                                 // error record
                                 string exceptionMessage = string.Format(
                                     Resources.
-                                        AzureServiceManagementException_WrapExistingError_DetailedErrorFormat,
+                                        AzureException_WrapExistingError_DetailedErrorFormat,
                                     formattedXml);
                                 errorRecord = new ErrorRecord(
-                                    new AzureServiceManagementException(exceptionMessage, exception),
+                                    new AzureException(exceptionMessage, exception),
                                     errorRecord.FullyQualifiedErrorId,
                                     errorRecord.CategoryInfo.Category,
                                     errorRecord.TargetObject);

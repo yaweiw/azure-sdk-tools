@@ -34,7 +34,7 @@ namespace Microsoft.WindowsAzure.Commands.Profile
     {
         private const string ProfileModuleName = "AzureProfile";
         
-        private const string ServiceManagementModuleName = "AzureServiceManagement";
+        private const string ServiceManagementModuleName = "Azure";
         
         private const string ResourceManagerModuleName = "AzureResourceManager";
 
@@ -74,13 +74,13 @@ namespace Microsoft.WindowsAzure.Commands.Profile
             else if (serviceManagementModuleLoaded && Name == AzureModule.AzureResourceManager)
             {
                 RemoveAzureModule(ServiceManagementModuleName, serviceManagementModulePath);
-                this.RemoveAzureServiceManagementAliases();
+                this.RemoveAzureAliases();
 
                 if (!ResourceManagerModuleLoaded)
                 {
                     ImportAzureModule(ResourceManagerModuleName, ResourceManagerModulePath);
                     ImportAzureModule(ProfileModuleName, profileModulePath);
-                    this.RemoveAzureServiceManagementAliases();
+                    this.RemoveAzureAliases();
                 }
             }
             else if (ResourceManagerModuleLoaded && Name == AzureModule.AzureServiceManagement)
