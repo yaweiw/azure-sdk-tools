@@ -115,11 +115,11 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Test.UnitTests.Database.Cm
 
                     Database database = database1.Single().BaseObject as Services.Server.Database;
                     Assert.IsTrue(database != null, "Expecting a Database object");
-                    DatabaseTestHelper.ValidateDatabaseProperties(database, "testdb1", "Web", 5, 5368709120L, "SQL_Latin1_General_CP1_CI_AS", "Shared", false, new Guid("910b4fcb-8a29-4c3e-958f-f7ba794388b2"));
+                    DatabaseTestHelper.ValidateDatabaseProperties(database, "testdb1", "Web", 5, 5368709120L, "SQL_Latin1_General_CP1_CI_AS", "Shared", false, DatabaseTestHelper.SharedSloGuid);
 
                     database = database2.Single().BaseObject as Services.Server.Database;
                     Assert.IsTrue(database != null, "Expecting a Database object");
-                    DatabaseTestHelper.ValidateDatabaseProperties(database, "testdb2", "Web", 0, 104857600L, "Japanese_CI_AS", "Shared", false, new Guid("910b4fcb-8a29-4c3e-958f-f7ba794388b2"));
+                    DatabaseTestHelper.ValidateDatabaseProperties(database, "testdb2", "Web", 0, 104857600L, "Japanese_CI_AS", "Shared", false, DatabaseTestHelper.SharedSloGuid);
                 }
             }
         }
@@ -191,7 +191,7 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Test.UnitTests.Database.Cm
 
                     Services.Server.Database databaseObj = database.Single().BaseObject as Services.Server.Database;
                     Assert.IsNotNull(databaseObj, "Expecting a Database object");
-                    DatabaseTestHelper.ValidateDatabaseProperties(databaseObj, "new_testdb1", "Web", 1, 1073741824L, "SQL_Latin1_General_CP1_CI_AS", "Shared", false, new Guid("910b4fcb-8a29-4c3e-958f-f7ba794388b2"));
+                    DatabaseTestHelper.ValidateDatabaseProperties(databaseObj, "new_testdb1", "Web", 1, 1073741824L, "SQL_Latin1_General_CP1_CI_AS", "Shared", false, DatabaseTestHelper.SharedSloGuid);
                 }
             }
         }
@@ -268,7 +268,7 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Test.UnitTests.Database.Cm
                     Assert.IsNotNull(databaseObj, "Expecting a Database object");
                     Assert.AreEqual("testdb2", databaseObj.Name, "Expected db name to be testdb2");
                     Assert.AreEqual((byte)0, databaseObj.ServiceObjectiveAssignmentState, "Expected assignment state to be pending");
-                    DatabaseTestHelper.ValidateDatabaseProperties(databaseObj, "testdb2", "Web", 5, 5368709120L, "Japanese_CI_AS", "Shared", false, new Guid("7203483a-c4fb-4304-9e9f-17c71c904f5d"));
+                    DatabaseTestHelper.ValidateDatabaseProperties(databaseObj, "testdb2", "Web", 5, 5368709120L, "Japanese_CI_AS", "Shared", false, DatabaseTestHelper.PremiumP1SloGuid);
                 }
             }
         }
@@ -331,7 +331,7 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Test.UnitTests.Database.Cm
                     Services.Server.Database premiumDBObj = premiumDB.Single().BaseObject as Services.Server.Database;
                     Assert.IsNotNull(premiumDBObj, "Expecting a Database object");
 
-                    DatabaseTestHelper.ValidateDatabaseProperties(premiumDBObj, "SetAzureSqlPremiumDatabaseTests_P1", "Business", 10, 10737418240L, "SQL_Latin1_General_CP1_CI_AS", "Shared", false, new Guid("7203483a-c4fb-4304-9e9f-17c71c904f5d"));
+                    DatabaseTestHelper.ValidateDatabaseProperties(premiumDBObj, "SetAzureSqlPremiumDatabaseTests_P1", "Business", 10, 10737418240L, "SQL_Latin1_General_CP1_CI_AS", "Shared", false, DatabaseTestHelper.PremiumP1SloGuid);
                 }
             }
         }

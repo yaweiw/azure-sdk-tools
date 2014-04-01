@@ -22,6 +22,47 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Test.UnitTests.Database.Cm
     public static class DatabaseTestHelper
     {
         /// <summary>
+        /// The unique GUID for identifying the Shared SLO.
+        /// </summary>
+        public static readonly Guid SharedSloGuid = new Guid("910b4fcb-8a29-4c3e-958f-f7ba794388b2");
+
+        /// <summary>
+        /// The unique GUID for identifying the System SLO.
+        /// </summary>
+        public static readonly Guid SystemSloGuid = new Guid("26e021db-f1f9-4c98-84c6-92af8ef433d7");
+
+        /// <summary>
+        /// The unique GUID for identifying the Basic SLO.
+        /// </summary>
+        public static readonly Guid BasicSloGuid = new Guid("dd6d99bb-f193-4ec1-86f2-43d3bccbc49c");
+
+        /// <summary>
+        /// The unique GUID for identifying the Standard S2 SLO.
+        /// </summary>
+        public static readonly Guid StandardS2SloGuid = new Guid("455330e1-00cd-488b-b5fa-177c226f28b7");
+
+        /// <summary>
+        /// The unique GUID for identifying the Standard S1 SLO.
+        /// </summary>
+        public static readonly Guid StandardS1SloGuid = new Guid("1b1ebd4d-d903-4baa-97f9-4ea675f5e928");
+
+        /// <summary>
+        /// The unique GUID for identifying the Premium P1 SLO.
+        /// </summary>
+        public static readonly Guid PremiumP1SloGuid = new Guid("7203483a-c4fb-4304-9e9f-17c71c904f5d");
+
+        /// <summary>
+        /// The unique GUID for identifying the Premium P2 SLO.
+        /// </summary>
+        public static readonly Guid PremiumP2SloGuid = new Guid("a7d1b92d-c987-4375-b54d-2b1d0e0f5bb0");
+
+        /// <summary>
+        /// The unique GUID for identifying the Premium P3 SLO.
+        /// </summary>
+        public static readonly Guid PremiumP3SloGuid = new Guid("a7c4c615-cfb1-464b-b252-925be0a19446");
+
+
+        /// <summary>
         /// Set the default mock session settings to modify request and responses.
         /// </summary>
         /// <param name="testSession"></param>

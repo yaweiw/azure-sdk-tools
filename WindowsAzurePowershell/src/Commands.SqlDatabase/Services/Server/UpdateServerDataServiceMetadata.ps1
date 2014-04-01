@@ -49,7 +49,6 @@ $metadataHash=[Microsoft.WindowsAzure.Commands.SqlDatabase.Services.Common.DataC
 Write-Host "Generating model class file at $clientModelClassFile"
 $Framework35Path=[System.IO.Path]::Combine($env:FrameworkDir, $env:Framework35Version)
 $DataSvcUtil=[System.IO.Path]::Combine($Framework35Path, "DataSvcUtil.exe")
-$DataSvcUtil = "C:\Windows\Microsoft.NET\Framework\v3.5\DataSvcUtil.exe"
 & $DataSvcUtil /in:"$metadataFile" /out:"$clientModelClassFile"
 if ($lastexitcode -eq 1)
 {

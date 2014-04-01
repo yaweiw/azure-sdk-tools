@@ -146,17 +146,6 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Database.Cmdlet
                 maxSizeBytes = this.MaxSizeBytes;
             }
 
-            if(maxSizeBytes != null && maxSizeGb != null)
-            {
-                this.WriteError(new ErrorRecord(
-                       new PSArgumentException(
-                           String.Format(Resources.InvalidParameterCombination, "MaxSizeGB", "MaxSizeBytes")),
-                       string.Empty,
-                       ErrorCategory.InvalidArgument,
-                       null));
-                return;
-            }
-
             switch (this.ParameterSetName)
             {
                 case ByConnectionContext:

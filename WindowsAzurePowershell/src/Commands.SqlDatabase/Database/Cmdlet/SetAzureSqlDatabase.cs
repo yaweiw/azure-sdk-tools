@@ -199,17 +199,6 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Database.Cmdlet
                 maxSizeBytes = this.MaxSizeBytes;
             }
 
-            if(maxSizeBytes != null && maxSizeGb != null)
-            {
-                this.WriteError(new ErrorRecord(
-                       new PSArgumentException(
-                           String.Format(Resources.InvalidParameterCombination, "MaxSizeGB", "MaxSizeBytes")),
-                       string.Empty,
-                       ErrorCategory.InvalidArgument,
-                       null));
-                return;
-            }
-
             // Determine the edition for the db
             DatabaseEdition? edition = null;
             if (this.MyInvocation.BoundParameters.ContainsKey("Edition"))
