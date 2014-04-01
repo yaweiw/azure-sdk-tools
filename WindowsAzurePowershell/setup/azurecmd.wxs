@@ -62,7 +62,7 @@
                      Name="PSMODULEPATH"
                      Permanent="no"
                      System="yes"
-                     Value="[PowerShellFolder]AzureServiceManagement" />
+                     Value="[PowerShellFolder]Azure" />
         <CreateFolder />
       </Component>
     </DirectoryRef>
@@ -73,7 +73,7 @@
                   Name="Windows Azure PowerShell"
                   Description="Windows PowerShell cmdlets"
                   Target="[SystemFolder]\WindowsPowerShell\v1.0\powershell.exe"
-                  Arguments="-NoExit -ExecutionPolicy AllSigned -File &quot;[PowerShellFolder]AzureServiceManagement\ShortcutStartup.ps1&quot;"/>
+                  Arguments="-NoExit -ExecutionPolicy AllSigned -File &quot;[PowerShellFolder]Azure\ShortcutStartup.ps1&quot;"/>
         <RemoveFolder Id="AzureSdkMenu" On="uninstall"/>
         <RegistryValue Root="HKCU" Key="SOFTWARE\Microsoft\Microsoft SDKs\WindowsAzure\$(var.version)" Name="installed" Type="integer" Value="1" KeyPath="yes"/>
       </Component>
