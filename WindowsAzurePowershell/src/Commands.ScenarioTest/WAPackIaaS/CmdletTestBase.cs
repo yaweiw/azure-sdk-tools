@@ -72,7 +72,7 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.WAPackIaaS.FunctionalTest
         private void InitializeWAPackConfiguration()
         {
             string directoryPath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
-            var path = Path.GetFullPath(Path.Combine(directoryPath, "..\\..\\..\\..\\..\\Package\\Debug\\AzureServiceManagement.psd1"));
+            var path = Path.GetFullPath(Path.Combine(directoryPath, "..\\..\\..\\..\\..\\Package\\Debug\\Azure.psd1"));
             this.PowerShell.Commands.Clear();
 
             this.PowerShell.AddCommand("Import-Module").AddArgument(path).InvokeAndAssertForNoErrors();
