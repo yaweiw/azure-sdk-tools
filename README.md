@@ -85,6 +85,13 @@ This repository contains a set of PowerShell cmdlets for developers and administ
 * ExpressRoute
   * Manage dedicated circuit
   * Manage BGP peering
+* Scheduler
+  * Manage job collections
+  * Manage HTTP and storage queue jobs
+* Resource Manager
+  * Manage resource groups and deployments
+  * Query and download gallery templates
+  * Manage individual resources
 
 For detail descriptions and examples of the cmdlets, type
 * ```help azure``` to get all the cmdlets.
@@ -210,6 +217,19 @@ Import-WAPackPublishSettingsFile "<file location>"
 
 # Use the cmdlets to manage your services/applications
 New-WAPackWebsite -Name mywebsite
+```
+# 2 Modes
+
+Starting from 0.8.0, we are adding a separate mode for Resource Manager. You can use the following cmdlet to switch between the
+
+* Service management: cmdlets using the Azure service management API
+* Resource manager: cmdlets using the Azure Resource Manager API
+
+They are not designed to work together.
+
+```powershell
+Switch-AzureMode AzureServiceManagement
+Switch-AzureMode AzureResourceManager
 ```
 
 # Find Your Way
