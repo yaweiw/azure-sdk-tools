@@ -1,21 +1,21 @@
 @echo off
 
 set output=..\..\Package\Release
-set serviceManagementResources=%output%\AzureServiceManagement\Resources
+set serviceManagementResources=%output%\Azure\Resources
 
 echo Removing Resources folder %serviceManagementResources%
 rmdir /S /Q %serviceManagementResources%
 
 echo Removing generated NuGet files from %output%
-rmdir /S /Q %output%\AzureServiceManagement\de
-rmdir /S /Q %output%\AzureServiceManagement\es
-rmdir /S /Q %output%\AzureServiceManagement\fr
-rmdir /S /Q %output%\AzureServiceManagement\it
-rmdir /S /Q %output%\AzureServiceManagement\ja
-rmdir /S /Q %output%\AzureServiceManagement\ko
-rmdir /S /Q %output%\AzureServiceManagement\ru
-rmdir /S /Q %output%\AzureServiceManagement\zh-Hans
-rmdir /S /Q %output%\AzureServiceManagement\zh-Hant
+rmdir /S /Q %output%\Azure\de
+rmdir /S /Q %output%\Azure\es
+rmdir /S /Q %output%\Azure\fr
+rmdir /S /Q %output%\Azure\it
+rmdir /S /Q %output%\Azure\ja
+rmdir /S /Q %output%\Azure\ko
+rmdir /S /Q %output%\Azure\ru
+rmdir /S /Q %output%\Azure\zh-Hans
+rmdir /S /Q %output%\Azure\zh-Hant
 rmdir /S /Q %output%\AzureResourceManager\de
 rmdir /S /Q %output%\AzureResourceManager\es
 rmdir /S /Q %output%\AzureResourceManager\fr
@@ -30,7 +30,7 @@ echo Delete XML help files for helper dlls from %output%
 :: The xml help files are not being deleted.
 
 echo Delete config files for dlls from %output%
-del %output%\AzureServiceManagement\*.dll.config
+del %output%\Azure\*.dll.config
 del %output%\AzureResourceManager\*.dll.config
 
 heat dir %output% -srd -gg -g1 -cg azurecmdfiles -sfrag -dr PowerShellFolder -var var.sourceDir -o azurecmdfiles.wxi
