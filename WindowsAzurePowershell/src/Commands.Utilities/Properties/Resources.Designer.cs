@@ -343,9 +343,9 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Properties {
         ///   Looks up a localized string similar to Azure service management error
         ///{0}.
         /// </summary>
-        public static string AzureServiceManagementException_WrapExistingError_DetailedErrorFormat {
+        public static string AzureException_WrapExistingError_DetailedErrorFormat {
             get {
-                return ResourceManager.GetString("AzureServiceManagementException_WrapExistingError_DetailedErrorFormat", resourceCulture);
+                return ResourceManager.GetString("AzureException_WrapExistingError_DetailedErrorFormat", resourceCulture);
             }
         }
         

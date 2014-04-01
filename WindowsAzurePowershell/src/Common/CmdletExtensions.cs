@@ -197,7 +197,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
             ExecuteScript<object>(cmdlet, contents);
         }
 
-        public static void RemoveAzureServiceManagementAliases(this PSCmdlet cmdlet)
+        public static void RemoveAzureAliases(this PSCmdlet cmdlet)
         {
             string contents = "Get-Alias | where { $_.Description -eq 'AzureAlias' } | foreach { Remove-Item alias:\\$($_.Name) }";
             ExecuteScript<object>(cmdlet, contents);
