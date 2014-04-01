@@ -475,7 +475,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
             Assert.IsTrue("User".Equals(vmImageInfo.Category,StringComparison.CurrentCultureIgnoreCase));
             //Verify LogicalDiskSizeInGB, HostCaching
             Assert.AreEqual(hostCaching.ToString(),vmImageInfo.OSDiskConfiguration.HostCaching,"Property HostCaching is not matching.");
-            //Assert.AreEqual(hostCaching.ToString(), vmImageInfo.DataDiskConfigurations[0].HostCaching,"Data disk HostCaching iproperty is not matching.");
+            Assert.AreEqual(hostCaching.ToString(), vmImageInfo.DataDiskConfigurations[0].HostCaching,"Data disk HostCaching iproperty is not matching.");
             //Verify LogicalDiskSizeInGB,
             Assert.AreEqual(LogicalDiskSizeInGB, vmImageInfo.DataDiskConfigurations[0].LogicalDiskSizeInGB);
             //Verify OSstate
@@ -550,7 +550,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
             //Verify Data Disk
             Console.WriteLine("VM Data Hard Disk properties:");
             Utilities.PrintContext(vm.DataVirtualHardDisks[0]);
-           // Assert.AreEqual(hostCaching.ToString(), vm.DataVirtualHardDisks[0].HostCaching, "Data disk Property HostCaching is not matching.");
+            Assert.AreEqual(hostCaching.ToString(), vm.DataVirtualHardDisks[0].HostCaching, "Data disk Property HostCaching is not matching.");
             Assert.AreEqual(LogicalDiskSizeInGB, vm.DataVirtualHardDisks[0].LogicalDiskSizeInGB,"Data disk size is not matching.");
             Assert.AreEqual(noOfDataDisks, vm.DataVirtualHardDisks.Count, "Data disks count is not matching.");
         }
