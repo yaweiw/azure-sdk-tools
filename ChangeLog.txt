@@ -32,6 +32,10 @@
     * Remove-AzureSchedulerJob
     * Get-AzureSchedulerJobHistory
 * Virtual Machine improvements
+  * Puppet extension
+    * Get-AzureVMPuppetExtension
+    * Set-AzureVMPuppetExtension
+    * Remove-AzureVMPuppetExtension
   * Custom script extension
     * Get-AzureVMCustomScriptExtension
     * Set-AzureVMCustomScriptExtension
