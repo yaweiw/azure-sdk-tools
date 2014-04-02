@@ -13,7 +13,7 @@
     <DeploymentItem filename="Commands.ServiceManagement.Test\vendor\VhdFiles\fixed_50_child02.vhd" />
     <DeploymentItem filename="Commands.ServiceManagement.Test\vendor\VhdFiles\fixed_50.vhd" />
     <DeploymentItem filename="Commands.Test.Utilities\Resources\" />
-    <DeploymentItem filename="..\..\Package\Debug\AzureServiceManagement" />
+    <DeploymentItem filename="..\..\Package\Debug\Azure" />
     <DeploymentItem filename="..\..\Package\Debug\AzureResourceManager\AzureResourceManager.psd1" />
     <DeploymentItem filename="..\..\Package\Debug\AzureResourceManager\Microsoft.Azure.Commands.ResourceManager.dll" />
     <DeploymentItem filename="..\..\Package\Debug\AzureResourceManager\Microsoft.Azure.Commands.ResourceManager.format.ps1xml" />

@@ -409,7 +409,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
         {
             // If the exception is an Azure Service Management error, pull the
             // Azure message out to the front instead of the generic response.
-            errorRecord = AzureServiceManagementException.WrapExistingError(errorRecord);
+            errorRecord = AzureException.WrapExistingError(errorRecord);
         }
 
         protected static string RetrieveOperationId()
