@@ -18,11 +18,11 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
     {
         protected const string VirtualMachinePuppetExtensionNoun = "AzureVMPuppetExtension";
 
-        protected const string ExtensionDefaultPublisher = "PuppetLabs.Azure";
-        protected const string ExtensionDefaultName = "PuppetAgent";
+        protected const string ExtensionDefaultPublisher = "PuppetLabs";
+        protected const string ExtensionDefaultName = "PuppetEnterpriseAgent";
         protected const string ExtensionDefaultVersion = "3.2.1";
         protected const string LegacyReferenceName = "PuppetAgent";
-        protected const string PrivateConfigurationTemplate = "{{ \"Puppet_Master_Server\": \"{0}\" }}";
+        protected const string PrivateConfigurationTemplate = "{{ \"PUPPET_MASTER_SERVER\": \"{0}\" }}";
 
         public VirtualMachinePuppetExtensionCmdletBase()
         {

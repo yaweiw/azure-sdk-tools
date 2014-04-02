@@ -21,7 +21,7 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>..\..\..\Package\Debug\AzureServiceManagement</OutputPath>
+    <OutputPath>..\..\..\Package\Debug\Azure</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -33,7 +33,7 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>..\..\..\Package\Release\AzureServiceManagement</OutputPath>
+    <OutputPath>..\..\..\Package\Release\Azure</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -42,7 +42,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
     <DebugSymbols>true</DebugSymbols>
-    <OutputPath>..\..\..\Package\Debug\AzureServiceManagement</OutputPath>
+    <OutputPath>..\..\..\Package\Debug\Azure</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <DebugType>full</DebugType>
     <PlatformTarget>x64</PlatformTarget>
@@ -80,7 +80,7 @@
     <RunPostBuildEvent>OnBuildSuccess</RunPostBuildEvent>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'ReleaseSigned|AnyCPU'">
-    <OutputPath>..\..\..\Package\Release\AzureServiceManagement</OutputPath>
+    <OutputPath>..\..\..\Package\Release\Azure</OutputPath>
     <DefineConstants>TRACE;SIGN</DefineConstants>
     <Optimize>true</Optimize>
     <DebugType>pdbonly</DebugType>
@@ -99,7 +99,7 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'ReleaseSigned|x64'">
-    <OutputPath>..\..\..\Package\Release\AzureServiceManagement</OutputPath>
+    <OutputPath>..\..\..\Package\Release\Azure</OutputPath>
     <DefineConstants>TRACE;SIGN</DefineConstants>
     <Optimize>true</Optimize>
     <DebugType>pdbonly</DebugType>
@@ -130,12 +130,15 @@
     <Reference Include="AutoMapper.Net4, Version=3.1.1.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL" />
     <Reference Include="Microsoft.Data.Edm, Version=5.6.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Data.Edm.5.6.0\lib\net40\Microsoft.Data.Edm.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.Data.OData, Version=5.6.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Data.OData.5.6.0\lib\net40\Microsoft.Data.OData.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.Data.Services.Client, Version=5.6.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Data.Services.Client.5.6.0\lib\net40\Microsoft.Data.Services.Client.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.Threading.Tasks, Version=1.0.12.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -166,7 +169,7 @@
     </Reference>
     <Reference Include="Microsoft.WindowsAzure.Management.Compute, Version=0.9.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Microsoft.WindowsAzure.Management.Compute.0.9.15-preview\lib\net40\Microsoft.WindowsAzure.Management.Compute.dll</HintPath>
+      <HintPath>..\packages\Microsoft.WindowsAzure.Management.Compute.0.9.16-preview\lib\net40\Microsoft.WindowsAzure.Management.Compute.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.WindowsAzure.Management.Network">
       <HintPath>..\packages\Microsoft.WindowsAzure.Management.Network.0.9.7-preview\lib\net40\Microsoft.WindowsAzure.Management.Network.dll</HintPath>
@@ -179,9 +182,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Microsoft.WindowsAzure.Management.VirtualNetworks.0.9.8-preview\lib\net40\Microsoft.WindowsAzure.Management.VirtualNetworks.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.WindowsAzure.Storage, Version=3.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+    <Reference Include="Microsoft.WindowsAzure.Storage, Version=3.0.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\WindowsAzure.Storage.3.1.0.0\lib\net40\Microsoft.WindowsAzure.Storage.dll</HintPath>
+      <HintPath>..\packages\WindowsAzure.Storage.3.0.3.0\lib\net40\Microsoft.WindowsAzure.Storage.dll</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -218,6 +221,7 @@
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Spatial, Version=5.6.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Spatial.5.6.0\lib\net40\System.Spatial.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="System.Threading.Tasks">
       <HintPath>..\packages\Microsoft.Bcl.1.1.6\lib\net40\System.Threading.Tasks.dll</HintPath>
@@ -257,7 +261,6 @@
     <Compile Include="IaaS\Extensions\Common\SetAzureVMExtension.cs" />
     <Compile Include="IaaS\Extensions\Common\VirtualMachineExtensionCmdletBase.cs" />
     <Compile Include="IaaS\Extensions\Common\VirtualMachineExtensionContext.cs" />
-    <Compile Include="IaaS\Extensions\Common\VirtualMachineExtensionConfigContext.cs" />
     <Compile Include="IaaS\Extensions\Common\GetAzureVMAvailableExtension.cs" />
     <Compile Include="IaaS\Extensions\Common\VirtualMachineExtensionImageContext.cs" />
     <Compile Include="IaaS\Extensions\Puppet\GetAzureVMPuppetExtension.cs" />
@@ -265,6 +268,13 @@
     <Compile Include="IaaS\Extensions\Puppet\SetAzureVMPuppetExtension.cs" />
     <Compile Include="IaaS\Extensions\Puppet\VirtualMachinePuppetExtensionCmdletBase.cs" />
     <Compile Include="IaaS\Extensions\Puppet\VirtualMachinePuppetExtensionContext.cs" />
+    <Compile Include="IaaS\Extensions\CustomScript\GetAzureVMCustomScriptExtension.cs" />
+    <Compile Include="IaaS\Extensions\CustomScript\PrivateSettings.cs" />
+    <Compile Include="IaaS\Extensions\CustomScript\PublicSettings.cs" />
+    <Compile Include="IaaS\Extensions\CustomScript\RemoveAzureVMCustomScriptExtension.cs" />
+    <Compile Include="IaaS\Extensions\CustomScript\SetAzureVMCustomScriptExtension.cs" />
+    <Compile Include="IaaS\Extensions\CustomScript\VirtualMachineCustomScriptExtensionCmdletBase.cs" />
+    <Compile Include="IaaS\Extensions\CustomScript\VirtualMachineCustomScriptExtensionContext.cs" />
     <Compile Include="IaaS\Extensions\VMAccess\GetAzureVMAccessExtension.cs" />
     <Compile Include="IaaS\Extensions\VMAccess\RemoveAzureVMAccessExtension.cs" />
     <Compile Include="IaaS\Extensions\VMAccess\SetAzureVMAccessExtension.cs" />
@@ -274,10 +284,12 @@
     <Compile Include="IaaS\Network\RemoveAzureStaticVNetIP.cs" />
     <Compile Include="IaaS\Network\SetAzureStaticVNetIP.cs" />
     <Compile Include="IaaS\Network\TestAzureStaticVNetIP.cs" />
+    <Compile Include="Model\PersistentVMRoleListContext.cs" />
     <Compile Include="Model\RoleSizeContext.cs" />
     <Compile Include="Model\PersistentVMRoleTypes.cs" />
     <Compile Include="Model\VirtualNetworkStaticIPAvailabilityContext.cs" />
     <Compile Include="Model\VirtualNetworkStaticIPContext.cs" />
+    <Compile Include="Model\VMImageContext.cs" />
     <Compile Include="RoleSizes\GetAzureRoleSize.cs" />
     <Compile Include="ServiceManagementProfile.cs" />
     <Compile Include="AffinityGroups\SetAzureAffinityGroup.cs" />
@@ -437,7 +449,6 @@
     <Compile Include="Model\OSVersionsContext.cs" />
     <Compile Include="Model\PersistentVM.cs" />
     <Compile Include="Model\PersistentVMRoleContext.cs" />
-    <Compile Include="Model\PersistentVMRoleListContext.cs" />
     <Compile Include="Model\PSSyncOutputEvents.cs" />
     <Compile Include="Model\RoleConfiguration.cs" />
     <Compile Include="Model\RoleContext.cs" />
@@ -484,14 +495,14 @@
     <None Include="Extensions\ADDomain\ADPublicSchema.xsd">
       <SubType>Designer</SubType>
     </None>
+    <Content Include="Microsoft.WindowsAzure.Commands.ServiceManagement.format.ps1xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <SubType>Designer</SubType>
+    </Content>
     <None Include="MSSharedLibKey.snk" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="..\packages\AutoMapper.3.1.1\lib\net40\AutoMapper.Net4.dll">
-      <Link>AutoMapper.Net4.dll</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
     <Content Include="Microsoft.WindowsAzure.Commands.ServiceManagement.dll-Help.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <SubType>Designer</SubType>

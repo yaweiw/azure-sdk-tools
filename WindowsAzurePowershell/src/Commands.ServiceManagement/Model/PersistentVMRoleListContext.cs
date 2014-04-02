@@ -14,12 +14,7 @@
 
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Model
 {
-    public class PersistentVMRoleListContext
+    public class PersistentVMRoleListContext : PersistentVMRoleContext
     {
-        public string ServiceName { get; set; }
-
-        public string Name { get; set; }
-
-        public string Status { get; set; }
     }
 }

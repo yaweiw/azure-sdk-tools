@@ -27,6 +27,7 @@ using System.IO;
 using System.Linq;
 using System.Runtime.Serialization.Formatters;
 using System.Threading;
+using Newtonsoft.Json.Linq;
 
 namespace Microsoft.Azure.Commands.ResourceManager.Models
 {
@@ -257,7 +258,7 @@ namespace Microsoft.Azure.Commands.ResourceManager.Models
                 }
                 else
                 {
-                    string errorMessage = GetDeploymentOperationErrorMessage(operation.Properties.StatusMessage);
+                    string errorMessage = ParseErrorMessage(operation.Properties.StatusMessage);
 
                     statusMessage = string.Format(failureStatusFormat,
                         operation.Properties.TargetResource.ResourceType,
@@ -269,24 +270,34 @@ namespace Microsoft.Azure.Commands.ResourceManager.Models
             }
         }
 
-        private string GetDeploymentOperationErrorMessage(string statusMessage)
+        public static string ParseErrorMessage(string statusMessage)
         {
-            string errorMessage = null;
+            try
+            {
+                if (JsonUtilities.IsJson(statusMessage))
+                {
+                    JObject statusMessageJson = JObject.Parse(statusMessage);
+                    if (statusMessageJson.GetValue("message", StringComparison.CurrentCultureIgnoreCase) != null)
+                    {
+                        return statusMessageJson.GetValue("message", StringComparison.CurrentCultureIgnoreCase).ToString();
+                    }
+                    else if (statusMessageJson.GetValue("error", StringComparison.CurrentCultureIgnoreCase) != null)
+                    {
+                        JObject errorToken = statusMessageJson.GetValue("error", StringComparison.CurrentCultureIgnoreCase) as JObject;
+                        return errorToken.GetValue("message", StringComparison.CurrentCultureIgnoreCase).ToString();
+                    }
+                }
+                else if (XmlUtilities.IsXml(statusMessage))
+                {
+                    return XmlUtilities.DeserializeXmlString<ResourceManagementError>(statusMessage).Message;
+                }
 
-            if (JsonUtilities.IsJson(statusMessage))
-            {
-                errorMessage = JsonConvert.DeserializeObject<ResourceManagementError>(statusMessage).Message;
+                return statusMessage;
             }
-            else if (XmlUtilities.IsXml(statusMessage))
+            catch
             {
-                errorMessage = XmlUtilities.DeserializeXmlString<ResourceManagementError>(statusMessage).Message;
+                return statusMessage;
             }
-            else
-            {
-                errorMessage = statusMessage;
-            }
-
-            return errorMessage;
         }
 
         private Deployment WaitDeploymentStatus(
