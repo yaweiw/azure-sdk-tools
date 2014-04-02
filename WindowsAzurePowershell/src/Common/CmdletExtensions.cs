@@ -156,9 +156,12 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
                 powershell.AddScript(contents);
                 Collection<T> result = powershell.Invoke<T>();
 
-                powershell.Streams.Error.ForEach(e => cmdlet.WriteError(e));
-                powershell.Streams.Verbose.ForEach(r => cmdlet.WriteVerbose(r.Message));
-                powershell.Streams.Warning.ForEach(r => cmdlet.WriteWarning(r.Message));
+                if (cmdlet.SessionState != null)
+                {
+                    powershell.Streams.Error.ForEach(e => cmdlet.WriteError(e));
+                    powershell.Streams.Verbose.ForEach(r => cmdlet.WriteVerbose(r.Message));
+                    powershell.Streams.Warning.ForEach(r => cmdlet.WriteWarning(r.Message));
+                }
 
                 if (result != null && result.Count > 0)
                 {
@@ -194,7 +197,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
             ExecuteScript<object>(cmdlet, contents);
         }
 
-        public static void RemoveAzureServiceManagementAliases(this PSCmdlet cmdlet)
+        public static void RemoveAzureAliases(this PSCmdlet cmdlet)
         {
             string contents = "Get-Alias | where { $_.Description -eq 'AzureAlias' } | foreach { Remove-Item alias:\\$($_.Name) }";
             ExecuteScript<object>(cmdlet, contents);
