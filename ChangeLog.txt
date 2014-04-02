@@ -46,6 +46,7 @@
     * Remove-AzureVMImage
     * New-AzureVM
     * New-AzureQuickVM
+* Upgrade cloud service cmdlets dependencies to Azure SDK 2.3
 
 2014.03.11 Version 0.7.4
 * VM extension cmdlets
