@@ -20,6 +20,7 @@ function Get-ScriptDirectory
 $modulePath = Join-Path (Get-ScriptDirectory) Azure.psd1
 Import-Module $modulePath
 $VerbosePreference="Continue"
+cd c:\
 $welcomeMessage = @"
 For a list of all Azure cmdlets type 'help azure'.
 For a list of Windows Azure Pack cmdlets type 'Get-Command *wapack*'.
