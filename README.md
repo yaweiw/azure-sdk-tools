@@ -6,7 +6,7 @@ This repository contains a set of PowerShell cmdlets for developers and administ
 * For comprehensive documentation on the developer cmdlets see [How to use Windows Azure PowerShell](http://www.windowsazure.com/en-us/develop/nodejs/how-to-guides/powershell-cmdlets/).
 * For comprehensive documentation on the full set of Windows Azure cmdlets see [Windows Azure Management Center](http://go.microsoft.com/fwlink/?linkID=254459&clcid=0x409).
 
-# Cmdlets Features
+## Features
 
 * Account
   * Get and import Azure publish settings
@@ -85,6 +85,13 @@ This repository contains a set of PowerShell cmdlets for developers and administ
 * ExpressRoute
   * Manage dedicated circuit
   * Manage BGP peering
+* Scheduler
+  * Manage job collections
+  * Manage HTTP and storage queue jobs
+* Resource Manager
+  * Manage resource groups and deployments
+  * Query and download gallery templates
+  * Manage individual resources
 
 For detail descriptions and examples of the cmdlets, type
 * ```help azure``` to get all the cmdlets.
@@ -93,15 +100,15 @@ For detail descriptions and examples of the cmdlets, type
 * ```help python-dev``` to get all Python development related cmdlets.
 * ```help <cmdlet name>``` to get the details of a specific cmdlet.
 
-# Supported Environments
+## Supported Environments
 
 * [Windows Azure](http://www.windowsazure.com/)
 * [Windows Azure Pack](http://www.microsoft.com/en-us/server-cloud/windows-azure-pack.aspx)
 * [Windows Azure China](http://www.windowsazure.cn/)
 
-# Getting Started
+## Installation
 
-## Microsoft Web Platform Installer
+### Microsoft Web Platform Installer
 
 1. Install [Microsoft Web Platform Installer](http://www.microsoft.com/web/downloads/platform.aspx).
 2. Open Microsoft Web Platform Installer and search for __Windows Azure PowerShell__.
@@ -109,12 +116,12 @@ For detail descriptions and examples of the cmdlets, type
 
 You can also find the standalone installers for all the versions at [Downloads](https://github.com/WindowsAzure/azure-sdk-tools/wiki/Downloads)
 
-## Source Code
+### Source Code
 
 1. Download the source code from GitHub repo
 2. Follow the [Windows Azure PowerShell Developer Guide](https://github.com/WindowsAzure/azure-sdk-tools/wiki/Windows-Azure-PowerShell-Developer-Guide)
 
-## Supported PowerShell Versions
+### Supported PowerShell Versions
 
 * 0.6.9 or lower
   * [Windows PowerShell 2.0](http://technet.microsoft.com/en-us/scriptcenter/dd742419)
@@ -122,7 +129,7 @@ You can also find the standalone installers for all the versions at [Downloads](
 * 0.6.10 to higher
   * [Windows PowerShell 3.0](http://www.microsoft.com/en-us/download/details.aspx?id=34595)
 
-# Quick Start
+## Get Started
 
 In general, following are the steps to start using Windows Azure PowerShell
 
@@ -133,11 +140,11 @@ In general, following are the steps to start using Windows Azure PowerShell
 
 The first step can be different for different environment you are targeting. Following are detail instructions for each supported environment.
 
-## Windows Azure
+### Windows Azure
 
 If you use both mechanisms on the same subscription, Windows Azure Active Directory authentication always wins. If you want to go back to management certificate authentication, please use ``Remove-AzureAccount``, which will remove the Windows Azure Active Directory information and bring management certificate authentication back in.
 
-### Login directly from PowerShell (Windows Azure Active Directory authentication)
+#### Login directly from PowerShell (Windows Azure Active Directory authentication)
 
 ```powershell
 # Pop up an embedded browser control for you to login
@@ -147,7 +154,7 @@ Add-AzureAccount
 New-AzureWebsite -Name mywebsite -Location "West US"
 ```
 
-### Using publish settings file (Management certificate authentication)
+#### Use publish settings file (Management certificate authentication)
 
 ```powershell
 # Download a file which contains the publish settings information of your subscription.
@@ -163,7 +170,7 @@ Import-AzurePublishSettingsFile "<file location>"
 New-AzureWebsite -Name mywebsite -Location "West US"
 ```
 
-## Windows Azure China
+### Windows Azure China
 
 ```powershell
 # Check the environment supported by your Windows Azure PowerShell installation.
@@ -183,7 +190,7 @@ Import-AzurePublishSettingsFile "<file location>"
 New-AzureWebsite -Name mywebsite -Location "China East"
 ```
 
-## Windows Azure Pack
+### Windows Azure Pack
 
 ```powershell
 # Add your Windows Azure Pack environment to your Windows Azure PowerShell installation.
@@ -211,8 +218,21 @@ Import-WAPackPublishSettingsFile "<file location>"
 # Use the cmdlets to manage your services/applications
 New-WAPackWebsite -Name mywebsite
 ```
+## 2 Modes
 
-# Find Your Way
+Starting from 0.8.0, we are adding a separate mode for Resource Manager. You can use the following cmdlet to switch between the
+
+* Service management: cmdlets using the Azure service management API
+* Resource manager: cmdlets using the Azure Resource Manager API
+
+They are not designed to work together.
+
+```powershell
+Switch-AzureMode AzureServiceManagement
+Switch-AzureMode AzureResourceManager
+```
+
+## Find Your Way
 
 All the cmdlets can be put into 3 categories:
 
@@ -236,11 +256,11 @@ Get-Command *WAPack*
 
 If you want to migrate some scripts from Windows Azure to Windows Azure Pack or vice versa, as long as the cmdlets you are using are in category 1, you should be able to migrate smoothly.
 
-# Need Help?
+## Need Help?
 
 Be sure to check out the [Windows Azure Developer Forums on Stack Overflow](http://go.microsoft.com/fwlink/?LinkId=234489) if you have trouble with the provided code.
 
-# Contribute Code or Provide Feedback
+## Contribute Code or Provide Feedback
 
 If you would like to become an active contributor to this project please follow the instructions provided in [Windows Azure Projects Contribution Guidelines](http://windowsazure.github.com/guidelines.html).
 

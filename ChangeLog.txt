@@ -1,4 +1,53 @@
-﻿2014.03.11 Version 0.7.4
+﻿2014.04.03 Version 0.8.0
+* Azure Resource Manager cmdlets (preview)
+  * Switch-AzureMode to switch the PowerShell module between service management and resource manager.
+  * Resource groups
+    * New-AzureResourceGroup
+    * Get-AzureResourceGroup
+    * Remove-AzureResourceGroup
+    * Get-AzureResourceGroupLog
+  * Templates
+    * Get-AzureResourceGroupGalleryTemplate
+    * Save-AzureResourceGroupGalleryTemplate
+    * Test-AzureResourceGroupTemplate
+  * Deployments
+    * New-AzureResourceGroupDeployment
+    * Get-AzureResourceGroupDeployment
+  * Resources
+    * New-AzureResource
+    * Get-AzureResource
+    * Set-AzureResource
+    * Remove-AzureResource
+* Azure Scheduler cmdlets
+  * Get-AzureSchedulerLocation
+  * Job collection
+    * Get-AzureSchedulerJobCollection
+    * Remove-AzureSchedulerJobCollection
+  * HTTP job and storage queue job
+    * New-AzureSchedulerHttpJob
+    * Set-AzureSchedulerHttpJob
+    * New-AzureSchedulerStorageQueueJob
+    * Set-AzureSchedulerStorageQueueJob
+    * Get-AzureSchedulerJob
+    * Remove-AzureSchedulerJob
+    * Get-AzureSchedulerJobHistory
+* Virtual Machine improvements
+  * Puppet extension
+    * Get-AzureVMPuppetExtension
+    * Set-AzureVMPuppetExtension
+    * Remove-AzureVMPuppetExtension
+  * Custom script extension
+    * Get-AzureVMCustomScriptExtension
+    * Set-AzureVMCustomScriptExtension
+    * Remove-AzureVMCustomScriptExtension
+  * VM Image support in the following cmdlets
+    * Get-AzureVMImage
+    * Save-AzureVMImage
+    * Remove-AzureVMImage
+    * New-AzureVM
+    * New-AzureQuickVM
+
+2014.03.11 Version 0.7.4
 * VM extension cmdlets
   * Set-AzureVMExtension
   * Get-AzureVMExtension
