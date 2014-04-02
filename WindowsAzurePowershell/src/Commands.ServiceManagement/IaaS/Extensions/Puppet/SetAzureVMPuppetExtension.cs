@@ -31,7 +31,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
             Mandatory = true,
             Position = 1,
             ValueFromPipelineByPropertyName = true,
-            HelpMessage = "The puppet master server FQDN.")]
+            HelpMessage = "The Puppet Master server FQDN to which the Puppet Agent should connect.")]
         [ValidateNotNullOrEmpty]
         public string PuppetMasterServer { get; set; }
 
@@ -71,13 +71,21 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
             base.ValidateParameters();
             this.Version = this.Version ?? ExtensionDefaultVersion;
             this.ReferenceName = this.ReferenceName ?? LegacyReferenceName;
-            this.PrivateConfiguration = string.Format(PrivateConfigurationTemplate, this.PuppetMasterServer);
+            this.PrivateConfiguration = string.Format(PrivateConfigurationTemplate, this.EscapeJsonCharacters(this.PuppetMasterServer));
         }
 
         protected override void ProcessRecord()
         {
             base.ProcessRecord();
             ExecuteCommand();
+        }
+
+        private string EscapeJsonCharacters(string value)
+        {
+            string serializedValue = Newtonsoft.Json.JsonConvert.SerializeObject(value);
+
+            // Since SerializeObject method automatically surrounds result with double quotes, we need to remove them.
+            return serializedValue.Trim('"');
         }
     }
 }

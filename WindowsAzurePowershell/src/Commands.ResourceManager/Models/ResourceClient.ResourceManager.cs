@@ -337,7 +337,14 @@ namespace Microsoft.Azure.Commands.ResourceManager.Models
             }
             else
             {
-                result.Add(ResourceManagementClient.ResourceGroups.Get(name).ResourceGroup.ToPSResourceGroup(this));
+                try
+                {
+                    result.Add(ResourceManagementClient.ResourceGroups.Get(name).ResourceGroup.ToPSResourceGroup(this));
+                }
+                catch (CloudException)
+                {
+                    throw new ArgumentException(Resources.ResourceGroupDoesntExists);
+                }
             }
 
             return result;
@@ -365,6 +372,11 @@ namespace Microsoft.Azure.Commands.ResourceManager.Models
         /// <param name="name">The resource group name</param>
         public virtual void DeleteResourceGroup(string name)
         {
+            if (!ResourceManagementClient.ResourceGroups.CheckExistence(name).Exists)
+            {
+                throw new ArgumentException(Resources.ResourceGroupDoesntExists);
+            }
+
             ResourceManagementClient.ResourceGroups.Delete(name);
         }
 
