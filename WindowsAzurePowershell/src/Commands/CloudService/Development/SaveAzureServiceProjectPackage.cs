@@ -36,20 +36,19 @@ namespace Microsoft.WindowsAzure.Commands.CloudService.Development
         public override void ExecuteCmdlet()
         {
             AzureTool.Validate();
-            string unused;
-            string rootPath = General.GetServiceRootPath(CurrentPath());
+            string rootPath = GeneralUtilities.GetServiceRootPath(CurrentPath());
             string packagePath;
 
             CloudServiceProject service = new CloudServiceProject(rootPath, null);
 
             if (!Local.IsPresent)
             {
-                service.CreatePackage(DevEnv.Cloud, out unused, out unused);
+                service.CreatePackage(DevEnv.Cloud);
                 packagePath = Path.Combine(rootPath, Resources.CloudPackageFileName);
             }
             else
             {
-                service.CreatePackage(DevEnv.Local, out unused, out unused);
+                service.CreatePackage(DevEnv.Local);
                 packagePath = Path.Combine(rootPath, Resources.LocalPackageFileName);
             }
 

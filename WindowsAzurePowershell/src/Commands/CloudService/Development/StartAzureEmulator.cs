@@ -17,6 +17,7 @@ namespace Microsoft.WindowsAzure.Commands.CloudService.Development
     using System.IO;
     using System.Management.Automation;
     using System.Security.Permissions;
+    using System.Security.Principal;
     using System.Text;
     using Utilities.Common;
     using Utilities.Properties;
@@ -33,31 +34,42 @@ namespace Microsoft.WindowsAzure.Commands.CloudService.Development
         [Alias("ln")]
         public SwitchParameter Launch { get; set; }
 
+        [Parameter(Mandatory = false, HelpMessage = "The emulator type")]
+        public ComputeEmulatorMode Mode { get; set; }
+
         public CloudServiceProject StartAzureEmulatorProcess(string rootPath)
         {
-            string standardOutput;
-            string standardError;
+            string warning;
+            string roleInformation;
 
             StringBuilder message = new StringBuilder();
-            CloudServiceProject cloudServiceProject = new CloudServiceProject(rootPath ,null);
+            CloudServiceProject cloudServiceProject = new CloudServiceProject(rootPath, null);
 
             if (Directory.Exists(cloudServiceProject.Paths.LocalPackage))
             {
                 WriteVerbose(Resources.StopEmulatorMessage);
-                cloudServiceProject.StopEmulator();
+                cloudServiceProject.StopEmulators(out warning);
+                if (!string.IsNullOrEmpty(warning))
+                {
+                    WriteWarning(warning);
+                }
                 WriteVerbose(Resources.StoppedEmulatorMessage);
                 WriteVerbose(string.Format(Resources.RemovePackage, cloudServiceProject.Paths.LocalPackage));
                 Directory.Delete(cloudServiceProject.Paths.LocalPackage, true);
             }
-            
+
             WriteVerbose(string.Format(Resources.CreatingPackageMessage, "local"));
-            cloudServiceProject.CreatePackage(DevEnv.Local, out standardOutput, out standardError);
-            
+            cloudServiceProject.CreatePackage(DevEnv.Local);
+
             WriteVerbose(Resources.StartingEmulator);
             cloudServiceProject.ResolveRuntimePackageUrls();
-            cloudServiceProject.StartEmulator(Launch.ToBool(), ComputeEmulatorMode.Full, out standardOutput, out standardError);
-            
-            WriteVerbose(standardOutput);
+            cloudServiceProject.StartEmulators(Launch.ToBool(), Mode, out roleInformation, out warning);
+            WriteVerbose(roleInformation);
+            if (!string.IsNullOrEmpty(warning))
+            {
+                WriteWarning(warning);
+            }
+
             WriteVerbose(Resources.StartedEmulator);
             SafeWriteOutputPSObject(
                 cloudServiceProject.GetType().FullName,
@@ -70,8 +82,19 @@ namespace Microsoft.WindowsAzure.Commands.CloudService.Development
         public override void ExecuteCmdlet()
         {
             AzureTool.Validate();
+            if (!IsRunningElevated())
+            {
+                throw new PSArgumentException(Resources.AzureEmulatorNotRunningElevetaed);
+            }
             base.ExecuteCmdlet();
-            StartAzureEmulatorProcess(General.GetServiceRootPath(CurrentPath()));
+            StartAzureEmulatorProcess(GeneralUtilities.GetServiceRootPath(CurrentPath()));
+        }
+
+        private bool IsRunningElevated()
+        {
+            WindowsIdentity identity = WindowsIdentity.GetCurrent();
+            WindowsPrincipal principal = new WindowsPrincipal(identity);
+            return principal.IsInRole(WindowsBuiltInRole.Administrator);
         }
     }
 }

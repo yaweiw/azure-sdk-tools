@@ -19,7 +19,7 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.CloudServiceTests
     using VisualStudio.TestTools.UnitTesting;
 
     [TestClass]
-    public class EmulatorTests : WindowsAzurePowerShellTest
+    public class EmulatorTests : WindowsAzurePowerShellCertificateTest
     {
         static string TrueIsNotFalseException = "Assertion failed: $true -eq $false";
         static string ExceptionMatchFailedException = "Exception match failed, '{0}' != '{1}'";
@@ -72,6 +72,14 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.CloudServiceTests
         public void TestStartAzureEmulatorTwice()
         {
             RunPowerShellTest("Test-StartAzureEmulatorTwice");
+        }
+
+        [TestMethod]
+        [TestCategory(Category.All)]
+        [TestCategory(Category.CloudService)]
+        public void TestStartAzureEmulatorExpress()
+        {
+            RunPowerShellTest("Test-StartAzureEmulatorExpress");
         }
     }
 }

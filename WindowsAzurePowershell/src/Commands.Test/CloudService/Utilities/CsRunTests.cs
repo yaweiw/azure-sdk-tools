@@ -14,6 +14,7 @@
 
 namespace Microsoft.WindowsAzure.Commands.Test.CloudService.Utilities
 {
+    using System;
     using Commands.Utilities.CloudService.AzureTools;
     using Microsoft.WindowsAzure.Commands.Utilities.Common;
     using Microsoft.WindowsAzure.Commands.Utilities.Properties;
@@ -35,13 +36,13 @@ namespace Microsoft.WindowsAzure.Commands.Test.CloudService.Utilities
         }
 
         [TestMethod]
-        public void StartEmulatorUsingExpressMode_VerifyCommandLineArguments()
+        public void StartEmulatorUsingExpressMode_VerifyCommandLine()
         {
             StartEmulatorCommonTest(ComputeEmulatorMode.Express);
         }
 
         [TestMethod]
-        public void StartEmulatorUsingFullMode_VerifyCommandLineArguments()
+        public void StartEmulatorUsingFullMode_VerifyCommandLine()
         {
             StartEmulatorCommonTest(ComputeEmulatorMode.Full);
         }
@@ -49,12 +50,11 @@ namespace Microsoft.WindowsAzure.Commands.Test.CloudService.Utilities
         private void StartEmulatorCommonTest(ComputeEmulatorMode mode)
         {
             // Setup
-            string testEmulatorFolder = @"C:\foo-bar";
-            string testPackagePath = @"c:\foo-bar\local_package.csx";
-            string testConfigPath = @"c:\foo-bar\ServiceConfiguration.Local.cscfg";
+            string testEmulatorFolder = @"C:\sample-path";
+            string testPackagePath = @"c:\sample-path\local_package.csx";
+            string testConfigPath = @"c:\sample-path\ServiceConfiguration.Local.cscfg";
             string expectedCsrunCommand = testEmulatorFolder + @"\" + Resources.CsRunExe;
             string expectedComputeArguments = Resources.CsRunStartComputeEmulatorArg;
-            string expectedStorageArgument = Resources.CsRunStartStorageEmulatorArg;
             string expectedRemoveAllDeploymentsArgument = Resources.CsRunRemoveAllDeploymentsArg;
             string expectedAzureProjectArgument = string.Format("\"{0}\" \"{1}\" {2} /useiisexpress",
                 testPackagePath, testConfigPath, Resources.CsRunLanuchBrowserArg);
@@ -62,25 +62,29 @@ namespace Microsoft.WindowsAzure.Commands.Test.CloudService.Utilities
             {
                 expectedComputeArguments += " " + Resources.CsRunEmulatorExpressArg;
                 expectedAzureProjectArgument += " " + Resources.CsRunEmulatorExpressArg;
-            }      
-      
-            string testOutput = "Role is running at tcp://127.0.0.1:8080";
+            }
+
+            string testRoleUrl = "http://127.0.0.1:8080/";
+            int testDeploymentId = 58;
+            string testOutput = string.Format("Started: deployment23({0}) Role is running at " + testRoleUrl + ".", testDeploymentId.ToString());
+            string expectedRoleRunningMessage = string.Format(Resources.EmulatorRoleRunningMessage, testRoleUrl) + Environment.NewLine; 
 
             CsRun csRun = new CsRun(testEmulatorFolder);
             Mock<ProcessHelper> commandRunner = new Mock<ProcessHelper>();
             commandRunner.Setup(p => p.StartAndWaitForProcess(expectedCsrunCommand, expectedComputeArguments));
-            commandRunner.Setup(p => p.StartAndWaitForProcess(expectedCsrunCommand, expectedStorageArgument));
             commandRunner.Setup(p => p.StartAndWaitForProcess(expectedCsrunCommand, expectedRemoveAllDeploymentsArgument));
             commandRunner.Setup(p => p.StartAndWaitForProcess(expectedCsrunCommand, expectedAzureProjectArgument))
                 .Callback(() => { commandRunner.Object.StandardOutput = testOutput; });
 
             // Execute
             csRun.CommandRunner = commandRunner.Object;
-            string output, error;
-            csRun.StartEmulator(testPackagePath, testConfigPath, true, mode, out output, out error);
+            
+            csRun.StartEmulator(testPackagePath, testConfigPath, true, mode);
 
             // Assert
             commandRunner.VerifyAll();
+            Assert.AreEqual(csRun.DeploymentId, testDeploymentId);
+            Assert.AreEqual(csRun.RoleInformation, expectedRoleRunningMessage);
         }
     }
 }

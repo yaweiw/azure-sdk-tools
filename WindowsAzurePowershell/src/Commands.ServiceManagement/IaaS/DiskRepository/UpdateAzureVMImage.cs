@@ -57,7 +57,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.DiskRepository
         
         public void UpdateVMImageProcess()
         {
-            var parameters = new VirtualMachineImageUpdateParameters
+            var parameters = new VirtualMachineOSImageUpdateParameters
             {
                 Label = this.Label,
                 Eula = this.Eula,
@@ -71,13 +71,13 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.DiskRepository
             this.ExecuteClientActionNewSM(
                 null,
                 this.CommandRuntime.ToString(),
-                () => this.ComputeClient.VirtualMachineImages.Update(this.ImageName, parameters),
-                (s, response) => this.ContextFactory<VirtualMachineImageUpdateResponse, OSImageContext>(response, s));
+                () => this.ComputeClient.VirtualMachineOSImages.Update(this.ImageName, parameters),
+                (s, response) => this.ContextFactory<VirtualMachineOSImageUpdateResponse, OSImageContext>(response, s));
         }
 
         protected override void OnProcessRecord()
         {
-            ServiceManagementProfile.Initialize();
+            ServiceManagementProfile.Initialize(this);
             this.UpdateVMImageProcess();
         }
     }
