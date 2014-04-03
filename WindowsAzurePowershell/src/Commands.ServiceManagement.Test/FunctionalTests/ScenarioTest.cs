@@ -544,7 +544,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
             Assert.AreEqual(vmRoleCtxt.InstanceStatus, "StoppedVM", true);
 
             // Save-AzureVMImage
-            vmPowershellCmdlets.SaveAzureVMImage(serviceName, newAzureVMName, newAzureVMName, "Generalized");
+            vmPowershellCmdlets.SaveAzureVMImage(serviceName, newAzureVMName, newAzureVMName);
 
             // Verify VM image.
             var image = vmPowershellCmdlets.GetAzureVMImage(newAzureVMName)[0];
