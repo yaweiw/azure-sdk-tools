@@ -250,6 +250,15 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to You must run PowerShell from an elevated PowerShell window to use the Azure Emulator. Please restart your PowerShell window as an administrator..
+        /// </summary>
+        public static string AzureEmulatorNotRunningElevetaed {
+            get {
+                return ResourceManager.GetString("AzureEmulatorNotRunningElevetaed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Windows Azure Emulator\emulator.
         /// </summary>
         public static string AzureEmulatorPathPortion {
@@ -334,9 +343,9 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Properties {
         ///   Looks up a localized string similar to Azure service management error
         ///{0}.
         /// </summary>
-        public static string AzureServiceManagementException_WrapExistingError_DetailedErrorFormat {
+        public static string AzureException_WrapExistingError_DetailedErrorFormat {
             get {
-                return ResourceManager.GetString("AzureServiceManagementException_WrapExistingError_DetailedErrorFormat", resourceCulture);
+                return ResourceManager.GetString("AzureException_WrapExistingError_DetailedErrorFormat", resourceCulture);
             }
         }
         
@@ -373,6 +382,15 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Properties {
         public static string BeginProcessingWithParameterSetLog {
             get {
                 return ResourceManager.GetString("BeginProcessingWithParameterSetLog", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Blob with the name {0} already exists in the account..
+        /// </summary>
+        public static string BlobAlreadyExistsInTheAccount {
+            get {
+                return ResourceManager.GetString("BlobAlreadyExistsInTheAccount", resourceCulture);
             }
         }
         
@@ -1868,6 +1886,15 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Please run Add-AzureAccount to finish setting up the subscription..
+        /// </summary>
+        public static string InvalidSubscriptionState {
+            get {
+                return ResourceManager.GetString("InvalidSubscriptionState", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Role {0} VM size should be ExtraSmall, Small, Medium, Large or ExtraLarge..
         /// </summary>
         public static string InvalidVMSize {
@@ -2012,7 +2039,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to http://az413943.vo.msecnd.net/node/runtimemanifest_0.7.2.xml.
+        ///   Looks up a localized string similar to http://az413943.vo.msecnd.net/node/runtimemanifest_0.7.3.xml.
         /// </summary>
         public static string ManifestUri {
             get {
@@ -2030,7 +2057,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to v2.2.
+        ///   Looks up a localized string similar to v2.3.
         /// </summary>
         public static string MaxSupportAzureSdkVersion {
             get {
@@ -2057,7 +2084,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to v2.2.
+        ///   Looks up a localized string similar to v2.3.
         /// </summary>
         public static string MinSupportAzureSdkVersion {
             get {
@@ -3037,6 +3064,42 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Removing job collection.
+        /// </summary>
+        public static string RemoveJobCollectionMessage {
+            get {
+                return ResourceManager.GetString("RemoveJobCollectionMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Are you sure you want to remove the job collection &quot;{0}&quot;.
+        /// </summary>
+        public static string RemoveJobCollectionWarning {
+            get {
+                return ResourceManager.GetString("RemoveJobCollectionWarning", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Removing job.
+        /// </summary>
+        public static string RemoveJobMessage {
+            get {
+                return ResourceManager.GetString("RemoveJobMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Are you sure you want to remove the job &quot;{0}&quot;.
+        /// </summary>
+        public static string RemoveJobWarning {
+            get {
+                return ResourceManager.GetString("RemoveJobWarning", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Are you sure you want to remove the account?.
         /// </summary>
         public static string RemoveMediaAccountWarning {
@@ -3384,6 +3447,15 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Properties {
         public static string ScaffoldXml {
             get {
                 return ResourceManager.GetString("ScaffoldXml", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Invalid location entered. Pick one of the locations from Get-AzureSchedulerLocation.
+        /// </summary>
+        public static string SchedulerInvalidLocation {
+            get {
+                return ResourceManager.GetString("SchedulerInvalidLocation", resourceCulture);
             }
         }
         
@@ -3803,6 +3875,15 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to start.
+        /// </summary>
+        public static string StartStorageEmulatorCommandArgument {
+            get {
+                return ResourceManager.GetString("StartStorageEmulatorCommandArgument", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Stop.
         /// </summary>
         public static string Stop {
@@ -3830,6 +3911,15 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to stop.
+        /// </summary>
+        public static string StopStorageEmulatorCommandArgument {
+            get {
+                return ResourceManager.GetString("StopStorageEmulatorCommandArgument", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Account Name:.
         /// </summary>
         public static string StorageAccountName {
@@ -3848,6 +3938,33 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to WAStorageEmulator.exe.
+        /// </summary>
+        public static string StorageEmulatorExe {
+            get {
+                return ResourceManager.GetString("StorageEmulatorExe", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to InstallPath.
+        /// </summary>
+        public static string StorageEmulatorInstallPathRegistryKeyValue {
+            get {
+                return ResourceManager.GetString("StorageEmulatorInstallPathRegistryKeyValue", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to SOFTWARE\Microsoft\Windows Azure Storage Emulator.
+        /// </summary>
+        public static string StorageEmulatorRegistryKey {
+            get {
+                return ResourceManager.GetString("StorageEmulatorRegistryKey", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Primary Key:.
         /// </summary>
         public static string StoragePrimaryKey {
@@ -3862,15 +3979,6 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Properties {
         public static string StorageSecondaryKey {
             get {
                 return ResourceManager.GetString("StorageSecondaryKey", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to .
-        /// </summary>
-        public static string String1 {
-            get {
-                return ResourceManager.GetString("String1", resourceCulture);
             }
         }
         
@@ -3974,6 +4082,15 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Unable to update mismatching Json structured: {0} {1}..
+        /// </summary>
+        public static string UnableToPatchJson {
+            get {
+                return ResourceManager.GetString("UnableToPatchJson", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The provider {0} is unknown..
         /// </summary>
         public static string UnknownProviderMessage {
@@ -4015,6 +4132,15 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Properties {
         public static string WaitMessage {
             get {
                 return ResourceManager.GetString("WaitMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The azure storage emulator is not installed, skip launching....
+        /// </summary>
+        public static string WarningWhenStorageEmulatorIsMissing {
+            get {
+                return ResourceManager.GetString("WarningWhenStorageEmulatorIsMissing", resourceCulture);
             }
         }
         
