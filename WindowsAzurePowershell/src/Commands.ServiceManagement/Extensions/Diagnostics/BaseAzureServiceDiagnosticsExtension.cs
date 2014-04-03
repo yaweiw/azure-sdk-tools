@@ -79,7 +79,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Extensions
                 throw new Exception(string.Format(Resources.ServiceExtensionCannotFindStorageAccountName, StorageAccountName));
             }
 
-            var storageKeys = this.StorageClient.StorageAccounts.GetKeys(storageService.ServiceName);
+            var storageKeys = this.StorageClient.StorageAccounts.GetKeys(storageService.StorageAccount.Name);
             if (storageKeys == null || storageKeys.PrimaryKey == null || storageKeys.SecondaryKey == null)
             {
                 throw new Exception(string.Format(Resources.ServiceExtensionCannotFindStorageAccountKey, StorageAccountName));
@@ -87,9 +87,9 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Extensions
             StorageKey = storageKeys.PrimaryKey != null ? storageKeys.PrimaryKey : storageKeys.SecondaryKey;
 
             StringBuilder endpointStr = new StringBuilder();
-            endpointStr.AppendFormat("BlobEndpoint={0};", storageService.Properties.Endpoints[0]);
-            endpointStr.AppendFormat("QueueEndpoint={0};", storageService.Properties.Endpoints[1]);
-            endpointStr.AppendFormat("TableEndpoint={0}", storageService.Properties.Endpoints[2]);
+            endpointStr.AppendFormat("BlobEndpoint={0};", storageService.StorageAccount.Properties.Endpoints[0]);
+            endpointStr.AppendFormat("QueueEndpoint={0};", storageService.StorageAccount.Properties.Endpoints[1]);
+            endpointStr.AppendFormat("TableEndpoint={0}", storageService.StorageAccount.Properties.Endpoints[2]);
             ConnectionQualifiers = endpointStr.ToString();
             DefaultEndpointsProtocol = "https";
         }

@@ -24,6 +24,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
     using Helpers;
     using Model;
     using Properties;
+    using Utilities.Common;
     using DataVirtualHardDisk = Model.PersistentVMModel.DataVirtualHardDisk;
     using OSVirtualHardDisk = Model.PersistentVMModel.OSVirtualHardDisk;
     using PVM = Model.PersistentVMModel;
@@ -96,7 +97,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
                     {
                         AvailabilitySetName = vm.AvailabilitySetName,
                         ConfigurationSets = PersistentVMHelper.MapConfigurationSets(vm.ConfigurationSets),
-                        DataVirtualHardDisks = Mapper.Map(vm.DataVirtualHardDisks, new Collection<DataVirtualHardDisk>()),
+                        DataVirtualHardDisks = new Collection<DataVirtualHardDisk>(),
                         Label = vm.Label,
                         OSVirtualHardDisk = Mapper.Map(vm.OSVirtualHardDisk, new OSVirtualHardDisk()),
                         RoleName = vm.RoleName,
@@ -107,6 +108,17 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
                         ResourceExtensionReferences = Mapper.Map<PVM.ResourceExtensionReferenceList>(vm.ResourceExtensionReferences)
                     }
                 };
+
+                if (vm.DataVirtualHardDisks != null)
+                {
+                    vm.DataVirtualHardDisks.ForEach(
+                        d => vmContext.VM.DataVirtualHardDisks.Add(Mapper.Map<DataVirtualHardDisk>(d)));
+                }
+                else
+                {
+                    vmContext.VM.DataVirtualHardDisks = null;
+                }
+
                 PersistentVMHelper.SaveStateToFile(vmContext.VM, Path);
                 WriteObject(vmContext, true);
             }

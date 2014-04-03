@@ -19,7 +19,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.Environment
     using System.IO;
     using System.Management.Automation;
     using Commands.Utilities.Common;
-    using Commands.Subscription;
+    using Commands.Profile;
     using Utilities.Common;
     using Microsoft.WindowsAzure.Commands.Utilities.Properties;
     using Moq;

@@ -36,7 +36,7 @@ namespace Microsoft.WindowsAzure.Commands.CloudService.Development
         public override void ExecuteCmdlet()
         {
             AzureTool.Validate();
-            string rootPath = General.GetServiceRootPath(CurrentPath());
+            string rootPath = GeneralUtilities.GetServiceRootPath(CurrentPath());
             string packagePath;
 
             CloudServiceProject service = new CloudServiceProject(rootPath, null);

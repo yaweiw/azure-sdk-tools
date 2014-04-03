@@ -188,7 +188,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService
             var deploymentParams = new DeploymentCreateParameters
             {
                 PackageUri = packageUri,
-                Configuration = General.GetConfiguration(context.CloudConfigPath),
+                Configuration = GeneralUtilities.GetConfiguration(context.CloudConfigPath),
                 Label = context.ServiceName,
                 Name = context.DeploymentName,
                 StartDeployment = true
@@ -216,7 +216,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService
                     if (uploadedCertificates == null || (uploadedCertificates.Certificates.Count(c => c.Thumbprint.Equals(
                         certElement.thumbprint, StringComparison.OrdinalIgnoreCase)) < 1))
                     {
-                        X509Certificate2 cert = General.GetCertificateFromStore(certElement.thumbprint);
+                        X509Certificate2 cert = GeneralUtilities.GetCertificateFromStore(certElement.thumbprint);
                         UploadCertificate(cert, certElement, name);
                     }
                 }
@@ -250,7 +250,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService
 
             var upgradeParams = new DeploymentUpgradeParameters
             {
-                Configuration = General.GetConfiguration(context.CloudConfigPath),
+                Configuration = GeneralUtilities.GetConfiguration(context.CloudConfigPath),
                 PackageUri = packageUri,
                 Label = context.ServiceName,
                 Mode = DeploymentUpgradeMode.Auto,
@@ -476,7 +476,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService
 
         private CloudServiceProject GetCurrentServiceProject()
         {
-            return new CloudServiceProject(General.GetServiceRootPath(GetCurrentDirectory()), null);
+            return new CloudServiceProject(GeneralUtilities.GetServiceRootPath(GetCurrentDirectory()), null);
         }
 
         private PublishContext CreatePublishContext(
@@ -821,7 +821,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService
 
             if (launch)
             {
-                General.LaunchWebPage(deployment.Uri.ToString());
+                GeneralUtilities.LaunchWebPage(deployment.Uri.ToString());
             }
             return deployment;
         }
@@ -893,7 +893,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService
         {
             if (!StorageServiceExists(name))
             {
-                var createParameters = new StorageAccountCreateParameters {ServiceName = name, Label = label};
+                var createParameters = new StorageAccountCreateParameters {Name = name, Label = label};
              
                 if (!string.IsNullOrEmpty(affinityGroup))
                 {
@@ -951,7 +951,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService
         /// <returns>The connection string</returns>
         public string GetStorageServiceConnectionString(string name)
         {
-            StorageServiceGetResponse storageService;
+            StorageAccountGetResponse storageService;
             StorageAccountGetKeysResponse storageKeys;
 
             try
@@ -964,18 +964,18 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService
                 throw new Exception(string.Format(Resources.StorageAccountNotFound, name));
             }
 
-            Debug.Assert(storageService.ServiceName != null);
+            Debug.Assert(storageService.StorageAccount.Name != null);
             Debug.Assert(storageKeys != null);
 
             StorageCredentials credentials = new StorageCredentials(
-                storageService.ServiceName,
+                storageService.StorageAccount.Name,
                 storageKeys.PrimaryKey);
 
             CloudStorageAccount cloudStorageAccount = new CloudStorageAccount(
                 credentials,
-                General.CreateHttpsEndpoint(storageService.Properties.Endpoints[0].ToString()),
-                General.CreateHttpsEndpoint(storageService.Properties.Endpoints[1].ToString()),
-                General.CreateHttpsEndpoint(storageService.Properties.Endpoints[2].ToString())
+                GeneralUtilities.CreateHttpsEndpoint(storageService.StorageAccount.Properties.Endpoints[0].ToString()),
+                GeneralUtilities.CreateHttpsEndpoint(storageService.StorageAccount.Properties.Endpoints[1].ToString()),
+                GeneralUtilities.CreateHttpsEndpoint(storageService.StorageAccount.Properties.Endpoints[2].ToString())
                 );
 
             return cloudStorageAccount.ToString(true);

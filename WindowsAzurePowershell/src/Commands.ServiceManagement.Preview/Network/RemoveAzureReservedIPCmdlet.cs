@@ -15,7 +15,6 @@
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Preview.Network
 {
     using System.Management.Automation;
-    using Management.VirtualNetworks;
     using Model;
     using Utilities.Common;
 

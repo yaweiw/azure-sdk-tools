@@ -11,6 +11,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 // ----------------------------------------------------------------------------------
+
+using System;
 using Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests.PowershellCore;
 
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests.IaasCmdletInfo
@@ -22,8 +24,14 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
         public GetAzureVMCmdletInfo(string vmName, string serviceName)
         {
             this.cmdletName = Utilities.GetAzureVMCmdletName;
-            this.cmdletParams.Add(new CmdletParam("Name", vmName));
-            this.cmdletParams.Add(new CmdletParam("ServiceName", serviceName));
+            if (!string.IsNullOrEmpty(vmName))
+            {
+                this.cmdletParams.Add(new CmdletParam("Name", vmName));
+            }
+            if (!String.IsNullOrEmpty(serviceName))
+            {
+                this.cmdletParams.Add(new CmdletParam("ServiceName", serviceName));
+            }
         }
     }
 }

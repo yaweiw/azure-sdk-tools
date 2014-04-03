@@ -18,8 +18,8 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
     using System.IO;
     using System.Management.Automation;
     using System.Xml.Serialization;
-    using Management.VirtualNetworks;
-    using Management.VirtualNetworks.Models;
+    using Management.Network;
+    using Management.Network.Models;
     using Properties;
     using Utilities.Common;
 

@@ -16,14 +16,11 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
 {
     using System;
     using System.Collections.Generic;
-    using System.Linq;
     using System.Management.Automation;
     using System.Security.Cryptography.X509Certificates;
     using Common;
     using Helpers;
-    using IaaS.Extensions;
     using Model;
-    using Model.PersistentVMModel;
     using Properties;
 
     /// <summary>
@@ -56,8 +53,12 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
             if (Linux.IsPresent)
             {
                 role.NoSSHEndpoint = NoSSHEndpoint.IsPresent;
-                SetProvisioningConfiguration(configSetbuilder.LinuxConfigurationBuilder.Provisioning);
-                configSetbuilder.LinuxConfigurationBuilder.Provisioning.HostName = role.RoleName;
+
+                if (!string.IsNullOrEmpty(this.LinuxUser))
+                {
+                    SetProvisioningConfiguration(configSetbuilder.LinuxConfigurationBuilder.Provisioning);
+                    configSetbuilder.LinuxConfigurationBuilder.Provisioning.HostName = role.RoleName;
+                }
 
                 if (!(DisableSSH.IsPresent || NoSSHEndpoint.IsPresent))
                 {
@@ -67,8 +68,12 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
             else
             {
                 role.NoRDPEndpoint = NoRDPEndpoint.IsPresent;
-                SetProvisioningConfiguration(configSetbuilder.WindowsConfigurationBuilder.Provisioning);
-                configSetbuilder.WindowsConfigurationBuilder.Provisioning.ComputerName = role.RoleName;
+
+                if (!string.IsNullOrEmpty(this.AdminUsername))
+                {
+                    SetProvisioningConfiguration(configSetbuilder.WindowsConfigurationBuilder.Provisioning);
+                    configSetbuilder.WindowsConfigurationBuilder.Provisioning.ComputerName = role.RoleName;
+                }
 
                 if (!NoRDPEndpoint.IsPresent)
                 {
@@ -84,7 +89,10 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
                     }
                     builder.AddHttpsListener(this.WinRMCertificate);
 
-                    configSetbuilder.WindowsConfigurationBuilder.Provisioning.WinRM = builder.Configuration;
+                    if (!string.IsNullOrEmpty(AdminUsername))
+                    {
+                        configSetbuilder.WindowsConfigurationBuilder.Provisioning.WinRM = builder.Configuration;
+                    }
     
                     if(!this.NoWinRMEndpoint.IsPresent)
                     {
@@ -98,6 +106,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
                 {
                     role.X509Certificates.AddRange(this.X509Certificates);
                 }
+
                 role.NoExportPrivateKey = this.NoExportPrivateKey.IsPresent;
                 role.ProvisionGuestAgent = !DisableGuestAgent.IsPresent;
             }

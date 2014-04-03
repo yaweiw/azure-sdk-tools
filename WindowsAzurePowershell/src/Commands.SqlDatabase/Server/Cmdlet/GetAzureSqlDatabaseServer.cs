@@ -55,13 +55,13 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Server.Cmdlet
 
             // Retrieve the list of servers
             ServerListResponse response = sqlManagementClient.Servers.List();
-            IEnumerable<ServerListResponse.Server> servers = response.Servers;
+            IEnumerable<Server> servers = response.Servers;
             if (!string.IsNullOrEmpty(serverName))
             {
                 // Server name is specified, find the one with the
                 // specified rule name and return that.
                 servers = response.Servers.Where(s => s.Name == serverName);
-                if (servers.Count() == 0)
+                if (!servers.Any())
                 {
                     throw new ItemNotFoundException(string.Format(
                         CultureInfo.InvariantCulture,
