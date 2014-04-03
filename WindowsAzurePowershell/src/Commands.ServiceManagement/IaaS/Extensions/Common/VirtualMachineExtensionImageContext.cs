@@ -14,6 +14,7 @@
 
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
 {
+    using System;
     using Utilities.Common;
 
     public class VirtualMachineExtensionImageContext : ManagementOperationContext
@@ -24,5 +25,10 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
         public string PublicConfigurationSchema { get; set; }
         public string PrivateConfigurationSchema { get; set; }
         public string SampleConfig { get; set; }
+        public bool ReplicationCompleted { get; private set; }
+        public Uri Eula { get; private set; }
+        public Uri PrivacyUri { get; private set; }
+        public Uri HomepageUri { get; private set; }
+        public bool IsJsonExtension { get; private set; }
     }
 }

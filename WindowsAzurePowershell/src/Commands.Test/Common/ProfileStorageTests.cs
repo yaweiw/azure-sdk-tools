@@ -22,7 +22,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.Common
     using System.Security.Cryptography.X509Certificates;
     using Commands.Utilities.Common;
     using Moq;
-    using Utilities.Resources;
+    using Commands.Common.Test.Resources;
     using VisualStudio.TestTools.UnitTesting;
 
     [TestClass]
@@ -144,7 +144,8 @@ namespace Microsoft.WindowsAzure.Commands.Test.Common
                 ServiceEndpoint = sourceEnv.ServiceEndpoint,
                 ActiveDirectoryEndpoint = sourceEnv.AdTenantUrl,
                 ActiveDirectoryCommonTenantId = sourceEnv.CommonTenantId,
-                StorageEndpointSuffix = sourceEnv.StorageEndpointSuffix
+                StorageEndpointSuffix = sourceEnv.StorageEndpointSuffix,
+                GalleryEndpoint = sourceEnv.GalleryEndpoint
             });
 
             var locator = typeof (ResourceLocator);
