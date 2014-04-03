@@ -24,11 +24,10 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
             this.cmdletParams.Add(new CmdletParam("Name", vmName));
             this.cmdletParams.Add(new CmdletParam("ServiceName", serviceName));
             this.cmdletParams.Add(new CmdletParam("NewImageName", newName));
-            this.cmdletParams.Add(new CmdletParam("OSState", osState.Trim()));
+            if(!string.IsNullOrEmpty(osState))
+                this.cmdletParams.Add(new CmdletParam("OSState", osState.Trim()));
             if (!System.String.IsNullOrWhiteSpace(newLabel))
-            {
                 this.cmdletParams.Add(new CmdletParam("NewImageLabel", newLabel));
-            }
         }
     }
 }
