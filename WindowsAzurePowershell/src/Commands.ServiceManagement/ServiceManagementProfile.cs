@@ -18,14 +18,17 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement
     using System.Collections.Generic;
     using System.Linq;
     using System.Net;
+    using System.Security;
     using AutoMapper;
     using Extensions;
+    using Helpers;
     using IaaS.Extensions;
     using Management.Compute.Models;
     using Management.Models;
     using Management.Storage.Models;
     using Model;
     using Utilities.Common;
+    using Utilities.Websites.Services;
     using NSM = Management.Compute.Models;
     using NVM = Management.VirtualNetworks.Models;
     using PVM = Model.PersistentVMModel;
@@ -42,6 +45,21 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement
                 Mapper.AddProfile<ServiceManagementProfile>();
                 return true;
             });
+        }
+
+        protected static SecureString GetSecureString(string str)
+        {
+            SecureString secureStr = new SecureString();
+
+            if (!string.IsNullOrEmpty(str))
+            {
+                foreach (char c in str)
+                {
+                    secureStr.AppendChar(c);
+                }
+            }
+
+            return secureStr;
         }
 
         public override string ProfileName
@@ -96,8 +114,10 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement
             Mapper.CreateMap<PVM.NetworkConfigurationSet, NSM.ConfigurationSet>()
                   .ForMember(c => c.InputEndpoints, o => o.MapFrom(r => r.InputEndpoints != null ? r.InputEndpoints.ToList() : null))
                   .ForMember(c => c.SubnetNames, o => o.MapFrom(r => r.SubnetNames != null ? r.SubnetNames.ToList() : null));
-            Mapper.CreateMap<PVM.WindowsProvisioningConfigurationSet, NSM.ConfigurationSet>();
-            Mapper.CreateMap<PVM.LinuxProvisioningConfigurationSet, NSM.ConfigurationSet>();
+            Mapper.CreateMap<PVM.WindowsProvisioningConfigurationSet, NSM.ConfigurationSet>()
+                  .ForMember(c => c.AdminPassword, o => o.MapFrom(r => r.AdminPassword.ConvertToUnsecureString()));
+            Mapper.CreateMap<PVM.LinuxProvisioningConfigurationSet, NSM.ConfigurationSet>()
+                  .ForMember(c => c.UserPassword, o => o.MapFrom(r => r.UserPassword.ConvertToUnsecureString()));
             Mapper.CreateMap<PVM.ProvisioningConfigurationSet, NSM.ConfigurationSet>();
             Mapper.CreateMap<PVM.ConfigurationSet, NSM.ConfigurationSet>();
             Mapper.CreateMap<PVM.InstanceEndpoint, NSM.InstanceEndpoint>()
@@ -145,8 +165,10 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement
                   .ForMember(c => c.OS, o => o.MapFrom(r => r.OperatingSystem));
             Mapper.CreateMap<NSM.ConfigurationSet, PVM.ConfigurationSet>();
             Mapper.CreateMap<NSM.ConfigurationSet, PVM.NetworkConfigurationSet>();
-            Mapper.CreateMap<NSM.ConfigurationSet, PVM.WindowsProvisioningConfigurationSet>();
-            Mapper.CreateMap<NSM.ConfigurationSet, PVM.LinuxProvisioningConfigurationSet>();
+            Mapper.CreateMap<NSM.ConfigurationSet, PVM.WindowsProvisioningConfigurationSet>()
+                  .ForMember(c => c.AdminPassword, o => o.MapFrom(r => SecureStringHelper.GetSecureString(r.AdminPassword)));
+            Mapper.CreateMap<NSM.ConfigurationSet, PVM.LinuxProvisioningConfigurationSet>()
+                  .ForMember(c => c.UserPassword, o => o.MapFrom(r => SecureStringHelper.GetSecureString(r.UserPassword)));
             Mapper.CreateMap<NSM.InstanceEndpoint, PVM.InstanceEndpoint>()
                   .ForMember(c => c.Vip, o => o.MapFrom(r => r.VirtualIPAddress != null ? r.VirtualIPAddress.ToString() : null))
                   .ForMember(c => c.PublicPort, o => o.MapFrom(r => r.Port));
@@ -379,7 +401,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement
             Mapper.CreateMap<NSM.DomainJoinCredentials, PVM.WindowsProvisioningConfigurationSet.DomainJoinCredentials>()
                   .ForMember(c => c.Domain, o => o.MapFrom(r => r.Domain))
                   .ForMember(c => c.Username, o => o.MapFrom(r => r.UserName))
-                  .ForMember(c => c.Password, o => o.MapFrom(r => r.Password));
+                  .ForMember(c => c.Password, o => o.MapFrom(r => SecureStringHelper.GetSecureString(r.Password)));
             Mapper.CreateMap<NSM.DomainJoinProvisioning, PVM.WindowsProvisioningConfigurationSet.DomainJoinProvisioning>()
                   .ForMember(c => c.AccountData, o => o.MapFrom(r => r.AccountData));
             Mapper.CreateMap<NSM.DomainJoinSettings, PVM.WindowsProvisioningConfigurationSet.DomainJoinSettings>()
@@ -391,7 +413,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement
             Mapper.CreateMap<PVM.WindowsProvisioningConfigurationSet.DomainJoinCredentials, NSM.DomainJoinCredentials>()
                   .ForMember(c => c.Domain, o => o.MapFrom(r => r.Domain))
                   .ForMember(c => c.UserName, o => o.MapFrom(r => r.Username))
-                  .ForMember(c => c.Password, o => o.MapFrom(r => r.Password));
+                  .ForMember(c => c.Password, o => o.MapFrom(r => r.Password.ConvertToUnsecureString()));
             Mapper.CreateMap<PVM.WindowsProvisioningConfigurationSet.DomainJoinProvisioning, NSM.DomainJoinProvisioning>()
                   .ForMember(c => c.AccountData, o => o.MapFrom(r => r.AccountData));
             Mapper.CreateMap<PVM.WindowsProvisioningConfigurationSet.DomainJoinSettings, NSM.DomainJoinSettings>()
@@ -512,7 +534,11 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement
                   });
 
             // Resource Reference Mapping - NSM to PVM
-            Mapper.CreateMap<NSM.ResourceExtensionParameterValue, PVM.ResourceExtensionParameterValue>();
+            const string privateTypeStr = "Private";
+            Mapper.CreateMap<NSM.ResourceExtensionParameterValue, PVM.ResourceExtensionParameterValue>()
+                  .ForMember(c => c.Value, o => o.MapFrom(r => r.Value))
+                  .ForMember(c => c.SecureValue, o => o.MapFrom(r => string.Equals(r.Type, privateTypeStr, StringComparison.OrdinalIgnoreCase)
+                                                                   ? null : GetSecureString(r.Value)));
             Mapper.CreateMap<IList<NSM.ResourceExtensionParameterValue>, PVM.ResourceExtensionParameterValueList>()
                   .AfterMap((c, s) =>
                   {
@@ -569,7 +595,9 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement
                       }
                   });
             // Resource Reference Mapping - PVM to NSM
-            Mapper.CreateMap<PVM.ResourceExtensionParameterValue, NSM.ResourceExtensionParameterValue>();
+            Mapper.CreateMap<PVM.ResourceExtensionParameterValue, NSM.ResourceExtensionParameterValue>()
+                  .ForMember(c => c.Value, o => o.MapFrom(r => string.Equals(r.Type, privateTypeStr, StringComparison.OrdinalIgnoreCase)
+                                                             ? r.SecureValue.ConvertToUnsecureString() : r.Value));
             Mapper.CreateMap<PVM.ResourceExtensionParameterValueList, IList<NSM.ResourceExtensionParameterValue>>()
                   .AfterMap((c, s) =>
                   {
