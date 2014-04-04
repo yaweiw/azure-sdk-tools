@@ -67,7 +67,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.DiskRepository
                         {
                             if (this.DeleteVHD.IsPresent)
                             {
-                                op = this.ComputeClient.VirtualMachineVMImages.Delete(this.ImageName, false);
+                                op = this.ComputeClient.VirtualMachineVMImages.Delete(this.ImageName, true);
                             }
                             else
                             {
