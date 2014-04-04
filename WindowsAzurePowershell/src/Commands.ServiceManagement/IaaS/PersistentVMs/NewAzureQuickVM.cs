@@ -485,7 +485,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.PersistentVMs
                 var windowsConfig = new Microsoft.WindowsAzure.Commands.ServiceManagement.Model.PersistentVMModel.WindowsProvisioningConfigurationSet
                 {
                     AdminUsername = this.AdminUsername,
-                    AdminPassword = Password,
+                    AdminPassword = SecureStringHelper.GetSecureString(Password),
                     ComputerName =
                         string.IsNullOrEmpty(Name) ? ServiceName : Name,
                     EnableAutomaticUpdates = true,
@@ -513,7 +513,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.PersistentVMs
                 {
                     HostName = string.IsNullOrEmpty(this.Name) ? this.ServiceName : this.Name,
                     UserName = this.LinuxUser,
-                    UserPassword = this.Password,
+                    UserPassword = SecureStringHelper.GetSecureString(this.Password),
                     DisableSshPasswordAuthentication = false
                 };
 

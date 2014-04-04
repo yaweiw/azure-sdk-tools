@@ -19,10 +19,13 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
     using System.IO;
     using System.Linq;
     using System.Management.Automation;
+    using System.Security;
     using System.Xml;
     using System.Xml.Linq;
+    using Helpers;
     using Model.PersistentVMModel;
     using Properties;
+    using Utilities.Websites.Services;
 
     public class VirtualMachineExtensionCmdletBase : VirtualMachineConfigurationCmdletBase
     {
@@ -231,7 +234,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
                     {
                         Key =  ExtensionName + (IsLegacyExtension() ? string.Empty : PrivateTypeStr) + "ConfigParameter",
                         Type = IsLegacyExtension() ? null : PrivateTypeStr,
-                        Value = PrivateConfiguration
+                        SecureValue = SecureStringHelper.GetSecureString(PrivateConfiguration)
                     });
             }
 
@@ -248,7 +251,10 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
                 var paramVal = paramValList.FirstOrDefault(
                     p => string.IsNullOrEmpty(typeStr) ? true :
                          string.Equals(p.Type, typeStr, StringComparison.OrdinalIgnoreCase));
-                config = paramVal == null ? string.Empty : paramVal.Value;
+                config = paramVal == null ? string.Empty
+                                          : string.Equals(typeStr, PublicTypeStr) ?
+                                                paramVal.Value
+                                              : paramVal.SecureValue.ConvertToUnsecureString();
             }
 
             return config;

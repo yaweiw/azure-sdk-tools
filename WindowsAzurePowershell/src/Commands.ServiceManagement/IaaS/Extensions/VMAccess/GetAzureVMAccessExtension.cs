@@ -17,6 +17,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
     using System.Collections.Generic;
     using System.Linq;
     using System.Management.Automation;
+    using Helpers;
 
     [Cmdlet(
         VerbsCommon.Get,
@@ -44,9 +45,9 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
                         State = r.State,
                         Enabled = !Disable,
                         UserName = UserName,
-                        Password = Password,
+                        Password = SecureStringHelper.GetSecureString(Password),
                         PublicConfiguration = PublicConfiguration,
-                        PrivateConfiguration = PrivateConfiguration
+                        PrivateConfiguration = SecureStringHelper.GetSecureString(PrivateConfiguration)
                     };
                 }).FirstOrDefault());
         }

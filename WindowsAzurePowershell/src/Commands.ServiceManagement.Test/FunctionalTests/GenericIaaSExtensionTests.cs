@@ -2,6 +2,7 @@
 using Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions;
 using Microsoft.WindowsAzure.Commands.ServiceManagement.Model;
 using Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests.ConfigDataInfo;
+using Microsoft.WindowsAzure.Commands.Utilities.Websites.Services;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -338,7 +339,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
                 Assert.AreEqual("Disable", vmExtension.State, "State is not Disable");
                 Console.WriteLine("Verifed the disabled extension successfully.");
             }
-            Assert.IsTrue(string.IsNullOrEmpty(vmExtension.PrivateConfiguration), "PrivateConfiguration is not empty.");
+            Assert.IsTrue(string.IsNullOrEmpty(vmExtension.PrivateConfiguration.ConvertToUnsecureString()), "PrivateConfiguration is not empty.");
         }
 
     }

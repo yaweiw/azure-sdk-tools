@@ -476,11 +476,11 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Model.PersistentVMMo
         }
 
         [DataMember(Name = "AdminPassword", EmitDefaultValue = false, Order = 2)]
-        public string AdminPassword
+        public System.Security.SecureString AdminPassword
         {
             get
             {
-                return this.GetValue<string>("AdminPassword");
+                return this.GetValue<System.Security.SecureString>("AdminPassword");
             }
             set
             {
@@ -640,7 +640,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Model.PersistentVMMo
             public string Username { get; set; }
 
             [DataMember(Name = "Password", EmitDefaultValue = false, Order = 3)]
-            public string Password { get; set; }
+            public System.Security.SecureString Password { get; set; }
         }
 
         [DataContract(Namespace = Constants.ServiceManagementNS)]
@@ -697,11 +697,11 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Model.PersistentVMMo
         }
 
         [DataMember(Name = "UserPassword", EmitDefaultValue = false, Order = 3)]
-        public string UserPassword
+        public System.Security.SecureString UserPassword
         {
             get
             {
-                return this.GetValue<string>("UserPassword");
+                return this.GetValue<System.Security.SecureString>("UserPassword");
             }
             set
             {
@@ -1679,6 +1679,8 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Model.PersistentVMMo
                 base.SetValue("Value", value);
             }
         }
+
+        public System.Security.SecureString SecureValue { get; set; }
 
         [DataMember(Name = "Type", EmitDefaultValue = false, Order = 2)]
         public string Type
