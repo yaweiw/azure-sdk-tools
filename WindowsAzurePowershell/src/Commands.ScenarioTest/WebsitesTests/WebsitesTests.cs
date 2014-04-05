@@ -19,7 +19,7 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.WebsitesTests
     using Microsoft.VisualStudio.TestTools.UnitTesting;
 
     [TestClass]
-    public class WebsitesTests : WindowsAzurePowerShellTest
+    public class WebsitesTests : WindowsAzurePowerShellCertificateTest
     {
         private string currentDirectory;
 

@@ -14,29 +14,31 @@
 
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
 {
+    using System;
+    using System.Linq;
     using System.Management.Automation;
     using Model;
+    using Properties;
+    using Storage;
+    using Storage.Auth;
+    using Storage.Blob;
+    using Utilities.Common;
 
     [Cmdlet(
         VerbsCommon.Set,
         VirtualMachineCustomScriptExtensionNoun,
-        DefaultParameterSetName = SetCustomScriptExtensionParamSetName),
+        DefaultParameterSetName = SetCustomScriptExtensionByContainerBlobsParamSetName),
     OutputType(
         typeof(IPersistentVM))]
     public class SetAzureVMCustomScriptExtensionCommand : VirtualMachineCustomScriptExtensionCmdletBase
     {
-        protected const string SetCustomScriptExtensionParamSetName = "SetCustomScriptExtension";
+        protected const string SetCustomScriptExtensionByContainerBlobsParamSetName = "SetCustomScriptExtensionByContainerAndFileNames";
+        protected const string SetCustomScriptExtensionByUrisParamSetName = "SetCustomScriptExtensionByUriLinks";
+        protected const string DisableCustomScriptExtensionParamSetName = "DisableCustomScriptExtension";
 
         [Parameter(
             Mandatory = false,
-            Position = 1,
-            ValueFromPipelineByPropertyName = true,
-            HelpMessage = "Disable VM BGInfo Extension")]
-        public override SwitchParameter Disable { get; set; }
-
-        [Parameter(
-            Mandatory = false,
-            Position = 2,
+            Position = 0,
             ValueFromPipelineByPropertyName = true,
             HelpMessage = "The Extension Reference Name.")]
         [ValidateNotNullOrEmpty]
@@ -44,11 +46,110 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
 
         [Parameter(
             Mandatory = false,
-            Position = 3,
+            Position = 1,
             ValueFromPipelineByPropertyName = true,
             HelpMessage = "The Extension Version.")]
         [ValidateNotNullOrEmpty]
         public override string Version { get; set; }
+
+        [Parameter(
+            ParameterSetName = DisableCustomScriptExtensionParamSetName,
+            Mandatory = false,
+            Position = 2,
+            ValueFromPipelineByPropertyName = true,
+            HelpMessage = "Disable VM Custom Script Extension")]
+        public override SwitchParameter Disable { get; set; }
+
+        [Parameter(
+            ParameterSetName = SetCustomScriptExtensionByContainerBlobsParamSetName,
+            Mandatory = true,
+            Position = 2,
+            ValueFromPipelineByPropertyName = true,
+            HelpMessage = "The Name of the Container.")]
+        [ValidateNotNullOrEmpty]
+        public override string ContainerName { get; set; }
+
+        [Parameter(
+            ParameterSetName = SetCustomScriptExtensionByContainerBlobsParamSetName,
+            Mandatory = true,
+            Position = 3,
+            ValueFromPipelineByPropertyName = true,
+            HelpMessage = "The Blob Files in the Container.")]
+        [ValidateNotNullOrEmpty]
+        public override string[] FileName { get; set; }
+
+        [Parameter(
+            ParameterSetName = SetCustomScriptExtensionByContainerBlobsParamSetName,
+            Mandatory = false,
+            Position = 4,
+            ValueFromPipelineByPropertyName = true,
+            HelpMessage = "The Storage Account Name.")]
+        [ValidateNotNullOrEmpty]
+        public override string StorageAccountName { get; set; }
+
+        [Parameter(
+            ParameterSetName = SetCustomScriptExtensionByContainerBlobsParamSetName,
+            Mandatory = false,
+            Position = 5,
+            ValueFromPipelineByPropertyName = true,
+            HelpMessage = "The Storage Endpoint Suffix.")]
+        [ValidateNotNullOrEmpty]
+        public override string StorageEndpointSuffix { get; set; }
+
+        [Parameter(
+            ParameterSetName = SetCustomScriptExtensionByContainerBlobsParamSetName,
+            Mandatory = false,
+            Position = 6,
+            ValueFromPipelineByPropertyName = true,
+            HelpMessage = "The Storage Account Key.")]
+        [ValidateNotNullOrEmpty]
+        public override string StorageAccountKey { get; set; }
+
+        [Parameter(
+            ParameterSetName = SetCustomScriptExtensionByUrisParamSetName,
+            Mandatory = false,
+            Position = 2,
+            ValueFromPipelineByPropertyName = true,
+            HelpMessage = "The File URIs.")]
+        [ValidateNotNullOrEmpty]
+        public override string[] FileUri { get; set; }
+
+        [Parameter(
+            ParameterSetName = SetCustomScriptExtensionByContainerBlobsParamSetName,
+            Mandatory = false,
+            Position = 7,
+            ValueFromPipelineByPropertyName = true,
+            HelpMessage = "The Run File to Execute in PowerShell on the VM.")]
+        [Parameter(
+            ParameterSetName = SetCustomScriptExtensionByUrisParamSetName,
+            Mandatory = true,
+            Position = 3,
+            ValueFromPipelineByPropertyName = true,
+            HelpMessage = "The Run File to Execute in PowerShell on the VM.")]
+        [ValidateNotNullOrEmpty]
+        [Alias("RunFile", "Command")]
+        public override string Run { get; set; }
+
+        [Parameter(
+            ParameterSetName = SetCustomScriptExtensionByContainerBlobsParamSetName,
+            Mandatory = false,
+            Position = 8,
+            ValueFromPipelineByPropertyName = true,
+            HelpMessage = "The Argument String for the Run File.")]
+        [Parameter(
+            ParameterSetName = SetCustomScriptExtensionByUrisParamSetName,
+            Mandatory = false,
+            Position = 4,
+            ValueFromPipelineByPropertyName = true,
+            HelpMessage = "The Argument String for the Run File.")]
+        [ValidateNotNullOrEmpty]
+        public override string Argument { get; set; }
+
+        protected override void ProcessRecord()
+        {
+            base.ProcessRecord();
+            ExecuteCommand();
+        }
 
         internal void ExecuteCommand()
         {
@@ -61,13 +162,80 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
         protected override void ValidateParameters()
         {
             base.ValidateParameters();
-            this.ReferenceName = this.ReferenceName ?? LegacyReferenceName;
+
+            if (string.Equals(this.ParameterSetName, SetCustomScriptExtensionByContainerBlobsParamSetName))
+            {
+                this.StorageEndpointSuffix = string.IsNullOrEmpty(this.StorageEndpointSuffix) ?
+                    WindowsAzureProfile.Instance.CurrentEnvironment.StorageEndpointSuffix : this.StorageEndpointSuffix;
+                var sName = string.IsNullOrEmpty(this.StorageAccountName) ? GetStorageName() : this.StorageAccountName;
+                var sKey = string.IsNullOrEmpty(this.StorageAccountKey) ? GetStorageKey(sName) : this.StorageAccountKey;
+
+                if (this.FileName != null && this.FileName.Any())
+                {
+                    this.FileUri = (from blobName in this.FileName
+                                    select GetSasUrlStr(sName, sKey, this.ContainerName, blobName)).ToArray();
+
+                    if (string.IsNullOrEmpty(this.Run))
+                    {
+                        WriteWarning(Resources.CustomScriptExtensionTryToUseTheFirstSpecifiedFileAsRunScript);
+                        this.Run = this.FileName[0];
+                    }
+                }
+            }
+
+            this.ReferenceName = string.IsNullOrEmpty(this.ReferenceName) ? LegacyReferenceName : this.ReferenceName;
+            this.PublicConfiguration = GetPublicConfiguration();
+            this.PrivateConfiguration = GetPrivateConfiguration();
         }
 
-        protected override void ProcessRecord()
+        protected string GetStorageName()
         {
-            base.ProcessRecord();
-            ExecuteCommand();
+            return CurrentSubscription.CurrentStorageAccountName;
+        }
+
+        protected string GetStorageKey(string storageName)
+        {
+            string storageKey = string.Empty;
+
+            if (!string.IsNullOrEmpty(storageName))
+            {
+                var storageAccount = this.StorageClient.StorageAccounts.Get(storageName);
+                if (storageAccount != null)
+                {
+                    var keys = this.StorageClient.StorageAccounts.GetKeys(storageName);
+                    if (keys != null)
+                    {
+                        storageKey = !string.IsNullOrEmpty(keys.PrimaryKey) ? keys.PrimaryKey : keys.SecondaryKey;
+                    }
+                }
+            }
+
+            return storageKey;
+        }
+
+        protected string GetSasUrlStr(string storageName, string storageKey, string containerName, string blobName)
+        {
+            var cred = new StorageCredentials(storageName, storageKey);
+            var storageAccount = string.IsNullOrEmpty(this.StorageEndpointSuffix)
+                               ? new CloudStorageAccount(cred, true)
+                               : new CloudStorageAccount(cred, this.StorageEndpointSuffix, true);
+
+            var blobClient = storageAccount.CreateCloudBlobClient();
+            var container = blobClient.GetContainerReference(containerName);
+            var cloudBlob = container.GetBlockBlobReference(blobName);
+            var sasToken = cloudBlob.GetSharedAccessSignature(
+                new SharedAccessBlobPolicy()
+                {
+                    SharedAccessExpiryTime = DateTime.UtcNow.AddHours(24.0),
+                    Permissions = SharedAccessBlobPermissions.Read
+                });
+
+            // Try not to use a Uri object in order to keep the following 
+            // special characters in the SAS signature section:
+            //     '+'   ->   '%2B'
+            //     '/'   ->   '%2F'
+            //     '='   ->   '%3D'
+            return cloudBlob.Uri + sasToken;
         }
     }
 }

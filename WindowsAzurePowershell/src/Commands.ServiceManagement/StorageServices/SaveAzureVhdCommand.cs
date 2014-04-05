@@ -89,7 +89,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.StorageServices
                 var storageService = this.StorageClient.StorageAccounts.Get(blobUri.StorageAccountName);
                 if (storageService != null)
                 {
-                    var storageKeys = this.StorageClient.StorageAccounts.GetKeys(storageService.ServiceName);
+                    var storageKeys = this.StorageClient.StorageAccounts.GetKeys(storageService.StorageAccount.Name);
                     storageKey = storageKeys.PrimaryKey;
                 }
             }

@@ -113,8 +113,8 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Firewall.Cmdlet
                 OperationId = response.RequestId,
                 ServerName = serverName,
                 RuleName = ruleName,
-                StartIpAddress = response.StartIPAddress,
-                EndIpAddress = response.EndIPAddress
+                StartIpAddress = response.FirewallRule.StartIPAddress,
+                EndIpAddress = response.FirewallRule.EndIPAddress
             };
 
             return operationContext;
