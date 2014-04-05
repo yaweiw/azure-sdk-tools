@@ -14,29 +14,74 @@
 
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.DiskRepository
 {
+    using System;
+    using System.Linq;
     using System.Management.Automation;
-    using Management.Compute;
+    using Microsoft.WindowsAzure.Management.Compute;
     using Utilities.Common;
+    using Properties;
 
-    [Cmdlet(VerbsCommon.Remove, "AzureVMImage"), OutputType(typeof(ManagementOperationContext))]
+    [Cmdlet(
+        VerbsCommon.Remove,
+        AzureVMImageNoun),
+    OutputType(
+        typeof(ManagementOperationContext))]
     public class RemoveAzureVMImage : ServiceManagementBaseCmdlet
     {
-        [Parameter(Position = 0, Mandatory = true, ValueFromPipelineByPropertyName = true, HelpMessage = "Name of the image in the image library to remove.")]
+        protected const string AzureVMImageNoun = "AzureVMImage";
+
+        [Parameter(
+            Position = 0,
+            Mandatory = true,
+            ValueFromPipelineByPropertyName = true,
+            HelpMessage = "Name of the image in the image library to remove.")]
         [ValidateNotNullOrEmpty]
         public string ImageName { get; set; }
 
-        [Parameter(Mandatory = false, HelpMessage = "Specify to remove the underlying VHD from the blob storage.")]
+        [Parameter(
+            Position = 1,
+            Mandatory = false,
+            HelpMessage = "Specify to remove the underlying VHD from the blob storage.")]
         public SwitchParameter DeleteVHD { get; set; }
 
         public void RemoveVMImageProcess()
         {
-            ServiceManagementProfile.Initialize();
-
-            // Remove the image from the image repository
+            ServiceManagementProfile.Initialize(this);
+            
             this.ExecuteClientActionNewSM(
-                null,
-                this.CommandRuntime.ToString(),
-                () => this.ComputeClient.VirtualMachineImages.Delete(this.ImageName, this.DeleteVHD.IsPresent));
+                    null,
+                    this.CommandRuntime.ToString(),
+                    () =>
+                    {
+                        OperationResponse op = null;
+
+                        bool isOSImage = GetAzureVMImage.CheckImageType(this.ComputeClient, this.ImageName, ImageType.OSImage);
+                        bool isVMImage = GetAzureVMImage.CheckImageType(this.ComputeClient, this.ImageName, ImageType.VMImage);
+
+                        if (isOSImage && isVMImage)
+                        {
+                            var errorMsg = string.Format(Resources.DuplicateNamesFoundInBothVMAndOSImages, this.ImageName);
+                            WriteError(new ErrorRecord(new Exception(errorMsg), string.Empty, ErrorCategory.CloseError, null));
+                        }
+                        else if (isVMImage)
+                        {
+                            if (this.DeleteVHD.IsPresent)
+                            {
+                                op = this.ComputeClient.VirtualMachineVMImages.Delete(this.ImageName, true);
+                            }
+                            else
+                            {
+                                WriteErrorWithTimestamp(Resources.VMImageDeletionMustSpecifyDeleteVhdParameter);
+                            }
+                        }
+                        else
+                        {
+                            // Remove the image from the image repository
+                            op = this.ComputeClient.VirtualMachineOSImages.Delete(this.ImageName, this.DeleteVHD.IsPresent);
+                        }
+
+                        return op;
+                    });
         }
 
         protected override void OnProcessRecord()

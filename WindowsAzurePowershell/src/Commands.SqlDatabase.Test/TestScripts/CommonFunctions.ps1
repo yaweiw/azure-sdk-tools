@@ -28,7 +28,7 @@ function Init-TestEnvironment
     # Setting to continue because WA sets a bunch of aliases which ask for 
     # confirmation when running the functional tests.
     $ConfirmPreference = "Continue"
-    $moduleLoaded = Get-Module -Name "Microsoft.WindowsAzure.Commands"
+    #$moduleLoaded = Get-Module -Name "Microsoft.WindowsAzure.Commands"
     if(!$moduleLoaded)
     {
         Import-Module .\Azure.psd1

@@ -1187,6 +1187,11 @@ using Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests.Iaa
             return result;
         }
 
+        public Collection<PersistentVMRoleListContext> GetAzureVM(string vmName = null)
+        {
+            return RunPSCmdletAndReturnAll<PersistentVMRoleListContext>(new GetAzureVMCmdletInfo(vmName, null));
+        }
+
         public PersistentVMRoleContext GetAzureVM(string vmName, string serviceName)
         {
             return RunPSCmdletAndReturnFirst<PersistentVMRoleContext>(new GetAzureVMCmdletInfo(vmName, serviceName));

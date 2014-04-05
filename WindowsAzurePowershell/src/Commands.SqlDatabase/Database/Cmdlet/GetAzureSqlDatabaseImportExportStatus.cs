@@ -105,7 +105,7 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Database.Cmdlet
         /// <param name="password">The password for authentication</param>
         /// <param name="requestId">The request Id of the operation to query</param>
         /// <returns>The status of the import/export operation</returns>
-        internal IEnumerable<StatusInfo> GetAzureSqlDatabaseImportExportStatusProcess(
+        internal IEnumerable<Services.ImportExport.StatusInfo> GetAzureSqlDatabaseImportExportStatusProcess(
             string serverName,
             string fullyQualifiedServerName,
             string userName,
@@ -124,7 +124,7 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Database.Cmdlet
                 requestId);
 
             // Construct the result
-            IEnumerable<StatusInfo> result = response.StatusInfoList.Select(status => new StatusInfo
+            IEnumerable<Services.ImportExport.StatusInfo> result = response.StatusInfoList.Select(status => new Services.ImportExport.StatusInfo
             {
                 BlobUri = status.BlobUri.ToString(),
                 ServerName = status.ServerName,

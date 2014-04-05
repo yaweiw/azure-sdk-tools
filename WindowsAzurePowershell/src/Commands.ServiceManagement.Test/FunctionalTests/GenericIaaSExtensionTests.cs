@@ -33,6 +33,8 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
         private string referenceName;
         string localPath;
 
+        private const string VmAccessAgentExtensionName = "VMAccessAgent";
+
         [ClassInitialize]
         public static void Intialize(TestContext context)
         {
@@ -73,7 +75,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
                 //Get the available VM Extension 
 
                 var availableExtensions =  vmPowershellCmdlets.GetAzureVMAvailableExtension();
-                vmAccessExtension = availableExtensions[2];
+                vmAccessExtension = availableExtensions.First(extension => extension.ExtensionName.Equals(VmAccessAgentExtensionName));
                 if (availableExtensions.Count > 0)
                 {
                     
@@ -118,8 +120,8 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
                 var availableExtensions =  vmPowershellCmdlets.GetAzureVMAvailableExtension();
                 if (availableExtensions.Count > 0)
                 {
-                    
-                    vmAccessExtension = availableExtensions[2];
+
+                    vmAccessExtension = availableExtensions.First(extension => extension.ExtensionName.Equals(VmAccessAgentExtensionName));
 
                     //Deploy a new IaaS VM with Extension using Add-AzureVMExtension
                     var vm = CreateIaaSVMObject(vmName);
@@ -159,7 +161,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
             try
             {
                 var availableExtensions = vmPowershellCmdlets.GetAzureVMAvailableExtension();
-                vmAccessExtension = availableExtensions[2];
+                vmAccessExtension = availableExtensions.First(extension => extension.ExtensionName.Equals(VmAccessAgentExtensionName));
                 //Create an deployment
                 
                 var vm1 = CreateIaaSVMObject(vmName);
@@ -192,7 +194,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
             try
             {
                 var availableExtensions = vmPowershellCmdlets.GetAzureVMAvailableExtension();
-                var vmAccessExtension = availableExtensions[2];
+                var vmAccessExtension = availableExtensions.First(extension => extension.ExtensionName.Equals(VmAccessAgentExtensionName));
                 
                 var vm1 = CreateIaaSVMObject(vmName);
                 

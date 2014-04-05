@@ -50,9 +50,9 @@ namespace Microsoft.WindowsAzure.Commands.Test.CloudService.Utilities
         private void StartEmulatorCommonTest(ComputeEmulatorMode mode)
         {
             // Setup
-            string testEmulatorFolder = @"C:\foo-bar";
-            string testPackagePath = @"c:\foo-bar\local_package.csx";
-            string testConfigPath = @"c:\foo-bar\ServiceConfiguration.Local.cscfg";
+            string testEmulatorFolder = @"C:\sample-path";
+            string testPackagePath = @"c:\sample-path\local_package.csx";
+            string testConfigPath = @"c:\sample-path\ServiceConfiguration.Local.cscfg";
             string expectedCsrunCommand = testEmulatorFolder + @"\" + Resources.CsRunExe;
             string expectedComputeArguments = Resources.CsRunStartComputeEmulatorArg;
             string expectedRemoveAllDeploymentsArgument = Resources.CsRunRemoveAllDeploymentsArg;

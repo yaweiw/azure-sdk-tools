@@ -98,7 +98,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
         }
 
         [TestMethod(), TestCategory("Sequential"), TestProperty("Feature", "IAAS"), Priority(0), Owner("hylee"), Description("Test the cmdlet ((Get,Set)-AzureVMBGInfoExtension)")]
-        public void UpdateVMWithExtensionTest()
+        public void UpdateVMWithBgInfoExtensionTest()
         {
             try
             {
@@ -126,7 +126,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
         }
 
         [TestMethod(), TestCategory("Sequential"), TestProperty("Feature", "IAAS"), Priority(0), Owner("hylee"), Description("Test the cmdlet ((Get,Set)-AzureVMBGInfoExtension)")]
-        public void AddRoleWithExtensionTest()
+        public void AddRoleWithBgInfoExtensionTest()
         {
             try
             {
@@ -156,7 +156,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
 
 
         [TestMethod(), TestCategory("Sequential"), TestProperty("Feature", "IAAS"), Priority(0), Owner("hylee"), Description("Test the cmdlet ((Get,Set)-AzureVMBGInfoExtension)")]
-        public void UpdateRoleWithExtensionTest()
+        public void UpdateRoleWithBgInfoExtensionTest()
         {
             try
             {
