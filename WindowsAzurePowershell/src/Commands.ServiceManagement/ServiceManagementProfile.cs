@@ -249,7 +249,12 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement
                   .ForMember(c => c.InputEndpoints, o => o.MapFrom(r => r.InputEndpoints != null ? r.InputEndpoints.ToList() : null))
                   .ForMember(c => c.SubnetNames, o => o.MapFrom(r => r.SubnetNames != null ? r.SubnetNames.ToList() : null));
             Mapper.CreateMap<PVM.WindowsProvisioningConfigurationSet, NSM.ConfigurationSet>();
-            Mapper.CreateMap<PVM.LinuxProvisioningConfigurationSet, NSM.ConfigurationSet>();
+            Mapper.CreateMap<PVM.LinuxProvisioningConfigurationSet.SSHKeyPair, NSM.SshSettingKeyPair>();
+            Mapper.CreateMap<PVM.LinuxProvisioningConfigurationSet.SSHPublicKey, NSM.SshSettingPublicKey>();
+            Mapper.CreateMap<PVM.LinuxProvisioningConfigurationSet.SSHSettings, NSM.SshSettings>();
+            Mapper.CreateMap<PVM.LinuxProvisioningConfigurationSet, NSM.ConfigurationSet>()
+                  .ForMember(c => c.UserPassword, o => o.MapFrom(r => string.IsNullOrEmpty(r.UserPassword) ? null : r.UserPassword))
+                  .ForMember(c => c.SshSettings, o => o.MapFrom(r => r.SSH));
             Mapper.CreateMap<PVM.ProvisioningConfigurationSet, NSM.ConfigurationSet>();
             Mapper.CreateMap<PVM.ConfigurationSet, NSM.ConfigurationSet>();
             Mapper.CreateMap<PVM.InstanceEndpoint, NSM.InstanceEndpoint>()
@@ -301,7 +306,11 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement
             Mapper.CreateMap<NSM.ConfigurationSet, PVM.ConfigurationSet>();
             Mapper.CreateMap<NSM.ConfigurationSet, PVM.NetworkConfigurationSet>();
             Mapper.CreateMap<NSM.ConfigurationSet, PVM.WindowsProvisioningConfigurationSet>();
-            Mapper.CreateMap<NSM.ConfigurationSet, PVM.LinuxProvisioningConfigurationSet>();
+            Mapper.CreateMap<NSM.SshSettingKeyPair, PVM.LinuxProvisioningConfigurationSet.SSHKeyPair>();
+            Mapper.CreateMap<NSM.SshSettingPublicKey, PVM.LinuxProvisioningConfigurationSet.SSHPublicKey>();
+            Mapper.CreateMap<NSM.SshSettings, PVM.LinuxProvisioningConfigurationSet.SSHSettings>();
+            Mapper.CreateMap<NSM.ConfigurationSet, PVM.LinuxProvisioningConfigurationSet>()
+                  .ForMember(c => c.UserPassword, o => o.MapFrom(r => string.IsNullOrEmpty(r.UserPassword) ? null : r.UserPassword));
             Mapper.CreateMap<NSM.InstanceEndpoint, PVM.InstanceEndpoint>()
                   .ForMember(c => c.Vip, o => o.MapFrom(r => r.VirtualIPAddress != null ? r.VirtualIPAddress.ToString() : null))
                   .ForMember(c => c.PublicPort, o => o.MapFrom(r => r.Port));
