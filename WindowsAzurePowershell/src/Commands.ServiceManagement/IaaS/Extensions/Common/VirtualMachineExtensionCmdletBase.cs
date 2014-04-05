@@ -33,8 +33,9 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
         protected const string PrivateConfigurationKeyStr = "PrivateConfiguration";
         protected const string PublicTypeStr = "Public";
         protected const string PrivateTypeStr = "Private";
-        protected const string ReferenceDisableStr = "Disable";
-        protected const string ReferenceEnableStr = "Enable";
+        public const string ReferenceDisableStateStr = "Disable";
+        public const string ReferenceEnableStateStr = "Enable";
+        public const string ReferenceUninstallStateStr = "Uninstall";
 
         protected static VirtualMachineExtensionImageContext[] LegacyExtensionImages;
 
@@ -191,7 +192,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
             extensionRef.Publisher = this.Publisher;
             extensionRef.Version = this.Version;
             extensionRef.State = IsLegacyExtension() ? null :
-                              this.Disable.IsPresent ? ReferenceDisableStr : ReferenceEnableStr;
+                              this.Disable.IsPresent ? ReferenceDisableStateStr : ReferenceEnableStateStr;
             extensionRef.ResourceExtensionParameterValues = new ResourceExtensionParameterValueList();
 
             if (!string.IsNullOrEmpty(this.ReferenceName))

@@ -75,12 +75,12 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
         {
             if (extensionRef != null && extensionRef.ResourceExtensionParameterValues != null)
             {
-                Disable = string.Equals(extensionRef.State, ReferenceDisableStr);
+                Disable = string.Equals(extensionRef.State, ReferenceDisableStateStr);
                 GetExtensionValues(extensionRef.ResourceExtensionParameterValues);
             }
             else
             {
-                Disable = extensionRef == null ? true : string.Equals(extensionRef.State, ReferenceDisableStr);
+                Disable = extensionRef == null ? true : string.Equals(extensionRef.State, ReferenceDisableStateStr);
             }
         }
 
