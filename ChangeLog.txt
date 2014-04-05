@@ -1,4 +1,15 @@
-﻿2014.02.25 Version 0.7.3.1
+﻿2014.03.11 Version 0.7.4
+* VM extension cmdlets
+  * Set-AzureVMExtension
+  * Get-AzureVMExtension
+  * Remove-AzureVMExtension
+  * Set-AzureVMAccessExtension
+  * Get-AzureVMAccessExtension
+  * Remove-AzureVMAccessExtension
+* Multi-thread support in storage cmdlets
+* Add YARN support via -Yarn parameter on Add-AzureHDInsightConfigValues
+
+2014.02.25 Version 0.7.3.1
 * Hotfix for https://github.com/WindowsAzure/azure-sdk-tools/issues/2350
 
 2014.02.12 Version 0.7.3
