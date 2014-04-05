@@ -16,6 +16,7 @@
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.PersistentVMs
 {
     using System;
+    using System.Collections.Generic;
     using System.Collections.ObjectModel;
     using System.Linq;
     using System.Management.Automation;
@@ -24,6 +25,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.PersistentVMs
     using AutoMapper;
     using Common;
     using DiskRepository;
+    using Extensions;
     using Helpers;
     using Management.Compute.Models;
     using Properties;
@@ -327,9 +329,9 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.PersistentVMs
                         OSVirtualHardDisk = _isVMImage ? null : Mapper.Map(vm.OSVirtualHardDisk, new Management.Compute.Models.OSVirtualHardDisk()),
                         RoleName = vm.RoleName,
                         RoleSize = vm.RoleSize,
-                        ResourceExtensionReferences = null,
                         VMImageName = _isVMImage ? this.ImageName : null,
-                        ProvisionGuestAgent = !this.DisableGuestAgent
+                        ProvisionGuestAgent = !this.DisableGuestAgent,
+                        ResourceExtensionReferences = Mapper.Map<List<ResourceExtensionReference>>(VirtualMachineBGInfoExtensionCmdletBase.ExtensionList)
                     };
 
                     if (!_isVMImage)
@@ -373,9 +375,9 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.PersistentVMs
                     MediaLink = string.IsNullOrEmpty(MediaLocation) ? null : new Uri(MediaLocation),
                     HostCaching = HostCaching
                 }),
-                ResourceExtensionReferences = null,
                 VMImageName = _isVMImage ? this.ImageName : null,
-                ProvisionGuestAgent = !this.DisableGuestAgent
+                ProvisionGuestAgent = !this.DisableGuestAgent,
+                ResourceExtensionReferences = Mapper.Map<List<ResourceExtensionReference>>(VirtualMachineBGInfoExtensionCmdletBase.ExtensionList)
             };
 
             if (!_isVMImage && vm.OSVirtualHardDisk.MediaLink == null && String.IsNullOrEmpty(vm.OSVirtualHardDisk.Name))
