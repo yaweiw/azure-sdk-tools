@@ -16,8 +16,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Preview
 {
     using System;
     using AutoMapper;
-    using Management.Models;
-    using Management.VirtualNetworks.Models;
+    using Management.Network.Models;
     using Model;
 
     public class ServiceManagementPreviewProfile : Profile

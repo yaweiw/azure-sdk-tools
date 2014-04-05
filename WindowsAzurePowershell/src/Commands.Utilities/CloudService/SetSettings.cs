@@ -26,7 +26,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService
 
         internal string GetServiceSettingsPath(bool global)
         {
-            return new CloudServiceProject(General.GetServiceRootPath(CurrentPath()), null).Paths.Settings;
+            return new CloudServiceProject(GeneralUtilities.GetServiceRootPath(CurrentPath()), null).Paths.Settings;
         }
     }
 }

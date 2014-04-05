@@ -139,7 +139,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.HostedServices
             string configString = string.Empty;
             if (!string.IsNullOrEmpty(Configuration))
             {
-                configString = General.GetConfiguration(Configuration);
+                configString = GeneralUtilities.GetConfiguration(Configuration);
             }
 
             ExtensionConfiguration extConfig = null;

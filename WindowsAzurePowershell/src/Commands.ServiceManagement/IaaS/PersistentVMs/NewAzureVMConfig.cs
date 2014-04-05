@@ -119,7 +119,8 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
                 RoleName = Name,
                 RoleSize = InstanceSize,
                 RoleType = RoleType,
-                Label = Label
+                Label = Label,
+                ProvisionGuestAgent = true
             };
 
             role.OSVirtualHardDisk = new OSVirtualHardDisk()

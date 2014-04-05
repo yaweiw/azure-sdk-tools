@@ -34,7 +34,11 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
 
         private string _serviceEndpoint;
 
+        private string _resourceManagerEndpoint;
+
         public string CurrentServiceEndpoint { get; set; }
+
+        public string CurrentResourceManagerEndpoint { get; set; }
 
         public Binding ServiceBinding
         {
@@ -75,6 +79,33 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
             set
             {
                 _serviceEndpoint = value;
+            }
+        }
+
+        public string ResourceManagerEndpoint
+        {
+            get
+            {
+                if (!string.IsNullOrEmpty(CurrentResourceManagerEndpoint))
+                {
+                    _resourceManagerEndpoint = CurrentResourceManagerEndpoint;
+                }
+                else if (CurrentSubscription != null && CurrentSubscription.ResourceManagerEndpoint != null)
+                {
+                    _resourceManagerEndpoint = CurrentSubscription.ResourceManagerEndpoint.ToString();
+                }
+                else
+                {
+                    // Use default endpoint
+                    _resourceManagerEndpoint = Profile.CurrentEnvironment.ResourceManagerEndpoint;
+                }
+
+                return _resourceManagerEndpoint;
+            }
+
+            set
+            {
+                _resourceManagerEndpoint = value;
             }
         }
 
@@ -154,7 +185,6 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
             Validate.ValidateInternetConnection();
             InitChannelCurrentSubscription();
             base.ProcessRecord();
-            HttpRestCallLogger.CurrentCmdlet = this;
             OnProcessRecord();
         }
 
@@ -379,7 +409,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
         {
             // If the exception is an Azure Service Management error, pull the
             // Azure message out to the front instead of the generic response.
-            errorRecord = AzureServiceManagementException.WrapExistingError(errorRecord);
+            errorRecord = AzureException.WrapExistingError(errorRecord);
         }
 
         protected static string RetrieveOperationId()

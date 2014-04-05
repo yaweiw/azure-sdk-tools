@@ -18,9 +18,9 @@ namespace Microsoft.WindowsAzure.Commands.Test.Common
     using System.IO;
     using System.Linq;
     using System.Xml.Linq;
+    using Commands.Common.Test.Resources;
     using Commands.Utilities.Common;
     using Moq;
-    using Utilities.Resources;
     using VisualStudio.TestTools.UnitTesting;
 
     [TestClass]

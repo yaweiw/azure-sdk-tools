@@ -42,7 +42,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
 
         public void ExecuteCommand()
         {
-            var parameters = new VirtualMachineDiskCreateDiskParameters
+            var parameters = new VirtualMachineDiskCreateParameters
             {
                 Name = this.DiskName,
                 MediaLinkUri = new Uri(this.MediaLocation),
@@ -54,7 +54,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
                 null,
                 this.CommandRuntime.ToString(),
                 () => this.ComputeClient.VirtualMachineDisks.CreateDisk(parameters),
-                (s, response) => this.ContextFactory<VirtualMachineDiskCreateDiskResponse, DiskContext>(response, s));
+                (s, response) => this.ContextFactory<VirtualMachineDiskCreateResponse, DiskContext>(response, s));
         }
 
         protected override void OnProcessRecord()
