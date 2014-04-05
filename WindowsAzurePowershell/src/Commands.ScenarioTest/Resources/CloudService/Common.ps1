@@ -20,13 +20,7 @@ Gets valid and available cloud service name.
 #>
 function Get-CloudServiceName
 {
-	do
-	{
-		$name = "onesdk" + (Get-Random).ToString()
-		$used = Test-AzureName -Service $name
-	} while ($used)
-
-	return $name
+	return getAssetName
 }
 
 <#

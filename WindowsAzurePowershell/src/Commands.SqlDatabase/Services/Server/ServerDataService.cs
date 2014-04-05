@@ -64,6 +64,7 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Services.Server
         /// Refresh the object by requerying for the object and merge changes.
         /// </summary>
         /// <param name="database">The object to refresh.</param>
+        /// <returns>The object with refreshed properties from the server.</returns>
         protected Database RefreshEntity(Database database)
         {
             MergeOption tempOption = this.MergeOption;
@@ -87,6 +88,41 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Services.Server
             }
 
             this.ClearTrackedEntity(database);
+        }
+
+        /// <summary>
+        /// Refresh the object by requerying for the object and merge changes.
+        /// </summary>
+        /// <param name="databaseCopy">The object to refresh.</param>
+        /// <returns>The object with refreshed properties from the server.</returns>
+        protected DatabaseCopy RefreshEntity(DatabaseCopy databaseCopy)
+        {
+            MergeOption tempOption = this.MergeOption;
+            this.MergeOption = MergeOption.OverwriteChanges;
+            databaseCopy = this.DatabaseCopies
+                .Where(copy => copy.SourceServerName == databaseCopy.SourceServerName)
+                .Where(copy => copy.SourceDatabaseName == databaseCopy.SourceDatabaseName)
+                .Where(copy => copy.DestinationServerName == databaseCopy.DestinationServerName)
+                .Where(copy => copy.DestinationDatabaseName == databaseCopy.DestinationDatabaseName)
+                .SingleOrDefault();
+            this.MergeOption = tempOption;
+
+            return databaseCopy;
+        }
+
+        /// <summary>
+        /// Revert the changes made to the given object, detach it from the context.
+        /// </summary>
+        /// <param name="databaseCopy">The object that is being operated on.</param>
+        protected void RevertChanges(DatabaseCopy databaseCopy)
+        {
+            // Revert the object by requerying for the object and clean up tracking
+            if (databaseCopy != null)
+            {
+                this.RefreshEntity(databaseCopy);
+            }
+
+            this.ClearTrackedEntity(databaseCopy);
         }
 
         #endregion

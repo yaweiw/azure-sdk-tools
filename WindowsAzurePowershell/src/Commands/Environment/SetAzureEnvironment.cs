@@ -12,7 +12,7 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Commands.Subscription
+namespace Microsoft.WindowsAzure.Commands.Profile
 {
     using System.Collections.Generic;
     using System.Management.Automation;
@@ -28,7 +28,7 @@ namespace Microsoft.WindowsAzure.Commands.Subscription
         [Parameter(Position = 0, Mandatory = true, ValueFromPipelineByPropertyName = true)]
         public string Name { get; set; }
 
-        [Parameter(Position = 1, Mandatory = true, ValueFromPipelineByPropertyName = true)]
+        [Parameter(Position = 1, Mandatory = false, ValueFromPipelineByPropertyName = true)]
         public string PublishSettingsFileUrl { get; set; }
 
         [Parameter(Position = 2, Mandatory = false, ValueFromPipelineByPropertyName = true)]
@@ -41,7 +41,14 @@ namespace Microsoft.WindowsAzure.Commands.Subscription
         public string StorageEndpoint { get; set; }
 
         [Parameter(Position = 5, Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "Active directory endpoint")]
-        public string AdEndpointUrl { get; set; }
+        [Alias("AdEndpointUrl")]
+        public string ActiveDirectoryEndpoint { get; set; }
+
+        [Parameter(Position = 6, Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "The cloud service endpoint")]
+        public string ResourceManagerEndpoint { get; set; }
+
+        [Parameter(Position = 7, Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "The public gallery endpoint")]
+        public string GalleryEndpoint { get; set; }
 
         [PermissionSet(SecurityAction.Demand, Name = "FullTrust")]
         public override void ExecuteCmdlet()
@@ -51,9 +58,11 @@ namespace Microsoft.WindowsAzure.Commands.Subscription
                 var env = WindowsAzureProfile.Instance.Environments[Name];
                 env.PublishSettingsFileUrl = Value(PublishSettingsFileUrl, env.PublishSettingsFileUrl);
                 env.ServiceEndpoint = Value(ServiceEndpoint, env.ServiceEndpoint);
+                env.ResourceManagerEndpoint = Value(ResourceManagerEndpoint, env.ResourceManagerEndpoint);
                 env.ManagementPortalUrl = Value(ManagementPortalUrl, env.ManagementPortalUrl);
                 env.StorageEndpointSuffix = Value(StorageEndpoint, env.StorageEndpointSuffix);
-                env.ActiveDirectoryEndpoint = Value(AdEndpointUrl, env.ActiveDirectoryEndpoint);
+                env.ActiveDirectoryEndpoint = Value(ActiveDirectoryEndpoint, env.ActiveDirectoryEndpoint);
+                env.GalleryEndpoint = Value(GalleryEndpoint, env.GalleryEndpoint);
 
                 WindowsAzureProfile.Instance.UpdateEnvironment(env);
 

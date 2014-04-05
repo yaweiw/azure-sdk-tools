@@ -168,7 +168,7 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Services.Server
             DatabaseListResponse response = sqlManagementClient.Databases.List(this.serverName);
 
             // Construct the resulting Database objects
-            Database[] databases = response.Databases.Select((db) => CreateDatabaseFromResponse(db)).ToArray();
+            Database[] databases = CreateDatabaseFromResponse(response);
             return databases;
         }
 
@@ -268,14 +268,14 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Services.Server
                 databaseName,
                 new DatabaseUpdateParameters()
                 {
-                    Id = database.Id,
+                    Id = database.Database.Id,
                     Name = !string.IsNullOrEmpty(newDatabaseName) ?
-                        newDatabaseName : database.Name,
+                        newDatabaseName : database.Database.Name,
                     Edition = databaseEdition.HasValue && (databaseEdition != DatabaseEdition.None) ?
-                        databaseEdition.ToString() : (database.Edition ?? string.Empty),
-                    CollationName = database.CollationName ?? string.Empty,
+                        databaseEdition.ToString() : (database.Database.Edition ?? string.Empty),
+                    CollationName = database.Database.CollationName ?? string.Empty,
                     MaximumDatabaseSizeInGB = databaseMaxSizeInGB.HasValue ?
-                        databaseMaxSizeInGB.Value : database.MaximumDatabaseSizeInGB,
+                        databaseMaxSizeInGB.Value : database.Database.MaximumDatabaseSizeInGB,
                     ServiceObjectiveId = serviceObjective != null ?
                         serviceObjective.Id.ToString() : null,
                 });
@@ -355,7 +355,7 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Services.Server
         /// <summary>
         /// Retrieve information on latest service objective with service objective
         /// </summary>
-        /// <param name="serviceObjective">The service objective to refresh.</param>
+        /// <param name="serviceObjectiveToRefresh">The service objective to refresh.</param>
         /// <returns>
         /// An object containing the information about the specific service objective.
         /// </returns>
@@ -373,7 +373,7 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Services.Server
                 serviceObjectiveToRefresh.Id.ToString());
 
             // Construct the resulting Database object
-            ServiceObjective serviceObjective = CreateServiceObjectiveFromResponse(response);
+            ServiceObjective serviceObjective = CreateServiceObjectiveFromResponse(response.ServiceObjective);
             return serviceObjective;
         }
 
@@ -453,7 +453,7 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Services.Server
             }
 
             // Construct the resulting database operations
-            DatabaseOperation[] operations = response.Select(operation => CreateDatabaseOperationsFromResponse(operation)).ToArray();
+            DatabaseOperation[] operations = CreateDatabaseOperationsFromResponse(response);
             return operations;
         }
 
@@ -476,7 +476,7 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Services.Server
                 this.serverName);
 
             // Construct the resulting database operations array
-            DatabaseOperation[] operations = response.Select(operation => CreateDatabaseOperationsFromResponse(operation)).ToArray();
+            DatabaseOperation[] operations = CreateDatabaseOperationsFromResponse(response);
             return operations;
         }
 
@@ -498,7 +498,7 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Services.Server
             };
         }
 
-        private Collection<DimensionSetting> CreateDimensionSettingsFromResponse(IList<ServiceObjectiveListResponse.ServiceObjective.DimensionSettingResponse> dimensionSettingsList)
+        private Collection<DimensionSetting> CreateDimensionSettingsFromResponse(IList<Management.Sql.Models.ServiceObjective.DimensionSettingResponse> dimensionSettingsList)
         {
             Collection<DimensionSetting> result = new Collection<DimensionSetting>();
             foreach (var response in dimensionSettingsList)
@@ -514,38 +514,7 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Services.Server
             return result;
         }
 
-        private Collection<DimensionSetting> CreateDimensionSettingsFromResponse(IList<ServiceObjectiveGetResponse.DimensionSettingResponse> dimensionSettingsList)
-        {
-            Collection<DimensionSetting> result = new Collection<DimensionSetting>();
-            foreach (var response in dimensionSettingsList)
-            {
-                result.Add(CreateDimensionSettings(
-                    response.Name,
-                    response.Id,
-                    response.Description,
-                    response.Ordinal,
-                    response.IsDefault
-                    ));
-            }
-            return result;
-        }
-
-        private ServiceObjective CreateServiceObjectiveFromResponse(ServiceObjectiveListResponse.ServiceObjective response)
-        {
-            return new ServiceObjective()
-            {
-                Name = response.Name,
-                Id = Guid.Parse(response.Id),
-                IsDefault = response.IsDefault,
-                IsSystem = response.IsSystem,
-                Enabled = response.Enabled,
-                Description = response.Description,
-                Context = this,
-                DimensionSettings = CreateDimensionSettingsFromResponse(response.DimensionSettings)
-            };
-        }
-
-        private ServiceObjective CreateServiceObjectiveFromResponse(ServiceObjectiveGetResponse response)
+        private ServiceObjective CreateServiceObjectiveFromResponse(Management.Sql.Models.ServiceObjective response)
         {
             return new ServiceObjective()
             {
@@ -583,40 +552,40 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Services.Server
         private DatabaseOperation CreateDatabaseOperationFromResponse(DatabaseOperationGetResponse response)
         {
             return CreateDatabaseOperation(
-                    response.Name,
-                    response.State,
-                    response.Id,
-                    response.StateId,
-                    response.SessionActivityId,
-                    response.DatabaseName,
-                    response.PercentComplete,
-                    response.ErrorCode,
-                    response.Error,
-                    response.ErrorSeverity,
-                    response.ErrorState,
-                    response.StartTime,
-                    response.LastModifyTime
+                    response.DatabaseOperation.Name,
+                    response.DatabaseOperation.State,
+                    response.DatabaseOperation.Id,
+                    response.DatabaseOperation.StateId,
+                    response.DatabaseOperation.SessionActivityId,
+                    response.DatabaseOperation.DatabaseName,
+                    response.DatabaseOperation.PercentComplete,
+                    response.DatabaseOperation.ErrorCode,
+                    response.DatabaseOperation.Error,
+                    response.DatabaseOperation.ErrorSeverity,
+                    response.DatabaseOperation.ErrorState,
+                    response.DatabaseOperation.StartTime,
+                    response.DatabaseOperation.LastModifyTime
                     );
         }
 
-        private DatabaseOperation CreateDatabaseOperationsFromResponse(DatabaseOperationListResponse.DatabaseOperation response)
+        private DatabaseOperation[] CreateDatabaseOperationsFromResponse(DatabaseOperationListResponse response)
         {
-            return CreateDatabaseOperation(
-                    response.Name,
-                    response.State,
-                    response.Id,
-                    response.StateId,
-                    response.SessionActivityId,
-                    response.DatabaseName,
-                    response.PercentComplete,
-                    response.ErrorCode,
-                    response.Error,
-                    response.ErrorSeverity,
-                    response.ErrorState,
-                    response.StartTime,
-                    response.LastModifyTime
-                    );
+            return response.DatabaseOperations.Select(dbOperation => CreateDatabaseOperation(
+                    dbOperation.Name,
+                    dbOperation.State,
+                    dbOperation.Id,
+                    dbOperation.StateId,
+                    dbOperation.SessionActivityId,
+                    dbOperation.DatabaseName,
+                    dbOperation.PercentComplete,
+                    dbOperation.ErrorCode,
+                    dbOperation.Error,
+                    dbOperation.ErrorSeverity,
+                    dbOperation.ErrorState,
+                    dbOperation.StartTime,
+                    dbOperation.LastModifyTime)).ToArray();
         }
+
 
         /// <summary>
         /// Given a <see cref="DatabaseGetResponse"/> this will create and return a <see cref="Database"/> 
@@ -627,47 +596,47 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Services.Server
         private Database CreateDatabaseFromResponse(DatabaseGetResponse response)
         {
             return this.CreateDatabaseFromResponse(
-                response.Id,
-                response.Name,
-                response.CreationDate,
-                response.Edition,
-                response.CollationName,
-                response.MaximumDatabaseSizeInGB,
-                response.IsFederationRoot,
-                response.IsSystemObject,
-                response.SizeMB,
-                response.ServiceObjectiveAssignmentErrorCode,
-                response.ServiceObjectiveAssignmentErrorDescription,
-                response.ServiceObjectiveAssignmentState,
-                response.ServiceObjectiveAssignmentStateDescription,
-                response.ServiceObjectiveAssignmentSuccessDate,
-                response.ServiceObjectiveId);
+                response.Database.Id,
+                response.Database.Name,
+                response.Database.CreationDate,
+                response.Database.Edition,
+                response.Database.CollationName,
+                response.Database.MaximumDatabaseSizeInGB,
+                response.Database.IsFederationRoot,
+                response.Database.IsSystemObject,
+                response.Database.SizeMB,
+                response.Database.ServiceObjectiveAssignmentErrorCode,
+                response.Database.ServiceObjectiveAssignmentErrorDescription,
+                response.Database.ServiceObjectiveAssignmentState,
+                response.Database.ServiceObjectiveAssignmentStateDescription,
+                response.Database.ServiceObjectiveAssignmentSuccessDate,
+                response.Database.ServiceObjectiveId);
         }
 
         /// <summary>
-        /// Given a <see cref="DatabaseListResponse.Database"/> this will create and return a <see cref="Database"/> 
+        /// Given a <see cref="DatabaseGetResponse"/> this will create and return a <see cref="Database"/> 
         /// object with the fields filled in.
         /// </summary>
         /// <param name="response">The response to turn into a <see cref="Database"/></param>
         /// <returns>a <see cref="Database"/> object.</returns>
-        private Database CreateDatabaseFromResponse(DatabaseListResponse.Database response)
+        private Database[] CreateDatabaseFromResponse(DatabaseListResponse response)
         {
-            return this.CreateDatabaseFromResponse(
-                response.Id,
-                response.Name,
-                response.CreationDate,
-                response.Edition,
-                response.CollationName,
-                response.MaximumDatabaseSizeInGB,
-                response.IsFederationRoot,
-                response.IsSystemObject,
-                response.SizeMB,
-                response.ServiceObjectiveAssignmentErrorCode,
-                response.ServiceObjectiveAssignmentErrorDescription,
-                response.ServiceObjectiveAssignmentState,
-                response.ServiceObjectiveAssignmentStateDescription,
-                response.ServiceObjectiveAssignmentSuccessDate,
-                response.ServiceObjectiveId);
+            return response.Databases.Select(db => this.CreateDatabaseFromResponse(
+                db.Id,
+                db.Name,
+                db.CreationDate,
+                db.Edition,
+                db.CollationName,
+                db.MaximumDatabaseSizeInGB,
+                db.IsFederationRoot,
+                db.IsSystemObject,
+                db.SizeMB,
+                db.ServiceObjectiveAssignmentErrorCode,
+                db.ServiceObjectiveAssignmentErrorDescription,
+                db.ServiceObjectiveAssignmentState,
+                db.ServiceObjectiveAssignmentStateDescription,
+                db.ServiceObjectiveAssignmentSuccessDate,
+                db.ServiceObjectiveId)).ToArray();
         }
 
         /// <summary>
@@ -679,21 +648,21 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Services.Server
         private Database CreateDatabaseFromResponse(DatabaseCreateResponse response)
         {
             return this.CreateDatabaseFromResponse(
-               response.Id,
-               response.Name,
-               response.CreationDate,
-               response.Edition,
-               response.CollationName,
-               response.MaximumDatabaseSizeInGB,
-               response.IsFederationRoot,
-               response.IsSystemObject,
-               response.SizeMB,
-               response.ServiceObjectiveAssignmentErrorCode,
-               response.ServiceObjectiveAssignmentErrorDescription,
-               response.ServiceObjectiveAssignmentState,
-               response.ServiceObjectiveAssignmentStateDescription,
-               response.ServiceObjectiveAssignmentSuccessDate,
-               response.ServiceObjectiveId);
+               response.Database.Id,
+               response.Database.Name,
+               response.Database.CreationDate,
+               response.Database.Edition,
+               response.Database.CollationName,
+               response.Database.MaximumDatabaseSizeInGB,
+               response.Database.IsFederationRoot,
+               response.Database.IsSystemObject,
+               response.Database.SizeMB,
+               response.Database.ServiceObjectiveAssignmentErrorCode,
+               response.Database.ServiceObjectiveAssignmentErrorDescription,
+               response.Database.ServiceObjectiveAssignmentState,
+               response.Database.ServiceObjectiveAssignmentStateDescription,
+               response.Database.ServiceObjectiveAssignmentSuccessDate,
+               response.Database.ServiceObjectiveId);
         }
 
         /// <summary>
@@ -705,21 +674,21 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Services.Server
         private Database CreateDatabaseFromResponse(DatabaseUpdateResponse response)
         {
             return this.CreateDatabaseFromResponse(
-                response.Id,
-                response.Name,
-                response.CreationDate,
-                response.Edition,
-                response.CollationName,
-                response.MaximumDatabaseSizeInGB,
-                response.IsFederationRoot,
-                response.IsSystemObject,
-                response.SizeMB,
-                response.ServiceObjectiveAssignmentErrorCode,
-                response.ServiceObjectiveAssignmentErrorDescription,
-                response.ServiceObjectiveAssignmentState,
-                response.ServiceObjectiveAssignmentStateDescription,
-                response.ServiceObjectiveAssignmentSuccessDate,
-                response.ServiceObjectiveId);
+                response.Database.Id,
+                response.Database.Name,
+                response.Database.CreationDate,
+                response.Database.Edition,
+                response.Database.CollationName,
+                response.Database.MaximumDatabaseSizeInGB,
+                response.Database.IsFederationRoot,
+                response.Database.IsSystemObject,
+                response.Database.SizeMB,
+                response.Database.ServiceObjectiveAssignmentErrorCode,
+                response.Database.ServiceObjectiveAssignmentErrorDescription,
+                response.Database.ServiceObjectiveAssignmentState,
+                response.Database.ServiceObjectiveAssignmentStateDescription,
+                response.Database.ServiceObjectiveAssignmentSuccessDate,
+                response.Database.ServiceObjectiveId);
         }
 
         /// <summary>
