@@ -18,30 +18,32 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Network
     using Model;
     using Utilities.Common;
 
-    [Cmdlet(VerbsCommon.Remove, ReservedIPConstants.CmdletNoun, DefaultParameterSetName = RemoveReservedIPParamSet), OutputType(typeof(ManagementOperationContext))]
+    [Cmdlet(
+        VerbsCommon.Remove,
+        ReservedIPConstants.CmdletNoun,
+        DefaultParameterSetName = RemoveReservedIPParamSet),
+    OutputType(
+        typeof(ManagementOperationContext))]
     public class RemoveAzureReservedIPCmdlet : ServiceManagementBaseCmdlet
     {
         protected const string RemoveReservedIPParamSet = "RemoveReservedIP";
 
-        [Parameter(Mandatory = true, Position = 0, ValueFromPipelineByPropertyName = true, HelpMessage = "Reserved IP Name.")]
+        [Parameter(
+            Mandatory = true,
+            Position = 0,
+            ValueFromPipelineByPropertyName = true,
+            HelpMessage = "Reserved IP Name.")]
         [ValidateNotNullOrEmpty]
-        public string ReservedIPName
-        {
-            get;
-            set;
-        }
-
-        internal void ExecuteCommand()
-        {
-            ExecuteClientActionNewSM(null,
-                CommandRuntime.ToString(),
-                () => NetworkClient.ReservedIPs.Delete(ReservedIPName));
-        }
+        public string ReservedIPName { get; set; }
 
         protected override void OnProcessRecord()
         {
             ServiceManagementProfile.Initialize();
-            ExecuteCommand();
+
+            ExecuteClientActionNewSM(
+                null,
+                CommandRuntime.ToString(),
+                () => NetworkClient.ReservedIPs.Delete(this.ReservedIPName));
         }
     }
 }

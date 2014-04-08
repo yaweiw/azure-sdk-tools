@@ -19,75 +19,76 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Network
     using Model;
     using Utilities.Common;
 
-    [Cmdlet(VerbsCommon.New, ReservedIPConstants.CmdletNoun, DefaultParameterSetName = ReserveNewIPParamSet), OutputType(typeof(ManagementOperationContext))]
+    [Cmdlet(
+        VerbsCommon.New,
+        ReservedIPConstants.CmdletNoun,
+        DefaultParameterSetName = ReserveNewIPParamSet),
+    OutputType(
+        typeof(ManagementOperationContext))]
     public class NewAzureReservedIPCmdlet : ServiceManagementBaseCmdlet
     {
         protected const string ReserveNewIPParamSet = "CreateNewReservedIP";
         protected const string ReserveInUseIPParamSet = "CreateInUseReservedIP";
 
-        [Parameter(Mandatory = true, Position = 0, ValueFromPipelineByPropertyName = true, ParameterSetName = ReserveNewIPParamSet, HelpMessage = "Reserved IP Name.")]
-        [Parameter(Mandatory = true, Position = 0, ValueFromPipelineByPropertyName = true, ParameterSetName = ReserveInUseIPParamSet, HelpMessage = "Reserved IP Name.")]
+        [Parameter(
+            Position = 0,
+            Mandatory = true,
+            ValueFromPipelineByPropertyName = true,
+            HelpMessage = "Reserved IP Name.")]
         [ValidateNotNullOrEmpty]
-        public string ReservedIPName
-        {
-            get;
-            set;
-        }
+        public string ReservedIPName { get; set; }
 
-        [Parameter(Mandatory = false, Position = 1, ValueFromPipelineByPropertyName = true, ParameterSetName = ReserveNewIPParamSet, HelpMessage = "Reserved IP Label.")]
-        [Parameter(Mandatory = false, Position = 1, ValueFromPipelineByPropertyName = true, ParameterSetName = ReserveInUseIPParamSet, HelpMessage = "Reserved IP Label.")]
+        [Parameter(
+            Position = 1,
+            Mandatory = false,
+            ValueFromPipelineByPropertyName = true,
+            HelpMessage = "Reserved IP Label.")]
         [ValidateNotNullOrEmpty]
-        public string Label
-        {
-            get;
-            set;
-        }
+        public string Label { get; set; }
 
-        [Parameter(Mandatory = true, Position = 2, ValueFromPipelineByPropertyName = true, ParameterSetName = ReserveNewIPParamSet, HelpMessage = "Affinity Group Name.")]
-        [Parameter(Mandatory = true, Position = 2, ValueFromPipelineByPropertyName = true, ParameterSetName = ReserveInUseIPParamSet, HelpMessage = "Affinity Group Name.")]
+        [Parameter(
+            Position = 2,
+            Mandatory = true,
+            ValueFromPipelineByPropertyName = true,
+            HelpMessage = "Affinity Group Name.")]
         [ValidateNotNullOrEmpty]
-        public string AffinityGroup
-        {
-            get;
-            set;
-        }
+        public string AffinityGroup { get; set; }
 
-        [Parameter(Mandatory = true, Position = 3, ValueFromPipelineByPropertyName = true, ParameterSetName = ReserveInUseIPParamSet, HelpMessage = "Service Name.")]
+        [Parameter(
+            ParameterSetName = ReserveInUseIPParamSet,
+            Position = 3,
+            Mandatory = true,
+            ValueFromPipelineByPropertyName = true,
+            HelpMessage = "Service Name.")]
         [ValidateNotNullOrEmpty]
-        public string ServiceName
-        {
-            get;
-            set;
-        }
+        public string ServiceName { get; set; }
 
-        [Parameter(Mandatory = true, Position = 4, ValueFromPipelineByPropertyName = true, ParameterSetName = ReserveInUseIPParamSet, HelpMessage = "Deployment Name.")]
+        [Parameter(
+            ParameterSetName = ReserveInUseIPParamSet,
+            Position = 4,
+            Mandatory = true,
+            ValueFromPipelineByPropertyName = true,
+            HelpMessage = "Deployment Name.")]
         [ValidateNotNullOrEmpty]
-        public string DeploymentName
-        {
-            get;
-            set;
-        }
-
-        public void ExecuteCommand()
-        {
-            var parameters = new NetworkReservedIPCreateParameters
-            {
-                Name = ReservedIPName,
-                Label = Label,
-                AffinityGroup = AffinityGroup,
-                ServiceName = ServiceName,
-                DeploymentName = DeploymentName
-            };
-
-            ExecuteClientActionNewSM(null,
-                CommandRuntime.ToString(),
-                () => NetworkClient.ReservedIPs.Create(parameters));
-        }
+        public string DeploymentName { get; set; }
 
         protected override void OnProcessRecord()
         {
             ServiceManagementProfile.Initialize();
-            this.ExecuteCommand();
+
+            var parameters = new NetworkReservedIPCreateParameters
+            {
+                Name           = this.ReservedIPName,
+                Label          = this.Label,
+                AffinityGroup  = this.AffinityGroup,
+                ServiceName    = this.ServiceName,
+                DeploymentName = this.DeploymentName
+            };
+
+            ExecuteClientActionNewSM(
+                null,
+                CommandRuntime.ToString(),
+                () => NetworkClient.ReservedIPs.Create(parameters));
         }
     }
 }

@@ -18,44 +18,49 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Preview.Network
     using System.Collections.Generic;
     using System.Linq;
     using System.Management.Automation;
-    using Management.Network;
     using Management.Network.Models;
     using Model;
     using Utilities.Common;
 
-    [Cmdlet(VerbsCommon.Get, ReservedIPConstants.CmdletNoun), OutputType(typeof(IEnumerable<ReservedIPContext>))]
+    [Cmdlet(
+        VerbsCommon.Get,
+        ReservedIPConstants.CmdletNoun,
+        DefaultParameterSetName = GetReservedIPParamSet),
+    OutputType(
+        typeof(ReservedIPContext))]
     public class GetAzureReservedIPCmdlet : ServiceManagementBaseCmdlet
     {
-        [Parameter(Mandatory = false, Position = 0, ValueFromPipelineByPropertyName = true, HelpMessage = "Reserved IP Name.")]
-        [ValidateNotNullOrEmpty]
-        public string ReservedIPName
-        {
-            get;
-            set;
-        }
+        protected const string GetReservedIPParamSet = "GetReservedIP";
 
-        public void ExecuteCommand()
-        {
-            if (ReservedIPName != null)
-            {
-                ExecuteClientActionNewSM(null,
-                    CommandRuntime.ToString(),
-                    () => NetworkClient.ReservedIPs.Get(ReservedIPName),
-                    (s, r) => new int[1].Select(i => ContextFactory<NetworkReservedIPGetResponse, ReservedIPContext>(r, s)));
-            }
-            else
-            {
-                ExecuteClientActionNewSM(null,
-                    CommandRuntime.ToString(),
-                    () => NetworkClient.ReservedIPs.List(),
-                    (s, r) => r.ReservedIPs.Select(p => ContextFactory<NetworkReservedIPListResponse.ReservedIP, ReservedIPContext>(p, s)));
-            }
-        }
+        [Parameter(
+            Position = 0,
+            ValueFromPipelineByPropertyName = true,
+            HelpMessage = "Reserved IP Name.")]
+        [ValidateNotNullOrEmpty]
+        public string ReservedIPName { get; set; }
 
         protected override void OnProcessRecord()
         {
             ServiceManagementProfile.Initialize();
-            this.ExecuteCommand();
+
+            if (!string.IsNullOrEmpty(this.ReservedIPName))
+            {
+                ExecuteClientActionNewSM(
+                    null,
+                    CommandRuntime.ToString(),
+                    () => NetworkClient.ReservedIPs.Get(this.ReservedIPName),
+                    (s, r) => new int[1].Select(
+                         i => ContextFactory<NetworkReservedIPGetResponse, ReservedIPContext>(r, s)));
+            }
+            else
+            {
+                ExecuteClientActionNewSM(
+                    null,
+                    CommandRuntime.ToString(),
+                    () => NetworkClient.ReservedIPs.List(),
+                    (s, r) => r.ReservedIPs.Select(
+                         p => ContextFactory<NetworkReservedIPListResponse.ReservedIP, ReservedIPContext>(p, s)));
+            }
         }
     }
 }
