@@ -84,16 +84,15 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.Data.Edm, Version=5.6.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Microsoft.Data.Edm.5.6.0\lib\net40\Microsoft.Data.Edm.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.Data.OData, Version=5.6.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Microsoft.Data.OData.5.6.0\lib\net40\Microsoft.Data.OData.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Data.Services.Client, Version=5.6.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Microsoft.Data.Services.Client.5.6.0\lib\net40\Microsoft.Data.Services.Client.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.Threading.Tasks, Version=1.0.12.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -112,6 +111,14 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\lib\Microsoft.Web.Deployment.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.WindowsAzure.Common, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.WindowsAzure.Common.1.0.0\lib\net40\Microsoft.WindowsAzure.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.WindowsAzure.Common.NetFramework, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.WindowsAzure.Common.1.0.0\lib\net40\Microsoft.WindowsAzure.Common.NetFramework.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.WindowsAzure.Configuration">
       <HintPath>..\packages\Microsoft.WindowsAzure.ConfigurationManager.2.0.1.0\lib\net40\Microsoft.WindowsAzure.Configuration.dll</HintPath>
     </Reference>
@@ -120,7 +127,6 @@
       <HintPath>..\packages\WindowsAzure.Storage.3.0.3.0\lib\net40\Microsoft.WindowsAzure.Storage.dll</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Newtonsoft.Json.5.0.8\lib\net40\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="System" />
@@ -153,7 +159,6 @@
       <HintPath>..\packages\Microsoft.Bcl.1.1.6\lib\net40\System.Runtime.dll</HintPath>
     </Reference>
     <Reference Include="System.Spatial, Version=5.6.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\System.Spatial.5.6.0\lib\net40\System.Spatial.dll</HintPath>
     </Reference>
     <Reference Include="System.Threading.Tasks">
@@ -164,6 +169,7 @@
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
+    <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CloudServiceTests\PublishAzureServiceScenarioTests.cs" />
@@ -172,17 +178,27 @@
     <Compile Include="CloudServiceTests\TestAzureNameScenarioTests.cs" />
     <Compile Include="CloudServiceTests\EmulatorTests.cs" />
     <Compile Include="CloudServiceTests\RemoveAzureServiceScenarioTests.cs" />
+    <Compile Include="Common\ConnectionStringFields.cs" />
     <Compile Include="Common\Constants.cs" />
+    <Compile Include="Common\WindowsAzurePowerShellCertificateTest.cs" />
+    <Compile Include="Common\ResourceManagerTestEnvironmentFactory.cs" />
     <Compile Include="Common\CustomPowerShell\CustomerPSHostUserInterface.cs" />
     <Compile Include="Common\CustomPowerShell\CustomHost.cs" />
     <Compile Include="Common\PowerShellExtensions.cs" />
     <Compile Include="Common\PowerShellTest.cs" />
+    <Compile Include="Common\ServiceManagementTestEnvironmentFactory.cs" />
     <Compile Include="Common\TestCredentialHelper.cs" />
-    <Compile Include="Common\WindowsAzurePowerShellTest.cs" />
+    <Compile Include="Common\TestEnvironment.cs" />
+    <Compile Include="Common\TestEnvironmentFactory.cs" />
+    <Compile Include="Common\TokenCloudCredentialsHelper.cs" />
+    <Compile Include="Common\WindowsAzurePowerShellTokenTest.cs" />
     <Resource Include="Resources\Storage\StorageContext.ps1">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
     <Compile Include="MediaServicesTests\MediaServicesTests.cs" />
+    <Compile Include="ResourceManager\DeploymentTests.cs" />
+    <Compile Include="ResourceManager\ResourceTests.cs" />
+    <Compile Include="ResourceManager\ResourceGroupTests.cs" />
     <Compile Include="ServiceBusTests\ServiceBusAuthorizationRuleTests.cs" />
     <Compile Include="StorageTests\StorageContainerTest.cs" />
     <Compile Include="StorageTests\StorageContextTest.cs" />
@@ -215,6 +231,21 @@
     <Content Include="Resources\Websites\WebsiteJobTestCmd.zip">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Resource Include="Resources\ResourceManager\Common.ps1">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\ResourceManager\ResourceTests.ps1">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <EmbeddedResource Include="Resources\node-token.zip" />
+    <Resource Include="Resources\ResourceManager\ResourceGroupTests.ps1">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <None Include="Resources\Build2014_Website_App.json" />
+    <Resource Include="Resources\ResourceManager\DeploymentTests.ps1">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <None Include="Resources\Websites\WebsiteJobTestCmd.zip" />
     <Resource Include="Resources\Common.ps1">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
@@ -290,6 +321,10 @@
     <None Include="Resources\tipsf004.publishsettings" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\tools\HttpRecorder\HttpRecorder.csproj">
+      <Project>{9e5cb6e6-92af-464a-bd30-e848d94ed490}</Project>
+      <Name>HttpRecorder</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Commands.Test.Utilities\Commands.Test.Utilities.csproj">
       <Project>{bc420543-c04e-4bf3-96e1-cd81b823bdd7}</Project>
       <Name>Commands.Test.Utilities</Name>
@@ -313,6 +348,14 @@
     <ProjectReference Include="..\Commands\Commands.csproj">
       <Project>{cd5aa507-f5ef-473d-855b-84b91a1abe54}</Project>
       <Name>Commands</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Common.Test\Common.Test.csproj">
+      <Project>{3b48a77b-5956-4a62-9081-92ba04b02b27}</Project>
+      <Name>Common.Test</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Common\Common.csproj">
+      <Project>{5ee72c53-1720-4309-b54b-5fb79703195f}</Project>
+      <Name>Common</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

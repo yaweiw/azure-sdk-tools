@@ -22,7 +22,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
         VerbsCommon.Get,
         VirtualMachineAccessExtensionNoun,
         DefaultParameterSetName = GetAccessExtensionParamSetName),
-    OutputType(typeof(IEnumerable<VirtualMachineAccessExtensionContext>))]
+    OutputType(typeof(VirtualMachineAccessExtensionContext))]
     public class GetAzureVMAccessExtensionCommand : VirtualMachineAccessExtensionCmdletBase
     {
         protected const string GetAccessExtensionParamSetName = "GetAccessExtension";
@@ -46,9 +46,10 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
                         UserName = UserName,
                         Password = Password,
                         PublicConfiguration = PublicConfiguration,
-                        PrivateConfiguration = PrivateConfiguration
+                        PrivateConfiguration = PrivateConfiguration,
+                        RoleName = VM.GetInstance().RoleName
                     };
-                }).FirstOrDefault());
+                }), true);
         }
 
         protected override void ProcessRecord()

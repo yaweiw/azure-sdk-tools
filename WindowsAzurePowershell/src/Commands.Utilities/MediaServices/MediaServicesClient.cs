@@ -115,7 +115,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.MediaServices
         /// </summary>
         /// <param name="storageAccountName">Name of the storage account.</param>
         /// <returns></returns>
-        public Task<StorageServiceGetResponse> GetStorageServicePropertiesAsync(string storageAccountName)
+        public Task<StorageAccountGetResponse> GetStorageServicePropertiesAsync(string storageAccountName)
         {
             return _storageClient.StorageAccounts.GetAsync(storageAccountName);
         }

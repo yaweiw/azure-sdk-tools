@@ -15,6 +15,7 @@
 
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Extensions
 {
+    using System;
     using Utilities.Common;
 
     public class ExtensionImageContext : ManagementOperationContext
@@ -28,5 +29,12 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Extensions
         public string ThumbprintAlgorithm { get; set; }
         public string PublicConfigurationSchema { get; set; }
         public string PrivateConfigurationSchema { get; set; }
+        public bool? BlockRoleUponFailure { get; set; }
+        public string SampleConfig { get; set; }
+        public bool? ReplicationCompleted { get; set; }
+        public Uri Eula { get; set; }
+        public Uri PrivacyUri { get; set; }
+        public Uri HomepageUri { get; set; }
+        public bool IsJsonExtension { get; set; }
     }
 }

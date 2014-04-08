@@ -65,14 +65,14 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Firewall.Cmdlet
 
             // Retrieve the list of databases
             FirewallRuleListResponse response = sqlManagementClient.FirewallRules.List(serverName);
-            IEnumerable<FirewallRuleListResponse.FirewallRule> firewallRules = response.FirewallRules;
+            IEnumerable<FirewallRule> firewallRules = response.FirewallRules;
 
             if (!string.IsNullOrEmpty(ruleName))
             {
                 // Firewall rule name is specified, find the one
                 // with the specified rule name and return that.
                 firewallRules = firewallRules.Where(p => p.Name == ruleName);
-                if (firewallRules.Count() == 0)
+                if (!firewallRules.Any())
                 {
                     throw new ItemNotFoundException(string.Format(
                         CultureInfo.InvariantCulture,

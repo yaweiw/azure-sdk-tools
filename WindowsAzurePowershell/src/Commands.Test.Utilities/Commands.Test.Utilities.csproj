@@ -20,7 +20,7 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>..\..\..\Package\Debug\</OutputPath>
+    <OutputPath>..\..\..\Package\Debug\Azure</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -31,7 +31,7 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>..\..\..\Package\Release\</OutputPath>
+    <OutputPath>..\..\..\Package\Release\Azure</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -39,7 +39,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
     <DebugSymbols>true</DebugSymbols>
-    <OutputPath>..\..\..\Package\Debug\</OutputPath>
+    <OutputPath>..\..\..\Package\Debug\Azure</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <DebugType>full</DebugType>
     <PlatformTarget>x64</PlatformTarget>
@@ -56,7 +56,7 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
-    <OutputPath>..\..\..\Package\Release\</OutputPath>
+    <OutputPath>..\..\..\Package\Release\Azure</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <Optimize>true</Optimize>
     <DebugType>pdbonly</DebugType>
@@ -73,7 +73,7 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'ReleaseSigned|AnyCPU'">
-    <OutputPath>..\..\..\Package\Release\</OutputPath>
+    <OutputPath>..\..\..\Package\Release\Azure</OutputPath>
     <DefineConstants>TRACE;SIGN</DefineConstants>
     <Optimize>true</Optimize>
     <DebugType>pdbonly</DebugType>
@@ -92,7 +92,7 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'ReleaseSigned|x64'">
-    <OutputPath>..\..\..\Package\Release\</OutputPath>
+    <OutputPath>..\..\..\Package\Release\Azure</OutputPath>
     <DefineConstants>TRACE;SIGN</DefineConstants>
     <Optimize>true</Optimize>
     <DebugType>pdbonly</DebugType>
@@ -114,16 +114,15 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.Data.Edm, Version=5.6.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Microsoft.Data.Edm.5.6.0\lib\net40\Microsoft.Data.Edm.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.Data.OData, Version=5.6.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Microsoft.Data.OData.5.6.0\lib\net40\Microsoft.Data.OData.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Data.Services.Client, Version=5.6.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Microsoft.Data.Services.Client.5.6.0\lib\net40\Microsoft.Data.Services.Client.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.Hadoop.Client, Version=1.1.0.7, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -142,25 +141,24 @@
       <HintPath>..\packages\Microsoft.Bcl.Async.1.0.165\lib\net40\Microsoft.Threading.Tasks.Extensions.Desktop.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
-    <Reference Include="Microsoft.WindowsAzure.Common, Version=0.9.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+    <Reference Include="Microsoft.WindowsAzure.Common, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Microsoft.WindowsAzure.Common.0.9.10-preview\lib\net40\Microsoft.WindowsAzure.Common.dll</HintPath>
+      <HintPath>..\packages\Microsoft.WindowsAzure.Common.1.0.0\lib\net40\Microsoft.WindowsAzure.Common.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.WindowsAzure.Common.NetFramework, Version=0.9.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+    <Reference Include="Microsoft.WindowsAzure.Common.NetFramework, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Microsoft.WindowsAzure.Common.0.9.10-preview\lib\net40\Microsoft.WindowsAzure.Common.NetFramework.dll</HintPath>
+      <HintPath>..\packages\Microsoft.WindowsAzure.Common.1.0.0\lib\net40\Microsoft.WindowsAzure.Common.NetFramework.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.WindowsAzure.Configuration, Version=1.8.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Microsoft.WindowsAzure.ConfigurationManager.1.8.0.0\lib\net35-full\Microsoft.WindowsAzure.Configuration.dll</HintPath>
+    <Reference Include="Microsoft.WindowsAzure.Configuration, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.WindowsAzure.ConfigurationManager.2.0.3\lib\net40\Microsoft.WindowsAzure.Configuration.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.WindowsAzure.Management, Version=0.9.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+    <Reference Include="Microsoft.WindowsAzure.Management, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Microsoft.WindowsAzure.Management.0.9.4-preview\lib\net40\Microsoft.WindowsAzure.Management.dll</HintPath>
+      <HintPath>..\packages\Microsoft.WindowsAzure.Management.1.0.0\lib\net40\Microsoft.WindowsAzure.Management.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.WindowsAzure.Management.Compute, Version=0.9.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+    <Reference Include="Microsoft.WindowsAzure.Management.Compute, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Microsoft.WindowsAzure.Management.Compute.0.9.12-preview\lib\net40\Microsoft.WindowsAzure.Management.Compute.dll</HintPath>
+      <HintPath>..\packages\Microsoft.WindowsAzure.Management.Compute.1.0.0\lib\net40\Microsoft.WindowsAzure.Management.Compute.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.WindowsAzure.Management.HDInsight, Version=1.1.0.7, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -174,24 +172,23 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Microsoft.Hadoop.Client.1.1.0.7\lib\net40\Microsoft.WindowsAzure.Management.HDInsight.Framework.Core.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.WindowsAzure.Management.Storage, Version=0.9.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+    <Reference Include="Microsoft.WindowsAzure.Management.Storage, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Microsoft.WindowsAzure.Management.Storage.0.9.3-preview\lib\net40\Microsoft.WindowsAzure.Management.Storage.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.WindowsAzure.Storage, Version=3.0.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\WindowsAzure.Storage.3.0.3.0\lib\net40\Microsoft.WindowsAzure.Storage.dll</HintPath>
+      <HintPath>..\packages\Microsoft.WindowsAzure.Management.Storage.1.0.0\lib\net40\Microsoft.WindowsAzure.Management.Storage.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.WindowsAzure.ServiceManagement.Client, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\lib\Microsoft.WindowsAzure.ServiceManagement.Client.dll</HintPath>
     </Reference>
-    <Reference Include="Moq, Version=4.2.1312.1622, Culture=neutral, PublicKeyToken=69f491c39445e920, processorArchitecture=MSIL">
+    <Reference Include="Microsoft.WindowsAzure.Storage, Version=3.0.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Moq.4.2.1312.1622\lib\net40\Moq.dll</HintPath>
+      <HintPath>..\packages\WindowsAzure.Storage.3.0.3.0\lib\net40\Microsoft.WindowsAzure.Storage.dll</HintPath>
+    </Reference>
+    <Reference Include="Moq, Version=4.2.1402.2112, Culture=neutral, PublicKeyToken=69f491c39445e920, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Moq.4.2.1402.2112\lib\net40\Moq.dll</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Newtonsoft.Json.5.0.8\lib\net40\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="System" />
@@ -224,7 +221,6 @@
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.ServiceModel" />
     <Reference Include="System.Spatial, Version=5.6.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\System.Spatial.5.6.0\lib\net40\System.Spatial.dll</HintPath>
     </Reference>
     <Reference Include="System.Threading.Tasks">
@@ -237,17 +233,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CloudService\AzureServiceWrapper.cs" />
-    <Compile Include="Common\ClientMocks.cs" />
-    <Compile Include="Common\Data.cs" />
-    <Compile Include="CloudService\RuntimePackageHelper.cs" />
-    <Compile Include="CloudService\ServiceSettingsTestData.cs" />
     <Compile Include="CloudService\SimpleServiceManagement.cs" />
-    <Compile Include="Common\DirStack.cs" />
-    <Compile Include="Common\EmbeddedFileWriter.cs" />
     <Compile Include="Common\MockServicesHost.cs" />
     <Compile Include="Common\MockStorageService.cs" />
-    <Compile Include="Common\TestDirBuilder.cs" />
     <Compile Include="HDInsight\PowerShellTestAbstraction\Concretes\CommandAbstraction.cs" />
     <Compile Include="HDInsight\PowerShellTestAbstraction\Concretes\PipelineAbstraction.cs" />
     <Compile Include="HDInsight\PowerShellTestAbstraction\Concretes\PipelineResultsAbstraction.cs" />
@@ -271,8 +259,8 @@
     <Compile Include="HDInsight\Simulators\AzureHDInsightSubscriptionResolverSimulator.cs" />
     <Compile Include="HDInsight\Simulators\AzureHDInsightSubscriptionResolverSimulatorFactory.cs" />
     <Compile Include="HDInsight\Simulators\BufferingLogWriterFactory.cs" />
-    <Compile Include="HDInsight\Simulators\FakeAccessToken.cs" />
-    <Compile Include="HDInsight\Simulators\FakeAccessTokenProvider.cs" />
+    <Compile Include="Common\FakeAccessToken.cs" />
+    <Compile Include="Common\FakeAccessTokenProvider.cs" />
     <Compile Include="HDInsight\Simulators\HDInsightSDKSupportedVersions.cs" />
     <Compile Include="HDInsight\Simulators\Types\ErrorDetails.cs" />
     <Compile Include="HDInsight\Simulators\Types\UserChangeOperationState.cs" />
@@ -286,20 +274,6 @@
     <Compile Include="HDInsight\Utilities\TestConstants.cs" />
     <Compile Include="HDInsight\Utilities\UserChangeOperationStatusResponse.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Properties\Resources.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Resources.resx</DependentUpon>
-    </Compile>
-    <Compile Include="Resources\ResourceLocator.cs" />
-    <Compile Include="Common\AzureAssert.cs" />
-    <Compile Include="Common\FileSystemHelper.cs" />
-    <Compile Include="Common\MockCommandRuntime.cs" />
-    <Compile Include="Common\PSObjectExtensions.cs" />
-    <Compile Include="Common\RemoveAzurePublishSettings.cs" />
-    <Compile Include="Common\SimpleServiceManagementAsyncResult.cs" />
-    <Compile Include="Common\TestBase.cs" />
-    <Compile Include="Common\Testing.cs" />
     <Compile Include="Websites\SimpleDeploymentServiceManagement.cs" />
     <Compile Include="Websites\SimpleGithubManagement.cs" />
     <Compile Include="Websites\SimpleWebsitesManagement.cs" />
@@ -307,15 +281,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="MSSharedLibKey.snk" />
-    <EmbeddedResource Include="Resources\Azure.publishsettings">
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Resources\InvalidProfile.PublishSettings" />
-    <EmbeddedResource Include="Resources\ValidProfile.PublishSettings">
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Resources\ValidProfile2.PublishSettings" />
-    <EmbeddedResource Include="Resources\GB18030ServiceDefinition.csdef" />
     <None Include="packages.config">
       <SubType>Designer</SubType>
     </None>
@@ -325,22 +290,14 @@
       <Project>{4900ec4e-8deb-4412-9108-0bc52f81d457}</Project>
       <Name>Commands.Utilities</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Properties\Resources.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <SubType>Designer</SubType>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Resources\testruntimemanifest.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Resources\invalidsubscriptions.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Resources\subscriptions.xml" />
+    <ProjectReference Include="..\Common.Test\Common.Test.csproj">
+      <Project>{3b48a77b-5956-4a62-9081-92ba04b02b27}</Project>
+      <Name>Common.Test</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Common\Common.csproj">
+      <Project>{5ee72c53-1720-4309-b54b-5fb79703195f}</Project>
+      <Name>Common</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

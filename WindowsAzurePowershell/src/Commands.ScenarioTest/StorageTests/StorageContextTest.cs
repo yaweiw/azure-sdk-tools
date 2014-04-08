@@ -18,7 +18,7 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.StorageTests
     using Commands.ScenarioTest.Common;
 
     [TestClass]
-    public class StorageContextTest : WindowsAzurePowerShellTest
+    public class StorageContextTest : WindowsAzurePowerShellCertificateTest
     {
         public StorageContextTest()
             : base("Storage\\StorageContext.ps1")

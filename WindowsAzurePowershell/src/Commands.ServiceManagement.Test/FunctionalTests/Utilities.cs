@@ -39,14 +39,9 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
         #region Constants
 
         public static string windowsAzurePowershellPath = Path.Combine(Environment.CurrentDirectory);
-        public const string windowsAzurePowershellModuleStorage = "Microsoft.WindowsAzure.Commands.Storage.dll";
-        public const string windowsAzurePowershellModuleManagement = "Microsoft.WindowsAzure.Commands.dll";
-        public const string windowsAzurePowershellModuleService = "Microsoft.WindowsAzure.Commands.Service.dll";
-        public const string windowsAzurePowershellModuleServiceManagement = "Microsoft.WindowsAzure.Commands.ServiceManagement.dll";
-        public const string windowsAzurePowershellModuleServiceManagementPlatformImageRepository =
-            "Microsoft.WindowsAzure.Commands.ServiceManagement.PlatformImageRepository.dll";
-       public const string windowsAzurePowershellModuleServiceManagementPreview =
-            "Microsoft.WindowsAzure.Commands.ServiceManagement.Preview.dll";
+        public const string windowsAzurePowershellServiceModule = "Azure.psd1";
+        public const string windowsAzurePowershellModuleServiceManagementPlatformImageRepository = "PIR.psd1";
+        public const string windowsAzurePowershellModuleServiceManagementPreview = "AzurePreview.psd1";
 
         private const string tclientPath = "tclient.dll";
         private const string clxtsharPath = "clxtshar.dll";
