@@ -12,14 +12,25 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
+namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Helpers
 {
     using System.Security;
 
-    public class VirtualMachineAccessExtensionContext : VirtualMachineExtensionContext
+    public class SecureStringHelper
     {
-        public string UserName { get; set; }
-        public SecureString Password { get; set; }
-        public bool Enabled { get; set; }
+        public static SecureString GetSecureString(string str)
+        {
+            SecureString secureStr = new SecureString();
+
+            if (!string.IsNullOrEmpty(str))
+            {
+                foreach (char c in str)
+                {
+                    secureStr.AppendChar(c);
+                }
+            }
+
+            return secureStr;
+        }
     }
 }
