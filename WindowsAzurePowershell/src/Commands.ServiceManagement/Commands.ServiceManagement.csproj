@@ -284,11 +284,16 @@
     <Compile Include="IaaS\Extensions\VMAccess\SetAzureVMAccessExtension.cs" />
     <Compile Include="IaaS\Extensions\VMAccess\VirtualMachineAccessExtensionCmdletBase.cs" />
     <Compile Include="IaaS\Extensions\VMAccess\VirtualMachineAccessExtensionContext.cs" />
+    <Compile Include="IaaS\Network\GetAzureReservedIPCmdlet.cs" />
     <Compile Include="IaaS\Network\GetAzureStaticVNetIP.cs" />
+    <Compile Include="IaaS\Network\NewAzureReservedIPCmdlet.cs" />
+    <Compile Include="IaaS\Network\RemoveAzureReservedIPCmdlet.cs" />
     <Compile Include="IaaS\Network\RemoveAzureStaticVNetIP.cs" />
     <Compile Include="IaaS\Network\SetAzureStaticVNetIP.cs" />
     <Compile Include="IaaS\Network\TestAzureStaticVNetIP.cs" />
     <Compile Include="Model\PersistentVMRoleListContext.cs" />
+    <Compile Include="Model\ReservedIPConstants.cs" />
+    <Compile Include="Model\ReservedIPContext.cs" />
     <Compile Include="Model\RoleSizeContext.cs" />
     <Compile Include="Model\PersistentVMRoleTypes.cs" />
     <Compile Include="Model\VirtualNetworkStaticIPAvailabilityContext.cs" />

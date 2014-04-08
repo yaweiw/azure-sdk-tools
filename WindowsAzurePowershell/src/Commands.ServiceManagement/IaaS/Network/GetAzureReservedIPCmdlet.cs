@@ -54,7 +54,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Preview.Network
 
         protected override void OnProcessRecord()
         {
-            ServiceManagementPreviewProfile.Initialize();
+            ServiceManagementProfile.Initialize();
             this.ExecuteCommand();
         }
     }
