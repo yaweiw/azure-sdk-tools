@@ -25,5 +25,6 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
         public string PublicConfiguration { get; set; }
         public string ReferenceName { get; set; }
         public string State { get; set; }
+        public string RoleName { get; set; }
     }
 }

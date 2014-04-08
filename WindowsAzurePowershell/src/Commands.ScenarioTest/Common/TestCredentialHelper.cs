@@ -24,6 +24,7 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.Common
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using Microsoft.WindowsAzure.Storage.Auth;
     using Microsoft.WindowsAzure.Storage.Blob;
+    using Microsoft.WindowsAzure.Commands.Utilities.Common;
 
     public class TestCredentialHelper
     {
@@ -31,6 +32,7 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.Common
         public static string EnvironmentVariableFile = "environment.yml";
         public static string PowerShellVariableFile = "variables.yml";
         public static string DefaultCredentialFile = "default.publishsettings";
+        public static string WindowsAzureProfileFile = "WindowsAzureProfile.xml";
         public static string TestEnvironmentVariable = "AZURE_TEST_ENVIRONMENT";
         public static string StorageAccountVariable = "AZURE_STORAGE_ACCOUNT";
         public static string StorageAccountKeyVariable = "AZURE_STORAGE_ACCESS_KEY";
@@ -68,15 +70,28 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.Common
 
         public void SetupPowerShellEnvironment(PowerShell powerShell)
         {
-            this.SetupPowerShellEnvironment(powerShell, DefaultCredentialFile);
+            this.SetupPowerShellEnvironment(powerShell, DefaultCredentialFile, WindowsAzureProfileFile);
         }
 
-        public void SetupPowerShellEnvironment(PowerShell powerShell, string credentials)
+        public void SetupPowerShellEnvironment(PowerShell powerShell, string credentials, string profile)
         {
             powerShell.RemoveCredentials();
-            string credentialFile = Path.Combine(this.downloadDirectoryPath, credentials);
-            Assert.IsTrue(File.Exists(credentialFile), string.Format("Did not download file {0}", credentialFile));
-            powerShell.ImportCredentials(credentialFile);
+            string profileFile = Path.Combine(this.downloadDirectoryPath, profile);
+
+            if (File.Exists(profileFile))
+            {
+                string dest = Path.Combine(GlobalPathInfo.GlobalSettingsDirectory, profile);
+                powerShell.AddScript(string.Format("Copy-Item -Path '{0}' -Destination '{1}' -Force", profileFile, dest));
+                powerShell.AddScript("[Microsoft.WindowsAzure.Commands.Utilities.Common.WindowsAzureProfile]::Instance.Load()");
+            }
+            else
+            {
+                string credentialFile = Path.Combine(this.downloadDirectoryPath, credentials);
+                Assert.IsTrue(File.Exists(credentialFile), string.Format("Did not download file {0}", credentialFile));
+                Console.WriteLine("Using default.PublishSettings for setting up credentials");
+                powerShell.ImportCredentials(credentialFile);
+            }
+
             foreach (string key in this.environment.Keys) powerShell.AddEnvironmentVariable(key, environment[key]);
             foreach (string key in this.PowerShellVariables.Keys) powerShell.SetVariable(key, PowerShellVariables[key]);
         }

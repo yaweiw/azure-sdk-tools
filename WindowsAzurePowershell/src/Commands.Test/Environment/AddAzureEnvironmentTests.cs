@@ -19,7 +19,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.Environment
     using System.IO;
     using System.Management.Automation;
     using Commands.Utilities.Common;
-    using Commands.Subscription;
+    using Commands.Profile;
     using Utilities.Common;
     using Moq;
     using VisualStudio.TestTools.UnitTesting;
@@ -53,7 +53,8 @@ namespace Microsoft.WindowsAzure.Commands.Test.Environment
                 PublishSettingsFileUrl = "http://microsoft.com",
                 ServiceEndpoint = "endpoint.net",
                 ManagementPortalUrl = "management portal url",
-                StorageEndpoint = "endpoint.net"
+                StorageEndpoint = "endpoint.net",
+                GalleryEndpoint = "http://galleryendpoint.com"
             };
 
             cmdlet.ExecuteCmdlet();
@@ -67,6 +68,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.Environment
             Assert.AreEqual(env.StorageBlobEndpointFormat, "{0}://{1}.blob.endpoint.net/");
             Assert.AreEqual(env.StorageQueueEndpointFormat, "{0}://{1}.queue.endpoint.net/");
             Assert.AreEqual(env.StorageTableEndpointFormat, "{0}://{1}.table.endpoint.net/");
+            Assert.AreEqual(env.GalleryEndpoint, "http://galleryendpoint.com");
         }
 
         [TestMethod]

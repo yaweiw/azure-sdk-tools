@@ -13,6 +13,8 @@
 // ----------------------------------------------------------------------------------
 
 
+using System.Linq;
+
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
 {
     using System;
@@ -234,6 +236,17 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
                 //
                 vmPowershellCmdlets.NewAzureVM(serviceName, new[] { vm }, null, new[] { dns }, null, null, null, null);
                 RecordTimeTaken(ref prevTime);
+
+                //
+                // Get-AzureVM without any parameter (List VMs)
+                //
+                var vmlist = vmPowershellCmdlets.GetAzureVM();
+                Console.WriteLine("The number of VMs: {0}", vmlist.Count);
+                Assert.AreNotSame(0, vmlist.Count, "No VM exists!!!");
+                PersistentVMRoleListContext returnedVMlist =
+                    vmlist.First(item => item.ServiceName.Equals(serviceName) && item.Name.Equals(newAzureVMName));
+                Assert.IsNotNull(returnedVMlist, "Created VM does not exist!!!");
+                Utilities.PrintContext((PersistentVMRoleContext) returnedVMlist);
 
                 //
                 // Get-AzureVM
