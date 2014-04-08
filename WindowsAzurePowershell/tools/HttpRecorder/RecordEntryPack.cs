@@ -12,20 +12,29 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Commands.Test.Utilities.Common
-{
-    using System;
-    using Commands.Utilities.Common.Authentication;
+using System.Collections.Generic;
+using System.Linq;
 
-    public class FakeAccessToken : IAccessToken
+namespace Microsoft.WindowsAzure.Utilities.HttpRecorder
+{
+    public class RecordEntryPack
     {
-        public void AuthorizeRequest(Action<string, string> authTokenSetter)
+        public List<RecordEntry> Entries { get; set; }
+        public Dictionary<string, Queue<string>> Names { get; set; }
+
+        public RecordEntryPack()
         {
-            authTokenSetter("Bearer", AccessToken);
+            Entries = new List<RecordEntry>();
         }
 
-        public string AccessToken { get; set; }
-        public string UserId { get; set; }
-        public LoginType LoginType { get; set; }
+        public static RecordEntryPack Deserialize(string path)
+        {
+            return Utilities.DeserializeJson<RecordEntryPack>(path);
+        }
+
+        public void Serialize(string path)
+        {
+            Utilities.SerializeJson(this, path);
+        }
     }
 }
