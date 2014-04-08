@@ -12,7 +12,7 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Preview.Network
+namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Network
 {
     using System.Management.Automation;
     using Management.Network.Models;
@@ -86,7 +86,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Preview.Network
 
         protected override void OnProcessRecord()
         {
-            ServiceManagementPreviewProfile.Initialize();
+            ServiceManagementProfile.Initialize();
             this.ExecuteCommand();
         }
     }

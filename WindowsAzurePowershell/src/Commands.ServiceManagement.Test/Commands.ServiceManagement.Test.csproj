@@ -498,10 +498,6 @@
       <Project>{6478fa8b-3801-4863-8591-87f0855d5c82}</Project>
       <Name>Commands.ServiceManagement.PlatformImageRepository</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Commands.ServiceManagement.Preview\Commands.ServiceManagement.Preview.csproj">
-      <Project>{e895bbda-0b06-46ab-b909-9b97b3ece47e}</Project>
-      <Name>Commands.ServiceManagement.Preview</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Commands.ServiceManagement\Commands.ServiceManagement.csproj">
       <Project>{E1CA72BA-8374-45F6-904D-FD34ECDF5B6F}</Project>
       <Name>Commands.ServiceManagement</Name>
