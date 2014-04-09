@@ -55,7 +55,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.UnitTests.Cmdle
                 CommandRuntime = new MockCommandRuntime()
             };
 
-            removeAzureCertificate.ExecuteCommand();
+            //removeAzureCertificate.ExecuteCommand();
             Assert.IsTrue(deleted);
         }
     }

@@ -15,58 +15,58 @@
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Certificates
 {
     using System.Management.Automation;
-    using Management.Compute;
     using Management.Compute.Models;
     using Utilities.Common;
 
     /// <summary>
     /// Deletes the specified certificate.
     /// </summary>
-    [Cmdlet(VerbsCommon.Remove, "AzureCertificate"), OutputType(typeof(ManagementOperationContext))]
+    [Cmdlet(
+        VerbsCommon.Remove,
+        "AzureCertificate"),
+    OutputType(
+        typeof(ManagementOperationContext))]
     public class RemoveAzureCertificate : ServiceManagementBaseCmdlet
     {
-        [Parameter(Position = 0, Mandatory = true, ValueFromPipelineByPropertyName = true, HelpMessage = "Hosted Service Name.")]
+        [Parameter(
+            Position = 0,
+            Mandatory = true,
+            ValueFromPipelineByPropertyName = true,
+            HelpMessage = "Hosted Service Name.")]
         [ValidateNotNullOrEmpty]
-        public string ServiceName
-        {
-            get;
-            set;
-        }
+        public string ServiceName { get; set; }
 
-        [Parameter(Position = 1, Mandatory = true, ValueFromPipelineByPropertyName = true, HelpMessage = "Certificate thumbprint algorithm.")]
+        [Parameter(
+            Position = 1,
+            Mandatory = true,
+            ValueFromPipelineByPropertyName = true,
+            HelpMessage = "Certificate thumbprint algorithm.")]
         [ValidateNotNullOrEmpty]
-        public string ThumbprintAlgorithm
-        {
-            get;
-            set;
-        }
+        public string ThumbprintAlgorithm { get; set; }
 
-        [Parameter(Position = 2, Mandatory = true, ValueFromPipelineByPropertyName = true, HelpMessage = "Certificate thumbprint.")]
+        [Parameter(
+            Position = 2,
+            Mandatory = true,
+            ValueFromPipelineByPropertyName = true,
+            HelpMessage = "Certificate thumbprint.")]
         [ValidateNotNullOrEmpty]
-        public string Thumbprint
-        {
-            get;
-            set;
-        }
-
-        internal void ExecuteCommand()
-        {
-            var parameters = new ServiceCertificateDeleteParameters
-            {
-                ServiceName = ServiceName,
-                Thumbprint = Thumbprint,
-                ThumbprintAlgorithm = ThumbprintAlgorithm
-            };
-            ExecuteClientActionNewSM(
-                null,
-                CommandRuntime.ToString(),
-                () => this.ComputeClient.ServiceCertificates.Delete(parameters));
-        }
+        public string Thumbprint { get; set; }
 
         protected override void OnProcessRecord()
         {
             ServiceManagementProfile.Initialize();
-            this.ExecuteCommand();
+
+            var parameters = new ServiceCertificateDeleteParameters
+            {
+                ServiceName         = ServiceName,
+                Thumbprint          = Thumbprint,
+                ThumbprintAlgorithm = ThumbprintAlgorithm
+            };
+
+            ExecuteClientActionNewSM(
+                null,
+                CommandRuntime.ToString(),
+                () => this.ComputeClient.ServiceCertificates.Delete(parameters));
         }
     }
 }

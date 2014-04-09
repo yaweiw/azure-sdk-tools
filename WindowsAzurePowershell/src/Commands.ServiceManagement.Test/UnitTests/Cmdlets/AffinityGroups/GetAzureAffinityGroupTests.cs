@@ -58,7 +58,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.UnitTests.Cmdle
             };
 
             getAzureAffinityGroupCommand.Name = "affinity1";
-            getAzureAffinityGroupCommand.ExecuteCommand();
+            //getAzureAffinityGroupCommand.ExecuteCommand();
 
             Assert.AreEqual(1, ((MockCommandRuntime)getAzureAffinityGroupCommand.CommandRuntime).OutputPipeline.Count);
             IEnumerator enumerator = LanguagePrimitives.GetEnumerator(((MockCommandRuntime)getAzureAffinityGroupCommand.CommandRuntime).OutputPipeline);
@@ -83,7 +83,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.UnitTests.Cmdle
                 CommandRuntime = new MockCommandRuntime()
             };
 
-            getAzureAffinityGroupCommand.ExecuteCommand();
+            //getAzureAffinityGroupCommand.ExecuteCommand();
 
             Assert.AreEqual(1, ((MockCommandRuntime)getAzureAffinityGroupCommand.CommandRuntime).OutputPipeline.Count);
             IEnumerator enumerator = LanguagePrimitives.GetEnumerator(((MockCommandRuntime)getAzureAffinityGroupCommand.CommandRuntime).OutputPipeline.First());

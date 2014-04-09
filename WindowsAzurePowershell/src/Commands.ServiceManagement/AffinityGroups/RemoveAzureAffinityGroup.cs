@@ -21,18 +21,22 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.AffinityGroups
     /// <summary>
     /// Deletes an affinity group.
     /// </summary>
-    [Cmdlet(VerbsCommon.Remove, "AzureAffinityGroup"), OutputType(typeof(ManagementOperationContext))]
+    [Cmdlet(
+        VerbsCommon.Remove,
+        "AzureAffinityGroup"),
+    OutputType(
+        typeof(ManagementOperationContext))]
     public class RemoveAzureAffinityGroup : ServiceManagementBaseCmdlet
     {
-        [Parameter(Position = 0, ValueFromPipelineByPropertyName = true, Mandatory = true, HelpMessage = "Affinity Group name.")]
+        [Parameter(
+            Position = 0,
+            Mandatory = true,
+            ValueFromPipelineByPropertyName = true,
+            HelpMessage = "Affinity Group name.")]
         [ValidateNotNullOrEmpty]
-        public string Name
-        {
-            get;
-            set;
-        }
+        public string Name { get; set; }
 
-        internal void ExecuteCommand()
+        protected override void OnProcessRecord()
         {
             ServiceManagementProfile.Initialize();
 
@@ -40,11 +44,6 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.AffinityGroups
                 null,
                 CommandRuntime.ToString(),
                 () => this.ManagementClient.AffinityGroups.Delete(this.Name));
-        }
-
-        protected override void OnProcessRecord()
-        {
-            ExecuteCommand();
         }
     }
 }

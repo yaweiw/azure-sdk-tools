@@ -62,7 +62,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.UnitTests.Cmdle
                 Label = affinityGroupName
             };
 
-            removeAzureAffinityGroupCommand.ExecuteCommand();
+            //removeAzureAffinityGroupCommand.ExecuteCommand();
             Assert.IsTrue(updated);
         }
     }

@@ -62,7 +62,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.UnitTests.Cmdle
 
             getAzureCertificate.Thumbprint = thumbprint;
             getAzureCertificate.ThumbprintAlgorithm = thumbprintAlgorithm;
-            getAzureCertificate.ExecuteCommand();
+            //getAzureCertificate.ExecuteCommand();
 
             Assert.AreEqual(1, ((MockCommandRuntime)getAzureCertificate.CommandRuntime).OutputPipeline.Count);
 
@@ -99,7 +99,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.UnitTests.Cmdle
                 CommandRuntime = new MockCommandRuntime()
             };
 
-            getAzureCertificate.ExecuteCommand();
+            //getAzureCertificate.ExecuteCommand();
 
             Assert.AreEqual(1, ((MockCommandRuntime)getAzureCertificate.CommandRuntime).OutputPipeline.Count);
 

@@ -15,87 +15,72 @@
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.AffinityGroups
 {
     using System.Management.Automation;
-    using Management;
     using Management.Models;
     using Utilities.Common;
 
     /// <summary>
     /// Creates and returns a new affinity group in the specified data center location.
     /// </summary>
-    [Cmdlet(VerbsCommon.New, "AzureAffinityGroup"), OutputType(typeof(ManagementOperationContext))]
+    [Cmdlet(
+        VerbsCommon.New,
+        "AzureAffinityGroup"),
+    OutputType(
+        typeof(ManagementOperationContext))]
     public class NewAzureAffinityGroup : ServiceManagementBaseCmdlet
     {
         /// <summary>
         /// A name for the affinity group that is unique to the subscription. (Required)
         /// </summary>
-        [Parameter(Position = 0, Mandatory = true, ValueFromPipelineByPropertyName = true, HelpMessage = "Name of the affinity group.")]
+        [Parameter(
+            Position = 0,
+            Mandatory = true,
+            ValueFromPipelineByPropertyName = true,
+            HelpMessage = "Name of the affinity group.")]
         [ValidateNotNullOrEmpty]
-        public string Name
-        {
-            get;
-            set;
-        }
+        public string Name { get; set; }
 
         /// <summary>
         /// A label for the affinity group. The label may be up to 100 characters in length. (Required)
         /// </summary>
-        [Parameter(HelpMessage = "Label of the affinity group.")]
+        [Parameter(
+            HelpMessage = "Label of the affinity group.")]
         [ValidateNotNullOrEmpty]
         [ValidateLength(1, 100)]
-        public string Label
-        {
-            get;
-            set;
-        }
+        public string Label { get; set; }
 
         /// <summary>
         /// A description for the affinity group. The description may be up to 1024 characters in length. (Optional)
         /// </summary>
-        [Parameter(HelpMessage = "Description of the affinity group.")]
+        [Parameter(
+            HelpMessage = "Description of the affinity group.")]
         [ValidateLength(0, 1024)]
-        public string Description
-        {
-            get;
-            set;
-        }
+        public string Description { get; set; }
 
         /// <summary>
         /// Required. The location where the affinity group will be created. To list available locations, use the List Locations operation.
         /// </summary>
-        [Parameter(Mandatory = true, HelpMessage = "Location of the affinity group.")]
+        [Parameter(
+            Mandatory = true,
+            HelpMessage = "Location of the affinity group.")]
         [ValidateNotNullOrEmpty]
-        public string Location
-        {
-            get;
-            set;
-        }
+        public string Location { get; set; }
 
-        public void ExecuteCommand()
+        protected override void OnProcessRecord()
         {
             ServiceManagementProfile.Initialize();
-            
-            if (string.IsNullOrEmpty(Label))
-            {
-                Label = Name;
-            }
 
             var input = new AffinityGroupCreateParameters
-                        {
-                            Description = this.Description,
-                            Label = this.Label,
-                            Location = this.Location,
-                            Name = this.Name
-                        };
+            {
+                Description = this.Description,
+                Label       = this.Label,
+                Location    = this.Location,
+                Name        = string.IsNullOrEmpty(Label) ? this.Name : this.Label
+            };
 
             ExecuteClientActionNewSM(
                 null,
                 CommandRuntime.ToString(),
                 () => this.ManagementClient.AffinityGroups.Create(input));
-        }
-
-        protected override void OnProcessRecord()
-        {
-            this.ExecuteCommand();
         }
     }
 }
