@@ -15,6 +15,7 @@
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Model
 {
     using System;
+    using Model.PersistentVMModel;
     using Utilities.Common;
 
     public class VMImageContext : OSImageContext
@@ -39,8 +40,8 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Model
         public override string AffinityGroup { get; set; }
 
         public string VMImageName { get; set; }
-        public Model.PersistentVMModel.OSDiskConfiguration OSDiskConfiguration { get; set; }
-        public Model.PersistentVMModel.DataDiskConfigurationList DataDiskConfigurations { get; set; }
+        public OSDiskConfiguration OSDiskConfiguration { get; set; }
+        public DataDiskConfigurationList DataDiskConfigurations { get; set; }
         public string ServiceName { get; set; }
         public string DeploymentName { get; set; }
         public string RoleName { get; set; }

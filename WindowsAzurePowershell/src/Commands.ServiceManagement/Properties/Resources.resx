@@ -438,12 +438,6 @@
   <data name="VirtualNetworkConfigContextDirectoryDoesNotExist" xml:space="preserve">
     <value>The directory specified by the file path does not exist.</value>
   </data>
-  <data name="VirtualNetworkSupportedDevicesContextMissingFilePath" xml:space="preserve">
-    <value>A file path should be specified.</value>
-  </data>
-  <data name="VirtualNetworkSupportedDevicesContextDirectoryDoesNotExist" xml:space="preserve">
-    <value>The directory specified by the file path does not exist.</value>
-  </data>
   <data name="AddAzureVhdCommandSASUriNotSupportedInPatchMode" xml:space="preserve">
     <value>SAS Uri for the destination blob is not supported in patch mode:{0}</value>
   </data>

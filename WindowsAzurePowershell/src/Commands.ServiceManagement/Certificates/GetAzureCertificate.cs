@@ -17,7 +17,6 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Certificates
     using System;
     using System.Linq;
     using System.Management.Automation;
-    using Management.Compute;
     using Management.Compute.Models;
     using Model;
     using Properties;
@@ -26,32 +25,34 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Certificates
     /// <summary>
     /// Retrieve a specified service certificate.
     /// </summary>
-    [Cmdlet(VerbsCommon.Get, "AzureCertificate"), OutputType(typeof(CertificateContext))]
+    [Cmdlet(
+        VerbsCommon.Get,
+        "AzureCertificate"),
+    OutputType(
+        typeof(CertificateContext))]
     public class GetAzureCertificate : ServiceManagementBaseCmdlet
     {
-        [Parameter(Position = 0, Mandatory = true, ValueFromPipelineByPropertyName = true, HelpMessage = "Hosted Service Name.")]
+        [Parameter(
+            Position = 0,
+            Mandatory = true,
+            ValueFromPipelineByPropertyName = true,
+            HelpMessage = "Hosted Service Name.")]
         [ValidateNotNullOrEmpty]
-        public string ServiceName
-        {
-            get;
-            set;
-        }
+        public string ServiceName { get; set; }
 
-        [Parameter(Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "Certificate thumbprint algorithm.")]
+        [Parameter(
+            Mandatory = false,
+            ValueFromPipelineByPropertyName = true,
+            HelpMessage = "Certificate thumbprint algorithm.")]
         [ValidateNotNullOrEmpty]
-        public string ThumbprintAlgorithm
-        {
-            get;
-            set;
-        }
+        public string ThumbprintAlgorithm { get; set; }
 
-        [Parameter(Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "Certificate thumbprint.")]
+        [Parameter(
+            Mandatory = false,
+            ValueFromPipelineByPropertyName = true,
+            HelpMessage = "Certificate thumbprint.")]
         [ValidateNotNullOrEmpty]
-        public string Thumbprint
-        {
-            get;
-            set;
-        }
+        public string Thumbprint { get; set; }
 
         protected override void OnProcessRecord()
         {
@@ -61,20 +62,24 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Certificates
             {
                 if (this.ThumbprintAlgorithm == null)
                 {
-                    throw new ArgumentNullException("ThumbprintAlgorithm", Resources.MissingThumbprintAlgorithm);
+                    throw new ArgumentNullException(
+                        "ThumbprintAlgorithm",
+                        Resources.MissingThumbprintAlgorithm);
                 }
 
                 var parameters = new ServiceCertificateGetParameters
                 {
-                    ServiceName =  ServiceName,
-                    Thumbprint =  Thumbprint,
-                    ThumbprintAlgorithm =  ThumbprintAlgorithm
+                    ServiceName         = ServiceName,
+                    Thumbprint          = Thumbprint,
+                    ThumbprintAlgorithm = ThumbprintAlgorithm
                 };
+
                 ExecuteClientActionNewSM(
                     null,
                     CommandRuntime.ToString(),
                     () => this.ComputeClient.ServiceCertificates.Get(parameters),
-                    (s, response) => new int[1].Select(i => ContextFactory<ServiceCertificateGetResponse, CertificateContext>(response, s)));
+                    (s, response) => Enumerable.Repeat(response, 1).Select(
+                        r => ContextFactory<ServiceCertificateGetResponse, CertificateContext>(r, s)));
             }
             else
             {
@@ -82,18 +87,14 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Certificates
                     null,
                     CommandRuntime.ToString(),
                     () => this.ComputeClient.ServiceCertificates.List(this.ServiceName),
-                    (s, response) => response.Certificates.Select(c =>
-                                                                  {
-                                                                      var context = ContextFactory<ServiceCertificateListResponse.Certificate, CertificateContext>(c, s);
-                                                                      context.ServiceName = this.ServiceName;
-                                                                      return context;
-                                                                  }));
+                    (s, response) => response.Certificates.Select(
+                        c =>
+                        {
+                            var context = ContextFactory<ServiceCertificateListResponse.Certificate, CertificateContext>(c, s);
+                            context.ServiceName = this.ServiceName;
+                            return context;
+                        }));
             }
-        }
-
-        public void ExecuteCommand()
-        {
-            OnProcessRecord();
         }
     }
 }

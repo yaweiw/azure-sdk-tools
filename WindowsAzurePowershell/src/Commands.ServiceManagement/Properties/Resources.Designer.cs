@@ -1438,24 +1438,6 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The directory specified by the file path does not exist..
-        /// </summary>
-        internal static string VirtualNetworkSupportedDevicesContextDirectoryDoesNotExist {
-            get {
-                return ResourceManager.GetString("VirtualNetworkSupportedDevicesContextDirectoryDoesNotExist", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to A file path should be specified..
-        /// </summary>
-        internal static string VirtualNetworkSupportedDevicesContextMissingFilePath {
-            get {
-                return ResourceManager.GetString("VirtualNetworkSupportedDevicesContextMissingFilePath", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to VM creation failed, VM status is &apos;{0}&apos;.
         /// </summary>
         internal static string VMCreationFailedWithVMStatus {

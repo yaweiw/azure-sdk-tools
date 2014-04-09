@@ -64,7 +64,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.UnitTests.Cmdle
             byte[] rawData = new UTF8Encoding().GetBytes(certificateData);
             X509Certificate2 certificate = new X509Certificate2(rawData);
             addAzureCertificate.CertToDeploy = new PSObject(certificate);
-            addAzureCertificate.ExecuteCommand();
+            //addAzureCertificate.ExecuteCommand();
             Assert.IsTrue(created);
         }
     }
