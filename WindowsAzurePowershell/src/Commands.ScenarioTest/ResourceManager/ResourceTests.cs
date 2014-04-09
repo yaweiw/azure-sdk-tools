@@ -12,11 +12,19 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
+using Microsoft.Azure.Commands.ResourceManager;
+using Microsoft.Azure.Commands.ResourceManager.Models;
+using Microsoft.WindowsAzure.Commands.Utilities.Common;
+
 namespace Microsoft.WindowsAzure.Commands.ScenarioTest.ResourceManagerTests
 {
     using System.IO;
     using Commands.ScenarioTest.Common;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using Microsoft.WindowsAzure.Utilities.HttpRecorder;
 
     [TestClass]
     public class ResourceTests : WindowsAzurePowerShellTokenTest
@@ -26,9 +34,7 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.ResourceManagerTests
         public ResourceTests()
             : base("ResourceManager\\Common.ps1",
                    "ResourceManager\\ResourceTests.ps1")
-        {
-            
-        }
+        { }
 
         [TestInitialize]
         public override void TestSetup()
@@ -71,6 +77,70 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.ResourceManagerTests
         [TestMethod]
         [TestCategory(Category.All)]
         [TestCategory(Category.ResourceManager)]
+        public void TestGetResourcesViaPiping_CODE()
+        {
+            HttpMockServer.Initialize(this.GetType(), "TestGetResourcesViaPiping", HttpRecorderMode.Playback);
+
+            ResourcesClient client = new ResourcesClient(WindowsAzureProfile.Instance.CurrentSubscription);
+            var rgname = HttpMockServer.GetAssetName("Test-GetResourcesViaPiping", "onesdk");
+	        var rnameParent = HttpMockServer.GetAssetName("Test-GetResourcesViaPiping", "onesdk");
+            var rnameChild = HttpMockServer.GetAssetName("Test-GetResourcesViaPiping", "onesdk");
+            var resourceTypeParent = "Microsoft.Sql/servers";
+            var resourceTypeChild = "Microsoft.Sql/servers/databases";
+
+            var rglocation = client.GetLocations().First(p => p.Name == "ResourceGroup").Locations.First();
+            var location = client.GetLocations().First(p => p.Name == resourceTypeParent).Locations.First();
+            var apiversion = "2014-04-01";
+
+            // Test
+            client.CreatePSResourceGroup(new CreatePSResourceGroupParameters {ResourceGroupName = rgname, Location = rglocation });
+            client.CreatePSResource(new CreatePSResourceParameters
+                {
+                    Name = rnameParent,
+                    Location = location,
+                    ResourceGroupName = rgname,
+                    ResourceType = resourceTypeParent,
+                    PropertyObject = new Hashtable(new Dictionary<string, object>
+                        {
+                            {"administratorLogin", "adminuser"},
+                            {"administratorLoginPassword", "P@ssword1"}
+                        }),
+                    ApiVersion = apiversion
+                });
+            client.CreatePSResource(new CreatePSResourceParameters
+            {
+                Name = rnameChild,
+                Location = location,
+                ResourceGroupName = rgname,
+                ResourceType = resourceTypeChild,
+                ParentResource = "servers/" + rnameParent,
+                PropertyObject = new Hashtable(new Dictionary<string, object>
+                        {
+                            {"edition", "Web"},
+                            {"collation", "SQL_Latin1_General_CP1_CI_AS"},
+                            {"maxSizeBytes", "1073741824"},
+                        }),
+                ApiVersion = apiversion
+            });
+
+            var list = client.FilterPSResources(new BasePSResourceParameters
+                {
+                    ResourceGroupName = client.FilterResourceGroups(rgname).First().ResourceGroupName
+                });
+
+            var serverFromList = list.First(r => r.ResourceType == resourceTypeParent);
+            var databaseFromList = list.First(r => r.ResourceType == resourceTypeChild);
+
+            Assert.AreEqual(2, list.Count);
+            Assert.AreEqual(rnameParent, serverFromList.Name);
+            Assert.AreEqual(rnameChild, databaseFromList.Name);
+            Assert.AreEqual(resourceTypeParent, serverFromList.ResourceType);
+            Assert.AreEqual(resourceTypeChild, databaseFromList.ResourceType);            
+        }
+
+        [TestMethod]
+        [TestCategory(Category.All)]
+        [TestCategory(Category.ResourceManager)]
         public void TestGetResourcesFromEmptyGroup()
         {
             RunPowerShellTest("Test-GetResourcesFromEmptyGroup");
@@ -98,6 +168,14 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.ResourceManagerTests
         public void TestGetResourceForNonExisingResource()
         {
             RunPowerShellTest("Test-GetResourceForNonExisingResource");
+        }
+
+        [TestMethod]
+        [TestCategory(Category.All)]
+        [TestCategory(Category.ResourceManager)]
+        public void TestGetResourcesViaPipingFromAnotherResource()
+        {
+            RunPowerShellTest("Test-GetResourcesViaPipingFromAnotherResource");
         }
     }
 }
