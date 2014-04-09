@@ -441,8 +441,8 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.PersistentVMs
 
                 if (!string.IsNullOrEmpty(pVM.OSVirtualHardDisk.SourceImageName))
                 {
-                    isOSImage = GetAzureVMImage.CheckImageType(this.ComputeClient, pVM.OSVirtualHardDisk.SourceImageName, ImageType.OSImage);
-                    isVMImage = GetAzureVMImage.CheckImageType(this.ComputeClient, pVM.OSVirtualHardDisk.SourceImageName, ImageType.VMImage);
+                    isOSImage = GetAzureVMImage.ExistsImageInType(this.ComputeClient, pVM.OSVirtualHardDisk.SourceImageName, ImageType.OSImage);
+                    isVMImage = GetAzureVMImage.ExistsImageInType(this.ComputeClient, pVM.OSVirtualHardDisk.SourceImageName, ImageType.VMImage);
                 }
 
                 if (isOSImage && isVMImage)

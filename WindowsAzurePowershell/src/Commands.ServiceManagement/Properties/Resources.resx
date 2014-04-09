@@ -609,4 +609,7 @@
   <data name="NoDeploymentFoundInService" xml:space="preserve">
     <value>No deployment found in service: '{0}'.</value>
   </data>
+  <data name="CaptureVMImageOperationWhileVMIsStillRunning" xml:space="preserve">
+    <value>VM image capture operation is trigged while VM is still running. As this may cause data corruption while creating VMs from this image, we recommend using Stop-AzureVM to stop the VM before capturing.</value>
+  </data>
 </root>
