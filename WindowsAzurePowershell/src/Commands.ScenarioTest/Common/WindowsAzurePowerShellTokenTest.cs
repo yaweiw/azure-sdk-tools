@@ -42,12 +42,15 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.Common
         public WindowsAzurePowerShellTokenTest(params string[] modules)
             : base(modules)
         {
-            HttpMockServer.RecordsDirectory = Environment.GetEnvironmentVariable(outputDirKey);
+            if (Environment.GetEnvironmentVariable(outputDirKey) != null)
+            {
+                HttpMockServer.RecordsDirectory = Environment.GetEnvironmentVariable(outputDirKey);
+            }
         }
 
         public override Collection<PSObject> RunPowerShellTest(params string[] scripts)
         {
-            HttpMockServer.Initialize(this.GetType(), Utilities.GetCurrentMethodName(2), recordingMode);
+            HttpMockServer.Initialize(this.GetType(), Utilities.GetCurrentMethodName(2));
             return base.RunPowerShellTest(scripts);
         }
 
@@ -77,7 +80,8 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.Common
             TestEnvironment rdfeEnvironment = serviceManagementTestEnvironmentFactory.GetTestEnvironment();
             ResourceManagerTestEnvironmentFactory resourceManagerTestEnvironmentFactory = new ResourceManagerTestEnvironmentFactory();
             TestEnvironment csmEnvironment = resourceManagerTestEnvironmentFactory.GetTestEnvironment();
-            string jwtToken = ((TokenCloudCredentials)csmEnvironment.Credentials).Token;
+            string jwtToken = csmEnvironment.Credentials != null ? 
+                ((TokenCloudCredentials)csmEnvironment.Credentials).Token : null;
 
             WindowsAzureProfile.Instance.TokenProvider = new FakeAccessTokenProvider(jwtToken, csmEnvironment.UserName);
 
