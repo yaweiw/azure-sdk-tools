@@ -4,6 +4,8 @@ using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Linq;
+using System.Runtime.CompilerServices;
+using System.Runtime.Serialization.Formatters;
 using System.Text;
 using System.Xml.Linq;
 using Newtonsoft.Json;
@@ -105,23 +107,65 @@ namespace Microsoft.WindowsAzure.Utilities.HttpRecorder
 
         public static void SerializeJson<T>(T data, string path)
         {
-            File.WriteAllText(path, JsonConvert.SerializeObject(data));
+            File.WriteAllText(path, JsonConvert.SerializeObject(data, Formatting.Indented, new JsonSerializerSettings
+                {
+                    TypeNameAssemblyFormat = FormatterAssemblyStyle.Simple,
+                    TypeNameHandling = TypeNameHandling.None
+                }));
         }
 
         public static T DeserializeJson<T>(string path)
         {
             string json = File.ReadAllText(path);
-            return JsonConvert.DeserializeObject<T>(json);
+            return JsonConvert.DeserializeObject<T>(json, new JsonSerializerSettings
+                {
+                    TypeNameAssemblyFormat = FormatterAssemblyStyle.Simple,
+                    TypeNameHandling = TypeNameHandling.None
+                });
         }
 
-        public static void RecreateDirectory(string dir)
+        public static void CleanDirectory(string dir)
         {
             if (Directory.Exists(dir))
             {
-                Directory.Delete(dir, true);
+                foreach (string file in Directory.GetFiles(dir, "*.*", SearchOption.AllDirectories)) File.Delete(file);
+                foreach (string subDirectory in Directory.GetDirectories(dir, "*", SearchOption.AllDirectories)) Directory.Delete(subDirectory, true);
             }
+        }
 
-            Directory.CreateDirectory(dir);
+        public static void EnsureDirectoryExists(string dir)
+        {
+            if (!Directory.Exists(dir))
+            {
+                Directory.CreateDirectory(dir);
+            }
+        }
+
+        public static string GetUniqueFileName(string filePath)
+        {
+            string fileDirectory = Path.GetDirectoryName(filePath);
+            string fileExtension = Path.GetExtension(filePath);
+            string fileName = Path.GetFileNameWithoutExtension(filePath);
+            int counter = 0;
+
+            while (true)
+            {
+                if (!File.Exists(filePath))
+                {
+                    return filePath;
+                }
+                filePath = Path.Combine(fileDirectory, fileName + counter + fileExtension);
+                counter++;
+            }
+        }
+
+        [MethodImpl(MethodImplOptions.NoInlining)]
+        public static string GetCurrentMethodName(int index = 1)
+        {
+            StackTrace st = new StackTrace();
+            StackFrame sf = st.GetFrame(index);
+
+            return sf.GetMethod().Name;
         }
     }
 }
