@@ -48,9 +48,9 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Store
             if (rhs == null) { return false; }
 
             return
-                General.TryEquals(this.Name, rhs.Name) &&
-                General.TryEquals(this.Provider, rhs.Provider) &&
-                General.TryEquals(this.GeoRegion, rhs.GeoRegion);
+                GeneralUtilities.TryEquals(this.Name, rhs.Name) &&
+                GeneralUtilities.TryEquals(this.Provider, rhs.Provider) &&
+                GeneralUtilities.TryEquals(this.GeoRegion, rhs.GeoRegion);
         }
 
         public override int GetHashCode()

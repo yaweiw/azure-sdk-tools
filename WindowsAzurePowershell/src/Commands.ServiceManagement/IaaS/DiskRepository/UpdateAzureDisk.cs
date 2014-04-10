@@ -43,7 +43,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
             this.ExecuteClientActionNewSM(
                 null,
                 this.CommandRuntime.ToString(),
-                () => Microsoft.WindowsAzure.VirtualMachineDiskOperationsExtensions.UpdateDisk(this.ComputeClient.VirtualMachineDisks, this.DiskName, parameters),
+                () => this.ComputeClient.VirtualMachineDisks.UpdateDisk(this.DiskName, parameters),
                 (s, response) => this.ContextFactory<VirtualMachineDiskUpdateResponse, DiskContext>(response, s));
         }
 

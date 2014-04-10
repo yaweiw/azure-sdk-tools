@@ -38,7 +38,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
                 this.ExecuteClientActionNewSM(
                     null,
                     this.CommandRuntime.ToString(),
-                    () => Microsoft.WindowsAzure.VirtualMachineDiskOperationsExtensions.GetDisk(this.ComputeClient.VirtualMachineDisks, this.DiskName),
+                    () => this.ComputeClient.VirtualMachineDisks.GetDisk(this.DiskName),
                     (s, response) => this.ContextFactory<VirtualMachineDiskGetResponse, DiskContext>(response, s));
             }
             else

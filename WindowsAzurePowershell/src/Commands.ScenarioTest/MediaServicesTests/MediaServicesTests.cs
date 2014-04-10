@@ -20,7 +20,7 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.MediaServicesTests
     using Common;
 
     [TestClass]
-    public class MediaServicesTests : WindowsAzurePowerShellTest
+    public class MediaServicesTests : WindowsAzurePowerShellCertificateTest
     {
         public MediaServicesTests()
             : base("MediaServices\\MediaServices.ps1")

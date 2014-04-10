@@ -12,7 +12,7 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Commands.Subscription
+namespace Microsoft.WindowsAzure.Commands.Profile
 {
     using System.Collections.Generic;
     using System.Management.Automation;
@@ -28,7 +28,7 @@ namespace Microsoft.WindowsAzure.Commands.Subscription
         [Parameter(Position = 0, Mandatory = true, ValueFromPipelineByPropertyName = true)]
         public string Name { get; set; }
 
-        [Parameter(Position = 1, Mandatory = true, ValueFromPipelineByPropertyName = true)]
+        [Parameter(Position = 1, Mandatory = false, ValueFromPipelineByPropertyName = true)]
         public string PublishSettingsFileUrl { get; set; }
 
         [Parameter(Position = 2, Mandatory = false, ValueFromPipelineByPropertyName = true)]
@@ -43,6 +43,12 @@ namespace Microsoft.WindowsAzure.Commands.Subscription
         [Parameter(Position = 5, Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "The URI for the Active Directory service for this environment")]
         public string ActiveDirectoryEndpoint { get; set; }
 
+        [Parameter(Position = 6, Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "The cloud service endpoint")]
+        public string ResourceManagerEndpoint { get; set; }
+
+        [Parameter(Position = 7, Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "The public gallery endpoint")]
+        public string GalleryEndpoint { get; set; }
+
         [PermissionSet(SecurityAction.Demand, Name = "FullTrust")]
         public override void ExecuteCmdlet()
         {
@@ -51,10 +57,12 @@ namespace Microsoft.WindowsAzure.Commands.Subscription
                 Name = Name,
                 PublishSettingsFileUrl = PublishSettingsFileUrl,
                 ServiceEndpoint = ServiceEndpoint,
+                ResourceManagerEndpoint = ResourceManagerEndpoint,
                 ManagementPortalUrl = ManagementPortalUrl,
                 StorageEndpointSuffix = StorageEndpoint,
                 ActiveDirectoryEndpoint = ActiveDirectoryEndpoint,
-                ActiveDirectoryCommonTenantId = "Common"
+                ActiveDirectoryCommonTenantId = "Common",
+                GalleryEndpoint = GalleryEndpoint
             };
 
             WindowsAzureProfile.Instance.AddEnvironment(newEnvironment);

@@ -53,7 +53,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
             this.ExecuteClientActionNewSM(
                 null,
                 this.CommandRuntime.ToString(),
-                () => Microsoft.WindowsAzure.VirtualMachineDiskOperationsExtensions.CreateDisk(this.ComputeClient.VirtualMachineDisks, parameters),
+                () => this.ComputeClient.VirtualMachineDisks.CreateDisk(parameters),
                 (s, response) => this.ContextFactory<VirtualMachineDiskCreateResponse, DiskContext>(response, s));
         }
 

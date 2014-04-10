@@ -34,7 +34,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
             set;
         }
 
-        [Parameter(Mandatory = true, ParameterSetName = LinuxParameterSetName, HelpMessage = "User to Create")]
+        [Parameter(Mandatory = false, ParameterSetName = LinuxParameterSetName, HelpMessage = "User to Create")]
         [ValidateNotNullOrEmpty]
         public string LinuxUser
         {
@@ -91,7 +91,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
             set;
         }
 
-        [Parameter(Mandatory = true, ParameterSetName = WindowsParameterSetName, HelpMessage = "Specifies the Administrator to create.")]
+        [Parameter(Mandatory = false, ParameterSetName = WindowsParameterSetName, HelpMessage = "Specifies the Administrator to create.")]
         [Parameter(Mandatory = true, ParameterSetName = WindowsDomainParameterSetName, HelpMessage = "Specifies the Administrator to create.")]
         [ValidateNotNullOrEmpty]
         public string AdminUsername

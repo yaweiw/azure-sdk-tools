@@ -19,38 +19,36 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Model
 
     public class OSImageContext : ManagementOperationContext
     {
-        public string AffinityGroup { get; set; }
+        public virtual string ImageName
+        {
+            get
+            {
+                return this.OSImageName;
+            }
 
-        public string Category { get; set; }
+            set
+            {
+                this.OSImageName = value;
+            }
+        }
 
-        public string Location { get; set; }
+        public virtual string AffinityGroup { get; set; }
+        public virtual string Category { get; set; }
+        public virtual string Location { get; set; }
+        public virtual string Label { get; set; }
+        public virtual string Description { get; set; }
 
         public int LogicalSizeInGB { get; set; }
-
-        public string Label { get; set; }
-
         public Uri MediaLink { get; set; }
-
-        public string ImageName { get; set; }
-
+        public string OSImageName { get; set; }
         public string OS { get; set; }
-        
         public string Eula { get; set; }
-
-        public string Description { get; set; }
-
         public string ImageFamily { get; set; }
-
         public DateTime? PublishedDate { get; set; }
-     
         public bool? IsPremium { get; set; }
-
         public Uri IconUri { get; set; }
-
         public Uri PrivacyUri { get; set; }
-
         public string RecommendedVMSize { get; set; }
-
         public string PublisherName { get; set; }
     }
 }

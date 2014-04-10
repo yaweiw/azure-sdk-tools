@@ -12,7 +12,7 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Commands.Subscription
+namespace Microsoft.WindowsAzure.Commands.Profile
 {
     using System.Collections.Generic;
     using System.Management.Automation;
@@ -40,6 +40,7 @@ namespace Microsoft.WindowsAzure.Commands.Subscription
                     null,
                     Parameters.EnvironmentName, e.Name,
                     Parameters.ServiceEndpoint, e.ServiceEndpoint,
+                    Parameters.ResourceManagerEndpoint, e.ResourceManagerEndpoint,
                     Parameters.PublishSettingsFileUrl, e.PublishSettingsFileUrl)));
 
                 WriteObject(output, true);
