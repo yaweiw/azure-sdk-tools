@@ -108,7 +108,7 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Database.Cmdlet
         /// </summary>
         [Parameter(Mandatory = false, HelpMessage = "The maximum size for the database in Bytes.  Not to " +
             "be used together with MaxSizeGB")]
-        public int MaxSizeBytes { get; set; }
+        public long MaxSizeBytes { get; set; }
 
         /// <summary>
         /// Gets or sets the switch to not confirm on the creation of the database.
