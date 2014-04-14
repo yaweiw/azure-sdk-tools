@@ -38,7 +38,8 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
                 r =>
                 {
                     GetExtensionValues(r);
-                    var pubSettings = JsonConvert.DeserializeObject<PublicSettings>(PublicConfiguration);
+                    var pubSettings = string.IsNullOrEmpty(PublicConfiguration) ? null
+                                    : JsonConvert.DeserializeObject<PublicSettings>(PublicConfiguration);
 
                     return new VirtualMachineCustomScriptExtensionContext
                     {
