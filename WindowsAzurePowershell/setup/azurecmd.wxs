@@ -32,7 +32,7 @@
     </Property>
 
     <Condition Message="This setup requires the Windows PowerShell 3.0 or higher to be installed.">
-      <![CDATA[Installed or (POWERSHELLVERSION = "3.0") or (POWERSHELLVERSION = "4.0")]]>
+      <![CDATA[Installed or (POWERSHELLVERSION = "3.0") or (POWERSHELLVERSION = "5.0.9701.0")]]>
     </Condition>
 
     <PropertyRef Id="NETFRAMEWORK40FULL" />
