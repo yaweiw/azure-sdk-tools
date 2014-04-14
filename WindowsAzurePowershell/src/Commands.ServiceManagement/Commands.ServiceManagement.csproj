@@ -255,6 +255,7 @@
     <Compile Include="Extensions\Common\SetAzureServiceExtension.cs" />
     <Compile Include="Extensions\Common\NewAzureServiceExtensionConfig.cs" />
     <Compile Include="Extensions\Common\RemoveAzureServiceExtension.cs" />
+    <Compile Include="Helpers\SecureStringHelper.cs" />
     <Compile Include="IaaS\Extensions\BGInfo\GetAzureVMBGInfoExtension.cs" />
     <Compile Include="IaaS\Extensions\BGInfo\RemoveAzureVMBGInfoExtension.cs" />
     <Compile Include="IaaS\Extensions\BGInfo\SetAzureVMBGInfoExtension.cs" />
@@ -300,7 +301,6 @@
     <Compile Include="Certificates\AddAzureCertificate.cs" />
     <Compile Include="Certificates\GetAzureCertificate.cs" />
     <Compile Include="Certificates\RemoveAzureCertificate.cs" />
-    <Compile Include="Common\ValidateVMSizeAttribute.cs" />
     <Compile Include="Common\ValidationHelpers.cs" />
     <Compile Include="Extensions\Diagnostics\BaseAzureServiceDiagnosticsExtension.cs">
       <SubType>Code</SubType>
@@ -441,7 +441,6 @@
     <Compile Include="Model\DeploymentInfoContext.cs" />
     <Compile Include="Model\DiskContext.cs" />
     <Compile Include="Model\GatewayConnectionContext.cs" />
-    <Compile Include="Model\GatewayManagementOperationContext.cs" />
     <Compile Include="Model\HostedServiceContext.cs" />
     <Compile Include="Model\HostedServiceDetailedContext.cs" />
     <Compile Include="Model\InputEndpointContext.cs" />
@@ -457,7 +456,6 @@
     <Compile Include="Model\RoleConfiguration.cs" />
     <Compile Include="Model\RoleContext.cs" />
     <Compile Include="Model\RoleInstanceContext.cs" />
-    <Compile Include="Model\RoleInstanceCountContext.cs" />
     <Compile Include="Model\RoleInstanceStatusInfo.cs" />
     <Compile Include="Model\RoleInstanceStatusInfoContext.cs" />
     <Compile Include="Model\ServiceOperationContext.cs" />
@@ -472,7 +470,6 @@
     <Compile Include="Model\VirtualNetworkConfigContext.cs" />
     <Compile Include="Model\VirtualNetworkGatewayContext.cs" />
     <Compile Include="Model\VirtualNetworkSiteContext.cs" />
-    <Compile Include="Model\VirtualNetworkSupportedDevicesContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>

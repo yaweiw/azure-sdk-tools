@@ -12,16 +12,25 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Model
+namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Helpers
 {
-    using Utilities.Common;
+    using System.Security;
 
-    public class GatewayManagementOperationContext : ManagementOperationContext
+    public class SecureStringHelper
     {
-        public string ErrorCode { get; set; }
+        public static SecureString GetSecureString(string str)
+        {
+            SecureString secureStr = new SecureString();
 
-        public string ErrorMessage { get; set; } 
+            if (!string.IsNullOrEmpty(str))
+            {
+                foreach (char c in str)
+                {
+                    secureStr.AppendChar(c);
+                }
+            }
 
-        public string Data { get; set; } 
+            return secureStr;
+        }
     }
 }

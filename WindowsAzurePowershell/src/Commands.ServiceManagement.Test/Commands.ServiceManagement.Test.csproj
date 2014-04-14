@@ -403,13 +403,6 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resource.resx</DependentUpon>
     </Compile>
-    <Compile Include="UnitTests\Cmdlets\AffinityGroups\NewAzureAffinityGroupTests.cs" />
-    <Compile Include="UnitTests\Cmdlets\AffinityGroups\RemoveAzureAffinityGroupTests.cs" />
-    <Compile Include="UnitTests\Cmdlets\AffinityGroups\SetAzureAffinityGroupTests.cs" />
-    <Compile Include="UnitTests\Cmdlets\AffinityGroups\GetAzureAffinityGroupTests.cs" />
-    <Compile Include="UnitTests\Cmdlets\Certificates\AddAzureCertificateTests.cs" />
-    <Compile Include="UnitTests\Cmdlets\Certificates\RemoveAzureCertificateTests.cs" />
-    <Compile Include="UnitTests\Cmdlets\Certificates\GetAzureCertificateTests.cs" />
     <Compile Include="UnitTests\Cmdlets\IaaS\PersistenVMs\GetAzureWinRMUriTests.cs" />
     <Compile Include="UnitTests\Cmdlets\HostedServices\MoveAzureDeploymentCommandTests.cs" />
     <Compile Include="UnitTests\Cmdlets\StorageServices\AddAzureVhdCommandTests.cs" />
