@@ -16,6 +16,7 @@
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.PersistentVMs
 {
     using System;
+    using System.Collections.Generic;
     using System.Collections.ObjectModel;
     using System.Linq;
     using System.Management.Automation;
@@ -24,6 +25,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.PersistentVMs
     using AutoMapper;
     using Common;
     using DiskRepository;
+    using Extensions;
     using Helpers;
     using Management.Compute.Models;
     using Properties;
@@ -327,9 +329,9 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.PersistentVMs
                         OSVirtualHardDisk = _isVMImage ? null : Mapper.Map(vm.OSVirtualHardDisk, new Management.Compute.Models.OSVirtualHardDisk()),
                         RoleName = vm.RoleName,
                         RoleSize = vm.RoleSize,
-                        ResourceExtensionReferences = null,
                         VMImageName = _isVMImage ? this.ImageName : null,
-                        ProvisionGuestAgent = !this.DisableGuestAgent
+                        ProvisionGuestAgent = !this.DisableGuestAgent,
+                        ResourceExtensionReferences = Mapper.Map<List<ResourceExtensionReference>>(VirtualMachineBGInfoExtensionCmdletBase.ExtensionList)
                     };
 
                     if (!_isVMImage)
@@ -373,9 +375,9 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.PersistentVMs
                     MediaLink = string.IsNullOrEmpty(MediaLocation) ? null : new Uri(MediaLocation),
                     HostCaching = HostCaching
                 }),
-                ResourceExtensionReferences = null,
                 VMImageName = _isVMImage ? this.ImageName : null,
-                ProvisionGuestAgent = !this.DisableGuestAgent
+                ProvisionGuestAgent = !this.DisableGuestAgent,
+                ResourceExtensionReferences = Mapper.Map<List<ResourceExtensionReference>>(VirtualMachineBGInfoExtensionCmdletBase.ExtensionList)
             };
 
             if (!_isVMImage && vm.OSVirtualHardDisk.MediaLink == null && String.IsNullOrEmpty(vm.OSVirtualHardDisk.Name))
@@ -394,7 +396,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.PersistentVMs
                     var windowsConfig = new Microsoft.WindowsAzure.Commands.ServiceManagement.Model.PersistentVMModel.WindowsProvisioningConfigurationSet
                     {
                         AdminUsername = this.AdminUsername,
-                        AdminPassword = Password,
+                        AdminPassword = SecureStringHelper.GetSecureString(Password),
                         ComputerName = string.IsNullOrEmpty(Name) ? ServiceName : Name,
                         EnableAutomaticUpdates = true,
                         ResetPasswordOnFirstLogon = false,
@@ -426,7 +428,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.PersistentVMs
                     {
                         HostName = string.IsNullOrEmpty(this.Name) ? this.ServiceName : this.Name,
                         UserName = this.LinuxUser,
-                        UserPassword = this.Password,
+                        UserPassword = SecureStringHelper.GetSecureString(this.Password),
                         DisableSshPasswordAuthentication = false
                     };
 
@@ -495,8 +497,8 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.PersistentVMs
 
             if (!string.IsNullOrEmpty(this.ImageName))
             {
-                _isOSImage = GetAzureVMImage.CheckImageType(this.ComputeClient, this.ImageName, ImageType.OSImage);
-                _isVMImage = GetAzureVMImage.CheckImageType(this.ComputeClient, this.ImageName, ImageType.VMImage);
+                _isOSImage = GetAzureVMImage.ExistsImageInType(this.ComputeClient, this.ImageName, ImageType.OSImage);
+                _isVMImage = GetAzureVMImage.ExistsImageInType(this.ComputeClient, this.ImageName, ImageType.VMImage);
                 if (_isOSImage && _isVMImage)
                 {
                     var errorMsg = string.Format(Resources.DuplicateNamesFoundInBothVMAndOSImages, this.ImageName);

@@ -14,8 +14,10 @@
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
 {
     using System.Linq;
+    using System.Security;
     using System.Xml.Linq;
     using Model.PersistentVMModel;
+    using Utilities.Websites.Services;
 
     public class VirtualMachineAccessExtensionCmdletBase : VirtualMachineExtensionCmdletBase
     {
@@ -37,6 +39,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
         private const string PasswordElem = "Password";
 
         public virtual string UserName { get; set; }
+
         public virtual string Password { get; set; }
 
         public VirtualMachineAccessExtensionCmdletBase()
@@ -112,13 +115,13 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
                 }
                 else
                 {
-                    Disable = string.Equals(extensionRef.State, ReferenceDisableStr);
+                    Disable = string.Equals(extensionRef.State, ReferenceDisableStateStr);
                     GetVMAccessExtensionValues(extensionRef.ResourceExtensionParameterValues);
                 }
             }
             else
             {
-                Disable = extensionRef == null ? true : string.Equals(extensionRef.State, ReferenceDisableStr);
+                Disable = extensionRef == null ? true : string.Equals(extensionRef.State, ReferenceDisableStateStr);
             }
         }
 
@@ -135,10 +138,13 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
                 }
 
                 var privateParamVal = paramVals.FirstOrDefault(
-                    r => !string.IsNullOrEmpty(r.Value) && string.Equals(r.Type, PrivateTypeStr));
-                if (privateParamVal != null && !string.IsNullOrEmpty(privateParamVal.Value))
+                    r => r.SecureValue != null && !string.IsNullOrEmpty(
+                         r.SecureValue.ConvertToUnsecureString())
+                      && string.Equals(r.Type, PrivateTypeStr));
+
+                if (privateParamVal != null)
                 {
-                    this.PrivateConfiguration = privateParamVal.Value;
+                    this.PrivateConfiguration = privateParamVal.SecureValue.ConvertToUnsecureString();
                     this.Password = GetConfigValue(this.PrivateConfiguration, PasswordElem);
                 }
             }

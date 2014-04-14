@@ -17,11 +17,13 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
 {
     using System;
     using System.Collections.ObjectModel;
+    using System.Linq;
     using System.Management.Automation;
-    using Commands.Utilities.Common;
+    using Extensions;
     using Model;
     using Model.PersistentVMModel;
     using Properties;
+    using Utilities.Common;
 
     [Cmdlet(VerbsCommon.New, "AzureVMConfig", DefaultParameterSetName = "ImageName"), OutputType(typeof(PersistentVM))]
     public class NewAzureVMConfigCommand : PSCmdlet
@@ -120,7 +122,8 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
                 RoleSize = InstanceSize,
                 RoleType = RoleType,
                 Label = Label,
-                ProvisionGuestAgent = true
+                ProvisionGuestAgent = true,
+                ResourceExtensionReferences = VirtualMachineBGInfoExtensionCmdletBase.ExtensionList
             };
 
             role.OSVirtualHardDisk = new OSVirtualHardDisk()

@@ -15,65 +15,62 @@
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.AffinityGroups
 {
     using System.Management.Automation;
-    using Management;
     using Management.Models;
     using Utilities.Common;
 
     /// <summary>
     /// Updates the label and/or the description for an affinity group for the specified subscription.
     /// </summary>
-    [Cmdlet(VerbsCommon.Set, "AzureAffinityGroup"), OutputType(typeof(ManagementOperationContext))]
+    [Cmdlet(
+        VerbsCommon.Set,
+        "AzureAffinityGroup"),
+    OutputType(
+        typeof(ManagementOperationContext))]
     public class SetAzureAffinityGroup : ServiceManagementBaseCmdlet
     {
         /// <summary>
         /// The name for the affinity group. (Required)
         /// </summary>
-        [Parameter(Position = 0, Mandatory = true, ValueFromPipelineByPropertyName = true, HelpMessage = "Name of the affinity group.")]
+        [Parameter(
+            Position = 0,
+            Mandatory = true,
+            ValueFromPipelineByPropertyName = true,
+            HelpMessage = "Name of the affinity group.")]
         [ValidateNotNullOrEmpty]
-        public string Name
-        {
-            get;
-            set;
-        }
+        public string Name { get; set; }
 
         /// <summary>
         /// A label for the affinity group. The label may be up to 100 characters in length. (Required)
         /// </summary>
-        [Parameter(Mandatory = true, HelpMessage = "Label of the affinity group.")]
+        [Parameter(
+            Mandatory = true,
+            HelpMessage = "Label of the affinity group.")]
         [ValidateNotNullOrEmpty]
         [ValidateLength(1, 100)]
-        public string Label
-        {
-            get;
-            set;
-        }
+        public string Label { get; set; }
 
         /// <summary>
         /// A description for the affinity group. The description may be up to 1024 characters in length. (Optional)
         /// </summary>
-        [Parameter(HelpMessage = "Description of the affinity group.")]
+        [Parameter(
+            HelpMessage = "Description of the affinity group.")]
         [ValidateLength(0, 1024)]
-        public string Description
-        {
-            get;
-            set;
-        }
+        public string Description { get; set; }
 
-        internal void ExecuteCommand()
+        protected override void OnProcessRecord()
         {
             ServiceManagementProfile.Initialize();
 
             var parameters = new AffinityGroupUpdateParameters
             {
                 Label = this.Label,
-                Description = this.Description ?? null
+                Description = this.Description
             };
-            ExecuteClientActionNewSM(null, CommandRuntime.ToString(), () => this.ManagementClient.AffinityGroups.Update(this.Name, parameters));
-        }
 
-        protected override void OnProcessRecord()
-        {
-            this.ExecuteCommand();
+            ExecuteClientActionNewSM(
+                null,
+                CommandRuntime.ToString(),
+                () => this.ManagementClient.AffinityGroups.Update(this.Name, parameters));
         }
     }
 }

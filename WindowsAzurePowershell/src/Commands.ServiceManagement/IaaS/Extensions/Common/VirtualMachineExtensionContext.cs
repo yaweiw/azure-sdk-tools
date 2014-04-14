@@ -14,6 +14,7 @@
 
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
 {
+    using System.Security;
     using Utilities.Common;
 
     public class VirtualMachineExtensionContext
@@ -21,7 +22,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
         public string ExtensionName { get; set; }
         public string Publisher { get; set; }
         public string Version { get; set; }
-        public string PrivateConfiguration { get; set; }
+        public SecureString PrivateConfiguration { get; set; }
         public string PublicConfiguration { get; set; }
         public string ReferenceName { get; set; }
         public string State { get; set; }
