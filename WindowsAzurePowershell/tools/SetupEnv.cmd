@@ -2,7 +2,15 @@
 
 if defined AzurePSRoot exit /b 0
 
-echo Initializing environment
+echo Initializing environment...
+
+::Power Shell environment needs elevation for dependencies installation and running tests
+::Here invoke a elevation needing command to test it
+net session > NUL 2>&1
+IF ERRORLEVEL 1 (
+    ECHO ERROR: Please launch command under administrator account. It is needed for environment setting up and unit test.
+    EXIT /B 1
+)
 
 if exist "%USERPROFILE%\SetNugetFeed.cmd" call "%USERPROFILE%\SetNugetFeed.cmd"
 
@@ -18,8 +26,10 @@ set "AzurePSRoot=%AzurePSRoot:~0,-7%"
 
 if defined ProgramFiles(x86) (
     set "ADXSDKProgramFiles=%ProgramFiles(x86)%"
+    set "ADXSDKPlatform=x64"
 ) else (
     set "ADXSDKProgramFiles=%ProgramFiles%"
+    set "ADXSDKPlatform=x86"
 )
 
 if exist "%ADXSDKProgramFiles%\Microsoft Visual Studio 12.0" (
@@ -29,3 +39,18 @@ if exist "%ADXSDKProgramFiles%\Microsoft Visual Studio 12.0" (
 )
 
 call "%ADXSDKProgramFiles%\Microsoft Visual Studio %ADXSDKVSVersion%\VC\vcvarsall.bat" x86
+
+if not exist "%ProgramFiles%\Microsoft SDKs\Windows Azure\.NET SDK\v2.3" (
+    ECHO installing Azure Authoring Tools
+    %~dp0\emulators\WindowsAzureAuthoringTools-%ADXSDKPlatform%.msi /passive
+)
+
+if not exist "%ProgramFiles%\Microsoft SDKs\Windows Azure\Emulator" (
+    ECHO installing Azure Compute Emulator
+    %~dp0\emulators\WindowsAzureEmulator-%ADXSDKPlatform%.exe /passive
+)
+
+if not exist "%ADXSDKProgramFiles%\Microsoft SDKs\Windows Azure\Storage Emulator" (
+    ECHO installing Azure Storage Emulator
+    %~dp0\emulators\WindowsAzureStorageEmulator.msi /passive
+)
