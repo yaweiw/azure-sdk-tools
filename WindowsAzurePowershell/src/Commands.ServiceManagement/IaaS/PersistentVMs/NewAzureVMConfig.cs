@@ -123,7 +123,9 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
                 RoleType = RoleType,
                 Label = Label,
                 ProvisionGuestAgent = true,
-                ResourceExtensionReferences = VirtualMachineBGInfoExtensionCmdletBase.GetSingleExtensionList(this.ComputeClient)
+                ResourceExtensionReferences = new VirtualMachineExtensionImageFactory(this.ComputeClient).MakeList(
+                    VirtualMachineBGInfoExtensionCmdletBase.ExtensionDefaultPublisher,
+                    VirtualMachineBGInfoExtensionCmdletBase.ExtensionDefaultName)
             };
 
             role.OSVirtualHardDisk = new OSVirtualHardDisk()
