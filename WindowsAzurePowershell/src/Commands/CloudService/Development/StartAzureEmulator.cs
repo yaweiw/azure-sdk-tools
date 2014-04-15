@@ -17,6 +17,7 @@ namespace Microsoft.WindowsAzure.Commands.CloudService.Development
     using System.IO;
     using System.Management.Automation;
     using System.Security.Permissions;
+    using System.Security.Principal;
     using System.Text;
     using Utilities.Common;
     using Utilities.Properties;
@@ -81,8 +82,19 @@ namespace Microsoft.WindowsAzure.Commands.CloudService.Development
         public override void ExecuteCmdlet()
         {
             AzureTool.Validate();
+            if (!IsRunningElevated())
+            {
+                throw new PSArgumentException(Resources.AzureEmulatorNotRunningElevetaed);
+            }
             base.ExecuteCmdlet();
             StartAzureEmulatorProcess(GeneralUtilities.GetServiceRootPath(CurrentPath()));
+        }
+
+        private bool IsRunningElevated()
+        {
+            WindowsIdentity identity = WindowsIdentity.GetCurrent();
+            WindowsPrincipal principal = new WindowsPrincipal(identity);
+            return principal.IsInRole(WindowsBuiltInRole.Administrator);
         }
     }
 }

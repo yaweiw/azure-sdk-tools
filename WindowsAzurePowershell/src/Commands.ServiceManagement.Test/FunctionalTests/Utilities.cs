@@ -32,6 +32,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
     using System.Threading;
     using System.Xml;
     using VisualStudio.TestTools.UnitTesting;
+    using Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests.ConfigDataInfo;
 
     internal class Utilities 
     {
@@ -39,7 +40,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
         #region Constants
 
         public static string windowsAzurePowershellPath = Path.Combine(Environment.CurrentDirectory);
-        public const string windowsAzurePowershellServiceModule = "AzureServiceManagement.psd1";
+        public const string windowsAzurePowershellServiceModule = "Azure.psd1";
         public const string windowsAzurePowershellModuleServiceManagementPlatformImageRepository = "PIR.psd1";
         public const string windowsAzurePowershellModuleServiceManagementPreview = "AzurePreview.psd1";
 
@@ -855,6 +856,26 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
                     Console.WriteLine("This type is not printed: {0}", typeName);
                 }
             }
+        }
+
+        public static bool validateHttpUri(string uri)
+        {
+            Uri uriResult;
+            return Uri.TryCreate(uri, UriKind.Absolute, out uriResult) && uriResult.Scheme == Uri.UriSchemeHttp;
+        }
+
+        public static PersistentVM CreateIaaSVMObject(string vmName,InstanceSize size,string imageName,bool isWindows = true,string username = null,string password = null,bool disableGuestAgent = false)
+        {
+            //Create an IaaS VM with a static CA.
+            var azureVMConfigInfo = new AzureVMConfigInfo(vmName, size.ToString(), imageName);
+            AzureProvisioningConfigInfo azureProvisioningConfig = null;
+            if (!string.IsNullOrEmpty(username) && !string.IsNullOrEmpty(username))
+            {
+                azureProvisioningConfig = new AzureProvisioningConfigInfo(isWindows ? OS.Windows:OS.Linux, username, password,disableGuestAgent);
+            }
+            var persistentVMConfigInfo = new PersistentVMConfigInfo(azureVMConfigInfo, azureProvisioningConfig, null, null);
+            ServiceManagementCmdletTestHelper vmPowershellCmdlets = new ServiceManagementCmdletTestHelper();
+            return vmPowershellCmdlets.GetPersistentVM(persistentVMConfigInfo);
         }
     }
 }
