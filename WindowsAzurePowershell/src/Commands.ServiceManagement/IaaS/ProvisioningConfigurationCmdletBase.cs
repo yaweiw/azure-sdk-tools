@@ -20,8 +20,9 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
     using System.Security.Cryptography.X509Certificates;
     using Helpers;
     using Model.PersistentVMModel;
+    using Utilities.Common;
 
-    public class ProvisioningConfigurationCmdletBase : PSCmdlet
+    public class ProvisioningConfigurationCmdletBase : ServiceManagementBaseCmdlet
     {
         public const string LinuxParameterSetName = OS.Linux;
         public const string WindowsParameterSetName = OS.Windows;
