@@ -30,7 +30,8 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.DiskRepository
         VerbsCommon.Get,
         AzureVMImageNoun),
     OutputType(
-        typeof(OSImageContext))]
+        typeof(OSImageContext),
+        typeof(VMImageContext))]
     public class GetAzureVMImage : ServiceManagementBaseCmdlet
     {
         protected const string AzureVMImageNoun = "AzureVMImage";
