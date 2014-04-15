@@ -4,8 +4,8 @@ if defined AzurePSRoot exit /b 0
 
 echo Initializing environment...
 
-::Power Shell environment needs elevation for dependencies installation and running tests
-::Here invoke a elevation needing command to test it
+::PowerShell environment needs elevation for dependencies installation and running tests
+::Here we invoke an elevation-needing command to test it
 net session > NUL 2>&1
 IF ERRORLEVEL 1 (
     ECHO ERROR: Please launch command under administrator account. It is needed for environment setting up and unit test.
@@ -53,4 +53,9 @@ if not exist "%ProgramFiles%\Microsoft SDKs\Windows Azure\Emulator" (
 if not exist "%ADXSDKProgramFiles%\Microsoft SDKs\Windows Azure\Storage Emulator" (
     ECHO installing Azure Storage Emulator
     %~dp0\emulators\WindowsAzureStorageEmulator.msi /passive
+)
+
+if exist "%ADXSDKProgramFiles%\Git\bin" (
+    ECHO Adding Git installation folder to the PATH environment variable(Needed for 2 unit tests)
+    set "path=%path%;%ADXSDKProgramFiles%\Git\bin"
 )
