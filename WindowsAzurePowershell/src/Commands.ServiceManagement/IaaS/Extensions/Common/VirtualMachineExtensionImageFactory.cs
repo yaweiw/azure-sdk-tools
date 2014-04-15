@@ -20,14 +20,27 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
 
     public class VirtualMachineExtensionImageFactory
     {
-        private ComputeManagementClient computeClient;
+        private IComputeManagementClient computeClient;
 
-        public VirtualMachineExtensionImageFactory(ComputeManagementClient computeClient)
+        public VirtualMachineExtensionImageFactory(IComputeManagementClient computeClient)
         {
             this.computeClient = computeClient;
         }
 
-        public ResourceExtensionReference MakeItem(
+        private static ResourceExtensionReference MakeItem(
+            string publisherName,
+            string extensionName,
+            string referenceName)
+        {
+            return new ResourceExtensionReference
+            {
+                Publisher     = publisherName,
+                Name          = extensionName,
+                ReferenceName = referenceName
+            };
+        }
+
+        private ResourceExtensionReference MakeItem(
             string publisherName,
             string extensionName,
             bool createOnlyIfExists = true)
@@ -44,23 +57,19 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
 
                     if (reference != null)
                     {
-                        extension = new ResourceExtensionReference
-                        {
-                            Publisher     = reference.Publisher,
-                            Name          = reference.Name,
-                            ReferenceName = reference.Name
-                        };
+                        extension = MakeItem(
+                            reference.Publisher,
+                            reference.Name,
+                            reference.Name);
                     }
                 }
             }
             else
             {
-                extension = new ResourceExtensionReference
-                {
-                    Publisher     = publisherName,
-                    Name          = extensionName,
-                    ReferenceName = extensionName
-                };
+                extension = MakeItem(
+                    publisherName,
+                    extensionName,
+                    extensionName);
             }
 
             return extension;
@@ -71,9 +80,14 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
             string extensionName,
             bool createOnlyIfExists = true)
         {
-            var item = MakeItem(publisherName, extensionName, createOnlyIfExists);
-            var list = Enumerable.Repeat<ResourceExtensionReference>(item, 1);
-            return item == null ? null : new ResourceExtensionReferenceList(list);
+            var item = MakeItem(
+                publisherName,
+                extensionName,
+                createOnlyIfExists);
+
+            var list = Enumerable.Repeat(item, item == null ? 0 : 1);
+
+            return new ResourceExtensionReferenceList(list);
         }
     }
 }
