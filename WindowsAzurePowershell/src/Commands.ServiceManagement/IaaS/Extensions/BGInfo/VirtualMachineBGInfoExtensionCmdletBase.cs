@@ -32,29 +32,5 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
             base.publisherName = ExtensionDefaultPublisher;
             base.extensionName = ExtensionDefaultName;
         }
-
-        public static ResourceExtensionReferenceList GetSingleExtensionList(ComputeManagementClient computeClient)
-        {
-            var extensionList = computeClient.VirtualMachineExtensions.ListVersions(
-                VirtualMachineBGInfoExtensionCmdletBase.ExtensionDefaultPublisher,
-                VirtualMachineBGInfoExtensionCmdletBase.ExtensionDefaultName);
-
-            var referenceList = new ResourceExtensionReferenceList();
-
-            if (extensionList.Any())
-            {
-                var extensionImage = extensionList.FirstOrDefault();
-                var defaultRefName = extensionImage.Name;
-
-                referenceList.Add(new ResourceExtensionReference
-                {
-                    Publisher     = extensionImage.Publisher,
-                    Name          = extensionImage.Name,
-                    ReferenceName = defaultRefName
-                });
-            }
-
-            return referenceList;
-        }
     }
 }
