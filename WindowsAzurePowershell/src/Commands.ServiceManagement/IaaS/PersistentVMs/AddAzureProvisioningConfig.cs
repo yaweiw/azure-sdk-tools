@@ -19,6 +19,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
     using System.Management.Automation;
     using System.Security.Cryptography.X509Certificates;
     using Common;
+    using Extensions;
     using Helpers;
     using Model;
     using Properties;
@@ -26,33 +27,39 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
     /// <summary>
     /// Updates a persistent VM object with a provisioning configuration.
     /// </summary>
-    [Cmdlet(VerbsCommon.Add, "AzureProvisioningConfig", DefaultParameterSetName = WindowsParameterSetName), OutputType(typeof(IPersistentVM))]
+    [Cmdlet(
+        VerbsCommon.Add,
+        AzureProvisioningConfigNoun,
+        DefaultParameterSetName = WindowsParameterSetName),
+    OutputType(typeof(IPersistentVM))]
     public class AddAzureProvisioningConfigCommand : ProvisioningConfigurationCmdletBase
     {
-        [Parameter(Mandatory = true, ValueFromPipeline = true, HelpMessage = "Virtual Machine to update.")]
+        private const string AzureProvisioningConfigNoun = "AzureProvisioningConfig";
+
+        [Parameter(
+            Mandatory = true,
+            ValueFromPipeline = true,
+            HelpMessage = "Virtual Machine to update.")]
         [ValidateNotNullOrEmpty]
         [Alias("InputObject")]
-        public IPersistentVM VM
-        {
-            get;
-            set;
-        }
+        public IPersistentVM VM { get; set; }
 
-        [Parameter(HelpMessage = "To disable IaaS provision guest agent.")]
-        public SwitchParameter DisableGuestAgent
-        {
-            get;
-            set;
-        }
+        [Parameter(
+            HelpMessage = "To disable IaaS provision guest agent.")]
+        public SwitchParameter DisableGuestAgent { get; set; }
 
-        internal void ExecuteCommand()
+        protected override void ProcessRecord()
         {
+            base.ProcessRecord();
+
             ServiceManagementProfile.Initialize();
-            var role = VM.GetInstance();
+
+            var role = this.VM.GetInstance();
             var configSetbuilder = new ConfigurationSetsBuilder(role.ConfigurationSets);
-            if (Linux.IsPresent)
+
+            if (this.Linux.IsPresent)
             {
-                role.NoSSHEndpoint = NoSSHEndpoint.IsPresent;
+                role.NoSSHEndpoint = this.NoSSHEndpoint.IsPresent;
 
                 if (!string.IsNullOrEmpty(this.LinuxUser))
                 {
@@ -60,14 +67,14 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
                     configSetbuilder.LinuxConfigurationBuilder.Provisioning.HostName = role.RoleName;
                 }
 
-                if (!(DisableSSH.IsPresent || NoSSHEndpoint.IsPresent))
+                if (!(this.DisableSSH.IsPresent || this.NoSSHEndpoint.IsPresent))
                 {
                     configSetbuilder.NetworkConfigurationBuilder.AddSshEndpoint();
                 }
             }
             else
             {
-                role.NoRDPEndpoint = NoRDPEndpoint.IsPresent;
+                role.NoRDPEndpoint = this.NoRDPEndpoint.IsPresent;
 
                 if (!string.IsNullOrEmpty(this.AdminUsername))
                 {
@@ -75,7 +82,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
                     configSetbuilder.WindowsConfigurationBuilder.Provisioning.ComputerName = role.RoleName;
                 }
 
-                if (!NoRDPEndpoint.IsPresent)
+                if (!this.NoRDPEndpoint.IsPresent)
                 {
                     configSetbuilder.NetworkConfigurationBuilder.AddRdpEndpoint();
                 }
@@ -87,18 +94,20 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
                     {
                         builder.AddHttpListener();
                     }
+
                     builder.AddHttpsListener(this.WinRMCertificate);
 
-                    if (!string.IsNullOrEmpty(AdminUsername))
+                    if (!string.IsNullOrEmpty(this.AdminUsername))
                     {
                         configSetbuilder.WindowsConfigurationBuilder.Provisioning.WinRM = builder.Configuration;
                     }
-    
-                    if(!this.NoWinRMEndpoint.IsPresent)
+
+                    if (!this.NoWinRMEndpoint.IsPresent)
                     {
                         configSetbuilder.NetworkConfigurationBuilder.AddWinRmEndpoint();
                     }
-                    role.WinRMCertificate = WinRMCertificate;
+
+                    role.WinRMCertificate = this.WinRMCertificate;
                 }
 
                 role.X509Certificates = new List<X509Certificate2>();
@@ -108,29 +117,20 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
                 }
 
                 role.NoExportPrivateKey = this.NoExportPrivateKey.IsPresent;
-                role.ProvisionGuestAgent = !DisableGuestAgent.IsPresent;
+                role.ProvisionGuestAgent = !this.DisableGuestAgent.IsPresent;
+
+                role.ResourceExtensionReferences = this.DisableGuestAgent.IsPresent ? null :
+                    new VirtualMachineExtensionImageFactory(this.ComputeClient).MakeList(
+                            VirtualMachineBGInfoExtensionCmdletBase.ExtensionDefaultPublisher,
+                            VirtualMachineBGInfoExtensionCmdletBase.ExtensionDefaultName);
             }
 
             WriteObject(VM, true);
         }
 
-        protected override void ProcessRecord()
-        {
-            try
-            {
-                base.ProcessRecord();
-                ExecuteCommand();
-            }
-            catch (Exception ex)
-            {
-                WriteError(new ErrorRecord(ex, string.Empty, ErrorCategory.CloseError, null));
-            }
-        }
-
         protected void ValidateParameters()
         {
             var vm = (PersistentVM)this.VM;
-            
             ValidateLinuxParameterSetParameters(vm);
             ValidateWindowsParameterSetParameters(vm);
         }
@@ -139,12 +139,12 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
         {
             if (LinuxParameterSetName.Equals(ParameterSetName, StringComparison.OrdinalIgnoreCase))
             {
-                if (!this.NoSSHPassword && ValidationHelpers.IsLinuxPasswordValid(Password) == false)
+                if (!this.NoSSHPassword && !ValidationHelpers.IsLinuxPasswordValid(this.Password))
                 {
                     throw new ArgumentException(Resources.PasswordNotComplexEnough);
                 }
 
-                if (ValidationHelpers.IsLinuxHostNameValid(vm.RoleName) == false)
+                if (!ValidationHelpers.IsLinuxHostNameValid(vm.RoleName))
                 {
                     throw new ArgumentException(Resources.InvalidHostName);
                 }
@@ -153,15 +153,15 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
 
         private void ValidateWindowsParameterSetParameters(PersistentVM vm)
         {
-            if (WindowsParameterSetName.Equals(ParameterSetName, StringComparison.OrdinalIgnoreCase) || 
+            if (WindowsParameterSetName.Equals(ParameterSetName, StringComparison.OrdinalIgnoreCase) ||
                 WindowsDomainParameterSetName.Equals(ParameterSetName, StringComparison.OrdinalIgnoreCase))
             {
-                if (ValidationHelpers.IsWindowsPasswordValid(Password) == false)
+                if (!ValidationHelpers.IsWindowsPasswordValid(this.Password))
                 {
                     throw new ArgumentException(Resources.PasswordNotComplexEnough);
                 }
 
-                if (ValidationHelpers.IsWindowsComputerNameValid(vm.RoleName) == false)
+                if (!ValidationHelpers.IsWindowsComputerNameValid(vm.RoleName))
                 {
                     throw new ArgumentException(Resources.InvalidComputerName);
                 }
