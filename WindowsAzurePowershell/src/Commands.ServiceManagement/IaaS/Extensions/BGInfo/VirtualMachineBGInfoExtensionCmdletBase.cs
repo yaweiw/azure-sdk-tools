@@ -16,6 +16,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
 {
     using System.Collections.Generic;
     using System.Linq;
+    using Management.Compute;
     using Model.PersistentVMModel;
 
     public class VirtualMachineBGInfoExtensionCmdletBase : VirtualMachineExtensionCmdletBase
@@ -32,20 +33,28 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
             base.extensionName = ExtensionDefaultName;
         }
 
-        public static ResourceExtensionReferenceList ExtensionList
+        public static ResourceExtensionReferenceList GetSingleExtensionList(ComputeManagementClient computeClient)
         {
-            get
+            var extensionList = computeClient.VirtualMachineExtensions.ListVersions(
+                VirtualMachineBGInfoExtensionCmdletBase.ExtensionDefaultPublisher,
+                VirtualMachineBGInfoExtensionCmdletBase.ExtensionDefaultName);
+
+            var referenceList = new ResourceExtensionReferenceList();
+
+            if (extensionList.Any())
             {
-                return new ResourceExtensionReferenceList(
-                    from i in new int[1]
-                    select new ResourceExtensionReference
-                    {
-                        Publisher = VirtualMachineBGInfoExtensionCmdletBase.ExtensionDefaultPublisher,
-                        Name = VirtualMachineBGInfoExtensionCmdletBase.ExtensionDefaultName,
-                        ReferenceName = VirtualMachineBGInfoExtensionCmdletBase.ExtensionDefaultName,
-                        State = VirtualMachineExtensionCmdletBase.ReferenceEnableStateStr
-                    });
+                var extensionImage = extensionList.FirstOrDefault();
+                var defaultRefName = extensionImage.Name;
+
+                referenceList.Add(new ResourceExtensionReference
+                {
+                    Publisher     = extensionImage.Publisher,
+                    Name          = extensionImage.Name,
+                    ReferenceName = defaultRefName
+                });
             }
+
+            return referenceList;
         }
     }
 }

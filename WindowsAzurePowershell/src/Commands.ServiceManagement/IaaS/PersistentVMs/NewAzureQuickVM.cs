@@ -331,7 +331,8 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.PersistentVMs
                         RoleSize = vm.RoleSize,
                         VMImageName = _isVMImage ? this.ImageName : null,
                         ProvisionGuestAgent = !this.DisableGuestAgent,
-                        ResourceExtensionReferences = Mapper.Map<List<ResourceExtensionReference>>(VirtualMachineBGInfoExtensionCmdletBase.ExtensionList)
+                        ResourceExtensionReferences = Mapper.Map<List<ResourceExtensionReference>>(
+                            VirtualMachineBGInfoExtensionCmdletBase.GetSingleExtensionList(this.ComputeClient))
                     };
 
                     if (!_isVMImage)
@@ -377,7 +378,8 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.PersistentVMs
                 }),
                 VMImageName = _isVMImage ? this.ImageName : null,
                 ProvisionGuestAgent = !this.DisableGuestAgent,
-                ResourceExtensionReferences = Mapper.Map<List<ResourceExtensionReference>>(VirtualMachineBGInfoExtensionCmdletBase.ExtensionList)
+                ResourceExtensionReferences = Mapper.Map<List<ResourceExtensionReference>>(
+                    VirtualMachineBGInfoExtensionCmdletBase.GetSingleExtensionList(this.ComputeClient))
             };
 
             if (!_isVMImage && vm.OSVirtualHardDisk.MediaLink == null && String.IsNullOrEmpty(vm.OSVirtualHardDisk.Name))
