@@ -31,7 +31,7 @@ function Init-TestEnvironment
     #$moduleLoaded = Get-Module -Name "Microsoft.WindowsAzure.Commands"
     if(!$moduleLoaded)
     {
-        Import-Module .\AzureServiceManagement.psd1
+        Import-Module .\Azure.psd1
     }
     $ConfirmPreference = "Medium"
 }

@@ -42,6 +42,12 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.Common
             set;
         }
 
+        public Uri ActiveDirectoryEndpoint
+        {
+            get;
+            set;
+        }
+
         public CloudCredentials Credentials
         {
             get;
@@ -49,6 +55,18 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.Common
         }
 
         public string UserName
+        {
+            get;
+            set;
+        }
+
+        public string StorageAccount
+        {
+            get;
+            set;
+        }
+
+        public string SubscriptionId
         {
             get;
             set;

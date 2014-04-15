@@ -207,7 +207,7 @@
   <data name="AzureSdkVersionNotSupported" xml:space="preserve">
     <value>The installed Azure SDK version is not supported. Make sure you version is between {0} and {1} inclusive</value>
   </data>
-  <data name="AzureServiceManagementException_WrapExistingError_DetailedErrorFormat" xml:space="preserve">
+  <data name="AzureException_WrapExistingError_DetailedErrorFormat" xml:space="preserve">
     <value>Azure service management error
 {0}</value>
   </data>

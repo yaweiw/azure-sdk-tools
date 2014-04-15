@@ -29,6 +29,11 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
             return Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
         }
 
+        public static string GetContentFilePath(string fileName)
+        {
+            return Path.Combine(GetAssemblyDirectory(), fileName);
+        }
+
         public static string GetWithProgramFilesPath(string directoryName, bool throwIfNotFound)
         {
             string programFilesPath = Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles);

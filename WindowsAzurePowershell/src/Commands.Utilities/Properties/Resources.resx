@@ -180,6 +180,9 @@
   <data name="AzureEmulatorNotInstalledMessage" xml:space="preserve">
     <value>Azure Emulator is not installed and is required</value>
   </data>
+  <data name="AzureEmulatorNotRunningElevetaed" xml:space="preserve">
+    <value>You must run PowerShell from an elevated PowerShell window to use the Azure Emulator. Please restart your PowerShell window as an administrator.</value>
+  </data>
   <data name="AzureEmulatorPathPortion" xml:space="preserve">
     <value>Windows Azure Emulator\emulator</value>
   </data>
@@ -207,7 +210,7 @@
   <data name="AzureSdkVersionNotSupported" xml:space="preserve">
     <value>The installed Azure SDK version is not supported. Make sure you version is between {0} and {1} inclusive</value>
   </data>
-  <data name="AzureServiceManagementException_WrapExistingError_DetailedErrorFormat" xml:space="preserve">
+  <data name="AzureException_WrapExistingError_DetailedErrorFormat" xml:space="preserve">
     <value>Azure service management error
 {0}</value>
   </data>

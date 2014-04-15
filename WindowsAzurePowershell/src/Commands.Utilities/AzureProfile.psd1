@@ -12,7 +12,7 @@
 ModuleToProcess = '..\Microsoft.WindowsAzure.Commands.dll'
 
 # Version number of this module.
-ModuleVersion = '0.7.4'
+ModuleVersion = '0.8.0'
 
 # ID used to uniquely identify this module
 GUID = '691681E2-BDB1-4FEA-9EB1-87F38D8901D2'

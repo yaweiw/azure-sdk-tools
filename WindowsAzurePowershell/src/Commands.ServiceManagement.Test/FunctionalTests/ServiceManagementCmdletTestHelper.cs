@@ -667,7 +667,7 @@ using Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests.Iaa
             return result;
         }
 
-        public ManagementOperationContext NewAzureQuickVM(OS os, string name, string serviceName, string imageName, string userName, string password, string locationName = null)
+        public ManagementOperationContext NewAzureQuickVM(OS os, string name, string serviceName, string imageName, string userName= null, string password= null, string locationName = null)
         {
             return NewAzureQuickVM(os, name, serviceName, imageName, userName, password, locationName, null);
         }
@@ -1268,14 +1268,19 @@ using Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests.Iaa
             return result;
         }
 
-        public void SaveAzureVMImage(string serviceName, string vmName, string newImageName, string newImageLabel = null)
+        public void SaveAzureVMImage(string serviceName, string vmName, string newImageName, string osState = null,string newImageLabel = null)
         {
-            RunPSCmdletAndReturnFirst<ManagementOperationContext>(new SaveAzureVMImageCmdletInfo(serviceName, vmName, newImageName, newImageLabel));
+            RunPSCmdletAndReturnFirst<ManagementOperationContext>(new SaveAzureVMImageCmdletInfo(serviceName, vmName, newImageName, newImageLabel, osState));
         }
 
         public Collection<OSImageContext> GetAzureVMImage(string imageName = null)
         {
             return RunPSCmdletAndReturnAll<OSImageContext>(new GetAzureVMImageCmdletInfo(imageName));
+        }
+
+        public Collection<VMImageContext> GetAzureVMImageReturningVMImages(string imageName = null)
+        {
+            return RunPSCmdletAndReturnAll<VMImageContext>(new GetAzureVMImageCmdletInfo(imageName));
         }
 
         public string GetAzureVMImageName(string[] keywords, bool exactMatch = true)
