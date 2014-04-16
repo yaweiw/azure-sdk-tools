@@ -53,9 +53,16 @@ namespace Microsoft.WindowsAzure.Commands.Automation
         public string Name { get; set; }
 
         /// <summary>
+        /// Gets or sets the indicator whether the schedule is enabled.
+        /// </summary>
+        [Parameter(Mandatory = false, ValueFromPipelineByPropertyName = true,
+            HelpMessage = "The schedule description.")]
+        public bool? IsEnabled { get; set; }
+
+        /// <summary>
         /// Gets or sets the schedule description.
         /// </summary>
-        [Parameter(Position = 2, Mandatory = true, ValueFromPipelineByPropertyName = true,
+        [Parameter(Mandatory = false, ValueFromPipelineByPropertyName = true,
             HelpMessage = "The schedule description.")]
         public string Description { get; set; }
 
@@ -69,14 +76,14 @@ namespace Microsoft.WindowsAzure.Commands.Automation
             {
                 // ByScheduleId
                 var schedule = this.AutomationClient.UpdateSchedule(
-                    this.AutomationAccountName, this.Id.Value, this.Description);
+                    this.AutomationAccountName, this.Id.Value, this.IsEnabled, this.Description);
                 this.WriteObject(schedule);
             }
             else
             {
                 // ByScheduleName
                 var schedule = this.AutomationClient.UpdateSchedule(
-                    this.AutomationAccountName, this.Name, this.Description);
+                    this.AutomationAccountName, this.Name, this.IsEnabled, this.Description);
                 this.WriteObject(schedule);
             }
         }
