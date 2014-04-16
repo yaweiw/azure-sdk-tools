@@ -16,7 +16,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
     using System.Linq;
     using System.Xml.Linq;
     using Model.PersistentVMModel;
-    using Utilities.Websites.Services;
+    using Helpers;
 
     public class VirtualMachineAccessExtensionCmdletBase : VirtualMachineExtensionCmdletBase
     {
