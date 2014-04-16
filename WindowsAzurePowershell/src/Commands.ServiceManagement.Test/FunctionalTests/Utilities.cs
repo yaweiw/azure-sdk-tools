@@ -32,6 +32,8 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
     using System.Threading;
     using System.Xml;
     using VisualStudio.TestTools.UnitTesting;
+    using Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests.ConfigDataInfo;
+    using System.Collections.Generic;
 
     internal class Utilities 
     {
@@ -283,6 +285,11 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
         public const string GetAzureVMAccessExtensionCmdletName = "Get-AzureVMAccessExtension";
         public const string SetAzureVMAccessExtensionCmdletName = "Set-AzureVMAccessExtension";
         public const string RemoveAzureVMAccessExtensionCmdletName = "Remove-AzureVMAccessExtension";
+
+        // Custom script extension
+        public const string SetAzureVMCustomScriptExtensionCmdletName = "Set-AzureVMCustomScriptExtension";
+        public const string GetAzureVMCustomScriptExtensionCmdletName = "Get-AzureVMCustomScriptExtension";
+        public const string RemoveAzureVMCustomScriptExtensionCmdletName = "Remove-AzureVMCustomScriptExtension";
         #endregion
 
 
@@ -856,5 +863,100 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
                 }
             }
         }
+
+        public static bool validateHttpUri(string uri)
+        {
+            Uri uriResult;
+            return Uri.TryCreate(uri, UriKind.Absolute, out uriResult) && uriResult.Scheme == Uri.UriSchemeHttp;
+        }
+
+        public static PersistentVM CreateIaaSVMObject(string vmName,InstanceSize size,string imageName,bool isWindows = true,string username = null,string password = null,bool disableGuestAgent = false)
+        {
+            //Create an IaaS VM
+            var azureVMConfigInfo = new AzureVMConfigInfo(vmName, size.ToString(), imageName);
+            AzureProvisioningConfigInfo azureProvisioningConfig = null;
+            if (!string.IsNullOrEmpty(username) && !string.IsNullOrEmpty(username))
+            {
+                azureProvisioningConfig = new AzureProvisioningConfigInfo(isWindows ? OS.Windows:OS.Linux, username, password,disableGuestAgent);
+            }
+            var persistentVMConfigInfo = new PersistentVMConfigInfo(azureVMConfigInfo, azureProvisioningConfig, null, null);
+            ServiceManagementCmdletTestHelper vmPowershellCmdlets = new ServiceManagementCmdletTestHelper();
+            return vmPowershellCmdlets.GetPersistentVM(persistentVMConfigInfo);
+        }
+
+        public static void PrintHeader(string title)
+        {
+            int headerLineLength = 100;
+            Console.WriteLine();
+            Console.WriteLine(string.Format("{0}{1}{0}",new String('>',(headerLineLength-title.Length)/2),title));
+        }
+
+        public static void PrintFooter(string title)
+        {
+            int headerLineLength = 100;
+            string completed = ": Completed";
+            Console.WriteLine(string.Format("{0}{1}{0}", new String('<', (headerLineLength - (title.Length + completed.Length)) / 2), title+ completed));
+        }
+
+        public static void PrintSeperationLineStart(string title,char seperator)
+        {
+            int headerLineLength = 100;
+            string completed = ": Completed";
+            Console.WriteLine(string.Format("{0}{1}{0}", new String(seperator, (headerLineLength - (title.Length + completed.Length)) / 2), title + completed));
+        }
+        public static void PrintSeperationLineEnd(string title,string successMessage, char seperator)
+        {
+            int headerLineLength = 100;
+            Console.WriteLine(string.Format("{0}{1}{0}", new String(seperator, (headerLineLength - (title.Length + successMessage.Length)) / 2), title + successMessage));
+        }
+
+        public static string ConvertToJsonArray(string[] values)
+        {
+            List<string> files = new List<string>();
+            foreach (string s in values)
+            {
+               files.Add(string.Format("'{0}'", s));
+            }
+            return string.Join(",", files);
+        }
+
+        public static string GetSASUri(string blobUrlRoot,string storageAccoutnName,string primaryKey, string container, string filename, TimeSpan persmissionDuration,SharedAccessBlobPermissions permissionType)
+        {
+            // Set the destination
+            string httpsBlobUrlRoot = string.Format("https:{0}", blobUrlRoot.Substring(blobUrlRoot.IndexOf('/')));
+            string vhdDestUri = httpsBlobUrlRoot + string.Format("{0}/{1}", container, filename);
+
+            var destinationBlob = new CloudPageBlob(new Uri(vhdDestUri), new StorageCredentials(storageAccoutnName, primaryKey));
+            var policy2 = new SharedAccessBlobPolicy()
+            {
+                Permissions = permissionType,
+                SharedAccessExpiryTime = DateTime.UtcNow.Add(persmissionDuration)
+            };
+            var destinationBlobToken2 = destinationBlob.GetSharedAccessSignature(policy2);
+            vhdDestUri += destinationBlobToken2;
+            return vhdDestUri;
+        }
+
+        public static PersistentVM GetAzureVM(string vmName, string serviceName)
+        {
+            ServiceManagementCmdletTestHelper vmPowershellCmdlets = new ServiceManagementCmdletTestHelper();
+            var vmroleContext = vmPowershellCmdlets.GetAzureVM(vmName, serviceName);
+            return vmroleContext.VM;
+        }
+
+        public static void LogAssert(Action method,string actionTitle)
+        {
+            Console.Write(actionTitle);
+            method();
+            Console.WriteLine(": succeeded");
+        }
+
+        public static void LogAction(Action method,string actionTitle)
+        {
+            Console.Write(actionTitle);
+            method();
+            Console.WriteLine(actionTitle +": succeeded");
+        }
+
     }
 }
