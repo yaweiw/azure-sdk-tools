@@ -26,12 +26,9 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
     using Management.Compute.Models;
     using Model;
     using Properties;
-    using DataVirtualHardDisk = Model.PersistentVMModel.DataVirtualHardDisk;
-    using OSVirtualHardDisk = Model.PersistentVMModel.OSVirtualHardDisk;
     using PVM = Model.PersistentVMModel;
-    using RoleInstance = Management.Compute.Models.RoleInstance;
 
-    [Cmdlet(VerbsCommon.Get, "AzureVM"), OutputType(typeof(PersistentVMRoleContext))]
+    [Cmdlet(VerbsCommon.Get, AzureVMNoun, DefaultParameterSetName = ListVMParamSet), OutputType(typeof(PersistentVMRoleContext))]
     public class GetAzureVMCommand : IaaSDeploymentManagementCmdletBase
     {
         protected const string AzureVMNoun = "AzureVM";
@@ -39,20 +36,11 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
         protected const string ListVMParamSet = "ListAllVMs";
         protected const string GetVMParamSet = "GetVMByServiceAndVMName";
 
-        [Parameter(
-            ParameterSetName = GetVMParamSet,
-            Position = 0,
-            Mandatory = true,
-            ValueFromPipelineByPropertyName = true,
-            HelpMessage = "Service name.")]
+        [Parameter(ParameterSetName = GetVMParamSet, Position = 0, Mandatory = true, ValueFromPipelineByPropertyName = true, HelpMessage = "Service name.")]
         [ValidateNotNullOrEmpty]
         public override string ServiceName { get; set; }
 
-        [Parameter(
-            ParameterSetName = GetVMParamSet,
-            Position = 1,
-            ValueFromPipelineByPropertyName = true,
-            HelpMessage = "The name of the virtual machine to get.")]
+        [Parameter(ParameterSetName = GetVMParamSet, Position = 1, ValueFromPipelineByPropertyName = true, HelpMessage = "The name of the virtual machine to get.")]
         public virtual string Name { get; set; }
 
         protected override void ExecuteCommand()
@@ -184,8 +172,8 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
                     DefaultWinRmCertificateThumbprint = vmRole.DefaultWinRmCertificateThumbprint,
                     ProvisionGuestAgent               = vmRole.ProvisionGuestAgent,
                     ResourceExtensionReferences       = Mapper.Map<PVM.ResourceExtensionReferenceList>(vmRole.ResourceExtensionReferences),
-                    DataVirtualHardDisks              = Mapper.Map(vmRole.DataVirtualHardDisks, new Collection<DataVirtualHardDisk>()),
-                    OSVirtualHardDisk                 = Mapper.Map(vmRole.OSVirtualHardDisk, new OSVirtualHardDisk()),
+                    DataVirtualHardDisks              = Mapper.Map<Collection<PVM.DataVirtualHardDisk>>(vmRole.DataVirtualHardDisks),
+                    OSVirtualHardDisk                 = Mapper.Map<PVM.OSVirtualHardDisk>(vmRole.OSVirtualHardDisk),
                     ConfigurationSets                 = PersistentVMHelper.MapConfigurationSets(vmRole.ConfigurationSets)
                 }
             };
