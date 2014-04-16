@@ -14,7 +14,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Extensions
     using System;
     using System.Management.Automation;
     using System.Xml.Linq;
-    using Helpers;
+    using Utilities.Websites.Services;
     
     public abstract class BaseAzureServiceRemoteDesktopExtensionCmdlet : BaseAzureServiceExtensionCmdlet
     {

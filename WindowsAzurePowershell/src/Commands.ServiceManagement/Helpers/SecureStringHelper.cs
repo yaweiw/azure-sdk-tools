@@ -22,7 +22,6 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Helpers
     using NSM = Management.Compute.Models;
     using PVM = Model.PersistentVMModel;
 
-
     public static class SecureStringHelper
     {
         const string PublicTypeStr = "Public";
@@ -79,6 +78,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Helpers
 
             return str;
         }
+		
         public static string GetPlainString(PVM.ResourceExtensionParameterValue item)
         {
             string str = null;

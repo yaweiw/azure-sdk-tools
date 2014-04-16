@@ -16,6 +16,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.AffinityGroups
 {
     using System.Linq;
     using System.Management.Automation;
+    using Management;
     using Management.Models;
     using Model;
     using Utilities.Common;
@@ -23,23 +24,20 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.AffinityGroups
     /// <summary>
     /// List the properties for the specified affinity group.
     /// </summary>
-    [Cmdlet(
-        VerbsCommon.Get,
-        "AzureAffinityGroup"),
-    OutputType(
-        typeof(AffinityGroupContext))]
+    [Cmdlet(VerbsCommon.Get, "AzureAffinityGroup"), OutputType(typeof(AffinityGroupContext))]
     public class GetAzureAffinityGroup : ServiceManagementBaseCmdlet
     {
-        [Parameter(
-            Position = 0,
-            Mandatory = false,
-            ValueFromPipelineByPropertyName = true,
-            HelpMessage = "Affinity Group name")]
+        [Parameter(Position = 0, Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "Affinity Group name")]
         [ValidateNotNullOrEmpty]
         public string Name
         {
             get;
             set;
+        }
+
+        internal void ExecuteCommand()
+        {
+            OnProcessRecord();
         }
 
         protected override void OnProcessRecord()
@@ -51,8 +49,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.AffinityGroups
                 ExecuteClientActionNewSM(null, 
                     CommandRuntime.ToString(), 
                     () => this.ManagementClient.AffinityGroups.Get(this.Name),
-                    (s, affinityGroup) => Enumerable.Repeat(affinityGroup, 1).Select(
-                        ag => ContextFactory<AffinityGroupGetResponse, AffinityGroupContext>(ag, s))
+                    (s, affinityGroup) => (new int[1]).Select(i => ContextFactory<AffinityGroupGetResponse, AffinityGroupContext>(affinityGroup, s))
                 );
             }
             else
@@ -60,8 +57,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.AffinityGroups
                 ExecuteClientActionNewSM(null, 
                     CommandRuntime.ToString(), 
                     () => this.ManagementClient.AffinityGroups.List(),
-                    (s, affinityGroups) => affinityGroups.AffinityGroups.Select(
-                        ag => ContextFactory<AffinityGroupListResponse.AffinityGroup, AffinityGroupContext>(ag, s))
+                    (s, affinityGroups) => affinityGroups.AffinityGroups.Select(ag => ContextFactory<AffinityGroupListResponse.AffinityGroup, AffinityGroupContext>(ag, s))
                 );
             }
         }
