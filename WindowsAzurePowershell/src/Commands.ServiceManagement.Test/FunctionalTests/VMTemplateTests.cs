@@ -47,6 +47,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
         [TestInitialize]
         public void TestIntialize()
         {
+            testStartTime = DateTime.Now;
             pass = false;
             skipCleanup = false;
             serviceName = Utilities.GetUniqueShortName(serviceNamePrefix);
