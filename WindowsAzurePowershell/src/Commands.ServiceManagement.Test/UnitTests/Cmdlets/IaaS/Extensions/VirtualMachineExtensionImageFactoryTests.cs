@@ -21,6 +21,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.UnitTests.Cmdle
     using Commands.Test.Utilities.Common;
     using Management.Compute;
     using Management.Compute.Models;
+    using Moq;
     using ServiceManagement.IaaS.Extensions;
     using VisualStudio.TestTools.UnitTesting;
 
@@ -32,16 +33,14 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.UnitTests.Cmdle
         private const string testPublisherName = "testPublisherName";
         private const string testExtensionName = "testExtensionName";
 
-        private class MockVirtualMachineExtensionOperations : IVirtualMachineExtensionOperations
-        {
-            public Task<VirtualMachineExtensionListResponse> ListAsync(CancellationToken cancellationToken)
-            {
-                throw new System.NotImplementedException();
-            }
+        private Mock<IComputeManagementClient> client;
 
-            public Task<VirtualMachineExtensionListResponse> ListVersionsAsync(string publisherName, string extensionName, CancellationToken cancellationToken)
-            {
-                return Task.Factory.StartNew(() => new VirtualMachineExtensionListResponse
+        [TestInitialize]
+        public void SetupTest()
+        {
+            var source = new TaskCompletionSource<VirtualMachineExtensionListResponse>();
+            source.SetResult(
+                new VirtualMachineExtensionListResponse
                 {
                     ResourceExtensions = new List<VirtualMachineExtensionListResponse.ResourceExtension>(
                         Enumerable.Repeat(new VirtualMachineExtensionListResponse.ResourceExtension
@@ -50,85 +49,14 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.UnitTests.Cmdle
                             Name = testExtensionName
                         }, 1))
                 });
-            }
-        }
 
-        private class MockComputeManagementClient : IComputeManagementClient
-        {
-            private MockVirtualMachineExtensionOperations virtualMachineExtensions = new MockVirtualMachineExtensionOperations();
+            var operations = new Mock<IVirtualMachineExtensionOperations>();
+            operations.Setup(f => f.ListVersionsAsync(It.IsAny<string>(), It.IsAny<string>(), CancellationToken.None))
+                      .Returns(source.Task);
 
-            public System.Uri BaseUri
-            {
-                get { throw new System.NotImplementedException(); }
-            }
-
-            public SubscriptionCloudCredentials Credentials
-            {
-                get { throw new System.NotImplementedException(); }
-            }
-
-            public IDeploymentOperations Deployments
-            {
-                get { throw new System.NotImplementedException(); }
-            }
-
-            public Task<OperationStatusResponse> GetOperationStatusAsync(string requestId, CancellationToken cancellationToken)
-            {
-                throw new System.NotImplementedException();
-            }
-
-            public IHostedServiceOperations HostedServices
-            {
-                get { throw new System.NotImplementedException(); }
-            }
-
-            public IOperatingSystemOperations OperatingSystems
-            {
-                get { throw new System.NotImplementedException(); }
-            }
-
-            public IServiceCertificateOperations ServiceCertificates
-            {
-                get { throw new System.NotImplementedException(); }
-            }
-
-            public IVirtualMachineDiskOperations VirtualMachineDisks
-            {
-                get { throw new System.NotImplementedException(); }
-            }
-
-            IVirtualMachineExtensionOperations IComputeManagementClient.VirtualMachineExtensions
-            {
-                get
-                {
-                    return virtualMachineExtensions;
-                }
-            }
-
-            public IVirtualMachineOSImageOperations VirtualMachineOSImages
-            {
-                get { throw new System.NotImplementedException(); }
-            }
-
-            public IVirtualMachineVMImageOperations VirtualMachineVMImages
-            {
-                get { throw new System.NotImplementedException(); }
-            }
-
-            public IVirtualMachineOperations VirtualMachines
-            {
-                get { throw new System.NotImplementedException(); }
-            }
-
-            public void Dispose()
-            {
-                throw new System.NotImplementedException();
-            }
-        }
-
-        [TestInitialize]
-        public void SetupTest()
-        {
+            client = new Mock<IComputeManagementClient>();
+            client.Setup(f => f.VirtualMachineExtensions)
+                  .Returns(operations.Object);
         }
 
         [TestCleanup]
@@ -188,8 +116,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.UnitTests.Cmdle
         [TestMethod]
         public void TestMakeListWithClient()
         {
-            var client = new MockComputeManagementClient();
-            var factory = new VirtualMachineExtensionImageFactory(client);
+            var factory = new VirtualMachineExtensionImageFactory(client.Object);
 
             var list = factory.MakeList(
                 testPublisherName,
