@@ -61,7 +61,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
         protected override void ValidateParameters()
         {
             base.ValidateParameters();
-            this.ReferenceName = this.ReferenceName ?? LegacyReferenceName;
+            this.ReferenceName = this.ReferenceName ?? ExtensionDefaultName;
         }
 
         protected override void ProcessRecord()
