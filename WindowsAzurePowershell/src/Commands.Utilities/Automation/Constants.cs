@@ -59,6 +59,8 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Automation
 
         public const string JobStartedByParameterName = "MicrosoftApplicationManagementStartedBy";
 
+        public const string ClientIdentity = "PowerShell";
+
         public const char RunbookTagsSeparatorChar = ',';
 
         public const string RunbookTagsSeparatorString = ",";

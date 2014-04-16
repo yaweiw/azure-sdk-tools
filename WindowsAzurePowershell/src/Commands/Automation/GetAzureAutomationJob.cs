@@ -19,8 +19,6 @@ namespace Microsoft.WindowsAzure.Commands.Automation
     using System.Management.Automation;
     using System.Security.Permissions;
 
-    using Microsoft.WindowsAzure.Commands.Utilities.Automation;
-
     using Job = Microsoft.WindowsAzure.Commands.Utilities.Automation.Models.Job;
 
     /// <summary>
@@ -51,16 +49,6 @@ namespace Microsoft.WindowsAzure.Commands.Automation
         private const string ByAll = "ByAll";
 
         /// <summary>
-        /// The start time.
-        /// </summary>
-        private DateTime startTime = Constants.DefaultJobFilterStartTime;
-
-        /// <summary>
-        /// The end time.
-        /// </summary>
-        private DateTime endTime = Constants.DefaultJobFilterEndTime;
-
-        /// <summary>
         /// Gets or sets the job id.
         /// </summary>
         [Parameter(ParameterSetName = ByJobId, Mandatory = true, ValueFromPipelineByPropertyName = true, HelpMessage = "The job id.")]
@@ -85,18 +73,7 @@ namespace Microsoft.WindowsAzure.Commands.Automation
         [Parameter(ParameterSetName = ByRunbookId, Mandatory = false, HelpMessage = "Filter jobs so that job start time >= StartTime.")]
         [Parameter(ParameterSetName = ByRunbookName, Mandatory = false, HelpMessage = "Filter jobs so that job start time >= StartTime.")]
         [Parameter(ParameterSetName = ByAll, Mandatory = false, HelpMessage = "Filter jobs so that job start time >= StartTime.")]
-        public DateTime StartTime
-        {
-            get
-            {
-                return this.startTime;
-            }
-
-            set
-            {
-                this.startTime = value;
-            }
-        }
+        public DateTime? StartTime { get; set; }
 
         /// <summary>
         /// Gets or sets the end time filter.
@@ -104,18 +81,7 @@ namespace Microsoft.WindowsAzure.Commands.Automation
         [Parameter(ParameterSetName = ByRunbookId, Mandatory = false, HelpMessage = "Filter jobs so that job end time <= EndTime.")]
         [Parameter(ParameterSetName = ByRunbookName, Mandatory = false, HelpMessage = "Filter jobs so that job end time <= EndTime.")]
         [Parameter(ParameterSetName = ByAll, Mandatory = false, HelpMessage = "Filter jobs so that job end time <= EndTime.")]
-        public DateTime EndTime
-        {
-            get
-            {
-                return this.endTime;
-            }
-
-            set
-            {
-                this.endTime = value;
-            }
-        }
+        public DateTime? EndTime { get; set; }
 
         /// <summary>
         /// Execute this cmdlet.
@@ -123,14 +89,6 @@ namespace Microsoft.WindowsAzure.Commands.Automation
         [PermissionSet(SecurityAction.Demand, Name = "FullTrust")]
         protected override void AutomationExecuteCmdlet()
         {
-            // Assume local time if DateTimeKind.Unspecified
-            this.StartTime = this.StartTime.Kind == DateTimeKind.Unspecified
-                                 ? DateTime.SpecifyKind(this.StartTime, DateTimeKind.Local)
-                                 : this.StartTime;
-            this.EndTime = this.EndTime.Kind == DateTimeKind.Unspecified
-                                 ? DateTime.SpecifyKind(this.EndTime, DateTimeKind.Local)
-                                 : this.EndTime;
-
             IEnumerable<Job> jobs;
 
             if (this.Id.HasValue)

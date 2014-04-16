@@ -58,9 +58,11 @@ namespace Microsoft.WindowsAzure.Commands.Automation
         [PermissionSet(SecurityAction.Demand, Name = "FullTrust")]
         protected override void AutomationExecuteCmdlet()
         {
-            this.StartTime = this.StartTime.Kind == DateTimeKind.Unspecified
-                                 ? DateTime.SpecifyKind(this.StartTime, DateTimeKind.Local)
-                                 : this.StartTime;
+            // Assume local time if DateTimeKind.Unspecified
+            if (this.StartTime.Kind == DateTimeKind.Unspecified)
+            {
+                this.StartTime = DateTime.SpecifyKind(this.StartTime, DateTimeKind.Local);
+            }
 
             var streamTypeNames = new string[]
                                       {

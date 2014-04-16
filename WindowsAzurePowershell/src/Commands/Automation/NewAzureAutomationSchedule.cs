@@ -117,12 +117,15 @@ namespace Microsoft.WindowsAzure.Commands.Automation
         protected override void AutomationExecuteCmdlet()
         {
             // Assume local time if DateTimeKind.Unspecified
-            this.StartTime = this.StartTime.Kind == DateTimeKind.Unspecified
-                                 ? DateTime.SpecifyKind(this.StartTime, DateTimeKind.Local)
-                                 : this.StartTime;
-            this.ExpiryTime = this.ExpiryTime.Kind == DateTimeKind.Unspecified
-                                  ? DateTime.SpecifyKind(this.ExpiryTime, DateTimeKind.Local)
-                                  : this.ExpiryTime;
+            if (this.StartTime.Kind == DateTimeKind.Unspecified)
+            {
+                this.StartTime = DateTime.SpecifyKind(this.StartTime, DateTimeKind.Local);
+            }
+
+            if (this.ExpiryTime.Kind == DateTimeKind.Unspecified)
+            {
+                this.ExpiryTime = DateTime.SpecifyKind(this.ExpiryTime, DateTimeKind.Local);
+            }
 
             if (this.OneTime.IsPresent)
             {

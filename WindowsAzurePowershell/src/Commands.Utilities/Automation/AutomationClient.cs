@@ -65,6 +65,11 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Automation
 
         public IEnumerable<AutomationAccount> ListAutomationAccounts(string automationAccountName, string location)
         {
+            if (automationAccountName != null)
+            {
+                Requires.Argument("AutomationAccountName", automationAccountName).ValidAutomationAccountName();
+            }
+
             var automationAccounts = new List<AutomationAccount>();
             var cloudServices = new List<AutomationManagement.Models.CloudService>(this.automationManagementClient.CloudServices.List(AutomationResourceProvider).CloudServices);
 
@@ -73,15 +78,20 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Automation
                 automationAccounts.AddRange(cloudService.Resources.Select(resource => new AutomationAccount(cloudService, resource)));
             }
 
-            // RDFE does not support server-side filtering, hence we filter in the client-side.
+            // RDFE does not support server-side filtering, hence we filter on the client-side.
             if (automationAccountName != null)
             {
-                automationAccounts = automationAccounts.Where(account => account.AutomationAccountName == automationAccountName).ToList();
+                automationAccounts = automationAccounts.Where(account => string.Equals(account.AutomationAccountName, automationAccountName, StringComparison.OrdinalIgnoreCase)).ToList();
+
+                if (!automationAccounts.Any())
+                {
+                    throw new ArgumentException(string.Format(CultureInfo.CurrentCulture, Resources.AutomationAccountNotFound));
+                }
             }
 
             if (location != null)
             {
-                automationAccounts = automationAccounts.Where(account => account.Location == location).ToList();
+                automationAccounts = automationAccounts.Where(account => string.Equals(account.Location, location, StringComparison.OrdinalIgnoreCase)).ToList();
             }
 
             return automationAccounts;
@@ -161,7 +171,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Automation
 
         public IEnumerable<Runbook> ListRunbooks(string automationAccountName)
         {
-            var runbooks = this.ContinuationTokenHandler(
+            var runbookModels = this.ContinuationTokenHandler(
                 skipToken =>
                 {
                     var listRunbookResponse =
@@ -171,12 +181,13 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Automation
                         listRunbookResponse, listRunbookResponse.Runbooks);
                 });
 
-            return runbooks.Select(runbook => new Runbook(runbook));
+            return runbookModels.Select(runbookModel => new Runbook(runbookModel));
         }
 
         public IEnumerable<Runbook> ListRunbookByScheduleName(string automationAccountName, string scheduleName)
         {
-            var runbooks = this.ContinuationTokenHandler(
+            var scheduleModel = this.GetScheduleModel(automationAccountName, scheduleName);
+            var runbooModels = this.ContinuationTokenHandler(
                 skipToken =>
                 {
                     var listRunbookResponse =
@@ -186,14 +197,15 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Automation
                             AutomationResourceProvider,
                             new AutomationManagement.Models.RunbookListByScheduleNameParameters
                             {
-                                ScheduleName = scheduleName,
+                                ScheduleName = scheduleModel.Name,
                                 SkipToken = skipToken
                             });
                     return new ResponseWithNextLink<AutomationManagement.Models.Runbook>(
                         listRunbookResponse, listRunbookResponse.Runbooks);
                 });
 
-            return runbooks.Select(runbook => new Runbook(runbook));
+            var runbooks = runbooModels.Select(runbookModel => new Runbook(runbookModel));
+            return runbooks.Where(runbook => runbook.ScheduleNames.Any());
         }
 
         public Runbook PublishRunbook(string automationAccountName, Guid runbookId)
@@ -202,7 +214,11 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Automation
                 automationAccountName,
                 AutomationCloudServicePrefix,
                 AutomationResourceProvider,
-                runbookId.ToString());
+                new AutomationManagement.Models.RunbookPublishParameters
+                    {
+                        RunbookId = runbookId.ToString(),
+                        PublishedBy = Constants.ClientIdentity
+                    });
 
             return this.GetRunbook(automationAccountName, runbookId);
         }
@@ -302,41 +318,22 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Automation
         public IEnumerable<RunbookDefinition> ListRunbookDefinitionsByRunbookName(string automationAccountName, string runbookName, bool? isDraft)
         {
             var runbookId = this.GetRunbookIdByRunbookName(automationAccountName, runbookName);
-            return this.ListRunbookDefinitionsByRunbookId(automationAccountName, runbookId, isDraft);
+            return this.ListRunbookDefinitionsByValidRunbookId(automationAccountName, runbookId, isDraft);
         }
 
         public IEnumerable<RunbookDefinition> ListRunbookDefinitionsByRunbookId(string automationAccountName, Guid runbookId, bool? isDraft)
         {
-            var runbookVersions = isDraft.HasValue
-                                      ? this.automationManagementClient.RunbookVersions.ListLatestByRunbookIdSlot(
-                                          automationAccountName,
-                                          AutomationCloudServicePrefix,
-                                          AutomationResourceProvider,
-                                          new AutomationManagement.Models.
-                                            RunbookVersionListLatestByRunbookIdSlotParameters
-                                              {
-                                                  RunbookId =
-                                                      runbookId.ToString(),
-                                                  IsDraft =
-                                                      isDraft.Value
-                                              })
-                                            .RunbookVersions
-                                      : this.automationManagementClient.RunbookVersions.ListLatestByRunbookId(
-                                          automationAccountName,
-                                          AutomationCloudServicePrefix,
-                                          AutomationResourceProvider,
-                                          runbookId.ToString()).RunbookVersions;
-
-            return this.CreateRunbookDefinitionsFromRunbookVersionModels(automationAccountName, runbookVersions);
+            var runbookModel = this.GetRunbookModel(automationAccountName, runbookId, false);
+            return this.ListRunbookDefinitionsByValidRunbookId(automationAccountName, new Guid(runbookModel.Id), isDraft);
         }
 
         public IEnumerable<RunbookDefinition> ListRunbookDefinitionsByRunbookVersionId(string automationAccountName, Guid runbookVersionId, bool? isDraft)
         {
-            var runbookVersion = this.GetRunbookVersionModel(automationAccountName, runbookVersionId);
-            if (!isDraft.HasValue || isDraft.Value == runbookVersion.IsDraft)
+            var runbookVersionModel = this.GetRunbookVersionModel(automationAccountName, runbookVersionId);
+            if (!isDraft.HasValue || isDraft.Value == runbookVersionModel.IsDraft)
             {
                 return this.CreateRunbookDefinitionsFromRunbookVersionModels(
-                    automationAccountName, new List<AutomationManagement.Models.RunbookVersion> { runbookVersion });
+                    automationAccountName, new List<AutomationManagement.Models.RunbookVersion> { runbookVersionModel });
             }
             else
             {
@@ -364,56 +361,103 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Automation
             return new Job(this.GetJobModel(automationAccountName, jobId));
         }
 
-        public IEnumerable<Job> ListJobs(string automationAccountName, DateTime startTime, DateTime endTime)
+        public IEnumerable<Job> ListJobs(string automationAccountName, DateTime? startTime, DateTime? endTime)
         {
-            var jobs = this.ContinuationTokenHandler(
-                skipToken =>
-                    {
-                        var response = this.automationManagementClient.Jobs.List(
-                            automationAccountName,
-                            AutomationCloudServicePrefix,
-                            AutomationResourceProvider,
-                            new AutomationManagement.Models.JobListParameters
-                                {
-                                    SkipToken = skipToken,
-                                    StartTime =
-                                        this.FormatDateTime(startTime),
-                                    EndTime = this.FormatDateTime(endTime)
-                                });
-                        return new ResponseWithNextLink<AutomationManagement.Models.Job>(
-                            response, response.Jobs);
-                    });
+            // Assume local time if DateTimeKind.Unspecified
+            if (startTime.HasValue && startTime.Value.Kind == DateTimeKind.Unspecified)
+            {
+                startTime = DateTime.SpecifyKind(startTime.Value, DateTimeKind.Local);
+            }
 
-            return jobs.Select(job => new Job(job));
-        }
+            if (endTime.HasValue && endTime.Value.Kind == DateTimeKind.Unspecified)
+            {
+                endTime = DateTime.SpecifyKind(endTime.Value, DateTimeKind.Local);
+            }
 
-        public IEnumerable<Job> ListJobsByRunbookId(string automationAccountName, Guid runbookId, DateTime startTime, DateTime endTime)
-        {
-            var jobs = this.ContinuationTokenHandler(
-                skipToken =>
-                {
-                    var response = this.automationManagementClient.Jobs.ListByRunbookId(
-                        automationAccountName,
-                        AutomationCloudServicePrefix,
-                        AutomationResourceProvider,
-                        new AutomationManagement.Models.JobListByRunbookIdParameters
+            IEnumerable<AutomationManagement.Models.Job> jobModels;
+
+            if (startTime.HasValue && endTime.HasValue)
+            {
+                jobModels = this.ContinuationTokenHandler(
+                    skipToken =>
                         {
-                            RunbookId = runbookId.ToString(),
-                            SkipToken = skipToken,
-                            StartTime = this.FormatDateTime(startTime),
-                            EndTime = this.FormatDateTime(endTime)
+                            var response =
+                                this.automationManagementClient.Jobs.ListFilteredByStartTimeEndTime(
+                                    automationAccountName,
+                                    AutomationCloudServicePrefix,
+                                    AutomationResourceProvider,
+                                    new AutomationManagement.Models.JobListParameters
+                                        {
+                                            StartTime = this.FormatDateTime(startTime.Value),
+                                            EndTime = this.FormatDateTime(endTime.Value),
+                                            SkipToken = skipToken
+                                        });
+                            return new ResponseWithNextLink<AutomationManagement.Models.Job>(response, response.Jobs);
                         });
-                    return new ResponseWithNextLink<AutomationManagement.Models.Job>(
-                        response, response.Jobs);
-                });
+            }
+            else if (startTime.HasValue)
+            {
+                jobModels = this.ContinuationTokenHandler(
+                    skipToken =>
+                        {
+                            var response =
+                                this.automationManagementClient.Jobs.ListFilteredByStartTime(
+                                    automationAccountName,
+                                    AutomationCloudServicePrefix,
+                                    AutomationResourceProvider,
+                                    new AutomationManagement.Models.JobListParameters
+                                        {
+                                            StartTime = this.FormatDateTime(startTime.Value),
+                                            SkipToken = skipToken
+                                        });
+                            return new ResponseWithNextLink<AutomationManagement.Models.Job>(response, response.Jobs);
+                        });
+            }
+            else if (endTime.HasValue)
+            {
+                jobModels = this.ContinuationTokenHandler(
+                    skipToken =>
+                        {
+                            var response =
+                                this.automationManagementClient.Jobs.ListFilteredByStartTime(
+                                    automationAccountName,
+                                    AutomationCloudServicePrefix,
+                                    AutomationResourceProvider,
+                                    new AutomationManagement.Models.JobListParameters
+                                        {
+                                            EndTime = this.FormatDateTime(endTime.Value),
+                                            SkipToken = skipToken
+                                        });
+                            return new ResponseWithNextLink<AutomationManagement.Models.Job>(response, response.Jobs);
+                        });
+            }
+            else
+            {
+                jobModels = this.ContinuationTokenHandler(
+                    skipToken =>
+                        {
+                            var response = this.automationManagementClient.Jobs.List(
+                                automationAccountName,
+                                AutomationCloudServicePrefix,
+                                AutomationResourceProvider,
+                                new AutomationManagement.Models.JobListParameters { SkipToken = skipToken, });
+                            return new ResponseWithNextLink<AutomationManagement.Models.Job>(response, response.Jobs);
+                        });
+            }
 
-            return jobs.Select(job => new Job(job));
+            return jobModels.Select(jobModel => new Job(jobModel));
         }
 
-        public IEnumerable<Job> ListJobsByRunbookName(string automationAccountName, string runbookName, DateTime startTime, DateTime endTime)
+        public IEnumerable<Job> ListJobsByRunbookId(string automationAccountName, Guid runbookId, DateTime? startTime, DateTime? endTime)
+        {
+            var runbook = this.GetRunbookModel(automationAccountName, runbookId, false);
+            return this.ListJobsByValidRunbookId(automationAccountName, new Guid(runbook.Id), startTime, endTime);
+        }
+
+        public IEnumerable<Job> ListJobsByRunbookName(string automationAccountName, string runbookName, DateTime? startTime, DateTime? endTime)
         {
             var runbookId = this.GetRunbookIdByRunbookName(automationAccountName, runbookName);
-            return this.ListJobsByRunbookId(automationAccountName, runbookId, startTime, endTime);
+            return this.ListJobsByValidRunbookId(automationAccountName, runbookId, startTime, endTime);
         }
 
         public void ResumeJob(string automationAccountName, Guid jobId)
@@ -449,7 +493,8 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Automation
 
         public IEnumerable<JobStreamItem> ListJobStreamItems(string automationAccountName, Guid jobId, DateTime createdSince, string streamTypeName)
         {
-            var jobStreamItems = this.ContinuationTokenHandler(
+            var jobModel = this.GetJobModel(automationAccountName, jobId);
+            var jobStreamItemModels = this.ContinuationTokenHandler(
                 skipToken =>
                 {
                     var response = this.automationManagementClient.JobStreams.ListStreamItems(
@@ -458,7 +503,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Automation
                         AutomationResourceProvider,
                         new AutomationManagement.Models.JobStreamListStreamItemsParameters
                         {
-                            JobId = jobId.ToString(),
+                            JobId = jobModel.Id,
                             StartTime = createdSince.ToUniversalTime(),
                             StreamType = streamTypeName,
                             SkipToken = skipToken
@@ -467,7 +512,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Automation
                         response, response.JobStreamItems);
                 });
 
-            return jobStreamItems.Select(jobStreamItem => new JobStreamItem(jobStreamItem));
+            return jobStreamItemModels.Select(jobStreamItemModel => new JobStreamItem(jobStreamItemModel));
         }
 
         #endregion
@@ -562,7 +607,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Automation
 
         public IEnumerable<Schedule> ListSchedules(string automationAccountName)
         {
-            var schedules = this.ContinuationTokenHandler(
+            var scheduleModels = this.ContinuationTokenHandler(
                 skipToken =>
                     {
                         var response = this.automationManagementClient.Schedules.List(
@@ -571,19 +616,19 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Automation
                             response, response.Schedules);
                     });
 
-            return schedules.Select(this.CreateScheduleFromScheduleModel);
+            return scheduleModels.Select(this.CreateScheduleFromScheduleModel);
         }
 
-        public Schedule UpdateSchedule(string automationAccountName, Guid scheduleId, string description)
+        public Schedule UpdateSchedule(string automationAccountName, Guid scheduleId, bool? isEnabled, string description)
         {
             var scheduleModel = this.GetScheduleModel(automationAccountName, scheduleId);
-            return this.UpdateScheduleHelper(automationAccountName, scheduleModel, description);
+            return this.UpdateScheduleHelper(automationAccountName, scheduleModel, isEnabled, description);
         }
 
-        public Schedule UpdateSchedule(string automationAccountName, string scheduleName, string description)
+        public Schedule UpdateSchedule(string automationAccountName, string scheduleName, bool? isEnabled, string description)
         {
             var scheduleModel = this.GetScheduleModel(automationAccountName, scheduleName);
-            return this.UpdateScheduleHelper(automationAccountName, scheduleModel, description);
+            return this.UpdateScheduleHelper(automationAccountName, scheduleModel, isEnabled, description);
         }
 
         #endregion
@@ -688,6 +733,100 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Automation
             return job;
         }
 
+        private IEnumerable<Job> ListJobsByValidRunbookId(string automationAccountName, Guid runbookId, DateTime? startTime, DateTime? endTime)
+        {
+            // Assume local time if DateTimeKind.Unspecified
+            if (startTime.HasValue && startTime.Value.Kind == DateTimeKind.Unspecified)
+            {
+                startTime = DateTime.SpecifyKind(startTime.Value, DateTimeKind.Local);
+            }
+
+            if (endTime.HasValue && endTime.Value.Kind == DateTimeKind.Unspecified)
+            {
+                endTime = DateTime.SpecifyKind(endTime.Value, DateTimeKind.Local);
+            }
+
+            IEnumerable<AutomationManagement.Models.Job> jobModels;
+
+            if (startTime.HasValue && endTime.HasValue)
+            {
+                jobModels = this.ContinuationTokenHandler(
+                    skipToken =>
+                    {
+                        var response =
+                            this.automationManagementClient.Jobs.ListByRunbookIdFilteredByStartTimeEndTime(
+                                automationAccountName,
+                                AutomationCloudServicePrefix,
+                                AutomationResourceProvider,
+                                new AutomationManagement.Models.JobListByRunbookIdParameters
+                                {
+                                    RunbookId = runbookId.ToString(),
+                                    StartTime = this.FormatDateTime(startTime.Value),
+                                    EndTime = this.FormatDateTime(endTime.Value),
+                                    SkipToken = skipToken
+                                });
+                        return new ResponseWithNextLink<AutomationManagement.Models.Job>(response, response.Jobs);
+                    });
+            }
+            else if (startTime.HasValue)
+            {
+                jobModels = this.ContinuationTokenHandler(
+                    skipToken =>
+                    {
+                        var response =
+                            this.automationManagementClient.Jobs.ListByRunbookIdFilteredByStartTime(
+                                automationAccountName,
+                                AutomationCloudServicePrefix,
+                                AutomationResourceProvider,
+                                new AutomationManagement.Models.JobListByRunbookIdParameters
+                                {
+                                    RunbookId = runbookId.ToString(),
+                                    StartTime = this.FormatDateTime(startTime.Value),
+                                    SkipToken = skipToken,
+                                });
+                        return new ResponseWithNextLink<AutomationManagement.Models.Job>(response, response.Jobs);
+                    });
+            }
+            else if (endTime.HasValue)
+            {
+                jobModels = this.ContinuationTokenHandler(
+                    skipToken =>
+                    {
+                        var response =
+                            this.automationManagementClient.Jobs.ListByRunbookIdFilteredByStartTime(
+                                automationAccountName,
+                                AutomationCloudServicePrefix,
+                                AutomationResourceProvider,
+                                new AutomationManagement.Models.JobListByRunbookIdParameters
+                                {
+                                    RunbookId = runbookId.ToString(),
+                                    EndTime = this.FormatDateTime(endTime.Value),
+                                    SkipToken = skipToken,
+                                });
+                        return new ResponseWithNextLink<AutomationManagement.Models.Job>(response, response.Jobs);
+                    });
+            }
+            else
+            {
+                jobModels = this.ContinuationTokenHandler(
+                    skipToken =>
+                    {
+                        var response = this.automationManagementClient.Jobs.ListByRunbookId(
+                            automationAccountName,
+                            AutomationCloudServicePrefix,
+                            AutomationResourceProvider,
+                            new AutomationManagement.Models.JobListByRunbookIdParameters
+                            {
+                                RunbookId = runbookId.ToString(),
+                                SkipToken = skipToken,
+                            });
+                        return new ResponseWithNextLink<AutomationManagement.Models.Job>(response, response.Jobs);
+                    });
+            }
+
+            return jobModels.Select(jobModel => new Job(jobModel));
+        }
+
         private Guid GetRunbookIdByRunbookName(string automationAccountName, string runbookName)
         {
             return new Guid(this.GetRunbookModel(automationAccountName, runbookName, false).Id);
@@ -755,6 +894,31 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Automation
             }
 
             return runbookVersion;
+        }
+
+        private IEnumerable<RunbookDefinition> ListRunbookDefinitionsByValidRunbookId(string automationAccountName, Guid runbookId, bool? isDraft)
+        {
+            var runbookVersions = isDraft.HasValue
+                                      ? this.automationManagementClient.RunbookVersions.ListLatestByRunbookIdSlot(
+                                          automationAccountName,
+                                          AutomationCloudServicePrefix,
+                                          AutomationResourceProvider,
+                                          new AutomationManagement.Models.
+                                            RunbookVersionListLatestByRunbookIdSlotParameters
+                                          {
+                                              RunbookId =
+                                                  runbookId.ToString(),
+                                              IsDraft =
+                                                  isDraft.Value
+                                          })
+                                            .RunbookVersions
+                                      : this.automationManagementClient.RunbookVersions.ListLatestByRunbookId(
+                                          automationAccountName,
+                                          AutomationCloudServicePrefix,
+                                          AutomationResourceProvider,
+                                          runbookId.ToString()).RunbookVersions;
+
+            return this.CreateRunbookDefinitionsFromRunbookVersionModels(automationAccountName, runbookVersions);
         }
 
         private AutomationManagement.Models.Schedule GetScheduleModel(string automationAccountName, Guid scheduleId)
@@ -856,6 +1020,13 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Automation
                     string.Format(CultureInfo.CurrentCulture, Resources.InvalidRunbookParameters));
             }
 
+            var hasJobStartedBy = filteredParameters.Any(filteredParameter => filteredParameter.Name == Constants.JobStartedByParameterName);
+
+            if (!hasJobStartedBy)
+            {
+                filteredParameters.Add(new AutomationManagement.Models.NameValuePair() { Name = Constants.JobStartedByParameterName, Value = Constants.ClientIdentity });
+            }
+
             return filteredParameters;
         }
 
@@ -939,14 +1110,21 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Automation
             return this.GetRunbook(automationAccountName, runbookId);
         }
 
-        private Schedule UpdateScheduleHelper(
-            string automationAccountName, AutomationManagement.Models.Schedule schedule, string description)
+        private Schedule UpdateScheduleHelper(string automationAccountName, AutomationManagement.Models.Schedule schedule, bool? isEnabled, string description)
         {
             // StartTime and ExpiryTime need to specified as Utc
             schedule.StartTime = DateTime.SpecifyKind(schedule.StartTime, DateTimeKind.Utc);
             schedule.ExpiryTime = DateTime.SpecifyKind(schedule.ExpiryTime, DateTimeKind.Utc);
 
-            schedule.Description = description;
+            if (isEnabled.HasValue)
+            {
+                schedule.IsEnabled = isEnabled.Value;
+            }
+
+            if (description != null)
+            {
+                schedule.Description = description;
+            }
 
             var scheduleUpdateParameters = new AutomationManagement.Models.ScheduleUpdateParameters()
                                                {

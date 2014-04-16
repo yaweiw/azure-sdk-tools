@@ -29,11 +29,11 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Automation
 
         Job GetJob(string automationAccountName, Guid jobId);
 
-        IEnumerable<Job> ListJobs(string automationAccountName, DateTime startTime, DateTime endTime);
+        IEnumerable<Job> ListJobs(string automationAccountName, DateTime? startTime, DateTime? endTime);
 
-        IEnumerable<Job> ListJobsByRunbookId(string automationAccountName, Guid runbookId, DateTime startTime, DateTime endTime);
+        IEnumerable<Job> ListJobsByRunbookId(string automationAccountName, Guid runbookId, DateTime? startTime, DateTime? endTime);
 
-        IEnumerable<Job> ListJobsByRunbookName(string automationAccountName, string runbookName, DateTime startTime, DateTime endTime);
+        IEnumerable<Job> ListJobsByRunbookName(string automationAccountName, string runbookName, DateTime? startTime, DateTime? endTime);
 
         IEnumerable<JobStreamItem> ListJobStreamItems(string automationAccountName, Guid jobId, DateTime createdSince, string streamTypeName);
 
@@ -99,9 +99,9 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Automation
 
         RunbookDefinition UpdateRunbookDefinition(string automationAccountName, string runbookName, string runbookPath, bool overwrite);
         
-        Schedule UpdateSchedule(string automationAccountName, Guid scheduleId, string description);
+        Schedule UpdateSchedule(string automationAccountName, Guid scheduleId, bool? isEnabled, string description);
 
-        Schedule UpdateSchedule(string automationAccountName, string scheduleName, string description);
+        Schedule UpdateSchedule(string automationAccountName, string scheduleName, bool? isEnabled, string description);
         
         Job StartRunbook(string automationAccountName, Guid runbookId, IDictionary parameters);
 

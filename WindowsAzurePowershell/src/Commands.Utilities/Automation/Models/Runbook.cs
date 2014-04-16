@@ -66,7 +66,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Automation.Models
             this.LogDebug = runbook.LogDebug;
             this.LogVerbose = runbook.LogVerbose;
             this.LogProgress = runbook.LogProgress;
-            this.ScheduleNames = from schedule in runbook.Schedules where (schedule.IsEnabled && schedule.NextRun != null) select schedule.Name;
+            this.ScheduleNames = from schedule in runbook.Schedules where (schedule.NextRun != null) select schedule.Name;
         }
 
         /// <summary>
