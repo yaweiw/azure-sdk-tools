@@ -656,7 +656,7 @@
         <RequestInfo>
           <RequestUri>http://localhost:12345/v1/ManagementService.svc/Server2('testserver')/Databases(6)/ServiceObjective</RequestUri>
           <Method>GET</Method>
-          <UserAgent>WindowsAzurePowershell/v0.7.4</UserAgent>
+          <UserAgent>WindowsAzurePowershell/v0.8.0</UserAgent>
           <Headers>
             <Header>
               <Name>DataServiceVersion</Name>
@@ -1071,7 +1071,7 @@
         <RequestInfo>
           <RequestUri>http://localhost:12345/v1/ManagementService.svc/Server2('testserver')/Databases()?$filter=Name%20eq%20'testdb3'&amp;$top=2</RequestUri>
           <Method>GET</Method>
-          <UserAgent>WindowsAzurePowershell/v0.7.4</UserAgent>
+          <UserAgent>WindowsAzurePowershell/v0.8.0</UserAgent>
           <Headers>
             <Header>
               <Name>DataServiceVersion</Name>
@@ -1154,7 +1154,7 @@
         <RequestInfo>
           <RequestUri>http://localhost:12345/v1/ManagementService.svc/Server2('testserver')/Databases(6)/ServiceObjective</RequestUri>
           <Method>GET</Method>
-          <UserAgent>WindowsAzurePowershell/v0.7.4</UserAgent>
+          <UserAgent>WindowsAzurePowershell/v0.8.0</UserAgent>
           <Headers>
             <Header>
               <Name>DataServiceVersion</Name>
@@ -2050,7 +2050,7 @@
         <RequestInfo>
           <RequestUri>http://localhost:12345/v1/ManagementService.svc/Server2('testserver')/Databases</RequestUri>
           <Method>POST</Method>
-          <UserAgent>WindowsAzurePowershell/v0.7.4</UserAgent>
+          <UserAgent>WindowsAzurePowershell/v0.8.0</UserAgent>
           <Headers>
             <Header>
               <Name>DataServiceVersion</Name>
@@ -2179,7 +2179,7 @@
         <RequestInfo>
           <RequestUri>http://localhost:12345/v1/ManagementService.svc/Server2('testserver')/Databases(6)</RequestUri>
           <Method>GET</Method>
-          <UserAgent>WindowsAzurePowershell/v0.7.4</UserAgent>
+          <UserAgent>WindowsAzurePowershell/v0.8.0</UserAgent>
           <Headers>
             <Header>
               <Name>DataServiceVersion</Name>
@@ -2262,7 +2262,7 @@
         <RequestInfo>
           <RequestUri>http://localhost:12345/v1/ManagementService.svc/Server2('testserver')/Databases(6)/ServiceObjective</RequestUri>
           <Method>GET</Method>
-          <UserAgent>WindowsAzurePowershell/v0.7.4</UserAgent>
+          <UserAgent>WindowsAzurePowershell/v0.8.0</UserAgent>
           <Headers>
             <Header>
               <Name>DataServiceVersion</Name>
@@ -2804,7 +2804,7 @@
         <RequestInfo>
           <RequestUri>http://localhost:12345/v1/ManagementService.svc/Server2('testserver')/Databases()?$filter=Name%20eq%20'testdb2'&amp;$top=2</RequestUri>
           <Method>GET</Method>
-          <UserAgent>WindowsAzurePowershell/v0.7.4</UserAgent>
+          <UserAgent>WindowsAzurePowershell/v0.8.0</UserAgent>
           <Headers>
             <Header>
               <Name>DataServiceVersion</Name>
@@ -2887,7 +2887,7 @@
         <RequestInfo>
           <RequestUri>http://localhost:12345/v1/ManagementService.svc/Server2('testserver')/Databases(5)/ServiceObjective</RequestUri>
           <Method>GET</Method>
-          <UserAgent>WindowsAzurePowershell/v0.7.4</UserAgent>
+          <UserAgent>WindowsAzurePowershell/v0.8.0</UserAgent>
           <Headers>
             <Header>
               <Name>DataServiceVersion</Name>
@@ -2970,7 +2970,7 @@
         <RequestInfo>
           <RequestUri>http://localhost:12345/v1/ManagementService.svc/Server2('testserver')/Databases(5)</RequestUri>
           <Method>MERGE</Method>
-          <UserAgent>WindowsAzurePowershell/v0.7.4</UserAgent>
+          <UserAgent>WindowsAzurePowershell/v0.8.0</UserAgent>
           <Headers>
             <Header>
               <Name>DataServiceVersion</Name>
@@ -3092,7 +3092,7 @@
         <RequestInfo>
           <RequestUri>http://localhost:12345/v1/ManagementService.svc/Server2('testserver')/Databases()?$filter=Name%20eq%20'testdb2'&amp;$top=2</RequestUri>
           <Method>GET</Method>
-          <UserAgent>WindowsAzurePowershell/v0.7.4</UserAgent>
+          <UserAgent>WindowsAzurePowershell/v0.8.0</UserAgent>
           <Headers>
             <Header>
               <Name>DataServiceVersion</Name>
@@ -3175,7 +3175,7 @@
         <RequestInfo>
           <RequestUri>http://localhost:12345/v1/ManagementService.svc/Server2('testserver')/Databases(5)/ServiceObjective</RequestUri>
           <Method>GET</Method>
-          <UserAgent>WindowsAzurePowershell/v0.7.4</UserAgent>
+          <UserAgent>WindowsAzurePowershell/v0.8.0</UserAgent>
           <Headers>
             <Header>
               <Name>DataServiceVersion</Name>
@@ -10214,7 +10214,7 @@
         <RequestInfo>
           <RequestUri>https://localhost:65432/00000000-0000-0000-0001-000000000001/services/sqlservers/servers/serverv1/serviceobjectives/910b4fcb-8a29-4c3e-958f-f7ba794388b2</RequestUri>
           <Method>GET</Method>
-          <UserAgent>Microsoft.WindowsAzure.Management.Sql.SqlManagementClient/0.9.0.0 WindowsAzurePowershell/v0.7.4</UserAgent>
+          <UserAgent>Microsoft.WindowsAzure.Management.Sql.SqlManagementClient/0.9.0.0 WindowsAzurePowershell/v0.8.0</UserAgent>
           <Headers>
             <Header>
               <Name>x-ms-version</Name>
@@ -10271,7 +10271,7 @@
         <RequestInfo>
           <RequestUri>https://localhost:65432/00000000-0000-0000-0001-000000000001/services/sqlservers/servers/serverv1/databases</RequestUri>
           <Method>POST</Method>
-          <UserAgent>Microsoft.WindowsAzure.Management.Sql.SqlManagementClient/0.9.0.0 WindowsAzurePowershell/v0.7.4</UserAgent>
+          <UserAgent>Microsoft.WindowsAzure.Management.Sql.SqlManagementClient/0.9.0.0 WindowsAzurePowershell/v0.8.0</UserAgent>
           <Headers>
             <Header>
               <Name>x-ms-version</Name>
@@ -10333,7 +10333,7 @@
         <RequestInfo>
           <RequestUri>https://localhost:65432/00000000-0000-0000-0001-000000000001/services/sqlservers/servers/serverv1/serviceobjectives/910b4fcb-8a29-4c3e-958f-f7ba794388b2</RequestUri>
           <Method>GET</Method>
-          <UserAgent>Microsoft.WindowsAzure.Management.Sql.SqlManagementClient/0.9.0.0 WindowsAzurePowershell/v0.7.4</UserAgent>
+          <UserAgent>Microsoft.WindowsAzure.Management.Sql.SqlManagementClient/0.9.0.0 WindowsAzurePowershell/v0.8.0</UserAgent>
           <Headers>
             <Header>
               <Name>x-ms-version</Name>
@@ -10390,7 +10390,7 @@
         <RequestInfo>
           <RequestUri>https://localhost:65432/00000000-0000-0000-0001-000000000001/services/sqlservers/servers/serverv1/databases</RequestUri>
           <Method>POST</Method>
-          <UserAgent>Microsoft.WindowsAzure.Management.Sql.SqlManagementClient/0.9.0.0 WindowsAzurePowershell/v0.7.4</UserAgent>
+          <UserAgent>Microsoft.WindowsAzure.Management.Sql.SqlManagementClient/0.9.0.0 WindowsAzurePowershell/v0.8.0</UserAgent>
           <Headers>
             <Header>
               <Name>x-ms-version</Name>
@@ -10451,7 +10451,7 @@
         <RequestInfo>
           <RequestUri>https://localhost:65432/00000000-0000-0000-0001-000000000001/services/sqlservers/servers/serverv1/serviceobjectives/910b4fcb-8a29-4c3e-958f-f7ba794388b2</RequestUri>
           <Method>GET</Method>
-          <UserAgent>Microsoft.WindowsAzure.Management.Sql.SqlManagementClient/0.9.0.0 WindowsAzurePowershell/v0.7.4</UserAgent>
+          <UserAgent>Microsoft.WindowsAzure.Management.Sql.SqlManagementClient/0.9.0.0 WindowsAzurePowershell/v0.8.0</UserAgent>
           <Headers>
             <Header>
               <Name>x-ms-version</Name>
@@ -10508,7 +10508,7 @@
         <RequestInfo>
           <RequestUri>https://localhost:65432/00000000-0000-0000-0001-000000000001/services/sqlservers/servers/serverv1/databases?contentview=generic</RequestUri>
           <Method>GET</Method>
-          <UserAgent>Microsoft.WindowsAzure.Management.Sql.SqlManagementClient/0.9.0.0 WindowsAzurePowershell/v0.7.4</UserAgent>
+          <UserAgent>Microsoft.WindowsAzure.Management.Sql.SqlManagementClient/0.9.0.0 WindowsAzurePowershell/v0.8.0</UserAgent>
           <Headers>
             <Header>
               <Name>x-ms-version</Name>
@@ -10565,7 +10565,7 @@
         <RequestInfo>
           <RequestUri>https://localhost:65432/00000000-0000-0000-0001-000000000001/services/sqlservers/servers/serverv1/serviceobjectives/26e021db-f1f9-4c98-84c6-92af8ef433d7</RequestUri>
           <Method>GET</Method>
-          <UserAgent>Microsoft.WindowsAzure.Management.Sql.SqlManagementClient/0.9.0.0 WindowsAzurePowershell/v0.7.4</UserAgent>
+          <UserAgent>Microsoft.WindowsAzure.Management.Sql.SqlManagementClient/0.9.0.0 WindowsAzurePowershell/v0.8.0</UserAgent>
           <Headers>
             <Header>
               <Name>x-ms-version</Name>
@@ -10622,7 +10622,7 @@
         <RequestInfo>
           <RequestUri>https://localhost:65432/00000000-0000-0000-0001-000000000001/services/sqlservers/servers/serverv1/serviceobjectives/910b4fcb-8a29-4c3e-958f-f7ba794388b2</RequestUri>
           <Method>GET</Method>
-          <UserAgent>Microsoft.WindowsAzure.Management.Sql.SqlManagementClient/0.9.0.0 WindowsAzurePowershell/v0.7.4</UserAgent>
+          <UserAgent>Microsoft.WindowsAzure.Management.Sql.SqlManagementClient/0.9.0.0 WindowsAzurePowershell/v0.8.0</UserAgent>
           <Headers>
             <Header>
               <Name>x-ms-version</Name>
@@ -10679,7 +10679,7 @@
         <RequestInfo>
           <RequestUri>https://localhost:65432/00000000-0000-0000-0001-000000000001/services/sqlservers/servers/serverv1/serviceobjectives/910b4fcb-8a29-4c3e-958f-f7ba794388b2</RequestUri>
           <Method>GET</Method>
-          <UserAgent>Microsoft.WindowsAzure.Management.Sql.SqlManagementClient/0.9.0.0 WindowsAzurePowershell/v0.7.4</UserAgent>
+          <UserAgent>Microsoft.WindowsAzure.Management.Sql.SqlManagementClient/0.9.0.0 WindowsAzurePowershell/v0.8.0</UserAgent>
           <Headers>
             <Header>
               <Name>x-ms-version</Name>
@@ -10736,7 +10736,7 @@
         <RequestInfo>
           <RequestUri>https://localhost:65432/00000000-0000-0000-0001-000000000001/services/sqlservers/servers/serverv1/serviceobjectives/910b4fcb-8a29-4c3e-958f-f7ba794388b2</RequestUri>
           <Method>GET</Method>
-          <UserAgent>Microsoft.WindowsAzure.Management.Sql.SqlManagementClient/0.9.0.0 WindowsAzurePowershell/v0.7.4</UserAgent>
+          <UserAgent>Microsoft.WindowsAzure.Management.Sql.SqlManagementClient/0.9.0.0 WindowsAzurePowershell/v0.8.0</UserAgent>
           <Headers>
             <Header>
               <Name>x-ms-version</Name>
@@ -11319,7 +11319,7 @@
         <RequestInfo>
           <RequestUri>https://localhost:65432/00000000-0000-0000-0001-000000000001/services/sqlservers/servers/serverv1/serviceobjectives/910b4fcb-8a29-4c3e-958f-f7ba794388b2</RequestUri>
           <Method>GET</Method>
-          <UserAgent>Microsoft.WindowsAzure.Management.Sql.SqlManagementClient/0.9.0.0 WindowsAzurePowershell/v0.7.4</UserAgent>
+          <UserAgent>Microsoft.WindowsAzure.Management.Sql.SqlManagementClient/0.9.0.0 WindowsAzurePowershell/v0.8.0</UserAgent>
           <Headers>
             <Header>
               <Name>x-ms-version</Name>
@@ -11725,7 +11725,7 @@
         <RequestInfo>
           <RequestUri>https://localhost:65432/00000000-0000-0000-0001-000000000001/services/sqlservers/servers/serverv1/databases/testdbcert4</RequestUri>
           <Method>GET</Method>
-          <UserAgent>Microsoft.WindowsAzure.Management.Sql.SqlManagementClient/0.9.0.0 WindowsAzurePowershell/v0.7.4</UserAgent>
+          <UserAgent>Microsoft.WindowsAzure.Management.Sql.SqlManagementClient/0.9.0.0 WindowsAzurePowershell/v0.8.0</UserAgent>
           <Headers>
             <Header>
               <Name>x-ms-version</Name>
@@ -11782,7 +11782,7 @@
         <RequestInfo>
           <RequestUri>https://localhost:65432/00000000-0000-0000-0001-000000000001/services/sqlservers/servers/serverv1/databases/testdbcert4</RequestUri>
           <Method>PUT</Method>
-          <UserAgent>Microsoft.WindowsAzure.Management.Sql.SqlManagementClient/0.9.0.0 WindowsAzurePowershell/v0.7.4</UserAgent>
+          <UserAgent>Microsoft.WindowsAzure.Management.Sql.SqlManagementClient/0.9.0.0 WindowsAzurePowershell/v0.8.0</UserAgent>
           <Headers>
             <Header>
               <Name>x-ms-version</Name>
@@ -11846,7 +11846,7 @@
         <RequestInfo>
           <RequestUri>https://localhost:65432/00000000-0000-0000-0001-000000000001/services/sqlservers/servers/serverv1/serviceobjectives/a7d1b92d-c987-4375-b54d-2b1d0e0f5bb0</RequestUri>
           <Method>GET</Method>
-          <UserAgent>Microsoft.WindowsAzure.Management.Sql.SqlManagementClient/0.9.0.0 WindowsAzurePowershell/v0.7.4</UserAgent>
+          <UserAgent>Microsoft.WindowsAzure.Management.Sql.SqlManagementClient/0.9.0.0 WindowsAzurePowershell/v0.8.0</UserAgent>
           <Headers>
             <Header>
               <Name>x-ms-version</Name>
@@ -12084,7 +12084,7 @@
         <RequestInfo>
           <RequestUri>https://localhost:65432/00000000-0000-0000-0001-000000000001/services/sqlservers/servers/serverv1/serviceobjectives/a7d1b92d-c987-4375-b54d-2b1d0e0f5bb0</RequestUri>
           <Method>GET</Method>
-          <UserAgent>Microsoft.WindowsAzure.Management.Sql.SqlManagementClient/0.9.0.0 WindowsAzurePowershell/v0.7.4</UserAgent>
+          <UserAgent>Microsoft.WindowsAzure.Management.Sql.SqlManagementClient/0.9.0.0 WindowsAzurePowershell/v0.8.0</UserAgent>
           <Headers>
             <Header>
               <Name>x-ms-version</Name>
@@ -12141,7 +12141,7 @@
         <RequestInfo>
           <RequestUri>https://localhost:65432/00000000-0000-0000-0001-000000000001/services/sqlservers/servers/serverv1/databases</RequestUri>
           <Method>POST</Method>
-          <UserAgent>Microsoft.WindowsAzure.Management.Sql.SqlManagementClient/0.9.0.0 WindowsAzurePowershell/v0.7.4</UserAgent>
+          <UserAgent>Microsoft.WindowsAzure.Management.Sql.SqlManagementClient/0.9.0.0 WindowsAzurePowershell/v0.8.0</UserAgent>
           <Headers>
             <Header>
               <Name>x-ms-version</Name>
@@ -12201,7 +12201,7 @@
         <RequestInfo>
           <RequestUri>https://localhost:65432/00000000-0000-0000-0001-000000000001/services/sqlservers/servers/serverv1/serviceobjectives/910b4fcb-8a29-4c3e-958f-f7ba794388b2</RequestUri>
           <Method>GET</Method>
-          <UserAgent>Microsoft.WindowsAzure.Management.Sql.SqlManagementClient/0.9.0.0 WindowsAzurePowershell/v0.7.4</UserAgent>
+          <UserAgent>Microsoft.WindowsAzure.Management.Sql.SqlManagementClient/0.9.0.0 WindowsAzurePowershell/v0.8.0</UserAgent>
           <Headers>
             <Header>
               <Name>x-ms-version</Name>
@@ -12258,7 +12258,7 @@
         <RequestInfo>
           <RequestUri>https://localhost:65432/00000000-0000-0000-0001-000000000001/services/sqlservers/servers/serverv1/databaseoperations?databaseName=testdbcertGetOperationDbName_551f9692-e85f-4dcd-9fe1-7e5c6af67a6f</RequestUri>
           <Method>GET</Method>
-          <UserAgent>Microsoft.WindowsAzure.Management.Sql.SqlManagementClient/0.9.0.0 WindowsAzurePowershell/v0.7.4</UserAgent>
+          <UserAgent>Microsoft.WindowsAzure.Management.Sql.SqlManagementClient/0.9.0.0 WindowsAzurePowershell/v0.8.0</UserAgent>
           <Headers>
             <Header>
               <Name>x-ms-version</Name>
@@ -12315,7 +12315,7 @@
         <RequestInfo>
           <RequestUri>https://localhost:65432/00000000-0000-0000-0001-000000000001/services/sqlservers/servers/serverv1/databaseoperations?databaseName=testdbcertGetOperationDbName_551f9692-e85f-4dcd-9fe1-7e5c6af67a6f</RequestUri>
           <Method>GET</Method>
-          <UserAgent>Microsoft.WindowsAzure.Management.Sql.SqlManagementClient/0.9.0.0 WindowsAzurePowershell/v0.7.4</UserAgent>
+          <UserAgent>Microsoft.WindowsAzure.Management.Sql.SqlManagementClient/0.9.0.0 WindowsAzurePowershell/v0.8.0</UserAgent>
           <Headers>
             <Header>
               <Name>x-ms-version</Name>
@@ -12372,7 +12372,7 @@
         <RequestInfo>
           <RequestUri>https://localhost:65432/00000000-0000-0000-0001-000000000001/services/sqlservers/servers/serverv1/databaseoperations/4ae6ada2-2b87-43a7-aace-7bcc19ec081e</RequestUri>
           <Method>GET</Method>
-          <UserAgent>Microsoft.WindowsAzure.Management.Sql.SqlManagementClient/0.9.0.0 WindowsAzurePowershell/v0.7.4</UserAgent>
+          <UserAgent>Microsoft.WindowsAzure.Management.Sql.SqlManagementClient/0.9.0.0 WindowsAzurePowershell/v0.8.0</UserAgent>
           <Headers>
             <Header>
               <Name>x-ms-version</Name>
@@ -12429,7 +12429,7 @@
         <RequestInfo>
           <RequestUri>https://localhost:65432/00000000-0000-0000-0001-000000000001/services/sqlservers/servers/serverv1/databases/testdbcert3</RequestUri>
           <Method>DELETE</Method>
-          <UserAgent>Microsoft.WindowsAzure.Management.Sql.SqlManagementClient/0.9.0.0 WindowsAzurePowershell/v0.7.4</UserAgent>
+          <UserAgent>Microsoft.WindowsAzure.Management.Sql.SqlManagementClient/0.9.0.0 WindowsAzurePowershell/v0.8.0</UserAgent>
           <Headers>
             <Header>
               <Name>x-ms-version</Name>
@@ -12535,7 +12535,7 @@
         <RequestInfo>
           <RequestUri>https://localhost:65432/00000000-0000-0000-0001-000000000001/services/sqlservers/servers/serverv1/databases/testdbcert4</RequestUri>
           <Method>DELETE</Method>
-          <UserAgent>Microsoft.WindowsAzure.Management.Sql.SqlManagementClient/0.9.0.0 WindowsAzurePowershell/v0.7.4</UserAgent>
+          <UserAgent>Microsoft.WindowsAzure.Management.Sql.SqlManagementClient/0.9.0.0 WindowsAzurePowershell/v0.8.0</UserAgent>
           <Headers>
             <Header>
               <Name>x-ms-version</Name>
@@ -12641,7 +12641,7 @@
         <RequestInfo>
           <RequestUri>https://localhost:65432/00000000-0000-0000-0001-000000000001/services/sqlservers/servers/serverv1/databases/testdbcertPremiumDBP2</RequestUri>
           <Method>DELETE</Method>
-          <UserAgent>Microsoft.WindowsAzure.Management.Sql.SqlManagementClient/0.9.0.0 WindowsAzurePowershell/v0.7.4</UserAgent>
+          <UserAgent>Microsoft.WindowsAzure.Management.Sql.SqlManagementClient/0.9.0.0 WindowsAzurePowershell/v0.8.0</UserAgent>
           <Headers>
             <Header>
               <Name>x-ms-version</Name>
@@ -12694,7 +12694,7 @@
         <RequestInfo>
           <RequestUri>https://localhost:65432/00000000-0000-0000-0001-000000000001/services/sqlservers/servers/serverv1/databases/testdbcertGetOperationDbName_551f9692-e85f-4dcd-9fe1-7e5c6af67a6f</RequestUri>
           <Method>DELETE</Method>
-          <UserAgent>Microsoft.WindowsAzure.Management.Sql.SqlManagementClient/0.9.0.0 WindowsAzurePowershell/v0.7.4</UserAgent>
+          <UserAgent>Microsoft.WindowsAzure.Management.Sql.SqlManagementClient/0.9.0.0 WindowsAzurePowershell/v0.8.0</UserAgent>
           <Headers>
             <Header>
               <Name>x-ms-version</Name>
@@ -12804,7 +12804,7 @@
         <RequestInfo>
           <RequestUri>https://localhost:65432/00000000-0000-0000-0001-000000000001/services/sqlservers/servers/serverv1/serviceobjectives/26e021db-f1f9-4c98-84c6-92af8ef433d7</RequestUri>
           <Method>GET</Method>
-          <UserAgent>Microsoft.WindowsAzure.Management.Sql.SqlManagementClient/0.9.0.0 WindowsAzurePowershell/v0.7.4</UserAgent>
+          <UserAgent>Microsoft.WindowsAzure.Management.Sql.SqlManagementClient/0.9.0.0 WindowsAzurePowershell/v0.8.0</UserAgent>
           <Headers>
             <Header>
               <Name>x-ms-version</Name>
