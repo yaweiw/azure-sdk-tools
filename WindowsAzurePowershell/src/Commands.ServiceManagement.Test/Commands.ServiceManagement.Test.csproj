@@ -223,6 +223,7 @@
     <Compile Include="FunctionalTests\CredentialHelper.cs" />
     <Compile Include="FunctionalTests\ExtensionTests\AzureVMAccessExtensionTests.cs" />
     <Compile Include="FunctionalTests\ExtensionTests\AzureVMBGInfoExtensionTests.cs" />
+    <Compile Include="FunctionalTests\ExtensionTests\CustomScriptExtesnionTests.cs" />
     <Compile Include="FunctionalTests\FunctionalTestCommonVhd.cs" />
     <Compile Include="FunctionalTests\FunctionalTestCommonVM.cs" />
     <Compile Include="FunctionalTests\GenericIaaSExtensionTests.cs" />
@@ -233,6 +234,10 @@
     <Compile Include="FunctionalTests\IaasCmdletInfo\Extesnions\BGInfo\GetAzureVMBGInfoExtensionCmdletInfo.cs" />
     <Compile Include="FunctionalTests\IaasCmdletInfo\Extesnions\BGInfo\RemoveAzureVMBGInfoExtensionCmdletInfo.cs" />
     <Compile Include="FunctionalTests\IaasCmdletInfo\Extesnions\BGInfo\SetAzureVMBGInfoExtensionCmdletInfo.cs" />
+    <Compile Include="FunctionalTests\IaasCmdletInfo\Extesnions\CustomScript\GetAzureVMCustomScriptExtensionCmdletInfo.cs" />
+    <Compile Include="FunctionalTests\IaasCmdletInfo\Extesnions\CustomScript\RemoveAzureVMCustomScriptExtensionCmdletInfo.cs" />
+    <Compile Include="FunctionalTests\IaasCmdletInfo\Extesnions\CustomScript\SetAzureVMCustomScriptExtensionCmdletInfo.cs" />
+    <Compile Include="FunctionalTests\IaasCmdletInfo\Extesnions\CustomScript\SetAzureVMCustomScriptExtensionCmdletParmaterSetType.cs" />
     <Compile Include="FunctionalTests\IaasCmdletInfo\Extesnions\VMAccess\GetAzureVMAccessExtensionCmdletInfo.cs" />
     <Compile Include="FunctionalTests\IaasCmdletInfo\Extesnions\VMAccess\RemoveAzureVMAccessExtensionCmdleteInfo.cs" />
     <Compile Include="FunctionalTests\IaasCmdletInfo\Extesnions\VMAccess\SetAzureVMAccessExtensionCmdletInfo.cs" />
@@ -407,6 +412,7 @@
       <DependentUpon>Resource.resx</DependentUpon>
     </Compile>
     <Compile Include="UnitTests\Cmdlets\IaaS\Extensions\VirtualMachineExtensionImageFactoryTests.cs" />
+    <Compile Include="FunctionalTests\VMTemplateTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="MSSharedLibKey.snk" />
@@ -435,6 +441,8 @@
     <None Include="Resources\SampleAppV3.cscfg" />
     <None Include="Resources\StaticCAvnetconfig.netcfg" />
     <None Include="Resources\storageAccountTestData.csv" />
+    <None Include="Resources\test1.ps1" />
+    <None Include="Resources\test2.ps1" />
     <None Include="Resources\thread_VHD.csv" />
     <None Include="Resources\upload_VHD.csv" />
     <None Include="Resources\vnetconfig.netcfg" />
