@@ -14,11 +14,6 @@
 
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
 {
-    using System.Collections.Generic;
-    using System.Linq;
-    using Management.Compute;
-    using Model.PersistentVMModel;
-
     public class VirtualMachineBGInfoExtensionCmdletBase : VirtualMachineExtensionCmdletBase
     {
         protected const string VirtualMachineBGInfoExtensionNoun = "AzureVMBGInfoExtension";

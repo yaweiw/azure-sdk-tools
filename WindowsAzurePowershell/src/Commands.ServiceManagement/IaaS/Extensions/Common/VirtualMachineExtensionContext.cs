@@ -15,7 +15,6 @@
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
 {
     using System.Security;
-    using Utilities.Common;
 
     public class VirtualMachineExtensionContext
     {

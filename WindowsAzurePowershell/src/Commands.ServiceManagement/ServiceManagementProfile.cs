@@ -20,6 +20,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement
     using System.Net;
     using AutoMapper;
     using Extensions;
+    using Helpers;
     using HostedServices;
     using IaaS;
     using IaaS.DiskRepository;
@@ -628,7 +629,9 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement
                   });
 
             // Resource Reference Mapping - NSM to PVM
-            Mapper.CreateMap<NSM.ResourceExtensionParameterValue, PVM.ResourceExtensionParameterValue>();
+            Mapper.CreateMap<NSM.ResourceExtensionParameterValue, PVM.ResourceExtensionParameterValue>()
+                  .ForMember(c => c.SecureValue, o => o.MapFrom(r => SecureStringHelper.GetSecureString(r)))
+                  .ForMember(c => c.Value, o => o.MapFrom(r => SecureStringHelper.GetPlainString(r)));
             Mapper.CreateMap<IList<NSM.ResourceExtensionParameterValue>, PVM.ResourceExtensionParameterValueList>()
                   .AfterMap((c, s) =>
                   {
@@ -684,8 +687,10 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement
                           c.ForEach(r => s.Add(Mapper.Map<PVM.ResourceExtensionReference>(r)));
                       }
                   });
+
             // Resource Reference Mapping - PVM to NSM
-            Mapper.CreateMap<PVM.ResourceExtensionParameterValue, NSM.ResourceExtensionParameterValue>();
+            Mapper.CreateMap<PVM.ResourceExtensionParameterValue, NSM.ResourceExtensionParameterValue>()
+                  .ForMember(c => c.Value, o => o.MapFrom(r => SecureStringHelper.GetPlainString(r)));
             Mapper.CreateMap<PVM.ResourceExtensionParameterValueList, IList<NSM.ResourceExtensionParameterValue>>()
                   .AfterMap((c, s) =>
                   {
