@@ -291,14 +291,10 @@
   </Target>
   
   <!-- Run the scenario tests with Mocks -->
-  <Target Name="MockedScenarioTests" DependsOnTargets="Clean;BuildDebug">
-    <Message Importance="high" Text="Running scenario tests with Mocks..." />
-    <Message Importance="high" Text="You are required to have installed a version of Visual Studio with support for MSTest (and MSTest on your path)." />
-    <MakeDir Directories="$(TestOutputDirectory)" ContinueOnError="false" />
-
-    <Message Importance="high" Text="Scenario tests:" />
+  <Target Name="MockedScenarioTests">
+    <Message Importance="high" Text="Running scenario tests with Mocks" />
     <Exec
-      Command="MSTest.exe /testcontainer:$(ScenarioTestDebug) /testsettings:$(TestSettings) /category:$(MockTestFilter) /resultsfile:$(TestOutputDirectory)\ScenarioTests.trx"
+      Command="MSTest.exe /testcontainer:$(ScenarioTestDebug) /testsettings:$(TestSettings) /category:$(MockTestFilter) /resultsfile:$(TestOutputDirectory)\MockedScenarioTests.trx"
       ContinueOnError="false" />    
   </Target>
 
