@@ -31,12 +31,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
     using PVM = Model.PersistentVMModel;
     using RoleInstance = Management.Compute.Models.RoleInstance;
 
-    [Cmdlet(
-        VerbsCommon.Get,
-        AzureVMNoun,
-        DefaultParameterSetName = ListVMParamSet),
-    OutputType(
-        typeof(PersistentVMRoleContext))]
+    [Cmdlet(VerbsCommon.Get, "AzureVM"), OutputType(typeof(PersistentVMRoleContext))]
     public class GetAzureVMCommand : IaaSDeploymentManagementCmdletBase
     {
         protected const string AzureVMNoun = "AzureVM";
