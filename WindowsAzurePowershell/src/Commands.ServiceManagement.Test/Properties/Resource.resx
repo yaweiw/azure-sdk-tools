@@ -144,7 +144,7 @@
     <comment>UseDefaults for using the default settings, UseDefaultsandOverride for overriding few variables and UseCustom for your own personal test settings</comment>
   </data>
   <data name="DefaultStorageAccountName" xml:space="preserve">
-    <value>rtstore</value>
+    <value />
     <comment>Default StorageAccount Name for the subscription</comment>
   </data>
 </root>
