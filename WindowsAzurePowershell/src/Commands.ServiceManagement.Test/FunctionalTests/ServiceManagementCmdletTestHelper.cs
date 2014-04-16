@@ -44,6 +44,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
     using Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests.IaasCmdletInfo.Extensions.BGInfo;
     using Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests.IaasCmdletInfo.Extensions.Common;
 using Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests.IaasCmdletInfo.Extesnions.VMAccess;
+    using Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests.IaasCmdletInfo.Extesnions.CustomScript;
     
 
     public class ServiceManagementCmdletTestHelper
@@ -1812,5 +1813,37 @@ using Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests.Iaa
         }
 
         #endregion AzureVMAccessExtension cmdlets
+
+        #region AzureVMCustomScriptExtensionCmdlets
+        //SetCustomScriptExtensionByUrisParamSetName
+        internal PersistentVM SetAzureVMCustomScriptExtension(PersistentVM vm, string[] fileUri, bool sseSaSKeys, string run = null, string referenceName = null, string version = null, string argument = null)
+        {
+            return RunPSCmdletAndReturnFirst<PersistentVM>(new SetAzureVMCustomScriptExtensionCmdletInfo(vm, referenceName, version,fileUri,run, argument ));
+        }
+
+        //DisableCustomScriptExtensionParamSetName
+        internal PersistentVM SetAzureVMCustomScriptExtension(PersistentVM vm, bool disable, string referenceName = null, string version = null)
+        {
+            return RunPSCmdletAndReturnFirst<PersistentVM>(new SetAzureVMCustomScriptExtensionCmdletInfo(vm,referenceName,version,disable));
+        }
+
+        //SetCustomScriptExtensionByContainerBlobsParamSetName
+        internal PersistentVM SetAzureVMCustomScriptExtension(PersistentVM vm, string[] fileName, string run = null, string storageAccountName = null, string StorageEndpointSuffix = null, string containerName = null,
+              string StorageAccountKey = null, string referenceName = null, string version = null,string argument = null)
+        {
+            return RunPSCmdletAndReturnFirst<PersistentVM>(new SetAzureVMCustomScriptExtensionCmdletInfo(vm, fileName, storageAccountName, StorageEndpointSuffix, containerName,
+                    StorageAccountKey, run, argument,referenceName, version));
+        }
+
+        internal VirtualMachineCustomScriptExtensionContext GetAzureVMCustomScriptExtension(IPersistentVM vm)
+        {
+            return RunPSCmdletAndReturnFirst<VirtualMachineCustomScriptExtensionContext>(new GetAzureVMCustomScriptExtensionCmdletInfo(vm));
+        }
+
+        internal PersistentVM RemoveAzureVMCustomScriptExtension(PersistentVM vm)
+        {
+            return RunPSCmdletAndReturnFirst<PersistentVM>(new RemoveAzureVMCustomScriptExtensionCmdletInfo(vm));
+        }
+        #endregion AzureVMCustomScriptExtensionCmdlets
     }
 }
