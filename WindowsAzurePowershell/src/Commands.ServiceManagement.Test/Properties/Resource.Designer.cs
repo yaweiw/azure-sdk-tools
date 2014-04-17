@@ -79,7 +79,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to .
+        ///   Looks up a localized string similar to hpfteststorage0524.
         /// </summary>
         internal static string DefaultStorageAccountName {
             get {
@@ -88,7 +88,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to .
+        ///   Looks up a localized string similar to Production-I.
         /// </summary>
         internal static string DefaultSubscriptionName {
             get {
@@ -97,7 +97,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to .
+        ///   Looks up a localized string similar to Central US.
         /// </summary>
         internal static string Location {
             get {
@@ -106,7 +106,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to .
+        ///   Looks up a localized string similar to C:\pub\azure_pub1.publishsettings.
         /// </summary>
         internal static string PublishSettingsFile {
             get {
@@ -115,7 +115,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to UseDefaults.
+        ///   Looks up a localized string similar to UseCustom.
         /// </summary>
         internal static string TestSettings {
             get {
@@ -124,7 +124,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to .
+        ///   Looks up a localized string similar to \\watest\public\PSTest\oneGBFixedWS2008R2.vhd.
         /// </summary>
         internal static string Vhd {
             get {
