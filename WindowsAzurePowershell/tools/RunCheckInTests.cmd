@@ -16,7 +16,7 @@ if not exist "%ADXSDKProgramFiles%\Microsoft SDKs\Windows Azure\Storage Emulator
 )
 
 git.exe > NUL 2>&1
-if %ERRORLEVEL% EQU 1 (
+if %ERRORLEVEL% GEQ 1 (
     if exist "%ADXSDKProgramFiles%\Git\bin" (
         ECHO Adding Git installation folder to the PATH environment variable, needed for 2 unit tests
         set "path=%path%;%ADXSDKProgramFiles%\Git\bin"
