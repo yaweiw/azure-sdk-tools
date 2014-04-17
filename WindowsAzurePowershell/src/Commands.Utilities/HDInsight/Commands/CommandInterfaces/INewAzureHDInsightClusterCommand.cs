@@ -45,6 +45,6 @@ namespace Microsoft.WindowsAzure.Management.HDInsight.Cmdlet.Commands.CommandInt
 
         string Location { get; set; }
 
-        bool EnableHighAvailability { get; set; }
+        NodeVMSize HeadNodeSize { get; set; }
     }
 }
