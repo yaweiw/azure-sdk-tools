@@ -15,11 +15,15 @@ if not exist "%ADXSDKProgramFiles%\Microsoft SDKs\Windows Azure\Storage Emulator
     %~dp0\test\WindowsAzureStorageEmulator.msi /passive
 )
 
-if exist "%ADXSDKProgramFiles%\Git\bin" (
-    ECHO Adding Git installation folder to the PATH environment variable, needed for 2 unit tests
-    set "path=%path%;%ADXSDKProgramFiles%\Git\bin"
+git.exe > NUL 2>&1
+if %ERRORLEVEL% EQU 1 (
+    if exist "%ADXSDKProgramFiles%\Git\bin" (
+        ECHO Adding Git installation folder to the PATH environment variable, needed for 2 unit tests
+        set "path=%path%;%ADXSDKProgramFiles%\Git\bin"
+    )
 )
 
+::The detecting logic for django is not decent, but the best we can do so far.
 if not exist "%SystemDrive%\Python27" (
     ECHO Install Python27, PIP, and Django 1.5
     msiexec /i %~dp0\test\python-2.7.msi /passive
