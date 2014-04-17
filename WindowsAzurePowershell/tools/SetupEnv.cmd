@@ -4,10 +4,14 @@ if defined AzurePSRoot exit /b 0
 
 echo Initializing environment...
 
+set teamInternalCommand="\\vwdbuild01\dev\AdxSdk\SetPowerShellEnvVars.cmd"
+
 if defined PRIVATE_SETTING_CMD (
     call "%PRIVATE_SETTING_CMD%"
 ) else (
-    call "\\vwdbuild01\dev\AdxSdk\SetPowerShellEnvVars.cmd"
+    if exist "%teamInternalCommand%" (
+        call "%teamInternalCommand%"
+    )
 )
 
 if not defined PRIVATE_FEED_URL (

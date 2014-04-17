@@ -11,7 +11,6 @@
     <ManagementTestAssemblyName>Microsoft.WindowsAzure.Commands.Test.dll</ManagementTestAssemblyName>
 
     <TestSettings>.\WindowsAzurePowershell\src\Local.testsettings</TestSettings>
-    <ScenarioTestSettings>.\WindowsAzurePowershell\src\Scenario.testsettings</ScenarioTestSettings>
     <AzureRTTestSettings>.\WindowsAzurePowershell\src\AzureRT.testsettings</AzureRTTestSettings>
     <ScenarioTestDebug>.\WindowsAzurePowershell\src\Commands.ScenarioTest\bin\Debug\Microsoft.WindowsAzure.Commands.ScenarioTest.dll</ScenarioTestDebug>
     <AzureRTTestContainer>.\WindowsAzurePowershell\src\Commands.ServiceManagement.Test\bin\Debug\Microsoft.WindowsAzure.Commands.ServiceManagement.Test.dll</AzureRTTestContainer>
@@ -241,10 +240,18 @@
     <CallTarget Targets="TestManagement; TestResourceManager; TestServiceManagement; TestStorage; MockedScenarioTests" />
   </Target>
 
-  <Target Name="TestManagement">
+  <Target Name="InvokeMSTest">
+    <!--Remove existing test result; otherwsie mstest will error-->
+    <Delete Files="$(_testResult)" Condition="Exists('$(_testResult)')"/>
     <Exec
-      Command="MSTest.exe /testcontainer:$(ManagementTestDebug) /testsettings:$(TestSettings) /category:$(TestFilter) /resultsfile:$(TestOutputDirectory)\ManagementDebug.trx"
+      Command="MSTest.exe /testcontainer:$(_testAssembly) /testsettings:$(_testSettings) /category:$(_testFilter) /resultsfile:$(_testResult)"
       ContinueOnError="false" />
+  </Target>
+  
+  <Target Name="TestManagement">
+    <MSBuild Targets="InvokeMSTest"
+             Properties="_testAssembly=$(ManagementTestDebug);_testSettings=$(TestSettings);_testFilter=$(TestFilter);_testResult=$(TestOutputDirectory)\ManagementDebug.trx"
+             Projects="build.proj"/>
   </Target>
   
   <Target Name="TestResourceManager">
@@ -252,9 +259,9 @@
   </Target>
 
   <Target Name="TestServiceManagement">
-    <Exec
-        Command="MSTest.exe /testcontainer:$(ServiceManagementTestDebug) /testsettings:$(TestSettings) /category:$(TestFilter) /resultsfile:$(TestOutputDirectory)\ServiceManagementDebug.trx"
-        ContinueOnError="false" />
+    <MSBuild Targets="InvokeMSTest"
+             Properties="_testAssembly=$(ServiceManagementTestDebug);_testSettings=$(TestSettings);_testFilter=$(TestFilter);_testResult=$(TestOutputDirectory)\ServiceManagementDebug.trx"
+             Projects="build.proj"/>
   </Target>
 
   <Target Name="TestSqlDatabase">
@@ -270,9 +277,9 @@
   </Target>
 
   <Target Name="TestStorage">
-    <Exec
-        Command="MSTest.exe /testcontainer:$(StorageTestDebug) /testsettings:$(TestSettings) /category:$(TestFilter) /resultsfile:$(TestOutputDirectory)\StorageDebug.trx"
-        ContinueOnError="false" />
+    <MSBuild Targets="InvokeMSTest"
+        Properties="_testAssembly=$(StorageTestDebug);_testSettings=$(TestSettings);_testFilter=$(TestFilter);_testResult=$(TestOutputDirectory)\StorageDebug.trx"
+        Projects="build.proj"/>
   </Target>
 
   <!-- Run the scenario tests -->
@@ -293,9 +300,9 @@
   <!-- Run the scenario tests with Mocks -->
   <Target Name="MockedScenarioTests">
     <Message Importance="high" Text="Running scenario tests with Mocks" />
-    <Exec
-      Command="MSTest.exe /testcontainer:$(ScenarioTestDebug) /testsettings:$(TestSettings) /category:$(MockTestFilter) /resultsfile:$(TestOutputDirectory)\MockedScenarioTests.trx"
-      ContinueOnError="false" />    
+    <MSBuild Targets="InvokeMSTest" 
+             Properties="_testAssembly=$(ScenarioTestDebug);_testSettings=$(TestSettings);_testFilter=$(MockTestFilter);_testResult=$(TestOutputDirectory)\MockedScenarioTests.trx" 
+             Projects="build.proj"/>  
   </Target>
 
   <!-- Run the CITs -->
