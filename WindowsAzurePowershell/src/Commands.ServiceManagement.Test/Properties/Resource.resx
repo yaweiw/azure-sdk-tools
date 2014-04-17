@@ -118,14 +118,14 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="Location" xml:space="preserve">
-    <value />
+    <value>Central US</value>
   </data>
   <data name="PublishSettingsFile" xml:space="preserve">
-    <value />
+    <value>C:\pub\azure_pub1.publishsettings</value>
     <comment>Path to your publishsettings file</comment>
   </data>
   <data name="DefaultSubscriptionName" xml:space="preserve">
-    <value />
+    <value>Production-I</value>
     <comment>Subscription name to use in testing</comment>
   </data>
   <data name="BlobKey" xml:space="preserve">
@@ -137,14 +137,14 @@
     <comment>A blob Url for a publish settings file and a local vhd</comment>
   </data>
   <data name="Vhd" xml:space="preserve">
-    <value />
+    <value>\\watest\public\PSTest\oneGBFixedWS2008R2.vhd</value>
   </data>
   <data name="TestSettings" xml:space="preserve">
-    <value>UseDefaults</value>
+    <value>UseCustom</value>
     <comment>UseDefaults for using the default settings, UseDefaultsandOverride for overriding few variables and UseCustom for your own personal test settings</comment>
   </data>
   <data name="DefaultStorageAccountName" xml:space="preserve">
-    <value />
+    <value>hpfteststorage0524</value>
     <comment>Default StorageAccount Name for the subscription</comment>
   </data>
 </root>
