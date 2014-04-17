@@ -1,31 +1,40 @@
 call %~dp0\SetupEnv.cmd
 
+::Get WebPI CMD
+SET WebPi=%~dp0\WebpiCmd.exe
+for /F "tokens=1,2*" %%i in ('reg query "HKLM\SOFTWARE\Microsoft\WebPlatformInstaller" /s') DO (
+    if "%%i"=="InstallPath" (
+        SET WebPi="%%k\WebpiCmd.exe"
+    )
+)
+echo webpi: %webpi%
+
 if not exist "%ProgramFiles%\Microsoft SDKs\Windows Azure\.NET SDK\v2.3" (
-    ECHO installing Azure Authoring Tools
-    %~dp0\test\WindowsAzureAuthoringTools-%ADXSDKPlatform%.msi /passive
+    echo installing Azure Authoring Tools
+    %WebPi% /Install /products:WindowsAzureSDK_Only_2_3 /accepteula
 )
 
 if not exist "%ProgramFiles%\Microsoft SDKs\Windows Azure\Emulator" (
-    ECHO installing Azure Compute Emulator
-    %~dp0\test\WindowsAzureEmulator-%ADXSDKPlatform%.exe /passive
+    echo installing Azure Compute Emulator
+    %WebPi% /Install /products:WindowsAzureEmulator_Only_2_3 /accepteula
 )
 
 if not exist "%ADXSDKProgramFiles%\Microsoft SDKs\Windows Azure\Storage Emulator" (
-    ECHO installing Azure Storage Emulator
-    %~dp0\test\WindowsAzureStorageEmulator.msi /passive
+    echo installing Azure Storage Emulator
+    %WebPi% /Install /products:WindowsAzureStorageEmulator /accepteula
 )
 
 git.exe > NUL 2>&1
 if %ERRORLEVEL% GEQ 1 (
     if exist "%ADXSDKProgramFiles%\Git\bin" (
-        ECHO Adding Git installation folder to the PATH environment variable, needed for 2 unit tests
+        echo Adding Git installation folder to the PATH environment variable, needed for 2 unit tests
         set "path=%path%;%ADXSDKProgramFiles%\Git\bin"
     )
 )
 
 ::The detecting logic for django is not decent, but the best we can do so far.
 if not exist "%SystemDrive%\Python27" (
-    ECHO Install Python27, PIP, and Django 1.5
+    echo Install Python27, PIP, and Django 1.5
     msiexec /i %~dp0\test\python-2.7.msi /passive
     %SystemDrive%\Python27\python.exe "%~dp0\test\get-pip.py"
     %SystemDrive%\Python27\scripts\pip.exe install Django==1.5
