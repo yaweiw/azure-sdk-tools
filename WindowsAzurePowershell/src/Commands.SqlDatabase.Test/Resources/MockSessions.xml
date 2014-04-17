@@ -5136,7 +5136,7 @@
       <HttpMessage>
         <Index>1</Index>
         <RequestInfo>
-          <RequestUri>http://localhost:12345/v1/ManagementService.svc/Server2('testserver')/ServiceObjectives(guid'7203483a-c4fb-4304-9e9f-17c71c904f5d')/DimensionSettings()</RequestUri>
+          <RequestUri>http://localhost:12345/v1/ManagementService.svc/Server2('testserver')/ServiceObjectives(guid'7203483a-c4fb-4304-9e9f-17c71c904f5d')/DimensionSettings</RequestUri>
           <Method>GET</Method>
           <UserAgent>WindowsAzurePowershell/v0.8.0</UserAgent>
           <Headers>
@@ -5219,7 +5219,7 @@
       <HttpMessage>
         <Index>2</Index>
         <RequestInfo>
-          <RequestUri>http://localhost:12345/v1/ManagementService.svc/Server2('testserver')/ServiceObjectives(guid'a7d1b92d-c987-4375-b54d-2b1d0e0f5bb0')/DimensionSettings()</RequestUri>
+          <RequestUri>http://localhost:12345/v1/ManagementService.svc/Server2('testserver')/ServiceObjectives(guid'a7d1b92d-c987-4375-b54d-2b1d0e0f5bb0')/DimensionSettings</RequestUri>
           <Method>GET</Method>
           <UserAgent>WindowsAzurePowershell/v0.8.0</UserAgent>
           <Headers>
@@ -5302,7 +5302,7 @@
       <HttpMessage>
         <Index>3</Index>
         <RequestInfo>
-          <RequestUri>http://localhost:12345/v1/ManagementService.svc/Server2('testserver')/ServiceObjectives(guid'e210706e-cd95-4f72-b5e5-885f8a1406e8')/DimensionSettings()</RequestUri>
+          <RequestUri>http://localhost:12345/v1/ManagementService.svc/Server2('testserver')/ServiceObjectives(guid'e210706e-cd95-4f72-b5e5-885f8a1406e8')/DimensionSettings</RequestUri>
           <Method>GET</Method>
           <UserAgent>WindowsAzurePowershell/v0.8.0</UserAgent>
           <Headers>
@@ -5385,7 +5385,7 @@
       <HttpMessage>
         <Index>4</Index>
         <RequestInfo>
-          <RequestUri>http://localhost:12345/v1/ManagementService.svc/Server2('testserver')/ServiceObjectives(guid'a7c4c615-cfb1-464b-b252-925be0a19446')/DimensionSettings()</RequestUri>
+          <RequestUri>http://localhost:12345/v1/ManagementService.svc/Server2('testserver')/ServiceObjectives(guid'a7c4c615-cfb1-464b-b252-925be0a19446')/DimensionSettings</RequestUri>
           <Method>GET</Method>
           <UserAgent>WindowsAzurePowershell/v0.8.0</UserAgent>
           <Headers>
@@ -5468,7 +5468,7 @@
       <HttpMessage>
         <Index>5</Index>
         <RequestInfo>
-          <RequestUri>http://localhost:12345/v1/ManagementService.svc/Server2('testserver')/ServiceObjectives(guid'a45fea0c-e63c-4bf0-9f81-9964c86b7d2a')/DimensionSettings()</RequestUri>
+          <RequestUri>http://localhost:12345/v1/ManagementService.svc/Server2('testserver')/ServiceObjectives(guid'a45fea0c-e63c-4bf0-9f81-9964c86b7d2a')/DimensionSettings</RequestUri>
           <Method>GET</Method>
           <UserAgent>WindowsAzurePowershell/v0.8.0</UserAgent>
           <Headers>
@@ -5551,7 +5551,7 @@
       <HttpMessage>
         <Index>6</Index>
         <RequestInfo>
-          <RequestUri>http://localhost:12345/v1/ManagementService.svc/Server2('testserver')/ServiceObjectives(guid'910b4fcb-8a29-4c3e-958f-f7ba794388b2')/DimensionSettings()</RequestUri>
+          <RequestUri>http://localhost:12345/v1/ManagementService.svc/Server2('testserver')/ServiceObjectives(guid'910b4fcb-8a29-4c3e-958f-f7ba794388b2')/DimensionSettings</RequestUri>
           <Method>GET</Method>
           <UserAgent>WindowsAzurePowershell/v0.8.0</UserAgent>
           <Headers>
@@ -5717,7 +5717,7 @@
       <HttpMessage>
         <Index>8</Index>
         <RequestInfo>
-          <RequestUri>http://localhost:12345/v1/ManagementService.svc/Server2('testserver')/ServiceObjectives(guid'7203483a-c4fb-4304-9e9f-17c71c904f5d')/DimensionSettings()</RequestUri>
+          <RequestUri>http://localhost:12345/v1/ManagementService.svc/Server2('testserver')/ServiceObjectives(guid'7203483a-c4fb-4304-9e9f-17c71c904f5d')/DimensionSettings</RequestUri>
           <Method>GET</Method>
           <UserAgent>WindowsAzurePowershell/v0.8.0</UserAgent>
           <Headers>
@@ -5888,7 +5888,7 @@
       <HttpMessage>
         <Index>1</Index>
         <RequestInfo>
-          <RequestUri>http://localhost:12345/v1/ManagementService.svc/Server2('testserver')/ServiceObjectives(guid'7203483a-c4fb-4304-9e9f-17c71c904f5d')/DimensionSettings()</RequestUri>
+          <RequestUri>http://localhost:12345/v1/ManagementService.svc/Server2('testserver')/ServiceObjectives(guid'7203483a-c4fb-4304-9e9f-17c71c904f5d')/DimensionSettings</RequestUri>
           <Method>GET</Method>
           <UserAgent>WindowsAzurePowershell/v0.8.0</UserAgent>
           <Headers>
@@ -9684,7 +9684,7 @@
       <HttpMessage>
         <Index>1</Index>
         <RequestInfo>
-          <RequestUri>http://localhost:12345/v1/ManagementService.svc/Server2('testserver')/Servers()?$top=1</RequestUri>
+          <RequestUri>http://localhost:12345/v1/ManagementService.svc/Server2('serverv1')/Servers()?$top=1</RequestUri>
           <Method>GET</Method>
           <UserAgent>WindowsAzurePowershell/v0.8.0</UserAgent>
           <Headers>
@@ -9761,13 +9761,13 @@
             </Header>
           </Headers>
           <Cookies />
-          <ResponseText>&lt;?xml version="1.0" encoding="utf-8"?&gt;&lt;feed xml:base="https://testserver.database.windows.net/v1/ManagementService.svc/Server2('testserver')/" xmlns="http://www.w3.org/2005/Atom" xmlns:d="http://schemas.microsoft.com/ado/2007/08/dataservices" xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata"&gt;&lt;id&gt;https://testserver.database.windows.net/v1/ManagementService.svc/Server2('testserver')/Servers&lt;/id&gt;&lt;title type="text"&gt;Servers&lt;/title&gt;&lt;updated&gt;2013-10-14T20:00:20Z&lt;/updated&gt;&lt;link rel="self" title="Servers" href="Servers" /&gt;&lt;entry&gt;&lt;id&gt;https://testserver.database.windows.net/v1/ManagementService.svc/Server2('testserver')/Servers('testserver')&lt;/id&gt;&lt;category term="Microsoft.SqlServer.Management.Server.Domain.Server" scheme="http://schemas.microsoft.com/ado/2007/08/dataservices/scheme" /&gt;&lt;link rel="edit" title="Server" href="Servers('testserver')" /&gt;&lt;link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/Databases" type="application/atom+xml;type=feed" title="Databases" href="Servers('testserver')/Databases" /&gt;&lt;link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/ServerMetrics" type="application/atom+xml;type=entry" title="ServerMetrics" href="Servers('testserver')/ServerMetrics" /&gt;&lt;link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/ServerQuotas" type="application/atom+xml;type=feed" title="ServerQuotas" href="Servers('testserver')/ServerQuotas" /&gt;&lt;title /&gt;&lt;updated&gt;2013-10-14T20:00:20Z&lt;/updated&gt;&lt;author&gt;&lt;name /&gt;&lt;/author&gt;&lt;content type="application/xml"&gt;&lt;m:properties&gt;&lt;d:Name&gt;testserver&lt;/d:Name&gt;&lt;/m:properties&gt;&lt;/content&gt;&lt;/entry&gt;&lt;/feed&gt;</ResponseText>
+          <ResponseText>&lt;?xml version="1.0" encoding="utf-8"?&gt;&lt;feed xml:base="https://serverv1.database.windows.net/v1/ManagementService.svc/Server2('serverv1')/" xmlns="http://www.w3.org/2005/Atom" xmlns:d="http://schemas.microsoft.com/ado/2007/08/dataservices" xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata"&gt;&lt;id&gt;https://serverv1.database.windows.net/v1/ManagementService.svc/Server2('serverv1')/Servers&lt;/id&gt;&lt;title type="text"&gt;Servers&lt;/title&gt;&lt;updated&gt;2013-10-14T20:00:20Z&lt;/updated&gt;&lt;link rel="self" title="Servers" href="Servers" /&gt;&lt;entry&gt;&lt;id&gt;https://serverv1.database.windows.net/v1/ManagementService.svc/Server2('serverv1')/Servers('serverv1')&lt;/id&gt;&lt;category term="Microsoft.SqlServer.Management.Server.Domain.Server" scheme="http://schemas.microsoft.com/ado/2007/08/dataservices/scheme" /&gt;&lt;link rel="edit" title="Server" href="Servers('serverv1')" /&gt;&lt;link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/Databases" type="application/atom+xml;type=feed" title="Databases" href="Servers('serverv1')/Databases" /&gt;&lt;link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/ServerMetrics" type="application/atom+xml;type=entry" title="ServerMetrics" href="Servers('serverv1')/ServerMetrics" /&gt;&lt;link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/ServerQuotas" type="application/atom+xml;type=feed" title="ServerQuotas" href="Servers('serverv1')/ServerQuotas" /&gt;&lt;title /&gt;&lt;updated&gt;2013-10-14T20:00:20Z&lt;/updated&gt;&lt;author&gt;&lt;name /&gt;&lt;/author&gt;&lt;content type="application/xml"&gt;&lt;m:properties&gt;&lt;d:Name&gt;serverv1&lt;/d:Name&gt;&lt;/m:properties&gt;&lt;/content&gt;&lt;/entry&gt;&lt;/feed&gt;</ResponseText>
         </ResponseInfo>
       </HttpMessage>
       <HttpMessage>
         <Index>2</Index>
         <RequestInfo>
-          <RequestUri>http://localhost:12345/v1/ManagementService.svc/Server2('testserver')/$metadata</RequestUri>
+          <RequestUri>http://localhost:12345/v1/ManagementService.svc/Server2('serverv1')/$metadata</RequestUri>
           <Method>GET</Method>
           <UserAgent>WindowsAzurePowershell/v0.8.0</UserAgent>
           <Headers>
@@ -9838,7 +9838,7 @@
       <HttpMessage>
         <Index>3</Index>
         <RequestInfo>
-          <RequestUri>https://localhost:65432/00000000-0000-0000-0001-000000000001/services/sqlservers/servers/testserver/DacOperations/Export</RequestUri>
+          <RequestUri>https://localhost:65432/00000000-0000-0000-0001-000000000001/services/sqlservers/servers/serverv1/DacOperations/Export</RequestUri>
           <Method>POST</Method>
           <UserAgent>Microsoft.WindowsAzure.Management.Sql.SqlManagementClient/0.9.0.0 WindowsAzurePowershell/v0.8.0</UserAgent>
           <Headers>
@@ -9856,7 +9856,7 @@
   &lt;ConnectionInfo&gt;
     &lt;DatabaseName&gt;testdb1&lt;/DatabaseName&gt;
     &lt;Password&gt;Pa$$w0rd!&lt;/Password&gt;
-    &lt;ServerName&gt;testserver.database.windows.net&lt;/ServerName&gt;
+    &lt;ServerName&gt;serverv1.database.windows.net&lt;/ServerName&gt;
     &lt;UserName&gt;mylogin&lt;/UserName&gt;
   &lt;/ConnectionInfo&gt;
 &lt;/ExportInput&gt;</RequestText>
@@ -9906,7 +9906,7 @@
       <HttpMessage>
         <Index>4</Index>
         <RequestInfo>
-          <RequestUri>https://localhost:65432/00000000-0000-0000-0001-000000000001/services/sqlservers/servers/testserver/DacOperations/Status?servername=testserver.database.windows.net&amp;username=mylogin&amp;password=Pa$$w0rd!&amp;reqId=a0db20f9-9402-4866-bc97-6089b47218ac</RequestUri>
+          <RequestUri>https://localhost:65432/00000000-0000-0000-0001-000000000001/services/sqlservers/servers/serverv1/DacOperations/Status?servername=serverv1.database.windows.net&amp;username=mylogin&amp;password=Pa$$w0rd!&amp;reqId=a0db20f9-9402-4866-bc97-6089b47218ac</RequestUri>
           <Method>GET</Method>
           <UserAgent>Microsoft.WindowsAzure.Management.Sql.SqlManagementClient/0.9.0.0 WindowsAzurePowershell/v0.8.0</UserAgent>
           <Headers>
@@ -9957,13 +9957,13 @@
             </Header>
           </Headers>
           <Cookies />
-          <ResponseText>&lt;ArrayOfStatusInfo xmlns="http://schemas.datacontract.org/2004/07/Microsoft.SqlServer.Management.Dac.ServiceTypes" xmlns:i="http://www.w3.org/2001/XMLSchema-instance"&gt;&lt;StatusInfo&gt;&lt;BlobUri&gt;https://teststore001.blob.core.windows.net/testcontainer001/backup1&lt;/BlobUri&gt;&lt;DatabaseName&gt;testdb1&lt;/DatabaseName&gt;&lt;ErrorMessage i:nil="true"/&gt;&lt;LastModifiedTime&gt;2013-10-14T20:00:26.975667Z&lt;/LastModifiedTime&gt;&lt;QueuedTime&gt;2013-10-14T20:00:26.975667Z&lt;/QueuedTime&gt;&lt;RequestId&gt;a0db20f9-9402-4866-bc97-6089b47218ac&lt;/RequestId&gt;&lt;RequestType&gt;Export&lt;/RequestType&gt;&lt;ServerName&gt;testserver.database.windows.net&lt;/ServerName&gt;&lt;Status&gt;Pending&lt;/Status&gt;&lt;/StatusInfo&gt;&lt;/ArrayOfStatusInfo&gt;</ResponseText>
+          <ResponseText>&lt;ArrayOfStatusInfo xmlns="http://schemas.datacontract.org/2004/07/Microsoft.SqlServer.Management.Dac.ServiceTypes" xmlns:i="http://www.w3.org/2001/XMLSchema-instance"&gt;&lt;StatusInfo&gt;&lt;BlobUri&gt;https://teststore001.blob.core.windows.net/testcontainer001/backup1&lt;/BlobUri&gt;&lt;DatabaseName&gt;testdb1&lt;/DatabaseName&gt;&lt;ErrorMessage i:nil="true"/&gt;&lt;LastModifiedTime&gt;2013-10-14T20:00:26.975667Z&lt;/LastModifiedTime&gt;&lt;QueuedTime&gt;2013-10-14T20:00:26.975667Z&lt;/QueuedTime&gt;&lt;RequestId&gt;a0db20f9-9402-4866-bc97-6089b47218ac&lt;/RequestId&gt;&lt;RequestType&gt;Export&lt;/RequestType&gt;&lt;ServerName&gt;serverv1.database.windows.net&lt;/ServerName&gt;&lt;Status&gt;Pending&lt;/Status&gt;&lt;/StatusInfo&gt;&lt;/ArrayOfStatusInfo&gt;</ResponseText>
         </ResponseInfo>
       </HttpMessage>
       <HttpMessage>
         <Index>5</Index>
         <RequestInfo>
-          <RequestUri>https://localhost:65432/00000000-0000-0000-0001-000000000001/services/sqlservers/servers/testserver/DacOperations/Import</RequestUri>
+          <RequestUri>https://localhost:65432/00000000-0000-0000-0001-000000000001/services/sqlservers/servers/serverv1/DacOperations/Import</RequestUri>
           <Method>POST</Method>
           <UserAgent>Microsoft.WindowsAzure.Management.Sql.SqlManagementClient/0.9.0.0 WindowsAzurePowershell/v0.8.0</UserAgent>
           <Headers>
@@ -9982,7 +9982,7 @@
   &lt;ConnectionInfo&gt;
     &lt;DatabaseName&gt;testdb2&lt;/DatabaseName&gt;
     &lt;Password&gt;Pa$$w0rd!&lt;/Password&gt;
-    &lt;ServerName&gt;testserver.database.windows.net&lt;/ServerName&gt;
+    &lt;ServerName&gt;serverv1.database.windows.net&lt;/ServerName&gt;
     &lt;UserName&gt;mylogin&lt;/UserName&gt;
   &lt;/ConnectionInfo&gt;
   &lt;DatabaseSizeInGB&gt;10&lt;/DatabaseSizeInGB&gt;
@@ -10033,7 +10033,7 @@
       <HttpMessage>
         <Index>6</Index>
         <RequestInfo>
-          <RequestUri>https://localhost:65432/00000000-0000-0000-0001-000000000001/services/sqlservers/servers/testserver/DacOperations/Status?servername=testserver.database.windows.net&amp;username=mylogin&amp;password=Pa$$w0rd!&amp;reqId=ed1806ab-d5e8-44e9-a464-16ca73936dc7</RequestUri>
+          <RequestUri>https://localhost:65432/00000000-0000-0000-0001-000000000001/services/sqlservers/servers/serverv1/DacOperations/Status?servername=serverv1.database.windows.net&amp;username=mylogin&amp;password=Pa$$w0rd!&amp;reqId=ed1806ab-d5e8-44e9-a464-16ca73936dc7</RequestUri>
           <Method>GET</Method>
           <UserAgent>Microsoft.WindowsAzure.Management.Sql.SqlManagementClient/0.9.0.0 WindowsAzurePowershell/v0.8.0</UserAgent>
           <Headers>
@@ -10084,7 +10084,7 @@
             </Header>
           </Headers>
           <Cookies />
-          <ResponseText>&lt;ArrayOfStatusInfo xmlns="http://schemas.datacontract.org/2004/07/Microsoft.SqlServer.Management.Dac.ServiceTypes" xmlns:i="http://www.w3.org/2001/XMLSchema-instance"&gt;&lt;StatusInfo&gt;&lt;BlobUri&gt;https://teststore001.blob.core.windows.net/testcontainer001/backup1&lt;/BlobUri&gt;&lt;DatabaseName&gt;testdb2&lt;/DatabaseName&gt;&lt;ErrorMessage i:nil="true"/&gt;&lt;LastModifiedTime&gt;2013-10-14T20:00:57.5641172Z&lt;/LastModifiedTime&gt;&lt;QueuedTime&gt;2013-10-14T20:00:49.1482703Z&lt;/QueuedTime&gt;&lt;RequestId&gt;ed1806ab-d5e8-44e9-a464-16ca73936dc7&lt;/RequestId&gt;&lt;RequestType&gt;Import&lt;/RequestType&gt;&lt;ServerName&gt;testserver.database.windows.net&lt;/ServerName&gt;&lt;Status&gt;Completed&lt;/Status&gt;&lt;/StatusInfo&gt;&lt;/ArrayOfStatusInfo&gt;</ResponseText>
+          <ResponseText>&lt;ArrayOfStatusInfo xmlns="http://schemas.datacontract.org/2004/07/Microsoft.SqlServer.Management.Dac.ServiceTypes" xmlns:i="http://www.w3.org/2001/XMLSchema-instance"&gt;&lt;StatusInfo&gt;&lt;BlobUri&gt;https://teststore001.blob.core.windows.net/testcontainer001/backup1&lt;/BlobUri&gt;&lt;DatabaseName&gt;testdb2&lt;/DatabaseName&gt;&lt;ErrorMessage i:nil="true"/&gt;&lt;LastModifiedTime&gt;2013-10-14T20:00:57.5641172Z&lt;/LastModifiedTime&gt;&lt;QueuedTime&gt;2013-10-14T20:00:49.1482703Z&lt;/QueuedTime&gt;&lt;RequestId&gt;ed1806ab-d5e8-44e9-a464-16ca73936dc7&lt;/RequestId&gt;&lt;RequestType&gt;Import&lt;/RequestType&gt;&lt;ServerName&gt;serverv1.database.windows.net&lt;/ServerName&gt;&lt;Status&gt;Completed&lt;/Status&gt;&lt;/StatusInfo&gt;&lt;/ArrayOfStatusInfo&gt;</ResponseText>
         </ResponseInfo>
       </HttpMessage>
     </Messages>
@@ -12947,7 +12947,7 @@
       <HttpMessage>
         <Index>1</Index>
         <RequestInfo>
-          <RequestUri>http://localhost:12345/v1/ManagementService.svc/Server2('testserver')/ServiceObjectives(guid'7203483a-c4fb-4304-9e9f-17c71c904f5d')/DimensionSettings()</RequestUri>
+          <RequestUri>http://localhost:12345/v1/ManagementService.svc/Server2('testserver')/ServiceObjectives(guid'7203483a-c4fb-4304-9e9f-17c71c904f5d')/DimensionSettings</RequestUri>
           <Method>GET</Method>
           <UserAgent>WindowsAzurePowershell/v0.8.0</UserAgent>
           <Headers>
@@ -13113,7 +13113,7 @@
       <HttpMessage>
         <Index>3</Index>
         <RequestInfo>
-          <RequestUri>http://localhost:12345/v1/ManagementService.svc/Server2('testserver')/ServiceObjectives(guid'a7d1b92d-c987-4375-b54d-2b1d0e0f5bb0')/DimensionSettings()</RequestUri>
+          <RequestUri>http://localhost:12345/v1/ManagementService.svc/Server2('testserver')/ServiceObjectives(guid'a7d1b92d-c987-4375-b54d-2b1d0e0f5bb0')/DimensionSettings</RequestUri>
           <Method>GET</Method>
           <UserAgent>WindowsAzurePowershell/v0.8.0</UserAgent>
           <Headers>
@@ -15574,7 +15574,7 @@
       <HttpMessage>
         <Index>1</Index>
         <RequestInfo>
-          <RequestUri>http://localhost:12345/v1/ManagementService.svc/Server2('testserver')/ServiceObjectives(guid'7203483a-c4fb-4304-9e9f-17c71c904f5d')/DimensionSettings()</RequestUri>
+          <RequestUri>http://localhost:12345/v1/ManagementService.svc/Server2('testserver')/ServiceObjectives(guid'7203483a-c4fb-4304-9e9f-17c71c904f5d')/DimensionSettings</RequestUri>
           <Method>GET</Method>
           <UserAgent>WindowsAzurePowershell/v0.8.0</UserAgent>
           <Headers>
