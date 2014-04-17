@@ -4,6 +4,7 @@ if defined AzurePSRoot exit /b 0
 
 echo Initializing environment...
 
+::Figure out the right place to put the credentails
 set teamInternalCommand="\\vwdbuild01\dev\AdxSdk\SetPowerShellEnvVars.cmd"
 
 if defined PRIVATE_SETTING_CMD (
@@ -24,8 +25,8 @@ if not defined PRIVATE_FEED_URL (
 ::Here we invoke an elevation-needing command to test it
 net session > NUL 2>&1
 if ERRORLEVEL 1 (
-    ECHO ERROR: Please launch command under administrator account. It is needed for environment setting up and unit test.
-    EXIT /B 1
+    echo ERROR: Please launch command under administrator account. It is needed for environment setting up and unit test.
+    exit /B 1
 )
 
 set "AzurePSRoot=%~dp0"
