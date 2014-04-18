@@ -151,6 +151,25 @@
     </Members>
   </Type>
   <Type>
+    <Name>Microsoft.WindowsAzure.Commands.SqlDatabase.Services.Server.RecoverableDatabase</Name>
+    <Members>
+      <MemberSet>
+        <Name>PSStandardMembers</Name>
+        <Members>
+          <PropertySet>
+            <Name>DefaultDisplayPropertySet</Name>
+            <ReferencedProperties>
+              <Name>Name</Name>
+              <Name>Edition</Name>
+              <Name>ServerName</Name>
+              <Name>LastAvailableBackupDate</Name>
+            </ReferencedProperties>
+          </PropertySet>
+        </Members>
+      </MemberSet>
+    </Members>
+  </Type>
+  <Type>
     <Name>Microsoft.WindowsAzure.Commands.SqlDatabase.Services.Server.ServerDataServiceSqlAuth</Name>
     <Members>
       <MemberSet>
