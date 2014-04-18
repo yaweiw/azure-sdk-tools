@@ -241,7 +241,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
             Utilities.LogAssert(() => Assert.IsTrue(customScriptExtensionContext.PrivateConfiguration == null ||
                 string.IsNullOrEmpty(customScriptExtensionContext.PrivateConfiguration.ConvertToUnsecureString())), "Verifiying PrivateConfiguration"); ;
             Utilities.LogAssert(() => Assert.IsFalse(string.IsNullOrEmpty(customScriptExtensionContext.PublicConfiguration)), "Verifiying ExtensionName"); ;
-            Utilities.LogAssert(() => Assert.AreEqual(customScriptExtensionContext.Publisher, customScriptExtension.Publisher), "Verifiying ExtensionName"); ;
+            Utilities.LogAssert(() => Assert.AreEqual(customScriptExtensionContext.Publisher, customScriptExtension.Publisher), "Verifiying PublisherName"); ;
             if(type != SetAzureVMCustomScriptExtensionCmdletParmaterSetType.DisableCustomScriptExtensionParamSetName 
                 && type != SetAzureVMCustomScriptExtensionCmdletParmaterSetType.SetCustomScriptExtensionByContainerBlobsParamSetName
                  && type != SetAzureVMCustomScriptExtensionCmdletParmaterSetType.SetCustomScriptExtensionByUrisParamSetName)
