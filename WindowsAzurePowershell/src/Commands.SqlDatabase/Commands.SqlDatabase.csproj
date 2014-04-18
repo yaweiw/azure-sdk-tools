@@ -225,6 +225,7 @@
     <Compile Include="Database\Cmdlet\StartAzureSqlDatabaseCopy.cs" />
     <Compile Include="Database\Cmdlet\StopAzureSqlDatabaseCopy.cs" />
     <Compile Include="Database\Cmdlet\StartAzureSqlDatabaseRestore.cs" />
+    <Compile Include="Database\Cmdlet\StartAzureSqlDatabaseRecovery.cs" />
     <Compile Include="Firewall\Cmdlet\SetAzureSqlDatabaseServerFirewallRule.cs" />
     <Compile Include="Firewall\Cmdlet\GetAzureSqlDatabaseServerFirewallRule.cs" />
     <Compile Include="Firewall\Cmdlet\NewAzureSqlDatabaseServerFirewallRule.cs" />
