@@ -183,6 +183,7 @@
     <Compile Include="UnitTests\Database\Cmdlet\GetRestorableDroppedDatabaseSqlAuthTests.cs" />
     <Compile Include="UnitTests\Database\Cmdlet\NewAzureSqlPremiumDatabaseTests.cs" />
     <Compile Include="UnitTests\Database\Cmdlet\AzureSqlDatabaseCopyCertAuthTests.cs" />
+    <Compile Include="UnitTests\Database\Cmdlet\RestoreDatabaseTests.cs" />
     <Compile Include="Utilities\SqlDatabaseSettings.cs" />
     <Compile Include="UnitTests\MockServer\AsyncExceptionManager.cs" />
     <Compile Include="UnitTests\Database\Cmdlet\ImportExportCmdletTests.cs" />
