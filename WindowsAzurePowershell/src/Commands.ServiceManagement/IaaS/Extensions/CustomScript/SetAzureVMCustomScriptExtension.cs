@@ -183,7 +183,10 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
                 }
             }
 
-            this.ReferenceName = string.IsNullOrEmpty(this.ReferenceName) ? ExtensionDefaultName : this.ReferenceName;
+            this.ReferenceName = string.IsNullOrEmpty(this.ReferenceName)
+                               ? ExtensionDefaultName
+                               : this.ReferenceName;
+
             this.PublicConfiguration = GetPublicConfiguration();
             this.PrivateConfiguration = GetPrivateConfiguration();
         }
