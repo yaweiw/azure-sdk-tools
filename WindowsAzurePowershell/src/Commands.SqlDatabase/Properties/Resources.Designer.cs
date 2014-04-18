@@ -440,6 +440,15 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to This operation does not support SQL authentication..
+        /// </summary>
+        internal static string SqlAuthNotSupported {
+            get {
+                return ResourceManager.GetString("SqlAuthNotSupported", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Copying Windows Azure Sql Database &quot;{0}.{1}&quot; to &quot;{2}.{3}&quot;..
         /// </summary>
         internal static string StartAzureSqlDatabaseCopyDescription {
