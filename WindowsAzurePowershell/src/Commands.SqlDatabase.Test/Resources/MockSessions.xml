@@ -26469,4 +26469,1294 @@
       </HttpMessage>
     </Messages>
   </HttpSession>
+  <HttpSession>
+    <Name>UnitTests.GetRestorableDroppedDatabaseWithSqlAuth</Name>
+    <Messages>
+      <HttpMessage>
+        <Index>0</Index>
+        <RequestInfo>
+          <RequestUri>http://localhost:12345/v1/ManagementService.svc/Server2('testserver')/RestorableDroppedDatabases</RequestUri>
+          <Method>GET</Method>
+          <UserAgent>WindowsAzurePowershell/v0.8.0</UserAgent>
+          <Headers>
+            <Header>
+              <Name>DataServiceVersion</Name>
+              <Value>1.0;NetFx</Value>
+            </Header>
+            <Header>
+              <Name>MaxDataServiceVersion</Name>
+              <Value>2.0;NetFx</Value>
+            </Header>
+            <Header>
+              <Name>AccessToken</Name>
+              <Value>CKcwXamokFo+YjrsoXIZMKoasSBvd52VWP4e/Rq6u2AStja9qBdfIKSNTb4nxNtBMcYCjTeZqtPgtTqaU5VI8awGf0wFynfCaBwGfsfKNF1/ITEaDKb6tyMuRBmm8H4VTdgRS69uP6tuqB+vQN0BfsbHSbzAgkvDo1gxQO0pzTBTLenOKakTEOcsAYTQZpaZwIhmGuxulzYOGC/0g5zOguSGEbUbn83NOcyE7b7jW/jowwbkzcfco8s9xKuXryWlzjOsQX+OaRJlyVwixwcuQBqTyObvEDRNdQPPMX2RIcN9RHgIatd2KpT8PyPc/aWFVTKTAD/KCzaK5WAdGXkeOgMaKRdC2CAb1stj6YQ/K6Wv/JL8RycVg5bKb/8BjhWIdFdkLqeM6KN8zoUl0VtMJudyC5pSimSrHW9y549xf8Lfrtg2rSRG9SYi0AIRRoTulsRwYlQ2W6rkqsGSBVJXMdkPg2DgdpvelFsI6brrYYG0CnP+I9+cFcQP8PuLj7VDcdD1mPUUB62trQauQuKGuXUKV/Kcfl9qvBqNY/EpreBvku1TWq6HMV6qFMJMzvi4Z/lkNEUhZUCDqBFZJIJoho4wOI8/gExZlTjo6T8dDOBQO4aiFL0yZBPZKzwFBiwCaEBiocU4A20nrEzSUVdAQC2ZeuPVFH443hlQhA65xn3JzyBzFOmWFauU1mhnAGq+SbMDFq6lctdSNN0whna3inyax/lC3Y8emVHfam5fu86LIryI1qgklLY/beBBbmvn378SDqxbO4+5cruGHJFE+Q==</Value>
+            </Header>
+            <Header>
+              <Name>x-ms-client-session-id</Name>
+              <Value>31fa9eb8-98f0-4d43-8ff5-3cb40d184b7a-2014-04-18 02:32:58Z</Value>
+            </Header>
+            <Header>
+              <Name>x-ms-client-request-id</Name>
+              <Value>b5d23218-9817-4f59-8f3c-2f253418586f-2014-04-18 02:36:03Z</Value>
+            </Header>
+            <Header>
+              <Name>Accept-Charset</Name>
+              <Value>UTF-8</Value>
+            </Header>
+            <Header>
+              <Name>Cookie</Name>
+              <Value>.SQLSERVERMANAGEMENT=HHuSumhH2VQGEonaWWhFag==</Value>
+            </Header>
+          </Headers>
+          <Cookies>
+            <Cookie>
+              <Name>.SQLSERVERMANAGEMENT</Name>
+              <Value>HHuSumhH2VQGEonaWWhFag==</Value>
+              <RelativeUri i:nil="true" />
+            </Cookie>
+          </Cookies>
+          <RequestText i:nil="true" />
+          <ContentType i:nil="true" />
+          <Accept>application/atom+xml,application/xml</Accept>
+        </RequestInfo>
+        <ResponseInfo>
+          <StatusCode>OK</StatusCode>
+          <Headers>
+            <Header>
+              <Name>x-ms-request-id</Name>
+              <Value>35021979-1329-31a5-b720-3bc69d65d68d</Value>
+            </Header>
+            <Header>
+              <Name>X-Content-Type-Options</Name>
+              <Value>nosniff</Value>
+            </Header>
+            <Header>
+              <Name>DataServiceVersion</Name>
+              <Value>2.0;</Value>
+            </Header>
+            <Header>
+              <Name>Cache-Control</Name>
+              <Value>no-store,no-cache</Value>
+            </Header>
+            <Header>
+              <Name>Content-Type</Name>
+              <Value>application/atom+xml;type=feed;charset=utf-8</Value>
+            </Header>
+            <Header>
+              <Name>Date</Name>
+              <Value>Fri, 18 Apr 2014 02:36:03 GMT</Value>
+            </Header>
+            <Header>
+              <Name>Server</Name>
+              <Value>Microsoft-HTTPAPI/2.0</Value>
+            </Header>
+          </Headers>
+          <Cookies />
+          <ResponseText>&lt;?xml version="1.0" encoding="utf-8"?&gt;&lt;feed xml:base="http://localhost:12345/v1/ManagementService.svc/Server2('testserver')/" xmlns="http://www.w3.org/2005/Atom" xmlns:d="http://schemas.microsoft.com/ado/2007/08/dataservices" xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata"&gt;&lt;id&gt;http://localhost:12345/v1/ManagementService.svc/Server2('testserver')/RestorableDroppedDatabases&lt;/id&gt;&lt;title type="text"&gt;RestorableDroppedDatabases&lt;/title&gt;&lt;updated&gt;2014-04-18T02:36:03Z&lt;/updated&gt;&lt;link rel="self" title="RestorableDroppedDatabases" href="RestorableDroppedDatabases" /&gt;&lt;entry&gt;&lt;id&gt;http://localhost:12345/v1/ManagementService.svc/Server2('testserver')/RestorableDroppedDatabases('testdb1%2C2014-04-18T02%3A35%3A06.060Z')&lt;/id&gt;&lt;category term="Microsoft.SqlServer.Management.Server.Domain.RestorableDroppedDatabase" scheme="http://schemas.microsoft.com/ado/2007/08/dataservices/scheme" /&gt;&lt;link rel="edit" title="RestorableDroppedDatabase" href="RestorableDroppedDatabases('testdb1%2C2014-04-18T02%3A35%3A06.060Z')" /&gt;&lt;title /&gt;&lt;updated&gt;2014-04-18T02:36:03Z&lt;/updated&gt;&lt;author&gt;&lt;name /&gt;&lt;/author&gt;&lt;content type="application/xml"&gt;&lt;m:properties&gt;&lt;d:EntityId&gt;testdb1,2014-04-18T02:35:06.060Z&lt;/d:EntityId&gt;&lt;d:Name&gt;testdb1&lt;/d:Name&gt;&lt;d:ServerName&gt;testserver&lt;/d:ServerName&gt;&lt;d:Edition&gt;Web&lt;/d:Edition&gt;&lt;d:MaxSizeBytes m:type="Edm.Int64"&gt;1073741824&lt;/d:MaxSizeBytes&gt;&lt;d:CreationDate m:type="Edm.DateTime"&gt;2014-04-18T02:33:02.01Z&lt;/d:CreationDate&gt;&lt;d:DeletionDate m:type="Edm.DateTime"&gt;2014-04-18T02:35:06.06Z&lt;/d:DeletionDate&gt;&lt;d:RecoveryPeriodStartDate m:type="Edm.DateTime"&gt;2014-04-18T02:34:02.01Z&lt;/d:RecoveryPeriodStartDate&gt;&lt;/m:properties&gt;&lt;/content&gt;&lt;/entry&gt;&lt;entry&gt;&lt;id&gt;http://localhost:12345/v1/ManagementService.svc/Server2('testserver')/RestorableDroppedDatabases('testdb2%2C2014-04-18T02%3A35%3A12.343Z')&lt;/id&gt;&lt;category term="Microsoft.SqlServer.Management.Server.Domain.RestorableDroppedDatabase" scheme="http://schemas.microsoft.com/ado/2007/08/dataservices/scheme" /&gt;&lt;link rel="edit" title="RestorableDroppedDatabase" href="RestorableDroppedDatabases('testdb2%2C2014-04-18T02%3A35%3A12.343Z')" /&gt;&lt;title /&gt;&lt;updated&gt;2014-04-18T02:36:03Z&lt;/updated&gt;&lt;author&gt;&lt;name /&gt;&lt;/author&gt;&lt;content type="application/xml"&gt;&lt;m:properties&gt;&lt;d:EntityId&gt;testdb2,2014-04-18T02:35:12.343Z&lt;/d:EntityId&gt;&lt;d:Name&gt;testdb2&lt;/d:Name&gt;&lt;d:ServerName&gt;testserver&lt;/d:ServerName&gt;&lt;d:Edition&gt;Web&lt;/d:Edition&gt;&lt;d:MaxSizeBytes m:type="Edm.Int64"&gt;5368709120&lt;/d:MaxSizeBytes&gt;&lt;d:CreationDate m:type="Edm.DateTime"&gt;2014-04-18T02:33:07.263Z&lt;/d:CreationDate&gt;&lt;d:DeletionDate m:type="Edm.DateTime"&gt;2014-04-18T02:35:12.343Z&lt;/d:DeletionDate&gt;&lt;d:RecoveryPeriodStartDate m:type="Edm.DateTime"&gt;2014-04-18T02:34:07.263Z&lt;/d:RecoveryPeriodStartDate&gt;&lt;/m:properties&gt;&lt;/content&gt;&lt;/entry&gt;&lt;entry&gt;&lt;id&gt;http://localhost:12345/v1/ManagementService.svc/Server2('testserver')/RestorableDroppedDatabases('testdb3%2C2014-04-18T02%3A35%3A16.647Z')&lt;/id&gt;&lt;category term="Microsoft.SqlServer.Management.Server.Domain.RestorableDroppedDatabase" scheme="http://schemas.microsoft.com/ado/2007/08/dataservices/scheme" /&gt;&lt;link rel="edit" title="RestorableDroppedDatabase" href="RestorableDroppedDatabases('testdb3%2C2014-04-18T02%3A35%3A16.647Z')" /&gt;&lt;title /&gt;&lt;updated&gt;2014-04-18T02:36:03Z&lt;/updated&gt;&lt;author&gt;&lt;name /&gt;&lt;/author&gt;&lt;content type="application/xml"&gt;&lt;m:properties&gt;&lt;d:EntityId&gt;testdb3,2014-04-18T02:35:16.647Z&lt;/d:EntityId&gt;&lt;d:Name&gt;testdb3&lt;/d:Name&gt;&lt;d:ServerName&gt;testserver&lt;/d:ServerName&gt;&lt;d:Edition&gt;Web&lt;/d:Edition&gt;&lt;d:MaxSizeBytes m:type="Edm.Int64"&gt;104857600&lt;/d:MaxSizeBytes&gt;&lt;d:CreationDate m:type="Edm.DateTime"&gt;2014-04-18T02:33:12.827Z&lt;/d:CreationDate&gt;&lt;d:DeletionDate m:type="Edm.DateTime"&gt;2014-04-18T02:35:16.647Z&lt;/d:DeletionDate&gt;&lt;d:RecoveryPeriodStartDate m:type="Edm.DateTime"&gt;2014-04-18T02:34:12.827Z&lt;/d:RecoveryPeriodStartDate&gt;&lt;/m:properties&gt;&lt;/content&gt;&lt;/entry&gt;&lt;/feed&gt;</ResponseText>
+        </ResponseInfo>
+      </HttpMessage>
+      <HttpMessage>
+        <Index>1</Index>
+        <RequestInfo>
+          <RequestUri>http://localhost:12345/v1/ManagementService.svc/Server2('testserver')/RestorableDroppedDatabases()?$filter=Name%20eq%20'testdb1'%20and%20DeletionDate%20eq%20datetime'2014-04-18T02%3A35%3A06.06Z'&amp;$top=2</RequestUri>
+          <Method>GET</Method>
+          <UserAgent>WindowsAzurePowershell/v0.8.0</UserAgent>
+          <Headers>
+            <Header>
+              <Name>DataServiceVersion</Name>
+              <Value>1.0;NetFx</Value>
+            </Header>
+            <Header>
+              <Name>MaxDataServiceVersion</Name>
+              <Value>2.0;NetFx</Value>
+            </Header>
+            <Header>
+              <Name>AccessToken</Name>
+              <Value>CKcwXamokFo+YjrsoXIZMKoasSBvd52VWP4e/Rq6u2AStja9qBdfIKSNTb4nxNtBMcYCjTeZqtPgtTqaU5VI8awGf0wFynfCaBwGfsfKNF1/ITEaDKb6tyMuRBmm8H4VTdgRS69uP6tuqB+vQN0BfsbHSbzAgkvDo1gxQO0pzTBTLenOKakTEOcsAYTQZpaZwIhmGuxulzYOGC/0g5zOguSGEbUbn83NOcyE7b7jW/jowwbkzcfco8s9xKuXryWlzjOsQX+OaRJlyVwixwcuQBqTyObvEDRNdQPPMX2RIcN9RHgIatd2KpT8PyPc/aWFVTKTAD/KCzaK5WAdGXkeOgMaKRdC2CAb1stj6YQ/K6Wv/JL8RycVg5bKb/8BjhWIdFdkLqeM6KN8zoUl0VtMJudyC5pSimSrHW9y549xf8Lfrtg2rSRG9SYi0AIRRoTulsRwYlQ2W6rkqsGSBVJXMdkPg2DgdpvelFsI6brrYYG0CnP+I9+cFcQP8PuLj7VDcdD1mPUUB62trQauQuKGuXUKV/Kcfl9qvBqNY/EpreBvku1TWq6HMV6qFMJMzvi4Z/lkNEUhZUCDqBFZJIJoho4wOI8/gExZlTjo6T8dDOBQO4aiFL0yZBPZKzwFBiwCaEBiocU4A20nrEzSUVdAQC2ZeuPVFH443hlQhA65xn3JzyBzFOmWFauU1mhnAGq+SbMDFq6lctdSNN0whna3inyax/lC3Y8emVHfam5fu86LIryI1qgklLY/beBBbmvn378SDqxbO4+5cruGHJFE+Q==</Value>
+            </Header>
+            <Header>
+              <Name>x-ms-client-session-id</Name>
+              <Value>31fa9eb8-98f0-4d43-8ff5-3cb40d184b7a-2014-04-18 02:32:58Z</Value>
+            </Header>
+            <Header>
+              <Name>x-ms-client-request-id</Name>
+              <Value>b5d23218-9817-4f59-8f3c-2f253418586f-2014-04-18 02:36:03Z</Value>
+            </Header>
+            <Header>
+              <Name>Accept-Charset</Name>
+              <Value>UTF-8</Value>
+            </Header>
+            <Header>
+              <Name>Cookie</Name>
+              <Value>.SQLSERVERMANAGEMENT=HHuSumhH2VQGEonaWWhFag==</Value>
+            </Header>
+          </Headers>
+          <Cookies>
+            <Cookie>
+              <Name>.SQLSERVERMANAGEMENT</Name>
+              <Value>HHuSumhH2VQGEonaWWhFag==</Value>
+              <RelativeUri i:nil="true" />
+            </Cookie>
+          </Cookies>
+          <RequestText i:nil="true" />
+          <ContentType i:nil="true" />
+          <Accept>application/atom+xml,application/xml</Accept>
+        </RequestInfo>
+        <ResponseInfo>
+          <StatusCode>OK</StatusCode>
+          <Headers>
+            <Header>
+              <Name>x-ms-request-id</Name>
+              <Value>35021979-1329-31a5-b720-3bc69d65d68d</Value>
+            </Header>
+            <Header>
+              <Name>X-Content-Type-Options</Name>
+              <Value>nosniff</Value>
+            </Header>
+            <Header>
+              <Name>DataServiceVersion</Name>
+              <Value>2.0;</Value>
+            </Header>
+            <Header>
+              <Name>Cache-Control</Name>
+              <Value>no-store,no-cache</Value>
+            </Header>
+            <Header>
+              <Name>Content-Type</Name>
+              <Value>application/atom+xml;type=feed;charset=utf-8</Value>
+            </Header>
+            <Header>
+              <Name>Date</Name>
+              <Value>Fri, 18 Apr 2014 02:36:03 GMT</Value>
+            </Header>
+            <Header>
+              <Name>Server</Name>
+              <Value>Microsoft-HTTPAPI/2.0</Value>
+            </Header>
+          </Headers>
+          <Cookies />
+          <ResponseText>&lt;?xml version="1.0" encoding="utf-8"?&gt;&lt;feed xml:base="http://localhost:12345/v1/ManagementService.svc/Server2('testserver')/" xmlns="http://www.w3.org/2005/Atom" xmlns:d="http://schemas.microsoft.com/ado/2007/08/dataservices" xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata"&gt;&lt;id&gt;http://localhost:12345/v1/ManagementService.svc/Server2('testserver')/RestorableDroppedDatabases&lt;/id&gt;&lt;title type="text"&gt;RestorableDroppedDatabases&lt;/title&gt;&lt;updated&gt;2014-04-18T02:36:03Z&lt;/updated&gt;&lt;link rel="self" title="RestorableDroppedDatabases" href="RestorableDroppedDatabases" /&gt;&lt;entry&gt;&lt;id&gt;http://localhost:12345/v1/ManagementService.svc/Server2('testserver')/RestorableDroppedDatabases('testdb1%2C2014-04-18T02%3A35%3A06.060Z')&lt;/id&gt;&lt;category term="Microsoft.SqlServer.Management.Server.Domain.RestorableDroppedDatabase" scheme="http://schemas.microsoft.com/ado/2007/08/dataservices/scheme" /&gt;&lt;link rel="edit" title="RestorableDroppedDatabase" href="RestorableDroppedDatabases('testdb1%2C2014-04-18T02%3A35%3A06.060Z')" /&gt;&lt;title /&gt;&lt;updated&gt;2014-04-18T02:36:03Z&lt;/updated&gt;&lt;author&gt;&lt;name /&gt;&lt;/author&gt;&lt;content type="application/xml"&gt;&lt;m:properties&gt;&lt;d:EntityId&gt;testdb1,2014-04-18T02:35:06.060Z&lt;/d:EntityId&gt;&lt;d:Name&gt;testdb1&lt;/d:Name&gt;&lt;d:ServerName&gt;testserver&lt;/d:ServerName&gt;&lt;d:Edition&gt;Web&lt;/d:Edition&gt;&lt;d:MaxSizeBytes m:type="Edm.Int64"&gt;1073741824&lt;/d:MaxSizeBytes&gt;&lt;d:CreationDate m:type="Edm.DateTime"&gt;2014-04-18T02:33:02.01Z&lt;/d:CreationDate&gt;&lt;d:DeletionDate m:type="Edm.DateTime"&gt;2014-04-18T02:35:06.06Z&lt;/d:DeletionDate&gt;&lt;d:RecoveryPeriodStartDate m:type="Edm.DateTime"&gt;2014-04-18T02:34:02.01Z&lt;/d:RecoveryPeriodStartDate&gt;&lt;/m:properties&gt;&lt;/content&gt;&lt;/entry&gt;&lt;/feed&gt;</ResponseText>
+        </ResponseInfo>
+      </HttpMessage>
+      <HttpMessage>
+        <Index>2</Index>
+        <RequestInfo>
+          <RequestUri>http://localhost:12345/v1/ManagementService.svc/Server2('testserver')/RestorableDroppedDatabases()?$filter=Name%20eq%20'testdb2'%20and%20DeletionDate%20eq%20datetime'2014-04-18T02%3A35%3A12.343Z'&amp;$top=2</RequestUri>
+          <Method>GET</Method>
+          <UserAgent>WindowsAzurePowershell/v0.8.0</UserAgent>
+          <Headers>
+            <Header>
+              <Name>DataServiceVersion</Name>
+              <Value>1.0;NetFx</Value>
+            </Header>
+            <Header>
+              <Name>MaxDataServiceVersion</Name>
+              <Value>2.0;NetFx</Value>
+            </Header>
+            <Header>
+              <Name>AccessToken</Name>
+              <Value>CKcwXamokFo+YjrsoXIZMKoasSBvd52VWP4e/Rq6u2AStja9qBdfIKSNTb4nxNtBMcYCjTeZqtPgtTqaU5VI8awGf0wFynfCaBwGfsfKNF1/ITEaDKb6tyMuRBmm8H4VTdgRS69uP6tuqB+vQN0BfsbHSbzAgkvDo1gxQO0pzTBTLenOKakTEOcsAYTQZpaZwIhmGuxulzYOGC/0g5zOguSGEbUbn83NOcyE7b7jW/jowwbkzcfco8s9xKuXryWlzjOsQX+OaRJlyVwixwcuQBqTyObvEDRNdQPPMX2RIcN9RHgIatd2KpT8PyPc/aWFVTKTAD/KCzaK5WAdGXkeOgMaKRdC2CAb1stj6YQ/K6Wv/JL8RycVg5bKb/8BjhWIdFdkLqeM6KN8zoUl0VtMJudyC5pSimSrHW9y549xf8Lfrtg2rSRG9SYi0AIRRoTulsRwYlQ2W6rkqsGSBVJXMdkPg2DgdpvelFsI6brrYYG0CnP+I9+cFcQP8PuLj7VDcdD1mPUUB62trQauQuKGuXUKV/Kcfl9qvBqNY/EpreBvku1TWq6HMV6qFMJMzvi4Z/lkNEUhZUCDqBFZJIJoho4wOI8/gExZlTjo6T8dDOBQO4aiFL0yZBPZKzwFBiwCaEBiocU4A20nrEzSUVdAQC2ZeuPVFH443hlQhA65xn3JzyBzFOmWFauU1mhnAGq+SbMDFq6lctdSNN0whna3inyax/lC3Y8emVHfam5fu86LIryI1qgklLY/beBBbmvn378SDqxbO4+5cruGHJFE+Q==</Value>
+            </Header>
+            <Header>
+              <Name>x-ms-client-session-id</Name>
+              <Value>31fa9eb8-98f0-4d43-8ff5-3cb40d184b7a-2014-04-18 02:32:58Z</Value>
+            </Header>
+            <Header>
+              <Name>x-ms-client-request-id</Name>
+              <Value>b5d23218-9817-4f59-8f3c-2f253418586f-2014-04-18 02:36:03Z</Value>
+            </Header>
+            <Header>
+              <Name>Accept-Charset</Name>
+              <Value>UTF-8</Value>
+            </Header>
+            <Header>
+              <Name>Cookie</Name>
+              <Value>.SQLSERVERMANAGEMENT=HHuSumhH2VQGEonaWWhFag==</Value>
+            </Header>
+          </Headers>
+          <Cookies>
+            <Cookie>
+              <Name>.SQLSERVERMANAGEMENT</Name>
+              <Value>HHuSumhH2VQGEonaWWhFag==</Value>
+              <RelativeUri i:nil="true" />
+            </Cookie>
+          </Cookies>
+          <RequestText i:nil="true" />
+          <ContentType i:nil="true" />
+          <Accept>application/atom+xml,application/xml</Accept>
+        </RequestInfo>
+        <ResponseInfo>
+          <StatusCode>OK</StatusCode>
+          <Headers>
+            <Header>
+              <Name>x-ms-request-id</Name>
+              <Value>35021979-1329-31a5-b720-3bc69d65d68d</Value>
+            </Header>
+            <Header>
+              <Name>X-Content-Type-Options</Name>
+              <Value>nosniff</Value>
+            </Header>
+            <Header>
+              <Name>DataServiceVersion</Name>
+              <Value>2.0;</Value>
+            </Header>
+            <Header>
+              <Name>Cache-Control</Name>
+              <Value>no-store,no-cache</Value>
+            </Header>
+            <Header>
+              <Name>Content-Type</Name>
+              <Value>application/atom+xml;type=feed;charset=utf-8</Value>
+            </Header>
+            <Header>
+              <Name>Date</Name>
+              <Value>Fri, 18 Apr 2014 02:36:03 GMT</Value>
+            </Header>
+            <Header>
+              <Name>Server</Name>
+              <Value>Microsoft-HTTPAPI/2.0</Value>
+            </Header>
+          </Headers>
+          <Cookies />
+          <ResponseText>&lt;?xml version="1.0" encoding="utf-8"?&gt;&lt;feed xml:base="http://localhost:12345/v1/ManagementService.svc/Server2('testserver')/" xmlns="http://www.w3.org/2005/Atom" xmlns:d="http://schemas.microsoft.com/ado/2007/08/dataservices" xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata"&gt;&lt;id&gt;http://localhost:12345/v1/ManagementService.svc/Server2('testserver')/RestorableDroppedDatabases&lt;/id&gt;&lt;title type="text"&gt;RestorableDroppedDatabases&lt;/title&gt;&lt;updated&gt;2014-04-18T02:36:03Z&lt;/updated&gt;&lt;link rel="self" title="RestorableDroppedDatabases" href="RestorableDroppedDatabases" /&gt;&lt;entry&gt;&lt;id&gt;http://localhost:12345/v1/ManagementService.svc/Server2('testserver')/RestorableDroppedDatabases('testdb2%2C2014-04-18T02%3A35%3A12.343Z')&lt;/id&gt;&lt;category term="Microsoft.SqlServer.Management.Server.Domain.RestorableDroppedDatabase" scheme="http://schemas.microsoft.com/ado/2007/08/dataservices/scheme" /&gt;&lt;link rel="edit" title="RestorableDroppedDatabase" href="RestorableDroppedDatabases('testdb2%2C2014-04-18T02%3A35%3A12.343Z')" /&gt;&lt;title /&gt;&lt;updated&gt;2014-04-18T02:36:03Z&lt;/updated&gt;&lt;author&gt;&lt;name /&gt;&lt;/author&gt;&lt;content type="application/xml"&gt;&lt;m:properties&gt;&lt;d:EntityId&gt;testdb2,2014-04-18T02:35:12.343Z&lt;/d:EntityId&gt;&lt;d:Name&gt;testdb2&lt;/d:Name&gt;&lt;d:ServerName&gt;testserver&lt;/d:ServerName&gt;&lt;d:Edition&gt;Web&lt;/d:Edition&gt;&lt;d:MaxSizeBytes m:type="Edm.Int64"&gt;5368709120&lt;/d:MaxSizeBytes&gt;&lt;d:CreationDate m:type="Edm.DateTime"&gt;2014-04-18T02:33:07.263Z&lt;/d:CreationDate&gt;&lt;d:DeletionDate m:type="Edm.DateTime"&gt;2014-04-18T02:35:12.343Z&lt;/d:DeletionDate&gt;&lt;d:RecoveryPeriodStartDate m:type="Edm.DateTime"&gt;2014-04-18T02:34:07.263Z&lt;/d:RecoveryPeriodStartDate&gt;&lt;/m:properties&gt;&lt;/content&gt;&lt;/entry&gt;&lt;/feed&gt;</ResponseText>
+        </ResponseInfo>
+      </HttpMessage>
+    </Messages>
+  </HttpSession>
+  <HttpSession>
+    <Name>UnitTests.GetRestorableDroppedDatabaseWithSqlAuthByPipe</Name>
+    <Messages>
+      <HttpMessage>
+        <Index>0</Index>
+        <RequestInfo>
+          <RequestUri>http://localhost:12345/v1/ManagementService.svc/Server2('testserver')/RestorableDroppedDatabases</RequestUri>
+          <Method>GET</Method>
+          <UserAgent>WindowsAzurePowershell/v0.8.0</UserAgent>
+          <Headers>
+            <Header>
+              <Name>DataServiceVersion</Name>
+              <Value>1.0;NetFx</Value>
+            </Header>
+            <Header>
+              <Name>MaxDataServiceVersion</Name>
+              <Value>2.0;NetFx</Value>
+            </Header>
+            <Header>
+              <Name>AccessToken</Name>
+              <Value>LfRU4ScpbApU2twg551+0h3xwCAj4SLuxRRMW7qJlqLzx/Niu+nM0gjoFz6lVBrjMeJJualDZrttFJHaNzS3iPl0xkf8sAgKCh0Rd4Q7ezMgIZWPM96IGKhL4uJO9h1ajJzPZzTrA7Dnwh6ddrhsDADN7HOAwF9xRm6hgyY8N8TimukEWlRRDVWnOEOsdQHn1tLkvLqs0GLggzVQcm6h8Wm4c2R+nuazAuCv1X3KoZqHGCoiVU4v2kh20tyoZyM+Aq2h3agbsaUc7v/0jeeFxDQqWSuSXUjtqDwra7Vg66ru+avMO3l4JDBaCBDTyf76zvKzUEbYRkrddaxOFd2sXjj9ADSNQ9H8sMm96d0zEP2LfPXoCikzfzID2kPhGbypZdak5+whcLHOHXM8nbElNsmWmeNXgX2S7UlFV71U5CtHWfzyD2x1Si2pwYioEqhrjMp63ussosClWmHFgfTxeYpVwVgguHRoMLKxJug8jcHxJBKSvGq0GwtuQYwJsjX8RUc8Zt38BYRPOfngAMM8M+wOcWwqsnpc71hRkLgsiga+xWHYcE9WJVBQKtBvMDlcjWl/ydCqfG8tf2C6nmgFAypETiN5ecbo34JeSwf0bxNWpYixK094tnR/I9oij4D2r/SVblWsjq/0YeSwee0EAR3A6H3VZmQee2K06kUyu12qllZ9e6DIE5+jq46UTjsM+Vpqlvyrqo0m4FRkTHHJqyItMGURu7X8E9R7ran3pCsx2eVGrKDo++yWEhoPm4UGJDbmTYNc6A5J5rjZlnxhjw==</Value>
+            </Header>
+            <Header>
+              <Name>x-ms-client-session-id</Name>
+              <Value>31fa9eb8-98f0-4d43-8ff5-3cb40d184b7a-2014-04-18 02:32:58Z</Value>
+            </Header>
+            <Header>
+              <Name>x-ms-client-request-id</Name>
+              <Value>dd36e27e-31b5-4e39-9121-f5887749e545-2014-04-18 02:35:19Z</Value>
+            </Header>
+            <Header>
+              <Name>Accept-Charset</Name>
+              <Value>UTF-8</Value>
+            </Header>
+            <Header>
+              <Name>Cookie</Name>
+              <Value>.SQLSERVERMANAGEMENT=AkVFooTMHYZtfGXAPl0nQg==</Value>
+            </Header>
+          </Headers>
+          <Cookies>
+            <Cookie>
+              <Name>.SQLSERVERMANAGEMENT</Name>
+              <Value>AkVFooTMHYZtfGXAPl0nQg==</Value>
+              <RelativeUri i:nil="true" />
+            </Cookie>
+          </Cookies>
+          <RequestText i:nil="true" />
+          <ContentType i:nil="true" />
+          <Accept>application/atom+xml,application/xml</Accept>
+        </RequestInfo>
+        <ResponseInfo>
+          <StatusCode>OK</StatusCode>
+          <Headers>
+            <Header>
+              <Name>x-ms-request-id</Name>
+              <Value>bcba3265-63d3-7185-1bca-67d2b82f69f3</Value>
+            </Header>
+            <Header>
+              <Name>X-Content-Type-Options</Name>
+              <Value>nosniff</Value>
+            </Header>
+            <Header>
+              <Name>DataServiceVersion</Name>
+              <Value>2.0;</Value>
+            </Header>
+            <Header>
+              <Name>Cache-Control</Name>
+              <Value>no-store,no-cache</Value>
+            </Header>
+            <Header>
+              <Name>Content-Type</Name>
+              <Value>application/atom+xml;type=feed;charset=utf-8</Value>
+            </Header>
+            <Header>
+              <Name>Date</Name>
+              <Value>Fri, 18 Apr 2014 02:35:20 GMT</Value>
+            </Header>
+            <Header>
+              <Name>Server</Name>
+              <Value>Microsoft-HTTPAPI/2.0</Value>
+            </Header>
+          </Headers>
+          <Cookies />
+          <ResponseText>&lt;?xml version="1.0" encoding="utf-8"?&gt;&lt;feed xml:base="http://localhost:12345/v1/ManagementService.svc/Server2('testserver')/" xmlns="http://www.w3.org/2005/Atom" xmlns:d="http://schemas.microsoft.com/ado/2007/08/dataservices" xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata"&gt;&lt;id&gt;http://localhost:12345/v1/ManagementService.svc/Server2('testserver')/RestorableDroppedDatabases&lt;/id&gt;&lt;title type="text"&gt;RestorableDroppedDatabases&lt;/title&gt;&lt;updated&gt;2014-04-18T02:35:20Z&lt;/updated&gt;&lt;link rel="self" title="RestorableDroppedDatabases" href="RestorableDroppedDatabases" /&gt;&lt;entry&gt;&lt;id&gt;http://localhost:12345/v1/ManagementService.svc/Server2('testserver')/RestorableDroppedDatabases('testdb1%2C2014-04-18T02%3A35%3A06.060Z')&lt;/id&gt;&lt;category term="Microsoft.SqlServer.Management.Server.Domain.RestorableDroppedDatabase" scheme="http://schemas.microsoft.com/ado/2007/08/dataservices/scheme" /&gt;&lt;link rel="edit" title="RestorableDroppedDatabase" href="RestorableDroppedDatabases('testdb1%2C2014-04-18T02%3A35%3A06.060Z')" /&gt;&lt;title /&gt;&lt;updated&gt;2014-04-18T02:35:20Z&lt;/updated&gt;&lt;author&gt;&lt;name /&gt;&lt;/author&gt;&lt;content type="application/xml"&gt;&lt;m:properties&gt;&lt;d:EntityId&gt;testdb1,2014-04-18T02:35:06.060Z&lt;/d:EntityId&gt;&lt;d:Name&gt;testdb1&lt;/d:Name&gt;&lt;d:ServerName&gt;testserver&lt;/d:ServerName&gt;&lt;d:Edition&gt;Web&lt;/d:Edition&gt;&lt;d:MaxSizeBytes m:type="Edm.Int64"&gt;1073741824&lt;/d:MaxSizeBytes&gt;&lt;d:CreationDate m:type="Edm.DateTime"&gt;2014-04-18T02:33:02.01Z&lt;/d:CreationDate&gt;&lt;d:DeletionDate m:type="Edm.DateTime"&gt;2014-04-18T02:35:06.06Z&lt;/d:DeletionDate&gt;&lt;d:RecoveryPeriodStartDate m:type="Edm.DateTime"&gt;2014-04-18T02:34:02.01Z&lt;/d:RecoveryPeriodStartDate&gt;&lt;/m:properties&gt;&lt;/content&gt;&lt;/entry&gt;&lt;entry&gt;&lt;id&gt;http://localhost:12345/v1/ManagementService.svc/Server2('testserver')/RestorableDroppedDatabases('testdb2%2C2014-04-18T02%3A35%3A12.343Z')&lt;/id&gt;&lt;category term="Microsoft.SqlServer.Management.Server.Domain.RestorableDroppedDatabase" scheme="http://schemas.microsoft.com/ado/2007/08/dataservices/scheme" /&gt;&lt;link rel="edit" title="RestorableDroppedDatabase" href="RestorableDroppedDatabases('testdb2%2C2014-04-18T02%3A35%3A12.343Z')" /&gt;&lt;title /&gt;&lt;updated&gt;2014-04-18T02:35:20Z&lt;/updated&gt;&lt;author&gt;&lt;name /&gt;&lt;/author&gt;&lt;content type="application/xml"&gt;&lt;m:properties&gt;&lt;d:EntityId&gt;testdb2,2014-04-18T02:35:12.343Z&lt;/d:EntityId&gt;&lt;d:Name&gt;testdb2&lt;/d:Name&gt;&lt;d:ServerName&gt;testserver&lt;/d:ServerName&gt;&lt;d:Edition&gt;Web&lt;/d:Edition&gt;&lt;d:MaxSizeBytes m:type="Edm.Int64"&gt;5368709120&lt;/d:MaxSizeBytes&gt;&lt;d:CreationDate m:type="Edm.DateTime"&gt;2014-04-18T02:33:07.263Z&lt;/d:CreationDate&gt;&lt;d:DeletionDate m:type="Edm.DateTime"&gt;2014-04-18T02:35:12.343Z&lt;/d:DeletionDate&gt;&lt;d:RecoveryPeriodStartDate m:type="Edm.DateTime"&gt;2014-04-18T02:34:07.263Z&lt;/d:RecoveryPeriodStartDate&gt;&lt;/m:properties&gt;&lt;/content&gt;&lt;/entry&gt;&lt;entry&gt;&lt;id&gt;http://localhost:12345/v1/ManagementService.svc/Server2('testserver')/RestorableDroppedDatabases('testdb3%2C2014-04-18T02%3A35%3A16.647Z')&lt;/id&gt;&lt;category term="Microsoft.SqlServer.Management.Server.Domain.RestorableDroppedDatabase" scheme="http://schemas.microsoft.com/ado/2007/08/dataservices/scheme" /&gt;&lt;link rel="edit" title="RestorableDroppedDatabase" href="RestorableDroppedDatabases('testdb3%2C2014-04-18T02%3A35%3A16.647Z')" /&gt;&lt;title /&gt;&lt;updated&gt;2014-04-18T02:35:20Z&lt;/updated&gt;&lt;author&gt;&lt;name /&gt;&lt;/author&gt;&lt;content type="application/xml"&gt;&lt;m:properties&gt;&lt;d:EntityId&gt;testdb3,2014-04-18T02:35:16.647Z&lt;/d:EntityId&gt;&lt;d:Name&gt;testdb3&lt;/d:Name&gt;&lt;d:ServerName&gt;testserver&lt;/d:ServerName&gt;&lt;d:Edition&gt;Web&lt;/d:Edition&gt;&lt;d:MaxSizeBytes m:type="Edm.Int64"&gt;104857600&lt;/d:MaxSizeBytes&gt;&lt;d:CreationDate m:type="Edm.DateTime"&gt;2014-04-18T02:33:12.827Z&lt;/d:CreationDate&gt;&lt;d:DeletionDate m:type="Edm.DateTime"&gt;2014-04-18T02:35:16.647Z&lt;/d:DeletionDate&gt;&lt;d:RecoveryPeriodStartDate m:type="Edm.DateTime"&gt;2014-04-18T02:34:12.827Z&lt;/d:RecoveryPeriodStartDate&gt;&lt;/m:properties&gt;&lt;/content&gt;&lt;/entry&gt;&lt;/feed&gt;</ResponseText>
+        </ResponseInfo>
+      </HttpMessage>
+      <HttpMessage>
+        <Index>1</Index>
+        <RequestInfo>
+          <RequestUri>http://localhost:12345/v1/ManagementService.svc/Server2('testserver')/RestorableDroppedDatabases()?$filter=Name%20eq%20'testdb1'%20and%20DeletionDate%20eq%20datetime'2014-04-18T02%3A35%3A06.06Z'&amp;$top=2</RequestUri>
+          <Method>GET</Method>
+          <UserAgent>WindowsAzurePowershell/v0.8.0</UserAgent>
+          <Headers>
+            <Header>
+              <Name>DataServiceVersion</Name>
+              <Value>1.0;NetFx</Value>
+            </Header>
+            <Header>
+              <Name>MaxDataServiceVersion</Name>
+              <Value>2.0;NetFx</Value>
+            </Header>
+            <Header>
+              <Name>AccessToken</Name>
+              <Value>LfRU4ScpbApU2twg551+0h3xwCAj4SLuxRRMW7qJlqLzx/Niu+nM0gjoFz6lVBrjMeJJualDZrttFJHaNzS3iPl0xkf8sAgKCh0Rd4Q7ezMgIZWPM96IGKhL4uJO9h1ajJzPZzTrA7Dnwh6ddrhsDADN7HOAwF9xRm6hgyY8N8TimukEWlRRDVWnOEOsdQHn1tLkvLqs0GLggzVQcm6h8Wm4c2R+nuazAuCv1X3KoZqHGCoiVU4v2kh20tyoZyM+Aq2h3agbsaUc7v/0jeeFxDQqWSuSXUjtqDwra7Vg66ru+avMO3l4JDBaCBDTyf76zvKzUEbYRkrddaxOFd2sXjj9ADSNQ9H8sMm96d0zEP2LfPXoCikzfzID2kPhGbypZdak5+whcLHOHXM8nbElNsmWmeNXgX2S7UlFV71U5CtHWfzyD2x1Si2pwYioEqhrjMp63ussosClWmHFgfTxeYpVwVgguHRoMLKxJug8jcHxJBKSvGq0GwtuQYwJsjX8RUc8Zt38BYRPOfngAMM8M+wOcWwqsnpc71hRkLgsiga+xWHYcE9WJVBQKtBvMDlcjWl/ydCqfG8tf2C6nmgFAypETiN5ecbo34JeSwf0bxNWpYixK094tnR/I9oij4D2r/SVblWsjq/0YeSwee0EAR3A6H3VZmQee2K06kUyu12qllZ9e6DIE5+jq46UTjsM+Vpqlvyrqo0m4FRkTHHJqyItMGURu7X8E9R7ran3pCsx2eVGrKDo++yWEhoPm4UGJDbmTYNc6A5J5rjZlnxhjw==</Value>
+            </Header>
+            <Header>
+              <Name>x-ms-client-session-id</Name>
+              <Value>31fa9eb8-98f0-4d43-8ff5-3cb40d184b7a-2014-04-18 02:32:58Z</Value>
+            </Header>
+            <Header>
+              <Name>x-ms-client-request-id</Name>
+              <Value>dd36e27e-31b5-4e39-9121-f5887749e545-2014-04-18 02:35:19Z</Value>
+            </Header>
+            <Header>
+              <Name>Accept-Charset</Name>
+              <Value>UTF-8</Value>
+            </Header>
+            <Header>
+              <Name>Cookie</Name>
+              <Value>.SQLSERVERMANAGEMENT=AkVFooTMHYZtfGXAPl0nQg==</Value>
+            </Header>
+          </Headers>
+          <Cookies>
+            <Cookie>
+              <Name>.SQLSERVERMANAGEMENT</Name>
+              <Value>AkVFooTMHYZtfGXAPl0nQg==</Value>
+              <RelativeUri i:nil="true" />
+            </Cookie>
+          </Cookies>
+          <RequestText i:nil="true" />
+          <ContentType i:nil="true" />
+          <Accept>application/atom+xml,application/xml</Accept>
+        </RequestInfo>
+        <ResponseInfo>
+          <StatusCode>OK</StatusCode>
+          <Headers>
+            <Header>
+              <Name>x-ms-request-id</Name>
+              <Value>bcba3265-63d3-7185-1bca-67d2b82f69f3</Value>
+            </Header>
+            <Header>
+              <Name>X-Content-Type-Options</Name>
+              <Value>nosniff</Value>
+            </Header>
+            <Header>
+              <Name>DataServiceVersion</Name>
+              <Value>2.0;</Value>
+            </Header>
+            <Header>
+              <Name>Cache-Control</Name>
+              <Value>no-store,no-cache</Value>
+            </Header>
+            <Header>
+              <Name>Content-Type</Name>
+              <Value>application/atom+xml;type=feed;charset=utf-8</Value>
+            </Header>
+            <Header>
+              <Name>Date</Name>
+              <Value>Fri, 18 Apr 2014 02:35:20 GMT</Value>
+            </Header>
+            <Header>
+              <Name>Server</Name>
+              <Value>Microsoft-HTTPAPI/2.0</Value>
+            </Header>
+          </Headers>
+          <Cookies />
+          <ResponseText>&lt;?xml version="1.0" encoding="utf-8"?&gt;&lt;feed xml:base="http://localhost:12345/v1/ManagementService.svc/Server2('testserver')/" xmlns="http://www.w3.org/2005/Atom" xmlns:d="http://schemas.microsoft.com/ado/2007/08/dataservices" xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata"&gt;&lt;id&gt;http://localhost:12345/v1/ManagementService.svc/Server2('testserver')/RestorableDroppedDatabases&lt;/id&gt;&lt;title type="text"&gt;RestorableDroppedDatabases&lt;/title&gt;&lt;updated&gt;2014-04-18T02:35:20Z&lt;/updated&gt;&lt;link rel="self" title="RestorableDroppedDatabases" href="RestorableDroppedDatabases" /&gt;&lt;entry&gt;&lt;id&gt;http://localhost:12345/v1/ManagementService.svc/Server2('testserver')/RestorableDroppedDatabases('testdb1%2C2014-04-18T02%3A35%3A06.060Z')&lt;/id&gt;&lt;category term="Microsoft.SqlServer.Management.Server.Domain.RestorableDroppedDatabase" scheme="http://schemas.microsoft.com/ado/2007/08/dataservices/scheme" /&gt;&lt;link rel="edit" title="RestorableDroppedDatabase" href="RestorableDroppedDatabases('testdb1%2C2014-04-18T02%3A35%3A06.060Z')" /&gt;&lt;title /&gt;&lt;updated&gt;2014-04-18T02:35:20Z&lt;/updated&gt;&lt;author&gt;&lt;name /&gt;&lt;/author&gt;&lt;content type="application/xml"&gt;&lt;m:properties&gt;&lt;d:EntityId&gt;testdb1,2014-04-18T02:35:06.060Z&lt;/d:EntityId&gt;&lt;d:Name&gt;testdb1&lt;/d:Name&gt;&lt;d:ServerName&gt;testserver&lt;/d:ServerName&gt;&lt;d:Edition&gt;Web&lt;/d:Edition&gt;&lt;d:MaxSizeBytes m:type="Edm.Int64"&gt;1073741824&lt;/d:MaxSizeBytes&gt;&lt;d:CreationDate m:type="Edm.DateTime"&gt;2014-04-18T02:33:02.01Z&lt;/d:CreationDate&gt;&lt;d:DeletionDate m:type="Edm.DateTime"&gt;2014-04-18T02:35:06.06Z&lt;/d:DeletionDate&gt;&lt;d:RecoveryPeriodStartDate m:type="Edm.DateTime"&gt;2014-04-18T02:34:02.01Z&lt;/d:RecoveryPeriodStartDate&gt;&lt;/m:properties&gt;&lt;/content&gt;&lt;/entry&gt;&lt;/feed&gt;</ResponseText>
+        </ResponseInfo>
+      </HttpMessage>
+      <HttpMessage>
+        <Index>2</Index>
+        <RequestInfo>
+          <RequestUri>http://localhost:12345/v1/ManagementService.svc/Server2('testserver')/RestorableDroppedDatabases()?$filter=Name%20eq%20'testdb2'%20and%20DeletionDate%20eq%20datetime'2014-04-18T02%3A35%3A12.343Z'&amp;$top=2</RequestUri>
+          <Method>GET</Method>
+          <UserAgent>WindowsAzurePowershell/v0.8.0</UserAgent>
+          <Headers>
+            <Header>
+              <Name>DataServiceVersion</Name>
+              <Value>1.0;NetFx</Value>
+            </Header>
+            <Header>
+              <Name>MaxDataServiceVersion</Name>
+              <Value>2.0;NetFx</Value>
+            </Header>
+            <Header>
+              <Name>AccessToken</Name>
+              <Value>LfRU4ScpbApU2twg551+0h3xwCAj4SLuxRRMW7qJlqLzx/Niu+nM0gjoFz6lVBrjMeJJualDZrttFJHaNzS3iPl0xkf8sAgKCh0Rd4Q7ezMgIZWPM96IGKhL4uJO9h1ajJzPZzTrA7Dnwh6ddrhsDADN7HOAwF9xRm6hgyY8N8TimukEWlRRDVWnOEOsdQHn1tLkvLqs0GLggzVQcm6h8Wm4c2R+nuazAuCv1X3KoZqHGCoiVU4v2kh20tyoZyM+Aq2h3agbsaUc7v/0jeeFxDQqWSuSXUjtqDwra7Vg66ru+avMO3l4JDBaCBDTyf76zvKzUEbYRkrddaxOFd2sXjj9ADSNQ9H8sMm96d0zEP2LfPXoCikzfzID2kPhGbypZdak5+whcLHOHXM8nbElNsmWmeNXgX2S7UlFV71U5CtHWfzyD2x1Si2pwYioEqhrjMp63ussosClWmHFgfTxeYpVwVgguHRoMLKxJug8jcHxJBKSvGq0GwtuQYwJsjX8RUc8Zt38BYRPOfngAMM8M+wOcWwqsnpc71hRkLgsiga+xWHYcE9WJVBQKtBvMDlcjWl/ydCqfG8tf2C6nmgFAypETiN5ecbo34JeSwf0bxNWpYixK094tnR/I9oij4D2r/SVblWsjq/0YeSwee0EAR3A6H3VZmQee2K06kUyu12qllZ9e6DIE5+jq46UTjsM+Vpqlvyrqo0m4FRkTHHJqyItMGURu7X8E9R7ran3pCsx2eVGrKDo++yWEhoPm4UGJDbmTYNc6A5J5rjZlnxhjw==</Value>
+            </Header>
+            <Header>
+              <Name>x-ms-client-session-id</Name>
+              <Value>31fa9eb8-98f0-4d43-8ff5-3cb40d184b7a-2014-04-18 02:32:58Z</Value>
+            </Header>
+            <Header>
+              <Name>x-ms-client-request-id</Name>
+              <Value>dd36e27e-31b5-4e39-9121-f5887749e545-2014-04-18 02:35:19Z</Value>
+            </Header>
+            <Header>
+              <Name>Accept-Charset</Name>
+              <Value>UTF-8</Value>
+            </Header>
+            <Header>
+              <Name>Cookie</Name>
+              <Value>.SQLSERVERMANAGEMENT=AkVFooTMHYZtfGXAPl0nQg==</Value>
+            </Header>
+          </Headers>
+          <Cookies>
+            <Cookie>
+              <Name>.SQLSERVERMANAGEMENT</Name>
+              <Value>AkVFooTMHYZtfGXAPl0nQg==</Value>
+              <RelativeUri i:nil="true" />
+            </Cookie>
+          </Cookies>
+          <RequestText i:nil="true" />
+          <ContentType i:nil="true" />
+          <Accept>application/atom+xml,application/xml</Accept>
+        </RequestInfo>
+        <ResponseInfo>
+          <StatusCode>OK</StatusCode>
+          <Headers>
+            <Header>
+              <Name>x-ms-request-id</Name>
+              <Value>bcba3265-63d3-7185-1bca-67d2b82f69f3</Value>
+            </Header>
+            <Header>
+              <Name>X-Content-Type-Options</Name>
+              <Value>nosniff</Value>
+            </Header>
+            <Header>
+              <Name>DataServiceVersion</Name>
+              <Value>2.0;</Value>
+            </Header>
+            <Header>
+              <Name>Cache-Control</Name>
+              <Value>no-store,no-cache</Value>
+            </Header>
+            <Header>
+              <Name>Content-Type</Name>
+              <Value>application/atom+xml;type=feed;charset=utf-8</Value>
+            </Header>
+            <Header>
+              <Name>Date</Name>
+              <Value>Fri, 18 Apr 2014 02:35:20 GMT</Value>
+            </Header>
+            <Header>
+              <Name>Server</Name>
+              <Value>Microsoft-HTTPAPI/2.0</Value>
+            </Header>
+          </Headers>
+          <Cookies />
+          <ResponseText>&lt;?xml version="1.0" encoding="utf-8"?&gt;&lt;feed xml:base="http://localhost:12345/v1/ManagementService.svc/Server2('testserver')/" xmlns="http://www.w3.org/2005/Atom" xmlns:d="http://schemas.microsoft.com/ado/2007/08/dataservices" xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata"&gt;&lt;id&gt;http://localhost:12345/v1/ManagementService.svc/Server2('testserver')/RestorableDroppedDatabases&lt;/id&gt;&lt;title type="text"&gt;RestorableDroppedDatabases&lt;/title&gt;&lt;updated&gt;2014-04-18T02:35:20Z&lt;/updated&gt;&lt;link rel="self" title="RestorableDroppedDatabases" href="RestorableDroppedDatabases" /&gt;&lt;entry&gt;&lt;id&gt;http://localhost:12345/v1/ManagementService.svc/Server2('testserver')/RestorableDroppedDatabases('testdb2%2C2014-04-18T02%3A35%3A12.343Z')&lt;/id&gt;&lt;category term="Microsoft.SqlServer.Management.Server.Domain.RestorableDroppedDatabase" scheme="http://schemas.microsoft.com/ado/2007/08/dataservices/scheme" /&gt;&lt;link rel="edit" title="RestorableDroppedDatabase" href="RestorableDroppedDatabases('testdb2%2C2014-04-18T02%3A35%3A12.343Z')" /&gt;&lt;title /&gt;&lt;updated&gt;2014-04-18T02:35:20Z&lt;/updated&gt;&lt;author&gt;&lt;name /&gt;&lt;/author&gt;&lt;content type="application/xml"&gt;&lt;m:properties&gt;&lt;d:EntityId&gt;testdb2,2014-04-18T02:35:12.343Z&lt;/d:EntityId&gt;&lt;d:Name&gt;testdb2&lt;/d:Name&gt;&lt;d:ServerName&gt;testserver&lt;/d:ServerName&gt;&lt;d:Edition&gt;Web&lt;/d:Edition&gt;&lt;d:MaxSizeBytes m:type="Edm.Int64"&gt;5368709120&lt;/d:MaxSizeBytes&gt;&lt;d:CreationDate m:type="Edm.DateTime"&gt;2014-04-18T02:33:07.263Z&lt;/d:CreationDate&gt;&lt;d:DeletionDate m:type="Edm.DateTime"&gt;2014-04-18T02:35:12.343Z&lt;/d:DeletionDate&gt;&lt;d:RecoveryPeriodStartDate m:type="Edm.DateTime"&gt;2014-04-18T02:34:07.263Z&lt;/d:RecoveryPeriodStartDate&gt;&lt;/m:properties&gt;&lt;/content&gt;&lt;/entry&gt;&lt;/feed&gt;</ResponseText>
+        </ResponseInfo>
+      </HttpMessage>
+      <HttpMessage>
+        <Index>3</Index>
+        <RequestInfo>
+          <RequestUri>http://localhost:12345/v1/ManagementService.svc/Server2('testserver')/RestorableDroppedDatabases()?$filter=Name%20eq%20'testdb1'%20and%20DeletionDate%20eq%20datetime'2014-04-18T02%3A35%3A06.06Z'&amp;$top=2</RequestUri>
+          <Method>GET</Method>
+          <UserAgent>WindowsAzurePowershell/v0.8.0</UserAgent>
+          <Headers>
+            <Header>
+              <Name>DataServiceVersion</Name>
+              <Value>1.0;NetFx</Value>
+            </Header>
+            <Header>
+              <Name>MaxDataServiceVersion</Name>
+              <Value>2.0;NetFx</Value>
+            </Header>
+            <Header>
+              <Name>AccessToken</Name>
+              <Value>LfRU4ScpbApU2twg551+0h3xwCAj4SLuxRRMW7qJlqLzx/Niu+nM0gjoFz6lVBrjMeJJualDZrttFJHaNzS3iPl0xkf8sAgKCh0Rd4Q7ezMgIZWPM96IGKhL4uJO9h1ajJzPZzTrA7Dnwh6ddrhsDADN7HOAwF9xRm6hgyY8N8TimukEWlRRDVWnOEOsdQHn1tLkvLqs0GLggzVQcm6h8Wm4c2R+nuazAuCv1X3KoZqHGCoiVU4v2kh20tyoZyM+Aq2h3agbsaUc7v/0jeeFxDQqWSuSXUjtqDwra7Vg66ru+avMO3l4JDBaCBDTyf76zvKzUEbYRkrddaxOFd2sXjj9ADSNQ9H8sMm96d0zEP2LfPXoCikzfzID2kPhGbypZdak5+whcLHOHXM8nbElNsmWmeNXgX2S7UlFV71U5CtHWfzyD2x1Si2pwYioEqhrjMp63ussosClWmHFgfTxeYpVwVgguHRoMLKxJug8jcHxJBKSvGq0GwtuQYwJsjX8RUc8Zt38BYRPOfngAMM8M+wOcWwqsnpc71hRkLgsiga+xWHYcE9WJVBQKtBvMDlcjWl/ydCqfG8tf2C6nmgFAypETiN5ecbo34JeSwf0bxNWpYixK094tnR/I9oij4D2r/SVblWsjq/0YeSwee0EAR3A6H3VZmQee2K06kUyu12qllZ9e6DIE5+jq46UTjsM+Vpqlvyrqo0m4FRkTHHJqyItMGURu7X8E9R7ran3pCsx2eVGrKDo++yWEhoPm4UGJDbmTYNc6A5J5rjZlnxhjw==</Value>
+            </Header>
+            <Header>
+              <Name>x-ms-client-session-id</Name>
+              <Value>31fa9eb8-98f0-4d43-8ff5-3cb40d184b7a-2014-04-18 02:32:58Z</Value>
+            </Header>
+            <Header>
+              <Name>x-ms-client-request-id</Name>
+              <Value>dd36e27e-31b5-4e39-9121-f5887749e545-2014-04-18 02:35:19Z</Value>
+            </Header>
+            <Header>
+              <Name>Accept-Charset</Name>
+              <Value>UTF-8</Value>
+            </Header>
+            <Header>
+              <Name>Cookie</Name>
+              <Value>.SQLSERVERMANAGEMENT=AkVFooTMHYZtfGXAPl0nQg==</Value>
+            </Header>
+          </Headers>
+          <Cookies>
+            <Cookie>
+              <Name>.SQLSERVERMANAGEMENT</Name>
+              <Value>AkVFooTMHYZtfGXAPl0nQg==</Value>
+              <RelativeUri i:nil="true" />
+            </Cookie>
+          </Cookies>
+          <RequestText i:nil="true" />
+          <ContentType i:nil="true" />
+          <Accept>application/atom+xml,application/xml</Accept>
+        </RequestInfo>
+        <ResponseInfo>
+          <StatusCode>OK</StatusCode>
+          <Headers>
+            <Header>
+              <Name>x-ms-request-id</Name>
+              <Value>bcba3265-63d3-7185-1bca-67d2b82f69f3</Value>
+            </Header>
+            <Header>
+              <Name>X-Content-Type-Options</Name>
+              <Value>nosniff</Value>
+            </Header>
+            <Header>
+              <Name>DataServiceVersion</Name>
+              <Value>2.0;</Value>
+            </Header>
+            <Header>
+              <Name>Cache-Control</Name>
+              <Value>no-store,no-cache</Value>
+            </Header>
+            <Header>
+              <Name>Content-Type</Name>
+              <Value>application/atom+xml;type=feed;charset=utf-8</Value>
+            </Header>
+            <Header>
+              <Name>Date</Name>
+              <Value>Fri, 18 Apr 2014 02:35:20 GMT</Value>
+            </Header>
+            <Header>
+              <Name>Server</Name>
+              <Value>Microsoft-HTTPAPI/2.0</Value>
+            </Header>
+          </Headers>
+          <Cookies />
+          <ResponseText>&lt;?xml version="1.0" encoding="utf-8"?&gt;&lt;feed xml:base="http://localhost:12345/v1/ManagementService.svc/Server2('testserver')/" xmlns="http://www.w3.org/2005/Atom" xmlns:d="http://schemas.microsoft.com/ado/2007/08/dataservices" xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata"&gt;&lt;id&gt;http://localhost:12345/v1/ManagementService.svc/Server2('testserver')/RestorableDroppedDatabases&lt;/id&gt;&lt;title type="text"&gt;RestorableDroppedDatabases&lt;/title&gt;&lt;updated&gt;2014-04-18T02:35:21Z&lt;/updated&gt;&lt;link rel="self" title="RestorableDroppedDatabases" href="RestorableDroppedDatabases" /&gt;&lt;entry&gt;&lt;id&gt;http://localhost:12345/v1/ManagementService.svc/Server2('testserver')/RestorableDroppedDatabases('testdb1%2C2014-04-18T02%3A35%3A06.060Z')&lt;/id&gt;&lt;category term="Microsoft.SqlServer.Management.Server.Domain.RestorableDroppedDatabase" scheme="http://schemas.microsoft.com/ado/2007/08/dataservices/scheme" /&gt;&lt;link rel="edit" title="RestorableDroppedDatabase" href="RestorableDroppedDatabases('testdb1%2C2014-04-18T02%3A35%3A06.060Z')" /&gt;&lt;title /&gt;&lt;updated&gt;2014-04-18T02:35:21Z&lt;/updated&gt;&lt;author&gt;&lt;name /&gt;&lt;/author&gt;&lt;content type="application/xml"&gt;&lt;m:properties&gt;&lt;d:EntityId&gt;testdb1,2014-04-18T02:35:06.060Z&lt;/d:EntityId&gt;&lt;d:Name&gt;testdb1&lt;/d:Name&gt;&lt;d:ServerName&gt;testserver&lt;/d:ServerName&gt;&lt;d:Edition&gt;Web&lt;/d:Edition&gt;&lt;d:MaxSizeBytes m:type="Edm.Int64"&gt;1073741824&lt;/d:MaxSizeBytes&gt;&lt;d:CreationDate m:type="Edm.DateTime"&gt;2014-04-18T02:33:02.01Z&lt;/d:CreationDate&gt;&lt;d:DeletionDate m:type="Edm.DateTime"&gt;2014-04-18T02:35:06.06Z&lt;/d:DeletionDate&gt;&lt;d:RecoveryPeriodStartDate m:type="Edm.DateTime"&gt;2014-04-18T02:34:02.01Z&lt;/d:RecoveryPeriodStartDate&gt;&lt;/m:properties&gt;&lt;/content&gt;&lt;/entry&gt;&lt;/feed&gt;</ResponseText>
+        </ResponseInfo>
+      </HttpMessage>
+      <HttpMessage>
+        <Index>4</Index>
+        <RequestInfo>
+          <RequestUri>http://localhost:12345/v1/ManagementService.svc/Server2('testserver')/RestorableDroppedDatabases()?$filter=Name%20eq%20'testdb2'%20and%20DeletionDate%20eq%20datetime'2014-04-18T02%3A35%3A12.343Z'&amp;$top=2</RequestUri>
+          <Method>GET</Method>
+          <UserAgent>WindowsAzurePowershell/v0.8.0</UserAgent>
+          <Headers>
+            <Header>
+              <Name>DataServiceVersion</Name>
+              <Value>1.0;NetFx</Value>
+            </Header>
+            <Header>
+              <Name>MaxDataServiceVersion</Name>
+              <Value>2.0;NetFx</Value>
+            </Header>
+            <Header>
+              <Name>AccessToken</Name>
+              <Value>LfRU4ScpbApU2twg551+0h3xwCAj4SLuxRRMW7qJlqLzx/Niu+nM0gjoFz6lVBrjMeJJualDZrttFJHaNzS3iPl0xkf8sAgKCh0Rd4Q7ezMgIZWPM96IGKhL4uJO9h1ajJzPZzTrA7Dnwh6ddrhsDADN7HOAwF9xRm6hgyY8N8TimukEWlRRDVWnOEOsdQHn1tLkvLqs0GLggzVQcm6h8Wm4c2R+nuazAuCv1X3KoZqHGCoiVU4v2kh20tyoZyM+Aq2h3agbsaUc7v/0jeeFxDQqWSuSXUjtqDwra7Vg66ru+avMO3l4JDBaCBDTyf76zvKzUEbYRkrddaxOFd2sXjj9ADSNQ9H8sMm96d0zEP2LfPXoCikzfzID2kPhGbypZdak5+whcLHOHXM8nbElNsmWmeNXgX2S7UlFV71U5CtHWfzyD2x1Si2pwYioEqhrjMp63ussosClWmHFgfTxeYpVwVgguHRoMLKxJug8jcHxJBKSvGq0GwtuQYwJsjX8RUc8Zt38BYRPOfngAMM8M+wOcWwqsnpc71hRkLgsiga+xWHYcE9WJVBQKtBvMDlcjWl/ydCqfG8tf2C6nmgFAypETiN5ecbo34JeSwf0bxNWpYixK094tnR/I9oij4D2r/SVblWsjq/0YeSwee0EAR3A6H3VZmQee2K06kUyu12qllZ9e6DIE5+jq46UTjsM+Vpqlvyrqo0m4FRkTHHJqyItMGURu7X8E9R7ran3pCsx2eVGrKDo++yWEhoPm4UGJDbmTYNc6A5J5rjZlnxhjw==</Value>
+            </Header>
+            <Header>
+              <Name>x-ms-client-session-id</Name>
+              <Value>31fa9eb8-98f0-4d43-8ff5-3cb40d184b7a-2014-04-18 02:32:58Z</Value>
+            </Header>
+            <Header>
+              <Name>x-ms-client-request-id</Name>
+              <Value>dd36e27e-31b5-4e39-9121-f5887749e545-2014-04-18 02:35:19Z</Value>
+            </Header>
+            <Header>
+              <Name>Accept-Charset</Name>
+              <Value>UTF-8</Value>
+            </Header>
+            <Header>
+              <Name>Cookie</Name>
+              <Value>.SQLSERVERMANAGEMENT=AkVFooTMHYZtfGXAPl0nQg==</Value>
+            </Header>
+          </Headers>
+          <Cookies>
+            <Cookie>
+              <Name>.SQLSERVERMANAGEMENT</Name>
+              <Value>AkVFooTMHYZtfGXAPl0nQg==</Value>
+              <RelativeUri i:nil="true" />
+            </Cookie>
+          </Cookies>
+          <RequestText i:nil="true" />
+          <ContentType i:nil="true" />
+          <Accept>application/atom+xml,application/xml</Accept>
+        </RequestInfo>
+        <ResponseInfo>
+          <StatusCode>OK</StatusCode>
+          <Headers>
+            <Header>
+              <Name>x-ms-request-id</Name>
+              <Value>bcba3265-63d3-7185-1bca-67d2b82f69f3</Value>
+            </Header>
+            <Header>
+              <Name>X-Content-Type-Options</Name>
+              <Value>nosniff</Value>
+            </Header>
+            <Header>
+              <Name>DataServiceVersion</Name>
+              <Value>2.0;</Value>
+            </Header>
+            <Header>
+              <Name>Cache-Control</Name>
+              <Value>no-store,no-cache</Value>
+            </Header>
+            <Header>
+              <Name>Content-Type</Name>
+              <Value>application/atom+xml;type=feed;charset=utf-8</Value>
+            </Header>
+            <Header>
+              <Name>Date</Name>
+              <Value>Fri, 18 Apr 2014 02:35:21 GMT</Value>
+            </Header>
+            <Header>
+              <Name>Server</Name>
+              <Value>Microsoft-HTTPAPI/2.0</Value>
+            </Header>
+          </Headers>
+          <Cookies />
+          <ResponseText>&lt;?xml version="1.0" encoding="utf-8"?&gt;&lt;feed xml:base="http://localhost:12345/v1/ManagementService.svc/Server2('testserver')/" xmlns="http://www.w3.org/2005/Atom" xmlns:d="http://schemas.microsoft.com/ado/2007/08/dataservices" xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata"&gt;&lt;id&gt;http://localhost:12345/v1/ManagementService.svc/Server2('testserver')/RestorableDroppedDatabases&lt;/id&gt;&lt;title type="text"&gt;RestorableDroppedDatabases&lt;/title&gt;&lt;updated&gt;2014-04-18T02:35:21Z&lt;/updated&gt;&lt;link rel="self" title="RestorableDroppedDatabases" href="RestorableDroppedDatabases" /&gt;&lt;entry&gt;&lt;id&gt;http://localhost:12345/v1/ManagementService.svc/Server2('testserver')/RestorableDroppedDatabases('testdb2%2C2014-04-18T02%3A35%3A12.343Z')&lt;/id&gt;&lt;category term="Microsoft.SqlServer.Management.Server.Domain.RestorableDroppedDatabase" scheme="http://schemas.microsoft.com/ado/2007/08/dataservices/scheme" /&gt;&lt;link rel="edit" title="RestorableDroppedDatabase" href="RestorableDroppedDatabases('testdb2%2C2014-04-18T02%3A35%3A12.343Z')" /&gt;&lt;title /&gt;&lt;updated&gt;2014-04-18T02:35:21Z&lt;/updated&gt;&lt;author&gt;&lt;name /&gt;&lt;/author&gt;&lt;content type="application/xml"&gt;&lt;m:properties&gt;&lt;d:EntityId&gt;testdb2,2014-04-18T02:35:12.343Z&lt;/d:EntityId&gt;&lt;d:Name&gt;testdb2&lt;/d:Name&gt;&lt;d:ServerName&gt;testserver&lt;/d:ServerName&gt;&lt;d:Edition&gt;Web&lt;/d:Edition&gt;&lt;d:MaxSizeBytes m:type="Edm.Int64"&gt;5368709120&lt;/d:MaxSizeBytes&gt;&lt;d:CreationDate m:type="Edm.DateTime"&gt;2014-04-18T02:33:07.263Z&lt;/d:CreationDate&gt;&lt;d:DeletionDate m:type="Edm.DateTime"&gt;2014-04-18T02:35:12.343Z&lt;/d:DeletionDate&gt;&lt;d:RecoveryPeriodStartDate m:type="Edm.DateTime"&gt;2014-04-18T02:34:07.263Z&lt;/d:RecoveryPeriodStartDate&gt;&lt;/m:properties&gt;&lt;/content&gt;&lt;/entry&gt;&lt;/feed&gt;</ResponseText>
+        </ResponseInfo>
+      </HttpMessage>
+    </Messages>
+  </HttpSession>
+  <HttpSession>
+    <Name>UnitTests.GetRestorableDroppedDatabaseWithSqlAuthNonExistentDb</Name>
+    <Messages>
+      <HttpMessage>
+        <Index>0</Index>
+        <RequestInfo>
+          <RequestUri>http://localhost:12345/v1/ManagementService.svc/Server2('testserver')/RestorableDroppedDatabases()?$filter=Name%20eq%20'testdbnonexistent'%20and%20DeletionDate%20eq%20datetime'2013-10-01T00%3A00%3A00Z'&amp;$top=2</RequestUri>
+          <Method>GET</Method>
+          <UserAgent>WindowsAzurePowershell/v0.8.0</UserAgent>
+          <Headers>
+            <Header>
+              <Name>DataServiceVersion</Name>
+              <Value>1.0;NetFx</Value>
+            </Header>
+            <Header>
+              <Name>MaxDataServiceVersion</Name>
+              <Value>2.0;NetFx</Value>
+            </Header>
+            <Header>
+              <Name>AccessToken</Name>
+              <Value>KMG+BTW0owMVH44sOxrYh3ebaRrbvfwYWqGpNJkWFitKERfdLf+2uKecjGRUmT2O1rSR0Evnxwl3czsWLlggA7wVMzadszaT0mFx/lvSqrI3960SU7HtGhVNSV8wa7y055OqTkH9Nh7NtFzKfdg/shr5Gg03FKHncH9cZtPi0yVk/RiWpQZL5rEfjKIM/MA4hPKXtZGh1nwoC1LCMWLESZ4aIYKMhhK55mp8D2zcMtD26qMaSlUB99J7onPWLinF2VavOs4Zgb/XR12MOMM2LORGExr0oHoD3pG45qdmmsr4Fg0k2Qe1TyNv+Ot8k9G+VhyAV5OgOpxvUpaV1Arb6iXjKL/LCB0IkRpfMsU8F6mrzvIOmOVYgJelhEPPs0BpHG0SIWaXy3m7fifredpUZMuWiqljibgE759DP/xL7a1YObbaOVR3oBGW/45pBlXfI+F6FqL8PTFvgBQ1XPBSCrD2G4P1d8DvIDfqzSkt4YBxklKW7EP7Bo8wrVhm7OmDAMipTzGMHTWdrHwVSXUEe3K99L/RR7XAlRaRpPJFTDFwNXh6/T3JWd45mFul1pjAgaVfY+RSCAs+J7CwMB9WdrDK1zSwjhGbLv/VmWavc8qDJMiT7xGi0g4OhKMAnqUMA8f0MrgegYsaJ5TOWTWW3tyd3APegeNykf77E0osof2tDAwP2fbcd315mnMHZOLolLb5v28vfPl8smzTAOHJEqmF3pDmYj3ap7QHy2IZIO9eLXEGJwQ2NjZTI18ObNoDU4SGPT4yEhfUNGAZJm+q/g==</Value>
+            </Header>
+            <Header>
+              <Name>x-ms-client-session-id</Name>
+              <Value>31fa9eb8-98f0-4d43-8ff5-3cb40d184b7a-2014-04-18 02:32:58Z</Value>
+            </Header>
+            <Header>
+              <Name>x-ms-client-request-id</Name>
+              <Value>d0441397-7130-446b-afc5-372d751d8de2-2014-04-18 02:35:49Z</Value>
+            </Header>
+            <Header>
+              <Name>Accept-Charset</Name>
+              <Value>UTF-8</Value>
+            </Header>
+            <Header>
+              <Name>Cookie</Name>
+              <Value>.SQLSERVERMANAGEMENT=Zif+R4B5ZtOa+EX2Qop/RA==</Value>
+            </Header>
+          </Headers>
+          <Cookies>
+            <Cookie>
+              <Name>.SQLSERVERMANAGEMENT</Name>
+              <Value>Zif+R4B5ZtOa+EX2Qop/RA==</Value>
+              <RelativeUri i:nil="true" />
+            </Cookie>
+          </Cookies>
+          <RequestText i:nil="true" />
+          <ContentType i:nil="true" />
+          <Accept>application/atom+xml,application/xml</Accept>
+        </RequestInfo>
+        <ResponseInfo>
+          <StatusCode>OK</StatusCode>
+          <Headers>
+            <Header>
+              <Name>x-ms-request-id</Name>
+              <Value>57402f43-5f4b-5f91-f832-1756d28f2950</Value>
+            </Header>
+            <Header>
+              <Name>X-Content-Type-Options</Name>
+              <Value>nosniff</Value>
+            </Header>
+            <Header>
+              <Name>DataServiceVersion</Name>
+              <Value>2.0;</Value>
+            </Header>
+            <Header>
+              <Name>Cache-Control</Name>
+              <Value>no-store,no-cache</Value>
+            </Header>
+            <Header>
+              <Name>Content-Type</Name>
+              <Value>application/atom+xml;type=feed;charset=utf-8</Value>
+            </Header>
+            <Header>
+              <Name>Date</Name>
+              <Value>Fri, 18 Apr 2014 02:35:48 GMT</Value>
+            </Header>
+            <Header>
+              <Name>Server</Name>
+              <Value>Microsoft-HTTPAPI/2.0</Value>
+            </Header>
+          </Headers>
+          <Cookies />
+          <ResponseText>&lt;?xml version="1.0" encoding="utf-8"?&gt;&lt;feed xml:base="https://testserver.dev.mscds.com/v1/ManagementService.svc/Server2('testserver')/" xmlns="http://www.w3.org/2005/Atom" xmlns:d="http://schemas.microsoft.com/ado/2007/08/dataservices" xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata"&gt;&lt;id&gt;https://testserver.dev.mscds.com/v1/ManagementService.svc/Server2('testserver')/RestorableDroppedDatabases&lt;/id&gt;&lt;title type="text"&gt;RestorableDroppedDatabases&lt;/title&gt;&lt;updated&gt;2014-04-18T02:35:49Z&lt;/updated&gt;&lt;link rel="self" title="RestorableDroppedDatabases" href="RestorableDroppedDatabases" /&gt;&lt;author&gt;&lt;name /&gt;&lt;/author&gt;&lt;/feed&gt;</ResponseText>
+        </ResponseInfo>
+      </HttpMessage>
+    </Messages>
+  </HttpSession>
+  <HttpSession>
+    <Name>UnitTest.GetRestorableDroppedDatabaseWithCertAuth</Name>
+    <Messages>
+      <HttpMessage>
+        <Index>0</Index>
+        <RequestInfo>
+          <RequestUri>https://localhost:65432/00000000-0000-0000-0001-000000000001/services/sqlservers/servers/serverv1/restorabledroppeddatabases?contentview=generic</RequestUri>
+          <Method>GET</Method>
+          <UserAgent>Microsoft.WindowsAzure.Management.Sql.SqlManagementClient/0.9.0.0 WindowsAzurePowershell/v0.8.0</UserAgent>
+          <Headers>
+            <Header>
+              <Name>x-ms-version</Name>
+              <Value>2012-03-01</Value>
+            </Header>
+            <Header>
+              <Name>x-ms-client-session-id</Name>
+              <Value>fea9ea40-d212-4f3b-b591-140da9b0b191-2014-04-18 03:05:34Z</Value>
+            </Header>
+            <Header>
+              <Name>x-ms-client-request-id</Name>
+              <Value>19b72a62-06be-43d2-a575-ad126be83d39-2014-04-18 03:08:57Z</Value>
+            </Header>
+          </Headers>
+          <Cookies />
+          <RequestText i:nil="true" />
+          <ContentType i:nil="true" />
+          <Accept i:nil="true" />
+        </RequestInfo>
+        <ResponseInfo>
+          <StatusCode>OK</StatusCode>
+          <Headers>
+            <Header>
+              <Name>x-ms-request-id</Name>
+              <Value>19b72a62-06be-43d2-a575-ad126be83d39</Value>
+            </Header>
+            <Header>
+              <Name>X-Content-Type-Options</Name>
+              <Value>nosniff</Value>
+            </Header>
+            <Header>
+              <Name>Cache-Control</Name>
+              <Value>no-store,no-cache</Value>
+            </Header>
+            <Header>
+              <Name>Content-Type</Name>
+              <Value>application/xml; charset=utf-8</Value>
+            </Header>
+            <Header>
+              <Name>Date</Name>
+              <Value>Fri, 18 Apr 2014 03:08:59 GMT</Value>
+            </Header>
+            <Header>
+              <Name>Server</Name>
+              <Value>Microsoft-HTTPAPI/2.0 Microsoft-HTTPAPI/2.0</Value>
+            </Header>
+          </Headers>
+          <Cookies />
+          <ResponseText>&lt;ServiceResources xmlns="http://schemas.microsoft.com/windowsazure" xmlns:i="http://www.w3.org/2001/XMLSchema-instance"&gt;&lt;ServiceResource&gt;&lt;Name&gt;testdb1&lt;/Name&gt;&lt;Type&gt;Microsoft.SqlAzure.RestorableDroppedDatabase&lt;/Type&gt;&lt;State&gt;Deleted&lt;/State&gt;&lt;SelfLink&gt;https://localhost/servers/serverv1/restorabledroppeddatabases/testdb1,2014-04-18T03:08:25.083Z&lt;/SelfLink&gt;&lt;ParentLink&gt;https://localhost/servers/serverv1&lt;/ParentLink&gt;&lt;EntityId&gt;testdb1,2014-04-18T03:08:25.083Z&lt;/EntityId&gt;&lt;ServerName&gt;serverv1&lt;/ServerName&gt;&lt;Edition&gt;Web&lt;/Edition&gt;&lt;MaxSizeBytes&gt;1073741824&lt;/MaxSizeBytes&gt;&lt;CreationDate&gt;2014-04-18T03:05:35.2530000Z&lt;/CreationDate&gt;&lt;DeletionDate&gt;2014-04-18T03:08:25.0830000Z&lt;/DeletionDate&gt;&lt;RecoveryPeriodStartDate&gt;2014-04-18T03:06:35.2530000Z&lt;/RecoveryPeriodStartDate&gt;&lt;/ServiceResource&gt;&lt;ServiceResource&gt;&lt;Name&gt;testdb2&lt;/Name&gt;&lt;Type&gt;Microsoft.SqlAzure.RestorableDroppedDatabase&lt;/Type&gt;&lt;State&gt;Deleted&lt;/State&gt;&lt;SelfLink&gt;https://localhost/servers/serverv1/restorabledroppeddatabases/testdb2,2014-04-18T03:08:28.877Z&lt;/SelfLink&gt;&lt;ParentLink&gt;https://localhost/servers/serverv1&lt;/ParentLink&gt;&lt;EntityId&gt;testdb2,2014-04-18T03:08:28.877Z&lt;/EntityId&gt;&lt;ServerName&gt;serverv1&lt;/ServerName&gt;&lt;Edition&gt;Web&lt;/Edition&gt;&lt;MaxSizeBytes&gt;5368709120&lt;/MaxSizeBytes&gt;&lt;CreationDate&gt;2014-04-18T03:05:41.9700000Z&lt;/CreationDate&gt;&lt;DeletionDate&gt;2014-04-18T03:08:28.8770000Z&lt;/DeletionDate&gt;&lt;RecoveryPeriodStartDate&gt;2014-04-18T03:06:41.9700000Z&lt;/RecoveryPeriodStartDate&gt;&lt;/ServiceResource&gt;&lt;ServiceResource&gt;&lt;Name&gt;testdb3&lt;/Name&gt;&lt;Type&gt;Microsoft.SqlAzure.RestorableDroppedDatabase&lt;/Type&gt;&lt;State&gt;Deleted&lt;/State&gt;&lt;SelfLink&gt;https://localhost/servers/serverv1/restorabledroppeddatabases/testdb3,2014-04-18T03:08:34.453Z&lt;/SelfLink&gt;&lt;ParentLink&gt;https://localhost/servers/serverv1&lt;/ParentLink&gt;&lt;EntityId&gt;testdb3,2014-04-18T03:08:34.453Z&lt;/EntityId&gt;&lt;ServerName&gt;serverv1&lt;/ServerName&gt;&lt;Edition&gt;Web&lt;/Edition&gt;&lt;MaxSizeBytes&gt;104857600&lt;/MaxSizeBytes&gt;&lt;CreationDate&gt;2014-04-18T03:06:08.4230000Z&lt;/CreationDate&gt;&lt;DeletionDate&gt;2014-04-18T03:08:34.4530000Z&lt;/DeletionDate&gt;&lt;RecoveryPeriodStartDate&gt;2014-04-18T03:07:08.4230000Z&lt;/RecoveryPeriodStartDate&gt;&lt;/ServiceResource&gt;&lt;/ServiceResources&gt;</ResponseText>
+        </ResponseInfo>
+      </HttpMessage>
+      <HttpMessage>
+        <Index>1</Index>
+        <RequestInfo>
+          <RequestUri>https://localhost:65432/00000000-0000-0000-0001-000000000001/services/sqlservers/servers/serverv1/restorabledroppeddatabases/testdb1,2014-04-18T03:08:25.083Z</RequestUri>
+          <Method>GET</Method>
+          <UserAgent>Microsoft.WindowsAzure.Management.Sql.SqlManagementClient/0.9.0.0 WindowsAzurePowershell/v0.8.0</UserAgent>
+          <Headers>
+            <Header>
+              <Name>x-ms-version</Name>
+              <Value>2012-03-01</Value>
+            </Header>
+            <Header>
+              <Name>x-ms-client-session-id</Name>
+              <Value>fea9ea40-d212-4f3b-b591-140da9b0b191-2014-04-18 03:05:34Z</Value>
+            </Header>
+            <Header>
+              <Name>x-ms-client-request-id</Name>
+              <Value>a8c11a2d-a8a0-477b-ba29-fcfd75133ab7-2014-04-18 03:08:59Z</Value>
+            </Header>
+          </Headers>
+          <Cookies />
+          <RequestText i:nil="true" />
+          <ContentType i:nil="true" />
+          <Accept i:nil="true" />
+        </RequestInfo>
+        <ResponseInfo>
+          <StatusCode>OK</StatusCode>
+          <Headers>
+            <Header>
+              <Name>x-ms-request-id</Name>
+              <Value>a8c11a2d-a8a0-477b-ba29-fcfd75133ab7</Value>
+            </Header>
+            <Header>
+              <Name>X-Content-Type-Options</Name>
+              <Value>nosniff</Value>
+            </Header>
+            <Header>
+              <Name>Cache-Control</Name>
+              <Value>no-store,no-cache</Value>
+            </Header>
+            <Header>
+              <Name>Content-Type</Name>
+              <Value>application/xml; charset=utf-8</Value>
+            </Header>
+            <Header>
+              <Name>Date</Name>
+              <Value>Fri, 18 Apr 2014 03:08:59 GMT</Value>
+            </Header>
+            <Header>
+              <Name>Server</Name>
+              <Value>Microsoft-HTTPAPI/2.0 Microsoft-HTTPAPI/2.0</Value>
+            </Header>
+          </Headers>
+          <Cookies />
+          <ResponseText>&lt;ServiceResource xmlns="http://schemas.microsoft.com/windowsazure" xmlns:i="http://www.w3.org/2001/XMLSchema-instance"&gt;&lt;Name&gt;testdb1&lt;/Name&gt;&lt;Type&gt;Microsoft.SqlAzure.RestorableDroppedDatabase&lt;/Type&gt;&lt;State&gt;Deleted&lt;/State&gt;&lt;SelfLink&gt;https://localhost/servers/serverv1/restorabledroppeddatabases/testdb1,2014-04-18T03:08:25.083Z&lt;/SelfLink&gt;&lt;ParentLink&gt;https://localhost/servers/serverv1&lt;/ParentLink&gt;&lt;EntityId&gt;testdb1,2014-04-18T03:08:25.083Z&lt;/EntityId&gt;&lt;ServerName&gt;serverv1&lt;/ServerName&gt;&lt;Edition&gt;Web&lt;/Edition&gt;&lt;MaxSizeBytes&gt;1073741824&lt;/MaxSizeBytes&gt;&lt;CreationDate&gt;2014-04-18T03:05:35.2530000Z&lt;/CreationDate&gt;&lt;DeletionDate&gt;2014-04-18T03:08:25.0830000Z&lt;/DeletionDate&gt;&lt;RecoveryPeriodStartDate&gt;2014-04-18T03:06:35.2530000Z&lt;/RecoveryPeriodStartDate&gt;&lt;/ServiceResource&gt;</ResponseText>
+        </ResponseInfo>
+      </HttpMessage>
+      <HttpMessage>
+        <Index>2</Index>
+        <RequestInfo>
+          <RequestUri>https://localhost:65432/00000000-0000-0000-0001-000000000001/services/sqlservers/servers/serverv1/restorabledroppeddatabases/testdb2,2014-04-18T03:08:28.877Z</RequestUri>
+          <Method>GET</Method>
+          <UserAgent>Microsoft.WindowsAzure.Management.Sql.SqlManagementClient/0.9.0.0 WindowsAzurePowershell/v0.8.0</UserAgent>
+          <Headers>
+            <Header>
+              <Name>x-ms-version</Name>
+              <Value>2012-03-01</Value>
+            </Header>
+            <Header>
+              <Name>x-ms-client-session-id</Name>
+              <Value>fea9ea40-d212-4f3b-b591-140da9b0b191-2014-04-18 03:05:34Z</Value>
+            </Header>
+            <Header>
+              <Name>x-ms-client-request-id</Name>
+              <Value>d89adfd5-1082-484a-883f-7b849b2d0e55-2014-04-18 03:09:00Z</Value>
+            </Header>
+          </Headers>
+          <Cookies />
+          <RequestText i:nil="true" />
+          <ContentType i:nil="true" />
+          <Accept i:nil="true" />
+        </RequestInfo>
+        <ResponseInfo>
+          <StatusCode>OK</StatusCode>
+          <Headers>
+            <Header>
+              <Name>x-ms-request-id</Name>
+              <Value>d89adfd5-1082-484a-883f-7b849b2d0e55</Value>
+            </Header>
+            <Header>
+              <Name>X-Content-Type-Options</Name>
+              <Value>nosniff</Value>
+            </Header>
+            <Header>
+              <Name>Cache-Control</Name>
+              <Value>no-store,no-cache</Value>
+            </Header>
+            <Header>
+              <Name>Content-Type</Name>
+              <Value>application/xml; charset=utf-8</Value>
+            </Header>
+            <Header>
+              <Name>Date</Name>
+              <Value>Fri, 18 Apr 2014 03:09:00 GMT</Value>
+            </Header>
+            <Header>
+              <Name>Server</Name>
+              <Value>Microsoft-HTTPAPI/2.0 Microsoft-HTTPAPI/2.0</Value>
+            </Header>
+          </Headers>
+          <Cookies />
+          <ResponseText>&lt;ServiceResource xmlns="http://schemas.microsoft.com/windowsazure" xmlns:i="http://www.w3.org/2001/XMLSchema-instance"&gt;&lt;Name&gt;testdb2&lt;/Name&gt;&lt;Type&gt;Microsoft.SqlAzure.RestorableDroppedDatabase&lt;/Type&gt;&lt;State&gt;Deleted&lt;/State&gt;&lt;SelfLink&gt;https://localhost/servers/serverv1/restorabledroppeddatabases/testdb2,2014-04-18T03:08:28.877Z&lt;/SelfLink&gt;&lt;ParentLink&gt;https://localhost/servers/serverv1&lt;/ParentLink&gt;&lt;EntityId&gt;testdb2,2014-04-18T03:08:28.877Z&lt;/EntityId&gt;&lt;ServerName&gt;serverv1&lt;/ServerName&gt;&lt;Edition&gt;Web&lt;/Edition&gt;&lt;MaxSizeBytes&gt;5368709120&lt;/MaxSizeBytes&gt;&lt;CreationDate&gt;2014-04-18T03:05:41.9700000Z&lt;/CreationDate&gt;&lt;DeletionDate&gt;2014-04-18T03:08:28.8770000Z&lt;/DeletionDate&gt;&lt;RecoveryPeriodStartDate&gt;2014-04-18T03:06:41.9700000Z&lt;/RecoveryPeriodStartDate&gt;&lt;/ServiceResource&gt;</ResponseText>
+        </ResponseInfo>
+      </HttpMessage>
+    </Messages>
+  </HttpSession>
+  <HttpSession>
+    <Name>UnitTest.GetRestorableDroppedDatabaseWithCertAuthByPipe</Name>
+    <Messages>
+      <HttpMessage>
+        <Index>0</Index>
+        <RequestInfo>
+          <RequestUri>https://localhost:65432/00000000-0000-0000-0001-000000000001/services/sqlservers/servers/serverv1/restorabledroppeddatabases?contentview=generic</RequestUri>
+          <Method>GET</Method>
+          <UserAgent>Microsoft.WindowsAzure.Management.Sql.SqlManagementClient/0.9.0.0 WindowsAzurePowershell/v0.8.0</UserAgent>
+          <Headers>
+            <Header>
+              <Name>x-ms-version</Name>
+              <Value>2012-03-01</Value>
+            </Header>
+            <Header>
+              <Name>x-ms-client-session-id</Name>
+              <Value>fea9ea40-d212-4f3b-b591-140da9b0b191-2014-04-18 03:05:34Z</Value>
+            </Header>
+            <Header>
+              <Name>x-ms-client-request-id</Name>
+              <Value>f1c4489c-cbfe-4860-b707-1db865690b9a-2014-04-18 03:09:02Z</Value>
+            </Header>
+          </Headers>
+          <Cookies />
+          <RequestText i:nil="true" />
+          <ContentType i:nil="true" />
+          <Accept i:nil="true" />
+        </RequestInfo>
+        <ResponseInfo>
+          <StatusCode>OK</StatusCode>
+          <Headers>
+            <Header>
+              <Name>x-ms-request-id</Name>
+              <Value>f1c4489c-cbfe-4860-b707-1db865690b9a</Value>
+            </Header>
+            <Header>
+              <Name>X-Content-Type-Options</Name>
+              <Value>nosniff</Value>
+            </Header>
+            <Header>
+              <Name>Cache-Control</Name>
+              <Value>no-store,no-cache</Value>
+            </Header>
+            <Header>
+              <Name>Content-Type</Name>
+              <Value>application/xml; charset=utf-8</Value>
+            </Header>
+            <Header>
+              <Name>Date</Name>
+              <Value>Fri, 18 Apr 2014 03:09:01 GMT</Value>
+            </Header>
+            <Header>
+              <Name>Server</Name>
+              <Value>Microsoft-HTTPAPI/2.0 Microsoft-HTTPAPI/2.0</Value>
+            </Header>
+          </Headers>
+          <Cookies />
+          <ResponseText>&lt;ServiceResources xmlns="http://schemas.microsoft.com/windowsazure" xmlns:i="http://www.w3.org/2001/XMLSchema-instance"&gt;&lt;ServiceResource&gt;&lt;Name&gt;testdb1&lt;/Name&gt;&lt;Type&gt;Microsoft.SqlAzure.RestorableDroppedDatabase&lt;/Type&gt;&lt;State&gt;Deleted&lt;/State&gt;&lt;SelfLink&gt;https://localhost/servers/serverv1/restorabledroppeddatabases/testdb1,2014-04-18T03:08:25.083Z&lt;/SelfLink&gt;&lt;ParentLink&gt;https://localhost/servers/serverv1&lt;/ParentLink&gt;&lt;EntityId&gt;testdb1,2014-04-18T03:08:25.083Z&lt;/EntityId&gt;&lt;ServerName&gt;serverv1&lt;/ServerName&gt;&lt;Edition&gt;Web&lt;/Edition&gt;&lt;MaxSizeBytes&gt;1073741824&lt;/MaxSizeBytes&gt;&lt;CreationDate&gt;2014-04-18T03:05:35.2530000Z&lt;/CreationDate&gt;&lt;DeletionDate&gt;2014-04-18T03:08:25.0830000Z&lt;/DeletionDate&gt;&lt;RecoveryPeriodStartDate&gt;2014-04-18T03:06:35.2530000Z&lt;/RecoveryPeriodStartDate&gt;&lt;/ServiceResource&gt;&lt;ServiceResource&gt;&lt;Name&gt;testdb2&lt;/Name&gt;&lt;Type&gt;Microsoft.SqlAzure.RestorableDroppedDatabase&lt;/Type&gt;&lt;State&gt;Deleted&lt;/State&gt;&lt;SelfLink&gt;https://localhost/servers/serverv1/restorabledroppeddatabases/testdb2,2014-04-18T03:08:28.877Z&lt;/SelfLink&gt;&lt;ParentLink&gt;https://localhost/servers/serverv1&lt;/ParentLink&gt;&lt;EntityId&gt;testdb2,2014-04-18T03:08:28.877Z&lt;/EntityId&gt;&lt;ServerName&gt;serverv1&lt;/ServerName&gt;&lt;Edition&gt;Web&lt;/Edition&gt;&lt;MaxSizeBytes&gt;5368709120&lt;/MaxSizeBytes&gt;&lt;CreationDate&gt;2014-04-18T03:05:41.9700000Z&lt;/CreationDate&gt;&lt;DeletionDate&gt;2014-04-18T03:08:28.8770000Z&lt;/DeletionDate&gt;&lt;RecoveryPeriodStartDate&gt;2014-04-18T03:06:41.9700000Z&lt;/RecoveryPeriodStartDate&gt;&lt;/ServiceResource&gt;&lt;ServiceResource&gt;&lt;Name&gt;testdb3&lt;/Name&gt;&lt;Type&gt;Microsoft.SqlAzure.RestorableDroppedDatabase&lt;/Type&gt;&lt;State&gt;Deleted&lt;/State&gt;&lt;SelfLink&gt;https://localhost/servers/serverv1/restorabledroppeddatabases/testdb3,2014-04-18T03:08:34.453Z&lt;/SelfLink&gt;&lt;ParentLink&gt;https://localhost/servers/serverv1&lt;/ParentLink&gt;&lt;EntityId&gt;testdb3,2014-04-18T03:08:34.453Z&lt;/EntityId&gt;&lt;ServerName&gt;serverv1&lt;/ServerName&gt;&lt;Edition&gt;Web&lt;/Edition&gt;&lt;MaxSizeBytes&gt;104857600&lt;/MaxSizeBytes&gt;&lt;CreationDate&gt;2014-04-18T03:06:08.4230000Z&lt;/CreationDate&gt;&lt;DeletionDate&gt;2014-04-18T03:08:34.4530000Z&lt;/DeletionDate&gt;&lt;RecoveryPeriodStartDate&gt;2014-04-18T03:07:08.4230000Z&lt;/RecoveryPeriodStartDate&gt;&lt;/ServiceResource&gt;&lt;/ServiceResources&gt;</ResponseText>
+        </ResponseInfo>
+      </HttpMessage>
+      <HttpMessage>
+        <Index>1</Index>
+        <RequestInfo>
+          <RequestUri>https://localhost:65432/00000000-0000-0000-0001-000000000001/services/sqlservers/servers/serverv1/restorabledroppeddatabases/testdb1,2014-04-18T03:08:25.083Z</RequestUri>
+          <Method>GET</Method>
+          <UserAgent>Microsoft.WindowsAzure.Management.Sql.SqlManagementClient/0.9.0.0 WindowsAzurePowershell/v0.8.0</UserAgent>
+          <Headers>
+            <Header>
+              <Name>x-ms-version</Name>
+              <Value>2012-03-01</Value>
+            </Header>
+            <Header>
+              <Name>x-ms-client-session-id</Name>
+              <Value>fea9ea40-d212-4f3b-b591-140da9b0b191-2014-04-18 03:05:34Z</Value>
+            </Header>
+            <Header>
+              <Name>x-ms-client-request-id</Name>
+              <Value>569404b3-5f8f-489a-b600-f31d80a5a2b1-2014-04-18 03:09:02Z</Value>
+            </Header>
+          </Headers>
+          <Cookies />
+          <RequestText i:nil="true" />
+          <ContentType i:nil="true" />
+          <Accept i:nil="true" />
+        </RequestInfo>
+        <ResponseInfo>
+          <StatusCode>OK</StatusCode>
+          <Headers>
+            <Header>
+              <Name>x-ms-request-id</Name>
+              <Value>569404b3-5f8f-489a-b600-f31d80a5a2b1</Value>
+            </Header>
+            <Header>
+              <Name>X-Content-Type-Options</Name>
+              <Value>nosniff</Value>
+            </Header>
+            <Header>
+              <Name>Cache-Control</Name>
+              <Value>no-store,no-cache</Value>
+            </Header>
+            <Header>
+              <Name>Content-Type</Name>
+              <Value>application/xml; charset=utf-8</Value>
+            </Header>
+            <Header>
+              <Name>Date</Name>
+              <Value>Fri, 18 Apr 2014 03:09:01 GMT</Value>
+            </Header>
+            <Header>
+              <Name>Server</Name>
+              <Value>Microsoft-HTTPAPI/2.0 Microsoft-HTTPAPI/2.0</Value>
+            </Header>
+          </Headers>
+          <Cookies />
+          <ResponseText>&lt;ServiceResource xmlns="http://schemas.microsoft.com/windowsazure" xmlns:i="http://www.w3.org/2001/XMLSchema-instance"&gt;&lt;Name&gt;testdb1&lt;/Name&gt;&lt;Type&gt;Microsoft.SqlAzure.RestorableDroppedDatabase&lt;/Type&gt;&lt;State&gt;Deleted&lt;/State&gt;&lt;SelfLink&gt;https://localhost/servers/serverv1/restorabledroppeddatabases/testdb1,2014-04-18T03:08:25.083Z&lt;/SelfLink&gt;&lt;ParentLink&gt;https://localhost/servers/serverv1&lt;/ParentLink&gt;&lt;EntityId&gt;testdb1,2014-04-18T03:08:25.083Z&lt;/EntityId&gt;&lt;ServerName&gt;serverv1&lt;/ServerName&gt;&lt;Edition&gt;Web&lt;/Edition&gt;&lt;MaxSizeBytes&gt;1073741824&lt;/MaxSizeBytes&gt;&lt;CreationDate&gt;2014-04-18T03:05:35.2530000Z&lt;/CreationDate&gt;&lt;DeletionDate&gt;2014-04-18T03:08:25.0830000Z&lt;/DeletionDate&gt;&lt;RecoveryPeriodStartDate&gt;2014-04-18T03:06:35.2530000Z&lt;/RecoveryPeriodStartDate&gt;&lt;/ServiceResource&gt;</ResponseText>
+        </ResponseInfo>
+      </HttpMessage>
+      <HttpMessage>
+        <Index>2</Index>
+        <RequestInfo>
+          <RequestUri>https://localhost:65432/00000000-0000-0000-0001-000000000001/services/sqlservers/servers/serverv1/restorabledroppeddatabases/testdb2,2014-04-18T03:08:28.877Z</RequestUri>
+          <Method>GET</Method>
+          <UserAgent>Microsoft.WindowsAzure.Management.Sql.SqlManagementClient/0.9.0.0 WindowsAzurePowershell/v0.8.0</UserAgent>
+          <Headers>
+            <Header>
+              <Name>x-ms-version</Name>
+              <Value>2012-03-01</Value>
+            </Header>
+            <Header>
+              <Name>x-ms-client-session-id</Name>
+              <Value>fea9ea40-d212-4f3b-b591-140da9b0b191-2014-04-18 03:05:34Z</Value>
+            </Header>
+            <Header>
+              <Name>x-ms-client-request-id</Name>
+              <Value>5e620120-9adb-4449-b8ab-5944accbedb7-2014-04-18 03:09:02Z</Value>
+            </Header>
+          </Headers>
+          <Cookies />
+          <RequestText i:nil="true" />
+          <ContentType i:nil="true" />
+          <Accept i:nil="true" />
+        </RequestInfo>
+        <ResponseInfo>
+          <StatusCode>OK</StatusCode>
+          <Headers>
+            <Header>
+              <Name>x-ms-request-id</Name>
+              <Value>5e620120-9adb-4449-b8ab-5944accbedb7</Value>
+            </Header>
+            <Header>
+              <Name>X-Content-Type-Options</Name>
+              <Value>nosniff</Value>
+            </Header>
+            <Header>
+              <Name>Cache-Control</Name>
+              <Value>no-store,no-cache</Value>
+            </Header>
+            <Header>
+              <Name>Content-Type</Name>
+              <Value>application/xml; charset=utf-8</Value>
+            </Header>
+            <Header>
+              <Name>Date</Name>
+              <Value>Fri, 18 Apr 2014 03:09:02 GMT</Value>
+            </Header>
+            <Header>
+              <Name>Server</Name>
+              <Value>Microsoft-HTTPAPI/2.0 Microsoft-HTTPAPI/2.0</Value>
+            </Header>
+          </Headers>
+          <Cookies />
+          <ResponseText>&lt;ServiceResource xmlns="http://schemas.microsoft.com/windowsazure" xmlns:i="http://www.w3.org/2001/XMLSchema-instance"&gt;&lt;Name&gt;testdb2&lt;/Name&gt;&lt;Type&gt;Microsoft.SqlAzure.RestorableDroppedDatabase&lt;/Type&gt;&lt;State&gt;Deleted&lt;/State&gt;&lt;SelfLink&gt;https://localhost/servers/serverv1/restorabledroppeddatabases/testdb2,2014-04-18T03:08:28.877Z&lt;/SelfLink&gt;&lt;ParentLink&gt;https://localhost/servers/serverv1&lt;/ParentLink&gt;&lt;EntityId&gt;testdb2,2014-04-18T03:08:28.877Z&lt;/EntityId&gt;&lt;ServerName&gt;serverv1&lt;/ServerName&gt;&lt;Edition&gt;Web&lt;/Edition&gt;&lt;MaxSizeBytes&gt;5368709120&lt;/MaxSizeBytes&gt;&lt;CreationDate&gt;2014-04-18T03:05:41.9700000Z&lt;/CreationDate&gt;&lt;DeletionDate&gt;2014-04-18T03:08:28.8770000Z&lt;/DeletionDate&gt;&lt;RecoveryPeriodStartDate&gt;2014-04-18T03:06:41.9700000Z&lt;/RecoveryPeriodStartDate&gt;&lt;/ServiceResource&gt;</ResponseText>
+        </ResponseInfo>
+      </HttpMessage>
+      <HttpMessage>
+        <Index>3</Index>
+        <RequestInfo>
+          <RequestUri>https://localhost:65432/00000000-0000-0000-0001-000000000001/services/sqlservers/servers/serverv1/restorabledroppeddatabases/testdb1,2014-04-18T03:08:25.083Z</RequestUri>
+          <Method>GET</Method>
+          <UserAgent>Microsoft.WindowsAzure.Management.Sql.SqlManagementClient/0.9.0.0 WindowsAzurePowershell/v0.8.0</UserAgent>
+          <Headers>
+            <Header>
+              <Name>x-ms-version</Name>
+              <Value>2012-03-01</Value>
+            </Header>
+            <Header>
+              <Name>x-ms-client-session-id</Name>
+              <Value>fea9ea40-d212-4f3b-b591-140da9b0b191-2014-04-18 03:05:34Z</Value>
+            </Header>
+            <Header>
+              <Name>x-ms-client-request-id</Name>
+              <Value>68ccbaed-1436-4ee3-8291-4d9f105e9039-2014-04-18 03:09:02Z</Value>
+            </Header>
+          </Headers>
+          <Cookies />
+          <RequestText i:nil="true" />
+          <ContentType i:nil="true" />
+          <Accept i:nil="true" />
+        </RequestInfo>
+        <ResponseInfo>
+          <StatusCode>OK</StatusCode>
+          <Headers>
+            <Header>
+              <Name>x-ms-request-id</Name>
+              <Value>68ccbaed-1436-4ee3-8291-4d9f105e9039</Value>
+            </Header>
+            <Header>
+              <Name>X-Content-Type-Options</Name>
+              <Value>nosniff</Value>
+            </Header>
+            <Header>
+              <Name>Cache-Control</Name>
+              <Value>no-store,no-cache</Value>
+            </Header>
+            <Header>
+              <Name>Content-Type</Name>
+              <Value>application/xml; charset=utf-8</Value>
+            </Header>
+            <Header>
+              <Name>Date</Name>
+              <Value>Fri, 18 Apr 2014 03:09:02 GMT</Value>
+            </Header>
+            <Header>
+              <Name>Server</Name>
+              <Value>Microsoft-HTTPAPI/2.0 Microsoft-HTTPAPI/2.0</Value>
+            </Header>
+          </Headers>
+          <Cookies />
+          <ResponseText>&lt;ServiceResource xmlns="http://schemas.microsoft.com/windowsazure" xmlns:i="http://www.w3.org/2001/XMLSchema-instance"&gt;&lt;Name&gt;testdb1&lt;/Name&gt;&lt;Type&gt;Microsoft.SqlAzure.RestorableDroppedDatabase&lt;/Type&gt;&lt;State&gt;Deleted&lt;/State&gt;&lt;SelfLink&gt;https://localhost/servers/serverv1/restorabledroppeddatabases/testdb1,2014-04-18T03:08:25.083Z&lt;/SelfLink&gt;&lt;ParentLink&gt;https://localhost/servers/serverv1&lt;/ParentLink&gt;&lt;EntityId&gt;testdb1,2014-04-18T03:08:25.083Z&lt;/EntityId&gt;&lt;ServerName&gt;serverv1&lt;/ServerName&gt;&lt;Edition&gt;Web&lt;/Edition&gt;&lt;MaxSizeBytes&gt;1073741824&lt;/MaxSizeBytes&gt;&lt;CreationDate&gt;2014-04-18T03:05:35.2530000Z&lt;/CreationDate&gt;&lt;DeletionDate&gt;2014-04-18T03:08:25.0830000Z&lt;/DeletionDate&gt;&lt;RecoveryPeriodStartDate&gt;2014-04-18T03:06:35.2530000Z&lt;/RecoveryPeriodStartDate&gt;&lt;/ServiceResource&gt;</ResponseText>
+        </ResponseInfo>
+      </HttpMessage>
+      <HttpMessage>
+        <Index>4</Index>
+        <RequestInfo>
+          <RequestUri>https://localhost:65432/00000000-0000-0000-0001-000000000001/services/sqlservers/servers/serverv1/restorabledroppeddatabases/testdb2,2014-04-18T03:08:28.877Z</RequestUri>
+          <Method>GET</Method>
+          <UserAgent>Microsoft.WindowsAzure.Management.Sql.SqlManagementClient/0.9.0.0 WindowsAzurePowershell/v0.8.0</UserAgent>
+          <Headers>
+            <Header>
+              <Name>x-ms-version</Name>
+              <Value>2012-03-01</Value>
+            </Header>
+            <Header>
+              <Name>x-ms-client-session-id</Name>
+              <Value>fea9ea40-d212-4f3b-b591-140da9b0b191-2014-04-18 03:05:34Z</Value>
+            </Header>
+            <Header>
+              <Name>x-ms-client-request-id</Name>
+              <Value>805a9892-4d7b-4c10-ad1b-588f43651f33-2014-04-18 03:09:02Z</Value>
+            </Header>
+          </Headers>
+          <Cookies />
+          <RequestText i:nil="true" />
+          <ContentType i:nil="true" />
+          <Accept i:nil="true" />
+        </RequestInfo>
+        <ResponseInfo>
+          <StatusCode>OK</StatusCode>
+          <Headers>
+            <Header>
+              <Name>x-ms-request-id</Name>
+              <Value>805a9892-4d7b-4c10-ad1b-588f43651f33</Value>
+            </Header>
+            <Header>
+              <Name>X-Content-Type-Options</Name>
+              <Value>nosniff</Value>
+            </Header>
+            <Header>
+              <Name>Cache-Control</Name>
+              <Value>no-store,no-cache</Value>
+            </Header>
+            <Header>
+              <Name>Content-Type</Name>
+              <Value>application/xml; charset=utf-8</Value>
+            </Header>
+            <Header>
+              <Name>Date</Name>
+              <Value>Fri, 18 Apr 2014 03:09:02 GMT</Value>
+            </Header>
+            <Header>
+              <Name>Server</Name>
+              <Value>Microsoft-HTTPAPI/2.0 Microsoft-HTTPAPI/2.0</Value>
+            </Header>
+          </Headers>
+          <Cookies />
+          <ResponseText>&lt;ServiceResource xmlns="http://schemas.microsoft.com/windowsazure" xmlns:i="http://www.w3.org/2001/XMLSchema-instance"&gt;&lt;Name&gt;testdb2&lt;/Name&gt;&lt;Type&gt;Microsoft.SqlAzure.RestorableDroppedDatabase&lt;/Type&gt;&lt;State&gt;Deleted&lt;/State&gt;&lt;SelfLink&gt;https://localhost/servers/serverv1/restorabledroppeddatabases/testdb2,2014-04-18T03:08:28.877Z&lt;/SelfLink&gt;&lt;ParentLink&gt;https://localhost/servers/serverv1&lt;/ParentLink&gt;&lt;EntityId&gt;testdb2,2014-04-18T03:08:28.877Z&lt;/EntityId&gt;&lt;ServerName&gt;serverv1&lt;/ServerName&gt;&lt;Edition&gt;Web&lt;/Edition&gt;&lt;MaxSizeBytes&gt;5368709120&lt;/MaxSizeBytes&gt;&lt;CreationDate&gt;2014-04-18T03:05:41.9700000Z&lt;/CreationDate&gt;&lt;DeletionDate&gt;2014-04-18T03:08:28.8770000Z&lt;/DeletionDate&gt;&lt;RecoveryPeriodStartDate&gt;2014-04-18T03:06:41.9700000Z&lt;/RecoveryPeriodStartDate&gt;&lt;/ServiceResource&gt;</ResponseText>
+        </ResponseInfo>
+      </HttpMessage>
+    </Messages>
+  </HttpSession>
+  <HttpSession>
+    <Name>UnitTest.GetRestorableDroppedDatabaseWithCertAuthNonExistentDb</Name>
+    <Messages>
+      <HttpMessage>
+        <Index>0</Index>
+        <RequestInfo>
+          <RequestUri>https://localhost:65432/00000000-0000-0000-0001-000000000001/services/sqlservers/servers/serverv1/restorabledroppeddatabases/testdbnonexistent,2013-10-01T00:00:00.000Z</RequestUri>
+          <Method>GET</Method>
+          <UserAgent>Microsoft.WindowsAzure.Management.Sql.SqlManagementClient/0.9.0.0 WindowsAzurePowershell/v0.8.0</UserAgent>
+          <Headers>
+            <Header>
+              <Name>x-ms-version</Name>
+              <Value>2012-03-01</Value>
+            </Header>
+            <Header>
+              <Name>x-ms-client-session-id</Name>
+              <Value>fea9ea40-d212-4f3b-b591-140da9b0b191-2014-04-18 03:05:34Z</Value>
+            </Header>
+            <Header>
+              <Name>x-ms-client-request-id</Name>
+              <Value>d866c932-6293-4923-9385-1381abe185e5-2014-04-18 03:08:47Z</Value>
+            </Header>
+          </Headers>
+          <Cookies />
+          <RequestText i:nil="true" />
+          <ContentType i:nil="true" />
+          <Accept i:nil="true" />
+        </RequestInfo>
+        <ResponseInfo>
+          <StatusCode>NotFound</StatusCode>
+          <Headers>
+            <Header>
+              <Name>x-ms-request-id</Name>
+              <Value>d866c932-6293-4923-9385-1381abe185e5</Value>
+            </Header>
+            <Header>
+              <Name>X-Content-Type-Options</Name>
+              <Value>nosniff</Value>
+            </Header>
+            <Header>
+              <Name>Cache-Control</Name>
+              <Value>no-store,no-cache</Value>
+            </Header>
+            <Header>
+              <Name>Content-Type</Name>
+              <Value>application/xml; charset=utf-8</Value>
+            </Header>
+            <Header>
+              <Name>Date</Name>
+              <Value>Fri, 18 Apr 2014 03:08:47 GMT</Value>
+            </Header>
+            <Header>
+              <Name>Server</Name>
+              <Value>Microsoft-HTTPAPI/2.0 Microsoft-HTTPAPI/2.0</Value>
+            </Header>
+          </Headers>
+          <Cookies />
+          <ResponseText>&lt;Error xmlns="Microsoft.SqlServer.Management.Framework.Web.Services" xmlns:i="http://www.w3.org/2001/XMLSchema-instance"&gt;&lt;Message&gt;Resource with the name 'testdbnonexistent,2013-10-01T00:00:00.000Z' does not exist. To continue, specify a valid resource name.&lt;/Message&gt;&lt;InnerError i:nil="true"/&gt;&lt;SqlErrorCode i:nil="true"/&gt;&lt;Severity i:nil="true"/&gt;&lt;/Error&gt;</ResponseText>
+        </ResponseInfo>
+      </HttpMessage>
+    </Messages>
+  </HttpSession>
 </HttpSessionCollection>
