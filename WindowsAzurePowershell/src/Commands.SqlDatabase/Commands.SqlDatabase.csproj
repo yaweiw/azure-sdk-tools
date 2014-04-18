@@ -216,6 +216,7 @@
     </Content>
     <None Include="MSSharedLibKey.snk" />
     <Compile Include="Database\Cmdlet\CmdletCommon.cs" />
+    <Compile Include="Database\Cmdlet\GetAzureSqlRecoverableDatabase.cs" />
     <Compile Include="Database\Cmdlet\GetAzureSqlDatabaseImportExportStatus.cs" />
     <Compile Include="Database\Cmdlet\StartAzureSqlDatabaseImport.cs" />
     <Compile Include="Database\Cmdlet\StartAzureSqlDatabaseExport.cs" />
