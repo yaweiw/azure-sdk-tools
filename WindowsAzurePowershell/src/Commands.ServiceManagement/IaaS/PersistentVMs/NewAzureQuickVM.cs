@@ -325,13 +325,16 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.PersistentVMs
 
                     var parameter = new VirtualMachineCreateParameters
                     {
-                        AvailabilitySetName = vm.AvailabilitySetName,
-                        OSVirtualHardDisk = _isVMImage ? null : Mapper.Map(vm.OSVirtualHardDisk, new Management.Compute.Models.OSVirtualHardDisk()),
-                        RoleName = vm.RoleName,
-                        RoleSize = vm.RoleSize,
-                        VMImageName = _isVMImage ? this.ImageName : null,
-                        ProvisionGuestAgent = !this.DisableGuestAgent,
-                        ResourceExtensionReferences = Mapper.Map<List<ResourceExtensionReference>>(VirtualMachineBGInfoExtensionCmdletBase.ExtensionList)
+                        AvailabilitySetName         = vm.AvailabilitySetName,
+                        OSVirtualHardDisk           = _isVMImage ? null : Mapper.Map(vm.OSVirtualHardDisk, new Management.Compute.Models.OSVirtualHardDisk()),
+                        RoleName                    = vm.RoleName,
+                        RoleSize                    = vm.RoleSize,
+                        VMImageName                 = _isVMImage ? this.ImageName : null,
+                        ProvisionGuestAgent         = !this.DisableGuestAgent,
+                        ResourceExtensionReferences = this.DisableGuestAgent ? null : Mapper.Map<List<ResourceExtensionReference>>(
+                            new VirtualMachineExtensionImageFactory(this.ComputeClient).MakeList(
+                                VirtualMachineBGInfoExtensionCmdletBase.ExtensionDefaultPublisher,
+                                VirtualMachineBGInfoExtensionCmdletBase.ExtensionDefaultName))
                     };
 
                     if (!_isVMImage)
@@ -363,21 +366,25 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.PersistentVMs
         {
             var vm = new Management.Compute.Models.Role
             {
-                AvailabilitySetName = AvailabilitySetName,
-                RoleName = String.IsNullOrEmpty(Name) ? ServiceName : Name, // default like the portal
-                RoleSize = InstanceSize,
-                RoleType = "PersistentVMRole",
-                Label = ServiceName,
-                OSVirtualHardDisk = _isVMImage ? null : Mapper.Map<Management.Compute.Models.OSVirtualHardDisk>(new OSVirtualHardDisk
-                {
-                    DiskName = null,
-                    SourceImageName = ImageName,
-                    MediaLink = string.IsNullOrEmpty(MediaLocation) ? null : new Uri(MediaLocation),
-                    HostCaching = HostCaching
-                }),
-                VMImageName = _isVMImage ? this.ImageName : null,
-                ProvisionGuestAgent = !this.DisableGuestAgent,
-                ResourceExtensionReferences = Mapper.Map<List<ResourceExtensionReference>>(VirtualMachineBGInfoExtensionCmdletBase.ExtensionList)
+                AvailabilitySetName         = AvailabilitySetName,
+                RoleName                    = String.IsNullOrEmpty(Name) ? ServiceName : Name, // default like the portal
+                RoleSize                    = InstanceSize,
+                RoleType                    = "PersistentVMRole",
+                Label                       = ServiceName,
+                OSVirtualHardDisk           = _isVMImage ? null : Mapper.Map<Management.Compute.Models.OSVirtualHardDisk>(
+                                              new OSVirtualHardDisk
+                                              {
+                                                  DiskName        = null,
+                                                  SourceImageName = ImageName,
+                                                  MediaLink       = string.IsNullOrEmpty(MediaLocation) ? null : new Uri(MediaLocation),
+                                                  HostCaching     = HostCaching
+                                              }),
+                VMImageName                 = _isVMImage ? this.ImageName : null,
+                ProvisionGuestAgent         = !this.DisableGuestAgent,
+                ResourceExtensionReferences = this.DisableGuestAgent ? null : Mapper.Map<List<ResourceExtensionReference>>(
+                    new VirtualMachineExtensionImageFactory(this.ComputeClient).MakeList(
+                        VirtualMachineBGInfoExtensionCmdletBase.ExtensionDefaultPublisher,
+                        VirtualMachineBGInfoExtensionCmdletBase.ExtensionDefaultName))
             };
 
             if (!_isVMImage && vm.OSVirtualHardDisk.MediaLink == null && String.IsNullOrEmpty(vm.OSVirtualHardDisk.Name))

@@ -13,28 +13,21 @@
 // ----------------------------------------------------------------------------------
 
 
-namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Model
+namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests.IaasCmdletInfo.Extesnions.CustomScript
 {
-    using Utilities.Common;
+    using Microsoft.WindowsAzure.Commands.ServiceManagement.Model;
+    using Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests.PowershellCore;
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Text;
 
-    public class ReservedIPContext : ManagementOperationContext
+    public class RemoveAzureVMCustomScriptExtensionCmdletInfo : CmdletsInfo
     {
-        public string ReservedIPName { get; set; }
-
-        public string Address { get; set; }
-
-        public string Id { get; set; }
-
-        public string Label { get; set; }
-
-        public string AffinityGroup { get; set; }
-
-        public string State { get; set; }
-
-        public bool InUse { get; set; }
-
-        public string ServiceName { get; set; }
-
-        public string DeploymentName { get; set; }
+        public RemoveAzureVMCustomScriptExtensionCmdletInfo(IPersistentVM vm)
+        {
+            this.cmdletName = Utilities.RemoveAzureVMCustomScriptExtensionCmdletName;
+            this.cmdletParams.Add(new CmdletParam("VM", vm));
+        }
     }
 }
