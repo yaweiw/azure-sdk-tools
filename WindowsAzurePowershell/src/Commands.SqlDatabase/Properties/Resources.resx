@@ -278,6 +278,9 @@ Error Code: {0}</value>
     <value>Confirm</value>
     <comment>Process workflow</comment>
   </data>
+  <data name="SqlAuthNotSupported" xml:space="preserve">
+    <value>This operation does not support SQL authentication.</value>
+  </data>
   <data name="StartAzureSqlDatabaseCopyDescription" xml:space="preserve">
     <value>Copying Windows Azure Sql Database "{0}.{1}" to "{2}.{3}".</value>
     <comment>Process workflow</comment>
