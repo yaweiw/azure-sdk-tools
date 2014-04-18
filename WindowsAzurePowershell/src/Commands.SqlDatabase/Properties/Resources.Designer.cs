@@ -61,6 +61,15 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Invalid Parameter combination: Both &quot;DatabaseName&quot; and &quot;DatabaseDeletionDate&quot; need to be specified to get a restorable dropped database..
+        /// </summary>
+        internal static string BothDatabaseNameAndDeletionDateNeedToBeSpecified {
+            get {
+                return ResourceManager.GetString("BothDatabaseNameAndDeletionDateNeedToBeSpecified", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The Sql Authenticate Credential was not specified..
         /// </summary>
         internal static string CredentialNotSpecified {
@@ -179,6 +188,15 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Database &apos;{0}.{1}&apos; with deletion date &apos;{2}&apos; not found..
+        /// </summary>
+        internal static string GetAzureSqlRestorableDroppedDatabaseDatabaseNotFound {
+            get {
+                return ResourceManager.GetString("GetAzureSqlRestorableDroppedDatabaseDatabaseNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Invalid authentication for &apos;{0}&apos;..
         /// </summary>
         internal static string InvalidAuthentication {
@@ -206,20 +224,20 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to There are more than one database copy matching the specified filter. Please revise the filter criteria to specify only one database copy..
-        /// </summary>
-        internal static string MoreThanOneDatabaseCopyFound {
-            get {
-                return ResourceManager.GetString("MoreThanOneDatabaseCopyFound", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Invalid Parameter combination: {0} and {1} parameters cannot be used together..
         /// </summary>
         internal static string InvalidParameterCombination {
             get {
                 return ResourceManager.GetString("InvalidParameterCombination", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to There are more than one database copy matching the specified filter. Please revise the filter criteria to specify only one database copy..
+        /// </summary>
+        internal static string MoreThanOneDatabaseCopyFound {
+            get {
+                return ResourceManager.GetString("MoreThanOneDatabaseCopyFound", resourceCulture);
             }
         }
         
@@ -332,6 +350,15 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Invalid parameters: The RestorableDropped switch must be specified to use the parameter {0}..
+        /// </summary>
+        internal static string RestorableDroppedSwitchNotSpecified {
+            get {
+                return ResourceManager.GetString("RestorableDroppedSwitchNotSpecified", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Service objective &apos;{1}&apos; was not found on server &apos;{0}&apos;..
         /// </summary>
         internal static string ServiceObjectiveNotFound {
@@ -409,6 +436,15 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Properties {
         internal static string ShouldProcessCaption {
             get {
                 return ResourceManager.GetString("ShouldProcessCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to This operation does not support SQL authentication..
+        /// </summary>
+        internal static string SqlAuthNotSupported {
+            get {
+                return ResourceManager.GetString("SqlAuthNotSupported", resourceCulture);
             }
         }
         

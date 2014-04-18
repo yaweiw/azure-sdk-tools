@@ -13,9 +13,8 @@ Param(
     $ManageUrl
 )
 
-$metadataFile = "ServerDataService.csdl"
-$clientModelClassFile = "ServerContextInternal.cs"
-$clientModelClassVersionFile = "ServerContextInternalVersion.cs"
+$metadataFile = "$PWD\ServerDataService.csdl"
+$clientModelClassFile = "$PWD\ServerContextInternal.cs"
 $clientModelNamespace = "Microsoft.WindowsAzure.Commands.SqlDatabase.Services.Server";
 $clientModelBaseContext = "ServerContextInternal";
 
@@ -69,12 +68,12 @@ $metadataHashDeclaration="namespace $clientModelNamespace
     {
         public readonly string[] metadataHashes = new string[]{ 
             `"$metadataHash`",
+            `"0333AB7076A926BF53F07C1786F11C052DEB791B`",
             `"F903DB500E018B00ECB1E355BC55F73B7342FC76`",
             `"5A2ABE58F30C9EF4B4F49853CD5FE28BA9FEBCD9`",
             `"68BA8B4EB74E0C5A91D0A734B742001018A9F9D2`",
             `"80A53B80FCD9616E6EEBDCAA3482E30A159C0E1F`",
-            `"3070BEE06139E0754E2F022E56E9798BF8A57F30`",
-			`"AEF98769F5E946C48ABBE0B212323A857C68C57D`"};
+            `"3070BEE06139E0754E2F022E56E9798BF8A57F30`"};
     }
 }"
 $metadataHashDeclaration | Add-Content "$clientModelClassFile"

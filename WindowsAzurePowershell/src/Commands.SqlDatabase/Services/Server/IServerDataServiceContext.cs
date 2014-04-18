@@ -218,5 +218,82 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Services.Server
         DatabaseOperation[] GetDatabasesOperations();
 
         #endregion
+
+        #region Restorable Dropped Database Operations
+
+        /// <summary>
+        /// Retrieves the list of all restorable dropped databases on the server.
+        /// </summary>
+        /// <returns>An array of all restorable dropped databases on the server.</returns>
+        RestorableDroppedDatabase[] GetRestorableDroppedDatabases();
+
+        /// <summary>
+        /// Retrieve information on the restorable dropped database with the name
+        /// <paramref name="databaseName"/> and deletion date <paramref name="deletionDate"/>.
+        /// </summary>
+        /// <param name="databaseName">The name of the restorable dropped database to retrieve.</param>
+        /// <param name="deletionDate">The deletion date of the restorable dropped database to retrieve.</param>
+        /// <returns>An object containing the information about the specific restorable dropped database.</returns>
+        RestorableDroppedDatabase GetRestorableDroppedDatabase(
+            string databaseName, DateTime deletionDate);
+
+        #endregion
+
+        #region Restore Database Operations
+
+        /// <summary>
+        /// Issues a restore request for the given source database to the given target database.
+        /// </summary>
+        /// <param name="sourceDatabaseName">The name of the source database.</param>
+        /// <param name="sourceDatabaseDeletionDate">The deletion date of the source database, in case it is a dropped database.</param>
+        /// <param name="targetServerName">The name of the server to create the restored database on.</param>
+        /// <param name="targetDatabaseName">The name of the database to be created with the restored contents.</param>
+        /// <param name="pointInTime">The point in time to restore the source database to.</param>
+        /// <returns>An object containing the information about the restore request.</returns>
+        RestoreDatabaseOperation RestoreDatabase(
+            string sourceDatabaseName,
+            DateTime? sourceDatabaseDeletionDate,
+            string targetServerName,
+            string targetDatabaseName,
+            DateTime? pointInTime);
+
+        #endregion
+
+        #region Recoverable Database Operations
+
+        /// <summary>
+        /// Retrieves the list of all recoverable databases on the given server.
+        /// </summary>
+        /// <param name="sourceServerName">The name of the server that contained the databases.</param>
+        /// <returns>An array of all recoverable databases on the server.</returns>
+        RecoverableDatabase[] GetRecoverableDatabases(string sourceServerName);
+
+        /// <summary>
+        /// Retrieve information on the recoverable database with the name
+        /// <paramref name="sourceDatabaseName"/> on the server <paramref name="sourceServerName"/>.
+        /// </summary>
+        /// <param name="sourceServerName">The name of the server that contained the database.</param>
+        /// <param name="sourceDatabaseName">The name of the database to recover.</param>
+        /// <returns>An object containing the information about the specific recoverable database.</returns>
+        RecoverableDatabase GetRecoverableDatabase(
+            string sourceServerName, string sourceDatabaseName);
+
+        #endregion
+
+        #region Recover Database Operations
+
+        /// <summary>
+        /// Issues a recovery request for the given source database to the given target database.
+        /// </summary>
+        /// <param name="sourceServerName">The name of the server that contained the source database.</param>
+        /// <param name="sourceDatabaseName">The name of the source database.</param>
+        /// <param name="targetDatabaseName">The name of the database to be created with the restored contents.</param>
+        /// <returns>An object containing the information about the recovery request.</returns>
+        RecoverDatabaseOperation RecoverDatabase(
+            string sourceServerName,
+            string sourceDatabaseName,
+            string targetDatabaseName);
+
+        #endregion
     }
 }

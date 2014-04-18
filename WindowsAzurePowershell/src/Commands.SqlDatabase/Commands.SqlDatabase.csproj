@@ -215,6 +215,8 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <None Include="MSSharedLibKey.snk" />
+    <Compile Include="Database\Cmdlet\CmdletCommon.cs" />
+    <Compile Include="Database\Cmdlet\GetAzureSqlRecoverableDatabase.cs" />
     <Compile Include="Database\Cmdlet\GetAzureSqlDatabaseImportExportStatus.cs" />
     <Compile Include="Database\Cmdlet\StartAzureSqlDatabaseImport.cs" />
     <Compile Include="Database\Cmdlet\StartAzureSqlDatabaseExport.cs" />
@@ -222,6 +224,8 @@
     <Compile Include="Database\Cmdlet\GetAzureSqlDatabaseCopy.cs" />
     <Compile Include="Database\Cmdlet\StartAzureSqlDatabaseCopy.cs" />
     <Compile Include="Database\Cmdlet\StopAzureSqlDatabaseCopy.cs" />
+    <Compile Include="Database\Cmdlet\StartAzureSqlDatabaseRestore.cs" />
+    <Compile Include="Database\Cmdlet\StartAzureSqlDatabaseRecovery.cs" />
     <Compile Include="Firewall\Cmdlet\SetAzureSqlDatabaseServerFirewallRule.cs" />
     <Compile Include="Firewall\Cmdlet\GetAzureSqlDatabaseServerFirewallRule.cs" />
     <Compile Include="Firewall\Cmdlet\NewAzureSqlDatabaseServerFirewallRule.cs" />
@@ -258,6 +262,7 @@
     <Compile Include="Services\Common\SqlDatabaseExceptionHandler.cs" />
     <Compile Include="Services\Common\ManagementServiceExceptionInfo.cs" />
     <Compile Include="Services\Constants.cs" />
+    <Compile Include="Services\Server\RecoverableDatabaseExtensions.cs" />
     <Compile Include="Services\Server\DatabaseCopyExtensions.cs" />
     <Compile Include="Services\ImportExport\ImportExportRequest.cs" />
     <Compile Include="Services\ImportExport\StatusInfo.cs" />
@@ -265,6 +270,7 @@
     <Compile Include="Services\Server\ServiceObjectiveExtensions.cs" />
     <Compile Include="Services\Server\DatabaseExtensions.cs" />
     <Compile Include="Services\Server\IServerDataServiceContext.cs" />
+    <Compile Include="Services\Server\RestorableDroppedDatabaseExtensions.cs" />
     <Compile Include="Services\Server\ServerDataService.cs" />
     <Compile Include="Services\Server\ServerDataServiceCertAuth.cs" />
     <Compile Include="Services\Server\ServerDataServiceEnums.cs" />
