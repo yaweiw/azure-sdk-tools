@@ -1,7 +1,7 @@
 call %~dp0\SetupEnv.cmd
 
 ::Get WebPI CMD
-SET WebPi=%~dp0\WebpiCmd.exe
+SET WebPi=%~dp0\test\WebpiCmd.exe
 for /F "tokens=1,2*" %%i in ('reg query "HKLM\SOFTWARE\Microsoft\WebPlatformInstaller" /s') DO (
     if "%%i"=="InstallPath" (
         SET WebPi="%%k\WebpiCmd.exe"
