@@ -1026,6 +1026,33 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Services.Server
 
         #endregion
 
+        #region RecoverableDatabase Operations
+
+        /// <summary>
+        /// Retrieves the list of all recoverable databases on the given server.
+        /// </summary>
+        /// <param name="sourceServerName">The name of the server that contained the databases.</param>
+        /// <returns>An array of all recoverable databases on the server.</returns>
+        public RecoverableDatabase[] GetRecoverableDatabases(string sourceServerName)
+        {
+            throw new NotSupportedException(Resources.SqlAuthNotSupported);
+        }
+
+        /// <summary>
+        /// Retrieve information on the recoverable database with the name
+        /// <paramref name="sourceDatabaseName"/> on the server <paramref name="sourceServerName"/>.
+        /// </summary>
+        /// <param name="sourceServerName">The name of the server that contained the database.</param>
+        /// <param name="sourceDatabaseName">The name of the database to recover.</param>
+        /// <returns>An object containing the information about the specific recoverable database.</returns>
+        public RecoverableDatabase GetRecoverableDatabase(
+            string sourceServerName, string sourceDatabaseName)
+        {
+            throw new NotSupportedException(Resources.SqlAuthNotSupported);
+        }
+
+        #endregion
+
         #endregion
 
         /// <summary>
