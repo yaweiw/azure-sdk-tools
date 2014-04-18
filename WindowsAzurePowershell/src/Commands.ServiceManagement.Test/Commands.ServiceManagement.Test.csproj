@@ -87,7 +87,6 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="AutoMapper.Net4, Version=3.1.1.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL" />
     <Reference Include="Microsoft.Data.Edm, Version=5.6.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Data.Edm.5.6.0\lib\net40\Microsoft.Data.Edm.dll</HintPath>
       <Private>True</Private>
@@ -126,9 +125,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Microsoft.WindowsAzure.Management.1.0.0\lib\net40\Microsoft.WindowsAzure.Management.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.WindowsAzure.Management.Compute, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+    <Reference Include="Microsoft.WindowsAzure.Management.Compute, Version=1.0.0.0, Culture=neutral, PublicKeyToken=c66ce9294aae1300, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Microsoft.WindowsAzure.Management.Compute.1.0.0\lib\net40\Microsoft.WindowsAzure.Management.Compute.dll</HintPath>
+      <HintPath>..\packages\Microsoft.WindowsAzure.Management.Compute.1.0.1\lib\net40\Microsoft.WindowsAzure.Management.Compute.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.WindowsAzure.Management.Storage, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -141,6 +140,10 @@
     <Reference Include="Microsoft.WindowsAzure.Storage, Version=3.0.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\WindowsAzure.Storage.3.0.3.0\lib\net40\Microsoft.WindowsAzure.Storage.dll</HintPath>
+    </Reference>
+    <Reference Include="Moq, Version=4.2.1402.2112, Culture=neutral, PublicKeyToken=69f491c39445e920, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Moq.4.2.1402.2112\lib\net40\Moq.dll</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.5.0.8\lib\net40\Newtonsoft.Json.dll</HintPath>
@@ -408,18 +411,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resource.resx</DependentUpon>
     </Compile>
-    <Compile Include="UnitTests\Cmdlets\AffinityGroups\NewAzureAffinityGroupTests.cs" />
-    <Compile Include="UnitTests\Cmdlets\AffinityGroups\RemoveAzureAffinityGroupTests.cs" />
-    <Compile Include="UnitTests\Cmdlets\AffinityGroups\SetAzureAffinityGroupTests.cs" />
-    <Compile Include="UnitTests\Cmdlets\AffinityGroups\GetAzureAffinityGroupTests.cs" />
-    <Compile Include="UnitTests\Cmdlets\Certificates\AddAzureCertificateTests.cs" />
-    <Compile Include="UnitTests\Cmdlets\Certificates\RemoveAzureCertificateTests.cs" />
-    <Compile Include="UnitTests\Cmdlets\Certificates\GetAzureCertificateTests.cs" />
-    <Compile Include="UnitTests\Cmdlets\IaaS\PersistenVMs\GetAzureWinRMUriTests.cs" />
-    <Compile Include="UnitTests\Cmdlets\HostedServices\MoveAzureDeploymentCommandTests.cs" />
-    <Compile Include="UnitTests\Cmdlets\StorageServices\AddAzureVhdCommandTests.cs" />
-    <Compile Include="UnitTests\Cmdlets\StorageServices\GetAzureStorageAccountTests.cs" />
-    <Compile Include="UnitTests\Cmdlets\StorageServices\SetAzureStorageAccountTests.cs" />
+    <Compile Include="UnitTests\Cmdlets\IaaS\Extensions\VirtualMachineExtensionImageFactoryTests.cs" />
     <Compile Include="FunctionalTests\VMTemplateTests.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -475,10 +467,6 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="..\packages\AutoMapper.3.1.1\lib\net40\AutoMapper.Net4.dll">
-      <Link>AutoMapper.Net4.dll</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
     <Content Include="FunctionalTests\Readme.txt" />
     <Content Include="lib\Security.Cryptography.dll" />
     <Content Include="Resources\clxtshar.dll" />

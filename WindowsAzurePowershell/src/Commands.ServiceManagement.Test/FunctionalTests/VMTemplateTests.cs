@@ -381,7 +381,6 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
                     Category = CONSTANT_CATEGORY,
                     Location = locationName,
                     Label = newLabel,
-                    OSImageName = newLabel,
                     OS = OS.Windows.ToString()
                });
                 Console.WriteLine("------------------------------Get-AzureVMImage: Completed---------------------------------");
@@ -560,7 +559,6 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
             Assert.AreEqual(imageContext.Category, vmImage[0].Category, "Category property of the saved os image is not matching.");
             Assert.AreEqual(imageContext.Location, vmImage[0].Location, "Location property of the saved os image is not matching.");
             Assert.AreEqual(imageContext.Label, vmImage[0].Label, "Label property of the saved os image is not matching.");
-            Assert.AreEqual(imageContext.OSImageName, vmImage[0].OSImageName, "OSImageName property of the saved os image is not matching.");
             Assert.AreEqual(imageContext.OS, vmImage[0].OS, "OS property of the saved os image is not matching.");
         }
 

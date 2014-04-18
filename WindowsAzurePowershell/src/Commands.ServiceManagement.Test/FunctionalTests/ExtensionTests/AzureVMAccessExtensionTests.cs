@@ -18,6 +18,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
     using Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions;
     using Microsoft.WindowsAzure.Commands.ServiceManagement.Model;
     using Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests.ConfigDataInfo;
+    using Microsoft.WindowsAzure.Commands.Utilities.Websites.Services;
     using System;
     using System.Collections.Generic;
     using System.IO;
@@ -260,8 +261,8 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
                 Assert.IsFalse(vmAccessExtension.Enabled, "Enabled is not False");
                 Console.WriteLine("Verifed the disabled extension successfully.");
             }
-            Assert.IsTrue(string.IsNullOrEmpty(vmAccessExtension.Password), "Password is not empty");
-            Assert.IsTrue(string.IsNullOrEmpty(vmAccessExtension.PrivateConfiguration),"PrivateConfiguration should be null or empty.");
+            Assert.IsTrue(!string.IsNullOrEmpty(vmAccessExtension.Password.ConvertToUnsecureString()), "Password is not empty");
+            Assert.IsTrue(string.IsNullOrEmpty(vmAccessExtension.PrivateConfiguration.ConvertToUnsecureString()),"PrivateConfiguration should be null or empty.");
         }
 
         private PersistentVM GetAzureVM(string vmName, string serviceName)

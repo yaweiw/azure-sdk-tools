@@ -26,6 +26,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
     using System.Reflection;
     using System.Text;
     using VisualStudio.TestTools.UnitTesting;
+    using Helpers;
 
     [TestClass]
     public class CustomScriptExtesnionTests: ServiceManagementTest
@@ -237,7 +238,8 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
             Utilities.PrintContext(customScriptExtensionContext);
             Utilities.LogAssert(() => Assert.AreEqual(customScriptExtensionContext.ExtensionName, customScriptExtension.ExtensionName), "Verifiying ExtensionName");
             Utilities.LogAssert(() => Assert.AreEqual(customScriptExtensionContext.RoleName, vmName), "Verifiying RoleName"); ;
-            Utilities.LogAssert(() => Assert.IsTrue(string.IsNullOrEmpty(customScriptExtensionContext.PrivateConfiguration)), "Verifiying PrivateConfiguration"); ;
+            Utilities.LogAssert(() => Assert.IsTrue(customScriptExtensionContext.PrivateConfiguration == null ||
+                string.IsNullOrEmpty(customScriptExtensionContext.PrivateConfiguration.ConvertToUnsecureString())), "Verifiying PrivateConfiguration"); ;
             Utilities.LogAssert(() => Assert.IsFalse(string.IsNullOrEmpty(customScriptExtensionContext.PublicConfiguration)), "Verifiying ExtensionName"); ;
             Utilities.LogAssert(() => Assert.AreEqual(customScriptExtensionContext.Publisher, customScriptExtension.Publisher), "Verifiying ExtensionName"); ;
             if(type != SetAzureVMCustomScriptExtensionCmdletParmaterSetType.DisableCustomScriptExtensionParamSetName 
