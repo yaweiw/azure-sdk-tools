@@ -18,56 +18,62 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Certificates
     using System.Security.Cryptography.X509Certificates;
     using System.Security.Permissions;
     using Helpers;
+    using Management.Compute;
     using Management.Compute.Models;
     using Utilities.Common;
 
     /// <summary>
     /// Upload a service certificate for the specified hosted service.
     /// </summary>
-    [Cmdlet(
-        VerbsCommon.Add,
-        "AzureCertificate"),
-    OutputType(
-        typeof(ManagementOperationContext))]
+    [Cmdlet(VerbsCommon.Add, "AzureCertificate"), OutputType(typeof(ManagementOperationContext))]
     public class AddAzureCertificate : ServiceManagementBaseCmdlet
     {
-        [Parameter(
-            Position = 0,
-            Mandatory = true,
-            ValueFromPipelineByPropertyName = true,
-            HelpMessage = "Hosted Service Name.")]
+        [Parameter(Position = 0, Mandatory = true, ValueFromPipelineByPropertyName = true, HelpMessage = "Hosted Service Name.")]
         [ValidateNotNullOrEmpty]
-        public string ServiceName { get; set; }
-
-        [Parameter(
-            Position = 1,
-            Mandatory = true,
-            HelpMessage = "Certificate to deploy.")]
-        [ValidateNotNullOrEmpty]
-        public object CertToDeploy { get; set; }
-
-        [Parameter(
-            HelpMessage = "Certificate password.")]
-        public string Password { get; set; }
-
-        [PermissionSet(
-            SecurityAction.Demand,
-            Name = "FullTrust")]
-        protected override void OnProcessRecord()
+        public string ServiceName
         {
-            ServiceManagementProfile.Initialize();
+            get;
+            set;
+        }
+
+        [Parameter(Position = 1, Mandatory = true, HelpMessage = "Certificate to deploy.")]
+        [ValidateNotNullOrEmpty]
+        public object CertToDeploy
+        {
+            get;
+            set;
+        }
+
+        [Parameter(HelpMessage = "Certificate password.")]
+        public string Password
+        {
+            get;
+            set;
+        }
+
+        internal void ExecuteCommand()
+        {
+            Password = Password ?? string.Empty;
+
+            var certData = GetCertificateData();
 
             var parameters = new ServiceCertificateCreateParameters
             {
-                Data              = GetCertificateData(),
-                Password          = Password ?? string.Empty,
+                Data = certData,
+                Password = Password,
                 CertificateFormat = CertificateFormat.Pfx
             };
-
             ExecuteClientActionNewSM(
-                null,
+                null, 
                 CommandRuntime.ToString(),
                 () => this.ComputeClient.ServiceCertificates.Create(this.ServiceName, parameters));
+        }
+
+        [PermissionSet(SecurityAction.Demand, Name = "FullTrust")]
+        protected override void OnProcessRecord()
+        {
+            ServiceManagementProfile.Initialize();
+            this.ExecuteCommand();
         }
 
         private byte[] GetCertificateData()

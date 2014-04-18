@@ -11,33 +11,22 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 // ----------------------------------------------------------------------------------
-namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.UnitTests.Cmdlets.StorageServices
+
+namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests.IaasCmdletInfo.Extesnions.CustomScript
 {
-    using Commands.Utilities.Common;
-    using Commands.Test.Utilities.Common;
-    using VisualStudio.TestTools.UnitTesting;
+    using Microsoft.WindowsAzure.Commands.ServiceManagement.Model;
+    using Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests.PowershellCore;
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Text;
 
-    ////[TestClass]
-    public class GetAzureStorageAccountTests : TestBase
+    public class GetAzureVMCustomScriptExtensionCmdletInfo:CmdletsInfo
     {
-        FileSystemHelper files;
-
-        //[TestInitialize]
-        public void SetupTest()
+        public GetAzureVMCustomScriptExtensionCmdletInfo(IPersistentVM vm)
         {
-            files = new FileSystemHelper(this);
-            //files.CreateAzureSdkDirectoryAndImportPublishSettings();
-        }
-
-        //[TestCleanup]
-        public void CleanupTest()
-        {
-            //files.Dispose();
-        }
-
-        //[TestMethod]
-        public void GetAzureStorageAccountTest()
-        {
+            this.cmdletName = Utilities.GetAzureVMCustomScriptExtensionCmdletName;
+            this.cmdletParams.Add(new CmdletParam("VM",vm));
         }
     }
 }

@@ -13,7 +13,7 @@
 // ----------------------------------------------------------------------------------
 
 using System.Reflection;
-using Microsoft.WindowsAzure.Commands.ServiceManagement.Model;
+using Microsoft.WindowsAzure.Commands.ServiceManagement.Preview.Model;
 
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
 {

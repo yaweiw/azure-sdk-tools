@@ -126,9 +126,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.PersistentVMs
             set;
         }
 
-        [Parameter(HelpMessage = "The name of the reserved IP.")]
-        [ValidateNotNullOrEmpty]
-        public string ReservedIPName
+        public virtual string ReservedIPName
         {
             get;
             set;

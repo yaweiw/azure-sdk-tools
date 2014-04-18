@@ -12,11 +12,22 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-
-namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Model
+namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests.IaasCmdletInfo.Extesnions.CustomScript
 {
-    public static class ReservedIPConstants
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Text;
+
+    public enum SetAzureVMCustomScriptExtensionCmdletParmaterSetType
     {
-        public const string CmdletNoun = "AzureReservedIP";
+        SetCustomScriptExtensionByUrisParamSetName,
+        SetCustomScriptExtensionByUrisParamSetNameWithOutDefaultParameters,
+        DisableCustomScriptExtensionParamSetName,
+        DisableCustomScriptExtensionParamSetNameWithOutDefaultParameters,
+        SetCustomScriptExtensionByContainerBlobsParamSetName,
+        SetCustomScriptExtensionByContainerBlobsParamSetNameWithOutDefaultParameters
     }
+
+
 }

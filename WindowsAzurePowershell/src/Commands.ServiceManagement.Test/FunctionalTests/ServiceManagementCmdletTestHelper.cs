@@ -35,6 +35,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
     using VisualStudio.TestTools.UnitTesting;
     using Model.PersistentVMModel;
     using PIRCmdletInfo;
+    using Preview.Model;
     using PreviewCmdletInfo;
 
     using Microsoft.WindowsAzure.Storage.Blob;
@@ -43,6 +44,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
     using Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests.IaasCmdletInfo.Extensions.BGInfo;
     using Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests.IaasCmdletInfo.Extensions.Common;
 using Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests.IaasCmdletInfo.Extesnions.VMAccess;
+    using Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests.IaasCmdletInfo.Extesnions.CustomScript;
     
 
     public class ServiceManagementCmdletTestHelper
@@ -666,7 +668,7 @@ using Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests.Iaa
             return result;
         }
 
-        public ManagementOperationContext NewAzureQuickVM(OS os, string name, string serviceName, string imageName, string userName, string password, string locationName = null)
+        public ManagementOperationContext NewAzureQuickVM(OS os, string name, string serviceName, string imageName, string userName= null, string password= null, string locationName = null)
         {
             return NewAzureQuickVM(os, name, serviceName, imageName, userName, password, locationName, null);
         }
@@ -1267,14 +1269,19 @@ using Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests.Iaa
             return result;
         }
 
-        public void SaveAzureVMImage(string serviceName, string vmName, string newImageName, string newImageLabel = null)
+        public void SaveAzureVMImage(string serviceName, string vmName, string newImageName, string osState = null,string newImageLabel = null)
         {
-            RunPSCmdletAndReturnFirst<ManagementOperationContext>(new SaveAzureVMImageCmdletInfo(serviceName, vmName, newImageName, newImageLabel));
+            RunPSCmdletAndReturnFirst<ManagementOperationContext>(new SaveAzureVMImageCmdletInfo(serviceName, vmName, newImageName, newImageLabel, osState));
         }
 
         public Collection<OSImageContext> GetAzureVMImage(string imageName = null)
         {
             return RunPSCmdletAndReturnAll<OSImageContext>(new GetAzureVMImageCmdletInfo(imageName));
+        }
+
+        public Collection<VMImageContext> GetAzureVMImageReturningVMImages(string imageName = null)
+        {
+            return RunPSCmdletAndReturnAll<VMImageContext>(new GetAzureVMImageCmdletInfo(imageName));
         }
 
         public string GetAzureVMImageName(string[] keywords, bool exactMatch = true)
@@ -1806,5 +1813,37 @@ using Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests.Iaa
         }
 
         #endregion AzureVMAccessExtension cmdlets
+
+        #region AzureVMCustomScriptExtensionCmdlets
+        //SetCustomScriptExtensionByUrisParamSetName
+        internal PersistentVM SetAzureVMCustomScriptExtension(PersistentVM vm, string[] fileUri, bool sseSaSKeys, string run = null, string referenceName = null, string version = null, string argument = null)
+        {
+            return RunPSCmdletAndReturnFirst<PersistentVM>(new SetAzureVMCustomScriptExtensionCmdletInfo(vm, referenceName, version,fileUri,run, argument ));
+        }
+
+        //DisableCustomScriptExtensionParamSetName
+        internal PersistentVM SetAzureVMCustomScriptExtension(PersistentVM vm, bool disable, string referenceName = null, string version = null)
+        {
+            return RunPSCmdletAndReturnFirst<PersistentVM>(new SetAzureVMCustomScriptExtensionCmdletInfo(vm,referenceName,version,disable));
+        }
+
+        //SetCustomScriptExtensionByContainerBlobsParamSetName
+        internal PersistentVM SetAzureVMCustomScriptExtension(PersistentVM vm, string[] fileName, string run = null, string storageAccountName = null, string StorageEndpointSuffix = null, string containerName = null,
+              string StorageAccountKey = null, string referenceName = null, string version = null,string argument = null)
+        {
+            return RunPSCmdletAndReturnFirst<PersistentVM>(new SetAzureVMCustomScriptExtensionCmdletInfo(vm, fileName, storageAccountName, StorageEndpointSuffix, containerName,
+                    StorageAccountKey, run, argument,referenceName, version));
+        }
+
+        internal VirtualMachineCustomScriptExtensionContext GetAzureVMCustomScriptExtension(IPersistentVM vm)
+        {
+            return RunPSCmdletAndReturnFirst<VirtualMachineCustomScriptExtensionContext>(new GetAzureVMCustomScriptExtensionCmdletInfo(vm));
+        }
+
+        internal PersistentVM RemoveAzureVMCustomScriptExtension(PersistentVM vm)
+        {
+            return RunPSCmdletAndReturnFirst<PersistentVM>(new RemoveAzureVMCustomScriptExtensionCmdletInfo(vm));
+        }
+        #endregion AzureVMCustomScriptExtensionCmdlets
     }
 }
