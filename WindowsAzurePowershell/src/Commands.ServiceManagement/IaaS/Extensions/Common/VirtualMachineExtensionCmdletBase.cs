@@ -21,6 +21,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
     using System.Management.Automation;
     using System.Xml;
     using System.Xml.Linq;
+    using Helpers;
     using Model.PersistentVMModel;
     using Properties;
 
@@ -33,8 +34,9 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
         protected const string PrivateConfigurationKeyStr = "PrivateConfiguration";
         protected const string PublicTypeStr = "Public";
         protected const string PrivateTypeStr = "Private";
-        protected const string ReferenceDisableStr = "Disable";
-        protected const string ReferenceEnableStr = "Enable";
+        public const string ReferenceDisableStateStr = "Disable";
+        public const string ReferenceEnableStateStr = "Enable";
+        public const string ReferenceUninstallStateStr = "Uninstall";
 
         protected static VirtualMachineExtensionImageContext[] LegacyExtensionImages;
 
@@ -191,7 +193,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
             extensionRef.Publisher = this.Publisher;
             extensionRef.Version = this.Version;
             extensionRef.State = IsLegacyExtension() ? null :
-                              this.Disable.IsPresent ? ReferenceDisableStr : ReferenceEnableStr;
+                              this.Disable.IsPresent ? ReferenceDisableStateStr : ReferenceEnableStateStr;
             extensionRef.ResourceExtensionParameterValues = new ResourceExtensionParameterValueList();
 
             if (!string.IsNullOrEmpty(this.ReferenceName))
@@ -231,7 +233,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
                     {
                         Key =  ExtensionName + (IsLegacyExtension() ? string.Empty : PrivateTypeStr) + "ConfigParameter",
                         Type = IsLegacyExtension() ? null : PrivateTypeStr,
-                        Value = PrivateConfiguration
+                        SecureValue = SecureStringHelper.GetSecureString(PrivateConfiguration)
                     });
             }
 
@@ -248,7 +250,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
                 var paramVal = paramValList.FirstOrDefault(
                     p => string.IsNullOrEmpty(typeStr) ? true :
                          string.Equals(p.Type, typeStr, StringComparison.OrdinalIgnoreCase));
-                config = paramVal == null ? string.Empty : paramVal.Value;
+                config = SecureStringHelper.GetPlainString(paramVal);
             }
 
             return config;
