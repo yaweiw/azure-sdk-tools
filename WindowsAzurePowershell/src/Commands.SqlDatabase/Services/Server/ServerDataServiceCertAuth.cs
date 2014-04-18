@@ -763,11 +763,11 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Services.Server
 
 
         /// <summary>
-        /// Given a <see cref="DatabaseGetResponse"/> this will create and return a <see cref="Database"/> 
+        /// Given a <see cref="DatabaseGetResponse"/> this will create and return a <see cref="Database"/>
         /// object with the fields filled in.
         /// </summary>
         /// <param name="response">The response to turn into a <see cref="Database"/></param>
-        /// <returns>a <see cref="Database"/> object.</returns>
+        /// <returns>A <see cref="Database"/> object.</returns>
         private Database CreateDatabaseFromResponse(DatabaseGetResponse response)
         {
             return this.CreateDatabaseFromResponse(
@@ -787,15 +787,16 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Services.Server
                 response.Database.ServiceObjectiveAssignmentStateDescription,
                 response.Database.ServiceObjectiveAssignmentSuccessDate,
                 response.Database.ServiceObjectiveId,
-                response.Database.AssignedServiceObjectiveId);
+                response.Database.AssignedServiceObjectiveId,
+                response.Database.RecoveryPeriodStartDate);
         }
 
         /// <summary>
-        /// Given a <see cref="DatabaseGetResponse"/> this will create and return a <see cref="Database"/> 
-        /// object with the fields filled in.
+        /// Given a <see cref="DatabaseListResponse"/> this will create and return an array of <see cref="Database"/>
+        /// objects with the fields filled in.
         /// </summary>
-        /// <param name="response">The response to turn into a <see cref="Database"/></param>
-        /// <returns>a <see cref="Database"/> object.</returns>
+        /// <param name="response">The response to turn into an array of <see cref="Database"/> objects</param>
+        /// <returns>An array of <see cref="Database"/> objects.</returns>
         private Database[] CreateDatabaseFromResponse(DatabaseListResponse response)
         {
             return response.Databases.Select(db => this.CreateDatabaseFromResponse(
@@ -815,15 +816,16 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Services.Server
                 db.ServiceObjectiveAssignmentStateDescription,
                 db.ServiceObjectiveAssignmentSuccessDate,
                 db.ServiceObjectiveId,
-                db.AssignedServiceObjectiveId)).ToArray();
+                db.AssignedServiceObjectiveId,
+                db.RecoveryPeriodStartDate)).ToArray();
         }
 
         /// <summary>
-        /// Given a <see cref="DatabaseCreateResponse"/> this will create and return a <see cref="Database"/> 
+        /// Given a <see cref="DatabaseCreateResponse"/> this will create and return a <see cref="Database"/>
         /// object with the fields filled in.
         /// </summary>
         /// <param name="response">The response to turn into a <see cref="Database"/></param>
-        /// <returns>a <see cref="Database"/> object.</returns>
+        /// <returns>A <see cref="Database"/> object.</returns>
         private Database CreateDatabaseFromResponse(DatabaseCreateResponse response)
         {
             return this.CreateDatabaseFromResponse(
@@ -843,15 +845,16 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Services.Server
                response.Database.ServiceObjectiveAssignmentStateDescription,
                response.Database.ServiceObjectiveAssignmentSuccessDate,
                response.Database.ServiceObjectiveId,
-               response.Database.AssignedServiceObjectiveId);
+               response.Database.AssignedServiceObjectiveId,
+               response.Database.RecoveryPeriodStartDate);
         }
 
         /// <summary>
-        /// Given a <see cref="DatabaseUpdateResponse"/> this will create and return a <see cref="Database"/> 
+        /// Given a <see cref="DatabaseUpdateResponse"/> this will create and return a <see cref="Database"/>
         /// object with the fields filled in.
         /// </summary>
         /// <param name="response">The response to turn into a <see cref="Database"/></param>
-        /// <returns>a <see cref="Database"/> object.</returns>
+        /// <returns>A <see cref="Database"/> object.</returns>
         private Database CreateDatabaseFromResponse(DatabaseUpdateResponse response)
         {
             return this.CreateDatabaseFromResponse(
@@ -871,11 +874,12 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Services.Server
                 response.Database.ServiceObjectiveAssignmentStateDescription,
                 response.Database.ServiceObjectiveAssignmentSuccessDate,
                 response.Database.ServiceObjectiveId,
-                response.Database.AssignedServiceObjectiveId);
+                response.Database.AssignedServiceObjectiveId,
+                response.Database.RecoveryPeriodStartDate);
         }
 
         /// <summary>
-        /// Given a set of database properties this will create and return a <see cref="Database"/> 
+        /// Given a set of database properties this will create and return a <see cref="Database"/>
         /// object with the fields filled in.
         /// </summary>
         /// <param name="id">The database Id.</param>
@@ -884,6 +888,7 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Services.Server
         /// <param name="edition">The database edition.</param>
         /// <param name="collationName">The database collation name.</param>
         /// <param name="maximumDatabaseSizeInGB">The database maximum size.</param>
+        /// <param name="maximumDatabaseSizeInBytes">The database maximum size.</param>
         /// <param name="isFederationRoot">Whether or not the database is a federation root.</param>
         /// <param name="isSystemObject">Whether or not the database is a system object.</param>
         /// <param name="sizeMB">The current database size.</param>
@@ -903,6 +908,8 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Services.Server
         /// The last success date for a service objective assignment on this database.
         /// </param>
         /// <param name="serviceObjectiveId">The service objective Id for this database.</param>
+        /// <param name="assignedServiceObjectiveId">The assigned service object Id for this database.</param>
+        /// <param name="recoveryPeriodStartDate">The start date of the recovery period for this database.</param>
         /// <returns>A <see cref="Database"/> object.</returns>
         private Database CreateDatabaseFromResponse(
             int id,
@@ -921,7 +928,8 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Services.Server
             string serviceObjectiveAssignmentStateDescription,
             string serviceObjectiveAssignmentSuccessDate,
             string serviceObjectiveId,
-            string assignedServiceObjectiveId)
+            string assignedServiceObjectiveId,
+            DateTime? recoveryPeriodStartDate)
         {
             Database result = new Database()
             {
@@ -934,6 +942,7 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Services.Server
                 MaxSizeBytes = maximumDatabaseSizeInBytes,
                 IsFederationRoot = isFederationRoot,
                 IsSystemObject = isSystemObject,
+                RecoveryPeriodStartDate = recoveryPeriodStartDate,
             };
 
             // Parse any additional database information
