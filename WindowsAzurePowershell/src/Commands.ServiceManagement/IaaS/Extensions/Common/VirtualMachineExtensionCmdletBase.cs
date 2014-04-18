@@ -279,6 +279,15 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
             {
                 throw new ArgumentException(Resources.ProvisionGuestAgentMustBeEnabledBeforeSettingIaaSVMAccessExtension);
             }
+
+            if (string.IsNullOrEmpty(this.ReferenceName))
+            {
+                var extensionRef = GetPredicateExtension();
+                if (extensionRef != null)
+                {
+                    this.ReferenceName = extensionRef.ReferenceName;
+                }
+            }
         }
 
         protected static string GetConfigValue(string xmlText, string element)
