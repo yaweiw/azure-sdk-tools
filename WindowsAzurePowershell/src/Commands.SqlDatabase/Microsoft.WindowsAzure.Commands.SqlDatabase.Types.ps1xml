@@ -96,6 +96,7 @@
               <Name>ServiceObjectiveName</Name>
               <Name>ServiceObjectiveAssignmentStateDescription</Name>
               <Name>CreationDate</Name>
+              <Name>RecoveryPeriodStartDate</Name>
             </ReferencedProperties>
           </PropertySet>
         </Members>
