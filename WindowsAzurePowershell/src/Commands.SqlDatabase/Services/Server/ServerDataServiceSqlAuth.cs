@@ -1053,6 +1053,25 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Services.Server
 
         #endregion
 
+        #region Recover Database Operations
+
+        /// <summary>
+        /// Issues a recovery request for the given source database to the given target database.
+        /// </summary>
+        /// <param name="sourceServerName">The name of the server that contained the source database.</param>
+        /// <param name="sourceDatabaseName">The name of the source database.</param>
+        /// <param name="targetDatabaseName">The name of the database to be created with the restored contents.</param>
+        /// <returns>An object containing the information about the recovery request.</returns>
+        public RecoverDatabaseOperation RecoverDatabase(
+            string sourceServerName,
+            string sourceDatabaseName,
+            string targetDatabaseName)
+        {
+            throw new NotSupportedException(Resources.SqlAuthNotSupported);
+        }
+
+        #endregion
+
         #endregion
 
         /// <summary>
