@@ -25946,4 +25946,527 @@
       </HttpMessage>
     </Messages>
   </HttpSession>
+  <HttpSession>
+    <Name>UnitTest.Common.CreateTestDatabasesWithCertAuth</Name>
+    <Messages>
+      <HttpMessage>
+        <Index>0</Index>
+        <RequestInfo>
+          <RequestUri>https://localhost:65432/00000000-0000-0000-0001-000000000001/services/sqlservers/servers/serverv1/databases</RequestUri>
+          <Method>POST</Method>
+          <UserAgent>Microsoft.WindowsAzure.Management.Sql.SqlManagementClient/0.9.0.0 WindowsAzurePowershell/v0.8.0</UserAgent>
+          <Headers>
+            <Header>
+              <Name>x-ms-version</Name>
+              <Value>2012-03-01</Value>
+            </Header>
+            <Header>
+              <Name>x-ms-client-session-id</Name>
+              <Value>fea9ea40-d212-4f3b-b591-140da9b0b191-2014-04-18 03:05:34Z</Value>
+            </Header>
+            <Header>
+              <Name>x-ms-client-request-id</Name>
+              <Value>4a2cd1d5-2fae-475b-a546-708b34aaba9c-2014-04-18 03:05:34Z</Value>
+            </Header>
+          </Headers>
+          <Cookies />
+          <RequestText>&lt;ServiceResource xmlns="http://schemas.microsoft.com/windowsazure"&gt;
+  &lt;Name&gt;testdb1&lt;/Name&gt;
+  &lt;CollationName&gt;&lt;/CollationName&gt;
+&lt;/ServiceResource&gt;</RequestText>
+          <ContentType>application/xml</ContentType>
+          <Accept i:nil="true" />
+        </RequestInfo>
+        <ResponseInfo>
+          <StatusCode>Created</StatusCode>
+          <Headers>
+            <Header>
+              <Name>x-ms-request-id</Name>
+              <Value>4a2cd1d5-2fae-475b-a546-708b34aaba9c</Value>
+            </Header>
+            <Header>
+              <Name>X-Content-Type-Options</Name>
+              <Value>nosniff</Value>
+            </Header>
+            <Header>
+              <Name>Cache-Control</Name>
+              <Value>no-store,no-cache</Value>
+            </Header>
+            <Header>
+              <Name>Content-Type</Name>
+              <Value>application/xml; charset=utf-8</Value>
+            </Header>
+            <Header>
+              <Name>Date</Name>
+              <Value>Fri, 18 Apr 2014 03:05:41 GMT</Value>
+            </Header>
+            <Header>
+              <Name>Server</Name>
+              <Value>Microsoft-HTTPAPI/2.0 Microsoft-HTTPAPI/2.0</Value>
+            </Header>
+          </Headers>
+          <Cookies />
+          <ResponseText>&lt;ServiceResource xmlns="http://schemas.microsoft.com/windowsazure" xmlns:i="http://www.w3.org/2001/XMLSchema-instance"&gt;&lt;Name&gt;testdb1&lt;/Name&gt;&lt;Type&gt;Microsoft.SqlAzure.Database&lt;/Type&gt;&lt;State&gt;Normal&lt;/State&gt;&lt;SelfLink&gt;https://localhost/servers/serverv1/databases/testdb1&lt;/SelfLink&gt;&lt;ParentLink&gt;https://localhost/servers/serverv1&lt;/ParentLink&gt;&lt;Id&gt;4&lt;/Id&gt;&lt;Edition&gt;Web&lt;/Edition&gt;&lt;MaxSizeGB&gt;1&lt;/MaxSizeGB&gt;&lt;CollationName&gt;SQL_Latin1_General_CP1_CI_AS&lt;/CollationName&gt;&lt;CreationDate&gt;2014-04-18T03:05:35.5900000Z&lt;/CreationDate&gt;&lt;IsFederationRoot&gt;False&lt;/IsFederationRoot&gt;&lt;IsSystemObject&gt;False&lt;/IsSystemObject&gt;&lt;SizeMB i:nil="true"/&gt;&lt;MaxSizeBytes&gt;1073741824&lt;/MaxSizeBytes&gt;&lt;ServiceObjectiveId&gt;910b4fcb-8a29-4c3e-958f-f7ba794388b2&lt;/ServiceObjectiveId&gt;&lt;AssignedServiceObjectiveId&gt;910b4fcb-8a29-4c3e-958f-f7ba794388b2&lt;/AssignedServiceObjectiveId&gt;&lt;ServiceObjectiveAssignmentState&gt;1&lt;/ServiceObjectiveAssignmentState&gt;&lt;ServiceObjectiveAssignmentStateDescription&gt;Complete&lt;/ServiceObjectiveAssignmentStateDescription&gt;&lt;ServiceObjectiveAssignmentErrorCode&gt;0&lt;/ServiceObjectiveAssignmentErrorCode&gt;&lt;ServiceObjectiveAssignmentErrorDescription i:nil="true"/&gt;&lt;ServiceObjectiveAssignmentSuccessDate&gt;2014-04-18T03:05:39.1670000Z&lt;/ServiceObjectiveAssignmentSuccessDate&gt;&lt;RecoveryPeriodStartDate&gt;2014-04-18T03:06:35.2530000Z&lt;/RecoveryPeriodStartDate&gt;&lt;IsSuspended&gt;False&lt;/IsSuspended&gt;&lt;/ServiceResource&gt;</ResponseText>
+        </ResponseInfo>
+      </HttpMessage>
+      <HttpMessage>
+        <Index>1</Index>
+        <RequestInfo>
+          <RequestUri>https://localhost:65432/00000000-0000-0000-0001-000000000001/services/sqlservers/servers/serverv1/serviceobjectives/910b4fcb-8a29-4c3e-958f-f7ba794388b2</RequestUri>
+          <Method>GET</Method>
+          <UserAgent>Microsoft.WindowsAzure.Management.Sql.SqlManagementClient/0.9.0.0 WindowsAzurePowershell/v0.8.0</UserAgent>
+          <Headers>
+            <Header>
+              <Name>x-ms-version</Name>
+              <Value>2012-03-01</Value>
+            </Header>
+            <Header>
+              <Name>x-ms-client-session-id</Name>
+              <Value>fea9ea40-d212-4f3b-b591-140da9b0b191-2014-04-18 03:05:34Z</Value>
+            </Header>
+            <Header>
+              <Name>x-ms-client-request-id</Name>
+              <Value>2ce60c57-304f-4cf2-a4a9-d551bf0c36cb-2014-04-18 03:05:41Z</Value>
+            </Header>
+          </Headers>
+          <Cookies />
+          <RequestText i:nil="true" />
+          <ContentType i:nil="true" />
+          <Accept i:nil="true" />
+        </RequestInfo>
+        <ResponseInfo>
+          <StatusCode>OK</StatusCode>
+          <Headers>
+            <Header>
+              <Name>x-ms-request-id</Name>
+              <Value>2ce60c57-304f-4cf2-a4a9-d551bf0c36cb</Value>
+            </Header>
+            <Header>
+              <Name>X-Content-Type-Options</Name>
+              <Value>nosniff</Value>
+            </Header>
+            <Header>
+              <Name>Cache-Control</Name>
+              <Value>no-store,no-cache</Value>
+            </Header>
+            <Header>
+              <Name>Content-Type</Name>
+              <Value>application/xml; charset=utf-8</Value>
+            </Header>
+            <Header>
+              <Name>Date</Name>
+              <Value>Fri, 18 Apr 2014 03:05:41 GMT</Value>
+            </Header>
+            <Header>
+              <Name>Server</Name>
+              <Value>Microsoft-HTTPAPI/2.0 Microsoft-HTTPAPI/2.0</Value>
+            </Header>
+          </Headers>
+          <Cookies />
+          <ResponseText>&lt;ServiceResource xmlns="http://schemas.microsoft.com/windowsazure" xmlns:i="http://www.w3.org/2001/XMLSchema-instance"&gt;&lt;Name&gt;Shared&lt;/Name&gt;&lt;Type&gt;Microsoft.SqlAzure.ServiceObjective&lt;/Type&gt;&lt;State&gt;Normal&lt;/State&gt;&lt;SelfLink&gt;https://localhost/servers/serverv1/serviceobjectives/910b4fcb-8a29-4c3e-958f-f7ba794388b2&lt;/SelfLink&gt;&lt;ParentLink&gt;https://localhost/servers/serverv1&lt;/ParentLink&gt;&lt;Id&gt;910b4fcb-8a29-4c3e-958f-f7ba794388b2&lt;/Id&gt;&lt;IsDefault&gt;True&lt;/IsDefault&gt;&lt;IsSystem&gt;False&lt;/IsSystem&gt;&lt;Description&gt;Shared resource allocation.&lt;/Description&gt;&lt;Enabled&gt;True&lt;/Enabled&gt;&lt;DimensionSettings&gt;&lt;ServiceResource&gt;&lt;Name&gt;Shared&lt;/Name&gt;&lt;Type&gt;Microsoft.SqlAzure.DimensionSetting&lt;/Type&gt;&lt;State&gt;Normal&lt;/State&gt;&lt;SelfLink&gt;https://localhost/servers/serverv1/dimensionsettings/22467ff6-6823-4d18-a169-913150e7714f&lt;/SelfLink&gt;&lt;ParentLink&gt;https://localhost/servers/serverv1&lt;/ParentLink&gt;&lt;Id&gt;22467ff6-6823-4d18-a169-913150e7714f&lt;/Id&gt;&lt;Description&gt;Shared resource allocation.&lt;/Description&gt;&lt;Ordinal&gt;2&lt;/Ordinal&gt;&lt;IsDefault&gt;True&lt;/IsDefault&gt;&lt;/ServiceResource&gt;&lt;/DimensionSettings&gt;&lt;/ServiceResource&gt;</ResponseText>
+        </ResponseInfo>
+      </HttpMessage>
+      <HttpMessage>
+        <Index>2</Index>
+        <RequestInfo>
+          <RequestUri>https://localhost:65432/00000000-0000-0000-0001-000000000001/services/sqlservers/servers/serverv1/databases</RequestUri>
+          <Method>POST</Method>
+          <UserAgent>Microsoft.WindowsAzure.Management.Sql.SqlManagementClient/0.9.0.0 WindowsAzurePowershell/v0.8.0</UserAgent>
+          <Headers>
+            <Header>
+              <Name>x-ms-version</Name>
+              <Value>2012-03-01</Value>
+            </Header>
+            <Header>
+              <Name>x-ms-client-session-id</Name>
+              <Value>fea9ea40-d212-4f3b-b591-140da9b0b191-2014-04-18 03:05:34Z</Value>
+            </Header>
+            <Header>
+              <Name>x-ms-client-request-id</Name>
+              <Value>5f6a696c-00c8-4c01-be82-8b56fe84d966-2014-04-18 03:05:41Z</Value>
+            </Header>
+          </Headers>
+          <Cookies />
+          <RequestText>&lt;ServiceResource xmlns="http://schemas.microsoft.com/windowsazure"&gt;
+  &lt;Name&gt;testdb2&lt;/Name&gt;
+  &lt;Edition&gt;Web&lt;/Edition&gt;
+  &lt;MaxSizeGB&gt;5&lt;/MaxSizeGB&gt;
+  &lt;CollationName&gt;Japanese_CI_AS&lt;/CollationName&gt;
+&lt;/ServiceResource&gt;</RequestText>
+          <ContentType>application/xml</ContentType>
+          <Accept i:nil="true" />
+        </RequestInfo>
+        <ResponseInfo>
+          <StatusCode>Created</StatusCode>
+          <Headers>
+            <Header>
+              <Name>x-ms-request-id</Name>
+              <Value>5f6a696c-00c8-4c01-be82-8b56fe84d966</Value>
+            </Header>
+            <Header>
+              <Name>X-Content-Type-Options</Name>
+              <Value>nosniff</Value>
+            </Header>
+            <Header>
+              <Name>Cache-Control</Name>
+              <Value>no-store,no-cache</Value>
+            </Header>
+            <Header>
+              <Name>Content-Type</Name>
+              <Value>application/xml; charset=utf-8</Value>
+            </Header>
+            <Header>
+              <Name>Date</Name>
+              <Value>Fri, 18 Apr 2014 03:05:53 GMT</Value>
+            </Header>
+            <Header>
+              <Name>Server</Name>
+              <Value>Microsoft-HTTPAPI/2.0 Microsoft-HTTPAPI/2.0</Value>
+            </Header>
+          </Headers>
+          <Cookies />
+          <ResponseText>&lt;ServiceResource xmlns="http://schemas.microsoft.com/windowsazure" xmlns:i="http://www.w3.org/2001/XMLSchema-instance"&gt;&lt;Name&gt;testdb2&lt;/Name&gt;&lt;Type&gt;Microsoft.SqlAzure.Database&lt;/Type&gt;&lt;State&gt;Normal&lt;/State&gt;&lt;SelfLink&gt;https://localhost/servers/serverv1/databases/testdb2&lt;/SelfLink&gt;&lt;ParentLink&gt;https://localhost/servers/serverv1&lt;/ParentLink&gt;&lt;Id&gt;5&lt;/Id&gt;&lt;Edition&gt;Web&lt;/Edition&gt;&lt;MaxSizeGB&gt;5&lt;/MaxSizeGB&gt;&lt;CollationName&gt;Japanese_CI_AS&lt;/CollationName&gt;&lt;CreationDate&gt;2014-04-18T03:05:42.4630000Z&lt;/CreationDate&gt;&lt;IsFederationRoot&gt;False&lt;/IsFederationRoot&gt;&lt;IsSystemObject&gt;False&lt;/IsSystemObject&gt;&lt;SizeMB i:nil="true"/&gt;&lt;MaxSizeBytes&gt;5368709120&lt;/MaxSizeBytes&gt;&lt;ServiceObjectiveId&gt;910b4fcb-8a29-4c3e-958f-f7ba794388b2&lt;/ServiceObjectiveId&gt;&lt;AssignedServiceObjectiveId&gt;910b4fcb-8a29-4c3e-958f-f7ba794388b2&lt;/AssignedServiceObjectiveId&gt;&lt;ServiceObjectiveAssignmentState&gt;1&lt;/ServiceObjectiveAssignmentState&gt;&lt;ServiceObjectiveAssignmentStateDescription&gt;Complete&lt;/ServiceObjectiveAssignmentStateDescription&gt;&lt;ServiceObjectiveAssignmentErrorCode&gt;0&lt;/ServiceObjectiveAssignmentErrorCode&gt;&lt;ServiceObjectiveAssignmentErrorDescription i:nil="true"/&gt;&lt;ServiceObjectiveAssignmentSuccessDate&gt;2014-04-18T03:05:48.2970000Z&lt;/ServiceObjectiveAssignmentSuccessDate&gt;&lt;RecoveryPeriodStartDate&gt;2014-04-18T03:06:41.9700000Z&lt;/RecoveryPeriodStartDate&gt;&lt;IsSuspended&gt;False&lt;/IsSuspended&gt;&lt;/ServiceResource&gt;</ResponseText>
+        </ResponseInfo>
+      </HttpMessage>
+      <HttpMessage>
+        <Index>3</Index>
+        <RequestInfo>
+          <RequestUri>https://localhost:65432/00000000-0000-0000-0001-000000000001/services/sqlservers/servers/serverv1/serviceobjectives/910b4fcb-8a29-4c3e-958f-f7ba794388b2</RequestUri>
+          <Method>GET</Method>
+          <UserAgent>Microsoft.WindowsAzure.Management.Sql.SqlManagementClient/0.9.0.0 WindowsAzurePowershell/v0.8.0</UserAgent>
+          <Headers>
+            <Header>
+              <Name>x-ms-version</Name>
+              <Value>2012-03-01</Value>
+            </Header>
+            <Header>
+              <Name>x-ms-client-session-id</Name>
+              <Value>fea9ea40-d212-4f3b-b591-140da9b0b191-2014-04-18 03:05:34Z</Value>
+            </Header>
+            <Header>
+              <Name>x-ms-client-request-id</Name>
+              <Value>77360a33-d39a-44fb-8214-62458ea278f2-2014-04-18 03:05:53Z</Value>
+            </Header>
+          </Headers>
+          <Cookies />
+          <RequestText i:nil="true" />
+          <ContentType i:nil="true" />
+          <Accept i:nil="true" />
+        </RequestInfo>
+        <ResponseInfo>
+          <StatusCode>OK</StatusCode>
+          <Headers>
+            <Header>
+              <Name>x-ms-request-id</Name>
+              <Value>77360a33-d39a-44fb-8214-62458ea278f2</Value>
+            </Header>
+            <Header>
+              <Name>X-Content-Type-Options</Name>
+              <Value>nosniff</Value>
+            </Header>
+            <Header>
+              <Name>Cache-Control</Name>
+              <Value>no-store,no-cache</Value>
+            </Header>
+            <Header>
+              <Name>Content-Type</Name>
+              <Value>application/xml; charset=utf-8</Value>
+            </Header>
+            <Header>
+              <Name>Date</Name>
+              <Value>Fri, 18 Apr 2014 03:05:53 GMT</Value>
+            </Header>
+            <Header>
+              <Name>Server</Name>
+              <Value>Microsoft-HTTPAPI/2.0 Microsoft-HTTPAPI/2.0</Value>
+            </Header>
+          </Headers>
+          <Cookies />
+          <ResponseText>&lt;ServiceResource xmlns="http://schemas.microsoft.com/windowsazure" xmlns:i="http://www.w3.org/2001/XMLSchema-instance"&gt;&lt;Name&gt;Shared&lt;/Name&gt;&lt;Type&gt;Microsoft.SqlAzure.ServiceObjective&lt;/Type&gt;&lt;State&gt;Normal&lt;/State&gt;&lt;SelfLink&gt;https://localhost/servers/serverv1/serviceobjectives/910b4fcb-8a29-4c3e-958f-f7ba794388b2&lt;/SelfLink&gt;&lt;ParentLink&gt;https://localhost/servers/serverv1&lt;/ParentLink&gt;&lt;Id&gt;910b4fcb-8a29-4c3e-958f-f7ba794388b2&lt;/Id&gt;&lt;IsDefault&gt;True&lt;/IsDefault&gt;&lt;IsSystem&gt;False&lt;/IsSystem&gt;&lt;Description&gt;Shared resource allocation.&lt;/Description&gt;&lt;Enabled&gt;True&lt;/Enabled&gt;&lt;DimensionSettings&gt;&lt;ServiceResource&gt;&lt;Name&gt;Shared&lt;/Name&gt;&lt;Type&gt;Microsoft.SqlAzure.DimensionSetting&lt;/Type&gt;&lt;State&gt;Normal&lt;/State&gt;&lt;SelfLink&gt;https://localhost/servers/serverv1/dimensionsettings/22467ff6-6823-4d18-a169-913150e7714f&lt;/SelfLink&gt;&lt;ParentLink&gt;https://localhost/servers/serverv1&lt;/ParentLink&gt;&lt;Id&gt;22467ff6-6823-4d18-a169-913150e7714f&lt;/Id&gt;&lt;Description&gt;Shared resource allocation.&lt;/Description&gt;&lt;Ordinal&gt;2&lt;/Ordinal&gt;&lt;IsDefault&gt;True&lt;/IsDefault&gt;&lt;/ServiceResource&gt;&lt;/DimensionSettings&gt;&lt;/ServiceResource&gt;</ResponseText>
+        </ResponseInfo>
+      </HttpMessage>
+      <HttpMessage>
+        <Index>4</Index>
+        <RequestInfo>
+          <RequestUri>https://localhost:65432/00000000-0000-0000-0001-000000000001/services/sqlservers/servers/serverv1/databases</RequestUri>
+          <Method>POST</Method>
+          <UserAgent>Microsoft.WindowsAzure.Management.Sql.SqlManagementClient/0.9.0.0 WindowsAzurePowershell/v0.8.0</UserAgent>
+          <Headers>
+            <Header>
+              <Name>x-ms-version</Name>
+              <Value>2012-03-01</Value>
+            </Header>
+            <Header>
+              <Name>x-ms-client-session-id</Name>
+              <Value>fea9ea40-d212-4f3b-b591-140da9b0b191-2014-04-18 03:05:34Z</Value>
+            </Header>
+            <Header>
+              <Name>x-ms-client-request-id</Name>
+              <Value>1365ffdb-df62-4a2d-9de9-6a345220528d-2014-04-18 03:05:53Z</Value>
+            </Header>
+          </Headers>
+          <Cookies />
+          <RequestText>&lt;ServiceResource xmlns="http://schemas.microsoft.com/windowsazure"&gt;
+  &lt;Name&gt;testdb3&lt;/Name&gt;
+  &lt;CollationName&gt;&lt;/CollationName&gt;
+  &lt;MaxSizeBytes&gt;104857600&lt;/MaxSizeBytes&gt;
+&lt;/ServiceResource&gt;</RequestText>
+          <ContentType>application/xml</ContentType>
+          <Accept i:nil="true" />
+        </RequestInfo>
+        <ResponseInfo>
+          <StatusCode>Created</StatusCode>
+          <Headers>
+            <Header>
+              <Name>x-ms-request-id</Name>
+              <Value>1365ffdb-df62-4a2d-9de9-6a345220528d</Value>
+            </Header>
+            <Header>
+              <Name>X-Content-Type-Options</Name>
+              <Value>nosniff</Value>
+            </Header>
+            <Header>
+              <Name>Cache-Control</Name>
+              <Value>no-store,no-cache</Value>
+            </Header>
+            <Header>
+              <Name>Content-Type</Name>
+              <Value>application/xml; charset=utf-8</Value>
+            </Header>
+            <Header>
+              <Name>Date</Name>
+              <Value>Fri, 18 Apr 2014 03:06:18 GMT</Value>
+            </Header>
+            <Header>
+              <Name>Server</Name>
+              <Value>Microsoft-HTTPAPI/2.0 Microsoft-HTTPAPI/2.0</Value>
+            </Header>
+          </Headers>
+          <Cookies />
+          <ResponseText>&lt;ServiceResource xmlns="http://schemas.microsoft.com/windowsazure" xmlns:i="http://www.w3.org/2001/XMLSchema-instance"&gt;&lt;Name&gt;testdb3&lt;/Name&gt;&lt;Type&gt;Microsoft.SqlAzure.Database&lt;/Type&gt;&lt;State&gt;Normal&lt;/State&gt;&lt;SelfLink&gt;https://localhost/servers/serverv1/databases/testdb3&lt;/SelfLink&gt;&lt;ParentLink&gt;https://localhost/servers/serverv1&lt;/ParentLink&gt;&lt;Id&gt;6&lt;/Id&gt;&lt;Edition&gt;Web&lt;/Edition&gt;&lt;MaxSizeGB&gt;0&lt;/MaxSizeGB&gt;&lt;CollationName&gt;SQL_Latin1_General_CP1_CI_AS&lt;/CollationName&gt;&lt;CreationDate&gt;2014-04-18T03:06:09.1300000Z&lt;/CreationDate&gt;&lt;IsFederationRoot&gt;False&lt;/IsFederationRoot&gt;&lt;IsSystemObject&gt;False&lt;/IsSystemObject&gt;&lt;SizeMB i:nil="true"/&gt;&lt;MaxSizeBytes&gt;104857600&lt;/MaxSizeBytes&gt;&lt;ServiceObjectiveId&gt;910b4fcb-8a29-4c3e-958f-f7ba794388b2&lt;/ServiceObjectiveId&gt;&lt;AssignedServiceObjectiveId&gt;910b4fcb-8a29-4c3e-958f-f7ba794388b2&lt;/AssignedServiceObjectiveId&gt;&lt;ServiceObjectiveAssignmentState&gt;1&lt;/ServiceObjectiveAssignmentState&gt;&lt;ServiceObjectiveAssignmentStateDescription&gt;Complete&lt;/ServiceObjectiveAssignmentStateDescription&gt;&lt;ServiceObjectiveAssignmentErrorCode&gt;0&lt;/ServiceObjectiveAssignmentErrorCode&gt;&lt;ServiceObjectiveAssignmentErrorDescription i:nil="true"/&gt;&lt;ServiceObjectiveAssignmentSuccessDate&gt;2014-04-18T03:06:12.5730000Z&lt;/ServiceObjectiveAssignmentSuccessDate&gt;&lt;RecoveryPeriodStartDate&gt;2014-04-18T03:07:08.4230000Z&lt;/RecoveryPeriodStartDate&gt;&lt;IsSuspended&gt;False&lt;/IsSuspended&gt;&lt;/ServiceResource&gt;</ResponseText>
+        </ResponseInfo>
+      </HttpMessage>
+      <HttpMessage>
+        <Index>5</Index>
+        <RequestInfo>
+          <RequestUri>https://localhost:65432/00000000-0000-0000-0001-000000000001/services/sqlservers/servers/serverv1/serviceobjectives/910b4fcb-8a29-4c3e-958f-f7ba794388b2</RequestUri>
+          <Method>GET</Method>
+          <UserAgent>Microsoft.WindowsAzure.Management.Sql.SqlManagementClient/0.9.0.0 WindowsAzurePowershell/v0.8.0</UserAgent>
+          <Headers>
+            <Header>
+              <Name>x-ms-version</Name>
+              <Value>2012-03-01</Value>
+            </Header>
+            <Header>
+              <Name>x-ms-client-session-id</Name>
+              <Value>fea9ea40-d212-4f3b-b591-140da9b0b191-2014-04-18 03:05:34Z</Value>
+            </Header>
+            <Header>
+              <Name>x-ms-client-request-id</Name>
+              <Value>e91331da-06e3-4fa2-a28d-960372d9a1ea-2014-04-18 03:06:18Z</Value>
+            </Header>
+          </Headers>
+          <Cookies />
+          <RequestText i:nil="true" />
+          <ContentType i:nil="true" />
+          <Accept i:nil="true" />
+        </RequestInfo>
+        <ResponseInfo>
+          <StatusCode>OK</StatusCode>
+          <Headers>
+            <Header>
+              <Name>x-ms-request-id</Name>
+              <Value>e91331da-06e3-4fa2-a28d-960372d9a1ea</Value>
+            </Header>
+            <Header>
+              <Name>X-Content-Type-Options</Name>
+              <Value>nosniff</Value>
+            </Header>
+            <Header>
+              <Name>Cache-Control</Name>
+              <Value>no-store,no-cache</Value>
+            </Header>
+            <Header>
+              <Name>Content-Type</Name>
+              <Value>application/xml; charset=utf-8</Value>
+            </Header>
+            <Header>
+              <Name>Date</Name>
+              <Value>Fri, 18 Apr 2014 03:06:18 GMT</Value>
+            </Header>
+            <Header>
+              <Name>Server</Name>
+              <Value>Microsoft-HTTPAPI/2.0 Microsoft-HTTPAPI/2.0</Value>
+            </Header>
+          </Headers>
+          <Cookies />
+          <ResponseText>&lt;ServiceResource xmlns="http://schemas.microsoft.com/windowsazure" xmlns:i="http://www.w3.org/2001/XMLSchema-instance"&gt;&lt;Name&gt;Shared&lt;/Name&gt;&lt;Type&gt;Microsoft.SqlAzure.ServiceObjective&lt;/Type&gt;&lt;State&gt;Normal&lt;/State&gt;&lt;SelfLink&gt;https://localhost/servers/serverv1/serviceobjectives/910b4fcb-8a29-4c3e-958f-f7ba794388b2&lt;/SelfLink&gt;&lt;ParentLink&gt;https://localhost/servers/serverv1&lt;/ParentLink&gt;&lt;Id&gt;910b4fcb-8a29-4c3e-958f-f7ba794388b2&lt;/Id&gt;&lt;IsDefault&gt;True&lt;/IsDefault&gt;&lt;IsSystem&gt;False&lt;/IsSystem&gt;&lt;Description&gt;Shared resource allocation.&lt;/Description&gt;&lt;Enabled&gt;True&lt;/Enabled&gt;&lt;DimensionSettings&gt;&lt;ServiceResource&gt;&lt;Name&gt;Shared&lt;/Name&gt;&lt;Type&gt;Microsoft.SqlAzure.DimensionSetting&lt;/Type&gt;&lt;State&gt;Normal&lt;/State&gt;&lt;SelfLink&gt;https://localhost/servers/serverv1/dimensionsettings/22467ff6-6823-4d18-a169-913150e7714f&lt;/SelfLink&gt;&lt;ParentLink&gt;https://localhost/servers/serverv1&lt;/ParentLink&gt;&lt;Id&gt;22467ff6-6823-4d18-a169-913150e7714f&lt;/Id&gt;&lt;Description&gt;Shared resource allocation.&lt;/Description&gt;&lt;Ordinal&gt;2&lt;/Ordinal&gt;&lt;IsDefault&gt;True&lt;/IsDefault&gt;&lt;/ServiceResource&gt;&lt;/DimensionSettings&gt;&lt;/ServiceResource&gt;</ResponseText>
+        </ResponseInfo>
+      </HttpMessage>
+    </Messages>
+  </HttpSession>
+  <HttpSession>
+    <Name>UnitTest.Common.RemoveTestDatabasesWithCertAuth</Name>
+    <Messages>
+      <HttpMessage>
+        <Index>0</Index>
+        <RequestInfo>
+          <RequestUri>https://localhost:65432/00000000-0000-0000-0001-000000000001/services/sqlservers/servers/serverv1/databases/testdb1</RequestUri>
+          <Method>DELETE</Method>
+          <UserAgent>Microsoft.WindowsAzure.Management.Sql.SqlManagementClient/0.9.0.0 WindowsAzurePowershell/v0.8.0</UserAgent>
+          <Headers>
+            <Header>
+              <Name>x-ms-version</Name>
+              <Value>2012-03-01</Value>
+            </Header>
+            <Header>
+              <Name>x-ms-client-session-id</Name>
+              <Value>fea9ea40-d212-4f3b-b591-140da9b0b191-2014-04-18 03:05:34Z</Value>
+            </Header>
+            <Header>
+              <Name>x-ms-client-request-id</Name>
+              <Value>0eb64618-ee60-4798-a53b-a4535f66202d-2014-04-18 03:08:15Z</Value>
+            </Header>
+          </Headers>
+          <Cookies />
+          <RequestText></RequestText>
+          <ContentType i:nil="true" />
+          <Accept i:nil="true" />
+        </RequestInfo>
+        <ResponseInfo>
+          <StatusCode>OK</StatusCode>
+          <Headers>
+            <Header>
+              <Name>x-ms-request-id</Name>
+              <Value>0eb64618-ee60-4798-a53b-a4535f66202d</Value>
+            </Header>
+            <Header>
+              <Name>X-Content-Type-Options</Name>
+              <Value>nosniff</Value>
+            </Header>
+            <Header>
+              <Name>Cache-Control</Name>
+              <Value>no-store,no-cache</Value>
+            </Header>
+            <Header>
+              <Name>Date</Name>
+              <Value>Fri, 18 Apr 2014 03:08:27 GMT</Value>
+            </Header>
+            <Header>
+              <Name>Server</Name>
+              <Value>Microsoft-HTTPAPI/2.0 Microsoft-HTTPAPI/2.0</Value>
+            </Header>
+          </Headers>
+          <Cookies />
+          <ResponseText></ResponseText>
+        </ResponseInfo>
+      </HttpMessage>
+      <HttpMessage>
+        <Index>1</Index>
+        <RequestInfo>
+          <RequestUri>https://localhost:65432/00000000-0000-0000-0001-000000000001/services/sqlservers/servers/serverv1/databases/testdb2</RequestUri>
+          <Method>DELETE</Method>
+          <UserAgent>Microsoft.WindowsAzure.Management.Sql.SqlManagementClient/0.9.0.0 WindowsAzurePowershell/v0.8.0</UserAgent>
+          <Headers>
+            <Header>
+              <Name>x-ms-version</Name>
+              <Value>2012-03-01</Value>
+            </Header>
+            <Header>
+              <Name>x-ms-client-session-id</Name>
+              <Value>fea9ea40-d212-4f3b-b591-140da9b0b191-2014-04-18 03:05:34Z</Value>
+            </Header>
+            <Header>
+              <Name>x-ms-client-request-id</Name>
+              <Value>f8074f88-a855-4150-9b8c-a9657d8c8c65-2014-04-18 03:08:27Z</Value>
+            </Header>
+          </Headers>
+          <Cookies />
+          <RequestText></RequestText>
+          <ContentType i:nil="true" />
+          <Accept i:nil="true" />
+        </RequestInfo>
+        <ResponseInfo>
+          <StatusCode>OK</StatusCode>
+          <Headers>
+            <Header>
+              <Name>x-ms-request-id</Name>
+              <Value>f8074f88-a855-4150-9b8c-a9657d8c8c65</Value>
+            </Header>
+            <Header>
+              <Name>X-Content-Type-Options</Name>
+              <Value>nosniff</Value>
+            </Header>
+            <Header>
+              <Name>Cache-Control</Name>
+              <Value>no-store,no-cache</Value>
+            </Header>
+            <Header>
+              <Name>Date</Name>
+              <Value>Fri, 18 Apr 2014 03:08:31 GMT</Value>
+            </Header>
+            <Header>
+              <Name>Server</Name>
+              <Value>Microsoft-HTTPAPI/2.0 Microsoft-HTTPAPI/2.0</Value>
+            </Header>
+          </Headers>
+          <Cookies />
+          <ResponseText></ResponseText>
+        </ResponseInfo>
+      </HttpMessage>
+      <HttpMessage>
+        <Index>2</Index>
+        <RequestInfo>
+          <RequestUri>https://localhost:65432/00000000-0000-0000-0001-000000000001/services/sqlservers/servers/serverv1/databases/testdb3</RequestUri>
+          <Method>DELETE</Method>
+          <UserAgent>Microsoft.WindowsAzure.Management.Sql.SqlManagementClient/0.9.0.0 WindowsAzurePowershell/v0.8.0</UserAgent>
+          <Headers>
+            <Header>
+              <Name>x-ms-version</Name>
+              <Value>2012-03-01</Value>
+            </Header>
+            <Header>
+              <Name>x-ms-client-session-id</Name>
+              <Value>fea9ea40-d212-4f3b-b591-140da9b0b191-2014-04-18 03:05:34Z</Value>
+            </Header>
+            <Header>
+              <Name>x-ms-client-request-id</Name>
+              <Value>aa7e1cf1-541a-4bcf-a400-166d74ee834a-2014-04-18 03:08:32Z</Value>
+            </Header>
+          </Headers>
+          <Cookies />
+          <RequestText></RequestText>
+          <ContentType i:nil="true" />
+          <Accept i:nil="true" />
+        </RequestInfo>
+        <ResponseInfo>
+          <StatusCode>OK</StatusCode>
+          <Headers>
+            <Header>
+              <Name>x-ms-request-id</Name>
+              <Value>aa7e1cf1-541a-4bcf-a400-166d74ee834a</Value>
+            </Header>
+            <Header>
+              <Name>X-Content-Type-Options</Name>
+              <Value>nosniff</Value>
+            </Header>
+            <Header>
+              <Name>Cache-Control</Name>
+              <Value>no-store,no-cache</Value>
+            </Header>
+            <Header>
+              <Name>Date</Name>
+              <Value>Fri, 18 Apr 2014 03:08:47 GMT</Value>
+            </Header>
+            <Header>
+              <Name>Server</Name>
+              <Value>Microsoft-HTTPAPI/2.0 Microsoft-HTTPAPI/2.0</Value>
+            </Header>
+          </Headers>
+          <Cookies />
+          <ResponseText></ResponseText>
+        </ResponseInfo>
+      </HttpMessage>
+    </Messages>
+  </HttpSession>
 </HttpSessionCollection>
