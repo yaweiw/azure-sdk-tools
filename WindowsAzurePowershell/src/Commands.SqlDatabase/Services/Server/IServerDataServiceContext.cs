@@ -218,5 +218,25 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Services.Server
         DatabaseOperation[] GetDatabasesOperations();
 
         #endregion
+
+        #region Restorable Dropped Database Operations
+
+        /// <summary>
+        /// Retrieves the list of all restorable dropped databases on the server.
+        /// </summary>
+        /// <returns>An array of all restorable dropped databases on the server.</returns>
+        RestorableDroppedDatabase[] GetRestorableDroppedDatabases();
+
+        /// <summary>
+        /// Retrieve information on the restorable dropped database with the name
+        /// <paramref name="databaseName"/> and deletion date <paramref name="deletionDate"/>.
+        /// </summary>
+        /// <param name="databaseName">The name of the restorable dropped database to retrieve.</param>
+        /// <param name="deletionDate">The deletion date of the restorable dropped database to retrieve.</param>
+        /// <returns>An object containing the information about the specific restorable dropped database.</returns>
+        RestorableDroppedDatabase GetRestorableDroppedDatabase(
+            string databaseName, DateTime deletionDate);
+
+        #endregion
     }
 }

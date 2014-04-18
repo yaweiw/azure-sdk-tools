@@ -179,6 +179,15 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Database &apos;{0}.{1}&apos; with deletion date &apos;{2}&apos; not found..
+        /// </summary>
+        internal static string GetAzureSqlRestorableDroppedDatabaseDatabaseNotFound {
+            get {
+                return ResourceManager.GetString("GetAzureSqlRestorableDroppedDatabaseDatabaseNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Invalid authentication for &apos;{0}&apos;..
         /// </summary>
         internal static string InvalidAuthentication {

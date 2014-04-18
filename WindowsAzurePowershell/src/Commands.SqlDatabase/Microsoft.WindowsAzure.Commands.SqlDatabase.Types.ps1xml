@@ -129,6 +129,28 @@
     </Members>
   </Type>
   <Type>
+    <Name>Microsoft.WindowsAzure.Commands.SqlDatabase.Services.Server.RestorableDroppedDatabase</Name>
+    <Members>
+      <MemberSet>
+        <Name>PSStandardMembers</Name>
+        <Members>
+          <PropertySet>
+            <Name>DefaultDisplayPropertySet</Name>
+            <ReferencedProperties>
+              <Name>Name</Name>
+              <Name>ServerName</Name>
+              <Name>Edition</Name>
+              <Name>MaxSizeBytes</Name>
+              <Name>CreationDate</Name>
+              <Name>DeletionDate</Name>
+              <Name>RecoveryPeriodStartDate</Name>
+            </ReferencedProperties>
+          </PropertySet>
+        </Members>
+      </MemberSet>
+    </Members>
+  </Type>
+  <Type>
     <Name>Microsoft.WindowsAzure.Commands.SqlDatabase.Services.Server.ServerDataServiceSqlAuth</Name>
     <Members>
       <MemberSet>

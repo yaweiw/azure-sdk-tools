@@ -165,6 +165,9 @@ Error Code: {0}</value>
   <data name="GetAzureSqlDatabaseServerNotFound" xml:space="preserve">
     <value>The Windows Azure Sql Database server "{0}" could not be found in the currently selected subscription.</value>
   </data>
+  <data name="GetAzureSqlRestorableDroppedDatabaseDatabaseNotFound" xml:space="preserve">
+    <value>Database '{0}.{1}' with deletion date '{2}' not found.</value>
+  </data>
   <data name="InvalidAuthentication" xml:space="preserve">
     <value>Invalid authentication for '{0}'.</value>
     <comment>Bad operation workflow or sequencing</comment>
