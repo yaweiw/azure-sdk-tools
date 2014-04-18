@@ -27759,4 +27759,495 @@
       </HttpMessage>
     </Messages>
   </HttpSession>
+  <HttpSession>
+    <Name>UnitTests.RestoreAzureSqlDatabaseWithDatabaseNameWithCertAuth</Name>
+    <Messages>
+      <HttpMessage>
+        <Index>0</Index>
+        <RequestInfo>
+          <RequestUri>https://localhost:65432/00000000-0000-0000-0001-000000000001/services/sqlservers/servers/serverv1/restoredatabaseoperations</RequestUri>
+          <Method>POST</Method>
+          <UserAgent>Microsoft.WindowsAzure.Management.Sql.SqlManagementClient/0.9.0.0 WindowsAzurePowershell/v0.8.0</UserAgent>
+          <Headers>
+            <Header>
+              <Name>x-ms-version</Name>
+              <Value>2012-03-01</Value>
+            </Header>
+            <Header>
+              <Name>x-ms-client-session-id</Name>
+              <Value>3f922c5b-6fab-4a88-8bc5-2a0e190ebfdb-2014-04-18 03:32:46Z</Value>
+            </Header>
+            <Header>
+              <Name>x-ms-client-request-id</Name>
+              <Value>eb927fd8-b5f9-4ccc-a1a5-7001006d237a-2014-04-18 03:35:28Z</Value>
+            </Header>
+          </Headers>
+          <Cookies />
+          <RequestText>&lt;ServiceResource xmlns="http://schemas.microsoft.com/windowsazure"&gt;
+  &lt;SourceDatabaseName&gt;testdb1&lt;/SourceDatabaseName&gt;
+  &lt;TargetDatabaseName&gt;testdb1-restored&lt;/TargetDatabaseName&gt;
+&lt;/ServiceResource&gt;</RequestText>
+          <ContentType>application/xml</ContentType>
+          <Accept i:nil="true" />
+        </RequestInfo>
+        <ResponseInfo>
+          <StatusCode>Created</StatusCode>
+          <Headers>
+            <Header>
+              <Name>x-ms-request-id</Name>
+              <Value>eb927fd8-b5f9-4ccc-a1a5-7001006d237a</Value>
+            </Header>
+            <Header>
+              <Name>X-Content-Type-Options</Name>
+              <Value>nosniff</Value>
+            </Header>
+            <Header>
+              <Name>Cache-Control</Name>
+              <Value>no-store,no-cache</Value>
+            </Header>
+            <Header>
+              <Name>Content-Type</Name>
+              <Value>application/xml; charset=utf-8</Value>
+            </Header>
+            <Header>
+              <Name>Date</Name>
+              <Value>Fri, 18 Apr 2014 03:35:32 GMT</Value>
+            </Header>
+            <Header>
+              <Name>Server</Name>
+              <Value>Microsoft-HTTPAPI/2.0 Microsoft-HTTPAPI/2.0</Value>
+            </Header>
+          </Headers>
+          <Cookies />
+          <ResponseText>&lt;ServiceResource xmlns="http://schemas.microsoft.com/windowsazure" xmlns:i="http://www.w3.org/2001/XMLSchema-instance"&gt;&lt;Name i:nil="true"/&gt;&lt;Type&gt;Microsoft.SqlAzure.RestoreDatabaseOperation&lt;/Type&gt;&lt;State&gt;Created&lt;/State&gt;&lt;SelfLink i:nil="true"/&gt;&lt;ParentLink i:nil="true"/&gt;&lt;RequestID&gt;4e17fcf8-69e8-4c8d-9cee-f6a2d023e15b&lt;/RequestID&gt;&lt;SourceDatabaseName&gt;testdb1&lt;/SourceDatabaseName&gt;&lt;SourceDatabaseDeletionDate i:nil="true"/&gt;&lt;TargetServerName&gt;serverv1&lt;/TargetServerName&gt;&lt;TargetDatabaseName&gt;testdb1-restored&lt;/TargetDatabaseName&gt;&lt;TargetUtcPointInTime&gt;2014-04-18T03:35:31.6535907Z&lt;/TargetUtcPointInTime&gt;&lt;/ServiceResource&gt;</ResponseText>
+        </ResponseInfo>
+      </HttpMessage>
+    </Messages>
+  </HttpSession>
+  <HttpSession>
+    <Name>UnitTests.RestoreAzureSqlDatabaseWithDatabaseObjectWithCertAuth</Name>
+    <Messages>
+      <HttpMessage>
+        <Index>0</Index>
+        <RequestInfo>
+          <RequestUri>https://localhost:65432/00000000-0000-0000-0001-000000000001/services/sqlservers/servers/serverv1/databases/testdb1</RequestUri>
+          <Method>GET</Method>
+          <UserAgent>Microsoft.WindowsAzure.Management.Sql.SqlManagementClient/0.9.0.0 WindowsAzurePowershell/v0.8.0</UserAgent>
+          <Headers>
+            <Header>
+              <Name>x-ms-version</Name>
+              <Value>2012-03-01</Value>
+            </Header>
+            <Header>
+              <Name>x-ms-client-session-id</Name>
+              <Value>3cca9886-0d60-456c-ba3c-b52f1aed26b4-2014-04-18 03:43:15Z</Value>
+            </Header>
+            <Header>
+              <Name>x-ms-client-request-id</Name>
+              <Value>603f40af-73c0-46c7-8982-552d5d820781-2014-04-18 03:45:40Z</Value>
+            </Header>
+          </Headers>
+          <Cookies />
+          <RequestText i:nil="true" />
+          <ContentType i:nil="true" />
+          <Accept i:nil="true" />
+        </RequestInfo>
+        <ResponseInfo>
+          <StatusCode>OK</StatusCode>
+          <Headers>
+            <Header>
+              <Name>x-ms-request-id</Name>
+              <Value>603f40af-73c0-46c7-8982-552d5d820781</Value>
+            </Header>
+            <Header>
+              <Name>X-Content-Type-Options</Name>
+              <Value>nosniff</Value>
+            </Header>
+            <Header>
+              <Name>Cache-Control</Name>
+              <Value>no-store,no-cache</Value>
+            </Header>
+            <Header>
+              <Name>Content-Type</Name>
+              <Value>application/xml; charset=utf-8</Value>
+            </Header>
+            <Header>
+              <Name>Date</Name>
+              <Value>Fri, 18 Apr 2014 03:45:42 GMT</Value>
+            </Header>
+            <Header>
+              <Name>Server</Name>
+              <Value>Microsoft-HTTPAPI/2.0 Microsoft-HTTPAPI/2.0</Value>
+            </Header>
+          </Headers>
+          <Cookies />
+          <ResponseText>&lt;ServiceResource xmlns="http://schemas.microsoft.com/windowsazure" xmlns:i="http://www.w3.org/2001/XMLSchema-instance"&gt;&lt;Name&gt;testdb1&lt;/Name&gt;&lt;Type&gt;Microsoft.SqlAzure.Database&lt;/Type&gt;&lt;State&gt;Normal&lt;/State&gt;&lt;SelfLink&gt;https://localhost/servers/serverv1/databases/testdb1&lt;/SelfLink&gt;&lt;ParentLink&gt;https://localhost/servers/serverv1&lt;/ParentLink&gt;&lt;Id&gt;4&lt;/Id&gt;&lt;Edition&gt;Web&lt;/Edition&gt;&lt;MaxSizeGB&gt;1&lt;/MaxSizeGB&gt;&lt;CollationName&gt;SQL_Latin1_General_CP1_CI_AS&lt;/CollationName&gt;&lt;CreationDate&gt;2014-04-18T03:43:16.7130000Z&lt;/CreationDate&gt;&lt;IsFederationRoot&gt;False&lt;/IsFederationRoot&gt;&lt;IsSystemObject&gt;False&lt;/IsSystemObject&gt;&lt;SizeMB i:nil="true"/&gt;&lt;MaxSizeBytes&gt;1073741824&lt;/MaxSizeBytes&gt;&lt;ServiceObjectiveId&gt;910b4fcb-8a29-4c3e-958f-f7ba794388b2&lt;/ServiceObjectiveId&gt;&lt;AssignedServiceObjectiveId&gt;910b4fcb-8a29-4c3e-958f-f7ba794388b2&lt;/AssignedServiceObjectiveId&gt;&lt;ServiceObjectiveAssignmentState&gt;1&lt;/ServiceObjectiveAssignmentState&gt;&lt;ServiceObjectiveAssignmentStateDescription&gt;Complete&lt;/ServiceObjectiveAssignmentStateDescription&gt;&lt;ServiceObjectiveAssignmentErrorCode&gt;0&lt;/ServiceObjectiveAssignmentErrorCode&gt;&lt;ServiceObjectiveAssignmentErrorDescription i:nil="true"/&gt;&lt;ServiceObjectiveAssignmentSuccessDate&gt;2014-04-18T03:43:20.8200000Z&lt;/ServiceObjectiveAssignmentSuccessDate&gt;&lt;RecoveryPeriodStartDate&gt;2014-04-18T03:44:16.3000000Z&lt;/RecoveryPeriodStartDate&gt;&lt;IsSuspended&gt;False&lt;/IsSuspended&gt;&lt;/ServiceResource&gt;</ResponseText>
+        </ResponseInfo>
+      </HttpMessage>
+      <HttpMessage>
+        <Index>1</Index>
+        <RequestInfo>
+          <RequestUri>https://localhost:65432/00000000-0000-0000-0001-000000000001/services/sqlservers/servers/serverv1/serviceobjectives/910b4fcb-8a29-4c3e-958f-f7ba794388b2</RequestUri>
+          <Method>GET</Method>
+          <UserAgent>Microsoft.WindowsAzure.Management.Sql.SqlManagementClient/0.9.0.0 WindowsAzurePowershell/v0.8.0</UserAgent>
+          <Headers>
+            <Header>
+              <Name>x-ms-version</Name>
+              <Value>2012-03-01</Value>
+            </Header>
+            <Header>
+              <Name>x-ms-client-session-id</Name>
+              <Value>3cca9886-0d60-456c-ba3c-b52f1aed26b4-2014-04-18 03:43:15Z</Value>
+            </Header>
+            <Header>
+              <Name>x-ms-client-request-id</Name>
+              <Value>4d2f5739-0986-44a3-af4f-d8d8aa4dbdd7-2014-04-18 03:45:42Z</Value>
+            </Header>
+          </Headers>
+          <Cookies />
+          <RequestText i:nil="true" />
+          <ContentType i:nil="true" />
+          <Accept i:nil="true" />
+        </RequestInfo>
+        <ResponseInfo>
+          <StatusCode>OK</StatusCode>
+          <Headers>
+            <Header>
+              <Name>x-ms-request-id</Name>
+              <Value>4d2f5739-0986-44a3-af4f-d8d8aa4dbdd7</Value>
+            </Header>
+            <Header>
+              <Name>X-Content-Type-Options</Name>
+              <Value>nosniff</Value>
+            </Header>
+            <Header>
+              <Name>Cache-Control</Name>
+              <Value>no-store,no-cache</Value>
+            </Header>
+            <Header>
+              <Name>Content-Type</Name>
+              <Value>application/xml; charset=utf-8</Value>
+            </Header>
+            <Header>
+              <Name>Date</Name>
+              <Value>Fri, 18 Apr 2014 03:45:43 GMT</Value>
+            </Header>
+            <Header>
+              <Name>Server</Name>
+              <Value>Microsoft-HTTPAPI/2.0 Microsoft-HTTPAPI/2.0</Value>
+            </Header>
+          </Headers>
+          <Cookies />
+          <ResponseText>&lt;ServiceResource xmlns="http://schemas.microsoft.com/windowsazure" xmlns:i="http://www.w3.org/2001/XMLSchema-instance"&gt;&lt;Name&gt;Shared&lt;/Name&gt;&lt;Type&gt;Microsoft.SqlAzure.ServiceObjective&lt;/Type&gt;&lt;State&gt;Normal&lt;/State&gt;&lt;SelfLink&gt;https://localhost/servers/serverv1/serviceobjectives/910b4fcb-8a29-4c3e-958f-f7ba794388b2&lt;/SelfLink&gt;&lt;ParentLink&gt;https://localhost/servers/serverv1&lt;/ParentLink&gt;&lt;Id&gt;910b4fcb-8a29-4c3e-958f-f7ba794388b2&lt;/Id&gt;&lt;IsDefault&gt;True&lt;/IsDefault&gt;&lt;IsSystem&gt;False&lt;/IsSystem&gt;&lt;Description&gt;Shared resource allocation.&lt;/Description&gt;&lt;Enabled&gt;True&lt;/Enabled&gt;&lt;DimensionSettings&gt;&lt;ServiceResource&gt;&lt;Name&gt;Shared&lt;/Name&gt;&lt;Type&gt;Microsoft.SqlAzure.DimensionSetting&lt;/Type&gt;&lt;State&gt;Normal&lt;/State&gt;&lt;SelfLink&gt;https://localhost/servers/serverv1/dimensionsettings/22467ff6-6823-4d18-a169-913150e7714f&lt;/SelfLink&gt;&lt;ParentLink&gt;https://localhost/servers/serverv1&lt;/ParentLink&gt;&lt;Id&gt;22467ff6-6823-4d18-a169-913150e7714f&lt;/Id&gt;&lt;Description&gt;Shared resource allocation.&lt;/Description&gt;&lt;Ordinal&gt;2&lt;/Ordinal&gt;&lt;IsDefault&gt;True&lt;/IsDefault&gt;&lt;/ServiceResource&gt;&lt;/DimensionSettings&gt;&lt;/ServiceResource&gt;</ResponseText>
+        </ResponseInfo>
+      </HttpMessage>
+      <HttpMessage>
+        <Index>2</Index>
+        <RequestInfo>
+          <RequestUri>https://localhost:65432/00000000-0000-0000-0001-000000000001/services/sqlservers/servers/serverv1/restoredatabaseoperations</RequestUri>
+          <Method>POST</Method>
+          <UserAgent>Microsoft.WindowsAzure.Management.Sql.SqlManagementClient/0.9.0.0 WindowsAzurePowershell/v0.8.0</UserAgent>
+          <Headers>
+            <Header>
+              <Name>x-ms-version</Name>
+              <Value>2012-03-01</Value>
+            </Header>
+            <Header>
+              <Name>x-ms-client-session-id</Name>
+              <Value>3cca9886-0d60-456c-ba3c-b52f1aed26b4-2014-04-18 03:43:15Z</Value>
+            </Header>
+            <Header>
+              <Name>x-ms-client-request-id</Name>
+              <Value>4b1971ee-1b45-4f8b-81df-37f8ea7d3c92-2014-04-18 03:45:43Z</Value>
+            </Header>
+          </Headers>
+          <Cookies />
+          <RequestText>&lt;ServiceResource xmlns="http://schemas.microsoft.com/windowsazure"&gt;
+  &lt;SourceDatabaseName&gt;testdb1&lt;/SourceDatabaseName&gt;
+  &lt;TargetDatabaseName&gt;testdb1-restored&lt;/TargetDatabaseName&gt;
+&lt;/ServiceResource&gt;</RequestText>
+          <ContentType>application/xml</ContentType>
+          <Accept i:nil="true" />
+        </RequestInfo>
+        <ResponseInfo>
+          <StatusCode>Created</StatusCode>
+          <Headers>
+            <Header>
+              <Name>x-ms-request-id</Name>
+              <Value>4b1971ee-1b45-4f8b-81df-37f8ea7d3c92</Value>
+            </Header>
+            <Header>
+              <Name>X-Content-Type-Options</Name>
+              <Value>nosniff</Value>
+            </Header>
+            <Header>
+              <Name>Cache-Control</Name>
+              <Value>no-store,no-cache</Value>
+            </Header>
+            <Header>
+              <Name>Content-Type</Name>
+              <Value>application/xml; charset=utf-8</Value>
+            </Header>
+            <Header>
+              <Name>Date</Name>
+              <Value>Fri, 18 Apr 2014 03:45:44 GMT</Value>
+            </Header>
+            <Header>
+              <Name>Server</Name>
+              <Value>Microsoft-HTTPAPI/2.0 Microsoft-HTTPAPI/2.0</Value>
+            </Header>
+          </Headers>
+          <Cookies />
+          <ResponseText>&lt;ServiceResource xmlns="http://schemas.microsoft.com/windowsazure" xmlns:i="http://www.w3.org/2001/XMLSchema-instance"&gt;&lt;Name i:nil="true"/&gt;&lt;Type&gt;Microsoft.SqlAzure.RestoreDatabaseOperation&lt;/Type&gt;&lt;State&gt;Created&lt;/State&gt;&lt;SelfLink i:nil="true"/&gt;&lt;ParentLink i:nil="true"/&gt;&lt;RequestID&gt;d19a303a-2c06-4ec3-a7ab-4204f799f7d2&lt;/RequestID&gt;&lt;SourceDatabaseName&gt;testdb1&lt;/SourceDatabaseName&gt;&lt;SourceDatabaseDeletionDate i:nil="true"/&gt;&lt;TargetServerName&gt;serverv1&lt;/TargetServerName&gt;&lt;TargetDatabaseName&gt;testdb1-restored&lt;/TargetDatabaseName&gt;&lt;TargetUtcPointInTime&gt;2014-04-18T03:45:44.7888981Z&lt;/TargetUtcPointInTime&gt;&lt;/ServiceResource&gt;</ResponseText>
+        </ResponseInfo>
+      </HttpMessage>
+    </Messages>
+  </HttpSession>
+  <HttpSession>
+    <Name>UnitTests.RestoreAzureSqlDatabaseWithRestorableDroppedDatabaseNameWithCertAuth</Name>
+    <Messages>
+      <HttpMessage>
+        <Index>0</Index>
+        <RequestInfo>
+          <RequestUri>https://localhost:65432/00000000-0000-0000-0001-000000000001/services/sqlservers/servers/serverv1/restorabledroppeddatabases?contentview=generic</RequestUri>
+          <Method>GET</Method>
+          <UserAgent>Microsoft.WindowsAzure.Management.Sql.SqlManagementClient/0.9.0.0 WindowsAzurePowershell/v0.8.0</UserAgent>
+          <Headers>
+            <Header>
+              <Name>x-ms-version</Name>
+              <Value>2012-03-01</Value>
+            </Header>
+            <Header>
+              <Name>x-ms-client-session-id</Name>
+              <Value>9bab98dc-8290-4ba4-8a1f-04d5e68b84f8-2014-04-18 03:48:38Z</Value>
+            </Header>
+            <Header>
+              <Name>x-ms-client-request-id</Name>
+              <Value>a5648394-4ac4-4b10-84d7-45cd349f1781-2014-04-18 03:52:23Z</Value>
+            </Header>
+          </Headers>
+          <Cookies />
+          <RequestText i:nil="true" />
+          <ContentType i:nil="true" />
+          <Accept i:nil="true" />
+        </RequestInfo>
+        <ResponseInfo>
+          <StatusCode>OK</StatusCode>
+          <Headers>
+            <Header>
+              <Name>x-ms-request-id</Name>
+              <Value>a5648394-4ac4-4b10-84d7-45cd349f1781</Value>
+            </Header>
+            <Header>
+              <Name>X-Content-Type-Options</Name>
+              <Value>nosniff</Value>
+            </Header>
+            <Header>
+              <Name>Cache-Control</Name>
+              <Value>no-store,no-cache</Value>
+            </Header>
+            <Header>
+              <Name>Content-Type</Name>
+              <Value>application/xml; charset=utf-8</Value>
+            </Header>
+            <Header>
+              <Name>Date</Name>
+              <Value>Fri, 18 Apr 2014 03:52:23 GMT</Value>
+            </Header>
+            <Header>
+              <Name>Server</Name>
+              <Value>Microsoft-HTTPAPI/2.0 Microsoft-HTTPAPI/2.0</Value>
+            </Header>
+          </Headers>
+          <Cookies />
+          <ResponseText>&lt;ServiceResources xmlns="http://schemas.microsoft.com/windowsazure" xmlns:i="http://www.w3.org/2001/XMLSchema-instance"&gt;&lt;ServiceResource&gt;&lt;Name&gt;testdb1&lt;/Name&gt;&lt;Type&gt;Microsoft.SqlAzure.RestorableDroppedDatabase&lt;/Type&gt;&lt;State&gt;Deleted&lt;/State&gt;&lt;SelfLink&gt;https://localhost/servers/serverv1/restorabledroppeddatabases/testdb1,2014-04-18T03:51:08.837Z&lt;/SelfLink&gt;&lt;ParentLink&gt;https://localhost/servers/serverv1&lt;/ParentLink&gt;&lt;EntityId&gt;testdb1,2014-04-18T03:51:08.837Z&lt;/EntityId&gt;&lt;ServerName&gt;serverv1&lt;/ServerName&gt;&lt;Edition&gt;Web&lt;/Edition&gt;&lt;MaxSizeBytes&gt;1073741824&lt;/MaxSizeBytes&gt;&lt;CreationDate&gt;2014-04-18T03:48:42.3800000Z&lt;/CreationDate&gt;&lt;DeletionDate&gt;2014-04-18T03:51:08.8370000Z&lt;/DeletionDate&gt;&lt;RecoveryPeriodStartDate&gt;2014-04-18T03:49:42.3800000Z&lt;/RecoveryPeriodStartDate&gt;&lt;/ServiceResource&gt;&lt;ServiceResource&gt;&lt;Name&gt;testdb2&lt;/Name&gt;&lt;Type&gt;Microsoft.SqlAzure.RestorableDroppedDatabase&lt;/Type&gt;&lt;State&gt;Deleted&lt;/State&gt;&lt;SelfLink&gt;https://localhost/servers/serverv1/restorabledroppeddatabases/testdb2,2014-04-18T03:51:15.200Z&lt;/SelfLink&gt;&lt;ParentLink&gt;https://localhost/servers/serverv1&lt;/ParentLink&gt;&lt;EntityId&gt;testdb2,2014-04-18T03:51:15.200Z&lt;/EntityId&gt;&lt;ServerName&gt;serverv1&lt;/ServerName&gt;&lt;Edition&gt;Web&lt;/Edition&gt;&lt;MaxSizeBytes&gt;5368709120&lt;/MaxSizeBytes&gt;&lt;CreationDate&gt;2014-04-18T03:48:55.3330000Z&lt;/CreationDate&gt;&lt;DeletionDate&gt;2014-04-18T03:51:15.2000000Z&lt;/DeletionDate&gt;&lt;RecoveryPeriodStartDate&gt;2014-04-18T03:49:55.3330000Z&lt;/RecoveryPeriodStartDate&gt;&lt;/ServiceResource&gt;&lt;ServiceResource&gt;&lt;Name&gt;testdb3&lt;/Name&gt;&lt;Type&gt;Microsoft.SqlAzure.RestorableDroppedDatabase&lt;/Type&gt;&lt;State&gt;Deleted&lt;/State&gt;&lt;SelfLink&gt;https://localhost/servers/serverv1/restorabledroppeddatabases/testdb3,2014-04-18T03:51:18.700Z&lt;/SelfLink&gt;&lt;ParentLink&gt;https://localhost/servers/serverv1&lt;/ParentLink&gt;&lt;EntityId&gt;testdb3,2014-04-18T03:51:18.700Z&lt;/EntityId&gt;&lt;ServerName&gt;serverv1&lt;/ServerName&gt;&lt;Edition&gt;Web&lt;/Edition&gt;&lt;MaxSizeBytes&gt;104857600&lt;/MaxSizeBytes&gt;&lt;CreationDate&gt;2014-04-18T03:49:05.3930000Z&lt;/CreationDate&gt;&lt;DeletionDate&gt;2014-04-18T03:51:18.7000000Z&lt;/DeletionDate&gt;&lt;RecoveryPeriodStartDate&gt;2014-04-18T03:50:05.3930000Z&lt;/RecoveryPeriodStartDate&gt;&lt;/ServiceResource&gt;&lt;/ServiceResources&gt;</ResponseText>
+        </ResponseInfo>
+      </HttpMessage>
+      <HttpMessage>
+        <Index>1</Index>
+        <RequestInfo>
+          <RequestUri>https://localhost:65432/00000000-0000-0000-0001-000000000001/services/sqlservers/servers/serverv1/restoredatabaseoperations</RequestUri>
+          <Method>POST</Method>
+          <UserAgent>Microsoft.WindowsAzure.Management.Sql.SqlManagementClient/0.9.0.0 WindowsAzurePowershell/v0.8.0</UserAgent>
+          <Headers>
+            <Header>
+              <Name>x-ms-version</Name>
+              <Value>2012-03-01</Value>
+            </Header>
+            <Header>
+              <Name>x-ms-client-session-id</Name>
+              <Value>9bab98dc-8290-4ba4-8a1f-04d5e68b84f8-2014-04-18 03:48:38Z</Value>
+            </Header>
+            <Header>
+              <Name>x-ms-client-request-id</Name>
+              <Value>49a90c78-888c-46ad-9c44-fbaa84259cdd-2014-04-18 03:52:44Z</Value>
+            </Header>
+          </Headers>
+          <Cookies />
+          <RequestText>&lt;ServiceResource xmlns="http://schemas.microsoft.com/windowsazure"&gt;
+  &lt;SourceDatabaseName&gt;testdb1&lt;/SourceDatabaseName&gt;
+  &lt;SourceDatabaseDeletionDate&gt;2014-04-18T03:51:08.8370000Z&lt;/SourceDatabaseDeletionDate&gt;
+  &lt;TargetDatabaseName&gt;testdb1-restored&lt;/TargetDatabaseName&gt;
+  &lt;TargetUtcPointInTime&gt;2014-04-18T03:50:08.8370000Z&lt;/TargetUtcPointInTime&gt;
+&lt;/ServiceResource&gt;</RequestText>
+          <ContentType>application/xml</ContentType>
+          <Accept i:nil="true" />
+        </RequestInfo>
+        <ResponseInfo>
+          <StatusCode>Created</StatusCode>
+          <Headers>
+            <Header>
+              <Name>x-ms-request-id</Name>
+              <Value>49a90c78-888c-46ad-9c44-fbaa84259cdd</Value>
+            </Header>
+            <Header>
+              <Name>X-Content-Type-Options</Name>
+              <Value>nosniff</Value>
+            </Header>
+            <Header>
+              <Name>Cache-Control</Name>
+              <Value>no-store,no-cache</Value>
+            </Header>
+            <Header>
+              <Name>Content-Type</Name>
+              <Value>application/xml; charset=utf-8</Value>
+            </Header>
+            <Header>
+              <Name>Date</Name>
+              <Value>Fri, 18 Apr 2014 03:52:45 GMT</Value>
+            </Header>
+            <Header>
+              <Name>Server</Name>
+              <Value>Microsoft-HTTPAPI/2.0 Microsoft-HTTPAPI/2.0</Value>
+            </Header>
+          </Headers>
+          <Cookies />
+          <ResponseText>&lt;ServiceResource xmlns="http://schemas.microsoft.com/windowsazure" xmlns:i="http://www.w3.org/2001/XMLSchema-instance"&gt;&lt;Name i:nil="true"/&gt;&lt;Type&gt;Microsoft.SqlAzure.RestoreDatabaseOperation&lt;/Type&gt;&lt;State&gt;Created&lt;/State&gt;&lt;SelfLink i:nil="true"/&gt;&lt;ParentLink i:nil="true"/&gt;&lt;RequestID&gt;a14723f7-5add-4ed0-a3b5-5b477e0e5738&lt;/RequestID&gt;&lt;SourceDatabaseName&gt;testdb1&lt;/SourceDatabaseName&gt;&lt;SourceDatabaseDeletionDate&gt;2014-04-18T03:51:08.8370000Z&lt;/SourceDatabaseDeletionDate&gt;&lt;TargetServerName&gt;serverv1&lt;/TargetServerName&gt;&lt;TargetDatabaseName&gt;testdb1-restored&lt;/TargetDatabaseName&gt;&lt;TargetUtcPointInTime&gt;2014-04-18T03:50:08.8370000Z&lt;/TargetUtcPointInTime&gt;&lt;/ServiceResource&gt;</ResponseText>
+        </ResponseInfo>
+      </HttpMessage>
+    </Messages>
+  </HttpSession>
+  <HttpSession>
+    <Name>UnitTests.RestoreAzureSqlDatabaseWithRestorableDroppedDatabaseObjectWithCertAuth</Name>
+    <Messages>
+      <HttpMessage>
+        <Index>0</Index>
+        <RequestInfo>
+          <RequestUri>https://localhost:65432/00000000-0000-0000-0001-000000000001/services/sqlservers/servers/serverv1/restorabledroppeddatabases?contentview=generic</RequestUri>
+          <Method>GET</Method>
+          <UserAgent>Microsoft.WindowsAzure.Management.Sql.SqlManagementClient/0.9.0.0 WindowsAzurePowershell/v0.8.0</UserAgent>
+          <Headers>
+            <Header>
+              <Name>x-ms-version</Name>
+              <Value>2012-03-01</Value>
+            </Header>
+            <Header>
+              <Name>x-ms-client-session-id</Name>
+              <Value>90ece0d9-ca10-4bbc-b3f3-1e6c51c5e639-2014-04-18 04:04:27Z</Value>
+            </Header>
+            <Header>
+              <Name>x-ms-client-request-id</Name>
+              <Value>e0624002-cfc1-42d3-a4d9-63b966cd130f-2014-04-18 04:04:27Z</Value>
+            </Header>
+          </Headers>
+          <Cookies />
+          <RequestText i:nil="true" />
+          <ContentType i:nil="true" />
+          <Accept i:nil="true" />
+        </RequestInfo>
+        <ResponseInfo>
+          <StatusCode>OK</StatusCode>
+          <Headers>
+            <Header>
+              <Name>x-ms-request-id</Name>
+              <Value>e0624002-cfc1-42d3-a4d9-63b966cd130f</Value>
+            </Header>
+            <Header>
+              <Name>X-Content-Type-Options</Name>
+              <Value>nosniff</Value>
+            </Header>
+            <Header>
+              <Name>Cache-Control</Name>
+              <Value>no-store,no-cache</Value>
+            </Header>
+            <Header>
+              <Name>Content-Type</Name>
+              <Value>application/xml; charset=utf-8</Value>
+            </Header>
+            <Header>
+              <Name>Date</Name>
+              <Value>Fri, 18 Apr 2014 04:04:27 GMT</Value>
+            </Header>
+            <Header>
+              <Name>Server</Name>
+              <Value>Microsoft-HTTPAPI/2.0 Microsoft-HTTPAPI/2.0</Value>
+            </Header>
+          </Headers>
+          <Cookies />
+          <ResponseText>&lt;ServiceResources xmlns="http://schemas.microsoft.com/windowsazure" xmlns:i="http://www.w3.org/2001/XMLSchema-instance"&gt;&lt;ServiceResource&gt;&lt;Name&gt;testdb1&lt;/Name&gt;&lt;Type&gt;Microsoft.SqlAzure.RestorableDroppedDatabase&lt;/Type&gt;&lt;State&gt;Deleted&lt;/State&gt;&lt;SelfLink&gt;https://localhost/servers/serverv1/restorabledroppeddatabases/testdb1,2014-04-18T03:51:08.837Z&lt;/SelfLink&gt;&lt;ParentLink&gt;https://localhost/servers/serverv1&lt;/ParentLink&gt;&lt;EntityId&gt;testdb1,2014-04-18T03:51:08.837Z&lt;/EntityId&gt;&lt;ServerName&gt;serverv1&lt;/ServerName&gt;&lt;Edition&gt;Web&lt;/Edition&gt;&lt;MaxSizeBytes&gt;1073741824&lt;/MaxSizeBytes&gt;&lt;CreationDate&gt;2014-04-18T03:48:42.3800000Z&lt;/CreationDate&gt;&lt;DeletionDate&gt;2014-04-18T03:51:08.8370000Z&lt;/DeletionDate&gt;&lt;RecoveryPeriodStartDate&gt;2014-04-18T03:49:42.3800000Z&lt;/RecoveryPeriodStartDate&gt;&lt;/ServiceResource&gt;&lt;ServiceResource&gt;&lt;Name&gt;testdb2&lt;/Name&gt;&lt;Type&gt;Microsoft.SqlAzure.RestorableDroppedDatabase&lt;/Type&gt;&lt;State&gt;Deleted&lt;/State&gt;&lt;SelfLink&gt;https://localhost/servers/serverv1/restorabledroppeddatabases/testdb2,2014-04-18T03:51:15.200Z&lt;/SelfLink&gt;&lt;ParentLink&gt;https://localhost/servers/serverv1&lt;/ParentLink&gt;&lt;EntityId&gt;testdb2,2014-04-18T03:51:15.200Z&lt;/EntityId&gt;&lt;ServerName&gt;serverv1&lt;/ServerName&gt;&lt;Edition&gt;Web&lt;/Edition&gt;&lt;MaxSizeBytes&gt;5368709120&lt;/MaxSizeBytes&gt;&lt;CreationDate&gt;2014-04-18T03:48:55.3330000Z&lt;/CreationDate&gt;&lt;DeletionDate&gt;2014-04-18T03:51:15.2000000Z&lt;/DeletionDate&gt;&lt;RecoveryPeriodStartDate&gt;2014-04-18T03:49:55.3330000Z&lt;/RecoveryPeriodStartDate&gt;&lt;/ServiceResource&gt;&lt;ServiceResource&gt;&lt;Name&gt;testdb3&lt;/Name&gt;&lt;Type&gt;Microsoft.SqlAzure.RestorableDroppedDatabase&lt;/Type&gt;&lt;State&gt;Deleted&lt;/State&gt;&lt;SelfLink&gt;https://localhost/servers/serverv1/restorabledroppeddatabases/testdb3,2014-04-18T03:51:18.700Z&lt;/SelfLink&gt;&lt;ParentLink&gt;https://localhost/servers/serverv1&lt;/ParentLink&gt;&lt;EntityId&gt;testdb3,2014-04-18T03:51:18.700Z&lt;/EntityId&gt;&lt;ServerName&gt;serverv1&lt;/ServerName&gt;&lt;Edition&gt;Web&lt;/Edition&gt;&lt;MaxSizeBytes&gt;104857600&lt;/MaxSizeBytes&gt;&lt;CreationDate&gt;2014-04-18T03:49:05.3930000Z&lt;/CreationDate&gt;&lt;DeletionDate&gt;2014-04-18T03:51:18.7000000Z&lt;/DeletionDate&gt;&lt;RecoveryPeriodStartDate&gt;2014-04-18T03:50:05.3930000Z&lt;/RecoveryPeriodStartDate&gt;&lt;/ServiceResource&gt;&lt;/ServiceResources&gt;</ResponseText>
+        </ResponseInfo>
+      </HttpMessage>
+      <HttpMessage>
+        <Index>1</Index>
+        <RequestInfo>
+          <RequestUri>https://localhost:65432/00000000-0000-0000-0001-000000000001/services/sqlservers/servers/serverv1/restoredatabaseoperations</RequestUri>
+          <Method>POST</Method>
+          <UserAgent>Microsoft.WindowsAzure.Management.Sql.SqlManagementClient/0.9.0.0 WindowsAzurePowershell/v0.8.0</UserAgent>
+          <Headers>
+            <Header>
+              <Name>x-ms-version</Name>
+              <Value>2012-03-01</Value>
+            </Header>
+            <Header>
+              <Name>x-ms-client-session-id</Name>
+              <Value>90ece0d9-ca10-4bbc-b3f3-1e6c51c5e639-2014-04-18 04:04:27Z</Value>
+            </Header>
+            <Header>
+              <Name>x-ms-client-request-id</Name>
+              <Value>323483dc-9495-4dee-ba2d-92d7cf858f56-2014-04-18 04:04:27Z</Value>
+            </Header>
+          </Headers>
+          <Cookies />
+          <RequestText>&lt;ServiceResource xmlns="http://schemas.microsoft.com/windowsazure"&gt;
+  &lt;SourceDatabaseName&gt;testdb1&lt;/SourceDatabaseName&gt;
+  &lt;SourceDatabaseDeletionDate&gt;2014-04-18T03:51:08.8370000Z&lt;/SourceDatabaseDeletionDate&gt;
+  &lt;TargetDatabaseName&gt;testdb1-restored&lt;/TargetDatabaseName&gt;
+&lt;/ServiceResource&gt;</RequestText>
+          <ContentType>application/xml</ContentType>
+          <Accept i:nil="true" />
+        </RequestInfo>
+        <ResponseInfo>
+          <StatusCode>Created</StatusCode>
+          <Headers>
+            <Header>
+              <Name>x-ms-request-id</Name>
+              <Value>323483dc-9495-4dee-ba2d-92d7cf858f56</Value>
+            </Header>
+            <Header>
+              <Name>X-Content-Type-Options</Name>
+              <Value>nosniff</Value>
+            </Header>
+            <Header>
+              <Name>Cache-Control</Name>
+              <Value>no-store,no-cache</Value>
+            </Header>
+            <Header>
+              <Name>Content-Type</Name>
+              <Value>application/xml; charset=utf-8</Value>
+            </Header>
+            <Header>
+              <Name>Date</Name>
+              <Value>Fri, 18 Apr 2014 04:04:28 GMT</Value>
+            </Header>
+            <Header>
+              <Name>Server</Name>
+              <Value>Microsoft-HTTPAPI/2.0 Microsoft-HTTPAPI/2.0</Value>
+            </Header>
+          </Headers>
+          <Cookies />
+          <ResponseText>&lt;ServiceResource xmlns="http://schemas.microsoft.com/windowsazure" xmlns:i="http://www.w3.org/2001/XMLSchema-instance"&gt;&lt;Name i:nil="true"/&gt;&lt;Type&gt;Microsoft.SqlAzure.RestoreDatabaseOperation&lt;/Type&gt;&lt;State&gt;Created&lt;/State&gt;&lt;SelfLink i:nil="true"/&gt;&lt;ParentLink i:nil="true"/&gt;&lt;RequestID&gt;370d75a5-328e-4d77-b6d6-a9943fc6c21e&lt;/RequestID&gt;&lt;SourceDatabaseName&gt;testdb1&lt;/SourceDatabaseName&gt;&lt;SourceDatabaseDeletionDate&gt;2014-04-18T03:51:08.8370000Z&lt;/SourceDatabaseDeletionDate&gt;&lt;TargetServerName&gt;serverv1&lt;/TargetServerName&gt;&lt;TargetDatabaseName&gt;testdb1-restored&lt;/TargetDatabaseName&gt;&lt;TargetUtcPointInTime&gt;2014-04-18T03:51:08.8370000Z&lt;/TargetUtcPointInTime&gt;&lt;/ServiceResource&gt;</ResponseText>
+        </ResponseInfo>
+      </HttpMessage>
+    </Messages>
+  </HttpSession>
 </HttpSessionCollection>
