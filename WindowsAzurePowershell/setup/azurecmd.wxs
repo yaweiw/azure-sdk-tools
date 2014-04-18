@@ -31,8 +31,9 @@
       <RegistrySearch Id="PSCOMPATIBLEVERSION" Root="HKLM" Key="SOFTWARE\Microsoft\PowerShell\3\PowerShellEngine" Name="PSCompatibleVersion" Type="raw" />
     </Property>
 
-    <Condition Message="This setup requires the Windows PowerShell 3.0 or higher to be installed.">
-      <![CDATA[Installed or (PSCOMPATIBLEVERSION = "1.0, 2.0, 3.0") or (PSCOMPATIBLEVERSION = "1.0, 2.0, 3.0, 4.0") or (PSCOMPATIBLEVERSION = "1.0, 2.0, 3.0, 4.0, 5.0")]]>
+    <Condition Message="This setup requires the Windows PowerShell 3.0 or compatible version to be installed.">
+      <!-- This condition will break if PowerShell has version x3.0 and it is not compatible with 3.0 -->
+      <![CDATA[Installed or (PSCOMPATIBLEVERSION >< "3.0")]]>
     </Condition>
 
     <PropertyRef Id="NETFRAMEWORK40FULL" />
@@ -55,15 +56,7 @@
     </Directory>
 
     <DirectoryRef Id="PowerShellFolder">
-      <Component Id="PSModulePath.User" Guid="2FFD16CE-41A9-4129-A0AB-5AC55E73BEB2">
-        <Condition><![CDATA[ALLUSERS <> 1]]></Condition>
-        <CreateFolder />
-        <!-- Work around bug that PowerShell does not always consider default module paths. -->
-        <Environment Id="PSModulePath.UserDefault" Action="set" Name="PSMODULEPATH" Part="first" Value="%PSMODULEPATH%" />
-        <Environment Id="PSModulePath.UserAppRoot" Action="set" Name="PSMODULEPATH" Part="last" Value="[PowerShellFolder]Azure" />
-      </Component>
       <Component Id="PSModulePath.System" Guid="273525B9-7AAB-421A-90C8-8E50A1840B8D">
-        <Condition><![CDATA[ALLUSERS = 1]]></Condition>
         <CreateFolder />
         <!-- Work around bug that PowerShell does not always consider default module paths. -->
         <Environment Id="PSModulePath.SystemDefault" Action="set" Name="PSMODULEPATH" Part="first" Value="%PSMODULEPATH%" System="yes" />
@@ -85,7 +78,6 @@
 
     <Feature Id="azurecmd" Title="Windows Azure PowerShell" Level="1" Description="Windows PowerShell commandlets">
       <ComponentGroupRef Id="azurecmdfiles" />
-      <ComponentRef Id="PSModulePath.User" />
       <ComponentRef Id="PSModulePath.System" />
       <ComponentRef Id="AzureSdkShortcut" />
     </Feature>
