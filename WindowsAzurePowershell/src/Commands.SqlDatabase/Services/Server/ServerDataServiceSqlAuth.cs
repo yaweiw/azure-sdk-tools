@@ -289,7 +289,7 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Services.Server
                 }
 
                 ServiceObjective serviceObjective = obj as ServiceObjective;
-                if (database != null)
+                if (serviceObjective != null)
                 {
                     this.LoadExtraProperties(serviceObjective);
                     return;
