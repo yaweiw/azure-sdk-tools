@@ -140,6 +140,13 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Services.Server
                     this.LoadExtraProperties(database);
                     return;
                 }
+
+                RestorableDroppedDatabase restorableDroppedDatabase = obj as RestorableDroppedDatabase;
+                if (restorableDroppedDatabase != null)
+                {
+                    this.LoadExtraProperties(restorableDroppedDatabase);
+                    return;
+                }
             }
             catch
             {
@@ -659,6 +666,56 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Services.Server
 
         #endregion
 
+        #region Restorable Dropped Database Operations
+
+        /// <summary>
+        /// Gets a list of all the restorable dropped databases in the current context.
+        /// </summary>
+        /// <returns>An array of databases in the current context</returns>
+        public RestorableDroppedDatabase[] GetRestorableDroppedDatabases()
+        {
+            this.clientRequestId = SqlDatabaseCmdletBase.GenerateClientTracingId();
+
+            // Get the SQL management client
+            SqlManagementClient sqlManagementClient = this.subscription.CreateClient<SqlManagementClient>();
+            this.AddTracingHeaders(sqlManagementClient);
+
+            // Retrieve the list of databases
+            RestorableDroppedDatabaseListResponse response = sqlManagementClient.RestorableDroppedDatabases.List(this.serverName);
+
+            // Construct the resulting RestorableDroppedDatabase objects
+            RestorableDroppedDatabase[] databases = CreateRestorableDroppedDatabaseFromResponse(response);
+            return databases;
+        }
+
+        /// <summary>
+        /// Retrieve information on the restorable dropped database with the name
+        /// <paramref name="databaseName"/> and deletion date <paramref name="deletionDate"/>.
+        /// </summary>
+        /// <param name="databaseName">The name of the restorable dropped database to retrieve.</param>
+        /// <param name="deletionDate">The deletion date of the restorable dropped database to retrieve.</param>
+        /// <returns>An object containing the information about the specific restorable dropped database.</returns>
+        public RestorableDroppedDatabase GetRestorableDroppedDatabase(
+            string databaseName, DateTime deletionDate)
+        {
+            this.clientRequestId = SqlDatabaseCmdletBase.GenerateClientTracingId();
+
+            // Get the SQL management client
+            SqlManagementClient sqlManagementClient = this.subscription.CreateClient<SqlManagementClient>();
+            this.AddTracingHeaders(sqlManagementClient);
+
+            // Retrieve the specified database
+            RestorableDroppedDatabaseGetResponse response = sqlManagementClient.RestorableDroppedDatabases.Get(
+                this.serverName,
+                databaseName + "," + deletionDate.ToString("yyyy-MM-ddTHH:mm:ss.fffZ"));
+
+            // Construct the resulting RestorableDroppedDatabase object
+            RestorableDroppedDatabase database = CreateRestorableDroppedDatabaseFromResponse(response);
+            return database;
+        }
+
+        #endregion
+
         #region Helper functions
 
         private DimensionSetting CreateDimensionSettings(string name, string id, string description, byte ordinal, bool isDefault)
@@ -1025,6 +1082,84 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Services.Server
         }
 
         /// <summary>
+        /// Given a <see cref="RestorableDroppedDatabaseGetResponse"/> this will create and return a <see cref="RestorableDroppedDatabase"/>
+        /// object with the fields filled in.
+        /// </summary>
+        /// <param name="response">The response to turn into a <see cref="RestorableDroppedDatabase"/></param>
+        /// <returns>A <see cref="RestorableDroppedDatabase"/> object.</returns>
+        private RestorableDroppedDatabase CreateRestorableDroppedDatabaseFromResponse(RestorableDroppedDatabaseGetResponse response)
+        {
+            return this.CreateRestorableDroppedDatabaseFromResponse(
+                response.Database.EntityId,
+                response.Database.Name,
+                response.Database.ServerName,
+                response.Database.Edition,
+                response.Database.MaximumDatabaseSizeInBytes,
+                response.Database.CreationDate,
+                response.Database.DeletionDate,
+                response.Database.RecoveryPeriodStartDate);
+        }
+
+        /// <summary>
+        /// Given a <see cref="RestorableDroppedDatabaseListResponse"/> this will create and return an array of <see cref="RestorableDroppedDatabase"/>
+        /// object with the fields filled in.
+        /// </summary>
+        /// <param name="response">The response to turn into an array of <see cref="RestorableDroppedDatabase"/> objects</param>
+        /// <returns>An array of <see cref="RestorableDroppedDatabase"/> objects.</returns>
+        private RestorableDroppedDatabase[] CreateRestorableDroppedDatabaseFromResponse(RestorableDroppedDatabaseListResponse response)
+        {
+            return response.Databases.Select(db => this.CreateRestorableDroppedDatabaseFromResponse(
+                db.EntityId,
+                db.Name,
+                db.ServerName,
+                db.Edition,
+                db.MaximumDatabaseSizeInBytes,
+                db.CreationDate,
+                db.DeletionDate,
+                db.RecoveryPeriodStartDate)).ToArray();
+        }
+
+        /// <summary>
+        /// Given a set of restorable dropped database properties this will create and return a <see cref="RestorableDroppedDatabase"/>
+        /// object with the fields filled in.
+        /// </summary>
+        /// <param name="entityId">The entity ID of the database.</param>
+        /// <param name="name">The name of the database.</param>
+        /// <param name="serverName">The name of the server that contained the database.</param>
+        /// <param name="edition">The edition of the database.</param>
+        /// <param name="maximumDatabaseSizeInBytes">The maximum size of the database.</param>
+        /// <param name="creationDate">The creation date of the database.</param>
+        /// <param name="deletionDate">The deletion date of the database.</param>
+        /// <param name="recoveryPeriodStartDate">The start date of the recovery period for this database.</param>
+        /// <returns>A <see cref="RestorableDroppedDatabase"/> object.</returns>
+        private RestorableDroppedDatabase CreateRestorableDroppedDatabaseFromResponse(
+            string entityId,
+            string name,
+            string serverName,
+            string edition,
+            long maximumDatabaseSizeInBytes,
+            DateTime creationDate,
+            DateTime deletionDate,
+            DateTime? recoveryPeriodStartDate)
+        {
+            var result = new RestorableDroppedDatabase()
+            {
+                EntityId = entityId,
+                Name = name,
+                ServerName = serverName,
+                Edition = edition,
+                MaxSizeBytes = maximumDatabaseSizeInBytes,
+                CreationDate = creationDate,
+                DeletionDate = deletionDate,
+                RecoveryPeriodStartDate = recoveryPeriodStartDate,
+            };
+
+            this.LoadExtraProperties(result);
+
+            return result;
+        }
+
+        /// <summary>
         /// Add the tracing session and request headers to the client.
         /// </summary>
         /// <param name="sqlManagementClient">The client to add the headers on.</param>
@@ -1043,6 +1178,16 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Services.Server
         /// </summary>
         /// <param name="database">The database that needs the extra properties.</param>
         private void LoadExtraProperties(Database database)
+        {
+            // Fill in the context property
+            database.Context = this;
+        }
+
+        /// <summary>
+        /// Ensures any extra property on the given <paramref name="database"/> is loaded.
+        /// </summary>
+        /// <param name="database">The database that needs the extra properties.</param>
+        private void LoadExtraProperties(RestorableDroppedDatabase database)
         {
             // Fill in the context property
             database.Context = this;

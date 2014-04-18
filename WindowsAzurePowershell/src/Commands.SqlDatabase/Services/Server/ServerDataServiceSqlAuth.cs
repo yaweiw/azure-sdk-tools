@@ -294,6 +294,13 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Services.Server
                     this.LoadExtraProperties(serviceObjective);
                     return;
                 }
+
+                RestorableDroppedDatabase restorableDroppedDatabase = obj as RestorableDroppedDatabase;
+                if (restorableDroppedDatabase != null)
+                {
+                    this.LoadExtraProperties(restorableDroppedDatabase);
+                    return;
+                }
             }
             catch
             {
@@ -931,6 +938,70 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Services.Server
             return operations;
         }
         #endregion
+
+        #region RestorableDroppedDatabase Operations
+
+        /// <summary>
+        /// Retrieves the list of all restorable dropped databases on the server.
+        /// </summary>
+        /// <returns>An array of all restorable dropped databases on the server.</returns>
+        public RestorableDroppedDatabase[] GetRestorableDroppedDatabases()
+        {
+            RestorableDroppedDatabase[] allRestorableDroppedDatabases = null;
+
+            using (new MergeOptionTemporaryChange(this, MergeOption.OverwriteChanges))
+            {
+                allRestorableDroppedDatabases = this.RestorableDroppedDatabases.ToArray();
+            }
+
+            // Load the extra properties for all objects.
+            foreach (var restorableDroppedDatabase in allRestorableDroppedDatabases)
+            {
+                this.LoadExtraProperties(restorableDroppedDatabase);
+            }
+
+            return allRestorableDroppedDatabases;
+        }
+
+        /// <summary>
+        /// Retrieve information on the restorable dropped database with the name
+        /// <paramref name="databaseName"/> and deletion date <paramref name="deletionDate"/>.
+        /// </summary>
+        /// <param name="databaseName">The name of the restorable dropped database to retrieve.</param>
+        /// <param name="deletionDate">The deletion date of the restorable dropped database to retrieve.</param>
+        /// <returns>An object containing the information about the specific restorable dropped database.</returns>
+        public RestorableDroppedDatabase GetRestorableDroppedDatabase(
+            string databaseName, DateTime deletionDate)
+        {
+            RestorableDroppedDatabase restorableDroppedDatabase;
+
+            using (new MergeOptionTemporaryChange(this, MergeOption.OverwriteChanges))
+            {
+                // Find the database by name
+                restorableDroppedDatabase =
+                    this.RestorableDroppedDatabases
+                    .Where(db => db.Name == databaseName && db.DeletionDate == deletionDate)
+                    .SingleOrDefault();
+
+                if (restorableDroppedDatabase == null)
+                {
+                    throw new InvalidOperationException(
+                        string.Format(
+                            CultureInfo.InvariantCulture,
+                            Resources.GetAzureSqlRestorableDroppedDatabaseDatabaseNotFound,
+                            this.ServerName,
+                            databaseName,
+                            deletionDate));
+                }
+            }
+
+            // Load the extra properties for this object.
+            this.LoadExtraProperties(restorableDroppedDatabase);
+
+            return restorableDroppedDatabase;
+        }
+
+        #endregion
         
         #endregion
 
@@ -1004,6 +1075,16 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Services.Server
             this.LoadProperty(database, "ServiceObjective");
             database.ServiceObjectiveName =
                 database.ServiceObjective == null ? null : database.ServiceObjective.Name;
+        }
+
+        /// <summary>
+        /// Ensures any extra property on the given <paramref name="database"/> is loaded.
+        /// </summary>
+        /// <param name="database">The database that needs the extra properties.</param>
+        private void LoadExtraProperties(RestorableDroppedDatabase database)
+        {
+            // Fill in the context property
+            database.Context = this;
         }
 
         /// <summary>

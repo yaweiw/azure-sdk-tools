@@ -265,6 +265,7 @@
     <Compile Include="Services\Server\ServiceObjectiveExtensions.cs" />
     <Compile Include="Services\Server\DatabaseExtensions.cs" />
     <Compile Include="Services\Server\IServerDataServiceContext.cs" />
+    <Compile Include="Services\Server\RestorableDroppedDatabaseExtensions.cs" />
     <Compile Include="Services\Server\ServerDataService.cs" />
     <Compile Include="Services\Server\ServerDataServiceCertAuth.cs" />
     <Compile Include="Services\Server\ServerDataServiceEnums.cs" />
