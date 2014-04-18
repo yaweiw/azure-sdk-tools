@@ -262,7 +262,10 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
             {
                 Assert.IsTrue(string.IsNullOrEmpty(vmAccessExtension.Password.ConvertToUnsecureString()), "Password should be null or empty");
             }
-            Assert.IsTrue(string.IsNullOrEmpty(vmAccessExtension.PrivateConfiguration.ConvertToUnsecureString()),"PrivateConfiguration should be null or empty.");
+            if (vmAccessExtension.PrivateConfiguration != null)
+            {
+                Assert.IsTrue(string.IsNullOrEmpty(vmAccessExtension.PrivateConfiguration.ConvertToUnsecureString()), "PrivateConfiguration should be null or empty.");
+            }
             Console.WriteLine("Verifed the enabled extension successfully.");
         }
 
