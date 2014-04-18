@@ -51,6 +51,7 @@ This repository contains a set of PowerShell cmdlets for developers and administ
   * Get/Set database server service objective.
   * Manage database copies and active geo-replication.
   * Get dropped databases that can be restored.
+  * Issue requests to restore a live or dropped database to a point in time.
 * Service Bus
   * Manage service bus namespaces.
 * VM
