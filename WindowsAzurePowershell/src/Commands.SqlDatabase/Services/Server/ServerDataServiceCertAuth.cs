@@ -716,6 +716,48 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Services.Server
 
         #endregion
 
+        #region Restore Database Operations
+
+        /// <summary>
+        /// Issues a restore request for the given source database to the given target database.
+        /// </summary>
+        /// <param name="sourceDatabaseName">The name of the source database.</param>
+        /// <param name="sourceDatabaseDeletionDate">The deletion date of the source database, in case it is a dropped database.</param>
+        /// <param name="targetServerName">The name of the server to create the restored database on.</param>
+        /// <param name="targetDatabaseName">The name of the database to be created with the restored contents.</param>
+        /// <param name="pointInTime">The point in time to restore the source database to.</param>
+        /// <returns>An object containing the information about the restore request.</returns>
+        public RestoreDatabaseOperation RestoreDatabase(
+            string sourceDatabaseName,
+            DateTime? sourceDatabaseDeletionDate,
+            string targetServerName,
+            string targetDatabaseName,
+            DateTime? pointInTime)
+        {
+            this.clientRequestId = SqlDatabaseCmdletBase.GenerateClientTracingId();
+
+            // Get the SQL management client
+            SqlManagementClient sqlManagementClient = this.subscription.CreateClient<SqlManagementClient>();
+            this.AddTracingHeaders(sqlManagementClient);
+
+            // Create the restore operation
+            RestoreDatabaseOperationCreateResponse response = sqlManagementClient.RestoreDatabaseOperations.Create(
+                this.serverName,
+                new RestoreDatabaseOperationCreateParameters()
+                {
+                    SourceDatabaseName = sourceDatabaseName,
+                    SourceDatabaseDeletionDate = sourceDatabaseDeletionDate,
+                    TargetServerName = targetServerName,
+                    TargetDatabaseName = targetDatabaseName,
+                    PointInTime = pointInTime
+                });
+
+            RestoreDatabaseOperation restoreDatabaseOperation = CreateRestoreDatabaseOperationFromResponse(response);
+            return restoreDatabaseOperation;
+        }
+
+        #endregion
+
         #region Helper functions
 
         private DimensionSetting CreateDimensionSettings(string name, string id, string description, byte ordinal, bool isDefault)
@@ -1157,6 +1199,25 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Services.Server
             this.LoadExtraProperties(result);
 
             return result;
+        }
+
+        /// <summary>
+        /// Given a <see cref="RestoreDatabaseOperationCreateResponse"/> this will create and return a <see cref="RestoreDatabaseOperation"/>
+        /// object with the fields filled in.
+        /// </summary>
+        /// <param name="response">The response to turn into a <see cref="RestoreDatabaseOperation"/></param>
+        /// <returns>A <see cref="RestoreDatabaseOperation"/> object.</returns>
+        private RestoreDatabaseOperation CreateRestoreDatabaseOperationFromResponse(RestoreDatabaseOperationCreateResponse response)
+        {
+            return new RestoreDatabaseOperation()
+            {
+                RequestID = Guid.Parse(response.Operation.Id),
+                SourceDatabaseName = response.Operation.SourceDatabaseName,
+                SourceDatabaseDeletionDate = response.Operation.SourceDatabaseDeletionDate,
+                TargetServerName = response.Operation.TargetServerName,
+                TargetDatabaseName = response.Operation.TargetDatabaseName,
+                TargetUtcPointInTime = response.Operation.PointInTime,
+            };
         }
 
         /// <summary>
