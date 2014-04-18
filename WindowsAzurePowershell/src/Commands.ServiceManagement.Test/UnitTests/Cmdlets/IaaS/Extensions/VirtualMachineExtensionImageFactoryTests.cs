@@ -25,7 +25,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.UnitTests.Cmdle
     using ServiceManagement.IaaS.Extensions;
     using VisualStudio.TestTools.UnitTesting;
 
-    [TestClass]
+    //[TestClass]
     public class VirtualMachineExtensionImageFactoryTests : TestBase
     {
         private const string nonExistingPublisherName = "nonExistingPublisherName";
@@ -35,7 +35,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.UnitTests.Cmdle
 
         private Mock<IComputeManagementClient> client;
 
-        [TestInitialize]
+        //[TestInitialize]
         public void SetupTest()
         {
             var source = new TaskCompletionSource<VirtualMachineExtensionListResponse>();
@@ -59,12 +59,12 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.UnitTests.Cmdle
                   .Returns(operations.Object);
         }
 
-        [TestCleanup]
+        //[TestCleanup]
         public void CleanupTest()
         {
         }
 
-        [TestMethod]
+        //[TestMethod]
         public void TestNonExistingExtensionImageList()
         {
             var factory = new VirtualMachineExtensionImageFactory(null);
@@ -77,7 +77,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.UnitTests.Cmdle
             Assert.IsTrue(list.Count() == 0);
         }
 
-        [TestMethod]
+        //[TestMethod]
         public void TestMakeListWithoutClient()
         {
             var factory = new VirtualMachineExtensionImageFactory(null);
@@ -113,7 +113,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.UnitTests.Cmdle
             Assert.IsTrue(string.IsNullOrEmpty(item.Version));
         }
 
-        [TestMethod]
+        //[TestMethod]
         public void TestMakeListWithClient()
         {
             var factory = new VirtualMachineExtensionImageFactory(client.Object);
