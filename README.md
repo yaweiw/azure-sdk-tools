@@ -50,6 +50,7 @@ This repository contains a set of PowerShell cmdlets for developers and administ
   * Get database server quota.
   * Get/Set database server service objective.
   * Manage database copies and active geo-replication.
+  * Get dropped databases that can be restored.
 * Service Bus
   * Manage service bus namespaces.
 * VM

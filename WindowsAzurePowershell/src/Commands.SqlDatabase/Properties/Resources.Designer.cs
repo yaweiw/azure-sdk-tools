@@ -61,6 +61,15 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Invalid Parameter combination: Both &quot;DatabaseName&quot; and &quot;DatabaseDeletionDate&quot; need to be specified to get a restorable dropped database..
+        /// </summary>
+        internal static string BothDatabaseNameAndDeletionDateNeedToBeSpecified {
+            get {
+                return ResourceManager.GetString("BothDatabaseNameAndDeletionDateNeedToBeSpecified", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The Sql Authenticate Credential was not specified..
         /// </summary>
         internal static string CredentialNotSpecified {
@@ -215,20 +224,20 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to There are more than one database copy matching the specified filter. Please revise the filter criteria to specify only one database copy..
-        /// </summary>
-        internal static string MoreThanOneDatabaseCopyFound {
-            get {
-                return ResourceManager.GetString("MoreThanOneDatabaseCopyFound", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Invalid Parameter combination: {0} and {1} parameters cannot be used together..
         /// </summary>
         internal static string InvalidParameterCombination {
             get {
                 return ResourceManager.GetString("InvalidParameterCombination", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to There are more than one database copy matching the specified filter. Please revise the filter criteria to specify only one database copy..
+        /// </summary>
+        internal static string MoreThanOneDatabaseCopyFound {
+            get {
+                return ResourceManager.GetString("MoreThanOneDatabaseCopyFound", resourceCulture);
             }
         }
         
@@ -337,6 +346,15 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Properties {
         internal static string RemoveAzureSqlDatabaseWarning {
             get {
                 return ResourceManager.GetString("RemoveAzureSqlDatabaseWarning", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Invalid parameters: The RestorableDropped switch must be specified to use the parameter {0}..
+        /// </summary>
+        internal static string RestorableDroppedSwitchNotSpecified {
+            get {
+                return ResourceManager.GetString("RestorableDroppedSwitchNotSpecified", resourceCulture);
             }
         }
         

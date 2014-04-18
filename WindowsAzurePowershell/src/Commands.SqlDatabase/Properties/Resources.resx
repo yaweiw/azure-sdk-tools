@@ -117,6 +117,10 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="BothDatabaseNameAndDeletionDateNeedToBeSpecified" xml:space="preserve">
+    <value>Invalid Parameter combination: Both "DatabaseName" and "DatabaseDeletionDate" need to be specified to get a restorable dropped database.</value>
+    <comment>Parameter validation</comment>
+  </data>
   <data name="CredentialNotSpecified" xml:space="preserve">
     <value>The Sql Authenticate Credential was not specified.</value>
     <comment>Parameter validation</comment>
@@ -234,6 +238,10 @@ Error Code: {0}</value>
   <data name="RemoveAzureSqlDatabaseWarning" xml:space="preserve">
     <value>Are you sure you want to remove the Windows Azure Sql Database "{0}.{1}"?</value>
     <comment>Process workflow</comment>
+  </data>
+  <data name="RestorableDroppedSwitchNotSpecified" xml:space="preserve">
+    <value>Invalid parameters: The RestorableDropped switch must be specified to use the parameter {0}.</value>
+    <comment>Parameter validation</comment>
   </data>
   <data name="ServiceObjectiveNotFound" xml:space="preserve">
     <value>Service objective '{1}' was not found on server '{0}'.</value>
