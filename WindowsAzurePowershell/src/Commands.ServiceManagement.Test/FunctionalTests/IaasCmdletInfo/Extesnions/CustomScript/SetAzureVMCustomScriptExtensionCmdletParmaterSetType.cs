@@ -12,10 +12,22 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Model
+namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests.IaasCmdletInfo.Extesnions.CustomScript
 {
-    public class RoleInstanceCountContext : ServiceOperationContext
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Text;
+
+    public enum SetAzureVMCustomScriptExtensionCmdletParmaterSetType
     {
-        public int InstanceCount { get; set; }
+        SetCustomScriptExtensionByUrisParamSetName,
+        SetCustomScriptExtensionByUrisParamSetNameWithOutDefaultParameters,
+        DisableCustomScriptExtensionParamSetName,
+        DisableCustomScriptExtensionParamSetNameWithOutDefaultParameters,
+        SetCustomScriptExtensionByContainerBlobsParamSetName,
+        SetCustomScriptExtensionByContainerBlobsParamSetNameWithOutDefaultParameters
     }
+
+
 }

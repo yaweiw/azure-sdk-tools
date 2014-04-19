@@ -149,16 +149,37 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Model
             protected set;
         }
 
+        public DateTime? CreatedTime
+        {
+            get;
+            protected set;
+        }
+
+        public DateTime? LastModifiedTime
+        {
+            get;
+            protected set;
+        }
+
+        public bool? Locked
+        {
+            get;
+            protected set;
+        }
+
         public DeploymentInfoContext(DeploymentGetResponse deployment)
         {
-            this.Slot = deployment.DeploymentSlot.ToString();
-            this.Name = deployment.Name;
-            this.DeploymentName = deployment.Name;
-            this.Url = deployment.Uri;
-            this.Status = deployment.Status.ToString();
-            this.DeploymentId = deployment.PrivateId;
-            this.VNetName = deployment.VirtualNetworkName;
-            this.SdkVersion = deployment.SdkVersion;
+            this.Slot             = deployment.DeploymentSlot.ToString();
+            this.Name             = deployment.Name;
+            this.DeploymentName   = deployment.Name;
+            this.Url              = deployment.Uri;
+            this.Status           = deployment.Status.ToString();
+            this.DeploymentId     = deployment.PrivateId;
+            this.VNetName         = deployment.VirtualNetworkName;
+            this.SdkVersion       = deployment.SdkVersion;
+            this.CreatedTime      = deployment.CreatedTime;
+            this.LastModifiedTime = deployment.LastModifiedTime;
+            this.Locked           = deployment.Locked;
 
             // IP Related
             this.ReservedIPName = deployment.ReservedIPName;
@@ -171,6 +192,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Model
                         Name = a.Name
                     }));
 
+            // DNS
             if (deployment.DnsSettings != null)
             {
                 this.DnsSettings = new Microsoft.WindowsAzure.Commands.ServiceManagement.Model.PersistentVMModel.DnsSettings
