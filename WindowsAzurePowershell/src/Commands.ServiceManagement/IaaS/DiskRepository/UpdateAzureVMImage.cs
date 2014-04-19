@@ -19,6 +19,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.DiskRepository
     using Management.Compute;
     using Management.Compute.Models;
     using Model;
+    using Properties;
     using Utilities.Common;
 
     [Cmdlet(VerbsData.Update, "AzureVMImage"), OutputType(typeof(OSImageContext))]
@@ -57,22 +58,51 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.DiskRepository
         
         public void UpdateVMImageProcess()
         {
-            var parameters = new VirtualMachineOSImageUpdateParameters
-            {
-                Label = this.Label,
-                Eula = this.Eula,
-                Description = this.Description,
-                ImageFamily = this.ImageFamily,
-                PublishedDate = this.PublishedDate,
-                PrivacyUri = this.PrivacyUri,
-                RecommendedVMSize = this.RecommendedVMSize
-            };
+            bool isOSImage = GetAzureVMImage.ExistsImageInType(this.ComputeClient, this.ImageName, ImageType.OSImage);
+            bool isVMImage = GetAzureVMImage.ExistsImageInType(this.ComputeClient, this.ImageName, ImageType.VMImage);
 
-            this.ExecuteClientActionNewSM(
-                null,
-                this.CommandRuntime.ToString(),
-                () => this.ComputeClient.VirtualMachineOSImages.Update(this.ImageName, parameters),
-                (s, response) => this.ContextFactory<VirtualMachineOSImageUpdateResponse, OSImageContext>(response, s));
+            if (isOSImage && isVMImage)
+            {
+                var errorMsg = string.Format(Resources.DuplicateNamesFoundInBothVMAndOSImages, this.ImageName);
+                WriteError(new ErrorRecord(new Exception(errorMsg), string.Empty, ErrorCategory.CloseError, null));
+            }
+            else if (isOSImage)
+            {
+                var parameters = new VirtualMachineOSImageUpdateParameters
+                {
+                    Label = this.Label,
+                    Eula = this.Eula,
+                    Description = this.Description,
+                    ImageFamily = this.ImageFamily,
+                    PublishedDate = this.PublishedDate,
+                    PrivacyUri = this.PrivacyUri,
+                    RecommendedVMSize = this.RecommendedVMSize
+                };
+
+                this.ExecuteClientActionNewSM(
+                    null,
+                    this.CommandRuntime.ToString(),
+                    () => this.ComputeClient.VirtualMachineOSImages.Update(this.ImageName, parameters),
+                    (s, response) => this.ContextFactory<VirtualMachineOSImageUpdateResponse, OSImageContext>(response, s));
+            }
+            else
+            {
+                var parameters = new VirtualMachineVMImageUpdateParameters
+                {
+                    Label = this.Label,
+                    Eula = this.Eula,
+                    Description = this.Description,
+                    ImageFamily = this.ImageFamily,
+                    PublishedDate = this.PublishedDate,
+                    PrivacyUri = this.PrivacyUri,
+                    RecommendedVMSize = this.RecommendedVMSize
+                };
+
+                this.ExecuteClientActionNewSM(
+                    null,
+                    this.CommandRuntime.ToString(),
+                    () => this.ComputeClient.VirtualMachineVMImages.Update(this.ImageName, parameters));
+            }
         }
 
         protected override void OnProcessRecord()
