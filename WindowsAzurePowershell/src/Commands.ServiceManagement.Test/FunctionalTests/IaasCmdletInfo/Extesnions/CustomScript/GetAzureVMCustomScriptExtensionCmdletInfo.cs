@@ -12,16 +12,21 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Model
+namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests.IaasCmdletInfo.Extesnions.CustomScript
 {
-    using Utilities.Common;
+    using Microsoft.WindowsAzure.Commands.ServiceManagement.Model;
+    using Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests.PowershellCore;
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Text;
 
-    public class GatewayManagementOperationContext : ManagementOperationContext
+    public class GetAzureVMCustomScriptExtensionCmdletInfo:CmdletsInfo
     {
-        public string ErrorCode { get; set; }
-
-        public string ErrorMessage { get; set; } 
-
-        public string Data { get; set; } 
+        public GetAzureVMCustomScriptExtensionCmdletInfo(IPersistentVM vm)
+        {
+            this.cmdletName = Utilities.GetAzureVMCustomScriptExtensionCmdletName;
+            this.cmdletParams.Add(new CmdletParam("VM",vm));
+        }
     }
 }
