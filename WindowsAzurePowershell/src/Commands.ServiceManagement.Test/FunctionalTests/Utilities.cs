@@ -34,6 +34,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
     using VisualStudio.TestTools.UnitTesting;
     using Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests.ConfigDataInfo;
     using System.Collections.Generic;
+    using Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions;
 
     internal class Utilities 
     {
@@ -292,7 +293,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
         public const string RemoveAzureVMCustomScriptExtensionCmdletName = "Remove-AzureVMCustomScriptExtension";
         #endregion
 
-
+        private static ServiceManagementCmdletTestHelper vmPowershellCmdlets = new ServiceManagementCmdletTestHelper();
 
         public static string GetUniqueShortName(string prefix = "", int length = 6, string suffix = "", bool includeDate = false)
         {
@@ -341,7 +342,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
         public static Uri GetDeploymentAndWaitForReady(string serviceName, string slot, int waitTime, int maxWaitTime)
         {
 
-            ServiceManagementCmdletTestHelper vmPowershellCmdlets = new ServiceManagementCmdletTestHelper();            
+          
                        
             DateTime startTime = DateTime.Now;
             while (true)
@@ -380,7 +381,6 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
         public static bool GetAzureVMAndWaitForReady(string serviceName, string vmName,int waitTime, int maxWaitTime )
         {
             Console.WriteLine("Waiting for the vm {0} to reach \"ReadyRole\" ");
-            ServiceManagementCmdletTestHelper vmPowershellCmdlets = new ServiceManagementCmdletTestHelper();
             DateTime startTime = DateTime.Now;
             DateTime MaxEndTime = startTime.AddMilliseconds(maxWaitTime);
             while (true)
@@ -880,7 +880,6 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
                 azureProvisioningConfig = new AzureProvisioningConfigInfo(isWindows ? OS.Windows:OS.Linux, username, password,disableGuestAgent);
             }
             var persistentVMConfigInfo = new PersistentVMConfigInfo(azureVMConfigInfo, azureProvisioningConfig, null, null);
-            ServiceManagementCmdletTestHelper vmPowershellCmdlets = new ServiceManagementCmdletTestHelper();
             return vmPowershellCmdlets.GetPersistentVM(persistentVMConfigInfo);
         }
 
@@ -939,7 +938,6 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
 
         public static PersistentVM GetAzureVM(string vmName, string serviceName)
         {
-            ServiceManagementCmdletTestHelper vmPowershellCmdlets = new ServiceManagementCmdletTestHelper();
             var vmroleContext = vmPowershellCmdlets.GetAzureVM(vmName, serviceName);
             return vmroleContext.VM;
         }
@@ -956,6 +954,13 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
             Console.Write(actionTitle);
             method();
             Console.WriteLine(actionTitle +": succeeded");
+        }
+
+        public static VirtualMachineExtensionImageContext GetAzureVMExtenionInfo(string extensionName)
+        {
+            List<VirtualMachineExtensionImageContext> extensionInfo = new List<VirtualMachineExtensionImageContext>();
+            extensionInfo.AddRange(vmPowershellCmdlets.GetAzureVMAvailableExtension());
+            return extensionInfo.Find(c => c.ExtensionName.Equals(extensionName));
         }
 
     }
