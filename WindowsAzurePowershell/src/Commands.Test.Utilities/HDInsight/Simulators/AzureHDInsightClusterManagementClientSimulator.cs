@@ -165,6 +165,11 @@ namespace Microsoft.WindowsAzure.Commands.Test.Utilities.HDInsight.Simulators
             this.logger.AddWriter(logWriter);
         }
 
+        public void RemoveLogWriter(ILogWriter logWriter)
+        {
+            this.logger.RemoveWriter(logWriter);
+        }
+
         public void Cancel()
         {
         }
@@ -186,12 +191,6 @@ namespace Microsoft.WindowsAzure.Commands.Test.Utilities.HDInsight.Simulators
             this.LogMessage("Creating cluster '{0}' in location {1}", clusterCreateParameters.Name, clusterCreateParameters.Location);
             LastCreateRequest = clusterCreateParameters;
             var clusterDetails = new ClusterDetails();
-
-            if (clusterCreateParameters.EnsureHighAvailability)
-            {
-                clusterDetails.ClusterSizeInNodes = clusterCreateParameters.ClusterSizeInNodes + 2;
-            }
-
             clusterDetails.Name = clusterCreateParameters.Name;
             clusterDetails.HttpPassword = clusterCreateParameters.Password;
             clusterDetails.HttpUserName = clusterCreateParameters.UserName;
@@ -362,6 +361,8 @@ namespace Microsoft.WindowsAzure.Commands.Test.Utilities.HDInsight.Simulators
             this.cancellationTokenSource = tokenSource;
             this.CancellationToken = this.cancellationTokenSource.Token;
         }
+
+        public bool IgnoreSslErrors { get; set; }
 
         internal static SimulatorClusterContainer GetClusterInternal(string clusterName)
         {
