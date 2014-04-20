@@ -35,7 +35,6 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
     using VisualStudio.TestTools.UnitTesting;
     using Model.PersistentVMModel;
     using PIRCmdletInfo;
-    using Preview.Model;
     using PreviewCmdletInfo;
 
     using Microsoft.WindowsAzure.Storage.Blob;
