@@ -1141,7 +1141,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Reserved IP with the Name:&apos;{0}&apos; will no longer be in use after the deployment is deleted, and it is still reserved for later use..
+        ///   Looks up a localized string similar to Reserved IP with the Name:&apos;{0}&apos; will no longer be in use after the deployment is deleted, and it is still reserved for later use. Please note that the Reserved IPs that are not associated with a deployment might be billed..
         /// </summary>
         internal static string ReservedIPNameNoLongerInUseButStillBeingReserved {
             get {
