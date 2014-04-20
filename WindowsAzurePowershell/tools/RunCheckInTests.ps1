@@ -13,15 +13,20 @@ $allWebPIVersions = Get-ChildItem HKLM:\SOFTWARE\Microsoft\WebPlatformInstaller 
         }
     }
 
-Write-Host "webpi: $WebPi"
+Write-Host "using webpi command: $WebPi"
 
-if (!(Test-Path "$env:ProgramFiles\Microsoft SDKs\Windows Azure\.NET SDK\v2.3")) {
+$programFiles = $env:ProgramFiles
+if (Test-Path "$env:ProgramW6432"){
+    $programFiles = $env:ProgramW6432
+}
+
+if (!(Test-Path "$programFiles\Microsoft SDKs\Windows Azure\.NET SDK\v2.3")) {
     Write-Host installing Azure Authoring Tools
     Start-Process "$WebPi" "/Install /products:WindowsAzureSDK_Only_2_3 /accepteula" -Wait
 }
 
 
-if (!(Test-Path "$env:ProgramFiles\Microsoft SDKs\Windows Azure\Emulator")) {
+if (!(Test-Path "$programFiles\Microsoft SDKs\Windows Azure\Emulator")) {
     Write-Host installing Azure Compute Emulator
     Start-Process "$WebPi" "/Install /products:WindowsAzureEmulator_Only_2_3 /accepteula" -Wait
 }
