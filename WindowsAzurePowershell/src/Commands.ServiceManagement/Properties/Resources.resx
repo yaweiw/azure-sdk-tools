@@ -517,7 +517,7 @@
     <value>{0} - Uploading Certificate: {1}</value>
   </data>
   <data name="DeploymentVIPLossWarning" xml:space="preserve">
-    <value>The specified virtual machine is the last virtual machine in this deployment. Continuing will result in a new IP address for your deployment. To shut down without losing the deployment IP use –StayProvisioned.</value>
+    <value>The specified virtual machine is the last virtual machine in this deployment. Continuing will result in a new IP address for your deployment. To shut down without losing the deployment IP use -StayProvisioned.</value>
   </data>
   <data name="DeprovisioningVM" xml:space="preserve">
     <value>Deprovisioning the VM: {0} </value>

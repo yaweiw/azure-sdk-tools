@@ -12,14 +12,11 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Preview.Model
-{
-    using Management.Compute.Models;
 
-    public class DeploymentInfoContext : ServiceManagement.Model.DeploymentInfoContext
+namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Model
+{
+    public static class ReservedIPConstants
     {
-        public DeploymentInfoContext(DeploymentGetResponse deployment) : base(deployment)
-        {
-        }
+        public const string CmdletNoun = "AzureReservedIP";
     }
 }

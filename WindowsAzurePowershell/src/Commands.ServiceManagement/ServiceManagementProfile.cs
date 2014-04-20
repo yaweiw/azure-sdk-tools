@@ -27,6 +27,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement
     using IaaS.Extensions;
     using Management.Compute.Models;
     using Management.Models;
+    using Management.Network.Models;
     using Management.Storage.Models;
     using Model;
     using Utilities.Common;
@@ -750,6 +751,17 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement
                       }
                   });
 
+            // Reserved IP
+            Mapper.CreateMap<OperationStatusResponse, ReservedIPContext>()
+                  .ForMember(c => c.OperationId, o => o.MapFrom(r => r.Id))
+                  .ForMember(c => c.OperationStatus, o => o.MapFrom(r => r.Status.ToString()))
+                  .ForMember(c => c.Id, o => o.Ignore());
+
+            Mapper.CreateMap<NetworkReservedIPGetResponse, ReservedIPContext>()
+                  .ForMember(c => c.ReservedIPName, o => o.MapFrom(r => r.Name));
+
+            Mapper.CreateMap<NetworkReservedIPListResponse.ReservedIP, ReservedIPContext>()
+                  .ForMember(c => c.ReservedIPName, o => o.MapFrom(r => r.Name));
 
             // WSM to PVM
             Mapper.CreateMap<WSM.LoadBalancerProbe,                                           PVM.LoadBalancerProbe>();

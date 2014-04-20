@@ -12,27 +12,36 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Preview.IaaS.PersistentVMs
+namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
 {
     using System.Management.Automation;
-    using ServiceManagement.IaaS.PersistentVMs;
+    using Model;
     using Utilities.Common;
 
-    [Cmdlet(VerbsCommon.New, "AzureVM", DefaultParameterSetName = "ExistingService"), OutputType(typeof(ManagementOperationContext))]
-    public class NewAzureVMCommand : ServiceManagement.IaaS.PersistentVMs.NewAzureVMCommand
+    [Cmdlet(VerbsCommon.Remove, ReservedIPConstants.CmdletNoun, DefaultParameterSetName = RemoveReservedIPParamSet), OutputType(typeof(ManagementOperationContext))]
+    public class RemoveAzureReservedIPCmdlet : ServiceManagementBaseCmdlet
     {
-        [Parameter(HelpMessage = "The name of the reserved IP.")]
+        protected const string RemoveReservedIPParamSet = "RemoveReservedIP";
+
+        [Parameter(Mandatory = true, Position = 0, ValueFromPipelineByPropertyName = true, HelpMessage = "Reserved IP Name.")]
         [ValidateNotNullOrEmpty]
-        public override string ReservedIPName
+        public string ReservedIPName
         {
             get;
             set;
         }
 
-        protected override void ProcessRecord()
+        internal void ExecuteCommand()
         {
-            ServiceManagementPreviewProfile.Initialize();
-            base.ProcessRecord();
+            ExecuteClientActionNewSM(null,
+                CommandRuntime.ToString(),
+                () => NetworkClient.ReservedIPs.Delete(ReservedIPName));
+        }
+
+        protected override void OnProcessRecord()
+        {
+            ServiceManagementProfile.Initialize();
+            ExecuteCommand();
         }
     }
 }

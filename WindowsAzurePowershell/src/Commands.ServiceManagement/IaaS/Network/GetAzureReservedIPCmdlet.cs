@@ -13,7 +13,7 @@
 // ----------------------------------------------------------------------------------
 
 
-namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Preview.Network
+namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
 {
     using System.Collections.Generic;
     using System.Linq;
@@ -54,7 +54,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Preview.Network
 
         protected override void OnProcessRecord()
         {
-            ServiceManagementPreviewProfile.Initialize();
+            ServiceManagementProfile.Initialize();
             this.ExecuteCommand();
         }
     }

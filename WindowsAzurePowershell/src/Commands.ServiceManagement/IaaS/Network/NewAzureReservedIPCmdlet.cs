@@ -12,7 +12,7 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Preview.Network
+namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
 {
     using System.Management.Automation;
     using Management.Network.Models;
@@ -43,10 +43,10 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Preview.Network
             set;
         }
 
-        [Parameter(Mandatory = true, Position = 2, ValueFromPipelineByPropertyName = true, ParameterSetName = ReserveNewIPParamSet, HelpMessage = "Affinity Group Name.")]
-        [Parameter(Mandatory = true, Position = 2, ValueFromPipelineByPropertyName = true, ParameterSetName = ReserveInUseIPParamSet, HelpMessage = "Affinity Group Name.")]
+        [Parameter(Mandatory = true, Position = 2, ValueFromPipelineByPropertyName = true, ParameterSetName = ReserveNewIPParamSet, HelpMessage = "Location Name.")]
+        [Parameter(Mandatory = true, Position = 2, ValueFromPipelineByPropertyName = true, ParameterSetName = ReserveInUseIPParamSet, HelpMessage = "Location Name.")]
         [ValidateNotNullOrEmpty]
-        public string AffinityGroup
+        public string Location
         {
             get;
             set;
@@ -74,7 +74,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Preview.Network
             {
                 Name = ReservedIPName,
                 Label = Label,
-                AffinityGroup = AffinityGroup,
+                Location = Location,
                 ServiceName = ServiceName,
                 DeploymentName = DeploymentName
             };
@@ -86,7 +86,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Preview.Network
 
         protected override void OnProcessRecord()
         {
-            ServiceManagementPreviewProfile.Initialize();
+            ServiceManagementProfile.Initialize();
             this.ExecuteCommand();
         }
     }

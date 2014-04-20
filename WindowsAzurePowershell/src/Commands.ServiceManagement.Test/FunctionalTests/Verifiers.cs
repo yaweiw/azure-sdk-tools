@@ -12,12 +12,10 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-using System.Reflection;
-using Microsoft.WindowsAzure.Commands.ServiceManagement.Preview.Model;
-
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
 {
     using System;
+    using System.Reflection;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using Microsoft.WindowsAzure.Commands.ServiceManagement.Model;
     using Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests.ConfigDataInfo;
@@ -325,7 +323,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
             Utilities.PrintContext(rsvIP);
             Assert.AreEqual(name, rsvIP.ReservedIPName, "Reserved IP names are not equal!");
             Assert.AreEqual(label, rsvIP.Label, "Reserved IP labels are not equal!");
-            Assert.AreEqual(affname, rsvIP.AffinityGroup, "Reserved IP affinity groups are not equal!");
+            Assert.AreEqual(affname, rsvIP.Location, "Reserved IP affinity groups are not equal!");
             if (!string.IsNullOrEmpty(ip))
             {
                 Assert.AreEqual(ip, rsvIP.Address, "Reserved IP addresses are not equal!");
