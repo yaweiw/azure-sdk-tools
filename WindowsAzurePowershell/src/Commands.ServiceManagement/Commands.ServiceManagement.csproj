@@ -173,7 +173,7 @@
     </Reference>
     <Reference Include="Microsoft.WindowsAzure.Management.Network, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Microsoft.WindowsAzure.Management.Network.1.0.1.1\lib\net40\Microsoft.WindowsAzure.Management.Network.dll</HintPath>
+      <HintPath>..\packages\Microsoft.WindowsAzure.Management.Network.1.0.1.2\lib\net40\Microsoft.WindowsAzure.Management.Network.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.WindowsAzure.Management.Storage, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -288,6 +288,7 @@
     <Compile Include="IaaS\Extensions\VMAccess\VirtualMachineAccessExtensionContext.cs" />
     <Compile Include="IaaS\Network\GetAzureReservedIPCmdlet.cs" />
     <Compile Include="IaaS\Network\GetAzureStaticVNetIP.cs" />
+    <Compile Include="IaaS\Network\SetAzureReservedIPCmdlet.cs" />
     <Compile Include="IaaS\Network\NewAzureReservedIPCmdlet.cs" />
     <Compile Include="IaaS\Network\RemoveAzureReservedIPCmdlet.cs" />
     <Compile Include="IaaS\Network\RemoveAzureStaticVNetIP.cs" />
