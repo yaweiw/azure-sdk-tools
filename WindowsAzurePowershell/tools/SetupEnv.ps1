@@ -35,7 +35,6 @@ if (Test-Path $setNugetFeedCommand) {
     Invoke-Environment "$setNugetFeedCommand"
 }
 
-# Write-Host ${env:ProgramFiles}
 if (!(Test-Path env:\PRIVATE_FEED_URL)) {
     Write-Host 'Error, please set following environment variables so that build script can download Azure SDK Nuget Packages:' -ForegroundColor "Red"
     Write-Host '    PRIVATE_FEED_URL, PRIVATE_FEED_USER_NAME and PRIVATE_FEED_PASSWORD' -ForegroundColor "Red"
@@ -56,8 +55,6 @@ if (Test-Path ${env:\ProgramFiles(x86)} ) {
     $env:ADXSDKProgramFiles = $env:ProgramFiles
 }
 
-# Update policy, so azure powershell can run
-Set-ExecutionPolicy Unrestricted
 
 if (Test-Path "$env:ADXSDKProgramFiles\Microsoft Visual Studio 12.0") {
     $vsVersion="12.0"
