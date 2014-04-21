@@ -79,15 +79,6 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Automation {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The argument {0} with the value {1} is not valid. Valid Automation account names can contain only letters, numbers, and hyphens. The name must start with a letter, and it must end with a letter or a number. The length of the name must be between 6 and 50 characters..
-        /// </summary>
-        internal static string InvalidAutomationAccountName {
-            get {
-                return ResourceManager.GetString("InvalidAutomationAccountName", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to The continuation token is not valid. NextLink: {0}..
         /// </summary>
         internal static string InvalidContinuationToken {
@@ -111,15 +102,6 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Automation {
         internal static string InvalidRunbookModel {
             get {
                 return ResourceManager.GetString("InvalidRunbookModel", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to The argument {0} with the value {1} is not valid. Valid runbook names can contain only letters, numbers, underscores and hyphens. The name must start with a letter. The length of the name must be between 1 and 64 characters..
-        /// </summary>
-        internal static string InvalidRunbookName {
-            get {
-                return ResourceManager.GetString("InvalidRunbookName", resourceCulture);
             }
         }
         
