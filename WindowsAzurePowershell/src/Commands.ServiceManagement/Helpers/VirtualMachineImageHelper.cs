@@ -12,12 +12,13 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.DiskRepository
+namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Helpers
 {
     using System;
     using System.Linq;
     using System.Net;
     using Management.Compute;
+    using Model;
 
     public class VirtualMachineImageHelper
     {

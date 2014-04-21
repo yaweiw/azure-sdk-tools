@@ -12,15 +12,13 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.DiskRepository
+namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Model
 {
-    using System;
+    using Model.PersistentVMModel;
 
-    [Flags]
-    public enum VirtualMachineImageType
+    public class VirtualMachineDiskConfigurationSet
     {
-        None = 0x0,
-        OSImage = 0x1,
-        VMImage = 0x2
-    };
+        public OSDiskConfiguration OSDiskConfiguration { get; set; }
+        public DataDiskConfigurationList DataDiskConfigurations { get; set; }
+    }
 }
