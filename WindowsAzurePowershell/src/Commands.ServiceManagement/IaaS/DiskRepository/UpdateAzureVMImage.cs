@@ -16,7 +16,6 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.DiskRepository
 {
     using System;
     using System.Management.Automation;
-    using Management.Compute;
     using Management.Compute.Models;
     using Model;
     using Properties;
@@ -58,8 +57,9 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.DiskRepository
         
         public void UpdateVMImageProcess()
         {
-            bool isOSImage = GetAzureVMImage.ExistsImageInType(this.ComputeClient, this.ImageName, ImageType.OSImage);
-            bool isVMImage = GetAzureVMImage.ExistsImageInType(this.ComputeClient, this.ImageName, ImageType.VMImage);
+            var imageType = new VirtualMachineImageHelper(this.ComputeClient).GetImageType(this.ImageName);
+            bool isOSImage = imageType.HasFlag(VirtualMachineImageType.OSImage);
+            bool isVMImage = imageType.HasFlag(VirtualMachineImageType.VMImage);
 
             if (isOSImage && isVMImage)
             {

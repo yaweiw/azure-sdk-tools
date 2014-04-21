@@ -477,8 +477,10 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.PersistentVMs
 
             if (!string.IsNullOrEmpty(this.ImageName))
             {
-                _isOSImage = GetAzureVMImage.ExistsImageInType(this.ComputeClient, this.ImageName, ImageType.OSImage);
-                _isVMImage = GetAzureVMImage.ExistsImageInType(this.ComputeClient, this.ImageName, ImageType.VMImage);
+                var imageType = new VirtualMachineImageHelper(this.ComputeClient).GetImageType(this.ImageName);
+                _isOSImage = imageType.HasFlag(VirtualMachineImageType.OSImage);
+                _isVMImage = imageType.HasFlag(VirtualMachineImageType.VMImage);
+
                 if (_isOSImage && _isVMImage)
                 {
                     var errorMsg = string.Format(Resources.DuplicateNamesFoundInBothVMAndOSImages, this.ImageName);

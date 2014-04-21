@@ -110,7 +110,9 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
 
             Func<OperationStatusResponse> action = null;
 
-            if (string.IsNullOrEmpty(this.OSState) && ValidateImageName(this.ImageName, ImageType.VMImage))
+            var imageType = new VirtualMachineImageHelper(this.ComputeClient).GetImageType(this.ImageName);
+
+            if (string.IsNullOrEmpty(this.OSState) && ValidateNoImageInOtherType(imageType))
             {
                 action = () => this.ComputeClient.VirtualMachines.CaptureOSImage(
                     this.ServiceName,
@@ -123,7 +125,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
                         TargetImageName = this.ImageName
                     });
             }
-            else if (!string.IsNullOrEmpty(this.OSState) && ValidateImageName(this.ImageName, ImageType.OSImage))
+            else if (!string.IsNullOrEmpty(this.OSState) && ValidateNoImageInOtherType(imageType))
             {
                 if (string.Equals(GetRoleInstanceStatus(), RoleInstanceStatus.ReadyRole))
                 {
@@ -147,18 +149,25 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
             }
         }
 
-        internal bool ValidateImageName(string imageName, ImageType againstImageType)
+        protected bool ValidateNoImageInOtherType(VirtualMachineImageType imageType)
         {
-            if (GetAzureVMImage.ExistsImageInType(this.ComputeClient, this.ImageName, againstImageType))
-            {
-                // If there is another type of image with the same name, WAPS will stop here to avoid duplicates and potential conflicts
-                var errorMsg = string.Format(Resources.ErrorAnotherImageTypeFoundWithTheSameName, againstImageType, imageName);
-                WriteError(new ErrorRecord(new Exception(errorMsg), string.Empty, ErrorCategory.CloseError, null));
+            var otherType = string.IsNullOrEmpty(this.OSState) ? VirtualMachineImageType.OSImage
+                                                               : VirtualMachineImageType.VMImage;
 
-                return false;
+            var valid = !imageType.HasFlag(otherType);
+
+            if (!valid)
+            {
+                // If there is another type of image with the same name, 
+                // WAPS will stop here to avoid duplicates and potential conflicts
+                WriteErrorWithTimestamp(
+                    string.Format(
+                        Resources.ErrorAnotherImageTypeFoundWithTheSameName,
+                        otherType,
+                        this.ImageName));
             }
 
-            return true;
+            return valid;
         }
 
         protected string GetRoleInstanceStatus()

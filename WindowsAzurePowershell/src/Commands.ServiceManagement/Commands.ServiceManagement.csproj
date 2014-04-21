@@ -256,6 +256,8 @@
     <Compile Include="Extensions\Common\NewAzureServiceExtensionConfig.cs" />
     <Compile Include="Extensions\Common\RemoveAzureServiceExtension.cs" />
     <Compile Include="Helpers\SecureStringHelper.cs" />
+    <Compile Include="IaaS\DiskRepository\VirtualMachineImageType.cs" />
+    <Compile Include="IaaS\DiskRepository\VirtualMachineImageHelper.cs" />
     <Compile Include="IaaS\Extensions\BGInfo\GetAzureVMBGInfoExtension.cs" />
     <Compile Include="IaaS\Extensions\BGInfo\RemoveAzureVMBGInfoExtension.cs" />
     <Compile Include="IaaS\Extensions\BGInfo\SetAzureVMBGInfoExtension.cs" />

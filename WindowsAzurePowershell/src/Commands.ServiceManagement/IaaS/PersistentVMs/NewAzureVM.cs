@@ -424,7 +424,8 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.PersistentVMs
                 }
             }
 
-            if (this.ParameterSetName.Equals("CreateService", StringComparison.OrdinalIgnoreCase) == true || this.ParameterSetName.Equals("CreateDeployment", StringComparison.OrdinalIgnoreCase) == true)
+            if (this.ParameterSetName.Equals("CreateService", StringComparison.OrdinalIgnoreCase) == true
+             || this.ParameterSetName.Equals("CreateDeployment", StringComparison.OrdinalIgnoreCase) == true)
             {
                 if (this.DnsSettings != null && string.IsNullOrEmpty(this.VNetName))
                 {
@@ -439,10 +440,12 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.PersistentVMs
                 bool isOSImage = false;
                 bool isVMImage = false;
 
-                if (!string.IsNullOrEmpty(pVM.OSVirtualHardDisk.SourceImageName))
+                if (pVM.OSVirtualHardDisk != null && !string.IsNullOrEmpty(pVM.OSVirtualHardDisk.SourceImageName))
                 {
-                    isOSImage = GetAzureVMImage.ExistsImageInType(this.ComputeClient, pVM.OSVirtualHardDisk.SourceImageName, ImageType.OSImage);
-                    isVMImage = GetAzureVMImage.ExistsImageInType(this.ComputeClient, pVM.OSVirtualHardDisk.SourceImageName, ImageType.VMImage);
+                    var imageType = new VirtualMachineImageHelper(this.ComputeClient).GetImageType(
+                        pVM.OSVirtualHardDisk.SourceImageName);
+                    isOSImage = imageType.HasFlag(VirtualMachineImageType.OSImage);
+                    isVMImage = imageType.HasFlag(VirtualMachineImageType.VMImage);
                 }
 
                 if (isOSImage && isVMImage)
