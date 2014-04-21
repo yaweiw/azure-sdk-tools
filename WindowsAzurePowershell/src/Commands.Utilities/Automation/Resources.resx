@@ -123,9 +123,6 @@
   <data name="FileNotFound" xml:space="preserve">
     <value>The file {0} was not found. Make sure the file exists and is accessible.</value>
   </data>
-  <data name="InvalidAutomationAccountName" xml:space="preserve">
-    <value>The argument {0} with the value {1} is not valid. Valid Automation account names can contain only letters, numbers, and hyphens. The name must start with a letter, and it must end with a letter or a number. The length of the name must be between 6 and 50 characters.</value>
-  </data>
   <data name="InvalidContinuationToken" xml:space="preserve">
     <value>The continuation token is not valid. NextLink: {0}.</value>
   </data>
@@ -134,9 +131,6 @@
   </data>
   <data name="InvalidRunbookModel" xml:space="preserve">
     <value>The runbook model is not valid.</value>
-  </data>
-  <data name="InvalidRunbookName" xml:space="preserve">
-    <value>The argument {0} with the value {1} is not valid. Valid runbook names can contain only letters, numbers, underscores and hyphens. The name must start with a letter. The length of the name must be between 1 and 64 characters.</value>
   </data>
   <data name="InvalidRunbookParameters" xml:space="preserve">
     <value>At least one parameter provided is not expected by the runbook.</value>

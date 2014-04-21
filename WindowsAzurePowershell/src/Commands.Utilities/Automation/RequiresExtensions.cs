@@ -24,8 +24,6 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Automation
 
         private const string AccountNameValidator = "^[A-Za-z][-A-Za-z0-9]{4,48}[A-Za-z0-9]$";
 
-        private const string RunbookNameValidator = "^[A-Za-z][-A-Za-z0-9_]{0,63}$";
-
         #endregion
 
         #region Public Methods and Operators
@@ -47,37 +45,11 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Automation
 
             if (!new Regex(AccountNameValidator).IsMatch(stringValue))
             {
+                // CDM TFS 665994 - we decided to display AutomationAccountNotFound even if the account name is invalid.
                 throw new ArgumentException(
                     string.Format(
                         CultureInfo.CurrentCulture,
-                        Resources.InvalidAutomationAccountName,
-                        argument.Name,
-                        argument.Value));
-            }
-
-            return argument;
-        }
-
-        /// <summary>
-        /// Validates that the provided automation account name is valid.
-        /// </summary>
-        /// <param name="argument">
-        /// The argument.
-        /// </param>
-        /// <returns>
-        /// The <see cref="Requires.ArgumentRequirements{T}"/>.
-        /// </returns>
-        public static Requires.ArgumentRequirements<string> ValidRunbookName(this Requires.ArgumentRequirements<string> argument)
-        {
-            Requires.Argument(argument.Name, argument.Value).NotNull();
-
-            string stringValue = argument.Value;
-
-            if (!new Regex(RunbookNameValidator).IsMatch(stringValue))
-            {
-                throw new ArgumentException(
-                    string.Format(
-                        CultureInfo.CurrentCulture, Resources.InvalidRunbookName, argument.Name, argument.Value));
+                        Resources.AutomationAccountNotFound));
             }
 
             return argument;

@@ -256,11 +256,11 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Automation
         {
             var schedule = this.GetSchedule(automationAccountName, scheduleName);
             var nameValuePairs = this.ProcessRunbookParameters(automationAccountName, runbookId, parameters);
-            this.automationManagementClient.Runbooks.StartOnSchedule(
+            this.automationManagementClient.Runbooks.CreateScheduleLink(
                 automationAccountName,
                 AutomationCloudServicePrefix,
                 AutomationResourceProvider,
-                new AutomationManagement.Models.RunbookStartOnScheduleParameters
+                new AutomationManagement.Models.RunbookCreateScheduleLinkParameters
                     {
                         RunbookId = runbookId.ToString(),
                         Parameters = nameValuePairs.ToList(),
