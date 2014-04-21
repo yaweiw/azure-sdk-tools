@@ -256,8 +256,14 @@
     <Compile Include="Extensions\Common\NewAzureServiceExtensionConfig.cs" />
     <Compile Include="Extensions\Common\RemoveAzureServiceExtension.cs" />
     <Compile Include="Helpers\SecureStringHelper.cs" />
-    <Compile Include="IaaS\DiskRepository\VirtualMachineImageType.cs" />
-    <Compile Include="IaaS\DiskRepository\VirtualMachineImageHelper.cs" />
+    <Compile Include="IaaS\DiskRepository\RemoveAzureDataDiskConfig.cs" />
+    <Compile Include="IaaS\DiskRepository\RemoveAzureOSDiskConfig.cs" />
+    <Compile Include="IaaS\DiskRepository\SetAzureOSDiskConfig.cs" />
+    <Compile Include="IaaS\DiskRepository\SetAzureDataDiskConfig.cs" />
+    <Compile Include="IaaS\DiskRepository\NewAzureDiskConfigurationSet.cs" />
+    <Compile Include="Model\VirtualMachineDiskConfigurationSet.cs" />
+    <Compile Include="Model\VirtualMachineImageType.cs" />
+    <Compile Include="Helpers\VirtualMachineImageHelper.cs" />
     <Compile Include="IaaS\Extensions\BGInfo\GetAzureVMBGInfoExtension.cs" />
     <Compile Include="IaaS\Extensions\BGInfo\RemoveAzureVMBGInfoExtension.cs" />
     <Compile Include="IaaS\Extensions\BGInfo\SetAzureVMBGInfoExtension.cs" />

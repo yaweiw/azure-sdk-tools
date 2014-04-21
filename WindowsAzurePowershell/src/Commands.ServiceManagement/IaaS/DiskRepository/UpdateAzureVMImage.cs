@@ -17,6 +17,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.DiskRepository
     using System;
     using System.Management.Automation;
     using Management.Compute.Models;
+    using Helpers;
     using Model;
     using Properties;
     using Utilities.Common;
@@ -53,7 +54,12 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.DiskRepository
         public Uri PrivacyUri { get; set; }
 
         [Parameter(Position = 7, ValueFromPipelineByPropertyName = true, HelpMessage = " Specifies the size to use for the virtual machine that is created from the OS image.")]
+        [ValidateNotNullOrEmpty]
         public string RecommendedVMSize { get; set; }
+
+        [Parameter(Position = 8, ValueFromPipelineByPropertyName = true, HelpMessage = "DiskConfigurationSet")]
+        [ValidateNotNullOrEmpty]
+        public VirtualMachineDiskConfigurationSet DiskConfigurationSet { get; set; }
         
         public void UpdateVMImageProcess()
         {
@@ -95,7 +101,19 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.DiskRepository
                     ImageFamily = this.ImageFamily,
                     PublishedDate = this.PublishedDate,
                     PrivacyUri = this.PrivacyUri,
-                    RecommendedVMSize = this.RecommendedVMSize
+                    RecommendedVMSize = this.RecommendedVMSize,
+                    OSDiskConfiguration = new OSDiskConfigurationUpdateParameters
+                    {
+                        HostCaching = (VirtualHardDiskHostCaching?)(DiskConfigurationSet == null || DiskConfigurationSet.OSDiskConfiguration == null
+                                    ? null : Enum.Parse(typeof(VirtualHardDiskHostCaching), DiskConfigurationSet.OSDiskConfiguration.HostCaching))
+                    },
+                    DataDiskConfiguration = new DataDiskConfigurationUpdateParameters
+                    {
+                        HostCaching = (VirtualHardDiskHostCaching?)(DiskConfigurationSet == null || DiskConfigurationSet.OSDiskConfiguration == null
+                                    ? null : Enum.Parse(typeof(VirtualHardDiskHostCaching), DiskConfigurationSet.OSDiskConfiguration.HostCaching)),
+                        Name = string.Empty,
+                        LogicalUnitNumber = 0
+                    }
                 };
 
                 this.ExecuteClientActionNewSM(

@@ -24,10 +24,10 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.PersistentVMs
     using System.Security.Cryptography.X509Certificates;
     using AutoMapper;
     using Common;
-    using DiskRepository;
     using Extensions;
     using Helpers;
     using Management.Compute.Models;
+    using Model;
     using Properties;
     using Storage;
     using Utilities.Common;
