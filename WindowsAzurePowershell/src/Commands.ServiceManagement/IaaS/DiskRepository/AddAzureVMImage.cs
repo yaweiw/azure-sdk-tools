@@ -67,11 +67,19 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.DiskRepository
 
         public void ExecuteCommand()
         {
-            if (GetAzureVMImage.ExistsImageInType(this.ComputeClient, this.ImageName, ImageType.VMImage))
+            var imageType = new VirtualMachineImageHelper(this.ComputeClient).GetImageType(this.ImageName);
+            bool isOSImage = imageType.HasFlag(VirtualMachineImageType.OSImage);
+            bool isVMImage = imageType.HasFlag(VirtualMachineImageType.VMImage);
+
+            if (isVMImage)
             {
-                // If there is another type of image with the same name, WAPS will stop here to avoid duplicates and potential conflicts
-                var errorMsg = string.Format(Resources.ErrorAnotherImageTypeFoundWithTheSameName, ImageType.VMImage, this.ImageName);
-                WriteError(new ErrorRecord(new Exception(errorMsg), string.Empty, ErrorCategory.CloseError, null));
+                // If there is another type of image with the same name,
+                // WAPS will stop here to avoid duplicates and potential conflicts
+                WriteErrorWithTimestamp(
+                    string.Format(
+                        Resources.ErrorAnotherImageTypeFoundWithTheSameName,
+                        VirtualMachineImageType.VMImage,
+                        this.ImageName));
             }
             else
             {

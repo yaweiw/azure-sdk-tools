@@ -15,16 +15,11 @@
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.DiskRepository
 {
     using System;
-    using System.Collections.Generic;
     using System.Linq;
     using System.Management.Automation;
-    using System.Net;
-    using Management.Compute;
     using Management.Compute.Models;
     using Model;
     using Utilities.Common;
-
-    internal enum ImageType { VMImage, OSImage };
 
     [Cmdlet(
         VerbsCommon.Get,
@@ -43,45 +38,6 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.DiskRepository
             HelpMessage = "Name of the image in the image library.")]
         [ValidateNotNullOrEmpty]
         public string ImageName { get; set; }
-
-        internal static bool ExistsImageInType(ComputeManagementClient computeClient, string imageName, ImageType imageType)
-        {
-            try
-            {
-                if (computeClient == null)
-                {
-                    return false;
-                }
-                else if (imageType == ImageType.OSImage)
-                {
-                    return string.Equals(
-                        computeClient.VirtualMachineOSImages.Get(imageName).Name,
-                        imageName,
-                        StringComparison.OrdinalIgnoreCase);
-                }
-                else if (imageType == ImageType.VMImage)
-                {
-                    return computeClient.VirtualMachineVMImages.List().VMImages.Any(
-                        e => string.Equals(
-                            e.Name,
-                            imageName,
-                            StringComparison.OrdinalIgnoreCase));
-                }
-            }
-            catch (CloudException e)
-            {
-                if (e.Response.StatusCode == HttpStatusCode.NotFound)
-                {
-                    return false;
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
-            return false;
-        }
 
         protected void GetAzureVMImageProcess()
         {
@@ -105,8 +61,9 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.DiskRepository
             }
             else
             {
-                bool isOSImage = ExistsImageInType(this.ComputeClient, this.ImageName, ImageType.OSImage);
-                bool isVMImage = ExistsImageInType(this.ComputeClient, this.ImageName, ImageType.VMImage);
+                var imageType = new VirtualMachineImageHelper(this.ComputeClient).GetImageType(this.ImageName);
+                bool isOSImage = imageType.HasFlag(VirtualMachineImageType.OSImage);
+                bool isVMImage = imageType.HasFlag(VirtualMachineImageType.VMImage);
 
                 if (!isVMImage)
                 {
