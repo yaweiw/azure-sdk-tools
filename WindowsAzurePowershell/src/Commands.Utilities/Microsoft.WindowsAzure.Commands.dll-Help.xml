@@ -6443,11 +6443,11 @@
         <maml:uri/>
       </maml:navigationLink>
       <maml:navigationLink>
-        <maml:linkText>New-AzureWorkerRole</maml:linkText>
+        <maml:linkText>Add-AzureWorkerRole</maml:linkText>
         <maml:uri/>
       </maml:navigationLink>
       <maml:navigationLink>
-        <maml:linkText>New-AzureWebRole</maml:linkText>
+        <maml:linkText>Add-AzureWebRole</maml:linkText>
         <maml:uri/>
       </maml:navigationLink>
     </maml:relatedLinks>
