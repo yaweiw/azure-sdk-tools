@@ -114,7 +114,7 @@ For detail descriptions and examples of the cmdlets, type
 2. Open Microsoft Web Platform Installer and search for __Windows Azure PowerShell__.
 3. Install.
 
-You can also find the standalone installers for all the versions at [Downloads](https://github.com/WindowsAzure/azure-sdk-tools/wiki/Downloads)
+You can also find the standalone installers for all the versions at [Downloads](https://github.com/Azure/azure-sdk-tools/releases)
 
 ### Source Code
 
