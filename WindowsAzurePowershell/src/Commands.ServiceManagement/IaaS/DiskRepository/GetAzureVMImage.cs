@@ -81,7 +81,22 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.DiskRepository
                 this.ExecuteClientActionNewSM(
                     null,
                     this.CommandRuntime.ToString(),
-                    () => this.ComputeClient.VirtualMachineVMImages.List(),
+                    () =>
+                    {
+                        if (string.IsNullOrEmpty(this.Location)
+                         && string.IsNullOrEmpty(this.Publisher)
+                         && string.IsNullOrEmpty(this.Category))
+                        {
+                            return this.ComputeClient.VirtualMachineVMImages.List();
+                        }
+                        else
+                        {
+                            return this.ComputeClient.VirtualMachineVMImages.ListAndFilter(
+                                this.Location,
+                                this.Publisher,
+                                this.Category);
+                        }
+                    },
                     (s, response) => response.VMImages.Select(
                         t => this.ContextFactory<VirtualMachineVMImageListResponse.VirtualMachineVMImage, VMImageContext>(t, s)));
             }
