@@ -21,6 +21,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
     using Model;
     using Model.PersistentVMModel;
     using Utilities.Common;
+    using PVM = Model.PersistentVMModel;
 
     [Cmdlet(
         VerbsCommon.Set,
@@ -90,7 +91,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
 
             if (DiskConfig.OSDiskConfiguration == null)
             {
-                DiskConfig.OSDiskConfiguration = new OSDiskConfiguration();
+                DiskConfig.OSDiskConfiguration = new PVM.OSDiskConfiguration();
             }
 
             DiskConfig.OSDiskConfiguration.Name                = this.Name;

@@ -22,6 +22,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
     using Model;
     using Model.PersistentVMModel;
     using Utilities.Common;
+    using PVM = Model.PersistentVMModel;
 
     [Cmdlet(
         VerbsCommon.Set,
@@ -86,7 +87,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
 
             if (DiskConfig.DataDiskConfigurations == null)
             {
-                DiskConfig.DataDiskConfigurations = new DataDiskConfigurationList();
+                DiskConfig.DataDiskConfigurations = new PVM.DataDiskConfigurationList();
             }
 
             var diskConfig = DiskConfig.DataDiskConfigurations.FirstOrDefault(
@@ -94,7 +95,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
 
             if (diskConfig == null)
             {
-                diskConfig = new DataDiskConfiguration();
+                diskConfig = new PVM.DataDiskConfiguration();
                 DiskConfig.DataDiskConfigurations.Add(diskConfig);
             }
 

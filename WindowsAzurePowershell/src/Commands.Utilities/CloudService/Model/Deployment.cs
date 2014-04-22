@@ -106,8 +106,8 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService.Model
         public int UpgradeDomainCount { get; set; }
         public IList<Role> RoleList { get; set; }
         public string SdkVersion { get; set; }
-        public bool Locked { get; set; }
-        public bool RollbackAllowed { get; set; }
+        public bool? Locked { get; set; }
+        public bool? RollbackAllowed { get; set; }
         public string VirtualNetworkName { get; set; }
         public DateTime CreatedTime { get; set; }
         public DateTime LastModifiedTime { get; set; }
