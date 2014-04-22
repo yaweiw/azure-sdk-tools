@@ -178,8 +178,14 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="FunctionalTests\ServerTest.cs" />
     <Compile Include="UnitTests\Database\Cmdlet\AzureSqlDatabaseCertAuthTests.cs" />
+    <Compile Include="UnitTests\Database\Cmdlet\RecoverDatabaseTests.cs" />
+    <Compile Include="UnitTests\Database\Cmdlet\GetRecoverableDatabaseTests.cs" />
+    <Compile Include="UnitTests\Database\Cmdlet\GetRestorableDroppedDatabaseCertAuthTests.cs" />
     <Compile Include="UnitTests\Database\Cmdlet\GetAzureSqlDatabaseOperationTests.cs" />
+    <Compile Include="UnitTests\Database\Cmdlet\GetRestorableDroppedDatabaseSqlAuthTests.cs" />
     <Compile Include="UnitTests\Database\Cmdlet\NewAzureSqlPremiumDatabaseTests.cs" />
+    <Compile Include="UnitTests\Database\Cmdlet\AzureSqlDatabaseCopyCertAuthTests.cs" />
+    <Compile Include="UnitTests\Database\Cmdlet\RestoreDatabaseTests.cs" />
     <Compile Include="Utilities\SqlDatabaseSettings.cs" />
     <Compile Include="UnitTests\MockServer\AsyncExceptionManager.cs" />
     <Compile Include="UnitTests\Database\Cmdlet\ImportExportCmdletTests.cs" />
@@ -188,6 +194,7 @@
     <Compile Include="UnitTests\Database\Cmdlet\DatabaseTestHelper.cs" />
     <Compile Include="UnitTests\Database\Cmdlet\RemoveAzureSqlDatabaseTests.cs" />
     <Compile Include="UnitTests\Database\Cmdlet\GetAzureSqlDatabaseTests.cs" />
+    <Compile Include="UnitTests\Database\Cmdlet\DatabaseCopyCmdletAttributionTests.cs" />
     <Compile Include="UnitTests\MockServer\HttpSession.cs" />
     <Compile Include="UnitTests\MockServer\HttpMessageCollection.cs" />
     <Compile Include="UnitTests\MockServer\HttpSessionCollection.cs" />
