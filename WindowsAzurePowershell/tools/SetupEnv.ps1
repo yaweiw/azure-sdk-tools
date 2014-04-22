@@ -13,13 +13,13 @@ function Invoke-Environment()
 {
     param
     (
-	    [Parameter(Mandatory=1)][string]$Command
+        [Parameter(Mandatory=1)][string]$Command
     )
-   
+
     foreach($_ in cmd /c "$Command  2>&1 & set") {
-	    if ($_ -match '^([^=]+)=(.*)') {
-		    [System.Environment]::SetEnvironmentVariable($matches[1], $matches[2])
-	    }
+        if ($_ -match '^([^=]+)=(.*)') {
+            [System.Environment]::SetEnvironmentVariable($matches[1], $matches[2])
+        }
     }
 }
 
@@ -28,7 +28,6 @@ if (Test-Path env:\AzurePSRoot) {
 }
 
 Write-Host 'Initializing environment...'
-
 
 $setNugetFeedCommand = "${env:\USERPROFILE}\SetNugetFeed.cmd"
 if (Test-Path $setNugetFeedCommand) {
