@@ -45,7 +45,6 @@ catch [System.Management.Automation.CommandNotFoundException] {
     }
 }
 
-
 #The detecting logic for django is not decent, but the best we can do so far.    
 if (!(Test-Path "$env:SystemDrive\Python27")) {
     Write-Host "download Python, Pip and Django to $tempFileShare"
