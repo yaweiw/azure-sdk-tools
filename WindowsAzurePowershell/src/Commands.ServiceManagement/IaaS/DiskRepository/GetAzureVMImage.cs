@@ -40,6 +40,31 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.DiskRepository
         [ValidateNotNullOrEmpty]
         public string ImageName { get; set; }
 
+        [Parameter(
+            Position = 1,
+            ValueFromPipelineByPropertyName = true,
+            Mandatory = false,
+            HelpMessage = "Name of the image in the image library.")]
+        [ValidateNotNullOrEmpty]
+        public string Location { get; set; }
+
+        [Parameter(
+            Position = 2,
+            ValueFromPipelineByPropertyName = true,
+            Mandatory = false,
+            HelpMessage = "Name of the image in the image library.")]
+        [ValidateNotNullOrEmpty]
+        public string Publisher { get; set; }
+
+        [Parameter(
+            Position = 3,
+            ValueFromPipelineByPropertyName = true,
+            Mandatory = false,
+            HelpMessage = "Name of the image in the image library.")]
+        [ValidateNotNullOrEmpty]
+        public string Category { get; set; }
+
+
         protected void GetAzureVMImageProcess()
         {
             ServiceManagementProfile.Initialize(this);
@@ -86,20 +111,35 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.DiskRepository
                     }
 
                     this.ExecuteClientActionNewSM(
-                        null,
-                        this.CommandRuntime.ToString(),
-                        () => this.ComputeClient.VirtualMachineVMImages.List(),
-                        (s, response) =>
-                        {
-                            var imgs = response.VMImages.Where(
-                                t => string.Equals(
-                                    t.Name,
-                                    this.ImageName,
-                                    StringComparison.OrdinalIgnoreCase));
+                            null,
+                            this.CommandRuntime.ToString(),
+                            () =>
+                            {
+                                if (string.IsNullOrEmpty(this.Location)
+                                 && string.IsNullOrEmpty(this.Publisher)
+                                 && string.IsNullOrEmpty(this.Category))
+                                {
+                                    return this.ComputeClient.VirtualMachineVMImages.List();
+                                }
+                                else
+                                {
+                                    return this.ComputeClient.VirtualMachineVMImages.ListAndFilter(
+                                        this.Location,
+                                        this.Publisher,
+                                        this.Category);
+                                }
+                            },
+                            (s, response) =>
+                            {
+                                var imgs = response.VMImages.Where(
+                                    t => string.Equals(
+                                        t.Name,
+                                        this.ImageName,
+                                        StringComparison.OrdinalIgnoreCase));
 
-                            return imgs.Select(
-                                    t => this.ContextFactory<VirtualMachineVMImageListResponse.VirtualMachineVMImage, VMImageContext>(t, s));
-                        });
+                                return imgs.Select(
+                                        t => this.ContextFactory<VirtualMachineVMImageListResponse.VirtualMachineVMImage, VMImageContext>(t, s));
+                            });
                 }
             }
         }
