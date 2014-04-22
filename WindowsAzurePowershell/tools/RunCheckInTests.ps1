@@ -42,7 +42,7 @@ try {
 catch [System.Management.Automation.CommandNotFoundException] {
     if (Test-Path "$env:ADXSDKProgramFiles\Git\bin") {
         Write-Host Adding Git installation folder to the PATH environment variable, needed for 2 unit tests
-        $env:path = $env:path + "$env:ADXSDKProgramFiles\Git\bin"
+        $env:path = $env:path + ";$env:ADXSDKProgramFiles\Git\bin"
     }
 }
 
