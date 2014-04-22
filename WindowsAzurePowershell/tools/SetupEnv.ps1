@@ -29,17 +29,6 @@ if (Test-Path env:\AzurePSRoot) {
 
 Write-Host 'Initializing environment...'
 
-$setNugetFeedCommand = "${env:\USERPROFILE}\SetNugetFeed.cmd"
-if (Test-Path $setNugetFeedCommand) {
-    Invoke-Environment "$setNugetFeedCommand"
-}
-
-if (!(Test-Path env:\PRIVATE_FEED_URL)) {
-    Write-Host 'Error, please set following environment variables so that build script can download Azure SDK Nuget Packages:' -ForegroundColor "Red"
-    Write-Host '    PRIVATE_FEED_URL, PRIVATE_FEED_USER_NAME and PRIVATE_FEED_PASSWORD' -ForegroundColor "Red"
-	exit 1
-}
-
 # PowerShell commands need elevation for dependencies installation and running tests
 if (!(Test-IsAdmin)){
     Write-Host 'Please launch command under administrator account. It is needed for environment setting up and unit test.' -ForegroundColor "Red"
