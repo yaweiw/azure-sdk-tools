@@ -1,4 +1,4 @@
-﻿// ----------------------------------------------------------------------------------
+// ----------------------------------------------------------------------------------
 //
 // Copyright Microsoft Corporation
 // Licensed under the Apache License, Version 2.0 (the "License");
@@ -15,39 +15,26 @@
 namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Services.Server
 {
     /// <summary>
-    /// The database edition
+    /// The <see cref="DatabaseCopy"/> extensions
     /// </summary>
-    public enum DatabaseEdition
+    public partial class DatabaseCopy
     {
         /// <summary>
-        /// No database edition specified
+        /// Gets or sets the context from which this object was constructed.
         /// </summary>
-        None = 0,
+        public IServerDataServiceContext Context;
 
-        /// <summary>
-        /// A database business edition
-        /// </summary>
-        Business = 1,
-
-        /// <summary>
-        /// A database web edition
-        /// </summary>
-        Web = 2,
-
-        /// <summary>
-        /// A database premium edition
-        /// </summary>
-        Premium = 3,
-
-        /// <summary>
-        /// A database basic edition
-        /// </summary>
-        Basic = 4,
-
-        /// <summary>
-        /// A database standard edition
-        /// </summary>
-        Standard = 5
+        internal void LoadExtraProperties(IServerDataServiceContext context)
+        {
+            try
+            {
+                // Fill in the context property
+                this.Context = context;
+            }
+            catch
+            {
+                // Ignore exceptions when loading extra properties, for backward compatibility.
+            }
+        }
     }
 }
-

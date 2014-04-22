@@ -15,39 +15,13 @@
 namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Services.Server
 {
     /// <summary>
-    /// The database edition
+    /// The <see cref="RestorableDroppedDatabase"/> extensions
     /// </summary>
-    public enum DatabaseEdition
+    public partial class RestorableDroppedDatabase
     {
         /// <summary>
-        /// No database edition specified
+        /// Gets or sets the context from which this object was constructed.
         /// </summary>
-        None = 0,
-
-        /// <summary>
-        /// A database business edition
-        /// </summary>
-        Business = 1,
-
-        /// <summary>
-        /// A database web edition
-        /// </summary>
-        Web = 2,
-
-        /// <summary>
-        /// A database premium edition
-        /// </summary>
-        Premium = 3,
-
-        /// <summary>
-        /// A database basic edition
-        /// </summary>
-        Basic = 4,
-
-        /// <summary>
-        /// A database standard edition
-        /// </summary>
-        Standard = 5
+        public IServerDataServiceContext Context;
     }
 }
-
