@@ -70,7 +70,7 @@
                   Name="Windows Azure PowerShell"
                   Description="Windows PowerShell cmdlets"
                   Target="[SystemFolder]\WindowsPowerShell\v1.0\powershell.exe"
-                  Arguments="-NoExit -ExecutionPolicy AllSigned -File &quot;[PowerShellFolder]Azure\ShortcutStartup.ps1&quot;"/>
+                  Arguments="-NoExit -Command &quot;if((Get-ExecutionPolicy) -eq 'Restricted') {Set-ExecutionPolicy -Scope Process AllSigned}; &amp;&apos;[PowerShellFolder]Azure\ShortcutStartup.ps1&apos;&quot;"/>
         <RemoveFolder Id="AzureSdkMenu" On="uninstall"/>
         <RegistryValue Root="HKCU" Key="SOFTWARE\Microsoft\Microsoft SDKs\WindowsAzure\$(var.version)" Name="installed" Type="integer" Value="1" KeyPath="yes"/>
       </Component>
