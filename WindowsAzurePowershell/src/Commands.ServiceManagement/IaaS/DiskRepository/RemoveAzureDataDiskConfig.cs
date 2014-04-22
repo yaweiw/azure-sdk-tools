@@ -23,6 +23,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
     using Model;
     using Model.PersistentVMModel;
     using Utilities.Common;
+    using PVM = Model.PersistentVMModel;
 
     [Cmdlet(
         VerbsCommon.Remove,
@@ -67,7 +68,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
 
             if (DiskConfigurationSet.DataDiskConfigurations != null)
             {
-                IEnumerable<DataDiskConfiguration> diskConfigs = null;
+                IEnumerable<PVM.DataDiskConfiguration> diskConfigs = null;
 
                 if (string.Equals(this.ParameterSetName, RemoveByDiskNameParamSet))
                 {
