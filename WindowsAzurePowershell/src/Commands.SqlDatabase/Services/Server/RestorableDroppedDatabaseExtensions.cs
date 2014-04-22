@@ -12,10 +12,16 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Model
+namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Services.Server
 {
-    public class RoleInstanceCountContext : ServiceOperationContext
+    /// <summary>
+    /// The <see cref="RestorableDroppedDatabase"/> extensions
+    /// </summary>
+    public partial class RestorableDroppedDatabase
     {
-        public int InstanceCount { get; set; }
+        /// <summary>
+        /// Gets or sets the context from which this object was constructed.
+        /// </summary>
+        public IServerDataServiceContext Context;
     }
 }
