@@ -41,6 +41,8 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Test.UnitTests.Server.Cmdl
                 new Action<HttpMessage.Request>(
                     (request) =>
                     {
+                        // To run the tests targetting production uncomment the below line and substitute in a valid subscription ID.
+                        // request.RequestUri = new Uri(request.RequestUri.OriginalString.Replace("00000000-0000-0000-0001-000000000001", "<subscription_id>"));
                     });
             testSession.ResponseModifier =
                 new Action<HttpMessage>(

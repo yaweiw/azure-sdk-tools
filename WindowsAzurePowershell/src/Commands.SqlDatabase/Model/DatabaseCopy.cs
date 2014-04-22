@@ -12,26 +12,38 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
+using System;
+
 namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Model
 {
-    /// <summary>
-    /// Represents a server and includes the operation context under which it was obtained.
-    /// </summary>
-    public class SqlDatabaseServerContext : SqlDatabaseServerOperationContext
+    public class DatabaseCopy
     {
-        /// <summary>
-        /// Gets or sets the administrator login for the server.
-        /// </summary>
-        public string AdministratorLogin { get; set; }
+        public Guid EntityId { get; set; }
 
-        /// <summary>
-        /// Gets or sets the location (region) where the server resides.  Eg: East Asia
-        /// </summary>
-        public string Location { get; set; }
+        public string SourceServerName { get; set; }
 
-        /// <summary>
-        /// Gets or sets the version number of the server.  Valid values are 1.0 and 2.0.
-        /// </summary>
-        public string Version { get; set; }
+        public string SourceDatabaseName { get; set; }
+
+        public string DestinationServerName { get; set; }
+
+        public string DestinationDatabaseName { get; set; }
+
+        public bool IsContinuous { get; set; }
+
+        public byte ReplicationState { get; set; }
+
+        public string ReplicationStateDescription { get; set; }
+
+        public int LocalDatabaseId { get; set; }
+
+        public bool IsLocalDatabaseReplicationTarget { get; set; }
+
+        public bool IsInterlinkConnected { get; set; }
+
+        public DateTime StartDate { get; set; }
+
+        public DateTime ModifyDate { get; set; }
+
+        public float PercentComplete { get; set; }
     }
 }

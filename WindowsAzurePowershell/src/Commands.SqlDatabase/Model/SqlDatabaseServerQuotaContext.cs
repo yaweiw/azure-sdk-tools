@@ -12,42 +12,31 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Services.Server
+namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Model
 {
     /// <summary>
-    /// The database edition
+    /// Represents a server quota and the operation context from which it was obtained.
     /// </summary>
-    public enum DatabaseEdition
+    public class SqlDatabaseServerQuotaContext : SqlDatabaseServerOperationContext
     {
         /// <summary>
-        /// No database edition specified
+        /// Gets or sets the name of the quota.
         /// </summary>
-        None = 0,
+        public string Name { get; set; }
 
         /// <summary>
-        /// A database business edition
+        /// Gets or sets the type of the quota.
         /// </summary>
-        Business = 1,
+        public string Type { get; set; }
 
         /// <summary>
-        /// A database web edition
+        /// Gets or sets the state of the server quota.
         /// </summary>
-        Web = 2,
+        public string State { get; set; }
 
         /// <summary>
-        /// A database premium edition
+        /// Gets or sets the value of the quota.  This will be the maximum for the quota.
         /// </summary>
-        Premium = 3,
-
-        /// <summary>
-        /// A database basic edition
-        /// </summary>
-        Basic = 4,
-
-        /// <summary>
-        /// A database standard edition
-        /// </summary>
-        Standard = 5
+        public string Value { get; set; }
     }
 }
-
