@@ -93,6 +93,9 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
                 if (currentStorageAccountName != value)
                 {
                     currentStorageAccountName = value;
+
+                    // reset cached storage account value, it will be lazily restored on use by the storage cmdlets
+                    currentCloudStorageAccount = null;
                 }
             }
         }
