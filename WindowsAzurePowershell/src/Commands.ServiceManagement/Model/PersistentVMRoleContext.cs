@@ -37,6 +37,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Model
         public string Status { get; set; }
         public GuestAgentStatus GuestAgentStatus { get; set; }
         public List<ResourceExtensionStatus> ResourceExtensionStatusList { get; set; }
+        public PublicIPList PublicIPs { get; set; }
 
         public PersistentVM GetInstance()
         {

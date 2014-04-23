@@ -233,6 +233,27 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement
 
         protected override void Configure()
         {
+            // Public IP
+            Mapper.CreateMap<PVM.PublicIP, NSM.RoleInstance.PublicIP>();
+            Mapper.CreateMap<PVM.PublicIPList, IList<NSM.RoleInstance.PublicIP>>();
+            Mapper.CreateMap<PVM.PublicIPList, IEnumerable<NSM.RoleInstance.PublicIP>>();
+            Mapper.CreateMap<PVM.PublicIPList, List<NSM.RoleInstance.PublicIP>>();
+
+            Mapper.CreateMap<PVM.AssignPublicIP, NSM.ConfigurationSet.PublicIP>();
+            Mapper.CreateMap<PVM.AssignPublicIPCollection, IList<NSM.ConfigurationSet.PublicIP>>();
+            Mapper.CreateMap<PVM.AssignPublicIPCollection, IEnumerable<NSM.ConfigurationSet.PublicIP>>();
+            Mapper.CreateMap<PVM.AssignPublicIPCollection, List<NSM.ConfigurationSet.PublicIP>>();
+
+            Mapper.CreateMap<NSM.RoleInstance.PublicIP, PVM.PublicIP>();
+            Mapper.CreateMap<IList<NSM.RoleInstance.PublicIP>, PVM.PublicIPList>();
+            Mapper.CreateMap<IEnumerable<NSM.RoleInstance.PublicIP>, PVM.PublicIPList>();
+            Mapper.CreateMap<List<NSM.RoleInstance.PublicIP>, PVM.PublicIPList>();
+
+            Mapper.CreateMap<NSM.ConfigurationSet.PublicIP, PVM.AssignPublicIP>();
+            Mapper.CreateMap<IList<NSM.ConfigurationSet.PublicIP>, PVM.AssignPublicIPCollection>();
+            Mapper.CreateMap<IEnumerable<NSM.ConfigurationSet.PublicIP>, PVM.AssignPublicIPCollection>();
+            Mapper.CreateMap<List<NSM.ConfigurationSet.PublicIP>, PVM.AssignPublicIPCollection>();
+
             //SM to NewSM mapping
             Mapper.CreateMap<PVM.LoadBalancerProbe, NSM.LoadBalancerProbe>()
                   .ForMember(c => c.Protocol, o => o.MapFrom(r => r.Protocol));
@@ -252,18 +273,23 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement
                   .ForMember(c => c.OperatingSystem, o => o.MapFrom(r => r.OS));
             Mapper.CreateMap<PVM.NetworkConfigurationSet, NSM.ConfigurationSet>()
                   .ForMember(c => c.InputEndpoints, o => o.MapFrom(r => r.InputEndpoints != null ? r.InputEndpoints.ToList() : null))
-                  .ForMember(c => c.SubnetNames, o => o.MapFrom(r => r.SubnetNames != null ? r.SubnetNames.ToList() : null));
+                  .ForMember(c => c.SubnetNames, o => o.MapFrom(r => r.SubnetNames != null ? r.SubnetNames.ToList() : null))
+                  .ForMember(c => c.PublicIPs, o => o.MapFrom(r => r.PublicIPs != null ? r.PublicIPs.ToList() : null));
 
             Mapper.CreateMap<PVM.LinuxProvisioningConfigurationSet.SSHKeyPair, NSM.SshSettingKeyPair>();
             Mapper.CreateMap<PVM.LinuxProvisioningConfigurationSet.SSHPublicKey, NSM.SshSettingPublicKey>();
             Mapper.CreateMap<PVM.LinuxProvisioningConfigurationSet.SSHSettings, NSM.SshSettings>();
             Mapper.CreateMap<PVM.LinuxProvisioningConfigurationSet, NSM.ConfigurationSet>()
+                  .ForMember(c => c.PublicIPs, o => o.Ignore())
                   .ForMember(c => c.UserPassword, o => o.MapFrom(r => r.UserPassword == null ? null : r.UserPassword.ConvertToUnsecureString()))
                   .ForMember(c => c.SshSettings, o => o.MapFrom(r => r.SSH));
             Mapper.CreateMap<PVM.WindowsProvisioningConfigurationSet, NSM.ConfigurationSet>()
+                  .ForMember(c => c.PublicIPs, o => o.Ignore())
                   .ForMember(c => c.AdminPassword, o => o.MapFrom(r => r.AdminPassword == null ? null : r.AdminPassword.ConvertToUnsecureString()));
-            Mapper.CreateMap<PVM.ProvisioningConfigurationSet, NSM.ConfigurationSet>();
-            Mapper.CreateMap<PVM.ConfigurationSet, NSM.ConfigurationSet>();
+            Mapper.CreateMap<PVM.ProvisioningConfigurationSet, NSM.ConfigurationSet>()
+                  .ForMember(c => c.PublicIPs, o => o.Ignore());
+            Mapper.CreateMap<PVM.ConfigurationSet, NSM.ConfigurationSet>()
+                  .ForMember(c => c.PublicIPs, o => o.Ignore());
             Mapper.CreateMap<PVM.InstanceEndpoint, NSM.InstanceEndpoint>()
                   .ForMember(c => c.VirtualIPAddress, o => o.MapFrom(r => r.Vip != null ? IPAddress.Parse(r.Vip) : null))
                   .ForMember(c => c.Port, o => o.MapFrom(r => r.PublicPort));

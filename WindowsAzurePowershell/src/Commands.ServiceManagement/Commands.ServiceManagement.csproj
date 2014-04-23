@@ -169,7 +169,7 @@
     </Reference>
     <Reference Include="Microsoft.WindowsAzure.Management.Compute, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Microsoft.WindowsAzure.Management.Compute.1.0.1.13\lib\net40\Microsoft.WindowsAzure.Management.Compute.dll</HintPath>
+      <HintPath>..\packages\Microsoft.WindowsAzure.Management.Compute.1.0.1.14\lib\net40\Microsoft.WindowsAzure.Management.Compute.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.WindowsAzure.Management.Network, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -261,6 +261,9 @@
     <Compile Include="IaaS\DiskRepository\SetAzureOSDiskConfig.cs" />
     <Compile Include="IaaS\DiskRepository\SetAzureDataDiskConfig.cs" />
     <Compile Include="IaaS\DiskRepository\NewAzureDiskConfigurationSet.cs" />
+    <Compile Include="IaaS\Network\RemoveAzurePublicIP.cs" />
+    <Compile Include="IaaS\Network\GetAzurePublicIP.cs" />
+    <Compile Include="IaaS\Network\AddAzurePublicIP.cs" />
     <Compile Include="Model\VirtualMachineDiskConfigurationSet.cs" />
     <Compile Include="Model\VirtualMachineImageType.cs" />
     <Compile Include="Helpers\VirtualMachineImageHelper.cs" />
