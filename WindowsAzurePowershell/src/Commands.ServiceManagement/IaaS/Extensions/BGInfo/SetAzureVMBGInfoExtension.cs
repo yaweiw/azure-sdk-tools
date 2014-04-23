@@ -26,13 +26,23 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
     public class SetAzureVMBGInfoExtensionCommand : VirtualMachineBGInfoExtensionCmdletBase
     {
         protected const string SetBGInfoExtensionParamSetName = "SetBGInfoExtension";
+        protected const string UninstallBGInfoExtensionParamSetName = "UninstallBGInfoExtension";
 
         [Parameter(
+            ParameterSetName = SetBGInfoExtensionParamSetName,
             Mandatory = false,
             Position = 1,
             ValueFromPipelineByPropertyName = true,
             HelpMessage = "Disable VM BGInfo Extension")]
         public override SwitchParameter Disable { get; set; }
+
+        [Parameter(
+            ParameterSetName = UninstallBGInfoExtensionParamSetName,
+            Mandatory = false,
+            Position = 1,
+            ValueFromPipelineByPropertyName = true,
+            HelpMessage = "Uninstall VM BGInfo Extension")]
+        public override SwitchParameter Uninstall { get; set; }
 
         [Parameter(
             Mandatory = false,

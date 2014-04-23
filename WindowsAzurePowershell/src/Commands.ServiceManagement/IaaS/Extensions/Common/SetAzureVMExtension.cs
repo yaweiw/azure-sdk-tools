@@ -176,6 +176,28 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
             HelpMessage = "To Set the Extension State to 'Disable'.")]
         public override SwitchParameter Disable { get; set; }
 
+        [Parameter(
+            ParameterSetName = SetByExtensionParamSetName,
+            Position = 8,
+            ValueFromPipelineByPropertyName = true,
+            HelpMessage = "To Set the Extension State to 'Uninstall'.")]
+        [Parameter(
+            ParameterSetName = SetByReferenceParamSetName,
+            Position = 5,
+            ValueFromPipelineByPropertyName = true,
+            HelpMessage = "To Set the Extension State to 'Uninstall'.")]
+        [Parameter(
+            ParameterSetName = SetByExtensionAndConfigFileParamSetName,
+            Position = 8,
+            ValueFromPipelineByPropertyName = true,
+            HelpMessage = "To Set the Extension State to 'Uninstall'.")]
+        [Parameter(
+            ParameterSetName = SetByReferenceAndConfigFileParamSetName,
+            Position = 5,
+            ValueFromPipelineByPropertyName = true,
+            HelpMessage = "To Set the Extension State to 'Uninstall'.")]
+        public override SwitchParameter Uninstall { get; set; }
+
         internal void ExecuteCommand()
         {
             ValidateParameters();

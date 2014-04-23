@@ -169,11 +169,11 @@
     </Reference>
     <Reference Include="Microsoft.WindowsAzure.Management.Compute, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Microsoft.WindowsAzure.Management.Compute.1.0.1.14\lib\net40\Microsoft.WindowsAzure.Management.Compute.dll</HintPath>
+      <HintPath>..\packages\Microsoft.WindowsAzure.Management.Compute.1.0.1.18\lib\net40\Microsoft.WindowsAzure.Management.Compute.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.WindowsAzure.Management.Network, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Microsoft.WindowsAzure.Management.Network.1.0.1.4\lib\net40\Microsoft.WindowsAzure.Management.Network.dll</HintPath>
+      <HintPath>..\packages\Microsoft.WindowsAzure.Management.Network.1.0.1.5\lib\net40\Microsoft.WindowsAzure.Management.Network.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.WindowsAzure.Management.Storage, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -261,6 +261,8 @@
     <Compile Include="IaaS\DiskRepository\SetAzureOSDiskConfig.cs" />
     <Compile Include="IaaS\DiskRepository\SetAzureDataDiskConfig.cs" />
     <Compile Include="IaaS\DiskRepository\NewAzureDiskConfigurationSet.cs" />
+    <Compile Include="IaaS\Network\RemoveAzureInternalLoadBalancer.cs" />
+    <Compile Include="IaaS\Network\NewAzureInternalLoadBalancer.cs" />
     <Compile Include="IaaS\Network\RemoveAzurePublicIP.cs" />
     <Compile Include="IaaS\Network\GetAzurePublicIP.cs" />
     <Compile Include="IaaS\Network\AddAzurePublicIP.cs" />
@@ -299,7 +301,6 @@
     <Compile Include="IaaS\Extensions\VMAccess\VirtualMachineAccessExtensionContext.cs" />
     <Compile Include="IaaS\Network\GetAzureReservedIPCmdlet.cs" />
     <Compile Include="IaaS\Network\GetAzureStaticVNetIP.cs" />
-    <Compile Include="IaaS\Network\SetAzureReservedIPCmdlet.cs" />
     <Compile Include="IaaS\Network\NewAzureReservedIPCmdlet.cs" />
     <Compile Include="IaaS\Network\RemoveAzureReservedIPCmdlet.cs" />
     <Compile Include="IaaS\Network\RemoveAzureStaticVNetIP.cs" />

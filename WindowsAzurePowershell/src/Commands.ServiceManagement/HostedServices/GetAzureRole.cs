@@ -95,11 +95,12 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.HostedServices
                                 InstanceErrorCode     = role.InstanceErrorCode,
                                 InstanceFaultDomain   = role.InstanceFaultDomain,
                                 InstanceName          = role.InstanceName,
-                                InstanceSize          = role.InstanceSize.ToString(),
+                                InstanceSize          = role.InstanceSize,
                                 InstanceStateDetails  = role.InstanceStateDetails,
                                 InstanceStatus        = role.InstanceStatus,
                                 InstanceUpgradeDomain = role.InstanceUpgradeDomain,
                                 RoleName              = role.RoleName,
+                                PublicIPs             = Mapper.Map<PVM.PublicIPList>(role.PublicIPs),
                                 DeploymentID          = currentDeployment.PrivateId,
                                 InstanceEndpoints     = Mapper.Map<PVM.InstanceEndpointList>(role.InstanceEndpoints)
                             });
@@ -128,7 +129,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.HostedServices
                         OperationStatus      = getDeploymentOperation.Status.ToString(),
                         OperationId          = getDeploymentOperation.Id,
                         ServiceName          = this.ServiceName,
-                        DeploymentID         = currentDeployment.PrivateId
+                        DeploymentID         = currentDeployment.PrivateId,
                     }))
                     {
                         roleContexts.Add(r);

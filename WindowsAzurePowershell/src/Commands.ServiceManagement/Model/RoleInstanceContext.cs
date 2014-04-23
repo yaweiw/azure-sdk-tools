@@ -37,5 +37,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Model
         public string RoleName { get; set; }
 
         public string DeploymentID { get; set; }
+
+        public PublicIPList PublicIPs { get; set; }
     }
 }
