@@ -22,11 +22,10 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Automation
     using System.Linq;
     using System.Text;
     using System.Web;
-
     using Microsoft.Azure.Management.Automation;
     using Microsoft.WindowsAzure.Commands.Utilities.Automation.Models;
     using Microsoft.WindowsAzure.Commands.Utilities.Common;
-
+    using Microsoft.WindowsAzure.Commands.Utilities.Properties;
     using AutomationManagement = Microsoft.Azure.Management.Automation;
 
     public class AutomationClient : IAutomationClient
@@ -1152,7 +1151,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Automation
 
             if (schedules.Any())
             {
-                throw new ArgumentException(string.Format(CultureInfo.CurrentCulture, Resources.ScheduleWithNameExists, scheduleName));
+                throw new ArgumentException(string.Format(CultureInfo.CurrentCulture, Resources.ScheduleNameExists, scheduleName));
             }
         }
 

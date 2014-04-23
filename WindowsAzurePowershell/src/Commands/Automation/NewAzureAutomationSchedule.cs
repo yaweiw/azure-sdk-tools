@@ -17,7 +17,6 @@ namespace Microsoft.WindowsAzure.Commands.Automation
     using System;
     using System.Management.Automation;
     using System.Security.Permissions;
-
     using Microsoft.WindowsAzure.Commands.Utilities.Automation;
     using Microsoft.WindowsAzure.Commands.Utilities.Automation.Models;
 
@@ -39,14 +38,13 @@ namespace Microsoft.WindowsAzure.Commands.Automation
         private const string ByDaily = "ByDaily";
 
         /// <summary>
-        /// The schedule expiry time.
+        /// Initializes a new instance of the <see cref="NewAzureAutomationSchedule"/> class.
         /// </summary>
-        private DateTime expiryTime = Constants.DefaultScheduleExpiryTime;
-
-        /// <summary>
-        /// The day interval, whose default value is 1.
-        /// </summary>
-        private int dayInterval = Constants.DefaultDailyScheduleDayInterval;
+        public NewAzureAutomationSchedule()
+        {
+            this.ExpiryTime = Constants.DefaultScheduleExpiryTime;
+            this.DayInterval = Constants.DefaultDailyScheduleDayInterval;
+        }
         
         /// <summary>
         /// Gets or sets the schedule name.
@@ -80,35 +78,13 @@ namespace Microsoft.WindowsAzure.Commands.Automation
         /// Gets or sets the schedule expiry time.
         /// </summary>
         [Parameter(ParameterSetName = ByDaily, Position = 4, Mandatory = false, HelpMessage = "The schedule expiry time.")]
-        public DateTime ExpiryTime
-        {
-            get
-            {
-                return this.expiryTime;
-            }
-
-            set
-            {
-                this.expiryTime = value;
-            }
-        }
+        public DateTime ExpiryTime { get; set; }
 
         /// <summary>
         /// Gets or sets the daily schedule day interval.
         /// </summary>
         [Parameter(ParameterSetName = ByDaily, Position = 5, Mandatory = false, HelpMessage = "The daily schedule day interval.")]
-        public int DayInterval
-        {
-            get
-            {
-                return this.dayInterval;
-            }
-
-            set
-            {
-                this.dayInterval = value;
-            }
-        }
+        public int DayInterval { get; set; }
 
         /// <summary>
         /// Execute this cmdlet.

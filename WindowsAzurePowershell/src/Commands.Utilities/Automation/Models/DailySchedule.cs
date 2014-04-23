@@ -16,6 +16,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Automation.Models
 {
     using System;
     using System.Globalization;
+    using Microsoft.WindowsAzure.Commands.Utilities.Properties;
 
     /// <summary>
     /// The daily schedule.
@@ -34,7 +35,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Automation.Models
 
             if (!schedule.DayInterval.HasValue)
             {
-                throw new InvalidOperationException(string.Format(CultureInfo.CurrentCulture, Resources.ScheduleNotDailySchedule, schedule.Name));
+                throw new InvalidOperationException(string.Format(CultureInfo.CurrentCulture, Resources.InvalidDailyScheduleModel, schedule.Name));
             }
 
             this.Id = new Guid(schedule.Id);

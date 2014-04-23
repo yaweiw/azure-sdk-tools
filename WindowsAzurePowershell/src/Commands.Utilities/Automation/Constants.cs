@@ -15,7 +15,6 @@
 namespace Microsoft.WindowsAzure.Commands.Utilities.Automation
 {
     using System;
-
     using Microsoft.Azure.Management.Automation.Models;
 
     public class Constants
@@ -47,11 +46,6 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Automation
         // default schedule expiry time for daily schedule, consistent with UX
         // 12/31/9999 12:00:00 AM
         public static readonly DateTime DefaultScheduleExpiryTime = new DateTime(9999, 12, 31, 0, 0, 0, DateTimeKind.Utc);
-
-        // default job filters - start time and end time.
-        public static readonly DateTime DefaultJobFilterStartTime = new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc);
-
-        public static readonly DateTime DefaultJobFilterEndTime = new DateTime(9999, 12, 31, 0, 0, 0, DateTimeKind.Utc);
 
         public const int DefaultDailyScheduleDayInterval = 1;
 

@@ -18,8 +18,7 @@ namespace Microsoft.WindowsAzure.Commands.Automation
     using System.Globalization;
     using System.Management.Automation;
     using System.Security.Permissions;
-
-    using Microsoft.WindowsAzure.Commands.Utilities.Automation;
+    using Microsoft.WindowsAzure.Commands.Utilities.Properties;
 
     /// <summary>
     /// Removes an azure automation Schedule.

@@ -17,6 +17,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Automation
     using System;
     using System.Globalization;
     using System.Text.RegularExpressions;
+    using Microsoft.WindowsAzure.Commands.Utilities.Properties;
 
     internal static class RequiresExtensions
     {

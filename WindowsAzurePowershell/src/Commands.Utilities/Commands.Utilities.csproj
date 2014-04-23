@@ -314,11 +314,6 @@
     <Compile Include="Automation\Requires.cs" />
     <Compile Include="Automation\RequiresExtensions.cs" />
     <Compile Include="Automation\ResourceNotFoundException.cs" />
-    <Compile Include="Automation\Resources.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Resources.resx</DependentUpon>
-    </Compile>
     <Compile Include="Automation\ResponseWithNextLink.cs" />
     <Compile Include="CloudService\AddRole.cs" />
     <Compile Include="CloudService\CacheConfigurationFactory.cs" />
@@ -987,10 +982,6 @@
     </ServiceReferenceMetadataStorage>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Automation\Resources.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>

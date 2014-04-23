@@ -18,7 +18,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Automation.Models
     using System.Collections.Generic;
     using System.Globalization;
     using System.Linq;
-
+    using Microsoft.WindowsAzure.Commands.Utilities.Properties;
     using AutomationManagement = Microsoft.Azure.Management.Automation;
 
     /// <summary>
