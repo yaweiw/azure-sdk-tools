@@ -553,7 +553,7 @@
     <value>Network configuration cannot be deserialized.</value>
   </data>
   <data name="ReservedIPNameNoLongerInUseButStillBeingReserved" xml:space="preserve">
-    <value>Reserved IP with the Name:'{0}' will no longer be in use after the deployment is deleted, and it is still reserved for later use. Please note that the Reserved IPs that are not associated with a deployment might be billed.</value>
+    <value>Reserved IP with the Name:'{0}' will no longer be in use after the deployment is deleted or stopped (deallocated), and it is still reserved for later use. Please note that the Reserved IPs that are not associated with a deployment might be billed.</value>
   </data>
   <data name="CannotDeleteVirtualMachineDataDiskForLUN" xml:space="preserve">
     <value>Cannot delete VM Data Disk for LUN '{0}', </value>
