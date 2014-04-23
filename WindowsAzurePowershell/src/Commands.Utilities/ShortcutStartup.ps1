@@ -11,6 +11,16 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 # ----------------------------------------------------------------------------------
+
+# Set the execution policy to the LocalMachine if it is not Restricted
+$machineExecutionPolicy = Get-ExecutionPolicy -Scope LocalMachine
+$processExecutionPolicy = Get-ExecutionPolicy -Scope Process
+
+if (($machineExecutionPolicy -ne $processExecutionPolicy) -and ($machineExecutionPolicy -ne "Restricted"))
+{
+	Set-ExecutionPolicy -Scope Process -ExecutionPolicy $machineExecutionPolicy -Force
+}
+
 function Get-ScriptDirectory
 {
     $Invocation = (Get-Variable MyInvocation -Scope 1).Value
