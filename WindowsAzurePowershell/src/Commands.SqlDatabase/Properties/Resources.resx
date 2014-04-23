@@ -117,9 +117,20 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="BothDatabaseNameAndDeletionDateNeedToBeSpecified" xml:space="preserve">
+    <value>Invalid Parameter combination: Both "DatabaseName" and "DatabaseDeletionDate" need to be specified to get a restorable dropped database.</value>
+    <comment>Parameter validation</comment>
+  </data>
   <data name="CredentialNotSpecified" xml:space="preserve">
     <value>The Sql Authenticate Credential was not specified.</value>
     <comment>Parameter validation</comment>
+  </data>
+  <data name="DatabaseCopyNotFound" xml:space="preserve">
+    <value>Database Copy from '{0}.{1}' to '{2}.{3}' not found.</value>
+    <comment>Parameter Validation</comment>
+  </data>
+  <data name="DatabaseCopyNotFoundGeneric" xml:space="preserve">
+    <value>There is no database copy matching the specified filter. Please revise the filter criteria to specify one existing database copy.</value>
   </data>
   <data name="DatabaseManagementErrorFormat" xml:space="preserve">
     <value>{1}
@@ -136,6 +147,9 @@ Error Code: {0}</value>
   </data>
   <data name="ErrorRefreshingDatabase" xml:space="preserve">
     <value>An error occurred while refreshing database.</value>
+  </data>
+  <data name="ErrorRefreshingDatabaseCopy" xml:space="preserve">
+    <value>An error occurred while refreshing database copy status.</value>
   </data>
   <data name="ExceptionClientRequestId" xml:space="preserve">
     <value>Client Request Id: '{0}'</value>
@@ -155,6 +169,9 @@ Error Code: {0}</value>
   <data name="GetAzureSqlDatabaseServerNotFound" xml:space="preserve">
     <value>The Windows Azure Sql Database server "{0}" could not be found in the currently selected subscription.</value>
   </data>
+  <data name="GetAzureSqlRestorableDroppedDatabaseDatabaseNotFound" xml:space="preserve">
+    <value>Database '{0}.{1}' with deletion date '{2}' not found.</value>
+  </data>
   <data name="InvalidAuthentication" xml:space="preserve">
     <value>Invalid authentication for '{0}'.</value>
     <comment>Bad operation workflow or sequencing</comment>
@@ -169,6 +186,10 @@ Error Code: {0}</value>
   </data>
   <data name="InvalidParameterCombination" xml:space="preserve">
     <value>Invalid Parameter combination: {0} and {1} parameters cannot be used together.</value>
+  </data>
+  <data name="MoreThanOneDatabaseCopyFound" xml:space="preserve">
+    <value>There are more than one database copy matching the specified filter. Please revise the filter criteria to specify only one database copy.</value>
+    <comment>Parameter validation</comment>
   </data>
   <data name="NewAzureSqlDatabaseDescription" xml:space="preserve">
     <value>Creating a new Windows Azure Sql Database.</value>
@@ -218,6 +239,10 @@ Error Code: {0}</value>
     <value>Are you sure you want to remove the Windows Azure Sql Database "{0}.{1}"?</value>
     <comment>Process workflow</comment>
   </data>
+  <data name="RestorableDroppedSwitchNotSpecified" xml:space="preserve">
+    <value>Invalid parameters: The RestorableDropped switch must be specified to use the parameter {0}.</value>
+    <comment>Parameter validation</comment>
+  </data>
   <data name="ServiceObjectiveNotFound" xml:space="preserve">
     <value>Service objective '{1}' was not found on server '{0}'.</value>
   </data>
@@ -251,6 +276,25 @@ Error Code: {0}</value>
   </data>
   <data name="ShouldProcessCaption" xml:space="preserve">
     <value>Confirm</value>
+    <comment>Process workflow</comment>
+  </data>
+  <data name="SqlAuthNotSupported" xml:space="preserve">
+    <value>This operation does not support SQL authentication.</value>
+  </data>
+  <data name="StartAzureSqlDatabaseCopyDescription" xml:space="preserve">
+    <value>Copying Windows Azure Sql Database "{0}.{1}" to "{2}.{3}".</value>
+    <comment>Process workflow</comment>
+  </data>
+  <data name="StartAzureSqlDatabaseCopyWarning" xml:space="preserve">
+    <value>Are you sure you want to copy Windows Azure Sql Database "{0}.{1}" to "{2}.{3}"?</value>
+    <comment>Process workflow</comment>
+  </data>
+  <data name="StopAzureSqlDatabaseCopyDescription" xml:space="preserve">
+    <value>Terminating the database copy from "{0}.{1}" to "{2}.{3}".</value>
+    <comment>Process workflow</comment>
+  </data>
+  <data name="StopAzureSqlDatabaseCopyWarning" xml:space="preserve">
+    <value>Are you sure you want to terminate the database copy from "{0}.{1}" to "{2}.{3}"?</value>
     <comment>Process workflow</comment>
   </data>
   <data name="UnknownParameterSet" xml:space="preserve">

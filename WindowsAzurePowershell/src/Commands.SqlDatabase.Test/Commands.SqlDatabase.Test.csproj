@@ -114,15 +114,15 @@
       <HintPath>..\packages\Microsoft.Bcl.Async.1.0.165\lib\net40\Microsoft.Threading.Tasks.Extensions.Desktop.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
-    <Reference Include="Microsoft.WindowsAzure.Common, Version=0.9.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+    <Reference Include="Microsoft.WindowsAzure.Common, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Microsoft.WindowsAzure.Common.0.9.13-preview\lib\net40\Microsoft.WindowsAzure.Common.dll</HintPath>
+      <HintPath>..\packages\Microsoft.WindowsAzure.Common.1.0.0\lib\net40\Microsoft.WindowsAzure.Common.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.WindowsAzure.Common.NetFramework, Version=0.9.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+    <Reference Include="Microsoft.WindowsAzure.Common.NetFramework, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Microsoft.WindowsAzure.Common.0.9.13-preview\lib\net40\Microsoft.WindowsAzure.Common.NetFramework.dll</HintPath>
+      <HintPath>..\packages\Microsoft.WindowsAzure.Common.1.0.0\lib\net40\Microsoft.WindowsAzure.Common.NetFramework.dll</HintPath>
     </Reference>
-    <Reference Include="Newtonsoft.Json">
+    <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.5.0.8\lib\net40\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="System" />
@@ -178,8 +178,14 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="FunctionalTests\ServerTest.cs" />
     <Compile Include="UnitTests\Database\Cmdlet\AzureSqlDatabaseCertAuthTests.cs" />
+    <Compile Include="UnitTests\Database\Cmdlet\RecoverDatabaseTests.cs" />
+    <Compile Include="UnitTests\Database\Cmdlet\GetRecoverableDatabaseTests.cs" />
+    <Compile Include="UnitTests\Database\Cmdlet\GetRestorableDroppedDatabaseCertAuthTests.cs" />
     <Compile Include="UnitTests\Database\Cmdlet\GetAzureSqlDatabaseOperationTests.cs" />
+    <Compile Include="UnitTests\Database\Cmdlet\GetRestorableDroppedDatabaseSqlAuthTests.cs" />
     <Compile Include="UnitTests\Database\Cmdlet\NewAzureSqlPremiumDatabaseTests.cs" />
+    <Compile Include="UnitTests\Database\Cmdlet\AzureSqlDatabaseCopyCertAuthTests.cs" />
+    <Compile Include="UnitTests\Database\Cmdlet\RestoreDatabaseTests.cs" />
     <Compile Include="Utilities\SqlDatabaseSettings.cs" />
     <Compile Include="UnitTests\MockServer\AsyncExceptionManager.cs" />
     <Compile Include="UnitTests\Database\Cmdlet\ImportExportCmdletTests.cs" />
@@ -188,6 +194,7 @@
     <Compile Include="UnitTests\Database\Cmdlet\DatabaseTestHelper.cs" />
     <Compile Include="UnitTests\Database\Cmdlet\RemoveAzureSqlDatabaseTests.cs" />
     <Compile Include="UnitTests\Database\Cmdlet\GetAzureSqlDatabaseTests.cs" />
+    <Compile Include="UnitTests\Database\Cmdlet\DatabaseCopyCmdletAttributionTests.cs" />
     <Compile Include="UnitTests\MockServer\HttpSession.cs" />
     <Compile Include="UnitTests\MockServer\HttpMessageCollection.cs" />
     <Compile Include="UnitTests\MockServer\HttpSessionCollection.cs" />
