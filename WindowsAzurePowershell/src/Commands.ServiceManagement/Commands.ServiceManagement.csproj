@@ -299,10 +299,10 @@
     <Compile Include="IaaS\Extensions\VMAccess\SetAzureVMAccessExtension.cs" />
     <Compile Include="IaaS\Extensions\VMAccess\VirtualMachineAccessExtensionCmdletBase.cs" />
     <Compile Include="IaaS\Extensions\VMAccess\VirtualMachineAccessExtensionContext.cs" />
-    <Compile Include="IaaS\Network\GetAzureReservedIPCmdlet.cs" />
+    <Compile Include="IaaS\Network\GetAzureReservedIP.cs" />
     <Compile Include="IaaS\Network\GetAzureStaticVNetIP.cs" />
-    <Compile Include="IaaS\Network\NewAzureReservedIPCmdlet.cs" />
-    <Compile Include="IaaS\Network\RemoveAzureReservedIPCmdlet.cs" />
+    <Compile Include="IaaS\Network\NewAzureReservedIP.cs" />
+    <Compile Include="IaaS\Network\RemoveAzureReservedIP.cs" />
     <Compile Include="IaaS\Network\RemoveAzureStaticVNetIP.cs" />
     <Compile Include="IaaS\Network\SetAzureStaticVNetIP.cs" />
     <Compile Include="IaaS\Network\TestAzureStaticVNetIP.cs" />
