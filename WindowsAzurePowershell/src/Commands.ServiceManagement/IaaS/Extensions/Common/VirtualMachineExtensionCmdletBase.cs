@@ -76,6 +76,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
         public virtual string PublicConfigPath { get; set; }
         public virtual string PrivateConfigPath { get; set; }
         public virtual SwitchParameter Disable { get; set; }
+        public virtual SwitchParameter Uninstall { get; set; }
 
         static VirtualMachineExtensionCmdletBase()
         {
@@ -193,7 +194,8 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
             extensionRef.Publisher = this.Publisher;
             extensionRef.Version = this.Version;
             extensionRef.State = IsLegacyExtension() ? null :
-                              this.Disable.IsPresent ? ReferenceDisableStateStr : ReferenceEnableStateStr;
+                this.Uninstall.IsPresent ? ReferenceUninstallStateStr :
+                this.Disable.IsPresent ? ReferenceDisableStateStr : ReferenceEnableStateStr;
             extensionRef.ResourceExtensionParameterValues = new ResourceExtensionParameterValueList();
 
             if (!string.IsNullOrEmpty(this.ReferenceName))
