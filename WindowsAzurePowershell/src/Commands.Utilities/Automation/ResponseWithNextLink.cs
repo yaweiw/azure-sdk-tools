@@ -16,7 +16,6 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Automation
 {
     using System;
     using System.Collections.Generic;
-
     using Microsoft.Azure.Management.Automation.Models;
 
     /// <summary>

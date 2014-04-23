@@ -16,7 +16,6 @@ namespace Microsoft.WindowsAzure.Commands.Automation
 {
     using System.Management.Automation;
     using System.Security.Permissions;
-
     using Job = Microsoft.WindowsAzure.Commands.Utilities.Automation.Models.Job;
 
     /// <summary>

@@ -18,7 +18,6 @@ namespace Microsoft.WindowsAzure.Commands.Automation
     using System.Linq;
     using System.Management.Automation;
     using System.Security.Permissions;
-
     using Microsoft.WindowsAzure.Commands.Utilities.Automation;
     using Microsoft.WindowsAzure.Commands.Utilities.Automation.Models;
 

@@ -15,7 +15,6 @@
 namespace Microsoft.WindowsAzure.Commands.Utilities.Automation.Models
 {
     using System;
-
     using AutomationManagement = Microsoft.Azure.Management.Automation;
 
     /// <summary>
