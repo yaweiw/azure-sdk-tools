@@ -14,39 +14,30 @@
 
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
 {
-    using System.Linq;
+    using System;
     using System.Management.Automation;
     using Model;
     using Model.PersistentVMModel;
-    using Utilities.Common;
+    using Properties;
 
-    public class VirtualMachineConfigurationCmdletBase : ServiceManagementBaseCmdlet
+    [Cmdlet(VerbsCommon.Get, PublicIPNoun), OutputType(typeof(AssignPublicIPCollection))]
+    public class GetAzurePublicIPCommand : VirtualMachineConfigurationCmdletBase
     {
-        protected const string StaticVNetIPNoun = "AzureStaticVNetIP";
-        protected const string PublicIPNoun = "AzurePublicIP";
-
-        [Parameter(
-            Mandatory = true,
-            ValueFromPipeline = true,
-            ValueFromPipelineByPropertyName = true,
-            HelpMessage = "Virtual Machine to update.")]
+        [Parameter(Position = 1, HelpMessage = "The Public IP Name.")]
         [ValidateNotNullOrEmpty]
-        [Alias("InputObject")]
-        public IPersistentVM VM
-        {
-            get;
-            set;
-        }
+        public string PublicIPName { get; set; }
 
-        protected NetworkConfigurationSet GetNetworkConfiguration()
+        protected override void ProcessRecord()
         {
-            var vm = VM.GetInstance();
-            if (vm != null & vm.ConfigurationSets != null)
+            base.ProcessRecord();
+
+            var networkConfiguration = GetNetworkConfiguration();
+            if (networkConfiguration == null)
             {
-                return vm.ConfigurationSets.OfType<NetworkConfigurationSet>().SingleOrDefault();
+                throw new ArgumentOutOfRangeException(Resources.NetworkConfigurationNotFoundOnPersistentVM);
             }
 
-            return null;
+            WriteObject(networkConfiguration.PublicIPs, true);
         }
     }
 }

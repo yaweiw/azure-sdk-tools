@@ -855,6 +855,39 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Model.PersistentVMMo
                 this.SetValue("StaticVirtualNetworkIPAddress", value);
             }
         }
+
+        [DataMember(Name = "PublicIPs", EmitDefaultValue = false, Order = 6)]
+        public AssignPublicIPCollection PublicIPs
+        {
+            get
+            {
+                return this.GetValue<AssignPublicIPCollection>("PublicIPs");
+            }
+            set
+            {
+                this.SetValue("PublicIPs", value);
+            }
+        }
+    }
+
+    [CollectionDataContract(Name = "PublicIPs", ItemName = "PublicIP", Namespace = Constants.ServiceManagementNS)]
+    public class AssignPublicIPCollection : List<AssignPublicIP>
+    {
+        public AssignPublicIPCollection()
+        {
+        }
+
+        public AssignPublicIPCollection(IEnumerable<AssignPublicIP> publicIPs)
+            : base(publicIPs)
+        {
+        }
+    }
+
+    [DataContract(Name = "PublicIP", Namespace = Constants.ServiceManagementNS)]
+    public class AssignPublicIP
+    {
+        [DataMember(Name = "Name", EmitDefaultValue = false, Order = 1)]
+        public string Name { get; set; }
     }
 
     [CollectionDataContract(Name = "LoadBalancedEndpointList", Namespace = Constants.ServiceManagementNS)]
@@ -2752,6 +2785,21 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Model.PersistentVMMo
 
         [DataMember(EmitDefaultValue = false, Order = 5)]
         public GuestAgentFormattedMessage FormattedMessage { get; set; }
+
+        public ExtensionDataObject ExtensionData { get; set; }
+    }
+
+    [CollectionDataContract(Namespace = Constants.ServiceManagementNS)]
+    public class PublicIPList : List<PublicIP> { }
+
+    [DataContract(Namespace = Constants.ServiceManagementNS)]
+    public class PublicIP : IExtensibleDataObject
+    {
+        [DataMember(EmitDefaultValue = false, Order = 1)]
+        public string Name { get; set; }
+
+        [DataMember(EmitDefaultValue = false, Order = 2)]
+        public string Address { get; set; }
 
         public ExtensionDataObject ExtensionData { get; set; }
     }

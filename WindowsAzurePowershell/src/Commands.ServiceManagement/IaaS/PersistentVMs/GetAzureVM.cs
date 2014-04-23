@@ -159,6 +159,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
                 Status                      = roleInstance == null ? string.Empty : roleInstance.InstanceStatus,
                 GuestAgentStatus            = roleInstance == null ? null : Mapper.Map<PVM.GuestAgentStatus>(roleInstance.GuestAgentStatus),
                 ResourceExtensionStatusList = roleInstance == null ? null : Mapper.Map<List<PVM.ResourceExtensionStatus>>(roleInstance.ResourceExtensionStatusList),
+                PublicIPs                   = roleInstance == null ? null : Mapper.Map<PVM.PublicIPList>(roleInstance.PublicIPs),
                 OperationId                 = deployment.RequestId,
                 OperationStatus             = deployment.StatusCode.ToString(),
                 OperationDescription        = CommandRuntime.ToString(),
@@ -174,7 +175,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
                     ResourceExtensionReferences       = Mapper.Map<PVM.ResourceExtensionReferenceList>(vmRole.ResourceExtensionReferences),
                     DataVirtualHardDisks              = Mapper.Map<Collection<PVM.DataVirtualHardDisk>>(vmRole.DataVirtualHardDisks),
                     OSVirtualHardDisk                 = Mapper.Map<PVM.OSVirtualHardDisk>(vmRole.OSVirtualHardDisk),
-                    ConfigurationSets                 = PersistentVMHelper.MapConfigurationSets(vmRole.ConfigurationSets)
+                    ConfigurationSets                 = PersistentVMHelper.MapConfigurationSets(vmRole.ConfigurationSets),
                 }
             };
 
