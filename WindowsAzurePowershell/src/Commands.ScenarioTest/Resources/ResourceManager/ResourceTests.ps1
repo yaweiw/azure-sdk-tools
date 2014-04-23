@@ -22,15 +22,15 @@ function Test-CreatesNewSimpleResource
 	$rgname = Get-ResourceGroupName
 	$rname = Get-ResourceName
 	$rglocation = Get-ProviderLocation ResourceManagement
-	$location = Get-ProviderLocation "Microsoft.Web/sites"
+	$location = Get-ProviderLocation "Microsoft.Sql/servers"
 	$apiversion = "2014-04-01"
-	$resourceType = "Microsoft.Web/sites"
+	$resourceType = "Microsoft.Sql/servers"
 
 	# Test
 	try 
 	{
 		New-AzureResourceGroup -Name $rgname -Location $rglocation
-		$actual = New-AzureResource -Name $rname -Location $location -ResourceGroupName $rgname -ResourceType $resourceType -PropertyObject @{"name" = $name; "siteMode" = "Limited"; "computeMode" = "Shared"} -ApiVersion $apiversion
+		$actual = New-AzureResource -Name $rname -Location $location -ResourceGroupName $rgname -ResourceType $resourceType -PropertyObject @{"administratorLogin" = "adminuser"; "administratorLoginPassword" = "P@ssword1"} -ApiVersion $apiversion
 		$expected = Get-AzureResource -Name $rname -ResourceGroupName $rgname -ResourceType $resourceType -ApiVersion $apiversion
 	
 		$list = Get-AzureResource -ResourceGroupName $rgname
@@ -45,7 +45,7 @@ function Test-CreatesNewSimpleResource
 	finally
 	{
 		# Cleanup
-		Remove-AzureResourceGroup -Name $rgname -Force
+		Clean-ResourceGroup $rgname
 	}
 }
 
@@ -101,7 +101,7 @@ function Test-CreatesNewComplexResource
 	finally
 	{
 		# Cleanup
-		Remove-AzureResourceGroup -Name $rgname -Force
+		Clean-ResourceGroup $rgname
 	}
 }
 
@@ -142,7 +142,7 @@ function Test-GetResourcesViaPiping
 	finally
 	{
 		# Cleanup
-		Remove-AzureResourceGroup -Name $rgname -Force
+		Clean-ResourceGroup $rgname
 	}
 }
 
@@ -170,7 +170,7 @@ function Test-GetResourcesFromEmptyGroup
 	finally
 	{
 		# Cleanup
-		Remove-AzureResourceGroup -Name $rgname -Force
+		Clean-ResourceGroup $rgname
 	}
 }
 
@@ -225,6 +225,41 @@ function Test-GetResourceForNonExisingResource
 	finally
 	{
 		# Cleanup
-		Remove-AzureResourceGroup -Name $rgname -Force
+		Clean-ResourceGroup $rgname
+	}
+}
+
+<#
+.SYNOPSIS
+Tests get resources via piping from resource group
+#>
+function Test-GetResourcesViaPipingFromAnotherResource
+{
+	# Setup
+	$rgname = Get-ResourceGroupName
+	$rnameParent = Get-ResourceName
+	$rnameChild = Get-ResourceName
+	$resourceTypeParent = "Microsoft.Sql/servers"
+	$resourceTypeChild = "Microsoft.Sql/servers/databases"
+	$rglocation = Get-ProviderLocation ResourceManagement
+	$location = Get-ProviderLocation $resourceTypeParent
+	$apiversion = "2014-04-01"
+
+	# Test
+	try 
+	{
+		New-AzureResourceGroup -Name $rgname -Location $rglocation
+		New-AzureResource -Name $rnameParent -Location $location -ResourceGroupName $rgname -ResourceType $resourceTypeParent -PropertyObject @{"administratorLogin" = "adminuser"; "administratorLoginPassword" = "P@ssword1"} -ApiVersion $apiversion		
+		New-AzureResource -Name $rnameChild -Location $location -ResourceGroupName $rgname -ResourceType $resourceTypeChild -ParentResource servers/$rnameParent -PropertyObject @{"edition" = "Web"; "collation" = "SQL_Latin1_General_CP1_CI_AS"; "maxSizeBytes" = "1073741824"} -ApiVersion $apiversion
+		
+		$list = Get-AzureResource -ResourceGroupName $rgname | Get-AzureResource -ApiVersion $apiversion
+		
+		# Assert
+		Assert-AreEqual 2 $list.Count
+	}
+	finally
+	{
+		# Cleanup
+		Clean-ResourceGroup $rgname
 	}
 }

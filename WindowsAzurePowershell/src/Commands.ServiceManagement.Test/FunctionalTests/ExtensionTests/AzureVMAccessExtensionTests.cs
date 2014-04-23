@@ -18,6 +18,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
     using Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions;
     using Microsoft.WindowsAzure.Commands.ServiceManagement.Model;
     using Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests.ConfigDataInfo;
+    using Microsoft.WindowsAzure.Commands.Utilities.Websites.Services;
     using System;
     using System.Collections.Generic;
     using System.IO;
@@ -241,27 +242,31 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
         {
             var vmAccessExtension = GetAzureVMAccessExtesnion(vmName,serviceName);
             Utilities.PrintContext(vmAccessExtension);
+            Console.WriteLine("Verifying the enabled extension");
             if (enabled)
             {
-                Console.WriteLine("Verifying the enabled extension");
                 Assert.AreEqual(vmAccessUserName, vmAccessExtension.UserName, "Incorrect User name");
                 Assert.AreEqual("Enable", vmAccessExtension.State, "State is not Enable");
                 Assert.IsTrue(vmAccessExtension.Enabled, "Enabled is not true");
                 XmlDocument doc = new XmlDocument();
                 doc.LoadXml(vmAccessExtension.PublicConfiguration);
                 Assert.AreEqual(vmAccessUserName, doc.GetElementsByTagName("UserName")[0].InnerText,"Incorrect User name in public configuration");
-                Console.WriteLine("Verifed the enabled extension successfully.");
             }
             else
             {
-                Console.WriteLine("Verifying the disabled extension");
                 Assert.IsTrue(string.IsNullOrEmpty(vmAccessExtension.UserName), "Username is not empty");
                 Assert.AreEqual("Disable", vmAccessExtension.State, "State is not Disable");
                 Assert.IsFalse(vmAccessExtension.Enabled, "Enabled is not False");
-                Console.WriteLine("Verifed the disabled extension successfully.");
             }
-            Assert.IsTrue(string.IsNullOrEmpty(vmAccessExtension.Password), "Password is not empty");
-            Assert.IsTrue(string.IsNullOrEmpty(vmAccessExtension.PrivateConfiguration),"PrivateConfiguration should be null or empty.");
+            if (vmAccessExtension.Password != null)
+            {
+                Assert.IsTrue(string.IsNullOrEmpty(vmAccessExtension.Password.ConvertToUnsecureString()), "Password should be null or empty");
+            }
+            if (vmAccessExtension.PrivateConfiguration != null)
+            {
+                Assert.IsTrue(string.IsNullOrEmpty(vmAccessExtension.PrivateConfiguration.ConvertToUnsecureString()), "PrivateConfiguration should be null or empty.");
+            }
+            Console.WriteLine("Verifed the enabled extension successfully.");
         }
 
         private PersistentVM GetAzureVM(string vmName, string serviceName)

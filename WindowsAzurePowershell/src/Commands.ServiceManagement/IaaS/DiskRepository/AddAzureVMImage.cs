@@ -67,7 +67,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.DiskRepository
 
         public void ExecuteCommand()
         {
-            if (GetAzureVMImage.CheckImageType(this.ComputeClient, this.ImageName, ImageType.VMImage))
+            if (GetAzureVMImage.ExistsImageInType(this.ComputeClient, this.ImageName, ImageType.VMImage))
             {
                 // If there is another type of image with the same name, WAPS will stop here to avoid duplicates and potential conflicts
                 var errorMsg = string.Format(Resources.ErrorAnotherImageTypeFoundWithTheSameName, ImageType.VMImage, this.ImageName);

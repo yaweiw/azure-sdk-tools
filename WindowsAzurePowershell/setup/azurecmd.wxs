@@ -27,12 +27,13 @@
     <Property Id="ALLUSERS" Value="1" />
     <!-- per machine install-->
 
-    <Property Id="POWERSHELLVERSION">
-      <RegistrySearch Id="POWERSHELLVERSION" Root="HKLM" Key="SOFTWARE\Microsoft\PowerShell\3\PowerShellEngine" Name="PowerShellVersion" Type="raw" />
+    <Property Id="PSCOMPATIBLEVERSION">
+      <RegistrySearch Id="PSCOMPATIBLEVERSION" Root="HKLM" Key="SOFTWARE\Microsoft\PowerShell\3\PowerShellEngine" Name="PSCompatibleVersion" Type="raw" />
     </Property>
 
-    <Condition Message="This setup requires the Windows PowerShell 3.0 or higher to be installed.">
-      <![CDATA[Installed or (POWERSHELLVERSION = "3.0") or (POWERSHELLVERSION = "4.0")]]>
+    <Condition Message="This setup requires the Windows PowerShell 3.0 or compatible version to be installed.">
+      <!-- This condition will break if PowerShell has version x3.0 and it is not compatible with 3.0 -->
+      <![CDATA[Installed or (PSCOMPATIBLEVERSION >< "3.0")]]>
     </Condition>
 
     <PropertyRef Id="NETFRAMEWORK40FULL" />
@@ -55,15 +56,11 @@
     </Directory>
 
     <DirectoryRef Id="PowerShellFolder">
-      <Component Id="ModulePath" Guid="2FFD16CE-41A9-4129-A0AB-5AC55E73BEB2">
-        <Environment Id="PsModulePathEnvironment"
-                     Action="set"
-                     Part="last"
-                     Name="PSMODULEPATH"
-                     Permanent="no"
-                     System="yes"
-                     Value="[PowerShellFolder]Azure" />
+      <Component Id="PSModulePath.System" Guid="273525B9-7AAB-421A-90C8-8E50A1840B8D">
         <CreateFolder />
+        <!-- Work around bug that PowerShell does not always consider default module paths. -->
+        <Environment Id="PSModulePath.SystemDefault" Action="set" Name="PSMODULEPATH" Part="first" Value="%PSMODULEPATH%" System="yes" />
+        <Environment Id="PSModulePath.SystemAppRoot" Action="set" Name="PSMODULEPATH" Part="last" Value="[PowerShellFolder]Azure" System="yes" />
       </Component>
     </DirectoryRef>
 
@@ -73,7 +70,7 @@
                   Name="Windows Azure PowerShell"
                   Description="Windows PowerShell cmdlets"
                   Target="[SystemFolder]\WindowsPowerShell\v1.0\powershell.exe"
-                  Arguments="-NoExit -ExecutionPolicy AllSigned -File &quot;[PowerShellFolder]Azure\ShortcutStartup.ps1&quot;"/>
+                  Arguments="-NoExit -Command &quot;if((Get-ExecutionPolicy) -eq 'Restricted') {Set-ExecutionPolicy -Scope Process AllSigned}; &amp;&apos;[PowerShellFolder]Azure\ShortcutStartup.ps1&apos;&quot;"/>
         <RemoveFolder Id="AzureSdkMenu" On="uninstall"/>
         <RegistryValue Root="HKCU" Key="SOFTWARE\Microsoft\Microsoft SDKs\WindowsAzure\$(var.version)" Name="installed" Type="integer" Value="1" KeyPath="yes"/>
       </Component>
@@ -81,7 +78,7 @@
 
     <Feature Id="azurecmd" Title="Windows Azure PowerShell" Level="1" Description="Windows PowerShell commandlets">
       <ComponentGroupRef Id="azurecmdfiles" />
-      <ComponentRef Id="ModulePath" />
+      <ComponentRef Id="PSModulePath.System" />
       <ComponentRef Id="AzureSdkShortcut" />
     </Feature>
 
