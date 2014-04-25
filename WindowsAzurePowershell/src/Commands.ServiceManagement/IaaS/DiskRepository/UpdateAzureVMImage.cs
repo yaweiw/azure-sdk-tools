@@ -60,7 +60,27 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.DiskRepository
         [Parameter(Position = 8, ValueFromPipelineByPropertyName = true, HelpMessage = "DiskConfigurationSet")]
         [ValidateNotNullOrEmpty]
         public VirtualMachineDiskConfigurationSet DiskConfigurationSet { get; set; }
-        
+
+        [Parameter(Position = 9, ValueFromPipelineByPropertyName = true, HelpMessage = "Language.")]
+        [ValidateNotNullOrEmpty]
+        public string Language { get; set; }
+
+        [Parameter(Position = 10, ValueFromPipelineByPropertyName = true, HelpMessage = "IconUri.")]
+        [ValidateNotNullOrEmpty]
+        public Uri IconUri { get; set; }
+
+        [Parameter(Position = 11, ValueFromPipelineByPropertyName = true, HelpMessage = "SmallIconUri.")]
+        [ValidateNotNullOrEmpty]
+        public Uri SmallIconUri { get; set; }
+
+        [Parameter(Position = 12, ValueFromPipelineByPropertyName = true, HelpMessage = "IsPremium.")]
+        [ValidateNotNullOrEmpty]
+        public bool IsPremium { get; set; }
+
+        [Parameter(Position = 13, ValueFromPipelineByPropertyName = true, HelpMessage = "ShowInGui.")]
+        [ValidateNotNullOrEmpty]
+        public bool ShowInGui { get; set; }
+
         public void UpdateVMImageProcess()
         {
             var imageType = new VirtualMachineImageHelper(this.ComputeClient).GetImageType(this.ImageName);
@@ -82,7 +102,11 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.DiskRepository
                     ImageFamily = this.ImageFamily,
                     PublishedDate = this.PublishedDate,
                     PrivacyUri = this.PrivacyUri,
-                    RecommendedVMSize = this.RecommendedVMSize
+                    RecommendedVMSize = this.RecommendedVMSize,
+                    Language = this.Language,
+                    IconUri = this.IconUri,
+                    SmallIconUri = this.SmallIconUri,
+                    IsPremium = this.IsPremium
                 };
 
                 this.ExecuteClientActionNewSM(
@@ -113,7 +137,11 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.DiskRepository
                                     ? null : Enum.Parse(typeof(VirtualHardDiskHostCaching), DiskConfigurationSet.OSDiskConfiguration.HostCaching)),
                         Name = string.Empty,
                         LogicalUnitNumber = 0
-                    }
+                    },
+                    Language = this.Language,
+                    IconUri = this.IconUri,
+                    SmallIconUri = this.SmallIconUri,
+                    ShowInGui = this.ShowInGui
                 };
 
                 this.ExecuteClientActionNewSM(
