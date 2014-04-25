@@ -108,7 +108,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
 
         }
 
-        public AzureProvisioningConfigInfo(string linuxUser, string password, bool noSshEndpoint = false,
+        public AzureProvisioningConfigInfo(string linuxUser, string password = null, bool noSshEndpoint = false,
             bool disableSSH = false, LinuxProvisioningConfigurationSet.SSHKeyPairList sSHKeyPairList = null,
             LinuxProvisioningConfigurationSet.SSHPublicKeyList sSHPublicKeyList = null)
         {

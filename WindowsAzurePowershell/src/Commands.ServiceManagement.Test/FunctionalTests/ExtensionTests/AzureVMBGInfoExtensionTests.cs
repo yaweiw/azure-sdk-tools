@@ -23,6 +23,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using System.Reflection;
     using System.Text;
 
     [TestClass]
@@ -51,7 +52,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
             serviceName = Utilities.GetUniqueShortName(serviceNamePrefix);
             vmName = Utilities.GetUniqueShortName(vmNamePrefix);
             testStartTime = DateTime.Now;
-            referenceName = Utilities.GetUniqueShortName(referenceNamePrefix);
+            //referenceName = Utilities.GetUniqueShortName(referenceNamePrefix);
         }
 
         
@@ -68,6 +69,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
         {
             try
             {
+                referenceName = Utilities.GetUniqueShortName(referenceNamePrefix);
                 //Deploy a new IaaS VM with Extension using Set-AzureVMExtension
                 Console.WriteLine("Deploying a new vm with BGIinfo extension.");
                 var vm = CreateIaaSVMObject(vmName);
@@ -142,6 +144,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
                 vmPowershellCmdlets.NewAzureVM(serviceName, new[] { vm1 }, locationName);
 
                 //Add a role with extension config
+                referenceName = Utilities.GetUniqueShortName(referenceNamePrefix);
                 string vmName2 = Utilities.GetUniqueShortName(vmNamePrefix);
                 Console.WriteLine("Deploying a new vm {0} with BGIinfo extension", vmName2);
                 var vm2 = CreateIaaSVMObject(vmName2);
@@ -202,6 +205,42 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
             }
         }
 
+        [TestMethod(), TestCategory("Sequential"),TestProperty("Feature","IAAS"),Priority(0),Owner("hylee"),Description("Verifies that BGInfo extension is applied by default to Azure IaaS VM with GA enabled.")]
+        public void BGInfoEnabledForNewAzureVMWithGATest()
+        {
+            try
+            {
+                StartTest(MethodBase.GetCurrentMethod().Name, testStartTime);
+                //Create a new Iaas VM with GA enabled
+                var vm = Utilities.CreateIaaSVMObject(vmName, InstanceSize.Small, imageName, true, username, password);
+                vmPowershellCmdlets.NewAzureVM(serviceName, new[] { vm }, locationName);
+                var customScriptExtenion = vmPowershellCmdlets.GetAzureVMBGInfoExtension(Utilities.GetAzureVM(vmName, serviceName));
+                VerifyExtension(customScriptExtenion);
+                pass = true;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.ToString());
+            }
+        }
+
+        [TestMethod(), TestCategory("Sequential"), TestProperty("Feature", "IaaS"), Priority(0), Owner("hylee"), Description("Verifies that BGInfo extension is not applied by default to Azure IaaS VM with GA disabled.")]
+        public void BGInfoDisabledForNewAzureVMWithoutGATest()
+        {
+            try
+            {
+                StartTest(MethodBase.GetCurrentMethod().Name, testStartTime);
+                var vm = Utilities.CreateIaaSVMObject(vmName, InstanceSize.Small, imageName, true, username, password,false);
+                vmPowershellCmdlets.NewAzureVM(serviceName, new[] { vm }, locationName);
+                Assert.IsNull(vmPowershellCmdlets.GetAzureVMBGInfoExtension(Utilities.GetAzureVM(vmName, serviceName),"BGInfo extension is applied to a VM with GA disabled."));
+                pass = true;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.ToString());
+            }
+        }
+
         private PersistentVM CreateIaaSVMObject(string vmName)
         {
             //Create an IaaS VM with a static CA.
@@ -225,7 +264,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
         {
             Console.WriteLine("Verifying BGIinfo extension info.");
             Assert.AreEqual(version, extension.Version);
-            Assert.AreEqual(referenceName, extension.ReferenceName);
+            Assert.AreEqual(string.IsNullOrEmpty(referenceName) ? extensionName : referenceName, extension.ReferenceName);
             if (disable)
             {
                 Assert.AreEqual(DisabledState, extension.State);

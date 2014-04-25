@@ -26,7 +26,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
         DisableCustomScriptExtensionParamSetName,
         DisableCustomScriptExtensionParamSetNameWithOutDefaultParameters,
         SetCustomScriptExtensionByContainerBlobsParamSetName,
-        SetCustomScriptExtensionByContainerBlobsParamSetNameWithOutDefaultParameters
+        SetCustomScriptExtensionByContainerBlobsParamSetNameWithOutDefaultParameters,
     }
 
 

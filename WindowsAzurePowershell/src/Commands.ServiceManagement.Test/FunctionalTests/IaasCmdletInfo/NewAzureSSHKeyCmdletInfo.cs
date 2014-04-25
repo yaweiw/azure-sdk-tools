@@ -18,16 +18,16 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
 
     public class NewAzureSSHKeyCmdletInfo : CmdletsInfo
     {
-        public NewAzureSSHKeyCmdletInfo(string option, string fingerPrint, string path)
+        public NewAzureSSHKeyCmdletInfo(NewAzureSSHKeyType option, string fingerPrint, string path)
         {
             cmdletName = Utilities.NewAzureSSHKeyCmdletName;
 
             switch (option)
             {
-                case "keypair":
+                case NewAzureSSHKeyType.keypair:
                     cmdletParams.Add(new CmdletParam("KeyPair"));
                     break;
-                case "publickey":
+                case NewAzureSSHKeyType.publickey:
                     cmdletParams.Add(new CmdletParam("PublicKey"));
                     break;
             }
@@ -35,5 +35,11 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
             cmdletParams.Add(new CmdletParam("Fingerprint", fingerPrint));
             cmdletParams.Add(new CmdletParam("Path", path));
         }
+    }
+
+    public enum NewAzureSSHKeyType
+    {
+        keypair,
+        publickey
     }
 }
