@@ -16,7 +16,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Model
 {
     using Model.PersistentVMModel;
 
-    public class VirtualMachineDiskConfigurationSet
+    public class VirtualMachineDiskConfigSet
     {
         public OSDiskConfiguration OSDiskConfiguration { get; set; }
         public DataDiskConfigurationList DataDiskConfigurations { get; set; }
