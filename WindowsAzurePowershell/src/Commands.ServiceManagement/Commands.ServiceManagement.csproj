@@ -260,7 +260,7 @@
     <Compile Include="IaaS\DiskRepository\RemoveAzureOSDiskConfig.cs" />
     <Compile Include="IaaS\DiskRepository\SetAzureOSDiskConfig.cs" />
     <Compile Include="IaaS\DiskRepository\SetAzureDataDiskConfig.cs" />
-    <Compile Include="IaaS\DiskRepository\NewAzureDiskConfigurationSet.cs" />
+    <Compile Include="IaaS\DiskRepository\NewAzureDiskConfigSet.cs" />
     <Compile Include="IaaS\Network\RemoveAzureInternalLoadBalancer.cs" />
     <Compile Include="IaaS\Network\NewAzureInternalLoadBalancer.cs" />
     <Compile Include="IaaS\Network\RemoveAzurePublicIP.cs" />
