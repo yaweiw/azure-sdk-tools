@@ -14,13 +14,8 @@
 
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
 {
-    using System;
     using System.Management.Automation;
-    using Management.Compute;
-    using Management.Compute.Models;
     using Model;
-    using Model.PersistentVMModel;
-    using Utilities.Common;
 
     [Cmdlet(
         VerbsCommon.Remove,
@@ -35,7 +30,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
             Position = 0,
             Mandatory = true,
             ValueFromPipelineByPropertyName = true,
-            HelpMessage = "")]
+            HelpMessage = "Disk Configuration Set")]
         [ValidateNotNullOrEmpty]
         public VirtualMachineDiskConfigSet DiskConfig { get; set; }
 

@@ -16,8 +16,8 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.DiskRepository
 {
     using System;
     using System.Management.Automation;
-    using Management.Compute.Models;
     using Helpers;
+    using Management.Compute.Models;
     using Model;
     using Properties;
     using Utilities.Common;
@@ -57,7 +57,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.DiskRepository
         [ValidateNotNullOrEmpty]
         public string RecommendedVMSize { get; set; }
 
-        [Parameter(Position = 8, ValueFromPipelineByPropertyName = true, HelpMessage = "DiskConfigurationSet")]
+        [Parameter(Position = 8, ValueFromPipelineByPropertyName = true, HelpMessage = "Disk Configuration Set")]
         [ValidateNotNullOrEmpty]
         public VirtualMachineDiskConfigSet DiskConfig { get; set; }
 

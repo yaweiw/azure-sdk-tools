@@ -19,11 +19,11 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
 
     [Cmdlet(
         VerbsCommon.New,
-        AzureDiskConfigurationSetNoun),
+        AzureDiskConfigSetNoun),
     OutputType(typeof(VirtualMachineDiskConfigSet))]
     public class NewAzureDiskConfigSet : PSCmdlet
     {
-        protected const string AzureDiskConfigurationSetNoun = "AzureDiskConfigurationSet";
+        protected const string AzureDiskConfigSetNoun = "AzureDiskConfigSet";
 
         protected override void ProcessRecord()
         {

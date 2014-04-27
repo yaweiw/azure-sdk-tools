@@ -14,15 +14,10 @@
 
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
 {
-    using System;
     using System.Linq;
     using System.Management.Automation;
-    using Management.Compute;
-    using Management.Compute.Models;
     using Model;
     using Model.PersistentVMModel;
-    using Utilities.Common;
-    using PVM = Model.PersistentVMModel;
 
     [Cmdlet(
         VerbsCommon.Set,
@@ -37,7 +32,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
             Position = 0,
             Mandatory = true,
             ValueFromPipelineByPropertyName = true,
-            HelpMessage = "DiskConfigurationSet")]
+            HelpMessage = "Disk Configuration Set")]
         [ValidateNotNullOrEmpty]
         public VirtualMachineDiskConfigSet DiskConfig { get; set; }
 
@@ -53,33 +48,17 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
             Position = 2,
             Mandatory = true,
             ValueFromPipelineByPropertyName = true,
-            HelpMessage = "HostCaching")]
-        [ValidateNotNullOrEmpty]
-        public string HostCaching { get; set; }
-
-        [Parameter(
-            Position = 3,
-            Mandatory = true,
-            ValueFromPipelineByPropertyName = true,
             HelpMessage = "Lun")]
         [ValidateNotNullOrEmpty]
         public int Lun { get; set; }
 
         [Parameter(
-            Position = 4,
+            Position = 3,
             Mandatory = true,
             ValueFromPipelineByPropertyName = true,
-            HelpMessage = "MediaLink")]
+            HelpMessage = "HostCaching")]
         [ValidateNotNullOrEmpty]
-        public Uri MediaLink { get; set; }
-
-        [Parameter(
-            Position = 5,
-            Mandatory = true,
-            ValueFromPipelineByPropertyName = true,
-            HelpMessage = "LogicalDiskSizeInGB")]
-        [ValidateNotNullOrEmpty]
-        public int LogicalDiskSizeInGB { get; set; }
+        public string HostCaching { get; set; }
 
         protected override void ProcessRecord()
         {
@@ -87,7 +66,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
 
             if (DiskConfig.DataDiskConfigurations == null)
             {
-                DiskConfig.DataDiskConfigurations = new PVM.DataDiskConfigurationList();
+                DiskConfig.DataDiskConfigurations = new DataDiskConfigurationList();
             }
 
             var diskConfig = DiskConfig.DataDiskConfigurations.FirstOrDefault(
@@ -95,15 +74,13 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
 
             if (diskConfig == null)
             {
-                diskConfig = new PVM.DataDiskConfiguration();
+                diskConfig = new DataDiskConfiguration();
                 DiskConfig.DataDiskConfigurations.Add(diskConfig);
             }
 
-            diskConfig.Name                = this.Name;
-            diskConfig.HostCaching         = this.HostCaching;
-            diskConfig.MediaLink           = this.MediaLink;
-            diskConfig.Lun                 = this.Lun;
-            diskConfig.LogicalDiskSizeInGB = this.LogicalDiskSizeInGB;
+            diskConfig.Name        = this.Name;
+            diskConfig.HostCaching = this.HostCaching;
+            diskConfig.Lun         = this.Lun;
 
             WriteObject(DiskConfig);
         }

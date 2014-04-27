@@ -14,20 +14,17 @@
 
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
 {
-    using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Management.Automation;
-    using Management.Compute;
-    using Management.Compute.Models;
     using Model;
     using Model.PersistentVMModel;
     using Utilities.Common;
-    using PVM = Model.PersistentVMModel;
 
     [Cmdlet(
         VerbsCommon.Remove,
-        AzureDataDiskConfigurationNoun),
+        AzureDataDiskConfigurationNoun,
+        DefaultParameterSetName = RemoveByDiskNameParamSet),
     OutputType(
         typeof(VirtualMachineDiskConfigSet))]
     public class RemoveAzureDataDiskConfig : PSCmdlet
@@ -40,16 +37,16 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
             Position = 0,
             Mandatory = true,
             ValueFromPipelineByPropertyName = true,
-            HelpMessage = "")]
+            HelpMessage = "Disk Configuration Set")]
         [ValidateNotNullOrEmpty]
-        public VirtualMachineDiskConfigSet DiskConfigurationSet { get; set; }
+        public VirtualMachineDiskConfigSet DiskConfig { get; set; }
 
         [Parameter(
             ParameterSetName = RemoveByDiskNameParamSet,
             Position = 1,
             Mandatory = true,
             ValueFromPipelineByPropertyName = true,
-            HelpMessage = "")]
+            HelpMessage = "Disk Name")]
         [ValidateNotNullOrEmpty]
         public string Name { get; set; }
 
@@ -58,7 +55,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
             Position = 1,
             Mandatory = true,
             ValueFromPipelineByPropertyName = true,
-            HelpMessage = "")]
+            HelpMessage = "Disk Lun")]
         [ValidateNotNullOrEmpty]
         public int Lun { get; set; }
 
@@ -66,18 +63,18 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
         {
             ServiceManagementProfile.Initialize();
 
-            if (DiskConfigurationSet.DataDiskConfigurations != null)
+            if (DiskConfig.DataDiskConfigurations != null)
             {
-                IEnumerable<PVM.DataDiskConfiguration> diskConfigs = null;
+                IEnumerable<DataDiskConfiguration> diskConfigs = null;
 
                 if (string.Equals(this.ParameterSetName, RemoveByDiskNameParamSet))
                 {
-                    diskConfigs = DiskConfigurationSet.DataDiskConfigurations.Where(
+                    diskConfigs = DiskConfig.DataDiskConfigurations.Where(
                         d => string.Equals(d.Name, this.Name));
                 }
                 else
                 {
-                    diskConfigs = DiskConfigurationSet.DataDiskConfigurations.Where(
+                    diskConfigs = DiskConfig.DataDiskConfigurations.Where(
                         d => string.Equals(d.Lun, this.Lun)
                     );
                 }
@@ -85,11 +82,11 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
                 if (diskConfigs != null)
                 {
                     diskConfigs.ForEach(
-                        d => DiskConfigurationSet.DataDiskConfigurations.Remove(d));
+                        d => DiskConfig.DataDiskConfigurations.Remove(d));
                 }
             }
 
-            WriteObject(DiskConfigurationSet);
+            WriteObject(DiskConfig);
         }
     }
 }
