@@ -59,7 +59,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.DiskRepository
 
         [Parameter(Position = 8, ValueFromPipelineByPropertyName = true, HelpMessage = "DiskConfigurationSet")]
         [ValidateNotNullOrEmpty]
-        public VirtualMachineDiskConfigurationSet DiskConfigurationSet { get; set; }
+        public VirtualMachineDiskConfigSet DiskConfig { get; set; }
 
         [Parameter(Position = 9, ValueFromPipelineByPropertyName = true, HelpMessage = "Language.")]
         [ValidateNotNullOrEmpty]
@@ -128,13 +128,13 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.DiskRepository
                     RecommendedVMSize = this.RecommendedVMSize,
                     OSDiskConfiguration = new OSDiskConfigurationUpdateParameters
                     {
-                        HostCaching = (VirtualHardDiskHostCaching?)(DiskConfigurationSet == null || DiskConfigurationSet.OSDiskConfiguration == null
-                                    ? null : Enum.Parse(typeof(VirtualHardDiskHostCaching), DiskConfigurationSet.OSDiskConfiguration.HostCaching))
+                        HostCaching = DiskConfig == null || DiskConfig.OSDiskConfiguration == null
+                                    ? null : DiskConfig.OSDiskConfiguration.HostCaching
                     },
                     DataDiskConfiguration = new DataDiskConfigurationUpdateParameters
                     {
-                        HostCaching = (VirtualHardDiskHostCaching?)(DiskConfigurationSet == null || DiskConfigurationSet.OSDiskConfiguration == null
-                                    ? null : Enum.Parse(typeof(VirtualHardDiskHostCaching), DiskConfigurationSet.OSDiskConfiguration.HostCaching)),
+                        HostCaching = DiskConfig == null || DiskConfig.OSDiskConfiguration == null
+                                    ? null : DiskConfig.OSDiskConfiguration.HostCaching,
                         Name = string.Empty,
                         LogicalUnitNumber = 0
                     },

@@ -29,10 +29,10 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
         VerbsCommon.Remove,
         AzureDataDiskConfigurationNoun),
     OutputType(
-        typeof(VirtualMachineDiskConfigurationSet))]
-    public class RemoveAzureDataDiskConfiguration : PSCmdlet
+        typeof(VirtualMachineDiskConfigSet))]
+    public class RemoveAzureDataDiskConfig : PSCmdlet
     {
-        protected const string AzureDataDiskConfigurationNoun = "AzureDataDiskConfiguration";
+        protected const string AzureDataDiskConfigurationNoun = "AzureDataDiskConfig";
         protected const string RemoveByDiskNameParamSet = "RemoveByDiskName";
         protected const string RemoveByDiskLunParamSet = "RemoveByDiskLun";
 
@@ -42,7 +42,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
             ValueFromPipelineByPropertyName = true,
             HelpMessage = "")]
         [ValidateNotNullOrEmpty]
-        public VirtualMachineDiskConfigurationSet DiskConfigurationSet { get; set; }
+        public VirtualMachineDiskConfigSet DiskConfigurationSet { get; set; }
 
         [Parameter(
             ParameterSetName = RemoveByDiskNameParamSet,
