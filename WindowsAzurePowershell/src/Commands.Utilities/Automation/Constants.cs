@@ -49,8 +49,6 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Automation
 
         public const int DefaultDailyScheduleDayInterval = 1;
 
-        public const string SkipTokenParameterName = "$skiptoken";
-
         public const string JobStartedByParameterName = "MicrosoftApplicationManagementStartedBy";
 
         public const string ClientIdentity = "PowerShell";

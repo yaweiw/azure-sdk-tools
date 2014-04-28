@@ -21,7 +21,6 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Automation
     using System.IO;
     using System.Linq;
     using System.Text;
-    using System.Web;
     using Microsoft.Azure.Management.Automation;
     using Microsoft.WindowsAzure.Commands.Utilities.Automation.Models;
     using Microsoft.WindowsAzure.Commands.Utilities.Common;
@@ -30,10 +29,6 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Automation
 
     public class AutomationClient : IAutomationClient
     {
-        private const string AutomationCloudServicePrefix = "OaaSCS";
-
-        private const string AutomationResourceProvider = "automation";
-
         private readonly IAutomationManagementClient automationManagementClient;
 
         // Injection point for unit tests
@@ -70,7 +65,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Automation
             }
 
             var automationAccounts = new List<AutomationAccount>();
-            var cloudServices = new List<AutomationManagement.Models.CloudService>(this.automationManagementClient.CloudServices.List(AutomationResourceProvider).CloudServices);
+            var cloudServices = new List<AutomationManagement.Models.CloudService>(this.automationManagementClient.CloudServices.List().CloudServices);
 
             foreach (var cloudService in cloudServices)
             {
@@ -123,8 +118,6 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Automation
         {
             this.automationManagementClient.Runbooks.Delete(
                 automationAccountName,
-                AutomationCloudServicePrefix,
-                AutomationResourceProvider,
                 runbookId.ToString());
         }
 
@@ -170,12 +163,12 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Automation
 
         public IEnumerable<Runbook> ListRunbooks(string automationAccountName)
         {
-            var runbookModels = this.ContinuationTokenHandler(
+            var runbookModels = AutomationManagementClient.ContinuationTokenHandler(
                 skipToken =>
                 {
                     var listRunbookResponse =
                         this.automationManagementClient.Runbooks.ListWithSchedules(
-                        automationAccountName, AutomationCloudServicePrefix, AutomationResourceProvider, skipToken);
+                        automationAccountName, skipToken);
                     return new ResponseWithNextLink<AutomationManagement.Models.Runbook>(
                         listRunbookResponse, listRunbookResponse.Runbooks);
                 });
@@ -186,14 +179,12 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Automation
         public IEnumerable<Runbook> ListRunbookByScheduleName(string automationAccountName, string scheduleName)
         {
             var scheduleModel = this.GetScheduleModel(automationAccountName, scheduleName);
-            var runbooModels = this.ContinuationTokenHandler(
+            var runbooModels = AutomationManagementClient.ContinuationTokenHandler(
                 skipToken =>
                 {
                     var listRunbookResponse =
                         this.automationManagementClient.Runbooks.ListByScheduleNameWithSchedules(
                             automationAccountName,
-                            AutomationCloudServicePrefix,
-                            AutomationResourceProvider,
                             new AutomationManagement.Models.RunbookListByScheduleNameParameters
                             {
                                 ScheduleName = scheduleModel.Name,
@@ -211,8 +202,6 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Automation
         {
             this.automationManagementClient.Runbooks.Publish(
                 automationAccountName,
-                AutomationCloudServicePrefix,
-                AutomationResourceProvider,
                 new AutomationManagement.Models.RunbookPublishParameters
                     {
                         RunbookId = runbookId.ToString(),
@@ -233,8 +222,6 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Automation
             var nameValuePairs = this.ProcessRunbookParameters(automationAccountName, runbookId, parameters);
             var startResponse = this.automationManagementClient.Runbooks.Start(
                                     automationAccountName,
-                                    AutomationCloudServicePrefix,
-                                    AutomationResourceProvider,
                                     new AutomationManagement.Models.RunbookStartParameters
                                     {
                                         RunbookId = runbookId.ToString(),
@@ -257,8 +244,6 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Automation
             var nameValuePairs = this.ProcessRunbookParameters(automationAccountName, runbookId, parameters);
             this.automationManagementClient.Runbooks.CreateScheduleLink(
                 automationAccountName,
-                AutomationCloudServicePrefix,
-                AutomationResourceProvider,
                 new AutomationManagement.Models.RunbookCreateScheduleLinkParameters
                     {
                         RunbookId = runbookId.ToString(),
@@ -293,8 +278,6 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Automation
             var schedule = this.GetSchedule(automationAccountName, scheduleName);
             this.automationManagementClient.Runbooks.DeleteScheduleLink(
                 automationAccountName,
-                AutomationCloudServicePrefix,
-                AutomationResourceProvider,
                 new AutomationManagement.Models.RunbookDeleteScheduleLinkParameters
                     {
                         RunbookId = runbookId.ToString(),
@@ -377,14 +360,12 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Automation
 
             if (startTime.HasValue && endTime.HasValue)
             {
-                jobModels = this.ContinuationTokenHandler(
+                jobModels = AutomationManagementClient.ContinuationTokenHandler(
                     skipToken =>
                         {
                             var response =
                                 this.automationManagementClient.Jobs.ListFilteredByStartTimeEndTime(
                                     automationAccountName,
-                                    AutomationCloudServicePrefix,
-                                    AutomationResourceProvider,
                                     new AutomationManagement.Models.JobListParameters
                                         {
                                             StartTime = this.FormatDateTime(startTime.Value),
@@ -396,14 +377,12 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Automation
             }
             else if (startTime.HasValue)
             {
-                jobModels = this.ContinuationTokenHandler(
+                jobModels = AutomationManagementClient.ContinuationTokenHandler(
                     skipToken =>
                         {
                             var response =
                                 this.automationManagementClient.Jobs.ListFilteredByStartTime(
                                     automationAccountName,
-                                    AutomationCloudServicePrefix,
-                                    AutomationResourceProvider,
                                     new AutomationManagement.Models.JobListParameters
                                         {
                                             StartTime = this.FormatDateTime(startTime.Value),
@@ -414,14 +393,12 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Automation
             }
             else if (endTime.HasValue)
             {
-                jobModels = this.ContinuationTokenHandler(
+                jobModels = AutomationManagementClient.ContinuationTokenHandler(
                     skipToken =>
                         {
                             var response =
                                 this.automationManagementClient.Jobs.ListFilteredByStartTime(
                                     automationAccountName,
-                                    AutomationCloudServicePrefix,
-                                    AutomationResourceProvider,
                                     new AutomationManagement.Models.JobListParameters
                                         {
                                             EndTime = this.FormatDateTime(endTime.Value),
@@ -432,13 +409,11 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Automation
             }
             else
             {
-                jobModels = this.ContinuationTokenHandler(
+                jobModels = AutomationManagementClient.ContinuationTokenHandler(
                     skipToken =>
                         {
                             var response = this.automationManagementClient.Jobs.List(
                                 automationAccountName,
-                                AutomationCloudServicePrefix,
-                                AutomationResourceProvider,
                                 new AutomationManagement.Models.JobListParameters { SkipToken = skipToken, });
                             return new ResponseWithNextLink<AutomationManagement.Models.Job>(response, response.Jobs);
                         });
@@ -463,8 +438,6 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Automation
         {
             this.automationManagementClient.Jobs.Resume(
                 automationAccountName,
-                AutomationCloudServicePrefix,
-                AutomationResourceProvider,
                 jobId.ToString());
         }
 
@@ -472,8 +445,6 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Automation
         {
             this.automationManagementClient.Jobs.Stop(
                 automationAccountName,
-                AutomationCloudServicePrefix,
-                AutomationResourceProvider,
                 jobId.ToString());
         }
 
@@ -481,8 +452,6 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Automation
         {
             this.automationManagementClient.Jobs.Suspend(
                 automationAccountName,
-                AutomationCloudServicePrefix,
-                AutomationResourceProvider,
                 jobId.ToString());
         }
 
@@ -493,13 +462,11 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Automation
         public IEnumerable<JobStreamItem> ListJobStreamItems(string automationAccountName, Guid jobId, DateTime createdSince, string streamTypeName)
         {
             var jobModel = this.GetJobModel(automationAccountName, jobId);
-            var jobStreamItemModels = this.ContinuationTokenHandler(
+            var jobStreamItemModels = AutomationManagementClient.ContinuationTokenHandler(
                 skipToken =>
                 {
                     var response = this.automationManagementClient.JobStreams.ListStreamItems(
                         automationAccountName,
-                        AutomationCloudServicePrefix,
-                        AutomationResourceProvider,
                         new AutomationManagement.Models.JobStreamListStreamItemsParameters
                         {
                             JobId = jobModel.Id,
@@ -540,8 +507,6 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Automation
 
             var scheduleCreateResponse = this.automationManagementClient.Schedules.Create(
                 automationAccountName,
-                AutomationCloudServicePrefix,
-                AutomationResourceProvider,
                 scheduleCreateParameters);
 
             return this.GetSchedule(automationAccountName, new Guid(scheduleCreateResponse.Schedule.Id));
@@ -570,8 +535,6 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Automation
 
             var scheduleCreateResponse = this.automationManagementClient.Schedules.Create(
                 automationAccountName,
-                AutomationCloudServicePrefix,
-                AutomationResourceProvider,
                 scheduleCreateParameters);
 
             return this.GetSchedule(automationAccountName, new Guid(scheduleCreateResponse.Schedule.Id));
@@ -581,8 +544,6 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Automation
         {
             this.automationManagementClient.Schedules.Delete(
                 automationAccountName,
-                AutomationCloudServicePrefix,
-                AutomationResourceProvider,
                 scheduleId.ToString());
         }
 
@@ -606,11 +567,11 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Automation
 
         public IEnumerable<Schedule> ListSchedules(string automationAccountName)
         {
-            var scheduleModels = this.ContinuationTokenHandler(
+            var scheduleModels = AutomationManagementClient.ContinuationTokenHandler(
                 skipToken =>
                     {
                         var response = this.automationManagementClient.Schedules.List(
-                            automationAccountName, AutomationCloudServicePrefix, AutomationResourceProvider, skipToken);
+                            automationAccountName, skipToken);
                         return new ResponseWithNextLink<AutomationManagement.Models.Schedule>(
                             response, response.Schedules);
                     });
@@ -638,14 +599,10 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Automation
         {
             var createRunbookVersionResponse = this.automationManagementClient.RunbookVersions.Create(
                 automationAccountName,
-                AutomationCloudServicePrefix,
-                AutomationResourceProvider,
                 runbookStream);
 
             var getRunbookVersionResponse = this.automationManagementClient.RunbookVersions.Get(
                 automationAccountName,
-                AutomationCloudServicePrefix,
-                AutomationResourceProvider,
                 createRunbookVersionResponse.RunbookVersion.Id);
 
             return this.GetRunbook(automationAccountName, new Guid(getRunbookVersionResponse.RunbookVersion.RunbookId));
@@ -659,8 +616,6 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Automation
                 var getRunbookDefinitionResponse =
                     this.automationManagementClient.RunbookVersions.GetRunbookDefinition(
                         automationAccountName,
-                        AutomationCloudServicePrefix,
-                        AutomationResourceProvider,
                         runbookVersion.Id);
 
                 yield return new RunbookDefinition(runbookVersion, getRunbookDefinitionResponse.RunbookDefinition);
@@ -681,31 +636,10 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Automation
             }
         }
 
-        private List<T> ContinuationTokenHandler<T>(Func<string, ResponseWithNextLink<T>> listFunc)
-        {
-            var models = new List<T>();
-            string skipToken = null;
-            string nextLink;
-            do
-            {
-                var result = listFunc.Invoke(skipToken);
-                models.AddRange(result.AutomationManagementModels);
-                nextLink = result.NextLink;
-                if (!string.IsNullOrEmpty(nextLink))
-                {
-                    skipToken = this.GetSkipToken(nextLink);
-                }
-            }
-            while (!string.IsNullOrEmpty(nextLink));
-            return models;
-        }
-
         private Guid EditRunbook(string automationAccountName, Guid runbookId)
         {
             return new Guid(this.automationManagementClient.Runbooks.Edit(
                 automationAccountName,
-                AutomationCloudServicePrefix,
-                AutomationResourceProvider,
                 runbookId.ToString())
                 .DraftRunbookVersionId);
         }
@@ -719,8 +653,6 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Automation
         {
             var job = this.automationManagementClient.Jobs.Get(
                 automationAccountName,
-                AutomationCloudServicePrefix,
-                AutomationResourceProvider,
                 jobId.ToString())
                 .Job;
 
@@ -749,14 +681,12 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Automation
 
             if (startTime.HasValue && endTime.HasValue)
             {
-                jobModels = this.ContinuationTokenHandler(
+                jobModels = AutomationManagementClient.ContinuationTokenHandler(
                     skipToken =>
                     {
                         var response =
                             this.automationManagementClient.Jobs.ListByRunbookIdFilteredByStartTimeEndTime(
                                 automationAccountName,
-                                AutomationCloudServicePrefix,
-                                AutomationResourceProvider,
                                 new AutomationManagement.Models.JobListByRunbookIdParameters
                                 {
                                     RunbookId = runbookId.ToString(),
@@ -769,14 +699,12 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Automation
             }
             else if (startTime.HasValue)
             {
-                jobModels = this.ContinuationTokenHandler(
+                jobModels = AutomationManagementClient.ContinuationTokenHandler(
                     skipToken =>
                     {
                         var response =
                             this.automationManagementClient.Jobs.ListByRunbookIdFilteredByStartTime(
                                 automationAccountName,
-                                AutomationCloudServicePrefix,
-                                AutomationResourceProvider,
                                 new AutomationManagement.Models.JobListByRunbookIdParameters
                                 {
                                     RunbookId = runbookId.ToString(),
@@ -788,14 +716,12 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Automation
             }
             else if (endTime.HasValue)
             {
-                jobModels = this.ContinuationTokenHandler(
+                jobModels = AutomationManagementClient.ContinuationTokenHandler(
                     skipToken =>
                     {
                         var response =
                             this.automationManagementClient.Jobs.ListByRunbookIdFilteredByStartTime(
                                 automationAccountName,
-                                AutomationCloudServicePrefix,
-                                AutomationResourceProvider,
                                 new AutomationManagement.Models.JobListByRunbookIdParameters
                                 {
                                     RunbookId = runbookId.ToString(),
@@ -807,13 +733,11 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Automation
             }
             else
             {
-                jobModels = this.ContinuationTokenHandler(
+                jobModels = AutomationManagementClient.ContinuationTokenHandler(
                     skipToken =>
                     {
                         var response = this.automationManagementClient.Jobs.ListByRunbookId(
                             automationAccountName,
-                            AutomationCloudServicePrefix,
-                            AutomationResourceProvider,
                             new AutomationManagement.Models.JobListByRunbookIdParameters
                             {
                                 RunbookId = runbookId.ToString(),
@@ -836,13 +760,9 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Automation
             var runbook = withSchedules
                               ? this.automationManagementClient.Runbooks.GetWithSchedules(
                                   automationAccountName,
-                                  AutomationCloudServicePrefix,
-                                  AutomationResourceProvider,
                                   runbookId.ToString()).Runbook
                               : this.automationManagementClient.Runbooks.Get(
                                   automationAccountName,
-                                  AutomationCloudServicePrefix,
-                                  AutomationResourceProvider,
                                   runbookId.ToString()).Runbook;
 
             if (runbook == null)
@@ -858,13 +778,9 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Automation
             var runbooks = withSchedules
                                ? this.automationManagementClient.Runbooks.ListByNameWithSchedules(
                                    automationAccountName,
-                                   AutomationCloudServicePrefix,
-                                   AutomationResourceProvider,
                                    runbookName).Runbooks
                                : this.automationManagementClient.Runbooks.ListByName(
                                    automationAccountName,
-                                   AutomationCloudServicePrefix,
-                                   AutomationResourceProvider,
                                    runbookName).Runbooks;
 
             if (!runbooks.Any())
@@ -881,8 +797,6 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Automation
             var runbookVersion =
                 this.automationManagementClient.RunbookVersions.Get(
                     automationAccountName,
-                    AutomationCloudServicePrefix,
-                    AutomationResourceProvider,
                     runbookVersionId.ToString()).RunbookVersion;
 
             if (runbookVersion == null)
@@ -900,8 +814,6 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Automation
             var runbookVersions = isDraft.HasValue
                                       ? this.automationManagementClient.RunbookVersions.ListLatestByRunbookIdSlot(
                                           automationAccountName,
-                                          AutomationCloudServicePrefix,
-                                          AutomationResourceProvider,
                                           new AutomationManagement.Models.
                                             RunbookVersionListLatestByRunbookIdSlotParameters
                                           {
@@ -913,8 +825,6 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Automation
                                             .RunbookVersions
                                       : this.automationManagementClient.RunbookVersions.ListLatestByRunbookId(
                                           automationAccountName,
-                                          AutomationCloudServicePrefix,
-                                          AutomationResourceProvider,
                                           runbookId.ToString()).RunbookVersions;
 
             return this.CreateRunbookDefinitionsFromRunbookVersionModels(automationAccountName, runbookVersions);
@@ -924,8 +834,6 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Automation
         {
             var schedule = this.automationManagementClient.Schedules.Get(
                 automationAccountName,
-                AutomationCloudServicePrefix,
-                AutomationResourceProvider,
                 scheduleId.ToString())
                 .Schedule;
 
@@ -941,8 +849,6 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Automation
         {
             var schedules = this.automationManagementClient.Schedules.ListByName(
                 automationAccountName,
-                AutomationCloudServicePrefix,
-                AutomationResourceProvider,
                 scheduleName)
                 .Schedules;
 
@@ -952,24 +858,6 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Automation
             }
 
             return schedules.First();
-        }
-
-        private string GetSkipToken(string nextLink)
-        {
-            string skipToken = null;
-            var query = nextLink.Split('?');
-            if (query.Length > 1)
-            {
-                skipToken = HttpUtility.ParseQueryString(query[1]).Get(Constants.SkipTokenParameterName);
-            }
-
-            if (skipToken == null)
-            {
-                throw new InvalidContinuationTokenException(
-                    string.Format(CultureInfo.CurrentCulture, Resources.InvalidContinuationToken, nextLink));
-            }
-
-            return skipToken;
         }
 
         private IEnumerable<RunbookParameter> ListRunbookParameters(string automationAccountName, Guid runbookId)
@@ -982,8 +870,6 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Automation
 
             return this.automationManagementClient.RunbookParameters.ListByRunbookVersionId(
                 automationAccountName,
-                AutomationCloudServicePrefix,
-                AutomationResourceProvider,
                 runbook.PublishedRunbookVersionId.Value.ToString()).RunbookParameters.Select(runbookParameter => new RunbookParameter(runbookParameter));
         }
 
@@ -1044,14 +930,10 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Automation
 
             var getRunbookDefinitionResponse = this.automationManagementClient.RunbookVersions.GetRunbookDefinition(
                 automationAccountName,
-                AutomationCloudServicePrefix,
-                AutomationResourceProvider,
                 draftRunbookVersionId.ToString());
 
             this.automationManagementClient.RunbookVersions.UpdateRunbookDefinition(
                 automationAccountName,
-                AutomationCloudServicePrefix,
-                AutomationResourceProvider,
                 new AutomationManagement.Models.RunbookVersionUpdateRunbookDefinitionParameters
                 {
                     ETag = getRunbookDefinitionResponse.ETag,
@@ -1102,8 +984,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Automation
                 Runbook = runbook
             };
 
-            this.automationManagementClient.Runbooks.Update(
-                automationAccountName, AutomationCloudServicePrefix, AutomationResourceProvider, runbookUpdateParameters);
+            this.automationManagementClient.Runbooks.Update(automationAccountName, runbookUpdateParameters);
 
             var runbookId = new Guid(runbook.Id);
             return this.GetRunbook(automationAccountName, runbookId);
@@ -1133,8 +1014,6 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Automation
 
             this.automationManagementClient.Schedules.Update(
                 automationAccountName,
-                AutomationCloudServicePrefix,
-                AutomationResourceProvider,
                 scheduleUpdateParameters);
 
             var scheduleId = new Guid(schedule.Id);
@@ -1146,7 +1025,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Automation
         {
             var schedules =
                 this.automationManagementClient.Schedules.ListByName(
-                    automationAccountName, AutomationCloudServicePrefix, AutomationResourceProvider, scheduleName)
+                    automationAccountName, scheduleName)
                     .Schedules;
 
             if (schedules.Any())
