@@ -109,6 +109,15 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.PersistentVMs
             set;
         }
 
+        [Parameter(Mandatory = false, ParameterSetName = "CreateService", ValueFromPipeline = true, ValueFromPipelineByPropertyName = true, HelpMessage = "ILB Settings for Deployment.")]
+        [Parameter(Mandatory = false, ParameterSetName = "ExistingService", ValueFromPipeline = true, ValueFromPipelineByPropertyName = true, HelpMessage = "ILB Settings for Deployment.")]
+        [ValidateNotNullOrEmpty]
+        public InternalLoadBalancerSetting InternalLoadBalancerSetting
+        {
+            get;
+            set;
+        }
+
         [Parameter(Mandatory = true, ParameterSetName = "CreateService", ValueFromPipeline = true, ValueFromPipelineByPropertyName = true, HelpMessage = "List of VMs to Deploy.")]
         [Parameter(Mandatory = true, ParameterSetName = "ExistingService", ValueFromPipeline = true, ValueFromPipelineByPropertyName = true, HelpMessage = "List of VMs to Deploy.")]
         [ValidateNotNullOrEmpty]
@@ -232,7 +241,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.PersistentVMs
                         Label = this.DeploymentLabel ?? this.ServiceName,
                         VirtualNetworkName = this.VNetName,
                         Roles = { persistentVMs[0] },
-                        ReservedIPName = ReservedIPName
+                        ReservedIPName = ReservedIPName,
                     };
 
                     if (this.DnsSettings != null)
@@ -248,6 +257,23 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.PersistentVMs
                                     Address = dns.Address
                                 });
                         }
+                    }
+
+                    if (this.InternalLoadBalancerSetting != null)
+                    {
+                        parameters.LoadBalancers = new LoadBalancer[1]
+                        {
+                            new LoadBalancer
+                            {
+                                Name = this.InternalLoadBalancerSetting.InternalLoadBalancerName,
+                                FrontendIPConfiguration = new FrontendIPConfiguration
+                                {
+                                    Type = FrontendIPConfigurationType.Private,
+                                    SubnetName = this.InternalLoadBalancerSetting.SubnetName,
+                                    StaticVirtualNetworkIPAddress = this.InternalLoadBalancerSetting.IPAddress
+                                }
+                            }
+                        };
                     }
 
                     var operationDescription = string.Format(Resources.AzureVMCommandCreateDeploymentWithVM, CommandRuntime, persistentVMs[0].RoleName);

@@ -15,13 +15,15 @@
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
 {
     using System;
+    using System.Linq;
     using System.Management.Automation;
     using Management.Compute.Models;
+    using Model;
     using Model.PersistentVMModel;
     using Utilities.Common;
 
-    [Cmdlet(VerbsCommon.Remove, "AzureInternalLoadBalancer"), OutputType(typeof(ManagementOperationContext))]
-    public class RemoveAzureInternalLoadBalancer : ServiceManagementBaseCmdlet
+    [Cmdlet(VerbsCommon.Get, "AzureInternalLoadBalancer"), OutputType(typeof(InternalLoadBalancerContext))]
+    public class GetAzureInternalLoadBalancer : ServiceManagementBaseCmdlet
     {
         [Parameter(Mandatory = true, Position = 0, ValueFromPipelineByPropertyName = true, HelpMessage = "Internal Load Balancer Name.")]
         [ValidateNotNullOrEmpty]
@@ -31,7 +33,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
         [ValidateNotNullOrEmpty]
         public string ServiceName { get; set; }
 
-        [Parameter(Mandatory = false, Position = 2, ValueFromPipelineByPropertyName = true, HelpMessage = "Slot.")]
+        [Parameter(Mandatory = false, Position = 2, ValueFromPipelineByPropertyName = true, HelpMessage = "Deployment Name.")]
         [ValidateNotNullOrEmpty]
         [ValidateSet(DeploymentSlotType.Staging, DeploymentSlotType.Production, IgnoreCase = true)]
         public string Slot { get; set; }
@@ -40,15 +42,22 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
         {
             ServiceManagementProfile.Initialize();
 
-            ExecuteClientActionNewSM(null,
+            var slot = string.IsNullOrEmpty(this.Slot) ? DeploymentSlot.Production
+                     : (DeploymentSlot)Enum.Parse(typeof(DeploymentSlot), this.Slot, true);
+
+            ExecuteClientActionNewSM(
+                null,
                 CommandRuntime.ToString(),
-                () =>
-                {
-                    var slot = string.IsNullOrEmpty(this.Slot) ? DeploymentSlot.Production
-                             : (DeploymentSlot)Enum.Parse(typeof(DeploymentSlot), this.Slot, true);
-                    var deploymentName = this.ComputeClient.Deployments.GetBySlot(this.ServiceName, slot).Name;
-                    return this.ComputeClient.LoadBalancers.Delete(this.ServiceName, deploymentName, InternalLoadBalancerName);
-                });
+                () => this.ComputeClient.Deployments.GetBySlot(this.ServiceName, slot),
+                (s, d) => d.LoadBalancers == null ? null : d.LoadBalancers.Select(
+                    b => new InternalLoadBalancerContext
+                    {
+                        InternalLoadBalancerName = b.Name,
+                        ServiceName = this.ServiceName,
+                        DeploymentName = d.Name,
+                        IPAddress = b.FrontendIPConfiguration != null ? b.FrontendIPConfiguration.StaticVirtualNetworkIPAddress : null,
+                        SubnetName = b.FrontendIPConfiguration != null ? b.FrontendIPConfiguration.SubnetName : null
+                    }));
         }
     }
 }

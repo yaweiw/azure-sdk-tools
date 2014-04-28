@@ -14,41 +14,45 @@
 
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
 {
-    using System;
     using System.Management.Automation;
-    using Management.Compute.Models;
+    using System.Net;
+    using Model;
     using Model.PersistentVMModel;
     using Utilities.Common;
 
-    [Cmdlet(VerbsCommon.Remove, "AzureInternalLoadBalancer"), OutputType(typeof(ManagementOperationContext))]
-    public class RemoveAzureInternalLoadBalancer : ServiceManagementBaseCmdlet
+    [Cmdlet(
+        VerbsCommon.New,
+        AzureInternalLoadBalancerSettingNoun,
+        DefaultParameterSetName = ServiceAndSlotParamSet),
+    OutputType(
+        typeof(InternalLoadBalancerSetting))]
+    public class NewAzureInternalLoadBalancerSetting : ServiceManagementBaseCmdlet
     {
+        protected const string AzureInternalLoadBalancerSettingNoun = "AzureInternalLoadBalancerSetting";
+        protected const string ServiceAndSlotParamSet = "ServiceAndSlot";
+        protected const string SubnetNameAndIPParamSet = "SubnetNameAndIP";
+
         [Parameter(Mandatory = true, Position = 0, ValueFromPipelineByPropertyName = true, HelpMessage = "Internal Load Balancer Name.")]
         [ValidateNotNullOrEmpty]
         public string InternalLoadBalancerName { get; set; }
 
-        [Parameter(Mandatory = true, Position = 1, ValueFromPipelineByPropertyName = true, HelpMessage = "Service Name.")]
+        [Parameter(ParameterSetName = SubnetNameAndIPParamSet, Position = 2, ValueFromPipelineByPropertyName = true, HelpMessage = "Subnet Name.")]
         [ValidateNotNullOrEmpty]
-        public string ServiceName { get; set; }
+        public string SubnetName { get; set; }
 
-        [Parameter(Mandatory = false, Position = 2, ValueFromPipelineByPropertyName = true, HelpMessage = "Slot.")]
+        [Parameter(ParameterSetName = SubnetNameAndIPParamSet, Position = 3, ValueFromPipelineByPropertyName = true, HelpMessage = "Subnet IP Address.")]
         [ValidateNotNullOrEmpty]
-        [ValidateSet(DeploymentSlotType.Staging, DeploymentSlotType.Production, IgnoreCase = true)]
-        public string Slot { get; set; }
+        public IPAddress StaticVNetIPAddress { get; set; }
 
         protected override void OnProcessRecord()
         {
             ServiceManagementProfile.Initialize();
-
-            ExecuteClientActionNewSM(null,
-                CommandRuntime.ToString(),
-                () =>
-                {
-                    var slot = string.IsNullOrEmpty(this.Slot) ? DeploymentSlot.Production
-                             : (DeploymentSlot)Enum.Parse(typeof(DeploymentSlot), this.Slot, true);
-                    var deploymentName = this.ComputeClient.Deployments.GetBySlot(this.ServiceName, slot).Name;
-                    return this.ComputeClient.LoadBalancers.Delete(this.ServiceName, deploymentName, InternalLoadBalancerName);
-                });
+            WriteObject(new InternalLoadBalancerSetting
+            {
+                InternalLoadBalancerName = this.InternalLoadBalancerName,
+                SubnetName = this.SubnetName,
+                IPAddress = this.StaticVNetIPAddress == null ? null : this.StaticVNetIPAddress.ToString()
+            });
         }
     }
 }
