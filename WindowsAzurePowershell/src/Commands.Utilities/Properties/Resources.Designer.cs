@@ -1512,15 +1512,6 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The continuation token is not valid. NextLink: {0}..
-        /// </summary>
-        public static string InvalidContinuationToken {
-            get {
-                return ResourceManager.GetString("InvalidContinuationToken", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to The country name is invalid, please use a valid two character country code, as described in ISO 3166-1 alpha-2..
         /// </summary>
         public static string InvalidCountryNameMessage {

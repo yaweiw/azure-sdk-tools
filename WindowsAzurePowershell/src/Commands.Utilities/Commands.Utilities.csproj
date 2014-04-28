@@ -299,7 +299,6 @@
     <Compile Include="Automation\DataContracts\OdataError.cs" />
     <Compile Include="Automation\DataContracts\OdataErrorMessage.cs" />
     <Compile Include="Automation\IAutomationClient.cs" />
-    <Compile Include="Automation\InvalidContinuationTokenException.cs" />
     <Compile Include="Automation\Models\AutomationAccount.cs" />
     <Compile Include="Automation\Models\DailySchedule.cs" />
     <Compile Include="Automation\Models\Job.cs" />
@@ -314,7 +313,6 @@
     <Compile Include="Automation\Requires.cs" />
     <Compile Include="Automation\RequiresExtensions.cs" />
     <Compile Include="Automation\ResourceNotFoundException.cs" />
-    <Compile Include="Automation\ResponseWithNextLink.cs" />
     <Compile Include="CloudService\AddRole.cs" />
     <Compile Include="CloudService\CacheConfigurationFactory.cs" />
     <Compile Include="CloudService\CloudServiceClient.cs" />
