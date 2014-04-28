@@ -41,7 +41,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
         [ValidateNotNullOrEmpty]
         public string ServiceName { get; set; }
 
-        [Parameter(Mandatory = false, Position = 2, ValueFromPipelineByPropertyName = true, HelpMessage = "Deployment Name.")]
+        [Parameter(Mandatory = false, Position = 2, ValueFromPipelineByPropertyName = true, HelpMessage = "Slot.")]
         [ValidateNotNullOrEmpty]
         [ValidateSet(DeploymentSlotType.Staging, DeploymentSlotType.Production, IgnoreCase = true)]
         public string Slot { get; set; }
@@ -50,7 +50,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
         [ValidateNotNullOrEmpty]
         public string SubnetName { get; set; }
 
-        [Parameter(ParameterSetName = SubnetNameAndIPParamSet, Position = 4, ValueFromPipelineByPropertyName = true, HelpMessage = "Subnet Name.")]
+        [Parameter(ParameterSetName = SubnetNameAndIPParamSet, Position = 4, ValueFromPipelineByPropertyName = true, HelpMessage = "Subnet IP Address.")]
         [ValidateNotNullOrEmpty]
         public IPAddress StaticVNetIPAddress { get; set; }
 
