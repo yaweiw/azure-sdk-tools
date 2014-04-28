@@ -14,10 +14,10 @@
 
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
 {
+    using System;
     using System.Management.Automation;
-    using System.Net;
     using Management.Compute.Models;
-    using Model;
+    using Model.PersistentVMModel;
     using Utilities.Common;
 
     [Cmdlet(VerbsCommon.Remove, "AzureInternalLoadBalancer"), OutputType(typeof(ManagementOperationContext))]
@@ -31,9 +31,10 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
         [ValidateNotNullOrEmpty]
         public string ServiceName { get; set; }
 
-        [Parameter(Mandatory = true, Position = 2, ValueFromPipelineByPropertyName = true, HelpMessage = "Deployment Name.")]
+        [Parameter(Mandatory = false, Position = 2, ValueFromPipelineByPropertyName = true, HelpMessage = "Deployment Name.")]
         [ValidateNotNullOrEmpty]
-        public string DeploymentName { get; set; }
+        [ValidateSet(DeploymentSlotType.Staging, DeploymentSlotType.Production, IgnoreCase = true)]
+        public string Slot { get; set; }
 
         protected override void OnProcessRecord()
         {
@@ -41,7 +42,13 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
 
             ExecuteClientActionNewSM(null,
                 CommandRuntime.ToString(),
-                () => ComputeClient.LoadBalancers.Delete(ServiceName, DeploymentName, InternalLoadBalancerName));
+                () =>
+                {
+                    var slot = string.IsNullOrEmpty(this.Slot) ? DeploymentSlot.Production
+                             : (DeploymentSlot)Enum.Parse(typeof(DeploymentSlot), this.Slot, true);
+                    var deploymentName = this.ComputeClient.Deployments.GetBySlot(this.ServiceName, slot).Name;
+                    return this.ComputeClient.LoadBalancers.Delete(this.ServiceName, deploymentName, InternalLoadBalancerName);
+                });
         }
     }
 }

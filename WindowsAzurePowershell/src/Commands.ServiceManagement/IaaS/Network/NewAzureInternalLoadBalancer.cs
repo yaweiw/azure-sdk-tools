@@ -14,15 +14,25 @@
 
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
 {
+    using System;
     using System.Management.Automation;
     using System.Net;
     using Management.Compute.Models;
-    using Model;
+    using Model.PersistentVMModel;
     using Utilities.Common;
 
-    [Cmdlet(VerbsCommon.New, "AzureInternalLoadBalancer"), OutputType(typeof(ManagementOperationContext))]
+    [Cmdlet(
+        VerbsCommon.New,
+        AzureInternalLoadBalancerNoun,
+        DefaultParameterSetName = ServiceAndSlotParamSet),
+    OutputType(
+        typeof(ManagementOperationContext))]
     public class NewAzureInternalLoadBalancer : ServiceManagementBaseCmdlet
     {
+        protected const string AzureInternalLoadBalancerNoun = "AzureInternalLoadBalancer";
+        protected const string ServiceAndSlotParamSet = "ServiceAndSlot";
+        protected const string SubnetNameAndIPParamSet = "SubnetNameAndIP";
+
         [Parameter(Mandatory = true, Position = 0, ValueFromPipelineByPropertyName = true, HelpMessage = "Internal Load Balancer Name.")]
         [ValidateNotNullOrEmpty]
         public string InternalLoadBalancerName { get; set; }
@@ -31,21 +41,18 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
         [ValidateNotNullOrEmpty]
         public string ServiceName { get; set; }
 
-        [Parameter(Mandatory = true, Position = 2, ValueFromPipelineByPropertyName = true, HelpMessage = "Deployment Name.")]
+        [Parameter(Mandatory = false, Position = 2, ValueFromPipelineByPropertyName = true, HelpMessage = "Deployment Name.")]
         [ValidateNotNullOrEmpty]
-        public string DeploymentName { get; set; }
+        [ValidateSet(DeploymentSlotType.Staging, DeploymentSlotType.Production, IgnoreCase = true)]
+        public string Slot { get; set; }
 
-        [Parameter(Mandatory = false, Position = 3, ValueFromPipelineByPropertyName = true, HelpMessage = "Type.")]
-        [ValidateNotNullOrEmpty]
-        public string Type { get; set; }
-
-        [Parameter(Mandatory = false, Position = 4, ValueFromPipelineByPropertyName = true, HelpMessage = "Subnet Name.")]
+        [Parameter(ParameterSetName = SubnetNameAndIPParamSet, Position = 3, ValueFromPipelineByPropertyName = true, HelpMessage = "Subnet Name.")]
         [ValidateNotNullOrEmpty]
         public string SubnetName { get; set; }
 
-        [Parameter(Mandatory = false, Position = 5, ValueFromPipelineByPropertyName = true, HelpMessage = "Subnet Name.")]
+        [Parameter(ParameterSetName = SubnetNameAndIPParamSet, Position = 4, ValueFromPipelineByPropertyName = true, HelpMessage = "Subnet Name.")]
         [ValidateNotNullOrEmpty]
-        public IPAddress IPAddress { get; set; }
+        public IPAddress StaticVNetIPAddress { get; set; }
 
         protected override void OnProcessRecord()
         {
@@ -53,18 +60,25 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
 
             var parameters = new LoadBalancerCreateParameters
             {
-                Name = InternalLoadBalancerName,
+                Name = this.InternalLoadBalancerName,
                 FrontendIPConfiguration = new FrontendIPConfiguration
                 {
-                    Type = Type,
-                    SubnetName = SubnetName,
-                    StaticVirtualNetworkIPAddress = IPAddress.ToString()
+                    Type = FrontendIPConfigurationType.Private,
+                    SubnetName = this.SubnetName,
+                    StaticVirtualNetworkIPAddress = this.StaticVNetIPAddress == null ? null
+                                                  : this.StaticVNetIPAddress.ToString()
                 }
             };
 
             ExecuteClientActionNewSM(null,
                 CommandRuntime.ToString(),
-                () => ComputeClient.LoadBalancers.Create(ServiceName, DeploymentName, parameters));
+                () =>
+                {
+                    var slot = string.IsNullOrEmpty(this.Slot) ? DeploymentSlot.Production
+                             : (DeploymentSlot)Enum.Parse(typeof(DeploymentSlot), this.Slot, true);
+                    var deploymentName = this.ComputeClient.Deployments.GetBySlot(this.ServiceName, slot).Name;
+                    return this.ComputeClient.LoadBalancers.Create(this.ServiceName, deploymentName, parameters);
+                });
         }
     }
 }
