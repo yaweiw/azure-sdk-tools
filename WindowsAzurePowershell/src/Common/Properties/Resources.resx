@@ -1288,7 +1288,7 @@ Please follow these steps in the portal:
   </data>
   <data name="SchedulerInvalidLocation" xml:space="preserve">
     <value>Invalid location entered. Pick one of the locations from Get-AzureSchedulerLocation</value>
-</data>
+  </data>
   <data name="SecondaryPeerSubnetRequired" xml:space="preserve">
     <value>A value for the Secondary Peer Subnet has to be provided.</value>
   </data>
@@ -1583,5 +1583,14 @@ use and privacy statement at &lt;url&gt; and (c) agree to sharing my contact inf
   </data>
   <data name="YesHint" xml:space="preserve">
     <value>Yes, I agree</value>
+  </data>
+  <data name="RemoveTrafficManagerProfileFailed" xml:space="preserve">
+    <value>Remove-AzureTrafficManagerProfile Operation failed.</value>
+  </data>
+  <data name="RemoveTrafficManagerProfileSucceeded" xml:space="preserve">
+    <value>Successfully removed Traffic Manager profile with name {0}.</value>
+  </data>
+  <data name="RemoveTrafficManagerProfileWarning" xml:space="preserve">
+    <value>Are you sure you want to remove the Traffic Manager profile "{0}"?</value>
   </data>
 </root>
