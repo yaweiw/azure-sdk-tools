@@ -64,10 +64,27 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.DiskRepository
         [ValidateNotNullOrEmpty]
         public string Category { get; set; }
 
-
         protected void GetAzureVMImageProcess()
         {
             ServiceManagementProfile.Initialize(this);
+
+            var vmImageListFunc = new Func<VirtualMachineVMImageListResponse>(
+                () =>
+                {
+                    if (string.IsNullOrEmpty(this.Location)
+                        && string.IsNullOrEmpty(this.Publisher)
+                        && string.IsNullOrEmpty(this.Category))
+                    {
+                        return this.ComputeClient.VirtualMachineVMImages.List();
+                    }
+                    else
+                    {
+                        return this.ComputeClient.VirtualMachineVMImages.ListAndFilter(
+                            this.Location,
+                            this.Publisher,
+                            this.Category);
+                    }
+                });
 
             if (string.IsNullOrEmpty(this.ImageName))
             {
@@ -81,22 +98,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.DiskRepository
                 this.ExecuteClientActionNewSM(
                     null,
                     this.CommandRuntime.ToString(),
-                    () =>
-                    {
-                        if (string.IsNullOrEmpty(this.Location)
-                         && string.IsNullOrEmpty(this.Publisher)
-                         && string.IsNullOrEmpty(this.Category))
-                        {
-                            return this.ComputeClient.VirtualMachineVMImages.List();
-                        }
-                        else
-                        {
-                            return this.ComputeClient.VirtualMachineVMImages.ListAndFilter(
-                                this.Location,
-                                this.Publisher,
-                                this.Category);
-                        }
-                    },
+                    () => vmImageListFunc(),
                     (s, response) => response.VMImages.Select(
                         t => this.ContextFactory<VirtualMachineVMImageListResponse.VirtualMachineVMImage, VMImageContext>(t, s)));
             }
@@ -106,7 +108,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.DiskRepository
                 bool isOSImage = imageType.HasFlag(VirtualMachineImageType.OSImage);
                 bool isVMImage = imageType.HasFlag(VirtualMachineImageType.VMImage);
 
-                if (!isVMImage)
+                if (isOSImage || !isVMImage)
                 {
                     this.ExecuteClientActionNewSM(
                         null,
@@ -114,47 +116,16 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.DiskRepository
                         () => this.ComputeClient.VirtualMachineOSImages.Get(this.ImageName),
                         (s, t) => this.ContextFactory<VirtualMachineOSImageGetResponse, OSImageContext>(t, s));
                 }
-                else
+
+                if (isVMImage)
                 {
-                    if (isOSImage)
-                    {
-                        this.ExecuteClientActionNewSM(
-                            null,
-                            this.CommandRuntime.ToString(),
-                            () => this.ComputeClient.VirtualMachineOSImages.Get(this.ImageName),
-                            (s, t) => this.ContextFactory<VirtualMachineOSImageGetResponse, OSImageContext>(t, s));
-                    }
-
                     this.ExecuteClientActionNewSM(
-                            null,
-                            this.CommandRuntime.ToString(),
-                            () =>
-                            {
-                                if (string.IsNullOrEmpty(this.Location)
-                                 && string.IsNullOrEmpty(this.Publisher)
-                                 && string.IsNullOrEmpty(this.Category))
-                                {
-                                    return this.ComputeClient.VirtualMachineVMImages.List();
-                                }
-                                else
-                                {
-                                    return this.ComputeClient.VirtualMachineVMImages.ListAndFilter(
-                                        this.Location,
-                                        this.Publisher,
-                                        this.Category);
-                                }
-                            },
-                            (s, response) =>
-                            {
-                                var imgs = response.VMImages.Where(
-                                    t => string.Equals(
-                                        t.Name,
-                                        this.ImageName,
-                                        StringComparison.OrdinalIgnoreCase));
-
-                                return imgs.Select(
-                                        t => this.ContextFactory<VirtualMachineVMImageListResponse.VirtualMachineVMImage, VMImageContext>(t, s));
-                            });
+                        null,
+                        this.CommandRuntime.ToString(),
+                        () => vmImageListFunc(),
+                        (s, imgs) => imgs
+                            .Where(t => string.Equals(t.Name, this.ImageName, StringComparison.OrdinalIgnoreCase))
+                            .Select(t => this.ContextFactory<VirtualMachineVMImageListResponse.VirtualMachineVMImage, VMImageContext>(t, s)));
                 }
             }
         }
