@@ -198,6 +198,10 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement
             Mapper.CreateMap<VirtualMachineVMImageListResponse.VirtualMachineVMImage, VMImageContext>()
                   .ForMember(c => c.ImageName, o => o.MapFrom(r => r.Name));
 
+            Mapper.CreateMap<PVM.OSDiskConfiguration, NSM.OSDiskConfigurationUpdateParameters>();
+            Mapper.CreateMap<PVM.DataDiskConfiguration, NSM.DataDiskConfigurationUpdateParameters>()
+                  .ForMember(c => c.LogicalUnitNumber, o => o.MapFrom(r => r.Lun));
+
             Mapper.CreateMap<OperationStatusResponse, VMImageContext>()
                   .ForMember(c => c.OS, o => o.Ignore())
                   .ForMember(c => c.LogicalSizeInGB, o => o.Ignore())

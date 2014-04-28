@@ -15,7 +15,9 @@
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.DiskRepository
 {
     using System;
+    using System.Linq;
     using System.Management.Automation;
+    using AutoMapper;
     using Helpers;
     using Management.Compute.Models;
     using Model;
@@ -74,39 +76,39 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.DiskRepository
         public Uri SmallIconUri { get; set; }
 
         [Parameter(Position = 12, ValueFromPipelineByPropertyName = true, HelpMessage = "IsPremium.")]
-        [ValidateNotNullOrEmpty]
-        public bool IsPremium { get; set; }
+        public SwitchParameter IsPremium { get; set; }
 
         [Parameter(Position = 13, ValueFromPipelineByPropertyName = true, HelpMessage = "ShowInGui.")]
-        [ValidateNotNullOrEmpty]
-        public bool ShowInGui { get; set; }
+        public SwitchParameter ShowInGui { get; set; }
 
-        public void UpdateVMImageProcess()
+        protected override void OnProcessRecord()
         {
+            ServiceManagementProfile.Initialize(this);
+
             var imageType = new VirtualMachineImageHelper(this.ComputeClient).GetImageType(this.ImageName);
             bool isOSImage = imageType.HasFlag(VirtualMachineImageType.OSImage);
             bool isVMImage = imageType.HasFlag(VirtualMachineImageType.VMImage);
 
             if (isOSImage && isVMImage)
             {
-                var errorMsg = string.Format(Resources.DuplicateNamesFoundInBothVMAndOSImages, this.ImageName);
-                WriteError(new ErrorRecord(new Exception(errorMsg), string.Empty, ErrorCategory.CloseError, null));
+                WriteErrorWithTimestamp(
+                    string.Format(Resources.DuplicateNamesFoundInBothVMAndOSImages, this.ImageName));
             }
             else if (isOSImage)
             {
                 var parameters = new VirtualMachineOSImageUpdateParameters
                 {
-                    Label = this.Label,
-                    Eula = this.Eula,
-                    Description = this.Description,
-                    ImageFamily = this.ImageFamily,
-                    PublishedDate = this.PublishedDate,
-                    PrivacyUri = this.PrivacyUri,
+                    Label             = this.Label,
+                    Eula              = this.Eula,
+                    Description       = this.Description,
+                    ImageFamily       = this.ImageFamily,
+                    PublishedDate     = this.PublishedDate,
+                    PrivacyUri        = this.PrivacyUri,
                     RecommendedVMSize = this.RecommendedVMSize,
-                    Language = this.Language,
-                    IconUri = this.IconUri,
-                    SmallIconUri = this.SmallIconUri,
-                    IsPremium = this.IsPremium
+                    Language          = this.Language,
+                    IconUri           = this.IconUri,
+                    SmallIconUri      = this.SmallIconUri,
+                    IsPremium         = this.IsPremium.IsPresent ? (bool?)this.IsPremium : null
                 };
 
                 this.ExecuteClientActionNewSM(
@@ -117,31 +119,25 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.DiskRepository
             }
             else
             {
+                var osDiskConfig    = DiskConfig == null ? null : DiskConfig.OSDiskConfiguration;
+                var dataDiskConfigs = DiskConfig == null ? null : DiskConfig.DataDiskConfigurations;
+                var dataDiskConfig  = dataDiskConfigs == null ? null : dataDiskConfigs.FirstOrDefault();
+
                 var parameters = new VirtualMachineVMImageUpdateParameters
                 {
-                    Label = this.Label,
-                    Eula = this.Eula,
-                    Description = this.Description,
-                    ImageFamily = this.ImageFamily,
-                    PublishedDate = this.PublishedDate,
-                    PrivacyUri = this.PrivacyUri,
-                    RecommendedVMSize = this.RecommendedVMSize,
-                    OSDiskConfiguration = new OSDiskConfigurationUpdateParameters
-                    {
-                        HostCaching = DiskConfig == null || DiskConfig.OSDiskConfiguration == null
-                                    ? null : DiskConfig.OSDiskConfiguration.HostCaching
-                    },
-                    DataDiskConfiguration = new DataDiskConfigurationUpdateParameters
-                    {
-                        HostCaching = DiskConfig == null || DiskConfig.OSDiskConfiguration == null
-                                    ? null : DiskConfig.OSDiskConfiguration.HostCaching,
-                        Name = string.Empty,
-                        LogicalUnitNumber = 0
-                    },
-                    Language = this.Language,
-                    IconUri = this.IconUri,
-                    SmallIconUri = this.SmallIconUri,
-                    ShowInGui = this.ShowInGui
+                    Label                 = this.Label,
+                    Eula                  = this.Eula,
+                    Description           = this.Description,
+                    ImageFamily           = this.ImageFamily,
+                    PublishedDate         = this.PublishedDate,
+                    PrivacyUri            = this.PrivacyUri,
+                    RecommendedVMSize     = this.RecommendedVMSize,
+                    OSDiskConfiguration   = Mapper.Map<OSDiskConfigurationUpdateParameters>(osDiskConfig),
+                    DataDiskConfiguration = Mapper.Map<DataDiskConfigurationUpdateParameters>(dataDiskConfig),
+                    Language              = this.Language,
+                    IconUri               = this.IconUri,
+                    SmallIconUri          = this.SmallIconUri,
+                    ShowInGui             = this.ShowInGui.IsPresent ? (bool?)this.ShowInGui : null
                 };
 
                 this.ExecuteClientActionNewSM(
@@ -149,12 +145,6 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.DiskRepository
                     this.CommandRuntime.ToString(),
                     () => this.ComputeClient.VirtualMachineVMImages.Update(this.ImageName, parameters));
             }
-        }
-
-        protected override void OnProcessRecord()
-        {
-            ServiceManagementProfile.Initialize(this);
-            this.UpdateVMImageProcess();
         }
     }
 }
