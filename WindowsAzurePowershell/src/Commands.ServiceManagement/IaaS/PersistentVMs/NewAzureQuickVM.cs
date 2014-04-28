@@ -154,6 +154,10 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.PersistentVMs
         [Parameter(HelpMessage = "To disable IaaS provision guest agent.")]
         public SwitchParameter DisableGuestAgent { get; set; }
 
+        [Parameter(HelpMessage = "The name of the reserved IP.")]
+        [ValidateNotNullOrEmpty]
+        public string ReservedIPName { get; set; }
+
         public void NewAzureVMProcess()
         {
             WindowsAzureSubscription currentSubscription = CurrentSubscription;
@@ -272,7 +276,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.PersistentVMs
                         Label              = this.ServiceName,
                         VirtualNetworkName = this.VNetName,
                         Roles              = { vm },
-                        ReservedIPName     = null,
+                        ReservedIPName     = this.ReservedIPName,
                         DnsSettings        = this.DnsSettings == null ? null : new DnsSettings
                                              {
                                                  DnsServers = (from dns in this.DnsSettings
