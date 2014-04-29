@@ -1,0 +1,4 @@
+{
+  "TEST_CSM_ORGID_AUTHENTICATION":"SubscriptionId=0a496442-635f-4974-bda4-2d339b9a6b3c;BaseUri=https://api-dogfood.resources.windows-int.net/;UserId=admin@aad18.ccsctp.net;AADAuthEndpoint=https://login.windows-ppe.net/",
+  "TEST_ORGID_AUTHENTICATION":"SubscriptionId=0a496442-635f-4974-bda4-2d339b9a6b3c;BaseUri=https://management-preview.core.windows-int.net/",
+}

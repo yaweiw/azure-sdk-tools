@@ -30,7 +30,8 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.DiskRepository
         VerbsCommon.Get,
         AzureVMImageNoun),
     OutputType(
-        typeof(OSImageContext))]
+        typeof(OSImageContext),
+        typeof(VMImageContext))]
     public class GetAzureVMImage : ServiceManagementBaseCmdlet
     {
         protected const string AzureVMImageNoun = "AzureVMImage";
@@ -43,7 +44,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.DiskRepository
         [ValidateNotNullOrEmpty]
         public string ImageName { get; set; }
 
-        internal static bool CheckImageType(ComputeManagementClient computeClient, string imageName, ImageType imageType)
+        internal static bool ExistsImageInType(ComputeManagementClient computeClient, string imageName, ImageType imageType)
         {
             try
             {
@@ -104,8 +105,8 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.DiskRepository
             }
             else
             {
-                bool isOSImage = CheckImageType(this.ComputeClient, this.ImageName, ImageType.OSImage);
-                bool isVMImage = CheckImageType(this.ComputeClient, this.ImageName, ImageType.VMImage);
+                bool isOSImage = ExistsImageInType(this.ComputeClient, this.ImageName, ImageType.OSImage);
+                bool isVMImage = ExistsImageInType(this.ComputeClient, this.ImageName, ImageType.VMImage);
 
                 if (!isVMImage)
                 {

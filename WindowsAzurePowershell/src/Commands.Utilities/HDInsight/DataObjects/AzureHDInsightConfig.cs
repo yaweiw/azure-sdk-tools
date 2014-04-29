@@ -33,12 +33,21 @@ namespace Microsoft.WindowsAzure.Management.HDInsight.Cmdlet.DataObjects
             this.MapReduceConfiguration = new MapReduceConfiguration();
             this.HiveConfiguration = new HiveConfiguration();
             this.OozieConfiguration = new OozieConfiguration();
+            this.HeadNodeVMSize = NodeVMSize.Default;
         }
 
         /// <summary>
         ///     Gets the additional storage accounts for the HDInsight cluster.
         /// </summary>
         public ICollection<AzureHDInsightStorageAccount> AdditionalStorageAccounts { get; private set; }
+
+        /// <summary>
+        /// Gets or sets the size of the head node VM.
+        /// </summary>
+        /// <value>
+        /// The size of the head node VM.
+        /// </value>
+        public NodeVMSize HeadNodeVMSize { get; set; }
 
         /// <summary>
         ///     Gets or sets the size of the cluster in data nodes.

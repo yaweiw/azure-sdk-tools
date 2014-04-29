@@ -17,17 +17,17 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
     using PowershellCore;
 
     public class SaveAzureVMImageCmdletInfo : CmdletsInfo
-    {        
-        public SaveAzureVMImageCmdletInfo(string serviceName, string vmName, string newName, string newLabel)
+    {
+        public SaveAzureVMImageCmdletInfo(string serviceName, string vmName, string newName, string newLabel, string osState)
         {
             cmdletName = Utilities.SaveAzureVMImageCmdletName;
             this.cmdletParams.Add(new CmdletParam("Name", vmName));
             this.cmdletParams.Add(new CmdletParam("ServiceName", serviceName));
             this.cmdletParams.Add(new CmdletParam("NewImageName", newName));
+            if(!string.IsNullOrEmpty(osState))
+                this.cmdletParams.Add(new CmdletParam("OSState", osState.Trim()));
             if (!System.String.IsNullOrWhiteSpace(newLabel))
-            {
                 this.cmdletParams.Add(new CmdletParam("NewImageLabel", newLabel));
-            }                        
         }
     }
 }
