@@ -21,10 +21,10 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
         VerbsCommon.Remove,
         AzureOSDiskConfigurationNoun),
     OutputType(
-        typeof(VirtualMachineDiskConfigSet))]
-    public class RemoveAzureOSDiskConfig : PSCmdlet
+        typeof(VirtualMachineImageDiskConfigSet))]
+    public class RemoveAzureVMImageOSDiskConfig : PSCmdlet
     {
-        protected const string AzureOSDiskConfigurationNoun = "AzureOSDiskConfig";
+        protected const string AzureOSDiskConfigurationNoun = "AzureVMImageOSDiskConfig";
 
         [Parameter(
             Position = 0,
@@ -33,7 +33,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
             ValueFromPipelineByPropertyName = true,
             HelpMessage = "Disk Configuration Set")]
         [ValidateNotNullOrEmpty]
-        public VirtualMachineDiskConfigSet DiskConfig { get; set; }
+        public VirtualMachineImageDiskConfigSet DiskConfig { get; set; }
 
         protected override void ProcessRecord()
         {
