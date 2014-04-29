@@ -214,6 +214,15 @@ namespace Microsoft.WindowsAzure.Commands.Common.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Profile {0} already has an endpoint with name {1}.
+        /// </summary>
+        public static string AddTrafficManagerEndpointFailed {
+            get {
+                return ResourceManager.GetString("AddTrafficManagerEndpointFailed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Windows Azure Powershell\.
         /// </summary>
         public static string AzureDirectory {
@@ -2974,6 +2983,33 @@ namespace Microsoft.WindowsAzure.Commands.Common.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Remove-AzureTrafficManagerProfile Operation failed..
+        /// </summary>
+        public static string RemoveTrafficManagerProfileFailed {
+            get {
+                return ResourceManager.GetString("RemoveTrafficManagerProfileFailed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Successfully removed Traffic Manager profile with name {0}..
+        /// </summary>
+        public static string RemoveTrafficManagerProfileSucceeded {
+            get {
+                return ResourceManager.GetString("RemoveTrafficManagerProfileSucceeded", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Are you sure you want to remove the Traffic Manager profile &quot;{0}&quot;?.
+        /// </summary>
+        public static string RemoveTrafficManagerProfileWarning {
+            get {
+                return ResourceManager.GetString("RemoveTrafficManagerProfileWarning", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Are you sure you want to delete the VM &apos;{0}&apos;?.
         /// </summary>
         public static string RemoveVMConfirmationMessage {
@@ -3492,6 +3528,15 @@ namespace Microsoft.WindowsAzure.Commands.Common.Properties {
         public static string SetAddOnConformation {
             get {
                 return ResourceManager.GetString("SetAddOnConformation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Profile {0} does not contain endpoint {1}. Adding it..
+        /// </summary>
+        public static string SetInexistentTrafficManagerEndpointMessage {
+            get {
+                return ResourceManager.GetString("SetInexistentTrafficManagerEndpointMessage", resourceCulture);
             }
         }
         

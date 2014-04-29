@@ -105,14 +105,14 @@
       </xsd:complexType>
     </xsd:element>
   </xsd:schema>
-  <resheader name="reader">
-    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </resheader>
   <resheader name="resmimetype">
     <value>text/microsoft-resx</value>
   </resheader>
   <resheader name="version">
     <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
@@ -1592,5 +1592,11 @@ use and privacy statement at &lt;url&gt; and (c) agree to sharing my contact inf
   </data>
   <data name="RemoveTrafficManagerProfileWarning" xml:space="preserve">
     <value>Are you sure you want to remove the Traffic Manager profile "{0}"?</value>
+  </data>
+  <data name="AddTrafficManagerEndpointFailed" xml:space="preserve">
+    <value>Profile {0} already has an endpoint with name {1}</value>
+  </data>
+  <data name="SetInexistentTrafficManagerEndpointMessage" xml:space="preserve">
+    <value>Profile {0} does not contain endpoint {1}. Adding it.</value>
   </data>
 </root>
