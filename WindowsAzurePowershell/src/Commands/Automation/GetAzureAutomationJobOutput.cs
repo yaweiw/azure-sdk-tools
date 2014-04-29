@@ -15,6 +15,7 @@
 namespace Microsoft.WindowsAzure.Commands.Automation
 {
     using System;
+    using System.Collections.Generic;
     using System.Linq;
     using System.Management.Automation;
     using System.Security.Permissions;
@@ -69,10 +70,10 @@ namespace Microsoft.WindowsAzure.Commands.Automation
                                           Constants.JobOutputParameter.Warning, Constants.JobOutputParameter.Error,
                                           Constants.JobOutputParameter.Debug, Constants.JobOutputParameter.Verbose
                                       };
-            var streamTypeName =
+            string streamTypeName =
                 streamTypeNames.FirstOrDefault(
                     name => string.Equals(this.Stream, name, StringComparison.OrdinalIgnoreCase));
-            var streamItems = this.AutomationClient.ListJobStreamItems(
+            IEnumerable<JobStreamItem> streamItems = this.AutomationClient.ListJobStreamItems(
                 this.AutomationAccountName, this.Id, this.StartTime, streamTypeName);
             this.WriteObject(streamItems, true);
         }

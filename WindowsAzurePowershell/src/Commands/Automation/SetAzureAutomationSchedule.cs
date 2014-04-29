@@ -74,14 +74,14 @@ namespace Microsoft.WindowsAzure.Commands.Automation
             if (this.Id.HasValue)
             {
                 // ByScheduleId
-                var schedule = this.AutomationClient.UpdateSchedule(
+                Schedule schedule = this.AutomationClient.UpdateSchedule(
                     this.AutomationAccountName, this.Id.Value, this.IsEnabled, this.Description);
                 this.WriteObject(schedule);
             }
             else
             {
                 // ByScheduleName
-                var schedule = this.AutomationClient.UpdateSchedule(
+                Schedule schedule = this.AutomationClient.UpdateSchedule(
                     this.AutomationAccountName, this.Name, this.IsEnabled, this.Description);
                 this.WriteObject(schedule);
             }
