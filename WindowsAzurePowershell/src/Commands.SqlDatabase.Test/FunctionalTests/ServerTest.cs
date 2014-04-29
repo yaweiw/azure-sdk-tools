@@ -45,13 +45,13 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Test.FunctionalTests
         /// <summary>
         /// The end point to use for the tests
         /// </summary>
-        private const string LocalRdfeEndpoint = @"https://management.dev.mscds.com:12346/MockRDFE/";
+        private const string LocalRdfeEndpoint = @"https://management.dev.mscds.com:12346/";
          
         [TestInitialize]
         public void Setup()
         {
             XElement root = XElement.Load("SqlDatabaseSettings.xml");
-            this.subscriptionID = root.Element("SubscriptionID").Value;
+            this.subscriptionID = root.Element("SubscriptionId").Value;
             this.serializedCert = root.Element("SerializedCert").Value;
             this.serverLocation = root.Element("ServerLocation").Value;
             this.manageUrl = root.Element("ManageUrl").Value;
