@@ -20,15 +20,15 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
     [Cmdlet(
         VerbsCommon.New,
         AzureDiskConfigSetNoun),
-    OutputType(typeof(VirtualMachineDiskConfigSet))]
-    public class NewAzureDiskConfigSet : PSCmdlet
+    OutputType(typeof(VirtualMachineImageDiskConfigSet))]
+    public class NewAzureVMImageDiskConfigSet : PSCmdlet
     {
-        protected const string AzureDiskConfigSetNoun = "AzureDiskConfigSet";
+        protected const string AzureDiskConfigSetNoun = "AzureVMImageDiskConfigSet";
 
         protected override void ProcessRecord()
         {
             ServiceManagementProfile.Initialize();
-            WriteObject(new VirtualMachineDiskConfigSet());
+            WriteObject(new VirtualMachineImageDiskConfigSet());
         }
     }
 }

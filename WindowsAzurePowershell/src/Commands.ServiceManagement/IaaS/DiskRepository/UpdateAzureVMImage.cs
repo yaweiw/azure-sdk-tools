@@ -63,7 +63,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.DiskRepository
 
         [Parameter(Position = 8, ValueFromPipeline = true, ValueFromPipelineByPropertyName = true, HelpMessage = "Disk Configuration Set")]
         [ValidateNotNullOrEmpty]
-        public VirtualMachineDiskConfigSet DiskConfig { get; set; }
+        public VirtualMachineImageDiskConfigSet DiskConfig { get; set; }
 
         [Parameter(Position = 9, ValueFromPipelineByPropertyName = true, HelpMessage = "Language.")]
         [ValidateNotNullOrEmpty]

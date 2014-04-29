@@ -23,10 +23,10 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
         VerbsCommon.Set,
         AzureDataDiskConfigurationNoun),
     OutputType(
-        typeof(VirtualMachineDiskConfigSet))]
-    public class SetAzureDataDiskConfig : PSCmdlet
+        typeof(VirtualMachineImageDiskConfigSet))]
+    public class SetAzureVMImageDataDiskConfig : PSCmdlet
     {
-        protected const string AzureDataDiskConfigurationNoun = "AzureDataDiskConfig";
+        protected const string AzureDataDiskConfigurationNoun = "AzureVMImageDataDiskConfig";
 
         [Parameter(
             Position = 0,
@@ -35,7 +35,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
             ValueFromPipelineByPropertyName = true,
             HelpMessage = "Disk Configuration Set")]
         [ValidateNotNullOrEmpty]
-        public VirtualMachineDiskConfigSet DiskConfig { get; set; }
+        public VirtualMachineImageDiskConfigSet DiskConfig { get; set; }
 
         [Parameter(
             Position = 1,

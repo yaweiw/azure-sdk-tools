@@ -252,11 +252,11 @@
     <Compile Include="Extensions\Common\NewAzureServiceExtensionConfig.cs" />
     <Compile Include="Extensions\Common\RemoveAzureServiceExtension.cs" />
     <Compile Include="Helpers\SecureStringHelper.cs" />
-    <Compile Include="IaaS\DiskRepository\RemoveAzureDataDiskConfig.cs" />
-    <Compile Include="IaaS\DiskRepository\RemoveAzureOSDiskConfig.cs" />
-    <Compile Include="IaaS\DiskRepository\SetAzureOSDiskConfig.cs" />
-    <Compile Include="IaaS\DiskRepository\SetAzureDataDiskConfig.cs" />
-    <Compile Include="IaaS\DiskRepository\NewAzureDiskConfigSet.cs" />
+    <Compile Include="IaaS\DiskRepository\RemoveAzureVMImageDataDiskConfig.cs" />
+    <Compile Include="IaaS\DiskRepository\RemoveAzureVMImageOSDiskConfig.cs" />
+    <Compile Include="IaaS\DiskRepository\SetAzureVMImageOSDiskConfig.cs" />
+    <Compile Include="IaaS\DiskRepository\SetAzureVMImageDataDiskConfig.cs" />
+    <Compile Include="IaaS\DiskRepository\NewAzureVMImageDiskConfigSet.cs" />
     <Compile Include="IaaS\Network\GetAzureInternalLoadBalancer.cs" />
     <Compile Include="IaaS\Network\NewAzureInternalLoadBalancerConfig.cs" />
     <Compile Include="IaaS\Network\RemoveAzureInternalLoadBalancer.cs" />
@@ -266,7 +266,7 @@
     <Compile Include="IaaS\Network\SetAzurePublicIP.cs" />
     <Compile Include="Model\InternalLoadBalancerSetting.cs" />
     <Compile Include="Model\InternalLoadBalancerContext.cs" />
-    <Compile Include="Model\VirtualMachineDiskConfigurationSet.cs" />
+    <Compile Include="Model\VirtualMachineImageDiskConfigSet.cs" />
     <Compile Include="Model\VirtualMachineImageType.cs" />
     <Compile Include="Helpers\VirtualMachineImageHelper.cs" />
     <Compile Include="IaaS\Extensions\BGInfo\GetAzureVMBGInfoExtension.cs" />
