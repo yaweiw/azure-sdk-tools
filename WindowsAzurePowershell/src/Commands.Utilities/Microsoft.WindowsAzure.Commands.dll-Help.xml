@@ -21906,7 +21906,7 @@
       <maml:para>NOTE: The AzureResourceManager module is currently in preview. It might not provide the same management capabilities as the Azure module.</maml:para>
       <maml:para>Beginning in version 0.8,0, the Azure PowerShell installation includes both Azure modules and Azure Profile, a module of commands common to both modules. When you use the Azure PowerShell cmdlets, the Azure and Azure Profile modules are imported into the session by default. To remove the Azure module from the session and import the Azure Resource Manager module, use Switch-AzureMode. And, to switch back to the Azure module, just use Switch-AzureMode again.</maml:para>
       <maml:para>The Azure module includes cmdlets that help you to manage your Azure account in the traditional way. The cmdlets get, create, change, and remove individual resources such as storage accounts, virtual machines, SQL databases, web sites, media services, and cloud services.</maml:para>
-      <maml:para>The new Azure Resource Manager module, introduced in Azure PowerShell version 0.8.0, lets you manage your resources in an entirely new way. Instead of creating individual resources and trying to use them together, begin by imagining the service you want to create, such as a web portal, a blog, a photo gallery, a commerce site, or a wiki. Select a resource group template, including one of dozens in the Azure template gallery, or create your own. Each template provides a model of a complex service, complete with the resources that you need to support the service. Then use the template to create a resource group and its resources, and deploy and manage the related resources as a unit.</maml:para>
+      <maml:para>The new Azure Resource Manager module, introduced in Azure PowerShell version 0.8.1, lets you manage your resources in an entirely new way. Instead of creating individual resources and trying to use them together, begin by imagining the service you want to create, such as a web portal, a blog, a photo gallery, a commerce site, or a wiki. Select a resource group template, including one of dozens in the Azure template gallery, or create your own. Each template provides a model of a complex service, complete with the resources that you need to support the service. Then use the template to create a resource group and its resources, and deploy and manage the related resources as a unit.</maml:para>
       <maml:para>You can use Switch-AzureMode to switch between Azure modules as often as you like. To set an Azure module as the default for all sessions, use the Global parameter when switching between modes.</maml:para>
     </maml:description>
     <command:syntax>
@@ -21990,7 +21990,7 @@
     <maml:alertSet>
       <maml:title />
       <maml:alert>
-        <maml:para>Switch-AzureMode is introduced in version 0.8.0 of the Azure modules. To get the version of your module, type: (Get-Module &lt;ModuleName&gt;).Version</maml:para>
+        <maml:para>Switch-AzureMode is introduced in version 0.8.1 of the Azure modules. To get the version of your module, type: (Get-Module &lt;ModuleName&gt;).Version</maml:para>
       </maml:alert>
       <maml:alert>
         <maml:para>The Switch-AzureMode cmdlet is exported by the AzureProfile module. The AzureProfile module is compatible with both the Azure and Azure Resource Manager modules and is imported automatically whenever either module is imported.</maml:para>
