@@ -16,6 +16,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement
 {
     using System;
     using System.Collections.Generic;
+    using System.Collections.ObjectModel;
     using System.Linq;
     using System.Net;
     using AutoMapper;
@@ -195,12 +196,25 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement
                   .ForMember(c => c.OS, o => o.MapFrom(r => r.OperatingSystem));
             Mapper.CreateMap<VirtualMachineVMImageListResponse.DataDiskConfiguration, PVM.DataDiskConfiguration>()
                   .ForMember(c => c.Lun, o => o.MapFrom(r => r.LogicalUnitNumber));
-            Mapper.CreateMap<VirtualMachineVMImageListResponse.VirtualMachineVMImage, VMImageContext>()
-                  .ForMember(c => c.ImageName, o => o.MapFrom(r => r.Name));
+
+            Mapper.CreateMap<IList<NSM.DataDiskConfigurationUpdateParameters>, List<PVM.DataDiskConfiguration>>();
+            Mapper.CreateMap<List<NSM.DataDiskConfigurationUpdateParameters>, List<PVM.DataDiskConfiguration>>();
+            Mapper.CreateMap<IList<NSM.DataDiskConfigurationUpdateParameters>, PVM.DataDiskConfigurationList>();
 
             Mapper.CreateMap<PVM.OSDiskConfiguration, NSM.OSDiskConfigurationUpdateParameters>();
             Mapper.CreateMap<PVM.DataDiskConfiguration, NSM.DataDiskConfigurationUpdateParameters>()
                   .ForMember(c => c.LogicalUnitNumber, o => o.MapFrom(r => r.Lun));
+
+            Mapper.CreateMap<IList<PVM.DataDiskConfiguration>, IList<NSM.DataDiskConfigurationUpdateParameters>>();
+            Mapper.CreateMap<List<PVM.DataDiskConfiguration>, List<NSM.DataDiskConfigurationUpdateParameters>>();
+            Mapper.CreateMap<PVM.DataDiskConfigurationList, Collection<PVM.DataDiskConfiguration>>();
+            Mapper.CreateMap<Collection<PVM.DataDiskConfiguration>, IList<NSM.DataDiskConfigurationUpdateParameters>>();
+            Mapper.CreateMap<Collection<PVM.DataDiskConfiguration>, List<NSM.DataDiskConfigurationUpdateParameters>>();
+            Mapper.CreateMap<PVM.DataDiskConfigurationList, IList<NSM.DataDiskConfigurationUpdateParameters>>();
+            Mapper.CreateMap<PVM.DataDiskConfigurationList, List<NSM.DataDiskConfigurationUpdateParameters>>();
+
+            Mapper.CreateMap<VirtualMachineVMImageListResponse.VirtualMachineVMImage, VMImageContext>()
+                  .ForMember(c => c.ImageName, o => o.MapFrom(r => r.Name));
 
             Mapper.CreateMap<OperationStatusResponse, VMImageContext>()
                   .ForMember(c => c.OS, o => o.Ignore())

@@ -25,30 +25,18 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
     [Cmdlet(VerbsCommon.Get, "AzureInternalLoadBalancer"), OutputType(typeof(InternalLoadBalancerContext))]
     public class GetAzureInternalLoadBalancer : ServiceManagementBaseCmdlet
     {
-        [Parameter(Mandatory = true, Position = 0, ValueFromPipelineByPropertyName = true, HelpMessage = "Internal Load Balancer Name.")]
-        [ValidateNotNullOrEmpty]
-        public string InternalLoadBalancerName { get; set; }
-
-        [Parameter(Mandatory = true, Position = 1, ValueFromPipelineByPropertyName = true, HelpMessage = "Service Name.")]
+        [Parameter(Mandatory = true, Position = 0, ValueFromPipelineByPropertyName = true, HelpMessage = "Service Name.")]
         [ValidateNotNullOrEmpty]
         public string ServiceName { get; set; }
-
-        [Parameter(Mandatory = false, Position = 2, ValueFromPipelineByPropertyName = true, HelpMessage = "Deployment Name.")]
-        [ValidateNotNullOrEmpty]
-        [ValidateSet(DeploymentSlotType.Staging, DeploymentSlotType.Production, IgnoreCase = true)]
-        public string Slot { get; set; }
 
         protected override void OnProcessRecord()
         {
             ServiceManagementProfile.Initialize();
 
-            var slot = string.IsNullOrEmpty(this.Slot) ? DeploymentSlot.Production
-                     : (DeploymentSlot)Enum.Parse(typeof(DeploymentSlot), this.Slot, true);
-
             ExecuteClientActionNewSM(
                 null,
                 CommandRuntime.ToString(),
-                () => this.ComputeClient.Deployments.GetBySlot(this.ServiceName, slot),
+                () => this.ComputeClient.Deployments.GetBySlot(this.ServiceName, DeploymentSlot.Production),
                 (s, d) => d.LoadBalancers == null ? null : d.LoadBalancers.Select(
                     b => new InternalLoadBalancerContext
                     {

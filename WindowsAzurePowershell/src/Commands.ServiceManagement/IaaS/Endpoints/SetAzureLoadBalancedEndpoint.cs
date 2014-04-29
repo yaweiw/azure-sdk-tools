@@ -137,7 +137,8 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Endpoints
                         Order = r.Order,
                         RemoteSubnet = r.RemoteSubnet
                     }).ToList(),
-                    VirtualIPAddress = endpoint.Vip
+                    VirtualIPAddress = endpoint.Vip,
+                    LoadBalancerName = null
                 }).ToList()
             };
 

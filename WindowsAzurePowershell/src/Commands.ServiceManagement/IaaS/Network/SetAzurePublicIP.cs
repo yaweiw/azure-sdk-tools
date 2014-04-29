@@ -15,13 +15,14 @@
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
 {
     using System;
+    using System.Linq;
     using System.Management.Automation;
     using Model;
     using Model.PersistentVMModel;
     using Properties;
 
-    [Cmdlet(VerbsCommon.Add, PublicIPNoun), OutputType(typeof(IPersistentVM))]
-    public class AddAzurePublicIPCommand : VirtualMachineConfigurationCmdletBase
+    [Cmdlet(VerbsCommon.Set, PublicIPNoun), OutputType(typeof(IPersistentVM))]
+    public class SetAzurePublicIPCommand : VirtualMachineConfigurationCmdletBase
     {
         [Parameter(Position = 1, Mandatory = true, HelpMessage = "The Public IP Name.")]
         [ValidateNotNullOrEmpty]
@@ -41,12 +42,19 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
             {
                 networkConfiguration.PublicIPs = new AssignPublicIPCollection();
             }
-
-            networkConfiguration.PublicIPs.Add(
-                new AssignPublicIP
-                {
-                    Name = this.PublicIPName
-                });
+            
+            if (networkConfiguration.PublicIPs.Any())
+            {
+                networkConfiguration.PublicIPs.First().Name = this.PublicIPName;
+            }
+            else
+            {
+                networkConfiguration.PublicIPs.Add(
+                    new AssignPublicIP
+                    {
+                        Name = this.PublicIPName
+                    });
+            }
 
             WriteObject(VM);
         }

@@ -30,6 +30,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
         [Parameter(
             Position = 0,
             Mandatory = true,
+            ValueFromPipeline = true,
             ValueFromPipelineByPropertyName = true,
             HelpMessage = "DiskConfigSet")]
         [ValidateNotNullOrEmpty]
