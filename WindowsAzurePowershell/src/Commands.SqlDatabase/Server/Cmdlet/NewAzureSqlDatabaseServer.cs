@@ -60,6 +60,14 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Server.Cmdlet
             set;
         }
 
+        [Parameter(Mandatory = false,
+            HelpMessage = "The version for the server that will be created.")]
+        public float Version
+        {
+            get;
+            set;
+        }
+
         [Parameter(HelpMessage = "Do not confirm on the creation of the server")]
         public SwitchParameter Force
         {
@@ -83,7 +91,8 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Server.Cmdlet
         internal SqlDatabaseServerContext NewAzureSqlDatabaseServerProcess(
             string adminLogin,
             string adminLoginPassword,
-            string location)
+            string location,
+            float? version)
         {
             // Do nothing if force is not specified and user cancelled the operation
             if (!Force.IsPresent &&
@@ -104,7 +113,8 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Server.Cmdlet
                 {
                     Location = location,
                     AdministratorUserName = adminLogin,
-                    AdministratorPassword = adminLoginPassword
+                    AdministratorPassword = adminLoginPassword,
+                    Version = version.HasValue ? version.Value.ToString("F1") : null
                 });
 
             SqlDatabaseServerContext operationContext = new SqlDatabaseServerContext()
@@ -128,10 +138,19 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Server.Cmdlet
             try
             {
                 base.ProcessRecord();
+
+                // Get the version from the command line
+                float? version = null;
+                if (this.MyInvocation.BoundParameters.ContainsKey("Version"))
+                {
+                    version = this.Version;
+                }
+
                 SqlDatabaseServerContext context = this.NewAzureSqlDatabaseServerProcess(
                     this.AdministratorLogin,
                     this.AdministratorLoginPassword,
-                    this.Location);
+                    this.Location,
+                    version);
 
                 if (context != null)
                 {

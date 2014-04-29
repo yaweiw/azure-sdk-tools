@@ -38,6 +38,12 @@ namespace Microsoft.WindowsAzure.Commands.Profile
         
         private const string ResourceManagerModuleName = "AzureResourceManager";
 
+        private const string ProfileFolderName = "Profile";
+
+        private const string ServiceManagementFolderName = "ServiceManagement";
+
+        private const string ResourceManagerFolderName = "ResourceManager";
+
         private string ResourceManagerModulePath;
 
         private string serviceManagementModulePath;
@@ -52,10 +58,10 @@ namespace Microsoft.WindowsAzure.Commands.Profile
 
         public SwitchAzureMode()
         {
-            string rootInstallationPath = Directory.GetParent(FileUtilities.GetAssemblyDirectory()).FullName;
-            serviceManagementModulePath = Path.Combine(rootInstallationPath, ServiceManagementModuleName);
-            ResourceManagerModulePath = Path.Combine(rootInstallationPath, ResourceManagerModuleName);
-            profileModulePath = Path.Combine(serviceManagementModulePath, ProfileModuleName);
+            string rootInstallationPath = Directory.GetParent(Directory.GetParent(FileUtilities.GetAssemblyDirectory()).FullName).FullName;
+            serviceManagementModulePath = Path.Combine(rootInstallationPath, ServiceManagementFolderName);
+            ResourceManagerModulePath = Path.Combine(rootInstallationPath, ResourceManagerFolderName);
+            profileModulePath = Path.Combine(rootInstallationPath, ProfileFolderName);
         }
 
         public override void ExecuteCmdlet()
@@ -97,11 +103,11 @@ namespace Microsoft.WindowsAzure.Commands.Profile
 
         private void ImportAzureModule(string name, string path)
         {
-            WriteVerbose(string.Format("Importing {0} module...", name));
-            this.ImportModule(Path.Combine(path, name + ".psd1"));
-
             WriteVerbose(string.Format("Adding {0} module path to PSModulePath...", path));
             PowerShellUtilities.AddModuleToPSModulePath(path);
+
+            WriteVerbose(string.Format("Importing {0} module...", name));
+            this.ImportModule(name);
 
             if (Global)
             {
