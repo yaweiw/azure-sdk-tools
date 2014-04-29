@@ -14,7 +14,9 @@
 
 namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Services.Server
 {
-	using System;
+    using System;
+    using DatabaseCopyModel = Microsoft.WindowsAzure.Commands.SqlDatabase.Model.DatabaseCopy;
+
     /// <summary>
     /// Common interface for all server based operations.
     /// </summary>
@@ -67,7 +69,8 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Services.Server
         /// <returns>The newly created Sql Database.</returns>
         Database CreateNewDatabase(
             string databaseName,
-            int? databaseMaxSize,
+            int? databaseMaxSizeGb,
+            long? databaseMaxSizeBytes,
             string databaseCollation,
             DatabaseEdition databaseEdition,
             ServiceObjective serviceObjective);
@@ -92,7 +95,8 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Services.Server
         Database UpdateDatabase(
             string databaseName,
             string newDatabaseName,
-            int? databaseMaxSize,
+            int? databaseMaxSizeGb,
+            long? databaseMaxSizeBytes,
             DatabaseEdition? databaseEdition,
             ServiceObjective serviceObjective);
 
@@ -101,6 +105,52 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Services.Server
         /// </summary>
         /// <param name="databaseName">The database to remove.</param>
         void RemoveDatabase(string databaseName);
+
+        #endregion
+
+        #region Database Copy Operations
+        
+        /// <summary>
+        /// Retrieve all database copy objects with matching parameters.
+        /// </summary>
+        /// <param name="databaseName">The name of the database to copy.</param>
+        /// <param name="partnerServer">The name for the partner server.</param>
+        /// <param name="partnerDatabaseName">The name of the database on the partner server.</param>
+        /// <returns>All database copy objects with matching parameters.</returns>
+        DatabaseCopyModel[] GetDatabaseCopy(
+            string databaseName,
+            string partnerServer,
+            string partnerDatabaseName);
+
+        /// <summary>
+        /// Refreshes the given database copy object.
+        /// </summary>
+        /// <param name="databaseCopy">The object to refresh.</param>
+        /// <returns>The refreshed database copy object.</returns>
+        DatabaseCopyModel GetDatabaseCopy(DatabaseCopyModel databaseCopy);
+
+        /// <summary>
+        /// Start database copy on the database with the name <paramref name="databaseName"/>.
+        /// </summary>
+        /// <param name="databaseName">The database to copy.</param>
+        /// <param name="partnerServer">The database to copy.</param>
+        /// <param name="partnerDatabaseName">The database to copy.</param>
+        /// <param name="continuousCopy"><c>true</c> to make this a continuous copy.</param>
+        /// <returns></returns>
+        DatabaseCopyModel StartDatabaseCopy(
+            string databaseName,
+            string partnerServer,
+            string partnerDatabaseName,
+            bool continuousCopy);
+
+        /// <summary>
+        /// Terminate an ongoing database copy operation.
+        /// </summary>
+        /// <param name="databaseCopy">The database copy to terminate.</param>
+        /// <param name="forcedTermination"><c>true</c> to forcefully terminate the copy.</param>
+        void StopDatabaseCopy(
+            DatabaseCopyModel databaseCopy,
+            bool forcedTermination);
 
         #endregion
 
@@ -166,6 +216,83 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Services.Server
         /// </summary>
         /// <returns>An array of all operations on the server.</returns>
         DatabaseOperation[] GetDatabasesOperations();
+
+        #endregion
+
+        #region Restorable Dropped Database Operations
+
+        /// <summary>
+        /// Retrieves the list of all restorable dropped databases on the server.
+        /// </summary>
+        /// <returns>An array of all restorable dropped databases on the server.</returns>
+        RestorableDroppedDatabase[] GetRestorableDroppedDatabases();
+
+        /// <summary>
+        /// Retrieve information on the restorable dropped database with the name
+        /// <paramref name="databaseName"/> and deletion date <paramref name="deletionDate"/>.
+        /// </summary>
+        /// <param name="databaseName">The name of the restorable dropped database to retrieve.</param>
+        /// <param name="deletionDate">The deletion date of the restorable dropped database to retrieve.</param>
+        /// <returns>An object containing the information about the specific restorable dropped database.</returns>
+        RestorableDroppedDatabase GetRestorableDroppedDatabase(
+            string databaseName, DateTime deletionDate);
+
+        #endregion
+
+        #region Restore Database Operations
+
+        /// <summary>
+        /// Issues a restore request for the given source database to the given target database.
+        /// </summary>
+        /// <param name="sourceDatabaseName">The name of the source database.</param>
+        /// <param name="sourceDatabaseDeletionDate">The deletion date of the source database, in case it is a dropped database.</param>
+        /// <param name="targetServerName">The name of the server to create the restored database on.</param>
+        /// <param name="targetDatabaseName">The name of the database to be created with the restored contents.</param>
+        /// <param name="pointInTime">The point in time to restore the source database to.</param>
+        /// <returns>An object containing the information about the restore request.</returns>
+        RestoreDatabaseOperation RestoreDatabase(
+            string sourceDatabaseName,
+            DateTime? sourceDatabaseDeletionDate,
+            string targetServerName,
+            string targetDatabaseName,
+            DateTime? pointInTime);
+
+        #endregion
+
+        #region Recoverable Database Operations
+
+        /// <summary>
+        /// Retrieves the list of all recoverable databases on the given server.
+        /// </summary>
+        /// <param name="sourceServerName">The name of the server that contained the databases.</param>
+        /// <returns>An array of all recoverable databases on the server.</returns>
+        RecoverableDatabase[] GetRecoverableDatabases(string sourceServerName);
+
+        /// <summary>
+        /// Retrieve information on the recoverable database with the name
+        /// <paramref name="sourceDatabaseName"/> on the server <paramref name="sourceServerName"/>.
+        /// </summary>
+        /// <param name="sourceServerName">The name of the server that contained the database.</param>
+        /// <param name="sourceDatabaseName">The name of the database to recover.</param>
+        /// <returns>An object containing the information about the specific recoverable database.</returns>
+        RecoverableDatabase GetRecoverableDatabase(
+            string sourceServerName, string sourceDatabaseName);
+
+        #endregion
+
+        #region Recover Database Operations
+
+        /// <summary>
+        /// Issues a recovery request for the given source database to the given target database.
+        /// </summary>
+        /// <param name="sourceServerName">The name of the server that contained the source database.</param>
+        /// <param name="sourceDatabaseName">The name of the source database.</param>
+        /// <param name="targetDatabaseName">The name of the database to be created with the restored contents.</param>
+        /// <returns>An object containing the information about the recovery request.</returns>
+        RecoverDatabaseOperation RecoverDatabase(
+            string sourceServerName,
+            string sourceDatabaseName,
+            string targetDatabaseName);
 
         #endregion
     }

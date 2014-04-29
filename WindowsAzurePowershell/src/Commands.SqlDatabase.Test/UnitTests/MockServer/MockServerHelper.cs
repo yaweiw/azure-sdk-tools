@@ -30,7 +30,7 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Test.UnitTests.MockServer
         internal static Uri CommonServiceBaseUri
         {
             get
-            {                
+            {
                 return null;
             }
         }
