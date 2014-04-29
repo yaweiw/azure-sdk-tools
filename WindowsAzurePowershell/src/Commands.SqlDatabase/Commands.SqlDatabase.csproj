@@ -20,7 +20,7 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>..\..\..\Package\Debug\Azure</OutputPath>
+    <OutputPath>..\..\..\Package\Debug\ServiceManagement\Azure</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -31,7 +31,7 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>..\..\..\Package\Release\Azure</OutputPath>
+    <OutputPath>..\..\..\Package\Release\ServiceManagement\Azure</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -40,7 +40,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
     <DebugSymbols>true</DebugSymbols>
-    <OutputPath>..\..\..\Package\Debug\Azure</OutputPath>
+    <OutputPath>..\..\..\Package\Debug\ServiceManagement\Azure</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <DebugType>full</DebugType>
     <PlatformTarget>x64</PlatformTarget>
@@ -57,7 +57,7 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
-    <OutputPath>..\..\..\Package\Release\Azure</OutputPath>
+    <OutputPath>..\..\..\Package\Release\ServiceManagement\Azure</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <Optimize>true</Optimize>
     <DebugType>pdbonly</DebugType>
@@ -81,7 +81,7 @@
     <SignAssembly>true</SignAssembly>
     <AssemblyOriginatorKeyFile>MSSharedLibKey.snk</AssemblyOriginatorKeyFile>
     <DelaySign>true</DelaySign>
-    <OutputPath>..\..\..\Package\Release\Azure</OutputPath>
+    <OutputPath>..\..\..\Package\Release\ServiceManagement\Azure</OutputPath>
     <DefineConstants>TRACE;SIGN</DefineConstants>
     <Optimize>true</Optimize>
     <DebugType>pdbonly</DebugType>
@@ -97,7 +97,7 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'ReleaseSigned|x64'">
-    <OutputPath>..\..\..\Package\Release\Azure</OutputPath>
+    <OutputPath>..\..\..\Package\Release\ServiceManagement\Azure</OutputPath>
     <DefineConstants>TRACE;SIGN</DefineConstants>
     <Optimize>true</Optimize>
     <DebugType>pdbonly</DebugType>
@@ -154,7 +154,7 @@
     </Reference>
     <Reference Include="Microsoft.WindowsAzure.Management.Sql, Version=0.9.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Microsoft.WindowsAzure.Management.Sql.0.9.11-preview\lib\net40\Microsoft.WindowsAzure.Management.Sql.dll</HintPath>
+      <HintPath>..\packages\Microsoft.WindowsAzure.Management.Sql.0.9.13-preview\lib\net40\Microsoft.WindowsAzure.Management.Sql.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.WindowsAzure.Storage, Version=3.0.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -215,14 +215,23 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <None Include="MSSharedLibKey.snk" />
+    <Compile Include="Database\Cmdlet\CmdletCommon.cs" />
+    <Compile Include="Database\Cmdlet\GetAzureSqlRecoverableDatabase.cs" />
     <Compile Include="Database\Cmdlet\GetAzureSqlDatabaseImportExportStatus.cs" />
     <Compile Include="Database\Cmdlet\StartAzureSqlDatabaseImport.cs" />
     <Compile Include="Database\Cmdlet\StartAzureSqlDatabaseExport.cs" />
     <Compile Include="Database\Cmdlet\GetAzureSqlDatabaseServiceObjective.cs" />
+    <Compile Include="Database\Cmdlet\GetAzureSqlDatabaseCopy.cs" />
+    <Compile Include="Database\Cmdlet\StartAzureSqlDatabaseCopy.cs" />
+    <Compile Include="Database\Cmdlet\StopAzureSqlDatabaseCopy.cs" />
+    <Compile Include="Database\Cmdlet\StartAzureSqlDatabaseRestore.cs" />
+    <Compile Include="Database\Cmdlet\StartAzureSqlDatabaseRecovery.cs" />
     <Compile Include="Firewall\Cmdlet\SetAzureSqlDatabaseServerFirewallRule.cs" />
     <Compile Include="Firewall\Cmdlet\GetAzureSqlDatabaseServerFirewallRule.cs" />
     <Compile Include="Firewall\Cmdlet\NewAzureSqlDatabaseServerFirewallRule.cs" />
     <Compile Include="Firewall\Cmdlet\RemoveAzureSqlDatabaseServerFirewallRule.cs" />
+    <Compile Include="Model\SqlDatabaseServerQuotaContext.cs" />
+    <Compile Include="Model\DatabaseCopy.cs" />
     <Compile Include="Model\SqlDatabaseServerFirewallRuleContext.cs" />
     <Compile Include="Model\SqlDatabaseServerOperationContext.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
@@ -253,12 +262,15 @@
     <Compile Include="Services\Common\SqlDatabaseExceptionHandler.cs" />
     <Compile Include="Services\Common\ManagementServiceExceptionInfo.cs" />
     <Compile Include="Services\Constants.cs" />
+    <Compile Include="Services\Server\RecoverableDatabaseExtensions.cs" />
+    <Compile Include="Services\Server\DatabaseCopyExtensions.cs" />
     <Compile Include="Services\ImportExport\ImportExportRequest.cs" />
     <Compile Include="Services\ImportExport\StatusInfo.cs" />
     <Compile Include="Services\Server\MergeOptionTemporaryChange.cs" />
     <Compile Include="Services\Server\ServiceObjectiveExtensions.cs" />
     <Compile Include="Services\Server\DatabaseExtensions.cs" />
     <Compile Include="Services\Server\IServerDataServiceContext.cs" />
+    <Compile Include="Services\Server\RestorableDroppedDatabaseExtensions.cs" />
     <Compile Include="Services\Server\ServerDataService.cs" />
     <Compile Include="Services\Server\ServerDataServiceCertAuth.cs" />
     <Compile Include="Services\Server\ServerDataServiceEnums.cs" />

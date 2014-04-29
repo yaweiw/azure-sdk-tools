@@ -178,6 +178,115 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Test.UnitTests.Server.Cmdl
         }
 
         [TestMethod]
+        public void AzureSqlDatabaseServerV2Tests()
+        {
+            // This test uses the https endpoint, setup the certificates.
+            MockHttpServer.SetupCertificates();
+
+            using (PowerShell powershell = PowerShell.Create())
+            {
+                // Setup the subscription used for the test
+                WindowsAzureSubscription subscription =
+                    UnitTestHelper.SetupUnitTestSubscription(powershell);
+
+                // Create a new V2 server
+                HttpSession testSession = MockServerHelper.DefaultSessionCollection.GetSession(
+                    "UnitTest.AzureSqlDatabaseServerV2Tests");
+                ServerTestHelper.SetDefaultTestSessionSettings(testSession);
+                testSession.RequestValidator =
+                    new Action<HttpMessage, HttpMessage.Request>(
+                    (expected, actual) =>
+                    {
+                        Assert.AreEqual(expected.RequestInfo.Method, actual.Method);
+                        Assert.IsTrue(
+                            actual.UserAgent.Contains(ApiConstants.UserAgentHeaderValue),
+                            "Missing proper UserAgent string.");
+                        Assert.IsTrue(
+                            UnitTestHelper.GetUnitTestClientCertificate().Equals(actual.Certificate),
+                            "Expected correct client certificate");
+                    });
+
+                powershell.Runspace.SessionStateProxy.SetVariable("login", "mylogin");
+                powershell.Runspace.SessionStateProxy.SetVariable("password", "Pa$$w0rd!");
+                powershell.Runspace.SessionStateProxy.SetVariable("location", "East Asia");
+                Collection<PSObject> newServerResult = MockServerHelper.ExecuteWithMock(
+                    testSession,
+                    MockHttpServer.DefaultHttpsServerPrefixUri,
+                    () =>
+                    {
+                        return powershell.InvokeBatchScript(
+                            @"New-AzureSqlDatabaseServer" +
+                            @" -AdministratorLogin $login" +
+                            @" -AdministratorLoginPassword $password" +
+                            @" -Location $location" +
+                            @" -Version 2");
+                    });
+
+                Collection<PSObject> getServerResult = MockServerHelper.ExecuteWithMock(
+                    testSession,
+                    MockHttpServer.DefaultHttpsServerPrefixUri,
+                    () =>
+                    {
+                        powershell.Runspace.SessionStateProxy.SetVariable("server", newServerResult);
+                        return powershell.InvokeBatchScript(
+                            @"Get-AzureSqlDatabaseServer $server.ServerName");
+                    });
+
+                Collection<PSObject> removeServerResult = MockServerHelper.ExecuteWithMock(
+                    testSession,
+                    MockHttpServer.DefaultHttpsServerPrefixUri,
+                    () =>
+                    {
+                        powershell.Runspace.SessionStateProxy.SetVariable("server", newServerResult);
+                        powershell.InvokeBatchScript(
+                            @"$server | Remove-AzureSqlDatabaseServer" +
+                            @" -Force");
+
+                        return powershell.InvokeBatchScript(
+                            @"Get-AzureSqlDatabaseServer");
+                    });
+
+                Assert.AreEqual(0, powershell.Streams.Error.Count, "Unexpected Errors during run!");
+                Assert.AreEqual(0, powershell.Streams.Warning.Count, "Unexpected Warnings during run!");
+
+                // Validate New-AzureSqlDatabaseServer results
+                SqlDatabaseServerContext server =
+                    newServerResult.Single().BaseObject as SqlDatabaseServerContext;
+                Assert.IsNotNull(server, "Expecting a SqlDatabaseServerContext object");
+
+                Assert.AreEqual(
+                    (string)powershell.Runspace.SessionStateProxy.GetVariable("login"),
+                    server.AdministratorLogin,
+                    ignoreCase: true,
+                    message: "Expecting matching login.");
+                Assert.AreEqual(
+                    (string)powershell.Runspace.SessionStateProxy.GetVariable("location"),
+                    server.Location,
+                    ignoreCase: true,
+                    message: "Expecting matching location.");
+                Assert.AreEqual(10, server.ServerName.Length, "Expecting a valid server name.");
+
+                // Validate Get-AzureSqlDatabaseServer results
+                server = getServerResult.Single().BaseObject as SqlDatabaseServerContext;
+                Assert.IsNotNull(server, "Expecting a SqlDatabaseServerContext object");
+                Assert.AreEqual(
+                    (string)powershell.Runspace.SessionStateProxy.GetVariable("login"),
+                    server.AdministratorLogin,
+                    ignoreCase: true,
+                    message: "Expecting matching login.");
+                Assert.AreEqual(
+                    (string)powershell.Runspace.SessionStateProxy.GetVariable("location"),
+                    server.Location,
+                    ignoreCase: true,
+                    message: "Expecting matching location.");
+                Assert.AreEqual(10, server.ServerName.Length, "Expecting a valid server name.");
+                Assert.AreEqual("2.0", server.Version, "Expecting the server version to be 2.0");
+
+                powershell.Streams.ClearStreams();
+            }
+        }
+
+        [TestMethod]
         public void GetAzureSqlDatabaseServerQuotaSqlAuthTest()
         {
             using (System.Management.Automation.PowerShell powershell =
