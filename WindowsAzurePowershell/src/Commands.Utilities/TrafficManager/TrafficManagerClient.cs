@@ -13,16 +13,12 @@
 // ----------------------------------------------------------------------------------
 
 
-using Microsoft.WindowsAzure.Commands.Utilities.Common.XmlSchema.ServiceDefinitionSchema;
-
 namespace Microsoft.WindowsAzure.Commands.Utilities.TrafficManager
 {
-    using System;
     using System.Collections.Generic;
-    using System.Linq;
     using System.Net;
-    using System.Text;
     using Microsoft.WindowsAzure.Commands.Utilities.Common;
+    using Microsoft.WindowsAzure.Commands.Utilities.TrafficManager.Models;
     using Microsoft.WindowsAzure.Management.TrafficManager;
     using Microsoft.WindowsAzure.Management.TrafficManager.Models;
 
@@ -40,7 +36,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.TrafficManager
             Client = client;
         }
 
-        public Definition NewAzureTrafficManagerProfile(
+        public ProfileWithDefinition NewAzureTrafficManagerProfile(
             string profileName,
             string domainName,
             string loadBalancingMethod,
@@ -65,7 +61,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.TrafficManager
             return GetTrafficManagerProfileWithDefinition(profileName);
         }
 
-        public Definition AssignDefinitionToProfile(string profileName, DefinitionCreateParameters definitionParameter)
+        public ProfileWithDefinition AssignDefinitionToProfile(string profileName, DefinitionCreateParameters definitionParameter)
         {
             Client.Definitions.Create(profileName, definitionParameter);
             return GetTrafficManagerProfileWithDefinition(profileName);
@@ -77,9 +73,11 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.TrafficManager
             return resp.StatusCode == HttpStatusCode.OK;
         }
 
-        public Definition GetTrafficManagerProfileWithDefinition(string profileName)
+        public ProfileWithDefinition GetTrafficManagerProfileWithDefinition(string profileName)
         {
-            return Client.Definitions.Get(profileName).Definition;
+            Profile profile = Client.Profiles.Get(profileName).Profile;
+            Definition definition = Client.Definitions.Get(profileName).Definition;
+            return new ProfileWithDefinition(profile, definition);
         }
 
         public DefinitionCreateParameters InstantiateTrafficManagerDefinition(
@@ -137,6 +135,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.TrafficManager
                 endpoint.Location = endpointReponse.Location;
                 endpoint.Type = endpointReponse.Type;
                 endpoint.Status = endpointReponse.Status;
+                endpoint.Weight = endpointReponse.Weight;
 
                 endpoints.Add(endpoint);
             }
@@ -151,6 +150,20 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.TrafficManager
             definitionCreateParams.Monitors = definition.Monitors;
 
             return definitionCreateParams;
+        }
+
+        public void UpdateProfileStatus(string profileName, ProfileDefinitionStatus targetStatus)
+        {
+            ProfileDefinitionStatus currentStatus = GetStatus(profileName);
+            if (currentStatus != targetStatus)
+            {
+                Client.Profiles.Update(profileName, targetStatus, 1);
+            }
+        }
+
+        public ProfileDefinitionStatus GetStatus(string profileName)
+        {
+            return Client.Profiles.Get(profileName).Profile.Status;
         }
     }
 }

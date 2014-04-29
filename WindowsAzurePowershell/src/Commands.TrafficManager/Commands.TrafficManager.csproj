@@ -206,14 +206,17 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Endpoint\AddAzureTrafficManagerEndpoint.cs" />
+    <Compile Include="Endpoint\SetAzureTrafficManagerEndpoint.cs" />
+    <Compile Include="Profile\DisableTrafficManagerProfile.cs" />
+    <Compile Include="Profile\EnableTrafficManagerProfile.cs" />
+    <Compile Include="Profile\GetAzureTrafficManagerProfile.cs" />
     <Compile Include="Profile\NewAzureTrafficManagerProfile.cs" />
     <Compile Include="Profile\RemoveAzureTrafficManagerProfile.cs" />
     <Compile Include="Profile\SetAzureTrafficManagerProfile.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Endpoint\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <ProjectReference Include="..\Commands.ServiceManagement\Commands.ServiceManagement.csproj">
       <Project>{e1ca72ba-8374-45f6-904d-fd34ecdf5b6f}</Project>
@@ -241,6 +244,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Endpoint\RemoveAzureTrafficManagerEndpoint.cs" />
     <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

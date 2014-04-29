@@ -539,9 +539,11 @@
     <Compile Include="Profile\SubscriptionCmdletBase.cs" />
     <Compile Include="TrafficManager\Generated\TrafficManagerClient.Customization.cs" />
     <Compile Include="TrafficManager\Generated\TrafficManagerManagementClient.cs" />
+    <Compile Include="TrafficManager\Models\IProfileWithDefinition.cs" />
     <Compile Include="TrafficManager\Models\ProfileWithDefinition.cs" />
     <Compile Include="TrafficManager\TrafficManagerBaseCmdlet.cs" />
     <Compile Include="TrafficManager\TrafficManagerClient.cs" />
+    <Compile Include="TrafficManager\TrafficManagerConfigurationBaseCmdlet.cs" />
     <Compile Include="WAPackIaaS\DataContract\proxy.cs" />
     <Compile Include="WAPackIaaS\Exceptions\WAPackOperationException.cs" />
     <Compile Include="WAPackIaaS\Exceptions\WAPackWebException.cs" />
