@@ -26,11 +26,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Endpoints
     {
         [Parameter(Position = 0, Mandatory = false, HelpMessage = "Endpoint name")]
         [ValidateNotNullOrEmpty]
-        public string Name
-        {
-            get;
-            set;
-        }
+        public string Name { get; set; }
 
         internal void ExecuteCommand()
         {
@@ -57,8 +53,8 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Endpoints
             var role = VM.GetInstance();
 
             var networkConfiguration = role.ConfigurationSets
-                                        .OfType<NetworkConfigurationSet>()
-                                        .SingleOrDefault();
+                                           .OfType<NetworkConfigurationSet>()
+                                           .SingleOrDefault();
 
             if (networkConfiguration == null)
             {
@@ -85,7 +81,9 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Endpoints
                     Protocol = ep.Protocol,
                     Vip = ep.Vip,
                     Acl = ep.EndpointAccessControlList,
-                    EnableDirectServerReturn = ep.EnableDirectServerReturn
+                    EnableDirectServerReturn = ep.EnableDirectServerReturn,
+                    LoadBalancerName = ep.LoadBalancerName,
+                    LoadBalancerVip = string.IsNullOrEmpty(ep.LoadBalancerName) ? null : ep.Vip
                 };
 
                 if (ep.LoadBalancerProbe != null && string.IsNullOrEmpty(endpointCtx.LBSetName) == false)
