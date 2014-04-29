@@ -16,11 +16,13 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.DiskRepository
 {
     using System;
     using System.Linq;
+    using System.Collections.Generic;
     using System.Management.Automation;
     using AutoMapper;
     using Helpers;
     using Management.Compute.Models;
     using Model;
+    using Model.PersistentVMModel;
     using Properties;
     using Utilities.Common;
 
@@ -59,7 +61,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.DiskRepository
         [ValidateNotNullOrEmpty]
         public string RecommendedVMSize { get; set; }
 
-        [Parameter(Position = 8, ValueFromPipelineByPropertyName = true, HelpMessage = "Disk Configuration Set")]
+        [Parameter(Position = 8, ValueFromPipeline = true, ValueFromPipelineByPropertyName = true, HelpMessage = "Disk Configuration Set")]
         [ValidateNotNullOrEmpty]
         public VirtualMachineDiskConfigSet DiskConfig { get; set; }
 
@@ -120,24 +122,28 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.DiskRepository
             else
             {
                 var osDiskConfig    = DiskConfig == null ? null : DiskConfig.OSDiskConfiguration;
-                var dataDiskConfigs = DiskConfig == null ? null : DiskConfig.DataDiskConfigurations;
-                var dataDiskConfig  = dataDiskConfigs == null ? null : dataDiskConfigs.FirstOrDefault();
+                var dataDiskConfigs = DiskConfig == null ? null : DiskConfig.DataDiskConfigurations.ToList();
 
                 var parameters = new VirtualMachineVMImageUpdateParameters
                 {
-                    Label                 = this.Label,
-                    Eula                  = this.Eula,
-                    Description           = this.Description,
-                    ImageFamily           = this.ImageFamily,
-                    PublishedDate         = this.PublishedDate,
-                    PrivacyUri            = this.PrivacyUri,
-                    RecommendedVMSize     = this.RecommendedVMSize,
-                    OSDiskConfiguration   = Mapper.Map<OSDiskConfigurationUpdateParameters>(osDiskConfig),
-                    DataDiskConfiguration = Mapper.Map<DataDiskConfigurationUpdateParameters>(dataDiskConfig),
-                    Language              = this.Language,
-                    IconUri               = this.IconUri,
-                    SmallIconUri          = this.SmallIconUri,
-                    ShowInGui             = this.ShowInGui.IsPresent ? (bool?)this.ShowInGui : null
+                    Label                  = this.Label,
+                    Eula                   = this.Eula,
+                    Description            = this.Description,
+                    ImageFamily            = this.ImageFamily,
+                    PublishedDate          = this.PublishedDate,
+                    PrivacyUri             = this.PrivacyUri,
+                    RecommendedVMSize      = this.RecommendedVMSize,
+                    OSDiskConfiguration    = Mapper.Map<OSDiskConfigurationUpdateParameters>(osDiskConfig),
+                    DataDiskConfigurations = dataDiskConfigs == null ? null : dataDiskConfigs.Select(d => new DataDiskConfigurationUpdateParameters
+                    {
+                        HostCaching       = d.HostCaching,
+                        LogicalUnitNumber = d.Lun,
+                        Name              = d.Name
+                    }).ToList(),
+                    Language               = this.Language,
+                    IconUri                = this.IconUri,
+                    SmallIconUri           = this.SmallIconUri,
+                    ShowInGui              = this.ShowInGui.IsPresent ? (bool?)this.ShowInGui : null
                 };
 
                 this.ExecuteClientActionNewSM(

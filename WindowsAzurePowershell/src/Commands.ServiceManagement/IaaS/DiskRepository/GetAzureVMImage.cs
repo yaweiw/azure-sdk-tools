@@ -40,51 +40,9 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.DiskRepository
         [ValidateNotNullOrEmpty]
         public string ImageName { get; set; }
 
-        [Parameter(
-            Position = 1,
-            ValueFromPipelineByPropertyName = true,
-            Mandatory = false,
-            HelpMessage = "Name of the image in the image library.")]
-        [ValidateNotNullOrEmpty]
-        public string Location { get; set; }
-
-        [Parameter(
-            Position = 2,
-            ValueFromPipelineByPropertyName = true,
-            Mandatory = false,
-            HelpMessage = "Name of the image in the image library.")]
-        [ValidateNotNullOrEmpty]
-        public string Publisher { get; set; }
-
-        [Parameter(
-            Position = 3,
-            ValueFromPipelineByPropertyName = true,
-            Mandatory = false,
-            HelpMessage = "Name of the image in the image library.")]
-        [ValidateNotNullOrEmpty]
-        public string Category { get; set; }
-
         protected void GetAzureVMImageProcess()
         {
             ServiceManagementProfile.Initialize(this);
-
-            var vmImageListFunc = new Func<VirtualMachineVMImageListResponse>(
-                () =>
-                {
-                    if (string.IsNullOrEmpty(this.Location)
-                        && string.IsNullOrEmpty(this.Publisher)
-                        && string.IsNullOrEmpty(this.Category))
-                    {
-                        return this.ComputeClient.VirtualMachineVMImages.List();
-                    }
-                    else
-                    {
-                        return this.ComputeClient.VirtualMachineVMImages.ListAndFilter(
-                            this.Location,
-                            this.Publisher,
-                            this.Category);
-                    }
-                });
 
             if (string.IsNullOrEmpty(this.ImageName))
             {
@@ -98,7 +56,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.DiskRepository
                 this.ExecuteClientActionNewSM(
                     null,
                     this.CommandRuntime.ToString(),
-                    () => vmImageListFunc(),
+                    () => this.ComputeClient.VirtualMachineVMImages.List(),
                     (s, response) => response.VMImages.Select(
                         t => this.ContextFactory<VirtualMachineVMImageListResponse.VirtualMachineVMImage, VMImageContext>(t, s)));
             }
@@ -122,7 +80,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.DiskRepository
                     this.ExecuteClientActionNewSM(
                         null,
                         this.CommandRuntime.ToString(),
-                        () => vmImageListFunc(),
+                        () => this.ComputeClient.VirtualMachineVMImages.List(),
                         (s, imgs) => imgs
                             .Where(t => string.Equals(t.Name, this.ImageName, StringComparison.OrdinalIgnoreCase))
                             .Select(t => this.ContextFactory<VirtualMachineVMImageListResponse.VirtualMachineVMImage, VMImageContext>(t, s)));

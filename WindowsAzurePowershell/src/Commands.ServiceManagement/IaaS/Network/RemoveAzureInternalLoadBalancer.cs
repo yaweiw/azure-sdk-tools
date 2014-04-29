@@ -15,26 +15,17 @@
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
 {
     using System;
+    using System.Linq;
     using System.Management.Automation;
     using Management.Compute.Models;
-    using Model.PersistentVMModel;
     using Utilities.Common;
 
     [Cmdlet(VerbsCommon.Remove, "AzureInternalLoadBalancer"), OutputType(typeof(ManagementOperationContext))]
     public class RemoveAzureInternalLoadBalancer : ServiceManagementBaseCmdlet
     {
-        [Parameter(Mandatory = true, Position = 0, ValueFromPipelineByPropertyName = true, HelpMessage = "Internal Load Balancer Name.")]
-        [ValidateNotNullOrEmpty]
-        public string InternalLoadBalancerName { get; set; }
-
-        [Parameter(Mandatory = true, Position = 1, ValueFromPipelineByPropertyName = true, HelpMessage = "Service Name.")]
+        [Parameter(Mandatory = true, Position = 0, ValueFromPipelineByPropertyName = true, HelpMessage = "Service Name.")]
         [ValidateNotNullOrEmpty]
         public string ServiceName { get; set; }
-
-        [Parameter(Mandatory = false, Position = 2, ValueFromPipelineByPropertyName = true, HelpMessage = "Slot.")]
-        [ValidateNotNullOrEmpty]
-        [ValidateSet(DeploymentSlotType.Staging, DeploymentSlotType.Production, IgnoreCase = true)]
-        public string Slot { get; set; }
 
         protected override void OnProcessRecord()
         {
@@ -44,11 +35,31 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
                 CommandRuntime.ToString(),
                 () =>
                 {
-                    var slot = string.IsNullOrEmpty(this.Slot) ? DeploymentSlot.Production
-                             : (DeploymentSlot)Enum.Parse(typeof(DeploymentSlot), this.Slot, true);
-                    var deploymentName = this.ComputeClient.Deployments.GetBySlot(this.ServiceName, slot).Name;
-                    return this.ComputeClient.LoadBalancers.Delete(this.ServiceName, deploymentName, InternalLoadBalancerName);
+                    OperationResponse op = null;
+                    var deployment = this.ComputeClient.Deployments.GetBySlot(this.ServiceName, DeploymentSlot.Production);
+                    if (deployment.LoadBalancers != null && deployment.LoadBalancers.Any())
+                    {
+                        foreach (var b in deployment.LoadBalancers)
+                        {
+                            if (string.Equals(GetLoadBalancerType(b), FrontendIPConfigurationType.Private, StringComparison.OrdinalIgnoreCase))
+                            {
+                                op = this.ComputeClient.LoadBalancers.Delete(this.ServiceName, deployment.Name, b.Name);
+                            }
+                        }
+                    }
+
+                    return op;
                 });
+        }
+
+        protected string GetLoadBalancerType(LoadBalancer b)
+        {
+            if (b != null && b.FrontendIPConfiguration != null)
+            {
+                return b.FrontendIPConfiguration.Type;
+            }
+
+            return null;
         }
     }
 }

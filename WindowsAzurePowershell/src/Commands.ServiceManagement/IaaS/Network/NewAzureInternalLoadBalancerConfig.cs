@@ -17,7 +17,6 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
     using System.Management.Automation;
     using System.Net;
     using Model;
-    using Model.PersistentVMModel;
     using Utilities.Common;
 
     [Cmdlet(
@@ -28,7 +27,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
         typeof(InternalLoadBalancerSetting))]
     public class NewAzureInternalLoadBalancerSetting : ServiceManagementBaseCmdlet
     {
-        protected const string AzureInternalLoadBalancerSettingNoun = "AzureInternalLoadBalancerSetting";
+        protected const string AzureInternalLoadBalancerSettingNoun = "AzureInternalLoadBalancerConfig";
         protected const string ServiceAndSlotParamSet = "ServiceAndSlot";
         protected const string SubnetNameAndIPParamSet = "SubnetNameAndIP";
 
@@ -36,11 +35,11 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
         [ValidateNotNullOrEmpty]
         public string InternalLoadBalancerName { get; set; }
 
-        [Parameter(ParameterSetName = SubnetNameAndIPParamSet, Position = 2, ValueFromPipelineByPropertyName = true, HelpMessage = "Subnet Name.")]
+        [Parameter(ParameterSetName = SubnetNameAndIPParamSet, Position = 1, ValueFromPipelineByPropertyName = true, HelpMessage = "Subnet Name.")]
         [ValidateNotNullOrEmpty]
         public string SubnetName { get; set; }
 
-        [Parameter(ParameterSetName = SubnetNameAndIPParamSet, Position = 3, ValueFromPipelineByPropertyName = true, HelpMessage = "Subnet IP Address.")]
+        [Parameter(ParameterSetName = SubnetNameAndIPParamSet, Position = 2, ValueFromPipelineByPropertyName = true, HelpMessage = "Subnet IP Address.")]
         [ValidateNotNullOrEmpty]
         public IPAddress StaticVNetIPAddress { get; set; }
 

@@ -41,16 +41,11 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
         [ValidateNotNullOrEmpty]
         public string ServiceName { get; set; }
 
-        [Parameter(Mandatory = false, Position = 2, ValueFromPipelineByPropertyName = true, HelpMessage = "Slot.")]
-        [ValidateNotNullOrEmpty]
-        [ValidateSet(DeploymentSlotType.Staging, DeploymentSlotType.Production, IgnoreCase = true)]
-        public string Slot { get; set; }
-
-        [Parameter(ParameterSetName = SubnetNameAndIPParamSet, Position = 3, ValueFromPipelineByPropertyName = true, HelpMessage = "Subnet Name.")]
+        [Parameter(ParameterSetName = SubnetNameAndIPParamSet, Position = 2, ValueFromPipelineByPropertyName = true, HelpMessage = "Subnet Name.")]
         [ValidateNotNullOrEmpty]
         public string SubnetName { get; set; }
 
-        [Parameter(ParameterSetName = SubnetNameAndIPParamSet, Position = 4, ValueFromPipelineByPropertyName = true, HelpMessage = "Subnet IP Address.")]
+        [Parameter(ParameterSetName = SubnetNameAndIPParamSet, Position = 3, ValueFromPipelineByPropertyName = true, HelpMessage = "Subnet IP Address.")]
         [ValidateNotNullOrEmpty]
         public IPAddress StaticVNetIPAddress { get; set; }
 
@@ -74,10 +69,14 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
                 CommandRuntime.ToString(),
                 () =>
                 {
-                    var slot = string.IsNullOrEmpty(this.Slot) ? DeploymentSlot.Production
-                             : (DeploymentSlot)Enum.Parse(typeof(DeploymentSlot), this.Slot, true);
-                    var deploymentName = this.ComputeClient.Deployments.GetBySlot(this.ServiceName, slot).Name;
-                    return this.ComputeClient.LoadBalancers.Create(this.ServiceName, deploymentName, parameters);
+                    var deploymentName = this.ComputeClient.Deployments.GetBySlot(
+                        this.ServiceName,
+                        DeploymentSlot.Production).Name;
+
+                    return this.ComputeClient.LoadBalancers.Create(
+                        this.ServiceName,
+                        deploymentName,
+                        parameters);
                 });
         }
     }
