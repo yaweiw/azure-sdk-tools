@@ -7,6 +7,8 @@
           <PropertyRef Name="Name" />
         </Key>
         <Property Name="Name" Type="Edm.String" Nullable="false" />
+        <Property Name="SubscriptionId" Type="Edm.Guid" />
+        <Property Name="Version" Type="Edm.String" />
         <NavigationProperty Name="Databases" Relationship="Microsoft.SqlServer.Management.Server.Domain.Server_Databases_Database_Server" ToRole="Database_Server" FromRole="Server_Databases" />
         <NavigationProperty Name="ServerMetrics" Relationship="Microsoft.SqlServer.Management.Server.Domain.Server_ServerMetrics_ServerMetrics_Server" ToRole="ServerMetrics_Server" FromRole="Server_ServerMetrics" />
         <NavigationProperty Name="ServerQuotas" Relationship="Microsoft.SqlServer.Management.Server.Domain.Server_ServerQuotas_ServerQuota_Server" ToRole="ServerQuota_Server" FromRole="Server_ServerQuotas" />
@@ -50,6 +52,16 @@
         <NavigationProperty Name="ServiceObjective" Relationship="Microsoft.SqlServer.Management.Server.Domain.Database_ServiceObjective" ToRole="ServiceObjective" FromRole="Database" />
         <NavigationProperty Name="DatabaseMetrics" Relationship="Microsoft.SqlServer.Management.Server.Domain.Database_DatabaseMetrics_DatabaseMetrics_Database" ToRole="DatabaseMetrics_Database" FromRole="Database_DatabaseMetrics" />
         <NavigationProperty Name="DatabaseCopies" Relationship="Microsoft.SqlServer.Management.Server.Domain.Database_DatabaseCopies_DatabaseCopy_Database" ToRole="DatabaseCopy_Database" FromRole="Database_DatabaseCopies" />
+      </EntityType>
+      <EntityType Name="RecoverableDatabase" OpenType="true">
+        <Key>
+          <PropertyRef Name="EntityId" />
+        </Key>
+        <Property Name="EntityId" Type="Edm.String" Nullable="false" />
+        <Property Name="Name" Type="Edm.String" />
+        <Property Name="ServerName" Type="Edm.String" />
+        <Property Name="Edition" Type="Edm.String" />
+        <Property Name="LastAvailableBackupDate" Type="Edm.DateTime" Nullable="false" />
       </EntityType>
       <EntityType Name="RestorableDroppedDatabase" OpenType="true">
         <Key>
@@ -202,6 +214,15 @@
         <Property Name="TargetDatabaseName" Type="Edm.String" />
         <Property Name="TargetUtcPointInTime" Type="Edm.DateTime" />
       </EntityType>
+      <EntityType Name="RecoverDatabaseOperation" OpenType="true">
+        <Key>
+          <PropertyRef Name="RequestID" />
+        </Key>
+        <Property Name="RequestID" Type="Edm.Guid" Nullable="false" />
+        <Property Name="SourceDatabaseName" Type="Edm.String" />
+        <Property Name="SourceServerName" Type="Edm.String" />
+        <Property Name="TargetDatabaseName" Type="Edm.String" />
+      </EntityType>
       <EntityType Name="DatabaseCopy" OpenType="true">
         <Key>
           <PropertyRef Name="EntityId" />
@@ -349,6 +370,7 @@
       <EntityContainer Name="ServerContextInternal" m:IsDefaultEntityContainer="true">
         <EntitySet Name="Servers" EntityType="Microsoft.SqlServer.Management.Server.Domain.Server" />
         <EntitySet Name="Databases" EntityType="Microsoft.SqlServer.Management.Server.Domain.Database" />
+        <EntitySet Name="RecoverableDatabases" EntityType="Microsoft.SqlServer.Management.Server.Domain.RecoverableDatabase" />
         <EntitySet Name="RestorableDroppedDatabases" EntityType="Microsoft.SqlServer.Management.Server.Domain.RestorableDroppedDatabase" />
         <EntitySet Name="DimensionSettings" EntityType="Microsoft.SqlServer.Management.Server.Domain.DimensionSetting" />
         <EntitySet Name="ServiceObjectives" EntityType="Microsoft.SqlServer.Management.Server.Domain.ServiceObjective" />
@@ -361,6 +383,7 @@
         <EntitySet Name="ViewUpgradePlanOperations" EntityType="Microsoft.SqlServer.Management.Server.Domain.ViewUpgradePlanOperation" />
         <EntitySet Name="DatabaseRestoreStatus" EntityType="Microsoft.SqlServer.Management.Server.Domain.DatabaseRestoreStatus" />
         <EntitySet Name="RestoreDatabaseOperations" EntityType="Microsoft.SqlServer.Management.Server.Domain.RestoreDatabaseOperation" />
+        <EntitySet Name="RecoverDatabaseOperations" EntityType="Microsoft.SqlServer.Management.Server.Domain.RecoverDatabaseOperation" />
         <EntitySet Name="DatabaseCopies" EntityType="Microsoft.SqlServer.Management.Server.Domain.DatabaseCopy" />
         <EntitySet Name="DatabaseCopyValidationOperations" EntityType="Microsoft.SqlServer.Management.Server.Domain.DatabaseCopyValidationOperation" />
         <EntitySet Name="FirewallRules" EntityType="Microsoft.SqlServer.Management.Server.Domain.FirewallRule" />
