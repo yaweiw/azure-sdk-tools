@@ -29,17 +29,38 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
     {
         protected const string AzureInternalLoadBalancerSettingNoun = "AzureInternalLoadBalancerConfig";
         protected const string ServiceAndSlotParamSet = "ServiceAndSlot";
+        protected const string SubnetNameOnlyParamSet = "SubnetNameOnly";
         protected const string SubnetNameAndIPParamSet = "SubnetNameAndIP";
 
-        [Parameter(Mandatory = true, Position = 0, ValueFromPipelineByPropertyName = true, HelpMessage = "Internal Load Balancer Name.")]
+        [Parameter(
+            Mandatory = true,
+            Position = 0,
+            ValueFromPipelineByPropertyName = true,
+            HelpMessage = "Internal Load Balancer Name.")]
         [ValidateNotNullOrEmpty]
         public string InternalLoadBalancerName { get; set; }
 
-        [Parameter(ParameterSetName = SubnetNameAndIPParamSet, Position = 1, ValueFromPipelineByPropertyName = true, HelpMessage = "Subnet Name.")]
+        [Parameter(
+            ParameterSetName = SubnetNameOnlyParamSet,
+            Position = 1,
+            Mandatory = true,
+            ValueFromPipelineByPropertyName = true,
+            HelpMessage = "Subnet Name.")]
+        [Parameter(
+            ParameterSetName = SubnetNameAndIPParamSet,
+            Position = 1,
+            Mandatory = true,
+            ValueFromPipelineByPropertyName = true,
+            HelpMessage = "Subnet Name.")]
         [ValidateNotNullOrEmpty]
         public string SubnetName { get; set; }
 
-        [Parameter(ParameterSetName = SubnetNameAndIPParamSet, Position = 2, ValueFromPipelineByPropertyName = true, HelpMessage = "Subnet IP Address.")]
+        [Parameter(
+            ParameterSetName = SubnetNameAndIPParamSet,
+            Position = 2,
+            Mandatory = true,
+            ValueFromPipelineByPropertyName = true,
+            HelpMessage = "Subnet IP Address.")]
         [ValidateNotNullOrEmpty]
         public IPAddress StaticVNetIPAddress { get; set; }
 

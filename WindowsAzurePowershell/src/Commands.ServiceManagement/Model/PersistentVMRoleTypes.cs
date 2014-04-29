@@ -1034,6 +1034,18 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Model.PersistentVMMo
                 base.SetValue(EndPointAccessControlListMemberName, value);
             }
         }
+
+        public string LoadBalancerName
+        {
+            get
+            {
+                return base.GetValue<string>("LoadBalancerName");
+            }
+            set
+            {
+                base.SetValue("LoadBalancerName", value);
+            }
+        }
     }
 
     [DataContract(Namespace = Constants.ServiceManagementNS)]

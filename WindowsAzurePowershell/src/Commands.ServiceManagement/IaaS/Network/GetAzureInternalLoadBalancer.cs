@@ -14,18 +14,24 @@
 
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
 {
-    using System;
     using System.Linq;
     using System.Management.Automation;
     using Management.Compute.Models;
     using Model;
-    using Model.PersistentVMModel;
     using Utilities.Common;
 
-    [Cmdlet(VerbsCommon.Get, "AzureInternalLoadBalancer"), OutputType(typeof(InternalLoadBalancerContext))]
+    [Cmdlet(
+        VerbsCommon.Get,
+        "AzureInternalLoadBalancer"),
+    OutputType(
+        typeof(InternalLoadBalancerContext))]
     public class GetAzureInternalLoadBalancer : ServiceManagementBaseCmdlet
     {
-        [Parameter(Mandatory = true, Position = 0, ValueFromPipelineByPropertyName = true, HelpMessage = "Service Name.")]
+        [Parameter(
+            Mandatory = true,
+            Position = 0,
+            ValueFromPipelineByPropertyName = true,
+            HelpMessage = "Service Name.")]
         [ValidateNotNullOrEmpty]
         public string ServiceName { get; set; }
 
