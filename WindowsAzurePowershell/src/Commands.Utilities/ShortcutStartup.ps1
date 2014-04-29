@@ -12,13 +12,10 @@
 # limitations under the License.
 # ----------------------------------------------------------------------------------
 
-# Set the execution policy to the LocalMachine if it is not Restricted
-$machineExecutionPolicy = Get-ExecutionPolicy -Scope LocalMachine
-$processExecutionPolicy = Get-ExecutionPolicy -Scope Process
-
-if (($machineExecutionPolicy -ne $processExecutionPolicy) -and ($machineExecutionPolicy -ne "Restricted"))
+Set-ExecutionPolicy -Scope Process Undefined -Force
+if (Get-ExecutionPolicy -eq "Restricted")
 {
-	Set-ExecutionPolicy -Scope Process -ExecutionPolicy $machineExecutionPolicy -Force
+	Set-ExecutionPolicy -Scope Process -ExecutionPolicy AllSigned -Force
 }
 
 function Get-ScriptDirectory
