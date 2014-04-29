@@ -14,17 +14,15 @@
 
 namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Test.UnitTests.Database.Cmdlet
 {
+    using Commands.Test.Utilities.Common;
+    using Commands.Utilities.Common;
+    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using Microsoft.WindowsAzure.Commands.SqlDatabase.Test.UnitTests.Server.Cmdlet;
+    using MockServer;
     using System;
     using System.Collections.ObjectModel;
     using System.Linq;
     using System.Management.Automation;
-    using Commands.Utilities.Common;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
-    using Commands.Test.Utilities.Common;
-    using MockServer;
-    using Services;
-    using Services.Server;
-    using SqlDatabase.Database.Cmdlet;
 
     [TestClass]
     public class NewAzureSqlDatabaseTests : TestBase
@@ -100,8 +98,7 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Test.UnitTests.Database.Cm
                         testSession))
                     {
                         Collection<PSObject> ctxPsObject = powershell.InvokeBatchScript("$context");
-                        context =
-                            (Services.Server.ServerDataServiceSqlAuth)ctxPsObject.First().BaseObject;
+                        context = (Services.Server.ServerDataServiceSqlAuth)ctxPsObject.First().BaseObject;
                         powershell.InvokeBatchScript(
                             @"New-AzureSqlDatabase " +
                             @"-Context $context " +
@@ -148,12 +145,16 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Test.UnitTests.Database.Cm
                     {
                         // Request 0-2: Create testdb1
                         // Request 3-5: Create testdb2
+                        // Request 6-8: Create testdb3
                         case 0:
                         case 1:
                         case 2:
                         case 3:
                         case 4:
                         case 5:
+                        case 6:
+                        case 7:
+                        case 8:
                             DatabaseTestHelper.ValidateHeadersForODataRequest(
                                 expected.RequestInfo,
                                 actual);
@@ -166,7 +167,7 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Test.UnitTests.Database.Cm
 
             using (AsyncExceptionManager exceptionManager = new AsyncExceptionManager())
             {
-                Collection<PSObject> database1, database2;
+                Collection<PSObject> database1, database2, database3;
                 using (new MockHttpServer(
                     exceptionManager,
                     MockHttpServer.DefaultServerPrefixUri,
@@ -187,31 +188,31 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Test.UnitTests.Database.Cm
                         @"-MaxSizeGB 5 " +
                         @"-Force",
                         @"$testdb2");
+                    database3 = powershell.InvokeBatchScript(
+                        @"$testdb3 = New-AzureSqlDatabase " +
+                        @"-Context $context " +
+                        @"-DatabaseName testdb3 " +
+                        @"-MaxSizeBytes 104857600 " +
+                        @"-Force",
+                        @"$testdb3");
                 }
 
                 Assert.AreEqual(0, powershell.Streams.Error.Count, "Errors during run!");
                 Assert.AreEqual(0, powershell.Streams.Warning.Count, "Warnings during run!");
                 powershell.Streams.ClearStreams();
 
-                Assert.IsTrue(
-                    database1.Single().BaseObject is Services.Server.Database,
-                    "Expecting a Database object");
-                Services.Server.Database database1Obj =
-                    (Services.Server.Database)database1.Single().BaseObject;
-                Assert.AreEqual("testdb1", database1Obj.Name, "Expected db name to be testdb1");
+                Services.Server.Database database = database1.Single().BaseObject as Services.Server.Database;
+                Assert.IsTrue(database != null, "Expecting a Database object");
+                DatabaseTestHelper.ValidateDatabaseProperties(database, "testdb1", "Web", 1, 1073741824L, "SQL_Latin1_General_CP1_CI_AS", "Shared", false, DatabaseTestHelper.SharedSloGuid);
 
-                Assert.IsTrue(
-                    database2.Single().BaseObject is Services.Server.Database,
-                    "Expecting a Database object");
-                Services.Server.Database database2Obj =
-                    (Services.Server.Database)database2.Single().BaseObject;
-                Assert.AreEqual("testdb2", database2Obj.Name, "Expected db name to be testdb2");
-                Assert.AreEqual(
-                    "Japanese_CI_AS",
-                    database2Obj.CollationName,
-                    "Expected collation to be Japanese_CI_AS");
-                Assert.AreEqual("Web", database2Obj.Edition, "Expected edition to be Web");
-                Assert.AreEqual(5, database2Obj.MaxSizeGB, "Expected max size to be 5 GB");
+                database = database2.Single().BaseObject as Services.Server.Database;
+                Assert.IsTrue(database != null, "Expecting a Database object");
+                DatabaseTestHelper.ValidateDatabaseProperties(database, "testdb2", "Web", 5, 5368709120L, "Japanese_CI_AS", "Shared", false, DatabaseTestHelper.SharedSloGuid);
+
+                database = database3.Single().BaseObject as Services.Server.Database;
+                Assert.IsTrue(database != null, "Expecting a Database object");
+                DatabaseTestHelper.ValidateDatabaseProperties(database, "testdb3", "Web", 0, 104857600L, "SQL_Latin1_General_CP1_CI_AS", "Shared", false, DatabaseTestHelper.SharedSloGuid);
+
             }
         }
 
@@ -242,6 +243,9 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Test.UnitTests.Database.Cm
                         case 3:
                         case 4:
                         case 5:
+                        case 6:
+                        case 7:
+                        case 8:
                             DatabaseTestHelper.ValidateHeadersForODataRequest(
                                 expected.RequestInfo,
                                 actual);
@@ -268,6 +272,11 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Test.UnitTests.Database.Cm
                         @"Remove-AzureSqlDatabase " +
                         @"-Context $context " +
                         @"-DatabaseName testdb2 " +
+                        @"-Force");
+                    powershell.InvokeBatchScript(
+                        @"Remove-AzureSqlDatabase " +
+                        @"-Context $context " +
+                        @"-DatabaseName testdb3 " +
                         @"-Force");
                 }
 
@@ -298,6 +307,79 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Test.UnitTests.Database.Cm
         }
 
         /// <summary>
+        /// Helper function to create the test databases.
+        /// </summary>
+        public static void CreateTestDatabasesWithCertAuth(PowerShell powershell)
+        {
+            HttpSession testSession = MockServerHelper.DefaultSessionCollection.GetSession(
+                "UnitTest.Common.CreateTestDatabasesWithCertAuth");
+
+            ServerTestHelper.SetDefaultTestSessionSettings(testSession);
+
+            testSession.RequestValidator =
+                new Action<HttpMessage, HttpMessage.Request>(
+                    (expected, actual) =>
+                    {
+                        Assert.AreEqual(expected.RequestInfo.Method, actual.Method);
+                        Assert.IsTrue(
+                            actual.UserAgent.Contains(ApiConstants.UserAgentHeaderValue),
+                            "Missing proper UserAgent string.");
+                        Assert.IsTrue(
+                            UnitTestHelper.GetUnitTestClientCertificate().Equals(actual.Certificate),
+                            "Expected correct client certificate");
+                    });
+
+            using (AsyncExceptionManager exceptionManager = new AsyncExceptionManager())
+            {
+                Collection<PSObject> database1, database2, database3;
+                using (new MockHttpServer(
+                    exceptionManager,
+                    MockHttpServer.DefaultHttpsServerPrefixUri,
+                    testSession))
+                {
+                    database1 = powershell.InvokeBatchScript(
+                        @"$testdb1 = New-AzureSqlDatabase " +
+                        @"-ServerName $serverName " +
+                        @"-DatabaseName testdb1 " +
+                        @"-Force",
+                        @"$testdb1");
+                    database2 = powershell.InvokeBatchScript(
+                        @"$testdb2 = New-AzureSqlDatabase " +
+                        @"-ServerName $serverName " +
+                        @"-DatabaseName testdb2 " +
+                        @"-Collation Japanese_CI_AS " +
+                        @"-Edition Web " +
+                        @"-MaxSizeGB 5 " +
+                        @"-Force",
+                        @"$testdb2");
+                    database3 = powershell.InvokeBatchScript(
+                        @"$testdb3 = New-AzureSqlDatabase " +
+                        @"-ServerName $serverName " +
+                        @"-DatabaseName testdb3 " +
+                        @"-MaxSizeBytes 104857600 " +
+                        @"-Force",
+                        @"$testdb3");
+                }
+
+                Assert.AreEqual(0, powershell.Streams.Error.Count, "Errors during run!");
+                Assert.AreEqual(0, powershell.Streams.Warning.Count, "Warnings during run!");
+                powershell.Streams.ClearStreams();
+
+                Services.Server.Database database = database1.Single().BaseObject as Services.Server.Database;
+                Assert.IsTrue(database != null, "Expecting a Database object");
+                DatabaseTestHelper.ValidateDatabaseProperties(database, "testdb1", "Web", 1, 1073741824L, "SQL_Latin1_General_CP1_CI_AS", "Shared", false, DatabaseTestHelper.SharedSloGuid);
+
+                database = database2.Single().BaseObject as Services.Server.Database;
+                Assert.IsTrue(database != null, "Expecting a Database object");
+                DatabaseTestHelper.ValidateDatabaseProperties(database, "testdb2", "Web", 5, 5368709120L, "Japanese_CI_AS", "Shared", false, DatabaseTestHelper.SharedSloGuid);
+
+                database = database3.Single().BaseObject as Services.Server.Database;
+                Assert.IsTrue(database != null, "Expecting a Database object");
+                DatabaseTestHelper.ValidateDatabaseProperties(database, "testdb3", "Web", 0, 104857600L, "SQL_Latin1_General_CP1_CI_AS", "Shared", false, DatabaseTestHelper.SharedSloGuid);
+            }
+        }
+
+        /// <summary>
         /// Helper function to remove the test databases.
         /// </summary>
         public static void RemoveTestDatabasesWithSqlAuth()
@@ -314,6 +396,57 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Test.UnitTests.Database.Cm
                 NewAzureSqlDatabaseTests.RemoveTestDatabasesWithSqlAuth(
                     powershell,
                     "$context");
+            }
+        }
+
+        /// <summary>
+        /// Helper function to remove the test databases.
+        /// </summary>
+        public static void RemoveTestDatabasesWithCertAuth(PowerShell powershell)
+        {
+            HttpSession testSession = MockServerHelper.DefaultSessionCollection.GetSession(
+                "UnitTest.Common.RemoveTestDatabasesWithCertAuth");
+
+            ServerTestHelper.SetDefaultTestSessionSettings(testSession);
+
+            testSession.RequestValidator =
+                new Action<HttpMessage, HttpMessage.Request>(
+                    (expected, actual) =>
+                    {
+                        Assert.AreEqual(expected.RequestInfo.Method, actual.Method);
+                        Assert.IsTrue(
+                            actual.UserAgent.Contains(ApiConstants.UserAgentHeaderValue),
+                            "Missing proper UserAgent string.");
+                        Assert.IsTrue(
+                            UnitTestHelper.GetUnitTestClientCertificate().Equals(actual.Certificate),
+                            "Expected correct client certificate");
+                    });
+
+            using (AsyncExceptionManager exceptionManager = new AsyncExceptionManager())
+            {
+                using (new MockHttpServer(
+                    exceptionManager,
+                    MockHttpServer.DefaultHttpsServerPrefixUri,
+                    testSession))
+                {
+                    powershell.InvokeBatchScript(
+                        @"Remove-AzureSqlDatabase " +
+                        @"-ServerName $serverName " +
+                        @"-DatabaseName testdb1 " +
+                        @"-Force");
+                    powershell.InvokeBatchScript(
+                        @"Remove-AzureSqlDatabase " +
+                        @"-ServerName $serverName " +
+                        @"-DatabaseName testdb2 " +
+                        @"-Force");
+                    powershell.InvokeBatchScript(
+                        @"Remove-AzureSqlDatabase " +
+                        @"-ServerName $serverName " +
+                        @"-DatabaseName testdb3 " +
+                        @"-Force");
+                }
+
+                powershell.Streams.ClearStreams();
             }
         }
     }

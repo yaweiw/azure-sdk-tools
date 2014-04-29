@@ -1770,9 +1770,9 @@ using Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests.Iaa
             return RunPSCmdletAndReturnFirst<PersistentVM>(new RemoveAzureVMExtensionCmdletInfo(vm, extensionName, publisher, referenceName, removeAll));
         }
 
-        public VirtualMachineExtensionContext GetAzureVMExtension(PersistentVM vm, string extensionName = null, string publisher = null, string version = null, string referenceName = null)
+        public Collection<VirtualMachineExtensionContext> GetAzureVMExtension(PersistentVM vm, string extensionName = null, string publisher = null, string version = null, string referenceName = null)
         {
-            return RunPSCmdletAndReturnFirst<VirtualMachineExtensionContext>(new GetAzureVMExtensionCmdletInfo(vm, extensionName, publisher, version, referenceName));
+            return RunPSCmdletAndReturnAll<VirtualMachineExtensionContext>(new GetAzureVMExtensionCmdletInfo(vm, extensionName, publisher, version, referenceName));
         }
 
         //ListAllVersionsParamSetName -> ExtensionName,Publisher,AllVersions

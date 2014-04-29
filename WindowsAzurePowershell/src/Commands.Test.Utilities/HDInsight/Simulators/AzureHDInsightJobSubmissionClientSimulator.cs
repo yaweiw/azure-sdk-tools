@@ -65,6 +65,11 @@ namespace Microsoft.WindowsAzure.Commands.Test.Utilities.HDInsight.Simulators
             this.logger.AddWriter(logWriter);
         }
 
+        public void RemoveLogWriter(ILogWriter logWriter)
+        {
+            this.logger.RemoveWriter(logWriter);
+        }
+
         public void Cancel()
         {
         }
@@ -314,6 +319,8 @@ namespace Microsoft.WindowsAzure.Commands.Test.Utilities.HDInsight.Simulators
         {
             this.cancellationTokenSource = tokenSource;
         }
+
+        public bool IgnoreSslErrors { get; set; }
 
         public JobDetails StopJob(string jobId)
         {
