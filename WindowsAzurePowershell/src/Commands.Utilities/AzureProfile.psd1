@@ -9,7 +9,7 @@
 @{
 
 # Script module or binary module file associated with this manifest
-ModuleToProcess = '..\Microsoft.WindowsAzure.Commands.dll'
+ModuleToProcess = '..\..\ServiceManagement\Azure\Microsoft.WindowsAzure.Commands.dll'
 
 # Version number of this module.
 ModuleVersion = '0.8.1'
