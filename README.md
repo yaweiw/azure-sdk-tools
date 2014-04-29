@@ -2,8 +2,8 @@
 
 This repository contains a set of PowerShell cmdlets for developers and administrators to develop, deploy and manage Microsoft Azure applications.
 
-* For documentation on how to build and deploy applications to Microsoft Azure please see the [Microsoft Azure Developer Center](http://www.windowsazure.com/en-us/develop).
-* For comprehensive documentation on the developer cmdlets see [How to use Microsoft Azure PowerShell](http://www.windowsazure.com/en-us/develop/nodejs/how-to-guides/powershell-cmdlets/).
+* For documentation on how to build and deploy applications to Microsoft Azure please see the [Microsoft Azure Developer Center](http://www.azure.microsoft.com/en-us/develop).
+* For comprehensive documentation on the developer cmdlets see [How to use Microsoft Azure PowerShell](http://www.azure.microsoft.com/en-us/develop/nodejs/how-to-guides/powershell-cmdlets/).
 * For comprehensive documentation on the full set of Microsoft Azure cmdlets see [Microsoft Azure Management Center](http://go.microsoft.com/fwlink/?linkID=254459&clcid=0x409).
 
 ## Features
@@ -102,7 +102,7 @@ For detail descriptions and examples of the cmdlets, type
 
 ## Supported Environments
 
-* [Microsoft Azure](http://www.windowsazure.com/)
+* [Microsoft Azure](http://www.azure.microsoft.com)
 * [Windows Azure Pack](http://www.microsoft.com/en-us/server-cloud/windows-azure-pack.aspx)
 * [Microsoft Azure China](http://www.windowsazure.cn/)
 
@@ -133,7 +133,7 @@ You can also find the standalone installers for all the versions at [Downloads](
 
 In general, following are the steps to start using Microsoft Azure PowerShell
 
-* Get yourself authenticated with Microsoft Azure. For details, please check out [this article](http://www.windowsazure.com/en-us/manage/install-and-configure-windows-powershell/).
+* Get yourself authenticated with Microsoft Azure. For details, please check out [this article](http://www.azure.microsoft.com/en-us/manage/install-and-configure-windows-powershell/).
   * Option 1: Login with your Microsoft account or Organizational account directly from PowerShell. Microsoft Azure Active Directory authentication is used in this case. No management certificate is needed.
   * Option 2: Download and import a publish settings file which contains a management certificate.
 * Use the cmdlets
@@ -264,8 +264,8 @@ Be sure to check out the [Microsoft Azure Developer Forums on Stack Overflow](ht
 
 If you would like to become an active contributor to this project please follow the instructions provided in [Microsoft Azure Projects Contribution Guidelines](http://windowsazure.github.com/guidelines.html).
 
-If you encounter any bugs with the library please file an issue in the [Issues](https://github.com/WindowsAzure/azure-sdk-tools/issues) section of the project.
+If you encounter any bugs with the library please file an issue in the [Issues](https://github.com/Azure/azure-sdk-tools/issues) section of the project.
 
 # Learn More
 
-* [Microsoft Azure Script Center](http://www.windowsazure.com/en-us/documentation/scripts/)
+* [Microsoft Azure Script Center](http://www.azure.microsoft.com/en-us/documentation/scripts/)
