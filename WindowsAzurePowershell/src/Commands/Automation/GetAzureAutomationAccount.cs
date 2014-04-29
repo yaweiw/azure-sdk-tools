@@ -14,6 +14,7 @@
 
 namespace Microsoft.WindowsAzure.Commands.Automation
 {
+    using System.Collections.Generic;
     using System.Management.Automation;
     using System.Security.Permissions;
     using Microsoft.WindowsAzure.Commands.Utilities.Automation;
@@ -68,7 +69,7 @@ namespace Microsoft.WindowsAzure.Commands.Automation
         [PermissionSet(SecurityAction.Demand, Name = "FullTrust")]
         public override void ExecuteCmdlet()
         {
-            var accounts = this.AutomationClient.ListAutomationAccounts(this.Name, this.Location);
+            IEnumerable<AutomationAccount> accounts = this.AutomationClient.ListAutomationAccounts(this.Name, this.Location);
             this.WriteObject(accounts, true);
         }
     }

@@ -85,7 +85,7 @@ namespace Microsoft.WindowsAzure.Commands.Automation
         [PermissionSet(SecurityAction.Demand, Name = "FullTrust")]
         protected override void AutomationExecuteCmdlet()
         {
-            var isDraft = this.IsDraft();
+            bool? isDraft = this.IsDraft();
 
             IEnumerable<RunbookDefinition> runbookDefinitions = null;
             if (this.Id.HasValue)

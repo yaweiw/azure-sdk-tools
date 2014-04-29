@@ -76,7 +76,7 @@ namespace Microsoft.WindowsAzure.Commands.Automation
             {
                 if (string.IsNullOrEmpty(cloudException.ErrorCode) && string.IsNullOrEmpty(cloudException.ErrorMessage))
                 {
-                    var message = this.ParseErrorMessage(cloudException.Response.Content);
+                    string message = this.ParseErrorMessage(cloudException.Response.Content);
                     if (!string.IsNullOrEmpty(message))
                     {
                         throw new CloudException(message, cloudException);

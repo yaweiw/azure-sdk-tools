@@ -114,7 +114,7 @@ namespace Microsoft.WindowsAzure.Commands.Automation
                     ExpiryTime = this.ExpiryTime
                 };
 
-                var schedule = this.AutomationClient.CreateSchedule(this.AutomationAccountName, oneTimeSchedule);
+                Schedule schedule = this.AutomationClient.CreateSchedule(this.AutomationAccountName, oneTimeSchedule);
                 this.WriteObject(schedule);
             }
             else
@@ -129,7 +129,7 @@ namespace Microsoft.WindowsAzure.Commands.Automation
                     ExpiryTime = this.ExpiryTime
                 };
 
-                var schedule = this.AutomationClient.CreateSchedule(this.AutomationAccountName, dailySchedule);
+                Schedule schedule = this.AutomationClient.CreateSchedule(this.AutomationAccountName, dailySchedule);
                 this.WriteObject(schedule);
             }
         }
