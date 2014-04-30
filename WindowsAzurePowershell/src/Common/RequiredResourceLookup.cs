@@ -35,8 +35,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
 
             if (typeof(T).FullName.EndsWith("ResourceManagementClient"))
             {
-                return new[] { "microsoft.sql",
-                               "website",
+                return new[] { "website",
                                "visualstudio.accounts" };
             }
 
@@ -49,7 +48,8 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
             {
                 return new[] { 
                     "microsoft.insights",
-                    "successbricks.cleardb" };
+                    "successbricks.cleardb",
+                    "microsoft.cache" };
             }
 
             return new string[0];
