@@ -22,16 +22,13 @@ namespace Microsoft.WindowsAzure.Commands.ManagedCache
     using Microsoft.WindowsAzure.Commands.Utilities.Common;
     using Microsoft.WindowsAzure.Management.ManagedCache;
 
-    /// <summary>
-    /// Retrieves a list of Windows Azure SQL Database servers in the selected subscription.
-    /// </summary>
     [Cmdlet(VerbsCommon.Get, "AzureManagedCache", ConfirmImpact = ConfirmImpact.None)]
-    public class GetManagedCache : ManagedCacheCmdletBase
+    public class GetAzureManagedCache : ManagedCacheCmdletBase
     {
         [Parameter(Position = 0, ValueFromPipelineByPropertyName = true,
             HelpMessage = "azure cache service name.")]
         [ValidateNotNullOrEmpty]
-        public string CacheServiceName
+        public string Name
         {
             get;
             set;
@@ -58,7 +55,7 @@ namespace Microsoft.WindowsAzure.Commands.ManagedCache
 
         public override void ExecuteCmdlet()
         {
-            var cacheService = this.GetCacheService(CacheServiceName);
+            var cacheService = this.GetCacheService(Name);
             if (cacheService == null)
             {
                 throw new ArgumentException("Invalid name"); //TODO: using resource string
