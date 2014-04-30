@@ -23,9 +23,6 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
     /// </summary>
     internal static class RequiredResourceLookup
     {
-        // Trivial implementation for now, will replace with lookup
-        // based on data in service client types themselves once
-        // it gets implemented.
         internal static IList<string> RequiredProvidersForServiceManagement<T>() where T : ServiceClient<T>
         {
             if (typeof(T).FullName.EndsWith("WebSiteManagementClient"))
@@ -37,6 +34,11 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
             {
                 return new[] { "website",
                                "visualstudio.accounts" };
+            }
+
+            if (typeof(T).FullName.EndsWith("ManagedCacheClient"))
+            {
+                return new[] { "cacheservice.Caching" };
             }
 
             return new string[0];
