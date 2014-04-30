@@ -12,13 +12,14 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Commands.ManagedCache
+namespace Microsoft.Azure.Commands.ManagedCache
 {
     using System;
     using System.Collections.Generic;
     using System.Globalization;
     using System.Linq;
     using System.Management.Automation;
+    using Microsoft.WindowsAzure;
     using Microsoft.WindowsAzure.Commands.Utilities.Common;
     using Microsoft.WindowsAzure.Management.ManagedCache;
 
