@@ -260,7 +260,7 @@
     <Compile Include="IaaS\Network\GetAzureInternalLoadBalancer.cs" />
     <Compile Include="IaaS\Network\NewAzureInternalLoadBalancerConfig.cs" />
     <Compile Include="IaaS\Network\RemoveAzureInternalLoadBalancer.cs" />
-    <Compile Include="IaaS\Network\NewAzureInternalLoadBalancer.cs" />
+    <Compile Include="IaaS\Network\AddAzureInternalLoadBalancer.cs" />
     <Compile Include="IaaS\Network\RemoveAzurePublicIP.cs" />
     <Compile Include="IaaS\Network\GetAzurePublicIP.cs" />
     <Compile Include="IaaS\Network\SetAzurePublicIP.cs" />
