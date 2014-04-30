@@ -47,16 +47,16 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
             Position = 1,
             Mandatory = true,
             ValueFromPipelineByPropertyName = true,
-            HelpMessage = "Disk Name")]
+            HelpMessage = "Data Disk Name")]
         [ValidateNotNullOrEmpty]
-        public string Name { get; set; }
+        public string DataDiskName { get; set; }
 
         [Parameter(
             ParameterSetName = RemoveByDiskLunParamSet,
             Position = 1,
             Mandatory = true,
             ValueFromPipelineByPropertyName = true,
-            HelpMessage = "Disk Lun")]
+            HelpMessage = "Data Disk Lun")]
         [ValidateNotNullOrEmpty]
         public int Lun { get; set; }
 
@@ -71,7 +71,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
                 if (string.Equals(this.ParameterSetName, RemoveByDiskNameParamSet))
                 {
                     dataDisks = DiskConfig.DataDiskConfigurations.Where(
-                        d => !string.Equals(d.Name, this.Name, StringComparison.OrdinalIgnoreCase));
+                        d => !string.Equals(d.Name, this.DataDiskName, StringComparison.OrdinalIgnoreCase));
                 }
                 else
                 {

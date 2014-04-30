@@ -41,9 +41,9 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
             Position = 1,
             Mandatory = true,
             ValueFromPipelineByPropertyName = true,
-            HelpMessage = "Name")]
+            HelpMessage = "Data Disk Name")]
         [ValidateNotNullOrEmpty]
-        public string Name { get; set; }
+        public string DataDiskName { get; set; }
 
         [Parameter(
             Position = 2,
@@ -57,8 +57,9 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
             Position = 3,
             Mandatory = true,
             ValueFromPipelineByPropertyName = true,
-            HelpMessage = "HostCaching")]
+            HelpMessage = "Controls the platform caching behavior of the data disk blob for read efficiency.")]
         [ValidateNotNullOrEmpty]
+        [ValidateSet("ReadOnly", "ReadWrite", "None", IgnoreCase = true)]
         public string HostCaching { get; set; }
 
         protected override void ProcessRecord()
@@ -71,7 +72,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
             }
 
             var diskConfig = DiskConfig.DataDiskConfigurations.FirstOrDefault(
-                d => string.Equals(d.Name, this.Name));
+                d => string.Equals(d.Name, this.DataDiskName));
 
             if (diskConfig == null)
             {
@@ -79,7 +80,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
                 DiskConfig.DataDiskConfigurations.Add(diskConfig);
             }
 
-            diskConfig.Name        = this.Name;
+            diskConfig.Name        = this.DataDiskName;
             diskConfig.HostCaching = this.HostCaching;
             diskConfig.Lun         = this.Lun;
 
