@@ -252,6 +252,7 @@
     <Compile Include="Extensions\Common\NewAzureServiceExtensionConfig.cs" />
     <Compile Include="Extensions\Common\RemoveAzureServiceExtension.cs" />
     <Compile Include="Helpers\SecureStringHelper.cs" />
+    <Compile Include="IaaS\DiskRepository\GetAzureVMImageDiskConfigSet.cs" />
     <Compile Include="IaaS\DiskRepository\RemoveAzureVMImageDataDiskConfig.cs" />
     <Compile Include="IaaS\DiskRepository\RemoveAzureVMImageOSDiskConfig.cs" />
     <Compile Include="IaaS\DiskRepository\SetAzureVMImageOSDiskConfig.cs" />

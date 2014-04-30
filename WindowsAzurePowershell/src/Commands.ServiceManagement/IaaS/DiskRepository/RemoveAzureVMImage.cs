@@ -39,21 +39,13 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.DiskRepository
 
         [Parameter(
             Position = 1,
-            Mandatory = false,
             HelpMessage = "Specify to remove the underlying VHD from the blob storage.")]
         public SwitchParameter DeleteVHD { get; set; }
 
-        [Parameter(
-            Position = 2,
-            Mandatory = false,
-            DontShow = true,
-            HelpMessage = "Force to delete the OS image with the specified name.")]
-        public SwitchParameter Force { get; set; }
-
-        public void RemoveVMImageProcess()
+        protected override void OnProcessRecord()
         {
             ServiceManagementProfile.Initialize(this);
-            
+
             this.ExecuteClientActionNewSM(
                     null,
                     this.CommandRuntime.ToString(),
@@ -67,15 +59,8 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.DiskRepository
 
                         if (isOSImage && isVMImage)
                         {
-                            if (this.Force.IsPresent)
-                            {
-                                op = this.ComputeClient.VirtualMachineOSImages.Delete(this.ImageName, this.DeleteVHD.IsPresent);
-                            }
-                            else
-                            {
-                                WriteErrorWithTimestamp(
-                                    string.Format(Resources.DuplicateNamesFoundInBothVMAndOSImages, this.ImageName));
-                            }
+                            WriteErrorWithTimestamp(
+                                string.Format(Resources.DuplicateNamesFoundInBothVMAndOSImages, this.ImageName));
                         }
                         else if (isVMImage)
                         {
@@ -96,11 +81,6 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.DiskRepository
 
                         return op;
                     });
-        }
-
-        protected override void OnProcessRecord()
-        {
-            this.RemoveVMImageProcess();
         }
     }
 }

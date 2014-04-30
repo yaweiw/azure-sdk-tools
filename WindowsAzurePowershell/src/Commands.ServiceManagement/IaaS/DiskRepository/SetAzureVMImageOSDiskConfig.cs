@@ -32,15 +32,16 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
             Mandatory = true,
             ValueFromPipeline = true,
             ValueFromPipelineByPropertyName = true,
-            HelpMessage = "DiskConfigSet")]
+            HelpMessage = "Disk Configuration Set")]
         [ValidateNotNullOrEmpty]
         public VirtualMachineImageDiskConfigSet DiskConfig { get; set; }
 
         [Parameter(
             Position = 1,
             ValueFromPipelineByPropertyName = true,
-            HelpMessage = "HostCaching")]
+            HelpMessage = "Controls the platform caching behavior of the OS disk blob for read efficiency.")]
         [ValidateNotNullOrEmpty]
+        [ValidateSet("ReadOnly", "ReadWrite", "None", IgnoreCase = true)]
         public string HostCaching { get; set; }
 
         protected override void ProcessRecord()
