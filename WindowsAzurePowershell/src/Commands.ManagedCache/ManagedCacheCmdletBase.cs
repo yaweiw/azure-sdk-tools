@@ -12,7 +12,7 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Commands.ManagedCache
+namespace Microsoft.Azure.Commands.ManagedCache
 {
     using System;
     using System.Globalization;
@@ -28,6 +28,9 @@ namespace Microsoft.WindowsAzure.Commands.ManagedCache
     public abstract class ManagedCacheCmdletBase : CmdletWithSubscriptionBase
     {
         private ManagedCacheClient cacheClient;
+        protected const string CACHE_RESOURCE_TYPE = "Caching";
+        protected const string CACHE_RESOURCE_PROVIDER_NAMESPACE = "cacheservice";
+        protected const string CACHE_SERVICE_READY_STATE = "Active";
 
         public ManagedCacheClient CacheClient
         {

@@ -77,7 +77,7 @@ FormatsToProcess = @(
 NestedModules = '.\Microsoft.WindowsAzure.Commands.SqlDatabase.dll',
                 '.\Microsoft.WindowsAzure.Commands.ServiceManagement.dll',
                 '.\Microsoft.WindowsAzure.Commands.Storage.dll',
-				'.\Microsoft.WindowsAzure.Commands.ManagedCache.dll'
+                '.\Microsoft.Azure.Commands.ManagedCache.dll'
 
 # Functions to export from this module
 FunctionsToExport = '*'
