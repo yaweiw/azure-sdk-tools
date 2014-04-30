@@ -578,11 +578,6 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.PersistentVMs
             {
                 throw new ArgumentException(Resources.EitherLocationOrAffinityGroupBeSpecified);
             }
-
-            if (String.IsNullOrEmpty(this.VNetName) == false && (String.IsNullOrEmpty(this.Location) && String.IsNullOrEmpty(this.AffinityGroup)))
-            {
-                throw new ArgumentException(Resources.VNetNameCanBeSpecifiedOnlyOnInitialDeployment);
-            }
         }
     }
 }

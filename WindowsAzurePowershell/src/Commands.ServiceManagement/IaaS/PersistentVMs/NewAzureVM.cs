@@ -442,14 +442,6 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.PersistentVMs
                 }
             }
 
-            if (this.ParameterSetName.Equals("CreateService", StringComparison.OrdinalIgnoreCase) == true)
-            {
-                if (!string.IsNullOrEmpty(this.VNetName) && string.IsNullOrEmpty(this.AffinityGroup))
-                {
-                    throw new ArgumentException(Resources.MustSpecifySameAffinityGroupAsVirtualNetwork);
-                }
-            }
-
             if (this.ParameterSetName.Equals("CreateService", StringComparison.OrdinalIgnoreCase) == true
              || this.ParameterSetName.Equals("CreateDeployment", StringComparison.OrdinalIgnoreCase) == true)
             {
