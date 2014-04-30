@@ -47,7 +47,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.DiskRepository
             Position = 2,
             Mandatory = false,
             DontShow = true,
-            HelpMessage = "Force to delete all images with the specified name.")]
+            HelpMessage = "Force to delete the OS image with the specified name.")]
         public SwitchParameter Force { get; set; }
 
         public void RemoveVMImageProcess()
