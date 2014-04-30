@@ -169,7 +169,12 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Service\GetManagedCache.cs" />
+    <Compile Include="Service\GetAzureManagedCache.cs" />
+    <Compile Include="Service\GetAzureManagedCacheAccessKey.cs" />
+    <Compile Include="Service\NewAzureManagedCache.cs" />
+    <Compile Include="Service\NewAzureManagedCacheAccessKey.cs" />
+    <Compile Include="Service\RemoveAzureManagedCache.cs" />
+    <Compile Include="Service\SetAzureManagedCache.cs" />
     <None Include="MSSharedLibKey.snk" />
     <Compile Include="lib\ManagedCacheClient.cs" />
     <Compile Include="lib\ManagedCacheClient.Customization.cs" />
