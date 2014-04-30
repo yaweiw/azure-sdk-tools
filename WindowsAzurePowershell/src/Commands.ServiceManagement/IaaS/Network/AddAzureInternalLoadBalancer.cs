@@ -14,20 +14,18 @@
 
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
 {
-    using System;
     using System.Management.Automation;
     using System.Net;
     using Management.Compute.Models;
-    using Model.PersistentVMModel;
     using Utilities.Common;
 
     [Cmdlet(
-        VerbsCommon.New,
+        VerbsCommon.Add,
         AzureInternalLoadBalancerNoun,
         DefaultParameterSetName = ServiceAndSlotParamSet),
     OutputType(
         typeof(ManagementOperationContext))]
-    public class NewAzureInternalLoadBalancer : ServiceManagementBaseCmdlet
+    public class AddAzureInternalLoadBalancer : ServiceManagementBaseCmdlet
     {
         protected const string AzureInternalLoadBalancerNoun = "AzureInternalLoadBalancer";
         protected const string ServiceAndSlotParamSet = "ServiceAndSlot";

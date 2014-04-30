@@ -14,7 +14,7 @@
 
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Model
 {
-    public class InternalLoadBalancerSetting
+    public class InternalLoadBalancerConfig
     {
         public string InternalLoadBalancerName { get; set; }
 

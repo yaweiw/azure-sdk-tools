@@ -112,7 +112,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.PersistentVMs
         [Parameter(Mandatory = false, ParameterSetName = "CreateService", ValueFromPipeline = true, ValueFromPipelineByPropertyName = true, HelpMessage = "ILB Settings for Deployment.")]
         [Parameter(Mandatory = false, ParameterSetName = "ExistingService", ValueFromPipeline = true, ValueFromPipelineByPropertyName = true, HelpMessage = "ILB Settings for Deployment.")]
         [ValidateNotNullOrEmpty]
-        public InternalLoadBalancerSetting InternalLoadBalancerSetting
+        public InternalLoadBalancerConfig InternalLoadBalancerSetting
         {
             get;
             set;

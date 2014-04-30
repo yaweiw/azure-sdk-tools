@@ -24,8 +24,8 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
         AzureInternalLoadBalancerSettingNoun,
         DefaultParameterSetName = ServiceAndSlotParamSet),
     OutputType(
-        typeof(InternalLoadBalancerSetting))]
-    public class NewAzureInternalLoadBalancerSetting : ServiceManagementBaseCmdlet
+        typeof(InternalLoadBalancerConfig))]
+    public class NewAzureInternalLoadBalancerConfig : ServiceManagementBaseCmdlet
     {
         protected const string AzureInternalLoadBalancerSettingNoun = "AzureInternalLoadBalancerConfig";
         protected const string ServiceAndSlotParamSet = "ServiceAndSlot";
@@ -67,7 +67,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
         protected override void OnProcessRecord()
         {
             ServiceManagementProfile.Initialize();
-            WriteObject(new InternalLoadBalancerSetting
+            WriteObject(new InternalLoadBalancerConfig
             {
                 InternalLoadBalancerName = this.InternalLoadBalancerName,
                 SubnetName = this.SubnetName,
