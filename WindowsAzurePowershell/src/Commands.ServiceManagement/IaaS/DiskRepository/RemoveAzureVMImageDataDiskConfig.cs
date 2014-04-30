@@ -14,12 +14,12 @@
 
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
 {
+    using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Management.Automation;
     using Model;
     using Model.PersistentVMModel;
-    using Utilities.Common;
 
     [Cmdlet(
         VerbsCommon.Remove,
@@ -66,24 +66,27 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
 
             if (DiskConfig.DataDiskConfigurations != null)
             {
-                IEnumerable<DataDiskConfiguration> diskConfigs = null;
+                IEnumerable<DataDiskConfiguration> dataDisks = null;
 
                 if (string.Equals(this.ParameterSetName, RemoveByDiskNameParamSet))
                 {
-                    diskConfigs = DiskConfig.DataDiskConfigurations.Where(
-                        d => string.Equals(d.Name, this.Name));
+                    dataDisks = DiskConfig.DataDiskConfigurations.Where(
+                        d => !string.Equals(d.Name, this.Name, StringComparison.OrdinalIgnoreCase));
                 }
                 else
                 {
-                    diskConfigs = DiskConfig.DataDiskConfigurations.Where(
-                        d => string.Equals(d.Lun, this.Lun)
+                    dataDisks = DiskConfig.DataDiskConfigurations.Where(
+                        d => d.Lun != this.Lun
                     );
                 }
 
-                if (diskConfigs != null)
+                if (dataDisks != null)
                 {
-                    diskConfigs.ForEach(
-                        d => DiskConfig.DataDiskConfigurations.Remove(d));
+                    DiskConfig.DataDiskConfigurations = new DataDiskConfigurationList();
+                    foreach (var dataDisk in dataDisks)
+                    {
+                        DiskConfig.DataDiskConfigurations.Add(dataDisk);
+                    }
                 }
             }
 
