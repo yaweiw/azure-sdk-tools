@@ -217,6 +217,33 @@ function Assert-AreEqualArray
 
 ###################
 #
+# Verify that two given objects are equal
+#
+#    param [object] $expected : The expected object
+#    param [object] $actual   : The actual object
+#    param [string] $message : The message to return if the given objects are not equal.
+####################
+function Assert-AreEqualObject
+{
+    param([object] $expected, [object] $actual, [string] $message)
+  
+  if (!$message)
+  {
+      $message = "Assertion failed because expected '$expected' does not match actual '$actual'"
+  }
+  
+  $diff = Compare-Object $expected $actual -PassThru
+
+  if ($diff -ne $null) 
+  {
+      throw $message
+  }
+  
+  return $true
+}
+
+###################
+#
 # Verify that the given value is null
 #
 #    param [object] $actual  : The actual object
