@@ -186,7 +186,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
             ExecuteScript<object>(cmdlet, contents);
         }
 
-        public static List<PSModuleInfo> GetModules(this PSCmdlet cmdlet)
+        public static List<PSModuleInfo> GetLoadedModules(this PSCmdlet cmdlet)
         {
             return ExecuteScript<PSModuleInfo>(cmdlet, "Get-Module");
         }
