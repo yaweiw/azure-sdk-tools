@@ -19,8 +19,9 @@ namespace Microsoft.Azure.Commands.ManagedCache
     using System.Globalization;
     using System.Linq;
     using System.Management.Automation;
+
+    using Microsoft.Azure.Management.ManagedCache;
     using Microsoft.WindowsAzure.Commands.Utilities.Common;
-    using Microsoft.WindowsAzure.Management.ManagedCache;
 
     [Cmdlet(VerbsCommon.Remove, "AzureManagedCache", ConfirmImpact = ConfirmImpact.None)]
     public class RemoveAzureManagedCache : ManagedCacheCmdletBase

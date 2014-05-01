@@ -16,9 +16,11 @@
 using System;
 using System.Collections.Generic;
 using System.Net.Http;
+
+using Microsoft.Azure.Management.ManagedCache;
+using Microsoft.WindowsAzure;
 using Microsoft.WindowsAzure.Common;
 using Microsoft.WindowsAzure.Common.Internals;
-using Microsoft.WindowsAzure.Management.ManagedCache;
 
 namespace Microsoft.WindowsAzure
 {
@@ -41,7 +43,7 @@ namespace Microsoft.WindowsAzure
     }
 }
 
-namespace Microsoft.WindowsAzure.Management.ManagedCache
+namespace Microsoft.Azure.Management.ManagedCache
 {
     public partial class ManagedCacheClient
     {

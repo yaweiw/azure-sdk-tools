@@ -19,9 +19,10 @@ using System.Linq;
 using System.Net.Http;
 using System.Text;
 using System.Xml.Linq;
+using Microsoft.WindowsAzure;
 using Microsoft.WindowsAzure.Common;
 
-namespace Microsoft.WindowsAzure.Management.ManagedCache
+namespace Microsoft.Azure.Management.ManagedCache
 {
     /// <summary>
     /// Exception thrown for any invalid response from a Traffic Manager operation.
