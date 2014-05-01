@@ -169,7 +169,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Automation
                     var listRunbookResponse =
                         this.automationManagementClient.Runbooks.ListWithSchedules(
                         automationAccountName, skipToken);
-                    return new ResponseWithNextLink<AutomationManagement.Models.Runbook>(
+                    return new ResponseWithSkipToken<AutomationManagement.Models.Runbook>(
                         listRunbookResponse, listRunbookResponse.Runbooks);
                 });
 
@@ -190,7 +190,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Automation
                                 ScheduleName = scheduleModel.Name,
                                 SkipToken = skipToken
                             });
-                    return new ResponseWithNextLink<AutomationManagement.Models.Runbook>(
+                    return new ResponseWithSkipToken<AutomationManagement.Models.Runbook>(
                         listRunbookResponse, listRunbookResponse.Runbooks);
                 });
 
@@ -372,7 +372,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Automation
                                             EndTime = this.FormatDateTime(endTime.Value),
                                             SkipToken = skipToken
                                         });
-                            return new ResponseWithNextLink<AutomationManagement.Models.Job>(response, response.Jobs);
+                            return new ResponseWithSkipToken<AutomationManagement.Models.Job>(response, response.Jobs);
                         });
             }
             else if (startTime.HasValue)
@@ -388,7 +388,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Automation
                                             StartTime = this.FormatDateTime(startTime.Value),
                                             SkipToken = skipToken
                                         });
-                            return new ResponseWithNextLink<AutomationManagement.Models.Job>(response, response.Jobs);
+                            return new ResponseWithSkipToken<AutomationManagement.Models.Job>(response, response.Jobs);
                         });
             }
             else if (endTime.HasValue)
@@ -404,7 +404,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Automation
                                             EndTime = this.FormatDateTime(endTime.Value),
                                             SkipToken = skipToken
                                         });
-                            return new ResponseWithNextLink<AutomationManagement.Models.Job>(response, response.Jobs);
+                            return new ResponseWithSkipToken<AutomationManagement.Models.Job>(response, response.Jobs);
                         });
             }
             else
@@ -415,7 +415,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Automation
                             var response = this.automationManagementClient.Jobs.List(
                                 automationAccountName,
                                 new AutomationManagement.Models.JobListParameters { SkipToken = skipToken, });
-                            return new ResponseWithNextLink<AutomationManagement.Models.Job>(response, response.Jobs);
+                            return new ResponseWithSkipToken<AutomationManagement.Models.Job>(response, response.Jobs);
                         });
             }
 
@@ -474,7 +474,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Automation
                             StreamType = streamTypeName,
                             SkipToken = skipToken
                         });
-                    return new ResponseWithNextLink<AutomationManagement.Models.JobStreamItem>(
+                    return new ResponseWithSkipToken<AutomationManagement.Models.JobStreamItem>(
                         response, response.JobStreamItems);
                 });
 
@@ -572,7 +572,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Automation
                     {
                         var response = this.automationManagementClient.Schedules.List(
                             automationAccountName, skipToken);
-                        return new ResponseWithNextLink<AutomationManagement.Models.Schedule>(
+                        return new ResponseWithSkipToken<AutomationManagement.Models.Schedule>(
                             response, response.Schedules);
                     });
 
@@ -694,7 +694,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Automation
                                     EndTime = this.FormatDateTime(endTime.Value),
                                     SkipToken = skipToken
                                 });
-                        return new ResponseWithNextLink<AutomationManagement.Models.Job>(response, response.Jobs);
+                        return new ResponseWithSkipToken<AutomationManagement.Models.Job>(response, response.Jobs);
                     });
             }
             else if (startTime.HasValue)
@@ -711,7 +711,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Automation
                                     StartTime = this.FormatDateTime(startTime.Value),
                                     SkipToken = skipToken,
                                 });
-                        return new ResponseWithNextLink<AutomationManagement.Models.Job>(response, response.Jobs);
+                        return new ResponseWithSkipToken<AutomationManagement.Models.Job>(response, response.Jobs);
                     });
             }
             else if (endTime.HasValue)
@@ -728,7 +728,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Automation
                                     EndTime = this.FormatDateTime(endTime.Value),
                                     SkipToken = skipToken,
                                 });
-                        return new ResponseWithNextLink<AutomationManagement.Models.Job>(response, response.Jobs);
+                        return new ResponseWithSkipToken<AutomationManagement.Models.Job>(response, response.Jobs);
                     });
             }
             else
@@ -743,7 +743,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Automation
                                 RunbookId = runbookId.ToString(),
                                 SkipToken = skipToken,
                             });
-                        return new ResponseWithNextLink<AutomationManagement.Models.Job>(response, response.Jobs);
+                        return new ResponseWithSkipToken<AutomationManagement.Models.Job>(response, response.Jobs);
                     });
             }
 
