@@ -14,17 +14,14 @@
 
 namespace Microsoft.WindowsAzure.Commands.Utilities.TrafficManager
 {
-    using System.Management.Automation;
-    using Microsoft.WindowsAzure.Commands.Utilities.TrafficManager.Models;
+    using System.Net;
 
-    public class TrafficManagerConfigurationBaseCmdlet : TrafficManagerBaseCmdlet
+    public class Constants
     {
-        [Parameter(
-            Position = 0,
-            Mandatory = true,
-            ValueFromPipeline = true,
-            ValueFromPipelineByPropertyName = true,
-            HelpMessage = "Traffic Manager profile to update.")]
-        public IProfileWithDefinition TrafficManagerProfile { get; set; }
+        public const string monitorHttpOptionVerb = "GET";
+        public const int monitorHttpOptionExpectedStatusCode = (int)HttpStatusCode.OK;
+        public const int monitorIntervalInSeconds = 30;
+        public const int monitorTimeoutInSeconds = 10;
+        public const int monitorToleratedNumberOfFailures = 3;
     }
 }

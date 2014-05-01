@@ -12,13 +12,13 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-using System.Linq;
-using Microsoft.WindowsAzure.Commands.Utilities.TrafficManager;
-using Microsoft.WindowsAzure.Commands.Utilities.TrafficManager.Models;
-
 namespace Microsoft.WindowsAzure.Commands.TrafficManager.Endpoint
 {
+    using System;
+    using System.Linq;
     using System.Management.Automation;
+    using Microsoft.WindowsAzure.Commands.Utilities.TrafficManager;
+    using Microsoft.WindowsAzure.Commands.Utilities.TrafficManager.Models;
 
     [Cmdlet(VerbsCommon.Remove, "AzureTrafficManagerEndpoint"), OutputType(typeof(IProfileWithDefinition))]
     public class RemoveAzureTrafficManagerEndpoint : TrafficManagerConfigurationBaseCmdlet
@@ -30,6 +30,9 @@ namespace Microsoft.WindowsAzure.Commands.TrafficManager.Endpoint
         [Parameter(Mandatory = true)]
         public string DomainName { get; set; }
 
+        [Parameter(Mandatory = false, HelpMessage = "Do not confirm endpoint deletion")]
+        public SwitchParameter Force { get; set; }
+
         public override void ExecuteCmdlet()
         {
             ProfileWithDefinition profile = TrafficManagerProfile.GetInstance();
@@ -37,6 +40,7 @@ namespace Microsoft.WindowsAzure.Commands.TrafficManager.Endpoint
             {
                 // TODO: Add message cannot remove non existent endpoint
                 WriteVerboseWithTimestamp("");
+                throw new Exception();
             }
             else
             {

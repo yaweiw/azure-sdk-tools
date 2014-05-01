@@ -16,51 +16,30 @@
 
 namespace Microsoft.WindowsAzure.Commands.TrafficManager.Profile
 {
-    using System.Collections.Generic;
-    using System.Management.Automation;
     using Microsoft.WindowsAzure.Commands.Utilities.TrafficManager.Models;
+    using System.Management.Automation;
+    using Microsoft.WindowsAzure.Management.TrafficManager.Models;
     using Microsoft.WindowsAzure.Commands.Utilities.TrafficManager;
 
-    [Cmdlet(VerbsCommon.Get, "AzureTrafficManagerProfile"), OutputType(typeof(IEnumerable<SimpleProfile>))]
-    public class GetAzureTrafficManagerProfile : TrafficManagerBaseCmdlet
+    [Cmdlet(VerbsLifecycle.Disable, "AzureTrafficManagerProfile"), OutputType(typeof(bool))]
+    public class DisableAzureTrafficManagerProfile : TrafficManagerBaseCmdlet
     {
-        [Parameter(Position = 0, Mandatory = false)]
+        [Parameter(Position = 0, Mandatory = true, ValueFromPipelineByPropertyName = true)]
         [ValidateNotNullOrEmpty]
         public string Name { get; set; }
 
+        [Parameter(Mandatory = false)]
+        public SwitchParameter PassThru { get; set; }
+
         public override void ExecuteCmdlet()
         {
-            if (string.IsNullOrEmpty(Name))
+            
+            TrafficManagerClient.UpdateProfileStatus(Name, ProfileDefinitionStatus.Disabled);
+            
+            if (PassThru.IsPresent)
             {
-                GetNoName();
+                WriteObject(true);
             }
-
-            else
-            {
-                GetByName();
-            }
-        }
-
-        private void GetByName()
-        {
-            ProfileWithDefinition profile = TrafficManagerClient.GetTrafficManagerProfileWithDefinition(Name);
-            WriteProfile(profile);
-        }
-
-        private void GetNoName()
-        {
-            IEnumerable<SimpleProfile> profiles = TrafficManagerClient.ListProfiles();
-            WriteProfiles(profiles);
-        }
-
-        private void WriteProfile(SimpleProfile profile)
-        {
-            WriteObject((ProfileWithDefinition) profile, true);
-        }
-
-        private void WriteProfiles(IEnumerable<SimpleProfile> profiles)
-        {
-            WriteObject(profiles, true);
         }
     }
 }

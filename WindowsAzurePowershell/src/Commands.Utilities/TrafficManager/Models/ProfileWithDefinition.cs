@@ -29,22 +29,10 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.TrafficManager.Models
     /// - MonitorTimeOutInSeconds
     /// - MonitorToleratedNumberOfFailures
     /// </summary>
-    public class ProfileWithDefinition : IProfileWithDefinition
+    public class ProfileWithDefinition : SimpleProfile, IProfileWithDefinition
     {
-        private Profile profile { get; set; }
         private Definition definition { get; set; }
-
-        public string Name
-        {
-            get { return profile.Name; }
-            set { profile.Name = value; }
-        }
-
-        public string DomainName
-        {
-            get { return profile.DomainName; }
-            set { profile.DomainName = value; }
-        }
+        private IList<TrafficManagerEndpoint> endpoints { get; set; }
 
         public int TimeToLiveInSeconds
         {
@@ -80,40 +68,55 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.TrafficManager.Models
         {
             get
             {
-                List<TrafficManagerEndpoint> endpoints = new List<TrafficManagerEndpoint>();
-
-                foreach (DefinitionEndpointResponse endpointReponse in definition.Policy.Endpoints)
+                if (endpoints == null)
                 {
-                    TrafficManagerEndpoint endpoint = new TrafficManagerEndpoint();
-                    endpoint.DomainName = endpointReponse.DomainName;
-                    endpoint.Location = endpointReponse.Location;
-                    endpoint.Type = endpointReponse.Type;
-                    endpoint.Status = endpointReponse.Status;
-                    endpoint.Weight = endpointReponse.Weight;
+                    endpoints = new List<TrafficManagerEndpoint>();
 
-                    endpoints.Add(endpoint);
+                    foreach (DefinitionEndpointResponse endpointReponse in definition.Policy.Endpoints)
+                    {
+                        TrafficManagerEndpoint endpoint = new TrafficManagerEndpoint();
+                        endpoint.DomainName = endpointReponse.DomainName;
+                        endpoint.Location = endpointReponse.Location;
+                        endpoint.Type = endpointReponse.Type;
+                        endpoint.Status = endpointReponse.Status;
+                        endpoint.Weight = endpointReponse.Weight;
+
+                        endpoints.Add(endpoint);
+                    }
                 }
                 return endpoints;
             }
+
+            set
+            {
+                this.endpoints = value;
+            }
         }
-
-        public ProfileDefinitionStatus Status
-        {
-            get { return profile.Status; }
-            set { profile.Status = value; }
-        }
-
-
 
         public ProfileWithDefinition GetInstance()
         {
             return this;
         }
 
-        public ProfileWithDefinition(Profile profile, Definition definition)
+        public ProfileWithDefinition(Profile profile, Definition definition) : base(profile)
         {
-            this.profile = profile;
+            this.endpoints = null;
             this.definition = definition;
+        }
+
+        public ProfileWithDefinition() : base(new Profile())
+        {
+            this.endpoints = null;
+            this.definition = new Definition()
+            {
+                Policy = new DefinitionPolicyResponse()
+            };
+            DefinitionMonitor monitor = new DefinitionMonitor()
+            {
+                HttpOptions = new DefinitionMonitorHTTPOptions(),
+            };
+            definition.Monitors.Add(monitor);
+            definition.DnsOptions = new DefinitionDnsOptions();
         }
     }
 

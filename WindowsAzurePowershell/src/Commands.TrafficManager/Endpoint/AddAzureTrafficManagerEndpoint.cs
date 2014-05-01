@@ -23,24 +23,27 @@ namespace Microsoft.WindowsAzure.Commands.TrafficManager.Endpoint
     using System.Management.Automation;
     using Microsoft.WindowsAzure.Commands.Utilities.TrafficManager.Models;
 
-    [Cmdlet(VerbsCommon.Remove, "AzureTrafficManagerEndpoint"), OutputType(typeof(IProfileWithDefinition))]
+    [Cmdlet(VerbsCommon.Add, "AzureTrafficManagerEndpoint"), OutputType(typeof(IProfileWithDefinition))]
     public class AddAzureTrafficManagerEndpoint : TrafficManagerConfigurationBaseCmdlet
     {
-        [Parameter(Mandatory = true,
-            ValueFromPipelineByPropertyName = true)]
+        [Parameter(Mandatory = true, ValueFromPipelineByPropertyName = true)]
         public string Name { get; set; }
 
         [Parameter(Mandatory = true)]
         public string DomainName { get; set; }
 
-        [Parameter(Mandatory = true)]
+        [Parameter(Mandatory = false)]
         public string Location { get; set; }
 
         [Parameter(Mandatory = true)]
         [ValidateSet("CloudService", "AzureWebsite", "Any", IgnoreCase = false)]
         public string Type { get; set; }
 
-        [Parameter]
+        [Parameter(Mandatory = true)]
+        [ValidateSet("Enabled", "Disabled", IgnoreCase = false)]
+        public string Status { get; set; }
+
+        [Parameter(Mandatory = false)]
         public System.Int32 Weight { get; set; }
 
         public override void ExecuteCmdlet()
@@ -59,7 +62,7 @@ namespace Microsoft.WindowsAzure.Commands.TrafficManager.Endpoint
             }
 
             profile.Endpoints.Add(endpoint);
-            WriteObject(profile);
+            WriteObject(TrafficManagerProfile);
         }
     }
 }

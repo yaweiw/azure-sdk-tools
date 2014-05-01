@@ -12,34 +12,22 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-
-
-namespace Microsoft.WindowsAzure.Commands.TrafficManager.Profile
+namespace Microsoft.WindowsAzure.Commands.TrafficManager
 {
-    using Microsoft.WindowsAzure.Commands.Utilities.TrafficManager.Models;
-    using System.Management.Automation;
-    using Microsoft.WindowsAzure.Management.TrafficManager.Models;
     using Microsoft.WindowsAzure.Commands.Utilities.TrafficManager;
+    using System.Management.Automation;
 
-    [Cmdlet(VerbsLifecycle.Disable, "AzureTrafficManagerEndpoint"), OutputType(typeof(bool))]
-    public class DisableTrafficManagerProfile : TrafficManagerBaseCmdlet
+    [Cmdlet(VerbsDiagnostic.Test, "AzureTrafficManagerDomainName"), OutputType(typeof(bool))]
+    public class TestAzureTrafficManagerDomainName : TrafficManagerBaseCmdlet
     {
         [Parameter(Mandatory = true)]
         [ValidateNotNullOrEmpty]
-        public string Name { get; set; }
-
-        [Parameter(Mandatory = false)]
-        public SwitchParameter PassThru { get; set; }
+        public string DomainName { get; set; }
 
         public override void ExecuteCmdlet()
         {
-            
-            TrafficManagerClient.UpdateProfileStatus(Name, ProfileDefinitionStatus.Disabled);
-            
-            if (PassThru.IsPresent)
-            {
-                WriteObject(true);
-            }
+            bool result = TrafficManagerClient.TestDomainAvailability(DomainName);
+            WriteObject(result);
         }
     }
 }

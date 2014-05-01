@@ -20,10 +20,10 @@ namespace Microsoft.WindowsAzure.Commands.TrafficManager.Profile
     using Microsoft.WindowsAzure.Commands.Utilities.TrafficManager.Models;
     using Microsoft.WindowsAzure.Management.TrafficManager.Models;
 
-    [Cmdlet(VerbsLifecycle.Enable, "AzureTrafficManagerEndpoint"), OutputType(typeof(bool))]
-    public class EnableTrafficManagerProfile : TrafficManagerBaseCmdlet
+    [Cmdlet(VerbsLifecycle.Enable, "AzureTrafficManagerProfile"), OutputType(typeof(bool))]
+    public class EnableAzureTrafficManagerProfile : TrafficManagerBaseCmdlet
     {
-        [Parameter(Mandatory = true)]
+        [Parameter(Position = 0, Mandatory = true, ValueFromPipelineByPropertyName = true)]
         [ValidateNotNullOrEmpty]
         public string Name { get; set; }
 

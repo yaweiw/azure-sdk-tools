@@ -539,7 +539,9 @@
     <Compile Include="Profile\SubscriptionCmdletBase.cs" />
     <Compile Include="TrafficManager\Generated\TrafficManagerClient.Customization.cs" />
     <Compile Include="TrafficManager\Generated\TrafficManagerManagementClient.cs" />
+    <Compile Include="TrafficManager\ITrafficManagerClient.cs" />
     <Compile Include="TrafficManager\Models\IProfileWithDefinition.cs" />
+    <Compile Include="TrafficManager\Models\SimpleProfile.cs" />
     <Compile Include="TrafficManager\Models\ProfileWithDefinition.cs" />
     <Compile Include="TrafficManager\TrafficManagerBaseCmdlet.cs" />
     <Compile Include="TrafficManager\TrafficManagerClient.cs" />
