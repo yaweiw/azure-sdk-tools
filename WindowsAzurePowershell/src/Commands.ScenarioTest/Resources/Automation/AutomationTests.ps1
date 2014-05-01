@@ -100,7 +100,6 @@ function Test-RunbookWithParameter
     param([string] $runbookPath, [HashTable] $parameters, [int]$expectedResult)
 
     #Setup
-    Select-AzureSubscription -SubscriptionName $subscriptionName
     $automationAccount = Get-AzureAutomationAccount -Name $accountName
     Assert-NotNull $automationAccount "Automation account $accountName does not exist."
 
@@ -125,7 +124,6 @@ function Test-AutomationStartAndStopRunbook
     param([string] $runbookPath)
 	    
     #Setup
-	Select-AzureSubscription $subscriptionName
 	$automationAccount = Get-AzureAutomationAccount -Name $accountName
 	Assert-NotNull $automationAccount "Automation account $accountName does not exist."
 
@@ -150,7 +148,6 @@ function Test-AutomationPublishAndEditRunbook
 {
 	param([string] $runbookPath, [string] $editRunbookPath)
 	
-	Select-AzureSubscription $subscriptionName
 	$runbook = CreateRunbook $runbookPath $true
 
     #Test
@@ -190,7 +187,6 @@ function Test-AutomationConfigureRunbook
 	param([string] $runbookPath)
 	
     #Setup
-	Select-AzureSubscription $subscriptionName
 	$automationAccount = Get-AzureAutomationAccount -Name $accountName
 	Assert-NotNull $automationAccount "Automation account $accountName does not exist."
 	$runbook = CreateRunbook $runbookPath
@@ -258,7 +254,6 @@ function Test-AutomationSuspendAndResumeJob
 	param([string] $runbookPath)
 	
     #Setup
-	Select-AzureSubscription $subscriptionName
 	$automationAccount = Get-AzureAutomationAccount $accountName
 	Assert-NotNull $automationAccount "Automation account $accountName does not exist."
 	$runbook = CreateRunbook $runbookPath
@@ -288,7 +283,6 @@ function Test-AutomationStartRunbookOnASchedule
 	param([string] $runbookPath)
 	
     #Setup
-	Select-AzureSubscription $subscriptionName
 	$automationAccount = Get-AzureAutomationAccount -Name $accountName
 	$runbook = CreateRunbook $runbookPath
 	Publish-AzureAutomationRunbook $accountName -Name $runbook.Name
@@ -356,8 +350,6 @@ Tests starting an unpublished runbook
 function Test-AutomationStartUnpublishedRunbook
 {
 	param([string] $runbookPath)
-	
-	Select-AzureSubscription $subscriptionName
 	
     $tags = @("tag1","tag2")
     $description = "Runbook Description"
