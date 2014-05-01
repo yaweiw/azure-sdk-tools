@@ -340,7 +340,8 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement
                   .ForMember(c => c.Rules, o => o.MapFrom(r => r.Rules.ToList()));
             Mapper.CreateMap<PVM.InputEndpoint, NSM.InputEndpoint>()
                   .ForMember(c => c.VirtualIPAddress, o => o.MapFrom(r => r.Vip != null ? IPAddress.Parse(r.Vip) : null))
-                  .ForMember(c => c.EndpointAcl, o => o.MapFrom(r => r.EndpointAccessControlList));
+                  .ForMember(c => c.EndpointAcl, o => o.MapFrom(r => r.EndpointAccessControlList))
+                  .ForMember(c => c.LoadBalancerName, o => o.MapFrom(r => r.LoadBalancerName));
             Mapper.CreateMap<PVM.DataVirtualHardDisk, NSM.DataVirtualHardDisk>()
                   .ForMember(c => c.Name, o => o.MapFrom(r => r.DiskName))
                   .ForMember(c => c.Label, o => o.MapFrom(r => r.DiskLabel))
@@ -405,6 +406,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement
             Mapper.CreateMap<NSM.EndpointAcl, PVM.EndpointAccessControlList>()
                   .ForMember(c => c.Rules, o => o.MapFrom(r => r.Rules));
             Mapper.CreateMap<NSM.InputEndpoint, PVM.InputEndpoint>()
+                  .ForMember(c => c.LoadBalancerName, o => o.MapFrom(r => r.LoadBalancerName))
                   .ForMember(c => c.Vip, o => o.MapFrom(r => r.VirtualIPAddress != null ? r.VirtualIPAddress.ToString() : null))
                   .ForMember(c => c.EndpointAccessControlList, o => o.MapFrom(r => r.EndpointAcl));
             Mapper.CreateMap<NSM.DataVirtualHardDisk, PVM.DataVirtualHardDisk>()

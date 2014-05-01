@@ -112,7 +112,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.PersistentVMs
         [Parameter(Mandatory = false, ParameterSetName = "CreateService", ValueFromPipeline = true, ValueFromPipelineByPropertyName = true, HelpMessage = "ILB Settings for Deployment.")]
         [Parameter(Mandatory = false, ParameterSetName = "ExistingService", ValueFromPipeline = true, ValueFromPipelineByPropertyName = true, HelpMessage = "ILB Settings for Deployment.")]
         [ValidateNotNullOrEmpty]
-        public InternalLoadBalancerConfig InternalLoadBalancerSetting
+        public InternalLoadBalancerConfig InternalLoadBalancerConfig
         {
             get;
             set;
@@ -259,18 +259,18 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.PersistentVMs
                         }
                     }
 
-                    if (this.InternalLoadBalancerSetting != null)
+                    if (this.InternalLoadBalancerConfig != null)
                     {
                         parameters.LoadBalancers = new LoadBalancer[1]
                         {
                             new LoadBalancer
                             {
-                                Name = this.InternalLoadBalancerSetting.InternalLoadBalancerName,
+                                Name = this.InternalLoadBalancerConfig.InternalLoadBalancerName,
                                 FrontendIPConfiguration = new FrontendIPConfiguration
                                 {
                                     Type = FrontendIPConfigurationType.Private,
-                                    SubnetName = this.InternalLoadBalancerSetting.SubnetName,
-                                    StaticVirtualNetworkIPAddress = this.InternalLoadBalancerSetting.IPAddress
+                                    SubnetName = this.InternalLoadBalancerConfig.SubnetName,
+                                    StaticVirtualNetworkIPAddress = this.InternalLoadBalancerConfig.IPAddress
                                 }
                             }
                         };
