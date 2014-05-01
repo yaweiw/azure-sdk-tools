@@ -19,11 +19,13 @@ namespace Microsoft.Azure.Commands.ManagedCache
     using System.Globalization;
     using System.Linq;
     using System.Management.Automation;
-    using Microsoft.WindowsAzure;
-    using Microsoft.WindowsAzure.Commands.Utilities.Common;
-    using Microsoft.WindowsAzure.Management.ManagedCache;
     using System.Security.Cryptography;
     using System.Text;
+
+    using Microsoft.Azure.Management.ManagedCache;
+    using Microsoft.Azure.Management.ManagedCache.Models;
+    using Microsoft.WindowsAzure;
+    using Microsoft.WindowsAzure.Commands.Utilities.Common;
 
     [Cmdlet(VerbsCommon.New, "AzureManagedCache", ConfirmImpact = ConfirmImpact.None)]
     public class NewAzureManagedCache : ManagedCacheCmdletBase
