@@ -40,7 +40,7 @@ namespace Microsoft.WindowsAzure.Commands.TrafficManager.Profile
         public int MonitorPort { get; set; }
 
         [Parameter(Mandatory = true)]
-        [ValidateSet("HTTP", "HTTPS", IgnoreCase = false)]
+        [ValidateSet("Http", "Https", IgnoreCase = false)]
         [ValidateNotNullOrEmpty]
         public string MonitorProtocol { get; set; }
 
@@ -50,8 +50,6 @@ namespace Microsoft.WindowsAzure.Commands.TrafficManager.Profile
 
         [Parameter(Mandatory = true)]
         public int Ttl { get; set; }
-
-        // TODO: Do we need to add Status?
 
         public override void ExecuteCmdlet()
         {

@@ -51,6 +51,7 @@ namespace Microsoft.WindowsAzure.Commands.TrafficManager.Endpoint
             TrafficManagerEndpoint endpoint = new TrafficManagerEndpoint();
             endpoint.DomainName = DomainName;
             endpoint.Location = Location;
+            endpoint.Status = (EndpointStatus)Enum.Parse(typeof(EndpointStatus), Status);
             endpoint.Type = (EndpointType)Enum.Parse(typeof(EndpointType), Type);
             endpoint.Weight = Weight;
             ProfileWithDefinition profile = TrafficManagerProfile.GetInstance();

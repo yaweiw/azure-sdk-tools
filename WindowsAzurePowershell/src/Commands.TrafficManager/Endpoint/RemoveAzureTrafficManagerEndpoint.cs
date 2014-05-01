@@ -12,6 +12,8 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
+using Microsoft.WindowsAzure.Commands.Common.Properties;
+
 namespace Microsoft.WindowsAzure.Commands.TrafficManager.Endpoint
 {
     using System;
@@ -38,9 +40,7 @@ namespace Microsoft.WindowsAzure.Commands.TrafficManager.Endpoint
             ProfileWithDefinition profile = TrafficManagerProfile.GetInstance();
             if (!profile.Endpoints.Any(e => e.DomainName == DomainName))
             {
-                // TODO: Add message cannot remove non existent endpoint
-                WriteVerboseWithTimestamp("");
-                throw new Exception();
+                throw new Exception(Resources.RemoveTrafficManagerEndpointMissing);
             }
             else
             {
