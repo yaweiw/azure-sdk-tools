@@ -23,9 +23,13 @@ namespace Microsoft.WindowsAzure.Commands.TrafficManager.Profile
     [Cmdlet(VerbsCommon.New, "AzureTrafficManagerProfile"), OutputType(typeof(IProfileWithDefinition))]
     public class NewAzureTrafficManagerProfile : TrafficManagerBaseCmdlet
     {
-        [Parameter(Mandatory = true)]
+        [Parameter(Position = 0, Mandatory = true, ValueFromPipelineByPropertyName = true)]
         [ValidateNotNullOrEmpty]
         public string Name { get; set; }
+
+        [Parameter(Position = 1, Mandatory = true)]
+        [ValidateNotNullOrEmpty]
+        public string DomainName { get; set; }
 
         [Parameter(Mandatory = true)]
         [ValidateSet("Performance", "Failover", "RoundRobin", IgnoreCase = false)]
@@ -33,7 +37,7 @@ namespace Microsoft.WindowsAzure.Commands.TrafficManager.Profile
         public string LoadBalancingMethod { get; set; }
 
         [Parameter(Mandatory = true)]
-        public System.Int32 MonitorPort { get; set; }
+        public int MonitorPort { get; set; }
 
         [Parameter(Mandatory = true)]
         [ValidateNotNullOrEmpty]
@@ -44,11 +48,9 @@ namespace Microsoft.WindowsAzure.Commands.TrafficManager.Profile
         public string MonitorRelativePath { get; set; }
 
         [Parameter(Mandatory = true)]
-        [ValidateNotNullOrEmpty]
-        public string DomainName { get; set; }
+        public int Ttl { get; set; }
 
-        [Parameter(Mandatory = true)]
-        public System.Int32 Ttl { get; set; }
+        // TODO: Do we need to add Status?
 
         public override void ExecuteCmdlet()
         {

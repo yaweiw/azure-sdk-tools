@@ -399,6 +399,7 @@
     <Compile Include="TrafficManager\Endpoints\AddTrafficManagerEndpointTests.cs" />
     <Compile Include="TrafficManager\Endpoints\RemoveTrafficManagerEndpointTests.cs" />
     <Compile Include="TrafficManager\Endpoints\SetTrafficManagerEndpointTests.cs" />
+    <Compile Include="TrafficManager\Profiles\NewTrafficManagerProfileTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Resources\MyWebApplication\WebApplication4.csproj">

@@ -13,19 +13,18 @@
 // ----------------------------------------------------------------------------------
 
 
-using System.Collections.Generic;
-using System.Linq;
-using Microsoft.WindowsAzure.Commands.Utilities.TrafficManager;
-using Microsoft.WindowsAzure.Commands.Utilities.TrafficManager.Models;
-using Microsoft.WindowsAzure.Management.TrafficManager.Models;
-using Moq;
-
 namespace Microsoft.WindowsAzure.Commands.Test.TrafficManager.Endpoints
 {
     using System;
+    using System.Collections.Generic;
+    using System.Linq;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using Microsoft.WindowsAzure.Commands.Test.Utilities.Common;
     using Microsoft.WindowsAzure.Commands.TrafficManager.Endpoint;
+    using Microsoft.WindowsAzure.Commands.Utilities.TrafficManager;
+    using Microsoft.WindowsAzure.Commands.Utilities.TrafficManager.Models;
+    using Microsoft.WindowsAzure.Management.TrafficManager.Models;
+    using Moq;
 
     [TestClass]
     public class AddTrafficManagerEndpointTests : TestBase
