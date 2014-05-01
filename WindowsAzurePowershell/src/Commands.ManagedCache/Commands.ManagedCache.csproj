@@ -169,6 +169,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="PSCacheClient.cs" />
     <Compile Include="Service\GetAzureManagedCache.cs" />
     <Compile Include="Service\GetAzureManagedCacheAccessKey.cs" />
     <Compile Include="Service\NewAzureManagedCache.cs" />
