@@ -20736,7 +20736,7 @@
     <command:details>
       <command:name>Remove-AzureSchedulerJobCollection</command:name>
       <maml:description>
-        <maml:para>Deletes a particular scheduler job collection and the job(s) under it</maml:para>
+        <maml:para>Deletes a scheduler job collection and the job(s) under it</maml:para>
       </maml:description>
       <maml:copyright>
         <maml:para />
@@ -20749,7 +20749,7 @@
     </command:details>
     <maml:description>
       <!--This is the Description section-->
-      <maml:para>Deletes a particular scheduler job collection and the job(s) under it</maml:para>
+      <maml:para>Deletes a scheduler job collection and the job(s) under it</maml:para>
     </maml:description>
     <command:syntax>
       <command:syntaxItem>
@@ -20858,7 +20858,7 @@
     <command:details>
       <command:name>Remove-AzureSchedulerJob</command:name>
       <maml:description>
-        <maml:para>Deletes a particular scheduler job</maml:para>
+        <maml:para>Deletes a scheduler job</maml:para>
       </maml:description>
       <maml:copyright>
         <maml:para />
@@ -20871,7 +20871,7 @@
     </command:details>
     <maml:description>
       <!--This is the Description section-->
-      <maml:para>Deletes a particular scheduler job</maml:para>
+      <maml:para>Deletes a scheduler job</maml:para>
     </maml:description>
     <command:syntax>
       <command:syntaxItem>
