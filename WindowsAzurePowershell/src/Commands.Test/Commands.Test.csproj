@@ -358,6 +358,12 @@
     <Compile Include="Common\CmdletExtensionsTest.cs" />
     <Compile Include="Common\GeneralTest.cs" />
     <Compile Include="Common\GlobalPathInfoTest.cs" />
+    <Compile Include="TrafficManager\Profiles\DisableTrafficManagerProfileTests.cs" />
+    <Compile Include="TrafficManager\Profiles\EnableTrafficManagerProfileTests.cs" />
+    <Compile Include="TrafficManager\Profiles\GetTrafficManagerProfileTests.cs" />
+    <Compile Include="TrafficManager\Profiles\RemoveTrafficManagerProfileTests.cs" />
+    <Compile Include="TrafficManager\Profiles\SetTrafficManagerProfileTests.cs" />
+    <Compile Include="TrafficManager\TestTrafficManagerDomainNameTests.cs" />
     <Compile Include="WAPackIaaS\Common\WebClientFactoryTests.cs" />
     <Compile Include="WAPackIaaS\Mocks\MockLogger.cs" />
     <Compile Include="WAPackIaaS\Mocks\MockRequestChannel.cs" />
