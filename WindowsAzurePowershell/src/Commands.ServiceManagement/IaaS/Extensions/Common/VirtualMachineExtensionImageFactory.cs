@@ -30,13 +30,15 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
         private static ResourceExtensionReference MakeItem(
             string publisherName,
             string extensionName,
-            string referenceName)
+            string referenceName,
+            string version)
         {
             return new ResourceExtensionReference
             {
                 Publisher     = publisherName,
                 Name          = extensionName,
-                ReferenceName = referenceName
+                ReferenceName = referenceName,
+                Version       = version
             };
         }
 
@@ -60,16 +62,14 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
                         extension = MakeItem(
                             reference.Publisher,
                             reference.Name,
-                            reference.Name);
+                            reference.Name,
+                            reference.Version);
                     }
                 }
             }
             else
             {
-                extension = MakeItem(
-                    publisherName,
-                    extensionName,
-                    extensionName);
+                extension = null;
             }
 
             return extension;
