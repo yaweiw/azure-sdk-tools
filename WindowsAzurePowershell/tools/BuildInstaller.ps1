@@ -15,6 +15,8 @@
 $scriptFolder = Split-Path -Path $MyInvocation.MyCommand.Definition -Parent
 . ($scriptFolder + '.\SetupEnv.ps1')
 
+Remove-Item -Path "$env:AzurePSRoot\..\Package" -Force -Recurse
+
 # Build the cmdlets in debug mode
 msbuild "$env:AzurePSRoot\..\build.proj" /t:"BuildDebug"
 
