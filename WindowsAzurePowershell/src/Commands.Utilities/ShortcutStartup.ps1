@@ -13,7 +13,7 @@
 # ----------------------------------------------------------------------------------
 
 Set-ExecutionPolicy -Scope Process Undefined -Force
-if (Get-ExecutionPolicy -eq "Restricted")
+if ($(Get-ExecutionPolicy) -eq "Restricted")
 {
 	Set-ExecutionPolicy -Scope Process -ExecutionPolicy AllSigned -Force
 }
