@@ -37,31 +37,12 @@ namespace Microsoft.Azure.Commands.ManagedCache
             set;
         }
 
-        internal IntrinsicSettings.CacheServiceInput GetCacheService(string cacheService)
-        {
-            CloudServiceListResponse listResp = CacheClient.CloudServices.List();
-            IntrinsicSettings.CacheServiceInput matchedCacheService = null;
-            foreach(var cloudService in listResp)
-            {
-                //TODO: use const for caching type and provider namespace
-                CloudServiceListResponse.CloudService.AddOnResource matched = cloudService.Resources.FirstOrDefault(
-                    p => { return p.Type == "Caching" && cacheService.Equals(p.Name, StringComparison.OrdinalIgnoreCase); }
-                    );
-
-                if (matched != null)
-                {
-                    matchedCacheService = matched.IntrinsicSettingsSection.CacheServiceInputSection;
-                }
-            }
-            return matchedCacheService;
-        }
-
         public override void ExecuteCmdlet()
         {
-            var cacheService = this.GetCacheService(Name);
+            var cacheService = CacheClient.GetCacheService(Name);
             if (cacheService == null)
             {
-                throw new ArgumentException("Invalid name"); //TODO: using resource string
+                throw new ArgumentException(string.Format(Properties.Resources.CacheServiceNotFound, Name));
             }
             WriteObject(cacheService);
         }      

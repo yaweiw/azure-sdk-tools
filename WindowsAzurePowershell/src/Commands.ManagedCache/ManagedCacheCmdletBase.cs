@@ -27,18 +27,15 @@ namespace Microsoft.Azure.Commands.ManagedCache
     /// </summary>
     public abstract class ManagedCacheCmdletBase : CmdletWithSubscriptionBase
     {
-        private ManagedCacheClient cacheClient;
-        protected const string CACHE_RESOURCE_TYPE = "Caching";
-        protected const string CACHE_RESOURCE_PROVIDER_NAMESPACE = "cacheservice";
-        protected const string CACHE_SERVICE_READY_STATE = "Active";
+        private PSCacheClient cacheClient;
 
-        public ManagedCacheClient CacheClient
+        internal PSCacheClient CacheClient
         {
             get
             {
                 if (cacheClient == null)
                 {
-                    cacheClient = CurrentSubscription.CreateClient <ManagedCacheClient>();
+                    cacheClient = new PSCacheClient(CurrentSubscription);
                 }
                 return cacheClient;
             }
