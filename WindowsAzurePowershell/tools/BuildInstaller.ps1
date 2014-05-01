@@ -15,6 +15,8 @@
 $scriptFolder = Split-Path -Path $MyInvocation.MyCommand.Definition -Parent
 . ($scriptFolder + '.\SetupEnv.ps1')
 
+Remove-Item -Path "$env:AzurePSRoot\..\Package" -Force -Recurse
+
 # Build the cmdlets in debug mode
 msbuild "$env:AzurePSRoot\..\build.proj" /t:"BuildDebug"
 
@@ -23,4 +25,5 @@ msbuild "$env:AzurePSRoot\..\build.proj" /t:"BuildDebug"
 
 # Build the installer
 msbuild "$env:AzurePSRoot\..\build.proj" /t:"BuildSetupDebug"
-Write-Host "MSI file path: $env:AzurePSRoot\setup\build\Debug\x86\windowsazure-powershell.msi"
+
+Write-Verbose "MSI file path: $env:AzurePSRoot\setup\build\Debug\x86\windowsazure-powershell.msi"
