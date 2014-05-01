@@ -27,10 +27,10 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.TrafficManager
             string profileName,
             string domainName,
             string loadBalancingMethod,
-            System.Int32 monitorPort,
+            int monitorPort,
             string monitorProtocol,
             string monitorRelativePath,
-            System.Int32 ttl);
+            int ttl);
 
         ProfileWithDefinition AssignDefinitionToProfile(string profileName, DefinitionCreateParameters definitionParameter);
         bool RemoveTrafficManagerProfile(string profileName);
@@ -38,10 +38,10 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.TrafficManager
 
         DefinitionCreateParameters InstantiateTrafficManagerDefinition(
             string loadBalancingMethod,
-            System.Int32 monitorPort,
+            int monitorPort,
             string monitorProtocol,
             string monitorRelativePath,
-            System.Int32 ttl,
+            int ttl,
             IList<TrafficManagerEndpoint> endpoints);
 
         /// <summary>
