@@ -42,10 +42,10 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.TrafficManager
             string profileName,
             string domainName,
             string loadBalancingMethod,
-            System.Int32 monitorPort,
+            int monitorPort,
             string monitorProtocol,
             string monitorRelativePath,
-            System.Int32 ttl)
+            int ttl)
         {
             // Create the profile
             CreateTrafficManagerProfile(profileName, domainName);

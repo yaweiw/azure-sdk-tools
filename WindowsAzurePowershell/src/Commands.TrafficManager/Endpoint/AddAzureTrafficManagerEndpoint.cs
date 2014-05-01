@@ -44,7 +44,7 @@ namespace Microsoft.WindowsAzure.Commands.TrafficManager.Endpoint
         public string Status { get; set; }
 
         [Parameter(Mandatory = false)]
-        public System.Int32 Weight { get; set; }
+        public int Weight { get; set; }
 
         public override void ExecuteCmdlet()
         {
