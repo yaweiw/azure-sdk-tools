@@ -33,6 +33,7 @@ namespace Microsoft.Azure.Commands.ManagedCache
         private string cacheServiceName;
 
         [Parameter(Position = 0, 
+            Mandatory=true,
             HelpMessage = "azure cache service name.")]
         [ValidateNotNullOrEmpty]
         public string Name
