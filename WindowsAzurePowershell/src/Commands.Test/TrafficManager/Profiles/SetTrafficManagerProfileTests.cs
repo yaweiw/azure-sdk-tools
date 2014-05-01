@@ -60,6 +60,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.TrafficManager.Profiles
         [TestMethod]
         public void ProcessSetProfileTest()
         {
+            // TODO: Add test
             // Setup
 
 

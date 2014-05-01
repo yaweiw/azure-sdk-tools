@@ -19,5 +19,6 @@ namespace Microsoft.WindowsAzure.Commands.Test.TrafficManager
     [TestClass]
     public class TestTrafficManagerDomainNameTests
     {
+        // TODO: Add test
     }
 }

@@ -2983,6 +2983,15 @@ namespace Microsoft.WindowsAzure.Commands.Common.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The endpoint {0} cannot be removed from profile {1} because it&apos;s not in the profile..
+        /// </summary>
+        public static string RemoveTrafficManagerEndpointMissing {
+            get {
+                return ResourceManager.GetString("RemoveTrafficManagerEndpointMissing", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Remove-AzureTrafficManagerProfile Operation failed..
         /// </summary>
         public static string RemoveTrafficManagerProfileFailed {
@@ -3601,6 +3610,15 @@ namespace Microsoft.WindowsAzure.Commands.Common.Properties {
         public static string SettingsFileName1 {
             get {
                 return ResourceManager.GetString("SettingsFileName1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Insufficient parameters passed to create a new endpoint..
+        /// </summary>
+        public static string SetTrafficManagerEndpointNeedsParameters {
+            get {
+                return ResourceManager.GetString("SetTrafficManagerEndpointNeedsParameters", resourceCulture);
             }
         }
         
