@@ -17,7 +17,6 @@ namespace Microsoft.Azure.Commands.ManagedCache
     using System;
     using System.Globalization;
     using System.Management.Automation;
-
     using Microsoft.Azure.Management.ManagedCache;
     using Microsoft.WindowsAzure.Commands.Utilities;
     using Microsoft.WindowsAzure.Commands.Utilities.Common;

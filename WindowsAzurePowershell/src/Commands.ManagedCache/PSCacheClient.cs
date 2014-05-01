@@ -1,4 +1,17 @@
-﻿
+﻿// ----------------------------------------------------------------------------------
+//
+// Copyright Microsoft Corporation
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+// http://www.apache.org/licenses/LICENSE-2.0
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+// ----------------------------------------------------------------------------------
+
 namespace Microsoft.Azure.Commands.ManagedCache
 {
     using System;
@@ -6,6 +19,7 @@ namespace Microsoft.Azure.Commands.ManagedCache
     using System.Linq;
     using System.Security.Cryptography;
     using System.Text;
+    using System.Threading;
     using Microsoft.Azure.Management.ManagedCache;
     using Microsoft.Azure.Management.ManagedCache.Models;
     using Microsoft.WindowsAzure;
@@ -13,9 +27,9 @@ namespace Microsoft.Azure.Commands.ManagedCache
 
     class PSCacheClient
     {
-        private const string CACHE_RESOURCE_TYPE = "Caching";
-        private const string CACHE_RESOURCE_PROVIDER_NAMESPACE = "cacheservice";
-        private const string CACHE_SERVICE_READY_STATE = "Active";
+        private const string CacheResourceType = "Caching";
+        private const string CacheResourceProviderNamespace = "cacheservice";
+        private const string CacheServiceReadyState = "Active";
 
         private ManagedCacheClient client;
         public PSCacheClient(WindowsAzureSubscription currentSubscription)
@@ -36,28 +50,37 @@ namespace Microsoft.Azure.Commands.ManagedCache
             IntrinsicSettings settings = new IntrinsicSettings();
             IntrinsicSettings.CacheServiceInput input = new IntrinsicSettings.CacheServiceInput();
             settings.CacheServiceInputSection = input;
+            const int CacheMemoryObjectSize = 1024;
             param.Settings = settings;
             input.Location = location;
             input.SkuCount = 1; //TODO derived from memorySize
             input.ServiceVersion = "1.0.0";
-            input.ObjectSizeInBytes = 1024;
+            input.ObjectSizeInBytes = CacheMemoryObjectSize;
             input.SkuType = sku;
 
             client.CacheServices.CreateCacheService(cloudServiceName, cacheServiceName, param);
 
+            CloudServiceGetResponse.Resource cacheResource = WaitForProvisionDone(cacheServiceName, cloudServiceName);
+
+            return cacheResource;
+        }
+
+        private CloudServiceGetResponse.Resource WaitForProvisionDone(string cacheServiceName, string cloudServiceName)
+        {
             CloudServiceGetResponse.Resource cacheResource = null;
             //Service state goes through Creating/Updating to Active. We only care about active
-            int waitInMinutes = 30; //minutes
+            int waitInMinutes = 30;
             while (waitInMinutes > 0)
             {
                 cacheResource = GetCacheService(cloudServiceName, cacheServiceName);
-                if (cacheResource.SubState == CACHE_SERVICE_READY_STATE)
+                if (cacheResource.SubState == CacheServiceReadyState)
                 {
                     break;
                 }
                 else
                 {
-                    System.Threading.Thread.Sleep(60000);
+                    const int milliSecondPerMinute = 60000;
+                    Thread.Sleep(milliSecondPerMinute);
                     waitInMinutes--;
                 }
             }
@@ -66,7 +89,6 @@ namespace Microsoft.Azure.Commands.ManagedCache
             {
                 throw new InvalidOperationException(Properties.Resources.TimeoutWaitForCacheServiceReady);
             }
-
             return cacheResource;
         }
 
@@ -89,13 +111,15 @@ namespace Microsoft.Azure.Commands.ManagedCache
         //TODO: create wrap classes for return type
         public CloudServiceListResponse.CloudService.AddOnResource GetCacheService(string cacheServiceName)
         {
-            CloudServiceListResponse listResp = client.CloudServices.List(); 
+            CloudServiceListResponse listResponse = client.CloudServices.List(); 
             CloudServiceListResponse.CloudService.AddOnResource matched = null;
-            foreach (var cloudService in listResp)
+            foreach (CloudServiceListResponse.CloudService cloudService in listResponse)
             {
                 matched = cloudService.Resources.FirstOrDefault(
-                       p => { 
-                           return p.Type == CACHE_RESOURCE_TYPE && cacheServiceName.Equals(p.Name, StringComparison.OrdinalIgnoreCase); 
+                       p => 
+                       { 
+                           return p.Type == CacheResourceType 
+                               && cacheServiceName.Equals(p.Name, StringComparison.OrdinalIgnoreCase);
                        }
                     );
                 if (matched != null)
@@ -108,16 +132,11 @@ namespace Microsoft.Azure.Commands.ManagedCache
 
         private CloudServiceGetResponse.Resource GetCacheService(string cloudServiceName, string cacheServiceName)
         {
-            CloudServiceGetResponse resp = client.CloudServices.Get(cloudServiceName);
-            CloudServiceGetResponse.Resource cacheResource = null;
-            foreach (var resource in resp.Resources)
-            {
-                if (resource.Type == CACHE_RESOURCE_TYPE &&
-                    resource.Name.Equals(cacheServiceName, StringComparison.OrdinalIgnoreCase))
-                {
-                    cacheResource = resource;
-                }
-            }
+            CloudServiceGetResponse response = client.CloudServices.Get(cloudServiceName);
+            CloudServiceGetResponse.Resource cacheResource = response.Resources.FirstOrDefault((r) => 
+            { 
+                return r.Type == CacheResourceType && r.Name.Equals(cacheServiceName, StringComparison.OrdinalIgnoreCase);
+            });
             return cacheResource;
         }
 
@@ -145,7 +164,7 @@ namespace Microsoft.Azure.Commands.ManagedCache
         public string GetCloudServiceName(string subscriptionId, string region)
         {
             string hashedSubId = string.Empty;
-            string extensionPrefix = CACHE_RESOURCE_TYPE;
+            string extensionPrefix = CacheResourceType;
             using (SHA256 sha256 = SHA256Managed.Create())
             {
                 hashedSubId = Base32NoPaddingEncode(sha256.ComputeHash(UTF8Encoding.UTF8.GetBytes(subscriptionId)));
