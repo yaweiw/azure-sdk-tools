@@ -25,6 +25,8 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.Common
 
         public const string CheckIn = "CheckIn";
 
+        public const string TrafficManager = "TrafficManager";
+
         // Owners
 
         public const string OneSDK = "OneSDK";
