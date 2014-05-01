@@ -15,59 +15,30 @@
 namespace Microsoft.Azure.Commands.ManagedCache
 {
     using System;
-    using System.Collections.Generic;
-    using System.Globalization;
-    using System.Linq;
     using System.Management.Automation;
-    using Microsoft.Azure.Management.ManagedCache;
-    using Microsoft.WindowsAzure.Commands.Utilities.Common;
 
     /// <summary>
     /// Retrieves a list of Windows Azure SQL Database servers in the selected subscription.
     /// </summary>
-    [Cmdlet(VerbsCommon.Set, "AzureManagedCache", ConfirmImpact = ConfirmImpact.None)]
+    [Cmdlet(VerbsCommon.Set, "AzureManagedCache")]
     public class SetAzureManagedCache : ManagedCacheCmdletBase
     {
-        [Parameter(Position = 0, 
-            HelpMessage = "azure cache service name.")]
+        [Parameter(Position = 0)]
         [ValidateNotNullOrEmpty]
-        public string Name
-        {
-            get;
-            set;
-        }
+        public string Name { get; set; }
 
-        [Parameter(Position = 1, 
-            Mandatory = true, 
-            HelpMessage = "The geographic region to create the website.")]
+        [Parameter(Position = 1, Mandatory = true)]
         [ValidateNotNullOrEmpty]
-        public string Location
-        {
-            get;
-            set;
-        }
+        public string Location { get; set;}
 
-        [Parameter(Position = 2,
-            Mandatory = false)]
+        [Parameter(Position = 2,Mandatory = false)]
         [ValidateSet("Basic", "Standard", "Premium", IgnoreCase = true)]
-        public string Sku
-        {
-            get;
-            set;
-        }
+        public string Sku { get; set; }
 
-        [Parameter(Position = 3,
-            Mandatory = false,
-            HelpMessage = "The cache memeory size")]
-        public string Memory
-        {
-            get;
-            set;
-        }
+        [Parameter(Position = 3, Mandatory = false)]
+        public string Memory { get; set; }
 
-        [Parameter(Mandatory = false)]
-        [Alias("f")]
-        public SwitchParameter ForceUpdate { get; set; }
+        public SwitchParameter Force { get; set; }
 
         public override void ExecuteCmdlet()
         {
