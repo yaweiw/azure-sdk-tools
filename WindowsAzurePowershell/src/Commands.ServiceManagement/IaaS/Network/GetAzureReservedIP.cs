@@ -22,7 +22,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
     using Model;
     using Utilities.Common;
 
-    [Cmdlet(VerbsCommon.Get, ReservedIPConstants.CmdletNoun), OutputType(typeof(IEnumerable<ReservedIPContext>))]
+    [Cmdlet(VerbsCommon.Get, ReservedIPConstants.CmdletNoun), OutputType(typeof(ReservedIPContext))]
     public class GetAzureReservedIPCmdlet : ServiceManagementBaseCmdlet
     {
         [Parameter(Mandatory = false, Position = 0, ValueFromPipelineByPropertyName = true, HelpMessage = "Reserved IP Name.")]
