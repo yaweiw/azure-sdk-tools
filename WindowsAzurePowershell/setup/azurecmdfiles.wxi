@@ -2697,6 +2697,9 @@
                     <Component Id="cmp7721CAFF672F399FDD37AE3BECF4AE9D" Guid="B6EBC1A7-CE1C-4AAC-8844-077DEE9844DC">
                         <File Id="fil4CE5D13A537FE4A5A622325D5ED10C6E" KeyPath="yes" Source="$(var.sourceDir)\ServiceManagement\Azure\Microsoft.WindowsAzure.Commands.ExpressRoute.dll-Help.xml" />
                     </Component>
+                    <Component Id="cmp1C6EA822B13F4C32ADCC46728D557899" Guid="714B4754-3EA5-4518-99FF-5275E12633D1">
+                        <File Id="fil2F7553D369994BD8838E9244CA360A8A" KeyPath="yes" Source="$(var.sourceDir)\ServiceManagement\Azure\Microsoft.WindowsAzure.Commands.ManagedCache.dll" />
+                    </Component>
                     <Component Id="cmpC8001B20135B1103FDF5118ECD3905B8" Guid="8EFB9C37-93B0-4EE6-A025-400B908DED7E">
                         <File Id="fil659544A2AE7794B45B264BE0068BE144" KeyPath="yes" Source="$(var.sourceDir)\ServiceManagement\Azure\Microsoft.WindowsAzure.Commands.Scheduler.format.ps1xml" />
                     </Component>
@@ -8809,6 +8812,7 @@
             <ComponentRef Id="cmpAA96FD08892AF9EA29D20D5AFFAF1389" />
             <ComponentRef Id="cmpE7F6734D194B94943AAD28F1C78CD9C4" />
             <ComponentRef Id="cmpD5B23B4788252E9B51F8B5D0D2D5F807" />
+            <ComponentRef Id="cmp7721CAFF672F399FDD37AE3BECF4AE9D" />
             <ComponentRef Id="cmp7721CAFF672F399FDD37AE3BECF4AE9D" />
             <ComponentRef Id="cmpC8001B20135B1103FDF5118ECD3905B8" />
             <ComponentRef Id="cmp9F961F49FE22C90AF96DEB19B0A65B30" />
