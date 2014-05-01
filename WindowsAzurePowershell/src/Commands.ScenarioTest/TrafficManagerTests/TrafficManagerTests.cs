@@ -21,7 +21,7 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.TrafficManagerTests
     //[TestClass]
     public class TrafficManagerTests : WindowsAzurePowerShellCertificateTest
     {
-        private string currentDirectory;
+/*        private string currentDirectory;
 
         public TrafficManagerTests()
             : base("TrafficManager\\Common.ps1",
