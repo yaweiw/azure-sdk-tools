@@ -45,31 +45,24 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
         private ResourceExtensionReference MakeItem(
             string publisherName,
             string extensionName,
-            bool createOnlyIfExists = true)
+            string version)
         {
             ResourceExtensionReference extension = null;
 
-            if (createOnlyIfExists)
+            if (this.computeClient != null)
             {
-                if (this.computeClient != null)
-                {
-                    var reference = this.computeClient.VirtualMachineExtensions.ListVersions(
-                        publisherName,
-                        extensionName).FirstOrDefault();
+                var reference = this.computeClient.VirtualMachineExtensions.ListVersions(
+                    publisherName,
+                    extensionName).FirstOrDefault();
 
-                    if (reference != null)
-                    {
-                        extension = MakeItem(
-                            reference.Publisher,
-                            reference.Name,
-                            reference.Name,
-                            reference.Version);
-                    }
+                if (reference != null)
+                {
+                    extension = MakeItem(
+                        reference.Publisher,
+                        reference.Name,
+                        reference.Name,
+                        version);
                 }
-            }
-            else
-            {
-                extension = null;
             }
 
             return extension;
@@ -78,12 +71,12 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
         public ResourceExtensionReferenceList MakeList(
             string publisherName,
             string extensionName,
-            bool createOnlyIfExists = true)
+            string version)
         {
             var item = MakeItem(
                 publisherName,
                 extensionName,
-                createOnlyIfExists);
+                version);
 
             var list = Enumerable.Repeat(item, item == null ? 0 : 1);
 

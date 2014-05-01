@@ -111,12 +111,14 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
             if (IsLegacyExtension())
             {
                 this.PublicConfiguration = GetLegacyConfiguration();
+                this.Version = VMAccessAgentLegacyVersion;
             }
             else
             {
                 this.ReferenceName = string.IsNullOrEmpty(this.ReferenceName) ? ExtensionDefaultName : this.ReferenceName;
                 this.PublicConfiguration = GetPublicConfiguration();
                 this.PrivateConfiguration = GetPrivateConfiguration();
+                this.Version = ExtensionDefaultVersion;
             }
         }
 
