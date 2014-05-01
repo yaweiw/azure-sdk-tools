@@ -41,7 +41,8 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.TrafficManager
             System.Int32 monitorPort,
             string monitorProtocol,
             string monitorRelativePath,
-            System.Int32 ttl);
+            System.Int32 ttl,
+            IList<TrafficManagerEndpoint> endpoints);
 
         /// <summary>
         /// Transforms a Definition instance to a DefinitionCreateParameters

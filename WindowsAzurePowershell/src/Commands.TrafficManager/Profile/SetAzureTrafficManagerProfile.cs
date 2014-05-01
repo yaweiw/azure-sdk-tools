@@ -32,9 +32,10 @@ namespace Microsoft.WindowsAzure.Commands.TrafficManager.Profile
         public string LoadBalancingMethod { get; set; }
 
         [Parameter(Mandatory = false)]
-        public System.Int32? MonitorPort { get; set; }
+        public int? MonitorPort { get; set; }
 
         [Parameter(Mandatory = false)]
+        [ValidateSet("Http", "Https", IgnoreCase = false)]
         [ValidateNotNullOrEmpty]
         public string MonitorProtocol { get; set; }
 
@@ -43,19 +44,19 @@ namespace Microsoft.WindowsAzure.Commands.TrafficManager.Profile
         public string MonitorRelativePath { get; set; }
 
         [Parameter(Mandatory = false)]
-        public System.Int32? Ttl { get; set; }
+        public int? Ttl { get; set; }
 
         public override void ExecuteCmdlet()
         {
             ProfileWithDefinition profile = TrafficManagerProfile.GetInstance();
-
             DefinitionCreateParameters updatedDefinitionAsParam =
                 TrafficManagerClient.InstantiateTrafficManagerDefinition(
                 LoadBalancingMethod ?? profile.LoadBalancingMethod.ToString(),
                 MonitorPort.HasValue ? MonitorPort.Value : profile.MonitorPort,
                 MonitorProtocol ?? profile.MonitorProtocol.ToString(),
                 MonitorRelativePath ?? profile.MonitorRelativePath,
-                Ttl.HasValue ? Ttl.Value : profile.TimeToLiveInSeconds);
+                Ttl.HasValue ? Ttl.Value : profile.TimeToLiveInSeconds,
+                profile.Endpoints);
 
             ProfileWithDefinition newDefinition =
                 TrafficManagerClient.AssignDefinitionToProfile(Name, updatedDefinitionAsParam);

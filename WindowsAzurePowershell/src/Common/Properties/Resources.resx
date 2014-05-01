@@ -1599,4 +1599,10 @@ use and privacy statement at &lt;url&gt; and (c) agree to sharing my contact inf
   <data name="SetInexistentTrafficManagerEndpointMessage" xml:space="preserve">
     <value>Profile {0} does not contain endpoint {1}. Adding it.</value>
   </data>
+  <data name="RemoveTrafficManagerEndpointMissing" xml:space="preserve">
+    <value>The endpoint {0} cannot be removed from profile {1} because it's not in the profile.</value>
+  </data>
+  <data name="SetTrafficManagerEndpointNeedsParameters" xml:space="preserve">
+    <value>Insufficient parameters passed to create a new endpoint.</value>
+  </data>
 </root>

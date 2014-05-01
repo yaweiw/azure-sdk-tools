@@ -46,7 +46,7 @@ namespace Microsoft.WindowsAzure.Commands.TrafficManager.Endpoint
         public string Status { get; set; }
 
         [Parameter(Mandatory = false)]
-        public System.Int32 Weight { get; set; }
+        public int? Weight { get; set; }
 
         public override void ExecuteCmdlet()
         {
@@ -60,11 +60,10 @@ namespace Microsoft.WindowsAzure.Commands.TrafficManager.Endpoint
                     String.IsNullOrEmpty(Status) ||
                     String.IsNullOrEmpty(DomainName) ||
                     // The weight must be set for endpoints part of a RoundRobin profile
-                    (Weight == 0 &&
+                    (!Weight.HasValue &&
                         profile.LoadBalancingMethod == LoadBalancingMethod.RoundRobin))
                 {
-                    // TODO: Add message need parameters when non existent
-                    throw new Exception();
+                    throw new Exception(Resources.SetTrafficManagerEndpointNeedsParameters);
                 }
 
                 WriteVerboseWithTimestamp(Resources.SetInexistentTrafficManagerEndpointMessage, Name, DomainName);
@@ -72,7 +71,7 @@ namespace Microsoft.WindowsAzure.Commands.TrafficManager.Endpoint
                 endpoint.DomainName = DomainName;
                 endpoint.Location = Location;
                 endpoint.Type = (EndpointType)Enum.Parse(typeof(EndpointType), Type);
-                endpoint.Weight = Weight;
+                endpoint.Weight = Weight.HasValue ? Weight.Value : 0;
                 endpoint.Status = (EndpointStatus)Enum.Parse(typeof(EndpointStatus), Status);
             }
 
@@ -83,8 +82,7 @@ namespace Microsoft.WindowsAzure.Commands.TrafficManager.Endpoint
                 ? (EndpointType)Enum.Parse(typeof(EndpointType), Type)
                 : endpoint.Type;
 
-            // TODO: Make sure not overwrite with 0
-            endpoint.Weight = Weight;
+            endpoint.Weight = Weight.HasValue ? Weight.Value : endpoint.Weight;
 
             endpoint.Status = !String.IsNullOrEmpty(Status)
                 ? (EndpointStatus)Enum.Parse(typeof (EndpointStatus), Status)

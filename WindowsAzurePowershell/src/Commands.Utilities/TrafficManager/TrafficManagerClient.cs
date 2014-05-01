@@ -56,7 +56,8 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.TrafficManager
                 monitorPort,
                 monitorProtocol,
                 monitorRelativePath,
-                ttl);
+                ttl,
+                null);
 
             CreateTrafficManagerDefinition(profileName, definitionParameter);
 
@@ -78,7 +79,16 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.TrafficManager
         public ProfileWithDefinition GetTrafficManagerProfileWithDefinition(string profileName)
         {
             Profile profile = GetProfile(profileName).Profile;
-            Definition definition = GetDefinition(profileName).Definition;
+            Definition definition = null;
+            try
+            {
+                definition = GetDefinition(profileName).Definition;
+
+            }
+            catch (CloudException)
+            {
+                
+            }
             return new ProfileWithDefinition(profile, definition);
         }
 
@@ -87,7 +97,8 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.TrafficManager
             int monitorPort,
             string monitorProtocol,
             string monitorRelativePath,
-            int ttl)
+            int ttl,
+            IList<TrafficManagerEndpoint> endpoints)
         {
             // Create the definition
             DefinitionCreateParameters definitionParameter = new DefinitionCreateParameters();
@@ -111,7 +122,20 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.TrafficManager
 
             policyParameter.LoadBalancingMethod =
                 (LoadBalancingMethod)Enum.Parse(typeof(LoadBalancingMethod), loadBalancingMethod);
+
             policyParameter.Endpoints = new List<DefinitionEndpointCreateParameters>();
+            foreach (TrafficManagerEndpoint endpoint in endpoints)
+            {
+                DefinitionEndpointCreateParameters endpointParam = new DefinitionEndpointCreateParameters();
+                endpointParam.DomainName = endpoint.DomainName;
+                endpointParam.Location = endpoint.Location;
+                endpointParam.Status = endpoint.Status;
+                endpointParam.Type = endpoint.Type;
+                endpointParam.Weight = endpoint.Weight;
+
+                policyParameter.Endpoints.Add(endpointParam);
+            }
+
 
             definitionParameter.DnsOptions = dnsOptions;
             definitionParameter.Policy = policyParameter;
