@@ -15,25 +15,14 @@
 namespace Microsoft.Azure.Commands.ManagedCache
 {
     using System;
-    using System.Collections.Generic;
-    using System.Globalization;
-    using System.Linq;
     using System.Management.Automation;
 
-    using Microsoft.Azure.Management.ManagedCache;
-    using Microsoft.WindowsAzure.Commands.Utilities.Common;
-
-    [Cmdlet(VerbsCommon.Remove, "AzureManagedCache", ConfirmImpact = ConfirmImpact.None)]
+    [Cmdlet(VerbsCommon.Remove, "AzureManagedCache")]
     public class RemoveAzureManagedCache : ManagedCacheCmdletBase
     {
-        [Parameter(Position = 0, 
-            HelpMessage = "azure cache service name.")]
+        [Parameter(Position = 0)]
         [ValidateNotNullOrEmpty]
-        public string Name
-        {
-            get;
-            set;
-        }
+        public string Name { get; set;}
 
         [Parameter(Mandatory = false)]
         [Alias("f")]

@@ -15,27 +15,14 @@
 namespace Microsoft.Azure.Commands.ManagedCache
 {
     using System;
-    using System.Collections.Generic;
-    using System.Globalization;
-    using System.Linq;
     using System.Management.Automation;
 
-    using Microsoft.Azure.Management.ManagedCache;
-    using Microsoft.Azure.Management.ManagedCache.Models;
-    using Microsoft.WindowsAzure;
-    using Microsoft.WindowsAzure.Commands.Utilities.Common;
-
-    [Cmdlet(VerbsCommon.Get, "AzureManagedCache", ConfirmImpact = ConfirmImpact.None)]
+    [Cmdlet(VerbsCommon.Get, "AzureManagedCache")]
     public class GetAzureManagedCache : ManagedCacheCmdletBase
     {
-        [Parameter(Position = 0, ValueFromPipelineByPropertyName = true,
-            HelpMessage = "azure cache service name.")]
+        [Parameter(Position = 0)]
         [ValidateNotNullOrEmpty]
-        public string Name
-        {
-            get;
-            set;
-        }
+        public string Name { get; set;}
 
         public override void ExecuteCmdlet()
         {

@@ -15,35 +15,18 @@
 namespace Microsoft.Azure.Commands.ManagedCache
 {
     using System;
-    using System.Collections.Generic;
-    using System.Globalization;
-    using System.Linq;
     using System.Management.Automation;
 
-    using Microsoft.Azure.Management.ManagedCache;
-    using Microsoft.WindowsAzure.Commands.Utilities.Common;
-
-    [Cmdlet(VerbsCommon.New, "AzureManagedCacheAccessKey", ConfirmImpact = ConfirmImpact.None)]
+    [Cmdlet(VerbsCommon.New, "AzureManagedCacheAccessKey")]
     public class NewAzureManagedCacheAccessKey : ManagedCacheCmdletBase
     {
-        [Parameter(Position = 0,
-            HelpMessage = "azure cache service name.")]
+        [Parameter(Position = 0)]
         [ValidateNotNullOrEmpty]
-        public string Name
-        {
-            get;
-            set;
-        }
+        public string Name { get; set;}
 
-        [Parameter(Position = 1,
-            Mandatory = false,
-            HelpMessage = "The key type")]
+        [Parameter(Position = 1, Mandatory = false)]
         [ValidateSet("Primary", "Secondary", IgnoreCase = true)]
-        public string KeyType
-        {
-            get;
-            set;
-        }
+        public string KeyType { get; set; }
 
         public override void ExecuteCmdlet()
         {

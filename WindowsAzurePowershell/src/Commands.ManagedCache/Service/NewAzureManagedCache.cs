@@ -14,61 +14,27 @@
 
 namespace Microsoft.Azure.Commands.ManagedCache
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Globalization;
-    using System.Linq;
     using System.Management.Automation;
-    using System.Security.Cryptography;
-    using System.Text;
 
-    using Microsoft.Azure.Management.ManagedCache;
-    using Microsoft.Azure.Management.ManagedCache.Models;
-    using Microsoft.WindowsAzure;
-    using Microsoft.WindowsAzure.Commands.Utilities.Common;
-
-    [Cmdlet(VerbsCommon.New, "AzureManagedCache", ConfirmImpact = ConfirmImpact.None)]
+    [Cmdlet(VerbsCommon.New, "AzureManagedCache")]
     public class NewAzureManagedCache : ManagedCacheCmdletBase
     {
         private string cacheServiceName;
 
-        [Parameter(Position = 0, 
-            Mandatory=true,
-            HelpMessage = "azure cache service name.")]
+        [Parameter(Position = 0, Mandatory=true )]
         [ValidateNotNullOrEmpty]
-        public string Name
-        {
-            get;
-            set;
-        }
+        public string Name { get; set; }
 
-        [Parameter(Position = 1, 
-            Mandatory = true, 
-            HelpMessage = "The geographic region to create the website.")]
+        [Parameter(Position = 1, Mandatory = true)]
         [ValidateNotNullOrEmpty]
-        public string Location
-        {
-            get;
-            set;
-        }
+        public string Location { get; set;}
 
-        [Parameter(Position = 2,
-            Mandatory = false)]
+        [Parameter(Position = 2, Mandatory = false)]
         [ValidateSet("Basic", "Standard", "Premium", IgnoreCase = true)]
-        public string Sku
-        {
-            get;
-            set;
-        }
+        public string Sku { get; set; }
 
-        [Parameter(Position = 3,
-            Mandatory = false,
-            HelpMessage = "The cache memeory size")]
-        public string Memory
-        {
-            get;
-            set;
-        }
+        [Parameter(Position = 3, Mandatory = false)]
+        public string Memory { get; set; }
 
         public override void ExecuteCmdlet()
         {
