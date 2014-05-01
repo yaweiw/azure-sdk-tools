@@ -24,7 +24,7 @@ namespace Microsoft.WindowsAzure.Commands.TrafficManager.Profile
     [Cmdlet(VerbsCommon.Remove, "AzureTrafficManagerProfile"), OutputType(typeof(bool))]
     public class RemoveAzureTrafficManagerProfile : TrafficManagerBaseCmdlet
     {
-        [Parameter(Mandatory = true, ValueFromPipelineByPropertyName = true, HelpMessage = "Name of the Traffic Manager profile to remove.")]
+        [Parameter(Position = 0, Mandatory = true, ValueFromPipelineByPropertyName = true, HelpMessage = "Name of the Traffic Manager profile to remove.")]
         public string Name { get; set; }
 
         [Parameter(Mandatory = false, HelpMessage = "Do not confirm profile deletion")]

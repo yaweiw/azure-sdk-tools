@@ -40,6 +40,7 @@ namespace Microsoft.WindowsAzure.Commands.TrafficManager.Profile
         public int MonitorPort { get; set; }
 
         [Parameter(Mandatory = true)]
+        [ValidateSet("HTTP", "HTTPS", IgnoreCase = false)]
         [ValidateNotNullOrEmpty]
         public string MonitorProtocol { get; set; }
 

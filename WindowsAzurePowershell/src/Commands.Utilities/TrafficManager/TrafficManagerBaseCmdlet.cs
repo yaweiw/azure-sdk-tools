@@ -18,9 +18,9 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.TrafficManager
 
     public abstract class TrafficManagerBaseCmdlet : CmdletWithSubscriptionBase
     {
-        private TrafficManagerClient trafficManagerClient;
+        private ITrafficManagerClient trafficManagerClient;
 
-        public TrafficManagerClient TrafficManagerClient
+        public ITrafficManagerClient TrafficManagerClient
         {
             get
             {

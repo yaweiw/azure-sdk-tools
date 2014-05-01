@@ -12,17 +12,19 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-
 namespace Microsoft.WindowsAzure.Commands.Utilities.TrafficManager
 {
+    using System;
+    using System.Collections;
     using System.Collections.Generic;
+    using System.Linq;
     using System.Net;
     using Microsoft.WindowsAzure.Commands.Utilities.Common;
     using Microsoft.WindowsAzure.Commands.Utilities.TrafficManager.Models;
     using Microsoft.WindowsAzure.Management.TrafficManager;
     using Microsoft.WindowsAzure.Management.TrafficManager.Models;
 
-    public class TrafficManagerClient
+    public class TrafficManagerClient : ITrafficManagerClient
     {
         public TrafficManagerManagementClient Client { get; internal set; }
 
@@ -46,7 +48,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.TrafficManager
             System.Int32 ttl)
         {
             // Create the profile
-            Client.Profiles.Create(profileName, domainName);
+            CreateTrafficManagerProfile(profileName, domainName);
 
             // Create the definition
             DefinitionCreateParameters definitionParameter = InstantiateTrafficManagerDefinition(
@@ -56,7 +58,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.TrafficManager
                 monitorRelativePath,
                 ttl);
 
-            Client.Definitions.Create(profileName, definitionParameter);
+            CreateTrafficManagerDefinition(profileName, definitionParameter);
 
             return GetTrafficManagerProfileWithDefinition(profileName);
         }
@@ -75,17 +77,17 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.TrafficManager
 
         public ProfileWithDefinition GetTrafficManagerProfileWithDefinition(string profileName)
         {
-            Profile profile = Client.Profiles.Get(profileName).Profile;
-            Definition definition = Client.Definitions.Get(profileName).Definition;
+            Profile profile = GetProfile(profileName).Profile;
+            Definition definition = GetDefinition(profileName).Definition;
             return new ProfileWithDefinition(profile, definition);
         }
 
         public DefinitionCreateParameters InstantiateTrafficManagerDefinition(
             string loadBalancingMethod,
-            System.Int32 monitorPort,
+            int monitorPort,
             string monitorProtocol,
             string monitorRelativePath,
-            System.Int32 ttl)
+            int ttl)
         {
             // Create the definition
             DefinitionCreateParameters definitionParameter = new DefinitionCreateParameters();
@@ -97,17 +99,18 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.TrafficManager
             dnsOptions.TimeToLiveInSeconds = ttl;
 
             monitorHttpOption.RelativePath = monitorRelativePath;
-            monitorHttpOption.Verb = "GET";
-            monitorHttpOption.ExpectedStatusCode = (int)HttpStatusCode.OK;
-            // TODO: Use the one supplied and add validation
-            monitor.Protocol = DefinitionMonitorProtocol.Http;
-            monitor.IntervalInSeconds = 30;
-            monitor.TimeoutInSeconds = 10;
-            monitor.ToleratedNumberOfFailures = 3;
-            monitor.Port = 80;
+            monitorHttpOption.Verb = Constants.monitorHttpOptionVerb;
+            monitorHttpOption.ExpectedStatusCode = Constants.monitorHttpOptionExpectedStatusCode;
 
-            // TODO: Use the one supplied and add validation
-            policyParameter.LoadBalancingMethod = LoadBalancingMethod.Performance;
+            monitor.Protocol =
+                (DefinitionMonitorProtocol)Enum.Parse(typeof(DefinitionMonitorProtocol), monitorProtocol);
+            monitor.IntervalInSeconds = Constants.monitorIntervalInSeconds;
+            monitor.TimeoutInSeconds = Constants.monitorTimeoutInSeconds;
+            monitor.ToleratedNumberOfFailures = Constants.monitorToleratedNumberOfFailures;
+            monitor.Port = monitorPort;
+
+            policyParameter.LoadBalancingMethod =
+                (LoadBalancingMethod)Enum.Parse(typeof(LoadBalancingMethod), loadBalancingMethod);
             policyParameter.Endpoints = new List<DefinitionEndpointCreateParameters>();
 
             definitionParameter.DnsOptions = dnsOptions;
@@ -164,6 +167,44 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.TrafficManager
         public ProfileDefinitionStatus GetStatus(string profileName)
         {
             return Client.Profiles.Get(profileName).Profile.Status;
+        }
+
+        public void CreateTrafficManagerProfile(string profileName, string domainName)
+        {
+            Client.Profiles.Create(profileName, domainName);
+        }
+
+        public void CreateTrafficManagerDefinition(string profileName, DefinitionCreateParameters parameters)
+        {
+            Client.Definitions.Create(profileName, parameters);
+        }
+
+        public ProfileGetResponse GetProfile(string profileName)
+        {
+            return Client.Profiles.Get(profileName);
+        }
+
+        public DefinitionGetResponse GetDefinition(string profileName)
+        {
+            return Client.Definitions.Get(profileName);
+        }
+
+
+        public IEnumerable<SimpleProfile> ListProfiles()
+        {
+            IList<Profile> respProfiles = Client.Profiles.List().Profiles;
+
+
+            IEnumerable<SimpleProfile> resultProfiles =
+                respProfiles.Select(respProfile => new SimpleProfile(respProfile));
+
+            return resultProfiles;
+        }
+
+
+        public bool TestDomainAvailability(string domainName)
+        {
+            return Client.Profiles.CheckDnsPrefixAvailability(domainName).Result;
         }
     }
 }
