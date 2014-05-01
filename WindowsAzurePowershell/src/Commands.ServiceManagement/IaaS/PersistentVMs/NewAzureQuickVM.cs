@@ -361,7 +361,8 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.PersistentVMs
                 ResourceExtensionReferences = this.DisableGuestAgent ? null : Mapper.Map<List<ResourceExtensionReference>>(
                     new VirtualMachineExtensionImageFactory(this.ComputeClient).MakeList(
                         VirtualMachineBGInfoExtensionCmdletBase.ExtensionDefaultPublisher,
-                        VirtualMachineBGInfoExtensionCmdletBase.ExtensionDefaultName))
+                        VirtualMachineBGInfoExtensionCmdletBase.ExtensionDefaultName,
+                        VirtualMachineBGInfoExtensionCmdletBase.ExtensionDefaultVersion))
             };
 
             if (!_isVMImage && vm.OSVirtualHardDisk.MediaLink == null && String.IsNullOrEmpty(vm.OSVirtualHardDisk.Name))

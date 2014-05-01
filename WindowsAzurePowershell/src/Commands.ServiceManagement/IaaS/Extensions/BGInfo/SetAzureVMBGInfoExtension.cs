@@ -60,8 +60,9 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
         [ValidateNotNullOrEmpty]
         public override string Version { get; set; }
 
-        internal void ExecuteCommand()
+        protected override void ProcessRecord()
         {
+            base.ProcessRecord();
             ValidateParameters();
             RemovePredicateExtensions();
             AddResourceExtension();
@@ -72,12 +73,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
         {
             base.ValidateParameters();
             this.ReferenceName = string.IsNullOrEmpty(this.ReferenceName) ? ExtensionDefaultName : this.ReferenceName;
-        }
-
-        protected override void ProcessRecord()
-        {
-            base.ProcessRecord();
-            ExecuteCommand();
+            this.Version = this.Version ?? ExtensionDefaultVersion;
         }
     }
 }
