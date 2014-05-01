@@ -83,6 +83,7 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Server.Cmdlet
                 OperationId = response.RequestId,
                 ServerName = server.Name,
                 Location = server.Location,
+                Version = server.Version,
                 AdministratorLogin = server.AdministratorUserName,
             });
 

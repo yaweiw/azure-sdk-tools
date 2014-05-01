@@ -40,9 +40,12 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Services.Server
             this._Edition = other._Edition;
             this._Id = other._Id;
             this._MaxSizeGB = other._MaxSizeGB;
+            this._MaxSizeBytes = other._MaxSizeBytes;
             this._Name = other._Name;
             this._Server = other._Server;
             this.Context = other.Context;
+            this._AssignedServiceObjectiveId = other.AssignedServiceObjectiveId;
+            this.ServiceObjective = other.ServiceObjective;
         }
     }
 }

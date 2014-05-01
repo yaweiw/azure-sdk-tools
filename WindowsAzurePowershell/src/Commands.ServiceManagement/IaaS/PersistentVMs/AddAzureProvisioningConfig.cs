@@ -19,6 +19,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
     using System.Management.Automation;
     using System.Security.Cryptography.X509Certificates;
     using Common;
+    using Extensions;
     using Helpers;
     using Model;
     using Properties;
@@ -109,6 +110,11 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
 
                 role.NoExportPrivateKey = this.NoExportPrivateKey.IsPresent;
                 role.ProvisionGuestAgent = !DisableGuestAgent.IsPresent;
+
+                role.ResourceExtensionReferences = this.DisableGuestAgent.IsPresent ? null :
+                    new VirtualMachineExtensionImageFactory(this.ComputeClient).MakeList(
+                            VirtualMachineBGInfoExtensionCmdletBase.ExtensionDefaultPublisher,
+                            VirtualMachineBGInfoExtensionCmdletBase.ExtensionDefaultName);
             }
 
             WriteObject(VM, true);
