@@ -15,6 +15,7 @@
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement
 {
     using System;
+    using System.Collections;
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
     using System.Linq;
@@ -36,6 +37,28 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement
     using NVM = Management.Network.Models;
     using PVM = Model.PersistentVMModel;
     using WSM = WindowsAzure.ServiceManagement;
+
+    public static class ServiceManagementMapperExtension
+    {
+        public static IMappingExpression<TSource, TDestination> AfterMap<TSource, TDestination, T>(
+                 this IMappingExpression<TSource, TDestination> mapper)
+            where TSource : IEnumerable
+            where TDestination : ICollection<T>
+        {
+            mapper.AfterMap((c, s) =>
+            {
+                if (c != null && s != null)
+                {
+                    foreach (var t in c)
+                    {
+                        s.Add(Mapper.Map<T>(t));
+                    }
+                }
+            });
+
+            return mapper;
+        }
+    }
 
     public class ServiceManagementProfile : Profile
     {
@@ -264,73 +287,19 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement
 
             Mapper.CreateMap<NSM.RoleInstance.PublicIP, PVM.PublicIP>();
             Mapper.CreateMap<IList<NSM.RoleInstance.PublicIP>, PVM.PublicIPList>()
-                  .AfterMap((c, s) =>
-                  {
-                      if (c != null && s != null)
-                      {
-                          foreach (var t in c)
-                          {
-                              s.Add(Mapper.Map<PVM.PublicIP>(t));
-                          }
-                      }
-                  });
+                  .AfterMap<IList<NSM.RoleInstance.PublicIP>, PVM.PublicIPList, PVM.PublicIP>();
             Mapper.CreateMap<IEnumerable<NSM.RoleInstance.PublicIP>, PVM.PublicIPList>()
-                  .AfterMap((c, s) =>
-                  {
-                      if (c != null && s != null)
-                      {
-                          foreach (var t in c)
-                          {
-                              s.Add(Mapper.Map<PVM.PublicIP>(t));
-                          }
-                      }
-                  });
+                  .AfterMap<IEnumerable<NSM.RoleInstance.PublicIP>, PVM.PublicIPList, PVM.PublicIP>();
             Mapper.CreateMap<List<NSM.RoleInstance.PublicIP>, PVM.PublicIPList>()
-                  .AfterMap((c, s) =>
-                  {
-                      if (c != null && s != null)
-                      {
-                          foreach (var t in c)
-                          {
-                              s.Add(Mapper.Map<PVM.PublicIP>(t));
-                          }
-                      }
-                  });
+                  .AfterMap<List<NSM.RoleInstance.PublicIP>, PVM.PublicIPList, PVM.PublicIP>();
 
             Mapper.CreateMap<NSM.ConfigurationSet.PublicIP, PVM.AssignPublicIP>();
             Mapper.CreateMap<IList<NSM.ConfigurationSet.PublicIP>, PVM.AssignPublicIPCollection>()
-                  .AfterMap((c, s) =>
-                  {
-                      if (c != null && s != null)
-                      {
-                          foreach (var t in c)
-                          {
-                              s.Add(Mapper.Map<PVM.AssignPublicIP>(t));
-                          }
-                      }
-                  });
+                  .AfterMap<IList<NSM.ConfigurationSet.PublicIP>, PVM.AssignPublicIPCollection, PVM.AssignPublicIP>();
             Mapper.CreateMap<IEnumerable<NSM.ConfigurationSet.PublicIP>, PVM.AssignPublicIPCollection>()
-                  .AfterMap((c, s) =>
-                  {
-                      if (c != null && s != null)
-                      {
-                          foreach (var t in c)
-                          {
-                              s.Add(Mapper.Map<PVM.AssignPublicIP>(t));
-                          }
-                      }
-                  });
+                  .AfterMap<IEnumerable<NSM.ConfigurationSet.PublicIP>, PVM.AssignPublicIPCollection, PVM.AssignPublicIP>();
             Mapper.CreateMap<List<NSM.ConfigurationSet.PublicIP>, PVM.AssignPublicIPCollection>()
-                  .AfterMap((c, s) =>
-                  {
-                      if (c != null && s != null)
-                      {
-                          foreach (var t in c)
-                          {
-                              s.Add(Mapper.Map<PVM.AssignPublicIP>(t));
-                          }
-                      }
-                  });
+                  .AfterMap<List<NSM.ConfigurationSet.PublicIP>, PVM.AssignPublicIPCollection, PVM.AssignPublicIP>();
 
             //SM to NewSM mapping
             Mapper.CreateMap<PVM.LoadBalancerProbe, NSM.LoadBalancerProbe>()
