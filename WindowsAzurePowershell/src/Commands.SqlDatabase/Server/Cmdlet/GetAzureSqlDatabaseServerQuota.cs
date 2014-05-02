@@ -14,7 +14,14 @@
 namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Server.Cmdlet
 {
     using System;
+    using System.Collections.Generic;
+    using System.Globalization;
+    using System.Linq;
     using System.Management.Automation;
+    using Microsoft.WindowsAzure.Commands.SqlDatabase.Model;
+    using Microsoft.WindowsAzure.Commands.SqlDatabase.Properties;
+    using Microsoft.WindowsAzure.Management.Sql;
+    using Microsoft.WindowsAzure.Management.Sql.Models;
     using Services.Common;
     using Services.Server;
 
@@ -22,8 +29,24 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Server.Cmdlet
     /// Retrieves a list of Windows Azure SQL Database server quotas for the selected server.
     /// </summary>
     [Cmdlet(VerbsCommon.Get, "AzureSqlDatabaseServerQuota", ConfirmImpact = ConfirmImpact.None)]
-    public class GetAzureSqlDatabaseServerQuota : PSCmdlet
+    public class GetAzureSqlDatabaseServerQuota : SqlDatabaseCmdletBase
     {
+        #region Parameter Sets
+
+        /// <summary>
+        /// The name of the parameter set for connection with a connection context
+        /// </summary>
+        internal const string ByConnectionContext =
+            "ByConnectionContext";
+
+        /// <summary>
+        /// The name of the parameter set for connecting with an azure subscription
+        /// </summary>
+        internal const string ByServerName =
+            "ByServerName";
+
+        #endregion
+
         #region Parameters
 
         /// <summary>
@@ -32,9 +55,19 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Server.Cmdlet
         [Alias("Context")]
         [Parameter(Mandatory = true, Position = 0, ValueFromPipeline = true,
             ValueFromPipelineByPropertyName = true,
+            ParameterSetName = ByConnectionContext,
             HelpMessage = "The connection context to the specified server.")]
         [ValidateNotNull]
         public IServerDataServiceContext ConnectionContext { get; set; }
+
+        /// <summary>
+        /// Gets or sets the name of the server to connect to
+        /// </summary>
+        [Parameter(Mandatory = true, Position = 0, ValueFromPipelineByPropertyName = true,
+            ParameterSetName = ByServerName,
+            HelpMessage = "The name of the server to connect to using the current subscription")]
+        [ValidateNotNullOrEmpty]
+        public string ServerName { get; set; }
 
         /// <summary>
         /// Gets or sets the name of the server quota to retrieve
@@ -59,6 +92,24 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Server.Cmdlet
                 quotaName = this.QuotaName;
             }
 
+            switch(this.ParameterSetName)
+            {
+                case ByConnectionContext:
+                    this.ProcessWithConnectionContext(quotaName);
+                    break;
+                case ByServerName:
+                    this.ProcessWithServerName(quotaName);
+                    break;
+            }
+        }
+
+        /// <summary>
+        /// Process the get quota request using the supplied connection context.  This can be a connection
+        /// context that was created using Sql Authentication or Certificate authentication.
+        /// </summary>
+        /// <param name="quotaName"></param>
+        private void ProcessWithConnectionContext(string quotaName)
+        {
             try
             {
                 if (!string.IsNullOrEmpty(quotaName))
@@ -78,6 +129,58 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Server.Cmdlet
                     this,
                     this.ConnectionContext.ClientRequestId,
                     ex);
+            }
+        }
+
+        /// <summary>
+        /// Process the get quota request using the supplied server name.  This will use the REST API
+        /// to make the request.
+        /// </summary>
+        /// <param name="quotaName"></param>
+        private void ProcessWithServerName(string quotaName)
+        {
+            try
+            {
+                base.ProcessRecord();
+
+                SqlManagementClient sqlManagementClient = SqlDatabaseCmdletBase.GetCurrentSqlClient();
+
+                // Retrieve the list of servers
+                QuotaListResponse response = sqlManagementClient.Quotas.List(this.ServerName);
+                IEnumerable<Quota> quotas = response.Quotas;
+                if (!string.IsNullOrEmpty(quotaName))
+                {
+                    // Quota name is specified, find the one with the
+                    // same name.
+                    quotas = response.Quotas.Where(q => q.Name == quotaName);
+                    if (quotas.Count() == 0)
+                    {
+                        throw new ItemNotFoundException(string.Format(
+                            CultureInfo.InvariantCulture,
+                            Resources.GetAzureSqlDatabaseServerNotFound,
+                            quotaName));
+                    }
+                }
+
+                // Construct the result
+                IEnumerable<SqlDatabaseServerQuotaContext> processResult = quotas.Select(
+                    quota => new SqlDatabaseServerQuotaContext
+                {
+                    OperationStatus = Services.Constants.OperationSuccess,
+                    OperationDescription = CommandRuntime.ToString(),
+                    OperationId = response.RequestId,
+                    ServerName = this.ServerName,
+                    Name = quota.Name,
+                    State = quota.State,
+                    Type = quota.Type,
+                    Value = quota.Value,
+                });
+
+                this.WriteObject(processResult);
+            }
+            catch(Exception ex)
+            {
+                this.WriteErrorDetails(ex);
             }
         }
     }

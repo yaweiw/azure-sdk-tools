@@ -31,6 +31,12 @@ namespace Microsoft.WindowsAzure.Management.HDInsight.Cmdlet.Commands.CommandImp
             set { this.config.ClusterSizeInNodes = value; }
         }
 
+        public NodeVMSize HeadNodeVMSize
+        {
+            get { return this.config.HeadNodeVMSize; }
+            set { this.config.HeadNodeVMSize = value; }
+        }
+
         public override Task EndProcessing()
         {
             this.Output.Add(this.config);
