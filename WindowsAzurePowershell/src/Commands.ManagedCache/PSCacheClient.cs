@@ -134,6 +134,17 @@ namespace Microsoft.Azure.Commands.ManagedCache
             return cacheServiceName;
         }
 
+        public void DeleteCacheService(string cacheServiceName)
+        {
+            string cloudServiceName = GetAssociatedCloudServiceName(cacheServiceName);
+            if (string.IsNullOrEmpty(cloudServiceName))
+            {
+                string error = string.Format(Properties.Resources.CacheServiceNotExisting, cacheServiceName);
+                throw new ArgumentException(error);
+            }
+            client.CacheServices.Delete(cloudServiceName, cacheServiceName);
+        }
+
         public string EnsureCloudServiceExists(string subscriptionId,  string location)
         {
             string cloudServiceName = GetCloudServiceName(subscriptionId, location);
@@ -149,7 +160,7 @@ namespace Microsoft.Azure.Commands.ManagedCache
             return cloudServiceName;
         }
 
-        public List<PSCacheService> GetCacheService(string cacheServiceName)
+        public List<PSCacheService> GetCacheServices(string cacheServiceName)
         {
             List<PSCacheService> services = new List<PSCacheService>();
             CloudServiceListResponse listResponse = client.CloudServices.List(); 
@@ -166,6 +177,25 @@ namespace Microsoft.Azure.Commands.ManagedCache
                 }
             }
             return services;
+        }
+
+        private string GetAssociatedCloudServiceName(string cacheServiceName)
+        {
+            CloudServiceListResponse listResponse = client.CloudServices.List();
+            foreach (CloudServiceListResponse.CloudService cloudService in listResponse)
+            {
+                CloudServiceListResponse.CloudService.AddOnResource matched = cloudService.Resources.FirstOrDefault(
+                   resource => { 
+                       return resource.Type == CacheResourceType 
+                        && cacheServiceName.Equals(resource.Name, StringComparison.OrdinalIgnoreCase);
+                   });
+
+                if (matched!=null)
+                {
+                    return cloudService.Name;
+                }
+            }
+            return null;
         }
 
         private CloudServiceGetResponse.Resource GetCacheService(string cloudServiceName, string cacheServiceName)
