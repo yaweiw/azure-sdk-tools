@@ -61,11 +61,38 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Invalid Parameter combination: Both &quot;DatabaseName&quot; and &quot;DatabaseDeletionDate&quot; need to be specified to get a restorable dropped database..
+        /// </summary>
+        internal static string BothDatabaseNameAndDeletionDateNeedToBeSpecified {
+            get {
+                return ResourceManager.GetString("BothDatabaseNameAndDeletionDateNeedToBeSpecified", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The Sql Authenticate Credential was not specified..
         /// </summary>
         internal static string CredentialNotSpecified {
             get {
                 return ResourceManager.GetString("CredentialNotSpecified", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Database Copy from &apos;{0}.{1}&apos; to &apos;{2}.{3}&apos; not found..
+        /// </summary>
+        internal static string DatabaseCopyNotFound {
+            get {
+                return ResourceManager.GetString("DatabaseCopyNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to There is no database copy matching the specified filter. Please revise the filter criteria to specify one existing database copy..
+        /// </summary>
+        internal static string DatabaseCopyNotFoundGeneric {
+            get {
+                return ResourceManager.GetString("DatabaseCopyNotFoundGeneric", resourceCulture);
             }
         }
         
@@ -103,6 +130,15 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Properties {
         internal static string ErrorRefreshingDatabase {
             get {
                 return ResourceManager.GetString("ErrorRefreshingDatabase", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to An error occurred while refreshing database copy status..
+        /// </summary>
+        internal static string ErrorRefreshingDatabaseCopy {
+            get {
+                return ResourceManager.GetString("ErrorRefreshingDatabaseCopy", resourceCulture);
             }
         }
         
@@ -152,6 +188,15 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Database &apos;{0}.{1}&apos; with deletion date &apos;{2}&apos; not found..
+        /// </summary>
+        internal static string GetAzureSqlRestorableDroppedDatabaseDatabaseNotFound {
+            get {
+                return ResourceManager.GetString("GetAzureSqlRestorableDroppedDatabaseDatabaseNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Invalid authentication for &apos;{0}&apos;..
         /// </summary>
         internal static string InvalidAuthentication {
@@ -184,6 +229,15 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Properties {
         internal static string InvalidParameterCombination {
             get {
                 return ResourceManager.GetString("InvalidParameterCombination", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to There are more than one database copy matching the specified filter. Please revise the filter criteria to specify only one database copy..
+        /// </summary>
+        internal static string MoreThanOneDatabaseCopyFound {
+            get {
+                return ResourceManager.GetString("MoreThanOneDatabaseCopyFound", resourceCulture);
             }
         }
         
@@ -296,6 +350,15 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Invalid parameters: The RestorableDropped switch must be specified to use the parameter {0}..
+        /// </summary>
+        internal static string RestorableDroppedSwitchNotSpecified {
+            get {
+                return ResourceManager.GetString("RestorableDroppedSwitchNotSpecified", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Service objective &apos;{1}&apos; was not found on server &apos;{0}&apos;..
         /// </summary>
         internal static string ServiceObjectiveNotFound {
@@ -373,6 +436,51 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Properties {
         internal static string ShouldProcessCaption {
             get {
                 return ResourceManager.GetString("ShouldProcessCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to This operation does not support SQL authentication..
+        /// </summary>
+        internal static string SqlAuthNotSupported {
+            get {
+                return ResourceManager.GetString("SqlAuthNotSupported", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Copying Windows Azure Sql Database &quot;{0}.{1}&quot; to &quot;{2}.{3}&quot;..
+        /// </summary>
+        internal static string StartAzureSqlDatabaseCopyDescription {
+            get {
+                return ResourceManager.GetString("StartAzureSqlDatabaseCopyDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Are you sure you want to copy Windows Azure Sql Database &quot;{0}.{1}&quot; to &quot;{2}.{3}&quot;?.
+        /// </summary>
+        internal static string StartAzureSqlDatabaseCopyWarning {
+            get {
+                return ResourceManager.GetString("StartAzureSqlDatabaseCopyWarning", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Terminating the database copy from &quot;{0}.{1}&quot; to &quot;{2}.{3}&quot;..
+        /// </summary>
+        internal static string StopAzureSqlDatabaseCopyDescription {
+            get {
+                return ResourceManager.GetString("StopAzureSqlDatabaseCopyDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Are you sure you want to terminate the database copy from &quot;{0}.{1}&quot; to &quot;{2}.{3}&quot;?.
+        /// </summary>
+        internal static string StopAzureSqlDatabaseCopyWarning {
+            get {
+                return ResourceManager.GetString("StopAzureSqlDatabaseCopyWarning", resourceCulture);
             }
         }
         

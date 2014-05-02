@@ -91,6 +91,7 @@ namespace Microsoft.WindowsAzure.Management.HDInsight.Cmdlet.PSCmdlets
             {
                 var result = new AzureHDInsightConfig();
                 result.ClusterSizeInNodes = this.command.ClusterSizeInNodes;
+                result.HeadNodeVMSize = this.command.HeadNodeSize;
                 result.DefaultStorageAccount.StorageAccountName = this.command.DefaultStorageAccountName;
                 result.DefaultStorageAccount.StorageAccountKey = this.command.DefaultStorageAccountKey;
                 result.DefaultStorageAccount.StorageContainerName = this.command.DefaultStorageContainerName;
@@ -237,10 +238,13 @@ namespace Microsoft.WindowsAzure.Management.HDInsight.Cmdlet.PSCmdlets
         }
 
         /// <inheritdoc />
-        [Parameter(Position = 13, Mandatory = false, HelpMessage = "Enables High availability for the Head Node in your Hadoop cluster.",
+        [Parameter(Position = 13, Mandatory = false, HelpMessage = "The size of the headnode VM.",
             ParameterSetName = AzureHdInsightPowerShellConstants.ParameterSetClusterByNameWithSpecificSubscriptionCredentials)]
-        [Alias(AzureHdInsightPowerShellConstants.EnableHeadNodeHighAvailibility)]
-        public SwitchParameter EnableHeadNodeHigAvailability { get; set; }
+        public NodeVMSize HeadNodeVMSize
+        {
+            get { return this.command.HeadNodeSize; }
+            set { this.command.HeadNodeSize = value; }
+        }
 
         /// <inheritdoc />
         protected override void BeginProcessing()
@@ -257,7 +261,6 @@ namespace Microsoft.WindowsAzure.Management.HDInsight.Cmdlet.PSCmdlets
             try
             {
                 this.command.Logger = this.Logger;
-                this.command.EnableHighAvailability = this.EnableHeadNodeHigAvailability.IsPresent;
                 this.command.CurrentSubscription = this.GetCurrentSubscription(this.Subscription, this.Certificate);
                 Task task = this.command.EndProcessing();
                 CancellationToken token = this.command.CancellationToken;

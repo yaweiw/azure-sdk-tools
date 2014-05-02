@@ -41,6 +41,9 @@ namespace Microsoft.WindowsAzure.Management.HDInsight.Cmdlet.Commands.CommandImp
         public int ClusterSizeInNodes { get; set; }
 
         /// <inheritdoc />
+        public NodeVMSize HeadNodeSize { get; set; }
+
+        /// <inheritdoc />
         public ConfigValuesCollection CoreConfiguration { get; set; }
 
         /// <inheritdoc />
@@ -100,7 +103,6 @@ namespace Microsoft.WindowsAzure.Management.HDInsight.Cmdlet.Commands.CommandImp
             createClusterRequest.Name = this.Name;
             createClusterRequest.Version = this.Version;
             createClusterRequest.Location = this.Location;
-            createClusterRequest.EnsureHighAvailability = EnableHighAvailability;
             createClusterRequest.CoreConfiguration.AddRange(this.CoreConfiguration);
             createClusterRequest.YarnConfiguration.AddRange(this.YarnConfiguration);
             createClusterRequest.HdfsConfiguration.AddRange(this.HdfsConfiguration);
@@ -112,7 +114,7 @@ namespace Microsoft.WindowsAzure.Management.HDInsight.Cmdlet.Commands.CommandImp
             createClusterRequest.OozieConfiguration.ConfigurationCollection.AddRange(this.OozieConfiguration.ConfigurationCollection);
             createClusterRequest.OozieConfiguration.AdditionalSharedLibraries = this.OozieConfiguration.AdditionalSharedLibraries;
             createClusterRequest.OozieConfiguration.AdditionalActionExecutorLibraries = this.OozieConfiguration.AdditionalActionExecutorLibraries;
-
+            createClusterRequest.HeadNodeSize = this.HeadNodeSize;
             createClusterRequest.DefaultStorageAccountName = this.DefaultStorageAccountName;
             createClusterRequest.DefaultStorageAccountKey = this.DefaultStorageAccountKey;
             createClusterRequest.DefaultStorageContainer = this.DefaultStorageContainerName;

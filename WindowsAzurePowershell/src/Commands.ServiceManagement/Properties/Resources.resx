@@ -438,12 +438,6 @@
   <data name="VirtualNetworkConfigContextDirectoryDoesNotExist" xml:space="preserve">
     <value>The directory specified by the file path does not exist.</value>
   </data>
-  <data name="VirtualNetworkSupportedDevicesContextMissingFilePath" xml:space="preserve">
-    <value>A file path should be specified.</value>
-  </data>
-  <data name="VirtualNetworkSupportedDevicesContextDirectoryDoesNotExist" xml:space="preserve">
-    <value>The directory specified by the file path does not exist.</value>
-  </data>
   <data name="AddAzureVhdCommandSASUriNotSupportedInPatchMode" xml:space="preserve">
     <value>SAS Uri for the destination blob is not supported in patch mode:{0}</value>
   </data>
@@ -608,5 +602,8 @@
   </data>
   <data name="NoDeploymentFoundInService" xml:space="preserve">
     <value>No deployment found in service: '{0}'.</value>
+  </data>
+  <data name="CaptureVMImageOperationWhileVMIsStillRunning" xml:space="preserve">
+    <value>VM image capture operation is trigged while VM is still running. As this may cause data corruption while creating VMs from this image, we recommend using Stop-AzureVM to stop the VM before capturing.</value>
   </data>
 </root>

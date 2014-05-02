@@ -66,10 +66,12 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Test.UnitTests.Database.Cm
                     {
                         Assert.AreEqual(expected.RequestInfo.Method, actual.Method);
                         Assert.AreEqual(expected.RequestInfo.UserAgent, actual.UserAgent);
-                        if (expected.Index < 5)
+                        if (expected.Index < 10)
                         {
                             // Request 0-2: Set testdb1 with new MaxSize
-                            // Request 3-4: Get updated testdb1
+                            // Request 3-5: Set testdb2 with new MaxSize
+                            // Request 6-7: Get updated testdb1
+                            // Request 8-9: Get updated testdb2
                             DatabaseTestHelper.ValidateHeadersForODataRequest(
                                 expected.RequestInfo,
                                 actual);
@@ -83,17 +85,26 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Test.UnitTests.Database.Cm
                 using (AsyncExceptionManager exceptionManager = new AsyncExceptionManager())
                 {
                     // Create context with both ManageUrl and ServerName overriden
-                    Collection<PSObject> database;
+                    Collection<PSObject> database1,database2;
                     using (new MockHttpServer(
                         exceptionManager,
                         MockHttpServer.DefaultServerPrefixUri,
                         testSession))
                     {
-                        database = powershell.InvokeBatchScript(
+                        database1 = powershell.InvokeBatchScript(
                             @"Set-AzureSqlDatabase " +
                             @"-Context $context " +
                             @"-DatabaseName testdb1 " +
                             @"-MaxSizeGB 5 " +
+                            @"-Force " +
+                            @"-PassThru");
+
+                        // Set the database to 100MB
+                        database2 = powershell.InvokeBatchScript(
+                            @"Set-AzureSqlDatabase " +
+                            @"-Context $context " +
+                            @"-DatabaseName testdb2 " +
+                            @"-MaxSizeBytes 104857600 " +
                             @"-Force " +
                             @"-PassThru");
                     }
@@ -102,14 +113,13 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Test.UnitTests.Database.Cm
                     Assert.AreEqual(0, powershell.Streams.Warning.Count, "Warnings during run!");
                     powershell.Streams.ClearStreams();
 
-                    Assert.IsTrue(
-                        database.Single().BaseObject is Services.Server.Database,
-                        "Expecting a Database object");
-                    Services.Server.Database databaseObj =
-                        (Services.Server.Database)database.Single().BaseObject;
-                    Assert.AreEqual("testdb1", databaseObj.Name, "Expected db name to be testdb1");
-                    Assert.AreEqual("Web", databaseObj.Edition, "Expected edition to be Web");
-                    Assert.AreEqual(5, databaseObj.MaxSizeGB, "Expected max size to be 5 GB");
+                    Database database = database1.Single().BaseObject as Services.Server.Database;
+                    Assert.IsTrue(database != null, "Expecting a Database object");
+                    DatabaseTestHelper.ValidateDatabaseProperties(database, "testdb1", "Web", 5, 5368709120L, "SQL_Latin1_General_CP1_CI_AS", "Shared", false, DatabaseTestHelper.SharedSloGuid);
+
+                    database = database2.Single().BaseObject as Services.Server.Database;
+                    Assert.IsTrue(database != null, "Expecting a Database object");
+                    DatabaseTestHelper.ValidateDatabaseProperties(database, "testdb2", "Web", 0, 104857600L, "Japanese_CI_AS", "Shared", false, DatabaseTestHelper.SharedSloGuid);
                 }
             }
         }
@@ -179,14 +189,9 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Test.UnitTests.Database.Cm
                     Assert.AreEqual(0, powershell.Streams.Warning.Count, "Warnings during run!");
                     powershell.Streams.ClearStreams();
 
-                    Assert.IsTrue(
-                        database.Single().BaseObject is Services.Server.Database,
-                        "Expecting a Database object");
-                    Services.Server.Database databaseObj =
-                        (Services.Server.Database)database.Single().BaseObject;
-                    Assert.AreEqual("new_testdb1", databaseObj.Name, "Expected db name to be new_testdb1");
-                    Assert.AreEqual("Web", databaseObj.Edition, "Expected edition to be Web");
-                    Assert.AreEqual(1, databaseObj.MaxSizeGB, "Expected max size to be 1 GB");
+                    Services.Server.Database databaseObj = database.Single().BaseObject as Services.Server.Database;
+                    Assert.IsNotNull(databaseObj, "Expecting a Database object");
+                    DatabaseTestHelper.ValidateDatabaseProperties(databaseObj, "new_testdb1", "Web", 1, 1073741824L, "SQL_Latin1_General_CP1_CI_AS", "Shared", false, DatabaseTestHelper.SharedSloGuid);
                 }
             }
         }
@@ -259,16 +264,11 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Test.UnitTests.Database.Cm
                     Assert.AreEqual(0, powershell.Streams.Warning.Count, "Warnings during run!");
                     powershell.Streams.ClearStreams();
 
-                    Assert.IsTrue(
-                        database.Single().BaseObject is Services.Server.Database,
-                        "Expecting a Database object");
-                    Services.Server.Database databaseObj =
-                        (Services.Server.Database)database.Single().BaseObject;
-                    databaseObj = (Services.Server.Database)database.Single().BaseObject;
+                    Services.Server.Database databaseObj = database.Single().BaseObject as Services.Server.Database;
+                    Assert.IsNotNull(databaseObj, "Expecting a Database object");
                     Assert.AreEqual("testdb2", databaseObj.Name, "Expected db name to be testdb2");
                     Assert.AreEqual((byte)0, databaseObj.ServiceObjectiveAssignmentState, "Expected assignment state to be pending");
-                    //Assert.AreEqual("Reserved P1", databaseObj.ServiceObjective.Name, "Expected Reserved P1");
-                    //Assert.AreEqual("Reserved P1", databaseObj.ServiceObjectiveName, "Expected Reserved P1");
+                    DatabaseTestHelper.ValidateDatabaseProperties(databaseObj, "testdb2", "Web", 5, 5368709120L, "Japanese_CI_AS", "Shared", false, DatabaseTestHelper.PremiumP1SloGuid);
                 }
             }
         }
@@ -327,16 +327,11 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Test.UnitTests.Database.Cm
                     Assert.AreEqual(0, powershell.Streams.Warning.Count, "Warnings during run!");
                     powershell.Streams.ClearStreams();
 
-                   
-                    Assert.IsTrue(
-                        premiumDB.Single().BaseObject is Services.Server.Database,
-                        "Expecting a Database object");
-                    Services.Server.Database premiumDBObj =
-                        (Services.Server.Database)premiumDB.Single().BaseObject;
 
-                    Assert.AreEqual("SetAzureSqlPremiumDatabaseTests_P1", premiumDBObj.Name, "Expected db name to be SetAzureSqlPremiumDatabaseTests_P1");
-                    Assert.AreEqual("Business", premiumDBObj.Edition, "Expected db edition to be Business");
-                    Assert.AreEqual("Shared", premiumDBObj.ServiceObjective.Name, "Expected db ServiceObjective to be Shared");
+                    Services.Server.Database premiumDBObj = premiumDB.Single().BaseObject as Services.Server.Database;
+                    Assert.IsNotNull(premiumDBObj, "Expecting a Database object");
+
+                    DatabaseTestHelper.ValidateDatabaseProperties(premiumDBObj, "SetAzureSqlPremiumDatabaseTests_P1", "Business", 10, 10737418240L, "SQL_Latin1_General_CP1_CI_AS", "Shared", false, DatabaseTestHelper.PremiumP1SloGuid);
                 }
             }
         }
