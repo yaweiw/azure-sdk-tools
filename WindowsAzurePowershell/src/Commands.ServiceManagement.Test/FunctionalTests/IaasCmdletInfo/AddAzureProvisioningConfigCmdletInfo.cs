@@ -63,6 +63,10 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
                 {
                     this.cmdletParams.Add(new CmdletParam("DisableAutomaticUpdates"));
                 }
+                if (provConfig.DisableGuestAgent)
+                {
+                    this.cmdletParams.Add(new CmdletParam("DisableGuestAgent"));
+                }
                 if (provConfig.DisableWinRMHttps)
                 {
                     this.cmdletParams.Add(new CmdletParam("DisableWinRMHttps"));

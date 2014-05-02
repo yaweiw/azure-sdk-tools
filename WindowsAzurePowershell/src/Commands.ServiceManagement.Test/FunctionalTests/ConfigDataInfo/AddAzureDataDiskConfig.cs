@@ -22,13 +22,15 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
         public readonly int DiskSizeGB;
         public readonly string DiskLabel;
         public readonly int LunSlot;
+        public string HostCaching;
 
-        public AddAzureDataDiskConfig(DiskCreateOption diskCreateOption, int diskSizeGB, string diskLabel, int lunSlot)
+        public AddAzureDataDiskConfig(DiskCreateOption diskCreateOption, int diskSizeGB, string diskLabel, int lunSlot, string hostCaching = null)
         {
             this.DiskCreateOption = diskCreateOption;
             this.DiskSizeGB = diskSizeGB;
             this.DiskLabel = diskLabel;
             this.LunSlot = lunSlot;
+            this.HostCaching = hostCaching;
         }
 
         public PersistentVM  Vm { get; set; }

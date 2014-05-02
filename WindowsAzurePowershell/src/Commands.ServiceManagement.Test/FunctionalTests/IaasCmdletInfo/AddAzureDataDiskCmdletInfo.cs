@@ -28,6 +28,8 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
             this.cmdletParams.Add(new CmdletParam("DiskLabel", diskConfig.DiskLabel));
             this.cmdletParams.Add(new CmdletParam("LUN", diskConfig.LunSlot));
             this.cmdletParams.Add(new CmdletParam("VM", diskConfig.Vm));
+            if (!string.IsNullOrEmpty(diskConfig.HostCaching))
+            this.cmdletParams.Add(new CmdletParam("HostCaching",diskConfig.HostCaching));
         }
     }
 }

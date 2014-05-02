@@ -47,6 +47,15 @@ namespace Microsoft.WindowsAzure.Management.HDInsight.Cmdlet.PSCmdlets
             set { this.command.ClusterSizeInNodes = value; }
         }
 
+        /// <inheritdoc />
+        [Parameter(Position = 1, Mandatory = false, HelpMessage = "The size of the head node VMs.",
+            ParameterSetName = AzureHdInsightPowerShellConstants.ParameterSetConfigClusterSizeInNodesOnly)]
+        public NodeVMSize HeadNodeVMSize
+        {
+            get { return command.HeadNodeVMSize; }
+            set { command.HeadNodeVMSize = value; }
+        }
+
         /// <summary>
         ///     Finishes the execution of the cmdlet by listing the clusters.
         /// </summary>
