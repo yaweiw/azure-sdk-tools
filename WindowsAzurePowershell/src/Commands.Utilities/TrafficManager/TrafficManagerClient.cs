@@ -57,7 +57,8 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.TrafficManager
                 monitorProtocol,
                 monitorRelativePath,
                 ttl,
-                null);
+                // not adding any endpoints at this time
+                new List<TrafficManagerEndpoint>());
 
             CreateTrafficManagerDefinition(profileName, definitionParameter);
 
