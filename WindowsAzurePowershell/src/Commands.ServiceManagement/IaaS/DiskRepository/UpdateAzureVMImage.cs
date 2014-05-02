@@ -85,7 +85,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.DiskRepository
 
         protected override void OnProcessRecord()
         {
-            ServiceManagementProfile.Initialize(this);
+            ServiceManagementProfile.Initialize();
 
             var imageType = new VirtualMachineImageHelper(this.ComputeClient).GetImageType(this.ImageName);
             bool isOSImage = imageType.HasFlag(VirtualMachineImageType.OSImage);

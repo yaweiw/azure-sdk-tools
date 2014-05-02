@@ -108,7 +108,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.DiskRepository
 
         protected override void OnProcessRecord()
         {
-            ServiceManagementProfile.Initialize(this);
+            ServiceManagementProfile.Initialize();
             this.ExecuteCommand();
         }
     }
