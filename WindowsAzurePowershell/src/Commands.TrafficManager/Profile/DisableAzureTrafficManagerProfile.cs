@@ -12,8 +12,6 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-
-
 namespace Microsoft.WindowsAzure.Commands.TrafficManager.Profile
 {
     using Microsoft.WindowsAzure.Commands.Utilities.TrafficManager.Models;
@@ -33,7 +31,6 @@ namespace Microsoft.WindowsAzure.Commands.TrafficManager.Profile
 
         public override void ExecuteCmdlet()
         {
-            
             TrafficManagerClient.UpdateProfileStatus(Name, ProfileDefinitionStatus.Disabled);
             
             if (PassThru.IsPresent)

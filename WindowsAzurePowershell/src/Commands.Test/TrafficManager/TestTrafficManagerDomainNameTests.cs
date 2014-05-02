@@ -14,11 +14,68 @@
 
 namespace Microsoft.WindowsAzure.Commands.Test.TrafficManager
 {
+    using System.Management.Automation;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using Microsoft.WindowsAzure.Commands.TrafficManager;
+    using Microsoft.WindowsAzure.Commands.Utilities.TrafficManager;
+    using Moq;
 
     [TestClass]
     public class TestTrafficManagerDomainNameTests
     {
-        // TODO: Add test
+        private const string profileDomainName = "my.profile.trafficmanager.net";
+
+        private Mock<ICommandRuntime> mockCommandRuntime;
+
+        private TestAzureTrafficManagerDomainName cmdlet;
+
+        private Mock<ITrafficManagerClient> clientMock;
+
+        [TestInitialize]
+        public void TestSetup()
+        {
+            mockCommandRuntime = new Mock<ICommandRuntime>();
+            clientMock = new Mock<ITrafficManagerClient>();
+        }
+
+        [TestMethod]
+        public void TestProfileDomainNameReturnsTrue()
+        {
+            // Setup
+            clientMock.Setup(c => c.TestDomainAvailability(profileDomainName)).Returns(true);
+            cmdlet = new TestAzureTrafficManagerDomainName()
+            {
+                DomainName = profileDomainName,
+                CommandRuntime = mockCommandRuntime.Object,
+                TrafficManagerClient = clientMock.Object
+            };
+
+            // Action
+            cmdlet.ExecuteCmdlet();
+
+            // Assert
+            clientMock.Verify(c => c.TestDomainAvailability(profileDomainName), Times.Once());
+            mockCommandRuntime.Verify(c => c.WriteObject(true), Times.Once());
+        }
+
+        [TestMethod]
+        public void TestProfileDomainNameReturnsFalse()
+        {
+            // Setup
+            clientMock.Setup(c => c.TestDomainAvailability(profileDomainName)).Returns(false);
+            cmdlet = new TestAzureTrafficManagerDomainName()
+            {
+                DomainName = profileDomainName,
+                CommandRuntime = mockCommandRuntime.Object,
+                TrafficManagerClient = clientMock.Object
+            };
+
+            // Action
+            cmdlet.ExecuteCmdlet();
+
+            // Assert
+            clientMock.Verify(c => c.TestDomainAvailability(profileDomainName), Times.Once());
+            mockCommandRuntime.Verify(c => c.WriteObject(false), Times.Once());
+        }
     }
 }
