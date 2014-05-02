@@ -38,12 +38,10 @@ namespace Microsoft.Azure.Commands.ManagedCache
 
         public override void ExecuteCmdlet()
         {
-            //TODO, validate the Name, length much be between 6~20;
-            //Only lower case letter and number, and start with letter
-            cacheServiceName = Name.ToLower();
+            cacheServiceName = CacheClient.NormalizeCacheServiceName(Name);
 
-            WriteVerbose(string.Format(Properties.Resources.CreatingCacheServiceStarted, cacheServiceName));
-            
+            CacheClient.ProgressRecorder = (p) => { WriteVerbose(p); };
+
             WriteObject(CacheClient.CreateCacheService(
                 CurrentSubscription.SubscriptionId,
                 cacheServiceName,

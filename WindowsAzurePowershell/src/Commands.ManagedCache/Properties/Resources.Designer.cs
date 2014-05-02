@@ -70,6 +70,15 @@ namespace Microsoft.Azure.Commands.ManagedCache.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The cache service name either has been taken or invalid.
+        /// </summary>
+        internal static string CacheServiceNameUnavailable {
+            get {
+                return ResourceManager.GetString("CacheServiceNameUnavailable", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Cache Service &apos;{0}&apos; was not found.
         /// </summary>
         internal static string CacheServiceNotFound {
@@ -79,11 +88,29 @@ namespace Microsoft.Azure.Commands.ManagedCache.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Cache service &apos;{0}&apos; is being created. It will take a while... .
+        ///   Looks up a localized string similar to Invalid cache memory size. Please specify value between {0} and {1}{2}.
         /// </summary>
-        internal static string CreatingCacheServiceStarted {
+        internal static string InvalidCacheMemorySize {
             get {
-                return ResourceManager.GetString("CreatingCacheServiceStarted", resourceCulture);
+                return ResourceManager.GetString("InvalidCacheMemorySize", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The cache service name must contain between 6 and 20 characters. It can contain only lowercase letters and numbers, and must start with a letter..
+        /// </summary>
+        internal static string InvalidCacheServiceName {
+            get {
+                return ResourceManager.GetString("InvalidCacheServiceName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Invalid Sku. Please specify one from &apos;Basic&apos;, &apos;Standard&apos;, or &quot;Premium&quot;..
+        /// </summary>
+        internal static string InvalidCacheSku {
+            get {
+                return ResourceManager.GetString("InvalidCacheSku", resourceCulture);
             }
         }
         

@@ -361,6 +361,32 @@ namespace Microsoft.Azure.Management.ManagedCache.Models
         }
     }
     
+    /// <summary>
+    /// A standard service response including an HTTP status code and request
+    /// ID.
+    /// </summary>
+    public partial class CheckCacheNameAvailabilityResponse : OperationResponse
+    {
+        private bool _available;
+        
+        /// <summary>
+        /// Optional.
+        /// </summary>
+        public bool Available
+        {
+            get { return this._available; }
+            set { this._available = value; }
+        }
+        
+        /// <summary>
+        /// Initializes a new instance of the
+        /// CheckCacheNameAvailabilityResponse class.
+        /// </summary>
+        public CheckCacheNameAvailabilityResponse()
+        {
+        }
+    }
+    
     public partial class CloudServiceCreateParameters
     {
         private string _description;
@@ -1545,6 +1571,24 @@ namespace Microsoft.Azure.Management.ManagedCache
         Task<OperationResponse> BeginDeletingAsync(string cloudServiceName, string cacheServiceName, CancellationToken cancellationToken);
         
         /// <summary>
+        /// Get access keys of Cache Service
+        /// </summary>
+        /// <param name='cloudServiceName'>
+        /// The cloud service name.
+        /// </param>
+        /// <param name='cacheServiceName'>
+        /// The cache service name.
+        /// </param>
+        /// <param name='cancellationToken'>
+        /// Cancellation token.
+        /// </param>
+        /// <returns>
+        /// A standard service response including an HTTP status code and
+        /// request ID.
+        /// </returns>
+        Task<CheckCacheNameAvailabilityResponse> CheckNameAvailabilityAsync(string cloudServiceName, string cacheServiceName, CancellationToken cancellationToken);
+        
+        /// <summary>
         /// Creates a new Cache Service in specified subscription and cloud
         /// service.
         /// </summary>
@@ -2139,6 +2183,145 @@ namespace Microsoft.Azure.Management.ManagedCache
                     // Create Result
                     OperationResponse result = null;
                     result = new OperationResponse();
+                    result.StatusCode = statusCode;
+                    if (httpResponse.Headers.Contains("x-ms-request-id"))
+                    {
+                        result.RequestId = httpResponse.Headers.GetValues("x-ms-request-id").FirstOrDefault();
+                    }
+                    
+                    if (shouldTrace)
+                    {
+                        Tracing.Exit(invocationId, result);
+                    }
+                    return result;
+                }
+                finally
+                {
+                    if (httpResponse != null)
+                    {
+                        httpResponse.Dispose();
+                    }
+                }
+            }
+            finally
+            {
+                if (httpRequest != null)
+                {
+                    httpRequest.Dispose();
+                }
+            }
+        }
+        
+        /// <summary>
+        /// Get access keys of Cache Service
+        /// </summary>
+        /// <param name='cloudServiceName'>
+        /// Required. The cloud service name.
+        /// </param>
+        /// <param name='cacheServiceName'>
+        /// Required. The cache service name.
+        /// </param>
+        /// <param name='cancellationToken'>
+        /// Cancellation token.
+        /// </param>
+        /// <returns>
+        /// A standard service response including an HTTP status code and
+        /// request ID.
+        /// </returns>
+        public async Task<CheckCacheNameAvailabilityResponse> CheckNameAvailabilityAsync(string cloudServiceName, string cacheServiceName, CancellationToken cancellationToken)
+        {
+            // Validate
+            if (cloudServiceName == null)
+            {
+                throw new ArgumentNullException("cloudServiceName");
+            }
+            if (cacheServiceName == null)
+            {
+                throw new ArgumentNullException("cacheServiceName");
+            }
+            
+            // Tracing
+            bool shouldTrace = CloudContext.Configuration.Tracing.IsEnabled;
+            string invocationId = null;
+            if (shouldTrace)
+            {
+                invocationId = Tracing.NextInvocationId.ToString();
+                Dictionary<string, object> tracingParameters = new Dictionary<string, object>();
+                tracingParameters.Add("cloudServiceName", cloudServiceName);
+                tracingParameters.Add("cacheServiceName", cacheServiceName);
+                Tracing.Enter(invocationId, this, "CheckNameAvailabilityAsync", tracingParameters);
+            }
+            
+            // Construct URL
+            string baseUrl = this.Client.BaseUri.AbsoluteUri;
+            string url = "/" + this.Client.Credentials.SubscriptionId.Trim() + "/cloudservices/" + cloudServiceName.Trim() + "/resources/cacheservice/~/Caching/dummy/Namespaces/" + cacheServiceName.Trim();
+            // Trim '/' character from the end of baseUrl and beginning of url.
+            if (baseUrl[baseUrl.Length - 1] == '/')
+            {
+                baseUrl = baseUrl.Substring(0, baseUrl.Length - 1);
+            }
+            if (url[0] == '/')
+            {
+                url = url.Substring(1);
+            }
+            url = baseUrl + "/" + url;
+            
+            // Create HTTP transport objects
+            HttpRequestMessage httpRequest = null;
+            try
+            {
+                httpRequest = new HttpRequestMessage();
+                httpRequest.Method = HttpMethod.Get;
+                httpRequest.RequestUri = new Uri(url);
+                
+                // Set Headers
+                httpRequest.Headers.Add("x-ms-version", "2012-08-01");
+                
+                // Set Credentials
+                cancellationToken.ThrowIfCancellationRequested();
+                await this.Client.Credentials.ProcessHttpRequestAsync(httpRequest, cancellationToken).ConfigureAwait(false);
+                
+                // Send Request
+                HttpResponseMessage httpResponse = null;
+                try
+                {
+                    if (shouldTrace)
+                    {
+                        Tracing.SendRequest(invocationId, httpRequest);
+                    }
+                    cancellationToken.ThrowIfCancellationRequested();
+                    httpResponse = await this.Client.HttpClient.SendAsync(httpRequest, cancellationToken).ConfigureAwait(false);
+                    if (shouldTrace)
+                    {
+                        Tracing.ReceiveResponse(invocationId, httpResponse);
+                    }
+                    HttpStatusCode statusCode = httpResponse.StatusCode;
+                    if (statusCode != HttpStatusCode.OK)
+                    {
+                        cancellationToken.ThrowIfCancellationRequested();
+                        CloudException ex = CloudException.Create(httpRequest, null, httpResponse, await httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false), CloudExceptionType.Xml);
+                        if (shouldTrace)
+                        {
+                            Tracing.Error(invocationId, ex);
+                        }
+                        throw ex;
+                    }
+                    
+                    // Create Result
+                    CheckCacheNameAvailabilityResponse result = null;
+                    // Deserialize Response
+                    cancellationToken.ThrowIfCancellationRequested();
+                    string responseContent = await httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false);
+                    result = new CheckCacheNameAvailabilityResponse();
+                    XDocument responseDoc = XDocument.Parse(responseContent);
+                    
+                    XElement booleanElement = responseDoc.Element(XName.Get("boolean", "http://schemas.microsoft.com/2003/10/Serialization/"));
+                    if (booleanElement != null && booleanElement.IsEmpty == false)
+                    {
+                        bool booleanInstance = bool.Parse(booleanElement.Value);
+                        result.Available = booleanInstance;
+                    }
+                    
                     result.StatusCode = statusCode;
                     if (httpResponse.Headers.Contains("x-ms-request-id"))
                     {
@@ -3999,6 +4182,54 @@ namespace Microsoft.WindowsAzure
         public static Task<OperationResponse> BeginDeletingAsync(this ICacheServiceOperations operations, string cloudServiceName, string cacheServiceName)
         {
             return operations.BeginDeletingAsync(cloudServiceName, cacheServiceName, CancellationToken.None);
+        }
+        
+        /// <summary>
+        /// Get access keys of Cache Service
+        /// </summary>
+        /// <param name='operations'>
+        /// Reference to the
+        /// Microsoft.Azure.Management.ManagedCache.ICacheServiceOperations.
+        /// </param>
+        /// <param name='cloudServiceName'>
+        /// Required. The cloud service name.
+        /// </param>
+        /// <param name='cacheServiceName'>
+        /// Required. The cache service name.
+        /// </param>
+        /// <returns>
+        /// A standard service response including an HTTP status code and
+        /// request ID.
+        /// </returns>
+        public static CheckCacheNameAvailabilityResponse CheckNameAvailability(this ICacheServiceOperations operations, string cloudServiceName, string cacheServiceName)
+        {
+            return Task.Factory.StartNew((object s) => 
+            {
+                return ((ICacheServiceOperations)s).CheckNameAvailabilityAsync(cloudServiceName, cacheServiceName);
+            }
+            , operations, CancellationToken.None, TaskCreationOptions.None, TaskScheduler.Default).Unwrap().GetAwaiter().GetResult();
+        }
+        
+        /// <summary>
+        /// Get access keys of Cache Service
+        /// </summary>
+        /// <param name='operations'>
+        /// Reference to the
+        /// Microsoft.Azure.Management.ManagedCache.ICacheServiceOperations.
+        /// </param>
+        /// <param name='cloudServiceName'>
+        /// Required. The cloud service name.
+        /// </param>
+        /// <param name='cacheServiceName'>
+        /// Required. The cache service name.
+        /// </param>
+        /// <returns>
+        /// A standard service response including an HTTP status code and
+        /// request ID.
+        /// </returns>
+        public static Task<CheckCacheNameAvailabilityResponse> CheckNameAvailabilityAsync(this ICacheServiceOperations operations, string cloudServiceName, string cacheServiceName)
+        {
+            return operations.CheckNameAvailabilityAsync(cloudServiceName, cacheServiceName, CancellationToken.None);
         }
         
         /// <summary>
