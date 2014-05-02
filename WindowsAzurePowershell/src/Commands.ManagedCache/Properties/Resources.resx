@@ -162,4 +162,10 @@
   <data name="WaitForCacheServiceReady" xml:space="preserve">
     <value>Wait for cache service becomes ready...</value>
   </data>
+  <data name="RemoveServiceMessage" xml:space="preserve">
+    <value>Removing cache service</value>
+  </data>
+  <data name="RemoveServiceWarning" xml:space="preserve">
+    <value>Are you sure you want to remove the cache service "{0}"?</value>
+  </data>
 </root>
