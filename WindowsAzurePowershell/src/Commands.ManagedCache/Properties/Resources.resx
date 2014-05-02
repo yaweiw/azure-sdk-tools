@@ -120,11 +120,20 @@
   <data name="CacheServiceMissing" xml:space="preserve">
     <value>Not able to find the cache service just now created</value>
   </data>
+  <data name="CacheServiceNameUnavailable" xml:space="preserve">
+    <value>The cache service name either has been taken or invalid</value>
+  </data>
   <data name="CacheServiceNotFound" xml:space="preserve">
     <value>Cache Service '{0}' was not found</value>
   </data>
-  <data name="CreatingCacheServiceStarted" xml:space="preserve">
-    <value>Cache service '{0}' is being created. It will take a while... </value>
+  <data name="InvalidCacheMemorySize" xml:space="preserve">
+    <value>Invalid cache memory size. Please specify value between {0} and {1}{2}</value>
+  </data>
+  <data name="InvalidCacheServiceName" xml:space="preserve">
+    <value>The cache service name must contain between 6 and 20 characters. It can contain only lowercase letters and numbers, and must start with a letter.</value>
+  </data>
+  <data name="InvalidCacheSku" xml:space="preserve">
+    <value>Invalid Sku. Please specify one from 'Basic', 'Standard', or "Premium".</value>
   </data>
   <data name="TimeoutWaitForCacheServiceReady" xml:space="preserve">
     <value>Time out to wait for cache service ready</value>

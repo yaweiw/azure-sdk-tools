@@ -14,24 +14,85 @@
 
 namespace Microsoft.Azure.Commands.ManagedCache.Models
 {
-    //This class bridge the concept GAP between "memeory size" at front end 
+    using System;
+
+    //This class bridge the concept gap between "memeory size" at front end 
     //and "sku count" at back end
     class CacheSkuCountConvert
     {
-        private string offeringName;   
-        public CacheSkuCountConvert(string offering)
+        private string skuName;
+        private int min;
+        private int max;
+        private int increment;
+        private string unit; //MB or GB
+        public CacheSkuCountConvert(string sku)
         {
-            offeringName = offering;
+            skuName = sku;
+            if (IsBasicSku(sku))
+            {
+                min = 128;
+                max = 1024;
+                increment = 128;
+                unit = "MB";
+            }
+            else if (IsStandardSku(sku))
+            {
+                min = 1;
+                max = 10;
+                increment = 1;
+                unit = "GB";
+            }
+            else if (IsPremiumSku(sku))
+            {
+                min = 5;
+                max = 150;
+                increment = 5;
+                unit = "GB";
+            }
+            else
+            {
+                throw new ArgumentException(Properties.Resources.InvalidCacheSku);
+            }
         }
 
-        public int ToCount (string memorySize)
+        public int ToSkuCount (string memorySize)
         {
-            return 1;
+            if (string.IsNullOrEmpty(memorySize))
+            {
+                return 1;
+            }
+            if (memorySize.EndsWith(unit))
+            {
+                memorySize = memorySize.Substring(0, memorySize.Length - unit.Length);
+            }
+            int size;
+            if (!int.TryParse(memorySize, out size) ||
+                size < min || size > max)
+            {
+                throw new ArgumentException(
+                    string.Format(Properties.Resources.InvalidCacheMemorySize, min, max, unit));
+            }
+            return  size / increment;
         }
 
         public string ToMemorySize (int skuCount)
         {
-            return "123";
+            return string.Format("{0}{1}", skuCount * increment, unit);
+        }
+
+        private bool IsBasicSku(string sku)
+        {
+            return string.IsNullOrEmpty(sku) || sku.Equals("Basic", System.StringComparison.OrdinalIgnoreCase);
+        }
+
+        private bool IsStandardSku(string sku)
+        {
+            return sku.Equals("Standard", System.StringComparison.OrdinalIgnoreCase);
+        }
+
+        private static bool IsPremiumSku(string sku)
+        {
+            return sku.Equals("Premium", System.StringComparison.OrdinalIgnoreCase);
         }
     }
 }

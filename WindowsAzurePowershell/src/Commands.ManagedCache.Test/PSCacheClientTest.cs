@@ -14,16 +14,24 @@
 
 namespace Microsoft.Azure.Commands.ManagedCache.Test
 {
+    using System;
     using Xunit;
-    using ManagedCache.Models;
 
-    public class CacheSkuCountConvertTests
+    public class PSCacheClientTest
     {
         [Fact]
-        public void ConvertBasic()
+        public void ManagedCache_NormalizeCacheServiceName()
         {
-            CacheSkuCountConvert convert = new CacheSkuCountConvert("Basic");
-            Assert.Equal("", convert.ToMemorySize(1));
-        }        
+            PSCacheClient client = new PSCacheClient();
+            Assert.Equal("foobar", client.NormalizeCacheServiceName("FOOBAR"));
+            //can't start with a  number
+            Assert.Throws(typeof(ArgumentException), () => { client.NormalizeCacheServiceName("2222"); });
+            //too short
+            Assert.Throws(typeof(ArgumentException), () => { client.NormalizeCacheServiceName("foo"); });
+            //too long
+            Assert.Throws(typeof(ArgumentException), () => { client.NormalizeCacheServiceName("fooddddddddddddddddddddddd"); });
+            //empty
+            Assert.Throws(typeof(ArgumentException), () => { client.NormalizeCacheServiceName(""); });
+        }
     }
 }
