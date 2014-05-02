@@ -36,8 +36,11 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
             }
             cmdletParams.Add(new CmdletParam("ImageName", imageName));
             cmdletParams.Add(new CmdletParam("Name", name));
-            cmdletParams.Add(new CmdletParam("ServiceName", serviceName));                
-            cmdletParams.Add(new CmdletParam("Password", password));
+            cmdletParams.Add(new CmdletParam("ServiceName", serviceName));
+            if (!string.IsNullOrEmpty(password))
+            {
+                cmdletParams.Add(new CmdletParam("Password", password));
+            }
         }
 
         public NewAzureQuickVMCmdletInfo(OS os, string name, string serviceName, string imageName, string userName,
