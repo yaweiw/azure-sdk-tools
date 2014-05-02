@@ -16,8 +16,8 @@ namespace Microsoft.Azure.Commands.ManagedCache.Models
 {
     using System;
 
-    //This class bridge the concept gap between "memeory size" at front end 
-    //and "sku count" at back end
+    //This class bridges the concept gap between "memory size" used by the commandlets 
+    //and the "sku count" at server
     class CacheSkuCountConvert
     {
         private string skuName;
