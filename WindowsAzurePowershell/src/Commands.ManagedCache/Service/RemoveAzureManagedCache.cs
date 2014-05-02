@@ -28,10 +28,18 @@ namespace Microsoft.Azure.Commands.ManagedCache
 
         public override void ExecuteCmdlet()
         {
-            WriteVerbose(Properties.Resources.CacheServiceRemoveStarted);
-            CacheClient.DeleteCacheService(Name);
-            WriteVerbose(string.Format(Properties.Resources.CacheServiceRemoved, Name));
-            WriteObject(true);
+            ConfirmAction(
+               Force.IsPresent,
+               string.Format(Properties.Resources.RemoveServiceWarning, Name),
+               Properties.Resources.RemoveServiceMessage,
+               Name,
+               () =>
+               {
+                   WriteVerbose(Properties.Resources.CacheServiceRemoveStarted);
+                   CacheClient.DeleteCacheService(Name);
+                   WriteVerbose(string.Format(Properties.Resources.CacheServiceRemoved, Name));
+                   WriteObject(true);
+               });
         }      
     }
 }
