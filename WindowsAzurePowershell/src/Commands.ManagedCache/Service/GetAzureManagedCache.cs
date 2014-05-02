@@ -28,7 +28,7 @@ namespace Microsoft.Azure.Commands.ManagedCache
 
         public override void ExecuteCmdlet()
         {
-            List<PSCacheService> cacheServices = CacheClient.GetCacheService(Name);
+            List<PSCacheService> cacheServices = CacheClient.GetCacheServices(Name);
             if (!string.IsNullOrEmpty(Name) && cacheServices.Count == 0)
             {
                 throw new ArgumentException(string.Format(Properties.Resources.CacheServiceNotFound, Name));

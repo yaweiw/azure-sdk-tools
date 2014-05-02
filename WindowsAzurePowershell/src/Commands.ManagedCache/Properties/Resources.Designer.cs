@@ -79,11 +79,38 @@ namespace Microsoft.Azure.Commands.ManagedCache.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The cache service &apos;{0}&apos; doesn&apos;t exist in current subscription.
+        /// </summary>
+        internal static string CacheServiceNotExisting {
+            get {
+                return ResourceManager.GetString("CacheServiceNotExisting", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Cache Service &apos;{0}&apos; was not found.
         /// </summary>
         internal static string CacheServiceNotFound {
             get {
                 return ResourceManager.GetString("CacheServiceNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The cache service &apos;{0}&apos; has been removed.
+        /// </summary>
+        internal static string CacheServiceRemoved {
+            get {
+                return ResourceManager.GetString("CacheServiceRemoved", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Removing cache service....
+        /// </summary>
+        internal static string CacheServiceRemoveStarted {
+            get {
+                return ResourceManager.GetString("CacheServiceRemoveStarted", resourceCulture);
             }
         }
         
