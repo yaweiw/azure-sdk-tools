@@ -93,6 +93,12 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.TrafficManager.Models
             }
         }
 
+        public DefinitionPolicyMonitorStatus MonitorStatus
+        {
+            get { return definition.Policy.MonitorStatus; }
+            set { definition.Policy.MonitorStatus = value; }
+        }
+
         public ProfileWithDefinition GetInstance()
         {
             return this;
