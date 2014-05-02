@@ -3632,6 +3632,15 @@ namespace Microsoft.WindowsAzure.Commands.Common.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to It is not possible to add an endpoint of type &quot;Any&quot; to a profile with a load balancing method &quot;Performance&quot;.
+        /// </summary>
+        public static string SetTrafficManagerProfileErrorNotSupported {
+            get {
+                return ResourceManager.GetString("SetTrafficManagerProfileErrorNotSupported", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Confirm.
         /// </summary>
         public static string ShouldProcessCaption {

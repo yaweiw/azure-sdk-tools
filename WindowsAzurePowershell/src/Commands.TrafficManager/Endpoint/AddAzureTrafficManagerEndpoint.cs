@@ -32,8 +32,8 @@ namespace Microsoft.WindowsAzure.Commands.TrafficManager.Endpoint
         [Parameter(Mandatory = true)]
         public string DomainName { get; set; }
 
-        [Parameter(Mandatory = false)]
-        public string Location { get; set; }
+//        [Parameter(Mandatory = false)]
+//        public string Location { get; set; }
 
         [Parameter(Mandatory = true)]
         [ValidateSet("CloudService", "AzureWebsite", "Any", IgnoreCase = false)]
@@ -43,17 +43,17 @@ namespace Microsoft.WindowsAzure.Commands.TrafficManager.Endpoint
         [ValidateSet("Enabled", "Disabled", IgnoreCase = false)]
         public string Status { get; set; }
 
-        [Parameter(Mandatory = false)]
-        public int Weight { get; set; }
+//        [Parameter(Mandatory = false)]
+//        public int Weight { get; set; }
 
         public override void ExecuteCmdlet()
         {
             TrafficManagerEndpoint endpoint = new TrafficManagerEndpoint();
             endpoint.DomainName = DomainName;
-            endpoint.Location = Location;
+            // endpoint.Location = Location;
             endpoint.Status = (EndpointStatus)Enum.Parse(typeof(EndpointStatus), Status);
             endpoint.Type = (EndpointType)Enum.Parse(typeof(EndpointType), Type);
-            endpoint.Weight = Weight;
+//            endpoint.Weight = Weight;
             ProfileWithDefinition profile = TrafficManagerProfile.GetInstance();
 
             if (profile.Endpoints.Any(e => e.DomainName == endpoint.DomainName))
