@@ -45,9 +45,8 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
 
         protected override void ExecuteCommand()
         {
+            ServiceManagementProfile.Initialize();
             base.ExecuteCommand();
-
-            ServiceManagementProfile.Initialize(this);
 
             if (string.IsNullOrEmpty(ServiceName))
             {
