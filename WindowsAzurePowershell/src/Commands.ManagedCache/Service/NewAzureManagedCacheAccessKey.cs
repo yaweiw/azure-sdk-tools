@@ -12,17 +12,25 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-using System;
-using System.Reflection;
-using System.Runtime.InteropServices;
+namespace Microsoft.Azure.Commands.ManagedCache
+{
+    using System;
+    using System.Management.Automation;
 
-[assembly: AssemblyTitle("Windows Azure Powershell - Common Storage Library")]
-[assembly: AssemblyCompany("Microsoft")]
-[assembly: AssemblyProduct("Windows Azure Powershell")]
-[assembly: AssemblyCopyright("Copyright © Microsoft")]
+    [Cmdlet(VerbsCommon.New, "AzureManagedCacheAccessKey")]
+    public class NewAzureManagedCacheAccessKey : ManagedCacheCmdletBase
+    {
+        [Parameter(Position = 0)]
+        [ValidateNotNullOrEmpty]
+        public string Name { get; set;}
 
-[assembly: ComVisible(false)]
-[assembly: CLSCompliant(false)]
-[assembly: Guid("c565107e-98a9-4703-85cd-a7efc3d8da7b")]
-[assembly: AssemblyVersion("0.8.1")]
-[assembly: AssemblyFileVersion("0.8.1")]
+        [Parameter(Position = 1, Mandatory = false)]
+        [ValidateSet("Primary", "Secondary", IgnoreCase = true)]
+        public string KeyType { get; set; }
+
+        public override void ExecuteCmdlet()
+        {
+            throw new NotImplementedException("NYI");
+        }      
+    }
+}
