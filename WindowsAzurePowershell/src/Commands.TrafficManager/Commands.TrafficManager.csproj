@@ -244,6 +244,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Endpoint\RemoveAzureTrafficManagerEndpoint.cs" />
+    <Content Include="TrafficManager.psd1">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <None Include="MSSharedLibKey.snk" />
     <None Include="packages.config" />
   </ItemGroup>
