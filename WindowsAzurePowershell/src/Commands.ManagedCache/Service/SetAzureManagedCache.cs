@@ -16,14 +16,15 @@ namespace Microsoft.Azure.Commands.ManagedCache
 {
     using System;
     using System.Management.Automation;
+    using Microsoft.Azure.Commands.ManagedCache.Models;
 
     /// <summary>
     /// Retrieves a list of Windows Azure SQL Database servers in the selected subscription.
     /// </summary>
-    [Cmdlet(VerbsCommon.Set, "AzureManagedCache")]
+    [Cmdlet(VerbsCommon.Set, "AzureManagedCache"), OutputType(typeof(PSCacheService))]
     public class SetAzureManagedCache : ManagedCacheCmdletBase
     {
-        [Parameter(Position = 0)]
+        [Parameter(Position = 0, Mandatory = true, ValueFromPipelineByPropertyName = true)]
         [ValidateNotNullOrEmpty]
         public string Name { get; set; }
 
@@ -31,11 +32,9 @@ namespace Microsoft.Azure.Commands.ManagedCache
         [ValidateNotNullOrEmpty]
         public string Location { get; set;}
 
-        [Parameter(Position = 2,Mandatory = false)]
         [ValidateSet("Basic", "Standard", "Premium", IgnoreCase = true)]
         public string Sku { get; set; }
 
-        [Parameter(Position = 3, Mandatory = false)]
         public string Memory { get; set; }
 
         public SwitchParameter Force { get; set; }

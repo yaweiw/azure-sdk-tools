@@ -17,23 +17,21 @@ namespace Microsoft.Azure.Commands.ManagedCache
     using System;
     using System.Management.Automation;
 
-    [Cmdlet(VerbsCommon.Remove, "AzureManagedCache"), OutputType(typeof(string))]
+    [Cmdlet(VerbsCommon.Remove, "AzureManagedCache"), OutputType(typeof(bool))]
     public class RemoveAzureManagedCache : ManagedCacheCmdletBase
     {
-        [Parameter(Position = 0, Mandatory=true)]
+        [Parameter(Position = 0, Mandatory = true, ValueFromPipelineByPropertyName = true)]
         [ValidateNotNullOrEmpty]
         public string Name { get; set;}
 
-        [Parameter(Mandatory = false)]
-        [Alias("f")]
-        public SwitchParameter ForceUpdate { get; set; }
+        public SwitchParameter Force { get; set; }
 
         public override void ExecuteCmdlet()
         {
             WriteVerbose(Properties.Resources.CacheServiceRemoveStarted);
             CacheClient.DeleteCacheService(Name);
             WriteVerbose(string.Format(Properties.Resources.CacheServiceRemoved, Name));
-            WriteObject(Name);
+            WriteObject(true);
         }      
     }
 }

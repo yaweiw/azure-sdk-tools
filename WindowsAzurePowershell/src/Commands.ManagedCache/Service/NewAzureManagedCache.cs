@@ -30,11 +30,9 @@ namespace Microsoft.Azure.Commands.ManagedCache
         [ValidateNotNullOrEmpty]
         public string Location { get; set;}
 
-        [Parameter(Position = 2, Mandatory = false)]
         [ValidateSet("Basic", "Standard", "Premium", IgnoreCase = true)]
         public string Sku { get; set; }
 
-        [Parameter(Position = 3, Mandatory = false)]
         public string Memory { get; set; }
 
         public override void ExecuteCmdlet()
