@@ -3623,6 +3623,15 @@ namespace Microsoft.WindowsAzure.Commands.Common.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Ambiguous operation: the profile name specified doesn&apos;t match the name of the profile object..
+        /// </summary>
+        public static string SetTrafficManagerProfileAmbiguous {
+            get {
+                return ResourceManager.GetString("SetTrafficManagerProfileAmbiguous", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Confirm.
         /// </summary>
         public static string ShouldProcessCaption {
