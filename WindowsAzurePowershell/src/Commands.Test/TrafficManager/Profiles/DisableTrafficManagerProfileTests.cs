@@ -42,8 +42,8 @@ namespace Microsoft.WindowsAzure.Commands.Test.TrafficManager.Profiles
         [TestMethod]
         public void DisableProfileSucceedsNoPassThru()
         {
-            clientMock.Setup(c => c.ListProfiles()).Verifiable();
             // Setup
+            clientMock.Setup(c => c.ListProfiles()).Verifiable();
             cmdlet = new DisableAzureTrafficManagerProfile()
             {
                 Name = profileName,
