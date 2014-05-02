@@ -70,6 +70,24 @@ namespace Microsoft.Azure.Commands.ManagedCache.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The cache service name either has been taken or invalid.
+        /// </summary>
+        internal static string CacheServiceNameUnavailable {
+            get {
+                return ResourceManager.GetString("CacheServiceNameUnavailable", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The cache service &apos;{0}&apos; doesn&apos;t exist in current subscription.
+        /// </summary>
+        internal static string CacheServiceNotExisting {
+            get {
+                return ResourceManager.GetString("CacheServiceNotExisting", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Cache Service &apos;{0}&apos; was not found.
         /// </summary>
         internal static string CacheServiceNotFound {
@@ -79,11 +97,74 @@ namespace Microsoft.Azure.Commands.ManagedCache.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Cache service &apos;{0}&apos; is being created. It will take a while... .
+        ///   Looks up a localized string similar to The cache service &apos;{0}&apos; has been removed.
         /// </summary>
-        internal static string CreatingCacheServiceStarted {
+        internal static string CacheServiceRemoved {
             get {
-                return ResourceManager.GetString("CreatingCacheServiceStarted", resourceCulture);
+                return ResourceManager.GetString("CacheServiceRemoved", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Removing cache service....
+        /// </summary>
+        internal static string CacheServiceRemoveStarted {
+            get {
+                return ResourceManager.GetString("CacheServiceRemoveStarted", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Creating cache service....
+        /// </summary>
+        internal static string CreatingCacheService {
+            get {
+                return ResourceManager.GetString("CreatingCacheService", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Creating prerequisites....
+        /// </summary>
+        internal static string CreatingPrerequisites {
+            get {
+                return ResourceManager.GetString("CreatingPrerequisites", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Intializing parameters....
+        /// </summary>
+        internal static string InitializingCacheParameters {
+            get {
+                return ResourceManager.GetString("InitializingCacheParameters", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Invalid cache memory size. Please specify value between {0} and {1}{2}.
+        /// </summary>
+        internal static string InvalidCacheMemorySize {
+            get {
+                return ResourceManager.GetString("InvalidCacheMemorySize", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The cache service name must contain between 6 and 20 characters. It can contain only lowercase letters and numbers, and must start with a letter..
+        /// </summary>
+        internal static string InvalidCacheServiceName {
+            get {
+                return ResourceManager.GetString("InvalidCacheServiceName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Invalid Sku. Please specify one from &apos;Basic&apos;, &apos;Standard&apos;, or &quot;Premium&quot;..
+        /// </summary>
+        internal static string InvalidCacheSku {
+            get {
+                return ResourceManager.GetString("InvalidCacheSku", resourceCulture);
             }
         }
         
@@ -93,6 +174,24 @@ namespace Microsoft.Azure.Commands.ManagedCache.Properties {
         internal static string TimeoutWaitForCacheServiceReady {
             get {
                 return ResourceManager.GetString("TimeoutWaitForCacheServiceReady", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Verify cache service name....
+        /// </summary>
+        internal static string VerifyingCacheServiceName {
+            get {
+                return ResourceManager.GetString("VerifyingCacheServiceName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Wait for cache service becomes ready....
+        /// </summary>
+        internal static string WaitForCacheServiceReady {
+            get {
+                return ResourceManager.GetString("WaitForCacheServiceReady", resourceCulture);
             }
         }
     }

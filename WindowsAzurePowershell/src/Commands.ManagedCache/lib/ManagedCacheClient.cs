@@ -36,205 +36,6 @@ using Microsoft.WindowsAzure;
 using Microsoft.WindowsAzure.Common;
 using Microsoft.WindowsAzure.Common.Internals;
 
-namespace Microsoft.Azure.Management.ManagedCache
-{
-    public partial class IntrinsicSettings
-    {
-        private IntrinsicSettings.CacheServiceInput _cacheServiceInputSection;
-        
-        /// <summary>
-        /// Optional.
-        /// </summary>
-        public IntrinsicSettings.CacheServiceInput CacheServiceInputSection
-        {
-            get { return this._cacheServiceInputSection; }
-            set { this._cacheServiceInputSection = value; }
-        }
-        
-        /// <summary>
-        /// Initializes a new instance of the IntrinsicSettings class.
-        /// </summary>
-        public IntrinsicSettings()
-        {
-        }
-        
-        public partial class CacheServiceInput
-        {
-            private string _location;
-            
-            /// <summary>
-            /// Optional.
-            /// </summary>
-            public string Location
-            {
-                get { return this._location; }
-                set { this._location = value; }
-            }
-            
-            private IList<IntrinsicSettings.CacheServiceInput.NamedCache> _namedCaches;
-            
-            /// <summary>
-            /// Optional.
-            /// </summary>
-            public IList<IntrinsicSettings.CacheServiceInput.NamedCache> NamedCaches
-            {
-                get { return this._namedCaches; }
-                set { this._namedCaches = value; }
-            }
-            
-            private int _objectSizeInBytes;
-            
-            /// <summary>
-            /// Optional.
-            /// </summary>
-            public int ObjectSizeInBytes
-            {
-                get { return this._objectSizeInBytes; }
-                set { this._objectSizeInBytes = value; }
-            }
-            
-            private string _serviceVersion;
-            
-            /// <summary>
-            /// Optional.
-            /// </summary>
-            public string ServiceVersion
-            {
-                get { return this._serviceVersion; }
-                set { this._serviceVersion = value; }
-            }
-            
-            private int _skuCount;
-            
-            /// <summary>
-            /// Optional.
-            /// </summary>
-            public int SkuCount
-            {
-                get { return this._skuCount; }
-                set { this._skuCount = value; }
-            }
-            
-            private string _skuType;
-            
-            /// <summary>
-            /// Optional.
-            /// </summary>
-            public string SkuType
-            {
-                get { return this._skuType; }
-                set { this._skuType = value; }
-            }
-            
-            /// <summary>
-            /// Initializes a new instance of the CacheServiceInput class.
-            /// </summary>
-            public CacheServiceInput()
-            {
-                this._namedCaches = new List<IntrinsicSettings.CacheServiceInput.NamedCache>();
-            }
-            
-            public partial class NamedCache
-            {
-                private string _cacheName;
-                
-                /// <summary>
-                /// Optional.
-                /// </summary>
-                public string CacheName
-                {
-                    get { return this._cacheName; }
-                    set { this._cacheName = value; }
-                }
-                
-                private string _evictionPolicy;
-                
-                /// <summary>
-                /// Optional.
-                /// </summary>
-                public string EvictionPolicy
-                {
-                    get { return this._evictionPolicy; }
-                    set { this._evictionPolicy = value; }
-                }
-                
-                private IntrinsicSettings.CacheServiceInput.NamedCache.ExpirationSettings _expirationSettingsSection;
-                
-                /// <summary>
-                /// Optional.
-                /// </summary>
-                public IntrinsicSettings.CacheServiceInput.NamedCache.ExpirationSettings ExpirationSettingsSection
-                {
-                    get { return this._expirationSettingsSection; }
-                    set { this._expirationSettingsSection = value; }
-                }
-                
-                private bool _highAvailabilityEnabled;
-                
-                /// <summary>
-                /// Optional.
-                /// </summary>
-                public bool HighAvailabilityEnabled
-                {
-                    get { return this._highAvailabilityEnabled; }
-                    set { this._highAvailabilityEnabled = value; }
-                }
-                
-                private bool _notificationsEnabled;
-                
-                /// <summary>
-                /// Optional.
-                /// </summary>
-                public bool NotificationsEnabled
-                {
-                    get { return this._notificationsEnabled; }
-                    set { this._notificationsEnabled = value; }
-                }
-                
-                /// <summary>
-                /// Initializes a new instance of the NamedCache class.
-                /// </summary>
-                public NamedCache()
-                {
-                }
-                
-                public partial class ExpirationSettings
-                {
-                    private int _timeToLiveInMinutes;
-                    
-                    /// <summary>
-                    /// Optional.
-                    /// </summary>
-                    public int TimeToLiveInMinutes
-                    {
-                        get { return this._timeToLiveInMinutes; }
-                        set { this._timeToLiveInMinutes = value; }
-                    }
-                    
-                    private string _type;
-                    
-                    /// <summary>
-                    /// Optional.
-                    /// </summary>
-                    public string Type
-                    {
-                        get { return this._type; }
-                        set { this._type = value; }
-                    }
-                    
-                    /// <summary>
-                    /// Initializes a new instance of the ExpirationSettings
-                    /// class.
-                    /// </summary>
-                    public ExpirationSettings()
-                    {
-                    }
-                }
-            }
-        }
-    }
-}
-
 namespace Microsoft.Azure.Management.ManagedCache.Models
 {
     public partial class CacheServiceCreateParameters
@@ -357,6 +158,32 @@ namespace Microsoft.Azure.Management.ManagedCache.Models
         /// Initializes a new instance of the CachingKeysResponse class.
         /// </summary>
         public CachingKeysResponse()
+        {
+        }
+    }
+    
+    /// <summary>
+    /// A standard service response including an HTTP status code and request
+    /// ID.
+    /// </summary>
+    public partial class CheckCacheNameAvailabilityResponse : OperationResponse
+    {
+        private bool _available;
+        
+        /// <summary>
+        /// Optional.
+        /// </summary>
+        public bool Available
+        {
+            get { return this._available; }
+            set { this._available = value; }
+        }
+        
+        /// <summary>
+        /// Initializes a new instance of the
+        /// CheckCacheNameAvailabilityResponse class.
+        /// </summary>
+        public CheckCacheNameAvailabilityResponse()
         {
         }
     }
@@ -1103,6 +930,202 @@ namespace Microsoft.Azure.Management.ManagedCache.Models
         public const string Paused = "Paused";
     }
     
+    public partial class IntrinsicSettings
+    {
+        private IntrinsicSettings.CacheServiceInput _cacheServiceInputSection;
+        
+        /// <summary>
+        /// Optional.
+        /// </summary>
+        public IntrinsicSettings.CacheServiceInput CacheServiceInputSection
+        {
+            get { return this._cacheServiceInputSection; }
+            set { this._cacheServiceInputSection = value; }
+        }
+        
+        /// <summary>
+        /// Initializes a new instance of the IntrinsicSettings class.
+        /// </summary>
+        public IntrinsicSettings()
+        {
+        }
+        
+        public partial class CacheServiceInput
+        {
+            private string _location;
+            
+            /// <summary>
+            /// Optional.
+            /// </summary>
+            public string Location
+            {
+                get { return this._location; }
+                set { this._location = value; }
+            }
+            
+            private IList<IntrinsicSettings.CacheServiceInput.NamedCache> _namedCaches;
+            
+            /// <summary>
+            /// Optional.
+            /// </summary>
+            public IList<IntrinsicSettings.CacheServiceInput.NamedCache> NamedCaches
+            {
+                get { return this._namedCaches; }
+                set { this._namedCaches = value; }
+            }
+            
+            private int _objectSizeInBytes;
+            
+            /// <summary>
+            /// Optional.
+            /// </summary>
+            public int ObjectSizeInBytes
+            {
+                get { return this._objectSizeInBytes; }
+                set { this._objectSizeInBytes = value; }
+            }
+            
+            private string _serviceVersion;
+            
+            /// <summary>
+            /// Optional.
+            /// </summary>
+            public string ServiceVersion
+            {
+                get { return this._serviceVersion; }
+                set { this._serviceVersion = value; }
+            }
+            
+            private int _skuCount;
+            
+            /// <summary>
+            /// Optional.
+            /// </summary>
+            public int SkuCount
+            {
+                get { return this._skuCount; }
+                set { this._skuCount = value; }
+            }
+            
+            private string _skuType;
+            
+            /// <summary>
+            /// Optional.
+            /// </summary>
+            public string SkuType
+            {
+                get { return this._skuType; }
+                set { this._skuType = value; }
+            }
+            
+            /// <summary>
+            /// Initializes a new instance of the CacheServiceInput class.
+            /// </summary>
+            public CacheServiceInput()
+            {
+                this._namedCaches = new List<IntrinsicSettings.CacheServiceInput.NamedCache>();
+            }
+            
+            public partial class NamedCache
+            {
+                private string _cacheName;
+                
+                /// <summary>
+                /// Optional.
+                /// </summary>
+                public string CacheName
+                {
+                    get { return this._cacheName; }
+                    set { this._cacheName = value; }
+                }
+                
+                private string _evictionPolicy;
+                
+                /// <summary>
+                /// Optional.
+                /// </summary>
+                public string EvictionPolicy
+                {
+                    get { return this._evictionPolicy; }
+                    set { this._evictionPolicy = value; }
+                }
+                
+                private IntrinsicSettings.CacheServiceInput.NamedCache.ExpirationSettings _expirationSettingsSection;
+                
+                /// <summary>
+                /// Optional.
+                /// </summary>
+                public IntrinsicSettings.CacheServiceInput.NamedCache.ExpirationSettings ExpirationSettingsSection
+                {
+                    get { return this._expirationSettingsSection; }
+                    set { this._expirationSettingsSection = value; }
+                }
+                
+                private bool _highAvailabilityEnabled;
+                
+                /// <summary>
+                /// Optional.
+                /// </summary>
+                public bool HighAvailabilityEnabled
+                {
+                    get { return this._highAvailabilityEnabled; }
+                    set { this._highAvailabilityEnabled = value; }
+                }
+                
+                private bool _notificationsEnabled;
+                
+                /// <summary>
+                /// Optional.
+                /// </summary>
+                public bool NotificationsEnabled
+                {
+                    get { return this._notificationsEnabled; }
+                    set { this._notificationsEnabled = value; }
+                }
+                
+                /// <summary>
+                /// Initializes a new instance of the NamedCache class.
+                /// </summary>
+                public NamedCache()
+                {
+                }
+                
+                public partial class ExpirationSettings
+                {
+                    private int _timeToLiveInMinutes;
+                    
+                    /// <summary>
+                    /// Optional.
+                    /// </summary>
+                    public int TimeToLiveInMinutes
+                    {
+                        get { return this._timeToLiveInMinutes; }
+                        set { this._timeToLiveInMinutes = value; }
+                    }
+                    
+                    private string _type;
+                    
+                    /// <summary>
+                    /// Optional.
+                    /// </summary>
+                    public string Type
+                    {
+                        get { return this._type; }
+                        set { this._type = value; }
+                    }
+                    
+                    /// <summary>
+                    /// Initializes a new instance of the ExpirationSettings
+                    /// class.
+                    /// </summary>
+                    public ExpirationSettings()
+                    {
+                    }
+                }
+            }
+        }
+    }
+    
     public partial class RegenerateKeysParameters
     {
         private string _keyType;
@@ -1543,6 +1566,24 @@ namespace Microsoft.Azure.Management.ManagedCache
         /// request ID.
         /// </returns>
         Task<OperationResponse> BeginDeletingAsync(string cloudServiceName, string cacheServiceName, CancellationToken cancellationToken);
+        
+        /// <summary>
+        /// Get access keys of Cache Service
+        /// </summary>
+        /// <param name='cloudServiceName'>
+        /// The cloud service name.
+        /// </param>
+        /// <param name='cacheServiceName'>
+        /// The cache service name.
+        /// </param>
+        /// <param name='cancellationToken'>
+        /// Cancellation token.
+        /// </param>
+        /// <returns>
+        /// A standard service response including an HTTP status code and
+        /// request ID.
+        /// </returns>
+        Task<CheckCacheNameAvailabilityResponse> CheckNameAvailabilityAsync(string cloudServiceName, string cacheServiceName, CancellationToken cancellationToken);
         
         /// <summary>
         /// Creates a new Cache Service in specified subscription and cloud
@@ -2139,6 +2180,145 @@ namespace Microsoft.Azure.Management.ManagedCache
                     // Create Result
                     OperationResponse result = null;
                     result = new OperationResponse();
+                    result.StatusCode = statusCode;
+                    if (httpResponse.Headers.Contains("x-ms-request-id"))
+                    {
+                        result.RequestId = httpResponse.Headers.GetValues("x-ms-request-id").FirstOrDefault();
+                    }
+                    
+                    if (shouldTrace)
+                    {
+                        Tracing.Exit(invocationId, result);
+                    }
+                    return result;
+                }
+                finally
+                {
+                    if (httpResponse != null)
+                    {
+                        httpResponse.Dispose();
+                    }
+                }
+            }
+            finally
+            {
+                if (httpRequest != null)
+                {
+                    httpRequest.Dispose();
+                }
+            }
+        }
+        
+        /// <summary>
+        /// Get access keys of Cache Service
+        /// </summary>
+        /// <param name='cloudServiceName'>
+        /// Required. The cloud service name.
+        /// </param>
+        /// <param name='cacheServiceName'>
+        /// Required. The cache service name.
+        /// </param>
+        /// <param name='cancellationToken'>
+        /// Cancellation token.
+        /// </param>
+        /// <returns>
+        /// A standard service response including an HTTP status code and
+        /// request ID.
+        /// </returns>
+        public async Task<CheckCacheNameAvailabilityResponse> CheckNameAvailabilityAsync(string cloudServiceName, string cacheServiceName, CancellationToken cancellationToken)
+        {
+            // Validate
+            if (cloudServiceName == null)
+            {
+                throw new ArgumentNullException("cloudServiceName");
+            }
+            if (cacheServiceName == null)
+            {
+                throw new ArgumentNullException("cacheServiceName");
+            }
+            
+            // Tracing
+            bool shouldTrace = CloudContext.Configuration.Tracing.IsEnabled;
+            string invocationId = null;
+            if (shouldTrace)
+            {
+                invocationId = Tracing.NextInvocationId.ToString();
+                Dictionary<string, object> tracingParameters = new Dictionary<string, object>();
+                tracingParameters.Add("cloudServiceName", cloudServiceName);
+                tracingParameters.Add("cacheServiceName", cacheServiceName);
+                Tracing.Enter(invocationId, this, "CheckNameAvailabilityAsync", tracingParameters);
+            }
+            
+            // Construct URL
+            string baseUrl = this.Client.BaseUri.AbsoluteUri;
+            string url = "/" + this.Client.Credentials.SubscriptionId.Trim() + "/cloudservices/" + cloudServiceName.Trim() + "/resources/cacheservice/~/Caching/dummy/Namespaces/" + cacheServiceName.Trim();
+            // Trim '/' character from the end of baseUrl and beginning of url.
+            if (baseUrl[baseUrl.Length - 1] == '/')
+            {
+                baseUrl = baseUrl.Substring(0, baseUrl.Length - 1);
+            }
+            if (url[0] == '/')
+            {
+                url = url.Substring(1);
+            }
+            url = baseUrl + "/" + url;
+            
+            // Create HTTP transport objects
+            HttpRequestMessage httpRequest = null;
+            try
+            {
+                httpRequest = new HttpRequestMessage();
+                httpRequest.Method = HttpMethod.Get;
+                httpRequest.RequestUri = new Uri(url);
+                
+                // Set Headers
+                httpRequest.Headers.Add("x-ms-version", "2012-08-01");
+                
+                // Set Credentials
+                cancellationToken.ThrowIfCancellationRequested();
+                await this.Client.Credentials.ProcessHttpRequestAsync(httpRequest, cancellationToken).ConfigureAwait(false);
+                
+                // Send Request
+                HttpResponseMessage httpResponse = null;
+                try
+                {
+                    if (shouldTrace)
+                    {
+                        Tracing.SendRequest(invocationId, httpRequest);
+                    }
+                    cancellationToken.ThrowIfCancellationRequested();
+                    httpResponse = await this.Client.HttpClient.SendAsync(httpRequest, cancellationToken).ConfigureAwait(false);
+                    if (shouldTrace)
+                    {
+                        Tracing.ReceiveResponse(invocationId, httpResponse);
+                    }
+                    HttpStatusCode statusCode = httpResponse.StatusCode;
+                    if (statusCode != HttpStatusCode.OK)
+                    {
+                        cancellationToken.ThrowIfCancellationRequested();
+                        CloudException ex = CloudException.Create(httpRequest, null, httpResponse, await httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false), CloudExceptionType.Xml);
+                        if (shouldTrace)
+                        {
+                            Tracing.Error(invocationId, ex);
+                        }
+                        throw ex;
+                    }
+                    
+                    // Create Result
+                    CheckCacheNameAvailabilityResponse result = null;
+                    // Deserialize Response
+                    cancellationToken.ThrowIfCancellationRequested();
+                    string responseContent = await httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false);
+                    result = new CheckCacheNameAvailabilityResponse();
+                    XDocument responseDoc = XDocument.Parse(responseContent);
+                    
+                    XElement booleanElement = responseDoc.Element(XName.Get("boolean", "http://schemas.microsoft.com/2003/10/Serialization/"));
+                    if (booleanElement != null && booleanElement.IsEmpty == false)
+                    {
+                        bool booleanInstance = bool.Parse(booleanElement.Value);
+                        result.Available = booleanInstance;
+                    }
+                    
                     result.StatusCode = statusCode;
                     if (httpResponse.Headers.Contains("x-ms-request-id"))
                     {
@@ -3999,6 +4179,54 @@ namespace Microsoft.WindowsAzure
         public static Task<OperationResponse> BeginDeletingAsync(this ICacheServiceOperations operations, string cloudServiceName, string cacheServiceName)
         {
             return operations.BeginDeletingAsync(cloudServiceName, cacheServiceName, CancellationToken.None);
+        }
+        
+        /// <summary>
+        /// Get access keys of Cache Service
+        /// </summary>
+        /// <param name='operations'>
+        /// Reference to the
+        /// Microsoft.Azure.Management.ManagedCache.ICacheServiceOperations.
+        /// </param>
+        /// <param name='cloudServiceName'>
+        /// Required. The cloud service name.
+        /// </param>
+        /// <param name='cacheServiceName'>
+        /// Required. The cache service name.
+        /// </param>
+        /// <returns>
+        /// A standard service response including an HTTP status code and
+        /// request ID.
+        /// </returns>
+        public static CheckCacheNameAvailabilityResponse CheckNameAvailability(this ICacheServiceOperations operations, string cloudServiceName, string cacheServiceName)
+        {
+            return Task.Factory.StartNew((object s) => 
+            {
+                return ((ICacheServiceOperations)s).CheckNameAvailabilityAsync(cloudServiceName, cacheServiceName);
+            }
+            , operations, CancellationToken.None, TaskCreationOptions.None, TaskScheduler.Default).Unwrap().GetAwaiter().GetResult();
+        }
+        
+        /// <summary>
+        /// Get access keys of Cache Service
+        /// </summary>
+        /// <param name='operations'>
+        /// Reference to the
+        /// Microsoft.Azure.Management.ManagedCache.ICacheServiceOperations.
+        /// </param>
+        /// <param name='cloudServiceName'>
+        /// Required. The cloud service name.
+        /// </param>
+        /// <param name='cacheServiceName'>
+        /// Required. The cache service name.
+        /// </param>
+        /// <returns>
+        /// A standard service response including an HTTP status code and
+        /// request ID.
+        /// </returns>
+        public static Task<CheckCacheNameAvailabilityResponse> CheckNameAvailabilityAsync(this ICacheServiceOperations operations, string cloudServiceName, string cacheServiceName)
+        {
+            return operations.CheckNameAvailabilityAsync(cloudServiceName, cacheServiceName, CancellationToken.None);
         }
         
         /// <summary>
