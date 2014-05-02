@@ -108,6 +108,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.HDInsight.CmdLetTests
         public const string Versions = "Versions";
         public const string WaitAzureHDInsightJob = "Wait-AzureHDInsightJob";
         public const string WaitTimeoutInSeconds = "WaitTimeoutInSeconds";
+        public const string HeadNodeVMSize = "HeadNodeVMSize";
     }
 }
 

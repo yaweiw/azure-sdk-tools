@@ -9,7 +9,7 @@
 //------------------------------------------------------------------------------
 
 // Original file name: ServerContextInternal.cs
-// Generation date: 11/6/2013 18:01:31
+// Generation date: 3/26/2014 16:11:28
 namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Services.Server
 {
     
@@ -62,6 +62,23 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Services.Server
         }
         [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Services.Design", "1.0.0")]
         private global::System.Data.Services.Client.DataServiceQuery<Database> _Databases;
+        /// <summary>
+        /// There are no comments for RecoverableDatabases in the schema.
+        /// </summary>
+        [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Services.Design", "1.0.0")]
+        public global::System.Data.Services.Client.DataServiceQuery<RecoverableDatabase> RecoverableDatabases
+        {
+            get
+            {
+                if ((this._RecoverableDatabases == null))
+                {
+                    this._RecoverableDatabases = base.CreateQuery<RecoverableDatabase>("RecoverableDatabases");
+                }
+                return this._RecoverableDatabases;
+            }
+        }
+        [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Services.Design", "1.0.0")]
+        private global::System.Data.Services.Client.DataServiceQuery<RecoverableDatabase> _RecoverableDatabases;
         /// <summary>
         /// There are no comments for RestorableDroppedDatabases in the schema.
         /// </summary>
@@ -267,6 +284,23 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Services.Server
         [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Services.Design", "1.0.0")]
         private global::System.Data.Services.Client.DataServiceQuery<RestoreDatabaseOperation> _RestoreDatabaseOperations;
         /// <summary>
+        /// There are no comments for RecoverDatabaseOperations in the schema.
+        /// </summary>
+        [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Services.Design", "1.0.0")]
+        public global::System.Data.Services.Client.DataServiceQuery<RecoverDatabaseOperation> RecoverDatabaseOperations
+        {
+            get
+            {
+                if ((this._RecoverDatabaseOperations == null))
+                {
+                    this._RecoverDatabaseOperations = base.CreateQuery<RecoverDatabaseOperation>("RecoverDatabaseOperations");
+                }
+                return this._RecoverDatabaseOperations;
+            }
+        }
+        [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Services.Design", "1.0.0")]
+        private global::System.Data.Services.Client.DataServiceQuery<RecoverDatabaseOperation> _RecoverDatabaseOperations;
+        /// <summary>
         /// There are no comments for DatabaseCopies in the schema.
         /// </summary>
         [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Services.Design", "1.0.0")]
@@ -419,6 +453,14 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Services.Server
             base.AddObject("Databases", database);
         }
         /// <summary>
+        /// There are no comments for RecoverableDatabases in the schema.
+        /// </summary>
+        [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Services.Design", "1.0.0")]
+        public void AddToRecoverableDatabases(RecoverableDatabase recoverableDatabase)
+        {
+            base.AddObject("RecoverableDatabases", recoverableDatabase);
+        }
+        /// <summary>
         /// There are no comments for RestorableDroppedDatabases in the schema.
         /// </summary>
         [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Services.Design", "1.0.0")]
@@ -513,6 +555,14 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Services.Server
         public void AddToRestoreDatabaseOperations(RestoreDatabaseOperation restoreDatabaseOperation)
         {
             base.AddObject("RestoreDatabaseOperations", restoreDatabaseOperation);
+        }
+        /// <summary>
+        /// There are no comments for RecoverDatabaseOperations in the schema.
+        /// </summary>
+        [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Services.Design", "1.0.0")]
+        public void AddToRecoverDatabaseOperations(RecoverDatabaseOperation recoverDatabaseOperation)
+        {
+            base.AddObject("RecoverDatabaseOperations", recoverDatabaseOperation);
         }
         /// <summary>
         /// There are no comments for DatabaseCopies in the schema.
@@ -620,6 +670,48 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Services.Server
         private string _Name;
         partial void OnNameChanging(string value);
         partial void OnNameChanged();
+        /// <summary>
+        /// There are no comments for Property SubscriptionId in the schema.
+        /// </summary>
+        [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Services.Design", "1.0.0")]
+        public global::System.Nullable<global::System.Guid> SubscriptionId
+        {
+            get
+            {
+                return this._SubscriptionId;
+            }
+            set
+            {
+                this.OnSubscriptionIdChanging(value);
+                this._SubscriptionId = value;
+                this.OnSubscriptionIdChanged();
+            }
+        }
+        [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Services.Design", "1.0.0")]
+        private global::System.Nullable<global::System.Guid> _SubscriptionId;
+        partial void OnSubscriptionIdChanging(global::System.Nullable<global::System.Guid> value);
+        partial void OnSubscriptionIdChanged();
+        /// <summary>
+        /// There are no comments for Property Version in the schema.
+        /// </summary>
+        [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Services.Design", "1.0.0")]
+        public string Version
+        {
+            get
+            {
+                return this._Version;
+            }
+            set
+            {
+                this.OnVersionChanging(value);
+                this._Version = value;
+                this.OnVersionChanged();
+            }
+        }
+        [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Services.Design", "1.0.0")]
+        private string _Version;
+        partial void OnVersionChanging(string value);
+        partial void OnVersionChanged();
         /// <summary>
         /// There are no comments for Databases in the schema.
         /// </summary>
@@ -1433,6 +1525,134 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Services.Server
         }
         [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Services.Design", "1.0.0")]
         private global::System.Collections.ObjectModel.Collection<DatabaseCopy> _DatabaseCopies = new global::System.Collections.ObjectModel.Collection<DatabaseCopy>();
+    }
+    /// <summary>
+    /// There are no comments for Microsoft.SqlServer.Management.Server.Domain.RecoverableDatabase in the schema.
+    /// </summary>
+    /// <KeyProperties>
+    /// EntityId
+    /// </KeyProperties>
+    [global::System.Data.Services.Common.DataServiceKeyAttribute("EntityId")]
+    public partial class RecoverableDatabase
+    {
+        /// <summary>
+        /// Create a new RecoverableDatabase object.
+        /// </summary>
+        /// <param name="entityId">Initial value of EntityId.</param>
+        /// <param name="lastAvailableBackupDate">Initial value of LastAvailableBackupDate.</param>
+        [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Services.Design", "1.0.0")]
+        public static RecoverableDatabase CreateRecoverableDatabase(string entityId, global::System.DateTime lastAvailableBackupDate)
+        {
+            RecoverableDatabase recoverableDatabase = new RecoverableDatabase();
+            recoverableDatabase.EntityId = entityId;
+            recoverableDatabase.LastAvailableBackupDate = lastAvailableBackupDate;
+            return recoverableDatabase;
+        }
+        /// <summary>
+        /// There are no comments for Property EntityId in the schema.
+        /// </summary>
+        [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Services.Design", "1.0.0")]
+        public string EntityId
+        {
+            get
+            {
+                return this._EntityId;
+            }
+            set
+            {
+                this.OnEntityIdChanging(value);
+                this._EntityId = value;
+                this.OnEntityIdChanged();
+            }
+        }
+        [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Services.Design", "1.0.0")]
+        private string _EntityId;
+        partial void OnEntityIdChanging(string value);
+        partial void OnEntityIdChanged();
+        /// <summary>
+        /// There are no comments for Property Name in the schema.
+        /// </summary>
+        [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Services.Design", "1.0.0")]
+        public string Name
+        {
+            get
+            {
+                return this._Name;
+            }
+            set
+            {
+                this.OnNameChanging(value);
+                this._Name = value;
+                this.OnNameChanged();
+            }
+        }
+        [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Services.Design", "1.0.0")]
+        private string _Name;
+        partial void OnNameChanging(string value);
+        partial void OnNameChanged();
+        /// <summary>
+        /// There are no comments for Property ServerName in the schema.
+        /// </summary>
+        [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Services.Design", "1.0.0")]
+        public string ServerName
+        {
+            get
+            {
+                return this._ServerName;
+            }
+            set
+            {
+                this.OnServerNameChanging(value);
+                this._ServerName = value;
+                this.OnServerNameChanged();
+            }
+        }
+        [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Services.Design", "1.0.0")]
+        private string _ServerName;
+        partial void OnServerNameChanging(string value);
+        partial void OnServerNameChanged();
+        /// <summary>
+        /// There are no comments for Property Edition in the schema.
+        /// </summary>
+        [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Services.Design", "1.0.0")]
+        public string Edition
+        {
+            get
+            {
+                return this._Edition;
+            }
+            set
+            {
+                this.OnEditionChanging(value);
+                this._Edition = value;
+                this.OnEditionChanged();
+            }
+        }
+        [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Services.Design", "1.0.0")]
+        private string _Edition;
+        partial void OnEditionChanging(string value);
+        partial void OnEditionChanged();
+        /// <summary>
+        /// There are no comments for Property LastAvailableBackupDate in the schema.
+        /// </summary>
+        [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Services.Design", "1.0.0")]
+        public global::System.DateTime LastAvailableBackupDate
+        {
+            get
+            {
+                return this._LastAvailableBackupDate;
+            }
+            set
+            {
+                this.OnLastAvailableBackupDateChanging(value);
+                this._LastAvailableBackupDate = value;
+                this.OnLastAvailableBackupDateChanged();
+            }
+        }
+        [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Services.Design", "1.0.0")]
+        private global::System.DateTime _LastAvailableBackupDate;
+        partial void OnLastAvailableBackupDateChanging(global::System.DateTime value);
+        partial void OnLastAvailableBackupDateChanged();
     }
     /// <summary>
     /// There are no comments for Microsoft.SqlServer.Management.Server.Domain.RestorableDroppedDatabase in the schema.
@@ -3662,6 +3882,111 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Services.Server
         partial void OnTargetUtcPointInTimeChanged();
     }
     /// <summary>
+    /// There are no comments for Microsoft.SqlServer.Management.Server.Domain.RecoverDatabaseOperation in the schema.
+    /// </summary>
+    /// <KeyProperties>
+    /// RequestID
+    /// </KeyProperties>
+    [global::System.Data.Services.Common.DataServiceKeyAttribute("RequestID")]
+    public partial class RecoverDatabaseOperation
+    {
+        /// <summary>
+        /// Create a new RecoverDatabaseOperation object.
+        /// </summary>
+        /// <param name="requestID">Initial value of RequestID.</param>
+        [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Services.Design", "1.0.0")]
+        public static RecoverDatabaseOperation CreateRecoverDatabaseOperation(global::System.Guid requestID)
+        {
+            RecoverDatabaseOperation recoverDatabaseOperation = new RecoverDatabaseOperation();
+            recoverDatabaseOperation.RequestID = requestID;
+            return recoverDatabaseOperation;
+        }
+        /// <summary>
+        /// There are no comments for Property RequestID in the schema.
+        /// </summary>
+        [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Services.Design", "1.0.0")]
+        public global::System.Guid RequestID
+        {
+            get
+            {
+                return this._RequestID;
+            }
+            set
+            {
+                this.OnRequestIDChanging(value);
+                this._RequestID = value;
+                this.OnRequestIDChanged();
+            }
+        }
+        [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Services.Design", "1.0.0")]
+        private global::System.Guid _RequestID;
+        partial void OnRequestIDChanging(global::System.Guid value);
+        partial void OnRequestIDChanged();
+        /// <summary>
+        /// There are no comments for Property SourceDatabaseName in the schema.
+        /// </summary>
+        [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Services.Design", "1.0.0")]
+        public string SourceDatabaseName
+        {
+            get
+            {
+                return this._SourceDatabaseName;
+            }
+            set
+            {
+                this.OnSourceDatabaseNameChanging(value);
+                this._SourceDatabaseName = value;
+                this.OnSourceDatabaseNameChanged();
+            }
+        }
+        [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Services.Design", "1.0.0")]
+        private string _SourceDatabaseName;
+        partial void OnSourceDatabaseNameChanging(string value);
+        partial void OnSourceDatabaseNameChanged();
+        /// <summary>
+        /// There are no comments for Property SourceServerName in the schema.
+        /// </summary>
+        [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Services.Design", "1.0.0")]
+        public string SourceServerName
+        {
+            get
+            {
+                return this._SourceServerName;
+            }
+            set
+            {
+                this.OnSourceServerNameChanging(value);
+                this._SourceServerName = value;
+                this.OnSourceServerNameChanged();
+            }
+        }
+        [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Services.Design", "1.0.0")]
+        private string _SourceServerName;
+        partial void OnSourceServerNameChanging(string value);
+        partial void OnSourceServerNameChanged();
+        /// <summary>
+        /// There are no comments for Property TargetDatabaseName in the schema.
+        /// </summary>
+        [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Services.Design", "1.0.0")]
+        public string TargetDatabaseName
+        {
+            get
+            {
+                return this._TargetDatabaseName;
+            }
+            set
+            {
+                this.OnTargetDatabaseNameChanging(value);
+                this._TargetDatabaseName = value;
+                this.OnTargetDatabaseNameChanged();
+            }
+        }
+        [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Services.Design", "1.0.0")]
+        private string _TargetDatabaseName;
+        partial void OnTargetDatabaseNameChanging(string value);
+        partial void OnTargetDatabaseNameChanged();
+    }
+    /// <summary>
     /// There are no comments for Microsoft.SqlServer.Management.Server.Domain.DatabaseCopy in the schema.
     /// </summary>
     /// <KeyProperties>
@@ -5295,7 +5620,7 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Services.Server
     public abstract partial class ServerContextInternal
     {
         public readonly string[] metadataHashes = new string[]{ 
-            "AEF98769F5E946C48ABBE0B212323A857C68C57D",
+            "0333AB7076A926BF53F07C1786F11C052DEB791B",
             "F903DB500E018B00ECB1E355BC55F73B7342FC76",
             "5A2ABE58F30C9EF4B4F49853CD5FE28BA9FEBCD9",
             "68BA8B4EB74E0C5A91D0A734B742001018A9F9D2",

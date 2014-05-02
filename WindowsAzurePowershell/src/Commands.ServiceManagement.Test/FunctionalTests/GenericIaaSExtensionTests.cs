@@ -2,6 +2,7 @@
 using Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions;
 using Microsoft.WindowsAzure.Commands.ServiceManagement.Model;
 using Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests.ConfigDataInfo;
+using Microsoft.WindowsAzure.Commands.Utilities.Websites.Services;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -219,6 +220,61 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
             }
             
         }
+
+        [TestMethod(), TestCategory("Scenario"), TestProperty("Feature", "IAAS"), Priority(0), Owner("hylee"), Description("Test the cmdlet (Get-AzureVMAvailableExtension)")]
+        public void GetAzureVMAvailableExtensionTest()
+        {
+            try
+            {
+                var availableExtensions = vmPowershellCmdlets.GetAzureVMAvailableExtension();
+                foreach (var extension in availableExtensions)
+                {
+                    ValidateAvailableExtesnion(extension);
+                }
+                pass = true;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.ToString());
+                throw;
+            }
+        }
+
+        public void ValidateAvailableExtesnion(VirtualMachineExtensionImageContext extension)
+        {
+            Utilities.PrintContext(extension);
+            Assert.IsFalse(string.IsNullOrEmpty(extension.ExtensionName));
+            Assert.IsFalse(string.IsNullOrEmpty(extension.Publisher));
+            Assert.IsFalse(string.IsNullOrEmpty(extension.Version));
+
+            // Intentionally commented as the cmdlet prod cmdlet doesnt have these properties and dogfood returns errors
+            // now
+            //Assert.IsTrue(extension.ReplicationCompleted);
+            //Assert.IsTrue(Utilities.validateHttpUri(extension.PrivacyUri.ToString()));
+            //Assert.IsTrue(Utilities.validateHttpUri(extension.PrivacyUri.ToString()));
+            //Assert.IsTrue(Utilities.validateHttpUri(extension.Eula.ToString()));
+
+            switch (extension.ExtensionName)
+            {
+                //case "BGInfo":
+                //    {
+                //        Assert.IsTrue(extension.ReplicationCompleted);
+                //        break;
+                //    }
+                case "DiagnosticsAgent":
+                    {
+                        Assert.IsFalse(string.IsNullOrEmpty(extension.PublicConfigurationSchema));
+                        break;
+                    }
+                case "VMAccessAgent":
+                    {
+                        Assert.IsFalse(string.IsNullOrEmpty(extension.PublicConfigurationSchema));
+                        Assert.IsFalse(string.IsNullOrEmpty(extension.PrivateConfigurationSchema));
+                        //Assert.IsFalse(string.IsNullOrEmpty(extension.SampleConfig));
+                        break;
+                    }
+            }
+        }
         
 
         private PersistentVM CreateIaaSVMObject(string vmName)
@@ -340,7 +396,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
                 Assert.AreEqual("Disable", vmExtension.State, "State is not Disable");
                 Console.WriteLine("Verifed the disabled extension successfully.");
             }
-            Assert.IsTrue(string.IsNullOrEmpty(vmExtension.PrivateConfiguration), "PrivateConfiguration is not empty.");
+            Assert.IsTrue(string.IsNullOrEmpty(vmExtension.PrivateConfiguration.ConvertToUnsecureString()), "PrivateConfiguration is not empty.");
         }
 
     }

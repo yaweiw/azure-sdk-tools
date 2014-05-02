@@ -11,6 +11,13 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 # ----------------------------------------------------------------------------------
+
+Set-ExecutionPolicy -Scope Process Undefined -Force
+if ($(Get-ExecutionPolicy) -eq "Restricted")
+{
+	Set-ExecutionPolicy -Scope Process -ExecutionPolicy AllSigned -Force
+}
+
 function Get-ScriptDirectory
 {
     $Invocation = (Get-Variable MyInvocation -Scope 1).Value
