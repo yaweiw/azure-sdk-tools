@@ -88,6 +88,33 @@ namespace Microsoft.Azure.Commands.ManagedCache.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Creating cache service....
+        /// </summary>
+        internal static string CreatingCacheService {
+            get {
+                return ResourceManager.GetString("CreatingCacheService", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Creating prerequisites....
+        /// </summary>
+        internal static string CreatingPrerequisites {
+            get {
+                return ResourceManager.GetString("CreatingPrerequisites", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Intializing parameters....
+        /// </summary>
+        internal static string InitializingCacheParameters {
+            get {
+                return ResourceManager.GetString("InitializingCacheParameters", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Invalid cache memory size. Please specify value between {0} and {1}{2}.
         /// </summary>
         internal static string InvalidCacheMemorySize {
@@ -120,6 +147,24 @@ namespace Microsoft.Azure.Commands.ManagedCache.Properties {
         internal static string TimeoutWaitForCacheServiceReady {
             get {
                 return ResourceManager.GetString("TimeoutWaitForCacheServiceReady", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Verify cache service name....
+        /// </summary>
+        internal static string VerifyingCacheServiceName {
+            get {
+                return ResourceManager.GetString("VerifyingCacheServiceName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Wait for cache service becomes ready....
+        /// </summary>
+        internal static string WaitForCacheServiceReady {
+            get {
+                return ResourceManager.GetString("WaitForCacheServiceReady", resourceCulture);
             }
         }
     }

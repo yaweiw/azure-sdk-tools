@@ -126,6 +126,15 @@
   <data name="CacheServiceNotFound" xml:space="preserve">
     <value>Cache Service '{0}' was not found</value>
   </data>
+  <data name="CreatingCacheService" xml:space="preserve">
+    <value>Creating cache service...</value>
+  </data>
+  <data name="CreatingPrerequisites" xml:space="preserve">
+    <value>Creating prerequisites...</value>
+  </data>
+  <data name="InitializingCacheParameters" xml:space="preserve">
+    <value>Intializing parameters...</value>
+  </data>
   <data name="InvalidCacheMemorySize" xml:space="preserve">
     <value>Invalid cache memory size. Please specify value between {0} and {1}{2}</value>
   </data>
@@ -137,5 +146,11 @@
   </data>
   <data name="TimeoutWaitForCacheServiceReady" xml:space="preserve">
     <value>Time out to wait for cache service ready</value>
+  </data>
+  <data name="VerifyingCacheServiceName" xml:space="preserve">
+    <value>Verify cache service name...</value>
+  </data>
+  <data name="WaitForCacheServiceReady" xml:space="preserve">
+    <value>Wait for cache service becomes ready...</value>
   </data>
 </root>

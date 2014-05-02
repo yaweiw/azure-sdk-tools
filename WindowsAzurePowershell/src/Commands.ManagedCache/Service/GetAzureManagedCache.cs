@@ -15,9 +15,11 @@
 namespace Microsoft.Azure.Commands.ManagedCache
 {
     using System;
+    using System.Collections.Generic;
     using System.Management.Automation;
+    using Microsoft.Azure.Commands.ManagedCache.Models;
 
-    [Cmdlet(VerbsCommon.Get, "AzureManagedCache")]
+    [Cmdlet(VerbsCommon.Get, "AzureManagedCache"), OutputType(typeof(List<PSCacheService>))]
     public class GetAzureManagedCache : ManagedCacheCmdletBase
     {
         [Parameter(Position = 0)]
@@ -26,12 +28,12 @@ namespace Microsoft.Azure.Commands.ManagedCache
 
         public override void ExecuteCmdlet()
         {
-            var cacheService = CacheClient.GetCacheService(Name);
-            if (cacheService == null)
+            List<PSCacheService> cacheServices = CacheClient.GetCacheService(Name);
+            if (!string.IsNullOrEmpty(Name) && cacheServices.Count == 0)
             {
                 throw new ArgumentException(string.Format(Properties.Resources.CacheServiceNotFound, Name));
             }
-            WriteObject(cacheService);
+            WriteObject(cacheServices);
         }      
     }
 }

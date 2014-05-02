@@ -125,6 +125,7 @@
     <Compile Include="PSCacheClientTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="CacheSkuCountConvertTest.cs" />
+    <Compile Include="PSCacheServiceTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="MSSharedLibKey.snk" />
