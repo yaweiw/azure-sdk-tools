@@ -40,7 +40,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement
 
     public static class ServiceManagementMapperExtension
     {
-        public static IMappingExpression<TSource, TDestination> AfterMap<TSource, TDestination, T>(
+        public static IMappingExpression<TSource, TDestination> ForItems<TSource, TDestination, T>(
                  this IMappingExpression<TSource, TDestination> mapper)
             where TSource : IEnumerable
             where TDestination : ICollection<T>
@@ -287,19 +287,19 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement
 
             Mapper.CreateMap<NSM.RoleInstance.PublicIP, PVM.PublicIP>();
             Mapper.CreateMap<IList<NSM.RoleInstance.PublicIP>, PVM.PublicIPList>()
-                  .AfterMap<IList<NSM.RoleInstance.PublicIP>, PVM.PublicIPList, PVM.PublicIP>();
+                  .ForItems<IList<NSM.RoleInstance.PublicIP>, PVM.PublicIPList, PVM.PublicIP>();
             Mapper.CreateMap<IEnumerable<NSM.RoleInstance.PublicIP>, PVM.PublicIPList>()
-                  .AfterMap<IEnumerable<NSM.RoleInstance.PublicIP>, PVM.PublicIPList, PVM.PublicIP>();
+                  .ForItems<IEnumerable<NSM.RoleInstance.PublicIP>, PVM.PublicIPList, PVM.PublicIP>();
             Mapper.CreateMap<List<NSM.RoleInstance.PublicIP>, PVM.PublicIPList>()
-                  .AfterMap<List<NSM.RoleInstance.PublicIP>, PVM.PublicIPList, PVM.PublicIP>();
+                  .ForItems<List<NSM.RoleInstance.PublicIP>, PVM.PublicIPList, PVM.PublicIP>();
 
             Mapper.CreateMap<NSM.ConfigurationSet.PublicIP, PVM.AssignPublicIP>();
             Mapper.CreateMap<IList<NSM.ConfigurationSet.PublicIP>, PVM.AssignPublicIPCollection>()
-                  .AfterMap<IList<NSM.ConfigurationSet.PublicIP>, PVM.AssignPublicIPCollection, PVM.AssignPublicIP>();
+                  .ForItems<IList<NSM.ConfigurationSet.PublicIP>, PVM.AssignPublicIPCollection, PVM.AssignPublicIP>();
             Mapper.CreateMap<IEnumerable<NSM.ConfigurationSet.PublicIP>, PVM.AssignPublicIPCollection>()
-                  .AfterMap<IEnumerable<NSM.ConfigurationSet.PublicIP>, PVM.AssignPublicIPCollection, PVM.AssignPublicIP>();
+                  .ForItems<IEnumerable<NSM.ConfigurationSet.PublicIP>, PVM.AssignPublicIPCollection, PVM.AssignPublicIP>();
             Mapper.CreateMap<List<NSM.ConfigurationSet.PublicIP>, PVM.AssignPublicIPCollection>()
-                  .AfterMap<List<NSM.ConfigurationSet.PublicIP>, PVM.AssignPublicIPCollection, PVM.AssignPublicIP>();
+                  .ForItems<List<NSM.ConfigurationSet.PublicIP>, PVM.AssignPublicIPCollection, PVM.AssignPublicIP>();
 
             //SM to NewSM mapping
             Mapper.CreateMap<PVM.LoadBalancerProbe, NSM.LoadBalancerProbe>()
@@ -341,28 +341,12 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement
             Mapper.CreateMap<PVM.InstanceEndpoint, NSM.InstanceEndpoint>()
                   .ForMember(c => c.VirtualIPAddress, o => o.MapFrom(r => r.Vip != null ? IPAddress.Parse(r.Vip) : null))
                   .ForMember(c => c.Port, o => o.MapFrom(r => r.PublicPort));
+
             Mapper.CreateMap<PVM.InstanceEndpointList, IList<NSM.InstanceEndpoint>>()
-                  .AfterMap((c, s) =>
-                  {
-                      if (c != null && s != null)
-                      {
-                          foreach (var t in c)
-                          {
-                              s.Add(Mapper.Map<NSM.InstanceEndpoint>(t));
-                          }
-                      }
-                  });
+                  .ForItems<PVM.InstanceEndpointList, IList<NSM.InstanceEndpoint>, NSM.InstanceEndpoint>();
             Mapper.CreateMap<PVM.InstanceEndpointList, List<NSM.InstanceEndpoint>>()
-                  .AfterMap((c, s) =>
-                  {
-                      if (c != null && s != null)
-                      {
-                          foreach (var t in c)
-                          {
-                              s.Add(Mapper.Map<NSM.InstanceEndpoint>(t));
-                          }
-                      }
-                  });
+                  .ForItems<PVM.InstanceEndpointList, List<NSM.InstanceEndpoint>, NSM.InstanceEndpoint>();
+
             Mapper.CreateMap<PVM.WindowsProvisioningConfigurationSet.WinRmConfiguration, NSM.WindowsRemoteManagementSettings>();
             Mapper.CreateMap<PVM.WindowsProvisioningConfigurationSet.WinRmListenerProperties, NSM.WindowsRemoteManagementListener>()
                   .ForMember(c => c.ListenerType, o => o.MapFrom(r => r.Protocol));
@@ -400,39 +384,14 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement
             Mapper.CreateMap<NSM.InstanceEndpoint, PVM.InstanceEndpoint>()
                   .ForMember(c => c.Vip, o => o.MapFrom(r => r.VirtualIPAddress != null ? r.VirtualIPAddress.ToString() : null))
                   .ForMember(c => c.PublicPort, o => o.MapFrom(r => r.Port));
+
             Mapper.CreateMap<IList<NSM.InstanceEndpoint>, PVM.InstanceEndpointList>()
-                  .AfterMap((c, s) =>
-                  {
-                      if (c != null && s != null)
-                      {
-                          foreach (var t in c)
-                          {
-                              s.Add(Mapper.Map<PVM.InstanceEndpoint>(t));
-                          }
-                      }
-                  });
+                  .ForItems<IList<NSM.InstanceEndpoint>, PVM.InstanceEndpointList, PVM.InstanceEndpoint>();
             Mapper.CreateMap<IEnumerable<NSM.InstanceEndpoint>, PVM.InstanceEndpointList>()
-                  .AfterMap((c, s) =>
-                  {
-                      if (c != null && s != null)
-                      {
-                          foreach (var t in c)
-                          {
-                              s.Add(Mapper.Map<PVM.InstanceEndpoint>(t));
-                          }
-                      }
-                  });
+                  .ForItems<IEnumerable<NSM.InstanceEndpoint>, PVM.InstanceEndpointList, PVM.InstanceEndpoint>();
             Mapper.CreateMap<List<NSM.InstanceEndpoint>, PVM.InstanceEndpointList>()
-                  .AfterMap((c, s) =>
-                  {
-                      if (c != null && s != null)
-                      {
-                          foreach (var t in c)
-                          {
-                              s.Add(Mapper.Map<PVM.InstanceEndpoint>(t));
-                          }
-                      }
-                  });
+                  .ForItems<List<NSM.InstanceEndpoint>, PVM.InstanceEndpointList, PVM.InstanceEndpoint>();
+
             Mapper.CreateMap<NSM.WindowsRemoteManagementSettings, PVM.WindowsProvisioningConfigurationSet.WinRmConfiguration>();
             Mapper.CreateMap<NSM.WindowsRemoteManagementListener, PVM.WindowsProvisioningConfigurationSet.WinRmListenerProperties>()
                   .ForMember(c => c.Protocol, o => o.MapFrom(r => r.ListenerType.ToString()));
@@ -724,30 +683,14 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement
             Mapper.CreateMap<NSM.ResourceExtensionParameterValue, PVM.ResourceExtensionParameterValue>()
                   .ForMember(c => c.SecureValue, o => o.MapFrom(r => SecureStringHelper.GetSecureString(r)))
                   .ForMember(c => c.Value, o => o.MapFrom(r => SecureStringHelper.GetPlainString(r)));
+
             Mapper.CreateMap<IList<NSM.ResourceExtensionParameterValue>, PVM.ResourceExtensionParameterValueList>()
-                  .AfterMap((c, s) =>
-                  {
-                      if (c != null)
-                      {
-                          c.ForEach(r => s.Add(Mapper.Map<PVM.ResourceExtensionParameterValue>(r)));
-                      }
-                  });
+                  .ForItems<IList<NSM.ResourceExtensionParameterValue>, PVM.ResourceExtensionParameterValueList, PVM.ResourceExtensionParameterValue>();
             Mapper.CreateMap<IEnumerable<NSM.ResourceExtensionParameterValue>, PVM.ResourceExtensionParameterValueList>()
-                  .AfterMap((c, s) =>
-                  {
-                      if (c != null)
-                      {
-                          c.ForEach(r => s.Add(Mapper.Map<PVM.ResourceExtensionParameterValue>(r)));
-                      }
-                  });
+                  .ForItems<IEnumerable<NSM.ResourceExtensionParameterValue>, PVM.ResourceExtensionParameterValueList, PVM.ResourceExtensionParameterValue>();
             Mapper.CreateMap<List<NSM.ResourceExtensionParameterValue>, PVM.ResourceExtensionParameterValueList>()
-                  .AfterMap((c, s) =>
-                  {
-                      if (c != null)
-                      {
-                          c.ForEach(r => s.Add(Mapper.Map<PVM.ResourceExtensionParameterValue>(r)));
-                      }
-                  });
+                  .ForItems<List<NSM.ResourceExtensionParameterValue>, PVM.ResourceExtensionParameterValueList, PVM.ResourceExtensionParameterValue>();
+
             Mapper.CreateMap<NSM.ResourceExtensionReference, PVM.ResourceExtensionReference>();
             Mapper.CreateMap<IList<NSM.ResourceExtensionReference>, List<PVM.ResourceExtensionReference>>()
                   .Include<IList<NSM.ResourceExtensionReference>, PVM.ResourceExtensionReferenceList>();
@@ -755,51 +698,24 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement
                   .Include<IEnumerable<NSM.ResourceExtensionReference>, PVM.ResourceExtensionReferenceList>();
             Mapper.CreateMap<List<NSM.ResourceExtensionReference>, List<PVM.ResourceExtensionReference>>()
                   .Include<List<NSM.ResourceExtensionReference>, PVM.ResourceExtensionReferenceList>();
+
             Mapper.CreateMap<IList<NSM.ResourceExtensionReference>, PVM.ResourceExtensionReferenceList>()
-                  .AfterMap((c, s) =>
-                  {
-                      if (c != null)
-                      {
-                          c.ForEach(r => s.Add(Mapper.Map<PVM.ResourceExtensionReference>(r)));
-                      }
-                  });
+                  .ForItems<IList<NSM.ResourceExtensionReference>, PVM.ResourceExtensionReferenceList, PVM.ResourceExtensionReference>();
             Mapper.CreateMap<IEnumerable<NSM.ResourceExtensionReference>, PVM.ResourceExtensionReferenceList>()
-                  .AfterMap((c, s) =>
-                  {
-                      if (c != null)
-                      {
-                          c.ForEach(r => s.Add(Mapper.Map<PVM.ResourceExtensionReference>(r)));
-                      }
-                  });
+                  .ForItems<IEnumerable<NSM.ResourceExtensionReference>, PVM.ResourceExtensionReferenceList, PVM.ResourceExtensionReference>();
             Mapper.CreateMap<List<NSM.ResourceExtensionReference>, PVM.ResourceExtensionReferenceList>()
-                  .AfterMap((c, s) =>
-                  {
-                      if (c != null)
-                      {
-                          c.ForEach(r => s.Add(Mapper.Map<PVM.ResourceExtensionReference>(r)));
-                      }
-                  });
+                  .ForItems<List<NSM.ResourceExtensionReference>, PVM.ResourceExtensionReferenceList, PVM.ResourceExtensionReference>();
 
             // Resource Reference Mapping - PVM to NSM
             Mapper.CreateMap<PVM.ResourceExtensionParameterValue, NSM.ResourceExtensionParameterValue>()
                   .ForMember(c => c.Value, o => o.MapFrom(r => SecureStringHelper.GetPlainString(r)));
+
             Mapper.CreateMap<PVM.ResourceExtensionParameterValueList, IList<NSM.ResourceExtensionParameterValue>>()
-                  .AfterMap((c, s) =>
-                  {
-                      if (c != null)
-                      {
-                          c.ForEach(r => s.Add(Mapper.Map<NSM.ResourceExtensionParameterValue>(r)));
-                      }
-                  });
+                  .ForItems<PVM.ResourceExtensionParameterValueList, IList<NSM.ResourceExtensionParameterValue>, NSM.ResourceExtensionParameterValue>();
             Mapper.CreateMap<PVM.ResourceExtensionParameterValueList, IEnumerable<NSM.ResourceExtensionParameterValue>>();
             Mapper.CreateMap<PVM.ResourceExtensionParameterValueList, List<NSM.ResourceExtensionParameterValue>>()
-                  .AfterMap((c, s) =>
-                  {
-                      if (c != null)
-                      {
-                          c.ForEach(r => s.Add(Mapper.Map<NSM.ResourceExtensionParameterValue>(r)));
-                      }
-                  });
+                  .ForItems<PVM.ResourceExtensionParameterValueList, List<NSM.ResourceExtensionParameterValue>, NSM.ResourceExtensionParameterValue>();
+
             Mapper.CreateMap<PVM.ResourceExtensionReference, NSM.ResourceExtensionReference>();
             Mapper.CreateMap<PVM.ResourceExtensionReference, NSM.ResourceExtensionReference>();
             Mapper.CreateMap<List<PVM.ResourceExtensionReference>, IList<NSM.ResourceExtensionReference>>()
@@ -809,22 +725,10 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement
             Mapper.CreateMap<List<PVM.ResourceExtensionReference>, List<NSM.ResourceExtensionReference>>()
                   .Include<PVM.ResourceExtensionReferenceList, List<NSM.ResourceExtensionReference>>();
             Mapper.CreateMap<PVM.ResourceExtensionReferenceList, IList<NSM.ResourceExtensionReference>>()
-                  .AfterMap((c, s) =>
-                  {
-                      if (c != null)
-                      {
-                          c.ForEach(r => s.Add(Mapper.Map<NSM.ResourceExtensionReference>(r)));
-                      }
-                  });
+                  .ForItems<PVM.ResourceExtensionReferenceList, IList<NSM.ResourceExtensionReference>, NSM.ResourceExtensionReference>();
             Mapper.CreateMap<PVM.ResourceExtensionReferenceList, IEnumerable<NSM.ResourceExtensionReference>>();
             Mapper.CreateMap<PVM.ResourceExtensionReferenceList, List<NSM.ResourceExtensionReference>>()
-                  .AfterMap((c, s) =>
-                  {
-                      if (c != null)
-                      {
-                          c.ForEach(r => s.Add(Mapper.Map<NSM.ResourceExtensionReference>(r)));
-                      }
-                  });
+                  .ForItems<PVM.ResourceExtensionReferenceList, List<NSM.ResourceExtensionReference>, NSM.ResourceExtensionReference>();
 
             // Reserved IP
             Mapper.CreateMap<OperationStatusResponse, ReservedIPContext>()
@@ -898,51 +802,15 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement
 
             // WSM to NSM
             Mapper.CreateMap<WSM.RoleInstanceList, IList<NSM.RoleInstance>>()
-                  .AfterMap((c, s) =>
-                  {
-                      if (c != null && s != null)
-                      {
-                          foreach (var t in c)
-                          {
-                              s.Add(Mapper.Map<NSM.RoleInstance>(t));
-                          }
-                      }
-                  });
+                  .ForItems<WSM.RoleInstanceList, IList<NSM.RoleInstance>, NSM.RoleInstance>();
             Mapper.CreateMap<WSM.RoleInstanceList, List<NSM.RoleInstance>>()
-                  .AfterMap((c, s) =>
-                  {
-                      if (c != null && s != null)
-                      {
-                          foreach (var t in c)
-                          {
-                              s.Add(Mapper.Map<NSM.RoleInstance>(t));
-                          }
-                      }
-                  });
+                  .ForItems<WSM.RoleInstanceList, List<NSM.RoleInstance>, NSM.RoleInstance>();
 
             // NSM to WSM
             Mapper.CreateMap<IList<NSM.RoleInstance>, WSM.RoleInstanceList>()
-                  .AfterMap((c, s) =>
-                  {
-                      if (c != null && s != null)
-                      {
-                          foreach (var t in c)
-                          {
-                              s.Add(Mapper.Map<WSM.RoleInstance>(t));
-                          }
-                      }
-                  });
+                  .ForItems<IList<NSM.RoleInstance>, WSM.RoleInstanceList, WSM.RoleInstance>();
             Mapper.CreateMap<List<NSM.RoleInstance>, WSM.RoleInstanceList>()
-                  .AfterMap((c, s) =>
-                  {
-                      if (c != null && s != null)
-                      {
-                          foreach (var t in c)
-                          {
-                              s.Add(Mapper.Map<WSM.RoleInstance>(t));
-                          }
-                      }
-                  });
+                  .ForItems<List<NSM.RoleInstance>, WSM.RoleInstanceList, WSM.RoleInstance>();
         }
     }
 }
