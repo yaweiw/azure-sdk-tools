@@ -16,15 +16,16 @@ namespace Microsoft.Azure.Commands.ManagedCache
 {
     using System;
     using System.Management.Automation;
+    using Microsoft.Azure.Management.ManagedCache.Models;
 
-    [Cmdlet(VerbsCommon.New, "AzureManagedCacheAccessKey")]
+    [Cmdlet(VerbsCommon.New, "AzureManagedCacheAccessKey"), OutputType(typeof(CachingKeysResponse))]
     public class NewAzureManagedCacheAccessKey : ManagedCacheCmdletBase
     {
-        [Parameter(Position = 0)]
+        [Parameter(Position = 0, Mandatory = true, ValueFromPipelineByPropertyName=true)]
         [ValidateNotNullOrEmpty]
         public string Name { get; set;}
 
-        [Parameter(Position = 1, Mandatory = false)]
+        [Parameter(Position = 1)]
         [ValidateSet("Primary", "Secondary", IgnoreCase = true)]
         public string KeyType { get; set; }
 
