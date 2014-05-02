@@ -80,6 +80,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.TrafficManager.Models
                         endpoint.Type = endpointReponse.Type;
                         endpoint.Status = endpointReponse.Status;
                         endpoint.Weight = endpointReponse.Weight;
+                        endpoint.MonitorStatus = endpointReponse.MonitorStatus;
 
                         endpoints.Add(endpoint);
                     }
@@ -139,6 +140,9 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.TrafficManager.Models
 
         [DataMember(IsRequired = true)]
         public EndpointStatus Status { get; set; }
+
+        [DataMember(IsRequired = true)]
+        public DefinitionEndpointMonitorStatus MonitorStatus { get; set; }
 
         [DataMember(IsRequired = true)]
         public int Weight { get; set; }

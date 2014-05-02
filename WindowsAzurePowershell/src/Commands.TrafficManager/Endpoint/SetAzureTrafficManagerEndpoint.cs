@@ -73,9 +73,11 @@ namespace Microsoft.WindowsAzure.Commands.TrafficManager.Endpoint
                 endpoint.Type = (EndpointType)Enum.Parse(typeof(EndpointType), Type);
                 endpoint.Weight = Weight.HasValue ? Weight.Value : 0;
                 endpoint.Status = (EndpointStatus)Enum.Parse(typeof(EndpointStatus), Status);
+
+                // Add it because the endpoint didn't exist
+                profile.Endpoints.Add(endpoint);
             }
 
-            endpoint.DomainName = DomainName ?? endpoint.DomainName;
             endpoint.Location = Location ?? endpoint.Location;
 
             endpoint.Type = !String.IsNullOrEmpty(Type)
@@ -88,7 +90,6 @@ namespace Microsoft.WindowsAzure.Commands.TrafficManager.Endpoint
                 ? (EndpointStatus)Enum.Parse(typeof (EndpointStatus), Status)
                 : endpoint.Status;
 
-            profile.Endpoints.Add(endpoint);
             WriteObject(profile);
         }
     }
