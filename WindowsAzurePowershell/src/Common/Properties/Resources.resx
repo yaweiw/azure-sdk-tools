@@ -1605,4 +1605,7 @@ use and privacy statement at &lt;url&gt; and (c) agree to sharing my contact inf
   <data name="SetTrafficManagerEndpointNeedsParameters" xml:space="preserve">
     <value>Insufficient parameters passed to create a new endpoint.</value>
   </data>
+  <data name="SetTrafficManagerProfileAmbiguous" xml:space="preserve">
+    <value>Ambiguous operation: the profile name specified doesn't match the name of the profile object.</value>
+  </data>
 </root>

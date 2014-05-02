@@ -14,15 +14,17 @@
 
 namespace Microsoft.WindowsAzure.Commands.TrafficManager.Profile
 {
+    using System;
     using System.Management.Automation;
     using Microsoft.WindowsAzure.Management.TrafficManager.Models;
     using Microsoft.WindowsAzure.Commands.Utilities.TrafficManager;
     using Microsoft.WindowsAzure.Commands.Utilities.TrafficManager.Models;
+    using Microsoft.WindowsAzure.Commands.Common.Properties;
 
     [Cmdlet(VerbsCommon.Set, "AzureTrafficManagerProfile"), OutputType(typeof(IProfileWithDefinition))]
     public class SetAzureTrafficManagerProfile : TrafficManagerConfigurationBaseCmdlet
     {
-        [Parameter(Mandatory = true, ValueFromPipelineByPropertyName = true)]
+        [Parameter(Mandatory = false, ValueFromPipelineByPropertyName = true)]
         [ValidateNotNullOrEmpty]
         public string Name { get; set; }
 
@@ -49,6 +51,12 @@ namespace Microsoft.WindowsAzure.Commands.TrafficManager.Profile
         public override void ExecuteCmdlet()
         {
             ProfileWithDefinition profile = TrafficManagerProfile.GetInstance();
+
+            if (!Name.Equals(profile.Name))
+            {
+                throw new Exception(Resources.SetTrafficManagerProfileAmbiguous);
+            }
+
             DefinitionCreateParameters updatedDefinitionAsParam =
                 TrafficManagerClient.InstantiateTrafficManagerDefinition(
                 LoadBalancingMethod ?? profile.LoadBalancingMethod.ToString(),
