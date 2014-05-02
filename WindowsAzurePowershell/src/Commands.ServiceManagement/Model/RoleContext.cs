@@ -14,12 +14,18 @@
 
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Model
 {
+    using Model.PersistentVMModel;
+
     public class RoleContext : ServiceOperationContext
     {
         public string RoleName { get; set; }
 
         public int InstanceCount { get; set; }
 
-        public string DeploymentID { get; set; } 
+        public string DeploymentID { get; set; }
+
+        public string IPAddress { get; set; }
+
+        public PublicIP PublicIPAddress { get; set; }
     }
 }
