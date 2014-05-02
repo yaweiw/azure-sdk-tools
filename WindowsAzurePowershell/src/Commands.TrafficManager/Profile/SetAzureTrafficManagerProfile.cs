@@ -12,14 +12,16 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
+
 namespace Microsoft.WindowsAzure.Commands.TrafficManager.Profile
 {
     using System;
+    using System.Linq;
     using System.Management.Automation;
-    using Microsoft.WindowsAzure.Management.TrafficManager.Models;
+    using Microsoft.WindowsAzure.Commands.Common.Properties;
     using Microsoft.WindowsAzure.Commands.Utilities.TrafficManager;
     using Microsoft.WindowsAzure.Commands.Utilities.TrafficManager.Models;
-    using Microsoft.WindowsAzure.Commands.Common.Properties;
+    using Microsoft.WindowsAzure.Management.TrafficManager.Models;
 
     [Cmdlet(VerbsCommon.Set, "AzureTrafficManagerProfile"), OutputType(typeof(IProfileWithDefinition))]
     public class SetAzureTrafficManagerProfile : TrafficManagerConfigurationBaseCmdlet
@@ -65,6 +67,13 @@ namespace Microsoft.WindowsAzure.Commands.TrafficManager.Profile
                 MonitorRelativePath ?? profile.MonitorRelativePath,
                 Ttl.HasValue ? Ttl.Value : profile.TimeToLiveInSeconds,
                 profile.Endpoints);
+
+            if (updatedDefinitionAsParam.Policy.LoadBalancingMethod ==
+                Management.TrafficManager.Models.LoadBalancingMethod.Performance &&
+                updatedDefinitionAsParam.Policy.Endpoints.Any(e => e.Type == EndpointType.Any))
+            {
+                throw new Exception(Resources.SetTrafficManagerProfileErrorNotSupported);
+            }
 
             ProfileWithDefinition newDefinition =
                 TrafficManagerClient.AssignDefinitionToProfile(Name, updatedDefinitionAsParam);
