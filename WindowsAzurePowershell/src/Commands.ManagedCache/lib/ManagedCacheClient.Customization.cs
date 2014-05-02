@@ -22,7 +22,7 @@ using Microsoft.WindowsAzure;
 using Microsoft.WindowsAzure.Common;
 using Microsoft.WindowsAzure.Common.Internals;
 
-namespace Microsoft.WindowsAzure
+namespace Microsoft.Azure
 {
     public static class ManagedCacheDiscoveryExtensions
     {
