@@ -66,7 +66,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.TrafficManager.Endpoints
                 Name = profileName,
                 DomainName = domainName,
                 Type = cloudServiceType,
-                Weight = weight,
+                //Weight = weight,
                 Status = status.ToString(),
                 TrafficManagerProfile = original,
                 CommandRuntime = mockCommandRuntime
@@ -96,7 +96,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.TrafficManager.Endpoints
                 Name = profileName,
                 DomainName = domainName,
                 Type = azureWebsiteType,
-                Weight = weight,
+                //Weight = weight,
                 TrafficManagerProfile = original,
                 CommandRuntime = mockCommandRuntime
             };
@@ -124,7 +124,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.TrafficManager.Endpoints
                 Name = profileName,
                 DomainName = domainName,
                 Type = anyType,
-                Weight = weight,
+                //Weight = weight,
                 TrafficManagerProfile = original,
                 CommandRuntime = mockCommandRuntime
             };
@@ -163,7 +163,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.TrafficManager.Endpoints
                 Name = profileName,
                 DomainName = domainName,
                 Type = anyType,
-                Weight = weight,
+                //Weight = weight,
                 TrafficManagerProfile = original,
                 CommandRuntime = mockCommandRuntime
             };

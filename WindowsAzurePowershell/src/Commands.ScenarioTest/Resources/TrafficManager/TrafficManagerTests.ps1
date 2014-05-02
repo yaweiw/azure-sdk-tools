@@ -33,76 +33,253 @@ function Test-WithInvalidCredentials
 
 <#
 .SYNOPSIS
-Tests Remove-Profile with existing name
+Tests New-AzureTrafficManagerProfila and Remove-AzureTrafficManagerProfile
 #>
-function Test-RemoveProfileWithValidName
+function Test-CreateAndRemoveProfile
 {
-	$profileName = ${Get-ProfileName}
-
 	# Setup
+	$profileName = Get-ProfileName
 	New-Profile $profileName
-	$expected = "The profile $name was not found. Please specify a valid profile name."
 
 	# Test
-	Remove-AzureTrafficManagerProfile -Name $profileName -Force
-
+	$isDeleted = Remove-AzureTrafficManagerProfile -Name $profileName -Force -PassThru
+	
 	# Assert
-	Assert-Throws { Get-AzureTrafficManagerProfile -Name $profileName } $expected
+	Assert-True $isDeleted, "Failed to delete profile $profileName"
+	Assert-Throws { Get-AzureTrafficManagerProfile -Name $profileName } "ResourceNotFound: The specified profile name $profileName does not exist."
 }
 
 <#
 .SYNOPSIS
-Tests Remove-Profile with non existing name
+Tests Remove-AzureTrafficManagerProfil with non existing name
 #>
 function Test-RemoveProfileWithNonExistingName
 {
-	Assert-Throws { Remove-AzureTrafficManagerProfile -Name "nonexistingprofile" -Force } "The profile nonexistingprofile was not found. Please specify a valid profile name."
+	# Setup
+	$existingProfileName = Get-ProfileName
+	$nonExistingProfileName = Get-ProfileName
+	
+	# Need to have at least one profile in the subscription or the error will be "missing subscription"
+	New-Profile $profileName
+	
+	# Assert
+	Assert-Throws { Remove-AzureTrafficManagerProfile -Name $nonExistingProfileName -Force } "ResourceNotFound: The specified profile name $nonExistingProfileName does not exist."
 }
 
 ########################################################################### Get-Profile Scenario Tests ###########################################################################
 
 <#
 .SYNOPSIS
-Tests Get-Profile
+Tests Get-AzureTrafficManagerProfile <name>
 #>
 function Test-GetProfile
 {
-	$profileName = ${Get-ProfileName}
-	
+	# Setup
+	$profileName = Get-ProfileName
 	$createdProfile = New-Profile $profileName
+
+	# Test
+	$retrievedProfile = Get-AzureTrafficManagerProfile
 	
-	$retrievedProfile = Get-AzureTrafficManagerProfile -name $profileName
-	
-	Assert-AreEqualObject $createdProfile $retrievedProfile
+	# Assert
+	Assert-AreEqualObjectProperties $createdProfile $retrievedProfile
 }
 
 <#
 .SYNOPSIS
-Tests Get-Profiles
+Tests Get-AzureTrafficManagerProfile
 #>
-function Test-GetProfiles
+function Test-GetAndRemoveMultipleProfiles
 {
-	$profileName1 = ${Get-ProfileName}
-	$profileName2 = ${Get-ProfileName}
+    # Setup
+	$profileName1 = Get-ProfileName
+	$profileName2 = Get-ProfileName
 
 	$createdProfile1 = New-Profile $profileName1
 	$createdProfile2 = New-Profile $profileName2
 	
+	# Test
 	$retrievedProfiles = Get-AzureTrafficManagerProfile
 	
-	$expectedProfiles = $profileName1, $profileName2
+	# Assert
+	Assert-True { $($retrievedProfiles | select -ExpandProperty Name) -Contains $profileName1 } "Assert failed, profile '$profileName1' not found"
+	Assert-True { $($retrievedProfiles | select -ExpandProperty Name) -Contains $profileName2 } "Assert failed, profile '$profileName2' not found"
+}
+
+########################################################################### Enable-Profile, Disagle-Profile Scenario Tests ###########################################################################
+
+<#
+.SYNOPSIS
+Tests Disable-AzureTrafficManagerProfile
+#>
+function Test-DisableProfile
+{
+	# Setup
+	$profileName = Get-ProfileName
+	New-Profile $profileName
+
+	# Test
+	Disable-AzureTrafficManagerProfile $profileName
+	$disabledProfile = Get-AzureTrafficManagerProfile -Name $profileName
 	
-	Assert-AreEqualObject  $expectedProfiles, $retrievedProfiles 
+	# Assert
+	Assert-AreEqual "Disabled" $disabledProfile.Status
 }
 
 <#
 .SYNOPSIS
-Tests Get-Profile for a non existing profile
+Tests  Enable-AzureTrafficManagerProfile
 #>
-function Test-GetProfileNonExistingName
+function Test-EnableProfile
 {
-	Assert-Throws { Get-AzureTrafficManagerProfile -name "nonexistingprofile" -Force } "The profile nonexistingprofile was not found. Please specify a valid profile name."
+	# Setup
+	$profileName = Get-ProfileName
+	New-Profile $profileName
+
+	# Test
+	Disable-AzureTrafficManagerProfile $profileName
+	Enable-AzureTrafficManagerProfile $profileName
+	$enabledProfile = Get-AzureTrafficManagerProfile -Name $profileName
+	
+	# Assert
+	Assert-AreEqual "Enabled" $enabledProfile.Status
 }
 
+########################################################################### New-Profile Scenario Tests ###########################################################################
 
-###########################################################################  ###########################################################################
+<#
+.SYNOPSIS
+Tests New-AzureTrafficManagerProfile
+#>
+function Test-NewProfile
+{
+	# Setup
+	$profileName = Get-ProfileName
+
+	# Test
+	$createdProfile = New-Profile $profileName
+	
+	# Assert
+	Assert-AreEqual $($profileName  + ".trafficmanager.net") $createdProfile.DomainName
+	Assert-AreEqual $profileName $createdProfile.Name
+	Assert-AreEqual RoundRobin $createdProfile.LoadBalancingMethod
+	Assert-AreEqual 80 $createdProfile.MonitorPort
+	Assert-AreEqual Http $createdProfile.MonitorProtocol
+	Assert-AreEqual "/" $createdProfile.MonitorRelativePath
+	Assert-AreEqual 300 $createdProfile.TimeToLiveInSeconds
+	Assert-AreEqual "Enabled" $createdProfile.Status
+	Assert-AreEqual "Inactive" $createdProfile.MonitorStatus
+}
+
+<#
+.SYNOPSIS
+Tests New-AzureTrafficManagerProfile with invalid parameter
+#>
+function Test-NewProfileWithInvalidParameter
+{
+	# Setup
+	$profileName = Get-ProfileName
+	
+	# Assert
+	$expectedMessage = "A policy with the requested domain name could not be created because the name INVALID does not end with the expected value .trafficmanager.net."
+	Assert-Throws { New-AzureTrafficManagerProfile -Name $profileName -DomainName "INVALID" -LoadBalancingMethod RoundRobin -MonitorPort 80 -MonitorProtocol Http -MonitorRelativePath "/" -Ttl 300 } 
+}
+
+########################################################################### Set-Profile Scenario Tests ###########################################################################
+
+<#
+.SYNOPSIS
+Tests Set-AzureTrafficManagerProfile
+#>
+function Test-SetProfileProperty
+{
+	# Setup
+	$profileName = Get-ProfileName
+	$createdProfile = New-Profile $profileName
+
+	# Test
+	$updatedProfile = Set-AzureTrafficManagerProfile -TrafficManagerProfile $createdProfile -Name $createdProfile.Name -Ttl 333 
+	
+	# Assert
+	Assert-AreEqual 333 $updatedProfile.TimeToLiveInSeconds
+}
+
+<#
+.SYNOPSIS
+Tests Add-AzureTrafficManagerEndpoint
+#>
+function Test-AddAzureTrafficManagerEndpoint
+{
+	# Setup
+	$profileName = Get-ProfileName
+	$createdProfile = New-Profile $profileName
+	
+	#Test
+	$updatedProfile = $createdProfile | Add-AzureTrafficManagerEndpoint -DomainName "www.microsoft.com" -Type Any -Status Enabled | Set-AzureTrafficManagerProfile
+	
+	# Assert
+	$profileMonitoringStatus = $updatedProfile.MonitorStatus
+	$endpointMonitoringStatus = $updatedProfile.Endpoints[0].MonitorStatus
+	
+	Assert-AreEqual 1 $updatedProfile.Endpoints.Count
+	Assert-True { $profileMonitoringStatus -eq "CheckingEndpoints" -or $profileMonitoringStatus -eq "Online" } "Assert failed as endpoint MonitoringStatus has an unexpected value: $profileMonitoringStatus"
+	
+	Assert-AreEqual Any $updatedProfile.Endpoints[0].Type
+	Assert-AreEqual "www.microsoft.com" $updatedProfile.Endpoints[0].DomainName
+	Assert-AreEqual Enabled $updatedProfile.Endpoints[0].Status
+	Assert-True { $endpointMonitoringStatus -eq "CheckingEndpoints" -or $endpointMonitoringStatus -eq "Online" } "Assert failed as endpoint MonitoringStatus has an unexpected value: $endpointMonitoringStatus"
+}
+
+<#
+.SYNOPSIS
+Tests Set-AzureTrafficManagerEndpoint
+#>
+function Test-SetAzureTrafficManagerEndpoint
+{
+	# Setup
+	$profileName = Get-ProfileName
+	$createdProfile = New-Profile $profileName | Add-AzureTrafficManagerEndpoint -DomainName "www.microsoft.com" -Type Any -Status Enabled | Set-AzureTrafficManagerProfile
+	
+	#Test
+	$updatedProfile = $createdProfile | Set-AzureTrafficManagerEndpoint -DomainName "www.microsoft.com" -Status Disabled | Set-AzureTrafficManagerProfile
+	
+	# Assert
+	Assert-AreEqual 1 $updatedProfile.Endpoints.Count
+	Assert-AreEqual "www.microsoft.com" $updatedProfile.Endpoints[0].DomainName
+	Assert-AreEqual Disabled $updatedProfile.Endpoints[0].Status
+}
+
+<#
+.SYNOPSIS
+Tests Remove-AzureTrafficManagerEndpoint
+#>
+function Test-RemoveAzureTrafficManagerEndpoint
+{
+	# Setup
+	$profileName = Get-ProfileName
+	$createdProfile = New-Profile $profileName | Add-AzureTrafficManagerEndpoint -DomainName "www.microsoft.com" -Type Any -Status Enabled | Set-AzureTrafficManagerProfile
+	
+	#Test
+	$updatedProfile = $createdProfile | Remove-AzureTrafficManagerEndpoint -DomainName "www.microsoft.com" | Set-AzureTrafficManagerProfile
+	
+	# Assert
+	Assert-AreEqual 0 $updatedProfile.Endpoints.Count
+}
+
+<#
+.SYNOPSIS
+Tests multiple Add-AzureTrafficManagerEndpoint
+#>
+function Test-AddMultipleAzureTrafficManagerEndpoint
+{
+	# Setup
+	$profileName = Get-ProfileName
+	$createdProfile = New-Profile $profileName | Add-AzureTrafficManagerEndpoint -DomainName "www.microsoft.com" -Type Any -Status Enabled
+	$createdProfile = $createdProfile | Add-AzureTrafficManagerEndpoint -DomainName "www.bing.com" -Type Any -Status Enabled 
+	
+	#Test
+	$updatedProfile = $createdProfile | Set-AzureTrafficManagerProfile
+	
+	# Assert
+	Assert-AreEqual 2 $updatedProfile.Endpoints.Count
+}

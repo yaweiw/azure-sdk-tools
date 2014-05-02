@@ -12,8 +12,7 @@
 # limitations under the License.
 # ----------------------------------------------------------------------------------
 
-$createdProfiles = @()
-$currentProfile = $null
+$ErrorActionPreference = "Stop"
 
 <#
 .SYNOPSIS
@@ -21,7 +20,7 @@ Gets valid profile name.
 #>
 function Get-ProfileName
 {
-	return [guid]::NewGuid() + "profile"
+	return [guid]::NewGuid().ToString() + "profile"
 }
 
 <#
@@ -31,15 +30,18 @@ Creates a profile.
 function New-Profile
 {
 	param([string] $profileName)
+	
+	#TODO: Make the domain name suffix environment dependent
+	$domainName = $profileName  + ".trafficmanager.net"
 
-    New-AzureTrafficManagerProfile -DomainName ${profileName}.trafficmanager.net -LoadBalancingMethod "RoundRobin" -MonitorPort 80 -MonitorProtocol "http" -MonitorRelativePath "/" -Name ${Get-ProfileName} -Ttl 300
+    New-AzureTrafficManagerProfile -Name $profileName -DomainName $domainName -LoadBalancingMethod RoundRobin -MonitorPort 80 -MonitorProtocol Http -MonitorRelativePath "/" -Ttl 300
 }
 
 <#
 .SYNOPSIS
 Removes all profiles in the current subscription.
 #>
-function Initialize-WebsiteTest
+function Initialize-TrafficManagerTest
 {
-	Get-AzureTrafficManagerProfile  | Remove-AzureTrafficManagerProfile -Force
+	Get-AzureTrafficManagerProfile | Remove-AzureTrafficManagerProfile -Force
 }
