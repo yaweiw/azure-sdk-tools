@@ -151,7 +151,7 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.TrafficManagerTests
         [TestCategory(Category.TrafficManager)]
         public void TestNewProfileInvalidParameters()
         {
-            this.RunPowerShellTest("Test-NewProfileInvalidParameters");
+            this.RunPowerShellTest("Test-NewProfileWithInvalidParameter");
         }
 
         #endregion

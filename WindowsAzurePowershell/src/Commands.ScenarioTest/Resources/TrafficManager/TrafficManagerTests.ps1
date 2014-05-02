@@ -26,7 +26,7 @@ function Test-WithInvalidCredentials
 	Remove-AllSubscriptions
 
 	# Test
-	Assert-Throws $cloudCmdlet "No current subscription has been designated. Use Select-AzureSubscription -Current &lt;subscriptionName&gt; to set the current subscription."
+	Assert-Throws $cloudCmdlet "No current subscription has been designated. Use Select-AzureSubscription -Current <subscriptionName> to set the current subscription."
 }
 
 ########################################################################### Remove-Profile Scenario Tests ###########################################################################
@@ -45,7 +45,7 @@ function Test-CreateAndRemoveProfile
 	$isDeleted = Remove-AzureTrafficManagerProfile -Name $profileName -Force -PassThru
 	
 	# Assert
-	Assert-True $isDeleted, "Failed to delete profile $profileName"
+	Assert-True { $isDeleted } "Failed to delete profile $profileName"
 	Assert-Throws { Get-AzureTrafficManagerProfile -Name $profileName } "ResourceNotFound: The specified profile name $profileName does not exist."
 }
 
@@ -60,7 +60,7 @@ function Test-RemoveProfileWithNonExistingName
 	$nonExistingProfileName = Get-ProfileName
 	
 	# Need to have at least one profile in the subscription or the error will be "missing subscription"
-	New-Profile $profileName
+	New-Profile $existingProfileName
 	
 	# Assert
 	Assert-Throws { Remove-AzureTrafficManagerProfile -Name $nonExistingProfileName -Force } "ResourceNotFound: The specified profile name $nonExistingProfileName does not exist."
@@ -79,7 +79,7 @@ function Test-GetProfile
 	$createdProfile = New-Profile $profileName
 
 	# Test
-	$retrievedProfile = Get-AzureTrafficManagerProfile
+	$retrievedProfile = Get-AzureTrafficManagerProfile $profileName
 	
 	# Assert
 	Assert-AreEqualObjectProperties $createdProfile $retrievedProfile
@@ -227,7 +227,7 @@ function Test-AddAzureTrafficManagerEndpoint
 	Assert-AreEqual Any $updatedProfile.Endpoints[0].Type
 	Assert-AreEqual "www.microsoft.com" $updatedProfile.Endpoints[0].DomainName
 	Assert-AreEqual Enabled $updatedProfile.Endpoints[0].Status
-	Assert-True { $endpointMonitoringStatus -eq "CheckingEndpoints" -or $endpointMonitoringStatus -eq "Online" } "Assert failed as endpoint MonitoringStatus has an unexpected value: $endpointMonitoringStatus"
+	Assert-True { $endpointMonitoringStatus -eq "CheckingEndpoint" -or $endpointMonitoringStatus -eq "Online" } "Assert failed as endpoint MonitoringStatus has an unexpected value: $endpointMonitoringStatus"
 }
 
 <#
