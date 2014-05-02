@@ -17,6 +17,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
     using System.Collections.Generic;
     using System.Linq;
     using System.Management.Automation;
+    using Helpers;
     using Newtonsoft.Json;
 
     [Cmdlet(
@@ -37,20 +38,21 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
                 r =>
                 {
                     GetExtensionValues(r);
-                    var pubSettings = JsonConvert.DeserializeObject<PublicSettings>(PublicConfiguration);
+                    var pubSettings = string.IsNullOrEmpty(PublicConfiguration) ? null
+                                    : JsonConvert.DeserializeObject<PublicSettings>(PublicConfiguration);
 
                     return new VirtualMachineCustomScriptExtensionContext
                     {
-                        ExtensionName = r.Name,
-                        Publisher = r.Publisher,
-                        ReferenceName = r.ReferenceName,
-                        Version = r.Version,
-                        State = r.State,
-                        PublicConfiguration = PublicConfiguration,
-                        PrivateConfiguration = PrivateConfiguration,
-                        CommandToExecute = pubSettings == null ? string.Empty : pubSettings.commandToExecute,
-                        Uri = pubSettings == null ? null : pubSettings.fileUris,
-                        RoleName = VM.GetInstance().RoleName
+                        ExtensionName        = r.Name,
+                        Publisher            = r.Publisher,
+                        ReferenceName        = r.ReferenceName,
+                        Version              = r.Version,
+                        State                = r.State,
+                        PublicConfiguration  = PublicConfiguration,
+                        PrivateConfiguration = SecureStringHelper.GetSecureString(PrivateConfiguration),
+                        CommandToExecute     = pubSettings == null ? string.Empty : pubSettings.commandToExecute,
+                        Uri                  = pubSettings == null ? null : pubSettings.fileUris,
+                        RoleName             = VM.GetInstance().RoleName
                     };
                 }), true);
         }

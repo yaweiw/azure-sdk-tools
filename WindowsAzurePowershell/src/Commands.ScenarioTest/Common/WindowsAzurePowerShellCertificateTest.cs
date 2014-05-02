@@ -26,18 +26,14 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.Common
     public class WindowsAzurePowerShellCertificateTest : PowerShellTest
     {
         protected TestCredentialHelper credentials;
-        
         protected string credentialFile;
-
         protected string profileFile;
-        
-        protected List<HttpMockServer> mockServers;
+        // Location where test output will be written to e.g. C:\Temp
+        private static string outputDirKey = "TEST_HTTPMOCK_OUTPUT";
 
         private void OnClientCreated(object sender, ClientCreatedArgs e)
         {
-            HttpMockServer mockServer = new HttpMockServer(new SimpleRecordMatcher());
-            e.AddHandlerToClient(mockServer);
-            mockServers.Add(mockServer);
+            e.AddHandlerToClient(HttpMockServer.CreateInstance());
         }
 
         public WindowsAzurePowerShellCertificateTest(params string[] modules)
@@ -46,13 +42,18 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.Common
             this.credentials = new TestCredentialHelper(Environment.CurrentDirectory);
             this.credentialFile = TestCredentialHelper.DefaultCredentialFile;
             this.profileFile = TestCredentialHelper.WindowsAzureProfileFile;
+
+            HttpMockServer.Initialize(this.GetType(), Utilities.GetCurrentMethodName());
+            if (Environment.GetEnvironmentVariable(outputDirKey) != null)
+            {
+                HttpMockServer.RecordsDirectory = Environment.GetEnvironmentVariable(outputDirKey);
+            }
         }
 
         [TestInitialize]
         public override void TestSetup()
         {
             base.TestSetup();
-            this.mockServers = new List<HttpMockServer>();
             WindowsAzureSubscription.OnClientCreated += OnClientCreated;
             this.credentials.SetupPowerShellEnvironment(powershell, this.credentialFile, this.profileFile);
             System.Net.ServicePointManager.ServerCertificateValidationCallback += (se, cert, chain, sslerror) =>
@@ -67,7 +68,7 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.Common
         {
             base.TestCleanup();
             WindowsAzureSubscription.OnClientCreated -= OnClientCreated;
-            mockServers.ForEach(ms => ms.Dispose());
+            HttpMockServer.Flush();
         }
     }
 }

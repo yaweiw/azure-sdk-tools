@@ -1,4 +1,4 @@
-﻿﻿// ----------------------------------------------------------------------------------
+﻿// ----------------------------------------------------------------------------------
 // Copyright Microsoft Corporation
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -23,6 +23,8 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Services.Server
     using Microsoft.WindowsAzure.Commands.Utilities.Common;
     using Microsoft.WindowsAzure.Management.Sql;
     using Microsoft.WindowsAzure.Management.Sql.Models;
+    using DatabaseCopyModel = Microsoft.WindowsAzure.Commands.SqlDatabase.Model.DatabaseCopy;
+    using WamlDatabaseCopy = Microsoft.WindowsAzure.Management.Sql.Models.DatabaseCopy;
 
     /// <summary>
     /// Implementation of the <see cref="IServerDataServiceContext"/> with Certificate authentication.
@@ -30,11 +32,6 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Services.Server
     public partial class ServerDataServiceCertAuth : IServerDataServiceContext
     {
         #region Private Fields
-
-        /// <summary>
-        /// The number of bytes in 1 gigabyte.
-        /// </summary>
-        private const long BytesIn1Gb = 1 * 1024L * 1024L * 1024L;
 
         /// <summary>
         /// The previous request's client request ID
@@ -54,7 +51,7 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Services.Server
         #endregion
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="ServerDataServicesCertAuth"/> class
+        /// Initializes a new instance of the <see cref="ServerDataServiceCertAuth"/> class
         /// </summary>
         /// <param name="subscription">The subscription used to connect and authenticate.</param>
         /// <param name="serverName">The name of the server to connect to.</param>
@@ -143,12 +140,28 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Services.Server
                     this.LoadExtraProperties(database);
                     return;
                 }
+
+                RestorableDroppedDatabase restorableDroppedDatabase = obj as RestorableDroppedDatabase;
+                if (restorableDroppedDatabase != null)
+                {
+                    this.LoadExtraProperties(restorableDroppedDatabase);
+                    return;
+                }
+
+                RecoverableDatabase recoverableDatabase = obj as RecoverableDatabase;
+                if (recoverableDatabase != null)
+                {
+                    this.LoadExtraProperties(recoverableDatabase);
+                    return;
+                }
             }
             catch
             {
                 // Ignore exceptions when loading extra properties, for backward compatibility.
             }
         }
+
+        #endregion
 
         #region Database Operations
 
@@ -206,6 +219,7 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Services.Server
         public Database CreateNewDatabase(
             string databaseName,
             int? databaseMaxSizeInGB,
+            long? databaseMaxSizeInBytes,
             string databaseCollation,
             DatabaseEdition databaseEdition,
             ServiceObjective serviceObjective)
@@ -216,19 +230,21 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Services.Server
             SqlManagementClient sqlManagementClient = this.subscription.CreateClient<SqlManagementClient>();
             this.AddTracingHeaders(sqlManagementClient);
 
+            DatabaseCreateParameters parameters = new DatabaseCreateParameters()
+            {
+                Name = databaseName,
+                Edition = databaseEdition != DatabaseEdition.None ?
+                    databaseEdition.ToString() : null,
+                CollationName = databaseCollation ?? string.Empty,
+                MaximumDatabaseSizeInGB = databaseMaxSizeInGB,
+                MaximumDatabaseSizeInBytes = databaseMaxSizeInBytes,
+                ServiceObjectiveId = serviceObjective != null ? serviceObjective.Id.ToString() : null,
+            };
+
             // Create the database
             DatabaseCreateResponse response = sqlManagementClient.Databases.Create(
                 this.serverName,
-                new DatabaseCreateParameters()
-                {
-                    Name = databaseName,
-                    Edition = databaseEdition != DatabaseEdition.None ?
-                        databaseEdition.ToString() : DatabaseEdition.Web.ToString(),
-                    CollationName = databaseCollation ?? string.Empty,
-                    MaximumDatabaseSizeInGB = databaseMaxSizeInGB ??
-                        (databaseEdition == DatabaseEdition.Business || databaseEdition == DatabaseEdition.Premium ? 10 : 1),
-                    ServiceObjectiveId = serviceObjective != null ? serviceObjective.Id.ToString() : null,
-                });
+                parameters);
 
             // Construct the resulting Database object
             Database database = CreateDatabaseFromResponse(response);
@@ -248,6 +264,7 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Services.Server
             string databaseName,
             string newDatabaseName,
             int? databaseMaxSizeInGB,
+            long? databaseMaxSizeInBytes,
             DatabaseEdition? databaseEdition,
             ServiceObjective serviceObjective)
         {
@@ -262,23 +279,34 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Services.Server
                 this.serverName,
                 databaseName);
 
+            DatabaseUpdateParameters parameters = new DatabaseUpdateParameters()
+            {
+                Id = database.Database.Id,
+                Name = !string.IsNullOrEmpty(newDatabaseName) ? newDatabaseName : database.Database.Name,
+                CollationName = database.Database.CollationName ?? string.Empty,
+                MaximumDatabaseSizeInGB = databaseMaxSizeInGB,
+                MaximumDatabaseSizeInBytes = databaseMaxSizeInBytes,
+            };
+            parameters.Edition = (database.Database.Edition ?? string.Empty);
+            if(databaseEdition.HasValue)
+            {
+                if (databaseEdition != DatabaseEdition.None)
+                {
+                    parameters.Edition = databaseEdition.ToString();
+                }
+            }
+            parameters.ServiceObjectiveId = database.Database.ServiceObjectiveId;
+            if(serviceObjective != null)
+            {
+                parameters.ServiceObjectiveId = serviceObjective.Id.ToString();
+            }
+
             // Update the database with the new properties
             DatabaseUpdateResponse response = sqlManagementClient.Databases.Update(
                 this.serverName,
                 databaseName,
-                new DatabaseUpdateParameters()
-                {
-                    Id = database.Database.Id,
-                    Name = !string.IsNullOrEmpty(newDatabaseName) ?
-                        newDatabaseName : database.Database.Name,
-                    Edition = databaseEdition.HasValue && (databaseEdition != DatabaseEdition.None) ?
-                        databaseEdition.ToString() : (database.Database.Edition ?? string.Empty),
-                    CollationName = database.Database.CollationName ?? string.Empty,
-                    MaximumDatabaseSizeInGB = databaseMaxSizeInGB.HasValue ?
-                        databaseMaxSizeInGB.Value : database.Database.MaximumDatabaseSizeInGB,
-                    ServiceObjectiveId = serviceObjective != null ?
-                        serviceObjective.Id.ToString() : null,
-                });
+                parameters
+                );
 
             // Construct the resulting Database object
             Database updatedDatabase = CreateDatabaseFromResponse(response);
@@ -482,6 +510,345 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Services.Server
 
         #endregion
 
+        #region Database copy operations
+
+        /// <summary>
+        /// Retrieve all database copy objects with matching parameters.
+        /// </summary>
+        /// <param name="databaseName">The name of the database to copy.</param>
+        /// <param name="partnerServer">The name for the partner server.</param>
+        /// <param name="partnerDatabaseName">The name of the database on the partner server.</param>
+        /// <returns>All database copy objects with matching parameters.</returns>
+        public DatabaseCopyModel[] GetDatabaseCopy(
+            string databaseName,
+            string partnerServer,
+            string partnerDatabaseName)
+        {
+            this.clientRequestId = SqlDatabaseCmdletBase.GenerateClientTracingId();
+
+            // Get the SQL management client
+            SqlManagementClient sqlManagementClient = this.subscription.CreateClient<SqlManagementClient>();
+            this.AddTracingHeaders(sqlManagementClient);
+
+            IEnumerable<WamlDatabaseCopy> copyResponses = null;
+            if (databaseName != null)
+            {
+                copyResponses = sqlManagementClient.DatabaseCopies.List(this.ServerName, databaseName);
+            }
+            else
+            {
+                // We want to list all of the copies on the server. Currently, the server-side API doesn't
+                // directly support that. It may at some time in the future, but until then we're doing the
+                // following to avoid breaking compatibility.
+                copyResponses = Enumerable.Empty<WamlDatabaseCopy>();
+
+                DatabaseListResponse dbListResponse = sqlManagementClient.Databases.List(this.ServerName);
+
+                // Iterate through the server's databases and add each set of copies to our list.
+                foreach (var database in dbListResponse)
+                {
+                    copyResponses = copyResponses.Concat(
+                        sqlManagementClient.DatabaseCopies.List(this.ServerName, database.Name));
+                }
+            }
+
+            // Filter the copies by the specified criteria.
+            DatabaseCopyModel[] databaseCopies = copyResponses.Where(copy =>
+                {
+                    if (copy.IsLocalDatabaseReplicationTarget)
+                    {
+                        return (partnerServer ?? copy.SourceServerName) == copy.SourceServerName
+                               && (partnerDatabaseName ?? copy.SourceDatabaseName) == copy.SourceDatabaseName;
+                    }
+                    else
+                    {
+                        return (partnerServer ?? copy.DestinationServerName) == copy.DestinationServerName
+                               && (partnerDatabaseName ?? copy.DestinationDatabaseName) == copy.DestinationDatabaseName;
+                    }
+                })
+                .Select(CreateDatabaseCopyFromResponse)
+                .ToArray();
+
+            return databaseCopies;
+        }
+
+        /// <summary>
+        /// Refreshes the given database copy object.
+        /// </summary>
+        /// <param name="databaseCopy">The object to refresh.</param>
+        /// <returns>The refreshed database copy object.</returns>
+        public DatabaseCopyModel GetDatabaseCopy(DatabaseCopyModel databaseCopy)
+        {
+            this.clientRequestId = SqlDatabaseCmdletBase.GenerateClientTracingId();
+
+            // Get the SQL management client
+            SqlManagementClient sqlManagementClient = this.subscription.CreateClient<SqlManagementClient>();
+            this.AddTracingHeaders(sqlManagementClient);
+
+            // Figure out which database is local, as that's the one we need to pass in.
+            string localDatabaseName =
+                databaseCopy.IsLocalDatabaseReplicationTarget
+                    ? databaseCopy.DestinationDatabaseName
+                    : databaseCopy.SourceDatabaseName;
+
+            DatabaseCopyModel refreshedDatabaseCopy = CreateDatabaseCopyFromResponse(
+                sqlManagementClient.DatabaseCopies.Get(
+                    this.ServerName,
+                    localDatabaseName,
+                    databaseCopy.EntityId.ToString())
+                    .DatabaseCopy);
+
+            return refreshedDatabaseCopy;
+        }
+
+        /// <summary>
+        /// Start database copy on the database with the name <paramref name="databaseName"/>.
+        /// </summary>
+        /// <param name="databaseName">The name of the database to copy.</param>
+        /// <param name="partnerServer">The name for the partner server.</param>
+        /// <param name="partnerDatabaseName">The name of the database on the partner server.</param>
+        /// <param name="continuousCopy"><c>true</c> to make this a continuous copy.</param>
+        /// <returns>The new instance of database copy operation.</returns>
+        public DatabaseCopyModel StartDatabaseCopy(
+            string databaseName,
+            string partnerServer,
+            string partnerDatabaseName,
+            bool continuousCopy)
+        {
+            // Create a new request Id for this operation
+            this.clientRequestId = SqlDatabaseCmdletBase.GenerateClientTracingId();
+
+            // Get the SQL management client
+            SqlManagementClient sqlManagementClient = this.subscription.CreateClient<SqlManagementClient>();
+            this.AddTracingHeaders(sqlManagementClient);
+
+            DatabaseCopyCreateResponse response = sqlManagementClient.DatabaseCopies.Create(
+                this.ServerName,
+                databaseName,
+                new DatabaseCopyCreateParameters()
+                    {
+                        PartnerServer = partnerServer,
+                        PartnerDatabase = partnerDatabaseName,
+                        IsContinuous = continuousCopy,
+                    });
+
+            return CreateDatabaseCopyFromResponse(response.DatabaseCopy);
+        }
+
+        /// <summary>
+        /// Terminate an ongoing database copy operation.
+        /// </summary>
+        /// <param name="databaseCopy">The database copy to terminate.</param>
+        /// <param name="forcedTermination"><c>true</c> to forcefully terminate the copy.</param>
+        public void StopDatabaseCopy(
+            DatabaseCopyModel databaseCopy,
+            bool forcedTermination)
+        {
+            // Create a new request Id for this operation
+            this.clientRequestId = SqlDatabaseCmdletBase.GenerateClientTracingId();
+
+            // Get the SQL management client
+            SqlManagementClient sqlManagementClient = this.subscription.CreateClient<SqlManagementClient>();
+            this.AddTracingHeaders(sqlManagementClient);
+
+            // Get the local database, as it's the one we need to pass in.
+            string localDatabaseName =
+                databaseCopy.IsLocalDatabaseReplicationTarget
+                    ? databaseCopy.DestinationDatabaseName
+                    : databaseCopy.SourceDatabaseName;
+
+            // Update forced termination so that the terminate happens
+            // the way it should.
+            sqlManagementClient.DatabaseCopies.Update(
+                this.ServerName,
+                localDatabaseName,
+                databaseCopy.EntityId,
+                new DatabaseCopyUpdateParameters() {IsForcedTerminate = forcedTermination});
+
+            sqlManagementClient.DatabaseCopies.Delete(
+                this.ServerName,
+                localDatabaseName,
+                databaseCopy.EntityId);
+        }
+
+        #endregion
+
+        #region Restorable Dropped Database Operations
+
+        /// <summary>
+        /// Gets a list of all the restorable dropped databases in the current context.
+        /// </summary>
+        /// <returns>An array of databases in the current context</returns>
+        public RestorableDroppedDatabase[] GetRestorableDroppedDatabases()
+        {
+            this.clientRequestId = SqlDatabaseCmdletBase.GenerateClientTracingId();
+
+            // Get the SQL management client
+            SqlManagementClient sqlManagementClient = this.subscription.CreateClient<SqlManagementClient>();
+            this.AddTracingHeaders(sqlManagementClient);
+
+            // Retrieve the list of databases
+            RestorableDroppedDatabaseListResponse response = sqlManagementClient.RestorableDroppedDatabases.List(this.serverName);
+
+            // Construct the resulting RestorableDroppedDatabase objects
+            RestorableDroppedDatabase[] databases = CreateRestorableDroppedDatabaseFromResponse(response);
+            return databases;
+        }
+
+        /// <summary>
+        /// Retrieve information on the restorable dropped database with the name
+        /// <paramref name="databaseName"/> and deletion date <paramref name="deletionDate"/>.
+        /// </summary>
+        /// <param name="databaseName">The name of the restorable dropped database to retrieve.</param>
+        /// <param name="deletionDate">The deletion date of the restorable dropped database to retrieve.</param>
+        /// <returns>An object containing the information about the specific restorable dropped database.</returns>
+        public RestorableDroppedDatabase GetRestorableDroppedDatabase(
+            string databaseName, DateTime deletionDate)
+        {
+            this.clientRequestId = SqlDatabaseCmdletBase.GenerateClientTracingId();
+
+            // Get the SQL management client
+            SqlManagementClient sqlManagementClient = this.subscription.CreateClient<SqlManagementClient>();
+            this.AddTracingHeaders(sqlManagementClient);
+
+            // Retrieve the specified database
+            RestorableDroppedDatabaseGetResponse response = sqlManagementClient.RestorableDroppedDatabases.Get(
+                this.serverName,
+                databaseName + "," + deletionDate.ToString("yyyy-MM-ddTHH:mm:ss.fffZ"));
+
+            // Construct the resulting RestorableDroppedDatabase object
+            RestorableDroppedDatabase database = CreateRestorableDroppedDatabaseFromResponse(response);
+            return database;
+        }
+
+        #endregion
+
+        #region Restore Database Operations
+
+        /// <summary>
+        /// Issues a restore request for the given source database to the given target database.
+        /// </summary>
+        /// <param name="sourceDatabaseName">The name of the source database.</param>
+        /// <param name="sourceDatabaseDeletionDate">The deletion date of the source database, in case it is a dropped database.</param>
+        /// <param name="targetServerName">The name of the server to create the restored database on.</param>
+        /// <param name="targetDatabaseName">The name of the database to be created with the restored contents.</param>
+        /// <param name="pointInTime">The point in time to restore the source database to.</param>
+        /// <returns>An object containing the information about the restore request.</returns>
+        public RestoreDatabaseOperation RestoreDatabase(
+            string sourceDatabaseName,
+            DateTime? sourceDatabaseDeletionDate,
+            string targetServerName,
+            string targetDatabaseName,
+            DateTime? pointInTime)
+        {
+            this.clientRequestId = SqlDatabaseCmdletBase.GenerateClientTracingId();
+
+            // Get the SQL management client
+            SqlManagementClient sqlManagementClient = this.subscription.CreateClient<SqlManagementClient>();
+            this.AddTracingHeaders(sqlManagementClient);
+
+            // Create the restore operation
+            RestoreDatabaseOperationCreateResponse response = sqlManagementClient.RestoreDatabaseOperations.Create(
+                this.serverName,
+                new RestoreDatabaseOperationCreateParameters()
+                {
+                    SourceDatabaseName = sourceDatabaseName,
+                    SourceDatabaseDeletionDate = sourceDatabaseDeletionDate,
+                    TargetServerName = targetServerName,
+                    TargetDatabaseName = targetDatabaseName,
+                    PointInTime = pointInTime
+                });
+
+            RestoreDatabaseOperation restoreDatabaseOperation = CreateRestoreDatabaseOperationFromResponse(response);
+            return restoreDatabaseOperation;
+        }
+
+        #endregion
+
+        #region Recoverable Database Operations
+
+        /// <summary>
+        /// Retrieves the list of all recoverable databases on the given server.
+        /// </summary>
+        /// <param name="sourceServerName">The name of the server that contained the databases.</param>
+        /// <returns>An array of all recoverable databases on the server.</returns>
+        public RecoverableDatabase[] GetRecoverableDatabases(string sourceServerName)
+        {
+            this.clientRequestId = SqlDatabaseCmdletBase.GenerateClientTracingId();
+
+            // Get the SQL management client
+            SqlManagementClient sqlManagementClient = this.subscription.CreateClient<SqlManagementClient>();
+            this.AddTracingHeaders(sqlManagementClient);
+
+            // Retrieve the list of databases
+            RecoverableDatabaseListResponse response = sqlManagementClient.RecoverableDatabases.List(this.serverName, sourceServerName);
+
+            // Construct the resulting RecoverableDatabase objects
+            RecoverableDatabase[] recoverableDatabases = CreateRecoverableDatabaseFromResponse(response);
+            return recoverableDatabases;
+        }
+
+        /// <summary>
+        /// Retrieve information on the recoverable database with the name
+        /// <paramref name="sourceDatabaseName"/> on the server <paramref name="sourceServerName"/>.
+        /// </summary>
+        /// <param name="sourceServerName">The name of the server that contained the database.</param>
+        /// <param name="sourceDatabaseName">The name of the database to recover.</param>
+        /// <returns>An object containing the information about the specific recoverable database.</returns>
+        public RecoverableDatabase GetRecoverableDatabase(
+            string sourceServerName, string sourceDatabaseName)
+        {
+            this.clientRequestId = SqlDatabaseCmdletBase.GenerateClientTracingId();
+
+            // Get the SQL management client
+            SqlManagementClient sqlManagementClient = this.subscription.CreateClient<SqlManagementClient>();
+            this.AddTracingHeaders(sqlManagementClient);
+
+            // Retrieve the specified database
+            RecoverableDatabaseGetResponse response = sqlManagementClient.RecoverableDatabases.Get(this.serverName, sourceServerName, sourceDatabaseName);
+
+            // Construct the resulting RestorableDroppedDatabase object
+            RecoverableDatabase database = CreateRecoverableDatabaseFromResponse(response);
+            return database;
+        }
+
+        #endregion
+
+        #region Recover Database Operations
+
+        /// <summary>
+        /// Issues a recovery request for the given source database to the given target database.
+        /// </summary>
+        /// <param name="sourceServerName">The name of the server that contained the source database.</param>
+        /// <param name="sourceDatabaseName">The name of the source database.</param>
+        /// <param name="targetDatabaseName">The name of the database to be created with the restored contents.</param>
+        /// <returns>An object containing the information about the recovery request.</returns>
+        public RecoverDatabaseOperation RecoverDatabase(
+            string sourceServerName,
+            string sourceDatabaseName,
+            string targetDatabaseName)
+        {
+            // Create a new request Id for this operation
+            this.clientRequestId = SqlDatabaseCmdletBase.GenerateClientTracingId();
+
+            // Get the SQL management client
+            SqlManagementClient sqlManagementClient = this.subscription.CreateClient<SqlManagementClient>();
+            this.AddTracingHeaders(sqlManagementClient);
+
+            // Create the recover operation
+            RecoverDatabaseOperationCreateResponse response = sqlManagementClient.RecoverDatabaseOperations.Create(
+                this.serverName,
+                new RecoverDatabaseOperationCreateParameters()
+                {
+                    SourceServerName = sourceServerName,
+                    SourceDatabaseName = sourceDatabaseName,
+                    TargetDatabaseName = targetDatabaseName
+                });
+
+            RecoverDatabaseOperation recoverDatabaseOperation = CreateRecoverDatabaseOperationFromResponse(response);
+            return recoverDatabaseOperation;
+        }
+
         #endregion
 
         #region Helper functions
@@ -588,11 +955,11 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Services.Server
 
 
         /// <summary>
-        /// Given a <see cref="DatabaseGetResponse"/> this will create and return a <see cref="Database"/> 
+        /// Given a <see cref="DatabaseGetResponse"/> this will create and return a <see cref="Database"/>
         /// object with the fields filled in.
         /// </summary>
         /// <param name="response">The response to turn into a <see cref="Database"/></param>
-        /// <returns>a <see cref="Database"/> object.</returns>
+        /// <returns>A <see cref="Database"/> object.</returns>
         private Database CreateDatabaseFromResponse(DatabaseGetResponse response)
         {
             return this.CreateDatabaseFromResponse(
@@ -602,6 +969,7 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Services.Server
                 response.Database.Edition,
                 response.Database.CollationName,
                 response.Database.MaximumDatabaseSizeInGB,
+                response.Database.MaximumDatabaseSizeInBytes,
                 response.Database.IsFederationRoot,
                 response.Database.IsSystemObject,
                 response.Database.SizeMB,
@@ -610,15 +978,17 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Services.Server
                 response.Database.ServiceObjectiveAssignmentState,
                 response.Database.ServiceObjectiveAssignmentStateDescription,
                 response.Database.ServiceObjectiveAssignmentSuccessDate,
-                response.Database.ServiceObjectiveId);
+                response.Database.ServiceObjectiveId,
+                response.Database.AssignedServiceObjectiveId,
+                response.Database.RecoveryPeriodStartDate);
         }
 
         /// <summary>
-        /// Given a <see cref="DatabaseGetResponse"/> this will create and return a <see cref="Database"/> 
-        /// object with the fields filled in.
+        /// Given a <see cref="DatabaseListResponse"/> this will create and return an array of <see cref="Database"/>
+        /// objects with the fields filled in.
         /// </summary>
-        /// <param name="response">The response to turn into a <see cref="Database"/></param>
-        /// <returns>a <see cref="Database"/> object.</returns>
+        /// <param name="response">The response to turn into an array of <see cref="Database"/> objects</param>
+        /// <returns>An array of <see cref="Database"/> objects.</returns>
         private Database[] CreateDatabaseFromResponse(DatabaseListResponse response)
         {
             return response.Databases.Select(db => this.CreateDatabaseFromResponse(
@@ -628,6 +998,7 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Services.Server
                 db.Edition,
                 db.CollationName,
                 db.MaximumDatabaseSizeInGB,
+                db.MaximumDatabaseSizeInBytes,
                 db.IsFederationRoot,
                 db.IsSystemObject,
                 db.SizeMB,
@@ -636,15 +1007,17 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Services.Server
                 db.ServiceObjectiveAssignmentState,
                 db.ServiceObjectiveAssignmentStateDescription,
                 db.ServiceObjectiveAssignmentSuccessDate,
-                db.ServiceObjectiveId)).ToArray();
+                db.ServiceObjectiveId,
+                db.AssignedServiceObjectiveId,
+                db.RecoveryPeriodStartDate)).ToArray();
         }
 
         /// <summary>
-        /// Given a <see cref="DatabaseCreateResponse"/> this will create and return a <see cref="Database"/> 
+        /// Given a <see cref="DatabaseCreateResponse"/> this will create and return a <see cref="Database"/>
         /// object with the fields filled in.
         /// </summary>
         /// <param name="response">The response to turn into a <see cref="Database"/></param>
-        /// <returns>a <see cref="Database"/> object.</returns>
+        /// <returns>A <see cref="Database"/> object.</returns>
         private Database CreateDatabaseFromResponse(DatabaseCreateResponse response)
         {
             return this.CreateDatabaseFromResponse(
@@ -654,6 +1027,7 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Services.Server
                response.Database.Edition,
                response.Database.CollationName,
                response.Database.MaximumDatabaseSizeInGB,
+               response.Database.MaximumDatabaseSizeInBytes,
                response.Database.IsFederationRoot,
                response.Database.IsSystemObject,
                response.Database.SizeMB,
@@ -662,15 +1036,17 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Services.Server
                response.Database.ServiceObjectiveAssignmentState,
                response.Database.ServiceObjectiveAssignmentStateDescription,
                response.Database.ServiceObjectiveAssignmentSuccessDate,
-               response.Database.ServiceObjectiveId);
+               response.Database.ServiceObjectiveId,
+               response.Database.AssignedServiceObjectiveId,
+               response.Database.RecoveryPeriodStartDate);
         }
 
         /// <summary>
-        /// Given a <see cref="DatabaseUpdateResponse"/> this will create and return a <see cref="Database"/> 
+        /// Given a <see cref="DatabaseUpdateResponse"/> this will create and return a <see cref="Database"/>
         /// object with the fields filled in.
         /// </summary>
         /// <param name="response">The response to turn into a <see cref="Database"/></param>
-        /// <returns>a <see cref="Database"/> object.</returns>
+        /// <returns>A <see cref="Database"/> object.</returns>
         private Database CreateDatabaseFromResponse(DatabaseUpdateResponse response)
         {
             return this.CreateDatabaseFromResponse(
@@ -680,6 +1056,7 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Services.Server
                 response.Database.Edition,
                 response.Database.CollationName,
                 response.Database.MaximumDatabaseSizeInGB,
+                response.Database.MaximumDatabaseSizeInBytes,
                 response.Database.IsFederationRoot,
                 response.Database.IsSystemObject,
                 response.Database.SizeMB,
@@ -688,11 +1065,13 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Services.Server
                 response.Database.ServiceObjectiveAssignmentState,
                 response.Database.ServiceObjectiveAssignmentStateDescription,
                 response.Database.ServiceObjectiveAssignmentSuccessDate,
-                response.Database.ServiceObjectiveId);
+                response.Database.ServiceObjectiveId,
+                response.Database.AssignedServiceObjectiveId,
+                response.Database.RecoveryPeriodStartDate);
         }
 
         /// <summary>
-        /// Given a set of database properties this will create and return a <see cref="Database"/> 
+        /// Given a set of database properties this will create and return a <see cref="Database"/>
         /// object with the fields filled in.
         /// </summary>
         /// <param name="id">The database Id.</param>
@@ -701,6 +1080,7 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Services.Server
         /// <param name="edition">The database edition.</param>
         /// <param name="collationName">The database collation name.</param>
         /// <param name="maximumDatabaseSizeInGB">The database maximum size.</param>
+        /// <param name="maximumDatabaseSizeInBytes">The database maximum size.</param>
         /// <param name="isFederationRoot">Whether or not the database is a federation root.</param>
         /// <param name="isSystemObject">Whether or not the database is a system object.</param>
         /// <param name="sizeMB">The current database size.</param>
@@ -720,6 +1100,8 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Services.Server
         /// The last success date for a service objective assignment on this database.
         /// </param>
         /// <param name="serviceObjectiveId">The service objective Id for this database.</param>
+        /// <param name="assignedServiceObjectiveId">The assigned service object Id for this database.</param>
+        /// <param name="recoveryPeriodStartDate">The start date of the recovery period for this database.</param>
         /// <returns>A <see cref="Database"/> object.</returns>
         private Database CreateDatabaseFromResponse(
             int id,
@@ -728,6 +1110,7 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Services.Server
             string edition,
             string collationName,
             long maximumDatabaseSizeInGB,
+            long maximumDatabaseSizeInBytes,
             bool isFederationRoot,
             bool isSystemObject,
             string sizeMB,
@@ -736,7 +1119,9 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Services.Server
             string serviceObjectiveAssignmentState,
             string serviceObjectiveAssignmentStateDescription,
             string serviceObjectiveAssignmentSuccessDate,
-            string serviceObjectiveId)
+            string serviceObjectiveId,
+            string assignedServiceObjectiveId,
+            DateTime? recoveryPeriodStartDate)
         {
             Database result = new Database()
             {
@@ -746,9 +1131,10 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Services.Server
                 CreationDate = creationDate,
                 Edition = edition,
                 MaxSizeGB = (int)maximumDatabaseSizeInGB,
-                MaxSizeBytes = maximumDatabaseSizeInGB * BytesIn1Gb,
+                MaxSizeBytes = maximumDatabaseSizeInBytes,
                 IsFederationRoot = isFederationRoot,
                 IsSystemObject = isSystemObject,
+                RecoveryPeriodStartDate = recoveryPeriodStartDate,
             };
 
             // Parse any additional database information
@@ -758,6 +1144,14 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Services.Server
             }
 
             // Parse the service objective information
+            if(!string.IsNullOrEmpty(assignedServiceObjectiveId))
+            {
+                Guid guid = Guid.Empty;
+                if(Guid.TryParse(assignedServiceObjectiveId, out guid))
+                {
+                    result.AssignedServiceObjectiveId = guid;
+                }
+            }
             if (!string.IsNullOrEmpty(serviceObjectiveAssignmentErrorCode))
             {
                 result.ServiceObjectiveAssignmentErrorCode = int.Parse(serviceObjectiveAssignmentErrorCode);
@@ -781,6 +1175,15 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Services.Server
             if (!string.IsNullOrEmpty(serviceObjectiveId))
             {
                 result.ServiceObjectiveId = Guid.Parse(serviceObjectiveId);
+                Guid sloId = Guid.Empty;
+                if (Guid.TryParse(serviceObjectiveId, out sloId))
+                {
+                    result.ServiceObjective = GetServiceObjective(new ServiceObjective() { Id = sloId });
+                    if (result.ServiceObjective != null)
+                    {
+                        result.ServiceObjectiveName = result.ServiceObjective.Name;
+                    }
+                }
             }
 
             this.LoadExtraProperties(result);
@@ -788,7 +1191,207 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Services.Server
             return result;
         }
 
-        #endregion
+        private static DatabaseCopyModel CreateDatabaseCopyFromResponse(WamlDatabaseCopy response)
+        {
+            DateTime startDate, modifyDate;
+            DateTime.TryParse(response.StartDate, out startDate);
+            DateTime.TryParse(response.StartDate, out modifyDate);
+
+            return new DatabaseCopyModel()
+                {
+                    EntityId = Guid.Parse(response.Name),
+                    SourceServerName = response.SourceServerName,
+                    SourceDatabaseName = response.SourceDatabaseName,
+                    DestinationServerName = response.DestinationServerName,
+                    DestinationDatabaseName = response.DestinationDatabaseName,
+                    IsContinuous = response.IsContinuous,
+                    ReplicationState = response.ReplicationState,
+                    ReplicationStateDescription = response.ReplicationStateDescription,
+                    LocalDatabaseId = response.LocalDatabaseId,
+                    IsLocalDatabaseReplicationTarget = response.IsLocalDatabaseReplicationTarget,
+                    IsInterlinkConnected = response.IsInterlinkConnected,
+                    StartDate = startDate,
+                    ModifyDate = modifyDate,
+                    PercentComplete = response.PercentComplete
+                };
+        }
+
+        /// <summary>
+        /// Given a <see cref="RestorableDroppedDatabaseGetResponse"/> this will create and return a <see cref="RestorableDroppedDatabase"/>
+        /// object with the fields filled in.
+        /// </summary>
+        /// <param name="response">The response to turn into a <see cref="RestorableDroppedDatabase"/></param>
+        /// <returns>A <see cref="RestorableDroppedDatabase"/> object.</returns>
+        private RestorableDroppedDatabase CreateRestorableDroppedDatabaseFromResponse(RestorableDroppedDatabaseGetResponse response)
+        {
+            return this.CreateRestorableDroppedDatabaseFromResponse(
+                response.Database.EntityId,
+                response.Database.Name,
+                response.Database.ServerName,
+                response.Database.Edition,
+                response.Database.MaximumDatabaseSizeInBytes,
+                response.Database.CreationDate,
+                response.Database.DeletionDate,
+                response.Database.RecoveryPeriodStartDate);
+        }
+
+        /// <summary>
+        /// Given a <see cref="RestorableDroppedDatabaseListResponse"/> this will create and return an array of <see cref="RestorableDroppedDatabase"/>
+        /// object with the fields filled in.
+        /// </summary>
+        /// <param name="response">The response to turn into an array of <see cref="RestorableDroppedDatabase"/> objects</param>
+        /// <returns>An array of <see cref="RestorableDroppedDatabase"/> objects.</returns>
+        private RestorableDroppedDatabase[] CreateRestorableDroppedDatabaseFromResponse(RestorableDroppedDatabaseListResponse response)
+        {
+            return response.Databases.Select(db => this.CreateRestorableDroppedDatabaseFromResponse(
+                db.EntityId,
+                db.Name,
+                db.ServerName,
+                db.Edition,
+                db.MaximumDatabaseSizeInBytes,
+                db.CreationDate,
+                db.DeletionDate,
+                db.RecoveryPeriodStartDate)).ToArray();
+        }
+
+        /// <summary>
+        /// Given a set of restorable dropped database properties this will create and return a <see cref="RestorableDroppedDatabase"/>
+        /// object with the fields filled in.
+        /// </summary>
+        /// <param name="entityId">The entity ID of the database.</param>
+        /// <param name="name">The name of the database.</param>
+        /// <param name="serverName">The name of the server that contained the database.</param>
+        /// <param name="edition">The edition of the database.</param>
+        /// <param name="maximumDatabaseSizeInBytes">The maximum size of the database.</param>
+        /// <param name="creationDate">The creation date of the database.</param>
+        /// <param name="deletionDate">The deletion date of the database.</param>
+        /// <param name="recoveryPeriodStartDate">The start date of the recovery period for this database.</param>
+        /// <returns>A <see cref="RestorableDroppedDatabase"/> object.</returns>
+        private RestorableDroppedDatabase CreateRestorableDroppedDatabaseFromResponse(
+            string entityId,
+            string name,
+            string serverName,
+            string edition,
+            long maximumDatabaseSizeInBytes,
+            DateTime creationDate,
+            DateTime deletionDate,
+            DateTime? recoveryPeriodStartDate)
+        {
+            var result = new RestorableDroppedDatabase()
+            {
+                EntityId = entityId,
+                Name = name,
+                ServerName = serverName,
+                Edition = edition,
+                MaxSizeBytes = maximumDatabaseSizeInBytes,
+                CreationDate = creationDate,
+                DeletionDate = deletionDate,
+                RecoveryPeriodStartDate = recoveryPeriodStartDate,
+            };
+
+            this.LoadExtraProperties(result);
+
+            return result;
+        }
+
+        /// <summary>
+        /// Given a <see cref="RestoreDatabaseOperationCreateResponse"/> this will create and return a <see cref="RestoreDatabaseOperation"/>
+        /// object with the fields filled in.
+        /// </summary>
+        /// <param name="response">The response to turn into a <see cref="RestoreDatabaseOperation"/></param>
+        /// <returns>A <see cref="RestoreDatabaseOperation"/> object.</returns>
+        private RestoreDatabaseOperation CreateRestoreDatabaseOperationFromResponse(RestoreDatabaseOperationCreateResponse response)
+        {
+            return new RestoreDatabaseOperation()
+            {
+                RequestID = Guid.Parse(response.Operation.Id),
+                SourceDatabaseName = response.Operation.SourceDatabaseName,
+                SourceDatabaseDeletionDate = response.Operation.SourceDatabaseDeletionDate,
+                TargetServerName = response.Operation.TargetServerName,
+                TargetDatabaseName = response.Operation.TargetDatabaseName,
+                TargetUtcPointInTime = response.Operation.PointInTime,
+            };
+        }
+
+        /// <summary>
+        /// Given a <see cref="RecoverableDatabaseGetResponse"/> this will create and return a <see cref="RecoverableDatabase"/>
+        /// object with the fields filled in.
+        /// </summary>
+        /// <param name="response">The response to turn into a <see cref="RecoverableDatabase"/></param>
+        /// <returns>A <see cref="RecoverableDatabase"/> object.</returns>
+        private RecoverableDatabase CreateRecoverableDatabaseFromResponse(RecoverableDatabaseGetResponse response)
+        {
+            return this.CreateRecoverableDatabaseFromResponse(
+                response.Database.EntityId,
+                response.Database.Name,
+                response.Database.ServerName,
+                response.Database.Edition,
+                response.Database.LastAvailableBackupDate);
+        }
+
+        /// <summary>
+        /// Given a <see cref="RecoverableDatabaseListResponse"/> this will create and return an array of <see cref="RecoverableDatabase"/>
+        /// object with the fields filled in.
+        /// </summary>
+        /// <param name="response">The response to turn into an array of <see cref="RecoverableDatabase"/> objects</param>
+        /// <returns>An array of <see cref="RecoverableDatabase"/> objects.</returns>
+        private RecoverableDatabase[] CreateRecoverableDatabaseFromResponse(RecoverableDatabaseListResponse response)
+        {
+            return response.Databases.Select(db => this.CreateRecoverableDatabaseFromResponse(
+                db.EntityId,
+                db.Name,
+                db.ServerName,
+                db.Edition,
+                db.LastAvailableBackupDate)).ToArray();
+        }
+
+        /// <summary>
+        /// Given a set of restorable dropped database properties this will create and return a <see cref="RecoverableDatabase"/>
+        /// object with the fields filled in.
+        /// </summary>
+        /// <param name="entityId">The entity ID of the database.</param>
+        /// <param name="name">The name of the database.</param>
+        /// <param name="serverName">The name of the server that contained the database.</param>
+        /// <param name="edition">The edition of the database.</param>
+        /// <param name="lastAvailableBackupDate">The date of the last available backup of this database.</param>
+        /// <returns>A <see cref="RecoverableDatabase"/> object.</returns>
+        private RecoverableDatabase CreateRecoverableDatabaseFromResponse(
+            string entityId,
+            string name,
+            string serverName,
+            string edition,
+            DateTime lastAvailableBackupDate)
+        {
+            var result = new RecoverableDatabase()
+            {
+                EntityId = entityId,
+                Name = name,
+                ServerName = serverName,
+                Edition = edition,
+                LastAvailableBackupDate = lastAvailableBackupDate,
+            };
+
+            this.LoadExtraProperties(result);
+
+            return result;
+        }
+
+        /// <summary>
+        /// Given a <see cref="RecoverDatabaseOperationCreateResponse"/> this will create and return a <see cref="RecoverDatabaseOperation"/>
+        /// object with the fields filled in.
+        /// </summary>
+        /// <param name="response">The response to turn into a <see cref="RecoverDatabaseOperation"/></param>
+        /// <returns>A <see cref="RecoverDatabaseOperation"/> object.</returns>
+        private RecoverDatabaseOperation CreateRecoverDatabaseOperationFromResponse(RecoverDatabaseOperationCreateResponse response)
+        {
+            return new RecoverDatabaseOperation()
+            {
+                RequestID = Guid.Parse(response.Operation.Id),
+                SourceServerName = response.Operation.SourceServerName,
+                SourceDatabaseName = response.Operation.SourceDatabaseName,
+                TargetDatabaseName = response.Operation.TargetDatabaseName,
+            };
+        }
 
         /// <summary>
         /// Add the tracing session and request headers to the client.
@@ -813,5 +1416,27 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Services.Server
             // Fill in the context property
             database.Context = this;
         }
+
+        /// <summary>
+        /// Ensures any extra property on the given <paramref name="database"/> is loaded.
+        /// </summary>
+        /// <param name="database">The database that needs the extra properties.</param>
+        private void LoadExtraProperties(RestorableDroppedDatabase database)
+        {
+            // Fill in the context property
+            database.Context = this;
+        }
+
+        /// <summary>
+        /// Ensures any extra property on the given <paramref name="database"/> is loaded.
+        /// </summary>
+        /// <param name="database">The database that needs the extra properties.</param>
+        private void LoadExtraProperties(RecoverableDatabase database)
+        {
+            // Fill in the context property
+            database.Context = this;
+        }
+
+        #endregion
     }
 }
