@@ -15,8 +15,9 @@
 namespace Microsoft.Azure.Commands.ManagedCache
 {
     using System.Management.Automation;
+    using Microsoft.Azure.Commands.ManagedCache.Models;
 
-    [Cmdlet(VerbsCommon.New, "AzureManagedCache")]
+    [Cmdlet(VerbsCommon.New, "AzureManagedCache"), OutputType(typeof(PSCacheService))]
     public class NewAzureManagedCache : ManagedCacheCmdletBase
     {
         private string cacheServiceName;
@@ -42,12 +43,14 @@ namespace Microsoft.Azure.Commands.ManagedCache
 
             CacheClient.ProgressRecorder = (p) => { WriteVerbose(p); };
 
-            WriteObject(CacheClient.CreateCacheService(
+            PSCacheService cacheService = new PSCacheService(CacheClient.CreateCacheService(
                 CurrentSubscription.SubscriptionId,
                 cacheServiceName,
                 Location,
                 Sku,
                 Memory));
+
+            WriteObject(cacheService);
         }
     }
 }

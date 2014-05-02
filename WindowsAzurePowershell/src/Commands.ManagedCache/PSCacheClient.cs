@@ -15,6 +15,7 @@
 namespace Microsoft.Azure.Commands.ManagedCache
 {
     using System;
+    using System.Collections.Generic;
     using System.Globalization;
     using System.Linq;
     using System.Text.RegularExpressions;
@@ -25,6 +26,7 @@ namespace Microsoft.Azure.Commands.ManagedCache
     using Microsoft.Azure.Management.ManagedCache.Models;
     using Microsoft.WindowsAzure;
     using Microsoft.WindowsAzure.Commands.Utilities.Common;
+    using Microsoft.Azure.Commands.ManagedCache.Models;
 
     class PSCacheClient
     {
@@ -47,22 +49,22 @@ namespace Microsoft.Azure.Commands.ManagedCache
             string sku, 
             string memorySize)
         {
-            WriteProgress("Intializing parameters...");
+            WriteProgress(Properties.Resources.InitializingCacheParameters);
             CacheServiceCreateParameters param = InitializeParameters(location, sku, memorySize);
 
-            WriteProgress("Creating prerequisite...");
+            WriteProgress(Properties.Resources.CreatingPrerequisites);
             string cloudServiceName = EnsureCloudServiceExists(subscriptionID, location);
 
-            WriteProgress("Verify cache service name...");
+            WriteProgress(Properties.Resources.VerifyingCacheServiceName);
             if (!(client.CacheServices.CheckNameAvailability(cloudServiceName,cacheServiceName).Available))
             {
                 throw new ArgumentException(Properties.Resources.CacheServiceNameUnavailable);
             }
 
-            WriteProgress("Creating cache service...");
+            WriteProgress(Properties.Resources.CreatingCacheService);
             client.CacheServices.CreateCacheService(cloudServiceName, cacheServiceName, param);
 
-            WriteProgress("Wait for cache service becomes ready...");
+            WriteProgress(Properties.Resources.WaitForCacheServiceReady);
             CloudServiceGetResponse.Resource cacheResource = WaitForProvisionDone(cacheServiceName, cloudServiceName);
 
             return cacheResource;
@@ -147,26 +149,23 @@ namespace Microsoft.Azure.Commands.ManagedCache
             return cloudServiceName;
         }
 
-        //TODO: create wrap classes for return type
-        public CloudServiceListResponse.CloudService.AddOnResource GetCacheService(string cacheServiceName)
+        public List<PSCacheService> GetCacheService(string cacheServiceName)
         {
+            List<PSCacheService> services = new List<PSCacheService>();
             CloudServiceListResponse listResponse = client.CloudServices.List(); 
-            CloudServiceListResponse.CloudService.AddOnResource matched = null;
             foreach (CloudServiceListResponse.CloudService cloudService in listResponse)
             {
-                matched = cloudService.Resources.FirstOrDefault(
-                       p => 
-                       { 
-                           return p.Type == CacheResourceType 
-                               && cacheServiceName.Equals(p.Name, StringComparison.OrdinalIgnoreCase);
-                       }
-                    );
-                if (matched != null)
+                foreach(CloudServiceListResponse.CloudService.AddOnResource resource in cloudService.Resources)
                 {
-                    break;
+                    if (resource.Type == CacheResourceType &&
+                            (string.IsNullOrEmpty(cacheServiceName) ||
+                             cacheServiceName.Equals(resource.Name, StringComparison.OrdinalIgnoreCase)))
+                    {
+                        services.Add(new PSCacheService(resource));
+                    }
                 }
             }
-            return matched;
+            return services;
         }
 
         private CloudServiceGetResponse.Resource GetCacheService(string cloudServiceName, string cacheServiceName)

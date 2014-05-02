@@ -22,22 +22,26 @@ namespace Microsoft.Azure.Commands.ManagedCache.Models
             Name = resource.Name;
             State = resource.State;
             SubState = resource.SubState;
-            Offering = resource.IntrinsicSettingsSection.CacheServiceInputSection.SkuType;
+            Location = resource.IntrinsicSettingsSection.CacheServiceInputSection.Location;
+            Sku = resource.IntrinsicSettingsSection.CacheServiceInputSection.SkuType;
             int skuCount = resource.IntrinsicSettingsSection.CacheServiceInputSection.SkuCount;
-            if (Offering == "Basic")
-            {
-                Memory = (skuCount * 128).ToString() + "MB";
-            }
-            else if (Offering == "Standard")
-            {
-                Memory = skuCount.ToString() + "GB";
-            }
-            else
-            {
-                Memory = (skuCount * 5).ToString() + "GB";
-            }
+            CacheSkuCountConvert convert = new CacheSkuCountConvert(Sku);
+            Memory = convert.ToMemorySize(skuCount);
         }
 
+        //TODO, update the hydra spec to reuse 'CloudServiceGetResponse.Resource'
+        public PSCacheService(CloudServiceListResponse.CloudService.AddOnResource resource)
+        {
+            Name = resource.Name;
+            State = resource.State;
+            SubState = resource.Status.Result;
+            Location = resource.IntrinsicSettingsSection.CacheServiceInputSection.Location;
+            Sku = resource.IntrinsicSettingsSection.CacheServiceInputSection.SkuType;
+            int skuCount = resource.IntrinsicSettingsSection.CacheServiceInputSection.SkuCount;
+            CacheSkuCountConvert convert = new CacheSkuCountConvert(Sku);
+            Memory = convert.ToMemorySize(skuCount);
+
+        }
         public string Location { get; private set; }
 
         public string Name { get; private set; }
@@ -46,7 +50,7 @@ namespace Microsoft.Azure.Commands.ManagedCache.Models
 
         public string SubState { get; private set; }
 
-        public string Offering { get; private set; }
+        public string Sku { get; private set; }
 
         public string Memory { get; private set; }
 

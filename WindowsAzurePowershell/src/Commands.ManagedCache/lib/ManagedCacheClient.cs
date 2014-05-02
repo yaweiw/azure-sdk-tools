@@ -36,205 +36,6 @@ using Microsoft.WindowsAzure;
 using Microsoft.WindowsAzure.Common;
 using Microsoft.WindowsAzure.Common.Internals;
 
-namespace Microsoft.Azure.Management.ManagedCache
-{
-    public partial class IntrinsicSettings
-    {
-        private IntrinsicSettings.CacheServiceInput _cacheServiceInputSection;
-        
-        /// <summary>
-        /// Optional.
-        /// </summary>
-        public IntrinsicSettings.CacheServiceInput CacheServiceInputSection
-        {
-            get { return this._cacheServiceInputSection; }
-            set { this._cacheServiceInputSection = value; }
-        }
-        
-        /// <summary>
-        /// Initializes a new instance of the IntrinsicSettings class.
-        /// </summary>
-        public IntrinsicSettings()
-        {
-        }
-        
-        public partial class CacheServiceInput
-        {
-            private string _location;
-            
-            /// <summary>
-            /// Optional.
-            /// </summary>
-            public string Location
-            {
-                get { return this._location; }
-                set { this._location = value; }
-            }
-            
-            private IList<IntrinsicSettings.CacheServiceInput.NamedCache> _namedCaches;
-            
-            /// <summary>
-            /// Optional.
-            /// </summary>
-            public IList<IntrinsicSettings.CacheServiceInput.NamedCache> NamedCaches
-            {
-                get { return this._namedCaches; }
-                set { this._namedCaches = value; }
-            }
-            
-            private int _objectSizeInBytes;
-            
-            /// <summary>
-            /// Optional.
-            /// </summary>
-            public int ObjectSizeInBytes
-            {
-                get { return this._objectSizeInBytes; }
-                set { this._objectSizeInBytes = value; }
-            }
-            
-            private string _serviceVersion;
-            
-            /// <summary>
-            /// Optional.
-            /// </summary>
-            public string ServiceVersion
-            {
-                get { return this._serviceVersion; }
-                set { this._serviceVersion = value; }
-            }
-            
-            private int _skuCount;
-            
-            /// <summary>
-            /// Optional.
-            /// </summary>
-            public int SkuCount
-            {
-                get { return this._skuCount; }
-                set { this._skuCount = value; }
-            }
-            
-            private string _skuType;
-            
-            /// <summary>
-            /// Optional.
-            /// </summary>
-            public string SkuType
-            {
-                get { return this._skuType; }
-                set { this._skuType = value; }
-            }
-            
-            /// <summary>
-            /// Initializes a new instance of the CacheServiceInput class.
-            /// </summary>
-            public CacheServiceInput()
-            {
-                this._namedCaches = new List<IntrinsicSettings.CacheServiceInput.NamedCache>();
-            }
-            
-            public partial class NamedCache
-            {
-                private string _cacheName;
-                
-                /// <summary>
-                /// Optional.
-                /// </summary>
-                public string CacheName
-                {
-                    get { return this._cacheName; }
-                    set { this._cacheName = value; }
-                }
-                
-                private string _evictionPolicy;
-                
-                /// <summary>
-                /// Optional.
-                /// </summary>
-                public string EvictionPolicy
-                {
-                    get { return this._evictionPolicy; }
-                    set { this._evictionPolicy = value; }
-                }
-                
-                private IntrinsicSettings.CacheServiceInput.NamedCache.ExpirationSettings _expirationSettingsSection;
-                
-                /// <summary>
-                /// Optional.
-                /// </summary>
-                public IntrinsicSettings.CacheServiceInput.NamedCache.ExpirationSettings ExpirationSettingsSection
-                {
-                    get { return this._expirationSettingsSection; }
-                    set { this._expirationSettingsSection = value; }
-                }
-                
-                private bool _highAvailabilityEnabled;
-                
-                /// <summary>
-                /// Optional.
-                /// </summary>
-                public bool HighAvailabilityEnabled
-                {
-                    get { return this._highAvailabilityEnabled; }
-                    set { this._highAvailabilityEnabled = value; }
-                }
-                
-                private bool _notificationsEnabled;
-                
-                /// <summary>
-                /// Optional.
-                /// </summary>
-                public bool NotificationsEnabled
-                {
-                    get { return this._notificationsEnabled; }
-                    set { this._notificationsEnabled = value; }
-                }
-                
-                /// <summary>
-                /// Initializes a new instance of the NamedCache class.
-                /// </summary>
-                public NamedCache()
-                {
-                }
-                
-                public partial class ExpirationSettings
-                {
-                    private int _timeToLiveInMinutes;
-                    
-                    /// <summary>
-                    /// Optional.
-                    /// </summary>
-                    public int TimeToLiveInMinutes
-                    {
-                        get { return this._timeToLiveInMinutes; }
-                        set { this._timeToLiveInMinutes = value; }
-                    }
-                    
-                    private string _type;
-                    
-                    /// <summary>
-                    /// Optional.
-                    /// </summary>
-                    public string Type
-                    {
-                        get { return this._type; }
-                        set { this._type = value; }
-                    }
-                    
-                    /// <summary>
-                    /// Initializes a new instance of the ExpirationSettings
-                    /// class.
-                    /// </summary>
-                    public ExpirationSettings()
-                    {
-                    }
-                }
-            }
-        }
-    }
-}
-
 namespace Microsoft.Azure.Management.ManagedCache.Models
 {
     public partial class CacheServiceCreateParameters
@@ -1127,6 +928,202 @@ namespace Microsoft.Azure.Management.ManagedCache.Models
         /// monetary event.
         /// </summary>
         public const string Paused = "Paused";
+    }
+    
+    public partial class IntrinsicSettings
+    {
+        private IntrinsicSettings.CacheServiceInput _cacheServiceInputSection;
+        
+        /// <summary>
+        /// Optional.
+        /// </summary>
+        public IntrinsicSettings.CacheServiceInput CacheServiceInputSection
+        {
+            get { return this._cacheServiceInputSection; }
+            set { this._cacheServiceInputSection = value; }
+        }
+        
+        /// <summary>
+        /// Initializes a new instance of the IntrinsicSettings class.
+        /// </summary>
+        public IntrinsicSettings()
+        {
+        }
+        
+        public partial class CacheServiceInput
+        {
+            private string _location;
+            
+            /// <summary>
+            /// Optional.
+            /// </summary>
+            public string Location
+            {
+                get { return this._location; }
+                set { this._location = value; }
+            }
+            
+            private IList<IntrinsicSettings.CacheServiceInput.NamedCache> _namedCaches;
+            
+            /// <summary>
+            /// Optional.
+            /// </summary>
+            public IList<IntrinsicSettings.CacheServiceInput.NamedCache> NamedCaches
+            {
+                get { return this._namedCaches; }
+                set { this._namedCaches = value; }
+            }
+            
+            private int _objectSizeInBytes;
+            
+            /// <summary>
+            /// Optional.
+            /// </summary>
+            public int ObjectSizeInBytes
+            {
+                get { return this._objectSizeInBytes; }
+                set { this._objectSizeInBytes = value; }
+            }
+            
+            private string _serviceVersion;
+            
+            /// <summary>
+            /// Optional.
+            /// </summary>
+            public string ServiceVersion
+            {
+                get { return this._serviceVersion; }
+                set { this._serviceVersion = value; }
+            }
+            
+            private int _skuCount;
+            
+            /// <summary>
+            /// Optional.
+            /// </summary>
+            public int SkuCount
+            {
+                get { return this._skuCount; }
+                set { this._skuCount = value; }
+            }
+            
+            private string _skuType;
+            
+            /// <summary>
+            /// Optional.
+            /// </summary>
+            public string SkuType
+            {
+                get { return this._skuType; }
+                set { this._skuType = value; }
+            }
+            
+            /// <summary>
+            /// Initializes a new instance of the CacheServiceInput class.
+            /// </summary>
+            public CacheServiceInput()
+            {
+                this._namedCaches = new List<IntrinsicSettings.CacheServiceInput.NamedCache>();
+            }
+            
+            public partial class NamedCache
+            {
+                private string _cacheName;
+                
+                /// <summary>
+                /// Optional.
+                /// </summary>
+                public string CacheName
+                {
+                    get { return this._cacheName; }
+                    set { this._cacheName = value; }
+                }
+                
+                private string _evictionPolicy;
+                
+                /// <summary>
+                /// Optional.
+                /// </summary>
+                public string EvictionPolicy
+                {
+                    get { return this._evictionPolicy; }
+                    set { this._evictionPolicy = value; }
+                }
+                
+                private IntrinsicSettings.CacheServiceInput.NamedCache.ExpirationSettings _expirationSettingsSection;
+                
+                /// <summary>
+                /// Optional.
+                /// </summary>
+                public IntrinsicSettings.CacheServiceInput.NamedCache.ExpirationSettings ExpirationSettingsSection
+                {
+                    get { return this._expirationSettingsSection; }
+                    set { this._expirationSettingsSection = value; }
+                }
+                
+                private bool _highAvailabilityEnabled;
+                
+                /// <summary>
+                /// Optional.
+                /// </summary>
+                public bool HighAvailabilityEnabled
+                {
+                    get { return this._highAvailabilityEnabled; }
+                    set { this._highAvailabilityEnabled = value; }
+                }
+                
+                private bool _notificationsEnabled;
+                
+                /// <summary>
+                /// Optional.
+                /// </summary>
+                public bool NotificationsEnabled
+                {
+                    get { return this._notificationsEnabled; }
+                    set { this._notificationsEnabled = value; }
+                }
+                
+                /// <summary>
+                /// Initializes a new instance of the NamedCache class.
+                /// </summary>
+                public NamedCache()
+                {
+                }
+                
+                public partial class ExpirationSettings
+                {
+                    private int _timeToLiveInMinutes;
+                    
+                    /// <summary>
+                    /// Optional.
+                    /// </summary>
+                    public int TimeToLiveInMinutes
+                    {
+                        get { return this._timeToLiveInMinutes; }
+                        set { this._timeToLiveInMinutes = value; }
+                    }
+                    
+                    private string _type;
+                    
+                    /// <summary>
+                    /// Optional.
+                    /// </summary>
+                    public string Type
+                    {
+                        get { return this._type; }
+                        set { this._type = value; }
+                    }
+                    
+                    /// <summary>
+                    /// Initializes a new instance of the ExpirationSettings
+                    /// class.
+                    /// </summary>
+                    public ExpirationSettings()
+                    {
+                    }
+                }
+            }
+        }
     }
     
     public partial class RegenerateKeysParameters
