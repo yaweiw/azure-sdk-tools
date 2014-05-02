@@ -63,6 +63,12 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.HostedServices
             set;
         }
 
+        protected override void OnProcessRecord()
+        {
+            ServiceManagementProfile.Initialize();
+            this.GetRoleProcess();
+        }
+
         public void GetRoleProcess()
         {
             OperationStatusResponse getDeploymentOperation;
@@ -85,25 +91,26 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.HostedServices
 
                     foreach (var role in roleInstances)
                     {
-                        instanceContexts.Add(
-                            new RoleInstanceContext
-                            {
-                                ServiceName           = this.ServiceName,
-                                OperationId           = getDeploymentOperation.Id,
-                                OperationDescription  = this.CommandRuntime.ToString(),
-                                OperationStatus       = getDeploymentOperation.Status.ToString(),
-                                InstanceErrorCode     = role.InstanceErrorCode,
-                                InstanceFaultDomain   = role.InstanceFaultDomain,
-                                InstanceName          = role.InstanceName,
-                                InstanceSize          = role.InstanceSize,
-                                InstanceStateDetails  = role.InstanceStateDetails,
-                                InstanceStatus        = role.InstanceStatus,
-                                InstanceUpgradeDomain = role.InstanceUpgradeDomain,
-                                RoleName              = role.RoleName,
-                                PublicIPs             = Mapper.Map<PVM.PublicIPList>(role.PublicIPs),
-                                DeploymentID          = currentDeployment.PrivateId,
-                                InstanceEndpoints     = Mapper.Map<PVM.InstanceEndpointList>(role.InstanceEndpoints)
-                            });
+                        instanceContexts.Add(new RoleInstanceContext
+                        {
+                            ServiceName           = this.ServiceName,
+                            OperationId           = getDeploymentOperation.Id,
+                            OperationDescription  = this.CommandRuntime.ToString(),
+                            OperationStatus       = getDeploymentOperation.Status.ToString(),
+                            InstanceErrorCode     = role.InstanceErrorCode,
+                            InstanceFaultDomain   = role.InstanceFaultDomain,
+                            InstanceName          = role.InstanceName,
+                            InstanceSize          = role.InstanceSize,
+                            InstanceStateDetails  = role.InstanceStateDetails,
+                            InstanceStatus        = role.InstanceStatus,
+                            InstanceUpgradeDomain = role.InstanceUpgradeDomain,
+                            RoleName              = role.RoleName,
+                            IPAddress             = role.IPAddress,
+                            PublicIPAddress       = role.PublicIPs == null || !role.PublicIPs.Any() ? null : role.PublicIPs.First().Address,
+                            PublicIPName          = role.PublicIPs == null || !role.PublicIPs.Any() ? null : role.PublicIPs.First().Name,
+                            DeploymentID          = currentDeployment.PrivateId,
+                            InstanceEndpoints     = Mapper.Map<PVM.InstanceEndpointList>(role.InstanceEndpoints)
+                        });
                     }
 
                     WriteObject(instanceContexts, true);
@@ -129,7 +136,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.HostedServices
                         OperationStatus      = getDeploymentOperation.Status.ToString(),
                         OperationId          = getDeploymentOperation.Id,
                         ServiceName          = this.ServiceName,
-                        DeploymentID         = currentDeployment.PrivateId,
+                        DeploymentID         = currentDeployment.PrivateId
                     }))
                     {
                         roleContexts.Add(r);
@@ -138,12 +145,6 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.HostedServices
                     WriteObject(roleContexts, true);
                 }
             }
-        }
-
-        protected override void OnProcessRecord()
-        {
-            ServiceManagementProfile.Initialize();
-            this.GetRoleProcess();
         }
 
         private DeploymentGetResponse GetCurrentDeployment(out OperationStatusResponse operation)

@@ -38,6 +38,10 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Model
 
         public string DeploymentID { get; set; }
 
-        public PublicIPList PublicIPs { get; set; }
+        public string IPAddress { get; set; }
+
+        public string PublicIPAddress { get; set; }
+
+        public string PublicIPName { get; set; }
     }
 }
