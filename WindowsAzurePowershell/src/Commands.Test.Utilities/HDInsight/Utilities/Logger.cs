@@ -32,6 +32,12 @@ namespace Microsoft.WindowsAzure.Commands.Test.Utilities.HDInsight.Utilities
         }
 
         /// <inheritdoc />
+        public void RemoveWriter(ILogWriter writer)
+        {
+            this.writers.Remove(writer);
+        }
+
+        /// <inheritdoc />
         public void LogMessage(string message)
         {
             this.LogMessage(message, Severity.Message, Verbosity.Normal);

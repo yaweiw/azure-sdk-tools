@@ -21,7 +21,7 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>..\..\..\Package\Debug\Azure</OutputPath>
+    <OutputPath>..\..\..\Package\Debug\ServiceManagement\Azure</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -33,7 +33,7 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>..\..\..\Package\Release\Azure</OutputPath>
+    <OutputPath>..\..\..\Package\Release\ServiceManagement\Azure</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -42,7 +42,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
     <DebugSymbols>true</DebugSymbols>
-    <OutputPath>..\..\..\Package\Debug\Azure</OutputPath>
+    <OutputPath>..\..\..\Package\Debug\ServiceManagement\Azure</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <DebugType>full</DebugType>
     <PlatformTarget>x64</PlatformTarget>
@@ -80,7 +80,7 @@
     <RunPostBuildEvent>OnBuildSuccess</RunPostBuildEvent>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'ReleaseSigned|AnyCPU'">
-    <OutputPath>..\..\..\Package\Release\Azure</OutputPath>
+    <OutputPath>..\..\..\Package\Release\ServiceManagement\Azure</OutputPath>
     <DefineConstants>TRACE;SIGN</DefineConstants>
     <Optimize>true</Optimize>
     <DebugType>pdbonly</DebugType>
@@ -99,7 +99,7 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'ReleaseSigned|x64'">
-    <OutputPath>..\..\..\Package\Release\Azure</OutputPath>
+    <OutputPath>..\..\..\Package\Release\ServiceManagement\Azure</OutputPath>
     <DefineConstants>TRACE;SIGN</DefineConstants>
     <Optimize>true</Optimize>
     <DebugType>pdbonly</DebugType>
@@ -167,9 +167,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Microsoft.WindowsAzure.Management.1.0.0\lib\net40\Microsoft.WindowsAzure.Management.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.WindowsAzure.Management.Compute, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+    <Reference Include="Microsoft.WindowsAzure.Management.Compute, Version=1.0.0.0, Culture=neutral, PublicKeyToken=c66ce9294aae1300, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Microsoft.WindowsAzure.Management.Compute.1.0.0\lib\net40\Microsoft.WindowsAzure.Management.Compute.dll</HintPath>
+      <HintPath>..\packages\Microsoft.WindowsAzure.Management.Compute.1.0.1\lib\net40\Microsoft.WindowsAzure.Management.Compute.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.WindowsAzure.Management.Network, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -255,6 +255,7 @@
     <Compile Include="Extensions\Common\SetAzureServiceExtension.cs" />
     <Compile Include="Extensions\Common\NewAzureServiceExtensionConfig.cs" />
     <Compile Include="Extensions\Common\RemoveAzureServiceExtension.cs" />
+    <Compile Include="Helpers\SecureStringHelper.cs" />
     <Compile Include="IaaS\Extensions\BGInfo\GetAzureVMBGInfoExtension.cs" />
     <Compile Include="IaaS\Extensions\BGInfo\RemoveAzureVMBGInfoExtension.cs" />
     <Compile Include="IaaS\Extensions\BGInfo\SetAzureVMBGInfoExtension.cs" />
@@ -266,6 +267,7 @@
     <Compile Include="IaaS\Extensions\Common\VirtualMachineExtensionCmdletBase.cs" />
     <Compile Include="IaaS\Extensions\Common\VirtualMachineExtensionContext.cs" />
     <Compile Include="IaaS\Extensions\Common\GetAzureVMAvailableExtension.cs" />
+    <Compile Include="IaaS\Extensions\Common\VirtualMachineExtensionImageFactory.cs" />
     <Compile Include="IaaS\Extensions\Common\VirtualMachineExtensionImageContext.cs" />
     <Compile Include="IaaS\Extensions\Puppet\GetAzureVMPuppetExtension.cs" />
     <Compile Include="IaaS\Extensions\Puppet\RemoveAzureVMPuppetExtension.cs" />
@@ -301,7 +303,6 @@
     <Compile Include="Certificates\AddAzureCertificate.cs" />
     <Compile Include="Certificates\GetAzureCertificate.cs" />
     <Compile Include="Certificates\RemoveAzureCertificate.cs" />
-    <Compile Include="Common\ValidateVMSizeAttribute.cs" />
     <Compile Include="Common\ValidationHelpers.cs" />
     <Compile Include="Extensions\Diagnostics\BaseAzureServiceDiagnosticsExtension.cs">
       <SubType>Code</SubType>
@@ -442,7 +443,6 @@
     <Compile Include="Model\DeploymentInfoContext.cs" />
     <Compile Include="Model\DiskContext.cs" />
     <Compile Include="Model\GatewayConnectionContext.cs" />
-    <Compile Include="Model\GatewayManagementOperationContext.cs" />
     <Compile Include="Model\HostedServiceContext.cs" />
     <Compile Include="Model\HostedServiceDetailedContext.cs" />
     <Compile Include="Model\InputEndpointContext.cs" />
@@ -458,7 +458,6 @@
     <Compile Include="Model\RoleConfiguration.cs" />
     <Compile Include="Model\RoleContext.cs" />
     <Compile Include="Model\RoleInstanceContext.cs" />
-    <Compile Include="Model\RoleInstanceCountContext.cs" />
     <Compile Include="Model\RoleInstanceStatusInfo.cs" />
     <Compile Include="Model\RoleInstanceStatusInfoContext.cs" />
     <Compile Include="Model\ServiceOperationContext.cs" />
@@ -473,7 +472,6 @@
     <Compile Include="Model\VirtualNetworkConfigContext.cs" />
     <Compile Include="Model\VirtualNetworkGatewayContext.cs" />
     <Compile Include="Model\VirtualNetworkSiteContext.cs" />
-    <Compile Include="Model\VirtualNetworkSupportedDevicesContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>

@@ -14,10 +14,12 @@
 
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
 {
+    using System.Security;
+
     public class VirtualMachineAccessExtensionContext : VirtualMachineExtensionContext
     {
         public string UserName { get; set; }
-        public string Password { get; set; }
+        public SecureString Password { get; set; }
         public bool Enabled { get; set; }
     }
 }

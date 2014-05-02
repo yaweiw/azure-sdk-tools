@@ -12,7 +12,7 @@
 ModuleToProcess = '.\Microsoft.WindowsAzure.Commands.dll'
 
 # Version number of this module.
-ModuleVersion = '0.8.0'
+ModuleVersion = '0.8.1'
 
 # ID used to uniquely identify this module
 GUID = 'D48CF693-4125-4D2D-8790-1514F44CE325'
@@ -76,7 +76,8 @@ FormatsToProcess = @(
 # Modules to import as nested modules of the module specified in ModuleToProcess
 NestedModules = '.\Microsoft.WindowsAzure.Commands.SqlDatabase.dll',
                 '.\Microsoft.WindowsAzure.Commands.ServiceManagement.dll',
-                '.\Microsoft.WindowsAzure.Commands.Storage.dll'
+                '.\Microsoft.WindowsAzure.Commands.Storage.dll',
+                '.\Microsoft.Azure.Commands.ManagedCache.dll'
 
 # Functions to export from this module
 FunctionsToExport = '*'
