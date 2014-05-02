@@ -15,8 +15,9 @@
 namespace Microsoft.Azure.Commands.ManagedCache
 {
     using System.Management.Automation;
+    using Microsoft.Azure.Commands.ManagedCache.Models;
 
-    [Cmdlet(VerbsCommon.New, "AzureManagedCache")]
+    [Cmdlet(VerbsCommon.New, "AzureManagedCache"), OutputType(typeof(PSCacheService))]
     public class NewAzureManagedCache : ManagedCacheCmdletBase
     {
         private string cacheServiceName;
@@ -38,18 +39,18 @@ namespace Microsoft.Azure.Commands.ManagedCache
 
         public override void ExecuteCmdlet()
         {
-            //TODO, validate the Name, length much be between 6~20;
-            //Only lower case letter and number, and start with letter
-            cacheServiceName = Name.ToLower();
+            cacheServiceName = CacheClient.NormalizeCacheServiceName(Name);
 
-            WriteVerbose(string.Format(Properties.Resources.CreatingCacheServiceStarted, cacheServiceName));
-            
-            WriteObject(CacheClient.CreateCacheService(
+            CacheClient.ProgressRecorder = (p) => { WriteVerbose(p); };
+
+            PSCacheService cacheService = new PSCacheService(CacheClient.CreateCacheService(
                 CurrentSubscription.SubscriptionId,
                 cacheServiceName,
                 Location,
                 Sku,
                 Memory));
+
+            WriteObject(cacheService);
         }
     }
 }
