@@ -41,7 +41,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.HostedServices
             set;
         }
 
-        [Parameter(Position = 1, Mandatory = true, ValueFromPipelineByPropertyName = true, HelpMessage = "Deployment slot")]
+        [Parameter(Position = 1, Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "Deployment slot")]
         [ValidateSet(DeploymentSlotType.Staging, DeploymentSlotType.Production, IgnoreCase = true)]
         public string Slot
         {
