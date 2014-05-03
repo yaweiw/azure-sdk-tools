@@ -37,7 +37,17 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Services.Server
         /// <summary>
         /// A database premium edition
         /// </summary>
-        Premium = 3
+        Premium = 3,
+
+        /// <summary>
+        /// A database basic edition
+        /// </summary>
+        Basic = 4,
+
+        /// <summary>
+        /// A database standard edition
+        /// </summary>
+        Standard = 5
     }
 }
 

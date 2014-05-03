@@ -24,6 +24,7 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Services.Server
     using Microsoft.WindowsAzure.Commands.SqlDatabase.Properties;
     using Microsoft.WindowsAzure.Commands.SqlDatabase.Services.Common;
     using Microsoft.WindowsAzure.Commands.Utilities.Common;
+    using DatabaseCopyModel = Microsoft.WindowsAzure.Commands.SqlDatabase.Model.DatabaseCopy;
 
     /// <summary>
     /// Implementation of the <see cref="IServerDataServiceContext"/> with Sql Authentication.
@@ -288,9 +289,16 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Services.Server
                 }
 
                 ServiceObjective serviceObjective = obj as ServiceObjective;
-                if (database != null)
+                if (serviceObjective != null)
                 {
                     this.LoadExtraProperties(serviceObjective);
+                    return;
+                }
+
+                RestorableDroppedDatabase restorableDroppedDatabase = obj as RestorableDroppedDatabase;
+                if (restorableDroppedDatabase != null)
+                {
+                    this.LoadExtraProperties(restorableDroppedDatabase);
                     return;
                 }
             }
@@ -312,7 +320,8 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Services.Server
         /// <returns>The newly created Sql Database.</returns>
         public Database CreateNewDatabase(
             string databaseName,
-            int? databaseMaxSize,
+            int? databaseMaxSizeGb,
+            long? databaseMaxSizeBytes,
             string databaseCollation,
             DatabaseEdition databaseEdition,
             ServiceObjective serviceObjective)
@@ -324,9 +333,13 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Services.Server
             Database database = new Database();
             database.Name = databaseName;
 
-            if (databaseMaxSize != null)
+            if (databaseMaxSizeGb != null)
             {
-                database.MaxSizeGB = (int)databaseMaxSize;
+                database.MaxSizeGB = (int)databaseMaxSizeGb;
+            }
+            if(databaseMaxSizeBytes != null)
+            {
+                database.MaxSizeBytes = (long)databaseMaxSizeBytes;
             }
 
             if (!string.IsNullOrEmpty(databaseCollation))
@@ -446,7 +459,8 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Services.Server
         public Database UpdateDatabase(
             string databaseName,
             string newDatabaseName,
-            int? databaseMaxSize,
+            int? databaseMaxSizeGb,
+            long? databaseMaxSizeBytes,
             DatabaseEdition? databaseEdition,
             ServiceObjective serviceObjective)
         {
@@ -460,7 +474,15 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Services.Server
             }
 
             // Update the max size and edition properties
-            database.MaxSizeGB = databaseMaxSize;
+            if (databaseMaxSizeGb != null)
+            {
+                database.MaxSizeGB = (int)databaseMaxSizeGb;
+            }
+            if (databaseMaxSizeBytes != null)
+            {
+                database.MaxSizeBytes = (long)databaseMaxSizeBytes;
+            }
+
             database.Edition = databaseEdition == null ? null : databaseEdition.ToString();
 
             database.IsRecursiveTriggersOn = null;
@@ -508,6 +530,228 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Services.Server
             catch
             {
                 this.RevertChanges(database);
+                throw;
+            }
+        }
+
+        #endregion
+        
+        #region Database Copy Operations
+
+        private DatabaseCopy GetCopyForCopyModel(DatabaseCopyModel model)
+        {
+            DatabaseCopy retval = this.DatabaseCopies.Where(copy => copy.EntityId == model.EntityId
+                && model.IsLocalDatabaseReplicationTarget == copy.IsLocalDatabaseReplicationTarget)
+                .SingleOrDefault();
+
+            if (retval == null)
+            {
+                throw new ApplicationException(Resources.DatabaseCopyNotFoundGeneric);
+            }
+
+            return retval;
+        }
+
+        private static DatabaseCopyModel CreateCopyModelFromCopy(DatabaseCopy copy)
+        {
+            return new DatabaseCopyModel()
+            {
+                EntityId = copy.EntityId,
+                SourceServerName = copy.SourceServerName,
+                SourceDatabaseName = copy.SourceDatabaseName,
+                DestinationServerName = copy.DestinationServerName,
+                DestinationDatabaseName = copy.DestinationDatabaseName,
+                IsContinuous = copy.IsContinuous,
+                ReplicationState = copy.ReplicationState,
+                ReplicationStateDescription = copy.ReplicationStateDescription,
+                LocalDatabaseId = copy.LocalDatabaseId,
+                IsLocalDatabaseReplicationTarget = copy.IsLocalDatabaseReplicationTarget,
+                IsInterlinkConnected = copy.IsInterlinkConnected,
+                StartDate = DateTime.Parse(copy.TextStartDate),
+                ModifyDate = DateTime.Parse(copy.TextModifyDate),
+                PercentComplete = copy.PercentComplete.GetValueOrDefault()
+            };
+        }
+        
+        /// <summary>
+        /// Retrieve all database copy objects with matching parameters.
+        /// </summary>
+        /// <param name="databaseName">The name of the database to copy.</param>
+        /// <param name="partnerServer">The name for the partner server.</param>
+        /// <param name="partnerDatabaseName">The name of the database on the partner server.</param>
+        /// <returns>All database copy objects with matching parameters.</returns>
+        public DatabaseCopyModel[] GetDatabaseCopy(
+            string databaseName,
+            string partnerServer,
+            string partnerDatabaseName)
+        {
+            // Setup the query by filtering for the source/destination server name from the context.
+            IQueryable<DatabaseCopy> databaseCopyQuerySource = this.DatabaseCopies
+                .Where(copy => copy.SourceServerName == this.ServerName);
+            IQueryable<DatabaseCopy> databaseCopyQueryTarget = this.DatabaseCopies
+                .Where(copy => copy.DestinationServerName == this.ServerName);
+
+            // Add additional filter for database name
+            if (databaseName != null)
+            {
+                // Append the clause to only return database of the specified name
+                databaseCopyQuerySource = databaseCopyQuerySource
+                    .Where(copy => copy.SourceDatabaseName == databaseName);
+                databaseCopyQueryTarget = databaseCopyQueryTarget
+                    .Where(copy => copy.DestinationDatabaseName == databaseName);
+            }
+
+            // Add additional filter for partner server name
+            if (partnerServer != null)
+            {
+                databaseCopyQuerySource = databaseCopyQuerySource
+                    .Where(copy => copy.DestinationServerName == partnerServer);
+                databaseCopyQueryTarget = databaseCopyQueryTarget
+                    .Where(copy => copy.SourceServerName == partnerServer);
+            }
+
+            // Add additional filter for partner database name
+            if (partnerDatabaseName != null)
+            {
+                databaseCopyQuerySource = databaseCopyQuerySource
+                    .Where(copy => copy.DestinationDatabaseName == partnerDatabaseName);
+                databaseCopyQueryTarget = databaseCopyQueryTarget
+                    .Where(copy => copy.SourceDatabaseName == partnerDatabaseName);
+            }
+
+            DatabaseCopy[] databaseCopies;
+
+            using (new MergeOptionTemporaryChange(this, MergeOption.OverwriteChanges))
+            {
+                // Return all results as an array.
+                DatabaseCopy[] sourceDatabaseCopies = databaseCopyQuerySource.ToArray();
+                DatabaseCopy[] targetDatabaseCopies = databaseCopyQueryTarget.ToArray();
+                databaseCopies = sourceDatabaseCopies.Concat(targetDatabaseCopies).ToArray();
+            }
+
+            // Load the extra properties for all objects.
+            foreach (DatabaseCopy databaseCopy in databaseCopies)
+            {
+                databaseCopy.LoadExtraProperties(this);
+            }
+
+            return databaseCopies.Select(CreateCopyModelFromCopy).ToArray();
+        }
+
+        /// <summary>
+        /// Refreshes the given database copy object.
+        /// </summary>
+        /// <param name="databaseCopy">The object to refresh.</param>
+        /// <returns>The refreshed database copy object.</returns>
+        public DatabaseCopyModel GetDatabaseCopy(DatabaseCopyModel databaseCopy)
+        {
+            DatabaseCopy refreshedDatabaseCopy;
+
+            using (new MergeOptionTemporaryChange(this, MergeOption.OverwriteChanges))
+            {
+                // Find the database copy by its keys
+                refreshedDatabaseCopy = this.DatabaseCopies
+                    .Where(c => c.SourceServerName == databaseCopy.SourceServerName)
+                    .Where(c => c.SourceDatabaseName == databaseCopy.SourceDatabaseName)
+                    .Where(c => c.DestinationServerName == databaseCopy.DestinationServerName)
+                    .Where(c => c.DestinationDatabaseName == databaseCopy.DestinationDatabaseName)
+                    .SingleOrDefault();
+                if (refreshedDatabaseCopy == null)
+                {
+                    throw new InvalidOperationException(
+                        string.Format(
+                            CultureInfo.InvariantCulture,
+                            Resources.DatabaseCopyNotFound,
+                            databaseCopy.SourceServerName,
+                            databaseCopy.SourceDatabaseName,
+                            databaseCopy.DestinationServerName,
+                            databaseCopy.DestinationDatabaseName));
+                }
+            }
+
+            // Load the extra properties for this object.
+            refreshedDatabaseCopy.LoadExtraProperties(this);
+
+            return CreateCopyModelFromCopy(refreshedDatabaseCopy);
+        }
+
+        /// <summary>
+        /// Start database copy on the database with the name <paramref name="databaseName"/>.
+        /// </summary>
+        /// <param name="databaseName">The name of the database to copy.</param>
+        /// <param name="partnerServer">The name for the partner server.</param>
+        /// <param name="partnerDatabaseName">The name of the database on the partner server.</param>
+        /// <param name="continuousCopy"><c>true</c> to make this a continuous copy.</param>
+        /// <returns>The new instance of database copy operation.</returns>
+        public DatabaseCopyModel StartDatabaseCopy(
+            string databaseName,
+            string partnerServer,
+            string partnerDatabaseName,
+            bool continuousCopy)
+        {
+            // Create a new request Id for this operation
+            this.clientRequestId = SqlDatabaseCmdletBase.GenerateClientTracingId();
+
+            // Create a new database copy object with all the required properties
+            DatabaseCopy databaseCopy = new DatabaseCopy();
+            databaseCopy.SourceServerName = this.ServerName;
+            databaseCopy.SourceDatabaseName = databaseName;
+            databaseCopy.DestinationServerName = partnerServer;
+            databaseCopy.DestinationDatabaseName = partnerDatabaseName;
+
+            // Set the optional continuous copy flag
+            databaseCopy.IsContinuous = continuousCopy;
+
+            this.AddToDatabaseCopies(databaseCopy);
+            DatabaseCopy trackedDatabaseCopy = databaseCopy;
+            try
+            {
+                this.SaveChanges(SaveChangesOptions.None);
+
+                // Requery for the entity to obtain updated linkid and state
+                databaseCopy = this.RefreshEntity(databaseCopy);
+                if (databaseCopy == null)
+                {
+                    throw new ApplicationException(Resources.ErrorRefreshingDatabaseCopy);
+                }
+            }
+            catch
+            {
+                this.RevertChanges(trackedDatabaseCopy);
+                throw;
+            }
+
+            return CreateCopyModelFromCopy(databaseCopy);
+        }
+
+        /// <summary>
+        /// Terminate an ongoing database copy operation.
+        /// </summary>
+        /// <param name="copyModel">The database copy to terminate.</param>
+        /// <param name="forcedTermination"><c>true</c> to forcefully terminate the copy.</param>
+        public void StopDatabaseCopy(
+            DatabaseCopyModel copyModel,
+            bool forcedTermination)
+        {
+            DatabaseCopy databaseCopy = GetCopyForCopyModel(copyModel);
+
+            // Create a new request Id for this operation
+            this.clientRequestId = SqlDatabaseCmdletBase.GenerateClientTracingId();
+
+            try
+            {
+                // Mark Forced/Friendly flag on the databaseCopy object first
+                databaseCopy.IsForcedTerminate = forcedTermination;
+                this.UpdateObject(databaseCopy);
+                this.SaveChanges();
+
+                // Mark the copy operation for delete
+                this.DeleteObject(databaseCopy);
+                this.SaveChanges();
+            }
+            catch
+            {
+                this.RevertChanges(databaseCopy);
                 throw;
             }
         }
@@ -694,7 +938,140 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Services.Server
             return operations;
         }
         #endregion
+
+        #region RestorableDroppedDatabase Operations
+
+        /// <summary>
+        /// Retrieves the list of all restorable dropped databases on the server.
+        /// </summary>
+        /// <returns>An array of all restorable dropped databases on the server.</returns>
+        public RestorableDroppedDatabase[] GetRestorableDroppedDatabases()
+        {
+            RestorableDroppedDatabase[] allRestorableDroppedDatabases = null;
+
+            using (new MergeOptionTemporaryChange(this, MergeOption.OverwriteChanges))
+            {
+                allRestorableDroppedDatabases = this.RestorableDroppedDatabases.ToArray();
+            }
+
+            // Load the extra properties for all objects.
+            foreach (var restorableDroppedDatabase in allRestorableDroppedDatabases)
+            {
+                this.LoadExtraProperties(restorableDroppedDatabase);
+            }
+
+            return allRestorableDroppedDatabases;
+        }
+
+        /// <summary>
+        /// Retrieve information on the restorable dropped database with the name
+        /// <paramref name="databaseName"/> and deletion date <paramref name="deletionDate"/>.
+        /// </summary>
+        /// <param name="databaseName">The name of the restorable dropped database to retrieve.</param>
+        /// <param name="deletionDate">The deletion date of the restorable dropped database to retrieve.</param>
+        /// <returns>An object containing the information about the specific restorable dropped database.</returns>
+        public RestorableDroppedDatabase GetRestorableDroppedDatabase(
+            string databaseName, DateTime deletionDate)
+        {
+            RestorableDroppedDatabase restorableDroppedDatabase;
+
+            using (new MergeOptionTemporaryChange(this, MergeOption.OverwriteChanges))
+            {
+                // Find the database by name
+                restorableDroppedDatabase =
+                    this.RestorableDroppedDatabases
+                    .Where(db => db.Name == databaseName && db.DeletionDate == deletionDate)
+                    .SingleOrDefault();
+
+                if (restorableDroppedDatabase == null)
+                {
+                    throw new InvalidOperationException(
+                        string.Format(
+                            CultureInfo.InvariantCulture,
+                            Resources.GetAzureSqlRestorableDroppedDatabaseDatabaseNotFound,
+                            this.ServerName,
+                            databaseName,
+                            deletionDate));
+                }
+            }
+
+            // Load the extra properties for this object.
+            this.LoadExtraProperties(restorableDroppedDatabase);
+
+            return restorableDroppedDatabase;
+        }
+
+        #endregion
         
+        #region Restore Database Operations
+
+        /// <summary>
+        /// Issues a restore request for the given source database to the given target database.
+        /// </summary>
+        /// <param name="sourceDatabaseName">The name of the source database.</param>
+        /// <param name="sourceDatabaseDeletionDate">The deletion date of the source database, in case it is a dropped database.</param>
+        /// <param name="targetServerName">The name of the server to create the restored database on.</param>
+        /// <param name="targetDatabaseName">The name of the database to be created with the restored contents.</param>
+        /// <param name="pointInTime">The point in time to restore the source database to.</param>
+        /// <returns>An object containing the information about the restore request.</returns>
+        public RestoreDatabaseOperation RestoreDatabase(
+            string sourceDatabaseName,
+            DateTime? sourceDatabaseDeletionDate,
+            string targetServerName,
+            string targetDatabaseName,
+            DateTime? pointInTime)
+        {
+            throw new NotSupportedException(Resources.SqlAuthNotSupported);
+        }
+
+        #endregion
+
+        #region RecoverableDatabase Operations
+
+        /// <summary>
+        /// Retrieves the list of all recoverable databases on the given server.
+        /// </summary>
+        /// <param name="sourceServerName">The name of the server that contained the databases.</param>
+        /// <returns>An array of all recoverable databases on the server.</returns>
+        public RecoverableDatabase[] GetRecoverableDatabases(string sourceServerName)
+        {
+            throw new NotSupportedException(Resources.SqlAuthNotSupported);
+        }
+
+        /// <summary>
+        /// Retrieve information on the recoverable database with the name
+        /// <paramref name="sourceDatabaseName"/> on the server <paramref name="sourceServerName"/>.
+        /// </summary>
+        /// <param name="sourceServerName">The name of the server that contained the database.</param>
+        /// <param name="sourceDatabaseName">The name of the database to recover.</param>
+        /// <returns>An object containing the information about the specific recoverable database.</returns>
+        public RecoverableDatabase GetRecoverableDatabase(
+            string sourceServerName, string sourceDatabaseName)
+        {
+            throw new NotSupportedException(Resources.SqlAuthNotSupported);
+        }
+
+        #endregion
+
+        #region Recover Database Operations
+
+        /// <summary>
+        /// Issues a recovery request for the given source database to the given target database.
+        /// </summary>
+        /// <param name="sourceServerName">The name of the server that contained the source database.</param>
+        /// <param name="sourceDatabaseName">The name of the source database.</param>
+        /// <param name="targetDatabaseName">The name of the database to be created with the restored contents.</param>
+        /// <returns>An object containing the information about the recovery request.</returns>
+        public RecoverDatabaseOperation RecoverDatabase(
+            string sourceServerName,
+            string sourceDatabaseName,
+            string targetDatabaseName)
+        {
+            throw new NotSupportedException(Resources.SqlAuthNotSupported);
+        }
+
+        #endregion
+
         #endregion
 
         /// <summary>
@@ -767,6 +1144,16 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Services.Server
             this.LoadProperty(database, "ServiceObjective");
             database.ServiceObjectiveName =
                 database.ServiceObjective == null ? null : database.ServiceObjective.Name;
+        }
+
+        /// <summary>
+        /// Ensures any extra property on the given <paramref name="database"/> is loaded.
+        /// </summary>
+        /// <param name="database">The database that needs the extra properties.</param>
+        private void LoadExtraProperties(RestorableDroppedDatabase database)
+        {
+            // Fill in the context property
+            database.Context = this;
         }
 
         /// <summary>
