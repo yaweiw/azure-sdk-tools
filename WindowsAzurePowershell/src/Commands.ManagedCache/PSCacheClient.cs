@@ -15,8 +15,10 @@
 namespace Microsoft.Azure.Commands.ManagedCache
 {
     using System;
+    using System.Collections.Generic;
     using System.Globalization;
     using System.Linq;
+    using System.Text.RegularExpressions;
     using System.Security.Cryptography;
     using System.Text;
     using System.Threading;
@@ -24,6 +26,7 @@ namespace Microsoft.Azure.Commands.ManagedCache
     using Microsoft.Azure.Management.ManagedCache.Models;
     using Microsoft.WindowsAzure;
     using Microsoft.WindowsAzure.Commands.Utilities.Common;
+    using Microsoft.Azure.Commands.ManagedCache.Models;
 
     class PSCacheClient
     {
@@ -36,6 +39,8 @@ namespace Microsoft.Azure.Commands.ManagedCache
         {
             client = currentSubscription.CreateClient<ManagedCacheClient>();
         }
+        public PSCacheClient() { }
+        public Action<string> ProgressRecorder { get; set; }
 
         public CloudServiceGetResponse.Resource CreateCacheService (
             string subscriptionID,
@@ -44,25 +49,47 @@ namespace Microsoft.Azure.Commands.ManagedCache
             string sku, 
             string memorySize)
         {
+            WriteProgress(Properties.Resources.InitializingCacheParameters);
+            CacheServiceCreateParameters param = InitializeParameters(location, sku, memorySize);
+
+            WriteProgress(Properties.Resources.CreatingPrerequisites);
             string cloudServiceName = EnsureCloudServiceExists(subscriptionID, location);
 
+            WriteProgress(Properties.Resources.VerifyingCacheServiceName);
+            if (!(client.CacheServices.CheckNameAvailability(cloudServiceName,cacheServiceName).Available))
+            {
+                throw new ArgumentException(Properties.Resources.CacheServiceNameUnavailable);
+            }
+
+            WriteProgress(Properties.Resources.CreatingCacheService);
+            client.CacheServices.CreateCacheService(cloudServiceName, cacheServiceName, param);
+
+            WriteProgress(Properties.Resources.WaitForCacheServiceReady);
+            CloudServiceGetResponse.Resource cacheResource = WaitForProvisionDone(cacheServiceName, cloudServiceName);
+
+            return cacheResource;
+        }
+
+        private static CacheServiceCreateParameters InitializeParameters(string location, string sku, string memorySize)
+        {
             CacheServiceCreateParameters param = new CacheServiceCreateParameters();
             IntrinsicSettings settings = new IntrinsicSettings();
             IntrinsicSettings.CacheServiceInput input = new IntrinsicSettings.CacheServiceInput();
             settings.CacheServiceInputSection = input;
-            const int CacheMemoryObjectSize = 1024;
             param.Settings = settings;
+
+            const int CacheMemoryObjectSize = 1024;
+            if (string.IsNullOrEmpty(sku))
+            {
+                sku = "Basic";
+            }
+            Models.CacheSkuCountConvert convert = new Models.CacheSkuCountConvert(sku);
             input.Location = location;
-            input.SkuCount = 1; //TODO derived from memorySize
+            input.SkuCount = convert.ToSkuCount(memorySize);
             input.ServiceVersion = "1.0.0";
             input.ObjectSizeInBytes = CacheMemoryObjectSize;
             input.SkuType = sku;
-
-            client.CacheServices.CreateCacheService(cloudServiceName, cacheServiceName, param);
-
-            CloudServiceGetResponse.Resource cacheResource = WaitForProvisionDone(cacheServiceName, cloudServiceName);
-
-            return cacheResource;
+            return param;
         }
 
         private CloudServiceGetResponse.Resource WaitForProvisionDone(string cacheServiceName, string cloudServiceName)
@@ -92,6 +119,31 @@ namespace Microsoft.Azure.Commands.ManagedCache
             return cacheResource;
         }
 
+        public string NormalizeCacheServiceName(string cacheServiceName)
+        {
+            //Cache serice can only take lower case. We help people to get it right
+            cacheServiceName = cacheServiceName.ToLower();
+
+            //Now Check length and pattern
+            int length = cacheServiceName.Length;
+            if (length < 6 || length > 22 || !Regex.IsMatch(cacheServiceName,"^[a-zA-Z][a-zA-Z0-9]*$"))
+            {
+                throw new ArgumentException(Properties.Resources.InvalidCacheServiceName);
+            }
+
+            return cacheServiceName;
+        }
+
+        public void DeleteCacheService(string cacheServiceName)
+        {
+            string cloudServiceName = GetAssociatedCloudServiceName(cacheServiceName);
+            if (string.IsNullOrEmpty(cloudServiceName))
+            {
+                string error = string.Format(Properties.Resources.CacheServiceNotExisting, cacheServiceName);
+                throw new ArgumentException(error);
+            }
+            client.CacheServices.Delete(cloudServiceName, cacheServiceName);
+        }
 
         public string EnsureCloudServiceExists(string subscriptionId,  string location)
         {
@@ -108,26 +160,42 @@ namespace Microsoft.Azure.Commands.ManagedCache
             return cloudServiceName;
         }
 
-        //TODO: create wrap classes for return type
-        public CloudServiceListResponse.CloudService.AddOnResource GetCacheService(string cacheServiceName)
+        public List<PSCacheService> GetCacheServices(string cacheServiceName)
         {
+            List<PSCacheService> services = new List<PSCacheService>();
             CloudServiceListResponse listResponse = client.CloudServices.List(); 
-            CloudServiceListResponse.CloudService.AddOnResource matched = null;
             foreach (CloudServiceListResponse.CloudService cloudService in listResponse)
             {
-                matched = cloudService.Resources.FirstOrDefault(
-                       p => 
-                       { 
-                           return p.Type == CacheResourceType 
-                               && cacheServiceName.Equals(p.Name, StringComparison.OrdinalIgnoreCase);
-                       }
-                    );
-                if (matched != null)
+                foreach(CloudServiceListResponse.CloudService.AddOnResource resource in cloudService.Resources)
                 {
-                    break;
+                    if (resource.Type == CacheResourceType &&
+                            (string.IsNullOrEmpty(cacheServiceName) ||
+                             cacheServiceName.Equals(resource.Name, StringComparison.OrdinalIgnoreCase)))
+                    {
+                        services.Add(new PSCacheService(resource));
+                    }
                 }
             }
-            return matched;
+            return services;
+        }
+
+        private string GetAssociatedCloudServiceName(string cacheServiceName)
+        {
+            CloudServiceListResponse listResponse = client.CloudServices.List();
+            foreach (CloudServiceListResponse.CloudService cloudService in listResponse)
+            {
+                CloudServiceListResponse.CloudService.AddOnResource matched = cloudService.Resources.FirstOrDefault(
+                   resource => { 
+                       return resource.Type == CacheResourceType 
+                        && cacheServiceName.Equals(resource.Name, StringComparison.OrdinalIgnoreCase);
+                   });
+
+                if (matched!=null)
+                {
+                    return cloudService.Name;
+                }
+            }
+            return null;
         }
 
         private CloudServiceGetResponse.Resource GetCacheService(string cloudServiceName, string cacheServiceName)
@@ -157,11 +225,19 @@ namespace Microsoft.Azure.Commands.ManagedCache
             return true;
         }
 
+        private void WriteProgress(string progress)
+        {
+            if (ProgressRecorder!=null)
+            {
+                ProgressRecorder(progress);
+            }
+        }
+
         /// <summary>
         /// The following logic was ported from Azure Cache management portal. It is critical to maintain the 
         /// parity. Do not modify unless you understand the consequence.
         /// </summary>
-        public string GetCloudServiceName(string subscriptionId, string region)
+        private string GetCloudServiceName(string subscriptionId, string region)
         {
             string hashedSubId = string.Empty;
             string extensionPrefix = CacheResourceType;
