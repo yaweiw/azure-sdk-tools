@@ -172,6 +172,7 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AutomationTests\AutomationTests.cs" />
     <Compile Include="CloudServiceTests\PublishAzureServiceScenarioTests.cs" />
     <Compile Include="CloudServiceTests\StartAzureServiceScenarioTests.cs" />
     <Compile Include="CloudServiceTests\StopAzureServiceScenarioTests.cs" />
@@ -196,6 +197,7 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
     <Compile Include="MediaServicesTests\MediaServicesTests.cs" />
+    <Compile Include="Properties\Resources.Designer.cs" />
     <Compile Include="ResourceManager\DeploymentTests.cs" />
     <Compile Include="ResourceManager\ResourceTests.cs" />
     <Compile Include="ResourceManager\ResourceGroupTests.cs" />
@@ -237,14 +239,23 @@
     <Resource Include="Resources\ResourceManager\ResourceTests.ps1">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
+    <EmbeddedResource Include="Properties\Resources.resx" />
     <EmbeddedResource Include="Resources\node-token.zip" />
     <Resource Include="Resources\ResourceManager\ResourceGroupTests.ps1">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
+    <None Include="Resources\Automation\AutomationTests.ps1" />
+    <None Include="Resources\Automation\fastJob.ps1" />
+    <None Include="Resources\Automation\Test-Workflow.ps1" />
+    <None Include="Resources\Automation\Test-WorkflowV2.ps1" />
+    <None Include="Resources\Automation\Test-WorkFlowWithVariousParameters.ps1" />
+    <None Include="Resources\Automation\Use-WorkflowCheckpointSample.ps1" />
+    <None Include="Resources\Automation\Write-DebugAndVerboseOutput.ps1" />
     <None Include="Resources\Build2014_Website_App.json" />
     <Resource Include="Resources\ResourceManager\DeploymentTests.ps1">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
+    <None Include="Resources\Subscription.json" />
     <None Include="Resources\Websites\WebsiteJobTestCmd.zip" />
     <Resource Include="Resources\Common.ps1">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>

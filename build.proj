@@ -11,7 +11,6 @@
     <ManagementTestAssemblyName>Microsoft.WindowsAzure.Commands.Test.dll</ManagementTestAssemblyName>
 
     <TestSettings>.\WindowsAzurePowershell\src\Local.testsettings</TestSettings>
-    <ScenarioTestSettings>.\WindowsAzurePowershell\src\Scenario.testsettings</ScenarioTestSettings>
     <AzureRTTestSettings>.\WindowsAzurePowershell\src\AzureRT.testsettings</AzureRTTestSettings>
     <ScenarioTestDebug>.\WindowsAzurePowershell\src\Commands.ScenarioTest\bin\Debug\Microsoft.WindowsAzure.Commands.ScenarioTest.dll</ScenarioTestDebug>
     <AzureRTTestContainer>.\WindowsAzurePowershell\src\Commands.ServiceManagement.Test\bin\Debug\Microsoft.WindowsAzure.Commands.ServiceManagement.Test.dll</AzureRTTestContainer>
@@ -114,9 +113,7 @@
   -->
   <Target Name="ForceRestorePackages">
     <PropertyGroup>
-	  <NuGetCommand>$(MSBuildProjectDirectory)\WindowsAzurePowershell\src\.nuget\NuGet.exe</NuGetCommand>
-      <NuGetRestoreConfigFile>$(MSBuildProjectDirectory)\WindowsAzurePowershell\src\restore.config</NuGetRestoreConfigFile>
-      <NuGetRestoreConfigSwitch>-ConfigFile &quot;$(NuGetRestoreConfigFile)&quot;</NuGetRestoreConfigSwitch>
+	    <NuGetCommand>$(MSBuildProjectDirectory)\WindowsAzurePowershell\src\.nuget\NuGet.exe</NuGetCommand>
     </PropertyGroup>
     <ItemGroup>
       <NuGetCache Include="$(LOCALAPPDATA)\NuGet\Cache\*.nupkg"/>
@@ -125,19 +122,8 @@
     <!-- Delete NuGet cache-->
     <Delete Files="@(NuGetCache)" />
 
-    <Error Text="The code generation target ForceRestorePackages requires an environment variable: PRIVATE_FEED_URL. Please see libraries.msbuild for more information." Condition=" '$(PRIVATE_FEED_URL)'=='' " />
-    <Error Text="The code generation target ForceRestorePackages requires an environment variable: PRIVATE_FEED_USER_NAME. Please see libraries.msbuild for more information." Condition=" '$(PRIVATE_FEED_USER_NAME)'=='' " />
-    <Error Text="The code generation target ForceRestorePackages requires an environment variable: PRIVATE_FEED_PASSWORD. Please see libraries.msbuild for more information." Condition=" '$(PRIVATE_FEED_PASSWORD)'=='' " />
-
-    <!-- Create config for user name and password for private feed access -->
-    <Delete Files="$(NuGetRestoreConfigFile)" />
-    <Exec Command="$(NuGetCommand) sources add -Name Hydra -Source &quot;$(PRIVATE_FEED_URL)&quot; $(NuGetRestoreConfigSwitch)" />
-    <Exec Command="$(NuGetCommand) sources Update -Name Hydra -UserName $(PRIVATE_FEED_USER_NAME) -Password &quot;$(PRIVATE_FEED_PASSWORD)&quot; $(NuGetRestoreConfigSwitch)"
-          EchoOff="true" />
-    <Exec Command="$(NuGetCommand) restore $(MSBuildProjectDirectory)\WindowsAzurePowershell\src\WindowsAzurePowershell.sln $(NuGetRestoreConfigSwitch)" ContinueOnError="ErrorAndContinue" />
-
-    <!-- delete config file, don't want to leave passwords hanging around on the build server file system -->
-    <Delete Files="$(NuGetRestoreConfigFile)" />
+    <!-- Restore packages -->
+    <Exec Command="$(NuGetCommand) restore $(MSBuildProjectDirectory)\WindowsAzurePowershell\src\WindowsAzurePowershell.sln" ContinueOnError="ErrorAndContinue" />
   </Target>
 
   <!-- Build all flavors of the Cmdlets -->
@@ -238,14 +224,21 @@
     <MakeDir Directories="$(TestOutputDirectory)" ContinueOnError="false" />
 
     <Message Importance="high" Text="Debug tests:" />
-    <!--CallTarget Targets="TestManagement; TestResourceManager; TestServiceManagement; TestSqlDatabase; TestStorage;" /-->
-    <CallTarget Targets="TestManagement; TestResourceManager; TestServiceManagement; TestStorage; MockedScenarioTests" />
+    <CallTarget Targets="TestManagement; TestResourceManager; TestServiceManagement; TestSqlDatabase; TestStorage; MockedScenarioTests" />
   </Target>
 
-  <Target Name="TestManagement">
+  <Target Name="InvokeMSTest">
+    <!--Remove existing test result; otherwsie mstest will error-->
+    <Delete Files="$(_testResult)" Condition="Exists('$(_testResult)')"/>
     <Exec
-      Command="MSTest.exe /testcontainer:$(ManagementTestDebug) /testsettings:$(TestSettings) /category:$(TestFilter) /resultsfile:$(TestOutputDirectory)\ManagementDebug.trx"
+      Command="MSTest.exe /testcontainer:$(_testAssembly) /testsettings:$(_testSettings) /category:$(_testFilter) /resultsfile:$(_testResult)"
       ContinueOnError="false" />
+  </Target>
+  
+  <Target Name="TestManagement">
+    <MSBuild Targets="InvokeMSTest"
+             Properties="_testAssembly=$(ManagementTestDebug);_testSettings=$(TestSettings);_testFilter=$(TestFilter);_testResult=$(TestOutputDirectory)\ManagementDebug.trx"
+             Projects="build.proj"/>
   </Target>
   
   <Target Name="TestResourceManager">
@@ -253,9 +246,9 @@
   </Target>
 
   <Target Name="TestServiceManagement">
-    <Exec
-        Command="MSTest.exe /testcontainer:$(ServiceManagementTestDebug) /testsettings:$(TestSettings) /category:$(TestFilter) /resultsfile:$(TestOutputDirectory)\ServiceManagementDebug.trx"
-        ContinueOnError="false" />
+    <MSBuild Targets="InvokeMSTest"
+             Properties="_testAssembly=$(ServiceManagementTestDebug);_testSettings=$(TestSettings);_testFilter=$(TestFilter);_testResult=$(TestOutputDirectory)\ServiceManagementDebug.trx"
+             Projects="build.proj"/>
   </Target>
 
   <Target Name="TestSqlDatabase">
@@ -271,9 +264,9 @@
   </Target>
 
   <Target Name="TestStorage">
-    <Exec
-        Command="MSTest.exe /testcontainer:$(StorageTestDebug) /testsettings:$(TestSettings) /category:$(TestFilter) /resultsfile:$(TestOutputDirectory)\StorageDebug.trx"
-        ContinueOnError="false" />
+    <MSBuild Targets="InvokeMSTest"
+        Properties="_testAssembly=$(StorageTestDebug);_testSettings=$(TestSettings);_testFilter=$(TestFilter);_testResult=$(TestOutputDirectory)\StorageDebug.trx"
+        Projects="build.proj"/>
   </Target>
 
   <!-- Run the scenario tests -->
@@ -292,15 +285,11 @@
   </Target>
   
   <!-- Run the scenario tests with Mocks -->
-  <Target Name="MockedScenarioTests" DependsOnTargets="Clean;BuildDebug">
-    <Message Importance="high" Text="Running scenario tests with Mocks..." />
-    <Message Importance="high" Text="You are required to have installed a version of Visual Studio with support for MSTest (and MSTest on your path)." />
-    <MakeDir Directories="$(TestOutputDirectory)" ContinueOnError="false" />
-
-    <Message Importance="high" Text="Scenario tests:" />
-    <Exec
-      Command="MSTest.exe /testcontainer:$(ScenarioTestDebug) /testsettings:$(TestSettings) /category:$(MockTestFilter) /resultsfile:$(TestOutputDirectory)\ScenarioTests.trx"
-      ContinueOnError="false" />    
+  <Target Name="MockedScenarioTests">
+    <Message Importance="high" Text="Running scenario tests with Mocks" />
+    <MSBuild Targets="InvokeMSTest" 
+             Properties="_testAssembly=$(ScenarioTestDebug);_testSettings=$(TestSettings);_testFilter=$(MockTestFilter);_testResult=$(TestOutputDirectory)\MockedScenarioTests.trx" 
+             Projects="build.proj"/>  
   </Target>
 
   <!-- Run the CITs -->

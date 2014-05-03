@@ -16,6 +16,7 @@
 namespace Microsoft.WindowsAzure.Commands.ScenarioTest.Common
 {
     using Microsoft.WindowsAzure.Common.Internals;
+    using Newtonsoft.Json.Linq;
     using System;
     using System.Collections.Generic;
     using System.Reflection;
@@ -87,7 +88,7 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.Common
         protected virtual TestEnvironment GetOrgIdTestEnvironment(string orgIdVariable)
         {
             TestEnvironment orgIdEnvironment = null;
-            string orgIdAuth = Environment.GetEnvironmentVariable(orgIdVariable);
+            string orgIdAuth = GetOrgId(orgIdVariable);
             if (!string.IsNullOrEmpty(orgIdAuth))
             {
                 string token = null;
@@ -136,6 +137,12 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.Common
             return orgIdEnvironment;
         }
 
+        private static string GetOrgId(string orgIdVariable)
+        {
+            JObject subscription = JObject.Parse(Properties.Resources.Subscription);
+            string value = subscription.SelectToken(orgIdVariable).Value<string>();
+            return value;
+        }
         /// <summary>
         /// Break up the connection string into key-value pairs
         /// </summary>

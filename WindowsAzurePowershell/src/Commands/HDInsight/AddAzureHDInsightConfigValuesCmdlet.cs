@@ -73,7 +73,7 @@ namespace Microsoft.WindowsAzure.Management.HDInsight.Cmdlet.PSCmdlets
                     value.MapReduceConfiguration.CapacitySchedulerConfigurationCollection);
                 this.command.Config.HiveConfiguration.ConfigurationCollection.AddRange(value.HiveConfiguration.ConfigurationCollection);
                 this.command.Config.OozieConfiguration.ConfigurationCollection.AddRange(value.OozieConfiguration.ConfigurationCollection);
-
+                this.command.Config.HeadNodeVMSize = value.HeadNodeVMSize;
             }
         }
 
