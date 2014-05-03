@@ -28,7 +28,7 @@ namespace Microsoft.Azure.Commands.ManagedCache.Test
             string testSubState = "Active";
             string testName = "Dummy";
             string testLocation = "West US";
-            string testSku = "Premium";
+            CacheServiceSkuType testSku = CacheServiceSkuType.Premium;
             int testSkuCount = 2; //This will be mapped to 10GB display value 
             string expectedMemoryInfo = "10GB";
 

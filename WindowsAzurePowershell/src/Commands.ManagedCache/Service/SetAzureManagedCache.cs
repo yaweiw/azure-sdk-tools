@@ -17,6 +17,7 @@ namespace Microsoft.Azure.Commands.ManagedCache
     using System;
     using System.Management.Automation;
     using Microsoft.Azure.Commands.ManagedCache.Models;
+    using Microsoft.Azure.Management.ManagedCache.Models;
 
     /// <summary>
     /// Retrieves a list of Windows Azure SQL Database servers in the selected subscription.
@@ -28,20 +29,19 @@ namespace Microsoft.Azure.Commands.ManagedCache
         [ValidateNotNullOrEmpty]
         public string Name { get; set; }
 
-        [Parameter(Position = 1, Mandatory = true)]
-        [ValidateNotNullOrEmpty]
-        public string Location { get; set;}
+        [Parameter]
+        public CacheServiceSkuType Sku { get; set; }
 
-        [ValidateSet("Basic", "Standard", "Premium", IgnoreCase = true)]
-        public string Sku { get; set; }
-
+        [Parameter]
         public string Memory { get; set; }
 
+        [Parameter]
         public SwitchParameter Force { get; set; }
 
         public override void ExecuteCmdlet()
         {
-            throw new NotImplementedException("NYI");
-        }      
+            CacheClient.ProgressRecorder = (message) => { WriteVerbose(message); };
+            CacheClient.UpdateCacheService(Name, Sku, Memory);
+        }
     }
 }

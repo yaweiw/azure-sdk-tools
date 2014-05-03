@@ -126,6 +126,15 @@ namespace Microsoft.Azure.Management.ManagedCache.Models
         }
     }
     
+    public enum CacheServiceSkuType
+    {
+        Basic = 0,
+        
+        Standard = 1,
+        
+        Premium = 2,
+    }
+    
     /// <summary>
     /// A standard service response including an HTTP status code and request
     /// ID.
@@ -1007,12 +1016,12 @@ namespace Microsoft.Azure.Management.ManagedCache.Models
                 set { this._skuCount = value; }
             }
             
-            private string _skuType;
+            private CacheServiceSkuType _skuType;
             
             /// <summary>
             /// Optional.
             /// </summary>
-            public string SkuType
+            public CacheServiceSkuType SkuType
             {
                 get { return this._skuType; }
                 set { this._skuType = value; }
@@ -1843,12 +1852,9 @@ namespace Microsoft.Azure.Management.ManagedCache
                         XElement cacheServiceInputElement = new XElement(XName.Get("CacheServiceInput", ""));
                         intrinsicSettingsElement.Add(cacheServiceInputElement);
                         
-                        if (parameters.Settings.CacheServiceInputSection.SkuType != null)
-                        {
-                            XElement skuTypeElement = new XElement(XName.Get("SkuType", ""));
-                            skuTypeElement.Value = parameters.Settings.CacheServiceInputSection.SkuType;
-                            cacheServiceInputElement.Add(skuTypeElement);
-                        }
+                        XElement skuTypeElement = new XElement(XName.Get("SkuType", ""));
+                        skuTypeElement.Value = parameters.Settings.CacheServiceInputSection.SkuType.ToString();
+                        cacheServiceInputElement.Add(skuTypeElement);
                         
                         if (parameters.Settings.CacheServiceInputSection.Location != null)
                         {
@@ -1934,12 +1940,9 @@ namespace Microsoft.Azure.Management.ManagedCache
                         XElement cacheServiceInputElement2 = new XElement(XName.Get("CacheServiceInput", ""));
                         intrinsicSettingsElement2.Add(cacheServiceInputElement2);
                         
-                        if (parameters.IntrinsicSettingsSection.CacheServiceInputSection.SkuType != null)
-                        {
-                            XElement skuTypeElement2 = new XElement(XName.Get("SkuType", ""));
-                            skuTypeElement2.Value = parameters.IntrinsicSettingsSection.CacheServiceInputSection.SkuType;
-                            cacheServiceInputElement2.Add(skuTypeElement2);
-                        }
+                        XElement skuTypeElement2 = new XElement(XName.Get("SkuType", ""));
+                        skuTypeElement2.Value = parameters.IntrinsicSettingsSection.CacheServiceInputSection.SkuType.ToString();
+                        cacheServiceInputElement2.Add(skuTypeElement2);
                         
                         if (parameters.IntrinsicSettingsSection.CacheServiceInputSection.Location != null)
                         {
@@ -3471,7 +3474,7 @@ namespace Microsoft.Azure.Management.ManagedCache
                                         XElement skuTypeElement = cacheServiceInputElement.Element(XName.Get("SkuType", ""));
                                         if (skuTypeElement != null && skuTypeElement.IsEmpty == false)
                                         {
-                                            string skuTypeInstance = skuTypeElement.Value;
+                                            CacheServiceSkuType skuTypeInstance = ((CacheServiceSkuType)Enum.Parse(typeof(CacheServiceSkuType), skuTypeElement.Value, true));
                                             cacheServiceInputInstance.SkuType = skuTypeInstance;
                                         }
                                         
@@ -3857,7 +3860,7 @@ namespace Microsoft.Azure.Management.ManagedCache
                                             XElement skuTypeElement = cacheServiceInputElement.Element(XName.Get("SkuType", ""));
                                             if (skuTypeElement != null && skuTypeElement.IsEmpty == false)
                                             {
-                                                string skuTypeInstance = skuTypeElement.Value;
+                                                CacheServiceSkuType skuTypeInstance = ((CacheServiceSkuType)Enum.Parse(typeof(CacheServiceSkuType), skuTypeElement.Value, true));
                                                 cacheServiceInputInstance.SkuType = skuTypeInstance;
                                             }
                                             
