@@ -50,7 +50,10 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
                         ServiceName = this.ServiceName,
                         DeploymentName = d.Name,
                         IPAddress = b.FrontendIPConfiguration != null ? b.FrontendIPConfiguration.StaticVirtualNetworkIPAddress : null,
-                        SubnetName = b.FrontendIPConfiguration != null ? b.FrontendIPConfiguration.SubnetName : null
+                        SubnetName = b.FrontendIPConfiguration != null ? b.FrontendIPConfiguration.SubnetName : null,
+                        OperationDescription = CommandRuntime.ToString(),
+                        OperationId = s.Id,
+                        OperationStatus = s.Status.ToString()
                     }));
         }
     }

@@ -147,10 +147,10 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
                 InstanceSize                = vmRole.RoleSize,
                 InstanceStatus              = roleInstance == null ? string.Empty : roleInstance.InstanceStatus,
                 IpAddress                   = roleInstance == null ? string.Empty : roleInstance.IPAddress,
-                PublicIPAddress     = roleInstance == null ? null
+                PublicIPAddress             = roleInstance == null ? null
                                             : roleInstance.PublicIPs == null || !roleInstance.PublicIPs.Any() ? null
                                             : roleInstance.PublicIPs.First().Address,
-                PublicIPName        = roleInstance == null ? null
+                PublicIPName                = roleInstance == null ? null
                                             : roleInstance.PublicIPs == null || !roleInstance.PublicIPs.Any() ? null
                                             : roleInstance.PublicIPs.First().Name,
                 InstanceStateDetails        = roleInstance == null ? string.Empty : roleInstance.InstanceStateDetails,
@@ -179,7 +179,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
                     ResourceExtensionReferences       = Mapper.Map<PVM.ResourceExtensionReferenceList>(vmRole.ResourceExtensionReferences),
                     DataVirtualHardDisks              = Mapper.Map<Collection<PVM.DataVirtualHardDisk>>(vmRole.DataVirtualHardDisks),
                     OSVirtualHardDisk                 = Mapper.Map<PVM.OSVirtualHardDisk>(vmRole.OSVirtualHardDisk),
-                    ConfigurationSets                 = PersistentVMHelper.MapConfigurationSets(vmRole.ConfigurationSets),
+                    ConfigurationSets                 = PersistentVMHelper.MapConfigurationSets(vmRole.ConfigurationSets)
                 }
             };
 

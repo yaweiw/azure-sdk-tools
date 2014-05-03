@@ -42,8 +42,6 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Model
 
         public NetworkAclObject Acl { get; set; }
 
-        public string LoadBalancerName { get; set; }
-
-        public string LoadBalancerVip { get; set; }
+        public string InternalLoadBalancerName { get; set; }
     }
 }
