@@ -32,7 +32,7 @@ namespace Microsoft.Azure.Commands.ManagedCache.Test
             int testSkuCount = 2; //This will be mapped to 10GB display value 
             string expectedMemoryInfo = "10GB";
 
-            CloudServiceGetResponse.Resource resource = new CloudServiceGetResponse.Resource();
+            CloudServiceResource resource = new CloudServiceResource();
             resource.State = testState;
             resource.SubState = testSubState;
             resource.Name = testName;
