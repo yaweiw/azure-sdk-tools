@@ -269,12 +269,12 @@ namespace Microsoft.Azure.Management.ManagedCache.Models
             set { this._geoLocation = value; }
         }
         
-        private IList<CloudServiceGetResponse.Resource> _resources;
+        private IList<CloudServiceResource> _resources;
         
         /// <summary>
         /// Optional. A collection of resources.
         /// </summary>
-        public IList<CloudServiceGetResponse.Resource> Resources
+        public IList<CloudServiceResource> Resources
         {
             get { return this._resources; }
             set { this._resources = value; }
@@ -285,146 +285,7 @@ namespace Microsoft.Azure.Management.ManagedCache.Models
         /// </summary>
         public CloudServiceGetResponse()
         {
-            this._resources = new List<CloudServiceGetResponse.Resource>();
-        }
-        
-        /// <summary>
-        /// A resource.
-        /// </summary>
-        public partial class Resource
-        {
-            private string _eTag;
-            
-            /// <summary>
-            /// Optional. ETag identifying the current entity revision on the
-            /// server.
-            /// </summary>
-            public string ETag
-            {
-                get { return this._eTag; }
-                set { this._eTag = value; }
-            }
-            
-            private IntrinsicSettings _intrinsicSettingsSection;
-            
-            /// <summary>
-            /// Optional.
-            /// </summary>
-            public IntrinsicSettings IntrinsicSettingsSection
-            {
-                get { return this._intrinsicSettingsSection; }
-                set { this._intrinsicSettingsSection = value; }
-            }
-            
-            private string _label;
-            
-            /// <summary>
-            /// Optional. Label of the resource.
-            /// </summary>
-            public string Label
-            {
-                get { return this._label; }
-                set { this._label = value; }
-            }
-            
-            private string _name;
-            
-            /// <summary>
-            /// Optional. A name for the resource. The name must be unique
-            /// within the subscription ID and cloud service.
-            /// </summary>
-            public string Name
-            {
-                get { return this._name; }
-                set { this._name = value; }
-            }
-            
-            private IDictionary<string, string> _outputItems;
-            
-            /// <summary>
-            /// Optional.
-            /// </summary>
-            public IDictionary<string, string> OutputItems
-            {
-                get { return this._outputItems; }
-                set { this._outputItems = value; }
-            }
-            
-            private string _plan;
-            
-            /// <summary>
-            /// Optional. The plan of the resource.
-            /// </summary>
-            public string Plan
-            {
-                get { return this._plan; }
-                set { this._plan = value; }
-            }
-            
-            private string _resourceProviderNamespace;
-            
-            /// <summary>
-            /// Optional. Namespace identifier for the resource provider.
-            /// </summary>
-            public string ResourceProviderNamespace
-            {
-                get { return this._resourceProviderNamespace; }
-                set { this._resourceProviderNamespace = value; }
-            }
-            
-            private string _schemaVersion;
-            
-            /// <summary>
-            /// Optional. Optional version of the intrinsic properties for the
-            /// resource. If not specified, you must conform to the default
-            /// contract resource.
-            /// </summary>
-            public string SchemaVersion
-            {
-                get { return this._schemaVersion; }
-                set { this._schemaVersion = value; }
-            }
-            
-            private string _state;
-            
-            /// <summary>
-            /// Optional. The current resource status.
-            /// </summary>
-            public string State
-            {
-                get { return this._state; }
-                set { this._state = value; }
-            }
-            
-            private string _subState;
-            
-            /// <summary>
-            /// Optional. An optional, more detailed resource status.
-            /// </summary>
-            public string SubState
-            {
-                get { return this._subState; }
-                set { this._subState = value; }
-            }
-            
-            private string _type;
-            
-            /// <summary>
-            /// Optional. The Type for the resource.
-            /// </summary>
-            public string Type
-            {
-                get { return this._type; }
-                set { this._type = value; }
-            }
-            
-            /// <summary>
-            /// Initializes a new instance of the Resource class.
-            /// </summary>
-            public Resource()
-            {
-                this._outputItems = new Dictionary<string, string>();
-            }
+            this._resources = new List<CloudServiceResource>();
         }
     }
     
@@ -519,13 +380,13 @@ namespace Microsoft.Azure.Management.ManagedCache.Models
                 set { this._name = value; }
             }
             
-            private IList<CloudServiceListResponse.CloudService.AddOnResource> _resources;
+            private IList<CloudServiceResource> _resources;
             
             /// <summary>
             /// Optional. A list of existing resources installed into a cloud
             /// service region.
             /// </summary>
-            public IList<CloudServiceListResponse.CloudService.AddOnResource> Resources
+            public IList<CloudServiceResource> Resources
             {
                 get { return this._resources; }
                 set { this._resources = value; }
@@ -536,242 +397,7 @@ namespace Microsoft.Azure.Management.ManagedCache.Models
             /// </summary>
             public CloudService()
             {
-                this._resources = new List<CloudServiceListResponse.CloudService.AddOnResource>();
-            }
-            
-            /// <summary>
-            /// A store add-on item.
-            /// </summary>
-            public partial class AddOnResource
-            {
-                private string _eTag;
-                
-                /// <summary>
-                /// Optional. The ETag for this resource.
-                /// </summary>
-                public string ETag
-                {
-                    get { return this._eTag; }
-                    set { this._eTag = value; }
-                }
-                
-                private IntrinsicSettings _intrinsicSettingsSection;
-                
-                /// <summary>
-                /// Optional.
-                /// </summary>
-                public IntrinsicSettings IntrinsicSettingsSection
-                {
-                    get { return this._intrinsicSettingsSection; }
-                    set { this._intrinsicSettingsSection = value; }
-                }
-                
-                private string _name;
-                
-                /// <summary>
-                /// Optional. The user-input name of this item.
-                /// </summary>
-                public string Name
-                {
-                    get { return this._name; }
-                    set { this._name = value; }
-                }
-                
-                private string _namespace;
-                
-                /// <summary>
-                /// Optional. The namespace in which this item resides.
-                /// </summary>
-                public string Namespace
-                {
-                    get { return this._namespace; }
-                    set { this._namespace = value; }
-                }
-                
-                private IDictionary<string, string> _outputItems;
-                
-                /// <summary>
-                /// Optional. Output items associated with an individual
-                /// resource.
-                /// </summary>
-                public IDictionary<string, string> OutputItems
-                {
-                    get { return this._outputItems; }
-                    set { this._outputItems = value; }
-                }
-                
-                private string _plan;
-                
-                /// <summary>
-                /// Optional. The plan for this item as selected by the user.
-                /// </summary>
-                public string Plan
-                {
-                    get { return this._plan; }
-                    set { this._plan = value; }
-                }
-                
-                private string _schemaVersion;
-                
-                /// <summary>
-                /// Optional. The schema version for this resource.
-                /// </summary>
-                public string SchemaVersion
-                {
-                    get { return this._schemaVersion; }
-                    set { this._schemaVersion = value; }
-                }
-                
-                private string _state;
-                
-                /// <summary>
-                /// Optional. The state of this resource.
-                /// </summary>
-                public string State
-                {
-                    get { return this._state; }
-                    set { this._state = value; }
-                }
-                
-                private CloudServiceListResponse.CloudService.AddOnResource.OperationStatus _status;
-                
-                /// <summary>
-                /// Optional. Operation status items associated with an
-                /// individual resource.
-                /// </summary>
-                public CloudServiceListResponse.CloudService.AddOnResource.OperationStatus Status
-                {
-                    get { return this._status; }
-                    set { this._status = value; }
-                }
-                
-                private string _type;
-                
-                /// <summary>
-                /// Optional. The type of store item.
-                /// </summary>
-                public string Type
-                {
-                    get { return this._type; }
-                    set { this._type = value; }
-                }
-                
-                private IList<CloudServiceListResponse.CloudService.AddOnResource.UsageLimit> _usageLimits;
-                
-                /// <summary>
-                /// Optional. Usage meters associated with an individual
-                /// resource.
-                /// </summary>
-                public IList<CloudServiceListResponse.CloudService.AddOnResource.UsageLimit> UsageLimits
-                {
-                    get { return this._usageLimits; }
-                    set { this._usageLimits = value; }
-                }
-                
-                /// <summary>
-                /// Initializes a new instance of the AddOnResource class.
-                /// </summary>
-                public AddOnResource()
-                {
-                    this._outputItems = new Dictionary<string, string>();
-                    this._usageLimits = new List<CloudServiceListResponse.CloudService.AddOnResource.UsageLimit>();
-                }
-                
-                /// <summary>
-                /// The operation status of an individual resource item.
-                /// </summary>
-                public partial class OperationStatus
-                {
-                    private string _result;
-                    
-                    /// <summary>
-                    /// Optional. The result of this operation status.
-                    /// </summary>
-                    public string Result
-                    {
-                        get { return this._result; }
-                        set { this._result = value; }
-                    }
-                    
-                    private string _type;
-                    
-                    /// <summary>
-                    /// Optional. The type of this operation status.
-                    /// </summary>
-                    public string Type
-                    {
-                        get { return this._type; }
-                        set { this._type = value; }
-                    }
-                    
-                    /// <summary>
-                    /// Initializes a new instance of the OperationStatus class.
-                    /// </summary>
-                    public OperationStatus()
-                    {
-                    }
-                }
-                
-                /// <summary>
-                /// Describes the current utilization and metering of a
-                /// resource item.
-                /// </summary>
-                public partial class UsageLimit
-                {
-                    private string _amountIncluded;
-                    
-                    /// <summary>
-                    /// Optional. Defines the limit of this usage included in
-                    /// this resource's plan.
-                    /// </summary>
-                    public string AmountIncluded
-                    {
-                        get { return this._amountIncluded; }
-                        set { this._amountIncluded = value; }
-                    }
-                    
-                    private string _amountUsed;
-                    
-                    /// <summary>
-                    /// Optional. The amount of this resource that has already
-                    /// been used.
-                    /// </summary>
-                    public string AmountUsed
-                    {
-                        get { return this._amountUsed; }
-                        set { this._amountUsed = value; }
-                    }
-                    
-                    private string _name;
-                    
-                    /// <summary>
-                    /// Optional. The name of this usage limit.
-                    /// </summary>
-                    public string Name
-                    {
-                        get { return this._name; }
-                        set { this._name = value; }
-                    }
-                    
-                    private string _unit;
-                    
-                    /// <summary>
-                    /// Optional. The unit in which this usage limit is
-                    /// measured.
-                    /// </summary>
-                    public string Unit
-                    {
-                        get { return this._unit; }
-                        set { this._unit = value; }
-                    }
-                    
-                    /// <summary>
-                    /// Initializes a new instance of the UsageLimit class.
-                    /// </summary>
-                    public UsageLimit()
-                    {
-                    }
-                }
+                this._resources = new List<CloudServiceResource>();
             }
         }
     }
@@ -905,38 +531,196 @@ namespace Microsoft.Azure.Management.ManagedCache.Models
         }
     }
     
-    /// <summary>
-    /// Specifies the state for a cloud service resource.
-    /// </summary>
-    public static partial class GetCloudServiceResourceState
+    public partial class CloudServiceResource
     {
-        /// <summary>
-        /// The resource state is unknown, there may have been a communicaiton
-        /// failure, or the resource has not yet been processed.
-        /// </summary>
-        public const string Unknown = "Unknown";
+        private string _eTag;
         
         /// <summary>
-        /// The resource provider did not respond with information for the
-        /// resource.
+        /// Optional. The ETag for this resource.
         /// </summary>
-        public const string NotFound = "NotFound";
+        public string ETag
+        {
+            get { return this._eTag; }
+            set { this._eTag = value; }
+        }
+        
+        private IntrinsicSettings _intrinsicSettingsSection;
         
         /// <summary>
-        /// The resource has started and is running fine.
+        /// Optional.
         /// </summary>
-        public const string Started = "Started";
+        public IntrinsicSettings IntrinsicSettingsSection
+        {
+            get { return this._intrinsicSettingsSection; }
+            set { this._intrinsicSettingsSection = value; }
+        }
+        
+        private string _name;
         
         /// <summary>
-        /// The resource was stopped due to an issue.
+        /// Optional. The user-input name of this item.
         /// </summary>
-        public const string Stopped = "Stopped";
+        public string Name
+        {
+            get { return this._name; }
+            set { this._name = value; }
+        }
+        
+        private string _namespace;
         
         /// <summary>
-        /// The resource was temporarily put on hold. This may be due to a
-        /// monetary event.
+        /// Optional. The namespace in which this item resides.
         /// </summary>
-        public const string Paused = "Paused";
+        public string Namespace
+        {
+            get { return this._namespace; }
+            set { this._namespace = value; }
+        }
+        
+        private IDictionary<string, string> _outputItems;
+        
+        /// <summary>
+        /// Optional. Output items associated with an individual resource.
+        /// </summary>
+        public IDictionary<string, string> OutputItems
+        {
+            get { return this._outputItems; }
+            set { this._outputItems = value; }
+        }
+        
+        private string _plan;
+        
+        /// <summary>
+        /// Optional. The plan for this item as selected by the user.
+        /// </summary>
+        public string Plan
+        {
+            get { return this._plan; }
+            set { this._plan = value; }
+        }
+        
+        private string _schemaVersion;
+        
+        /// <summary>
+        /// Optional. The schema version for this resource.
+        /// </summary>
+        public string SchemaVersion
+        {
+            get { return this._schemaVersion; }
+            set { this._schemaVersion = value; }
+        }
+        
+        private string _state;
+        
+        /// <summary>
+        /// Optional. The state of this resource.
+        /// </summary>
+        public string State
+        {
+            get { return this._state; }
+            set { this._state = value; }
+        }
+        
+        private string _subState;
+        
+        /// <summary>
+        /// Optional. The state of this resource.
+        /// </summary>
+        public string SubState
+        {
+            get { return this._subState; }
+            set { this._subState = value; }
+        }
+        
+        private string _type;
+        
+        /// <summary>
+        /// Optional. The type of store item.
+        /// </summary>
+        public string Type
+        {
+            get { return this._type; }
+            set { this._type = value; }
+        }
+        
+        private IList<CloudServiceResource.UsageLimit> _usageLimits;
+        
+        /// <summary>
+        /// Optional. Usage meters associated with an individual resource.
+        /// </summary>
+        public IList<CloudServiceResource.UsageLimit> UsageLimits
+        {
+            get { return this._usageLimits; }
+            set { this._usageLimits = value; }
+        }
+        
+        /// <summary>
+        /// Initializes a new instance of the CloudServiceResource class.
+        /// </summary>
+        public CloudServiceResource()
+        {
+            this._outputItems = new Dictionary<string, string>();
+            this._usageLimits = new List<CloudServiceResource.UsageLimit>();
+        }
+        
+        /// <summary>
+        /// Describes the current utilization and metering of a resource item.
+        /// </summary>
+        public partial class UsageLimit
+        {
+            private string _amountIncluded;
+            
+            /// <summary>
+            /// Optional. Defines the limit of this usage included in this
+            /// resource's plan.
+            /// </summary>
+            public string AmountIncluded
+            {
+                get { return this._amountIncluded; }
+                set { this._amountIncluded = value; }
+            }
+            
+            private string _amountUsed;
+            
+            /// <summary>
+            /// Optional. The amount of this resource that has already been
+            /// used.
+            /// </summary>
+            public string AmountUsed
+            {
+                get { return this._amountUsed; }
+                set { this._amountUsed = value; }
+            }
+            
+            private string _name;
+            
+            /// <summary>
+            /// Optional. The name of this usage limit.
+            /// </summary>
+            public string Name
+            {
+                get { return this._name; }
+                set { this._name = value; }
+            }
+            
+            private string _unit;
+            
+            /// <summary>
+            /// Optional. The unit in which this usage limit is measured.
+            /// </summary>
+            public string Unit
+            {
+                get { return this._unit; }
+                set { this._unit = value; }
+            }
+            
+            /// <summary>
+            /// Initializes a new instance of the UsageLimit class.
+            /// </summary>
+            public UsageLimit()
+            {
+            }
+        }
     }
     
     public partial class IntrinsicSettings
@@ -3384,14 +3168,14 @@ namespace Microsoft.Azure.Management.ManagedCache
                         {
                             foreach (XElement resourcesElement in resourcesSequenceElement.Elements(XName.Get("Resource", "http://schemas.microsoft.com/windowsazure")))
                             {
-                                CloudServiceGetResponse.Resource resourceInstance = new CloudServiceGetResponse.Resource();
+                                CloudServiceResource resourceInstance = new CloudServiceResource();
                                 result.Resources.Add(resourceInstance);
                                 
                                 XElement resourceProviderNamespaceElement = resourcesElement.Element(XName.Get("ResourceProviderNamespace", "http://schemas.microsoft.com/windowsazure"));
                                 if (resourceProviderNamespaceElement != null && resourceProviderNamespaceElement.IsEmpty == false)
                                 {
                                     string resourceProviderNamespaceInstance = resourceProviderNamespaceElement.Value;
-                                    resourceInstance.ResourceProviderNamespace = resourceProviderNamespaceInstance;
+                                    resourceInstance.Namespace = resourceProviderNamespaceInstance;
                                 }
                                 
                                 XElement typeElement = resourcesElement.Element(XName.Get("Type", "http://schemas.microsoft.com/windowsazure"));
@@ -3399,20 +3183,6 @@ namespace Microsoft.Azure.Management.ManagedCache
                                 {
                                     string typeInstance = typeElement.Value;
                                     resourceInstance.Type = typeInstance;
-                                }
-                                
-                                XElement eTagElement = resourcesElement.Element(XName.Get("ETag", "http://schemas.microsoft.com/windowsazure"));
-                                if (eTagElement != null && eTagElement.IsEmpty == false)
-                                {
-                                    string eTagInstance = eTagElement.Value;
-                                    resourceInstance.ETag = eTagInstance;
-                                }
-                                
-                                XElement schemaVersionElement = resourcesElement.Element(XName.Get("SchemaVersion", "http://schemas.microsoft.com/windowsazure"));
-                                if (schemaVersionElement != null && schemaVersionElement.IsEmpty == false)
-                                {
-                                    string schemaVersionInstance = schemaVersionElement.Value;
-                                    resourceInstance.SchemaVersion = schemaVersionInstance;
                                 }
                                 
                                 XElement nameElement = resourcesElement.Element(XName.Get("Name", "http://schemas.microsoft.com/windowsazure"));
@@ -3429,15 +3199,18 @@ namespace Microsoft.Azure.Management.ManagedCache
                                     resourceInstance.Plan = planInstance;
                                 }
                                 
-                                XElement outputItemsSequenceElement = resourcesElement.Element(XName.Get("OutputItems", "http://schemas.microsoft.com/windowsazure"));
-                                if (outputItemsSequenceElement != null && outputItemsSequenceElement.IsEmpty == false)
+                                XElement schemaVersionElement = resourcesElement.Element(XName.Get("SchemaVersion", "http://schemas.microsoft.com/windowsazure"));
+                                if (schemaVersionElement != null && schemaVersionElement.IsEmpty == false)
                                 {
-                                    foreach (XElement outputItemsElement in outputItemsSequenceElement.Elements(XName.Get("OutputItem", "http://schemas.microsoft.com/windowsazure")))
-                                    {
-                                        string outputItemsKey = outputItemsElement.Element(XName.Get("Key", "http://schemas.microsoft.com/windowsazure")).Value;
-                                        string outputItemsValue = outputItemsElement.Element(XName.Get("Value", "http://schemas.microsoft.com/windowsazure")).Value;
-                                        resourceInstance.OutputItems.Add(outputItemsKey, outputItemsValue);
-                                    }
+                                    string schemaVersionInstance = schemaVersionElement.Value;
+                                    resourceInstance.SchemaVersion = schemaVersionInstance;
+                                }
+                                
+                                XElement eTagElement = resourcesElement.Element(XName.Get("ETag", "http://schemas.microsoft.com/windowsazure"));
+                                if (eTagElement != null && eTagElement.IsEmpty == false)
+                                {
+                                    string eTagInstance = eTagElement.Value;
+                                    resourceInstance.ETag = eTagInstance;
                                 }
                                 
                                 XElement stateElement = resourcesElement.Element(XName.Get("State", "http://schemas.microsoft.com/windowsazure"));
@@ -3454,9 +3227,53 @@ namespace Microsoft.Azure.Management.ManagedCache
                                     resourceInstance.SubState = subStateInstance;
                                 }
                                 
-                                XElement labelElement = resourcesElement.Element(XName.Get("Label", "http://schemas.microsoft.com/windowsazure"));
-                                if (labelElement != null && labelElement.IsEmpty == false)
+                                XElement usageMetersSequenceElement = resourcesElement.Element(XName.Get("UsageMeters", "http://schemas.microsoft.com/windowsazure"));
+                                if (usageMetersSequenceElement != null && usageMetersSequenceElement.IsEmpty == false)
                                 {
+                                    foreach (XElement usageMetersElement in usageMetersSequenceElement.Elements(XName.Get("UsageMeter", "http://schemas.microsoft.com/windowsazure")))
+                                    {
+                                        CloudServiceResource.UsageLimit usageMeterInstance = new CloudServiceResource.UsageLimit();
+                                        resourceInstance.UsageLimits.Add(usageMeterInstance);
+                                        
+                                        XElement nameElement2 = usageMetersElement.Element(XName.Get("Name", "http://schemas.microsoft.com/windowsazure"));
+                                        if (nameElement2 != null && nameElement2.IsEmpty == false)
+                                        {
+                                            string nameInstance2 = nameElement2.Value;
+                                            usageMeterInstance.Name = nameInstance2;
+                                        }
+                                        
+                                        XElement unitElement = usageMetersElement.Element(XName.Get("Unit", "http://schemas.microsoft.com/windowsazure"));
+                                        if (unitElement != null && unitElement.IsEmpty == false)
+                                        {
+                                            string unitInstance = unitElement.Value;
+                                            usageMeterInstance.Unit = unitInstance;
+                                        }
+                                        
+                                        XElement includedElement = usageMetersElement.Element(XName.Get("Included", "http://schemas.microsoft.com/windowsazure"));
+                                        if (includedElement != null && includedElement.IsEmpty == false)
+                                        {
+                                            string includedInstance = includedElement.Value;
+                                            usageMeterInstance.AmountIncluded = includedInstance;
+                                        }
+                                        
+                                        XElement usedElement = usageMetersElement.Element(XName.Get("Used", "http://schemas.microsoft.com/windowsazure"));
+                                        if (usedElement != null && usedElement.IsEmpty == false)
+                                        {
+                                            string usedInstance = usedElement.Value;
+                                            usageMeterInstance.AmountUsed = usedInstance;
+                                        }
+                                    }
+                                }
+                                
+                                XElement outputItemsSequenceElement = resourcesElement.Element(XName.Get("OutputItems", "http://schemas.microsoft.com/windowsazure"));
+                                if (outputItemsSequenceElement != null && outputItemsSequenceElement.IsEmpty == false)
+                                {
+                                    foreach (XElement outputItemsElement in outputItemsSequenceElement.Elements(XName.Get("OutputItem", "http://schemas.microsoft.com/windowsazure")))
+                                    {
+                                        string outputItemsKey = outputItemsElement.Element(XName.Get("Key", "http://schemas.microsoft.com/windowsazure")).Value;
+                                        string outputItemsValue = outputItemsElement.Element(XName.Get("Value", "http://schemas.microsoft.com/windowsazure")).Value;
+                                        resourceInstance.OutputItems.Add(outputItemsKey, outputItemsValue);
+                                    }
                                 }
                                 
                                 XElement intrinsicSettingsElement = resourcesElement.Element(XName.Get("IntrinsicSettings", "http://schemas.microsoft.com/windowsazure"));
@@ -3723,7 +3540,7 @@ namespace Microsoft.Azure.Management.ManagedCache
                             {
                                 foreach (XElement resourcesElement in resourcesSequenceElement.Elements(XName.Get("Resource", "http://schemas.microsoft.com/windowsazure")))
                                 {
-                                    CloudServiceListResponse.CloudService.AddOnResource resourceInstance = new CloudServiceListResponse.CloudService.AddOnResource();
+                                    CloudServiceResource resourceInstance = new CloudServiceResource();
                                     cloudServiceInstance.Resources.Add(resourceInstance);
                                     
                                     XElement resourceProviderNamespaceElement = resourcesElement.Element(XName.Get("ResourceProviderNamespace", "http://schemas.microsoft.com/windowsazure"));
@@ -3775,12 +3592,19 @@ namespace Microsoft.Azure.Management.ManagedCache
                                         resourceInstance.State = stateInstance;
                                     }
                                     
+                                    XElement subStateElement = resourcesElement.Element(XName.Get("SubState", "http://schemas.microsoft.com/windowsazure"));
+                                    if (subStateElement != null && subStateElement.IsEmpty == false)
+                                    {
+                                        string subStateInstance = subStateElement.Value;
+                                        resourceInstance.SubState = subStateInstance;
+                                    }
+                                    
                                     XElement usageMetersSequenceElement = resourcesElement.Element(XName.Get("UsageMeters", "http://schemas.microsoft.com/windowsazure"));
                                     if (usageMetersSequenceElement != null && usageMetersSequenceElement.IsEmpty == false)
                                     {
                                         foreach (XElement usageMetersElement in usageMetersSequenceElement.Elements(XName.Get("UsageMeter", "http://schemas.microsoft.com/windowsazure")))
                                         {
-                                            CloudServiceListResponse.CloudService.AddOnResource.UsageLimit usageMeterInstance = new CloudServiceListResponse.CloudService.AddOnResource.UsageLimit();
+                                            CloudServiceResource.UsageLimit usageMeterInstance = new CloudServiceResource.UsageLimit();
                                             resourceInstance.UsageLimits.Add(usageMeterInstance);
                                             
                                             XElement nameElement3 = usageMetersElement.Element(XName.Get("Name", "http://schemas.microsoft.com/windowsazure"));
@@ -3821,27 +3645,6 @@ namespace Microsoft.Azure.Management.ManagedCache
                                             string outputItemsKey = outputItemsElement.Element(XName.Get("Key", "http://schemas.microsoft.com/windowsazure")).Value;
                                             string outputItemsValue = outputItemsElement.Element(XName.Get("Value", "http://schemas.microsoft.com/windowsazure")).Value;
                                             resourceInstance.OutputItems.Add(outputItemsKey, outputItemsValue);
-                                        }
-                                    }
-                                    
-                                    XElement operationStatusElement = resourcesElement.Element(XName.Get("OperationStatus", "http://schemas.microsoft.com/windowsazure"));
-                                    if (operationStatusElement != null && operationStatusElement.IsEmpty == false)
-                                    {
-                                        CloudServiceListResponse.CloudService.AddOnResource.OperationStatus operationStatusInstance = new CloudServiceListResponse.CloudService.AddOnResource.OperationStatus();
-                                        resourceInstance.Status = operationStatusInstance;
-                                        
-                                        XElement typeElement2 = operationStatusElement.Element(XName.Get("Type", "http://schemas.microsoft.com/windowsazure"));
-                                        if (typeElement2 != null && typeElement2.IsEmpty == false)
-                                        {
-                                            string typeInstance2 = typeElement2.Value;
-                                            operationStatusInstance.Type = typeInstance2;
-                                        }
-                                        
-                                        XElement resultElement = operationStatusElement.Element(XName.Get("Result", "http://schemas.microsoft.com/windowsazure"));
-                                        if (resultElement != null && resultElement.IsEmpty == false)
-                                        {
-                                            string resultInstance = resultElement.Value;
-                                            operationStatusInstance.Result = resultInstance;
                                         }
                                     }
                                     
@@ -3941,11 +3744,11 @@ namespace Microsoft.Azure.Management.ManagedCache
                                                             expirationSettingsSectionInstance.TimeToLiveInMinutes = timeToLiveInMinutesInstance;
                                                         }
                                                         
-                                                        XElement typeElement3 = expirationSettingsSectionElement.Element(XName.Get("Type", ""));
-                                                        if (typeElement3 != null && typeElement3.IsEmpty == false)
+                                                        XElement typeElement2 = expirationSettingsSectionElement.Element(XName.Get("Type", ""));
+                                                        if (typeElement2 != null && typeElement2.IsEmpty == false)
                                                         {
-                                                            string typeInstance3 = typeElement3.Value;
-                                                            expirationSettingsSectionInstance.Type = typeInstance3;
+                                                            string typeInstance2 = typeElement2.Value;
+                                                            expirationSettingsSectionInstance.Type = typeInstance2;
                                                         }
                                                     }
                                                 }
