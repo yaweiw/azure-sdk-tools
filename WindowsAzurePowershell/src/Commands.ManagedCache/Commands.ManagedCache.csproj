@@ -165,6 +165,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="lib\ManagedCacheClient.Customization.cs" />
+    <Compile Include="Models\CacheSkuCountConvert.cs" />
+    <Compile Include="Models\PSCacheService.cs" />
     <Compile Include="PSCacheClient.cs" />
     <Compile Include="Service\GetAzureManagedCache.cs" />
     <Compile Include="Service\GetAzureManagedCacheAccessKey.cs" />
@@ -174,8 +177,6 @@
     <Compile Include="Service\SetAzureManagedCache.cs" />
     <None Include="MSSharedLibKey.snk" />
     <Compile Include="lib\ManagedCacheClient.cs" />
-    <Compile Include="lib\ManagedCacheClient.Customization.cs" />
-    <Compile Include="lib\ManagedCacheCloudException.cs" />
     <Compile Include="ManagedCacheCmdletBase.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>

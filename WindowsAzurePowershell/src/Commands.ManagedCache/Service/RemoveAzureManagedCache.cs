@@ -17,10 +17,10 @@ namespace Microsoft.Azure.Commands.ManagedCache
     using System;
     using System.Management.Automation;
 
-    [Cmdlet(VerbsCommon.Remove, "AzureManagedCache")]
+    [Cmdlet(VerbsCommon.Remove, "AzureManagedCache"), OutputType(typeof(string))]
     public class RemoveAzureManagedCache : ManagedCacheCmdletBase
     {
-        [Parameter(Position = 0)]
+        [Parameter(Position = 0, Mandatory=true)]
         [ValidateNotNullOrEmpty]
         public string Name { get; set;}
 
@@ -30,7 +30,10 @@ namespace Microsoft.Azure.Commands.ManagedCache
 
         public override void ExecuteCmdlet()
         {
-            throw new NotImplementedException("NYI");
+            WriteVerbose(Properties.Resources.CacheServiceRemoveStarted);
+            CacheClient.DeleteCacheService(Name);
+            WriteVerbose(string.Format(Properties.Resources.CacheServiceRemoved, Name));
+            WriteObject(Name);
         }      
     }
 }
