@@ -50,7 +50,7 @@ namespace Microsoft.Azure.Commands.ManagedCache.Models
 
         public string SubState { get; private set; }
 
-        public string Sku { get; private set; }
+        public CacheServiceSkuType Sku { get; private set; }
 
         public string Memory { get; private set; }
 

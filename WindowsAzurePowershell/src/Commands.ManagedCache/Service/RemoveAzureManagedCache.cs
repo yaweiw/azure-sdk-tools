@@ -24,6 +24,7 @@ namespace Microsoft.Azure.Commands.ManagedCache
         [ValidateNotNullOrEmpty]
         public string Name { get; set;}
 
+        [Parameter]
         public SwitchParameter Force { get; set; }
 
         public override void ExecuteCmdlet()

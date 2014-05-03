@@ -45,8 +45,8 @@ namespace Microsoft.Azure.Commands.ManagedCache
         public CloudServiceGetResponse.Resource CreateCacheService (
             string subscriptionID,
             string cacheServiceName, 
-            string location, 
-            string sku, 
+            string location,
+            CacheServiceSkuType sku, 
             string memorySize)
         {
             WriteProgress(Properties.Resources.InitializingCacheParameters);
@@ -61,16 +61,60 @@ namespace Microsoft.Azure.Commands.ManagedCache
                 throw new ArgumentException(Properties.Resources.CacheServiceNameUnavailable);
             }
 
+            CloudServiceGetResponse.Resource cacheResource = ProvisionCacheService(cloudServiceName, cacheServiceName, param);
+
+            return cacheResource;
+        }
+
+        private CloudServiceGetResponse.Resource ProvisionCacheService(string cloudServiceName, string cacheServiceName, CacheServiceCreateParameters param)
+        {
             WriteProgress(Properties.Resources.CreatingCacheService);
             client.CacheServices.CreateCacheService(cloudServiceName, cacheServiceName, param);
 
             WriteProgress(Properties.Resources.WaitForCacheServiceReady);
             CloudServiceGetResponse.Resource cacheResource = WaitForProvisionDone(cacheServiceName, cloudServiceName);
-
             return cacheResource;
         }
 
-        private static CacheServiceCreateParameters InitializeParameters(string location, string sku, string memorySize)
+        public void UpdateCacheService(string cacheServiceName, CacheServiceSkuType sku, string memory)
+        {
+            CloudServiceListResponse listResponse = client.CloudServices.List();
+            CloudServiceGetResponse.Resource cacheResource = null;
+            string cloudServiceName = null;
+            foreach (CloudServiceListResponse.CloudService cloudService in listResponse)
+            {
+                CloudServiceGetResponse response = client.CloudServices.Get(cloudService.Name);
+                cacheResource = response.Resources.FirstOrDefault(
+                    p => { return p.Name.Equals(cacheServiceName) && p.Type == CacheResourceType; });
+                if (cacheResource != null)
+                {
+                    cloudServiceName = cloudService.Name;
+                    break;
+                }
+            }
+            
+            if (cacheResource==null)
+            {
+                throw new ArgumentException(string.Format(Properties.Resources.CacheServiceNotExisting, cacheServiceName));
+            }
+
+            CacheSkuCountConvert convert = new CacheSkuCountConvert(sku);
+            if (cacheResource.IntrinsicSettingsSection.CacheServiceInputSection.SkuType == sku
+                && cacheResource.IntrinsicSettingsSection.CacheServiceInputSection.SkuCount == convert.ToSkuCount(memory))
+            {
+                WriteProgress("No update is needed as there is no change");
+                return;
+            }
+            cacheResource.IntrinsicSettingsSection.CacheServiceInputSection.SkuCount = convert.ToSkuCount(memory);
+            cacheResource.IntrinsicSettingsSection.CacheServiceInputSection.SkuType = sku;
+            CacheServiceCreateParameters param = new CacheServiceCreateParameters();
+            param.IntrinsicSettingsSection = cacheResource.IntrinsicSettingsSection;
+            param.ETag = cacheResource.ETag;
+
+            ProvisionCacheService(cloudServiceName, cacheResource.Name, param);
+        }
+
+        private static CacheServiceCreateParameters InitializeParameters(string location, CacheServiceSkuType sku, string memorySize)
         {
             CacheServiceCreateParameters param = new CacheServiceCreateParameters();
             IntrinsicSettings settings = new IntrinsicSettings();
@@ -79,10 +123,6 @@ namespace Microsoft.Azure.Commands.ManagedCache
             param.Settings = settings;
 
             const int CacheMemoryObjectSize = 1024;
-            if (string.IsNullOrEmpty(sku))
-            {
-                sku = "Basic";
-            }
             Models.CacheSkuCountConvert convert = new Models.CacheSkuCountConvert(sku);
             input.Location = location;
             input.SkuCount = convert.ToSkuCount(memorySize);

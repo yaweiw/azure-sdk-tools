@@ -16,6 +16,7 @@ namespace Microsoft.Azure.Commands.ManagedCache
 {
     using System.Management.Automation;
     using Microsoft.Azure.Commands.ManagedCache.Models;
+    using Microsoft.Azure.Management.ManagedCache.Models;
 
     [Cmdlet(VerbsCommon.New, "AzureManagedCache"), OutputType(typeof(PSCacheService))]
     public class NewAzureManagedCache : ManagedCacheCmdletBase
@@ -30,9 +31,10 @@ namespace Microsoft.Azure.Commands.ManagedCache
         [ValidateNotNullOrEmpty]
         public string Location { get; set;}
 
-        [ValidateSet("Basic", "Standard", "Premium", IgnoreCase = true)]
-        public string Sku { get; set; }
+        [Parameter]
+        public CacheServiceSkuType Sku { get; set; }
 
+        [Parameter]
         public string Memory { get; set; }
 
         public override void ExecuteCmdlet()
