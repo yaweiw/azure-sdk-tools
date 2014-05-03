@@ -21,14 +21,14 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Endpoints
     using Model;
     using Model.PersistentVMModel;
 
-    [Cmdlet(VerbsCommon.Get, "AzureEndpoint"), OutputType(typeof(InputEndpointContext), typeof(Collection<InputEndpointContext>))]
+    [Cmdlet(VerbsCommon.Get, "AzureEndpoint"), OutputType(typeof(InputEndpointContext))]
     public class GetAzureEndpoint : VirtualMachineConfigurationCmdletBase
     {
         [Parameter(Position = 0, Mandatory = false, HelpMessage = "Endpoint name")]
         [ValidateNotNullOrEmpty]
         public string Name { get; set; }
 
-        internal void ExecuteCommand()
+        protected override void ProcessRecord()
         {
             var endpoints = GetInputEndpoints();
 
@@ -41,11 +41,6 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Endpoints
                 var endpoint = endpoints.SingleOrDefault(ep => System.String.Compare(ep.Name, Name, System.StringComparison.OrdinalIgnoreCase) == 0);
                 WriteObject(endpoint, true);
             }
-        }
-
-        protected override void ProcessRecord()
-        {
-            ExecuteCommand();
         }
 
         protected Collection<InputEndpointContext> GetInputEndpoints()
@@ -82,8 +77,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Endpoints
                     Vip = ep.Vip,
                     Acl = ep.EndpointAccessControlList,
                     EnableDirectServerReturn = ep.EnableDirectServerReturn,
-                    LoadBalancerName = ep.LoadBalancerName,
-                    LoadBalancerVip = string.IsNullOrEmpty(ep.LoadBalancerName) ? null : ep.Vip
+                    InternalLoadBalancerName = ep.LoadBalancerName
                 };
 
                 if (ep.LoadBalancerProbe != null && string.IsNullOrEmpty(endpointCtx.LBSetName) == false)
