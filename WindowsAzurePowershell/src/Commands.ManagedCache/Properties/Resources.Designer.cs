@@ -169,6 +169,24 @@ namespace Microsoft.Azure.Commands.ManagedCache.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Removing cache service.
+        /// </summary>
+        internal static string RemoveServiceMessage {
+            get {
+                return ResourceManager.GetString("RemoveServiceMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Are you sure you want to remove the cache service &quot;{0}&quot;?.
+        /// </summary>
+        internal static string RemoveServiceWarning {
+            get {
+                return ResourceManager.GetString("RemoveServiceWarning", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Time out to wait for cache service ready.
         /// </summary>
         internal static string TimeoutWaitForCacheServiceReady {

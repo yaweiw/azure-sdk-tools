@@ -40,13 +40,14 @@ namespace Microsoft.Azure.Commands.ManagedCache
             client = currentSubscription.CreateClient<ManagedCacheClient>();
         }
         public PSCacheClient() { }
+
         public Action<string> ProgressRecorder { get; set; }
 
-        public CloudServiceGetResponse.Resource CreateCacheService (
+        public CloudServiceResource CreateCacheService (
             string subscriptionID,
             string cacheServiceName, 
-            string location, 
-            string sku, 
+            string location,
+            CacheServiceSkuType sku, 
             string memorySize)
         {
             WriteProgress(Properties.Resources.InitializingCacheParameters);
@@ -61,16 +62,59 @@ namespace Microsoft.Azure.Commands.ManagedCache
                 throw new ArgumentException(Properties.Resources.CacheServiceNameUnavailable);
             }
 
-            WriteProgress(Properties.Resources.CreatingCacheService);
-            client.CacheServices.CreateCacheService(cloudServiceName, cacheServiceName, param);
-
-            WriteProgress(Properties.Resources.WaitForCacheServiceReady);
-            CloudServiceGetResponse.Resource cacheResource = WaitForProvisionDone(cacheServiceName, cloudServiceName);
+            CloudServiceResource cacheResource = ProvisionCacheService(cloudServiceName, cacheServiceName, param);
 
             return cacheResource;
         }
 
-        private static CacheServiceCreateParameters InitializeParameters(string location, string sku, string memorySize)
+        private CloudServiceResource ProvisionCacheService(string cloudServiceName, string cacheServiceName, CacheServiceCreateParameters param)
+        {
+            WriteProgress(Properties.Resources.CreatingCacheService);
+            client.CacheServices.CreateCacheService(cloudServiceName, cacheServiceName, param);
+
+            WriteProgress(Properties.Resources.WaitForCacheServiceReady);
+            CloudServiceResource cacheResource = WaitForProvisionDone(cacheServiceName, cloudServiceName);
+            return cacheResource;
+        }
+
+        public void UpdateCacheService(string cacheServiceName, CacheServiceSkuType sku, string memory)
+        {
+            CloudServiceListResponse listResponse = client.CloudServices.List();
+            CloudServiceResource cacheResource = null;
+            string cloudServiceName = null;
+            foreach (CloudServiceListResponse.CloudService cloudService in listResponse)
+            {
+                cacheResource = cloudService.Resources.FirstOrDefault(
+                    p => { return p.Name.Equals(cacheServiceName) && p.Type == CacheResourceType; });
+                if (cacheResource != null)
+                {
+                    cloudServiceName = cloudService.Name;
+                    break;
+                }
+            }
+            
+            if (cacheResource==null)
+            {
+                throw new ArgumentException(string.Format(Properties.Resources.CacheServiceNotExisting, cacheServiceName));
+            }
+
+            CacheSkuCountConvert convert = new CacheSkuCountConvert(sku);
+            if (cacheResource.IntrinsicSettingsSection.CacheServiceInputSection.SkuType == sku
+                && cacheResource.IntrinsicSettingsSection.CacheServiceInputSection.SkuCount == convert.ToSkuCount(memory))
+            {
+                WriteProgress("No update is needed as there is no change");
+                return;
+            }
+            cacheResource.IntrinsicSettingsSection.CacheServiceInputSection.SkuCount = convert.ToSkuCount(memory);
+            cacheResource.IntrinsicSettingsSection.CacheServiceInputSection.SkuType = sku;
+            CacheServiceCreateParameters param = new CacheServiceCreateParameters();
+            param.IntrinsicSettingsSection = cacheResource.IntrinsicSettingsSection;
+            param.ETag = cacheResource.ETag;
+
+            ProvisionCacheService(cloudServiceName, cacheResource.Name, param);
+        }
+
+        private static CacheServiceCreateParameters InitializeParameters(string location, CacheServiceSkuType sku, string memorySize)
         {
             CacheServiceCreateParameters param = new CacheServiceCreateParameters();
             IntrinsicSettings settings = new IntrinsicSettings();
@@ -79,10 +123,6 @@ namespace Microsoft.Azure.Commands.ManagedCache
             param.Settings = settings;
 
             const int CacheMemoryObjectSize = 1024;
-            if (string.IsNullOrEmpty(sku))
-            {
-                sku = "Basic";
-            }
             Models.CacheSkuCountConvert convert = new Models.CacheSkuCountConvert(sku);
             input.Location = location;
             input.SkuCount = convert.ToSkuCount(memorySize);
@@ -92,9 +132,9 @@ namespace Microsoft.Azure.Commands.ManagedCache
             return param;
         }
 
-        private CloudServiceGetResponse.Resource WaitForProvisionDone(string cacheServiceName, string cloudServiceName)
+        private CloudServiceResource WaitForProvisionDone(string cacheServiceName, string cloudServiceName)
         {
-            CloudServiceGetResponse.Resource cacheResource = null;
+            CloudServiceResource cacheResource = null;
             //Service state goes through Creating/Updating to Active. We only care about active
             int waitInMinutes = 30;
             while (waitInMinutes > 0)
@@ -145,7 +185,7 @@ namespace Microsoft.Azure.Commands.ManagedCache
             client.CacheServices.Delete(cloudServiceName, cacheServiceName);
         }
 
-        public string EnsureCloudServiceExists(string subscriptionId,  string location)
+        private string EnsureCloudServiceExists(string subscriptionId,  string location)
         {
             string cloudServiceName = GetCloudServiceName(subscriptionId, location);
 
@@ -166,17 +206,36 @@ namespace Microsoft.Azure.Commands.ManagedCache
             CloudServiceListResponse listResponse = client.CloudServices.List(); 
             foreach (CloudServiceListResponse.CloudService cloudService in listResponse)
             {
-                foreach(CloudServiceListResponse.CloudService.AddOnResource resource in cloudService.Resources)
+                foreach(CloudServiceResource resource in cloudService.Resources)
                 {
-                    if (resource.Type == CacheResourceType &&
-                            (string.IsNullOrEmpty(cacheServiceName) ||
-                             cacheServiceName.Equals(resource.Name, StringComparison.OrdinalIgnoreCase)))
+                    if (resource.Type == CacheResourceType)
                     {
-                        services.Add(new PSCacheService(resource));
+                        bool nameMatched = string.IsNullOrEmpty(cacheServiceName)
+                            || cacheServiceName.Equals(resource.Name, StringComparison.OrdinalIgnoreCase);
+
+                        if (nameMatched)
+                        {
+                            services.Add(new PSCacheService(resource));
+                        }
                     }
                 }
             }
             return services;
+        }
+
+        public CachingKeysResponse RegenerateAccessKeys(string cacheServiceName, string keyType)
+        {
+            RegenerateKeysParameters param = new RegenerateKeysParameters();
+            string cloudServiceName = GetAssociatedCloudServiceName(cacheServiceName);
+            param.KeyType = keyType;
+            return client.CacheServices.RegenerateKeys(cloudServiceName, cacheServiceName, param);
+        }
+
+        public CachingKeysResponse GetAccessKeys(string cacheServiceName)
+        {
+            RegenerateKeysParameters param = new RegenerateKeysParameters();
+            string cloudServiceName = GetAssociatedCloudServiceName(cacheServiceName);
+            return client.CacheServices.GetKeys(cloudServiceName, cacheServiceName);
         }
 
         private string GetAssociatedCloudServiceName(string cacheServiceName)
@@ -184,7 +243,7 @@ namespace Microsoft.Azure.Commands.ManagedCache
             CloudServiceListResponse listResponse = client.CloudServices.List();
             foreach (CloudServiceListResponse.CloudService cloudService in listResponse)
             {
-                CloudServiceListResponse.CloudService.AddOnResource matched = cloudService.Resources.FirstOrDefault(
+                CloudServiceResource matched = cloudService.Resources.FirstOrDefault(
                    resource => { 
                        return resource.Type == CacheResourceType 
                         && cacheServiceName.Equals(resource.Name, StringComparison.OrdinalIgnoreCase);
@@ -198,10 +257,10 @@ namespace Microsoft.Azure.Commands.ManagedCache
             return null;
         }
 
-        private CloudServiceGetResponse.Resource GetCacheService(string cloudServiceName, string cacheServiceName)
+        private CloudServiceResource GetCacheService(string cloudServiceName, string cacheServiceName)
         {
             CloudServiceGetResponse response = client.CloudServices.Get(cloudServiceName);
-            CloudServiceGetResponse.Resource cacheResource = response.Resources.FirstOrDefault((r) => 
+            CloudServiceResource cacheResource = response.Resources.FirstOrDefault((r) => 
             { 
                 return r.Type == CacheResourceType && r.Name.Equals(cacheServiceName, StringComparison.OrdinalIgnoreCase);
             });
