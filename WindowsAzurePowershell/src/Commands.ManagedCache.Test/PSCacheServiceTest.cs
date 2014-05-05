@@ -28,11 +28,11 @@ namespace Microsoft.Azure.Commands.ManagedCache.Test
             string testSubState = "Active";
             string testName = "Dummy";
             string testLocation = "West US";
-            string testSku = "Premium";
+            CacheServiceSkuType testSku = CacheServiceSkuType.Premium;
             int testSkuCount = 2; //This will be mapped to 10GB display value 
             string expectedMemoryInfo = "10GB";
 
-            CloudServiceGetResponse.Resource resource = new CloudServiceGetResponse.Resource();
+            CloudServiceResource resource = new CloudServiceResource();
             resource.State = testState;
             resource.SubState = testSubState;
             resource.Name = testName;

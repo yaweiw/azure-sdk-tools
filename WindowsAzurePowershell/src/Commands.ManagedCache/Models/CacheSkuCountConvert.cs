@@ -15,43 +15,40 @@
 namespace Microsoft.Azure.Commands.ManagedCache.Models
 {
     using System;
+    using Microsoft.Azure.Management.ManagedCache.Models;
 
     //This class bridges the concept gap between "memory size" used by the commandlets 
     //and the "sku count" at server
     class CacheSkuCountConvert
     {
-        private string skuName;
+        private CacheServiceSkuType skuName;
         private int min;
         private int max;
         private int increment;
         private string unit; //MB or GB
-        public CacheSkuCountConvert(string sku)
+        public CacheSkuCountConvert(CacheServiceSkuType sku)
         {
             skuName = sku;
-            if (IsBasicSku(sku))
+            if (sku == CacheServiceSkuType.Basic)
             {
                 min = 128;
                 max = 1024;
                 increment = 128;
                 unit = "MB";
             }
-            else if (IsStandardSku(sku))
+            else if (sku == CacheServiceSkuType.Standard)
             {
                 min = 1;
                 max = 10;
                 increment = 1;
                 unit = "GB";
             }
-            else if (IsPremiumSku(sku))
+            else
             {
                 min = 5;
                 max = 150;
                 increment = 5;
                 unit = "GB";
-            }
-            else
-            {
-                throw new ArgumentException(Properties.Resources.InvalidCacheSku);
             }
         }
 
@@ -61,7 +58,7 @@ namespace Microsoft.Azure.Commands.ManagedCache.Models
             {
                 return 1;
             }
-            if (memorySize.EndsWith(unit))
+            if (memorySize.EndsWith(unit, StringComparison.OrdinalIgnoreCase))
             {
                 memorySize = memorySize.Substring(0, memorySize.Length - unit.Length);
             }
@@ -78,21 +75,6 @@ namespace Microsoft.Azure.Commands.ManagedCache.Models
         public string ToMemorySize (int skuCount)
         {
             return string.Format("{0}{1}", skuCount * increment, unit);
-        }
-
-        private bool IsBasicSku(string sku)
-        {
-            return string.IsNullOrEmpty(sku) || sku.Equals("Basic", System.StringComparison.OrdinalIgnoreCase);
-        }
-
-        private bool IsStandardSku(string sku)
-        {
-            return sku.Equals("Standard", System.StringComparison.OrdinalIgnoreCase);
-        }
-
-        private static bool IsPremiumSku(string sku)
-        {
-            return sku.Equals("Premium", System.StringComparison.OrdinalIgnoreCase);
         }
     }
 }
