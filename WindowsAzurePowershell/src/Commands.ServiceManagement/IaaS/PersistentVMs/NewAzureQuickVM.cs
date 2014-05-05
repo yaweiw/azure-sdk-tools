@@ -154,7 +154,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.PersistentVMs
         [Parameter(HelpMessage = "To disable IaaS provision guest agent.")]
         public SwitchParameter DisableGuestAgent { get; set; }
 
-        [Parameter(ValueFromPipeline = true, ValueFromPipelineByPropertyName = true, HelpMessage = "The name of the reserved IP.")]
+        [Parameter(ValueFromPipelineByPropertyName = true, HelpMessage = "The name of the reserved IP.")]
         [ValidateNotNullOrEmpty]
         public string ReservedIPName { get; set; }
 

@@ -135,7 +135,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.PersistentVMs
             set;
         }
 
-        [Parameter(ValueFromPipeline = true, ValueFromPipelineByPropertyName = true, HelpMessage = "The name of the reserved IP.")]
+        [Parameter(ValueFromPipelineByPropertyName = true, HelpMessage = "The name of the reserved IP.")]
         [ValidateNotNullOrEmpty]
         public string ReservedIPName
         {
