@@ -40,6 +40,7 @@ namespace Microsoft.Azure.Commands.ManagedCache
             client = currentSubscription.CreateClient<ManagedCacheClient>();
         }
         public PSCacheClient() { }
+
         public Action<string> ProgressRecorder { get; set; }
 
         public CloudServiceResource CreateCacheService (
@@ -184,7 +185,7 @@ namespace Microsoft.Azure.Commands.ManagedCache
             client.CacheServices.Delete(cloudServiceName, cacheServiceName);
         }
 
-        public string EnsureCloudServiceExists(string subscriptionId,  string location)
+        private string EnsureCloudServiceExists(string subscriptionId,  string location)
         {
             string cloudServiceName = GetCloudServiceName(subscriptionId, location);
 
@@ -220,6 +221,21 @@ namespace Microsoft.Azure.Commands.ManagedCache
                 }
             }
             return services;
+        }
+
+        public CachingKeysResponse RegenerateAccessKeys(string cacheServiceName, string keyType)
+        {
+            RegenerateKeysParameters param = new RegenerateKeysParameters();
+            string cloudServiceName = GetAssociatedCloudServiceName(cacheServiceName);
+            param.KeyType = keyType;
+            return client.CacheServices.RegenerateKeys(cloudServiceName, cacheServiceName, param);
+        }
+
+        public CachingKeysResponse GetAccessKeys(string cacheServiceName)
+        {
+            RegenerateKeysParameters param = new RegenerateKeysParameters();
+            string cloudServiceName = GetAssociatedCloudServiceName(cacheServiceName);
+            return client.CacheServices.GetKeys(cloudServiceName, cacheServiceName);
         }
 
         private string GetAssociatedCloudServiceName(string cacheServiceName)
