@@ -15,19 +15,21 @@
 namespace Microsoft.Azure.Commands.ManagedCache.Test
 {
     using System;
-    using Xunit;
     using ManagedCache.Models;
+    using Microsoft.Azure.Management.ManagedCache.Models;
+    using Xunit;
 
     public class CacheSkuCountConvertTest
     {
         [Fact]
         public void ManagedCache_ConversionWorksForBasicSku()
         {
-            CacheSkuCountConvert convert = new CacheSkuCountConvert("Basic");
+            CacheSkuCountConvert convert = new CacheSkuCountConvert(CacheServiceSkuType.Basic);
             Assert.Equal("128MB", convert.ToMemorySize(1));
             Assert.Equal("256MB", convert.ToMemorySize(2));
             Assert.Equal(2, convert.ToSkuCount("256"));
-            Assert.Equal(1, convert.ToSkuCount("128"));
+            Assert.Equal(1, convert.ToSkuCount("128MB"));
+            Assert.Equal(1, convert.ToSkuCount("128mb"));
             Assert.Throws(typeof(ArgumentException), () => { convert.ToSkuCount("2222"); });
             Assert.Throws(typeof(ArgumentException), () => { convert.ToSkuCount("foo-bar"); });
         }
@@ -35,7 +37,7 @@ namespace Microsoft.Azure.Commands.ManagedCache.Test
         [Fact]
         public void ManagedCache_ConversionWorksForStandardSku()
         {
-            CacheSkuCountConvert convert = new CacheSkuCountConvert("Standard");
+            CacheSkuCountConvert convert = new CacheSkuCountConvert(CacheServiceSkuType.Standard);
             Assert.Equal("1GB", convert.ToMemorySize(1));
             Assert.Equal("2GB", convert.ToMemorySize(2));
             Assert.Equal(1, convert.ToSkuCount("1GB"));
@@ -47,7 +49,7 @@ namespace Microsoft.Azure.Commands.ManagedCache.Test
         [Fact]
         public void ManagedCache_ConversionWorksForPremiumSku()
         {
-            CacheSkuCountConvert convert = new CacheSkuCountConvert("PREMIUM");
+            CacheSkuCountConvert convert = new CacheSkuCountConvert(CacheServiceSkuType.Premium);
             Assert.Equal("5GB", convert.ToMemorySize(1));
             Assert.Equal("10GB", convert.ToMemorySize(2));
             Assert.Equal(1, convert.ToSkuCount("5GB"));
@@ -59,13 +61,7 @@ namespace Microsoft.Azure.Commands.ManagedCache.Test
         [Fact]
         public void ManagedCache_CountIsOneIfMemorySizeIsNull()
         {
-            Assert.Equal(1, new CacheSkuCountConvert("Basic").ToSkuCount(null));
-        }
-
-        [Fact]
-        public void ManagedCache_ThrowOnInvalidSku()
-        {
-            Assert.Throws(typeof(ArgumentException), () => { new CacheSkuCountConvert("foo-bar"); });
+            Assert.Equal(1, new CacheSkuCountConvert(CacheServiceSkuType.Basic).ToSkuCount(null));
         }
     }
 }
