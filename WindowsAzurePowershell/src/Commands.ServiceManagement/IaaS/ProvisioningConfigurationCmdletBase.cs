@@ -20,8 +20,9 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
     using System.Security.Cryptography.X509Certificates;
     using Helpers;
     using Model.PersistentVMModel;
+    using Utilities.Common;
 
-    public class ProvisioningConfigurationCmdletBase : PSCmdlet
+    public class ProvisioningConfigurationCmdletBase : ServiceManagementBaseCmdlet
     {
         public const string LinuxParameterSetName = OS.Linux;
         public const string WindowsParameterSetName = OS.Windows;
@@ -252,10 +253,10 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
         protected void SetProvisioningConfiguration(LinuxProvisioningConfigurationSet provisioningConfiguration)
         {
             provisioningConfiguration.UserName = LinuxUser;
-            provisioningConfiguration.UserPassword = Password;
+            provisioningConfiguration.UserPassword = SecureStringHelper.GetSecureString(Password);
             if (NoSSHPassword.IsPresent)
             {
-                provisioningConfiguration.UserPassword = String.Empty;
+                provisioningConfiguration.UserPassword = SecureStringHelper.GetSecureString(String.Empty);
             }
 
             if (DisableSSH.IsPresent || NoSSHPassword.IsPresent)
@@ -276,7 +277,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
         protected void SetProvisioningConfiguration(WindowsProvisioningConfigurationSet provisioningConfiguration)
         {
             provisioningConfiguration.AdminUsername = AdminUsername;
-            provisioningConfiguration.AdminPassword = Password;            
+            provisioningConfiguration.AdminPassword = SecureStringHelper.GetSecureString(Password);
             provisioningConfiguration.ResetPasswordOnFirstLogon = ResetPasswordOnFirstLogon.IsPresent;
             provisioningConfiguration.StoredCertificateSettings = CertUtilsNewSM.GetCertificateSettings(Certificates, X509Certificates);
             provisioningConfiguration.EnableAutomaticUpdates = !DisableAutomaticUpdates.IsPresent;
@@ -298,7 +299,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
                     Credentials = new WindowsProvisioningConfigurationSet.DomainJoinCredentials
                     {
                         Username = DomainUserName,
-                        Password = DomainPassword,
+                        Password = SecureStringHelper.GetSecureString(DomainPassword),
                         Domain = Domain
                     },
                     MachineObjectOU = MachineObjectOU,

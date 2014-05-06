@@ -13,14 +13,13 @@ Param(
     $ManageUrl
 )
 
-$metadataFile = "ServerDataService.csdl"
-$clientModelClassFile = "ServerContextInternal.cs"
-$clientModelClassVersionFile = "ServerContextInternalVersion.cs"
+$metadataFile = "$PWD\ServerDataService.csdl"
+$clientModelClassFile = "$PWD\ServerContextInternal.cs"
 $clientModelNamespace = "Microsoft.WindowsAzure.Commands.SqlDatabase.Services.Server";
 $clientModelBaseContext = "ServerContextInternal";
 
 ######## Import Server module from the build
-Import-Module ..\..\..\..\..\Package\Debug\Azure.psd1
+Import-Module ..\..\..\..\..\Package\Debug\AzureServiceManagement\AzureServiceManagement.psd1
 
 ######## Create a new Server data service context
 Write-Host "Connecting to management service at $ManageUrl"
@@ -69,6 +68,7 @@ $metadataHashDeclaration="namespace $clientModelNamespace
     {
         public readonly string[] metadataHashes = new string[]{ 
             `"$metadataHash`",
+            `"0333AB7076A926BF53F07C1786F11C052DEB791B`",
             `"F903DB500E018B00ECB1E355BC55F73B7342FC76`",
             `"5A2ABE58F30C9EF4B4F49853CD5FE28BA9FEBCD9`",
             `"68BA8B4EB74E0C5A91D0A734B742001018A9F9D2`",
