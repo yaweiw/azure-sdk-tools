@@ -135,6 +135,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CacheAccessKeysTest.cs" />
     <Compile Include="PSCacheClientTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="CacheSkuCountConvertTest.cs" />
