@@ -37,7 +37,6 @@ namespace Microsoft.WindowsAzure.Commands.Test.TrafficManager.Endpoints
         public void TestSetup()
         {
             mockCommandRuntime = new MockCommandRuntime();
-            cmdlet = new SetAzureTrafficManagerEndpoint { CommandRuntime = this.mockCommandRuntime };
         }
 
         [TestMethod]

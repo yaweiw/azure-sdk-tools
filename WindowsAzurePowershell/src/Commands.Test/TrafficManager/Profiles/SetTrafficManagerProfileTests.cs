@@ -58,7 +58,6 @@ namespace Microsoft.WindowsAzure.Commands.Test.TrafficManager.Profiles
         public void TestSetup()
         {
             mockCommandRuntime = new MockCommandRuntime();
-            cmdlet = new SetAzureTrafficManagerProfile { CommandRuntime = this.mockCommandRuntime };
             clientMock = new Mock<ITrafficManagerClient>();
 
             clientMock
@@ -76,18 +75,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.TrafficManager.Profiles
         public void ProcessSetProfileTestAllArgs()
         {
             // Setup
-            var oldProfileWithDefinition = new ProfileWithDefinition
-            {
-                DomainName = ProfileDomainName,
-                Name = ProfileName,
-                Endpoints = new List<TrafficManagerEndpoint>(),
-                LoadBalancingMethod = DefaultLoadBalancingMethod,
-                MonitorPort = MonitorPort,
-                Status = ProfileDefinitionStatus.Enabled,
-                MonitorRelativePath = MonitorRelativePath,
-                MonitorProtocol = MonitorProtocol,
-                TimeToLiveInSeconds = Ttl
-            };
+            ProfileWithDefinition oldProfileWithDefinition = defaultProfileWithDefinition;
 
             var newProfileWithDefinition = new ProfileWithDefinition
             {
@@ -182,53 +170,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.TrafficManager.Profiles
         [TestMethod]
         public void ProcessSetProfileTestLoadBalancingMethod()
         {
-            var oldProfileWithDefinition = new ProfileWithDefinition
-                {
-                    DomainName = ProfileDomainName,
-                    Name = ProfileName,
-                    Endpoints = new List<TrafficManagerEndpoint>(),
-                    LoadBalancingMethod = DefaultLoadBalancingMethod,
-                    MonitorPort = MonitorPort,
-                    Status = ProfileDefinitionStatus.Enabled,
-                    MonitorRelativePath = MonitorRelativePath,
-                    MonitorProtocol = MonitorProtocol,
-                    TimeToLiveInSeconds = Ttl
-                };
-
-            var monitor = new DefinitionMonitor
-                {
-                    HttpOptions = new DefinitionMonitorHTTPOptions
-                        {
-                            ExpectedStatusCode = MonitorExpectedStatusCode,
-                            RelativePath = MonitorRelativePath,
-                            Verb = Verb
-                        }
-                };
-
-            var updateDefinitionCreateParameters = new DefinitionCreateParameters
-                {
-                    DnsOptions = new DefinitionDnsOptions
-                        {
-                            TimeToLiveInSeconds = oldProfileWithDefinition.TimeToLiveInSeconds
-                        },
-                    Policy = new DefinitionPolicyCreateParameters
-                        {
-                            LoadBalancingMethod = NewLoadBalancingMethod,
-                            Endpoints = new DefinitionEndpointCreateParameters[0]
-                        },
-                    Monitors = new[] { monitor }
-                };
-
-            clientMock
-                .Setup(c => c.InstantiateTrafficManagerDefinition(
-                    It.IsAny<string>(),
-                    It.IsAny<int>(),
-                    It.IsAny<string>(),
-                    It.IsAny<string>(),
-                    It.IsAny<int>(),
-                    It.IsAny<IList<TrafficManagerEndpoint>>()))
-                .Returns(updateDefinitionCreateParameters);
-
+            ProfileWithDefinition oldProfileWithDefinition = defaultProfileWithDefinition;
 
             cmdlet = new SetAzureTrafficManagerProfile
             {
@@ -239,7 +181,6 @@ namespace Microsoft.WindowsAzure.Commands.Test.TrafficManager.Profiles
                 CommandRuntime = mockCommandRuntime,
                 TrafficManagerProfile = oldProfileWithDefinition
             };
-
 
             // Action
             cmdlet.ExecuteCmdlet();
@@ -260,18 +201,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.TrafficManager.Profiles
         [TestMethod]
         public void ProcessSetProfileTestMonitorPort()
         {
-            var oldProfileWithDefinition = new ProfileWithDefinition
-                {
-                    DomainName = ProfileDomainName,
-                    Name = ProfileName,
-                    Endpoints = new List<TrafficManagerEndpoint>(),
-                    LoadBalancingMethod = DefaultLoadBalancingMethod,
-                    MonitorPort = MonitorPort,
-                    Status = ProfileDefinitionStatus.Enabled,
-                    MonitorRelativePath = MonitorRelativePath,
-                    MonitorProtocol = MonitorProtocol,
-                    TimeToLiveInSeconds = Ttl
-                };
+            ProfileWithDefinition oldProfileWithDefinition = defaultProfileWithDefinition;
 
             cmdlet = new SetAzureTrafficManagerProfile
                 {
@@ -303,18 +233,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.TrafficManager.Profiles
         [TestMethod]
         public void ProcessSetProfileTestMonitorProtocol()
         {
-            var oldProfileWithDefinition = new ProfileWithDefinition
-                {
-                    DomainName = ProfileDomainName,
-                    Name = ProfileName,
-                    Endpoints = new List<TrafficManagerEndpoint>(),
-                    LoadBalancingMethod = DefaultLoadBalancingMethod,
-                    MonitorPort = MonitorPort,
-                    Status = ProfileDefinitionStatus.Enabled,
-                    MonitorRelativePath = MonitorRelativePath,
-                    MonitorProtocol = MonitorProtocol,
-                    TimeToLiveInSeconds = Ttl
-                };
+            ProfileWithDefinition oldProfileWithDefinition = defaultProfileWithDefinition;
 
             cmdlet = new SetAzureTrafficManagerProfile
                 {
@@ -346,18 +265,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.TrafficManager.Profiles
         [TestMethod]
         public void ProcessSetProfileTestMonitorRelativePath()
         {
-            var oldProfileWithDefinition = new ProfileWithDefinition
-                {
-                    DomainName = ProfileDomainName,
-                    Name = ProfileName,
-                    Endpoints = new List<TrafficManagerEndpoint>(),
-                    LoadBalancingMethod = DefaultLoadBalancingMethod,
-                    MonitorPort = MonitorPort,
-                    Status = ProfileDefinitionStatus.Enabled,
-                    MonitorRelativePath = MonitorRelativePath,
-                    MonitorProtocol = MonitorProtocol,
-                    TimeToLiveInSeconds = Ttl
-                };
+            ProfileWithDefinition oldProfileWithDefinition = defaultProfileWithDefinition;
 
             cmdlet = new SetAzureTrafficManagerProfile
                 {
@@ -389,18 +297,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.TrafficManager.Profiles
         [TestMethod]
         public void ProcessSetProfileTestTtl()
         {
-            var oldProfileWithDefinition = new ProfileWithDefinition
-                {
-                    DomainName = ProfileDomainName,
-                    Name = ProfileName,
-                    Endpoints = new List<TrafficManagerEndpoint>(),
-                    LoadBalancingMethod = DefaultLoadBalancingMethod,
-                    MonitorPort = MonitorPort,
-                    Status = ProfileDefinitionStatus.Enabled,
-                    MonitorRelativePath = MonitorRelativePath,
-                    MonitorProtocol = MonitorProtocol,
-                    TimeToLiveInSeconds = Ttl
-                };
+            ProfileWithDefinition oldProfileWithDefinition = defaultProfileWithDefinition;
 
             cmdlet = new SetAzureTrafficManagerProfile
                 {
@@ -427,6 +324,19 @@ namespace Microsoft.WindowsAzure.Commands.Test.TrafficManager.Profiles
                     oldProfileWithDefinition.Endpoints),
                 Times.Once());
         }
+
+        private static ProfileWithDefinition defaultProfileWithDefinition = new ProfileWithDefinition()
+        {
+            DomainName = ProfileDomainName,
+            Name = ProfileName,
+            Endpoints = new List<TrafficManagerEndpoint>(),
+            LoadBalancingMethod = DefaultLoadBalancingMethod,
+            MonitorPort = MonitorPort,
+            Status = ProfileDefinitionStatus.Enabled,
+            MonitorRelativePath = MonitorRelativePath,
+            MonitorProtocol = MonitorProtocol,
+            TimeToLiveInSeconds = Ttl
+        };
 
         private static DefinitionCreateParameters DefaultDefinition
         {
