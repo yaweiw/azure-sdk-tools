@@ -35,7 +35,6 @@ namespace Microsoft.WindowsAzure.Commands.Test.TrafficManager.Profiles
         public void TestSetup()
         {
             mockCommandRuntime = new MockCommandRuntime();
-            cmdlet = new RemoveAzureTrafficManagerProfile { CommandRuntime = this.mockCommandRuntime };
             clientMock = new Mock<ITrafficManagerClient>();
         }
 
