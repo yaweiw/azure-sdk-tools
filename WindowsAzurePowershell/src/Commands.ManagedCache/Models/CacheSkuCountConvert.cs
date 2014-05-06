@@ -15,6 +15,7 @@
 namespace Microsoft.Azure.Commands.ManagedCache.Models
 {
     using System;
+    using System.Collections.Generic;
     using Microsoft.Azure.Management.ManagedCache.Models;
 
     //This class bridges the concept gap between "memory size" used by the commandlets 
@@ -64,7 +65,7 @@ namespace Microsoft.Azure.Commands.ManagedCache.Models
             }
             int size;
             if (!int.TryParse(memorySize, out size) ||
-                size < min || size > max)
+                size < min || size > max || (size % increment) != 0)
             {
                 throw new ArgumentException(
                     string.Format(Properties.Resources.InvalidCacheMemorySize, min, max, unit));
@@ -74,7 +75,22 @@ namespace Microsoft.Azure.Commands.ManagedCache.Models
 
         public string ToMemorySize (int skuCount)
         {
-            return string.Format("{0}{1}", skuCount * increment, unit);
+            return GetMemoryDisplayInfo(skuCount * increment);
+        }
+
+        public string[] GetValueList()
+        {
+            List<string> values = new List<string>();
+            for (int i = min; i <= max; i+= increment)
+            {
+                values.Add(GetMemoryDisplayInfo(i));
+            }
+            return values.ToArray();
+        }
+
+        private string GetMemoryDisplayInfo(int memory)
+        {
+            return string.Format("{0}{1}", memory, unit);
         }
     }
 }

@@ -1126,6 +1126,84 @@ namespace Microsoft.Azure.Management.ManagedCache
         }
         
         /// <summary>
+        /// Initializes a new instance of the ManagedCacheClient class.
+        /// </summary>
+        /// <param name='httpClient'>
+        /// The Http client
+        /// </param>
+        private ManagedCacheClient(HttpClient httpClient)
+            : base(httpClient)
+        {
+            this._cacheServices = new CacheServiceOperations(this);
+            this._cloudServices = new CloudServiceOperations(this);
+            this.HttpClient.Timeout = TimeSpan.FromSeconds(300);
+        }
+        
+        /// <summary>
+        /// Initializes a new instance of the ManagedCacheClient class.
+        /// </summary>
+        /// <param name='credentials'>
+        /// Required. When you create a Windows Azure subscription, it is
+        /// uniquely identified by a subscription ID. The subscription ID
+        /// forms part of the URI for every call that you make to the Service
+        /// Management API.  The Windows Azure Service ManagementAPI use
+        /// mutual authentication of management certificates over SSL to
+        /// ensure that a request made to the service is secure.  No anonymous
+        /// requests are allowed.
+        /// </param>
+        /// <param name='baseUri'>
+        /// Required. The URI used as the base for all Service Management
+        /// requests.
+        /// </param>
+        /// <param name='httpClient'>
+        /// The Http client
+        /// </param>
+        public ManagedCacheClient(SubscriptionCloudCredentials credentials, Uri baseUri, HttpClient httpClient)
+            : this(httpClient)
+        {
+            if (credentials == null)
+            {
+                throw new ArgumentNullException("credentials");
+            }
+            if (baseUri == null)
+            {
+                throw new ArgumentNullException("baseUri");
+            }
+            this._credentials = credentials;
+            this._baseUri = baseUri;
+            
+            this.Credentials.InitializeServiceClient(this);
+        }
+        
+        /// <summary>
+        /// Initializes a new instance of the ManagedCacheClient class.
+        /// </summary>
+        /// <param name='credentials'>
+        /// Required. When you create a Windows Azure subscription, it is
+        /// uniquely identified by a subscription ID. The subscription ID
+        /// forms part of the URI for every call that you make to the Service
+        /// Management API.  The Windows Azure Service ManagementAPI use
+        /// mutual authentication of management certificates over SSL to
+        /// ensure that a request made to the service is secure.  No anonymous
+        /// requests are allowed.
+        /// </param>
+        /// <param name='httpClient'>
+        /// The Http client
+        /// </param>
+        public ManagedCacheClient(SubscriptionCloudCredentials credentials, HttpClient httpClient)
+            : this(httpClient)
+        {
+            if (credentials == null)
+            {
+                throw new ArgumentNullException("credentials");
+            }
+            this._credentials = credentials;
+            this._baseUri = new Uri("https://management.core.windows.net");
+            
+            this.Credentials.InitializeServiceClient(this);
+        }
+        
+        /// <summary>
         /// The Get Operation Status operation returns the status of
         /// thespecified operation. After calling an asynchronous operation,
         /// you can call Get Operation Status to determine whether the
@@ -1173,7 +1251,7 @@ namespace Microsoft.Azure.Management.ManagedCache
             
             // Construct URL
             string baseUrl = this.BaseUri.AbsoluteUri;
-            string url = this.Credentials.SubscriptionId.Trim() + "/operations/" + requestId.Trim();
+            string url = (this.Credentials.SubscriptionId != null ? this.Credentials.SubscriptionId.Trim() : "") + "/operations/" + requestId.Trim();
             // Trim '/' character from the end of baseUrl and beginning of url.
             if (baseUrl[baseUrl.Length - 1] == '/')
             {
@@ -1218,7 +1296,7 @@ namespace Microsoft.Azure.Management.ManagedCache
                     if (statusCode != HttpStatusCode.OK)
                     {
                         cancellationToken.ThrowIfCancellationRequested();
-                        CloudException ex = CloudException.Create(httpRequest, null, httpResponse, await httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false), CloudExceptionType.Xml);
+                        CloudException ex = CloudException.Create(httpRequest, null, httpResponse, await httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false));
                         if (shouldTrace)
                         {
                             Tracing.Error(invocationId, ex);
@@ -1235,44 +1313,44 @@ namespace Microsoft.Azure.Management.ManagedCache
                     XDocument responseDoc = XDocument.Parse(responseContent);
                     
                     XElement operationElement = responseDoc.Element(XName.Get("Operation", "http://schemas.microsoft.com/windowsazure"));
-                    if (operationElement != null && operationElement.IsEmpty == false)
+                    if (operationElement != null)
                     {
                         XElement idElement = operationElement.Element(XName.Get("ID", "http://schemas.microsoft.com/windowsazure"));
-                        if (idElement != null && idElement.IsEmpty == false)
+                        if (idElement != null)
                         {
                             string idInstance = idElement.Value;
                             result.Id = idInstance;
                         }
                         
                         XElement statusElement = operationElement.Element(XName.Get("Status", "http://schemas.microsoft.com/windowsazure"));
-                        if (statusElement != null && statusElement.IsEmpty == false)
+                        if (statusElement != null)
                         {
                             CloudServiceOperationStatus statusInstance = ((CloudServiceOperationStatus)Enum.Parse(typeof(CloudServiceOperationStatus), statusElement.Value, true));
                             result.Status = statusInstance;
                         }
                         
                         XElement httpStatusCodeElement = operationElement.Element(XName.Get("HttpStatusCode", "http://schemas.microsoft.com/windowsazure"));
-                        if (httpStatusCodeElement != null && httpStatusCodeElement.IsEmpty == false)
+                        if (httpStatusCodeElement != null)
                         {
                             HttpStatusCode httpStatusCodeInstance = ((HttpStatusCode)Enum.Parse(typeof(HttpStatusCode), httpStatusCodeElement.Value, true));
                             result.HttpStatusCode = httpStatusCodeInstance;
                         }
                         
                         XElement errorElement = operationElement.Element(XName.Get("Error", "http://schemas.microsoft.com/windowsazure"));
-                        if (errorElement != null && errorElement.IsEmpty == false)
+                        if (errorElement != null)
                         {
                             CloudServiceOperationStatusResponse.ErrorDetails errorInstance = new CloudServiceOperationStatusResponse.ErrorDetails();
                             result.Error = errorInstance;
                             
                             XElement codeElement = errorElement.Element(XName.Get("Code", "http://schemas.microsoft.com/windowsazure"));
-                            if (codeElement != null && codeElement.IsEmpty == false)
+                            if (codeElement != null)
                             {
                                 string codeInstance = codeElement.Value;
                                 errorInstance.Code = codeInstance;
                             }
                             
                             XElement messageElement = errorElement.Element(XName.Get("Message", "http://schemas.microsoft.com/windowsazure"));
-                            if (messageElement != null && messageElement.IsEmpty == false)
+                            if (messageElement != null)
                             {
                                 string messageInstance = messageElement.Value;
                                 errorInstance.Message = messageInstance;
@@ -1563,7 +1641,7 @@ namespace Microsoft.Azure.Management.ManagedCache
             
             // Construct URL
             string baseUrl = this.Client.BaseUri.AbsoluteUri;
-            string url = "/" + this.Client.Credentials.SubscriptionId.Trim() + "/cloudservices/" + cloudServiceName.Trim() + "/resources/cacheservice/Caching/" + cacheServiceName.Trim();
+            string url = "/" + (this.Client.Credentials.SubscriptionId != null ? this.Client.Credentials.SubscriptionId.Trim() : "") + "/cloudservices/" + cloudServiceName.Trim() + "/resources/cacheservice/Caching/" + cacheServiceName.Trim();
             // Trim '/' character from the end of baseUrl and beginning of url.
             if (baseUrl[baseUrl.Length - 1] == '/')
             {
@@ -1825,7 +1903,7 @@ namespace Microsoft.Azure.Management.ManagedCache
                     if (statusCode != HttpStatusCode.Accepted)
                     {
                         cancellationToken.ThrowIfCancellationRequested();
-                        CloudException ex = CloudException.Create(httpRequest, requestContent, httpResponse, await httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false), CloudExceptionType.Xml);
+                        CloudException ex = CloudException.Create(httpRequest, requestContent, httpResponse, await httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false));
                         if (shouldTrace)
                         {
                             Tracing.Error(invocationId, ex);
@@ -1911,7 +1989,7 @@ namespace Microsoft.Azure.Management.ManagedCache
             
             // Construct URL
             string baseUrl = this.Client.BaseUri.AbsoluteUri;
-            string url = "/" + this.Client.Credentials.SubscriptionId.Trim() + "/cloudservices/" + cloudServiceName.Trim() + "/resources/cacheservice/Caching/" + cacheServiceName.Trim();
+            string url = "/" + (this.Client.Credentials.SubscriptionId != null ? this.Client.Credentials.SubscriptionId.Trim() : "") + "/cloudservices/" + cloudServiceName.Trim() + "/resources/cacheservice/Caching/" + cacheServiceName.Trim();
             // Trim '/' character from the end of baseUrl and beginning of url.
             if (baseUrl[baseUrl.Length - 1] == '/')
             {
@@ -1956,7 +2034,7 @@ namespace Microsoft.Azure.Management.ManagedCache
                     if (statusCode != HttpStatusCode.Accepted)
                     {
                         cancellationToken.ThrowIfCancellationRequested();
-                        CloudException ex = CloudException.Create(httpRequest, null, httpResponse, await httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false), CloudExceptionType.Xml);
+                        CloudException ex = CloudException.Create(httpRequest, null, httpResponse, await httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false));
                         if (shouldTrace)
                         {
                             Tracing.Error(invocationId, ex);
@@ -2038,7 +2116,7 @@ namespace Microsoft.Azure.Management.ManagedCache
             
             // Construct URL
             string baseUrl = this.Client.BaseUri.AbsoluteUri;
-            string url = "/" + this.Client.Credentials.SubscriptionId.Trim() + "/cloudservices/" + cloudServiceName.Trim() + "/resources/cacheservice/~/Caching/dummy/Namespaces/" + cacheServiceName.Trim();
+            string url = "/" + (this.Client.Credentials.SubscriptionId != null ? this.Client.Credentials.SubscriptionId.Trim() : "") + "/cloudservices/" + cloudServiceName.Trim() + "/resources/cacheservice/~/Caching/dummy/Namespaces/" + cacheServiceName.Trim();
             // Trim '/' character from the end of baseUrl and beginning of url.
             if (baseUrl[baseUrl.Length - 1] == '/')
             {
@@ -2083,7 +2161,7 @@ namespace Microsoft.Azure.Management.ManagedCache
                     if (statusCode != HttpStatusCode.OK)
                     {
                         cancellationToken.ThrowIfCancellationRequested();
-                        CloudException ex = CloudException.Create(httpRequest, null, httpResponse, await httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false), CloudExceptionType.Xml);
+                        CloudException ex = CloudException.Create(httpRequest, null, httpResponse, await httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false));
                         if (shouldTrace)
                         {
                             Tracing.Error(invocationId, ex);
@@ -2100,7 +2178,7 @@ namespace Microsoft.Azure.Management.ManagedCache
                     XDocument responseDoc = XDocument.Parse(responseContent);
                     
                     XElement booleanElement = responseDoc.Element(XName.Get("boolean", "http://schemas.microsoft.com/2003/10/Serialization/"));
-                    if (booleanElement != null && booleanElement.IsEmpty == false)
+                    if (booleanElement != null)
                     {
                         bool booleanInstance = bool.Parse(booleanElement.Value);
                         result.Available = booleanInstance;
@@ -2388,7 +2466,7 @@ namespace Microsoft.Azure.Management.ManagedCache
             
             // Construct URL
             string baseUrl = this.Client.BaseUri.AbsoluteUri;
-            string url = "/" + this.Client.Credentials.SubscriptionId.Trim() + "/cloudservices/" + cloudServiceName.Trim() + "/resources/cacheservice/~/Caching/" + cacheServiceName.Trim() + "/Keys";
+            string url = "/" + (this.Client.Credentials.SubscriptionId != null ? this.Client.Credentials.SubscriptionId.Trim() : "") + "/cloudservices/" + cloudServiceName.Trim() + "/resources/cacheservice/~/Caching/" + cacheServiceName.Trim() + "/Keys";
             // Trim '/' character from the end of baseUrl and beginning of url.
             if (baseUrl[baseUrl.Length - 1] == '/')
             {
@@ -2433,7 +2511,7 @@ namespace Microsoft.Azure.Management.ManagedCache
                     if (statusCode != HttpStatusCode.OK)
                     {
                         cancellationToken.ThrowIfCancellationRequested();
-                        CloudException ex = CloudException.Create(httpRequest, null, httpResponse, await httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false), CloudExceptionType.Xml);
+                        CloudException ex = CloudException.Create(httpRequest, null, httpResponse, await httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false));
                         if (shouldTrace)
                         {
                             Tracing.Error(invocationId, ex);
@@ -2450,17 +2528,17 @@ namespace Microsoft.Azure.Management.ManagedCache
                     XDocument responseDoc = XDocument.Parse(responseContent);
                     
                     XElement cachingKeysElement = responseDoc.Element(XName.Get("CachingKeys", "http://schemas.microsoft.com/windowsazure"));
-                    if (cachingKeysElement != null && cachingKeysElement.IsEmpty == false)
+                    if (cachingKeysElement != null)
                     {
                         XElement primaryElement = cachingKeysElement.Element(XName.Get("Primary", "http://schemas.microsoft.com/windowsazure"));
-                        if (primaryElement != null && primaryElement.IsEmpty == false)
+                        if (primaryElement != null)
                         {
                             string primaryInstance = primaryElement.Value;
                             result.Primary = primaryInstance;
                         }
                         
                         XElement secondaryElement = cachingKeysElement.Element(XName.Get("Secondary", "http://schemas.microsoft.com/windowsazure"));
-                        if (secondaryElement != null && secondaryElement.IsEmpty == false)
+                        if (secondaryElement != null)
                         {
                             string secondaryInstance = secondaryElement.Value;
                             result.Secondary = secondaryInstance;
@@ -2554,7 +2632,7 @@ namespace Microsoft.Azure.Management.ManagedCache
             
             // Construct URL
             string baseUrl = this.Client.BaseUri.AbsoluteUri;
-            string url = "/" + this.Client.Credentials.SubscriptionId.Trim() + "/cloudservices/" + cloudServiceName.Trim() + "/resources/cacheservice/~/Caching/" + cacheServiceName.Trim() + "/Keys/?comp=regenerate";
+            string url = "/" + (this.Client.Credentials.SubscriptionId != null ? this.Client.Credentials.SubscriptionId.Trim() : "") + "/cloudservices/" + cloudServiceName.Trim() + "/resources/cacheservice/~/Caching/" + cacheServiceName.Trim() + "/Keys/?comp=regenerate";
             // Trim '/' character from the end of baseUrl and beginning of url.
             if (baseUrl[baseUrl.Length - 1] == '/')
             {
@@ -2617,7 +2695,7 @@ namespace Microsoft.Azure.Management.ManagedCache
                     if (statusCode != HttpStatusCode.OK)
                     {
                         cancellationToken.ThrowIfCancellationRequested();
-                        CloudException ex = CloudException.Create(httpRequest, requestContent, httpResponse, await httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false), CloudExceptionType.Xml);
+                        CloudException ex = CloudException.Create(httpRequest, requestContent, httpResponse, await httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false));
                         if (shouldTrace)
                         {
                             Tracing.Error(invocationId, ex);
@@ -2634,17 +2712,17 @@ namespace Microsoft.Azure.Management.ManagedCache
                     XDocument responseDoc = XDocument.Parse(responseContent);
                     
                     XElement cachingKeysElement = responseDoc.Element(XName.Get("CachingKeys", "http://schemas.microsoft.com/windowsazure"));
-                    if (cachingKeysElement != null && cachingKeysElement.IsEmpty == false)
+                    if (cachingKeysElement != null)
                     {
                         XElement primaryElement = cachingKeysElement.Element(XName.Get("Primary", "http://schemas.microsoft.com/windowsazure"));
-                        if (primaryElement != null && primaryElement.IsEmpty == false)
+                        if (primaryElement != null)
                         {
                             string primaryInstance = primaryElement.Value;
                             result.Primary = primaryInstance;
                         }
                         
                         XElement secondaryElement = cachingKeysElement.Element(XName.Get("Secondary", "http://schemas.microsoft.com/windowsazure"));
-                        if (secondaryElement != null && secondaryElement.IsEmpty == false)
+                        if (secondaryElement != null)
                         {
                             string secondaryInstance = secondaryElement.Value;
                             result.Secondary = secondaryInstance;
@@ -2843,7 +2921,7 @@ namespace Microsoft.Azure.Management.ManagedCache
             
             // Construct URL
             string baseUrl = this.Client.BaseUri.AbsoluteUri;
-            string url = this.Client.Credentials.SubscriptionId.Trim() + "/CloudServices/" + cloudServiceName.Trim();
+            string url = (this.Client.Credentials.SubscriptionId != null ? this.Client.Credentials.SubscriptionId.Trim() : "") + "/CloudServices/" + cloudServiceName.Trim();
             // Trim '/' character from the end of baseUrl and beginning of url.
             if (baseUrl[baseUrl.Length - 1] == '/')
             {
@@ -2918,7 +2996,7 @@ namespace Microsoft.Azure.Management.ManagedCache
                     if (statusCode != HttpStatusCode.Accepted)
                     {
                         cancellationToken.ThrowIfCancellationRequested();
-                        CloudException ex = CloudException.Create(httpRequest, requestContent, httpResponse, await httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false), CloudExceptionType.Xml);
+                        CloudException ex = CloudException.Create(httpRequest, requestContent, httpResponse, await httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false));
                         if (shouldTrace)
                         {
                             Tracing.Error(invocationId, ex);
@@ -3092,7 +3170,7 @@ namespace Microsoft.Azure.Management.ManagedCache
             
             // Construct URL
             string baseUrl = this.Client.BaseUri.AbsoluteUri;
-            string url = this.Client.Credentials.SubscriptionId.Trim() + "/CloudServices/" + cloudServiceName.Trim();
+            string url = (this.Client.Credentials.SubscriptionId != null ? this.Client.Credentials.SubscriptionId.Trim() : "") + "/CloudServices/" + cloudServiceName.Trim();
             // Trim '/' character from the end of baseUrl and beginning of url.
             if (baseUrl[baseUrl.Length - 1] == '/')
             {
@@ -3137,7 +3215,7 @@ namespace Microsoft.Azure.Management.ManagedCache
                     if (statusCode != HttpStatusCode.OK)
                     {
                         cancellationToken.ThrowIfCancellationRequested();
-                        CloudException ex = CloudException.Create(httpRequest, null, httpResponse, await httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false), CloudExceptionType.Xml);
+                        CloudException ex = CloudException.Create(httpRequest, null, httpResponse, await httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false));
                         if (shouldTrace)
                         {
                             Tracing.Error(invocationId, ex);
@@ -3154,17 +3232,17 @@ namespace Microsoft.Azure.Management.ManagedCache
                     XDocument responseDoc = XDocument.Parse(responseContent);
                     
                     XElement cloudServiceElement = responseDoc.Element(XName.Get("CloudService", "http://schemas.microsoft.com/windowsazure"));
-                    if (cloudServiceElement != null && cloudServiceElement.IsEmpty == false)
+                    if (cloudServiceElement != null)
                     {
                         XElement geoLocationElement = cloudServiceElement.Element(XName.Get("GeoLocation", "http://schemas.microsoft.com/windowsazure"));
-                        if (geoLocationElement != null && geoLocationElement.IsEmpty == false)
+                        if (geoLocationElement != null)
                         {
                             string geoLocationInstance = geoLocationElement.Value;
                             result.GeoLocation = geoLocationInstance;
                         }
                         
                         XElement resourcesSequenceElement = cloudServiceElement.Element(XName.Get("Resources", "http://schemas.microsoft.com/windowsazure"));
-                        if (resourcesSequenceElement != null && resourcesSequenceElement.IsEmpty == false)
+                        if (resourcesSequenceElement != null)
                         {
                             foreach (XElement resourcesElement in resourcesSequenceElement.Elements(XName.Get("Resource", "http://schemas.microsoft.com/windowsazure")))
                             {
@@ -3172,63 +3250,63 @@ namespace Microsoft.Azure.Management.ManagedCache
                                 result.Resources.Add(resourceInstance);
                                 
                                 XElement resourceProviderNamespaceElement = resourcesElement.Element(XName.Get("ResourceProviderNamespace", "http://schemas.microsoft.com/windowsazure"));
-                                if (resourceProviderNamespaceElement != null && resourceProviderNamespaceElement.IsEmpty == false)
+                                if (resourceProviderNamespaceElement != null)
                                 {
                                     string resourceProviderNamespaceInstance = resourceProviderNamespaceElement.Value;
                                     resourceInstance.Namespace = resourceProviderNamespaceInstance;
                                 }
                                 
                                 XElement typeElement = resourcesElement.Element(XName.Get("Type", "http://schemas.microsoft.com/windowsazure"));
-                                if (typeElement != null && typeElement.IsEmpty == false)
+                                if (typeElement != null)
                                 {
                                     string typeInstance = typeElement.Value;
                                     resourceInstance.Type = typeInstance;
                                 }
                                 
                                 XElement nameElement = resourcesElement.Element(XName.Get("Name", "http://schemas.microsoft.com/windowsazure"));
-                                if (nameElement != null && nameElement.IsEmpty == false)
+                                if (nameElement != null)
                                 {
                                     string nameInstance = nameElement.Value;
                                     resourceInstance.Name = nameInstance;
                                 }
                                 
                                 XElement planElement = resourcesElement.Element(XName.Get("Plan", "http://schemas.microsoft.com/windowsazure"));
-                                if (planElement != null && planElement.IsEmpty == false)
+                                if (planElement != null)
                                 {
                                     string planInstance = planElement.Value;
                                     resourceInstance.Plan = planInstance;
                                 }
                                 
                                 XElement schemaVersionElement = resourcesElement.Element(XName.Get("SchemaVersion", "http://schemas.microsoft.com/windowsazure"));
-                                if (schemaVersionElement != null && schemaVersionElement.IsEmpty == false)
+                                if (schemaVersionElement != null)
                                 {
                                     string schemaVersionInstance = schemaVersionElement.Value;
                                     resourceInstance.SchemaVersion = schemaVersionInstance;
                                 }
                                 
                                 XElement eTagElement = resourcesElement.Element(XName.Get("ETag", "http://schemas.microsoft.com/windowsazure"));
-                                if (eTagElement != null && eTagElement.IsEmpty == false)
+                                if (eTagElement != null)
                                 {
                                     string eTagInstance = eTagElement.Value;
                                     resourceInstance.ETag = eTagInstance;
                                 }
                                 
                                 XElement stateElement = resourcesElement.Element(XName.Get("State", "http://schemas.microsoft.com/windowsazure"));
-                                if (stateElement != null && stateElement.IsEmpty == false)
+                                if (stateElement != null)
                                 {
                                     string stateInstance = stateElement.Value;
                                     resourceInstance.State = stateInstance;
                                 }
                                 
                                 XElement subStateElement = resourcesElement.Element(XName.Get("SubState", "http://schemas.microsoft.com/windowsazure"));
-                                if (subStateElement != null && subStateElement.IsEmpty == false)
+                                if (subStateElement != null)
                                 {
                                     string subStateInstance = subStateElement.Value;
                                     resourceInstance.SubState = subStateInstance;
                                 }
                                 
                                 XElement usageMetersSequenceElement = resourcesElement.Element(XName.Get("UsageMeters", "http://schemas.microsoft.com/windowsazure"));
-                                if (usageMetersSequenceElement != null && usageMetersSequenceElement.IsEmpty == false)
+                                if (usageMetersSequenceElement != null)
                                 {
                                     foreach (XElement usageMetersElement in usageMetersSequenceElement.Elements(XName.Get("UsageMeter", "http://schemas.microsoft.com/windowsazure")))
                                     {
@@ -3236,28 +3314,28 @@ namespace Microsoft.Azure.Management.ManagedCache
                                         resourceInstance.UsageLimits.Add(usageMeterInstance);
                                         
                                         XElement nameElement2 = usageMetersElement.Element(XName.Get("Name", "http://schemas.microsoft.com/windowsazure"));
-                                        if (nameElement2 != null && nameElement2.IsEmpty == false)
+                                        if (nameElement2 != null)
                                         {
                                             string nameInstance2 = nameElement2.Value;
                                             usageMeterInstance.Name = nameInstance2;
                                         }
                                         
                                         XElement unitElement = usageMetersElement.Element(XName.Get("Unit", "http://schemas.microsoft.com/windowsazure"));
-                                        if (unitElement != null && unitElement.IsEmpty == false)
+                                        if (unitElement != null)
                                         {
                                             string unitInstance = unitElement.Value;
                                             usageMeterInstance.Unit = unitInstance;
                                         }
                                         
                                         XElement includedElement = usageMetersElement.Element(XName.Get("Included", "http://schemas.microsoft.com/windowsazure"));
-                                        if (includedElement != null && includedElement.IsEmpty == false)
+                                        if (includedElement != null)
                                         {
                                             string includedInstance = includedElement.Value;
                                             usageMeterInstance.AmountIncluded = includedInstance;
                                         }
                                         
                                         XElement usedElement = usageMetersElement.Element(XName.Get("Used", "http://schemas.microsoft.com/windowsazure"));
-                                        if (usedElement != null && usedElement.IsEmpty == false)
+                                        if (usedElement != null)
                                         {
                                             string usedInstance = usedElement.Value;
                                             usageMeterInstance.AmountUsed = usedInstance;
@@ -3266,7 +3344,7 @@ namespace Microsoft.Azure.Management.ManagedCache
                                 }
                                 
                                 XElement outputItemsSequenceElement = resourcesElement.Element(XName.Get("OutputItems", "http://schemas.microsoft.com/windowsazure"));
-                                if (outputItemsSequenceElement != null && outputItemsSequenceElement.IsEmpty == false)
+                                if (outputItemsSequenceElement != null)
                                 {
                                     foreach (XElement outputItemsElement in outputItemsSequenceElement.Elements(XName.Get("OutputItem", "http://schemas.microsoft.com/windowsazure")))
                                     {
@@ -3277,54 +3355,54 @@ namespace Microsoft.Azure.Management.ManagedCache
                                 }
                                 
                                 XElement intrinsicSettingsElement = resourcesElement.Element(XName.Get("IntrinsicSettings", "http://schemas.microsoft.com/windowsazure"));
-                                if (intrinsicSettingsElement != null && intrinsicSettingsElement.IsEmpty == false)
+                                if (intrinsicSettingsElement != null)
                                 {
                                     IntrinsicSettings intrinsicSettingsInstance = new IntrinsicSettings();
                                     resourceInstance.IntrinsicSettingsSection = intrinsicSettingsInstance;
                                     
                                     XElement cacheServiceInputElement = intrinsicSettingsElement.Element(XName.Get("CacheServiceInput", ""));
-                                    if (cacheServiceInputElement != null && cacheServiceInputElement.IsEmpty == false)
+                                    if (cacheServiceInputElement != null)
                                     {
                                         IntrinsicSettings.CacheServiceInput cacheServiceInputInstance = new IntrinsicSettings.CacheServiceInput();
                                         intrinsicSettingsInstance.CacheServiceInputSection = cacheServiceInputInstance;
                                         
                                         XElement skuTypeElement = cacheServiceInputElement.Element(XName.Get("SkuType", ""));
-                                        if (skuTypeElement != null && skuTypeElement.IsEmpty == false)
+                                        if (skuTypeElement != null)
                                         {
                                             CacheServiceSkuType skuTypeInstance = ((CacheServiceSkuType)Enum.Parse(typeof(CacheServiceSkuType), skuTypeElement.Value, true));
                                             cacheServiceInputInstance.SkuType = skuTypeInstance;
                                         }
                                         
                                         XElement locationElement = cacheServiceInputElement.Element(XName.Get("Location", ""));
-                                        if (locationElement != null && locationElement.IsEmpty == false)
+                                        if (locationElement != null)
                                         {
                                             string locationInstance = locationElement.Value;
                                             cacheServiceInputInstance.Location = locationInstance;
                                         }
                                         
                                         XElement skuCountElement = cacheServiceInputElement.Element(XName.Get("SkuCount", ""));
-                                        if (skuCountElement != null && skuCountElement.IsEmpty == false)
+                                        if (skuCountElement != null)
                                         {
                                             int skuCountInstance = int.Parse(skuCountElement.Value, CultureInfo.InvariantCulture);
                                             cacheServiceInputInstance.SkuCount = skuCountInstance;
                                         }
                                         
                                         XElement serviceVersionElement = cacheServiceInputElement.Element(XName.Get("ServiceVersion", ""));
-                                        if (serviceVersionElement != null && serviceVersionElement.IsEmpty == false)
+                                        if (serviceVersionElement != null)
                                         {
                                             string serviceVersionInstance = serviceVersionElement.Value;
                                             cacheServiceInputInstance.ServiceVersion = serviceVersionInstance;
                                         }
                                         
                                         XElement objectSizeInBytesElement = cacheServiceInputElement.Element(XName.Get("ObjectSizeInBytes", ""));
-                                        if (objectSizeInBytesElement != null && objectSizeInBytesElement.IsEmpty == false)
+                                        if (objectSizeInBytesElement != null)
                                         {
                                             int objectSizeInBytesInstance = int.Parse(objectSizeInBytesElement.Value, CultureInfo.InvariantCulture);
                                             cacheServiceInputInstance.ObjectSizeInBytes = objectSizeInBytesInstance;
                                         }
                                         
                                         XElement namedCachesSequenceElement = cacheServiceInputElement.Element(XName.Get("NamedCaches", ""));
-                                        if (namedCachesSequenceElement != null && namedCachesSequenceElement.IsEmpty == false)
+                                        if (namedCachesSequenceElement != null)
                                         {
                                             foreach (XElement namedCachesElement in namedCachesSequenceElement.Elements(XName.Get("NamedCache", "")))
                                             {
@@ -3332,48 +3410,48 @@ namespace Microsoft.Azure.Management.ManagedCache
                                                 cacheServiceInputInstance.NamedCaches.Add(namedCacheInstance);
                                                 
                                                 XElement cacheNameElement = namedCachesElement.Element(XName.Get("CacheName", ""));
-                                                if (cacheNameElement != null && cacheNameElement.IsEmpty == false)
+                                                if (cacheNameElement != null)
                                                 {
                                                     string cacheNameInstance = cacheNameElement.Value;
                                                     namedCacheInstance.CacheName = cacheNameInstance;
                                                 }
                                                 
                                                 XElement notificationsEnabledElement = namedCachesElement.Element(XName.Get("NotificationsEnabled", ""));
-                                                if (notificationsEnabledElement != null && notificationsEnabledElement.IsEmpty == false)
+                                                if (notificationsEnabledElement != null)
                                                 {
                                                     bool notificationsEnabledInstance = bool.Parse(notificationsEnabledElement.Value);
                                                     namedCacheInstance.NotificationsEnabled = notificationsEnabledInstance;
                                                 }
                                                 
                                                 XElement highAvailabilityEnabledElement = namedCachesElement.Element(XName.Get("HighAvailabilityEnabled", ""));
-                                                if (highAvailabilityEnabledElement != null && highAvailabilityEnabledElement.IsEmpty == false)
+                                                if (highAvailabilityEnabledElement != null)
                                                 {
                                                     bool highAvailabilityEnabledInstance = bool.Parse(highAvailabilityEnabledElement.Value);
                                                     namedCacheInstance.HighAvailabilityEnabled = highAvailabilityEnabledInstance;
                                                 }
                                                 
                                                 XElement evictionPolicyElement = namedCachesElement.Element(XName.Get("EvictionPolicy", ""));
-                                                if (evictionPolicyElement != null && evictionPolicyElement.IsEmpty == false)
+                                                if (evictionPolicyElement != null)
                                                 {
                                                     string evictionPolicyInstance = evictionPolicyElement.Value;
                                                     namedCacheInstance.EvictionPolicy = evictionPolicyInstance;
                                                 }
                                                 
                                                 XElement expirationSettingsSectionElement = namedCachesElement.Element(XName.Get("ExpirationSettingsSection", ""));
-                                                if (expirationSettingsSectionElement != null && expirationSettingsSectionElement.IsEmpty == false)
+                                                if (expirationSettingsSectionElement != null)
                                                 {
                                                     IntrinsicSettings.CacheServiceInput.NamedCache.ExpirationSettings expirationSettingsSectionInstance = new IntrinsicSettings.CacheServiceInput.NamedCache.ExpirationSettings();
                                                     namedCacheInstance.ExpirationSettingsSection = expirationSettingsSectionInstance;
                                                     
                                                     XElement timeToLiveInMinutesElement = expirationSettingsSectionElement.Element(XName.Get("TimeToLiveInMinutes", ""));
-                                                    if (timeToLiveInMinutesElement != null && timeToLiveInMinutesElement.IsEmpty == false)
+                                                    if (timeToLiveInMinutesElement != null)
                                                     {
                                                         int timeToLiveInMinutesInstance = int.Parse(timeToLiveInMinutesElement.Value, CultureInfo.InvariantCulture);
                                                         expirationSettingsSectionInstance.TimeToLiveInMinutes = timeToLiveInMinutesInstance;
                                                     }
                                                     
                                                     XElement typeElement2 = expirationSettingsSectionElement.Element(XName.Get("Type", ""));
-                                                    if (typeElement2 != null && typeElement2.IsEmpty == false)
+                                                    if (typeElement2 != null)
                                                     {
                                                         string typeInstance2 = typeElement2.Value;
                                                         expirationSettingsSectionInstance.Type = typeInstance2;
@@ -3438,7 +3516,7 @@ namespace Microsoft.Azure.Management.ManagedCache
             
             // Construct URL
             string baseUrl = this.Client.BaseUri.AbsoluteUri;
-            string url = this.Client.Credentials.SubscriptionId.Trim() + "/CloudServices";
+            string url = (this.Client.Credentials.SubscriptionId != null ? this.Client.Credentials.SubscriptionId.Trim() : "") + "/CloudServices";
             // Trim '/' character from the end of baseUrl and beginning of url.
             if (baseUrl[baseUrl.Length - 1] == '/')
             {
@@ -3483,7 +3561,7 @@ namespace Microsoft.Azure.Management.ManagedCache
                     if (statusCode != HttpStatusCode.OK)
                     {
                         cancellationToken.ThrowIfCancellationRequested();
-                        CloudException ex = CloudException.Create(httpRequest, null, httpResponse, await httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false), CloudExceptionType.Xml);
+                        CloudException ex = CloudException.Create(httpRequest, null, httpResponse, await httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false));
                         if (shouldTrace)
                         {
                             Tracing.Error(invocationId, ex);
@@ -3500,7 +3578,7 @@ namespace Microsoft.Azure.Management.ManagedCache
                     XDocument responseDoc = XDocument.Parse(responseContent);
                     
                     XElement cloudServicesSequenceElement = responseDoc.Element(XName.Get("CloudServices", "http://schemas.microsoft.com/windowsazure"));
-                    if (cloudServicesSequenceElement != null && cloudServicesSequenceElement.IsEmpty == false)
+                    if (cloudServicesSequenceElement != null)
                     {
                         foreach (XElement cloudServicesElement in cloudServicesSequenceElement.Elements(XName.Get("CloudService", "http://schemas.microsoft.com/windowsazure")))
                         {
@@ -3508,35 +3586,35 @@ namespace Microsoft.Azure.Management.ManagedCache
                             result.CloudServices.Add(cloudServiceInstance);
                             
                             XElement nameElement = cloudServicesElement.Element(XName.Get("Name", "http://schemas.microsoft.com/windowsazure"));
-                            if (nameElement != null && nameElement.IsEmpty == false)
+                            if (nameElement != null)
                             {
                                 string nameInstance = nameElement.Value;
                                 cloudServiceInstance.Name = nameInstance;
                             }
                             
                             XElement labelElement = cloudServicesElement.Element(XName.Get("Label", "http://schemas.microsoft.com/windowsazure"));
-                            if (labelElement != null && labelElement.IsEmpty == false)
+                            if (labelElement != null)
                             {
                                 string labelInstance = labelElement.Value;
                                 cloudServiceInstance.Label = labelInstance;
                             }
                             
                             XElement descriptionElement = cloudServicesElement.Element(XName.Get("Description", "http://schemas.microsoft.com/windowsazure"));
-                            if (descriptionElement != null && descriptionElement.IsEmpty == false)
+                            if (descriptionElement != null)
                             {
                                 string descriptionInstance = descriptionElement.Value;
                                 cloudServiceInstance.Description = descriptionInstance;
                             }
                             
                             XElement geoRegionElement = cloudServicesElement.Element(XName.Get("GeoRegion", "http://schemas.microsoft.com/windowsazure"));
-                            if (geoRegionElement != null && geoRegionElement.IsEmpty == false)
+                            if (geoRegionElement != null)
                             {
                                 string geoRegionInstance = geoRegionElement.Value;
                                 cloudServiceInstance.GeoRegion = geoRegionInstance;
                             }
                             
                             XElement resourcesSequenceElement = cloudServicesElement.Element(XName.Get("Resources", "http://schemas.microsoft.com/windowsazure"));
-                            if (resourcesSequenceElement != null && resourcesSequenceElement.IsEmpty == false)
+                            if (resourcesSequenceElement != null)
                             {
                                 foreach (XElement resourcesElement in resourcesSequenceElement.Elements(XName.Get("Resource", "http://schemas.microsoft.com/windowsazure")))
                                 {
@@ -3544,63 +3622,63 @@ namespace Microsoft.Azure.Management.ManagedCache
                                     cloudServiceInstance.Resources.Add(resourceInstance);
                                     
                                     XElement resourceProviderNamespaceElement = resourcesElement.Element(XName.Get("ResourceProviderNamespace", "http://schemas.microsoft.com/windowsazure"));
-                                    if (resourceProviderNamespaceElement != null && resourceProviderNamespaceElement.IsEmpty == false)
+                                    if (resourceProviderNamespaceElement != null)
                                     {
                                         string resourceProviderNamespaceInstance = resourceProviderNamespaceElement.Value;
                                         resourceInstance.Namespace = resourceProviderNamespaceInstance;
                                     }
                                     
                                     XElement typeElement = resourcesElement.Element(XName.Get("Type", "http://schemas.microsoft.com/windowsazure"));
-                                    if (typeElement != null && typeElement.IsEmpty == false)
+                                    if (typeElement != null)
                                     {
                                         string typeInstance = typeElement.Value;
                                         resourceInstance.Type = typeInstance;
                                     }
                                     
                                     XElement nameElement2 = resourcesElement.Element(XName.Get("Name", "http://schemas.microsoft.com/windowsazure"));
-                                    if (nameElement2 != null && nameElement2.IsEmpty == false)
+                                    if (nameElement2 != null)
                                     {
                                         string nameInstance2 = nameElement2.Value;
                                         resourceInstance.Name = nameInstance2;
                                     }
                                     
                                     XElement planElement = resourcesElement.Element(XName.Get("Plan", "http://schemas.microsoft.com/windowsazure"));
-                                    if (planElement != null && planElement.IsEmpty == false)
+                                    if (planElement != null)
                                     {
                                         string planInstance = planElement.Value;
                                         resourceInstance.Plan = planInstance;
                                     }
                                     
                                     XElement schemaVersionElement = resourcesElement.Element(XName.Get("SchemaVersion", "http://schemas.microsoft.com/windowsazure"));
-                                    if (schemaVersionElement != null && schemaVersionElement.IsEmpty == false)
+                                    if (schemaVersionElement != null)
                                     {
                                         string schemaVersionInstance = schemaVersionElement.Value;
                                         resourceInstance.SchemaVersion = schemaVersionInstance;
                                     }
                                     
                                     XElement eTagElement = resourcesElement.Element(XName.Get("ETag", "http://schemas.microsoft.com/windowsazure"));
-                                    if (eTagElement != null && eTagElement.IsEmpty == false)
+                                    if (eTagElement != null)
                                     {
                                         string eTagInstance = eTagElement.Value;
                                         resourceInstance.ETag = eTagInstance;
                                     }
                                     
                                     XElement stateElement = resourcesElement.Element(XName.Get("State", "http://schemas.microsoft.com/windowsazure"));
-                                    if (stateElement != null && stateElement.IsEmpty == false)
+                                    if (stateElement != null)
                                     {
                                         string stateInstance = stateElement.Value;
                                         resourceInstance.State = stateInstance;
                                     }
                                     
                                     XElement subStateElement = resourcesElement.Element(XName.Get("SubState", "http://schemas.microsoft.com/windowsazure"));
-                                    if (subStateElement != null && subStateElement.IsEmpty == false)
+                                    if (subStateElement != null)
                                     {
                                         string subStateInstance = subStateElement.Value;
                                         resourceInstance.SubState = subStateInstance;
                                     }
                                     
                                     XElement usageMetersSequenceElement = resourcesElement.Element(XName.Get("UsageMeters", "http://schemas.microsoft.com/windowsazure"));
-                                    if (usageMetersSequenceElement != null && usageMetersSequenceElement.IsEmpty == false)
+                                    if (usageMetersSequenceElement != null)
                                     {
                                         foreach (XElement usageMetersElement in usageMetersSequenceElement.Elements(XName.Get("UsageMeter", "http://schemas.microsoft.com/windowsazure")))
                                         {
@@ -3608,28 +3686,28 @@ namespace Microsoft.Azure.Management.ManagedCache
                                             resourceInstance.UsageLimits.Add(usageMeterInstance);
                                             
                                             XElement nameElement3 = usageMetersElement.Element(XName.Get("Name", "http://schemas.microsoft.com/windowsazure"));
-                                            if (nameElement3 != null && nameElement3.IsEmpty == false)
+                                            if (nameElement3 != null)
                                             {
                                                 string nameInstance3 = nameElement3.Value;
                                                 usageMeterInstance.Name = nameInstance3;
                                             }
                                             
                                             XElement unitElement = usageMetersElement.Element(XName.Get("Unit", "http://schemas.microsoft.com/windowsazure"));
-                                            if (unitElement != null && unitElement.IsEmpty == false)
+                                            if (unitElement != null)
                                             {
                                                 string unitInstance = unitElement.Value;
                                                 usageMeterInstance.Unit = unitInstance;
                                             }
                                             
                                             XElement includedElement = usageMetersElement.Element(XName.Get("Included", "http://schemas.microsoft.com/windowsazure"));
-                                            if (includedElement != null && includedElement.IsEmpty == false)
+                                            if (includedElement != null)
                                             {
                                                 string includedInstance = includedElement.Value;
                                                 usageMeterInstance.AmountIncluded = includedInstance;
                                             }
                                             
                                             XElement usedElement = usageMetersElement.Element(XName.Get("Used", "http://schemas.microsoft.com/windowsazure"));
-                                            if (usedElement != null && usedElement.IsEmpty == false)
+                                            if (usedElement != null)
                                             {
                                                 string usedInstance = usedElement.Value;
                                                 usageMeterInstance.AmountUsed = usedInstance;
@@ -3638,7 +3716,7 @@ namespace Microsoft.Azure.Management.ManagedCache
                                     }
                                     
                                     XElement outputItemsSequenceElement = resourcesElement.Element(XName.Get("OutputItems", "http://schemas.microsoft.com/windowsazure"));
-                                    if (outputItemsSequenceElement != null && outputItemsSequenceElement.IsEmpty == false)
+                                    if (outputItemsSequenceElement != null)
                                     {
                                         foreach (XElement outputItemsElement in outputItemsSequenceElement.Elements(XName.Get("OutputItem", "http://schemas.microsoft.com/windowsazure")))
                                         {
@@ -3649,54 +3727,54 @@ namespace Microsoft.Azure.Management.ManagedCache
                                     }
                                     
                                     XElement intrinsicSettingsElement = resourcesElement.Element(XName.Get("IntrinsicSettings", "http://schemas.microsoft.com/windowsazure"));
-                                    if (intrinsicSettingsElement != null && intrinsicSettingsElement.IsEmpty == false)
+                                    if (intrinsicSettingsElement != null)
                                     {
                                         IntrinsicSettings intrinsicSettingsInstance = new IntrinsicSettings();
                                         resourceInstance.IntrinsicSettingsSection = intrinsicSettingsInstance;
                                         
                                         XElement cacheServiceInputElement = intrinsicSettingsElement.Element(XName.Get("CacheServiceInput", ""));
-                                        if (cacheServiceInputElement != null && cacheServiceInputElement.IsEmpty == false)
+                                        if (cacheServiceInputElement != null)
                                         {
                                             IntrinsicSettings.CacheServiceInput cacheServiceInputInstance = new IntrinsicSettings.CacheServiceInput();
                                             intrinsicSettingsInstance.CacheServiceInputSection = cacheServiceInputInstance;
                                             
                                             XElement skuTypeElement = cacheServiceInputElement.Element(XName.Get("SkuType", ""));
-                                            if (skuTypeElement != null && skuTypeElement.IsEmpty == false)
+                                            if (skuTypeElement != null)
                                             {
                                                 CacheServiceSkuType skuTypeInstance = ((CacheServiceSkuType)Enum.Parse(typeof(CacheServiceSkuType), skuTypeElement.Value, true));
                                                 cacheServiceInputInstance.SkuType = skuTypeInstance;
                                             }
                                             
                                             XElement locationElement = cacheServiceInputElement.Element(XName.Get("Location", ""));
-                                            if (locationElement != null && locationElement.IsEmpty == false)
+                                            if (locationElement != null)
                                             {
                                                 string locationInstance = locationElement.Value;
                                                 cacheServiceInputInstance.Location = locationInstance;
                                             }
                                             
                                             XElement skuCountElement = cacheServiceInputElement.Element(XName.Get("SkuCount", ""));
-                                            if (skuCountElement != null && skuCountElement.IsEmpty == false)
+                                            if (skuCountElement != null)
                                             {
                                                 int skuCountInstance = int.Parse(skuCountElement.Value, CultureInfo.InvariantCulture);
                                                 cacheServiceInputInstance.SkuCount = skuCountInstance;
                                             }
                                             
                                             XElement serviceVersionElement = cacheServiceInputElement.Element(XName.Get("ServiceVersion", ""));
-                                            if (serviceVersionElement != null && serviceVersionElement.IsEmpty == false)
+                                            if (serviceVersionElement != null)
                                             {
                                                 string serviceVersionInstance = serviceVersionElement.Value;
                                                 cacheServiceInputInstance.ServiceVersion = serviceVersionInstance;
                                             }
                                             
                                             XElement objectSizeInBytesElement = cacheServiceInputElement.Element(XName.Get("ObjectSizeInBytes", ""));
-                                            if (objectSizeInBytesElement != null && objectSizeInBytesElement.IsEmpty == false)
+                                            if (objectSizeInBytesElement != null)
                                             {
                                                 int objectSizeInBytesInstance = int.Parse(objectSizeInBytesElement.Value, CultureInfo.InvariantCulture);
                                                 cacheServiceInputInstance.ObjectSizeInBytes = objectSizeInBytesInstance;
                                             }
                                             
                                             XElement namedCachesSequenceElement = cacheServiceInputElement.Element(XName.Get("NamedCaches", ""));
-                                            if (namedCachesSequenceElement != null && namedCachesSequenceElement.IsEmpty == false)
+                                            if (namedCachesSequenceElement != null)
                                             {
                                                 foreach (XElement namedCachesElement in namedCachesSequenceElement.Elements(XName.Get("NamedCache", "")))
                                                 {
@@ -3704,48 +3782,48 @@ namespace Microsoft.Azure.Management.ManagedCache
                                                     cacheServiceInputInstance.NamedCaches.Add(namedCacheInstance);
                                                     
                                                     XElement cacheNameElement = namedCachesElement.Element(XName.Get("CacheName", ""));
-                                                    if (cacheNameElement != null && cacheNameElement.IsEmpty == false)
+                                                    if (cacheNameElement != null)
                                                     {
                                                         string cacheNameInstance = cacheNameElement.Value;
                                                         namedCacheInstance.CacheName = cacheNameInstance;
                                                     }
                                                     
                                                     XElement notificationsEnabledElement = namedCachesElement.Element(XName.Get("NotificationsEnabled", ""));
-                                                    if (notificationsEnabledElement != null && notificationsEnabledElement.IsEmpty == false)
+                                                    if (notificationsEnabledElement != null)
                                                     {
                                                         bool notificationsEnabledInstance = bool.Parse(notificationsEnabledElement.Value);
                                                         namedCacheInstance.NotificationsEnabled = notificationsEnabledInstance;
                                                     }
                                                     
                                                     XElement highAvailabilityEnabledElement = namedCachesElement.Element(XName.Get("HighAvailabilityEnabled", ""));
-                                                    if (highAvailabilityEnabledElement != null && highAvailabilityEnabledElement.IsEmpty == false)
+                                                    if (highAvailabilityEnabledElement != null)
                                                     {
                                                         bool highAvailabilityEnabledInstance = bool.Parse(highAvailabilityEnabledElement.Value);
                                                         namedCacheInstance.HighAvailabilityEnabled = highAvailabilityEnabledInstance;
                                                     }
                                                     
                                                     XElement evictionPolicyElement = namedCachesElement.Element(XName.Get("EvictionPolicy", ""));
-                                                    if (evictionPolicyElement != null && evictionPolicyElement.IsEmpty == false)
+                                                    if (evictionPolicyElement != null)
                                                     {
                                                         string evictionPolicyInstance = evictionPolicyElement.Value;
                                                         namedCacheInstance.EvictionPolicy = evictionPolicyInstance;
                                                     }
                                                     
                                                     XElement expirationSettingsSectionElement = namedCachesElement.Element(XName.Get("ExpirationSettingsSection", ""));
-                                                    if (expirationSettingsSectionElement != null && expirationSettingsSectionElement.IsEmpty == false)
+                                                    if (expirationSettingsSectionElement != null)
                                                     {
                                                         IntrinsicSettings.CacheServiceInput.NamedCache.ExpirationSettings expirationSettingsSectionInstance = new IntrinsicSettings.CacheServiceInput.NamedCache.ExpirationSettings();
                                                         namedCacheInstance.ExpirationSettingsSection = expirationSettingsSectionInstance;
                                                         
                                                         XElement timeToLiveInMinutesElement = expirationSettingsSectionElement.Element(XName.Get("TimeToLiveInMinutes", ""));
-                                                        if (timeToLiveInMinutesElement != null && timeToLiveInMinutesElement.IsEmpty == false)
+                                                        if (timeToLiveInMinutesElement != null)
                                                         {
                                                             int timeToLiveInMinutesInstance = int.Parse(timeToLiveInMinutesElement.Value, CultureInfo.InvariantCulture);
                                                             expirationSettingsSectionInstance.TimeToLiveInMinutes = timeToLiveInMinutesInstance;
                                                         }
                                                         
                                                         XElement typeElement2 = expirationSettingsSectionElement.Element(XName.Get("Type", ""));
-                                                        if (typeElement2 != null && typeElement2.IsEmpty == false)
+                                                        if (typeElement2 != null)
                                                         {
                                                             string typeInstance2 = typeElement2.Value;
                                                             expirationSettingsSectionInstance.Type = typeInstance2;
