@@ -12,27 +12,32 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Preview.IaaS.PersistentVMs
+namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
 {
+    using System;
     using System.Management.Automation;
-    using ServiceManagement.IaaS.PersistentVMs;
-    using Utilities.Common;
+    using Model;
+    using Model.PersistentVMModel;
+    using Properties;
 
-    [Cmdlet(VerbsCommon.New, "AzureVM", DefaultParameterSetName = "ExistingService"), OutputType(typeof(ManagementOperationContext))]
-    public class NewAzureVMCommand : ServiceManagement.IaaS.PersistentVMs.NewAzureVMCommand
+    [Cmdlet(VerbsCommon.Get, PublicIPNoun), OutputType(typeof(AssignPublicIPCollection))]
+    public class GetAzurePublicIPCommand : VirtualMachineConfigurationCmdletBase
     {
-        [Parameter(HelpMessage = "The name of the reserved IP.")]
+        [Parameter(Position = 1, HelpMessage = "The Public IP Name.")]
         [ValidateNotNullOrEmpty]
-        public override string ReservedIPName
-        {
-            get;
-            set;
-        }
+        public string PublicIPName { get; set; }
 
         protected override void ProcessRecord()
         {
-            ServiceManagementPreviewProfile.Initialize();
             base.ProcessRecord();
+
+            var networkConfiguration = GetNetworkConfiguration();
+            if (networkConfiguration == null)
+            {
+                throw new ArgumentOutOfRangeException(Resources.NetworkConfigurationNotFoundOnPersistentVM);
+            }
+
+            WriteObject(networkConfiguration.PublicIPs, true);
         }
     }
 }

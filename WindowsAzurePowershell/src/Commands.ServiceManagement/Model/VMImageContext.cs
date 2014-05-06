@@ -23,6 +23,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Model
         public override string ImageName { get; set; }
         public override string Label { get; set; }
         public override string Category { get; set; }
+        public override string Description { get; set; }
 
         public override string OS
         {
@@ -42,11 +43,27 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Model
             }
         }
 
+        public OSDiskConfiguration OSDiskConfiguration { get; set; }
+        public DataDiskConfigurationList DataDiskConfigurations { get; set; }
+
         public string ServiceName { get; set; }
         public string DeploymentName { get; set; }
         public string RoleName { get; set; }
-        public OSDiskConfiguration OSDiskConfiguration { get; set; }
-        public DataDiskConfigurationList DataDiskConfigurations { get; set; }
+        public override string AffinityGroup { get; set; }
         public DateTime? CreatedTime { get; set; }
+        public DateTime? ModifiedTime { get; set; }
+
+        public string Language { get; set; }
+        public override string ImageFamily { get; set; }
+        public override string RecommendedVMSize { get; set; }
+        public override bool? IsPremium { get; set; }
+        public override string Eula { get; set; }
+        public override Uri IconUri { get; set; }
+        public override Uri SmallIconUri { get; set; }
+        public override Uri PrivacyUri { get; set; }
+        public override string PublisherName { get; set; }
+        public override DateTime? PublishedDate { get; set; }
+        public bool? ShowInGui { get; set; }
+        public Uri PricingDetailLink { get; set; }
     }
 }

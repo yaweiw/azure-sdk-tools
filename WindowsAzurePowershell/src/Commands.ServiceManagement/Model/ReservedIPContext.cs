@@ -13,7 +13,7 @@
 // ----------------------------------------------------------------------------------
 
 
-namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Preview.Model
+namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Model
 {
     using Utilities.Common;
 
@@ -27,7 +27,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Preview.Model
 
         public string Label { get; set; }
 
-        public string AffinityGroup { get; set; }
+        public string Location { get; set; }
 
         public string State { get; set; }
 
