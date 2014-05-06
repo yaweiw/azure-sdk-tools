@@ -25,6 +25,9 @@ namespace Microsoft.Azure.Commands.ManagedCache
         public string Name { get; set;}
 
         [Parameter]
+        public SwitchParameter PassThru { get; set; }
+
+        [Parameter]
         public SwitchParameter Force { get; set; }
 
         public override void ExecuteCmdlet()
@@ -39,7 +42,10 @@ namespace Microsoft.Azure.Commands.ManagedCache
                    WriteVerbose(Properties.Resources.CacheServiceRemoveStarted);
                    CacheClient.DeleteCacheService(Name);
                    WriteVerbose(string.Format(Properties.Resources.CacheServiceRemoved, Name));
-                   WriteObject(true);
+                   if (PassThru)
+                   {
+                       WriteObject(true);
+                   }
                });
         }      
     }
