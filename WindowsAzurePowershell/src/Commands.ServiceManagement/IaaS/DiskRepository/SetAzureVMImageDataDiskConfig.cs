@@ -14,6 +14,7 @@
 
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
 {
+    using System;
     using System.Linq;
     using System.Management.Automation;
     using Model;
@@ -72,7 +73,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
             }
 
             var diskConfig = DiskConfig.DataDiskConfigurations.FirstOrDefault(
-                d => string.Equals(d.Name, this.DataDiskName));
+                d => string.Equals(d.Name, this.DataDiskName, StringComparison.OrdinalIgnoreCase));
 
             if (diskConfig == null)
             {
