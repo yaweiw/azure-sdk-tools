@@ -12,24 +12,29 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.Azure.Commands.ManagedCache
+namespace Microsoft.Azure.Commands.ManagedCache.Models
 {
-    using System;
-    using System.Management.Automation;
-    using Microsoft.Azure.Commands.ManagedCache.Models;
+    using System.Net;
     using Microsoft.Azure.Management.ManagedCache.Models;
-
-    [Cmdlet(VerbsCommon.Get, "AzureManagedCacheAccessKey"), OutputType(typeof(CacheAccessKeys))]
-    public class GetAzureManagedCacheAccessKey : ManagedCacheCmdletBase
+    class CacheAccessKeys
     {
-        [Parameter(Position = 0, Mandatory=true, ValueFromPipelineByPropertyName = true)]
-        [ValidateNotNullOrEmpty]
-        public string Name {get; set;}
-
-        public override void ExecuteCmdlet()
+        public CacheAccessKeys(string cacheServiceName, CachingKeysResponse response)
         {
-            CachingKeysResponse response = CacheClient.GetAccessKeys(Name);
-            WriteObject(new CacheAccessKeys(Name, response));
-        }      
+            Name = cacheServiceName;
+            Primary = response.Primary;
+            Secondary = response.Secondary;
+            StatusCode = response.StatusCode;
+            RequestId = response.RequestId;
+        }
+
+        public string Name { get; private set; }
+
+        public string Primary { get; private set; }
+
+        public string Secondary { get; private set; }
+
+        public HttpStatusCode StatusCode { get; private set; }
+
+        public string RequestId { get; private set; }
     }
 }
