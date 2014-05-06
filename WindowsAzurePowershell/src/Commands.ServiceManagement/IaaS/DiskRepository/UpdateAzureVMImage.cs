@@ -77,10 +77,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.DiskRepository
         [ValidateNotNullOrEmpty]
         public Uri SmallIconUri { get; set; }
 
-        [Parameter(Position = 12, ValueFromPipelineByPropertyName = true, HelpMessage = "IsPremium.")]
-        public SwitchParameter IsPremium { get; set; }
-
-        [Parameter(Position = 13, ValueFromPipelineByPropertyName = true, HelpMessage = "ShowInGui.")]
+        [Parameter(Position = 12, ValueFromPipelineByPropertyName = true, HelpMessage = "ShowInGui.")]
         public SwitchParameter ShowInGui { get; set; }
 
         protected override void OnProcessRecord()
@@ -109,8 +106,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.DiskRepository
                     RecommendedVMSize = this.RecommendedVMSize,
                     Language          = this.Language,
                     IconUri           = this.IconUri,
-                    SmallIconUri      = this.SmallIconUri,
-                    IsPremium         = this.IsPremium.IsPresent ? (bool?)this.IsPremium : null
+                    SmallIconUri      = this.SmallIconUri
                 };
 
                 this.ExecuteClientActionNewSM(
