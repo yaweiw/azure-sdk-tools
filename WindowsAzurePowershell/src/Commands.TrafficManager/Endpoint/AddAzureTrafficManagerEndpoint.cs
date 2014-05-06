@@ -31,6 +31,8 @@ namespace Microsoft.WindowsAzure.Commands.TrafficManager.Endpoint
         [Parameter(Mandatory = true)]
         public string DomainName { get; set; }
 
+        // Commented out due to bug in hydra spec: https://github.com/Azure/hydra-specs-pr/pull/339
+        // This feature hasn't been announced.
 //        [Parameter(Mandatory = false)]
 //        public string Location { get; set; }
 
@@ -42,6 +44,8 @@ namespace Microsoft.WindowsAzure.Commands.TrafficManager.Endpoint
         [ValidateSet("Enabled", "Disabled", IgnoreCase = false)]
         public string Status { get; set; }
 
+        // Commented out because endpoints using this fields will be inconsistent
+        // with Portal. This feature hasn't been announced.
 //        [Parameter(Mandatory = false)]
 //        public int Weight { get; set; }
 
@@ -49,7 +53,7 @@ namespace Microsoft.WindowsAzure.Commands.TrafficManager.Endpoint
         {
             TrafficManagerEndpoint endpoint = new TrafficManagerEndpoint();
             endpoint.DomainName = DomainName;
-            // endpoint.Location = Location;
+//            endpoint.Location = Location;
             endpoint.Status = (EndpointStatus)Enum.Parse(typeof(EndpointStatus), Status);
             endpoint.Type = (EndpointType)Enum.Parse(typeof(EndpointType), Type);
 //            endpoint.Weight = Weight;
