@@ -3,6 +3,8 @@ param(
     [string] $buildConfig
 )
 
+$VerbosePreference = 'Continue'
+
 if ([string]::IsNullOrEmpty($buildConfig))
 {
 	Write-Verbose "Setting build configuration to 'Release'"
@@ -14,7 +16,6 @@ Write-Verbose "Build configuration is set to $buildConfig"
 $output = Join-Path $(Split-Path -Parent -Path (Split-Path -Parent -Path $PSScriptRoot)) $(Join-Path 'Package' $buildConfig)
 $serviceManagementPath = Join-Path $output "ServiceManagement\Azure"
 $resourceManagerPath = Join-Path $output "ResourceManager\AzureResourceManager"
-$VerbosePreference = 'Continue'
 
 Write-Verbose "Removing duplicated AzureProfile.psd1..."
 Remove-Item -Force $serviceManagementPath\AzureProfile.psd1 -ErrorAction SilentlyContinue

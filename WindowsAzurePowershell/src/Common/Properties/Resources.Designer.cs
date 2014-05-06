@@ -214,6 +214,15 @@ namespace Microsoft.WindowsAzure.Commands.Common.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Profile {0} already has an endpoint with name {1}.
+        /// </summary>
+        public static string AddTrafficManagerEndpointFailed {
+            get {
+                return ResourceManager.GetString("AddTrafficManagerEndpointFailed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Windows Azure Powershell\.
         /// </summary>
         public static string AzureDirectory {
@@ -2974,6 +2983,42 @@ namespace Microsoft.WindowsAzure.Commands.Common.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The endpoint {0} cannot be removed from profile {1} because it&apos;s not in the profile..
+        /// </summary>
+        public static string RemoveTrafficManagerEndpointMissing {
+            get {
+                return ResourceManager.GetString("RemoveTrafficManagerEndpointMissing", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Remove-AzureTrafficManagerProfile Operation failed..
+        /// </summary>
+        public static string RemoveTrafficManagerProfileFailed {
+            get {
+                return ResourceManager.GetString("RemoveTrafficManagerProfileFailed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Successfully removed Traffic Manager profile with name {0}..
+        /// </summary>
+        public static string RemoveTrafficManagerProfileSucceeded {
+            get {
+                return ResourceManager.GetString("RemoveTrafficManagerProfileSucceeded", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Are you sure you want to remove the Traffic Manager profile &quot;{0}&quot;?.
+        /// </summary>
+        public static string RemoveTrafficManagerProfileWarning {
+            get {
+                return ResourceManager.GetString("RemoveTrafficManagerProfileWarning", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Are you sure you want to delete the VM &apos;{0}&apos;?.
         /// </summary>
         public static string RemoveVMConfirmationMessage {
@@ -3496,6 +3541,15 @@ namespace Microsoft.WindowsAzure.Commands.Common.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Profile {0} does not contain endpoint {1}. Adding it..
+        /// </summary>
+        public static string SetInexistentTrafficManagerEndpointMessage {
+            get {
+                return ResourceManager.GetString("SetInexistentTrafficManagerEndpointMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Note - You will be charged the amount for the new plan, without being refunded for time remaining 
         ///in the existing plan.
         ///By typing &quot;Yes&quot;, I (a) authorize Microsoft to charge my current payment method on a monthly basis 
@@ -3556,6 +3610,33 @@ namespace Microsoft.WindowsAzure.Commands.Common.Properties {
         public static string SettingsFileName1 {
             get {
                 return ResourceManager.GetString("SettingsFileName1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Insufficient parameters passed to create a new endpoint..
+        /// </summary>
+        public static string SetTrafficManagerEndpointNeedsParameters {
+            get {
+                return ResourceManager.GetString("SetTrafficManagerEndpointNeedsParameters", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Ambiguous operation: the profile name specified doesn&apos;t match the name of the profile object..
+        /// </summary>
+        public static string SetTrafficManagerProfileAmbiguous {
+            get {
+                return ResourceManager.GetString("SetTrafficManagerProfileAmbiguous", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to It is not possible to add an endpoint of type &quot;Any&quot; to a profile with a load balancing method &quot;Performance&quot;.
+        /// </summary>
+        public static string SetTrafficManagerProfileErrorNotSupported {
+            get {
+                return ResourceManager.GetString("SetTrafficManagerProfileErrorNotSupported", resourceCulture);
             }
         }
         
