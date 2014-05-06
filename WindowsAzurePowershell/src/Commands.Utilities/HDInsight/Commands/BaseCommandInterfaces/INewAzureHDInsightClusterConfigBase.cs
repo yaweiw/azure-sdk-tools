@@ -19,5 +19,13 @@ namespace Microsoft.WindowsAzure.Management.HDInsight.Cmdlet.Commands.BaseComman
         ///     Gets or sets the size of the cluster in data nodes.
         /// </summary>
         int ClusterSizeInNodes { get; set; }
+
+        /// <summary>
+        /// Gets or sets the size of the head node VMs.
+        /// </summary>
+        /// <value>
+        /// The size of the head node VM.
+        /// </value>
+        NodeVMSize HeadNodeVMSize { get; set; }
     }
 }

@@ -41,6 +41,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
         public bool DisableAutomaticUpdate = false;
         public bool DisableSSH = false;
 
+        public bool DisableGuestAgent = false;
         public bool DisableWinRMHttps = false;
         public bool EnableWinRMHttp = false;
         public bool NoWinRMEndpoint = false;
@@ -57,7 +58,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
 
         // WindowsDomain paramenter set
         public AzureProvisioningConfigInfo(string option, string user, string password, string joinDomain, string domain,
-            string domainUserName, string domainPassword, string objectOU = null)
+            string domainUserName, string domainPassword, string objectOU = null,bool disableGuestAgent = false)
         {
             if (string.Compare(option, WindowsDomain, StringComparison.CurrentCultureIgnoreCase) == 0)
             {
@@ -69,16 +70,18 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
                 this.DomainUserName = domainUserName;
                 this.DomainPassword = domainPassword;
                 this.MachineObjectOU = objectOU;
+                this.DisableGuestAgent = disableGuestAgent;
             }
         }
 
-        public AzureProvisioningConfigInfo(OS os, string user, string password)
+        public AzureProvisioningConfigInfo(OS os, string user, string password, bool disableGuestAgent = false)
         {
             this.OS = os;
             this.Password = password;
             if (os == OS.Windows)
             {
                 this.AdminUsername = user;
+                if (disableGuestAgent) this.DisableGuestAgent = true;
             }
             else
             {

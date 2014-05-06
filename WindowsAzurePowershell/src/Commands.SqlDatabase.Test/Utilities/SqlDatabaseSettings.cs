@@ -60,6 +60,11 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Test.Utilities
         /// The server name to use when running the tests.
         /// </summary>
         public string ServerName { get; private set; }
+        
+        /// <summary>
+        /// The name of the v2 server for running the tests
+        /// </summary>
+        public object ServerV2 { get; set; }
 
         /// <summary>
         /// The database name to use when running the tests.
@@ -102,6 +107,7 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Test.Utilities
             this.SerializedCert = root.Element("SerializedCert").Value;
             this.SubscriptionId = root.Element("SubscriptionId").Value;
             this.ServerName = new Uri(this.ManageUrl).Host.Split('.').First();
+            this.ServerV2 = root.Element("ServerV2").Value;
             this.SourceDatabaseName = root.Element("SourceDatabaseName").Value;
             this.TargetDatabaseName = root.Element("TargetDatabaseName").Value;
             this.StorageName = root.Element("StorageName").Value;
