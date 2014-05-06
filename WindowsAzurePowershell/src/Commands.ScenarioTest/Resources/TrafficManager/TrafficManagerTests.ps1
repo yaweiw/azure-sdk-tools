@@ -33,7 +33,7 @@ function Test-WithInvalidCredentials
 
 <#
 .SYNOPSIS
-Tests New-AzureTrafficManagerProfila and Remove-AzureTrafficManagerProfile
+Tests New-AzureTrafficManagerProfile and Remove-AzureTrafficManagerProfile
 #>
 function Test-CreateAndRemoveProfile
 {
@@ -51,7 +51,7 @@ function Test-CreateAndRemoveProfile
 
 <#
 .SYNOPSIS
-Tests Remove-AzureTrafficManagerProfil with non existing name
+Tests Remove-AzureTrafficManagerProfile with non existing name
 #>
 function Test-RemoveProfileWithNonExistingName
 {
@@ -106,7 +106,7 @@ function Test-GetMultipleProfiles
 	Assert-True { $($retrievedProfiles | select -ExpandProperty Name) -Contains $profileName2 } "Assert failed, profile '$profileName2' not found"
 }
 
-########################################################################### Enable-Profile, Disagle-Profile Scenario Tests ###########################################################################
+########################################################################### Enable-Profile, Disable-Profile Scenario Tests ###########################################################################
 
 <#
 .SYNOPSIS
@@ -251,6 +251,35 @@ function Test-SetAzureTrafficManagerEndpoint
 
 <#
 .SYNOPSIS
+Tests Set-AzureTrafficManagerEndpoint when it adds endpoints
+#>
+function Test-SetAzureTrafficManagerEndpointAdds
+{
+	# Setup
+	$profileName = Get-ProfileName
+	$createdProfile = New-Profile $profileName
+	
+	$createdProfile = $createdProfile |
+	Set-AzureTrafficManagerEndpoint -DomainName "www.microsoft.com" -Type Any -Status Enabled |
+	Set-AzureTrafficManagerEndpoint -DomainName "www.windows.com" -Type Any -Status Enabled |
+	Set-AzureTrafficManagerProfile
+	
+	# Assert
+	Assert-AreEqual 2 $createdProfile.Endpoints.Count
+	Assert-True { $($createdProfile.Endpoints | select -ExpandProperty DomainName) -Contains "www.microsoft.com" } "Assert failed, endpoint 'www.microsoft.com' not found"
+	Assert-True { $($createdProfile.Endpoints | select -ExpandProperty DomainName) -Contains "www.windows.com" } "Assert failed, endpoint 'www.microsoft.com' not found"
+	
+	# Test
+	$updatedProfile = $createdProfile | Set-AzureTrafficManagerEndpoint -DomainName "www.microsoft.com" -Status Disabled | Set-AzureTrafficManagerProfile
+	
+	# Assert
+	Assert-AreEqual 2 $updatedProfile.Endpoints.Count
+	Assert-True { $($updatedProfile.Endpoints | select -ExpandProperty DomainName) -Contains "www.microsoft.com" } "Assert failed, endpoint 'www.microsoft.com' not found"
+	Assert-AreEqual Disabled $($updatedProfile.Endpoints | where {$_.DomainName -eq "www.microsoft.com"}).Status
+}
+
+<#
+.SYNOPSIS
 Tests Remove-AzureTrafficManagerEndpoint
 #>
 function Test-RemoveAzureTrafficManagerEndpoint
@@ -282,4 +311,17 @@ function Test-AddMultipleAzureTrafficManagerEndpoint
 	
 	# Assert
 	Assert-AreEqual 2 $updatedProfile.Endpoints.Count
+}
+
+########################################################################### Test-TrafficManagerDomainName Scenario Tests ###########################################################################
+<#
+.SYNOPSIS
+Tests Test-AzureTrafficManagerDomainName
+#>
+function Test-TestAzureTrafficManagerDomainName
+{
+	$profileName = Get-ProfileName
+	Assert-True { Test-AzureTrafficManagerDomainName -DomainName $profileName$TrafficManagerDomain } "Assert failed, domain name $profileName$TrafficManagerDomain is not available"
+	$createdProfile = New-Profile $profileName
+	Assert-False { Test-AzureTrafficManagerDomainName -DomainName $profileName$TrafficManagerDomain } "Assert failed, domain name $profileName$TrafficManagerDomain is available after creating a profile with that name"
 }
