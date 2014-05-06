@@ -83,6 +83,7 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Commands.ResourceManager.Test", "Commands.ResourceManager.Test\Commands.ResourceManager.Test.csproj", "{4C2FE49A-09E1-4979-AD46-CD64FD04C8F7}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Commands.TrafficManager", "Commands.TrafficManager\Commands.TrafficManager.csproj", "{94E96A5C-B5AD-4E10-B13A-3BC16D102AED}"
+EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Commands.ManagedCache", "Commands.ManagedCache\Commands.ManagedCache.csproj", "{46C06ED8-43D9-41FD-B73B-41547D9C04E1}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Commands.ManagedCache.Test", "Commands.ManagedCache.Test\Commands.ManagedCache.Test.csproj", "{374D4000-DEDE-4995-9B63-E3B9FE0C4D29}"
