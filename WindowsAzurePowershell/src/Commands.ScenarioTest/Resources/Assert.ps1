@@ -217,6 +217,34 @@ function Assert-AreEqualArray
 
 ###################
 #
+# Verify that two given objects have equal properties
+#
+#    param [object] $expected : The expected object
+#    param [object] $actual   : The actual object
+#    param [string] $message : The message to return if the given objects are not equal.
+####################
+function Assert-AreEqualObjectProperties
+{
+  param([object] $expected, [object] $actual, [string] $message)
+  
+  $properties = $expected | Get-Member -MemberType "Property" | Select -ExpandProperty Name
+  $diff = Compare-Object $expected $actual -Property $properties
+
+  if ($diff -ne $null) 
+  {
+      if (!$message)
+      {
+          $message = "Assert failed because the objects don't match. Expected: " + $diff[0] + " Actual: " + $diff[1]
+      }
+
+      throw $message
+  }
+  
+  return $true
+}
+
+###################
+#
 # Verify that the given value is null
 #
 #    param [object] $actual  : The actual object

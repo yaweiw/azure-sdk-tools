@@ -16,9 +16,10 @@ namespace Microsoft.Azure.Commands.ManagedCache
 {
     using System;
     using System.Management.Automation;
+    using Microsoft.Azure.Commands.ManagedCache.Models;
     using Microsoft.Azure.Management.ManagedCache.Models;
 
-    [Cmdlet(VerbsCommon.Get, "AzureManagedCacheAccessKey"), OutputType(typeof(CachingKeysResponse))]
+    [Cmdlet(VerbsCommon.Get, "AzureManagedCacheAccessKey"), OutputType(typeof(CacheAccessKeys))]
     public class GetAzureManagedCacheAccessKey : ManagedCacheCmdletBase
     {
         [Parameter(Position = 0, Mandatory=true, ValueFromPipelineByPropertyName = true)]
@@ -28,8 +29,7 @@ namespace Microsoft.Azure.Commands.ManagedCache
         public override void ExecuteCmdlet()
         {
             CachingKeysResponse response = CacheClient.GetAccessKeys(Name);
-            //TODO, format it
-            WriteObject(response);
+            WriteObject(new CacheAccessKeys(Name, response));
         }      
     }
 }
