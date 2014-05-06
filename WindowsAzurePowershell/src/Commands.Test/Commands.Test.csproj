@@ -244,6 +244,25 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Automation\GetAzureAutomationAccountTest.cs" />
+    <Compile Include="Automation\GetAzureAutomationJobOutputTest.cs" />
+    <Compile Include="Automation\GetAzureAutomationJobTest.cs" />
+    <Compile Include="Automation\GetAzureAutomationRunbookDefinitionTest.cs" />
+    <Compile Include="Automation\GetAzureAutomationRunbookTest.cs" />
+    <Compile Include="Automation\GetAzureAutomationScheduleTest.cs" />
+    <Compile Include="Automation\NewAzureAutomationRunbookTest.cs" />
+    <Compile Include="Automation\NewAzureAutomationScheduleTest.cs" />
+    <Compile Include="Automation\PublishAzureAutomationRunbookTest.cs" />
+    <Compile Include="Automation\RegisterAzureAutomationScheduledJobTest.cs" />
+    <Compile Include="Automation\RemoveAzureAutomationRunbookTest.cs" />
+    <Compile Include="Automation\RemoveAzureAutomationScheduleTest.cs" />
+    <Compile Include="Automation\ResumeAzureAutomationJobTest.cs" />
+    <Compile Include="Automation\SetAzureAutomationRunbookDefinitionTest.cs" />
+    <Compile Include="Automation\SetAzureAutomationRunbookTest.cs" />
+    <Compile Include="Automation\SetAzureAutomationScheduleTest.cs" />
+    <Compile Include="Automation\StartAzureAutomationRunbookTest.cs" />
+    <Compile Include="Automation\StopAzureAutomationJobTest.cs" />
+    <Compile Include="Automation\SuspendAzureAutomationJobTest.cs" />
     <Compile Include="CloudService\PublishAzureServiceProjectTests.cs" />
     <Compile Include="CloudService\Development\DisableAzureRemoteDesktopCommandTest.cs" />
     <Compile Include="CloudService\Development\EnableAzureMemcacheRoleTests.cs" />
