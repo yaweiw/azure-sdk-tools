@@ -16,13 +16,13 @@
 using System;
 using System.Linq;
 using Microsoft.WindowsAzure.Commands.Common.Properties;
-using Microsoft.WindowsAzure.Commands.Utilities.TrafficManager;
 using Microsoft.WindowsAzure.Management.TrafficManager.Models;
 
 namespace Microsoft.WindowsAzure.Commands.TrafficManager.Endpoint
 {
     using System.Management.Automation;
-    using Microsoft.WindowsAzure.Commands.Utilities.TrafficManager.Models;
+    using Microsoft.WindowsAzure.Commands.TrafficManager.Models;
+    using Microsoft.WindowsAzure.Commands.TrafficManager.Utilities;
 
     [Cmdlet(VerbsCommon.Set, "AzureTrafficManagerEndpoint"), OutputType(typeof(IProfileWithDefinition))]
     public class SetAzureTrafficManagerEndpoint : TrafficManagerConfigurationBaseCmdlet

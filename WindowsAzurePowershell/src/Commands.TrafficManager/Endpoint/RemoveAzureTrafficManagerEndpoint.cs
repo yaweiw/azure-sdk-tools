@@ -12,15 +12,14 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-using Microsoft.WindowsAzure.Commands.Common.Properties;
-
 namespace Microsoft.WindowsAzure.Commands.TrafficManager.Endpoint
 {
+    using Microsoft.WindowsAzure.Commands.Common.Properties;
+    using Microsoft.WindowsAzure.Commands.TrafficManager.Models;
+    using Microsoft.WindowsAzure.Commands.TrafficManager.Utilities;
     using System;
     using System.Linq;
     using System.Management.Automation;
-    using Microsoft.WindowsAzure.Commands.Utilities.TrafficManager;
-    using Microsoft.WindowsAzure.Commands.Utilities.TrafficManager.Models;
 
     [Cmdlet(VerbsCommon.Remove, "AzureTrafficManagerEndpoint"), OutputType(typeof(IProfileWithDefinition))]
     public class RemoveAzureTrafficManagerEndpoint : TrafficManagerConfigurationBaseCmdlet
@@ -42,11 +41,9 @@ namespace Microsoft.WindowsAzure.Commands.TrafficManager.Endpoint
             {
                 throw new Exception(Resources.RemoveTrafficManagerEndpointMissing);
             }
-            else
-            {
-                TrafficManagerEndpoint endpoint = profile.Endpoints.First(e => e.DomainName == DomainName);
-                profile.Endpoints.Remove(endpoint);
-            }
+
+            TrafficManagerEndpoint endpoint = profile.Endpoints.First(e => e.DomainName == DomainName);
+            profile.Endpoints.Remove(endpoint);
 
             WriteObject(profile);
         }

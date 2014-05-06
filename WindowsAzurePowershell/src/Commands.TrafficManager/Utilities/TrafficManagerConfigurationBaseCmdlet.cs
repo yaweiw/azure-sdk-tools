@@ -12,10 +12,19 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Commands.Utilities.TrafficManager.Models
+namespace Microsoft.WindowsAzure.Commands.TrafficManager.Utilities
 {
-    public interface IProfileWithDefinition
+    using System.Management.Automation;
+    using Microsoft.WindowsAzure.Commands.TrafficManager.Models;
+
+    public class TrafficManagerConfigurationBaseCmdlet : TrafficManagerBaseCmdlet
     {
-        ProfileWithDefinition GetInstance();
+        [Parameter(
+            Position = 0,
+            Mandatory = true,
+            ValueFromPipeline = true,
+            ValueFromPipelineByPropertyName = true,
+            HelpMessage = "Traffic Manager profile to update.")]
+        public IProfileWithDefinition TrafficManagerProfile { get; set; }
     }
 }

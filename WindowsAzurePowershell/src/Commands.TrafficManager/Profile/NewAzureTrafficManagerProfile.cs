@@ -12,13 +12,11 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-
-
 namespace Microsoft.WindowsAzure.Commands.TrafficManager.Profile
 {
     using System.Management.Automation;
-    using Microsoft.WindowsAzure.Commands.Utilities.TrafficManager;
-    using Microsoft.WindowsAzure.Commands.Utilities.TrafficManager.Models;
+    using Microsoft.WindowsAzure.Commands.TrafficManager.Models;
+    using Microsoft.WindowsAzure.Commands.TrafficManager.Utilities;
 
     [Cmdlet(VerbsCommon.New, "AzureTrafficManagerProfile"), OutputType(typeof(IProfileWithDefinition))]
     public class NewAzureTrafficManagerProfile : TrafficManagerBaseCmdlet

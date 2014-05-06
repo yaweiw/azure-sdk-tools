@@ -15,33 +15,24 @@
 namespace Microsoft.WindowsAzure.Commands.Test.TrafficManager.Profiles
 {
     using System.Collections.Generic;
-    using System.Net;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using Microsoft.WindowsAzure.Commands.Test.Utilities.Common;
+    using Microsoft.WindowsAzure.Commands.TrafficManager.Models;
     using Microsoft.WindowsAzure.Commands.TrafficManager.Profile;
-    using Microsoft.WindowsAzure.Commands.Utilities.TrafficManager;
-    using Microsoft.WindowsAzure.Commands.Utilities.TrafficManager.Models;
+    using Microsoft.WindowsAzure.Commands.TrafficManager.Utilities;
     using Microsoft.WindowsAzure.Management.TrafficManager.Models;
     using Moq;
 
     [TestClass]
     public class NewTrafficManagerProfileTests
     {
-        private const string profileName = "my-profile";
-        private const string profileDomainName = "my.profile.trafficmanager.net";
-        private const LoadBalancingMethod loadBalancingMethod = LoadBalancingMethod.Failover;
-        private const string domainName = "www.example.com";
-        private const int weight = 3;
-        private const string cloudServiceType = "CloudService";
-        private const string azureWebsiteType = "AzureWebsite";
-        private const string anyType = "Any";
-        private const string location = "West US";
-        private const EndpointStatus status = EndpointStatus.Enabled;
-        private const int monitorPort = 80;
-        private const DefinitionMonitorProtocol monitorProtocol = DefinitionMonitorProtocol.Http;
-        private const string monitorRelativePath = "/";
-        private const int ttl = 30;
-        private const int monitorExpectedStatusCode = (int)HttpStatusCode.OK;
+        private const string ProfileName = "my-profile";
+        private const string ProfileDomainName = "my.profile.trafficmanager.net";
+        private const LoadBalancingMethod DefaultLoadBalancingMethod = LoadBalancingMethod.Failover;
+        private const int MonitorPort = 80;
+        private const DefinitionMonitorProtocol MonitorProtocol = DefinitionMonitorProtocol.Http;
+        private const string MonitorRelativePath = "/";
+        private const int Ttl = 30;
 
         private MockCommandRuntime mockCommandRuntime;
 
@@ -60,77 +51,52 @@ namespace Microsoft.WindowsAzure.Commands.Test.TrafficManager.Profiles
         public void ProcessNewProfileTest()
         {
             // Setup
-            DefinitionMonitor monitor = new DefinitionMonitor()
-            {
-                HttpOptions = new DefinitionMonitorHTTPOptions()
-                {
-                    ExpectedStatusCode = monitorExpectedStatusCode,
-                    RelativePath = monitorRelativePath,
-                    Verb = "GET"
-                }
-            };
-
-            DefinitionCreateParameters expectedParameters = new DefinitionCreateParameters()
-            {
-                DnsOptions = new DefinitionDnsOptions()
-                {
-                    TimeToLiveInSeconds = ttl
-                },
-
-                Policy = new DefinitionPolicyCreateParameters()
-                {
-                    LoadBalancingMethod = loadBalancingMethod,
-                    Endpoints = new DefinitionEndpointCreateParameters[0]
-                },
-
-                Monitors = new [] { monitor }
-            };
-
             clientMock.Setup(c => c.NewAzureTrafficManagerProfile(
-                            profileName,
-                            profileDomainName,
-                            loadBalancingMethod.ToString(),
-                            monitorPort,
-                            monitorProtocol.ToString(),
-                            monitorRelativePath,
-                            ttl))
-                      .Returns(new ProfileWithDefinition()
+                            ProfileName,
+                            ProfileDomainName,
+                            DefaultLoadBalancingMethod.ToString(),
+                            MonitorPort,
+                            MonitorProtocol.ToString(),
+                            MonitorRelativePath,
+                            Ttl))
+                      .Returns(new ProfileWithDefinition
                       {
-                          DomainName = profileDomainName,
-                          Name = profileName,
+                          DomainName = ProfileDomainName,
+                          Name = ProfileName,
                           Endpoints = new List<TrafficManagerEndpoint>(),
-                          LoadBalancingMethod = loadBalancingMethod,
+                          LoadBalancingMethod = DefaultLoadBalancingMethod,
                           MonitorPort = 80,
                           Status = ProfileDefinitionStatus.Enabled,
-                          MonitorRelativePath = monitorRelativePath,
-                          TimeToLiveInSeconds = ttl
+                          MonitorRelativePath = MonitorRelativePath,
+                          TimeToLiveInSeconds = Ttl
                       });
 
 
-            cmdlet = new NewAzureTrafficManagerProfile()
-            {
-                Name = profileName,
-                DomainName = profileDomainName,
-                LoadBalancingMethod = loadBalancingMethod.ToString(),
-                MonitorPort = monitorPort,
-                MonitorProtocol = monitorProtocol.ToString(),
-                MonitorRelativePath = monitorRelativePath,
-                Ttl = ttl,
-                TrafficManagerClient = clientMock.Object,
-                CommandRuntime = mockCommandRuntime
-            };
+            cmdlet = new NewAzureTrafficManagerProfile
+                {
+                    Name = ProfileName,
+                    DomainName = ProfileDomainName,
+                    LoadBalancingMethod = DefaultLoadBalancingMethod.ToString(),
+                    MonitorPort = MonitorPort,
+                    MonitorProtocol = MonitorProtocol.ToString(),
+                    MonitorRelativePath = MonitorRelativePath,
+                    Ttl = Ttl,
+                    TrafficManagerClient = clientMock.Object,
+                    CommandRuntime = mockCommandRuntime
+                };
 
             // Action
             cmdlet.ExecuteCmdlet();
 
             // Assert
-            ProfileWithDefinition actual = mockCommandRuntime.OutputPipeline[0] as ProfileWithDefinition;
+            var actual = mockCommandRuntime.OutputPipeline[0] as ProfileWithDefinition;
 
-            Assert.AreEqual(profileName, actual.Name);
-            Assert.AreEqual(profileDomainName, actual.DomainName);
-            Assert.AreEqual(monitorRelativePath, actual.MonitorRelativePath);
-            Assert.AreEqual(ttl, actual.TimeToLiveInSeconds);
-            Assert.AreEqual(loadBalancingMethod, actual.LoadBalancingMethod);
+            Assert.IsNotNull(actual);
+            Assert.AreEqual(ProfileName, actual.Name);
+            Assert.AreEqual(ProfileDomainName, actual.DomainName);
+            Assert.AreEqual(MonitorRelativePath, actual.MonitorRelativePath);
+            Assert.AreEqual(Ttl, actual.TimeToLiveInSeconds);
+            Assert.AreEqual(DefaultLoadBalancingMethod, actual.LoadBalancingMethod);
             Assert.IsTrue(actual.Endpoints.Count == 0);
         }
     }

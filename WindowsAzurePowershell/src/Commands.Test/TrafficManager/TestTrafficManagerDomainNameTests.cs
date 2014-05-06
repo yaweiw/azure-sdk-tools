@@ -17,13 +17,13 @@ namespace Microsoft.WindowsAzure.Commands.Test.TrafficManager
     using System.Management.Automation;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using Microsoft.WindowsAzure.Commands.TrafficManager;
-    using Microsoft.WindowsAzure.Commands.Utilities.TrafficManager;
+    using Microsoft.WindowsAzure.Commands.TrafficManager.Utilities;
     using Moq;
 
     [TestClass]
     public class TestTrafficManagerDomainNameTests
     {
-        private const string profileDomainName = "my.profile.trafficmanager.net";
+        private const string ProfileDomainName = "my.profile.trafficmanager.net";
 
         private Mock<ICommandRuntime> mockCommandRuntime;
 
@@ -42,19 +42,19 @@ namespace Microsoft.WindowsAzure.Commands.Test.TrafficManager
         public void TestProfileDomainNameReturnsTrue()
         {
             // Setup
-            clientMock.Setup(c => c.TestDomainAvailability(profileDomainName)).Returns(true);
-            cmdlet = new TestAzureTrafficManagerDomainName()
-            {
-                DomainName = profileDomainName,
-                CommandRuntime = mockCommandRuntime.Object,
-                TrafficManagerClient = clientMock.Object
-            };
+            clientMock.Setup(c => c.TestDomainAvailability(ProfileDomainName)).Returns(true);
+            cmdlet = new TestAzureTrafficManagerDomainName
+                {
+                    DomainName = ProfileDomainName,
+                    CommandRuntime = mockCommandRuntime.Object,
+                    TrafficManagerClient = clientMock.Object
+                };
 
             // Action
             cmdlet.ExecuteCmdlet();
 
             // Assert
-            clientMock.Verify(c => c.TestDomainAvailability(profileDomainName), Times.Once());
+            clientMock.Verify(c => c.TestDomainAvailability(ProfileDomainName), Times.Once());
             mockCommandRuntime.Verify(c => c.WriteObject(true), Times.Once());
         }
 
@@ -62,19 +62,19 @@ namespace Microsoft.WindowsAzure.Commands.Test.TrafficManager
         public void TestProfileDomainNameReturnsFalse()
         {
             // Setup
-            clientMock.Setup(c => c.TestDomainAvailability(profileDomainName)).Returns(false);
-            cmdlet = new TestAzureTrafficManagerDomainName()
-            {
-                DomainName = profileDomainName,
-                CommandRuntime = mockCommandRuntime.Object,
-                TrafficManagerClient = clientMock.Object
-            };
+            clientMock.Setup(c => c.TestDomainAvailability(ProfileDomainName)).Returns(false);
+            cmdlet = new TestAzureTrafficManagerDomainName
+                {
+                    DomainName = ProfileDomainName,
+                    CommandRuntime = mockCommandRuntime.Object,
+                    TrafficManagerClient = clientMock.Object
+                };
 
             // Action
             cmdlet.ExecuteCmdlet();
 
             // Assert
-            clientMock.Verify(c => c.TestDomainAvailability(profileDomainName), Times.Once());
+            clientMock.Verify(c => c.TestDomainAvailability(ProfileDomainName), Times.Once());
             mockCommandRuntime.Verify(c => c.WriteObject(false), Times.Once());
         }
     }
