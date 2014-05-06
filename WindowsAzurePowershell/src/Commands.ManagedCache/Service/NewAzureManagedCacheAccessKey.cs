@@ -16,21 +16,31 @@ namespace Microsoft.Azure.Commands.ManagedCache
 {
     using System;
     using System.Management.Automation;
+    using Microsoft.Azure.Commands.ManagedCache.Models;
+    using Microsoft.Azure.Management.ManagedCache.Models;
 
-    [Cmdlet(VerbsCommon.New, "AzureManagedCacheAccessKey")]
+    [Cmdlet(VerbsCommon.New, "AzureManagedCacheAccessKey"), OutputType(typeof(CacheAccessKeys))]
     public class NewAzureManagedCacheAccessKey : ManagedCacheCmdletBase
     {
-        [Parameter(Position = 0)]
+        private const string PrimaryKeyType = "Primary";
+        private const string SecondaryKeyType = "Secondary";
+
+        [Parameter(Position = 0, Mandatory = true, ValueFromPipelineByPropertyName=true)]
         [ValidateNotNullOrEmpty]
         public string Name { get; set;}
 
-        [Parameter(Position = 1, Mandatory = false)]
-        [ValidateSet("Primary", "Secondary", IgnoreCase = true)]
+        [Parameter(Position = 1)]
+        [ValidateSet(PrimaryKeyType, SecondaryKeyType, IgnoreCase = true)]
         public string KeyType { get; set; }
 
         public override void ExecuteCmdlet()
         {
-            throw new NotImplementedException("NYI");
-        }      
+            if (string.IsNullOrEmpty(KeyType))
+            {
+                KeyType = PrimaryKeyType;
+            }
+            CachingKeysResponse response = CacheClient.RegenerateAccessKeys(Name, KeyType);
+            WriteObject(new CacheAccessKeys(Name, response));
+        }     
     }
 }

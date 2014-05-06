@@ -17,24 +17,10 @@ namespace Microsoft.Azure.Commands.ManagedCache.Models
     using Microsoft.Azure.Management.ManagedCache.Models;
     public class PSCacheService
     {
-        public PSCacheService(CloudServiceGetResponse.Resource resource)
+        public PSCacheService(CloudServiceResource resource)
         {
             Name = resource.Name;
-            State = resource.State;
-            SubState = resource.SubState;
-            Location = resource.IntrinsicSettingsSection.CacheServiceInputSection.Location;
-            Sku = resource.IntrinsicSettingsSection.CacheServiceInputSection.SkuType;
-            int skuCount = resource.IntrinsicSettingsSection.CacheServiceInputSection.SkuCount;
-            CacheSkuCountConvert convert = new CacheSkuCountConvert(Sku);
-            Memory = convert.ToMemorySize(skuCount);
-        }
-
-        //TODO, update the hydra spec to reuse 'CloudServiceGetResponse.Resource'
-        public PSCacheService(CloudServiceListResponse.CloudService.AddOnResource resource)
-        {
-            Name = resource.Name;
-            State = resource.State;
-            SubState = resource.Status.Result;
+            State = resource.SubState;
             Location = resource.IntrinsicSettingsSection.CacheServiceInputSection.Location;
             Sku = resource.IntrinsicSettingsSection.CacheServiceInputSection.SkuType;
             int skuCount = resource.IntrinsicSettingsSection.CacheServiceInputSection.SkuCount;
@@ -42,15 +28,14 @@ namespace Microsoft.Azure.Commands.ManagedCache.Models
             Memory = convert.ToMemorySize(skuCount);
 
         }
-        public string Location { get; private set; }
 
         public string Name { get; private set; }
 
+        public string Location { get; private set; }
+
         public string State { get; private set; }
 
-        public string SubState { get; private set; }
-
-        public string Sku { get; private set; }
+        public CacheServiceSkuType Sku { get; private set; }
 
         public string Memory { get; private set; }
 
