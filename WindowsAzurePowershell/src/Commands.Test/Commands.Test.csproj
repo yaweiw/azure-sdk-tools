@@ -130,13 +130,11 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\lib\Microsoft.Web.Deployment.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.WindowsAzure.Common, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Microsoft.WindowsAzure.Common.1.0.0\lib\net40\Microsoft.WindowsAzure.Common.dll</HintPath>
+    <Reference Include="Microsoft.WindowsAzure.Common">
+      <HintPath>..\packages\Microsoft.WindowsAzure.Common.1.0.2\lib\net40\Microsoft.WindowsAzure.Common.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.WindowsAzure.Common.NetFramework, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Microsoft.WindowsAzure.Common.1.0.0\lib\net40\Microsoft.WindowsAzure.Common.NetFramework.dll</HintPath>
+    <Reference Include="Microsoft.WindowsAzure.Common.NetFramework">
+      <HintPath>..\packages\Microsoft.WindowsAzure.Common.1.0.2\lib\net40\Microsoft.WindowsAzure.Common.NetFramework.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.WindowsAzure.Configuration">
       <HintPath>..\packages\Microsoft.WindowsAzure.ConfigurationManager.1.8.0.0\lib\net35-full\Microsoft.WindowsAzure.Configuration.dll</HintPath>
@@ -180,6 +178,9 @@
     <Reference Include="Microsoft.WindowsAzure.Management.Store, Version=0.9.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Microsoft.WindowsAzure.Management.Store.0.9.5-preview\lib\net40\Microsoft.WindowsAzure.Management.Store.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.WindowsAzure.Management.TrafficManager">
+      <HintPath>..\packages\Microsoft.WindowsAzure.Management.TrafficManager.0.9.0-preview\lib\net40\Microsoft.WindowsAzure.Management.TrafficManager.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.WindowsAzure.Management.WebSites, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -377,6 +378,12 @@
     <Compile Include="Common\CmdletExtensionsTest.cs" />
     <Compile Include="Common\GeneralTest.cs" />
     <Compile Include="Common\GlobalPathInfoTest.cs" />
+    <Compile Include="TrafficManager\Profiles\DisableTrafficManagerProfileTests.cs" />
+    <Compile Include="TrafficManager\Profiles\EnableTrafficManagerProfileTests.cs" />
+    <Compile Include="TrafficManager\Profiles\GetTrafficManagerProfileTests.cs" />
+    <Compile Include="TrafficManager\Profiles\RemoveTrafficManagerProfileTests.cs" />
+    <Compile Include="TrafficManager\Profiles\SetTrafficManagerProfileTests.cs" />
+    <Compile Include="TrafficManager\TestTrafficManagerDomainNameTests.cs" />
     <Compile Include="WAPackIaaS\Common\WebClientFactoryTests.cs" />
     <Compile Include="WAPackIaaS\Mocks\MockLogger.cs" />
     <Compile Include="WAPackIaaS\Mocks\MockRequestChannel.cs" />
@@ -415,6 +422,10 @@
     <Compile Include="Websites\WebJobs\NewAzureWebsiteJobTests.cs" />
     <Compile Include="Websites\WebJobs\GetAzureWebsiteJobTests.cs" />
     <Compile Include="Websites\WebJobs\WebJobWrapperTest.cs" />
+    <Compile Include="TrafficManager\Endpoints\AddTrafficManagerEndpointTests.cs" />
+    <Compile Include="TrafficManager\Endpoints\RemoveTrafficManagerEndpointTests.cs" />
+    <Compile Include="TrafficManager\Endpoints\SetTrafficManagerEndpointTests.cs" />
+    <Compile Include="TrafficManager\Profiles\NewTrafficManagerProfileTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Resources\MyWebApplication\WebApplication4.csproj">
@@ -487,6 +498,10 @@
     <ProjectReference Include="..\Commands.Test.Utilities\Commands.Test.Utilities.csproj">
       <Project>{bc420543-c04e-4bf3-96e1-cd81b823bdd7}</Project>
       <Name>Commands.Test.Utilities</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Commands.TrafficManager\Commands.TrafficManager.csproj">
+      <Project>{94e96a5c-b5ad-4e10-b13a-3bc16d102aed}</Project>
+      <Name>Commands.TrafficManager</Name>
     </ProjectReference>
     <ProjectReference Include="..\Commands.Utilities\Commands.Utilities.csproj">
       <Project>{4900ec4e-8deb-4412-9108-0bc52f81d457}</Project>
