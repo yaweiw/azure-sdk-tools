@@ -12,12 +12,6 @@
 # limitations under the License.
 # ----------------------------------------------------------------------------------
 
-Set-ExecutionPolicy -Scope Process Undefined -Force
-if (Get-ExecutionPolicy -eq "Restricted")
-{
-	Set-ExecutionPolicy -Scope Process -ExecutionPolicy AllSigned -Force
-}
-
 function Get-ScriptDirectory
 {
     $Invocation = (Get-Variable MyInvocation -Scope 1).Value
@@ -26,7 +20,6 @@ function Get-ScriptDirectory
 
 $modulePath = Join-Path (Get-ScriptDirectory) Azure.psd1
 Import-Module $modulePath
-$VerbosePreference="Continue"
 cd c:\
 $welcomeMessage = @"
 For a list of all Azure cmdlets type 'help azure'.
@@ -36,3 +29,11 @@ For PHP cmdlets type 'help php-dev'.
 For Python cmdlets type 'help python-dev'.
 "@
 Write-Output $welcomeMessage
+
+Set-ExecutionPolicy -Scope Process Undefined -Force
+if ($(Get-ExecutionPolicy) -eq "Restricted")
+{
+	Set-ExecutionPolicy -Scope Process -ExecutionPolicy RemoteSigned -Force
+}
+
+$VerbosePreference="Continue"
