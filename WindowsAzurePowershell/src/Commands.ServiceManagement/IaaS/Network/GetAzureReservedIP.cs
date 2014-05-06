@@ -13,17 +13,16 @@
 // ----------------------------------------------------------------------------------
 
 
-namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Preview.Network
+namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
 {
     using System.Collections.Generic;
     using System.Linq;
     using System.Management.Automation;
-    using Management.Network;
     using Management.Network.Models;
     using Model;
     using Utilities.Common;
 
-    [Cmdlet(VerbsCommon.Get, ReservedIPConstants.CmdletNoun), OutputType(typeof(IEnumerable<ReservedIPContext>))]
+    [Cmdlet(VerbsCommon.Get, ReservedIPConstants.CmdletNoun), OutputType(typeof(ReservedIPContext))]
     public class GetAzureReservedIPCmdlet : ServiceManagementBaseCmdlet
     {
         [Parameter(Mandatory = false, Position = 0, ValueFromPipelineByPropertyName = true, HelpMessage = "Reserved IP Name.")]
@@ -54,7 +53,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Preview.Network
 
         protected override void OnProcessRecord()
         {
-            ServiceManagementPreviewProfile.Initialize();
+            ServiceManagementProfile.Initialize();
             this.ExecuteCommand();
         }
     }

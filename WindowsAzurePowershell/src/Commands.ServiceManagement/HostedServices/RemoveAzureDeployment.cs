@@ -86,7 +86,8 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.HostedServices
                     null,
                     CommandRuntime.ToString(),
                     () => this.ComputeClient.Deployments.DeleteBySlot(this.ServiceName, slotType));
-            }        }
+            }
+        }
 
         protected override void OnProcessRecord()
         {

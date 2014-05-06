@@ -45,9 +45,8 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
 
         protected override void ExecuteCommand()
         {
+            ServiceManagementProfile.Initialize();
             base.ExecuteCommand();
-
-            ServiceManagementProfile.Initialize(this);
 
             if (string.IsNullOrEmpty(ServiceName))
             {
@@ -148,6 +147,12 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
                 InstanceSize                = vmRole.RoleSize,
                 InstanceStatus              = roleInstance == null ? string.Empty : roleInstance.InstanceStatus,
                 IpAddress                   = roleInstance == null ? string.Empty : roleInstance.IPAddress,
+                PublicIPAddress             = roleInstance == null ? null
+                                            : roleInstance.PublicIPs == null || !roleInstance.PublicIPs.Any() ? null
+                                            : roleInstance.PublicIPs.First().Address,
+                PublicIPName                = roleInstance == null ? null
+                                            : roleInstance.PublicIPs == null || !roleInstance.PublicIPs.Any() ? null
+                                            : roleInstance.PublicIPs.First().Name,
                 InstanceStateDetails        = roleInstance == null ? string.Empty : roleInstance.InstanceStateDetails,
                 PowerState                  = roleInstance == null ? string.Empty : roleInstance.PowerState.ToString(),
                 InstanceErrorCode           = roleInstance == null ? string.Empty : roleInstance.InstanceErrorCode,

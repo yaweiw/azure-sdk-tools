@@ -21,18 +21,14 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Endpoints
     using Model;
     using Model.PersistentVMModel;
 
-    [Cmdlet(VerbsCommon.Get, "AzureEndpoint"), OutputType(typeof(InputEndpointContext), typeof(Collection<InputEndpointContext>))]
+    [Cmdlet(VerbsCommon.Get, "AzureEndpoint"), OutputType(typeof(InputEndpointContext))]
     public class GetAzureEndpoint : VirtualMachineConfigurationCmdletBase
     {
         [Parameter(Position = 0, Mandatory = false, HelpMessage = "Endpoint name")]
         [ValidateNotNullOrEmpty]
-        public string Name
-        {
-            get;
-            set;
-        }
+        public string Name { get; set; }
 
-        internal void ExecuteCommand()
+        protected override void ProcessRecord()
         {
             var endpoints = GetInputEndpoints();
 
@@ -47,18 +43,13 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Endpoints
             }
         }
 
-        protected override void ProcessRecord()
-        {
-            ExecuteCommand();
-        }
-
         protected Collection<InputEndpointContext> GetInputEndpoints()
         {
             var role = VM.GetInstance();
 
             var networkConfiguration = role.ConfigurationSets
-                                        .OfType<NetworkConfigurationSet>()
-                                        .SingleOrDefault();
+                                           .OfType<NetworkConfigurationSet>()
+                                           .SingleOrDefault();
 
             if (networkConfiguration == null)
             {
@@ -85,7 +76,8 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Endpoints
                     Protocol = ep.Protocol,
                     Vip = ep.Vip,
                     Acl = ep.EndpointAccessControlList,
-                    EnableDirectServerReturn = ep.EnableDirectServerReturn
+                    EnableDirectServerReturn = ep.EnableDirectServerReturn,
+                    InternalLoadBalancerName = ep.LoadBalancerName
                 };
 
                 if (ep.LoadBalancerProbe != null && string.IsNullOrEmpty(endpointCtx.LBSetName) == false)

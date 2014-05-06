@@ -77,6 +77,14 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Endpoints
             set; 
         }
 
+        [Parameter(HelpMessage = "Internal Load Balancer Name.")]
+        [ValidateNotNullOrEmpty]
+        public string InternalLoadBalancerName
+        {
+            get;
+            set;
+        }
+
         internal void ExecuteCommand()
         {
             ValidateParameters();
@@ -117,6 +125,11 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Endpoints
             if (this.ParameterSpecified("ACL"))
             {
                 endpoint.EndpointAccessControlList = this.ACL;
+            }
+
+            if (!string.IsNullOrEmpty(this.InternalLoadBalancerName))
+            {
+                endpoint.LoadBalancerName = this.InternalLoadBalancerName;
             }
 
             WriteObject(VM, true);

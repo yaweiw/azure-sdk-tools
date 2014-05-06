@@ -12,22 +12,20 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Preview.HostedServices
+namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Model
 {
-    using System.Management.Automation;
-    using ServiceManagement.HostedServices;
-    using Model;
+    using Utilities.Common;
 
-    /// <summary>
-    /// View details of a specified deployment.
-    /// </summary>
-    [Cmdlet(VerbsCommon.Get, "AzureDeployment", DefaultParameterSetName = "PaaS"), OutputType(typeof(DeploymentInfoContext))]
-    public class GetAzureDeploymentCommand : ServiceManagement.HostedServices.GetAzureDeploymentCommand
+    public class InternalLoadBalancerContext : ManagementOperationContext
     {
-        protected override void OnProcessRecord()
-        {
-            ServiceManagementPreviewProfile.Initialize();
-            base.OnProcessRecord();
-        }
+        public string InternalLoadBalancerName { get; set; }
+
+        public string ServiceName { get; set; }
+
+        public string DeploymentName { get; set; }
+
+        public string SubnetName { get; set; }
+
+        public string IPAddress { get; set; }
     }
 }

@@ -25,6 +25,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
         protected const string ExtensionDefaultPublisher = "Microsoft.Compute";
         protected const string ExtensionDefaultName = "VMAccessAgent";
         protected const string LegacyReferenceName = "MyPasswordResetExtension";
+        protected const string ExtensionDefaultVersion = "1.*";
 
         protected const string VMAccessAgentLegacyVersion = "0.1";
 
