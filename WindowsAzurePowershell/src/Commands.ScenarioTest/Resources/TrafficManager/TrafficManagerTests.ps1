@@ -57,7 +57,7 @@ function Test-RemoveProfileWithNonExistingName
 {
 	# Setup
 	$existingProfileName = Get-ProfileName
-	$nonExistingProfileName = Get-ProfileName
+	$nonExistingProfileName = Get-ProfileName "nonexisting"
 	
 	# Need to have at least one profile in the subscription or the error will be "missing subscription"
 	New-Profile $existingProfileName
@@ -89,11 +89,11 @@ function Test-GetProfile
 .SYNOPSIS
 Tests Get-AzureTrafficManagerProfile
 #>
-function Test-GetAndRemoveMultipleProfiles
+function Test-GetMultipleProfiles
 {
     # Setup
-	$profileName1 = Get-ProfileName
-	$profileName2 = Get-ProfileName
+	$profileName1 = Get-ProfileName 1
+	$profileName2 = Get-ProfileName 2
 
 	$createdProfile1 = New-Profile $profileName1
 	$createdProfile2 = New-Profile $profileName2

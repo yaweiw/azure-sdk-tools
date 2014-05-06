@@ -14,13 +14,17 @@
 
 $ErrorActionPreference = "Stop"
 
+$ProfileNamePrefix = "scenarioTestProfile";
+
 <#
 .SYNOPSIS
 Gets valid profile name.
 #>
 function Get-ProfileName
 {
-	return [guid]::NewGuid().ToString() + "profile"
+	param([string] $postfix)
+
+	return $ProfileNamePrefix + $postfix
 }
 
 <#
@@ -39,9 +43,9 @@ function New-Profile
 
 <#
 .SYNOPSIS
-Removes all profiles in the current subscription.
+Removes all profiles from the $profileNames list from the current subscription.
 #>
 function Initialize-TrafficManagerTest
 {
-	Get-AzureTrafficManagerProfile | Remove-AzureTrafficManagerProfile -Force
+	Get-AzureTrafficManagerProfile | Where-Object { $_.Name.StartsWith($ProfileNamePrefix) } | Remove-AzureTrafficManagerProfile -Force
 }
