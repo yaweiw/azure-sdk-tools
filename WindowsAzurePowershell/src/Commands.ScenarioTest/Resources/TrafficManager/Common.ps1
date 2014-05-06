@@ -16,6 +16,9 @@ $ErrorActionPreference = "Stop"
 
 $ProfileNamePrefix = "scenarioTestProfile";
 
+#TODO: Make the domain name suffix environment dependent
+$TrafficManagerDomain = ".trafficmanager.net";
+
 <#
 .SYNOPSIS
 Gets valid profile name.
@@ -36,7 +39,7 @@ function New-Profile
 	param([string] $profileName)
 	
 	#TODO: Make the domain name suffix environment dependent
-	$domainName = $profileName  + ".trafficmanager.net"
+	$domainName = $profileName  + $TrafficManagerDomain
 
     New-AzureTrafficManagerProfile -Name $profileName -DomainName $domainName -LoadBalancingMethod RoundRobin -MonitorPort 80 -MonitorProtocol Http -MonitorRelativePath "/" -Ttl 300
 }

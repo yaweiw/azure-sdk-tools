@@ -210,9 +210,31 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.TrafficManagerTests
         [TestCategory(Category.All)]
         [TestCategory(Category.TrafficManager)]
         [TestCategory(Category.CheckIn)]
+        public void TestSetAzureTrafficManagerEndpointAdds()
+        {
+            this.RunPowerShellTest("Test-SetAzureTrafficManagerEndpointAdds");
+        }
+
+        [TestMethod]
+        [TestCategory(Category.All)]
+        [TestCategory(Category.TrafficManager)]
+        [TestCategory(Category.CheckIn)]
         public void TestAddMultipleAzureTrafficManagerEndpoint()
         {
             this.RunPowerShellTest("Test-AddMultipleAzureTrafficManagerEndpoint");
+        }
+
+        #endregion
+
+        #region Test-DomainName Scenario Tests
+
+        [TestMethod]
+        [TestCategory(Category.All)]
+        [TestCategory(Category.TrafficManager)]
+        [TestCategory(Category.CheckIn)]
+        public void TestTestAzureTrafficManagerDomainName()
+        {
+            this.RunPowerShellTest("Test-TestAzureTrafficManagerDomainName");
         }
 
         #endregion

@@ -20,7 +20,7 @@ namespace Microsoft.WindowsAzure.Commands.TrafficManager
     [Cmdlet(VerbsDiagnostic.Test, "AzureTrafficManagerDomainName"), OutputType(typeof(bool))]
     public class TestAzureTrafficManagerDomainName : TrafficManagerBaseCmdlet
     {
-        [Parameter(Mandatory = true)]
+        [Parameter(Position = 0, Mandatory = true)]
         [ValidateNotNullOrEmpty]
         public string DomainName { get; set; }
 
