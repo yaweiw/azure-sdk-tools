@@ -12,14 +12,12 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-
 namespace Microsoft.WindowsAzure.Commands.TrafficManager.Profile
 {
     using System;
     using System.Management.Automation;
     using Microsoft.WindowsAzure.Commands.Common.Properties;
-    using Microsoft.WindowsAzure.Commands.Utilities.TrafficManager;
-    using Microsoft.WindowsAzure.Management.TrafficManager.Models;
+    using Microsoft.WindowsAzure.Commands.TrafficManager.Utilities;
 
     [Cmdlet(VerbsCommon.Remove, "AzureTrafficManagerProfile"), OutputType(typeof(bool))]
     public class RemoveAzureTrafficManagerProfile : TrafficManagerBaseCmdlet
@@ -41,22 +39,15 @@ namespace Microsoft.WindowsAzure.Commands.TrafficManager.Profile
                 Resources.RemoveTrafficManagerProfileWarning,
                 Name,
                 () =>
-                {
-                    if (!TrafficManagerClient.RemoveTrafficManagerProfile(Name))
                     {
-                        throw new Exception(Resources.RemoveTrafficManagerProfileFailed);
-                    }
-                    else
-                    {
+                        TrafficManagerClient.RemoveTrafficManagerProfile(Name);
+
+                        WriteVerboseWithTimestamp(Resources.RemoveTrafficManagerProfileSucceeded, Name);
+                        if (PassThru.IsPresent)
                         {
-                            WriteVerboseWithTimestamp(Resources.RemoveTrafficManagerProfileSucceeded, Name);
-                            if (PassThru.IsPresent)
-                            {
-                                WriteObject(true);
-                            }
+                            WriteObject(true);
                         }
-                    }
-                });
+                    });
         }
     }
 }

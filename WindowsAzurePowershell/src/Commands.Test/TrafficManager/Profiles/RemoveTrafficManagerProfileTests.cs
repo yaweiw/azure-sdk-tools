@@ -17,13 +17,13 @@ namespace Microsoft.WindowsAzure.Commands.Test.TrafficManager.Profiles
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using Microsoft.WindowsAzure.Commands.Test.Utilities.Common;
     using Microsoft.WindowsAzure.Commands.TrafficManager.Profile;
-    using Microsoft.WindowsAzure.Commands.Utilities.TrafficManager;
+    using Microsoft.WindowsAzure.Commands.TrafficManager.Utilities;
     using Moq;
 
     [TestClass]
     public class RemoveTrafficManagerProfileTests
     {
-        private const string profileName = "my-profile";
+        private const string ProfileName = "my-profile";
 
         private MockCommandRuntime mockCommandRuntime;
 
@@ -35,8 +35,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.TrafficManager.Profiles
         public void TestSetup()
         {
             mockCommandRuntime = new MockCommandRuntime();
-            cmdlet = new RemoveAzureTrafficManagerProfile();
-            cmdlet.CommandRuntime = mockCommandRuntime;
+            cmdlet = new RemoveAzureTrafficManagerProfile { CommandRuntime = this.mockCommandRuntime };
             clientMock = new Mock<ITrafficManagerClient>();
         }
 
@@ -44,11 +43,9 @@ namespace Microsoft.WindowsAzure.Commands.Test.TrafficManager.Profiles
         public void ProcessRemoveProfileTest()
         {
             // Setup
-            clientMock.Setup(c => c.RemoveTrafficManagerProfile(profileName)).Returns(true);
-
-            cmdlet = new RemoveAzureTrafficManagerProfile()
+            cmdlet = new RemoveAzureTrafficManagerProfile
             {
-                Name = profileName,
+                Name = ProfileName,
                 CommandRuntime = mockCommandRuntime,
                 TrafficManagerClient = clientMock.Object,
             };
@@ -57,7 +54,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.TrafficManager.Profiles
             cmdlet.ExecuteCmdlet();
 
             // Assert
-            clientMock.Verify(c => c.RemoveTrafficManagerProfile(profileName), Times.Once());
+            clientMock.Verify(c => c.RemoveTrafficManagerProfile(ProfileName), Times.Once());
         }
     }
 }

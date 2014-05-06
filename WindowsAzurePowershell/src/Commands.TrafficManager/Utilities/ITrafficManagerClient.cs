@@ -12,10 +12,10 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Commands.Utilities.TrafficManager
+namespace Microsoft.WindowsAzure.Commands.TrafficManager.Utilities
 {
     using System.Collections.Generic;
-    using Microsoft.WindowsAzure.Commands.Utilities.TrafficManager.Models;
+    using Microsoft.WindowsAzure.Commands.TrafficManager.Models;
     using Microsoft.WindowsAzure.Management.TrafficManager;
     using Microsoft.WindowsAzure.Management.TrafficManager.Models;
 
@@ -33,7 +33,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.TrafficManager
             int ttl);
 
         ProfileWithDefinition AssignDefinitionToProfile(string profileName, DefinitionCreateParameters definitionParameter);
-        bool RemoveTrafficManagerProfile(string profileName);
+        void RemoveTrafficManagerProfile(string profileName);
         ProfileWithDefinition GetTrafficManagerProfileWithDefinition(string profileName);
 
         DefinitionCreateParameters InstantiateTrafficManagerDefinition(
@@ -44,11 +44,6 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.TrafficManager
             int ttl,
             IList<TrafficManagerEndpoint> endpoints);
 
-        /// <summary>
-        /// Transforms a Definition instance to a DefinitionCreateParameters
-        /// </summary>
-        /// <param name="definition"></param>
-        /// <returns></returns>
         DefinitionCreateParameters InstantiateTrafficManagerDefinition(Definition definition);
 
         void UpdateProfileStatus(string profileName, ProfileDefinitionStatus targetStatus);

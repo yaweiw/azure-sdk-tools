@@ -12,16 +12,10 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Commands.Utilities.TrafficManager
+namespace Microsoft.WindowsAzure.Commands.TrafficManager.Models
 {
-    using System.Net;
-
-    public class Constants
+    public interface IProfileWithDefinition
     {
-        public const string monitorHttpOptionVerb = "GET";
-        public const int monitorHttpOptionExpectedStatusCode = (int)HttpStatusCode.OK;
-        public const int monitorIntervalInSeconds = 30;
-        public const int monitorTimeoutInSeconds = 10;
-        public const int monitorToleratedNumberOfFailures = 3;
+        ProfileWithDefinition GetInstance();
     }
 }

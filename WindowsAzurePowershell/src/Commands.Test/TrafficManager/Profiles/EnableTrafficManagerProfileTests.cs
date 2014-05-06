@@ -18,15 +18,16 @@ namespace Microsoft.WindowsAzure.Commands.Test.TrafficManager.Profiles
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using Microsoft.WindowsAzure.Commands.Test.Utilities.Common;
     using Microsoft.WindowsAzure.Commands.TrafficManager.Profile;
-    using Microsoft.WindowsAzure.Commands.Utilities.TrafficManager;
+    using Microsoft.WindowsAzure.Commands.TrafficManager.Utilities;
+    using Microsoft.WindowsAzure.Management.TrafficManager.Models;
     using Moq;
 
     [TestClass]
     public class EnableTrafficManagerProfileTests
     {
-        private const string profileName = "my-profile";
+        private const string ProfileName = "my-profile";
 
-        private Mock<ICommandRuntime> mockCommandRuntime;
+        private MockCommandRuntime mockCommandRuntime;
 
         private EnableAzureTrafficManagerProfile cmdlet;
 
@@ -35,7 +36,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.TrafficManager.Profiles
         [TestInitialize]
         public void TestSetup()
         {
-            mockCommandRuntime = new Mock<ICommandRuntime>();
+            mockCommandRuntime = new MockCommandRuntime();
             clientMock = new Mock<ITrafficManagerClient>();
         }
 
@@ -45,19 +46,19 @@ namespace Microsoft.WindowsAzure.Commands.Test.TrafficManager.Profiles
             // Setup
             clientMock.Setup(c => c.ListProfiles()).Verifiable();
 
-            cmdlet = new EnableAzureTrafficManagerProfile()
-            {
-                Name = profileName,
-                CommandRuntime = mockCommandRuntime.Object,
-                TrafficManagerClient = clientMock.Object
-            };
+            cmdlet = new EnableAzureTrafficManagerProfile
+                {
+                    Name = ProfileName,
+                    CommandRuntime = mockCommandRuntime,
+                    TrafficManagerClient = clientMock.Object
+                };
 
             // Action
             cmdlet.ExecuteCmdlet();
 
             // Assert
-            clientMock.Verify(c => c.ListProfiles(), Times.Once());
-            mockCommandRuntime.Verify(c => c.WriteObject(true), Times.Never());
+            clientMock.Verify(c => c.UpdateProfileStatus(ProfileName, ProfileDefinitionStatus.Enabled), Times.Once());
+            Assert.AreEqual(0, mockCommandRuntime.OutputPipeline.Count);
         }
 
         [TestMethod]
@@ -66,22 +67,21 @@ namespace Microsoft.WindowsAzure.Commands.Test.TrafficManager.Profiles
             // Setup
             clientMock.Setup(c => c.ListProfiles()).Verifiable();
 
-            cmdlet = new EnableAzureTrafficManagerProfile()
-            {
-                Name = profileName,
-                CommandRuntime = mockCommandRuntime.Object,
-                TrafficManagerClient = clientMock.Object,
-                PassThru = new SwitchParameter(true)
-            };
+            cmdlet = new EnableAzureTrafficManagerProfile
+                {
+                    Name = ProfileName,
+                    CommandRuntime = mockCommandRuntime,
+                    TrafficManagerClient = clientMock.Object,
+                    PassThru = new SwitchParameter(true)
+                };
 
 
             // Action
             cmdlet.ExecuteCmdlet();
 
             // Assert
-            clientMock.Verify(c => c.ListProfiles(), Times.Once());
-            mockCommandRuntime.Verify(c => c.WriteObject(true), Times.Once());
-            Assert.AreEqual(true, (bool)((MockCommandRuntime)cmdlet.CommandRuntime).OutputPipeline[0]);
+            clientMock.Verify(c => c.UpdateProfileStatus(ProfileName, ProfileDefinitionStatus.Enabled), Times.Once());            
+            Assert.AreEqual(true, (bool)mockCommandRuntime.OutputPipeline[0]);
         }
     }
 }

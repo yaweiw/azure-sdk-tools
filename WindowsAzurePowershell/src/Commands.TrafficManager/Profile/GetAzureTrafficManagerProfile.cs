@@ -12,14 +12,12 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-
-
 namespace Microsoft.WindowsAzure.Commands.TrafficManager.Profile
 {
     using System.Collections.Generic;
     using System.Management.Automation;
-    using Microsoft.WindowsAzure.Commands.Utilities.TrafficManager.Models;
-    using Microsoft.WindowsAzure.Commands.Utilities.TrafficManager;
+    using Microsoft.WindowsAzure.Commands.TrafficManager.Models;
+    using Microsoft.WindowsAzure.Commands.TrafficManager.Utilities;
 
     [Cmdlet(VerbsCommon.Get, "AzureTrafficManagerProfile"), OutputType(typeof(IEnumerable<SimpleProfile>))]
     public class GetAzureTrafficManagerProfile : TrafficManagerBaseCmdlet
@@ -34,7 +32,6 @@ namespace Microsoft.WindowsAzure.Commands.TrafficManager.Profile
             {
                 GetNoName();
             }
-
             else
             {
                 GetByName();
@@ -55,7 +52,7 @@ namespace Microsoft.WindowsAzure.Commands.TrafficManager.Profile
 
         private void WriteProfile(SimpleProfile profile)
         {
-            WriteObject((ProfileWithDefinition) profile, true);
+            WriteObject(profile, true);
         }
 
         private void WriteProfiles(IEnumerable<SimpleProfile> profiles)

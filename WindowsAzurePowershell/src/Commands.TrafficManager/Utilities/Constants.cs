@@ -12,35 +12,16 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Commands.Utilities.TrafficManager.Models
+namespace Microsoft.WindowsAzure.Commands.TrafficManager.Utilities
 {
-    using Microsoft.WindowsAzure.Management.TrafficManager.Models;
+    using System.Net;
 
-    public class SimpleProfile
+    public class Constants
     {
-        private Profile profile { get; set; }
-
-        public SimpleProfile(Profile profile)
-        {
-            this.profile = profile;
-        }
-
-        public string Name
-        {
-            get { return profile.Name; }
-            set { profile.Name = value; }
-        }
-
-        public string DomainName
-        {
-            get { return profile.DomainName; }
-            set { profile.DomainName = value; }
-        }
-
-        public ProfileDefinitionStatus Status
-        {
-            get { return profile.Status; }
-            set { profile.Status = value; }
-        }
+        public const string monitorHttpOptionVerb = "GET";
+        public const int monitorHttpOptionExpectedStatusCode = (int)HttpStatusCode.OK;
+        public const int monitorIntervalInSeconds = 30;
+        public const int monitorTimeoutInSeconds = 10;
+        public const int monitorToleratedNumberOfFailures = 3;
     }
 }

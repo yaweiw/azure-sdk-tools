@@ -18,18 +18,18 @@ namespace Microsoft.WindowsAzure.Commands.Test.TrafficManager.Profiles
     using System.Linq;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using Microsoft.WindowsAzure.Commands.Test.Utilities.Common;
+    using Microsoft.WindowsAzure.Commands.TrafficManager.Models;
     using Microsoft.WindowsAzure.Commands.TrafficManager.Profile;
-    using Microsoft.WindowsAzure.Commands.Utilities.TrafficManager;
-    using Microsoft.WindowsAzure.Commands.Utilities.TrafficManager.Models;
+    using Microsoft.WindowsAzure.Commands.TrafficManager.Utilities;
     using Microsoft.WindowsAzure.Management.TrafficManager.Models;
     using Moq;
 
     [TestClass]
     public class GetTrafficManagerProfileTests
     {
-        private const string profileName = "my-profile";
-        private const string profileDomainName = "my.profile.trafficmanager.net";
-        private const LoadBalancingMethod loadBalancingMethod = LoadBalancingMethod.Failover;
+        private const string ProfileName = "my-profile";
+        private const string ProfileDomainName = "my.profile.trafficmanager.net";
+        private const LoadBalancingMethod LoadBalancingMethodDefault = LoadBalancingMethod.Failover;
 
         private MockCommandRuntime mockCommandRuntime;
 
@@ -37,12 +37,10 @@ namespace Microsoft.WindowsAzure.Commands.Test.TrafficManager.Profiles
 
         private Mock<ITrafficManagerClient> clientMock;
 
-
         [TestInitialize]
         public void TestSetup()
         {
             mockCommandRuntime = new MockCommandRuntime();
-            cmdlet.CommandRuntime = mockCommandRuntime;
             clientMock = new Mock<ITrafficManagerClient>();
         }
 
@@ -53,15 +51,15 @@ namespace Microsoft.WindowsAzure.Commands.Test.TrafficManager.Profiles
             ProfileWithDefinition expected = GetProfileWithDefinition();
 
             clientMock
-                .Setup(c => c.GetTrafficManagerProfileWithDefinition(profileName))
+                .Setup(c => c.GetTrafficManagerProfileWithDefinition(ProfileName))
                 .Returns(expected);
 
-            cmdlet = new GetAzureTrafficManagerProfile()
-            {
-                Name = profileName,
-                TrafficManagerClient = clientMock.Object,
-                CommandRuntime = mockCommandRuntime,
-            };
+            cmdlet = new GetAzureTrafficManagerProfile
+                {
+                    Name = ProfileName,
+                    TrafficManagerClient = clientMock.Object,
+                    CommandRuntime = mockCommandRuntime,
+                };
 
             // Action
             cmdlet.ExecuteCmdlet();
@@ -69,7 +67,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.TrafficManager.Profiles
             // Test
             Assert.AreEqual(1, mockCommandRuntime.OutputPipeline.Count);
 
-            ProfileWithDefinition actual = mockCommandRuntime.OutputPipeline[0] as ProfileWithDefinition;
+            var actual = mockCommandRuntime.OutputPipeline[0] as ProfileWithDefinition;
 
             Assert.IsNotNull(actual);
             Assert.AreEqual(expected.Name, actual.Name);
@@ -77,7 +75,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.TrafficManager.Profiles
             // TODO: Override .Equals in ProfileDefinition and uncomment this line
             // Assert.AreEquals(expected, actual);
 
-            clientMock.Verify(c => c.GetTrafficManagerProfileWithDefinition(profileName), Times.Once());
+            clientMock.Verify(c => c.GetTrafficManagerProfileWithDefinition(ProfileName), Times.Once());
         }
 
         [TestMethod]
@@ -93,17 +91,16 @@ namespace Microsoft.WindowsAzure.Commands.Test.TrafficManager.Profiles
 
             clientMock.Setup(c => c.ListProfiles()).Returns(expected);
 
-            cmdlet = new GetAzureTrafficManagerProfile()
-            {
-                Name = profileName,
-                TrafficManagerClient = clientMock.Object,
-                CommandRuntime = mockCommandRuntime,
-            };
+            cmdlet = new GetAzureTrafficManagerProfile
+                {
+                    TrafficManagerClient = clientMock.Object,
+                    CommandRuntime = mockCommandRuntime,
+                };
 
             // Action
             cmdlet.ExecuteCmdlet();
 
-            IEnumerable<SimpleProfile> actual = (IEnumerable<SimpleProfile>)mockCommandRuntime.OutputPipeline[0];
+            var actual = (IEnumerable<SimpleProfile>)mockCommandRuntime.OutputPipeline[0];
 
             // Assert
             Assert.IsNotNull(actual);
@@ -118,17 +115,17 @@ namespace Microsoft.WindowsAzure.Commands.Test.TrafficManager.Profiles
 
         private ProfileWithDefinition GetProfileWithDefinition()
         {
-            return new ProfileWithDefinition()
-            {
-                DomainName = profileDomainName,
-                Name = profileName,
-                Endpoints = new List<TrafficManagerEndpoint>(),
-                LoadBalancingMethod = loadBalancingMethod,
-                MonitorPort = 80,
-                Status = ProfileDefinitionStatus.Enabled,
-                MonitorRelativePath = "/",
-                TimeToLiveInSeconds = 30
-            };
+            return new ProfileWithDefinition
+                {
+                    DomainName = ProfileDomainName,
+                    Name = ProfileName,
+                    Endpoints = new List<TrafficManagerEndpoint>(),
+                    LoadBalancingMethod = LoadBalancingMethodDefault,
+                    MonitorPort = 80,
+                    Status = ProfileDefinitionStatus.Enabled,
+                    MonitorRelativePath = "/",
+                    TimeToLiveInSeconds = 30
+                };
         }
     }
 }

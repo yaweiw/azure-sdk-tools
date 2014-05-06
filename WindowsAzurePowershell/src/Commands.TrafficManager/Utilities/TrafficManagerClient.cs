@@ -12,15 +12,14 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Commands.Utilities.TrafficManager
+namespace Microsoft.WindowsAzure.Commands.TrafficManager.Utilities
 {
     using System;
-    using System.Collections;
     using System.Collections.Generic;
     using System.Linq;
     using System.Net;
+    using Microsoft.WindowsAzure.Commands.TrafficManager.Models;
     using Microsoft.WindowsAzure.Commands.Utilities.Common;
-    using Microsoft.WindowsAzure.Commands.Utilities.TrafficManager.Models;
     using Microsoft.WindowsAzure.Management.TrafficManager;
     using Microsoft.WindowsAzure.Management.TrafficManager.Models;
 
@@ -30,12 +29,12 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.TrafficManager
 
         public TrafficManagerClient(WindowsAzureSubscription subscription)
         {
-            Client = subscription.CreateClient<TrafficManagerManagementClient>();
+            this.Client = subscription.CreateClient<TrafficManagerManagementClient>();
         }
 
         public TrafficManagerClient(TrafficManagerManagementClient client)
         {
-            Client = client;
+            this.Client = client;
         }
 
         public ProfileWithDefinition NewAzureTrafficManagerProfile(
@@ -48,10 +47,10 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.TrafficManager
             int ttl)
         {
             // Create the profile
-            CreateTrafficManagerProfile(profileName, domainName);
+            this.CreateTrafficManagerProfile(profileName, domainName);
 
             // Create the definition
-            DefinitionCreateParameters definitionParameter = InstantiateTrafficManagerDefinition(
+            DefinitionCreateParameters definitionParameter = this.InstantiateTrafficManagerDefinition(
                 loadBalancingMethod,
                 monitorPort,
                 monitorProtocol,
@@ -60,30 +59,29 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.TrafficManager
                 // not adding any endpoints at this time
                 new List<TrafficManagerEndpoint>());
 
-            CreateTrafficManagerDefinition(profileName, definitionParameter);
+            this.CreateTrafficManagerDefinition(profileName, definitionParameter);
 
-            return GetTrafficManagerProfileWithDefinition(profileName);
+            return this.GetTrafficManagerProfileWithDefinition(profileName);
         }
 
         public ProfileWithDefinition AssignDefinitionToProfile(string profileName, DefinitionCreateParameters definitionParameter)
         {
-            Client.Definitions.Create(profileName, definitionParameter);
-            return GetTrafficManagerProfileWithDefinition(profileName);
+            this.Client.Definitions.Create(profileName, definitionParameter);
+            return this.GetTrafficManagerProfileWithDefinition(profileName);
         }
 
-        public bool RemoveTrafficManagerProfile(string profileName)
+        public void RemoveTrafficManagerProfile(string profileName)
         {
-            OperationResponse resp = Client.Profiles.Delete(profileName);
-            return resp.StatusCode == HttpStatusCode.OK;
+            OperationResponse resp = this.Client.Profiles.Delete(profileName);
         }
 
         public ProfileWithDefinition GetTrafficManagerProfileWithDefinition(string profileName)
         {
-            Profile profile = GetProfile(profileName).Profile;
+            Profile profile = this.GetProfile(profileName).Profile;
             Definition definition = null;
             try
             {
-                definition = GetDefinition(profileName).Definition;
+                definition = this.GetDefinition(profileName).Definition;
 
             }
             catch (CloudException)
@@ -102,11 +100,11 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.TrafficManager
             IList<TrafficManagerEndpoint> endpoints)
         {
             // Create the definition
-            DefinitionCreateParameters definitionParameter = new DefinitionCreateParameters();
-            DefinitionDnsOptions dnsOptions = new DefinitionDnsOptions();
-            DefinitionMonitor monitor = new DefinitionMonitor();
-            DefinitionPolicyCreateParameters policyParameter = new DefinitionPolicyCreateParameters();
-            DefinitionMonitorHTTPOptions monitorHttpOption = new DefinitionMonitorHTTPOptions();
+            var definitionParameter = new DefinitionCreateParameters();
+            var dnsOptions = new DefinitionDnsOptions();
+            var monitor = new DefinitionMonitor();
+            var policyParameter = new DefinitionPolicyCreateParameters();
+            var monitorHttpOption = new DefinitionMonitorHTTPOptions();
 
             dnsOptions.TimeToLiveInSeconds = ttl;
 
@@ -127,16 +125,17 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.TrafficManager
             policyParameter.Endpoints = new List<DefinitionEndpointCreateParameters>();
             foreach (TrafficManagerEndpoint endpoint in endpoints)
             {
-                DefinitionEndpointCreateParameters endpointParam = new DefinitionEndpointCreateParameters();
-                endpointParam.DomainName = endpoint.DomainName;
-                endpointParam.Location = endpoint.Location;
-                endpointParam.Status = endpoint.Status;
-                endpointParam.Type = endpoint.Type;
-                endpointParam.Weight = endpoint.Weight;
+                var endpointParam = new DefinitionEndpointCreateParameters
+                    {
+                        DomainName = endpoint.DomainName,
+                        Location = endpoint.Location,
+                        Status = endpoint.Status,
+                        Type = endpoint.Type,
+                        Weight = endpoint.Weight
+                    };
 
                 policyParameter.Endpoints.Add(endpointParam);
             }
-
 
             definitionParameter.DnsOptions = dnsOptions;
             definitionParameter.Policy = policyParameter;
@@ -153,22 +152,24 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.TrafficManager
         /// <returns></returns>
         public DefinitionCreateParameters InstantiateTrafficManagerDefinition(Definition definition)
         {
-            DefinitionCreateParameters definitionCreateParams = new DefinitionCreateParameters();
+            var definitionCreateParams = new DefinitionCreateParameters();
 
-            List<DefinitionEndpointCreateParameters> endpoints = new List<DefinitionEndpointCreateParameters>();
+            var endpoints = new List<DefinitionEndpointCreateParameters>();
             foreach (DefinitionEndpointResponse endpointReponse in definition.Policy.Endpoints)
             {
-                DefinitionEndpointCreateParameters endpoint = new DefinitionEndpointCreateParameters();
-                endpoint.DomainName = endpointReponse.DomainName;
-                endpoint.Location = endpointReponse.Location;
-                endpoint.Type = endpointReponse.Type;
-                endpoint.Status = endpointReponse.Status;
-                endpoint.Weight = endpointReponse.Weight;
+                var endpoint = new DefinitionEndpointCreateParameters
+                    {
+                        DomainName = endpointReponse.DomainName,
+                        Location = endpointReponse.Location,
+                        Type = endpointReponse.Type,
+                        Status = endpointReponse.Status,
+                        Weight = endpointReponse.Weight
+                    };
 
                 endpoints.Add(endpoint);
             }
 
-            definitionCreateParams.Policy = new DefinitionPolicyCreateParameters()
+            definitionCreateParams.Policy = new DefinitionPolicyCreateParameters
             {
                 Endpoints = endpoints,
                 LoadBalancingMethod = definition.Policy.LoadBalancingMethod
@@ -182,43 +183,41 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.TrafficManager
 
         public void UpdateProfileStatus(string profileName, ProfileDefinitionStatus targetStatus)
         {
-            ProfileDefinitionStatus currentStatus = GetStatus(profileName);
+            ProfileDefinitionStatus currentStatus = this.GetStatus(profileName);
             if (currentStatus != targetStatus)
             {
-                Client.Profiles.Update(profileName, targetStatus, 1);
+                this.Client.Profiles.Update(profileName, targetStatus, 1);
             }
         }
 
         public ProfileDefinitionStatus GetStatus(string profileName)
         {
-            return Client.Profiles.Get(profileName).Profile.Status;
+            return this.Client.Profiles.Get(profileName).Profile.Status;
         }
 
         public void CreateTrafficManagerProfile(string profileName, string domainName)
         {
-            Client.Profiles.Create(profileName, domainName);
+            this.Client.Profiles.Create(profileName, domainName);
         }
 
         public void CreateTrafficManagerDefinition(string profileName, DefinitionCreateParameters parameters)
         {
-            Client.Definitions.Create(profileName, parameters);
+            this.Client.Definitions.Create(profileName, parameters);
         }
 
         public ProfileGetResponse GetProfile(string profileName)
         {
-            return Client.Profiles.Get(profileName);
+            return this.Client.Profiles.Get(profileName);
         }
 
         public DefinitionGetResponse GetDefinition(string profileName)
         {
-            return Client.Definitions.Get(profileName);
+            return this.Client.Definitions.Get(profileName);
         }
-
 
         public IEnumerable<SimpleProfile> ListProfiles()
         {
-            IList<Profile> respProfiles = Client.Profiles.List().Profiles;
-
+            IList<Profile> respProfiles = this.Client.Profiles.List().Profiles;
 
             IEnumerable<SimpleProfile> resultProfiles =
                 respProfiles.Select(respProfile => new SimpleProfile(respProfile));
@@ -226,10 +225,9 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.TrafficManager
             return resultProfiles;
         }
 
-
         public bool TestDomainAvailability(string domainName)
         {
-            return Client.Profiles.CheckDnsPrefixAvailability(domainName).Result;
+            return this.Client.Profiles.CheckDnsPrefixAvailability(domainName).Result;
         }
     }
 }

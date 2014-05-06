@@ -12,16 +12,15 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-using System;
-using System.Linq;
-using Microsoft.WindowsAzure.Commands.Utilities.TrafficManager;
-using Microsoft.WindowsAzure.Commands.Common.Properties;
-using Microsoft.WindowsAzure.Management.TrafficManager.Models;
-
 namespace Microsoft.WindowsAzure.Commands.TrafficManager.Endpoint
 {
+    using Microsoft.WindowsAzure.Commands.Common.Properties;
+    using Microsoft.WindowsAzure.Commands.TrafficManager.Models;
+    using Microsoft.WindowsAzure.Commands.TrafficManager.Utilities;
+    using Microsoft.WindowsAzure.Management.TrafficManager.Models;
+    using System;
+    using System.Linq;
     using System.Management.Automation;
-    using Microsoft.WindowsAzure.Commands.Utilities.TrafficManager.Models;
 
     [Cmdlet(VerbsCommon.Add, "AzureTrafficManagerEndpoint"), OutputType(typeof(IProfileWithDefinition))]
     public class AddAzureTrafficManagerEndpoint : TrafficManagerConfigurationBaseCmdlet

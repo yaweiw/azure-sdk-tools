@@ -14,10 +14,9 @@
 
 namespace Microsoft.WindowsAzure.Commands.TrafficManager.Profile
 {
-    using Microsoft.WindowsAzure.Commands.Utilities.TrafficManager.Models;
     using System.Management.Automation;
+    using Microsoft.WindowsAzure.Commands.TrafficManager.Utilities;
     using Microsoft.WindowsAzure.Management.TrafficManager.Models;
-    using Microsoft.WindowsAzure.Commands.Utilities.TrafficManager;
 
     [Cmdlet(VerbsLifecycle.Disable, "AzureTrafficManagerProfile"), OutputType(typeof(bool))]
     public class DisableAzureTrafficManagerProfile : TrafficManagerBaseCmdlet

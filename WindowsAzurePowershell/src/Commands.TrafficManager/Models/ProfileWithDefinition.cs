@@ -12,10 +12,9 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Commands.Utilities.TrafficManager.Models
+namespace Microsoft.WindowsAzure.Commands.TrafficManager.Models
 {
     using System.Collections.Generic;
-    using System.Runtime.Serialization;
     using Microsoft.WindowsAzure.Management.TrafficManager.Models;
 
     /// <summary>
@@ -36,43 +35,43 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.TrafficManager.Models
 
         public int TimeToLiveInSeconds
         {
-            get { return definition.DnsOptions.TimeToLiveInSeconds; }
-            set { definition.DnsOptions.TimeToLiveInSeconds = value; }
+            get { return this.definition.DnsOptions.TimeToLiveInSeconds; }
+            set { this.definition.DnsOptions.TimeToLiveInSeconds = value; }
         }
 
         public string MonitorRelativePath
         {
-            get { return definition.Monitors[0].HttpOptions.RelativePath; }
-            set { definition.Monitors[0].HttpOptions.RelativePath = value; }
+            get { return this.definition.Monitors[0].HttpOptions.RelativePath; }
+            set { this.definition.Monitors[0].HttpOptions.RelativePath = value; }
         }
 
         public int MonitorPort
         {
-            get { return definition.Monitors[0].Port; }
-            set { definition.Monitors[0].Port = value; }
+            get { return this.definition.Monitors[0].Port; }
+            set { this.definition.Monitors[0].Port = value; }
         }
 
         public DefinitionMonitorProtocol MonitorProtocol
         {
-            get { return definition.Monitors[0].Protocol; }
-            set { definition.Monitors[0].Protocol = value; }
+            get { return this.definition.Monitors[0].Protocol; }
+            set { this.definition.Monitors[0].Protocol = value; }
         }
 
         public LoadBalancingMethod LoadBalancingMethod
         {
-            get { return definition.Policy.LoadBalancingMethod; }
-            set { definition.Policy.LoadBalancingMethod = value; }
+            get { return this.definition.Policy.LoadBalancingMethod; }
+            set { this.definition.Policy.LoadBalancingMethod = value; }
         }
 
         public IList<TrafficManagerEndpoint> Endpoints
         {
             get
             {
-                if (endpoints == null)
+                if (this.endpoints == null)
                 {
-                    endpoints = new List<TrafficManagerEndpoint>();
+                    this.endpoints = new List<TrafficManagerEndpoint>();
 
-                    foreach (DefinitionEndpointResponse endpointReponse in definition.Policy.Endpoints)
+                    foreach (DefinitionEndpointResponse endpointReponse in this.definition.Policy.Endpoints)
                     {
                         TrafficManagerEndpoint endpoint = new TrafficManagerEndpoint();
                         endpoint.DomainName = endpointReponse.DomainName;
@@ -82,10 +81,10 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.TrafficManager.Models
                         endpoint.Weight = endpointReponse.Weight;
                         endpoint.MonitorStatus = endpointReponse.MonitorStatus;
 
-                        endpoints.Add(endpoint);
+                        this.endpoints.Add(endpoint);
                     }
                 }
-                return endpoints;
+                return this.endpoints;
             }
 
             set
@@ -96,8 +95,8 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.TrafficManager.Models
 
         public DefinitionPolicyMonitorStatus MonitorStatus
         {
-            get { return definition.Policy.MonitorStatus; }
-            set { definition.Policy.MonitorStatus = value; }
+            get { return this.definition.Policy.MonitorStatus; }
+            set { this.definition.Policy.MonitorStatus = value; }
         }
 
         public ProfileWithDefinition GetInstance()
@@ -122,29 +121,8 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.TrafficManager.Models
             {
                 HttpOptions = new DefinitionMonitorHTTPOptions(),
             };
-            definition.Monitors.Add(monitor);
-            definition.DnsOptions = new DefinitionDnsOptions();
+            this.definition.Monitors.Add(monitor);
+            this.definition.DnsOptions = new DefinitionDnsOptions();
         }
-    }
-
-    public class TrafficManagerEndpoint
-    {
-        [DataMember(IsRequired = true)]
-        public string DomainName { get; set; }
-
-        [DataMember(IsRequired = true)]
-        public string Location { get; set; }
-
-        [DataMember(IsRequired = true)]
-        public EndpointType Type { get; set; }
-
-        [DataMember(IsRequired = true)]
-        public EndpointStatus Status { get; set; }
-
-        [DataMember(IsRequired = true)]
-        public DefinitionEndpointMonitorStatus MonitorStatus { get; set; }
-
-        [DataMember(IsRequired = true)]
-        public int Weight { get; set; }
     }
 }

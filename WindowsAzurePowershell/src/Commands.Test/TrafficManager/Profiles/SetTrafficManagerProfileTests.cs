@@ -19,34 +19,34 @@ namespace Microsoft.WindowsAzure.Commands.Test.TrafficManager.Profiles
     using System.Net;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using Microsoft.WindowsAzure.Commands.Test.Utilities.Common;
+    using Microsoft.WindowsAzure.Commands.TrafficManager.Models;
     using Microsoft.WindowsAzure.Commands.TrafficManager.Profile;
-    using Microsoft.WindowsAzure.Commands.Utilities.TrafficManager;
-    using Microsoft.WindowsAzure.Commands.Utilities.TrafficManager.Models;
+    using Microsoft.WindowsAzure.Commands.TrafficManager.Utilities;
     using Microsoft.WindowsAzure.Management.TrafficManager.Models;
     using Moq;
 
     [TestClass]
     public class SetTrafficManagerProfileTests
     {
-        private const int monitorExpectedStatusCode = (int)HttpStatusCode.OK;
-        private const string verb = "GET";
+        private const int MonitorExpectedStatusCode = (int)HttpStatusCode.OK;
+        private const string Verb = "GET";
 
-        private const string profileName = "my-profile";
-        private const string profileDomainName = "my.profile.trafficmanager.net";
+        private const string ProfileName = "my-profile";
+        private const string ProfileDomainName = "my.profile.trafficmanager.net";
 
         // Old profile
-        private const LoadBalancingMethod loadBalancingMethod = LoadBalancingMethod.Failover;
-        private const int monitorPort = 80;
-        private const DefinitionMonitorProtocol monitorProtocol = DefinitionMonitorProtocol.Http;
-        private const string monitorRelativePath = "/";
-        private const int ttl = 30;
+        private const LoadBalancingMethod DefaultLoadBalancingMethod = LoadBalancingMethod.Failover;
+        private const int MonitorPort = 80;
+        private const DefinitionMonitorProtocol MonitorProtocol = DefinitionMonitorProtocol.Http;
+        private const string MonitorRelativePath = "/";
+        private const int Ttl = 30;
 
         // New profile
-        private const LoadBalancingMethod newLoadBalancingMethod = LoadBalancingMethod.Performance;
-        private const int newMonitorPort = 8080;
-        private const DefinitionMonitorProtocol newMonitorProtocol = DefinitionMonitorProtocol.Https;
-        private const string newMonitorRelativePath = "/index.html";
-        private const int newTtl = 300;
+        private const LoadBalancingMethod NewLoadBalancingMethod = LoadBalancingMethod.Performance;
+        private const int NewMonitorPort = 8080;
+        private const DefinitionMonitorProtocol NewMonitorProtocol = DefinitionMonitorProtocol.Https;
+        private const string NewMonitorRelativePath = "/index.html";
+        private const int NewTtl = 300;
 
         private MockCommandRuntime mockCommandRuntime;
 
@@ -58,104 +58,109 @@ namespace Microsoft.WindowsAzure.Commands.Test.TrafficManager.Profiles
         public void TestSetup()
         {
             mockCommandRuntime = new MockCommandRuntime();
-            cmdlet = new SetAzureTrafficManagerProfile();
-            cmdlet.CommandRuntime = mockCommandRuntime;
+            cmdlet = new SetAzureTrafficManagerProfile { CommandRuntime = this.mockCommandRuntime };
             clientMock = new Mock<ITrafficManagerClient>();
+
+            clientMock
+                .Setup(c => c.InstantiateTrafficManagerDefinition(
+                    It.IsAny<string>(),
+                    It.IsAny<int>(),
+                    It.IsAny<string>(),
+                    It.IsAny<string>(),
+                    It.IsAny<int>(),
+                    It.IsAny<IList<TrafficManagerEndpoint>>()))
+                .Returns(DefaultDefinition);
         }
 
         [TestMethod]
         public void ProcessSetProfileTestAllArgs()
         {
             // Setup
-
-            ProfileWithDefinition oldProfileWithDefinition = new ProfileWithDefinition()
+            var oldProfileWithDefinition = new ProfileWithDefinition
             {
-                DomainName = profileDomainName,
-                Name = profileName,
+                DomainName = ProfileDomainName,
+                Name = ProfileName,
                 Endpoints = new List<TrafficManagerEndpoint>(),
-                LoadBalancingMethod = loadBalancingMethod,
-                MonitorPort = monitorPort,
+                LoadBalancingMethod = DefaultLoadBalancingMethod,
+                MonitorPort = MonitorPort,
                 Status = ProfileDefinitionStatus.Enabled,
-                MonitorRelativePath = monitorRelativePath,
-                MonitorProtocol = monitorProtocol,
-                TimeToLiveInSeconds = ttl
+                MonitorRelativePath = MonitorRelativePath,
+                MonitorProtocol = MonitorProtocol,
+                TimeToLiveInSeconds = Ttl
             };
 
-            ProfileWithDefinition newProfileWithDefinition = new ProfileWithDefinition()
+            var newProfileWithDefinition = new ProfileWithDefinition
             {
-                DomainName = profileDomainName,
-                Name = profileName,
+                DomainName = ProfileDomainName,
+                Name = ProfileName,
                 Endpoints = new List<TrafficManagerEndpoint>(),
-                LoadBalancingMethod = newLoadBalancingMethod,
-                MonitorPort = newMonitorPort,
+                LoadBalancingMethod = NewLoadBalancingMethod,
+                MonitorPort = NewMonitorPort,
                 Status = ProfileDefinitionStatus.Enabled,
-                MonitorRelativePath = newMonitorRelativePath,
-                MonitorProtocol = newMonitorProtocol,
-                TimeToLiveInSeconds = newTtl
+                MonitorRelativePath = NewMonitorRelativePath,
+                MonitorProtocol = NewMonitorProtocol,
+                TimeToLiveInSeconds = NewTtl
             };
 
 
-            DefinitionMonitor newMonitor = new DefinitionMonitor()
-            {
-                HttpOptions = new DefinitionMonitorHTTPOptions()
+            var newMonitor = new DefinitionMonitor
                 {
-                    ExpectedStatusCode = monitorExpectedStatusCode,
-                    RelativePath = newMonitorRelativePath,
-                    Verb = verb
-                }
-            };
+                    HttpOptions = new DefinitionMonitorHTTPOptions
+                        {
+                            ExpectedStatusCode = MonitorExpectedStatusCode,
+                            RelativePath = NewMonitorRelativePath,
+                            Verb = Verb
+                        }
+                };
 
-            DefinitionCreateParameters updateDefinitionCreateParameters = new DefinitionCreateParameters()
-            {
-                DnsOptions = new DefinitionDnsOptions()
+            var updateDefinitionCreateParameters = new DefinitionCreateParameters
                 {
-                    TimeToLiveInSeconds = newTtl
-                },
-
-                Policy = new DefinitionPolicyCreateParameters()
-                {
-                    LoadBalancingMethod = newLoadBalancingMethod,
-                    Endpoints = new DefinitionEndpointCreateParameters[0]
-                },
-
-                Monitors = new[] { newMonitor }
-            };
+                    DnsOptions = new DefinitionDnsOptions
+                        {
+                            TimeToLiveInSeconds = NewTtl
+                        },
+                    Policy = new DefinitionPolicyCreateParameters
+                        {
+                            LoadBalancingMethod = NewLoadBalancingMethod,
+                            Endpoints = new DefinitionEndpointCreateParameters[0]
+                        },
+                    Monitors = new[] { newMonitor }
+                };
 
             clientMock
-                .Setup(c => c.AssignDefinitionToProfile(profileName, It.IsAny<DefinitionCreateParameters>()))
+                .Setup(c => c.AssignDefinitionToProfile(ProfileName, It.IsAny<DefinitionCreateParameters>()))
                 .Returns(newProfileWithDefinition);
 
             clientMock
                 .Setup(c => c.InstantiateTrafficManagerDefinition(
-                newLoadBalancingMethod.ToString(),
-                newMonitorPort,
-                newMonitorProtocol.ToString(),
-                newMonitorRelativePath,
-                newTtl,
+                NewLoadBalancingMethod.ToString(),
+                NewMonitorPort,
+                NewMonitorProtocol.ToString(),
+                NewMonitorRelativePath,
+                NewTtl,
                 oldProfileWithDefinition.Endpoints))
                 .Returns(updateDefinitionCreateParameters);
 
-            cmdlet = new SetAzureTrafficManagerProfile()
-            {
-                Name = profileName,
-                LoadBalancingMethod = newLoadBalancingMethod.ToString(),
-                MonitorPort = newMonitorPort,
-                MonitorProtocol = newMonitorProtocol.ToString(),
-                MonitorRelativePath = newMonitorRelativePath,
-                Ttl = newTtl,
-                TrafficManagerClient = clientMock.Object,
-                CommandRuntime = mockCommandRuntime,
-                TrafficManagerProfile = oldProfileWithDefinition
-            };
+            cmdlet = new SetAzureTrafficManagerProfile
+                {
+                    Name = ProfileName,
+                    LoadBalancingMethod = NewLoadBalancingMethod.ToString(),
+                    MonitorPort = NewMonitorPort,
+                    MonitorProtocol = NewMonitorProtocol.ToString(),
+                    MonitorRelativePath = NewMonitorRelativePath,
+                    Ttl = NewTtl,
+                    TrafficManagerClient = clientMock.Object,
+                    CommandRuntime = mockCommandRuntime,
+                    TrafficManagerProfile = oldProfileWithDefinition
+                };
 
 
             // Action
-
             cmdlet.ExecuteCmdlet();
-            ProfileWithDefinition actual = mockCommandRuntime.OutputPipeline[0] as ProfileWithDefinition;
+            var actual = mockCommandRuntime.OutputPipeline[0] as ProfileWithDefinition;
 
             // Assert
-
+            Assert.IsNotNull(actual);
             Assert.AreEqual(newProfileWithDefinition.Name, actual.Name);
             Assert.AreEqual(newProfileWithDefinition.DomainName, actual.DomainName);
             Assert.AreEqual(newProfileWithDefinition.LoadBalancingMethod, actual.LoadBalancingMethod);
@@ -166,55 +171,53 @@ namespace Microsoft.WindowsAzure.Commands.Test.TrafficManager.Profiles
 
             // Most important assert; the cmdlet is passing the right parameters
             clientMock.Verify(c => c.InstantiateTrafficManagerDefinition(
-                newLoadBalancingMethod.ToString(),
-                newMonitorPort,
-                newMonitorProtocol.ToString(),
-                newMonitorRelativePath,
-                newTtl,
+                NewLoadBalancingMethod.ToString(),
+                NewMonitorPort,
+                NewMonitorProtocol.ToString(),
+                NewMonitorRelativePath,
+                NewTtl,
                 oldProfileWithDefinition.Endpoints), Times.Once());
         }
 
         [TestMethod]
         public void ProcessSetProfileTestLoadBalancingMethod()
         {
-            ProfileWithDefinition oldProfileWithDefinition = new ProfileWithDefinition()
-            {
-                DomainName = profileDomainName,
-                Name = profileName,
-                Endpoints = new List<TrafficManagerEndpoint>(),
-                LoadBalancingMethod = loadBalancingMethod,
-                MonitorPort = monitorPort,
-                Status = ProfileDefinitionStatus.Enabled,
-                MonitorRelativePath = monitorRelativePath,
-                MonitorProtocol = monitorProtocol,
-                TimeToLiveInSeconds = ttl
-            };
-
-            DefinitionMonitor Monitor = new DefinitionMonitor()
-            {
-                HttpOptions = new DefinitionMonitorHTTPOptions()
+            var oldProfileWithDefinition = new ProfileWithDefinition
                 {
-                    ExpectedStatusCode = monitorExpectedStatusCode,
-                    RelativePath = monitorRelativePath,
-                    Verb = verb
-                }
-            };
+                    DomainName = ProfileDomainName,
+                    Name = ProfileName,
+                    Endpoints = new List<TrafficManagerEndpoint>(),
+                    LoadBalancingMethod = DefaultLoadBalancingMethod,
+                    MonitorPort = MonitorPort,
+                    Status = ProfileDefinitionStatus.Enabled,
+                    MonitorRelativePath = MonitorRelativePath,
+                    MonitorProtocol = MonitorProtocol,
+                    TimeToLiveInSeconds = Ttl
+                };
 
-            DefinitionCreateParameters updateDefinitionCreateParameters = new DefinitionCreateParameters()
-            {
-                DnsOptions = new DefinitionDnsOptions()
+            var monitor = new DefinitionMonitor
                 {
-                    TimeToLiveInSeconds = oldProfileWithDefinition.TimeToLiveInSeconds
-                },
+                    HttpOptions = new DefinitionMonitorHTTPOptions
+                        {
+                            ExpectedStatusCode = MonitorExpectedStatusCode,
+                            RelativePath = MonitorRelativePath,
+                            Verb = Verb
+                        }
+                };
 
-                Policy = new DefinitionPolicyCreateParameters()
+            var updateDefinitionCreateParameters = new DefinitionCreateParameters
                 {
-                    LoadBalancingMethod = newLoadBalancingMethod,
-                    Endpoints = new DefinitionEndpointCreateParameters[0]
-                },
-
-                Monitors = new[] { Monitor }
-            };
+                    DnsOptions = new DefinitionDnsOptions
+                        {
+                            TimeToLiveInSeconds = oldProfileWithDefinition.TimeToLiveInSeconds
+                        },
+                    Policy = new DefinitionPolicyCreateParameters
+                        {
+                            LoadBalancingMethod = NewLoadBalancingMethod,
+                            Endpoints = new DefinitionEndpointCreateParameters[0]
+                        },
+                    Monitors = new[] { monitor }
+                };
 
             clientMock
                 .Setup(c => c.InstantiateTrafficManagerDefinition(
@@ -227,11 +230,11 @@ namespace Microsoft.WindowsAzure.Commands.Test.TrafficManager.Profiles
                 .Returns(updateDefinitionCreateParameters);
 
 
-            cmdlet = new SetAzureTrafficManagerProfile()
+            cmdlet = new SetAzureTrafficManagerProfile
             {
-                Name = profileName,
+                Name = ProfileName,
                 // We only change the load balancign method
-                LoadBalancingMethod = newLoadBalancingMethod.ToString(),
+                LoadBalancingMethod = NewLoadBalancingMethod.ToString(),
                 TrafficManagerClient = clientMock.Object,
                 CommandRuntime = mockCommandRuntime,
                 TrafficManagerProfile = oldProfileWithDefinition
@@ -239,20 +242,17 @@ namespace Microsoft.WindowsAzure.Commands.Test.TrafficManager.Profiles
 
 
             // Action
-
             cmdlet.ExecuteCmdlet();
-            ProfileWithDefinition actual = mockCommandRuntime.OutputPipeline[0] as ProfileWithDefinition;
 
             // Assert
-
             clientMock.Verify(
                 c => c.InstantiateTrafficManagerDefinition(
                     // load balancing method is the new one
-                    newLoadBalancingMethod.ToString(),
-                    monitorPort,
-                    monitorProtocol.ToString(),
-                    monitorRelativePath,
-                    ttl,
+                    NewLoadBalancingMethod.ToString(),
+                    MonitorPort,
+                    MonitorProtocol.ToString(),
+                    MonitorRelativePath,
+                    Ttl,
                     oldProfileWithDefinition.Endpoints),
                 Times.Once());
         }
@@ -260,45 +260,42 @@ namespace Microsoft.WindowsAzure.Commands.Test.TrafficManager.Profiles
         [TestMethod]
         public void ProcessSetProfileTestMonitorPort()
         {
-            ProfileWithDefinition oldProfileWithDefinition = new ProfileWithDefinition()
-            {
-                DomainName = profileDomainName,
-                Name = profileName,
-                Endpoints = new List<TrafficManagerEndpoint>(),
-                LoadBalancingMethod = loadBalancingMethod,
-                MonitorPort = monitorPort,
-                Status = ProfileDefinitionStatus.Enabled,
-                MonitorRelativePath = monitorRelativePath,
-                MonitorProtocol = monitorProtocol,
-                TimeToLiveInSeconds = ttl
-            };
+            var oldProfileWithDefinition = new ProfileWithDefinition
+                {
+                    DomainName = ProfileDomainName,
+                    Name = ProfileName,
+                    Endpoints = new List<TrafficManagerEndpoint>(),
+                    LoadBalancingMethod = DefaultLoadBalancingMethod,
+                    MonitorPort = MonitorPort,
+                    Status = ProfileDefinitionStatus.Enabled,
+                    MonitorRelativePath = MonitorRelativePath,
+                    MonitorProtocol = MonitorProtocol,
+                    TimeToLiveInSeconds = Ttl
+                };
 
-            cmdlet = new SetAzureTrafficManagerProfile()
-            {
-                Name = profileName,
-                // We only change the monitor port
-                MonitorPort = newMonitorPort,
-                TrafficManagerClient = clientMock.Object,
-                CommandRuntime = mockCommandRuntime,
-                TrafficManagerProfile = oldProfileWithDefinition
-            };
+            cmdlet = new SetAzureTrafficManagerProfile
+                {
+                    Name = ProfileName,
+                    // We only change the monitor port
+                    MonitorPort = NewMonitorPort,
+                    TrafficManagerClient = clientMock.Object,
+                    CommandRuntime = mockCommandRuntime,
+                    TrafficManagerProfile = oldProfileWithDefinition
+                };
 
 
             // Action
-
             cmdlet.ExecuteCmdlet();
-            ProfileWithDefinition actual = mockCommandRuntime.OutputPipeline[0] as ProfileWithDefinition;
 
             // Assert
-
             clientMock.Verify(
                 c => c.InstantiateTrafficManagerDefinition(
-                    loadBalancingMethod.ToString(),
+                    DefaultLoadBalancingMethod.ToString(),
                     // monitor port is the new one
-                    newMonitorPort,
-                    monitorProtocol.ToString(),
-                    monitorRelativePath,
-                    ttl,
+                    NewMonitorPort,
+                    MonitorProtocol.ToString(),
+                    MonitorRelativePath,
+                    Ttl,
                     oldProfileWithDefinition.Endpoints),
                 Times.Once());
         }
@@ -306,45 +303,42 @@ namespace Microsoft.WindowsAzure.Commands.Test.TrafficManager.Profiles
         [TestMethod]
         public void ProcessSetProfileTestMonitorProtocol()
         {
-            ProfileWithDefinition oldProfileWithDefinition = new ProfileWithDefinition()
-            {
-                DomainName = profileDomainName,
-                Name = profileName,
-                Endpoints = new List<TrafficManagerEndpoint>(),
-                LoadBalancingMethod = loadBalancingMethod,
-                MonitorPort = monitorPort,
-                Status = ProfileDefinitionStatus.Enabled,
-                MonitorRelativePath = monitorRelativePath,
-                MonitorProtocol = monitorProtocol,
-                TimeToLiveInSeconds = ttl
-            };
+            var oldProfileWithDefinition = new ProfileWithDefinition
+                {
+                    DomainName = ProfileDomainName,
+                    Name = ProfileName,
+                    Endpoints = new List<TrafficManagerEndpoint>(),
+                    LoadBalancingMethod = DefaultLoadBalancingMethod,
+                    MonitorPort = MonitorPort,
+                    Status = ProfileDefinitionStatus.Enabled,
+                    MonitorRelativePath = MonitorRelativePath,
+                    MonitorProtocol = MonitorProtocol,
+                    TimeToLiveInSeconds = Ttl
+                };
 
-            cmdlet = new SetAzureTrafficManagerProfile()
-            {
-                Name = profileName,
-                // We only change the monitor protocl
-                MonitorProtocol = newMonitorProtocol.ToString(),
-                TrafficManagerClient = clientMock.Object,
-                CommandRuntime = mockCommandRuntime,
-                TrafficManagerProfile = oldProfileWithDefinition
-            };
+            cmdlet = new SetAzureTrafficManagerProfile
+                {
+                    Name = ProfileName,
+                    // We only change the monitor protocl
+                    MonitorProtocol = NewMonitorProtocol.ToString(),
+                    TrafficManagerClient = clientMock.Object,
+                    CommandRuntime = mockCommandRuntime,
+                    TrafficManagerProfile = oldProfileWithDefinition
+                };
 
 
             // Action
-
             cmdlet.ExecuteCmdlet();
-            ProfileWithDefinition actual = mockCommandRuntime.OutputPipeline[0] as ProfileWithDefinition;
 
             // Assert
-
             clientMock.Verify(
                 c => c.InstantiateTrafficManagerDefinition(
-                    loadBalancingMethod.ToString(),
-                    monitorPort,
+                    DefaultLoadBalancingMethod.ToString(),
+                    MonitorPort,
                     // monitor protocol is the new one
-                    newMonitorProtocol.ToString(),
-                    monitorRelativePath,
-                    ttl,
+                    NewMonitorProtocol.ToString(),
+                    MonitorRelativePath,
+                    Ttl,
                     oldProfileWithDefinition.Endpoints),
                 Times.Once());
         }
@@ -352,45 +346,42 @@ namespace Microsoft.WindowsAzure.Commands.Test.TrafficManager.Profiles
         [TestMethod]
         public void ProcessSetProfileTestMonitorRelativePath()
         {
-            ProfileWithDefinition oldProfileWithDefinition = new ProfileWithDefinition()
-            {
-                DomainName = profileDomainName,
-                Name = profileName,
-                Endpoints = new List<TrafficManagerEndpoint>(),
-                LoadBalancingMethod = loadBalancingMethod,
-                MonitorPort = monitorPort,
-                Status = ProfileDefinitionStatus.Enabled,
-                MonitorRelativePath = monitorRelativePath,
-                MonitorProtocol = monitorProtocol,
-                TimeToLiveInSeconds = ttl
-            };
+            var oldProfileWithDefinition = new ProfileWithDefinition
+                {
+                    DomainName = ProfileDomainName,
+                    Name = ProfileName,
+                    Endpoints = new List<TrafficManagerEndpoint>(),
+                    LoadBalancingMethod = DefaultLoadBalancingMethod,
+                    MonitorPort = MonitorPort,
+                    Status = ProfileDefinitionStatus.Enabled,
+                    MonitorRelativePath = MonitorRelativePath,
+                    MonitorProtocol = MonitorProtocol,
+                    TimeToLiveInSeconds = Ttl
+                };
 
-            cmdlet = new SetAzureTrafficManagerProfile()
-            {
-                Name = profileName,
-                // We only change the monitor protocl
-                MonitorRelativePath = newMonitorRelativePath,
-                TrafficManagerClient = clientMock.Object,
-                CommandRuntime = mockCommandRuntime,
-                TrafficManagerProfile = oldProfileWithDefinition
-            };
+            cmdlet = new SetAzureTrafficManagerProfile
+                {
+                    Name = ProfileName,
+                    // We only change the monitor protocl
+                    MonitorRelativePath = NewMonitorRelativePath,
+                    TrafficManagerClient = clientMock.Object,
+                    CommandRuntime = mockCommandRuntime,
+                    TrafficManagerProfile = oldProfileWithDefinition
+                };
 
 
             // Action
-
             cmdlet.ExecuteCmdlet();
-            ProfileWithDefinition actual = mockCommandRuntime.OutputPipeline[0] as ProfileWithDefinition;
 
             // Assert
-
             clientMock.Verify(
                 c => c.InstantiateTrafficManagerDefinition(
-                    loadBalancingMethod.ToString(),
-                    monitorPort,
-                    monitorProtocol.ToString(),
+                    DefaultLoadBalancingMethod.ToString(),
+                    MonitorPort,
+                    MonitorProtocol.ToString(),
                     // monitor relative path is the new one
-                    newMonitorRelativePath,
-                    ttl,
+                    NewMonitorRelativePath,
+                    Ttl,
                     oldProfileWithDefinition.Endpoints),
                 Times.Once());
         }
@@ -398,47 +389,58 @@ namespace Microsoft.WindowsAzure.Commands.Test.TrafficManager.Profiles
         [TestMethod]
         public void ProcessSetProfileTestTtl()
         {
-            ProfileWithDefinition oldProfileWithDefinition = new ProfileWithDefinition()
-            {
-                DomainName = profileDomainName,
-                Name = profileName,
-                Endpoints = new List<TrafficManagerEndpoint>(),
-                LoadBalancingMethod = loadBalancingMethod,
-                MonitorPort = monitorPort,
-                Status = ProfileDefinitionStatus.Enabled,
-                MonitorRelativePath = monitorRelativePath,
-                MonitorProtocol = monitorProtocol,
-                TimeToLiveInSeconds = ttl
-            };
+            var oldProfileWithDefinition = new ProfileWithDefinition
+                {
+                    DomainName = ProfileDomainName,
+                    Name = ProfileName,
+                    Endpoints = new List<TrafficManagerEndpoint>(),
+                    LoadBalancingMethod = DefaultLoadBalancingMethod,
+                    MonitorPort = MonitorPort,
+                    Status = ProfileDefinitionStatus.Enabled,
+                    MonitorRelativePath = MonitorRelativePath,
+                    MonitorProtocol = MonitorProtocol,
+                    TimeToLiveInSeconds = Ttl
+                };
 
-            cmdlet = new SetAzureTrafficManagerProfile()
-            {
-                Name = profileName,
-                // We only change the ttl
-                Ttl = newTtl,
-                TrafficManagerClient = clientMock.Object,
-                CommandRuntime = mockCommandRuntime,
-                TrafficManagerProfile = oldProfileWithDefinition
-            };
-
+            cmdlet = new SetAzureTrafficManagerProfile
+                {
+                    Name = ProfileName,
+                    // We only change the ttl
+                    Ttl = NewTtl,
+                    TrafficManagerClient = clientMock.Object,
+                    CommandRuntime = mockCommandRuntime,
+                    TrafficManagerProfile = oldProfileWithDefinition
+                };
 
             // Action
-
             cmdlet.ExecuteCmdlet();
-            ProfileWithDefinition actual = mockCommandRuntime.OutputPipeline[0] as ProfileWithDefinition;
 
             // Assert
-
             clientMock.Verify(
                 c => c.InstantiateTrafficManagerDefinition(
-                    loadBalancingMethod.ToString(),
-                    monitorPort,
-                    monitorProtocol.ToString(),
-                    monitorRelativePath,
+                    DefaultLoadBalancingMethod.ToString(),
+                    MonitorPort,
+                    MonitorProtocol.ToString(),
+                    MonitorRelativePath,
                     // ttl is the new one
-                    newTtl,
+                    NewTtl,
                     oldProfileWithDefinition.Endpoints),
                 Times.Once());
+        }
+
+        private static DefinitionCreateParameters DefaultDefinition
+        {
+            get
+            {
+                return new DefinitionCreateParameters
+                    {
+                        Policy =
+                            new DefinitionPolicyCreateParameters
+                                {
+                                    Endpoints = new List<DefinitionEndpointCreateParameters>()
+                                }
+                    };
+            }
         }
     }
 }
