@@ -206,6 +206,7 @@
     <Compile Include="StorageTests\StorageContextTest.cs" />
     <Compile Include="StoreTests\StoreTests.cs" />
     <Compile Include="ServiceManagement\VMProvisionScenarioTests.cs" />
+    <Compile Include="TrafficManagerTests\TrafficManagerTests.cs" />
     <Compile Include="WAPackIaaS\CmdletTestBase.cs" />
     <Compile Include="WAPackIaaS\CmdletTestVirtualMachineStatusBase.cs" />
     <Compile Include="WAPackIaaS\GetWAPackVMOSDiskTests.cs" />
@@ -256,6 +257,8 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
     <None Include="Resources\Subscription.json" />
+    <None Include="Resources\TrafficManager\Common.ps1" />
+    <None Include="Resources\TrafficManager\TrafficManagerTests.ps1" />
     <None Include="Resources\Websites\WebsiteJobTestCmd.zip" />
     <Resource Include="Resources\Common.ps1">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>

@@ -59,7 +59,8 @@ ScriptsToProcess = @()
 # Modules to import as nested modules of the module specified in ModuleToProcess
 NestedModules =	'.\Microsoft.WindowsAzure.Commands.ServiceManagement.dll',
 				'.\Microsoft.WindowsAzure.Commands.Storage.dll',
-				'.\Microsoft.Azure.Commands.ResourceManager.dll'
+				'.\Microsoft.Azure.Commands.ResourceManager.dll',
+				'.\Microsoft.WindowsAzure.Commands.TrafficManager.dll'
 
 # Functions to export from this module
 FunctionsToExport = '*'
