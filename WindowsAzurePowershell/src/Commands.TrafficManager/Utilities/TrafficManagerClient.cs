@@ -118,7 +118,6 @@ namespace Microsoft.WindowsAzure.Commands.TrafficManager.Utilities
             monitor.TimeoutInSeconds = Constants.monitorTimeoutInSeconds;
             monitor.ToleratedNumberOfFailures = Constants.monitorToleratedNumberOfFailures;
             monitor.Port = monitorPort;
-
             policyParameter.LoadBalancingMethod =
                 (LoadBalancingMethod)Enum.Parse(typeof(LoadBalancingMethod), loadBalancingMethod);
 
@@ -145,11 +144,6 @@ namespace Microsoft.WindowsAzure.Commands.TrafficManager.Utilities
             return definitionParameter;
         }
 
-        /// <summary>
-        /// Transforms a Definition instance to a DefinitionCreateParameters
-        /// </summary>
-        /// <param name="definition"></param>
-        /// <returns></returns>
         public DefinitionCreateParameters InstantiateTrafficManagerDefinition(Definition definition)
         {
             var definitionCreateParams = new DefinitionCreateParameters();
