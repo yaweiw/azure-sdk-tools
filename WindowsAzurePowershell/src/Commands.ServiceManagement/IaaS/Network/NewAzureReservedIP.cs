@@ -39,24 +39,6 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
             set;
         }
 
-        [Parameter(Mandatory = true, Position = 1, ValueFromPipelineByPropertyName = true, ParameterSetName = ReserveInUseIPUsingSlotParamSet, HelpMessage = "Service Name.")]
-        [Parameter(Mandatory = true, Position = 1, ValueFromPipelineByPropertyName = true, ParameterSetName = ReserveInUseIPParamSet, HelpMessage = "Service Name.")]
-        [ValidateNotNullOrEmpty]
-        public string ServiceName
-        {
-            get;
-            set;
-        }
-
-        [Parameter(Mandatory = true, Position = 2, ValueFromPipelineByPropertyName = true, ParameterSetName = ReserveInUseIPUsingSlotParamSet, HelpMessage = "Deployment slot. Staging | Production (default Production)")]
-        [ValidateSet(DeploymentSlotType.Staging, DeploymentSlotType.Production, IgnoreCase = true)]
-        [ValidateNotNullOrEmpty]
-        public string Slot
-        {
-            get;
-            set;
-        }
-
         [Parameter(Mandatory = false, Position = 1, ValueFromPipelineByPropertyName = true, ParameterSetName = ReserveNewIPParamSet, HelpMessage = "Reserved IP Label.")]
         [Parameter(Mandatory = false, Position = 3, ValueFromPipelineByPropertyName = true, ParameterSetName = ReserveInUseIPUsingSlotParamSet, HelpMessage = "Reserved IP Label.")]
         [Parameter(Mandatory = false, Position = 2, ValueFromPipelineByPropertyName = true, ParameterSetName = ReserveInUseIPParamSet, HelpMessage = "Reserved IP Label.")]
@@ -90,30 +72,11 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
                     {
                         Name           = this.ReservedIPName,
                         Label          = this.Label,
-                        Location       = this.Location,
-                        ServiceName    = this.ServiceName,
-                        DeploymentName = GetDeploymentName()
+                        Location       = this.Location
                     };
 
                     return this.NetworkClient.ReservedIPs.Create(parameters);
                 });
-        }
-
-        protected string GetDeploymentName()
-        {
-            string deploymentName = null;
-
-            if (!string.IsNullOrEmpty(this.ServiceName))
-            {
-                DeploymentSlot slot = string.IsNullOrEmpty(this.Slot) ? DeploymentSlot.Production
-                                    : (DeploymentSlot)Enum.Parse(typeof(DeploymentSlot), this.Slot, true);
-
-                var deployment = this.ComputeClient.Deployments.GetBySlot(this.ServiceName, slot);
-
-                deploymentName = deployment.Name;
-            }
-
-            return deploymentName;
         }
     }
 }

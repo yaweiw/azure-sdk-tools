@@ -1159,11 +1159,29 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Reserved IP with the Name:&apos;{0}&apos; will no longer be in use after the deployment is deleted or stopped (deallocated), and it is still reserved for later use. Please note that the Reserved IPs that are not associated with a deployment might be billed..
+        ///   Looks up a localized string similar to Reserved IP with the Name:&apos;{0}&apos; will no longer be in use after the last VM in the Cloud Service is deleted, it is still reserved in your subscription for later use. Please note that the Reserved IPs that are not associated with a deployment will incur billing charges..
         /// </summary>
-        internal static string ReservedIPNameNoLongerInUseButStillBeingReserved {
+        internal static string ReservedIPNameNoLongerInUseByDeletingLastVMButStillBeingReserved {
             get {
-                return ResourceManager.GetString("ReservedIPNameNoLongerInUseButStillBeingReserved", resourceCulture);
+                return ResourceManager.GetString("ReservedIPNameNoLongerInUseByDeletingLastVMButStillBeingReserved", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Reserved IP with the Name:&apos;{0}&apos; will no longer be in use after the deployment is deleted, it is still reserved in your subscription for later use. Please note that the Reserved IPs that are not associated with a cloud service will incur billing charges..
+        /// </summary>
+        internal static string ReservedIPNameNoLongerInUseByDeploymentButStillBeingReserved {
+            get {
+                return ResourceManager.GetString("ReservedIPNameNoLongerInUseByDeploymentButStillBeingReserved", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Reserved IP with the Name:&apos;{0}&apos; will no longer be in use after all the VMs in the Cloud Service are in the Stopped Deallocated state, it is still reserved in your subscription for later use. Please note that the Reserved IPs that are not associated with a deployment will incur billing charges..
+        /// </summary>
+        internal static string ReservedIPNameNoLongerInUseByStoppingLastVMButStillBeingReserved {
+            get {
+                return ResourceManager.GetString("ReservedIPNameNoLongerInUseByStoppingLastVMButStillBeingReserved", resourceCulture);
             }
         }
         
