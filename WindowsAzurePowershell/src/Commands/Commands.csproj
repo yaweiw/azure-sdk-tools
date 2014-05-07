@@ -478,7 +478,6 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <None Include="app.config" />
     <None Include="PostBuild.bat" />
     <None Include="MSSharedLibKey.snk" />
   </ItemGroup>
