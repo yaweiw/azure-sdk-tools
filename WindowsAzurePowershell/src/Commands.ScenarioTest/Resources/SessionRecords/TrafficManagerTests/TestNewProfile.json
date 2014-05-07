@@ -13,7 +13,7 @@
           "WindowsAzurePowershell/v0.8.1"
         ]
       },
-      "ResponseBody": "<Profiles xmlns=\"http://schemas.microsoft.com/windowsazure\" xmlns:i=\"http://www.w3.org/2001/XMLSchema-instance\">\r\n  <Profile>\r\n    <DomainName>04c9b4c3-44ab-42cf-8c61-80f692252664profile.trafficmanager.net</DomainName>\r\n    <Name>04c9b4c3-44ab-42cf-8c61-80f692252664profile</Name>\r\n    <Status>Enabled</Status>\r\n    <StatusDetails>\r\n      <EnabledVersion>1</EnabledVersion>\r\n    </StatusDetails>\r\n    <Definitions>\r\n      <Definition>\r\n        <Status>Enabled</Status>\r\n        <Version>1</Version>\r\n      </Definition>\r\n    </Definitions>\r\n  </Profile>\r\n  <Profile>\r\n    <DomainName>2e1c4768-ea03-4427-9e78-d63f48ca3d62profile.trafficmanager.net</DomainName>\r\n    <Name>2e1c4768-ea03-4427-9e78-d63f48ca3d62profile</Name>\r\n    <Status>Enabled</Status>\r\n    <StatusDetails>\r\n      <EnabledVersion>1</EnabledVersion>\r\n    </StatusDetails>\r\n    <Definitions>\r\n      <Definition>\r\n        <Status>Enabled</Status>\r\n        <Version>1</Version>\r\n      </Definition>\r\n    </Definitions>\r\n  </Profile>\r\n</Profiles>",
+      "ResponseBody": "<Profiles xmlns=\"http://schemas.microsoft.com/windowsazure\" xmlns:i=\"http://www.w3.org/2001/XMLSchema-instance\" />",
       "ResponseHeaders": {
         "x-ms-servedbyregion": [
           "ussouth2"
@@ -22,13 +22,13 @@
           "nosniff"
         ],
         "x-ms-request-id": [
-          "3319e07b87e491f1af3249d38a777a82"
+          "cde6f97a6cc79487bebeb3d00ebede12"
         ],
         "Cache-Control": [
           "no-cache"
         ],
         "Date": [
-          "Tue, 06 May 2014 13:17:31 GMT"
+          "Wed, 07 May 2014 12:29:25 GMT"
         ],
         "Server": [
           "1.0.6198.70",
@@ -69,13 +69,13 @@
           "nosniff"
         ],
         "x-ms-request-id": [
-          "c23e6cd85bfb9519a96c79e0842de911"
+          "7e584a4f7bf691608c4e642e64e70bf0"
         ],
         "Cache-Control": [
           "no-cache"
         ],
         "Date": [
-          "Tue, 06 May 2014 13:17:34 GMT"
+          "Wed, 07 May 2014 12:29:27 GMT"
         ],
         "Server": [
           "1.0.6198.70",
@@ -113,13 +113,13 @@
           "nosniff"
         ],
         "x-ms-request-id": [
-          "881aa76c9e879ede8221958323739cb4"
+          "da7928308f60920996794130642f9fb5"
         ],
         "Cache-Control": [
           "no-cache"
         ],
         "Date": [
-          "Tue, 06 May 2014 13:17:35 GMT"
+          "Wed, 07 May 2014 12:29:29 GMT"
         ],
         "Server": [
           "1.0.6198.70",
@@ -157,13 +157,13 @@
           "nosniff"
         ],
         "x-ms-request-id": [
-          "6ff644aa4759964087eaf1cb5c8c6be6"
+          "81d24abbf4b49c07bb80728a48e10d59"
         ],
         "Cache-Control": [
           "no-cache"
         ],
         "Date": [
-          "Tue, 06 May 2014 13:17:35 GMT"
+          "Wed, 07 May 2014 12:29:30 GMT"
         ],
         "Server": [
           "1.0.6198.70",
@@ -201,13 +201,13 @@
           "nosniff"
         ],
         "x-ms-request-id": [
-          "ec8d4032814990768b1136545e83c619"
+          "53337d44c3799ab08a0794a8b7b2f056"
         ],
         "Cache-Control": [
           "no-cache"
         ],
         "Date": [
-          "Tue, 06 May 2014 13:17:36 GMT"
+          "Wed, 07 May 2014 12:29:31 GMT"
         ],
         "Server": [
           "1.0.6198.70",

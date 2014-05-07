@@ -13,7 +13,7 @@
           "WindowsAzurePowershell/v0.8.1"
         ]
       },
-      "ResponseBody": "<Profiles xmlns=\"http://schemas.microsoft.com/windowsazure\" xmlns:i=\"http://www.w3.org/2001/XMLSchema-instance\">\r\n  <Profile>\r\n    <DomainName>scenarioTestProfile.trafficmanager.net</DomainName>\r\n    <Name>scenarioTestProfile</Name>\r\n    <Status>Enabled</Status>\r\n    <StatusDetails>\r\n      <EnabledVersion>1</EnabledVersion>\r\n    </StatusDetails>\r\n    <Definitions>\r\n      <Definition>\r\n        <Status>Enabled</Status>\r\n        <Version>1</Version>\r\n      </Definition>\r\n    </Definitions>\r\n  </Profile>\r\n</Profiles>",
+      "ResponseBody": "<Profiles xmlns=\"http://schemas.microsoft.com/windowsazure\" xmlns:i=\"http://www.w3.org/2001/XMLSchema-instance\" />",
       "ResponseHeaders": {
         "x-ms-servedbyregion": [
           "ussouth2"
@@ -22,13 +22,13 @@
           "nosniff"
         ],
         "x-ms-request-id": [
-          "bf76b389067796fb83faa9a1cf715388"
+          "ce31ec2eaa6891ff9e838e744acfba69"
         ],
         "Cache-Control": [
           "no-cache"
         ],
         "Date": [
-          "Wed, 07 May 2014 12:29:33 GMT"
+          "Wed, 07 May 2014 12:29:44 GMT"
         ],
         "Server": [
           "1.0.6198.70",
@@ -45,8 +45,8 @@
       "StatusCode": 200
     },
     {
-      "RequestUri": "/16adf039-ace2-4685-b35b-917bd564b01e/services/WATM/profiles/scenarioTestProfile",
-      "RequestMethod": "DELETE",
+      "RequestUri": "/16adf039-ace2-4685-b35b-917bd564b01e/services/WATM/operations/isavailable/scenarioTestProfile.trafficmanager.net",
+      "RequestMethod": "GET",
       "RequestBody": "",
       "RequestHeaders": {
         "x-ms-version": [
@@ -57,11 +57,8 @@
           "WindowsAzurePowershell/v0.8.1"
         ]
       },
-      "ResponseBody": "",
+      "ResponseBody": "<AvailabilityResponse xmlns=\"http://schemas.microsoft.com/windowsazure\" xmlns:i=\"http://www.w3.org/2001/XMLSchema-instance\">\r\n  <Result>true</Result>\r\n</AvailabilityResponse>",
       "ResponseHeaders": {
-        "Transfer-Encoding": [
-          "chunked"
-        ],
         "x-ms-servedbyregion": [
           "ussouth2"
         ],
@@ -69,13 +66,13 @@
           "nosniff"
         ],
         "x-ms-request-id": [
-          "9caeec74256699d0aaa96199a03dc53c"
+          "485c1edc775a9f46a74d606e7cc8f41f"
         ],
         "Cache-Control": [
           "no-cache"
         ],
         "Date": [
-          "Wed, 07 May 2014 12:29:35 GMT"
+          "Wed, 07 May 2014 12:29:43 GMT"
         ],
         "Server": [
           "1.0.6198.70",
@@ -92,8 +89,8 @@
       "StatusCode": 200
     },
     {
-      "RequestUri": "/16adf039-ace2-4685-b35b-917bd564b01e/services/WATM/profiles/scenarioTestProfile",
-      "RequestMethod": "DELETE",
+      "RequestUri": "/16adf039-ace2-4685-b35b-917bd564b01e/services/WATM/operations/isavailable/scenarioTestProfile.trafficmanager.net",
+      "RequestMethod": "GET",
       "RequestBody": "",
       "RequestHeaders": {
         "x-ms-version": [
@@ -104,11 +101,8 @@
           "WindowsAzurePowershell/v0.8.1"
         ]
       },
-      "ResponseBody": "",
+      "ResponseBody": "<AvailabilityResponse xmlns=\"http://schemas.microsoft.com/windowsazure\" xmlns:i=\"http://www.w3.org/2001/XMLSchema-instance\">\r\n  <Result>false</Result>\r\n</AvailabilityResponse>",
       "ResponseHeaders": {
-        "Transfer-Encoding": [
-          "chunked"
-        ],
         "x-ms-servedbyregion": [
           "ussouth2"
         ],
@@ -116,13 +110,13 @@
           "nosniff"
         ],
         "x-ms-request-id": [
-          "bb2a76fc6d70995385ae2914323d121f"
+          "e9c13b95a7a499f99c1b7ca6d4edeab2"
         ],
         "Cache-Control": [
           "no-cache"
         ],
         "Date": [
-          "Wed, 07 May 2014 12:29:39 GMT"
+          "Wed, 07 May 2014 12:29:50 GMT"
         ],
         "Server": [
           "1.0.6198.70",
@@ -163,13 +157,13 @@
           "nosniff"
         ],
         "x-ms-request-id": [
-          "7e35eae4c1d596ddada6160490cd7ee1"
+          "7f9644e4b26b93f797790ba638732761"
         ],
         "Cache-Control": [
           "no-cache"
         ],
         "Date": [
-          "Wed, 07 May 2014 12:29:36 GMT"
+          "Wed, 07 May 2014 12:29:46 GMT"
         ],
         "Server": [
           "1.0.6198.70",
@@ -207,13 +201,13 @@
           "nosniff"
         ],
         "x-ms-request-id": [
-          "20f8a5df1507920995feb21e2bab084c"
+          "8b8905dca6bd9f838669c1a77f5c1fbe"
         ],
         "Cache-Control": [
           "no-cache"
         ],
         "Date": [
-          "Wed, 07 May 2014 12:29:37 GMT"
+          "Wed, 07 May 2014 12:29:47 GMT"
         ],
         "Server": [
           "1.0.6198.70",
@@ -251,13 +245,13 @@
           "nosniff"
         ],
         "x-ms-request-id": [
-          "e983e6a69d6997f59d45d636ea64978f"
+          "ca7615f0ec9d9158bc6f25df8c4c78c9"
         ],
         "Cache-Control": [
           "no-cache"
         ],
         "Date": [
-          "Wed, 07 May 2014 12:29:37 GMT"
+          "Wed, 07 May 2014 12:29:48 GMT"
         ],
         "Server": [
           "1.0.6198.70",
@@ -272,41 +266,6 @@
         ]
       },
       "StatusCode": 200
-    },
-    {
-      "RequestUri": "/16adf039-ace2-4685-b35b-917bd564b01e/services/WATM/profiles/scenarioTestProfile",
-      "RequestMethod": "GET",
-      "RequestBody": "",
-      "RequestHeaders": {
-        "x-ms-version": [
-          "2011-10-01"
-        ],
-        "User-Agent": [
-          "Microsoft.WindowsAzure.Management.TrafficManager.TrafficManagerManagementClient/0.9.0.0",
-          "WindowsAzurePowershell/v0.8.1"
-        ]
-      },
-      "ResponseBody": "<Error xmlns=\"http://schemas.microsoft.com/windowsazure\" xmlns:i=\"http://www.w3.org/2001/XMLSchema-instance\">\r\n  <Code>ResourceNotFound</Code>\r\n  <Message>The specified profile name scenarioTestProfile does not exist.</Message>\r\n</Error>",
-      "ResponseHeaders": {
-        "x-ms-servedbyregion": [
-          "ussouth2"
-        ],
-        "x-ms-request-id": [
-          "19b5333d892098a7bf09ee37398798b0"
-        ],
-        "Cache-Control": [
-          "no-cache"
-        ],
-        "Date": [
-          "Wed, 07 May 2014 12:29:41 GMT"
-        ],
-        "Server": [
-          "1.0.6198.70",
-          "(rd_rdfe_stable.140426-2318)",
-          "Microsoft-HTTPAPI/2.0"
-        ]
-      },
-      "StatusCode": 404
     },
     {
       "RequestUri": "/16adf039-ace2-4685-b35b-917bd564b01e/services/WATM/profiles/scenarioTestProfile/definitions/1",
@@ -330,13 +289,13 @@
           "nosniff"
         ],
         "x-ms-request-id": [
-          "6d3211d72e3f90f4a5e50bd32d2da59a"
+          "f533083b2acc9dab8160dc2930d155ae"
         ],
         "Cache-Control": [
           "no-cache"
         ],
         "Date": [
-          "Wed, 07 May 2014 12:29:38 GMT"
+          "Wed, 07 May 2014 12:29:48 GMT"
         ],
         "Server": [
           "1.0.6198.70",
