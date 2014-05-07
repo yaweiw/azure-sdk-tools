@@ -31,9 +31,9 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
         private string serviceName;
         private string vmName;
         private const string referenceNamePrefix = "Reference";
-        private string version1 = "1.0";
+        private string version;
         private string referenceName;
-        private const string extesnionName = "BGInfo";
+        private const string extensionName = "BGInfo";
         private const string DisabledState = "Disable";
         private const string EnableState = "Enable";
 
@@ -47,11 +47,14 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
         public void TestIntialize()
         {
             pass = false;
+            GetExtesnionInfo();
             serviceName = Utilities.GetUniqueShortName(serviceNamePrefix);
             vmName = Utilities.GetUniqueShortName(vmNamePrefix);
             testStartTime = DateTime.Now;
             referenceName = Utilities.GetUniqueShortName(referenceNamePrefix);
         }
+
+        
 
         [TestCleanup]
         public void TestCleanUp()
@@ -68,7 +71,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
                 //Deploy a new IaaS VM with Extension using Set-AzureVMExtension
                 Console.WriteLine("Deploying a new vm with BGIinfo extension.");
                 var vm = CreateIaaSVMObject(vmName);
-                vm = vmPowershellCmdlets.SetAzureVMBGInfoExtension(vm, version1, referenceName, false);
+                vm = vmPowershellCmdlets.SetAzureVMBGInfoExtension(vm, version, referenceName, false);
                 vmPowershellCmdlets.NewAzureVM(serviceName, new[] { vm }, locationName);
                 Console.WriteLine("Deployed a vm {0}with BGIinfo extension.", vmName);
 
@@ -78,7 +81,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
 
                 //Disable the extension
                 Console.WriteLine("Disable BGIinfo extension and update VM.");
-                vm = vmPowershellCmdlets.SetAzureVMBGInfoExtension(vm, version1, referenceName, true);
+                vm = vmPowershellCmdlets.SetAzureVMBGInfoExtension(vm, version, referenceName, true);
                 vmPowershellCmdlets.UpdateAzureVM(vmName, serviceName, vm);
                 Console.WriteLine("BGIinfo extension disabled");
 
@@ -102,6 +105,9 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
         {
             try
             {
+                /*Iaas VM with GA enabled will have BGInfo extension enabled by default with reference name "BGInfo"
+                 * So for this test case referenceName will be the default reference name */
+                referenceName = extensionName;
                 Console.WriteLine("Deploying a new vm {0}",vmName);
                 var vm = CreateIaaSVMObject(vmName);
                 vmPowershellCmdlets.NewAzureVM(serviceName, new[] { vm }, locationName);
@@ -109,7 +115,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
 
                 Console.WriteLine("Set BGInfo extension and update vm {0}." , vmName);
                 var vmRoleContext = vmPowershellCmdlets.GetAzureVM(vmName, serviceName);
-                vm = vmPowershellCmdlets.SetAzureVMBGInfoExtension(vmRoleContext.VM, version1, referenceName, false);
+                vm = vmPowershellCmdlets.SetAzureVMBGInfoExtension(vmRoleContext.VM, version, referenceName, false);
                 vmPowershellCmdlets.UpdateAzureVM(vmName, serviceName, vm);
                 Console.WriteLine("BGInfo extension set and updated vm {0}.", vmName);
 
@@ -139,7 +145,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
                 string vmName2 = Utilities.GetUniqueShortName(vmNamePrefix);
                 Console.WriteLine("Deploying a new vm {0} with BGIinfo extension", vmName2);
                 var vm2 = CreateIaaSVMObject(vmName2);
-                vm2 = vmPowershellCmdlets.SetAzureVMBGInfoExtension(vm2, version1, referenceName, false);
+                vm2 = vmPowershellCmdlets.SetAzureVMBGInfoExtension(vm2, version, referenceName, false);
                 vmPowershellCmdlets.NewAzureVM(serviceName, new[] { vm2 });
 
                 var extesnion = GetBGInfo(vmName2, serviceName);
@@ -160,6 +166,10 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
         {
             try
             {
+                /*Iaas VM with GA enabled will have BGInfo extension enabled by default with reference name "BGInfo"
+                 * So for this test case referenceName will be the default reference name */
+                referenceName = extensionName;
+
                 //Deploy a new IaaS VM with Extension using Add-AzureVMExtension
                 Console.WriteLine("Deploying a new vm {0}", vmName);
                 var vm1 = CreateIaaSVMObject(vmName);
@@ -173,7 +183,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
 
                 Console.WriteLine("Set BGInfo extension and update vm {0}.", vmName2);
                 var vmRoleContext = vmPowershellCmdlets.GetAzureVM(vmName2, serviceName);
-                vm2 = vmPowershellCmdlets.SetAzureVMBGInfoExtension(vm2, version1, referenceName, false);
+                vm2 = vmPowershellCmdlets.SetAzureVMBGInfoExtension(vm2, version, extensionName, false);
                 vmPowershellCmdlets.UpdateAzureVM(vmName2, serviceName, vm2);
                 Console.WriteLine("BGInfo extension set and updated vm {0}.", vmName2);
 
@@ -214,7 +224,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
         private void VerifyExtension(VirtualMachineBGInfoExtensionContext extension,bool disable=false)
         {
             Console.WriteLine("Verifying BGIinfo extension info.");
-            Assert.AreEqual(version1, extension.Version);
+            Assert.AreEqual(version, extension.Version);
             Assert.AreEqual(referenceName, extension.ReferenceName);
             if (disable)
             {
@@ -227,6 +237,15 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
             Console.WriteLine("BGIinfo extension verified successfully.");
         }
 
+
+        private void GetExtesnionInfo()
+        {
+            var extensionInfo = Utilities.GetAzureVMExtenionInfo(extensionName);
+            if (extensionInfo != null)
+            {
+                version = extensionInfo.Version;
+            }
+        }
         
     }
 }

@@ -87,6 +87,10 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Endpoints
         [ValidateNotNull]
         public int? ProbeTimeoutInSeconds { get; set; }
 
+        [Parameter(HelpMessage = "Internal Load Balancer Name.")]
+        [ValidateNotNullOrEmpty]
+        public string InternalLoadBalancerName { get; set; }
+
         internal void ExecuteCommand()
         {
             this.ValidateParameters();
@@ -111,7 +115,8 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Endpoints
                 LocalPort = this.LocalPort,
                 Protocol = this.Protocol,
                 EndpointAccessControlList = this.ACL,
-                EnableDirectServerReturn = this.DirectServerReturn
+                EnableDirectServerReturn = this.DirectServerReturn,
+                LoadBalancerName = this.InternalLoadBalancerName
             };
 
             if (this.ParameterSetName == AddAzureEndpoint.LBNoProbeParameterSet

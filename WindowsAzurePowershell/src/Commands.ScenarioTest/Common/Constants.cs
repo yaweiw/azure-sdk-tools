@@ -7,6 +7,8 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.Common
 
         public const string All = "All";
 
+        public const string Automation = "Automation";
+
         public const string ServiceBus = "ServiceBus";
 
         public const string CloudService = "CloudService";
@@ -24,6 +26,8 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.Common
         public const string ResourceManager = "ResourceManager";
 
         public const string CheckIn = "CheckIn";
+
+        public const string TrafficManager = "TrafficManager";
 
         // Owners
 

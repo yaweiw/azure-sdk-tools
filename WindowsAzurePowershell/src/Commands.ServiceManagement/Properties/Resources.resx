@@ -517,7 +517,7 @@
     <value>{0} - Uploading Certificate: {1}</value>
   </data>
   <data name="DeploymentVIPLossWarning" xml:space="preserve">
-    <value>The specified virtual machine is the last virtual machine in this deployment. Continuing will result in a new IP address for your deployment. To shut down without losing the deployment IP use –StayProvisioned.</value>
+    <value>The specified virtual machine is the last virtual machine in this deployment. Continuing will result in a new IP address for your deployment. To shut down without losing the deployment IP use -StayProvisioned.</value>
   </data>
   <data name="DeprovisioningVM" xml:space="preserve">
     <value>Deprovisioning the VM: {0} </value>
@@ -553,7 +553,7 @@
     <value>Network configuration cannot be deserialized.</value>
   </data>
   <data name="ReservedIPNameNoLongerInUseButStillBeingReserved" xml:space="preserve">
-    <value>Reserved IP with the Name:'{0}' will no longer be in use after the deployment is deleted, and it is still reserved for later use.</value>
+    <value>Reserved IP with the Name:'{0}' will no longer be in use after the deployment is deleted or stopped (deallocated), and it is still reserved for later use. Please note that the Reserved IPs that are not associated with a deployment might be billed.</value>
   </data>
   <data name="CannotDeleteVirtualMachineDataDiskForLUN" xml:space="preserve">
     <value>Cannot delete VM Data Disk for LUN '{0}', </value>
@@ -605,5 +605,11 @@
   </data>
   <data name="CaptureVMImageOperationWhileVMIsStillRunning" xml:space="preserve">
     <value>VM image capture operation is trigged while VM is still running. As this may cause data corruption while creating VMs from this image, we recommend using Stop-AzureVM to stop the VM before capturing.</value>
+  </data>
+  <data name="RemoveReservedIPWarning" xml:space="preserve">
+    <value>Are you sure you want to remove the Reserved IP from your subscription?</value>
+  </data>
+  <data name="RemoveReservedIPWhatIfMessage" xml:space="preserve">
+    <value>Remove the Reserved IP from your subscription.</value>
   </data>
 </root>

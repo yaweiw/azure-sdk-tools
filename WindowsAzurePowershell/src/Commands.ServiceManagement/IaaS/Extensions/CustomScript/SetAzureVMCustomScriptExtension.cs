@@ -35,6 +35,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
         protected const string SetCustomScriptExtensionByContainerBlobsParamSetName = "SetCustomScriptExtensionByContainerAndFileNames";
         protected const string SetCustomScriptExtensionByUrisParamSetName = "SetCustomScriptExtensionByUriLinks";
         protected const string DisableCustomScriptExtensionParamSetName = "DisableCustomScriptExtension";
+        protected const string UninstallCustomScriptExtensionParamSetName = "UninstalleCustomScriptExtension";
 
         [Parameter(
             Mandatory = false,
@@ -59,6 +60,14 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
             ValueFromPipelineByPropertyName = true,
             HelpMessage = "Disable VM Custom Script Extension")]
         public override SwitchParameter Disable { get; set; }
+
+        [Parameter(
+            ParameterSetName = UninstallCustomScriptExtensionParamSetName,
+            Mandatory = false,
+            Position = 2,
+            ValueFromPipelineByPropertyName = true,
+            HelpMessage = "Uninstall VM Custom Script Extension")]
+        public override SwitchParameter Uninstall { get; set; }
 
         [Parameter(
             ParameterSetName = SetCustomScriptExtensionByContainerBlobsParamSetName,
@@ -186,6 +195,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
             this.ReferenceName = string.IsNullOrEmpty(this.ReferenceName) ? ExtensionDefaultName : this.ReferenceName;
             this.PublicConfiguration = GetPublicConfiguration();
             this.PrivateConfiguration = GetPrivateConfiguration();
+            this.Version = this.Version ?? ExtensionDefaultVersion;
         }
 
         protected string GetStorageName()
