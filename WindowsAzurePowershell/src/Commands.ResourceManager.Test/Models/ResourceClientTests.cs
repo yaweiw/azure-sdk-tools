@@ -32,6 +32,7 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Runtime.Serialization.Formatters;
+using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using Xunit;
@@ -115,6 +116,17 @@ namespace Microsoft.Azure.Commands.ResourceManager.Test.Models
                     {
                         Resources = result
                     }));
+        }
+
+        private bool EqualsIgnoreWhitespace(string left, string right)
+        {
+            string normalized1 = Regex.Replace(left, @"\s", "");
+            string normalized2 = Regex.Replace(right, @"\s", "");
+
+            return String.Equals(
+                normalized1,
+                normalized2,
+                StringComparison.OrdinalIgnoreCase);
         }
         
         public ResourceClientTests()
@@ -1378,11 +1390,11 @@ namespace Microsoft.Azure.Commands.ResourceManager.Test.Models
 
             Assert.Equal(DeploymentMode.Incremental, deploymentFromGet.Mode);
             Assert.Equal(templateUri, deploymentFromGet.TemplateLink.Uri);
-            Assert.Equal(File.ReadAllText(templateParameterFile), deploymentFromGet.Parameters);
+            Assert.True(EqualsIgnoreWhitespace(File.ReadAllText(templateParameterFile), deploymentFromGet.Parameters));
 
             Assert.Equal(DeploymentMode.Incremental, deploymentFromValidate.Mode);
             Assert.Equal(templateUri, deploymentFromValidate.TemplateLink.Uri);
-            Assert.Equal(File.ReadAllText(templateParameterFile), deploymentFromValidate.Parameters);
+            Assert.True(EqualsIgnoreWhitespace(File.ReadAllText(templateParameterFile), deploymentFromValidate.Parameters));
 
             progressLoggerMock.Verify(
                 f => f(string.Format("Resource {0} '{1}' provisioning status is {2}",
