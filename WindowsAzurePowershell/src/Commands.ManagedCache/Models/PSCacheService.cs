@@ -26,7 +26,6 @@ namespace Microsoft.Azure.Commands.ManagedCache.Models
             int skuCount = resource.IntrinsicSettingsSection.CacheServiceInputSection.SkuCount;
             CacheSkuCountConvert convert = new CacheSkuCountConvert(Sku);
             Memory = convert.ToMemorySize(skuCount);
-
         }
 
         public string Name { get; private set; }

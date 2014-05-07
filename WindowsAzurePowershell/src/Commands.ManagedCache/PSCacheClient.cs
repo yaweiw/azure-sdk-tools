@@ -80,8 +80,6 @@ namespace Microsoft.Azure.Commands.ManagedCache
             {
                 WriteProgress(Properties.Resources.UpdatingCacheService);
             }
-
-            WriteProgress(Properties.Resources.CreatingCacheService);
             client.CacheServices.CreateCacheService(cloudServiceName, cacheServiceName, param);
 
             WriteProgress(Properties.Resources.WaitForCacheServiceReady);
