@@ -339,10 +339,6 @@
       <Project>{9e5cb6e6-92af-464a-bd30-e848d94ed490}</Project>
       <Name>HttpRecorder</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Commands.ResourceManager.Test\Commands.ResourceManager.Test.csproj">
-      <Project>{4c2fe49a-09e1-4979-ad46-cd64fd04c8f7}</Project>
-      <Name>Commands.ResourceManager.Test</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Commands.ResourceManager\Commands.ResourceManager.csproj">
       <Project>{e1f5201d-6067-430e-b303-4e367652991b}</Project>
       <Name>Commands.ResourceManager</Name>
