@@ -13,7 +13,7 @@
 // ----------------------------------------------------------------------------------
 
 
-namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Preview.Model
+namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Model
 {
     public static class ReservedIPConstants
     {

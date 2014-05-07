@@ -14,12 +14,11 @@
 
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.DiskRepository
 {
-    using System;
-    using System.Linq;
     using System.Management.Automation;
-    using Microsoft.WindowsAzure.Management.Compute;
-    using Utilities.Common;
+    using Helpers;
+    using Model;
     using Properties;
+    using Utilities.Common;
 
     [Cmdlet(
         VerbsCommon.Remove,
@@ -40,14 +39,13 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.DiskRepository
 
         [Parameter(
             Position = 1,
-            Mandatory = false,
             HelpMessage = "Specify to remove the underlying VHD from the blob storage.")]
         public SwitchParameter DeleteVHD { get; set; }
 
-        public void RemoveVMImageProcess()
+        protected override void OnProcessRecord()
         {
-            ServiceManagementProfile.Initialize(this);
-            
+            ServiceManagementProfile.Initialize();
+
             this.ExecuteClientActionNewSM(
                     null,
                     this.CommandRuntime.ToString(),
@@ -55,13 +53,14 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.DiskRepository
                     {
                         OperationResponse op = null;
 
-                        bool isOSImage = GetAzureVMImage.ExistsImageInType(this.ComputeClient, this.ImageName, ImageType.OSImage);
-                        bool isVMImage = GetAzureVMImage.ExistsImageInType(this.ComputeClient, this.ImageName, ImageType.VMImage);
+                        var imageType = new VirtualMachineImageHelper(this.ComputeClient).GetImageType(this.ImageName);
+                        bool isOSImage = imageType.HasFlag(VirtualMachineImageType.OSImage);
+                        bool isVMImage = imageType.HasFlag(VirtualMachineImageType.VMImage);
 
                         if (isOSImage && isVMImage)
                         {
-                            var errorMsg = string.Format(Resources.DuplicateNamesFoundInBothVMAndOSImages, this.ImageName);
-                            WriteError(new ErrorRecord(new Exception(errorMsg), string.Empty, ErrorCategory.CloseError, null));
+                            WriteErrorWithTimestamp(
+                                string.Format(Resources.DuplicateNamesFoundInBothVMAndOSImages, this.ImageName));
                         }
                         else if (isVMImage)
                         {
@@ -82,11 +81,6 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.DiskRepository
 
                         return op;
                     });
-        }
-
-        protected override void OnProcessRecord()
-        {
-            this.RemoveVMImageProcess();
         }
     }
 }

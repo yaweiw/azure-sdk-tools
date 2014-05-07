@@ -80,6 +80,9 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Endpoints
         [Parameter(Mandatory = false, ParameterSetName = SetAzureLoadBalancedEndpoint.HTTPProbeParameterSet, HelpMessage = "Probe timeout in seconds.")]
         public int ProbeTimeoutInSeconds { get; set; }
 
+        [Parameter(Mandatory = false, HelpMessage = "Internal Load Balancer Name.")]
+        public string InternalLoadBalancerName { get; set; }
+
         protected override void ExecuteCommand()
         {
             ServiceManagementProfile.Initialize();
@@ -137,7 +140,8 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Endpoints
                         Order = r.Order,
                         RemoteSubnet = r.RemoteSubnet
                     }).ToList(),
-                    VirtualIPAddress = endpoint.Vip
+                    VirtualIPAddress = endpoint.Vip,
+                    LoadBalancerName = this.InternalLoadBalancerName
                 }).ToList()
             };
 

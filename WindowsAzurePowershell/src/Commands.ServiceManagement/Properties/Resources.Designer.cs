@@ -340,7 +340,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The specified virtual machine is the last virtual machine in this deployment. Continuing will result in a new IP address for your deployment. To shut down without losing the deployment IP use –StayProvisioned..
+        ///   Looks up a localized string similar to The specified virtual machine is the last virtual machine in this deployment. Continuing will result in a new IP address for your deployment. To shut down without losing the deployment IP use -StayProvisioned..
         /// </summary>
         internal static string DeploymentVIPLossWarning {
             get {
@@ -1141,7 +1141,25 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Reserved IP with the Name:&apos;{0}&apos; will no longer be in use after the deployment is deleted, and it is still reserved for later use..
+        ///   Looks up a localized string similar to Are you sure you want to remove the Reserved IP from your subscription?.
+        /// </summary>
+        internal static string RemoveReservedIPWarning {
+            get {
+                return ResourceManager.GetString("RemoveReservedIPWarning", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Remove the Reserved IP from your subscription..
+        /// </summary>
+        internal static string RemoveReservedIPWhatIfMessage {
+            get {
+                return ResourceManager.GetString("RemoveReservedIPWhatIfMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Reserved IP with the Name:&apos;{0}&apos; will no longer be in use after the deployment is deleted or stopped (deallocated), and it is still reserved for later use. Please note that the Reserved IPs that are not associated with a deployment might be billed..
         /// </summary>
         internal static string ReservedIPNameNoLongerInUseButStillBeingReserved {
             get {

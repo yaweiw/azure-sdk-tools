@@ -113,7 +113,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Extensions
 
         public void ExecuteCommand()
         {
-            ServiceManagementProfile.Initialize(this);
+            ServiceManagementProfile.Initialize();
 
             var truePred = (Func<HostedServiceListAvailableExtensionsResponse.ExtensionImage, bool>)(s => true);
 

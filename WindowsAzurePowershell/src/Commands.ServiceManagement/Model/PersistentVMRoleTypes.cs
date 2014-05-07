@@ -855,6 +855,39 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Model.PersistentVMMo
                 this.SetValue("StaticVirtualNetworkIPAddress", value);
             }
         }
+
+        [DataMember(Name = "PublicIPs", EmitDefaultValue = false, Order = 6)]
+        public AssignPublicIPCollection PublicIPs
+        {
+            get
+            {
+                return this.GetValue<AssignPublicIPCollection>("PublicIPs");
+            }
+            set
+            {
+                this.SetValue("PublicIPs", value);
+            }
+        }
+    }
+
+    [CollectionDataContract(Name = "PublicIPs", ItemName = "PublicIP", Namespace = Constants.ServiceManagementNS)]
+    public class AssignPublicIPCollection : List<AssignPublicIP>
+    {
+        public AssignPublicIPCollection()
+        {
+        }
+
+        public AssignPublicIPCollection(IEnumerable<AssignPublicIP> publicIPs)
+            : base(publicIPs)
+        {
+        }
+    }
+
+    [DataContract(Name = "PublicIP", Namespace = Constants.ServiceManagementNS)]
+    public class AssignPublicIP
+    {
+        [DataMember(Name = "Name", EmitDefaultValue = false, Order = 1)]
+        public string Name { get; set; }
     }
 
     [CollectionDataContract(Name = "LoadBalancedEndpointList", Namespace = Constants.ServiceManagementNS)]
@@ -999,6 +1032,18 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Model.PersistentVMMo
             set
             {
                 base.SetValue(EndPointAccessControlListMemberName, value);
+            }
+        }
+
+        public string LoadBalancerName
+        {
+            get
+            {
+                return base.GetValue<string>("LoadBalancerName");
+            }
+            set
+            {
+                base.SetValue("LoadBalancerName", value);
             }
         }
     }
@@ -2754,6 +2799,83 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Model.PersistentVMMo
         public GuestAgentFormattedMessage FormattedMessage { get; set; }
 
         public ExtensionDataObject ExtensionData { get; set; }
+    }
+
+    [CollectionDataContract(Namespace = Constants.ServiceManagementNS)]
+    public class PublicIPList : List<PublicIP> { }
+
+    [DataContract(Namespace = Constants.ServiceManagementNS)]
+    public class PublicIP : IExtensibleDataObject
+    {
+        [DataMember(EmitDefaultValue = false, Order = 1)]
+        public string Name { get; set; }
+
+        [DataMember(EmitDefaultValue = false, Order = 2)]
+        public string Address { get; set; }
+
+        public ExtensionDataObject ExtensionData { get; set; }
+    }
+
+
+    [CollectionDataContract(Name = "LoadBalancers", ItemName = "LoadBalancer", Namespace = Constants.ServiceManagementNS)]
+    public class LoadBalancerList : List<LoadBalancer>
+    {
+        public LoadBalancerList()
+        {
+
+        }
+
+        public LoadBalancerList(IEnumerable<LoadBalancer> ips)
+            : base(ips)
+        {
+
+        }
+    }
+
+    /// <summary>
+    /// Represents a <see cref="LoadBalancer"/>
+    /// </summary>
+    [DataContract(Namespace = Constants.ServiceManagementNS)]
+    public class LoadBalancer : IExtensibleDataObject
+    {
+        [DataMember(EmitDefaultValue = false, Order = 1)]
+        public string Name { get; set; }
+
+        [DataMember(Name = "FrontendIpConfiguration", EmitDefaultValue = false, Order = 2)]
+        public IpConfiguration FrontEndIpConfiguration { get; set; }
+
+        public ExtensionDataObject ExtensionData { get; set; }
+    }
+
+    /// <summary>
+    /// Represents a <see cref="IpConfiguration"/>
+    /// </summary>
+    [DataContract(Namespace = Constants.ServiceManagementNS)]
+    public class IpConfiguration : IExtensibleDataObject
+    {
+        [DataMember(EmitDefaultValue = false, Order = 1)]
+        public LoadBalancerType Type { get; set; }
+
+        [DataMember(EmitDefaultValue = false, Order = 2)]
+        public string SubnetName { get; set; }
+
+        [DataMember(EmitDefaultValue = false, Order = 3)]
+        public string StaticVirtualNetworkIPAddress { get; set; }
+
+        public ExtensionDataObject ExtensionData { get; set; }
+    }
+
+    /// <summary>
+    /// Represents the type of a load balancer.
+    /// </summary>
+    [DataContract(Namespace = Constants.ServiceManagementNS)]
+    public enum LoadBalancerType
+    {
+        [EnumMember]
+        Unknown = 0,
+
+        [EnumMember]
+        Private = 1,
     }
 }
 
