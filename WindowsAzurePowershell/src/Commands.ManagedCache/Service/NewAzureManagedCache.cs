@@ -19,9 +19,10 @@ namespace Microsoft.Azure.Commands.ManagedCache
     using Microsoft.Azure.Management.ManagedCache.Models;
 
     [Cmdlet(VerbsCommon.New, "AzureManagedCache"), OutputType(typeof(PSCacheService))]
-    public class NewAzureManagedCache : ManagedCacheCmdletBase
+    public class NewAzureManagedCache : ManagedCacheCmdletBase, IDynamicParameters
     {
         private string cacheServiceName;
+        private MemoryDynamicParameterSet memoryDynamicParameterSet = new MemoryDynamicParameterSet();
 
         [Parameter(Position = 0, Mandatory=true )]
         [ValidateNotNullOrEmpty]
@@ -34,23 +35,27 @@ namespace Microsoft.Azure.Commands.ManagedCache
         [Parameter]
         public CacheServiceSkuType Sku { get; set; }
 
-        [Parameter]
-        public string Memory { get; set; }
-
         public override void ExecuteCmdlet()
         {
             cacheServiceName = CacheClient.NormalizeCacheServiceName(Name);
 
             CacheClient.ProgressRecorder = (p) => { WriteVerbose(p); };
 
+            string memory = memoryDynamicParameterSet.GetMemoryValue(Sku);
+
             PSCacheService cacheService = new PSCacheService(CacheClient.CreateCacheService(
                 CurrentSubscription.SubscriptionId,
                 cacheServiceName,
                 Location,
                 Sku,
-                Memory));
+                memory));
 
             WriteObject(cacheService);
+        }
+
+        public object GetDynamicParameters()
+        {
+            return memoryDynamicParameterSet.GetDynamicParameters(Sku);
         }
     }
 }
