@@ -96,7 +96,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
                     if (rsvIPNames.Contains(ip.ReservedIPName))
                     {
                         reservedIPReturned = vmPowershellCmdlets.GetAzureReservedIP(ip.ReservedIPName)[0];
-                        Verify.AzureReservedIPNotInUse(reservedIPReturned, ip.ReservedIPName, ip.Label, ip.AffinityGroup,
+                        Verify.AzureReservedIPNotInUse(reservedIPReturned, ip.ReservedIPName, ip.Label, ip.Location,
                             ip.Id);
                     }
                 }
@@ -111,7 +111,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
                     if (rsvIPNames.Contains(ip.ReservedIPName))
                     {
                         reservedIPReturned = vmPowershellCmdlets.GetAzureReservedIP(ip.ReservedIPName)[0];
-                        Verify.AzureReservedIPNotInUse(reservedIPReturned, ip.ReservedIPName, ip.Label, ip.AffinityGroup,
+                        Verify.AzureReservedIPNotInUse(reservedIPReturned, ip.ReservedIPName, ip.Label, ip.Location,
                             ip.Id);
                     }
                 }
@@ -126,7 +126,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
                     if (rsvIPNames.Contains(ip.ReservedIPName))
                     {
                         reservedIPReturned = vmPowershellCmdlets.GetAzureReservedIP(ip.ReservedIPName)[0];
-                        Verify.AzureReservedIPNotInUse(reservedIPReturned, ip.ReservedIPName, ip.Label, ip.AffinityGroup,
+                        Verify.AzureReservedIPNotInUse(reservedIPReturned, ip.ReservedIPName, ip.Label, ip.Location,
                             ip.Id);
                     }
                 }

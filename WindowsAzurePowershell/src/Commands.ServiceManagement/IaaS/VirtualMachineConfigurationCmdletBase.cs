@@ -23,6 +23,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
     public class VirtualMachineConfigurationCmdletBase : ServiceManagementBaseCmdlet
     {
         protected const string StaticVNetIPNoun = "AzureStaticVNetIP";
+        protected const string PublicIPNoun = "AzurePublicIP";
 
         [Parameter(
             Mandatory = true,
