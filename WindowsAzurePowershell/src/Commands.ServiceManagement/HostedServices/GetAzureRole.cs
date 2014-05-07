@@ -21,6 +21,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.HostedServices
     using System.Management.Automation;
     using AutoMapper;
     using Commands.Utilities.Common;
+    using Helpers;
     using Management.Compute;
     using Management.Compute.Models;
     using Management.Models;
@@ -91,6 +92,9 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.HostedServices
 
                     foreach (var role in roleInstances)
                     {
+                        var vmRole = currentDeployment.Roles == null || !currentDeployment.Roles.Any() ? null
+                                   : currentDeployment.Roles.FirstOrDefault(r => string.Equals(r.RoleName, role.RoleName, StringComparison.OrdinalIgnoreCase));
+
                         instanceContexts.Add(new RoleInstanceContext
                         {
                             ServiceName           = this.ServiceName,
@@ -107,7 +111,9 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.HostedServices
                             RoleName              = role.RoleName,
                             IPAddress             = role.IPAddress,
                             PublicIPAddress       = role.PublicIPs == null || !role.PublicIPs.Any() ? null : role.PublicIPs.First().Address,
-                            PublicIPName          = role.PublicIPs == null || !role.PublicIPs.Any() ? null : role.PublicIPs.First().Name,
+                            PublicIPName          = role.PublicIPs == null || !role.PublicIPs.Any() ? null
+                                                  : !string.IsNullOrEmpty(role.PublicIPs.First().Name) ? role.PublicIPs.First().Name
+                                                  : PersistentVMHelper.GetPublicIPName(vmRole),
                             DeploymentID          = currentDeployment.PrivateId,
                             InstanceEndpoints     = Mapper.Map<PVM.InstanceEndpointList>(role.InstanceEndpoints)
                         });

@@ -309,6 +309,7 @@
     <Compile Include="IaaS\Network\RemoveAzureReservedIP.cs" />
     <Compile Include="IaaS\Network\RemoveAzureStaticVNetIP.cs" />
     <Compile Include="IaaS\Network\SetAzureStaticVNetIP.cs" />
+    <Compile Include="IaaS\Network\SetAzureVnetGatewayKey.cs" />
     <Compile Include="IaaS\Network\TestAzureStaticVNetIP.cs" />
     <Compile Include="Model\PersistentVMRoleListContext.cs" />
     <Compile Include="Model\ReservedIPConstants.cs" />
