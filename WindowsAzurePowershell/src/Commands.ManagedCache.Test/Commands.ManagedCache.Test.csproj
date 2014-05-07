@@ -140,6 +140,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="CacheSkuCountConvertTest.cs" />
     <Compile Include="PSCacheServiceTest.cs" />
+    <Compile Include="RuntimeDefinedParameterDictionaryTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="MSSharedLibKey.snk" />

@@ -168,6 +168,7 @@
     <Compile Include="lib\ManagedCacheClient.Customization.cs" />
     <Compile Include="Models\CacheAccessKeys.cs" />
     <Compile Include="Models\CacheSkuCountConvert.cs" />
+    <Compile Include="Models\MemoryDynamicParameterSet.cs" />
     <Compile Include="Models\PSCacheService.cs" />
     <Compile Include="PSCacheClient.cs" />
     <Compile Include="Service\GetAzureManagedCache.cs" />
