@@ -17,24 +17,15 @@ using System.Collections.Generic;
 
 namespace Microsoft.Azure.Commands.ResourceManager.Models
 {
-    public class TemplateFileParameter
+    public class TemplateFileParameterV2
     {
-        [JsonProperty("type")]
-        public string Type { get; set; }
+        [JsonProperty("$schema")]
+        public string Schema { get; set; }
 
-        [JsonProperty("value")]
-        public string Value { get; set; }
+        [JsonProperty("contentVersion")]
+        public string ContentVersion { get; set; }
 
-        [JsonProperty("defaultValue")]
-        public object DefaultValue { get; set; }
-
-        [JsonProperty("allowedValues")]
-        public List<string> AllowedValues { get; set; }
-
-        [JsonProperty("minLength")]
-        public string MinLength { get; set; }
-
-        [JsonProperty("maxLength")]
-        public string MaxLength { get; set; }
+        [JsonProperty("parameters")]
+        public IDictionary<string, TemplateFileParameterV1> Parameters { get; set; }
     }
 }
