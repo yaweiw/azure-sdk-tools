@@ -394,6 +394,7 @@
     <Folder Include="Resources\SessionRecords\DeploymentTests\" />
     <Folder Include="Resources\SessionRecords\ResourceGroupTests\" />
     <Folder Include="Resources\SessionRecords\ResourceTests\" />
+    <Folder Include="Resources\SessionRecords\TrafficManagerTests\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\nuget.targets" />
