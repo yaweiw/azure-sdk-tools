@@ -854,590 +854,313 @@
       </maml:navigationLink>
     </maml:relatedLinks>
   </command:command>
-  <command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10" xmlns:MSHelp="http://msdn.microsoft.com/mshelp">
-    <command:details>
-      <command:name>Add-AzureEndpoint</command:name>
-      <maml:description>
-        <maml:para>Adds a new endpoint to a Windows Azure virtual machine.</maml:para>
-      </maml:description>
-      <maml:copyright>
-        <maml:para />
-      </maml:copyright>
-      <command:verb>Add</command:verb>
-      <command:noun>AzureEndpoint</command:noun>
-      <dev:version />
-    </command:details>
-    <maml:description>
-      <maml:para>
-        The Add-AzureEndpoint cmdlet adds a new input endpoint to a virtual machine. You can specify a new endpoint that is not load balanced, which will be used only by this virtual machine, or you can specify a load-balanced endpoint, which other virtual machines running in the same cloud service can share to load-balance traffic.
-        When adding a load-balanced endpoint, you can also specify parameters for an endpoint probe. The probe will be used to check the health of endpoints and endpoint resources, probing for response every 15 seconds, and taking a resource out of rotation if no response is received within 31 seconds.
-      </maml:para>
-      <maml:para></maml:para>
-    </maml:description>
-    <command:syntax>
-      <command:syntaxItem>
-        <maml:name>Add-AzureEndpoint</maml:name>
-        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="1" aliases="">
-          <maml:name>Name</maml:name>
-          <maml:description>
-            <maml:para>Specifies the name of the endpoint. Either LBSetName or Name must be specified, but not both.</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
-        </command:parameter>
-        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="2" aliases="">
-          <maml:name>Protocol</maml:name>
-          <maml:description>
-            <maml:para>Specifies the protocol of the endpoint. Acceptable values are “http” or “tcp”.</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
-        </command:parameter>
-        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="3" aliases="">
-          <maml:name>LocalPort</maml:name>
-          <maml:description>
-            <maml:para>Specifies the local (private) port that will be used for the endpoint. Applications within the virtual machine listen to this port to service input requests over the endpoint.</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">Int32</command:parameterValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named" aliases="">
-          <maml:name>PublicPort</maml:name>
-          <maml:description>
-            <maml:para>Specifies the public port that the endpoint will use.</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">Int32</command:parameterValue>
-        </command:parameter>
-        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="True (ByValue)" position="named" aliases="InputObject">
-          <maml:name>VM</maml:name>
-          <maml:description>
-            <maml:para>Specifies the virtual machine object for which the endpoint will be created.</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">IPersistentVM</command:parameterValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named">
-          <maml:name>ACL</maml:name>
-          <maml:description>
-            <maml:para>An ACL to apply to the endpoint on update.</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">NetworkAclObject</command:parameterValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named">
-          <maml:name>DirectServerReturn</maml:name>
-          <maml:description>
-            <maml:para>Enable/Disable Direct Server Return.</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">bool</command:parameterValue>
-        </command:parameter>
-      </command:syntaxItem>
-      <command:syntaxItem>
-        <maml:name>Add-AzureEndpoint</maml:name>
-        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="1" aliases="">
-          <maml:name>Name</maml:name>
-          <maml:description>
-            <maml:para>Specifies the name of the endpoint. Either LBSetName or Name must be specified, but not both.</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
-        </command:parameter>
-        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="2" aliases="">
-          <maml:name>Protocol</maml:name>
-          <maml:description>
-            <maml:para>Specifies the protocol of the endpoint. Acceptable values are “http” or “tcp”.</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
-        </command:parameter>
-        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="3" aliases="">
-          <maml:name>LocalPort</maml:name>
-          <maml:description>
-            <maml:para>Specifies the local (private) port that will be used for the endpoint. Applications within the virtual machine listen to this port to service input requests over the endpoint.</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">Int32</command:parameterValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named" aliases="">
-          <maml:name>PublicPort</maml:name>
-          <maml:description>
-            <maml:para>Specifies the public port that the endpoint will use.</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">Int32</command:parameterValue>
-        </command:parameter>
-        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="named" aliases="LoadBalancedEndpointSetName">
-          <maml:name>LBSetName</maml:name>
-          <maml:description>
-            <maml:para>Specifies the name of a load-balanced endpoint. Multiple virtual machines in the cloud service can use a load-balanced endpoint. Either LBSetName or Name must be specified for the endpoint, but not both.</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
-        </command:parameter>
-        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="True (ByValue)" position="named" aliases="InputObject">
-          <maml:name>VM</maml:name>
-          <maml:description>
-            <maml:para>Specifies the virtual machine object for which the endpoint will be created.</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">IPersistentVM</command:parameterValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named">
-          <maml:name>DirectServerReturn</maml:name>
-          <maml:description>
-            <maml:para>Enable/Disable Direct Server Return</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">bool</command:parameterValue>
-          <dev:type>
-            <maml:name>bool</maml:name>
-            <maml:uri/>
-          </dev:type>
-          <dev:defaultValue></dev:defaultValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named">
-          <maml:name>ACL</maml:name>
-          <maml:description>
-            <maml:para>An ACL to apply to the endpoint on update.</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">NetworkAclObject</command:parameterValue>
-          <dev:type>
-            <maml:name>NetworkAclObject</maml:name>
-            <maml:uri/>
-          </dev:type>
-          <dev:defaultValue></dev:defaultValue>
-        </command:parameter>
-        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="named">
-          <maml:name>DefaultProbe</maml:name>
-          <maml:description>
-            <maml:para>Specifies that the default load balancer probe is to be used.</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">SwitchParameter</command:parameterValue>
-          <dev:type>
-            <maml:name>Switchparameter</maml:name>
-            <maml:uri/>
-          </dev:type>
-          <dev:defaultValue></dev:defaultValue>
-        </command:parameter>
-      </command:syntaxItem>
-      <command:syntaxItem>
-        <maml:name>Add-AzureEndpoint</maml:name>
-        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="1" aliases="">
-          <maml:name>Name</maml:name>
-          <maml:description>
-            <maml:para>Specifies the name of the endpoint. Either LBSetName or Name must be specified, but not both.</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
-        </command:parameter>
-        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="2" aliases="">
-          <maml:name>Protocol</maml:name>
-          <maml:description>
-            <maml:para>Specifies the protocol of the endpoint. Acceptable values are “http” or “tcp”.</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
-        </command:parameter>
-        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="3" aliases="">
-          <maml:name>LocalPort</maml:name>
-          <maml:description>
-            <maml:para>Specifies the local (private) port that will be used for the endpoint. Applications within the virtual machine listen to this port to service input requests over the endpoint.</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">Int32</command:parameterValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named" aliases="">
-          <maml:name>PublicPort</maml:name>
-          <maml:description>
-            <maml:para>Specifies the public port that the endpoint will use.</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">Int32</command:parameterValue>
-        </command:parameter>
-        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="named" aliases="LoadBalancedEndpointSetName">
-          <maml:name>LBSetName</maml:name>
-          <maml:description>
-            <maml:para>Specifies the name of a load-balanced endpoint. Multiple virtual machines in the cloud service can use a load-balanced endpoint. Either LBSetName or Name must be specified for the endpoint, but not both.</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
-        </command:parameter>
-        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="True (ByValue)" position="named" aliases="InputObject">
-          <maml:name>VM</maml:name>
-          <maml:description>
-            <maml:para>Specifies the virtual machine object for which the endpoint will be created.</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">IPersistentVM</command:parameterValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named">
-          <maml:name>DirectServerReturn</maml:name>
-          <maml:description>
-            <maml:para>Enable/Disable Direct Server Return</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">bool</command:parameterValue>
-          <dev:type>
-            <maml:name>bool</maml:name>
-            <maml:uri/>
-          </dev:type>
-          <dev:defaultValue></dev:defaultValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named">
-          <maml:name>ACL</maml:name>
-          <maml:description>
-            <maml:para>An ACL to apply to the endpoint on update.</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">NetworkAclObject</command:parameterValue>
-          <dev:type>
-            <maml:name>NetworkAclObject</maml:name>
-            <maml:uri/>
-          </dev:type>
-          <dev:defaultValue></dev:defaultValue>
-        </command:parameter>
-        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="named">
-          <maml:name>NoProbe</maml:name>
-          <maml:description>
-            <maml:para>Specifies that no load balancer probe is to be used.</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">SwitchParameter</command:parameterValue>
-          <dev:type>
-            <maml:name>Switchparameter</maml:name>
-            <maml:uri/>
-          </dev:type>
-          <dev:defaultValue></dev:defaultValue>
-        </command:parameter>
-      </command:syntaxItem>
-      <command:syntaxItem>
-        <maml:name>Add-AzureEndpoint</maml:name>
-        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="1" aliases="">
-          <maml:name>Name</maml:name>
-          <maml:description>
-            <maml:para>Specifies the name of the endpoint. Either LBSetName or Name must be specified, but not both.</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
-        </command:parameter>
-        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="2" aliases="">
-          <maml:name>Protocol</maml:name>
-          <maml:description>
-            <maml:para>Specifies the protocol of the endpoint. Acceptable values are “http” or “tcp”.</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
-        </command:parameter>
-        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="3" aliases="">
-          <maml:name>LocalPort</maml:name>
-          <maml:description>
-            <maml:para>Specifies the local (private) port that will be used for the endpoint. Applications within the virtual machine listen to this port to service input requests over the endpoint.</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">Int32</command:parameterValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named" aliases="">
-          <maml:name>ProbePath</maml:name>
-          <maml:description>
-            <maml:para>Required if ProbeProtocol is set to “http”. Omit otherwise. Specifies the URI whose health will be probed.</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named" aliases="">
-          <maml:name>PublicPort</maml:name>
-          <maml:description>
-            <maml:para>Specifies the public port that the endpoint will use.</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">Int32</command:parameterValue>
-        </command:parameter>
-        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="named" aliases="LoadBalancedEndpointSetName">
-          <maml:name>LBSetName</maml:name>
-          <maml:description>
-            <maml:para>Specifies the name of a load-balanced endpoint. Multiple virtual machines in the cloud service can use a load-balanced endpoint. Either LBSetName or Name must be specified for the endpoint, but not both.</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
-        </command:parameter>
-        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="named" aliases="">
-          <maml:name>ProbePort</maml:name>
-          <maml:description>
-            <maml:para>Optional. Specifies the public port that the probe will use. If none is specified, the probe uses the same public port as specified for the load-balanced endpoint.</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">Int32</command:parameterValue>
-        </command:parameter>
-        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="named" aliases="">
-          <maml:name>ProbeProtocol</maml:name>
-          <maml:description>
-            <maml:para>Specifies the protocol of the endpoint to be probed. Acceptable values are “http” or “tcp”. If “tcp” is specified, a received ACK is required for the probe to be successful. If “http” is specified, a 200 OK response from the ProbePath URI is required.</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named" aliases="">
-          <maml:name>ProbeIntervalInSeconds</maml:name>
-          <maml:description>
-            <maml:para>Specifies the polling interval of the load balancer probe in seconds.</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">Int32</command:parameterValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named" aliases="">
-          <maml:name>ProbeTimeoutInSeconds</maml:name>
-          <maml:description>
-            <maml:para>Specifies the timeout of the load balancer probe in seconds.</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">Int32</command:parameterValue>
-        </command:parameter>
-        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="True (ByValue)" position="named" aliases="InputObject">
-          <maml:name>VM</maml:name>
-          <maml:description>
-            <maml:para>Specifies the virtual machine object for which the endpoint will be created.</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">IPersistentVM</command:parameterValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named">
-          <maml:name>DirectServerReturn</maml:name>
-          <maml:description>
-            <maml:para>Enable/Disable Direct Server Return</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">bool</command:parameterValue>
-          <dev:type>
-            <maml:name>bool</maml:name>
-            <maml:uri/>
-          </dev:type>
-          <dev:defaultValue></dev:defaultValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named">
-          <maml:name>ACL</maml:name>
-          <maml:description>
-            <maml:para>An ACL to apply to the endpoint on update.</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">NetworkAclObject</command:parameterValue>
-          <dev:type>
-            <maml:name>NetworkAclObject</maml:name>
-            <maml:uri/>
-          </dev:type>
-          <dev:defaultValue></dev:defaultValue>
-        </command:parameter>
-      </command:syntaxItem>
-    </command:syntax>
-    <command:parameters>
-      <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="named" aliases="LoadBalancedEndpointSetName">
-        <maml:name>LBSetName</maml:name>
-        <maml:description>
-          <maml:para>Specifies the name of a load-balanced endpoint. Multiple virtual machines in the cloud service can use a load-balanced endpoint. Either LBSetName or Name must be specified for the endpoint, but not both.</maml:para>
-        </maml:description>
-        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
-        <dev:type>
-          <maml:name>String</maml:name>
-          <maml:uri />
-        </dev:type>
-        <dev:defaultValue></dev:defaultValue>
-      </command:parameter>
-      <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="3" aliases="">
-        <maml:name>LocalPort</maml:name>
-        <maml:description>
-          <maml:para>Specifies the local (private) port that will be used for the endpoint. Applications within the virtual machine listen to this port to service input requests over the endpoint.</maml:para>
-        </maml:description>
-        <command:parameterValue required="true" variableLength="false">Int32</command:parameterValue>
-        <dev:type>
-          <maml:name>Int32</maml:name>
-          <maml:uri />
-        </dev:type>
-        <dev:defaultValue></dev:defaultValue>
-      </command:parameter>
-      <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="1" aliases="">
-        <maml:name>Name</maml:name>
-        <maml:description>
-          <maml:para>Specifies the name of the endpoint. Either LBSetName or Name must be specified, but not both.</maml:para>
-        </maml:description>
-        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
-        <dev:type>
-          <maml:name>String</maml:name>
-          <maml:uri />
-        </dev:type>
-        <dev:defaultValue></dev:defaultValue>
-      </command:parameter>
-      <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named" aliases="">
-        <maml:name>ProbePath</maml:name>
-        <maml:description>
-          <maml:para>Required if ProbeProtocol is set to “http”. Omit otherwise. Specifies the URI whose health will be probed.</maml:para>
-        </maml:description>
-        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
-        <dev:type>
-          <maml:name>String</maml:name>
-          <maml:uri />
-        </dev:type>
-        <dev:defaultValue></dev:defaultValue>
-      </command:parameter>
-      <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="named" aliases="">
-        <maml:name>ProbePort</maml:name>
-        <maml:description>
-          <maml:para>Optional. Specifies the public port that the probe will use. If none is specified, the probe uses the same public port as specified for the load-balanced endpoint.</maml:para>
-        </maml:description>
-        <command:parameterValue required="true" variableLength="false">Int32</command:parameterValue>
-        <dev:type>
-          <maml:name>Int32</maml:name>
-          <maml:uri />
-        </dev:type>
-        <dev:defaultValue></dev:defaultValue>
-      </command:parameter>
-      <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="named" aliases="">
-        <maml:name>ProbeProtocol</maml:name>
-        <maml:description>
-          <maml:para>Specifies the protocol of the endpoint to be probed. Acceptable values are “http” or “tcp”. If “tcp” is specified, a received ACK is required for the probe to be successful. If “http” is specified, a 200 OK response from the ProbePath URI is required.</maml:para>
-        </maml:description>
-        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
-        <dev:type>
-          <maml:name>String</maml:name>
-          <maml:uri />
-        </dev:type>
-        <dev:defaultValue></dev:defaultValue>
-      </command:parameter>
-      <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="2" aliases="">
-        <maml:name>Protocol</maml:name>
-        <maml:description>
-          <maml:para>Specifies the protocol of the endpoint. Acceptable values are “http” or “tcp”.</maml:para>
-        </maml:description>
-        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
-        <dev:type>
-          <maml:name>String</maml:name>
-          <maml:uri />
-        </dev:type>
-        <dev:defaultValue></dev:defaultValue>
-      </command:parameter>
-      <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named" aliases="">
-        <maml:name>PublicPort</maml:name>
-        <maml:description>
-          <maml:para>Specifies the public port that the endpoint will use.</maml:para>
-        </maml:description>
-        <command:parameterValue required="true" variableLength="false">Int32</command:parameterValue>
-        <dev:type>
-          <maml:name>Int32</maml:name>
-          <maml:uri />
-        </dev:type>
-        <dev:defaultValue></dev:defaultValue>
-      </command:parameter>
-      <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="True (ByValue)" position="named" aliases="InputObject">
-        <maml:name>VM</maml:name>
-        <maml:description>
-          <maml:para>Specifies the virtual machine object for which the endpoint will be created.</maml:para>
-        </maml:description>
-        <command:parameterValue required="true" variableLength="false">IPersistentVM</command:parameterValue>
-        <dev:type>
-          <maml:name>IPersistentVM</maml:name>
-          <maml:uri />
-        </dev:type>
-        <dev:defaultValue></dev:defaultValue>
-      </command:parameter>
-      <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named" aliases="">
-        <maml:name>ProbeIntervalInSeconds</maml:name>
-        <maml:description>
-          <maml:para>Specifies the polling interval of the load balancer probe in seconds.</maml:para>
-        </maml:description>
-        <command:parameterValue required="true" variableLength="false">Int32</command:parameterValue>
-      </command:parameter>
-      <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named" aliases="">
-        <maml:name>ProbeTimeoutInSeconds</maml:name>
-        <maml:description>
-          <maml:para>Specifies the timeout of the load balancer probe in seconds.</maml:para>
-        </maml:description>
-        <command:parameterValue required="true" variableLength="false">Int32</command:parameterValue>
-      </command:parameter>
-      <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named">
-        <maml:name>DirectServerReturn</maml:name>
-        <maml:description>
-          <maml:para>Enable/Disable Direct Server Return</maml:para>
-        </maml:description>
-        <command:parameterValue required="true" variableLength="false">bool</command:parameterValue>
-        <dev:type>
-          <maml:name>bool</maml:name>
-          <maml:uri/>
-        </dev:type>
-        <dev:defaultValue></dev:defaultValue>
-      </command:parameter>
-      <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named">
-        <maml:name>ACL</maml:name>
-        <maml:description>
-          <maml:para>An ACL to apply to the endpoint on update.</maml:para>
-        </maml:description>
-        <command:parameterValue required="true" variableLength="false">NetworkAclObject</command:parameterValue>
-        <dev:type>
-          <maml:name>NetworkAclObject</maml:name>
-          <maml:uri/>
-        </dev:type>
-        <dev:defaultValue></dev:defaultValue>
-      </command:parameter>
-      <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="named">
-        <maml:name>DefaultProbe</maml:name>
-        <maml:description>
-          <maml:para>Specifies that the default load balancer probe is to be used.</maml:para>
-        </maml:description>
-        <command:parameterValue required="true" variableLength="false">SwitchParameter</command:parameterValue>
-        <dev:type>
-          <maml:name>Switchparameter</maml:name>
-          <maml:uri/>
-        </dev:type>
-        <dev:defaultValue></dev:defaultValue>
-      </command:parameter>
-      <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="named">
-        <maml:name>NoProbe</maml:name>
-        <maml:description>
-          <maml:para>Specifies that no load balancer probe is to be used.</maml:para>
-        </maml:description>
-        <command:parameterValue required="true" variableLength="false">SwitchParameter</command:parameterValue>
-        <dev:type>
-          <maml:name>Switchparameter</maml:name>
-          <maml:uri/>
-        </dev:type>
-        <dev:defaultValue></dev:defaultValue>
-      </command:parameter>
-    </command:parameters>
-    <command:inputTypes>
-      <command:inputType>
-        <dev:type>
-          <maml:name></maml:name>
-          <maml:uri></maml:uri>
-          <maml:description>
-            <maml:para />
-          </maml:description>
-        </dev:type>
-        <maml:description>
-          <maml:para></maml:para>
-        </maml:description>
-      </command:inputType>
-    </command:inputTypes>
-    <command:returnValues>
-      <command:returnValue>
-        <dev:type>
-          <maml:name></maml:name>
-          <maml:uri></maml:uri>
-          <maml:description>
-            <maml:para />
-          </maml:description>
-        </dev:type>
-        <maml:description>
-          <maml:para></maml:para>
-        </maml:description>
-      </command:returnValue>
-    </command:returnValues>
-    <command:terminatingErrors />
-    <command:nonTerminatingErrors />
-    <command:examples>
-      <command:example>
-        <maml:title>
-          --------------  Example 1 --------------
-        </maml:title>
-        <maml:introduction>
-          <maml:para></maml:para>
-        </maml:introduction>
-        <dev:code>
-          C:\PS&gt;Get-AzureVM -ServiceName "myservice" -Name "MyVM" | Add-AzureEndpoint -Name "HttpIn" -Protocol "http" -PublicPort 80 -LocalPort 8080 -LBSetName "WebFarm" -ProbePort 80 -ProbeProtocol "http" -ProbePath "/" | Update-AzureVM
 
-        </dev:code>
-        <dev:remarks>
-          <maml:para>
-            This command retrieves the configuration of a virtual machine and adds a new endpoint named "HttpIn" configured with public port 80 and local port 8080. The endpoint belongs to shared load balanced group named "WebFarm" and its availability is monitored by an HTTP probe on port 80, path "/".
-            Lastly, the changed configuration is pipelined to Update-AzureVM to update the VM role.
-          </maml:para>
-        </dev:remarks>
-        <command:commandLines>
-          <command:commandLine>
-            <command:commandText />
-          </command:commandLine>
-        </command:commandLines>
-      </command:example>
-    </command:examples>
-    <maml:relatedLinks>
-      <maml:navigationLink>
-        <maml:linkText>Get-AzureEndpoint</maml:linkText>
-        <maml:uri />
-      </maml:navigationLink>
-      <maml:navigationLink>
-        <maml:linkText>Remove-AzureEndpoint</maml:linkText>
-        <maml:uri />
-      </maml:navigationLink>
-      <maml:navigationLink>
-        <maml:linkText>Set-AzureEndpoint</maml:linkText>
-        <maml:uri />
-      </maml:navigationLink>
-    </maml:relatedLinks>
-  </command:command>
+  <!-- v 1.3.0.36 -->
+<command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10">
+	<command:details>
+		<command:name>
+                   Add-AzureEndpoint
+		</command:name>
+		<maml:description>
+			<maml:para>Add endpoint to the persistent VM object.
+</maml:para>
+		</maml:description>
+		<maml:copyright>
+			<maml:para></maml:para>
+		</maml:copyright>
+		<command:verb>Add</command:verb>
+		<command:noun>AzureEndpoint</command:noun>
+		<dev:version></dev:version>
+	</command:details>
+	<maml:description>
+		<maml:para></maml:para>
+	</maml:description>
+	<!-- Cmdlet syntax section-->
+	<command:syntax>
+		<command:syntaxItem>
+			<maml:name>Add-AzureEndpoint</maml:name>
+			<command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="named">
+				<maml:name>LBSetName</maml:name>
+				<maml:description>
+					<maml:para></maml:para>
+				</maml:description>
+				<command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+			</command:parameter>
+			<command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="named">
+				<maml:name>ProbePort</maml:name>
+				<maml:description>
+					<maml:para></maml:para>
+				</maml:description>
+				<command:parameterValue required="true" variableLength="false">int</command:parameterValue>
+			</command:parameter>
+			<command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="named">
+				<maml:name>ProbeProtocol</maml:name>
+				<maml:description>
+					<maml:para></maml:para>
+				</maml:description>
+				<command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+			</command:parameter>
+			<command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true (ByValue)" position="named">
+				<maml:name>VM</maml:name>
+				<maml:description>
+					<maml:para></maml:para>
+				</maml:description>
+				<command:parameterValue required="true" variableLength="false">IPersistentVM</command:parameterValue>
+			</command:parameter>
+			<command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named">
+				<maml:name>InternalLoadBalancerName</maml:name>
+				<maml:description>
+					<maml:para>The Internal LoadBalancer Name.</maml:para>
+				</maml:description>
+				<command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+			</command:parameter>
+			<command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named">
+				<maml:name>ProbePath</maml:name>
+				<maml:description>
+					<maml:para></maml:para>
+				</maml:description>
+				<command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+			</command:parameter>
+			<command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named">
+				<maml:name>PublicPort</maml:name>
+				<maml:description>
+					<maml:para></maml:para>
+				</maml:description>
+				<command:parameterValue required="true" variableLength="false">int</command:parameterValue>
+			</command:parameter>
+		</command:syntaxItem>
+		<command:syntaxItem>
+			<maml:name>Add-AzureEndpoint</maml:name>
+			<command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="1">
+				<maml:name>Name</maml:name>
+				<maml:description>
+					<maml:para></maml:para>
+				</maml:description>
+				<command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+			</command:parameter>
+			<command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="2">
+				<maml:name>Protocol</maml:name>
+				<maml:description>
+					<maml:para></maml:para>
+				</maml:description>
+				<command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+			</command:parameter>
+			<command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="3">
+				<maml:name>LocalPort</maml:name>
+				<maml:description>
+					<maml:para></maml:para>
+				</maml:description>
+				<command:parameterValue required="true" variableLength="false">int</command:parameterValue>
+			</command:parameter>
+			<command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true (ByValue)" position="named">
+				<maml:name>VM</maml:name>
+				<maml:description>
+					<maml:para></maml:para>
+				</maml:description>
+				<command:parameterValue required="true" variableLength="false">IPersistentVM</command:parameterValue>
+			</command:parameter>
+			<command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named">
+				<maml:name>InternalLoadBalancerName</maml:name>
+				<maml:description>
+					<maml:para>The Internal LoadBalancer Name.</maml:para>
+				</maml:description>
+				<command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+			</command:parameter>
+		</command:syntaxItem>
+	</command:syntax>
+	<!-- Cmdlet parameter section  -->
+	<command:parameters>
+		<command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named">
+			<maml:name>InternalLoadBalancerName</maml:name>
+			<maml:description>
+				<maml:para>The Internal LoadBalancer Name.</maml:para>
+								
+			</maml:description>
+			<command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+			<dev:type>
+				<maml:name>string</maml:name>
+				<maml:uri/>
+			</dev:type>
+			<dev:defaultValue></dev:defaultValue>
+		</command:parameter>
+		<command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="named">
+			<maml:name>LBSetName</maml:name>
+			<maml:description>
+				<maml:para></maml:para>
+								
+			</maml:description>
+			<command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+			<dev:type>
+				<maml:name>string</maml:name>
+				<maml:uri/>
+			</dev:type>
+			<dev:defaultValue></dev:defaultValue>
+		</command:parameter>
+		<command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="3">
+			<maml:name>LocalPort</maml:name>
+			<maml:description>
+				<maml:para></maml:para>
+								
+			</maml:description>
+			<command:parameterValue required="true" variableLength="false">int</command:parameterValue>
+			<dev:type>
+				<maml:name>int</maml:name>
+				<maml:uri/>
+			</dev:type>
+			<dev:defaultValue></dev:defaultValue>
+		</command:parameter>
+		<command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="1">
+			<maml:name>Name</maml:name>
+			<maml:description>
+				<maml:para></maml:para>
+								
+			</maml:description>
+			<command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+			<dev:type>
+				<maml:name>string</maml:name>
+				<maml:uri/>
+			</dev:type>
+			<dev:defaultValue></dev:defaultValue>
+		</command:parameter>
+		<command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named">
+			<maml:name>ProbePath</maml:name>
+			<maml:description>
+				<maml:para></maml:para>
+								
+			</maml:description>
+			<command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+			<dev:type>
+				<maml:name>string</maml:name>
+				<maml:uri/>
+			</dev:type>
+			<dev:defaultValue></dev:defaultValue>
+		</command:parameter>
+		<command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="named">
+			<maml:name>ProbePort</maml:name>
+			<maml:description>
+				<maml:para></maml:para>
+								
+			</maml:description>
+			<command:parameterValue required="true" variableLength="false">int</command:parameterValue>
+			<dev:type>
+				<maml:name>int</maml:name>
+				<maml:uri/>
+			</dev:type>
+			<dev:defaultValue></dev:defaultValue>
+		</command:parameter>
+		<command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="named">
+			<maml:name>ProbeProtocol</maml:name>
+			<maml:description>
+				<maml:para></maml:para>
+								
+			</maml:description>
+			<command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+			<dev:type>
+				<maml:name>string</maml:name>
+				<maml:uri/>
+			</dev:type>
+			<dev:defaultValue></dev:defaultValue>
+		</command:parameter>
+		<command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="2">
+			<maml:name>Protocol</maml:name>
+			<maml:description>
+				<maml:para></maml:para>
+								
+			</maml:description>
+			<command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+			<dev:type>
+				<maml:name>string</maml:name>
+				<maml:uri/>
+			</dev:type>
+			<dev:defaultValue></dev:defaultValue>
+		</command:parameter>
+		<command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named">
+			<maml:name>PublicPort</maml:name>
+			<maml:description>
+				<maml:para></maml:para>
+								
+			</maml:description>
+			<command:parameterValue required="true" variableLength="false">int</command:parameterValue>
+			<dev:type>
+				<maml:name>int</maml:name>
+				<maml:uri/>
+			</dev:type>
+			<dev:defaultValue></dev:defaultValue>
+		</command:parameter>
+		<command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true (ByValue)" position="named">
+			<maml:name>VM</maml:name>
+			<maml:description>
+				<maml:para></maml:para>
+								
+			</maml:description>
+			<command:parameterValue required="true" variableLength="false">IPersistentVM</command:parameterValue>
+			<dev:type>
+				<maml:name>IPersistentVM</maml:name>
+				<maml:uri/>
+			</dev:type>
+			<dev:defaultValue></dev:defaultValue>
+		</command:parameter>
+	</command:parameters>
+	<!-- Input - Output section-->
+	<command:inputTypes>
+		<command:inputType>
+			<dev:type>
+				<maml:name></maml:name>
+				<maml:uri/>
+				<maml:description />
+			</dev:type>
+			<maml:description>
+				<maml:para>
+					<!-- description  -->
+					
+				</maml:para>
+			</maml:description>
+		</command:inputType>
+	</command:inputTypes>
+	<command:returnValues>
+		<command:returnValue>
+			<dev:type>
+				<maml:name>System.Object</maml:name>
+				<maml:uri />
+				<maml:description />
+			</dev:type>   
+			<maml:description>
+				<maml:para>
+					<!-- description  -->
+					
+				</maml:para>
+			</maml:description> 
+		</command:returnValue>
+	</command:returnValues>
+	<!-- Error section-->
+	<command:terminatingErrors />
+	<command:nonTerminatingErrors />
+		<!-- Notes section  -->
+	<maml:alertSet>
+		<maml:title></maml:title>
+		<maml:alert>
+			<maml:para>
+                          
+                        </maml:para>
+		</maml:alert>
+		<maml:alert>
+			<maml:para></maml:para>
+		</maml:alert>
+	</maml:alertSet>
+	<!-- Example section  --> 
+	<command:examples>
+	</command:examples>
+	<!-- Link section  -->
+	<maml:relatedLinks>
+		<maml:navigationLink>
+			<maml:linkText></maml:linkText>
+			<maml:uri/>
+		</maml:navigationLink>
+	</maml:relatedLinks>
+</command:command>
 
-  
+
+
   <!-- v 1.3.0.36 -->
 <command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10">
 	<command:details>
@@ -5415,167 +5138,195 @@ New-AzureVMConfig -Name &quot;MyNonDomainVM&quot; -InstanceSize Small -ImageName
       </maml:navigationLink>
     </maml:relatedLinks>
   </command:command>
-  <command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10" xmlns:MSHelp="http://msdn.microsoft.com/mshelp">
+
+  <!-- v 1.3.0.36 -->
+  <command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10">
     <command:details>
-      <command:name>Get-AzureVMImage</command:name>
+      <command:name>
+        Get-AzureVMImage
+      </command:name>
       <maml:description>
-        <maml:para>Returns an operating system image object.</maml:para>
+        <maml:para>The Get-AzureVMImage cmdlet gets the properties on one or a list of OS or VM image in the image repository.</maml:para>
       </maml:description>
       <maml:copyright>
-        <maml:para />
+        <maml:para></maml:para>
       </maml:copyright>
       <command:verb>Get</command:verb>
       <command:noun>AzureVMImage</command:noun>
-      <dev:version />
+      <dev:version></dev:version>
     </command:details>
     <maml:description>
-      <maml:para>
-        The Get-AzureVMImage cmdlet returns an operating system image object with information on one or more operating system images stored in the image repository.
-
-        The cmdlet returns information for all images in the repository, or about a specific image if its image name is provided.
-      </maml:para>
+      <maml:para>The Get-AzureVMImage cmdlet returns one or a list of OS or VM object(s) with information on one or more operating system images stored in the image repository. The cmdlet returns information for all images in the repository, or about a specific image if its image name is provided.</maml:para>
     </maml:description>
+    <!-- Cmdlet syntax section-->
     <command:syntax>
       <command:syntaxItem>
         <maml:name>Get-AzureVMImage</maml:name>
-        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="1" aliases="">
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="1">
           <maml:name>ImageName</maml:name>
           <maml:description>
-            <maml:para>
-              Specifies the name of the image in the image repository.
-            </maml:para>
+            <maml:para>Specifies the name of the OS or VM image in the image repository. If not specified, all the images will be returned.</maml:para>
           </maml:description>
-          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+          <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
         </command:parameter>
       </command:syntaxItem>
     </command:syntax>
+    <!-- Cmdlet parameter section  -->
     <command:parameters>
-      <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="1" aliases="">
+      <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="1">
         <maml:name>ImageName</maml:name>
         <maml:description>
-          <maml:para>
-            Specifies the name of the image in the image repository.
-          </maml:para>
+          <maml:para>Specifies the name of the OS or VM image in the image repository. If not specified, all the images will be returned.</maml:para>
+
         </maml:description>
-        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
         <dev:type>
-          <maml:name>String</maml:name>
-          <maml:uri />
+          <maml:name>string</maml:name>
+          <maml:uri/>
         </dev:type>
         <dev:defaultValue></dev:defaultValue>
       </command:parameter>
     </command:parameters>
+    <!-- Input - Output section-->
     <command:inputTypes>
       <command:inputType>
         <dev:type>
           <maml:name></maml:name>
-          <maml:uri></maml:uri>
-          <maml:description>
-            <maml:para />
-          </maml:description>
+          <maml:uri/>
+          <maml:description />
         </dev:type>
-        <maml:description></maml:description>
+        <maml:description>
+          <maml:para>
+            <!-- description  -->
+
+          </maml:para>
+        </maml:description>
       </command:inputType>
     </command:inputTypes>
     <command:returnValues>
       <command:returnValue>
         <dev:type>
           <maml:name></maml:name>
-          <maml:uri></maml:uri>
-          <maml:description>
-            <maml:para />
-          </maml:description>
+          <maml:uri />
+          <maml:description />
         </dev:type>
-        <maml:description></maml:description>
+        <maml:description>
+          <maml:para>
+            <!-- description  -->
+
+          </maml:para>
+        </maml:description>
       </command:returnValue>
     </command:returnValues>
+    <!-- Error section-->
     <command:terminatingErrors />
     <command:nonTerminatingErrors />
+    <!-- Notes section  -->
+    <maml:alertSet>
+      <maml:title></maml:title>
+      <maml:alert>
+        <maml:para>
+
+        </maml:para>
+      </maml:alert>
+      <maml:alert>
+        <maml:para></maml:para>
+      </maml:alert>
+    </maml:alertSet>
+    <!-- Example section  -->
     <command:examples>
+
       <command:example>
         <maml:title>
-          --------------  Example 1 --------------
+          -------------------------- EXAMPLE 1 --------------------------
         </maml:title>
         <maml:introduction>
-          <maml:para></maml:para>
+          <maml:para>C:\PS&gt;</maml:para>
         </maml:introduction>
         <dev:code>
-          C:\PS&gt;Get-AzureVMImage -ImageName MyOSImage
-
+          Get-AzureVMImage -ImageName MyImage
         </dev:code>
         <dev:remarks>
-          <maml:para>
-            This command retrieves the "MyOSImage" image object from the current image repository.
-          </maml:para>
+          <maml:para>Description</maml:para>
+          <maml:para>-----------</maml:para>
+          <maml:para>This command retrieves the &quot;MyImage&quot; OS or VM image object from the current image repository.</maml:para>
+          <maml:para></maml:para>
+          <maml:para></maml:para>
+          <maml:para></maml:para>
+          <maml:para></maml:para>
         </dev:remarks>
         <command:commandLines>
           <command:commandLine>
-            <command:commandText />
+            <command:commandText></command:commandText>
           </command:commandLine>
         </command:commandLines>
       </command:example>
+
       <command:example>
         <maml:title>
-          --------------  Example 2 --------------
+          -------------------------- EXAMPLE 2 --------------------------
         </maml:title>
         <maml:introduction>
-          <maml:para></maml:para>
+          <maml:para>C:\PS&gt;</maml:para>
         </maml:introduction>
         <dev:code>
-          C:\PS&gt;Get-AzureVMImage
-
+          Get-AzureVMImage
         </dev:code>
         <dev:remarks>
-          <maml:para>
-            This command retrieves all the images from the current image repository.
-          </maml:para>
+          <maml:para>Description</maml:para>
+          <maml:para>-----------</maml:para>
+          <maml:para>This command retrieves all the OS and VM images from the current image repository.</maml:para>
+          <maml:para></maml:para>
+          <maml:para></maml:para>
+          <maml:para></maml:para>
+          <maml:para></maml:para>
         </dev:remarks>
         <command:commandLines>
           <command:commandLine>
-            <command:commandText />
+            <command:commandText></command:commandText>
           </command:commandLine>
         </command:commandLines>
       </command:example>
+
       <command:example>
         <maml:title>
-          --------------  Example 3 --------------
+          -------------------------- EXAMPLE 3 --------------------------
         </maml:title>
         <maml:introduction>
-          <maml:para></maml:para>
+          <maml:para>C:\PS&gt;</maml:para>
         </maml:introduction>
         <dev:code>
-          C:\PS&gt;$subsId = &lt;MySubscriptionID&gt;
+          $subsId = &lt;MySubscriptionID&gt;
           C:\PS&gt;$cert = Get-AzureCertificate cert:\LocalMachine\MY\&lt;CertificateThumbprint&gt;
           C:\PS&gt;$MyOSImages = Get-AzureVMImage
-
         </dev:code>
         <dev:remarks>
-          <maml:para>
-            This command sets the subscription context and then retrieves all the images from the image repository.
-          </maml:para>
+          <maml:para>Description</maml:para>
+          <maml:para>-----------</maml:para>
+          <maml:para>This command sets the subscription context and then retrieves all the images from the image repository.</maml:para>
+          <maml:para></maml:para>
+          <maml:para></maml:para>
+          <maml:para></maml:para>
+          <maml:para></maml:para>
         </dev:remarks>
         <command:commandLines>
           <command:commandLine>
-            <command:commandText />
+            <command:commandText></command:commandText>
           </command:commandLine>
         </command:commandLines>
       </command:example>
     </command:examples>
+    <!-- Link section  -->
     <maml:relatedLinks>
       <maml:navigationLink>
-        <maml:linkText>Add-AzureVMImage</maml:linkText>
-        <maml:uri />
-      </maml:navigationLink>
-      <maml:navigationLink>
-        <maml:linkText>Remove-AzureVMImage</maml:linkText>
-        <maml:uri />
-      </maml:navigationLink>
-      <maml:navigationLink>
-        <maml:linkText>Update-AzureVMImage</maml:linkText>
-        <maml:uri />
+        <maml:linkText></maml:linkText>
+        <maml:uri/>
       </maml:navigationLink>
     </maml:relatedLinks>
   </command:command>
+
+
+
   <command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10" xmlns:MSHelp="http://msdn.microsoft.com/mshelp">
     <command:details>
       <command:name>Get-AzureVNetConfig</command:name>
@@ -8813,6 +8564,8 @@ New-AzureVMConfig -Name &quot;MyNonDomainVM&quot; -InstanceSize Small -ImageName
     </command:examples>
     <maml:relatedLinks></maml:relatedLinks>
   </command:command>
+
+
   <command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10">
     <command:details>
       <command:name>
@@ -8884,6 +8637,13 @@ New-AzureVMConfig -Name &quot;MyNonDomainVM&quot; -InstanceSize Small -ImageName
           </maml:description>
           <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
         </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named">
+          <maml:name>ReservedIPName</maml:name>
+          <maml:description>
+            <maml:para>Reserved IP Name.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+        </command:parameter>
         <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="named">
           <maml:name>ServiceDescription</maml:name>
           <maml:description>
@@ -8934,6 +8694,13 @@ New-AzureVMConfig -Name &quot;MyNonDomainVM&quot; -InstanceSize Small -ImageName
             <maml:para>Specifies a DNS Server object that defines the DNS settings for the new deployment.</maml:para>
           </maml:description>
           <command:parameterValue required="true" variableLength="true">DnsServer[]</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named">
+          <maml:name>ReservedIPName</maml:name>
+          <maml:description>
+            <maml:para>Reserved IP Name.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
         </command:parameter>
         <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named">
           <maml:name>ServiceName</maml:name>
@@ -9022,6 +8789,19 @@ New-AzureVMConfig -Name &quot;MyNonDomainVM&quot; -InstanceSize Small -ImageName
         <maml:name>Location</maml:name>
         <maml:description>
           <maml:para>Specifies the location where the new service will be hosted.</maml:para>
+
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+        <dev:type>
+          <maml:name>string</maml:name>
+          <maml:uri/>
+        </dev:type>
+        <dev:defaultValue></dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named">
+        <maml:name>ReservedIPName</maml:name>
+        <maml:description>
+          <maml:para>Reserved IP Name.</maml:para>
 
         </maml:description>
         <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
@@ -9248,6 +9028,34 @@ New-AzureVMConfig -Name &quot;MyNonDomainVM&quot; -InstanceSize Small -ImageName
           </command:commandLine>
         </command:commandLines>
       </command:example>
+
+      <command:example>
+        <maml:title>
+          -------------------------- EXAMPLE 4 --------------------------
+        </maml:title>
+        <maml:introduction>
+          <maml:para>C:\PS&gt;</maml:para>
+        </maml:introduction>
+        <dev:code>
+          New-AzureVMConfig -Name &quot;MyNewVM&quot; -InstanceSize ExtraSmall -ImageName (Get-AzureVMImage)[4].ImageName `
+          | Add-AzureProvisioningConfig -Windows -Password $adminPassword -AdminUsername PsTestAdmin`
+          | New-AzureVM -ServiceName &quot;MySvc2&quot; -AffinityGroup &quot;Contoso&quot; -ReservedIPName $ipName
+        </dev:code>
+        <dev:remarks>
+          <maml:para>Description</maml:para>
+          <maml:para>-----------</maml:para>
+          <maml:para>This example creates a new Windows Azure virtual machine, &quot;MyNewVM&quot;, and a new Windows Azure service, &quot;MySvc2&quot;, using a reserved IP on the VM deployment.</maml:para>
+          <maml:para></maml:para>
+          <maml:para></maml:para>
+          <maml:para></maml:para>
+          <maml:para></maml:para>
+        </dev:remarks>
+        <command:commandLines>
+          <command:commandLine>
+            <command:commandText></command:commandText>
+          </command:commandLine>
+        </command:commandLines>
+      </command:example>
     </command:examples>
     <!-- Link section  -->
     <maml:relatedLinks>
@@ -9269,6 +9077,7 @@ New-AzureVMConfig -Name &quot;MyNonDomainVM&quot; -InstanceSize Small -ImageName
       </maml:navigationLink>
     </maml:relatedLinks>
   </command:command>
+  
   <command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10">
     <command:details>
       <command:name>
@@ -19455,6 +19264,14 @@ C:\PS&gt; Get-AzureVM -ServiceName "MyService" -Name "MyVM" | Set-AzureEndpoint 
           <command:parameterValue required="true" variableLength="false">NetworkAclObject</command:parameterValue>
         </command:parameter>
         
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named">
+          <maml:name>InternalLoadBalancerName</maml:name>
+          <maml:description>
+            <maml:para>The Internal Load Balancer Name.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        </command:parameter>
+          
       </command:syntaxItem>
       <command:syntaxItem>
         <maml:name>Set-AzureLoadBalancedEndpoint</maml:name>
@@ -19548,7 +19365,15 @@ C:\PS&gt; Get-AzureVM -ServiceName "MyService" -Name "MyVM" | Set-AzureEndpoint 
           </maml:description>
           <command:parameterValue required="true" variableLength="false">Int32</command:parameterValue>
         </command:parameter>
-        
+
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named">
+          <maml:name>InternalLoadBalancerName</maml:name>
+          <maml:description>
+            <maml:para>The Internal Load Balancer Name.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        </command:parameter>
+
       </command:syntaxItem>
       <command:syntaxItem>
         <maml:name>Set-AzureLoadBalancedEndpoint</maml:name>
@@ -19651,6 +19476,14 @@ C:\PS&gt; Get-AzureVM -ServiceName "MyService" -Name "MyVM" | Set-AzureEndpoint 
           <command:parameterValue required="true" variableLength="false">Int32</command:parameterValue>
         </command:parameter>
 
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named">
+          <maml:name>InternalLoadBalancerName</maml:name>
+          <maml:description>
+            <maml:para>The Internal Load Balancer Name.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        </command:parameter>
+
       </command:syntaxItem>
     </command:syntax>
     
@@ -19670,6 +19503,14 @@ C:\PS&gt; Get-AzureVM -ServiceName "MyService" -Name "MyVM" | Set-AzureEndpoint 
         <maml:name>LBSetName</maml:name>
         <maml:description>
           <maml:para>Specifies the name of the load balancer set to update.</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+      </command:parameter>
+
+      <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named" aliases="">
+        <maml:name>InternalLoadBalancerName</maml:name>
+        <maml:description>
+            <maml:para>The Internal Load Balancer Name.</maml:para>
         </maml:description>
         <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
       </command:parameter>
@@ -27256,6 +27097,682 @@ Update-AzureVM -ServiceName $svc -Name $name -VM vm;                        </de
 	</maml:relatedLinks>
 </command:command>
 
+  <!-- v 1.3.0.36 -->
+  <command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10">
+    <command:details>
+      <command:name>
+        Get-AzureReservedIP
+      </command:name>
+      <maml:description>
+        <maml:para>Get the reserved IP by its name or list all of them in the subscription.</maml:para>
+      </maml:description>
+      <maml:copyright>
+        <maml:para></maml:para>
+      </maml:copyright>
+      <command:verb>Get</command:verb>
+      <command:noun>AzureReservedIP</command:noun>
+      <dev:version></dev:version>
+    </command:details>
+    <maml:description>
+      <maml:para>Get the reserved IP by its name or list all of them in the subscription.</maml:para>
+    </maml:description>
+    <!-- Cmdlet syntax section-->
+    <command:syntax>
+      <command:syntaxItem>
+        <maml:name>Get-AzureReservedIP</maml:name>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="named">
+          <maml:name>ReservedIPName</maml:name>
+          <maml:description>
+            <maml:para>Reserved IP Name</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+        </command:parameter>
+      </command:syntaxItem>
+    </command:syntax>
+    <!-- Cmdlet parameter section  -->
+    <command:parameters>
+      <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="named">
+        <maml:name>ReservedIPName</maml:name>
+        <maml:description>
+          <maml:para>Reserved IP Name</maml:para>
 
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+        <dev:type>
+          <maml:name>string</maml:name>
+          <maml:uri/>
+        </dev:type>
+        <dev:defaultValue></dev:defaultValue>
+      </command:parameter>
+    </command:parameters>
+    <!-- Input - Output section-->
+    <command:inputTypes>
+      <command:inputType>
+        <dev:type>
+          <maml:name></maml:name>
+          <maml:uri/>
+          <maml:description />
+        </dev:type>
+        <maml:description>
+          <maml:para>
+            <!-- description  -->
+
+          </maml:para>
+        </maml:description>
+      </command:inputType>
+    </command:inputTypes>
+    <command:returnValues>
+      <command:returnValue>
+        <dev:type>
+          <maml:name></maml:name>
+          <maml:uri />
+          <maml:description />
+        </dev:type>
+        <maml:description>
+          <maml:para>
+            <!-- description  -->
+
+          </maml:para>
+        </maml:description>
+      </command:returnValue>
+    </command:returnValues>
+    <!-- Error section-->
+    <command:terminatingErrors />
+    <command:nonTerminatingErrors />
+    <!-- Notes section  -->
+    <maml:alertSet>
+      <maml:title></maml:title>
+      <maml:alert>
+        <maml:para>
+
+        </maml:para>
+      </maml:alert>
+      <maml:alert>
+        <maml:para></maml:para>
+      </maml:alert>
+    </maml:alertSet>
+    <!-- Example section  -->
+    <command:examples>
+
+      <command:example>
+        <maml:title>
+          -------------------------- EXAMPLE 1 --------------------------
+        </maml:title>
+        <maml:introduction>
+          <maml:para>C:\PS&gt;</maml:para>
+        </maml:introduction>
+        <dev:code>
+          Get-AzureReservedIP
+        </dev:code>
+        <dev:remarks>
+          <maml:para>Description</maml:para>
+          <maml:para>-----------</maml:para>
+          <maml:para>List all the reserved IP(s) in this subscription.</maml:para>
+          <maml:para></maml:para>
+          <maml:para></maml:para>
+          <maml:para></maml:para>
+          <maml:para></maml:para>
+        </dev:remarks>
+        <command:commandLines>
+          <command:commandLine>
+            <command:commandText></command:commandText>
+          </command:commandLine>
+        </command:commandLines>
+      </command:example>
+
+      <command:example>
+        <maml:title>
+          -------------------------- EXAMPLE 2 --------------------------
+        </maml:title>
+        <maml:introduction>
+          <maml:para>C:\PS&gt;</maml:para>
+        </maml:introduction>
+        <dev:code>
+          Get-AzureReservedIP -ReservedIPName $ipName
+        </dev:code>
+        <dev:remarks>
+          <maml:para>Description</maml:para>
+          <maml:para>-----------</maml:para>
+          <maml:para>Get the reserved IP by the name in this subscription.</maml:para>
+          <maml:para></maml:para>
+          <maml:para></maml:para>
+          <maml:para></maml:para>
+          <maml:para></maml:para>
+        </dev:remarks>
+        <command:commandLines>
+          <command:commandLine>
+            <command:commandText></command:commandText>
+          </command:commandLine>
+        </command:commandLines>
+      </command:example>
+    </command:examples>
+    <!-- Link section  -->
+    <maml:relatedLinks>
+      <maml:navigationLink>
+        <maml:linkText></maml:linkText>
+        <maml:uri/>
+      </maml:navigationLink>
+    </maml:relatedLinks>
+  </command:command>
+
+  <!-- v 1.3.0.36 -->
+  <command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10">
+    <command:details>
+      <command:name>
+        New-AzureReservedIP
+      </command:name>
+      <maml:description>
+        <maml:para>Create a reserved IP.</maml:para>
+      </maml:description>
+      <maml:copyright>
+        <maml:para></maml:para>
+      </maml:copyright>
+      <command:verb>New</command:verb>
+      <command:noun>AzureReservedIP</command:noun>
+      <dev:version></dev:version>
+    </command:details>
+    <maml:description>
+      <maml:para>Create a reserved IP.</maml:para>
+    </maml:description>
+    <!-- Cmdlet syntax section-->
+    <command:syntax>
+      <command:syntaxItem>
+        <maml:name>New-AzureReservedIP</maml:name>
+        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="named">
+          <maml:name>AffinityGroup</maml:name>
+          <maml:description>
+            <maml:para>Reserved IP Affinity Group</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="named">
+          <maml:name>DeploymentName</maml:name>
+          <maml:description>
+            <maml:para>Deployment Name</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="named">
+          <maml:name>ReservedIPName</maml:name>
+          <maml:description>
+            <maml:para>Reserved IP Name</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="named">
+          <maml:name>ServiceName</maml:name>
+          <maml:description>
+            <maml:para>Service Name</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="named">
+          <maml:name>Label</maml:name>
+          <maml:description>
+            <maml:para>Reserved IP Label</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+        </command:parameter>
+      </command:syntaxItem>
+      <command:syntaxItem>
+        <maml:name>New-AzureReservedIP</maml:name>
+        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="named">
+          <maml:name>AffinityGroup</maml:name>
+          <maml:description>
+            <maml:para>Reserved IP Affinity Group</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="named">
+          <maml:name>ReservedIPName</maml:name>
+          <maml:description>
+            <maml:para>Reserved IP Name</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="named">
+          <maml:name>Label</maml:name>
+          <maml:description>
+            <maml:para>Reserved IP Label</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+        </command:parameter>
+      </command:syntaxItem>
+    </command:syntax>
+    <!-- Cmdlet parameter section  -->
+    <command:parameters>
+      <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="named">
+        <maml:name>AffinityGroup</maml:name>
+        <maml:description>
+          <maml:para>Reserved IP Affinity Group</maml:para>
+
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+        <dev:type>
+          <maml:name>string</maml:name>
+          <maml:uri/>
+        </dev:type>
+        <dev:defaultValue></dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="named">
+        <maml:name>DeploymentName</maml:name>
+        <maml:description>
+          <maml:para>Deployment Name</maml:para>
+
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+        <dev:type>
+          <maml:name>string</maml:name>
+          <maml:uri/>
+        </dev:type>
+        <dev:defaultValue></dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="named">
+        <maml:name>Label</maml:name>
+        <maml:description>
+          <maml:para>Reserved IP Label</maml:para>
+
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+        <dev:type>
+          <maml:name>string</maml:name>
+          <maml:uri/>
+        </dev:type>
+        <dev:defaultValue></dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="named">
+        <maml:name>ReservedIPName</maml:name>
+        <maml:description>
+          <maml:para>Reserved IP Name</maml:para>
+
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+        <dev:type>
+          <maml:name>string</maml:name>
+          <maml:uri/>
+        </dev:type>
+        <dev:defaultValue></dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="named">
+        <maml:name>ServiceName</maml:name>
+        <maml:description>
+          <maml:para>Service Name</maml:para>
+
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+        <dev:type>
+          <maml:name>string</maml:name>
+          <maml:uri/>
+        </dev:type>
+        <dev:defaultValue></dev:defaultValue>
+      </command:parameter>
+    </command:parameters>
+    <!-- Input - Output section-->
+    <command:inputTypes>
+      <command:inputType>
+        <dev:type>
+          <maml:name></maml:name>
+          <maml:uri/>
+          <maml:description />
+        </dev:type>
+        <maml:description>
+          <maml:para>
+            <!-- description  -->
+
+          </maml:para>
+        </maml:description>
+      </command:inputType>
+    </command:inputTypes>
+    <command:returnValues>
+      <command:returnValue>
+        <dev:type>
+          <maml:name></maml:name>
+          <maml:uri />
+          <maml:description />
+        </dev:type>
+        <maml:description>
+          <maml:para>
+            <!-- description  -->
+
+          </maml:para>
+        </maml:description>
+      </command:returnValue>
+    </command:returnValues>
+    <!-- Error section-->
+    <command:terminatingErrors />
+    <command:nonTerminatingErrors />
+    <!-- Notes section  -->
+    <maml:alertSet>
+      <maml:title></maml:title>
+      <maml:alert>
+        <maml:para>
+
+        </maml:para>
+      </maml:alert>
+      <maml:alert>
+        <maml:para></maml:para>
+      </maml:alert>
+    </maml:alertSet>
+    <!-- Example section  -->
+    <command:examples>
+
+      <command:example>
+        <maml:title>
+          -------------------------- EXAMPLE 1 --------------------------
+        </maml:title>
+        <maml:introduction>
+          <maml:para>C:\PS&gt;</maml:para>
+        </maml:introduction>
+        <dev:code>
+          New-AzureReservedIP -ReservedIPName $name -AffinityGroup $ag -Label $label
+        </dev:code>
+        <dev:remarks>
+          <maml:para>Description</maml:para>
+          <maml:para>-----------</maml:para>
+          <maml:para>Create a new Reserved IP which is new and not in use.</maml:para>
+          <maml:para></maml:para>
+          <maml:para></maml:para>
+          <maml:para></maml:para>
+          <maml:para></maml:para>
+        </dev:remarks>
+        <command:commandLines>
+          <command:commandLine>
+            <command:commandText></command:commandText>
+          </command:commandLine>
+        </command:commandLines>
+      </command:example>
+
+      <command:example>
+        <maml:title>
+          -------------------------- EXAMPLE 2 --------------------------
+        </maml:title>
+        <maml:introduction>
+          <maml:para>C:\PS&gt;</maml:para>
+        </maml:introduction>
+        <dev:code>
+          New-AzureReservedIP -ReservedIPName $name -AffinityGroup $ag -Label $label -ServiceName $svc -DeploymentName $deployment
+        </dev:code>
+        <dev:remarks>
+          <maml:para>Description</maml:para>
+          <maml:para>-----------</maml:para>
+          <maml:para>Create a new Reserved IP which is from an existing deployment of a service.</maml:para>
+          <maml:para></maml:para>
+          <maml:para></maml:para>
+          <maml:para></maml:para>
+          <maml:para></maml:para>
+        </dev:remarks>
+        <command:commandLines>
+          <command:commandLine>
+            <command:commandText></command:commandText>
+          </command:commandLine>
+        </command:commandLines>
+      </command:example>
+    </command:examples>
+    <!-- Link section  -->
+    <maml:relatedLinks>
+      <maml:navigationLink>
+        <maml:linkText></maml:linkText>
+        <maml:uri/>
+      </maml:navigationLink>
+    </maml:relatedLinks>
+  </command:command>
+
+  <!-- v 1.3.0.36 -->
+  <command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10">
+    <command:details>
+      <command:name>
+        Remove-AzureReservedIP
+      </command:name>
+      <maml:description>
+        <maml:para>Remove the reserved IP by its name.</maml:para>
+      </maml:description>
+      <maml:copyright>
+        <maml:para></maml:para>
+      </maml:copyright>
+      <command:verb>Remove</command:verb>
+      <command:noun>AzureReservedIP</command:noun>
+      <dev:version></dev:version>
+    </command:details>
+    <maml:description>
+      <maml:para>Remove the reserved IP by its name.</maml:para>
+    </maml:description>
+    <!-- Cmdlet syntax section-->
+    <command:syntax>
+      <command:syntaxItem>
+        <maml:name>Remove-AzureReservedIP</maml:name>
+        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="named">
+          <maml:name>ReservedIPName</maml:name>
+          <maml:description>
+            <maml:para>Reserved IP Name</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+        </command:parameter>
+      </command:syntaxItem>
+    </command:syntax>
+    <!-- Cmdlet parameter section  -->
+    <command:parameters>
+      <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="named">
+        <maml:name>ReservedIPName</maml:name>
+        <maml:description>
+          <maml:para>Reserved IP Name</maml:para>
+
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+        <dev:type>
+          <maml:name>string</maml:name>
+          <maml:uri/>
+        </dev:type>
+        <dev:defaultValue></dev:defaultValue>
+      </command:parameter>
+    </command:parameters>
+    <!-- Input - Output section-->
+    <command:inputTypes>
+      <command:inputType>
+        <dev:type>
+          <maml:name></maml:name>
+          <maml:uri/>
+          <maml:description />
+        </dev:type>
+        <maml:description>
+          <maml:para>
+            <!-- description  -->
+
+          </maml:para>
+        </maml:description>
+      </command:inputType>
+    </command:inputTypes>
+    <command:returnValues>
+      <command:returnValue>
+        <dev:type>
+          <maml:name></maml:name>
+          <maml:uri />
+          <maml:description />
+        </dev:type>
+        <maml:description>
+          <maml:para>
+            <!-- description  -->
+
+          </maml:para>
+        </maml:description>
+      </command:returnValue>
+    </command:returnValues>
+    <!-- Error section-->
+    <command:terminatingErrors />
+    <command:nonTerminatingErrors />
+    <!-- Notes section  -->
+    <maml:alertSet>
+      <maml:title></maml:title>
+      <maml:alert>
+        <maml:para>
+
+        </maml:para>
+      </maml:alert>
+      <maml:alert>
+        <maml:para></maml:para>
+      </maml:alert>
+    </maml:alertSet>
+    <!-- Example section  -->
+    <command:examples>
+
+      <command:example>
+        <maml:title>
+          -------------------------- EXAMPLE 1 --------------------------
+        </maml:title>
+        <maml:introduction>
+          <maml:para>C:\PS&gt;</maml:para>
+        </maml:introduction>
+        <dev:code>
+          Remove-AzureReservedIP -ReservedIPName $name
+        </dev:code>
+        <dev:remarks>
+          <maml:para>Description</maml:para>
+          <maml:para>-----------</maml:para>
+          <maml:para>Remove the reserved IP by its name in this subscription.</maml:para>
+          <maml:para></maml:para>
+          <maml:para></maml:para>
+          <maml:para></maml:para>
+          <maml:para></maml:para>
+        </dev:remarks>
+        <command:commandLines>
+          <command:commandLine>
+            <command:commandText></command:commandText>
+          </command:commandLine>
+        </command:commandLines>
+      </command:example>
+    </command:examples>
+    <!-- Link section  -->
+    <maml:relatedLinks>
+      <maml:navigationLink>
+        <maml:linkText></maml:linkText>
+        <maml:uri/>
+      </maml:navigationLink>
+    </maml:relatedLinks>
+  </command:command>
+
+  <!-- v 1.3.0.36 -->
+  <command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10">
+    <command:details>
+      <command:name>
+        Get-AzureDeployment
+      </command:name>
+      <maml:description>
+        <maml:para></maml:para>
+      </maml:description>
+      <maml:copyright>
+        <maml:para></maml:para>
+      </maml:copyright>
+      <command:verb>Get</command:verb>
+      <command:noun>AzureDeployment</command:noun>
+      <dev:version></dev:version>
+    </command:details>
+    <maml:description>
+      <maml:para></maml:para>
+    </maml:description>
+    <!-- Cmdlet syntax section-->
+    <command:syntax>
+      <command:syntaxItem>
+        <maml:name>Get-AzureDeployment</maml:name>
+        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="1">
+          <maml:name>ServiceName</maml:name>
+          <maml:description>
+            <maml:para></maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="2">
+          <maml:name>Slot</maml:name>
+          <maml:description>
+            <maml:para></maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+        </command:parameter>
+      </command:syntaxItem>
+    </command:syntax>
+    <!-- Cmdlet parameter section  -->
+    <command:parameters>
+      <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="1">
+        <maml:name>ServiceName</maml:name>
+        <maml:description>
+          <maml:para></maml:para>
+
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+        <dev:type>
+          <maml:name>string</maml:name>
+          <maml:uri/>
+        </dev:type>
+        <dev:defaultValue></dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="2">
+        <maml:name>Slot</maml:name>
+        <maml:description>
+          <maml:para></maml:para>
+
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+        <dev:type>
+          <maml:name>string</maml:name>
+          <maml:uri/>
+        </dev:type>
+        <dev:defaultValue></dev:defaultValue>
+      </command:parameter>
+    </command:parameters>
+    <!-- Input - Output section-->
+    <command:inputTypes>
+      <command:inputType>
+        <dev:type>
+          <maml:name></maml:name>
+          <maml:uri/>
+          <maml:description />
+        </dev:type>
+        <maml:description>
+          <maml:para>
+            <!-- description  -->
+
+          </maml:para>
+        </maml:description>
+      </command:inputType>
+    </command:inputTypes>
+    <command:returnValues>
+      <command:returnValue>
+        <dev:type>
+          <maml:name></maml:name>
+          <maml:uri />
+          <maml:description />
+        </dev:type>
+        <maml:description>
+          <maml:para>
+            <!-- description  -->
+
+          </maml:para>
+        </maml:description>
+      </command:returnValue>
+    </command:returnValues>
+    <!-- Error section-->
+    <command:terminatingErrors />
+    <command:nonTerminatingErrors />
+    <!-- Notes section  -->
+    <maml:alertSet>
+      <maml:title></maml:title>
+      <maml:alert>
+        <maml:para>
+
+        </maml:para>
+      </maml:alert>
+      <maml:alert>
+        <maml:para></maml:para>
+      </maml:alert>
+    </maml:alertSet>
+    <!-- Example section  -->
+    <command:examples>
+    </command:examples>
+    <!-- Link section  -->
+    <maml:relatedLinks>
+      <maml:navigationLink>
+        <maml:linkText></maml:linkText>
+        <maml:uri/>
+      </maml:navigationLink>
+    </maml:relatedLinks>
+  </command:command>
 
 </helpItems>
