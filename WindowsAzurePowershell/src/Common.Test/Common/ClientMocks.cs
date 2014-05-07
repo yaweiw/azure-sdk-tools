@@ -61,7 +61,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.Utilities.Common
 
         public static CloudException Make404Exception()
         {
-            return CloudException.CreateFromXml(
+            return CloudException.Create(
                 new HttpRequestMessage(),
                 null,
                 new HttpResponseMessage(HttpStatusCode.NotFound),

@@ -28,11 +28,11 @@ namespace Microsoft.Azure.Commands.ManagedCache.Test
             string testSubState = "Active";
             string testName = "Dummy";
             string testLocation = "West US";
-            string testSku = "Premium";
+            CacheServiceSkuType testSku = CacheServiceSkuType.Premium;
             int testSkuCount = 2; //This will be mapped to 10GB display value 
             string expectedMemoryInfo = "10GB";
 
-            CloudServiceGetResponse.Resource resource = new CloudServiceGetResponse.Resource();
+            CloudServiceResource resource = new CloudServiceResource();
             resource.State = testState;
             resource.SubState = testSubState;
             resource.Name = testName;
@@ -49,8 +49,7 @@ namespace Microsoft.Azure.Commands.ManagedCache.Test
             PSCacheService service = new PSCacheService(resource);
 
             //Assert
-            Assert.Equal(testState, service.State);
-            Assert.Equal(testSubState, service.SubState);
+            Assert.Equal(testSubState, service.State);
             Assert.Equal(testName, service.Name);
             Assert.Equal(testLocation, service.Location);
             Assert.Equal(expectedMemoryInfo, service.Memory);
