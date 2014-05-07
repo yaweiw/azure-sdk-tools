@@ -1,4 +1,11 @@
 ﻿2014.05.07 Version 0.8.1
+* Managed cache cmdlets
+    * New-AzureManagedCache
+    * Set-AzureManagedCache
+    * Get-AzureManagedCache
+    * Remove-AzureManagedCache
+    * New-AzureManagedCacheAccessKey
+    * Get-AzureManagedCacheAccessKey
 * Fixed installer to support Windows PowerShell 5.0 Preview
 * Fixed a bunch of module loading issues
 * Documentation improvements
