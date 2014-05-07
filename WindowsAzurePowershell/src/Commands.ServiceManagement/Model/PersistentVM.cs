@@ -120,7 +120,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Model
             get;
             set;
         }
-		
+
         [XmlIgnore]
         public Collection<DataVirtualHardDisk> DataVirtualHardDisksToBeDeleted
         {

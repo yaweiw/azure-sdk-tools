@@ -246,7 +246,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
                 && type != SetAzureVMCustomScriptExtensionCmdletParmaterSetType.SetCustomScriptExtensionByContainerBlobsParamSetName
                  && type != SetAzureVMCustomScriptExtensionCmdletParmaterSetType.SetCustomScriptExtensionByUrisParamSetName)
             {
-                Utilities.LogAssert(() => Assert.AreEqual(customScriptExtensionContext.ReferenceName, "MyCustomScriptExtension"), "Verifiying ReferenceName");
+                Utilities.LogAssert(() => Assert.AreEqual(customScriptExtensionContext.ReferenceName, "CustomScriptExtension"), "Verifiying ReferenceName");
             }
             else
             {

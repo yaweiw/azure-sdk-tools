@@ -12,14 +12,13 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Preview.Model
+namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Model
 {
-    using Management.Compute.Models;
+    using Model.PersistentVMModel;
 
-    public class DeploymentInfoContext : ServiceManagement.Model.DeploymentInfoContext
+    public class VirtualMachineImageDiskConfigSet
     {
-        public DeploymentInfoContext(DeploymentGetResponse deployment) : base(deployment)
-        {
-        }
+        public OSDiskConfiguration OSDiskConfiguration { get; set; }
+        public DataDiskConfigurationList DataDiskConfigurations { get; set; }
     }
 }

@@ -41,5 +41,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Model
         public bool? EnableDirectServerReturn { get; set; }
 
         public NetworkAclObject Acl { get; set; }
+
+        public string InternalLoadBalancerName { get; set; }
     }
 }

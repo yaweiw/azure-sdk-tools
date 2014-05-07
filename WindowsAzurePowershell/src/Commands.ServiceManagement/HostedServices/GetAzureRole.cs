@@ -21,6 +21,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.HostedServices
     using System.Management.Automation;
     using AutoMapper;
     using Commands.Utilities.Common;
+    using Helpers;
     using Management.Compute;
     using Management.Compute.Models;
     using Management.Models;
@@ -41,7 +42,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.HostedServices
             set;
         }
 
-        [Parameter(Position = 1, Mandatory = true, ValueFromPipelineByPropertyName = true, HelpMessage = "Deployment slot")]
+        [Parameter(Position = 1, Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "Deployment slot")]
         [ValidateSet(DeploymentSlotType.Staging, DeploymentSlotType.Production, IgnoreCase = true)]
         public string Slot
         {
@@ -61,6 +62,12 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.HostedServices
         {
             get;
             set;
+        }
+
+        protected override void OnProcessRecord()
+        {
+            ServiceManagementProfile.Initialize();
+            this.GetRoleProcess();
         }
 
         public void GetRoleProcess()
@@ -85,24 +92,31 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.HostedServices
 
                     foreach (var role in roleInstances)
                     {
-                        instanceContexts.Add(
-                            new RoleInstanceContext
-                            {
-                                ServiceName           = this.ServiceName,
-                                OperationId           = getDeploymentOperation.Id,
-                                OperationDescription  = this.CommandRuntime.ToString(),
-                                OperationStatus       = getDeploymentOperation.Status.ToString(),
-                                InstanceErrorCode     = role.InstanceErrorCode,
-                                InstanceFaultDomain   = role.InstanceFaultDomain,
-                                InstanceName          = role.InstanceName,
-                                InstanceSize          = role.InstanceSize.ToString(),
-                                InstanceStateDetails  = role.InstanceStateDetails,
-                                InstanceStatus        = role.InstanceStatus,
-                                InstanceUpgradeDomain = role.InstanceUpgradeDomain,
-                                RoleName              = role.RoleName,
-                                DeploymentID          = currentDeployment.PrivateId,
-                                InstanceEndpoints     = Mapper.Map<PVM.InstanceEndpointList>(role.InstanceEndpoints)
-                            });
+                        var vmRole = currentDeployment.Roles == null || !currentDeployment.Roles.Any() ? null
+                                   : currentDeployment.Roles.FirstOrDefault(r => string.Equals(r.RoleName, role.RoleName, StringComparison.OrdinalIgnoreCase));
+
+                        instanceContexts.Add(new RoleInstanceContext
+                        {
+                            ServiceName           = this.ServiceName,
+                            OperationId           = getDeploymentOperation.Id,
+                            OperationDescription  = this.CommandRuntime.ToString(),
+                            OperationStatus       = getDeploymentOperation.Status.ToString(),
+                            InstanceErrorCode     = role.InstanceErrorCode,
+                            InstanceFaultDomain   = role.InstanceFaultDomain,
+                            InstanceName          = role.InstanceName,
+                            InstanceSize          = role.InstanceSize,
+                            InstanceStateDetails  = role.InstanceStateDetails,
+                            InstanceStatus        = role.InstanceStatus,
+                            InstanceUpgradeDomain = role.InstanceUpgradeDomain,
+                            RoleName              = role.RoleName,
+                            IPAddress             = role.IPAddress,
+                            PublicIPAddress       = role.PublicIPs == null || !role.PublicIPs.Any() ? null : role.PublicIPs.First().Address,
+                            PublicIPName          = role.PublicIPs == null || !role.PublicIPs.Any() ? null
+                                                  : !string.IsNullOrEmpty(role.PublicIPs.First().Name) ? role.PublicIPs.First().Name
+                                                  : PersistentVMHelper.GetPublicIPName(vmRole),
+                            DeploymentID          = currentDeployment.PrivateId,
+                            InstanceEndpoints     = Mapper.Map<PVM.InstanceEndpointList>(role.InstanceEndpoints)
+                        });
                     }
 
                     WriteObject(instanceContexts, true);
@@ -137,12 +151,6 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.HostedServices
                     WriteObject(roleContexts, true);
                 }
             }
-        }
-
-        protected override void OnProcessRecord()
-        {
-            ServiceManagementProfile.Initialize();
-            this.GetRoleProcess();
         }
 
         private DeploymentGetResponse GetCurrentDeployment(out OperationStatusResponse operation)

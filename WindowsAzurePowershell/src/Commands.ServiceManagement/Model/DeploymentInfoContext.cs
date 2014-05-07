@@ -22,7 +22,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Model
     using System.Xml;
     using System.Xml.Linq;
     using Management.Compute.Models;
-    using PersistentVMModel;
+    using PVM = PersistentVMModel;
 
     public class DeploymentInfoContext : ServiceOperationContext
     {
@@ -137,7 +137,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Model
             protected set;
         }
 
-        public VirtualIPList VirtualIPs
+        public PVM.VirtualIPList VirtualIPs
         {
             get;
             protected set;
@@ -167,6 +167,18 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Model
             protected set;
         }
 
+        public string InternalLoadBalancerName
+        {
+            get;
+            protected set;
+        }
+
+        public PVM.LoadBalancerList LoadBalancers
+        {
+            get;
+            protected set;
+        }
+
         public DeploymentInfoContext(DeploymentGetResponse deployment)
         {
             this.Slot             = deployment.DeploymentSlot.ToString();
@@ -183,9 +195,9 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Model
 
             // IP Related
             this.ReservedIPName = deployment.ReservedIPName;
-            this.VirtualIPs = deployment.VirtualIPAddresses == null ? null : new VirtualIPList(
+            this.VirtualIPs = deployment.VirtualIPAddresses == null ? null : new PVM.VirtualIPList(
                 deployment.VirtualIPAddresses.Select(a =>
-                    new VirtualIP
+                    new PVM.VirtualIP
                     {
                         Address = a.Address,
                         IsDnsProgrammed = a.IsDnsProgrammed,
@@ -248,6 +260,27 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Model
                 {
                     this.RolesConfiguration.Add(role.Attribute("name").Value, new RoleConfiguration(role));
                 }
+            }
+
+            // ILB
+            if (deployment.LoadBalancers != null)
+            {
+                this.LoadBalancers = new PVM.LoadBalancerList(
+                    from b in deployment.LoadBalancers
+                    select new PVM.LoadBalancer
+                    {
+                        Name = b.Name,
+                        FrontEndIpConfiguration = b.FrontendIPConfiguration == null ? null : new PVM.IpConfiguration
+                        {
+                            StaticVirtualNetworkIPAddress = b.FrontendIPConfiguration.StaticVirtualNetworkIPAddress,
+                            SubnetName = b.FrontendIPConfiguration.SubnetName,
+                            Type = string.Equals(
+                                       b.FrontendIPConfiguration.Type,
+                                       PVM.LoadBalancerType.Private.ToString(),
+                                       StringComparison.OrdinalIgnoreCase)
+                                 ? PVM.LoadBalancerType.Private : PVM.LoadBalancerType.Unknown
+                        }
+                    });
             }
         }
 

@@ -26,6 +26,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
         protected const string VirtualMachineCustomScriptExtensionNoun = "AzureVMCustomScriptExtension";
         protected const string ExtensionDefaultPublisher = "Microsoft.Compute";
         protected const string ExtensionDefaultName = "CustomScriptExtension";
+        protected const string ExtensionDefaultVersion = "1.*";
 
         public virtual string ContainerName { get; set; }
         public virtual string[] FileName { get; set; }
