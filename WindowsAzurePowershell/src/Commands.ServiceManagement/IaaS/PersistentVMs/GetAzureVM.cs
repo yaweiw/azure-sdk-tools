@@ -152,7 +152,8 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
                                             : roleInstance.PublicIPs.First().Address,
                 PublicIPName                = roleInstance == null ? null
                                             : roleInstance.PublicIPs == null || !roleInstance.PublicIPs.Any() ? null
-                                            : roleInstance.PublicIPs.First().Name,
+                                            : !string.IsNullOrEmpty(roleInstance.PublicIPs.First().Name) ? roleInstance.PublicIPs.First().Name
+                                            : PersistentVMHelper.GetPublicIPName(vmRole),
                 InstanceStateDetails        = roleInstance == null ? string.Empty : roleInstance.InstanceStateDetails,
                 PowerState                  = roleInstance == null ? string.Empty : roleInstance.PowerState.ToString(),
                 InstanceErrorCode           = roleInstance == null ? string.Empty : roleInstance.InstanceErrorCode,
