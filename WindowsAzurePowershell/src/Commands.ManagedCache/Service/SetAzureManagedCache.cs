@@ -16,33 +16,37 @@ namespace Microsoft.Azure.Commands.ManagedCache
 {
     using System;
     using System.Management.Automation;
+    using Microsoft.Azure.Commands.ManagedCache.Models;
+    using Microsoft.Azure.Management.ManagedCache.Models;
 
     /// <summary>
     /// Retrieves a list of Windows Azure SQL Database servers in the selected subscription.
     /// </summary>
-    [Cmdlet(VerbsCommon.Set, "AzureManagedCache")]
-    public class SetAzureManagedCache : ManagedCacheCmdletBase
+    [Cmdlet(VerbsCommon.Set, "AzureManagedCache"), OutputType(typeof(PSCacheService))]
+    public class SetAzureManagedCache : ManagedCacheCmdletBase, IDynamicParameters
     {
-        [Parameter(Position = 0)]
+        private MemoryDynamicParameterSet memoryDynamicParameterSet = new MemoryDynamicParameterSet();
+
+        [Parameter(Position = 0, Mandatory = true, ValueFromPipelineByPropertyName = true)]
         [ValidateNotNullOrEmpty]
         public string Name { get; set; }
 
-        [Parameter(Position = 1, Mandatory = true)]
-        [ValidateNotNullOrEmpty]
-        public string Location { get; set;}
+        [Parameter]
+        public CacheServiceSkuType Sku { get; set; }
 
-        [Parameter(Position = 2,Mandatory = false)]
-        [ValidateSet("Basic", "Standard", "Premium", IgnoreCase = true)]
-        public string Sku { get; set; }
-
-        [Parameter(Position = 3, Mandatory = false)]
-        public string Memory { get; set; }
-
+        [Parameter]
         public SwitchParameter Force { get; set; }
 
         public override void ExecuteCmdlet()
         {
-            throw new NotImplementedException("NYI");
-        }      
+            CacheClient.ProgressRecorder = (message) => { WriteVerbose(message); };
+            string memory = memoryDynamicParameterSet.GetMemoryValue(Sku);
+            CacheClient.UpdateCacheService(Name, Sku, memory);
+        }
+
+        public object GetDynamicParameters()
+        {
+            return memoryDynamicParameterSet.GetDynamicParameters(Sku);
+        }
     }
 }
