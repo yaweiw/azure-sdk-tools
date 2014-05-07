@@ -23,9 +23,5 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Model
         public int InstanceCount { get; set; }
 
         public string DeploymentID { get; set; }
-
-        public string IPAddress { get; set; }
-
-        public PublicIP PublicIPAddress { get; set; }
     }
 }

@@ -171,5 +171,24 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Helpers
             return result;
         }
 
+        public static string GetPublicIPName(Microsoft.WindowsAzure.Management.Compute.Models.Role vmRole)
+        {
+            string name = null;
+
+            if (vmRole != null && vmRole.ConfigurationSets != null && vmRole.ConfigurationSets.Any())
+            {
+                var networkCfg = vmRole.ConfigurationSets
+                                       .Where(c => string.Equals(c.ConfigurationSetType, ConfigurationSetTypes.NetworkConfiguration, StringComparison.OrdinalIgnoreCase))
+                                       .SingleOrDefault();
+
+                if (networkCfg != null)
+                {
+                    var publicIp = networkCfg.PublicIPs.FirstOrDefault();
+                    name = publicIp == null ? null : publicIp.Name;
+                }
+            }
+
+            return name;
+        }
     }
 }
