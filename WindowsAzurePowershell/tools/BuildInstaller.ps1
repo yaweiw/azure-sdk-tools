@@ -15,7 +15,40 @@
 $scriptFolder = Split-Path -Path $MyInvocation.MyCommand.Definition -Parent
 . ($scriptFolder + '.\SetupEnv.ps1')
 
-Remove-Item -Path "$env:AzurePSRoot\..\Package" -Force -Recurse
+$packageFolder="$env:AzurePSRoot\..\Package"
+if (Test-Path $packageFolder) {
+    Remove-Item -Path "$env:AzurePSRoot\..\Package" -Force -Recurse	
+}
+
+$wixInstalled = $false
+$keyPath = "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall"
+if (Test-Path ${env:\ProgramFiles(x86)} ){
+    $keyPath = "HKLM:\SOFTWARE\Wow6432Node\Microsoft\Windows\CurrentVersion\Uninstall"
+}
+
+$allProducts = Get-ChildItem $keyPath
+
+foreach ($product in $allProducts){
+    $displayName = $product.GetValue("DisplayName", $null)
+    if (($displayName -ne $null) -and ($displayName.StartsWith("Windows Installer XML Toolset") -or $displayName.StartsWith("WiX Toolset"))) {
+        $wixInstalled = $true
+        Write-Host $wixInstalled
+        Write-Host "WIX tools was installed"
+        break
+    }
+}
+
+if (!($wixInstalled)){
+     Write-Host "You don't have Windows Installer XML Toolset installed, which is needed to build setup." -ForegroundColor "Yellow"
+     Write-Host "Press (Y) to install through codeplex web page we will open for you; (N) to skip"    
+     $keyPressed = $host.UI.RawUI.ReadKey("NoEcho,IncludeKeyUp")
+     if ($keyPressed.Character -eq "y" ){
+        Invoke-Expression “cmd.exe /C start http://wix.codeplex.com/downloads/get/762937”
+        Read-Host "Press any key to continue after the installtion is finished"
+     }
+}
+
+$env:path = $env:path + ";$env:ADXSDKProgramFiles\WiX Toolset v3.8\bin;$env:ADXSDKProgramFiles\Windows Installer XML v3.5\bin"
 
 # Build the cmdlets in debug mode
 msbuild "$env:AzurePSRoot\..\build.proj" /t:"BuildDebug"
@@ -26,4 +59,4 @@ msbuild "$env:AzurePSRoot\..\build.proj" /t:"BuildDebug"
 # Build the installer
 msbuild "$env:AzurePSRoot\..\build.proj" /t:"BuildSetupDebug"
 
-Write-Verbose "MSI file path: $env:AzurePSRoot\setup\build\Debug\x86\windowsazure-powershell.msi"
+Write-Host "MSI file path: $env:AzurePSRoot\setup\build\Debug\x86\windowsazure-powershell.msi"
