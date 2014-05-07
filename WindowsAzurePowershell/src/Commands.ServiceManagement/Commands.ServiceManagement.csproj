@@ -176,7 +176,7 @@
     </Reference>
     <Reference Include="Microsoft.WindowsAzure.Management.Network, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Microsoft.WindowsAzure.Management.Network.1.0.0\lib\net40\Microsoft.WindowsAzure.Management.Network.dll</HintPath>
+      <HintPath>..\packages\Microsoft.WindowsAzure.Management.Network.1.1.0\lib\net40\Microsoft.WindowsAzure.Management.Network.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.WindowsAzure.Management.Storage, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -292,6 +292,7 @@
     <Compile Include="IaaS\Network\GetAzureStaticVNetIP.cs" />
     <Compile Include="IaaS\Network\RemoveAzureStaticVNetIP.cs" />
     <Compile Include="IaaS\Network\SetAzureStaticVNetIP.cs" />
+    <Compile Include="IaaS\Network\SetAzureVnetGatewayKey.cs" />
     <Compile Include="IaaS\Network\TestAzureStaticVNetIP.cs" />
     <Compile Include="Model\PersistentVMRoleListContext.cs" />
     <Compile Include="Model\RoleSizeContext.cs" />
