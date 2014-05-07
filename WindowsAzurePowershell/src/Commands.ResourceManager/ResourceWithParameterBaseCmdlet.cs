@@ -176,7 +176,7 @@ namespace Microsoft.Azure.Commands.ResourceManager
             string templateParameterFilePath = this.TryResolvePath(TemplateParameterFile);
             if (templateParameterFilePath != null && File.Exists(templateParameterFilePath))
             {
-                var parametersFromFile = JsonConvert.DeserializeObject<Dictionary<string, TemplateFileParameter>>(File.ReadAllText(templateParameterFilePath));
+                var parametersFromFile = GalleryTemplatesClient.ParseTemplateParameterFileContents(templateParameterFilePath);
                 parametersFromFile.ForEach(dp => templateParameterObject[dp.Key] = dp.Value.Value);
             }
 

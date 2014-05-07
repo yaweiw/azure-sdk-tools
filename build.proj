@@ -224,7 +224,7 @@
     <MakeDir Directories="$(TestOutputDirectory)" ContinueOnError="false" />
 
     <Message Importance="high" Text="Debug tests:" />
-    <CallTarget Targets="TestManagement; TestResourceManager; TestServiceManagement; TestSqlDatabase; TestStorage; MockedScenarioTests" />
+    <CallTarget Targets="TestManagement; TestManagedCache; TestResourceManager; TestServiceManagement; TestSqlDatabase; TestStorage; MockedScenarioTests" />
   </Target>
 
   <Target Name="InvokeMSTest">
@@ -239,6 +239,13 @@
     <MSBuild Targets="InvokeMSTest"
              Properties="_testAssembly=$(ManagementTestDebug);_testSettings=$(TestSettings);_testFilter=$(TestFilter);_testResult=$(TestOutputDirectory)\ManagementDebug.trx"
              Projects="build.proj"/>
+  </Target>
+
+  <Target Name="TestManagedCache">
+    <PropertyGroup>
+      <_ManagedCacheTestAssembly>.\WindowsAzurePowershell\src\Commands.ManagedCache.Test\bin\Debug\Microsoft.Azure.Commands.ManagedCache.Test.dll</_ManagedCacheTestAssembly>
+    </PropertyGroup>
+    <Xunit.Runner.MSBuild.xunit Assembly="$(_ManagedCacheTestAssembly)" Html="$(TestOutputDirectory)\ManagedCache.xunit.dll.html" Verbose="true"/>
   </Target>
   
   <Target Name="TestResourceManager">

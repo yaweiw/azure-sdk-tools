@@ -16,16 +16,20 @@ namespace Microsoft.Azure.Commands.ManagedCache
 {
     using System;
     using System.Management.Automation;
+    using Microsoft.Azure.Commands.ManagedCache.Models;
+    using Microsoft.Azure.Management.ManagedCache.Models;
 
-    [Cmdlet(VerbsCommon.Get, "AzureManagedCacheAccessKey")]
+    [Cmdlet(VerbsCommon.Get, "AzureManagedCacheAccessKey"), OutputType(typeof(CacheAccessKeys))]
     public class GetAzureManagedCacheAccessKey : ManagedCacheCmdletBase
     {
-        [Parameter(Position = 0)]
+        [Parameter(Position = 0, Mandatory=true, ValueFromPipelineByPropertyName = true)]
         [ValidateNotNullOrEmpty]
         public string Name {get; set;}
+
         public override void ExecuteCmdlet()
         {
-            throw new NotImplementedException("NYI");
+            CachingKeysResponse response = CacheClient.GetAccessKeys(Name);
+            WriteObject(new CacheAccessKeys(Name, response));
         }      
     }
 }

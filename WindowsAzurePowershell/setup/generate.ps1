@@ -17,9 +17,6 @@ $output = Join-Path $(Split-Path -Parent -Path (Split-Path -Parent -Path $PSScri
 $serviceManagementPath = Join-Path $output "ServiceManagement\Azure"
 $resourceManagerPath = Join-Path $output "ResourceManager\AzureResourceManager"
 
-Write-Verbose "Remove ResourceManager files from ServiceManagement folder"
-Get-ChildItem -Include *ResourceManager* -Path $serviceManagementPath -Recurse | Remove-Item -Force -Recurse -ErrorAction SilentlyContinue
-
 Write-Verbose "Removing duplicated AzureProfile.psd1..."
 Remove-Item -Force $serviceManagementPath\AzureProfile.psd1 -ErrorAction SilentlyContinue
 
