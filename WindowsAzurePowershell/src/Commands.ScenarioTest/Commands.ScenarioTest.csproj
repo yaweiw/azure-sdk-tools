@@ -343,6 +343,10 @@
       <Project>{e1f5201d-6067-430e-b303-4e367652991b}</Project>
       <Name>Commands.ResourceManager</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Commands.ServiceManagement.Test\Commands.ServiceManagement.Test.csproj">
+      <Project>{58a78f29-8c0c-4a5e-893e-3953c0f29c8a}</Project>
+      <Name>Commands.ServiceManagement.Test</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Commands.Test.Utilities\Commands.Test.Utilities.csproj">
       <Project>{bc420543-c04e-4bf3-96e1-cd81b823bdd7}</Project>
       <Name>Commands.Test.Utilities</Name>
@@ -350,10 +354,6 @@
     <ProjectReference Include="..\Commands.Storage\Commands.Storage.csproj">
       <Project>{08cf7da7-0392-4a19-b79b-e1ff67cdb81a}</Project>
       <Name>Commands.Storage</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Commands.ServiceManagement.Test\Commands.ServiceManagement.Test.csproj">
-      <Project>{58A78F29-8C0C-4A5E-893E-3953C0F29C8A}</Project>
-      <Name>Commands.ServiceManagement.Test</Name>
     </ProjectReference>
     <ProjectReference Include="..\Commands.ServiceManagement\Commands.ServiceManagement.csproj">
       <Project>{E1CA72BA-8374-45F6-904D-FD34ECDF5B6F}</Project>
