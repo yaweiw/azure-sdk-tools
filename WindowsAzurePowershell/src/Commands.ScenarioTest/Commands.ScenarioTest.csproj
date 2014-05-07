@@ -245,7 +245,6 @@
     <Resource Include="Resources\ResourceManager\ResourceGroupTests.ps1">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
-    <None Include="app.config" />
     <None Include="Resources\Automation\AutomationTests.ps1" />
     <None Include="Resources\Automation\fastJob.ps1" />
     <None Include="Resources\Automation\Test-Workflow.ps1" />

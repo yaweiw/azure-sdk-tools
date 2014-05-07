@@ -799,7 +799,6 @@
     <Content Include="Azure.psd1">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <None Include="app.config" />
     <None Include="PostBuild.bat" />
     <None Include="Properties\DataSources\Microsoft.WindowsAzure.Commands.Utilities.MarketplaceServiceReference.CatalogServiceReadOnlyDbContext.datasource" />
     <None Include="Resources\Scaffolding\General\WorkerRole\startup.cmd">
