@@ -32,8 +32,7 @@ foreach ($product in $allProducts){
     $displayName = $product.GetValue("DisplayName", $null)
     if (($displayName -ne $null) -and ($displayName.StartsWith("Windows Installer XML Toolset") -or $displayName.StartsWith("WiX Toolset"))) {
         $wixInstalled = $true
-        Write-Host $wixInstalled
-        Write-Host "WIX tools was installed"
+        Write-Verbose "WIX tools was installed"
         break
     }
 }
