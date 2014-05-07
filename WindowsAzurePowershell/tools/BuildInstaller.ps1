@@ -43,11 +43,13 @@ if (!($wixInstalled)){
      Write-Host "Press (Y) to install through codeplex web page we will open for you; (N) to skip"    
      $keyPressed = $host.UI.RawUI.ReadKey("NoEcho,IncludeKeyUp")
      if ($keyPressed.Character -eq "y" ){
-        Invoke-Expression “cmd.exe /C start http://wix.codeplex.com/downloads/get/762937”
+        Invoke-Expression "cmd.exe /C start http://wix.codeplex.com/downloads/get/762937"
         Read-Host "Press any key to continue after the installtion is finished"
      }
 }
 
+#add wix to the PATH. Note, no need to be very accurate here, 
+#and we just register both 3.8 & 3.5 to simplify the script
 $env:path = $env:path + ";$env:ADXSDKProgramFiles\WiX Toolset v3.8\bin;$env:ADXSDKProgramFiles\Windows Installer XML v3.5\bin"
 
 # Build the cmdlets in debug mode
