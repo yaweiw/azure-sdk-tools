@@ -118,15 +118,14 @@ namespace Microsoft.Azure.Commands.ResourceManager.Test.Models
                     }));
         }
 
-        private bool EqualsIgnoreWhitespace(string left, string right)
+        private void EqualsIgnoreWhitespace(string left, string right)
         {
             string normalized1 = Regex.Replace(left, @"\s", "");
             string normalized2 = Regex.Replace(right, @"\s", "");
 
-            return String.Equals(
-                normalized1,
-                normalized2,
-                StringComparison.OrdinalIgnoreCase);
+            Assert.Equal(
+                normalized1.ToLowerInvariant(),
+                normalized2.ToLowerInvariant());
         }
         
         public ResourceClientTests()
@@ -1390,11 +1389,11 @@ namespace Microsoft.Azure.Commands.ResourceManager.Test.Models
 
             Assert.Equal(DeploymentMode.Incremental, deploymentFromGet.Mode);
             Assert.Equal(templateUri, deploymentFromGet.TemplateLink.Uri);
-            Assert.True(EqualsIgnoreWhitespace(File.ReadAllText(templateParameterFile), deploymentFromGet.Parameters));
+            EqualsIgnoreWhitespace(File.ReadAllText(templateParameterFile), deploymentFromGet.Parameters);
 
             Assert.Equal(DeploymentMode.Incremental, deploymentFromValidate.Mode);
             Assert.Equal(templateUri, deploymentFromValidate.TemplateLink.Uri);
-            Assert.True(EqualsIgnoreWhitespace(File.ReadAllText(templateParameterFile), deploymentFromValidate.Parameters));
+            EqualsIgnoreWhitespace(File.ReadAllText(templateParameterFile), deploymentFromValidate.Parameters);
 
             progressLoggerMock.Verify(
                 f => f(string.Format("Resource {0} '{1}' provisioning status is {2}",
@@ -2268,6 +2267,47 @@ namespace Microsoft.Azure.Commands.ResourceManager.Test.Models
             Assert.Equal(xmlErrorMessageWithBadParent, ResourcesClient.ParseErrorMessage(xmlErrorMessageWithBadParent));
 
             Assert.Equal(badXmlErrorMessage, ResourcesClient.ParseErrorMessage(badXmlErrorMessage));
+        }
+
+        [Fact]
+        public void SerializeHashtableProperlyHandlesAllDataTypes()
+        {
+            Hashtable hashtable = new Hashtable();
+            hashtable.Add("key1", "string");
+            hashtable.Add("key2", 1);
+            hashtable.Add("key3", true);
+            hashtable.Add("key4", new DateTime(2014, 05, 08));
+            hashtable.Add("key5", null);
+
+            string resultWithoutAddedLayer = resourcesClient.SerializeHashtable(hashtable, false);
+            Assert.NotEmpty(resultWithoutAddedLayer);
+            EqualsIgnoreWhitespace(@"{
+                ""key2"": 1,
+                ""key5"": null,
+                ""key3"": true,
+                ""key1"": ""string"",
+                ""key4"": ""2014-05-08T00:00:00""
+            }", resultWithoutAddedLayer);
+
+            string resultWithAddedLayer = resourcesClient.SerializeHashtable(hashtable, true);
+            Assert.NotEmpty(resultWithAddedLayer);
+            EqualsIgnoreWhitespace(@"{
+              ""key2"": {
+                ""value"": 1
+              },
+              ""key5"": {
+                ""value"": null
+              },
+              ""key3"": {
+                ""value"": true
+              },
+              ""key1"": {
+                ""value"": ""string""
+              },
+              ""key4"": {
+                ""value"": ""2014-05-08T00:00:00""
+              }
+            }", resultWithAddedLayer);
         }
     }
 }
