@@ -606,4 +606,7 @@
   <data name="CaptureVMImageOperationWhileVMIsStillRunning" xml:space="preserve">
     <value>VM image capture operation is trigged while VM is still running. As this may cause data corruption while creating VMs from this image, we recommend using Stop-AzureVM to stop the VM before capturing.</value>
   </data>
+  <data name="ServiceExtensionCannotFindAntimalwareEnableSetting" xml:space="preserve">
+    <value>Unsupported configuration.  To enable antimalware, specify a value of true for the AntimalwareEnabled element.</value>
+  </data>
 </root>

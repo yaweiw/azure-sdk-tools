@@ -255,6 +255,11 @@
     <Compile Include="Extensions\Common\SetAzureServiceExtension.cs" />
     <Compile Include="Extensions\Common\NewAzureServiceExtensionConfig.cs" />
     <Compile Include="Extensions\Common\RemoveAzureServiceExtension.cs" />
+    <Compile Include="Extensions\MicrosoftAntimalware\AntimalwareExtensionContext.cs" />
+    <Compile Include="Extensions\MicrosoftAntimalware\BaseAzureServiceAntimalwareExtension.cs" />
+    <Compile Include="Extensions\MicrosoftAntimalware\GetAzureServiceAntimalwareExtension.cs" />
+    <Compile Include="Extensions\MicrosoftAntimalware\RemoveAzureServiceAntimalwareExtension.cs" />
+    <Compile Include="Extensions\MicrosoftAntimalware\SetAzureServiceAntimalwareExtension.cs" />
     <Compile Include="Helpers\SecureStringHelper.cs" />
     <Compile Include="IaaS\Extensions\BGInfo\GetAzureVMBGInfoExtension.cs" />
     <Compile Include="IaaS\Extensions\BGInfo\RemoveAzureVMBGInfoExtension.cs" />
