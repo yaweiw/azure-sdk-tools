@@ -14,6 +14,8 @@
 
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
 {
+    using System;
+    using System.Collections.Generic;
     using System.Linq;
     using System.Management.Automation;
     using Management.Compute.Models;
@@ -49,12 +51,20 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
                         InternalLoadBalancerName = b.Name,
                         ServiceName = this.ServiceName,
                         DeploymentName = d.Name,
-                        IPAddress = b.FrontendIPConfiguration != null ? b.FrontendIPConfiguration.StaticVirtualNetworkIPAddress : null,
+                        IPAddress = GetInternalLoadBalancerIPAddress(d.VirtualIPAddresses, b.Name),
                         SubnetName = b.FrontendIPConfiguration != null ? b.FrontendIPConfiguration.SubnetName : null,
                         OperationDescription = CommandRuntime.ToString(),
                         OperationId = s.Id,
                         OperationStatus = s.Status.ToString()
                     }));
+        }
+
+        private string GetInternalLoadBalancerIPAddress(IList<VirtualIPAddress> virtualIPs, string ilbName)
+        {
+            var ilbIP = virtualIPs == null || !virtualIPs.Any() ? null
+                      : virtualIPs.FirstOrDefault(ip => string.Equals(ip.Name, ilbName, StringComparison.OrdinalIgnoreCase));
+
+            return ilbIP == null ? null : ilbIP.Address;
         }
     }
 }
