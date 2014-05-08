@@ -39,7 +39,7 @@ function Test-CreatesNewSimpleResource
 		Assert-AreEqual $expected.Name $actual.Name
 		Assert-AreEqual $expected.ResourceGroupName $actual.ResourceGroupName
 		Assert-AreEqual $expected.ResourceType $actual.ResourceType
-		Assert-AreEqual 1 $list.Count
+		Assert-AreEqual 1 @($list).Count
 		Assert-AreEqual $expected.Name $list[0].Name	
 	}
 	finally
@@ -89,14 +89,14 @@ function Test-CreatesNewComplexResource
 		Assert-AreEqual $expectedParent.ResourceType $actualParent.ResourceType
 		Assert-AreEqual $expectedChild.ResourceType $actualChild.ResourceType
 
-		Assert-AreEqual 2 $list.Count
+		Assert-AreEqual 2 @($list).Count
 		Assert-AreEqual $expectedParent.Name $parentFromList.Name
 		Assert-AreEqual $expectedChild.Name $childFromList.Name
 		Assert-AreEqual $expectedParent.ResourceType $parentFromList.ResourceType
 		Assert-AreEqual $expectedChild.ResourceType $childFromList.ResourceType
 
-		Assert-AreEqual 1 $listOfServers.Count
-		Assert-AreEqual 1 $listOfDatabases.Count
+		Assert-AreEqual 1 @($listOfServers).Count
+		Assert-AreEqual 1 @($listOfDatabases).Count
 	}
 	finally
 	{
@@ -133,7 +133,7 @@ function Test-GetResourcesViaPiping
 		$databaseFromList = $list | where {$_.ResourceType -eq $resourceTypeChild} | Select-Object -First 1
 
 		# Assert
-		Assert-AreEqual 2 $list.Count
+		Assert-AreEqual 2 @($list).Count
 		Assert-AreEqual $rnameParent $serverFromList.Name
 		Assert-AreEqual $rnameChild $databaseFromList.Name
 		Assert-AreEqual $resourceTypeParent $serverFromList.ResourceType
@@ -164,8 +164,8 @@ function Test-GetResourcesFromEmptyGroup
 		$listViaDirect = Get-AzureResource -ResourceGroupName $rgname
 
 		# Assert
-		Assert-AreEqual 0 $listViaPiping.Count
-		Assert-AreEqual 0 $listViaDirect.Count
+		Assert-AreEqual 0 @($listViaPiping).Count
+		Assert-AreEqual 0 @($listViaDirect).Count
 	}
 	finally
 	{
@@ -197,7 +197,7 @@ function Test-GetResourcesForNonExisingType
 	$list = Get-AzureResource -ResourceType 'Non-Existing'
 
 	# Assert
-	Assert-AreEqual 0 $list.Count
+	Assert-AreEqual 0 @($list).Count
 }
 
 <#
@@ -255,7 +255,7 @@ function Test-GetResourcesViaPipingFromAnotherResource
 		$list = Get-AzureResource -ResourceGroupName $rgname | Get-AzureResource -ApiVersion $apiversion
 		
 		# Assert
-		Assert-AreEqual 2 $list.Count
+		Assert-AreEqual 2 @($list).Count
 	}
 	finally
 	{
