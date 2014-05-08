@@ -23,6 +23,7 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.Common
     using System.Reflection;
     using System.Text;
     using System.Threading;
+    using Microsoft.IdentityModel.Clients.ActiveDirectory;
 
     /// <summary>
     /// Helper for TokenCloudCredentials
@@ -39,6 +40,40 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.Common
         private static string NodeExe = "nodejs\\node.exe";
         private static string TokenScriptFolder = "node-token";
         private static string JsTokenCodeLocation = Path.GetTempPath();
+
+        /// <summary>
+        /// Returns token (requires user input)
+        /// </summary>
+        /// <returns></returns>
+        public static string GetToken(string authEndpoint, string tenant, string clientId)
+        {
+            AuthenticationResult result = null;
+            var thread = new Thread(() =>
+            {
+                try
+                {
+                    var context = new AuthenticationContext(Path.Combine(authEndpoint, tenant));
+
+                    result = context.AcquireToken(
+                        resource: "https://management.core.windows.net/",
+                        clientId: clientId,
+                        redirectUri: new Uri("urn:ietf:wg:oauth:2.0:oob"),
+                        promptBehavior: PromptBehavior.Auto);
+                }
+                catch (Exception threadEx)
+                {
+                    Console.WriteLine(threadEx.Message);
+                }
+            });
+
+            thread.SetApartmentState(ApartmentState.STA);
+            thread.Name = "AcquireTokenThread";
+            thread.Start();
+            thread.Join();
+
+            return result.CreateAuthorizationHeader().Substring("Bearer ".Length);
+
+        }
 
         /// <summary>
         /// Get an AAD token using user and password credentials against a login authority

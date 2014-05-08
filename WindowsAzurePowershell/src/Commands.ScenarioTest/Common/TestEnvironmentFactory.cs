@@ -113,6 +113,10 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.Common
                     {
                         token = authSettings[RawToken];
                     }
+                    else
+                    {
+                        token = TokenCloudCredentialsHelper.GetToken(authEndpoint, tenant, clientId);
+                    }
                 }
 
                 orgIdEnvironment = new TestEnvironment
