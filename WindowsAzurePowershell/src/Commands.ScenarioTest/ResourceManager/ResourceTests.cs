@@ -53,7 +53,7 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.ResourceManagerTests
         [TestMethod]
         [TestCategory(Category.All)]
         [TestCategory(Category.ResourceManager)]
-        //[TestCategory(Category.CheckIn)]
+        [TestCategory(Category.CheckIn)]
         public void TestCreatesNewSimpleResource()
         {
             RunPowerShellTest("Test-CreatesNewSimpleResource");
@@ -62,7 +62,7 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.ResourceManagerTests
         [TestMethod]
         [TestCategory(Category.All)]
         [TestCategory(Category.ResourceManager)]
-        //[TestCategory(Category.CheckIn)]
+        [TestCategory(Category.CheckIn)]
         public void TestCreatesNewComplexResource()
         {
             RunPowerShellTest("Test-CreatesNewComplexResource");
