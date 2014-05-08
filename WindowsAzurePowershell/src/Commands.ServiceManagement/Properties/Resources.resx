@@ -489,6 +489,9 @@
   <data name="QuickVMCreateVM" xml:space="preserve">
     <value>{0} - Create VM {1}</value>
   </data>
+  <data name="ServiceExtensionCannotFindAntimalwareEnableSetting" xml:space="preserve">
+    <value>Unsupported configuration.  To enable antimalware, specify a value of true for the AntimalwareEnabled element.</value>
+  </data>
   <data name="ServiceExtensionCannotFindServiceName" xml:space="preserve">
     <value>Cannot find cloud service: {0}.</value>
   </data>
