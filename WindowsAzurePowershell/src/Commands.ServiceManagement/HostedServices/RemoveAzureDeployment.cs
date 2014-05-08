@@ -71,7 +71,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.HostedServices
 
             if (deploymentGetResponse != null && !string.IsNullOrEmpty(deploymentGetResponse.ReservedIPName))
             {
-                WriteVerboseWithTimestamp(string.Format(Resources.ReservedIPNameNoLongerInUseButStillBeingReserved, deploymentGetResponse.ReservedIPName));
+                WriteVerboseWithTimestamp(string.Format(Resources.ReservedIPNameNoLongerInUseByDeploymentButStillBeingReserved, deploymentGetResponse.ReservedIPName));
             }
             if (DeleteVHD.IsPresent)
             {
