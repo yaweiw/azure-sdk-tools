@@ -67,6 +67,7 @@ namespace Microsoft.WindowsAzure.Utilities.HttpRecorder
             Mode = mode;
             names = new AssetNames();
             servers = new List<HttpMockServer>();
+            records = new Records(Matcher);
 
             if (Mode == HttpRecorderMode.Playback)
             {

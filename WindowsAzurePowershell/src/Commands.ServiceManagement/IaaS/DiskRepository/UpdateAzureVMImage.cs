@@ -15,10 +15,15 @@
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.DiskRepository
 {
     using System;
+    using System.Linq;
+    using System.Collections.Generic;
     using System.Management.Automation;
-    using Management.Compute;
+    using AutoMapper;
+    using Helpers;
     using Management.Compute.Models;
     using Model;
+    using Model.PersistentVMModel;
+    using Properties;
     using Utilities.Common;
 
     [Cmdlet(VerbsData.Update, "AzureVMImage"), OutputType(typeof(OSImageContext))]
@@ -53,32 +58,95 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.DiskRepository
         public Uri PrivacyUri { get; set; }
 
         [Parameter(Position = 7, ValueFromPipelineByPropertyName = true, HelpMessage = " Specifies the size to use for the virtual machine that is created from the OS image.")]
+        [ValidateNotNullOrEmpty]
         public string RecommendedVMSize { get; set; }
-        
-        public void UpdateVMImageProcess()
-        {
-            var parameters = new VirtualMachineOSImageUpdateParameters
-            {
-                Label = this.Label,
-                Eula = this.Eula,
-                Description = this.Description,
-                ImageFamily = this.ImageFamily,
-                PublishedDate = this.PublishedDate,
-                PrivacyUri = this.PrivacyUri,
-                RecommendedVMSize = this.RecommendedVMSize
-            };
 
-            this.ExecuteClientActionNewSM(
-                null,
-                this.CommandRuntime.ToString(),
-                () => this.ComputeClient.VirtualMachineOSImages.Update(this.ImageName, parameters),
-                (s, response) => this.ContextFactory<VirtualMachineOSImageUpdateResponse, OSImageContext>(response, s));
-        }
+        [Parameter(Position = 8, ValueFromPipeline = true, ValueFromPipelineByPropertyName = true, HelpMessage = "Disk Configuration Set")]
+        [ValidateNotNullOrEmpty]
+        public VirtualMachineImageDiskConfigSet DiskConfig { get; set; }
+
+        [Parameter(Position = 9, ValueFromPipelineByPropertyName = true, HelpMessage = "Language.")]
+        [ValidateNotNullOrEmpty]
+        public string Language { get; set; }
+
+        [Parameter(Position = 10, ValueFromPipelineByPropertyName = true, HelpMessage = "IconUri.")]
+        [ValidateNotNullOrEmpty]
+        public Uri IconUri { get; set; }
+
+        [Parameter(Position = 11, ValueFromPipelineByPropertyName = true, HelpMessage = "SmallIconUri.")]
+        [ValidateNotNullOrEmpty]
+        public Uri SmallIconUri { get; set; }
+
+        [Parameter(Position = 12, ValueFromPipelineByPropertyName = true, HelpMessage = "ShowInGui.")]
+        public SwitchParameter ShowInGui { get; set; }
 
         protected override void OnProcessRecord()
         {
-            ServiceManagementProfile.Initialize(this);
-            this.UpdateVMImageProcess();
+            ServiceManagementProfile.Initialize();
+
+            var imageType = new VirtualMachineImageHelper(this.ComputeClient).GetImageType(this.ImageName);
+            bool isOSImage = imageType.HasFlag(VirtualMachineImageType.OSImage);
+            bool isVMImage = imageType.HasFlag(VirtualMachineImageType.VMImage);
+
+            if (isOSImage && isVMImage)
+            {
+                WriteErrorWithTimestamp(
+                    string.Format(Resources.DuplicateNamesFoundInBothVMAndOSImages, this.ImageName));
+            }
+            else if (isOSImage)
+            {
+                var parameters = new VirtualMachineOSImageUpdateParameters
+                {
+                    Label             = this.Label,
+                    Eula              = this.Eula,
+                    Description       = this.Description,
+                    ImageFamily       = this.ImageFamily,
+                    PublishedDate     = this.PublishedDate,
+                    PrivacyUri        = this.PrivacyUri,
+                    RecommendedVMSize = this.RecommendedVMSize,
+                    Language          = this.Language,
+                    IconUri           = this.IconUri,
+                    SmallIconUri      = this.SmallIconUri
+                };
+
+                this.ExecuteClientActionNewSM(
+                    null,
+                    this.CommandRuntime.ToString(),
+                    () => this.ComputeClient.VirtualMachineOSImages.Update(this.ImageName, parameters),
+                    (s, response) => this.ContextFactory<VirtualMachineOSImageUpdateResponse, OSImageContext>(response, s));
+            }
+            else
+            {
+                var osDiskConfig    = DiskConfig == null ? null : DiskConfig.OSDiskConfiguration;
+                var dataDiskConfigs = DiskConfig == null ? null : DiskConfig.DataDiskConfigurations.ToList();
+
+                var parameters = new VirtualMachineVMImageUpdateParameters
+                {
+                    Label                  = this.Label,
+                    Eula                   = this.Eula,
+                    Description            = this.Description,
+                    ImageFamily            = this.ImageFamily,
+                    PublishedDate          = this.PublishedDate,
+                    PrivacyUri             = this.PrivacyUri,
+                    RecommendedVMSize      = this.RecommendedVMSize,
+                    OSDiskConfiguration    = Mapper.Map<OSDiskConfigurationUpdateParameters>(osDiskConfig),
+                    DataDiskConfigurations = dataDiskConfigs == null ? null : dataDiskConfigs.Select(d => new DataDiskConfigurationUpdateParameters
+                    {
+                        HostCaching       = d.HostCaching,
+                        LogicalUnitNumber = d.Lun,
+                        Name              = d.Name
+                    }).ToList(),
+                    Language               = this.Language,
+                    IconUri                = this.IconUri,
+                    SmallIconUri           = this.SmallIconUri,
+                    ShowInGui              = this.ShowInGui.IsPresent ? (bool?)this.ShowInGui : null
+                };
+
+                this.ExecuteClientActionNewSM(
+                    null,
+                    this.CommandRuntime.ToString(),
+                    () => this.ComputeClient.VirtualMachineVMImages.Update(this.ImageName, parameters));
+            }
         }
     }
 }

@@ -340,7 +340,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The specified virtual machine is the last virtual machine in this deployment. Continuing will result in a new IP address for your deployment. To shut down without losing the deployment IP use –StayProvisioned..
+        ///   Looks up a localized string similar to The specified virtual machine is the last virtual machine in this deployment. Continuing will result in a new IP address for your deployment. To shut down without losing the deployment IP use -StayProvisioned..
         /// </summary>
         internal static string DeploymentVIPLossWarning {
             get {
@@ -1141,11 +1141,47 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Reserved IP with the Name:&apos;{0}&apos; will no longer be in use after the deployment is deleted, and it is still reserved for later use..
+        ///   Looks up a localized string similar to Are you sure you want to remove the Reserved IP from your subscription?.
         /// </summary>
-        internal static string ReservedIPNameNoLongerInUseButStillBeingReserved {
+        internal static string RemoveReservedIPWarning {
             get {
-                return ResourceManager.GetString("ReservedIPNameNoLongerInUseButStillBeingReserved", resourceCulture);
+                return ResourceManager.GetString("RemoveReservedIPWarning", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Remove the Reserved IP from your subscription..
+        /// </summary>
+        internal static string RemoveReservedIPWhatIfMessage {
+            get {
+                return ResourceManager.GetString("RemoveReservedIPWhatIfMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Reserved IP with the Name:&apos;{0}&apos; will no longer be in use after the last VM in the Cloud Service is deleted, it is still reserved in your subscription for later use. Please note that the Reserved IPs that are not associated with a deployment will incur billing charges..
+        /// </summary>
+        internal static string ReservedIPNameNoLongerInUseByDeletingLastVMButStillBeingReserved {
+            get {
+                return ResourceManager.GetString("ReservedIPNameNoLongerInUseByDeletingLastVMButStillBeingReserved", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Reserved IP with the Name:&apos;{0}&apos; will no longer be in use after the deployment is deleted, it is still reserved in your subscription for later use. Please note that the Reserved IPs that are not associated with a cloud service will incur billing charges..
+        /// </summary>
+        internal static string ReservedIPNameNoLongerInUseByDeploymentButStillBeingReserved {
+            get {
+                return ResourceManager.GetString("ReservedIPNameNoLongerInUseByDeploymentButStillBeingReserved", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Reserved IP with the Name:&apos;{0}&apos; will no longer be in use after all the VMs in the Cloud Service are in the Stopped Deallocated state, it is still reserved in your subscription for later use. Please note that the Reserved IPs that are not associated with a deployment will incur billing charges..
+        /// </summary>
+        internal static string ReservedIPNameNoLongerInUseByStoppingLastVMButStillBeingReserved {
+            get {
+                return ResourceManager.GetString("ReservedIPNameNoLongerInUseByStoppingLastVMButStillBeingReserved", resourceCulture);
             }
         }
         

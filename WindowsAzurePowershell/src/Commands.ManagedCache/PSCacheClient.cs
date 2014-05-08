@@ -62,14 +62,24 @@ namespace Microsoft.Azure.Commands.ManagedCache
                 throw new ArgumentException(Properties.Resources.CacheServiceNameUnavailable);
             }
 
-            CloudServiceResource cacheResource = ProvisionCacheService(cloudServiceName, cacheServiceName, param);
+            CloudServiceResource cacheResource = ProvisionCacheService(cloudServiceName, cacheServiceName, param, true);
 
             return cacheResource;
         }
 
-        private CloudServiceResource ProvisionCacheService(string cloudServiceName, string cacheServiceName, CacheServiceCreateParameters param)
+        private CloudServiceResource ProvisionCacheService(string cloudServiceName, 
+            string cacheServiceName, 
+            CacheServiceCreateParameters param, 
+            bool createOrUpdate)
         {
-            WriteProgress(Properties.Resources.CreatingCacheService);
+            if (createOrUpdate)
+            {
+                WriteProgress(Properties.Resources.CreatingCacheService);
+            }
+            else
+            {
+                WriteProgress(Properties.Resources.UpdatingCacheService);
+            }
             client.CacheServices.CreateCacheService(cloudServiceName, cacheServiceName, param);
 
             WriteProgress(Properties.Resources.WaitForCacheServiceReady);
@@ -111,7 +121,7 @@ namespace Microsoft.Azure.Commands.ManagedCache
             param.IntrinsicSettingsSection = cacheResource.IntrinsicSettingsSection;
             param.ETag = cacheResource.ETag;
 
-            ProvisionCacheService(cloudServiceName, cacheResource.Name, param);
+            ProvisionCacheService(cloudServiceName, cacheResource.Name, param, false);
         }
 
         private static CacheServiceCreateParameters InitializeParameters(string location, CacheServiceSkuType sku, string memorySize)

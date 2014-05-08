@@ -97,7 +97,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
 
         public virtual void ExecuteCommand()
         {
-            ServiceManagementProfile.Initialize(this);
+            ServiceManagementProfile.Initialize();
 
             Func<VirtualMachineExtensionListResponse.ResourceExtension, bool> truePred = s => true;
 

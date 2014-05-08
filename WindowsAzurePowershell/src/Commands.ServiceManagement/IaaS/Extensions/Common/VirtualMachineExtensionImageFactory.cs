@@ -30,46 +30,39 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
         private static ResourceExtensionReference MakeItem(
             string publisherName,
             string extensionName,
-            string referenceName)
+            string referenceName,
+            string version)
         {
             return new ResourceExtensionReference
             {
                 Publisher     = publisherName,
                 Name          = extensionName,
-                ReferenceName = referenceName
+                ReferenceName = referenceName,
+                Version       = version
             };
         }
 
         private ResourceExtensionReference MakeItem(
             string publisherName,
             string extensionName,
-            bool createOnlyIfExists = true)
+            string version)
         {
             ResourceExtensionReference extension = null;
 
-            if (createOnlyIfExists)
+            if (this.computeClient != null)
             {
-                if (this.computeClient != null)
-                {
-                    var reference = this.computeClient.VirtualMachineExtensions.ListVersions(
-                        publisherName,
-                        extensionName).FirstOrDefault();
-
-                    if (reference != null)
-                    {
-                        extension = MakeItem(
-                            reference.Publisher,
-                            reference.Name,
-                            reference.Name);
-                    }
-                }
-            }
-            else
-            {
-                extension = MakeItem(
+                var reference = this.computeClient.VirtualMachineExtensions.ListVersions(
                     publisherName,
-                    extensionName,
-                    extensionName);
+                    extensionName).FirstOrDefault();
+
+                if (reference != null)
+                {
+                    extension = MakeItem(
+                        reference.Publisher,
+                        reference.Name,
+                        reference.Name,
+                        version);
+                }
             }
 
             return extension;
@@ -78,12 +71,12 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
         public ResourceExtensionReferenceList MakeList(
             string publisherName,
             string extensionName,
-            bool createOnlyIfExists = true)
+            string version)
         {
             var item = MakeItem(
                 publisherName,
                 extensionName,
-                createOnlyIfExists);
+                version);
 
             var list = Enumerable.Repeat(item, item == null ? 0 : 1);
 
