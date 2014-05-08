@@ -127,15 +127,6 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.StorageServices
             return storageCredentialsFactory;
         }
 
-        // TODO: To remove this function which is not referenced anywhere.
-        protected override void InitChannelCurrentSubscription(bool force)
-        {
-            if(StorageCredentialsFactory.IsChannelRequired(this.Destination))
-            {
-                Channel = CreateChannel();
-            }
-        }
-
         protected override void OnProcessRecord()
         {
             var parameters = ValidateParameters();

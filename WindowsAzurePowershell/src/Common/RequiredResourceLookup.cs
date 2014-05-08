@@ -40,6 +40,11 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
                                "microsoft.web" };
             }
 
+            if (typeof(T).FullName.EndsWith("ManagedCacheClient"))
+            {
+               return new[] { "cacheservice.Caching" };
+            }
+  
             return new string[0];
         }
 
