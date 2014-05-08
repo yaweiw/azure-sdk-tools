@@ -49,6 +49,7 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.TrafficManagerTests
         [TestMethod]
         [TestCategory(Category.All)]
         [TestCategory(Category.TrafficManager)]
+        [TestCategory(Category.CheckIn)]
         public void TestRemoveProfileWithInvalidCredentials()
         {
             this.RunPowerShellTest("Test-WithInvalidCredentials { Test-CreateAndRemoveProfile }");
@@ -57,6 +58,7 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.TrafficManagerTests
         [TestMethod]
         [TestCategory(Category.All)]
         [TestCategory(Category.TrafficManager)]
+        [TestCategory(Category.CheckIn)]
         public void TestCreateAndRemoveProfile()
         {
             this.RunPowerShellTest("Test-CreateAndRemoveProfile");
@@ -65,6 +67,7 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.TrafficManagerTests
         [TestMethod]
         [TestCategory(Category.All)]
         [TestCategory(Category.TrafficManager)]
+        [TestCategory(Category.CheckIn)]
         public void TestRemoveProfileWithNonExistingName()
         {
             this.RunPowerShellTest("Test-RemoveProfileWithNonExistingName");
@@ -77,6 +80,7 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.TrafficManagerTests
         [TestMethod]
         [TestCategory(Category.All)]
         [TestCategory(Category.TrafficManager)]
+        [TestCategory(Category.CheckIn)]
         public void TestGetProfileWithInvalidCredentials()
         {
             this.RunPowerShellTest("Test-WithInvalidCredentials { Test-GetProfile }");
@@ -85,6 +89,7 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.TrafficManagerTests
         [TestMethod]
         [TestCategory(Category.All)]
         [TestCategory(Category.TrafficManager)]
+        [TestCategory(Category.CheckIn)]
         public void TestGetProfile()
         {
             this.RunPowerShellTest("Test-GetProfile");
@@ -93,6 +98,7 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.TrafficManagerTests
         [TestMethod]
         [TestCategory(Category.All)]
         [TestCategory(Category.TrafficManager)]
+        [TestCategory(Category.CheckIn)]
         public void TestGetMultipleProfiles()
         {
             this.RunPowerShellTest("Test-GetMultipleProfiles");
@@ -105,6 +111,7 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.TrafficManagerTests
         [TestMethod]
         [TestCategory(Category.All)]
         [TestCategory(Category.TrafficManager)]
+        [TestCategory(Category.CheckIn)]
         public void TestEnableProfileWithInvalidCredentials()
         {
             this.RunPowerShellTest("Test-WithInvalidCredentials { Test-EnableProfile }");
@@ -113,6 +120,7 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.TrafficManagerTests
         [TestMethod]
         [TestCategory(Category.All)]
         [TestCategory(Category.TrafficManager)]
+        [TestCategory(Category.CheckIn)]
         public void TestDisableProfileWithInvalidCredentials()
         {
             this.RunPowerShellTest("Test-WithInvalidCredentials { Test-DisableProfile }");
@@ -121,6 +129,7 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.TrafficManagerTests
         [TestMethod]
         [TestCategory(Category.All)]
         [TestCategory(Category.TrafficManager)]
+        [TestCategory(Category.CheckIn)]
         public void TestEnableProfile()
         {
             this.RunPowerShellTest("Test-EnableProfile");
@@ -129,6 +138,7 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.TrafficManagerTests
         [TestMethod]
         [TestCategory(Category.All)]
         [TestCategory(Category.TrafficManager)]
+        [TestCategory(Category.CheckIn)]
         public void TestDisableProfile()
         {
             this.RunPowerShellTest("Test-DisableProfile");
@@ -141,6 +151,7 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.TrafficManagerTests
         [TestMethod]
         [TestCategory(Category.All)]
         [TestCategory(Category.TrafficManager)]
+        [TestCategory(Category.CheckIn)]
         public void TestNewProfile()
         {
             this.RunPowerShellTest("Test-NewProfile");
@@ -149,6 +160,7 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.TrafficManagerTests
         [TestMethod]
         [TestCategory(Category.All)]
         [TestCategory(Category.TrafficManager)]
+        [TestCategory(Category.CheckIn)]
         public void TestNewProfileInvalidParameters()
         {
             this.RunPowerShellTest("Test-NewProfileWithInvalidParameter");
@@ -161,6 +173,7 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.TrafficManagerTests
         [TestMethod]
         [TestCategory(Category.All)]
         [TestCategory(Category.TrafficManager)]
+        [TestCategory(Category.CheckIn)]
         public void TestSetProfileProperty()
         {
             this.RunPowerShellTest("Test-SetProfileProperty");
@@ -169,6 +182,7 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.TrafficManagerTests
         [TestMethod]
         [TestCategory(Category.All)]
         [TestCategory(Category.TrafficManager)]
+        [TestCategory(Category.CheckIn)]
         public void TestAddAzureTrafficManagerEndpoint()
         {
             this.RunPowerShellTest("Test-AddAzureTrafficManagerEndpoint");
@@ -177,6 +191,7 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.TrafficManagerTests
         [TestMethod]
         [TestCategory(Category.All)]
         [TestCategory(Category.TrafficManager)]
+        [TestCategory(Category.CheckIn)]
         public void TestRemoveAzureTrafficManagerEndpoint()
         {
             this.RunPowerShellTest("Test-RemoveAzureTrafficManagerEndpoint");
@@ -185,6 +200,7 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.TrafficManagerTests
         [TestMethod]
         [TestCategory(Category.All)]
         [TestCategory(Category.TrafficManager)]
+        [TestCategory(Category.CheckIn)]
         public void TestSetAzureTrafficManagerEndpoint()
         {
             this.RunPowerShellTest("Test-SetAzureTrafficManagerEndpoint");
@@ -193,6 +209,7 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.TrafficManagerTests
         [TestMethod]
         [TestCategory(Category.All)]
         [TestCategory(Category.TrafficManager)]
+        [TestCategory(Category.CheckIn)]
         public void TestSetAzureTrafficManagerEndpointAdds()
         {
             this.RunPowerShellTest("Test-SetAzureTrafficManagerEndpointAdds");
@@ -201,6 +218,7 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.TrafficManagerTests
         [TestMethod]
         [TestCategory(Category.All)]
         [TestCategory(Category.TrafficManager)]
+        [TestCategory(Category.CheckIn)]
         public void TestAddMultipleAzureTrafficManagerEndpoint()
         {
             this.RunPowerShellTest("Test-AddMultipleAzureTrafficManagerEndpoint");
@@ -213,6 +231,7 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.TrafficManagerTests
         [TestMethod]
         [TestCategory(Category.All)]
         [TestCategory(Category.TrafficManager)]
+        [TestCategory(Category.CheckIn)]
         public void TestTestAzureTrafficManagerDomainName()
         {
             this.RunPowerShellTest("Test-TestAzureTrafficManagerDomainName");

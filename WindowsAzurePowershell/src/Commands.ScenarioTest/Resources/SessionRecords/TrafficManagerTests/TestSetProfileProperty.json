@@ -1,7 +1,7 @@
 {
   "Entries": [
     {
-      "RequestUri": "/16adf039-ace2-4685-b35b-917bd564b01e/services/WATM/profiles",
+      "RequestUri": "/2c224e7e-3ef5-431d-a57b-e71f4662e3a6/services/WATM/profiles",
       "RequestMethod": "GET",
       "RequestBody": "",
       "RequestHeaders": {
@@ -13,7 +13,7 @@
           "WindowsAzurePowershell/v0.8.1"
         ]
       },
-      "ResponseBody": "<Profiles xmlns=\"http://schemas.microsoft.com/windowsazure\" xmlns:i=\"http://www.w3.org/2001/XMLSchema-instance\">\r\n  <Profile>\r\n    <DomainName>04c9b4c3-44ab-42cf-8c61-80f692252664profile.trafficmanager.net</DomainName>\r\n    <Name>04c9b4c3-44ab-42cf-8c61-80f692252664profile</Name>\r\n    <Status>Enabled</Status>\r\n    <StatusDetails>\r\n      <EnabledVersion>1</EnabledVersion>\r\n    </StatusDetails>\r\n    <Definitions>\r\n      <Definition>\r\n        <Status>Enabled</Status>\r\n        <Version>1</Version>\r\n      </Definition>\r\n    </Definitions>\r\n  </Profile>\r\n  <Profile>\r\n    <DomainName>2e1c4768-ea03-4427-9e78-d63f48ca3d62profile.trafficmanager.net</DomainName>\r\n    <Name>2e1c4768-ea03-4427-9e78-d63f48ca3d62profile</Name>\r\n    <Status>Enabled</Status>\r\n    <StatusDetails>\r\n      <EnabledVersion>1</EnabledVersion>\r\n    </StatusDetails>\r\n    <Definitions>\r\n      <Definition>\r\n        <Status>Enabled</Status>\r\n        <Version>1</Version>\r\n      </Definition>\r\n    </Definitions>\r\n  </Profile>\r\n</Profiles>",
+      "ResponseBody": "<Profiles xmlns=\"http://schemas.microsoft.com/windowsazure\" xmlns:i=\"http://www.w3.org/2001/XMLSchema-instance\" />",
       "ResponseHeaders": {
         "x-ms-servedbyregion": [
           "ussouth2"
@@ -22,13 +22,13 @@
           "nosniff"
         ],
         "x-ms-request-id": [
-          "b9efbbf1d11f9e98b15394bf69493f51"
+          "f4e172330d9d999a98052363a81ca8a3"
         ],
         "Cache-Control": [
           "no-cache"
         ],
         "Date": [
-          "Tue, 06 May 2014 13:18:50 GMT"
+          "Wed, 07 May 2014 12:30:50 GMT"
         ],
         "Server": [
           "1.0.6198.70",
@@ -45,7 +45,7 @@
       "StatusCode": 200
     },
     {
-      "RequestUri": "/16adf039-ace2-4685-b35b-917bd564b01e/services/WATM/profiles",
+      "RequestUri": "/2c224e7e-3ef5-431d-a57b-e71f4662e3a6/services/WATM/profiles",
       "RequestMethod": "POST",
       "RequestBody": "<Profile xmlns=\"http://schemas.microsoft.com/windowsazure\">\r\n  <DomainName>scenarioTestProfile.trafficmanager.net</DomainName>\r\n  <Name>scenarioTestProfile</Name>\r\n</Profile>",
       "RequestHeaders": {
@@ -69,13 +69,13 @@
           "nosniff"
         ],
         "x-ms-request-id": [
-          "3fa44ca238139857a9bfed9c9eedfe49"
+          "94617f1a262999a0bfc3b964c6b8d78e"
         ],
         "Cache-Control": [
           "no-cache"
         ],
         "Date": [
-          "Tue, 06 May 2014 13:18:50 GMT"
+          "Wed, 07 May 2014 12:30:50 GMT"
         ],
         "Server": [
           "1.0.6198.70",
@@ -92,7 +92,7 @@
       "StatusCode": 200
     },
     {
-      "RequestUri": "/16adf039-ace2-4685-b35b-917bd564b01e/services/WATM/profiles/scenarioTestProfile/definitions",
+      "RequestUri": "/2c224e7e-3ef5-431d-a57b-e71f4662e3a6/services/WATM/profiles/scenarioTestProfile/definitions",
       "RequestMethod": "POST",
       "RequestBody": "<Definition xmlns=\"http://schemas.microsoft.com/windowsazure\">\r\n  <DnsOptions>\r\n    <TimeToLiveInSeconds>300</TimeToLiveInSeconds>\r\n  </DnsOptions>\r\n  <Monitors>\r\n    <Monitor>\r\n      <IntervalInSeconds>30</IntervalInSeconds>\r\n      <TimeoutInSeconds>10</TimeoutInSeconds>\r\n      <ToleratedNumberOfFailures>3</ToleratedNumberOfFailures>\r\n      <Protocol>HTTP</Protocol>\r\n      <Port>80</Port>\r\n      <HttpOptions>\r\n        <Verb>GET</Verb>\r\n        <RelativePath>/</RelativePath>\r\n        <ExpectedStatusCode>200</ExpectedStatusCode>\r\n      </HttpOptions>\r\n    </Monitor>\r\n  </Monitors>\r\n  <Policy>\r\n    <LoadBalancingMethod>RoundRobin</LoadBalancingMethod>\r\n    <Endpoints />\r\n  </Policy>\r\n</Definition>",
       "RequestHeaders": {
@@ -113,13 +113,13 @@
           "nosniff"
         ],
         "x-ms-request-id": [
-          "3396b22252019a07b219899dede01b6d"
+          "6c36145a7d3797ef8cc1788660445733"
         ],
         "Cache-Control": [
           "no-cache"
         ],
         "Date": [
-          "Tue, 06 May 2014 13:18:50 GMT"
+          "Wed, 07 May 2014 12:30:51 GMT"
         ],
         "Server": [
           "1.0.6198.70",
@@ -136,7 +136,7 @@
       "StatusCode": 200
     },
     {
-      "RequestUri": "/16adf039-ace2-4685-b35b-917bd564b01e/services/WATM/profiles/scenarioTestProfile/definitions",
+      "RequestUri": "/2c224e7e-3ef5-431d-a57b-e71f4662e3a6/services/WATM/profiles/scenarioTestProfile/definitions",
       "RequestMethod": "POST",
       "RequestBody": "<Definition xmlns=\"http://schemas.microsoft.com/windowsazure\">\r\n  <DnsOptions>\r\n    <TimeToLiveInSeconds>333</TimeToLiveInSeconds>\r\n  </DnsOptions>\r\n  <Monitors>\r\n    <Monitor>\r\n      <IntervalInSeconds>30</IntervalInSeconds>\r\n      <TimeoutInSeconds>10</TimeoutInSeconds>\r\n      <ToleratedNumberOfFailures>3</ToleratedNumberOfFailures>\r\n      <Protocol>HTTP</Protocol>\r\n      <Port>80</Port>\r\n      <HttpOptions>\r\n        <Verb>GET</Verb>\r\n        <RelativePath>/</RelativePath>\r\n        <ExpectedStatusCode>200</ExpectedStatusCode>\r\n      </HttpOptions>\r\n    </Monitor>\r\n  </Monitors>\r\n  <Policy>\r\n    <LoadBalancingMethod>RoundRobin</LoadBalancingMethod>\r\n    <Endpoints />\r\n  </Policy>\r\n</Definition>",
       "RequestHeaders": {
@@ -157,13 +157,13 @@
           "nosniff"
         ],
         "x-ms-request-id": [
-          "2c2544866dd49b68bf3a53db27824b3f"
+          "fc1822fe43849614bb991cb2327ece95"
         ],
         "Cache-Control": [
           "no-cache"
         ],
         "Date": [
-          "Tue, 06 May 2014 13:18:53 GMT"
+          "Wed, 07 May 2014 12:30:53 GMT"
         ],
         "Server": [
           "1.0.6198.70",
@@ -180,7 +180,7 @@
       "StatusCode": 200
     },
     {
-      "RequestUri": "/16adf039-ace2-4685-b35b-917bd564b01e/services/WATM/profiles/scenarioTestProfile",
+      "RequestUri": "/2c224e7e-3ef5-431d-a57b-e71f4662e3a6/services/WATM/profiles/scenarioTestProfile",
       "RequestMethod": "GET",
       "RequestBody": "",
       "RequestHeaders": {
@@ -201,13 +201,13 @@
           "nosniff"
         ],
         "x-ms-request-id": [
-          "52c1bfbf1321918695316ceb3fda463a"
+          "183ee9ebb56998778c5f0820981388f7"
         ],
         "Cache-Control": [
           "no-cache"
         ],
         "Date": [
-          "Tue, 06 May 2014 13:18:52 GMT"
+          "Wed, 07 May 2014 12:30:51 GMT"
         ],
         "Server": [
           "1.0.6198.70",
@@ -224,7 +224,7 @@
       "StatusCode": 200
     },
     {
-      "RequestUri": "/16adf039-ace2-4685-b35b-917bd564b01e/services/WATM/profiles/scenarioTestProfile",
+      "RequestUri": "/2c224e7e-3ef5-431d-a57b-e71f4662e3a6/services/WATM/profiles/scenarioTestProfile",
       "RequestMethod": "GET",
       "RequestBody": "",
       "RequestHeaders": {
@@ -245,13 +245,13 @@
           "nosniff"
         ],
         "x-ms-request-id": [
-          "4115384c70f9917b849dbc16e1316a43"
+          "07040c9dbb2e9030b6e1e175b63b7b19"
         ],
         "Cache-Control": [
           "no-cache"
         ],
         "Date": [
-          "Tue, 06 May 2014 13:18:54 GMT"
+          "Wed, 07 May 2014 12:30:55 GMT"
         ],
         "Server": [
           "1.0.6198.70",
@@ -268,7 +268,7 @@
       "StatusCode": 200
     },
     {
-      "RequestUri": "/16adf039-ace2-4685-b35b-917bd564b01e/services/WATM/profiles/scenarioTestProfile/definitions/1",
+      "RequestUri": "/2c224e7e-3ef5-431d-a57b-e71f4662e3a6/services/WATM/profiles/scenarioTestProfile/definitions/1",
       "RequestMethod": "GET",
       "RequestBody": "",
       "RequestHeaders": {
@@ -289,13 +289,13 @@
           "nosniff"
         ],
         "x-ms-request-id": [
-          "a000a1eb989593f99dfe80452995fa83"
+          "4f2f3bf2e65d93bbb83ef47320534990"
         ],
         "Cache-Control": [
           "no-cache"
         ],
         "Date": [
-          "Tue, 06 May 2014 13:18:52 GMT"
+          "Wed, 07 May 2014 12:30:52 GMT"
         ],
         "Server": [
           "1.0.6198.70",
@@ -312,7 +312,7 @@
       "StatusCode": 200
     },
     {
-      "RequestUri": "/16adf039-ace2-4685-b35b-917bd564b01e/services/WATM/profiles/scenarioTestProfile/definitions/1",
+      "RequestUri": "/2c224e7e-3ef5-431d-a57b-e71f4662e3a6/services/WATM/profiles/scenarioTestProfile/definitions/1",
       "RequestMethod": "GET",
       "RequestBody": "",
       "RequestHeaders": {
@@ -333,13 +333,13 @@
           "nosniff"
         ],
         "x-ms-request-id": [
-          "8dded15959789a29be3cc74684ceffcf"
+          "2800160e960699e0ba268aad7333cefa"
         ],
         "Cache-Control": [
           "no-cache"
         ],
         "Date": [
-          "Tue, 06 May 2014 13:18:54 GMT"
+          "Wed, 07 May 2014 12:30:55 GMT"
         ],
         "Server": [
           "1.0.6198.70",

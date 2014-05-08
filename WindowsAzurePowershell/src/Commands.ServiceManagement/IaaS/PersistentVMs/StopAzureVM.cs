@@ -181,7 +181,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
             {
                 if (this.CurrentDeploymentNewSM != null && !string.IsNullOrEmpty(this.CurrentDeploymentNewSM.ReservedIPName))
                 {
-                    WriteWarning(string.Format(Resources.ReservedIPNameNoLongerInUseButStillBeingReserved, this.CurrentDeploymentNewSM.ReservedIPName));
+                    WriteWarning(string.Format(Resources.ReservedIPNameNoLongerInUseByStoppingLastVMButStillBeingReserved, this.CurrentDeploymentNewSM.ReservedIPName));
                 }
             }
 
