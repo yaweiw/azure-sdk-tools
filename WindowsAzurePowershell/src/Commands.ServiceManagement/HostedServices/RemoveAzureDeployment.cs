@@ -71,7 +71,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.HostedServices
 
             if (deploymentGetResponse != null && !string.IsNullOrEmpty(deploymentGetResponse.ReservedIPName))
             {
-                WriteVerboseWithTimestamp(string.Format(Resources.ReservedIPNameNoLongerInUseButStillBeingReserved, deploymentGetResponse.ReservedIPName));
+                WriteVerboseWithTimestamp(string.Format(Resources.ReservedIPNameNoLongerInUseByDeploymentButStillBeingReserved, deploymentGetResponse.ReservedIPName));
             }
             if (DeleteVHD.IsPresent)
             {
@@ -86,7 +86,8 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.HostedServices
                     null,
                     CommandRuntime.ToString(),
                     () => this.ComputeClient.Deployments.DeleteBySlot(this.ServiceName, slotType));
-            }        }
+            }
+        }
 
         protected override void OnProcessRecord()
         {

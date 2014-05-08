@@ -20,14 +20,12 @@ namespace Microsoft.Azure.Commands.ManagedCache.Models
         public PSCacheService(CloudServiceResource resource)
         {
             Name = resource.Name;
-            State = resource.State;
-            SubState = resource.SubState;
+            State = resource.SubState;
             Location = resource.IntrinsicSettingsSection.CacheServiceInputSection.Location;
             Sku = resource.IntrinsicSettingsSection.CacheServiceInputSection.SkuType;
             int skuCount = resource.IntrinsicSettingsSection.CacheServiceInputSection.SkuCount;
             CacheSkuCountConvert convert = new CacheSkuCountConvert(Sku);
             Memory = convert.ToMemorySize(skuCount);
-
         }
 
         public string Name { get; private set; }
@@ -35,8 +33,6 @@ namespace Microsoft.Azure.Commands.ManagedCache.Models
         public string Location { get; private set; }
 
         public string State { get; private set; }
-
-        public string SubState { get; private set; }
 
         public CacheServiceSkuType Sku { get; private set; }
 

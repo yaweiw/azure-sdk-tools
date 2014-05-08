@@ -16,9 +16,10 @@ namespace Microsoft.Azure.Commands.ManagedCache
 {
     using System;
     using System.Management.Automation;
+    using Microsoft.Azure.Commands.ManagedCache.Models;
     using Microsoft.Azure.Management.ManagedCache.Models;
 
-    [Cmdlet(VerbsCommon.New, "AzureManagedCacheAccessKey"), OutputType(typeof(CachingKeysResponse))]
+    [Cmdlet(VerbsCommon.New, "AzureManagedCacheAccessKey"), OutputType(typeof(CacheAccessKeys))]
     public class NewAzureManagedCacheAccessKey : ManagedCacheCmdletBase
     {
         private const string PrimaryKeyType = "Primary";
@@ -39,8 +40,7 @@ namespace Microsoft.Azure.Commands.ManagedCache
                 KeyType = PrimaryKeyType;
             }
             CachingKeysResponse response = CacheClient.RegenerateAccessKeys(Name, KeyType);
-            //TODO, format it
-            WriteObject(response);
+            WriteObject(new CacheAccessKeys(Name, response));
         }     
     }
 }

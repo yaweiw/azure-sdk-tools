@@ -49,8 +49,7 @@ namespace Microsoft.Azure.Commands.ManagedCache.Test
             PSCacheService service = new PSCacheService(resource);
 
             //Assert
-            Assert.Equal(testState, service.State);
-            Assert.Equal(testSubState, service.SubState);
+            Assert.Equal(testSubState, service.State);
             Assert.Equal(testName, service.Name);
             Assert.Equal(testLocation, service.Location);
             Assert.Equal(expectedMemoryInfo, service.Memory);
