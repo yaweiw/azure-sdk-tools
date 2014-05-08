@@ -20,24 +20,23 @@ if (Test-Path $packageFolder) {
     Remove-Item -Path "$env:AzurePSRoot\..\Package" -Force -Recurse	
 }
 
-$wixInstalled = $false
-$keyPath = "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall"
-if (Test-Path ${env:\ProgramFiles(x86)} ){
-    $keyPath = "HKLM:\SOFTWARE\Wow6432Node\Microsoft\Windows\CurrentVersion\Uninstall"
+$keyPath = "HKLM:\SOFTWARE\Microsoft\Windows Installer XML"
+if (${env:ADX64Platform}){
+    $keyPath = "HKLM:\SOFTWARE\Wow6432Node\Microsoft\Windows Installer XML"
 }
 
-$allProducts = Get-ChildItem $keyPath
-
-foreach ($product in $allProducts){
-    $displayName = $product.GetValue("DisplayName", $null)
-    if (($displayName -ne $null) -and ($displayName.StartsWith("Windows Installer XML Toolset") -or $displayName.StartsWith("WiX Toolset"))) {
-        $wixInstalled = $true
-        Write-Verbose "WIX tools was installed"
-        break
+$allWixVersions = Get-ChildItem $keyPath
+if ($allWixVersions -ne $null){
+    foreach ($wixVersion in $allWixVersions){
+        $wixInstallRoot = $product.GetValue("InstallRoot", $null)
+        if ($wixInstallRoot -ne $null) {
+            Write-Verbose "WIX tools was installed at $wixInstallRoot"
+            break
+        }
     }
 }
 
-if (!($wixInstalled)){
+if ($wixInstallRoot -eq $null){
      Write-Host "You don't have Windows Installer XML Toolset installed, which is needed to build setup." -ForegroundColor "Yellow"
      Write-Host "Press (Y) to install through codeplex web page we will open for you; (N) to skip"    
      $keyPressed = $host.UI.RawUI.ReadKey("NoEcho,IncludeKeyUp")
@@ -49,7 +48,7 @@ if (!($wixInstalled)){
 
 #add wix to the PATH. Note, no need to be very accurate here, 
 #and we just register both 3.8 & 3.5 to simplify the script
-$env:path = $env:path + ";$env:ADXSDKProgramFiles\WiX Toolset v3.8\bin;$env:ADXSDKProgramFiles\Windows Installer XML v3.5\bin"
+$env:path = $env:path + ";$wixInstallRoot"
 
 # Build the cmdlets in debug mode
 msbuild "$env:AzurePSRoot\..\build.proj" /t:"BuildDebug"
