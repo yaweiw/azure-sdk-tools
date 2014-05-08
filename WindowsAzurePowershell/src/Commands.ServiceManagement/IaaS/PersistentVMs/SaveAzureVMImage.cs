@@ -14,12 +14,13 @@
 
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
 {
+    using System;
+    using System.Linq;
     using System.Management.Automation;
-    using Management.Compute.Models;
     using DiskRepository;
+    using Management.Compute.Models;
     using Properties;
     using Utilities.Common;
-    using System;
 
     [Cmdlet(
         VerbsData.Save,
@@ -94,20 +95,6 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
             get;
             set;
         }
-
-        internal bool ValidateImageType(ImageType againstImageType)
-        {
-            if (GetAzureVMImage.CheckImageType(this.ComputeClient, this.ImageName, againstImageType))
-            {
-                // If there is another type of image with the same name, WAPS will stop here to avoid duplicates and potential conflicts
-                var errorMsg = string.Format(Resources.ErrorAnotherImageTypeFoundWithTheSameName, againstImageType, this.ImageName);
-                WriteError(new ErrorRecord(new Exception(errorMsg), string.Empty, ErrorCategory.CloseError, null));
-
-                return false;
-            }
-
-            return true;
-        }
         
         protected override void ExecuteCommand()
         {
@@ -123,7 +110,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
 
             Func<OperationStatusResponse> action = null;
 
-            if (string.IsNullOrEmpty(this.OSState) && ValidateImageType(ImageType.VMImage))
+            if (string.IsNullOrEmpty(this.OSState) && ValidateImageName(this.ImageName, ImageType.VMImage))
             {
                 action = () => this.ComputeClient.VirtualMachines.CaptureOSImage(
                     this.ServiceName,
@@ -136,8 +123,13 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
                         TargetImageName = this.ImageName
                     });
             }
-            else if (!string.IsNullOrEmpty(this.OSState) && ValidateImageType(ImageType.OSImage))
+            else if (!string.IsNullOrEmpty(this.OSState) && ValidateImageName(this.ImageName, ImageType.OSImage))
             {
+                if (string.Equals(GetRoleInstanceStatus(), RoleInstanceStatus.ReadyRole))
+                {
+                    WriteWarning(Resources.CaptureVMImageOperationWhileVMIsStillRunning);
+                }
+
                 action = () => this.ComputeClient.VirtualMachines.CaptureVMImage(
                     this.ServiceName,
                     CurrentDeploymentNewSM.Name,
@@ -153,6 +145,32 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
             {
                 ExecuteClientActionNewSM(null, CommandRuntime.ToString(), action);
             }
+        }
+
+        internal bool ValidateImageName(string imageName, ImageType againstImageType)
+        {
+            if (GetAzureVMImage.ExistsImageInType(this.ComputeClient, this.ImageName, againstImageType))
+            {
+                // If there is another type of image with the same name, WAPS will stop here to avoid duplicates and potential conflicts
+                var errorMsg = string.Format(Resources.ErrorAnotherImageTypeFoundWithTheSameName, againstImageType, imageName);
+                WriteError(new ErrorRecord(new Exception(errorMsg), string.Empty, ErrorCategory.CloseError, null));
+
+                return false;
+            }
+
+            return true;
+        }
+
+        protected string GetRoleInstanceStatus()
+        {
+            var role = CurrentDeploymentNewSM.RoleInstances
+                        .FirstOrDefault(
+                            r => string.Equals(
+                                r.RoleName,
+                                this.Name,
+                                StringComparison.InvariantCultureIgnoreCase));
+
+            return role == null ? string.Empty : role.InstanceStatus;
         }
     }
 }

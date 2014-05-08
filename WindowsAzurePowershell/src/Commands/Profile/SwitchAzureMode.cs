@@ -38,6 +38,12 @@ namespace Microsoft.WindowsAzure.Commands.Profile
         
         private const string ResourceManagerModuleName = "AzureResourceManager";
 
+        private const string ProfileFolderName = "Profile";
+
+        private const string ServiceManagementFolderName = "ServiceManagement";
+
+        private const string ResourceManagerFolderName = "ResourceManager";
+
         private string ResourceManagerModulePath;
 
         private string serviceManagementModulePath;
@@ -52,56 +58,43 @@ namespace Microsoft.WindowsAzure.Commands.Profile
 
         public SwitchAzureMode()
         {
-            string rootInstallationPath = Directory.GetParent(FileUtilities.GetAssemblyDirectory()).FullName;
-            serviceManagementModulePath = Path.Combine(rootInstallationPath, ServiceManagementModuleName);
-            ResourceManagerModulePath = Path.Combine(rootInstallationPath, ResourceManagerModuleName);
-            profileModulePath = Path.Combine(serviceManagementModulePath, ProfileModuleName);
+            string rootInstallationPath = Directory.GetParent(Directory.GetParent(FileUtilities.GetAssemblyDirectory()).FullName).FullName;
+            serviceManagementModulePath = Path.Combine(rootInstallationPath, ServiceManagementFolderName);
+            ResourceManagerModulePath = Path.Combine(rootInstallationPath, ResourceManagerFolderName);
+            profileModulePath = Path.Combine(rootInstallationPath, ProfileFolderName);
         }
 
         public override void ExecuteCmdlet()
         {
-            List<PSModuleInfo> modules = this.GetModules();
-            bool serviceManagementModuleLoaded = modules.Exists(m => m.Name.Equals(ServiceManagementModuleName));
-            bool ResourceManagerModuleLoaded = modules.Exists(m => m.Name.Equals(ResourceManagerModuleName));
-
-            if (serviceManagementModuleLoaded && ResourceManagerModuleLoaded)
-            {
-                string warningMessage = string.Format(
-                    "{0} module and {1} module are loaded in the current session please consider removing one of them.",
-                    ServiceManagementModuleName,
-                    ResourceManagerModuleName);
-            }
-            else if (serviceManagementModuleLoaded && Name == AzureModule.AzureResourceManager)
+            if (Name == AzureModule.AzureResourceManager)
             {
                 RemoveAzureModule(ServiceManagementModuleName, serviceManagementModulePath);
-                this.RemoveAzureAliases();
-
-                if (!ResourceManagerModuleLoaded)
-                {
-                    ImportAzureModule(ResourceManagerModuleName, ResourceManagerModulePath);
-                    ImportAzureModule(ProfileModuleName, profileModulePath);
-                    this.RemoveAzureAliases();
-                }
+                ImportAzureModule(ResourceManagerModuleName, ResourceManagerModulePath);
+                ImportAzureModule(ProfileModuleName, profileModulePath);
             }
-            else if (ResourceManagerModuleLoaded && Name == AzureModule.AzureServiceManagement)
+            else if (Name == AzureModule.AzureServiceManagement)
             {
                 RemoveAzureModule(ResourceManagerModuleName, ResourceManagerModulePath);
                 RemoveAzureModule(ProfileModuleName, profileModulePath);
-
-                if (!serviceManagementModuleLoaded)
-                {
-                    ImportAzureModule(ServiceManagementModuleName, serviceManagementModulePath);
-                }
+                ImportAzureModule(ServiceManagementModuleName, serviceManagementModulePath);
             }
         }
 
         private void ImportAzureModule(string name, string path)
         {
-            WriteVerbose(string.Format("Importing {0} module...", name));
-            this.ImportModule(Path.Combine(path, name + ".psd1"));
-
             WriteVerbose(string.Format("Adding {0} module path to PSModulePath...", path));
             PowerShellUtilities.AddModuleToPSModulePath(path);
+
+            if (!IsLoaded(name))
+            {
+                WriteVerbose(string.Format("Importing {0} module...", name));
+                this.ImportModule(name);
+
+                if (name.Equals(ProfileModuleName))
+                {
+                    this.RemoveAzureAliases();
+                }
+            }
 
             if (Global)
             {
@@ -109,10 +102,23 @@ namespace Microsoft.WindowsAzure.Commands.Profile
             }
         }
 
+        private bool IsLoaded(string moduleName)
+        {
+            return this.GetLoadedModules().Exists(m => m.Name.Equals(moduleName));
+        }
+
         private void RemoveAzureModule(string name, string path)
         {
-            WriteVerbose(string.Format("Removing {0} module...", name));
-            this.RemoveModule(name);
+            if (IsLoaded(name))
+            {
+                WriteVerbose(string.Format("Removing {0} module...", name));
+                this.RemoveModule(name);
+
+                if (name.Equals(ServiceManagementModuleName))
+                {
+                    this.RemoveAzureAliases();
+                }
+            }
 
             WriteVerbose(string.Format("Removing {0} module path from PSModulePath...", path));
             PowerShellUtilities.RemoveModuleFromPSModulePath(path);

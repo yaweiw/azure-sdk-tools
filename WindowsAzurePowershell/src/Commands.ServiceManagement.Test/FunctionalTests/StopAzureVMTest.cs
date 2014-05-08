@@ -1063,9 +1063,9 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
         {
             List<string> exps = new List<string>(expStates);
             string instanceState = vmPowershellCmdlets.GetAzureVM(vm, svc).InstanceStatus;
-
-            Console.WriteLine("Role instaces: {0}", instanceState);
-            return exps.Contains(instanceState);
+            var vmRoleCOntext = vmPowershellCmdlets.GetAzureVM(vm, svc);
+            Console.WriteLine("Role instaces: {0}", vmRoleCOntext.InstanceStatus);
+            return exps.Contains(vmRoleCOntext.InstanceStatus);
         }
 
         [TestCleanup]
