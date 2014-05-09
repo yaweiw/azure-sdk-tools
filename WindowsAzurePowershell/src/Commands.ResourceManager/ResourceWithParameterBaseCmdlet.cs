@@ -117,52 +117,31 @@ namespace Microsoft.Azure.Commands.ResourceManager
                 !GalleryTemplateIdentity.Equals(galleryTemplateName, StringComparison.OrdinalIgnoreCase))
             {
                 galleryTemplateName = GalleryTemplateIdentity;
-                try
-                {
-                    dynamicParameters = GalleryTemplatesClient.GetTemplateParametersFromGallery(
-                        GalleryTemplateIdentity,
-                        TemplateParameterObject,
-                        this.TryResolvePath(TemplateParameterFile),
-                        MyInvocation.MyCommand.Parameters.Keys.ToArray());
-                }
-                catch (CloudException)
-                {
-                    throw new ArgumentException(string.Format(Resources.UnableToFindGallery, GalleryTemplateIdentity));
-                }
+                dynamicParameters = GalleryTemplatesClient.GetTemplateParametersFromGallery(
+                    GalleryTemplateIdentity,
+                    TemplateParameterObject,
+                    this.TryResolvePath(TemplateParameterFile),
+                    MyInvocation.MyCommand.Parameters.Keys.ToArray());
             }
             else if (!string.IsNullOrEmpty(TemplateFile) &&
                 !TemplateFile.Equals(templateFile, StringComparison.OrdinalIgnoreCase))
             {
-                try
-                {
-                    templateFile = TemplateFile;
-                    dynamicParameters = GalleryTemplatesClient.GetTemplateParametersFromFile(
-                        this.TryResolvePath(TemplateFile),
-                        TemplateParameterObject,
-                        this.TryResolvePath(TemplateParameterFile),
-                        MyInvocation.MyCommand.Parameters.Keys.ToArray());
-                } 
-                catch
-                {
-                    throw new ArgumentException(string.Format(Resources.FailedToParseProperty, "TemplateFile", TemplateFile));
-                }
+                templateFile = TemplateFile;
+                dynamicParameters = GalleryTemplatesClient.GetTemplateParametersFromFile(
+                    this.TryResolvePath(TemplateFile),
+                    TemplateParameterObject,
+                    this.TryResolvePath(TemplateParameterFile),
+                    MyInvocation.MyCommand.Parameters.Keys.ToArray());
             }
             else if (!string.IsNullOrEmpty(TemplateUri) &&
                 !TemplateUri.Equals(templateUri, StringComparison.OrdinalIgnoreCase))
             {
-                try
-                {
-                    templateUri = TemplateUri;
-                    dynamicParameters = GalleryTemplatesClient.GetTemplateParametersFromFile(
-                        TemplateUri,
-                        TemplateParameterObject,
-                        this.TryResolvePath(TemplateParameterFile),
-                        MyInvocation.MyCommand.Parameters.Keys.ToArray());
-                }
-                catch
-                {
-                    throw new ArgumentException(string.Format(Resources.FailedToParseProperty, "TemplateUri", TemplateUri));
-                }
+                templateUri = TemplateUri;
+                dynamicParameters = GalleryTemplatesClient.GetTemplateParametersFromFile(
+                    TemplateUri,
+                    TemplateParameterObject,
+                    this.TryResolvePath(TemplateParameterFile),
+                    MyInvocation.MyCommand.Parameters.Keys.ToArray());
             }
 
             return dynamicParameters;
