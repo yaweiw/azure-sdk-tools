@@ -103,18 +103,14 @@
   <!--
   Force nuget package restore so that packages that include .targets files
   don't need to be checked into source control.
-
-  Assumes use of a private feed, requires the following environment variables
-  to be set:
-
-  PRIVATE_FEED_URL: The url of the feed to pull from (in addition to the public default feed)
-  PRIVATE_FEED_USER_NAME: User name for access to the feed
-  PRIVATE_FEED_PASSWORD: Password for access to the feed
   -->
   <Target Name="ForceRestorePackages">
     <PropertyGroup>
 	    <NuGetCommand>$(MSBuildProjectDirectory)\WindowsAzurePowershell\src\.nuget\NuGet.exe</NuGetCommand>
+		<NuGetRestoreConfigFile>$(MSBuildProjectDirectory)\restore.config</NuGetRestoreConfigFile>
+		<NuGetRestoreConfigSwitch>-ConfigFile &quot;$(NuGetRestoreConfigFile)&quot;</NuGetRestoreConfigSwitch>
     </PropertyGroup>
+	
     <ItemGroup>
       <NuGetCache Include="$(LOCALAPPDATA)\NuGet\Cache\*.nupkg"/>
     </ItemGroup>
@@ -122,8 +118,14 @@
     <!-- Delete NuGet cache-->
     <Delete Files="@(NuGetCache)" />
 
+    <!-- Create config for user name and password for private feed access -->
+    <Delete Files="$(NuGetRestoreConfigFile)" />
+	<WriteLinesToFile File="$(NuGetRestoreConfigFile)" Lines="&lt;configuration&gt;&lt;/configuration&gt;" Overwrite="true" Encoding="UTF-8" />
+	<Exec Command="$(NuGetCommand) sources add -Name AzureSdkInternal -Source &quot;https://www.myget.org/F/azure-sdk-internal/&quot; $(NuGetRestoreConfigSwitch)" />
     <!-- Restore packages -->
-    <Exec Command="$(NuGetCommand) restore $(MSBuildProjectDirectory)\WindowsAzurePowershell\src\WindowsAzurePowershell.sln" ContinueOnError="ErrorAndContinue" />
+	<Exec Command="$(NuGetCommand) restore $(MSBuildProjectDirectory)\WindowsAzurePowershell\src\WindowsAzurePowershell.sln $(NuGetRestoreConfigSwitch)" ContinueOnError="ErrorAndContinue" />
+	<!-- delete config file, don't want to leave passwords hanging around on the build server file system -->
+    <Delete Files="$(NuGetRestoreConfigFile)" />
   </Target>
 
   <!-- Build all flavors of the Cmdlets -->
