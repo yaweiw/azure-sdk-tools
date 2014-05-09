@@ -13,6 +13,7 @@
 // ----------------------------------------------------------------------------------
 
 using Microsoft.WindowsAzure.Commands.Common.Test.Common;
+using Microsoft.WindowsAzure.Commands.ScenarioTest.Resources;
 
 namespace Microsoft.WindowsAzure.Commands.ScenarioTest.Common
 {
@@ -86,7 +87,7 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.Common
 
             foreach (string moduleName in modules)
             {
-                powershell.AddScript(string.Format("Import-Module \"{0}\"", Testing.GetTestResourcePath(moduleName)));
+                powershell.AddScript(string.Format("Import-Module \"{0}\"", Testing.GetAssemblyTestResourcePath<ResourceLocator>(moduleName)));
             }
 
             powershell.AddScript("$VerbosePreference='Continue'");

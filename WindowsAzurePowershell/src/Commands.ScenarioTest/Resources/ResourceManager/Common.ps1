@@ -50,7 +50,7 @@ Gets valid resource name
 #>
 function Clean-ResourceGroup($rgname)
 {
-	if ([Microsoft.WindowsAzure.Utilities.HttpRecorder.HttpMockServer]::Mode -ne [Microsoft.WindowsAzure.Utilities.HttpRecorder.HttpRecorderMode]::Playback) {
+	if ([Microsoft.Azure.Utilities.HttpRecorder.HttpMockServer]::Mode -ne [Microsoft.Azure.Utilities.HttpRecorder.HttpRecorderMode]::Playback) {
 		Remove-AzureResourceGroup -Name $rgname -Force	
 	}	
 }
