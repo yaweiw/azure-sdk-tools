@@ -281,6 +281,9 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Model
                                  ? PVM.LoadBalancerType.Private : PVM.LoadBalancerType.Unknown
                         }
                     });
+
+                this.InternalLoadBalancerName = this.LoadBalancers == null || !this.LoadBalancers.Any() ? null
+                                              : this.LoadBalancers.First().Name;
             }
         }
 
