@@ -50,11 +50,10 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
 
             if (DiskConfig.OSDiskConfiguration == null)
             {
-                DiskConfig.OSDiskConfiguration = new OSDiskConfiguration
-                {
-                    HostCaching = this.HostCaching
-                };
+                DiskConfig.OSDiskConfiguration = new OSDiskConfiguration();
             }
+
+            HostCaching = this.HostCaching;
 
             WriteObject(DiskConfig);
         }
