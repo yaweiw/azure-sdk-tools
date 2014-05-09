@@ -36,7 +36,7 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.Common
 
         private void OnClientCreated(object sender, ClientCreatedArgs e)
         {
-            e.AddHandlerToClient(HttpMockServer.CreateInstance());
+            e.AddHandlerToClient(HttpMockServer.CreateInstance());            
         }
 
         public WindowsAzurePowerShellTokenTest(params string[] modules)
