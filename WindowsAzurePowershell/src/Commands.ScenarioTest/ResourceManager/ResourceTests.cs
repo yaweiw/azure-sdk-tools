@@ -22,9 +22,8 @@ using Microsoft.WindowsAzure.Commands.Utilities.Common;
 namespace Microsoft.WindowsAzure.Commands.ScenarioTest.ResourceManagerTests
 {
     using System.IO;
-    using Commands.ScenarioTest.Common;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
-    using Microsoft.WindowsAzure.Utilities.HttpRecorder;
+    using Common;
+    using VisualStudio.TestTools.UnitTesting;
 
     [TestClass]
     public class ResourceTests : WindowsAzurePowerShellTokenTest

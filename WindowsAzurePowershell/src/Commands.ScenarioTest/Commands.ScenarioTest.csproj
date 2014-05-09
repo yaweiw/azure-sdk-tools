@@ -211,6 +211,7 @@
     <Compile Include="ResourceManager\DeploymentTests.cs" />
     <Compile Include="ResourceManager\ResourceTests.cs" />
     <Compile Include="ResourceManager\ResourceGroupTests.cs" />
+    <Compile Include="Resources\ResourceLocator.cs" />
     <Compile Include="ServiceBusTests\ServiceBusAuthorizationRuleTests.cs" />
     <Compile Include="StorageTests\StorageContainerTest.cs" />
     <Compile Include="StorageTests\StorageContextTest.cs" />
@@ -277,9 +278,9 @@
     <Resource Include="Resources\Assert.ps1">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
-    <Resource Include="Resources\TestAzure.psd1">
+    <EmbeddedResource Include="Resources\TestAzure.psd1">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Resource>
+    </EmbeddedResource>
     <None Include="MSSharedLibKey.snk" />
     <Resource Include="Resources\CloudService\CloudServiceTests.ps1">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>

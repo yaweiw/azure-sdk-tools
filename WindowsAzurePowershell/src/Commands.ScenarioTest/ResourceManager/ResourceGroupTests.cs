@@ -15,9 +15,8 @@
 namespace Microsoft.WindowsAzure.Commands.ScenarioTest.ResourceManagerTests
 {
     using System.IO;
-    using Commands.ScenarioTest.Common;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
-    using Microsoft.WindowsAzure.Utilities.HttpRecorder;
+    using Common;
+    using VisualStudio.TestTools.UnitTesting;
 
     [TestClass]
     public class ResourceGroupTests : WindowsAzurePowerShellTokenTest
@@ -82,7 +81,7 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.ResourceManagerTests
         [TestMethod]
         [TestCategory(Category.All)]
         [TestCategory(Category.ResourceManager)]
-        [TestCategory(Category.CheckIn)]
+        //[TestCategory(Category.CheckIn)]
         public void TestRemoveNonExistingResourceGroup()
         {
             RunPowerShellTest("Test-RemoveNonExistingResourceGroup");
