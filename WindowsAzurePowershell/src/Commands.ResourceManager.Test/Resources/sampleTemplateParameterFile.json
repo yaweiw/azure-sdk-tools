@@ -3,12 +3,12 @@
         "value" : "myvalue"
     },
     "bool" : {
-        "value" : "True"
+        "value" : true
     },
     "string" : {
         "value" : "myvalue"
     },
     "int" : {
-        "value" : "12"
+        "value" : 12
     }
 }
