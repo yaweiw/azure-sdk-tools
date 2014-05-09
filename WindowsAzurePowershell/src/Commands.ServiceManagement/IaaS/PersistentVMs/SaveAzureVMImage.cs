@@ -109,11 +109,23 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
                 return;
             }
 
+            VirtualMachineImageType otherImagetype = VirtualMachineImageType.None;
+            if (!ValidateNoImageInOtherType(out otherImagetype))
+            {
+                // If there is another type of image with the same name,
+                // WAPS will stop here to avoid duplicates and potential conflicts
+                WriteErrorWithTimestamp(
+                    string.Format(
+                        Resources.ErrorAnotherImageTypeFoundWithTheSameName,
+                        otherImagetype,
+                        this.ImageName));
+
+                return;
+            }
+
             Func<OperationStatusResponse> action = null;
 
-            var imageType = new VirtualMachineImageHelper(this.ComputeClient).GetImageType(this.ImageName);
-
-            if (string.IsNullOrEmpty(this.OSState) && ValidateNoImageInOtherType(imageType))
+            if (string.IsNullOrEmpty(this.OSState))
             {
                 action = () => this.ComputeClient.VirtualMachines.CaptureOSImage(
                     this.ServiceName,
@@ -126,7 +138,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
                         TargetImageName = this.ImageName
                     });
             }
-            else if (!string.IsNullOrEmpty(this.OSState) && ValidateNoImageInOtherType(imageType))
+            else if (!string.IsNullOrEmpty(this.OSState))
             {
                 if (string.Equals(GetRoleInstanceStatus(), RoleInstanceStatus.ReadyRole))
                 {
@@ -150,25 +162,14 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
             }
         }
 
-        protected bool ValidateNoImageInOtherType(VirtualMachineImageType imageType)
+        protected bool ValidateNoImageInOtherType(out VirtualMachineImageType otherType)
         {
-            var otherType = string.IsNullOrEmpty(this.OSState) ? VirtualMachineImageType.OSImage
-                                                               : VirtualMachineImageType.VMImage;
+            var allTypes = new VirtualMachineImageHelper(this.ComputeClient).GetImageType(this.ImageName);
 
-            var valid = !imageType.HasFlag(otherType);
+            otherType = string.IsNullOrEmpty(this.OSState) ? VirtualMachineImageType.VMImage
+                                                           : VirtualMachineImageType.OSImage;
 
-            if (!valid)
-            {
-                // If there is another type of image with the same name, 
-                // WAPS will stop here to avoid duplicates and potential conflicts
-                WriteErrorWithTimestamp(
-                    string.Format(
-                        Resources.ErrorAnotherImageTypeFoundWithTheSameName,
-                        otherType,
-                        this.ImageName));
-            }
-
-            return valid;
+            return allTypes == VirtualMachineImageType.None || !allTypes.HasFlag(otherType);
         }
 
         protected string GetRoleInstanceStatus()
