@@ -52,8 +52,10 @@ $env:AzurePSRoot = Split-Path -Parent $env:AzurePSRoot
 
 if (Test-Path ${env:\ProgramFiles(x86)} ) {
     $env:ADXSDKProgramFiles = ${env:ProgramFiles(x86)}
+    $env:ADX64Platform = $true
 } else {
     $env:ADXSDKProgramFiles = $env:ProgramFiles
+    $env:ADX64Platform = $false
 }
 
 
