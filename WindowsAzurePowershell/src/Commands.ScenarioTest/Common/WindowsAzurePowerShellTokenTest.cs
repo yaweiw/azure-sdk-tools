@@ -24,7 +24,7 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.Common
     using Test.Utilities.Common;
     using Utilities.Common;
     using VisualStudio.TestTools.UnitTesting;
-    using WindowsAzure.Utilities.HttpRecorder;
+    using Azure.Utilities.HttpRecorder;
     using System.Reflection;
 
     [TestClass]
@@ -33,7 +33,7 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.Common
         private static string testEnvironmentName = "__test-environment";
         // Location where test output will be written to e.g. C:\Temp
         private static string outputDirKey = "TEST_HTTPMOCK_OUTPUT";
-        private HttpRecorderMode recordingMode = HttpRecorderMode.Playback;
+        private HttpRecorderMode recordingMode = HttpRecorderMode.Record;
 
         private void OnClientCreated(object sender, ClientCreatedArgs e)
         {
