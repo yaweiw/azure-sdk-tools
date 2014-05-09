@@ -41,7 +41,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
             ValueFromPipelineByPropertyName = true,
             HelpMessage = "Controls the platform caching behavior of the OS disk blob for read efficiency.")]
         [ValidateNotNullOrEmpty]
-        [ValidateSet("ReadOnly", "ReadWrite", "None", IgnoreCase = true)]
+        [ValidateSet("ReadOnly", "ReadWrite", IgnoreCase = true)]
         public string HostCaching { get; set; }
 
         protected override void ProcessRecord()
