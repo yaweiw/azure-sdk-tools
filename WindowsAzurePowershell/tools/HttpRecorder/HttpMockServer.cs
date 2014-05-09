@@ -25,7 +25,7 @@ namespace Microsoft.WindowsAzure.Utilities.HttpRecorder
     public class HttpMockServer : DelegatingHandler
     {
         // One of the enum values for HttpRecorderMode such as Record or Playback
-        private const string modeEnvironmentVariableName = "AZURE_TEST_MODE";
+        private const string ModeEnvironmentVariableName = "AZURE_TEST_MODE";
         private static AssetNames names;
         private static Records records;
         private static List<HttpMockServer> servers;
@@ -191,9 +191,9 @@ namespace Microsoft.WindowsAzure.Utilities.HttpRecorder
             servers.ForEach(s => s.Dispose());
         }
 
-        private static HttpRecorderMode GetCurrentMode()
+        public static HttpRecorderMode GetCurrentMode()
         {
-            string input = Environment.GetEnvironmentVariable(modeEnvironmentVariableName);
+            string input = Environment.GetEnvironmentVariable(ModeEnvironmentVariableName);
             HttpRecorderMode mode;
 
             if (string.IsNullOrEmpty(input))

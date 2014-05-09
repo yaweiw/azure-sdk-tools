@@ -139,7 +139,7 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.Common
 
         private static string GetOrgId(string orgIdVariable)
         {
-            JObject subscription = JObject.Parse(Properties.Resources.Subscription);
+            JObject subscription = JObject.Parse(Properties.Resources.CsmTestDummy);
             string value = subscription.SelectToken(orgIdVariable).Value<string>();
             return value;
         }

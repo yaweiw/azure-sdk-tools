@@ -66,9 +66,28 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.Properties {
         ///  &quot;TEST_ORGID_AUTHENTICATION&quot;:&quot;SubscriptionId=0a496442-635f-4974-bda4-2d339b9a6b3c;BaseUri=https://management-preview.core.windows-int.net/&quot;,
         ///}.
         /// </summary>
-        internal static string Subscription {
+        internal static string CsmTestDummy {
             get {
-                return ResourceManager.GetString("Subscription", resourceCulture);
+                return ResourceManager.GetString("CsmTestDummy", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
+        ///&lt;PublishData&gt;
+        ///  &lt;PublishProfile
+        ///    SchemaVersion=&quot;2.0&quot;
+        ///    PublishMethod=&quot;AzureServiceManagementAPI&quot;&gt;
+        ///    &lt;!-- this subscriptions contains same subscription id used for recording, and a dummy certificate--&gt;
+        ///    &lt;Subscription
+        ///      ServiceManagementUrl=&quot;https://management.core.windows.net&quot;
+        ///      Id=&quot;2c224e7e-3ef5-431d-a57b-e71f4662e3a6&quot;
+        ///      Name=&quot;Node CLI Test&quot;
+        ///      ManagementCertificate=&quot;MIIC8jCCAdqgAwIBAgIQEtPvu8+LaLVIs/Kjh+uqSDANBgkqhkiG9w0BAQUFADAXMRUw [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string RdfeTestDummy {
+            get {
+                return ResourceManager.GetString("RdfeTestDummy", resourceCulture);
             }
         }
     }
