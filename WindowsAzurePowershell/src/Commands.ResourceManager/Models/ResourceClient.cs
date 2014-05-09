@@ -118,7 +118,7 @@ namespace Microsoft.Azure.Commands.ResourceManager.Models
             return providers;
         }
 
-        private string SerializeHashtable(Hashtable templateParameterObject, bool addValueLayer)
+        public string SerializeHashtable(Hashtable templateParameterObject, bool addValueLayer)
         {
             if (templateParameterObject == null)
             {
