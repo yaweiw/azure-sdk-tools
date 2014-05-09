@@ -169,6 +169,24 @@ namespace Microsoft.Azure.Commands.ManagedCache.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Are you sure you want to reduce the cache memory? Cache data will be lost..
+        /// </summary>
+        internal static string PromptOnCacheMemoryReduce {
+            get {
+                return ResourceManager.GetString("PromptOnCacheMemoryReduce", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Are you sure you want to reduce the cache offering? All cache data will be lost..
+        /// </summary>
+        internal static string PromptOnCachePlanChange {
+            get {
+                return ResourceManager.GetString("PromptOnCachePlanChange", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Removing cache service.
         /// </summary>
         internal static string RemoveServiceMessage {

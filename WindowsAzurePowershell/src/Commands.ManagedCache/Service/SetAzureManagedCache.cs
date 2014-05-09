@@ -41,7 +41,7 @@ namespace Microsoft.Azure.Commands.ManagedCache
         {
             CacheClient.ProgressRecorder = (message) => { WriteVerbose(message); };
             string memory = memoryDynamicParameterSet.GetMemoryValue(Sku);
-            CacheClient.UpdateCacheService(Name, Sku, memory);
+            CacheClient.UpdateCacheService(Name, Sku, memory, ConfirmAction, Force.IsPresent);
         }
 
         public object GetDynamicParameters()
