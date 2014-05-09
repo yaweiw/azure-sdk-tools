@@ -138,7 +138,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
                         TargetImageName = this.ImageName
                     });
             }
-            else if (!string.IsNullOrEmpty(this.OSState))
+            else
             {
                 if (string.Equals(GetRoleInstanceStatus(), RoleInstanceStatus.ReadyRole))
                 {
