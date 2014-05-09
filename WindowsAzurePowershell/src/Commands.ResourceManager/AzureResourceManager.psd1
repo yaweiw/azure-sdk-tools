@@ -12,7 +12,7 @@
 ModuleToProcess = '.\Microsoft.Azure.Commands.ResourceManager.dll'
 
 # Version number of this module.
-ModuleVersion = '0.8.1'
+ModuleVersion = '0.8.2'
 
 # ID used to uniquely identify this module
 GUID = '81d522a4-6e5d-4105-8f58-376204c47458'
