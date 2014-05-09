@@ -20,8 +20,8 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.Common
     using System.Management.Automation;
     using VisualStudio.TestTools.UnitTesting;
     using Commands.Common;
-    using Microsoft.WindowsAzure.Utilities.HttpRecorder;
-    using Microsoft.WindowsAzure.Commands.Utilities.Common;
+    using Azure.Utilities.HttpRecorder;
+    using Utilities.Common;
 
     [TestClass]
     public class WindowsAzurePowerShellCertificateTest : PowerShellTest
