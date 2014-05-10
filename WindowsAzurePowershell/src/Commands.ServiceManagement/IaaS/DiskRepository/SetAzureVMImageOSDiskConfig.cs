@@ -53,7 +53,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
                 DiskConfig.OSDiskConfiguration = new OSDiskConfiguration();
             }
 
-            HostCaching = this.HostCaching;
+            DiskConfig.OSDiskConfiguration.HostCaching = this.HostCaching;
 
             WriteObject(DiskConfig);
         }
