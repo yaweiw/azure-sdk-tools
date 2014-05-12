@@ -314,13 +314,20 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
                     WriteExceptionDetails(ex);
                 }
 
-                if (waitOperation == null)
+                if (result is OperationStatusResponse)
                 {
-                    operation = result == null ? null : GetOperationNewSM(result.RequestId);
+                    operation = result as OperationStatusResponse;
                 }
                 else
                 {
-                    operation = result == null ? null : waitOperation(result.RequestId, operationDescription);
+                    if (waitOperation == null)
+                    {
+                        operation = result == null ? null : GetOperationNewSM(result.RequestId);
+                    }
+                    else
+                    {
+                        operation = result == null ? null : waitOperation(result.RequestId, operationDescription);
+                    }
                 }
             }
             catch (AggregateException ex)

@@ -24,10 +24,10 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.PersistentVMs
     using System.Security.Cryptography.X509Certificates;
     using AutoMapper;
     using Common;
-    using DiskRepository;
     using Extensions;
     using Helpers;
     using Management.Compute.Models;
+    using Model;
     using Properties;
     using Storage;
     using Utilities.Common;
@@ -41,10 +41,9 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.PersistentVMs
     [Cmdlet(VerbsCommon.New, "AzureQuickVM", DefaultParameterSetName = WindowsParamSet), OutputType(typeof(ManagementOperationContext))]
     public class NewQuickVM : IaaSDeploymentManagementCmdletBase
     {
-        protected const string WindowsParamSet= "Windows";
+        protected const string WindowsParamSet = "Windows";
         protected const string LinuxParamSet = "Linux";
 
-        private bool _createdDeployment;
         private bool _isVMImage;
         private bool _isOSImage;
 
@@ -155,6 +154,10 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.PersistentVMs
         [Parameter(HelpMessage = "To disable IaaS provision guest agent.")]
         public SwitchParameter DisableGuestAgent { get; set; }
 
+        [Parameter(ValueFromPipelineByPropertyName = true, HelpMessage = "The name of the reserved IP.")]
+        [ValidateNotNullOrEmpty]
+        public string ReservedIPName { get; set; }
+
         public void NewAzureVMProcess()
         {
             WindowsAzureSubscription currentSubscription = CurrentSubscription;
@@ -212,9 +215,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.PersistentVMs
                         parameter,
                         CommandRuntime + Resources.QuickVMCreateCloudService,
                         () => this.ComputeClient.HostedServices.Create(parameter));
-
                 }
-
                 catch (CloudException ex)
                 {
                     this.WriteExceptionDetails(ex);
@@ -222,7 +223,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.PersistentVMs
                 }
             }
 
-            if (ParameterSetName.Equals("Windows", StringComparison.OrdinalIgnoreCase))
+            if (ParameterSetName.Equals(WindowsParamSet, StringComparison.OrdinalIgnoreCase))
             {
                 if (WinRMCertificate != null)
                 {
@@ -230,8 +231,10 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.PersistentVMs
                     {
                         throw new ArgumentException(Resources.WinRMCertificateDoesNotHaveExportablePrivateKey);
                     }
+
                     var operationDescription = string.Format(Resources.QuickVMUploadingWinRMCertificate, CommandRuntime, WinRMCertificate.Thumbprint);
                     var parameters = CertUtilsNewSM.Create(WinRMCertificate);
+
                     ExecuteClientActionNewSM(
                         null,
                         operationDescription,
@@ -261,104 +264,77 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.PersistentVMs
 
             var vm = CreatePersistenVMRole(currentStorage);
 
-            // If the current deployment doesn't exist set it create it
-            if (CurrentDeploymentNewSM == null)
+            try
             {
-                try
+                if (CurrentDeploymentNewSM == null)
                 {
+                    // If the current deployment doesn't exist set it create it
                     var parameters = new VirtualMachineCreateDeploymentParameters
                     {
-                        DeploymentSlot = DeploymentSlot.Production,
-                        Name = this.ServiceName,
-                        Label = this.ServiceName,
+                        DeploymentSlot     = DeploymentSlot.Production,
+                        Name               = this.ServiceName,
+                        Label              = this.ServiceName,
                         VirtualNetworkName = this.VNetName,
-                        Roles = {vm}
+                        Roles              = { vm },
+                        ReservedIPName     = this.ReservedIPName,
+                        DnsSettings        = this.DnsSettings == null ? null : new DnsSettings
+                                             {
+                                                 DnsServers = (from dns in this.DnsSettings
+                                                               select new Management.Compute.Models.DnsServer
+                                                               {
+                                                                   Name = dns.Name,
+                                                                   Address = dns.Address
+                                                               }).ToList()
+                                             }
                     };
 
-                    if (this.DnsSettings != null)
-                    {
-                        parameters.DnsSettings = new Management.Compute.Models.DnsSettings();
-
-                        foreach (var dns in this.DnsSettings)
-                        {
-                            parameters.DnsSettings.DnsServers.Add(new Microsoft.WindowsAzure.Management.Compute.Models.DnsServer() { Name = dns.Name, Address = dns.Address });
-                        }
-                    }
-
-                    var operationDescription = string.Format(Resources.QuickVMCreateDeploymentWithVM, CommandRuntime, vm.RoleName);
                     ExecuteClientActionNewSM(
                         parameters,
-                        operationDescription,
+                        string.Format(Resources.QuickVMCreateDeploymentWithVM, CommandRuntime, vm.RoleName),
                         () => this.ComputeClient.VirtualMachines.CreateDeployment(this.ServiceName, parameters));
-                        
-                    if (WaitForBoot.IsPresent)
-                    {
-                        WaitForRoleToBoot(vm.RoleName);
-                    }
                 }
-                catch (CloudException ex)
+                else
                 {
-                    if (ex.Response.StatusCode == HttpStatusCode.NotFound)
+                    if (!string.IsNullOrEmpty(VNetName) || DnsSettings != null)
                     {
-                        throw new Exception(Resources.ServiceDoesNotExistSpecifyLocationOrAffinityGroup);
-                    }
-                    this.WriteExceptionDetails(ex);
-                    return;
-                }
-
-                _createdDeployment = true;
-            }
-            else
-            {
-                if (VNetName != null || DnsSettings != null)
-                {
-                    WriteWarning(Resources.VNetNameOrDnsSettingsCanOnlyBeSpecifiedOnNewDeployments);
-                }
-            }
-
-            // Only create the VM when a new VM was added and it was not created during the deployment phase.
-            if ((_createdDeployment == false))
-            {
-                try
-                {
-                    var operationDescription = string.Format(Resources.QuickVMCreateVM, CommandRuntime, vm.RoleName);
-
-                    var parameter = new VirtualMachineCreateParameters
-                    {
-                        AvailabilitySetName         = vm.AvailabilitySetName,
-                        OSVirtualHardDisk           = _isVMImage ? null : Mapper.Map(vm.OSVirtualHardDisk, new Management.Compute.Models.OSVirtualHardDisk()),
-                        RoleName                    = vm.RoleName,
-                        RoleSize                    = vm.RoleSize,
-                        VMImageName                 = _isVMImage ? this.ImageName : null,
-                        ProvisionGuestAgent         = !this.DisableGuestAgent,
-                        ResourceExtensionReferences = this.DisableGuestAgent ? null : Mapper.Map<List<ResourceExtensionReference>>(
-                            new VirtualMachineExtensionImageFactory(this.ComputeClient).MakeList(
-                                VirtualMachineBGInfoExtensionCmdletBase.ExtensionDefaultPublisher,
-                                VirtualMachineBGInfoExtensionCmdletBase.ExtensionDefaultName))
-                    };
-
-                    if (!_isVMImage)
-                    {
-                        vm.DataVirtualHardDisks.ForEach(c => parameter.DataVirtualHardDisks.Add(c));
+                        WriteWarning(Resources.VNetNameOrDnsSettingsCanOnlyBeSpecifiedOnNewDeployments);
                     }
 
-                    vm.ConfigurationSets.ForEach(c => parameter.ConfigurationSets.Add(c));
-
+                    // Only create the VM when a new VM was added and it was not created during the deployment phase.
                     ExecuteClientActionNewSM(
                         vm,
-                        operationDescription,
-                        () => this.ComputeClient.VirtualMachines.Create(this.ServiceName, this.ServiceName, parameter));
+                        string.Format(Resources.QuickVMCreateVM, CommandRuntime, vm.RoleName),
+                        () => this.ComputeClient.VirtualMachines.Create(
+                            this.ServiceName,
+                            this.ServiceName,
+                            new VirtualMachineCreateParameters
+                            {
+                                AvailabilitySetName         = vm.AvailabilitySetName,
+                                OSVirtualHardDisk           = vm.OSVirtualHardDisk,
+                                DataVirtualHardDisks        = vm.DataVirtualHardDisks,
+                                RoleName                    = vm.RoleName,
+                                RoleSize                    = vm.RoleSize,
+                                VMImageName                 = vm.VMImageName,
+                                MediaLocation               = vm.MediaLocation,
+                                ProvisionGuestAgent         = vm.ProvisionGuestAgent,
+                                ResourceExtensionReferences = vm.ResourceExtensionReferences,
+                                ConfigurationSets           = vm.ConfigurationSets
+                            }));
+                }
 
-                    if(WaitForBoot.IsPresent)
-                    {
-                        WaitForRoleToBoot(vm.RoleName);
-                    }
-                }
-                catch (CloudException ex)
+                if (WaitForBoot.IsPresent)
                 {
-                    this.WriteExceptionDetails(ex);
-                    return;
+                    WaitForRoleToBoot(vm.RoleName);
                 }
+            }
+            catch (CloudException ex)
+            {
+                if (ex.Response.StatusCode == HttpStatusCode.NotFound)
+                {
+                    throw new Exception(Resources.ServiceDoesNotExistSpecifyLocationOrAffinityGroup);
+                }
+
+                this.WriteExceptionDetails(ex);
             }
         }
 
@@ -380,11 +356,13 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.PersistentVMs
                                                   HostCaching     = HostCaching
                                               }),
                 VMImageName                 = _isVMImage ? this.ImageName : null,
+                MediaLocation               = _isVMImage && !string.IsNullOrEmpty(this.MediaLocation) ? new Uri(this.MediaLocation) : null,
                 ProvisionGuestAgent         = !this.DisableGuestAgent,
                 ResourceExtensionReferences = this.DisableGuestAgent ? null : Mapper.Map<List<ResourceExtensionReference>>(
                     new VirtualMachineExtensionImageFactory(this.ComputeClient).MakeList(
                         VirtualMachineBGInfoExtensionCmdletBase.ExtensionDefaultPublisher,
-                        VirtualMachineBGInfoExtensionCmdletBase.ExtensionDefaultName))
+                        VirtualMachineBGInfoExtensionCmdletBase.ExtensionDefaultName,
+                        VirtualMachineBGInfoExtensionCmdletBase.ExtensionDefaultVersion))
             };
 
             if (!_isVMImage && vm.OSVirtualHardDisk.MediaLink == null && String.IsNullOrEmpty(vm.OSVirtualHardDisk.Name))
@@ -504,8 +482,10 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.PersistentVMs
 
             if (!string.IsNullOrEmpty(this.ImageName))
             {
-                _isOSImage = GetAzureVMImage.ExistsImageInType(this.ComputeClient, this.ImageName, ImageType.OSImage);
-                _isVMImage = GetAzureVMImage.ExistsImageInType(this.ComputeClient, this.ImageName, ImageType.VMImage);
+                var imageType = new VirtualMachineImageHelper(this.ComputeClient).GetImageType(this.ImageName);
+                _isOSImage = imageType.HasFlag(VirtualMachineImageType.OSImage);
+                _isVMImage = imageType.HasFlag(VirtualMachineImageType.VMImage);
+
                 if (_isOSImage && _isVMImage)
                 {
                     var errorMsg = string.Format(Resources.DuplicateNamesFoundInBothVMAndOSImages, this.ImageName);
@@ -598,11 +578,6 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.PersistentVMs
             if (!string.IsNullOrEmpty(this.Location) && !string.IsNullOrEmpty(this.AffinityGroup))
             {
                 throw new ArgumentException(Resources.EitherLocationOrAffinityGroupBeSpecified);
-            }
-
-            if (String.IsNullOrEmpty(this.VNetName) == false && (String.IsNullOrEmpty(this.Location) && String.IsNullOrEmpty(this.AffinityGroup)))
-            {
-                throw new ArgumentException(Resources.VNetNameCanBeSpecifiedOnlyOnInitialDeployment);
             }
         }
     }

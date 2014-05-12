@@ -109,6 +109,15 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.PersistentVMs
             set;
         }
 
+        [Parameter(Mandatory = false, ParameterSetName = "CreateService", ValueFromPipeline = true, ValueFromPipelineByPropertyName = true, HelpMessage = "ILB Settings for Deployment.")]
+        [Parameter(Mandatory = false, ParameterSetName = "ExistingService", ValueFromPipeline = true, ValueFromPipelineByPropertyName = true, HelpMessage = "ILB Settings for Deployment.")]
+        [ValidateNotNullOrEmpty]
+        public InternalLoadBalancerConfig InternalLoadBalancerConfig
+        {
+            get;
+            set;
+        }
+
         [Parameter(Mandatory = true, ParameterSetName = "CreateService", ValueFromPipeline = true, ValueFromPipelineByPropertyName = true, HelpMessage = "List of VMs to Deploy.")]
         [Parameter(Mandatory = true, ParameterSetName = "ExistingService", ValueFromPipeline = true, ValueFromPipelineByPropertyName = true, HelpMessage = "List of VMs to Deploy.")]
         [ValidateNotNullOrEmpty]
@@ -126,7 +135,9 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.PersistentVMs
             set;
         }
 
-        public virtual string ReservedIPName
+        [Parameter(ValueFromPipelineByPropertyName = true, HelpMessage = "The name of the reserved IP.")]
+        [ValidateNotNullOrEmpty]
+        public string ReservedIPName
         {
             get;
             set;
@@ -230,7 +241,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.PersistentVMs
                         Label = this.DeploymentLabel ?? this.ServiceName,
                         VirtualNetworkName = this.VNetName,
                         Roles = { persistentVMs[0] },
-                        ReservedIPName = ReservedIPName
+                        ReservedIPName = ReservedIPName,
                     };
 
                     if (this.DnsSettings != null)
@@ -246,6 +257,23 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.PersistentVMs
                                     Address = dns.Address
                                 });
                         }
+                    }
+
+                    if (this.InternalLoadBalancerConfig != null)
+                    {
+                        parameters.LoadBalancers = new LoadBalancer[1]
+                        {
+                            new LoadBalancer
+                            {
+                                Name = this.InternalLoadBalancerConfig.InternalLoadBalancerName,
+                                FrontendIPConfiguration = new FrontendIPConfiguration
+                                {
+                                    Type = FrontendIPConfigurationType.Private,
+                                    SubnetName = this.InternalLoadBalancerConfig.SubnetName,
+                                    StaticVirtualNetworkIPAddress = this.InternalLoadBalancerConfig.IPAddress
+                                }
+                            }
+                        };
                     }
 
                     var operationDescription = string.Format(Resources.AzureVMCommandCreateDeploymentWithVM, CommandRuntime, persistentVMs[0].RoleName);
@@ -414,15 +442,8 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.PersistentVMs
                 }
             }
 
-            if (this.ParameterSetName.Equals("CreateService", StringComparison.OrdinalIgnoreCase) == true)
-            {
-                if (!string.IsNullOrEmpty(this.VNetName) && string.IsNullOrEmpty(this.AffinityGroup))
-                {
-                    throw new ArgumentException(Resources.MustSpecifySameAffinityGroupAsVirtualNetwork);
-                }
-            }
-
-            if (this.ParameterSetName.Equals("CreateService", StringComparison.OrdinalIgnoreCase) == true || this.ParameterSetName.Equals("CreateDeployment", StringComparison.OrdinalIgnoreCase) == true)
+            if (this.ParameterSetName.Equals("CreateService", StringComparison.OrdinalIgnoreCase) == true
+             || this.ParameterSetName.Equals("CreateDeployment", StringComparison.OrdinalIgnoreCase) == true)
             {
                 if (this.DnsSettings != null && string.IsNullOrEmpty(this.VNetName))
                 {
@@ -437,10 +458,12 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.PersistentVMs
                 bool isOSImage = false;
                 bool isVMImage = false;
 
-                if (!string.IsNullOrEmpty(pVM.OSVirtualHardDisk.SourceImageName))
+                if (pVM.OSVirtualHardDisk != null && !string.IsNullOrEmpty(pVM.OSVirtualHardDisk.SourceImageName))
                 {
-                    isOSImage = GetAzureVMImage.ExistsImageInType(this.ComputeClient, pVM.OSVirtualHardDisk.SourceImageName, ImageType.OSImage);
-                    isVMImage = GetAzureVMImage.ExistsImageInType(this.ComputeClient, pVM.OSVirtualHardDisk.SourceImageName, ImageType.VMImage);
+                    var imageType = new VirtualMachineImageHelper(this.ComputeClient).GetImageType(
+                        pVM.OSVirtualHardDisk.SourceImageName);
+                    isOSImage = imageType.HasFlag(VirtualMachineImageType.OSImage);
+                    isVMImage = imageType.HasFlag(VirtualMachineImageType.VMImage);
                 }
 
                 if (isOSImage && isVMImage)

@@ -27,6 +27,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
     {
         public const string EnableExtensionParamSetName = "EnableAccessExtension";
         public const string DisableExtensionParamSetName = "DisableAccessExtension";
+        public const string UninstallExtensionParamSetName = "UninstallAccessExtension";
 
         [Parameter(
             ParameterSetName = EnableExtensionParamSetName,
@@ -53,12 +54,25 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
         public override SwitchParameter Disable { get; set; }
 
         [Parameter(
+            ParameterSetName = UninstallExtensionParamSetName,
+            Mandatory = true,
+            Position = 1,
+            ValueFromPipelineByPropertyName = true,
+            HelpMessage = "Uninstall VM Access Extension")]
+        public override SwitchParameter Uninstall { get; set; }
+
+        [Parameter(
             ParameterSetName = EnableExtensionParamSetName,
             Position = 3,
             ValueFromPipelineByPropertyName = true,
             HelpMessage = "The Extension Reference Name.")]
         [Parameter(
             ParameterSetName = DisableExtensionParamSetName,
+            Position = 2,
+            ValueFromPipelineByPropertyName = true,
+            HelpMessage = "The Extension Reference Name.")]
+        [Parameter(
+            ParameterSetName = UninstallExtensionParamSetName,
             Position = 2,
             ValueFromPipelineByPropertyName = true,
             HelpMessage = "The Extension Reference Name.")]
@@ -72,6 +86,11 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
             HelpMessage = "The Extension Version.")]
         [Parameter(
             ParameterSetName = DisableExtensionParamSetName,
+            Position = 3,
+            ValueFromPipelineByPropertyName = true,
+            HelpMessage = "The Extension Version.")]
+        [Parameter(
+            ParameterSetName = UninstallExtensionParamSetName,
             Position = 3,
             ValueFromPipelineByPropertyName = true,
             HelpMessage = "The Extension Version.")]
@@ -92,12 +111,14 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
             if (IsLegacyExtension())
             {
                 this.PublicConfiguration = GetLegacyConfiguration();
+                this.Version = VMAccessAgentLegacyVersion;
             }
             else
             {
                 this.ReferenceName = string.IsNullOrEmpty(this.ReferenceName) ? ExtensionDefaultName : this.ReferenceName;
                 this.PublicConfiguration = GetPublicConfiguration();
                 this.PrivateConfiguration = GetPrivateConfiguration();
+                this.Version = ExtensionDefaultVersion;
             }
         }
 
