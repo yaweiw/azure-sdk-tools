@@ -257,6 +257,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
     <None Include="Resources\Subscription.json" />
+    <Resource Include="Resources\TestAzureCsm.psd1">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
     <None Include="Resources\TrafficManager\Common.ps1" />
     <None Include="Resources\TrafficManager\TrafficManagerTests.ps1" />
     <None Include="Resources\Websites\WebsiteJobTestCmd.zip" />
@@ -266,7 +269,7 @@
     <Resource Include="Resources\Assert.ps1">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
-    <Resource Include="Resources\TestAzure.psd1">
+    <Resource Include="Resources\TestAzureRdfe.psd1">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
     <None Include="MSSharedLibKey.snk" />

@@ -40,7 +40,7 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.Common
         }
 
         public WindowsAzurePowerShellTokenTest(params string[] modules)
-            : base(modules)
+            : base(false, modules)
         {
             if (Environment.GetEnvironmentVariable(outputDirKey) != null)
             {

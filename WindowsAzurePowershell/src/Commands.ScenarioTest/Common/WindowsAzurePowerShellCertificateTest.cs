@@ -38,7 +38,7 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.Common
         }
 
         public WindowsAzurePowerShellCertificateTest(params string[] modules)
-            : base(modules)
+            : base(true, modules)
         {
             this.credentials = new TestCredentialHelper(Environment.CurrentDirectory);
             this.credentialFile = TestCredentialHelper.DefaultCredentialFile;
