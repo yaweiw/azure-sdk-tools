@@ -33,10 +33,17 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.Common
 
         public TestContext TestContext { get; set; }
 
-        public PowerShellTest(params string[] modules)
+        public PowerShellTest(bool rdfeOrCsm, params string[] modules)
         {
             this.modules = new List<string>();
-            this.modules.Add("TestAzure.psd1");
+            if (rdfeOrCsm)
+            {
+                this.modules.Add("TestAzureRdfe.psd1");
+            }
+            else
+            {
+                this.modules.Add("TestAzureCsm.psd1");
+            }
             this.modules.Add("Assert.ps1");
             this.modules.Add("Common.ps1");
             this.modules.AddRange(modules);

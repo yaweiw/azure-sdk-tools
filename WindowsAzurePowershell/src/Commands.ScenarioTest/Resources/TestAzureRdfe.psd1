@@ -27,7 +27,7 @@ CompanyName = 'Microsoft Corporation'
 Copyright = '(c) Microsoft Corporation. All rights reserved.'
 
 # Description of the functionality provided by this module
-Description = ''
+Description = 'Test module for Powershell Service Management Commands (a.k.a. RDFE)'
 
 # Minimum version of the Windows PowerShell engine required by this module
 PowerShellVersion = '3.0'
@@ -59,7 +59,6 @@ ScriptsToProcess = @()
 # Modules to import as nested modules of the module specified in ModuleToProcess
 NestedModules =	'.\Microsoft.WindowsAzure.Commands.ServiceManagement.dll',
 				'.\Microsoft.WindowsAzure.Commands.Storage.dll',
-				'.\Microsoft.Azure.Commands.ResourceManager.dll',
 				'.\Microsoft.WindowsAzure.Commands.TrafficManager.dll'
 
 # Functions to export from this module
