@@ -35,7 +35,7 @@ Get-ChildItem -Include $include -Exclude $exclude -Recurse -Path $output | Remov
 if (Get-Command "heat.exe" -ErrorAction SilentlyContinue)
 {
     $azureFiles = $(Join-Path $PSScriptRoot 'azurecmdfiles.wxi')
-    heat dir $output -srd -gg -g1 -cg azurecmdfiles -sfrag -dr PowerShellFolder -var var.sourceDir -o $(Join-Path $PSScriptRoot 'azurecmdfiles.wxi')
+    heat dir $output -srd -ag -g1 -cg azurecmdfiles -sfrag -dr PowerShellFolder -var var.sourceDir -o $(Join-Path $PSScriptRoot 'azurecmdfiles.wxi')
     
 	# Replace <Wix> with <Include>
 	(gc $azureFiles).replace('<Wix', '<Include') | Set-Content $azureFiles
