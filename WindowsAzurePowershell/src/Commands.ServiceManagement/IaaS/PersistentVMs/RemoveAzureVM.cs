@@ -68,7 +68,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
             {
                 if (deploymentGetResponse != null && !string.IsNullOrEmpty(deploymentGetResponse.ReservedIPName))
                 {
-                    WriteVerboseWithTimestamp(string.Format(Resources.ReservedIPNameNoLongerInUseButStillBeingReserved, deploymentGetResponse.ReservedIPName));
+                    WriteVerboseWithTimestamp(string.Format(Resources.ReservedIPNameNoLongerInUseByDeletingLastVMButStillBeingReserved, deploymentGetResponse.ReservedIPName));
                 }
 
                 ExecuteClientActionNewSM<OperationResponse>(

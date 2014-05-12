@@ -17,8 +17,9 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
     using System;
     using System.Linq;
     using System.Management.Automation;
-    using DiskRepository;
+    using Helpers;
     using Management.Compute.Models;
+    using Model;
     using Properties;
     using Utilities.Common;
 
@@ -98,7 +99,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
         
         protected override void ExecuteCommand()
         {
-            ServiceManagementProfile.Initialize(this);
+            ServiceManagementProfile.Initialize();
             
             base.ExecuteCommand();
 
@@ -108,9 +109,23 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
                 return;
             }
 
+            VirtualMachineImageType otherImagetype = VirtualMachineImageType.None;
+            if (!ValidateNoImageInOtherType(out otherImagetype))
+            {
+                // If there is another type of image with the same name,
+                // WAPS will stop here to avoid duplicates and potential conflicts
+                WriteErrorWithTimestamp(
+                    string.Format(
+                        Resources.ErrorAnotherImageTypeFoundWithTheSameName,
+                        otherImagetype,
+                        this.ImageName));
+
+                return;
+            }
+
             Func<OperationStatusResponse> action = null;
 
-            if (string.IsNullOrEmpty(this.OSState) && ValidateImageName(this.ImageName, ImageType.VMImage))
+            if (string.IsNullOrEmpty(this.OSState))
             {
                 action = () => this.ComputeClient.VirtualMachines.CaptureOSImage(
                     this.ServiceName,
@@ -123,7 +138,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
                         TargetImageName = this.ImageName
                     });
             }
-            else if (!string.IsNullOrEmpty(this.OSState) && ValidateImageName(this.ImageName, ImageType.OSImage))
+            else
             {
                 if (string.Equals(GetRoleInstanceStatus(), RoleInstanceStatus.ReadyRole))
                 {
@@ -147,18 +162,14 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
             }
         }
 
-        internal bool ValidateImageName(string imageName, ImageType againstImageType)
+        protected bool ValidateNoImageInOtherType(out VirtualMachineImageType otherType)
         {
-            if (GetAzureVMImage.ExistsImageInType(this.ComputeClient, this.ImageName, againstImageType))
-            {
-                // If there is another type of image with the same name, WAPS will stop here to avoid duplicates and potential conflicts
-                var errorMsg = string.Format(Resources.ErrorAnotherImageTypeFoundWithTheSameName, againstImageType, imageName);
-                WriteError(new ErrorRecord(new Exception(errorMsg), string.Empty, ErrorCategory.CloseError, null));
+            var allTypes = new VirtualMachineImageHelper(this.ComputeClient).GetImageType(this.ImageName);
 
-                return false;
-            }
+            otherType = string.IsNullOrEmpty(this.OSState) ? VirtualMachineImageType.VMImage
+                                                           : VirtualMachineImageType.OSImage;
 
-            return true;
+            return allTypes == VirtualMachineImageType.None || !allTypes.HasFlag(otherType);
         }
 
         protected string GetRoleInstanceStatus()

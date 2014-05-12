@@ -43,7 +43,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
                     {
                         if (addValueLayer)
                         {
-                            dictionary[(string) entry.Key] = new Hashtable() {{"value", entry.Value.ToString()}};
+                            dictionary[(string) entry.Key] = new Hashtable() {{"value", entry.Value}};
                         }
                         else
                         {

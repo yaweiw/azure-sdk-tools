@@ -16,7 +16,8 @@
 namespace Microsoft.WindowsAzure.Commands.ScenarioTest.Common
 {
     using System;
-    using System.Collections.Generic;
+    using System.Collections.ObjectModel;
+    using System.Management.Automation;
     using VisualStudio.TestTools.UnitTesting;
     using Commands.Common;
     using Microsoft.WindowsAzure.Utilities.HttpRecorder;
@@ -43,11 +44,16 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.Common
             this.credentialFile = TestCredentialHelper.DefaultCredentialFile;
             this.profileFile = TestCredentialHelper.WindowsAzureProfileFile;
 
-            HttpMockServer.Initialize(this.GetType(), Utilities.GetCurrentMethodName());
             if (Environment.GetEnvironmentVariable(outputDirKey) != null)
             {
                 HttpMockServer.RecordsDirectory = Environment.GetEnvironmentVariable(outputDirKey);
             }
+        }
+
+        public override Collection<PSObject> RunPowerShellTest(params string[] scripts)
+        {
+            HttpMockServer.Initialize(this.GetType(), Utilities.GetCurrentMethodName(2));
+            return base.RunPowerShellTest(scripts);
         }
 
         [TestInitialize]

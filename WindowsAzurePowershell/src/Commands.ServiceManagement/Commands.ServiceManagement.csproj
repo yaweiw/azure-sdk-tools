@@ -127,7 +127,10 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\AutoMapper.3.1.1\lib\net40\AutoMapper.dll</HintPath>
     </Reference>
-    <Reference Include="AutoMapper.Net4, Version=3.1.1.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL" />
+    <Reference Include="AutoMapper.Net4, Version=3.1.1.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\AutoMapper.3.1.1\lib\net40\AutoMapper.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.Data.Edm, Version=5.6.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Data.Edm.5.6.0\lib\net40\Microsoft.Data.Edm.dll</HintPath>
       <Private>True</Private>
@@ -154,11 +157,11 @@
     </Reference>
     <Reference Include="Microsoft.WindowsAzure.Common, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Microsoft.WindowsAzure.Common.1.0.0\lib\net40\Microsoft.WindowsAzure.Common.dll</HintPath>
+      <HintPath>..\packages\Microsoft.WindowsAzure.Common.1.0.3\lib\net40\Microsoft.WindowsAzure.Common.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.WindowsAzure.Common.NetFramework, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Microsoft.WindowsAzure.Common.1.0.0\lib\net40\Microsoft.WindowsAzure.Common.NetFramework.dll</HintPath>
+      <HintPath>..\packages\Microsoft.WindowsAzure.Common.1.0.3\lib\net40\Microsoft.WindowsAzure.Common.NetFramework.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.WindowsAzure.Configuration, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.WindowsAzure.ConfigurationManager.2.0.3\lib\net40\Microsoft.WindowsAzure.Configuration.dll</HintPath>
@@ -167,21 +170,17 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Microsoft.WindowsAzure.Management.1.0.0\lib\net40\Microsoft.WindowsAzure.Management.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.WindowsAzure.Management.Compute, Version=1.0.0.0, Culture=neutral, PublicKeyToken=c66ce9294aae1300, processorArchitecture=MSIL">
+    <Reference Include="Microsoft.WindowsAzure.Management.Compute, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Microsoft.WindowsAzure.Management.Compute.1.0.1\lib\net40\Microsoft.WindowsAzure.Management.Compute.dll</HintPath>
+      <HintPath>..\packages\Microsoft.WindowsAzure.Management.Compute.2.0.1\lib\net40\Microsoft.WindowsAzure.Management.Compute.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.WindowsAzure.Management.Network, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+    <Reference Include="Microsoft.WindowsAzure.Management.Network, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Microsoft.WindowsAzure.Management.Network.1.0.0\lib\net40\Microsoft.WindowsAzure.Management.Network.dll</HintPath>
+      <HintPath>..\packages\Microsoft.WindowsAzure.Management.Network.2.0.1\lib\net40\Microsoft.WindowsAzure.Management.Network.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.WindowsAzure.Management.Storage, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Microsoft.WindowsAzure.Management.Storage.1.0.0\lib\net40\Microsoft.WindowsAzure.Management.Storage.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.WindowsAzure.Management.VirtualNetworks, Version=0.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Microsoft.WindowsAzure.Management.VirtualNetworks.0.9.9-preview\lib\net40\Microsoft.WindowsAzure.Management.VirtualNetworks.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.WindowsAzure.Storage, Version=3.0.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -255,7 +254,30 @@
     <Compile Include="Extensions\Common\SetAzureServiceExtension.cs" />
     <Compile Include="Extensions\Common\NewAzureServiceExtensionConfig.cs" />
     <Compile Include="Extensions\Common\RemoveAzureServiceExtension.cs" />
+    <Compile Include="Extensions\MicrosoftAntimalware\AntimalwareExtensionContext.cs" />
+    <Compile Include="Extensions\MicrosoftAntimalware\BaseAzureServiceAntimalwareExtension.cs" />
+    <Compile Include="Extensions\MicrosoftAntimalware\GetAzureServiceAntimalwareExtension.cs" />
+    <Compile Include="Extensions\MicrosoftAntimalware\RemoveAzureServiceAntimalwareExtension.cs" />
+    <Compile Include="Extensions\MicrosoftAntimalware\SetAzureServiceAntimalwareExtension.cs" />
     <Compile Include="Helpers\SecureStringHelper.cs" />
+    <Compile Include="IaaS\DiskRepository\GetAzureVMImageDiskConfigSet.cs" />
+    <Compile Include="IaaS\DiskRepository\RemoveAzureVMImageDataDiskConfig.cs" />
+    <Compile Include="IaaS\DiskRepository\RemoveAzureVMImageOSDiskConfig.cs" />
+    <Compile Include="IaaS\DiskRepository\SetAzureVMImageOSDiskConfig.cs" />
+    <Compile Include="IaaS\DiskRepository\SetAzureVMImageDataDiskConfig.cs" />
+    <Compile Include="IaaS\DiskRepository\NewAzureVMImageDiskConfigSet.cs" />
+    <Compile Include="IaaS\Network\GetAzureInternalLoadBalancer.cs" />
+    <Compile Include="IaaS\Network\NewAzureInternalLoadBalancerConfig.cs" />
+    <Compile Include="IaaS\Network\RemoveAzureInternalLoadBalancer.cs" />
+    <Compile Include="IaaS\Network\AddAzureInternalLoadBalancer.cs" />
+    <Compile Include="IaaS\Network\RemoveAzurePublicIP.cs" />
+    <Compile Include="IaaS\Network\GetAzurePublicIP.cs" />
+    <Compile Include="IaaS\Network\SetAzurePublicIP.cs" />
+    <Compile Include="Model\InternalLoadBalancerSetting.cs" />
+    <Compile Include="Model\InternalLoadBalancerContext.cs" />
+    <Compile Include="Model\VirtualMachineImageDiskConfigSet.cs" />
+    <Compile Include="Model\VirtualMachineImageType.cs" />
+    <Compile Include="Helpers\VirtualMachineImageHelper.cs" />
     <Compile Include="IaaS\Extensions\BGInfo\GetAzureVMBGInfoExtension.cs" />
     <Compile Include="IaaS\Extensions\BGInfo\RemoveAzureVMBGInfoExtension.cs" />
     <Compile Include="IaaS\Extensions\BGInfo\SetAzureVMBGInfoExtension.cs" />
@@ -286,11 +308,17 @@
     <Compile Include="IaaS\Extensions\VMAccess\SetAzureVMAccessExtension.cs" />
     <Compile Include="IaaS\Extensions\VMAccess\VirtualMachineAccessExtensionCmdletBase.cs" />
     <Compile Include="IaaS\Extensions\VMAccess\VirtualMachineAccessExtensionContext.cs" />
+    <Compile Include="IaaS\Network\GetAzureReservedIP.cs" />
     <Compile Include="IaaS\Network\GetAzureStaticVNetIP.cs" />
+    <Compile Include="IaaS\Network\NewAzureReservedIP.cs" />
+    <Compile Include="IaaS\Network\RemoveAzureReservedIP.cs" />
     <Compile Include="IaaS\Network\RemoveAzureStaticVNetIP.cs" />
     <Compile Include="IaaS\Network\SetAzureStaticVNetIP.cs" />
+    <Compile Include="IaaS\Network\SetAzureVnetGatewayKey.cs" />
     <Compile Include="IaaS\Network\TestAzureStaticVNetIP.cs" />
     <Compile Include="Model\PersistentVMRoleListContext.cs" />
+    <Compile Include="Model\ReservedIPConstants.cs" />
+    <Compile Include="Model\ReservedIPContext.cs" />
     <Compile Include="Model\RoleSizeContext.cs" />
     <Compile Include="Model\PersistentVMRoleTypes.cs" />
     <Compile Include="Model\VirtualNetworkStaticIPAvailabilityContext.cs" />

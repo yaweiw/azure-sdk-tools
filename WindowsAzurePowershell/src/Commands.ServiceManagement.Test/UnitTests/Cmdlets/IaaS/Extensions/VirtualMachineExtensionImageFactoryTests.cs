@@ -72,7 +72,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.UnitTests.Cmdle
             var list = factory.MakeList(
                 nonExistingPublisherName,
                 nonExistingExtensionName,
-                true);
+                "1.*");
 
             Assert.IsTrue(list.Count() == 0);
         }
@@ -85,7 +85,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.UnitTests.Cmdle
             var list = factory.MakeList(
                 testPublisherName,
                 testExtensionName,
-                false);
+                "1.*");
 
             Assert.IsTrue(list.Count() == 1);
 
@@ -120,7 +120,8 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.UnitTests.Cmdle
 
             var list = factory.MakeList(
                 testPublisherName,
-                testExtensionName);
+                testExtensionName,
+                "1.*");
 
             Assert.IsTrue(list.Count() == 1);
 

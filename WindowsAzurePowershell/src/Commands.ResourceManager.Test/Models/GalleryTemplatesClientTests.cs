@@ -40,7 +40,9 @@ namespace Microsoft.Azure.Commands.ResourceManager.Test.Models
 
         private string invalidTemplateFile = @"Resources\invalidTemplateFile.json";
 
-        private string templateParameterFile = @"Resources\sampleTemplateParameterFile.json";
+        private string templateParameterFileSchema1 = @"Resources\sampleTemplateParameterFile.json";
+
+        private string templateParameterFileSchema2 = @"Resources\sampleTemplateParameterFileSchema2.json";
 
         public GalleryTemplatesClientTests()
         {
@@ -54,7 +56,7 @@ namespace Microsoft.Azure.Commands.ResourceManager.Test.Models
             string[] parameters = { "Name", "Location", "Mode" };
             string[] parameterSetNames = { "__AllParameterSets" };
             string key = "computeMode";
-            TemplateFileParameter value = new TemplateFileParameter()
+            TemplateFileParameterV1 value = new TemplateFileParameterV1()
             {
                 AllowedValues = new List<string>() { "Mode1", "Mode2", "Mode3" },
                 DefaultValue = "Mode1",
@@ -62,7 +64,7 @@ namespace Microsoft.Azure.Commands.ResourceManager.Test.Models
                 MinLength = "1",
                 Type = "string"
             };
-            KeyValuePair<string, TemplateFileParameter> parameter = new KeyValuePair<string, TemplateFileParameter>(key, value);
+            KeyValuePair<string, TemplateFileParameterV1> parameter = new KeyValuePair<string, TemplateFileParameterV1>(key, value);
 
             RuntimeDefinedParameter dynamicParameter = galleryTemplatesClient.ConstructDynamicParameter(parameters, parameter);
 
@@ -97,14 +99,14 @@ namespace Microsoft.Azure.Commands.ResourceManager.Test.Models
             string[] parameters = { "Name", "Location", "Mode" };
             string[] parameterSetNames = { "__AllParameterSets" };
             string key = "Name";
-            TemplateFileParameter value = new TemplateFileParameter()
+            TemplateFileParameterV1 value = new TemplateFileParameterV1()
             {
                 AllowedValues = new List<string>() { "Mode1", "Mode2", "Mode3" },
                 MaxLength = "5",
                 MinLength = "1",
                 Type = "bool"
             };
-            KeyValuePair<string, TemplateFileParameter> parameter = new KeyValuePair<string, TemplateFileParameter>(key, value);
+            KeyValuePair<string, TemplateFileParameterV1> parameter = new KeyValuePair<string, TemplateFileParameterV1>(key, value);
 
             RuntimeDefinedParameter dynamicParameter = galleryTemplatesClient.ConstructDynamicParameter(parameters, parameter);
 
@@ -139,14 +141,14 @@ namespace Microsoft.Azure.Commands.ResourceManager.Test.Models
             string[] parameters = { "Username", "Location", "Mode" };
             string[] parameterSetNames = { "__AllParameterSets" };
             string key = "user";
-            TemplateFileParameter value = new TemplateFileParameter()
+            TemplateFileParameterV1 value = new TemplateFileParameterV1()
             {
                 AllowedValues = new List<string>() { "Mode1", "Mode2", "Mode3" },
                 MaxLength = "5",
                 MinLength = "1",
                 Type = "bool"
             };
-            KeyValuePair<string, TemplateFileParameter> parameter = new KeyValuePair<string, TemplateFileParameter>(key, value);
+            KeyValuePair<string, TemplateFileParameterV1> parameter = new KeyValuePair<string, TemplateFileParameterV1>(key, value);
 
             RuntimeDefinedParameter dynamicParameter = galleryTemplatesClient.ConstructDynamicParameter(parameters, parameter);
 
@@ -181,14 +183,14 @@ namespace Microsoft.Azure.Commands.ResourceManager.Test.Models
             string[] parameters = { "Name", "Location", "Mode" };
             string[] parameterSetNames = { "__AllParameterSets" };
             string key = "name";
-            TemplateFileParameter value = new TemplateFileParameter()
+            TemplateFileParameterV1 value = new TemplateFileParameterV1()
             {
                 AllowedValues = new List<string>() { "Mode1", "Mode2", "Mode3" },
                 MaxLength = "5",
                 MinLength = "1",
                 Type = "bool"
             };
-            KeyValuePair<string, TemplateFileParameter> parameter = new KeyValuePair<string, TemplateFileParameter>(key, value);
+            KeyValuePair<string, TemplateFileParameterV1> parameter = new KeyValuePair<string, TemplateFileParameterV1>(key, value);
 
             RuntimeDefinedParameter dynamicParameter = galleryTemplatesClient.ConstructDynamicParameter(parameters, parameter);
 
@@ -223,13 +225,13 @@ namespace Microsoft.Azure.Commands.ResourceManager.Test.Models
             string[] parameters = { "Name", "Location", "Mode" };
             string[] parameterSetNames = { "__AllParameterSets" };
             string key = "computeMode";
-            TemplateFileParameter value = new TemplateFileParameter()
+            TemplateFileParameterV1 value = new TemplateFileParameterV1()
             {
                 AllowedValues = new List<string>(),
                 DefaultValue = "Mode1",
                 Type = "securestring"
             };
-            KeyValuePair<string, TemplateFileParameter> parameter = new KeyValuePair<string, TemplateFileParameter>(key, value);
+            KeyValuePair<string, TemplateFileParameterV1> parameter = new KeyValuePair<string, TemplateFileParameterV1>(key, value);
 
             RuntimeDefinedParameter dynamicParameter = galleryTemplatesClient.ConstructDynamicParameter(parameters, parameter);
 
@@ -250,13 +252,13 @@ namespace Microsoft.Azure.Commands.ResourceManager.Test.Models
             string[] parameters = { "Name", "Location", "Mode" };
             string[] parameterSetNames = { "__AllParameterSets" };
             string key = "computeMode";
-            TemplateFileParameter value = new TemplateFileParameter()
+            TemplateFileParameterV1 value = new TemplateFileParameterV1()
             {
                 AllowedValues = null,
                 DefaultValue = "Mode1",
                 Type = "securestring"
             };
-            KeyValuePair<string, TemplateFileParameter> parameter = new KeyValuePair<string, TemplateFileParameter>(key, value);
+            KeyValuePair<string, TemplateFileParameterV1> parameter = new KeyValuePair<string, TemplateFileParameterV1>(key, value);
 
             RuntimeDefinedParameter dynamicParameter = galleryTemplatesClient.ConstructDynamicParameter(parameters, parameter);
 
@@ -304,7 +306,35 @@ namespace Microsoft.Azure.Commands.ResourceManager.Test.Models
             RuntimeDefinedParameterDictionary result = galleryTemplatesClient.GetTemplateParametersFromFile(
                 templateFile,
                 null,
-                templateParameterFile,
+                templateParameterFileSchema1,
+                new[] { "TestPS" });
+
+            Assert.Equal(4, result.Count);
+
+            Assert.Equal("string", result["string"].Name);
+            Assert.Equal(typeof(string), result["string"].ParameterType);
+            Assert.Equal("myvalue", result["string"].Value);
+
+
+            Assert.Equal("int", result["int"].Name);
+            Assert.Equal(typeof(int), result["int"].ParameterType);
+            Assert.Equal("12", result["int"].Value);
+
+            Assert.Equal("bool", result["bool"].Name);
+            Assert.Equal(typeof(bool), result["bool"].ParameterType);
+            Assert.Equal("True", result["bool"].Value);
+        }
+
+        [Fact]
+        public void GetTemplateParametersFromFileWithSchema2MergesObjects()
+        {
+            Hashtable hashtable = new Hashtable();
+            hashtable["Bool"] = true;
+            hashtable["Foo"] = "bar";
+            RuntimeDefinedParameterDictionary result = galleryTemplatesClient.GetTemplateParametersFromFile(
+                templateFile,
+                null,
+                templateParameterFileSchema2,
                 new[] { "TestPS" });
 
             Assert.Equal(4, result.Count);
@@ -332,7 +362,7 @@ namespace Microsoft.Azure.Commands.ResourceManager.Test.Models
             RuntimeDefinedParameterDictionary result = galleryTemplatesClient.GetTemplateParametersFromFile(
                 invalidTemplateFile,
                 null,
-                templateParameterFile,
+                templateParameterFileSchema1,
                 new[] { "TestPS" });
 
             Assert.Equal(0, result.Count);

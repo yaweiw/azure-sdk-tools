@@ -114,7 +114,8 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
                 role.ResourceExtensionReferences = this.DisableGuestAgent.IsPresent ? null :
                     new VirtualMachineExtensionImageFactory(this.ComputeClient).MakeList(
                             VirtualMachineBGInfoExtensionCmdletBase.ExtensionDefaultPublisher,
-                            VirtualMachineBGInfoExtensionCmdletBase.ExtensionDefaultName);
+                            VirtualMachineBGInfoExtensionCmdletBase.ExtensionDefaultName,
+                            VirtualMachineBGInfoExtensionCmdletBase.ExtensionDefaultVersion);
             }
 
             WriteObject(VM, true);
