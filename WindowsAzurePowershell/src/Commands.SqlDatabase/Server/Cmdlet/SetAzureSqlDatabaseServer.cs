@@ -104,11 +104,10 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Server.Cmdlet
         /// <summary>
         /// Execute the command.
         /// </summary>
-        protected override void ProcessRecord()
+        public override void ExecuteCmdlet()
         {
             try
             {
-                base.ProcessRecord();
                 object operationContext = null;
                 switch (this.ParameterSetName)
                 {

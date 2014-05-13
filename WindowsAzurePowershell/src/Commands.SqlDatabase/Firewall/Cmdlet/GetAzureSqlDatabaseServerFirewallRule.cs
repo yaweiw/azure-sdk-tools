@@ -104,12 +104,10 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Firewall.Cmdlet
         /// <summary>
         /// Process the command.
         /// </summary>
-        protected override void ProcessRecord()
+        public override void ExecuteCmdlet()
         {
             try
             {
-                base.ProcessRecord();
-
                 var rules = this.GetAzureSqlDatabaseServerFirewallRuleProcess(this.ServerName, this.RuleName);
                 this.WriteObject(rules, true);
             }

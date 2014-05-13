@@ -93,12 +93,10 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Server.Cmdlet
         /// <summary>
         /// Execute the command.
         /// </summary>
-        protected override void ProcessRecord()
+        public override void ExecuteCmdlet()
         {
             try
             {
-                base.ProcessRecord();
-
                 var servers = this.GetAzureSqlDatabaseServersProcess(this.ServerName);
                 this.WriteObject(servers, true);
             }

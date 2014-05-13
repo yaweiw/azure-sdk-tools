@@ -29,7 +29,7 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Database.Cmdlet
     /// </summary>
     [Cmdlet(VerbsLifecycle.Stop, "AzureSqlDatabaseCopy", SupportsShouldProcess = true,
         ConfirmImpact = ConfirmImpact.Medium)]
-    public class StopAzureSqlDatabaseCopy : PSCmdlet
+    public class StopAzureSqlDatabaseCopy : CmdletBase
     {
         #region ParameterSetNames
 
@@ -113,7 +113,7 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Database.Cmdlet
         /// <summary>
         /// Execute the command.
         /// </summary>
-        protected override void ProcessRecord()
+        public override void ExecuteCmdlet()
         {
             // Obtain the database name from the given parameters.
             string databaseName = null;

@@ -27,7 +27,7 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Database.Cmdlet
     /// </summary>
     [Cmdlet(VerbsCommon.Remove, "AzureSqlDatabase", SupportsShouldProcess = true,
         ConfirmImpact = ConfirmImpact.High)]
-    public class RemoveAzureSqlDatabase : PSCmdlet
+    public class RemoveAzureSqlDatabase : CmdletBase
     {
         #region Parameter sets
 
@@ -126,7 +126,7 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Database.Cmdlet
         /// <summary>
         /// Process the command.
         /// </summary>
-        protected override void ProcessRecord()
+        public override void ExecuteCmdlet()
         {
             // Obtain the database name from the given parameters.
             string databaseName = null;

@@ -29,7 +29,7 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Database.Cmdlet
     /// </summary>
     [Cmdlet(VerbsCommon.New, "AzureSqlDatabaseServerContext", ConfirmImpact = ConfirmImpact.None,
         DefaultParameterSetName = ServerNameWithSqlAuthParamSet)]
-    public class NewAzureSqlDatabaseServerContext : PSCmdlet
+    public class NewAzureSqlDatabaseServerContext : CmdletBase
     {
         #region ParameterSet Names
 
@@ -278,12 +278,10 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Database.Cmdlet
         /// <summary>
         /// Process the command.
         /// </summary>
-        protected override void ProcessRecord()
+        public override void ExecuteCmdlet()
         {
             try
             {
-                base.ProcessRecord();
-
                 // First obtain the Management Service Uri and the ServerName
                 Uri manageUrl = this.GetManageUrl(this.ParameterSetName);
                 Uri managementServiceUri = DataConnectionUtility.GetManagementServiceUri(manageUrl);

@@ -143,12 +143,10 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Database.Cmdlet
         /// <summary>
         /// Process the export request
         /// </summary>
-        protected override void ProcessRecord()
+        public override void ExecuteCmdlet()
         {
             try
             {
-                base.ProcessRecord();
-
                 // Parse the required information given the parameter set
                 string serverName = null;
                 string userName = null;

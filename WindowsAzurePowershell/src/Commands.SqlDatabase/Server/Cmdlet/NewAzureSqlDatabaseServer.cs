@@ -133,12 +133,10 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Server.Cmdlet
         /// <summary>
         /// Execute the command.
         /// </summary>
-        protected override void ProcessRecord()
+        public override void ExecuteCmdlet()
         {
             try
             {
-                base.ProcessRecord();
-
                 // Get the version from the command line
                 float? version = null;
                 if (this.MyInvocation.BoundParameters.ContainsKey("Version"))
