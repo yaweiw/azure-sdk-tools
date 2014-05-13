@@ -171,4 +171,10 @@
   <data name="UpdatingCacheService" xml:space="preserve">
     <value>Updating cache service...</value>
   </data>
+  <data name="PromptOnCacheMemoryReduce" xml:space="preserve">
+    <value>Are you sure you want to reduce the cache memory? Cache data will be lost.</value>
+  </data>
+  <data name="PromptOnCachePlanChange" xml:space="preserve">
+    <value>Are you sure you want to reduce the cache offering? All cache data will be lost.</value>
+  </data>
 </root>

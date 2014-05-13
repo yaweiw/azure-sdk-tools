@@ -29,7 +29,7 @@ namespace Microsoft.Azure.Commands.ManagedCache.Test
             //too short
             Assert.Throws(typeof(ArgumentException), () => { client.NormalizeCacheServiceName("foo"); });
             //too long
-            Assert.Throws(typeof(ArgumentException), () => { client.NormalizeCacheServiceName("fooddddddddddddddddddddddd"); });
+            Assert.Throws(typeof(ArgumentException), () => { client.NormalizeCacheServiceName("h01234567890123456789"); });
             //empty
             Assert.Throws(typeof(ArgumentException), () => { client.NormalizeCacheServiceName(""); });
         }
