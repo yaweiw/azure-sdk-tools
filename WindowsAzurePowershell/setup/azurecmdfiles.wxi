@@ -3810,6 +3810,9 @@
                     <Component Id="cmp1E509A61FF0A11A6ECE6B977FFEF760A" Guid="*">
                         <File Id="filDE1C1D91767B94E174F740DF09FA6E77" KeyPath="yes" Source="$(var.sourceDir)\ServiceManagement\Azure\Microsoft.WindowsAzure.Commands.TrafficManager.dll" />
                     </Component>
+                    <Component Id="cmp64E1870489FCB661E624C19E05A20741" Guid="*">
+                        <File Id="filB0C7CBEE2CDB7FE2D6DB1AEC82085099" KeyPath="yes" Source="$(var.sourceDir)\ServiceManagement\Azure\Microsoft.WindowsAzure.Commands.TrafficManager.dll-help.xml" />
+                    </Component>
                     <Component Id="cmp686DF114F728D62D29E75BC027D104DB" Guid="*">
                         <File Id="filE9F7A2D158D4EBF17E79BF5762D5D265" KeyPath="yes" Source="$(var.sourceDir)\ServiceManagement\Azure\Microsoft.WindowsAzure.Commands.Utilities.Common.Storage.dll" />
                     </Component>
@@ -10243,6 +10246,7 @@
             <ComponentRef Id="cmp407A057C318F6C681D99146851F60BF0" />
             <ComponentRef Id="cmp3E7B16BE6C1D81075A77951CC95CD283" />
             <ComponentRef Id="cmp1E509A61FF0A11A6ECE6B977FFEF760A" />
+            <ComponentRef Id="cmp64E1870489FCB661E624C19E05A20741" />
             <ComponentRef Id="cmp686DF114F728D62D29E75BC027D104DB" />
             <ComponentRef Id="cmp19E0B752F036AE20EC66F57AB3799AC7" />
             <ComponentRef Id="cmp3BDEFFAF8E222FAAEB8A9DBE212758EA" />
