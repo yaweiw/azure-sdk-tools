@@ -25,7 +25,7 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase
     /// <summary>
     /// The base class for all Windows Azure Sql Database Management Cmdlets
     /// </summary>
-    public abstract class SqlDatabaseCmdletBase : PSCmdlet
+    public abstract class SqlDatabaseCmdletBase : CmdletBase
     {
         /// <summary>
         /// Stores the session Id for all the request made in this session.

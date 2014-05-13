@@ -93,11 +93,10 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Firewall.Cmdlet
         /// <summary>
         /// Process the command.
         /// </summary>
-        protected override void ProcessRecord()
+        public override void ExecuteCmdlet()
         {
             try
             {
-                base.ProcessRecord();
                 this.RemoveAzureSqlDatabaseServerFirewallRuleProcess(this.ServerName, this.RuleName);
             }
             catch (Exception ex)
