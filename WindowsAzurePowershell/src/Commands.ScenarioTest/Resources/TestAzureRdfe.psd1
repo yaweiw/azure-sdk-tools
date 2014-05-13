@@ -12,7 +12,7 @@
 ModuleToProcess = '.\Microsoft.WindowsAzure.Commands.dll'
 
 # Version number of this module.
-ModuleVersion = '1.0'
+ModuleVersion = '0.8.2'
 
 # ID used to uniquely identify this module
 GUID = '81d522a4-6e5d-4105-8f58-376204c47458'
@@ -57,7 +57,7 @@ RequiredAssemblies = @()
 ScriptsToProcess = @()
 
 # Modules to import as nested modules of the module specified in ModuleToProcess
-NestedModules =	'.\Microsoft.WindowsAzure.Commands.ServiceManagement.dll',
+NestedModules = '.\Microsoft.WindowsAzure.Commands.ServiceManagement.dll',
 				'.\Microsoft.WindowsAzure.Commands.Storage.dll',
 				'.\Microsoft.WindowsAzure.Commands.TrafficManager.dll'
 

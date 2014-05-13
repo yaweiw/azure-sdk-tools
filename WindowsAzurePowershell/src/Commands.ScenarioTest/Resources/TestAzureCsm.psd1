@@ -9,10 +9,10 @@
 @{
 
 # Script module or binary module file associated with this manifest
-ModuleToProcess = '.\Microsoft.WindowsAzure.Commands.dll'
+ModuleToProcess = '.\Microsoft.Azure.Commands.ResourceManager.dll'
 
 # Version number of this module.
-ModuleVersion = '1.0'
+ModuleVersion = '0.8.2'
 
 # ID used to uniquely identify this module
 GUID = '78EFADFE-E442-46F7-B2F9-1DCB40B9E1B5'
@@ -57,7 +57,7 @@ RequiredAssemblies = @()
 ScriptsToProcess = @()
 
 # Modules to import as nested modules of the module specified in ModuleToProcess
-NestedModules =	'.\Microsoft.Azure.Commands.ResourceManager.dll'
+NestedModules =	@()
 
 # Functions to export from this module
 FunctionsToExport = '*'
