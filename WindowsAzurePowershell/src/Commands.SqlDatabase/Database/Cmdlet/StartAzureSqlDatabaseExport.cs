@@ -135,7 +135,7 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Database.Cmdlet
             this.WriteVerbose("UserName: " + sqlCredentials.UserName);
 
             // Get the SQL management client for the current subscription
-            SqlManagementClient sqlManagementClient = SqlDatabaseCmdletBase.GetCurrentSqlClient();
+            SqlManagementClient sqlManagementClient = GetCurrentSqlClient();
 
             // Start the database export operation
             DacImportExportResponse response = sqlManagementClient.Dac.Export(
