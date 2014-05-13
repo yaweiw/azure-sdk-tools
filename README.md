@@ -36,6 +36,7 @@ This repository contains a set of PowerShell cmdlets for developers and administ
   * Manage cloud service extensions
     * Remote desktop
     * Diagnostics
+    * Anti-Malware
 * Storage
   * Manage storage account and access key.
   * Manage storage container and blob, with paging.
@@ -45,7 +46,7 @@ This repository contains a set of PowerShell cmdlets for developers and administ
   * Create SAS token.
   * Manage metrics and logging.
   * Configure timeout
-* SQL Azure
+* SQL Database
   * CRUD support for database server, database and firewall rule.
   * Get database server quota.
   * Get/Set database server service objective.
@@ -57,13 +58,14 @@ This repository contains a set of PowerShell cmdlets for developers and administ
   * Manage service bus namespaces.
 * VM
   * Manage VM, such as CRUD, import/export and start/stop/restart.
-  * Manage VM image, such as CRUD.
+  * Manage VM image and VM image disks.
   * Manage disk, such as CRUD.
   * Manage VM endpoint, such as CRUD and ACL.
   * Get/Set VM sub net.
   * Manage certificate and SSH key.
   * PowerShell remoting
   * Manage extension
+  * Public IP, reserved IP and internal load balancer
 * Deployment
   * Manage deployment, such as CRUD, move, upgrade and restore.
   * Get/Create DNS settings of a deployment.
@@ -96,6 +98,11 @@ This repository contains a set of PowerShell cmdlets for developers and administ
   * Manage resource groups and deployments
   * Query and download gallery templates
   * Manage individual resources
+* Traffic Manager
+  * Manage profiles and endpoints
+* Azure Automation
+  * Manage automation accounts
+  * Manage automation jobs, runbooks and schedules
 
 For detail descriptions and examples of the cmdlets, type
 * ```help azure``` to get all the cmdlets.

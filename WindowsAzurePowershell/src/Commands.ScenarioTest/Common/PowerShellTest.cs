@@ -34,10 +34,21 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.Common
 
         public TestContext TestContext { get; set; }
 
-        public PowerShellTest(params string[] modules)
+        public PowerShellTest(PowerShellCommandMode commandMode, params string[] modules)
         {
             this.modules = new List<string>();
-            this.modules.Add("TestAzure.psd1");
+            if (commandMode == PowerShellCommandMode.ServiceManagement)
+            {
+                this.modules.Add("TestAzureRdfe.psd1");
+            }
+            else if (commandMode == PowerShellCommandMode.ResourceManagement)
+            {
+                this.modules.Add("TestAzureCsm.psd1");
+            }
+            else
+            {
+                throw new ArgumentException("Unknown command type for testing");
+            }
             this.modules.Add("Assert.ps1");
             this.modules.Add("Common.ps1");
             this.modules.AddRange(modules);

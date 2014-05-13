@@ -192,7 +192,11 @@
     <Compile Include="Utilities\TrafficManagerClient.cs" />
     <Compile Include="Utilities\TrafficManagerConfigurationBaseCmdlet.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Content Include="Microsoft.WindowsAzure.Commands.TrafficManager.dll-help.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Commands.ServiceManagement\Commands.ServiceManagement.csproj">
       <Project>{e1ca72ba-8374-45f6-904d-fd34ecdf5b6f}</Project>
