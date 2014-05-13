@@ -61,7 +61,7 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Firewall.Cmdlet
             string ruleName)
         {
             // Get the SQL management client for the current subscription
-            SqlManagementClient sqlManagementClient = SqlDatabaseCmdletBase.GetCurrentSqlClient();
+            SqlManagementClient sqlManagementClient = GetCurrentSqlClient();
 
             // Retrieve the list of databases
             FirewallRuleListResponse response = sqlManagementClient.FirewallRules.List(serverName);

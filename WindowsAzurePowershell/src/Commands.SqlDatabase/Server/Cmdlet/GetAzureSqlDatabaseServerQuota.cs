@@ -141,7 +141,7 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Server.Cmdlet
         {
             try
             {
-                SqlManagementClient sqlManagementClient = SqlDatabaseCmdletBase.GetCurrentSqlClient();
+                SqlManagementClient sqlManagementClient = GetCurrentSqlClient();
 
                 // Retrieve the list of servers
                 QuotaListResponse response = sqlManagementClient.Quotas.List(this.ServerName);

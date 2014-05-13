@@ -17,6 +17,7 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase
     using System;
     using System.Globalization;
     using System.Management.Automation;
+    using Microsoft.WindowsAzure.Commands.SqlDatabase.Services;
     using Microsoft.WindowsAzure.Commands.SqlDatabase.Services.Common;
     using Microsoft.WindowsAzure.Commands.Utilities;
     using Microsoft.WindowsAzure.Commands.Utilities.Common;
@@ -52,15 +53,19 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase
         }
 
         /// <summary>
-        /// Retrieve the SQL Management client for the currently selected subscription.
+        /// Retrieve the SQL Management client for the currently selected subscription, adding the session and request
+        /// id tracing headers for the current cmdlet invocation.
         /// </summary>
         /// <returns>The SQL Management client for the currently selected subscription.</returns>
-        public static SqlManagementClient GetCurrentSqlClient()
+        protected SqlManagementClient GetCurrentSqlClient()
         {
             // Get the SQL management client for the current subscription
             WindowsAzureSubscription subscription = WindowsAzureProfile.Instance.CurrentSubscription;
             SqlDatabaseCmdletBase.ValidateSubscription(subscription);
-            return subscription.CreateClient<SqlManagementClient>();
+            SqlManagementClient client = subscription.CreateClient<SqlManagementClient>();
+            client.HttpClient.DefaultRequestHeaders.Add(Constants.ClientSessionIdHeaderName, clientSessionId);
+            client.HttpClient.DefaultRequestHeaders.Add(Constants.ClientRequestIdHeaderName, clientRequestId);
+            return client;
         }
 
         /// <summary>

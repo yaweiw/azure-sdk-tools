@@ -147,7 +147,7 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Firewall.Cmdlet
             string endIpAddress)
         {
             // Get the SQL management client for the current subscription
-            SqlManagementClient sqlManagementClient = SqlDatabaseCmdletBase.GetCurrentSqlClient();
+            SqlManagementClient sqlManagementClient = GetCurrentSqlClient();
 
             // Create the firewall rule
             FirewallRuleCreateResponse response = sqlManagementClient.FirewallRules.Create(
