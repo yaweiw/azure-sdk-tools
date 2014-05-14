@@ -105,7 +105,7 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Server.Cmdlet
             }
 
             // Get the SQL management client for the current subscription
-            SqlManagementClient sqlManagementClient = SqlDatabaseCmdletBase.GetCurrentSqlClient();
+            SqlManagementClient sqlManagementClient = GetCurrentSqlClient();
 
             // Issue the create server request
             ServerCreateResponse response = sqlManagementClient.Servers.Create(
@@ -133,12 +133,10 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Server.Cmdlet
         /// <summary>
         /// Execute the command.
         /// </summary>
-        protected override void ProcessRecord()
+        public override void ExecuteCmdlet()
         {
             try
             {
-                base.ProcessRecord();
-
                 // Get the version from the command line
                 float? version = null;
                 if (this.MyInvocation.BoundParameters.ContainsKey("Version"))

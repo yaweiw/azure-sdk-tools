@@ -23,7 +23,7 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Database.Cmdlet
     /// Retrieves a list of restorable dropped Windows Azure SQL Databases in the given server context.
     /// </summary>
     [Cmdlet(VerbsCommon.Get, "AzureSqlRecoverableDatabase", ConfirmImpact = ConfirmImpact.None, DefaultParameterSetName = AllDatabasesOnCurrentServer)]
-    public class GetAzureSqlRecoverableDatabase : PSCmdlet
+    public class GetAzureSqlRecoverableDatabase : CmdletBase
     {
         #region Parameter sets
 
@@ -116,7 +116,7 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Database.Cmdlet
         /// <summary>
         /// Process the command.
         /// </summary>
-        protected override void ProcessRecord()
+        public override void ExecuteCmdlet()
         {
             // Obtain the source server and database name from the given parameters.
             var sourceServerName =

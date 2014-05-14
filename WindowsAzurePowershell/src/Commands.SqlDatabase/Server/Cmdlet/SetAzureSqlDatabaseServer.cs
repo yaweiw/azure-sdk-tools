@@ -80,7 +80,7 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Server.Cmdlet
             }
 
             // Get the SQL management client for the current subscription
-            SqlManagementClient sqlManagementClient = SqlDatabaseCmdletBase.GetCurrentSqlClient();
+            SqlManagementClient sqlManagementClient = GetCurrentSqlClient();
 
             // Issue the change admin password request
             OperationResponse response = sqlManagementClient.Servers.ChangeAdministratorPassword(
@@ -104,11 +104,10 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Server.Cmdlet
         /// <summary>
         /// Execute the command.
         /// </summary>
-        protected override void ProcessRecord()
+        public override void ExecuteCmdlet()
         {
             try
             {
-                base.ProcessRecord();
                 object operationContext = null;
                 switch (this.ParameterSetName)
                 {

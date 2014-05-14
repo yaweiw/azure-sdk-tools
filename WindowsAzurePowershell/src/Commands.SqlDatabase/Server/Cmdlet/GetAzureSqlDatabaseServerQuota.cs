@@ -83,7 +83,7 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Server.Cmdlet
         /// <summary>
         /// Execute the command.
         /// </summary>
-        protected override void ProcessRecord()
+        public override void ExecuteCmdlet()
         {
             // Obtain the quota name from the given parameters.
             string quotaName = null;
@@ -141,9 +141,7 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Server.Cmdlet
         {
             try
             {
-                base.ProcessRecord();
-
-                SqlManagementClient sqlManagementClient = SqlDatabaseCmdletBase.GetCurrentSqlClient();
+                SqlManagementClient sqlManagementClient = GetCurrentSqlClient();
 
                 // Retrieve the list of servers
                 QuotaListResponse response = sqlManagementClient.Quotas.List(this.ServerName);

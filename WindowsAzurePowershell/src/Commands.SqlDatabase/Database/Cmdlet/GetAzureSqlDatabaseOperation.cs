@@ -25,7 +25,7 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Database.Cmdlet
     /// </summary>
     [Cmdlet(VerbsCommon.Get, "AzureSqlDatabaseOperation", ConfirmImpact = ConfirmImpact.None,
         DefaultParameterSetName = ByConnectionContext)]
-    public class GetAzureSqlDatabaseOperation : PSCmdlet
+    public class GetAzureSqlDatabaseOperation : CmdletBase
     {
         #region Parameter Sets
 
@@ -98,7 +98,7 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Database.Cmdlet
         /// <summary>
         /// Process the command.
         /// </summary>
-        protected override void ProcessRecord()
+        public override void ExecuteCmdlet()
         {
             ParameterValidation();
             IServerDataServiceContext context = null;
