@@ -32,13 +32,9 @@ namespace Microsoft.WindowsAzure.Commands.Profile
     [Cmdlet(VerbsCommon.Switch, "AzureMode")]
     public class SwitchAzureMode : CmdletBase
     {
-        private const string ProfileModuleName = "AzureProfile";
-        
         private const string ServiceManagementModuleName = "Azure";
         
         private const string ResourceManagerModuleName = "AzureResourceManager";
-
-        private const string ProfileFolderName = "Profile";
 
         private const string ServiceManagementFolderName = "ServiceManagement";
 
@@ -47,8 +43,6 @@ namespace Microsoft.WindowsAzure.Commands.Profile
         private string ResourceManagerModulePath;
 
         private string serviceManagementModulePath;
-
-        private string profileModulePath;
 
         [Parameter(Position = 0, Mandatory = true, HelpMessage = "Name of the mode to switch to. Valid values are AzureServiceManagement and AzureResourceManager")]
         public AzureModule Name { get; set; }
@@ -61,7 +55,6 @@ namespace Microsoft.WindowsAzure.Commands.Profile
             string rootInstallationPath = Directory.GetParent(Directory.GetParent(FileUtilities.GetAssemblyDirectory()).FullName).FullName;
             serviceManagementModulePath = Path.Combine(rootInstallationPath, ServiceManagementFolderName);
             ResourceManagerModulePath = Path.Combine(rootInstallationPath, ResourceManagerFolderName);
-            profileModulePath = Path.Combine(rootInstallationPath, ProfileFolderName);
         }
 
         public override void ExecuteCmdlet()
@@ -70,12 +63,10 @@ namespace Microsoft.WindowsAzure.Commands.Profile
             {
                 RemoveAzureModule(ServiceManagementModuleName, serviceManagementModulePath);
                 ImportAzureModule(ResourceManagerModuleName, ResourceManagerModulePath);
-                ImportAzureModule(ProfileModuleName, profileModulePath);
             }
             else if (Name == AzureModule.AzureServiceManagement)
             {
                 RemoveAzureModule(ResourceManagerModuleName, ResourceManagerModulePath);
-                RemoveAzureModule(ProfileModuleName, profileModulePath);
                 ImportAzureModule(ServiceManagementModuleName, serviceManagementModulePath);
             }
         }
@@ -90,7 +81,7 @@ namespace Microsoft.WindowsAzure.Commands.Profile
                 WriteVerbose(string.Format("Importing {0} module...", name));
                 this.ImportModule(name);
 
-                if (name.Equals(ProfileModuleName))
+                if (name.Equals(ResourceManagerModuleName))
                 {
                     this.RemoveAzureAliases();
                 }
