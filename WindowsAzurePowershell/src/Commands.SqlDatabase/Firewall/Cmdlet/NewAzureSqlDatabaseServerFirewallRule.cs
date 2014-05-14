@@ -147,7 +147,7 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Firewall.Cmdlet
             string endIpAddress)
         {
             // Get the SQL management client for the current subscription
-            SqlManagementClient sqlManagementClient = SqlDatabaseCmdletBase.GetCurrentSqlClient();
+            SqlManagementClient sqlManagementClient = GetCurrentSqlClient();
 
             // Create the firewall rule
             FirewallRuleCreateResponse response = sqlManagementClient.FirewallRules.Create(
@@ -176,7 +176,7 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Firewall.Cmdlet
         /// <summary>
         /// Process the command.
         /// </summary>
-        protected override void ProcessRecord()
+        public override void ExecuteCmdlet()
         {
             // Do nothing if force is not specified and user cancelled the operation
             string verboseDescription = string.Format(
@@ -199,8 +199,6 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Firewall.Cmdlet
 
             try
             {
-                base.ProcessRecord();
-
                 SqlDatabaseServerFirewallRuleContext context = null;
                 switch (this.ParameterSetName)
                 {

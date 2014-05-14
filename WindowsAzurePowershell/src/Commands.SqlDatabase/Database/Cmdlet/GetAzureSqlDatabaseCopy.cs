@@ -27,7 +27,7 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Database.Cmdlet
     /// </summary>
     [Cmdlet(VerbsCommon.Get, "AzureSqlDatabaseCopy", ConfirmImpact = ConfirmImpact.None,
         DefaultParameterSetName = "ByServerNameOnly")]
-    public class GetAzureSqlDatabaseCopy : PSCmdlet
+    public class GetAzureSqlDatabaseCopy : CmdletBase
     {
         #region Parameter Sets
 
@@ -99,7 +99,7 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Database.Cmdlet
         /// <summary>
         /// Execute the command.
         /// </summary>
-        protected override void ProcessRecord()
+        public override void ExecuteCmdlet()
         {
             // Obtain the database name from the given parameters.
             string databaseName = null;
