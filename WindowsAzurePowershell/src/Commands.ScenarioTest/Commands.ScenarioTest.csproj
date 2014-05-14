@@ -85,7 +85,7 @@
   <ItemGroup>
     <Reference Include="Microsoft.Azure.Utilities.HttpRecorder, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Hydra.HttpRecorder.1.0.5246.16516-prerelease\lib\net40\Microsoft.Azure.Utilities.HttpRecorder.dll</HintPath>
+      <HintPath>..\packages\Hydra.HttpRecorder.1.0.5246.30852-prerelease\lib\net40\Microsoft.Azure.Utilities.HttpRecorder.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Data.Edm, Version=5.6.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Data.Edm.5.6.0\lib\net40\Microsoft.Data.Edm.dll</HintPath>
@@ -209,7 +209,11 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
     <Compile Include="MediaServicesTests\MediaServicesTests.cs" />
-    <Compile Include="Properties\Resources.Designer.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
     <Compile Include="ResourceManager\DeploymentTests.cs" />
     <Compile Include="ResourceManager\ResourceTests.cs" />
     <Compile Include="ResourceManager\ResourceGroupTests.cs" />
@@ -253,7 +257,11 @@
     <Resource Include="Resources\ResourceManager\ResourceTests.ps1">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
-    <EmbeddedResource Include="Properties\Resources.resx" />
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <SubType>Designer</SubType>
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
     <EmbeddedResource Include="Resources\node-token.zip" />
     <Resource Include="Resources\ResourceManager\ResourceGroupTests.ps1">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -269,7 +277,10 @@
     <Resource Include="Resources\ResourceManager\DeploymentTests.ps1">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
-    <None Include="Resources\Subscription.json" />
+    <None Include="Resources\RdfeTestDummy.publishsettings">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Resources\CsmTestDummySubscription.json" />
     <Resource Include="Resources\TestAzureCsm.psd1">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
