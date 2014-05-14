@@ -99,6 +99,10 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Microsoft.WindowsAzure.Common.1.0.3\lib\net40\Microsoft.WindowsAzure.Common.NetFramework.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.WindowsAzure.Management, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.WindowsAzure.Management.1.0.4.5\lib\net40\Microsoft.WindowsAzure.Management.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.WindowsAzure.Management.TrafficManager">
       <HintPath>..\packages\Microsoft.WindowsAzure.Management.TrafficManager.0.9.0-preview\lib\net40\Microsoft.WindowsAzure.Management.TrafficManager.dll</HintPath>
     </Reference>

@@ -339,8 +339,12 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement
                   .ForMember(c => c.OperationStatus, o => o.MapFrom(r => r.Status.ToString()));
 
             //AffinityGroup mapping
-            Mapper.CreateMap<AffinityGroupGetResponse, AffinityGroupContext>();
-            Mapper.CreateMap<AffinityGroupListResponse.AffinityGroup, AffinityGroupContext>();
+            Mapper.CreateMap<AffinityGroupGetResponse, AffinityGroupContext>()
+                  .ForMember(c => c.VirtualMachineRoleSizes, o => o.MapFrom(r => r.ComputeCapabilities == null ? null : r.ComputeCapabilities.VirtualMachinesRoleSizes))
+                  .ForMember(c => c.WebWorkerRoleSizes, o => o.MapFrom(r => r.ComputeCapabilities == null ? null : r.ComputeCapabilities.WebWorkerRoleSizes));
+            Mapper.CreateMap<AffinityGroupListResponse.AffinityGroup, AffinityGroupContext>()
+                  .ForMember(c => c.VirtualMachineRoleSizes, o => o.MapFrom(r => r.ComputeCapabilities == null ? null : r.ComputeCapabilities.VirtualMachinesRoleSizes))
+                  .ForMember(c => c.WebWorkerRoleSizes, o => o.MapFrom(r => r.ComputeCapabilities == null ? null : r.ComputeCapabilities.WebWorkerRoleSizes));
             Mapper.CreateMap<AffinityGroupGetResponse.HostedServiceReference, AffinityGroupContext.Service>()
                   .ForMember(c => c.Url, o => o.MapFrom(r => r.Uri));
             Mapper.CreateMap<AffinityGroupGetResponse.StorageServiceReference, AffinityGroupContext.Service>()
@@ -350,7 +354,9 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement
                   .ForMember(c => c.OperationStatus, o => o.MapFrom(r => r.Status.ToString()));
 
             //Location mapping
-            Mapper.CreateMap<LocationsListResponse.Location, LocationsContext>();
+            Mapper.CreateMap<LocationsListResponse.Location, LocationsContext>()
+                  .ForMember(c => c.VirtualMachineRoleSizes, o => o.MapFrom(r => r.ComputeCapabilities == null ? null : r.ComputeCapabilities.VirtualMachinesRoleSizes))
+                  .ForMember(c => c.WebWorkerRoleSizes, o => o.MapFrom(r => r.ComputeCapabilities == null ? null : r.ComputeCapabilities.WebWorkerRoleSizes));
             Mapper.CreateMap<OperationStatusResponse, LocationsContext>()
                   .ForMember(c => c.OperationId, o => o.MapFrom(r => r.Id))
                   .ForMember(c => c.OperationStatus, o => o.MapFrom(r => r.Status.ToString()));
@@ -387,8 +393,12 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement
                   .ForMember(c => c.Description, o => o.MapFrom(r => string.IsNullOrEmpty(r.Description) ? null : r.Description))
                   .ForMember(c => c.DateModified, o => o.MapFrom(r => r.DateLastModified));
             Mapper.CreateMap<HostedServiceGetResponse, HostedServiceDetailedContext>()
+                  .ForMember(c => c.VirtualMachineRoleSizes, o => o.MapFrom(r => r.ComputeCapabilities == null ? null : r.ComputeCapabilities.VirtualMachinesRoleSizes))
+                  .ForMember(c => c.WebWorkerRoleSizes, o => o.MapFrom(r => r.ComputeCapabilities == null ? null : r.ComputeCapabilities.WebWorkerRoleSizes))
                   .ForMember(c => c.Url, o => o.MapFrom(r => r.Uri));
             Mapper.CreateMap<HostedServiceListResponse.HostedService, HostedServiceDetailedContext>()
+                  .ForMember(c => c.VirtualMachineRoleSizes, o => o.MapFrom(r => r.ComputeCapabilities == null ? null : r.ComputeCapabilities.VirtualMachinesRoleSizes))
+                  .ForMember(c => c.WebWorkerRoleSizes, o => o.MapFrom(r => r.ComputeCapabilities == null ? null : r.ComputeCapabilities.WebWorkerRoleSizes))
                   .ForMember(c => c.Url, o => o.MapFrom(r => r.Uri));
             Mapper.CreateMap<OperationStatusResponse, HostedServiceDetailedContext>()
                   .ForMember(c => c.OperationId, o => o.MapFrom(r => r.Id))
