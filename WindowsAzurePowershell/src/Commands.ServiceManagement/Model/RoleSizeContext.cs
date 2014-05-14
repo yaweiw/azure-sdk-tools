@@ -30,5 +30,11 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Model
         public bool SupportedByWebWorkerRoles { get; set; }
 
         public bool SupportedByVirtualMachines { get; set; }
+
+        public int? MaxDataDiskCount { get; set; }
+
+        public int? WebWorkerResourceDiskSizeInMb { get; set; }
+
+        public int? VirtualMachineResourceDiskSizeInMb { get; set; }
     }
 }
