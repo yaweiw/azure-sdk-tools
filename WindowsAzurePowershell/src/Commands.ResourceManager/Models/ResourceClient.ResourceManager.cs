@@ -75,7 +75,6 @@ namespace Microsoft.Azure.Commands.ResourceManager.Models
                         resourceIdentity,
                         new ResourceCreateOrUpdateParameters
                             {
-                                ValidationMode = ResourceValidationMode.NameValidation,
                                 Resource = new BasicResource
                                     {
                                         Location = parameters.Location,
@@ -134,12 +133,11 @@ namespace Microsoft.Azure.Commands.ResourceManager.Models
             ResourceManagementClient.Resources.CreateOrUpdate(parameters.ResourceGroupName, resourceIdentity,
                         new ResourceCreateOrUpdateParameters
                             {
-                                ValidationMode = ResourceValidationMode.NameValidation,
-                                    Resource = new BasicResource
-                                        {
-                                            Location = getResource.Resource.Location,
-                                            Properties = newProperty
-                                        }
+                                Resource = new BasicResource
+                                    {
+                                        Location = getResource.Resource.Location,
+                                        Properties = newProperty
+                                    }
                             });
 
             ResourceGetResult getResult = ResourceManagementClient.Resources.Get(parameters.ResourceGroupName, resourceIdentity);

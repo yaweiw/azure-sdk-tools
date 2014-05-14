@@ -1,5 +1,4 @@
 ﻿// ----------------------------------------------------------------------------------
-//
 // Copyright Microsoft Corporation
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -12,21 +11,12 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-using System.Reflection;
-using System.Runtime.CompilerServices;
-using System.Runtime.InteropServices;
-
-// General Information about an assembly is controlled through the following 
-// set of attributes. Change these attribute values to modify the information
-// associated with an assembly.
-[assembly: AssemblyTitle("HttpRecorder.Tests")]
-[assembly: AssemblyDescription("")]
-[assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("HttpRecorder.Tests")]
-[assembly: AssemblyCopyright("Copyright ©  Microsoft")]
-[assembly: AssemblyTrademark("")]
-[assembly: AssemblyCulture("")]
-
-[assembly: AssemblyVersion("1.0.0.0")]
-[assembly: AssemblyFileVersion("1.0.0.0")]
+namespace Microsoft.WindowsAzure.Commands.ScenarioTest.Resources
+{
+    /// <summary>
+    /// A dummy class used to located the resources in this folder/namespace.
+    /// </summary>
+    public class ResourceLocator
+    {
+    }
+}

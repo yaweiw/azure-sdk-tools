@@ -135,12 +135,12 @@ namespace Microsoft.WindowsAzure.Commands.Test.Utilities.Common
         /// </summary>
         /// <param name="relativePath">Relative path to the resource.</param>
         /// <returns>Path to the resource.</returns>
-        public static string GetTestResourcePath(string relativePath)
+        public static string GetAssemblyTestResourcePath<TResourceLocator>(string relativePath)
         {
             string path = Path.Combine(Environment.CurrentDirectory, relativePath);
             try
             {
-                EmbeddedFileWriter.WriteResourceToDisk<ResourceLocator>(relativePath, path);
+                EmbeddedFileWriter.WriteResourceToDisk<TResourceLocator>(relativePath, path);
             }
             catch
             {
@@ -149,6 +149,18 @@ namespace Microsoft.WindowsAzure.Commands.Test.Utilities.Common
             }
             Assert.IsTrue(File.Exists(path));
             return path;
+        }
+
+        /// <summary>
+        /// Get the path to a file included in the test project as something to
+        /// be copied on Deployment (see Local.testsettings > Deployment for
+        /// examples).
+        /// </summary>
+        /// <param name="relativePath">Relative path to the resource.</param>
+        /// <returns>Path to the resource.</returns>
+        public static string GetTestResourcePath(string relativePath)
+        {
+            return GetAssemblyTestResourcePath<ResourceLocator>(relativePath);
         }
 
         /// <summary>

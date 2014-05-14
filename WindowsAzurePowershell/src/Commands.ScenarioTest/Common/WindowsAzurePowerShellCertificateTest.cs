@@ -17,11 +17,12 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.Common
 {
     using System;
     using System.Collections.ObjectModel;
+    using System.IO;
     using System.Management.Automation;
     using VisualStudio.TestTools.UnitTesting;
     using Commands.Common;
-    using Microsoft.WindowsAzure.Utilities.HttpRecorder;
-    using Microsoft.WindowsAzure.Commands.Utilities.Common;
+    using Azure.Utilities.HttpRecorder;
+    using Utilities.Common;
 
     [TestClass]
     public class WindowsAzurePowerShellCertificateTest : PowerShellTest
@@ -32,6 +33,7 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.Common
         // Location where test output will be written to e.g. C:\Temp
         private static string outputDirKey = "TEST_HTTPMOCK_OUTPUT";
 
+        private bool runningMocked = false;
         private void OnClientCreated(object sender, ClientCreatedArgs e)
         {
             e.AddHandlerToClient(HttpMockServer.CreateInstance());
@@ -40,9 +42,22 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.Common
         public WindowsAzurePowerShellCertificateTest(params string[] modules)
             : base(PowerShellCommandMode.ServiceManagement, modules)
         {
-            this.credentials = new TestCredentialHelper(Environment.CurrentDirectory);
-            this.credentialFile = TestCredentialHelper.DefaultCredentialFile;
-            this.profileFile = TestCredentialHelper.WindowsAzureProfileFile;
+            this.runningMocked = (HttpMockServer.GetCurrentMode() == HttpRecorderMode.Playback);
+            if (this.runningMocked)
+            {
+                string dummyCredentialFile = Path.Combine(Environment.CurrentDirectory, TestCredentialHelper.DefaultCredentialFile);
+                if (!File.Exists(dummyCredentialFile))
+                {
+                    File.WriteAllText(dummyCredentialFile, Properties.Resources.RdfeTestDummy);
+                }
+                this.credentialFile = dummyCredentialFile;
+            }
+            else
+            {
+                this.credentials = new TestCredentialHelper(Environment.CurrentDirectory);
+                this.credentialFile = TestCredentialHelper.DefaultCredentialFile;
+                this.profileFile = TestCredentialHelper.WindowsAzureProfileFile;
+            }
 
             if (Environment.GetEnvironmentVariable(outputDirKey) != null)
             {
@@ -61,12 +76,18 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.Common
         {
             base.TestSetup();
             WindowsAzureSubscription.OnClientCreated += OnClientCreated;
-            this.credentials.SetupPowerShellEnvironment(powershell, this.credentialFile, this.profileFile);
-            System.Net.ServicePointManager.ServerCertificateValidationCallback += (se, cert, chain, sslerror) =>
+            if (this.runningMocked)
             {
-                return true;
-            };
-
+                TestCredentialHelper.ImportCredentails(powershell, this.credentialFile);
+            }
+            else
+            {
+                this.credentials.SetupPowerShellEnvironment(powershell, this.credentialFile, this.profileFile);
+                System.Net.ServicePointManager.ServerCertificateValidationCallback += (se, cert, chain, sslerror) =>
+                {
+                    return true;
+                };            
+            }
         }
 
         [TestCleanup]

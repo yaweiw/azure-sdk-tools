@@ -32,7 +32,7 @@ function Test-ValidateDeployment
 		$list = Test-AzureResourceGroupTemplate -ResourceGroupName $rgname -TemplateFile Build2014_Website_App.json -siteName $rname -hostingPlanName $rname -siteLocation $location -sku Free -workerSize 0
 
 		# Assert
-		Assert-AreEqual 0 $list.Count
+		Assert-AreEqual 0 @($list).Count
 	}
 	finally
 	{
