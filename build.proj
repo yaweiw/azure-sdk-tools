@@ -231,7 +231,7 @@
 
   <Target Name="InvokeMSTest">
     <!--Remove existing test result; otherwsie mstest will error-->
-    <Delete Files="$(_testResult)" Condition="Exists('$(_testResult)')"/>
+    <Delete Files="$(_testResult)"/>
     <Exec
       Command="MSTest.exe /testcontainer:$(_testAssembly) /testsettings:$(_testSettings) /category:$(_testFilter) /resultsfile:$(_testResult)"
       ContinueOnError="false" />
@@ -261,15 +261,15 @@
   </Target>
 
   <Target Name="TestSqlDatabase">
-    <Exec
-        Command="MSTest.exe /testcontainer:$(SqlDatabaseTestDebug) /testsettings:$(TestSettings) /category:$(TestFilter) /resultsfile:$(TestOutputDirectory)\SqlDatabaseDebug.trx"
-        ContinueOnError="false" />
+    <MSBuild Targets="InvokeMSTest" 
+        Properties="_testAssembly=$(SqlDatabaseTestDebug);_testSettings=$(TestSettings);_testFilter=$(TestFilter);_testResult=$(TestOutputDirectory)\SqlDatabaseDebug.trx"
+        Projects="build.proj"/>
   </Target>
 
   <Target Name="TestHDInsight">
-    <Exec
-        Command="MSTest.exe /testcontainer:$(HDInsightTestDebug) /testsettings:$(TestSettings) /category:$(TestFilter) /resultsfile:$(TestOutputDirectory)\HDInsightDebug.trx"
-        ContinueOnError="false" />
+    <MSBuild Targets="InvokeMSTest"
+        Properties="_testAssembly=$(HDInsightTestDebug);_testSettings=$(TestSettings);_testFilter=$(TestFilter);_testResult=$(TestOutputDirectory)\HDInsightDebug.trx"
+        Projects="build.proj"/>
   </Target>
 
   <Target Name="TestStorage">
@@ -285,12 +285,12 @@
     <MakeDir Directories="$(TestOutputDirectory)" ContinueOnError="false" />
 
     <Message Importance="high" Text="Scenario tests:" />
-    <Exec
-      Command="MSTest.exe /testcontainer:$(ScenarioTestDebug) /testsettings:$(TestSettings) /category:$(ScenarioTestFilter) /resultsfile:$(TestOutputDirectory)\Debug.trx"
-      ContinueOnError="false" />
-    <Exec
-      Command="MSTest.exe /testcontainer:$(StorageScenarioTestDebug) /testsettings:$(TestSettings) /category:$(ScenarioTestFilter) /resultsfile:$(TestOutputDirectory)\StorageScenarioDebug.trx"
-      ContinueOnError="false" />
+    <MSBuild Targets="InvokeMSTest"
+      Properties="_testAssembly=$(ScenarioTestDebug);_testSettings=$(TestSettings);_testFilter=$(ScenarioTestFilter);_testResult=$(TestOutputDirectory)\ScenarioTestDebug.trx"
+      Projects="build.proj"/>
+    <MSBuild Targets="InvokeMSTest"
+      Properties="_testAssembly=$(StorageScenarioTestDebug);_testSettings=$(TestSettings);_testFilter=$(ScenarioTestFilter);_testResult=$(TestOutputDirectory)\StorageScenarioTestDebug.trx"
+      Projects="build.proj"/>
   </Target>
   
   <!-- Run the scenario tests with Mocks -->
@@ -308,8 +308,9 @@
     <MakeDir Directories="$(TestOutputDirectory)" ContinueOnError="false" />
 
     <Message Importance="high" Text="Scenario tests:" />
+    <Delete Files="$(TestOutputDirectory)\RunOneSDKCITDebug.trx" />
     <Exec
-      Command="MSTest.exe /testcontainer:$(ScenarioTestDebug) /testsettings:$(TestSettings) /category:$(OneSDKCITFilter) /resultsfile:$(TestOutputDirectory)\Debug.trx"
+      Command="MSTest.exe /testcontainer:$(ScenarioTestDebug) /testsettings:$(TestSettings) /category:$(OneSDKCITFilter) /resultsfile:$(TestOutputDirectory)\RunOneSDKCITDebug.trx"
       ContinueOnError="false" />
   </Target>
 
@@ -320,6 +321,7 @@
     <MakeDir Directories="$(TestOutputDirectory)" ContinueOnError="false" />
 
     <Message Importance="high" Text="BVT tests:" />
+    <Delete Files="$(TestOutputDirectory)\RTBVTDebug.trx" />
     <Exec
       Command="MSTest.exe /testcontainer:$(AzureRTTestContainer) /testsettings:$(TestSettings) /category:BVT /resultsfile:$(TestOutputDirectory)\RTBVTDebug.trx"
       ContinueOnError="false" />
@@ -331,6 +333,7 @@
     <MakeDir Directories="$(TestOutputDirectory)" ContinueOnError="false" />
 
     <Message Importance="high" Text="Running tests:" />
+    <Delete Files="$(TestOutputDirectory)\RTFunctionalDebug.trx" />
     <Exec
       Command="MSTest.exe /testcontainer:$(AzureRTTestContainer) /testsettings:$(TestSettings) /test:$(TestName) /resultsfile:$(TestOutputDirectory)\RTFunctionalDebug.trx"
       ContinueOnError="false" />
@@ -342,6 +345,7 @@
     <MakeDir Directories="$(TestOutputDirectory)" ContinueOnError="false" />
 
     <Message Importance="high" Text="Running tests:" />
+    <Delete Files="$(TestOutputDirectory)\RTFunctionalDebug.trx" />
     <Exec
       Command="MSTest.exe /testcontainer:$(AzureRTTestContainer) /testsettings:$(TestSettings) $(TestParams) /resultsfile:$(TestOutputDirectory)\RTFunctionalDebug.trx"
       ContinueOnError="false" />
@@ -353,6 +357,7 @@
     <MakeDir Directories="$(TestOutputDirectory)" ContinueOnError="false" />
 
     <Message Importance="high" Text="All tests:" />
+    <Delete Files="$(TestOutputDirectory)\RTDebug.trx" />
     <Exec
       Command="MSTest.exe /testcontainer:$(AzureRTTestContainer) /testsettings:$(TestSettings) /category:$(AzureRTAllTestFilter3) /resultsfile:$(TestOutputDirectory)\RTDebug.trx"
       ContinueOnError="false" />
@@ -364,7 +369,9 @@
     <MakeDir Directories="$(TestOutputDirectory)" ContinueOnError="false" />
 
     <Message Importance="high" Text="All tests:" />
-	<Exec
+    <Delete Files="$(TestOutputDirectory)\RTSequentialDebug.trx" />
+    <Delete Files="$(TestOutputDirectory)\RTDebug.trx" />
+    <Exec
       Command="MSTest.exe /testcontainer:$(AzureRTTestContainer) /testsettings:$(TestSettings) /category:Sequential /resultsfile:$(TestOutputDirectory)\RTSequentialDebug.trx"
       ContinueOnError="true" />
     <Exec
@@ -378,7 +385,9 @@
     <MakeDir Directories="$(TestOutputDirectory)" ContinueOnError="false" />
 
     <Message Importance="high" Text="All tests:" />
-	<Exec
+    <Delete Files="$(TestOutputDirectory)\RTAddVhdDebug.trx" />
+    <Delete Files="$(TestOutputDirectory)\RTDebug.trx" />
+	  <Exec
       Command="MSTest.exe /testcontainer:$(AzureRTTestContainer) /testsettings:$(TestSettings) /category:Sequential /resultsfile:$(TestOutputDirectory)\RTAddVhdDebug.trx"
       ContinueOnError="true" />
     <Exec
@@ -392,7 +401,8 @@
     <MakeDir Directories="$(TestOutputDirectory)" ContinueOnError="false" />
 
     <Message Importance="high" Text="All tests:" />
-	<Exec
+    <Delete Files="$(TestOutputDirectory)\RTPreviewDebug.trx" />
+    <Exec
       Command="MSTest.exe /testcontainer:$(AzureRTTestContainer) /testsettings:$(AzureRTTestSettings) /category:Preview /resultsfile:$(TestOutputDirectory)\RTPreviewDebug.trx"
       ContinueOnError="false" />
   </Target>
