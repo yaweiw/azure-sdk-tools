@@ -261,15 +261,15 @@
   </Target>
 
   <Target Name="TestSqlDatabase">
-    <Exec
-        Command="MSTest.exe /testcontainer:$(SqlDatabaseTestDebug) /testsettings:$(TestSettings) /category:$(TestFilter) /resultsfile:$(TestOutputDirectory)\SqlDatabaseDebug.trx"
-        ContinueOnError="false" />
+    <MSBuild Targets="InvokeMSTest" 
+        Properties="_testAssembly=$(SqlDatabaseTestDebug);_testSettings=$(TestSettings);_testFilter=$(TestFilter);_testResult=$(TestOutputDirectory)\SqlDatabaseDebug.trx"
+        Projects="build.proj"/>
   </Target>
 
   <Target Name="TestHDInsight">
-    <Exec
-        Command="MSTest.exe /testcontainer:$(HDInsightTestDebug) /testsettings:$(TestSettings) /category:$(TestFilter) /resultsfile:$(TestOutputDirectory)\HDInsightDebug.trx"
-        ContinueOnError="false" />
+    <MSBuild Targets="InvokeMSTest"
+        Properties="_testAssembly=$(HDInsightTestDebug);_testSettings=$(TestSettings);_testFilter=$(TestFilter);_testResult=$(TestOutputDirectory)\HDInsightDebug.trx"
+        Projects="build.proj"/>
   </Target>
 
   <Target Name="TestStorage">
