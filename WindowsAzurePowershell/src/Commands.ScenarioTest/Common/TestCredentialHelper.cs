@@ -96,6 +96,12 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.Common
             foreach (string key in this.PowerShellVariables.Keys) powerShell.SetVariable(key, PowerShellVariables[key]);
         }
 
+        public static void ImportCredentails(PowerShell powerShell, string credentialFile)
+        {
+            powerShell.RemoveCredentials();
+            powerShell.ImportCredentials(credentialFile);
+        }
+
         public static void DownloadTestCredentials(string testEnvironment, string downloadDirectoryPath, string blobUri, string storageAccount, string storageKey)
         {
             string containerPath = string.Format(EnvironmentPathFormat, testEnvironment);

@@ -22,9 +22,8 @@ using Microsoft.WindowsAzure.Commands.Utilities.Common;
 namespace Microsoft.WindowsAzure.Commands.ScenarioTest.ResourceManagerTests
 {
     using System.IO;
-    using Commands.ScenarioTest.Common;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
-    using Microsoft.WindowsAzure.Utilities.HttpRecorder;
+    using Common;
+    using VisualStudio.TestTools.UnitTesting;
 
     [TestClass]
     public class ResourceTests : WindowsAzurePowerShellTokenTest
@@ -53,7 +52,7 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.ResourceManagerTests
         [TestMethod]
         [TestCategory(Category.All)]
         [TestCategory(Category.ResourceManager)]
-        //[TestCategory(Category.CheckIn)]
+        [TestCategory(Category.CheckIn)]
         public void TestCreatesNewSimpleResource()
         {
             RunPowerShellTest("Test-CreatesNewSimpleResource");
@@ -62,7 +61,7 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.ResourceManagerTests
         [TestMethod]
         [TestCategory(Category.All)]
         [TestCategory(Category.ResourceManager)]
-        //[TestCategory(Category.CheckIn)]
+        [TestCategory(Category.CheckIn)]
         public void TestCreatesNewComplexResource()
         {
             RunPowerShellTest("Test-CreatesNewComplexResource");
