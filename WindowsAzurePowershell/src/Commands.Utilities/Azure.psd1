@@ -58,27 +58,28 @@ ScriptsToProcess = @()
 
 # Type files (.ps1xml) to be loaded when importing this module
 TypesToProcess = @(
-    'Microsoft.WindowsAzure.Commands.Websites.Types.ps1xml',
-    'Microsoft.WindowsAzure.Commands.SqlDatabase.Types.ps1xml'
+	'Microsoft.WindowsAzure.Commands.Websites.Types.ps1xml',
+	'Microsoft.WindowsAzure.Commands.SqlDatabase.Types.ps1xml'
 )
 
 # Format files (.ps1xml) to be loaded when importing this module
 FormatsToProcess = @(
-    'Microsoft.WindowsAzure.Commands.Websites.format.ps1xml',
-    'Microsoft.WindowsAzure.Commands.CloudService.format.ps1xml',
-    'Microsoft.WindowsAzure.Commands.ServiceBus.format.ps1xml',
-    'Microsoft.WindowsAzure.Commands.Storage.format.ps1xml',
-    'Microsoft.WindowsAzure.Commands.Store.format.ps1xml',
-    'Microsoft.WindowsAzure.Commands.Scheduler.format.ps1xml',
-    'Microsoft.WindowsAzure.Commands.ServiceManagement.format.ps1xml'
+	'Microsoft.WindowsAzure.Commands.Websites.format.ps1xml',
+	'Microsoft.WindowsAzure.Commands.CloudService.format.ps1xml',
+	'Microsoft.WindowsAzure.Commands.ServiceBus.format.ps1xml',
+	'Microsoft.WindowsAzure.Commands.Storage.format.ps1xml',
+	'Microsoft.WindowsAzure.Commands.Store.format.ps1xml',
+	'Microsoft.WindowsAzure.Commands.Scheduler.format.ps1xml',
+	'Microsoft.WindowsAzure.Commands.ServiceManagement.format.ps1xml'
 )
 
 # Modules to import as nested modules of the module specified in ModuleToProcess
 NestedModules = '.\Microsoft.WindowsAzure.Commands.SqlDatabase.dll',
-                '.\Microsoft.WindowsAzure.Commands.ServiceManagement.dll',
-                '.\Microsoft.WindowsAzure.Commands.Storage.dll',
-                '.\Microsoft.WindowsAzure.Commands.TrafficManager.dll',
-                '.\Microsoft.Azure.Commands.ManagedCache.dll'
+				'.\Microsoft.WindowsAzure.Commands.ServiceManagement.dll',
+				'.\Microsoft.WindowsAzure.Commands.Storage.dll',
+				'.\Microsoft.WindowsAzure.Commands.TrafficManager.dll',
+				'.\Microsoft.Azure.Commands.ManagedCache.dll',
+				'..\..\Profile\AzureProfile\Microsoft.WindowsAzure.Commands.Profile.dll'
 
 # Functions to export from this module
 FunctionsToExport = '*'

@@ -1,6 +1,8 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2012
+# Visual Studio 2013
+VisualStudioVersion = 12.0.30110.0
+MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{8531411A-0137-4E27-9C5E-49E07C245048}"
 	ProjectSection(SolutionItems) = preProject
 		local.runsettings = local.runsettings
@@ -83,6 +85,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Commands.ManagedCache", "Commands.ManagedCache\Commands.ManagedCache.csproj", "{46C06ED8-43D9-41FD-B73B-41547D9C04E1}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Commands.ManagedCache.Test", "Commands.ManagedCache.Test\Commands.ManagedCache.Test.csproj", "{374D4000-DEDE-4995-9B63-E3B9FE0C4D29}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Commands.Profile", "Commands.Profile\Commands.Profile.csproj", "{C60342B1-47D3-4A0E-8081-9B97CE60B7AF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -433,6 +437,18 @@ Global
 		{374D4000-DEDE-4995-9B63-E3B9FE0C4D29}.ReleaseSigned|Any CPU.ActiveCfg = ReleaseSigned|Any CPU
 		{374D4000-DEDE-4995-9B63-E3B9FE0C4D29}.ReleaseSigned|Any CPU.Build.0 = ReleaseSigned|Any CPU
 		{374D4000-DEDE-4995-9B63-E3B9FE0C4D29}.ReleaseSigned|x64.ActiveCfg = ReleaseSigned|Any CPU
+		{C60342B1-47D3-4A0E-8081-9B97CE60B7AF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C60342B1-47D3-4A0E-8081-9B97CE60B7AF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C60342B1-47D3-4A0E-8081-9B97CE60B7AF}.Debug|x64.ActiveCfg = Debug|x64
+		{C60342B1-47D3-4A0E-8081-9B97CE60B7AF}.Debug|x64.Build.0 = Debug|x64
+		{C60342B1-47D3-4A0E-8081-9B97CE60B7AF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C60342B1-47D3-4A0E-8081-9B97CE60B7AF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C60342B1-47D3-4A0E-8081-9B97CE60B7AF}.Release|x64.ActiveCfg = Release|x64
+		{C60342B1-47D3-4A0E-8081-9B97CE60B7AF}.Release|x64.Build.0 = Release|x64
+		{C60342B1-47D3-4A0E-8081-9B97CE60B7AF}.ReleaseSigned|Any CPU.ActiveCfg = ReleaseSigned|Any CPU
+		{C60342B1-47D3-4A0E-8081-9B97CE60B7AF}.ReleaseSigned|Any CPU.Build.0 = ReleaseSigned|Any CPU
+		{C60342B1-47D3-4A0E-8081-9B97CE60B7AF}.ReleaseSigned|x64.ActiveCfg = ReleaseSigned|x64
+		{C60342B1-47D3-4A0E-8081-9B97CE60B7AF}.ReleaseSigned|x64.Build.0 = ReleaseSigned|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

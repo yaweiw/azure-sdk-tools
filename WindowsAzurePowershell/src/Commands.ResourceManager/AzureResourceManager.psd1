@@ -63,7 +63,7 @@ TypesToProcess = @()
 FormatsToProcess = @('Microsoft.Azure.Commands.ResourceManager.format.ps1xml')
 
 # Modules to import as nested modules of the module specified in ModuleToProcess
-NestedModules = @()
+NestedModules = @('..\..\Profile\AzureProfile\Microsoft.WindowsAzure.Commands.Profile.dll')
 
 # Functions to export from this module
 FunctionsToExport = '*'
