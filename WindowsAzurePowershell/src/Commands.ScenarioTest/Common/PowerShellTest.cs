@@ -39,11 +39,11 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.Common
             this.modules = new List<string>();
             if (commandMode == PowerShellCommandMode.ServiceManagement)
             {
-                this.modules.Add("TestAzureRdfe.psd1");
+                this.modules.Add(@"ServiceManagement\Azure\Azure.psd1");
             }
             else if (commandMode == PowerShellCommandMode.ResourceManagement)
             {
-                this.modules.Add("TestAzureCsm.psd1");
+                this.modules.Add(@"ResourceManager\AzureResourceManager\AzureResourceManager.psd1");
             }
             else
             {
