@@ -9035,9 +9035,6 @@
                     <Component Id="cmpD3EFD9EC21902AA3385D61ED9EFC1C7F" Guid="*">
                         <File Id="fil9D633857060A4214588EEA095C89D28D" KeyPath="yes" Source="$(var.sourceDir)\ResourceManager\AzureResourceManager\Newtonsoft.Json.dll" />
                     </Component>
-                    <Component Id="cmp7B1FB9103E2FBBB0E5DF070F7D152DC3" Guid="*">
-                        <File Id="fil534F444E7635FDFDE4CDB191CE8691A1" KeyPath="yes" Source="$(var.sourceDir)\ResourceManager\AzureResourceManager\ServiceManagementStartup.ps1" />
-                    </Component>
                     <Component Id="cmpB3F47AC5C2423CD761AAF739BAB6B7D6" Guid="*">
                         <File Id="fil27FAEEDE06B8320E72D01E8029B03624" KeyPath="yes" Source="$(var.sourceDir)\ResourceManager\AzureResourceManager\System.IO.dll" />
                     </Component>
@@ -17338,7 +17335,6 @@
             <ComponentRef Id="cmp140C0C4944D410A242CDAE917AA72B9F" />
             <ComponentRef Id="cmpC06139B310460CC87FAD5B4052FD0C7B" />
             <ComponentRef Id="cmpD3EFD9EC21902AA3385D61ED9EFC1C7F" />
-            <ComponentRef Id="cmp7B1FB9103E2FBBB0E5DF070F7D152DC3" />
             <ComponentRef Id="cmpB3F47AC5C2423CD761AAF739BAB6B7D6" />
             <ComponentRef Id="cmpF36D6A3A09333402D0BE1F1977E8F7B3" />
             <ComponentRef Id="cmp2EB951F3808E3CE1802FB1CE36D5FA4A" />
