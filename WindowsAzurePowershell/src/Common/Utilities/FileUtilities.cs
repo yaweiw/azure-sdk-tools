@@ -21,6 +21,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
     using System.Reflection;
     using System.Text;
     using Commands.Common.Properties;
+    using System.Linq;
 
     public static class FileUtilities
     {
@@ -31,7 +32,27 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
 
         public static string GetContentFilePath(string fileName)
         {
-            return Path.Combine(GetAssemblyDirectory(), fileName);
+            string path = Path.Combine(GetAssemblyDirectory(), fileName);
+
+            // Try search in the subdirectories in case that the file path does not exist in root path
+            if (!File.Exists(path) && !Directory.Exists(path))
+            {
+                try
+                {
+                    
+                    path = Directory.GetFiles(GetAssemblyDirectory(), fileName, SearchOption.AllDirectories).FirstOrDefault();
+                    if (string.IsNullOrEmpty(path))
+                    {
+                        path = Directory.GetDirectories(GetAssemblyDirectory(), fileName, SearchOption.AllDirectories).First();
+                    }
+                }
+                catch
+                {
+                    throw new FileNotFoundException(Path.Combine(GetAssemblyDirectory(), fileName));
+                }
+            }
+
+            return path;
         }
 
         public static string GetWithProgramFilesPath(string directoryName, bool throwIfNotFound)
