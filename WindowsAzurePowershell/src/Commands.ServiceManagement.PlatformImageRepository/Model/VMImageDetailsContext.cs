@@ -1,4 +1,4 @@
-﻿// ----------------------------------------------------------------------------------
+// ----------------------------------------------------------------------------------
 //
 // Copyright Microsoft Corporation
 // Licensed under the Apache License, Version 2.0 (the "License");
@@ -13,22 +13,10 @@
 // ----------------------------------------------------------------------------------
 
 
-namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Model
+namespace Microsoft.WindowsAzure.Commands.ServiceManagement.PlatformImageRepository.Model
 {
-    using System.Collections.Generic;
-    using PersistentVMModel;
-    using Utilities.Common;
-
-    public class LocationsContext : ManagementOperationContext
+    public class VMImageDetailsContext : OSImageDetailsContext
     {
-        public string DisplayName { get; set; }
-
-        public string Name { get; set; }
-
-        public AvailableServicesList AvailableServices { get; set; }
-
-        public IEnumerable<string> WebWorkerRoleSizes { get; set; }
-
-        public IEnumerable<string> VirtualMachineRoleSizes { get; set; }
+        public string SharingStatus { get; set; }
     }
 }

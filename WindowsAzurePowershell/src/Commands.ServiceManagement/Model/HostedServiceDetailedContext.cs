@@ -29,12 +29,14 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Model
 
         public string Status { get; set; }
 
-        public DateTime DateModified { get; set; }
+        public IDictionary<string, string> ExtendedProperties { get; set; }
 
-        public DateTime DateCreated { get; set; }
+        public IEnumerable<string> WebWorkerRoleSizes { get; set; }
 
         public IEnumerable<string> VirtualMachineRoleSizes { get; set; }
 
-        public IEnumerable<string> WebWorkerRoleSizes { get; set; }
+        public DateTime DateModified { get; set; }
+
+        public DateTime DateCreated { get; set; }
     }
 }

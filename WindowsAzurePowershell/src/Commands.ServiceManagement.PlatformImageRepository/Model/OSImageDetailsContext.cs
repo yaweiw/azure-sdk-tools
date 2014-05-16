@@ -20,7 +20,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.PlatformImageReposit
 
     public class OSImageDetailsContext : OSImageContext
     {
-        public bool IsCorrupted { get; set; }
+        public bool? IsCorrupted { get; set; }
         public List<ReplicationProgressContext> ReplicationProgress { get; set; }
     }
 }

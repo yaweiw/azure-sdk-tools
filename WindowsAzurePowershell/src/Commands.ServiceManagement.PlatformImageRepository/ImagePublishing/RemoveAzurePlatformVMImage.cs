@@ -16,6 +16,9 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.PlatformImageReposit
 {
     using System.Management.Automation;
     using Commands.Utilities.Common;
+    using Helpers;
+    using ServiceManagement.Model;
+    using ServiceManagement.Properties;
     using WindowsAzure.ServiceManagement;
 
     [Cmdlet(VerbsCommon.Remove, "AzurePlatformVMImage"), OutputType(typeof(ManagementOperationContext))]
@@ -36,8 +39,29 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.PlatformImageReposit
 
         protected override void OnProcessRecord()
         {
-            this.Channel.GetOSImage(CurrentSubscription.SubscriptionId, this.ImageName);
-            ExecuteClientActionInOCS(null, CommandRuntime.ToString(), s => this.Channel.UnReplicateOSImage(s, this.ImageName));
+            ServiceManagementProfile.Initialize();
+
+            var imageType = new VirtualMachineImageHelper(this.ComputeClient).GetImageType(this.ImageName);
+            bool isOSImage = imageType.HasFlag(VirtualMachineImageType.OSImage);
+            bool isVMImage = imageType.HasFlag(VirtualMachineImageType.VMImage);
+
+            if (isOSImage && isVMImage)
+            {
+                WriteErrorWithTimestamp(
+                    string.Format(Resources.DuplicateNamesFoundInBothVMAndOSImages, this.ImageName));
+            }
+            else if (isOSImage || !isVMImage)
+            {
+                this.Channel.GetOSImage(CurrentSubscription.SubscriptionId, this.ImageName);
+                ExecuteClientActionInOCS(null, CommandRuntime.ToString(), s => this.Channel.UnReplicateOSImage(s, this.ImageName));
+            }
+            else
+            {
+                ExecuteClientActionNewSM(
+                    null,
+                    CommandRuntime.ToString(),
+                    () => this.ComputeClient.VirtualMachineVMImages.UnReplicate(this.ImageName));
+            }
         }
     }
 }

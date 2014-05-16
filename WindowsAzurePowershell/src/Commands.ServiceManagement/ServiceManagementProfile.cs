@@ -393,10 +393,12 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement
                   .ForMember(c => c.Description, o => o.MapFrom(r => string.IsNullOrEmpty(r.Description) ? null : r.Description))
                   .ForMember(c => c.DateModified, o => o.MapFrom(r => r.DateLastModified));
             Mapper.CreateMap<HostedServiceGetResponse, HostedServiceDetailedContext>()
+                  .ForMember(c => c.ExtendedProperties, o => o.MapFrom(r => r.Properties == null ? null : r.Properties.ExtendedProperties))
                   .ForMember(c => c.VirtualMachineRoleSizes, o => o.MapFrom(r => r.ComputeCapabilities == null ? null : r.ComputeCapabilities.VirtualMachinesRoleSizes))
                   .ForMember(c => c.WebWorkerRoleSizes, o => o.MapFrom(r => r.ComputeCapabilities == null ? null : r.ComputeCapabilities.WebWorkerRoleSizes))
                   .ForMember(c => c.Url, o => o.MapFrom(r => r.Uri));
             Mapper.CreateMap<HostedServiceListResponse.HostedService, HostedServiceDetailedContext>()
+                  .ForMember(c => c.ExtendedProperties, o => o.MapFrom(r => r.Properties == null ? null : r.Properties.ExtendedProperties))
                   .ForMember(c => c.VirtualMachineRoleSizes, o => o.MapFrom(r => r.ComputeCapabilities == null ? null : r.ComputeCapabilities.VirtualMachinesRoleSizes))
                   .ForMember(c => c.WebWorkerRoleSizes, o => o.MapFrom(r => r.ComputeCapabilities == null ? null : r.ComputeCapabilities.WebWorkerRoleSizes))
                   .ForMember(c => c.Url, o => o.MapFrom(r => r.Uri));
