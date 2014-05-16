@@ -14,8 +14,8 @@
 
 namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService
 {
-    using System.Linq;
     using Common.XmlSchema.ServiceDefinitionSchema;
+    using System.Linq;
 
     /// <summary>
     /// Role Info for a worker role

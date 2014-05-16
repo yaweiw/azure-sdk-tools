@@ -14,12 +14,12 @@
 
 namespace Microsoft.WindowsAzure.Commands.Storage.Test.Blob
 {
-    using System;
-    using System.Collections.Generic;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using Microsoft.WindowsAzure.Commands.Test.Utilities.Common;
     using Microsoft.WindowsAzure.Storage.Blob;
     using Service;
+    using System;
+    using System.Collections.Generic;
 
     /// <summary>
     /// Test base class for storage blob

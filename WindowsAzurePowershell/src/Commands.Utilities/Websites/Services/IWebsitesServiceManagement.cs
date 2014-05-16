@@ -14,13 +14,13 @@
 
 namespace Microsoft.WindowsAzure.Commands.Utilities.Websites.Services
 {
+    using GeoEntities;
     using System;
     using System.Collections.Generic;
     using System.ComponentModel;
     using System.ServiceModel;
     using System.ServiceModel.Web;
     using System.Xml.Serialization;
-    using GeoEntities;
     using WebEntities;
 
     [XmlRoot(ElementName = "Error", Namespace = UriElements.ServiceNamespace)]

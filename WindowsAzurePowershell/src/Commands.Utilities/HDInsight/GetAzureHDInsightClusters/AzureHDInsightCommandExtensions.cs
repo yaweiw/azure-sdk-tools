@@ -14,12 +14,12 @@
 
 namespace Microsoft.WindowsAzure.Management.HDInsight.Cmdlet.GetAzureHDInsightClusters
 {
-    using System;
-    using System.Linq;
     using BaseInterfaces;
     using Commands.CommandImplementations;
     using Extensions;
     using Hadoop.Client;
+    using System;
+    using System.Linq;
     using WindowsAzure.Commands.Utilities.Common;
 
     internal static class AzureHDInsightCommandExtensions

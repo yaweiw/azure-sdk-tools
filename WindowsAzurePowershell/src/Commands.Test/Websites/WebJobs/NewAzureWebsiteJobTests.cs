@@ -14,14 +14,13 @@
 
 namespace Microsoft.WindowsAzure.Commands.Test.Websites
 {
-    using System.Management.Automation;
     using Commands.Utilities.Websites;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
-    using Microsoft.WindowsAzure.Commands.Utilities.Websites.Services.WebJobs;
     using Microsoft.WindowsAzure.Commands.Websites.WebJobs;
-    using Moq;
-    using Utilities.Websites;
     using Microsoft.WindowsAzure.WebSitesExtensions.Models;
+    using Moq;
+    using System.Management.Automation;
+    using Utilities.Websites;
 
     [TestClass]
     public class NewAzureWebsiteJobTests : WebsitesTestBase

@@ -12,13 +12,12 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-using Microsoft.WindowsAzure.Commands.Utilities.Common;
 
 namespace Microsoft.WindowsAzure.Commands.Utilities.Common
 {
+    using Commands.Common.Properties;
     using System;
     using System.IO;
-    using Commands.Common.Properties;
 
     public class GlobalPathInfo
     {

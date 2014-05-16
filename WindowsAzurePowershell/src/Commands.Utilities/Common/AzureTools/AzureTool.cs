@@ -14,12 +14,12 @@
 
 namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService.AzureTools
 {
+    using Commands.Common.Properties;
+    using Microsoft.Win32;
     using System;
     using System.Diagnostics;
     using System.IO;
     using System.Linq;
-    using Commands.Common.Properties;
-    using Microsoft.Win32;
 
     public class AzureTool
     {

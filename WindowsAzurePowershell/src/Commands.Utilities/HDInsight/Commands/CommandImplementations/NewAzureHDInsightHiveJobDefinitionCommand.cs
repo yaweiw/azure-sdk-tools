@@ -13,14 +13,14 @@
 // ----------------------------------------------------------------------------------
 namespace Microsoft.WindowsAzure.Management.HDInsight.Cmdlet.Commands.CommandImplementations
 {
-    using System;
-    using System.Collections;
-    using System.Threading.Tasks;
     using CommandInterfaces;
     using DataObjects;
     using GetAzureHDInsightClusters;
     using GetAzureHDInsightClusters.Extensions;
     using Hadoop.Client;
+    using System;
+    using System.Collections;
+    using System.Threading.Tasks;
 
     internal class NewAzureHDInsightHiveJobDefinitionCommand
         : AzureHDInsightNewJobDefinitionCommand<AzureHDInsightHiveJobDefinition>, INewAzureHDInsightHiveJobDefinitionCommand

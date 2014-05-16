@@ -13,9 +13,9 @@
 // ----------------------------------------------------------------------------------
 namespace Microsoft.WindowsAzure.Commands.Test.HDInsight.CmdLetTests
 {
-    using System;
     using Hadoop.Client;
     using Management.HDInsight.Cmdlet.DataObjects;
+    using System;
     using VisualStudio.TestTools.UnitTesting;
 
     [TestClass]

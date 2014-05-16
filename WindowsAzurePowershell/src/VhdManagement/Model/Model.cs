@@ -14,11 +14,11 @@
 
 namespace Microsoft.WindowsAzure.Commands.Tools.Vhd.Model
 {
+    using Commands.Tools.Common.General;
     using System;
     using System.Collections.Generic;
     using System.IO;
     using System.Runtime.Serialization;
-    using Commands.Tools.Common.General;
     using Vhd.Model.Persistence;
 
     [Flags]

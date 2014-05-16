@@ -13,12 +13,12 @@
 // ----------------------------------------------------------------------------------
 namespace Microsoft.WindowsAzure.Management.HDInsight.Cmdlet.Commands.CommandImplementations
 {
-    using System.Collections;
-    using System.Threading.Tasks;
     using CommandInterfaces;
     using DataObjects;
     using GetAzureHDInsightClusters;
     using GetAzureHDInsightClusters.Extensions;
+    using System.Collections;
+    using System.Threading.Tasks;
 
     internal class NewAzureHDInsightStreamingJobDefinitionCommand
         : AzureHDInsightNewJobDefinitionCommand<AzureHDInsightStreamingMapReduceJobDefinition>, INewAzureHDInsightStreamingJobDefinitionCommand

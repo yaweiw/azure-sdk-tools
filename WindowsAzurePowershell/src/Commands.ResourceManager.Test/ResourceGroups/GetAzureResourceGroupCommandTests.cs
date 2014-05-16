@@ -13,7 +13,6 @@
 // ----------------------------------------------------------------------------------
 
 using Microsoft.Azure.Commands.ResourceManager.Models;
-using Microsoft.Azure.Management.Resources.Models;
 using Moq;
 using System.Collections.Generic;
 using System.Management.Automation;

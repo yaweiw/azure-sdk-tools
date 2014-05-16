@@ -15,14 +15,14 @@
 
 namespace Microsoft.WindowsAzure.Commands.ScenarioTest.Common
 {
+    using Azure.Utilities.HttpRecorder;
+    using Commands.Common;
     using System;
     using System.Collections.ObjectModel;
     using System.IO;
     using System.Management.Automation;
-    using VisualStudio.TestTools.UnitTesting;
-    using Commands.Common;
-    using Azure.Utilities.HttpRecorder;
     using Utilities.Common;
+    using VisualStudio.TestTools.UnitTesting;
 
     [TestClass]
     public class WindowsAzurePowerShellCertificateTest : PowerShellTest

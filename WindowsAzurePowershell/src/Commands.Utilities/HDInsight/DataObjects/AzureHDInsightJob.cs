@@ -13,9 +13,9 @@
 // ----------------------------------------------------------------------------------
 namespace Microsoft.WindowsAzure.Management.HDInsight.Cmdlet.DataObjects
 {
-    using System;
     using GetAzureHDInsightClusters.Extensions;
     using Hadoop.Client;
+    using System;
 
     /// <summary>
     ///     Represents an Azure HD Insight jobDetails for the PowerShell Cmdlets.

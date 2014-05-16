@@ -16,7 +16,6 @@
 //
 namespace Microsoft.WindowsAzure.Commands.Utilities.Common.XmlSchema.ServiceConfigurationSchema
 {
-    using System.Xml.Serialization;
 
 
     /// <remarks/>

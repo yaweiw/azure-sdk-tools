@@ -14,7 +14,6 @@
 
 namespace Microsoft.Azure.Commands.ManagedCache
 {
-    using System;
     using System.Management.Automation;
 
     [Cmdlet(VerbsCommon.Remove, "AzureManagedCache"), OutputType(typeof(bool))]

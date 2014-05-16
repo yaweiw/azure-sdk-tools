@@ -14,17 +14,15 @@
 
 namespace Microsoft.WindowsAzure.Commands.Test.ServiceBus
 {
-    using System;
-    using System.Collections.Generic;
-    using Commands.Utilities.Common;
     using Commands.ServiceBus;
-    using Utilities.Common;
     using Microsoft.WindowsAzure.Commands.Utilities.Properties;
-    using VisualStudio.TestTools.UnitTesting;
+    using Microsoft.WindowsAzure.Commands.Utilities.ServiceBus;
     using Microsoft.WindowsAzure.Management.ServiceBus.Models;
     using Moq;
-    using Microsoft.WindowsAzure.Management.ServiceBus;
-    using Microsoft.WindowsAzure.Commands.Utilities.ServiceBus;
+    using System;
+    using System.Collections.Generic;
+    using Utilities.Common;
+    using VisualStudio.TestTools.UnitTesting;
 
     [TestClass]
     public class NewAzureSBNamespaceTests : TestBase

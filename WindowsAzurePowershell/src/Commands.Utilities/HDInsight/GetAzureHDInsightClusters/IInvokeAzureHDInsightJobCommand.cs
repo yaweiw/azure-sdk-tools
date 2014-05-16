@@ -14,11 +14,11 @@
 
 namespace Microsoft.WindowsAzure.Management.HDInsight.Cmdlet.GetAzureHDInsightClusters
 {
+    using DataObjects;
+    using HDInsight.Logging;
     using System.Collections.ObjectModel;
     using System.Threading;
     using System.Threading.Tasks;
-    using DataObjects;
-    using HDInsight.Logging;
     using WindowsAzure.Commands.Utilities.Common;
 
     internal interface IInvokeAzureHDInsightJobCommand

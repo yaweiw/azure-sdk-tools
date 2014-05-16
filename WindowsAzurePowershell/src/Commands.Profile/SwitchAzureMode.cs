@@ -14,17 +14,10 @@
 
 namespace Microsoft.WindowsAzure.Commands.Profile
 {
-    using System;
-    using System.Management.Automation;
     using Microsoft.WindowsAzure.Commands.Utilities.Common;
-    using Microsoft.WindowsAzure.Commands.Utilities.Profile;
-    using Microsoft.WindowsAzure.Commands.Common.Properties;
-    using Microsoft.PowerShell.Commands;
-    using System.Collections.Generic;
-    using System.Management.Automation.Runspaces;
-    using System.Linq;
+    using System;
     using System.IO;
-    using System.Reflection;
+    using System.Management.Automation;
 
     /// <summary>
     /// Switches between ServiceManagement and ResourceManager modes.

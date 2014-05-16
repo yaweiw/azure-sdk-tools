@@ -14,8 +14,8 @@
 
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Model
 {
-    using System.Collections.Generic;
     using PersistentVMModel;
+    using System.Collections.Generic;
 
     public class PersistentVMRoleContext : ServiceOperationContext, IPersistentVM
     {

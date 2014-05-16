@@ -14,27 +14,22 @@
 
 namespace Microsoft.WindowsAzure.Commands.Utilities.Store
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Globalization;
-    using System.Security.Cryptography;
-    using System.Security.Cryptography.X509Certificates;
-    using System.Text;
-    using System.Threading;
     using Commands.Utilities.Common;
     using Microsoft.WindowsAzure.Commands.Utilities.MarketplaceServiceReference;
     using Microsoft.WindowsAzure.Commands.Utilities.Properties;
+    using Microsoft.WindowsAzure.Management;
     using Microsoft.WindowsAzure.Management.Compute;
-    using Microsoft.WindowsAzure.Management.Compute.Models;
+    using Microsoft.WindowsAzure.Management.Models;
     using Microsoft.WindowsAzure.Management.Store;
     using Microsoft.WindowsAzure.Management.Store.Models;
-    using Microsoft.WindowsAzure.ServiceManagement;
-    using ServiceManagementConstants = Microsoft.WindowsAzure.ServiceManagement.Constants;
+    using System;
+    using System.Collections.Generic;
+    using System.Globalization;
+    using System.Linq;
+    using System.Security.Cryptography;
+    using System.Text;
     using CloudService = Microsoft.WindowsAzure.Management.Store.Models.CloudServiceListResponse.CloudService;
     using Resource = Microsoft.WindowsAzure.Management.Store.Models.CloudServiceListResponse.CloudService.AddOnResource;
-    using Microsoft.WindowsAzure.Management;
-    using System.Linq;
-    using Microsoft.WindowsAzure.Management.Models;
 
     public class StoreClient
     {

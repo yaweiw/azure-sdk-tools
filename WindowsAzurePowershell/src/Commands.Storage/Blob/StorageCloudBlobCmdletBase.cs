@@ -14,12 +14,11 @@
 
 namespace Microsoft.WindowsAzure.Commands.Storage
 {
-    using System;
     using Common;
-    using Microsoft.WindowsAzure.Storage;
     using Microsoft.WindowsAzure.Storage.Blob;
     using Model.Contract;
     using Model.ResourceModel;
+    using System;
 
     /// <summary>
     /// Base cmdlet for storage blob/container cmdlet

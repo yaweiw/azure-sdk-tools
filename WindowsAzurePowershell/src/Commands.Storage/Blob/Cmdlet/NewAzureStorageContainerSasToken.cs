@@ -14,12 +14,12 @@
 
 namespace Microsoft.WindowsAzure.Commands.Storage.Blob.Cmdlet
 {
-    using System;
-    using System.Management.Automation;
-    using System.Security.Permissions;
     using Microsoft.WindowsAzure.Commands.Storage.Common;
     using Microsoft.WindowsAzure.Commands.Storage.Model.Contract;
     using Microsoft.WindowsAzure.Storage.Blob;
+    using System;
+    using System.Management.Automation;
+    using System.Security.Permissions;
 
     [Cmdlet(VerbsCommon.New, StorageNouns.ContainerSas), OutputType(typeof(String))]
     public class NewAzureStorageContainerSasTokenCommand : StorageCloudBlobCmdletBase

@@ -14,12 +14,12 @@
 
 namespace Microsoft.WindowsAzure.Commands.Storage.Queue
 {
-    using System;
-    using System.Management.Automation;
-    using System.Security.Permissions;
     using Common;
     using Microsoft.WindowsAzure.Storage.Queue;
     using Model.Contract;
+    using System;
+    using System.Management.Automation;
+    using System.Security.Permissions;
 
     [Cmdlet(VerbsCommon.Remove, "AzureStorageQueue", SupportsShouldProcess = true, ConfirmImpact = ConfirmImpact.High),
         OutputType(typeof(Boolean))]

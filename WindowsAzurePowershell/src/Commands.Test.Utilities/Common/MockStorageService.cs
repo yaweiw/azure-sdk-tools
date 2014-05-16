@@ -14,17 +14,16 @@
 
 namespace Microsoft.WindowsAzure.Commands.Test.Utilities.Common
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Net;
-    using System.Net.Http;
-    using System.Threading;
-    using System.Threading.Tasks;
     using Commands.Utilities.Common;
     using Management.Storage;
     using Management.Storage.Models;
     using Moq;
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Net;
+    using System.Threading;
+    using System.Threading.Tasks;
     
     /// <summary>
     /// A class used to simulate the behavior of a storage account as far as existing,

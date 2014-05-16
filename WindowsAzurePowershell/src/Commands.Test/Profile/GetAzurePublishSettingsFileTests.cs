@@ -14,10 +14,10 @@
 
 namespace Microsoft.WindowsAzure.Commands.Test.Profile
 {
-    using System.Management.Automation;
-    using Commands.Utilities.Common;
     using Commands.Profile;
+    using Commands.Utilities.Common;
     using Moq;
+    using System.Management.Automation;
     using VisualStudio.TestTools.UnitTesting;
 
     [TestClass]

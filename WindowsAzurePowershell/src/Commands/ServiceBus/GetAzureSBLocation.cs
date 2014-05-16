@@ -14,11 +14,11 @@
 
 namespace Microsoft.WindowsAzure.Commands.ServiceBus
 {
-    using System.Collections.Generic;
-    using System.Management.Automation;
     using Commands.Utilities.Common;
     using Microsoft.WindowsAzure.Commands.Utilities.ServiceBus;
     using Microsoft.WindowsAzure.Management.ServiceBus.Models;
+    using System.Collections.Generic;
+    using System.Management.Automation;
 
     /// <summary>
     /// Lists all service bus locations available for a subscription.

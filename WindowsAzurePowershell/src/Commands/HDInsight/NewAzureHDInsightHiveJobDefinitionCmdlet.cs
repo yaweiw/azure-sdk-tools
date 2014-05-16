@@ -13,15 +13,15 @@
 // ----------------------------------------------------------------------------------
 namespace Microsoft.WindowsAzure.Management.HDInsight.Cmdlet.PSCmdlets
 {
-    using System.Collections;
-    using System.Diagnostics.CodeAnalysis;
-    using System.Management.Automation;
     using Commands.BaseCommandInterfaces;
     using Commands.CommandInterfaces;
     using DataObjects;
     using GetAzureHDInsightClusters;
     using GetAzureHDInsightClusters.Extensions;
     using ServiceLocation;
+    using System.Collections;
+    using System.Diagnostics.CodeAnalysis;
+    using System.Management.Automation;
 
     /// <summary>
     ///     Represents the New-AzureHDInsightConfig Power Shell Cmdlet.

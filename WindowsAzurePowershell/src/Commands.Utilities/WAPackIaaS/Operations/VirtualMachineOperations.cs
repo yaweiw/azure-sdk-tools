@@ -14,7 +14,6 @@
 
 namespace Microsoft.WindowsAzure.Commands.Utilities.WAPackIaaS.Operations
 {
-    using Common;
     using DataContract;
     using Microsoft.WindowsAzure.Commands.Utilities.Properties;
     using Microsoft.WindowsAzure.Commands.Utilities.WAPackIaaS.Exceptions;

@@ -14,12 +14,12 @@
 
 namespace Microsoft.WindowsAzure.Commands.Storage.Table.Cmdlet
 {
-    using System;
-    using System.Management.Automation;
-    using System.Security.Permissions;
     using Common;
     using Microsoft.WindowsAzure.Storage.Table;
     using Model.Contract;
+    using System;
+    using System.Management.Automation;
+    using System.Security.Permissions;
 
     /// <summary>
     /// remove an azure table

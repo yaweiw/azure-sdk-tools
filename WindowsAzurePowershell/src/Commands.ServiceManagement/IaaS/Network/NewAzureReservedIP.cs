@@ -14,12 +14,9 @@
 
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
 {
-    using System;
-    using System.Management.Automation;
-    using Management.Compute.Models;
     using Management.Network.Models;
     using Model;
-    using Model.PersistentVMModel;
+    using System.Management.Automation;
     using Utilities.Common;
 
     [Cmdlet(VerbsCommon.New, ReservedIPConstants.CmdletNoun, DefaultParameterSetName = ReserveNewIPParamSet), OutputType(typeof(ManagementOperationContext))]

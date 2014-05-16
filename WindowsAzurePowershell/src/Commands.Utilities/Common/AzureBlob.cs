@@ -14,14 +14,10 @@
 
 namespace Microsoft.WindowsAzure.Commands.Utilities.Common
 {
-    using System;
-    using System.Globalization;
-    using System.IO;
-    using ServiceManagement;
-    using Storage;
-    using Storage.Auth;
-    using Storage.Blob;
     using Management.Storage;
+    using ServiceManagement;
+    using Storage.Blob;
+    using System;
 
     public static class AzureBlob
     {

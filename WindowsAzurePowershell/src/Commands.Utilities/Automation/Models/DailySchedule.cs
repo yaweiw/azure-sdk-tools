@@ -14,9 +14,9 @@
 
 namespace Microsoft.WindowsAzure.Commands.Utilities.Automation.Models
 {
+    using Microsoft.WindowsAzure.Commands.Utilities.Properties;
     using System;
     using System.Globalization;
-    using Microsoft.WindowsAzure.Commands.Utilities.Properties;
 
     /// <summary>
     /// The daily schedule.

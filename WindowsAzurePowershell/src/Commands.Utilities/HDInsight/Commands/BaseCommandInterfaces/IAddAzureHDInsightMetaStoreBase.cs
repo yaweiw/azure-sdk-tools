@@ -13,8 +13,8 @@
 // ----------------------------------------------------------------------------------
 namespace Microsoft.WindowsAzure.Management.HDInsight.Cmdlet.Commands.BaseCommandInterfaces
 {
-    using System.Management.Automation;
     using DataObjects;
+    using System.Management.Automation;
 
     internal interface IAddAzureHDInsightMetastoreBase
     {

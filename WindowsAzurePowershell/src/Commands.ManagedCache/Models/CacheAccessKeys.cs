@@ -14,8 +14,8 @@
 
 namespace Microsoft.Azure.Commands.ManagedCache.Models
 {
-    using System.Net;
     using Microsoft.Azure.Management.ManagedCache.Models;
+    using System.Net;
 
     class CacheAccessKeys
     {

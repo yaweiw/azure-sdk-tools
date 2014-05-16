@@ -15,6 +15,7 @@
 
 namespace Microsoft.WindowsAzure.Commands.Sync.Upload
 {
+    using Sync.IO;
     using System;
     using System.Diagnostics;
     using System.Globalization;
@@ -22,7 +23,6 @@ namespace Microsoft.WindowsAzure.Commands.Sync.Upload
     using System.Runtime.Serialization;
     using System.Security.Cryptography;
     using System.Security.Permissions;
-    using Sync.IO;
     using Tools.Vhd;
 
     [DataContract]

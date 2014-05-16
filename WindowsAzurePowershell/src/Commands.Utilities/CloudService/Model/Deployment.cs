@@ -14,10 +14,10 @@
 
 namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService.Model
 {
+    using Management.Compute.Models;
     using System;
     using System.Collections.Generic;
     using System.Linq;
-    using Management.Compute.Models;
 
     /// <summary>
     /// Class describing a deployment

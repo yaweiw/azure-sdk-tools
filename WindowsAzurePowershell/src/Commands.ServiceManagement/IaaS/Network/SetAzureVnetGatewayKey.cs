@@ -14,12 +14,10 @@
 
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
 {
-    using System.Management.Automation;
-    using Microsoft.WindowsAzure.Commands.Service.Gateway;
     using Microsoft.WindowsAzure.Commands.ServiceManagement.Model;
     using Microsoft.WindowsAzure.Commands.Utilities.Common;
     using Microsoft.WindowsAzure.Management.Network.Models;
-    using Microsoft.WindowsAzure.ServiceManagement;
+    using System.Management.Automation;
 
     [Cmdlet(VerbsCommon.Set, "AzureVNetGatewayKey"), OutputType(typeof(SharedKeyContext))]
     public class SetAzureVNetGatewayKey : ServiceManagementBaseCmdlet

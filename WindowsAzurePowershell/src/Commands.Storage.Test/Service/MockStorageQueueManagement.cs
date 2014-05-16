@@ -17,11 +17,9 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Test.Service
     using Microsoft.WindowsAzure.Storage;
     using Microsoft.WindowsAzure.Storage.Queue;
     using Microsoft.WindowsAzure.Storage.Queue.Protocol;
+    using Model.Contract;
     using System;
     using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
-    using Model.Contract;
 
     /// <summary>
     /// Mocked queue management

@@ -14,12 +14,12 @@
 
 namespace Microsoft.WindowsAzure.Commands.Utilities.Common
 {
+    using Authentication;
+    using Commands.Common.Properties;
     using System;
     using System.Collections.Generic;
     using System.IO;
     using System.Linq;
-    using Authentication;
-    using Commands.Common.Properties;
 
     /// <summary>
     /// This class is the entry point for all the persistent

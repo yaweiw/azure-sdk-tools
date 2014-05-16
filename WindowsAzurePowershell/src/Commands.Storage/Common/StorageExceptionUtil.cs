@@ -14,8 +14,8 @@
 
 namespace Microsoft.WindowsAzure.Commands.Storage.Common
 {
-    using System;
     using Microsoft.WindowsAzure.Storage;
+    using System;
 
     /// <summary>
     /// Storage exception utility

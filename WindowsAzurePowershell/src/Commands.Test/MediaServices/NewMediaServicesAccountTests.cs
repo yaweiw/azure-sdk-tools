@@ -10,8 +10,6 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-using System;
-using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Microsoft.WindowsAzure.Commands.MediaServices;
 using Microsoft.WindowsAzure.Commands.Test.Utilities.Common;
@@ -20,6 +18,8 @@ using Microsoft.WindowsAzure.Commands.Utilities.MediaServices.Services.Entities;
 using Microsoft.WindowsAzure.Management.MediaServices.Models;
 using Microsoft.WindowsAzure.Management.Storage.Models;
 using Moq;
+using System;
+using System.Linq;
 using Task = System.Threading.Tasks.Task;
 
 namespace Microsoft.WindowsAzure.Commands.Test.MediaServices

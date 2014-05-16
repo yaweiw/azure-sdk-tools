@@ -14,11 +14,11 @@
 
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.PlatformImageRepository.ImagePublishing
 {
+    using Commands.Utilities.Common;
+    using Model;
     using System;
     using System.Linq;
     using System.Management.Automation;
-    using Commands.Utilities.Common;
-    using Model;
     using WindowsAzure.ServiceManagement;
 
     [Cmdlet(VerbsCommon.Get, "AzurePlatformVMImage"), OutputType(typeof(OSImageDetailsContext))]

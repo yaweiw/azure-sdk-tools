@@ -12,9 +12,8 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-using System;
-using System.Collections.Generic;
 using Microsoft.WindowsAzure.Commands.Utilities.Common;
+using System.Collections.Generic;
 
 namespace Microsoft.WindowsAzure.Commands.Common.Test.Common
 {

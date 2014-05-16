@@ -14,8 +14,8 @@
 
 namespace Microsoft.Azure.Commands.ManagedCache.Models
 {
-    using System.Management.Automation;
     using Microsoft.Azure.Management.ManagedCache.Models;
+    using System.Management.Automation;
 
     class MemoryDynamicParameterSet
     {

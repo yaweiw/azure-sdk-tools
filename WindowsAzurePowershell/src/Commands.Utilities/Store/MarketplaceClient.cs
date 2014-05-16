@@ -14,12 +14,12 @@
 
 namespace Microsoft.WindowsAzure.Commands.Utilities.Store
 {
+    using Microsoft.WindowsAzure.Commands.Utilities.MarketplaceServiceReference;
+    using Microsoft.WindowsAzure.Commands.Utilities.Properties;
     using System;
     using System.Collections.Generic;
     using System.Data.Services.Client;
     using System.Linq;
-    using Microsoft.WindowsAzure.Commands.Utilities.MarketplaceServiceReference;
-    using Microsoft.WindowsAzure.Commands.Utilities.Properties;
 
     public class MarketplaceClient
     {

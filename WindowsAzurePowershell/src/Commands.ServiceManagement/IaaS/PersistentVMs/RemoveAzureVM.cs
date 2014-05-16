@@ -14,13 +14,11 @@
 
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
 {
+    using Management.Compute.Models;
+    using Properties;
     using System;
     using System.Linq;
     using System.Management.Automation;
-    using Management.Compute;
-    using Management.Compute.Models;
-    using Management.Network;
-    using Properties;
     using Utilities.Common;
 
     [Cmdlet(VerbsCommon.Remove, "AzureVM"), OutputType(typeof(ManagementOperationContext))]

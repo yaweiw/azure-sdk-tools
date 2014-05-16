@@ -12,18 +12,17 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-using Microsoft.WindowsAzure.Commands.Utilities.Common;
 
 namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService
 {
+    using Commands.Common.Properties;
+    using Common;
+    using Common.XmlSchema.ServiceConfigurationSchema;
+    using Common.XmlSchema.ServiceDefinitionSchema;
     using System;
     using System.Collections.Generic;
     using System.IO;
     using System.Linq;
-    using Common;
-    using Common.XmlSchema.ServiceConfigurationSchema;
-    using Common.XmlSchema.ServiceDefinitionSchema;
-    using Commands.Common.Properties;
 
     public class ServiceComponents
     {

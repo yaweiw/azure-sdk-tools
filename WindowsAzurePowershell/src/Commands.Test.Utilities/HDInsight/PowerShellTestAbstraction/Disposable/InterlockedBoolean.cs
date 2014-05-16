@@ -14,10 +14,10 @@
 
 namespace Microsoft.WindowsAzure.Commands.Test.Utilities.HDInsight.PowerShellTestAbstraction.Disposable
 {
+    using Management.HDInsight.Cmdlet.GetAzureHDInsightClusters.Extensions;
     using System;
     using System.Diagnostics.CodeAnalysis;
     using System.Threading;
-    using Management.HDInsight.Cmdlet.GetAzureHDInsightClusters.Extensions;
 
     /// <summary>
     ///     An interlocked Boolean.

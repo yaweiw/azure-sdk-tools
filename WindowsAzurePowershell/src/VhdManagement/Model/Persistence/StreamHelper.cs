@@ -14,10 +14,10 @@
 
 namespace Microsoft.WindowsAzure.Commands.Tools.Vhd.Model.Persistence
 {
+    using Commands.Tools.Common.General;
     using System;
     using System.Collections.Generic;
     using System.IO;
-    using Commands.Tools.Common.General;
 
     public class StreamHelper
     {

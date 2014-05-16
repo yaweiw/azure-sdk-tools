@@ -13,12 +13,12 @@
 // ----------------------------------------------------------------------------------
 namespace Microsoft.WindowsAzure.Management.HDInsight.Cmdlet.Commands.CommandImplementations
 {
+    using BaseCommandInterfaces;
+    using GetAzureHDInsightClusters.Extensions;
     using System;
     using System.Globalization;
     using System.IO;
     using System.Linq;
-    using BaseCommandInterfaces;
-    using GetAzureHDInsightClusters.Extensions;
     using WindowsAzure.Storage.Auth;
     using WindowsAzure.Storage.Blob;
 

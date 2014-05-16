@@ -14,13 +14,13 @@
 
 namespace Microsoft.WindowsAzure.Commands.Storage.Test.Common
 {
-    using System.Collections.Generic;
-    using System.Linq;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
     using Commands.Test.Utilities.Common;
+    using Microsoft.VisualStudio.TestTools.UnitTesting;
     using Microsoft.WindowsAzure.Storage;
     using Model.ResourceModel;
     using Storage.Common;
+    using System.Collections.Generic;
+    using System.Linq;
 
     /// <summary>
     /// unit test for StorageCloudCmdletBase

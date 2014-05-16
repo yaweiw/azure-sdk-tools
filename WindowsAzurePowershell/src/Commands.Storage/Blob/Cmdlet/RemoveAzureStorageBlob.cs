@@ -14,15 +14,14 @@
 
 namespace Microsoft.WindowsAzure.Commands.Storage.Blob
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Management.Automation;
-    using System.Security.Permissions;
-    using System.Threading.Tasks;
     using Common;
     using Microsoft.WindowsAzure.Storage;
     using Microsoft.WindowsAzure.Storage.Blob;
     using Model.Contract;
+    using System;
+    using System.Management.Automation;
+    using System.Security.Permissions;
+    using System.Threading.Tasks;
 
     [Cmdlet(VerbsCommon.Remove, StorageNouns.Blob, DefaultParameterSetName = NameParameterSet, SupportsShouldProcess = true, ConfirmImpact = ConfirmImpact.High),
         OutputType(typeof(Boolean))]

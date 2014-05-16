@@ -14,12 +14,12 @@
 
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.StorageServices
 {
-    using System;
-    using System.IO;
-    using System.Management.Automation;
     using Model;
     using Properties;
     using Sync.Download;
+    using System;
+    using System.IO;
+    using System.Management.Automation;
     using Utilities.Common;
 
     /// <summary>

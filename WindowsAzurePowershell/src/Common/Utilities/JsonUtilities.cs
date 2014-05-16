@@ -15,14 +15,14 @@
 namespace Microsoft.WindowsAzure.Commands.Utilities.Common
 {
 
+    using Commands.Common.Properties;
+    using Newtonsoft.Json;
+    using Newtonsoft.Json.Linq;
     using System;
     using System.Collections.Generic;
     using System.Diagnostics.CodeAnalysis;
     using System.IO;
     using System.Web.Script.Serialization;
-    using Newtonsoft.Json;
-    using Newtonsoft.Json.Linq;
-    using Commands.Common.Properties;
 
     public static class JsonUtilities
     {

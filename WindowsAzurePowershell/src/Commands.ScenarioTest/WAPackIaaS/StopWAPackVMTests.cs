@@ -14,9 +14,9 @@
 
 namespace Microsoft.WindowsAzure.Commands.ScenarioTest.WAPackIaaS.FunctionalTest
 {
-    using System.Threading;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using Microsoft.WindowsAzure.Commands.Utilities.Properties;
+    using System.Threading;
 
     [TestClass]
     public class StopWAPackVMTests : CmdletTestVirtualMachineStatusBase

@@ -14,8 +14,8 @@
 
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.PersistentVMs
 {
-    using System.Management.Automation;
     using Model.PersistentVMModel;
+    using System.Management.Automation;
 
     [Cmdlet(VerbsCommon.Get, "AzureDns"), OutputType(typeof(DnsServerList))]
     public class GetAzureDnsCommand : PSCmdlet

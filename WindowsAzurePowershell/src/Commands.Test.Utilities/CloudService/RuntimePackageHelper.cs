@@ -14,16 +14,16 @@
 
 namespace Microsoft.WindowsAzure.Commands.Test.Utilities.CloudService
 {
+    using Commands.Common.Properties;
+    using Commands.Utilities.CloudService;
+    using Commands.Utilities.Common.XmlSchema.ServiceDefinitionSchema;
+    using Common;
     using System;
     using System.Collections.Generic;
     using System.IO;
     using System.Linq;
     using System.Xml;
-    using Commands.Utilities.Common.XmlSchema.ServiceDefinitionSchema;
     using VisualStudio.TestTools.UnitTesting;
-    using Common;
-    using Commands.Common.Properties;
-    using Commands.Utilities.CloudService;
     using TestResources = Commands.Common.Test.Properties.Resources;
 
     public class RuntimePackageHelper

@@ -14,8 +14,8 @@
 
 namespace Microsoft.WindowsAzure.Commands.Service.Gateway
 {
-    using System.IO;
     using ServiceManagement;
+    using System.IO;
 
     public static partial class GatewayServiceManagementExtensions
     {

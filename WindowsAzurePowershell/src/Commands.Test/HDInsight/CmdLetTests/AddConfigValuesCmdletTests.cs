@@ -13,13 +13,13 @@
 // ----------------------------------------------------------------------------------
 namespace Microsoft.WindowsAzure.Commands.Test.HDInsight.CmdLetTests
 {
+    using Management.HDInsight;
+    using Management.HDInsight.Cmdlet.DataObjects;
+    using Management.HDInsight.Cmdlet.GetAzureHDInsightClusters;
     using System;
     using System.Collections;
     using System.Collections.Generic;
     using System.Linq;
-    using Management.HDInsight;
-    using Management.HDInsight.Cmdlet.DataObjects;
-    using Management.HDInsight.Cmdlet.GetAzureHDInsightClusters;
     using Utilities.HDInsight.PowerShellTestAbstraction.Interfaces;
     using Utilities.HDInsight.Utilities;
     using VisualStudio.TestTools.UnitTesting;

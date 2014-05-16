@@ -13,16 +13,14 @@
 
 namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Database.Cmdlet
 {
+    using Microsoft.WindowsAzure.Commands.SqlDatabase.Services.Common;
+    using Microsoft.WindowsAzure.Commands.SqlDatabase.Services.ImportExport;
+    using Microsoft.WindowsAzure.Management.Sql;
+    using Microsoft.WindowsAzure.Management.Sql.Models;
     using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Management.Automation;
-    using System.ServiceModel;
-    using Microsoft.WindowsAzure.Commands.SqlDatabase.Services.Common;
-    using Microsoft.WindowsAzure.Commands.SqlDatabase.Services.ImportExport;
-    using Microsoft.WindowsAzure.Commands.Utilities.Common;
-    using Microsoft.WindowsAzure.Management.Sql;
-    using Microsoft.WindowsAzure.Management.Sql.Models;
 
     /// <summary>
     /// Exports a database from SQL Azure into blob storage.

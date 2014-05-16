@@ -14,15 +14,14 @@
 
 namespace Microsoft.WindowsAzure.Commands.Storage.Test.Blob.Cmdlet
 {
-    using System;
-    using System.Linq;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
-    using Commands.Test.Utilities.Common;
+    using Microsoft.WindowsAzure.Commands.Storage.Test.Service;
+    using Microsoft.WindowsAzure.Storage;
     using Microsoft.WindowsAzure.Storage.Blob;
     using Storage.Blob;
     using Storage.Common;
-    using Microsoft.WindowsAzure.Storage;
-    using Microsoft.WindowsAzure.Commands.Storage.Test.Service;
+    using System;
+    using System.Linq;
 
     [TestClass]
     public class RemoveAzureStorageBlobTest : StorageBlobTestBase

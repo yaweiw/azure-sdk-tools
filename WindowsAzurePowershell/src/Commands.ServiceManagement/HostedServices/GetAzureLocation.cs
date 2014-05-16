@@ -14,11 +14,10 @@
 
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.HostedServices
 {
-    using System.Linq;
-    using System.Management.Automation;
-    using Management;
     using Management.Models;
     using Model;
+    using System.Linq;
+    using System.Management.Automation;
     using Utilities.Common;
 
     /// <summary>

@@ -16,7 +16,6 @@ namespace Microsoft.WindowsAzure.Commands.Websites
 {
     using System;
     using System.Collections.Generic;
-    using System.Linq;
     using System.Management.Automation;
     using Utilities.Properties;
     using Utilities.Websites.Common;

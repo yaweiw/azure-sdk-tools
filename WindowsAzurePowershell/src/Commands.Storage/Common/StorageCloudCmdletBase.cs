@@ -14,20 +14,19 @@
 
 namespace Microsoft.WindowsAzure.Commands.Storage.Common
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Diagnostics;
-    using System.Globalization;
-    using System.Management.Automation;
-    using System.Net;
-    using System.Threading;
-    using System.Threading.Tasks;
     using Commands.Utilities.Common;
     using Microsoft.WindowsAzure.Storage;
     using Microsoft.WindowsAzure.Storage.Blob;
     using Microsoft.WindowsAzure.Storage.Queue;
     using Microsoft.WindowsAzure.Storage.Table;
     using Model.ResourceModel;
+    using System;
+    using System.Collections.Generic;
+    using System.Diagnostics;
+    using System.Management.Automation;
+    using System.Net;
+    using System.Threading;
+    using System.Threading.Tasks;
     using ServiceModel = System.ServiceModel;
 
     /// <summary>

@@ -14,14 +14,12 @@
 
 namespace Microsoft.WindowsAzure.Commands.Websites.WebJobs
 {
-    using System;
+    using Microsoft.WindowsAzure.Commands.Utilities.Websites.Services.WebJobs;
     using System.Collections.Generic;
     using System.Management.Automation;
-    using Microsoft.WindowsAzure.Commands.Utilities.Websites.Services.WebJobs;
     using Utilities.Websites;
     using Utilities.Websites.Common;
-    using Microsoft.WindowsAzure.WebSitesExtensions.Models;
-    
+
     [Cmdlet(VerbsCommon.Get, "AzureWebsiteJob"), OutputType(typeof(List<PSWebJob>))]
     public class GetAzureWebsiteJobCommand : WebsiteContextBaseCmdlet
     {

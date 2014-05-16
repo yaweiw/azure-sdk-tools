@@ -12,14 +12,13 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-using Microsoft.WindowsAzure.Commands.Utilities.Common;
 
 namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService.Scaffolding
 {
-    using System.Collections.Generic;
     using Common;
     using Common.XmlSchema.ServiceConfigurationSchema;
     using Common.XmlSchema.ServiceDefinitionSchema;
+    using System.Collections.Generic;
 
     public static class PHPRules
     {

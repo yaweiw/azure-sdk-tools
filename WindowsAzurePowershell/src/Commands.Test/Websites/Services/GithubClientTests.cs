@@ -14,17 +14,17 @@
 
 namespace Microsoft.WindowsAzure.Commands.Test.Websites.Services
 {
+    using Commands.Utilities.Websites.Common;
+    using Commands.Utilities.Websites.Services;
+    using Commands.Utilities.Websites.Services.Github;
+    using Commands.Utilities.Websites.Services.Github.Entities;
+    using Commands.Utilities.Websites.Services.WebEntities;
     using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Management.Automation;
     using System.Management.Automation.Host;
     using Utilities.Websites;
-    using Commands.Utilities.Websites.Common;
-    using Commands.Utilities.Websites.Services;
-    using Commands.Utilities.Websites.Services.Github;
-    using Commands.Utilities.Websites.Services.Github.Entities;
-    using Commands.Utilities.Websites.Services.WebEntities;
     using VisualStudio.TestTools.UnitTesting;
 
     [TestClass]

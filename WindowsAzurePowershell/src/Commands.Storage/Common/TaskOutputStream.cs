@@ -18,9 +18,7 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Common
     using System.Collections.Concurrent;
     using System.Collections.Generic;
     using System.Diagnostics;
-    using System.Linq;
     using System.Management.Automation;
-    using System.Text;
     using System.Threading;
     using System.Threading.Tasks;
 

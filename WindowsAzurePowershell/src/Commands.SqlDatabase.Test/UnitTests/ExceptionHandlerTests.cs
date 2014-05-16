@@ -14,15 +14,15 @@
 
 namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Test.UnitTests.Server.Cmdlet
 {
-    using System;
-    using System.Globalization;
-    using System.Management.Automation;
-    using System.Net;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using Microsoft.WindowsAzure.Commands.SqlDatabase.Services;
     using Microsoft.WindowsAzure.Commands.SqlDatabase.Services.Common;
     using Microsoft.WindowsAzure.Commands.SqlDatabase.Test.UnitTests.MockServer;
     using Microsoft.WindowsAzure.Commands.Test.Utilities.Common;
+    using System;
+    using System.Globalization;
+    using System.Management.Automation;
+    using System.Net;
 
     [TestClass]
     public class ExceptionHandlerTests : TestBase

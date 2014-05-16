@@ -16,9 +16,9 @@ using Microsoft.WindowsAzure.Management.MediaServices.Models;
 
 namespace Microsoft.WindowsAzure.Commands.Utilities.MediaServices.Services.Entities
 {
+    using Newtonsoft.Json;
     using System;
     using System.Runtime.Serialization;
-    using Newtonsoft.Json;
 
     [DataContract(Namespace = MediaServicesUriElements.ServiceNamespace, Name = "ServiceResource")]
     [JsonObject(Title = "ServiceResource")]

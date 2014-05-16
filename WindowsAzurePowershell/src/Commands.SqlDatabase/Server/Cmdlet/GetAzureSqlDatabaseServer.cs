@@ -14,16 +14,15 @@
 
 namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Server.Cmdlet
 {
+    using Microsoft.WindowsAzure.Commands.SqlDatabase.Model;
+    using Microsoft.WindowsAzure.Commands.SqlDatabase.Properties;
+    using Microsoft.WindowsAzure.Management.Sql;
+    using Microsoft.WindowsAzure.Management.Sql.Models;
     using System;
     using System.Collections.Generic;
     using System.Globalization;
     using System.Linq;
     using System.Management.Automation;
-    using Microsoft.WindowsAzure.Commands.SqlDatabase.Model;
-    using Microsoft.WindowsAzure.Commands.SqlDatabase.Properties;
-    using Microsoft.WindowsAzure.Commands.Utilities.Common;
-    using Microsoft.WindowsAzure.Management.Sql;
-    using Microsoft.WindowsAzure.Management.Sql.Models;
 
     /// <summary>
     /// Retrieves a list of Windows Azure SQL Database servers in the selected subscription.

@@ -14,16 +14,10 @@
 
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
 {
+    using Microsoft.VisualStudio.TestTools.UnitTesting;
     using System;
     using System.IO;
     using System.Reflection;
-    using System.Security.Cryptography;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
-    using Commands.ServiceManagement.Model;
-    using Microsoft.WindowsAzure.Storage.Auth;
-    using Microsoft.WindowsAzure.Storage.Blob;
-    using Commands.Sync.Download;
-    using WindowsAzure.Commands.ServiceManagement.Test.Properties;
 
     [TestClass]
     public class AddAzureVhdTest : AzureVhdTest

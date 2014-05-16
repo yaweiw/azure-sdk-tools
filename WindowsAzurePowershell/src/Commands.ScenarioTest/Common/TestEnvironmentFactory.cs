@@ -19,7 +19,6 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.Common
     using Newtonsoft.Json.Linq;
     using System;
     using System.Collections.Generic;
-    using System.Reflection;
 
     public abstract class TestEnvironmentFactory
     {

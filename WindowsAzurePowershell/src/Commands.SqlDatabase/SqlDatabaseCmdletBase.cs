@@ -14,14 +14,12 @@
 
 namespace Microsoft.WindowsAzure.Commands.SqlDatabase
 {
-    using System;
-    using System.Globalization;
-    using System.Management.Automation;
     using Microsoft.WindowsAzure.Commands.SqlDatabase.Services;
     using Microsoft.WindowsAzure.Commands.SqlDatabase.Services.Common;
-    using Microsoft.WindowsAzure.Commands.Utilities;
     using Microsoft.WindowsAzure.Commands.Utilities.Common;
     using Microsoft.WindowsAzure.Management.Sql;
+    using System;
+    using System.Globalization;
 
     /// <summary>
     /// The base class for all Windows Azure Sql Database Management Cmdlets

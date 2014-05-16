@@ -19,11 +19,8 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
     using Properties;
     using System;
     using System.Collections.ObjectModel;
-    using System.Collections.Specialized;
-    using System.Diagnostics;
     using System.IO;
     using System.Linq;
-    using System.Threading;
     using VisualStudio.TestTools.UnitTesting;
 
     [TestClass]

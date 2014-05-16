@@ -14,8 +14,8 @@
 
 namespace Microsoft.WindowsAzure.Commands.Test.Utilities.Common
 {
-    using System;
     using Commands.Utilities.Common.Authentication;
+    using System;
 
     public class FakeAccessToken : IAccessToken
     {

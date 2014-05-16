@@ -14,8 +14,8 @@
 
 namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService.Model
 {
-    using System;
     using Management.Compute.Models;
+    using System;
 
     public class PersistentVMDowntimeInfo
     {

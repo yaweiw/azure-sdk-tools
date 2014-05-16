@@ -14,11 +14,10 @@
 
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
 {
+    using Management.Compute.Models;
     using System;
     using System.Linq;
     using System.Management.Automation;
-    using Management.Compute;
-    using Management.Compute.Models;
     using Utilities.Common;
 
     /// <summary>

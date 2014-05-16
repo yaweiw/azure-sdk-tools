@@ -14,20 +14,18 @@
 
 namespace Microsoft.WindowsAzure.Commands.Test.ExpressRoute
 {
-    using System;
-    using System.Collections.Generic;
     using Commands.ExpressRoute;
-    using VisualStudio.TestTools.UnitTesting;
-    using Moq;
     using Commands.Utilities.ExpressRoute;
-    using System.Linq;
+    using Microsoft.WindowsAzure.Commands.Test.Utilities.Common;
+    using Microsoft.WindowsAzure.Management.ExpressRoute;
+    using Microsoft.WindowsAzure.Management.ExpressRoute.Models;
+    using Moq;
+    using System;
     using System.Net;
     using System.Security.Cryptography.X509Certificates;
     using System.Threading;
     using System.Threading.Tasks;
-    using Microsoft.WindowsAzure.Commands.Test.Utilities.Common;
-    using Microsoft.WindowsAzure.Management.ExpressRoute;
-    using Microsoft.WindowsAzure.Management.ExpressRoute.Models;
+    using VisualStudio.TestTools.UnitTesting;
 
     [TestClass]
     public class AzureDBgpPeeringTests : TestBase

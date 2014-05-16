@@ -14,13 +14,13 @@
 
 namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Services.Common
 {
+    using Commands.Utilities.Common;
     using System;
     using System.Globalization;
     using System.IO;
     using System.Net;
     using System.Text;
     using System.Xml.Linq;
-    using Commands.Utilities.Common;
 
     /// <summary>
     /// Defines the implementation of the <see cref="DataServiceAccess"/> utility class.

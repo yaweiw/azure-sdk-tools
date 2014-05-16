@@ -14,7 +14,6 @@
 
 namespace Microsoft.WindowsAzure.ServiceManagement
 {
-    using System;
     using System.IO;
 
     public static class ServiceManagementClientExtensions

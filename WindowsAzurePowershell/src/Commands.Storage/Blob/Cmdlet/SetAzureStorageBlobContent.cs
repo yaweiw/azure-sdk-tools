@@ -14,19 +14,17 @@
 
 namespace Microsoft.WindowsAzure.Commands.Storage.Blob
 {
-    using System;
-    using System.Collections;
-    using System.Collections.Generic;
-    using System.Globalization;
-    using System.IO;
-    using System.Management.Automation;
-    using System.Threading.Tasks;
     using Common;
     using Microsoft.WindowsAzure.Storage;
     using Microsoft.WindowsAzure.Storage.Blob;
-    using Microsoft.WindowsAzure.Storage.DataMovement;
     using Model.Contract;
     using Model.ResourceModel;
+    using System;
+    using System.Collections;
+    using System.Collections.Generic;
+    using System.IO;
+    using System.Management.Automation;
+    using System.Threading.Tasks;
     using StorageBlob = WindowsAzure.Storage.Blob;
 
     /// <summary>

@@ -14,12 +14,6 @@
 
 namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Test.UnitTests.Database.Cmdlet
 {
-    using System;
-    using System.Collections;
-    using System.Collections.ObjectModel;
-    using System.Globalization;
-    using System.Linq;
-    using System.Management.Automation;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using Microsoft.WindowsAzure.Commands.SqlDatabase.Services.Server;
     using Microsoft.WindowsAzure.Commands.SqlDatabase.Test.UnitTests.MockServer;
@@ -27,6 +21,12 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Test.UnitTests.Database.Cm
     using Microsoft.WindowsAzure.Commands.SqlDatabase.Test.Utilities;
     using Microsoft.WindowsAzure.Commands.Test.Utilities.Common;
     using Microsoft.WindowsAzure.Commands.Utilities.Common;
+    using System;
+    using System.Collections;
+    using System.Collections.ObjectModel;
+    using System.Globalization;
+    using System.Linq;
+    using System.Management.Automation;
 
     [TestClass]
     public class AzureSqlDatabaseTests : TestBase

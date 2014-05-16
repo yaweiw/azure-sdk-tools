@@ -15,14 +15,14 @@
 
 namespace Microsoft.WindowsAzure.Commands.Test.TrafficManager.Endpoints
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using Microsoft.WindowsAzure.Commands.Test.Utilities.Common;
     using Microsoft.WindowsAzure.Commands.TrafficManager.Endpoint;
     using Microsoft.WindowsAzure.Commands.TrafficManager.Models;
     using Microsoft.WindowsAzure.Management.TrafficManager.Models;
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
 
     [TestClass]
     public class RemoveTrafficManagerEndpointTests : TestBase

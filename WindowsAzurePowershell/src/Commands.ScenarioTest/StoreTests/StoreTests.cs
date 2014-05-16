@@ -14,13 +14,13 @@
 
 namespace Microsoft.WindowsAzure.Commands.ScenarioTest.StoreTests
 {
+    using Commands.ScenarioTest.Common;
+    using Commands.ScenarioTest.Common.CustomPowerShell;
+    using Commands.Utilities.Store;
+    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using Microsoft.WindowsAzure.Commands.Utilities.Properties;
     using System.Collections.Generic;
     using System.Management.Automation.Runspaces;
-    using Commands.ScenarioTest.Common;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
-    using Commands.ScenarioTest.Common.CustomPowerShell;
-    using Microsoft.WindowsAzure.Commands.Utilities.Properties;
-    using Commands.Utilities.Store;
 
     [TestClass]
     [Ignore] // https://github.com/WindowsAzure/azure-sdk-tools/issues/1184

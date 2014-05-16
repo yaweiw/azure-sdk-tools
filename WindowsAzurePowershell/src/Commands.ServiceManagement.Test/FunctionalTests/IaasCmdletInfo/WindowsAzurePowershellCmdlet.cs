@@ -14,8 +14,8 @@
 
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests.IaasCmdletInfo
 {
-    using System.IO;
     using PowershellCore;
+    using System.IO;
 
     public class WindowsAzurePowershellCmdlet : PowershellCmdlet
     {

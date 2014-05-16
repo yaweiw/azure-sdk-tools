@@ -14,18 +14,17 @@
 
 namespace Microsoft.WindowsAzure.Commands.Storage.Blob.Cmdlet
 {
+    using Common;
+    using Microsoft.WindowsAzure.Storage;
+    using Microsoft.WindowsAzure.Storage.Blob;
+    using Model.Contract;
+    using Model.ResourceModel;
     using System;
     using System.IO;
     using System.Management.Automation;
     using System.Security;
     using System.Security.Permissions;
     using System.Threading.Tasks;
-    using Common;
-    using Microsoft.WindowsAzure.Storage;
-    using Microsoft.WindowsAzure.Storage.Blob;
-    using Microsoft.WindowsAzure.Storage.DataMovement;
-    using Model.Contract;
-    using Model.ResourceModel;
 
     [Cmdlet(VerbsCommon.Get, StorageNouns.BlobContent, ConfirmImpact = ConfirmImpact.High, DefaultParameterSetName = ManualParameterSet),
         OutputType(typeof(AzureStorageBlob))]

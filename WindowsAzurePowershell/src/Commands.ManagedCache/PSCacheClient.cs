@@ -14,19 +14,19 @@
 
 namespace Microsoft.Azure.Commands.ManagedCache
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Globalization;
-    using System.Linq;
-    using System.Text.RegularExpressions;
-    using System.Security.Cryptography;
-    using System.Text;
-    using System.Threading;
+    using Microsoft.Azure.Commands.ManagedCache.Models;
     using Microsoft.Azure.Management.ManagedCache;
     using Microsoft.Azure.Management.ManagedCache.Models;
     using Microsoft.WindowsAzure;
     using Microsoft.WindowsAzure.Commands.Utilities.Common;
-    using Microsoft.Azure.Commands.ManagedCache.Models;
+    using System;
+    using System.Collections.Generic;
+    using System.Globalization;
+    using System.Linq;
+    using System.Security.Cryptography;
+    using System.Text;
+    using System.Text.RegularExpressions;
+    using System.Threading;
 
     class PSCacheClient
     {

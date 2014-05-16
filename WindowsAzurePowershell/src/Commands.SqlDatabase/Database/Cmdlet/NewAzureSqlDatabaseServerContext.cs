@@ -14,15 +14,15 @@
 
 namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Database.Cmdlet
 {
+    using Commands.Utilities.Common;
+    using Properties;
+    using Services.Common;
+    using Services.Server;
     using System;
     using System.Data.Services.Client;
     using System.Linq;
     using System.Management.Automation;
     using System.Xml.Linq;
-    using Commands.Utilities.Common;
-    using Properties;
-    using Services.Common;
-    using Services.Server;
 
     /// <summary>
     /// A cmdlet to Connect to a SQL server administration data service.

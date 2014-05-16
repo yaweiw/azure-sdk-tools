@@ -14,12 +14,12 @@
 
 namespace Microsoft.WindowsAzure.Commands.Utilities.Websites.Common
 {
-    using System;
-    using System.ServiceModel;
     using Commands.Utilities.Common;
     using Microsoft.WindowsAzure.Commands.Utilities.Properties;
     using Services;
     using Services.WebEntities;
+    using System;
+    using System.ServiceModel;
 
     public abstract class DeploymentBaseCmdlet : WebsiteContextBaseCmdlet
     {

@@ -18,9 +18,9 @@ namespace Microsoft.WindowsAzure.Commands.Test.CloudService.Utilities
     using Microsoft.WindowsAzure.Commands.Utilities.Common;
     using Microsoft.WindowsAzure.Commands.Utilities.Properties;
     using Moq;
+    using System.IO;
     using Test.Utilities.Common;
     using VisualStudio.TestTools.UnitTesting;
-    using System.IO;
 
     [TestClass]
     public class StorageEmulatorTests : TestBase

@@ -13,14 +13,13 @@
 // limitations under the License.
 //
 
-using System;
-using System.Collections.Generic;
-using System.Net.Http;
-
 using Microsoft.Azure.Management.ManagedCache;
 using Microsoft.WindowsAzure;
 using Microsoft.WindowsAzure.Common;
 using Microsoft.WindowsAzure.Common.Internals;
+using System;
+using System.Collections.Generic;
+using System.Net.Http;
 
 namespace Microsoft.Azure
 {

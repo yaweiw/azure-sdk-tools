@@ -14,11 +14,11 @@
 
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Helpers
 {
+    using Model.PersistentVMModel;
+    using Properties;
     using System;
     using System.Linq;
     using System.Security.Cryptography.X509Certificates;
-    using Model.PersistentVMModel;
-    using Properties;
 
     public class WinRmConfigurationBuilder
     {

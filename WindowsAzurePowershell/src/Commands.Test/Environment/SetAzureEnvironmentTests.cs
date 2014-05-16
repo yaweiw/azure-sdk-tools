@@ -14,15 +14,14 @@
 
 namespace Microsoft.WindowsAzure.Commands.Test.Environment
 {
-    using System;
-    using System.Collections.Generic;
-    using System.IO;
-    using System.Management.Automation;
-    using Commands.Utilities.Common;
     using Commands.Profile;
-    using Utilities.Common;
+    using Commands.Utilities.Common;
     using Microsoft.WindowsAzure.Commands.Utilities.Properties;
     using Moq;
+    using System;
+    using System.Collections.Generic;
+    using System.Management.Automation;
+    using Utilities.Common;
     using VisualStudio.TestTools.UnitTesting;
 
     [TestClass]

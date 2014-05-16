@@ -13,9 +13,9 @@
 // ----------------------------------------------------------------------------------
 namespace Microsoft.WindowsAzure.Management.HDInsight.Cmdlet.Commands.CommandInterfaces
 {
-    using System.IO;
     using BaseCommandInterfaces;
     using GetAzureHDInsightClusters;
+    using System.IO;
 
     internal interface IGetAzureHDInsightJobOutputCommand : IAzureHDInsightCommand<Stream>, IGetAzureHDInsightJobOutputBase
     {

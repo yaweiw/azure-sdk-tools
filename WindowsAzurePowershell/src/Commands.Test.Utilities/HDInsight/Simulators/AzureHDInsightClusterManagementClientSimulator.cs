@@ -14,6 +14,9 @@
 
 namespace Microsoft.WindowsAzure.Commands.Test.Utilities.HDInsight.Simulators
 {
+    using Hadoop.Client;
+    using Management.HDInsight;
+    using Management.HDInsight.Logging;
     using System;
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
@@ -21,9 +24,6 @@ namespace Microsoft.WindowsAzure.Commands.Test.Utilities.HDInsight.Simulators
     using System.Linq;
     using System.Threading;
     using System.Threading.Tasks;
-    using Hadoop.Client;
-    using Management.HDInsight;
-    using Management.HDInsight.Logging;
     using Utilities;
 
     internal class AzureHDInsightClusterManagementClientSimulator : IHDInsightClient

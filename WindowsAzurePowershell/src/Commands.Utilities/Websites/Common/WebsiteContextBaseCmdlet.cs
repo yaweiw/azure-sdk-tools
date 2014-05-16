@@ -14,10 +14,10 @@
 
 namespace Microsoft.WindowsAzure.Commands.Utilities.Websites.Common
 {
+    using Services;
     using System;
     using System.Management.Automation;
     using System.Security.Permissions;
-    using Services;
 
     public abstract class WebsiteContextBaseCmdlet : WebsiteBaseCmdlet
     {

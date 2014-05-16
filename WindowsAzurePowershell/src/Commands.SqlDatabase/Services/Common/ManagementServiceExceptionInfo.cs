@@ -14,6 +14,7 @@
 
 namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Services.Common
 {
+    using Properties;
     using System;
     using System.Collections;
     using System.Collections.Generic;
@@ -23,7 +24,6 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Services.Common
     using System.Text.RegularExpressions;
     using System.Xml;
     using System.Xml.Linq;
-    using Properties;
 
     /// <summary>
     /// Struct that parse and store exception information from the Management Service.

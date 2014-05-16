@@ -14,10 +14,10 @@
 
 namespace Microsoft.WindowsAzure.Commands.ExpressRoute
 {
-    using System.Management.Automation;
+    using Microsoft.WindowsAzure.Commands.Utilities.ExpressRoute;
     using Microsoft.WindowsAzure.Management.ExpressRoute.Models;
     using System.ComponentModel;
-    using Microsoft.WindowsAzure.Commands.Utilities.ExpressRoute;
+    using System.Management.Automation;
 
     [Cmdlet(VerbsCommon.Get, "AzureBGPPeering"), OutputType(typeof(AzureBgpPeering))]
     public class GetAzureBGPPeeringCommand : ExpressRouteBaseCmdlet

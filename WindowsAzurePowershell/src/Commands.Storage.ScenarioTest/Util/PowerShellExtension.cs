@@ -14,11 +14,7 @@
 
 namespace Commands.Storage.ScenarioTest.Util
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
     using System.Management.Automation;
-    using System.Text;
 
     public static class PowerShellExtension
     {

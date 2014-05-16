@@ -14,12 +14,12 @@
 
 namespace Microsoft.WindowsAzure.Commands.Automation
 {
-    using System.Collections.Generic;
-    using System.Management.Automation;
-    using System.Security.Permissions;
     using Microsoft.WindowsAzure.Commands.Utilities.Automation;
     using Microsoft.WindowsAzure.Commands.Utilities.Automation.Models;
     using Microsoft.WindowsAzure.Commands.Utilities.Common;
+    using System.Collections.Generic;
+    using System.Management.Automation;
+    using System.Security.Permissions;
 
     /// <summary>
     /// Gets azure automation accounts, filterd by automation account name and location.

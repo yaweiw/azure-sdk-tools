@@ -14,12 +14,12 @@
 
 namespace Microsoft.WindowsAzure.Commands.Utilities.Common.Authentication
 {
+    using Commands.Common.Properties;
     using System;
     using System.Collections;
     using System.Collections.Generic;
     using System.Linq;
     using Win32;
-    using Commands.Common.Properties;
 
     /// <summary>
     /// Class that implements <see cref="System.Collections.Generic.IDictionary{String,String}"/>

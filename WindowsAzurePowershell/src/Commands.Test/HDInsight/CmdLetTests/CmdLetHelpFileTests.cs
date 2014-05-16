@@ -13,9 +13,9 @@
 // ----------------------------------------------------------------------------------
 namespace Microsoft.WindowsAzure.Commands.Test.HDInsight.CmdLetTests
 {
+    using Management.HDInsight.Cmdlet.PSCmdlets;
     using System;
     using System.Linq;
-    using Management.HDInsight.Cmdlet.PSCmdlets;
     using VisualStudio.TestTools.UnitTesting;
 
     [TestClass]

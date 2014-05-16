@@ -13,11 +13,11 @@
 // ----------------------------------------------------------------------------------
 namespace Microsoft.WindowsAzure.Management.HDInsight.Cmdlet.ServiceLocation
 {
+    using GetAzureHDInsightClusters.Extensions;
     using System;
     using System.Collections.Generic;
     using System.Globalization;
     using System.Linq;
-    using GetAzureHDInsightClusters.Extensions;
 
     /// <summary>
     ///     The main service locator for any application.

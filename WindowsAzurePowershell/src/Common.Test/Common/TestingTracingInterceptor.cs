@@ -15,12 +15,12 @@
 
 namespace Microsoft.WindowsAzure.Commands.Common.Test.Common
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Net.Http;
     using Microsoft.WindowsAzure.Common;
     using Microsoft.WindowsAzure.Common.Internals;
+    using System;
+    using System.Collections.Generic;
     using System.Diagnostics;
+    using System.Net.Http;
 
     public class TestingTracingInterceptor : ICloudTracingInterceptor
     {

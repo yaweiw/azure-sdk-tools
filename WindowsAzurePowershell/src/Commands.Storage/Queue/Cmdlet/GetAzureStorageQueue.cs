@@ -14,15 +14,15 @@
 
 namespace Microsoft.WindowsAzure.Commands.Storage.Queue
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Management.Automation;
-    using System.Security.Permissions;
     using Common;
     using Microsoft.WindowsAzure.Storage.Queue;
     using Microsoft.WindowsAzure.Storage.Queue.Protocol;
     using Model.Contract;
     using Model.ResourceModel;
+    using System;
+    using System.Collections.Generic;
+    using System.Management.Automation;
+    using System.Security.Permissions;
 
     /// <summary>
     /// list azure queues

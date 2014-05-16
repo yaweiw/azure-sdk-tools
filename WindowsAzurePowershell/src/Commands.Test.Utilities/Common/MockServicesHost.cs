@@ -14,18 +14,16 @@
 
 namespace Microsoft.WindowsAzure.Commands.Test.Utilities.Common
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Globalization;
-    using System.Linq;
-    using System.Net;
-    using System.Net.Http;
-    using System.Threading;
-    using System.Threading.Tasks;
     using Commands.Utilities.Common;
     using Management.Compute;
     using Management.Compute.Models;
     using Moq;
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Net;
+    using System.Threading;
+    using System.Threading.Tasks;
 
     /// <summary>
     /// This class simulates querying and updating hosted services.

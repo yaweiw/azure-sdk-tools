@@ -14,11 +14,11 @@
 
 namespace Microsoft.WindowsAzure.Commands.Websites.WebJobs
 {
+    using Microsoft.WindowsAzure.Commands.Utilities.Websites.Services.WebJobs;
+    using Microsoft.WindowsAzure.WebSitesExtensions.Models;
     using System.Collections.Generic;
     using System.Management.Automation;
-    using Microsoft.WindowsAzure.Commands.Utilities.Websites.Services.WebJobs;
     using Utilities.Websites.Common;
-    using Microsoft.WindowsAzure.WebSitesExtensions.Models;
 
     [Cmdlet(VerbsCommon.Get, "AzureWebsiteJobHistory"), OutputType(typeof(List<WebJobRun>))]
     public class GetAzureWebsiteJobHistoryCommand : WebsiteContextBaseCmdlet

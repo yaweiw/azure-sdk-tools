@@ -13,11 +13,11 @@
 // ----------------------------------------------------------------------------------
 namespace Microsoft.WindowsAzure.Management.HDInsight.Cmdlet.GetAzureHDInsightClusters
 {
+    using Extensions;
     using System;
     using System.Management.Automation;
     using System.Runtime.InteropServices;
     using System.Security;
-    using Extensions;
 
     internal static class PsCredentialsExtensionMethods
     {

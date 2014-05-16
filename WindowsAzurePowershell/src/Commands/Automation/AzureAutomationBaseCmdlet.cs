@@ -14,6 +14,10 @@
 
 namespace Microsoft.WindowsAzure.Commands.Automation
 {
+    using Microsoft.WindowsAzure.Commands.Utilities.Automation;
+    using Microsoft.WindowsAzure.Commands.Utilities.Automation.DataContracts;
+    using Microsoft.WindowsAzure.Commands.Utilities.Common;
+    using Microsoft.WindowsAzure.Commands.Utilities.Properties;
     using System;
     using System.Globalization;
     using System.IO;
@@ -22,10 +26,6 @@ namespace Microsoft.WindowsAzure.Commands.Automation
     using System.Runtime.Serialization.Json;
     using System.Text;
     using System.Xml.Linq;
-    using Microsoft.WindowsAzure.Commands.Utilities.Automation;
-    using Microsoft.WindowsAzure.Commands.Utilities.Automation.DataContracts;
-    using Microsoft.WindowsAzure.Commands.Utilities.Common;
-    using Microsoft.WindowsAzure.Commands.Utilities.Properties;
 
     /// <summary>
     /// The azure automation base cmdlet.

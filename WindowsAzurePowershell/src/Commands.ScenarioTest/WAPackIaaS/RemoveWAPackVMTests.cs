@@ -14,12 +14,11 @@
 
 namespace Microsoft.WindowsAzure.Commands.ScenarioTest.WAPackIaaS.FunctionalTest
 {
-    using System;
-    using System.Linq;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
-    using System.Management.Automation;
-    using System.Collections.Generic;
     using Microsoft.WindowsAzure.Commands.Utilities.Properties;
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
 
     [TestClass]
     public class RemoveWAPackVMTests : CmdletTestVirtualMachineStatusBase

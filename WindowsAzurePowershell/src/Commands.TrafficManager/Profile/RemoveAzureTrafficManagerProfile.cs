@@ -14,10 +14,9 @@
 
 namespace Microsoft.WindowsAzure.Commands.TrafficManager.Profile
 {
-    using System;
-    using System.Management.Automation;
     using Microsoft.WindowsAzure.Commands.Common.Properties;
     using Microsoft.WindowsAzure.Commands.TrafficManager.Utilities;
+    using System.Management.Automation;
 
     [Cmdlet(VerbsCommon.Remove, "AzureTrafficManagerProfile"), OutputType(typeof(bool))]
     public class RemoveAzureTrafficManagerProfile : TrafficManagerBaseCmdlet

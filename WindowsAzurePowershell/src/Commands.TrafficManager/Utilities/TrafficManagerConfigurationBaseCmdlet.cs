@@ -14,8 +14,8 @@
 
 namespace Microsoft.WindowsAzure.Commands.TrafficManager.Utilities
 {
-    using System.Management.Automation;
     using Microsoft.WindowsAzure.Commands.TrafficManager.Models;
+    using System.Management.Automation;
 
     public class TrafficManagerConfigurationBaseCmdlet : TrafficManagerBaseCmdlet
     {

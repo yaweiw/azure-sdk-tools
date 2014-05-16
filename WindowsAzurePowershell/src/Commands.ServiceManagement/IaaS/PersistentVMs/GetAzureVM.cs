@@ -14,6 +14,11 @@
 
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
 {
+    using AutoMapper;
+    using Helpers;
+    using Management.Compute.Models;
+    using Model;
+    using Properties;
     using System;
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
@@ -21,11 +26,6 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
     using System.Linq;
     using System.Management.Automation;
     using System.Net;
-    using AutoMapper;
-    using Helpers;
-    using Management.Compute.Models;
-    using Model;
-    using Properties;
     using PVM = Model.PersistentVMModel;
 
     [Cmdlet(VerbsCommon.Get, AzureVMNoun, DefaultParameterSetName = ListVMParamSet), OutputType(typeof(PersistentVMRoleContext))]

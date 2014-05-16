@@ -13,8 +13,8 @@
 // ----------------------------------------------------------------------------------
 namespace Microsoft.WindowsAzure.Management.HDInsight.Cmdlet.Logging
 {
-    using System.Collections.Generic;
     using HDInsight.Logging;
+    using System.Collections.Generic;
 
     internal interface IBufferingLogWriter : ILogWriter
     {

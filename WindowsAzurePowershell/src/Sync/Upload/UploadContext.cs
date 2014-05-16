@@ -14,10 +14,10 @@
 
 namespace Microsoft.WindowsAzure.Commands.Sync.Upload
 {
+    using Microsoft.WindowsAzure.Storage.Blob;
     using System;
     using System.Collections.Generic;
     using System.Threading;
-    using Microsoft.WindowsAzure.Storage.Blob;
     using Tools.Vhd.Model;
 
     public class UploadContext : IDisposable

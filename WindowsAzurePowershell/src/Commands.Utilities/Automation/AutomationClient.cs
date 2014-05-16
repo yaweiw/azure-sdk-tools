@@ -14,6 +14,10 @@
 
 namespace Microsoft.WindowsAzure.Commands.Utilities.Automation
 {
+    using Microsoft.Azure.Management.Automation;
+    using Microsoft.WindowsAzure.Commands.Utilities.Automation.Models;
+    using Microsoft.WindowsAzure.Commands.Utilities.Common;
+    using Microsoft.WindowsAzure.Commands.Utilities.Properties;
     using System;
     using System.Collections;
     using System.Collections.Generic;
@@ -21,10 +25,6 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Automation
     using System.IO;
     using System.Linq;
     using System.Text;
-    using Microsoft.Azure.Management.Automation;
-    using Microsoft.WindowsAzure.Commands.Utilities.Automation.Models;
-    using Microsoft.WindowsAzure.Commands.Utilities.Common;
-    using Microsoft.WindowsAzure.Commands.Utilities.Properties;
     using AutomationManagement = Microsoft.Azure.Management.Automation;
 
     public class AutomationClient : IAutomationClient

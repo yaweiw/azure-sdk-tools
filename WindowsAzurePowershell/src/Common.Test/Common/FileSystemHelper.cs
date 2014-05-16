@@ -14,11 +14,11 @@
 
 namespace Microsoft.WindowsAzure.Commands.Test.Utilities.Common
 {
+    using Commands.Utilities.CloudService;
+    using Commands.Utilities.Common;
     using System;
     using System.Diagnostics;
     using System.IO;
-    using Commands.Utilities.Common;
-    using Commands.Utilities.CloudService;
 
     /// <summary>
     /// Utility used to create files and directories and clean them up when
