@@ -10,19 +10,14 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
     public class GetAzureVMAvailableExtensionCmdletInfo: CmdletsInfo
     {
         
-        private GetAzureVMAvailableExtensionCmdletInfo(IPersistentVM vm = null)
+        private GetAzureVMAvailableExtensionCmdletInfo()
         {
             cmdletName = Utilities.GetAzureVMAvailableExtensionCmdletName;
-
-            if (vm != null)
-            {
-                cmdletParams.Add(new CmdletParam("VM", vm));
-            }
         }
 
         //ListLatestExtensionsParamSet -> ExtensionName,Publisher,
-        public GetAzureVMAvailableExtensionCmdletInfo(IPersistentVM vm = null, string extensionName = null, string publisher = null)
-            :this(vm)
+        public GetAzureVMAvailableExtensionCmdletInfo(string extensionName = null, string publisher = null)
+            :this()
         {
             
             if (!string.IsNullOrEmpty(extensionName))
@@ -36,18 +31,18 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
         }
 
         //ListAllVersionsParamSetName -> ExtensionName,Publisher,AllVersions
-        public GetAzureVMAvailableExtensionCmdletInfo(IPersistentVM vm,string extensionName, string publisher, bool allVersions)
-            : this(vm,extensionName, publisher)
+        public GetAzureVMAvailableExtensionCmdletInfo(string extensionName, string publisher, bool allVersions)
+            : this(extensionName, publisher)
         {
             if (allVersions)
             {
-                cmdletParams.Add(new CmdletParam("AllVersions", allVersions));
+                cmdletParams.Add(new CmdletParam("AllVersions"));
             }
         }
 
         //ListSingleVersionParamSetName -> ExtensionName,Publisher,Version
-        public GetAzureVMAvailableExtensionCmdletInfo(IPersistentVM vm,string extensionName, string publisher, string version)
-            : this(vm,extensionName, publisher)
+        public GetAzureVMAvailableExtensionCmdletInfo(string extensionName, string publisher, string version)
+            : this(extensionName, publisher)
         {
             if (!string.IsNullOrEmpty(publisher))
             {

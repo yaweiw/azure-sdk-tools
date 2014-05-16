@@ -1776,21 +1776,21 @@ using Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests.Iaa
         }
 
         //ListAllVersionsParamSetName -> ExtensionName,Publisher,AllVersions
-        public Collection<VirtualMachineExtensionImageContext> GetAzureVMAvailableExtension(IPersistentVM vm, string extensionName, string publisher, bool allVersions)
+        public Collection<VirtualMachineExtensionImageContext> GetAzureVMAvailableExtension(string extensionName, string publisher, bool allVersions)
         {
-            return RunPSCmdletAndReturnAll<VirtualMachineExtensionImageContext>(new GetAzureVMAvailableExtensionCmdletInfo(vm, extensionName, publisher, allVersions));
+            return RunPSCmdletAndReturnAll<VirtualMachineExtensionImageContext>(new GetAzureVMAvailableExtensionCmdletInfo(extensionName, publisher, allVersions));
         }
 
         //ListLatestExtensionsParamSet -> ExtensionName,Publisher
-        public Collection<VirtualMachineExtensionImageContext> GetAzureVMAvailableExtension(IPersistentVM vm = null, string extensionName = null, string publisher = null)
+        public Collection<VirtualMachineExtensionImageContext> GetAzureVMAvailableExtension(string extensionName = null, string publisher = null)
         {
-            return RunPSCmdletAndReturnAll<VirtualMachineExtensionImageContext>(new GetAzureVMAvailableExtensionCmdletInfo(vm, extensionName, publisher));
+            return RunPSCmdletAndReturnAll<VirtualMachineExtensionImageContext>(new GetAzureVMAvailableExtensionCmdletInfo(extensionName, publisher));
         }
 
         //ListSingleVersionParamSetName -> ExtensionName,Publisher,Version
-        public Collection<VirtualMachineExtensionImageContext> GetAzureVMAvailableExtension(IPersistentVM vm, string extensionName, string publisher, string version)
+        public Collection<VirtualMachineExtensionImageContext> GetAzureVMAvailableExtension(string extensionName, string publisher, string version)
         {
-            return RunPSCmdletAndReturnAll<VirtualMachineExtensionImageContext>(new GetAzureVMAvailableExtensionCmdletInfo(vm, extensionName, publisher, version));
+            return RunPSCmdletAndReturnAll<VirtualMachineExtensionImageContext>(new GetAzureVMAvailableExtensionCmdletInfo(extensionName, publisher, version));
         }
         #endregion Generic VM Extension cmdlets
 
