@@ -218,10 +218,6 @@
     <None Include="packages.config">
       <SubType>Designer</SubType>
     </None>
-    <ProjectReference Include="..\Commands.Utilities\Commands.Utilities.csproj">
-      <Project>{4900ec4e-8deb-4412-9108-0bc52f81d457}</Project>
-      <Name>Commands.Utilities</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Common\Common.csproj">
       <Project>{5ee72c53-1720-4309-b54b-5fb79703195f}</Project>
       <Name>Common</Name>

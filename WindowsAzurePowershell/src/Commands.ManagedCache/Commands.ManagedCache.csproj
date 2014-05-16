@@ -189,10 +189,6 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Commands.Utilities\Commands.Utilities.csproj">
-      <Project>{4900ec4e-8deb-4412-9108-0bc52f81d457}</Project>
-      <Name>Commands.Utilities</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Commands\Commands.csproj">
       <Project>{CD5AA507-F5EF-473D-855B-84B91A1ABE54}</Project>
       <Name>Commands</Name>

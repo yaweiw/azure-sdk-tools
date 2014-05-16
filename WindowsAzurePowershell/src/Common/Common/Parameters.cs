@@ -14,7 +14,7 @@
 
 namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService
 {
-    class Parameters
+    public class Parameters
     {
         public const string ServiceName = "ServiceName";
 

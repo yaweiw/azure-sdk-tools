@@ -16,6 +16,7 @@ namespace Microsoft.Azure.Commands.ManagedCache.Models
 {
     using System.Net;
     using Microsoft.Azure.Management.ManagedCache.Models;
+
     class CacheAccessKeys
     {
         public CacheAccessKeys(string cacheServiceName, CachingKeysResponse response)

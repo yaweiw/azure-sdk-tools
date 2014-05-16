@@ -16,7 +16,7 @@ namespace Microsoft.WindowsAzure.Commands.Profile
 {
     using System.Linq;
     using System.Management.Automation;
-    using Utilities.Properties;
+    using Microsoft.WindowsAzure.Commands.Common.Properties;
     using Utilities.Profile;
 
     /// <summary>

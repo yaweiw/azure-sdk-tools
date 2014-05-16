@@ -18,7 +18,7 @@ namespace Microsoft.WindowsAzure.Commands.Profile
     using System.Management.Automation;
     using System.Security.Permissions;
     using Utilities.Common;
-    using Utilities.Properties;
+    using Microsoft.WindowsAzure.Commands.Common.Properties;
     /// <summary>
     /// Sets a Windows Azure environment.
     /// </summary>

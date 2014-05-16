@@ -41,7 +41,6 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
         private string runFileName = "test2.ps2";
         private string[] fileNames = {"test1.ps1","test2.ps1"};
         private string endpointSuffix;
-        private VirtualMachineCustomScriptExtensionContext inputParameters;
 
         [TestInitialize]
         public void TestIntialization()
@@ -55,6 +54,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
             fileURI = GetSharedAccessSignatures(fileNames);
             runFileName = fileNames[new Random(0).Next(fileNames.Length - 1)];
             Utilities.PrintFooter("Test Initialize");
+            endpointSuffix = string.Empty;
         }
 
         /// <summary>
