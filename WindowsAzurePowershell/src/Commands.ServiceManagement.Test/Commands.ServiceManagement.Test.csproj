@@ -518,13 +518,13 @@
       <Project>{CD5AA507-F5EF-473D-855B-84B91A1ABE54}</Project>
       <Name>Commands</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Common.Test\Common.Test.csproj">
+    <ProjectReference Include="..\Common\Commands.Common.Test\Commands.Common.Test.csproj">
       <Project>{3b48a77b-5956-4a62-9081-92ba04b02b27}</Project>
-      <Name>Common.Test</Name>
+      <Name>Commands.Common.Test</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Common\Common.csproj">
+    <ProjectReference Include="..\Common\Commands.Common\Commands.Common.csproj">
       <Project>{5ee72c53-1720-4309-b54b-5fb79703195f}</Project>
-      <Name>Common</Name>
+      <Name>Commands.Common</Name>
     </ProjectReference>
     <ProjectReference Include="..\ServiceManagement.Additions\ServiceManagement.Additions.csproj">
       <Project>{DA1432AF-D6B5-47A1-8B74-CCD740683E0F}</Project>

@@ -12,10 +12,11 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-using System;
 
-namespace Microsoft.WindowsAzure.Commands.Utilities.Common.Storage
+namespace Microsoft.WindowsAzure.Commands.Common.Storage
 {
+    using System;
+
     public interface IStorageClientWrapper
     {
         void DeletePackageFromBlob(
