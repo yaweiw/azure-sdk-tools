@@ -1377,9 +1377,9 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
             catch (CloudException e)
             {
                 if (e.Response.StatusCode == HttpStatusCode.NotFound)
-	            {
+                {
                     throw new ArgumentException(Resources.InvalidJobFile);
-	            }
+                }
             }
 
 
