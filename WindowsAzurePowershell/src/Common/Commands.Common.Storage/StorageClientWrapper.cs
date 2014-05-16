@@ -12,17 +12,18 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-using Microsoft.WindowsAzure.Management.Storage;
-using Microsoft.WindowsAzure.Management.Storage.Models;
-using Microsoft.WindowsAzure.Storage;
-using Microsoft.WindowsAzure.Storage.Auth;
-using Microsoft.WindowsAzure.Storage.Blob;
-using System;
-using System.Globalization;
-using System.IO;
-
-namespace Microsoft.WindowsAzure.Commands.Utilities.Common.Storage
+namespace Microsoft.WindowsAzure.Commands.Common.Storage
 {
+    using Microsoft.WindowsAzure.Commands.Utilities.Common;
+    using Microsoft.WindowsAzure.Management.Storage;
+    using Microsoft.WindowsAzure.Management.Storage.Models;
+    using Microsoft.WindowsAzure.Storage;
+    using Microsoft.WindowsAzure.Storage.Auth;
+    using Microsoft.WindowsAzure.Storage.Blob;
+    using System;
+    using System.Globalization;
+    using System.IO;
+
     /// <summary>
     /// Wrapper class that encapsulates Blob functionality from the StorageClient API
     /// </summary>
