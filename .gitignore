@@ -24,7 +24,7 @@ app.config
 x64/
 build/
 bld/
-[Bb]in/
+src/*/[Bb]in/
 [Oo]bj/
 
 # Roslyn cache directories
