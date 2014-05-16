@@ -3054,9 +3054,6 @@
                         <RegistryValue Root="HKCR" Key="Record\{F8FF0DB4-06EA-35DC-B5D8-A330FB82B580}\1.0.0.0" Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
                         <RegistryValue Root="HKCR" Key="Record\{F8FF0DB4-06EA-35DC-B5D8-A330FB82B580}\1.0.0.0" Name="CodeBase" Value="file:///[#filD2C7772B29CD25D54D92D9E5379CCE94]" Type="string" Action="write" />
                     </Component>
-                    <Component Id="cmp140C0C4944D410A242CDAE917AA72B9F" Guid="*">
-                        <File Id="filE8AF3E61665BFC565A2423147D9F1A38" KeyPath="yes" Source="$(var.sourceDir)\ResourceManager\AzureResourceManager\Microsoft.WindowsAzure.ServiceManagement.Client.dll" />
-                    </Component>
                     <Component Id="cmpC06139B310460CC87FAD5B4052FD0C7B" Guid="*">
                         <File Id="filB1A184DB6D784ECB2E32E6FA708BC21C" KeyPath="yes" Source="$(var.sourceDir)\ResourceManager\AzureResourceManager\Microsoft.WindowsAzure.Storage.dll" />
                     </Component>
@@ -10969,7 +10966,6 @@
             <ComponentRef Id="cmpA91F5A404578630945E648FE8AE96BDD" />
             <ComponentRef Id="cmpCC0CD38F24A86EBDD44F84984C5ED01E" />
             <ComponentRef Id="cmp035A8FF43EDA25B16312C39ACEA733B7" />
-            <ComponentRef Id="cmp140C0C4944D410A242CDAE917AA72B9F" />
             <ComponentRef Id="cmpC06139B310460CC87FAD5B4052FD0C7B" />
             <ComponentRef Id="cmpD3EFD9EC21902AA3385D61ED9EFC1C7F" />
             <ComponentRef Id="cmpB3F47AC5C2423CD761AAF739BAB6B7D6" />
