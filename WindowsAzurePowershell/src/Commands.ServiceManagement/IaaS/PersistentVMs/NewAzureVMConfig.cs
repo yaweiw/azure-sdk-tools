@@ -24,7 +24,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
     using Properties;
 
     [Cmdlet(VerbsCommon.New, "AzureVMConfig", DefaultParameterSetName = "ImageName"), OutputType(typeof(PersistentVM))]
-    public class NewAzureVMConfigCommand : PSCmdlet
+    public class NewAzureVMConfigCommand : ServiceManagementBaseCmdlet
     {
         private const string RoleType = "PersistentVMRole";
 
@@ -100,18 +100,13 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
             set;
         }
 
-        internal void ExecuteCommand()
+        protected override void ProcessRecord()
         {
+            base.ProcessRecord();
+
             ValidateParameters();
 
-            if (string.IsNullOrEmpty(Label))
-            {
-                Label = Name;
-            }
-
-            Label = Label;
-
-            var role = new PersistentVM 
+            var role = new PersistentVM
             {
                 AvailabilitySetName = AvailabilitySetName,
                 ConfigurationSets = new Collection<ConfigurationSet>(),
@@ -135,25 +130,17 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
             WriteObject(role, true);
         }
 
-        protected override void ProcessRecord()
-        {
-            try
-            {
-                base.ProcessRecord();
-                ExecuteCommand();
-            }
-            catch (Exception ex)
-            {
-                WriteError(new ErrorRecord(ex, string.Empty, ErrorCategory.CloseError, null));
-            }
-        }
-
         protected void ValidateParameters()
         {
-            WindowsAzureSubscription currentSubscription = WindowsAzureProfile.Instance.CurrentSubscription;
-            if ((currentSubscription == null || currentSubscription.CurrentStorageAccountName == null) && MediaLocation == null)
+            WindowsAzureSubscription currentSubscription = CurrentSubscription;
+            if ((currentSubscription == null || string.IsNullOrEmpty(currentSubscription.CurrentStorageAccountName)) && string.IsNullOrEmpty(MediaLocation))
             {
                 throw new ArgumentException(Resources.MustSpecifyMediaLocationOrHaveCurrentStorageAccount);
+            }
+
+            if (string.IsNullOrEmpty(Label))
+            {
+                Label = Name;
             }
         }
     }
