@@ -356,10 +356,6 @@
     <None Include="Resources\tipsf004.publishsettings" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Commands.ResourceManager\Commands.ResourceManager.csproj">
-      <Project>{e1f5201d-6067-430e-b303-4e367652991b}</Project>
-      <Name>Commands.ResourceManager</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\Commands.ServiceManagement.Test\Commands.ServiceManagement.Test.csproj">
       <Project>{58a78f29-8c0c-4a5e-893e-3953c0f29c8a}</Project>
       <Name>Commands.ServiceManagement.Test</Name>
