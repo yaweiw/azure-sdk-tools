@@ -18,7 +18,7 @@ namespace Microsoft.WindowsAzure.Commands.Profile
     using System.Management.Automation;
     using Microsoft.WindowsAzure.Commands.Utilities.Common;
     using Microsoft.WindowsAzure.Commands.Utilities.Profile;
-    using Microsoft.WindowsAzure.Commands.Utilities.Properties;
+    using Microsoft.WindowsAzure.Commands.Common.Properties;
     using Microsoft.PowerShell.Commands;
     using System.Collections.Generic;
     using System.Management.Automation.Runspaces;

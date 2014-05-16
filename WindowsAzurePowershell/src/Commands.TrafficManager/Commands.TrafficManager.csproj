@@ -202,10 +202,6 @@
       <Project>{e1ca72ba-8374-45f6-904d-fd34ecdf5b6f}</Project>
       <Name>Commands.ServiceManagement</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Commands.Utilities\Commands.Utilities.csproj">
-      <Project>{4900EC4E-8DEB-4412-9108-0BC52F81D457}</Project>
-      <Name>Commands.Utilities</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Commands\Commands.csproj">
       <Project>{cd5aa507-f5ef-473d-855b-84b91a1abe54}</Project>
       <Name>Commands</Name>

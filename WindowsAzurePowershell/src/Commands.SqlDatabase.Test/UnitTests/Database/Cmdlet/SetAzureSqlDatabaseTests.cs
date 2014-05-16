@@ -290,7 +290,7 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Test.UnitTests.Database.Cm
                 using (AsyncExceptionManager exceptionManager = new AsyncExceptionManager())
                 {
                     // Create context with both ManageUrl and ServerName overriden
-                    Collection<PSObject> database, premiumDB;
+                    Collection<PSObject> premiumDB;
                     using (new MockHttpServer(
                         exceptionManager,
                         MockHttpServer.DefaultServerPrefixUri,
