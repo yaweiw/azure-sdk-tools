@@ -14,11 +14,10 @@
 
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
 {
+    using Model;
+    using Properties;
     using System;
     using System.Management.Automation;
-    using Model;
-    using Model.PersistentVMModel;
-    using Properties;
 
     [Cmdlet(VerbsCommon.Remove, PublicIPNoun), OutputType(typeof(IPersistentVM))]
     public class RemoveAzurePublicIPCommand : VirtualMachineConfigurationCmdletBase

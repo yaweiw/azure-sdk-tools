@@ -14,9 +14,6 @@
 
 namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Services.Server
 {
-    using System;
-    using System.Collections.ObjectModel;
-    using System.Linq;
 
     /// <summary>
     /// The <see cref="ServiceObjective"/> extensions

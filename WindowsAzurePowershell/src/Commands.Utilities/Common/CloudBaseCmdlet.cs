@@ -14,6 +14,8 @@
 
 namespace Microsoft.WindowsAzure.Commands.Utilities.Common
 {
+    using Microsoft.WindowsAzure.Commands.Utilities.Properties;
+    using ServiceManagement;
     using System;
     using System.Globalization;
     using System.Linq;
@@ -24,8 +26,6 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
     using System.ServiceModel.Security;
     using System.ServiceModel.Web;
     using System.Threading;
-    using Microsoft.WindowsAzure.Commands.Utilities.Properties;
-    using ServiceManagement;
 
     public abstract class CloudBaseCmdlet<T> : CmdletWithSubscriptionBase
         where T : class

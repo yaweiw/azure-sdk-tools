@@ -14,14 +14,13 @@
 
 namespace Microsoft.WindowsAzure.Commands.Test.ServiceBus
 {
-    using System.Collections.Generic;
-    using Commands.Utilities.Common;
     using Commands.ServiceBus;
-    using Utilities.Common;
-    using VisualStudio.TestTools.UnitTesting;
-    using Moq;
     using Microsoft.WindowsAzure.Commands.Utilities.ServiceBus;
     using Microsoft.WindowsAzure.Management.ServiceBus.Models;
+    using Moq;
+    using System.Collections.Generic;
+    using Utilities.Common;
+    using VisualStudio.TestTools.UnitTesting;
 
     [TestClass]
     public class GetAzureSBLocationTests : TestBase

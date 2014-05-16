@@ -14,16 +14,16 @@
 
 namespace Microsoft.WindowsAzure.Commands.Test.CloudService.Utilities
 {
+    using Commands.CloudService.Development;
+    using Commands.CloudService.Development.Scaffolding;
+    using Commands.Utilities.CloudService;
+    using Commands.Utilities.Common;
+    using Commands.Utilities.Properties;
     using System;
     using System.IO;
     using System.Linq;
-    using Commands.Utilities.Common;
-    using Commands.CloudService.Development;
-    using Commands.CloudService.Development.Scaffolding;
     using Test.Utilities.CloudService;
     using Test.Utilities.Common;
-    using Commands.Utilities.Properties;
-    using Commands.Utilities.CloudService;
     using VisualStudio.TestTools.UnitTesting;
 
     [TestClass]

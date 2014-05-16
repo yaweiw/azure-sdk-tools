@@ -14,10 +14,10 @@
 
 namespace Microsoft.WindowsAzure.Commands.TrafficManager.Profile
 {
-    using System.Collections.Generic;
-    using System.Management.Automation;
     using Microsoft.WindowsAzure.Commands.TrafficManager.Models;
     using Microsoft.WindowsAzure.Commands.TrafficManager.Utilities;
+    using System.Collections.Generic;
+    using System.Management.Automation;
 
     [Cmdlet(VerbsCommon.Get, "AzureTrafficManagerProfile"), OutputType(typeof(IEnumerable<SimpleProfile>))]
     public class GetAzureTrafficManagerProfile : TrafficManagerBaseCmdlet

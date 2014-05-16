@@ -13,14 +13,14 @@
 // ----------------------------------------------------------------------------------
 namespace Microsoft.WindowsAzure.Management.HDInsight.Cmdlet.PSCmdlets
 {
-    using System;
-    using System.Management.Automation;
     using Commands.BaseCommandInterfaces;
     using Commands.CommandInterfaces;
     using DataObjects;
     using GetAzureHDInsightClusters;
     using GetAzureHDInsightClusters.Extensions;
     using ServiceLocation;
+    using System;
+    using System.Management.Automation;
 
     /// <summary>
     ///     Sets the Default Storage Container for the HDInsight cluster configuration.

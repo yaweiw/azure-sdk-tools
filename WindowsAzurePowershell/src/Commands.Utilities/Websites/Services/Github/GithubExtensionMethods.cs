@@ -14,8 +14,8 @@
 
 namespace Microsoft.WindowsAzure.Commands.Utilities.Websites.Services.Github
 {
-    using System.Collections.Generic;
     using Entities;
+    using System.Collections.Generic;
 
     public static class GithubExtensionMethods
     {

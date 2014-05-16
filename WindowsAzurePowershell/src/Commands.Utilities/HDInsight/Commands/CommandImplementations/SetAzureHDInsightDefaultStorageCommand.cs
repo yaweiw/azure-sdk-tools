@@ -13,10 +13,10 @@
 // ----------------------------------------------------------------------------------
 namespace Microsoft.WindowsAzure.Management.HDInsight.Cmdlet.Commands.CommandImplementations
 {
-    using System.Threading.Tasks;
     using CommandInterfaces;
     using DataObjects;
     using GetAzureHDInsightClusters;
+    using System.Threading.Tasks;
 
     internal class SetAzureHDInsightDefaultStorageCommand : AzureHDInsightCommand<AzureHDInsightConfig>, ISetAzureHDInsightDefaultStorageCommand
     {

@@ -24,11 +24,11 @@ namespace Microsoft.WindowsAzure.Commands.CloudService.Development
     using System.Security.Cryptography.X509Certificates;
     using System.Security.Permissions;
     using System.Text;
+    using Utilities.CloudService;
+    using Utilities.CloudService.AzureTools;
     using Utilities.Common;
     using Utilities.Common.XmlSchema.ServiceConfigurationSchema;
     using Utilities.Common.XmlSchema.ServiceDefinitionSchema;
-    using Utilities.CloudService;
-    using Utilities.CloudService.AzureTools;
     using Utilities.Properties;
     using Certificate = Commands.Utilities.Common.XmlSchema.ServiceConfigurationSchema.Certificate;
     using ConfigurationSetting = Commands.Utilities.Common.XmlSchema.ServiceConfigurationSchema.ConfigurationSetting;

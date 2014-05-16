@@ -14,14 +14,14 @@
 
 namespace Microsoft.WindowsAzure.Commands.Storage.Test.Common.Cmdlet
 {
-    using System;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
     using Commands.Test.Utilities.Common;
+    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using Microsoft.WindowsAzure.Commands.Storage.Model.ResourceModel;
+    using Microsoft.WindowsAzure.Storage;
     using Microsoft.WindowsAzure.Storage.Auth;
     using Storage.Common;
     using Storage.Common.Cmdlet;
-    using Microsoft.WindowsAzure.Storage;
-    using Microsoft.WindowsAzure.Commands.Storage.Model.ResourceModel;
+    using System;
 
     [TestClass]
     public class NewAzureStorageContextTest : StorageTestBase

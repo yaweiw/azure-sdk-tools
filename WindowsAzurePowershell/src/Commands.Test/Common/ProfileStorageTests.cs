@@ -14,15 +14,14 @@
 
 namespace Microsoft.WindowsAzure.Commands.Test.Common
 {
+    using Commands.Common.Test.Resources;
+    using Commands.Utilities.Common;
+    using Moq;
     using System;
-    using System.Diagnostics;
     using System.IO;
     using System.Linq;
     using System.Runtime.Serialization;
     using System.Security.Cryptography.X509Certificates;
-    using Commands.Utilities.Common;
-    using Moq;
-    using Commands.Common.Test.Resources;
     using VisualStudio.TestTools.UnitTesting;
 
     [TestClass]

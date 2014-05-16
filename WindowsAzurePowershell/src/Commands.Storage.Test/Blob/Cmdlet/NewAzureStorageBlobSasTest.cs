@@ -16,12 +16,8 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Test.Blob.Cmdlet
 {
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using Microsoft.WindowsAzure.Commands.Storage.Blob.Cmdlet;
-    using Microsoft.WindowsAzure.Commands.Test.Utilities.Common;
     using Microsoft.WindowsAzure.Storage.Blob;
     using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
 
     [TestClass]
     public class NewAzureStorageBlobSasTest : StorageBlobTestBase

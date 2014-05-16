@@ -14,13 +14,12 @@
 
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Helpers
 {
+    using Management.Compute.Models;
+    using Model.PersistentVMModel;
     using System;
     using System.Linq;
     using System.Security.Cryptography;
     using System.Security.Cryptography.X509Certificates;
-    using System.Text;
-    using Management.Compute.Models;
-    using Model.PersistentVMModel;
 
     public static class CertUtilsNewSM
     {

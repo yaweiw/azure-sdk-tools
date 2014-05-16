@@ -13,13 +13,13 @@
 // ----------------------------------------------------------------------------------
 namespace Microsoft.WindowsAzure.Commands.Test.HDInsight.CommandTests
 {
+    using CmdLetTests;
+    using Management.HDInsight.Cmdlet.Commands.CommandImplementations;
     using System;
     using System.Globalization;
     using System.IO;
     using System.Linq;
     using System.Text;
-    using CmdLetTests;
-    using Management.HDInsight.Cmdlet.Commands.CommandImplementations;
     using Utilities.HDInsight.Utilities;
     using VisualStudio.TestTools.UnitTesting;
 

@@ -14,10 +14,10 @@
 
 namespace Microsoft.WindowsAzure.Commands.Test.Common
 {
-    using System.IO;
     using Commands.Utilities.Common;
-    using Utilities.Common;
     using Microsoft.WindowsAzure.Commands.Utilities.Properties;
+    using System.IO;
+    using Utilities.Common;
     using VisualStudio.TestTools.UnitTesting;
 
     [TestClass]

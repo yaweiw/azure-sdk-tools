@@ -15,11 +15,11 @@
 
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
 {
+    using Helpers;
+    using Model.PersistentVMModel;
     using System;
     using System.Management.Automation;
     using System.Security.Cryptography.X509Certificates;
-    using Helpers;
-    using Model.PersistentVMModel;
     using Utilities.Common;
 
     public class ProvisioningConfigurationCmdletBase : ServiceManagementBaseCmdlet

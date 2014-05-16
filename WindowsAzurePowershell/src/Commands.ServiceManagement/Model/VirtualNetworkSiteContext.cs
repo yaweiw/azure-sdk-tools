@@ -14,8 +14,8 @@
 
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Model
 {
-    using System.Collections.Generic;
     using Model.PersistentVMModel;
+    using System.Collections.Generic;
     using Utilities.Common;
 
     public class VirtualNetworkSiteContext : ManagementOperationContext

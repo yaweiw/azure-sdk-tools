@@ -14,19 +14,19 @@
 
 namespace Microsoft.WindowsAzure.Commands.Sync.Upload
 {
+    using Microsoft.WindowsAzure.Storage.Auth;
+    using Microsoft.WindowsAzure.Storage.Blob;
+    using Sync.Download;
     using System;
     using System.Collections.Generic;
     using System.Globalization;
     using System.IO;
     using System.Linq;
     using System.Security.Cryptography;
+    using System.Security.Permissions;
     using System.ServiceModel.Channels;
     using System.Text;
     using System.Threading;
-    using System.Security.Permissions;
-    using Microsoft.WindowsAzure.Storage.Auth;
-    using Microsoft.WindowsAzure.Storage.Blob;
-    using Sync.Download;
     using Tools.Vhd;
     using Tools.Vhd.Model;
 

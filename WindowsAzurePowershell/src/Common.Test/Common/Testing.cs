@@ -14,14 +14,14 @@
 
 namespace Microsoft.WindowsAzure.Commands.Test.Utilities.Common
 {
+    using Commands.Common.Test.Resources;
+    using Commands.Utilities.CloudService;
+    using Commands.Utilities.Common.XmlSchema.ServiceConfigurationSchema;
+    using Commands.Utilities.Common.XmlSchema.ServiceDefinitionSchema;
     using System;
     using System.Collections.Generic;
     using System.Diagnostics;
     using System.IO;
-    using Commands.Common.Test.Resources;
-    using Commands.Utilities.Common.XmlSchema.ServiceConfigurationSchema;
-    using Commands.Utilities.Common.XmlSchema.ServiceDefinitionSchema;
-    using Commands.Utilities.CloudService;
     using VisualStudio.TestTools.UnitTesting;
 
     /// <summary>

@@ -14,13 +14,12 @@
 
 namespace Microsoft.WindowsAzure.Commands.Test.Store
 {
-    using System.Management.Automation;
-    using Commands.Utilities.Common;
     using Commands.Store;
-    using Utilities.Common;
-    using Microsoft.WindowsAzure.Commands.Utilities.Properties;
     using Commands.Utilities.Store;
+    using Microsoft.WindowsAzure.Commands.Utilities.Properties;
     using Moq;
+    using System.Management.Automation;
+    using Utilities.Common;
     using VisualStudio.TestTools.UnitTesting;
     using Resource = Microsoft.WindowsAzure.Management.Store.Models.CloudServiceListResponse.CloudService.AddOnResource;
 

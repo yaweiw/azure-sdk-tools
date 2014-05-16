@@ -14,12 +14,12 @@
 
 namespace Microsoft.WindowsAzure.Commands.Store
 {
+    using Commands.Utilities.Common;
+    using Commands.Utilities.Store;
+    using Microsoft.WindowsAzure.Commands.Utilities.Properties;
     using System;
     using System.Management.Automation;
     using System.Security.Permissions;
-    using Commands.Utilities.Common;
-    using Microsoft.WindowsAzure.Commands.Utilities.Properties;
-    using Commands.Utilities.Store;
 
     /// <summary>
     /// Purchase a new Add-On from Windows Azure Store.

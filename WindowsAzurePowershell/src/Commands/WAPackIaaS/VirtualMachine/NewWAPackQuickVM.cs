@@ -14,13 +14,13 @@
 
 namespace Microsoft.WindowsAzure.Commands.WAPackIaaS.VirtualMachine
 {
+    using Microsoft.WindowsAzure.Commands.Utilities.Properties;
+    using Microsoft.WindowsAzure.Commands.Utilities.WAPackIaaS;
     using Microsoft.WindowsAzure.Commands.Utilities.WAPackIaaS.DataContract;
     using Microsoft.WindowsAzure.Commands.Utilities.WAPackIaaS.Exceptions;
     using Microsoft.WindowsAzure.Commands.Utilities.WAPackIaaS.Operations;
-    using Microsoft.WindowsAzure.Commands.Utilities.WAPackIaaS;
     using System;
     using System.Management.Automation;
-    using Microsoft.WindowsAzure.Commands.Utilities.Properties;
 
     [Cmdlet(VerbsCommon.New, "WAPackQuickVM")]
     public class NewWAPackQuickVM : IaaSCmdletBase

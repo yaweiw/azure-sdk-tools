@@ -14,15 +14,15 @@
 
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.UnitTests.Cmdlets.IaaS.Extensions
 {
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Threading;
-    using System.Threading.Tasks;
     using Commands.Test.Utilities.Common;
     using Management.Compute;
     using Management.Compute.Models;
     using Moq;
     using ServiceManagement.IaaS.Extensions;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Threading;
+    using System.Threading.Tasks;
     using VisualStudio.TestTools.UnitTesting;
 
     //[TestClass]

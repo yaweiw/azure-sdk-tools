@@ -14,8 +14,8 @@
 
 namespace Microsoft.WindowsAzure.Commands.Service.Gateway
 {
-    using System.ServiceModel;
     using ServiceManagement;
+    using System.ServiceModel;
 
 
     /// <summary>

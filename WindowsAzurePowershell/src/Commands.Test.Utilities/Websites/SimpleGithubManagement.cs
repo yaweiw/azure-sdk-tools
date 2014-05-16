@@ -14,12 +14,12 @@
 
 namespace Microsoft.WindowsAzure.Commands.Test.Utilities.Websites
 {
-    using System;
-    using System.Collections.Generic;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
     using Commands.Test.Utilities.Common;
     using Commands.Utilities.Websites.Services.Github;
     using Commands.Utilities.Websites.Services.Github.Entities;
+    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using System;
+    using System.Collections.Generic;
 
     public class SimpleGithubManagement : IGithubServiceManagement
     {

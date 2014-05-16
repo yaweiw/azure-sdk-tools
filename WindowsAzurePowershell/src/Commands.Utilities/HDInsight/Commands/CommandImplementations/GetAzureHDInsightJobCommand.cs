@@ -13,13 +13,13 @@
 // ----------------------------------------------------------------------------------
 namespace Microsoft.WindowsAzure.Management.HDInsight.Cmdlet.Commands.CommandImplementations
 {
-    using System.Linq;
-    using System.Threading.Tasks;
     using CommandInterfaces;
     using DataObjects;
     using GetAzureHDInsightClusters;
     using GetAzureHDInsightClusters.Extensions;
     using Hadoop.Client;
+    using System.Linq;
+    using System.Threading.Tasks;
 
     internal class GetAzureHDInsightJobCommand : AzureHDInsightJobCommand<AzureHDInsightJob>, IGetAzureHDInsightJobCommand
     {

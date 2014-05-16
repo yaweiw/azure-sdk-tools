@@ -14,10 +14,10 @@
 
 namespace Microsoft.Azure.Commands.ManagedCache
 {
+    using Microsoft.Azure.Commands.ManagedCache.Models;
     using System;
     using System.Collections.Generic;
     using System.Management.Automation;
-    using Microsoft.Azure.Commands.ManagedCache.Models;
 
     [Cmdlet(VerbsCommon.Get, "AzureManagedCache"), OutputType(typeof(List<PSCacheService>))]
     public class GetAzureManagedCache : ManagedCacheCmdletBase

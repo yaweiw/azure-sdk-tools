@@ -14,9 +14,9 @@
 
 namespace Microsoft.WindowsAzure.Commands.Automation
 {
+    using Microsoft.WindowsAzure.Commands.Utilities.Automation.Models;
     using System.Management.Automation;
     using System.Security.Permissions;
-    using Microsoft.WindowsAzure.Commands.Utilities.Automation.Models;
 
     /// <summary>
     /// Registers an azure automation scheduled runbook.

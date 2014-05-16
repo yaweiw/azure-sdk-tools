@@ -14,13 +14,11 @@
 
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
 {
+    using Management.Network.Models;
+    using Properties;
     using System;
     using System.IO;
     using System.Management.Automation;
-    using System.Xml.Serialization;
-    using Management.Network;
-    using Management.Network.Models;
-    using Properties;
     using Utilities.Common;
 
     [Cmdlet(VerbsCommon.Set, "AzureVNetConfig"), OutputType(typeof(ManagementOperationContext))]

@@ -14,11 +14,10 @@
 
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
 {
-    using System;
-    using System.Management.Automation;
-    using Management.Compute;
     using Management.Compute.Models;
     using Model;
+    using System;
+    using System.Management.Automation;
     using Utilities.Common;
 
     [Cmdlet(VerbsCommon.Add, "AzureDisk"), OutputType(typeof(DiskContext))]

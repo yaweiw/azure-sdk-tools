@@ -13,13 +13,13 @@
 // ----------------------------------------------------------------------------------
 namespace Microsoft.WindowsAzure.Management.HDInsight.Cmdlet.Commands.CommandImplementations
 {
-    using System.Management.Automation;
-    using System.Threading.Tasks;
     using CommandInterfaces;
     using DataObjects;
     using GetAzureHDInsightClusters;
     using GetAzureHDInsightClusters.Extensions;
     using ServiceLocation;
+    using System.Management.Automation;
+    using System.Threading.Tasks;
 
     internal class ManageAzureHDInsightHttpAccessCommand : AzureHDInsightClusterCommand<AzureHDInsightCluster>, IManageAzureHDInsightHttpAccessCommand
     {

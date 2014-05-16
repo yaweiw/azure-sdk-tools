@@ -14,13 +14,13 @@
 
 namespace Microsoft.WindowsAzure.Commands.Utilities.Common
 {
+    using Commands.Common.Properties;
     using System;
     using System.Collections.Generic;
     using System.Diagnostics;
     using System.Globalization;
     using System.IO;
     using System.Linq;
-    using System.Management.Automation;
     using System.Net;
     using System.Net.Http;
     using System.Net.Http.Headers;
@@ -30,8 +30,6 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
     using System.ServiceModel.Channels;
     using System.Text;
     using System.Xml;
-    using Commands.Common.Properties;
-    using XmlSchema.ServiceConfigurationSchema;
 
     public static class GeneralUtilities
     {

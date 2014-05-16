@@ -20,7 +20,6 @@ namespace Microsoft.WindowsAzure.Commands.WAPackIaaS.VirtualMachine
     using Microsoft.WindowsAzure.Commands.Utilities.WAPackIaaS.Exceptions;
     using Microsoft.WindowsAzure.Commands.Utilities.WAPackIaaS.Operations;
     using System;
-    using System.Collections.Generic;
     using System.Management.Automation;
 
     public class VMOperationsCmdlet : IaaSCmdletBase

@@ -14,7 +14,6 @@
 
 namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Model
 {
-    using System.Net;
 
     public class SqlDatabaseServerFirewallRuleContext : SqlDatabaseServerOperationContext
     {

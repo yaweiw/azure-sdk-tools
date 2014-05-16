@@ -14,8 +14,8 @@
 
 namespace Microsoft.WindowsAzure.Commands.ScenarioTest.CloudServiceTests
 {
-    using System.Management.Automation;
     using Common;
+    using System.Management.Automation;
     using VisualStudio.TestTools.UnitTesting;
 
     [TestClass]

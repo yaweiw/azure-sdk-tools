@@ -17,10 +17,6 @@ namespace Commands.Storage.ScenarioTest.BVT.HTTPS
     using Common;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using MS.Test.Common.MsTestLib;
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
 
     [TestClass]
     class AzureEnvironment : NameKeyContextBVT

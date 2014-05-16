@@ -14,9 +14,6 @@
 
 namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Test.UnitTests.Database.Cmdlet
 {
-    using System;
-    using System.Collections.ObjectModel;
-    using System.Management.Automation;
     using Commands.Test.Utilities.Common;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using Microsoft.WindowsAzure.Commands.SqlDatabase.Test.UnitTests.Server.Cmdlet;
@@ -24,6 +21,9 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Test.UnitTests.Database.Cm
     using Microsoft.WindowsAzure.Commands.Utilities.Common;
     using MockServer;
     using Services.Server;
+    using System;
+    using System.Collections.ObjectModel;
+    using System.Management.Automation;
 
     [TestClass]
     public class RecoverDatabaseTests : TestBase

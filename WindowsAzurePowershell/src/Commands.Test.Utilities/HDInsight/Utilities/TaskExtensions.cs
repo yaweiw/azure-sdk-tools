@@ -14,11 +14,11 @@
 
 namespace Microsoft.WindowsAzure.Commands.Test.Utilities.HDInsight.Utilities
 {
+    using Management.HDInsight.Cmdlet.GetAzureHDInsightClusters.Extensions;
     using System.Collections.Generic;
     using System.Diagnostics.CodeAnalysis;
     using System.Management.Automation;
     using System.Threading.Tasks;
-    using Management.HDInsight.Cmdlet.GetAzureHDInsightClusters.Extensions;
 
     internal static class TaskEx2
     {

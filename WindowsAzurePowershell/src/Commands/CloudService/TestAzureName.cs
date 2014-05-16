@@ -14,13 +14,11 @@
 
 namespace Microsoft.WindowsAzure.Commands.CloudService
 {
-    using System;
-    using System.Management.Automation;
     using Commands.Utilities.Common;
-    using Microsoft.WindowsAzure.Commands.Utilities.ServiceBus;
-    using ServiceManagement;
     using Microsoft.WindowsAzure.Commands.Utilities.CloudService;
-using Microsoft.WindowsAzure.Commands.Utilities.Websites;
+    using Microsoft.WindowsAzure.Commands.Utilities.ServiceBus;
+    using Microsoft.WindowsAzure.Commands.Utilities.Websites;
+    using System.Management.Automation;
 
     [Cmdlet(VerbsDiagnostic.Test, "AzureName"), OutputType(typeof(bool))]
     public class TestAzureNameCommand : CmdletWithSubscriptionBase

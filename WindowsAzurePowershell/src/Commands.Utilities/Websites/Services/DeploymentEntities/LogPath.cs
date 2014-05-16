@@ -14,8 +14,8 @@
 
 namespace Microsoft.WindowsAzure.Commands.Utilities.Websites.Services.DeploymentEntities
 {
-    using System;
     using Newtonsoft.Json;
+    using System;
 
     /// <summary>
     /// LogPath.

@@ -14,13 +14,11 @@
 
 namespace Microsoft.WindowsAzure.Commands.Utilities.ExpressRoute
 {
-    using System.Linq;
-    using System.Net;
     using Microsoft.WindowsAzure.Management.ExpressRoute;
     using Microsoft.WindowsAzure.Management.ExpressRoute.Models;
-    using CloudService;
     using System;
     using System.Collections.Generic;
+    using System.Net;
     using Utilities.Common;
    
     public class ExpressRouteClient

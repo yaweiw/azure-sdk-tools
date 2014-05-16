@@ -18,8 +18,8 @@ namespace Microsoft.WindowsAzure.Commands.CloudService.Development
     using System.Linq;
     using System.Management.Automation;
     using System.Security.Permissions;
-    using Utilities.Common;
     using Utilities.CloudService;
+    using Utilities.Common;
 
     /// <summary>
     /// Retrieve a list of role runtimes available in the cloud

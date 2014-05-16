@@ -12,10 +12,9 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-using System.Collections.Generic;
 using Microsoft.WindowsAzure.Commands.Utilities.Common;
-using Xunit;
 using System;
+using Xunit;
 
 namespace Microsoft.WindowsAzure.Commands.Common.Test
 {

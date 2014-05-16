@@ -14,10 +14,6 @@
 
 namespace Microsoft.WindowsAzure.Commands.Storage.Common
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
     using Microsoft.WindowsAzure.Storage.Shared.Protocol;
 
     public static class ServicePropertiesExtension

@@ -14,10 +14,10 @@
 
 namespace Microsoft.WindowsAzure.Commands.Utilities.Common
 {
+    using Commands.Common.Properties;
     using System;
     using System.Diagnostics;
     using System.Management.Automation;
-    using Commands.Common.Properties;
 
     public abstract class CmdletBase : PSCmdlet
     {

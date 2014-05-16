@@ -14,13 +14,6 @@
 
 namespace Microsoft.WindowsAzure.Commands.Test.Utilities.HDInsight.Utilities
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Diagnostics.CodeAnalysis;
-    using System.Linq;
-    using System.Management.Automation;
-    using System.Security;
-    using System.Security.Cryptography.X509Certificates;
     using Commands.Utilities.Common;
     using Management.HDInsight;
     using Management.HDInsight.Cmdlet.Commands.BaseCommandInterfaces;
@@ -34,6 +27,13 @@ namespace Microsoft.WindowsAzure.Commands.Test.Utilities.HDInsight.Utilities
     using PowerShellTestAbstraction.Concretes;
     using PowerShellTestAbstraction.Interfaces;
     using Simulators;
+    using System;
+    using System.Collections.Generic;
+    using System.Diagnostics.CodeAnalysis;
+    using System.Linq;
+    using System.Management.Automation;
+    using System.Security;
+    using System.Security.Cryptography.X509Certificates;
     using VisualStudio.TestTools.UnitTesting;
 
     public class IntegrationTestBase : DisposableObject

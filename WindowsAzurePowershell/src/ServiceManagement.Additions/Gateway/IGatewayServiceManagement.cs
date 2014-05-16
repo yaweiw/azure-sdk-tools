@@ -14,11 +14,11 @@
 
 namespace Microsoft.WindowsAzure.Commands.Service.Gateway
 {
+    using ServiceManagement;
     using System;
     using System.IO;
     using System.ServiceModel;
     using System.ServiceModel.Web;
-    using ServiceManagement;
 
     public partial interface IGatewayServiceManagement
     {

@@ -14,8 +14,8 @@
 
 namespace Microsoft.WindowsAzure.Commands.Sync.Upload
 {
-    using System.IO;
     using Sync.Download;
+    using System.IO;
 
 
     public class BlobCreator : BlobCreatorBase

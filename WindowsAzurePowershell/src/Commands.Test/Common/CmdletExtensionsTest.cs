@@ -14,8 +14,8 @@
 
 namespace Microsoft.WindowsAzure.Commands.Test.Common
 {
-    using System.Management.Automation;
     using Commands.Utilities.Common;
+    using System.Management.Automation;
     using VisualStudio.TestTools.UnitTesting;
 
     [TestClass]

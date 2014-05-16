@@ -14,12 +14,12 @@
 
 namespace Microsoft.WindowsAzure.Commands.Test.Websites.Services
 {
-    using System.Collections.Generic;
-    using System.IO;
     using Commands.Utilities.Common;
-    using Utilities.Common;
     using Commands.Utilities.Websites.Services;
     using Commands.Utilities.Websites.Services.WebEntities;
+    using System.Collections.Generic;
+    using System.IO;
+    using Utilities.Common;
     using VisualStudio.TestTools.UnitTesting;
 
     [TestClass]

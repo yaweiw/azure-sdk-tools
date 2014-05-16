@@ -14,8 +14,8 @@
 
 namespace Microsoft.WindowsAzure.Commands.Test.Utilities.HDInsight.PowerShellTestAbstraction.Concretes
 {
-    using System.Management.Automation.Runspaces;
     using Interfaces;
+    using System.Management.Automation.Runspaces;
 
     public class CommandAbstraction : PipelineAbstraction, ICommand
     {

@@ -14,7 +14,6 @@
 
 namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService.Model
 {
-    using Management.Compute.Models;
 
     public class InstanceEndpoint
     {

@@ -14,6 +14,7 @@
 
 namespace Microsoft.WindowsAzure.Commands.Utilities.Common
 {
+    using Commands.Common.Properties;
     using System;
     using System.Diagnostics.CodeAnalysis;
     using System.IO;
@@ -21,7 +22,6 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
     using System.Net;
     using System.Net.Sockets;
     using System.Runtime.InteropServices;
-    using Commands.Common.Properties;
 
     public static class Validate
     {

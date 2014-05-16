@@ -14,11 +14,11 @@
 
 namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Database.Cmdlet
 {
-    using System;
-    using System.Management.Automation;
     using Microsoft.WindowsAzure.Commands.Utilities.Common;
     using Services.Common;
     using Services.Server;
+    using System;
+    using System.Management.Automation;
 
     /// <summary>
     /// Issues a new restore request for the specified live or dropped Windows Azure SQL Database.

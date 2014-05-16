@@ -14,12 +14,12 @@
 
 namespace Microsoft.WindowsAzure.Commands.ScenarioTest.Common
 {
+    using Microsoft.VisualStudio.TestTools.UnitTesting;
     using System;
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
     using System.Management.Automation;
     using System.Management.Automation.Runspaces;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
 
     public static class PowerShellExtensions
     {

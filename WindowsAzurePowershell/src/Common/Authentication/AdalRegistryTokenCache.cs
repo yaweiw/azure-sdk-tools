@@ -14,13 +14,13 @@
 
 namespace Microsoft.WindowsAzure.Commands.Utilities.Common.Authentication
 {
+    using Commands.Common.Properties;
+    using IdentityModel.Clients.ActiveDirectory;
     using System;
     using System.Collections;
     using System.Collections.Generic;
     using System.Linq;
-    using IdentityModel.Clients.ActiveDirectory;
     using Win32;
-    using Commands.Common.Properties;
 
     /// <summary>
     /// An implementation of the Adal token cache that stores the cache items

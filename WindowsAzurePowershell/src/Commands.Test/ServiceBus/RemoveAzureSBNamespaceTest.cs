@@ -14,15 +14,11 @@
 
 namespace Microsoft.WindowsAzure.Commands.Test.ServiceBus
 {
-    using System;
-    using System.Management.Automation;
-    using Commands.Utilities.Common;
     using Commands.ServiceBus;
-    using Utilities.Common;
-    using Microsoft.WindowsAzure.Commands.Utilities.Properties;
-    using VisualStudio.TestTools.UnitTesting;
-    using Moq;
     using Microsoft.WindowsAzure.Commands.Utilities.ServiceBus;
+    using Moq;
+    using Utilities.Common;
+    using VisualStudio.TestTools.UnitTesting;
 
     [TestClass]
     public class RemoveAzureSBNamespaceTests : TestBase

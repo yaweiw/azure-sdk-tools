@@ -14,8 +14,8 @@
 
 namespace Microsoft.WindowsAzure.Commands.Utilities.ServiceBus
 {
-    using System.Collections.Generic;
     using Microsoft.ServiceBus.Messaging;
+    using System.Collections.Generic;
 
     public class AuthorizationRuleFilterOption
     {

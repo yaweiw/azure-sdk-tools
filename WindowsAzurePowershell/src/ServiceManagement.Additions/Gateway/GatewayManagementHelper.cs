@@ -14,6 +14,8 @@
 
 namespace Microsoft.WindowsAzure.Commands.Service.Gateway
 {
+    using Commands.Utilities.Common;
+    using ServiceManagement;
     using System;
     using System.Net;
     using System.Runtime.Serialization;
@@ -22,8 +24,6 @@ namespace Microsoft.WindowsAzure.Commands.Service.Gateway
     using System.ServiceModel.Channels;
     using System.ServiceModel.Web;
     using System.Xml;
-    using Commands.Utilities.Common;
-    using ServiceManagement;
 
     public static class GatewayManagementHelper
     {

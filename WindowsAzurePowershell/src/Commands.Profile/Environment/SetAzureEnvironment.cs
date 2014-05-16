@@ -14,11 +14,11 @@
 
 namespace Microsoft.WindowsAzure.Commands.Profile
 {
+    using Microsoft.WindowsAzure.Commands.Common.Properties;
     using System.Collections.Generic;
     using System.Management.Automation;
     using System.Security.Permissions;
     using Utilities.Common;
-    using Microsoft.WindowsAzure.Commands.Common.Properties;
     /// <summary>
     /// Sets a Windows Azure environment.
     /// </summary>

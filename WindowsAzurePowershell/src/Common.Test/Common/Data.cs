@@ -14,13 +14,13 @@
 
 namespace Microsoft.WindowsAzure.Commands.Test.Utilities.Common
 {
+    using Commands.Common.Properties;
+    using Commands.Utilities.Common;
+    using ServiceManagement;
     using System.Collections.Generic;
     using System.IO;
     using System.Linq;
     using System.Text;
-    using Commands.Utilities.Common;
-    using Commands.Common.Properties;
-    using ServiceManagement;
 
     public static class Data
     {

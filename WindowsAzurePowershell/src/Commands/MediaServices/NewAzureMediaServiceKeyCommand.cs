@@ -16,10 +16,10 @@ using Microsoft.WindowsAzure.Management.MediaServices.Models;
 
 namespace Microsoft.WindowsAzure.Commands.MediaServices
 {
-    using Utilities.Properties;
     using System.Management.Automation;
     using Utilities.MediaServices;
     using Utilities.MediaServices.Services.Entities;
+    using Utilities.Properties;
 
     public enum KeyType
     {

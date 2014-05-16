@@ -14,13 +14,13 @@
 
 namespace Microsoft.WindowsAzure.Commands.Test.Utilities.HDInsight.Simulators
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
     using Hadoop.Client;
     using Management.HDInsight;
     using Management.HDInsight.Cmdlet.Commands.CommandImplementations;
     using Management.HDInsight.Cmdlet.GetAzureHDInsightClusters.BaseInterfaces;
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
 
     public class AzureHDInsightJobSubmissionClientSimulatorFactory : IAzureHDInsightJobSubmissionClientFactory
     {

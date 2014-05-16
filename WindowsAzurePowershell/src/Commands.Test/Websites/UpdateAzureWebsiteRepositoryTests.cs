@@ -16,13 +16,13 @@ namespace Microsoft.WindowsAzure.Commands.Test.Websites
 {
     using Commands.Utilities.Common;
     using Commands.Utilities.Websites;
-    using Moq;
-    using Utilities.Common;
-    using Utilities.Websites;
     using Commands.Utilities.Websites.Services.WebEntities;
     using Commands.Websites;
-    using VisualStudio.TestTools.UnitTesting;
+    using Moq;
     using System.Collections.Generic;
+    using Utilities.Common;
+    using Utilities.Websites;
+    using VisualStudio.TestTools.UnitTesting;
 
     [TestClass]
     public class UpdateAzureWebsiteRepositoryTests : WebsitesTestBase

@@ -12,17 +12,11 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using Microsoft.Azure.Commands.ResourceManager;
-using Microsoft.Azure.Commands.ResourceManager.Models;
-using Microsoft.WindowsAzure.Commands.Utilities.Common;
 
 namespace Microsoft.WindowsAzure.Commands.ScenarioTest.ResourceManagerTests
 {
-    using System.IO;
     using Common;
+    using System.IO;
     using VisualStudio.TestTools.UnitTesting;
 
     [TestClass]

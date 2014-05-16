@@ -486,7 +486,6 @@
     <Content Include="Resources\MyWebApplication\Web.Release.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <None Include="Performance\Microsoft.ServiceBus.MessagingPerformanceCounters.man" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Commands.ExpressRoute\Commands.ExpressRoute.csproj">

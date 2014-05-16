@@ -13,9 +13,9 @@
 // ----------------------------------------------------------------------------------
 namespace Microsoft.WindowsAzure.Management.HDInsight.Cmdlet.GetAzureHDInsightClusters
 {
-    using System.Linq;
     using BaseInterfaces;
     using Extensions;
+    using System.Linq;
     using WindowsAzure.Commands.Utilities.Common;
 
     internal class AzureHDInsightSubscriptionResolver : IAzureHDInsightSubscriptionResolver

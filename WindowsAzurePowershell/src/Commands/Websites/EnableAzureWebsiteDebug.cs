@@ -14,13 +14,11 @@
 
 namespace Microsoft.WindowsAzure.Commands.Websites
 {
-    using System.Collections.Generic;
-    using System.Management.Automation;
     using Microsoft.WindowsAzure.Commands.Utilities.Websites.Services.WebEntities;
     using Microsoft.WindowsAzure.Management.WebSites.Models;
+    using System.Management.Automation;
     using Utilities.Websites;
     using Utilities.Websites.Common;
-    using Utilities.Websites.Services.DeploymentEntities;
 
     [Cmdlet(VerbsLifecycle.Enable, "AzureWebsiteDebug"), OutputType(typeof(bool))]
     public class EnableAzureWebsiteDebugCommand : WebsiteContextBaseCmdlet

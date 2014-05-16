@@ -15,15 +15,13 @@
 namespace Microsoft.WindowsAzure.Commands.Storage.Test.Queue
 {
     using Microsoft.VisualStudio.TestTools.UnitTesting;
-    using Commands.Test.Utilities.Common;
     using Microsoft.WindowsAzure.Storage.Queue;
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
     using Model.ResourceModel;
     using Storage.Common;
     using Storage.Queue;
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
 
     [TestClass]
     public class GetAzureStorageQueueTest : StorageQueueTestBase

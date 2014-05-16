@@ -15,15 +15,14 @@
 namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService
 {
     using AzureTools;
+    using Commands.Common.Properties;
     using Common;
     using Common.XmlSchema.ServiceDefinitionSchema;
-    using Commands.Common.Properties;
     using Scaffolding;
     using System;
     using System.Collections.Generic;
     using System.IO;
     using System.Linq;
-    using System.Reflection;
     using System.Security.AccessControl;
     using System.Security.Permissions;
     using System.Security.Principal;

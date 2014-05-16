@@ -13,9 +13,9 @@
 // ----------------------------------------------------------------------------------
 namespace Microsoft.WindowsAzure.Management.HDInsight.Cmdlet.DataObjects
 {
-    using System.Collections.Generic;
     using GetAzureHDInsightClusters.Extensions;
     using Hadoop.Client;
+    using System.Collections.Generic;
 
     /// <summary>
     ///     Provides creation details for a new MapReduce jobDetails.

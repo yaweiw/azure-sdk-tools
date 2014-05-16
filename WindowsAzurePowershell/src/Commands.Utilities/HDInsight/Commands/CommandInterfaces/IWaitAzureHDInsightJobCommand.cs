@@ -13,12 +13,12 @@
 // ----------------------------------------------------------------------------------
 namespace Microsoft.WindowsAzure.Management.HDInsight.Cmdlet.Commands.CommandInterfaces
 {
-    using System;
-    using System.Threading.Tasks;
     using BaseCommandInterfaces;
     using DataObjects;
     using GetAzureHDInsightClusters;
     using Hadoop.Client;
+    using System;
+    using System.Threading.Tasks;
 
     internal interface IWaitAzureHDInsightJobCommand : IAzureHDInsightCommand<AzureHDInsightJob>, IWaitAzureHDInsightJobBase
     {

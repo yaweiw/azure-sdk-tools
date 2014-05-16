@@ -14,13 +14,9 @@
 
 namespace Microsoft.WindowsAzure.Commands.Storage.Blob
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Management.Automation;
-    using System.Text;
-    using System.Threading.Tasks;
     using Microsoft.WindowsAzure.Commands.Storage.Model.Contract;
+    using System.Management.Automation;
+    using System.Threading.Tasks;
 
     /// <summary>
     /// User data for data movement library

@@ -14,9 +14,9 @@
 
 namespace Microsoft.WindowsAzure.Commands.Test.Utilities.HDInsight.Simulators
 {
-    using System.Management.Automation;
     using Management.HDInsight.Cmdlet;
     using Management.HDInsight.Cmdlet.GetAzureHDInsightClusters;
+    using System.Management.Automation;
 
     internal class AzureHDInsightConnectionSessionManagerSimulatorFactory : IAzureHDInsightConnectionSessionManagerFactory
     {

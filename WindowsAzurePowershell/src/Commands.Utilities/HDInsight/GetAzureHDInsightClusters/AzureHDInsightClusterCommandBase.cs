@@ -14,10 +14,10 @@
 
 namespace Microsoft.WindowsAzure.Management.HDInsight.Cmdlet.GetAzureHDInsightClusters
 {
-    using System.Threading;
     using BaseInterfaces;
     using Extensions;
     using ServiceLocation;
+    using System.Threading;
 
     internal abstract class AzureHDInsightClusterCommandBase : AzureHDInsightCommandBase, IAzureHDInsightClusterCommandBase
     {

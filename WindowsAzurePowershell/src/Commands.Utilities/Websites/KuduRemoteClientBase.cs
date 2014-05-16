@@ -14,10 +14,10 @@
 
 namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
 {
+    using Commands.Utilities.Common;
     using System;
     using System.Net;
     using System.Net.Http;
-    using Commands.Utilities.Common;
 
     public abstract class KuduRemoteClientBase
     {

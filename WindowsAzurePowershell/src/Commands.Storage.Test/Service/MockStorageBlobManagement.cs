@@ -14,10 +14,6 @@
 
 namespace Microsoft.WindowsAzure.Commands.Storage.Test.Service
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Threading;
-    using System.Threading.Tasks;
     using Microsoft.WindowsAzure.Commands.Storage.Common;
     using Microsoft.WindowsAzure.Commands.Storage.Model.ResourceModel;
     using Microsoft.WindowsAzure.Storage;
@@ -25,6 +21,10 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Test.Service
     using Microsoft.WindowsAzure.Storage.Blob;
     using Microsoft.WindowsAzure.Storage.Shared.Protocol;
     using Model.Contract;
+    using System;
+    using System.Collections.Generic;
+    using System.Threading;
+    using System.Threading.Tasks;
 
     /// <summary>
     /// Mock blob management
