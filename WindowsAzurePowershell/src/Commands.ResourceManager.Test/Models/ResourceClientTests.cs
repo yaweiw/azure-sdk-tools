@@ -18,7 +18,7 @@ using Microsoft.Azure.Management.Resources.Models;
 using Microsoft.WindowsAzure;
 using Microsoft.WindowsAzure.Commands.Test.Utilities.Common;
 using Microsoft.WindowsAzure.Commands.Utilities.Common;
-using Microsoft.WindowsAzure.Commands.Utilities.Common.Storage;
+using Microsoft.WindowsAzure.Commands.Common.Storage;
 using Microsoft.WindowsAzure.Management.Monitoring.Events;
 using Microsoft.WindowsAzure.Management.Monitoring.Events.Models;
 using Microsoft.WindowsAzure.Management.Monitoring.Models;

@@ -12,12 +12,12 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-using Microsoft.WindowsAzure.Management.Storage;
-using Microsoft.WindowsAzure.Storage;
-using Microsoft.WindowsAzure.Storage.Auth;
-
 namespace Microsoft.WindowsAzure.Commands.Utilities.Common
 {
+    using Microsoft.WindowsAzure.Management.Storage;
+    using Microsoft.WindowsAzure.Storage;
+    using Microsoft.WindowsAzure.Storage.Auth;
+
     public static class WindowsAzureSubscriptionExtensions
     {
         public static CloudStorageAccount GetCloudStorageAccount(this WindowsAzureSubscription subscription)

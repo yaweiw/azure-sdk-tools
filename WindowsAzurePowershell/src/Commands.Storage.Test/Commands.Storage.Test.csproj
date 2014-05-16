@@ -221,9 +221,9 @@
       <Project>{cd5aa507-f5ef-473d-855b-84b91a1abe54}</Project>
       <Name>Commands</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Common.Storage\Common.Storage.csproj">
+    <ProjectReference Include="..\Common\Commands.Common.Storage\Commands.Common.Storage.csproj">
       <Project>{65c3a86a-716d-4e7d-ab67-1db00b3bf72d}</Project>
-      <Name>Common.Storage</Name>
+      <Name>Commands.Common.Storage</Name>
     </ProjectReference>
     <ProjectReference Include="..\Common\Commands.Common.Test\Commands.Common.Test.csproj">
       <Project>{3b48a77b-5956-4a62-9081-92ba04b02b27}</Project>
