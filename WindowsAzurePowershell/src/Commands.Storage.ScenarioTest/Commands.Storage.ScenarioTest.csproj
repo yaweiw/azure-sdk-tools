@@ -219,7 +219,7 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Commands.ScenarioTest\Commands.ScenarioTest.csproj">
+    <ProjectReference Include="..\Common\Commands.ScenarioTest\Commands.ScenarioTest.csproj">
       <Project>{a3965b66-5a3e-4b8c-9574-28e5958d4828}</Project>
       <Name>Commands.ScenarioTest</Name>
     </ProjectReference>
