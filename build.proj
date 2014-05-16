@@ -42,7 +42,7 @@
 	<TestParams></TestParams>
   </PropertyGroup>
   <ItemGroup>
-    <CmdletSln Include=".\src\WindowsAzurePowershell.sln" />
+    <CmdletSln Include=".\src\AzurePowerShell.sln" />
     <SetupSln Include=".\setup\azurepowershell.sln" />
   </ItemGroup>
 
@@ -123,7 +123,7 @@
 	<WriteLinesToFile File="$(NuGetRestoreConfigFile)" Lines="&lt;configuration&gt;&lt;/configuration&gt;" Overwrite="true" Encoding="UTF-8" />
 	<Exec Command="$(NuGetCommand) sources add -Name AzureSdkInternal -Source &quot;https://www.myget.org/F/azure-sdk-internal/&quot; $(NuGetRestoreConfigSwitch)" />
     <!-- Restore packages -->
-	<Exec Command="$(NuGetCommand) restore $(MSBuildProjectDirectory)\src\WindowsAzurePowershell.sln $(NuGetRestoreConfigSwitch)" ContinueOnError="ErrorAndContinue" />
+	<Exec Command="$(NuGetCommand) restore $(MSBuildProjectDirectory)\src\AzurePowerShell.sln $(NuGetRestoreConfigSwitch)" ContinueOnError="ErrorAndContinue" />
 	<!-- delete config file, don't want to leave passwords hanging around on the build server file system -->
     <Delete Files="$(NuGetRestoreConfigFile)" />
   </Target>
