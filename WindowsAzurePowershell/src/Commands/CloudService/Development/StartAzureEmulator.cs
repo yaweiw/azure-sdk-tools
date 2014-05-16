@@ -87,7 +87,7 @@ namespace Microsoft.WindowsAzure.Commands.CloudService.Development
                 throw new PSArgumentException(Resources.AzureEmulatorNotRunningElevetaed);
             }
             base.ExecuteCmdlet();
-            StartAzureEmulatorProcess(GeneralUtilities.GetServiceRootPath(CurrentPath()));
+            StartAzureEmulatorProcess(CommonUtilities.GetServiceRootPath(CurrentPath()));
         }
 
         private bool IsRunningElevated()

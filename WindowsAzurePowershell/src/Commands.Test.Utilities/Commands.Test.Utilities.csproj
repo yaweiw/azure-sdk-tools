@@ -233,6 +233,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CloudService\AzureServiceWrapper.cs" />
+    <Compile Include="CloudService\RuntimePackageHelper.cs" />
+    <Compile Include="CloudService\ServiceSettingsTestData.cs" />
     <Compile Include="CloudService\SimpleServiceManagement.cs" />
     <Compile Include="Common\MockServicesHost.cs" />
     <Compile Include="Common\MockStorageService.cs" />

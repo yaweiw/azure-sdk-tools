@@ -72,7 +72,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Extensions
         protected void ValidateService()
         {
             string serviceName;
-            ServiceSettings settings = GeneralUtilities.GetDefaultSettings(GeneralUtilities.TryGetServiceRootPath(CurrentPath()),
+            ServiceSettings settings = CommonUtilities.GetDefaultSettings(CommonUtilities.TryGetServiceRootPath(CurrentPath()),
                 ServiceName, null, null, null, null, CurrentSubscription.SubscriptionId, out serviceName);
 
             if (string.IsNullOrEmpty(serviceName))

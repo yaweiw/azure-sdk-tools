@@ -579,7 +579,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService
 
             protected override void ApplyScaffoldingChanges(CloudRuntimePackage package)
             {
-                string rootPath = GeneralUtilities.GetServiceRootPath(FilePath);
+                string rootPath = CommonUtilities.GetServiceRootPath(FilePath);
 
                 if (CloudServiceProject.Components.StartupTaskExists(RoleName, Resources.CacheStartupCommand))
                 {

@@ -98,4 +98,4 @@ if (!(Test-Path "$env:SystemDrive\Python27")) {
 }
 
 $env:AZURE_TEST_MODE="Playback"
-msbuild.exe $env:AzurePSRoot\..\build.proj /t:Test;BuildSetupDebug
+msbuild.exe $env:AzurePSRoot\..\build.proj /t:"Test;BuildSetupDebug"

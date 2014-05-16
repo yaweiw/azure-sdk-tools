@@ -149,9 +149,8 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Microsoft.IdentityModel.Clients.ActiveDirectory.1.0.3\lib\net40\Microsoft.IdentityModel.Clients.ActiveDirectory.WindowsForms.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.ServiceBus, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\lib\Microsoft.ServiceBus.dll</HintPath>
+    <Reference Include="Microsoft.ServiceBus, Version=2.3.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\WindowsAzure.ServiceBus.2.3.2.0\lib\net40-full\Microsoft.ServiceBus.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Threading.Tasks, Version=1.0.12.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -331,23 +330,48 @@
     <Compile Include="CloudService\Model\RoleInstance.cs" />
     <Compile Include="CloudService\Model\UpgradeStatus.cs" />
     <Compile Include="CloudService\Model\VirtualIP.cs" />
-    <Compile Include="CloudService\Parameters.cs" />
     <Compile Include="CloudService\SetSettings.cs" />
-    <Compile Include="Common\AzureModule.cs" />
+    <Compile Include="Common\AzureTools\AzureTool.cs" />
+    <Compile Include="Common\AzureTools\CsEncrypt.cs" />
+    <Compile Include="Common\AzureTools\CsPack.cs" />
+    <Compile Include="Common\AzureTools\CsRun.cs" />
+    <Compile Include="Common\AzureTools\StorageEmulator.cs" />
     <Compile Include="Common\CloudBlobUtility.cs" />
+    <Compile Include="Common\CloudRuntime.cs" />
+    <Compile Include="Common\CloudRuntimeApplicator.cs" />
+    <Compile Include="Common\CloudRuntimeCollection.cs" />
+    <Compile Include="Common\CloudRuntimePackage.cs" />
+    <Compile Include="Common\CloudServicePathInfo.cs" />
+    <Compile Include="Common\CloudServiceProject.cs" />
+    <Compile Include="Common\CommonUtilities.cs" />
+    <Compile Include="Common\ComputeEmulatorMode.cs" />
+    <Compile Include="Common\JavaScriptPackageHelpers.cs" />
     <Compile Include="Common\ObjectDeltaMapper.cs" />
+    <Compile Include="Common\PowerShellProjectPathInfo.cs" />
+    <Compile Include="Common\PublishContext.cs" />
+    <Compile Include="Common\RoleInfo.cs" />
+    <Compile Include="Common\Scaffolding\NodeRules.cs" />
+    <Compile Include="Common\Scaffolding\PHPRules.cs" />
+    <Compile Include="Common\Scaffolding\PythonRules.cs" />
+    <Compile Include="Common\Scaffolding\Scaffold.cs" />
+    <Compile Include="Common\Scaffolding\ScaffoldFile.cs" />
+    <Compile Include="Common\Scaffolding\ScaffoldParams.cs" />
+    <Compile Include="Common\ServiceComponents.cs" />
     <Compile Include="Common\ServiceManagementClientExtensions.cs" />
+    <Compile Include="Common\ServiceSettings.cs" />
     <Compile Include="Common\StandardHeadersHandler.cs" />
     <Compile Include="Common\CloudBaseCmdlet.cs" />
     <Compile Include="Common\ServiceManagementBaseCmdlet.cs" />
     <Compile Include="Common\AzureException.cs" />
     <Compile Include="Common\ManagementOperationContext.cs" />
-    <Compile Include="Common\SubscriptionDataExtended.cs" />
     <Compile Include="Common\CloudServiceProjectConfiguration.cs" />
     <Compile Include="Common\AzureBlob.cs" />
     <Compile Include="Common\ConfigurationConstants.cs" />
     <Compile Include="Common\ErrorHelper.cs" />
     <Compile Include="Common\ChannelHelper.cs" />
+    <Compile Include="Common\VisualStudioProjectPathInfo.cs" />
+    <Compile Include="Common\WebRoleInfo.cs" />
+    <Compile Include="Common\WorkerRoleInfo.cs" />
     <Compile Include="ExpressRoute\ExpressRouteBaseCmdlet.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -563,7 +587,6 @@
     <Compile Include="Store\ValidateCountryLengthAttribute.cs" />
     <Compile Include="Store\WindowsAzureAddOn.cs" />
     <Compile Include="Store\WindowsAzureOffer.cs" />
-    <Compile Include="Profile\SubscriptionCmdletBase.cs" />
     <Compile Include="WAPackIaaS\DataContract\proxy.cs" />
     <Compile Include="WAPackIaaS\Exceptions\WAPackOperationException.cs" />
     <Compile Include="WAPackIaaS\Exceptions\WAPackWebException.cs" />
@@ -796,7 +819,7 @@
     <Content Include="Azure.psd1">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <None Include="PostBuild.bat" />
+    <None Include="Performance\Microsoft.ServiceBus.MessagingPerformanceCounters.man" />
     <None Include="Properties\DataSources\Microsoft.WindowsAzure.Commands.Utilities.MarketplaceServiceReference.CatalogServiceReadOnlyDbContext.datasource" />
     <None Include="Resources\Scaffolding\General\WorkerRole\startup.cmd">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -993,10 +1016,14 @@
       <Name>Common</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Profile\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\nuget.targets" />
   <PropertyGroup>
-    <PostBuildEvent>"$(ProjectDir)\PostBuild.bat" "$(TargetDir)"</PostBuildEvent>
+    <PostBuildEvent>
+    </PostBuildEvent>
   </PropertyGroup>
   <Import Project="..\packages\Microsoft.Bcl.Build.1.0.13\tools\Microsoft.Bcl.Build.targets" Condition="Exists('..\packages\Microsoft.Bcl.Build.1.0.13\tools\Microsoft.Bcl.Build.targets')" />
   <Target Name="EnsureBclBuildImported" BeforeTargets="BeforeBuild" Condition="'$(BclBuildImported)' == ''">

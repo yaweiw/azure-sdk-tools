@@ -74,7 +74,7 @@ namespace Microsoft.WindowsAzure.Commands.CloudService.Development
                 throw new ArgumentException(Resources.EnableAzureRemoteDesktopCommand_Enable_NeedComplexPassword);
             }
 
-            CloudServiceProject service = new CloudServiceProject(GeneralUtilities.GetServiceRootPath(CurrentPath()), null);
+            CloudServiceProject service = new CloudServiceProject(CommonUtilities.GetServiceRootPath(CurrentPath()), null);
             WebRole[] webRoles = service.Components.Definition.WebRole ?? new WebRole[0];
             WorkerRole[] workerRoles = service.Components.Definition.WorkerRole ?? new WorkerRole[0];
 
