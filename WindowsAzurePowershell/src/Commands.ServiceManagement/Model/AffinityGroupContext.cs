@@ -43,9 +43,11 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Model
 
         public IEnumerable<string> Capabilities { get; set; }
 
+        public IEnumerable<string> WebWorkerRoleSizes { get; set; }
+
         public IEnumerable<string> VirtualMachineRoleSizes { get; set; }
 
-        public IEnumerable<string> WebWorkerRoleSizes { get; set; }
+        public DateTime? CreatedTime { get; set; }
 
         public class Service
         {

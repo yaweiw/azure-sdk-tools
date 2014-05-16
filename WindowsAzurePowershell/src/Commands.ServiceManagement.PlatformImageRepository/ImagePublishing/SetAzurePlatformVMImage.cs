@@ -15,17 +15,23 @@
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.PlatformImageRepository.ImagePublishing
 {
     using System;
-    using System.Linq;
-    using System.Management.Automation;
-    using Utilities.Common;
-    using Properties;
-    using WindowsAzure.ServiceManagement;
+using System.Collections.Generic;
+using System.Linq;
+using System.Management.Automation;
+using Helpers;
+using Properties;
+using ServiceManagement.Model;
+using Utilities.Common;
+using WindowsAzure.ServiceManagement;
 
     [Cmdlet(VerbsCommon.Set, "AzurePlatformVMImage", DefaultParameterSetName = ReplicateParameterSetName), OutputType(typeof(ManagementOperationContext))]
     public class SetAzurePlatformVMImage : ServiceManagementBaseCmdlet
     {
         private const string ReplicateParameterSetName = "Replicate";
         private const string ShareParameterSetName = "Share";
+
+        private bool isVMImage;
+        private bool isOSImage;
 
         [Parameter(Position = 0, Mandatory = true, ParameterSetName = ReplicateParameterSetName, ValueFromPipelineByPropertyName = true, HelpMessage = "Name of the image in the image library.")]
         [Parameter(Position = 0, Mandatory = true, ParameterSetName = ShareParameterSetName, ValueFromPipelineByPropertyName = true, HelpMessage = "Name of the image in the image library.")]
@@ -59,6 +65,16 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.PlatformImageReposit
 
         public void SetAzurePlatformVMImageProcess()
         {
+            var imageType = new VirtualMachineImageHelper(this.ComputeClient).GetImageType(this.ImageName);
+            isOSImage = imageType.HasFlag(VirtualMachineImageType.OSImage);
+            isVMImage = imageType.HasFlag(VirtualMachineImageType.VMImage);
+
+            if (isOSImage && isVMImage)
+            {
+                WriteErrorWithTimestamp(
+                    string.Format(ServiceManagement.Properties.Resources.DuplicateNamesFoundInBothVMAndOSImages, this.ImageName));
+            }
+
             if (this.ParameterSpecified("ReplicaLocations"))
             {
                 ProcessReplicateImageParameterSet();
@@ -76,15 +92,49 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.PlatformImageReposit
 
         private void ProcessShareImageParameterSet()
         {
-            this.Channel.GetOSImage(CurrentSubscription.SubscriptionId, this.ImageName);
-            ExecuteClientActionInOCS(null, CommandRuntime.ToString(), s => this.Channel.ShareOSImage(s, this.ImageName, this.Permission));
+            if (isVMImage)
+            {
+                ExecuteClientActionNewSM(
+                    null,
+                    CommandRuntime.ToString(),
+                    () =>
+                    {
+                        this.ComputeClient.VirtualMachineVMImages.GetDetails(this.ImageName);
+                        return this.ComputeClient.VirtualMachineVMImages.Share(this.ImageName, this.Permission);
+                    });
+            }
+            else
+            {
+                this.Channel.GetOSImage(CurrentSubscription.SubscriptionId, this.ImageName);
+                ExecuteClientActionInOCS(null, CommandRuntime.ToString(), s => this.Channel.ShareOSImage(s, this.ImageName, this.Permission));
+            }
         }
 
         private void ProcessReplicateImageParameterSet()
         {
-            this.Channel.GetOSImage(CurrentSubscription.SubscriptionId, this.ImageName);
-            ValidateTargetLocations();
-            ExecuteClientActionInOCS(null, CommandRuntime.ToString(), s => this.Channel.ReplicateOSImage(s, this.ImageName, CreateReplicationInput()));
+            if (isVMImage)
+            {
+                ExecuteClientActionNewSM(
+                    null,
+                    CommandRuntime.ToString(),
+                    () =>
+                    {
+                        this.ComputeClient.VirtualMachineVMImages.GetDetails(this.ImageName);
+                        ValidateTargetLocations();
+                        return this.ComputeClient.VirtualMachineVMImages.Replicate(
+                            this.ImageName,
+                            new Management.Compute.Models.VirtualMachineVMImageReplicateParameters
+                            {
+                                TargetLocations = this.ReplicaLocations == null ? null : this.ReplicaLocations.ToList()
+                            });
+                    });
+            }
+            else
+            {
+                this.Channel.GetOSImage(CurrentSubscription.SubscriptionId, this.ImageName);
+                ValidateTargetLocations();
+                ExecuteClientActionInOCS(null, CommandRuntime.ToString(), s => this.Channel.ReplicateOSImage(s, this.ImageName, CreateReplicationInput()));
+            }
         }
 
         private ReplicationInput CreateReplicationInput()
