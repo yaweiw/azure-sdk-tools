@@ -41,7 +41,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
         private string[] fileURI;
         private string runFileName = "test2.ps2";
         private string[] fileNames = {"test1.ps1","test2.ps1"};
-        private string endpointSuffix;
+        private string endpointSuffix = "";
         private VirtualMachineCustomScriptExtensionContext inputParameters;
 
         [TestInitialize]
