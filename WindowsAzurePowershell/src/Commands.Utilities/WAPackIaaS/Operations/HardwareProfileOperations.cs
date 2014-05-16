@@ -14,7 +14,6 @@
 
 namespace Microsoft.WindowsAzure.Commands.Utilities.WAPackIaaS.Operations
 {
-    using Common;
     using DataContract;
 
     internal class HardwareProfileOperations : OperationsBase<HardwareProfile>

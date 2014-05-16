@@ -14,12 +14,12 @@
 
 namespace Microsoft.WindowsAzure.Commands.Utilities.Websites.Services.Github
 {
+    using Entities;
     using System;
     using System.Collections.Generic;
     using System.ComponentModel;
     using System.ServiceModel;
     using System.ServiceModel.Web;
-    using Entities;
 
     /// <summary>
     /// Provides the Github Api. 

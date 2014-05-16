@@ -13,11 +13,11 @@
 // ----------------------------------------------------------------------------------
 namespace Microsoft.WindowsAzure.Commands.Test.HDInsight.CmdLetTests
 {
-    using System;
-    using System.Linq;
     using Hadoop.Client;
     using Management.HDInsight;
     using Management.HDInsight.Cmdlet.DataObjects;
+    using System;
+    using System.Linq;
     using Utilities.HDInsight.PowerShellTestAbstraction.Interfaces;
     using Utilities.HDInsight.Utilities;
     using VisualStudio.TestTools.UnitTesting;

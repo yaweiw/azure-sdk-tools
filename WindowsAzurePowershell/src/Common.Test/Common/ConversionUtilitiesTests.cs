@@ -12,9 +12,9 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-using System.Collections.Generic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Microsoft.WindowsAzure.Commands.Utilities.Common;
+using System.Collections.Generic;
 
 namespace Microsoft.WindowsAzure.Commands.Common.Test
 {

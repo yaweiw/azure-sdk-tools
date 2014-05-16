@@ -14,10 +14,9 @@
 
 namespace Microsoft.WindowsAzure.Commands.Profile
 {
-    using System.Collections.Generic;
+    using Commands.Utilities.Common;
     using System.Management.Automation;
     using System.Security.Permissions;
-    using Commands.Utilities.Common;
 
     /// <summary>
     /// Adds a new Windows Azure environment.

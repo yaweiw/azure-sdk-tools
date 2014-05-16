@@ -14,8 +14,8 @@
 
 namespace Microsoft.WindowsAzure.Commands.ScenarioTest.ResourceManagerTests
 {
-    using System.IO;
     using Common;
+    using System.IO;
     using VisualStudio.TestTools.UnitTesting;
 
     [TestClass]

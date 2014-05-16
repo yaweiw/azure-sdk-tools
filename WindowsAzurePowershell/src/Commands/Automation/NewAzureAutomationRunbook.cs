@@ -14,10 +14,10 @@
 
 namespace Microsoft.WindowsAzure.Commands.Automation
 {
-    using System.Management.Automation;
-    using System.Security.Permissions;
     using Microsoft.WindowsAzure.Commands.Utilities.Automation.Models;
     using Microsoft.WindowsAzure.Commands.Utilities.Common;
+    using System.Management.Automation;
+    using System.Security.Permissions;
 
     /// <summary>
     /// Creates an azure automation runbook.

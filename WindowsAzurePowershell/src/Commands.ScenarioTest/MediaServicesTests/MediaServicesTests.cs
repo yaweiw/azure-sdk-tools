@@ -16,8 +16,8 @@
 namespace Microsoft.WindowsAzure.Commands.ScenarioTest.MediaServicesTests
 {
 
-    using VisualStudio.TestTools.UnitTesting;
     using Common;
+    using VisualStudio.TestTools.UnitTesting;
 
     [TestClass]
     public class MediaServicesTests : WindowsAzurePowerShellCertificateTest

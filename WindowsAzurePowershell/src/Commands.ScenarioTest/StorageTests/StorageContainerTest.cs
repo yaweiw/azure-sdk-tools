@@ -14,8 +14,8 @@
 
 namespace Microsoft.WindowsAzure.Commands.ScenarioTest.StorageTests
 {
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
     using Commands.ScenarioTest.Common;
+    using Microsoft.VisualStudio.TestTools.UnitTesting;
 
     [TestClass]
     public class StorageContainerTest : WindowsAzurePowerShellCertificateTest

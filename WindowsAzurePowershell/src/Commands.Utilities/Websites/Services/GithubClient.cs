@@ -14,6 +14,11 @@
 
 namespace Microsoft.WindowsAzure.Commands.Utilities.Websites.Services
 {
+    using Commands.Utilities.Common;
+    using Common;
+    using Github;
+    using Github.Entities;
+    using Microsoft.WindowsAzure.Commands.Utilities.Properties;
     using System;
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
@@ -25,11 +30,6 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites.Services
     using System.Security.Permissions;
     using System.ServiceModel;
     using System.ServiceModel.Web;
-    using Commands.Utilities.Common;
-    using Common;
-    using Github;
-    using Github.Entities;
-    using Microsoft.WindowsAzure.Commands.Utilities.Properties;
     using WebEntities;
 
     public static class SecureStringExtensionMethods

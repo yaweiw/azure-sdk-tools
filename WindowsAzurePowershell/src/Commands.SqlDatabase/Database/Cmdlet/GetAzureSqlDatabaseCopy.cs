@@ -14,11 +14,11 @@
 
 namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Database.Cmdlet
 {
-    using System;
-    using System.Management.Automation;
     using Commands.Utilities.Common;
     using Services.Common;
     using Services.Server;
+    using System;
+    using System.Management.Automation;
     using DatabaseCopyModel = Microsoft.WindowsAzure.Commands.SqlDatabase.Model.DatabaseCopy;
 
     /// <summary>

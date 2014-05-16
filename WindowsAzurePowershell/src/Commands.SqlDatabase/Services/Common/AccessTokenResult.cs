@@ -14,10 +14,10 @@
 
 namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Services.Common
 {
+    using Properties;
     using System;
     using System.Globalization;
     using System.Net;
-    using Properties;
 
     /// <summary>
     /// Represents the result returned by the Management Service when executing <c>GetAccessToken</c>

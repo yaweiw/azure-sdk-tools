@@ -14,9 +14,9 @@
 
 namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Test.FunctionalTests
 {
+    using Microsoft.VisualStudio.TestTools.UnitTesting;
     using System;
     using System.IO;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
 
     public class OutputFormatValidator
     {

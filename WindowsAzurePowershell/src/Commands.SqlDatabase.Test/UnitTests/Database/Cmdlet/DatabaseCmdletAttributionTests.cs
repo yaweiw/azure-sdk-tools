@@ -14,11 +14,11 @@
 
 namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Test.UnitTests.Database.Cmdlet
 {
-    using System;
-    using System.Management.Automation;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using Microsoft.WindowsAzure.Commands.SqlDatabase.Database.Cmdlet;
     using Microsoft.WindowsAzure.Commands.Test.Utilities.Common;
+    using System;
+    using System.Management.Automation;
 
     /// <summary>
     /// These tests prevent regression in parameter validation attributes.

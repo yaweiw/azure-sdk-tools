@@ -14,26 +14,22 @@
 
 namespace Microsoft.WindowsAzure.Commands.Utilities.ServiceBus
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Net.Http;
-    using System.Text;
     using Commands.Utilities.Common;
     using Microsoft.ServiceBus;
-    using Microsoft.ServiceBus.Management;
     using Microsoft.ServiceBus.Messaging;
     using Microsoft.ServiceBus.Notifications;
     using Microsoft.WindowsAzure.Commands.Utilities.Properties;
-    using Microsoft.WindowsAzure.ServiceManagement;
-    using System.Linq;
-    using System.Threading.Tasks;
-    using AuthorizationRule = Microsoft.ServiceBus.Messaging.AuthorizationRule;
-    using System.Diagnostics;
     using Microsoft.WindowsAzure.Management.ServiceBus;
     using Microsoft.WindowsAzure.Management.ServiceBus.Models;
+    using Microsoft.WindowsAzure.ServiceManagement;
+    using System;
+    using System.Collections.Generic;
+    using System.Diagnostics;
+    using System.Linq;
     using System.Text.RegularExpressions;
-    using ServiceBusNamespaceDescription = Microsoft.WindowsAzure.Management.ServiceBus.Models.NamespaceDescription;
     using System.Threading;
+    using AuthorizationRule = Microsoft.ServiceBus.Messaging.AuthorizationRule;
+    using ServiceBusNamespaceDescription = Microsoft.WindowsAzure.Management.ServiceBus.Models.NamespaceDescription;
 
     public class ServiceBusClientExtensions
     {

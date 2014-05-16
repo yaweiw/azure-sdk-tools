@@ -14,19 +14,19 @@
 
 namespace Microsoft.WindowsAzure.Commands.Utilities.Common
 {
+    using Authentication;
+    using Commands.Common;
+    using Commands.Common.Properties;
+    using Management;
+    using Microsoft.Azure.Management.Resources;
+    using Microsoft.Azure.Management.Resources.Models;
     using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Net;
     using System.Net.Http;
     using System.Security.Cryptography.X509Certificates;
-    using Authentication;
-    using Management;
     using WindowsAzure.Common;
-    using Commands.Common.Properties;
-    using Commands.Common;
-    using Microsoft.Azure.Management.Resources;
-    using Microsoft.Azure.Management.Resources.Models;
 
     /// <summary>
     /// Representation of a subscription in memory

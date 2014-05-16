@@ -14,19 +14,19 @@
 
 namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Test.UnitTests.Database.Cmdlet
 {
-    using System;
-    using System.Collections.ObjectModel;
-    using System.Globalization;
-    using System.Linq;
-    using System.Management.Automation;
+    using Commands.Test.Utilities.Common;
     using Commands.Utilities.Common;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
-    using Commands.Test.Utilities.Common;
     using MockServer;
     using Properties;
     using Services.Common;
     using Services.Server;
     using SqlDatabase.Database.Cmdlet;
+    using System;
+    using System.Collections.ObjectModel;
+    using System.Globalization;
+    using System.Linq;
+    using System.Management.Automation;
 
     [TestClass]
     public class NewAzureSqlDatabaseServerContextTests : TestBase

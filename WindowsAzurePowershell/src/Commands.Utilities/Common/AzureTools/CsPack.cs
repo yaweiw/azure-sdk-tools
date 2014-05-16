@@ -12,19 +12,18 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-using Microsoft.WindowsAzure.Commands.Utilities.Common;
 
 namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService.AzureTools
 {
+    using Commands.Common.Properties;
+    using Common;
+    using Common.XmlSchema.ServiceDefinitionSchema;
     using System;
     using System.Collections.Generic;
     using System.Diagnostics;
     using System.IO;
     using System.Linq;
     using System.Security.Permissions;
-    using Common;
-    using Common.XmlSchema.ServiceDefinitionSchema;
-    using Commands.Common.Properties;
 
     /// <summary>
     /// Package services for deployment to Azure.

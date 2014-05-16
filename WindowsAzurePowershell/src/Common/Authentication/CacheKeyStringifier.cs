@@ -1,9 +1,9 @@
 ﻿namespace Microsoft.WindowsAzure.Commands.Utilities.Common.Authentication
 {
+    using IdentityModel.Clients.ActiveDirectory;
     using System;
     using System.Collections.Generic;
     using System.Globalization;
-    using IdentityModel.Clients.ActiveDirectory;
 
     internal class CacheKeyStringifier
     {

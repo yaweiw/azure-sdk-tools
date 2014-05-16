@@ -14,8 +14,8 @@
 
 namespace Microsoft.WindowsAzure.Commands.Utilities.ServiceBus
 {
-    using System.Management.Automation;
     using Commands.Utilities.Common;
+    using System.Management.Automation;
 
     public static class ServiceBusPowerShellUtility
     {

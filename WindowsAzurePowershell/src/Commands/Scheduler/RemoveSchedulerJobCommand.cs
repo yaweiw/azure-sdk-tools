@@ -16,7 +16,6 @@ namespace Microsoft.WindowsAzure.Commands.Scheduler
 {
     using Microsoft.WindowsAzure.Commands.Utilities.Properties;
     using System;
-    using System.Collections.Generic;
     using System.Linq;
     using System.Management.Automation;
     using Utilities.Websites.Common;

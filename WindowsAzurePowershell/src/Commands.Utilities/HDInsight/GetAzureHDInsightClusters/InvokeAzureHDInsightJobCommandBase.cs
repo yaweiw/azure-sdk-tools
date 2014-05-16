@@ -14,6 +14,12 @@
 
 namespace Microsoft.WindowsAzure.Management.HDInsight.Cmdlet.GetAzureHDInsightClusters
 {
+    using Commands.BaseCommandInterfaces;
+    using DataObjects;
+    using Extensions;
+    using Hadoop.Client;
+    using HDInsight.Logging;
+    using ServiceLocation;
     using System;
     using System.Collections.ObjectModel;
     using System.Globalization;
@@ -22,12 +28,6 @@ namespace Microsoft.WindowsAzure.Management.HDInsight.Cmdlet.GetAzureHDInsightCl
     using System.Text;
     using System.Threading;
     using System.Threading.Tasks;
-    using Commands.BaseCommandInterfaces;
-    using DataObjects;
-    using Extensions;
-    using HDInsight.Logging;
-    using Hadoop.Client;
-    using ServiceLocation;
     using WindowsAzure.Commands.Utilities.Common;
 
     internal abstract class InvokeAzureHDInsightJobCommandBase : IInvokeAzureHDInsightJobCommand

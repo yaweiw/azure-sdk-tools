@@ -13,12 +13,6 @@
 // ----------------------------------------------------------------------------------
 namespace Microsoft.WindowsAzure.Management.HDInsight.Cmdlet.PSCmdlets
 {
-    using System;
-    using System.Management.Automation;
-    using System.Reflection;
-    using System.Security.Cryptography.X509Certificates;
-    using System.Threading;
-    using System.Threading.Tasks;
     using Commands.BaseCommandInterfaces;
     using Commands.CommandInterfaces;
     using DataObjects;
@@ -26,6 +20,12 @@ namespace Microsoft.WindowsAzure.Management.HDInsight.Cmdlet.PSCmdlets
     using GetAzureHDInsightClusters.Extensions;
     using HDInsight.Logging;
     using ServiceLocation;
+    using System;
+    using System.Management.Automation;
+    using System.Reflection;
+    using System.Security.Cryptography.X509Certificates;
+    using System.Threading;
+    using System.Threading.Tasks;
 
     /// <summary>
     ///     Cmdlet that lists submits a jobDetails to a running HDInsight cluster.

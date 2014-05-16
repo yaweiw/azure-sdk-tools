@@ -14,11 +14,11 @@
 
 namespace Microsoft.WindowsAzure.Commands.Profile
 {
+    using Microsoft.WindowsAzure.Commands.Common.Properties;
     using System;
     using System.Linq;
     using System.Management.Automation;
     using Utilities.Common;
-    using Microsoft.WindowsAzure.Commands.Common.Properties;
     using Utilities.Profile;
 
     [Cmdlet(VerbsCommon.Select, "AzureSubscription", DefaultParameterSetName = "Current")]

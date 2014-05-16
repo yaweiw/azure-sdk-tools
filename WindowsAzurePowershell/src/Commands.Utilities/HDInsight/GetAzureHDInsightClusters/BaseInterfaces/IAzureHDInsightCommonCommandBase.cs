@@ -13,9 +13,9 @@
 // ----------------------------------------------------------------------------------
 namespace Microsoft.WindowsAzure.Management.HDInsight.Cmdlet.GetAzureHDInsightClusters.BaseInterfaces
 {
+    using HDInsight.Logging;
     using System;
     using System.Security.Cryptography.X509Certificates;
-    using HDInsight.Logging;
 
     internal interface IAzureHDInsightCommonCommandBase
     {

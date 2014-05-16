@@ -14,11 +14,11 @@
 
 namespace Microsoft.WindowsAzure.Commands.Utilities.Websites.Services
 {
+    using Commands.Utilities.Common;
     using System.Collections.Generic;
     using System.IO;
     using System.Linq;
     using System.Web.Script.Serialization;
-    using Commands.Utilities.Common;
     using WebEntities;
 
     public static class Cache

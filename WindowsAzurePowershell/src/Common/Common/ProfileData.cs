@@ -16,9 +16,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
 {
     using System;
     using System.Collections.Generic;
-    using System.Linq;
     using System.Runtime.Serialization;
-    using Authentication;
 
     /// <summary>
     /// This class provides the representation of

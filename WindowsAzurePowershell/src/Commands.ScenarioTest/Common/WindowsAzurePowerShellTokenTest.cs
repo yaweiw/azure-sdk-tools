@@ -15,17 +15,16 @@
 
 namespace Microsoft.WindowsAzure.Commands.ScenarioTest.Common
 {
-    using System;
-    using System.Linq;
-    using System.Collections.ObjectModel;
-    using System.Management.Automation;
+    using Azure.Utilities.HttpRecorder;
     using Commands.Common;
     using Commands.Common.Test.Common;
+    using System;
+    using System.Collections.ObjectModel;
+    using System.Management.Automation;
+    using System.Reflection;
     using Test.Utilities.Common;
     using Utilities.Common;
     using VisualStudio.TestTools.UnitTesting;
-    using Azure.Utilities.HttpRecorder;
-    using System.Reflection;
 
     [TestClass]
     public class WindowsAzurePowerShellTokenTest : PowerShellTest

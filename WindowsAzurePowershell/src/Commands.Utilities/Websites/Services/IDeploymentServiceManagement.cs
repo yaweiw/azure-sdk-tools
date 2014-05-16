@@ -15,13 +15,13 @@
 
 namespace Microsoft.WindowsAzure.Commands.Utilities.Websites.Services
 {
+    using DeploymentEntities;
     using System;
     using System.Collections.Generic;
     using System.ComponentModel;
     using System.IO;
     using System.ServiceModel;
     using System.ServiceModel.Web;
-    using DeploymentEntities;
 
     /// <summary>
     /// Provides the Windows Azure Service Management Api for Windows Azure Websites Deployment. 

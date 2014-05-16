@@ -13,9 +13,9 @@
 // ----------------------------------------------------------------------------------
 
 namespace Microsoft.WindowsAzure.Commands.ScenarioTest.WAPackIaaS.FunctionalTest
-{ 
-    using System.Security;
+{
     using System.Management.Automation;
+    using System.Security;
 
     public class WAPackConfigurationFactory
     {

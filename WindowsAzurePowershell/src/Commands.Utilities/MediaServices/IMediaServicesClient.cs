@@ -11,12 +11,9 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using Microsoft.WindowsAzure.Commands.Utilities.MediaServices.Services.Entities;
 using Microsoft.WindowsAzure.Management.MediaServices.Models;
 using Microsoft.WindowsAzure.Management.Storage.Models;
-using Microsoft.WindowsAzure.ServiceManagement;
+using System.Threading.Tasks;
 
 namespace Microsoft.WindowsAzure.Commands.Utilities.MediaServices
 {

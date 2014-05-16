@@ -14,16 +14,15 @@
 
 namespace Microsoft.WindowsAzure.Commands.Storage.Cmdlet
 {
-    using System;
-    using System.Globalization;
-    using System.Management.Automation;
-    using System.Security.Permissions;
-    using System.Threading.Tasks;
     using Common;
     using Microsoft.WindowsAzure.Storage;
     using Microsoft.WindowsAzure.Storage.Blob;
     using Model.Contract;
     using Model.ResourceModel;
+    using System;
+    using System.Management.Automation;
+    using System.Security.Permissions;
+    using System.Threading.Tasks;
 
     /// <summary>
     /// set access level for specified container

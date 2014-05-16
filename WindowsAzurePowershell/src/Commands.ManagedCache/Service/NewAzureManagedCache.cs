@@ -14,9 +14,9 @@
 
 namespace Microsoft.Azure.Commands.ManagedCache
 {
-    using System.Management.Automation;
     using Microsoft.Azure.Commands.ManagedCache.Models;
     using Microsoft.Azure.Management.ManagedCache.Models;
+    using System.Management.Automation;
 
     [Cmdlet(VerbsCommon.New, "AzureManagedCache"), OutputType(typeof(PSCacheService))]
     public class NewAzureManagedCache : ManagedCacheCmdletBase, IDynamicParameters

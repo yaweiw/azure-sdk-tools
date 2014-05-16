@@ -14,11 +14,11 @@
 
 namespace Microsoft.WindowsAzure.Commands.Test.Utilities.HDInsight.PowerShellTestAbstraction.Concretes
 {
+    using Interfaces;
+    using Management.HDInsight.Cmdlet.GetAzureHDInsightClusters.Extensions;
     using System.Collections.ObjectModel;
     using System.Management.Automation;
     using System.Management.Automation.Runspaces;
-    using Interfaces;
-    using Management.HDInsight.Cmdlet.GetAzureHDInsightClusters.Extensions;
 
     public class PipelineAbstraction : RunspaceAbstraction, IPipeline
     {

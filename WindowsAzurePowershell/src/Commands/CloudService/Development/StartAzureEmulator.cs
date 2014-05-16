@@ -16,13 +16,12 @@ namespace Microsoft.WindowsAzure.Commands.CloudService.Development
 {
     using System.IO;
     using System.Management.Automation;
-    using System.Security.Permissions;
     using System.Security.Principal;
     using System.Text;
-    using Utilities.Common;
-    using Utilities.Properties;
     using Utilities.CloudService;
     using Utilities.CloudService.AzureTools;
+    using Utilities.Common;
+    using Utilities.Properties;
 
     /// <summary>
     /// Runs the service in the emulator

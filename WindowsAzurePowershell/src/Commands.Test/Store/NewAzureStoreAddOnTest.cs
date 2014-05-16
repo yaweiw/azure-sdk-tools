@@ -14,14 +14,13 @@
 
 namespace Microsoft.WindowsAzure.Commands.Test.Store
 {
+    using Commands.Store;
+    using Commands.Utilities.Store;
+    using Microsoft.WindowsAzure.Commands.Utilities.Properties;
+    using Moq;
     using System;
     using System.Management.Automation;
-    using Commands.Utilities.Common;
-    using Commands.Store;
     using Utilities.Common;
-    using Microsoft.WindowsAzure.Commands.Utilities.Properties;
-    using Commands.Utilities.Store;
-    using Moq;
     using VisualStudio.TestTools.UnitTesting;
 
     [TestClass]

@@ -14,10 +14,6 @@
 
 namespace Microsoft.WindowsAzure.Commands.Storage.Model.Contract
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
     using Microsoft.WindowsAzure.Commands.Storage.Model.ResourceModel;
 
     /// <summary>

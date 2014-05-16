@@ -22,12 +22,12 @@ namespace Microsoft.WindowsAzure.Commands.CloudService.Development
     using System.Management.Automation;
     using System.Security.Permissions;
     using System.Xml.Linq;
-    using Utilities.Common;
-    using Utilities.Common.XmlSchema.ServiceConfigurationSchema;
-    using Utilities.Common.XmlSchema.ServiceDefinitionSchema;
     using Utilities.CloudService;
     using Utilities.CloudService.AzureTools;
     using Utilities.CloudService.Scaffolding;
+    using Utilities.Common;
+    using Utilities.Common.XmlSchema.ServiceConfigurationSchema;
+    using Utilities.Common.XmlSchema.ServiceDefinitionSchema;
     using Utilities.Properties;
     using ConfigConfigurationSetting = Commands.Utilities.Common.XmlSchema.ServiceConfigurationSchema.ConfigurationSetting;
     using DefinitionConfigurationSetting = Commands.Utilities.Common.XmlSchema.ServiceDefinitionSchema.ConfigurationSetting;

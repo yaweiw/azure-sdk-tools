@@ -14,10 +14,10 @@
 
 namespace Microsoft.WindowsAzure.Commands.Utilities.Websites.Common
 {
+    using Services.Github;
     using System;
     using System.Management.Automation;
     using System.Management.Automation.Host;
-    using Services.Github;
 
     public interface IGithubCmdlet
     {

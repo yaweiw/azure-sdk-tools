@@ -12,11 +12,8 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using Microsoft.Azure.Commands.ResourceManager.Models;
+using System;
 using Xunit;
 
 namespace Microsoft.Azure.Commands.ResourceManager.Test.Models

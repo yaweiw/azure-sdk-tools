@@ -15,15 +15,15 @@
 
 namespace Microsoft.WindowsAzure.Commands.ScenarioTest.Common
 {
-    using System.IO.Packaging;
+    using Microsoft.IdentityModel.Clients.ActiveDirectory;
     using Microsoft.WindowsAzure.Common.Internals;
     using System;
     using System.Diagnostics;
     using System.IO;
+    using System.IO.Packaging;
     using System.Reflection;
     using System.Text;
     using System.Threading;
-    using Microsoft.IdentityModel.Clients.ActiveDirectory;
 
     /// <summary>
     /// Helper for TokenCloudCredentials

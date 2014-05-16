@@ -12,19 +12,7 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Net;
-using System.Net.Http;
-using System.Net.Http.Headers;
-using System.Runtime.Serialization;
-using System.Text;
-using System.Threading.Tasks;
-using System.Xml;
-using System.Xml.Serialization;
 using Microsoft.WindowsAzure.Commands.Utilities.Common;
-using Microsoft.WindowsAzure.Commands.Utilities.MediaServices.Services.Entities;
 using Microsoft.WindowsAzure.Commands.Utilities.Websites.Services;
 using Microsoft.WindowsAzure.Management.MediaServices;
 using Microsoft.WindowsAzure.Management.MediaServices.Models;
@@ -32,7 +20,15 @@ using Microsoft.WindowsAzure.Management.Storage;
 using Microsoft.WindowsAzure.Management.Storage.Models;
 using Microsoft.WindowsAzure.ServiceManagement;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
+using System;
+using System.IO;
+using System.Net;
+using System.Net.Http;
+using System.Runtime.Serialization;
+using System.Text;
+using System.Threading.Tasks;
+using System.Xml;
+using System.Xml.Serialization;
 
 namespace Microsoft.WindowsAzure.Commands.Utilities.MediaServices
 {

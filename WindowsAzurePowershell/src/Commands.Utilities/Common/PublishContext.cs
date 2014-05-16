@@ -14,11 +14,11 @@
 
 namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService
 {
+    using Commands.Common.Properties;
+    using Common;
     using System;
     using System.IO;
     using System.Linq;
-    using Common;
-    using Commands.Common.Properties;
 
     public class PublishContext
     {

@@ -14,16 +14,12 @@
 
 namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Test.UnitTests.Database.Cmdlet
 {
+    using Commands.Test.Utilities.Common;
+    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using MockServer;
     using System;
     using System.Collections.ObjectModel;
     using System.Management.Automation;
-    using Commands.Utilities.Common;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
-    using Commands.Test.Utilities.Common;
-    using MockServer;
-    using Services;
-    using Services.Server;
-    using SqlDatabase.Database.Cmdlet;
 
     [TestClass]
     public class RemoveAzureSqlDatabaseTests : TestBase

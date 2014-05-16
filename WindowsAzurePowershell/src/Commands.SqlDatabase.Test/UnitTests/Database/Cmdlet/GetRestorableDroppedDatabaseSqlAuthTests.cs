@@ -14,15 +14,15 @@
 
 namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Test.UnitTests.Database.Cmdlet
 {
+    using Commands.Test.Utilities.Common;
+    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using MockServer;
+    using Services.Server;
     using System;
     using System.Collections.ObjectModel;
     using System.Globalization;
     using System.Linq;
     using System.Management.Automation;
-    using Commands.Test.Utilities.Common;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
-    using MockServer;
-    using Services.Server;
 
     [TestClass]
     public class GetRestorableDroppedDatabaseSqlAuthTests : TestBase

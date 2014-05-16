@@ -14,9 +14,9 @@
 
 namespace Microsoft.WindowsAzure.Commands.Websites
 {
-    using System.Management.Automation;
     using Commands.Utilities.Websites;
     using Commands.Utilities.Websites.Common;
+    using System.Management.Automation;
 
     [Cmdlet(VerbsLifecycle.Disable, "AzureWebsiteApplicationDiagnostic"), OutputType(typeof(bool))]
     public class DisableAzureWebsiteApplicationDiagnosticCommand : WebsiteContextBaseCmdlet

@@ -14,15 +14,13 @@
 
 namespace Microsoft.WindowsAzure.Commands.Test.WAPackIaaS.Operations
 {
-    using Common;
+    using Microsoft.WindowsAzure.Commands.Utilities.WAPackIaaS;
     using Microsoft.WindowsAzure.Commands.Utilities.WAPackIaaS.DataContract;
+    using Microsoft.WindowsAzure.Commands.Utilities.WAPackIaaS.Operations;
     using Microsoft.WindowsAzure.Commands.Utilities.WAPackIaaS.WebClient;
     using Mocks;
     using System;
-    using Utilities.Common;
     using VisualStudio.TestTools.UnitTesting;
-    using Microsoft.WindowsAzure.Commands.Utilities.WAPackIaaS.Operations;
-    using Microsoft.WindowsAzure.Commands.Utilities.WAPackIaaS;
 
     [TestClass]
     public class JobOperationsTests

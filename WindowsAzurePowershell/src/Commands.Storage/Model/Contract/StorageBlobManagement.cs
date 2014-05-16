@@ -14,11 +14,6 @@
 
 namespace Microsoft.WindowsAzure.Commands.Storage.Model.Contract
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Globalization;
-    using System.Threading;
-    using System.Threading.Tasks;
     using Microsoft.WindowsAzure.Commands.Storage.Model.ResourceModel;
     using Microsoft.WindowsAzure.Storage;
     using Microsoft.WindowsAzure.Storage.Blob;
@@ -26,6 +21,10 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Model.Contract
     using Microsoft.WindowsAzure.Storage.Shared.Protocol;
     using Microsoft.WindowsAzure.Storage.Table;
     using Storage.Common;
+    using System;
+    using System.Collections.Generic;
+    using System.Threading;
+    using System.Threading.Tasks;
 
     /// <summary>
     /// Blob management

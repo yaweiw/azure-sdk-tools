@@ -12,12 +12,12 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
+using MS.Test.Common.MsTestLib;
+using StorageTestLib;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using MS.Test.Common.MsTestLib;
-using StorageTestLib;
 
 namespace Commands.Storage.ScenarioTest.Util
 {

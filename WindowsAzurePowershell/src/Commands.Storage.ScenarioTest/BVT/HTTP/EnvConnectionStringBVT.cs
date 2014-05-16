@@ -12,14 +12,7 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-using Commands.Storage.ScenarioTest.Common;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Microsoft.WindowsAzure.Storage;
-using MS.Test.Common.MsTestLib;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace Commands.Storage.ScenarioTest.BVT.HTTP
 {

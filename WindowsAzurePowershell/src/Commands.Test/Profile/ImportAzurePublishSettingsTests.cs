@@ -14,13 +14,13 @@
 
 namespace Microsoft.WindowsAzure.Commands.Test.Profile
 {
-    using System;
-    using System.IO;
-    using System.Linq;
     using Commands.Profile;
     using Commands.Utilities.Common;
     using Commands.Utilities.Properties;
     using Moq;
+    using System;
+    using System.IO;
+    using System.Linq;
     using Utilities.Common;
     using VisualStudio.TestTools.UnitTesting;
 

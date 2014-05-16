@@ -14,10 +14,10 @@
 
 namespace Microsoft.WindowsAzure.Commands.Test.Utilities.HDInsight.Simulators
 {
-    using System;
-    using System.IO;
     using Management.HDInsight.Cmdlet.Commands.BaseCommandInterfaces;
     using Management.HDInsight.Cmdlet.Commands.CommandImplementations;
+    using System;
+    using System.IO;
 
     internal class AzureHDInsightStorageHandlerSimulator : IAzureHDInsightStorageHandler
     {

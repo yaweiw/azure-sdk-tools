@@ -12,9 +12,9 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-using System.Runtime.Serialization;
 using Microsoft.WindowsAzure.Management.MediaServices.Models;
 using Newtonsoft.Json;
+using System.Runtime.Serialization;
 
 namespace Microsoft.WindowsAzure.Commands.Utilities.MediaServices.Services.Entities
 {

@@ -14,8 +14,8 @@
 
 namespace Microsoft.WindowsAzure.Commands.Test.Utilities.HDInsight.Utilities
 {
-    using System.Collections.Generic;
     using Management.HDInsight.Logging;
+    using System.Collections.Generic;
 
     /// <summary>
     ///     The default implementation of the logger.  All messages are

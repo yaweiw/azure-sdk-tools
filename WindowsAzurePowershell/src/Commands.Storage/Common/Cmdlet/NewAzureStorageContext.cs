@@ -14,13 +14,13 @@
 
 namespace Microsoft.WindowsAzure.Commands.Storage.Common.Cmdlet
 {
-    using System;
-    using System.Management.Automation;
-    using System.Security.Permissions;
     using Microsoft.WindowsAzure.Commands.Storage.Model.ResourceModel;
     using Microsoft.WindowsAzure.Commands.Utilities.Common;
     using Microsoft.WindowsAzure.Storage;
     using Microsoft.WindowsAzure.Storage.Auth;
+    using System;
+    using System.Management.Automation;
+    using System.Security.Permissions;
 
     /// <summary>
     /// New storage context

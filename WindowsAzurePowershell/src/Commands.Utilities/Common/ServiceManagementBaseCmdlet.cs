@@ -15,6 +15,14 @@
 
 namespace Microsoft.WindowsAzure.Commands.Utilities.Common
 {
+    using AutoMapper;
+    using Management;
+    using Management.Compute;
+    using Management.Network;
+    using Management.Network.Models;
+    using Management.Storage;
+    using Properties;
+    using ServiceManagement;
     using System;
     using System.Collections.Generic;
     using System.Globalization;
@@ -23,16 +31,8 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
     using System.Reflection;
     using System.ServiceModel;
     using System.ServiceModel.Dispatcher;
-    using AutoMapper;
-    using Management.Compute;
-    using Management;
-    using Management.Storage;
-    using ServiceManagement;
-    using Properties;
-    using WindowsAzure;
-    using Management.Network;
-    using Management.Network.Models;
     using System.Threading;
+    using WindowsAzure;
 
     public abstract class ServiceManagementBaseCmdlet : CloudBaseCmdlet<IServiceManagement>
     {

@@ -14,12 +14,12 @@
 
 namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService
 {
-    using System;
-    using System.Management.Automation;
-    using System.Security.Permissions;
     using Common;
     using Common.XmlSchema.ServiceConfigurationSchema;
     using Microsoft.WindowsAzure.Commands.Utilities.Properties;
+    using System;
+    using System.Management.Automation;
+    using System.Security.Permissions;
 
     /// <summary>
     /// Creates basic scaffolding structure for azure web/worker role.

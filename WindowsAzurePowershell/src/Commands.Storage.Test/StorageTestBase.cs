@@ -14,11 +14,11 @@
 
 namespace Microsoft.WindowsAzure.Commands.Storage.Test
 {
+    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using Microsoft.WindowsAzure.Commands.Test.Utilities.Common;
     using System;
     using System.Diagnostics;
     using System.Threading.Tasks;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
-    using Microsoft.WindowsAzure.Commands.Test.Utilities.Common;
 
     /// <summary>
     /// Test base class for storage package

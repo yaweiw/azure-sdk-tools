@@ -16,9 +16,6 @@ using Microsoft.WindowsAzure.Commands.Test.Utilities.Common;
 
 namespace Microsoft.WindowsAzure.Commands.Test.HDInsight.CommandTests
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
     using CmdLetTests;
     using Commands.Utilities.Common;
     using Hadoop.Client;
@@ -27,7 +24,9 @@ namespace Microsoft.WindowsAzure.Commands.Test.HDInsight.CommandTests
     using Management.HDInsight.Cmdlet.DataObjects;
     using Management.HDInsight.Cmdlet.GetAzureHDInsightClusters;
     using Management.HDInsight.Cmdlet.ServiceLocation;
-    using Utilities.HDInsight.Simulators;
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
     using Utilities.HDInsight.Utilities;
     using VisualStudio.TestTools.UnitTesting;
 

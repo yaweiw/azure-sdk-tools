@@ -15,11 +15,11 @@
 namespace Microsoft.WindowsAzure.Commands.ScenarioTest.ServiceManagemenet
 {
     using Common;
-    using VisualStudio.TestTools.UnitTesting;
-    using ServiceManagement.Test.Properties;
-    using ServiceManagement.Test.FunctionalTests;
     using ServiceManagement.Model;
+    using ServiceManagement.Test.FunctionalTests;
     using ServiceManagement.Test.FunctionalTests.ConfigDataInfo;
+    using ServiceManagement.Test.Properties;
+    using VisualStudio.TestTools.UnitTesting;
 
     [TestClass]
     public class VMProvisionScenarioTests : WindowsAzurePowerShellCertificateTest

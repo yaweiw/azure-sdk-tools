@@ -13,10 +13,9 @@
 // ----------------------------------------------------------------------------------
 
 using Microsoft.Azure.Commands.ResourceManager.Models;
-using Microsoft.Azure.Gallery;
 using System.Collections.Generic;
-using System.Management.Automation;
 using System.Linq;
+using System.Management.Automation;
 
 namespace Microsoft.Azure.Commands.ResourceManager.Templates
 {

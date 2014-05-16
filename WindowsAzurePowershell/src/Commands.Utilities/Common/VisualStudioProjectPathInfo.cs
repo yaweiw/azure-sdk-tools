@@ -14,9 +14,9 @@
 
 namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService
 {
+    using Commands.Common.Properties;
     using System.IO;
     using System.Linq;
-    using Commands.Common.Properties;
 
     public class VisualStudioProjectPathInfo : CloudProjectPathInfo
     {

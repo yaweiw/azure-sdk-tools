@@ -15,11 +15,10 @@
 
 namespace Microsoft.WindowsAzure.Commands.ExpressRoute
 {
-    using System;
+    using Microsoft.WindowsAzure.Management.ExpressRoute.Models;
+    using System.Collections.Generic;
     using System.Management.Automation;
     using Utilities.ExpressRoute;
-    using System.Collections.Generic;
-    using Microsoft.WindowsAzure.Management.ExpressRoute.Models;
 
     [Cmdlet(VerbsCommon.Get, "AzureDedicatedCircuit"), OutputType(typeof(AzureDedicatedCircuit), typeof (IEnumerable<AzureDedicatedCircuit>))]
     public class GetAzureDedicatedCircuitCommand : ExpressRouteBaseCmdlet

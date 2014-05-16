@@ -14,8 +14,8 @@
 
 namespace Microsoft.WindowsAzure.Commands.Websites.WebJobs
 {
-    using System;
     using Microsoft.WindowsAzure.WebSitesExtensions.Models;
+    using System;
 
     /// <summary>
     /// The purpose of the wrapping is to surface a Web Job's "Name" property as "JobName",

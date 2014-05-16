@@ -14,12 +14,12 @@
 
 namespace Microsoft.WindowsAzure.Management.HDInsight.Cmdlet.GetAzureHDInsightClusters
 {
+    using Framework.Core;
+    using HDInsight.Logging;
     using System;
     using System.Security.Cryptography.X509Certificates;
     using System.Threading;
     using System.Threading.Tasks;
-    using Framework.Core;
-    using HDInsight.Logging;
     using WindowsAzure.Commands.Utilities.Common;
 
     internal abstract class AzureHDInsightCommandBase : DisposableObject, IAzureHDInsightCommandBase

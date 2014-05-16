@@ -21,7 +21,6 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
     using System.ServiceModel.Channels;
     using System.ServiceModel.Description;
     using System.ServiceModel.Dispatcher;
-    using System.Linq;
 
     public class HeadersInspector : IClientMessageInspector, IEndpointBehavior
     {

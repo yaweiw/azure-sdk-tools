@@ -14,9 +14,9 @@
 
 namespace Microsoft.WindowsAzure.Commands.TrafficManager.Profile
 {
-    using System.Management.Automation;
     using Microsoft.WindowsAzure.Commands.TrafficManager.Models;
     using Microsoft.WindowsAzure.Commands.TrafficManager.Utilities;
+    using System.Management.Automation;
 
     [Cmdlet(VerbsCommon.New, "AzureTrafficManagerProfile"), OutputType(typeof(IProfileWithDefinition))]
     public class NewAzureTrafficManagerProfile : TrafficManagerBaseCmdlet

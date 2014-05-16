@@ -14,13 +14,13 @@
 
 namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService.Scaffolding
 {
+    using Commands.Common.Properties;
     using System;
     using System.Collections.Generic;
     using System.IO;
     using System.Reflection;
     using System.Text.RegularExpressions;
     using System.Xml.Linq;
-    using Commands.Common.Properties;
 
     public class Scaffold
     {

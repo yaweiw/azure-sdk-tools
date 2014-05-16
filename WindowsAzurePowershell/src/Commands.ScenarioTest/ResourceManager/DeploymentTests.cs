@@ -14,9 +14,9 @@
 
 namespace Microsoft.WindowsAzure.Commands.ScenarioTest.ResourceManagerTests
 {
-    using System.IO;
     using Commands.ScenarioTest.Common;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using System.IO;
 
     [TestClass]
     public class DeploymentTests : WindowsAzurePowerShellTokenTest

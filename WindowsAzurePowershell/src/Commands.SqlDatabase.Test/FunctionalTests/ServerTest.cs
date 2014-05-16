@@ -14,11 +14,10 @@
 
 namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Test.FunctionalTests
 {
+    using Microsoft.VisualStudio.TestTools.UnitTesting;
     using System;
     using System.IO;
     using System.Xml.Linq;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
-    using SqlDatabase.Firewall.Cmdlet;
     using Utilities;
 
     [TestClass]

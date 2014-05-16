@@ -8,10 +8,10 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Commands.Common.Test.Properties {
-    using System;
-    
-    
+namespace Microsoft.WindowsAzure.Commands.Common.Test.Properties
+{
+
+
     /// <summary>
     ///   A strongly-typed resource class, for looking up localized strings, etc.
     /// </summary>

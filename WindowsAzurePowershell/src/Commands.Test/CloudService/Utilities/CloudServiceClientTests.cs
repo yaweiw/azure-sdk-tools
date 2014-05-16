@@ -14,13 +14,6 @@
 
 namespace Microsoft.WindowsAzure.Commands.Test.CloudService.Utilities
 {
-    using System;
-    using System.IO;
-    using System.Net;
-    using System.Security.Cryptography.X509Certificates;
-    using System.Threading;
-    using Test.Utilities.Common;
-    using VisualStudio.TestTools.UnitTesting;
     using Commands.Utilities.CloudService;
     using Commands.Utilities.Common;
     using Management.Compute.Models;
@@ -29,6 +22,13 @@ namespace Microsoft.WindowsAzure.Commands.Test.CloudService.Utilities
     using Management.Storage.Models;
     using Moq;
     using Storage.Blob;
+    using System;
+    using System.IO;
+    using System.Net;
+    using System.Security.Cryptography.X509Certificates;
+    using System.Threading;
+    using Test.Utilities.Common;
+    using VisualStudio.TestTools.UnitTesting;
 
     [TestClass]
     public class CloudServiceClientTests : TestBase

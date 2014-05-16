@@ -14,9 +14,9 @@
 
 namespace Microsoft.WindowsAzure.Commands.Utilities.Store
 {
+    using Microsoft.WindowsAzure.Commands.Utilities.MarketplaceServiceReference;
     using System;
     using System.Collections.Generic;
-    using Microsoft.WindowsAzure.Commands.Utilities.MarketplaceServiceReference;
 
     public class WindowsAzureOffer
     {

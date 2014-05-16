@@ -13,13 +13,13 @@
 // ----------------------------------------------------------------------------------
 namespace Microsoft.WindowsAzure.Management.HDInsight.Cmdlet.Commands.CommandImplementations
 {
+    using CommandInterfaces;
+    using DataObjects;
+    using GetAzureHDInsightClusters;
     using System.Collections.Generic;
     using System.Globalization;
     using System.Linq;
     using System.Threading.Tasks;
-    using CommandInterfaces;
-    using DataObjects;
-    using GetAzureHDInsightClusters;
 
     internal class GetAzureHDInsightPropertiesCommand : AzureHDInsightClusterCommand<AzureHDInsightCapabilities>, IGetAzureHDInsightPropertiesCommand
     {

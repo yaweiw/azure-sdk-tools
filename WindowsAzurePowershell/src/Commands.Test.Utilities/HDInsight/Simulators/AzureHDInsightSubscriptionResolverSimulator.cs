@@ -14,12 +14,12 @@
 
 namespace Microsoft.WindowsAzure.Commands.Test.Utilities.HDInsight.Simulators
 {
+    using Commands.Utilities.Common;
+    using Management.HDInsight.Cmdlet.GetAzureHDInsightClusters.BaseInterfaces;
     using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Security.Cryptography.X509Certificates;
-    using Commands.Utilities.Common;
-    using Management.HDInsight.Cmdlet.GetAzureHDInsightClusters.BaseInterfaces;
     using Utilities;
 
     internal class AzureHDInsightSubscriptionResolverSimulator : IAzureHDInsightSubscriptionResolver

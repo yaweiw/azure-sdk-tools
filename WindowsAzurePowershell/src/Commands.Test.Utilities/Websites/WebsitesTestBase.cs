@@ -14,10 +14,10 @@
 
 namespace Microsoft.WindowsAzure.Commands.Test.Utilities.Websites
 {
-    using System.IO;
+    using Commands.Test.Utilities.Common;
     using Commands.Utilities.Common;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
-    using Commands.Test.Utilities.Common;
+    using System.IO;
 
     [TestClass]
     public class WebsitesTestBase : TestBase

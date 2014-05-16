@@ -14,6 +14,7 @@
 
 namespace Microsoft.WindowsAzure.Commands.Utilities.ServiceBus
 {
+    using Commands.Utilities.Common;
     using System;
     using System.Collections.Generic;
     using System.IO;
@@ -25,7 +26,6 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.ServiceBus
     using System.Xml;
     using System.Xml.Linq;
     using System.Xml.Serialization;
-    using Commands.Utilities.Common;
 
     public class ServiceBusConstants
     {

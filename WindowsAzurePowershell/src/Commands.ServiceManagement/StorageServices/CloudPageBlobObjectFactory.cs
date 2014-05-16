@@ -15,11 +15,11 @@
 
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.StorageServices
 {
-    using System;
     using Storage.Blob;
     using Storage.RetryPolicies;
     using Sync.Download;
     using Sync.Upload;
+    using System;
 
     public class CloudPageBlobObjectFactory : ICloudPageBlobObjectFactory
     {

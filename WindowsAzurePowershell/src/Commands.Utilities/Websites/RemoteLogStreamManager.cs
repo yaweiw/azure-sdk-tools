@@ -14,12 +14,12 @@
 
 namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
 {
+    using Commands.Utilities.Common;
     using System;
     using System.IO;
     using System.Net;
     using System.Text;
     using System.Threading.Tasks;
-    using Commands.Utilities.Common;
 
     public class RemoteLogStreamManager : KuduRemoteClientBase
     {

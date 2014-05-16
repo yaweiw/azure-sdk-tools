@@ -14,14 +14,14 @@
 
 namespace Microsoft.WindowsAzure.Commands.Websites
 {
+    using Commands.Utilities.Websites.Common;
+    using Commands.Utilities.Websites.Services;
+    using Commands.Utilities.Websites.Services.DeploymentEntities;
+    using Microsoft.WindowsAzure.Commands.Utilities.Properties;
     using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Management.Automation;
-    using Microsoft.WindowsAzure.Commands.Utilities.Properties;
-    using Commands.Utilities.Websites.Common;
-    using Commands.Utilities.Websites.Services;
-    using Commands.Utilities.Websites.Services.DeploymentEntities;
 
     /// <summary>
     /// Gets the git deployments.

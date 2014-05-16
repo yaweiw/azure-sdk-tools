@@ -14,13 +14,13 @@
 
 namespace Microsoft.WindowsAzure.Commands.Test.CloudService.Development.Scaffolding.Cmdlet
 {
+    using Commands.CloudService.Development.Scaffolding;
+    using Commands.Utilities.CloudService;
+    using Commands.Utilities.Properties;
     using System;
     using System.IO;
     using System.Management.Automation;
-    using Commands.CloudService.Development.Scaffolding;
     using Test.Utilities.Common;
-    using Commands.Utilities.Properties;
-    using Commands.Utilities.CloudService;
     using VisualStudio.TestTools.UnitTesting;
 
     [TestClass]

@@ -14,15 +14,15 @@
 
 namespace Microsoft.WindowsAzure.Commands.Sync.Download
 {
-    using System;
-    using System.Collections.Generic;
-    using System.IO;
-    using System.Linq;
     using Microsoft.WindowsAzure.Storage;
     using Microsoft.WindowsAzure.Storage.Auth;
     using Microsoft.WindowsAzure.Storage.Blob;
     using Microsoft.WindowsAzure.Storage.RetryPolicies;
     using Sync.Upload;
+    using System;
+    using System.Collections.Generic;
+    using System.IO;
+    using System.Linq;
     using Tools.Vhd.Model;
     using Enumerable = System.Linq.Enumerable;
 
