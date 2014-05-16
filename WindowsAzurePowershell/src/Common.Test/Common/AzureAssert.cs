@@ -21,10 +21,10 @@ namespace Microsoft.WindowsAzure.Commands.Test.Utilities.Common
     using Commands.Utilities.Common.XmlSchema.ServiceDefinitionSchema;
     using Commands.Common.Properties;
     using Commands.Utilities.CloudService;
-    using Commands.Utilities.CloudService.Scaffolding;
     using VisualStudio.TestTools.UnitTesting;
     using ConfigConfigurationSetting = Commands.Utilities.Common.XmlSchema.ServiceConfigurationSchema.ConfigurationSetting;
     using DefinitionConfigurationSetting = Commands.Utilities.Common.XmlSchema.ServiceDefinitionSchema.ConfigurationSetting;
+    using Microsoft.WindowsAzure.Commands.Utilities.CloudService.Scaffolding;
 
     public static class AzureAssert
     {

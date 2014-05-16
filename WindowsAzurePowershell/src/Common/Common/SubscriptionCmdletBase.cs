@@ -19,7 +19,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Profile
     using System.Management.Automation;
     using Common;
     using Common.Authentication;
-    using Properties;
+    using Microsoft.WindowsAzure.Commands.Common.Properties;
 
     /// <summary>
     /// Base class for cmdlets that manipulate the

@@ -476,7 +476,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService
 
         private CloudServiceProject GetCurrentServiceProject()
         {
-            return new CloudServiceProject(GeneralUtilities.GetServiceRootPath(GetCurrentDirectory()), null);
+            return new CloudServiceProject(CommonUtilities.GetServiceRootPath(GetCurrentDirectory()), null);
         }
 
         private PublishContext CreatePublishContext(

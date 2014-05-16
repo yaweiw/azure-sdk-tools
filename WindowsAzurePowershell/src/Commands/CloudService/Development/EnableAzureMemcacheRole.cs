@@ -72,10 +72,10 @@ namespace Microsoft.WindowsAzure.Commands.CloudService.Development
         [PermissionSet(SecurityAction.Demand, Name = "FullTrust")]
         public override void ExecuteCmdlet()
         {
-            string rootPath = GeneralUtilities.GetServiceRootPath(CurrentPath());
-            RoleName = string.IsNullOrEmpty(RoleName) ? GeneralUtilities.GetRoleName(rootPath, CurrentPath()) : RoleName;
+            string rootPath = CommonUtilities.GetServiceRootPath(CurrentPath());
+            RoleName = string.IsNullOrEmpty(RoleName) ? CommonUtilities.GetRoleName(rootPath, CurrentPath()) : RoleName;
 
-            EnableAzureMemcacheRoleProcess(this.RoleName, this.CacheWorkerRoleName, GeneralUtilities.GetServiceRootPath(CurrentPath()));
+            EnableAzureMemcacheRoleProcess(this.RoleName, this.CacheWorkerRoleName, CommonUtilities.GetServiceRootPath(CurrentPath()));
         }
 
         /// <summary>

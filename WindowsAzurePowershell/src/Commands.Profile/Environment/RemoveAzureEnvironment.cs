@@ -19,7 +19,7 @@ namespace Microsoft.WindowsAzure.Commands.Profile
     using System.Management.Automation;
     using System.Security.Permissions;
     using Commands.Utilities.Common;
-    using Utilities.Properties;
+    using Microsoft.WindowsAzure.Commands.Common.Properties;
 
     /// <summary>
     /// Removes a Windows Azure environment.

@@ -163,9 +163,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CloudService\AzureServiceWrapper.cs" />
-    <Compile Include="CloudService\RuntimePackageHelper.cs" />
-    <Compile Include="CloudService\ServiceSettingsTestData.cs" />
     <Compile Include="Common\AzureAssert.cs" />
     <Compile Include="Common\ClientMocks.cs" />
     <Compile Include="Common\GeneralUtilitiesTests.cs" />
@@ -195,6 +192,10 @@
     <Compile Include="Resources\ResourceLocator.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Commands.Utilities\Commands.Utilities.csproj">
+      <Project>{4900ec4e-8deb-4412-9108-0bc52f81d457}</Project>
+      <Name>Commands.Utilities</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Common.Storage\Common.Storage.csproj">
       <Project>{65c3a86a-716d-4e7d-ab67-1db00b3bf72d}</Project>
       <Name>Common.Storage</Name>

@@ -14,11 +14,11 @@
 
 namespace Microsoft.WindowsAzure.Commands.Profile
 {
+    using Microsoft.WindowsAzure.Commands.Common.Properties;
     using System;
     using System.Management.Automation;
     using Utilities.Common;
     using Utilities.Profile;
-    using Utilities.Properties;
 
     /// <summary>
     /// Cmdlet to log into an environment and download the subscriptions
