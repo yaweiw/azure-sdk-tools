@@ -11,7 +11,7 @@
     <DeploymentItem filename="Commands.ServiceManagement.Test\vendor\VhdFiles\fixed_50.vhd" />
     <DeploymentItem filename="Commands.ServiceManagement.Test\vendor\VhdFiles\dynamic_50.vhd" />
     <DeploymentItem filename="Commands.ServiceManagement.Test\vendor\VhdFiles\fixed_50_child01.vhd" />
-    <DeploymentItem filename="Commands.ScenarioTest\Resources\" />
+    <DeploymentItem filename="Common\Commands.ScenarioTest\Resources\" />
     <DeploymentItem filename="Commands.Test.Utilities\Resources\" />
     <DeploymentItem filename="Commands.ResourceManager.Test\Resources\" />
     <DeploymentItem filename="..\..\Package\Debug\" />
