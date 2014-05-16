@@ -167,7 +167,6 @@ ClientBin/
 *~
 *.dbmdl
 *.dbproj.schemaview
-*.pfx
 node_modules/
 
 # RIA/Silverlight projects
