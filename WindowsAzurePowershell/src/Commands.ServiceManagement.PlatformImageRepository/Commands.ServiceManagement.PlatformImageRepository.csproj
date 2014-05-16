@@ -252,9 +252,9 @@
       <Project>{cd5aa507-f5ef-473d-855b-84b91a1abe54}</Project>
       <Name>Commands</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Common\Common.csproj">
+    <ProjectReference Include="..\Common\Commands.Common\Commands.Common.csproj">
       <Project>{5ee72c53-1720-4309-b54b-5fb79703195f}</Project>
-      <Name>Common</Name>
+      <Name>Commands.Common</Name>
     </ProjectReference>
     <ProjectReference Include="..\ServiceManagement.Additions\ServiceManagement.Additions.csproj">
       <Project>{da1432af-d6b5-47a1-8b74-ccd740683e0f}</Project>

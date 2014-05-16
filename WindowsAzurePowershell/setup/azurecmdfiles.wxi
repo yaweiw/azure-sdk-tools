@@ -2441,8 +2441,8 @@
                     <Component Id="cmp2A6FAFB98D18A6C585302A71776DE4EE" Guid="*">
                         <File Id="filBCE89FE5C0B9A14D534FAC6B6EAB27EC" KeyPath="yes" Source="$(var.sourceDir)\ResourceManager\AzureResourceManager\Microsoft.WindowsAzure.Commands.Common.dll" />
                     </Component>
-                    <Component Id="cmp1CC1BDE6C0001AB023A44BA040780DF9" Guid="*">
-                        <File Id="fil4BC3ED633882732CFFA620DDB1B48DEF" KeyPath="yes" Source="$(var.sourceDir)\ResourceManager\AzureResourceManager\Microsoft.WindowsAzure.Commands.Utilities.Common.Storage.dll" />
+                    <Component Id="cmp832491E14EA4322E9A9AED6596D6D1CF" Guid="*">
+                        <File Id="filCE18A959C4CDA5C7F519A32362BDC963" KeyPath="yes" Source="$(var.sourceDir)\ResourceManager\AzureResourceManager\Microsoft.WindowsAzure.Commands.Common.Storage.dll" />
                     </Component>
                     <Component Id="cmp7325DB48A5B5ECB911016D2566E7A86A" Guid="*">
                         <Class Id="{102DF21F-AD7F-3F33-825F-D06BD5CF1FE6}" Context="InprocServer32" Description="Microsoft.WindowsAzure.Common.TransientFaultHandling.HttpRequestExceptionWithStatus" ThreadingModel="both" ForeignServer="mscoree.dll">
@@ -4775,6 +4775,9 @@
                     <Component Id="cmp2D570764B57D9C222B662D62180AC38A" Guid="*">
                         <File Id="fil6C1F15D80B20A27D7A0C4F909D2F139E" KeyPath="yes" Source="$(var.sourceDir)\ServiceManagement\Azure\Microsoft.WindowsAzure.Commands.Common.dll" />
                     </Component>
+                    <Component Id="cmpA80DEE29E8B485875AE77FE8B809B1D2" Guid="*">
+                        <File Id="fil4D76C3FCC316C64D47CC359C12AB0695" KeyPath="yes" Source="$(var.sourceDir)\ServiceManagement\Azure\Microsoft.WindowsAzure.Commands.Common.Storage.dll" />
+                    </Component>
                     <Component Id="cmp2E4CBD07B9B35429E18F64DE0E501338" Guid="*">
                         <File Id="filE2C23974CC4F8A28236E667697C53722" KeyPath="yes" Source="$(var.sourceDir)\ServiceManagement\Azure\Microsoft.WindowsAzure.Commands.Common.Test.dll" />
                     </Component>
@@ -4858,9 +4861,6 @@
                     </Component>
                     <Component Id="cmp64E1870489FCB661E624C19E05A20741" Guid="*">
                         <File Id="filB0C7CBEE2CDB7FE2D6DB1AEC82085099" KeyPath="yes" Source="$(var.sourceDir)\ServiceManagement\Azure\Microsoft.WindowsAzure.Commands.TrafficManager.dll-help.xml" />
-                    </Component>
-                    <Component Id="cmp686DF114F728D62D29E75BC027D104DB" Guid="*">
-                        <File Id="filE9F7A2D158D4EBF17E79BF5762D5D265" KeyPath="yes" Source="$(var.sourceDir)\ServiceManagement\Azure\Microsoft.WindowsAzure.Commands.Utilities.Common.Storage.dll" />
                     </Component>
                     <Component Id="cmp19E0B752F036AE20EC66F57AB3799AC7" Guid="*">
                         <File Id="filB60AD05A4E4B643DF4E138D6CA56DB1A" KeyPath="yes" Source="$(var.sourceDir)\ServiceManagement\Azure\Microsoft.WindowsAzure.Commands.Utilities.dll" />
@@ -10963,7 +10963,7 @@
             <ComponentRef Id="cmp5D1CF99ABBFF996CCDB53640D82BF556" />
             <ComponentRef Id="cmp51D1BD645CB61C95199A2C5D00FCABCD" />
             <ComponentRef Id="cmp2A6FAFB98D18A6C585302A71776DE4EE" />
-            <ComponentRef Id="cmp1CC1BDE6C0001AB023A44BA040780DF9" />
+            <ComponentRef Id="cmp832491E14EA4322E9A9AED6596D6D1CF" />
             <ComponentRef Id="cmp7325DB48A5B5ECB911016D2566E7A86A" />
             <ComponentRef Id="cmpD8BC6BBBA42585A553044DF0FD3CAB18" />
             <ComponentRef Id="cmpA91F5A404578630945E648FE8AE96BDD" />
@@ -11006,6 +11006,7 @@
             <ComponentRef Id="cmp3D82C039FD393C87920616ED1B2F0E6B" />
             <ComponentRef Id="cmp7995F19E37EC22B17FB08948F4358ACC" />
             <ComponentRef Id="cmp2D570764B57D9C222B662D62180AC38A" />
+            <ComponentRef Id="cmpA80DEE29E8B485875AE77FE8B809B1D2" />
             <ComponentRef Id="cmp2E4CBD07B9B35429E18F64DE0E501338" />
             <ComponentRef Id="cmpA024E65F7C6854FEC3241F81A047BB84" />
             <ComponentRef Id="cmpAA96FD08892AF9EA29D20D5AFFAF1389" />
@@ -11034,7 +11035,6 @@
             <ComponentRef Id="cmp3E7B16BE6C1D81075A77951CC95CD283" />
             <ComponentRef Id="cmp1E509A61FF0A11A6ECE6B977FFEF760A" />
             <ComponentRef Id="cmp64E1870489FCB661E624C19E05A20741" />
-            <ComponentRef Id="cmp686DF114F728D62D29E75BC027D104DB" />
             <ComponentRef Id="cmp19E0B752F036AE20EC66F57AB3799AC7" />
             <ComponentRef Id="cmp3BDEFFAF8E222FAAEB8A9DBE212758EA" />
             <ComponentRef Id="cmpE67C921556F713316680551707DA27CD" />

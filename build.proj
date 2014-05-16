@@ -12,7 +12,7 @@
 
     <TestSettings>.\WindowsAzurePowershell\src\Local.testsettings</TestSettings>
     <AzureRTTestSettings>.\WindowsAzurePowershell\src\AzureRT.testsettings</AzureRTTestSettings>
-    <ScenarioTestDebug>.\WindowsAzurePowershell\src\Commands.ScenarioTest\bin\Debug\Microsoft.WindowsAzure.Commands.ScenarioTest.dll</ScenarioTestDebug>
+    <ScenarioTestDebug>.\WindowsAzurePowershell\src\Common\Commands.ScenarioTest\bin\Debug\Microsoft.WindowsAzure.Commands.ScenarioTest.dll</ScenarioTestDebug>
     <AzureRTTestContainer>.\WindowsAzurePowershell\src\Commands.ServiceManagement.Test\bin\Debug\Microsoft.WindowsAzure.Commands.ServiceManagement.Test.dll</AzureRTTestContainer>
     <StorageScenarioTestDebug>WindowsAzurePowershell\src\Commands.Storage.ScenarioTest\bin\Debug\CLITest.dll</StorageScenarioTestDebug>
     <ManagementTestDebug>.\WindowsAzurePowershell\src\Commands.Test\bin\Debug\Microsoft.WindowsAzure.Commands.Test.dll</ManagementTestDebug>
