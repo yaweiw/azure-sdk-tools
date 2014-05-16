@@ -13,9 +13,9 @@
 // ----------------------------------------------------------------------------------
 namespace Microsoft.WindowsAzure.Management.HDInsight.Cmdlet.Logging
 {
+    using HDInsight.Logging;
     using System.Collections.Generic;
     using System.Globalization;
-    using HDInsight.Logging;
 
     internal class PowershellLogWriter : IBufferingLogWriter
     {

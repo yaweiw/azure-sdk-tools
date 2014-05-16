@@ -14,14 +14,14 @@
 
 namespace Microsoft.WindowsAzure.Management.HDInsight.Cmdlet.GetAzureHDInsightClusters
 {
-    using System;
-    using System.Diagnostics.CodeAnalysis;
-    using System.Management.Automation;
-    using System.Threading;
     using BaseInterfaces;
     using Extensions;
     using Hadoop.Client;
     using ServiceLocation;
+    using System;
+    using System.Diagnostics.CodeAnalysis;
+    using System.Management.Automation;
+    using System.Threading;
 
     internal abstract class AzureHDInsightJobCommandExecutorBase : AzureHDInsightCommandBase, IAzureHDInsightJobCommandCredentialsBase
     {

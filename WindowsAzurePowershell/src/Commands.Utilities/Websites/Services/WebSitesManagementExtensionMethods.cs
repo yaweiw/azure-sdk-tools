@@ -14,11 +14,11 @@
 
 namespace Microsoft.WindowsAzure.Commands.Utilities.Websites.Services
 {
+    using Management.WebSites;
+    using Management.WebSites.Models;
     using System;
     using System.Collections.Generic;
     using System.Linq;
-    using Management.WebSites;
-    using Management.WebSites.Models;
     using Utilities.Common;
     using WebEntities;
 

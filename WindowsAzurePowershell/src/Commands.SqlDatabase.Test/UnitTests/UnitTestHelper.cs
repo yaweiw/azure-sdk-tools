@@ -14,6 +14,8 @@
 
 namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Test.UnitTests
 {
+    using Microsoft.WindowsAzure.Commands.SqlDatabase.Test.UnitTests.MockServer;
+    using Microsoft.WindowsAzure.Commands.Utilities.Common;
     using System;
     using System.Collections.ObjectModel;
     using System.Globalization;
@@ -22,8 +24,6 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Test.UnitTests
     using System.Management.Automation;
     using System.Reflection;
     using System.Security.Cryptography.X509Certificates;
-    using Microsoft.WindowsAzure.Commands.SqlDatabase.Test.UnitTests.MockServer;
-    using Microsoft.WindowsAzure.Commands.Utilities.Common;
     using VisualStudio.TestTools.UnitTesting;
 
     /// <summary>

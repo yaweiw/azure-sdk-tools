@@ -14,13 +14,13 @@
 
 namespace Microsoft.WindowsAzure.Commands.Sync.Upload
 {
+    using Microsoft.WindowsAzure.Storage.Blob;
+    using Sync.Download;
     using System;
     using System.Collections.Generic;
     using System.IO;
     using System.Linq;
     using System.Threading;
-    using Microsoft.WindowsAzure.Storage.Blob;
-    using Sync.Download;
     using Tools.Vhd;
     using Tools.Vhd.Model.Persistence;
 

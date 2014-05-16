@@ -14,14 +14,14 @@
 
 namespace Microsoft.WindowsAzure.Commands.Utilities.Common
 {
+    using Commands.Common.Properties;
     using System;
     using System.Collections.Generic;
     using System.Diagnostics;
     using System.IO;
+    using System.Linq;
     using System.Reflection;
     using System.Text;
-    using Commands.Common.Properties;
-    using System.Linq;
 
     public static class FileUtilities
     {

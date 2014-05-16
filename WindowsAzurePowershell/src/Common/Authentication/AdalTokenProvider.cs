@@ -14,6 +14,8 @@
 
 namespace Microsoft.WindowsAzure.Commands.Utilities.Common.Authentication
 {
+    using Commands.Common.Properties;
+    using IdentityModel.Clients.ActiveDirectory;
     using System;
     using System.Collections.Generic;
     using System.Linq;
@@ -21,8 +23,6 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common.Authentication
     using System.Text;
     using System.Threading;
     using System.Windows.Forms;
-    using IdentityModel.Clients.ActiveDirectory;
-    using Commands.Common.Properties;
 
     /// <summary>
     /// A token provider that uses ADAL to retrieve

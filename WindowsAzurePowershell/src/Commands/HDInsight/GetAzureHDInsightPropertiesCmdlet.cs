@@ -14,13 +14,6 @@
 
 namespace Microsoft.WindowsAzure.Management.HDInsight.Cmdlet.PSCmdlets
 {
-    using System;
-    using System.Linq;
-    using System.Management.Automation;
-    using System.Reflection;
-    using System.Security.Cryptography.X509Certificates;
-    using System.Threading;
-    using System.Threading.Tasks;
     using Commands.CommandInterfaces;
     using DataObjects;
     using GetAzureHDInsightClusters;
@@ -28,6 +21,13 @@ namespace Microsoft.WindowsAzure.Management.HDInsight.Cmdlet.PSCmdlets
     using GetAzureHDInsightClusters.Extensions;
     using HDInsight.Logging;
     using ServiceLocation;
+    using System;
+    using System.Linq;
+    using System.Management.Automation;
+    using System.Reflection;
+    using System.Security.Cryptography.X509Certificates;
+    using System.Threading;
+    using System.Threading.Tasks;
 
     /// <summary>
     ///     Cmdlet that lists all the properties of a subscription registered with the HDInsight service.

@@ -14,13 +14,13 @@
 
 namespace Microsoft.WindowsAzure.Commands.Utilities.Common
 {
+    using Commands.Common.Properties;
     using System;
     using System.IO;
     using System.Text;
     using System.Xml;
     using System.Xml.Linq;
     using System.Xml.Serialization;
-    using Commands.Common.Properties;
 
     public static class XmlUtilities
     {

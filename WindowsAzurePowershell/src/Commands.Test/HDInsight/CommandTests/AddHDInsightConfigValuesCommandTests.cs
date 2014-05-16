@@ -13,13 +13,13 @@
 // ----------------------------------------------------------------------------------
 namespace Microsoft.WindowsAzure.Commands.Test.HDInsight.CommandTests
 {
-    using System;
-    using System.Linq;
     using CmdLetTests;
     using Management.HDInsight.Cmdlet.Commands.CommandInterfaces;
     using Management.HDInsight.Cmdlet.DataObjects;
     using Management.HDInsight.Cmdlet.GetAzureHDInsightClusters;
     using Management.HDInsight.Cmdlet.ServiceLocation;
+    using System;
+    using System.Linq;
     using VisualStudio.TestTools.UnitTesting;
 
     [TestClass]

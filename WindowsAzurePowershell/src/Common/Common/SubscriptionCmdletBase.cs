@@ -14,12 +14,11 @@
 
 namespace Microsoft.WindowsAzure.Commands.Utilities.Profile
 {
+    using Common;
+    using Microsoft.WindowsAzure.Commands.Common.Properties;
     using System;
     using System.IO;
     using System.Management.Automation;
-    using Common;
-    using Common.Authentication;
-    using Microsoft.WindowsAzure.Commands.Common.Properties;
 
     /// <summary>
     /// Base class for cmdlets that manipulate the

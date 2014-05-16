@@ -15,6 +15,10 @@
 
 namespace Microsoft.WindowsAzure.Commands.Test.Utilities.HDInsight.Simulators
 {
+    using Hadoop.Client;
+    using Management.HDInsight.Cmdlet.GetAzureHDInsightClusters.Extensions;
+    using Management.HDInsight.Logging;
+    using Microsoft.WindowsAzure.Management.HDInsight.Framework.Core.Library.WebRequest;
     using System;
     using System.Collections.Generic;
     using System.Diagnostics.CodeAnalysis;
@@ -25,10 +29,6 @@ namespace Microsoft.WindowsAzure.Commands.Test.Utilities.HDInsight.Simulators
     using System.Text;
     using System.Threading;
     using System.Threading.Tasks;
-    using Hadoop.Client;
-    using Microsoft.WindowsAzure.Management.HDInsight.Framework.Core.Library.WebRequest;
-    using Management.HDInsight.Cmdlet.GetAzureHDInsightClusters.Extensions;
-    using Management.HDInsight.Logging;
     using Utilities;
 
     internal class AzureHDInsightJobSubmissionClientSimulator : IJobSubmissionClient

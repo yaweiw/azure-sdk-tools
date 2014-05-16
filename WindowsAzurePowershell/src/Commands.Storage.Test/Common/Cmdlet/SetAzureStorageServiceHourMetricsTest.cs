@@ -14,11 +14,11 @@
 
 namespace Microsoft.WindowsAzure.Commands.Storage.Test.Common.Cmdlet
 {
-    using System;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using Microsoft.WindowsAzure.Commands.Storage.Common.Cmdlet;
     using Microsoft.WindowsAzure.Commands.Test.Utilities.Common;
     using Microsoft.WindowsAzure.Storage.Shared.Protocol;
+    using System;
 
     [TestClass]
     public class SetAzureStorageServiceHourMetricsTest : StorageTestBase

@@ -14,9 +14,9 @@
 
 namespace Microsoft.WindowsAzure.Commands.Utilities.ExpressRoute
 {
+    using Microsoft.WindowsAzure.Commands.Utilities.Properties;
     using System;
     using System.Management.Automation;
-    using Microsoft.WindowsAzure.Commands.Utilities.Properties;
 
     [AttributeUsage(AttributeTargets.Property | AttributeTargets.Field)]
     public sealed class ValidateGuid : ValidateEnumeratedArgumentsAttribute

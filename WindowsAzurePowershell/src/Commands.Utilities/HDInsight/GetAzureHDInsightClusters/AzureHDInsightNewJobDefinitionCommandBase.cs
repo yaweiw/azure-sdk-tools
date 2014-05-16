@@ -13,8 +13,8 @@
 // ----------------------------------------------------------------------------------
 namespace Microsoft.WindowsAzure.Management.HDInsight.Cmdlet.GetAzureHDInsightClusters
 {
-    using System.Collections;
     using Commands.BaseCommandInterfaces;
+    using System.Collections;
 
     internal abstract class AzureHDInsightNewJobDefinitionCommandBase : AzureHDInsightCommandBase, INewAzureHDInsightJobConfigBase
     {

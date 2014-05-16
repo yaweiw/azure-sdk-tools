@@ -14,6 +14,7 @@
 
 namespace Microsoft.WindowsAzure.Commands.Utilities.Common
 {
+    using Microsoft.WindowsAzure.Commands.Utilities.Properties;
     using System;
     using System.Diagnostics;
     using System.IO;
@@ -21,7 +22,6 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
     using System.Net;
     using System.ServiceModel;
     using System.Xml.Linq;
-    using Microsoft.WindowsAzure.Commands.Utilities.Properties;
 
     /// <summary>
     /// Exception used to wrap Azure Service Management errors before

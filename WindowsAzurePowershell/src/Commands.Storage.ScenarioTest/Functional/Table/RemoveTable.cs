@@ -19,10 +19,7 @@ namespace Commands.Storage.ScenarioTest.Functional.Table
     using Microsoft.WindowsAzure.Storage.Table;
     using MS.Test.Common.MsTestLib;
     using StorageTestLib;
-    using System;
     using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
 
     /// <summary>
     /// functional test for remove-azurestorage table

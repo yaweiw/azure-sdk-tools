@@ -14,9 +14,9 @@
 
 namespace Microsoft.Azure.Commands.ManagedCache.Test
 {
-    using System.Management.Automation;
     using Management.ManagedCache.Models;
     using Microsoft.Azure.Commands.ManagedCache.Models;
+    using System.Management.Automation;
     using Xunit;
 
     public class MemoryDynamicParameterSetTest

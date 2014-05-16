@@ -14,9 +14,9 @@
 
 namespace Microsoft.Azure.Commands.ManagedCache.Test
 {
-    using System;
     using ManagedCache.Models;
     using Microsoft.Azure.Management.ManagedCache.Models;
+    using System;
     using Xunit;
 
     public class CacheSkuCountConvertTest

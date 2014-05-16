@@ -14,8 +14,8 @@
 
 namespace Microsoft.WindowsAzure.Commands.TrafficManager
 {
-    using System.Management.Automation;
     using Microsoft.WindowsAzure.Commands.TrafficManager.Utilities;
+    using System.Management.Automation;
 
     [Cmdlet(VerbsDiagnostic.Test, "AzureTrafficManagerDomainName"), OutputType(typeof(bool))]
     public class TestAzureTrafficManagerDomainName : TrafficManagerBaseCmdlet

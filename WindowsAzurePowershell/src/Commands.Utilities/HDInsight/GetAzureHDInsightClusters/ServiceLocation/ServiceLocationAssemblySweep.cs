@@ -13,11 +13,11 @@
 // ----------------------------------------------------------------------------------
 namespace Microsoft.WindowsAzure.Management.HDInsight.Cmdlet.ServiceLocation
 {
+    using GetAzureHDInsightClusters.Extensions;
     using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Reflection;
-    using GetAzureHDInsightClusters.Extensions;
 
     internal class ServiceLocationAssemblySweep : IServiceLocationAssemblySweep
     {

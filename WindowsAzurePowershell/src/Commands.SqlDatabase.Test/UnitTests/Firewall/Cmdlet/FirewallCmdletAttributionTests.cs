@@ -14,10 +14,10 @@
 
 namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Test.UnitTests.Server.Cmdlet
 {
-    using System;
-    using System.Management.Automation;
     using Commands.Test.Utilities.Common;
     using SqlDatabase.Firewall.Cmdlet;
+    using System;
+    using System.Management.Automation;
     using VisualStudio.TestTools.UnitTesting;
 
     /// <summary>

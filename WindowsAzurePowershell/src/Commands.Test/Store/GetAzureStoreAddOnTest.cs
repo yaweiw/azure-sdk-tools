@@ -14,18 +14,17 @@
 
 namespace Microsoft.WindowsAzure.Commands.Test.Store
 {
+    using Commands.Store;
+    using Commands.Utilities.Store;
+    using Microsoft.WindowsAzure.Commands.Utilities.MarketplaceServiceReference;
+    using Moq;
     using System;
     using System.Collections.Generic;
     using System.Management.Automation;
-    using Commands.Utilities.Common;
-    using Commands.Store;
     using Utilities.Common;
-    using Microsoft.WindowsAzure.Commands.Utilities.MarketplaceServiceReference;
-    using Commands.Utilities.Store;
-    using Moq;
     using VisualStudio.TestTools.UnitTesting;
-    using Resource = Microsoft.WindowsAzure.Management.Store.Models.CloudServiceListResponse.CloudService.AddOnResource;
     using Location = Microsoft.WindowsAzure.Management.Models.LocationsListResponse.Location;
+    using Resource = Microsoft.WindowsAzure.Management.Store.Models.CloudServiceListResponse.CloudService.AddOnResource;
 
     [TestClass]
     public class GetAzureStoreAddOnTests : TestBase

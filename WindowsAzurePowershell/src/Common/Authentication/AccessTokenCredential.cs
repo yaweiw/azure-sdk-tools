@@ -18,7 +18,6 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common.Authentication
     using System.Net.Http.Headers;
     using System.Threading;
     using System.Threading.Tasks;
-    using WindowsAzure.Common;
 
     public class AccessTokenCredential : SubscriptionCloudCredentials
     {

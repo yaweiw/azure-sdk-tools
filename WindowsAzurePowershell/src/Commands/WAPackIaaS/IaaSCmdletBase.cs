@@ -16,7 +16,6 @@ namespace Microsoft.WindowsAzure.Commands.WAPackIaaS
 {
     using Microsoft.WindowsAzure.Commands.Utilities.Common;
     using Microsoft.WindowsAzure.Commands.Utilities.WAPackIaaS;
-    using Microsoft.WindowsAzure.Commands.Utilities.WAPackIaaS.Exceptions;
     using Microsoft.WindowsAzure.Commands.Utilities.WAPackIaaS.WebClient;
     using System;
     using System.Collections.Generic;

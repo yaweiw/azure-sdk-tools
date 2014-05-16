@@ -14,11 +14,11 @@
 
 namespace Microsoft.WindowsAzure.Commands.Test.Websites
 {
-    using System;
-    using System.ComponentModel;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using Microsoft.WindowsAzure.Commands.Websites.WebJobs;
     using Microsoft.WindowsAzure.WebSitesExtensions.Models;
+    using System;
+    using System.ComponentModel;
 
     [TestClass]
     public class WebJobWrapperTest

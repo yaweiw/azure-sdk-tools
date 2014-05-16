@@ -14,7 +14,6 @@
 
 namespace Microsoft.Azure.Commands.ManagedCache.Test
 {
-    using System;
     using Microsoft.Azure.Commands.ManagedCache.Models;
     using Microsoft.Azure.Management.ManagedCache.Models;
     using Xunit;

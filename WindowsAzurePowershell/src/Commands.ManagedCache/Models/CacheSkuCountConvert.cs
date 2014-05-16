@@ -14,9 +14,9 @@
 
 namespace Microsoft.Azure.Commands.ManagedCache.Models
 {
+    using Microsoft.Azure.Management.ManagedCache.Models;
     using System;
     using System.Collections.Generic;
-    using Microsoft.Azure.Management.ManagedCache.Models;
 
     //This class bridges the concept gap between "memory size" used by the commandlets 
     //and the "sku count" at server

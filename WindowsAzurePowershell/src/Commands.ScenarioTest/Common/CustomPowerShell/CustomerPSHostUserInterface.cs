@@ -14,13 +14,13 @@
 
 namespace Microsoft.WindowsAzure.Commands.ScenarioTest.Common.CustomPowerShell
 {
+    using Commands.Utilities.Store;
+    using Microsoft.VisualStudio.TestTools.UnitTesting;
     using System;
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
     using System.Management.Automation;
     using System.Management.Automation.Host;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
-    using Commands.Utilities.Store;
 
     class CustomerPSHostUserInterface : PSHostUserInterface
     {

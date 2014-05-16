@@ -13,15 +13,15 @@
 
 namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
 {
-    using System;
-    using System.Collections.Generic;
     using Microsoft.WindowsAzure.Commands.Utilities.Websites.Services.WebJobs;
     using Microsoft.WindowsAzure.Commands.Websites.WebJobs;
-    using Services.DeploymentEntities;
-    using Services.WebEntities;
     using Microsoft.WindowsAzure.Management.WebSites.Models;
     using Microsoft.WindowsAzure.WebSitesExtensions.Models;
+    using Services.DeploymentEntities;
+    using Services.WebEntities;
+    using System;
     using System.Collections;
+    using System.Collections.Generic;
 
     public interface IWebsitesClient
     {

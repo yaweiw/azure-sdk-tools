@@ -14,11 +14,11 @@
 
 namespace Microsoft.WindowsAzure.Commands.Test.Utilities.Websites
 {
-    using System;
     using Commands.Test.Utilities.Common;
     using Commands.Utilities.Websites.Services;
     using Commands.Utilities.Websites.Services.GeoEntities;
     using Commands.Utilities.Websites.Services.WebEntities;
+    using System;
     using VisualStudio.TestTools.UnitTesting;
 
     /// <summary>

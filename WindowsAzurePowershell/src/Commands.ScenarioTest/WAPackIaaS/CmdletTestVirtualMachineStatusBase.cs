@@ -13,8 +13,8 @@
 // ----------------------------------------------------------------------------------
 namespace Microsoft.WindowsAzure.Commands.ScenarioTest.WAPackIaaS.FunctionalTest
 {
-    using System.Management.Automation;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using System.Management.Automation;
 
     public class CmdletTestVirtualMachineStatusBase : CmdletTestBase
     {

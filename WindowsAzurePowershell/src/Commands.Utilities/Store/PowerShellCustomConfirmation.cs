@@ -14,10 +14,10 @@
 
 namespace Microsoft.WindowsAzure.Commands.Utilities.Store
 {
+    using Microsoft.WindowsAzure.Commands.Utilities.Properties;
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
     using System.Management.Automation.Host;
-    using Microsoft.WindowsAzure.Commands.Utilities.Properties;
 
     public class PowerShellCustomConfirmation
     {

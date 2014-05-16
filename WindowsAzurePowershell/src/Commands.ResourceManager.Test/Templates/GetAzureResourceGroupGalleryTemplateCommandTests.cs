@@ -14,7 +14,6 @@
 
 using Microsoft.Azure.Commands.ResourceManager.Models;
 using Microsoft.Azure.Commands.ResourceManager.Templates;
-using Microsoft.Azure.Gallery;
 using Moq;
 using System.Collections.Generic;
 using System.Linq;

@@ -14,13 +14,12 @@
 
 namespace Microsoft.WindowsAzure.Commands.Utilities.Common
 {
+    using Newtonsoft.Json.Linq;
     using System;
     using System.Collections.Generic;
     using System.Net;
     using System.Net.Http;
     using System.Net.Http.Formatting;
-    using System.Net.Http.Headers;
-    using Newtonsoft.Json.Linq;
 
     public static class HttpClientHelper
     {

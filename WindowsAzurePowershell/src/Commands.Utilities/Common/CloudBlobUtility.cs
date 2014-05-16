@@ -14,18 +14,15 @@
 
 namespace Microsoft.WindowsAzure.Commands.Utilities.Common
 {
-    using System;
-    using System.Globalization;
-    using System.IO;
-    using System.Linq;
-    using Management;
-    using Management.Compute;
     using Management.Storage;
     using Management.Storage.Models;
     using ServiceManagement;
     using Storage;
     using Storage.Auth;
     using Storage.Blob;
+    using System;
+    using System.Globalization;
+    using System.IO;
 
     public class CloudBlobUtility
     {

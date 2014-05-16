@@ -14,12 +14,12 @@
 
 namespace Microsoft.WindowsAzure.Commands.Utilities.Websites.Services.WebEntities
 {
+    using DeploymentEntities;
+    using Microsoft.WindowsAzure.Management.WebSites.Models;
     using System;
     using System.Collections;
     using System.Collections.Generic;
     using System.Runtime.Serialization;
-    using DeploymentEntities;
-    using Microsoft.WindowsAzure.Management.WebSites.Models;
 
     public interface ISiteConfig
     {

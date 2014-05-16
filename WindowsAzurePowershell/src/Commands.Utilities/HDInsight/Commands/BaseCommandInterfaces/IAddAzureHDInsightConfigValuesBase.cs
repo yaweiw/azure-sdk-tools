@@ -13,8 +13,8 @@
 // ----------------------------------------------------------------------------------
 namespace Microsoft.WindowsAzure.Management.HDInsight.Cmdlet.Commands.BaseCommandInterfaces
 {
-    using System.Collections;
     using DataObjects;
+    using System.Collections;
 
     /// <summary>
     ///     Represents a command to set custom configuration values for Hadoop services.

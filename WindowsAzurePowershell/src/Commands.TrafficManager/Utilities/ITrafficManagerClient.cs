@@ -14,10 +14,10 @@
 
 namespace Microsoft.WindowsAzure.Commands.TrafficManager.Utilities
 {
-    using System.Collections.Generic;
     using Microsoft.WindowsAzure.Commands.TrafficManager.Models;
     using Microsoft.WindowsAzure.Management.TrafficManager;
     using Microsoft.WindowsAzure.Management.TrafficManager.Models;
+    using System.Collections.Generic;
 
     public interface ITrafficManagerClient
     {

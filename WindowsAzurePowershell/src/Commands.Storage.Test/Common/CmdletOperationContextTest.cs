@@ -14,10 +14,10 @@
 
 namespace Microsoft.WindowsAzure.Commands.Storage.Test.Common
 {
-    using System;
-    using System.Threading;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using Storage.Common;
+    using System;
+    using System.Threading;
 
     /// <summary>
     /// unit test for operation context

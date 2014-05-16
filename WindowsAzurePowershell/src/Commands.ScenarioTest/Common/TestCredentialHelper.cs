@@ -14,6 +14,10 @@
 
 namespace Microsoft.WindowsAzure.Commands.ScenarioTest.Common
 {
+    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using Microsoft.WindowsAzure.Commands.Utilities.Common;
+    using Microsoft.WindowsAzure.Storage.Auth;
+    using Microsoft.WindowsAzure.Storage.Blob;
     using System;
     using System.Collections.Generic;
     using System.Collections.Specialized;
@@ -21,10 +25,6 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.Common
     using System.IO;
     using System.Management.Automation;
     using System.Text.RegularExpressions;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
-    using Microsoft.WindowsAzure.Storage.Auth;
-    using Microsoft.WindowsAzure.Storage.Blob;
-    using Microsoft.WindowsAzure.Commands.Utilities.Common;
 
     public class TestCredentialHelper
     {

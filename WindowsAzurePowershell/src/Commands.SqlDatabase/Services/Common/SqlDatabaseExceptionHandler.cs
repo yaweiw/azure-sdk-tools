@@ -14,6 +14,8 @@
 
 namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Services.Common
 {
+    using Microsoft.WindowsAzure.Common;
+    using Properties;
     using System;
     using System.Data.Services.Client;
     using System.Globalization;
@@ -23,8 +25,6 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Services.Common
     using System.Net;
     using System.ServiceModel;
     using System.Xml.Linq;
-    using Microsoft.WindowsAzure.Common;
-    using Properties;
 
     /// <summary>
     /// The handler for all Sql Database exceptions.

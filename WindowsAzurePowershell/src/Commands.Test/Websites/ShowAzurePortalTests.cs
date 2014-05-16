@@ -15,9 +15,8 @@
 namespace Microsoft.WindowsAzure.Commands.Test.Websites
 {
     using Commands.Utilities.Common;
-    using Utilities.Common;
-    using Utilities.Websites;
     using Commands.Websites;
+    using Utilities.Websites;
     using VisualStudio.TestTools.UnitTesting;
 
     [TestClass]

@@ -13,8 +13,8 @@
 // ----------------------------------------------------------------------------------
 namespace Microsoft.WindowsAzure.Commands.Test.HDInsight.CmdLetTests
 {
-    using System.Globalization;
     using Management.HDInsight.Cmdlet.DataObjects;
+    using System.Globalization;
     using Utilities.HDInsight.PowerShellTestAbstraction.Interfaces;
     using Utilities.HDInsight.Utilities;
     using VisualStudio.TestTools.UnitTesting;

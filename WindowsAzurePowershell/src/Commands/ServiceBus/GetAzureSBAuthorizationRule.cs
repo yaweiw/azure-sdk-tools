@@ -14,13 +14,13 @@
 
 namespace Microsoft.WindowsAzure.Commands.ServiceBus
 {
+    using Commands.Utilities.Common;
+    using Commands.Utilities.ServiceBus;
+    using Microsoft.WindowsAzure.Commands.Utilities.Properties;
     using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Management.Automation;
-    using Commands.Utilities.Common;
-    using Microsoft.WindowsAzure.Commands.Utilities.Properties;
-    using Commands.Utilities.ServiceBus;
 
     /// <summary>
     /// Creates new service bus authorization rule.

@@ -14,10 +14,9 @@
 
 namespace Microsoft.Azure.Commands.ManagedCache
 {
-    using System;
-    using System.Management.Automation;
     using Microsoft.Azure.Commands.ManagedCache.Models;
     using Microsoft.Azure.Management.ManagedCache.Models;
+    using System.Management.Automation;
 
     /// <summary>
     /// Retrieves a list of Windows Azure SQL Database servers in the selected subscription.

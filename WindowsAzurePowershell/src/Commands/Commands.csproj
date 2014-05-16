@@ -464,7 +464,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="MSSharedLibKey.snk" />
-    <None Include="Performance\Microsoft.ServiceBus.MessagingPerformanceCounters.man" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Commands.Utilities\Commands.Utilities.csproj">

@@ -14,6 +14,9 @@
 
 namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Services.Server
 {
+    using Microsoft.WindowsAzure.Commands.SqlDatabase.Properties;
+    using Microsoft.WindowsAzure.Commands.SqlDatabase.Services.Common;
+    using Microsoft.WindowsAzure.Commands.Utilities.Common;
     using System;
     using System.Collections.Generic;
     using System.Data.Services.Client;
@@ -21,9 +24,6 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Services.Server
     using System.Linq;
     using System.Net;
     using System.Xml.Linq;
-    using Microsoft.WindowsAzure.Commands.SqlDatabase.Properties;
-    using Microsoft.WindowsAzure.Commands.SqlDatabase.Services.Common;
-    using Microsoft.WindowsAzure.Commands.Utilities.Common;
     using DatabaseCopyModel = Microsoft.WindowsAzure.Commands.SqlDatabase.Model.DatabaseCopy;
 
     /// <summary>

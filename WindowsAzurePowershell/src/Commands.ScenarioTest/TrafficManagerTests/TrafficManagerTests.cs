@@ -14,9 +14,9 @@
 
 namespace Microsoft.WindowsAzure.Commands.ScenarioTest.TrafficManagerTests
 {
-    using System.IO;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using Microsoft.WindowsAzure.Commands.ScenarioTest.Common;
+    using System.IO;
 
     [TestClass]
     public class TrafficManagerTests : WindowsAzurePowerShellCertificateTest

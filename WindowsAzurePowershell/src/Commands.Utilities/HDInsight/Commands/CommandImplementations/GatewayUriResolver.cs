@@ -13,8 +13,8 @@
 // ----------------------------------------------------------------------------------
 namespace Microsoft.WindowsAzure.Management.HDInsight.Cmdlet.Commands.CommandImplementations
 {
-    using System;
     using GetAzureHDInsightClusters.Extensions;
+    using System;
 
     /// <summary>
     ///     This type generates the gateway Uri for an AzureHDInsight cluster given its DNS Name or Endpoint uri.

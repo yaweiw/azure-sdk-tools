@@ -14,12 +14,12 @@
 
 namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService.AzureTools
 {
+    using Commands.Common.Properties;
+    using Common;
     using System;
     using System.IO;
     using System.Text;
     using System.Text.RegularExpressions;
-    using Common;
-    using Commands.Common.Properties;
 
     public class CsRun 
     {

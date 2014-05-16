@@ -15,11 +15,9 @@
 namespace Microsoft.WindowsAzure.Commands.ScenarioTest.WAPackIaaS.FunctionalTest
 {
     using Microsoft.VisualStudio.TestTools.UnitTesting;
-    using Microsoft.WindowsAzure.Commands.Utilities;
-    using System;
     using System.Collections.Generic;
-    using System.Management.Automation;
     using System.Linq;
+    using System.Management.Automation;
 
     [TestClass]
     public class NewWAPackVMTests : CmdletTestBase

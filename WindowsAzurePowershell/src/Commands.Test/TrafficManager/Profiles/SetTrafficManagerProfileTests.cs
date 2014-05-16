@@ -15,8 +15,6 @@
 
 namespace Microsoft.WindowsAzure.Commands.Test.TrafficManager.Profiles
 {
-    using System.Collections.Generic;
-    using System.Net;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using Microsoft.WindowsAzure.Commands.Test.Utilities.Common;
     using Microsoft.WindowsAzure.Commands.TrafficManager.Models;
@@ -24,6 +22,8 @@ namespace Microsoft.WindowsAzure.Commands.Test.TrafficManager.Profiles
     using Microsoft.WindowsAzure.Commands.TrafficManager.Utilities;
     using Microsoft.WindowsAzure.Management.TrafficManager.Models;
     using Moq;
+    using System.Collections.Generic;
+    using System.Net;
 
     [TestClass]
     public class SetTrafficManagerProfileTests

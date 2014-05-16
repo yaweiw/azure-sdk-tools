@@ -14,10 +14,10 @@
 
 namespace Microsoft.WindowsAzure.Commands.Utilities.Common
 {
+    using Commands.Common.Properties;
     using System;
     using System.Security.Cryptography.X509Certificates;
     using System.Security.Permissions;
-    using Commands.Common.Properties;
 
     /// <summary>
     /// This class encapsulates the details of creating and

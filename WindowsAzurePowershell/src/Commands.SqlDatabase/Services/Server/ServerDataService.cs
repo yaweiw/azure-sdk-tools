@@ -14,11 +14,11 @@
 
 namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Services.Server
 {
+    using SqlDatabase.Services.Common;
     using System;
     using System.Data.Services.Client;
     using System.Linq;
     using System.Net;
-    using SqlDatabase.Services.Common;
 
     /// <summary>
     /// Common abstract class for the generated <see cref="ServerContextInternal"/> class.

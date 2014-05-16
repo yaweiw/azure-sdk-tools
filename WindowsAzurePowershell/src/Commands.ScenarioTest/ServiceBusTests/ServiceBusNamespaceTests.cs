@@ -14,8 +14,8 @@
 
 namespace Microsoft.WindowsAzure.Commands.ScenarioTest.ServiceBusTests
 {
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
     using Commands.ScenarioTest.Common;
+    using Microsoft.VisualStudio.TestTools.UnitTesting;
 
     [TestClass]
     public class ServiceBusNamespaceTests : WindowsAzurePowerShellCertificateTest

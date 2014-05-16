@@ -14,11 +14,11 @@
 
 namespace Microsoft.WindowsAzure.Commands.Utilities.Automation
 {
+    using Microsoft.WindowsAzure.Commands.Utilities.Automation.Models;
+    using Microsoft.WindowsAzure.Commands.Utilities.Common;
     using System;
     using System.Collections;
     using System.Collections.Generic;
-    using Microsoft.WindowsAzure.Commands.Utilities.Automation.Models;
-    using Microsoft.WindowsAzure.Commands.Utilities.Common;
 
     public interface IAutomationClient
     {

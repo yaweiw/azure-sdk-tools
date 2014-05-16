@@ -13,7 +13,6 @@
 // ----------------------------------------------------------------------------------
 namespace Microsoft.WindowsAzure.Management.HDInsight.Cmdlet
 {
-    using System;
     using Commands.BaseCommandInterfaces;
     using Commands.CommandImplementations;
     using GetAzureHDInsightClusters;
@@ -22,6 +21,7 @@ namespace Microsoft.WindowsAzure.Management.HDInsight.Cmdlet
     using HDInsight.Logging;
     using Logging;
     using ServiceLocation;
+    using System;
 
     /// <summary>
     ///     Registers Cmdlet services with the IoC system.

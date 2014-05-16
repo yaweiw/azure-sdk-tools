@@ -14,15 +14,10 @@
 
 namespace Microsoft.WindowsAzure.Commands.ServiceBus
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Management.Automation;
-    using System.Text.RegularExpressions;
     using Commands.Utilities.Common;
-    using Microsoft.WindowsAzure.Commands.Utilities.Properties;
     using Commands.Utilities.ServiceBus;
     using Microsoft.WindowsAzure.Management.ServiceBus.Models;
+    using System.Management.Automation;
 
     /// <summary>
     /// Creates new service bus namespace.

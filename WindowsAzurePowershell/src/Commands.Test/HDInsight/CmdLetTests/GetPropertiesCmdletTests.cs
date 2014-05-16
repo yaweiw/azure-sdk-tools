@@ -13,13 +13,13 @@
 // ----------------------------------------------------------------------------------
 namespace Microsoft.WindowsAzure.Commands.Test.HDInsight.CmdLetTests
 {
+    using CommandTests;
+    using Management.HDInsight;
+    using Management.HDInsight.Cmdlet.DataObjects;
     using System;
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
     using System.Linq;
-    using CommandTests;
-    using Management.HDInsight;
-    using Management.HDInsight.Cmdlet.DataObjects;
     using Utilities.HDInsight.PowerShellTestAbstraction.Interfaces;
     using Utilities.HDInsight.Utilities;
     using VisualStudio.TestTools.UnitTesting;

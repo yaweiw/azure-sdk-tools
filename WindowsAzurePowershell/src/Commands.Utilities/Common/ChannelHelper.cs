@@ -14,6 +14,7 @@
 
 namespace Microsoft.WindowsAzure.Commands.Utilities.Common
 {
+    using ServiceManagement;
     using System;
     using System.Diagnostics.CodeAnalysis;
     using System.IO;
@@ -29,7 +30,6 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
     using System.Text;
     using System.Threading;
     using System.Xml;
-    using ServiceManagement;
 
     public static class ChannelHelper
     {

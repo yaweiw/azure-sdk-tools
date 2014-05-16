@@ -15,7 +15,6 @@
 
 namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService
 {
-    using System.Net;
     using AzureTools;
     using Common;
     using Management;
@@ -33,6 +32,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService
     using System.Diagnostics;
     using System.IO;
     using System.Linq;
+    using System.Net;
     using System.Security.Cryptography;
     using System.Security.Cryptography.X509Certificates;
     using System.Threading;

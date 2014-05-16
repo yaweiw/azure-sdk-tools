@@ -14,15 +14,15 @@
 
 namespace Microsoft.WindowsAzure.Commands.CloudService.Development.Scaffolding
 {
-    using Utilities.Common;
-    using Utilities.Common.XmlSchema.ServiceDefinitionSchema;
-    using Utilities.CloudService;
-    using Utilities.CloudService.AzureTools;
-    using Utilities.Properties;
     using System;
     using System.IO;
     using System.Management.Automation;
     using System.Security.Permissions;
+    using Utilities.CloudService;
+    using Utilities.CloudService.AzureTools;
+    using Utilities.Common;
+    using Utilities.Common.XmlSchema.ServiceDefinitionSchema;
+    using Utilities.Properties;
 
     /// <summary>
     /// Adds dedicated caching node worker role.

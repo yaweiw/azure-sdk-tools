@@ -14,12 +14,12 @@
 
 namespace Microsoft.WindowsAzure.Management.HDInsight.Cmdlet.Commands.CommandImplementations
 {
+    using CommandInterfaces;
+    using DataObjects;
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
     using System.Threading;
     using System.Threading.Tasks;
-    using CommandInterfaces;
-    using DataObjects;
     using WindowsAzure.Commands.Utilities.Common;
 
     /// <summary>

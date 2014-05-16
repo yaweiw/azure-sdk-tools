@@ -13,10 +13,10 @@
 // ----------------------------------------------------------------------------------
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
 {
+    using Helpers;
+    using Model.PersistentVMModel;
     using System.Linq;
     using System.Xml.Linq;
-    using Model.PersistentVMModel;
-    using Helpers;
 
     public class VirtualMachineAccessExtensionCmdletBase : VirtualMachineExtensionCmdletBase
     {

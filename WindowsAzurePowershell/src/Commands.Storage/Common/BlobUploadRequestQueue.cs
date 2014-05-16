@@ -14,13 +14,11 @@
 
 namespace Microsoft.WindowsAzure.Commands.Storage.Common
 {
+    using Microsoft.WindowsAzure.Commands.Storage.Model.Contract;
+    using Microsoft.WindowsAzure.Storage.Blob;
     using System;
     using System.Collections.Generic;
     using System.IO;
-    using System.Linq;
-    using System.Text;
-    using Microsoft.WindowsAzure.Commands.Storage.Model.Contract;
-    using Microsoft.WindowsAzure.Storage.Blob;
 
     internal class BlobUploadRequestQueue
     {

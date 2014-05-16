@@ -14,11 +14,11 @@
 
 namespace Microsoft.WindowsAzure.Commands.Utilities.Websites.Services.WebEntities
 {
+    using Microsoft.WindowsAzure.Management.WebSites.Models;
     using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Runtime.Serialization;
-using Microsoft.WindowsAzure.Management.WebSites.Models;
 
     [DataContract(Name = "UsageState", Namespace = UriElements.ServiceNamespace)]
     public enum UsageState

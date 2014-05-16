@@ -14,12 +14,12 @@
 
 namespace Microsoft.WindowsAzure.Commands.ExpressRoute
 {
-    using System;
-    using System.Management.Automation;
     using Microsoft.WindowsAzure.Management.ExpressRoute.Models;
+    using System;
+    using System.ComponentModel;
+    using System.Management.Automation;
     using Utilities.ExpressRoute;
     using Utilities.Properties;
-    using System.ComponentModel;
 
     [Cmdlet(VerbsCommon.Remove, "AzureBGPPeering"),OutputType(typeof(bool))]
     public class RemoveAzureBGPPeeringCommand : ExpressRouteBaseCmdlet

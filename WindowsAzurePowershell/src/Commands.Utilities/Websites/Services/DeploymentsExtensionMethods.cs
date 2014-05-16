@@ -14,9 +14,9 @@
 
 namespace Microsoft.WindowsAzure.Commands.Utilities.Websites.Services
 {
+    using DeploymentEntities;
     using System.Collections.Generic;
     using System.IO;
-    using DeploymentEntities;
 
     public static class DeploymentsExtensionMethods
     {

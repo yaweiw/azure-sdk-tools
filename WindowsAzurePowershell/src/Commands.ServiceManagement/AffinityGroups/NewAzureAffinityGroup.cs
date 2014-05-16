@@ -14,9 +14,8 @@
 
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.AffinityGroups
 {
-    using System.Management.Automation;
-    using Management;
     using Management.Models;
+    using System.Management.Automation;
     using Utilities.Common;
 
     /// <summary>

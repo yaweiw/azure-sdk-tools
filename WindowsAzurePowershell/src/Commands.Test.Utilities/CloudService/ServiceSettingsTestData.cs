@@ -15,9 +15,9 @@
 
 namespace Microsoft.WindowsAzure.Commands.Test.Utilities.CloudService
 {
-    using System.Collections.Generic;
-    using ServiceManagement;
     using Commands.Utilities.CloudService;
+    using ServiceManagement;
+    using System.Collections.Generic;
 
     class ServiceSettingsTestData
     {

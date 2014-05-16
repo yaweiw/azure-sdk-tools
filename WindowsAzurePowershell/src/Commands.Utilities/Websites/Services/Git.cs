@@ -14,6 +14,7 @@
 
 namespace Microsoft.WindowsAzure.Commands.Utilities.Websites.Services
 {
+    using Microsoft.WindowsAzure.Commands.Utilities.Properties;
     using System;
     using System.Collections.Generic;
     using System.ComponentModel;
@@ -21,7 +22,6 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites.Services
     using System.Linq;
     using System.Management.Automation;
     using System.Security.Permissions;
-    using Microsoft.WindowsAzure.Commands.Utilities.Properties;
 
     public static class Git
     {

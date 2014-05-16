@@ -14,11 +14,11 @@
 
 namespace Microsoft.WindowsAzure.Commands.WAPackIaaS.VirtualMachine
 {
+    using Microsoft.WindowsAzure.Commands.Utilities.WAPackIaaS.DataContract;
     using Microsoft.WindowsAzure.Commands.Utilities.WAPackIaaS.Operations;
     using System;
     using System.Collections.Generic;
     using System.Management.Automation;
-    using Microsoft.WindowsAzure.Commands.Utilities.WAPackIaaS.DataContract;
 
     [Cmdlet(VerbsCommon.Get, "WAPackVNet", DefaultParameterSetName = WAPackCmdletParameterSets.Empty)]
     public class GetWAPackVNet : IaaSCmdletBase

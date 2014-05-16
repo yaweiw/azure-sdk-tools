@@ -16,9 +16,9 @@ using System.Net;
 
 namespace Microsoft.WindowsAzure.Commands.MediaServices
 {
-    using Utilities.Properties;
     using System.Management.Automation;
     using Utilities.MediaServices;
+    using Utilities.Properties;
 
     /// <summary>
     ///     Removes an Azure Media Services account.

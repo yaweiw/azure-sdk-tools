@@ -14,12 +14,12 @@
 
 namespace Microsoft.WindowsAzure.Commands.Profile
 {
+    using Commands.Utilities.Common;
+    using Microsoft.WindowsAzure.Commands.Common.Properties;
     using System;
     using System.Collections.Generic;
     using System.Management.Automation;
     using System.Security.Permissions;
-    using Commands.Utilities.Common;
-    using Microsoft.WindowsAzure.Commands.Common.Properties;
     /// <summary>
     /// Get publish profile
     /// </summary>

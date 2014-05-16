@@ -17,11 +17,11 @@ using Microsoft.WindowsAzure.Commands.ScenarioTest.Resources;
 
 namespace Microsoft.WindowsAzure.Commands.ScenarioTest.Common
 {
+    using Commands.Test.Utilities.Common;
     using System;
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
     using System.Management.Automation;
-    using Commands.Test.Utilities.Common;
     using VisualStudio.TestTools.UnitTesting;
 
     [TestClass]

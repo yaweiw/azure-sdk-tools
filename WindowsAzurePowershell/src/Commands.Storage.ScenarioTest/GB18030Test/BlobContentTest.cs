@@ -12,14 +12,11 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-using System.IO;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Microsoft.WindowsAzure.Storage.Blob;
 using MS.Test.Common.MsTestLib;
 using StorageTestLib;
-using Commands.Storage.ScenarioTest;
-using Commands.Storage.ScenarioTest.Common;
-using Commands.Storage.ScenarioTest.Util;
+using System.IO;
 using StorageBlob = Microsoft.WindowsAzure.Storage.Blob;
 
 namespace Commands.Storage.ScenarioTest.GB18030Test.Blob

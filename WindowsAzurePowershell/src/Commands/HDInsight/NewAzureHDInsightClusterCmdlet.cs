@@ -13,6 +13,12 @@
 // ----------------------------------------------------------------------------------
 namespace Microsoft.WindowsAzure.Management.HDInsight.Cmdlet.PSCmdlets
 {
+    using Commands.CommandInterfaces;
+    using DataObjects;
+    using GetAzureHDInsightClusters;
+    using GetAzureHDInsightClusters.Extensions;
+    using HDInsight.Logging;
+    using ServiceLocation;
     using System;
     using System.Globalization;
     using System.Management.Automation;
@@ -20,12 +26,6 @@ namespace Microsoft.WindowsAzure.Management.HDInsight.Cmdlet.PSCmdlets
     using System.Security.Cryptography.X509Certificates;
     using System.Threading;
     using System.Threading.Tasks;
-    using Commands.CommandInterfaces;
-    using DataObjects;
-    using GetAzureHDInsightClusters;
-    using GetAzureHDInsightClusters.Extensions;
-    using HDInsight.Logging;
-    using ServiceLocation;
 
     /// <summary>
     ///     Cmdlet that creates a new HDInsight cluster.

@@ -14,9 +14,9 @@
 
 namespace Microsoft.WindowsAzure.Commands.ExpressRoute
 {
+    using Microsoft.WindowsAzure.Management.ExpressRoute.Models;
     using System.Management.Automation;
     using Utilities.ExpressRoute;
-    using Microsoft.WindowsAzure.Management.ExpressRoute.Models;
 
     [Cmdlet(VerbsCommon.Get, "AzureDedicatedCircuitLink"), OutputType(typeof(AzureDedicatedCircuitLink))]
     public class GetAzureDedicatedCircuitLinkCommand : ExpressRouteBaseCmdlet

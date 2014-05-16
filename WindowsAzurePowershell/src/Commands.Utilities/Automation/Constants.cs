@@ -14,8 +14,8 @@
 
 namespace Microsoft.WindowsAzure.Commands.Utilities.Automation
 {
-    using System;
     using Microsoft.Azure.Management.Automation.Models;
+    using System;
 
     public class Constants
     {

@@ -14,15 +14,15 @@
 
 namespace Microsoft.WindowsAzure.Management.HDInsight.Cmdlet.PSCmdlets
 {
-    using System;
-    using System.Globalization;
-    using System.Security.Cryptography.X509Certificates;
-    using System.Text;
     using GetAzureHDInsightClusters.BaseInterfaces;
     using GetAzureHDInsightClusters.Extensions;
     using HDInsight.Logging;
     using Logging;
     using ServiceLocation;
+    using System;
+    using System.Globalization;
+    using System.Security.Cryptography.X509Certificates;
+    using System.Text;
     using WindowsAzure.Commands.Utilities.Common;
 
     /// <summary>

@@ -14,13 +14,13 @@
 
 namespace Microsoft.WindowsAzure.Commands.Profile
 {
+    using Microsoft.WindowsAzure.Commands.Common.Properties;
     using System;
     using System.IO;
     using System.Linq;
     using System.Management.Automation;
     using System.Security.Permissions;
     using Utilities.Common;
-    using Microsoft.WindowsAzure.Commands.Common.Properties;
     using Utilities.Profile;
 
     [Cmdlet(VerbsData.Import, "AzurePublishSettingsFile")]

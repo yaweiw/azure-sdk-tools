@@ -14,18 +14,17 @@
 
 namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Test.UnitTests.Database.Cmdlet
 {
+    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using Microsoft.WindowsAzure.Commands.SqlDatabase.Model;
+    using Microsoft.WindowsAzure.Commands.SqlDatabase.Test.UnitTests.MockServer;
+    using Microsoft.WindowsAzure.Commands.SqlDatabase.Test.UnitTests.Server.Cmdlet;
+    using Microsoft.WindowsAzure.Commands.Test.Utilities.Common;
+    using Microsoft.WindowsAzure.Commands.Utilities.Common;
     using System;
     using System.Collections.ObjectModel;
     using System.Linq;
-    using System.Threading;
     using System.Management.Automation;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
-    using Microsoft.WindowsAzure.Commands.SqlDatabase.Test.UnitTests.MockServer;
-    using Microsoft.WindowsAzure.Commands.SqlDatabase.Test.UnitTests.Server.Cmdlet;
-    using Microsoft.WindowsAzure.Commands.SqlDatabase.Test.Utilities;
-    using Microsoft.WindowsAzure.Commands.Test.Utilities.Common;
-    using Microsoft.WindowsAzure.Commands.Utilities.Common;
-    using Microsoft.WindowsAzure.Commands.SqlDatabase.Model;
+    using System.Threading;
 
     [TestClass]
     public class AzureSqlDatabaseCopyCertAuthTests : TestBase

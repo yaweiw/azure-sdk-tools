@@ -19,6 +19,11 @@
 // Changes to this file may cause incorrect behavior and will be lost if the
 // code is regenerated.
 
+using Microsoft.Azure.Management.ManagedCache;
+using Microsoft.Azure.Management.ManagedCache.Models;
+using Microsoft.WindowsAzure;
+using Microsoft.WindowsAzure.Common;
+using Microsoft.WindowsAzure.Common.Internals;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -30,11 +35,6 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Xml.Linq;
-using Microsoft.Azure.Management.ManagedCache;
-using Microsoft.Azure.Management.ManagedCache.Models;
-using Microsoft.WindowsAzure;
-using Microsoft.WindowsAzure.Common;
-using Microsoft.WindowsAzure.Common.Internals;
 
 namespace Microsoft.Azure.Management.ManagedCache.Models
 {

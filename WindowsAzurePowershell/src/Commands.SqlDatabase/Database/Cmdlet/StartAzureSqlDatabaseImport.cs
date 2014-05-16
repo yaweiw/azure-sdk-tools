@@ -13,15 +13,14 @@
 
 namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Database.Cmdlet
 {
-    using System;
-    using System.Management.Automation;
     using Microsoft.WindowsAzure.Commands.SqlDatabase.Services.Common;
     using Microsoft.WindowsAzure.Commands.SqlDatabase.Services.ImportExport;
     using Microsoft.WindowsAzure.Commands.SqlDatabase.Services.Server;
     using Microsoft.WindowsAzure.Commands.Storage.Model.ResourceModel;
-    using Microsoft.WindowsAzure.Commands.Utilities.Common;
     using Microsoft.WindowsAzure.Management.Sql;
     using Microsoft.WindowsAzure.Management.Sql.Models;
+    using System;
+    using System.Management.Automation;
 
     /// <summary>
     /// Imports a database from blob storage into SQL Azure.

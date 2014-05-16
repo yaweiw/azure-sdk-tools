@@ -14,13 +14,13 @@
 
 namespace Microsoft.WindowsAzure.Commands.Profile
 {
+    using Management;
+    using Microsoft.WindowsAzure.Commands.Common.Properties;
     using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Management.Automation;
-    using Management;
     using Utilities.Common;
-    using Microsoft.WindowsAzure.Commands.Common.Properties;
     using Utilities.Profile;
 
     /// <summary>

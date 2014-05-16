@@ -14,8 +14,8 @@
 
 namespace Microsoft.WindowsAzure.Commands.TrafficManager.Models
 {
-    using System.Collections.Generic;
     using Microsoft.WindowsAzure.Management.TrafficManager.Models;
+    using System.Collections.Generic;
 
     /// <summary>
     /// Class that will be exposed to PowerShell to interact with profiles

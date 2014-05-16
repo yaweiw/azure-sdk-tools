@@ -14,13 +14,13 @@
 
 namespace Microsoft.WindowsAzure.Commands.Test.Websites
 {
-    using System.Management.Automation;
     using Commands.Utilities.Common;
-    using VisualStudio.TestTools.UnitTesting;
-    using Utilities.Websites;
     using Commands.Utilities.Websites;
     using Commands.Websites;
     using Moq;
+    using System.Management.Automation;
+    using Utilities.Websites;
+    using VisualStudio.TestTools.UnitTesting;
 
     [TestClass]
     public class DisableAzureWebsiteApplicationDiagnosticTests : WebsitesTestBase

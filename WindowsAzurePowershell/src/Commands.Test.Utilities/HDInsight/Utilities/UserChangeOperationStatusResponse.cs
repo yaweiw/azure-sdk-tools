@@ -14,9 +14,9 @@
 
 namespace Microsoft.WindowsAzure.Commands.Test.Utilities.HDInsight.Utilities
 {
+    using Simulators.Types;
     using System;
     using System.Runtime.Serialization;
-    using Simulators.Types;
 
     [DataContract(Namespace = "http://schemas.microsoft.com/hdinsight/2013/05/management")]
     public class UserChangeOperationStatusResponse
