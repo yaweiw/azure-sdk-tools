@@ -47,6 +47,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
         public const string windowsAzurePowershellModuleServiceManagementPlatformImageRepository = "PIR.psd1";
         public const string windowsAzurePowershellModuleServiceManagementPreview = "AzurePreview.psd1";
 
+        public const string AzurePowershellCommandsModule = "Microsoft.WindowsAzure.Commands.dll";
         public const string AzurePowershellServiceManagementModule = "Microsoft.WindowsAzure.Commands.ServiceManagement.dll";
         public const string AzurePowershellStorageModule = "Microsoft.WindowsAzure.Commands.Storage.dll";
         public const string AzurePowershellModuleServiceManagementPirModule = "Microsoft.WindowsAzure.Commands.ServiceManagement.PlatformImageRepository.dll";
