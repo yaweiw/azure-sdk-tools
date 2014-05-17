@@ -12,7 +12,7 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.Azure.Commands.ResourceManager.Models
+namespace Microsoft.Azure.Commands.Resources.Models
 {
     public class FilterResourcesOptions
     {

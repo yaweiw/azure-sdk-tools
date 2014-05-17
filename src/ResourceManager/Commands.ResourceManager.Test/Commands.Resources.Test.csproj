@@ -7,8 +7,8 @@
     <ProjectGuid>{4C2FE49A-09E1-4979-AD46-CD64FD04C8F7}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Microsoft.Azure.Commands.ResourceManager.Test</RootNamespace>
-    <AssemblyName>Microsoft.Azure.Commands.ResourceManager.Test</AssemblyName>
+    <RootNamespace>Microsoft.Azure.Commands.Resources.Test</RootNamespace>
+    <AssemblyName>Microsoft.Azure.Commands.Resources.Test</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\..\</SolutionDir>
@@ -160,9 +160,9 @@
     <Compile Include="ResourceGroups\NewAzureResourceGroupCommandTests.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Commands.ResourceManager\Commands.ResourceManager.csproj">
+    <ProjectReference Include="..\Commands.Resources\Commands.Resources.csproj">
       <Project>{e1f5201d-6067-430e-b303-4e367652991b}</Project>
-      <Name>Commands.ResourceManager</Name>
+      <Name>Commands.Resources</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Common\Commands.Common.Storage\Commands.Common.Storage.csproj">
       <Project>{65c3a86a-716d-4e7d-ab67-1db00b3bf72d}</Project>

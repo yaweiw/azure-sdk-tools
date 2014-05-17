@@ -15,7 +15,7 @@
 using Microsoft.WindowsAzure.Commands.Utilities.Common;
 using System.Management.Automation;
 
-namespace Microsoft.Azure.Commands.ResourceManager.Templates
+namespace Microsoft.Azure.Commands.Resources.Templates
 {
     /// <summary>
     /// Downloads a template file to the disk.

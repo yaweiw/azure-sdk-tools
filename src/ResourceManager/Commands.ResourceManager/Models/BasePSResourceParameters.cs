@@ -12,11 +12,11 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-using Microsoft.Azure.Commands.ResourceManager.Properties;
+using Microsoft.Azure.Commands.Resources.Properties;
 using Microsoft.Azure.Management.Resources.Models;
 using System;
 
-namespace Microsoft.Azure.Commands.ResourceManager.Models
+namespace Microsoft.Azure.Commands.Resources.Models
 {
     public class BasePSResourceParameters
     {

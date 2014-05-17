@@ -12,12 +12,12 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-using Microsoft.Azure.Commands.ResourceManager.Models;
+using Microsoft.Azure.Commands.Resources.Models;
 using System.Collections.Generic;
 using System.Linq;
 using System.Management.Automation;
 
-namespace Microsoft.Azure.Commands.ResourceManager.Templates
+namespace Microsoft.Azure.Commands.Resources.Templates
 {
     /// <summary>
     /// Get one template or a list of templates from the gallery.

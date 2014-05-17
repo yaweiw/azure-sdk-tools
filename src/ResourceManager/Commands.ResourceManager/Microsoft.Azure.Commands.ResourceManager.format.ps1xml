@@ -2,9 +2,9 @@
 <Configuration>
   <ViewDefinitions>
     <View>
-      <Name>Microsoft.Azure.Commands.ResourceManager.Models.PSResourceManagerError</Name>
+      <Name>Microsoft.Azure.Commands.Resources.Models.PSResourceManagerError</Name>
       <ViewSelectedBy>
-        <TypeName>Microsoft.Azure.Commands.ResourceManager.Models.PSResourceManagerError</TypeName>
+        <TypeName>Microsoft.Azure.Commands.Resources.Models.PSResourceManagerError</TypeName>
       </ViewSelectedBy>
       <ListControl>
         <ListEntries>
@@ -24,9 +24,9 @@
       </ListControl>
     </View>
     <View>
-      <Name>Microsoft.Azure.Commands.ResourceManager.Models.PSResource</Name>
+      <Name>Microsoft.Azure.Commands.Resources.Models.PSResource</Name>
       <ViewSelectedBy>
-        <TypeName>Microsoft.Azure.Commands.ResourceManager.Models.PSResource</TypeName>
+        <TypeName>Microsoft.Azure.Commands.Resources.Models.PSResource</TypeName>
       </ViewSelectedBy>
       <ListControl>
         <ListEntries>
@@ -62,9 +62,9 @@
       </ListControl>
     </View>
     <View>
-      <Name>Microsoft.Azure.Commands.ResourceManager.Models.PSResourceGroup</Name>
+      <Name>Microsoft.Azure.Commands.Resources.Models.PSResourceGroup</Name>
       <ViewSelectedBy>
-        <TypeName>Microsoft.Azure.Commands.ResourceManager.Models.PSResourceGroup</TypeName>
+        <TypeName>Microsoft.Azure.Commands.Resources.Models.PSResourceGroup</TypeName>
       </ViewSelectedBy>
       <ListControl>
         <ListEntries>
@@ -92,9 +92,9 @@
       </ListControl>
     </View>
     <View>
-      <Name>Microsoft.Azure.Commands.ResourceManager.Models.PSResourceGroupDeployment</Name>
+      <Name>Microsoft.Azure.Commands.Resources.Models.PSResourceGroupDeployment</Name>
       <ViewSelectedBy>
-        <TypeName>Microsoft.Azure.Commands.ResourceManager.Models.PSResourceGroupDeployment</TypeName>
+        <TypeName>Microsoft.Azure.Commands.Resources.Models.PSResourceGroupDeployment</TypeName>
       </ViewSelectedBy>
       <ListControl>
         <ListEntries>
@@ -138,9 +138,9 @@
       </ListControl>
     </View>
     <View>
-      <Name>Microsoft.Azure.Commands.ResourceManager.Models.PSResourceProviderType</Name>
+      <Name>Microsoft.Azure.Commands.Resources.Models.PSResourceProviderType</Name>
       <ViewSelectedBy>
-        <TypeName>Microsoft.Azure.Commands.ResourceManager.Models.PSResourceProviderType</TypeName>
+        <TypeName>Microsoft.Azure.Commands.Resources.Models.PSResourceProviderType</TypeName>
       </ViewSelectedBy>
       <TableControl>
         <TableHeaders>
@@ -168,9 +168,9 @@
       </TableControl>
     </View>
     <View>
-      <Name>Microsoft.Azure.Commands.ResourceManager.Models.PSDeploymentEventData</Name>
+      <Name>Microsoft.Azure.Commands.Resources.Models.PSDeploymentEventData</Name>
       <ViewSelectedBy>
-        <TypeName>Microsoft.Azure.Commands.ResourceManager.Models.PSDeploymentEventData</TypeName>
+        <TypeName>Microsoft.Azure.Commands.Resources.Models.PSDeploymentEventData</TypeName>
       </ViewSelectedBy>
       <ListControl>
         <ListEntries>
@@ -250,9 +250,9 @@
       </ListControl>
     </View>
     <View>
-      <Name>Microsoft.Azure.Commands.ResourceManager.Models.PSGalleryItem</Name>
+      <Name>Microsoft.Azure.Commands.Resources.Models.PSGalleryItem</Name>
       <ViewSelectedBy>
-        <TypeName>Microsoft.Azure.Commands.ResourceManager.Models.PSGalleryItem</TypeName>
+        <TypeName>Microsoft.Azure.Commands.Resources.Models.PSGalleryItem</TypeName>
       </ViewSelectedBy>
       <ListControl>
         <ListEntries>

@@ -14,7 +14,7 @@
 
 using System.Management.Automation;
 
-namespace Microsoft.Azure.Commands.ResourceManager
+namespace Microsoft.Azure.Commands.Resources
 {
     public abstract class ResourceBaseCmdlet : ResourceManagerBaseCmdlet
     {

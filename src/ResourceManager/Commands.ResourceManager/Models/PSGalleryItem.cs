@@ -14,7 +14,7 @@
 
 using Microsoft.Azure.Gallery;
 
-namespace Microsoft.Azure.Commands.ResourceManager.Models
+namespace Microsoft.Azure.Commands.Resources.Models
 {
     public class PSGalleryItem : GalleryItem
     {
