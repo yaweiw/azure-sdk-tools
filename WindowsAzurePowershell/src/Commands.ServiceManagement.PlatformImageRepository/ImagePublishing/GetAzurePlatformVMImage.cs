@@ -14,15 +14,12 @@
 
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.PlatformImageRepository.ImagePublishing
 {
-    using System;
     using System.Linq;
     using System.Management.Automation;
     using Commands.Utilities.Common;
-    using Management;
-    using Management.Models;
-    using Management.Compute;
-    using Management.Compute.Models;
+    using Helpers;
     using Model;
+    using ServiceManagement.Model;
     using WindowsAzure.ServiceManagement;
 
     [Cmdlet(VerbsCommon.Get, "AzurePlatformVMImage"), OutputType(typeof(OSImageDetailsContext))]
@@ -41,75 +38,85 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.PlatformImageReposit
         {
             ServiceManagementProfile.Initialize();
 
-            ExecuteClientActionInOCS(
-                null,
-                CommandRuntime.ToString(),
-                s => this.Channel.GetOSImageWithDetails(s, this.ImageName),
-                (operation, imageDetails) => imageDetails == null ? null : new OSImageDetailsContext
-                {
-                    AffinityGroup        = imageDetails.AffinityGroup,
-                    Category             = imageDetails.Category,
-                    Label                = imageDetails.Label,
-                    Location             = imageDetails.Location,
-                    MediaLink            = imageDetails.MediaLink,
-                    ImageName            = imageDetails.Name,
-                    OS                   = imageDetails.OS,
-                    LogicalSizeInGB      = imageDetails.LogicalSizeInGB,
-                    Eula                 = imageDetails.Eula,
-                    Description          = imageDetails.Description,
-                    IconUri              = imageDetails.IconUri,
-                    ImageFamily          = imageDetails.ImageFamily,
-                    IsPremium            = imageDetails.IsPremium,
-                    PrivacyUri           = imageDetails.PrivacyUri,
-                    PublishedDate        = imageDetails.PublishedDate,
-                    RecommendedVMSize    = imageDetails.RecommendedVMSize,
-                    IsCorrupted          = imageDetails.IsCorrupted,
-                    SmallIconUri         = imageDetails.SmallIconUri,
-                    PublisherName        = imageDetails.PublisherName,
-                    ReplicationProgress  = imageDetails.ReplicationProgress.Select(
-                                           detail => new ReplicationProgressContext
-                                           {
-                                               Location = detail.Location,
-                                               Progress = detail.Progress
-                                           }).ToList(),
-                    OperationId          = operation.OperationTrackingId,
-                    OperationDescription = CommandRuntime.ToString(),
-                    OperationStatus      = operation.Status,
-                });
+            var imageType = new VirtualMachineImageHelper(this.ComputeClient).GetImageType(this.ImageName);
+            bool isOSImage = imageType.HasFlag(VirtualMachineImageType.OSImage);
+            bool isVMImage = imageType.HasFlag(VirtualMachineImageType.VMImage);
 
-            ExecuteClientActionNewSM(
-                null,
-                CommandRuntime.ToString(),
-                () => this.ComputeClient.VirtualMachineVMImages.GetDetails(this.ImageName),
-                (operation, imageDetails) => imageDetails == null ? null : new VMImageDetailsContext
-                {
-                    AffinityGroup        = imageDetails.AffinityGroup,
-                    Location             = imageDetails.Location,
-                    Category             = imageDetails.Category,
-                    Label                = imageDetails.Label,
-                    ImageName            = imageDetails.Name,
-                    Eula                 = imageDetails.Eula,
-                    Description          = imageDetails.Description,
-                    IconUri              = imageDetails.IconUri,
-                    ImageFamily          = imageDetails.ImageFamily,
-                    IsPremium            = imageDetails.IsPremium,
-                    PrivacyUri           = imageDetails.PrivacyUri,
-                    PublishedDate        = imageDetails.PublishedDate,
-                    RecommendedVMSize    = imageDetails.RecommendedVMSize,
-                    IsCorrupted          = imageDetails.IsCorrupted,
-                    SmallIconUri         = imageDetails.SmallIconUri,
-                    SharingStatus        = imageDetails.SharingStatus,
-                    PublisherName        = imageDetails.PublisherName,
-                    ReplicationProgress  = imageDetails.ReplicationProgress.Select(
-                                           detail => new ReplicationProgressContext
-                                           {
-                                               Location = detail.Location,
-                                               Progress = detail.Progress
-                                           }).ToList(),
-                    OperationId          = operation.RequestId,
-                    OperationDescription = CommandRuntime.ToString(),
-                    OperationStatus      = operation.Status.ToString(),
-                });
+            if (isOSImage || !isVMImage)
+            {
+                ExecuteClientActionInOCS(
+                    null,
+                    CommandRuntime.ToString(),
+                    s => this.Channel.GetOSImageWithDetails(s, this.ImageName),
+                    (operation, imageDetails) => imageDetails == null ? null : new OSImageDetailsContext
+                    {
+                        AffinityGroup = imageDetails.AffinityGroup,
+                        Category = imageDetails.Category,
+                        Label = imageDetails.Label,
+                        Location = imageDetails.Location,
+                        MediaLink = imageDetails.MediaLink,
+                        ImageName = imageDetails.Name,
+                        OS = imageDetails.OS,
+                        LogicalSizeInGB = imageDetails.LogicalSizeInGB,
+                        Eula = imageDetails.Eula,
+                        Description = imageDetails.Description,
+                        IconUri = imageDetails.IconUri,
+                        ImageFamily = imageDetails.ImageFamily,
+                        IsPremium = imageDetails.IsPremium,
+                        PrivacyUri = imageDetails.PrivacyUri,
+                        PublishedDate = imageDetails.PublishedDate,
+                        RecommendedVMSize = imageDetails.RecommendedVMSize,
+                        IsCorrupted = imageDetails.IsCorrupted,
+                        SmallIconUri = imageDetails.SmallIconUri,
+                        PublisherName = imageDetails.PublisherName,
+                        ReplicationProgress = imageDetails.ReplicationProgress.Select(
+                                               detail => new ReplicationProgressContext
+                                               {
+                                                   Location = detail.Location,
+                                                   Progress = detail.Progress
+                                               }).ToList(),
+                        OperationId = operation.OperationTrackingId,
+                        OperationDescription = CommandRuntime.ToString(),
+                        OperationStatus = operation.Status,
+                    });
+            }
+
+            if (isVMImage)
+            {
+                ExecuteClientActionNewSM(
+                    null,
+                    CommandRuntime.ToString(),
+                    () => this.ComputeClient.VirtualMachineVMImages.GetDetails(this.ImageName),
+                    (operation, imageDetails) => imageDetails == null ? null : new VMImageDetailsContext
+                    {
+                        AffinityGroup = imageDetails.AffinityGroup,
+                        Location = imageDetails.Location,
+                        Category = imageDetails.Category,
+                        Label = imageDetails.Label,
+                        ImageName = imageDetails.Name,
+                        Eula = imageDetails.Eula,
+                        Description = imageDetails.Description,
+                        IconUri = imageDetails.IconUri,
+                        ImageFamily = imageDetails.ImageFamily,
+                        IsPremium = imageDetails.IsPremium,
+                        PrivacyUri = imageDetails.PrivacyUri,
+                        PublishedDate = imageDetails.PublishedDate,
+                        RecommendedVMSize = imageDetails.RecommendedVMSize,
+                        IsCorrupted = imageDetails.IsCorrupted,
+                        SmallIconUri = imageDetails.SmallIconUri,
+                        SharingStatus = imageDetails.SharingStatus,
+                        PublisherName = imageDetails.PublisherName,
+                        ReplicationProgress = imageDetails.ReplicationProgress.Select(
+                                               detail => new ReplicationProgressContext
+                                               {
+                                                   Location = detail.Location,
+                                                   Progress = detail.Progress
+                                               }).ToList(),
+                        OperationId = operation.RequestId,
+                        OperationDescription = CommandRuntime.ToString(),
+                        OperationStatus = operation.Status.ToString()
+                    });
+            }
         }
     }
 }
