@@ -13,7 +13,7 @@
 // ----------------------------------------------------------------------------------
 
 using Microsoft.Azure.Commands.Resources.Models;
-using Microsoft.Azure.Commands.Resources.Properties;
+using ProjectResources = Microsoft.Azure.Commands.Resources.Properties.Resources;
 using System.Management.Automation;
 
 namespace Microsoft.Azure.Commands.Resources
@@ -47,8 +47,8 @@ namespace Microsoft.Azure.Commands.Resources
 
             ConfirmAction(
                 Force.IsPresent,
-                string.Format(Resources.RemovingResource, Name),
-                Resources.RemoveResourceMessage,
+                string.Format(ProjectResources.RemovingResource, Name),
+                ProjectResources.RemoveResourceMessage,
                 Name,
                 () => ResourcesClient.DeleteResource(parameters));
 

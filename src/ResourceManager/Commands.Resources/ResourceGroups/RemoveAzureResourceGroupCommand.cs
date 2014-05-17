@@ -12,7 +12,7 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-using Microsoft.Azure.Commands.Resources.Properties;
+using ProjectResources = Microsoft.Azure.Commands.Resources.Properties.Resources;
 using System.Management.Automation;
 
 namespace Microsoft.Azure.Commands.Resources
@@ -38,8 +38,8 @@ namespace Microsoft.Azure.Commands.Resources
         {
             ConfirmAction(
                 Force.IsPresent,
-                string.Format(Resources.RemovingResourceGroup, Name),
-                Resources.RemoveResourceGroupMessage,
+                string.Format(ProjectResources.RemovingResourceGroup, Name),
+                ProjectResources.RemoveResourceGroupMessage,
                 Name,
                 () => ResourcesClient.DeleteResourceGroup(Name));
 

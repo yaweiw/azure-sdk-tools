@@ -100,7 +100,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.CloudService.Development.Tests
                 enableCacheCmdlet.PassThru = true;
                 enableCacheCmdlet.EnableAzureMemcacheRoleProcess(workerRoleName, cacheRoleName, rootPath);
 
-                WorkerRole workerRole = Testing.GetWorkerRole(rootPath, workerRoleName);
+                WorkerRole workerRole = AzureAssert.GetWorkerRole(rootPath, workerRoleName);
 
                 AzureAssert.RuntimeUrlAndIdExists(workerRole.Startup.Task, Resources.CacheRuntimeValue);
 
@@ -122,8 +122,8 @@ namespace Microsoft.WindowsAzure.Commands.Test.CloudService.Development.Tests
                 AzureAssert.ConfigurationSettingExist(diagnosticLevel, workerRole.ConfigurationSettings);
 
                 ConfigConfigurationSetting clientDiagnosticLevel = new ConfigConfigurationSetting { name = Resources.ClientDiagnosticLevelName, value = Resources.ClientDiagnosticLevelValue };
-                AzureAssert.ConfigurationSettingExist(clientDiagnosticLevel, Testing.GetCloudRole(rootPath, workerRoleName).ConfigurationSettings);
-                AzureAssert.ConfigurationSettingExist(clientDiagnosticLevel, Testing.GetLocalRole(rootPath, workerRoleName).ConfigurationSettings);
+                AzureAssert.ConfigurationSettingExist(clientDiagnosticLevel, AzureAssert.GetCloudRole(rootPath, workerRoleName).ConfigurationSettings);
+                AzureAssert.ConfigurationSettingExist(clientDiagnosticLevel, AzureAssert.GetLocalRole(rootPath, workerRoleName).ConfigurationSettings);
 
                 string workerConfigPath = string.Format(@"{0}\{1}\{2}", rootPath, workerRoleName, "web.config");
                 string workerCloudConfig = File.ReadAllText(workerConfigPath);
@@ -282,8 +282,8 @@ namespace Microsoft.WindowsAzure.Commands.Test.CloudService.Development.Tests
             string webRoleName,
             string expectedMessage)
         {
-            WebRole webRole = Testing.GetWebRole(rootPath, webRoleName);
-            RoleSettings roleSettings = Testing.GetCloudRole(rootPath, webRoleName);
+            WebRole webRole = AzureAssert.GetWebRole(rootPath, webRoleName);
+            RoleSettings roleSettings = AzureAssert.GetCloudRole(rootPath, webRoleName);
 
             AzureAssert.RuntimeUrlAndIdExists(webRole.Startup.Task, Resources.CacheRuntimeValue);
 
