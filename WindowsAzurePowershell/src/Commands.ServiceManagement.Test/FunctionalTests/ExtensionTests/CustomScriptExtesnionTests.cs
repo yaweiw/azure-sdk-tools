@@ -35,12 +35,13 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
         string vmName;
         string containerName = "scripts";
         private string referenceName;
-        private string CONST_CUSOTM_SCRIPT_EXTENSION_NAME = "CustomScriptExtension";
+        private const string ConstCustomScriptExtensionPublisher = "Microsoft.Compute";
+        private const string ConstCustomScriptExtensionName = "CustomScriptExtension";
         private VirtualMachineExtensionImageContext customScriptExtension;
         private string[] fileURI;
         private string runFileName = "test2.ps2";
         private string[] fileNames = {"test1.ps1","test2.ps1"};
-        private string endpointSuffix;
+        private string endpointSuffix = "";
         private VirtualMachineCustomScriptExtensionContext inputParameters;
 
         [TestInitialize]
@@ -170,8 +171,9 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
         private void GetCustomScriptExtensionVersion()
         {
             Utilities.PrintHeader("Listing the available VM extensions");
-            var extensionsInfo = vmPowershellCmdlets.GetAzureVMAvailableExtension();
-            customScriptExtension = extensionsInfo.First(c => c.ExtensionName.Equals(CONST_CUSOTM_SCRIPT_EXTENSION_NAME));
+            var extensionsInfo = vmPowershellCmdlets.GetAzureVMAvailableExtension(ConstCustomScriptExtensionName, ConstCustomScriptExtensionPublisher, true);
+            customScriptExtension = extensionsInfo.OrderBy(c => c.Version).LastOrDefault();
+            Console.WriteLine("Using CustomScript Extension Version: {0}", customScriptExtension.Version);
             Utilities.PrintFooter("Listing the available VM extensions");
         }
 
