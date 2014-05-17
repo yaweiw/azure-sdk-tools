@@ -13,7 +13,7 @@
     <DeploymentItem filename="ServiceManagement\Compute\Commands.ServiceManagement.Test\vendor\VhdFiles\fixed_50_child01.vhd" />
     <DeploymentItem filename="ServiceManagement\Services\Commands.Test.Utilities\Resources\" />
 	<DeploymentItem filename="Common\Commands.ScenarioTest\Resources\" />
-    <DeploymentItem filename="ResourceManager\Commands.ResourceManager.Test\Resources\" />
+    <DeploymentItem filename="ResourceManager\Commands.Resources.Test\Resources\" />
     <DeploymentItem filename="..\Package\Debug\" />
   </Deployment>
   <Execution>
