@@ -2,15 +2,12 @@
 <TestSettings name="OneSDK" id="e32142d9-d4dd-480a-8191-1588e870a7fd" xmlns="http://microsoft.com/schemas/VisualStudio/TeamTest/2010">
   <Description>These are default test settings for a OneSDK test run.</Description>
   <Deployment>
-    <DeploymentItem filename="Commands.Test.Utilities\Resources\" />
-    <DeploymentItem filename="Commands.Test\Resources\" />
-    <DeploymentItem filename="Commands.ServiceBus.Test\Resources\" />
-    <DeploymentItem filename="Commands.CloudService\Resources\" />
-    <DeploymentItem filename="Commands.CloudService.Test\Resources\" />
+    <DeploymentItem filename="ServiceManagement\Services\Commands.Test.Utilities\Resources\" />
+    <DeploymentItem filename="ServiceManagement\Services\Commands.Test\Resources\" />
+    <DeploymentItem filename="ServiceManagement\Services\Commands.ServiceBus.Test\Resources\" />
+    <DeploymentItem filename="ServiceManagement\Services\Commands.CloudService\Resources\" />
+    <DeploymentItem filename="ServiceManagement\Services\Commands.CloudService.Test\Resources\" />
     <DeploymentItem filename="Common\Commands.ScenarioTest\Resources\" />
-    <DeploymentItem filename="..\Package\Debug\Microsoft.WindowsAzure.Commands.dll" />
-    <DeploymentItem filename="..\Package\Debug\Microsoft.WindowsAzure.Commands.Storage.dll" />
-    <DeploymentItem filename="..\Package\Debug\startup.ps1" />
   </Deployment>
   <Execution>
     <Timeouts testTimeout="3000000" />
