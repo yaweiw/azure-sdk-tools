@@ -319,7 +319,7 @@
 
     <Message Importance="high" Text="BVT tests:" />
     <Exec
-      Command="MSTest.exe /testcontainer:$(AzureRTTestContainer) /testsettings:$(AzureRTTestSettings) /category:BVT /resultsfile:$(TestOutputDirectory)\RTBVTDebug.trx"
+      Command="MSTest.exe /testcontainer:$(AzureRTTestContainer) /testsettings:$(TestSettings) /category:BVT /resultsfile:$(TestOutputDirectory)\RTBVTDebug.trx"
       ContinueOnError="false" />
   </Target>
 
