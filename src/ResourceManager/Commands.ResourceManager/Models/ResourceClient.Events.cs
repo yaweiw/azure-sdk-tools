@@ -12,7 +12,7 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-using Microsoft.Azure.Commands.ResourceManager.Properties;
+using Microsoft.Azure.Commands.Resources.Properties;
 using Microsoft.Azure.Management.Resources;
 using Microsoft.Azure.Management.Resources.Models;
 using Microsoft.WindowsAzure.Management.Monitoring.Events;
@@ -21,7 +21,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Microsoft.Azure.Commands.ResourceManager.Models
+namespace Microsoft.Azure.Commands.Resources.Models
 {
     public partial class ResourcesClient
     {

@@ -12,10 +12,10 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-using Microsoft.Azure.Commands.ResourceManager.Properties;
+using Microsoft.Azure.Commands.Resources.Properties;
 using System.Management.Automation;
 
-namespace Microsoft.Azure.Commands.ResourceManager.ResourceGroups
+namespace Microsoft.Azure.Commands.Resources.ResourceGroups
 {
     /// <summary>
     /// Cancel a running deployment.

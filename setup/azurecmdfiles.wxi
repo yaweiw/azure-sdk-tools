@@ -1051,13 +1051,13 @@
                         <File Id="fil96C82365E5F5A2F2747805236B563DF0" KeyPath="yes" Source="$(var.sourceDir)\ResourceManager\AzureResourceManager\AzureResourceManager.psd1" />
                     </Component>
                     <Component Id="cmpA9F0BDD4F8D9B942CC8F55A5CA583FB5" Guid="*">
-                        <File Id="fil16238D956F64CAA072E37747165015D6" KeyPath="yes" Source="$(var.sourceDir)\ResourceManager\AzureResourceManager\Microsoft.Azure.Commands.ResourceManager.dll" />
+                        <File Id="fil16238D956F64CAA072E37747165015D6" KeyPath="yes" Source="$(var.sourceDir)\ResourceManager\AzureResourceManager\Microsoft.Azure.Commands.Resources.dll" />
                     </Component>
                     <Component Id="cmp8155A7E101A45A77B817D54A5A66A1E9" Guid="*">
-                        <File Id="filFE2B47334DFC72E68541B43AD820C0F2" KeyPath="yes" Source="$(var.sourceDir)\ResourceManager\AzureResourceManager\Microsoft.Azure.Commands.ResourceManager.dll-Help.xml" />
+                        <File Id="filFE2B47334DFC72E68541B43AD820C0F2" KeyPath="yes" Source="$(var.sourceDir)\ResourceManager\AzureResourceManager\Microsoft.Azure.Commands.Resources.dll-Help.xml" />
                     </Component>
                     <Component Id="cmp56E278422940C28A4920F677A8207C39" Guid="*">
-                        <File Id="fil179C972C70164C52BD4253FDBBAD8229" KeyPath="yes" Source="$(var.sourceDir)\ResourceManager\AzureResourceManager\Microsoft.Azure.Commands.ResourceManager.format.ps1xml" />
+                        <File Id="fil179C972C70164C52BD4253FDBBAD8229" KeyPath="yes" Source="$(var.sourceDir)\ResourceManager\AzureResourceManager\Microsoft.Azure.Commands.Resources.format.ps1xml" />
                     </Component>
                     <Component Id="cmp22F49DD7ADF07AC2F8958E4B34548909" Guid="*">
                         <Class Id="{09F658F2-97CB-36C7-BC4E-C808DF0263E9}" Context="InprocServer32" Description="Microsoft.Azure.Gallery.DefinitionTemplates" ThreadingModel="both" ForeignServer="mscoree.dll">
@@ -3665,10 +3665,10 @@
                         <File Id="fil1D83561F6A8B42ECB25F5ABB862E8C5E" KeyPath="yes" Source="$(var.sourceDir)\ServiceManagement\Azure\Microsoft.Azure.Commands.ManagedCache.dll-help.xml" />
                     </Component>
                     <Component Id="cmp96B4F2D13C2E2D8E2CCCC122B0466FF2" Guid="*">
-                        <File Id="fil32295BA6F6C3D0E47E98C83261C6AF42" KeyPath="yes" Source="$(var.sourceDir)\ServiceManagement\Azure\Microsoft.Azure.Commands.ResourceManager.dll-Help.xml" />
+                        <File Id="fil32295BA6F6C3D0E47E98C83261C6AF42" KeyPath="yes" Source="$(var.sourceDir)\ServiceManagement\Azure\Microsoft.Azure.Commands.Resources.dll-Help.xml" />
                     </Component>
                     <Component Id="cmp0794647B53F54E250C918ADDC14FE867" Guid="*">
-                        <File Id="fil2D4C80BB4DBEC6DE44424F4C561B8095" KeyPath="yes" Source="$(var.sourceDir)\ServiceManagement\Azure\Microsoft.Azure.Commands.ResourceManager.format.ps1xml" />
+                        <File Id="fil2D4C80BB4DBEC6DE44424F4C561B8095" KeyPath="yes" Source="$(var.sourceDir)\ServiceManagement\Azure\Microsoft.Azure.Commands.Resources.format.ps1xml" />
                     </Component>
                     <Component Id="cmp66748F83D28BEA4DC819469200EAE4C3" Guid="*">
                         <Class Id="{1272D23A-8E18-3326-9240-CB74FA7D2C88}" Context="InprocServer32" Description="Microsoft.Azure.Management.Automation.Models.RunbookDeleteScheduleLinkParameters" ThreadingModel="both" ForeignServer="mscoree.dll">

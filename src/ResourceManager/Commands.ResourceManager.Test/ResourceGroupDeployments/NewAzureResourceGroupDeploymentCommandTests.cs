@@ -12,7 +12,7 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-using Microsoft.Azure.Commands.ResourceManager.Models;
+using Microsoft.Azure.Commands.Resources.Models;
 using Microsoft.Azure.Management.Resources.Models;
 using Moq;
 using System;
@@ -20,7 +20,7 @@ using System.Collections.Generic;
 using System.Management.Automation;
 using Xunit;
 
-namespace Microsoft.Azure.Commands.ResourceManager.Test
+namespace Microsoft.Azure.Commands.Resources.Test
 {
     public class NewAzureResourceGroupDeploymentCommandTests
     {

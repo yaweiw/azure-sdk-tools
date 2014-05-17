@@ -12,11 +12,11 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-using Microsoft.Azure.Commands.ResourceManager.Models;
+using Microsoft.Azure.Commands.Resources.Models;
 using System.Collections.Generic;
 using System.Management.Automation;
 
-namespace Microsoft.Azure.Commands.ResourceManager
+namespace Microsoft.Azure.Commands.Resources
 {
     /// <summary>
     /// Get the list of events for a deployment.

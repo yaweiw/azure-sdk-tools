@@ -12,10 +12,10 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-using Microsoft.Azure.Commands.ResourceManager.Models;
+using Microsoft.Azure.Commands.Resources.Models;
 using Microsoft.WindowsAzure.Commands.Utilities.Common;
 
-namespace Microsoft.Azure.Commands.ResourceManager
+namespace Microsoft.Azure.Commands.Resources
 {
     public abstract class ResourceManagerBaseCmdlet : CmdletWithSubscriptionBase
     {

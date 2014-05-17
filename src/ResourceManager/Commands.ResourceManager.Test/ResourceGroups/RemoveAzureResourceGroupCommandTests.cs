@@ -12,12 +12,12 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-using Microsoft.Azure.Commands.ResourceManager.Models;
+using Microsoft.Azure.Commands.Resources.Models;
 using Moq;
 using System.Management.Automation;
 using Xunit;
 
-namespace Microsoft.Azure.Commands.ResourceManager.Test
+namespace Microsoft.Azure.Commands.Resources.Test
 {
     public class RemoveAzureResourceGroupCommandTests
     {

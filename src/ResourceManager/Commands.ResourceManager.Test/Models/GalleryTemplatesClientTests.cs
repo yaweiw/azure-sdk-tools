@@ -12,7 +12,7 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-using Microsoft.Azure.Commands.ResourceManager.Models;
+using Microsoft.Azure.Commands.Resources.Models;
 using Microsoft.Azure.Gallery;
 using Microsoft.Azure.Gallery.Models;
 using Microsoft.WindowsAzure.Commands.Test.Utilities.Common;
@@ -28,7 +28,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Xunit;
 
-namespace Microsoft.Azure.Commands.ResourceManager.Test.Models
+namespace Microsoft.Azure.Commands.Resources.Test.Models
 {
     public class GalleryTemplatesClientTests : TestBase
     {

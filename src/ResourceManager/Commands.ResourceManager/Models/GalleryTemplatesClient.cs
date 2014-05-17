@@ -12,7 +12,7 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-using Microsoft.Azure.Commands.ResourceManager.Properties;
+using Microsoft.Azure.Commands.Resources.Properties;
 using Microsoft.Azure.Gallery;
 using Microsoft.Azure.Gallery.Models;
 using Microsoft.WindowsAzure;
@@ -29,7 +29,7 @@ using System.Management.Automation;
 using System.Security;
 using System.Text;
 
-namespace Microsoft.Azure.Commands.ResourceManager.Models
+namespace Microsoft.Azure.Commands.Resources.Models
 {
     public class GalleryTemplatesClient
     {

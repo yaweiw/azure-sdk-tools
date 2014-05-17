@@ -12,12 +12,12 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-using Microsoft.Azure.Commands.ResourceManager.Models;
+using Microsoft.Azure.Commands.Resources.Models;
 using Microsoft.WindowsAzure.Commands.Utilities.Common;
 using System.Collections.Generic;
 using System.Management.Automation;
 
-namespace Microsoft.Azure.Commands.ResourceManager.ResourceGroupDeployments
+namespace Microsoft.Azure.Commands.Resources.ResourceGroupDeployments
 {
     /// <summary>
     /// Validate a template to see whether it's using the right syntax, resource providers, resource types, etc.

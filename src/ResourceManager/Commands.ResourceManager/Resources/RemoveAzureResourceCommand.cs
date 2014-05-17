@@ -12,11 +12,11 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-using Microsoft.Azure.Commands.ResourceManager.Models;
-using Microsoft.Azure.Commands.ResourceManager.Properties;
+using Microsoft.Azure.Commands.Resources.Models;
+using Microsoft.Azure.Commands.Resources.Properties;
 using System.Management.Automation;
 
-namespace Microsoft.Azure.Commands.ResourceManager
+namespace Microsoft.Azure.Commands.Resources
 {
     /// <summary>
     /// Deletes an existing resource.

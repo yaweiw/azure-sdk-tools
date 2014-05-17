@@ -16,7 +16,7 @@ using Microsoft.Azure.Management.Resources.Models;
 using System;
 using System.Collections.Generic;
 
-namespace Microsoft.Azure.Commands.ResourceManager.Models
+namespace Microsoft.Azure.Commands.Resources.Models
 {
     public class PSResourceGroupDeployment
     {

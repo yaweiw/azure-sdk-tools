@@ -12,7 +12,7 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-using Microsoft.Azure.Commands.ResourceManager.Models;
+using Microsoft.Azure.Commands.Resources.Models;
 using Microsoft.Azure.Management.Resources;
 using Microsoft.Azure.Management.Resources.Models;
 using Microsoft.WindowsAzure;
@@ -38,7 +38,7 @@ using System.Threading.Tasks;
 using Xunit;
 using Xunit.Extensions;
 
-namespace Microsoft.Azure.Commands.ResourceManager.Test.Models
+namespace Microsoft.Azure.Commands.Resources.Test.Models
 {
     public class ResourceClientTests : TestBase
     {

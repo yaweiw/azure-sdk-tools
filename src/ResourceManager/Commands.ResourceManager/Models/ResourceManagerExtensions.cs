@@ -23,7 +23,7 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 
-namespace Microsoft.Azure.Commands.ResourceManager.Models
+namespace Microsoft.Azure.Commands.Resources.Models
 {
     public static class ResourceManagerExtensions
     {
