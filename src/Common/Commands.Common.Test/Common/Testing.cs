@@ -15,11 +15,7 @@
 namespace Microsoft.WindowsAzure.Commands.Test.Utilities.Common
 {
     using Commands.Common.Test.Resources;
-    using Commands.Utilities.CloudService;
-    using Commands.Utilities.Common.XmlSchema.ServiceConfigurationSchema;
-    using Commands.Utilities.Common.XmlSchema.ServiceDefinitionSchema;
     using System;
-    using System.Collections.Generic;
     using System.Diagnostics;
     using System.IO;
     using VisualStudio.TestTools.UnitTesting;
@@ -201,80 +197,6 @@ namespace Microsoft.WindowsAzure.Commands.Test.Utilities.Common
                 string ActualSubDir = Path.Combine(actual, subdir.Name);
                 AssertDirectoryIdentical(subdir.FullName, ActualSubDir);
             }
-        }
-
-        /// <summary>
-        /// Validate a collection of assertions against files that are expected
-        /// to exist in the file system watched by a FileSystemHelper.
-        /// </summary>
-        /// <param name="files">
-        /// The FileSystemHelper watching the files.
-        /// </param>
-        /// <param name="assertions">
-        /// Mapping of relative path names to actions that will validate the
-        /// contents of the path.  Each action takes a full path to the file
-        /// so it can be opened, verified, etc.  Null actions are allowed and
-        /// serve to verify only that a file exists.
-        /// </param>
-        public static void AssertFiles(this FileSystemHelper files, Dictionary<string, Action<string>> assertions)
-        {
-            Assert.IsNotNull(files);
-            Assert.IsNotNull(assertions);
-
-            foreach (KeyValuePair<string, Action<string>> pair in assertions)
-            {
-                string path = files.GetFullPath(pair.Key);
-                bool exists = File.Exists(path);
-                Assert.IsTrue(exists, "Expected the existence of file {0}", pair.Key);
-                if (exists && pair.Value != null)
-                {
-                    pair.Value(path);
-                }
-            }
-        }
-
-        /// <summary>
-        /// Gets worker role object from service definition.
-        /// </summary>
-        /// <param name="rootPath">The azure service rootPath path</param>
-        /// <returns>The worker role object</returns>
-        internal static WorkerRole GetWorkerRole(string rootPath, string name)
-        {
-            CloudServiceProject service = new CloudServiceProject(rootPath, null);
-            return service.Components.GetWorkerRole(name);
-        }
-
-        /// <summary>
-        /// Gets web role object from service definition.
-        /// </summary>
-        /// <param name="rootPath">The azure service rootPath path</param>
-        /// <returns>The web role object</returns>
-        internal static WebRole GetWebRole(string rootPath, string name)
-        {
-            CloudServiceProject service = new CloudServiceProject(rootPath, null);
-            return service.Components.GetWebRole(name);
-        }
-
-        /// <summary>
-        /// Gets the role settings object from cloud service configuration.
-        /// </summary>
-        /// <param name="rootPath">The azure service rootPath path</param>
-        /// <returns>The role settings object</returns>
-        internal static RoleSettings GetCloudRole(string rootPath, string name)
-        {
-            CloudServiceProject service = new CloudServiceProject(rootPath, null);
-            return service.Components.GetCloudConfigRole(name);
-        }
-
-        /// <summary>
-        /// Gets the role settings object from local service configuration.
-        /// </summary>
-        /// <param name="rootPath">The azure service rootPath path</param>
-        /// <returns>The role settings object</returns>
-        internal static RoleSettings GetLocalRole(string rootPath, string name)
-        {
-            CloudServiceProject service = new CloudServiceProject(rootPath, null);
-            return service.Components.GetLocalConfigRole(name);
         }
     }
 }
