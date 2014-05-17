@@ -16,7 +16,7 @@
     <AzureRTTestContainer>.\src\ServiceManagement\Compute\Commands.ServiceManagement.Test\bin\Debug\Microsoft.WindowsAzure.Commands.ServiceManagement.Test.dll</AzureRTTestContainer>
     <StorageScenarioTestDebug>src\ServiceManagement\Storage\Commands.Storage.ScenarioTest\bin\Debug\CLITest.dll</StorageScenarioTestDebug>
     <ManagementTestDebug>.\src\ServiceManagement\Services\Commands.Test\bin\Debug\Microsoft.WindowsAzure.Commands.Test.dll</ManagementTestDebug>
-    <ResourceManagerTestDebug>.\src\ResourceManager\Commands.Resources.Test\bin\Debug\Microsoft.Azure.Commands.Resources.Test.dll</ResourceManagerTestDebug>
+    <ResourceManagerTestDebug>.\src\ResourceManager\Resources\Commands.Resources.Test\bin\Debug\Microsoft.Azure.Commands.Resources.Test.dll</ResourceManagerTestDebug>
     <ServiceManagementTestDebug>.\src\ServiceManagement\Compute\Commands.ServiceManagement.Test\bin\Debug\Microsoft.WindowsAzure.Commands.ServiceManagement.Test.dll</ServiceManagementTestDebug>
     <SqlDatabaseTestDebug>.\src\ServiceManagement\Sql\Commands.SqlDatabase.Test\bin\Debug\Microsoft.WindowsAzure.Commands.SqlDatabase.Test.dll</SqlDatabaseTestDebug>
     <HDInsightTestDebug>.\src\ServiceManagement\Services\Commands.HDInsight.Test\bin\Debug\Microsoft.WindowsAzure.Commands.HDInsight.Test.dll</HDInsightTestDebug>    
