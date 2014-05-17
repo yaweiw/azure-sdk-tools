@@ -282,5 +282,49 @@ namespace Microsoft.WindowsAzure.Commands.Test.Utilities.Common
             Assert.IsTrue(Array.Exists<InternalEndpoint>(internalEndpoints, i => i.name == internalEndpoint.name &&
                 i.port == internalEndpoint.port && i.protocol == internalEndpoint.protocol));
         }
+
+        /// <summary>
+        /// Gets worker role object from service definition.
+        /// </summary>
+        /// <param name="rootPath">The azure service rootPath path</param>
+        /// <returns>The worker role object</returns>
+        internal static WorkerRole GetWorkerRole(string rootPath, string name)
+        {
+            CloudServiceProject service = new CloudServiceProject(rootPath, null);
+            return service.Components.GetWorkerRole(name);
+        }
+
+        /// <summary>
+        /// Gets web role object from service definition.
+        /// </summary>
+        /// <param name="rootPath">The azure service rootPath path</param>
+        /// <returns>The web role object</returns>
+        internal static WebRole GetWebRole(string rootPath, string name)
+        {
+            CloudServiceProject service = new CloudServiceProject(rootPath, null);
+            return service.Components.GetWebRole(name);
+        }
+
+        /// <summary>
+        /// Gets the role settings object from cloud service configuration.
+        /// </summary>
+        /// <param name="rootPath">The azure service rootPath path</param>
+        /// <returns>The role settings object</returns>
+        internal static RoleSettings GetCloudRole(string rootPath, string name)
+        {
+            CloudServiceProject service = new CloudServiceProject(rootPath, null);
+            return service.Components.GetCloudConfigRole(name);
+        }
+
+        /// <summary>
+        /// Gets the role settings object from local service configuration.
+        /// </summary>
+        /// <param name="rootPath">The azure service rootPath path</param>
+        /// <returns>The role settings object</returns>
+        internal static RoleSettings GetLocalRole(string rootPath, string name)
+        {
+            CloudServiceProject service = new CloudServiceProject(rootPath, null);
+            return service.Components.GetLocalConfigRole(name);
+        }
     }
 }

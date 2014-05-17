@@ -12,7 +12,7 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-using Microsoft.Azure.Commands.Resources.Properties;
+using ProjectResources = Microsoft.Azure.Commands.Resources.Properties.Resources;
 using Microsoft.Azure.Management.Resources.Models;
 using System;
 
@@ -38,7 +38,7 @@ namespace Microsoft.Azure.Commands.Resources.Models
             }
             if (ResourceType.IndexOf('/') < 0)
             {
-                throw new ArgumentException(Resources.ResourceTypeFormat, "ResourceType");
+                throw new ArgumentException(ProjectResources.ResourceTypeFormat, "ResourceType");
             }
 
             ResourceIdentity identity = new ResourceIdentity

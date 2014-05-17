@@ -12,7 +12,7 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-using Microsoft.Azure.Commands.Resources.Properties;
+using ProjectResources = Microsoft.Azure.Commands.Resources.Properties.Resources;
 using System;
 using System.Collections.Generic;
 
@@ -39,7 +39,7 @@ namespace Microsoft.Azure.Commands.Resources.Models
                 string[] tokens = idFromServer.Split(new[] {'/'}, StringSplitOptions.RemoveEmptyEntries);
                 if (tokens.Length < 8)
                 {
-                    throw new ArgumentException(Resources.InvalidFormatOfResourceId, "idFromServer");
+                    throw new ArgumentException(ProjectResources.InvalidFormatOfResourceId, "idFromServer");
                 }
                 Subscription = tokens[1];
                 ResourceGroupName = tokens[3];

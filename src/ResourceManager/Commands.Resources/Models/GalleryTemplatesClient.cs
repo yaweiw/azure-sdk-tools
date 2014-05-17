@@ -12,7 +12,7 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-using Microsoft.Azure.Commands.Resources.Properties;
+using ProjectResources = Microsoft.Azure.Commands.Resources.Properties.Resources;
 using Microsoft.Azure.Gallery;
 using Microsoft.Azure.Gallery.Models;
 using Microsoft.WindowsAzure;
@@ -68,7 +68,7 @@ namespace Microsoft.Azure.Commands.Resources.Models
             }
             catch (CloudException)
             {
-                throw new ArgumentException(string.Format(Resources.InvalidTemplateIdentity, templateIdentity));
+                throw new ArgumentException(string.Format(ProjectResources.InvalidTemplateIdentity, templateIdentity));
             }
         }
 
@@ -134,8 +134,8 @@ namespace Microsoft.Azure.Commands.Resources.Models
             {
                 confirmAction(
                     overwrite,
-                    string.Format(Resources.FileAlreadyExists, finalOutputPath.ToString()),
-                    Resources.OverrdingFile,
+                    string.Format(ProjectResources.FileAlreadyExists, finalOutputPath.ToString()),
+                    ProjectResources.OverrdingFile,
                     finalOutputPath.ToString(),
                     saveFile);
             }
@@ -279,7 +279,7 @@ namespace Microsoft.Azure.Commands.Resources.Models
                     }
                     catch
                     {
-                        throw new ArgumentException(string.Format(Resources.FailureParsingTemplateParameterObject,
+                        throw new ArgumentException(string.Format(ProjectResources.FailureParsingTemplateParameterObject,
                                                                   dynamicParameter.Key,
                                                                   templateParameterObject[dynamicParameter.Key]));
                     }

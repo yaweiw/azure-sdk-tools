@@ -12,7 +12,7 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-using Microsoft.Azure.Commands.Resources.Properties;
+using ProjectResources = Microsoft.Azure.Commands.Resources.Properties.Resources;
 using Microsoft.Azure.Management.Resources;
 using Microsoft.Azure.Management.Resources.Models;
 using Microsoft.WindowsAzure;
@@ -53,14 +53,14 @@ namespace Microsoft.Azure.Commands.Resources.Models
             else
             {
                 parameters.ConfirmAction(parameters.Force,
-                                             Resources.ResourceGroupDoesntExistsAdd,
-                                             Resources.AddingResourceGroup,
+                                             ProjectResources.ResourceGroupDoesntExistsAdd,
+                                             ProjectResources.AddingResourceGroup,
                                              parameters.Name,
                                              () => CreateResourceGroup(parameters.ResourceGroupName, parameters.Location));
 
                 if (!ResourceManagementClient.ResourceGroups.CheckExistence(parameters.ResourceGroupName).Exists)
                 {
-                    throw new ArgumentException(Resources.ResourceGroupDoesntExists);
+                    throw new ArgumentException(ProjectResources.ResourceGroupDoesntExists);
                 }
             }
 
@@ -90,8 +90,8 @@ namespace Microsoft.Azure.Commands.Resources.Models
             if (resourceExists && !parameters.Force)
             {
                 parameters.ConfirmAction(parameters.Force,
-                                         Resources.ResourceAlreadyExists,
-                                         Resources.NewResourceMessage,
+                                         ProjectResources.ResourceAlreadyExists,
+                                         ProjectResources.NewResourceMessage,
                                          parameters.Name,
                                          createOrUpdateResource);
             }
@@ -123,7 +123,7 @@ namespace Microsoft.Azure.Commands.Resources.Models
             }
             catch (CloudException)
             {
-                throw new ArgumentException(Resources.ResourceDoesntExists);
+                throw new ArgumentException(ProjectResources.ResourceDoesntExists);
             }
 
             string newProperty = SerializeHashtable(parameters.PropertyObject,
@@ -157,7 +157,7 @@ namespace Microsoft.Azure.Commands.Resources.Models
             {
                 if (!ResourceManagementClient.ResourceGroups.CheckExistence(parameters.ResourceGroupName).Exists)
                 {
-                    throw new ArgumentException(Resources.ResourceGroupDoesntExists);
+                    throw new ArgumentException(ProjectResources.ResourceGroupDoesntExists);
                 }
             }
 
@@ -173,7 +173,7 @@ namespace Microsoft.Azure.Commands.Resources.Models
                 }
                 catch (CloudException)
                 {
-                    throw new ArgumentException(Resources.ResourceDoesntExists);
+                    throw new ArgumentException(ProjectResources.ResourceDoesntExists);
                 }
 
                 resources.Add(getResult.Resource.ToPSResource(this));
@@ -219,8 +219,8 @@ namespace Microsoft.Azure.Commands.Resources.Models
             if (resourceExists && !parameters.Force)
             {
                 parameters.ConfirmAction(parameters.Force,
-                    Resources.ResourceGroupAlreadyExists,
-                    Resources.NewResourceGroupMessage,
+                    ProjectResources.ResourceGroupAlreadyExists,
+                    ProjectResources.NewResourceGroupMessage,
                     parameters.DeploymentName,
                     createOrUpdateResourceGroup);
                 resourceGroup = ResourceManagementClient.ResourceGroups.Get(parameters.ResourceGroupName).ResourceGroup;
@@ -289,7 +289,7 @@ namespace Microsoft.Azure.Commands.Resources.Models
             }
             else
             {
-                WriteVerbose(Resources.TemplateValid);
+                WriteVerbose(ProjectResources.TemplateValid);
             }
 
             ResourceManagementClient.Deployments.CreateOrUpdate(parameters.ResourceGroupName, parameters.DeploymentName, deployment);
@@ -340,7 +340,7 @@ namespace Microsoft.Azure.Commands.Resources.Models
                 }
                 catch (CloudException)
                 {
-                    throw new ArgumentException(Resources.ResourceGroupDoesntExists);
+                    throw new ArgumentException(ProjectResources.ResourceGroupDoesntExists);
                 }
             }
 
@@ -357,7 +357,7 @@ namespace Microsoft.Azure.Commands.Resources.Models
 
             if (!ResourceManagementClient.Resources.CheckExistence(parameters.ResourceGroupName, resourceIdentity).Exists)
             {
-                throw new ArgumentException(Resources.ResourceDoesntExists);
+                throw new ArgumentException(ProjectResources.ResourceDoesntExists);
             }
 
             ResourceManagementClient.Resources.Delete(parameters.ResourceGroupName, resourceIdentity);
@@ -371,7 +371,7 @@ namespace Microsoft.Azure.Commands.Resources.Models
         {
             if (!ResourceManagementClient.ResourceGroups.CheckExistence(name).Exists)
             {
-                throw new ArgumentException(Resources.ResourceGroupDoesntExists);
+                throw new ArgumentException(ProjectResources.ResourceGroupDoesntExists);
             }
 
             ResourceManagementClient.ResourceGroups.Delete(name);
@@ -487,7 +487,7 @@ namespace Microsoft.Azure.Commands.Resources.Models
 
             if (errors.Count == 0)
             {
-                WriteVerbose(Resources.TemplateValid);
+                WriteVerbose(ProjectResources.TemplateValid);
             }
             return errors.Select(e => e.ToPSResourceManagerError()).ToList();
         }

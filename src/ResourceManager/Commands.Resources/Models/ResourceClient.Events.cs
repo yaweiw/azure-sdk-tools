@@ -12,7 +12,7 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-using Microsoft.Azure.Commands.Resources.Properties;
+using ProjectResources = Microsoft.Azure.Commands.Resources.Properties.Resources;
 using Microsoft.Azure.Management.Resources;
 using Microsoft.Azure.Management.Resources.Models;
 using Microsoft.WindowsAzure.Management.Monitoring.Events;
@@ -55,7 +55,7 @@ namespace Microsoft.Azure.Commands.Resources.Models
                 }
                 catch
                 {
-                    throw new ArgumentException(string.Format(Resources.DeploymentWithNameNotFound, parameters.DeploymentName));
+                    throw new ArgumentException(string.Format(ProjectResources.DeploymentWithNameNotFound, parameters.DeploymentName));
                 }
 
                 return GetDeploymentLogs(deploymentGetResult.Deployment.Properties.CorrelationId);
@@ -66,18 +66,18 @@ namespace Microsoft.Azure.Commands.Resources.Models
                 try
                 {
                     deploymentListResult = ResourceManagementClient.Deployments.List(parameters.Name,
-                                                                            new DeploymentListParameters
-                                                                                {
-                                                                                    Top = 1
-                                                                                });
+                        new DeploymentListParameters
+                        {
+                            Top = 1
+                        });
                     if (deploymentListResult.Deployments.Count == 0)
                     {
-                        throw new ArgumentException(string.Format(Resources.NoDeploymentWereFound, parameters.Name));
+                        throw new ArgumentException(string.Format(ProjectResources.NoDeploymentWereFound, parameters.Name));
                     }
                 }
                 catch
                 {
-                    throw new ArgumentException(string.Format(Resources.NoDeploymentWereFound, parameters.Name));
+                    throw new ArgumentException(string.Format(ProjectResources.NoDeploymentWereFound, parameters.Name));
                 }
 
                 return GetDeploymentLogs(deploymentListResult.Deployments[0].Properties.CorrelationId);

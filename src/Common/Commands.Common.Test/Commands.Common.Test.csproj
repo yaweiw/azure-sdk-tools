@@ -160,13 +160,11 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Common\AzureAssert.cs" />
     <Compile Include="Common\ClientMocks.cs" />
     <Compile Include="Common\GeneralUtilitiesTests.cs" />
     <Compile Include="Common\Data.cs" />
     <Compile Include="Common\DirStack.cs" />
     <Compile Include="Common\EmbeddedFileWriter.cs" />
-    <Compile Include="Common\FileSystemHelper.cs" />
     <Compile Include="Common\GeneralTests.cs" />
     <Compile Include="Common\JsonUtilitiesTests.cs" />
     <Compile Include="Common\MockCommandRuntime.cs" />
@@ -177,8 +175,8 @@
     <Compile Include="Common\SimpleServiceManagementAsyncResult.cs" />
     <Compile Include="Common\TestBase.cs" />
     <Compile Include="Common\TestDirBuilder.cs" />
-    <Compile Include="Common\Testing.cs" />
     <Compile Include="Common\ConversionUtilitiesTests.cs" />
+    <Compile Include="Common\Testing.cs" />
     <Compile Include="Common\TestingTracingInterceptor.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
@@ -189,10 +187,6 @@
     <Compile Include="Resources\ResourceLocator.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\ServiceManagement\Services\Commands.Utilities\Commands.Utilities.csproj">
-      <Project>{4900ec4e-8deb-4412-9108-0bc52f81d457}</Project>
-      <Name>Commands.Utilities</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Commands.Common.Storage\Commands.Common.Storage.csproj">
       <Project>{65c3a86a-716d-4e7d-ab67-1db00b3bf72d}</Project>
       <Name>Commands.Common.Storage</Name>

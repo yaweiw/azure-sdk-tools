@@ -12,7 +12,7 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-using Microsoft.Azure.Commands.Resources.Properties;
+using ProjectResources = Microsoft.Azure.Commands.Resources.Properties.Resources;
 using Microsoft.Azure.Management.Resources;
 using Microsoft.Azure.Management.Resources.Models;
 using Microsoft.WindowsAzure.Commands.Utilities.Common;
@@ -179,7 +179,7 @@ namespace Microsoft.Azure.Commands.Resources.Models
 
             if (string.IsNullOrEmpty(storageName))
             {
-                throw new ArgumentException(Resources.StorageAccountNameNeedsToBeSpecified);
+                throw new ArgumentException(ProjectResources.StorageAccountNameNeedsToBeSpecified);
             }
 
             return storageName;

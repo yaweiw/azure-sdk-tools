@@ -72,8 +72,8 @@ namespace Microsoft.WindowsAzure.Commands.Test.CloudService.Development.Scaffold
 
                 Assert.IsNull(cacheWorkerRole.Endpoints.InputEndpoint);
 
-                AssertConfigExists(Testing.GetCloudRole(rootPath, roleName));
-                AssertConfigExists(Testing.GetLocalRole(rootPath, roleName), Resources.EmulatorConnectionString);
+                AssertConfigExists(AzureAssert.GetCloudRole(rootPath, roleName));
+                AssertConfigExists(AzureAssert.GetLocalRole(rootPath, roleName), Resources.EmulatorConnectionString);
 
                 PSObject actualOutput = mockCommandRuntime.OutputPipeline[1] as PSObject;
                 Assert.AreEqual<string>(roleName, actualOutput.Members[Parameters.CacheWorkerRoleName].Value.ToString());

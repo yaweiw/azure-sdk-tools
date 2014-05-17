@@ -12,7 +12,7 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-using Microsoft.Azure.Commands.Resources.Properties;
+using ProjectResources = Microsoft.Azure.Commands.Resources.Properties.Resources;
 using System.Management.Automation;
 
 namespace Microsoft.Azure.Commands.Resources.ResourceGroups
@@ -42,8 +42,8 @@ namespace Microsoft.Azure.Commands.Resources.ResourceGroups
         {
             ConfirmAction(
                 Force.IsPresent,
-                string.Format(Resources.CancelResourceGroupDeployment, ResourceGroupName),
-                Resources.CancelResourceGroupDeploymentMessage,
+                string.Format(ProjectResources.CancelResourceGroupDeployment, ResourceGroupName),
+                ProjectResources.CancelResourceGroupDeploymentMessage,
                 ResourceGroupName,
                 () => ResourcesClient.CancelDeployment(ResourceGroupName, Name));
 
