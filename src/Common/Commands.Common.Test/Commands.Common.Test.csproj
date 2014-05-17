@@ -189,7 +189,7 @@
     <Compile Include="Resources\ResourceLocator.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Commands.Utilities\Commands.Utilities.csproj">
+    <ProjectReference Include="..\..\ServiceManagement\Services\Commands.Utilities\Commands.Utilities.csproj">
       <Project>{4900ec4e-8deb-4412-9108-0bc52f81d457}</Project>
       <Name>Commands.Utilities</Name>
     </ProjectReference>

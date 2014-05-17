@@ -1,0 +1,1033 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{4900EC4E-8DEB-4412-9108-0BC52F81D457}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Microsoft.WindowsAzure.Commands.Utilities</RootNamespace>
+    <AssemblyName>Microsoft.WindowsAzure.Commands.Utilities</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\..\..\</SolutionDir>
+    <RestorePackages>true</RestorePackages>
+    <CodeAnalysisAdditionalOptions>/assemblyCompareMode:StrongNameIgnoringVersion</CodeAnalysisAdditionalOptions>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\..\..\..\Package\Debug\ServiceManagement\Azure</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <RunCodeAnalysis>true</RunCodeAnalysis>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>..\..\..\..\Package\Release\ServiceManagement\Azure</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>..\..\..\..\Package\Debug\ServiceManagement\Azure</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <CodeAnalysisLogFile>bin\x64\Debug\Management.Utilities.dll.CodeAnalysisLog.xml</CodeAnalysisLogFile>
+    <CodeAnalysisUseTypeNameInSuppression>true</CodeAnalysisUseTypeNameInSuppression>
+    <CodeAnalysisModuleSuppressionsFile>GlobalSuppressions.cs</CodeAnalysisModuleSuppressionsFile>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRuleSetDirectories>;$(ProgramFiles)\Microsoft Visual Studio 10.0\Team Tools\Static Analysis Tools\\Rule Sets</CodeAnalysisRuleSetDirectories>
+    <CodeAnalysisIgnoreBuiltInRuleSets>true</CodeAnalysisIgnoreBuiltInRuleSets>
+    <CodeAnalysisRuleDirectories>;$(ProgramFiles)\Microsoft Visual Studio 10.0\Team Tools\Static Analysis Tools\FxCop\\Rules</CodeAnalysisRuleDirectories>
+    <CodeAnalysisIgnoreBuiltInRules>true</CodeAnalysisIgnoreBuiltInRules>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <OutputPath>..\..\..\..\Package\Release\ServiceManagement\Azure</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <CodeAnalysisLogFile>bin\Release\Management.Utilities.dll.CodeAnalysisLog.xml</CodeAnalysisLogFile>
+    <CodeAnalysisUseTypeNameInSuppression>true</CodeAnalysisUseTypeNameInSuppression>
+    <CodeAnalysisModuleSuppressionsFile>GlobalSuppressions.cs</CodeAnalysisModuleSuppressionsFile>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRuleSetDirectories>;$(ProgramFiles)\Microsoft Visual Studio 10.0\Team Tools\Static Analysis Tools\\Rule Sets</CodeAnalysisRuleSetDirectories>
+    <CodeAnalysisIgnoreBuiltInRuleSets>true</CodeAnalysisIgnoreBuiltInRuleSets>
+    <CodeAnalysisRuleDirectories>;$(ProgramFiles)\Microsoft Visual Studio 10.0\Team Tools\Static Analysis Tools\FxCop\\Rules</CodeAnalysisRuleDirectories>
+    <CodeAnalysisIgnoreBuiltInRules>true</CodeAnalysisIgnoreBuiltInRules>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'ReleaseSigned|AnyCPU'">
+    <OutputPath>..\..\..\..\Package\Release\ServiceManagement\Azure</OutputPath>
+    <DefineConstants>TRACE;SIGN</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <CodeAnalysisLogFile>bin\Release\Management.Utilities.dll.CodeAnalysisLog.xml</CodeAnalysisLogFile>
+    <CodeAnalysisUseTypeNameInSuppression>true</CodeAnalysisUseTypeNameInSuppression>
+    <CodeAnalysisModuleSuppressionsFile>GlobalSuppressions.cs</CodeAnalysisModuleSuppressionsFile>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRuleSetDirectories>;$(ProgramFiles)\Microsoft Visual Studio 10.0\Team Tools\Static Analysis Tools\\Rule Sets</CodeAnalysisRuleSetDirectories>
+    <CodeAnalysisRuleDirectories>;$(ProgramFiles)\Microsoft Visual Studio 10.0\Team Tools\Static Analysis Tools\FxCop\\Rules</CodeAnalysisRuleDirectories>
+    <SignAssembly>true</SignAssembly>
+    <AssemblyOriginatorKeyFile>MSSharedLibKey.snk</AssemblyOriginatorKeyFile>
+    <DelaySign>true</DelaySign>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'ReleaseSigned|x64'">
+    <OutputPath>..\..\..\..\Package\Release\ServiceManagement\Azure</OutputPath>
+    <DefineConstants>TRACE;SIGN</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <CodeAnalysisLogFile>bin\Release\Management.Utilities.dll.CodeAnalysisLog.xml</CodeAnalysisLogFile>
+    <CodeAnalysisUseTypeNameInSuppression>true</CodeAnalysisUseTypeNameInSuppression>
+    <CodeAnalysisModuleSuppressionsFile>GlobalSuppressions.cs</CodeAnalysisModuleSuppressionsFile>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRuleSetDirectories>;$(ProgramFiles)\Microsoft Visual Studio 10.0\Team Tools\Static Analysis Tools\\Rule Sets</CodeAnalysisRuleSetDirectories>
+    <CodeAnalysisIgnoreBuiltInRuleSets>true</CodeAnalysisIgnoreBuiltInRuleSets>
+    <CodeAnalysisRuleDirectories>;$(ProgramFiles)\Microsoft Visual Studio 10.0\Team Tools\Static Analysis Tools\FxCop\\Rules</CodeAnalysisRuleDirectories>
+    <CodeAnalysisIgnoreBuiltInRules>true</CodeAnalysisIgnoreBuiltInRules>
+    <SignAssembly>true</SignAssembly>
+    <AssemblyOriginatorKeyFile>MSSharedLibKey.snk</AssemblyOriginatorKeyFile>
+    <DelaySign>true</DelaySign>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="AutoMapper, Version=3.1.1.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\packages\AutoMapper.3.1.1\lib\net40\AutoMapper.dll</HintPath>
+    </Reference>
+    <Reference Include="AutoMapper.Net4, Version=3.1.1.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL" />
+    <Reference Include="Microsoft.Azure.Management.Automation, Version=0.9.0.0, Culture=neutral, PublicKeyToken=c66ce9294aae1300, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\packages\Microsoft.Azure.Management.Automation.0.9.0-preview\lib\net40\Microsoft.Azure.Management.Automation.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Build" />
+    <Reference Include="Microsoft.Build.Framework" />
+    <Reference Include="Microsoft.Data.Edm, Version=5.6.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\Microsoft.Data.Edm.5.6.0\lib\net40\Microsoft.Data.Edm.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Data.OData, Version=5.6.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\Microsoft.Data.OData.5.6.0\lib\net40\Microsoft.Data.OData.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Data.Services.Client, Version=5.6.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\Microsoft.Data.Services.Client.5.6.0\lib\net40\Microsoft.Data.Services.Client.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Hadoop.Client, Version=1.1.1.4, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\packages\Microsoft.Hadoop.Client.1.1.1.4\lib\net40\Microsoft.Hadoop.Client.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.IdentityModel.Clients.ActiveDirectory, Version=2.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\packages\Microsoft.IdentityModel.Clients.ActiveDirectory.1.0.3\lib\net40\Microsoft.IdentityModel.Clients.ActiveDirectory.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.IdentityModel.Clients.ActiveDirectory.WindowsForms, Version=2.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\packages\Microsoft.IdentityModel.Clients.ActiveDirectory.1.0.3\lib\net40\Microsoft.IdentityModel.Clients.ActiveDirectory.WindowsForms.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.ServiceBus, Version=2.3.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\WindowsAzure.ServiceBus.2.3.2.0\lib\net40-full\Microsoft.ServiceBus.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Threading.Tasks, Version=1.0.12.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\packages\Microsoft.Bcl.Async.1.0.165\lib\net40\Microsoft.Threading.Tasks.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Threading.Tasks.Extensions, Version=1.0.12.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\packages\Microsoft.Bcl.Async.1.0.165\lib\net40\Microsoft.Threading.Tasks.Extensions.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Threading.Tasks.Extensions.Desktop, Version=1.0.165.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\packages\Microsoft.Bcl.Async.1.0.165\lib\net40\Microsoft.Threading.Tasks.Extensions.Desktop.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Web.Deployment, Version=9.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\lib\Microsoft.Web.Deployment.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.WindowsAzure.Common, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\packages\Microsoft.WindowsAzure.Common.1.0.3\lib\net40\Microsoft.WindowsAzure.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.WindowsAzure.Common.NetFramework, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\packages\Microsoft.WindowsAzure.Common.1.0.3\lib\net40\Microsoft.WindowsAzure.Common.NetFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.WindowsAzure.Configuration, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\Microsoft.WindowsAzure.ConfigurationManager.2.0.3\lib\net40\Microsoft.WindowsAzure.Configuration.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.WindowsAzure.Management, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\packages\Microsoft.WindowsAzure.Management.1.0.0\lib\net40\Microsoft.WindowsAzure.Management.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.WindowsAzure.Management.Compute, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\packages\Microsoft.WindowsAzure.Management.Compute.2.0.1\lib\net40\Microsoft.WindowsAzure.Management.Compute.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.WindowsAzure.Management.ExpressRoute, Version=0.9.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\packages\Microsoft.WindowsAzure.Management.ExpressRoute.0.1.3-preview\lib\net40\Microsoft.WindowsAzure.Management.ExpressRoute.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.WindowsAzure.Management.HDInsight, Version=1.1.1.4, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\packages\Microsoft.WindowsAzure.Management.HDInsight.1.1.1.4\lib\net40\Microsoft.WindowsAzure.Management.HDInsight.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.WindowsAzure.Management.HDInsight.Framework, Version=1.1.1.4, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\packages\Microsoft.Hadoop.Client.1.1.1.4\lib\net40\Microsoft.WindowsAzure.Management.HDInsight.Framework.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.WindowsAzure.Management.HDInsight.Framework.Core, Version=1.1.1.4, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\packages\Microsoft.Hadoop.Client.1.1.1.4\lib\net40\Microsoft.WindowsAzure.Management.HDInsight.Framework.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.WindowsAzure.Management.MediaServices, Version=0.9.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\packages\Microsoft.WindowsAzure.Management.MediaServices.1.0.0\lib\net40\Microsoft.WindowsAzure.Management.MediaServices.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.WindowsAzure.Management.Network, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\packages\Microsoft.WindowsAzure.Management.Network.2.0.1\lib\net40\Microsoft.WindowsAzure.Management.Network.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.WindowsAzure.Management.Scheduler, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\packages\Microsoft.WindowsAzure.Management.Scheduler.1.0.0\lib\net40\Microsoft.WindowsAzure.Management.Scheduler.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.WindowsAzure.Management.ServiceBus, Version=0.9.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\packages\Microsoft.WindowsAzure.Management.ServiceBus.0.9.8-preview\lib\net40\Microsoft.WindowsAzure.Management.ServiceBus.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.WindowsAzure.Management.Storage, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\packages\Microsoft.WindowsAzure.Management.Storage.1.0.0\lib\net40\Microsoft.WindowsAzure.Management.Storage.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.WindowsAzure.Management.Store, Version=0.9.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\packages\Microsoft.WindowsAzure.Management.Store.0.9.5-preview\lib\net40\Microsoft.WindowsAzure.Management.Store.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.WindowsAzure.Management.TrafficManager">
+      <HintPath>..\..\..\packages\Microsoft.WindowsAzure.Management.TrafficManager.0.9.0-preview\lib\net40\Microsoft.WindowsAzure.Management.TrafficManager.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.WindowsAzure.Management.VirtualNetworks, Version=0.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\packages\Microsoft.WindowsAzure.Management.VirtualNetworks.0.9.9-preview\lib\net40\Microsoft.WindowsAzure.Management.VirtualNetworks.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.WindowsAzure.Management.WebSites, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\packages\Microsoft.WindowsAzure.Management.WebSites.1.0.0\lib\net40\Microsoft.WindowsAzure.Management.WebSites.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.WindowsAzure.ServiceManagement.Client">
+      <HintPath>..\..\..\lib\Microsoft.WindowsAzure.ServiceManagement.Client.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.WindowsAzure.Storage, Version=3.0.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\packages\WindowsAzure.Storage.3.0.3.0\lib\net40\Microsoft.WindowsAzure.Storage.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\Newtonsoft.Json.5.0.8\lib\net40\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.IO">
+      <HintPath>..\..\..\packages\Microsoft.Bcl.1.1.6\lib\net40\System.IO.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Management.Automation, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
+    <Reference Include="System.Net" />
+    <Reference Include="System.Net.Http, Version=2.2.18.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\packages\Microsoft.Net.Http.2.2.18\lib\net40\System.Net.Http.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http.Extensions, Version=2.2.18.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\packages\Microsoft.Net.Http.2.2.18\lib\net40\System.Net.Http.Extensions.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http.Formatting, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\Microsoft.AspNet.WebApi.Client.4.0.30506.0\lib\net40\System.Net.Http.Formatting.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http.Primitives, Version=2.2.18.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\packages\Microsoft.Net.Http.2.2.18\lib\net40\System.Net.Http.Primitives.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http.WebRequest, Version=2.2.18.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\packages\Microsoft.Net.Http.2.2.18\lib\net40\System.Net.Http.WebRequest.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime">
+      <HintPath>..\..\..\packages\Microsoft.Bcl.1.1.6\lib\net40\System.Runtime.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.ServiceModel" />
+    <Reference Include="System.ServiceModel.Web" />
+    <Reference Include="System.Spatial, Version=5.6.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\System.Spatial.5.6.0\lib\net40\System.Spatial.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Threading.Tasks">
+      <HintPath>..\..\..\packages\Microsoft.Bcl.1.1.6\lib\net40\System.Threading.Tasks.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Automation\AutomationClient.cs" />
+    <Compile Include="Automation\Constants.cs" />
+    <Compile Include="Automation\DataContracts\ErrorResponse.cs" />
+    <Compile Include="Automation\DataContracts\OdataError.cs" />
+    <Compile Include="Automation\DataContracts\OdataErrorMessage.cs" />
+    <Compile Include="Automation\IAutomationClient.cs" />
+    <Compile Include="Automation\Models\AutomationAccount.cs" />
+    <Compile Include="Automation\Models\DailySchedule.cs" />
+    <Compile Include="Automation\Models\Job.cs" />
+    <Compile Include="Automation\Models\JobParameter.cs" />
+    <Compile Include="Automation\Models\JobStreamItem.cs" />
+    <Compile Include="Automation\Models\OneTimeSchedule.cs" />
+    <Compile Include="Automation\Models\Runbook.cs" />
+    <Compile Include="Automation\Models\RunbookDefinition.cs" />
+    <Compile Include="Automation\Models\RunbookParameter.cs" />
+    <Compile Include="Automation\Models\RunbookVersion.cs" />
+    <Compile Include="Automation\Models\Schedule.cs" />
+    <Compile Include="Automation\Requires.cs" />
+    <Compile Include="Automation\RequiresExtensions.cs" />
+    <Compile Include="Automation\ResourceNotFoundException.cs" />
+    <Compile Include="CloudService\AddRole.cs" />
+    <Compile Include="CloudService\CacheConfigurationFactory.cs" />
+    <Compile Include="CloudService\CloudServiceClient.cs" />
+    <Compile Include="CloudService\ICloudServiceClient.cs" />
+    <Compile Include="CloudService\Model\ConfigurationSet.cs" />
+    <Compile Include="CloudService\Model\Deployment.cs" />
+    <Compile Include="CloudService\Model\DeploymentStatus.cs" />
+    <Compile Include="CloudService\Model\DnsSettings.cs" />
+    <Compile Include="CloudService\Model\InstanceEndpoint.cs" />
+    <Compile Include="CloudService\Model\PersistentVMDowntimeInfo.cs" />
+    <Compile Include="CloudService\Model\Role.cs" />
+    <Compile Include="CloudService\Model\RoleInstance.cs" />
+    <Compile Include="CloudService\Model\UpgradeStatus.cs" />
+    <Compile Include="CloudService\Model\VirtualIP.cs" />
+    <Compile Include="CloudService\SetSettings.cs" />
+    <Compile Include="Common\AzureTools\AzureTool.cs" />
+    <Compile Include="Common\AzureTools\CsEncrypt.cs" />
+    <Compile Include="Common\AzureTools\CsPack.cs" />
+    <Compile Include="Common\AzureTools\CsRun.cs" />
+    <Compile Include="Common\AzureTools\StorageEmulator.cs" />
+    <Compile Include="Common\CloudBlobUtility.cs" />
+    <Compile Include="Common\CloudRuntime.cs" />
+    <Compile Include="Common\CloudRuntimeApplicator.cs" />
+    <Compile Include="Common\CloudRuntimeCollection.cs" />
+    <Compile Include="Common\CloudRuntimePackage.cs" />
+    <Compile Include="Common\CloudServicePathInfo.cs" />
+    <Compile Include="Common\CloudServiceProject.cs" />
+    <Compile Include="Common\CommonUtilities.cs" />
+    <Compile Include="Common\ComputeEmulatorMode.cs" />
+    <Compile Include="Common\JavaScriptPackageHelpers.cs" />
+    <Compile Include="Common\ObjectDeltaMapper.cs" />
+    <Compile Include="Common\PowerShellProjectPathInfo.cs" />
+    <Compile Include="Common\PublishContext.cs" />
+    <Compile Include="Common\RoleInfo.cs" />
+    <Compile Include="Common\Scaffolding\NodeRules.cs" />
+    <Compile Include="Common\Scaffolding\PHPRules.cs" />
+    <Compile Include="Common\Scaffolding\PythonRules.cs" />
+    <Compile Include="Common\Scaffolding\Scaffold.cs" />
+    <Compile Include="Common\Scaffolding\ScaffoldFile.cs" />
+    <Compile Include="Common\Scaffolding\ScaffoldParams.cs" />
+    <Compile Include="Common\ServiceComponents.cs" />
+    <Compile Include="Common\ServiceManagementClientExtensions.cs" />
+    <Compile Include="Common\ServiceSettings.cs" />
+    <Compile Include="Common\StandardHeadersHandler.cs" />
+    <Compile Include="Common\CloudBaseCmdlet.cs" />
+    <Compile Include="Common\ServiceManagementBaseCmdlet.cs" />
+    <Compile Include="Common\AzureException.cs" />
+    <Compile Include="Common\ManagementOperationContext.cs" />
+    <Compile Include="Common\CloudServiceProjectConfiguration.cs" />
+    <Compile Include="Common\AzureBlob.cs" />
+    <Compile Include="Common\ConfigurationConstants.cs" />
+    <Compile Include="Common\ErrorHelper.cs" />
+    <Compile Include="Common\ChannelHelper.cs" />
+    <Compile Include="Common\VisualStudioProjectPathInfo.cs" />
+    <Compile Include="Common\WebRoleInfo.cs" />
+    <Compile Include="Common\WorkerRoleInfo.cs" />
+    <Compile Include="ExpressRoute\ExpressRouteBaseCmdlet.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ExpressRoute\ExpressRouteClient.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ExpressRoute\ValidateGuid.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="HDInsight\Commands\BaseCommandInterfaces\IAddAzureHDInsightConfigValuesBase.cs" />
+    <Compile Include="HDInsight\Commands\BaseCommandInterfaces\IAddAzureHDInsightMetaStoreBase.cs" />
+    <Compile Include="HDInsight\Commands\BaseCommandInterfaces\IAddAzureHDInsightStorageBase.cs" />
+    <Compile Include="HDInsight\Commands\BaseCommandInterfaces\IAzureHDInsightStorageHandler.cs" />
+    <Compile Include="HDInsight\Commands\BaseCommandInterfaces\IAzureHDInsightStorageHandlerFactory.cs" />
+    <Compile Include="HDInsight\Commands\BaseCommandInterfaces\IGetAzureHDInsightJobBase.cs" />
+    <Compile Include="HDInsight\Commands\BaseCommandInterfaces\IGetAzureHDInsightJobOutputBase.cs" />
+    <Compile Include="HDInsight\Commands\BaseCommandInterfaces\IManageAzureHDInsightHttpAccessBase.cs" />
+    <Compile Include="HDInsight\Commands\BaseCommandInterfaces\INewAzureHDInsightClusterBase.cs" />
+    <Compile Include="HDInsight\Commands\BaseCommandInterfaces\INewAzureHDInsightClusterConfigBase.cs" />
+    <Compile Include="HDInsight\Commands\BaseCommandInterfaces\INewAzureHDInsightHiveJobDefinitionBase.cs" />
+    <Compile Include="HDInsight\Commands\BaseCommandInterfaces\INewAzureHDInsightJobDefinitionBase.cs" />
+    <Compile Include="HDInsight\Commands\BaseCommandInterfaces\INewAzureHDInsightJobWithParameterConfigBase.cs" />
+    <Compile Include="HDInsight\Commands\BaseCommandInterfaces\INewAzureHDInsightMapReduceJobDefinitionBase.cs" />
+    <Compile Include="HDInsight\Commands\BaseCommandInterfaces\INewAzureHDInsightPigJobDefinitionBase.cs" />
+    <Compile Include="HDInsight\Commands\BaseCommandInterfaces\INewAzureHDInsightSqoopJobDefinitionBase.cs" />
+    <Compile Include="HDInsight\Commands\BaseCommandInterfaces\INewAzureHDInsightStreamingJobDefinitionBase.cs" />
+    <Compile Include="HDInsight\Commands\BaseCommandInterfaces\ISetAzureHDInsightDefaultStorageBase.cs" />
+    <Compile Include="HDInsight\Commands\BaseCommandInterfaces\IStartAzureHDInsightJobBase.cs" />
+    <Compile Include="HDInsight\Commands\BaseCommandInterfaces\IStopAzureHDInsightJobBase.cs" />
+    <Compile Include="HDInsight\Commands\BaseCommandInterfaces\IWaitAzureHDInsightJobBase.cs" />
+    <Compile Include="HDInsight\Commands\CommandImplementations\AddAzureHDInsightConfigValuesCommand.cs" />
+    <Compile Include="HDInsight\Commands\CommandImplementations\AddAzureHDInsightMetastoreCommand.cs" />
+    <Compile Include="HDInsight\Commands\CommandImplementations\AddAzureHDInsightStorageCommand.cs" />
+    <Compile Include="HDInsight\Commands\CommandImplementations\AzureHDInsightStorageHandler.cs" />
+    <Compile Include="HDInsight\Commands\CommandImplementations\AzureHDInsightStorageHandlerFactory.cs" />
+    <Compile Include="HDInsight\Commands\CommandImplementations\GatewayUriResolver.cs" />
+    <Compile Include="HDInsight\Commands\CommandImplementations\GetAzureHDInsightClusterCommand.cs" />
+    <Compile Include="HDInsight\Commands\CommandImplementations\GetAzureHDInsightJobCommand.cs" />
+    <Compile Include="HDInsight\Commands\CommandImplementations\GetAzureHDInsightJobOutputCommand.cs" />
+    <Compile Include="HDInsight\Commands\CommandImplementations\GetAzureHDInsightPropertiesCommand.cs" />
+    <Compile Include="HDInsight\Commands\CommandImplementations\InvokeHiveCommand.cs" />
+    <Compile Include="HDInsight\Commands\CommandImplementations\ManageAzureHDInsightHttpAccessCommand.cs" />
+    <Compile Include="HDInsight\Commands\CommandImplementations\NewAzureHDInsightClusterCommand.cs" />
+    <Compile Include="HDInsight\Commands\CommandImplementations\NewAzureHDInsightClusterConfigCommand.cs" />
+    <Compile Include="HDInsight\Commands\CommandImplementations\NewAzureHDInsightHiveJobDefinitionCommand.cs" />
+    <Compile Include="HDInsight\Commands\CommandImplementations\NewAzureHDInsightMapReduceJobDefinitionCommand.cs" />
+    <Compile Include="HDInsight\Commands\CommandImplementations\NewAzureHDInsightPigJobDefinitionCommand.cs" />
+    <Compile Include="HDInsight\Commands\CommandImplementations\NewAzureHDInsightSqoopJobDefinitionCommand.cs" />
+    <Compile Include="HDInsight\Commands\CommandImplementations\NewAzureHDInsightStreamingJobDefinitionCommand.cs" />
+    <Compile Include="HDInsight\Commands\CommandImplementations\RemoveAzureHDInsightClusterCommand.cs" />
+    <Compile Include="HDInsight\Commands\CommandImplementations\SetAzureHDInsightDefaultStorageCommand.cs" />
+    <Compile Include="HDInsight\Commands\CommandImplementations\StartAzureHDInsightJobCommand.cs" />
+    <Compile Include="HDInsight\Commands\CommandImplementations\StopAzureHDInsightJobCommand.cs" />
+    <Compile Include="HDInsight\Commands\CommandImplementations\UseAzureHDInsightClusterCommand.cs" />
+    <Compile Include="HDInsight\Commands\CommandImplementations\WaitAzureHDInsightJobCommand.cs" />
+    <Compile Include="HDInsight\Commands\CommandInterfaces\IAddAzureHDInsightConfigValuesCommand.cs" />
+    <Compile Include="HDInsight\Commands\CommandInterfaces\IAddAzureHDInsightMetaStoreCommand.cs" />
+    <Compile Include="HDInsight\Commands\CommandInterfaces\IAddAzureHDInsightStorageCommand.cs" />
+    <Compile Include="HDInsight\Commands\CommandInterfaces\IGetAzureHDInsightClusterCommand.cs" />
+    <Compile Include="HDInsight\Commands\CommandInterfaces\IGetAzureHDInsightJobCommand.cs" />
+    <Compile Include="HDInsight\Commands\CommandInterfaces\IGetAzureHDInsightJobOutputCommand.cs" />
+    <Compile Include="HDInsight\Commands\CommandInterfaces\IGetAzureHDInsightPropertiesCommand.cs" />
+    <Compile Include="HDInsight\Commands\CommandInterfaces\IInvokeHiveCommand.cs" />
+    <Compile Include="HDInsight\Commands\CommandInterfaces\IManageAzureHDInsightHttpAccessCommand.cs" />
+    <Compile Include="HDInsight\Commands\CommandInterfaces\INewAzureHDInsightClusterCommand.cs" />
+    <Compile Include="HDInsight\Commands\CommandInterfaces\INewAzureHDInsightClusterConfigCommand.cs" />
+    <Compile Include="HDInsight\Commands\CommandInterfaces\INewAzureHDInsightHiveJobDefinitionCommand.cs" />
+    <Compile Include="HDInsight\Commands\CommandInterfaces\INewAzureHDInsightMapReduceJobDefinitionCommand.cs" />
+    <Compile Include="HDInsight\Commands\CommandInterfaces\INewAzureHDInsightPigJobDefinitionCommand.cs" />
+    <Compile Include="HDInsight\Commands\CommandInterfaces\INewAzureHDInsightSqoopJobDefinitionCommand.cs" />
+    <Compile Include="HDInsight\Commands\CommandInterfaces\INewAzureHDInsightStreamingJobDefinitionCommand.cs" />
+    <Compile Include="HDInsight\Commands\CommandInterfaces\IRemoveAzureHDInsightClusterCommand.cs" />
+    <Compile Include="HDInsight\Commands\CommandInterfaces\ISetAzureHDInsightDefaultStorageCommand.cs" />
+    <Compile Include="HDInsight\Commands\CommandInterfaces\IStartAzureHDInsightJobCommand.cs" />
+    <Compile Include="HDInsight\Commands\CommandInterfaces\IStopAzureHDInsightJobCommand.cs" />
+    <Compile Include="HDInsight\Commands\CommandInterfaces\IUseAzureHDInsightClusterCommand.cs" />
+    <Compile Include="HDInsight\Commands\CommandInterfaces\IWaitAzureHDInsightJobCommand.cs" />
+    <Compile Include="HDInsight\DataObjects\AzureHDInsightCapabilities.cs" />
+    <Compile Include="HDInsight\DataObjects\AzureHDInsightCluster.cs" />
+    <Compile Include="HDInsight\DataObjects\AzureHDInsightClusterConnection.cs" />
+    <Compile Include="HDInsight\DataObjects\AzureHDInsightConfig.cs" />
+    <Compile Include="HDInsight\DataObjects\AzureHDInsightDefaultStorageAccount.cs" />
+    <Compile Include="HDInsight\DataObjects\AzureHDInsightHiveConfiguration.cs" />
+    <Compile Include="HDInsight\DataObjects\AzureHDInsightHiveJobDefinition.cs" />
+    <Compile Include="HDInsight\DataObjects\AzureHDInsightJob.cs" />
+    <Compile Include="HDInsight\DataObjects\AzureHDInsightJobBase.cs" />
+    <Compile Include="HDInsight\DataObjects\AzureHDInsightJobDefinition.cs" />
+    <Compile Include="HDInsight\DataObjects\AzureHDInsightMapReduceConfiguration.cs" />
+    <Compile Include="HDInsight\DataObjects\AzureHDInsightMapReduceJobDefinition.cs" />
+    <Compile Include="HDInsight\DataObjects\AzureHDInsightMetastore.cs" />
+    <Compile Include="HDInsight\DataObjects\AzureHDInsightMetastoreType.cs" />
+    <Compile Include="HDInsight\DataObjects\AzureHDInsightOozieConfiguration.cs" />
+    <Compile Include="HDInsight\DataObjects\AzureHDInsightPigJobDefinition.cs" />
+    <Compile Include="HDInsight\DataObjects\AzureHDInsightSqoopJobDefinition.cs" />
+    <Compile Include="HDInsight\DataObjects\AzureHDInsightStorageAccount.cs" />
+    <Compile Include="HDInsight\DataObjects\AzureHDInsightStreamingMapReduceJobDefinition.cs" />
+    <Compile Include="HDInsight\DataObjects\JobOutputType.cs" />
+    <Compile Include="HDInsight\GetAzureHDInsightClusters\AzureHDInsightClientFactory.cs" />
+    <Compile Include="HDInsight\GetAzureHDInsightClusters\AzureHDInsightClusterCommand.cs" />
+    <Compile Include="HDInsight\GetAzureHDInsightClusters\AzureHDInsightClusterCommandBase.cs" />
+    <Compile Include="HDInsight\GetAzureHDInsightClusters\AzureHDInsightCommand.cs" />
+    <Compile Include="HDInsight\GetAzureHDInsightClusters\AzureHDInsightCommandBase.cs" />
+    <Compile Include="HDInsight\GetAzureHDInsightClusters\AzureHDInsightCommandExtensions.cs" />
+    <Compile Include="HDInsight\GetAzureHDInsightClusters\AzureHDInsightCommandFactory.cs" />
+    <Compile Include="HDInsight\GetAzureHDInsightClusters\AzureHDInsightConnectionSessionManager.cs" />
+    <Compile Include="HDInsight\GetAzureHDInsightClusters\AzureHDInsightConnectionSessionManagerFactory.cs" />
+    <Compile Include="HDInsight\GetAzureHDInsightClusters\AzureHDInsightJobCommand.cs" />
+    <Compile Include="HDInsight\GetAzureHDInsightClusters\AzureHDInsightJobCommandBase.cs" />
+    <Compile Include="HDInsight\GetAzureHDInsightClusters\AzureHDInsightJobCommandExecutorBase.cs" />
+    <Compile Include="HDInsight\GetAzureHDInsightClusters\AzureHDInsightJobExecutorCommand.cs" />
+    <Compile Include="HDInsight\GetAzureHDInsightClusters\AzureHDInsightJobSubmissionClientFactory.cs" />
+    <Compile Include="HDInsight\GetAzureHDInsightClusters\AzureHDInsightNewJobDefinitionCommand.cs" />
+    <Compile Include="HDInsight\GetAzureHDInsightClusters\AzureHDInsightNewJobDefinitionCommandBase.cs" />
+    <Compile Include="HDInsight\GetAzureHDInsightClusters\AzureHDInsightSubscriptionResolver.cs" />
+    <Compile Include="HDInsight\GetAzureHDInsightClusters\AzureHDInsightSubscriptionResolverFactory.cs" />
+    <Compile Include="HDInsight\GetAzureHDInsightClusters\BaseInterfaces\IAzureHDInsightClusterCommand.cs" />
+    <Compile Include="HDInsight\GetAzureHDInsightClusters\BaseInterfaces\IAzureHDInsightClusterCommandBase.cs" />
+    <Compile Include="HDInsight\GetAzureHDInsightClusters\BaseInterfaces\IAzureHDInsightClusterManagementClientFactory.cs" />
+    <Compile Include="HDInsight\GetAzureHDInsightClusters\BaseInterfaces\IAzureHDInsightCommand.cs" />
+    <Compile Include="HDInsight\GetAzureHDInsightClusters\BaseInterfaces\IAzureHDInsightCommandBase.cs" />
+    <Compile Include="HDInsight\GetAzureHDInsightClusters\BaseInterfaces\IAzureHDInsightCommonCommandBase.cs" />
+    <Compile Include="HDInsight\GetAzureHDInsightClusters\BaseInterfaces\IAzureHDInsightJobCommand.cs" />
+    <Compile Include="HDInsight\GetAzureHDInsightClusters\BaseInterfaces\IAzureHDInsightJobCommandBase.cs" />
+    <Compile Include="HDInsight\GetAzureHDInsightClusters\BaseInterfaces\IAzureHDInsightJobCommandCredentialsBase.cs" />
+    <Compile Include="HDInsight\GetAzureHDInsightClusters\BaseInterfaces\IAzureHDInsightJobSubmissionClientFactory.cs" />
+    <Compile Include="HDInsight\GetAzureHDInsightClusters\BaseInterfaces\IAzureHDInsightSubscriptionResolver.cs" />
+    <Compile Include="HDInsight\GetAzureHDInsightClusters\BaseInterfaces\IAzureHDInsightSubscriptionResolverFactory.cs" />
+    <Compile Include="HDInsight\GetAzureHDInsightClusters\Extensions\CollectionExtensions.cs" />
+    <Compile Include="HDInsight\GetAzureHDInsightClusters\Extensions\ExceptionExtensions.cs" />
+    <Compile Include="HDInsight\GetAzureHDInsightClusters\Extensions\Help.cs" />
+    <Compile Include="HDInsight\GetAzureHDInsightClusters\Extensions\NullLogWriter.cs" />
+    <Compile Include="HDInsight\GetAzureHDInsightClusters\Extensions\ObjectExtensions.cs" />
+    <Compile Include="HDInsight\GetAzureHDInsightClusters\Extensions\PsCmdletExtensions.cs" />
+    <Compile Include="HDInsight\GetAzureHDInsightClusters\Extensions\PSCredentialsExtensionMethods.cs" />
+    <Compile Include="HDInsight\GetAzureHDInsightClusters\Extensions\QueueExtensions.cs" />
+    <Compile Include="HDInsight\GetAzureHDInsightClusters\Extensions\StackExtensions.cs" />
+    <Compile Include="HDInsight\GetAzureHDInsightClusters\Extensions\StringExtensions.cs" />
+    <Compile Include="HDInsight\GetAzureHDInsightClusters\Extensions\TaskExtensions.cs" />
+    <Compile Include="HDInsight\GetAzureHDInsightClusters\Extensions\ValidatedNotNullAttribute.cs" />
+    <Compile Include="HDInsight\GetAzureHDInsightClusters\IAzureHDInsightCommandFactory.cs" />
+    <Compile Include="HDInsight\GetAzureHDInsightClusters\IAzureHDInsightConnectionSessionManager.cs" />
+    <Compile Include="HDInsight\GetAzureHDInsightClusters\IAzureHDInsightConnectionSessionManagerFactory.cs" />
+    <Compile Include="HDInsight\GetAzureHDInsightClusters\ICancelCommand.cs" />
+    <Compile Include="HDInsight\GetAzureHDInsightClusters\IInvokeAzureHDInsightJobCommand.cs" />
+    <Compile Include="HDInsight\GetAzureHDInsightClusters\InvokeAzureHDInsightJobCommandBase.cs" />
+    <Compile Include="HDInsight\GetAzureHDInsightClusters\ServiceLocation\IRegisteringService.cs" />
+    <Compile Include="HDInsight\GetAzureHDInsightClusters\ServiceLocation\IServiceLocationAssemblySweep.cs" />
+    <Compile Include="HDInsight\GetAzureHDInsightClusters\ServiceLocation\IServiceLocationIndividualTestManager.cs" />
+    <Compile Include="HDInsight\GetAzureHDInsightClusters\ServiceLocation\IServiceLocationManager.cs" />
+    <Compile Include="HDInsight\GetAzureHDInsightClusters\ServiceLocation\IServiceLocationRegistrar.cs" />
+    <Compile Include="HDInsight\GetAzureHDInsightClusters\ServiceLocation\IServiceLocationRegistrarProxyFactory.cs" />
+    <Compile Include="HDInsight\GetAzureHDInsightClusters\ServiceLocation\IServiceLocationRuntimeManager.cs" />
+    <Compile Include="HDInsight\GetAzureHDInsightClusters\ServiceLocation\IServiceLocationSimulationManager.cs" />
+    <Compile Include="HDInsight\GetAzureHDInsightClusters\ServiceLocation\IServiceLocator.cs" />
+    <Compile Include="HDInsight\GetAzureHDInsightClusters\ServiceLocation\ServiceLocationAssemblySweep.cs" />
+    <Compile Include="HDInsight\GetAzureHDInsightClusters\ServiceLocation\ServiceLocationMockingLevel.cs" />
+    <Compile Include="HDInsight\GetAzureHDInsightClusters\ServiceLocation\ServiceLocationRegistrarProxyFactory.cs" />
+    <Compile Include="HDInsight\GetAzureHDInsightClusters\ServiceLocation\ServiceLocator.cs" />
+    <Compile Include="HDInsight\InversionOfControl\CmdletServiceLocationRegistrar.cs" />
+    <Compile Include="HDInsight\Logging\IBufferingLogWriter.cs" />
+    <Compile Include="HDInsight\Logging\IBufferingLogWriterFactory.cs" />
+    <Compile Include="HDInsight\Logging\PowershellLogWriter.cs" />
+    <Compile Include="HDInsight\Logging\PowershellLogWriterFactory.cs" />
+    <Compile Include="MediaServices\IMediaServicesClient.cs" />
+    <Compile Include="MediaServices\MediaServicesClient.cs" />
+    <Compile Include="MediaServices\MediaServicesUriElements.cs" />
+    <Compile Include="MediaServices\Services\Entities\AccountCreationRequest.cs" />
+    <Compile Include="MediaServices\Services\Entities\AccountCreationResult.cs" />
+    <Compile Include="MediaServices\Services\Entities\AccountKeys.cs" />
+    <Compile Include="MediaServices\Services\Entities\MediaServiceAccount.cs" />
+    <Compile Include="MediaServices\Services\Entities\MediaServiceAccountDetails.cs" />
+    <Compile Include="MediaServices\Services\Entities\PagedSites.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Scheduler\Common\ExtensionMethods.cs" />
+    <Compile Include="Scheduler\Common\Constants.cs" />
+    <Compile Include="Scheduler\SchedulerMgmntClient.CreateJobs.cs" />
+    <Compile Include="Scheduler\Model\PSJobHistoryStorageDetail.cs" />
+    <Compile Include="Scheduler\Model\PSJobHistoryHttpDetail.cs" />
+    <Compile Include="Scheduler\Model\PSJobHistoryDetail.cs" />
+    <Compile Include="Scheduler\Model\PSJobHistoryError.cs" />
+    <Compile Include="Scheduler\Model\PSCreateJobParams.cs" />
+    <Compile Include="Scheduler\Model\PSJobCollection.cs" />
+    <Compile Include="Scheduler\Model\PSHttpJobDetail.cs" />
+    <Compile Include="Scheduler\Model\PSJobDetail.cs" />
+    <Compile Include="Scheduler\Model\PSStorageQueueJobDetail.cs" />
+    <Compile Include="Scheduler\SchedulerBaseCmdlet.cs" />
+    <Compile Include="Scheduler\Model\PSSchedulerJob.cs" />
+    <Compile Include="Scheduler\Model\PSJobHistory.cs" />
+    <Compile Include="Scheduler\SchedulerMgmntClient.cs" />
+    <Compile Include="ServiceBus\ExtendedServiceBusNamespace.cs" />
+    <Compile Include="ServiceBus\ExtendedAuthorizationRule.cs" />
+    <Compile Include="ServiceBus\AuthorizationRuleFilterOption.cs" />
+    <Compile Include="ServiceBus\ServiceBusPowerShellUtility.cs" />
+    <Compile Include="ServiceBus\ServiceBusClientExtensions.cs" />
+    <Compile Include="ServiceBus\ServiceBusHelper.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Service References\MarketplaceServiceReference\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.datasvcmap</DependentUpon>
+    </Compile>
+    <Compile Include="Store\AddOnSearchOptions.cs" />
+    <Compile Include="Store\Constants.cs" />
+    <Compile Include="Store\MarketplaceClient.cs" />
+    <Compile Include="Store\Parameter.cs" />
+    <Compile Include="Store\PowerShellCustomConfirmation.cs" />
+    <Compile Include="Common\SetHeaderInspector.cs" />
+    <Compile Include="Store\StoreClient.cs" />
+    <Compile Include="Store\ValidateCountryLengthAttribute.cs" />
+    <Compile Include="Store\WindowsAzureAddOn.cs" />
+    <Compile Include="Store\WindowsAzureOffer.cs" />
+    <Compile Include="WAPackIaaS\DataContract\proxy.cs" />
+    <Compile Include="WAPackIaaS\Exceptions\WAPackOperationException.cs" />
+    <Compile Include="WAPackIaaS\Exceptions\WAPackWebException.cs" />
+    <Compile Include="WAPackIaaS\ILogger.cs" />
+    <Compile Include="WAPackIaaS\JobInfo.cs" />
+    <Compile Include="WAPackIaaS\Operations\CloudOperations.cs" />
+    <Compile Include="WAPackIaaS\Operations\HardwareProfileOperations.cs" />
+    <Compile Include="WAPackIaaS\Operations\JobOperations.cs" />
+    <Compile Include="WAPackIaaS\Operations\OperationsBase.cs" />
+    <Compile Include="WAPackIaaS\Operations\VirtualHardDiskOperations.cs" />
+    <Compile Include="WAPackIaaS\Operations\VirtualMachineOperations.cs" />
+    <Compile Include="WAPackIaaS\Operations\VMNetworkOperations.cs" />
+    <Compile Include="WAPackIaaS\Operations\VMTemplateOperations.cs" />
+    <Compile Include="WAPackIaaS\WebClientFactory.cs" />
+    <Compile Include="WAPackIaaS\WebClient\HttpFilters.cs" />
+    <Compile Include="WAPackIaaS\WebClient\HttpQueryParameters.cs" />
+    <Compile Include="WAPackIaaS\WebClient\HttpWebRequestExtensions.cs" />
+    <Compile Include="WAPackIaaS\WebClient\IRequestChannel.cs" />
+    <Compile Include="WAPackIaaS\WebClient\JsonHelpers.cs" />
+    <Compile Include="WAPackIaaS\WebClient\JsonNumericConverter.cs" />
+    <Compile Include="WAPackIaaS\WebClient\Subscription.cs" />
+    <Compile Include="WAPackIaaS\WebClient\WAPackIaaSClient.cs" />
+    <Compile Include="WAPackIaaS\WebClient\WAPackIaaSRequestChannel.cs" />
+    <Compile Include="Websites\Common\DeploymentBaseCmdlet.cs" />
+    <Compile Include="Websites\Common\IGithubCmdlet.cs" />
+    <Compile Include="Websites\Common\WebsiteBaseCmdlet.cs" />
+    <Compile Include="Websites\Common\WebsiteContextBaseCmdlet.cs" />
+    <Compile Include="Websites\IWebsitesClient.cs" />
+    <Compile Include="Websites\KuduRemoteClientBase.cs" />
+    <Compile Include="Websites\LogStreamWaitHandle.cs" />
+    <Compile Include="Websites\PIIValueAttribute.cs" />
+    <Compile Include="Websites\RemoteLogStreamManager.cs" />
+    <Compile Include="Websites\Services\Cache.cs" />
+    <Compile Include="Websites\Services\WebJobs\WebJobHistoryFilterOptions.cs" />
+    <Compile Include="Websites\Services\WebJobs\WebJobFilterOptions.cs" />
+    <Compile Include="Websites\Services\DeploymentEntities\DeployResult.cs" />
+    <Compile Include="Websites\Services\DeploymentEntities\DeployStatus.cs" />
+    <Compile Include="Websites\Services\DeploymentEntities\DiagnosticsSettings.cs" />
+    <Compile Include="Websites\Services\DeploymentEntities\LogPath.cs" />
+    <Compile Include="Websites\Services\DeploymentEntities\LogEntry.cs" />
+    <Compile Include="Websites\Services\DeploymentEntities\LogEntryType.cs" />
+    <Compile Include="Websites\Services\DeploymentsExtensionMethods.cs" />
+    <Compile Include="Websites\Services\GeoEntities\GeoLocation.cs" />
+    <Compile Include="Websites\Services\GeoEntities\GeoRegion.cs" />
+    <Compile Include="Websites\Services\GeoEntities\Stamp.cs" />
+    <Compile Include="Websites\Services\Git.cs" />
+    <Compile Include="Websites\Services\GitClient.cs" />
+    <Compile Include="Websites\Services\GithubClient.cs" />
+    <Compile Include="Websites\Services\Github\Entities\GithubAuthorization.cs" />
+    <Compile Include="Websites\Services\Github\Entities\GithubAuthorizationRequest.cs" />
+    <Compile Include="Websites\Services\Github\Entities\GithubOrganization.cs" />
+    <Compile Include="Websites\Services\Github\Entities\GithubRepository.cs" />
+    <Compile Include="Websites\Services\Github\Entities\GithubRepositoryHook.cs" />
+    <Compile Include="Websites\Services\Github\GithubAuthHeaderInserter.cs" />
+    <Compile Include="Websites\Services\Github\GithubExtensionMethods.cs" />
+    <Compile Include="Websites\Services\Github\IGithubServiceManagement.cs" />
+    <Compile Include="Websites\Services\GitWebSite.cs" />
+    <Compile Include="Websites\Services\IDeploymentServiceManagement.cs" />
+    <Compile Include="Websites\Services\IWebsitesServiceManagement.cs" />
+    <Compile Include="Websites\Services\LinkedRevisionControl.cs" />
+    <Compile Include="Websites\Services\Repository.cs" />
+    <Compile Include="Websites\Services\WebEntities\AccessControlEntry.cs" />
+    <Compile Include="Websites\Services\WebEntities\AuditLog.cs" />
+    <Compile Include="Websites\Services\WebEntities\Certificate.cs" />
+    <Compile Include="Websites\Services\WebEntities\ConfigurationSettings.cs" />
+    <Compile Include="Websites\Services\WebEntities\ConnectionString.cs" />
+    <Compile Include="Websites\Services\WebEntities\ConnStringInfo.cs" />
+    <Compile Include="Websites\Services\WebEntities\Database.cs" />
+    <Compile Include="Websites\Services\WebEntities\ErrorEntity.cs" />
+    <Compile Include="Websites\Services\WebEntities\HandlerMapping.cs" />
+    <Compile Include="Websites\Services\WebEntities\HostingCredential.cs" />
+    <Compile Include="Websites\Services\WebEntities\HostNameSslState.cs" />
+    <Compile Include="Websites\Services\WebEntities\MetricDefinition.cs" />
+    <Compile Include="Websites\Services\WebEntities\MetricResponse.cs" />
+    <Compile Include="Websites\Services\WebEntities\MetricSet.cs" />
+    <Compile Include="Websites\Services\WebEntities\NameValuePair.cs" />
+    <Compile Include="Websites\Services\WebEntities\Offer.cs" />
+    <Compile Include="Websites\Services\WebEntities\PagedSet.cs" />
+    <Compile Include="Websites\Services\WebEntities\Permission.cs" />
+    <Compile Include="Websites\Services\WebEntities\PermissionScope.cs" />
+    <Compile Include="Websites\Services\WebEntities\PermissionScopePair.cs" />
+    <Compile Include="Websites\Services\WebEntities\Plan.cs" />
+    <Compile Include="Websites\Services\WebEntities\Policy.cs" />
+    <Compile Include="Websites\Services\WebEntities\PublishingCredential.cs" />
+    <Compile Include="Websites\Services\WebEntities\Role.cs" />
+    <Compile Include="Websites\Services\WebEntities\Server.cs" />
+    <Compile Include="Websites\Services\WebEntities\Site.cs" />
+    <Compile Include="Websites\Services\WebEntities\SiteConfig.cs" />
+    <Compile Include="Websites\Services\WebEntities\SiteProperties.cs" />
+    <Compile Include="Websites\Services\WebEntities\SiteRepositoryDev.cs" />
+    <Compile Include="Websites\Services\WebEntities\StampCapacity.cs" />
+    <Compile Include="Websites\Services\WebEntities\Subscription.cs" />
+    <Compile Include="Websites\Services\WebEntities\TraceMessage.cs" />
+    <Compile Include="Websites\Services\WebEntities\Usage.cs" />
+    <Compile Include="Websites\Services\WebEntities\User.cs" />
+    <Compile Include="Websites\Services\WebEntities\WebPlan.cs" />
+    <Compile Include="Websites\Services\WebEntities\WebQuota.cs" />
+    <Compile Include="Websites\Services\WebEntities\WebSpace.cs" />
+    <Compile Include="Websites\Services\WebEntities\WebSystem.cs" />
+    <Compile Include="Websites\Services\WebEntities\WebSystemSummary.cs" />
+    <Compile Include="Websites\Services\WebsitesExtensionMethods.cs" />
+    <Compile Include="Websites\Services\WebSitesManagementExtensionMethods.cs" />
+    <Compile Include="Websites\UriElements.cs" />
+    <Compile Include="Websites\PSWebJob.cs" />
+    <Compile Include="Websites\WebsitesClient.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="..\..\..\packages\AutoMapper.3.1.1\lib\net40\AutoMapper.Net4.dll">
+      <Link>AutoMapper.Net4.dll</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ServiceManagementStartup.ps1">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Microsoft.WindowsAzure.Commands.ServiceBus.format.ps1xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Microsoft.WindowsAzure.Commands.WebSites.format.ps1xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Microsoft.WindowsAzure.Commands.WebSites.Types.ps1xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Scaffolding\Cache\WebRole\Scaffold.xml">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Scaffolding\Cache\WorkerRole\Scaffold.xml">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Scaffolding\General\Scaffold.xml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Scaffolding\General\WebRole\RoleSettings.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Scaffolding\General\WebRole\Scaffold.xml">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Scaffolding\General\WebRole\WebRole.xml">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Scaffolding\General\WorkerRole\RoleSettings.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Scaffolding\General\WorkerRole\Scaffold.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Scaffolding\General\WorkerRole\WorkerRole.xml">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Scaffolding\Node\WebRole\RoleSettings.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Scaffolding\Node\WebRole\Scaffold.xml">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Scaffolding\Node\WebRole\server.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Scaffolding\Node\WebRole\startup.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Scaffolding\Node\WebRole\WebRole.xml">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Scaffolding\Node\Website\iisnode.yml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Scaffolding\Cache\WebRole\bin\setup_cache.cmd">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Scaffolding\Cache\WorkerRole\setup_cache.cmd">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Scaffolding\Cache\WorkerRole\web.config">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Scaffolding\General\deploymentSettings.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Scaffolding\General\ServiceConfiguration.Cloud.cscfg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Scaffolding\General\ServiceConfiguration.Local.cscfg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Scaffolding\General\ServiceDefinition.csdef">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Scaffolding\General\WebRole\bin\download.ps1">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Scaffolding\General\WebRole\bin\setup_web.cmd">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Scaffolding\General\WebRole\startup.cmd">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Scaffolding\General\WebRole\Web.cloud.config">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Scaffolding\General\WebRole\Web.config">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Scaffolding\General\WorkerRole\download.ps1">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Scaffolding\General\WorkerRole\setup_worker.cmd">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Microsoft.WindowsAzure.Commands.CloudService.format.ps1xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Microsoft.WindowsAzure.Commands.Store.format.ps1xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Microsoft.WindowsAzure.Commands.Scheduler.format.ps1xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Azure.psd1">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <None Include="Performance\Microsoft.ServiceBus.MessagingPerformanceCounters.man" />
+    <None Include="Properties\DataSources\Microsoft.WindowsAzure.Commands.Utilities.MarketplaceServiceReference.CatalogServiceReadOnlyDbContext.datasource" />
+    <None Include="Resources\Scaffolding\General\WorkerRole\startup.cmd">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <Content Include="Resources\Scaffolding\General\WorkerRole\worker.cmd">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Scaffolding\Node\WorkerRole\RoleSettings.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Scaffolding\Node\WorkerRole\Scaffold.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Scaffolding\Node\WorkerRole\server.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Scaffolding\Node\WorkerRole\startup.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Scaffolding\Node\WorkerRole\WorkerRole.xml">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Scaffolding\PHP\WebRole\bin\download.ps1">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Scaffolding\PHP\WebRole\bin\php_entry.cmd">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Scaffolding\PHP\WebRole\bin\setup.cmd">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Scaffolding\PHP\WebRole\bin\setup.ps1">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Scaffolding\PHP\WebRole\bin\setup_web.cmd">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Scaffolding\PHP\WebRole\web.cloud.config">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Scaffolding\PHP\WebRole\Web.config">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Scaffolding\PHP\WorkerRole\download.ps1">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Scaffolding\PHP\WorkerRole\php_entry.cmd">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Scaffolding\PHP\WorkerRole\setup.cmd">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Scaffolding\PHP\WorkerRole\setup.ps1">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Scaffolding\PHP\WorkerRole\setup_worker.cmd">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Scaffolding\Python\WebRole\AzureSetup.cfg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Scaffolding\Python\WebRole\Microsoft.PythonTools.AzureSetup.exe.config">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Scaffolding\Python\WebRole\Microsoft.PythonTools.AzureSetup.exe.content">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Scaffolding\Python\WebRole\Microsoft.PythonTools.WebRole.dll.content">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Scaffolding\Python\WebRole\Microsoft.Web.Deployment.dll.content">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Scaffolding\Python\WebRole\Microsoft.Web.PlatformInstaller.dll.content">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Scaffolding\Python\WebRole\Microsoft.Web.PlatformInstaller.UI.dll.content">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Scaffolding\Python\WebRole\web.cloud.config">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Scaffolding\Python\WebRole\Web.config">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Scaffolding\Python\WebRole\WebPICmdLine.exe.content">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <None Include="Resources\Scaffolding\Node\WebRole\bin\ChangeConfig.ps1">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\Scaffolding\Node\WebRole\bin\download.ps1">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <Content Include="Resources\Scaffolding\Node\WebRole\bin\node.cmd">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Scaffolding\Node\WebRole\bin\setup_web.cmd">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Scaffolding\Node\WebRole\web.cloud.config">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Scaffolding\Node\WebRole\Web.config">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <None Include="Resources\Scaffolding\Node\WorkerRole\download.ps1">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <Content Include="Resources\Scaffolding\Node\WorkerRole\node.cmd">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Scaffolding\Node\WorkerRole\setup_worker.cmd">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <None Include="Service References\MarketplaceServiceReference\Reference.datasvcmap">
+      <Generator>DataServicesCoreClientGenerator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+    <Content Include="Microsoft.WindowsAzure.Commands.dll-Help.xml">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Scaffolding\Node\Website\.gitignore">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Scaffolding\PHP\WebRole\index.php">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Scaffolding\PHP\WebRole\RoleSettings.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Scaffolding\PHP\WebRole\Scaffold.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Scaffolding\PHP\WebRole\WebRole.xml">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Scaffolding\PHP\WorkerRole\index.php">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Scaffolding\PHP\WorkerRole\RoleSettings.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Scaffolding\PHP\WorkerRole\Scaffold.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Scaffolding\PHP\WorkerRole\WorkerRole.xml">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Scaffolding\Python\WebRole\RoleSettings.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Scaffolding\Python\WebRole\Scaffold.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Scaffolding\Python\WebRole\WebRole.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Scaffolding\Python\WebRole\wfastcgi.py">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <None Include="MSSharedLibKey.snk" />
+    <None Include="packages.config">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\MarketplaceServiceReference\service.edmx" />
+    <Content Include="ShortcutStartup.ps1">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ServiceReferenceMetadataStorage Include="Service References\MarketplaceServiceReference\">
+      <Type>datasvcmap</Type>
+    </ServiceReferenceMetadataStorage>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\Common\Commands.Common\Commands.Common.csproj">
+      <Project>{5ee72c53-1720-4309-b54b-5fb79703195f}</Project>
+      <Name>Commands.Common</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Profile\" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(SolutionDir)\.nuget\nuget.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>
+    </PostBuildEvent>
+  </PropertyGroup>
+  <Import Project="..\..\..\packages\Microsoft.Bcl.Build.1.0.13\tools\Microsoft.Bcl.Build.targets" Condition="Exists('..\..\..\packages\Microsoft.Bcl.Build.1.0.13\tools\Microsoft.Bcl.Build.targets')" />
+  <Target Name="EnsureBclBuildImported" BeforeTargets="BeforeBuild" Condition="'$(BclBuildImported)' == ''">
+    <Error Condition="!Exists('..\..\..\packages\Microsoft.Bcl.Build.1.0.13\tools\Microsoft.Bcl.Build.targets')" Text="This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=317567." HelpKeyword="BCLBUILD2001" />
+    <Error Condition="Exists('..\..\..\packages\Microsoft.Bcl.Build.1.0.13\tools\Microsoft.Bcl.Build.targets')" Text="The build restored NuGet packages. Build the project again to include these packages in the build. For more information, see http://go.microsoft.com/fwlink/?LinkID=317568." HelpKeyword="BCLBUILD2002" />
+  </Target>
+</Project>
