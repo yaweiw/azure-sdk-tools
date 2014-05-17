@@ -18,15 +18,11 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
 {
     using Microsoft.WindowsAzure.Commands.ServiceManagement.Model;
     using Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests.PowershellCore;
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
 
     public class SetAzureVMCustomScriptExtensionCmdletInfo:CmdletsInfo
     {
 
-        private SetAzureVMCustomScriptExtensionCmdletInfo(PersistentVM vm,string referenceName, string version)
+        private SetAzureVMCustomScriptExtensionCmdletInfo(PersistentVM vm, string referenceName, string version)
         {
             cmdletName = Utilities.SetAzureVMCustomScriptExtensionCmdletName;
             cmdletParams.Add(new CmdletParam("VM", vm));
@@ -40,8 +36,8 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
             }
         }
 
-        private SetAzureVMCustomScriptExtensionCmdletInfo( PersistentVM vm,string run, string argument, string referenceName, string version )
-            :this(vm,referenceName,version)
+        private SetAzureVMCustomScriptExtensionCmdletInfo(PersistentVM vm, string run, string argument, string referenceName, string version)
+            :this(vm, referenceName, version)
         {
             if (!string.IsNullOrEmpty(run))
             {
@@ -74,13 +70,13 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
         }
 
         //SetCustomScriptExtensionByContainerBlobsParamSetName
-        public SetAzureVMCustomScriptExtensionCmdletInfo(PersistentVM vm, string[] FileName, string storageAccountName, string StorageEndpointSuffix, string containerName,
+        public SetAzureVMCustomScriptExtensionCmdletInfo(PersistentVM vm, string[] fileName, string storageAccountName, string storageEndpointSuffix, string containerName,
               string storageAccountKey, string run, string argument, string referenceName, string version)
             : this(vm, run, argument, referenceName, version)
         {
-            if (FileName.Length > 0)
+            if (fileName.Length > 0)
             {
-                cmdletParams.Add(new CmdletParam("FileName", FileName));
+                cmdletParams.Add(new CmdletParam("FileName", fileName));
             }
             if (!string.IsNullOrEmpty(containerName))
             {
@@ -90,15 +86,14 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
             {
                 cmdletParams.Add(new CmdletParam("StorageAccountName", storageAccountName));
             }
-            if (!string.IsNullOrEmpty(version))
+            if (!string.IsNullOrEmpty(storageEndpointSuffix))
             {
-                cmdletParams.Add(new CmdletParam("StorageEndpointSuffix", StorageEndpointSuffix));
+                cmdletParams.Add(new CmdletParam("StorageEndpointSuffix", storageEndpointSuffix));
             }
             if (!string.IsNullOrEmpty(storageAccountKey))
             {
                 cmdletParams.Add(new CmdletParam("StorageAccountKey", storageAccountKey));
             }
-            
         }
     }
 }
