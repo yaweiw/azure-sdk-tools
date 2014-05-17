@@ -10,19 +10,19 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		UnitTest.testsettings = UnitTest.testsettings
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Commands", "Commands\Commands.csproj", "{CD5AA507-F5EF-473D-855B-84B91A1ABE54}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Commands", "ServiceManagement\Services\Commands\Commands.csproj", "{CD5AA507-F5EF-473D-855B-84B91A1ABE54}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Commands.Test", "Commands.Test\Commands.Test.csproj", "{B7FD03F6-98BC-4F54-9A14-0455E579FCD4}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Commands.Test", "ServiceManagement\Services\Commands.Test\Commands.Test.csproj", "{B7FD03F6-98BC-4F54-9A14-0455E579FCD4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Commands.SqlDatabase", "Commands.SqlDatabase\Commands.SqlDatabase.csproj", "{DDF5D225-C9C5-42B7-BDB5-2C3646E479AA}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Commands.SqlDatabase", "ServiceManagement\Sql\Commands.SqlDatabase\Commands.SqlDatabase.csproj", "{DDF5D225-C9C5-42B7-BDB5-2C3646E479AA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Commands.SqlDatabase.Test", "Commands.SqlDatabase.Test\Commands.SqlDatabase.Test.csproj", "{37455286-D8A7-4E0C-8B4D-C517D20C641A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Commands.SqlDatabase.Test", "ServiceManagement\Sql\Commands.SqlDatabase.Test\Commands.SqlDatabase.Test.csproj", "{37455286-D8A7-4E0C-8B4D-C517D20C641A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ServiceManagement.Additions", "ServiceManagement.Additions\ServiceManagement.Additions.csproj", "{DA1432AF-D6B5-47A1-8B74-CCD740683E0F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ServiceManagement.Additions", "ServiceManagement\Compute\ServiceManagement.Additions\ServiceManagement.Additions.csproj", "{DA1432AF-D6B5-47A1-8B74-CCD740683E0F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Commands.Storage", "Commands.Storage\Commands.Storage.csproj", "{08CF7DA7-0392-4A19-B79B-E1FF67CDB81A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Commands.Storage", "ServiceManagement\Storage\Commands.Storage\Commands.Storage.csproj", "{08CF7DA7-0392-4A19-B79B-E1FF67CDB81A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Commands.Storage.Test", "Commands.Storage.Test\Commands.Storage.Test.csproj", "{D6F470A6-7395-4B8B-9D29-44DF0EC8F624}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Commands.Storage.Test", "ServiceManagement\Storage\Commands.Storage.Test\Commands.Storage.Test.csproj", "{D6F470A6-7395-4B8B-9D29-44DF0EC8F624}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Commands.ScenarioTest", "Common\Commands.ScenarioTest\Commands.ScenarioTest.csproj", "{A3965B66-5A3E-4B8C-9574-28E5958D4828}"
 	ProjectSection(ProjectDependencies) = postProject
@@ -30,40 +30,40 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Commands.ScenarioTest", "Co
 		{DDF5D225-C9C5-42B7-BDB5-2C3646E479AA} = {DDF5D225-C9C5-42B7-BDB5-2C3646E479AA}
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleAppUtils", "ConsoleAppUtils\ConsoleAppUtils.csproj", "{ED57ECAF-AD30-4C7A-99A6-8757A83B19F0}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleAppUtils", "ServiceManagement\Compute\ConsoleAppUtils\ConsoleAppUtils.csproj", "{ED57ECAF-AD30-4C7A-99A6-8757A83B19F0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Commands.ServiceManagement", "Commands.ServiceManagement\Commands.ServiceManagement.csproj", "{E1CA72BA-8374-45F6-904D-FD34ECDF5B6F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Commands.ServiceManagement", "ServiceManagement\Compute\Commands.ServiceManagement\Commands.ServiceManagement.csproj", "{E1CA72BA-8374-45F6-904D-FD34ECDF5B6F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Commands.ServiceManagement.Test", "Commands.ServiceManagement.Test\Commands.ServiceManagement.Test.csproj", "{58A78F29-8C0C-4A5E-893E-3953C0F29C8A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Commands.ServiceManagement.Test", "ServiceManagement\Compute\Commands.ServiceManagement.Test\Commands.ServiceManagement.Test.csproj", "{58A78F29-8C0C-4A5E-893E-3953C0F29C8A}"
 	ProjectSection(ProjectDependencies) = postProject
 		{08CF7DA7-0392-4A19-B79B-E1FF67CDB81A} = {08CF7DA7-0392-4A19-B79B-E1FF67CDB81A}
 		{E895BBDA-0B06-46AB-B909-9B97B3ECE47E} = {E895BBDA-0B06-46AB-B909-9B97B3ECE47E}
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sync", "Sync\Sync.csproj", "{73820CBC-F4EB-4C5E-B4F0-CC4A93FBF157}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sync", "ServiceManagement\Compute\Sync\Sync.csproj", "{73820CBC-F4EB-4C5E-B4F0-CC4A93FBF157}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VhdManagement", "VhdManagement\VhdManagement.csproj", "{80496B7B-068A-4A1E-B0BB-4B1FFF3FA616}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VhdManagement", "ServiceManagement\Compute\VhdManagement\VhdManagement.csproj", "{80496B7B-068A-4A1E-B0BB-4B1FFF3FA616}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Commands.Utilities", "Commands.Utilities\Commands.Utilities.csproj", "{4900EC4E-8DEB-4412-9108-0BC52F81D457}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Commands.Utilities", "ServiceManagement\Services\Commands.Utilities\Commands.Utilities.csproj", "{4900EC4E-8DEB-4412-9108-0BC52F81D457}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Commands.Test.Utilities", "Commands.Test.Utilities\Commands.Test.Utilities.csproj", "{BC420543-C04E-4BF3-96E1-CD81B823BDD7}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Commands.Test.Utilities", "ServiceManagement\Services\Commands.Test.Utilities\Commands.Test.Utilities.csproj", "{BC420543-C04E-4BF3-96E1-CD81B823BDD7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Commands.Storage.MsTestLib", "Commands.Storage.MsTestLib\Commands.Storage.MsTestLib.csproj", "{CE97967B-7479-43B9-9561-776232AC5D47}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Commands.Storage.MsTestLib", "ServiceManagement\Storage\Commands.Storage.MsTestLib\Commands.Storage.MsTestLib.csproj", "{CE97967B-7479-43B9-9561-776232AC5D47}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Commands.Storage.StorageTestLib", "Commands.Storage.StorageTestLib\Commands.Storage.StorageTestLib.csproj", "{0A513849-2690-4D07-8DE7-0ACE39645D12}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Commands.Storage.StorageTestLib", "ServiceManagement\Storage\Commands.Storage.StorageTestLib\Commands.Storage.StorageTestLib.csproj", "{0A513849-2690-4D07-8DE7-0ACE39645D12}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Commands.Storage.ScenarioTest", "Commands.Storage.ScenarioTest\Commands.Storage.ScenarioTest.csproj", "{4BC0E3D3-6EDD-43AA-8F15-DCFED8ACC93D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Commands.Storage.ScenarioTest", "ServiceManagement\Storage\Commands.Storage.ScenarioTest\Commands.Storage.ScenarioTest.csproj", "{4BC0E3D3-6EDD-43AA-8F15-DCFED8ACC93D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Commands.Storage.MsTest2", "Commands.Storage.MsTest2\Commands.Storage.MsTest2.csproj", "{9D5A40CA-5594-4F5C-8230-7ADF7CC0558E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Commands.Storage.MsTest2", "ServiceManagement\Storage\Commands.Storage.MsTest2\Commands.Storage.MsTest2.csproj", "{9D5A40CA-5594-4F5C-8230-7ADF7CC0558E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Commands.ServiceManagement.PlatformImageRepository", "Commands.ServiceManagement.PlatformImageRepository\Commands.ServiceManagement.PlatformImageRepository.csproj", "{6478FA8B-3801-4863-8591-87F0855D5C82}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Commands.ServiceManagement.PlatformImageRepository", "ServiceManagement\Compute\Commands.ServiceManagement.PlatformImageRepository\Commands.ServiceManagement.PlatformImageRepository.csproj", "{6478FA8B-3801-4863-8591-87F0855D5C82}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Commands.ServiceManagement.Preview", "Commands.ServiceManagement.Preview\Commands.ServiceManagement.Preview.csproj", "{E895BBDA-0B06-46AB-B909-9B97B3ECE47E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Commands.ServiceManagement.Preview", "ServiceManagement\Compute\Commands.ServiceManagement.Preview\Commands.ServiceManagement.Preview.csproj", "{E895BBDA-0B06-46AB-B909-9B97B3ECE47E}"
 	ProjectSection(ProjectDependencies) = postProject
 		{6478FA8B-3801-4863-8591-87F0855D5C82} = {6478FA8B-3801-4863-8591-87F0855D5C82}
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Commands.ExpressRoute", "Commands.ExpressRoute\Commands.ExpressRoute.csproj", "{45C2D687-E0CE-4C97-B731-335834DC2BF2}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Commands.ExpressRoute", "ServiceManagement\Services\Commands.ExpressRoute\Commands.ExpressRoute.csproj", "{45C2D687-E0CE-4C97-B731-335834DC2BF2}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Commands.Common", "Common\Commands.Common\Commands.Common.csproj", "{5EE72C53-1720-4309-B54B-5FB79703195F}"
 EndProject
@@ -73,11 +73,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Commands.Common.Test", "Com
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{95C16AED-FD57-42A0-86C3-2CF4300A4817}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Commands.TrafficManager", "Commands.TrafficManager\Commands.TrafficManager.csproj", "{94E96A5C-B5AD-4E10-B13A-3BC16D102AED}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Commands.TrafficManager", "ServiceManagement\Services\Commands.TrafficManager\Commands.TrafficManager.csproj", "{94E96A5C-B5AD-4E10-B13A-3BC16D102AED}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Commands.ManagedCache", "Commands.ManagedCache\Commands.ManagedCache.csproj", "{46C06ED8-43D9-41FD-B73B-41547D9C04E1}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Commands.ManagedCache", "ServiceManagement\ManagedCache\Commands.ManagedCache\Commands.ManagedCache.csproj", "{46C06ED8-43D9-41FD-B73B-41547D9C04E1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Commands.ManagedCache.Test", "Commands.ManagedCache.Test\Commands.ManagedCache.Test.csproj", "{374D4000-DEDE-4995-9B63-E3B9FE0C4D29}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Commands.ManagedCache.Test", "ServiceManagement\ManagedCache\Commands.ManagedCache.Test\Commands.ManagedCache.Test.csproj", "{374D4000-DEDE-4995-9B63-E3B9FE0C4D29}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Commands.Profile", "Common\Commands.Profile\Commands.Profile.csproj", "{C60342B1-47D3-4A0E-8081-9B97CE60B7AF}"
 EndProject
