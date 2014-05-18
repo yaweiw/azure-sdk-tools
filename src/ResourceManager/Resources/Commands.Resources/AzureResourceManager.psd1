@@ -8,9 +8,6 @@
 
 @{
 
-# Script module or binary module file associated with this manifest
-ModuleToProcess = '.\Microsoft.Azure.Commands.Resources.dll'
-
 # Version number of this module.
 ModuleVersion = '0.8.2'
 
@@ -60,10 +57,13 @@ ScriptsToProcess = @()
 TypesToProcess = @()
 
 # Format files (.ps1xml) to be loaded when importing this module
-FormatsToProcess = @('Microsoft.Azure.Commands.Resources.format.ps1xml')
+FormatsToProcess = @('.\Resources\Microsoft.Azure.Commands.Resources.format.ps1xml')
 
 # Modules to import as nested modules of the module specified in ModuleToProcess
-NestedModules = @('..\..\Profile\AzureProfile\Microsoft.WindowsAzure.Commands.Profile.dll')
+NestedModules = @(
+    '.\Resources\Microsoft.Azure.Commands.Resources.dll',
+    '..\..\Profile\AzureProfile\Microsoft.WindowsAzure.Commands.Profile.dll'
+)
 
 # Functions to export from this module
 FunctionsToExport = '*'

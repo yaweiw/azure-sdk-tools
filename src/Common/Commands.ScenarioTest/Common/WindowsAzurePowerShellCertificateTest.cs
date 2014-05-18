@@ -17,11 +17,11 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.Common
 {
     using Azure.Utilities.HttpRecorder;
     using Commands.Common;
+    using Microsoft.WindowsAzure.Commands.Utilities.Common;
     using System;
     using System.Collections.ObjectModel;
     using System.IO;
     using System.Management.Automation;
-    using Utilities.Common;
     using VisualStudio.TestTools.UnitTesting;
 
     [TestClass]
@@ -40,7 +40,7 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.Common
         }
 
         public WindowsAzurePowerShellCertificateTest(params string[] modules)
-            : base(PowerShellCommandMode.ServiceManagement, modules)
+            : base(AzureModule.AzureServiceManagement, modules)
         {
             this.runningMocked = (HttpMockServer.GetCurrentMode() == HttpRecorderMode.Playback);
             if (this.runningMocked)

@@ -21,7 +21,7 @@ namespace Microsoft.WindowsAzure.Commands.CloudService
     using System.Management.Automation;
 
     [Cmdlet(VerbsDiagnostic.Test, "AzureName"), OutputType(typeof(bool))]
-    public class TestAzureNameCommand : CmdletWithSubscriptionBase
+    public class TestAzureNameCommand : CmdletWithSubscriptionBase, IModuleAssemblyInitializer
     {
         internal ServiceBusClientExtensions ServiceBusClient { get; set; }
         internal ICloudServiceClient CloudServiceClient { get; set; }
@@ -110,6 +110,11 @@ namespace Microsoft.WindowsAzure.Commands.CloudService
                 ServiceBusClient = ServiceBusClient ?? new ServiceBusClientExtensions(CurrentSubscription);
                 IsServiceBusNamespaceAvailable(CurrentSubscription.SubscriptionId, Name);
             }
+        }
+
+        public void OnImport()
+        {
+            this.ExecuteScriptFile(FileUtilities.GetContentFilePath("ServiceManagementStartup.ps1"));
         }
     }
 }

@@ -18,7 +18,7 @@ function Get-ScriptDirectory
     Split-Path $Invocation.MyCommand.Path
 }
 
-$modulePath = Join-Path (Get-ScriptDirectory) Azure.psd1
+$modulePath = Join-Path $(Split-Path (Get-ScriptDirectory)) "Azure.psd1"
 Import-Module $modulePath
 cd c:\
 $welcomeMessage = @"
@@ -33,7 +33,7 @@ Write-Output $welcomeMessage
 Set-ExecutionPolicy -Scope Process Undefined -Force
 if ($(Get-ExecutionPolicy) -eq "Restricted")
 {
-	Set-ExecutionPolicy -Scope Process -ExecutionPolicy RemoteSigned -Force
+    Set-ExecutionPolicy -Scope Process -ExecutionPolicy RemoteSigned -Force
 }
 
 $VerbosePreference="Continue"

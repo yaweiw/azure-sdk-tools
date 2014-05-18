@@ -18,12 +18,12 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.Common
     using Azure.Utilities.HttpRecorder;
     using Commands.Common;
     using Commands.Common.Test.Common;
+    using Microsoft.WindowsAzure.Commands.Utilities.Common;
     using System;
     using System.Collections.ObjectModel;
     using System.Management.Automation;
     using System.Reflection;
     using Test.Utilities.Common;
-    using Utilities.Common;
     using VisualStudio.TestTools.UnitTesting;
 
     [TestClass]
@@ -50,7 +50,7 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.Common
         }
 
         public WindowsAzurePowerShellTokenTest(params string[] modules)
-            : base(PowerShellCommandMode.ResourceManagement, modules)
+            : base(AzureModule.AzureResourceManager, modules)
         {
             if (Environment.GetEnvironmentVariable(outputDirKey) != null)
             {

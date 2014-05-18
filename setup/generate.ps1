@@ -13,13 +13,16 @@ if ([string]::IsNullOrEmpty($buildConfig))
 
 Write-Verbose "Build configuration is set to $buildConfig"
 
-$output = Join-Path $env:AzurePSRoot "Package\$buildConfig"
+$output = Join-Path $env:AzurePSRoot "src\Package\$buildConfig"
 Write-Verbose "The output folder is set to $output"
 $serviceManagementPath = Join-Path $output "ServiceManagement\Azure"
 $resourceManagerPath = Join-Path $output "ResourceManager\AzureResourceManager"
 
-Write-Verbose "Removing Resources folder $serviceManagementPath\Resources\..."
-Remove-Item -Recurse -Force $serviceManagementPath\Resources\ -ErrorAction SilentlyContinue
+Write-Verbose "Removing duplicated Resources folder"
+Remove-Item -Recurse -Force $serviceManagementPath\Compute\Resources\ -ErrorAction SilentlyContinue
+Remove-Item -Recurse -Force $serviceManagementPath\Sql\Resources\ -ErrorAction SilentlyContinue
+Remove-Item -Recurse -Force $serviceManagementPath\Storage\Resources\ -ErrorAction SilentlyContinue
+Remove-Item -Recurse -Force $serviceManagementPath\ManagedCache\Resources\ -ErrorAction SilentlyContinue
 
 Write-Verbose "Removing generated NuGet folders from $output"
 $resourcesFolders = @("de", "es", "fr", "it", "ja", "ko", "ru", "zh-Hans", "zh-Hant")
@@ -33,7 +36,7 @@ Get-ChildItem -Include $include -Exclude $exclude -Recurse -Path $output | Remov
 if (Get-Command "heat.exe" -ErrorAction SilentlyContinue)
 {
     $azureFiles = $(Join-Path $PSScriptRoot 'azurecmdfiles.wxi')
-    heat dir $output -srd -ag -g1 -cg azurecmdfiles -sfrag -dr PowerShellFolder -var var.sourceDir -o $(Join-Path $PSScriptRoot 'azurecmdfiles.wxi')
+    heat dir $output -srd -sfrag -sreg -ag -g1 -cg azurecmdfiles -dr PowerShellFolder -var var.sourceDir -o $(Join-Path $PSScriptRoot 'azurecmdfiles.wxi')
     
 	# Replace <Wix> with <Include>
 	(gc $azureFiles).replace('<Wix', '<Include') | Set-Content $azureFiles
