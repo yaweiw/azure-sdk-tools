@@ -23,8 +23,8 @@
     <StorageTestDebug>.\src\ServiceManagement\Storage\Commands.Storage.Test\bin\Debug\Microsoft.WindowsAzure.Commands.Storage.Test.dll</StorageTestDebug>
     <SetupDirectory>.\setup\build</SetupDirectory>
 
-    <PublishDirectory>.\Publish</PublishDirectory>
-    <PackageDirectory>.\Package</PackageDirectory>
+    <PublishDirectory>.\src\Publish</PublishDirectory>
+    <PackageDirectory>.\src\Package</PackageDirectory>
     <BuildOutputDirectory>$(PublishDirectory)\Build</BuildOutputDirectory>
     <SetupOutputDirectory>$(PublishDirectory)\Setup</SetupOutputDirectory>
     <TestFilter>"!Functional&#x26;!Scenario&#x26;!Sequential&#x26;!PIRTest&#x26;!Preview&#x26;!ADDomain"</TestFilter>

@@ -64,7 +64,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.CloudService.Development
                 string rootPath = Path.Combine(files.RootPath, "NEW_SERVICE");
                 string packagePath = Path.Combine(rootPath, Resources.CloudPackageFileName);
 
-                CloudServiceProject service = new CloudServiceProject(rootPath, null);
+                CloudServiceProject service = new CloudServiceProject(rootPath, FileUtilities.GetContentFilePath("Services"));
                 service.AddWebRole(Data.NodeWebRoleScaffoldingPath);
 
                 cmdlet.ExecuteCmdlet();
@@ -105,7 +105,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.CloudService.Development
                 string rootPath = Path.Combine(files.RootPath, "NEW_SERVICE");
                 string packagePath = Path.Combine(rootPath, Resources.CloudPackageFileName);
 
-                CloudServiceProject service = new CloudServiceProject(rootPath, null);
+                CloudServiceProject service = new CloudServiceProject(rootPath, FileUtilities.GetContentFilePath("Services"));
                 service.AddWebRole(Data.NodeWebRoleScaffoldingPath);
                 service.AddWorkerRole(Data.NodeWorkerRoleScaffoldingPath);
                 service.AddWorkerRole(Data.NodeWorkerRoleScaffoldingPath);
@@ -140,7 +140,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.CloudService.Development
                     CommandRuntime = mockCommandRuntime
                 };
 
-                CloudServiceProject service = new CloudServiceProject(rootPath, null);
+                CloudServiceProject service = new CloudServiceProject(rootPath, FileUtilities.GetContentFilePath("Services"));
                 service.AddWebRole(Data.NodeWebRoleScaffoldingPath);
                 addCacheWorkerCmdlet.AddAzureCacheWorkerRoleProcess(cacheRoleName, 1, rootPath);
                 enableCacheCmdlet.EnableAzureMemcacheRoleProcess("WebRole1", cacheRoleName, rootPath);

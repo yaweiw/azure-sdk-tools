@@ -268,7 +268,7 @@
     <value>CacheRuntimeVersion</value>
   </data>
   <data name="CacheScaffolding" xml:space="preserve">
-    <value>Scaffolding\Cache</value>
+    <value>Resources\Scaffolding\Cache</value>
   </data>
   <data name="CacheStartupCommand" xml:space="preserve">
     <value>setup_cache.cmd &gt; cache_log.txt</value>
@@ -550,7 +550,7 @@
     <value>Operation Status:</value>
   </data>
   <data name="GeneralScaffolding" xml:space="preserve">
-    <value>Scaffolding\General</value>
+    <value>Resources\Scaffolding\General</value>
   </data>
   <data name="GetAllAddOnsWaitMessage" xml:space="preserve">
     <value>Getting all available Windows Azure Add-Ons, this may take few minutes...</value>
@@ -887,7 +887,7 @@ use and privacy statement at {0} and (c) agree to sharing my contact information
     <value>node</value>
   </data>
   <data name="NodeScaffolding" xml:space="preserve">
-    <value>Scaffolding\Node</value>
+    <value>Resources\Scaffolding\Node</value>
   </data>
   <data name="NodeScaffoldingResources" xml:space="preserve">
     <value>Microsoft.WindowsAzure.Commands.CloudService.ScaffoldingResources.Node</value>
@@ -978,7 +978,7 @@ use and privacy statement at {0} and (c) agree to sharing my contact information
     <value>php</value>
   </data>
   <data name="PHPScaffolding" xml:space="preserve">
-    <value>Scaffolding\PHP</value>
+    <value>Resources\Scaffolding\PHP</value>
   </data>
   <data name="PHPScaffoldingResources" xml:space="preserve">
     <value>Microsoft.WindowsAzure.Commands.CloudService.ScaffoldingResources.PHP</value>
@@ -1083,7 +1083,7 @@ Please follow these steps in the portal:
     <value>Verifying storage account '{0}'...</value>
   </data>
   <data name="PythonScaffolding" xml:space="preserve">
-    <value>Scaffolding\Python</value>
+    <value>Resources\Scaffolding\Python</value>
   </data>
   <data name="RedeployCommit" xml:space="preserve">
     <value>Reploy deployment with {0} Id ?</value>

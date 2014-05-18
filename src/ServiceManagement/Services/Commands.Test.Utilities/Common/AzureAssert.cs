@@ -290,7 +290,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.Utilities.Common
         /// <returns>The worker role object</returns>
         internal static WorkerRole GetWorkerRole(string rootPath, string name)
         {
-            CloudServiceProject service = new CloudServiceProject(rootPath, null);
+            CloudServiceProject service = new CloudServiceProject(rootPath, FileUtilities.GetContentFilePath("Services"));
             return service.Components.GetWorkerRole(name);
         }
 
@@ -301,7 +301,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.Utilities.Common
         /// <returns>The web role object</returns>
         internal static WebRole GetWebRole(string rootPath, string name)
         {
-            CloudServiceProject service = new CloudServiceProject(rootPath, null);
+            CloudServiceProject service = new CloudServiceProject(rootPath, FileUtilities.GetContentFilePath("Services"));
             return service.Components.GetWebRole(name);
         }
 
@@ -312,7 +312,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.Utilities.Common
         /// <returns>The role settings object</returns>
         internal static RoleSettings GetCloudRole(string rootPath, string name)
         {
-            CloudServiceProject service = new CloudServiceProject(rootPath, null);
+            CloudServiceProject service = new CloudServiceProject(rootPath, FileUtilities.GetContentFilePath("Services"));
             return service.Components.GetCloudConfigRole(name);
         }
 
@@ -323,7 +323,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.Utilities.Common
         /// <returns>The role settings object</returns>
         internal static RoleSettings GetLocalRole(string rootPath, string name)
         {
-            CloudServiceProject service = new CloudServiceProject(rootPath, null);
+            CloudServiceProject service = new CloudServiceProject(rootPath, FileUtilities.GetContentFilePath("Services"));
             return service.Components.GetLocalConfigRole(name);
         }
     }

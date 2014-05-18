@@ -43,7 +43,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="azurecmdfiles.wxi" />
-    <Content Include="generate.cmd" />
     <Content Include="media\GettingStarted.url" />
     <Content Include="media\License.rtf" />
     <Content Include="media\WAIcon.ico" />
