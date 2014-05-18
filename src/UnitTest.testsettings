@@ -5,7 +5,7 @@
     <DeploymentItem filename="ServiceManagement\Services\Commands.Test.Utilities\Resources\" />
     <DeploymentItem filename="ServiceManagement\Services\Commands.Test\Resources\" />
     <DeploymentItem filename="ServiceManagement\Services\Commands.ServiceBus.Test\Resources\" />
-    <DeploymentItem filename="ServiceManagement\Services\Commands.CloudService\Resources\" />
+    <DeploymentItem filename="ServiceManagement\Services\Commands.CloudService\Resources\" outputDirectory = "Resources"/>
     <DeploymentItem filename="ServiceManagement\Services\Commands.CloudService.Test\Resources\" />
     <DeploymentItem filename="Common\Commands.ScenarioTest\Resources\" />
   </Deployment>

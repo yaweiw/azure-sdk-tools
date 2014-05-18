@@ -32,23 +32,28 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
 
         public static string GetContentFilePath(string fileName)
         {
-            string path = Path.Combine(GetAssemblyDirectory(), fileName);
+            return GetContentFilePath(GetAssemblyDirectory(), fileName);
+        }
+
+        public static string GetContentFilePath(string startDirectory, string fileName)
+        {
+            string path = Path.Combine(startDirectory, fileName);
 
             // Try search in the subdirectories in case that the file path does not exist in root path
             if (!File.Exists(path) && !Directory.Exists(path))
             {
                 try
                 {
-                    
-                    path = Directory.GetFiles(GetAssemblyDirectory(), fileName, SearchOption.AllDirectories).FirstOrDefault();
+                    path = Directory.GetDirectories(startDirectory, fileName, SearchOption.AllDirectories).FirstOrDefault();
+
                     if (string.IsNullOrEmpty(path))
                     {
-                        path = Directory.GetDirectories(GetAssemblyDirectory(), fileName, SearchOption.AllDirectories).First();
+                        path = Directory.GetFiles(startDirectory, fileName, SearchOption.AllDirectories).First();
                     }
                 }
                 catch
                 {
-                    throw new FileNotFoundException(Path.Combine(GetAssemblyDirectory(), fileName));
+                    throw new FileNotFoundException(Path.Combine(startDirectory, fileName));
                 }
             }
 
@@ -295,6 +300,66 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
             }
 
             Directory.CreateDirectory(dir);
+        }
+
+        /// <summary>
+        /// Gets the root installation path for the given Azure module.
+        /// </summary>
+        /// <param name="module" >The module name</param>
+        /// <returns>The module full path</returns>
+        public static string GetPSModulePathForModule(AzureModule module)
+        {
+            return GetContentFilePath(GetInstallPath(), GetModuleFolderName(module));
+        }
+
+        /// <summary>
+        /// Gets the root directory for all modules installation.
+        /// </summary>
+        /// <returns>The install path</returns>
+        public static string GetInstallPath()
+        {
+            string currentPath = GetAssemblyDirectory();
+            while (!currentPath.EndsWith(GetModuleFolderName(AzureModule.AzureProfile)) &&
+                   !currentPath.EndsWith(GetModuleFolderName(AzureModule.AzureResourceManager)) &&
+                   !currentPath.EndsWith(GetModuleFolderName(AzureModule.AzureServiceManagement)))
+            {
+                currentPath = Directory.GetParent(currentPath).FullName;
+            }
+
+            // The assemption is that the install directory looks like that:
+            // ServiceManagement
+            //  AzureServiceManagement
+            //      <Service Commands Folders>
+            // ResourceManager
+            //  AzureResourceManager
+            //      <Service Commands Folders>
+            // Profile
+            //  AzureProfile
+            //      <Service Commands Folders>
+            return Directory.GetParent(currentPath).FullName;
+        }
+
+        public static string GetModuleName(AzureModule module)
+        {
+            switch (module)
+            {
+                case AzureModule.AzureServiceManagement:
+                    return "Azure";
+
+                case AzureModule.AzureResourceManager:
+                    return "AzureResourceManager";
+
+                case AzureModule.AzureProfile:
+                    return "AzureProfile";
+
+                default:
+                    throw new ArgumentOutOfRangeException(module.ToString());
+            }
+        }
+
+        private static string GetModuleFolderName(AzureModule module)
+        {
+            return module.ToString().Replace("Azure", "");
         }
     }
 }
