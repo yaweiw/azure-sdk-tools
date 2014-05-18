@@ -18,6 +18,7 @@ using Microsoft.WindowsAzure.Commands.ScenarioTest.Resources;
 namespace Microsoft.WindowsAzure.Commands.ScenarioTest.Common
 {
     using Commands.Test.Utilities.Common;
+    using Microsoft.WindowsAzure.Commands.Utilities.Common;
     using System;
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
@@ -34,16 +35,16 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.Common
 
         public TestContext TestContext { get; set; }
 
-        public PowerShellTest(PowerShellCommandMode commandMode, params string[] modules)
+        public PowerShellTest(AzureModule commandMode, params string[] modules)
         {
             this.modules = new List<string>();
-            if (commandMode == PowerShellCommandMode.ServiceManagement)
+            if (commandMode == AzureModule.AzureServiceManagement)
             {
-                this.modules.Add(@"ServiceManagement\Azure\Azure.psd1");
+                this.modules.Add(FileUtilities.GetContentFilePath("Azure.psd1"));
             }
-            else if (commandMode == PowerShellCommandMode.ResourceManagement)
+            else if (commandMode == AzureModule.AzureResourceManager)
             {
-                this.modules.Add(@"ResourceManager\AzureResourceManager\AzureResourceManager.psd1");
+                this.modules.Add(FileUtilities.GetContentFilePath("AzureResourceManager.psd1"));
             }
             else
             {

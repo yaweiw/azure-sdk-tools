@@ -1,4 +1,4 @@
-# ----------------------------------------------------------------------------------
+﻿# ----------------------------------------------------------------------------------
 #
 # Copyright Microsoft Corporation
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -12,7 +12,14 @@
 # limitations under the License.
 # ----------------------------------------------------------------------------------
 
-$scriptFolder = Split-Path -Path $MyInvocation.MyCommand.Definition -Parent
-. ($scriptFolder + '.\SetupEnv.ps1')
+$sourceDir = $args[0]
+Write-Output $sourceDir
 
-msbuild "$env:AzurePSRoot\build.proj" /t:BuildDebug
+$sourcePath = $sourceDir + "Azure.psd1"
+$destDir = $(Split-Path $sourceDir)
+
+Write-Output "Copying '$sourcePath' to directory '$destDir'"
+Copy-Item $sourcePath $destDir
+
+Write-Output "Removing $sourcePath"
+Remove-Item $sourcePath -Force

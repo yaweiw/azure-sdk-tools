@@ -25,64 +25,35 @@ namespace Microsoft.WindowsAzure.Commands.Profile
     [Cmdlet(VerbsCommon.Switch, "AzureMode")]
     public class SwitchAzureMode : CmdletBase
     {
-        private const string ServiceManagementModuleName = "Azure";
-        
-        private const string ResourceManagerModuleName = "AzureResourceManager";
-
-        private const string ServiceManagementFolderName = "ServiceManagement";
-
-        private const string ResourceManagerFolderName = "ResourceManager";
-
-        private string ResourceManagerModulePath;
-
-        private string serviceManagementModulePath;
-
         [Parameter(Position = 0, Mandatory = true, HelpMessage = "Name of the mode to switch to. Valid values are AzureServiceManagement and AzureResourceManager")]
-        public AzureModule Name { get; set; }
+        [ValidateSet("AzureServiceManagement", "AzureResourceManager", IgnoreCase = false)]
+        public string Name { get; set; }
 
         [Parameter(Position = 1, Mandatory = false, HelpMessage = "If specified, save the module switch at machine level")]
         public SwitchParameter Global { get; set; }
 
-        public SwitchAzureMode()
-        {
-            string rootInstallationPath = Directory.GetParent(Directory.GetParent(FileUtilities.GetAssemblyDirectory()).FullName).FullName;
-            serviceManagementModulePath = Path.Combine(rootInstallationPath, ServiceManagementFolderName);
-            ResourceManagerModulePath = Path.Combine(rootInstallationPath, ResourceManagerFolderName);
-        }
-
         public override void ExecuteCmdlet()
         {
-            if (Name == AzureModule.AzureResourceManager)
-            {
-                RemoveAzureModule(ServiceManagementModuleName, serviceManagementModulePath);
-                ImportAzureModule(ResourceManagerModuleName, ResourceManagerModulePath);
-            }
-            else if (Name == AzureModule.AzureServiceManagement)
-            {
-                RemoveAzureModule(ResourceManagerModuleName, ResourceManagerModulePath);
-                ImportAzureModule(ServiceManagementModuleName, serviceManagementModulePath);
-            }
+            AzureModule moduleToImport = (AzureModule)Enum.Parse(typeof(AzureModule), Name, false);
+            AzureModule moduleToRemove = moduleToImport == AzureModule.AzureResourceManager ? AzureModule.AzureServiceManagement : AzureModule.AzureResourceManager;
+            RemoveAzureModule(FileUtilities.GetModuleName(moduleToRemove), FileUtilities.GetPSModulePathForModule(moduleToRemove));
+            ImportAzureModule(FileUtilities.GetModuleName(moduleToImport), FileUtilities.GetPSModulePathForModule(moduleToImport));
         }
 
         private void ImportAzureModule(string name, string path)
         {
-            WriteVerbose(string.Format("Adding {0} module path to PSModulePath...", path));
-            PowerShellUtilities.AddModuleToPSModulePath(path);
-
             if (!IsLoaded(name))
             {
+                WriteVerbose(string.Format("Adding {0} module path to PSModulePath...", path));
+                PowerShellUtilities.AddModuleToPSModulePath(path);
+
                 WriteVerbose(string.Format("Importing {0} module...", name));
                 this.ImportModule(name);
 
-                if (name.Equals(ResourceManagerModuleName))
+                if (Global)
                 {
-                    this.RemoveAzureAliases();
+                    PowerShellUtilities.AddModuleToPSModulePath(path, EnvironmentVariableTarget.Machine);
                 }
-            }
-
-            if (Global)
-            {
-                PowerShellUtilities.AddModuleToPSModulePath(path, EnvironmentVariableTarget.Machine);
             }
         }
 
@@ -98,18 +69,18 @@ namespace Microsoft.WindowsAzure.Commands.Profile
                 WriteVerbose(string.Format("Removing {0} module...", name));
                 this.RemoveModule(name);
 
-                if (name.Equals(ServiceManagementModuleName))
+                if (name.Equals(FileUtilities.GetModuleName(AzureModule.AzureServiceManagement)))
                 {
                     this.RemoveAzureAliases();
                 }
-            }
 
-            WriteVerbose(string.Format("Removing {0} module path from PSModulePath...", path));
-            PowerShellUtilities.RemoveModuleFromPSModulePath(path);
+                WriteVerbose(string.Format("Removing {0} module path from PSModulePath...", path));
+                PowerShellUtilities.RemoveModuleFromPSModulePath(path);
 
-            if (Global)
-            {
-                PowerShellUtilities.RemoveModuleFromPSModulePath(path, EnvironmentVariableTarget.Machine);
+                if (Global)
+                {
+                    PowerShellUtilities.RemoveModuleFromPSModulePath(path, EnvironmentVariableTarget.Machine);
+                }
             }
         }
     }

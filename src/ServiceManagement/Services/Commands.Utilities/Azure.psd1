@@ -8,9 +8,6 @@
 
 @{
 
-# Script module or binary module file associated with this manifest
-ModuleToProcess = '.\Microsoft.WindowsAzure.Commands.dll'
-
 # Version number of this module.
 ModuleVersion = '0.8.2'
 
@@ -58,27 +55,28 @@ ScriptsToProcess = @()
 
 # Type files (.ps1xml) to be loaded when importing this module
 TypesToProcess = @(
-    'Microsoft.WindowsAzure.Commands.Websites.Types.ps1xml',
-    'Microsoft.WindowsAzure.Commands.SqlDatabase.Types.ps1xml'
+    '.\Services\Microsoft.WindowsAzure.Commands.Websites.Types.ps1xml',
+    '.\Sql\Microsoft.WindowsAzure.Commands.SqlDatabase.Types.ps1xml'
 )
 
 # Format files (.ps1xml) to be loaded when importing this module
 FormatsToProcess = @(
-    'Microsoft.WindowsAzure.Commands.Websites.format.ps1xml',
-    'Microsoft.WindowsAzure.Commands.CloudService.format.ps1xml',
-    'Microsoft.WindowsAzure.Commands.ServiceBus.format.ps1xml',
-    'Microsoft.WindowsAzure.Commands.Storage.format.ps1xml',
-    'Microsoft.WindowsAzure.Commands.Store.format.ps1xml',
-    'Microsoft.WindowsAzure.Commands.Scheduler.format.ps1xml',
-    'Microsoft.WindowsAzure.Commands.ServiceManagement.format.ps1xml'
+    '.\Services\Microsoft.WindowsAzure.Commands.Websites.format.ps1xml',
+    '.\Services\Microsoft.WindowsAzure.Commands.CloudService.format.ps1xml',
+    '.\Services\Microsoft.WindowsAzure.Commands.ServiceBus.format.ps1xml',
+    '.\Storage\Microsoft.WindowsAzure.Commands.Storage.format.ps1xml',
+    '.\Services\Microsoft.WindowsAzure.Commands.Store.format.ps1xml',
+    '.\Services\Microsoft.WindowsAzure.Commands.Scheduler.format.ps1xml',
+    '.\Compute\Microsoft.WindowsAzure.Commands.ServiceManagement.format.ps1xml'
 )
 
 # Modules to import as nested modules of the module specified in ModuleToProcess
-NestedModules = '.\Microsoft.WindowsAzure.Commands.SqlDatabase.dll',
-                '.\Microsoft.WindowsAzure.Commands.ServiceManagement.dll',
-                '.\Microsoft.WindowsAzure.Commands.Storage.dll',
-                '.\Microsoft.WindowsAzure.Commands.TrafficManager.dll',
-                '.\Microsoft.Azure.Commands.ManagedCache.dll',
+NestedModules = '.\Services\Microsoft.WindowsAzure.Commands.dll',
+                '.\Services\Microsoft.WindowsAzure.Commands.TrafficManager.dll',
+                '.\Compute\Microsoft.WindowsAzure.Commands.ServiceManagement.dll',
+                '.\Sql\Microsoft.WindowsAzure.Commands.SqlDatabase.dll',
+                '.\Storage\Microsoft.WindowsAzure.Commands.Storage.dll',
+                '.\ManagedCache\Microsoft.Azure.Commands.ManagedCache.dll',
                 '..\..\Profile\AzureProfile\Microsoft.WindowsAzure.Commands.Profile.dll'
 
 # Functions to export from this module

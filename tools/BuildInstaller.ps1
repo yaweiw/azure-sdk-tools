@@ -15,9 +15,9 @@
 $scriptFolder = Split-Path -Path $MyInvocation.MyCommand.Definition -Parent
 . ($scriptFolder + '.\SetupEnv.ps1')
 
-$packageFolder="$env:AzurePSRoot\Package"
+$packageFolder="$env:AzurePSRoot\src\Package"
 if (Test-Path $packageFolder) {
-    Remove-Item -Path "$env:AzurePSRoot\Package" -Force -Recurse	
+    Remove-Item -Path $packageFolder -Recurse -Force	
 }
 
 $keyPath = "HKLM:\SOFTWARE\Microsoft\Windows Installer XML"
