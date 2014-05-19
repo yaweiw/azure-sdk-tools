@@ -196,6 +196,26 @@ namespace Microsoft.Azure.Commands.ResourceManager.Models
             return dynamicParameters;
         }
 
+        public Dictionary<string, TemplateFileParameterV1> ParseTemplateParameterFileContents(string templateParameterFilePath)
+        {
+            Dictionary<string, TemplateFileParameterV1> parameters = new Dictionary<string, TemplateFileParameterV1>();
+
+            if (!string.IsNullOrEmpty(templateParameterFilePath) && File.Exists(templateParameterFilePath))
+            {
+                try
+                {
+                    parameters = JsonConvert.DeserializeObject<Dictionary<string, TemplateFileParameterV1>>(File.ReadAllText(templateParameterFilePath));
+                }
+                catch (JsonSerializationException)
+                {
+                    parameters = new Dictionary<string, TemplateFileParameterV1>(
+                        JsonConvert.DeserializeObject<TemplateFileParameterV2>(File.ReadAllText(templateParameterFilePath)).Parameters);
+                }
+            }
+
+            return parameters;
+        }
+
         private RuntimeDefinedParameterDictionary ParseTemplateAndExtractParameters(string templateContent, Hashtable templateParameterObject, string templateParameterFilePath, string[] staticParameters)
         {
             RuntimeDefinedParameterDictionary dynamicParameters = new RuntimeDefinedParameterDictionary();
@@ -214,7 +234,7 @@ namespace Microsoft.Azure.Commands.ResourceManager.Models
                     return dynamicParameters;
                 }
 
-                foreach (KeyValuePair<string, TemplateFileParameter> parameter in templateFile.Parameters)
+                foreach (KeyValuePair<string, TemplateFileParameterV1> parameter in templateFile.Parameters)
                 {
                     RuntimeDefinedParameter dynamicParameter = ConstructDynamicParameter(staticParameters, parameter);
                     dynamicParameters.Add(dynamicParameter.Name, dynamicParameter);
@@ -226,7 +246,7 @@ namespace Microsoft.Azure.Commands.ResourceManager.Models
             }
             if (templateParameterFilePath != null && File.Exists(templateParameterFilePath))
             {
-                var parametersFromFile = JsonConvert.DeserializeObject<Dictionary<string, TemplateFileParameter>>(File.ReadAllText(templateParameterFilePath));
+                var parametersFromFile = ParseTemplateParameterFileContents(templateParameterFilePath);
                 UpdateParametersWithObject(dynamicParameters, new Hashtable(parametersFromFile));
             }
             return dynamicParameters;
@@ -244,9 +264,9 @@ namespace Microsoft.Azure.Commands.ResourceManager.Models
                         {
                             if (key.Equals(dynamicParameter.Key, StringComparison.InvariantCultureIgnoreCase))
                             {
-                                if (templateParameterObject[key] is TemplateFileParameter)
+                                if (templateParameterObject[key] is TemplateFileParameterV1)
                                 {
-                                    dynamicParameter.Value.Value = (templateParameterObject[key] as TemplateFileParameter).Value;
+                                    dynamicParameter.Value.Value = (templateParameterObject[key] as TemplateFileParameterV1).Value;
                                 }
                                 else
                                 {
@@ -296,7 +316,7 @@ namespace Microsoft.Azure.Commands.ResourceManager.Models
             return typeObject;
         }
 
-        internal RuntimeDefinedParameter ConstructDynamicParameter(string[] staticParameters, KeyValuePair<string, TemplateFileParameter> parameter)
+        internal RuntimeDefinedParameter ConstructDynamicParameter(string[] staticParameters, KeyValuePair<string, TemplateFileParameterV1> parameter)
         {
             const string duplicatedParameterSuffix = "FromTemplate";
             string name = parameter.Key;

@@ -93,7 +93,7 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Firewall.Cmdlet
             }
 
             // Get the SQL management client for the current subscription
-            SqlManagementClient sqlManagementClient = SqlDatabaseCmdletBase.GetCurrentSqlClient();
+            SqlManagementClient sqlManagementClient = GetCurrentSqlClient();
 
             // Update the specified firewall rule
             FirewallRuleUpdateResponse response = sqlManagementClient.FirewallRules.Update(
@@ -123,11 +123,10 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Firewall.Cmdlet
         /// <summary>
         /// Process the command.
         /// </summary>
-        protected override void ProcessRecord()
+        public override void ExecuteCmdlet()
         {
             try
             {
-                base.ProcessRecord();
                 SqlDatabaseServerFirewallRuleContext context = this.SetAzureSqlDatabaseServerFirewallRuleProcess(
                     this.ServerName,
                     this.RuleName,

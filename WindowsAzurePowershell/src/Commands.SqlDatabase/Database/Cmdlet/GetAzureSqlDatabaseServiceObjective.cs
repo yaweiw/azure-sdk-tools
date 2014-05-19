@@ -25,8 +25,8 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Database.Cmdlet
     /// Retrieves a list of Windows Azure SQL Databases in the given server context.
     /// </summary>
     [Cmdlet(VerbsCommon.Get, "AzureSqlDatabaseServiceObjective", ConfirmImpact = ConfirmImpact.None,
-        DefaultParameterSetName = "ByName")]
-    public class GetAzureSqlDatabaseServiceObjective : PSCmdlet
+        DefaultParameterSetName = "ByConnectionContext")]
+    public class GetAzureSqlDatabaseServiceObjective : CmdletBase
     {
         #region Parameter Sets
 
@@ -87,7 +87,7 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Database.Cmdlet
         /// <summary>
         /// Execute the command.
         /// </summary>
-        protected override void ProcessRecord()
+        public override void ExecuteCmdlet()
         {
             IServerDataServiceContext context = null;
             switch (this.ParameterSetName)
@@ -99,12 +99,20 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Database.Cmdlet
                 case ByServerName:
                     context = ServerDataServiceCertAuth.Create(this.ServerName, WindowsAzureProfile.Instance.CurrentSubscription);
                     break;
+
+                default:
+                    throw new InvalidPowerShellStateException("Unrecognized parameter set name used.");
             }
             ProcessWithContext(context);
         }
 
         private void ProcessWithContext(IServerDataServiceContext context)
         {
+            if(context == null)
+            {
+                throw new ArgumentNullException("context", "The ServerDataServiceContext cannot be null.");
+            }
+
             try
             {
                 if (this.ServiceObjectiveName != null)

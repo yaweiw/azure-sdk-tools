@@ -83,6 +83,10 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Microsoft.Azure.Utilities.HttpRecorder, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Hydra.HttpRecorder.1.0.5246.30852-prerelease\lib\net40\Microsoft.Azure.Utilities.HttpRecorder.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.Data.Edm, Version=5.6.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Data.Edm.5.6.0\lib\net40\Microsoft.Data.Edm.dll</HintPath>
       <Private>True</Private>
@@ -93,6 +97,13 @@
     <Reference Include="Microsoft.Data.Services.Client, Version=5.6.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Data.Services.Client.5.6.0\lib\net40\Microsoft.Data.Services.Client.dll</HintPath>
       <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.IdentityModel.Clients.ActiveDirectory, Version=2.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.IdentityModel.Clients.ActiveDirectory.1.0.3\lib\net40\Microsoft.IdentityModel.Clients.ActiveDirectory.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.IdentityModel.Clients.ActiveDirectory.WindowsForms">
+      <HintPath>..\packages\Microsoft.IdentityModel.Clients.ActiveDirectory.1.0.3\lib\net40\Microsoft.IdentityModel.Clients.ActiveDirectory.WindowsForms.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Threading.Tasks, Version=1.0.12.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -113,11 +124,11 @@
     </Reference>
     <Reference Include="Microsoft.WindowsAzure.Common, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Microsoft.WindowsAzure.Common.1.0.0\lib\net40\Microsoft.WindowsAzure.Common.dll</HintPath>
+      <HintPath>..\packages\Microsoft.WindowsAzure.Common.1.0.3\lib\net40\Microsoft.WindowsAzure.Common.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.WindowsAzure.Common.NetFramework, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Microsoft.WindowsAzure.Common.1.0.0\lib\net40\Microsoft.WindowsAzure.Common.NetFramework.dll</HintPath>
+      <HintPath>..\packages\Microsoft.WindowsAzure.Common.1.0.3\lib\net40\Microsoft.WindowsAzure.Common.NetFramework.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.WindowsAzure.Configuration">
       <HintPath>..\packages\Microsoft.WindowsAzure.ConfigurationManager.2.0.1.0\lib\net40\Microsoft.WindowsAzure.Configuration.dll</HintPath>
@@ -181,6 +192,7 @@
     <Compile Include="CloudServiceTests\RemoveAzureServiceScenarioTests.cs" />
     <Compile Include="Common\ConnectionStringFields.cs" />
     <Compile Include="Common\Constants.cs" />
+    <Compile Include="Common\PowerShellCommandMode.cs" />
     <Compile Include="Common\WindowsAzurePowerShellCertificateTest.cs" />
     <Compile Include="Common\ResourceManagerTestEnvironmentFactory.cs" />
     <Compile Include="Common\CustomPowerShell\CustomerPSHostUserInterface.cs" />
@@ -197,10 +209,15 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
     <Compile Include="MediaServicesTests\MediaServicesTests.cs" />
-    <Compile Include="Properties\Resources.Designer.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
     <Compile Include="ResourceManager\DeploymentTests.cs" />
     <Compile Include="ResourceManager\ResourceTests.cs" />
     <Compile Include="ResourceManager\ResourceGroupTests.cs" />
+    <Compile Include="Resources\ResourceLocator.cs" />
     <Compile Include="ServiceBusTests\ServiceBusAuthorizationRuleTests.cs" />
     <Compile Include="StorageTests\StorageContainerTest.cs" />
     <Compile Include="StorageTests\StorageContextTest.cs" />
@@ -240,7 +257,11 @@
     <Resource Include="Resources\ResourceManager\ResourceTests.ps1">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
-    <EmbeddedResource Include="Properties\Resources.resx" />
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <SubType>Designer</SubType>
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
     <EmbeddedResource Include="Resources\node-token.zip" />
     <Resource Include="Resources\ResourceManager\ResourceGroupTests.ps1">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -256,7 +277,13 @@
     <Resource Include="Resources\ResourceManager\DeploymentTests.ps1">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
-    <None Include="Resources\Subscription.json" />
+    <None Include="Resources\RdfeTestDummy.publishsettings">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Resources\CsmTestDummySubscription.json" />
+    <Resource Include="Resources\TestAzureCsm.psd1">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
     <None Include="Resources\TrafficManager\Common.ps1" />
     <None Include="Resources\TrafficManager\TrafficManagerTests.ps1" />
     <None Include="Resources\Websites\WebsiteJobTestCmd.zip" />
@@ -266,7 +293,7 @@
     <Resource Include="Resources\Assert.ps1">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
-    <Resource Include="Resources\TestAzure.psd1">
+    <Resource Include="Resources\TestAzureRdfe.psd1">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
     <None Include="MSSharedLibKey.snk" />
@@ -335,13 +362,13 @@
     <None Include="Resources\tipsf004.publishsettings" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\tools\HttpRecorder\HttpRecorder.csproj">
-      <Project>{9e5cb6e6-92af-464a-bd30-e848d94ed490}</Project>
-      <Name>HttpRecorder</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Commands.ResourceManager\Commands.ResourceManager.csproj">
       <Project>{e1f5201d-6067-430e-b303-4e367652991b}</Project>
       <Name>Commands.ResourceManager</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Commands.ServiceManagement.Test\Commands.ServiceManagement.Test.csproj">
+      <Project>{58a78f29-8c0c-4a5e-893e-3953c0f29c8a}</Project>
+      <Name>Commands.ServiceManagement.Test</Name>
     </ProjectReference>
     <ProjectReference Include="..\Commands.Test.Utilities\Commands.Test.Utilities.csproj">
       <Project>{bc420543-c04e-4bf3-96e1-cd81b823bdd7}</Project>
@@ -350,10 +377,6 @@
     <ProjectReference Include="..\Commands.Storage\Commands.Storage.csproj">
       <Project>{08cf7da7-0392-4a19-b79b-e1ff67cdb81a}</Project>
       <Name>Commands.Storage</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Commands.ServiceManagement.Test\Commands.ServiceManagement.Test.csproj">
-      <Project>{58A78F29-8C0C-4A5E-893E-3953C0F29C8A}</Project>
-      <Name>Commands.ServiceManagement.Test</Name>
     </ProjectReference>
     <ProjectReference Include="..\Commands.ServiceManagement\Commands.ServiceManagement.csproj">
       <Project>{E1CA72BA-8374-45F6-904D-FD34ECDF5B6F}</Project>
@@ -394,6 +417,7 @@
     <Folder Include="Resources\SessionRecords\DeploymentTests\" />
     <Folder Include="Resources\SessionRecords\ResourceGroupTests\" />
     <Folder Include="Resources\SessionRecords\ResourceTests\" />
+    <Folder Include="Resources\SessionRecords\TrafficManagerTests\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\nuget.targets" />

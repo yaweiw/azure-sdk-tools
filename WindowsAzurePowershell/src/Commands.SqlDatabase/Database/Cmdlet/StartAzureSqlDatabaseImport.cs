@@ -154,7 +154,7 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Database.Cmdlet
             this.WriteVerbose("UserName: " + sqlCredentials.UserName);
 
             // Get the SQL management client for the current subscription
-            SqlManagementClient sqlManagementClient = SqlDatabaseCmdletBase.GetCurrentSqlClient();
+            SqlManagementClient sqlManagementClient = GetCurrentSqlClient();
 
             // Start the database export operation
             DacImportExportResponse response = sqlManagementClient.Dac.Import(
@@ -193,12 +193,10 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Database.Cmdlet
         /// <summary>
         /// Process the import request
         /// </summary>
-        protected override void ProcessRecord()
+        public override void ExecuteCmdlet()
         {
             try
             {
-                base.ProcessRecord();
-
                 // Obtain the Blob Uri and Access Key
                 string blobUri = null;
                 string accessKey = null;

@@ -24,7 +24,8 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.Common
     using Test.Utilities.Common;
     using Utilities.Common;
     using VisualStudio.TestTools.UnitTesting;
-    using WindowsAzure.Utilities.HttpRecorder;
+    using Azure.Utilities.HttpRecorder;
+    using System.Reflection;
 
     [TestClass]
     public class WindowsAzurePowerShellTokenTest : PowerShellTest
@@ -37,10 +38,20 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.Common
         private void OnClientCreated(object sender, ClientCreatedArgs e)
         {
             e.AddHandlerToClient(HttpMockServer.CreateInstance());
+            if (HttpMockServer.Mode == HttpRecorderMode.Playback)
+            {
+                PropertyInfo initTimeoutProp = e.ClientType.GetProperty("LongRunningOperationInitialTimeout");
+                PropertyInfo retryTimeoutProp = e.ClientType.GetProperty("LongRunningOperationRetryTimeout");
+                if (initTimeoutProp != null && retryTimeoutProp != null)
+                {
+                    initTimeoutProp.SetValue(e.CreatedClient, 0, null);
+                    retryTimeoutProp.SetValue(e.CreatedClient, 0, null);
+                }
+            }
         }
 
         public WindowsAzurePowerShellTokenTest(params string[] modules)
-            : base(modules)
+            : base(PowerShellCommandMode.ResourceManagement, modules)
         {
             if (Environment.GetEnvironmentVariable(outputDirKey) != null)
             {
@@ -50,7 +61,7 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.Common
 
         public override Collection<PSObject> RunPowerShellTest(params string[] scripts)
         {
-            HttpMockServer.Initialize(this.GetType(), Utilities.GetCurrentMethodName(2));
+            HttpMockServer.Initialize(this.GetType(), Utilities.GetCurrentMethodName(2), recordingMode);
             return base.RunPowerShellTest(scripts);
         }
 
@@ -70,7 +81,7 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.Common
             {
                 WindowsAzureProfile.Instance.AddEnvironment(new WindowsAzureEnvironment { Name = testEnvironmentName });
             }
-
+            HttpMockServer.Mode = recordingMode;
             SetupAzureEnvironmentFromEnvironmentVariables();
         }
 
@@ -84,7 +95,7 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.Common
                 ((TokenCloudCredentials)csmEnvironment.Credentials).Token : null;
 
             WindowsAzureProfile.Instance.TokenProvider = new FakeAccessTokenProvider(jwtToken, csmEnvironment.UserName);
-
+            
             WindowsAzureProfile.Instance.CurrentEnvironment = WindowsAzureProfile.Instance.Environments[testEnvironmentName];
 
             WindowsAzureProfile.Instance.CurrentEnvironment.ActiveDirectoryEndpoint =
@@ -110,7 +121,7 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.Common
                 CurrentStorageAccountName = csmEnvironment.StorageAccount,
                 IsDefault = true
             };
-            if (recordingMode == HttpRecorderMode.Playback)
+            if (HttpMockServer.Mode == HttpRecorderMode.Playback)
             {
                 newSubscription.SetAccessToken(new FakeAccessToken
                     {

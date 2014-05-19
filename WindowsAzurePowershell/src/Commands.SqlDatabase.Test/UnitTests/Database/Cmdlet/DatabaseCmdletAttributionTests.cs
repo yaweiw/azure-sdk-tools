@@ -103,5 +103,21 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Test.UnitTests.Database.Cm
             UnitTestHelper.CheckConfirmImpact(cmdlet, ConfirmImpact.None);
             UnitTestHelper.CheckCmdletModifiesData(cmdlet, false);
         }
+        
+        /// <summary>
+        /// Tests the attributes of the Get-AzureSqlDatabaseServiceObjective cmdlet
+        /// </summary>
+        [TestMethod]
+        public void GetAzureSqlDatabaseServiceObjectiveAttributeTest()
+        {
+            Type cmdlet = typeof(GetAzureSqlDatabaseServiceObjective);
+            UnitTestHelper.CheckConfirmImpact(cmdlet, ConfirmImpact.None);
+            UnitTestHelper.CheckCmdletModifiesData(cmdlet, false);
+
+            object[] cmdletAttributes = cmdlet.GetCustomAttributes(typeof(CmdletAttribute), true);
+            Assert.AreEqual(1, cmdletAttributes.Length);
+            CmdletAttribute attribute = (CmdletAttribute)cmdletAttributes[0];
+            Assert.AreEqual("ByConnectionContext", attribute.DefaultParameterSetName);
+        }
     }
 }

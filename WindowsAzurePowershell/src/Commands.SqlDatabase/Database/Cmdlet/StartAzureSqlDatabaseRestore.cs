@@ -24,7 +24,7 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Database.Cmdlet
     /// Issues a new restore request for the specified live or dropped Windows Azure SQL Database.
     /// </summary>
     [Cmdlet(VerbsLifecycle.Start, "AzureSqlDatabaseRestore", ConfirmImpact = ConfirmImpact.Low)]
-    public class StartAzureSqlDatabaseRestore : PSCmdlet
+    public class StartAzureSqlDatabaseRestore : CmdletBase
     {
         #region Parameter Sets
 
@@ -150,7 +150,7 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Database.Cmdlet
         /// <summary>
         /// Execute the command.
         /// </summary>
-        protected override void ProcessRecord()
+        public override void ExecuteCmdlet()
         {
             // Obtain the name of the source database / source restorable dropped database from the parameters
             this.SourceDatabaseName =

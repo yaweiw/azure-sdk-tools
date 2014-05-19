@@ -27,7 +27,7 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Database.Cmdlet
     /// </summary>
     [Cmdlet(VerbsCommon.Set, "AzureSqlDatabase", SupportsShouldProcess = true,
         ConfirmImpact = ConfirmImpact.Medium)]
-    public class SetAzureSqlDatabase : PSCmdlet
+    public class SetAzureSqlDatabase : CmdletBase
     {
         #region Parameter sets
 
@@ -162,7 +162,7 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Database.Cmdlet
         /// <summary>
         /// Process the command.
         /// </summary>
-        protected override void ProcessRecord()
+        public override void ExecuteCmdlet()
         {
             // Obtain the database name from the given parameters.
             string databaseName = null;

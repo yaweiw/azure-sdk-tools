@@ -11,7 +11,6 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 // ----------------------------------------------------------------------------------
-
 using System.Management.Automation;
 using Microsoft.WindowsAzure.Commands.Service.Gateway;
 using Microsoft.WindowsAzure.Commands.ServiceManagement.Model;

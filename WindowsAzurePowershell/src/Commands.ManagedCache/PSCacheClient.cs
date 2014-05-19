@@ -80,8 +80,6 @@ namespace Microsoft.Azure.Commands.ManagedCache
             {
                 WriteProgress(Properties.Resources.UpdatingCacheService);
             }
-
-            WriteProgress(Properties.Resources.CreatingCacheService);
             client.CacheServices.CreateCacheService(cloudServiceName, cacheServiceName, param);
 
             WriteProgress(Properties.Resources.WaitForCacheServiceReady);
@@ -89,7 +87,8 @@ namespace Microsoft.Azure.Commands.ManagedCache
             return cacheResource;
         }
 
-        public void UpdateCacheService(string cacheServiceName, CacheServiceSkuType sku, string memory)
+        public void UpdateCacheService(string cacheServiceName, CacheServiceSkuType sku, string memory,
+            Action<bool, string, string, string, Action> ConfirmAction, bool force)
         {
             CloudServiceListResponse listResponse = client.CloudServices.List();
             CloudServiceResource cacheResource = null;
@@ -111,19 +110,52 @@ namespace Microsoft.Azure.Commands.ManagedCache
             }
 
             CacheSkuCountConvert convert = new CacheSkuCountConvert(sku);
-            if (cacheResource.IntrinsicSettingsSection.CacheServiceInputSection.SkuType == sku
-                && cacheResource.IntrinsicSettingsSection.CacheServiceInputSection.SkuCount == convert.ToSkuCount(memory))
+            CacheServiceSkuType existingSkuType = cacheResource.IntrinsicSettingsSection.CacheServiceInputSection.SkuType;
+            int existingSkuCount = cacheResource.IntrinsicSettingsSection.CacheServiceInputSection.SkuCount;
+            int newSkuCount = convert.ToSkuCount(memory);
+            if (existingSkuType == sku && existingSkuCount == newSkuCount)
             {
                 WriteProgress("No update is needed as there is no change");
                 return;
             }
-            cacheResource.IntrinsicSettingsSection.CacheServiceInputSection.SkuCount = convert.ToSkuCount(memory);
-            cacheResource.IntrinsicSettingsSection.CacheServiceInputSection.SkuType = sku;
-            CacheServiceCreateParameters param = new CacheServiceCreateParameters();
-            param.IntrinsicSettingsSection = cacheResource.IntrinsicSettingsSection;
-            param.ETag = cacheResource.ETag;
 
-            ProvisionCacheService(cloudServiceName, cacheResource.Name, param, false);
+            //We will prompt only if there is data loss
+            string promptMessage = GetPromptMessgaeIfThereIsDataLoss(existingSkuType, sku, existingSkuCount, newSkuCount);
+            if (string.IsNullOrEmpty(promptMessage))
+            {
+                force = true;
+            }
+            ConfirmAction(
+               force,
+               string.Format(Properties.Resources.UpdatingCacheService),
+               promptMessage,
+               cacheServiceName,
+               () =>
+               {
+                    cacheResource.IntrinsicSettingsSection.CacheServiceInputSection.SkuCount = convert.ToSkuCount(memory);
+                    cacheResource.IntrinsicSettingsSection.CacheServiceInputSection.SkuType = sku;
+                    CacheServiceCreateParameters param = new CacheServiceCreateParameters();
+                    param.IntrinsicSettingsSection = cacheResource.IntrinsicSettingsSection;
+                    param.ETag = cacheResource.ETag;
+                    ProvisionCacheService(cloudServiceName, cacheResource.Name, param, false);
+               });
+        }
+
+        private string GetPromptMessgaeIfThereIsDataLoss(CacheServiceSkuType existingSkuType, 
+            CacheServiceSkuType newSkuType, 
+            int existingSkuCount, 
+            int newSkuCount)
+        {
+            string promptMsg = string.Empty;
+            if (existingSkuType != newSkuType)
+            {
+                promptMsg = Properties.Resources.PromptOnCachePlanChange;
+            }
+            else if (existingSkuCount > newSkuCount)
+            {
+                promptMsg = Properties.Resources.PromptOnCacheMemoryReduce;
+            }
+            return promptMsg;
         }
 
         private static CacheServiceCreateParameters InitializeParameters(string location, CacheServiceSkuType sku, string memorySize)
@@ -176,9 +208,9 @@ namespace Microsoft.Azure.Commands.ManagedCache
             //Cache serice can only take lower case. We help people to get it right
             cacheServiceName = cacheServiceName.ToLower();
 
-            //Now Check length and pattern
+            //Now check length (6~20) and pattern
             int length = cacheServiceName.Length;
-            if (length < 6 || length > 22 || !Regex.IsMatch(cacheServiceName,"^[a-zA-Z][a-zA-Z0-9]*$"))
+            if (length < 6 || length > 20 || !Regex.IsMatch(cacheServiceName,"^[a-zA-Z][a-zA-Z0-9]*$"))
             {
                 throw new ArgumentException(Properties.Resources.InvalidCacheServiceName);
             }

@@ -23,8 +23,10 @@ namespace Microsoft.Azure.Commands.ManagedCache
     /// Retrieves a list of Windows Azure SQL Database servers in the selected subscription.
     /// </summary>
     [Cmdlet(VerbsCommon.Set, "AzureManagedCache"), OutputType(typeof(PSCacheService))]
-    public class SetAzureManagedCache : ManagedCacheCmdletBase
+    public class SetAzureManagedCache : ManagedCacheCmdletBase, IDynamicParameters
     {
+        private MemoryDynamicParameterSet memoryDynamicParameterSet = new MemoryDynamicParameterSet();
+
         [Parameter(Position = 0, Mandatory = true, ValueFromPipelineByPropertyName = true)]
         [ValidateNotNullOrEmpty]
         public string Name { get; set; }
@@ -33,15 +35,18 @@ namespace Microsoft.Azure.Commands.ManagedCache
         public CacheServiceSkuType Sku { get; set; }
 
         [Parameter]
-        public string Memory { get; set; }
-
-        [Parameter]
         public SwitchParameter Force { get; set; }
 
         public override void ExecuteCmdlet()
         {
             CacheClient.ProgressRecorder = (message) => { WriteVerbose(message); };
-            CacheClient.UpdateCacheService(Name, Sku, Memory);
+            string memory = memoryDynamicParameterSet.GetMemoryValue(Sku);
+            CacheClient.UpdateCacheService(Name, Sku, memory, ConfirmAction, Force.IsPresent);
+        }
+
+        public object GetDynamicParameters()
+        {
+            return memoryDynamicParameterSet.GetDynamicParameters(Sku);
         }
     }
 }

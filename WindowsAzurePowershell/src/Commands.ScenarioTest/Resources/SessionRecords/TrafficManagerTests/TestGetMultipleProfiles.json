@@ -1,7 +1,7 @@
 {
   "Entries": [
     {
-      "RequestUri": "/16adf039-ace2-4685-b35b-917bd564b01e/services/WATM/profiles",
+      "RequestUri": "/db1ab6f0-4769-4b27-930e-01e2ef9c123c/services/WATM/profiles",
       "RequestMethod": "GET",
       "RequestBody": "",
       "RequestHeaders": {
@@ -13,7 +13,7 @@
           "WindowsAzurePowershell/v0.8.1"
         ]
       },
-      "ResponseBody": "<Profiles xmlns=\"http://schemas.microsoft.com/windowsazure\" xmlns:i=\"http://www.w3.org/2001/XMLSchema-instance\">\r\n  <Profile>\r\n    <DomainName>04c9b4c3-44ab-42cf-8c61-80f692252664profile.trafficmanager.net</DomainName>\r\n    <Name>04c9b4c3-44ab-42cf-8c61-80f692252664profile</Name>\r\n    <Status>Enabled</Status>\r\n    <StatusDetails>\r\n      <EnabledVersion>1</EnabledVersion>\r\n    </StatusDetails>\r\n    <Definitions>\r\n      <Definition>\r\n        <Status>Enabled</Status>\r\n        <Version>1</Version>\r\n      </Definition>\r\n    </Definitions>\r\n  </Profile>\r\n  <Profile>\r\n    <DomainName>2e1c4768-ea03-4427-9e78-d63f48ca3d62profile.trafficmanager.net</DomainName>\r\n    <Name>2e1c4768-ea03-4427-9e78-d63f48ca3d62profile</Name>\r\n    <Status>Enabled</Status>\r\n    <StatusDetails>\r\n      <EnabledVersion>1</EnabledVersion>\r\n    </StatusDetails>\r\n    <Definitions>\r\n      <Definition>\r\n        <Status>Enabled</Status>\r\n        <Version>1</Version>\r\n      </Definition>\r\n    </Definitions>\r\n  </Profile>\r\n  <Profile>\r\n    <DomainName>scenarioTestProfile1.trafficmanager.net</DomainName>\r\n    <Name>scenarioTestProfile1</Name>\r\n    <Status>Enabled</Status>\r\n    <StatusDetails>\r\n      <EnabledVersion>1</EnabledVersion>\r\n    </StatusDetails>\r\n    <Definitions>\r\n      <Definition>\r\n        <Status>Enabled</Status>\r\n        <Version>1</Version>\r\n      </Definition>\r\n    </Definitions>\r\n  </Profile>\r\n  <Profile>\r\n    <DomainName>scenarioTestProfile2.trafficmanager.net</DomainName>\r\n    <Name>scenarioTestProfile2</Name>\r\n    <Status>Enabled</Status>\r\n    <StatusDetails>\r\n      <EnabledVersion>1</EnabledVersion>\r\n    </StatusDetails>\r\n    <Definitions>\r\n      <Definition>\r\n        <Status>Enabled</Status>\r\n        <Version>1</Version>\r\n      </Definition>\r\n    </Definitions>\r\n  </Profile>\r\n</Profiles>",
+      "ResponseBody": "<Profiles xmlns=\"http://schemas.microsoft.com/windowsazure\" xmlns:i=\"http://www.w3.org/2001/XMLSchema-instance\">\r\n  <Profile>\r\n    <DomainName>scenarioTestProfile.trafficmanager.net</DomainName>\r\n    <Name>scenarioTestProfile</Name>\r\n    <Status>Enabled</Status>\r\n    <StatusDetails>\r\n      <EnabledVersion>1</EnabledVersion>\r\n    </StatusDetails>\r\n    <Definitions>\r\n      <Definition>\r\n        <Status>Enabled</Status>\r\n        <Version>1</Version>\r\n      </Definition>\r\n    </Definitions>\r\n  </Profile>\r\n</Profiles>",
       "ResponseHeaders": {
         "x-ms-servedbyregion": [
           "ussouth2"
@@ -22,13 +22,13 @@
           "nosniff"
         ],
         "x-ms-request-id": [
-          "04bc06d3c6f396a691baaa98efc936ef"
+          "b702e20f2ef2925e8159d472b8f227d1"
         ],
         "Cache-Control": [
           "no-cache"
         ],
         "Date": [
-          "Tue, 06 May 2014 13:45:12 GMT"
+          "Wed, 07 May 2014 12:28:43 GMT"
         ],
         "Server": [
           "1.0.6198.70",
@@ -45,7 +45,7 @@
       "StatusCode": 200
     },
     {
-      "RequestUri": "/16adf039-ace2-4685-b35b-917bd564b01e/services/WATM/profiles",
+      "RequestUri": "/db1ab6f0-4769-4b27-930e-01e2ef9c123c/services/WATM/profiles",
       "RequestMethod": "GET",
       "RequestBody": "",
       "RequestHeaders": {
@@ -57,7 +57,7 @@
           "WindowsAzurePowershell/v0.8.1"
         ]
       },
-      "ResponseBody": "<Profiles xmlns=\"http://schemas.microsoft.com/windowsazure\" xmlns:i=\"http://www.w3.org/2001/XMLSchema-instance\">\r\n  <Profile>\r\n    <DomainName>04c9b4c3-44ab-42cf-8c61-80f692252664profile.trafficmanager.net</DomainName>\r\n    <Name>04c9b4c3-44ab-42cf-8c61-80f692252664profile</Name>\r\n    <Status>Enabled</Status>\r\n    <StatusDetails>\r\n      <EnabledVersion>1</EnabledVersion>\r\n    </StatusDetails>\r\n    <Definitions>\r\n      <Definition>\r\n        <Status>Enabled</Status>\r\n        <Version>1</Version>\r\n      </Definition>\r\n    </Definitions>\r\n  </Profile>\r\n  <Profile>\r\n    <DomainName>2e1c4768-ea03-4427-9e78-d63f48ca3d62profile.trafficmanager.net</DomainName>\r\n    <Name>2e1c4768-ea03-4427-9e78-d63f48ca3d62profile</Name>\r\n    <Status>Enabled</Status>\r\n    <StatusDetails>\r\n      <EnabledVersion>1</EnabledVersion>\r\n    </StatusDetails>\r\n    <Definitions>\r\n      <Definition>\r\n        <Status>Enabled</Status>\r\n        <Version>1</Version>\r\n      </Definition>\r\n    </Definitions>\r\n  </Profile>\r\n  <Profile>\r\n    <DomainName>scenarioTestProfile1.trafficmanager.net</DomainName>\r\n    <Name>scenarioTestProfile1</Name>\r\n    <Status>Enabled</Status>\r\n    <StatusDetails>\r\n      <EnabledVersion>1</EnabledVersion>\r\n    </StatusDetails>\r\n    <Definitions>\r\n      <Definition>\r\n        <Status>Enabled</Status>\r\n        <Version>1</Version>\r\n      </Definition>\r\n    </Definitions>\r\n  </Profile>\r\n  <Profile>\r\n    <DomainName>scenarioTestProfile2.trafficmanager.net</DomainName>\r\n    <Name>scenarioTestProfile2</Name>\r\n    <Status>Enabled</Status>\r\n    <StatusDetails>\r\n      <EnabledVersion>1</EnabledVersion>\r\n    </StatusDetails>\r\n    <Definitions>\r\n      <Definition>\r\n        <Status>Enabled</Status>\r\n        <Version>1</Version>\r\n      </Definition>\r\n    </Definitions>\r\n  </Profile>\r\n</Profiles>",
+      "ResponseBody": "<Profiles xmlns=\"http://schemas.microsoft.com/windowsazure\" xmlns:i=\"http://www.w3.org/2001/XMLSchema-instance\">\r\n  <Profile>\r\n    <DomainName>scenarioTestProfile1.trafficmanager.net</DomainName>\r\n    <Name>scenarioTestProfile1</Name>\r\n    <Status>Enabled</Status>\r\n    <StatusDetails>\r\n      <EnabledVersion>1</EnabledVersion>\r\n    </StatusDetails>\r\n    <Definitions>\r\n      <Definition>\r\n        <Status>Enabled</Status>\r\n        <Version>1</Version>\r\n      </Definition>\r\n    </Definitions>\r\n  </Profile>\r\n  <Profile>\r\n    <DomainName>scenarioTestProfile2.trafficmanager.net</DomainName>\r\n    <Name>scenarioTestProfile2</Name>\r\n    <Status>Enabled</Status>\r\n    <StatusDetails>\r\n      <EnabledVersion>1</EnabledVersion>\r\n    </StatusDetails>\r\n    <Definitions>\r\n      <Definition>\r\n        <Status>Enabled</Status>\r\n        <Version>1</Version>\r\n      </Definition>\r\n    </Definitions>\r\n  </Profile>\r\n</Profiles>",
       "ResponseHeaders": {
         "x-ms-servedbyregion": [
           "ussouth2"
@@ -66,13 +66,13 @@
           "nosniff"
         ],
         "x-ms-request-id": [
-          "1790a13e94c6960387df67f8f21044e7"
+          "34137019c6fe9f058228d18153207b32"
         ],
         "Cache-Control": [
           "no-cache"
         ],
         "Date": [
-          "Tue, 06 May 2014 13:45:28 GMT"
+          "Wed, 07 May 2014 12:28:56 GMT"
         ],
         "Server": [
           "1.0.6198.70",
@@ -89,7 +89,7 @@
       "StatusCode": 200
     },
     {
-      "RequestUri": "/16adf039-ace2-4685-b35b-917bd564b01e/services/WATM/profiles/scenarioTestProfile1",
+      "RequestUri": "/db1ab6f0-4769-4b27-930e-01e2ef9c123c/services/WATM/profiles/scenarioTestProfile",
       "RequestMethod": "DELETE",
       "RequestBody": "",
       "RequestHeaders": {
@@ -113,13 +113,13 @@
           "nosniff"
         ],
         "x-ms-request-id": [
-          "e2578fc6cbcc9ca49daf93774929180b"
+          "0c9ff5c9da24930981edf880d2d42e05"
         ],
         "Cache-Control": [
           "no-cache"
         ],
         "Date": [
-          "Tue, 06 May 2014 13:45:14 GMT"
+          "Wed, 07 May 2014 12:28:46 GMT"
         ],
         "Server": [
           "1.0.6198.70",
@@ -136,54 +136,7 @@
       "StatusCode": 200
     },
     {
-      "RequestUri": "/16adf039-ace2-4685-b35b-917bd564b01e/services/WATM/profiles/scenarioTestProfile2",
-      "RequestMethod": "DELETE",
-      "RequestBody": "",
-      "RequestHeaders": {
-        "x-ms-version": [
-          "2011-10-01"
-        ],
-        "User-Agent": [
-          "Microsoft.WindowsAzure.Management.TrafficManager.TrafficManagerManagementClient/0.9.0.0",
-          "WindowsAzurePowershell/v0.8.1"
-        ]
-      },
-      "ResponseBody": "",
-      "ResponseHeaders": {
-        "Transfer-Encoding": [
-          "chunked"
-        ],
-        "x-ms-servedbyregion": [
-          "ussouth2"
-        ],
-        "X-Content-Type-Options": [
-          "nosniff"
-        ],
-        "x-ms-request-id": [
-          "06ed2a9ed35195a5a992eb7a9e5fcf5c"
-        ],
-        "Cache-Control": [
-          "no-cache"
-        ],
-        "Date": [
-          "Tue, 06 May 2014 13:45:15 GMT"
-        ],
-        "Server": [
-          "1.0.6198.70",
-          "(rd_rdfe_stable.140426-2318)",
-          "Microsoft-HTTPAPI/2.0"
-        ],
-        "X-AspNet-Version": [
-          "4.0.30319"
-        ],
-        "X-Powered-By": [
-          "ASP.NET"
-        ]
-      },
-      "StatusCode": 200
-    },
-    {
-      "RequestUri": "/16adf039-ace2-4685-b35b-917bd564b01e/services/WATM/profiles",
+      "RequestUri": "/db1ab6f0-4769-4b27-930e-01e2ef9c123c/services/WATM/profiles",
       "RequestMethod": "POST",
       "RequestBody": "<Profile xmlns=\"http://schemas.microsoft.com/windowsazure\">\r\n  <DomainName>scenarioTestProfile1.trafficmanager.net</DomainName>\r\n  <Name>scenarioTestProfile1</Name>\r\n</Profile>",
       "RequestHeaders": {
@@ -207,13 +160,13 @@
           "nosniff"
         ],
         "x-ms-request-id": [
-          "5b261b26676d9167b73576bf7694881a"
+          "a3d9b0888a139f1c91cab9eb5ea1d4fd"
         ],
         "Cache-Control": [
           "no-cache"
         ],
         "Date": [
-          "Tue, 06 May 2014 13:45:17 GMT"
+          "Wed, 07 May 2014 12:28:48 GMT"
         ],
         "Server": [
           "1.0.6198.70",
@@ -230,7 +183,7 @@
       "StatusCode": 200
     },
     {
-      "RequestUri": "/16adf039-ace2-4685-b35b-917bd564b01e/services/WATM/profiles",
+      "RequestUri": "/db1ab6f0-4769-4b27-930e-01e2ef9c123c/services/WATM/profiles",
       "RequestMethod": "POST",
       "RequestBody": "<Profile xmlns=\"http://schemas.microsoft.com/windowsazure\">\r\n  <DomainName>scenarioTestProfile2.trafficmanager.net</DomainName>\r\n  <Name>scenarioTestProfile2</Name>\r\n</Profile>",
       "RequestHeaders": {
@@ -254,13 +207,13 @@
           "nosniff"
         ],
         "x-ms-request-id": [
-          "1532d22dc49b94f8b52559a75b23e36f"
+          "672d81fa73059065860df82583559357"
         ],
         "Cache-Control": [
           "no-cache"
         ],
         "Date": [
-          "Tue, 06 May 2014 13:45:23 GMT"
+          "Wed, 07 May 2014 12:28:52 GMT"
         ],
         "Server": [
           "1.0.6198.70",
@@ -277,7 +230,7 @@
       "StatusCode": 200
     },
     {
-      "RequestUri": "/16adf039-ace2-4685-b35b-917bd564b01e/services/WATM/profiles/scenarioTestProfile1/definitions",
+      "RequestUri": "/db1ab6f0-4769-4b27-930e-01e2ef9c123c/services/WATM/profiles/scenarioTestProfile1/definitions",
       "RequestMethod": "POST",
       "RequestBody": "<Definition xmlns=\"http://schemas.microsoft.com/windowsazure\">\r\n  <DnsOptions>\r\n    <TimeToLiveInSeconds>300</TimeToLiveInSeconds>\r\n  </DnsOptions>\r\n  <Monitors>\r\n    <Monitor>\r\n      <IntervalInSeconds>30</IntervalInSeconds>\r\n      <TimeoutInSeconds>10</TimeoutInSeconds>\r\n      <ToleratedNumberOfFailures>3</ToleratedNumberOfFailures>\r\n      <Protocol>HTTP</Protocol>\r\n      <Port>80</Port>\r\n      <HttpOptions>\r\n        <Verb>GET</Verb>\r\n        <RelativePath>/</RelativePath>\r\n        <ExpectedStatusCode>200</ExpectedStatusCode>\r\n      </HttpOptions>\r\n    </Monitor>\r\n  </Monitors>\r\n  <Policy>\r\n    <LoadBalancingMethod>RoundRobin</LoadBalancingMethod>\r\n    <Endpoints />\r\n  </Policy>\r\n</Definition>",
       "RequestHeaders": {
@@ -298,13 +251,13 @@
           "nosniff"
         ],
         "x-ms-request-id": [
-          "e7390d3e987996e6ac5320f0f0a4acd1"
+          "a7eba59e5d46954b912f122b3136f6c7"
         ],
         "Cache-Control": [
           "no-cache"
         ],
         "Date": [
-          "Tue, 06 May 2014 13:45:19 GMT"
+          "Wed, 07 May 2014 12:28:49 GMT"
         ],
         "Server": [
           "1.0.6198.70",
@@ -321,7 +274,7 @@
       "StatusCode": 200
     },
     {
-      "RequestUri": "/16adf039-ace2-4685-b35b-917bd564b01e/services/WATM/profiles/scenarioTestProfile1",
+      "RequestUri": "/db1ab6f0-4769-4b27-930e-01e2ef9c123c/services/WATM/profiles/scenarioTestProfile1",
       "RequestMethod": "GET",
       "RequestBody": "",
       "RequestHeaders": {
@@ -342,13 +295,13 @@
           "nosniff"
         ],
         "x-ms-request-id": [
-          "c3687e2ffa1b96a998da30be4b7dfc63"
+          "c927bce14ed492c3902324453d1b2262"
         ],
         "Cache-Control": [
           "no-cache"
         ],
         "Date": [
-          "Tue, 06 May 2014 13:45:19 GMT"
+          "Wed, 07 May 2014 12:28:50 GMT"
         ],
         "Server": [
           "1.0.6198.70",
@@ -365,7 +318,7 @@
       "StatusCode": 200
     },
     {
-      "RequestUri": "/16adf039-ace2-4685-b35b-917bd564b01e/services/WATM/profiles/scenarioTestProfile1/definitions/1",
+      "RequestUri": "/db1ab6f0-4769-4b27-930e-01e2ef9c123c/services/WATM/profiles/scenarioTestProfile1/definitions/1",
       "RequestMethod": "GET",
       "RequestBody": "",
       "RequestHeaders": {
@@ -386,13 +339,13 @@
           "nosniff"
         ],
         "x-ms-request-id": [
-          "d44eba70661e940b83288efb7a4ca593"
+          "0a5c49a98ccc9b6dbe38c8d4f5087029"
         ],
         "Cache-Control": [
           "no-cache"
         ],
         "Date": [
-          "Tue, 06 May 2014 13:45:21 GMT"
+          "Wed, 07 May 2014 12:28:50 GMT"
         ],
         "Server": [
           "1.0.6198.70",
@@ -409,7 +362,7 @@
       "StatusCode": 200
     },
     {
-      "RequestUri": "/16adf039-ace2-4685-b35b-917bd564b01e/services/WATM/profiles/scenarioTestProfile2/definitions",
+      "RequestUri": "/db1ab6f0-4769-4b27-930e-01e2ef9c123c/services/WATM/profiles/scenarioTestProfile2/definitions",
       "RequestMethod": "POST",
       "RequestBody": "<Definition xmlns=\"http://schemas.microsoft.com/windowsazure\">\r\n  <DnsOptions>\r\n    <TimeToLiveInSeconds>300</TimeToLiveInSeconds>\r\n  </DnsOptions>\r\n  <Monitors>\r\n    <Monitor>\r\n      <IntervalInSeconds>30</IntervalInSeconds>\r\n      <TimeoutInSeconds>10</TimeoutInSeconds>\r\n      <ToleratedNumberOfFailures>3</ToleratedNumberOfFailures>\r\n      <Protocol>HTTP</Protocol>\r\n      <Port>80</Port>\r\n      <HttpOptions>\r\n        <Verb>GET</Verb>\r\n        <RelativePath>/</RelativePath>\r\n        <ExpectedStatusCode>200</ExpectedStatusCode>\r\n      </HttpOptions>\r\n    </Monitor>\r\n  </Monitors>\r\n  <Policy>\r\n    <LoadBalancingMethod>RoundRobin</LoadBalancingMethod>\r\n    <Endpoints />\r\n  </Policy>\r\n</Definition>",
       "RequestHeaders": {
@@ -430,13 +383,13 @@
           "nosniff"
         ],
         "x-ms-request-id": [
-          "c79d416dcdba92babddd249bdf1dc90a"
+          "f8560363210a9daf8bed78ab842e119c"
         ],
         "Cache-Control": [
           "no-cache"
         ],
         "Date": [
-          "Tue, 06 May 2014 13:45:25 GMT"
+          "Wed, 07 May 2014 12:28:54 GMT"
         ],
         "Server": [
           "1.0.6198.70",
@@ -453,7 +406,7 @@
       "StatusCode": 200
     },
     {
-      "RequestUri": "/16adf039-ace2-4685-b35b-917bd564b01e/services/WATM/profiles/scenarioTestProfile2",
+      "RequestUri": "/db1ab6f0-4769-4b27-930e-01e2ef9c123c/services/WATM/profiles/scenarioTestProfile2",
       "RequestMethod": "GET",
       "RequestBody": "",
       "RequestHeaders": {
@@ -474,13 +427,13 @@
           "nosniff"
         ],
         "x-ms-request-id": [
-          "97d11b685cdf900a8975a88e6024c286"
+          "c272ef97d1db915c9e8b6e2020eaa433"
         ],
         "Cache-Control": [
           "no-cache"
         ],
         "Date": [
-          "Tue, 06 May 2014 13:45:25 GMT"
+          "Wed, 07 May 2014 12:28:54 GMT"
         ],
         "Server": [
           "1.0.6198.70",
@@ -497,7 +450,7 @@
       "StatusCode": 200
     },
     {
-      "RequestUri": "/16adf039-ace2-4685-b35b-917bd564b01e/services/WATM/profiles/scenarioTestProfile2/definitions/1",
+      "RequestUri": "/db1ab6f0-4769-4b27-930e-01e2ef9c123c/services/WATM/profiles/scenarioTestProfile2/definitions/1",
       "RequestMethod": "GET",
       "RequestBody": "",
       "RequestHeaders": {
@@ -518,13 +471,13 @@
           "nosniff"
         ],
         "x-ms-request-id": [
-          "00869a4f8b8c94598b9ed670aceaebad"
+          "bf7310cfd82498d7a92c5f3e971b809a"
         ],
         "Cache-Control": [
           "no-cache"
         ],
         "Date": [
-          "Tue, 06 May 2014 13:45:26 GMT"
+          "Wed, 07 May 2014 12:28:55 GMT"
         ],
         "Server": [
           "1.0.6198.70",

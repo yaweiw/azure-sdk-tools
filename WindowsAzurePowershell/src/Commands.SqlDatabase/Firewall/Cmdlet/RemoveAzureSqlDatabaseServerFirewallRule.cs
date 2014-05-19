@@ -74,7 +74,7 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Firewall.Cmdlet
             }
 
             // Get the SQL management client for the current subscription
-            SqlManagementClient sqlManagementClient = SqlDatabaseCmdletBase.GetCurrentSqlClient();
+            SqlManagementClient sqlManagementClient = GetCurrentSqlClient();
 
             // Delete the specified firewall rule.
             OperationResponse response = sqlManagementClient.FirewallRules.Delete(serverName, ruleName);
@@ -93,11 +93,10 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Firewall.Cmdlet
         /// <summary>
         /// Process the command.
         /// </summary>
-        protected override void ProcessRecord()
+        public override void ExecuteCmdlet()
         {
             try
             {
-                base.ProcessRecord();
                 this.RemoveAzureSqlDatabaseServerFirewallRuleProcess(this.ServerName, this.RuleName);
             }
             catch (Exception ex)
