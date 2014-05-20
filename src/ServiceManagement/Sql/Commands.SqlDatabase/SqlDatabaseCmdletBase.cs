@@ -75,13 +75,13 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase
             if (subscription == null)
             {
                 throw new ArgumentException(
-                    Utilities.Properties.Resources.InvalidCurrentSubscription);
+                    Common.Properties.Resources.InvalidCurrentSubscription);
             }
 
             if (string.IsNullOrEmpty(subscription.SubscriptionId))
             {
                 throw new ArgumentException(
-                    Utilities.Properties.Resources.InvalidCurrentSubscriptionId);
+                    Common.Properties.Resources.InvalidCurrentSubscriptionId);
             }
         }
 
