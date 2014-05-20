@@ -14,7 +14,7 @@
 
 namespace Microsoft.WindowsAzure.Commands.Utilities.Common
 {
-    using Microsoft.WindowsAzure.Commands.Utilities.Properties;
+    using Microsoft.WindowsAzure.Commands.Common.Properties;
     using ServiceManagement;
     using System;
     using System.Globalization;

@@ -612,12 +612,6 @@
   <data name="InvalidCountryNameMessage" xml:space="preserve">
     <value>The country name is invalid, please use a valid two character country code, as described in ISO 3166-1 alpha-2.</value>
   </data>
-  <data name="InvalidCurrentSubscription" xml:space="preserve">
-    <value>No current subscription has been designated. Use Select-AzureSubscription -Current &lt;subscriptionName&gt; to set the current subscription.</value>
-  </data>
-  <data name="InvalidCurrentSubscriptionId" xml:space="preserve">
-    <value>The ID of the current subscription is invalid. Use Set-AzureSubscription to fix the subscription ID or use Select-AzureSubscription to use a different subscription.</value>
-  </data>
   <data name="InvalidCurrentSuscriptionCertificate" xml:space="preserve">
     <value>The management certificate of the current subscription is invalid. Use Set-AzureSubscription to fix the management certificate or use Select-AzureSubscription to use a different subscription.</value>
   </data>

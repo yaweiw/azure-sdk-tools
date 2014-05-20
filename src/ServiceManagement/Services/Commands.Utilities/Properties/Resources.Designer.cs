@@ -1521,24 +1521,6 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to No current subscription has been designated. Use Select-AzureSubscription -Current &lt;subscriptionName&gt; to set the current subscription..
-        /// </summary>
-        public static string InvalidCurrentSubscription {
-            get {
-                return ResourceManager.GetString("InvalidCurrentSubscription", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to The ID of the current subscription is invalid. Use Set-AzureSubscription to fix the subscription ID or use Select-AzureSubscription to use a different subscription..
-        /// </summary>
-        public static string InvalidCurrentSubscriptionId {
-            get {
-                return ResourceManager.GetString("InvalidCurrentSubscriptionId", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to The management certificate of the current subscription is invalid. Use Set-AzureSubscription to fix the management certificate or use Select-AzureSubscription to use a different subscription..
         /// </summary>
         public static string InvalidCurrentSuscriptionCertificate {
