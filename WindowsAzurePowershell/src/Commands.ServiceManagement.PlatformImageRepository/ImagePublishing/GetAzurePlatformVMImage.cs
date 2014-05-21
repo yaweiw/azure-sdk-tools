@@ -20,7 +20,6 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.PlatformImageReposit
     using Helpers;
     using Model;
     using ServiceManagement.Model;
-    using WindowsAzure.ServiceManagement;
 
     [Cmdlet(VerbsCommon.Get, "AzurePlatformVMImage"), OutputType(typeof(OSImageDetailsContext))]
     public class GetAzurePlatformVMImage : ServiceManagementBaseCmdlet
@@ -44,20 +43,20 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.PlatformImageReposit
 
             if (isOSImage || !isVMImage)
             {
-                ExecuteClientActionInOCS(
+                ExecuteClientActionNewSM(
                     null,
                     CommandRuntime.ToString(),
-                    s => this.Channel.GetOSImageWithDetails(s, this.ImageName),
+                    () => this.ComputeClient.VirtualMachineOSImages.GetDetails(this.ImageName),
                     (operation, imageDetails) => imageDetails == null ? null : new OSImageDetailsContext
                     {
                         AffinityGroup = imageDetails.AffinityGroup,
                         Category = imageDetails.Category,
                         Label = imageDetails.Label,
                         Location = imageDetails.Location,
-                        MediaLink = imageDetails.MediaLink,
+                        MediaLink = imageDetails.MediaLinkUri,
                         ImageName = imageDetails.Name,
-                        OS = imageDetails.OS,
-                        LogicalSizeInGB = imageDetails.LogicalSizeInGB,
+                        OS = imageDetails.OperatingSystemType,
+                        LogicalSizeInGB = (int)imageDetails.LogicalSizeInGB,
                         Eula = imageDetails.Eula,
                         Description = imageDetails.Description,
                         IconUri = imageDetails.IconUri,
@@ -75,9 +74,9 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.PlatformImageReposit
                                                    Location = detail.Location,
                                                    Progress = detail.Progress
                                                }).ToList(),
-                        OperationId = operation.OperationTrackingId,
+                        OperationId = operation.RequestId,
                         OperationDescription = CommandRuntime.ToString(),
-                        OperationStatus = operation.Status,
+                        OperationStatus = operation.Status.ToString()
                     });
             }
 

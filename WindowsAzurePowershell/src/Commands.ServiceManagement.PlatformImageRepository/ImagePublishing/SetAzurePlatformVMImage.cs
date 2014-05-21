@@ -15,14 +15,12 @@
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.PlatformImageRepository.ImagePublishing
 {
     using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Management.Automation;
-using Helpers;
-using Properties;
-using ServiceManagement.Model;
-using Utilities.Common;
-using WindowsAzure.ServiceManagement;
+    using System.Linq;
+    using System.Management.Automation;
+    using Helpers;
+    using Properties;
+    using ServiceManagement.Model;
+    using Utilities.Common;
 
     [Cmdlet(VerbsCommon.Set, "AzurePlatformVMImage", DefaultParameterSetName = ReplicateParameterSetName), OutputType(typeof(ManagementOperationContext))]
     public class SetAzurePlatformVMImage : ServiceManagementBaseCmdlet
@@ -105,8 +103,14 @@ using WindowsAzure.ServiceManagement;
             }
             else
             {
-                this.Channel.GetOSImage(CurrentSubscription.SubscriptionId, this.ImageName);
-                ExecuteClientActionInOCS(null, CommandRuntime.ToString(), s => this.Channel.ShareOSImage(s, this.ImageName, this.Permission));
+                ExecuteClientActionNewSM(
+                    null,
+                    CommandRuntime.ToString(),
+                    () =>
+                    {
+                        this.ComputeClient.VirtualMachineOSImages.GetDetails(this.ImageName);
+                        return this.ComputeClient.VirtualMachineOSImages.Share(this.ImageName, this.Permission);
+                    });
             }
         }
 
@@ -131,29 +135,24 @@ using WindowsAzure.ServiceManagement;
             }
             else
             {
-                this.Channel.GetOSImage(CurrentSubscription.SubscriptionId, this.ImageName);
-                ValidateTargetLocations();
-                ExecuteClientActionInOCS(null, CommandRuntime.ToString(), s => this.Channel.ReplicateOSImage(s, this.ImageName, CreateReplicationInput()));
+                ExecuteClientActionNewSM(
+                    null,
+                    CommandRuntime.ToString(),
+                    () =>
+                    {
+                        this.ComputeClient.VirtualMachineOSImages.Get(this.ImageName);
+                        ValidateTargetLocations();
+                        return this.ComputeClient.VirtualMachineOSImages.Replicate(this.ImageName, new Management.Compute.Models.VirtualMachineOSImageReplicateParameters
+                            {
+                                TargetLocations = this.ReplicaLocations == null ? null : this.ReplicaLocations.ToList()
+                            });
+                    });
             }
-        }
-
-        private ReplicationInput CreateReplicationInput()
-        {
-            var replicationInput = new ReplicationInput
-            {
-                TargetLocations = new RegionList()
-            };
-
-            foreach (var location in ReplicaLocations)
-            {
-                replicationInput.TargetLocations.Add(location);
-            }
-            return replicationInput;
         }
 
         private void ValidateTargetLocations()
         {
-            var locations = this.Channel.ListLocations(CurrentSubscription.SubscriptionId);
+            var locations = this.ManagementClient.Locations.List();
             if (this.ReplicaLocations != null)
             {
                 var invalidValues = ReplicaLocations.Except(locations.Select(l => l.Name), StringComparer.OrdinalIgnoreCase).ToList();
