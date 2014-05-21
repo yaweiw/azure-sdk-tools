@@ -1,4 +1,4 @@
-﻿// ----------------------------------------------------------------------------------
+// ----------------------------------------------------------------------------------
 //
 // Copyright Microsoft Corporation
 // Licensed under the Apache License, Version 2.0 (the "License");
@@ -156,7 +156,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Scheduler
             {
                 if (csRes.ResourceProviderNamespace.Equals(Constants.SchedulerRPNameProvider, StringComparison.OrdinalIgnoreCase) && csRes.Name.Equals(jobCollection, StringComparison.OrdinalIgnoreCase))
                 {
-                    SchedulerClient schedClient = new SchedulerClient(csmClient.Credentials, cloudService, jobCollection);
+                    SchedulerClient schedClient = new SchedulerClient(csmClient.Credentials, cloudService, jobCollection, schedulerManagementClient.BaseUri);
                     JobListResponse jobs = schedClient.Jobs.List(new JobListParameters
                     {
                         Skip = 0,
@@ -211,7 +211,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Scheduler
             {
                 if (csRes.ResourceProviderNamespace.Equals(Constants.SchedulerRPNameProvider, StringComparison.InvariantCultureIgnoreCase) && csRes.Name.Equals(jobCollection, StringComparison.OrdinalIgnoreCase))
                 {
-                    SchedulerClient schedClient = new SchedulerClient(csmClient.Credentials, cloudService, jobCollection.Trim());
+                    SchedulerClient schedClient = new SchedulerClient(csmClient.Credentials, cloudService, jobCollection.Trim(), schedulerManagementClient.BaseUri);
                     List<JobGetHistoryResponse.JobHistoryEntry> lstHistory = new List<JobGetHistoryResponse.JobHistoryEntry>();
                     int currentTop = 100;
 
@@ -327,7 +327,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Scheduler
             {
                 if (csRes.ResourceProviderNamespace.Equals(Constants.SchedulerRPNameProvider, StringComparison.OrdinalIgnoreCase) && csRes.Name.Equals(jobCollection, StringComparison.OrdinalIgnoreCase))
                 {
-                    SchedulerClient schedClient = new SchedulerClient(csmClient.Credentials, cloudService, jobCollection);
+                    SchedulerClient schedClient = new SchedulerClient(csmClient.Credentials, cloudService, jobCollection, schedulerManagementClient.BaseUri);
                     JobListResponse jobs = schedClient.Jobs.List(new JobListParameters
                     {
                         Skip = 0,
@@ -396,7 +396,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Scheduler
         {
             if (!string.IsNullOrEmpty(region))
             {
-                SchedulerClient schedulerClient = new SchedulerClient(csmClient.Credentials, region.ToCloudServiceName(), jobCollection);
+                SchedulerClient schedulerClient = new SchedulerClient(csmClient.Credentials, region.ToCloudServiceName(), jobCollection, schedulerManagementClient.BaseUri);
                 OperationResponse response = schedulerClient.Jobs.Delete(jobName);
                 return response.StatusCode == System.Net.HttpStatusCode.OK ? true : false;
             }
@@ -416,7 +416,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Scheduler
                                 {
                                     if (job.JobName.Equals(jobName, StringComparison.OrdinalIgnoreCase))
                                     {
-                                        SchedulerClient schedulerClient = new SchedulerClient(csmClient.Credentials, cs.Name, jobCollection);
+                                        SchedulerClient schedulerClient = new SchedulerClient(csmClient.Credentials, cs.Name, jobCollection, schedulerManagementClient.BaseUri);
                                         OperationResponse response = schedulerClient.Jobs.Delete(jobName);
                                         return response.StatusCode == System.Net.HttpStatusCode.OK ? true : false;
                                     }
