@@ -16,17 +16,12 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Scheduler
 {
     using Microsoft.WindowsAzure.Commands.Utilities.Scheduler.Common;
     using Microsoft.WindowsAzure.Commands.Utilities.Scheduler.Model;
-    using Microsoft.WindowsAzure.Management.Scheduler;
-    using Microsoft.WindowsAzure.Management.Scheduler.Models;
     using Microsoft.WindowsAzure.Scheduler;
     using Microsoft.WindowsAzure.Scheduler.Models;
     using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using Utilities.Common;
 
     public partial class SchedulerMgmntClient
-    {   
+    {
 
         #region Create Jobs
 
@@ -68,7 +63,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Scheduler
             }
             return null;
         }
-   
+
         public PSJobDetail CreateHttpJob(PSCreateJobParams jobRequest, out string status)
         {
             SchedulerClient schedulerClient = new SchedulerClient(csmClient.Credentials, jobRequest.Region.ToCloudServiceName(), jobRequest.JobCollectionName, schedulerManagementClient.BaseUri);
@@ -96,8 +91,8 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Scheduler
             jobCreateParams.Action.ErrorAction = PopulateErrorAction(jobRequest);
 
             jobCreateParams.StartTime = jobRequest.StartTime ?? default(DateTime?);
-           
-            if (jobRequest.Interval != null || jobRequest.ExecutionCount != null || !string.IsNullOrEmpty(jobRequest.Frequency) || jobRequest.EndTime !=null)
+
+            if (jobRequest.Interval != null || jobRequest.ExecutionCount != null || !string.IsNullOrEmpty(jobRequest.Frequency) || jobRequest.EndTime != null)
             {
                 jobCreateParams.Recurrence = new JobRecurrence();
                 jobCreateParams.Recurrence.Count = jobRequest.ExecutionCount ?? default(int?);
@@ -109,9 +104,9 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Scheduler
 
                 jobCreateParams.Recurrence.EndTime = jobRequest.EndTime ?? default(DateTime?);
             }
-            
+
             JobCreateOrUpdateResponse jobCreateResponse = schedulerClient.Jobs.CreateOrUpdate(jobRequest.JobName, jobCreateParams);
-            
+
             if (!string.IsNullOrEmpty(jobRequest.JobState) && jobRequest.JobState.Equals("DISABLED", StringComparison.OrdinalIgnoreCase))
                 schedulerClient.Jobs.UpdateState(jobRequest.JobName, new JobUpdateStateParameters { State = JobState.Disabled });
 
@@ -119,7 +114,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Scheduler
 
             return GetJobDetail(jobRequest.JobCollectionName, jobRequest.JobName, jobRequest.Region.ToCloudServiceName());
         }
-      
+
         public PSJobDetail CreateStorageJob(PSCreateJobParams jobRequest, out string status)
         {
             SchedulerClient schedulerClient = new SchedulerClient(csmClient.Credentials, jobRequest.Region.ToCloudServiceName(), jobRequest.JobCollectionName, schedulerManagementClient.BaseUri);
@@ -164,11 +159,11 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Scheduler
             status = jobCreateResponse.StatusCode.ToString().Equals("OK") ? "Job has been updated" : jobCreateResponse.StatusCode.ToString();
 
             return GetJobDetail(jobRequest.JobCollectionName, jobRequest.JobName, jobRequest.Region.ToCloudServiceName());
-           
+
         }
 
         #endregion
-    
+
         public PSJobDetail PatchHttpJob(PSCreateJobParams jobRequest, out string status)
         {
             SchedulerClient schedulerClient = new SchedulerClient(csmClient.Credentials, jobRequest.Region.ToCloudServiceName(), jobRequest.JobCollectionName, schedulerManagementClient.BaseUri);
@@ -181,8 +176,11 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Scheduler
             JobCreateOrUpdateResponse jobUpdateResponse = schedulerClient.Jobs.CreateOrUpdate(jobRequest.JobName, jobUpdateParams);
 
             if (!string.IsNullOrEmpty(jobRequest.JobState))
-                schedulerClient.Jobs.UpdateState(jobRequest.JobName, new JobUpdateStateParameters { State = jobRequest.JobState.Equals("Enabled", StringComparison.OrdinalIgnoreCase) ? JobState.Enabled
-                : JobState.Disabled});
+                schedulerClient.Jobs.UpdateState(jobRequest.JobName, new JobUpdateStateParameters
+                {
+                    State = jobRequest.JobState.Equals("Enabled", StringComparison.OrdinalIgnoreCase) ? JobState.Enabled
+                        : JobState.Disabled
+                });
 
             status = jobUpdateResponse.StatusCode.ToString().Equals("OK") ? "Job has been updated" : jobUpdateResponse.StatusCode.ToString();
 
@@ -307,7 +305,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Scheduler
                         jobUpdateParams.Action.ErrorAction.QueueMessage.StorageAccountName = jobRequest.ErrorActionStorageAccount;
                     }
                 }
-                else if(job.Action.ErrorAction == null)
+                else if (job.Action.ErrorAction == null)
                 {
                     jobUpdateParams.Action.ErrorAction.Request.Uri = jobRequest.ErrorActionUri;
                     jobUpdateParams.Action.ErrorAction.Request.Method = jobRequest.ErrorActionMethod;
