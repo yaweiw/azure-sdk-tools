@@ -104,6 +104,6 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.WAPackIaaS.FunctionalTest
 
             return ps.InvokeAndAssertForErrors(expectedErrorMsg);
         }
-     }
+    }
 
 }

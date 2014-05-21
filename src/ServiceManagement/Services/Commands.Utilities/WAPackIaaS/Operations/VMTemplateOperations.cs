@@ -18,7 +18,8 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.WAPackIaaS.Operations
 
     internal class VMTemplateOperations : OperationsBase<VMTemplate>
     {
-        public VMTemplateOperations(WebClientFactory webClientFactory) : base(webClientFactory, "/VMTemplates")
+        public VMTemplateOperations(WebClientFactory webClientFactory)
+            : base(webClientFactory, "/VMTemplates")
         {
         }
     }
