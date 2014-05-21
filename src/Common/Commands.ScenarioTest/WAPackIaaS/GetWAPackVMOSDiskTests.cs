@@ -42,7 +42,7 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.WAPackIaaS.FunctionalTest
             {
                 {"Name", expectedosDiskName}
             };
-           var osDiskFromName = this.InvokeCmdlet(cmdletName, inputParams);
+            var osDiskFromName = this.InvokeCmdlet(cmdletName, inputParams);
             var actualDiskName = osDiskFromName.First().Properties["Name"].Value;
 
             Assert.AreEqual(1, osDiskFromName.Count);

@@ -24,7 +24,7 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.WAPackIaaS.FunctionalTest
         public void Cleanup()
         {
             var vm = VirtualMachine;
-            if(vm.Properties["StatusString"].Value.ToString() == "Paused")
+            if (vm.Properties["StatusString"].Value.ToString() == "Paused")
                 this.SetVirtualMachineState(vm, "Resume");
         }
 

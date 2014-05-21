@@ -109,7 +109,7 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.WAPackIaaS.FunctionalTest
             {
                 {"Id", expectedVmId}
             };
-            var vmFromName = this.InvokeCmdlet(cmdletName, inputParams,expectedError);
+            var vmFromName = this.InvokeCmdlet(cmdletName, inputParams, expectedError);
             Assert.AreEqual(0, vmFromName.Count);
         }
 
