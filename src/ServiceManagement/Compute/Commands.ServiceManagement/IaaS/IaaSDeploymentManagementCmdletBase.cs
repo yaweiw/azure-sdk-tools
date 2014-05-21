@@ -14,8 +14,6 @@
 
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
 {
-    using Management.Compute.Models;
-    using Properties;
     using System;
     using System.Collections.Generic;
     using System.Globalization;
@@ -23,6 +21,10 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
     using System.Management.Automation;
     using System.Net;
     using System.Threading;
+    using Management.Compute;
+    using Management.Compute.Models;
+    using Management.Models;
+    using Properties;
     using Utilities.Common;
 
     public class IaaSDeploymentManagementCmdletBase : ServiceManagementBaseCmdlet

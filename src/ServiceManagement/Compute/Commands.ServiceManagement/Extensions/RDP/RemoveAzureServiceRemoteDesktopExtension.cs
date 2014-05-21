@@ -14,10 +14,10 @@
 
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Extensions
 {
-    using Model.PersistentVMModel;
-    using Properties;
     using System.Linq;
     using System.Management.Automation;
+    using Model.PersistentVMModel;
+    using Properties;
     using Utilities.Common;
 
     /// <summary>

@@ -153,8 +153,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\packages\Microsoft.WindowsAzure.Common.1.0.3\lib\net40\Microsoft.WindowsAzure.Common.NetFramework.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.WindowsAzure.Management">
-      <HintPath>..\..\packages\Microsoft.WindowsAzure.Management.1.0.4\lib\net40\Microsoft.WindowsAzure.Management.dll</HintPath>
+    <Reference Include="Microsoft.WindowsAzure.Management, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\Microsoft.WindowsAzure.Management.1.2.0\lib\net40\Microsoft.WindowsAzure.Management.dll</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Newtonsoft.Json.5.0.8\lib\net40\Newtonsoft.Json.dll</HintPath>
@@ -217,6 +218,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="app.config" />
     <None Include="MSSharedLibKey.snk" />
   </ItemGroup>
   <ItemGroup>

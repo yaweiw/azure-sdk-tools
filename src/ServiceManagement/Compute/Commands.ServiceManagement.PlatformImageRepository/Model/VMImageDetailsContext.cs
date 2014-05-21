@@ -1,4 +1,4 @@
-﻿// ----------------------------------------------------------------------------------
+// ----------------------------------------------------------------------------------
 //
 // Copyright Microsoft Corporation
 // Licensed under the Apache License, Version 2.0 (the "License");
@@ -12,18 +12,11 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.PersistentVMs
-{
-    using System.Management.Automation;
-    using Model.PersistentVMModel;
 
-    [Cmdlet(VerbsCommon.Get, "AzureOSDisk"), OutputType(typeof(OSVirtualHardDisk))]
-    public class GetAzureOSDiskCommand : VirtualMachineConfigurationCmdletBase
+namespace Microsoft.WindowsAzure.Commands.ServiceManagement.PlatformImageRepository.Model
+{
+    public class VMImageDetailsContext : OSImageDetailsContext
     {
-        protected override void ProcessRecord()
-        {
-            var r = VM.GetInstance();
-            WriteObject(r.OSVirtualHardDisk, true);
-        }
+        public string SharingStatus { get; set; }
     }
 }

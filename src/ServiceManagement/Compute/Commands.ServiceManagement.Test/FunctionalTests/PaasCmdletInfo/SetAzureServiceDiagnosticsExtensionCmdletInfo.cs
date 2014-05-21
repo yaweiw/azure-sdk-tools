@@ -14,9 +14,10 @@
 
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests.PaasCmdletInfo
 {
-    using PowershellCore;
+    using System.Management.Automation;
     using System.Security.Cryptography.X509Certificates;
     using System.Xml;
+    using PowershellCore;
 
     public class SetAzureServiceDiagnosticsExtensionCmdletInfo : CmdletsInfo
     {

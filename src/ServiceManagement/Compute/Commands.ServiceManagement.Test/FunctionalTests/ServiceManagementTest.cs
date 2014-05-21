@@ -19,8 +19,11 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
     using Properties;
     using System;
     using System.Collections.ObjectModel;
+    using System.Collections.Specialized;
+    using System.Diagnostics;
     using System.IO;
     using System.Linq;
+    using System.Threading;
     using VisualStudio.TestTools.UnitTesting;
 
     [TestClass]
@@ -138,6 +141,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
             }
 
             locationName = vmPowershellCmdlets.GetAzureLocationName(new[] { CredentialHelper.Location }); // Get-AzureLocation
+
             if (String.IsNullOrEmpty(locationName))
             {
                 Console.WriteLine("No location is selected!");
@@ -149,7 +153,15 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
                 SetDefaultStorage();
             }
 
-            imageName = vmPowershellCmdlets.GetAzureVMImageName(new[] { "Windows" }, false); // Get-AzureVMImage
+            try
+            {
+                imageName = vmPowershellCmdlets.GetAzureVMImageName(new[] { "Windows" }, false); // Get-AzureVMImage
+            }
+            catch
+            {
+                Console.WriteLine("Error occurred during Get-AzureVMImageName... imageName is not set.");
+            }
+
             if (String.IsNullOrEmpty(imageName))
             {
                 Console.WriteLine("No image is selected!");
