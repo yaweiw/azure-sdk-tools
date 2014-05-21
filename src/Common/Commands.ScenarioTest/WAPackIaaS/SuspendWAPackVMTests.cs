@@ -29,7 +29,8 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.WAPackIaaS.FunctionalTest
         }
 
         [TestMethod]
-        [TestCategory("WAPackIaaS")]
+        [TestCategory("WAPackIaaS-All")]
+        [TestCategory("WAPackIaaS-Functional")]
         public void ShouldSuspendExistingVm()
         {
             var vm = VirtualMachine;
@@ -40,8 +41,9 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.WAPackIaaS.FunctionalTest
         }
 
         [TestMethod]
-        [TestCategory("WAPackIaaS")]
-        [TestCategory("Negative")]
+        [TestCategory("WAPackIaaS-All")]
+        [TestCategory("WAPackIaaS-Negative")]
+        [TestCategory("WAPackIaaS-Functional")]
         public void SuspendVmThatNoLongerExistsFails()
         {
             var vm = VirtualMachine;
@@ -58,7 +60,8 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.WAPackIaaS.FunctionalTest
         }
 
         [TestMethod]
-        [TestCategory("WAPackIaaS")]
+        [TestCategory("WAPackIaaS-All")]
+        [TestCategory("WAPackIaaS-Functional")]
         public void ShouldBeAbleToGetAndSuspendAVmUsingPipeline()
         {
             var vm = VirtualMachine;

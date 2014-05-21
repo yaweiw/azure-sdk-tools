@@ -38,7 +38,8 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.WAPackIaaS.FunctionalTest
         }
 
         [TestMethod]
-        [TestCategory("WAPackIaaS")]
+        [TestCategory("WAPackIaaS-All")]
+        [TestCategory("WAPackIaaS-Functional")]
         public void GetVmWithNoParam()
         {
             var allVms = this.InvokeCmdlet(cmdletName, null);
@@ -46,7 +47,8 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.WAPackIaaS.FunctionalTest
         }
 
         [TestMethod]
-        [TestCategory("WAPackIaaS")]
+        [TestCategory("WAPackIaaS-All")]
+        [TestCategory("WAPackIaaS-Functional")]
         public void GetVmFromName()
         {
             string expectedVmName = VMNameToCreate;
@@ -61,7 +63,8 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.WAPackIaaS.FunctionalTest
         }
 
         [TestMethod]
-        [TestCategory("WAPackIaaS")]
+        [TestCategory("WAPackIaaS-All")]
+        [TestCategory("WAPackIaaS-Functional")]
         public void GetWAPackVmFromId()
         {
             string expectedVmName = VMNameToCreate;
@@ -85,7 +88,8 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.WAPackIaaS.FunctionalTest
         }
 
         [TestMethod]
-        [TestCategory("WAPackIaaS")]
+        [TestCategory("WAPackIaaS-All")]
+        [TestCategory("WAPackIaaS-Functional")]
         public void GetWAPackVmByNameDoesNotExist()
         {
             string expectedVmName = "WAPackVmDoesNotExist";
@@ -99,8 +103,9 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.WAPackIaaS.FunctionalTest
         }
 
         [TestMethod]
-        [TestCategory("Negative")]
-        [TestCategory("WAPackIaaS")]
+        [TestCategory("WAPackIaaS-Negative")]
+        [TestCategory("WAPackIaaS-All")]
+        [TestCategory("WAPackIaaS-Functional")]
         public void GetWAPackVmByIdDoesNotExist()
         {
             var expectedVmId = Guid.NewGuid().ToString();
