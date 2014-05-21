@@ -22,7 +22,6 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Scheduler
 
     public partial class SchedulerMgmntClient
     {
-
         #region Create Jobs
 
         private JobErrorAction PopulateErrorAction(PSCreateJobParams jobRequest)
@@ -159,7 +158,6 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Scheduler
             status = jobCreateResponse.StatusCode.ToString().Equals("OK") ? "Job has been updated" : jobCreateResponse.StatusCode.ToString();
 
             return GetJobDetail(jobRequest.JobCollectionName, jobRequest.JobName, jobRequest.Region.ToCloudServiceName());
-
         }
 
         #endregion
