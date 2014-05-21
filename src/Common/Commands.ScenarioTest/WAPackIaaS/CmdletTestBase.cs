@@ -72,7 +72,7 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.WAPackIaaS.FunctionalTest
         private void InitializeWAPackConfiguration()
         {
             string directoryPath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
-            var path = Path.GetFullPath(Path.Combine(directoryPath, "..\\..\\..\\..\\..\\Package\\Debug\\Azure.psd1"));
+            var path = Path.GetFullPath(Path.Combine(directoryPath, "..\\..\\..\\Package\\Debug\\ServiceManagement\\Azure\\Azure.psd1"));
             this.PowerShell.Commands.Clear();
 
             this.PowerShell.AddCommand("Import-Module").AddArgument(path).InvokeAndAssertForNoErrors();
@@ -81,7 +81,7 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.WAPackIaaS.FunctionalTest
             this.PowerShell.AddScript("Get-AzureSubscription | Remove-AzureSubscription -Force").InvokeAndAssertForNoErrors();
             this.PowerShell.Commands.Clear();
 
-            var publishSettingsPath = Path.GetFullPath(Path.Combine(directoryPath, "..\\..\\..\\Commands.ScenarioTest\\Artifacts\\WAPackTestConfig.publishsettings"));
+            var publishSettingsPath = Path.GetFullPath(Path.Combine(directoryPath, "..\\..\\..\\Common\\Commands.ScenarioTest\\Artifacts\\WAPackTestConfig.publishsettings"));
             this.PowerShell.AddCommand("Import-AzurePublishSettingsFile").AddArgument(publishSettingsPath).InvokeAndAssertForNoErrors();
             this.PowerShell.Commands.Clear();
         }
