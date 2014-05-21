@@ -447,24 +447,6 @@
     <None Include="Resources\upload_VHD.csv" />
     <None Include="Resources\vnetconfig.netcfg" />
     <None Include="Resources\wrongPara_VHD.csv" />
-    <None Include="vendor\VhdFiles\dynamic_50.vhd">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="vendor\VhdFiles\dynamic_50_child01.vhd">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="vendor\VhdFiles\dynamic_50_child02.vhd">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="vendor\VhdFiles\fixed_50.vhd">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="vendor\VhdFiles\fixed_50_child01.vhd">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="vendor\VhdFiles\fixed_50_child02.vhd">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
   </ItemGroup>
   <ItemGroup>
     <Content Include="FunctionalTests\Readme.txt" />
