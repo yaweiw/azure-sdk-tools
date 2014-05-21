@@ -156,7 +156,18 @@ using Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests.Iaa
 
         public string GetAzureLocationName(string[] keywords)
         {
-            Collection<LocationsContext> locations = GetAzureLocation();
+            Collection<LocationsContext> locations;
+
+            try
+            {
+                locations = GetAzureLocation();
+            }
+            catch
+            {
+                Console.WriteLine("Error occurred during Get-AzureLocation...   Default location is not set.");
+                return null;
+            }
+
             if (keywords != null)
             {
                 foreach (LocationsContext location in locations)
