@@ -192,7 +192,7 @@ namespace Microsoft.Azure.Commands.ManagedCache
                 else
                 {
                     const int milliSecondPerMinute = 60000;
-                    Thread.Sleep(milliSecondPerMinute);
+                    TestMockSupport.Delay(milliSecondPerMinute);
                     waitInMinutes--;
                 }
             }
