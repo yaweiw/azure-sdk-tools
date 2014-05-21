@@ -20,10 +20,10 @@ Managed Cache End to End
 #>
 function Test-ManagedCacheEndToEnd
 {
-	  $cacheName = "cachescenariotest"
+    $cacheName = "cachescenariotest"
 
     # new a sevice
-	  New-AzureManagedCache $cacheName "West US"
+    New-AzureManagedCache $cacheName "West US"
 
     # verify using a get
     $newCacheService = Get-AzureManagedCache $cacheName
