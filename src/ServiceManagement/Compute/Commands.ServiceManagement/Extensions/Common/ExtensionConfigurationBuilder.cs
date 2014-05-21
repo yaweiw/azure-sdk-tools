@@ -14,10 +14,10 @@
 
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Extensions
 {
-    using Management.Compute.Models;
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using Management.Compute.Models;
 
     public class ExtensionConfigurationBuilder
     {

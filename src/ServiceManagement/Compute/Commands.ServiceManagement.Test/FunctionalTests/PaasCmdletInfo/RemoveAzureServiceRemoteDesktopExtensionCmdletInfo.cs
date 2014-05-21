@@ -14,6 +14,9 @@
 
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests.PaasCmdletInfo
 {
+    using System.Management.Automation;
+    using System.Security.Cryptography.X509Certificates;
+    using System;
     using PowershellCore;
 
     public class RemoveAzureServiceRemoteDesktopExtensionCmdletInfo : CmdletsInfo

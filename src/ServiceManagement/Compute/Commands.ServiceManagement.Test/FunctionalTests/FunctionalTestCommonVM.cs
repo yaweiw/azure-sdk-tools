@@ -15,16 +15,22 @@
 
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
 {
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
-    using Microsoft.WindowsAzure.Commands.ServiceManagement.Model;
-    using Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests.ConfigDataInfo;
-    using Model.PersistentVMModel;
     using System;
+    using System.Collections.Generic;
+    using System.Collections.ObjectModel;
     using System.IO;
     using System.Management.Automation;
     using System.Reflection;
     using System.Security.Cryptography.X509Certificates;
+    using System.Text;
     using System.Threading;
+    using System.Xml;
+    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using Microsoft.WindowsAzure.Commands.ServiceManagement.Extensions;
+    using Microsoft.WindowsAzure.Commands.ServiceManagement.Model;
+    using Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests.ConfigDataInfo;
+    using Microsoft.WindowsAzure.Commands.ServiceManagement.Test.Properties;
+    using Model.PersistentVMModel;
 
     [TestClass]
     public class FunctionalTestCommonVM : ServiceManagementTest

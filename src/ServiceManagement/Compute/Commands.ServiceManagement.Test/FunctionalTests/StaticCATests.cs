@@ -15,6 +15,7 @@
 
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
 {
+    using System.Threading;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using Microsoft.WindowsAzure.Commands.ServiceManagement.Model;
     using Microsoft.WindowsAzure.Commands.ServiceManagement.Model.PersistentVMModel;
@@ -24,7 +25,6 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
     using System.IO;
     using System.Linq;
     using System.Reflection;
-    using System.Threading;
     using System.Xml.Linq;
 
     [TestClass]

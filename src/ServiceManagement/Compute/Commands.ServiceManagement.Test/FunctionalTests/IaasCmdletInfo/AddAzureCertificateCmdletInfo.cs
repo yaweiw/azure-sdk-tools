@@ -14,8 +14,8 @@
 
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests.IaasCmdletInfo
 {
-    using PowershellCore;
     using System.Management.Automation;
+    using PowershellCore;
 
     public class AddAzureCertificateCmdletInfo : CmdletsInfo
     {

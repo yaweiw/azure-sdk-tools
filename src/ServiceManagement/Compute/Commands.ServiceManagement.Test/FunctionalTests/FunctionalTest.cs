@@ -18,18 +18,20 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
     using ConfigDataInfo;
     using Extensions;
     using Model;
-    using Model.PersistentVMModel;
+    using Properties;
     using System;
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
     using System.IO;
-    using System.Linq;
     using System.Management.Automation;
     using System.Reflection;
     using System.Security.Cryptography.X509Certificates;
     using System.Text;
+    using System.Threading;
     using System.Xml;
     using VisualStudio.TestTools.UnitTesting;
+    using Model.PersistentVMModel;
+    using System.Linq;
 
     [TestClass]
     public class FunctionalTest : ServiceManagementTest

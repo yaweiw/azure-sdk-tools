@@ -14,10 +14,10 @@
 
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.DiskRepository
 {
+    using System.Management.Automation;
     using Helpers;
     using Model;
     using Properties;
-    using System.Management.Automation;
     using Utilities.Common;
 
     [Cmdlet(
