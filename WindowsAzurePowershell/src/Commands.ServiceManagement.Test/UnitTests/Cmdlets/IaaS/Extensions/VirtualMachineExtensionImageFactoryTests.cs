@@ -14,8 +14,10 @@
 
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.UnitTests.Cmdlets.IaaS.Extensions
 {
+    using System;
     using System.Collections.Generic;
     using System.Linq;
+    using System.Net;
     using System.Threading;
     using System.Threading.Tasks;
     using Commands.Test.Utilities.Common;
@@ -50,9 +52,20 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.UnitTests.Cmdle
                         }, 1))
                 });
 
+            var emptySource = new TaskCompletionSource<VirtualMachineExtensionListResponse>();
+            emptySource.SetResult(
+                new VirtualMachineExtensionListResponse
+                {
+                    ResourceExtensions = new List<VirtualMachineExtensionListResponse.ResourceExtension>()
+                });
+
             var operations = new Mock<IVirtualMachineExtensionOperations>();
             operations.Setup(f => f.ListVersionsAsync(It.IsAny<string>(), It.IsAny<string>(), CancellationToken.None))
-                      .Returns(source.Task);
+                .Returns<string, string, CancellationToken>(
+                (s, t, k) => string.Equals(s, testPublisherName, StringComparison.OrdinalIgnoreCase)
+                          && string.Equals(t, testExtensionName, StringComparison.OrdinalIgnoreCase)
+                           ? source.Task
+                           : emptySource.Task);
 
             client = new Mock<IComputeManagementClient>();
             client.Setup(f => f.VirtualMachineExtensions)
@@ -67,14 +80,14 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.UnitTests.Cmdle
         [TestMethod]
         public void TestNonExistingExtensionImageList()
         {
-            var factory = new VirtualMachineExtensionImageFactory(null);
+            var factory = new VirtualMachineExtensionImageFactory(client.Object);
 
             var list = factory.MakeList(
                 nonExistingPublisherName,
                 nonExistingExtensionName,
                 "1.*");
 
-            Assert.IsTrue(list.Count() == 0);
+            Assert.IsTrue(!list.Any());
         }
 
         [TestMethod]
@@ -87,30 +100,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.UnitTests.Cmdle
                 testExtensionName,
                 "1.*");
 
-            Assert.IsTrue(list.Count() == 1);
-
-            var item = list[0];
-
-            Assert.AreEqual(
-                item.Publisher,
-                testPublisherName,
-                true,
-                string.Empty);
-
-            Assert.AreEqual(
-                item.Name,
-                testExtensionName,
-                true,
-                string.Empty);
-
-            Assert.IsTrue(!string.IsNullOrEmpty(item.ReferenceName));
-
-            Assert.IsTrue(item.ResourceExtensionParameterValues == null
-                      || !item.ResourceExtensionParameterValues.Any());
-
-            Assert.IsTrue(string.IsNullOrEmpty(item.State));
-
-            Assert.IsTrue(string.IsNullOrEmpty(item.Version));
+            Assert.IsTrue(!list.Any());
         }
 
         [TestMethod]
@@ -146,7 +136,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.UnitTests.Cmdle
 
             Assert.IsTrue(string.IsNullOrEmpty(item.State));
 
-            Assert.IsTrue(string.IsNullOrEmpty(item.Version));
+            Assert.IsTrue(item.Version.Equals("1.*"));
         }
     }
 }
