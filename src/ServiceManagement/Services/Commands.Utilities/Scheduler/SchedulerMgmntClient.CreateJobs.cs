@@ -1,4 +1,4 @@
-﻿// ----------------------------------------------------------------------------------
+// ----------------------------------------------------------------------------------
 //
 // Copyright Microsoft Corporation
 // Licensed under the Apache License, Version 2.0 (the "License");
@@ -16,9 +16,14 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Scheduler
 {
     using Microsoft.WindowsAzure.Commands.Utilities.Scheduler.Common;
     using Microsoft.WindowsAzure.Commands.Utilities.Scheduler.Model;
+    using Microsoft.WindowsAzure.Management.Scheduler;
+    using Microsoft.WindowsAzure.Management.Scheduler.Models;
     using Microsoft.WindowsAzure.Scheduler;
     using Microsoft.WindowsAzure.Scheduler.Models;
     using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using Utilities.Common;
 
     public partial class SchedulerMgmntClient
     {   
@@ -66,7 +71,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Scheduler
    
         public PSJobDetail CreateHttpJob(PSCreateJobParams jobRequest, out string status)
         {
-            SchedulerClient schedulerClient = new SchedulerClient(csmClient.Credentials, jobRequest.Region.ToCloudServiceName(), jobRequest.JobCollectionName);
+            SchedulerClient schedulerClient = new SchedulerClient(csmClient.Credentials, jobRequest.Region.ToCloudServiceName(), jobRequest.JobCollectionName, schedulerManagementClient.BaseUri);
             JobCreateOrUpdateParameters jobCreateParams = new JobCreateOrUpdateParameters
             {
                 Action = new JobAction
@@ -117,7 +122,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Scheduler
       
         public PSJobDetail CreateStorageJob(PSCreateJobParams jobRequest, out string status)
         {
-            SchedulerClient schedulerClient = new SchedulerClient(csmClient.Credentials, jobRequest.Region.ToCloudServiceName(), jobRequest.JobCollectionName);
+            SchedulerClient schedulerClient = new SchedulerClient(csmClient.Credentials, jobRequest.Region.ToCloudServiceName(), jobRequest.JobCollectionName, schedulerManagementClient.BaseUri);
             JobCreateOrUpdateParameters jobCreateParams = new JobCreateOrUpdateParameters
             {
                 Action = new JobAction
@@ -166,7 +171,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Scheduler
     
         public PSJobDetail PatchHttpJob(PSCreateJobParams jobRequest, out string status)
         {
-            SchedulerClient schedulerClient = new SchedulerClient(csmClient.Credentials, jobRequest.Region.ToCloudServiceName(), jobRequest.JobCollectionName);
+            SchedulerClient schedulerClient = new SchedulerClient(csmClient.Credentials, jobRequest.Region.ToCloudServiceName(), jobRequest.JobCollectionName, schedulerManagementClient.BaseUri);
 
             //Get Existing job
             Job job = schedulerClient.Jobs.Get(jobRequest.JobName).Job;
@@ -381,7 +386,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Scheduler
 
         public PSJobDetail PatchStorageJob(PSCreateJobParams jobRequest, out string status)
         {
-            SchedulerClient schedulerClient = new SchedulerClient(csmClient.Credentials, jobRequest.Region.ToCloudServiceName(), jobRequest.JobCollectionName);
+            SchedulerClient schedulerClient = new SchedulerClient(csmClient.Credentials, jobRequest.Region.ToCloudServiceName(), jobRequest.JobCollectionName, schedulerManagementClient.BaseUri);
 
             //Get Existing job
             Job job = schedulerClient.Jobs.Get(jobRequest.JobName).Job;
