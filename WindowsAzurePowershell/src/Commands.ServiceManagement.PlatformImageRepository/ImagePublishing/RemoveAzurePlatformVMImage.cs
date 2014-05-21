@@ -15,11 +15,10 @@
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.PlatformImageRepository.ImagePublishing
 {
     using System.Management.Automation;
-    using Commands.Utilities.Common;
     using Helpers;
     using ServiceManagement.Model;
     using ServiceManagement.Properties;
-    using WindowsAzure.ServiceManagement;
+    using Utilities.Common;
 
     [Cmdlet(VerbsCommon.Remove, "AzurePlatformVMImage"), OutputType(typeof(ManagementOperationContext))]
     public class RemoveAzurePlatformVMImage : ServiceManagementBaseCmdlet
@@ -52,15 +51,25 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.PlatformImageReposit
             }
             else if (isOSImage || !isVMImage)
             {
-                this.Channel.GetOSImage(CurrentSubscription.SubscriptionId, this.ImageName);
-                ExecuteClientActionInOCS(null, CommandRuntime.ToString(), s => this.Channel.UnReplicateOSImage(s, this.ImageName));
+                ExecuteClientActionNewSM(
+                    null,
+                    CommandRuntime.ToString(),
+                    () =>
+                    {
+                        this.ComputeClient.VirtualMachineOSImages.Get(this.ImageName);
+                        return this.ComputeClient.VirtualMachineOSImages.Unreplicate(this.ImageName);
+                    });
             }
             else
             {
                 ExecuteClientActionNewSM(
                     null,
                     CommandRuntime.ToString(),
-                    () => this.ComputeClient.VirtualMachineVMImages.UnReplicate(this.ImageName));
+                    () =>
+                    {
+                        this.ComputeClient.VirtualMachineVMImages.GetDetails(this.ImageName);
+                        return this.ComputeClient.VirtualMachineVMImages.Unreplicate(this.ImageName);
+                    });
             }
         }
     }
