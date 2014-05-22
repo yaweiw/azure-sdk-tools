@@ -471,7 +471,6 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <None Include="app.config" />
     <None Include="MSSharedLibKey.snk" />
   </ItemGroup>
   <ItemGroup>
