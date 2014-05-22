@@ -556,5 +556,14 @@ namespace Microsoft.Azure.Commands.Resources.Test.Models
                 File.Delete(expectedFilePath);
             }
         }
+
+        [Fact]
+        public void ParseTemplateParameterFileContents_DeserizlizeWithCorrectType()
+        {
+            Dictionary<string, TemplateFileParameterV1> result =
+                galleryTemplatesClient.ParseTemplateParameterFileContents(@"Resources\WebSite.param.dev.json");
+            Assert.Equal(true, result["isWorker"].Value);
+            Assert.Equal((System.Int64)1, result["numberOfWorker"].Value);
+        }
     }
 }
