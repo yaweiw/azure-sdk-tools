@@ -20,8 +20,9 @@ Managed Cache End to End
 #>
 function Test-ManagedCacheEndToEnd
 {
-    $cacheName = "cachescenariotest"
-
+    $cacheName = getAssetName
+    # cache service can only take lower case name
+    $cacheName = $cacheName.ToLower()
     # new a sevice
     New-AzureManagedCache $cacheName "West US"
 
