@@ -30,6 +30,7 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.ManagedCacheTests
         [TestMethod]
         [TestCategory(Category.All)]
         [TestCategory(Category.CheckIn)]
+        [TestCategory(Category.Bvt)]
         public void ManagedCacheEndToEndTest()
         {
             this.RunPowerShellTest("Test-ManagedCacheEndToEnd");
