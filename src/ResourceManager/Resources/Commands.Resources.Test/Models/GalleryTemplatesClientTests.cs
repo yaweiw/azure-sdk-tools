@@ -558,7 +558,7 @@ namespace Microsoft.Azure.Commands.Resources.Test.Models
         }
 
         [Fact]
-        public void ParseTemplateParameterFileContents_DeserizlizeWithCorrectType()
+        public void ParseTemplateParameterFileContents_DeserializeWithCorrectType()
         {
             Dictionary<string, TemplateFileParameterV1> result =
                 galleryTemplatesClient.ParseTemplateParameterFileContents(@"Resources\WebSite.param.dev.json");
