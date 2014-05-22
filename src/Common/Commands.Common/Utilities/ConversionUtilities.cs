@@ -18,6 +18,8 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
     using System.Collections;
     using System.Collections.Generic;
     using System.Linq;
+    using System.Runtime.InteropServices;
+    using System.Security;
     using System.Text;
 
     public static class ConversionUtilities
@@ -41,13 +43,20 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
                     }
                     else
                     {
+                        object value = entry.Value;
+
+                        if (entry.Value is SecureString)
+                        {
+                            value = ConversionUtilities.SecureStringToString(entry.Value as SecureString);
+                        }
+
                         if (addValueLayer)
                         {
-                            dictionary[(string) entry.Key] = new Hashtable() {{"value", entry.Value}};
+                            dictionary[(string)entry.Key] = new Hashtable() { { "value", value } };
                         }
                         else
                         {
-                            dictionary[(string) entry.Key] = entry.Value;
+                            dictionary[(string)entry.Key] = value;
                         }
                     }
                 }
@@ -77,6 +86,20 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
         public static string ArrayToString<T>(this T[] array, string delimiter)
         {
             return (array == null) ? null : (array.Length == 0) ? String.Empty : array.Skip(1).Aggregate(new StringBuilder(array[0].ToString()), (s, i) => s.Append(delimiter).Append(i), s => s.ToString());
+        }
+
+        public static string SecureStringToString(SecureString secureString)
+        {
+            IntPtr valuePtr = IntPtr.Zero;
+            try
+            {
+                valuePtr = Marshal.SecureStringToGlobalAllocUnicode(secureString);
+                return Marshal.PtrToStringUni(valuePtr);
+            }
+            finally
+            {
+                Marshal.ZeroFreeGlobalAllocUnicode(valuePtr);
+            }
         }
     }
 }
