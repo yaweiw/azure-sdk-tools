@@ -21,7 +21,8 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.WAPackIaaS.Operations
 
     internal class JobOperations : OperationsBase<Job>
     {
-        public JobOperations(WebClientFactory webClientFactory) : base(webClientFactory, "/Jobs")
+        public JobOperations(WebClientFactory webClientFactory)
+            : base(webClientFactory, "/Jobs")
         {
         }
 

@@ -119,7 +119,7 @@ namespace Microsoft.WindowsAzure.Commands.WAPackIaaS.VirtualMachine
             var virtualMachineOperations = new VirtualMachineOperations(this.WebClientFactory);
             Guid? jobId = Guid.Empty;
             
-            var  virtualNetworkAdaptersWithVNet = this.CustomizeVnaInput();
+            var virtualNetworkAdaptersWithVNet = this.CustomizeVnaInput();
 
             if (this.ParameterSetName == WAPackCmdletParameterSets.CreateWindowsVMFromTemplate)
             {

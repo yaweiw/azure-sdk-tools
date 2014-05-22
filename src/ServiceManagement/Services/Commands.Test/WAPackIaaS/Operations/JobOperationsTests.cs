@@ -29,7 +29,8 @@ namespace Microsoft.WindowsAzure.Commands.Test.WAPackIaaS.Operations
         /// Tests WaitOnJob with no timeout and a job that completes immediately.
         /// </summary>
         [TestMethod]
-        [TestCategory("WAPackIaaS")]
+        [TestCategory("WAPackIaaS-All")]
+        [TestCategory("WAPackIaaS-Unit")]
         public void WaitOnJobCompletesImmediately()
         {
             Guid jobId = Guid.NewGuid();
@@ -49,7 +50,8 @@ namespace Microsoft.WindowsAzure.Commands.Test.WAPackIaaS.Operations
         /// Tests WaitOnJob with a timeout where the the Job does not complete before timeout occurs
         /// </summary>
         [TestMethod]
-        [TestCategory("WAPackIaaS")]
+        [TestCategory("WAPackIaaS-All")]
+        [TestCategory("WAPackIaaS-Unit")]
         public void WaitOnJobTimeoutJobNotFinished()
         {
             Guid jobId = Guid.NewGuid();
@@ -77,7 +79,8 @@ namespace Microsoft.WindowsAzure.Commands.Test.WAPackIaaS.Operations
         /// Tests WaitOnJob with a timeout where the job completes before the timeout occurs
         /// </summary>
         [TestMethod]
-        [TestCategory("WAPackIaaS")]
+        [TestCategory("WAPackIaaS-All")]
+        [TestCategory("WAPackIaaS-Unit")]
         public void WaitOnJobTimeoutJobFinished()
         {
             Guid jobId = Guid.NewGuid();

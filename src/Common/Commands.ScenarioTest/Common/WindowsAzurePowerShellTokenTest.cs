@@ -37,7 +37,9 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.Common
         private void OnClientCreated(object sender, ClientCreatedArgs e)
         {
             e.AddHandlerToClient(HttpMockServer.CreateInstance());
-            if (HttpMockServer.Mode == HttpRecorderMode.Playback)
+            bool runningMocked = (HttpMockServer.Mode == HttpRecorderMode.Playback);
+            TestMockSupport.RunningMocked = runningMocked;
+            if (runningMocked)
             {
                 PropertyInfo initTimeoutProp = e.ClientType.GetProperty("LongRunningOperationInitialTimeout");
                 PropertyInfo retryTimeoutProp = e.ClientType.GetProperty("LongRunningOperationRetryTimeout");

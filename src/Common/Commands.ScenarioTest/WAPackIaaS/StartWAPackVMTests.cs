@@ -21,7 +21,8 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.WAPackIaaS.FunctionalTest
     public class StartWAPackVMTests : CmdletTestVirtualMachineStatusBase
     {
         [TestMethod]
-        [TestCategory("WAPackIaaS")]
+        [TestCategory("WAPackIaaS-All")]
+        [TestCategory("WAPackIaaS-Functional")]
         public void ShouldStartVmFromStop()
         {
             var initialVm = this.SetVirtualMachineState(this.VirtualMachine, "Stop");
@@ -32,7 +33,8 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.WAPackIaaS.FunctionalTest
         }
 
         [TestMethod]
-        [TestCategory("WAPackIaaS")]
+        [TestCategory("WAPackIaaS-All")]
+        [TestCategory("WAPackIaaS-Functional")]
         public void ShouldStartVmAlreadyStarted()
         {
             var initialVm = this.SetVirtualMachineState(this.VirtualMachine, "Start");
@@ -43,8 +45,9 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.WAPackIaaS.FunctionalTest
         }
 
         [TestMethod]
-        [TestCategory("WAPackIaaS")]
-        [TestCategory("Negative")]
+        [TestCategory("WAPackIaaS-All")]
+        [TestCategory("WAPackIaaS-Negative")]
+        [TestCategory("WAPackIaaS-Functional")]
         public void StartVmThatNoLongerExistsFails()
         {
             var vm = VirtualMachine;
@@ -60,7 +63,8 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.WAPackIaaS.FunctionalTest
         }
 
         [TestMethod]
-        [TestCategory("WAPackIaaS")]
+        [TestCategory("WAPackIaaS-All")]
+        [TestCategory("WAPackIaaS-Functional")]
         public void ShouldBeAbleToGetAndStartAVmUsingPipeline()
         {
             var vm = VirtualMachine;

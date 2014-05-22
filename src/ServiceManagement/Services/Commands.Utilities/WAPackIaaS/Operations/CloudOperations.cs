@@ -20,7 +20,8 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.WAPackIaaS.Operations
     
     internal class CloudOperations : OperationsBase<Cloud>
     {
-        public CloudOperations(WebClientFactory webClientFactory) : base(webClientFactory, "/Clouds")
+        public CloudOperations(WebClientFactory webClientFactory)
+            : base(webClientFactory, "/Clouds")
         {
         }
 
