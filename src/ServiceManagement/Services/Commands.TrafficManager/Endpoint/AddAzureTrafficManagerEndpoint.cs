@@ -25,9 +25,6 @@ namespace Microsoft.WindowsAzure.Commands.TrafficManager.Endpoint
     [Cmdlet(VerbsCommon.Add, "AzureTrafficManagerEndpoint"), OutputType(typeof(IProfileWithDefinition))]
     public class AddAzureTrafficManagerEndpoint : TrafficManagerConfigurationBaseCmdlet
     {
-        [Parameter(Mandatory = true, ValueFromPipelineByPropertyName = true)]
-        public string Name { get; set; }
-
         [Parameter(Mandatory = true)]
         public string DomainName { get; set; }
 

@@ -27,10 +27,6 @@ namespace Microsoft.WindowsAzure.Commands.TrafficManager.Endpoint
     [Cmdlet(VerbsCommon.Set, "AzureTrafficManagerEndpoint"), OutputType(typeof(IProfileWithDefinition))]
     public class SetAzureTrafficManagerEndpoint : TrafficManagerConfigurationBaseCmdlet
     {
-        [Parameter(Mandatory = true,
-           ValueFromPipelineByPropertyName = true)]
-        public string Name { get; set; }
-
         [Parameter(Mandatory = true)]
         public string DomainName { get; set; }
 
@@ -63,7 +59,7 @@ namespace Microsoft.WindowsAzure.Commands.TrafficManager.Endpoint
                     throw new Exception(Resources.SetTrafficManagerEndpointNeedsParameters);
                 }
 
-                WriteVerboseWithTimestamp(Resources.SetInexistentTrafficManagerEndpointMessage, Name, DomainName);
+                WriteVerboseWithTimestamp(Resources.SetInexistentTrafficManagerEndpointMessage, profile.Name, DomainName);
                 endpoint = new TrafficManagerEndpoint();
                 endpoint.DomainName = DomainName;
                 endpoint.Location = Location;

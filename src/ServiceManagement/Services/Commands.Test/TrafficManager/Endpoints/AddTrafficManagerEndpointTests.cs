@@ -54,7 +54,6 @@ namespace Microsoft.WindowsAzure.Commands.Test.TrafficManager.Endpoints
             // Setup
             cmdlet = new AddAzureTrafficManagerEndpoint
             {
-                Name = ProfileName,
                 DomainName = DomainName,
                 Type = CloudServiceType,
                 Weight = Weight,
@@ -84,7 +83,6 @@ namespace Microsoft.WindowsAzure.Commands.Test.TrafficManager.Endpoints
             // Setup
             cmdlet = new AddAzureTrafficManagerEndpoint
             {
-                Name = ProfileName,
                 DomainName = DomainName,
                 Type = AzureWebsiteType,
                 Weight = Weight,
@@ -113,7 +111,6 @@ namespace Microsoft.WindowsAzure.Commands.Test.TrafficManager.Endpoints
 
             cmdlet = new AddAzureTrafficManagerEndpoint
             {
-                Name = ProfileName,
                 DomainName = DomainName,
                 Type = AnyType,
                 Weight = Weight,
@@ -153,7 +150,6 @@ namespace Microsoft.WindowsAzure.Commands.Test.TrafficManager.Endpoints
             // Setup
             cmdlet = new AddAzureTrafficManagerEndpoint
             {
-                Name = ProfileName,
                 DomainName = DomainName,
                 Type = AnyType,
                 TrafficManagerProfile = original,
