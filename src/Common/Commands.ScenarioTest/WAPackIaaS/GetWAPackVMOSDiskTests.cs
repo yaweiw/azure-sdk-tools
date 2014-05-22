@@ -26,7 +26,8 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.WAPackIaaS.FunctionalTest
         public const string cmdletName = "Get-WAPackVMOSDisk";
 
         [TestMethod]
-        [TestCategory("WAPackIaaS")]
+        [TestCategory("WAPackIaaS-All")]
+        [TestCategory("WAPackIaaS-Functional")]
         public void GetWAPackOSDiskWithNoParam()
         {
             var allOSDisks = this.InvokeCmdlet(cmdletName, null);
@@ -34,7 +35,8 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.WAPackIaaS.FunctionalTest
         }
 
         [TestMethod]
-        [TestCategory("WAPackIaaS")]
+        [TestCategory("WAPackIaaS-All")]
+        [TestCategory("WAPackIaaS-Functional")]
         public void GetWAPackOSDiskFromName()
         {
             string expectedosDiskName = WAPackConfigurationFactory.Ws2k8R2OSDiskName;
@@ -42,7 +44,7 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.WAPackIaaS.FunctionalTest
             {
                 {"Name", expectedosDiskName}
             };
-           var osDiskFromName = this.InvokeCmdlet(cmdletName, inputParams);
+            var osDiskFromName = this.InvokeCmdlet(cmdletName, inputParams);
             var actualDiskName = osDiskFromName.First().Properties["Name"].Value;
 
             Assert.AreEqual(1, osDiskFromName.Count);
@@ -50,7 +52,8 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.WAPackIaaS.FunctionalTest
         }
 
         [TestMethod]
-        [TestCategory("WAPackIaaS")]
+        [TestCategory("WAPackIaaS-All")]
+        [TestCategory("WAPackIaaS-Functional")]
         public void GetWAPackOSDiskFromIdAndName()
         {
             string expectedosDiskName = WAPackConfigurationFactory.Ws2k8R2OSDiskName;
@@ -75,8 +78,9 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.WAPackIaaS.FunctionalTest
         }
 
         [TestMethod]
-        [TestCategory("Negative")]
-        [TestCategory("WAPackIaaS")]
+        [TestCategory("WAPackIaaS-Negative")]
+        [TestCategory("WAPackIaaS-All")]
+        [TestCategory("WAPackIaaS-Functional")]
         public void GetWAPackOSDiskByNameDoesNotExist()
         {
             string expectedosDiskName = "WAPackOSDiskDoesNotExist";
@@ -90,8 +94,9 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.WAPackIaaS.FunctionalTest
         }
 
         [TestMethod]
-        [TestCategory("Negative")]
-        [TestCategory("WAPackIaaS")]
+        [TestCategory("WAPackIaaS-Negative")]
+        [TestCategory("WAPackIaaS-All")]
+        [TestCategory("WAPackIaaS-Functional")]
         public void GetWAPackOSDiskByIdDoesNotExist()
         {
             var expectedVmId = Guid.NewGuid().ToString();
