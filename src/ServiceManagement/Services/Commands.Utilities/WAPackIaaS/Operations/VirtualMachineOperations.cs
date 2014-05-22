@@ -23,7 +23,8 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.WAPackIaaS.Operations
         
     internal class VirtualMachineOperations : OperationsBase<VirtualMachine>
     {
-        public VirtualMachineOperations(WebClientFactory webClientFactory) : base(webClientFactory, "/VirtualMachines")
+        public VirtualMachineOperations(WebClientFactory webClientFactory)
+            : base(webClientFactory, "/VirtualMachines")
         {
         }
 

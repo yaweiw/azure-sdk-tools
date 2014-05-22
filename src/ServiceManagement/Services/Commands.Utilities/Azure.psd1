@@ -142,7 +142,10 @@ AliasesToExport = @(
 'Start-AzureHDInsightJob',
 'Stop-AzureHDInsightJob',
 'Use-AzureHDInsightCluster',
-'Wait-AzureHDInsightJob'
+'Wait-AzureHDInsightJob',
+'Get-AzureStorageContainerAcl',
+'Start-CopyAzureStorageBlob',
+'Stop-CopyAzureStorageBlob'
 )
 
 # List of all modules packaged with this module
