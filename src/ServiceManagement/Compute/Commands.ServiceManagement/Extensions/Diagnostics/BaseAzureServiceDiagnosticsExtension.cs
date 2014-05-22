@@ -16,6 +16,9 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Extensions
     using System.Text;
     using System.Xml;
     using System.Xml.Linq;
+    using Microsoft.WindowsAzure.Commands.Utilities.Common;
+    using Microsoft.WindowsAzure.Storage;
+    using Microsoft.WindowsAzure.Storage.Auth;
 
     public abstract class BaseAzureServiceDiagnosticsExtensionCmdlet : BaseAzureServiceExtensionCmdlet
     {
@@ -29,7 +32,6 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Extensions
         protected const string WadCfgElemStr = "WadCfg";
         protected const string DiagnosticsExtensionNamespace = "Microsoft.Azure.Diagnostics";
         protected const string DiagnosticsExtensionType = "PaaSDiagnostics";
-        protected const string DefaultEndpoint = @"https://core.windows.net";
 
         protected string StorageKey { get; set; }
         protected string ConnectionQualifiers { get; set; }
@@ -86,25 +88,28 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Extensions
             }
             StorageKey = storageKeys.PrimaryKey != null ? storageKeys.PrimaryKey : storageKeys.SecondaryKey;
 
-            StringBuilder endpointStr = new StringBuilder();
-            endpointStr.AppendFormat("BlobEndpoint={0};", storageService.StorageAccount.Properties.Endpoints[0]);
-            endpointStr.AppendFormat("QueueEndpoint={0};", storageService.StorageAccount.Properties.Endpoints[1]);
-            endpointStr.AppendFormat("TableEndpoint={0}", storageService.StorageAccount.Properties.Endpoints[2]);
-            ConnectionQualifiers = endpointStr.ToString();
-            DefaultEndpointsProtocol = "https";
+            CloudStorageAccount srcStorageAccount = new CloudStorageAccount(new StorageCredentials(StorageAccountName, StorageKey), true);
+            Endpoint = srcStorageAccount.TableStorageUri.PrimaryUri.ToString();
 
-            // this is used in version 1.1
-            // the endpoint format for table is:  http://aaaaaa.table.xxxxxx.yyy (this will also work if the format is http://table.xxxxxx.yyy)
+
+            // the endpoint format for table is:  http://aaaaaa.table.xxxxxx.yyy where aaaaaa is the StorageAccountName.
             // we really want to get rid of aaaaaa.table and keep what is left: http://xxxxxx.yyy
-            string tableEndPoint = storageService.StorageAccount.Properties.Endpoints[2].AbsoluteUri;
-            Endpoint = DefaultEndpoint;
 
-            int slashIndex = tableEndPoint.IndexOf("//");
-            int tableIndex = tableEndPoint.IndexOf("table.");
-            if (slashIndex >= 0 && tableIndex >= 0)
+            int tableIndex = Endpoint.IndexOf(StorageAccountName);
+            if (tableIndex < 0)
             {
-                Endpoint = tableEndPoint.Substring(0, slashIndex + 2) + tableEndPoint.Substring(tableIndex + "table.".Length);
+                throw new Exception(string.Format("Cannot find the storage account name \"{0}\" in the endpoint \"{1)\"", StorageAccountName, Endpoint));
             }
+
+            tableIndex += StorageAccountName.Length + 1; // +1 for the dot after the storage account name
+
+            int slashIndex = Endpoint.IndexOf("//");
+            if (slashIndex < 0)
+            {
+                throw new Exception(string.Format("Cannot find the \"\\\" in the endpoint \"{0)\"", Endpoint));
+            }
+
+            Endpoint = Endpoint.Substring(0, slashIndex + 2) + Endpoint.Substring(tableIndex + "table.".Length);
         }
 
         protected override void ValidateConfiguration()
