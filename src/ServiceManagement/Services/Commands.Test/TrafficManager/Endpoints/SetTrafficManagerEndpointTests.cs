@@ -62,7 +62,6 @@ namespace Microsoft.WindowsAzure.Commands.Test.TrafficManager.Endpoints
 
             cmdlet = new SetAzureTrafficManagerEndpoint
             {
-                Name = ProfileName,
                 DomainName = DomainName,
                 TrafficManagerProfile = original,
                 Weight = Weight,
@@ -114,7 +113,6 @@ namespace Microsoft.WindowsAzure.Commands.Test.TrafficManager.Endpoints
 
             cmdlet = new SetAzureTrafficManagerEndpoint
             {
-                Name = ProfileName,
                 DomainName = DomainName,
                 TrafficManagerProfile = original,
                 Location = Location,
@@ -160,7 +158,6 @@ namespace Microsoft.WindowsAzure.Commands.Test.TrafficManager.Endpoints
 
             cmdlet = new SetAzureTrafficManagerEndpoint
             {
-                Name = ProfileName,
                 DomainName = DomainName,
                 TrafficManagerProfile = original,
                 Type = EndpointType.Any.ToString(),
@@ -197,7 +194,6 @@ namespace Microsoft.WindowsAzure.Commands.Test.TrafficManager.Endpoints
 
             cmdlet = new SetAzureTrafficManagerEndpoint
             {
-                Name = ProfileName,
                 DomainName = DomainName,
                 TrafficManagerProfile = original,
                 Weight = Weight,
@@ -227,7 +223,6 @@ namespace Microsoft.WindowsAzure.Commands.Test.TrafficManager.Endpoints
 
             cmdlet = new SetAzureTrafficManagerEndpoint
             {
-                Name = ProfileName,
                 DomainName = DomainName,
                 TrafficManagerProfile = original,
                 Weight = Weight,
@@ -257,7 +252,6 @@ namespace Microsoft.WindowsAzure.Commands.Test.TrafficManager.Endpoints
 
             cmdlet = new SetAzureTrafficManagerEndpoint
             {
-                Name = ProfileName,
                 DomainName = DomainName,
                 TrafficManagerProfile = original,
                 Location = Location,
@@ -296,7 +290,6 @@ namespace Microsoft.WindowsAzure.Commands.Test.TrafficManager.Endpoints
 
             cmdlet = new SetAzureTrafficManagerEndpoint
             {
-                Name = ProfileName,
                 DomainName = DomainName,
                 TrafficManagerProfile = original,
                 Weight = Weight,
