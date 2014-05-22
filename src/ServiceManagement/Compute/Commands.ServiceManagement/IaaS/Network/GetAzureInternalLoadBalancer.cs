@@ -51,7 +51,8 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
                         InternalLoadBalancerName = b.Name,
                         ServiceName = this.ServiceName,
                         DeploymentName = d.Name,
-                        IPAddress = GetInternalLoadBalancerIPAddress(d.VirtualIPAddresses, b.Name),
+                        IPAddress = b.FrontendIPConfiguration != null && b.FrontendIPConfiguration.StaticVirtualNetworkIPAddress != null ?
+                                    b.FrontendIPConfiguration.StaticVirtualNetworkIPAddress : GetInternalLoadBalancerIPAddress(d.VirtualIPAddresses, b.Name),
                         SubnetName = b.FrontendIPConfiguration != null ? b.FrontendIPConfiguration.SubnetName : null,
                         OperationDescription = CommandRuntime.ToString(),
                         OperationId = s.Id,
