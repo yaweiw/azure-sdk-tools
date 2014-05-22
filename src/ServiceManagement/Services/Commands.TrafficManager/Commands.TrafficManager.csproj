@@ -100,7 +100,7 @@
       <HintPath>..\..\..\packages\Microsoft.WindowsAzure.Common.1.0.3\lib\net40\Microsoft.WindowsAzure.Common.NetFramework.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.WindowsAzure.Management.TrafficManager">
-      <HintPath>..\..\..\packages\Microsoft.WindowsAzure.Management.TrafficManager.0.9.0-preview\lib\net40\Microsoft.WindowsAzure.Management.TrafficManager.dll</HintPath>
+      <HintPath>..\..\..\packages\Microsoft.WindowsAzure.Management.TrafficManager.0.9.1-preview\lib\net40\Microsoft.WindowsAzure.Management.TrafficManager.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
