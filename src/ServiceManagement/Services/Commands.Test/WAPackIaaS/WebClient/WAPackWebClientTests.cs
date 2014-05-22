@@ -45,7 +45,8 @@ namespace Microsoft.WindowsAzure.Commands.Test.WAPackIaaS.WebClient
         }
 
         [TestMethod]
-        [TestCategory("WAPackIaaS")]
+        [TestCategory("WAPackIaaS-All")]
+        [TestCategory("WAPackIaaS-Unit")]
         public void ExpectLanguageAndContentShouldBeSetToJson()
         {
             this.channel.AddExpectedValue("Accept", "application/json");
@@ -55,7 +56,8 @@ namespace Microsoft.WindowsAzure.Commands.Test.WAPackIaaS.WebClient
 
         #region Test request.Method
         [TestMethod]
-        [TestCategory("WAPackIaaS")]
+        [TestCategory("WAPackIaaS-All")]
+        [TestCategory("WAPackIaaS-Unit")]
         public void MethodShouldBeSetToGetOnGet()
         {
             this.channel.AddExpectedValue("Method", "GET");
@@ -63,7 +65,8 @@ namespace Microsoft.WindowsAzure.Commands.Test.WAPackIaaS.WebClient
         }
 
         [TestMethod]
-        [TestCategory("WAPackIaaS")]
+        [TestCategory("WAPackIaaS-All")]
+        [TestCategory("WAPackIaaS-Unit")]
         public void MethodShouldBeSetToPostOnCreate()
         {
             this.channel.AddExpectedValue("Method", "POST");
@@ -71,7 +74,8 @@ namespace Microsoft.WindowsAzure.Commands.Test.WAPackIaaS.WebClient
         }
 
         [TestMethod]
-        [TestCategory("WAPackIaaS")]
+        [TestCategory("WAPackIaaS-All")]
+        [TestCategory("WAPackIaaS-Unit")]
         public void MethodShouldBeSetToDeleteOnDelete()
         {
             this.channel.AddExpectedValue("Method", "DELETE");
@@ -79,7 +83,8 @@ namespace Microsoft.WindowsAzure.Commands.Test.WAPackIaaS.WebClient
         }
 
         [TestMethod]
-        [TestCategory("WAPackIaaS")]
+        [TestCategory("WAPackIaaS-All")]
+        [TestCategory("WAPackIaaS-Unit")]
         public void MethodShouldBeSetToPutOnUpdate()
         {
             this.channel.AddExpectedValue("Method", "PUT");
@@ -88,7 +93,8 @@ namespace Microsoft.WindowsAzure.Commands.Test.WAPackIaaS.WebClient
         #endregion
 
         [TestMethod]
-        [TestCategory("WAPackIaaS")]
+        [TestCategory("WAPackIaaS-All")]
+        [TestCategory("WAPackIaaS-Unit")]
         public void PreferContentShouldBeSetOnUpdate()
         {
             this.channel.AddExpectedHeader("Prefer", "return-content");
@@ -96,7 +102,8 @@ namespace Microsoft.WindowsAzure.Commands.Test.WAPackIaaS.WebClient
         }
 
         [TestMethod]
-        [TestCategory("WAPackIaaS")]
+        [TestCategory("WAPackIaaS-All")]
+        [TestCategory("WAPackIaaS-Unit")]
         public void CanAddCustomerHeaders()
         {
             var customHeaders = new Dictionary<string, string>();

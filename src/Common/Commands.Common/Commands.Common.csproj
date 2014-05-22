@@ -184,6 +184,7 @@
     <Compile Include="Common\ServiceManagementClientExtensions.cs" />
     <Compile Include="Common\SubscriptionCmdletBase.cs" />
     <Compile Include="Common\SubscriptionDataExtended.cs" />
+    <Compile Include="Common\TestMockSupport.cs" />
     <Compile Include="Utilities\ConversionUtilities.cs" />
     <Compile Include="Utilities\GeneralUtilities.cs" />
     <Compile Include="Common\GlobalPathInfo.cs" />
