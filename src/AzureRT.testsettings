@@ -6,7 +6,6 @@
   xmlns="http://microsoft.com/schemas/VisualStudio/TeamTest/2010">
   <Description>These are test settings for AzureRT test run.</Description>
   <Deployment>
-	<DeploymentItem filename="ServiceManagement\Compute\Commands.ServiceManagement.Test\vendor\VhdFiles\" />
     <DeploymentItem filename="ServiceManagement\Compute\Commands.ServiceManagement.Test\Resources\" />
 	<DeploymentItem filename="..\Package\Debug\ServiceManagement\Azure\" />
   </Deployment>
