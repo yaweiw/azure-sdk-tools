@@ -34,10 +34,8 @@ namespace Microsoft.WindowsAzure.Commands.TrafficManager.Endpoint
         [Parameter(Mandatory = true)]
         public string DomainName { get; set; }
 
-        // Commented out due to bug in hydra spec: https://github.com/Azure/hydra-specs-pr/pull/339
-        // This feature hasn't been announced.
-//        [Parameter(Mandatory = false)]
-//        public string Location { get; set; }
+        [Parameter(Mandatory = false)]
+        public string Location { get; set; }
 
         [Parameter(Mandatory = false)]
         [ValidateSet("CloudService", "AzureWebsite", "Any", IgnoreCase = false)]
@@ -47,10 +45,8 @@ namespace Microsoft.WindowsAzure.Commands.TrafficManager.Endpoint
         [ValidateSet("Enabled", "Disabled", IgnoreCase = false)]
         public string Status { get; set; }
 
-        // Commented out because endpoints using this fields will be inconsistent
-        // with Portal. This feature hasn't been announced.
-//        [Parameter(Mandatory = false)]
-//        public int? Weight { get; set; }
+        [Parameter(Mandatory = false)]
+        public int? Weight { get; set; }
 
         public override void ExecuteCmdlet()
         {
@@ -63,9 +59,6 @@ namespace Microsoft.WindowsAzure.Commands.TrafficManager.Endpoint
                 if (String.IsNullOrEmpty(Type) ||
                     String.IsNullOrEmpty(Status) ||
                     String.IsNullOrEmpty(DomainName))
-//                    // The weight must be set for endpoints part of a RoundRobin profile
-//                    (!Weight.HasValue &&
-//                        profile.LoadBalancingMethod == LoadBalancingMethod.RoundRobin))
                 {
                     throw new Exception(Resources.SetTrafficManagerEndpointNeedsParameters);
                 }
@@ -73,22 +66,22 @@ namespace Microsoft.WindowsAzure.Commands.TrafficManager.Endpoint
                 WriteVerboseWithTimestamp(Resources.SetInexistentTrafficManagerEndpointMessage, Name, DomainName);
                 endpoint = new TrafficManagerEndpoint();
                 endpoint.DomainName = DomainName;
-//                endpoint.Location = Location;
+                endpoint.Location = Location;
                 endpoint.Type = (EndpointType)Enum.Parse(typeof(EndpointType), Type);
-//                endpoint.Weight = Weight.HasValue ? Weight.Value : 0;
+                endpoint.Weight = Weight.HasValue ? Weight.Value : 1;
                 endpoint.Status = (EndpointStatus)Enum.Parse(typeof(EndpointStatus), Status);
 
                 // Add it because the endpoint didn't exist
                 profile.Endpoints.Add(endpoint);
             }
 
-//            endpoint.Location = Location ?? endpoint.Location;
+            endpoint.Location = Location ?? endpoint.Location;
 
             endpoint.Type = !String.IsNullOrEmpty(Type)
                 ? (EndpointType)Enum.Parse(typeof(EndpointType), Type)
                 : endpoint.Type;
 
-//            endpoint.Weight = Weight.HasValue ? Weight.Value : endpoint.Weight;
+            endpoint.Weight = Weight.HasValue ? Weight.Value : endpoint.Weight;
 
             endpoint.Status = !String.IsNullOrEmpty(Status)
                 ? (EndpointStatus)Enum.Parse(typeof (EndpointStatus), Status)
