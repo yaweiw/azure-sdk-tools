@@ -51,8 +51,6 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
 
         public static string SlotFormat = "{0}({1})";
 
-        public const string WebsitesServiceVersion = "2012-12-01";
-
         public IWebSiteManagementClient WebsiteManagementClient { get; internal set; }
 
         public Action<string> Logger { get; set; }
