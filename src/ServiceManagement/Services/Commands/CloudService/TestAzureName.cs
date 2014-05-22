@@ -18,6 +18,7 @@ namespace Microsoft.WindowsAzure.Commands.CloudService
     using Microsoft.WindowsAzure.Commands.Utilities.CloudService;
     using Microsoft.WindowsAzure.Commands.Utilities.ServiceBus;
     using Microsoft.WindowsAzure.Commands.Utilities.Websites;
+    using System.IO;
     using System.Management.Automation;
 
     [Cmdlet(VerbsDiagnostic.Test, "AzureName"), OutputType(typeof(bool))]
@@ -114,7 +115,10 @@ namespace Microsoft.WindowsAzure.Commands.CloudService
 
         public void OnImport()
         {
-            this.ExecuteScriptFile(FileUtilities.GetContentFilePath("ServiceManagementStartup.ps1"));
+            PowerShell invoker = null;
+            invoker = System.Management.Automation.PowerShell.Create(RunspaceMode.CurrentRunspace);
+            invoker.AddScript(File.ReadAllText(FileUtilities.GetContentFilePath("ServiceManagementStartup.ps1")));
+            invoker.Invoke();
         }
     }
 }

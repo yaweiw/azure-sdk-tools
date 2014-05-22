@@ -31,8 +31,9 @@ namespace Microsoft.WindowsAzure.Commands.Test.WAPackIaaS.Operations
     public class VirtualMachineOperationsTests
     {
         [TestMethod]
-        [TestCategory("Negative")]
-        [TestCategory("WAPackIaaS")]
+        [TestCategory("WAPackIaaS-Negative")]
+        [TestCategory("WAPackIaaS-All")]
+        [TestCategory("WAPackIaaS-Unit")]
         public void ShouldReturnEmptyOnNoResult()
         {
             var vmOperations = new VirtualMachineOperations(new WebClientFactory(
@@ -43,7 +44,8 @@ namespace Microsoft.WindowsAzure.Commands.Test.WAPackIaaS.Operations
         }
 
         [TestMethod]
-        [TestCategory("WAPackIaaS")]
+        [TestCategory("WAPackIaaS-All")]
+        [TestCategory("WAPackIaaS-Unit")]
         public void ShouldReturnOneVM()
         {
             var vmOperations = new VirtualMachineOperations(new WebClientFactory(
@@ -55,8 +57,9 @@ namespace Microsoft.WindowsAzure.Commands.Test.WAPackIaaS.Operations
         }
 
         [TestMethod]
-        [TestCategory("Negative")]
-        [TestCategory("WAPackIaaS")]
+        [TestCategory("WAPackIaaS-Negative")]
+        [TestCategory("WAPackIaaS-All")]
+        [TestCategory("WAPackIaaS-Unit")]
         [ExpectedException(typeof(WAPackOperationException))]
         public void ShouldThrowGetByIdNoResult()
         {
@@ -68,7 +71,8 @@ namespace Microsoft.WindowsAzure.Commands.Test.WAPackIaaS.Operations
         }
 
         [TestMethod]
-        [TestCategory("WAPackIaaS")]
+        [TestCategory("WAPackIaaS-All")]
+        [TestCategory("WAPackIaaS-Unit")]
         public void ShouldReturnOneVMGetById()
         {
             var expectedVmId = Guid.NewGuid();
@@ -82,7 +86,8 @@ namespace Microsoft.WindowsAzure.Commands.Test.WAPackIaaS.Operations
         }
 
         [TestMethod]
-        [TestCategory("WAPackIaaS")]
+        [TestCategory("WAPackIaaS-All")]
+        [TestCategory("WAPackIaaS-Unit")]
         public void ShouldReturnMultipleVMsGetByName()
         {
             const string expectedVmName = "myVM";
@@ -101,7 +106,8 @@ namespace Microsoft.WindowsAzure.Commands.Test.WAPackIaaS.Operations
         }
 
         [TestMethod]
-        [TestCategory("WAPackIaaS")]
+        [TestCategory("WAPackIaaS-All")]
+        [TestCategory("WAPackIaaS-Unit")]
         public void CreateVMFromVHD()
         {
             var mockChannel = new MockRequestChannel();
@@ -149,7 +155,8 @@ namespace Microsoft.WindowsAzure.Commands.Test.WAPackIaaS.Operations
         }
 
         [TestMethod]
-        [TestCategory("WAPackIaaS")]
+        [TestCategory("WAPackIaaS-All")]
+        [TestCategory("WAPackIaaS-Unit")]
         public void CreateVMFromTemplate()
         {
             var mockChannel = new MockRequestChannel();
@@ -196,8 +203,9 @@ namespace Microsoft.WindowsAzure.Commands.Test.WAPackIaaS.Operations
         }
         
         [TestMethod]
-        [TestCategory("Negative")]
-        [TestCategory("WAPackIaaS")]
+        [TestCategory("WAPackIaaS-Negative")]
+        [TestCategory("WAPackIaaS-All")]
+        [TestCategory("WAPackIaaS-Unit")]
         [ExpectedException(typeof(WAPackOperationException))]
         public void VmCreateShouldThrowIfNoVhdAndNoTemplateSupplied()
         {
@@ -215,8 +223,9 @@ namespace Microsoft.WindowsAzure.Commands.Test.WAPackIaaS.Operations
         }
 
         [TestMethod]
-        [TestCategory("Negative")]
-        [TestCategory("WAPackIaaS")]
+        [TestCategory("WAPackIaaS-Negative")]
+        [TestCategory("WAPackIaaS-All")]
+        [TestCategory("WAPackIaaS-Unit")]
         [ExpectedException(typeof(WAPackOperationException))]
         public void VmCreateShouldThrowWhenNoObjectReturned()
         {
@@ -234,8 +243,9 @@ namespace Microsoft.WindowsAzure.Commands.Test.WAPackIaaS.Operations
         }
 
         [TestMethod]
-        [TestCategory("Negative")]
-        [TestCategory("WAPackIaaS")]
+        [TestCategory("WAPackIaaS-Negative")]
+        [TestCategory("WAPackIaaS-All")]
+        [TestCategory("WAPackIaaS-Unit")]
         [ExpectedException(typeof(WAPackOperationException))]
         public void VmUpdateShouldThrowWhenNoObjectReturned()
         {
@@ -250,7 +260,8 @@ namespace Microsoft.WindowsAzure.Commands.Test.WAPackIaaS.Operations
         }
 
         [TestMethod]
-        [TestCategory("WAPackIaaS")]
+        [TestCategory("WAPackIaaS-All")]
+        [TestCategory("WAPackIaaS-Unit")]
         public void DeleteVM()
         {
             var sub = new Subscription();
@@ -276,7 +287,8 @@ namespace Microsoft.WindowsAzure.Commands.Test.WAPackIaaS.Operations
         }
 
         [TestMethod]
-        [TestCategory("WAPackIaaS")]
+        [TestCategory("WAPackIaaS-All")]
+        [TestCategory("WAPackIaaS-Unit")]
         public void StartVM()
         {
             var mockChannel = new MockRequestChannel();
@@ -291,7 +303,8 @@ namespace Microsoft.WindowsAzure.Commands.Test.WAPackIaaS.Operations
         }
 
         [TestMethod]
-        [TestCategory("WAPackIaaS")]
+        [TestCategory("WAPackIaaS-All")]
+        [TestCategory("WAPackIaaS-Unit")]
         public void StopVM()
         {
             var mockChannel = new MockRequestChannel();
@@ -306,7 +319,8 @@ namespace Microsoft.WindowsAzure.Commands.Test.WAPackIaaS.Operations
         }
 
         [TestMethod]
-        [TestCategory("WAPackIaaS")]
+        [TestCategory("WAPackIaaS-All")]
+        [TestCategory("WAPackIaaS-Unit")]
         public void RestartVM()
         {
             var mockChannel = new MockRequestChannel();
@@ -321,7 +335,8 @@ namespace Microsoft.WindowsAzure.Commands.Test.WAPackIaaS.Operations
         }
 
         [TestMethod]
-        [TestCategory("WAPackIaaS")]
+        [TestCategory("WAPackIaaS-All")]
+        [TestCategory("WAPackIaaS-Unit")]
         public void ShutdownVM()
         {
             var mockChannel = new MockRequestChannel();
@@ -336,7 +351,8 @@ namespace Microsoft.WindowsAzure.Commands.Test.WAPackIaaS.Operations
         }
 
         [TestMethod]
-        [TestCategory("WAPackIaaS")]
+        [TestCategory("WAPackIaaS-All")]
+        [TestCategory("WAPackIaaS-Unit")]
         public void SuspendVM()
         {
             var mockChannel = new MockRequestChannel();
@@ -351,7 +367,8 @@ namespace Microsoft.WindowsAzure.Commands.Test.WAPackIaaS.Operations
         }
 
         [TestMethod]
-        [TestCategory("WAPackIaaS")]
+        [TestCategory("WAPackIaaS-All")]
+        [TestCategory("WAPackIaaS-Unit")]
         public void ResumeVM()
         {
             var mockChannel = new MockRequestChannel();

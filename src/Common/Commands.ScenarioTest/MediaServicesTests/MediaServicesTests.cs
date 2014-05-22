@@ -42,23 +42,32 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.MediaServicesTests
             base.TestCleanup();
         }
 
+        [TestCategory(Category.BVT)]
+        [TestCategory(Category.MediaServices)]
         [TestMethod]
         public void TestNewAzureMediaServicesKey()
         {
             RunPowerShellTest("Test-NewAzureMediaServicesKey");
         }
 
+        [TestCategory(Category.BVT)]
+        [TestCategory(Category.MediaServices)]
         [TestMethod]
         public void TestRemoveAzureMediaServicesAccount()
         {
             RunPowerShellTest("Test-RemoveAzureMediaServicesAccount");
         }
 
+        [TestCategory(Category.BVT)]
+        [TestCategory(Category.MediaServices)]
         [TestMethod]
         public void TestGetAzureMediaServicesAccount()
         {
             RunPowerShellTest("Test-GetAzureMediaServicesAccount");
         }
+
+        [TestCategory(Category.BVT)]
+        [TestCategory(Category.MediaServices)]
         [TestMethod]
         public void TestGetAzureMediaServicesAccountByName()
         {
