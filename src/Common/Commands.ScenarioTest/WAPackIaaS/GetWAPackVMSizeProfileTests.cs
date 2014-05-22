@@ -26,7 +26,8 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.WAPackIaaS.FunctionalTest
         public const string cmdletName = "Get-WAPackVMSizeProfile";
 
         [TestMethod]
-        [TestCategory("WAPackIaaS")]
+        [TestCategory("WAPackIaaS-All")]
+        [TestCategory("WAPackIaaS-Functional")]
         public void GetWAPackVMSizeProfileWithNoParam()
         {
             var allVMSizeProfiles = this.InvokeCmdlet(cmdletName, null);
@@ -34,7 +35,8 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.WAPackIaaS.FunctionalTest
         }
 
         [TestMethod]
-        [TestCategory("WAPackIaaS")]
+        [TestCategory("WAPackIaaS-All")]
+        [TestCategory("WAPackIaaS-Functional")]
         public void GetWAPackVMSizeProfileFromName()
         {
             string expectedVMSizeProfileName = WAPackConfigurationFactory.VMSizeProfileName;
@@ -51,7 +53,8 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.WAPackIaaS.FunctionalTest
         }
 
         [TestMethod]
-        [TestCategory("WAPackIaaS")]
+        [TestCategory("WAPackIaaS-All")]
+        [TestCategory("WAPackIaaS-Functional")]
         public void GetWAPackVMSizeProfileFromIdAndName()
         {
             string expectedVMSizeProfileName = WAPackConfigurationFactory.VMSizeProfileName;
@@ -76,8 +79,9 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.WAPackIaaS.FunctionalTest
         }
 
         [TestMethod]
-        [TestCategory("Negative")]
-        [TestCategory("WAPackIaaS")]
+        [TestCategory("WAPackIaaS-Negative")]
+        [TestCategory("WAPackIaaS-All")]
+        [TestCategory("WAPackIaaS-Functional")]
         public void GetWAPackVMSizeProfileByNameDoesNotExist()
         {
             string expectedVMSizeProfileName = "VMSizeProfileDoesNotExist";
@@ -91,8 +95,9 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.WAPackIaaS.FunctionalTest
         }
 
         [TestMethod]
-        [TestCategory("Negative")]
-        [TestCategory("WAPackIaaS")]
+        [TestCategory("WAPackIaaS-Negative")]
+        [TestCategory("WAPackIaaS-All")]
+        [TestCategory("WAPackIaaS-Functional")]
         public void GetWAPackVMSizeProfileByIdDoesNotExist()
         {
             var expectedVmId = Guid.NewGuid().ToString();

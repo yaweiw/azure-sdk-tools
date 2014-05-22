@@ -60,7 +60,7 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.WAPackIaaS.FunctionalTest
             SecureString secureString = new SecureString();
             foreach (char c in value.ToCharArray())
             {
-                secureString.AppendChar (c);
+                secureString.AppendChar(c);
             }
 
             return secureString;
