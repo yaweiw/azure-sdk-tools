@@ -18,7 +18,8 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.WAPackIaaS.Operations
 
     internal class VirtualHardDiskOperations : OperationsBase<VirtualHardDisk>
     {
-        public VirtualHardDiskOperations(WebClientFactory webClientFactory) : base(webClientFactory, "/VirtualHardDisks")
+        public VirtualHardDiskOperations(WebClientFactory webClientFactory)
+            : base(webClientFactory, "/VirtualHardDisks")
         {
         }
     }
