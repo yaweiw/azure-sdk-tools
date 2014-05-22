@@ -318,11 +318,11 @@ namespace Microsoft.Azure.Commands.Resources.Test.Models
 
             Assert.Equal("int", result["int"].Name);
             Assert.Equal(typeof(int), result["int"].ParameterType);
-            Assert.Equal("12", result["int"].Value);
+            Assert.Equal((System.Int64)12, result["int"].Value);
 
             Assert.Equal("bool", result["bool"].Name);
             Assert.Equal(typeof(bool), result["bool"].ParameterType);
-            Assert.Equal("True", result["bool"].Value);
+            Assert.Equal(true, result["bool"].Value);
         }
 
         [Fact]
