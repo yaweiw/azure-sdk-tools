@@ -220,7 +220,7 @@
     <Compile Include="FunctionalTests\CredentialHelper.cs" />
     <Compile Include="FunctionalTests\ExtensionTests\AzureVMAccessExtensionTests.cs" />
     <Compile Include="FunctionalTests\ExtensionTests\AzureVMBGInfoExtensionTests.cs" />
-    <Compile Include="FunctionalTests\ExtensionTests\CustomScriptExtesnionTests.cs" />
+    <Compile Include="FunctionalTests\ExtensionTests\CustomScriptExtensionTests.cs" />
     <Compile Include="FunctionalTests\FunctionalTestCommonVhd.cs" />
     <Compile Include="FunctionalTests\FunctionalTestCommonVM.cs" />
     <Compile Include="FunctionalTests\GenericIaaSExtensionTests.cs" />
