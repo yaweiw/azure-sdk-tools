@@ -30,8 +30,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common.Authentication
         //
         private const string powershellClientId = "1950a258-227b-4e31-a9cf-717495945fc2";
         private static readonly Uri powershellRedirectUri = new Uri("urn:ietf:wg:oauth:2.0:oob");
-        private const string rdfeResourceUri = "https://management.core.windows.net/";
-        private string adEndpoint = "https://login.windows.net/";// Default endpoint for public azure
+        private string adEndpoint = string.Empty;
 
         // Turn off endpoint validation for known test cluster AD endpoints
         private static readonly string[] knownTestEndpoints = 
