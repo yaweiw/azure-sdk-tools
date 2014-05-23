@@ -262,6 +262,10 @@
     <Compile Include="IaaS\DiskRepository\SetAzureVMImageOSDiskConfig.cs" />
     <Compile Include="IaaS\DiskRepository\SetAzureVMImageDataDiskConfig.cs" />
     <Compile Include="IaaS\DiskRepository\NewAzureVMImageDiskConfigSet.cs" />
+    <Compile Include="IaaS\Extensions\Diagnostics\GetAzureVMDiagnosticsExtension.cs" />
+    <Compile Include="IaaS\Extensions\Diagnostics\RemoveAzureVMDiagnosticsExtension.cs" />
+    <Compile Include="IaaS\Extensions\Diagnostics\SetAzureVMDiagnosticsExtension.cs" />
+    <Compile Include="IaaS\Extensions\Diagnostics\VirtualMachineDiagnosticsExtensionCmdletBase.cs" />
     <Compile Include="IaaS\Network\GetAzureInternalLoadBalancer.cs" />
     <Compile Include="IaaS\Network\NewAzureInternalLoadBalancerConfig.cs" />
     <Compile Include="IaaS\Network\RemoveAzureInternalLoadBalancer.cs" />
