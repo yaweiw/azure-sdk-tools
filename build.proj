@@ -36,8 +36,8 @@
 	<AzureRTAllTestFilter2>"Functional|Scenario|Preview"</AzureRTAllTestFilter2>
 	<AzureRTAllTestFilter3>"Functional|Scenario|Sequential"</AzureRTAllTestFilter3>
     <TestOutputDirectory>$(PublishDirectory)\TestResults</TestOutputDirectory>
-	<DebugBuildConfig>Configuration=Debug;Platform=Any CPU</DebugBuildConfig>
-	<ReleaseBuildConfig>Configuration=Release;Platform=Any CPU</ReleaseBuildConfig>
+	<DebugBuildConfig>Configuration=Debug;Platform=AnyCPU</DebugBuildConfig>
+	<ReleaseBuildConfig>Configuration=Release;Platform=AnyCPU</ReleaseBuildConfig>
 	<TestName></TestName>
 	<TestParams></TestParams>
   </PropertyGroup>

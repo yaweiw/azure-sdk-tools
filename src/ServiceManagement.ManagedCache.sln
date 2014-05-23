@@ -9,18 +9,18 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Commands.ManagedCache.Test"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
-		Debug|Any CPU = Debug|Any CPU
-		Release|Any CPU = Release|Any CPU
+		Debug|AnyCPU = Debug|AnyCPU
+		Release|AnyCPU = Release|AnyCPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{46C06ED8-43D9-41FD-B73B-41547D9C04E1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{46C06ED8-43D9-41FD-B73B-41547D9C04E1}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{46C06ED8-43D9-41FD-B73B-41547D9C04E1}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{46C06ED8-43D9-41FD-B73B-41547D9C04E1}.Release|Any CPU.Build.0 = Release|Any CPU
-		{374D4000-DEDE-4995-9B63-E3B9FE0C4D29}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{374D4000-DEDE-4995-9B63-E3B9FE0C4D29}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{374D4000-DEDE-4995-9B63-E3B9FE0C4D29}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{374D4000-DEDE-4995-9B63-E3B9FE0C4D29}.Release|Any CPU.Build.0 = Release|Any CPU
+		{46C06ED8-43D9-41FD-B73B-41547D9C04E1}.Debug|AnyCPU.ActiveCfg = Debug|AnyCPU
+		{46C06ED8-43D9-41FD-B73B-41547D9C04E1}.Debug|AnyCPU.Build.0 = Debug|AnyCPU
+		{46C06ED8-43D9-41FD-B73B-41547D9C04E1}.Release|AnyCPU.ActiveCfg = Release|AnyCPU
+		{46C06ED8-43D9-41FD-B73B-41547D9C04E1}.Release|AnyCPU.Build.0 = Release|AnyCPU
+		{374D4000-DEDE-4995-9B63-E3B9FE0C4D29}.Debug|AnyCPU.ActiveCfg = Debug|AnyCPU
+		{374D4000-DEDE-4995-9B63-E3B9FE0C4D29}.Debug|AnyCPU.Build.0 = Debug|AnyCPU
+		{374D4000-DEDE-4995-9B63-E3B9FE0C4D29}.Release|AnyCPU.ActiveCfg = Release|AnyCPU
+		{374D4000-DEDE-4995-9B63-E3B9FE0C4D29}.Release|AnyCPU.Build.0 = Release|AnyCPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
