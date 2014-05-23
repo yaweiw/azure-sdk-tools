@@ -1,0 +1,28 @@
+
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.30110.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Commands.ManagedCache", "ServiceManagement\ManagedCache\Commands.ManagedCache\Commands.ManagedCache.csproj", "{46C06ED8-43D9-41FD-B73B-41547D9C04E1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Commands.ManagedCache.Test", "ServiceManagement\ManagedCache\Commands.ManagedCache.Test\Commands.ManagedCache.Test.csproj", "{374D4000-DEDE-4995-9B63-E3B9FE0C4D29}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|AnyCPU = Debug|AnyCPU
+		Release|AnyCPU = Release|AnyCPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{46C06ED8-43D9-41FD-B73B-41547D9C04E1}.Debug|AnyCPU.ActiveCfg = Debug|AnyCPU
+		{46C06ED8-43D9-41FD-B73B-41547D9C04E1}.Debug|AnyCPU.Build.0 = Debug|AnyCPU
+		{46C06ED8-43D9-41FD-B73B-41547D9C04E1}.Release|AnyCPU.ActiveCfg = Release|AnyCPU
+		{46C06ED8-43D9-41FD-B73B-41547D9C04E1}.Release|AnyCPU.Build.0 = Release|AnyCPU
+		{374D4000-DEDE-4995-9B63-E3B9FE0C4D29}.Debug|AnyCPU.ActiveCfg = Debug|AnyCPU
+		{374D4000-DEDE-4995-9B63-E3B9FE0C4D29}.Debug|AnyCPU.Build.0 = Debug|AnyCPU
+		{374D4000-DEDE-4995-9B63-E3B9FE0C4D29}.Release|AnyCPU.ActiveCfg = Release|AnyCPU
+		{374D4000-DEDE-4995-9B63-E3B9FE0C4D29}.Release|AnyCPU.Build.0 = Release|AnyCPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
