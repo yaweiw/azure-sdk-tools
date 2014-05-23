@@ -17,7 +17,7 @@ namespace Microsoft.WindowsAzure.Commands.ExpressRoute
     using System;
     using System.Management.Automation;
     using Utilities.ExpressRoute;
-    using Utilities.Properties;
+    using Properties;
 
     [Cmdlet(VerbsCommon.Remove, "AzureDedicatedCircuit"),OutputType(typeof(bool))]
     public class RemoveAzureDedicatedCircuitCommand : ExpressRouteBaseCmdlet

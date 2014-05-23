@@ -12,30 +12,32 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
+using Microsoft.WindowsAzure.Commands.Utilities.ExpressRoute;
+
 namespace Microsoft.WindowsAzure.Commands.ExpressRoute
 {
+    using Microsoft.WindowsAzure.Management.ExpressRoute.Models;
     using System;
+    using System.ComponentModel;
     using System.Management.Automation;
-    using Utilities.ExpressRoute;
-    using Utilities.Properties;
+    using Properties;
 
-    [Cmdlet(VerbsCommon.Remove, "AzureDedicatedCircuitLink"), OutputType(typeof(bool))]
-    public class RemoveAzureDedicatedCircuitLinkCommand : ExpressRouteBaseCmdlet
+    [Cmdlet(VerbsCommon.Remove, "AzureBGPPeering"),OutputType(typeof(bool))]
+    public class RemoveAzureBGPPeeringCommand : ExpressRouteBaseCmdlet
     {
         [Parameter(Mandatory = true, ValueFromPipelineByPropertyName = true,
-            HelpMessage = "Service Key for the Azure Circuit Vnet Mapping to be removed")]
+            HelpMessage = "Service Key associated with the Azure BGP Peering to be removed")]
         [ValidateGuid]
         [ValidateNotNullOrEmpty]
         public string ServiceKey { get; set; }
 
-        [Parameter(Mandatory = true, ValueFromPipelineByPropertyName = true,
-            HelpMessage = "Virtual Network Name for the Azure Circuit Vnet Mapping to be removed")]
-        [ValidateNotNullOrEmpty]
-        public string VNetName { get; set; }
+        [Parameter(Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "Bgp Peering Access Type: Public or Private")]
+        [DefaultValue("Private")]
+        public BgpPeeringAccessType AccessType { get; set; }
 
-        [Parameter(HelpMessage = "Do not confirm Azure Circuit Route deletion")]
+        [Parameter(HelpMessage = "Do not confirm Azure BGP Peering deletion")]
         public SwitchParameter Force { get; set; }
-
+        
         [Parameter(Mandatory = false)]
         public SwitchParameter PassThru { get; set; }
 
@@ -43,18 +45,19 @@ namespace Microsoft.WindowsAzure.Commands.ExpressRoute
         {
             ConfirmAction(
                 Force.IsPresent,
-                string.Format(Resources.RemoveAzureDedicatedCircuitLinkWarning, ServiceKey, VNetName),
-                Resources.RemoveAzureDedicatedCircuitLinkMessage,
-                ServiceKey+" "+VNetName,
+                string.Format(Resources.RemoveAzureBGPPeeringWarning, ServiceKey),
+                Resources.RemoveAzureBGPPeeringMessage,
+                ServiceKey,
                 () =>
                 {
-                    if (!ExpressRouteClient.RemoveAzureDedicatedCircuitLink(ServiceKey, VNetName))
+                   
+                    if(!ExpressRouteClient.RemoveAzureBGPPeering(ServiceKey, AccessType))
                     {
-                        throw new Exception(Resources.RemoveAzureDedicatedCircuitLinkFailed);
+                        throw new Exception(Resources.RemoveAzureBGPPeeringFailed);
                     }
                     else
                     {
-                        WriteVerboseWithTimestamp(Resources.RemoveAzureDedicatedCircuitLinkSucceeded, ServiceKey, VNetName);
+                        WriteVerboseWithTimestamp(Resources.RemoveAzureBGPPeeringSucceeded, ServiceKey);
                         if (PassThru.IsPresent)
                         {
                             WriteObject(true);
