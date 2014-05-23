@@ -50,7 +50,7 @@ namespace Microsoft.WindowsAzure.Commands.Profile
 
         [Parameter(Position = 8, Mandatory = false, ValueFromPipelineByPropertyName = true, 
             HelpMessage = "Identifier of the target resource that is the recipient of the requested token.")]
-        public string ServiceEndpointActiveDirectoryResourceUri { get; set; }
+        public string ActiveDirectoryServiceEndpointResourceId { get; set; }
 
         [PermissionSet(SecurityAction.Demand, Name = "FullTrust")]
         public override void ExecuteCmdlet()
@@ -64,7 +64,7 @@ namespace Microsoft.WindowsAzure.Commands.Profile
                 ManagementPortalUrl = ManagementPortalUrl,
                 StorageEndpointSuffix = StorageEndpoint,
                 ActiveDirectoryEndpoint = ActiveDirectoryEndpoint,
-                ServiceEndpointActiveDirectoryResourceUri = ServiceEndpointActiveDirectoryResourceUri,
+                ActiveDirectoryServiceEndpointResourceId = ActiveDirectoryServiceEndpointResourceId,
                 ActiveDirectoryCommonTenantId = "Common",
                 GalleryEndpoint = GalleryEndpoint
             };

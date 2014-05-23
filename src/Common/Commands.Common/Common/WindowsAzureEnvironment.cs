@@ -61,7 +61,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
         /// <remarks>If null, this environment does not support AD authentication</remarks>
         public string ActiveDirectoryCommonTenantId { get; set; }
 
-        public string ServiceEndpointActiveDirectoryResourceUri { get; set; }
+        public string ActiveDirectoryServiceEndpointResourceId { get; set; }
 
         private string storageEndpointSuffix;
 
@@ -197,7 +197,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
                         ActiveDirectoryEndpoint = ActiveDirectoryEndpoint,
                         ActiveDirectoryTenantId = subscription.ActiveDirectoryTenantId,
                         ActiveDirectoryUserId = mainToken.UserId,
-                        ServiceEndpointActiveDirectoryResourceUri = ServiceEndpointActiveDirectoryResourceUri,
+                        ActiveDirectoryServiceEndpointResourceId = ActiveDirectoryServiceEndpointResourceId,
                         SubscriptionId = subscription.SubscriptionId,
                         SubscriptionName = subscription.SubscriptionName,
                         ServiceEndpoint = !string.IsNullOrEmpty(ServiceEndpoint) ? new Uri(ServiceEndpoint) : null,
@@ -241,7 +241,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
                     ManagementPortalUrl = WindowsAzureEnvironmentConstants.AzureManagementPortalUrl,
                     ActiveDirectoryEndpoint = "https://login.windows.net/",
                     ActiveDirectoryCommonTenantId = "common",
-                    ServiceEndpointActiveDirectoryResourceUri = WindowsAzureEnvironmentConstants.AzureServiceEndpoint,
+                    ActiveDirectoryServiceEndpointResourceId = WindowsAzureEnvironmentConstants.AzureServiceEndpoint,
                     StorageEndpointSuffix = WindowsAzureEnvironmentConstants.AzureStorageEndpointSuffix,
                     GalleryEndpoint = WindowsAzureEnvironmentConstants.GalleryEndpoint
                 }
@@ -256,7 +256,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
                     ResourceManagerEndpoint = string.Empty,
                     ActiveDirectoryEndpoint  = "https://login.chinacloudapi.cn/",
                     ActiveDirectoryCommonTenantId = "common",
-                    ServiceEndpointActiveDirectoryResourceUri = WindowsAzureEnvironmentConstants.ChinaServiceEndpoint, 
+                    ActiveDirectoryServiceEndpointResourceId = WindowsAzureEnvironmentConstants.ChinaServiceEndpoint, 
                     ManagementPortalUrl = WindowsAzureEnvironmentConstants.ChinaManagementPortalUrl,
                     StorageEndpointSuffix = WindowsAzureEnvironmentConstants.ChinaStorageEndpointSuffix,
                     GalleryEndpoint = string.Empty
