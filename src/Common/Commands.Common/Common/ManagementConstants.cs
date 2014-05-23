@@ -18,7 +18,6 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
 
     public static class ApiConstants
     {
-        public const string ResourceRegistrationApiVersion = "2012-08-01";
         public const string LatestApiVersion = ServiceManagement.Constants.VersionHeaderContentLatest;
         public const string VersionHeaderName = ServiceManagement.Constants.VersionHeaderName;
 
