@@ -14,6 +14,7 @@
 namespace Microsoft.WindowsAzure.Commands.Test.HDInsight.CmdLetTests
 {
     using Management.HDInsight;
+    using Management.HDInsight.ClusterProvisioning.Data;
     using Management.HDInsight.Cmdlet.Commands.CommandInterfaces;
     using Management.HDInsight.Cmdlet.DataObjects;
     using Management.HDInsight.Cmdlet.GetAzureHDInsightClusters;
@@ -133,6 +134,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.HDInsight.CmdLetTests
                                                   .WithParameter(CmdletConstants.Credential, GetPSCredential("hadoop", this.GetRandomValidPassword()))
                                                   .WithParameter(CmdletConstants.ClusterSizeInNodes, 3)
                                                   .WithParameter(CmdletConstants.HeadNodeVMSize, NodeVMSize.ExtraLarge)
+                                                  .WithParameter(CmdletConstants.ClusterType, ClusterType.Hadoop)
                                                   .Invoke();
 
                 Assert.AreEqual(1, results.Results.Count);
@@ -188,6 +190,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.HDInsight.CmdLetTests
                             .AddCommand(CmdletConstants.NewAzureHDInsightClusterConfig)
                             .WithParameter(CmdletConstants.ClusterSizeInNodes, 3)
                             .WithParameter(CmdletConstants.HeadNodeVMSize, NodeVMSize.Large)
+                            .WithParameter(CmdletConstants.ClusterType, ClusterType.Hadoop)
                             .AddCommand(CmdletConstants.SetAzureHDInsightDefaultStorage)
                             .WithParameter(CmdletConstants.StorageAccountName, TestCredentials.Environments[0].DefaultStorageAccount.Name)
                             .WithParameter(CmdletConstants.StorageAccountKey, TestCredentials.Environments[0].DefaultStorageAccount.Key)
