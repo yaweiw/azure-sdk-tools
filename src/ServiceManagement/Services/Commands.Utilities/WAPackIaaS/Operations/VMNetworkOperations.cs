@@ -18,7 +18,8 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.WAPackIaaS.Operations
 
     internal class VMNetworkOperations : OperationsBase<VMNetwork>
     {
-        public VMNetworkOperations(WebClientFactory webClientFactory) : base(webClientFactory, "/VMNetworks")
+        public VMNetworkOperations(WebClientFactory webClientFactory)
+            : base(webClientFactory, "/VMNetworks")
         {
         }
     }

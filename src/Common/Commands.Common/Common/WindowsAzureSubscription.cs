@@ -218,9 +218,12 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
         {
             var credential = CreateCredentials();
 
-            if (registerProviders)
+            if (!TestMockSupport.RunningMocked)
             {
-                RegisterRequiredResourceProviders<TClient>(credential);
+                if (registerProviders)
+                {
+                    RegisterRequiredResourceProviders<TClient>(credential);
+                }
             }
 
             var constructor = typeof(TClient).GetConstructor(new[] { typeof(SubscriptionCloudCredentials), typeof(Uri) });

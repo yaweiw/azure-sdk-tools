@@ -33,7 +33,8 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.WAPackIaaS.FunctionalTest
         }
 
         [TestMethod]
-        [TestCategory("WAPackIaaS")]
+        [TestCategory("WAPackIaaS-All")]
+        [TestCategory("WAPackIaaS-Functional")]
         public void CreateVMFromTemplateWithVNet()
         {
             string vmNameToCreate = "TestWindowsVM_VMFromTemplateWithVNet";
@@ -74,7 +75,8 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.WAPackIaaS.FunctionalTest
         }
 
         [TestMethod]
-        [TestCategory("WAPackIaaS")]
+        [TestCategory("WAPackIaaS-All")]
+        [TestCategory("WAPackIaaS-Functional")]
         public void CreateVMFromTemplateWithoutVNet()
         {
             string vmNameToCreate = "TestWindowsVM_VMFromTemplateWithoutVNet";
@@ -104,7 +106,8 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.WAPackIaaS.FunctionalTest
         }
 
         [TestMethod]
-        [TestCategory("WAPackIaaS")]
+        [TestCategory("WAPackIaaS-All")]
+        [TestCategory("WAPackIaaS-Functional")]
         public void CreateVMFromVHDWithVNet()
         {
             string vmNameToCreate = "TestWindowsVM_VMFromVHDWithVNet";
@@ -149,7 +152,8 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.WAPackIaaS.FunctionalTest
         }
 
         [TestMethod]
-        [TestCategory("WAPackIaaS")]
+        [TestCategory("WAPackIaaS-All")]
+        [TestCategory("WAPackIaaS-Functional")]
         public void CreateVMFromVHDWithoutVNet()
         {
             string vmNameToCreate = "TestWindowsVM_VMFromVHDWithoutVNet";
@@ -185,7 +189,8 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.WAPackIaaS.FunctionalTest
         }
 
         [TestMethod]
-        [TestCategory("WAPackIaaS")]
+        [TestCategory("WAPackIaaS-All")]
+        [TestCategory("WAPackIaaS-Functional")]
         public void CreateUbuntuVMFromTemplate()
         {
             string vmNameToCreate = "TestUbuntuVM_FromTemplate";
@@ -215,7 +220,8 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.WAPackIaaS.FunctionalTest
         }
 
         [TestMethod]
-        [TestCategory("WAPackIaaS")]
+        [TestCategory("WAPackIaaS-All")]
+        [TestCategory("WAPackIaaS-Functional")]
         public void CreateUbuntuVMFromVHDWithVNet()
         {
             string vmNameToCreate = "TestUbuntuVM_FromVHD";
@@ -259,7 +265,8 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.WAPackIaaS.FunctionalTest
         }
 
         [TestMethod]
-        [TestCategory("WAPackIaaS")]
+        [TestCategory("WAPackIaaS-All")]
+        [TestCategory("WAPackIaaS-Functional")]
         public void CreateUbuntuVMFromVHDWithoutVnet()
         {
             string vmNameToCreate = "TestUbuntuVM_FromVHDWithoutVnet";
@@ -295,7 +302,8 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.WAPackIaaS.FunctionalTest
         }
 
         [TestMethod]
-        [TestCategory("WAPackIaaS")]
+        [TestCategory("WAPackIaaS-All")]
+        [TestCategory("WAPackIaaS-Functional")]
         public void CreateVMQuickCreate()
         {
             string vmNameToCreate = "TestWindowsVM_QuickCreate";

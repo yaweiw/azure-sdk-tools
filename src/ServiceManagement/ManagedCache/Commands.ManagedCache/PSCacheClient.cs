@@ -87,7 +87,7 @@ namespace Microsoft.Azure.Commands.ManagedCache
             return cacheResource;
         }
 
-        public void UpdateCacheService(string cacheServiceName, CacheServiceSkuType sku, string memory,
+        public CloudServiceResource UpdateCacheService(string cacheServiceName, CacheServiceSkuType sku, string memory,
             Action<bool, string, string, string, Action> ConfirmAction, bool force)
         {
             CloudServiceListResponse listResponse = client.CloudServices.List();
@@ -116,7 +116,7 @@ namespace Microsoft.Azure.Commands.ManagedCache
             if (existingSkuType == sku && existingSkuCount == newSkuCount)
             {
                 WriteProgress("No update is needed as there is no change");
-                return;
+                return cacheResource;
             }
 
             //We will prompt only if there is data loss
@@ -137,8 +137,9 @@ namespace Microsoft.Azure.Commands.ManagedCache
                     CacheServiceCreateParameters param = new CacheServiceCreateParameters();
                     param.IntrinsicSettingsSection = cacheResource.IntrinsicSettingsSection;
                     param.ETag = cacheResource.ETag;
-                    ProvisionCacheService(cloudServiceName, cacheResource.Name, param, false);
+                    cacheResource = ProvisionCacheService(cloudServiceName, cacheResource.Name, param, false);
                });
+            return cacheResource;
         }
 
         private string GetPromptMessgaeIfThereIsDataLoss(CacheServiceSkuType existingSkuType, 
@@ -191,7 +192,7 @@ namespace Microsoft.Azure.Commands.ManagedCache
                 else
                 {
                     const int milliSecondPerMinute = 60000;
-                    Thread.Sleep(milliSecondPerMinute);
+                    TestMockSupport.Delay(milliSecondPerMinute);
                     waitInMinutes--;
                 }
             }

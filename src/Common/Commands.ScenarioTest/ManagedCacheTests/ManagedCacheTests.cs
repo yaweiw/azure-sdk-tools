@@ -12,15 +12,28 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Commands.Utilities.WAPackIaaS.Operations
+namespace Microsoft.WindowsAzure.Commands.ScenarioTest.ManagedCacheTests
 {
-    using DataContract;
+    using System.IO;
+    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using Microsoft.WindowsAzure.Commands.ScenarioTest.Common;
 
-    internal class VMTemplateOperations : OperationsBase<VMTemplate>
+    [TestClass]
+    public class ManagedCacheTests : WindowsAzurePowerShellCertificateTest
     {
-        public VMTemplateOperations(WebClientFactory webClientFactory)
-            : base(webClientFactory, "/VMTemplates")
+        public ManagedCacheTests()
+            : base("Common.ps1",
+                   "ManagedCache\\ManagedCacheTests.ps1")
         {
+        }
+
+        [TestMethod]
+        [TestCategory(Category.All)]
+        [TestCategory(Category.CheckIn)]
+        [TestCategory(Category.Bvt)]
+        public void ManagedCacheEndToEndTest()
+        {
+            this.RunPowerShellTest("Test-ManagedCacheEndToEnd");
         }
     }
 }

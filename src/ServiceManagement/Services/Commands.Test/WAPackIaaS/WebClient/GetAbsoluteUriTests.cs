@@ -35,7 +35,8 @@ namespace Microsoft.WindowsAzure.Commands.Test.WAPackIaaS.WebClient
         }
 
         [TestMethod]
-        [TestCategory("WAPackIaaS")]
+        [TestCategory("WAPackIaaS-All")]
+        [TestCategory("WAPackIaaS-Unit")]
         public void ShouldGenerateUri()
         {
             var expectedUri = new StringBuilder();
@@ -48,7 +49,8 @@ namespace Microsoft.WindowsAzure.Commands.Test.WAPackIaaS.WebClient
         }
 
         [TestMethod]
-        [TestCategory("WAPackIaaS")]
+        [TestCategory("WAPackIaaS-All")]
+        [TestCategory("WAPackIaaS-Unit")]
         public void ShouldGenerateUriWithoutSubscription()
         {
             this.subscription.SubscriptionId = String.Empty;
@@ -63,7 +65,8 @@ namespace Microsoft.WindowsAzure.Commands.Test.WAPackIaaS.WebClient
         }
 
         [TestMethod]
-        [TestCategory("WAPackIaaS")]
+        [TestCategory("WAPackIaaS-All")]
+        [TestCategory("WAPackIaaS-Unit")]
         public void ShouldGenerateUriWithUriSuffix()
         {
             const string uriSuffix = "/myResource";
@@ -79,7 +82,8 @@ namespace Microsoft.WindowsAzure.Commands.Test.WAPackIaaS.WebClient
         }
 
         [TestMethod]
-        [TestCategory("WAPackIaaS")]
+        [TestCategory("WAPackIaaS-All")]
+        [TestCategory("WAPackIaaS-Unit")]
         public void ShouldGenerateUriWithUriSuffixAndSingleQueryParameter()
         {
             const string uriSuffix = "/myResource";
@@ -97,7 +101,8 @@ namespace Microsoft.WindowsAzure.Commands.Test.WAPackIaaS.WebClient
         }
 
         [TestMethod]
-        [TestCategory("WAPackIaaS")]
+        [TestCategory("WAPackIaaS-All")]
+        [TestCategory("WAPackIaaS-Unit")]
         public void ShouldGenerateUriWithUriSuffixAndTwoQueryParameter()
         {
             const string uriSuffix = "/myResource";
@@ -116,7 +121,8 @@ namespace Microsoft.WindowsAzure.Commands.Test.WAPackIaaS.WebClient
         }
 
         [TestMethod]
-        [TestCategory("WAPackIaaS")]
+        [TestCategory("WAPackIaaS-All")]
+        [TestCategory("WAPackIaaS-Unit")]
         public void ShouldGenerateUriWithUriSuffixAndSingleFilter()
         {
             const string uriSuffix = "/myResource";
@@ -135,7 +141,8 @@ namespace Microsoft.WindowsAzure.Commands.Test.WAPackIaaS.WebClient
         }
 
         [TestMethod]
-        [TestCategory("WAPackIaaS")]
+        [TestCategory("WAPackIaaS-All")]
+        [TestCategory("WAPackIaaS-Unit")]
         public void ShouldGenerateUriWithUriSuffixAndTwoFilters()
         {
             const string uriSuffix = "/myResource";
@@ -156,7 +163,8 @@ namespace Microsoft.WindowsAzure.Commands.Test.WAPackIaaS.WebClient
         }
 
         [TestMethod]
-        [TestCategory("WAPackIaaS")]
+        [TestCategory("WAPackIaaS-All")]
+        [TestCategory("WAPackIaaS-Unit")]
         public void ShouldGenerateUriWithSuffixAndFilterAndQueryParameter()
         {
             const string uriSuffix = "/myResource";
@@ -178,7 +186,8 @@ namespace Microsoft.WindowsAzure.Commands.Test.WAPackIaaS.WebClient
         }
 
         [TestMethod]
-        [TestCategory("WAPackIaaS")]
+        [TestCategory("WAPackIaaS-All")]
+        [TestCategory("WAPackIaaS-Unit")]
         public void ShouldGenerateUriWithUriSuffixAndSingleGuidFilter()
         {
             const string uriSuffix = "/myResource";
