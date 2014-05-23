@@ -32,16 +32,17 @@ namespace Microsoft.WindowsAzure.Commands.Test.Websites
         {
             // Setup
             var mockClient = new Mock<IWebsitesClient>();
-            string slot = "staging";
+            string slot1 = WebsiteSlotName.Production.ToString();
+            string slot2 = "staging";
 
             mockClient.Setup(c => c.GetWebsiteSlots("website1"))
                 .Returns(new List<Site> { 
                     new Site { Name = "website1", WebSpace = "webspace1" },
                     new Site { Name = "website1(staging)", WebSpace = "webspace1" }
                 });
-            mockClient.Setup(f => f.GetSlotName("website1")).Returns(WebsiteSlotName.Production.ToString());
-            mockClient.Setup(f => f.GetSlotName("website1(staging)")).Returns("staging");
-            mockClient.Setup(f => f.SwitchSlot("webspace1", "website1(staging)", slot)).Verifiable();
+            mockClient.Setup(f => f.GetSlotName("website1")).Returns(slot1);
+            mockClient.Setup(f => f.GetSlotName("website1(staging)")).Returns(slot2);
+            mockClient.Setup(f => f.SwitchSlots("webspace1", "website1(staging)", slot1, slot2)).Verifiable();
             mockClient.Setup(f => f.GetWebsiteNameFromFullName("website1")).Returns("website1");
 
             // Test
@@ -56,7 +57,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.Websites
 
             // Switch existing website
             switchAzureWebsiteCommand.ExecuteCmdlet();
-            mockClient.Verify(c => c.SwitchSlot("webspace1", "website1", slot), Times.Once());
+            mockClient.Verify(c => c.SwitchSlots("webspace1", "website1", slot1, slot2), Times.Once());
         }
     }
 }
