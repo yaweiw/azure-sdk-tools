@@ -198,19 +198,19 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.WAPackIaaS.WebClient
         {
             switch (this.subscription.CredentialType)
             {
-                case CredentialType.None: 
+                case CredentialType.None:
                     return;
-                case CredentialType.DefaultCredentials: 
-                webRequest.Credentials = CredentialCache.DefaultCredentials;
+                case CredentialType.DefaultCredentials:
+                    webRequest.Credentials = CredentialCache.DefaultCredentials;
                     break;
-                case CredentialType.DefaultNetworkCredentials: 
-                webRequest.Credentials = CredentialCache.DefaultNetworkCredentials;
+                case CredentialType.DefaultNetworkCredentials:
+                    webRequest.Credentials = CredentialCache.DefaultNetworkCredentials;
                     break;
-                case CredentialType.NetworkCredential: 
-                webRequest.Credentials = this.subscription.GetNetworkCredentials();
+                case CredentialType.NetworkCredential:
+                    webRequest.Credentials = this.subscription.GetNetworkCredentials();
                     break;
                 case CredentialType.UseCertificate:
-                webRequest.ClientCertificates.Add(this.subscription.Certificate);
+                    webRequest.ClientCertificates.Add(this.subscription.Certificate);
                     break;
             }
 

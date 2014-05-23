@@ -164,6 +164,7 @@
     <Resource Include="Resources\Storage\StorageContext.ps1">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
+    <Compile Include="ManagedCacheTests\ManagedCacheTests.cs" />
     <Compile Include="MediaServicesTests\MediaServicesTests.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -233,6 +234,7 @@
     <Resource Include="Resources\ResourceManager\DeploymentTests.ps1">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
+    <None Include="Resources\ManagedCache\ManagedCacheTests.ps1" />
     <None Include="Resources\RdfeTestDummy.publishsettings">
       <SubType>Designer</SubType>
     </None>
@@ -361,6 +363,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Resources\SessionRecords\DeploymentTests\" />
+    <Folder Include="Resources\SessionRecords\ManagedCacheTests\" />
     <Folder Include="Resources\SessionRecords\ResourceGroupTests\" />
     <Folder Include="Resources\SessionRecords\ResourceTests\" />
     <Folder Include="Resources\SessionRecords\TrafficManagerTests\" />

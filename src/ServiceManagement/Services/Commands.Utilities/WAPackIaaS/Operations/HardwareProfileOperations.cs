@@ -18,7 +18,8 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.WAPackIaaS.Operations
 
     internal class HardwareProfileOperations : OperationsBase<HardwareProfile>
     {
-        public HardwareProfileOperations(WebClientFactory webClientFactory) : base(webClientFactory, "/HardwareProfiles")
+        public HardwareProfileOperations(WebClientFactory webClientFactory)
+            : base(webClientFactory, "/HardwareProfiles")
         {
         }
     }
