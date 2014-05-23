@@ -1224,15 +1224,6 @@ namespace Microsoft.WindowsAzure.Commands.Common.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Active Directory Endpoint Uris are not configured..
-        /// </summary>
-        public static string EnvironmentMissingActiveDirectoryConfigurations {
-            get {
-                return ResourceManager.GetString("EnvironmentMissingActiveDirectoryConfigurations", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to The environment name &apos;{0}&apos; is not found..
         /// </summary>
         public static string EnvironmentNotFound {
