@@ -287,6 +287,7 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Common.Cmdlet
             string blobEndpoint = string.Empty;
             string tableEndpoint = string.Empty;
             string queueEndpoint = string.Empty;
+            string fileEndpoint = string.Empty;
             string domain = string.Empty;
 
             if (string.IsNullOrEmpty(endPoint))
@@ -303,15 +304,17 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Common.Cmdlet
                 blobEndpoint = String.Format(Resources.HttpsBlobEndPointFormat, storageAccountName, domain);
                 tableEndpoint = String.Format(Resources.HttpsTableEndPointFormat, storageAccountName, domain);
                 queueEndpoint = String.Format(Resources.HttpsQueueEndPointFormat, storageAccountName, domain);
+                fileEndpoint = String.Format(Resources.HttpsFileEndPointFormat, storageAccountName, domain);
             }
             else
             {
                 blobEndpoint = String.Format(Resources.HttpBlobEndPointFormat, storageAccountName, domain);
                 tableEndpoint = String.Format(Resources.HttpTableEndPointFormat, storageAccountName, domain);
                 queueEndpoint = String.Format(Resources.HttpQueueEndPointFormat, storageAccountName, domain);
+                fileEndpoint = String.Format(Resources.HttpFileEndPointFormat, storageAccountName, domain);
             }
 
-            return new CloudStorageAccount(credential, new Uri(blobEndpoint), new Uri(queueEndpoint), new Uri(tableEndpoint));
+            return new CloudStorageAccount(credential, new Uri(blobEndpoint), new Uri(queueEndpoint), new Uri(tableEndpoint), new Uri(fileEndpoint));
         }
 
         /// <summary>
@@ -338,7 +341,8 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Common.Cmdlet
             Uri queueEndPoint = azureEnvironment.GetStorageQueueEndpoint(storageAccountName, useHttps);
             Uri tableEndPoint = azureEnvironment.GetStorageTableEndpoint(storageAccountName, useHttps);
 
-            return new CloudStorageAccount(credential, blobEndPoint, queueEndPoint, tableEndPoint);
+            // TODO fileEndPoint
+            return new CloudStorageAccount(credential, blobEndPoint, queueEndPoint, tableEndPoint, null);
         }
 
         /// <summary>

@@ -971,12 +971,19 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService
                 storageService.StorageAccount.Name,
                 storageKeys.PrimaryKey);
 
+            Uri fileEndpoint = null;
+
+            if (storageService.StorageAccount.Properties.Endpoints.Count >= 4)
+            { 
+                fileEndpoint = GeneralUtilities.CreateHttpsEndpoint(storageService.StorageAccount.Properties.Endpoints[3].ToString());
+            }
+
             CloudStorageAccount cloudStorageAccount = new CloudStorageAccount(
                 credentials,
                 GeneralUtilities.CreateHttpsEndpoint(storageService.StorageAccount.Properties.Endpoints[0].ToString()),
                 GeneralUtilities.CreateHttpsEndpoint(storageService.StorageAccount.Properties.Endpoints[1].ToString()),
-                GeneralUtilities.CreateHttpsEndpoint(storageService.StorageAccount.Properties.Endpoints[2].ToString())
-                );
+                GeneralUtilities.CreateHttpsEndpoint(storageService.StorageAccount.Properties.Endpoints[2].ToString()),
+                fileEndpoint);
 
             return cloudStorageAccount.ToString(true);
         }

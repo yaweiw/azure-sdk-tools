@@ -263,6 +263,9 @@
   <data name="ObjectCannotBeNull" xml:space="preserve">
     <value>Object '{0}' cannot be null.</value>
   </data>
+  <data name="InvalidBlobType" xml:space="preserve">
+    <value>Blob type of "{0}" is invalid, only page blob or block blob are supported.</value>
+  </data>
   <data name="InvalidFileName" xml:space="preserve">
     <value>File name "{0}" is invalid.</value>
   </data>
@@ -301,6 +304,10 @@
   </data>
   <data name="HttpBlobEndPointFormat" xml:space="preserve">
     <value>http://{0}.blob.{1}/</value>
+    <comment>0 for storage account name, 1 for end point domain.</comment>
+  </data>
+  <data name="HttpFileEndPointFormat" xml:space="preserve">
+    <value>http://{0}.file.{1}/</value>
     <comment>0 for storage account name, 1 for end point domain.</comment>
   </data>
   <data name="HttpQueueEndPointFormat" xml:space="preserve">
@@ -417,6 +424,10 @@
   </data>
   <data name="HttpsBlobEndPointFormat" xml:space="preserve">
     <value>https://{0}.blob.{1}/</value>
+    <comment>0 for storage account name, 1 for end point domain.</comment>
+  </data>
+  <data name="HttpsFileEndPointFormat" xml:space="preserve">
+    <value>https://{0}.file.{1}/</value>
     <comment>0 for storage account name, 1 for end point domain.</comment>
   </data>
   <data name="HttpsQueueEndPointFormat" xml:space="preserve">
