@@ -23,7 +23,8 @@ namespace Microsoft.WindowsAzure.Commands.Test.WAPackIaaS.WebClient
     public class JsonHelperTests
     {
         [TestMethod]
-        [TestCategory("WAPackIaaS")]
+        [TestCategory("WAPackIaaS-All")]
+        [TestCategory("WAPackIaaS-Unit")]
         public void SerializeDeserializeVirtualMachine()
         {
             var helper = new JsonHelpers<VirtualMachine>();

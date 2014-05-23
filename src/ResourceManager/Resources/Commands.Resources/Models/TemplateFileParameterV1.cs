@@ -23,7 +23,7 @@ namespace Microsoft.Azure.Commands.Resources.Models
         public string Type { get; set; }
 
         [JsonProperty("value")]
-        public string Value { get; set; }
+        public object Value { get; set; }
 
         [JsonProperty("defaultValue")]
         public object DefaultValue { get; set; }

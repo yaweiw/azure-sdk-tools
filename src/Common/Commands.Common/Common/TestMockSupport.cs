@@ -1,3 +1,4 @@
+﻿
 // ----------------------------------------------------------------------------------
 //
 // Copyright Microsoft Corporation
@@ -12,28 +13,18 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Management.SqlDatabase.Services.Server
+namespace Microsoft.WindowsAzure.Commands.Utilities.Common
 {
-    /// <summary>
-    /// The <see cref="DatabaseCopy"/> extensions
-    /// </summary>
-    public partial class DatabaseCopy
+    public class TestMockSupport
     {
-        /// <summary>
-        /// Gets or sets the context from which this object was constructed.
-        /// </summary>
-        public IServerDataServiceContext Context;
+        //a.k.a when you run under Playback mode
+        public static bool RunningMocked { get; set; }
 
-        internal void LoadExtraProperties(IServerDataServiceContext context)
+        public static void Delay(int milliSeconds)
         {
-            try
+            if (!RunningMocked)
             {
-                // Fill in the context property
-                this.Context = context;
-            }
-            catch
-            {
-                // Ignore exceptions when loading extra properties, for backward compatibility.
+                System.Threading.Thread.Sleep(milliSeconds);
             }
         }
     }
