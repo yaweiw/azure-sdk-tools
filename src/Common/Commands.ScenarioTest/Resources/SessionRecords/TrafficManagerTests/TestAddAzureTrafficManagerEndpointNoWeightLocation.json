@@ -22,13 +22,13 @@
           "nosniff"
         ],
         "x-ms-request-id": [
-          "cec6ec29675da9e8a039eda3865464d1"
+          "99172165263ea1feb44d721c76275fff"
         ],
         "Cache-Control": [
           "no-cache"
         ],
         "Date": [
-          "Fri, 23 May 2014 10:16:28 GMT"
+          "Fri, 23 May 2014 10:17:28 GMT"
         ],
         "Server": [
           "1.0.6198.76",
@@ -69,13 +69,13 @@
           "nosniff"
         ],
         "x-ms-request-id": [
-          "2da96489aba6a3cc95b85206b5b1a8a5"
+          "fe372d7951c6a579b4759ba5ae800416"
         ],
         "Cache-Control": [
           "no-cache"
         ],
         "Date": [
-          "Fri, 23 May 2014 10:16:31 GMT"
+          "Fri, 23 May 2014 10:17:29 GMT"
         ],
         "Server": [
           "1.0.6198.76",
@@ -116,13 +116,13 @@
           "nosniff"
         ],
         "x-ms-request-id": [
-          "7a99e159ba10a026a95d8f99c07eef13"
+          "7b935a0c9b7bab18906b52a6aeb6c8cb"
         ],
         "Cache-Control": [
           "no-cache"
         ],
         "Date": [
-          "Fri, 23 May 2014 10:16:33 GMT"
+          "Fri, 23 May 2014 10:17:31 GMT"
         ],
         "Server": [
           "1.0.6198.76",
@@ -160,13 +160,57 @@
           "nosniff"
         ],
         "x-ms-request-id": [
-          "7fc99483f07ba66f8dc1a48d16f8a74e"
+          "bd1602dd0315a748aa9f2be2cb62aca7"
         ],
         "Cache-Control": [
           "no-cache"
         ],
         "Date": [
-          "Fri, 23 May 2014 10:16:34 GMT"
+          "Fri, 23 May 2014 10:17:32 GMT"
+        ],
+        "Server": [
+          "1.0.6198.76",
+          "(rd_rdfe_stable.140522-0024)",
+          "Microsoft-HTTPAPI/2.0"
+        ],
+        "X-AspNet-Version": [
+          "4.0.30319"
+        ],
+        "X-Powered-By": [
+          "ASP.NET"
+        ]
+      },
+      "StatusCode": 200
+    },
+    {
+      "RequestUri": "/16adf039-ace2-4685-b35b-917bd564b01e/services/WATM/profiles/scenarioTestProfile/definitions",
+      "RequestMethod": "POST",
+      "RequestBody": "<Definition xmlns=\"http://schemas.microsoft.com/windowsazure\">\r\n  <DnsOptions>\r\n    <TimeToLiveInSeconds>300</TimeToLiveInSeconds>\r\n  </DnsOptions>\r\n  <Monitors>\r\n    <Monitor>\r\n      <IntervalInSeconds>30</IntervalInSeconds>\r\n      <TimeoutInSeconds>10</TimeoutInSeconds>\r\n      <ToleratedNumberOfFailures>3</ToleratedNumberOfFailures>\r\n      <Protocol>HTTP</Protocol>\r\n      <Port>80</Port>\r\n      <HttpOptions>\r\n        <Verb>GET</Verb>\r\n        <RelativePath>/</RelativePath>\r\n        <ExpectedStatusCode>200</ExpectedStatusCode>\r\n      </HttpOptions>\r\n    </Monitor>\r\n  </Monitors>\r\n  <Policy>\r\n    <LoadBalancingMethod>RoundRobin</LoadBalancingMethod>\r\n    <Endpoints>\r\n      <Endpoint>\r\n        <DomainName>www.microsoft.com</DomainName>\r\n        <Status>Enabled</Status>\r\n        <Type>Any</Type>\r\n        <Weight>0</Weight>\r\n      </Endpoint>\r\n    </Endpoints>\r\n  </Policy>\r\n</Definition>",
+      "RequestHeaders": {
+        "x-ms-version": [
+          "2011-10-01"
+        ],
+        "User-Agent": [
+          "Microsoft.WindowsAzure.Management.TrafficManager.TrafficManagerManagementClient/0.9.0.0",
+          "WindowsAzurePowershell/v0.8.2"
+        ]
+      },
+      "ResponseBody": "<Definition xmlns=\"http://schemas.microsoft.com/windowsazure\" xmlns:i=\"http://www.w3.org/2001/XMLSchema-instance\">\r\n  <Version>1</Version>\r\n</Definition>",
+      "ResponseHeaders": {
+        "x-ms-servedbyregion": [
+          "ussouth2"
+        ],
+        "X-Content-Type-Options": [
+          "nosniff"
+        ],
+        "x-ms-request-id": [
+          "51078371d084a3fba0d8a7926c4e03b4"
+        ],
+        "Cache-Control": [
+          "no-cache"
+        ],
+        "Date": [
+          "Fri, 23 May 2014 10:17:36 GMT"
         ],
         "Server": [
           "1.0.6198.76",
@@ -204,13 +248,13 @@
           "nosniff"
         ],
         "x-ms-request-id": [
-          "e0a4622d7a4aa39a8957a5a2c3134a27"
+          "a5b6fcead852a7c283f2e0221742994a"
         ],
         "Cache-Control": [
           "no-cache"
         ],
         "Date": [
-          "Fri, 23 May 2014 10:16:35 GMT"
+          "Fri, 23 May 2014 10:17:34 GMT"
         ],
         "Server": [
           "1.0.6198.76",
@@ -248,13 +292,13 @@
           "nosniff"
         ],
         "x-ms-request-id": [
-          "eda73e127602ab34ac970dcd74761d7e"
+          "28a767a18967ad68bb162c9d3ecd0eac"
         ],
         "Cache-Control": [
           "no-cache"
         ],
         "Date": [
-          "Fri, 23 May 2014 10:16:37 GMT"
+          "Fri, 23 May 2014 10:17:37 GMT"
         ],
         "Server": [
           "1.0.6198.76",
@@ -292,13 +336,13 @@
           "nosniff"
         ],
         "x-ms-request-id": [
-          "77efd1430165a778a1724e168ba5c756"
+          "6e3a82d5456ba5279e4247b53977d79f"
         ],
         "Cache-Control": [
           "no-cache"
         ],
         "Date": [
-          "Fri, 23 May 2014 10:16:36 GMT"
+          "Fri, 23 May 2014 10:17:34 GMT"
         ],
         "Server": [
           "1.0.6198.76",
@@ -327,7 +371,7 @@
           "WindowsAzurePowershell/v0.8.2"
         ]
       },
-      "ResponseBody": "<Definition xmlns=\"http://schemas.microsoft.com/windowsazure\" xmlns:i=\"http://www.w3.org/2001/XMLSchema-instance\">\r\n  <DnsOptions>\r\n    <TimeToLiveInSeconds>300</TimeToLiveInSeconds>\r\n  </DnsOptions>\r\n  <Status>Enabled</Status>\r\n  <Version>1</Version>\r\n  <Monitors>\r\n    <Monitor>\r\n      <IntervalInSeconds>30</IntervalInSeconds>\r\n      <TimeoutInSeconds>10</TimeoutInSeconds>\r\n      <ToleratedNumberOfFailures>3</ToleratedNumberOfFailures>\r\n      <Protocol>HTTP</Protocol>\r\n      <Port>80</Port>\r\n      <HttpOptions>\r\n        <Verb>GET</Verb>\r\n        <RelativePath>/</RelativePath>\r\n        <ExpectedStatusCode>200</ExpectedStatusCode>\r\n      </HttpOptions>\r\n    </Monitor>\r\n  </Monitors>\r\n  <Policy>\r\n    <LoadBalancingMethod>RoundRobin</LoadBalancingMethod>\r\n    <Endpoints />\r\n    <MonitorStatus>Inactive</MonitorStatus>\r\n  </Policy>\r\n</Definition>",
+      "ResponseBody": "<Definition xmlns=\"http://schemas.microsoft.com/windowsazure\" xmlns:i=\"http://www.w3.org/2001/XMLSchema-instance\">\r\n  <DnsOptions>\r\n    <TimeToLiveInSeconds>300</TimeToLiveInSeconds>\r\n  </DnsOptions>\r\n  <Status>Enabled</Status>\r\n  <Version>1</Version>\r\n  <Monitors>\r\n    <Monitor>\r\n      <IntervalInSeconds>30</IntervalInSeconds>\r\n      <TimeoutInSeconds>10</TimeoutInSeconds>\r\n      <ToleratedNumberOfFailures>3</ToleratedNumberOfFailures>\r\n      <Protocol>HTTP</Protocol>\r\n      <Port>80</Port>\r\n      <HttpOptions>\r\n        <Verb>GET</Verb>\r\n        <RelativePath>/</RelativePath>\r\n        <ExpectedStatusCode>200</ExpectedStatusCode>\r\n      </HttpOptions>\r\n    </Monitor>\r\n  </Monitors>\r\n  <Policy>\r\n    <LoadBalancingMethod>RoundRobin</LoadBalancingMethod>\r\n    <Endpoints>\r\n      <Endpoint>\r\n        <DomainName>www.microsoft.com</DomainName>\r\n        <Status>Enabled</Status>\r\n        <Type>Any</Type>\r\n        <MonitorStatus>CheckingEndpoint</MonitorStatus>\r\n      </Endpoint>\r\n    </Endpoints>\r\n    <MonitorStatus>CheckingEndpoints</MonitorStatus>\r\n  </Policy>\r\n</Definition>",
       "ResponseHeaders": {
         "x-ms-servedbyregion": [
           "ussouth2"
@@ -336,13 +380,13 @@
           "nosniff"
         ],
         "x-ms-request-id": [
-          "ce4719972698ad70ad9a8341aeac9775"
+          "b12ff2c5fcada3ada4a6fd3f2bfca872"
         ],
         "Cache-Control": [
           "no-cache"
         ],
         "Date": [
-          "Fri, 23 May 2014 10:16:37 GMT"
+          "Fri, 23 May 2014 10:17:38 GMT"
         ],
         "Server": [
           "1.0.6198.76",
