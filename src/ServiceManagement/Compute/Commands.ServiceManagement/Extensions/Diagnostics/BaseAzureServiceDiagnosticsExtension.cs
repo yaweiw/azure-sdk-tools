@@ -97,7 +97,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Extensions
             int tableIndex = Endpoint.IndexOf(StorageAccountName);
             if (tableIndex < 0)
             {
-                throw new Exception("Cannot find the storage account name " +  StorageAccountName + " in the endpoint " + Endpoint);
+                throw new Exception(string.Format(Resources.DiagnosticsStorageAccountNotFound, StorageAccountName, Endpoint));
             }
 
             tableIndex += StorageAccountName.Length + 1; // +1 for the dot after the storage account name
@@ -105,7 +105,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Extensions
             int slashIndex = Endpoint.IndexOf("//");
             if (slashIndex < 0)
             {
-                throw new Exception(string.Format("Cannot find the // in the endpoint " + Endpoint));
+                throw new Exception(string.Format(Resources.DiagnosticsSlashNotFound, Endpoint));
             }
 
             Endpoint = Endpoint.Substring(0, slashIndex + 2) + Endpoint.Substring(tableIndex + "table.".Length);
