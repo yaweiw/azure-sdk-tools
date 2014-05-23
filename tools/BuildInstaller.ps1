@@ -28,7 +28,7 @@ if (${env:ADX64Platform}){
 $allWixVersions = Get-ChildItem $keyPath
 if ($allWixVersions -ne $null){
     foreach ($wixVersion in $allWixVersions){
-        $wixInstallRoot = $product.GetValue("InstallRoot", $null)
+        $wixInstallRoot = $wixVersion.GetValue("InstallRoot", $null)
         if ($wixInstallRoot -ne $null) {
             Write-Verbose "WIX tools was installed at $wixInstallRoot"
             break

@@ -31,6 +31,7 @@
     <ScenarioTestFilter>All</ScenarioTestFilter>
     <MockTestFilter>CheckIn</MockTestFilter>
 	<OneSDKCITFilter>"OneSDK&#x26;CIT"</OneSDKCITFilter>
+    <MediaServiceBVTFilter>"MediaServices&#x26;BVT"</MediaServiceBVTFilter>
 	<AzureRTAllTestFilter>"Functional|Scenario"</AzureRTAllTestFilter>
 	<AzureRTAllTestFilter2>"Functional|Scenario|Preview"</AzureRTAllTestFilter2>
 	<AzureRTAllTestFilter3>"Functional|Scenario|Sequential"</AzureRTAllTestFilter3>
@@ -261,6 +262,19 @@
     <Delete Files="$(TestOutputDirectory)\RunOneSDKCITDebug.trx" />
     <Exec
       Command="MSTest.exe /testcontainer:$(ScenarioTestDebug) /testsettings:$(TestSettings) /category:$(OneSDKCITFilter) /resultsfile:$(TestOutputDirectory)\RunOneSDKCITDebug.trx"
+      ContinueOnError="false" />
+  </Target>
+  
+  <!-- Run the MediaService Scenario Tests -->
+  <Target Name="RunMediaServiceBVTs" DependsOnTargets="Clean;BuildDebug">
+    <Message Importance="high" Text="Running Media Service BVTs..." />
+    <Message Importance="high" Text="You are required to have installed a version of Visual Studio with support for MSTest (and MSTest on your path)." />
+    <MakeDir Directories="$(TestOutputDirectory)" ContinueOnError="false" />
+
+    <Message Importance="high" Text="Media Service Scenario tests:" />
+    <Delete Files="$(TestOutputDirectory)\RunMediaServiceBVTDebug.trx" />
+    <Exec
+      Command="MSTest.exe /testcontainer:$(ScenarioTestDebug) /testsettings:$(TestSettings) /category:$(MediaServiceBVTFilter) /resultsfile:$(TestOutputDirectory)\RunMediaServiceBVTDebug.trx"
       ContinueOnError="false" />
   </Target>
 

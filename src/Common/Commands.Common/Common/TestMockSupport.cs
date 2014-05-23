@@ -1,4 +1,5 @@
-﻿// ----------------------------------------------------------------------------------
+﻿
+// ----------------------------------------------------------------------------------
 //
 // Copyright Microsoft Corporation
 // Licensed under the Apache License, Version 2.0 (the "License");
@@ -12,15 +13,19 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Commands.Utilities.WAPackIaaS.Operations
+namespace Microsoft.WindowsAzure.Commands.Utilities.Common
 {
-    using DataContract;
-
-    internal class VMTemplateOperations : OperationsBase<VMTemplate>
+    public class TestMockSupport
     {
-        public VMTemplateOperations(WebClientFactory webClientFactory)
-            : base(webClientFactory, "/VMTemplates")
+        //a.k.a when you run under Playback mode
+        public static bool RunningMocked { get; set; }
+
+        public static void Delay(int milliSeconds)
         {
+            if (!RunningMocked)
+            {
+                System.Threading.Thread.Sleep(milliSeconds);
+            }
         }
     }
 }
