@@ -17,6 +17,7 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Blob.Cmdlet
     using Common;
     using Microsoft.WindowsAzure.Storage;
     using Microsoft.WindowsAzure.Storage.Blob;
+    using Microsoft.WindowsAzure.Storage.DataMovement.TransferJobs;
     using Model.Contract;
     using Model.ResourceModel;
     using System;
@@ -24,6 +25,7 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Blob.Cmdlet
     using System.Management.Automation;
     using System.Security;
     using System.Security.Permissions;
+    using System.Threading;
     using System.Threading.Tasks;
 
     [Cmdlet(VerbsCommon.Get, StorageNouns.BlobContent, ConfirmImpact = ConfirmImpact.High, DefaultParameterSetName = ManualParameterSet),
@@ -130,8 +132,17 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Blob.Cmdlet
                 Record = pr
             };
 
-            transferManager.QueueDownload(blob, filePath, checkMd5, OnDMJobStart, OnDMJobProgress, OnDMJobFinish, data);
+            BlobDownloadJob downloadJob = new BlobDownloadJob() 
+            {
+                SourceBlob = blob,
+                DestPath = filePath,
+            };
 
+            BlobRequestOptions requestOptions = downloadJob.BlobRequestOptions;
+            requestOptions.DisableContentMD5Validation = !checkMd5;
+
+            this.EnqueueTransferJob(downloadJob, data);
+                        
             return await data.taskSource.Task;
         }
 
