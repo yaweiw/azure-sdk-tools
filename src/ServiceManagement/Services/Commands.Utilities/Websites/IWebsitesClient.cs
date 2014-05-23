@@ -13,15 +13,15 @@
 
 namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
 {
+    using System;
+    using System.Collections;
+    using System.Collections.Generic;
     using Microsoft.WindowsAzure.Commands.Utilities.Websites.Services.WebJobs;
     using Microsoft.WindowsAzure.Commands.Websites.WebJobs;
     using Microsoft.WindowsAzure.Management.WebSites.Models;
     using Microsoft.WindowsAzure.WebSitesExtensions.Models;
     using Services.DeploymentEntities;
     using Services.WebEntities;
-    using System;
-    using System.Collections;
-    using System.Collections.Generic;
 
     public interface IWebsitesClient
     {
@@ -395,8 +395,9 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
         /// </summary>
         /// <param name="webspaceName">The webspace name</param>
         /// <param name="websiteName">The website name</param>
-        /// <param name="slot">The website slot name</param>
-        void SwitchSlot(string webspaceName, string websiteName, string slot);
+        /// <param name="slot1">The website's first slot name</param>
+        /// <param name="slot2">The website's second slot name</param>
+        void SwitchSlots(string webspaceName, string websiteName, string slot1, string slot2);
 
         /// <summary>
         /// Gets the slot name from the website name
@@ -531,6 +532,8 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
         /// <param name="name">The website name</param>
         /// <returns>True means available, false otherwise</returns>
         bool CheckWebsiteNameAvailability(string name);
+
+        WebsiteInstance[] ListWebsiteInstances(string webSpace, string fullName);
     }
 
     public enum WebsiteState

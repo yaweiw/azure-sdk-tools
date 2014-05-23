@@ -4190,7 +4190,34 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Are you sure you want to swap the website &apos;{0}&apos; production slot with slot &apos;{1}&apos;?.
+        ///   Looks up a localized string similar to The website does not contain a slot named: {0}.
+        /// </summary>
+        public static string SwapWebsiteSlotInvalidSlotWarning {
+            get {
+                return ResourceManager.GetString("SwapWebsiteSlotInvalidSlotWarning", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The website must have at least two slots to apply swap.
+        /// </summary>
+        public static string SwapWebsiteSlotRequire2SlotsWarning {
+            get {
+                return ResourceManager.GetString("SwapWebsiteSlotRequire2SlotsWarning", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The website has more than 2 slots you must specify which ones to swap.
+        /// </summary>
+        public static string SwapWebsiteSlotSpecifySlotsWarning {
+            get {
+                return ResourceManager.GetString("SwapWebsiteSlotSpecifySlotsWarning", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Are you sure you want to swap the website &apos;{0}&apos; slot &apos;{1}&apos; with slot &apos;{2}&apos;?.
         /// </summary>
         public static string SwapWebsiteSlotWarning {
             get {

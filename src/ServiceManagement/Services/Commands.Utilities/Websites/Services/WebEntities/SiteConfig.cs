@@ -14,12 +14,12 @@
 
 namespace Microsoft.WindowsAzure.Commands.Utilities.Websites.Services.WebEntities
 {
-    using DeploymentEntities;
-    using Microsoft.WindowsAzure.Management.WebSites.Models;
     using System;
     using System.Collections;
     using System.Collections.Generic;
     using System.Runtime.Serialization;
+    using DeploymentEntities;
+    using Microsoft.WindowsAzure.Management.WebSites.Models;
 
     public interface ISiteConfig
     {
@@ -70,12 +70,15 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites.Services.WebEntitie
 
         private DiagnosticsSettings DiagnosticsSettings { get; set; }
 
+        public WebsiteInstance[] Instances { get; set; }
+
         public SiteWithConfig()
         {
             Site = new Site();
             SiteConfig = new SiteConfig();
             AppSettings = new Hashtable();
             DiagnosticsSettings = new DiagnosticsSettings();
+            Instances = new WebsiteInstance[0];
         }
 
         public SiteWithConfig(Site site, SiteConfig siteConfig)
@@ -84,7 +87,8 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites.Services.WebEntitie
             SiteConfig = siteConfig;
             AppSettings = new Hashtable();
             DiagnosticsSettings = new DiagnosticsSettings();
-            
+            Instances = new WebsiteInstance[0];
+
             if (SiteConfig.AppSettings != null)
             {
                 foreach (var setting in SiteConfig.AppSettings)
@@ -94,10 +98,11 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites.Services.WebEntitie
             }
         }
 
-        public SiteWithConfig(Site site, SiteConfig siteConfig, DiagnosticsSettings diagnosticsSettings) :
+        public SiteWithConfig(Site site, SiteConfig siteConfig, DiagnosticsSettings diagnosticsSettings, WebsiteInstance[] instances) :
             this(site, siteConfig)
         {
             DiagnosticsSettings = diagnosticsSettings;
+            Instances = instances;
         }
 
         public SiteConfig GetSiteConfig()
@@ -178,7 +183,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites.Services.WebEntitie
         }
 
         public Hashtable AppSettings { get; set; }
-        
+
         public List<NameValuePair> Metadata
         {
             get { return SiteConfig.Metadata; }
