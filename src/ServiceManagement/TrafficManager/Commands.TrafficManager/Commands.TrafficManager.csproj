@@ -152,7 +152,7 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Commands\Commands.csproj">
+    <ProjectReference Include="..\..\Services\Commands\Commands.csproj">
       <Project>{cd5aa507-f5ef-473d-855b-84b91a1abe54}</Project>
       <Name>Commands</Name>
     </ProjectReference>
