@@ -178,7 +178,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
 
         public IEnumerable<WindowsAzureSubscription> AddAccount(ITokenProvider tokenProvider)
         {
-            if (ActiveDirectoryEndpoint == null)
+            if (ActiveDirectoryEndpoint == null || ActiveDirectoryServiceEndpointResourceId == null)
             {
                 throw new Exception(string.Format(Resources.EnvironmentDoesNotSupportActiveDirectory, Name));
             }

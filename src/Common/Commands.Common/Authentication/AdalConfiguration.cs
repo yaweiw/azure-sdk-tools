@@ -72,7 +72,6 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common.Authentication
             AdEndpoint = environment.ActiveDirectoryEndpoint != null ? environment.ActiveDirectoryEndpoint.TrimEnd('/') + '/' : null;
             AdDomain = environment.ActiveDirectoryCommonTenantId;
             ResourceClientUri = environment.ActiveDirectoryServiceEndpointResourceId;
-            ValidateAdConfigurations();
         }
 
         public AdalConfiguration(WindowsAzureSubscription subscription)
@@ -81,15 +80,6 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common.Authentication
             AdEndpoint = subscription.ActiveDirectoryEndpoint != null ? subscription.ActiveDirectoryEndpoint.TrimEnd('/') + '/' : null;
             AdDomain = subscription.ActiveDirectoryTenantId;
             ResourceClientUri = subscription.ActiveDirectoryServiceEndpointResourceId;
-            ValidateAdConfigurations();
-        }
-
-        private void ValidateAdConfigurations()
-        {
-            if (string.IsNullOrEmpty(AdEndpoint) || string.IsNullOrEmpty(AdDomain) || string.IsNullOrEmpty(ResourceClientUri))
-            {
-                throw new ArgumentException(Resources.EnvironmentMissingActiveDirectoryConfigurations);
-            }
         }
     }
 }
