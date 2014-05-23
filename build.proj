@@ -2,7 +2,7 @@
 <Project
   xmlns="http://schemas.microsoft.com/developer/msbuild/2003"
   ToolsVersion="4.0"
-  DefaultTargets="ForceRestorePackages;Clean;BuildDebug;BuildReleaseSigned;BuildSetupDebug">
+  DefaultTargets="ForceRestorePackages;Clean;BuildDebug;BuildRelease;BuildSetupDebug">
 
   <!-- Define build properties -->
   <PropertyGroup>
@@ -36,9 +36,8 @@
 	<AzureRTAllTestFilter2>"Functional|Scenario|Preview"</AzureRTAllTestFilter2>
 	<AzureRTAllTestFilter3>"Functional|Scenario|Sequential"</AzureRTAllTestFilter3>
     <TestOutputDirectory>$(PublishDirectory)\TestResults</TestOutputDirectory>
-	<DebugBuildConfig>Configuration=Debug;Platform=Any CPU</DebugBuildConfig>
-	<ReleaseBuildConfig>Configuration=Release;Platform=Any CPU</ReleaseBuildConfig>
-	<ReleaseSignedBuildConfig>Configuration=ReleaseSigned;Platform=Any CPU</ReleaseSignedBuildConfig>
+	<DebugBuildConfig>Configuration=Debug;Platform=AnyCPU</DebugBuildConfig>
+	<ReleaseBuildConfig>Configuration=Release;Platform=AnyCPU</ReleaseBuildConfig>
 	<TestName></TestName>
 	<TestParams></TestParams>
   </PropertyGroup>
@@ -62,11 +61,6 @@
       ContinueOnError="false" />
     <MSBuild
       Projects="@(CmdletSln)"
-      Targets="Clean"
-      Properties="$(ReleaseSignedBuildConfig)"
-      ContinueOnError="false" />
-    <MSBuild
-      Projects="@(SetupSln)"
       Targets="Clean"
       Properties="$(ReleaseBuildConfig)"
       ContinueOnError="false" />
@@ -140,7 +134,7 @@
     <MSBuild
       Projects="@(CmdletSln)"
       Targets="Build"
-      Properties="$(ReleaseSignedBuildConfig)"
+      Properties="$(ReleaseBuildConfig)"
       ContinueOnError="false" />
   </Target>
 
@@ -171,54 +165,10 @@
       Importance="high"
       Text="You are required to have installed the WiX Toolset at http://wix.codeplex.com/releases/view/60102 (Wix35.msi)"
       ContinueOnError="false" />
-    <MSBuild
-      Projects="@(SetupSln)"
-      Targets="Build"
-      Properties="$(ReleaseBuildConfig)"
-      ContinueOnError="false" />
   </Target>
 
   <!-- Build the Cmdlets and Setup in all configurations -->
   <Target Name="Build" DependsOnTargets="BuildCmdlets;BuildSetup" />
-
-  <!-- Publish any build artificates to the Publish directory -->
-  <Target Name="Publish" DependsOnTargets="Build">
-
-    <!-- Copy code artifacts -->
-    <Message Importance="high" Text="Publishing Cmdlets..." ContinueOnError="false" />
-    <ItemGroup>
-      <DebugFiles Include="$(CloudServiceCmdletBinDirectory)\Debug\**\*.*" />
-	  <DebugFiles Include="$(ManagementCmdletBinDirectory)\Debug\**\*.*" />
-      <DebugFiles Include="$(ServiceManagementCmdletBinDirectory)\Debug\**\*.*" />
-      <ReleaseFiles Include="$(CloudServiceCmdletBinDirectory)\Release\**\*.*" />
-	  <ReleaseFiles Include="$(ManagementCmdletBinDirectory)\Release\**\*.*" />
-      <ReleaseFiles Include="$(ServiceManagementCmdletBinDirectory)\Release\**\*.*" />
-    </ItemGroup>
-    <MakeDir
-      Directories="$(BuildOutputDirectory)"
-      ContinueOnError="false" />
-    <Copy
-      SourceFiles="@(DebugFiles)"
-      DestinationFiles="@(DebugFiles->'$(BuildOutputDirectory)\Debug\%(RecursiveDir)%(Filename)%(Extension)')"
-      SkipUnchangedFiles="true"
-      ContinueOnError="false" />
-    <Copy
-      SourceFiles="@(ReleaseFiles)"
-      DestinationFiles="@(ReleaseFiles->'$(BuildOutputDirectory)\Release\%(RecursiveDir)%(Filename)%(Extension)')"
-      SkipUnchangedFiles="true"
-      ContinueOnError="false" />
-
-    <!-- Copy the Setup artifacts -->
-    <Message Importance="high" Text="Publishing Setup..." ContinueOnError="false" />
-    <ItemGroup>
-      <SetupFiles Include="$(SetupDirectory)\**\*.*" />
-    </ItemGroup>
-    <Copy
-      SourceFiles="@(SetupFiles)"
-      DestinationFiles="@(SetupFiles->'$(PublishDirectory)\Setup\%(RecursiveDir)%(Filename)%(Extension)')"
-      SkipUnchangedFiles="true"
-      ContinueOnError="false" />
-  </Target>
 
   <!-- Run the unit tests -->
   <Target Name="Test" DependsOnTargets="BuildDebug">
@@ -424,20 +374,20 @@
   <!-- Do everything possible -->
   <Target
     Name="Full"
-    DependsOnTargets="ForceRestorePackages;Clean;BuildDebug;BuildReleaseSigned;Test;BuildSetupDebug;BuildSetup" />
+    DependsOnTargets="ForceRestorePackages;Clean;BuildDebug;BuildRelease;Test;BuildSetupDebug;BuildSetup" />
 
   <!-- Run Full switch with scenario tests -->
   <Target
     Name="FullWithScenarioTests"
-    DependsOnTargets="ForceRestorePackages;Clean;BuildDebug;BuildReleaseSigned;Test;BuildSetupDebug;BuildSetup;RunOneSDKCIT" />
+    DependsOnTargets="ForceRestorePackages;Clean;BuildDebug;BuildRelease;Test;BuildSetupDebug;BuildSetup;RunOneSDKCIT" />
 
-  <!-- Build the Cmdlets in ReleaseSigned configuration -->
-  <Target Name="BuildReleaseSigned" DependsOnTargets="ForceRestorePackages">
-    <Message Importance="high" Text="Building Cmdlets in ReleaseSigned config..." />
+  <!-- Build the Cmdlets in Release configuration -->
+  <Target Name="BuildRelease" DependsOnTargets="ForceRestorePackages">
+    <Message Importance="high" Text="Building Cmdlets in Release config..." />
     <MSBuild
       Projects="@(CmdletSln)"
       Targets="Build"
-      Properties="$(ReleaseSignedBuildConfig)"
+      Properties="$(ReleaseBuildConfig)"
       ContinueOnError="false" />
   </Target>
 

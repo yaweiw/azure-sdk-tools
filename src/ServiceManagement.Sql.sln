@@ -1,0 +1,28 @@
+
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.30110.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Commands.SqlDatabase", "ServiceManagement\Sql\Commands.SqlDatabase\Commands.SqlDatabase.csproj", "{DDF5D225-C9C5-42B7-BDB5-2C3646E479AA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Commands.SqlDatabase.Test", "ServiceManagement\Sql\Commands.SqlDatabase.Test\Commands.SqlDatabase.Test.csproj", "{37455286-D8A7-4E0C-8B4D-C517D20C641A}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|AnyCPU = Debug|AnyCPU
+		Release|AnyCPU = Release|AnyCPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{DDF5D225-C9C5-42B7-BDB5-2C3646E479AA}.Debug|AnyCPU.ActiveCfg = Debug|AnyCPU
+		{DDF5D225-C9C5-42B7-BDB5-2C3646E479AA}.Debug|AnyCPU.Build.0 = Debug|AnyCPU
+		{DDF5D225-C9C5-42B7-BDB5-2C3646E479AA}.Release|AnyCPU.ActiveCfg = Release|AnyCPU
+		{DDF5D225-C9C5-42B7-BDB5-2C3646E479AA}.Release|AnyCPU.Build.0 = Release|AnyCPU
+		{37455286-D8A7-4E0C-8B4D-C517D20C641A}.Debug|AnyCPU.ActiveCfg = Debug|AnyCPU
+		{37455286-D8A7-4E0C-8B4D-C517D20C641A}.Debug|AnyCPU.Build.0 = Debug|AnyCPU
+		{37455286-D8A7-4E0C-8B4D-C517D20C641A}.Release|AnyCPU.ActiveCfg = Release|AnyCPU
+		{37455286-D8A7-4E0C-8B4D-C517D20C641A}.Release|AnyCPU.Build.0 = Release|AnyCPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
