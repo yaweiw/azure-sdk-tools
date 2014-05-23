@@ -510,6 +510,9 @@
   <data name="EnvironmentDoesNotSupportActiveDirectory" xml:space="preserve">
     <value>The environment {0} does not currently support Active Directory authentication.</value>
   </data>
+  <data name="EnvironmentMissingActiveDirectoryConfigurations" xml:space="preserve">
+    <value>Active Directory Endpoint Uris are not configured.</value>
+  </data>
   <data name="EnvironmentExists" xml:space="preserve">
     <value>The environment '{0}' already exists.</value>
   </data>
