@@ -91,14 +91,13 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Extensions
             CloudStorageAccount srcStorageAccount = new CloudStorageAccount(new StorageCredentials(StorageAccountName, StorageKey), true);
             Endpoint = srcStorageAccount.TableStorageUri.PrimaryUri.ToString();
 
-
             // the endpoint format for table is:  http://aaaaaa.table.xxxxxx.yyy where aaaaaa is the StorageAccountName.
             // we really want to get rid of aaaaaa.table and keep what is left: http://xxxxxx.yyy
 
             int tableIndex = Endpoint.IndexOf(StorageAccountName);
             if (tableIndex < 0)
             {
-                throw new Exception(string.Format("Cannot find the storage account name \"{0}\" in the endpoint \"{1)\"", StorageAccountName, Endpoint));
+                throw new Exception(string.Format(Resources.DiagnosticsStorageAccountNotFound, StorageAccountName, Endpoint));
             }
 
             tableIndex += StorageAccountName.Length + 1; // +1 for the dot after the storage account name
@@ -106,7 +105,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Extensions
             int slashIndex = Endpoint.IndexOf("//");
             if (slashIndex < 0)
             {
-                throw new Exception(string.Format("Cannot find the \"\\\" in the endpoint \"{0)\"", Endpoint));
+                throw new Exception(string.Format(Resources.DiagnosticsSlashNotFound, Endpoint));
             }
 
             Endpoint = Endpoint.Substring(0, slashIndex + 2) + Endpoint.Substring(tableIndex + "table.".Length);
