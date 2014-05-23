@@ -107,13 +107,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
 
                 try
                 {
-                    NewQuickVM quickVM = new NewQuickVM();
-
-                    if (!quickVM.DisableWinRMHttps.IsPresent)
-                    {
-
-                        vmPowershellCmdlets.NewAzureQuickVM(OS.Windows, newAzureQuickVMName2, serviceName, imageName, username, password, locationName, null, "");
-                    }
+                    vmPowershellCmdlets.NewAzureQuickVM(OS.Windows, newAzureQuickVMName2, serviceName, imageName, username, password, locationName, null, "");                    
                     pass = true;
 
                 }
