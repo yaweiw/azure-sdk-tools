@@ -215,6 +215,34 @@ function Test-AddAzureTrafficManagerEndpoint
 	$createdProfile = New-Profile $profileName
 	
 	#Test
+	$updatedProfile = $createdProfile | Add-AzureTrafficManagerEndpoint -DomainName "www.microsoft.com" -Type Any -Status Enabled -Weight 3 -Location "West US" | Set-AzureTrafficManagerProfile
+	
+	# Assert
+	$profileMonitoringStatus = $updatedProfile.MonitorStatus
+	$endpointMonitoringStatus = $updatedProfile.Endpoints[0].MonitorStatus
+	
+	Assert-AreEqual 1 $updatedProfile.Endpoints.Count
+	Assert-True { $profileMonitoringStatus -eq "CheckingEndpoints" -or $profileMonitoringStatus -eq "Online" } "Assert failed as endpoint MonitoringStatus has an unexpected value: $profileMonitoringStatus"
+	
+	Assert-AreEqual Any $updatedProfile.Endpoints[0].Type
+	Assert-AreEqual "www.microsoft.com" $updatedProfile.Endpoints[0].DomainName
+	Assert-AreEqual Enabled $updatedProfile.Endpoints[0].Status
+	Assert-AreEqual 3 $updatedProfile.Endpoints[0].Weight
+	Assert-AreEqual "West US" $updatedProfile.Endpoints[0].Location
+	Assert-True { $endpointMonitoringStatus -eq "CheckingEndpoint" -or $endpointMonitoringStatus -eq "Online" } "Assert failed as endpoint MonitoringStatus has an unexpected value: $endpointMonitoringStatus"
+}
+
+<#
+.SYNOPSIS
+Tests Add-AzureTrafficManagerEndpoint with no weight or location
+#>
+function Test-AddAzureTrafficManagerEndpointNoWeightLocation
+{
+	# Setup
+	$profileName = Get-ProfileName
+	$createdProfile = New-Profile $profileName
+	
+	#Test
 	$updatedProfile = $createdProfile | Add-AzureTrafficManagerEndpoint -DomainName "www.microsoft.com" -Type Any -Status Enabled | Set-AzureTrafficManagerProfile
 	
 	# Assert
@@ -227,26 +255,62 @@ function Test-AddAzureTrafficManagerEndpoint
 	Assert-AreEqual Any $updatedProfile.Endpoints[0].Type
 	Assert-AreEqual "www.microsoft.com" $updatedProfile.Endpoints[0].DomainName
 	Assert-AreEqual Enabled $updatedProfile.Endpoints[0].Status
+	# Test for default values
+	# Commented out until DNS32 is deployed in PROD.
+	# Assert-AreEqual 1 $updatedProfile.Endpoints[0].Weight
+	Assert-Null $updatedProfile.Endpoints[0].Location
 	Assert-True { $endpointMonitoringStatus -eq "CheckingEndpoint" -or $endpointMonitoringStatus -eq "Online" } "Assert failed as endpoint MonitoringStatus has an unexpected value: $endpointMonitoringStatus"
 }
 
 <#
 .SYNOPSIS
-Tests Set-AzureTrafficManagerEndpoint
+Tests Set-AzureTrafficManagerEndpoint not updating Weight or Location
 #>
 function Test-SetAzureTrafficManagerEndpoint
 {
 	# Setup
 	$profileName = Get-ProfileName
-	$createdProfile = New-Profile $profileName | Add-AzureTrafficManagerEndpoint -DomainName "www.microsoft.com" -Type Any -Status Enabled | Set-AzureTrafficManagerProfile
+	$createdProfile = New-Profile $profileName | Add-AzureTrafficManagerEndpoint -DomainName "www.microsoft.com" -Type Any -Status Enabled -Weight 3 -Location "West US" | Set-AzureTrafficManagerProfile
 	
-	#Test
+	# Assert
+	Assert-AreEqual 3 $createdProfile.Endpoints[0].Weight
+	Assert-AreEqual "West US" $createdProfile.Endpoints[0].Location
+
+	# Test
 	$updatedProfile = $createdProfile | Set-AzureTrafficManagerEndpoint -DomainName "www.microsoft.com" -Status Disabled | Set-AzureTrafficManagerProfile
 	
 	# Assert
 	Assert-AreEqual 1 $updatedProfile.Endpoints.Count
 	Assert-AreEqual "www.microsoft.com" $updatedProfile.Endpoints[0].DomainName
 	Assert-AreEqual Disabled $updatedProfile.Endpoints[0].Status
+	Assert-AreEqual 3 $updatedProfile.Endpoints[0].Weight
+	Assert-AreEqual "West US" $updatedProfile.Endpoints[0].Location
+}
+
+<#
+.SYNOPSIS
+Tests Set-AzureTrafficManagerEndpoint updating Weight and Location
+#>
+function Test-SetAzureTrafficManagerEndpointUpdateWeightLocation
+{
+	# Setup
+	$profileName = Get-ProfileName
+	$createdProfile = New-Profile $profileName | Add-AzureTrafficManagerEndpoint -DomainName "www.microsoft.com" -Type Any -Status Enabled | Set-AzureTrafficManagerProfile
+	
+	# Assert
+	# Commented out until DNS32 is deployed in PROD.
+	# Assert-AreEqual 1 $createdProfile.Endpoints[0].Weight
+	Assert-Null $createdProfile.Endpoints[0].Location
+	
+	#Test
+	$updatedProfile = $createdProfile | Set-AzureTrafficManagerEndpoint -DomainName "www.microsoft.com" -Status Disabled -Weight 3 -Location "West US" | Set-AzureTrafficManagerProfile
+	
+	# Assert
+	Assert-AreEqual 1 $updatedProfile.Endpoints.Count
+	Assert-AreEqual "www.microsoft.com" $updatedProfile.Endpoints[0].DomainName
+	Assert-AreEqual Disabled $updatedProfile.Endpoints[0].Status
+	Assert-AreEqual 3 $updatedProfile.Endpoints[0].Weight
+	Assert-AreEqual "West US" $updatedProfile.Endpoints[0].Location
 }
 
 <#
