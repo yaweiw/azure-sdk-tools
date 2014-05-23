@@ -182,23 +182,30 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
         {
             vmPowershellCmdlets = new ServiceManagementCmdletTestHelper();
 
-            var affGroup = vmPowershellCmdlets.GetAzureAffinityGroup();
-            if (affGroup.Count > 0)
+            try
             {
-                foreach (var aff in affGroup)
+                var affGroup = vmPowershellCmdlets.GetAzureAffinityGroup();
+                if (affGroup.Count > 0)
                 {
-                    try
+                    foreach (var aff in affGroup)
                     {
-                        vmPowershellCmdlets.RemoveAzureAffinityGroup(aff.Name);
-                    }
-                    catch (Exception e)
-                    {
-                        if (e.ToString().Contains(BadRequestException))
+                        try
                         {
-                            Console.WriteLine("Affinity Group, {0}, is not deleted.", aff.Name);
+                            vmPowershellCmdlets.RemoveAzureAffinityGroup(aff.Name);
+                        }
+                        catch (Exception e)
+                        {
+                            if (e.ToString().Contains(BadRequestException))
+                            {
+                                Console.WriteLine("Affinity Group, {0}, is not deleted.", aff.Name);
+                            }
                         }
                     }
                 }
+            }
+            catch
+            {
+                Console.WriteLine("Error occurred during cleaning up affinity group..");
             }
 
             if (defaultAzureSubscription != null)
