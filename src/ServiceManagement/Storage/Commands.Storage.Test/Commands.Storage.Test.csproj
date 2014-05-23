@@ -183,10 +183,6 @@
       <Project>{08cf7da7-0392-4a19-b79b-e1ff67cdb81a}</Project>
       <Name>Commands.Storage</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Services\Commands\Commands.csproj">
-      <Project>{cd5aa507-f5ef-473d-855b-84b91a1abe54}</Project>
-      <Name>Commands</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\..\Common\Commands.Common.Storage\Commands.Common.Storage.csproj">
       <Project>{65c3a86a-716d-4e7d-ab67-1db00b3bf72d}</Project>
       <Name>Commands.Common.Storage</Name>
