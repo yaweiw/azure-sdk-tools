@@ -2,7 +2,7 @@
 <Configuration>
   <ViewDefinitions>
     <View>
-      <Name>Microsoft.WindowsAzure.Management.ExpressRoute.ModelsAzureDedicatedCircuitServiceProvider</Name>
+      <Name>Microsoft.WindowsAzure.Management.ExpressRoute.Models.AzureDedicatedCircuitServiceProvider</Name>
       <ViewSelectedBy>
         <TypeName>Microsoft.WindowsAzure.Management.ExpressRoute.Models.AzureDedicatedCircuitServiceProvider</TypeName>
       </ViewSelectedBy>

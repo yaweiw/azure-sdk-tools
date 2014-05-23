@@ -30,8 +30,8 @@ namespace Microsoft.WindowsAzure.Commands.ExpressRoute
 
         public override void ExecuteCmdlet()
         {
-            var route = ExpressRouteClient.NewAzureCrossConnection(ServiceKey);
-            WriteObject(route);
+            var crossConnection = ExpressRouteClient.NewAzureCrossConnection(ServiceKey);
+            WriteObject(crossConnection);
         }
     }
 }

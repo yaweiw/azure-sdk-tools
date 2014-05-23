@@ -22,7 +22,7 @@ namespace Microsoft.WindowsAzure.Commands.ExpressRoute
     [Cmdlet(VerbsCommon.Get, "AzureCrossConnection"), OutputType(typeof(AzureCrossConnection))]
     public class GetAzureCrossConnectionCommand : ExpressRouteBaseCmdlet
     {
-        [Parameter(Mandatory = true, ValueFromPipelineByPropertyName = true,
+        [Parameter(Mandatory = false, ValueFromPipelineByPropertyName = true,
             HelpMessage = "Service Key representing the Azure Circuit")]
         [ValidateGuid]
         [ValidateNotNullOrEmpty]
@@ -30,8 +30,27 @@ namespace Microsoft.WindowsAzure.Commands.ExpressRoute
 
         public override void ExecuteCmdlet()
         {
-            var route = ExpressRouteClient.GetAzureCrossConnection(ServiceKey);
-            WriteObject(route);
+            if (!string.IsNullOrEmpty(ServiceKey))
+            {
+                GetCrossConnection();
+            }
+            else
+            {
+                ListCrossConnections();
+            }
         }
+
+        private void GetCrossConnection()
+        {
+            var crossConnection = ExpressRouteClient.GetAzureCrossConnection(ServiceKey);
+            WriteObject(crossConnection);
+        }
+
+        private void ListCrossConnections()
+        {
+            var crossConnections = ExpressRouteClient.ListAzureCrossConnections();
+            WriteObject(crossConnections, true);
+        }
+
     }
 }
