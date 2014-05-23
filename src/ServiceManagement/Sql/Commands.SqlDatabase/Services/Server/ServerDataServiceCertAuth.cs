@@ -280,9 +280,7 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Services.Server
 
             DatabaseUpdateParameters parameters = new DatabaseUpdateParameters()
             {
-                Id = database.Database.Id,
                 Name = !string.IsNullOrEmpty(newDatabaseName) ? newDatabaseName : database.Database.Name,
-                CollationName = database.Database.CollationName ?? string.Empty,
                 MaximumDatabaseSizeInGB = databaseMaxSizeInGB,
                 MaximumDatabaseSizeInBytes = databaseMaxSizeInBytes,
             };
