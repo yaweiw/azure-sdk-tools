@@ -59,6 +59,8 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
 
         public string ActiveDirectoryTenantId { get; set; }
 
+        public string ServiceEndpointActiveDirectoryResourceUri { get; set; }
+
         public bool IsDefault { get; set; }
         
         public X509Certificate2 Certificate { get; set; }
@@ -154,6 +156,8 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
                 ActiveDirectoryTenantId;
             ActiveDirectoryUserId = newSubscription.ActiveDirectoryUserId ??
                 ActiveDirectoryUserId;
+            ServiceEndpointActiveDirectoryResourceUri = newSubscription.ServiceEndpointActiveDirectoryResourceUri ??
+                ServiceEndpointActiveDirectoryResourceUri;
 
             // Wipe out current access token - it will be reloaded from 
             // token provider when needed to get new access/refresh tokens
