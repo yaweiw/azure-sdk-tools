@@ -28,19 +28,18 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|AnyCPU'">
     <OutputPath>bin\Release\</OutputPath>
-	<DefineConstants>TRACE;SIGN</DefineConstants>
+    <DefineConstants>TRACE;SIGN</DefineConstants>
     <SignAssembly>true</SignAssembly>
     <AssemblyOriginatorKeyFile>MSSharedLibKey.snk</AssemblyOriginatorKeyFile>
     <DelaySign>true</DelaySign>
     <CodeAnalysisIgnoreBuiltInRules>true</CodeAnalysisIgnoreBuiltInRules>
     <Prefer32Bit>false</Prefer32Bit>
-	<Optimize>true</Optimize>
+    <Optimize>true</Optimize>
     <DebugType>pdbonly</DebugType>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Microsoft.Azure.Utilities.HttpRecorder, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\packages\Hydra.HttpRecorder.1.0.5246.30852-prerelease\lib\net40\Microsoft.Azure.Utilities.HttpRecorder.dll</HintPath>
+    <Reference Include="Microsoft.Azure.Utilities.HttpRecorder">
+      <HintPath>..\..\packages\Hydra.HttpRecorder.1.0.5252.27109-prerelease\lib\net40\Microsoft.Azure.Utilities.HttpRecorder.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Data.Edm, Version=5.6.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Microsoft.Data.Edm.5.6.0\lib\net40\Microsoft.Data.Edm.dll</HintPath>
