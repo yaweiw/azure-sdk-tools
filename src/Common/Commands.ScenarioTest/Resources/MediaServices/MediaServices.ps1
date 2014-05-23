@@ -20,6 +20,7 @@ $pseudorandomInput = "a","b","c","d","e","f","g","1","2","3","4","5","6","7"
 $mediaPrefix = "psmediatest"
 $MediaAccountName = $MediaAccountName
 $StorageAccountName = $StorageAccountName
+$DefaultRegion = "West US"
 
 function GetPseudoRandomName
 {  
@@ -37,6 +38,31 @@ if([string]::IsNullOrEmpty($MediaAccountName))
 {
 	$MediaAccountName = GetPseudoRandomName
 }
+
+function Get-Region
+{
+    param([string] $defaultRegion)
+	$locations = Get-AzureLocation
+	$returnedLocation = $null
+	Foreach($location in $locations)
+	{
+	   if ($location.DisplayName -eq $defaultRegion)
+	   {
+	       return $defaultRegion
+	   }
+
+	   if ($location.AvailableServices.Contains('Storage'))
+	   {
+	       $returnedLocation = $location.DisplayName
+	   }
+	}
+
+	return $returnedLocation
+}
+
+
+$Region = Get-Region $DefaultRegion
+
 
 
 

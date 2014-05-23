@@ -76,19 +76,19 @@ namespace Microsoft.WindowsAzure.Commands.WAPackIaaS
 
         protected virtual void WriteErrorDetails(Exception exception)
         {
-           WriteError(new ErrorRecord(exception, string.Empty, ErrorCategory.CloseError, null));
+            WriteError(new ErrorRecord(exception, string.Empty, ErrorCategory.CloseError, null));
         }
 
-        protected virtual bool GenerateCmdletOutput(IEnumerable<object>  results)
+        protected virtual bool GenerateCmdletOutput(IEnumerable<object> results)
         {
             var ret = true;
-            foreach(var result in results)
+            foreach (var result in results)
             {
                 try
                 {
                     WriteObject(result);
                 }
-                catch(PipelineStoppedException)
+                catch (PipelineStoppedException)
                 {
                     ret = false;
                 }
@@ -110,7 +110,7 @@ namespace Microsoft.WindowsAzure.Commands.WAPackIaaS
                     break;
 
                 default:
-                   WriteDebug(String.Format("Logging level {0} not supported.", logLevel));
+                    WriteDebug(String.Format("Logging level {0} not supported.", logLevel));
                     break;
             }
         }

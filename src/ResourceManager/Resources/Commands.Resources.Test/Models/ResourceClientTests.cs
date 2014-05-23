@@ -37,6 +37,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Xunit;
 using Xunit.Extensions;
+using System.Security;
 
 namespace Microsoft.Azure.Commands.Resources.Test.Models
 {
@@ -2273,39 +2274,49 @@ namespace Microsoft.Azure.Commands.Resources.Test.Models
         public void SerializeHashtableProperlyHandlesAllDataTypes()
         {
             Hashtable hashtable = new Hashtable();
+            SecureString password = new SecureString();
+            password.AppendChar('p');
+            password.AppendChar('a');
+            password.AppendChar('s');
+            password.AppendChar('s');
             hashtable.Add("key1", "string");
             hashtable.Add("key2", 1);
             hashtable.Add("key3", true);
             hashtable.Add("key4", new DateTime(2014, 05, 08));
             hashtable.Add("key5", null);
+            hashtable.Add("key6", password);
 
             string resultWithoutAddedLayer = resourcesClient.SerializeHashtable(hashtable, false);
             Assert.NotEmpty(resultWithoutAddedLayer);
             EqualsIgnoreWhitespace(@"{
-                ""key2"": 1,
                 ""key5"": null,
-                ""key3"": true,
+                ""key2"": 1,
+                ""key4"": ""2014-05-08T00:00:00"",
+                ""key6"": ""pass"",
                 ""key1"": ""string"",
-                ""key4"": ""2014-05-08T00:00:00""
+                ""key3"": true
             }", resultWithoutAddedLayer);
 
             string resultWithAddedLayer = resourcesClient.SerializeHashtable(hashtable, true);
             Assert.NotEmpty(resultWithAddedLayer);
             EqualsIgnoreWhitespace(@"{
-              ""key2"": {
-                ""value"": 1
-              },
               ""key5"": {
                 ""value"": null
               },
-              ""key3"": {
-                ""value"": true
+              ""key2"": {
+                ""value"": 1
+              },
+              ""key4"": {
+                ""value"": ""2014-05-08T00:00:00""
+              },
+              ""key6"": {
+                ""value"": ""pass""
               },
               ""key1"": {
                 ""value"": ""string""
               },
-              ""key4"": {
-                ""value"": ""2014-05-08T00:00:00""
+              ""key3"": {
+                ""value"": true
               }
             }", resultWithAddedLayer);
         }
