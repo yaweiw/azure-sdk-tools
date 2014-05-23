@@ -1206,7 +1206,7 @@ namespace Microsoft.WindowsAzure.Commands.Common.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The environment {0} does not currently support Active Directory authentication..
+        ///   Looks up a localized string similar to To use Active Directory authentication, you must configure the ActiveDirectoryEndpoint, ActiveDirectoryTenantId, and ActiveDirectorServiceEndpointResourceId for environment of &apos;{0}&apos;. You can configure these properties for this environment using the Set-AzureEnvironment cmdlet..
         /// </summary>
         public static string EnvironmentDoesNotSupportActiveDirectory {
             get {
