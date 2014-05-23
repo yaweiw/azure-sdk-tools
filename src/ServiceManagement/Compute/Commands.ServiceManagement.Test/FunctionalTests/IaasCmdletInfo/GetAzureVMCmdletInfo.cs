@@ -12,9 +12,6 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-using System;
-using Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests.PowershellCore;
-
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests.IaasCmdletInfo
 {
     using PowershellCore;
@@ -28,7 +25,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
             {
                 this.cmdletParams.Add(new CmdletParam("Name", vmName));
             }
-            if (!String.IsNullOrEmpty(serviceName))
+            if (!string.IsNullOrEmpty(serviceName))
             {
                 this.cmdletParams.Add(new CmdletParam("ServiceName", serviceName));
             }
