@@ -18,12 +18,9 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
     using Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions;
     using Microsoft.WindowsAzure.Commands.ServiceManagement.Model;
     using Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests.ConfigDataInfo;
-    using Microsoft.WindowsAzure.Commands.Utilities.Websites.Services;
+    using Microsoft.WindowsAzure.Commands.ServiceManagement.Helpers;
     using System;
-    using System.Collections.Generic;
     using System.IO;
-    using System.Linq;
-    using System.Text;
     using System.Threading;
     using System.Xml;
 
@@ -224,7 +221,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
         {
             //Create an IaaS VM with a static CA.
             var azureVMConfigInfo = new AzureVMConfigInfo(vmName, InstanceSize.Small.ToString(), imageName);
-            var azureProvisioningConfig = new AzureProvisioningConfigInfo(OS.Windows, username, password);
+            var azureProvisioningConfig = new AzureProvisioningConfigInfo(ConfigDataInfo.OS.Windows, username, password);
             var persistentVMConfigInfo = new PersistentVMConfigInfo(azureVMConfigInfo, azureProvisioningConfig, null, null);
             return vmPowershellCmdlets.GetPersistentVM(persistentVMConfigInfo);
         }

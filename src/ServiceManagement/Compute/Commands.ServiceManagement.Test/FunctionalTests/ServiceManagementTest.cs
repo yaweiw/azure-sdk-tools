@@ -184,6 +184,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
 
             try
             {
+                // Cleaning up affinity groups
                 var affGroup = vmPowershellCmdlets.GetAzureAffinityGroup();
                 if (affGroup.Count > 0)
                 {
@@ -202,19 +203,20 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
                         }
                     }
                 }
+
+                // Cleaning up virtual disks
+                if (defaultAzureSubscription != null)
+                {
+                    Retry(String.Format("Get-AzureDisk | Where {{$_.DiskName.Contains(\"{0}\")}} | Remove-AzureDisk -DeleteVhd", serviceNamePrefix), "in use");
+                    if (deleteDefaultStorageAccount)
+                    {
+                        //vmPowershellCmdlets.RemoveAzureStorageAccount(defaultAzureSubscription.CurrentStorageAccountName);
+                    }
+                }
             }
             catch
             {
-                Console.WriteLine("Error occurred during cleaning up affinity group..");
-            }
-
-            if (defaultAzureSubscription != null)
-            {
-                Retry(String.Format("Get-AzureDisk | Where {{$_.DiskName.Contains(\"{0}\")}} | Remove-AzureDisk -DeleteVhd", serviceNamePrefix), "in use");
-                if (deleteDefaultStorageAccount)
-                {
-                    //vmPowershellCmdlets.RemoveAzureStorageAccount(defaultAzureSubscription.CurrentStorageAccountName);
-                }
+                Console.WriteLine("Error occurred during cleaning up..");
             }
         }
 
