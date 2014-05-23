@@ -14,6 +14,7 @@
 namespace Microsoft.WindowsAzure.Management.HDInsight.Cmdlet.DataObjects
 {
     using System.Collections.Generic;
+    using ClusterProvisioning.Data;
 
     /// <summary>
     ///     Represents an Azure Configuration to be used when creating new clusters.
@@ -34,6 +35,7 @@ namespace Microsoft.WindowsAzure.Management.HDInsight.Cmdlet.DataObjects
             this.HiveConfiguration = new HiveConfiguration();
             this.OozieConfiguration = new OozieConfiguration();
             this.HeadNodeVMSize = NodeVMSize.Default;
+            this.ClusterType = ClusterType.Hadoop;
         }
 
         /// <summary>
@@ -53,6 +55,11 @@ namespace Microsoft.WindowsAzure.Management.HDInsight.Cmdlet.DataObjects
         ///     Gets or sets the size of the cluster in data nodes.
         /// </summary>
         public int ClusterSizeInNodes { get; set; }
+
+        /// <summary>
+        /// Gets or sets the type of the cluster.
+        /// </summary>
+        public ClusterType ClusterType { get; set; }
 
         /// <summary>
         ///     Gets a collection of configuration properties to customize the Core Hadoop service.

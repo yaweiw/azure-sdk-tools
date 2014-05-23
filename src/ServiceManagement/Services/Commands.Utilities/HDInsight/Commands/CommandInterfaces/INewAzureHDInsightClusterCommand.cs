@@ -17,6 +17,7 @@ namespace Microsoft.WindowsAzure.Management.HDInsight.Cmdlet.Commands.CommandInt
     using DataObjects;
     using GetAzureHDInsightClusters;
     using System.Collections.Generic;
+    using ClusterProvisioning.Data;
 
     /// <summary>
     ///     Worker object for creating a cluster via PowerShell.
@@ -46,5 +47,7 @@ namespace Microsoft.WindowsAzure.Management.HDInsight.Cmdlet.Commands.CommandInt
         string Location { get; set; }
 
         NodeVMSize HeadNodeSize { get; set; }
+
+        ClusterType ClusterType { get; set; }
     }
 }
