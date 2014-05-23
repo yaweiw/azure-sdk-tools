@@ -17,6 +17,7 @@ namespace Microsoft.WindowsAzure.Management.HDInsight.Cmdlet.Commands.CommandImp
     using DataObjects;
     using GetAzureHDInsightClusters;
     using System.Threading.Tasks;
+    using ClusterProvisioning.Data;
 
     internal class NewAzureHDInsightClusterConfigCommand : AzureHDInsightCommand<AzureHDInsightConfig>, INewAzureHDInsightClusterConfigCommand
     {
@@ -35,6 +36,12 @@ namespace Microsoft.WindowsAzure.Management.HDInsight.Cmdlet.Commands.CommandImp
         {
             get { return this.config.HeadNodeVMSize; }
             set { this.config.HeadNodeVMSize = value; }
+        }
+
+        public ClusterType ClusterType
+        {
+            get { return this.config.ClusterType; }
+            set { this.config.ClusterType = value; }
         }
 
         public override Task EndProcessing()
