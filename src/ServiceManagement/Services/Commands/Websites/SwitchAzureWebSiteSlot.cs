@@ -14,9 +14,12 @@
 
 namespace Microsoft.WindowsAzure.Commands.Websites
 {
-    using Microsoft.WindowsAzure.Commands.Utilities.Websites;
+    using System;
     using System.Collections.Generic;
+    using System.Globalization;
+    using System.Linq;
     using System.Management.Automation;
+    using Microsoft.WindowsAzure.Commands.Utilities.Websites;
     using Utilities.Properties;
     using Utilities.Websites.Common;
     using Utilities.Websites.Services;
@@ -32,6 +35,14 @@ namespace Microsoft.WindowsAzure.Commands.Websites
         [ValidateNotNullOrEmpty]
         public string Name { get; set; }
 
+        [Parameter(Position = 1, Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "The first slot to swap.")]
+        [ValidateNotNullOrEmpty]
+        public string Slot1 { get; set; }
+
+        [Parameter(Position = 2, Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "The second slot to swap (production by default).")]
+        [ValidateNotNullOrEmpty]
+        public string Slot2 { get; set; }
+
         [Parameter(Mandatory = false, HelpMessage = "Do not confirm web site swap")]
         public SwitchParameter Force { get; set; }
 
@@ -45,36 +56,72 @@ namespace Microsoft.WindowsAzure.Commands.Websites
 
             Name = WebsitesClient.GetWebsiteNameFromFullName(Name);
             List<Site> sites = WebsitesClient.GetWebsiteSlots(Name);
-            string slotName = null;
-            string webspace = null;
-
-            if (sites.Count != 2)
+            if (sites.Count < 2)
             {
-                throw new PSInvalidOperationException("The website must have exactly two slots to apply swap");
+                throw new PSInvalidOperationException(Resources.SwapWebsiteSlotRequire2SlotsWarning);
+            }
+
+            string slot1 = Slot1;
+            string slot2 = Slot2;
+
+            string[] slots = sites.Select(site => WebsitesClient.GetSlotName(site.Name) ?? WebsiteSlotName.Production.ToString()).ToArray();
+
+            if (slot1 == null && slot2 == null)
+            {
+                // If slots not specified make sure there are only 2 slots and use them
+                if (slots.Length == 2)
+                {
+                    slot1 = slots[0];
+                    slot2 = slots[1];
+                }
+                else
+                {
+                    throw new PSInvalidOperationException(Resources.SwapWebsiteSlotSpecifySlotsWarning);
+                }
+            }
+            else if (slot1 != null && slot2 != null)
+            {
+                // If both slots specified make sure they exist and use them
+                VerifySlotExists(slots, slot1);
+                VerifySlotExists(slots, slot2);
             }
             else
             {
-                foreach (Site website in sites)
+                // If only one slot is specified make sure it exists and that there are only 2 slots
+                if (slots.Length == 2)
                 {
-                    string currentSlotName = WebsitesClient.GetSlotName(website.Name) ?? WebsiteSlotName.Production.ToString();
-                    if (!currentSlotName.Equals(WebsiteSlotName.Production.ToString(), System.StringComparison.OrdinalIgnoreCase))
+                    if (slot1 != null)
                     {
-                        slotName = currentSlotName;
-                        webspace = website.WebSpace;
-                        break;
+                        VerifySlotExists(slots, slot1);
                     }
+                    if (slot2 != null)
+                    {
+                        VerifySlotExists(slots, slot2);
+                    }
+
+                    slot1 = slots[0];
+                    slot2 = slots[1];
+                }
+                else
+                {
+                    throw new PSInvalidOperationException(Resources.SwapWebsiteSlotSpecifySlotsWarning);
                 }
             }
 
             ConfirmAction(
                 Force.IsPresent,
-                string.Format(Resources.SwapWebsiteSlotWarning, Name, slotName),
+                string.Format(Resources.SwapWebsiteSlotWarning, Name, slot1, slot2),
                 Resources.SwappingWebsite,
                 Name,
-                () =>
-                {
-                    WebsitesClient.SwitchSlot(webspace, Name, slotName);
-                }); 
+                () => WebsitesClient.SwitchSlots(sites.First().WebSpace, Name, slot1, slot2));
+        }
+
+        private static void VerifySlotExists(string[] slots, string slotToCheck)
+        {
+            if (!slots.Any(slot => String.Equals(slotToCheck, slot, StringComparison.OrdinalIgnoreCase)))
+            {
+                throw new PSInvalidOperationException(String.Format(CultureInfo.CurrentCulture, Resources.SwapWebsiteSlotInvalidSlotWarning, slotToCheck));
+            }
         }
     }
 }

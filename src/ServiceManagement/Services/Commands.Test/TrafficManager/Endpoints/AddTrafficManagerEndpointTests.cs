@@ -34,6 +34,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.TrafficManager.Endpoints
         private const string AzureWebsiteType = "AzureWebsite";
         private const string AnyType = "Any";
         private const EndpointStatus Status = EndpointStatus.Enabled;
+        private const int Weight = 3;
 
         private MockCommandRuntime mockCommandRuntime;
 
@@ -53,10 +54,9 @@ namespace Microsoft.WindowsAzure.Commands.Test.TrafficManager.Endpoints
             // Setup
             cmdlet = new AddAzureTrafficManagerEndpoint
             {
-                Name = ProfileName,
                 DomainName = DomainName,
                 Type = CloudServiceType,
-                //Weight = weight,
+                Weight = Weight,
                 Status = Status.ToString(),
                 TrafficManagerProfile = original,
                 CommandRuntime = mockCommandRuntime
@@ -83,10 +83,9 @@ namespace Microsoft.WindowsAzure.Commands.Test.TrafficManager.Endpoints
             // Setup
             cmdlet = new AddAzureTrafficManagerEndpoint
             {
-                Name = ProfileName,
                 DomainName = DomainName,
                 Type = AzureWebsiteType,
-                //Weight = weight,
+                Weight = Weight,
                 TrafficManagerProfile = original,
                 CommandRuntime = mockCommandRuntime,
                 Status = "Enabled"
@@ -112,10 +111,9 @@ namespace Microsoft.WindowsAzure.Commands.Test.TrafficManager.Endpoints
 
             cmdlet = new AddAzureTrafficManagerEndpoint
             {
-                Name = ProfileName,
                 DomainName = DomainName,
                 Type = AnyType,
-                //Weight = weight,
+                Weight = Weight,
                 TrafficManagerProfile = original,
                 CommandRuntime = mockCommandRuntime,
                 Status = "Enabled"
@@ -152,10 +150,8 @@ namespace Microsoft.WindowsAzure.Commands.Test.TrafficManager.Endpoints
             // Setup
             cmdlet = new AddAzureTrafficManagerEndpoint
             {
-                Name = ProfileName,
                 DomainName = DomainName,
                 Type = AnyType,
-                //Weight = weight,
                 TrafficManagerProfile = original,
                 CommandRuntime = mockCommandRuntime
             };

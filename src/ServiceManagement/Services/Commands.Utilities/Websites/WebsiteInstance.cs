@@ -1,5 +1,4 @@
 ﻿// ----------------------------------------------------------------------------------
-//
 // Copyright Microsoft Corporation
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -12,29 +11,10 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-using Newtonsoft.Json;
-using System.Collections.Generic;
-
-namespace Microsoft.Azure.Commands.Resources.Models
+namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
 {
-    public class TemplateFileParameterV1
+    public class WebsiteInstance
     {
-        [JsonProperty("type")]
-        public string Type { get; set; }
-
-        [JsonProperty("value")]
-        public object Value { get; set; }
-
-        [JsonProperty("defaultValue")]
-        public object DefaultValue { get; set; }
-
-        [JsonProperty("allowedValues")]
-        public List<string> AllowedValues { get; set; }
-
-        [JsonProperty("minLength")]
-        public string MinLength { get; set; }
-
-        [JsonProperty("maxLength")]
-        public string MaxLength { get; set; }
+        public string InstanceId { get; set; }
     }
 }

@@ -14,6 +14,17 @@
 
 namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
 {
+    using System;
+    using System.Collections;
+    using System.Collections.Generic;
+    using System.Diagnostics;
+    using System.IO;
+    using System.Linq;
+    using System.Net;
+    using System.Net.Http;
+    using System.Threading;
+    using System.Web;
+    using System.Xml.Linq;
     using CloudService;
     using Management.WebSites;
     using Management.WebSites.Models;
@@ -30,17 +41,6 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
     using Services;
     using Services.DeploymentEntities;
     using Services.WebEntities;
-    using System;
-    using System.Collections;
-    using System.Collections.Generic;
-    using System.Diagnostics;
-    using System.IO;
-    using System.Linq;
-    using System.Net;
-    using System.Net.Http;
-    using System.Threading;
-    using System.Web;
-    using System.Xml.Linq;
     using Utilities.Common;
 
     public class WebsitesClient : IWebsitesClient
@@ -50,8 +50,6 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
         private readonly CloudServiceClient cloudServiceClient;
 
         public static string SlotFormat = "{0}({1})";
-
-        public const string WebsitesServiceVersion = "2012-12-01";
 
         public IWebSiteManagementClient WebsiteManagementClient { get; internal set; }
 
@@ -402,6 +400,12 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
         {
             Site website = GetWebsite(name, slot);
             ChangeWebsiteState(website.Name, website.WebSpace, WebsiteState.Stopped);
+        }
+
+        public WebsiteInstance[] ListWebsiteInstances(string webSpace, string fullName)
+        {
+            IList<string> instanceIds = WebsiteManagementClient.WebSites.GetInstanceIds(webSpace, fullName).InstanceIds;
+            return instanceIds.Select(s => new WebsiteInstance {InstanceId = s}).ToArray();
         }
 
         /// <summary>
@@ -996,12 +1000,14 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
         /// </summary>
         /// <param name="webspaceName">The webspace name</param>
         /// <param name="websiteName">The website name</param>
-        /// <param name="slot">The website slot name</param>
-        public void SwitchSlot(string webspaceName, string websiteName, string slot)
+        /// <param name="slot1">The website's first slot name</param>
+        /// <param name="slot2">The website's second slot name</param>
+        public void SwitchSlots(string webspaceName, string websiteName, string slot1, string slot2)
         {
-            Debug.Assert(!string.IsNullOrEmpty(slot));
+            Debug.Assert(!string.IsNullOrEmpty(slot1));
+            Debug.Assert(!string.IsNullOrEmpty(slot2));
 
-            WebsiteManagementClient.WebSites.SwapSlots(webspaceName, websiteName, slot);
+            WebsiteManagementClient.WebSites.SwapSlots(webspaceName, websiteName, slot1, slot2);
         }
 
         /// <summary>
@@ -1045,7 +1051,6 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
         /// <returns>The full path of the generated WebDeploy package.</returns>
         public string BuildWebProject(string projectFile, string configuration, string logFile)
         {
-
             ProjectCollection pc = new ProjectCollection();
             Project project = pc.LoadProject(projectFile);
 
@@ -1263,7 +1268,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
             deployment.SyncParameters.Add(connectionStringParameter);
         }
 
-        #endregion
+        #endregion WebDeploy
 
         #region WebJobs
 
@@ -1329,7 +1334,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
             }
 
             List<PSWebJob> result = new List<PSWebJob>();
-            foreach(WebJob job in jobList)
+            foreach (WebJob job in jobList)
             {
                 result.Add(new PSWebJob(job));
             }
@@ -1360,9 +1365,11 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
                 case WebJobType.Continuous:
                     client.WebJobs.UploadContinuous(jobName, File.OpenRead(jobFile));
                     break;
+
                 case WebJobType.Triggered:
                     client.WebJobs.UploadTriggered(jobName, File.OpenRead(jobFile));
                     break;
+
                 default:
                     break;
             }
@@ -1381,7 +1388,6 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
                     throw new ArgumentException(Resources.InvalidJobFile);
                 }
             }
-
 
             return webjob;
         }
@@ -1517,6 +1523,6 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
             SaveWebJobLog(name, slot, jobName, jobType, defaultLogFile, null);
         }
 
-        #endregion
+        #endregion WebJobs
     }
 }

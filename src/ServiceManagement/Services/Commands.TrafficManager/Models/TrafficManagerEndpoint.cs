@@ -14,8 +14,8 @@
 
 namespace Microsoft.WindowsAzure.Commands.TrafficManager.Models
 {
-    using Microsoft.WindowsAzure.Management.TrafficManager.Models;
     using System.Runtime.Serialization;
+    using Microsoft.WindowsAzure.Management.TrafficManager.Models;
 
     public class TrafficManagerEndpoint
     {
@@ -36,5 +36,37 @@ namespace Microsoft.WindowsAzure.Commands.TrafficManager.Models
 
         [DataMember(IsRequired = true)]
         public int Weight { get; set; }
+
+        public override bool Equals(object obj)
+        {
+            if (obj == null)
+            {
+                return false;
+            }
+
+            TrafficManagerEndpoint endpoint = obj as TrafficManagerEndpoint;
+            if (endpoint == null)
+            {
+                return false;
+            }
+
+            return DomainName == endpoint.DomainName &&
+                   Location == endpoint.Location &&
+                   Type == endpoint.Type &&
+                   Status == endpoint.Status &&
+                   MonitorStatus == endpoint.MonitorStatus &&
+                   Weight == endpoint.Weight;
+        }
+
+        public override int GetHashCode()
+        {
+            int result = DomainName != null ? DomainName.GetHashCode() : 0;
+            result = (result * 397) ^ (Location != null ? Location.GetHashCode() : 0);
+            result = (result * 397) ^ Type.GetHashCode();
+            result = (result * 397) ^ Status.GetHashCode();
+            result = (result * 397) ^ MonitorStatus.GetHashCode();
+            result = (result * 397) ^ Weight.GetHashCode();
+            return result;
+        }
     }
 }
