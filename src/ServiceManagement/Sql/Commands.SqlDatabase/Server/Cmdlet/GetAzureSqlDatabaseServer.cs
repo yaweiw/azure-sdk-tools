@@ -84,6 +84,7 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Server.Cmdlet
                 Location = server.Location,
                 Version = server.Version,
                 AdministratorLogin = server.AdministratorUserName,
+                State = server.State
             });
 
             return processResult;
