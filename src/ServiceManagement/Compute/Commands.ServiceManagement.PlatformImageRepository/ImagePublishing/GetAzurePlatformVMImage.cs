@@ -16,10 +16,10 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.PlatformImageReposit
 {
     using System.Linq;
     using System.Management.Automation;
-    using Commands.Utilities.Common;
     using Helpers;
     using Model;
     using ServiceManagement.Model;
+    using Utilities.Common;
 
     [Cmdlet(VerbsCommon.Get, "AzurePlatformVMImage"), OutputType(typeof(OSImageDetailsContext))]
     public class GetAzurePlatformVMImage : ServiceManagementBaseCmdlet
