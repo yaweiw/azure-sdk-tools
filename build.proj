@@ -181,8 +181,8 @@
   </Target>
 
   <!-- Note: all testing related target should go to 'test.targets' file except the one used by CI run -->
-  <Import Project=".\test.targets"/>
-  <!-- Run the unit tests -->
+  <Import Project="$(MSBuildThisFileDirectory)Powershell.test.targets"/>
+  <!-- Run checkin tests for each pull request -->
   <Target Name="Test" DependsOnTargets="BuildDebug;BeforeRunTests">
     <Message Importance="high" Text="Running check in tests..." />
     <CallTarget Targets="TestManagement; TestManagedCache; TestResourceManager; TestServiceManagement; TestSqlDatabase; TestStorage; MockedScenarioTests" />

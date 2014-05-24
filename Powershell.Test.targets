@@ -19,6 +19,7 @@
     <MockTestFilter>CheckIn</MockTestFilter>
     <OneSDKCITFilter>"OneSDK&#x26;CIT"</OneSDKCITFilter>
     <MediaServiceBVTFilter>"MediaServices&#x26;BVT"</MediaServiceBVTFilter>
+    <ManagedCacheBVTFilter>"ManagedCache&#x26;BVT"</ManagedCacheBVTFilter>
     <AzureRTAllTestFilter>"Functional|Scenario"</AzureRTAllTestFilter>
     <AzureRTAllTestFilter2>"Functional|Scenario|Preview"</AzureRTAllTestFilter2>
     <AzureRTAllTestFilter3>"Functional|Scenario|Sequential"</AzureRTAllTestFilter3>
@@ -106,12 +107,12 @@
       ContinueOnError="false" />
   </Target>
 
-  <!-- Run the MediaService Scenario Tests -->
+  <!-- Run the Managed Cache Scenario Tests -->
   <Target Name="RunManagedCacheBVTs" DependsOnTargets="Clean;BuildDebug;BeforeRunTests">
     <Message Importance="high" Text="Running Managed Cache Service BVTs..." />   
     <Delete Files="$(TestOutputDirectory)\RunManagedCacheBVTDebug.trx" />
     <Exec
-      Command="MSTest.exe /testcontainer:$(ScenarioTestDebug) /testsettings:$(TestSettings) /category:MediaServices|BVT /resultsfile:$(TestOutputDirectory)\RunManagedCacheBVTDebug.trx"
+      Command="MSTest.exe /testcontainer:$(ScenarioTestDebug) /testsettings:$(TestSettings) /category:$(ManagedCacheBVTFilter) /resultsfile:$(TestOutputDirectory)\RunManagedCacheBVTDebug.trx"
       ContinueOnError="false" />
   </Target>
 
