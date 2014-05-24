@@ -358,6 +358,24 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Cannot find the // in the endpoint {0}.
+        /// </summary>
+        internal static string DiagnosticsSlashNotFound {
+            get {
+                return ResourceManager.GetString("DiagnosticsSlashNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Cannot find the storage account name {0} in the endpoint {1}.
+        /// </summary>
+        internal static string DiagnosticsStorageAccountNotFound {
+            get {
+                return ResourceManager.GetString("DiagnosticsStorageAccountNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Duplicate names &apos;{0}&apos; found in both VM and OS images. Please delete one of them, using other method such as Portal or Invoke-RestMethod call, and try again..
         /// </summary>
         public static string DuplicateNamesFoundInBothVMAndOSImages {
