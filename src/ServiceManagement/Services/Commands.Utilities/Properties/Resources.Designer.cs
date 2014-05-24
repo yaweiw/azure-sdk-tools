@@ -2084,15 +2084,6 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to http://az413943.vo.msecnd.net/node/runtimemanifest_0.7.3.xml.
-        /// </summary>
-        public static string ManifestUri {
-            get {
-                return ResourceManager.GetString("ManifestUri", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to http://api.datamarket.azure.com/CatalogService.svc.
         /// </summary>
         public static string MarketplaceEndpoint {
@@ -2700,15 +2691,6 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Properties {
         public static string PublishCreatedServiceMessage {
             get {
                 return ResourceManager.GetString("PublishCreatedServiceMessage", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Created Website. Please use the Azure Portal at http://windows.azure.com to find the deployment URL..
-        /// </summary>
-        public static string PublishCreatedWebsiteLaunchNotSupportedMessage {
-            get {
-                return ResourceManager.GetString("PublishCreatedWebsiteLaunchNotSupportedMessage", resourceCulture);
             }
         }
         
@@ -3775,15 +3757,6 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to http://{0}.cloudapp.net.
-        /// </summary>
-        public static string ServiceUrl {
-            get {
-                return ResourceManager.GetString("ServiceUrl", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Set Add-On Confirmation.
         /// </summary>
         public static string SetAddOnConformation {
@@ -4109,7 +4082,34 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Are you sure you want to swap the website &apos;{0}&apos; production slot with slot &apos;{1}&apos;?.
+        ///   Looks up a localized string similar to The website does not contain a slot named: {0}.
+        /// </summary>
+        public static string SwapWebsiteSlotInvalidSlotWarning {
+            get {
+                return ResourceManager.GetString("SwapWebsiteSlotInvalidSlotWarning", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The website must have at least two slots to apply swap.
+        /// </summary>
+        public static string SwapWebsiteSlotRequire2SlotsWarning {
+            get {
+                return ResourceManager.GetString("SwapWebsiteSlotRequire2SlotsWarning", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The website has more than 2 slots you must specify which ones to swap.
+        /// </summary>
+        public static string SwapWebsiteSlotSpecifySlotsWarning {
+            get {
+                return ResourceManager.GetString("SwapWebsiteSlotSpecifySlotsWarning", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Are you sure you want to swap the website &apos;{0}&apos; slot &apos;{1}&apos; with slot &apos;{2}&apos;?.
         /// </summary>
         public static string SwapWebsiteSlotWarning {
             get {
