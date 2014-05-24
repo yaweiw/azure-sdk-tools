@@ -562,19 +562,19 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
         {
             try
             {
-                string resultStorageAccount = GetInnerText(resultConfig.PublicConfiguration, "Name");
+                string resultStorageAccount = GetInnerText(resultConfig.PublicConfiguration, "StorageAccount");
                 string resultWadCfg = Utilities.GetInnerXml(resultConfig.PublicConfiguration, "WadCfg");
                 if (string.IsNullOrWhiteSpace(resultWadCfg))
                 {
                     resultWadCfg = null;
                 }
-                string resultStorageKey = GetInnerText(resultConfig.PrivateConfiguration, "StorageKey");
+                string resultStorageKey = GetInnerValue(resultConfig.PrivateConfiguration, "StorageAccount", "key");
 
                 Console.WriteLine("Type: {0}, StorageAccountName:{1}, StorageKey: {2}, WadCfg: {3}, CertificateThumbprint: {4}, ThumbprintAlgorithm: {5}, X509Certificate: {6}",
                     resultConfig.Type, resultStorageAccount, resultStorageKey, resultWadCfg, resultConfig.CertificateThumbprint, resultConfig.ThumbprintAlgorithm, resultConfig.X509Certificate);
 
-                Assert.AreEqual(resultConfig.Type, "Diagnostics", "Type is not equal!");
-                Assert.AreEqual(resultStorageAccount, storage);
+                Assert.AreEqual("PaaSDiagnostics", resultConfig.Type, "Type is not equal!");
+                Assert.AreEqual(storage, resultStorageAccount);
                 Assert.IsTrue(Utilities.CompareWadCfg(resultWadCfg, wadconfig));
 
                 if (string.IsNullOrWhiteSpace(thumbprint))
@@ -583,7 +583,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
                 }
                 else
                 {
-                    Assert.AreEqual(resultConfig.CertificateThumbprint, thumbprint, "Certificate thumbprint is not equal!");
+                    Assert.AreEqual(thumbprint, resultConfig.CertificateThumbprint, "Certificate thumbprint is not equal!");
                 }
                 if (string.IsNullOrWhiteSpace(algorithm))
                 {
@@ -591,9 +591,9 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
                 }
                 else
                 {
-                    Assert.AreEqual(resultConfig.ThumbprintAlgorithm, algorithm, "Thumbprint algorithm is not equal!");
+                    Assert.AreEqual(algorithm, resultConfig.ThumbprintAlgorithm, "Thumbprint algorithm is not equal!");
                 }
-                Assert.AreEqual(resultConfig.X509Certificate, cert, "X509Certificate is not equal!");
+                Assert.AreEqual(cert, resultConfig.X509Certificate, "X509Certificate is not equal!");
                 if (resultConfig.Roles.Count == 1 && string.IsNullOrEmpty(resultConfig.Roles[0].RoleName))
                 {
                     Assert.IsTrue(roles.Contains(resultConfig.Roles[0].RoleType.ToString()));
@@ -762,6 +762,20 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
             XmlDocument xml = new XmlDocument();
             xml.Load(stream);
             return xml.GetElementsByTagName(tag)[0].InnerText;
+        }
+
+        private string GetInnerValue(string xmlString, string tag, string attribute)
+        {
+            string removedHeader = xmlString.Substring(xmlString.IndexOf('<', 2));
+
+            byte[] encodedString = Encoding.UTF8.GetBytes(xmlString);
+            MemoryStream stream = new MemoryStream(encodedString);
+            stream.Flush();
+            stream.Position = 0;
+
+            XmlDocument xml = new XmlDocument();
+            xml.Load(stream);
+            return xml.GetElementsByTagName(tag)[0].Attributes[attribute].Value;
         }
 
         /// <summary>

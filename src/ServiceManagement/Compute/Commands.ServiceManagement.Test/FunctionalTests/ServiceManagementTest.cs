@@ -19,12 +19,10 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
     using Properties;
     using System;
     using System.Collections.ObjectModel;
-    using System.Collections.Specialized;
-    using System.Diagnostics;
     using System.IO;
     using System.Linq;
-    using System.Threading;
     using VisualStudio.TestTools.UnitTesting;
+    using System.Xml.Linq;
 
     [TestClass]
     public class ServiceManagementTest
@@ -117,6 +115,26 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
             }
 
             return null;
+        }
+
+        private static string GetSubscriptionName(string publishSettingsFile)
+        {
+            try
+            {
+                XDocument psf = XDocument.Load(publishSettingsFile);
+                XElement pubData = psf.Descendants().FirstOrDefault();
+                XElement pubProfile = pubData.Elements().ToList()[0];
+                XElement sub = pubProfile.Elements().ToList()[0];
+                string subName = sub.Attribute("Name").Value;
+                Console.WriteLine("Getting subscription: {0}", subName);
+
+                return subName;
+            }
+            catch
+            {
+                Console.WriteLine("Error occurred during loading publish settings file...");
+                return null;
+            }
         }
 
         public static void SetTestSettings()
