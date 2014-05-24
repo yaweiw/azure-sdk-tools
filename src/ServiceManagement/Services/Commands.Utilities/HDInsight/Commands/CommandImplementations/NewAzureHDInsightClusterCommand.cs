@@ -21,6 +21,7 @@ namespace Microsoft.WindowsAzure.Management.HDInsight.Cmdlet.Commands.CommandImp
     using System.Linq;
     using System.Management.Automation;
     using System.Threading.Tasks;
+    using ClusterProvisioning.Data;
 
     internal class NewAzureHDInsightClusterCommand : AzureHDInsightClusterCommand<AzureHDInsightCluster>, INewAzureHDInsightClusterCommand
     {
@@ -85,6 +86,8 @@ namespace Microsoft.WindowsAzure.Management.HDInsight.Cmdlet.Commands.CommandImp
 
         public ClusterState State { get; private set; }
 
+        public ClusterType ClusterType { get; set; }
+
         /// <inheritdoc />
         public string Version { get; set; }
 
@@ -121,6 +124,7 @@ namespace Microsoft.WindowsAzure.Management.HDInsight.Cmdlet.Commands.CommandImp
             createClusterRequest.UserName = this.Credential.UserName;
             createClusterRequest.Password = this.Credential.GetCleartextPassword();
             createClusterRequest.ClusterSizeInNodes = this.ClusterSizeInNodes;
+            createClusterRequest.ClusterType = this.ClusterType;
             createClusterRequest.AdditionalStorageAccounts.AddRange(
                 this.AdditionalStorageAccounts.Select(act => new WabStorageAccountConfiguration(act.StorageAccountName, act.StorageAccountKey)));
             if (this.HiveMetastore.IsNotNull())
