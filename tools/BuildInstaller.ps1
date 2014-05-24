@@ -59,4 +59,4 @@ msbuild "$env:AzurePSRoot\build.proj" /t:"BuildDebug"
 # Build the installer
 msbuild "$env:AzurePSRoot\build.proj" /t:"BuildSetupDebug"
 
-Write-Host "MSI file path: $env:AzurePSRoot\setup\build\Debug\x86\windowsazure-powershell.msi"
+Write-Host "MSI file path: $env:AzurePSRoot\setup\build\Debug\AzurePowerShell.msi"
