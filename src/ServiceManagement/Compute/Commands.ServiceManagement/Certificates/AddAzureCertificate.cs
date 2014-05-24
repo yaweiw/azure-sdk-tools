@@ -14,11 +14,12 @@
 
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Certificates
 {
-    using Helpers;
-    using Management.Compute.Models;
     using System.Management.Automation;
     using System.Security.Cryptography.X509Certificates;
     using System.Security.Permissions;
+    using Helpers;
+    using Management.Compute;
+    using Management.Compute.Models;
     using Utilities.Common;
 
     /// <summary>

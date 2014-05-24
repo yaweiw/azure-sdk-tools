@@ -14,21 +14,23 @@
 
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement
 {
-    using AutoMapper;
-    using Extensions;
-    using Helpers;
-    using IaaS.Extensions;
-    using Management.Compute.Models;
-    using Management.Models;
-    using Management.Network.Models;
-    using Management.Storage.Models;
-    using Model;
     using System;
     using System.Collections;
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
     using System.Linq;
     using System.Net;
+    using AutoMapper;
+    using Extensions;
+    using Helpers;
+    using IaaS;
+    using IaaS.DiskRepository;
+    using IaaS.Extensions;
+    using Management.Compute.Models;
+    using Management.Models;
+    using Management.Network.Models;
+    using Management.Storage.Models;
+    using Model;
     using Utilities.Common;
     using NSM = Management.Compute.Models;
     using NVM = Management.Network.Models;
@@ -337,8 +339,12 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement
                   .ForMember(c => c.OperationStatus, o => o.MapFrom(r => r.Status.ToString()));
 
             //AffinityGroup mapping
-            Mapper.CreateMap<AffinityGroupGetResponse, AffinityGroupContext>();
-            Mapper.CreateMap<AffinityGroupListResponse.AffinityGroup, AffinityGroupContext>();
+            Mapper.CreateMap<AffinityGroupGetResponse, AffinityGroupContext>()
+                  .ForMember(c => c.VirtualMachineRoleSizes, o => o.MapFrom(r => r.ComputeCapabilities == null ? null : r.ComputeCapabilities.VirtualMachinesRoleSizes))
+                  .ForMember(c => c.WebWorkerRoleSizes, o => o.MapFrom(r => r.ComputeCapabilities == null ? null : r.ComputeCapabilities.WebWorkerRoleSizes));
+            Mapper.CreateMap<AffinityGroupListResponse.AffinityGroup, AffinityGroupContext>()
+                  .ForMember(c => c.VirtualMachineRoleSizes, o => o.MapFrom(r => r.ComputeCapabilities == null ? null : r.ComputeCapabilities.VirtualMachinesRoleSizes))
+                  .ForMember(c => c.WebWorkerRoleSizes, o => o.MapFrom(r => r.ComputeCapabilities == null ? null : r.ComputeCapabilities.WebWorkerRoleSizes));
             Mapper.CreateMap<AffinityGroupGetResponse.HostedServiceReference, AffinityGroupContext.Service>()
                   .ForMember(c => c.Url, o => o.MapFrom(r => r.Uri));
             Mapper.CreateMap<AffinityGroupGetResponse.StorageServiceReference, AffinityGroupContext.Service>()
@@ -348,7 +354,9 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement
                   .ForMember(c => c.OperationStatus, o => o.MapFrom(r => r.Status.ToString()));
 
             //Location mapping
-            Mapper.CreateMap<LocationsListResponse.Location, LocationsContext>();
+            Mapper.CreateMap<LocationsListResponse.Location, LocationsContext>()
+                  .ForMember(c => c.VirtualMachineRoleSizes, o => o.MapFrom(r => r.ComputeCapabilities == null ? null : r.ComputeCapabilities.VirtualMachinesRoleSizes))
+                  .ForMember(c => c.WebWorkerRoleSizes, o => o.MapFrom(r => r.ComputeCapabilities == null ? null : r.ComputeCapabilities.WebWorkerRoleSizes));
             Mapper.CreateMap<OperationStatusResponse, LocationsContext>()
                   .ForMember(c => c.OperationId, o => o.MapFrom(r => r.Id))
                   .ForMember(c => c.OperationStatus, o => o.MapFrom(r => r.Status.ToString()));
@@ -385,8 +393,14 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement
                   .ForMember(c => c.Description, o => o.MapFrom(r => string.IsNullOrEmpty(r.Description) ? null : r.Description))
                   .ForMember(c => c.DateModified, o => o.MapFrom(r => r.DateLastModified));
             Mapper.CreateMap<HostedServiceGetResponse, HostedServiceDetailedContext>()
+                  .ForMember(c => c.ExtendedProperties, o => o.MapFrom(r => r.Properties == null ? null : r.Properties.ExtendedProperties))
+                  .ForMember(c => c.VirtualMachineRoleSizes, o => o.MapFrom(r => r.ComputeCapabilities == null ? null : r.ComputeCapabilities.VirtualMachinesRoleSizes))
+                  .ForMember(c => c.WebWorkerRoleSizes, o => o.MapFrom(r => r.ComputeCapabilities == null ? null : r.ComputeCapabilities.WebWorkerRoleSizes))
                   .ForMember(c => c.Url, o => o.MapFrom(r => r.Uri));
             Mapper.CreateMap<HostedServiceListResponse.HostedService, HostedServiceDetailedContext>()
+                  .ForMember(c => c.ExtendedProperties, o => o.MapFrom(r => r.Properties == null ? null : r.Properties.ExtendedProperties))
+                  .ForMember(c => c.VirtualMachineRoleSizes, o => o.MapFrom(r => r.ComputeCapabilities == null ? null : r.ComputeCapabilities.VirtualMachinesRoleSizes))
+                  .ForMember(c => c.WebWorkerRoleSizes, o => o.MapFrom(r => r.ComputeCapabilities == null ? null : r.ComputeCapabilities.WebWorkerRoleSizes))
                   .ForMember(c => c.Url, o => o.MapFrom(r => r.Uri));
             Mapper.CreateMap<OperationStatusResponse, HostedServiceDetailedContext>()
                   .ForMember(c => c.OperationId, o => o.MapFrom(r => r.Id))

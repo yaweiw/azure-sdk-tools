@@ -11,9 +11,6 @@
 
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Extensions
 {
-    using Helpers;
-    using Management.Compute.Models;
-    using Properties;
     using System;
     using System.IO;
     using System.Linq;
@@ -24,6 +21,11 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Extensions
     using System.Xml;
     using System.Xml.Linq;
     using System.Xml.Serialization;
+    using Helpers;
+    using Management.Compute;
+    using Management.Compute.Models;
+    using Management.Models;
+    using Properties;
     using Utilities.CloudService;
     using Utilities.Common;
 

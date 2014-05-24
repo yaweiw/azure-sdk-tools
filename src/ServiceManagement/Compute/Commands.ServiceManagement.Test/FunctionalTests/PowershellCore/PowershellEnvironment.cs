@@ -14,11 +14,11 @@
 
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests.PowershellCore
 {
-    using System;
     using System.Collections.ObjectModel;
     using System.Management.Automation;
     using System.Management.Automation.Runspaces;
     using System.Text;
+    using System;
 
     public abstract class PowershellEnvironment
     {

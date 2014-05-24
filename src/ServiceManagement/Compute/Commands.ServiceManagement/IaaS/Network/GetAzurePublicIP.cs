@@ -14,10 +14,11 @@
 
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
 {
-    using Model.PersistentVMModel;
-    using Properties;
     using System;
     using System.Management.Automation;
+    using Model;
+    using Model.PersistentVMModel;
+    using Properties;
 
     [Cmdlet(VerbsCommon.Get, PublicIPNoun), OutputType(typeof(AssignPublicIP))]
     public class GetAzurePublicIPCommand : VirtualMachineConfigurationCmdletBase
