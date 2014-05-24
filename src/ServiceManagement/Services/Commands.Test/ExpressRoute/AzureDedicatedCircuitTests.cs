@@ -77,7 +77,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.ExpressRoute
             t.Start();
 
             dcMock.Setup(f => f.NewAsync(It.Is<DedicatedCircuitNewParameters>(x => x.Bandwidth == bandwidth && x.CircuitName == circuitName && x.Location == location && x.ServiceProviderName == serviceProviderName), It.IsAny<CancellationToken>())).Returns((DedicatedCircuitNewParameters param, CancellationToken cancellation) => t);
-            client.SetupGet(f => f.DedicatedCircuit).Returns(dcMock.Object);
+            client.SetupGet(f => f.DedicatedCircuits).Returns(dcMock.Object);
 
             NewAzureDedicatedCircuitCommand cmdlet = new NewAzureDedicatedCircuitCommand()
             {
@@ -137,7 +137,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.ExpressRoute
             t.Start();
 
             dcMock.Setup(f => f.GetAsync(It.Is<string>(sKey => sKey == serviceKey), It.IsAny<CancellationToken>())).Returns((string sKey, CancellationToken cancellation) => t);
-            client.SetupGet(f => f.DedicatedCircuit).Returns(dcMock.Object);
+            client.SetupGet(f => f.DedicatedCircuits).Returns(dcMock.Object);
 
             GetAzureDedicatedCircuitCommand cmdlet = new GetAzureDedicatedCircuitCommand()
             {
@@ -178,7 +178,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.ExpressRoute
             t.Start();
 
             dcMock.Setup(f => f.RemoveAsync(It.Is<string>(sKey => sKey == serviceKey), It.IsAny<CancellationToken>())).Returns((string sKey, CancellationToken cancellation) => t);
-            client.SetupGet(f => f.DedicatedCircuit).Returns(dcMock.Object);
+            client.SetupGet(f => f.DedicatedCircuits).Returns(dcMock.Object);
 
             RemoveAzureDedicatedCircuitCommand cmdlet = new RemoveAzureDedicatedCircuitCommand()
             {
@@ -229,7 +229,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.ExpressRoute
             t.Start();
 
             dcMock.Setup(f => f.ListAsync(It.IsAny<CancellationToken>())).Returns((CancellationToken cancellation) => t);
-            client.SetupGet(f => f.DedicatedCircuit).Returns(dcMock.Object);
+            client.SetupGet(f => f.DedicatedCircuits).Returns(dcMock.Object);
 
              GetAzureDedicatedCircuitCommand cmdlet = new GetAzureDedicatedCircuitCommand()
             {

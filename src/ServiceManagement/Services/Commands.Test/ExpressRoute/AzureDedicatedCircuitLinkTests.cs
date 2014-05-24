@@ -69,7 +69,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.ExpressRoute
             t.Start();
 
             dclMock.Setup(f => f.NewAsync(It.Is<string>(x => x == serviceKey), It.Is<string>(y => y == vNetName), It.IsAny<CancellationToken>())).Returns((string sKey, string vNet, CancellationToken cancellation) => t);
-            client.SetupGet(f => f.DedicatedCircuitLink).Returns(dclMock.Object);
+            client.SetupGet(f => f.DedicatedCircuitLinks).Returns(dclMock.Object);
 
             NewAzureDedicatedCircuitLinkCommand cmdlet = new NewAzureDedicatedCircuitLinkCommand()
             {
@@ -114,7 +114,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.ExpressRoute
             t.Start();
 
             dclMock.Setup(f => f.GetAsync(It.Is<string>(skey => skey == serviceKey), It.Is<string>(vnet => vnet == vNetName), It.IsAny<CancellationToken>())).Returns((string skey, string vnet, CancellationToken cancellation) => t);
-            client.SetupGet(f => f.DedicatedCircuitLink).Returns(dclMock.Object);
+            client.SetupGet(f => f.DedicatedCircuitLinks).Returns(dclMock.Object);
 
             GetAzureDedicatedCircuitLinkCommand cmdlet = new GetAzureDedicatedCircuitLinkCommand()
             {
@@ -153,7 +153,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.ExpressRoute
             t.Start();
 
             dclMock.Setup(f => f.RemoveAsync(It.Is<string>(sKey => sKey == serviceKey), It.Is<string>(vnet => vnet == vNetName), It.IsAny<CancellationToken>())).Returns((string sKey, string vnet, CancellationToken cancellation) => t);
-            client.SetupGet(f => f.DedicatedCircuitLink).Returns(dclMock.Object);
+            client.SetupGet(f => f.DedicatedCircuitLinks).Returns(dclMock.Object);
 
             RemoveAzureDedicatedCircuitLinkCommand cmdlet = new RemoveAzureDedicatedCircuitLinkCommand()
             {
@@ -200,7 +200,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.ExpressRoute
             t.Start();
 
             dclMock.Setup(f => f.ListAsync(It.Is<string>(skey => skey == serviceKey), It.IsAny<CancellationToken>())).Returns((string skey, CancellationToken cancellation) => t);
-            client.SetupGet(f => f.DedicatedCircuitLink).Returns(dclMock.Object);
+            client.SetupGet(f => f.DedicatedCircuitLinks).Returns(dclMock.Object);
 
             GetAzureDedicatedCircuitLinkCommand cmdlet = new GetAzureDedicatedCircuitLinkCommand()
             {

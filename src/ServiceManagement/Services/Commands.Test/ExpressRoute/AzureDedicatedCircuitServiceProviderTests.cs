@@ -102,7 +102,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.ExpressRoute
             t.Start();
 
             dcsMock.Setup(f => f.ListAsync(It.IsAny<CancellationToken>())).Returns((CancellationToken cancellation) => t);
-            client.SetupGet(f => f.DedicatedCircuitServiceProvider).Returns(dcsMock.Object);
+            client.SetupGet(f => f.DedicatedCircuitServiceProviders).Returns(dcsMock.Object);
 
             GetAzureDedicatedCircuitServiceProviderCommand cmdlet = new GetAzureDedicatedCircuitServiceProviderCommand()
             {
