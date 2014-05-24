@@ -837,6 +837,15 @@ GalleryEndpoint               : https://gallery.azure.com/
           </maml:description>
           <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
         </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="True (ByPropertyName)" position="9" aliases="">
+          <maml:name>ActiveDirectoryServiceEndpointResourceId</maml:name>
+          <maml:description>
+            <maml:para>
+              Identifier of the target resource that is the recipient of the requested token.
+            </maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        </command:parameter>
       </command:syntaxItem>
     </command:syntax>
     <command:parameters>
@@ -935,6 +944,19 @@ GalleryEndpoint               : https://gallery.azure.com/
         <maml:name>StorageEndpoint</maml:name>
         <maml:description>
           <maml:para>Specifies the default endpoint of storage services in the new environment.</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        <dev:type>
+          <maml:name>String</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>
+        </dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="9" aliases="">
+        <maml:name>ActiveDirectoryServiceEndpointResourceId</maml:name>
+        <maml:description>
+          <maml:para>Identifier of the target resource that is the recipient of the requested token.</maml:para>
         </maml:description>
         <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
         <dev:type>
@@ -1116,6 +1138,15 @@ GalleryEndpoint               :
           </maml:description>
           <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
         </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="True (ByPropertyName)" position="9" aliases="">
+          <maml:name>ActiveDirectoryServiceEndpointResourceId</maml:name>
+          <maml:description>
+            <maml:para>
+              Identifier of the target resource that is the recipient of the requested token.
+            </maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        </command:parameter>
       </command:syntaxItem>
     </command:syntax>
     <command:parameters>
@@ -1214,6 +1245,19 @@ GalleryEndpoint               :
         <maml:name>StorageEndpoint</maml:name>
         <maml:description>
           <maml:para>Changes the default endpoint of storage services in the specified environment.</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        <dev:type>
+          <maml:name>String</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>
+        </dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="9" aliases="">
+        <maml:name>ActiveDirectoryServiceEndpointResourceId</maml:name>
+        <maml:description>
+          <maml:para>Identifier of the target resource that is the recipient of the requested token.</maml:para>
         </maml:description>
         <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
         <dev:type>
