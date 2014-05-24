@@ -140,6 +140,7 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Blob.Cmdlet
 
             BlobRequestOptions requestOptions = downloadJob.BlobRequestOptions;
             requestOptions.DisableContentMD5Validation = !checkMd5;
+            downloadJob.BlobRequestOptions = requestOptions;
 
             this.EnqueueTransferJob(downloadJob, data);
                         

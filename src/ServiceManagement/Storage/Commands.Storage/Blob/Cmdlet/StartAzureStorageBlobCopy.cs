@@ -261,6 +261,13 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Blob.Cmdlet
         /// <returns>Destination ICloudBlob object</returns>
         private void StartCopyBlob(IStorageBlobManagement destChannel, ICloudBlob srcICloudBlob, string destContainer, string destBlobName)
         {
+            if (string.IsNullOrEmpty(destBlobName))
+            {
+                destBlobName = srcICloudBlob.Name;
+            }
+
+            ValidateBlobName(destBlobName);
+
             CloudBlobContainer container = destChannel.GetContainerReference(destContainer);
             ICloudBlob destBlob = null;
             if (BlobType.PageBlob == srcICloudBlob.BlobType)
