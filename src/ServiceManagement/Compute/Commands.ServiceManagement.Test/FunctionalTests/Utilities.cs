@@ -14,14 +14,13 @@
 
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
 {
-    using Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions;
-    using Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests.ConfigDataInfo;
     using Model;
     using Security.Cryptography;
     using Security.Cryptography.X509Certificates;
+    using WindowsAzure.Storage.Auth;
+    using WindowsAzure.Storage.Blob;
     using Sync.Download;
     using System;
-    using System.Collections.Generic;
     using System.Diagnostics;
     using System.IO;
     using System.Reflection;
@@ -33,18 +32,26 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
     using System.Threading;
     using System.Xml;
     using VisualStudio.TestTools.UnitTesting;
-    using WindowsAzure.Storage.Auth;
-    using WindowsAzure.Storage.Blob;
+    using Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests.ConfigDataInfo;
+    using System.Collections.Generic;
+    using Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions;
 
     internal class Utilities 
     {
 
         #region Constants
 
-        public static string windowsAzurePowershellPath = Path.Combine(Environment.CurrentDirectory);
+        public static string windowsAzurePowershellPath = Path.Combine(Environment.CurrentDirectory, "ServiceManagement\\Azure");
+
         public const string windowsAzurePowershellServiceModule = "Azure.psd1";
         public const string windowsAzurePowershellModuleServiceManagementPlatformImageRepository = "PIR.psd1";
         public const string windowsAzurePowershellModuleServiceManagementPreview = "AzurePreview.psd1";
+
+        public const string AzurePowershellCommandsModule = "Microsoft.WindowsAzure.Commands.dll";
+        public const string AzurePowershellServiceManagementModule = "Microsoft.WindowsAzure.Commands.ServiceManagement.dll";
+        public const string AzurePowershellStorageModule = "Microsoft.WindowsAzure.Commands.Storage.dll";
+        public const string AzurePowershellModuleServiceManagementPirModule = "Microsoft.WindowsAzure.Commands.ServiceManagement.PlatformImageRepository.dll";
+        public const string AzurePowershellModuleServiceManagementPreviewModule = "Microsoft.WindowsAzure.Commands.ServiceManagement.Preview.dll";
 
         private const string tclientPath = "tclient.dll";
         private const string clxtsharPath = "clxtshar.dll";

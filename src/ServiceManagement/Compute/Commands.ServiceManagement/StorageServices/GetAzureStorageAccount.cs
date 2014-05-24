@@ -14,11 +14,12 @@
 
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.StorageServices
 {
-    using AutoMapper;
-    using Management.Storage.Models;
-    using Model;
     using System.Linq;
     using System.Management.Automation;
+    using AutoMapper;
+    using Management.Storage;
+    using Management.Storage.Models;
+    using Model;
     using Utilities.Common;
 
     /// <summary>

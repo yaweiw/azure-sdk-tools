@@ -14,16 +14,17 @@
 
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
 {
-    using AutoMapper;
-    using Helpers;
-    using Management.Compute.Models;
-    using Model;
-    using Properties;
-    using Storage;
     using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Management.Automation;
+    using AutoMapper;
+    using Helpers;
+    using Management.Compute;
+    using Management.Compute.Models;
+    using Model;
+    using Properties;
+    using Storage;
     using Utilities.Common;
 
     [Cmdlet(VerbsData.Update, "AzureVM"), OutputType(typeof(ManagementOperationContext))]

@@ -14,23 +14,19 @@
 
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.PlatformImageRepository.ImagePublishing
 {
-    using Commands.Utilities.Common;
-    using Model;
-    using System;
     using System.Linq;
     using System.Management.Automation;
-    using WindowsAzure.ServiceManagement;
+    using Helpers;
+    using Model;
+    using ServiceManagement.Model;
+    using Utilities.Common;
 
     [Cmdlet(VerbsCommon.Get, "AzurePlatformVMImage"), OutputType(typeof(OSImageDetailsContext))]
     public class GetAzurePlatformVMImage : ServiceManagementBaseCmdlet
     {
         [Parameter(Position = 0, Mandatory = true, ValueFromPipelineByPropertyName = true, HelpMessage = "Name of the image in the image library.")]
         [ValidateNotNullOrEmpty]
-        public string ImageName
-        {
-            get;
-            set;
-        }
+        public string ImageName { get; set; }
 
         protected override void InitChannelCurrentSubscription(bool force)
         {
@@ -39,25 +35,28 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.PlatformImageReposit
 
         protected override void OnProcessRecord()
         {
-            Func<Operation, OSImageDetails, object> func = (operation, imageDetails) =>
-            {
-                OSImageDetailsContext osImageDetailsContext = null;
+            ServiceManagementProfile.Initialize();
 
-                if (imageDetails != null)
-                {
-                    osImageDetailsContext = new OSImageDetailsContext
+            var imageType = new VirtualMachineImageHelper(this.ComputeClient).GetImageType(this.ImageName);
+            bool isOSImage = imageType.HasFlag(VirtualMachineImageType.OSImage);
+            bool isVMImage = imageType.HasFlag(VirtualMachineImageType.VMImage);
+
+            if (isOSImage || !isVMImage)
+            {
+                ExecuteClientActionNewSM(
+                    null,
+                    CommandRuntime.ToString(),
+                    () => this.ComputeClient.VirtualMachineOSImages.GetDetails(this.ImageName),
+                    (operation, imageDetails) => imageDetails == null ? null : new OSImageDetailsContext
                     {
-                        OperationId = operation.OperationTrackingId,
-                        OperationDescription = CommandRuntime.ToString(),
-                        OperationStatus = operation.Status,
                         AffinityGroup = imageDetails.AffinityGroup,
                         Category = imageDetails.Category,
                         Label = imageDetails.Label,
                         Location = imageDetails.Location,
-                        MediaLink = imageDetails.MediaLink,
+                        MediaLink = imageDetails.MediaLinkUri,
                         ImageName = imageDetails.Name,
-                        OS = imageDetails.OS,
-                        LogicalSizeInGB = imageDetails.LogicalSizeInGB,
+                        OS = imageDetails.OperatingSystemType,
+                        LogicalSizeInGB = (int)imageDetails.LogicalSizeInGB,
                         Eula = imageDetails.Eula,
                         Description = imageDetails.Description,
                         IconUri = imageDetails.IconUri,
@@ -67,23 +66,56 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.PlatformImageReposit
                         PublishedDate = imageDetails.PublishedDate,
                         RecommendedVMSize = imageDetails.RecommendedVMSize,
                         IsCorrupted = imageDetails.IsCorrupted,
+                        SmallIconUri = imageDetails.SmallIconUri,
+                        PublisherName = imageDetails.PublisherName,
                         ReplicationProgress = imageDetails.ReplicationProgress.Select(
-                                                      detail => new ReplicationProgressContext
-                                                      {
-                                                          Location = detail.Location,
-                                                          Progress = detail.Progress
-                                                      }).ToList()
-                    };
-                }
+                                               detail => new ReplicationProgressContext
+                                               {
+                                                   Location = detail.Location,
+                                                   Progress = detail.Progress
+                                               }).ToList(),
+                        OperationId = operation.RequestId,
+                        OperationDescription = CommandRuntime.ToString(),
+                        OperationStatus = operation.Status.ToString()
+                    });
+            }
 
-                return osImageDetailsContext;
-            };
-
-            ExecuteClientActionInOCS(
-                null,
-                CommandRuntime.ToString(),
-                s => this.Channel.GetOSImageWithDetails(s, this.ImageName),
-                func);
+            if (isVMImage)
+            {
+                ExecuteClientActionNewSM(
+                    null,
+                    CommandRuntime.ToString(),
+                    () => this.ComputeClient.VirtualMachineVMImages.GetDetails(this.ImageName),
+                    (operation, imageDetails) => imageDetails == null ? null : new VMImageDetailsContext
+                    {
+                        AffinityGroup = imageDetails.AffinityGroup,
+                        Location = imageDetails.Location,
+                        Category = imageDetails.Category,
+                        Label = imageDetails.Label,
+                        ImageName = imageDetails.Name,
+                        Eula = imageDetails.Eula,
+                        Description = imageDetails.Description,
+                        IconUri = imageDetails.IconUri,
+                        ImageFamily = imageDetails.ImageFamily,
+                        IsPremium = imageDetails.IsPremium,
+                        PrivacyUri = imageDetails.PrivacyUri,
+                        PublishedDate = imageDetails.PublishedDate,
+                        RecommendedVMSize = imageDetails.RecommendedVMSize,
+                        IsCorrupted = imageDetails.IsCorrupted,
+                        SmallIconUri = imageDetails.SmallIconUri,
+                        SharingStatus = imageDetails.SharingStatus,
+                        PublisherName = imageDetails.PublisherName,
+                        ReplicationProgress = imageDetails.ReplicationProgress.Select(
+                                               detail => new ReplicationProgressContext
+                                               {
+                                                   Location = detail.Location,
+                                                   Progress = detail.Progress
+                                               }).ToList(),
+                        OperationId = operation.RequestId,
+                        OperationDescription = CommandRuntime.ToString(),
+                        OperationStatus = operation.Status.ToString()
+                    });
+            }
         }
     }
 }

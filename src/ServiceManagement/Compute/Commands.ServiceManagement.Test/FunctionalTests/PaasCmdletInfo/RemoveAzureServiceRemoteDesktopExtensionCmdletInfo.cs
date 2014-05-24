@@ -18,7 +18,6 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
 
     public class RemoveAzureServiceRemoteDesktopExtensionCmdletInfo : CmdletsInfo
     {
-
         public RemoveAzureServiceRemoteDesktopExtensionCmdletInfo(string serviceName, bool uninstall, string[] roles, string slot)
         {
 
