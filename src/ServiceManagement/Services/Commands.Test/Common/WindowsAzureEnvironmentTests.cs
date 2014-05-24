@@ -56,5 +56,24 @@ namespace Microsoft.WindowsAzure.Commands.Test.Common
             // Assert
             Assert.AreEqual(expected, actual.ToString());
         }
+
+        [TestMethod]
+        public void DefaultActiveDirectoryResourceUriIsSameWithServiceEndpoint()
+        {
+            WindowsAzureEnvironment environment = WindowsAzureEnvironment.PublicEnvironments[EnvironmentName.AzureCloud];
+            //Assert
+            Assert.AreEqual(true,
+                environment.ServiceEndpoint == environment.ActiveDirectoryServiceEndpointResourceId);
+
+            //do same test for china cloud
+            WindowsAzureEnvironment chinaEnvironment = WindowsAzureEnvironment.PublicEnvironments[EnvironmentName.AzureChinaCloud];
+            Assert.AreEqual(true,
+                chinaEnvironment.ServiceEndpoint == chinaEnvironment.ActiveDirectoryServiceEndpointResourceId);
+
+            //verify the resource uri are different between 2 environments
+            Assert.AreNotEqual(environment.ActiveDirectoryServiceEndpointResourceId,
+                chinaEnvironment.ActiveDirectoryServiceEndpointResourceId);
+
+        }
     }
 }

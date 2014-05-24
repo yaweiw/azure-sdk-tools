@@ -17,6 +17,7 @@ namespace Microsoft.WindowsAzure.Management.HDInsight.Cmdlet.DataObjects
     using System.Collections.Generic;
     using System.Diagnostics.CodeAnalysis;
     using System.Linq;
+    using ClusterProvisioning.Data;
 
     /// <summary>
     ///     Represents an Azure HD Insight Cluster for the PowerShell Cmdlets.
@@ -42,6 +43,14 @@ namespace Microsoft.WindowsAzure.Management.HDInsight.Cmdlet.DataObjects
         public int ClusterSizeInNodes
         {
             get { return this.cluster.ClusterSizeInNodes; }
+        }
+
+        /// <summary>
+        ///     Gets the type of the Azure HD Insight cluster.
+        /// </summary>
+        public ClusterType ClusterType
+        {
+            get { return this.cluster.ClusterType; }
         }
 
         /// <summary>
