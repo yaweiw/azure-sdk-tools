@@ -14,9 +14,11 @@
 
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
 {
+    using System;
+    using System.Linq;
+    using Management.Storage;
     using Model.PersistentVMModel;
     using Newtonsoft.Json;
-    using System.Linq;
     using Utilities.Common;
 
     public class VirtualMachineCustomScriptExtensionCmdletBase : VirtualMachineExtensionCmdletBase

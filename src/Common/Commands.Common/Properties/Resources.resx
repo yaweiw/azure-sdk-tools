@@ -508,7 +508,7 @@
     <value>{0} end processing.</value>
   </data>
   <data name="EnvironmentDoesNotSupportActiveDirectory" xml:space="preserve">
-    <value>The environment {0} does not currently support Active Directory authentication.</value>
+    <value>To use Active Directory authentication, you must configure the ActiveDirectoryEndpoint, ActiveDirectoryTenantId, and ActiveDirectorServiceEndpointResourceId for environment of '{0}'. You can configure these properties for this environment using the Set-AzureEnvironment cmdlet.</value>
   </data>
   <data name="EnvironmentExists" xml:space="preserve">
     <value>The environment '{0}' already exists.</value>

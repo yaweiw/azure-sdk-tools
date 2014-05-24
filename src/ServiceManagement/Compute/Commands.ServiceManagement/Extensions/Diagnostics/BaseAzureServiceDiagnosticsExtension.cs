@@ -11,14 +11,12 @@
 
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Extensions
 {
-    using Properties;
     using System;
-    using System.Text;
     using System.Xml;
     using System.Xml.Linq;
-    using Microsoft.WindowsAzure.Commands.Utilities.Common;
-    using Microsoft.WindowsAzure.Storage;
-    using Microsoft.WindowsAzure.Storage.Auth;
+    using Properties;
+    using Storage;
+    using Storage.Auth;
 
     public abstract class BaseAzureServiceDiagnosticsExtensionCmdlet : BaseAzureServiceExtensionCmdlet
     {

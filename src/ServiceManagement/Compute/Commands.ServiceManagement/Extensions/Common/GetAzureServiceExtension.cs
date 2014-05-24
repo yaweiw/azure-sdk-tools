@@ -14,9 +14,10 @@
 
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Extensions
 {
-    using Model.PersistentVMModel;
     using System.Linq;
     using System.Management.Automation;
+    using Management.Compute;
+    using Model.PersistentVMModel;
 
     /// <summary>
     /// Get Windows Azure Service Extension.
