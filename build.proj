@@ -13,9 +13,9 @@
 
     <PublishDirectory>.\src\Publish</PublishDirectory>
     <PackageDirectory>.\src\Package</PackageDirectory>
+    <TestOutputDirectory>$(PublishDirectory)\TestResults</TestOutputDirectory>
     <BuildOutputDirectory>$(PublishDirectory)\Build</BuildOutputDirectory>
     <SetupOutputDirectory>$(PublishDirectory)\Setup</SetupOutputDirectory>
-    <TestOutputDirectory>$(PublishDirectory)\TestResults</TestOutputDirectory>
 	  <DebugBuildConfig>Configuration=Debug;Platform=AnyCPU</DebugBuildConfig>
 	  <ReleaseBuildConfig>Configuration=Release;Platform=AnyCPU</ReleaseBuildConfig>
   </PropertyGroup>
@@ -183,12 +183,8 @@
   <!-- Note: all testing related target should go to 'test.targets' file except the one used by CI run -->
   <Import Project=".\test.targets"/>
   <!-- Run the unit tests -->
-  <Target Name="Test" DependsOnTargets="BuildDebug">
-    <Message Importance="high" Text="Running tests..." />
-    <Message Importance="high" Text="You are required to have installed a version of Visual Studio with support for MSTest (and MSTest on your path)." />
-    <MakeDir Directories="$(TestOutputDirectory)" ContinueOnError="false" />
-
-    <Message Importance="high" Text="Debug tests:" />
+  <Target Name="Test" DependsOnTargets="BuildDebug;BeforeRunTests">
+    <Message Importance="high" Text="Running check in tests..." />
     <CallTarget Targets="TestManagement; TestManagedCache; TestResourceManager; TestServiceManagement; TestSqlDatabase; TestStorage; MockedScenarioTests" />
   </Target>
 </Project>
