@@ -12,9 +12,6 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-
-using Microsoft.WindowsAzure.ServiceManagement;
-
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
 {
     using Commands.Utilities.Common;
@@ -42,7 +39,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
     using Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions;
     using Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests.IaasCmdletInfo.Extensions.BGInfo;
     using Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests.IaasCmdletInfo.Extensions.Common;
-using Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests.IaasCmdletInfo.Extesnions.VMAccess;
+    using Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests.IaasCmdletInfo.Extesnions.VMAccess;
     using Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests.IaasCmdletInfo.Extesnions.CustomScript;
     
 
@@ -812,20 +809,22 @@ using Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests.Iaa
 
         public Collection<WindowsAzureSubscription> GetAzureSubscription()
         {
-            return RunPSCmdletAndReturnAll<WindowsAzureSubscription>(new GetAzureSubscriptionCmdletInfo());
+            return RunPSCmdletAndReturnAll<WindowsAzureSubscription>(new GetAzureSubscriptionCmdletInfo(null, null, false, false, false));
+        }
+
+        public WindowsAzureSubscription GetAzureSubscription(string subscriptionName)
+        {
+            return RunPSCmdletAndReturnFirst<WindowsAzureSubscription>(new GetAzureSubscriptionCmdletInfo(subscriptionName, null, false, false, false));
         }
 
         public WindowsAzureSubscription GetCurrentAzureSubscription()
         {
-            Collection<WindowsAzureSubscription> subscriptions = GetAzureSubscription();
-            foreach (WindowsAzureSubscription subscription in subscriptions)
-            {
-                if (subscription.IsDefault)
-                {
-                    return subscription;
-                }
-            }
-            return null;
+            return RunPSCmdletAndReturnFirst<WindowsAzureSubscription>(new GetAzureSubscriptionCmdletInfo(null, null, false, true, false));
+        }
+
+        public WindowsAzureSubscription GetDefaultAzureSubscription()
+        {
+            return RunPSCmdletAndReturnFirst<WindowsAzureSubscription>(new GetAzureSubscriptionCmdletInfo(null, null, false, false, true));
         }
 
         public WindowsAzureSubscription SetAzureSubscription(string subscriptionName, string currentStorageAccountName, bool debug = false)
@@ -847,9 +846,7 @@ using Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests.Iaa
 
         public WindowsAzureSubscription SetDefaultAzureSubscription(string subscriptionName, bool debug = false)
         {
-            var selectAzureSubscriptionCmdlet = new SelectAzureSubscriptionCmdletInfo(subscriptionName);
-            var azurePowershellCmdlet = new WindowsAzurePowershellCmdlet(selectAzureSubscriptionCmdlet);
-            azurePowershellCmdlet.Run(debug);
+            SelectAzureSubscription(subscriptionName);
 
             Collection<WindowsAzureSubscription> subscriptions = GetAzureSubscription();
             foreach (WindowsAzureSubscription subscription in subscriptions)
