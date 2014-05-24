@@ -28,12 +28,12 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
     {
         [DataMember]
         public string DefaultEnvironmentName { get; set; }
-         
+
         [DataMember]
         public IEnumerable<AzureEnvironmentData> Environments { get; set; }
 
         [DataMember]
-        public IEnumerable<AzureSubscriptionData> Subscriptions { get; set; } 
+        public IEnumerable<AzureSubscriptionData> Subscriptions { get; set; }
     }
 
     /// <summary>
@@ -68,6 +68,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
             AdTenantUrl = inMemoryEnvironment.ActiveDirectoryEndpoint;
             CommonTenantId = inMemoryEnvironment.ActiveDirectoryCommonTenantId;
             GalleryEndpoint = inMemoryEnvironment.GalleryEndpoint;
+            ActiveDirectoryServiceEndpointResourceId = inMemoryEnvironment.ActiveDirectoryServiceEndpointResourceId;
         }
 
         /// <summary>
@@ -85,7 +86,8 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
                 StorageEndpointSuffix = this.StorageEndpointSuffix,
                 ActiveDirectoryEndpoint = this.AdTenantUrl,
                 ActiveDirectoryCommonTenantId = this.CommonTenantId,
-                GalleryEndpoint = this.GalleryEndpoint
+                GalleryEndpoint = this.GalleryEndpoint,
+                ActiveDirectoryServiceEndpointResourceId = this.ActiveDirectoryServiceEndpointResourceId
             };
         }
 
@@ -115,6 +117,9 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
 
         [DataMember]
         public string GalleryEndpoint { get; set; }
+
+        [DataMember]
+        public string ActiveDirectoryServiceEndpointResourceId { get; set; }
     }
 
     /// <summary>
@@ -129,7 +134,6 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
         /// </summary>
         public AzureSubscriptionData()
         {
-            
         }
 
         /// <summary>
@@ -145,6 +149,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
             ActiveDirectoryEndpoint = inMemorySubscription.ActiveDirectoryEndpoint;
             ActiveDirectoryTenantId = inMemorySubscription.ActiveDirectoryTenantId;
             ActiveDirectoryUserId = inMemorySubscription.ActiveDirectoryUserId;
+            ActiveDirectoryServiceEndpointResourceId = inMemorySubscription.ActiveDirectoryServiceEndpointResourceId;
             IsDefault = inMemorySubscription.IsDefault;
             ManagementCertificate = inMemorySubscription.Certificate != null ? inMemorySubscription.Certificate.Thumbprint : null;
             CloudStorageAccount = inMemorySubscription.CurrentStorageAccountName;
@@ -167,6 +172,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
                 ActiveDirectoryEndpoint = ActiveDirectoryEndpoint,
                 ActiveDirectoryTenantId = ActiveDirectoryTenantId,
                 ActiveDirectoryUserId = ActiveDirectoryUserId,
+                ActiveDirectoryServiceEndpointResourceId = ActiveDirectoryServiceEndpointResourceId,
                 IsDefault = this.IsDefault,
                 Certificate = !string.IsNullOrEmpty(ManagementCertificate) ? WindowsAzureCertificate.FromThumbprint(ManagementCertificate) : null,
                 CurrentStorageAccountName = CloudStorageAccount,
@@ -218,5 +224,8 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
 
         [DataMember]
         public string GalleryEndpoint { get; set; }
+
+        [DataMember]
+        public string ActiveDirectoryServiceEndpointResourceId { get; set; }
     }
 }

@@ -50,6 +50,10 @@ namespace Microsoft.WindowsAzure.Commands.Profile
         [Parameter(Position = 7, Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "The public gallery endpoint")]
         public string GalleryEndpoint { get; set; }
 
+        [Parameter(Position = 8, Mandatory = false, ValueFromPipelineByPropertyName = true, 
+            HelpMessage = "Identifier of the target resource that is the recipient of the requested token.")]
+        public string ActiveDirectoryServiceEndpointResourceId { get; set; }
+
         [PermissionSet(SecurityAction.Demand, Name = "FullTrust")]
         public override void ExecuteCmdlet()
         {
@@ -62,6 +66,7 @@ namespace Microsoft.WindowsAzure.Commands.Profile
                 env.ManagementPortalUrl = Value(ManagementPortalUrl, env.ManagementPortalUrl);
                 env.StorageEndpointSuffix = Value(StorageEndpoint, env.StorageEndpointSuffix);
                 env.ActiveDirectoryEndpoint = Value(ActiveDirectoryEndpoint, env.ActiveDirectoryEndpoint);
+                env.ActiveDirectoryServiceEndpointResourceId = Value(ActiveDirectoryServiceEndpointResourceId, env.ActiveDirectoryServiceEndpointResourceId);
                 env.GalleryEndpoint = Value(GalleryEndpoint, env.GalleryEndpoint);
 
                 WindowsAzureProfile.Instance.UpdateEnvironment(env);
