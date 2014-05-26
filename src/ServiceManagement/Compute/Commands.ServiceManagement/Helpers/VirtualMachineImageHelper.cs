@@ -14,11 +14,11 @@
 
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Helpers
 {
-    using Management.Compute;
-    using Model;
     using System;
     using System.Linq;
     using System.Net;
+    using Management.Compute;
+    using Model;
 
     public class VirtualMachineImageHelper
     {

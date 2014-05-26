@@ -26,7 +26,8 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.WAPackIaaS.FunctionalTest
         public const string cmdletName = "Get-WAPackVMTemplate";
 
         [TestMethod]
-        [TestCategory("WAPackIaaS")]
+        [TestCategory("WAPackIaaS-All")]
+        [TestCategory("WAPackIaaS-Functional")]
         public void GetWAPackVMTemplateWithNoParam()
         {
             var allTemplates = this.InvokeCmdlet(cmdletName, null);
@@ -34,7 +35,8 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.WAPackIaaS.FunctionalTest
         }
 
         [TestMethod]
-        [TestCategory("WAPackIaaS")]
+        [TestCategory("WAPackIaaS-All")]
+        [TestCategory("WAPackIaaS-Functional")]
         public void GetWAPackVMTemplatesFromName()
         {
             string expectedTemplateName = WAPackConfigurationFactory.Win7_64TemplateName;
@@ -51,7 +53,8 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.WAPackIaaS.FunctionalTest
         }
 
         [TestMethod]
-        [TestCategory("WAPackIaaS")]
+        [TestCategory("WAPackIaaS-All")]
+        [TestCategory("WAPackIaaS-Functional")]
         public void GetWAPackVMTemplatesFromIdAndName()
         {
             string expectedTemplateName = WAPackConfigurationFactory.Win7_64TemplateName;
@@ -75,7 +78,8 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.WAPackIaaS.FunctionalTest
         }
 
         [TestMethod]
-        [TestCategory("WAPackIaaS")]
+        [TestCategory("WAPackIaaS-All")]
+        [TestCategory("WAPackIaaS-Functional")]
         public void GetWAPackVMTemplates()
         {
             string expectedTemplateName = WAPackConfigurationFactory.Win7_64TemplateName;
@@ -92,8 +96,9 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.WAPackIaaS.FunctionalTest
         }
 
         [TestMethod]
-        [TestCategory("Negative")]
-        [TestCategory("WAPackIaaS")]
+        [TestCategory("WAPackIaaS-Negative")]
+        [TestCategory("WAPackIaaS-All")]
+        [TestCategory("WAPackIaaS-Functional")]
         public void GetWAPackVMTemplateByNameDoesNotExist()
         {
             string expectedTemplateName = "WAPackVMTemplateDoesNotExist";
@@ -107,8 +112,9 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.WAPackIaaS.FunctionalTest
         }
 
         [TestMethod]
-        [TestCategory("Negative")]
-        [TestCategory("WAPackIaaS")]
+        [TestCategory("WAPackIaaS-Negative")]
+        [TestCategory("WAPackIaaS-All")]
+        [TestCategory("WAPackIaaS-Functional")]
         public void GetWAPackVMTemplateByIdDoesNotExist()
         {
             var expectedVmId = Guid.NewGuid().ToString();

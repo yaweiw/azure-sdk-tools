@@ -11,9 +11,6 @@
 
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Extensions
 {
-    using Helpers;
-    using Management.Compute.Models;
-    using Properties;
     using System;
     using System.IO;
     using System.Linq;
@@ -24,6 +21,11 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Extensions
     using System.Xml;
     using System.Xml.Linq;
     using System.Xml.Serialization;
+    using Helpers;
+    using Management.Compute;
+    using Management.Compute.Models;
+    using Management.Models;
+    using Properties;
     using Utilities.CloudService;
     using Utilities.Common;
 
@@ -190,6 +192,32 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Extensions
             }
         }
 
+        private void SetConfigAttribute(XDocument config, string element, string attribute, Object value)
+        {
+            if (config == null || value == null)
+            {
+                return;
+            }
+
+            config.Descendants().ForEach(e =>
+            {
+                if (e.Name.LocalName == element)
+                {
+                    if (!e.HasAttributes)
+                    {
+                        return;
+                    }
+                    e.Attributes().ForEach(a =>
+                    {
+                        if (a.Name.LocalName == attribute)
+                        {
+                            a.SetValue(value.ToString());
+                        }
+                    });
+                }
+            });
+        }
+
         protected void SetPublicConfigValue(string element, Object value)
         {
             SetConfigValue(PublicConfigurationXml, element, value);
@@ -198,6 +226,16 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Extensions
         protected void SetPrivateConfigValue(string element, Object value)
         {
             SetConfigValue(PrivateConfigurationXml, element, value);
+        }
+
+        protected void SetPublicConfigAttribute(string element, string attribute, Object value)
+        {
+            SetConfigAttribute(PublicConfigurationXml, element, attribute, value);
+        }
+
+        protected void SetPrivateConfigAttribute(string element, string attribute, Object value)
+        {
+            SetConfigAttribute(PrivateConfigurationXml, element, attribute, value);
         }
 
         protected void ChangeDeployment(ExtensionConfiguration extConfig)

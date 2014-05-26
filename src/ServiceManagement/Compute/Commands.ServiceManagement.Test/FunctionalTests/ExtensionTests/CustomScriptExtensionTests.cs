@@ -14,7 +14,6 @@
 
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests.ExtensionTests
 {
-    using Helpers;
     using Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions;
     using Microsoft.WindowsAzure.Commands.ServiceManagement.Model;
     using Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests.ConfigDataInfo;
@@ -22,9 +21,12 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
     using Microsoft.WindowsAzure.Storage.Blob;
     using System;
     using System.Collections.Generic;
+    using System.IO;
     using System.Linq;
     using System.Reflection;
+    using System.Text;
     using VisualStudio.TestTools.UnitTesting;
+    using Helpers;
 
     [TestClass]
     public class CustomScriptExtesnionTests: ServiceManagementTest
@@ -33,12 +35,14 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
         string vmName;
         string containerName = "scripts";
         private string referenceName;
-        private string CONST_CUSOTM_SCRIPT_EXTENSION_NAME = "CustomScriptExtension";
+        private const string ConstCustomScriptExtensionPublisher = "Microsoft.Compute";
+        private const string ConstCustomScriptExtensionName = "CustomScriptExtension";
         private VirtualMachineExtensionImageContext customScriptExtension;
         private string[] fileURI;
         private string runFileName = "test2.ps2";
         private string[] fileNames = {"test1.ps1","test2.ps1"};
-        private string endpointSuffix;
+        private string endpointSuffix = "";
+        private VirtualMachineCustomScriptExtensionContext inputParameters;
 
         [TestInitialize]
         public void TestIntialization()
@@ -52,7 +56,6 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
             fileURI = GetSharedAccessSignatures(fileNames);
             runFileName = fileNames[new Random(0).Next(fileNames.Length - 1)];
             Utilities.PrintFooter("Test Initialize");
-            endpointSuffix = string.Empty;
         }
 
         /// <summary>
@@ -168,8 +171,9 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
         private void GetCustomScriptExtensionVersion()
         {
             Utilities.PrintHeader("Listing the available VM extensions");
-            var extensionsInfo = vmPowershellCmdlets.GetAzureVMAvailableExtension();
-            customScriptExtension = extensionsInfo.First(c => c.ExtensionName.Equals(CONST_CUSOTM_SCRIPT_EXTENSION_NAME));
+            var extensionsInfo = vmPowershellCmdlets.GetAzureVMAvailableExtension(ConstCustomScriptExtensionName, ConstCustomScriptExtensionPublisher, true);
+            customScriptExtension = extensionsInfo.OrderBy(c => c.Version).LastOrDefault();
+            Console.WriteLine("Using CustomScript Extension Version: {0}", customScriptExtension.Version);
             Utilities.PrintFooter("Listing the available VM extensions");
         }
 

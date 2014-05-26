@@ -10,10 +10,10 @@
         ],
         "User-Agent": [
           "Microsoft.WindowsAzure.Management.TrafficManager.TrafficManagerManagementClient/0.9.0.0",
-          "WindowsAzurePowershell/v0.8.1"
+          "WindowsAzurePowershell/v0.8.2"
         ]
       },
-      "ResponseBody": "<Profiles xmlns=\"http://schemas.microsoft.com/windowsazure\" xmlns:i=\"http://www.w3.org/2001/XMLSchema-instance\">\r\n  <Profile>\r\n    <DomainName>scenarioTestProfile.trafficmanager.net</DomainName>\r\n    <Name>scenarioTestProfile</Name>\r\n    <Status>Enabled</Status>\r\n    <StatusDetails>\r\n      <EnabledVersion>1</EnabledVersion>\r\n    </StatusDetails>\r\n    <Definitions>\r\n      <Definition>\r\n        <Status>Enabled</Status>\r\n        <Version>1</Version>\r\n      </Definition>\r\n    </Definitions>\r\n  </Profile>\r\n</Profiles>",
+      "ResponseBody": "<Profiles xmlns=\"http://schemas.microsoft.com/windowsazure\" xmlns:i=\"http://www.w3.org/2001/XMLSchema-instance\">\r\n  <Profile>\r\n    <DomainName>1a58bf3c-94b9-4c43-8231-ab6ed22a7842profile.trafficmanager.net</DomainName>\r\n    <Name>1a58bf3c-94b9-4c43-8231-ab6ed22a7842profile</Name>\r\n    <Status>Enabled</Status>\r\n    <StatusDetails>\r\n      <EnabledVersion>1</EnabledVersion>\r\n    </StatusDetails>\r\n    <Definitions>\r\n      <Definition>\r\n        <Status>Enabled</Status>\r\n        <Version>1</Version>\r\n      </Definition>\r\n    </Definitions>\r\n  </Profile>\r\n  <Profile>\r\n    <DomainName>jnowaktest2.trafficmanager.net</DomainName>\r\n    <Name>jnowaktest2</Name>\r\n    <Status>Enabled</Status>\r\n    <StatusDetails>\r\n      <EnabledVersion>1</EnabledVersion>\r\n    </StatusDetails>\r\n    <Definitions>\r\n      <Definition>\r\n        <Status>Enabled</Status>\r\n        <Version>1</Version>\r\n      </Definition>\r\n    </Definitions>\r\n  </Profile>\r\n  <Profile>\r\n    <DomainName>scenarioTestProfile.trafficmanager.net</DomainName>\r\n    <Name>scenarioTestProfile</Name>\r\n    <Status>Enabled</Status>\r\n    <StatusDetails>\r\n      <EnabledVersion>1</EnabledVersion>\r\n    </StatusDetails>\r\n    <Definitions>\r\n      <Definition>\r\n        <Status>Enabled</Status>\r\n        <Version>1</Version>\r\n      </Definition>\r\n    </Definitions>\r\n  </Profile>\r\n</Profiles>",
       "ResponseHeaders": {
         "x-ms-servedbyregion": [
           "ussouth2"
@@ -22,17 +22,17 @@
           "nosniff"
         ],
         "x-ms-request-id": [
-          "4e6e196716ac9b6484dfc9715ae2c0db"
+          "9742b795ee3fa077926fdcdf88ab5de0"
         ],
         "Cache-Control": [
           "no-cache"
         ],
         "Date": [
-          "Wed, 07 May 2014 12:30:41 GMT"
+          "Fri, 23 May 2014 10:16:09 GMT"
         ],
         "Server": [
-          "1.0.6198.70",
-          "(rd_rdfe_stable.140426-2318)",
+          "1.0.6198.76",
+          "(rd_rdfe_stable.140522-0024)",
           "Microsoft-HTTPAPI/2.0"
         ],
         "X-AspNet-Version": [
@@ -54,7 +54,7 @@
         ],
         "User-Agent": [
           "Microsoft.WindowsAzure.Management.TrafficManager.TrafficManagerManagementClient/0.9.0.0",
-          "WindowsAzurePowershell/v0.8.1"
+          "WindowsAzurePowershell/v0.8.2"
         ]
       },
       "ResponseBody": "",
@@ -69,17 +69,17 @@
           "nosniff"
         ],
         "x-ms-request-id": [
-          "13dcb017d0e69789b065159db1f459ad"
+          "a0b1932ef87fa6f1846bf1ba1791a82a"
         ],
         "Cache-Control": [
           "no-cache"
         ],
         "Date": [
-          "Wed, 07 May 2014 12:30:43 GMT"
+          "Fri, 23 May 2014 10:16:12 GMT"
         ],
         "Server": [
-          "1.0.6198.70",
-          "(rd_rdfe_stable.140426-2318)",
+          "1.0.6198.76",
+          "(rd_rdfe_stable.140522-0024)",
           "Microsoft-HTTPAPI/2.0"
         ],
         "X-AspNet-Version": [
@@ -101,7 +101,7 @@
         ],
         "User-Agent": [
           "Microsoft.WindowsAzure.Management.TrafficManager.TrafficManagerManagementClient/0.9.0.0",
-          "WindowsAzurePowershell/v0.8.1"
+          "WindowsAzurePowershell/v0.8.2"
         ]
       },
       "ResponseBody": "<Error xmlns=\"http://schemas.microsoft.com/windowsazure\" xmlns:i=\"http://www.w3.org/2001/XMLSchema-instance\">\r\n  <Code>BadRequest</Code>\r\n  <Message>A policy with the requested domain name could not be created because the name INVALID does not end with the expected value .trafficmanager.net.</Message>\r\n</Error>",
@@ -110,22 +110,23 @@
           "ussouth2"
         ],
         "x-ms-request-id": [
-          "e2348233fa2891d19eaaa1c602253b2c"
+          "ca87b0178c3caaf78294390bf119d853"
         ],
         "Cache-Control": [
           "no-cache"
         ],
         "Date": [
-          "Wed, 07 May 2014 12:30:46 GMT"
+          "Fri, 23 May 2014 10:16:12 GMT"
         ],
         "Server": [
-          "1.0.6198.70",
-          "(rd_rdfe_stable.140426-2318)",
+          "1.0.6198.76",
+          "(rd_rdfe_stable.140522-0024)",
           "Microsoft-HTTPAPI/2.0"
         ]
       },
       "StatusCode": 400
     }
   ],
-  "Names": {}
+  "Names": {},
+  "Variables": {}
 }

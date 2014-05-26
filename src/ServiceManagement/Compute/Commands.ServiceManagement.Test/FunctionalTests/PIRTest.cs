@@ -15,15 +15,15 @@
 
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
 {
-    using ConfigDataInfo;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
-    using Model;
-    using PlatformImageRepository.Model;
     using System;
-    using System.Collections.ObjectModel;
     using System.IO;
+    using System.Collections.ObjectModel;
     using System.Reflection;
     using System.Threading;
+    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using Model;
+    using ConfigDataInfo;
+    using PlatformImageRepository.Model;
 
 
     [TestClass]

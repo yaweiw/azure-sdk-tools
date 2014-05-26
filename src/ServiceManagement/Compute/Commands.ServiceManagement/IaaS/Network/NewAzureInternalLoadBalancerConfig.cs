@@ -14,9 +14,9 @@
 
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
 {
-    using Model;
     using System.Management.Automation;
     using System.Net;
+    using Model;
     using Utilities.Common;
 
     [Cmdlet(

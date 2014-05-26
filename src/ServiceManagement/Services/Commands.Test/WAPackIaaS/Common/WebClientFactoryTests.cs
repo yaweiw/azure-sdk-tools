@@ -23,8 +23,9 @@ namespace Microsoft.WindowsAzure.Commands.Test.WAPackIaaS
     public class WebClientFactoryTests
     {
         [TestMethod]
-        [TestCategory("Negative")]
-        [TestCategory("WAPackIaaS")]
+        [TestCategory("WAPackIaaS-Negative")]
+        [TestCategory("WAPackIaaS-All")]
+        [TestCategory("WAPackIaaS-Unit")]
         [ExpectedException(typeof(ArgumentNullException))]
         public void ShouldThrowWithNullSubscription()
         {
@@ -33,7 +34,8 @@ namespace Microsoft.WindowsAzure.Commands.Test.WAPackIaaS
         }
 
         [TestMethod]
-        [TestCategory("WAPackIaaS")]
+        [TestCategory("WAPackIaaS-All")]
+        [TestCategory("WAPackIaaS-Unit")]
         public void ShouldCreateWAPackIaaSClient()
         {
             var factory = new WebClientFactory(new Subscription(), null);

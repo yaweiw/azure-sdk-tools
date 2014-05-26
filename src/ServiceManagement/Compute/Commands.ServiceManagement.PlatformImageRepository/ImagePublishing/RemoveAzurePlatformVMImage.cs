@@ -14,9 +14,11 @@
 
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.PlatformImageRepository.ImagePublishing
 {
-    using Commands.Utilities.Common;
     using System.Management.Automation;
-    using WindowsAzure.ServiceManagement;
+    using Helpers;
+    using ServiceManagement.Model;
+    using ServiceManagement.Properties;
+    using Utilities.Common;
 
     [Cmdlet(VerbsCommon.Remove, "AzurePlatformVMImage"), OutputType(typeof(ManagementOperationContext))]
     public class RemoveAzurePlatformVMImage : ServiceManagementBaseCmdlet
@@ -36,8 +38,39 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.PlatformImageReposit
 
         protected override void OnProcessRecord()
         {
-            this.Channel.GetOSImage(CurrentSubscription.SubscriptionId, this.ImageName);
-            ExecuteClientActionInOCS(null, CommandRuntime.ToString(), s => this.Channel.UnReplicateOSImage(s, this.ImageName));
+            ServiceManagementProfile.Initialize();
+
+            var imageType = new VirtualMachineImageHelper(this.ComputeClient).GetImageType(this.ImageName);
+            bool isOSImage = imageType.HasFlag(VirtualMachineImageType.OSImage);
+            bool isVMImage = imageType.HasFlag(VirtualMachineImageType.VMImage);
+
+            if (isOSImage && isVMImage)
+            {
+                WriteErrorWithTimestamp(
+                    string.Format(Resources.DuplicateNamesFoundInBothVMAndOSImages, this.ImageName));
+            }
+            else if (isOSImage || !isVMImage)
+            {
+                ExecuteClientActionNewSM(
+                    null,
+                    CommandRuntime.ToString(),
+                    () =>
+                    {
+                        this.ComputeClient.VirtualMachineOSImages.Get(this.ImageName);
+                        return this.ComputeClient.VirtualMachineOSImages.Unreplicate(this.ImageName);
+                    });
+            }
+            else
+            {
+                ExecuteClientActionNewSM(
+                    null,
+                    CommandRuntime.ToString(),
+                    () =>
+                    {
+                        this.ComputeClient.VirtualMachineVMImages.GetDetails(this.ImageName);
+                        return this.ComputeClient.VirtualMachineVMImages.Unreplicate(this.ImageName);
+                    });
+            }
         }
     }
 }
