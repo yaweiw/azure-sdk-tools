@@ -1,4 +1,3 @@
-using Microsoft.WindowsAzure.Commands.ServiceManagement.Model;
 // ----------------------------------------------------------------------------------
 //
 // Copyright Microsoft Corporation
@@ -15,6 +14,7 @@ using Microsoft.WindowsAzure.Commands.ServiceManagement.Model;
 
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests.IaasCmdletInfo
 {
+    using Model;
     using PowershellCore;
 
     public class GetAzureEndpointCmdletInfo : CmdletsInfo

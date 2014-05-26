@@ -14,14 +14,14 @@
 
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
 {
+    using VisualStudio.TestTools.UnitTesting;
     using Extensions;
+    using WindowsAzure.ServiceManagement;
     using System;
     using System.IO;
     using System.Management.Automation;
-    using System.Reflection;
     using System.Security.Cryptography.X509Certificates;
-    using VisualStudio.TestTools.UnitTesting;
-    using WindowsAzure.ServiceManagement;
+    using System.Reflection;
 
     [TestClass]
     public class AzureServiceADDomainJoinExtensionTests:ServiceManagementTest

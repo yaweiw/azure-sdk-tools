@@ -14,8 +14,9 @@
 
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Certificates
 {
-    using Management.Compute.Models;
     using System.Management.Automation;
+    using Management.Compute;
+    using Management.Compute.Models;
     using Utilities.Common;
 
     /// <summary>

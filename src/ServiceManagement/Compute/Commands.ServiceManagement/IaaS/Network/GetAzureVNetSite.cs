@@ -14,15 +14,16 @@
 
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
 {
-    using Management.Network.Models;
-    using Model;
-    using Properties;
     using System;
     using System.Collections.Generic;
     using System.Globalization;
     using System.Linq;
     using System.Management.Automation;
     using System.Net;
+    using Management.Network;
+    using Management.Network.Models;
+    using Model;
+    using Properties;
     using Utilities.Common;
 
     [Cmdlet(VerbsCommon.Get, "AzureVNetSite"), OutputType(typeof(IEnumerable<VirtualNetworkSiteContext>))]

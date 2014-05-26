@@ -12,29 +12,11 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Management.SqlDatabase.Services.Server
-{
-    /// <summary>
-    /// The <see cref="DatabaseCopy"/> extensions
-    /// </summary>
-    public partial class DatabaseCopy
-    {
-        /// <summary>
-        /// Gets or sets the context from which this object was constructed.
-        /// </summary>
-        public IServerDataServiceContext Context;
 
-        internal void LoadExtraProperties(IServerDataServiceContext context)
-        {
-            try
-            {
-                // Fill in the context property
-                this.Context = context;
-            }
-            catch
-            {
-                // Ignore exceptions when loading extra properties, for backward compatibility.
-            }
-        }
+namespace Microsoft.WindowsAzure.Commands.ServiceManagement.PlatformImageRepository.Model
+{
+    public class VMImageDetailsContext : OSImageDetailsContext
+    {
+        public string SharingStatus { get; set; }
     }
 }

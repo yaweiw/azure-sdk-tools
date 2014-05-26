@@ -513,9 +513,6 @@
   <data name="EndProcessingLog" xml:space="preserve">
     <value>{0} end processing.</value>
   </data>
-  <data name="EnvironmentDoesNotSupportActiveDirectory" xml:space="preserve">
-    <value>The environment {0} does not currently support Active Directory authentication.</value>
-  </data>
   <data name="EnvironmentExists" xml:space="preserve">
     <value>The environment '{0}' already exists.</value>
   </data>
@@ -789,9 +786,6 @@ Please follow these steps in the portal:
   <data name="ManifestBlobUriKey" xml:space="preserve">
     <value>uri</value>
   </data>
-  <data name="ManifestUri" xml:space="preserve">
-    <value>http://az413943.vo.msecnd.net/node/runtimemanifest_0.7.3.xml</value>
-  </data>
   <data name="MarketplaceEndpoint" xml:space="preserve">
     <value>http://api.datamarket.azure.com/CatalogService.svc</value>
   </data>
@@ -1015,9 +1009,6 @@ Please follow these steps in the portal:
   </data>
   <data name="PublishCreatedServiceMessage" xml:space="preserve">
     <value>Created hosted service '{0}'.</value>
-  </data>
-  <data name="PublishCreatedWebsiteLaunchNotSupportedMessage" xml:space="preserve">
-    <value>Created Website. Please use the Azure Portal at http://windows.azure.com to find the deployment URL.</value>
   </data>
   <data name="PublishCreatedWebsiteMessage" xml:space="preserve">
     <value>Created Website URL: {0}.</value>
@@ -1373,9 +1364,6 @@ Please follow these steps in the portal:
   <data name="ServiceStatusChanged" xml:space="preserve">
     <value>{0} slot for service {1} is {2}</value>
   </data>
-  <data name="ServiceUrl" xml:space="preserve">
-    <value>http://{0}.cloudapp.net</value>
-  </data>
   <data name="SetAddOnConformation" xml:space="preserve">
     <value>Set Add-On Confirmation</value>
   </data>
@@ -1497,7 +1485,7 @@ use and privacy statement at &lt;url&gt; and (c) agree to sharing my contact inf
     <value>Swapping website production slot ...</value>
   </data>
   <data name="SwapWebsiteSlotWarning" xml:space="preserve">
-    <value>Are you sure you want to swap the website '{0}' production slot with slot '{1}'?</value>
+    <value>Are you sure you want to swap the website '{0}' slot '{1}' with slot '{2}'?</value>
   </data>
   <data name="UnableToCreateDjangoApp" xml:space="preserve">
     <value>Unable to create Django application: {0}</value>
@@ -1660,5 +1648,14 @@ use and privacy statement at &lt;url&gt; and (c) agree to sharing my contact inf
   <data name="ScheduleNotFoundByName" xml:space="preserve">
     <value>The schedule was not found. Schedule name: {0}.</value>
     <comment>Automation</comment>
+  </data>
+  <data name="SwapWebsiteSlotInvalidSlotWarning" xml:space="preserve">
+    <value>The website does not contain a slot named: {0}</value>
+  </data>
+  <data name="SwapWebsiteSlotRequire2SlotsWarning" xml:space="preserve">
+    <value>The website must have at least two slots to apply swap</value>
+  </data>
+  <data name="SwapWebsiteSlotSpecifySlotsWarning" xml:space="preserve">
+    <value>The website has more than 2 slots you must specify which ones to swap</value>
   </data>
 </root>

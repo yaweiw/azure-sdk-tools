@@ -11,9 +11,10 @@
 
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Extensions
 {
+    using System.Management.Automation;
     using ADDomain;
     using Management.Compute.Models;
-    using System.Management.Automation;
+    using Management.Models;
     using Utilities.Websites.Services;
 
     public abstract class BaseAzureServiceADDomainExtensionCmdlet : BaseAzureServiceExtensionCmdlet

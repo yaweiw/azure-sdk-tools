@@ -15,8 +15,8 @@
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests.IaasCmdletInfo
 {
     using ConfigDataInfo;
-    using PowershellCore;
     using System;
+    using PowershellCore;
 
     public class AddAzureVMImageCmdletInfo : CmdletsInfo
     {

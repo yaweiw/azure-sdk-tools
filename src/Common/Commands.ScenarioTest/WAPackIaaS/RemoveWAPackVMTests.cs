@@ -37,7 +37,8 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.WAPackIaaS.FunctionalTest
 
 
         [TestMethod]
-        [TestCategory("WAPackIaaS")]
+        [TestCategory("WAPackIaaS-All")]
+        [TestCategory("WAPackIaaS-Functional")]
         public void RemoveExistingVM()
         {
             var expectedVMIdToDelete = this.VirtualMachine.Properties["Id"].Value.ToString();
@@ -65,7 +66,8 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.WAPackIaaS.FunctionalTest
         }
 
         [TestMethod]
-        [TestCategory("WAPackIaaS")]
+        [TestCategory("WAPackIaaS-All")]
+        [TestCategory("WAPackIaaS-Functional")]
         public void RemoveExistingVMWithPipelining()
         {
             var expectedVMIdToDelete = this.VirtualMachine.Properties["Id"].Value.ToString();
@@ -90,8 +92,9 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.WAPackIaaS.FunctionalTest
 
 
         [TestMethod]
-        [TestCategory("WAPackIaaS")]
-        [TestCategory("Negative")]
+        [TestCategory("WAPackIaaS-All")]
+        [TestCategory("WAPackIaaS-Negative")]
+        [TestCategory("WAPackIaaS-Functional")]
         public void RemoveVMDoesNotExist()
         {
             var vm = this.VirtualMachine;

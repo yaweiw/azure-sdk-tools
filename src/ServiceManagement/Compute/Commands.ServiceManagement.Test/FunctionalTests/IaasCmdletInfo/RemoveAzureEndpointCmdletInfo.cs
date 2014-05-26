@@ -11,11 +11,10 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 // ----------------------------------------------------------------------------------
-using Microsoft.WindowsAzure.Commands.ServiceManagement.Model;
-
 
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests.IaasCmdletInfo
 {
+    using Model;
     using PowershellCore;
 
     public class RemoveAzureEndpointCmdletInfo : CmdletsInfo
