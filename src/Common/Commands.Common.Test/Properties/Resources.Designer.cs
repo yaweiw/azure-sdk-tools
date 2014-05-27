@@ -125,7 +125,7 @@ namespace Microsoft.WindowsAzure.Commands.Common.Test.Properties
         ///  &lt;runtimes&gt;
         ///    &lt;runtime type=&quot;iisnode&quot; version=&quot;0.1.20&quot; filepath=&quot;/iisnode/bar.exe&quot; /&gt;
         ///    &lt;runtime type=&quot;iisnode&quot; version=&quot;0.1.21&quot; filepath=&quot;/iisnode/default.exe&quot; default=&quot;true&quot; /&gt;
-        ///    &lt;runtime type=&quot;node&quot; version=&quot;0.8.3&quot; filepath=&quot;/node/foo.exe&quot; /&gt;
+        ///    &lt;runtime type=&quot;node&quot; version=&quot;0.8.2&quot; filepath=&quot;/node/foo.exe&quot; /&gt;
         ///    &lt;runtime type=&quot;node&quot; version=&quot;0.6.20&quot; filepath=&quot;/node/default.exe&quot; default=&quot;true&quot; /&gt;
         ///    &lt;runtime type=&quot;php&quot; version=&quot;5.3&quot; filepath=&quot;/php/5.3.exe&quot; default=&quot;true&quot; /&gt;
         ///    &lt;runt [rest of string was truncated]&quot;;.
