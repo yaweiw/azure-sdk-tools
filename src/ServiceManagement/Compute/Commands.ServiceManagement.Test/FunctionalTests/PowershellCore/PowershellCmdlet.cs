@@ -14,6 +14,7 @@
 
 using System.Linq;
 using System.Threading;
+using System.Text;
 
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests.PowershellCore
 {

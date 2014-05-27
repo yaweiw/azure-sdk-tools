@@ -13,6 +13,8 @@
 // ----------------------------------------------------------------------------------
 namespace Microsoft.WindowsAzure.Management.HDInsight.Cmdlet.Commands.BaseCommandInterfaces
 {
+    using ClusterProvisioning.Data;
+
     internal interface INewAzureHDInsightClusterConfigBase
     {
         /// <summary>
@@ -27,5 +29,13 @@ namespace Microsoft.WindowsAzure.Management.HDInsight.Cmdlet.Commands.BaseComman
         /// The size of the head node VM.
         /// </value>
         NodeVMSize HeadNodeVMSize { get; set; }
+
+        /// <summary>
+        /// Gets or sets the type of the head.
+        /// </summary>
+        /// <value>
+        /// The type of cluster.
+        /// </value>
+        ClusterType ClusterType { get; set; }        
     }
 }

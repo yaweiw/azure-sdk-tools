@@ -15,13 +15,13 @@
 
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Model
 {
-    using Management.Compute.Models;
     using System;
     using System.Collections.Generic;
     using System.IO;
     using System.Linq;
     using System.Xml;
     using System.Xml.Linq;
+    using Management.Compute.Models;
     using PVM = PersistentVMModel;
 
     public class DeploymentInfoContext : ServiceOperationContext

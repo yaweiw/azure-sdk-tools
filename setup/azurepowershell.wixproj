@@ -6,25 +6,21 @@
     <ProductVersion>3.5</ProductVersion>
     <ProjectGuid>{36d6e303-e057-4963-a093-c7aae0fd92b3}</ProjectGuid>
     <SchemaVersion>2.0</SchemaVersion>
-    <OutputName>windowsazure-powershell</OutputName>
+    <OutputName>AzurePowerShell</OutputName>
     <OutputType>Package</OutputType>
     <WixTargetsPath Condition=" '$(WixTargetsPath)' == '' AND '$(MSBuildExtensionsPath32)' != '' ">$(MSBuildExtensionsPath32)\Microsoft\WiX\v3.x\Wix.targets</WixTargetsPath>
     <WixTargetsPath Condition=" '$(WixTargetsPath)' == '' ">$(MSBuildExtensionsPath)\Microsoft\WiX\v3.x\Wix.targets</WixTargetsPath>
-    <Name>azurepowershell</Name>
+    <Name>AzurePowershell</Name>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <OutputPath>build\$(Configuration)\x86\</OutputPath>
+    <OutputPath>build\$(Configuration)\</OutputPath>
     <IntermediateOutputPath>obj\$(Configuration)\</IntermediateOutputPath>
     <DefineConstants>Debug</DefineConstants>
-    <SuppressSpecificWarnings>
-    </SuppressSpecificWarnings>
     <SuppressIces>ICE30;ICE91;ICE64;ICE61;ICE69</SuppressIces>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <OutputPath>build\$(Configuration)\x86\</OutputPath>
+    <OutputPath>build\$(Configuration)\</OutputPath>
     <IntermediateOutputPath>obj\$(Configuration)\</IntermediateOutputPath>
-    <SuppressSpecificWarnings>
-    </SuppressSpecificWarnings>
     <SuppressIces>ICE30;ICE91;ICE64;ICE61;ICE69</SuppressIces>
   </PropertyGroup>
   <ItemGroup>
