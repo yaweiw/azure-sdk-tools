@@ -62,7 +62,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Commands.ServiceManagement.
 		{6478FA8B-3801-4863-8591-87F0855D5C82} = {6478FA8B-3801-4863-8591-87F0855D5C82}
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Commands.ExpressRoute", "ServiceManagement\Services\Commands.ExpressRoute\Commands.ExpressRoute.csproj", "{45C2D687-E0CE-4C97-B731-335834DC2BF2}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Commands.ExpressRoute", "ServiceManagement\ExpressRoute\Commands.ExpressRoute\Commands.ExpressRoute.csproj", "{45C2D687-E0CE-4C97-B731-335834DC2BF2}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Commands.Common", "Common\Commands.Common\Commands.Common.csproj", "{5EE72C53-1720-4309-B54B-5FB79703195F}"
 EndProject

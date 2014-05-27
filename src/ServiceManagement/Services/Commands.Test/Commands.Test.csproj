@@ -441,7 +441,7 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Commands.ExpressRoute\Commands.ExpressRoute.csproj">
+    <ProjectReference Include="..\..\ExpressRoute\Commands.ExpressRoute\Commands.ExpressRoute.csproj">
       <Project>{45c2d687-e0ce-4c97-b731-335834dc2bf2}</Project>
       <Name>Commands.ExpressRoute</Name>
     </ProjectReference>
