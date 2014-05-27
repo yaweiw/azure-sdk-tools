@@ -176,8 +176,8 @@
       ContinueOnError="false" />
   </Target>
 
-  <!-- Note: all testing related target should go to 'Powershell.test.targets' file except the one used by CI run -->
-  <Import Project="$(MSBuildThisFileDirectory)Powershell.test.targets"/>
+  <!-- Note: all testing related target should go to 'AzurePowershell.test.targets' file except the one used by CI run -->
+  <Import Project="$(MSBuildThisFileDirectory)AzurePowershell.test.targets"/>
   
   <!-- Run checkin tests for each pull request -->
   <Target Name="Test" DependsOnTargets="BuildDebug;BeforeRunTests">
