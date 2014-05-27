@@ -30,8 +30,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Commands.ScenarioTest", "Co
 		{DDF5D225-C9C5-42B7-BDB5-2C3646E479AA} = {DDF5D225-C9C5-42B7-BDB5-2C3646E479AA}
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleAppUtils", "ServiceManagement\Compute\ConsoleAppUtils\ConsoleAppUtils.csproj", "{ED57ECAF-AD30-4C7A-99A6-8757A83B19F0}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Commands.ServiceManagement", "ServiceManagement\Compute\Commands.ServiceManagement\Commands.ServiceManagement.csproj", "{E1CA72BA-8374-45F6-904D-FD34ECDF5B6F}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Commands.ServiceManagement.Test", "ServiceManagement\Compute\Commands.ServiceManagement.Test\Commands.ServiceManagement.Test.csproj", "{58A78F29-8C0C-4A5E-893E-3953C0F29C8A}"
@@ -119,10 +117,6 @@ Global
 		{A3965B66-5A3E-4B8C-9574-28E5958D4828}.Debug|AnyCPU.Build.0 = Debug|Any CPU
 		{A3965B66-5A3E-4B8C-9574-28E5958D4828}.Release|AnyCPU.ActiveCfg = Release|Any CPU
 		{A3965B66-5A3E-4B8C-9574-28E5958D4828}.Release|AnyCPU.Build.0 = Release|Any CPU
-		{ED57ECAF-AD30-4C7A-99A6-8757A83B19F0}.Debug|AnyCPU.ActiveCfg = Debug|Any CPU
-		{ED57ECAF-AD30-4C7A-99A6-8757A83B19F0}.Debug|AnyCPU.Build.0 = Debug|Any CPU
-		{ED57ECAF-AD30-4C7A-99A6-8757A83B19F0}.Release|AnyCPU.ActiveCfg = Release|Any CPU
-		{ED57ECAF-AD30-4C7A-99A6-8757A83B19F0}.Release|AnyCPU.Build.0 = Release|Any CPU
 		{E1CA72BA-8374-45F6-904D-FD34ECDF5B6F}.Debug|AnyCPU.ActiveCfg = Debug|Any CPU
 		{E1CA72BA-8374-45F6-904D-FD34ECDF5B6F}.Debug|AnyCPU.Build.0 = Debug|Any CPU
 		{E1CA72BA-8374-45F6-904D-FD34ECDF5B6F}.Release|AnyCPU.ActiveCfg = Release|Any CPU

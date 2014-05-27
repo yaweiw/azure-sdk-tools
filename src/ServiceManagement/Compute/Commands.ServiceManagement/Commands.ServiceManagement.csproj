@@ -481,10 +481,6 @@
       <Project>{5ee72c53-1720-4309-b54b-5fb79703195f}</Project>
       <Name>Commands.Common</Name>
     </ProjectReference>
-    <ProjectReference Include="..\ConsoleAppUtils\ConsoleAppUtils.csproj">
-      <Project>{ED57ECAF-AD30-4C7A-99A6-8757A83B19F0}</Project>
-      <Name>ConsoleAppUtils</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\Services\Commands.Utilities\Commands.Utilities.csproj">
       <Project>{4900ec4e-8deb-4412-9108-0bc52f81d457}</Project>
       <Name>Commands.Utilities</Name>
