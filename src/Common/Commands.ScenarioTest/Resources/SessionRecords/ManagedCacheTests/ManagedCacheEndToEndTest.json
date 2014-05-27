@@ -9,8 +9,8 @@
           "2012-08-01"
         ],
         "User-Agent": [
-          "Microsoft.Azure.Management.ManagedCache.ManagedCacheClient/0.8.2.0",
-          "WindowsAzurePowershell/v0.8.2"
+          "Microsoft.Azure.Management.ManagedCache.ManagedCacheClient/0.8.3.0",
+          "WindowsAzurePowershell/v0.8.3"
         ]
       },
       "ResponseBody": "<CloudService xmlns=\"http://schemas.microsoft.com/windowsazure\" xmlns:i=\"http://www.w3.org/2001/XMLSchema-instance\">\r\n  <Name>CachingP2VBRNX3ZH3GXC5MWKW5VS3K5J4T7XSMRHBCI2OMUCUGDVAVQXXA-West-US</Name>\r\n  <Label>CachingP2VBRNX3ZH3GXC5MWKW5VS3K5J4T7XSMRHBCI2OMUCUGDVAVQXXA-West-US</Label>\r\n  <Description>CachingP2VBRNX3ZH3GXC5MWKW5VS3K5J4T7XSMRHBCI2OMUCUGDVAVQXXA-West-US</Description>\r\n  <GeoRegion>West US</GeoRegion>\r\n  <Resources />\r\n</CloudService>",
@@ -47,8 +47,8 @@
           "2012-08-01"
         ],
         "User-Agent": [
-          "Microsoft.Azure.Management.ManagedCache.ManagedCacheClient/0.8.2.0",
-          "WindowsAzurePowershell/v0.8.2"
+          "Microsoft.Azure.Management.ManagedCache.ManagedCacheClient/0.8.3.0",
+          "WindowsAzurePowershell/v0.8.3"
         ]
       },
       "ResponseBody": "<CloudService xmlns=\"http://schemas.microsoft.com/windowsazure\" xmlns:i=\"http://www.w3.org/2001/XMLSchema-instance\">\r\n  <Name>CachingP2VBRNX3ZH3GXC5MWKW5VS3K5J4T7XSMRHBCI2OMUCUGDVAVQXXA-West-US</Name>\r\n  <Label>CachingP2VBRNX3ZH3GXC5MWKW5VS3K5J4T7XSMRHBCI2OMUCUGDVAVQXXA-West-US</Label>\r\n  <Description>CachingP2VBRNX3ZH3GXC5MWKW5VS3K5J4T7XSMRHBCI2OMUCUGDVAVQXXA-West-US</Description>\r\n  <GeoRegion>West US</GeoRegion>\r\n  <Resources>\r\n    <Resource>\r\n      <ResourceProviderNamespace>cacheservice</ResourceProviderNamespace>\r\n      <Type>Caching</Type>\r\n      <Name>onesdk6561</Name>\r\n      <SchemaVersion>1.0</SchemaVersion>\r\n      <ETag>e860dfe8-d389-4dfc-8f87-1b7489a34c44</ETag>\r\n      <State>Started</State>\r\n      <SubState>Creating</SubState>\r\n      <UsageMeters />\r\n      <IntrinsicSettings>\r\n        <CacheServiceInput xmlns=\"\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\">\r\n          <SkuType>Basic</SkuType>\r\n          <Location>West US</Location>\r\n          <SkuCount>1</SkuCount>\r\n          <ServiceVersion>1.2.0</ServiceVersion>\r\n          <ObjectSizeInBytes>1024</ObjectSizeInBytes>\r\n          <NamedCaches>\r\n            <NamedCache>\r\n              <CacheName>default</CacheName>\r\n              <NotificationsEnabled>false</NotificationsEnabled>\r\n              <HighAvailabilityEnabled>false</HighAvailabilityEnabled>\r\n              <EvictionPolicy>LeastRecentlyUsed</EvictionPolicy>\r\n              <ExpirationSettings>\r\n                <TimeToLiveInMinutes>10</TimeToLiveInMinutes>\r\n                <Type>Absolute</Type>\r\n              </ExpirationSettings>\r\n            </NamedCache>\r\n          </NamedCaches>\r\n        </CacheServiceInput>\r\n      </IntrinsicSettings>\r\n      <OutputItems>\r\n        <OutputItem>\r\n          <Key>CreationDate</Key>\r\n          <Value>5/22/2014 12:05:04 AM +00:00</Value>\r\n        </OutputItem>\r\n      </OutputItems>\r\n      <OperationStatus>\r\n        <Type>Create</Type>\r\n        <Result>Succeeded</Result>\r\n      </OperationStatus>\r\n      <Label />\r\n    </Resource>\r\n  </Resources>\r\n</CloudService>",
@@ -85,8 +85,8 @@
           "2012-08-01"
         ],
         "User-Agent": [
-          "Microsoft.Azure.Management.ManagedCache.ManagedCacheClient/0.8.2.0",
-          "WindowsAzurePowershell/v0.8.2"
+          "Microsoft.Azure.Management.ManagedCache.ManagedCacheClient/0.8.3.0",
+          "WindowsAzurePowershell/v0.8.3"
         ]
       },
       "ResponseBody": "<CloudService xmlns=\"http://schemas.microsoft.com/windowsazure\" xmlns:i=\"http://www.w3.org/2001/XMLSchema-instance\">\r\n  <Name>CachingP2VBRNX3ZH3GXC5MWKW5VS3K5J4T7XSMRHBCI2OMUCUGDVAVQXXA-West-US</Name>\r\n  <Label>CachingP2VBRNX3ZH3GXC5MWKW5VS3K5J4T7XSMRHBCI2OMUCUGDVAVQXXA-West-US</Label>\r\n  <Description>CachingP2VBRNX3ZH3GXC5MWKW5VS3K5J4T7XSMRHBCI2OMUCUGDVAVQXXA-West-US</Description>\r\n  <GeoRegion>West US</GeoRegion>\r\n  <Resources>\r\n    <Resource>\r\n      <ResourceProviderNamespace>cacheservice</ResourceProviderNamespace>\r\n      <Type>Caching</Type>\r\n      <Name>onesdk6561</Name>\r\n      <SchemaVersion>1.0</SchemaVersion>\r\n      <ETag>e860dfe8-d389-4dfc-8f87-1b7489a34c44</ETag>\r\n      <State>Started</State>\r\n      <SubState>Creating</SubState>\r\n      <UsageMeters />\r\n      <IntrinsicSettings>\r\n        <CacheServiceInput xmlns=\"\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\">\r\n          <SkuType>Basic</SkuType>\r\n          <Location>West US</Location>\r\n          <SkuCount>1</SkuCount>\r\n          <ServiceVersion>1.2.0</ServiceVersion>\r\n          <ObjectSizeInBytes>1024</ObjectSizeInBytes>\r\n          <NamedCaches>\r\n            <NamedCache>\r\n              <CacheName>default</CacheName>\r\n              <NotificationsEnabled>false</NotificationsEnabled>\r\n              <HighAvailabilityEnabled>false</HighAvailabilityEnabled>\r\n              <EvictionPolicy>LeastRecentlyUsed</EvictionPolicy>\r\n              <ExpirationSettings>\r\n                <TimeToLiveInMinutes>10</TimeToLiveInMinutes>\r\n                <Type>Absolute</Type>\r\n              </ExpirationSettings>\r\n            </NamedCache>\r\n          </NamedCaches>\r\n        </CacheServiceInput>\r\n      </IntrinsicSettings>\r\n      <OutputItems>\r\n        <OutputItem>\r\n          <Key>CreationDate</Key>\r\n          <Value>5/22/2014 12:05:04 AM +00:00</Value>\r\n        </OutputItem>\r\n      </OutputItems>\r\n      <OperationStatus>\r\n        <Type>Create</Type>\r\n        <Result>Succeeded</Result>\r\n      </OperationStatus>\r\n      <Label />\r\n    </Resource>\r\n  </Resources>\r\n</CloudService>",
@@ -123,8 +123,8 @@
           "2012-08-01"
         ],
         "User-Agent": [
-          "Microsoft.Azure.Management.ManagedCache.ManagedCacheClient/0.8.2.0",
-          "WindowsAzurePowershell/v0.8.2"
+          "Microsoft.Azure.Management.ManagedCache.ManagedCacheClient/0.8.3.0",
+          "WindowsAzurePowershell/v0.8.3"
         ]
       },
       "ResponseBody": "<CloudService xmlns=\"http://schemas.microsoft.com/windowsazure\" xmlns:i=\"http://www.w3.org/2001/XMLSchema-instance\">\r\n  <Name>CachingP2VBRNX3ZH3GXC5MWKW5VS3K5J4T7XSMRHBCI2OMUCUGDVAVQXXA-West-US</Name>\r\n  <Label>CachingP2VBRNX3ZH3GXC5MWKW5VS3K5J4T7XSMRHBCI2OMUCUGDVAVQXXA-West-US</Label>\r\n  <Description>CachingP2VBRNX3ZH3GXC5MWKW5VS3K5J4T7XSMRHBCI2OMUCUGDVAVQXXA-West-US</Description>\r\n  <GeoRegion>West US</GeoRegion>\r\n  <Resources>\r\n    <Resource>\r\n      <ResourceProviderNamespace>cacheservice</ResourceProviderNamespace>\r\n      <Type>Caching</Type>\r\n      <Name>onesdk6561</Name>\r\n      <SchemaVersion>1.0</SchemaVersion>\r\n      <ETag>e860dfe8-d389-4dfc-8f87-1b7489a34c44</ETag>\r\n      <State>Started</State>\r\n      <SubState>Creating</SubState>\r\n      <UsageMeters />\r\n      <IntrinsicSettings>\r\n        <CacheServiceInput xmlns=\"\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\">\r\n          <SkuType>Basic</SkuType>\r\n          <Location>West US</Location>\r\n          <SkuCount>1</SkuCount>\r\n          <ServiceVersion>1.2.0</ServiceVersion>\r\n          <ObjectSizeInBytes>1024</ObjectSizeInBytes>\r\n          <NamedCaches>\r\n            <NamedCache>\r\n              <CacheName>default</CacheName>\r\n              <NotificationsEnabled>false</NotificationsEnabled>\r\n              <HighAvailabilityEnabled>false</HighAvailabilityEnabled>\r\n              <EvictionPolicy>LeastRecentlyUsed</EvictionPolicy>\r\n              <ExpirationSettings>\r\n                <TimeToLiveInMinutes>10</TimeToLiveInMinutes>\r\n                <Type>Absolute</Type>\r\n              </ExpirationSettings>\r\n            </NamedCache>\r\n          </NamedCaches>\r\n        </CacheServiceInput>\r\n      </IntrinsicSettings>\r\n      <OutputItems>\r\n        <OutputItem>\r\n          <Key>CreationDate</Key>\r\n          <Value>5/22/2014 12:05:04 AM +00:00</Value>\r\n        </OutputItem>\r\n      </OutputItems>\r\n      <OperationStatus>\r\n        <Type>Create</Type>\r\n        <Result>Succeeded</Result>\r\n      </OperationStatus>\r\n      <Label />\r\n    </Resource>\r\n  </Resources>\r\n</CloudService>",
@@ -161,8 +161,8 @@
           "2012-08-01"
         ],
         "User-Agent": [
-          "Microsoft.Azure.Management.ManagedCache.ManagedCacheClient/0.8.2.0",
-          "WindowsAzurePowershell/v0.8.2"
+          "Microsoft.Azure.Management.ManagedCache.ManagedCacheClient/0.8.3.0",
+          "WindowsAzurePowershell/v0.8.3"
         ]
       },
       "ResponseBody": "<CloudService xmlns=\"http://schemas.microsoft.com/windowsazure\" xmlns:i=\"http://www.w3.org/2001/XMLSchema-instance\">\r\n  <Name>CachingP2VBRNX3ZH3GXC5MWKW5VS3K5J4T7XSMRHBCI2OMUCUGDVAVQXXA-West-US</Name>\r\n  <Label>CachingP2VBRNX3ZH3GXC5MWKW5VS3K5J4T7XSMRHBCI2OMUCUGDVAVQXXA-West-US</Label>\r\n  <Description>CachingP2VBRNX3ZH3GXC5MWKW5VS3K5J4T7XSMRHBCI2OMUCUGDVAVQXXA-West-US</Description>\r\n  <GeoRegion>West US</GeoRegion>\r\n  <Resources>\r\n    <Resource>\r\n      <ResourceProviderNamespace>cacheservice</ResourceProviderNamespace>\r\n      <Type>Caching</Type>\r\n      <Name>onesdk6561</Name>\r\n      <SchemaVersion>1.0</SchemaVersion>\r\n      <ETag>e860dfe8-d389-4dfc-8f87-1b7489a34c44</ETag>\r\n      <State>Started</State>\r\n      <SubState>Creating</SubState>\r\n      <UsageMeters />\r\n      <IntrinsicSettings>\r\n        <CacheServiceInput xmlns=\"\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\">\r\n          <SkuType>Basic</SkuType>\r\n          <Location>West US</Location>\r\n          <SkuCount>1</SkuCount>\r\n          <ServiceVersion>1.2.0</ServiceVersion>\r\n          <ObjectSizeInBytes>1024</ObjectSizeInBytes>\r\n          <NamedCaches>\r\n            <NamedCache>\r\n              <CacheName>default</CacheName>\r\n              <NotificationsEnabled>false</NotificationsEnabled>\r\n              <HighAvailabilityEnabled>false</HighAvailabilityEnabled>\r\n              <EvictionPolicy>LeastRecentlyUsed</EvictionPolicy>\r\n              <ExpirationSettings>\r\n                <TimeToLiveInMinutes>10</TimeToLiveInMinutes>\r\n                <Type>Absolute</Type>\r\n              </ExpirationSettings>\r\n            </NamedCache>\r\n          </NamedCaches>\r\n        </CacheServiceInput>\r\n      </IntrinsicSettings>\r\n      <OutputItems>\r\n        <OutputItem>\r\n          <Key>CreationDate</Key>\r\n          <Value>5/22/2014 12:05:04 AM +00:00</Value>\r\n        </OutputItem>\r\n      </OutputItems>\r\n      <OperationStatus>\r\n        <Type>Create</Type>\r\n        <Result>Succeeded</Result>\r\n      </OperationStatus>\r\n      <Label />\r\n    </Resource>\r\n  </Resources>\r\n</CloudService>",
@@ -199,8 +199,8 @@
           "2012-08-01"
         ],
         "User-Agent": [
-          "Microsoft.Azure.Management.ManagedCache.ManagedCacheClient/0.8.2.0",
-          "WindowsAzurePowershell/v0.8.2"
+          "Microsoft.Azure.Management.ManagedCache.ManagedCacheClient/0.8.3.0",
+          "WindowsAzurePowershell/v0.8.3"
         ]
       },
       "ResponseBody": "<CloudService xmlns=\"http://schemas.microsoft.com/windowsazure\" xmlns:i=\"http://www.w3.org/2001/XMLSchema-instance\">\r\n  <Name>CachingP2VBRNX3ZH3GXC5MWKW5VS3K5J4T7XSMRHBCI2OMUCUGDVAVQXXA-West-US</Name>\r\n  <Label>CachingP2VBRNX3ZH3GXC5MWKW5VS3K5J4T7XSMRHBCI2OMUCUGDVAVQXXA-West-US</Label>\r\n  <Description>CachingP2VBRNX3ZH3GXC5MWKW5VS3K5J4T7XSMRHBCI2OMUCUGDVAVQXXA-West-US</Description>\r\n  <GeoRegion>West US</GeoRegion>\r\n  <Resources>\r\n    <Resource>\r\n      <ResourceProviderNamespace>cacheservice</ResourceProviderNamespace>\r\n      <Type>Caching</Type>\r\n      <Name>onesdk6561</Name>\r\n      <SchemaVersion>1.0</SchemaVersion>\r\n      <ETag>e860dfe8-d389-4dfc-8f87-1b7489a34c44</ETag>\r\n      <State>Started</State>\r\n      <SubState>Creating</SubState>\r\n      <UsageMeters />\r\n      <IntrinsicSettings>\r\n        <CacheServiceInput xmlns=\"\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\">\r\n          <SkuType>Basic</SkuType>\r\n          <Location>West US</Location>\r\n          <SkuCount>1</SkuCount>\r\n          <ServiceVersion>1.2.0</ServiceVersion>\r\n          <ObjectSizeInBytes>1024</ObjectSizeInBytes>\r\n          <NamedCaches>\r\n            <NamedCache>\r\n              <CacheName>default</CacheName>\r\n              <NotificationsEnabled>false</NotificationsEnabled>\r\n              <HighAvailabilityEnabled>false</HighAvailabilityEnabled>\r\n              <EvictionPolicy>LeastRecentlyUsed</EvictionPolicy>\r\n              <ExpirationSettings>\r\n                <TimeToLiveInMinutes>10</TimeToLiveInMinutes>\r\n                <Type>Absolute</Type>\r\n              </ExpirationSettings>\r\n            </NamedCache>\r\n          </NamedCaches>\r\n        </CacheServiceInput>\r\n      </IntrinsicSettings>\r\n      <OutputItems>\r\n        <OutputItem>\r\n          <Key>CreationDate</Key>\r\n          <Value>5/22/2014 12:05:04 AM +00:00</Value>\r\n        </OutputItem>\r\n      </OutputItems>\r\n      <OperationStatus>\r\n        <Type>Create</Type>\r\n        <Result>Succeeded</Result>\r\n      </OperationStatus>\r\n      <Label />\r\n    </Resource>\r\n  </Resources>\r\n</CloudService>",
@@ -237,8 +237,8 @@
           "2012-08-01"
         ],
         "User-Agent": [
-          "Microsoft.Azure.Management.ManagedCache.ManagedCacheClient/0.8.2.0",
-          "WindowsAzurePowershell/v0.8.2"
+          "Microsoft.Azure.Management.ManagedCache.ManagedCacheClient/0.8.3.0",
+          "WindowsAzurePowershell/v0.8.3"
         ]
       },
       "ResponseBody": "<CloudService xmlns=\"http://schemas.microsoft.com/windowsazure\" xmlns:i=\"http://www.w3.org/2001/XMLSchema-instance\">\r\n  <Name>CachingP2VBRNX3ZH3GXC5MWKW5VS3K5J4T7XSMRHBCI2OMUCUGDVAVQXXA-West-US</Name>\r\n  <Label>CachingP2VBRNX3ZH3GXC5MWKW5VS3K5J4T7XSMRHBCI2OMUCUGDVAVQXXA-West-US</Label>\r\n  <Description>CachingP2VBRNX3ZH3GXC5MWKW5VS3K5J4T7XSMRHBCI2OMUCUGDVAVQXXA-West-US</Description>\r\n  <GeoRegion>West US</GeoRegion>\r\n  <Resources>\r\n    <Resource>\r\n      <ResourceProviderNamespace>cacheservice</ResourceProviderNamespace>\r\n      <Type>Caching</Type>\r\n      <Name>onesdk6561</Name>\r\n      <SchemaVersion>1.0</SchemaVersion>\r\n      <ETag>e860dfe8-d389-4dfc-8f87-1b7489a34c44</ETag>\r\n      <State>Started</State>\r\n      <SubState>Creating</SubState>\r\n      <UsageMeters />\r\n      <IntrinsicSettings>\r\n        <CacheServiceInput xmlns=\"\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\">\r\n          <SkuType>Basic</SkuType>\r\n          <Location>West US</Location>\r\n          <SkuCount>1</SkuCount>\r\n          <ServiceVersion>1.2.0</ServiceVersion>\r\n          <ObjectSizeInBytes>1024</ObjectSizeInBytes>\r\n          <NamedCaches>\r\n            <NamedCache>\r\n              <CacheName>default</CacheName>\r\n              <NotificationsEnabled>false</NotificationsEnabled>\r\n              <HighAvailabilityEnabled>false</HighAvailabilityEnabled>\r\n              <EvictionPolicy>LeastRecentlyUsed</EvictionPolicy>\r\n              <ExpirationSettings>\r\n                <TimeToLiveInMinutes>10</TimeToLiveInMinutes>\r\n                <Type>Absolute</Type>\r\n              </ExpirationSettings>\r\n            </NamedCache>\r\n          </NamedCaches>\r\n        </CacheServiceInput>\r\n      </IntrinsicSettings>\r\n      <OutputItems>\r\n        <OutputItem>\r\n          <Key>CreationDate</Key>\r\n          <Value>5/22/2014 12:05:04 AM +00:00</Value>\r\n        </OutputItem>\r\n      </OutputItems>\r\n      <OperationStatus>\r\n        <Type>Create</Type>\r\n        <Result>Succeeded</Result>\r\n      </OperationStatus>\r\n      <Label />\r\n    </Resource>\r\n  </Resources>\r\n</CloudService>",
@@ -275,8 +275,8 @@
           "2012-08-01"
         ],
         "User-Agent": [
-          "Microsoft.Azure.Management.ManagedCache.ManagedCacheClient/0.8.2.0",
-          "WindowsAzurePowershell/v0.8.2"
+          "Microsoft.Azure.Management.ManagedCache.ManagedCacheClient/0.8.3.0",
+          "WindowsAzurePowershell/v0.8.3"
         ]
       },
       "ResponseBody": "<CloudService xmlns=\"http://schemas.microsoft.com/windowsazure\" xmlns:i=\"http://www.w3.org/2001/XMLSchema-instance\">\r\n  <Name>CachingP2VBRNX3ZH3GXC5MWKW5VS3K5J4T7XSMRHBCI2OMUCUGDVAVQXXA-West-US</Name>\r\n  <Label>CachingP2VBRNX3ZH3GXC5MWKW5VS3K5J4T7XSMRHBCI2OMUCUGDVAVQXXA-West-US</Label>\r\n  <Description>CachingP2VBRNX3ZH3GXC5MWKW5VS3K5J4T7XSMRHBCI2OMUCUGDVAVQXXA-West-US</Description>\r\n  <GeoRegion>West US</GeoRegion>\r\n  <Resources>\r\n    <Resource>\r\n      <ResourceProviderNamespace>cacheservice</ResourceProviderNamespace>\r\n      <Type>Caching</Type>\r\n      <Name>onesdk6561</Name>\r\n      <SchemaVersion>1.0</SchemaVersion>\r\n      <ETag>e860dfe8-d389-4dfc-8f87-1b7489a34c44</ETag>\r\n      <State>Started</State>\r\n      <SubState>Creating</SubState>\r\n      <UsageMeters />\r\n      <IntrinsicSettings>\r\n        <CacheServiceInput xmlns=\"\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\">\r\n          <SkuType>Basic</SkuType>\r\n          <Location>West US</Location>\r\n          <SkuCount>1</SkuCount>\r\n          <ServiceVersion>1.2.0</ServiceVersion>\r\n          <ObjectSizeInBytes>1024</ObjectSizeInBytes>\r\n          <NamedCaches>\r\n            <NamedCache>\r\n              <CacheName>default</CacheName>\r\n              <NotificationsEnabled>false</NotificationsEnabled>\r\n              <HighAvailabilityEnabled>false</HighAvailabilityEnabled>\r\n              <EvictionPolicy>LeastRecentlyUsed</EvictionPolicy>\r\n              <ExpirationSettings>\r\n                <TimeToLiveInMinutes>10</TimeToLiveInMinutes>\r\n                <Type>Absolute</Type>\r\n              </ExpirationSettings>\r\n            </NamedCache>\r\n          </NamedCaches>\r\n        </CacheServiceInput>\r\n      </IntrinsicSettings>\r\n      <OutputItems>\r\n        <OutputItem>\r\n          <Key>CreationDate</Key>\r\n          <Value>5/22/2014 12:05:04 AM +00:00</Value>\r\n        </OutputItem>\r\n      </OutputItems>\r\n      <OperationStatus>\r\n        <Type>Create</Type>\r\n        <Result>Succeeded</Result>\r\n      </OperationStatus>\r\n      <Label />\r\n    </Resource>\r\n  </Resources>\r\n</CloudService>",
@@ -313,8 +313,8 @@
           "2012-08-01"
         ],
         "User-Agent": [
-          "Microsoft.Azure.Management.ManagedCache.ManagedCacheClient/0.8.2.0",
-          "WindowsAzurePowershell/v0.8.2"
+          "Microsoft.Azure.Management.ManagedCache.ManagedCacheClient/0.8.3.0",
+          "WindowsAzurePowershell/v0.8.3"
         ]
       },
       "ResponseBody": "<CloudService xmlns=\"http://schemas.microsoft.com/windowsazure\" xmlns:i=\"http://www.w3.org/2001/XMLSchema-instance\">\r\n  <Name>CachingP2VBRNX3ZH3GXC5MWKW5VS3K5J4T7XSMRHBCI2OMUCUGDVAVQXXA-West-US</Name>\r\n  <Label>CachingP2VBRNX3ZH3GXC5MWKW5VS3K5J4T7XSMRHBCI2OMUCUGDVAVQXXA-West-US</Label>\r\n  <Description>CachingP2VBRNX3ZH3GXC5MWKW5VS3K5J4T7XSMRHBCI2OMUCUGDVAVQXXA-West-US</Description>\r\n  <GeoRegion>West US</GeoRegion>\r\n  <Resources>\r\n    <Resource>\r\n      <ResourceProviderNamespace>cacheservice</ResourceProviderNamespace>\r\n      <Type>Caching</Type>\r\n      <Name>onesdk6561</Name>\r\n      <SchemaVersion>1.0</SchemaVersion>\r\n      <ETag>e860dfe8-d389-4dfc-8f87-1b7489a34c44</ETag>\r\n      <State>Started</State>\r\n      <SubState>Creating</SubState>\r\n      <UsageMeters />\r\n      <IntrinsicSettings>\r\n        <CacheServiceInput xmlns=\"\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\">\r\n          <SkuType>Basic</SkuType>\r\n          <Location>West US</Location>\r\n          <SkuCount>1</SkuCount>\r\n          <ServiceVersion>1.2.0</ServiceVersion>\r\n          <ObjectSizeInBytes>1024</ObjectSizeInBytes>\r\n          <NamedCaches>\r\n            <NamedCache>\r\n              <CacheName>default</CacheName>\r\n              <NotificationsEnabled>false</NotificationsEnabled>\r\n              <HighAvailabilityEnabled>false</HighAvailabilityEnabled>\r\n              <EvictionPolicy>LeastRecentlyUsed</EvictionPolicy>\r\n              <ExpirationSettings>\r\n                <TimeToLiveInMinutes>10</TimeToLiveInMinutes>\r\n                <Type>Absolute</Type>\r\n              </ExpirationSettings>\r\n            </NamedCache>\r\n          </NamedCaches>\r\n        </CacheServiceInput>\r\n      </IntrinsicSettings>\r\n      <OutputItems>\r\n        <OutputItem>\r\n          <Key>CreationDate</Key>\r\n          <Value>5/22/2014 12:05:04 AM +00:00</Value>\r\n        </OutputItem>\r\n      </OutputItems>\r\n      <OperationStatus>\r\n        <Type>Create</Type>\r\n        <Result>Succeeded</Result>\r\n      </OperationStatus>\r\n      <Label />\r\n    </Resource>\r\n  </Resources>\r\n</CloudService>",
@@ -351,8 +351,8 @@
           "2012-08-01"
         ],
         "User-Agent": [
-          "Microsoft.Azure.Management.ManagedCache.ManagedCacheClient/0.8.2.0",
-          "WindowsAzurePowershell/v0.8.2"
+          "Microsoft.Azure.Management.ManagedCache.ManagedCacheClient/0.8.3.0",
+          "WindowsAzurePowershell/v0.8.3"
         ]
       },
       "ResponseBody": "<CloudService xmlns=\"http://schemas.microsoft.com/windowsazure\" xmlns:i=\"http://www.w3.org/2001/XMLSchema-instance\">\r\n  <Name>CachingP2VBRNX3ZH3GXC5MWKW5VS3K5J4T7XSMRHBCI2OMUCUGDVAVQXXA-West-US</Name>\r\n  <Label>CachingP2VBRNX3ZH3GXC5MWKW5VS3K5J4T7XSMRHBCI2OMUCUGDVAVQXXA-West-US</Label>\r\n  <Description>CachingP2VBRNX3ZH3GXC5MWKW5VS3K5J4T7XSMRHBCI2OMUCUGDVAVQXXA-West-US</Description>\r\n  <GeoRegion>West US</GeoRegion>\r\n  <Resources>\r\n    <Resource>\r\n      <ResourceProviderNamespace>cacheservice</ResourceProviderNamespace>\r\n      <Type>Caching</Type>\r\n      <Name>onesdk6561</Name>\r\n      <SchemaVersion>1.0</SchemaVersion>\r\n      <ETag>e860dfe8-d389-4dfc-8f87-1b7489a34c44</ETag>\r\n      <State>Started</State>\r\n      <SubState>Creating</SubState>\r\n      <UsageMeters />\r\n      <IntrinsicSettings>\r\n        <CacheServiceInput xmlns=\"\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\">\r\n          <SkuType>Basic</SkuType>\r\n          <Location>West US</Location>\r\n          <SkuCount>1</SkuCount>\r\n          <ServiceVersion>1.2.0</ServiceVersion>\r\n          <ObjectSizeInBytes>1024</ObjectSizeInBytes>\r\n          <NamedCaches>\r\n            <NamedCache>\r\n              <CacheName>default</CacheName>\r\n              <NotificationsEnabled>false</NotificationsEnabled>\r\n              <HighAvailabilityEnabled>false</HighAvailabilityEnabled>\r\n              <EvictionPolicy>LeastRecentlyUsed</EvictionPolicy>\r\n              <ExpirationSettings>\r\n                <TimeToLiveInMinutes>10</TimeToLiveInMinutes>\r\n                <Type>Absolute</Type>\r\n              </ExpirationSettings>\r\n            </NamedCache>\r\n          </NamedCaches>\r\n        </CacheServiceInput>\r\n      </IntrinsicSettings>\r\n      <OutputItems>\r\n        <OutputItem>\r\n          <Key>CreationDate</Key>\r\n          <Value>5/22/2014 12:05:04 AM +00:00</Value>\r\n        </OutputItem>\r\n      </OutputItems>\r\n      <OperationStatus>\r\n        <Type>Create</Type>\r\n        <Result>Succeeded</Result>\r\n      </OperationStatus>\r\n      <Label />\r\n    </Resource>\r\n  </Resources>\r\n</CloudService>",
@@ -389,8 +389,8 @@
           "2012-08-01"
         ],
         "User-Agent": [
-          "Microsoft.Azure.Management.ManagedCache.ManagedCacheClient/0.8.2.0",
-          "WindowsAzurePowershell/v0.8.2"
+          "Microsoft.Azure.Management.ManagedCache.ManagedCacheClient/0.8.3.0",
+          "WindowsAzurePowershell/v0.8.3"
         ]
       },
       "ResponseBody": "<CloudService xmlns=\"http://schemas.microsoft.com/windowsazure\" xmlns:i=\"http://www.w3.org/2001/XMLSchema-instance\">\r\n  <Name>CachingP2VBRNX3ZH3GXC5MWKW5VS3K5J4T7XSMRHBCI2OMUCUGDVAVQXXA-West-US</Name>\r\n  <Label>CachingP2VBRNX3ZH3GXC5MWKW5VS3K5J4T7XSMRHBCI2OMUCUGDVAVQXXA-West-US</Label>\r\n  <Description>CachingP2VBRNX3ZH3GXC5MWKW5VS3K5J4T7XSMRHBCI2OMUCUGDVAVQXXA-West-US</Description>\r\n  <GeoRegion>West US</GeoRegion>\r\n  <Resources>\r\n    <Resource>\r\n      <ResourceProviderNamespace>cacheservice</ResourceProviderNamespace>\r\n      <Type>Caching</Type>\r\n      <Name>onesdk6561</Name>\r\n      <SchemaVersion>1.0</SchemaVersion>\r\n      <ETag>e860dfe8-d389-4dfc-8f87-1b7489a34c44</ETag>\r\n      <State>Started</State>\r\n      <SubState>Creating</SubState>\r\n      <UsageMeters />\r\n      <IntrinsicSettings>\r\n        <CacheServiceInput xmlns=\"\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\">\r\n          <SkuType>Basic</SkuType>\r\n          <Location>West US</Location>\r\n          <SkuCount>1</SkuCount>\r\n          <ServiceVersion>1.2.0</ServiceVersion>\r\n          <ObjectSizeInBytes>1024</ObjectSizeInBytes>\r\n          <NamedCaches>\r\n            <NamedCache>\r\n              <CacheName>default</CacheName>\r\n              <NotificationsEnabled>false</NotificationsEnabled>\r\n              <HighAvailabilityEnabled>false</HighAvailabilityEnabled>\r\n              <EvictionPolicy>LeastRecentlyUsed</EvictionPolicy>\r\n              <ExpirationSettings>\r\n                <TimeToLiveInMinutes>10</TimeToLiveInMinutes>\r\n                <Type>Absolute</Type>\r\n              </ExpirationSettings>\r\n            </NamedCache>\r\n          </NamedCaches>\r\n        </CacheServiceInput>\r\n      </IntrinsicSettings>\r\n      <OutputItems>\r\n        <OutputItem>\r\n          <Key>CreationDate</Key>\r\n          <Value>5/22/2014 12:05:04 AM +00:00</Value>\r\n        </OutputItem>\r\n      </OutputItems>\r\n      <OperationStatus>\r\n        <Type>Create</Type>\r\n        <Result>Succeeded</Result>\r\n      </OperationStatus>\r\n      <Label />\r\n    </Resource>\r\n  </Resources>\r\n</CloudService>",
@@ -427,8 +427,8 @@
           "2012-08-01"
         ],
         "User-Agent": [
-          "Microsoft.Azure.Management.ManagedCache.ManagedCacheClient/0.8.2.0",
-          "WindowsAzurePowershell/v0.8.2"
+          "Microsoft.Azure.Management.ManagedCache.ManagedCacheClient/0.8.3.0",
+          "WindowsAzurePowershell/v0.8.3"
         ]
       },
       "ResponseBody": "<CloudService xmlns=\"http://schemas.microsoft.com/windowsazure\" xmlns:i=\"http://www.w3.org/2001/XMLSchema-instance\">\r\n  <Name>CachingP2VBRNX3ZH3GXC5MWKW5VS3K5J4T7XSMRHBCI2OMUCUGDVAVQXXA-West-US</Name>\r\n  <Label>CachingP2VBRNX3ZH3GXC5MWKW5VS3K5J4T7XSMRHBCI2OMUCUGDVAVQXXA-West-US</Label>\r\n  <Description>CachingP2VBRNX3ZH3GXC5MWKW5VS3K5J4T7XSMRHBCI2OMUCUGDVAVQXXA-West-US</Description>\r\n  <GeoRegion>West US</GeoRegion>\r\n  <Resources>\r\n    <Resource>\r\n      <ResourceProviderNamespace>cacheservice</ResourceProviderNamespace>\r\n      <Type>Caching</Type>\r\n      <Name>onesdk6561</Name>\r\n      <SchemaVersion>1.0</SchemaVersion>\r\n      <ETag>e860dfe8-d389-4dfc-8f87-1b7489a34c44</ETag>\r\n      <State>Started</State>\r\n      <SubState>Creating</SubState>\r\n      <UsageMeters />\r\n      <IntrinsicSettings>\r\n        <CacheServiceInput xmlns=\"\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\">\r\n          <SkuType>Basic</SkuType>\r\n          <Location>West US</Location>\r\n          <SkuCount>1</SkuCount>\r\n          <ServiceVersion>1.2.0</ServiceVersion>\r\n          <ObjectSizeInBytes>1024</ObjectSizeInBytes>\r\n          <NamedCaches>\r\n            <NamedCache>\r\n              <CacheName>default</CacheName>\r\n              <NotificationsEnabled>false</NotificationsEnabled>\r\n              <HighAvailabilityEnabled>false</HighAvailabilityEnabled>\r\n              <EvictionPolicy>LeastRecentlyUsed</EvictionPolicy>\r\n              <ExpirationSettings>\r\n                <TimeToLiveInMinutes>10</TimeToLiveInMinutes>\r\n                <Type>Absolute</Type>\r\n              </ExpirationSettings>\r\n            </NamedCache>\r\n          </NamedCaches>\r\n        </CacheServiceInput>\r\n      </IntrinsicSettings>\r\n      <OutputItems>\r\n        <OutputItem>\r\n          <Key>CreationDate</Key>\r\n          <Value>5/22/2014 12:05:04 AM +00:00</Value>\r\n        </OutputItem>\r\n      </OutputItems>\r\n      <OperationStatus>\r\n        <Type>Create</Type>\r\n        <Result>Succeeded</Result>\r\n      </OperationStatus>\r\n      <Label />\r\n    </Resource>\r\n  </Resources>\r\n</CloudService>",
@@ -465,8 +465,8 @@
           "2012-08-01"
         ],
         "User-Agent": [
-          "Microsoft.Azure.Management.ManagedCache.ManagedCacheClient/0.8.2.0",
-          "WindowsAzurePowershell/v0.8.2"
+          "Microsoft.Azure.Management.ManagedCache.ManagedCacheClient/0.8.3.0",
+          "WindowsAzurePowershell/v0.8.3"
         ]
       },
       "ResponseBody": "<CloudService xmlns=\"http://schemas.microsoft.com/windowsazure\" xmlns:i=\"http://www.w3.org/2001/XMLSchema-instance\">\r\n  <Name>CachingP2VBRNX3ZH3GXC5MWKW5VS3K5J4T7XSMRHBCI2OMUCUGDVAVQXXA-West-US</Name>\r\n  <Label>CachingP2VBRNX3ZH3GXC5MWKW5VS3K5J4T7XSMRHBCI2OMUCUGDVAVQXXA-West-US</Label>\r\n  <Description>CachingP2VBRNX3ZH3GXC5MWKW5VS3K5J4T7XSMRHBCI2OMUCUGDVAVQXXA-West-US</Description>\r\n  <GeoRegion>West US</GeoRegion>\r\n  <Resources>\r\n    <Resource>\r\n      <ResourceProviderNamespace>cacheservice</ResourceProviderNamespace>\r\n      <Type>Caching</Type>\r\n      <Name>onesdk6561</Name>\r\n      <SchemaVersion>1.0</SchemaVersion>\r\n      <ETag>e860dfe8-d389-4dfc-8f87-1b7489a34c44</ETag>\r\n      <State>Started</State>\r\n      <SubState>Creating</SubState>\r\n      <UsageMeters />\r\n      <IntrinsicSettings>\r\n        <CacheServiceInput xmlns=\"\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\">\r\n          <SkuType>Basic</SkuType>\r\n          <Location>West US</Location>\r\n          <SkuCount>1</SkuCount>\r\n          <ServiceVersion>1.2.0</ServiceVersion>\r\n          <ObjectSizeInBytes>1024</ObjectSizeInBytes>\r\n          <NamedCaches>\r\n            <NamedCache>\r\n              <CacheName>default</CacheName>\r\n              <NotificationsEnabled>false</NotificationsEnabled>\r\n              <HighAvailabilityEnabled>false</HighAvailabilityEnabled>\r\n              <EvictionPolicy>LeastRecentlyUsed</EvictionPolicy>\r\n              <ExpirationSettings>\r\n                <TimeToLiveInMinutes>10</TimeToLiveInMinutes>\r\n                <Type>Absolute</Type>\r\n              </ExpirationSettings>\r\n            </NamedCache>\r\n          </NamedCaches>\r\n        </CacheServiceInput>\r\n      </IntrinsicSettings>\r\n      <OutputItems>\r\n        <OutputItem>\r\n          <Key>CreationDate</Key>\r\n          <Value>5/22/2014 12:05:04 AM +00:00</Value>\r\n        </OutputItem>\r\n      </OutputItems>\r\n      <OperationStatus>\r\n        <Type>Create</Type>\r\n        <Result>Succeeded</Result>\r\n      </OperationStatus>\r\n      <Label />\r\n    </Resource>\r\n  </Resources>\r\n</CloudService>",
@@ -503,8 +503,8 @@
           "2012-08-01"
         ],
         "User-Agent": [
-          "Microsoft.Azure.Management.ManagedCache.ManagedCacheClient/0.8.2.0",
-          "WindowsAzurePowershell/v0.8.2"
+          "Microsoft.Azure.Management.ManagedCache.ManagedCacheClient/0.8.3.0",
+          "WindowsAzurePowershell/v0.8.3"
         ]
       },
       "ResponseBody": "<CloudService xmlns=\"http://schemas.microsoft.com/windowsazure\" xmlns:i=\"http://www.w3.org/2001/XMLSchema-instance\">\r\n  <Name>CachingP2VBRNX3ZH3GXC5MWKW5VS3K5J4T7XSMRHBCI2OMUCUGDVAVQXXA-West-US</Name>\r\n  <Label>CachingP2VBRNX3ZH3GXC5MWKW5VS3K5J4T7XSMRHBCI2OMUCUGDVAVQXXA-West-US</Label>\r\n  <Description>CachingP2VBRNX3ZH3GXC5MWKW5VS3K5J4T7XSMRHBCI2OMUCUGDVAVQXXA-West-US</Description>\r\n  <GeoRegion>West US</GeoRegion>\r\n  <Resources>\r\n    <Resource>\r\n      <ResourceProviderNamespace>cacheservice</ResourceProviderNamespace>\r\n      <Type>Caching</Type>\r\n      <Name>onesdk6561</Name>\r\n      <SchemaVersion>1.0</SchemaVersion>\r\n      <ETag>e860dfe8-d389-4dfc-8f87-1b7489a34c44</ETag>\r\n      <State>Started</State>\r\n      <SubState>Active</SubState>\r\n      <UsageMeters />\r\n      <IntrinsicSettings>\r\n        <CacheServiceInput xmlns=\"\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\">\r\n          <SkuType>Basic</SkuType>\r\n          <Location>West US</Location>\r\n          <SkuCount>1</SkuCount>\r\n          <ServiceVersion>1.2.0</ServiceVersion>\r\n          <ObjectSizeInBytes>1024</ObjectSizeInBytes>\r\n          <NamedCaches>\r\n            <NamedCache>\r\n              <CacheName>default</CacheName>\r\n              <NotificationsEnabled>false</NotificationsEnabled>\r\n              <HighAvailabilityEnabled>false</HighAvailabilityEnabled>\r\n              <EvictionPolicy>LeastRecentlyUsed</EvictionPolicy>\r\n              <ExpirationSettings>\r\n                <TimeToLiveInMinutes>10</TimeToLiveInMinutes>\r\n                <Type>Absolute</Type>\r\n              </ExpirationSettings>\r\n            </NamedCache>\r\n          </NamedCaches>\r\n        </CacheServiceInput>\r\n      </IntrinsicSettings>\r\n      <OutputItems>\r\n        <OutputItem>\r\n          <Key>CreationDate</Key>\r\n          <Value>5/22/2014 12:05:04 AM +00:00</Value>\r\n        </OutputItem>\r\n      </OutputItems>\r\n      <OperationStatus>\r\n        <Type>Create</Type>\r\n        <Result>Succeeded</Result>\r\n      </OperationStatus>\r\n      <Label />\r\n    </Resource>\r\n  </Resources>\r\n</CloudService>",
@@ -541,8 +541,8 @@
           "2012-08-01"
         ],
         "User-Agent": [
-          "Microsoft.Azure.Management.ManagedCache.ManagedCacheClient/0.8.2.0",
-          "WindowsAzurePowershell/v0.8.2"
+          "Microsoft.Azure.Management.ManagedCache.ManagedCacheClient/0.8.3.0",
+          "WindowsAzurePowershell/v0.8.3"
         ]
       },
       "ResponseBody": "<CloudService xmlns=\"http://schemas.microsoft.com/windowsazure\" xmlns:i=\"http://www.w3.org/2001/XMLSchema-instance\">\r\n  <Name>CachingP2VBRNX3ZH3GXC5MWKW5VS3K5J4T7XSMRHBCI2OMUCUGDVAVQXXA-West-US</Name>\r\n  <Label>CachingP2VBRNX3ZH3GXC5MWKW5VS3K5J4T7XSMRHBCI2OMUCUGDVAVQXXA-West-US</Label>\r\n  <Description>CachingP2VBRNX3ZH3GXC5MWKW5VS3K5J4T7XSMRHBCI2OMUCUGDVAVQXXA-West-US</Description>\r\n  <GeoRegion>West US</GeoRegion>\r\n  <Resources>\r\n    <Resource>\r\n      <ResourceProviderNamespace>cacheservice</ResourceProviderNamespace>\r\n      <Type>Caching</Type>\r\n      <Name>onesdk6561</Name>\r\n      <SchemaVersion>1.0</SchemaVersion>\r\n      <ETag>24cb0d74-577d-442f-8831-1d3795c8cc4c</ETag>\r\n      <State>Started</State>\r\n      <SubState>Updating</SubState>\r\n      <UsageMeters />\r\n      <IntrinsicSettings>\r\n        <CacheServiceInput xmlns=\"\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\">\r\n          <SkuType>Basic</SkuType>\r\n          <Location>West US</Location>\r\n          <SkuCount>1</SkuCount>\r\n          <ServiceVersion>1.2.0</ServiceVersion>\r\n          <ObjectSizeInBytes>1024</ObjectSizeInBytes>\r\n          <NamedCaches>\r\n            <NamedCache>\r\n              <CacheName>default</CacheName>\r\n              <NotificationsEnabled>false</NotificationsEnabled>\r\n              <HighAvailabilityEnabled>false</HighAvailabilityEnabled>\r\n              <EvictionPolicy>LeastRecentlyUsed</EvictionPolicy>\r\n              <ExpirationSettings>\r\n                <TimeToLiveInMinutes>10</TimeToLiveInMinutes>\r\n                <Type>Absolute</Type>\r\n              </ExpirationSettings>\r\n            </NamedCache>\r\n          </NamedCaches>\r\n        </CacheServiceInput>\r\n      </IntrinsicSettings>\r\n      <OutputItems>\r\n        <OutputItem>\r\n          <Key>CreationDate</Key>\r\n          <Value>5/22/2014 12:17:48 AM +00:00</Value>\r\n        </OutputItem>\r\n      </OutputItems>\r\n      <OperationStatus>\r\n        <Type>Update</Type>\r\n        <Result>Succeeded</Result>\r\n      </OperationStatus>\r\n      <Label />\r\n    </Resource>\r\n  </Resources>\r\n</CloudService>",
@@ -579,8 +579,8 @@
           "2012-08-01"
         ],
         "User-Agent": [
-          "Microsoft.Azure.Management.ManagedCache.ManagedCacheClient/0.8.2.0",
-          "WindowsAzurePowershell/v0.8.2"
+          "Microsoft.Azure.Management.ManagedCache.ManagedCacheClient/0.8.3.0",
+          "WindowsAzurePowershell/v0.8.3"
         ]
       },
       "ResponseBody": "<CloudService xmlns=\"http://schemas.microsoft.com/windowsazure\" xmlns:i=\"http://www.w3.org/2001/XMLSchema-instance\">\r\n  <Name>CachingP2VBRNX3ZH3GXC5MWKW5VS3K5J4T7XSMRHBCI2OMUCUGDVAVQXXA-West-US</Name>\r\n  <Label>CachingP2VBRNX3ZH3GXC5MWKW5VS3K5J4T7XSMRHBCI2OMUCUGDVAVQXXA-West-US</Label>\r\n  <Description>CachingP2VBRNX3ZH3GXC5MWKW5VS3K5J4T7XSMRHBCI2OMUCUGDVAVQXXA-West-US</Description>\r\n  <GeoRegion>West US</GeoRegion>\r\n  <Resources>\r\n    <Resource>\r\n      <ResourceProviderNamespace>cacheservice</ResourceProviderNamespace>\r\n      <Type>Caching</Type>\r\n      <Name>onesdk6561</Name>\r\n      <SchemaVersion>1.0</SchemaVersion>\r\n      <ETag>24cb0d74-577d-442f-8831-1d3795c8cc4c</ETag>\r\n      <State>Started</State>\r\n      <SubState>Updating</SubState>\r\n      <UsageMeters />\r\n      <IntrinsicSettings>\r\n        <CacheServiceInput xmlns=\"\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\">\r\n          <SkuType>Basic</SkuType>\r\n          <Location>West US</Location>\r\n          <SkuCount>1</SkuCount>\r\n          <ServiceVersion>1.2.0</ServiceVersion>\r\n          <ObjectSizeInBytes>1024</ObjectSizeInBytes>\r\n          <NamedCaches>\r\n            <NamedCache>\r\n              <CacheName>default</CacheName>\r\n              <NotificationsEnabled>false</NotificationsEnabled>\r\n              <HighAvailabilityEnabled>false</HighAvailabilityEnabled>\r\n              <EvictionPolicy>LeastRecentlyUsed</EvictionPolicy>\r\n              <ExpirationSettings>\r\n                <TimeToLiveInMinutes>10</TimeToLiveInMinutes>\r\n                <Type>Absolute</Type>\r\n              </ExpirationSettings>\r\n            </NamedCache>\r\n          </NamedCaches>\r\n        </CacheServiceInput>\r\n      </IntrinsicSettings>\r\n      <OutputItems>\r\n        <OutputItem>\r\n          <Key>CreationDate</Key>\r\n          <Value>5/22/2014 12:17:48 AM +00:00</Value>\r\n        </OutputItem>\r\n      </OutputItems>\r\n      <OperationStatus>\r\n        <Type>Update</Type>\r\n        <Result>Succeeded</Result>\r\n      </OperationStatus>\r\n      <Label />\r\n    </Resource>\r\n  </Resources>\r\n</CloudService>",
@@ -617,8 +617,8 @@
           "2012-08-01"
         ],
         "User-Agent": [
-          "Microsoft.Azure.Management.ManagedCache.ManagedCacheClient/0.8.2.0",
-          "WindowsAzurePowershell/v0.8.2"
+          "Microsoft.Azure.Management.ManagedCache.ManagedCacheClient/0.8.3.0",
+          "WindowsAzurePowershell/v0.8.3"
         ]
       },
       "ResponseBody": "<CloudService xmlns=\"http://schemas.microsoft.com/windowsazure\" xmlns:i=\"http://www.w3.org/2001/XMLSchema-instance\">\r\n  <Name>CachingP2VBRNX3ZH3GXC5MWKW5VS3K5J4T7XSMRHBCI2OMUCUGDVAVQXXA-West-US</Name>\r\n  <Label>CachingP2VBRNX3ZH3GXC5MWKW5VS3K5J4T7XSMRHBCI2OMUCUGDVAVQXXA-West-US</Label>\r\n  <Description>CachingP2VBRNX3ZH3GXC5MWKW5VS3K5J4T7XSMRHBCI2OMUCUGDVAVQXXA-West-US</Description>\r\n  <GeoRegion>West US</GeoRegion>\r\n  <Resources>\r\n    <Resource>\r\n      <ResourceProviderNamespace>cacheservice</ResourceProviderNamespace>\r\n      <Type>Caching</Type>\r\n      <Name>onesdk6561</Name>\r\n      <SchemaVersion>1.0</SchemaVersion>\r\n      <ETag>24cb0d74-577d-442f-8831-1d3795c8cc4c</ETag>\r\n      <State>Started</State>\r\n      <SubState>Updating</SubState>\r\n      <UsageMeters />\r\n      <IntrinsicSettings>\r\n        <CacheServiceInput xmlns=\"\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\">\r\n          <SkuType>Basic</SkuType>\r\n          <Location>West US</Location>\r\n          <SkuCount>1</SkuCount>\r\n          <ServiceVersion>1.2.0</ServiceVersion>\r\n          <ObjectSizeInBytes>1024</ObjectSizeInBytes>\r\n          <NamedCaches>\r\n            <NamedCache>\r\n              <CacheName>default</CacheName>\r\n              <NotificationsEnabled>false</NotificationsEnabled>\r\n              <HighAvailabilityEnabled>false</HighAvailabilityEnabled>\r\n              <EvictionPolicy>LeastRecentlyUsed</EvictionPolicy>\r\n              <ExpirationSettings>\r\n                <TimeToLiveInMinutes>10</TimeToLiveInMinutes>\r\n                <Type>Absolute</Type>\r\n              </ExpirationSettings>\r\n            </NamedCache>\r\n          </NamedCaches>\r\n        </CacheServiceInput>\r\n      </IntrinsicSettings>\r\n      <OutputItems>\r\n        <OutputItem>\r\n          <Key>CreationDate</Key>\r\n          <Value>5/22/2014 12:17:48 AM +00:00</Value>\r\n        </OutputItem>\r\n      </OutputItems>\r\n      <OperationStatus>\r\n        <Type>Update</Type>\r\n        <Result>Succeeded</Result>\r\n      </OperationStatus>\r\n      <Label />\r\n    </Resource>\r\n  </Resources>\r\n</CloudService>",
@@ -655,8 +655,8 @@
           "2012-08-01"
         ],
         "User-Agent": [
-          "Microsoft.Azure.Management.ManagedCache.ManagedCacheClient/0.8.2.0",
-          "WindowsAzurePowershell/v0.8.2"
+          "Microsoft.Azure.Management.ManagedCache.ManagedCacheClient/0.8.3.0",
+          "WindowsAzurePowershell/v0.8.3"
         ]
       },
       "ResponseBody": "<CloudService xmlns=\"http://schemas.microsoft.com/windowsazure\" xmlns:i=\"http://www.w3.org/2001/XMLSchema-instance\">\r\n  <Name>CachingP2VBRNX3ZH3GXC5MWKW5VS3K5J4T7XSMRHBCI2OMUCUGDVAVQXXA-West-US</Name>\r\n  <Label>CachingP2VBRNX3ZH3GXC5MWKW5VS3K5J4T7XSMRHBCI2OMUCUGDVAVQXXA-West-US</Label>\r\n  <Description>CachingP2VBRNX3ZH3GXC5MWKW5VS3K5J4T7XSMRHBCI2OMUCUGDVAVQXXA-West-US</Description>\r\n  <GeoRegion>West US</GeoRegion>\r\n  <Resources>\r\n    <Resource>\r\n      <ResourceProviderNamespace>cacheservice</ResourceProviderNamespace>\r\n      <Type>Caching</Type>\r\n      <Name>onesdk6561</Name>\r\n      <SchemaVersion>1.0</SchemaVersion>\r\n      <ETag>24cb0d74-577d-442f-8831-1d3795c8cc4c</ETag>\r\n      <State>Started</State>\r\n      <SubState>Updating</SubState>\r\n      <UsageMeters />\r\n      <IntrinsicSettings>\r\n        <CacheServiceInput xmlns=\"\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\">\r\n          <SkuType>Basic</SkuType>\r\n          <Location>West US</Location>\r\n          <SkuCount>1</SkuCount>\r\n          <ServiceVersion>1.2.0</ServiceVersion>\r\n          <ObjectSizeInBytes>1024</ObjectSizeInBytes>\r\n          <NamedCaches>\r\n            <NamedCache>\r\n              <CacheName>default</CacheName>\r\n              <NotificationsEnabled>false</NotificationsEnabled>\r\n              <HighAvailabilityEnabled>false</HighAvailabilityEnabled>\r\n              <EvictionPolicy>LeastRecentlyUsed</EvictionPolicy>\r\n              <ExpirationSettings>\r\n                <TimeToLiveInMinutes>10</TimeToLiveInMinutes>\r\n                <Type>Absolute</Type>\r\n              </ExpirationSettings>\r\n            </NamedCache>\r\n          </NamedCaches>\r\n        </CacheServiceInput>\r\n      </IntrinsicSettings>\r\n      <OutputItems>\r\n        <OutputItem>\r\n          <Key>CreationDate</Key>\r\n          <Value>5/22/2014 12:17:48 AM +00:00</Value>\r\n        </OutputItem>\r\n      </OutputItems>\r\n      <OperationStatus>\r\n        <Type>Update</Type>\r\n        <Result>Succeeded</Result>\r\n      </OperationStatus>\r\n      <Label />\r\n    </Resource>\r\n  </Resources>\r\n</CloudService>",
@@ -693,8 +693,8 @@
           "2012-08-01"
         ],
         "User-Agent": [
-          "Microsoft.Azure.Management.ManagedCache.ManagedCacheClient/0.8.2.0",
-          "WindowsAzurePowershell/v0.8.2"
+          "Microsoft.Azure.Management.ManagedCache.ManagedCacheClient/0.8.3.0",
+          "WindowsAzurePowershell/v0.8.3"
         ]
       },
       "ResponseBody": "<CloudService xmlns=\"http://schemas.microsoft.com/windowsazure\" xmlns:i=\"http://www.w3.org/2001/XMLSchema-instance\">\r\n  <Name>CachingP2VBRNX3ZH3GXC5MWKW5VS3K5J4T7XSMRHBCI2OMUCUGDVAVQXXA-West-US</Name>\r\n  <Label>CachingP2VBRNX3ZH3GXC5MWKW5VS3K5J4T7XSMRHBCI2OMUCUGDVAVQXXA-West-US</Label>\r\n  <Description>CachingP2VBRNX3ZH3GXC5MWKW5VS3K5J4T7XSMRHBCI2OMUCUGDVAVQXXA-West-US</Description>\r\n  <GeoRegion>West US</GeoRegion>\r\n  <Resources>\r\n    <Resource>\r\n      <ResourceProviderNamespace>cacheservice</ResourceProviderNamespace>\r\n      <Type>Caching</Type>\r\n      <Name>onesdk6561</Name>\r\n      <SchemaVersion>1.0</SchemaVersion>\r\n      <ETag>24cb0d74-577d-442f-8831-1d3795c8cc4c</ETag>\r\n      <State>Started</State>\r\n      <SubState>Updating</SubState>\r\n      <UsageMeters />\r\n      <IntrinsicSettings>\r\n        <CacheServiceInput xmlns=\"\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\">\r\n          <SkuType>Basic</SkuType>\r\n          <Location>West US</Location>\r\n          <SkuCount>1</SkuCount>\r\n          <ServiceVersion>1.2.0</ServiceVersion>\r\n          <ObjectSizeInBytes>1024</ObjectSizeInBytes>\r\n          <NamedCaches>\r\n            <NamedCache>\r\n              <CacheName>default</CacheName>\r\n              <NotificationsEnabled>false</NotificationsEnabled>\r\n              <HighAvailabilityEnabled>false</HighAvailabilityEnabled>\r\n              <EvictionPolicy>LeastRecentlyUsed</EvictionPolicy>\r\n              <ExpirationSettings>\r\n                <TimeToLiveInMinutes>10</TimeToLiveInMinutes>\r\n                <Type>Absolute</Type>\r\n              </ExpirationSettings>\r\n            </NamedCache>\r\n          </NamedCaches>\r\n        </CacheServiceInput>\r\n      </IntrinsicSettings>\r\n      <OutputItems>\r\n        <OutputItem>\r\n          <Key>CreationDate</Key>\r\n          <Value>5/22/2014 12:17:48 AM +00:00</Value>\r\n        </OutputItem>\r\n      </OutputItems>\r\n      <OperationStatus>\r\n        <Type>Update</Type>\r\n        <Result>Succeeded</Result>\r\n      </OperationStatus>\r\n      <Label />\r\n    </Resource>\r\n  </Resources>\r\n</CloudService>",
@@ -731,8 +731,8 @@
           "2012-08-01"
         ],
         "User-Agent": [
-          "Microsoft.Azure.Management.ManagedCache.ManagedCacheClient/0.8.2.0",
-          "WindowsAzurePowershell/v0.8.2"
+          "Microsoft.Azure.Management.ManagedCache.ManagedCacheClient/0.8.3.0",
+          "WindowsAzurePowershell/v0.8.3"
         ]
       },
       "ResponseBody": "<CloudService xmlns=\"http://schemas.microsoft.com/windowsazure\" xmlns:i=\"http://www.w3.org/2001/XMLSchema-instance\">\r\n  <Name>CachingP2VBRNX3ZH3GXC5MWKW5VS3K5J4T7XSMRHBCI2OMUCUGDVAVQXXA-West-US</Name>\r\n  <Label>CachingP2VBRNX3ZH3GXC5MWKW5VS3K5J4T7XSMRHBCI2OMUCUGDVAVQXXA-West-US</Label>\r\n  <Description>CachingP2VBRNX3ZH3GXC5MWKW5VS3K5J4T7XSMRHBCI2OMUCUGDVAVQXXA-West-US</Description>\r\n  <GeoRegion>West US</GeoRegion>\r\n  <Resources>\r\n    <Resource>\r\n      <ResourceProviderNamespace>cacheservice</ResourceProviderNamespace>\r\n      <Type>Caching</Type>\r\n      <Name>onesdk6561</Name>\r\n      <SchemaVersion>1.0</SchemaVersion>\r\n      <ETag>24cb0d74-577d-442f-8831-1d3795c8cc4c</ETag>\r\n      <State>Started</State>\r\n      <SubState>Updating</SubState>\r\n      <UsageMeters />\r\n      <IntrinsicSettings>\r\n        <CacheServiceInput xmlns=\"\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\">\r\n          <SkuType>Basic</SkuType>\r\n          <Location>West US</Location>\r\n          <SkuCount>1</SkuCount>\r\n          <ServiceVersion>1.2.0</ServiceVersion>\r\n          <ObjectSizeInBytes>1024</ObjectSizeInBytes>\r\n          <NamedCaches>\r\n            <NamedCache>\r\n              <CacheName>default</CacheName>\r\n              <NotificationsEnabled>false</NotificationsEnabled>\r\n              <HighAvailabilityEnabled>false</HighAvailabilityEnabled>\r\n              <EvictionPolicy>LeastRecentlyUsed</EvictionPolicy>\r\n              <ExpirationSettings>\r\n                <TimeToLiveInMinutes>10</TimeToLiveInMinutes>\r\n                <Type>Absolute</Type>\r\n              </ExpirationSettings>\r\n            </NamedCache>\r\n          </NamedCaches>\r\n        </CacheServiceInput>\r\n      </IntrinsicSettings>\r\n      <OutputItems>\r\n        <OutputItem>\r\n          <Key>CreationDate</Key>\r\n          <Value>5/22/2014 12:17:48 AM +00:00</Value>\r\n        </OutputItem>\r\n      </OutputItems>\r\n      <OperationStatus>\r\n        <Type>Update</Type>\r\n        <Result>Succeeded</Result>\r\n      </OperationStatus>\r\n      <Label />\r\n    </Resource>\r\n  </Resources>\r\n</CloudService>",
@@ -769,8 +769,8 @@
           "2012-08-01"
         ],
         "User-Agent": [
-          "Microsoft.Azure.Management.ManagedCache.ManagedCacheClient/0.8.2.0",
-          "WindowsAzurePowershell/v0.8.2"
+          "Microsoft.Azure.Management.ManagedCache.ManagedCacheClient/0.8.3.0",
+          "WindowsAzurePowershell/v0.8.3"
         ]
       },
       "ResponseBody": "<CloudService xmlns=\"http://schemas.microsoft.com/windowsazure\" xmlns:i=\"http://www.w3.org/2001/XMLSchema-instance\">\r\n  <Name>CachingP2VBRNX3ZH3GXC5MWKW5VS3K5J4T7XSMRHBCI2OMUCUGDVAVQXXA-West-US</Name>\r\n  <Label>CachingP2VBRNX3ZH3GXC5MWKW5VS3K5J4T7XSMRHBCI2OMUCUGDVAVQXXA-West-US</Label>\r\n  <Description>CachingP2VBRNX3ZH3GXC5MWKW5VS3K5J4T7XSMRHBCI2OMUCUGDVAVQXXA-West-US</Description>\r\n  <GeoRegion>West US</GeoRegion>\r\n  <Resources>\r\n    <Resource>\r\n      <ResourceProviderNamespace>cacheservice</ResourceProviderNamespace>\r\n      <Type>Caching</Type>\r\n      <Name>onesdk6561</Name>\r\n      <SchemaVersion>1.0</SchemaVersion>\r\n      <ETag>24cb0d74-577d-442f-8831-1d3795c8cc4c</ETag>\r\n      <State>Started</State>\r\n      <SubState>Updating</SubState>\r\n      <UsageMeters />\r\n      <IntrinsicSettings>\r\n        <CacheServiceInput xmlns=\"\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\">\r\n          <SkuType>Basic</SkuType>\r\n          <Location>West US</Location>\r\n          <SkuCount>1</SkuCount>\r\n          <ServiceVersion>1.2.0</ServiceVersion>\r\n          <ObjectSizeInBytes>1024</ObjectSizeInBytes>\r\n          <NamedCaches>\r\n            <NamedCache>\r\n              <CacheName>default</CacheName>\r\n              <NotificationsEnabled>false</NotificationsEnabled>\r\n              <HighAvailabilityEnabled>false</HighAvailabilityEnabled>\r\n              <EvictionPolicy>LeastRecentlyUsed</EvictionPolicy>\r\n              <ExpirationSettings>\r\n                <TimeToLiveInMinutes>10</TimeToLiveInMinutes>\r\n                <Type>Absolute</Type>\r\n              </ExpirationSettings>\r\n            </NamedCache>\r\n          </NamedCaches>\r\n        </CacheServiceInput>\r\n      </IntrinsicSettings>\r\n      <OutputItems>\r\n        <OutputItem>\r\n          <Key>CreationDate</Key>\r\n          <Value>5/22/2014 12:17:48 AM +00:00</Value>\r\n        </OutputItem>\r\n      </OutputItems>\r\n      <OperationStatus>\r\n        <Type>Update</Type>\r\n        <Result>Succeeded</Result>\r\n      </OperationStatus>\r\n      <Label />\r\n    </Resource>\r\n  </Resources>\r\n</CloudService>",
@@ -807,8 +807,8 @@
           "2012-08-01"
         ],
         "User-Agent": [
-          "Microsoft.Azure.Management.ManagedCache.ManagedCacheClient/0.8.2.0",
-          "WindowsAzurePowershell/v0.8.2"
+          "Microsoft.Azure.Management.ManagedCache.ManagedCacheClient/0.8.3.0",
+          "WindowsAzurePowershell/v0.8.3"
         ]
       },
       "ResponseBody": "<CloudService xmlns=\"http://schemas.microsoft.com/windowsazure\" xmlns:i=\"http://www.w3.org/2001/XMLSchema-instance\">\r\n  <Name>CachingP2VBRNX3ZH3GXC5MWKW5VS3K5J4T7XSMRHBCI2OMUCUGDVAVQXXA-West-US</Name>\r\n  <Label>CachingP2VBRNX3ZH3GXC5MWKW5VS3K5J4T7XSMRHBCI2OMUCUGDVAVQXXA-West-US</Label>\r\n  <Description>CachingP2VBRNX3ZH3GXC5MWKW5VS3K5J4T7XSMRHBCI2OMUCUGDVAVQXXA-West-US</Description>\r\n  <GeoRegion>West US</GeoRegion>\r\n  <Resources>\r\n    <Resource>\r\n      <ResourceProviderNamespace>cacheservice</ResourceProviderNamespace>\r\n      <Type>Caching</Type>\r\n      <Name>onesdk6561</Name>\r\n      <SchemaVersion>1.0</SchemaVersion>\r\n      <ETag>24cb0d74-577d-442f-8831-1d3795c8cc4c</ETag>\r\n      <State>Started</State>\r\n      <SubState>Updating</SubState>\r\n      <UsageMeters />\r\n      <IntrinsicSettings>\r\n        <CacheServiceInput xmlns=\"\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\">\r\n          <SkuType>Basic</SkuType>\r\n          <Location>West US</Location>\r\n          <SkuCount>1</SkuCount>\r\n          <ServiceVersion>1.2.0</ServiceVersion>\r\n          <ObjectSizeInBytes>1024</ObjectSizeInBytes>\r\n          <NamedCaches>\r\n            <NamedCache>\r\n              <CacheName>default</CacheName>\r\n              <NotificationsEnabled>false</NotificationsEnabled>\r\n              <HighAvailabilityEnabled>false</HighAvailabilityEnabled>\r\n              <EvictionPolicy>LeastRecentlyUsed</EvictionPolicy>\r\n              <ExpirationSettings>\r\n                <TimeToLiveInMinutes>10</TimeToLiveInMinutes>\r\n                <Type>Absolute</Type>\r\n              </ExpirationSettings>\r\n            </NamedCache>\r\n          </NamedCaches>\r\n        </CacheServiceInput>\r\n      </IntrinsicSettings>\r\n      <OutputItems>\r\n        <OutputItem>\r\n          <Key>CreationDate</Key>\r\n          <Value>5/22/2014 12:17:48 AM +00:00</Value>\r\n        </OutputItem>\r\n      </OutputItems>\r\n      <OperationStatus>\r\n        <Type>Update</Type>\r\n        <Result>Succeeded</Result>\r\n      </OperationStatus>\r\n      <Label />\r\n    </Resource>\r\n  </Resources>\r\n</CloudService>",
@@ -845,8 +845,8 @@
           "2012-08-01"
         ],
         "User-Agent": [
-          "Microsoft.Azure.Management.ManagedCache.ManagedCacheClient/0.8.2.0",
-          "WindowsAzurePowershell/v0.8.2"
+          "Microsoft.Azure.Management.ManagedCache.ManagedCacheClient/0.8.3.0",
+          "WindowsAzurePowershell/v0.8.3"
         ]
       },
       "ResponseBody": "<CloudService xmlns=\"http://schemas.microsoft.com/windowsazure\" xmlns:i=\"http://www.w3.org/2001/XMLSchema-instance\">\r\n  <Name>CachingP2VBRNX3ZH3GXC5MWKW5VS3K5J4T7XSMRHBCI2OMUCUGDVAVQXXA-West-US</Name>\r\n  <Label>CachingP2VBRNX3ZH3GXC5MWKW5VS3K5J4T7XSMRHBCI2OMUCUGDVAVQXXA-West-US</Label>\r\n  <Description>CachingP2VBRNX3ZH3GXC5MWKW5VS3K5J4T7XSMRHBCI2OMUCUGDVAVQXXA-West-US</Description>\r\n  <GeoRegion>West US</GeoRegion>\r\n  <Resources>\r\n    <Resource>\r\n      <ResourceProviderNamespace>cacheservice</ResourceProviderNamespace>\r\n      <Type>Caching</Type>\r\n      <Name>onesdk6561</Name>\r\n      <SchemaVersion>1.0</SchemaVersion>\r\n      <ETag>24cb0d74-577d-442f-8831-1d3795c8cc4c</ETag>\r\n      <State>Started</State>\r\n      <SubState>Updating</SubState>\r\n      <UsageMeters />\r\n      <IntrinsicSettings>\r\n        <CacheServiceInput xmlns=\"\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\">\r\n          <SkuType>Basic</SkuType>\r\n          <Location>West US</Location>\r\n          <SkuCount>1</SkuCount>\r\n          <ServiceVersion>1.2.0</ServiceVersion>\r\n          <ObjectSizeInBytes>1024</ObjectSizeInBytes>\r\n          <NamedCaches>\r\n            <NamedCache>\r\n              <CacheName>default</CacheName>\r\n              <NotificationsEnabled>false</NotificationsEnabled>\r\n              <HighAvailabilityEnabled>false</HighAvailabilityEnabled>\r\n              <EvictionPolicy>LeastRecentlyUsed</EvictionPolicy>\r\n              <ExpirationSettings>\r\n                <TimeToLiveInMinutes>10</TimeToLiveInMinutes>\r\n                <Type>Absolute</Type>\r\n              </ExpirationSettings>\r\n            </NamedCache>\r\n          </NamedCaches>\r\n        </CacheServiceInput>\r\n      </IntrinsicSettings>\r\n      <OutputItems>\r\n        <OutputItem>\r\n          <Key>CreationDate</Key>\r\n          <Value>5/22/2014 12:17:48 AM +00:00</Value>\r\n        </OutputItem>\r\n      </OutputItems>\r\n      <OperationStatus>\r\n        <Type>Update</Type>\r\n        <Result>Succeeded</Result>\r\n      </OperationStatus>\r\n      <Label />\r\n    </Resource>\r\n  </Resources>\r\n</CloudService>",
@@ -883,8 +883,8 @@
           "2012-08-01"
         ],
         "User-Agent": [
-          "Microsoft.Azure.Management.ManagedCache.ManagedCacheClient/0.8.2.0",
-          "WindowsAzurePowershell/v0.8.2"
+          "Microsoft.Azure.Management.ManagedCache.ManagedCacheClient/0.8.3.0",
+          "WindowsAzurePowershell/v0.8.3"
         ]
       },
       "ResponseBody": "<CloudService xmlns=\"http://schemas.microsoft.com/windowsazure\" xmlns:i=\"http://www.w3.org/2001/XMLSchema-instance\">\r\n  <Name>CachingP2VBRNX3ZH3GXC5MWKW5VS3K5J4T7XSMRHBCI2OMUCUGDVAVQXXA-West-US</Name>\r\n  <Label>CachingP2VBRNX3ZH3GXC5MWKW5VS3K5J4T7XSMRHBCI2OMUCUGDVAVQXXA-West-US</Label>\r\n  <Description>CachingP2VBRNX3ZH3GXC5MWKW5VS3K5J4T7XSMRHBCI2OMUCUGDVAVQXXA-West-US</Description>\r\n  <GeoRegion>West US</GeoRegion>\r\n  <Resources>\r\n    <Resource>\r\n      <ResourceProviderNamespace>cacheservice</ResourceProviderNamespace>\r\n      <Type>Caching</Type>\r\n      <Name>onesdk6561</Name>\r\n      <SchemaVersion>1.0</SchemaVersion>\r\n      <ETag>24cb0d74-577d-442f-8831-1d3795c8cc4c</ETag>\r\n      <State>Started</State>\r\n      <SubState>Active</SubState>\r\n      <UsageMeters />\r\n      <IntrinsicSettings>\r\n        <CacheServiceInput xmlns=\"\">\r\n          <SkuType>Basic</SkuType>\r\n          <Location>West US</Location>\r\n          <SkuCount>2</SkuCount>\r\n          <ServiceVersion>1.2.0</ServiceVersion>\r\n          <ObjectSizeInBytes>1024</ObjectSizeInBytes>\r\n          <NamedCaches>\r\n            <NamedCache>\r\n              <CacheName>default</CacheName>\r\n              <NotificationsEnabled>false</NotificationsEnabled>\r\n              <HighAvailabilityEnabled>false</HighAvailabilityEnabled>\r\n              <EvictionPolicy>LeastRecentlyUsed</EvictionPolicy>\r\n            </NamedCache>\r\n          </NamedCaches>\r\n        </CacheServiceInput>\r\n      </IntrinsicSettings>\r\n      <OutputItems>\r\n        <OutputItem>\r\n          <Key>CreationDate</Key>\r\n          <Value>5/22/2014 12:17:48 AM +00:00</Value>\r\n        </OutputItem>\r\n      </OutputItems>\r\n      <OperationStatus>\r\n        <Type>Update</Type>\r\n        <Result>Succeeded</Result>\r\n      </OperationStatus>\r\n      <Label />\r\n    </Resource>\r\n  </Resources>\r\n</CloudService>",
@@ -921,8 +921,8 @@
           "2012-08-01"
         ],
         "User-Agent": [
-          "Microsoft.Azure.Management.ManagedCache.ManagedCacheClient/0.8.2.0",
-          "WindowsAzurePowershell/v0.8.2"
+          "Microsoft.Azure.Management.ManagedCache.ManagedCacheClient/0.8.3.0",
+          "WindowsAzurePowershell/v0.8.3"
         ]
       },
       "ResponseBody": "<boolean xmlns=\"http://schemas.microsoft.com/2003/10/Serialization/\">true</boolean>",
@@ -953,8 +953,8 @@
       "RequestBody": "<Resource xmlns=\"http://schemas.microsoft.com/windowsazure\">\r\n  <IntrinsicSettings>\r\n    <CacheServiceInput xmlns=\"\">\r\n      <SkuType>Basic</SkuType>\r\n      <Location>West US</Location>\r\n      <SkuCount>1</SkuCount>\r\n      <ServiceVersion>1.0.0</ServiceVersion>\r\n      <ObjectSizeInBytes>1024</ObjectSizeInBytes>\r\n      <NamedCaches />\r\n    </CacheServiceInput>\r\n  </IntrinsicSettings>\r\n</Resource>",
       "RequestHeaders": {
         "User-Agent": [
-          "Microsoft.Azure.Management.ManagedCache.ManagedCacheClient/0.8.2.0",
-          "WindowsAzurePowershell/v0.8.2"
+          "Microsoft.Azure.Management.ManagedCache.ManagedCacheClient/0.8.3.0",
+          "WindowsAzurePowershell/v0.8.3"
         ],
         "x-ms-version": [
           "2012-08-01"
@@ -1000,8 +1000,8 @@
           "2012-08-01"
         ],
         "User-Agent": [
-          "Microsoft.Azure.Management.ManagedCache.ManagedCacheClient/0.8.2.0",
-          "WindowsAzurePowershell/v0.8.2"
+          "Microsoft.Azure.Management.ManagedCache.ManagedCacheClient/0.8.3.0",
+          "WindowsAzurePowershell/v0.8.3"
         ],
         "client-tracking-id": [
           "23"
@@ -1041,8 +1041,8 @@
           "2012-08-01"
         ],
         "User-Agent": [
-          "Microsoft.Azure.Management.ManagedCache.ManagedCacheClient/0.8.2.0",
-          "WindowsAzurePowershell/v0.8.2"
+          "Microsoft.Azure.Management.ManagedCache.ManagedCacheClient/0.8.3.0",
+          "WindowsAzurePowershell/v0.8.3"
         ],
         "client-tracking-id": [
           "4"
@@ -1079,8 +1079,8 @@
           "2012-08-01"
         ],
         "User-Agent": [
-          "Microsoft.Azure.Management.ManagedCache.ManagedCacheClient/0.8.2.0",
-          "WindowsAzurePowershell/v0.8.2"
+          "Microsoft.Azure.Management.ManagedCache.ManagedCacheClient/0.8.3.0",
+          "WindowsAzurePowershell/v0.8.3"
         ],
         "client-tracking-id": [
           "4"
@@ -1117,8 +1117,8 @@
           "2012-08-01"
         ],
         "User-Agent": [
-          "Microsoft.Azure.Management.ManagedCache.ManagedCacheClient/0.8.2.0",
-          "WindowsAzurePowershell/v0.8.2"
+          "Microsoft.Azure.Management.ManagedCache.ManagedCacheClient/0.8.3.0",
+          "WindowsAzurePowershell/v0.8.3"
         ]
       },
       "ResponseBody": "<CloudServices xmlns=\"http://schemas.microsoft.com/windowsazure\" xmlns:i=\"http://www.w3.org/2001/XMLSchema-instance\">\r\n  <CloudService>\r\n    <Name>CachingP2VBRNX3ZH3GXC5MWKW5VS3K5J4T7XSMRHBCI2OMUCUGDVAVQXXA-West-US</Name>\r\n    <Label>CachingP2VBRNX3ZH3GXC5MWKW5VS3K5J4T7XSMRHBCI2OMUCUGDVAVQXXA-West-US</Label>\r\n    <Description>CachingP2VBRNX3ZH3GXC5MWKW5VS3K5J4T7XSMRHBCI2OMUCUGDVAVQXXA-West-US</Description>\r\n    <GeoRegion>West US</GeoRegion>\r\n    <Resources>\r\n      <Resource>\r\n        <ResourceProviderNamespace>cacheservice</ResourceProviderNamespace>\r\n        <Type>Caching</Type>\r\n        <Name>onesdk6561</Name>\r\n        <SchemaVersion>1.0</SchemaVersion>\r\n        <ETag>e860dfe8-d389-4dfc-8f87-1b7489a34c44</ETag>\r\n        <State>Started</State>\r\n        <SubState>Active</SubState>\r\n        <UsageMeters />\r\n        <IntrinsicSettings>\r\n          <CacheServiceInput xmlns=\"\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\">\r\n            <SkuType>Basic</SkuType>\r\n            <Location>West US</Location>\r\n            <SkuCount>1</SkuCount>\r\n            <ServiceVersion>1.2.0</ServiceVersion>\r\n            <ObjectSizeInBytes>1024</ObjectSizeInBytes>\r\n            <NamedCaches>\r\n              <NamedCache>\r\n                <CacheName>default</CacheName>\r\n                <NotificationsEnabled>false</NotificationsEnabled>\r\n                <HighAvailabilityEnabled>false</HighAvailabilityEnabled>\r\n                <EvictionPolicy>LeastRecentlyUsed</EvictionPolicy>\r\n                <ExpirationSettings>\r\n                  <TimeToLiveInMinutes>10</TimeToLiveInMinutes>\r\n                  <Type>Absolute</Type>\r\n                </ExpirationSettings>\r\n              </NamedCache>\r\n            </NamedCaches>\r\n          </CacheServiceInput>\r\n        </IntrinsicSettings>\r\n        <OutputItems>\r\n          <OutputItem>\r\n            <Key>CreationDate</Key>\r\n            <Value>5/22/2014 12:05:04 AM +00:00</Value>\r\n          </OutputItem>\r\n        </OutputItems>\r\n        <OperationStatus>\r\n          <Type>Create</Type>\r\n          <Result>Succeeded</Result>\r\n        </OperationStatus>\r\n        <Label />\r\n      </Resource>\r\n    </Resources>\r\n  </CloudService>\r\n  <CloudService>\r\n    <Name>cloudserv</Name>\r\n    <Label>label</Label>\r\n    <Description>hi there</Description>\r\n    <GeoRegion>West US</GeoRegion>\r\n    <Resources />\r\n  </CloudService>\r\n  <CloudService>\r\n    <Name>devSaopDS-cs1</Name>\r\n    <Label>devSaopDS-cs1</Label>\r\n    <Description>devSaopDS-cs1</Description>\r\n    <GeoRegion>north europe</GeoRegion>\r\n    <Resources />\r\n  </CloudService>\r\n  <CloudService>\r\n    <Name>name</Name>\r\n    <Label>treta</Label>\r\n    <Description>couves</Description>\r\n    <GeoRegion>West US</GeoRegion>\r\n    <Resources />\r\n  </CloudService>\r\n  <CloudService>\r\n    <Name>RecoveryServices-P2VBRNX3ZH3GXC5MWKW5VS3K5J4T7XSMRHBCI2OMUCUGDVAVQXXA-east-asia</Name>\r\n    <Label>2bc63cb7-0c80-48fa-80a5-20bc64b9786c</Label>\r\n    <Description>04301767-ecac-4e60-a412-d289bf890e93</Description>\r\n    <GeoRegion>east asia</GeoRegion>\r\n    <Resources>\r\n      <Resource>\r\n        <ResourceProviderNamespace>WABackup</ResourceProviderNamespace>\r\n        <Type>BackupVault</Type>\r\n        <Name>Test</Name>\r\n        <Plan />\r\n        <SchemaVersion>1.1</SchemaVersion>\r\n        <ETag>e25454eb-a351-4199-a6e5-1208207bf9cf</ETag>\r\n        <State>Started</State>\r\n        <SubState>Ok</SubState>\r\n        <OutputItems>\r\n          <OutputItem>\r\n            <Key>StampId</Key>\r\n            <Value>64437628-f3e5-4d8a-928b-44b2c9889117</Value>\r\n          </OutputItem>\r\n          <OutputItem>\r\n            <Key>ResourceId</Key>\r\n            <Value>3888925532610829152</Value>\r\n          </OutputItem>\r\n          <OutputItem>\r\n            <Key>BackendStampId</Key>\r\n            <Value>64437628-f3e5-4d8a-928b-44b2c9889117</Value>\r\n          </OutputItem>\r\n        </OutputItems>\r\n        <OperationStatus>\r\n          <Type>Create</Type>\r\n          <Result>Succeeded</Result>\r\n        </OperationStatus>\r\n        <Label />\r\n      </Resource>\r\n    </Resources>\r\n  </CloudService>\r\n</CloudServices>",
@@ -1152,8 +1152,8 @@
           "2012-08-01"
         ],
         "User-Agent": [
-          "Microsoft.Azure.Management.ManagedCache.ManagedCacheClient/0.8.2.0",
-          "WindowsAzurePowershell/v0.8.2"
+          "Microsoft.Azure.Management.ManagedCache.ManagedCacheClient/0.8.3.0",
+          "WindowsAzurePowershell/v0.8.3"
         ]
       },
       "ResponseBody": "<CloudServices xmlns=\"http://schemas.microsoft.com/windowsazure\" xmlns:i=\"http://www.w3.org/2001/XMLSchema-instance\">\r\n  <CloudService>\r\n    <Name>CachingP2VBRNX3ZH3GXC5MWKW5VS3K5J4T7XSMRHBCI2OMUCUGDVAVQXXA-West-US</Name>\r\n    <Label>CachingP2VBRNX3ZH3GXC5MWKW5VS3K5J4T7XSMRHBCI2OMUCUGDVAVQXXA-West-US</Label>\r\n    <Description>CachingP2VBRNX3ZH3GXC5MWKW5VS3K5J4T7XSMRHBCI2OMUCUGDVAVQXXA-West-US</Description>\r\n    <GeoRegion>West US</GeoRegion>\r\n    <Resources>\r\n      <Resource>\r\n        <ResourceProviderNamespace>cacheservice</ResourceProviderNamespace>\r\n        <Type>Caching</Type>\r\n        <Name>onesdk6561</Name>\r\n        <SchemaVersion>1.0</SchemaVersion>\r\n        <ETag>e860dfe8-d389-4dfc-8f87-1b7489a34c44</ETag>\r\n        <State>Started</State>\r\n        <SubState>Active</SubState>\r\n        <UsageMeters />\r\n        <IntrinsicSettings>\r\n          <CacheServiceInput xmlns=\"\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\">\r\n            <SkuType>Basic</SkuType>\r\n            <Location>West US</Location>\r\n            <SkuCount>1</SkuCount>\r\n            <ServiceVersion>1.2.0</ServiceVersion>\r\n            <ObjectSizeInBytes>1024</ObjectSizeInBytes>\r\n            <NamedCaches>\r\n              <NamedCache>\r\n                <CacheName>default</CacheName>\r\n                <NotificationsEnabled>false</NotificationsEnabled>\r\n                <HighAvailabilityEnabled>false</HighAvailabilityEnabled>\r\n                <EvictionPolicy>LeastRecentlyUsed</EvictionPolicy>\r\n                <ExpirationSettings>\r\n                  <TimeToLiveInMinutes>10</TimeToLiveInMinutes>\r\n                  <Type>Absolute</Type>\r\n                </ExpirationSettings>\r\n              </NamedCache>\r\n            </NamedCaches>\r\n          </CacheServiceInput>\r\n        </IntrinsicSettings>\r\n        <OutputItems>\r\n          <OutputItem>\r\n            <Key>CreationDate</Key>\r\n            <Value>5/22/2014 12:05:04 AM +00:00</Value>\r\n          </OutputItem>\r\n        </OutputItems>\r\n        <OperationStatus>\r\n          <Type>Create</Type>\r\n          <Result>Succeeded</Result>\r\n        </OperationStatus>\r\n        <Label />\r\n      </Resource>\r\n    </Resources>\r\n  </CloudService>\r\n  <CloudService>\r\n    <Name>cloudserv</Name>\r\n    <Label>label</Label>\r\n    <Description>hi there</Description>\r\n    <GeoRegion>West US</GeoRegion>\r\n    <Resources />\r\n  </CloudService>\r\n  <CloudService>\r\n    <Name>devSaopDS-cs1</Name>\r\n    <Label>devSaopDS-cs1</Label>\r\n    <Description>devSaopDS-cs1</Description>\r\n    <GeoRegion>north europe</GeoRegion>\r\n    <Resources />\r\n  </CloudService>\r\n  <CloudService>\r\n    <Name>name</Name>\r\n    <Label>treta</Label>\r\n    <Description>couves</Description>\r\n    <GeoRegion>West US</GeoRegion>\r\n    <Resources />\r\n  </CloudService>\r\n  <CloudService>\r\n    <Name>RecoveryServices-P2VBRNX3ZH3GXC5MWKW5VS3K5J4T7XSMRHBCI2OMUCUGDVAVQXXA-east-asia</Name>\r\n    <Label>2bc63cb7-0c80-48fa-80a5-20bc64b9786c</Label>\r\n    <Description>04301767-ecac-4e60-a412-d289bf890e93</Description>\r\n    <GeoRegion>east asia</GeoRegion>\r\n    <Resources>\r\n      <Resource>\r\n        <ResourceProviderNamespace>WABackup</ResourceProviderNamespace>\r\n        <Type>BackupVault</Type>\r\n        <Name>Test</Name>\r\n        <Plan />\r\n        <SchemaVersion>1.1</SchemaVersion>\r\n        <ETag>e25454eb-a351-4199-a6e5-1208207bf9cf</ETag>\r\n        <State>Started</State>\r\n        <SubState>Ok</SubState>\r\n        <OutputItems>\r\n          <OutputItem>\r\n            <Key>StampId</Key>\r\n            <Value>64437628-f3e5-4d8a-928b-44b2c9889117</Value>\r\n          </OutputItem>\r\n          <OutputItem>\r\n            <Key>ResourceId</Key>\r\n            <Value>3888925532610829152</Value>\r\n          </OutputItem>\r\n          <OutputItem>\r\n            <Key>BackendStampId</Key>\r\n            <Value>64437628-f3e5-4d8a-928b-44b2c9889117</Value>\r\n          </OutputItem>\r\n        </OutputItems>\r\n        <OperationStatus>\r\n          <Type>Create</Type>\r\n          <Result>Succeeded</Result>\r\n        </OperationStatus>\r\n        <Label />\r\n      </Resource>\r\n    </Resources>\r\n  </CloudService>\r\n</CloudServices>",
@@ -1187,8 +1187,8 @@
           "2012-08-01"
         ],
         "User-Agent": [
-          "Microsoft.Azure.Management.ManagedCache.ManagedCacheClient/0.8.2.0",
-          "WindowsAzurePowershell/v0.8.2"
+          "Microsoft.Azure.Management.ManagedCache.ManagedCacheClient/0.8.3.0",
+          "WindowsAzurePowershell/v0.8.3"
         ]
       },
       "ResponseBody": "<CloudServices xmlns=\"http://schemas.microsoft.com/windowsazure\" xmlns:i=\"http://www.w3.org/2001/XMLSchema-instance\">\r\n  <CloudService>\r\n    <Name>CachingP2VBRNX3ZH3GXC5MWKW5VS3K5J4T7XSMRHBCI2OMUCUGDVAVQXXA-West-US</Name>\r\n    <Label>CachingP2VBRNX3ZH3GXC5MWKW5VS3K5J4T7XSMRHBCI2OMUCUGDVAVQXXA-West-US</Label>\r\n    <Description>CachingP2VBRNX3ZH3GXC5MWKW5VS3K5J4T7XSMRHBCI2OMUCUGDVAVQXXA-West-US</Description>\r\n    <GeoRegion>West US</GeoRegion>\r\n    <Resources>\r\n      <Resource>\r\n        <ResourceProviderNamespace>cacheservice</ResourceProviderNamespace>\r\n        <Type>Caching</Type>\r\n        <Name>onesdk6561</Name>\r\n        <SchemaVersion>1.0</SchemaVersion>\r\n        <ETag>24cb0d74-577d-442f-8831-1d3795c8cc4c</ETag>\r\n        <State>Started</State>\r\n        <SubState>Active</SubState>\r\n        <UsageMeters />\r\n        <IntrinsicSettings>\r\n          <CacheServiceInput xmlns=\"\">\r\n            <SkuType>Basic</SkuType>\r\n            <Location>West US</Location>\r\n            <SkuCount>2</SkuCount>\r\n            <ServiceVersion>1.2.0</ServiceVersion>\r\n            <ObjectSizeInBytes>1024</ObjectSizeInBytes>\r\n            <NamedCaches>\r\n              <NamedCache>\r\n                <CacheName>default</CacheName>\r\n                <NotificationsEnabled>false</NotificationsEnabled>\r\n                <HighAvailabilityEnabled>false</HighAvailabilityEnabled>\r\n                <EvictionPolicy>LeastRecentlyUsed</EvictionPolicy>\r\n              </NamedCache>\r\n            </NamedCaches>\r\n          </CacheServiceInput>\r\n        </IntrinsicSettings>\r\n        <OutputItems>\r\n          <OutputItem>\r\n            <Key>CreationDate</Key>\r\n            <Value>5/22/2014 12:17:48 AM +00:00</Value>\r\n          </OutputItem>\r\n        </OutputItems>\r\n        <OperationStatus>\r\n          <Type>Update</Type>\r\n          <Result>Succeeded</Result>\r\n        </OperationStatus>\r\n        <Label />\r\n      </Resource>\r\n    </Resources>\r\n  </CloudService>\r\n  <CloudService>\r\n    <Name>cloudserv</Name>\r\n    <Label>label</Label>\r\n    <Description>hi there</Description>\r\n    <GeoRegion>West US</GeoRegion>\r\n    <Resources />\r\n  </CloudService>\r\n  <CloudService>\r\n    <Name>devSaopDS-cs1</Name>\r\n    <Label>devSaopDS-cs1</Label>\r\n    <Description>devSaopDS-cs1</Description>\r\n    <GeoRegion>north europe</GeoRegion>\r\n    <Resources />\r\n  </CloudService>\r\n  <CloudService>\r\n    <Name>name</Name>\r\n    <Label>treta</Label>\r\n    <Description>couves</Description>\r\n    <GeoRegion>West US</GeoRegion>\r\n    <Resources />\r\n  </CloudService>\r\n  <CloudService>\r\n    <Name>RecoveryServices-P2VBRNX3ZH3GXC5MWKW5VS3K5J4T7XSMRHBCI2OMUCUGDVAVQXXA-east-asia</Name>\r\n    <Label>2bc63cb7-0c80-48fa-80a5-20bc64b9786c</Label>\r\n    <Description>04301767-ecac-4e60-a412-d289bf890e93</Description>\r\n    <GeoRegion>east asia</GeoRegion>\r\n    <Resources>\r\n      <Resource>\r\n        <ResourceProviderNamespace>WABackup</ResourceProviderNamespace>\r\n        <Type>BackupVault</Type>\r\n        <Name>Test</Name>\r\n        <Plan />\r\n        <SchemaVersion>1.1</SchemaVersion>\r\n        <ETag>e25454eb-a351-4199-a6e5-1208207bf9cf</ETag>\r\n        <State>Started</State>\r\n        <SubState>Ok</SubState>\r\n        <OutputItems>\r\n          <OutputItem>\r\n            <Key>StampId</Key>\r\n            <Value>64437628-f3e5-4d8a-928b-44b2c9889117</Value>\r\n          </OutputItem>\r\n          <OutputItem>\r\n            <Key>ResourceId</Key>\r\n            <Value>3888925532610829152</Value>\r\n          </OutputItem>\r\n          <OutputItem>\r\n            <Key>BackendStampId</Key>\r\n            <Value>64437628-f3e5-4d8a-928b-44b2c9889117</Value>\r\n          </OutputItem>\r\n        </OutputItems>\r\n        <OperationStatus>\r\n          <Type>Create</Type>\r\n          <Result>Succeeded</Result>\r\n        </OperationStatus>\r\n        <Label />\r\n      </Resource>\r\n    </Resources>\r\n  </CloudService>\r\n</CloudServices>",
@@ -1222,8 +1222,8 @@
           "2012-08-01"
         ],
         "User-Agent": [
-          "Microsoft.Azure.Management.ManagedCache.ManagedCacheClient/0.8.2.0",
-          "WindowsAzurePowershell/v0.8.2"
+          "Microsoft.Azure.Management.ManagedCache.ManagedCacheClient/0.8.3.0",
+          "WindowsAzurePowershell/v0.8.3"
         ]
       },
       "ResponseBody": "<CloudServices xmlns=\"http://schemas.microsoft.com/windowsazure\" xmlns:i=\"http://www.w3.org/2001/XMLSchema-instance\">\r\n  <CloudService>\r\n    <Name>CachingP2VBRNX3ZH3GXC5MWKW5VS3K5J4T7XSMRHBCI2OMUCUGDVAVQXXA-West-US</Name>\r\n    <Label>CachingP2VBRNX3ZH3GXC5MWKW5VS3K5J4T7XSMRHBCI2OMUCUGDVAVQXXA-West-US</Label>\r\n    <Description>CachingP2VBRNX3ZH3GXC5MWKW5VS3K5J4T7XSMRHBCI2OMUCUGDVAVQXXA-West-US</Description>\r\n    <GeoRegion>West US</GeoRegion>\r\n    <Resources>\r\n      <Resource>\r\n        <ResourceProviderNamespace>cacheservice</ResourceProviderNamespace>\r\n        <Type>Caching</Type>\r\n        <Name>onesdk6561</Name>\r\n        <SchemaVersion>1.0</SchemaVersion>\r\n        <ETag>24cb0d74-577d-442f-8831-1d3795c8cc4c</ETag>\r\n        <State>Started</State>\r\n        <SubState>Active</SubState>\r\n        <UsageMeters />\r\n        <IntrinsicSettings>\r\n          <CacheServiceInput xmlns=\"\">\r\n            <SkuType>Basic</SkuType>\r\n            <Location>West US</Location>\r\n            <SkuCount>2</SkuCount>\r\n            <ServiceVersion>1.2.0</ServiceVersion>\r\n            <ObjectSizeInBytes>1024</ObjectSizeInBytes>\r\n            <NamedCaches>\r\n              <NamedCache>\r\n                <CacheName>default</CacheName>\r\n                <NotificationsEnabled>false</NotificationsEnabled>\r\n                <HighAvailabilityEnabled>false</HighAvailabilityEnabled>\r\n                <EvictionPolicy>LeastRecentlyUsed</EvictionPolicy>\r\n              </NamedCache>\r\n            </NamedCaches>\r\n          </CacheServiceInput>\r\n        </IntrinsicSettings>\r\n        <OutputItems>\r\n          <OutputItem>\r\n            <Key>CreationDate</Key>\r\n            <Value>5/22/2014 12:17:48 AM +00:00</Value>\r\n          </OutputItem>\r\n        </OutputItems>\r\n        <OperationStatus>\r\n          <Type>Update</Type>\r\n          <Result>Succeeded</Result>\r\n        </OperationStatus>\r\n        <Label />\r\n      </Resource>\r\n    </Resources>\r\n  </CloudService>\r\n  <CloudService>\r\n    <Name>cloudserv</Name>\r\n    <Label>label</Label>\r\n    <Description>hi there</Description>\r\n    <GeoRegion>West US</GeoRegion>\r\n    <Resources />\r\n  </CloudService>\r\n  <CloudService>\r\n    <Name>devSaopDS-cs1</Name>\r\n    <Label>devSaopDS-cs1</Label>\r\n    <Description>devSaopDS-cs1</Description>\r\n    <GeoRegion>north europe</GeoRegion>\r\n    <Resources />\r\n  </CloudService>\r\n  <CloudService>\r\n    <Name>name</Name>\r\n    <Label>treta</Label>\r\n    <Description>couves</Description>\r\n    <GeoRegion>West US</GeoRegion>\r\n    <Resources />\r\n  </CloudService>\r\n  <CloudService>\r\n    <Name>RecoveryServices-P2VBRNX3ZH3GXC5MWKW5VS3K5J4T7XSMRHBCI2OMUCUGDVAVQXXA-east-asia</Name>\r\n    <Label>2bc63cb7-0c80-48fa-80a5-20bc64b9786c</Label>\r\n    <Description>04301767-ecac-4e60-a412-d289bf890e93</Description>\r\n    <GeoRegion>east asia</GeoRegion>\r\n    <Resources>\r\n      <Resource>\r\n        <ResourceProviderNamespace>WABackup</ResourceProviderNamespace>\r\n        <Type>BackupVault</Type>\r\n        <Name>Test</Name>\r\n        <Plan />\r\n        <SchemaVersion>1.1</SchemaVersion>\r\n        <ETag>e25454eb-a351-4199-a6e5-1208207bf9cf</ETag>\r\n        <State>Started</State>\r\n        <SubState>Ok</SubState>\r\n        <OutputItems>\r\n          <OutputItem>\r\n            <Key>StampId</Key>\r\n            <Value>64437628-f3e5-4d8a-928b-44b2c9889117</Value>\r\n          </OutputItem>\r\n          <OutputItem>\r\n            <Key>ResourceId</Key>\r\n            <Value>3888925532610829152</Value>\r\n          </OutputItem>\r\n          <OutputItem>\r\n            <Key>BackendStampId</Key>\r\n            <Value>64437628-f3e5-4d8a-928b-44b2c9889117</Value>\r\n          </OutputItem>\r\n        </OutputItems>\r\n        <OperationStatus>\r\n          <Type>Create</Type>\r\n          <Result>Succeeded</Result>\r\n        </OperationStatus>\r\n        <Label />\r\n      </Resource>\r\n    </Resources>\r\n  </CloudService>\r\n</CloudServices>",
@@ -1257,8 +1257,8 @@
           "2012-08-01"
         ],
         "User-Agent": [
-          "Microsoft.Azure.Management.ManagedCache.ManagedCacheClient/0.8.2.0",
-          "WindowsAzurePowershell/v0.8.2"
+          "Microsoft.Azure.Management.ManagedCache.ManagedCacheClient/0.8.3.0",
+          "WindowsAzurePowershell/v0.8.3"
         ]
       },
       "ResponseBody": "<CloudServices xmlns=\"http://schemas.microsoft.com/windowsazure\" xmlns:i=\"http://www.w3.org/2001/XMLSchema-instance\">\r\n  <CloudService>\r\n    <Name>CachingP2VBRNX3ZH3GXC5MWKW5VS3K5J4T7XSMRHBCI2OMUCUGDVAVQXXA-West-US</Name>\r\n    <Label>CachingP2VBRNX3ZH3GXC5MWKW5VS3K5J4T7XSMRHBCI2OMUCUGDVAVQXXA-West-US</Label>\r\n    <Description>CachingP2VBRNX3ZH3GXC5MWKW5VS3K5J4T7XSMRHBCI2OMUCUGDVAVQXXA-West-US</Description>\r\n    <GeoRegion>West US</GeoRegion>\r\n    <Resources>\r\n      <Resource>\r\n        <ResourceProviderNamespace>cacheservice</ResourceProviderNamespace>\r\n        <Type>Caching</Type>\r\n        <Name>onesdk6561</Name>\r\n        <SchemaVersion>1.0</SchemaVersion>\r\n        <ETag>24cb0d74-577d-442f-8831-1d3795c8cc4c</ETag>\r\n        <State>Started</State>\r\n        <SubState>Active</SubState>\r\n        <UsageMeters />\r\n        <IntrinsicSettings>\r\n          <CacheServiceInput xmlns=\"\">\r\n            <SkuType>Basic</SkuType>\r\n            <Location>West US</Location>\r\n            <SkuCount>2</SkuCount>\r\n            <ServiceVersion>1.2.0</ServiceVersion>\r\n            <ObjectSizeInBytes>1024</ObjectSizeInBytes>\r\n            <NamedCaches>\r\n              <NamedCache>\r\n                <CacheName>default</CacheName>\r\n                <NotificationsEnabled>false</NotificationsEnabled>\r\n                <HighAvailabilityEnabled>false</HighAvailabilityEnabled>\r\n                <EvictionPolicy>LeastRecentlyUsed</EvictionPolicy>\r\n              </NamedCache>\r\n            </NamedCaches>\r\n          </CacheServiceInput>\r\n        </IntrinsicSettings>\r\n        <OutputItems>\r\n          <OutputItem>\r\n            <Key>CreationDate</Key>\r\n            <Value>5/22/2014 12:17:48 AM +00:00</Value>\r\n          </OutputItem>\r\n        </OutputItems>\r\n        <OperationStatus>\r\n          <Type>Update</Type>\r\n          <Result>Succeeded</Result>\r\n        </OperationStatus>\r\n        <Label />\r\n      </Resource>\r\n    </Resources>\r\n  </CloudService>\r\n  <CloudService>\r\n    <Name>cloudserv</Name>\r\n    <Label>label</Label>\r\n    <Description>hi there</Description>\r\n    <GeoRegion>West US</GeoRegion>\r\n    <Resources />\r\n  </CloudService>\r\n  <CloudService>\r\n    <Name>devSaopDS-cs1</Name>\r\n    <Label>devSaopDS-cs1</Label>\r\n    <Description>devSaopDS-cs1</Description>\r\n    <GeoRegion>north europe</GeoRegion>\r\n    <Resources />\r\n  </CloudService>\r\n  <CloudService>\r\n    <Name>name</Name>\r\n    <Label>treta</Label>\r\n    <Description>couves</Description>\r\n    <GeoRegion>West US</GeoRegion>\r\n    <Resources />\r\n  </CloudService>\r\n  <CloudService>\r\n    <Name>RecoveryServices-P2VBRNX3ZH3GXC5MWKW5VS3K5J4T7XSMRHBCI2OMUCUGDVAVQXXA-east-asia</Name>\r\n    <Label>2bc63cb7-0c80-48fa-80a5-20bc64b9786c</Label>\r\n    <Description>04301767-ecac-4e60-a412-d289bf890e93</Description>\r\n    <GeoRegion>east asia</GeoRegion>\r\n    <Resources>\r\n      <Resource>\r\n        <ResourceProviderNamespace>WABackup</ResourceProviderNamespace>\r\n        <Type>BackupVault</Type>\r\n        <Name>Test</Name>\r\n        <Plan />\r\n        <SchemaVersion>1.1</SchemaVersion>\r\n        <ETag>e25454eb-a351-4199-a6e5-1208207bf9cf</ETag>\r\n        <State>Started</State>\r\n        <SubState>Ok</SubState>\r\n        <OutputItems>\r\n          <OutputItem>\r\n            <Key>StampId</Key>\r\n            <Value>64437628-f3e5-4d8a-928b-44b2c9889117</Value>\r\n          </OutputItem>\r\n          <OutputItem>\r\n            <Key>ResourceId</Key>\r\n            <Value>3888925532610829152</Value>\r\n          </OutputItem>\r\n          <OutputItem>\r\n            <Key>BackendStampId</Key>\r\n            <Value>64437628-f3e5-4d8a-928b-44b2c9889117</Value>\r\n          </OutputItem>\r\n        </OutputItems>\r\n        <OperationStatus>\r\n          <Type>Create</Type>\r\n          <Result>Succeeded</Result>\r\n        </OperationStatus>\r\n        <Label />\r\n      </Resource>\r\n    </Resources>\r\n  </CloudService>\r\n</CloudServices>",
@@ -1292,8 +1292,8 @@
           "2012-08-01"
         ],
         "User-Agent": [
-          "Microsoft.Azure.Management.ManagedCache.ManagedCacheClient/0.8.2.0",
-          "WindowsAzurePowershell/v0.8.2"
+          "Microsoft.Azure.Management.ManagedCache.ManagedCacheClient/0.8.3.0",
+          "WindowsAzurePowershell/v0.8.3"
         ],
         "client-tracking-id": [
           "23"
@@ -1330,8 +1330,8 @@
           "2012-08-01"
         ],
         "User-Agent": [
-          "Microsoft.Azure.Management.ManagedCache.ManagedCacheClient/0.8.2.0",
-          "WindowsAzurePowershell/v0.8.2"
+          "Microsoft.Azure.Management.ManagedCache.ManagedCacheClient/0.8.3.0",
+          "WindowsAzurePowershell/v0.8.3"
         ],
         "client-tracking-id": [
           "23"
@@ -1368,8 +1368,8 @@
           "2012-08-01"
         ],
         "User-Agent": [
-          "Microsoft.Azure.Management.ManagedCache.ManagedCacheClient/0.8.2.0",
-          "WindowsAzurePowershell/v0.8.2"
+          "Microsoft.Azure.Management.ManagedCache.ManagedCacheClient/0.8.3.0",
+          "WindowsAzurePowershell/v0.8.3"
         ]
       },
       "ResponseBody": "<CachingKeys xmlns=\"http://schemas.microsoft.com/windowsazure\" xmlns:i=\"http://www.w3.org/2001/XMLSchema-instance\">\r\n  <Primary>YWNzOmh0dHBzOi8vb25lc2RrNjU2MTczNjktY2FjaGUuYWNjZXNzY29udHJvbC53aW5kb3dzLm5ldC8vV1JBUHYwLjkvJm93bmVyJmJqUmo5M2tUS0ZuTWdLazBjQmRmUWNHdWNSZEJmbHdaMmxuRzQraTJoT3M9Jmh0dHA6Ly9vbmVzZGs2NTYxLmNhY2hlLndpbmRvd3MubmV0Lw==</Primary>\r\n  <Secondary>YWNzOmh0dHBzOi8vb25lc2RrNjU2MTczNjktY2FjaGUuYWNjZXNzY29udHJvbC53aW5kb3dzLm5ldC8vV1JBUHYwLjkvJm93bmVyJnlnVlh1S01VREUwSnh3NC9HVms5bzNHYjgzRXV0eS9OMG9mY3RBWmRTTFE9Jmh0dHA6Ly9vbmVzZGs2NTYxLmNhY2hlLndpbmRvd3MubmV0Lw==</Secondary>\r\n</CachingKeys>",
@@ -1403,8 +1403,8 @@
           "2012-08-01"
         ],
         "User-Agent": [
-          "Microsoft.Azure.Management.ManagedCache.ManagedCacheClient/0.8.2.0",
-          "WindowsAzurePowershell/v0.8.2"
+          "Microsoft.Azure.Management.ManagedCache.ManagedCacheClient/0.8.3.0",
+          "WindowsAzurePowershell/v0.8.3"
         ]
       },
       "ResponseBody": "<CachingKeys xmlns=\"http://schemas.microsoft.com/windowsazure\" xmlns:i=\"http://www.w3.org/2001/XMLSchema-instance\">\r\n  <Primary>YWNzOmh0dHBzOi8vb25lc2RrNjU2MTczNjktY2FjaGUuYWNjZXNzY29udHJvbC53aW5kb3dzLm5ldC8vV1JBUHYwLjkvJm93bmVyJi9QU3BEVnZVcldnVHpCeGlYdmpoNGV0Uk92a0Y2b2doZDJVajR4Z05NMWc9Jmh0dHA6Ly9vbmVzZGs2NTYxLmNhY2hlLndpbmRvd3MubmV0Lw==</Primary>\r\n  <Secondary>YWNzOmh0dHBzOi8vb25lc2RrNjU2MTczNjktY2FjaGUuYWNjZXNzY29udHJvbC53aW5kb3dzLm5ldC8vV1JBUHYwLjkvJm93bmVyJnlnVlh1S01VREUwSnh3NC9HVms5bzNHYjgzRXV0eS9OMG9mY3RBWmRTTFE9Jmh0dHA6Ly9vbmVzZGs2NTYxLmNhY2hlLndpbmRvd3MubmV0Lw==</Secondary>\r\n</CachingKeys>",
@@ -1438,8 +1438,8 @@
           "2012-08-01"
         ],
         "User-Agent": [
-          "Microsoft.Azure.Management.ManagedCache.ManagedCacheClient/0.8.2.0",
-          "WindowsAzurePowershell/v0.8.2"
+          "Microsoft.Azure.Management.ManagedCache.ManagedCacheClient/0.8.3.0",
+          "WindowsAzurePowershell/v0.8.3"
         ],
         "client-tracking-id": [
           "42"
@@ -1476,8 +1476,8 @@
           "2012-08-01"
         ],
         "User-Agent": [
-          "Microsoft.Azure.Management.ManagedCache.ManagedCacheClient/0.8.2.0",
-          "WindowsAzurePowershell/v0.8.2"
+          "Microsoft.Azure.Management.ManagedCache.ManagedCacheClient/0.8.3.0",
+          "WindowsAzurePowershell/v0.8.3"
         ],
         "client-tracking-id": [
           "42"
@@ -1514,8 +1514,8 @@
           "2012-08-01"
         ],
         "User-Agent": [
-          "Microsoft.Azure.Management.ManagedCache.ManagedCacheClient/0.8.2.0",
-          "WindowsAzurePowershell/v0.8.2"
+          "Microsoft.Azure.Management.ManagedCache.ManagedCacheClient/0.8.3.0",
+          "WindowsAzurePowershell/v0.8.3"
         ],
         "client-tracking-id": [
           "42"

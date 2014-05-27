@@ -7,7 +7,7 @@
       "RequestHeaders": {
         "User-Agent": [
           "Microsoft.Azure.Management.Resources.ResourceManagementClient/2.0.0.0",
-          "WindowsAzurePowershell/v0.8.2"
+          "WindowsAzurePowershell/v0.8.3"
         ]
       },
       "ResponseBody": "",
@@ -43,7 +43,7 @@
       "RequestHeaders": {
         "User-Agent": [
           "Microsoft.Azure.Management.Resources.ResourceManagementClient/2.0.0.0",
-          "WindowsAzurePowershell/v0.8.2"
+          "WindowsAzurePowershell/v0.8.3"
         ]
       },
       "ResponseBody": "{\r\n  \"error\": {\r\n    \"code\": \"InvalidResourceLocation\",\r\n    \"message\": \"The provided location 'non-existing' is not supported. List of available regions is 'centralus, eastasia, southeastasia, eastus, westus, northcentralus, southcentralus, northeurope, westeurope'\"\r\n  }\r\n}",
