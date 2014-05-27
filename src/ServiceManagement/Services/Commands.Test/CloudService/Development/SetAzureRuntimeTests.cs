@@ -71,9 +71,9 @@ namespace Microsoft.WindowsAzure.Commands.Test.CloudService.Development.Tests.Cm
                 string roleName = "WebRole1";
                 cmdlet.PassThru = false;
                 
-                RoleSettings roleSettings1 = cmdlet.SetAzureRuntimesProcess(roleName, "node", "0.8.2", service.Paths.RootPath, RuntimePackageHelper.GetTestManifest(files));
+                RoleSettings roleSettings1 = cmdlet.SetAzureRuntimesProcess(roleName, "node", "0.8.3", service.Paths.RootPath, RuntimePackageHelper.GetTestManifest(files));
                 RoleSettings roleSettings2 = cmdlet.SetAzureRuntimesProcess(roleName, "iisnode", "0.1.21", service.Paths.RootPath, RuntimePackageHelper.GetTestManifest(files));
-                VerifyPackageJsonVersion(service.Paths.RootPath, roleName, "node", "0.8.2");
+                VerifyPackageJsonVersion(service.Paths.RootPath, roleName, "node", "0.8.3");
                 VerifyPackageJsonVersion(service.Paths.RootPath, roleName, "iisnode", "0.1.21");
                 Assert.AreEqual<int>(0, mockCommandRuntime.OutputPipeline.Count);
                 Assert.AreEqual<string>(roleName, roleSettings1.name);
@@ -147,9 +147,9 @@ namespace Microsoft.WindowsAzure.Commands.Test.CloudService.Development.Tests.Cm
                 string caseInsensitiveName = "weBrolE1";
                 cmdlet.PassThru = false;
 
-                RoleSettings roleSettings1 = cmdlet.SetAzureRuntimesProcess(caseInsensitiveName, "node", "0.8.2", service.Paths.RootPath, RuntimePackageHelper.GetTestManifest(files));
+                RoleSettings roleSettings1 = cmdlet.SetAzureRuntimesProcess(caseInsensitiveName, "node", "0.8.3", service.Paths.RootPath, RuntimePackageHelper.GetTestManifest(files));
                 RoleSettings roleSettings2 = cmdlet.SetAzureRuntimesProcess(caseInsensitiveName, "iisnode", "0.1.21", service.Paths.RootPath, RuntimePackageHelper.GetTestManifest(files));
-                VerifyPackageJsonVersion(service.Paths.RootPath, roleName, "node", "0.8.2");
+                VerifyPackageJsonVersion(service.Paths.RootPath, roleName, "node", "0.8.3");
                 VerifyPackageJsonVersion(service.Paths.RootPath, roleName, "iisnode", "0.1.21");
                 Assert.AreEqual<int>(0, mockCommandRuntime.OutputPipeline.Count);
                 Assert.AreEqual<string>(roleName, roleSettings1.name);

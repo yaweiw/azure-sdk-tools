@@ -568,8 +568,8 @@ namespace Microsoft.WindowsAzure.Commands.Test.CloudService.Utilities
                 addAzureWebRole.ExecuteCmdlet();
 
                 CloudServiceProject testService = new CloudServiceProject(rootPath, FileUtilities.GetContentFilePath("Services"));
-                RuntimePackageHelper.SetRoleRuntime(testService.Components.Definition, matchWebRoleName, testService.Paths, version: "0.8.2");
-                RuntimePackageHelper.SetRoleRuntime(testService.Components.Definition, matchWorkerRoleName, testService.Paths, version: "0.8.2");
+                RuntimePackageHelper.SetRoleRuntime(testService.Components.Definition, matchWebRoleName, testService.Paths, version: "0.8.3");
+                RuntimePackageHelper.SetRoleRuntime(testService.Components.Definition, matchWorkerRoleName, testService.Paths, version: "0.8.3");
                 RuntimePackageHelper.SetRoleRuntime(testService.Components.Definition, overrideWebRoleName, testService.Paths, overrideUrl: "http://OVERRIDE");
                 RuntimePackageHelper.SetRoleRuntime(testService.Components.Definition, overrideWorkerRoleName, testService.Paths, overrideUrl: "http://OVERRIDE");
                 testService.AddRoleRuntime(testService.Paths, cacheWebRoleName, Resources.CacheRuntimeValue, cacheRuntimeVersion, RuntimePackageHelper.GetTestManifest(files));

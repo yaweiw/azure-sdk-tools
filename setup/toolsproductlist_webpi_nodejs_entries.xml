@@ -647,11 +647,11 @@
   </entry>
 
   <entry>
-    <productId>NodeJS0.8.2</productId>
-    <title resourceName="Entry_NodeJS_0.8.2_Title">Node.js v0.8.2 side by side add-on</title>
-    <version>0.8.2</version>
-    <summary resourceName="Entry_NodeJS_0.8.2_Summary">Node.JS is a server-side environment for JavaScript.</summary>
-    <longSummary resourceName="Entry_NodeJS_0.8.2_LongSummary">Node.JS is a server-side scripting environment for building highly scalable concurrent web applications using JavaScript.</longSummary>
+    <productId>NodeJS0.8.3</productId>
+    <title resourceName="Entry_NodeJS_0.8.3_Title">Node.js v0.8.3 side by side add-on</title>
+    <version>0.8.3</version>
+    <summary resourceName="Entry_NodeJS_0.8.3_Summary">Node.JS is a server-side environment for JavaScript.</summary>
+    <longSummary resourceName="Entry_NodeJS_0.8.3_LongSummary">Node.JS is a server-side scripting environment for building highly scalable concurrent web applications using JavaScript.</longSummary>
     <link href="http://nodejs.org/" />
     <published>2012-07-09T12:00:00Z</published>
     <updated>2012-07-09T12:00:00Z</updated>
@@ -670,14 +670,14 @@
       <or>
         <discoveryHint>
           <file>
-            <filePath>%programfiles%\nodejs\0.8.2\node.exe</filePath>
-            <minimumVersion>0.8.2</minimumVersion>
+            <filePath>%programfiles%\nodejs\0.8.3\node.exe</filePath>
+            <minimumVersion>0.8.3</minimumVersion>
           </file>
         </discoveryHint>
         <discoveryHint>
           <file>
-            <filePath>%programfiles(x86)%\nodejs\0.8.2\node.exe</filePath>
-            <minimumVersion>0.8.2</minimumVersion>
+            <filePath>%programfiles(x86)%\nodejs\0.8.3\node.exe</filePath>
+            <minimumVersion>0.8.3</minimumVersion>
           </file>
         </discoveryHint>
       </or>
@@ -692,13 +692,13 @@
         <eulaURL>https://raw.github.com/joyent/node/master/LICENSE</eulaURL>
         <installerFile>
           <fileSize>5042</fileSize>
-          <installerURL>http://nodejs.org/dist/v0.8.2/node.exe</installerURL>
+          <installerURL>http://nodejs.org/dist/v0.8.3/node.exe</installerURL>
           <sha1>dcc45bee9d4a6b38ccef0f00e4a6028864f07278</sha1>
         </installerFile>
         <installCommands>
           <cmdline>
             <exe>%WINDIR%\system32\cmd.exe</exe>
-            <commandLineArguments>/c mkdir "%programfiles%\nodejs\0.8.2" &amp; copy /Y "%InstallerFile%" "%programfiles%\nodejs\0.8.2"</commandLineArguments>
+            <commandLineArguments>/c mkdir "%programfiles%\nodejs\0.8.3" &amp; copy /Y "%InstallerFile%" "%programfiles%\nodejs\0.8.3"</commandLineArguments>
           </cmdline>
         </installCommands>
         <helpLink>http://go.microsoft.com/?linkid=9790234</helpLink>
@@ -712,13 +712,13 @@
         <eulaURL>https://raw.github.com/joyent/node/master/LICENSE</eulaURL>
         <installerFile>
           <fileSize>5042</fileSize>
-          <installerURL>http://nodejs.org/dist/v0.8.2/node.exe</installerURL>
+          <installerURL>http://nodejs.org/dist/v0.8.3/node.exe</installerURL>
           <sha1>dcc45bee9d4a6b38ccef0f00e4a6028864f07278</sha1>
         </installerFile>
         <installCommands>
           <cmdline>
             <exe>%WINDIR%\system32\cmd.exe</exe>
-            <commandLineArguments>/c mkdir "%programfiles(x86)%\nodejs\0.8.2" &amp; copy /Y "%InstallerFile%" "%programfiles(x86)%\nodejs\0.8.2"</commandLineArguments>
+            <commandLineArguments>/c mkdir "%programfiles(x86)%\nodejs\0.8.3" &amp; copy /Y "%InstallerFile%" "%programfiles(x86)%\nodejs\0.8.3"</commandLineArguments>
           </cmdline>
         </installCommands>
         <helpLink>http://go.microsoft.com/?linkid=9790234</helpLink>
