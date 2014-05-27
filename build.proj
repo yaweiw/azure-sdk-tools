@@ -10,12 +10,11 @@
     <ManagementTestDirectory>.\src\ServiceManagement\Services\Commands.Test\bin</ManagementTestDirectory>
     <ManagementTestAssemblyName>Microsoft.WindowsAzure.Commands.Test.dll</ManagementTestAssemblyName>
     <SetupDirectory>.\setup\build</SetupDirectory>
-
     <PublishDirectory>.\src\Publish</PublishDirectory>
     <PackageDirectory>.\src\Package</PackageDirectory>
-    <TestOutputDirectory>$(PublishDirectory)\TestResults</TestOutputDirectory>
     <BuildOutputDirectory>$(PublishDirectory)\Build</BuildOutputDirectory>
     <SetupOutputDirectory>$(PublishDirectory)\Setup</SetupOutputDirectory>
+    <TestOutputDirectory>$(PublishDirectory)\TestResults</TestOutputDirectory>
     <DebugBuildConfig>Configuration=Debug;Platform=AnyCPU</DebugBuildConfig>
     <ReleaseBuildConfig>Configuration=Release;Platform=AnyCPU</ReleaseBuildConfig>
   </PropertyGroup>
