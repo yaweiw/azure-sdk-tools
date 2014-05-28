@@ -30,17 +30,18 @@
     <TestFilter>"!Functional&#x26;!Scenario&#x26;!Sequential&#x26;!PIRTest&#x26;!Preview&#x26;!ADDomain"</TestFilter>
     <ScenarioTestFilter>All</ScenarioTestFilter>
     <MockTestFilter>CheckIn</MockTestFilter>
-	<OneSDKCITFilter>"OneSDK&#x26;CIT"</OneSDKCITFilter>
+	  <OneSDKCITFilter>"OneSDK&#x26;CIT"</OneSDKCITFilter>
     <MediaServiceBVTFilter>"MediaServices&#x26;BVT"</MediaServiceBVTFilter>
-	<AzureRTAllTestFilter>"Functional|Scenario"</AzureRTAllTestFilter>
-	<AzureRTAllTestFilter2>"Functional|Scenario|Preview"</AzureRTAllTestFilter2>
-	<AzureRTAllTestFilter3>"Functional|Scenario|Sequential"</AzureRTAllTestFilter3>
+    <WebsiteBVTFilter>"Websites&#x26;BVT&#x26;Phase1"</WebsiteBVTFilter>
+	  <AzureRTAllTestFilter>"Functional|Scenario"</AzureRTAllTestFilter>
+	  <AzureRTAllTestFilter2>"Functional|Scenario|Preview"</AzureRTAllTestFilter2>
+	  <AzureRTAllTestFilter3>"Functional|Scenario|Sequential"</AzureRTAllTestFilter3>
     <TestOutputDirectory>$(PublishDirectory)\TestResults</TestOutputDirectory>
-	<DebugBuildConfig>Configuration=Debug;Platform=Any CPU</DebugBuildConfig>
-	<ReleaseBuildConfig>Configuration=Release;Platform=Any CPU</ReleaseBuildConfig>
-	<ReleaseSignedBuildConfig>Configuration=ReleaseSigned;Platform=Any CPU</ReleaseSignedBuildConfig>
-	<TestName></TestName>
-	<TestParams></TestParams>
+	  <DebugBuildConfig>Configuration=Debug;Platform=Any CPU</DebugBuildConfig>
+	  <ReleaseBuildConfig>Configuration=Release;Platform=Any CPU</ReleaseBuildConfig>
+	  <ReleaseSignedBuildConfig>Configuration=ReleaseSigned;Platform=Any CPU</ReleaseSignedBuildConfig>
+	  <TestName></TestName>
+	  <TestParams></TestParams>
   </PropertyGroup>
   <ItemGroup>
     <CmdletSln Include=".\src\AzurePowerShell.sln" />
@@ -326,6 +327,20 @@
     <Exec
       Command="MSTest.exe /testcontainer:$(ScenarioTestDebug) /testsettings:$(TestSettings) /category:$(MediaServiceBVTFilter) /resultsfile:$(TestOutputDirectory)\RunMediaServiceBVTDebug.trx"
       ContinueOnError="false" />
+  </Target>
+
+    <!-- Run the Website Scenario Tests -->
+ <!--  <Target Name="RunWebsiteBVTs"> -->
+ <Target Name="RunWebsiteBVTs" DependsOnTargets="Clean;BuildDebug"> 
+    <Message Importance="high" Text="Running Website BVTs..." />
+    <Message Importance="high" Text="You are required to have installed a version of Visual Studio with support for MSTest (and MSTest on your path)." />
+    <MakeDir Directories="$(TestOutputDirectory)" ContinueOnError="false" />
+
+    <Message Importance="high" Text="Media Service Scenario tests:" />
+    <Delete Files="$(TestOutputDirectory)\RunWebsiteBVTDebug.trx" />
+    <Exec
+      Command="MSTest.exe /testcontainer:$(ScenarioTestDebug) /testsettings:$(TestSettings) /category:$(WebsiteBVTFilter) /resultsfile:$(TestOutputDirectory)\RunWebsiteBVTDebug.trx"
+      ContinueOnError="false"  EnvironmentVariables="AZURE_TEST_MODE=None"/>
   </Target>
 
   <!-- Run the AzureRT tests -->
