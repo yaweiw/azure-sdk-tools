@@ -68,13 +68,6 @@ namespace Microsoft.WindowsAzure.Commands.TrafficManager.Profile
                 Ttl.HasValue ? Ttl.Value : profile.TimeToLiveInSeconds,
                 profile.Endpoints);
 
-            if (updatedDefinitionAsParam.Policy.LoadBalancingMethod ==
-                Management.TrafficManager.Models.LoadBalancingMethod.Performance &&
-                updatedDefinitionAsParam.Policy.Endpoints.Any(e => e.Type == EndpointType.Any))
-            {
-                throw new Exception(Resources.SetTrafficManagerProfileErrorNotSupported);
-            }
-
             ProfileWithDefinition newDefinition =
                 TrafficManagerClient.AssignDefinitionToProfile(Name, updatedDefinitionAsParam);
 
