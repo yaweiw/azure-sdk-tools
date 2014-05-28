@@ -54,7 +54,12 @@ namespace Microsoft.WindowsAzure.Commands.TrafficManager.Profile
         {
             ProfileWithDefinition profile = TrafficManagerProfile.GetInstance();
 
-            if (!Name.Equals(profile.Name))
+            if (string.IsNullOrEmpty(Name))
+            {
+                this.Name = profile.Name;
+            }
+
+            if (!profile.Name.Equals(Name))
             {
                 throw new Exception(Resources.SetTrafficManagerProfileAmbiguous);
             }
