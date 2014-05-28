@@ -62,7 +62,6 @@ namespace Microsoft.WindowsAzure.Commands.Test.TrafficManager.Endpoints
 
             cmdlet = new RemoveAzureTrafficManagerEndpoint
                 {
-                    Name = ProfileName,
                     DomainName = DomainName,
                     TrafficManagerProfile = original,
                     CommandRuntime = mockCommandRuntime
@@ -102,7 +101,6 @@ namespace Microsoft.WindowsAzure.Commands.Test.TrafficManager.Endpoints
 
             cmdlet = new RemoveAzureTrafficManagerEndpoint
                 {
-                    Name = ProfileName,
                     DomainName = DomainName,
                     TrafficManagerProfile = original,
                     CommandRuntime = mockCommandRuntime
