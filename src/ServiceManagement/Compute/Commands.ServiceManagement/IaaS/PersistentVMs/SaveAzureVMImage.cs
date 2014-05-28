@@ -14,13 +14,13 @@
 
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
 {
+    using System;
+    using System.Linq;
+    using System.Management.Automation;
     using Helpers;
     using Management.Compute.Models;
     using Model;
     using Properties;
-    using System;
-    using System.Linq;
-    using System.Management.Automation;
     using Utilities.Common;
 
     [Cmdlet(

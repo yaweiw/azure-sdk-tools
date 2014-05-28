@@ -31,6 +31,8 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.Common
 
         public const string TrafficManager = "TrafficManager";
 
+        public const string ManagedCache = "ManagedCache";
+
         // Owners
 
         public const string OneSDK = "OneSDK";

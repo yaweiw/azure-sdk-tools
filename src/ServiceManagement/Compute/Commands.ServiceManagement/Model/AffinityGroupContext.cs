@@ -24,6 +24,9 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Model
         {
             this.HostedServices = new List<Service>();
             this.StorageServices = new List<Service>();
+            this.Capabilities = new List<string>();
+            this.VirtualMachineRoleSizes = new List<string>();
+            this.WebWorkerRoleSizes = new List<string>();
         }
 
         public string Name { get; set; }
@@ -39,6 +42,12 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Model
         public IEnumerable<Service> StorageServices { get; set; }
 
         public IEnumerable<string> Capabilities { get; set; }
+
+        public IEnumerable<string> WebWorkerRoleSizes { get; set; }
+
+        public IEnumerable<string> VirtualMachineRoleSizes { get; set; }
+
+        public DateTime? CreatedTime { get; set; }
 
         public class Service
         {

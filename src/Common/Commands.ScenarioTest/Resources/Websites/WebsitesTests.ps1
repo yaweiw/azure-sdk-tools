@@ -769,7 +769,7 @@ function Test-NewAzureWebSiteGitHubAllParms
 	$deploymentStatusSuccess = Retry-Function { (Get-AzureWebSiteDeployment $siteName).Status.ToString() -eq "Success" } $null 8 3
 	if (($siteStatusRunning -eq $true) -and ($deploymentStatusSuccess -eq $true))
 	{
-		Assert-True { Test-ValidateResultInBrowser ("http://" + $WebSite.HostNames[0]) "0.8.2" }
+		Assert-True { Test-ValidateResultInBrowser ("http://" + $WebSite.HostNames[0]) "0.8.3" }
 	}
 	else
 	{

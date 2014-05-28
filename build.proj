@@ -2,27 +2,14 @@
 <Project
   xmlns="http://schemas.microsoft.com/developer/msbuild/2003"
   ToolsVersion="4.0"
-  DefaultTargets="ForceRestorePackages;Clean;BuildDebug;BuildReleaseSigned;BuildSetupDebug">
+  DefaultTargets="ForceRestorePackages;Clean;BuildDebug;BuildRelease;BuildSetupDebug">
 
   <!-- Define build properties -->
   <PropertyGroup>
     <ManagementCmdletBinDirectory>.\src\ServiceManagement\Services\Commands\bin</ManagementCmdletBinDirectory>
     <ManagementTestDirectory>.\src\ServiceManagement\Services\Commands.Test\bin</ManagementTestDirectory>
     <ManagementTestAssemblyName>Microsoft.WindowsAzure.Commands.Test.dll</ManagementTestAssemblyName>
-
-    <TestSettings>.\src\Local.testsettings</TestSettings>
-    <AzureRTTestSettings>.\src\AzureRT.testsettings</AzureRTTestSettings>
-    <ScenarioTestDebug>.\src\Common\Commands.ScenarioTest\bin\Debug\Microsoft.WindowsAzure.Commands.ScenarioTest.dll</ScenarioTestDebug>
-    <AzureRTTestContainer>.\src\ServiceManagement\Compute\Commands.ServiceManagement.Test\bin\Debug\Microsoft.WindowsAzure.Commands.ServiceManagement.Test.dll</AzureRTTestContainer>
-    <StorageScenarioTestDebug>src\ServiceManagement\Storage\Commands.Storage.ScenarioTest\bin\Debug\CLITest.dll</StorageScenarioTestDebug>
-    <ManagementTestDebug>.\src\ServiceManagement\Services\Commands.Test\bin\Debug\Microsoft.WindowsAzure.Commands.Test.dll</ManagementTestDebug>
-    <ResourceManagerTestDebug>.\src\ResourceManager\Resources\Commands.Resources.Test\bin\Debug\Microsoft.Azure.Commands.Resources.Test.dll</ResourceManagerTestDebug>
-    <ServiceManagementTestDebug>.\src\ServiceManagement\Compute\Commands.ServiceManagement.Test\bin\Debug\Microsoft.WindowsAzure.Commands.ServiceManagement.Test.dll</ServiceManagementTestDebug>
-    <SqlDatabaseTestDebug>.\src\ServiceManagement\Sql\Commands.SqlDatabase.Test\bin\Debug\Microsoft.WindowsAzure.Commands.SqlDatabase.Test.dll</SqlDatabaseTestDebug>
-    <HDInsightTestDebug>.\src\ServiceManagement\Services\Commands.HDInsight.Test\bin\Debug\Microsoft.WindowsAzure.Commands.HDInsight.Test.dll</HDInsightTestDebug>    
-    <StorageTestDebug>.\src\ServiceManagement\Storage\Commands.Storage.Test\bin\Debug\Microsoft.WindowsAzure.Commands.Storage.Test.dll</StorageTestDebug>
     <SetupDirectory>.\setup\build</SetupDirectory>
-
     <PublishDirectory>.\src\Publish</PublishDirectory>
     <PackageDirectory>.\src\Package</PackageDirectory>
     <BuildOutputDirectory>$(PublishDirectory)\Build</BuildOutputDirectory>
@@ -44,7 +31,7 @@
 	  <TestParams></TestParams>
   </PropertyGroup>
   <ItemGroup>
-    <CmdletSln Include=".\src\AzurePowerShell.sln" />
+    <AzurePowerShellSln Include=".\src\AzurePowerShell.sln" />
     <SetupSln Include=".\setup\azurepowershell.sln" />
   </ItemGroup>
 
@@ -57,21 +44,16 @@
     <!-- Clean the solutions -->
     <Message Importance="high" Text="Cleaning Cmdlets..." ContinueOnError="false" />
     <MSBuild
-      Projects="@(CmdletSln)"
+      Projects="@(AzurePowerShellSln)"
       Targets="Clean"
       Properties="$(DebugBuildConfig)"
       ContinueOnError="false" />
     <MSBuild
-      Projects="@(CmdletSln)"
-      Targets="Clean"
-      Properties="$(ReleaseSignedBuildConfig)"
-      ContinueOnError="false" />
-    <MSBuild
-      Projects="@(SetupSln)"
+      Projects="@(AzurePowerShellSln)"
       Targets="Clean"
       Properties="$(ReleaseBuildConfig)"
       ContinueOnError="false" />
-	<MSBuild
+    <MSBuild
       Projects="@(SetupSln)"
       Targets="Clean"
       Properties="$(DebugBuildConfig)"
@@ -89,7 +71,7 @@
       Directories="$(PublishDirectory)"
       ContinueOnError="false" />
 
-	<!-- Delete the package files -->
+    <!-- Delete the package files -->
     <Message Importance="high" Text="Cleaning package files..." ContinueOnError="false" />
     <ItemGroup>
       <PackageFiles Include="$(PackageDirectory)\**\*.*" />
@@ -108,11 +90,11 @@
   -->
   <Target Name="ForceRestorePackages">
     <PropertyGroup>
-	    <NuGetCommand>$(MSBuildProjectDirectory)\src\.nuget\NuGet.exe</NuGetCommand>
-		<NuGetRestoreConfigFile>$(MSBuildProjectDirectory)\restore.config</NuGetRestoreConfigFile>
-		<NuGetRestoreConfigSwitch>-ConfigFile &quot;$(NuGetRestoreConfigFile)&quot;</NuGetRestoreConfigSwitch>
+        <NuGetCommand>$(MSBuildProjectDirectory)\src\.nuget\NuGet.exe</NuGetCommand>
+        <NuGetRestoreConfigFile>$(MSBuildProjectDirectory)\restore.config</NuGetRestoreConfigFile>
+        <NuGetRestoreConfigSwitch>-ConfigFile &quot;$(NuGetRestoreConfigFile)&quot;</NuGetRestoreConfigSwitch>
     </PropertyGroup>
-	
+    
     <ItemGroup>
       <NuGetCache Include="$(LOCALAPPDATA)\NuGet\Cache\*.nupkg"/>
     </ItemGroup>
@@ -122,11 +104,11 @@
 
     <!-- Create config for user name and password for private feed access -->
     <Delete Files="$(NuGetRestoreConfigFile)" />
-	<WriteLinesToFile File="$(NuGetRestoreConfigFile)" Lines="&lt;configuration&gt;&lt;/configuration&gt;" Overwrite="true" Encoding="UTF-8" />
-	<Exec Command="$(NuGetCommand) sources add -Name AzureSdkInternal -Source &quot;https://www.myget.org/F/azure-sdk-internal/&quot; $(NuGetRestoreConfigSwitch)" />
+    <WriteLinesToFile File="$(NuGetRestoreConfigFile)" Lines="&lt;configuration&gt;&lt;/configuration&gt;" Overwrite="true" Encoding="UTF-8" />
+    <Exec Command="$(NuGetCommand) sources add -Name AzureSdkInternal -Source &quot;https://www.myget.org/F/azure-sdk-internal/&quot; $(NuGetRestoreConfigSwitch)" />
     <!-- Restore packages -->
-	<Exec Command="$(NuGetCommand) restore $(MSBuildProjectDirectory)\src\AzurePowerShell.sln $(NuGetRestoreConfigSwitch)" ContinueOnError="ErrorAndContinue" />
-	<!-- delete config file, don't want to leave passwords hanging around on the build server file system -->
+    <Exec Command="$(NuGetCommand) restore $(MSBuildProjectDirectory)\src\AzurePowerShell.sln $(NuGetRestoreConfigSwitch)" ContinueOnError="ErrorAndContinue" />
+    <!-- delete config file, don't want to leave passwords hanging around on the build server file system -->
     <Delete Files="$(NuGetRestoreConfigFile)" />
   </Target>
 
@@ -134,14 +116,14 @@
   <Target Name="BuildCmdlets" DependsOnTargets="ForceRestorePackages">
     <Message Importance="high" Text="Building Cmdlets..." />
     <MSBuild
-      Projects="@(CmdletSln)"
+      Projects="@(AzurePowerShellSln)"
       Targets="Build"
       Properties="$(DebugBuildConfig)"
       ContinueOnError="false" />
     <MSBuild
-      Projects="@(CmdletSln)"
+      Projects="@(AzurePowerShellSln)"
       Targets="Build"
-      Properties="$(ReleaseSignedBuildConfig)"
+      Properties="$(ReleaseBuildConfig)"
       ContinueOnError="false" />
   </Target>
 
@@ -153,7 +135,7 @@
       ContinueOnError="false" />
     <Message
       Importance="high"
-      Text="You are required to have installed the WiX Toolset at http://wix.codeplex.com/releases/view/60102 (Wix35.msi)"
+      Text="You are required to have installed the WiX Toolset at http://wix.codeplex.com/releases/view/115492 (Wix38.msi)"
       ContinueOnError="false" />
     <MSBuild
       Projects="@(SetupSln)"
@@ -163,14 +145,14 @@
   </Target>
 
   <!-- Build the Setup -->
-  <Target Name="BuildSetup">
+  <Target Name="BuildSetupRelease">
     <Message
       Importance="high"
       Text="Building Setup..."
       ContinueOnError="false" />
     <Message
       Importance="high"
-      Text="You are required to have installed the WiX Toolset at http://wix.codeplex.com/releases/view/60102 (Wix35.msi)"
+      Text="You are required to have installed the WiX Toolset at http://wix.codeplex.com/releases/view/115492 (Wix38.msi)"
       ContinueOnError="false" />
     <MSBuild
       Projects="@(SetupSln)"
@@ -439,20 +421,15 @@
   <!-- Do everything possible -->
   <Target
     Name="Full"
-    DependsOnTargets="ForceRestorePackages;Clean;BuildDebug;BuildReleaseSigned;Test;BuildSetupDebug;BuildSetup" />
+    DependsOnTargets="ForceRestorePackages;Clean;BuildDebug;BuildRelease;Test;BuildSetupDebug;BuildSetupRelease" />
 
-  <!-- Run Full switch with scenario tests -->
-  <Target
-    Name="FullWithScenarioTests"
-    DependsOnTargets="ForceRestorePackages;Clean;BuildDebug;BuildReleaseSigned;Test;BuildSetupDebug;BuildSetup;RunOneSDKCIT" />
-
-  <!-- Build the Cmdlets in ReleaseSigned configuration -->
-  <Target Name="BuildReleaseSigned" DependsOnTargets="ForceRestorePackages">
-    <Message Importance="high" Text="Building Cmdlets in ReleaseSigned config..." />
+  <!-- Build the Cmdlets in Release configuration -->
+  <Target Name="BuildRelease" DependsOnTargets="ForceRestorePackages">
+    <Message Importance="high" Text="Building Cmdlets in Release config..." />
     <MSBuild
-      Projects="@(CmdletSln)"
+      Projects="@(AzurePowerShellSln)"
       Targets="Build"
-      Properties="$(ReleaseSignedBuildConfig)"
+      Properties="$(ReleaseBuildConfig)"
       ContinueOnError="false" />
   </Target>
 
@@ -460,9 +437,24 @@
   <Target Name="BuildDebug" DependsOnTargets="ForceRestorePackages">
     <Message Importance="high" Text="Building Cmdlets in Debug config..." />
     <MSBuild
-      Projects="@(CmdletSln)"
+      Projects="@(AzurePowerShellSln)"
       Targets="Build"
       Properties="$(DebugBuildConfig)"
       ContinueOnError="false" />
   </Target>
+
+  <!-- Note: all testing related target should go to 'AzurePowershell.test.targets' file except the one used by CI run -->
+  <Import Project="$(MSBuildThisFileDirectory)AzurePowershell.test.targets"/>
+  
+  <!-- Run checkin tests for each pull request -->
+  <Target Name="Test" DependsOnTargets="BuildDebug;BeforeRunTests">
+    <Message Importance="high" Text="Running check in tests..." />
+    <CallTarget Targets="TestManagement; TestManagedCache; TestResourceManager; TestServiceManagement; TestSqlDatabase; TestStorage; MockedScenarioTests" />
+  </Target>
+  
+  <!-- Run Full switch with scenario tests -->
+  <Target
+    Name="FullWithScenarioTests"
+    DependsOnTargets="ForceRestorePackages;Clean;BuildDebug;BuildRelease;Test;BuildSetupDebug;BuildSetupRelease;RunOneSDKCIT" />
+  
 </Project>

@@ -14,9 +14,9 @@
 
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Model
 {
+    using System.IO;
     using Sync;
     using Sync.Download;
-    using System.IO;
     using Utilities.Common;
 
     public class VhdDownloaderModel
