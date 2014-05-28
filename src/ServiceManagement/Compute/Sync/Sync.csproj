@@ -113,10 +113,6 @@
     <Compile Include="Upload\UploadOperationMetaData.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\ConsoleAppUtils\ConsoleAppUtils.csproj">
-      <Project>{ED57ECAF-AD30-4C7A-99A6-8757A83B19F0}</Project>
-      <Name>ConsoleAppUtils</Name>
-    </ProjectReference>
     <ProjectReference Include="..\VhdManagement\VhdManagement.csproj">
       <Project>{80496B7B-068A-4A1E-B0BB-4B1FFF3FA616}</Project>
       <Name>VhdManagement</Name>
