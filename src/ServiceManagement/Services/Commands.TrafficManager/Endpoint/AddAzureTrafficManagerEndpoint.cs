@@ -40,7 +40,7 @@ namespace Microsoft.WindowsAzure.Commands.TrafficManager.Endpoint
         public string Status { get; set; }
 
         [Parameter(Mandatory = false)]
-        public int Weight { get; set; }
+        public int? Weight { get; set; }
 
         public override void ExecuteCmdlet()
         {
@@ -49,7 +49,7 @@ namespace Microsoft.WindowsAzure.Commands.TrafficManager.Endpoint
             endpoint.Location = Location;
             endpoint.Status = (EndpointStatus)Enum.Parse(typeof(EndpointStatus), Status);
             endpoint.Type = (EndpointType)Enum.Parse(typeof(EndpointType), Type);
-            endpoint.Weight = Weight;
+            endpoint.Weight = Weight.HasValue ? Weight.Value : 1;
             ProfileWithDefinition profile = TrafficManagerProfile.GetInstance();
 
             if (profile.Endpoints.Any(e => e.DomainName == endpoint.DomainName))
