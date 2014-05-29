@@ -160,9 +160,9 @@
     <Compile Include="Common\TestEnvironmentFactory.cs" />
     <Compile Include="Common\TokenCloudCredentialsHelper.cs" />
     <Compile Include="Common\WindowsAzurePowerShellTokenTest.cs" />
-    <Resource Include="Resources\Storage\StorageContext.ps1">
+    <None Include="Resources\Storage\StorageContext.ps1">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Resource>
+    </None>
     <Compile Include="ManagedCacheTests\ManagedCacheTests.cs" />
     <Compile Include="MediaServicesTests\MediaServicesTests.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
@@ -207,62 +207,86 @@
     <Content Include="Resources\Websites\WebsiteJobTestCmd.zip">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Resource Include="Resources\ResourceManager\Common.ps1">
+    <None Include="Resources\ResourceManager\Common.ps1">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Resources\ResourceManager\ResourceTests.ps1">
+    </None>
+    <None Include="Resources\ResourceManager\ResourceTests.ps1">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Resource>
+    </None>
     <EmbeddedResource Include="Properties\Resources.resx">
       <SubType>Designer</SubType>
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="Resources\node-token.zip" />
-    <Resource Include="Resources\ResourceManager\ResourceGroupTests.ps1">
+    <None Include="Resources\ResourceManager\ResourceGroupTests.ps1">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Resource>
-    <None Include="Resources\Automation\AutomationTests.ps1" />
-    <None Include="Resources\Automation\fastJob.ps1" />
-    <None Include="Resources\Automation\Test-Workflow.ps1" />
-    <None Include="Resources\Automation\Test-WorkflowV2.ps1" />
-    <None Include="Resources\Automation\Test-WorkFlowWithVariousParameters.ps1" />
-    <None Include="Resources\Automation\Use-WorkflowCheckpointSample.ps1" />
-    <None Include="Resources\Automation\Write-DebugAndVerboseOutput.ps1" />
-    <None Include="Resources\Build2014_Website_App.json" />
-    <Resource Include="Resources\ResourceManager\DeploymentTests.ps1">
+    </None>
+    <None Include="Resources\Automation\AutomationTests.ps1">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Resource>
-    <None Include="Resources\ManagedCache\ManagedCacheTests.ps1" />
+    </None>
+    <None Include="Resources\Automation\fastJob.ps1">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\Automation\Test-Workflow.ps1">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\Automation\Test-WorkflowV2.ps1">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\Automation\Test-WorkFlowWithVariousParameters.ps1">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\Automation\Use-WorkflowCheckpointSample.ps1">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\Automation\Write-DebugAndVerboseOutput.ps1">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\Build2014_Website_App.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\ResourceManager\DeploymentTests.ps1">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\ManagedCache\ManagedCacheTests.ps1">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="Resources\RdfeTestDummy.publishsettings">
       <SubType>Designer</SubType>
     </None>
     <None Include="Resources\CsmTestDummySubscription.json" />
-    <None Include="Resources\TrafficManager\Common.ps1" />
-    <None Include="Resources\TrafficManager\TrafficManagerTests.ps1" />
-    <None Include="Resources\Websites\WebsiteJobTestCmd.zip" />
-    <Resource Include="Resources\Common.ps1">
+    <None Include="Resources\TrafficManager\Common.ps1">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Resources\Assert.ps1">
+    </None>
+    <None Include="Resources\TrafficManager\TrafficManagerTests.ps1">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Resource>
+    </None>
+    <None Include="Resources\Websites\WebsiteJobTestCmd.zip">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\Common.ps1">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\Assert.ps1">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="MSSharedLibKey.snk" />
-    <Resource Include="Resources\CloudService\CloudServiceTests.ps1">
+    <None Include="Resources\CloudService\CloudServiceTests.ps1">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Resources\CloudService\Common.ps1">
+    </None>
+    <None Include="Resources\CloudService\Common.ps1">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Resources\Management\ManagementTests.ps1">
+    </None>
+    <None Include="Resources\Management\ManagementTests.ps1">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Resources\Websites\WebsitesTests.ps1">
+    </None>
+    <None Include="Resources\Websites\WebsitesTests.ps1">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Resources\Websites\Common.ps1">
+    </None>
+    <None Include="Resources\Websites\Common.ps1">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Resource>
+    </None>
     <None Include="Resources\CloudService\Cache\connman.tgz">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
@@ -272,41 +296,45 @@
     <None Include="packages.config">
       <SubType>Designer</SubType>
     </None>
-    <Resource Include="Resources\ServiceManagement\VMProvisionTests.ps1">
+    <None Include="Resources\ServiceManagement\VMProvisionTests.ps1">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Resources\ServiceManagement\Common.ps1">
+    </None>
+    <None Include="Resources\ServiceManagement\Common.ps1">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Resource>
-    <None Include="Resources\Credentials.ps1" />
+    </None>
+    <None Include="Resources\Credentials.ps1">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="Resources\Credstests.ps1" />
     <None Include="Resources\CredUtils.ps1" />
     <None Include="Resources\Emulator.ps1" />
     <None Include="Resources\Emulatortests.ps1" />
     <None Include="Resources\GenerateCredstests.ps1" />
     <None Include="Resources\GenerateEmulatortests.ps1" />
-    <None Include="Resources\MediaServices\MediaServices.ps1" />
+    <None Include="Resources\MediaServices\MediaServices.ps1">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="Resources\NodeEmulatorTests.ps1" />
     <None Include="Resources\PHPEmulatorTests.ps1" />
     <None Include="Resources\Scaffolding.ps1" />
-    <Resource Include="Resources\ServiceBus\NamespaceScenarioTests.ps1">
+    <None Include="Resources\ServiceBus\NamespaceScenarioTests.ps1">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Resources\ServiceBus\Common.ps1">
+    </None>
+    <None Include="Resources\ServiceBus\Common.ps1">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Resources\Store\StoreTests.ps1">
+    </None>
+    <None Include="Resources\Store\StoreTests.ps1">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Resources\Storage\StorageContainer.ps1">
+    </None>
+    <None Include="Resources\Storage\StorageContainer.ps1">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Resources\Store\Common.ps1">
+    </None>
+    <None Include="Resources\Store\Common.ps1">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Resources\ServiceBus\AuthorizationRuleScenarioTests.ps1">
+    </None>
+    <None Include="Resources\ServiceBus\AuthorizationRuleScenarioTests.ps1">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Resource>
+    </None>
     <None Include="Resources\tipsf001.publishsettings" />
     <None Include="Resources\tipsf002.publishsettings" />
     <None Include="Resources\tipsf003.publishsettings" />
@@ -347,9 +375,9 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Resources\CloudService\Cache\index.js">
+    <None Include="Resources\CloudService\Cache\index.js">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
+    </None>
     <Content Include="Resources\CloudService\Cache\requestHandlers.js">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
