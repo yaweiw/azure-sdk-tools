@@ -36,7 +36,7 @@ This repository contains a set of PowerShell cmdlets for developers and administ
   * Manage cloud service extensions
     * Remote desktop
     * Diagnostics
-    * Anti-Malware
+    * Microsoft Antimalware
 * Storage
   * Manage storage account and access key.
   * Manage storage container and blob, with paging.
@@ -66,6 +66,7 @@ This repository contains a set of PowerShell cmdlets for developers and administ
   * PowerShell remoting
   * Manage extension
   * Public IP, reserved IP and internal load balancer
+  * Microsoft Antimalware
 * Deployment
   * Manage deployment, such as CRUD, move, upgrade and restore.
   * Get/Create DNS settings of a deployment.

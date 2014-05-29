@@ -1596,7 +1596,4 @@ use and privacy statement at &lt;url&gt; and (c) agree to sharing my contact inf
   <data name="SetTrafficManagerProfileAmbiguous" xml:space="preserve">
     <value>Ambiguous operation: the profile name specified doesn't match the name of the profile object.</value>
   </data>
-  <data name="SetTrafficManagerProfileErrorNotSupported" xml:space="preserve">
-    <value>It is not possible to add an endpoint of type "Any" to a profile with a load balancing method "Performance"</value>
-  </data>
 </root>
