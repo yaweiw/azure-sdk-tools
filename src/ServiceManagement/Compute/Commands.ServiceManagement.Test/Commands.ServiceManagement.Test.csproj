@@ -370,6 +370,7 @@
     <Compile Include="FunctionalTests\VMTemplateTests.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="FunctionalTests\ExtensionTests\MicrosoftAntimalware\AzureVMMicrosoftAntimalwareExtensionFunctionalTests.ps1" />
     <None Include="MSSharedLibKey.snk" />
     <None Include="packages.config" />
     <None Include="Resources\affinityGroupData.csv" />
@@ -407,6 +408,7 @@
     <None Include="Resources\wrongPara_VHD.csv" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="FunctionalTests\ExtensionTests\MicrosoftAntimalware\AntimalwareConfig.xml" />
     <Content Include="FunctionalTests\Readme.txt" />
     <Content Include="lib\Security.Cryptography.dll" />
     <Content Include="Resources\clxtshar.dll" />
