@@ -29794,10 +29794,10 @@ Set-AzureVNetGatewayKey -VNetName &quot;MyAzureVirtualNetwork&quot; -LocalNetwor
     <command:syntax>
       <command:syntaxItem>
         <maml:name>Get-AzureVMMicrosoftAntimalwareExtension</maml:name>
-        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true (ByValue)" position="named">
+        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true (ByValue, ByPropertyName)" position="named">
           <maml:name>VM</maml:name>
           <maml:description>
-            <maml:para></maml:para>
+            <maml:para>The VM</maml:para>
           </maml:description>
           <command:parameterValue required="true" variableLength="false">IPersistentVM</command:parameterValue>
         </command:parameter>
@@ -29805,10 +29805,10 @@ Set-AzureVNetGatewayKey -VNetName &quot;MyAzureVirtualNetwork&quot; -LocalNetwor
     </command:syntax>
     <!-- Cmdlet parameter section  -->
     <command:parameters>
-      <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true (ByValue)" position="named">
+      <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true (ByValue, ByPropertyName)" position="named">
         <maml:name>VM</maml:name>
         <maml:description>
-          <maml:para></maml:para>
+          <maml:para>The VM</maml:para>
 
         </maml:description>
         <command:parameterValue required="true" variableLength="false">IPersistentVM</command:parameterValue>
@@ -29920,7 +29920,7 @@ Set-AzureVNetGatewayKey -VNetName &quot;MyAzureVirtualNetwork&quot; -LocalNetwor
       <dev:version></dev:version>
     </command:details>
     <maml:description>
-      <maml:para></maml:para>
+      <maml:para>Enables and configures&#160;Microsoft Antimalware&#160;with provided XML configuration input</maml:para>
     </maml:description>
     <!-- Cmdlet syntax section-->
     <command:syntax>
@@ -29929,7 +29929,7 @@ Set-AzureVNetGatewayKey -VNetName &quot;MyAzureVirtualNetwork&quot; -LocalNetwor
         <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="3">
           <maml:name>Disable</maml:name>
           <maml:description>
-            <maml:para></maml:para>
+            <maml:para>Puts the extension into a disabled state on the system without removing it.</maml:para>
           </maml:description>
         </command:parameter>
         <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="4">
@@ -29938,6 +29938,13 @@ Set-AzureVNetGatewayKey -VNetName &quot;MyAzureVirtualNetwork&quot; -LocalNetwor
             <maml:para>The extension version.</maml:para>
           </maml:description>
           <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true (ByValue, ByPropertyName)" position="named">
+          <maml:name>VM</maml:name>
+          <maml:description>
+            <maml:para>The VM</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">IPersistentVM</command:parameterValue>
         </command:parameter>
       </command:syntaxItem>
       <command:syntaxItem>
@@ -29977,6 +29984,13 @@ Set-AzureVNetGatewayKey -VNetName &quot;MyAzureVirtualNetwork&quot; -LocalNetwor
           </maml:description>
           <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
         </command:parameter>
+        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true (ByValue, ByPropertyName)" position="named">
+          <maml:name>VM</maml:name>
+          <maml:description>
+            <maml:para>The VM</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">IPersistentVM</command:parameterValue>
+        </command:parameter>
       </command:syntaxItem>
       <command:syntaxItem>
         <maml:name>Set-AzureVMMicrosoftAntimalwareExtension</maml:name>
@@ -29985,6 +29999,13 @@ Set-AzureVNetGatewayKey -VNetName &quot;MyAzureVirtualNetwork&quot; -LocalNetwor
           <maml:description>
             <maml:para>Uninstalls the VM Microsoft Antimalware Extension</maml:para>
           </maml:description>
+        </command:parameter>
+        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true (ByValue, ByPropertyName)" position="named">
+          <maml:name>VM</maml:name>
+          <maml:description>
+            <maml:para>The VM</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">IPersistentVM</command:parameterValue>
         </command:parameter>
       </command:syntaxItem>
     </command:syntax>
@@ -30019,7 +30040,7 @@ Set-AzureVNetGatewayKey -VNetName &quot;MyAzureVirtualNetwork&quot; -LocalNetwor
       <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="3">
         <maml:name>Disable</maml:name>
         <maml:description>
-          <maml:para></maml:para>
+          <maml:para>Puts the extension into a disabled state on the system without removing it.</maml:para>
 
         </maml:description>
         <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
@@ -30077,6 +30098,19 @@ Set-AzureVNetGatewayKey -VNetName &quot;MyAzureVirtualNetwork&quot; -LocalNetwor
         <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
         <dev:type>
           <maml:name>string</maml:name>
+          <maml:uri/>
+        </dev:type>
+        <dev:defaultValue></dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true (ByValue, ByPropertyName)" position="named">
+        <maml:name>VM</maml:name>
+        <maml:description>
+          <maml:para>The VM</maml:para>
+
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">IPersistentVM</command:parameterValue>
+        <dev:type>
+          <maml:name>IPersistentVM</maml:name>
           <maml:uri/>
         </dev:type>
         <dev:defaultValue></dev:defaultValue>
@@ -30266,7 +30300,7 @@ Set-AzureVNetGatewayKey -VNetName &quot;MyAzureVirtualNetwork&quot; -LocalNetwor
     <!-- Link section  -->
     <maml:relatedLinks>
       <maml:navigationLink>
-        <maml:linkText></maml:linkText>
+        <maml:linkText>Get-AzureVMMicrosoftAntimalwareExtension</maml:linkText>
         <maml:uri/>
       </maml:navigationLink>
     </maml:relatedLinks>
