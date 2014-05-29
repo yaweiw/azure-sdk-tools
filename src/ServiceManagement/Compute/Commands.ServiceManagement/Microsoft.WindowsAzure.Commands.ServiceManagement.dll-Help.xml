@@ -33740,6 +33740,541 @@ Set-AzureVNetGatewayKey -VNetName &quot;MyAzureVirtualNetwork&quot; -LocalNetwor
   <command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10">
     <command:details>
       <command:name>
+        Get-AzureVMMicrosoftAntimalwareExtension
+      </command:name>
+      <maml:description>
+        <maml:para>This cmdlet gets the Microsoft Antimalware extension details for the specified VM including an XML representation of the antimalware configuration and antimalware monitoring configuration if monitoring is on.</maml:para>
+      </maml:description>
+      <maml:copyright>
+        <maml:para></maml:para>
+      </maml:copyright>
+      <command:verb>Get</command:verb>
+      <command:noun>AzureVMMicrosoftAntimalwareExtension</command:noun>
+      <dev:version></dev:version>
+    </command:details>
+    <maml:description>
+      <maml:para>This cmdlet gets the Microsoft Antimalware extension details for the specified VM when Microsoft Antimalware is turned on programmatically using the Set-AzureVMMicrosoftAntimalwareExtension cmdlet.   The fields returned include an XML representation of the antimalware configuration and antimalware monitoring configuration if monitoring is turned on.   </maml:para>
+    </maml:description>
+    <!-- Cmdlet syntax section-->
+    <command:syntax>
+      <command:syntaxItem>
+        <maml:name>Get-AzureVMMicrosoftAntimalwareExtension</maml:name>
+        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true (ByValue, ByPropertyName)" position="named">
+          <maml:name>VM</maml:name>
+          <maml:description>
+            <maml:para>The VM</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">IPersistentVM</command:parameterValue>
+        </command:parameter>
+      </command:syntaxItem>
+    </command:syntax>
+    <!-- Cmdlet parameter section  -->
+    <command:parameters>
+      <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true (ByValue, ByPropertyName)" position="named">
+        <maml:name>VM</maml:name>
+        <maml:description>
+          <maml:para>The VM</maml:para>
+
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">IPersistentVM</command:parameterValue>
+        <dev:type>
+          <maml:name>IPersistentVM</maml:name>
+          <maml:uri/>
+        </dev:type>
+        <dev:defaultValue></dev:defaultValue>
+      </command:parameter>
+    </command:parameters>
+    <!-- Input - Output section-->
+    <command:inputTypes>
+      <command:inputType>
+        <dev:type>
+          <maml:name>IPersistentVM</maml:name>
+          <maml:uri/>
+          <maml:description />
+        </dev:type>
+        <maml:description>
+          <maml:para>
+            <!-- description  -->
+
+          </maml:para>
+        </maml:description>
+      </command:inputType>
+    </command:inputTypes>
+    <command:returnValues>
+      <command:returnValue>
+        <dev:type>
+          <maml:name>VirtualMachineMicrosoftAntimalwareExtensionContext</maml:name>
+          <maml:uri />
+          <maml:description />
+        </dev:type>
+        <maml:description>
+          <maml:para>
+            <!-- description  -->
+
+          </maml:para>
+        </maml:description>
+      </command:returnValue>
+    </command:returnValues>
+    <!-- Error section-->
+    <command:terminatingErrors />
+    <command:nonTerminatingErrors />
+    <!-- Notes section  -->
+    <maml:alertSet>
+      <maml:title></maml:title>
+      <maml:alert>
+        <maml:para>
+
+        </maml:para>
+      </maml:alert>
+      <maml:alert>
+        <maml:para></maml:para>
+      </maml:alert>
+    </maml:alertSet>
+    <!-- Example section  -->
+    <command:examples>
+
+      <command:example>
+        <maml:title>
+          -------------------------- EXAMPLE 1 --------------------------
+        </maml:title>
+        <maml:introduction>
+          <maml:para>C:\PS&gt;</maml:para>
+        </maml:introduction>
+        <dev:code>
+          (Get-AzureVM -ServiceName $service_name -Name $service_name) | Get-AzureVMMicrosoftAntimalwareExtension
+        </dev:code>
+        <dev:remarks>
+          <maml:para>Description</maml:para>
+          <maml:para>-----------</maml:para>
+          <maml:para>The XML configuration information for the Microsoft Antimalware extension is provided in the output field labeled AntimalwareConfiguration.   The configuration information being used for monitoring is provided in the output field labeled AntimalwareMonitoringConfiguration.  </maml:para>
+          <maml:para></maml:para>
+          <maml:para></maml:para>
+          <maml:para></maml:para>
+          <maml:para></maml:para>
+        </dev:remarks>
+        <command:commandLines>
+          <command:commandLine>
+            <command:commandText></command:commandText>
+          </command:commandLine>
+        </command:commandLines>
+      </command:example>
+    </command:examples>
+    <!-- Link section  -->
+    <maml:relatedLinks>
+      <maml:navigationLink>
+        <maml:linkText>Set-AzureVMMicrosoftAntimalwareExtension</maml:linkText>
+        <maml:uri/>
+      </maml:navigationLink>
+    </maml:relatedLinks>
+  </command:command>
+
+  <!-- v 1.3.0.36 -->
+  <command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10">
+    <command:details>
+      <command:name>
+        Set-AzureVMMicrosoftAntimalwareExtension
+      </command:name>
+      <maml:description>
+        <maml:para>Enables and configures&#160;Microsoft Antimalware&#160;with provided XML configuration input</maml:para>
+      </maml:description>
+      <maml:copyright>
+        <maml:para></maml:para>
+      </maml:copyright>
+      <command:verb>Set</command:verb>
+      <command:noun>AzureVMMicrosoftAntimalwareExtension</command:noun>
+      <dev:version></dev:version>
+    </command:details>
+    <maml:description>
+      <maml:para>Enables and configures&#160;Microsoft Antimalware&#160;with provided XML configuration input</maml:para>
+    </maml:description>
+    <!-- Cmdlet syntax section-->
+    <command:syntax>
+      <command:syntaxItem>
+        <maml:name>Set-AzureVMMicrosoftAntimalwareExtension</maml:name>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="3">
+          <maml:name>Disable</maml:name>
+          <maml:description>
+            <maml:para>Puts the extension into a disabled state on the system without removing it.</maml:para>
+          </maml:description>
+        </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="4">
+          <maml:name>Version</maml:name>
+          <maml:description>
+            <maml:para>The extension version.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true (ByValue, ByPropertyName)" position="named">
+          <maml:name>VM</maml:name>
+          <maml:description>
+            <maml:para>The VM</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">IPersistentVM</command:parameterValue>
+        </command:parameter>
+      </command:syntaxItem>
+      <command:syntaxItem>
+        <maml:name>Set-AzureVMMicrosoftAntimalwareExtension</maml:name>
+        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="2">
+          <maml:name>AntimalwareConfiguration</maml:name>
+          <maml:description>
+            <maml:para>The Antimalware Configuration cannot be null or empty and must include at a minimum &lt;AntimalwareConfig&gt;&lt;AntimalwareEnabled&gt;true&lt;/AntimalwareEnabled&gt;&lt;/AntimalwareConfig&gt; to enable Microsoft Antimalware.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">XmlDocument</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="3">
+          <maml:name>AntimalwareConfigFile</maml:name>
+          <maml:description>
+            <maml:para>This is the absolute path to the antimalware configuration file, and is an alternative to using the AntimalwareConfiguration parameter.  If both parameters are specified, the AntimalwareConfiguration parameter value will take precedence and the AntimalwareConfigFile parameter will be ignored.   </maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="4">
+          <maml:name>Version</maml:name>
+          <maml:description>
+            <maml:para>The extension version.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="5">
+          <maml:name>Monitoring</maml:name>
+          <maml:description>
+            <maml:para>Monitoring (ON = antimalware events logged to storage, OFF = no event logging)</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="6">
+          <maml:name>StorageAccountName</maml:name>
+          <maml:description>
+            <maml:para>Antimalware Monitoring Storage Account Name</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true (ByValue, ByPropertyName)" position="named">
+          <maml:name>VM</maml:name>
+          <maml:description>
+            <maml:para>The VM</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">IPersistentVM</command:parameterValue>
+        </command:parameter>
+      </command:syntaxItem>
+      <command:syntaxItem>
+        <maml:name>Set-AzureVMMicrosoftAntimalwareExtension</maml:name>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="2">
+          <maml:name>Uninstall</maml:name>
+          <maml:description>
+            <maml:para>Uninstalls the VM Microsoft Antimalware Extension</maml:para>
+          </maml:description>
+        </command:parameter>
+        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true (ByValue, ByPropertyName)" position="named">
+          <maml:name>VM</maml:name>
+          <maml:description>
+            <maml:para>The VM</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">IPersistentVM</command:parameterValue>
+        </command:parameter>
+      </command:syntaxItem>
+    </command:syntax>
+    <!-- Cmdlet parameter section  -->
+    <command:parameters>
+      <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="3">
+        <maml:name>AntimalwareConfigFile</maml:name>
+        <maml:description>
+          <maml:para>This is the absolute path to the antimalware configuration file, and is an alternative to using the AntimalwareConfiguration parameter.  If both parameters are specified, the AntimalwareConfiguration parameter value will take precedence and the AntimalwareConfigFile parameter will be ignored.   </maml:para>
+
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+        <dev:type>
+          <maml:name>string</maml:name>
+          <maml:uri/>
+        </dev:type>
+        <dev:defaultValue></dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="2">
+        <maml:name>AntimalwareConfiguration</maml:name>
+        <maml:description>
+          <maml:para>The Antimalware Configuration cannot be null or empty and must include at a minimum &lt;AntimalwareConfig&gt;&lt;AntimalwareEnabled&gt;true&lt;/AntimalwareEnabled&gt;&lt;/AntimalwareConfig&gt; to enable Microsoft Antimalware.</maml:para>
+
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">XmlDocument</command:parameterValue>
+        <dev:type>
+          <maml:name>XmlDocument</maml:name>
+          <maml:uri/>
+        </dev:type>
+        <dev:defaultValue></dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="3">
+        <maml:name>Disable</maml:name>
+        <maml:description>
+          <maml:para>Puts the extension into a disabled state on the system without removing it.</maml:para>
+
+        </maml:description>
+        <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
+        <dev:type>
+          <maml:name>SwitchParameter</maml:name>
+          <maml:uri/>
+        </dev:type>
+        <dev:defaultValue></dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="5">
+        <maml:name>Monitoring</maml:name>
+        <maml:description>
+          <maml:para>Monitoring (ON = antimalware events logged to storage, OFF = no event logging)</maml:para>
+
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+        <dev:type>
+          <maml:name>string</maml:name>
+          <maml:uri/>
+        </dev:type>
+        <dev:defaultValue></dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="6">
+        <maml:name>StorageAccountName</maml:name>
+        <maml:description>
+          <maml:para>Antimalware Monitoring Storage Account Name</maml:para>
+
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+        <dev:type>
+          <maml:name>string</maml:name>
+          <maml:uri/>
+        </dev:type>
+        <dev:defaultValue></dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="2">
+        <maml:name>Uninstall</maml:name>
+        <maml:description>
+          <maml:para>Uninstalls the VM Microsoft Antimalware Extension</maml:para>
+
+        </maml:description>
+        <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
+        <dev:type>
+          <maml:name>SwitchParameter</maml:name>
+          <maml:uri/>
+        </dev:type>
+        <dev:defaultValue></dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="4">
+        <maml:name>Version</maml:name>
+        <maml:description>
+          <maml:para>The extension version.</maml:para>
+
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+        <dev:type>
+          <maml:name>string</maml:name>
+          <maml:uri/>
+        </dev:type>
+        <dev:defaultValue></dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true (ByValue, ByPropertyName)" position="named">
+        <maml:name>VM</maml:name>
+        <maml:description>
+          <maml:para>The VM</maml:para>
+
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">IPersistentVM</command:parameterValue>
+        <dev:type>
+          <maml:name>IPersistentVM</maml:name>
+          <maml:uri/>
+        </dev:type>
+        <dev:defaultValue></dev:defaultValue>
+      </command:parameter>
+    </command:parameters>
+    <!-- Input - Output section-->
+    <command:inputTypes>
+      <command:inputType>
+        <dev:type>
+          <maml:name></maml:name>
+          <maml:uri/>
+          <maml:description />
+        </dev:type>
+        <maml:description>
+          <maml:para>
+            <!-- description  -->
+
+          </maml:para>
+        </maml:description>
+      </command:inputType>
+    </command:inputTypes>
+    <command:returnValues>
+      <command:returnValue>
+        <dev:type>
+          <maml:name></maml:name>
+          <maml:uri />
+          <maml:description />
+        </dev:type>
+        <maml:description>
+          <maml:para>
+            <!-- description  -->
+
+          </maml:para>
+        </maml:description>
+      </command:returnValue>
+    </command:returnValues>
+    <!-- Error section-->
+    <command:terminatingErrors />
+    <command:nonTerminatingErrors />
+    <!-- Notes section  -->
+    <maml:alertSet>
+      <maml:title></maml:title>
+      <maml:alert>
+        <maml:para>
+
+        </maml:para>
+      </maml:alert>
+      <maml:alert>
+        <maml:para></maml:para>
+      </maml:alert>
+    </maml:alertSet>
+    <!-- Example section  -->
+    <command:examples>
+
+      <command:example>
+        <maml:title>
+          -------------------------- EXAMPLE 1 --------------------------
+        </maml:title>
+        <maml:introduction>
+          <maml:para>C:\PS&gt;</maml:para>
+        </maml:introduction>
+        <dev:code>
+          (Get-AzureVM -ServiceName $service_name -Name $service_name) | Set-AzureVMMicrosoftAntimalwareExtension -AntimalwareConfigFile $path_to_xml_config | Update-AzureVM
+        </dev:code>
+        <dev:remarks>
+          <maml:para>Description</maml:para>
+          <maml:para>-----------</maml:para>
+          <maml:para>Enable antimalware with path to a configuration file (see AntimalwareConfiguration parameter documentation for example of XML format to use for this file).   The $service_name variable used in this example is a string variable identifying the targeted service and VM.  The $path_to_xml_config variable used in this example is a string containing the path to the configuration file. </maml:para>
+          <maml:para></maml:para>
+          <maml:para></maml:para>
+          <maml:para></maml:para>
+          <maml:para></maml:para>
+        </dev:remarks>
+        <command:commandLines>
+          <command:commandLine>
+            <command:commandText></command:commandText>
+          </command:commandLine>
+        </command:commandLines>
+      </command:example>
+
+      <command:example>
+        <maml:title>
+          -------------------------- EXAMPLE 2 --------------------------
+        </maml:title>
+        <maml:introduction>
+          <maml:para>C:\PS&gt;</maml:para>
+        </maml:introduction>
+        <dev:code>
+          (Get-AzureVM -ServiceName $service_name -Name $service_name) | Set-AzureVMMicrosoftAntimalwareExtension -AntimalwareConfigFile $path_to_xml_config -Monitoring ON -StorageAccountName $storage_account_name | Update-AzureVM
+        </dev:code>
+        <dev:remarks>
+          <maml:para>Description</maml:para>
+          <maml:para>-----------</maml:para>
+          <maml:para>Enables Microsoft Antimalware using a configuration file, while enabling monitoring via Monitoring and StorageAccountName parameters. The $service_name variable used in this example is a string variable identifying the targeted service and VM.  The $path_to_xml_config variable used in this example is a string containing the path to the configuration file.  The $storage_account_name variable used in this example is a string naming the storage account that follows the case sensitive naming conventions for storage account names.</maml:para>
+          <maml:para></maml:para>
+          <maml:para></maml:para>
+          <maml:para></maml:para>
+          <maml:para></maml:para>
+        </dev:remarks>
+        <command:commandLines>
+          <command:commandLine>
+            <command:commandText></command:commandText>
+          </command:commandLine>
+        </command:commandLines>
+      </command:example>
+
+      <command:example>
+        <maml:title>
+          -------------------------- EXAMPLE 3 --------------------------
+        </maml:title>
+        <maml:introduction>
+          <maml:para>C:\PS&gt;</maml:para>
+        </maml:introduction>
+        <dev:code>
+          [System.Xml.XmlDocument] $xml_config = new-object System.Xml.XmlDocument
+          $xml_config.load($path_to_xml_config)
+          (Get-AzureVM -ServiceName $service_name -Name $service_name) | Set-AzureVMMicrosoftAntimalwareExtension -AntimalwareConfiguration $xml_config | Update-AzureVM
+        </dev:code>
+        <dev:remarks>
+          <maml:para>Description</maml:para>
+          <maml:para>-----------</maml:para>
+          <maml:para>Enable antimalware using an XmlDocument object that is provided directly to the AntimalwareConfiguration parameter.  If the AntimalwareConfigFile parameter is specified, this parameter is not needed.  The $service_name variable used in this example is a string variable identifying the targeted service and VM. The $path_to_xml_config variable used in this example is a string containing the path to the configuration file.  The $xml_config variable in this example represents an XMLDocument object that is constructed by the caller and is passed to the cmdlet as the value of the AntimalwareConfiguration parameter.</maml:para>
+          <maml:para></maml:para>
+          <maml:para></maml:para>
+          <maml:para></maml:para>
+          <maml:para></maml:para>
+        </dev:remarks>
+        <command:commandLines>
+          <command:commandLine>
+            <command:commandText></command:commandText>
+          </command:commandLine>
+        </command:commandLines>
+      </command:example>
+
+      <command:example>
+        <maml:title>
+          -------------------------- EXAMPLE 4 --------------------------
+        </maml:title>
+        <maml:introduction>
+          <maml:para>C:\PS&gt;</maml:para>
+        </maml:introduction>
+        <dev:code>
+          (Get-AzureVM -ServiceName $service_name -Name $service_name) | Set-AzureVMMicrosoftAntimalwareExtension -Disable | Update-AzureVM
+        </dev:code>
+        <dev:remarks>
+          <maml:para>Description</maml:para>
+          <maml:para>-----------</maml:para>
+          <maml:para>Puts the extension into a disabled state on the system without removing it.  The service can be re-enabled on the same system using the Set-AzureVMMicrosoftAntimalwareExtension cmdlet. The $service_name variable used in this example is a string variable identifying the targeted service and VM. </maml:para>
+          <maml:para></maml:para>
+          <maml:para></maml:para>
+          <maml:para></maml:para>
+          <maml:para></maml:para>
+        </dev:remarks>
+        <command:commandLines>
+          <command:commandLine>
+            <command:commandText></command:commandText>
+          </command:commandLine>
+        </command:commandLines>
+      </command:example>
+
+      <command:example>
+        <maml:title>
+          -------------------------- EXAMPLE 5 --------------------------
+        </maml:title>
+        <maml:introduction>
+          <maml:para>C:\PS&gt;</maml:para>
+        </maml:introduction>
+        <dev:code>
+          (Get-AzureVM -ServiceName $service_name -Name $service_name) | Set-AzureVMMicrosoftAntimalwareExtension -Uninstall | Update-AzureVM
+        </dev:code>
+        <dev:remarks>
+          <maml:para>Description</maml:para>
+          <maml:para>-----------</maml:para>
+          <maml:para>Uninstalls the Microsoft Antimalware extension from the system by removing it. The $service_name variable used in this example is a string variable identifying the targeted service and VM. </maml:para>
+          <maml:para></maml:para>
+          <maml:para></maml:para>
+          <maml:para></maml:para>
+          <maml:para></maml:para>
+        </dev:remarks>
+        <command:commandLines>
+          <command:commandLine>
+            <command:commandText></command:commandText>
+          </command:commandLine>
+        </command:commandLines>
+      </command:example>
+    </command:examples>
+    <!-- Link section  -->
+    <maml:relatedLinks>
+      <maml:navigationLink>
+        <maml:linkText>Get-AzureVMMicrosoftAntimalwareExtension</maml:linkText>
+        <maml:uri/>
+      </maml:navigationLink>
+    </maml:relatedLinks>
+  </command:command>
+
+  <!-- v 1.3.0.36 -->
+  <command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10">
+    <command:details>
+      <command:name>
         Get-AzurePublicIP
       </command:name>
       <maml:description>

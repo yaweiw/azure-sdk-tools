@@ -192,6 +192,10 @@
     <Compile Include="IaaS\DiskRepository\SetAzureVMImageOSDiskConfig.cs" />
     <Compile Include="IaaS\DiskRepository\SetAzureVMImageDataDiskConfig.cs" />
     <Compile Include="IaaS\DiskRepository\NewAzureVMImageDiskConfigSet.cs" />
+    <Compile Include="IaaS\Extensions\MicrosoftAntimalware\GetAzureVMMicrosoftAntimalwareExtension.cs" />
+    <Compile Include="IaaS\Extensions\MicrosoftAntimalware\SetAzureVMMicrosoftAntimalwareExtension.cs" />
+    <Compile Include="IaaS\Extensions\MicrosoftAntimalware\VirtualMachineMicrosoftAntimalwareExtensionCmdletBase.cs" />
+    <Compile Include="IaaS\Extensions\MicrosoftAntimalware\VirtualMachineMicrosoftAntimalwareExtensionContext.cs" />
     <Compile Include="IaaS\Network\GetAzureInternalLoadBalancer.cs" />
     <Compile Include="IaaS\Network\NewAzureInternalLoadBalancerConfig.cs" />
     <Compile Include="IaaS\Network\RemoveAzureInternalLoadBalancer.cs" />
