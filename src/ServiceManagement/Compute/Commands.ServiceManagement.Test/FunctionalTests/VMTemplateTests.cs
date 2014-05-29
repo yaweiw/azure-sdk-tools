@@ -95,7 +95,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
                 //g.	Add another IaaS VM with the save VM image to the existing service
                 string vmName2 = Utilities.GetUniqueShortName(vmNamePrefix);
                 Console.WriteLine("--------------------------------Deploy a new IaaS VM with the saved VM image {0}--------------------------------", vmImageName);
-                vmPowershellCmdlets.NewAzureQuickVM(OS.Windows, vmName2, serviceName1, vmImageName);
+                vmPowershellCmdlets.NewAzureQuickVM(OS.Windows, vmName2, serviceName1, vmImageName, null, null, null);
                 Console.WriteLine("--------------------------------Deployed a IaaS VM {0} with the saved VM image {1}--------------------------------", vmName2, vmImageName);
                 //h.	Verify the VM by Get-AzureVM
                 Console.WriteLine("--------------------------------Verify the VM by Get-AzureVM--------------------------------", vmName2, vmImageName);

@@ -42,7 +42,7 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.Common
         public WindowsAzurePowerShellCertificateTest(params string[] modules)
             : base(AzureModule.AzureServiceManagement, modules)
         {
-            this.runningMocked = (HttpMockServer.GetCurrentMode() == HttpRecorderMode.Playback);
+            this.runningMocked = (HttpMockServer.Mode == HttpRecorderMode.Playback);
             TestMockSupport.RunningMocked = this.runningMocked;
             if (this.runningMocked)
             {

@@ -107,7 +107,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
 
                 // Add-AzureProvisioningConfig without NoSSHEndpoint or DisableSSH option
                 var azureVMConfigInfo = new AzureVMConfigInfo(newAzureLinuxVMName, InstanceSize.Small.ToString(), linuxImageName);
-                var azureProvisioningConfig = new AzureProvisioningConfigInfo(username, password, false, false, null, null, @".\Resources\cloudinittest.sh");
+                var azureProvisioningConfig = new AzureProvisioningConfigInfo(username, password, false, false, null, null, @".\cloudinittest.sh");
                 var persistentVMConfigInfo = new PersistentVMConfigInfo(azureVMConfigInfo, azureProvisioningConfig, null, null);
                 PersistentVM vm = vmPowershellCmdlets.GetPersistentVM(persistentVMConfigInfo);
 
