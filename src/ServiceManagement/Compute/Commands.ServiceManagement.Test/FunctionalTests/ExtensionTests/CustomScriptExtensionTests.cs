@@ -21,12 +21,11 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
     using Microsoft.WindowsAzure.Storage.Blob;
     using System;
     using System.Collections.Generic;
-    using System.IO;
     using System.Linq;
     using System.Reflection;
-    using System.Text;
     using VisualStudio.TestTools.UnitTesting;
     using Helpers;
+    using System.Text.RegularExpressions;
 
     [TestClass]
     public class CustomScriptExtesnionTests: ServiceManagementTest
@@ -84,7 +83,6 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
                 Console.WriteLine(ex.ToString());
                 throw;
             }
-
         }
 
         [TestMethod(), Priority(0), TestCategory("Scenario"), TestProperty("Feature", "IaaS"), Owner("hylee"),
@@ -106,7 +104,6 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
                 Console.WriteLine(ex.ToString());
                 throw;
             }
-
         }
 
 
@@ -135,7 +132,6 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
                 Console.WriteLine(ex.ToString());
                 throw;
             }
-
         }
 
         [TestMethod(), Priority(0), TestCategory("Scenario"), TestProperty("Feature", "IaaS"), Owner("hylee"),
@@ -161,7 +157,6 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
                 Console.WriteLine(ex.ToString());
                 throw;
             }
-
         }
 
         #endregion TestCases
@@ -173,6 +168,13 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
             Utilities.PrintHeader("Listing the available VM extensions");
             var extensionsInfo = vmPowershellCmdlets.GetAzureVMAvailableExtension(ConstCustomScriptExtensionName, ConstCustomScriptExtensionPublisher, true);
             customScriptExtension = extensionsInfo.OrderBy(c => c.Version).LastOrDefault();
+
+            Match m = Regex.Match(customScriptExtension.Version, @"((\.).*?){2}");
+            if (m.Success)
+            {
+                customScriptExtension.Version = customScriptExtension.Version.Substring(0, m.Groups[2].Captures[1].Index);
+            }
+
             Console.WriteLine("Using CustomScript Extension Version: {0}", customScriptExtension.Version);
             Utilities.PrintFooter("Listing the available VM extensions");
         }
@@ -287,7 +289,6 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
         {
             Utilities.LogAction(() => CleanupService(serviceName), "Check if service exists and  cleanup");
         }
-
     }
 }
 
