@@ -108,9 +108,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\packages\Microsoft.WindowsAzure.Management.Storage.1.1.1\lib\net40\Microsoft.WindowsAzure.Management.Storage.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.WindowsAzure.Storage, Version=3.0.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+    <Reference Include="Microsoft.WindowsAzure.Storage, Version=4.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\packages\WindowsAzure.Storage.3.0.3.0\lib\net40\Microsoft.WindowsAzure.Storage.dll</HintPath>
+      <HintPath>..\..\..\packages\WindowsAzure.Storage.4.0.0\lib\net40\Microsoft.WindowsAzure.Storage.dll</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\..\..\packages\Newtonsoft.Json.5.0.8\lib\net40\Newtonsoft.Json.dll</HintPath>
@@ -192,6 +192,10 @@
     <Compile Include="IaaS\DiskRepository\SetAzureVMImageOSDiskConfig.cs" />
     <Compile Include="IaaS\DiskRepository\SetAzureVMImageDataDiskConfig.cs" />
     <Compile Include="IaaS\DiskRepository\NewAzureVMImageDiskConfigSet.cs" />
+    <Compile Include="IaaS\Extensions\MicrosoftAntimalware\GetAzureVMMicrosoftAntimalwareExtension.cs" />
+    <Compile Include="IaaS\Extensions\MicrosoftAntimalware\SetAzureVMMicrosoftAntimalwareExtension.cs" />
+    <Compile Include="IaaS\Extensions\MicrosoftAntimalware\VirtualMachineMicrosoftAntimalwareExtensionCmdletBase.cs" />
+    <Compile Include="IaaS\Extensions\MicrosoftAntimalware\VirtualMachineMicrosoftAntimalwareExtensionContext.cs" />
     <Compile Include="IaaS\Network\GetAzureInternalLoadBalancer.cs" />
     <Compile Include="IaaS\Network\NewAzureInternalLoadBalancerConfig.cs" />
     <Compile Include="IaaS\Network\RemoveAzureInternalLoadBalancer.cs" />

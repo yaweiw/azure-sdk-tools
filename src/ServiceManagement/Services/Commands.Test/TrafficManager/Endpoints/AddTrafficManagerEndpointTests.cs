@@ -147,7 +147,6 @@ namespace Microsoft.WindowsAzure.Commands.Test.TrafficManager.Endpoints
 
             original.Endpoints.Add(existingEndpoint);
 
-            // Setup
             cmdlet = new AddAzureTrafficManagerEndpoint
             {
                 DomainName = DomainName,
@@ -158,6 +157,38 @@ namespace Microsoft.WindowsAzure.Commands.Test.TrafficManager.Endpoints
 
             // Action + Assert
             Testing.AssertThrows<Exception>(() => cmdlet.ExecuteCmdlet());
+        }
+
+        [TestMethod]
+        public void AddTrafficManagerEndpointNoWeightNoLocation()
+        {
+            // Setup
+            ProfileWithDefinition original = GetProfileWithDefinition();
+
+            cmdlet = new AddAzureTrafficManagerEndpoint
+            {
+                DomainName = DomainName,
+                Type = AnyType,
+                TrafficManagerProfile = original,
+                CommandRuntime = mockCommandRuntime,
+                Status = "Enabled"
+            };
+
+            // Action
+            cmdlet.ExecuteCmdlet();
+
+            var actual = mockCommandRuntime.OutputPipeline[0] as ProfileWithDefinition;
+
+            // Assert
+            // All the properties stay the same except the endpoints
+            AssertAllProfilePropertiesDontChangeExceptEndpoints(original, actual);
+
+            // There is a new endpoint with the new domain name in "actual" but not in "original"
+            Assert.IsTrue(actual.Endpoints.Any(e => e.DomainName == DomainName));
+            TrafficManagerEndpoint endpoint = actual.Endpoints.First(e => e.DomainName == DomainName);
+
+            Assert.AreEqual(1, endpoint.Weight);
+            Assert.IsNull(endpoint.Location);
         }
 
         private ProfileWithDefinition GetProfileWithDefinition()
