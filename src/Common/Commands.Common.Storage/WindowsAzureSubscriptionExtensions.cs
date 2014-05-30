@@ -14,10 +14,9 @@
 
 namespace Microsoft.WindowsAzure.Commands.Utilities.Common
 {
+    using Microsoft.WindowsAzure.Commands.Common.Storage;
     using Microsoft.WindowsAzure.Management.Storage;
     using Microsoft.WindowsAzure.Storage;
-    using Microsoft.WindowsAzure.Storage.Auth;
-    using System;
 
     public static class WindowsAzureSubscriptionExtensions
     {
@@ -36,33 +35,13 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
             {
                 using (var storageClient = subscription.CreateClient<StorageManagementClient>())
                 {
-                    subscription.currentCloudStorageAccount = GenerateCloudStorageAccount(
+                    subscription.currentCloudStorageAccount = StorageUtilities.GenerateCloudStorageAccount(
                         storageClient,
                         subscription.currentStorageAccountName);
 
                     return subscription.currentCloudStorageAccount as CloudStorageAccount;
                 }
             }
-        }
-
-        public static CloudStorageAccount GenerateCloudStorageAccount(StorageManagementClient storageClient, string accountName)
-        {
-            var storageServiceResponse = storageClient.StorageAccounts.Get(accountName);
-            var storageKeysResponse = storageClient.StorageAccounts.GetKeys(accountName);
-
-            Uri fileEndpoint = null;
-
-            if (storageServiceResponse.StorageAccount.Properties.Endpoints.Count >= 4)
-            {
-                fileEndpoint = GeneralUtilities.CreateHttpsEndpoint(storageServiceResponse.StorageAccount.Properties.Endpoints[3].ToString());
-            }
-
-            return new CloudStorageAccount(
-                new StorageCredentials(storageServiceResponse.StorageAccount.Name, storageKeysResponse.PrimaryKey),
-                GeneralUtilities.CreateHttpsEndpoint(storageServiceResponse.StorageAccount.Properties.Endpoints[0].ToString()),
-                GeneralUtilities.CreateHttpsEndpoint(storageServiceResponse.StorageAccount.Properties.Endpoints[1].ToString()),
-                GeneralUtilities.CreateHttpsEndpoint(storageServiceResponse.StorageAccount.Properties.Endpoints[2].ToString()),
-                fileEndpoint);
         }
     }
 }

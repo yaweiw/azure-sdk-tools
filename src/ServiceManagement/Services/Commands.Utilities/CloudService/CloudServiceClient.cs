@@ -22,14 +22,12 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService
     using Management.Compute.Models;
     using Management.Storage;
     using Management.Storage.Models;
+    using Microsoft.WindowsAzure.Commands.Common.Storage;
     using Model;
     using Properties;
-    using Storage;
-    using Storage.Auth;
     using Storage.Blob;
     using System;
     using System.Collections.Generic;
-    using System.Diagnostics;
     using System.IO;
     using System.Linq;
     using System.Net;
@@ -951,7 +949,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService
         /// <returns>The connection string</returns>
         public string GetStorageServiceConnectionString(string name)
         {
-            return WindowsAzureSubscriptionExtensions.GenerateCloudStorageAccount(StorageClient, name).ToString(true);
+            return StorageUtilities.GenerateCloudStorageAccount(StorageClient, name).ToString(true);
         }
         
         /// <summary>
