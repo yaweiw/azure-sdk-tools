@@ -54,7 +54,7 @@ namespace Commands.Storage.ScenarioTest
         /// </summary>
         /// <param name="storageAccountName">storage account name</param>
         /// <param name="useHttps">use https</param>
-        /// <returns>A string array. 0 is blob endpoint, 1 is queue endpoint, 2 is table endpoint</returns>
+        /// <returns>A string array. 0 is blob endpoint, 1 is queue endpoint, 2 is table endpoint, 3 is file endpoint</returns>
         public static string[] GetStorageEndPoints(string storageAccountName, bool useHttps, string endPoint = "")
         {
             string protocol = "http";
@@ -79,11 +79,12 @@ namespace Commands.Storage.ScenarioTest
 
             endPoint = endPoint.Trim();
 
-            string[] storageEndPoints = new string[3]
+            string[] storageEndPoints = new string[4]
                 {
                     string.Format("{0}://{1}.blob.{2}/", protocol, storageAccountName, endPoint),
                     string.Format("{0}://{1}.queue.{2}/", protocol, storageAccountName, endPoint),
-                    string.Format("{0}://{1}.table.{2}/", protocol, storageAccountName, endPoint)
+                    string.Format("{0}://{1}.table.{2}/", protocol, storageAccountName, endPoint),
+                    string.Format("{0}://{1}.file.{2}/", protocol, storageAccountName, endPoint)
                 };
             return storageEndPoints;
         }
@@ -98,7 +99,7 @@ namespace Commands.Storage.ScenarioTest
         public static CloudStorageAccount GetStorageAccountWithEndPoint(StorageCredentials credential, bool useHttps, string endPoint = "")
         {
             string[] endPoints = GetStorageEndPoints(credential.AccountName, useHttps, endPoint);
-            return new CloudStorageAccount(credential, new Uri(endPoints[0]), new Uri(endPoints[1]), new Uri(endPoints[2]));
+            return new CloudStorageAccount(credential, new Uri(endPoints[0]), new Uri(endPoints[1]), new Uri(endPoints[2]), new Uri(endPoints[3]));
         }
 
 

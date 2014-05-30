@@ -769,8 +769,7 @@ namespace StorageTestLib
         {
             Account = account;
             BlobClient = account.CreateCloudBlobClient();
-            BlobClient.RetryPolicy = new LinearRetry(TimeSpan.Zero, 3);
-
+            BlobClient.DefaultRequestOptions.RetryPolicy = new LinearRetry(TimeSpan.Zero, 3);
         }
 
 

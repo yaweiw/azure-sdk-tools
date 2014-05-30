@@ -1,3 +1,11 @@
+2014.05.29 Version 0.8.3
+* Restructured source code and installation folder
+* Web Site
+    * Return instances info from Get-AzureWebsite
+    * Added "Slot1" and "Slot2" parameters to enable swap between any 2 slots
+* Update Get-AzureRoleSize, Get-AzureAffinityGroup, Get-AzureService, Get-AzureLocation cmdlets with role sizes info
+* New "ClusterType" parameter for HDInsight
+
 2014.05.12 Version 0.8.2
 * Compute and Network improvements
     * Public IP support
