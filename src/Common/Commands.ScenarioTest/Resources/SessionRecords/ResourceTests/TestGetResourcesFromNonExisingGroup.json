@@ -1,0 +1,45 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "/subscriptions/db1ab6f0-4769-4b27-930e-01e2ef9c123c/resourcegroups/onesdk2678?api-version=2014-04-01-preview",
+      "RequestMethod": "HEAD",
+      "RequestBody": "",
+      "RequestHeaders": {
+        "User-Agent": [
+          "Microsoft.Azure.Management.Resources.ResourceManagementClient/2.0.0.0",
+          "WindowsAzurePowershell/v0.8.2"
+        ]
+      },
+      "ResponseBody": "",
+      "ResponseHeaders": {
+        "Pragma": [
+          "no-cache"
+        ],
+        "x-ms-ratelimit-remaining-subscription-reads": [
+          "31945"
+        ],
+        "x-ms-request-id": [
+          "510ad10f-5d6e-4ac8-9243-57f4cba59c6c"
+        ],
+        "x-ms-correlation-request-id": [
+          "510ad10f-5d6e-4ac8-9243-57f4cba59c6c"
+        ],
+        "x-ms-routing-request-id": [
+          "WESTUS:20140508T220806Z:510ad10f-5d6e-4ac8-9243-57f4cba59c6c"
+        ],
+        "Cache-Control": [
+          "no-cache"
+        ],
+        "Date": [
+          "Thu, 08 May 2014 22:08:06 GMT"
+        ]
+      },
+      "StatusCode": 404
+    }
+  ],
+  "Names": {
+    "Test-GetResourcesFromNonExisingGroup": [
+      "onesdk2678"
+    ]
+  }
+}

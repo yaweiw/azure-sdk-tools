@@ -2,53 +2,52 @@
 <Project
   xmlns="http://schemas.microsoft.com/developer/msbuild/2003"
   ToolsVersion="4.0"
-  DefaultTargets="ForceRestorePackages;Clean;BuildDebug;BuildReleaseSigned;BuildSetupDebug">
+  DefaultTargets="ForceRestorePackages;Clean;BuildDebug;BuildRelease;BuildSetupDebug">
 
   <!-- Define build properties -->
   <PropertyGroup>
-    <ManagementCmdletBinDirectory>.\WindowsAzurePowershell\src\Commands\bin</ManagementCmdletBinDirectory>
-    <ManagementTestDirectory>.\WindowsAzurePowershell\src\Commands.Test\bin</ManagementTestDirectory>
+    <ManagementCmdletBinDirectory>.\src\ServiceManagement\Services\Commands\bin</ManagementCmdletBinDirectory>
+    <ManagementTestDirectory>.\src\ServiceManagement\Services\Commands.Test\bin</ManagementTestDirectory>
     <ManagementTestAssemblyName>Microsoft.WindowsAzure.Commands.Test.dll</ManagementTestAssemblyName>
 
-    <TestSettings>.\WindowsAzurePowershell\src\Local.testsettings</TestSettings>
-    <ScenarioTestSettings>.\WindowsAzurePowershell\src\Scenario.testsettings</ScenarioTestSettings>
-    <AzureRTTestSettings>.\WindowsAzurePowershell\src\AzureRT.testsettings</AzureRTTestSettings>
-    <ScenarioTestDebug>.\WindowsAzurePowershell\src\Commands.ScenarioTest\bin\Debug\Microsoft.WindowsAzure.Commands.ScenarioTest.dll</ScenarioTestDebug>
-    <AzureRTTestContainer>.\WindowsAzurePowershell\src\Commands.ServiceManagement.Test\bin\Debug\Microsoft.WindowsAzure.Commands.ServiceManagement.Test.dll</AzureRTTestContainer>
-    <StorageScenarioTestDebug>WindowsAzurePowershell\src\Commands.Storage.ScenarioTest\bin\Debug\CLITest.dll</StorageScenarioTestDebug>
-    <ManagementTestDebug>.\WindowsAzurePowershell\src\Commands.Test\bin\Debug\Microsoft.WindowsAzure.Commands.Test.dll</ManagementTestDebug>
-    <ResourceManagerTestDebug>.\WindowsAzurePowershell\src\Commands.ResourceManager.Test\bin\Debug\Microsoft.Azure.Commands.ResourceManager.Test.dll</ResourceManagerTestDebug>
-    <ServiceManagementTestDebug>.\WindowsAzurePowershell\src\Commands.ServiceManagement.Test\bin\Debug\Microsoft.WindowsAzure.Commands.ServiceManagement.Test.dll</ServiceManagementTestDebug>
-    <SqlDatabaseTestDebug>.\WindowsAzurePowershell\src\Commands.SqlDatabase.Test\bin\Debug\Microsoft.WindowsAzure.Commands.SqlDatabase.Test.dll</SqlDatabaseTestDebug>
-    <HDInsightTestDebug>.\WindowsAzurePowershell\src\Commands.HDInsight.Test\bin\Debug\Microsoft.WindowsAzure.Commands.HDInsight.Test.dll</HDInsightTestDebug>    
-    <StorageTestDebug>.\WindowsAzurePowershell\src\Commands.Storage.Test\bin\Debug\Microsoft.WindowsAzure.Commands.Storage.Test.dll</StorageTestDebug>
-    <SetupDirectory>.\WindowsAzurePowershell\setup\build</SetupDirectory>
+    <TestSettings>.\src\Local.testsettings</TestSettings>
+    <AzureRTTestSettings>.\src\AzureRT.testsettings</AzureRTTestSettings>
+    <ScenarioTestDebug>.\src\Common\Commands.ScenarioTest\bin\Debug\Microsoft.WindowsAzure.Commands.ScenarioTest.dll</ScenarioTestDebug>
+    <AzureRTTestContainer>.\src\ServiceManagement\Compute\Commands.ServiceManagement.Test\bin\Debug\Microsoft.WindowsAzure.Commands.ServiceManagement.Test.dll</AzureRTTestContainer>
+    <StorageScenarioTestDebug>src\ServiceManagement\Storage\Commands.Storage.ScenarioTest\bin\Debug\CLITest.dll</StorageScenarioTestDebug>
+    <ManagementTestDebug>.\src\ServiceManagement\Services\Commands.Test\bin\Debug\Microsoft.WindowsAzure.Commands.Test.dll</ManagementTestDebug>
+    <ResourceManagerTestDebug>.\src\ResourceManager\Resources\Commands.Resources.Test\bin\Debug\Microsoft.Azure.Commands.Resources.Test.dll</ResourceManagerTestDebug>
+    <ServiceManagementTestDebug>.\src\ServiceManagement\Compute\Commands.ServiceManagement.Test\bin\Debug\Microsoft.WindowsAzure.Commands.ServiceManagement.Test.dll</ServiceManagementTestDebug>
+    <SqlDatabaseTestDebug>.\src\ServiceManagement\Sql\Commands.SqlDatabase.Test\bin\Debug\Microsoft.WindowsAzure.Commands.SqlDatabase.Test.dll</SqlDatabaseTestDebug>
+    <HDInsightTestDebug>.\src\ServiceManagement\Services\Commands.HDInsight.Test\bin\Debug\Microsoft.WindowsAzure.Commands.HDInsight.Test.dll</HDInsightTestDebug>    
+    <StorageTestDebug>.\src\ServiceManagement\Storage\Commands.Storage.Test\bin\Debug\Microsoft.WindowsAzure.Commands.Storage.Test.dll</StorageTestDebug>
+    <SetupDirectory>.\setup\build</SetupDirectory>
 
-    <PublishDirectory>.\Publish</PublishDirectory>
-    <PackageDirectory>.\Package</PackageDirectory>
+    <PublishDirectory>.\src\Publish</PublishDirectory>
+    <PackageDirectory>.\src\Package</PackageDirectory>
     <BuildOutputDirectory>$(PublishDirectory)\Build</BuildOutputDirectory>
     <SetupOutputDirectory>$(PublishDirectory)\Setup</SetupOutputDirectory>
     <TestFilter>"!Functional&#x26;!Scenario&#x26;!Sequential&#x26;!PIRTest&#x26;!Preview&#x26;!ADDomain"</TestFilter>
     <ScenarioTestFilter>All</ScenarioTestFilter>
     <MockTestFilter>CheckIn</MockTestFilter>
 	<OneSDKCITFilter>"OneSDK&#x26;CIT"</OneSDKCITFilter>
+    <MediaServiceBVTFilter>"MediaServices&#x26;BVT"</MediaServiceBVTFilter>
 	<AzureRTAllTestFilter>"Functional|Scenario"</AzureRTAllTestFilter>
 	<AzureRTAllTestFilter2>"Functional|Scenario|Preview"</AzureRTAllTestFilter2>
 	<AzureRTAllTestFilter3>"Functional|Scenario|Sequential"</AzureRTAllTestFilter3>
     <TestOutputDirectory>$(PublishDirectory)\TestResults</TestOutputDirectory>
-	<DebugBuildConfig>Configuration=Debug;Platform=Any CPU</DebugBuildConfig>
-	<ReleaseBuildConfig>Configuration=Release;Platform=Any CPU</ReleaseBuildConfig>
-	<ReleaseSignedBuildConfig>Configuration=ReleaseSigned;Platform=Any CPU</ReleaseSignedBuildConfig>
+	<DebugBuildConfig>Configuration=Debug;Platform=AnyCPU</DebugBuildConfig>
+	<ReleaseBuildConfig>Configuration=Release;Platform=AnyCPU</ReleaseBuildConfig>
 	<TestName></TestName>
 	<TestParams></TestParams>
   </PropertyGroup>
   <ItemGroup>
-    <CmdletSln Include=".\WindowsAzurePowershell\src\WindowsAzurePowershell.sln" />
-    <SetupSln Include=".\WindowsAzurePowershell\setup\azurepowershell.sln" />
+    <CmdletSln Include=".\src\AzurePowerShell.sln" />
+    <SetupSln Include=".\setup\azurepowershell.sln" />
   </ItemGroup>
 
   <UsingTask 
-    AssemblyFile="$(MSBuildProjectDirectory)\WindowsAzurePowershell\src\packages\xunit.1.9.2\lib\net20\xunit.runner.msbuild.dll"
+    AssemblyFile="$(MSBuildProjectDirectory)\src\packages\xunit.1.9.2\lib\net20\xunit.runner.msbuild.dll"
     TaskName="Xunit.Runner.MSBuild.xunit" />
   
   <!-- Clean the build in all configurations -->
@@ -62,11 +61,6 @@
       ContinueOnError="false" />
     <MSBuild
       Projects="@(CmdletSln)"
-      Targets="Clean"
-      Properties="$(ReleaseSignedBuildConfig)"
-      ContinueOnError="false" />
-    <MSBuild
-      Projects="@(SetupSln)"
       Targets="Clean"
       Properties="$(ReleaseBuildConfig)"
       ContinueOnError="false" />
@@ -104,20 +98,14 @@
   <!--
   Force nuget package restore so that packages that include .targets files
   don't need to be checked into source control.
-
-  Assumes use of a private feed, requires the following environment variables
-  to be set:
-
-  PRIVATE_FEED_URL: The url of the feed to pull from (in addition to the public default feed)
-  PRIVATE_FEED_USER_NAME: User name for access to the feed
-  PRIVATE_FEED_PASSWORD: Password for access to the feed
   -->
   <Target Name="ForceRestorePackages">
     <PropertyGroup>
-	  <NuGetCommand>$(MSBuildProjectDirectory)\WindowsAzurePowershell\src\.nuget\NuGet.exe</NuGetCommand>
-      <NuGetRestoreConfigFile>$(MSBuildProjectDirectory)\WindowsAzurePowershell\src\restore.config</NuGetRestoreConfigFile>
-      <NuGetRestoreConfigSwitch>-ConfigFile &quot;$(NuGetRestoreConfigFile)&quot;</NuGetRestoreConfigSwitch>
+	    <NuGetCommand>$(MSBuildProjectDirectory)\src\.nuget\NuGet.exe</NuGetCommand>
+		<NuGetRestoreConfigFile>$(MSBuildProjectDirectory)\restore.config</NuGetRestoreConfigFile>
+		<NuGetRestoreConfigSwitch>-ConfigFile &quot;$(NuGetRestoreConfigFile)&quot;</NuGetRestoreConfigSwitch>
     </PropertyGroup>
+	
     <ItemGroup>
       <NuGetCache Include="$(LOCALAPPDATA)\NuGet\Cache\*.nupkg"/>
     </ItemGroup>
@@ -125,18 +113,13 @@
     <!-- Delete NuGet cache-->
     <Delete Files="@(NuGetCache)" />
 
-    <Error Text="The code generation target ForceRestorePackages requires an environment variable: PRIVATE_FEED_URL. Please see libraries.msbuild for more information." Condition=" '$(PRIVATE_FEED_URL)'=='' " />
-    <Error Text="The code generation target ForceRestorePackages requires an environment variable: PRIVATE_FEED_USER_NAME. Please see libraries.msbuild for more information." Condition=" '$(PRIVATE_FEED_USER_NAME)'=='' " />
-    <Error Text="The code generation target ForceRestorePackages requires an environment variable: PRIVATE_FEED_PASSWORD. Please see libraries.msbuild for more information." Condition=" '$(PRIVATE_FEED_PASSWORD)'=='' " />
-
     <!-- Create config for user name and password for private feed access -->
     <Delete Files="$(NuGetRestoreConfigFile)" />
-    <Exec Command="$(NuGetCommand) sources add -Name Hydra -Source &quot;$(PRIVATE_FEED_URL)&quot; $(NuGetRestoreConfigSwitch)" />
-    <Exec Command="$(NuGetCommand) sources Update -Name Hydra -UserName $(PRIVATE_FEED_USER_NAME) -Password &quot;$(PRIVATE_FEED_PASSWORD)&quot; $(NuGetRestoreConfigSwitch)"
-          EchoOff="true" />
-    <Exec Command="$(NuGetCommand) restore $(MSBuildProjectDirectory)\WindowsAzurePowershell\src\WindowsAzurePowershell.sln $(NuGetRestoreConfigSwitch)" ContinueOnError="ErrorAndContinue" />
-
-    <!-- delete config file, don't want to leave passwords hanging around on the build server file system -->
+	<WriteLinesToFile File="$(NuGetRestoreConfigFile)" Lines="&lt;configuration&gt;&lt;/configuration&gt;" Overwrite="true" Encoding="UTF-8" />
+	<Exec Command="$(NuGetCommand) sources add -Name AzureSdkInternal -Source &quot;https://www.myget.org/F/azure-sdk-internal/&quot; $(NuGetRestoreConfigSwitch)" />
+    <!-- Restore packages -->
+	<Exec Command="$(NuGetCommand) restore $(MSBuildProjectDirectory)\src\AzurePowerShell.sln $(NuGetRestoreConfigSwitch)" ContinueOnError="ErrorAndContinue" />
+	<!-- delete config file, don't want to leave passwords hanging around on the build server file system -->
     <Delete Files="$(NuGetRestoreConfigFile)" />
   </Target>
 
@@ -151,7 +134,7 @@
     <MSBuild
       Projects="@(CmdletSln)"
       Targets="Build"
-      Properties="$(ReleaseSignedBuildConfig)"
+      Properties="$(ReleaseBuildConfig)"
       ContinueOnError="false" />
   </Target>
 
@@ -182,54 +165,10 @@
       Importance="high"
       Text="You are required to have installed the WiX Toolset at http://wix.codeplex.com/releases/view/60102 (Wix35.msi)"
       ContinueOnError="false" />
-    <MSBuild
-      Projects="@(SetupSln)"
-      Targets="Build"
-      Properties="$(ReleaseBuildConfig)"
-      ContinueOnError="false" />
   </Target>
 
   <!-- Build the Cmdlets and Setup in all configurations -->
   <Target Name="Build" DependsOnTargets="BuildCmdlets;BuildSetup" />
-
-  <!-- Publish any build artificates to the Publish directory -->
-  <Target Name="Publish" DependsOnTargets="Build">
-
-    <!-- Copy code artifacts -->
-    <Message Importance="high" Text="Publishing Cmdlets..." ContinueOnError="false" />
-    <ItemGroup>
-      <DebugFiles Include="$(CloudServiceCmdletBinDirectory)\Debug\**\*.*" />
-	  <DebugFiles Include="$(ManagementCmdletBinDirectory)\Debug\**\*.*" />
-      <DebugFiles Include="$(ServiceManagementCmdletBinDirectory)\Debug\**\*.*" />
-      <ReleaseFiles Include="$(CloudServiceCmdletBinDirectory)\Release\**\*.*" />
-	  <ReleaseFiles Include="$(ManagementCmdletBinDirectory)\Release\**\*.*" />
-      <ReleaseFiles Include="$(ServiceManagementCmdletBinDirectory)\Release\**\*.*" />
-    </ItemGroup>
-    <MakeDir
-      Directories="$(BuildOutputDirectory)"
-      ContinueOnError="false" />
-    <Copy
-      SourceFiles="@(DebugFiles)"
-      DestinationFiles="@(DebugFiles->'$(BuildOutputDirectory)\Debug\%(RecursiveDir)%(Filename)%(Extension)')"
-      SkipUnchangedFiles="true"
-      ContinueOnError="false" />
-    <Copy
-      SourceFiles="@(ReleaseFiles)"
-      DestinationFiles="@(ReleaseFiles->'$(BuildOutputDirectory)\Release\%(RecursiveDir)%(Filename)%(Extension)')"
-      SkipUnchangedFiles="true"
-      ContinueOnError="false" />
-
-    <!-- Copy the Setup artifacts -->
-    <Message Importance="high" Text="Publishing Setup..." ContinueOnError="false" />
-    <ItemGroup>
-      <SetupFiles Include="$(SetupDirectory)\**\*.*" />
-    </ItemGroup>
-    <Copy
-      SourceFiles="@(SetupFiles)"
-      DestinationFiles="@(SetupFiles->'$(PublishDirectory)\Setup\%(RecursiveDir)%(Filename)%(Extension)')"
-      SkipUnchangedFiles="true"
-      ContinueOnError="false" />
-  </Target>
 
   <!-- Run the unit tests -->
   <Target Name="Test" DependsOnTargets="BuildDebug">
@@ -238,14 +177,28 @@
     <MakeDir Directories="$(TestOutputDirectory)" ContinueOnError="false" />
 
     <Message Importance="high" Text="Debug tests:" />
-    <!--CallTarget Targets="TestManagement; TestResourceManager; TestServiceManagement; TestSqlDatabase; TestStorage;" /-->
-    <CallTarget Targets="TestManagement; TestResourceManager; TestServiceManagement; TestStorage; MockedScenarioTests" />
+    <CallTarget Targets="TestManagement; TestManagedCache; TestResourceManager; TestServiceManagement; TestSqlDatabase; TestStorage; MockedScenarioTests" />
   </Target>
 
-  <Target Name="TestManagement">
+  <Target Name="InvokeMSTest">
+    <!--Remove existing test result; otherwsie mstest will error-->
+    <Delete Files="$(_testResult)"/>
     <Exec
-      Command="MSTest.exe /testcontainer:$(ManagementTestDebug) /testsettings:$(TestSettings) /category:$(TestFilter) /resultsfile:$(TestOutputDirectory)\ManagementDebug.trx"
+      Command="MSTest.exe /testcontainer:$(_testAssembly) /testsettings:$(_testSettings) /category:$(_testFilter) /resultsfile:$(_testResult)"
       ContinueOnError="false" />
+  </Target>
+  
+  <Target Name="TestManagement">
+    <MSBuild Targets="InvokeMSTest"
+             Properties="_testAssembly=$(ManagementTestDebug);_testSettings=$(TestSettings);_testFilter=$(TestFilter);_testResult=$(TestOutputDirectory)\ManagementDebug.trx"
+             Projects="build.proj"/>
+  </Target>
+
+  <Target Name="TestManagedCache">
+    <PropertyGroup>
+      <_ManagedCacheTestAssembly>.\src\ServiceManagement\ManagedCache\Commands.ManagedCache.Test\bin\Debug\Microsoft.Azure.Commands.ManagedCache.Test.dll</_ManagedCacheTestAssembly>
+    </PropertyGroup>
+    <Xunit.Runner.MSBuild.xunit Assembly="$(_ManagedCacheTestAssembly)" Html="$(TestOutputDirectory)\ManagedCache.xunit.dll.html" Verbose="true"/>
   </Target>
   
   <Target Name="TestResourceManager">
@@ -253,27 +206,27 @@
   </Target>
 
   <Target Name="TestServiceManagement">
-    <Exec
-        Command="MSTest.exe /testcontainer:$(ServiceManagementTestDebug) /testsettings:$(TestSettings) /category:$(TestFilter) /resultsfile:$(TestOutputDirectory)\ServiceManagementDebug.trx"
-        ContinueOnError="false" />
+    <MSBuild Targets="InvokeMSTest"
+             Properties="_testAssembly=$(ServiceManagementTestDebug);_testSettings=$(TestSettings);_testFilter=$(TestFilter);_testResult=$(TestOutputDirectory)\ServiceManagementDebug.trx"
+             Projects="build.proj"/>
   </Target>
 
   <Target Name="TestSqlDatabase">
-    <Exec
-        Command="MSTest.exe /testcontainer:$(SqlDatabaseTestDebug) /testsettings:$(TestSettings) /category:$(TestFilter) /resultsfile:$(TestOutputDirectory)\SqlDatabaseDebug.trx"
-        ContinueOnError="false" />
+    <MSBuild Targets="InvokeMSTest" 
+        Properties="_testAssembly=$(SqlDatabaseTestDebug);_testSettings=$(TestSettings);_testFilter=$(TestFilter);_testResult=$(TestOutputDirectory)\SqlDatabaseDebug.trx"
+        Projects="build.proj"/>
   </Target>
 
   <Target Name="TestHDInsight">
-    <Exec
-        Command="MSTest.exe /testcontainer:$(HDInsightTestDebug) /testsettings:$(TestSettings) /category:$(TestFilter) /resultsfile:$(TestOutputDirectory)\HDInsightDebug.trx"
-        ContinueOnError="false" />
+    <MSBuild Targets="InvokeMSTest"
+        Properties="_testAssembly=$(HDInsightTestDebug);_testSettings=$(TestSettings);_testFilter=$(TestFilter);_testResult=$(TestOutputDirectory)\HDInsightDebug.trx"
+        Projects="build.proj"/>
   </Target>
 
   <Target Name="TestStorage">
-    <Exec
-        Command="MSTest.exe /testcontainer:$(StorageTestDebug) /testsettings:$(TestSettings) /category:$(TestFilter) /resultsfile:$(TestOutputDirectory)\StorageDebug.trx"
-        ContinueOnError="false" />
+    <MSBuild Targets="InvokeMSTest"
+        Properties="_testAssembly=$(StorageTestDebug);_testSettings=$(TestSettings);_testFilter=$(TestFilter);_testResult=$(TestOutputDirectory)\StorageDebug.trx"
+        Projects="build.proj"/>
   </Target>
 
   <!-- Run the scenario tests -->
@@ -283,24 +236,20 @@
     <MakeDir Directories="$(TestOutputDirectory)" ContinueOnError="false" />
 
     <Message Importance="high" Text="Scenario tests:" />
-    <Exec
-      Command="MSTest.exe /testcontainer:$(ScenarioTestDebug) /testsettings:$(TestSettings) /category:$(ScenarioTestFilter) /resultsfile:$(TestOutputDirectory)\Debug.trx"
-      ContinueOnError="false" />
-    <Exec
-      Command="MSTest.exe /testcontainer:$(StorageScenarioTestDebug) /testsettings:$(TestSettings) /category:$(ScenarioTestFilter) /resultsfile:$(TestOutputDirectory)\StorageScenarioDebug.trx"
-      ContinueOnError="false" />
+    <MSBuild Targets="InvokeMSTest"
+      Properties="_testAssembly=$(ScenarioTestDebug);_testSettings=$(TestSettings);_testFilter=$(ScenarioTestFilter);_testResult=$(TestOutputDirectory)\ScenarioTestDebug.trx"
+      Projects="build.proj"/>
+    <MSBuild Targets="InvokeMSTest"
+      Properties="_testAssembly=$(StorageScenarioTestDebug);_testSettings=$(TestSettings);_testFilter=$(ScenarioTestFilter);_testResult=$(TestOutputDirectory)\StorageScenarioTestDebug.trx"
+      Projects="build.proj"/>
   </Target>
   
   <!-- Run the scenario tests with Mocks -->
-  <Target Name="MockedScenarioTests" DependsOnTargets="Clean;BuildDebug">
-    <Message Importance="high" Text="Running scenario tests with Mocks..." />
-    <Message Importance="high" Text="You are required to have installed a version of Visual Studio with support for MSTest (and MSTest on your path)." />
-    <MakeDir Directories="$(TestOutputDirectory)" ContinueOnError="false" />
-
-    <Message Importance="high" Text="Scenario tests:" />
-    <Exec
-      Command="MSTest.exe /testcontainer:$(ScenarioTestDebug) /testsettings:$(TestSettings) /category:$(MockTestFilter) /resultsfile:$(TestOutputDirectory)\ScenarioTests.trx"
-      ContinueOnError="false" />    
+  <Target Name="MockedScenarioTests">
+    <Message Importance="high" Text="Running scenario tests with Mocks" />
+    <MSBuild Targets="InvokeMSTest" 
+             Properties="_testAssembly=$(ScenarioTestDebug);_testSettings=$(TestSettings);_testFilter=$(MockTestFilter);_testResult=$(TestOutputDirectory)\MockedScenarioTests.trx" 
+             Projects="build.proj"/>  
   </Target>
 
   <!-- Run the CITs -->
@@ -310,8 +259,22 @@
     <MakeDir Directories="$(TestOutputDirectory)" ContinueOnError="false" />
 
     <Message Importance="high" Text="Scenario tests:" />
+    <Delete Files="$(TestOutputDirectory)\RunOneSDKCITDebug.trx" />
     <Exec
-      Command="MSTest.exe /testcontainer:$(ScenarioTestDebug) /testsettings:$(TestSettings) /category:$(OneSDKCITFilter) /resultsfile:$(TestOutputDirectory)\Debug.trx"
+      Command="MSTest.exe /testcontainer:$(ScenarioTestDebug) /testsettings:$(TestSettings) /category:$(OneSDKCITFilter) /resultsfile:$(TestOutputDirectory)\RunOneSDKCITDebug.trx"
+      ContinueOnError="false" />
+  </Target>
+  
+  <!-- Run the MediaService Scenario Tests -->
+  <Target Name="RunMediaServiceBVTs" DependsOnTargets="Clean;BuildDebug">
+    <Message Importance="high" Text="Running Media Service BVTs..." />
+    <Message Importance="high" Text="You are required to have installed a version of Visual Studio with support for MSTest (and MSTest on your path)." />
+    <MakeDir Directories="$(TestOutputDirectory)" ContinueOnError="false" />
+
+    <Message Importance="high" Text="Media Service Scenario tests:" />
+    <Delete Files="$(TestOutputDirectory)\RunMediaServiceBVTDebug.trx" />
+    <Exec
+      Command="MSTest.exe /testcontainer:$(ScenarioTestDebug) /testsettings:$(TestSettings) /category:$(MediaServiceBVTFilter) /resultsfile:$(TestOutputDirectory)\RunMediaServiceBVTDebug.trx"
       ContinueOnError="false" />
   </Target>
 
@@ -322,6 +285,7 @@
     <MakeDir Directories="$(TestOutputDirectory)" ContinueOnError="false" />
 
     <Message Importance="high" Text="BVT tests:" />
+    <Delete Files="$(TestOutputDirectory)\RTBVTDebug.trx" />
     <Exec
       Command="MSTest.exe /testcontainer:$(AzureRTTestContainer) /testsettings:$(TestSettings) /category:BVT /resultsfile:$(TestOutputDirectory)\RTBVTDebug.trx"
       ContinueOnError="false" />
@@ -333,6 +297,7 @@
     <MakeDir Directories="$(TestOutputDirectory)" ContinueOnError="false" />
 
     <Message Importance="high" Text="Running tests:" />
+    <Delete Files="$(TestOutputDirectory)\RTFunctionalDebug.trx" />
     <Exec
       Command="MSTest.exe /testcontainer:$(AzureRTTestContainer) /testsettings:$(TestSettings) /test:$(TestName) /resultsfile:$(TestOutputDirectory)\RTFunctionalDebug.trx"
       ContinueOnError="false" />
@@ -344,6 +309,7 @@
     <MakeDir Directories="$(TestOutputDirectory)" ContinueOnError="false" />
 
     <Message Importance="high" Text="Running tests:" />
+    <Delete Files="$(TestOutputDirectory)\RTFunctionalDebug.trx" />
     <Exec
       Command="MSTest.exe /testcontainer:$(AzureRTTestContainer) /testsettings:$(TestSettings) $(TestParams) /resultsfile:$(TestOutputDirectory)\RTFunctionalDebug.trx"
       ContinueOnError="false" />
@@ -355,6 +321,7 @@
     <MakeDir Directories="$(TestOutputDirectory)" ContinueOnError="false" />
 
     <Message Importance="high" Text="All tests:" />
+    <Delete Files="$(TestOutputDirectory)\RTDebug.trx" />
     <Exec
       Command="MSTest.exe /testcontainer:$(AzureRTTestContainer) /testsettings:$(TestSettings) /category:$(AzureRTAllTestFilter3) /resultsfile:$(TestOutputDirectory)\RTDebug.trx"
       ContinueOnError="false" />
@@ -366,7 +333,9 @@
     <MakeDir Directories="$(TestOutputDirectory)" ContinueOnError="false" />
 
     <Message Importance="high" Text="All tests:" />
-	<Exec
+    <Delete Files="$(TestOutputDirectory)\RTSequentialDebug.trx" />
+    <Delete Files="$(TestOutputDirectory)\RTDebug.trx" />
+    <Exec
       Command="MSTest.exe /testcontainer:$(AzureRTTestContainer) /testsettings:$(TestSettings) /category:Sequential /resultsfile:$(TestOutputDirectory)\RTSequentialDebug.trx"
       ContinueOnError="true" />
     <Exec
@@ -380,7 +349,9 @@
     <MakeDir Directories="$(TestOutputDirectory)" ContinueOnError="false" />
 
     <Message Importance="high" Text="All tests:" />
-	<Exec
+    <Delete Files="$(TestOutputDirectory)\RTAddVhdDebug.trx" />
+    <Delete Files="$(TestOutputDirectory)\RTDebug.trx" />
+	  <Exec
       Command="MSTest.exe /testcontainer:$(AzureRTTestContainer) /testsettings:$(TestSettings) /category:Sequential /resultsfile:$(TestOutputDirectory)\RTAddVhdDebug.trx"
       ContinueOnError="true" />
     <Exec
@@ -394,7 +365,8 @@
     <MakeDir Directories="$(TestOutputDirectory)" ContinueOnError="false" />
 
     <Message Importance="high" Text="All tests:" />
-	<Exec
+    <Delete Files="$(TestOutputDirectory)\RTPreviewDebug.trx" />
+    <Exec
       Command="MSTest.exe /testcontainer:$(AzureRTTestContainer) /testsettings:$(AzureRTTestSettings) /category:Preview /resultsfile:$(TestOutputDirectory)\RTPreviewDebug.trx"
       ContinueOnError="false" />
   </Target>
@@ -402,20 +374,20 @@
   <!-- Do everything possible -->
   <Target
     Name="Full"
-    DependsOnTargets="ForceRestorePackages;Clean;BuildDebug;BuildReleaseSigned;Test;BuildSetupDebug;BuildSetup" />
+    DependsOnTargets="ForceRestorePackages;Clean;BuildDebug;BuildRelease;Test;BuildSetupDebug;BuildSetup" />
 
   <!-- Run Full switch with scenario tests -->
   <Target
     Name="FullWithScenarioTests"
-    DependsOnTargets="ForceRestorePackages;Clean;BuildDebug;BuildReleaseSigned;Test;BuildSetupDebug;BuildSetup;RunOneSDKCIT" />
+    DependsOnTargets="ForceRestorePackages;Clean;BuildDebug;BuildRelease;Test;BuildSetupDebug;BuildSetup;RunOneSDKCIT" />
 
-  <!-- Build the Cmdlets in ReleaseSigned configuration -->
-  <Target Name="BuildReleaseSigned" DependsOnTargets="ForceRestorePackages">
-    <Message Importance="high" Text="Building Cmdlets in ReleaseSigned config..." />
+  <!-- Build the Cmdlets in Release configuration -->
+  <Target Name="BuildRelease" DependsOnTargets="ForceRestorePackages">
+    <Message Importance="high" Text="Building Cmdlets in Release config..." />
     <MSBuild
       Projects="@(CmdletSln)"
       Targets="Build"
-      Properties="$(ReleaseSignedBuildConfig)"
+      Properties="$(ReleaseBuildConfig)"
       ContinueOnError="false" />
   </Target>
 
