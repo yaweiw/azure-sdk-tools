@@ -68,54 +68,54 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
 
 
 
-        //[TestMethod(), TestCategory("Scenario"), TestProperty("Feature", "Iaas"), Priority(1), Owner("hylee"),
-        //Description("Test the cmdlets (New-AzureVMConfig,Add-AzureProvisioningConfig,New-AzureVM) and verifies a that a linux vm can be created with out password")]
-        //public void NewAzureLinuxVMWithoutPasswordAndNoSSHEnpoint()
-        //{
-            
-        //    try
-        //    {
-        //        _serviceName = Utilities.GetUniqueShortName(serviceNamePrefix);
-                
-        //        //Create service
-        //        vmPowershellCmdlets.NewAzureService(_serviceName, locationName);
-                
-        //        //Add installed certificate to the service
-        //        PSObject certToUpload = vmPowershellCmdlets.RunPSScript(
-        //            String.Format("Get-Item cert:\\{0}\\{1}\\{2}", certStoreLocation.ToString(), certStoreName.ToString(), _installedCert.Thumbprint))[0];
-        //        vmPowershellCmdlets.AddAzureCertificate(_serviceName, certToUpload);
+        [TestMethod(), TestCategory("Scenario"), TestProperty("Feature", "Iaas"), Priority(1), Owner("hylee"),
+        Description("Test the cmdlets (New-AzureVMConfig,Add-AzureProvisioningConfig,New-AzureVM) and verifies a that a linux vm can be created with out password")]
+        public void NewAzureLinuxVMWithoutPasswordAndNoSSHEnpoint()
+        {
 
-        //        string newAzureLinuxVMName = Utilities.GetUniqueShortName("PSLinuxVM");
+            try
+            {
+                _serviceName = Utilities.GetUniqueShortName(serviceNamePrefix);
 
-        //        var key = vmPowershellCmdlets.NewAzureSSHKey(NewAzureSSHKeyType.publickey, _installedCert.Thumbprint,keyPath);
-        //        var sshKeysList = new Model.PersistentVMModel.LinuxProvisioningConfigurationSet.SSHPublicKeyList();
-        //        sshKeysList.Add(key);
+                //Create service
+                vmPowershellCmdlets.NewAzureService(_serviceName, locationName);
 
-        //        // Add-AzureProvisioningConfig without password and NoSSHEndpoint
-        //        var azureVMConfigInfo = new AzureVMConfigInfo(newAzureLinuxVMName, InstanceSize.Small.ToString(), _linuxImageName);
-        //        var azureProvisioningConfig = new AzureProvisioningConfigInfo(username, noSshEndpoint: true, sSHPublicKeyList: sshKeysList);
-        //        var persistentVMConfigInfo = new PersistentVMConfigInfo(azureVMConfigInfo, azureProvisioningConfig, null, null);
-        //        PersistentVM vm = vmPowershellCmdlets.GetPersistentVM(persistentVMConfigInfo);
+                //Add installed certificate to the service
+                PSObject certToUpload = vmPowershellCmdlets.RunPSScript(
+                    String.Format("Get-Item cert:\\{0}\\{1}\\{2}", certStoreLocation.ToString(), certStoreName.ToString(), _installedCert.Thumbprint))[0];
+                vmPowershellCmdlets.AddAzureCertificate(_serviceName, certToUpload);
 
-        //        // New-AzureVM
-        //        vmPowershellCmdlets.NewAzureVM(_serviceName, new[] { vm });
-        //        Console.WriteLine("New Azure service with name:{0} created successfully.", _serviceName);
-        //        Collection<InputEndpointContext> endpoints = vmPowershellCmdlets.GetAzureEndPoint(vmPowershellCmdlets.GetAzureVM(newAzureLinuxVMName, _serviceName));
+                string newAzureLinuxVMName = Utilities.GetUniqueShortName("PSLinuxVM");
 
-        //        Console.WriteLine("The number of endpoints: {0}", endpoints.Count);
-        //        foreach (var ep in endpoints)
-        //        {
-        //            Utilities.PrintContext(ep);
-        //        }
-        //        Assert.AreEqual(0, endpoints.Count);
-        //        pass = true;
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        Console.WriteLine(ex.Message);
-        //        throw;
-        //    }
-        //}
+                var key = vmPowershellCmdlets.NewAzureSSHKey(NewAzureSSHKeyType.publickey, _installedCert.Thumbprint, keyPath);
+                var sshKeysList = new Model.PersistentVMModel.LinuxProvisioningConfigurationSet.SSHPublicKeyList();
+                sshKeysList.Add(key);
+
+                // Add-AzureProvisioningConfig without password and NoSSHEndpoint
+                var azureVMConfigInfo = new AzureVMConfigInfo(newAzureLinuxVMName, InstanceSize.Small.ToString(), _linuxImageName);
+                var azureProvisioningConfig = new AzureProvisioningConfigInfo(username, noSshEndpoint: true, sSHPublicKeyList: sshKeysList);
+                var persistentVMConfigInfo = new PersistentVMConfigInfo(azureVMConfigInfo, azureProvisioningConfig, null, null);
+                PersistentVM vm = vmPowershellCmdlets.GetPersistentVM(persistentVMConfigInfo);
+
+                // New-AzureVM
+                vmPowershellCmdlets.NewAzureVM(_serviceName, new[] { vm });
+                Console.WriteLine("New Azure service with name:{0} created successfully.", _serviceName);
+                Collection<InputEndpointContext> endpoints = vmPowershellCmdlets.GetAzureEndPoint(vmPowershellCmdlets.GetAzureVM(newAzureLinuxVMName, _serviceName));
+
+                Console.WriteLine("The number of endpoints: {0}", endpoints.Count);
+                foreach (var ep in endpoints)
+                {
+                    Utilities.PrintContext(ep);
+                }
+                Assert.AreEqual(0, endpoints.Count);
+                pass = true;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                throw;
+            }
+        }
 
         [TestMethod(), TestCategory("Scenario"), TestProperty("Feature", "Iaas"), Priority(1), Owner("hylee"), Description("Test the cmdlets (New-AzureVMConfig,Add-AzureProvisioningConfig,New-AzureVM)")]
         public void NewAzureVMWithLinuxAndDisableSSH()

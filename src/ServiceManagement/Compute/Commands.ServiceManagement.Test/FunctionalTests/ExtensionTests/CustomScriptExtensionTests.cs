@@ -164,6 +164,34 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
 
         }
 
+
+        [TestMethod(), Priority(0), TestCategory("Scenario"), TestProperty("Feature", "IaaS"), Owner("hylee"),
+        Description("Test the cmdlets (New-AzureVM,New-AzureVMConfig,Set/Get/Remove-AzureVMCustomScriptExtension)")]
+        public void NewAzureVMWithEmptyCustomScriptConfigurationTest()
+        {
+            StartTest(MethodBase.GetCurrentMethod().Name, testStartTime);
+            try
+            {
+                vmName = Utilities.GetUniqueShortName(vmNamePrefix);
+                var vm = Utilities.CreateIaaSVMObject(vmName, InstanceSize.Small, imageName, true, username, password);
+                vm = vmPowershellCmdlets.SetAzureVMExtension(vm, customScriptExtension.ExtensionName, customScriptExtension.Publisher, customScriptExtension.Version);
+                vmPowershellCmdlets.NewAzureVM(serviceName, new[] { vm }, locationName);
+
+                var vmExtension = vmPowershellCmdlets.GetAzureVMCustomScriptExtension(Utilities.GetAzureVM(vmName, serviceName));
+                Assert.IsTrue(string.IsNullOrEmpty(vmExtension.PublicConfiguration));
+                Assert.IsNull(vmExtension.PrivateConfiguration);
+                Assert.AreEqual(customScriptExtension.ExtensionName, vmExtension.ExtensionName);
+                Assert.IsTrue(customScriptExtension.Publisher.Equals(vmExtension.Publisher));
+                Assert.IsTrue(vmExtension.State.Equals("Enable"));
+                pass = true;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.ToString());
+                throw;
+            }
+        }
+
         #endregion TestCases
 
         #region Helper Methods
