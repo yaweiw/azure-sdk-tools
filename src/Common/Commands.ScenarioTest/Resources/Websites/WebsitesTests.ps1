@@ -75,7 +75,7 @@ function Test-RemoveAzureServiceWithWhatIf
 	Remove-AzureWebsite $name -Force
 
 	# Assert
-	Assert-True { (Get-AzureWebsite $name) $eq $null }
+	Assert-True { (Get-AzureWebsite $name) -eq $null }
 }
 
 ########################################################################### Get-AzureWebsiteLog Scenario Tests ###########################################################################

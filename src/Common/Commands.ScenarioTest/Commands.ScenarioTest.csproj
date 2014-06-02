@@ -204,6 +204,9 @@
     <Compile Include="ServiceBusTests\ServiceBusNamespaceTests.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\RunWebsitesTests.ps1">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <Content Include="Resources\Websites\WebsiteJobTestCmd.zip">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
