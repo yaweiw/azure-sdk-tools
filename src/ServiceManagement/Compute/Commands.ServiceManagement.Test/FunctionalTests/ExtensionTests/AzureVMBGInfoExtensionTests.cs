@@ -52,7 +52,6 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
             serviceName = Utilities.GetUniqueShortName(serviceNamePrefix);
             vmName = Utilities.GetUniqueShortName(vmNamePrefix);
             testStartTime = DateTime.Now;
-            //referenceName = Utilities.GetUniqueShortName(referenceNamePrefix);
         }
 
         
