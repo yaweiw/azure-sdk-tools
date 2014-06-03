@@ -1,4 +1,85 @@
-﻿2014.04.03 Version 0.8.0
+2014.05.29 Version 0.8.3
+* Restructured source code and installation folder
+* Web Site
+    * Return instances info from Get-AzureWebsite
+    * Added "Slot1" and "Slot2" parameters to enable swap between any 2 slots
+* Update Get-AzureRoleSize, Get-AzureAffinityGroup, Get-AzureService, Get-AzureLocation cmdlets with role sizes info
+* New "ClusterType" parameter for HDInsight
+
+2014.05.12 Version 0.8.2
+* Compute and Network improvements
+    * Public IP support
+        * Set-AzurePublicIP
+        * Get-AzurePublicIP
+        * Remove-AzurePublicIP
+    * Reserved IP support
+        * New-AzureReservedIP
+        * Get-AzureReservedIP
+        * Remove-AzureReservedIP
+    * Internal load balancer support
+        * New-AzureInternalLoadBalancerConfig
+        * Add-AzureInternalLoadBalancer
+        * Get-AzureInternalLoadBalancer
+        * Remove-AzureInternalLoadBalancer
+    * VM image disk improvements
+        * New-AzureVMImageDiskConfigSet
+        * Set-AzureVMImageOSDiskConfig
+        * Remove-AzureVMImageOSDiskConfig
+        * Set-AzureVMImageDataDiskConfig
+        * Remove-AzureVMImageDataDiskConfig
+    * Virtual network improvments
+        * Set-AzureVnetGatewayKey
+* Azure Automation cmdlets
+    * Get-AzureAutomationAccount
+    * Get-AzureAutomationJob
+    * Get-AzureAutomationJobOutput
+    * Get-AzureAutomationRunbook
+    * Get-AzureAutomationRunbookDefinition
+    * Get-AzureAutomationSchedule
+    * New-AzureAutomationRunbook
+    * New-AzureAutomationSchedule
+    * Publish-AzureAutomationRunbook
+    * Register-AzureAutomationScheduledRunbook
+    * Remove-AzureAutomationRunbook
+    * Remove-AzureAutomationSchedule
+    * Resume-AzureAutomationJob
+    * Set-AzureAutomationRunbook
+    * Set-AzureAutomationRunbookDefinition
+    * Set-AzureAutomationSchedule
+    * Start-AzureAutomationRunbook
+    * Stop-AzureAutomationJob
+    * Suspend-AzureAutomationJob
+    * Unregister-AzureAutomationScheduledRunbook
+* Traffic Manager cmdlets
+    * Add-AzureTrafficManagerEndpoint
+    * Disable-AzureTrafficManagerProfile
+    * Enable-AzureTrafficManagerProfile
+    * Get-AzureTrafficManagerProfile
+    * New-AzureTrafficManagerProfile
+    * Remove-AzureTrafficManagerEndpoint
+    * Remove-AzureTrafficManagerProfile
+    * Set-AzureTrafficManagerEndpoint
+    * Set-AzureTrafficManagerProfile
+    * Test-AzureTrafficManagerDomainName
+* Anti-Malware Cloud Service extension cmdlets
+    * Get-AzureServiceAntimalwareConfig
+    * Remove-AzureServiceAntimalwareExtension
+    * Set-AzureServiceAntimalwareExtension
+
+2014.05.07 Version 0.8.1
+* Managed cache cmdlets
+    * New-AzureManagedCache
+    * Set-AzureManagedCache
+    * Get-AzureManagedCache
+    * Remove-AzureManagedCache
+    * New-AzureManagedCacheAccessKey
+    * Get-AzureManagedCacheAccessKey
+* Fixed installer to support Windows PowerShell 5.0 Preview
+* Fixed a bunch of module loading issues
+* Documentation improvements
+* Engineering and infrastructure improvements
+
+2014.04.03 Version 0.8.0
 * Azure Resource Manager cmdlets (preview)
   * Switch-AzureMode to switch the PowerShell module between service management and resource manager.
   * Resource groups

@@ -1,0 +1,5 @@
+<DiagnosticMonitorConfiguration overallQuotaInMB="10000">
+    <PerformanceCounters scheduledTransferPeriod="PT1M">
+        <PerformanceCounterConfiguration counterSpecifier="\Processor(_Total)\% Processor Time" sampleRate="PT30S" unit="percent" />
+    </PerformanceCounters>
+</DiagnosticMonitorConfiguration>

@@ -1,0 +1,41 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "/subscriptions/db1ab6f0-4769-4b27-930e-01e2ef9c123c/resources?api-version=2014-04-01-preview&$filter=resourceType%20eq%20'Non-Existing'",
+      "RequestMethod": "GET",
+      "RequestBody": "",
+      "RequestHeaders": {
+        "User-Agent": [
+          "Microsoft.Azure.Management.Resources.ResourceManagementClient/2.0.0.0",
+          "WindowsAzurePowershell/v0.8.3"
+        ]
+      },
+      "ResponseBody": "{\r\n  \"value\": []\r\n}",
+      "ResponseHeaders": {
+        "Pragma": [
+          "no-cache"
+        ],
+        "x-ms-ratelimit-remaining-subscription-reads": [
+          "31947"
+        ],
+        "x-ms-request-id": [
+          "a38d47be-597a-48ea-80d0-89a9f5248dcd"
+        ],
+        "x-ms-correlation-request-id": [
+          "a38d47be-597a-48ea-80d0-89a9f5248dcd"
+        ],
+        "x-ms-routing-request-id": [
+          "WESTUS:20140508T221740Z:a38d47be-597a-48ea-80d0-89a9f5248dcd"
+        ],
+        "Cache-Control": [
+          "no-cache"
+        ],
+        "Date": [
+          "Thu, 08 May 2014 22:17:40 GMT"
+        ]
+      },
+      "StatusCode": 200
+    }
+  ],
+  "Names": {}
+}
