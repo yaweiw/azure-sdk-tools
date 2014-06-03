@@ -2545,15 +2545,6 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to A value for the  Peer Asn has to be provided..
-        /// </summary>
-        public static string PeerAsnRequired {
-            get {
-                return ResourceManager.GetString("PeerAsnRequired", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to 5.4.0.
         /// </summary>
         public static string PHPDefaultRuntimeVersion {
@@ -2619,15 +2610,6 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Properties {
         public static string PortalInstructionsGit {
             get {
                 return ResourceManager.GetString("PortalInstructionsGit", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to A value for the Primary Peer Subnet has to be provided..
-        /// </summary>
-        public static string PrimaryPeerSubnetRequired {
-            get {
-                return ResourceManager.GetString("PrimaryPeerSubnetRequired", resourceCulture);
             }
         }
         
@@ -3487,15 +3469,6 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to A value for the Secondary Peer Subnet has to be provided..
-        /// </summary>
-        public static string SecondaryPeerSubnetRequired {
-            get {
-                return ResourceManager.GetString("SecondaryPeerSubnetRequired", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Service {0} already exists on disk in location {1}.
         /// </summary>
         public static string ServiceAlreadyExistsOnDisk {
@@ -4159,15 +4132,6 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Properties {
         public static string UpdatedSettings {
             get {
                 return ResourceManager.GetString("UpdatedSettings", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to A value for the VLan Id has to be provided..
-        /// </summary>
-        public static string VlanIdRequired {
-            get {
-                return ResourceManager.GetString("VlanIdRequired", resourceCulture);
             }
         }
         

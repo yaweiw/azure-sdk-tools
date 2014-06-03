@@ -959,9 +959,6 @@ use and privacy statement at {0} and (c) agree to sharing my contact information
   <data name="PathDoesNotExistForElement" xml:space="preserve">
     <value>Path for {0} doesn't exist in {1}.</value>
   </data>
-  <data name="PeerAsnRequired" xml:space="preserve">
-    <value>A value for the  Peer Asn has to be provided.</value>
-  </data>
   <data name="PHPDefaultRuntimeVersion" xml:space="preserve">
     <value>5.4.0</value>
   </data>
@@ -988,9 +985,6 @@ Please follow these steps in the portal:
   </data>
   <data name="PortalInstructionsGit" xml:space="preserve">
     <value>6. Back in the console window, rerun this command by typing "New-AzureWebsite &lt;site name&gt; -Git"</value>
-  </data>
-  <data name="PrimaryPeerSubnetRequired" xml:space="preserve">
-    <value>A value for the Primary Peer Subnet has to be provided.</value>
   </data>
   <data name="PromotionCodeWithCurrentPlanMessage" xml:space="preserve">
     <value>Promotion code can be used only when updating to a new plan.</value>
@@ -1241,9 +1235,6 @@ Please follow these steps in the portal:
   <data name="SchedulerInvalidLocation" xml:space="preserve">
     <value>Invalid location entered. Pick one of the locations from Get-AzureSchedulerLocation</value>
   </data>
-  <data name="SecondaryPeerSubnetRequired" xml:space="preserve">
-    <value>A value for the Secondary Peer Subnet has to be provided.</value>
-  </data>
   <data name="ServiceAlreadyExistsOnDisk" xml:space="preserve">
     <value>Service {0} already exists on disk in location {1}</value>
   </data>
@@ -1469,9 +1460,6 @@ use and privacy statement at &lt;url&gt; and (c) agree to sharing my contact inf
   </data>
   <data name="UpdatedSettings" xml:space="preserve">
     <value>Updated settings for subscription '{0}'. Current subscription is '{1}'.</value>
-  </data>
-  <data name="VlanIdRequired" xml:space="preserve">
-    <value>A value for the VLan Id has to be provided.</value>
   </data>
   <data name="WaitMessage" xml:space="preserve">
     <value>Please wait...</value>

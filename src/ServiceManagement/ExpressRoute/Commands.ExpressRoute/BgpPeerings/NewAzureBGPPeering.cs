@@ -18,7 +18,6 @@ namespace Microsoft.WindowsAzure.Commands.ExpressRoute
     using System;
     using System.ComponentModel;
     using System.Management.Automation;
-    using Utilities.ExpressRoute;
 
     [Cmdlet(VerbsCommon.New, "AzureBGPPeering"), OutputType(typeof(AzureBgpPeering))]
     public class NewAzureBGPPeeringCommand : ExpressRouteBaseCmdlet

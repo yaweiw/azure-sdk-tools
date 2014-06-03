@@ -15,7 +15,6 @@
 namespace Microsoft.WindowsAzure.Commands.Test.ExpressRoute
 {
     using Commands.ExpressRoute;
-    using Commands.Utilities.ExpressRoute;
     using Microsoft.WindowsAzure.Commands.Test.Utilities.Common;
     using Microsoft.WindowsAzure.Management.ExpressRoute;
     using Microsoft.WindowsAzure.Management.ExpressRoute.Models;
