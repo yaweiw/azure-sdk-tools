@@ -17,7 +17,6 @@ namespace Microsoft.WindowsAzure.Commands.ExpressRoute
     using Microsoft.WindowsAzure.Management.ExpressRoute.Models;
     using System;
     using System.Management.Automation;
-    using Utilities.ExpressRoute;
 
     [Cmdlet(VerbsCommon.New, "AzureDedicatedCircuit"), OutputType(typeof(AzureDedicatedCircuit))]
     public class NewAzureDedicatedCircuitCommand : ExpressRouteBaseCmdlet

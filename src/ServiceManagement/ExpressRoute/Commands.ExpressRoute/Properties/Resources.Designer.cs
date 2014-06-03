@@ -61,6 +61,33 @@ namespace Microsoft.WindowsAzure.Commands.ExpressRoute.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The value {0} is an invalid GUID..
+        /// </summary>
+        internal static string InvalidGuid {
+            get {
+                return ResourceManager.GetString("InvalidGuid", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to A value for the  Peer Asn has to be provided..
+        /// </summary>
+        internal static string PeerAsnRequired {
+            get {
+                return ResourceManager.GetString("PeerAsnRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to A value for the Primary Peer Subnet has to be provided..
+        /// </summary>
+        internal static string PrimaryPeerSubnetRequired {
+            get {
+                return ResourceManager.GetString("PrimaryPeerSubnetRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Remove-AzureBGPPeering Operation failed..
         /// </summary>
         internal static string RemoveAzureBGPPeeringFailed {
@@ -165,6 +192,24 @@ namespace Microsoft.WindowsAzure.Commands.ExpressRoute.Properties {
         internal static string RemoveAzureDedicatedCircuitSucceeded {
             get {
                 return ResourceManager.GetString("RemoveAzureDedicatedCircuitSucceeded", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to A value for the Secondary Peer Subnet has to be provided..
+        /// </summary>
+        internal static string SecondaryPeerSubnetRequired {
+            get {
+                return ResourceManager.GetString("SecondaryPeerSubnetRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to A value for the VLan Id has to be provided..
+        /// </summary>
+        internal static string VlanIdRequired {
+            get {
+                return ResourceManager.GetString("VlanIdRequired", resourceCulture);
             }
         }
     }
