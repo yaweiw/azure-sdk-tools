@@ -24,10 +24,6 @@ namespace Microsoft.WindowsAzure.Commands.TrafficManager.Endpoint
     [Cmdlet(VerbsCommon.Remove, "AzureTrafficManagerEndpoint"), OutputType(typeof(IProfileWithDefinition))]
     public class RemoveAzureTrafficManagerEndpoint : TrafficManagerConfigurationBaseCmdlet
     {
-        [Parameter(Mandatory = true,
-            ValueFromPipelineByPropertyName = true)]
-        public string Name { get; set; }
-
         [Parameter(Mandatory = true)]
         public string DomainName { get; set; }
 

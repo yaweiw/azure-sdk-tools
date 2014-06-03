@@ -9,37 +9,14 @@
     <ManagementCmdletBinDirectory>.\src\ServiceManagement\Services\Commands\bin</ManagementCmdletBinDirectory>
     <ManagementTestDirectory>.\src\ServiceManagement\Services\Commands.Test\bin</ManagementTestDirectory>
     <ManagementTestAssemblyName>Microsoft.WindowsAzure.Commands.Test.dll</ManagementTestAssemblyName>
-
-    <TestSettings>.\src\Local.testsettings</TestSettings>
-    <AzureRTTestSettings>.\src\AzureRT.testsettings</AzureRTTestSettings>
-    <ScenarioTestDebug>.\src\Common\Commands.ScenarioTest\bin\Debug\Microsoft.WindowsAzure.Commands.ScenarioTest.dll</ScenarioTestDebug>
-    <AzureRTTestContainer>.\src\ServiceManagement\Compute\Commands.ServiceManagement.Test\bin\Debug\Microsoft.WindowsAzure.Commands.ServiceManagement.Test.dll</AzureRTTestContainer>
-    <StorageScenarioTestDebug>src\ServiceManagement\Storage\Commands.Storage.ScenarioTest\bin\Debug\CLITest.dll</StorageScenarioTestDebug>
-    <ManagementTestDebug>.\src\ServiceManagement\Services\Commands.Test\bin\Debug\Microsoft.WindowsAzure.Commands.Test.dll</ManagementTestDebug>
-    <ResourceManagerTestDebug>.\src\ResourceManager\Resources\Commands.Resources.Test\bin\Debug\Microsoft.Azure.Commands.Resources.Test.dll</ResourceManagerTestDebug>
-    <ServiceManagementTestDebug>.\src\ServiceManagement\Compute\Commands.ServiceManagement.Test\bin\Debug\Microsoft.WindowsAzure.Commands.ServiceManagement.Test.dll</ServiceManagementTestDebug>
-    <SqlDatabaseTestDebug>.\src\ServiceManagement\Sql\Commands.SqlDatabase.Test\bin\Debug\Microsoft.WindowsAzure.Commands.SqlDatabase.Test.dll</SqlDatabaseTestDebug>
-    <HDInsightTestDebug>.\src\ServiceManagement\Services\Commands.HDInsight.Test\bin\Debug\Microsoft.WindowsAzure.Commands.HDInsight.Test.dll</HDInsightTestDebug>    
-    <StorageTestDebug>.\src\ServiceManagement\Storage\Commands.Storage.Test\bin\Debug\Microsoft.WindowsAzure.Commands.Storage.Test.dll</StorageTestDebug>
     <SetupDirectory>.\setup\build</SetupDirectory>
-
     <PublishDirectory>.\src\Publish</PublishDirectory>
     <PackageDirectory>.\src\Package</PackageDirectory>
     <BuildOutputDirectory>$(PublishDirectory)\Build</BuildOutputDirectory>
     <SetupOutputDirectory>$(PublishDirectory)\Setup</SetupOutputDirectory>
-    <TestFilter>"!Functional&#x26;!Scenario&#x26;!Sequential&#x26;!PIRTest&#x26;!Preview&#x26;!ADDomain"</TestFilter>
-    <ScenarioTestFilter>All</ScenarioTestFilter>
-    <MockTestFilter>CheckIn</MockTestFilter>
-    <OneSDKCITFilter>"OneSDK&#x26;CIT"</OneSDKCITFilter>
-    <MediaServiceBVTFilter>"MediaServices&#x26;BVT"</MediaServiceBVTFilter>
-    <AzureRTAllTestFilter>"Functional|Scenario"</AzureRTAllTestFilter>
-    <AzureRTAllTestFilter2>"Functional|Scenario|Preview"</AzureRTAllTestFilter2>
-    <AzureRTAllTestFilter3>"Functional|Scenario|Sequential"</AzureRTAllTestFilter3>
     <TestOutputDirectory>$(PublishDirectory)\TestResults</TestOutputDirectory>
     <DebugBuildConfig>Configuration=Debug;Platform=AnyCPU</DebugBuildConfig>
     <ReleaseBuildConfig>Configuration=Release;Platform=AnyCPU</ReleaseBuildConfig>
-    <TestName></TestName>
-    <TestParams></TestParams>
   </PropertyGroup>
   <ItemGroup>
     <AzurePowerShellSln Include=".\src\AzurePowerShell.sln" />
@@ -174,217 +151,10 @@
 
   <!-- Build the Cmdlets and Setup in all configurations -->
   <Target Name="Build" DependsOnTargets="BuildCmdlets;BuildSetupRelease" />
-
-  <!-- Run the unit tests -->
-  <Target Name="Test" DependsOnTargets="BuildDebug">
-    <Message Importance="high" Text="Running tests..." />
-    <Message Importance="high" Text="You are required to have installed a version of Visual Studio with support for MSTest (and MSTest on your path)." />
-    <MakeDir Directories="$(TestOutputDirectory)" ContinueOnError="false" />
-
-    <Message Importance="high" Text="Debug tests:" />
-    <CallTarget Targets="TestManagement; TestManagedCache; TestResourceManager; TestServiceManagement; TestSqlDatabase; TestStorage; MockedScenarioTests" />
-  </Target>
-
-  <Target Name="InvokeMSTest">
-    <!--Remove existing test result; otherwsie mstest will error-->
-    <Delete Files="$(_testResult)"/>
-    <Exec
-      Command="MSTest.exe /testcontainer:$(_testAssembly) /testsettings:$(_testSettings) /category:$(_testFilter) /resultsfile:$(_testResult)"
-      ContinueOnError="false" />
-  </Target>
-  
-  <Target Name="TestManagement">
-    <MSBuild Targets="InvokeMSTest"
-             Properties="_testAssembly=$(ManagementTestDebug);_testSettings=$(TestSettings);_testFilter=$(TestFilter);_testResult=$(TestOutputDirectory)\ManagementDebug.trx"
-             Projects="build.proj"/>
-  </Target>
-
-  <Target Name="TestManagedCache">
-    <PropertyGroup>
-      <_ManagedCacheTestAssembly>.\src\ServiceManagement\ManagedCache\Commands.ManagedCache.Test\bin\Debug\Microsoft.Azure.Commands.ManagedCache.Test.dll</_ManagedCacheTestAssembly>
-    </PropertyGroup>
-    <Xunit.Runner.MSBuild.xunit Assembly="$(_ManagedCacheTestAssembly)" Html="$(TestOutputDirectory)\ManagedCache.xunit.dll.html" Verbose="true"/>
-  </Target>
-  
-  <Target Name="TestResourceManager">
-    <Xunit.Runner.MSBuild.xunit Assembly="$(ResourceManagerTestDebug)" Html="$(TestOutputDirectory)\ResourceManagerTestDebug.xunit.dll.html" Verbose="true"/>
-  </Target>
-
-  <Target Name="TestServiceManagement">
-    <MSBuild Targets="InvokeMSTest"
-             Properties="_testAssembly=$(ServiceManagementTestDebug);_testSettings=$(TestSettings);_testFilter=$(TestFilter);_testResult=$(TestOutputDirectory)\ServiceManagementDebug.trx"
-             Projects="build.proj"/>
-  </Target>
-
-  <Target Name="TestSqlDatabase">
-    <MSBuild Targets="InvokeMSTest" 
-        Properties="_testAssembly=$(SqlDatabaseTestDebug);_testSettings=$(TestSettings);_testFilter=$(TestFilter);_testResult=$(TestOutputDirectory)\SqlDatabaseDebug.trx"
-        Projects="build.proj"/>
-  </Target>
-
-  <Target Name="TestHDInsight">
-    <MSBuild Targets="InvokeMSTest"
-        Properties="_testAssembly=$(HDInsightTestDebug);_testSettings=$(TestSettings);_testFilter=$(TestFilter);_testResult=$(TestOutputDirectory)\HDInsightDebug.trx"
-        Projects="build.proj"/>
-  </Target>
-
-  <Target Name="TestStorage">
-    <MSBuild Targets="InvokeMSTest"
-        Properties="_testAssembly=$(StorageTestDebug);_testSettings=$(TestSettings);_testFilter=$(TestFilter);_testResult=$(TestOutputDirectory)\StorageDebug.trx"
-        Projects="build.proj"/>
-  </Target>
-
-  <!-- Run the scenario tests -->
-  <Target Name="ScenarioTest" DependsOnTargets="Clean;BuildDebug">
-    <Message Importance="high" Text="Running scenario tests..." />
-    <Message Importance="high" Text="You are required to have installed a version of Visual Studio with support for MSTest (and MSTest on your path)." />
-    <MakeDir Directories="$(TestOutputDirectory)" ContinueOnError="false" />
-
-    <Message Importance="high" Text="Scenario tests:" />
-    <MSBuild Targets="InvokeMSTest"
-      Properties="_testAssembly=$(ScenarioTestDebug);_testSettings=$(TestSettings);_testFilter=$(ScenarioTestFilter);_testResult=$(TestOutputDirectory)\ScenarioTestDebug.trx"
-      Projects="build.proj"/>
-    <MSBuild Targets="InvokeMSTest"
-      Properties="_testAssembly=$(StorageScenarioTestDebug);_testSettings=$(TestSettings);_testFilter=$(ScenarioTestFilter);_testResult=$(TestOutputDirectory)\StorageScenarioTestDebug.trx"
-      Projects="build.proj"/>
-  </Target>
-  
-  <!-- Run the scenario tests with Mocks -->
-  <Target Name="MockedScenarioTests">
-    <Message Importance="high" Text="Running scenario tests with Mocks" />
-    <MSBuild Targets="InvokeMSTest" 
-             Properties="_testAssembly=$(ScenarioTestDebug);_testSettings=$(TestSettings);_testFilter=$(MockTestFilter);_testResult=$(TestOutputDirectory)\MockedScenarioTests.trx" 
-             Projects="build.proj"/>  
-  </Target>
-
-  <!-- Run the CITs -->
-  <Target Name="RunOneSDKCIT" DependsOnTargets="Clean;BuildDebug">
-    <Message Importance="high" Text="Running CITs..." />
-    <Message Importance="high" Text="You are required to have installed a version of Visual Studio with support for MSTest (and MSTest on your path)." />
-    <MakeDir Directories="$(TestOutputDirectory)" ContinueOnError="false" />
-
-    <Message Importance="high" Text="Scenario tests:" />
-    <Delete Files="$(TestOutputDirectory)\RunOneSDKCITDebug.trx" />
-    <Exec
-      Command="MSTest.exe /testcontainer:$(ScenarioTestDebug) /testsettings:$(TestSettings) /category:$(OneSDKCITFilter) /resultsfile:$(TestOutputDirectory)\RunOneSDKCITDebug.trx"
-      ContinueOnError="false" />
-  </Target>
-  
-  <!-- Run the MediaService Scenario Tests -->
-  <Target Name="RunMediaServiceBVTs" DependsOnTargets="Clean;BuildDebug">
-    <Message Importance="high" Text="Running Media Service BVTs..." />
-    <Message Importance="high" Text="You are required to have installed a version of Visual Studio with support for MSTest (and MSTest on your path)." />
-    <MakeDir Directories="$(TestOutputDirectory)" ContinueOnError="false" />
-
-    <Message Importance="high" Text="Media Service Scenario tests:" />
-    <Delete Files="$(TestOutputDirectory)\RunMediaServiceBVTDebug.trx" />
-    <Exec
-      Command="MSTest.exe /testcontainer:$(ScenarioTestDebug) /testsettings:$(TestSettings) /category:$(MediaServiceBVTFilter) /resultsfile:$(TestOutputDirectory)\RunMediaServiceBVTDebug.trx"
-      ContinueOnError="false" />
-  </Target>
-
-  <!-- Run the AzureRT tests -->
-  <Target Name="AzureRTBVTs" DependsOnTargets="Clean;BuildDebug">
-    <Message Importance="high" Text="Running AzureRT BVT tests..." />
-    <Message Importance="high" Text="You are required to have installed a version of Visual Studio with support for MSTest (and MSTest on your path)." />
-    <MakeDir Directories="$(TestOutputDirectory)" ContinueOnError="false" />
-
-    <Message Importance="high" Text="BVT tests:" />
-    <Delete Files="$(TestOutputDirectory)\RTBVTDebug.trx" />
-    <Exec
-      Command="MSTest.exe /testcontainer:$(AzureRTTestContainer) /testsettings:$(TestSettings) /category:BVT /resultsfile:$(TestOutputDirectory)\RTBVTDebug.trx"
-      ContinueOnError="false" />
-  </Target>
-
-  <Target Name="AzureRTOneTest" DependsOnTargets="Clean;BuildDebug">
-    <Message Importance="high" Text="Running a specific tests..." />
-    <Message Importance="high" Text="You are required to have installed a version of Visual Studio with support for MSTest (and MSTest on your path)." />
-    <MakeDir Directories="$(TestOutputDirectory)" ContinueOnError="false" />
-
-    <Message Importance="high" Text="Running tests:" />
-    <Delete Files="$(TestOutputDirectory)\RTFunctionalDebug.trx" />
-    <Exec
-      Command="MSTest.exe /testcontainer:$(AzureRTTestContainer) /testsettings:$(TestSettings) /test:$(TestName) /resultsfile:$(TestOutputDirectory)\RTFunctionalDebug.trx"
-      ContinueOnError="false" />
-  </Target>
-
-  <Target Name="AzureRTMultiTests" DependsOnTargets="Clean;BuildDebug">
-    <Message Importance="high" Text="Running a specific tests..." />
-    <Message Importance="high" Text="You are required to have installed a version of Visual Studio with support for MSTest (and MSTest on your path)." />
-    <MakeDir Directories="$(TestOutputDirectory)" ContinueOnError="false" />
-
-    <Message Importance="high" Text="Running tests:" />
-    <Delete Files="$(TestOutputDirectory)\RTFunctionalDebug.trx" />
-    <Exec
-      Command="MSTest.exe /testcontainer:$(AzureRTTestContainer) /testsettings:$(TestSettings) $(TestParams) /resultsfile:$(TestOutputDirectory)\RTFunctionalDebug.trx"
-      ContinueOnError="false" />
-  </Target>
-
-  <Target Name="AzureRTAll" DependsOnTargets="Clean;BuildDebug">
-    <Message Importance="high" Text="Running AzureRT all tests..." />
-    <Message Importance="high" Text="You are required to have installed a version of Visual Studio with support for MSTest (and MSTest on your path)." />
-    <MakeDir Directories="$(TestOutputDirectory)" ContinueOnError="false" />
-
-    <Message Importance="high" Text="All tests:" />
-    <Delete Files="$(TestOutputDirectory)\RTDebug.trx" />
-    <Exec
-      Command="MSTest.exe /testcontainer:$(AzureRTTestContainer) /testsettings:$(TestSettings) /category:$(AzureRTAllTestFilter3) /resultsfile:$(TestOutputDirectory)\RTDebug.trx"
-      ContinueOnError="false" />
-  </Target>
-
-  <Target Name="AzureRTAllFast" DependsOnTargets="Clean;BuildDebug">
-    <Message Importance="high" Text="Running AzureRT all tests..." />
-    <Message Importance="high" Text="You are required to have installed a version of Visual Studio with support for MSTest (and MSTest on your path)." />
-    <MakeDir Directories="$(TestOutputDirectory)" ContinueOnError="false" />
-
-    <Message Importance="high" Text="All tests:" />
-    <Delete Files="$(TestOutputDirectory)\RTSequentialDebug.trx" />
-    <Delete Files="$(TestOutputDirectory)\RTDebug.trx" />
-    <Exec
-      Command="MSTest.exe /testcontainer:$(AzureRTTestContainer) /testsettings:$(TestSettings) /category:Sequential /resultsfile:$(TestOutputDirectory)\RTSequentialDebug.trx"
-      ContinueOnError="true" />
-    <Exec
-      Command="MSTest.exe /testcontainer:$(AzureRTTestContainer) /testsettings:$(AzureRTTestSettings) /category:$(AzureRTAllTestFilter) /resultsfile:$(TestOutputDirectory)\RTDebug.trx"
-      ContinueOnError="false" />
-  </Target>
-  
-  <Target Name="AzureRTAllPreview" DependsOnTargets="Clean;BuildDebug">
-    <Message Importance="high" Text="Running AzureRT all tests..." />
-    <Message Importance="high" Text="You are required to have installed a version of Visual Studio with support for MSTest (and MSTest on your path)." />
-    <MakeDir Directories="$(TestOutputDirectory)" ContinueOnError="false" />
-
-    <Message Importance="high" Text="All tests:" />
-    <Delete Files="$(TestOutputDirectory)\RTAddVhdDebug.trx" />
-    <Delete Files="$(TestOutputDirectory)\RTDebug.trx" />
-      <Exec
-      Command="MSTest.exe /testcontainer:$(AzureRTTestContainer) /testsettings:$(TestSettings) /category:Sequential /resultsfile:$(TestOutputDirectory)\RTAddVhdDebug.trx"
-      ContinueOnError="true" />
-    <Exec
-      Command="MSTest.exe /testcontainer:$(AzureRTTestContainer) /testsettings:$(AzureRTTestSettings) /category:$(AzureRTAllTestFilter2) /resultsfile:$(TestOutputDirectory)\RTDebug.trx"
-      ContinueOnError="false" />
-  </Target>
-  
-  <Target Name="AzureRTPreview" DependsOnTargets="Clean;BuildDebug">
-    <Message Importance="high" Text="Running AzureRT all tests..." />
-    <Message Importance="high" Text="You are required to have installed a version of Visual Studio with support for MSTest (and MSTest on your path)." />
-    <MakeDir Directories="$(TestOutputDirectory)" ContinueOnError="false" />
-
-    <Message Importance="high" Text="All tests:" />
-    <Delete Files="$(TestOutputDirectory)\RTPreviewDebug.trx" />
-    <Exec
-      Command="MSTest.exe /testcontainer:$(AzureRTTestContainer) /testsettings:$(AzureRTTestSettings) /category:Preview /resultsfile:$(TestOutputDirectory)\RTPreviewDebug.trx"
-      ContinueOnError="false" />
-  </Target>
-
   <!-- Do everything possible -->
   <Target
     Name="Full"
     DependsOnTargets="ForceRestorePackages;Clean;BuildDebug;BuildRelease;Test;BuildSetupDebug;BuildSetupRelease" />
-
-  <!-- Run Full switch with scenario tests -->
-  <Target
-    Name="FullWithScenarioTests"
-    DependsOnTargets="ForceRestorePackages;Clean;BuildDebug;BuildRelease;Test;BuildSetupDebug;BuildSetupRelease;RunOneSDKCIT" />
 
   <!-- Build the Cmdlets in Release configuration -->
   <Target Name="BuildRelease" DependsOnTargets="ForceRestorePackages">
@@ -405,4 +175,19 @@
       Properties="$(DebugBuildConfig)"
       ContinueOnError="false" />
   </Target>
+
+  <!-- Note: all testing related target should go to 'AzurePowershell.test.targets' file except the one used by CI run -->
+  <Import Project="$(MSBuildThisFileDirectory)AzurePowershell.test.targets"/>
+  
+  <!-- Run checkin tests for each pull request -->
+  <Target Name="Test" DependsOnTargets="BuildDebug;BeforeRunTests">
+    <Message Importance="high" Text="Running check in tests..." />
+    <CallTarget Targets="TestManagement; TestManagedCache; TestResourceManager; TestServiceManagement; TestSqlDatabase; TestStorage; MockedScenarioTests" />
+  </Target>
+  
+  <!-- Run Full switch with scenario tests -->
+  <Target
+    Name="FullWithScenarioTests"
+    DependsOnTargets="ForceRestorePackages;Clean;BuildDebug;BuildRelease;Test;BuildSetupDebug;BuildSetupRelease;RunOneSDKCIT" />
+  
 </Project>

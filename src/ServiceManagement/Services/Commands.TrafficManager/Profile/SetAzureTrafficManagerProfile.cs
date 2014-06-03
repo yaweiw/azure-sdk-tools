@@ -54,7 +54,12 @@ namespace Microsoft.WindowsAzure.Commands.TrafficManager.Profile
         {
             ProfileWithDefinition profile = TrafficManagerProfile.GetInstance();
 
-            if (!Name.Equals(profile.Name))
+            if (string.IsNullOrEmpty(Name))
+            {
+                this.Name = profile.Name;
+            }
+
+            if (!profile.Name.Equals(Name))
             {
                 throw new Exception(Resources.SetTrafficManagerProfileAmbiguous);
             }
@@ -67,13 +72,6 @@ namespace Microsoft.WindowsAzure.Commands.TrafficManager.Profile
                 MonitorRelativePath ?? profile.MonitorRelativePath,
                 Ttl.HasValue ? Ttl.Value : profile.TimeToLiveInSeconds,
                 profile.Endpoints);
-
-            if (updatedDefinitionAsParam.Policy.LoadBalancingMethod ==
-                Management.TrafficManager.Models.LoadBalancingMethod.Performance &&
-                updatedDefinitionAsParam.Policy.Endpoints.Any(e => e.Type == EndpointType.Any))
-            {
-                throw new Exception(Resources.SetTrafficManagerProfileErrorNotSupported);
-            }
 
             ProfileWithDefinition newDefinition =
                 TrafficManagerClient.AssignDefinitionToProfile(Name, updatedDefinitionAsParam);

@@ -17,6 +17,7 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Blob.Cmdlet
     using Common;
     using Microsoft.WindowsAzure.Storage;
     using Microsoft.WindowsAzure.Storage.Blob;
+    using Microsoft.WindowsAzure.Storage.DataMovement.TransferJobs;
     using Model.Contract;
     using Model.ResourceModel;
     using System;
@@ -160,6 +161,19 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Blob.Cmdlet
             base.BeginProcessing();
         }
 
+        protected void EnqueueStartCopyJob(BlobStartCopyJob startCopyJob, DataMovementUserData userData)
+        {
+            startCopyJob.FinishEvent += (eventSource, eventArgs) =>
+            {
+                BlobStartCopyJob tempJob = eventArgs.Job as BlobStartCopyJob;
+                this.OnCopyTaskFinish(userData, tempJob.CopyId, eventArgs.Exception);
+            };
+            this.SetRequestOptionsInTransferJob(startCopyJob);
+            startCopyJob.OverwritePromptCallback = ConfirmOverwrite;
+
+            transferManager.EnqueueJob(startCopyJob, CmdletCancellationToken);
+        }
+
         /// <summary>
         /// Set up the Channel object for Destination container and blob
         /// </summary>
@@ -234,7 +248,7 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Blob.Cmdlet
         /// <returns>Destination ICloudBlob object</returns>
         private void StartCopyBlob(IStorageBlobManagement destChannel, ICloudBlob srcICloudBlob, ICloudBlob destICloudBlob)
         {
-            Func<long, Task> taskGenerator = (taskId) => StartCopyInTransferManager(taskId, destChannel, srcICloudBlob, destICloudBlob.Container, destICloudBlob.Name);
+            Func<long, Task> taskGenerator = (taskId) => StartCopyInTransferManager(taskId, destChannel, srcICloudBlob, destICloudBlob);
             RunTask(taskGenerator);
         }
 
@@ -247,9 +261,29 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Blob.Cmdlet
         /// <returns>Destination ICloudBlob object</returns>
         private void StartCopyBlob(IStorageBlobManagement destChannel, ICloudBlob srcICloudBlob, string destContainer, string destBlobName)
         {
+            if (string.IsNullOrEmpty(destBlobName))
+            {
+                destBlobName = srcICloudBlob.Name;
+            }
+
+            ValidateBlobName(destBlobName);
+
             CloudBlobContainer container = destChannel.GetContainerReference(destContainer);
-            Func<long, Task> taskGenerator = (taskId) => StartCopyInTransferManager(taskId, destChannel, srcICloudBlob, container, destBlobName);
-            RunTask(taskGenerator);
+            ICloudBlob destBlob = null;
+            if (BlobType.PageBlob == srcICloudBlob.BlobType)
+            {
+                destBlob = container.GetPageBlobReference(destBlobName);
+            }
+            else if (BlobType.BlockBlob == srcICloudBlob.BlobType)
+            {
+                destBlob = container.GetBlockBlobReference(destBlobName);
+            }
+            else
+            {
+                throw new ArgumentException(String.Format(Resources.InvalidBlobType, srcICloudBlob.Name));
+            }
+
+            this.StartCopyBlob(destChannel, srcICloudBlob, destBlob);
         }
 
         /// <summary>
@@ -314,9 +348,7 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Blob.Cmdlet
                 throw new ResourceNotFoundException(String.Format(Resources.BlobNotFound, srcBlobName, srcContainerName));
             }
 
-            CloudBlobContainer destContainer = destChannel.GetContainerReference(destContainerName);
-            Func<long, Task> taskGenerator =  (taskId) => StartCopyInTransferManager(taskId, destChannel, blob, destContainer, destBlobName);
-            RunTask(taskGenerator);
+            this.StartCopyBlob(destChannel, blob, destContainerName, destBlobName);
         }
 
         /// <summary>
@@ -326,21 +358,16 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Blob.Cmdlet
         /// <param name="destContainer">Destination CloudBlobContainer object</param>
         /// <param name="destBlobName">Destination blob name</param>
         /// <returns>Destination ICloudBlob object</returns>
-        private async Task StartCopyInTransferManager(long taskId, IStorageBlobManagement DestChannel, ICloudBlob blob, CloudBlobContainer destContainer, string destBlobName)
+        private async Task StartCopyInTransferManager(long taskId, IStorageBlobManagement DestChannel, ICloudBlob sourceBlob, ICloudBlob destBlob)
         {
-            if (string.IsNullOrEmpty(destBlobName))
-            {
-                destBlobName = blob.Name;
-            }
-
-            ValidateBlobName(blob.Name);
-            ValidateContainerName(destContainer.Name);
-            ValidateBlobName(destBlobName);
+            ValidateBlobName(sourceBlob.Name);
+            ValidateContainerName(destBlob.Container.Name);
+            ValidateBlobName(destBlob.Name);
 
             Dictionary<string, string> BlobPath = new Dictionary<string, string>()
             {
-                {"Container", destContainer.Name},
-                {"Blob", destBlobName}
+                {"Container", destBlob.Container.Name},
+                {"Blob", destBlob.Name}
             };
 
             DataMovementUserData data = new DataMovementUserData()
@@ -351,7 +378,13 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Blob.Cmdlet
                 Record = null
             };
 
-            transferManager.QueueBlobStartCopy(blob, destContainer, destBlobName, null, OnCopyTaskFinish, data);
+            BlobStartCopyJob startCopyJob = new BlobStartCopyJob()
+            {
+                SourceBlob = sourceBlob,
+                DestBlob = destBlob
+            };
+
+            this.EnqueueStartCopyJob(startCopyJob, data);
             await data.taskSource.Task;
         }
 
@@ -380,7 +413,14 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Blob.Cmdlet
                 Record = null
             };
 
-            transferManager.QueueBlobStartCopy(uri, destContainer, destBlobName, null, OnCopyTaskFinish, data);
+            BlobStartCopyJob startCopyJob = new BlobStartCopyJob() 
+            {
+                SourceUri = uri,
+                DestBlob = destContainer.GetBlockBlobReference(destBlobName)
+            };
+            
+            this.EnqueueStartCopyJob(startCopyJob, data);
+
             await data.taskSource.Task;
         }
 
@@ -399,19 +439,18 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Blob.Cmdlet
             return blob;
         }
 
-        private void OnCopyTaskFinish(object userData, string copyId, Exception e)
+        private void OnCopyTaskFinish(DataMovementUserData userData, string copyId, Exception e)
         {
-            DataMovementUserData data = userData as DataMovementUserData;
-            IStorageBlobManagement destChannel = data.Channel;
+            IStorageBlobManagement destChannel = userData.Channel;
 
-            if (data != null && e == null)
+            if (userData != null && e == null)
             {
-                OutputStream.WriteVerbose(data.TaskId, copyId);
-                Dictionary<string, string> destBlobPath = data.Data as Dictionary<string, string>;
+                OutputStream.WriteVerbose(userData.TaskId, copyId);
+                Dictionary<string, string> destBlobPath = userData.Data as Dictionary<string, string>;
 
                 if (destBlobPath != null)
                 {
-                    OutputStream.WriteVerbose(data.TaskId, String.Format(Resources.CopyDestinationBlobPending, destBlobPath["Blob"], destBlobPath["Container"], copyId));
+                    OutputStream.WriteVerbose(userData.TaskId, String.Format(Resources.CopyDestinationBlobPending, destBlobPath["Blob"], destBlobPath["Container"], copyId));
                     CloudBlobContainer container = destChannel.GetContainerReference(destBlobPath["Container"]);
 
                     try
@@ -419,7 +458,7 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Blob.Cmdlet
                         ICloudBlob destBlob = GetDestinationBlobWithCopyId(destChannel, container, destBlobPath["Blob"]);
                         if (destBlob != null)
                         {
-                            WriteICloudBlobObject(data.TaskId, destChannel, destBlob);
+                            WriteICloudBlobObject(userData.TaskId, destChannel, destBlob);
                         }
                     }
                     catch (Exception readException)
