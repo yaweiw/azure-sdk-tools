@@ -3,6 +3,9 @@
 * Web Site
     * Return instances info from Get-AzureWebsite
     * Added "Slot1" and "Slot2" parameters to enable swap between any 2 slots
+* Traffic Manager
+    * Support for Weighted Round Robin policies
+    * Support for Performance policies with external endpoints
 * Update Get-AzureRoleSize, Get-AzureAffinityGroup, Get-AzureService, Get-AzureLocation cmdlets with role sizes info
 * New "ClusterType" parameter for HDInsight
 
