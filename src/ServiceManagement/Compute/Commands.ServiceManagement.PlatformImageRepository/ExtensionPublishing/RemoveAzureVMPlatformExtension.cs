@@ -63,7 +63,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.PlatformImageReposit
 
             ExecuteClientActionNewSM(null,
                 CommandRuntime.ToString(),
-                () => this.ComputeClient.VirtualMachineExtensionImages.Unregister(this.Publisher, this.ExtensionName, this.Version));
+                () => this.ComputeClient.ExtensionImages.Unregister(this.Publisher, this.ExtensionName, this.Version));
         }
     }
 }

@@ -77,10 +77,10 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.PlatformImageReposit
         {
             ServiceManagementProfile.Initialize();
 
-            Func<VirtualMachineExtensionListResponse.ResourceExtension, bool> truePred = s => true;
+            Func<ExtensionImageListResponse.ResourceExtension, bool> truePred = s => true;
 
-            Func<string, Func<VirtualMachineExtensionListResponse.ResourceExtension, string>,
-                 Func<VirtualMachineExtensionListResponse.ResourceExtension, bool>> predFunc =
+            Func<string, Func<ExtensionImageListResponse.ResourceExtension, string>,
+                 Func<ExtensionImageListResponse.ResourceExtension, bool>> predFunc =
                  (x, f) => string.IsNullOrEmpty(x) ? truePred : s => string.Equals(x, f(s), StringComparison.OrdinalIgnoreCase);
 
             var typePred = predFunc(this.ExtensionName, s => s.Name);
@@ -89,9 +89,9 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.PlatformImageReposit
 
             ExecuteClientActionNewSM(null,
                 CommandRuntime.ToString(),
-                () => this.ComputeClient.VirtualMachineExtensionImages.List(),
+                () => this.ComputeClient.ExtensionImages.List(),
                 (op, response) => response.Where(typePred).Where(publisherPred).Where(versionPred).Select(
-                     extension => ContextFactory<VirtualMachineExtensionListResponse.ResourceExtension, VirtualMachineExtensionImageContext>(extension, op)));
+                     extension => ContextFactory<ExtensionImageListResponse.ResourceExtension, VirtualMachineExtensionImageContext>(extension, op)));
         }
     }
 }
