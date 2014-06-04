@@ -22,6 +22,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
     using Model;
     using Microsoft.WindowsAzure.Commands.Utilities.Common;
     using Microsoft.WindowsAzure.Management.Storage;
+    using Microsoft.WindowsAzure.Commands.Storage.Model.ResourceModel;
 
     [Cmdlet(
         VerbsCommon.Set,
@@ -33,6 +34,8 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
     {
         protected const string SetExtParamSetName = "SetDiagnosticsExtension";
         protected const string SetExtRefParamSetName = "SetDiagnosticsWithReferenceExtension";
+        private const string PublicConfigurationTemplate = "\"xmlCfg\":\"{0}\", \"StorageAccount\":\"{1}\" ";
+        private readonly string PrivateConfigurationTemplate = "\"storageAccountName\":\"{0}\", \"storageAccountKey\":\"{1}\", \"storageAccountEndPoint\":\"{2}\"";
 
         [Parameter(
             ParameterSetName = SetExtParamSetName,
@@ -57,14 +60,14 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
             Position = 1,
             ValueFromPipelineByPropertyName = true,
             Mandatory = true,
-            HelpMessage = "Diagnostics Storage Account Name")]
+            HelpMessage = "The storage connection context")]
         [Parameter(ParameterSetName = SetExtRefParamSetName,
             Position = 1,
             ValueFromPipelineByPropertyName = true,
             Mandatory = true,
-            HelpMessage = "Diagnostics Storage Account Name")]
+            HelpMessage = "The storage connection context")]
         [ValidateNotNullOrEmpty]
-        public override string StorageAccountName
+        public AzureStorageContext StorageContext
         {
             get;
             set;
@@ -133,9 +136,11 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
 
         private void ValidateStorageAccount()
         {
+            StorageAccountName = StorageContext.StorageAccountName;
+            
             StorageKey = GetStorageKey();
             // We need the suffix, NOT the full account endpoint.
-            Endpoint = "https://" +  WindowsAzureProfile.Instance.CurrentEnvironment.StorageEndpointSuffix;
+            Endpoint = "https://" + StorageContext.EndPointSuffix;
         }
 
         private void ValidateConfiguration()
@@ -148,7 +153,8 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
             {
                 string config = string.Format("<WadCfg>{0}</WadCfg>", sr.ReadToEnd());
                 config = Convert.ToBase64String(Encoding.UTF8.GetBytes(config.ToCharArray()));
-                PublicConfiguration = "{ \"xmlCfg\":\"" + config + "\", \"StorageAccount\":\"" + StorageAccountName + "\"";
+                PublicConfiguration = "{ ";
+                PublicConfiguration += string.Format(PublicConfigurationTemplate, config, StorageAccountName);
 
                 if (!string.IsNullOrEmpty(LocalDirectory))
                 {
@@ -160,9 +166,9 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
 
             // Private configuration must look like:
             // { "storageAccountName":"your_account_name", "storageAccountKey":"your_key", "storageAccountEndPoint":"end_point" }
-            PrivateConfiguration =  "{ \"storageAccountName\":\"" + StorageAccountName + 
-                                    "\", \"storageAccountKey\":\"" + StorageKey + 
-                                    "\", \"storageAccountEndPoint\":\"" + Endpoint + "\"}";
+            PrivateConfiguration = "{ ";
+            PrivateConfiguration += string.Format(PrivateConfigurationTemplate, StorageAccountName, StorageKey, Endpoint);
+            PrivateConfiguration += "}";
         }
 
         protected string GetStorageKey()

@@ -25,6 +25,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Model
     using System.Management.Automation.Runspaces;
     using Tools.Vhd.Model;
     using ProgressRecord = Sync.ProgressRecord;
+    using Microsoft.WindowsAzure.Storage;
 
     public class PSSyncOutputEvents : ISyncOutputEvents, IDisposable
     {
