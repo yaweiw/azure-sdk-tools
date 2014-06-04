@@ -24,21 +24,6 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
         private static CloudBlobUtility cloudBlobUtility = new CloudBlobUtility();
 
         public static Uri UploadPackageToBlob(
-            IServiceManagement channel,
-            string storageName,
-            string subscriptionId,
-            string packagePath,
-            BlobRequestOptions blobRequestOptions)
-        {
-            return cloudBlobUtility.UploadPackageToBlob(
-                channel,
-                storageName,
-                subscriptionId,
-                packagePath,
-                blobRequestOptions);
-        }
-
-        public static Uri UploadPackageToBlob(
             StorageManagementClient storageClient,
             string storageName,
             string packagePath,
@@ -49,15 +34,6 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
                 storageName,
                 packagePath,
                 blobRequestOptions);
-        }
-
-        public static void DeletePackageFromBlob(
-            IServiceManagement channel,
-            string storageName,
-            string subscriptionId,
-            Uri packageUri)
-        {
-            cloudBlobUtility.DeletePackageFromBlob(channel, storageName, subscriptionId, packageUri);
         }
 
         public static void DeletePackageFromBlob(
