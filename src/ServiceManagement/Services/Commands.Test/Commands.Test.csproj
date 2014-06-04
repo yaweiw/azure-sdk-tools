@@ -40,7 +40,7 @@
     <PlatformTarget>AnyCPU</PlatformTarget>
     <ErrorReport>prompt</ErrorReport>
     <RunCodeAnalysis>false</RunCodeAnalysis>
-	<SignAssembly>true</SignAssembly>
+    <SignAssembly>true</SignAssembly>
     <AssemblyOriginatorKeyFile>MSSharedLibKey.snk</AssemblyOriginatorKeyFile>
     <DelaySign>true</DelaySign>
     <CodeAnalysisIgnoreBuiltInRules>true</CodeAnalysisIgnoreBuiltInRules>
@@ -328,12 +328,6 @@
     <Compile Include="Common\CmdletExtensionsTest.cs" />
     <Compile Include="Common\GeneralTest.cs" />
     <Compile Include="Common\GlobalPathInfoTest.cs" />
-    <Compile Include="TrafficManager\Profiles\DisableTrafficManagerProfileTests.cs" />
-    <Compile Include="TrafficManager\Profiles\EnableTrafficManagerProfileTests.cs" />
-    <Compile Include="TrafficManager\Profiles\GetTrafficManagerProfileTests.cs" />
-    <Compile Include="TrafficManager\Profiles\RemoveTrafficManagerProfileTests.cs" />
-    <Compile Include="TrafficManager\Profiles\SetTrafficManagerProfileTests.cs" />
-    <Compile Include="TrafficManager\TestTrafficManagerDomainNameTests.cs" />
     <Compile Include="WAPackIaaS\Common\WebClientFactoryTests.cs" />
     <Compile Include="WAPackIaaS\Mocks\MockLogger.cs" />
     <Compile Include="WAPackIaaS\Mocks\MockRequestChannel.cs" />
@@ -372,10 +366,6 @@
     <Compile Include="Websites\WebJobs\NewAzureWebsiteJobTests.cs" />
     <Compile Include="Websites\WebJobs\GetAzureWebsiteJobTests.cs" />
     <Compile Include="Websites\WebJobs\WebJobWrapperTest.cs" />
-    <Compile Include="TrafficManager\Endpoints\AddTrafficManagerEndpointTests.cs" />
-    <Compile Include="TrafficManager\Endpoints\RemoveTrafficManagerEndpointTests.cs" />
-    <Compile Include="TrafficManager\Endpoints\SetTrafficManagerEndpointTests.cs" />
-    <Compile Include="TrafficManager\Profiles\NewTrafficManagerProfileTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Resources\MyWebApplication\WebApplication4.csproj">
@@ -452,10 +442,6 @@
     <ProjectReference Include="..\Commands.Test.Utilities\Commands.Test.Utilities.csproj">
       <Project>{bc420543-c04e-4bf3-96e1-cd81b823bdd7}</Project>
       <Name>Commands.Test.Utilities</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\TrafficManager\Commands.TrafficManager\Commands.TrafficManager.csproj">
-      <Project>{94e96a5c-b5ad-4e10-b13a-3bc16d102aed}</Project>
-      <Name>Commands.TrafficManager</Name>
     </ProjectReference>
     <ProjectReference Include="..\Commands.Utilities\Commands.Utilities.csproj">
       <Project>{4900ec4e-8deb-4412-9108-0bc52f81d457}</Project>
