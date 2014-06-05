@@ -14,24 +14,21 @@
 
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.PlatformImageRepository.ExtensionPublishing
 {
-    using System;
-    using System.Linq;
     using System.Management.Automation;
-    using IaaS.Extensions;
-    using Management.Compute.Models;
+    using Properties;
     using Utilities.Common;
 
     /// <summary>
     /// Get Windows Azure VM Platform Extension Image.
     /// </summary>
     [Cmdlet(
-        VerbsCommon.Remove,
+        VerbsData.Unpublish,
         AzureVMPlatformExtensionCommandNoun),
     OutputType(
-        typeof(VirtualMachineExtensionImageContext))]
-    public class RemoveAzureVMPlatformExtensionCommand : ServiceManagementBaseCmdlet
+        typeof(ManagementOperationContext))]
+    public class UnpublishAzurePlatformExtensionCommand : ServiceManagementBaseCmdlet
     {
-        protected const string AzureVMPlatformExtensionCommandNoun = "AzureVMPlatformExtension";
+        protected const string AzureVMPlatformExtensionCommandNoun = "AzurePlatformExtension";
 
         [Parameter(
             Mandatory = true,
@@ -57,13 +54,24 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.PlatformImageReposit
         [ValidateNotNullOrEmpty]
         public string Version { get; set; }
 
+        [Parameter(
+            Mandatory = false,
+            Position = 3,
+            HelpMessage = "To force the unpublish operation.")]
+        public SwitchParameter Force { get; set; }
+
         protected override void OnProcessRecord()
         {
             ServiceManagementProfile.Initialize();
 
-            ExecuteClientActionNewSM(null,
-                CommandRuntime.ToString(),
-                () => this.ComputeClient.ExtensionImages.Unregister(this.Publisher, this.ExtensionName, this.Version));
+            if (this.Force.IsPresent
+             || this.ShouldContinue(Resources.ExtensionUnpublishingConfirmation, Resources.ExtensionUnpublishingCaption))
+            {
+                ExecuteClientActionNewSM(
+                    null,
+                    CommandRuntime.ToString(),
+                    () => this.ComputeClient.ExtensionImages.Unregister(this.Publisher, this.ExtensionName, this.Version));
+            }
         }
     }
 }

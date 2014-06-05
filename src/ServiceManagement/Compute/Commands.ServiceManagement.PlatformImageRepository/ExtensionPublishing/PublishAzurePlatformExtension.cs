@@ -25,24 +25,15 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.PlatformImageReposit
     /// Get Windows Azure VM Platform Extension Image.
     /// </summary>
     [Cmdlet(
-        VerbsCommon.Get,
-        AzureVMPlatformExtensionCommandNoun,
-        DefaultParameterSetName = ListLatestExtensionsParamSetName),
+        VerbsData.Publish,
+        AzureVMPlatformExtensionCommandNoun),
     OutputType(
-        typeof(VirtualMachineExtensionImageContext))]
-    public class GetAzureVMPlatformExtensionCommand : ServiceManagementBaseCmdlet
+        typeof(ManagementOperationContext))]
+    public class PublishAzurePlatformExtensionCommand : ServiceManagementBaseCmdlet
     {
-        protected const string AzureVMPlatformExtensionCommandNoun = "AzureVMPlatformExtension";
-        protected const string ListLatestExtensionsParamSetName = "ListLatestExtensions";
-        protected const string ListSingleVersionParamSetName = "ListSingleVersion";
+        protected const string AzureVMPlatformExtensionCommandNoun = "AzurePlatformExtension";
 
         [Parameter(
-            ParameterSetName = ListLatestExtensionsParamSetName,
-            Position = 0,
-            ValueFromPipelineByPropertyName = true,
-            HelpMessage = "The Extension Image Name.")]
-        [Parameter(
-            ParameterSetName = ListSingleVersionParamSetName,
             Mandatory = true,
             Position = 0,
             ValueFromPipelineByPropertyName = true,
@@ -51,12 +42,6 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.PlatformImageReposit
         public string ExtensionName { get; set; }
 
         [Parameter(
-            ParameterSetName = ListLatestExtensionsParamSetName,
-            Position = 1,
-            ValueFromPipelineByPropertyName = true,
-            HelpMessage = "The Extension Publisher.")]
-        [Parameter(
-            ParameterSetName = ListSingleVersionParamSetName,
             Mandatory = true,
             Position = 1,
             ValueFromPipelineByPropertyName = true,
@@ -65,7 +50,6 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.PlatformImageReposit
         public string Publisher { get; set; }
 
         [Parameter(
-            ParameterSetName = ListSingleVersionParamSetName,
             Mandatory = true,
             Position = 2,
             ValueFromPipelineByPropertyName = true,
@@ -77,21 +61,15 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.PlatformImageReposit
         {
             ServiceManagementProfile.Initialize();
 
-            Func<ExtensionImageListResponse.ResourceExtension, bool> truePred = s => true;
-
-            Func<string, Func<ExtensionImageListResponse.ResourceExtension, string>,
-                 Func<ExtensionImageListResponse.ResourceExtension, bool>> predFunc =
-                 (x, f) => string.IsNullOrEmpty(x) ? truePred : s => string.Equals(x, f(s), StringComparison.OrdinalIgnoreCase);
-
-            var typePred = predFunc(this.ExtensionName, s => s.Name);
-            var publisherPred = predFunc(this.Publisher, s => s.Publisher);
-            var versionPred = predFunc(this.Version, s => s.Version);
-
             ExecuteClientActionNewSM(null,
                 CommandRuntime.ToString(),
-                () => this.ComputeClient.ExtensionImages.List(),
-                (op, response) => response.Where(typePred).Where(publisherPred).Where(versionPred).Select(
-                     extension => ContextFactory<ExtensionImageListResponse.ResourceExtension, VirtualMachineExtensionImageContext>(extension, op)));
+                () => this.ComputeClient.ExtensionImages.Register(
+                    new ExtensionImageRegisterParameters
+                    {
+                        ProviderNameSpace = this.Publisher,
+                        Type = this.ExtensionName,
+                        Version = this.Version
+                    }));
         }
     }
 }
