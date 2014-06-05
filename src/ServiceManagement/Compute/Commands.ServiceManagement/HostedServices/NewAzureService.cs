@@ -68,12 +68,22 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.HostedServices
             set;
         }
 
+        [Parameter(Position = 4, Mandatory = false, ValueFromPipelineByPropertyName = true, ParameterSetName = "ParameterSetAffinityGroup", HelpMessage = "TODO: Fill in documentation.")]
+        [Parameter(Position = 4, Mandatory = false, ValueFromPipelineByPropertyName = true, ParameterSetName = "ParameterSetLocation", HelpMessage = "TODO: Fill in documentation.")]
+        [ValidateNotNullOrEmpty]
+        public string ReverseDnsFqdn
+        {
+            get;
+            set;
+        }
+
         public void ExecuteCommand()
         {
             var parameter = new HostedServiceCreateParameters()
             {
                 ServiceName = this.ServiceName,
                 Label = string.IsNullOrEmpty(this.Label) ? this.ServiceName : this.Label,
+                ReverseDnsFqdn = this.ReverseDnsFqdn,
                 Description = this.Description,
                 AffinityGroup =  this.AffinityGroup,
                 Location = this.Location

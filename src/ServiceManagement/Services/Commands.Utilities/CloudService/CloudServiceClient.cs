@@ -852,13 +852,19 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService
             string name,
             string label = null,
             string location = null,
-            string affinityGroup = null)
+            string affinityGroup = null,
+            string reverseDnsFqdn = null)
         {
             if (!CloudServiceExists(name))
             {
                 WriteVerboseWithTimestamp(Resources.PublishCreatingServiceMessage);
 
-                var createParameters = new HostedServiceCreateParameters {ServiceName = name, Label = label};
+                var createParameters = new HostedServiceCreateParameters
+                {
+                    ServiceName = name,
+                    Label = label,
+                    ReverseDnsFqdn = reverseDnsFqdn
+                };
 
                 if (!string.IsNullOrEmpty(affinityGroup))
                 {

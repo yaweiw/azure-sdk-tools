@@ -51,6 +51,14 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.HostedServices
             set;
         }
 
+        [Parameter(Position = 3, ValueFromPipelineByPropertyName = true, HelpMessage = "TODO: Fill in documentation.")]
+        public string ReverseDnsFqdn
+        {
+            get;
+            set;
+        }
+
+
         protected override void OnProcessRecord()
         {
             ServiceManagementProfile.Initialize();
@@ -68,7 +76,8 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.HostedServices
             var parameters = new HostedServiceUpdateParameters
             {
                 Label = this.Label ?? null,
-                Description = this.Description
+                Description = this.Description,
+                ReverseDnsFqdn = this.ReverseDnsFqdn
             };
             ExecuteClientActionNewSM(parameters, 
                 CommandRuntime.ToString(),
