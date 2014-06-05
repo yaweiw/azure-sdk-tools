@@ -74,6 +74,7 @@ namespace Microsoft.WindowsAzure.Management.HDInsight.Cmdlet.PSCmdlets
                 this.command.Config.HiveConfiguration.ConfigurationCollection.AddRange(value.HiveConfiguration.ConfigurationCollection);
                 this.command.Config.OozieConfiguration.ConfigurationCollection.AddRange(value.OozieConfiguration.ConfigurationCollection);
                 this.command.Config.HeadNodeVMSize = value.HeadNodeVMSize;
+                this.command.Config.ClusterType = value.ClusterType;
             }
         }
 

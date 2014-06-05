@@ -34,6 +34,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.TrafficManager.Endpoints
         private const string AzureWebsiteType = "AzureWebsite";
         private const string AnyType = "Any";
         private const EndpointStatus Status = EndpointStatus.Enabled;
+        private const int Weight = 3;
 
         private MockCommandRuntime mockCommandRuntime;
 
@@ -53,10 +54,9 @@ namespace Microsoft.WindowsAzure.Commands.Test.TrafficManager.Endpoints
             // Setup
             cmdlet = new AddAzureTrafficManagerEndpoint
             {
-                Name = ProfileName,
                 DomainName = DomainName,
                 Type = CloudServiceType,
-                //Weight = weight,
+                Weight = Weight,
                 Status = Status.ToString(),
                 TrafficManagerProfile = original,
                 CommandRuntime = mockCommandRuntime
@@ -83,10 +83,9 @@ namespace Microsoft.WindowsAzure.Commands.Test.TrafficManager.Endpoints
             // Setup
             cmdlet = new AddAzureTrafficManagerEndpoint
             {
-                Name = ProfileName,
                 DomainName = DomainName,
                 Type = AzureWebsiteType,
-                //Weight = weight,
+                Weight = Weight,
                 TrafficManagerProfile = original,
                 CommandRuntime = mockCommandRuntime,
                 Status = "Enabled"
@@ -112,10 +111,9 @@ namespace Microsoft.WindowsAzure.Commands.Test.TrafficManager.Endpoints
 
             cmdlet = new AddAzureTrafficManagerEndpoint
             {
-                Name = ProfileName,
                 DomainName = DomainName,
                 Type = AnyType,
-                //Weight = weight,
+                Weight = Weight,
                 TrafficManagerProfile = original,
                 CommandRuntime = mockCommandRuntime,
                 Status = "Enabled"
@@ -149,19 +147,48 @@ namespace Microsoft.WindowsAzure.Commands.Test.TrafficManager.Endpoints
 
             original.Endpoints.Add(existingEndpoint);
 
-            // Setup
             cmdlet = new AddAzureTrafficManagerEndpoint
             {
-                Name = ProfileName,
                 DomainName = DomainName,
                 Type = AnyType,
-                //Weight = weight,
                 TrafficManagerProfile = original,
                 CommandRuntime = mockCommandRuntime
             };
 
             // Action + Assert
             Testing.AssertThrows<Exception>(() => cmdlet.ExecuteCmdlet());
+        }
+
+        [TestMethod]
+        public void AddTrafficManagerEndpointNoWeightNoLocation()
+        {
+            // Setup
+            ProfileWithDefinition original = GetProfileWithDefinition();
+
+            cmdlet = new AddAzureTrafficManagerEndpoint
+            {
+                DomainName = DomainName,
+                Type = AnyType,
+                TrafficManagerProfile = original,
+                CommandRuntime = mockCommandRuntime,
+                Status = "Enabled"
+            };
+
+            // Action
+            cmdlet.ExecuteCmdlet();
+
+            var actual = mockCommandRuntime.OutputPipeline[0] as ProfileWithDefinition;
+
+            // Assert
+            // All the properties stay the same except the endpoints
+            AssertAllProfilePropertiesDontChangeExceptEndpoints(original, actual);
+
+            // There is a new endpoint with the new domain name in "actual" but not in "original"
+            Assert.IsTrue(actual.Endpoints.Any(e => e.DomainName == DomainName));
+            TrafficManagerEndpoint endpoint = actual.Endpoints.First(e => e.DomainName == DomainName);
+
+            Assert.AreEqual(1, endpoint.Weight);
+            Assert.IsNull(endpoint.Location);
         }
 
         private ProfileWithDefinition GetProfileWithDefinition()

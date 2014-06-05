@@ -36,6 +36,20 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Test.UnitTests.Server.Cmdl
             MockServerHelper.SaveDefaultSessionCollection();
         }
 
+        private static void VerifyServer(SqlDatabaseServerContext server, string adminLogin, string location)
+        {
+            Assert.AreEqual(adminLogin, server.AdministratorLogin, "Expecting server login to match.");
+            Assert.AreEqual(location, server.Location, "Expecting matching location.");
+            Assert.AreEqual(10, server.ServerName.Length, "Expecting a valid server name.");
+        }
+
+        private static void VerifyServer(SqlDatabaseServerContext server, string adminLogin, string location, string version, string state)
+        {
+            VerifyServer(server, adminLogin, location);
+            Assert.AreEqual(version, server.Version, "Server version doesn't match");
+            Assert.AreEqual(state, server.State, "Server state does not match");
+        }
+
         [TestMethod]
         public void AzureSqlDatabaseServerTests()
         {
@@ -126,47 +140,29 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Test.UnitTests.Server.Cmdl
                 SqlDatabaseServerContext server = 
                     newServerResult.Single().BaseObject as SqlDatabaseServerContext;
                 Assert.IsNotNull(server, "Expecting a SqlDatabaseServerContext object");
-
-                Assert.AreEqual(
+                VerifyServer(
+                    server,
                     (string)powershell.Runspace.SessionStateProxy.GetVariable("login"),
-                    server.AdministratorLogin,
-                    ignoreCase: true,
-                    message: "Expecting matching login.");
-                Assert.AreEqual(
-                    (string)powershell.Runspace.SessionStateProxy.GetVariable("location"),
-                    server.Location,
-                    ignoreCase: true,
-                    message: "Expecting matching location.");
-                Assert.AreEqual(10, server.ServerName.Length, "Expecting a valid server name.");
+                    (string)powershell.Runspace.SessionStateProxy.GetVariable("location"));
 
                 // Validate Get-AzureSqlDatabaseServer results
                 server = getServerResult.Single().BaseObject as SqlDatabaseServerContext;
                 Assert.IsNotNull(server, "Expecting a SqlDatabaseServerContext object");
-                Assert.AreEqual(
+                VerifyServer(
+                    server,
                     (string)powershell.Runspace.SessionStateProxy.GetVariable("login"),
-                    server.AdministratorLogin,
-                    ignoreCase: true,
-                    message: "Expecting matching login.");
-                Assert.AreEqual(
                     (string)powershell.Runspace.SessionStateProxy.GetVariable("location"),
-                    server.Location,
-                    ignoreCase: true,
-                    message: "Expecting matching location.");
-                Assert.AreEqual(10, server.ServerName.Length, "Expecting a valid server name.");
+                    "1.0",
+                    null);
 
                 server = setServerResult.Single().BaseObject as SqlDatabaseServerContext;
                 Assert.IsNotNull(server, "Expecting a SqlDatabaseServerContext object");
-                Assert.AreEqual(
+                VerifyServer(
+                    server,
                     (string)powershell.Runspace.SessionStateProxy.GetVariable("login"),
-                    server.AdministratorLogin,
-                    ignoreCase: true,
-                    message: "Expecting matching login.");
-                Assert.AreEqual(
                     (string)powershell.Runspace.SessionStateProxy.GetVariable("location"),
-                    server.Location,
-                    ignoreCase: true,
-                    message: "Expecting matching location.");
-                Assert.AreEqual(10, server.ServerName.Length, "Expecting a valid server name.");
+                    "1.0",
+                    null);
 
                 // Validate Remove-AzureSqlDatabaseServer results
                 Assert.IsFalse(
@@ -253,34 +249,21 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Test.UnitTests.Server.Cmdl
                 SqlDatabaseServerContext server =
                     newServerResult.Single().BaseObject as SqlDatabaseServerContext;
                 Assert.IsNotNull(server, "Expecting a SqlDatabaseServerContext object");
-
-                Assert.AreEqual(
+                VerifyServer(
+                    server,
                     (string)powershell.Runspace.SessionStateProxy.GetVariable("login"),
-                    server.AdministratorLogin,
-                    ignoreCase: true,
-                    message: "Expecting matching login.");
-                Assert.AreEqual(
-                    (string)powershell.Runspace.SessionStateProxy.GetVariable("location"),
-                    server.Location,
-                    ignoreCase: true,
-                    message: "Expecting matching location.");
-                Assert.AreEqual(10, server.ServerName.Length, "Expecting a valid server name.");
+                    (string)powershell.Runspace.SessionStateProxy.GetVariable("location"));
+
 
                 // Validate Get-AzureSqlDatabaseServer results
                 server = getServerResult.Single().BaseObject as SqlDatabaseServerContext;
                 Assert.IsNotNull(server, "Expecting a SqlDatabaseServerContext object");
-                Assert.AreEqual(
+                VerifyServer(
+                    server,
                     (string)powershell.Runspace.SessionStateProxy.GetVariable("login"),
-                    server.AdministratorLogin,
-                    ignoreCase: true,
-                    message: "Expecting matching login.");
-                Assert.AreEqual(
                     (string)powershell.Runspace.SessionStateProxy.GetVariable("location"),
-                    server.Location,
-                    ignoreCase: true,
-                    message: "Expecting matching location.");
-                Assert.AreEqual(10, server.ServerName.Length, "Expecting a valid server name.");
-                Assert.AreEqual("2.0", server.Version, "Expecting the server version to be 2.0");
+                    "2.0",
+                    null);
 
                 powershell.Streams.ClearStreams();
             }

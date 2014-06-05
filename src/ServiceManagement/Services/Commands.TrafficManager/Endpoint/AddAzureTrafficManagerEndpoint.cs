@@ -25,16 +25,11 @@ namespace Microsoft.WindowsAzure.Commands.TrafficManager.Endpoint
     [Cmdlet(VerbsCommon.Add, "AzureTrafficManagerEndpoint"), OutputType(typeof(IProfileWithDefinition))]
     public class AddAzureTrafficManagerEndpoint : TrafficManagerConfigurationBaseCmdlet
     {
-        [Parameter(Mandatory = true, ValueFromPipelineByPropertyName = true)]
-        public string Name { get; set; }
-
         [Parameter(Mandatory = true)]
         public string DomainName { get; set; }
 
-        // Commented out due to bug in hydra spec: https://github.com/Azure/hydra-specs-pr/pull/339
-        // This feature hasn't been announced.
-//        [Parameter(Mandatory = false)]
-//        public string Location { get; set; }
+        [Parameter(Mandatory = false)]
+        public string Location { get; set; }
 
         [Parameter(Mandatory = true)]
         [ValidateSet("CloudService", "AzureWebsite", "Any", IgnoreCase = false)]
@@ -44,19 +39,17 @@ namespace Microsoft.WindowsAzure.Commands.TrafficManager.Endpoint
         [ValidateSet("Enabled", "Disabled", IgnoreCase = false)]
         public string Status { get; set; }
 
-        // Commented out because endpoints using this fields will be inconsistent
-        // with Portal. This feature hasn't been announced.
-//        [Parameter(Mandatory = false)]
-//        public int Weight { get; set; }
+        [Parameter(Mandatory = false)]
+        public int? Weight { get; set; }
 
         public override void ExecuteCmdlet()
         {
             TrafficManagerEndpoint endpoint = new TrafficManagerEndpoint();
             endpoint.DomainName = DomainName;
-//            endpoint.Location = Location;
+            endpoint.Location = Location;
             endpoint.Status = (EndpointStatus)Enum.Parse(typeof(EndpointStatus), Status);
             endpoint.Type = (EndpointType)Enum.Parse(typeof(EndpointType), Type);
-//            endpoint.Weight = Weight;
+            endpoint.Weight = Weight.HasValue ? Weight.Value : 1;
             ProfileWithDefinition profile = TrafficManagerProfile.GetInstance();
 
             if (profile.Endpoints.Any(e => e.DomainName == endpoint.DomainName))

@@ -14,10 +14,10 @@
 
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Model
 {
-    using Properties;
     using System;
     using System.IO;
     using Utilities.Common;
+    using Properties;
 
     public class VirtualNetworkConfigContext : ManagementOperationContext
     {

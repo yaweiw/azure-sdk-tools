@@ -91,7 +91,7 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Test.Service
         public CloudTable GetTableReference(string name)
         {
             Uri tableUri = new Uri(String.Format("{0}{1}", TableEndPoint, name));
-            CloudTableClient tableClient = new CloudTableClient(new Uri(TableEndPoint));
+            CloudTableClient tableClient = new CloudTableClient(new Uri(TableEndPoint), null);
             return new CloudTable(tableUri);
         }
 

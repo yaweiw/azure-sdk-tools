@@ -318,11 +318,11 @@ namespace Microsoft.Azure.Commands.Resources.Test.Models
 
             Assert.Equal("int", result["int"].Name);
             Assert.Equal(typeof(int), result["int"].ParameterType);
-            Assert.Equal("12", result["int"].Value);
+            Assert.Equal((System.Int64)12, result["int"].Value);
 
             Assert.Equal("bool", result["bool"].Name);
             Assert.Equal(typeof(bool), result["bool"].ParameterType);
-            Assert.Equal("True", result["bool"].Value);
+            Assert.Equal(true, result["bool"].Value);
         }
 
         [Fact]
@@ -555,6 +555,15 @@ namespace Microsoft.Azure.Commands.Resources.Test.Models
             {
                 File.Delete(expectedFilePath);
             }
+        }
+
+        [Fact]
+        public void ParseTemplateParameterFileContents_DeserializeWithCorrectType()
+        {
+            Dictionary<string, TemplateFileParameterV1> result =
+                galleryTemplatesClient.ParseTemplateParameterFileContents(@"Resources\WebSite.param.dev.json");
+            Assert.Equal(true, result["isWorker"].Value);
+            Assert.Equal((System.Int64)1, result["numberOfWorker"].Value);
         }
     }
 }

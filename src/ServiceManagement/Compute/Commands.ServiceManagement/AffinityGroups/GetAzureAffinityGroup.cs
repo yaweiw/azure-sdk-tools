@@ -14,10 +14,11 @@
 
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.AffinityGroups
 {
-    using Management.Models;
-    using Model;
     using System.Linq;
     using System.Management.Automation;
+    using Management;
+    using Management.Models;
+    using Model;
     using Utilities.Common;
 
     /// <summary>
