@@ -21,13 +21,14 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Blob
     using System;
     using System.Diagnostics;
     using System.Management.Automation;
+    using System.Threading.Tasks;
 
     public class StorageDataMovementCmdletBase : StorageCloudBlobCmdletBase, IDisposable
     {
         /// <summary>
         /// Blob Transfer Manager
         /// </summary>
-        protected TransferManager transferManager;
+        private DataManagementWrapper dataManagementWrapper;
 
         [Parameter(HelpMessage = "Force to overwrite the existing blob or file")]
         public SwitchParameter Force
@@ -43,7 +44,7 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Blob
         /// </summary>
         /// <param name="msg">Confirmation message</param>
         /// <returns>True if the opeation is confirmed, otherwise return false</returns>
-        internal virtual bool ConfirmOverwrite(string sourcePath, string destinationPath)
+        private bool ConfirmOverwrite(string sourcePath, string destinationPath)
         {
             string overwriteMessage = String.Format(Resources.OverwriteConfirmation, destinationPath);
             return overwrite || OutputStream.ConfirmAsync(overwriteMessage).Result;
@@ -56,116 +57,6 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Blob
         protected virtual void OnTaskSuccessful(DataMovementUserData data)
         { }
 
-        /// <summary>
-        /// on data movement job start
-        /// </summary>
-        /// <param name="data">User data</param>
-        protected virtual void OnDMJobStart(object data)
-        {
-            if (ShouldForceQuit)
-            {
-                return;
-            }
-
-            DataMovementUserData userData = data as DataMovementUserData;
-            if (null == userData)
-            {
-                return;
-            }
-
-            ProgressRecord pr = userData.Record;
-
-            if (null != pr)
-            {
-                pr.PercentComplete = 0;
-                OutputStream.WriteProgress(pr);
-            }
-        }
-
-        /// <summary>
-        /// on data movement job progress 
-        /// </summary>
-        /// <param name="progress">progress information</param>
-        /// <param name="speed">download speed</param>
-        /// <param name="percent">download percent</param>
-        protected virtual void OnDMJobProgress(object data, double speed, double percent)
-        {
-            if (ShouldForceQuit)
-            {
-                return;
-            }
-
-            DataMovementUserData userData = data as DataMovementUserData;
-
-            if (null == userData)
-            {
-                return;
-            }
-
-            ProgressRecord pr = userData.Record;
-
-            pr.PercentComplete = (int)percent;
-            pr.StatusDescription = String.Format(Resources.FileTransmitStatus, pr.PercentComplete, Util.BytesToHumanReadableSize(speed));
-            OutputStream.WriteProgress(pr);
-        }
-
-        /// <summary>
-        /// on data movement job finish
-        /// </summary>
-        /// <param name="progress">progress information</param>
-        /// <param name="e">run time exception</param>
-        protected virtual void OnDMJobFinish(object data, Exception e)
-        {
-            try
-            {
-                if (ShouldForceQuit)
-                {
-                    return;
-                }
-
-                DataMovementUserData userData = data as DataMovementUserData;
-
-                string status = string.Empty;
-
-                if (null == e)
-                {
-                    try
-                    {
-                        OnTaskSuccessful(userData);
-                    }
-                    catch (Exception postProcessException)
-                    {
-                        e = postProcessException;
-                    }
-                }
-
-                if (null == e)
-                {
-                    status = Resources.TransmitSuccessfully;
-                    userData.taskSource.SetResult(true);
-                }
-                else
-                {
-                    status = String.Format(Resources.TransmitFailed, e.Message);
-                    userData.taskSource.SetException(e);
-                }
-
-                if (userData != null && userData.Record != null)
-                {
-                    if (e == null)
-                    {
-                        userData.Record.PercentComplete = 100;
-                    }
-
-                    userData.Record.StatusDescription = status;
-                    OutputStream.WriteProgress(userData.Record);
-                }
-            }
-            catch (Exception unknownException)
-            {
-                Debug.Fail(unknownException.ToString());
-            }
-        }
 
         /// <summary>
         /// Cmdlet begin processing
@@ -173,21 +64,37 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Blob
         protected override void BeginProcessing()
         {
             base.BeginProcessing();
-
-            TransferOptions opts = new TransferOptions();
-            opts.ParallelOperations = GetCmdletConcurrency();
-            opts.ClientRequestIdPrefix = CmdletOperationContext.ClientRequestId;
-            
-            transferManager = new TransferManager(opts);
+            this.dataManagementWrapper = new DataManagementWrapper(this.GetCmdletConcurrency(), CmdletOperationContext.ClientRequestId);
         }
 
-        protected void EnqueueTransferJob(BlobTransferJob transferJob, DataMovementUserData userData)
+        protected async Task RunTransferJob(BlobTransferJob transferJob, DataMovementUserData userData)
         {
-            this.AppendEventHandlers(transferJob, userData);
             this.SetRequestOptionsInTransferJob(transferJob);
             transferJob.OverwritePromptCallback = ConfirmOverwrite;
 
-            transferManager.EnqueueJob(transferJob, CmdletCancellationToken);
+            try
+            {
+                await this.dataManagementWrapper.RunTransferJob(
+                    transferJob,
+                    (percent, speed) =>
+                    {
+                        userData.Record.PercentComplete = (int)percent;
+                        userData.Record.StatusDescription = String.Format(Resources.FileTransmitStatus, (int)percent, Util.BytesToHumanReadableSize(speed));
+                        this.OutputStream.WriteProgress(userData.Record);
+                    },
+                    this.CmdletCancellationToken);
+
+                userData.Record.PercentComplete = 100;
+                userData.Record.StatusDescription = Resources.TransmitSuccessfully;
+            }
+            catch (Exception e)
+            {
+                userData.Record.StatusDescription = String.Format(Resources.TransmitFailed, e.Message);
+                this.OutputStream.WriteProgress(userData.Record);
+                throw;
+            }
+
+            this.OutputStream.WriteProgress(userData.Record);
         }
 
         protected void SetRequestOptionsInTransferJob(BlobTransferJob transferJob)
@@ -236,30 +143,12 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Blob
         {
             if (disposing)
             {
-                if (transferManager != null)
+                if (this.dataManagementWrapper != null)
                 {
-                    transferManager.Dispose();
-                    transferManager = null;
+                    this.dataManagementWrapper.Dispose();
+                    this.dataManagementWrapper = null;
                 }
             }
-        }
-
-        protected virtual void AppendEventHandlers(TransferJobBase transferJob, DataMovementUserData userData)
-        {
-            transferJob.StartEvent += (eventSource, eventArgs) =>
-                {
-                    this.OnDMJobStart(userData);
-                };
-
-            transferJob.ProgressEvent += (eventSource, eventArgs) =>
-                {
-                    this.OnDMJobProgress(userData, eventArgs.Speed, eventArgs.Progress);
-                };
-
-            transferJob.FinishEvent += (eventSource, eventArgs) =>
-                {
-                    this.OnDMJobFinish(userData, eventArgs.Exception);
-                };
         }
     }
 }

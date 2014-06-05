@@ -153,6 +153,7 @@
     <Compile Include="Common\Cmdlet\SetAzureStorageServiceMetrics.cs" />
     <Compile Include="Common\CommunicationExceptionUtil.cs" />
     <Compile Include="Common\ConfirmTaskCompletionSource.cs" />
+    <Compile Include="Common\DataManagementWrapper.cs" />
     <Compile Include="Common\LimitedConcurrencyTaskScheduler.cs" />
     <Compile Include="Common\NameUtil.cs" />
     <Compile Include="Common\Cmdlet\NewAzureStorageContext.cs" />
