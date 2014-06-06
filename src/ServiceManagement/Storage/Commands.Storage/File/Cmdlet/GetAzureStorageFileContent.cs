@@ -23,7 +23,7 @@ namespace Microsoft.WindowsAzure.Commands.Storage.File.Cmdlet
     using LocalDirectory = System.IO.Directory;
     using Microsoft.WindowsAzure.Storage.DataMovement.TransferJobs;
 
-    [Cmdlet(VerbsCommon.Get, Constants.FileContentCmdletName, DefaultParameterSetName = Constants.ShareNameParameterSetName)]
+    [Cmdlet(VerbsCommon.Get, Constants.FileContentCmdletName, SupportsShouldProcess = true, ConfirmImpact = ConfirmImpact.High, DefaultParameterSetName = Constants.ShareNameParameterSetName)]
     public class GetAzureStorageFileContent : StorageFileDataManagementCmdletBase
     {
         [Parameter(

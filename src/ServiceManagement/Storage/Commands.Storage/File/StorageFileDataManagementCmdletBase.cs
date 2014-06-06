@@ -67,15 +67,14 @@ namespace Microsoft.WindowsAzure.Commands.Storage.File
 
         protected override void EndProcessing()
         {
-            this.dataManagementWrapper.Dispose();
-            this.WriteTaskSummary();
-
             base.EndProcessing();
+            this.WriteTaskSummary();
+            this.dataManagementWrapper.Dispose();
         }
 
         protected async Task RunTransferJob(FileTransferJob job, ProgressRecord record)
         {
-            job.FileRequestOptions = this.RequestOptions;
+            this.SetRequestOptionsInTransferJob(job);
             job.AccessCondition = this.AccessCondition;
             job.OverwritePromptCallback = this.ConfirmOverwrite;
 
@@ -100,6 +99,32 @@ namespace Microsoft.WindowsAzure.Commands.Storage.File
                 this.OutputStream.WriteProgress(record);
                 throw;
             }
+        }
+
+        protected void SetRequestOptionsInTransferJob(FileTransferJob transferJob)
+        {
+            var cmdletOptions = this.RequestOptions;
+
+            if (cmdletOptions == null)
+            {
+                return;
+            }
+
+            var requestOptions = transferJob.FileRequestOptions;
+
+            if (cmdletOptions.MaximumExecutionTime != null)
+            {
+                requestOptions.MaximumExecutionTime = cmdletOptions.MaximumExecutionTime;
+            }
+
+            if (cmdletOptions.ServerTimeout != null)
+            {
+                requestOptions.ServerTimeout = cmdletOptions.ServerTimeout;
+            }
+
+            requestOptions.DisableContentMD5Validation = true;
+
+            transferJob.FileRequestOptions = requestOptions;
         }
     }
 }

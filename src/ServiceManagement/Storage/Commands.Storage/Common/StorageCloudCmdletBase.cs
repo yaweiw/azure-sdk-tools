@@ -135,12 +135,7 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Common
         /// <returns>Request options</returns>
         public IRequestOptions GetRequestOptions(StorageServiceType type)
         {
-            if (ServerTimeoutPerRequest == null)
-            {
-                return null;
-            }
-
-            IRequestOptions options = default(IRequestOptions);
+            IRequestOptions options;
 
             switch (type)
             {
