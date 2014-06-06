@@ -57,6 +57,30 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.PlatformImageReposit
         [ValidateNotNullOrEmpty]
         public string Version { get; set; }
 
+        [Parameter(
+            Mandatory = true,
+            Position = 3,
+            ValueFromPipelineByPropertyName = true,
+            HelpMessage = "The Extension Hosting Resources.")]
+        [ValidateNotNullOrEmpty]
+        public string HostingResources { get; set; }
+
+        [Parameter(
+            Mandatory = true,
+            Position = 4,
+            ValueFromPipelineByPropertyName = true,
+            HelpMessage = "The Extension Description.")]
+        [ValidateNotNullOrEmpty]
+        public string Description { get; set; }
+
+        [Parameter(
+            Mandatory = true,
+            Position = 5,
+            ValueFromPipelineByPropertyName = true,
+            HelpMessage = "The Extension Media Link.")]
+        [ValidateNotNullOrEmpty]
+        public Uri MediaLink { get; set; }
+
         protected override void OnProcessRecord()
         {
             ServiceManagementProfile.Initialize();
@@ -68,7 +92,11 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.PlatformImageReposit
                     {
                         ProviderNameSpace = this.Publisher,
                         Type = this.ExtensionName,
-                        Version = this.Version
+                        Version = this.Version,
+                        HostingResources = this.HostingResources,
+                        Description = this.Description,
+                        MediaLink = this.MediaLink,
+                        IsInternalExtension = true
                     }));
         }
     }
