@@ -69,7 +69,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.PersistentVMs
         [ValidateNotNullOrEmpty]
         public string Password { get; set; }
 
-        [Parameter(Mandatory = false, ValueFromPipelineByPropertyName = true, ParameterSetName = "CreateService", HelpMessage = "TODO: fill in documentation.")]
+        [Parameter(Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "Dns address to which the cloud service’s IP address resolves when queried using a reverse Dns query.")]
         [ValidateNotNullOrEmpty]
         public string ReverseDnsFqdn{ get; set; }
 

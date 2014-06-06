@@ -51,7 +51,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.HostedServices
             set;
         }
 
-        [Parameter(Position = 3, ValueFromPipelineByPropertyName = true, HelpMessage = "TODO: Fill in documentation.")]
+        [Parameter(Position = 3, ValueFromPipelineByPropertyName = true, HelpMessage = "Dns address to which the cloud service’s IP address resolves when queried using a reverse Dns query.")]
         public string ReverseDnsFqdn
         {
             get;

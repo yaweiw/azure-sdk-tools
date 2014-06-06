@@ -68,8 +68,8 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.HostedServices
             set;
         }
 
-        [Parameter(Position = 4, Mandatory = false, ValueFromPipelineByPropertyName = true, ParameterSetName = "ParameterSetAffinityGroup", HelpMessage = "TODO: Fill in documentation.")]
-        [Parameter(Position = 4, Mandatory = false, ValueFromPipelineByPropertyName = true, ParameterSetName = "ParameterSetLocation", HelpMessage = "TODO: Fill in documentation.")]
+        [Parameter(Position = 4, Mandatory = false, ValueFromPipelineByPropertyName = true, ParameterSetName = "ParameterSetAffinityGroup", HelpMessage = "Dns address to which the cloud service’s IP address resolves when queried using a reverse Dns query.")]
+        [Parameter(Position = 4, Mandatory = false, ValueFromPipelineByPropertyName = true, ParameterSetName = "ParameterSetLocation", HelpMessage = "Dns address to which the cloud service’s IP address resolves when queried using a reverse Dns query.")]
         [ValidateNotNullOrEmpty]
         public string ReverseDnsFqdn
         {
