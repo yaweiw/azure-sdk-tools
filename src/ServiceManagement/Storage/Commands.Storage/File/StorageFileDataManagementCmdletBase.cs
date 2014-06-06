@@ -1,0 +1,105 @@
+﻿﻿// ----------------------------------------------------------------------------------
+//
+// Copyright Microsoft Corporation
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+// http://www.apache.org/licenses/LICENSE-2.0
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+// ----------------------------------------------------------------------------------
+namespace Microsoft.WindowsAzure.Commands.Storage.File
+{
+    using System;
+    using System.Collections.Generic;
+    using System.Globalization;
+    using System.Linq;
+    using System.Management.Automation;
+    using System.Text;
+    using System.Threading.Tasks;
+    using Microsoft.WindowsAzure.Commands.Storage.Common;
+    using Microsoft.WindowsAzure.Storage.DataMovement.TransferJobs;
+
+    public abstract class StorageFileDataManagementCmdletBase : AzureStorageFileCmdletBase
+    {
+        /// <summary>
+        /// Stores the default concurrent task count which is 10.
+        /// </summary>
+        private const int DefaultConcurrentTaskCount = 10;
+
+        /// <summary>
+        /// Blob Transfer Manager
+        /// </summary>
+        private DataManagementWrapper dataManagementWrapper;
+
+        /// <summary>
+        /// Gets or sets whether to force overwrite the existing file.
+        /// </summary>
+        [Parameter(HelpMessage = "Force to overwrite the existing file.")]
+        public SwitchParameter Force
+        {
+            get;
+            set;
+        }
+
+        /// <summary>
+        /// Confirm the overwrite operation
+        /// </summary>
+        /// <param name="sourcePath">Indicating the source path.</param>
+        /// <param name="destinationPath">Indicating the destination path.</param>
+        /// <returns>Returns a value indicating whether to overwrite.</returns>
+        private bool ConfirmOverwrite(string sourcePath, string destinationPath)
+        {
+            return this.Force || this.OutputStream.ConfirmAsync(String.Format(Resources.OverwriteConfirmation, destinationPath)).Result;
+        }
+
+        protected override void BeginProcessing()
+        {
+            base.BeginProcessing();
+
+            this.dataManagementWrapper = new DataManagementWrapper(
+                this.ConcurrentTaskCount ?? DefaultConcurrentTaskCount,
+                CmdletOperationContext.ClientRequestId);
+        }
+
+        protected override void EndProcessing()
+        {
+            this.dataManagementWrapper.Dispose();
+            this.WriteTaskSummary();
+
+            base.EndProcessing();
+        }
+
+        protected async Task RunTransferJob(FileTransferJob job, ProgressRecord record)
+        {
+            job.FileRequestOptions = this.RequestOptions;
+            job.AccessCondition = this.AccessCondition;
+            job.OverwritePromptCallback = this.ConfirmOverwrite;
+
+            try
+            {
+                await this.dataManagementWrapper.RunTransferJob(job,
+                        (percent, speed) =>
+                        {
+                            record.PercentComplete = (int)percent;
+                            record.StatusDescription = String.Format(Resources.FileTransmitStatus, (int)percent, Util.BytesToHumanReadableSize(speed));
+                            this.OutputStream.WriteProgress(record);
+                        },
+                        this.CmdletCancellationToken);
+
+                record.PercentComplete = 100;
+                record.StatusDescription = Resources.TransmitSuccessfully;
+                this.OutputStream.WriteProgress(record);
+            }
+            catch (Exception e)
+            {
+                record.StatusDescription = String.Format(Resources.TransmitFailed, e.Message);
+                this.OutputStream.WriteProgress(record);
+                throw;
+            }
+        }
+    }
+}

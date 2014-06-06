@@ -21,9 +21,10 @@ namespace Microsoft.WindowsAzure.Commands.Storage.File.Cmdlet
     using Microsoft.WindowsAzure.Storage.File;
     using LocalPath = System.IO.Path;
     using LocalDirectory = System.IO.Directory;
+    using Microsoft.WindowsAzure.Storage.DataMovement.TransferJobs;
 
     [Cmdlet(VerbsCommon.Get, Constants.FileContentCmdletName, DefaultParameterSetName = Constants.ShareNameParameterSetName)]
-    public class GetAzureStorageFileContent : AzureStorageFileCmdletBase
+    public class GetAzureStorageFileContent : StorageFileDataManagementCmdletBase
     {
         [Parameter(
            Position = 0,
@@ -97,11 +98,9 @@ namespace Microsoft.WindowsAzure.Commands.Storage.File.Cmdlet
         [ValidateNotNullOrEmpty]
         public string Destination { get; set; }
 
-        [Parameter(HelpMessage = "Overwrite existing file. By default this cmdlet would throw an error if there's already an existing file with the same name at destination.")]
-        public SwitchParameter Force { get; set; }
-
         [Parameter(HelpMessage = "Returns an object representing the downloaded cloud file. By default, this cmdlet does not generate any output.")]
         public SwitchParameter PassThru { get; set; }
+
         public override void ExecuteCmdlet()
         {
             CloudFile fileToBeDownloaded;
@@ -151,13 +150,18 @@ namespace Microsoft.WindowsAzure.Commands.Storage.File.Cmdlet
 
             this.RunTask(async taskId =>
             {
-                await fileToBeDownloaded.DownloadToFileAsync(
-                    targetFile,
-                    mode,
-                    this.AccessCondition,
-                    this.RequestOptions,
-                    this.OperationContext,
-                    this.CmdletCancellationToken);
+                var downloadJob = new FileDownloadJob()
+                {
+                    SourceFile = fileToBeDownloaded,
+                    DestPath = targetFile
+                };
+
+                var progressRecord = new ProgressRecord(
+                    this.OutputStream.GetProgressId(taskId),
+                    string.Format(CultureInfo.CurrentCulture, Resources.ReceiveAzureFileActivity, fileToBeDownloaded.GetFullPath(), targetFile),
+                    Resources.PrepareDownloadingFile);
+
+                await this.RunTransferJob(downloadJob, progressRecord);
 
                 if (this.PassThru)
                 {

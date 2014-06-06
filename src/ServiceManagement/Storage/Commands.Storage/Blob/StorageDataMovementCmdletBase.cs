@@ -86,6 +86,7 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Blob
 
                 userData.Record.PercentComplete = 100;
                 userData.Record.StatusDescription = Resources.TransmitSuccessfully;
+                this.OutputStream.WriteProgress(userData.Record);
             }
             catch (Exception e)
             {
@@ -93,8 +94,6 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Blob
                 this.OutputStream.WriteProgress(userData.Record);
                 throw;
             }
-
-            this.OutputStream.WriteProgress(userData.Record);
         }
 
         protected void SetRequestOptionsInTransferJob(BlobTransferJob transferJob)

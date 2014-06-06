@@ -21,10 +21,11 @@ namespace Microsoft.WindowsAzure.Commands.Storage.File.Cmdlet
     using System.Net;
     using System.Threading.Tasks;
     using Microsoft.WindowsAzure.Storage;
+    using Microsoft.WindowsAzure.Storage.DataMovement.TransferJobs;
     using Microsoft.WindowsAzure.Storage.File;
 
     [Cmdlet(VerbsCommon.Set, Constants.FileContentCmdletName, DefaultParameterSetName = Constants.ShareNameParameterSetName)]
-    public class SetAzureStorageFileContent : AzureStorageFileCmdletBase
+    public class SetAzureStorageFileContent : StorageFileDataManagementCmdletBase
     {
         [Parameter(
            Position = 0,
@@ -65,9 +66,6 @@ namespace Microsoft.WindowsAzure.Commands.Storage.File.Cmdlet
         [ValidateNotNullOrEmpty]
         public string Path { get; set; }
 
-        [Parameter(HelpMessage = "Overwrite existing file. By default this cmdlet would throw an error if there's already an existing file with the same name at destination.")]
-        public SwitchParameter Force { get; set; }
-
         [Parameter(HelpMessage = "Returns an object representing the downloaded cloud file. By default, this cmdlet does not generate any output.")]
         public SwitchParameter PassThru { get; set; }
 
@@ -97,20 +95,18 @@ namespace Microsoft.WindowsAzure.Commands.Storage.File.Cmdlet
                         this);
                 }
 
-                // TODO: Use DMLib to upload file.
+                var uploadJob = new FileUploadJob()
+                {
+                    SourcePath = localFile.FullName,
+                    DestFile = cloudFileToBeUploaded,
+                };
 
-                // Step 3: Creates the file before upload it. Notice that create operaiton
-                // would replace a file if it already exists.
-                await cloudFileToBeUploaded.CreateAsync(localFile.Length, this.AccessCondition, this.RequestOptions, this.OperationContext, this.CmdletCancellationToken);
+                var progressRecord = new ProgressRecord(
+                    this.OutputStream.GetProgressId(taskId),
+                    string.Format(CultureInfo.CurrentCulture, Resources.SendAzureFileActivity, localFile.Name, cloudFileToBeUploaded.GetFullPath(), cloudFileToBeUploaded.Share.Name),
+                    Resources.PrepareUploadingFile);
 
-                // Step 4: Upload the content of the source file.
-                await cloudFileToBeUploaded.UploadFromFileAsync(
-                    localFile.FullName,
-                    FileMode.Open,
-                    this.AccessCondition,
-                    this.RequestOptions,
-                    this.OperationContext,
-                    this.CmdletCancellationToken);
+                await this.RunTransferJob(uploadJob, progressRecord);
 
                 if (this.PassThru)
                 {

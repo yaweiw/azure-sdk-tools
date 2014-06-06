@@ -1033,11 +1033,29 @@ namespace Microsoft.WindowsAzure.Commands.Storage {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Prepare to download file..
+        /// </summary>
+        internal static string PrepareDownloadingFile {
+            get {
+                return ResourceManager.GetString("PrepareDownloadingFile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Prepare to upload blob..
         /// </summary>
         internal static string PrepareUploadingBlob {
             get {
                 return ResourceManager.GetString("PrepareUploadingBlob", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Prepare to upload file..
+        /// </summary>
+        internal static string PrepareUploadingFile {
+            get {
+                return ResourceManager.GetString("PrepareUploadingFile", resourceCulture);
             }
         }
         
@@ -1065,6 +1083,15 @@ namespace Microsoft.WindowsAzure.Commands.Storage {
         internal static string ReceiveAzureBlobActivity {
             get {
                 return ResourceManager.GetString("ReceiveAzureBlobActivity", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Download file &apos;{0}&apos; into &apos;{1}&apos;..
+        /// </summary>
+        internal static string ReceiveAzureFileActivity {
+            get {
+                return ResourceManager.GetString("ReceiveAzureFileActivity", resourceCulture);
             }
         }
         
@@ -1164,6 +1191,15 @@ namespace Microsoft.WindowsAzure.Commands.Storage {
         internal static string SendAzureBlobCancelled {
             get {
                 return ResourceManager.GetString("SendAzureBlobCancelled", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Upload file &apos;{0}&apos; to &apos;{1}&apos; in share &apos;{2}&apos;..
+        /// </summary>
+        internal static string SendAzureFileActivity {
+            get {
+                return ResourceManager.GetString("SendAzureFileActivity", resourceCulture);
             }
         }
         

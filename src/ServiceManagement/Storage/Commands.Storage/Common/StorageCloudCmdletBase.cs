@@ -57,6 +57,8 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Common
         /// Amount of concurrent async tasks to run per available core.
         /// </summary>
         [Parameter(HelpMessage = "The total amount of concurrent async tasks. The default value is 10.")]
+        [ValidateNotNull]
+        [ValidateRange(1, 1000)]
         public virtual int? ConcurrentTaskCount
         {
             get { return concurrentTaskCount; }

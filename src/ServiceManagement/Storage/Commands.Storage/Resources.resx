@@ -646,4 +646,16 @@ Failed: {2}.</value>
   <data name="SourceFileNotFound" xml:space="preserve">
     <value>The specified source file '{0}' was not found.</value>
   </data>
+  <data name="PrepareDownloadingFile" xml:space="preserve">
+    <value>Prepare to download file.</value>
+  </data>
+  <data name="PrepareUploadingFile" xml:space="preserve">
+    <value>Prepare to upload file.</value>
+  </data>
+  <data name="ReceiveAzureFileActivity" xml:space="preserve">
+    <value>Download file '{0}' into '{1}'.</value>
+  </data>
+  <data name="SendAzureFileActivity" xml:space="preserve">
+    <value>Upload file '{0}' to '{1}' in share '{2}'.</value>
+  </data>
 </root>
