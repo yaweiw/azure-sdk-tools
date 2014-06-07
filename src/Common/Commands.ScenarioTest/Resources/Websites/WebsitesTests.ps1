@@ -93,7 +93,6 @@ function Test-GetAzureWebsiteLogTail
 	$uri = "http://" + $website.HostNames[0]
 	$client.BaseAddress = $uri
 	$count = 0
-	cd ..
 
 	#Test
 	Get-AzureWebsiteLog -Name $website.Name -Tail -Message "㯑䲘䄂㮉" | % {
@@ -117,7 +116,6 @@ function Test-GetAzureWebsiteLogTailUriEncoding
 	$uri = "http://" + $website.HostNames[0]
 	$client.BaseAddress = $uri
 	$count = 0
-	cd ..
 
 	#Test
 	Get-AzureWebsiteLog -Name $website.Name -Tail -Message "mes/a:q;" | % {
@@ -143,7 +141,6 @@ function Test-GetAzureWebsiteLogTailPath
 	Set-AzureWebsite -RequestTracingEnabled $true -HttpLoggingEnabled $true -DetailedErrorLoggingEnabled $true
 	1..10 | % { Retry-DownloadString $client $uri }
 	Start-Sleep -Seconds 30
-	cd ..
 
 	#Test
 	$retry = $false
@@ -199,7 +196,6 @@ function Test-GetAzureWebsiteLogListPath
 				Write-Warning "Retry Test-GetAzureWebsiteLogListPath"
 				continue;
 			}
-			cd ..
 			throw $_.Exception
 		}
 	} while ($retry)
@@ -207,7 +203,6 @@ function Test-GetAzureWebsiteLogListPath
 	# Assert
 	Assert-AreEqual 1 $actual.Count
 	Assert-AreEqual "Git" $actual
-	cd ..
 }
 
 ########################################################################### Get-AzureWebsite Scenario Tests ###########################################################################
@@ -217,26 +212,28 @@ Test Kudu apps
 #>
 function Test-KuduAppsExpressApp
 {
+    Write-Debug "Starting Test Test-KuduappsExpressApp"
+    $ok = Assert-Env @("GIT_USERNAME")
 	$GIT_USERNAME = $env:GIT_USERNAME
-	
 	# Setup
 	$siteName = Get-WebsiteName
 	Mkdir $siteName
 	cd $siteName
 	
 	# Test
-	$command = "install -g express";
+	$command = "install -g express@3.0.0";
+	Write-Debug "Running Start-Process npm $command -WAIT"
 	Start-Process npm $command -WAIT
 
 	express
+	Write-Debug "Creating website $siteName"
 	$webSite = New-AzureWebSite $siteName -Git –PublishingUsername $GIT_USERNAME
+	Write-Debug "Created website"
+	Write-Debug $webSite
 	
 	# Assert
 	Assert-NotNull { $webSite } "Site $siteName created failed"
 	Assert-Exists "..\$siteName\iisnode.yml"
-	
-	# CleanUp
-	Remove-AzureWebsite -Name $siteName –Force
 }
 
 <#
@@ -699,6 +696,8 @@ Tests New azure web site with git hub.
 #>
 function Test-NewAzureWebSiteMultipleCreds
 {
+    $ok = Assert-Env @("GIT_USERNAME", "GIT_PASSWORD")
+
 	$GIT_USERNAME = $env:GIT_USERNAME
 	$GIT_PASSWORD = $env:GIT_PASSWORD
 
@@ -737,12 +736,6 @@ function Test-NewAzureWebSiteMultipleCreds
 	{
 		throw "Web site or git repository is not ready for browse"
 	}
-	
-	# CleanUP
-	if($webSite -ne $null)
-	{
-		Remove-AzureWebsite $siteName -Force
-	}   
 }
 
 <#
@@ -751,9 +744,11 @@ Tests New azure web site with git hub.
 #>
 function Test-NewAzureWebSiteGitHubAllParms
 {
-	$GitHub_USERNAME = $env:GITHub_USERNAME
-	$GitHub_PASSWORD = $env:GITHub_PASSWORD
-	$GitHub_REPO = $env:GITHub_USERNAME + "/WebChatDefault-0802"
+    $ok = Assert-Env @("GITHUB_USERNAME". "GITHUB_PASSWORD")
+
+	$GitHub_USERNAME = $env:GITHUB_USERNAME
+	$GitHub_PASSWORD = $env:GITHUB_PASSWORD
+	$GitHub_REPO = $env:GITHUB_USERNAME + "/WebChatDefault-0802"
 	
 	# Setup
 	$siteName = Get-WebsiteName
@@ -776,11 +771,6 @@ function Test-NewAzureWebSiteGitHubAllParms
 		throw "Web site or git repository is not ready for browse"
 	}
 	
-	# Cleanup
-	if($webSite -ne $null)
-	{
-		Remove-AzureWebsite $siteName -Force
-	}
 }
 
 <#
@@ -789,6 +779,7 @@ Test New azure web site then update git deployment
 #>
 function Test-NewAzureWebSiteUpdateGit
 {
+    $ok = Assert-Env @("GIT_USERNAME". "GIT_PASSWORD")
 	$GIT_USERNAME = $env:GIT_USERNAME
 	$GIT_PASSWORD = $env:GIT_PASSWORD
 
@@ -831,12 +822,6 @@ function Test-NewAzureWebSiteUpdateGit
 	{
 		throw "Web site or git repository is not ready for browse"
 	}
-
-	# CleanUp
-	if($webSite -ne $null)
-	{
-		Remove-AzureWebsite $siteName -Force
-	}
 }
 
 ########################################################################### Set-AzureWebsite Scenario Tests ###########################################################################
@@ -868,13 +853,14 @@ Tests Start AzureWebsiteJob cmdlet using "triggered" job type
 #>
 function Test-StartAzureWebsiteTriggeredJob
 {
+    $ok = Assert-Env @("WEBJOB_FILE")
     $webSiteName = Get-WebsiteName
     $webSiteJobName = Get-WebsiteJobName
     $jobType = "Triggered"
 
     # Setup
     New-AzureWebsite $webSiteName
-    New-AzureWebsiteJob -Name $webSiteName -JobName $webSiteJobName -JobType $jobType -JobFile $global:jobFile
+    New-AzureWebsiteJob -Name $webSiteName -JobName $webSiteJobName -JobType $jobType -JobFile $env:WEBJOB_FILE
 
     # Test
     $started = Start-AzureWebsiteJob -Name $webSiteName -JobName $webSiteJobName -JobType $jobType -PassThru
@@ -890,12 +876,13 @@ Tests Start and stop AzureWebsiteJob cmdlet using "Continuous" job type
 #>
 function Test-StartAndStopAzureWebsiteContinuousJob
 {
+    $ok = Assert-Env @("WEBJOB_FILE")
     $webSiteName = Get-WebsiteName
     $webSiteJobName = Get-WebsiteJobName
     $jobType = "Continuous"
     # Setup
     New-AzureWebsite $webSiteName
-    New-AzureWebsiteJob -Name $webSiteName -JobName $webSiteJobName -JobType $jobType -JobFile $global:jobFile
+    New-AzureWebsiteJob -Name $webSiteName -JobName $webSiteJobName -JobType $jobType -JobFile $env:WEBJOB_FILE
 
     # Make sure the job is initialized by polling the status 
     $waitScriptBlock = { (Get-AzureWebsiteJob -Name $webSiteName -JobName $webSiteJobName -JobType $jobType)[0].Status }
@@ -921,7 +908,6 @@ function Test-StartAndStopAzureWebsiteContinuousJob
 
     # Clean up
     Stop-AzureWebsiteJob -Name $webSiteName -JobName $webSiteJobName 
-    Remove-AzureWebsite $webSiteName -Force
 }
 
 
@@ -933,6 +919,7 @@ Tests Remove-AzureWebsiteJob cmdlet using 'Triggered' job type
 #>
 function Test-RemoveAzureWebsiteTriggeredJob
 {
+    $ok = Assert-Env @("WEBJOB_FILE")
     $webSiteName = Get-WebsiteName
     $webSiteJobName = Get-WebsiteJobName
         
@@ -940,10 +927,8 @@ function Test-RemoveAzureWebsiteTriggeredJob
     New-AzureWebsite $webSiteName
     
     # Test
-    Test-CreateAndRemoveAJob $webSiteName $webSiteJobName Triggered $global:jobFile
+    Test-CreateAndRemoveAJob $webSiteName $webSiteJobName Triggered $env:WEBJOB_FILE
     
-    # Clean up
-    Remove-AzureWebsite $webSiteName -Force
 }
 
 <#
@@ -952,6 +937,7 @@ Tests Remove-AzureWebsiteJob cmdlet using 'Continuous' job type
 #>
 function Test-RemoveAzureWebsiteContinuousJob
 {
+    $ok = Assert-Env @("WEBJOB_FILE")
     $webSiteName = Get-WebsiteName
     $webSiteJobName = Get-WebsiteJobName
     
@@ -959,10 +945,8 @@ function Test-RemoveAzureWebsiteContinuousJob
     New-AzureWebsite $webSiteName
     
     # Test
-    Test-CreateAndRemoveAJob $webSiteName $webSiteJobName Continuous $global:jobFile
+    Test-CreateAndRemoveAJob $webSiteName $webSiteJobName Continuous $env:WEBJOB_FILE
     
-    # Clean up
-    Remove-AzureWebsite $webSiteName -Force
 }
 
 <#
@@ -981,8 +965,6 @@ function Test-RemoveNonExistingAzureWebsiteJob
     Remove-AzureWebsiteJob -Name $webSiteName -JobName $nonExistingWebSiteJobName -JobType Triggered –Force
     Assert-True { $error[0].ToString().Contains("not found.") }
     
-    # Clean up
-    Remove-AzureWebsite $webSiteName -Force
 }
 
 ########################################################################### Get-AzureWebsiteJob Scenario Tests ###########################################################################
@@ -993,18 +975,20 @@ Tests Get-AzureWebsiteJob cmdlet ability to get all webjob for a given website
 #>
 function Test-GettingWebsiteJobs
 {
+    $ok = Assert-Env @("WEBJOB_FILE")
     $webSiteName = Get-WebsiteName
+	$location = Get-WebsiteDefaultLocation "North Central US"
     $job1 = Get-WebsiteJobName
     $job2 = Get-WebsiteJobName
     $job3 = Get-WebsiteJobName
     $job4 = Get-WebsiteJobName
         
     # Setup
-    New-AzureWebsite $webSiteName
-    New-AzureWebsiteJob -Name $webSiteName -JobName $job1 -JobType Triggered -JobFile $global:jobFile
-    New-AzureWebsiteJob -Name $webSiteName -JobName $job2 -JobType Triggered -JobFile $global:jobFile
-    New-AzureWebsiteJob -Name $webSiteName -JobName $job3 -JobType Continuous -JobFile $global:jobFile
-	New-AzureWebsiteJob -Name $webSiteName -JobName $job4 -JobType Triggered -JobFile $global:jobFile
+    New-AzureWebsite $webSiteName -Location $location 
+    New-AzureWebsiteJob -Name $webSiteName -JobName $job1 -JobType Triggered -JobFile $env:WEBJOB_FILE
+    New-AzureWebsiteJob -Name $webSiteName -JobName $job2 -JobType Triggered -JobFile $env:WEBJOB_FILE
+    New-AzureWebsiteJob -Name $webSiteName -JobName $job3 -JobType Continuous -JobFile $env:WEBJOB_FILE
+	New-AzureWebsiteJob -Name $webSiteName -JobName $job4 -JobType Triggered -JobFile $env:WEBJOB_FILE
 
     # Test gets all web jobs
     $webjobs = Get-AzureWebsiteJob -Name $webSiteName
@@ -1035,12 +1019,13 @@ Tests Get-AzureWebsiteJobHistory functionality
 #>
 function Test-GettingJobHistory
 {
+    $ok = Assert-Env @("WEBJOB_FILE")
     $webSiteName = Get-WebsiteName
     $jobName = Get-WebsiteJobName
         
     # Setup
     New-AzureWebsite $webSiteName
-    New-AzureWebsiteJob -Name $webSiteName -JobName $jobName -JobType Triggered -JobFile $global:jobFile
+    New-AzureWebsiteJob -Name $webSiteName -JobName $jobName -JobType Triggered -JobFile $env:WEBJOB_FILE
 
 	# Test getting null run will work
 	$run = Get-AzureWebsiteJobHistory -Name $webSiteName -JobName $jobName -Latest

@@ -14,7 +14,6 @@
 
 $createdWebsites = @()
 $currentWebsite = $null
-$jobFile = "Websites\WebsiteJobTestCmd.zip"
 
 <#
 .SYNOPSIS
@@ -22,7 +21,39 @@ Gets valid website name.
 #>
 function Get-WebsiteName
 {
-	return getAssetName
+	$name = getAssetName
+	Write-Debug "Creating website with name $name"
+	Store-Website $name
+	return $name
+}
+
+<#
+.SYNOPSIS
+Gets a valid website location, given a preferred location
+#>
+function Get-WebsiteDefaultLocation
+{
+    param([string] $defaultLoc = $null)
+    if ($global:DefaultLocation -ne $null)
+	{
+	   $location = $global:DefaultLocation
+	}
+	else 
+	{
+	   $locations = Get-AzureWebsiteLocation
+       $locations | % {
+	     if ($_.ToLower() -eq $defaultLoc)
+		 {
+		    $location = $defaultLoc
+		 }
+	  }
+	  if ($location -eq $null)
+	  {
+	      $location = $locations[0]
+	  }
+	}
+
+	return $location;
 }
 
 <#
@@ -54,11 +85,75 @@ function New-Website
 
 <#
 .SYNOPSIS
-Removes all websites in the current subscription.
+Removes all websites
 #>
 function Initialize-WebsiteTest
 {
-	Get-AzureWebsite | Remove-AzureWebsite -Force
+  Get-AzureWebsite | Remove-AzureWebsite -Force
+}
+
+
+<#
+.SYNOPSIS
+Sets up environment for running a website test
+#>
+function Initialize-SingleWebsiteTest
+{
+  Write-Debug "Saving Global Location"
+  $global:testLocation = Get-Location
+}
+
+<#
+.SYNOPSIS
+Removes all created websites.
+#>
+function Cleanup-SingleWebsiteTest
+{
+    $global:createdWebsites | % {
+	   if ($_ -ne $null)
+	   {
+	     try
+	     {
+	        Write-Debug "Removing website with name $_"
+	        Remove-AzureWebsite -Name $_ -Force
+	     }
+	     catch 
+	     {
+	     }
+	  }
+	}
+
+	$global:createdWebsites.Clear()
+	Set-Location $global:testLocation
+}
+
+<#
+.SYNOPSIS
+Run a website test, with cleanup.
+#>
+function Run-WebsiteTest
+{
+   param([ScriptBlock] $test, [string] $testName)
+   
+   Initialize-SingleWebsiteTest
+   try 
+   {
+     Run-Test $test $testName *> "$testName.debug_log"
+   }
+   finally 
+   {
+     Cleanup-SingleWebsiteTest
+   }
+}
+
+<#
+.SYNOPSIS
+Record the creation of a website
+#>
+function Store-Website
+{
+   param([string]$name)
+   $global:createdWebsites += $name
 }
 
 <#
