@@ -12,50 +12,44 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
+
 namespace Microsoft.WindowsAzure.Commands.ExpressRoute
 {
     using Microsoft.WindowsAzure.Management.ExpressRoute.Models;
+    using System.Collections.Generic;
     using System.Management.Automation;
-    using Utilities.ExpressRoute;
 
-    [Cmdlet(VerbsCommon.Get, "AzureDedicatedCircuitLink"), OutputType(typeof(AzureDedicatedCircuitLink))]
-    public class GetAzureDedicatedCircuitLinkCommand : ExpressRouteBaseCmdlet
+    [Cmdlet(VerbsCommon.Get, "AzureDedicatedCircuit"), OutputType(typeof(AzureDedicatedCircuit), typeof (IEnumerable<AzureDedicatedCircuit>))]
+    public class GetAzureDedicatedCircuitCommand : ExpressRouteBaseCmdlet
     {
-        [Parameter(Mandatory = true, ValueFromPipelineByPropertyName = true,
-            HelpMessage = "Service Key representing the Azure Dedicated Circuit")]
+        [Parameter(Position = 0, Mandatory = false, ValueFromPipelineByPropertyName = true,
+            HelpMessage = "Service Key representing the Dedicated Circuit")]
         [ValidateGuid]
         [ValidateNotNullOrEmpty]
         public string ServiceKey { get; set; }
 
-        [Parameter(Mandatory = false, ValueFromPipelineByPropertyName = true,
-            HelpMessage = "Vnet Name")]
-        [ValidateNotNullOrEmpty]
-        public string VNetName { get; set; }
-
         public override void ExecuteCmdlet()
         {
-            if (!string.IsNullOrEmpty(VNetName))
+            if (!string.IsNullOrEmpty(ServiceKey))
             {
-                GetByVNetName();
+                GetByServiceKey();
             }
             else
             {
-                GetNoVNetName();
-            }          
+                GetNoServiceKey();
+            }
         }
 
-        private void GetByVNetName()
+        private void GetByServiceKey()
         {
-            var link = ExpressRouteClient.GetAzureDedicatedCircuitLink(ServiceKey, VNetName);
-            WriteObject(link);
+            var circuit = ExpressRouteClient.GetAzureDedicatedCircuit(ServiceKey);
+            WriteObject(circuit);
         }
 
-        private void GetNoVNetName()
+        private void GetNoServiceKey()
         {
-            var links = ExpressRouteClient.ListAzureDedicatedCircuitLink(ServiceKey);
-                    WriteObject(links, true);
+            var circuits = ExpressRouteClient.ListAzureDedicatedCircuit();
+            WriteObject(circuits, true);   
         }
-
-
     }
 }

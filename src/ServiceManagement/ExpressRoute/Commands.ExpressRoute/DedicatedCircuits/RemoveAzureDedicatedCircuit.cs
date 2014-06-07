@@ -14,29 +14,22 @@
 
 namespace Microsoft.WindowsAzure.Commands.ExpressRoute
 {
-    using Microsoft.WindowsAzure.Management.ExpressRoute.Models;
     using System;
-    using System.ComponentModel;
     using System.Management.Automation;
-    using Utilities.ExpressRoute;
-    using Utilities.Properties;
+    using Properties;
 
-    [Cmdlet(VerbsCommon.Remove, "AzureBGPPeering"),OutputType(typeof(bool))]
-    public class RemoveAzureBGPPeeringCommand : ExpressRouteBaseCmdlet
+    [Cmdlet(VerbsCommon.Remove, "AzureDedicatedCircuit"),OutputType(typeof(bool))]
+    public class RemoveAzureDedicatedCircuitCommand : ExpressRouteBaseCmdlet
     {
         [Parameter(Mandatory = true, ValueFromPipelineByPropertyName = true,
-            HelpMessage = "Service Key associated with the Azure BGP Peering to be removed")]
+            HelpMessage = "Service Key of Azure Dedicated Circuit to be removed")]
         [ValidateGuid]
         [ValidateNotNullOrEmpty]
         public string ServiceKey { get; set; }
 
-        [Parameter(Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "Bgp Peering Access Type: Public or Private")]
-        [DefaultValue("Private")]
-        public BgpPeeringAccessType AccessType { get; set; }
-
-        [Parameter(HelpMessage = "Do not confirm Azure BGP Peering deletion")]
+        [Parameter(HelpMessage = "Do not confirm Azure Dedicated Circuit deletion")]
         public SwitchParameter Force { get; set; }
-        
+
         [Parameter(Mandatory = false)]
         public SwitchParameter PassThru { get; set; }
 
@@ -44,25 +37,24 @@ namespace Microsoft.WindowsAzure.Commands.ExpressRoute
         {
             ConfirmAction(
                 Force.IsPresent,
-                string.Format(Resources.RemoveAzureBGPPeeringWarning, ServiceKey),
-                Resources.RemoveAzureBGPPeeringMessage,
+                string.Format(Resources.RemoveAzureDedicatdCircuitWarning, ServiceKey),
+                Resources.RemoveAzureDedicatedCircuitMessage,
                 ServiceKey,
                 () =>
-                {
-                   
-                    if(!ExpressRouteClient.RemoveAzureBGPPeering(ServiceKey, AccessType))
                     {
-                        throw new Exception(Resources.RemoveAzureBGPPeeringFailed);
-                    }
-                    else
-                    {
-                        WriteVerboseWithTimestamp(Resources.RemoveAzureBGPPeeringSucceeded, ServiceKey);
-                        if (PassThru.IsPresent)
+                        if (!ExpressRouteClient.RemoveAzureDedicatedCircuit(ServiceKey))
                         {
-                            WriteObject(true);
+                            throw new Exception(Resources.RemoveAzureDedicatedCircuitFailed);
                         }
-                    }
-                });
+                        else
+                        {
+                            WriteVerboseWithTimestamp(Resources.RemoveAzureDedicatedCircuitSucceeded,ServiceKey);
+                            if (PassThru.IsPresent)
+                            {
+                                WriteObject(true);
+                            }
+                        }
+                    });
         }
     }
 }

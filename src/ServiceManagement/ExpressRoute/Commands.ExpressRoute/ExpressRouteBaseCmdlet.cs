@@ -12,27 +12,26 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Commands.Utilities.ExpressRoute
+namespace Microsoft.WindowsAzure.Commands.ExpressRoute
 {
-    using Microsoft.WindowsAzure.Commands.Utilities.Properties;
-    using System;
-    using System.Management.Automation;
+    using Utilities.Common;
 
-    [AttributeUsage(AttributeTargets.Property | AttributeTargets.Field)]
-    public sealed class ValidateGuid : ValidateEnumeratedArgumentsAttribute
+    public abstract class ExpressRouteBaseCmdlet : CmdletWithSubscriptionBase
     {
-        protected override void ValidateElement(object element)
-        {
-            string guid = (string)element;
+        private ExpressRouteClient expressRouteClient;
 
-            try
+        public ExpressRouteClient ExpressRouteClient
+        {
+            get
             {
-                Guid validGuid = Guid.Parse(guid);
-            } 
-            catch
-            {
-                throw new ArgumentException(String.Format(Resources.InvalidGuid, guid));
+                if (expressRouteClient == null)
+                {
+                    expressRouteClient = new ExpressRouteClient(CurrentSubscription);
+                }
+                return expressRouteClient;
             }
+
+            set { expressRouteClient = value; }
         }
     }
 }

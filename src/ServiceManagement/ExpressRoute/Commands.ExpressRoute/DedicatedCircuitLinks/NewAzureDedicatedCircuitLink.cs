@@ -15,17 +15,26 @@
 namespace Microsoft.WindowsAzure.Commands.ExpressRoute
 {
     using Microsoft.WindowsAzure.Management.ExpressRoute.Models;
-    using System.Collections.Generic;
     using System.Management.Automation;
-    using Utilities.ExpressRoute;
-
-    [Cmdlet(VerbsCommon.Get, "AzureDedicatedCircuitServiceProvider"), OutputType(typeof(IEnumerable<AzureDedicatedCircuitServiceProvider>))]
-    public class GetAzureDedicatedCircuitServiceProviderCommand : ExpressRouteBaseCmdlet
+    
+    [Cmdlet(VerbsCommon.New, "AzureDedicatedCircuitLink"), OutputType(typeof(AzureDedicatedCircuitLink))]
+    public class NewAzureDedicatedCircuitLinkCommand : ExpressRouteBaseCmdlet
     {
+        [Parameter(Mandatory = true, ValueFromPipelineByPropertyName = true,
+            HelpMessage = "Service Key representing Azure Circuit")]
+        [ValidateGuid]
+        [ValidateNotNullOrEmpty]
+        public string ServiceKey { get; set; }
+
+        [Parameter(Mandatory = true, ValueFromPipelineByPropertyName = true, HelpMessage = "Virtual Network Name")]
+        [ValidateNotNullOrEmpty]
+        public string VNetName { get; set; }
+
         public override void ExecuteCmdlet()
         {
-            var providers = ExpressRouteClient.ListAzureDedicatedCircuitServiceProviders();
-            WriteObject(providers, true);
+            var mapping = ExpressRouteClient.NewAzureDedicatedCircuitLink(ServiceKey, VNetName);
+            WriteObject(mapping);
         }
     }
-} 
+}
+

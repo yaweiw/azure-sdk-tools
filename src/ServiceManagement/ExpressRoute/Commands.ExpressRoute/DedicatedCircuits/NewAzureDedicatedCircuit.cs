@@ -14,28 +14,33 @@
 
 namespace Microsoft.WindowsAzure.Commands.ExpressRoute
 {
-    using Microsoft.WindowsAzure.Commands.Utilities.ExpressRoute;
     using Microsoft.WindowsAzure.Management.ExpressRoute.Models;
-    using System.ComponentModel;
+    using System;
     using System.Management.Automation;
 
-    [Cmdlet(VerbsCommon.Get, "AzureBGPPeering"), OutputType(typeof(AzureBgpPeering))]
-    public class GetAzureBGPPeeringCommand : ExpressRouteBaseCmdlet
+    [Cmdlet(VerbsCommon.New, "AzureDedicatedCircuit"), OutputType(typeof(AzureDedicatedCircuit))]
+    public class NewAzureDedicatedCircuitCommand : ExpressRouteBaseCmdlet
     {
         [Parameter(Mandatory = true, ValueFromPipelineByPropertyName = true,
-            HelpMessage = "Service Key representing the Azure Circuit")]
-        [ValidateGuid]
+            HelpMessage = "New Azure Dedicated Circuit Name")]
         [ValidateNotNullOrEmpty]
-        public string ServiceKey { get; set; }
+        public string CircuitName { get; set; }
 
-        [Parameter(Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "Bgp Peering Access Type: Public or Private")]
-        [DefaultValue("Private")]
-        public BgpPeeringAccessType AccessType { get; set; }
+        [Parameter(Mandatory = true, ValueFromPipelineByPropertyName = true, HelpMessage = "Circuit Bandwidth")]
+        [ValidateNotNullOrEmpty]
+        public UInt32 Bandwidth { get; set; }
 
+        [Parameter(Mandatory = true, ValueFromPipelineByPropertyName = true, HelpMessage = "Circuit Location")]
+        public string Location { get; set; }
+
+        [Parameter(Mandatory = true, ValueFromPipelineByPropertyName = true, HelpMessage = "Circuit Service Provider Name")]
+        public string ServiceProviderName { get; set; }
+        
         public override void ExecuteCmdlet()
         {
-            var route = ExpressRouteClient.GetAzureBGPPeering(ServiceKey, AccessType);
-            WriteObject(route);
+            var circuit = ExpressRouteClient.NewAzureDedicatedCircuit(CircuitName, Bandwidth, Location,
+                ServiceProviderName);
+            WriteObject(circuit);         
         }
     }
 }

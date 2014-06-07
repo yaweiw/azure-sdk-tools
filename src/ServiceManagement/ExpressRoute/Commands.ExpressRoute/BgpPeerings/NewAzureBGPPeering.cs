@@ -18,9 +18,8 @@ namespace Microsoft.WindowsAzure.Commands.ExpressRoute
     using System;
     using System.ComponentModel;
     using System.Management.Automation;
-    using Utilities.ExpressRoute;
 
-    [Cmdlet(VerbsCommon.New, "AzureBGPPeering"), OutputType(typeof(BgpPeeringGetResponse))]
+    [Cmdlet(VerbsCommon.New, "AzureBGPPeering"), OutputType(typeof(AzureBgpPeering))]
     public class NewAzureBGPPeeringCommand : ExpressRouteBaseCmdlet
     {
         [Parameter(Mandatory = true, ValueFromPipelineByPropertyName = true, HelpMessage = "Service Key representing Azure Circuit for which BGP peering needs to be created/modified")]

@@ -14,28 +14,28 @@
 
 namespace Microsoft.WindowsAzure.Commands.ExpressRoute
 {
-    using Microsoft.WindowsAzure.Management.ExpressRoute.Models;
-    using System.Management.Automation;
-    using Utilities.ExpressRoute;
 
-    [Cmdlet(VerbsCommon.New, "AzureDedicatedCircuitLink"), OutputType(typeof(AzureDedicatedCircuitLink))]
-    public class NewAzureDedicatedCircuitLinkCommand : ExpressRouteBaseCmdlet
+    using Microsoft.WindowsAzure.Management.ExpressRoute.Models;
+    using System.ComponentModel;
+    using System.Management.Automation;
+
+    [Cmdlet(VerbsCommon.Get, "AzureBGPPeering"), OutputType(typeof(AzureBgpPeering))]
+    public class GetAzureBGPPeeringCommand : ExpressRouteBaseCmdlet
     {
         [Parameter(Mandatory = true, ValueFromPipelineByPropertyName = true,
-            HelpMessage = "Service Key representing Azure Circuit")]
+            HelpMessage = "Service Key representing the Azure Circuit")]
         [ValidateGuid]
         [ValidateNotNullOrEmpty]
         public string ServiceKey { get; set; }
 
-        [Parameter(Mandatory = true, ValueFromPipelineByPropertyName = true, HelpMessage = "Virtual Network Name")]
-        [ValidateNotNullOrEmpty]
-        public string VNetName { get; set; }
+        [Parameter(Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "Bgp Peering Access Type: Public or Private")]
+        [DefaultValue("Private")]
+        public BgpPeeringAccessType AccessType { get; set; }
 
         public override void ExecuteCmdlet()
         {
-            var mapping = ExpressRouteClient.NewAzureDedicatedCircuitLink(ServiceKey, VNetName);
-            WriteObject(mapping);
+            var route = ExpressRouteClient.GetAzureBGPPeering(ServiceKey, AccessType);
+            WriteObject(route);
         }
     }
 }
-

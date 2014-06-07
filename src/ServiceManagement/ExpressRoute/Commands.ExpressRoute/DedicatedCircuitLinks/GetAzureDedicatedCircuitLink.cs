@@ -15,33 +15,46 @@
 namespace Microsoft.WindowsAzure.Commands.ExpressRoute
 {
     using Microsoft.WindowsAzure.Management.ExpressRoute.Models;
-    using System;
     using System.Management.Automation;
-    using Utilities.ExpressRoute;
-
-    [Cmdlet(VerbsCommon.New, "AzureDedicatedCircuit"), OutputType(typeof(AzureDedicatedCircuit))]
-    public class NewAzureDedicatedCircuitCommand : ExpressRouteBaseCmdlet
+    
+    [Cmdlet(VerbsCommon.Get, "AzureDedicatedCircuitLink"), OutputType(typeof(AzureDedicatedCircuitLink))]
+    public class GetAzureDedicatedCircuitLinkCommand : ExpressRouteBaseCmdlet
     {
         [Parameter(Mandatory = true, ValueFromPipelineByPropertyName = true,
-            HelpMessage = "New Azure Dedicated Circuit Name")]
+            HelpMessage = "Service Key representing the Azure Dedicated Circuit")]
+        [ValidateGuid]
         [ValidateNotNullOrEmpty]
-        public string CircuitName { get; set; }
+        public string ServiceKey { get; set; }
 
-        [Parameter(Mandatory = true, ValueFromPipelineByPropertyName = true, HelpMessage = "Circuit Bandwidth")]
+        [Parameter(Mandatory = false, ValueFromPipelineByPropertyName = true,
+            HelpMessage = "Vnet Name")]
         [ValidateNotNullOrEmpty]
-        public UInt32 Bandwidth { get; set; }
+        public string VNetName { get; set; }
 
-        [Parameter(Mandatory = true, ValueFromPipelineByPropertyName = true, HelpMessage = "Circuit Location")]
-        public string Location { get; set; }
-
-        [Parameter(Mandatory = true, ValueFromPipelineByPropertyName = true, HelpMessage = "Circuit Service Provider Name")]
-        public string ServiceProviderName { get; set; }
-        
         public override void ExecuteCmdlet()
         {
-            var circuit = ExpressRouteClient.NewAzureDedicatedCircuit(CircuitName, Bandwidth, Location,
-                ServiceProviderName);
-            WriteObject(circuit);         
+            if (!string.IsNullOrEmpty(VNetName))
+            {
+                GetByVNetName();
+            }
+            else
+            {
+                GetNoVNetName();
+            }          
         }
+
+        private void GetByVNetName()
+        {
+            var link = ExpressRouteClient.GetAzureDedicatedCircuitLink(ServiceKey, VNetName);
+            WriteObject(link);
+        }
+
+        private void GetNoVNetName()
+        {
+            var links = ExpressRouteClient.ListAzureDedicatedCircuitLink(ServiceKey);
+                    WriteObject(links, true);
+        }
+
+
     }
 }

@@ -290,15 +290,6 @@
     <Compile Include="Common\VisualStudioProjectPathInfo.cs" />
     <Compile Include="Common\WebRoleInfo.cs" />
     <Compile Include="Common\WorkerRoleInfo.cs" />
-    <Compile Include="ExpressRoute\ExpressRouteBaseCmdlet.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="ExpressRoute\ExpressRouteClient.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="ExpressRoute\ValidateGuid.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="HDInsight\Commands\BaseCommandInterfaces\IAddAzureHDInsightConfigValuesBase.cs" />
     <Compile Include="HDInsight\Commands\BaseCommandInterfaces\IAddAzureHDInsightMetaStoreBase.cs" />
     <Compile Include="HDInsight\Commands\BaseCommandInterfaces\IAddAzureHDInsightStorageBase.cs" />
