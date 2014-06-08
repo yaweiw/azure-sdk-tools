@@ -62,6 +62,24 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.PlatformImageReposit
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Extension Publishing.
+        /// </summary>
+        internal static string ExtensionPublishingCaption {
+            get {
+                return ResourceManager.GetString("ExtensionPublishingCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to This cmdlet will publish the specified extension. Do you want to continue?.
+        /// </summary>
+        internal static string ExtensionPublishingConfirmation {
+            get {
+                return ResourceManager.GetString("ExtensionPublishingConfirmation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Extension Unpublishing.
         /// </summary>
         internal static string ExtensionUnpublishingCaption {
@@ -76,6 +94,24 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.PlatformImageReposit
         internal static string ExtensionUnpublishingConfirmation {
             get {
                 return ResourceManager.GetString("ExtensionUnpublishingConfirmation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Extension Upgrading.
+        /// </summary>
+        internal static string ExtensionUpgradingCaption {
+            get {
+                return ResourceManager.GetString("ExtensionUpgradingCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to This cmdlet will upgrade the specified extension with a new version. Do you want to continue?.
+        /// </summary>
+        internal static string ExtensionUpgradingConfirmation {
+            get {
+                return ResourceManager.GetString("ExtensionUpgradingConfirmation", resourceCulture);
             }
         }
         

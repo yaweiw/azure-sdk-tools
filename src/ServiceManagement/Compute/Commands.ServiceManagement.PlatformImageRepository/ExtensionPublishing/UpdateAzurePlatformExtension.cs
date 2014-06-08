@@ -17,6 +17,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.PlatformImageReposit
     using System;
     using System.Linq;
     using System.Management.Automation;
+    using AutoMapper;
     using IaaS.Extensions;
     using Management.Compute.Models;
     using Utilities.Common;
@@ -32,6 +33,11 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.PlatformImageReposit
     public class UpdateAzurePlatformExtensionCommand : ServiceManagementBaseCmdlet
     {
         protected const string AzureVMPlatformExtensionCommandNoun = "AzurePlatformExtension";
+        protected const string PublicModeStr = "Public";
+        protected const string InternalModeStr = "Internal";
+
+        public bool? IsInternalExtension { get; set; }
+        public bool? IsJsonExtension { get; set; }
 
         [Parameter(
             Mandatory = true,
@@ -58,15 +64,13 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.PlatformImageReposit
         public string Version { get; set; }
 
         [Parameter(
-            Mandatory = true,
             Position = 3,
             ValueFromPipelineByPropertyName = true,
-            HelpMessage = "The Extension Hosting Resources.")]
+            HelpMessage = "The Extension Label.")]
         [ValidateNotNullOrEmpty]
-        public string HostingResources { get; set; }
+        public string Label { get; set; }
 
         [Parameter(
-            Mandatory = true,
             Position = 4,
             ValueFromPipelineByPropertyName = true,
             HelpMessage = "The Extension Description.")]
@@ -74,30 +78,77 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.PlatformImageReposit
         public string Description { get; set; }
 
         [Parameter(
-            Mandatory = true,
             Position = 5,
             ValueFromPipelineByPropertyName = true,
-            HelpMessage = "The Extension Media Link.")]
+            HelpMessage = "The Extension Sample Config.")]
         [ValidateNotNullOrEmpty]
-        public Uri MediaLink { get; set; }
+        public string SampleConfig { get; set; }
+
+        [Parameter(
+            Position = 6,
+            ValueFromPipelineByPropertyName = true,
+            HelpMessage = "The Extension Eula Link.")]
+        [ValidateNotNullOrEmpty]
+        public Uri Eula { get; set; }
+
+        [Parameter(
+            Position = 7,
+            ValueFromPipelineByPropertyName = true,
+            HelpMessage = "The Extension Privacy Link.")]
+        [ValidateNotNullOrEmpty]
+        public Uri PrivacyUri { get; set; }
+
+        [Parameter(
+            Position = 8,
+            ValueFromPipelineByPropertyName = true,
+            HelpMessage = "The Extension Homepage Link.")]
+        [ValidateNotNullOrEmpty]
+        public Uri HomepageUri { get; set; }
+
+        [Parameter(
+            Position = 9,
+            ValueFromPipelineByPropertyName = true,
+            HelpMessage = "The Extension Mode.")]
+        [ValidateNotNullOrEmpty]
+        [ValidateSet(PublicModeStr, InternalModeStr)]
+        public string ExtensionMode { get; set; }
 
         protected override void OnProcessRecord()
         {
-            ServiceManagementProfile.Initialize();
+            ServiceManagementPlatformImageRepositoryProfile.Initialize();
 
-            ExecuteClientActionNewSM(null,
+            ExecuteClientActionNewSM(
+                null,
                 CommandRuntime.ToString(),
-                () => this.ComputeClient.ExtensionImages.Update(
-                    new ExtensionImageUpdateParameters
+                () => 
+                {
+                    var vmExtension = this.ComputeClient.VirtualMachineExtensions
+                                          .ListVersions(this.Publisher, this.ExtensionName)
+                                          .FirstOrDefault(e => e.Version.Equals(this.Version));
+
+                    var serviceExtn = this.ComputeClient.HostedServices
+                                          .ListExtensionVersions(this.Publisher, this.ExtensionName)
+                                          .FirstOrDefault(e => e.Version.Equals(this.Version));
+
+                    if (vmExtension != null)
                     {
-                        ProviderNameSpace = this.Publisher,
-                        Type = this.ExtensionName,
-                        Version = this.Version,
-                        HostingResources = this.HostingResources,
-                        Description = this.Description,
-                        MediaLink = this.MediaLink,
-                        IsInternalExtension = true
-                    }));
+                        IsJsonExtension = vmExtension.IsJsonExtension;
+                        IsInternalExtension = vmExtension.IsJsonExtension;
+                    }
+                    else if (serviceExtn != null)
+                    {
+                        IsJsonExtension = serviceExtn.IsJsonExtension;
+                        IsInternalExtension = serviceExtn.IsJsonExtension;
+                    }
+
+                    IsInternalExtension = string.Equals(this.ExtensionMode, "Public") ? false
+                                        : string.Equals(this.ExtensionMode, "Internal") ? true
+                                        : IsInternalExtension;
+
+                    var parameters = Mapper.Map<ExtensionImageUpdateParameters>(this);
+
+                    return this.ComputeClient.ExtensionImages.Update(parameters);
+                });
         }
     }
 }

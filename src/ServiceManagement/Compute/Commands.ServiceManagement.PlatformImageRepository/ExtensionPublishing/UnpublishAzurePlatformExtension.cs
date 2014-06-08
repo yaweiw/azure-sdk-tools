@@ -62,7 +62,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.PlatformImageReposit
 
         protected override void OnProcessRecord()
         {
-            ServiceManagementProfile.Initialize();
+            ServiceManagementPlatformImageRepositoryProfile.Initialize();
 
             if (this.Force.IsPresent
              || this.ShouldContinue(Resources.ExtensionUnpublishingConfirmation, Resources.ExtensionUnpublishingCaption))

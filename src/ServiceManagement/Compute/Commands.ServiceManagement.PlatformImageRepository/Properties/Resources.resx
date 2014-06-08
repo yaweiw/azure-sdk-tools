@@ -132,4 +132,16 @@
   <data name="ExtensionUnpublishingConfirmation" xml:space="preserve">
     <value>This cmdlet will unpublish the specified extension. Do you want to continue?</value>
   </data>
+  <data name="ExtensionPublishingCaption" xml:space="preserve">
+    <value>Extension Publishing</value>
+  </data>
+  <data name="ExtensionPublishingConfirmation" xml:space="preserve">
+    <value>This cmdlet will publish the specified extension. Do you want to continue?</value>
+  </data>
+  <data name="ExtensionUpgradingCaption" xml:space="preserve">
+    <value>Extension Upgrading</value>
+  </data>
+  <data name="ExtensionUpgradingConfirmation" xml:space="preserve">
+    <value>This cmdlet will upgrade the specified extension with a new version. Do you want to continue?</value>
+  </data>
 </root>

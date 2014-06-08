@@ -17,12 +17,13 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.PlatformImageReposit
     using System;
     using System.Linq;
     using System.Management.Automation;
-    using IaaS.Extensions;
+    using AutoMapper;
     using Management.Compute.Models;
+    using Properties;
     using Utilities.Common;
 
     /// <summary>
-    /// Get Windows Azure VM Platform Extension Image.
+    /// Publish a Windows Azure Platform Extension Image.
     /// </summary>
     [Cmdlet(
         VerbsData.Publish,
@@ -56,7 +57,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.PlatformImageReposit
             HelpMessage = "The Extension Version.")]
         [ValidateNotNullOrEmpty]
         public string Version { get; set; }
-        
+
         [Parameter(
             Mandatory = true,
             Position = 3,
@@ -64,40 +65,191 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.PlatformImageReposit
             HelpMessage = "The Extension Hosting Resources.")]
         [ValidateNotNullOrEmpty]
         public string HostingResources { get; set; }
-        
+
         [Parameter(
             Mandatory = true,
             Position = 4,
-            ValueFromPipelineByPropertyName = true,
-            HelpMessage = "The Extension Description.")]
-        [ValidateNotNullOrEmpty]
-        public string Description { get; set; }
-        
-        [Parameter(
-            Mandatory = true,
-            Position = 5,
             ValueFromPipelineByPropertyName = true,
             HelpMessage = "The Extension Media Link.")]
         [ValidateNotNullOrEmpty]
         public Uri MediaLink { get; set; }
 
+        [Parameter(
+            Position = 5,
+            ValueFromPipelineByPropertyName = true,
+            HelpMessage = "The Extension Label.")]
+        [ValidateNotNullOrEmpty]
+        public string Label { get; set; }
+
+        [Parameter(
+            Position = 6,
+            ValueFromPipelineByPropertyName = true,
+            HelpMessage = "The Extension Certificate Config.")]
+        [ValidateNotNullOrEmpty]
+        public string CertificateConfig { get; set; }
+
+        [Parameter(
+            Position = 7,
+            ValueFromPipelineByPropertyName = true,
+            HelpMessage = "The Extension Endpoint Config.")]
+        [ValidateNotNullOrEmpty]
+        public string ExtensionEndpointConfig { get; set; }
+
+        [Parameter(
+            Position = 8,
+            ValueFromPipelineByPropertyName = true,
+            HelpMessage = "The Extension Public Configuration Schema.")]
+        [ValidateNotNullOrEmpty]
+        public string PublicConfigurationSchema { get; set; }
+
+        [Parameter(
+            Position = 9,
+            ValueFromPipelineByPropertyName = true,
+            HelpMessage = "The Extension Private Configuration Schema.")]
+        [ValidateNotNullOrEmpty]
+        public string PrivateConfigurationSchema { get; set; }
+
+        [Parameter(
+            Position = 10,
+            ValueFromPipelineByPropertyName = true,
+            HelpMessage = "The Extension Description.")]
+        [ValidateNotNullOrEmpty]
+        public string Description { get; set; }
+
+        [Parameter(
+            Position = 11,
+            ValueFromPipelineByPropertyName = true,
+            HelpMessage = "The Extension Publisher Name.")]
+        [ValidateNotNullOrEmpty]
+        public string PublisherName { get; set; }
+
+        [Parameter(
+            Position = 12,
+            ValueFromPipelineByPropertyName = true,
+            HelpMessage = "The Extension Published Date.")]
+        [ValidateNotNullOrEmpty]
+        public DateTime? PublishedDate { get; set; }
+
+        [Parameter(
+            Position = 13,
+            ValueFromPipelineByPropertyName = true,
+            HelpMessage = "The Extension Local Resource Config.")]
+        [ValidateNotNullOrEmpty]
+        public string LocalResourceConfig { get; set; }
+
+        [Parameter(
+            Position = 14,
+            ValueFromPipelineByPropertyName = true,
+            HelpMessage = "To block the role upon failure.")]
+        [ValidateNotNullOrEmpty]
+        public SwitchParameter BlockRoleUponFailure { get; set; }
+
+        [Parameter(
+            Position = 15,
+            ValueFromPipelineByPropertyName = true,
+            HelpMessage = "The Extension Sample Config.")]
+        [ValidateNotNullOrEmpty]
+        public string SampleConfig { get; set; }
+
+        [Parameter(
+            Position = 16,
+            ValueFromPipelineByPropertyName = true,
+            HelpMessage = "The Extension Eula Link.")]
+        [ValidateNotNullOrEmpty]
+        public Uri Eula { get; set; }
+
+        [Parameter(
+            Position = 17,
+            ValueFromPipelineByPropertyName = true,
+            HelpMessage = "The Extension Privacy Link.")]
+        [ValidateNotNullOrEmpty]
+        public Uri PrivacyUri { get; set; }
+
+        [Parameter(
+            Position = 18,
+            ValueFromPipelineByPropertyName = true,
+            HelpMessage = "The Extension Homepage Link.")]
+        [ValidateNotNullOrEmpty]
+        public Uri HomepageUri { get; set; }
+
+        [Parameter(
+            Position = 19,
+            ValueFromPipelineByPropertyName = true,
+            HelpMessage = "The Extension Type is XML.")]
+        [ValidateNotNullOrEmpty]
+        public SwitchParameter XmlExtension { get; set; }
+
+        [Parameter(
+            Position = 20,
+            ValueFromPipelineByPropertyName = true,
+            HelpMessage = "To disallow major version upgrade.")]
+        [ValidateNotNullOrEmpty]
+        public SwitchParameter DisallowMajorVersionUpgrade { get; set; }
+
+        [Parameter(
+            Mandatory = false,
+            Position = 21,
+            HelpMessage = "To force the registration operation.")]
+        public SwitchParameter Force { get; set; }
+
         protected override void OnProcessRecord()
         {
-            ServiceManagementProfile.Initialize();
+            ServiceManagementPlatformImageRepositoryProfile.Initialize();
 
-            ExecuteClientActionNewSM(null,
+            ExecuteClientActionNewSM(
+                null,
                 CommandRuntime.ToString(),
-                () => this.ComputeClient.ExtensionImages.Register(
-                    new ExtensionImageRegisterParameters
+                () =>
+                {
+                    OperationStatusResponse op = null;
+
+                    bool found = ExtensionExists();
+                    var publishCnfm = Resources.ExtensionPublishingConfirmation;
+                    var publishCptn = Resources.ExtensionPublishingCaption;
+                    var upgradeCnfm = Resources.ExtensionPublishingConfirmation;
+                    var upgradeCptn = Resources.ExtensionPublishingCaption;
+
+                    if (this.Force.IsPresent
+                    || (found && this.ShouldContinue(publishCnfm, publishCptn))
+                    || (!found && this.ShouldContinue(upgradeCnfm, upgradeCptn)))
                     {
-                        ProviderNameSpace = this.Publisher,
-                        Type = this.ExtensionName,
-                        Version = this.Version,
-                        HostingResources = this.HostingResources,
-                        Description = this.Description,
-                        MediaLink = this.MediaLink,
-                        IsInternalExtension = true
-                    }));
+                        var parameters = Mapper.Map<ExtensionImageRegisterParameters>(this);
+                        op = this.ComputeClient.ExtensionImages.Register(parameters);
+                    }
+
+                    return op;
+                });
+        }
+
+        private bool ExtensionExists()
+        {
+            bool found = false;
+
+            try
+            {
+                var ext = this.ComputeClient.HostedServices
+                              .ListExtensionVersions(this.Publisher, this.ExtensionName);
+
+                found |= ext != null && ext.Any();
+            }
+            catch(Exception ex)
+            {
+                WriteWarning(ex.ToString());
+            }
+
+            try
+            {
+                var ext = this.ComputeClient.VirtualMachineExtensions
+                              .ListVersions(this.Publisher, this.ExtensionName);
+
+                found |= ext != null && ext.Any();
+            }
+            catch (Exception ex)
+            {
+                WriteWarning(ex.ToString());
+            }
+
+            return found;
         }
     }
 }
