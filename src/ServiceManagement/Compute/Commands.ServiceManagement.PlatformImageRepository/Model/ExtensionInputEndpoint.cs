@@ -14,8 +14,11 @@
 
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.PlatformImageRepository.Model
 {
-    public class VMImageDetailsContext : OSImageDetailsContext
+    public class ExtensionInputEndpoint
     {
-        public string SharingStatus { get; set; }
+        public string LocalPort { get; set; }
+        public string Name { get; set; }
+        public int Port { get; set; }
+        public string Protocol { get; set; }
     }
 }

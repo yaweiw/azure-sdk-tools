@@ -14,8 +14,11 @@
 
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.PlatformImageRepository.Model
 {
-    public class VMImageDetailsContext : OSImageDetailsContext
+    public class ExtensionCertificateConfig
     {
-        public string SharingStatus { get; set; }
+        public string StoreLocation { get; set; }
+        public string StoreName { get; set; }
+        public string ThumbprintAlgorithm { get; set; }
+        public bool? ThumbprintRequired { get; set; }
     }
 }

@@ -14,8 +14,9 @@
 
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.PlatformImageRepository.Model
 {
-    public class VMImageDetailsContext : OSImageDetailsContext
+    public class ExtensionLocalResourceConfig
     {
-        public string SharingStatus { get; set; }
+        public string Name { get; set; }
+        public int? SizeInMB { get; set; }
     }
 }
