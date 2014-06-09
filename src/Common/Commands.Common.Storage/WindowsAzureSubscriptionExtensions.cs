@@ -14,9 +14,9 @@
 
 namespace Microsoft.WindowsAzure.Commands.Utilities.Common
 {
+    using Microsoft.WindowsAzure.Commands.Common.Storage;
     using Microsoft.WindowsAzure.Management.Storage;
     using Microsoft.WindowsAzure.Storage;
-    using Microsoft.WindowsAzure.Storage.Auth;
 
     public static class WindowsAzureSubscriptionExtensions
     {
@@ -35,14 +35,9 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
             {
                 using (var storageClient = subscription.CreateClient<StorageManagementClient>())
                 {
-                    var storageServiceResponse = storageClient.StorageAccounts.Get(subscription.currentStorageAccountName);
-                    var storageKeysResponse = storageClient.StorageAccounts.GetKeys(subscription.currentStorageAccountName);
-
-                    subscription.currentCloudStorageAccount = new CloudStorageAccount(
-                        new StorageCredentials(storageServiceResponse.StorageAccount.Name, storageKeysResponse.PrimaryKey),
-                        GeneralUtilities.CreateHttpsEndpoint(storageServiceResponse.StorageAccount.Properties.Endpoints[0].ToString()),
-                        GeneralUtilities.CreateHttpsEndpoint(storageServiceResponse.StorageAccount.Properties.Endpoints[1].ToString()),
-                        GeneralUtilities.CreateHttpsEndpoint(storageServiceResponse.StorageAccount.Properties.Endpoints[2].ToString()));
+                    subscription.currentCloudStorageAccount = StorageUtilities.GenerateCloudStorageAccount(
+                        storageClient,
+                        subscription.currentStorageAccountName);
 
                     return subscription.currentCloudStorageAccount as CloudStorageAccount;
                 }

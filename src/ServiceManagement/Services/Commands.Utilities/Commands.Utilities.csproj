@@ -166,9 +166,9 @@
     <Reference Include="Microsoft.WindowsAzure.ServiceManagement.Client">
       <HintPath>..\..\..\lib\Microsoft.WindowsAzure.ServiceManagement.Client.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.WindowsAzure.Storage, Version=3.0.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+    <Reference Include="Microsoft.WindowsAzure.Storage, Version=4.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\packages\WindowsAzure.Storage.3.0.3.0\lib\net40\Microsoft.WindowsAzure.Storage.dll</HintPath>
+      <HintPath>..\..\..\packages\WindowsAzure.Storage.4.0.0\lib\net40\Microsoft.WindowsAzure.Storage.dll</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\..\..\packages\Newtonsoft.Json.5.0.8\lib\net40\Newtonsoft.Json.dll</HintPath>
@@ -290,15 +290,6 @@
     <Compile Include="Common\VisualStudioProjectPathInfo.cs" />
     <Compile Include="Common\WebRoleInfo.cs" />
     <Compile Include="Common\WorkerRoleInfo.cs" />
-    <Compile Include="ExpressRoute\ExpressRouteBaseCmdlet.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="ExpressRoute\ExpressRouteClient.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="ExpressRoute\ValidateGuid.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="HDInsight\Commands\BaseCommandInterfaces\IAddAzureHDInsightConfigValuesBase.cs" />
     <Compile Include="HDInsight\Commands\BaseCommandInterfaces\IAddAzureHDInsightMetaStoreBase.cs" />
     <Compile Include="HDInsight\Commands\BaseCommandInterfaces\IAddAzureHDInsightStorageBase.cs" />
@@ -931,6 +922,10 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\..\Common\Commands.Common.Storage\Commands.Common.Storage.csproj">
+      <Project>{65c3a86a-716d-4e7d-ab67-1db00b3bf72d}</Project>
+      <Name>Commands.Common.Storage</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\Common\Commands.Common\Commands.Common.csproj">
       <Project>{5ee72c53-1720-4309-b54b-5fb79703195f}</Project>
       <Name>Commands.Common</Name>
