@@ -113,7 +113,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.PlatformImageReposit
                     Name = this.InputEndpointName,
                     Port = this.Port,
                     Protocol = this.Protocol,
-                    LocalPort = this.LocalPort.ToString()
+                    LocalPort = this.LocalPort
                 });
             }
 
