@@ -19,7 +19,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.PlatformImageReposit
     using Model;
 
     /// <summary>
-    /// Remove a local resource from the config set object.
+    /// Remove a Local Resource from the Config Set.
     /// </summary>
     [Cmdlet(
         VerbsCommon.Remove,

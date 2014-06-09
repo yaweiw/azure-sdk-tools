@@ -19,7 +19,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.PlatformImageReposit
     using Model;
 
     /// <summary>
-    /// Create a new extension config object.
+    /// Create a New Extension Certificate Config Set.
     /// </summary>
     [Cmdlet(
         VerbsCommon.New,

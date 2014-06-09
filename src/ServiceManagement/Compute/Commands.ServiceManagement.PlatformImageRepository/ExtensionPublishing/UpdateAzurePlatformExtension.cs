@@ -18,12 +18,11 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.PlatformImageReposit
     using System.Linq;
     using System.Management.Automation;
     using AutoMapper;
-    using IaaS.Extensions;
     using Management.Compute.Models;
     using Utilities.Common;
 
     /// <summary>
-    /// Get Windows Azure VM Platform Extension Image.
+    /// Update a Platform Extension Image.
     /// </summary>
     [Cmdlet(
         VerbsData.Update,
@@ -141,8 +140,8 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.PlatformImageReposit
                         IsInternalExtension = serviceExtn.IsJsonExtension;
                     }
 
-                    IsInternalExtension = string.Equals(this.ExtensionMode, "Public") ? false
-                                        : string.Equals(this.ExtensionMode, "Internal") ? true
+                    IsInternalExtension = string.Equals(this.ExtensionMode, PublicModeStr) ? false
+                                        : string.Equals(this.ExtensionMode, InternalModeStr) ? true
                                         : IsInternalExtension;
 
                     var parameters = Mapper.Map<ExtensionImageUpdateParameters>(this);

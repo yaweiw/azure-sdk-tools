@@ -20,7 +20,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.PlatformImageReposit
     using Model;
 
     /// <summary>
-    /// Add or update an endpoint in the config set object.
+    /// Add or Update an Endpoint in Config Set.
     /// </summary>
     [Cmdlet(
         VerbsCommon.Set,

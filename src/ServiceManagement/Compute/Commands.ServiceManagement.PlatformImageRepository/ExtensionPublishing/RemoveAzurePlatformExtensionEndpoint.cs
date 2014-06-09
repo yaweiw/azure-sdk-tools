@@ -19,7 +19,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.PlatformImageReposit
     using Model;
 
     /// <summary>
-    /// Remove an endpoint from the config set object.
+    /// Remove an Endpoint from the Config Set.
     /// </summary>
     [Cmdlet(
         VerbsCommon.Remove,

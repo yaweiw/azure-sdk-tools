@@ -18,7 +18,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.PlatformImageReposit
     using Model;
 
     /// <summary>
-    /// Create a new extension local resource config set object.
+    /// Create a New Extension Local Resource Config Set.
     /// </summary>
     [Cmdlet(
         VerbsCommon.New,

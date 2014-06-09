@@ -18,7 +18,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.PlatformImageReposit
     using Model;
 
     /// <summary>
-    /// Create a new extension endpoint config set object.
+    /// Create a New Extension Endpoint Config Set.
     /// </summary>
     [Cmdlet(
         VerbsCommon.New,

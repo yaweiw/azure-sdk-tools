@@ -24,7 +24,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.PlatformImageReposit
     using Utilities.Common;
 
     /// <summary>
-    /// Publish a Windows Azure Platform Extension Image.
+    /// Publish a Platform Extension Image.
     /// </summary>
     [Cmdlet(
         VerbsData.Publish,

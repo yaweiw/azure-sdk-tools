@@ -19,7 +19,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.PlatformImageReposit
     using Utilities.Common;
 
     /// <summary>
-    /// Get Windows Azure VM Platform Extension Image.
+    /// Unpublish a Platform Extension Image.
     /// </summary>
     [Cmdlet(
         VerbsData.Unpublish,

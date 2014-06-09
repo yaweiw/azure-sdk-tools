@@ -19,7 +19,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.PlatformImageReposit
     using Model;
 
     /// <summary>
-    /// Add or update a local resource in the config set object.
+    /// Add or Update a Local Resource in the Config Set.
     /// </summary>
     [Cmdlet(
         VerbsCommon.Set,
