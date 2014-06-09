@@ -15,9 +15,11 @@
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.PlatformImageRepository
 {
     using System;
+    using System.Collections.Generic;
     using AutoMapper;
     using ExtensionPublishing;
     using Management.Compute.Models;
+    using Model;
 
     public class ServiceManagementPlatformImageRepositoryProfile : Profile
     {
@@ -44,13 +46,25 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.PlatformImageReposit
 
         protected override void Configure()
         {
+            Mapper.CreateMap<NewAzurePlatformExtensionCertificateConfigCommand, ExtensionCertificateConfig>()
+                  .ForMember(c => c.ThumbprintRequired, o => o.MapFrom(r => r.ThumbprintRequired.IsPresent));
+
+            Mapper.CreateMap<ExtensionCertificateConfig, ExtensionCertificateConfiguration>();
+            Mapper.CreateMap<ExtensionLocalResourceConfig, ExtensionLocalResourceConfiguration>();
+            Mapper.CreateMap<ExtensionInternalEndpoint, ExtensionEndpointConfiguration.InternalEndpoint>();
+            Mapper.CreateMap<ExtensionInputEndpoint, ExtensionEndpointConfiguration.InputEndpoint>();
+            Mapper.CreateMap<ExtensionEndpointConfigSet, ExtensionEndpointConfiguration>();
+
             Mapper.CreateMap<PublishAzurePlatformExtensionCommand, ExtensionImageRegisterParameters>()
                   .ForMember(c => c.IsJsonExtension, o => o.MapFrom(r => !r.XmlExtension.IsPresent))
                   .ForMember(c => c.Type, o => o.MapFrom(r => r.ExtensionName))
                   .ForMember(c => c.ProviderNameSpace, o => o.MapFrom(r => r.Publisher))
                   .ForMember(c => c.IsInternalExtension, o => o.MapFrom(r => true))
                   .ForMember(c => c.BlockRoleUponFailure, o => o.MapFrom(r => r.BlockRoleUponFailure.IsPresent))
-                  .ForMember(c => c.DisallowMajorVersionUpgrade, o => o.MapFrom(r => r.DisallowMajorVersionUpgrade.IsPresent));
+                  .ForMember(c => c.DisallowMajorVersionUpgrade, o => o.MapFrom(r => r.DisallowMajorVersionUpgrade.IsPresent))
+                  .ForMember(c => c.Certificate, o => o.MapFrom(r => r.CertificateConfig))
+                  .ForMember(c => c.ExtensionEndpoints, o => o.MapFrom(r => r.EndpointConfig))
+                  .ForMember(c => c.LocalResources, o => o.MapFrom(r => r.LocalResourceConfig == null ? null : r.LocalResourceConfig.LocalResources));
 
             Mapper.CreateMap<UpdateAzurePlatformExtensionCommand, ExtensionImageUpdateParameters>()
                   .ForMember(c => c.Type, o => o.MapFrom(r => r.ExtensionName))

@@ -19,6 +19,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.PlatformImageReposit
     using System.Management.Automation;
     using AutoMapper;
     using Management.Compute.Models;
+    using Model;
     using Properties;
     using Utilities.Common;
 
@@ -86,14 +87,14 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.PlatformImageReposit
             ValueFromPipelineByPropertyName = true,
             HelpMessage = "The Extension Certificate Config.")]
         [ValidateNotNullOrEmpty]
-        public string CertificateConfig { get; set; }
+        public ExtensionCertificateConfig CertificateConfig { get; set; }
 
         [Parameter(
             Position = 7,
             ValueFromPipelineByPropertyName = true,
             HelpMessage = "The Extension Endpoint Config.")]
         [ValidateNotNullOrEmpty]
-        public string ExtensionEndpointConfig { get; set; }
+        public ExtensionEndpointConfigSet EndpointConfig { get; set; }
 
         [Parameter(
             Position = 8,
@@ -135,7 +136,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.PlatformImageReposit
             ValueFromPipelineByPropertyName = true,
             HelpMessage = "The Extension Local Resource Config.")]
         [ValidateNotNullOrEmpty]
-        public string LocalResourceConfig { get; set; }
+        public ExtensionLocalResourceConfigSet LocalResourceConfig { get; set; }
 
         [Parameter(
             Position = 14,

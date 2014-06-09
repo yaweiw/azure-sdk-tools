@@ -154,12 +154,25 @@
     <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ExtensionPublishing\SetAzurePlatformExtensionEndpoint.cs" />
+    <Compile Include="ExtensionPublishing\RemoveAzurePlatformExtensionEndpoint.cs" />
+    <Compile Include="ExtensionPublishing\RemoveAzurePlatformExtensionLocalResource.cs" />
+    <Compile Include="ExtensionPublishing\SetAzurePlatformExtensionLocalResource.cs" />
+    <Compile Include="ExtensionPublishing\NewAzurePlatformExtensionLocalResourceConfigSet.cs" />
+    <Compile Include="ExtensionPublishing\NewAzurePlatformExtensionEndpointConfigSet.cs" />
     <Compile Include="ExtensionPublishing\PublishAzurePlatformExtension.cs" />
+    <Compile Include="ExtensionPublishing\NewAzurePlatformExtensionCertificateConfig.cs" />
     <Compile Include="ExtensionPublishing\UpdateAzurePlatformExtension.cs" />
     <Compile Include="ExtensionPublishing\UnpublishAzurePlatformExtension.cs" />
     <Compile Include="ImagePublishing\RemoveAzurePlatformVMImage.cs" />
     <Compile Include="ImagePublishing\GetAzurePlatformVMImage.cs" />
     <Compile Include="ImagePublishing\SetAzurePlatformVMImage.cs" />
+    <Compile Include="Model\ExtensionInternalEndpoint.cs" />
+    <Compile Include="Model\ExtensionInputEndpoint.cs" />
+    <Compile Include="Model\ExtensionLocalResourceConfig.cs" />
+    <Compile Include="Model\ExtensionLocalResourceConfigSet.cs" />
+    <Compile Include="Model\ExtensionEndpointConfigSet.cs" />
+    <Compile Include="Model\ExtensionCertificateConfig.cs" />
     <Compile Include="Model\OSImageDetailsContext.cs" />
     <Compile Include="Model\ReplicationProgressContext.cs" />
     <Compile Include="Model\VMImageDetailsContext.cs" />

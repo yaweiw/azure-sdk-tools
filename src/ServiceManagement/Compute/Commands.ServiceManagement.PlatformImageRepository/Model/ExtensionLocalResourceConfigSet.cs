@@ -14,8 +14,10 @@
 
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.PlatformImageRepository.Model
 {
-    public class VMImageDetailsContext : OSImageDetailsContext
+    using System.Collections.Generic;
+
+    public class ExtensionLocalResourceConfigSet
     {
-        public string SharingStatus { get; set; }
+        public List<ExtensionLocalResourceConfig> LocalResources { get; set; }
     }
 }
