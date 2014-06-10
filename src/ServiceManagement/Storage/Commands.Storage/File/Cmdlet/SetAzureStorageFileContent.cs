@@ -24,7 +24,7 @@ namespace Microsoft.WindowsAzure.Commands.Storage.File.Cmdlet
     using Microsoft.WindowsAzure.Storage.DataMovement.TransferJobs;
     using Microsoft.WindowsAzure.Storage.File;
 
-    [Cmdlet(VerbsCommon.Set, Constants.FileContentCmdletName, DefaultParameterSetName = Constants.ShareNameParameterSetName)]
+    [Cmdlet(VerbsCommon.Set, Constants.FileContentCmdletName, SupportsShouldProcess = true, ConfirmImpact = ConfirmImpact.High, DefaultParameterSetName = Constants.ShareNameParameterSetName)]
     public class SetAzureStorageFileContent : StorageFileDataManagementCmdletBase
     {
         [Parameter(
