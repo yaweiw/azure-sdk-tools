@@ -20,7 +20,7 @@
     <OneSDKCITFilter>"OneSDK&#x26;CIT"</OneSDKCITFilter>
     <MediaServiceBVTFilter>"MediaServices&#x26;BVT"</MediaServiceBVTFilter>
     <ManagedCacheBVTFilter>"ManagedCache&#x26;BVT"</ManagedCacheBVTFilter>
-	<ServiceBusBVTFilter>"ServiceBus&#x26;BVT"</ServiceBusBVTFilter>
+    <ServiceBusBVTFilter>"ServiceBus&#x26;BVT"</ServiceBusBVTFilter>
     <AzureRTAllTestFilter>"Functional|Scenario"</AzureRTAllTestFilter>
     <AzureRTAllTestFilter2>"Functional|Scenario|Preview"</AzureRTAllTestFilter2>
     <AzureRTAllTestFilter3>"Functional|Scenario|Sequential"</AzureRTAllTestFilter3>
