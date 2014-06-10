@@ -19,6 +19,7 @@
     <MockTestFilter>CheckIn</MockTestFilter>
     <OneSDKCITFilter>"OneSDK&#x26;CIT"</OneSDKCITFilter>
     <MediaServiceBVTFilter>"MediaServices&#x26;BVT"</MediaServiceBVTFilter>
+    <StorageBVTFilter>"Storage&#x26;BVT"</StorageBVTFilter>
     <ManagedCacheBVTFilter>"ManagedCache&#x26;BVT"</ManagedCacheBVTFilter>
     <ServiceBusBVTFilter>"ServiceBus&#x26;BVT"</ServiceBusBVTFilter>
     <AzureRTAllTestFilter>"Functional|Scenario"</AzureRTAllTestFilter>
@@ -105,6 +106,15 @@
     <Delete Files="$(TestOutputDirectory)\RunMediaServiceBVTDebug.trx" />
     <Exec
       Command="MSTest.exe /testcontainer:$(ScenarioTestDebug) /testsettings:$(TestSettings) /category:$(MediaServiceBVTFilter) /resultsfile:$(TestOutputDirectory)\RunMediaServiceBVTDebug.trx"
+      ContinueOnError="false" />
+  </Target>
+  
+  <!-- Run the Storage Scenario Tests -->
+  <Target Name="RunStorageBVTs" DependsOnTargets="Clean;BuildDebug;BeforeRunTests">
+    <Message Importance="high" Text="Running Storage Scenario tests:" />
+    <Delete Files="$(TestOutputDirectory)\RunStorageBVTDebug.trx" />
+    <Exec
+      Command="MSTest.exe /testcontainer:$(ScenarioTestDebug) /testsettings:$(TestSettings) /category:$(StorageBVTFilter) /resultsfile:$(TestOutputDirectory)\RunStorageBVTDebug.trx"
       ContinueOnError="false" />
   </Target>
 
