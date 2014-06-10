@@ -53,7 +53,7 @@ namespace Microsoft.WindowsAzure.Commands.Storage.File
         /// <returns>Returns a value indicating whether to overwrite.</returns>
         private bool ConfirmOverwrite(string sourcePath, string destinationPath)
         {
-            return this.Force || this.OutputStream.ConfirmAsync(String.Format(Resources.OverwriteConfirmation, destinationPath)).Result;
+            return this.Force || this.OutputStream.ConfirmAsync(string.Format(CultureInfo.CurrentCulture, Resources.OverwriteConfirmation, destinationPath)).Result;
         }
 
         protected override void BeginProcessing()
@@ -85,7 +85,7 @@ namespace Microsoft.WindowsAzure.Commands.Storage.File
                         (percent, speed) =>
                         {
                             record.PercentComplete = (int)percent;
-                            record.StatusDescription = String.Format(Resources.FileTransmitStatus, (int)percent, Util.BytesToHumanReadableSize(speed));
+                            record.StatusDescription = string.Format(CultureInfo.CurrentCulture, Resources.FileTransmitStatus, (int)percent, Util.BytesToHumanReadableSize(speed));
                             this.OutputStream.WriteProgress(record);
                         },
                         this.CmdletCancellationToken);
@@ -96,7 +96,7 @@ namespace Microsoft.WindowsAzure.Commands.Storage.File
             }
             catch (Exception e)
             {
-                record.StatusDescription = String.Format(Resources.TransmitFailed, e.Message);
+                record.StatusDescription = string.Format(CultureInfo.CurrentCulture, Resources.TransmitFailed, e.Message);
                 this.OutputStream.WriteProgress(record);
                 throw;
             }

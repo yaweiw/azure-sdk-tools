@@ -14,14 +14,13 @@
 
 namespace Microsoft.WindowsAzure.Commands.Storage.Blob
 {
-    using Microsoft.WindowsAzure.Commands.Storage.Common;
-    using Microsoft.WindowsAzure.Storage.Blob;
-    using Microsoft.WindowsAzure.Storage.DataMovement;
-    using Microsoft.WindowsAzure.Storage.DataMovement.TransferJobs;
     using System;
-    using System.Diagnostics;
+    using System.Globalization;
     using System.Management.Automation;
     using System.Threading.Tasks;
+    using Microsoft.WindowsAzure.Commands.Storage.Common;
+    using Microsoft.WindowsAzure.Storage.Blob;
+    using Microsoft.WindowsAzure.Storage.DataMovement.TransferJobs;
 
     public class StorageDataMovementCmdletBase : StorageCloudBlobCmdletBase, IDisposable
     {
@@ -46,7 +45,7 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Blob
         /// <returns>True if the opeation is confirmed, otherwise return false</returns>
         private bool ConfirmOverwrite(string sourcePath, string destinationPath)
         {
-            string overwriteMessage = String.Format(Resources.OverwriteConfirmation, destinationPath);
+            string overwriteMessage = string.Format(CultureInfo.CurrentCulture, Resources.OverwriteConfirmation, destinationPath);
             return overwrite || OutputStream.ConfirmAsync(overwriteMessage).Result;
         }
 
@@ -79,7 +78,7 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Blob
                     (percent, speed) =>
                     {
                         userData.Record.PercentComplete = (int)percent;
-                        userData.Record.StatusDescription = String.Format(Resources.FileTransmitStatus, (int)percent, Util.BytesToHumanReadableSize(speed));
+                        userData.Record.StatusDescription = string.Format(CultureInfo.CurrentCulture, Resources.FileTransmitStatus, (int)percent, Util.BytesToHumanReadableSize(speed));
                         this.OutputStream.WriteProgress(userData.Record);
                     },
                     this.CmdletCancellationToken);
@@ -90,7 +89,7 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Blob
             }
             catch (Exception e)
             {
-                userData.Record.StatusDescription = String.Format(Resources.TransmitFailed, e.Message);
+                userData.Record.StatusDescription = string.Format(CultureInfo.CurrentCulture, Resources.TransmitFailed, e.Message);
                 this.OutputStream.WriteProgress(userData.Record);
                 throw;
             }
