@@ -20,6 +20,7 @@
     <OneSDKCITFilter>"OneSDK&#x26;CIT"</OneSDKCITFilter>
     <MediaServiceBVTFilter>"MediaServices&#x26;BVT"</MediaServiceBVTFilter>
     <ManagedCacheBVTFilter>"ManagedCache&#x26;BVT"</ManagedCacheBVTFilter>
+	<ServiceBusBVTFilter>"ServiceBus&#x26;BVT"</ServiceBusBVTFilter>
     <AzureRTAllTestFilter>"Functional|Scenario"</AzureRTAllTestFilter>
     <AzureRTAllTestFilter2>"Functional|Scenario|Preview"</AzureRTAllTestFilter2>
     <AzureRTAllTestFilter3>"Functional|Scenario|Sequential"</AzureRTAllTestFilter3>
@@ -113,6 +114,15 @@
     <Delete Files="$(TestOutputDirectory)\RunManagedCacheBVTDebug.trx" />
     <Exec
       Command="MSTest.exe /testcontainer:$(ScenarioTestDebug) /testsettings:$(TestSettings) /category:$(ManagedCacheBVTFilter) /resultsfile:$(TestOutputDirectory)\RunManagedCacheBVTDebug.trx"
+      ContinueOnError="false" />
+  </Target>
+  
+  <!-- Run the ServiceBus Scenario Tests -->
+  <Target Name="RunServiceBusBVTs" DependsOnTargets="Clean;BuildDebug;BeforeRunTests">
+    <Message Importance="high" Text="Running Service Bus Scenario tests:" />
+    <Delete Files="$(TestOutputDirectory)\RunServiceBusBVTDebug.trx" />
+    <Exec
+      Command="MSTest.exe /testcontainer:$(ScenarioTestDebug) /testsettings:$(TestSettings) /category:$(ServiceBusBVTFilter) /resultsfile:$(TestOutputDirectory)\RunServiceBusBVTDebug.trx"
       ContinueOnError="false" />
   </Target>
 
