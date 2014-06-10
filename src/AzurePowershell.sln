@@ -90,6 +90,7 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Commands.Automation", "ServiceManagement\Automation\Commands.Automation\Commands.Automation.csproj", "{47CD7E95-5330-4384-ABCE-2C267C57085C}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Commands.Automation.Test", "ServiceManagement\Automation\Commands.Automation.Test\Commands.Automation.Test.csproj", "{127D0D51-FDEA-4E1A-8CD8-34DEB5C2F7F6}"
+EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Commands.TrafficManager.Test", "ServiceManagement\TrafficManager\Commands.TrafficManager.Test\Commands.TrafficManager.Test.csproj", "{84F99CBD-5B86-4428-B263-135B2F67F512}"
 EndProject
 Global
