@@ -73,7 +73,7 @@ FormatsToProcess = @(
 # Modules to import as nested modules of the module specified in ModuleToProcess
 NestedModules = '.\Services\Microsoft.WindowsAzure.Commands.dll',
                 '.\Services\Microsoft.Azure.Commands.Automation.dll',
-                '.\Services\Microsoft.WindowsAzure.Commands.TrafficManager.dll',
+                '.\TrafficManager\Microsoft.WindowsAzure.Commands.TrafficManager.dll',
                 '.\Services\Microsoft.WindowsAzure.Commands.Profile.dll',
                 '.\Compute\Microsoft.WindowsAzure.Commands.ServiceManagement.dll',
                 '.\Sql\Microsoft.WindowsAzure.Commands.SqlDatabase.dll',

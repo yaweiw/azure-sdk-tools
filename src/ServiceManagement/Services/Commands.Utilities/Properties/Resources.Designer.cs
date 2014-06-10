@@ -214,6 +214,15 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The Automation accout was not found..
+        /// </summary>
+        public static string AutomationAccountNotFound {
+            get {
+                return ResourceManager.GetString("AutomationAccountNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Windows Azure Powershell\.
         /// </summary>
         public static string AzureDirectory {
@@ -431,7 +440,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Properties {
         ///    &lt;dataCacheClient name=&quot;DefaultShimConfig&quot; useLegacyProtocol=&quot;false&quot;&gt;
         ///      &lt;autoDiscover isEnabled=&quot;true&quot; identifier=&quot;$RoleName$&quot; /&gt;
         ///    &lt;/dataCacheClient&gt;
-        ///  &lt;/da [rest of string was truncated]&quot;;.
+        ///  &lt;/dataCacheCl [rest of string was truncated]&quot;;.
         /// </summary>
         public static string CacheAutoDiscoveryConfig {
             get {
@@ -1287,6 +1296,15 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The file &quot;{0}&quot; was not found. Make sure the file exists and is accessible..
+        /// </summary>
+        public static string FileNotFound {
+            get {
+                return ResourceManager.GetString("FileNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The HTTP request was forbidden with client authentication scheme &apos;Anonymous&apos;..
         /// </summary>
         public static string FirstPurchaseErrorMessage {
@@ -1503,6 +1521,15 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The daily schedule model is not valid. Schedule name: {0}..
+        /// </summary>
+        public static string InvalidDailyScheduleModel {
+            get {
+                return ResourceManager.GetString("InvalidDailyScheduleModel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to No default subscription has been designated. Use Select-AzureSubscription -Default &lt;subscriptionName&gt; to set the default subscription..
         /// </summary>
         public static string InvalidDefaultSubscription {
@@ -1612,6 +1639,15 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Properties {
         public static string InvalidJobFile {
             get {
                 return ResourceManager.GetString("InvalidJobFile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The job model is not valid..
+        /// </summary>
+        public static string InvalidJobModel {
+            get {
+                return ResourceManager.GetString("InvalidJobModel", resourceCulture);
             }
         }
         
@@ -1738,6 +1774,24 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Properties {
         public static string InvalidRootNameMessage {
             get {
                 return ResourceManager.GetString("InvalidRootNameMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The runbook model is not valid..
+        /// </summary>
+        public static string InvalidRunbookModel {
+            get {
+                return ResourceManager.GetString("InvalidRunbookModel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to At least one parameter provided is not expected by the runbook..
+        /// </summary>
+        public static string InvalidRunbookParameters {
+            get {
+                return ResourceManager.GetString("InvalidRunbookParameters", resourceCulture);
             }
         }
         
@@ -1909,6 +1963,15 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Properties {
         public static string JobNotFound {
             get {
                 return ResourceManager.GetString("JobNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The job was not found. Job ID: {0}..
+        /// </summary>
+        public static string JobNotFoundById {
+            get {
+                return ResourceManager.GetString("JobNotFoundById", resourceCulture);
             }
         }
         
@@ -2482,15 +2545,6 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to A value for the  Peer Asn has to be provided..
-        /// </summary>
-        public static string PeerAsnRequired {
-            get {
-                return ResourceManager.GetString("PeerAsnRequired", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to 5.4.0.
         /// </summary>
         public static string PHPDefaultRuntimeVersion {
@@ -2556,15 +2610,6 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Properties {
         public static string PortalInstructionsGit {
             get {
                 return ResourceManager.GetString("PortalInstructionsGit", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to A value for the Primary Peer Subnet has to be provided..
-        /// </summary>
-        public static string PrimaryPeerSubnetRequired {
-            get {
-                return ResourceManager.GetString("PrimaryPeerSubnetRequired", resourceCulture);
             }
         }
         
@@ -2875,110 +2920,38 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Remove-AzureBGPPeering Operation failed..
+        ///   Looks up a localized string similar to Removing the Azure Automation runbook..
         /// </summary>
-        public static string RemoveAzureBGPPeeringFailed {
+        public static string RemoveAzureAutomationRunbookDescription {
             get {
-                return ResourceManager.GetString("RemoveAzureBGPPeeringFailed", resourceCulture);
+                return ResourceManager.GetString("RemoveAzureAutomationRunbookDescription", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Removing Bgp Peering.
+        ///   Looks up a localized string similar to Are you sure you want to remove the Azure Automation runbook?.
         /// </summary>
-        public static string RemoveAzureBGPPeeringMessage {
+        public static string RemoveAzureAutomationRunbookWarning {
             get {
-                return ResourceManager.GetString("RemoveAzureBGPPeeringMessage", resourceCulture);
+                return ResourceManager.GetString("RemoveAzureAutomationRunbookWarning", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Successfully removed Azure Bgp Peering with Service Key {0}..
+        ///   Looks up a localized string similar to Removing the Azure Automation schedule..
         /// </summary>
-        public static string RemoveAzureBGPPeeringSucceeded {
+        public static string RemoveAzureAutomationScheduleDescription {
             get {
-                return ResourceManager.GetString("RemoveAzureBGPPeeringSucceeded", resourceCulture);
+                return ResourceManager.GetString("RemoveAzureAutomationScheduleDescription", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Are you sure you want to remove the Bgp Peering with service key &apos;{0}&apos;?.
+        ///   Looks up a localized string similar to Are you sure you want to remove the Azure Automation schedule?.
         /// </summary>
-        public static string RemoveAzureBGPPeeringWarning {
+        public static string RemoveAzureAutomationScheduleWarning {
             get {
-                return ResourceManager.GetString("RemoveAzureBGPPeeringWarning", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Are you sure you want to remove the Dedicated Circuit with service key &apos;{0}&apos;?.
-        /// </summary>
-        public static string RemoveAzureDedicatdCircuitWarning {
-            get {
-                return ResourceManager.GetString("RemoveAzureDedicatdCircuitWarning", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Remove-AzureDedicatedCircuit Operation failed..
-        /// </summary>
-        public static string RemoveAzureDedicatedCircuitFailed {
-            get {
-                return ResourceManager.GetString("RemoveAzureDedicatedCircuitFailed", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Remove-AzureDedicatedCircuitLink Operation failed..
-        /// </summary>
-        public static string RemoveAzureDedicatedCircuitLinkFailed {
-            get {
-                return ResourceManager.GetString("RemoveAzureDedicatedCircuitLinkFailed", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Removing Dedicated Circui Link.
-        /// </summary>
-        public static string RemoveAzureDedicatedCircuitLinkMessage {
-            get {
-                return ResourceManager.GetString("RemoveAzureDedicatedCircuitLinkMessage", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Successfully removed Azure Dedicated Circuit Link with Service Key {0} and Vnet Name {1}.
-        /// </summary>
-        public static string RemoveAzureDedicatedCircuitLinkSucceeded {
-            get {
-                return ResourceManager.GetString("RemoveAzureDedicatedCircuitLinkSucceeded", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Are you sure you want to remove the Dedicated Circuit Link with service key &apos;{0}&apos; and virtual network name &apos;{1}&apos;?.
-        /// </summary>
-        public static string RemoveAzureDedicatedCircuitLinkWarning {
-            get {
-                return ResourceManager.GetString("RemoveAzureDedicatedCircuitLinkWarning", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Removing Dedicated Circuit.
-        /// </summary>
-        public static string RemoveAzureDedicatedCircuitMessage {
-            get {
-                return ResourceManager.GetString("RemoveAzureDedicatedCircuitMessage", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Successfully removed Azure Dedicated Circuit with Service Key {0}..
-        /// </summary>
-        public static string RemoveAzureDedicatedCircuitSucceeded {
-            get {
-                return ResourceManager.GetString("RemoveAzureDedicatedCircuitSucceeded", resourceCulture);
+                return ResourceManager.GetString("RemoveAzureAutomationScheduleWarning", resourceCulture);
             }
         }
         
@@ -3316,6 +3289,60 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Runbook already has a draft. Specify the parameter to force an overwrite of this draft..
+        /// </summary>
+        public static string RunbookAlreadyHasDraft {
+            get {
+                return ResourceManager.GetString("RunbookAlreadyHasDraft", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The runbook has no published version. Runbook ID: {0}..
+        /// </summary>
+        public static string RunbookHasNoPublishedVersionById {
+            get {
+                return ResourceManager.GetString("RunbookHasNoPublishedVersionById", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The runbook was not found. Runbook ID: {0}..
+        /// </summary>
+        public static string RunbookNotFoundById {
+            get {
+                return ResourceManager.GetString("RunbookNotFoundById", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The runbook was not found. Runbook name: {0}..
+        /// </summary>
+        public static string RunbookNotFoundByName {
+            get {
+                return ResourceManager.GetString("RunbookNotFoundByName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The runbook parameter &quot;{0}&quot; is mandatory..
+        /// </summary>
+        public static string RunbookParameterValueRequired {
+            get {
+                return ResourceManager.GetString("RunbookParameterValueRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The runbook version was not found. Runbook version ID: {0}..
+        /// </summary>
+        public static string RunbookVersionNotFoundById {
+            get {
+                return ResourceManager.GetString("RunbookVersionNotFoundById", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to &quot;{0}&quot; &quot;{1}&quot; {2} /useiisexpress.
         /// </summary>
         public static string RunInEmulatorArguments {
@@ -3406,20 +3433,38 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The Automation schedule name is in use. Schedule name: {0}..
+        /// </summary>
+        public static string ScheduleNameExists {
+            get {
+                return ResourceManager.GetString("ScheduleNameExists", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The schedule was not found. Schedule ID: {0}..
+        /// </summary>
+        public static string ScheduleNotFoundById {
+            get {
+                return ResourceManager.GetString("ScheduleNotFoundById", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The schedule was not found. Schedule name: {0}..
+        /// </summary>
+        public static string ScheduleNotFoundByName {
+            get {
+                return ResourceManager.GetString("ScheduleNotFoundByName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Invalid location entered. Pick one of the locations from Get-AzureSchedulerLocation.
         /// </summary>
         public static string SchedulerInvalidLocation {
             get {
                 return ResourceManager.GetString("SchedulerInvalidLocation", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to A value for the Secondary Peer Subnet has to be provided..
-        /// </summary>
-        public static string SecondaryPeerSubnetRequired {
-            get {
-                return ResourceManager.GetString("SecondaryPeerSubnetRequired", resourceCulture);
             }
         }
         
@@ -4087,15 +4132,6 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Properties {
         public static string UpdatedSettings {
             get {
                 return ResourceManager.GetString("UpdatedSettings", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to A value for the VLan Id has to be provided..
-        /// </summary>
-        public static string VlanIdRequired {
-            get {
-                return ResourceManager.GetString("VlanIdRequired", resourceCulture);
             }
         }
         

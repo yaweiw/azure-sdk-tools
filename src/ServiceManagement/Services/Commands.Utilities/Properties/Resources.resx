@@ -959,9 +959,6 @@ use and privacy statement at {0} and (c) agree to sharing my contact information
   <data name="PathDoesNotExistForElement" xml:space="preserve">
     <value>Path for {0} doesn't exist in {1}.</value>
   </data>
-  <data name="PeerAsnRequired" xml:space="preserve">
-    <value>A value for the  Peer Asn has to be provided.</value>
-  </data>
   <data name="PHPDefaultRuntimeVersion" xml:space="preserve">
     <value>5.4.0</value>
   </data>
@@ -988,9 +985,6 @@ Please follow these steps in the portal:
   </data>
   <data name="PortalInstructionsGit" xml:space="preserve">
     <value>6. Back in the console window, rerun this command by typing "New-AzureWebsite &lt;site name&gt; -Git"</value>
-  </data>
-  <data name="PrimaryPeerSubnetRequired" xml:space="preserve">
-    <value>A value for the Primary Peer Subnet has to be provided.</value>
   </data>
   <data name="PromotionCodeWithCurrentPlanMessage" xml:space="preserve">
     <value>Promotion code can be used only when updating to a new plan.</value>
@@ -1093,42 +1087,6 @@ Please follow these steps in the portal:
   </data>
   <data name="RemoveAddOnMessage" xml:space="preserve">
     <value>If you delete this add-on, your data may be deleted and the operation may not be undone.  You may have to purchase it again from the Windows Azure Store to use it. The price of the add-on  may not be refunded. Are you sure you want to delete this add-on? Enter “Yes” to confirm.</value>
-  </data>
-  <data name="RemoveAzureBGPPeeringFailed" xml:space="preserve">
-    <value>Remove-AzureBGPPeering Operation failed.</value>
-  </data>
-  <data name="RemoveAzureBGPPeeringMessage" xml:space="preserve">
-    <value>Removing Bgp Peering</value>
-  </data>
-  <data name="RemoveAzureBGPPeeringSucceeded" xml:space="preserve">
-    <value>Successfully removed Azure Bgp Peering with Service Key {0}.</value>
-  </data>
-  <data name="RemoveAzureBGPPeeringWarning" xml:space="preserve">
-    <value>Are you sure you want to remove the Bgp Peering with service key '{0}'?</value>
-  </data>
-  <data name="RemoveAzureDedicatdCircuitWarning" xml:space="preserve">
-    <value>Are you sure you want to remove the Dedicated Circuit with service key '{0}'?</value>
-  </data>
-  <data name="RemoveAzureDedicatedCircuitFailed" xml:space="preserve">
-    <value>Remove-AzureDedicatedCircuit Operation failed.</value>
-  </data>
-  <data name="RemoveAzureDedicatedCircuitLinkFailed" xml:space="preserve">
-    <value>Remove-AzureDedicatedCircuitLink Operation failed.</value>
-  </data>
-  <data name="RemoveAzureDedicatedCircuitLinkMessage" xml:space="preserve">
-    <value>Removing Dedicated Circui Link</value>
-  </data>
-  <data name="RemoveAzureDedicatedCircuitLinkSucceeded" xml:space="preserve">
-    <value>Successfully removed Azure Dedicated Circuit Link with Service Key {0} and Vnet Name {1}</value>
-  </data>
-  <data name="RemoveAzureDedicatedCircuitLinkWarning" xml:space="preserve">
-    <value>Are you sure you want to remove the Dedicated Circuit Link with service key '{0}' and virtual network name '{1}'?</value>
-  </data>
-  <data name="RemoveAzureDedicatedCircuitMessage" xml:space="preserve">
-    <value>Removing Dedicated Circuit</value>
-  </data>
-  <data name="RemoveAzureDedicatedCircuitSucceeded" xml:space="preserve">
-    <value>Successfully removed Azure Dedicated Circuit with Service Key {0}.</value>
   </data>
   <data name="RemoveAzureServiceWaitMessage" xml:space="preserve">
     <value>Removing cloud service {0}...</value>
@@ -1276,9 +1234,6 @@ Please follow these steps in the portal:
   </data>
   <data name="SchedulerInvalidLocation" xml:space="preserve">
     <value>Invalid location entered. Pick one of the locations from Get-AzureSchedulerLocation</value>
-  </data>
-  <data name="SecondaryPeerSubnetRequired" xml:space="preserve">
-    <value>A value for the Secondary Peer Subnet has to be provided.</value>
   </data>
   <data name="ServiceAlreadyExistsOnDisk" xml:space="preserve">
     <value>Service {0} already exists on disk in location {1}</value>
@@ -1505,9 +1460,6 @@ use and privacy statement at &lt;url&gt; and (c) agree to sharing my contact inf
   </data>
   <data name="UpdatedSettings" xml:space="preserve">
     <value>Updated settings for subscription '{0}'. Current subscription is '{1}'.</value>
-  </data>
-  <data name="VlanIdRequired" xml:space="preserve">
-    <value>A value for the VLan Id has to be provided.</value>
   </data>
   <data name="WaitMessage" xml:space="preserve">
     <value>Please wait...</value>
