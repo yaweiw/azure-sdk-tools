@@ -86,15 +86,6 @@ namespace Microsoft.WindowsAzure.Commands.Storage.File.Cmdlet
                 string[] path = NamingUtil.ValidatePath(this.Path, out isDirectory);
                 var cloudFileToBeUploaded = await this.BuildCloudFileInstanceFromPathAsync(localFile.Name, path, isDirectory);
 
-                if (!this.Force && await this.Channel.FileExistsAsync(cloudFileToBeUploaded, this.RequestOptions, this.OperationContext, this.CmdletCancellationToken))
-                {
-                    throw new AzureStorageFileException(
-                        ErrorCategory.InvalidArgument,
-                        ErrorIdConstants.ResourceAlreadyExists,
-                        string.Format(CultureInfo.CurrentCulture, Resources.CloudFileConflict, cloudFileToBeUploaded.Name),
-                        this);
-                }
-
                 var uploadJob = new FileUploadJob()
                 {
                     SourcePath = localFile.FullName,

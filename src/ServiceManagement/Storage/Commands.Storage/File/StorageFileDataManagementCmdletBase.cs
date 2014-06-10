@@ -93,6 +93,11 @@ namespace Microsoft.WindowsAzure.Commands.Storage.File
                 record.StatusDescription = Resources.TransmitSuccessfully;
                 this.OutputStream.WriteProgress(record);
             }
+            catch (OperationCanceledException)
+            {
+                record.StatusDescription = Resources.TransmitCancelled;
+                this.OutputStream.WriteProgress(record);
+            }
             catch (Exception e)
             {
                 record.StatusDescription = string.Format(CultureInfo.CurrentCulture, Resources.TransmitFailed, e.Message);

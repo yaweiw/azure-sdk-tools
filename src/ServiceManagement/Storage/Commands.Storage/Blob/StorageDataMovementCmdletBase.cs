@@ -87,6 +87,11 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Blob
                 userData.Record.StatusDescription = Resources.TransmitSuccessfully;
                 this.OutputStream.WriteProgress(userData.Record);
             }
+            catch (OperationCanceledException)
+            {
+                userData.Record.StatusDescription = Resources.TransmitCancelled;
+                this.OutputStream.WriteProgress(userData.Record);
+            }
             catch (Exception e)
             {
                 userData.Record.StatusDescription = string.Format(CultureInfo.CurrentCulture, Resources.TransmitFailed, e.Message);

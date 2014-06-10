@@ -658,4 +658,7 @@ Failed: {2}.</value>
   <data name="SendAzureFileActivity" xml:space="preserve">
     <value>Upload file '{0}' to '{1}' in share '{2}'.</value>
   </data>
+  <data name="TransmitCancelled" xml:space="preserve">
+    <value>Transmit cancelled by user.</value>
+  </data>
 </root>
