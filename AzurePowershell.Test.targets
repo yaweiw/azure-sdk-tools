@@ -19,7 +19,7 @@
     <MockTestFilter>CheckIn</MockTestFilter>
     <OneSDKCITFilter>"OneSDK&#x26;CIT"</OneSDKCITFilter>
     <MediaServiceBVTFilter>"MediaServices&#x26;BVT"</MediaServiceBVTFilter>
-    <WebsiteBVTFilter>"Websites&#x26;BVT&#x26;Phase2"</WebsiteBVTFilter>
+    <WebsiteBVTFilter>"Websites&#x26;BVT"</WebsiteBVTFilter>
     <ManagedCacheBVTFilter>"ManagedCache&#x26;BVT"</ManagedCacheBVTFilter>
     <AzureRTAllTestFilter>"Functional|Scenario"</AzureRTAllTestFilter>
     <AzureRTAllTestFilter2>"Functional|Scenario|Preview"</AzureRTAllTestFilter2>
