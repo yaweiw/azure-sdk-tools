@@ -45,7 +45,7 @@ function Test-RemoveAzureServiceWithValidName
 	Remove-AzureWebsite $name -Slot Production -Force
 
 	# Assert
-	Assert-True { (Get-AzureWebsite -Name $name -Slot Production) -eq $null}
+	Assert-True { (Get-AzureWebsite -Name $name ) -eq $null}
 	$global:createdWebsites.Clear()
 }
 
@@ -66,15 +66,14 @@ function Test-RemoveAzureServiceWithWhatIf
 {
 	# Setup
 	$name = Get-WebsiteName
-	New-AzureWebsite $name
-	$expected = "The website $name was not found. Please specify a valid website name."
+	New-AzureWebsite -Name $name
 
 	# Test
-	Remove-AzureWebsite $name -Force -Slot Production -WhatIf
-	Remove-AzureWebsite $name -Slot Production -Force
+	Remove-AzureWebsite -Name $name -Slot Production -Force -WhatIf
+	Remove-AzureWebsite -Name $name -Slot Production -Force
 	$global:createdWebsites.Clear()
 	# Assert
-	Assert-True { (Get-AzureWebsite $name -Slot Production) -eq $null }
+	Assert-True { (Get-AzureWebsite -Name $name ) -eq $null }
 }
 
 ########################################################################### Get-AzureWebsiteLog Scenario Tests ###########################################################################
