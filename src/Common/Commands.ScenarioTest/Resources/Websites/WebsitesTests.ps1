@@ -40,14 +40,13 @@ function Test-RemoveAzureServiceWithValidName
 	# Setup
 	$name = Get-WebsiteName
 	New-AzureWebsite $name
-	$expected = "The website $name was not found. Please specify a valid website name."
 
 	# Test
-	Remove-AzureWebsite $name -Force
+	Remove-AzureWebsite $name -Slot Production -Force
 
 	# Assert
-	Assert-True { (Get-AzureWebsite $name) -eq $null}
-
+	Assert-True { (Get-AzureWebsite -Name $name -Slot Production) -eq $null}
+	$global:createdWebsites.Clear()
 }
 
 <#
@@ -71,11 +70,11 @@ function Test-RemoveAzureServiceWithWhatIf
 	$expected = "The website $name was not found. Please specify a valid website name."
 
 	# Test
-	Remove-AzureWebsite $name -Force -WhatIf
-	Remove-AzureWebsite $name -Force
-
+	Remove-AzureWebsite $name -Force -Slot Production -WhatIf
+	Remove-AzureWebsite $name -Slot Production -Force
+	$global:createdWebsites.Clear()
 	# Assert
-	Assert-True { (Get-AzureWebsite $name) -eq $null }
+	Assert-True { (Get-AzureWebsite $name -Slot Production) -eq $null }
 }
 
 ########################################################################### Get-AzureWebsiteLog Scenario Tests ###########################################################################
@@ -221,7 +220,7 @@ function Test-KuduAppsExpressApp
 	cd $siteName
 	
 	# Test
-	$command = "install -g express@3.0.0";
+	$command = "install -g express@3.4.8";
 	Write-Debug "Running Start-Process npm $command -WAIT"
 	Start-Process npm $command -WAIT
 
@@ -247,7 +246,7 @@ function Test-GetAzureWebsite
 	New-AzureWebsite $name
 
 	#Test
-	$config = Get-AzureWebsite -Name $name
+	$config = Get-AzureWebsite -Name $name -Slot Production
 
 	# Assert
 	Assert-AreEqual $name $config.Name
@@ -265,7 +264,7 @@ function Test-GetAzureWebsiteWithStoppedSite
 	Stop-AzureWebsite $name
 
 	#Test
-	$website = Get-AzureWebsite $name
+	$website = Get-AzureWebsite $name -Slot Production
 
 	# Assert
 	Assert-NotNull { $website }
@@ -288,7 +287,7 @@ function Test-StartAzureWebsite
 	Start-AzureWebsite $name
 
 	# Assert
-	$website = Get-AzureWebsite $name
+	$website = Get-AzureWebsite $name -Slot Production
 	Assert-AreEqual "Running" $website.State
 }
 
@@ -308,7 +307,7 @@ function Test-StopAzureWebsite
 	Stop-AzureWebsite $name
 
 	# Assert
-	$website = Get-AzureWebsite $name
+	$website = Get-AzureWebsite $name -Slot Production
 	Assert-AreEqual $name $website.Name
 }
 
@@ -328,7 +327,7 @@ function Test-RestartAzureWebsite
 	Restart-AzureWebsite $name
 
 	# Assert
-	$website = Get-AzureWebsite $name
+	$website = Get-AzureWebsite $name -Slot Production
 	Assert-AreEqual "Running" $website.State
 }
 
@@ -352,7 +351,7 @@ function Test-EnableApplicationDiagnosticOnTableStorage
 	Enable-AzureWebsiteApplicationDiagnostic -Name $name -Storage -LogLevel Warning -StorageAccountName $storageName
 
 	# Assert
-	$website = Get-AzureWebsite $name
+	$website = Get-AzureWebsite $name -Slot Production
 	Assert-True { $website.AzureTableTraceEnabled }
 	Assert-AreEqual Warning $website.AzureTableTraceLevel
 	Assert-NotNull { $website.ConnectionStrings | ?{ $_.Name -eq "CLOUD_STORAGE_ACCOUNT" } }
@@ -375,7 +374,7 @@ function Test-EnableApplicationDiagnosticOnFileSystem
 	Enable-AzureWebsiteApplicationDiagnostic -Name $name -File -LogLevel Warning
 
 	# Assert
-	$website = Get-AzureWebsite $name
+	$website = Get-AzureWebsite $name -Slot Production
 	Assert-True { $website.AzureDriveTraceEnabled }
 	Assert-AreEqual Warning $website.AzureDriveTraceLevel
 }
@@ -395,7 +394,7 @@ function Test-UpdateTheDiagnositicLogLevel
 	Enable-AzureWebsiteApplicationDiagnostic -Name $name -File -LogLevel Warning
 
 	# Assert
-	$website = Get-AzureWebsite $name
+	$website = Get-AzureWebsite $name -Slot Production
 	Assert-True { $website.AzureDriveTraceEnabled }
 	Assert-AreEqual Warning $website.AzureDriveTraceLevel
 }
@@ -421,7 +420,7 @@ function Test-ReconfigureStorageAppDiagnostics
 	Enable-AzureWebsiteApplicationDiagnostic -Name $name -Storage -LogLevel Verbose -StorageAccountName $newStorageName
 
 	# Assert
-	$website = Get-AzureWebsite $name
+	$website = Get-AzureWebsite $name -Slot Production
 	Assert-True { $website.AzureTableTraceEnabled }
 	Assert-AreEqual Verbose $website.AzureTableTraceLevel
 	Assert-True { ($website.ConnectionStrings | ?{ $_.Name -eq "CLOUD_STORAGE_ACCOUNT" }).ConnectionString -like "*" + $newStorageName + "*" }
@@ -465,7 +464,7 @@ function Test-DisableApplicationDiagnosticOnTableStorage
 	Disable-AzureWebsiteApplicationDiagnostic -Name $name -Storage
 
 	# Assert
-	$website = Get-AzureWebsite $name
+	$website = Get-AzureWebsite $name -Slot Production
 	Assert-False { $website.AzureTableTraceEnabled }
 	Assert-AreEqual Warning $website.AzureTableTraceLevel
 	Assert-NotNull { $website.ConnectionStrings | ?{ $_.Name -eq "CLOUD_STORAGE_ACCOUNT" } }
@@ -489,7 +488,7 @@ function Test-DisableApplicationDiagnosticOnFileSystem
 	Disable-AzureWebsiteApplicationDiagnostic -Name $name -File
 
 	# Assert
-	$website = Get-AzureWebsite $name
+	$website = Get-AzureWebsite $name -Slot Production
 	Assert-False { $website.AzureDriveTraceEnabled }
 	Assert-AreEqual Warning $website.AzureDriveTraceLevel
 }
@@ -514,7 +513,7 @@ function Test-DisableApplicationDiagnosticOnTableStorageAndFile
 	Disable-AzureWebsiteApplicationDiagnostic -Name $name -Storage -File
 
 	# Assert
-	$website = Get-AzureWebsite $name
+	$website = Get-AzureWebsite $name -Slot Production
 	Assert-False { $website.AzureTableTraceEnabled }
 	Assert-False { $website.AzureDriveTraceEnabled }
 	Assert-NotNull { $website.ConnectionStrings | ?{ $_.Name -eq "CLOUD_STORAGE_ACCOUNT" } }
@@ -543,7 +542,7 @@ function Test-DisablesFileOnly
 	Disable-AzureWebsiteApplicationDiagnostic -Name $name -File
 
 	# Assert
-	$website = Get-AzureWebsite $name
+	$website = Get-AzureWebsite $name -Slot Production
 	Assert-True { $website.AzureTableTraceEnabled }
 	Assert-False { $website.AzureDriveTraceEnabled }
 	Assert-NotNull { $website.ConnectionStrings | ?{ $_.Name -eq "CLOUD_STORAGE_ACCOUNT" } }
@@ -572,7 +571,7 @@ function Test-DisablesStorageOnly
 	Disable-AzureWebsiteApplicationDiagnostic -Name $name -Storage
 
 	# Assert
-	$website = Get-AzureWebsite $name
+	$website = Get-AzureWebsite $name -Slot Production
 	Assert-True { $website.AzureDriveTraceEnabled }
 	Assert-False { $website.AzureTableTraceEnabled }
 	Assert-NotNull { $website.ConnectionStrings | ?{ $_.Name -eq "CLOUD_STORAGE_ACCOUNT" } }
@@ -601,7 +600,7 @@ function Test-DisablesBothByDefault
 	Disable-AzureWebsiteApplicationDiagnostic -Name $name
 
 	# Assert
-	$website = Get-AzureWebsite $name
+	$website = Get-AzureWebsite $name -Slot Production
 	Assert-False { $website.AzureTableTraceEnabled }
 	Assert-False { $website.AzureDriveTraceEnabled }
 	Assert-NotNull { $website.ConnectionStrings | ?{ $_.Name -eq "CLOUD_STORAGE_ACCOUNT" } }
@@ -658,9 +657,9 @@ function Test-AzureWebSiteListAll
 	Assert-True {$name.Contains($name3)}
 
 	# Cleanup
-	Remove-AzureWebsite $name1 -Force
-	Remove-AzureWebsite $name2 -Force
-	Remove-AzureWebsite $name3 -Force
+	Remove-AzureWebsite $name1 -Slot Production -Force
+	Remove-AzureWebsite $name2 -Slot Production -Force
+	Remove-AzureWebsite $name3 -Slot Production -Force
 }
 
 <#
@@ -678,14 +677,14 @@ function Test-AzureWebSiteShowSingleSite
 	New-AzureWebsite $name1
 	New-AzureWebsite $name2
 	New-AzureWebsite $name3
-	Assert-True { (Get-AzureWebsite $name1).Name -eq  $name1 }	
-	Assert-True { (Get-AzureWebsite $name2).Name -eq  $name2 }	
-	Assert-True { (Get-AzureWebsite $name3).Name -eq  $name3 }	
+	Assert-True { (Get-AzureWebsite $name1 -Slot Production).Name -eq  $name1 }	
+	Assert-True { (Get-AzureWebsite $name2 -Slot Production).Name -eq  $name2 }	
+	Assert-True { (Get-AzureWebsite $name3 -Slot Production).Name -eq  $name3 }	
 	
 	# Cleanup
-	Remove-AzureWebsite $name1 -Force
-	Remove-AzureWebsite $name2 -Force
-	Remove-AzureWebsite $name3 -Force
+	Remove-AzureWebsite $name1 -Slot Production -Force
+	Remove-AzureWebsite $name2 -Slot Production -Force
+	Remove-AzureWebsite $name3 -Slot Production -Force
 } 
 
 ########################################################################### Azurewebsite Git Scenario Tests ###########################################################################
@@ -709,10 +708,10 @@ function Test-NewAzureWebSiteMultipleCreds
 	
 	# Test
 	New-AzureWebsite $siteName -Git -PublishingUsername $GIT_USERNAME
-	$webSite = Get-AzureWebsite -Name $siteName
+	$webSite = Get-AzureWebsite -Name $siteName -Slot Production
 	
 	# Verify publishingusername & publishingpassword in git remote
-	$webSite = Get-AzureWebsite -Name $siteName
+	$webSite = Get-AzureWebsite -Name $siteName -Slot Production
 	$gitRemoteList = git remote -v
 	$expectedRemoteUri = "https://" + $GIT_USERNAME + "@" + $webSite.EnabledHostNames[1] + "/" + $webSite.Name + ".git"
 	Assert-True { $gitRemoteList[0].Contains($expectedRemoteUri)}
@@ -724,7 +723,7 @@ function Test-NewAzureWebSiteMultipleCreds
 	Git-PushLocalGitToWebSite $siteName
 	
 	# Verify browse website
-	$siteStatusRunning = Retry-Function { return (Get-AzureWebsite -Name $siteName).State -eq "Running" } $null 4 1
+	$siteStatusRunning = Retry-Function { return (Get-AzureWebsite -Name $siteName -Slot Production).State -eq "Running" } $null 4 1
 	$deploymentStatusSuccess = Retry-Function { return (Get-AzureWebSiteDeployment $siteName).Status.ToString() -eq "Success" } $null 8 2
 	if (($siteStatusRunning -eq $true) -and ($deploymentStatusSuccess -eq $true))
 	{
@@ -744,7 +743,7 @@ Tests New azure web site with git hub.
 #>
 function Test-NewAzureWebSiteGitHubAllParms
 {
-    $ok = Assert-Env @("GITHUB_USERNAME". "GITHUB_PASSWORD")
+    $ok = Assert-Env @("GITHUB_USERNAME", "GITHUB_PASSWORD")
 
 	$GitHub_USERNAME = $env:GITHUB_USERNAME
 	$GitHub_PASSWORD = $env:GITHUB_PASSWORD
@@ -760,7 +759,7 @@ function Test-NewAzureWebSiteGitHubAllParms
 	$myCreds = New-Object "System.Management.Automation.PSCredential" ($GitHub_USERNAME, (ConvertTo-SecureString $GitHub_PASSWORD -AsPlainText -Force))
 	$webSite = New-AzureWebsite $siteName -Location (Get-AzureWebsiteLocation)[0] -GitHub -GithubRepository $GitHub_REPO -GithubCredentials $myCreds
 
-	$siteStatusRunning = Retry-Function { (Get-AzureWebsite -Name $siteName).State -eq "Running" } $null 4 2
+	$siteStatusRunning = Retry-Function { (Get-AzureWebsite -Name $siteName -Slot Production).State -eq "Running" } $null 4 2
 	$deploymentStatusSuccess = Retry-Function { (Get-AzureWebSiteDeployment $siteName).Status.ToString() -eq "Success" } $null 8 3
 	if (($siteStatusRunning -eq $true) -and ($deploymentStatusSuccess -eq $true))
 	{
@@ -779,13 +778,12 @@ Test New azure web site then update git deployment
 #>
 function Test-NewAzureWebSiteUpdateGit
 {
-    $ok = Assert-Env @("GIT_USERNAME". "GIT_PASSWORD")
+    $ok = Assert-Env @("GIT_USERNAME", "GIT_PASSWORD")
 	$GIT_USERNAME = $env:GIT_USERNAME
 	$GIT_PASSWORD = $env:GIT_PASSWORD
 
 	# Setup
 	$siteName = Get-WebsiteName
-	Set-Location "\"
 	mkdir $siteName
 	Set-Location $siteName
 
@@ -794,23 +792,24 @@ function Test-NewAzureWebSiteUpdateGit
 	# Set the ErrorActionPreference as "SilentlyContinue" to work around "The website already exist" exception
 	$oldErrorActionPreferenceValue = $ErrorActionPreference
 	$ErrorActionPreference = "SilentlyContinue"
+	# Install express
+	Npm-InstallExpress
+
 	New-AzureWebSite $siteName -Git -Publishingusername:$GIT_USERNAME
 	$ErrorActionPreference = $oldErrorActionPreferenceValue
 
 	# Verify publishingusername & publishingpassword in git remote
-	$webSite = Get-AzureWebsite -Name $siteName
+	$webSite = Get-AzureWebsite -Name $siteName -Slot Production
 	$gitRemoteList = git remote -v
 	$expectedRemoteUri = "https://" + $GIT_USERNAME + "@" + $webSite.EnabledHostNames[1] + "/" + $webSite.Name + ".git"
-	Assert-True { $gitRemoteList[0].Contains($expectedRemoteUri)}
+	Assert-True { $gitRemoteList[0].Contains($expectedRemoteUri)} "failed to validate website app after deployment"
 
-	# Install express
-	Npm-InstallExpress
 
 	# Push local git to website
 	Git-PushLocalGitToWebSite $siteName
 
 	# Verify browse website
-	$siteStatusRunning = Retry-Function { return (Get-AzureWebsite -Name $siteName).State -eq "Running" } $null 4 1
+	$siteStatusRunning = Retry-Function { return (Get-AzureWebsite -Name $siteName -Slot Production).State -eq "Running" } $null 4 1
 	$deploymentStatusSuccess = Retry-Function { return (Get-AzureWebSiteDeployment $siteName).Status.ToString() -eq "Success" } $null 8 2
 	if (($siteStatusRunning -eq $true) -and ($deploymentStatusSuccess -eq $true))
 	{
@@ -837,11 +836,11 @@ function Test-SetAzureWebsite
 	New-AzureWebsite $name
 
 	# Test
-	Set-AzureWebsite $name -ManagedPipelineMode Classic
-	Set-AzureWebsite $name -WebSocketsEnabled $true
+	Set-AzureWebsite $name -Slot Production -ManagedPipelineMode Classic
+	Set-AzureWebsite $name -Slot Production -WebSocketsEnabled $true
 
 	# Assert
-	$website = Get-AzureWebsite $name
+	$website = Get-AzureWebsite $name -Slot Production
 	Assert-AreEqual Classic $website.ManagedPipelineMode
 	Assert-AreEqual $true $website.WebSocketsEnabled
 }
@@ -962,9 +961,7 @@ function Test-RemoveNonExistingAzureWebsiteJob
     New-AzureWebsite $webSiteName
     
     # Test
-    Remove-AzureWebsiteJob -Name $webSiteName -JobName $nonExistingWebSiteJobName -JobType Triggered –Force
-    Assert-True { $error[0].ToString().Contains("not found.") }
-    
+    Assert-ThrowsContains {Remove-AzureWebsiteJob -Name $webSiteName -JobName $nonExistingWebSiteJobName -JobType Triggered –Force} "not found."    
 }
 
 ########################################################################### Get-AzureWebsiteJob Scenario Tests ###########################################################################

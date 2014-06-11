@@ -12,7 +12,7 @@
 # limitations under the License.
 # ----------------------------------------------------------------------------------
 
-$createdWebsites = @()
+$global:createdWebsites = @()
 $currentWebsite = $null
 
 <#
@@ -115,7 +115,7 @@ function Cleanup-SingleWebsiteTest
 	     try
 	     {
 	        Write-Debug "Removing website with name $_"
-	        Remove-AzureWebsite -Name $_ -Force
+	        $catch = Remove-AzureWebsite -Name $_ -Slot Production -Force
 	     }
 	     catch 
 	     {
@@ -135,14 +135,14 @@ function Run-WebsiteTest
 {
    param([ScriptBlock] $test, [string] $testName)
    
-   Initialize-SingleWebsiteTest
+   Initialize-SingleWebsiteTest *> "$testName.debug_log"
    try 
    {
-     Run-Test $test $testName *> "$testName.debug_log"
+     Run-Test $test $testName *>> "$testName.debug_log"
    }
    finally 
    {
-     Cleanup-SingleWebsiteTest
+     Cleanup-SingleWebsiteTest *>> "$testName.debug_log"
    }
 }
 
@@ -196,6 +196,46 @@ function New-BasicLogWebsite
 
 <#
 .SYNOPSIS
+Waits on the specified task until it does not return not found.
+
+.PARAMETER scriptBlock
+The script block to execute.
+
+.PARAMETER timeout
+The maximum timeout for the script.
+#>
+function Wait-WebsiteFunction
+{
+    param([ScriptBlock] $scriptBlock, [object] $breakCondition, [int] $timeout)
+
+    if ($timeout -eq 0) { $timeout = 60 * 5 }
+    $start = [DateTime]::Now
+    $current = [DateTime]::Now
+    $diff = $current - $start
+
+    do
+    {
+        Start-Sleep -s 5
+        $current = [DateTime]::Now
+        $diff = $current - $start
+		$result = $null
+		try
+		{
+           $result = &$scriptBlock
+		}
+		catch {}
+    }
+    while(($result -ne $breakCondition) -and ($diff.TotalSeconds -lt $timeout))
+
+    if ($diff.TotalSeconds -ge $timeout)
+    {
+        Write-Warning "The script block '$scriptBlock' exceeded the timeout."
+        # End the processing so the test does not blow up
+        exit
+    }
+}
+<#
+.SYNOPSIS
 Retries DownloadString
 #>
 function Retry-DownloadString
@@ -244,7 +284,7 @@ function Npm-InstallExpress
 {
 	try
 	{
-		$command = "install -g express";
+		$command = "install -g express@3.4.8";
 		Start-Process npm $command -WAIT
 		"Y" | express
 		if([system.IO.File]::Exists("server.js"))
@@ -271,7 +311,7 @@ Target site name to push
 function Git-PushLocalGitToWebSite
 {
 	param([string] $siteName)
-	$webSite = Get-AzureWebsite -Name $siteName
+	$webSite = Get-AzureWebsite -Name $siteName -Slot Production
 
 	# Expected warning: LF will be replaced by CRLF in node_modules/.bin/express." when run git command
 	Assert-Throws { git add -A } 
@@ -306,7 +346,7 @@ function Test-CreateAndRemoveAJob
     {
         Write-Host "Wait and retry to work around a known limitation, that a newly created job might not be immiediately available."
         $waitScriptBlock = { Stop-AzureWebsiteJob -Name $webSiteName -JobName $webSiteJobName -PassThru }
-        Wait-Function $waitScriptBlock $TRUE
+        Wait-WebsiteFunction $waitScriptBlock $TRUE
     }
     
     $removed = Remove-AzureWebsiteJob -Name $webSiteName -JobName $webSiteJobName -JobType $webSiteJobType –Force

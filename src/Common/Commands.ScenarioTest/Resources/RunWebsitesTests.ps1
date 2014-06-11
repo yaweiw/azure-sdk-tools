@@ -18,11 +18,15 @@
 .".\\Websites\\WebsitesTests.ps1"
 $global:totalCount = 0;
 $global:passedCount = 0;
+$global:passedTests = @()
+$global:failedTests = @()
+$global:times = @{}
 Add-Type -Path "..\\Microsoft.Azure.Utilities.HttpRecorder.dll"
 [Microsoft.Azure.Utilities.HttpRecorder.HttpMockServer]::Initialize("foo", "bar")
 function Run-TestProtected
 {
    param([ScriptBlock]$script, [string] $testName)
+   $testStart = Get-Date
    try 
    {
      Write-Host  -ForegroundColor Green =====================================
@@ -36,6 +40,7 @@ function Run-TestProtected
 	 Write-Host -ForegroundColor Green "Test Passed"
      Write-Host  -ForegroundColor Green =====================================
 	 Write-Host
+	 $global:passedTests += $testName
    }
    catch
    {
@@ -45,9 +50,13 @@ function Run-TestProtected
 	 Write-Host -ForegroundColor Red "Test Failed"
      Write-Host  -ForegroundColor Red =====================================
 	 Write-Host
+	 $global:failedTests += $testName
    }
    finally
    {
+      $testEnd = Get-Date
+	  $testElapsed = $testEnd - $testStart
+	  $global:times[$testName] = $testElapsed
       $global:totalCount = $global:totalCount + 1
    }
 }
@@ -55,17 +64,17 @@ function Run-TestProtected
 Write-Host Initializing websites tests
 Initialize-WebsiteTest
 Write-Host Initialization Completed
-
+$global:startTime = Get-Date
 Run-TestProtected { Run-WebsiteTest {Test-GettingJobHistory} "Test-GettingJobHistory" } "Test-GettingJobHistory"
 Run-TestProtected { Run-WebsiteTest {Test-GettingWebsiteJobs} "Test-GettingWebsiteJobs"} "Test-GettingWebsiteJobs"
 Run-TestProtected { Run-WebsiteTest {Test-StartAndStopAzureWebsiteContinuousJob}  "Test-StartAndStopAzureWebsiteContinuousJob"} "Test-StartAndStopAzureWebsiteContinuousJob"
-Run-TestProtected { Run-WebsiteTest {Test-StartAzureWebsiteTriggeredJob}} "Test-StartAzureWebsiteTriggeredJob"
-Run-TestProtected { Run-WebsiteTest {Test-RemoveNonExistingAzureWebsiteJob} "Test-StartAzureWebsiteTriggeredJob"} "Test-RemoveNonExistingAzureWebsiteJob"
+Run-TestProtected { Run-WebsiteTest {Test-StartAzureWebsiteTriggeredJob} "Test-StartAzureWebsiteTriggeredJob"} "Test-StartAzureWebsiteTriggeredJob"
+Run-TestProtected { Run-WebsiteTest {Test-RemoveNonExistingAzureWebsiteJob} "Test-RemoveNonExistingAzureWebsiteJob"} "Test-RemoveNonExistingAzureWebsiteJob"
 Run-TestProtected { Run-WebsiteTest {Test-RemoveAzureWebsiteContinuousJob} "Test-RemoveAzureWebsiteContinuousJob"} "Test-RemoveAzureWebsiteContinuousJob"
 Run-TestProtected { Run-WebsiteTest {Test-RemoveAzureWebsiteTriggeredJob} "Test-RemoveAzureWebsiteTriggeredJob"} "Test-RemoveAzureWebsiteTriggeredJob"
 Run-TestProtected { Run-WebsiteTest {Test-SetAzureWebsite} "Test-SetAzureWebsite"} "Test-SetAzureWebsite"
 Run-TestProtected { Run-WebsiteTest {Test-NewAzureWebSiteUpdateGit}  "Test-NewAzureWebSiteUpdateGit"} "Test-NewAzureWebSiteUpdateGit"
-Run-TestProtected { Run-WebsiteTest {Test-NewAzureWebSiteGitHubAllParms} "Test-NewAzureWebSiteGitHubAllParms"} "Test-NewAzureWebSiteGitHubAllParms"
+#Run-TestProtected { Run-WebsiteTest {Test-NewAzureWebSiteGitHubAllParms} "Test-NewAzureWebSiteGitHubAllParms"} "Test-NewAzureWebSiteGitHubAllParms"
 Run-TestProtected { Run-WebsiteTest {Test-NewAzureWebSiteMultipleCreds} "Test-NewAzureWebSiteMultipleCreds"} "Test-NewAzureWebSiteMultipleCreds"
 Run-TestProtected { Run-WebsiteTest {Test-AzureWebSiteShowSingleSite} "Test-AzureWebSiteShowSingleSite"} "Test-AzureWebSiteShowSingleSite"
 Run-TestProtected { Run-WebsiteTest {Test-AzureWebSiteListAll} "Test-AzureWebSiteListAll"} "Test-AzureWebSiteListAll"
@@ -88,16 +97,36 @@ Run-TestProtected { Run-WebsiteTest {Test-StopAzureWebsite} "Test-StopAzureWebsi
 Run-TestProtected { Run-WebsiteTest {Test-StartAzureWebsite} "Test-StartAzureWebsite"} "Test-StartAzureWebsite"
 Run-TestProtected { Run-WebsiteTest {Test-GetAzureWebsiteWithStoppedSite} "Test-GetAzureWebsiteWithStoppedSite"} "Test-GetAzureWebsiteWithStoppedSite"
 Run-TestProtected { Run-WebsiteTest {Test-GetAzureWebsite} "Test-GetAzureWebsite"} "Test-GetAzureWebsite"
-Run-TestProtected { Run-WebsiteTest {Test-GetAzureWebsiteLogListPath} "Test-GetAzureWebsiteLogListPath"} "Test-GetAzureWebsiteLogListPath"
-Run-TestProtected { Run-WebsiteTest {Test-GetAzureWebsiteLogTailUriEncoding} "Test-GetAzureWebsiteLogTailUriEncoding"} "Test-GetAzureWebsiteLogTailUriEncoding"
-Run-TestProtected { Run-WebsiteTest {Test-GetAzureWebsiteLogTailPath} "Test-GetAzureWebsiteLogTailPath"} "Test-GetAzureWebsiteLogTailPath"
-Run-TestProtected { Run-WebsiteTest {Test-GetAzureWebsiteLogTail} "Test-GetAzureWebsiteLogTail"} "Test-GetAzureWebsiteLogTail"
+#Run-TestProtected { Run-WebsiteTest {Test-GetAzureWebsiteLogListPath} "Test-GetAzureWebsiteLogListPath"} "Test-GetAzureWebsiteLogListPath"
+#Run-TestProtected { Run-WebsiteTest {Test-GetAzureWebsiteLogTailUriEncoding} "Test-GetAzureWebsiteLogTailUriEncoding"} "Test-GetAzureWebsiteLogTailUriEncoding"
+#Run-TestProtected { Run-WebsiteTest {Test-GetAzureWebsiteLogTailPath} "Test-GetAzureWebsiteLogTailPath"} "Test-GetAzureWebsiteLogTailPath"
+#Run-TestProtected { Run-WebsiteTest {Test-GetAzureWebsiteLogTail} "Test-GetAzureWebsiteLogTail"} "Test-GetAzureWebsiteLogTail"
 Run-TestProtected { Run-WebsiteTest {Test-RemoveAzureServiceWithWhatIf} "Test-RemoveAzureServiceWithWhatIf"} "Test-RemoveAzureServiceWithWhatIf"
 Run-TestProtected { Run-WebsiteTest {Test-RemoveAzureServiceWithNonExistingName} "Test-RemoveAzureServiceWithNonExistingName"} "Test-RemoveAzureServiceWithNonExistingName"
 Run-TestProtected { Run-WebsiteTest {Test-RemoveAzureServiceWithValidName} "Test-RemoveAzureServiceWithValidName"} "Test-RemoveAzureServiceWithValidName"
-Run-TestProtected { Run-WebsiteTest {Test-WithInvalidCredentials { Get-AzureWebsiteLog -Tail -Name $(Get-WebsiteName) }} "TestGetAzureWebsiteLogWithInvalidCredentials"} "TestGetAzureWebsiteLogWithInvalidCredentials"
-Run-TestProtected { Run-WebsiteTest {Test-WithInvalidCredentials {Remove-AzureWebsite $(Get-WebsiteName) -Force }} "TestRemoveAzureWebsiteWithInvalidCredentials"} "TestRemoveAzureWebsiteWithInvalidCredentials"
+Run-TestProtected { Run-WebsiteTest {Test-WithInvalidCredentials { Get-AzureWebsiteLog -Tail -Name foo }} "TestGetAzureWebsiteLogWithInvalidCredentials"} "TestGetAzureWebsiteLogWithInvalidCredentials"
+Run-TestProtected { Run-WebsiteTest {Test-WithInvalidCredentials {Remove-AzureWebsite foo -Force }} "TestRemoveAzureWebsiteWithInvalidCredentials"} "TestRemoveAzureWebsiteWithInvalidCredentials"
 Write-Host
 Write-Host -ForegroundColor Green "$global:passedCount / $global:totalCount Website Tests Pass"
+Write-Host -ForegroundColor Green "============"
+Write-Host -ForegroundColor Green "PASSED TESTS"
+Write-Host -ForegroundColor Green "============"
+$global:passedTests | % { Write-Host -ForegroundColor Green "PASSED "$_": "($global:times[$_]).ToString()}
+Write-Host -ForegroundColor Green "============"
 Write-Host
+Write-Host -ForegroundColor Red "============"
+Write-Host -ForegroundColor Red "FAILED TESTS"
+Write-Host -ForegroundColor Red "============"
+$global:failedTests | % { Write-Host -ForegroundColor Red "FAILED "$_": "($global:times[$_]).ToString()}
+Write-Host -ForegroundColor Red "============"
+Write-Host
+$global:endTime = Get-Date
+Write-Host -ForegroundColor Green "======="
+Write-Host -ForegroundColor Green "TIMES"
+Write-Host -ForegroundColor Green "======="
+Write-Host
+Write-Host -ForegroundColor Green "Start Time: $global:startTime"
+Write-Host -ForegroundColor Green "End Time: $global:endTime"
+Write-Host -ForegroundColor Green "Elapsed: "($global:endTime - $global:startTime).ToString()
+
 
