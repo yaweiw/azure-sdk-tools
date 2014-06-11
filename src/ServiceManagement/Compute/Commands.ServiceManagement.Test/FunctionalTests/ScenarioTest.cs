@@ -17,14 +17,13 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
 {
     using ConfigDataInfo;
     using Extensions;
-    using Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.PersistentVMs;
     using Model;
+    using Properties;
     using Service.Gateway;
     using System;
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
     using System.IO;
-    using System.Linq;
     using System.Management.Automation;
     using System.Net;
     using System.Net.Cache;
@@ -35,6 +34,10 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
     using System.Xml.Linq;
     using VisualStudio.TestTools.UnitTesting;
     using WindowsAzure.ServiceManagement;
+    
+    using System.Security.Cryptography.X509Certificates;
+    using System.Linq;
+    using Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.PersistentVMs;
 
 
 
@@ -104,13 +107,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
 
                 try
                 {
-                    NewQuickVM quickVM = new NewQuickVM();
-
-                    if (!quickVM.DisableWinRMHttps.IsPresent)
-                    {
-
-                        vmPowershellCmdlets.NewAzureQuickVM(OS.Windows, newAzureQuickVMName2, serviceName, imageName, username, password, locationName, null, "");
-                    }
+                    vmPowershellCmdlets.NewAzureQuickVM(OS.Windows, newAzureQuickVMName2, serviceName, imageName, username, password, locationName, null, "");                    
                     pass = true;
 
                 }

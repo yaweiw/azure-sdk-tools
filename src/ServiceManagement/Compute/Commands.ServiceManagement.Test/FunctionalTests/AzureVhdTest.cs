@@ -24,10 +24,30 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
     [TestClass]
     public class AzureVhdTest : ServiceManagementTest
     {
-        
         protected bool deleteLocalFileIfFailed = true;
         protected bool deleteLocalFileIfPassed = true;
         protected string perfFile = "perf.csv";
+        private const string VhdFilesContainerName = "vhdfiles";
+        private static readonly string[] VhdFiles = new[]
+            {
+                "dynamic_50.vhd", "dynamic_50_child01.vhd", "dynamic_50_child02.vhd",
+                "fixed_50.vhd", "fixed_50_child01.vhd", "fixed_50_child02.vhd"
+            };
+
+        protected static void SaveVhd(BlobHandle destination, FileInfo locFile, string storageKey, int? numThread = null, bool overwrite = false)
+        {
+            try
+            {
+                Console.WriteLine("Downloading a VHD from {0} to {1}...", destination.Blob.Uri.ToString(), locFile.FullName);
+                DateTime startTime = DateTime.Now;
+                vmPowershellCmdlets.SaveAzureVhd(destination.Blob.Uri, locFile, numThread, storageKey, overwrite);
+                Console.WriteLine("Downloading completed in {0} seconds.", (DateTime.Now - startTime).TotalSeconds);
+            }
+            catch (Exception e)
+            {
+                Assert.Fail(e.InnerException.ToString());
+            }
+        }
 
         protected void SaveVhdAndAssertContent(BlobHandle destination, FileInfo localFile, int? numThread, string storageKey, bool overwrite, bool deleteBlob, bool deleteLocal)
         {
@@ -139,5 +159,24 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
             Assert.AreEqual(vhdUploadContext.LocalFilePath.FullName, localFile.FullName);
         }
 
+        protected static void DownloadVhds()
+        {
+            storageAccountKey = vmPowershellCmdlets.GetAzureStorageAccountKey(defaultAzureSubscription.CurrentStorageAccountName);
+
+            foreach (var vhdFile in VhdFiles)
+            {
+                string vhdBlobLocation = string.Format("{0}{1}/{2}", blobUrlRoot, VhdFilesContainerName, vhdFile);
+
+                var vhdLocalPath = new FileInfo(Directory.GetCurrentDirectory() + "\\" + vhdFile);
+
+                if (!File.Exists(vhdLocalPath.FullName))
+                {
+                    // Set the source blob
+                    BlobHandle blobHandle = Utilities.GetBlobHandle(vhdBlobLocation, storageAccountKey.Primary);
+
+                    SaveVhd(blobHandle, vhdLocalPath, storageAccountKey.Primary);
+                }
+            }
+        }
     }
 }

@@ -33,5 +33,10 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Model
         /// Gets or sets the version number of the server.  Valid values are 1.0 and 2.0.
         /// </summary>
         public string Version { get; set; }
+
+        /// <summary>
+        /// Gets or sets the current state of the server.
+        /// </summary>
+        public string State { get; set; }
     }
 }

@@ -12,26 +12,16 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-
-
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
 {
     using Commands.Utilities.Common;
     using ConfigDataInfo;
     using Extensions;
     using IaasCmdletInfo;
-    using Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions;
-    using Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests.IaasCmdletInfo.Extensions.BGInfo;
-    using Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests.IaasCmdletInfo.Extensions.Common;
-    using Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests.IaasCmdletInfo.Extesnions.CustomScript;
-    using Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests.IaasCmdletInfo.Extesnions.VMAccess;
-    using Microsoft.WindowsAzure.Storage.Blob;
     using Model;
-    using Model.PersistentVMModel;
     using PaasCmdletInfo;
-    using PIRCmdletInfo;
     using PlatformImageRepository.Model;
-    using PreviewCmdletInfo;
+    using Storage.Blob;
     using System;
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
@@ -40,7 +30,17 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
     using System.Security.Cryptography.X509Certificates;
     using System.Xml;
     using VisualStudio.TestTools.UnitTesting;
+    using Model.PersistentVMModel;
+    using PIRCmdletInfo;
+    using PreviewCmdletInfo;
+
+    using Microsoft.WindowsAzure.Storage.Blob;
     using SM = Model;
+    using Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions;
+    using Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests.IaasCmdletInfo.Extensions.BGInfo;
+    using Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests.IaasCmdletInfo.Extensions.Common;
+    using Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests.IaasCmdletInfo.Extesnions.VMAccess;
+    using Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests.IaasCmdletInfo.Extesnions.CustomScript;
     
 
     public class ServiceManagementCmdletTestHelper
@@ -153,7 +153,18 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
 
         public string GetAzureLocationName(string[] keywords)
         {
-            Collection<LocationsContext> locations = GetAzureLocation();
+            Collection<LocationsContext> locations;
+
+            try
+            {
+                locations = GetAzureLocation();
+            }
+            catch
+            {
+                Console.WriteLine("Error occurred during Get-AzureLocation...   Default location is not set.");
+                return null;
+            }
+
             if (keywords != null)
             {
                 foreach (LocationsContext location in locations)
@@ -798,20 +809,22 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
 
         public Collection<WindowsAzureSubscription> GetAzureSubscription()
         {
-            return RunPSCmdletAndReturnAll<WindowsAzureSubscription>(new GetAzureSubscriptionCmdletInfo());
+            return RunPSCmdletAndReturnAll<WindowsAzureSubscription>(new GetAzureSubscriptionCmdletInfo(null, null, false, false, false));
+        }
+
+        public WindowsAzureSubscription GetAzureSubscription(string subscriptionName)
+        {
+            return RunPSCmdletAndReturnFirst<WindowsAzureSubscription>(new GetAzureSubscriptionCmdletInfo(subscriptionName, null, false, false, false));
         }
 
         public WindowsAzureSubscription GetCurrentAzureSubscription()
         {
-            Collection<WindowsAzureSubscription> subscriptions = GetAzureSubscription();
-            foreach (WindowsAzureSubscription subscription in subscriptions)
-            {
-                if (subscription.IsDefault)
-                {
-                    return subscription;
-                }
-            }
-            return null;
+            return RunPSCmdletAndReturnFirst<WindowsAzureSubscription>(new GetAzureSubscriptionCmdletInfo(null, null, false, true, false));
+        }
+
+        public WindowsAzureSubscription GetDefaultAzureSubscription()
+        {
+            return RunPSCmdletAndReturnFirst<WindowsAzureSubscription>(new GetAzureSubscriptionCmdletInfo(null, null, false, false, true));
         }
 
         public WindowsAzureSubscription SetAzureSubscription(string subscriptionName, string currentStorageAccountName, bool debug = false)
@@ -833,9 +846,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
 
         public WindowsAzureSubscription SetDefaultAzureSubscription(string subscriptionName, bool debug = false)
         {
-            var selectAzureSubscriptionCmdlet = new SelectAzureSubscriptionCmdletInfo(subscriptionName);
-            var azurePowershellCmdlet = new WindowsAzurePowershellCmdlet(selectAzureSubscriptionCmdlet);
-            azurePowershellCmdlet.Run(debug);
+            SelectAzureSubscription(subscriptionName);
 
             Collection<WindowsAzureSubscription> subscriptions = GetAzureSubscription();
             foreach (WindowsAzureSubscription subscription in subscriptions)
@@ -1773,21 +1784,21 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
         }
 
         //ListAllVersionsParamSetName -> ExtensionName,Publisher,AllVersions
-        public Collection<VirtualMachineExtensionImageContext> GetAzureVMAvailableExtension(IPersistentVM vm, string extensionName, string publisher, bool allVersions)
+        public Collection<VirtualMachineExtensionImageContext> GetAzureVMAvailableExtension(string extensionName, string publisher, bool allVersions)
         {
-            return RunPSCmdletAndReturnAll<VirtualMachineExtensionImageContext>(new GetAzureVMAvailableExtensionCmdletInfo(vm, extensionName, publisher, allVersions));
+            return RunPSCmdletAndReturnAll<VirtualMachineExtensionImageContext>(new GetAzureVMAvailableExtensionCmdletInfo(extensionName, publisher, allVersions));
         }
 
         //ListLatestExtensionsParamSet -> ExtensionName,Publisher
-        public Collection<VirtualMachineExtensionImageContext> GetAzureVMAvailableExtension(IPersistentVM vm = null, string extensionName = null, string publisher = null)
+        public Collection<VirtualMachineExtensionImageContext> GetAzureVMAvailableExtension(string extensionName = null, string publisher = null)
         {
-            return RunPSCmdletAndReturnAll<VirtualMachineExtensionImageContext>(new GetAzureVMAvailableExtensionCmdletInfo(vm, extensionName, publisher));
+            return RunPSCmdletAndReturnAll<VirtualMachineExtensionImageContext>(new GetAzureVMAvailableExtensionCmdletInfo(extensionName, publisher));
         }
 
         //ListSingleVersionParamSetName -> ExtensionName,Publisher,Version
-        public Collection<VirtualMachineExtensionImageContext> GetAzureVMAvailableExtension(IPersistentVM vm, string extensionName, string publisher, string version)
+        public Collection<VirtualMachineExtensionImageContext> GetAzureVMAvailableExtension(string extensionName, string publisher, string version)
         {
-            return RunPSCmdletAndReturnAll<VirtualMachineExtensionImageContext>(new GetAzureVMAvailableExtensionCmdletInfo(vm, extensionName, publisher, version));
+            return RunPSCmdletAndReturnAll<VirtualMachineExtensionImageContext>(new GetAzureVMAvailableExtensionCmdletInfo(extensionName, publisher, version));
         }
         #endregion Generic VM Extension cmdlets
 

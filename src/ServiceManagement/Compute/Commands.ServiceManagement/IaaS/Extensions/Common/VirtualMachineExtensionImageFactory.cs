@@ -14,9 +14,9 @@
 
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
 {
+    using System.Linq;
     using Management.Compute;
     using Model.PersistentVMModel;
-    using System.Linq;
 
     public class VirtualMachineExtensionImageFactory
     {

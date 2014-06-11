@@ -14,14 +14,14 @@
 
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
 {
+    using System;
+    using System.Linq;
+    using System.Management.Automation;
     using Model;
     using Properties;
     using Storage;
     using Microsoft.WindowsAzure.Storage.Auth;
     using Storage.Blob;
-    using System;
-    using System.Linq;
-    using System.Management.Automation;
     using Utilities.Common;
     using Microsoft.WindowsAzure.Storage;
     using Microsoft.WindowsAzure.Storage.Blob;

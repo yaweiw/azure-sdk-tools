@@ -14,8 +14,8 @@
 
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests.IaasCmdletInfo
 {
-    using ConfigDataInfo;
     using Model;
+    using ConfigDataInfo;
     using PowershellCore;
 
     public class SetAzureOSDiskCmdletInfo : CmdletsInfo

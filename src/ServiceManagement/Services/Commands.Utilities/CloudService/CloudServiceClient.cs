@@ -22,14 +22,12 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService
     using Management.Compute.Models;
     using Management.Storage;
     using Management.Storage.Models;
+    using Microsoft.WindowsAzure.Commands.Common.Storage;
     using Model;
     using Properties;
-    using Storage;
-    using Storage.Auth;
     using Storage.Blob;
     using System;
     using System.Collections.Generic;
-    using System.Diagnostics;
     using System.IO;
     using System.Linq;
     using System.Net;
@@ -951,34 +949,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService
         /// <returns>The connection string</returns>
         public string GetStorageServiceConnectionString(string name)
         {
-            StorageAccountGetResponse storageService;
-            StorageAccountGetKeysResponse storageKeys;
-
-            try
-            {
-                storageService = StorageClient.StorageAccounts.Get(name);
-                storageKeys = StorageClient.StorageAccounts.GetKeys(name);
-            }
-            catch
-            {
-                throw new Exception(string.Format(Resources.StorageAccountNotFound, name));
-            }
-
-            Debug.Assert(storageService.StorageAccount.Name != null);
-            Debug.Assert(storageKeys != null);
-
-            StorageCredentials credentials = new StorageCredentials(
-                storageService.StorageAccount.Name,
-                storageKeys.PrimaryKey);
-
-            CloudStorageAccount cloudStorageAccount = new CloudStorageAccount(
-                credentials,
-                GeneralUtilities.CreateHttpsEndpoint(storageService.StorageAccount.Properties.Endpoints[0].ToString()),
-                GeneralUtilities.CreateHttpsEndpoint(storageService.StorageAccount.Properties.Endpoints[1].ToString()),
-                GeneralUtilities.CreateHttpsEndpoint(storageService.StorageAccount.Properties.Endpoints[2].ToString())
-                );
-
-            return cloudStorageAccount.ToString(true);
+            return StorageUtilities.GenerateCloudStorageAccount(StorageClient, name).ToString(true);
         }
         
         /// <summary>

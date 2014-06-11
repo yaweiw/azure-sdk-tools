@@ -10,10 +10,10 @@
         ],
         "User-Agent": [
           "Microsoft.WindowsAzure.Management.TrafficManager.TrafficManagerManagementClient/0.9.0.0",
-          "WindowsAzurePowershell/v0.8.1"
+          "WindowsAzurePowershell/v0.8.3"
         ]
       },
-      "ResponseBody": "<Profiles xmlns=\"http://schemas.microsoft.com/windowsazure\" xmlns:i=\"http://www.w3.org/2001/XMLSchema-instance\">\r\n  <Profile>\r\n    <DomainName>scenarioTestProfile.trafficmanager.net</DomainName>\r\n    <Name>scenarioTestProfile</Name>\r\n    <Status>Enabled</Status>\r\n    <StatusDetails>\r\n      <EnabledVersion>1</EnabledVersion>\r\n    </StatusDetails>\r\n    <Definitions>\r\n      <Definition>\r\n        <Status>Enabled</Status>\r\n        <Version>1</Version>\r\n      </Definition>\r\n    </Definitions>\r\n  </Profile>\r\n</Profiles>",
+      "ResponseBody": "<Profiles xmlns=\"http://schemas.microsoft.com/windowsazure\" xmlns:i=\"http://www.w3.org/2001/XMLSchema-instance\">\r\n  <Profile>\r\n    <DomainName>1a58bf3c-94b9-4c43-8231-ab6ed22a7842profile.trafficmanager.net</DomainName>\r\n    <Name>1a58bf3c-94b9-4c43-8231-ab6ed22a7842profile</Name>\r\n    <Status>Enabled</Status>\r\n    <StatusDetails>\r\n      <EnabledVersion>1</EnabledVersion>\r\n    </StatusDetails>\r\n    <Definitions>\r\n      <Definition>\r\n        <Status>Enabled</Status>\r\n        <Version>1</Version>\r\n      </Definition>\r\n    </Definitions>\r\n  </Profile>\r\n  <Profile>\r\n    <DomainName>jnowaktest2.trafficmanager.net</DomainName>\r\n    <Name>jnowaktest2</Name>\r\n    <Status>Enabled</Status>\r\n    <StatusDetails>\r\n      <EnabledVersion>1</EnabledVersion>\r\n    </StatusDetails>\r\n    <Definitions>\r\n      <Definition>\r\n        <Status>Enabled</Status>\r\n        <Version>1</Version>\r\n      </Definition>\r\n    </Definitions>\r\n  </Profile>\r\n  <Profile>\r\n    <DomainName>scenarioTestProfile.trafficmanager.net</DomainName>\r\n    <Name>scenarioTestProfile</Name>\r\n    <Status>Enabled</Status>\r\n    <StatusDetails>\r\n      <EnabledVersion>1</EnabledVersion>\r\n    </StatusDetails>\r\n    <Definitions>\r\n      <Definition>\r\n        <Status>Enabled</Status>\r\n        <Version>1</Version>\r\n      </Definition>\r\n    </Definitions>\r\n  </Profile>\r\n</Profiles>",
       "ResponseHeaders": {
         "x-ms-servedbyregion": [
           "ussouth2"
@@ -22,17 +22,17 @@
           "nosniff"
         ],
         "x-ms-request-id": [
-          "74ebcb7d69ec9562bb71a1d5b0b5364a"
+          "cec6ec29675da9e8a039eda3865464d1"
         ],
         "Cache-Control": [
           "no-cache"
         ],
         "Date": [
-          "Wed, 07 May 2014 12:30:31 GMT"
+          "Fri, 23 May 2014 10:16:28 GMT"
         ],
         "Server": [
-          "1.0.6198.70",
-          "(rd_rdfe_stable.140426-2318)",
+          "1.0.6198.76",
+          "(rd_rdfe_stable.140522-0024)",
           "Microsoft-HTTPAPI/2.0"
         ],
         "X-AspNet-Version": [
@@ -54,7 +54,7 @@
         ],
         "User-Agent": [
           "Microsoft.WindowsAzure.Management.TrafficManager.TrafficManagerManagementClient/0.9.0.0",
-          "WindowsAzurePowershell/v0.8.1"
+          "WindowsAzurePowershell/v0.8.3"
         ]
       },
       "ResponseBody": "",
@@ -69,17 +69,17 @@
           "nosniff"
         ],
         "x-ms-request-id": [
-          "1b84e3509a1a9748b04688d7c04fe76f"
+          "2da96489aba6a3cc95b85206b5b1a8a5"
         ],
         "Cache-Control": [
           "no-cache"
         ],
         "Date": [
-          "Wed, 07 May 2014 12:30:34 GMT"
+          "Fri, 23 May 2014 10:16:31 GMT"
         ],
         "Server": [
-          "1.0.6198.70",
-          "(rd_rdfe_stable.140426-2318)",
+          "1.0.6198.76",
+          "(rd_rdfe_stable.140522-0024)",
           "Microsoft-HTTPAPI/2.0"
         ],
         "X-AspNet-Version": [
@@ -101,7 +101,7 @@
         ],
         "User-Agent": [
           "Microsoft.WindowsAzure.Management.TrafficManager.TrafficManagerManagementClient/0.9.0.0",
-          "WindowsAzurePowershell/v0.8.1"
+          "WindowsAzurePowershell/v0.8.3"
         ]
       },
       "ResponseBody": "",
@@ -116,17 +116,17 @@
           "nosniff"
         ],
         "x-ms-request-id": [
-          "7ca3a3eee8789b92bd97cb2dc6c91f3a"
+          "7a99e159ba10a026a95d8f99c07eef13"
         ],
         "Cache-Control": [
           "no-cache"
         ],
         "Date": [
-          "Wed, 07 May 2014 12:30:37 GMT"
+          "Fri, 23 May 2014 10:16:33 GMT"
         ],
         "Server": [
-          "1.0.6198.70",
-          "(rd_rdfe_stable.140426-2318)",
+          "1.0.6198.76",
+          "(rd_rdfe_stable.140522-0024)",
           "Microsoft-HTTPAPI/2.0"
         ],
         "X-AspNet-Version": [
@@ -148,7 +148,7 @@
         ],
         "User-Agent": [
           "Microsoft.WindowsAzure.Management.TrafficManager.TrafficManagerManagementClient/0.9.0.0",
-          "WindowsAzurePowershell/v0.8.1"
+          "WindowsAzurePowershell/v0.8.3"
         ]
       },
       "ResponseBody": "<Definition xmlns=\"http://schemas.microsoft.com/windowsazure\" xmlns:i=\"http://www.w3.org/2001/XMLSchema-instance\">\r\n  <Version>1</Version>\r\n</Definition>",
@@ -160,17 +160,17 @@
           "nosniff"
         ],
         "x-ms-request-id": [
-          "ba63695499f09eaf8f5eabd938e89972"
+          "7fc99483f07ba66f8dc1a48d16f8a74e"
         ],
         "Cache-Control": [
           "no-cache"
         ],
         "Date": [
-          "Wed, 07 May 2014 12:30:37 GMT"
+          "Fri, 23 May 2014 10:16:34 GMT"
         ],
         "Server": [
-          "1.0.6198.70",
-          "(rd_rdfe_stable.140426-2318)",
+          "1.0.6198.76",
+          "(rd_rdfe_stable.140522-0024)",
           "Microsoft-HTTPAPI/2.0"
         ],
         "X-AspNet-Version": [
@@ -192,7 +192,7 @@
         ],
         "User-Agent": [
           "Microsoft.WindowsAzure.Management.TrafficManager.TrafficManagerManagementClient/0.9.0.0",
-          "WindowsAzurePowershell/v0.8.1"
+          "WindowsAzurePowershell/v0.8.3"
         ]
       },
       "ResponseBody": "<Profile xmlns=\"http://schemas.microsoft.com/windowsazure\" xmlns:i=\"http://www.w3.org/2001/XMLSchema-instance\">\r\n  <DomainName>scenarioTestProfile.trafficmanager.net</DomainName>\r\n  <Name>scenarioTestProfile</Name>\r\n  <Status>Enabled</Status>\r\n  <StatusDetails>\r\n    <EnabledVersion>1</EnabledVersion>\r\n  </StatusDetails>\r\n  <Definitions>\r\n    <Definition>\r\n      <Status>Enabled</Status>\r\n      <Version>1</Version>\r\n    </Definition>\r\n  </Definitions>\r\n</Profile>",
@@ -204,17 +204,17 @@
           "nosniff"
         ],
         "x-ms-request-id": [
-          "0e3ea9f2e5de99a69045cc6890697004"
+          "e0a4622d7a4aa39a8957a5a2c3134a27"
         ],
         "Cache-Control": [
           "no-cache"
         ],
         "Date": [
-          "Wed, 07 May 2014 12:30:38 GMT"
+          "Fri, 23 May 2014 10:16:35 GMT"
         ],
         "Server": [
-          "1.0.6198.70",
-          "(rd_rdfe_stable.140426-2318)",
+          "1.0.6198.76",
+          "(rd_rdfe_stable.140522-0024)",
           "Microsoft-HTTPAPI/2.0"
         ],
         "X-AspNet-Version": [
@@ -236,7 +236,7 @@
         ],
         "User-Agent": [
           "Microsoft.WindowsAzure.Management.TrafficManager.TrafficManagerManagementClient/0.9.0.0",
-          "WindowsAzurePowershell/v0.8.1"
+          "WindowsAzurePowershell/v0.8.3"
         ]
       },
       "ResponseBody": "<Profile xmlns=\"http://schemas.microsoft.com/windowsazure\" xmlns:i=\"http://www.w3.org/2001/XMLSchema-instance\">\r\n  <DomainName>scenarioTestProfile.trafficmanager.net</DomainName>\r\n  <Name>scenarioTestProfile</Name>\r\n  <Status>Enabled</Status>\r\n  <StatusDetails>\r\n    <EnabledVersion>1</EnabledVersion>\r\n  </StatusDetails>\r\n  <Definitions>\r\n    <Definition>\r\n      <Status>Enabled</Status>\r\n      <Version>1</Version>\r\n    </Definition>\r\n  </Definitions>\r\n</Profile>",
@@ -248,17 +248,17 @@
           "nosniff"
         ],
         "x-ms-request-id": [
-          "d6902335315d9d4aadc4b94b195b8b9e"
+          "eda73e127602ab34ac970dcd74761d7e"
         ],
         "Cache-Control": [
           "no-cache"
         ],
         "Date": [
-          "Wed, 07 May 2014 12:30:38 GMT"
+          "Fri, 23 May 2014 10:16:37 GMT"
         ],
         "Server": [
-          "1.0.6198.70",
-          "(rd_rdfe_stable.140426-2318)",
+          "1.0.6198.76",
+          "(rd_rdfe_stable.140522-0024)",
           "Microsoft-HTTPAPI/2.0"
         ],
         "X-AspNet-Version": [
@@ -280,7 +280,7 @@
         ],
         "User-Agent": [
           "Microsoft.WindowsAzure.Management.TrafficManager.TrafficManagerManagementClient/0.9.0.0",
-          "WindowsAzurePowershell/v0.8.1"
+          "WindowsAzurePowershell/v0.8.3"
         ]
       },
       "ResponseBody": "<Definition xmlns=\"http://schemas.microsoft.com/windowsazure\" xmlns:i=\"http://www.w3.org/2001/XMLSchema-instance\">\r\n  <DnsOptions>\r\n    <TimeToLiveInSeconds>300</TimeToLiveInSeconds>\r\n  </DnsOptions>\r\n  <Status>Enabled</Status>\r\n  <Version>1</Version>\r\n  <Monitors>\r\n    <Monitor>\r\n      <IntervalInSeconds>30</IntervalInSeconds>\r\n      <TimeoutInSeconds>10</TimeoutInSeconds>\r\n      <ToleratedNumberOfFailures>3</ToleratedNumberOfFailures>\r\n      <Protocol>HTTP</Protocol>\r\n      <Port>80</Port>\r\n      <HttpOptions>\r\n        <Verb>GET</Verb>\r\n        <RelativePath>/</RelativePath>\r\n        <ExpectedStatusCode>200</ExpectedStatusCode>\r\n      </HttpOptions>\r\n    </Monitor>\r\n  </Monitors>\r\n  <Policy>\r\n    <LoadBalancingMethod>RoundRobin</LoadBalancingMethod>\r\n    <Endpoints />\r\n    <MonitorStatus>Inactive</MonitorStatus>\r\n  </Policy>\r\n</Definition>",
@@ -292,17 +292,17 @@
           "nosniff"
         ],
         "x-ms-request-id": [
-          "da7791450e3096dea81b81ce51d2037b"
+          "77efd1430165a778a1724e168ba5c756"
         ],
         "Cache-Control": [
           "no-cache"
         ],
         "Date": [
-          "Wed, 07 May 2014 12:30:38 GMT"
+          "Fri, 23 May 2014 10:16:36 GMT"
         ],
         "Server": [
-          "1.0.6198.70",
-          "(rd_rdfe_stable.140426-2318)",
+          "1.0.6198.76",
+          "(rd_rdfe_stable.140522-0024)",
           "Microsoft-HTTPAPI/2.0"
         ],
         "X-AspNet-Version": [
@@ -324,7 +324,7 @@
         ],
         "User-Agent": [
           "Microsoft.WindowsAzure.Management.TrafficManager.TrafficManagerManagementClient/0.9.0.0",
-          "WindowsAzurePowershell/v0.8.1"
+          "WindowsAzurePowershell/v0.8.3"
         ]
       },
       "ResponseBody": "<Definition xmlns=\"http://schemas.microsoft.com/windowsazure\" xmlns:i=\"http://www.w3.org/2001/XMLSchema-instance\">\r\n  <DnsOptions>\r\n    <TimeToLiveInSeconds>300</TimeToLiveInSeconds>\r\n  </DnsOptions>\r\n  <Status>Enabled</Status>\r\n  <Version>1</Version>\r\n  <Monitors>\r\n    <Monitor>\r\n      <IntervalInSeconds>30</IntervalInSeconds>\r\n      <TimeoutInSeconds>10</TimeoutInSeconds>\r\n      <ToleratedNumberOfFailures>3</ToleratedNumberOfFailures>\r\n      <Protocol>HTTP</Protocol>\r\n      <Port>80</Port>\r\n      <HttpOptions>\r\n        <Verb>GET</Verb>\r\n        <RelativePath>/</RelativePath>\r\n        <ExpectedStatusCode>200</ExpectedStatusCode>\r\n      </HttpOptions>\r\n    </Monitor>\r\n  </Monitors>\r\n  <Policy>\r\n    <LoadBalancingMethod>RoundRobin</LoadBalancingMethod>\r\n    <Endpoints />\r\n    <MonitorStatus>Inactive</MonitorStatus>\r\n  </Policy>\r\n</Definition>",
@@ -336,17 +336,17 @@
           "nosniff"
         ],
         "x-ms-request-id": [
-          "2fc102897b3493ee9cc0b18e6faeff49"
+          "ce4719972698ad70ad9a8341aeac9775"
         ],
         "Cache-Control": [
           "no-cache"
         ],
         "Date": [
-          "Wed, 07 May 2014 12:30:39 GMT"
+          "Fri, 23 May 2014 10:16:37 GMT"
         ],
         "Server": [
-          "1.0.6198.70",
-          "(rd_rdfe_stable.140426-2318)",
+          "1.0.6198.76",
+          "(rd_rdfe_stable.140522-0024)",
           "Microsoft-HTTPAPI/2.0"
         ],
         "X-AspNet-Version": [
@@ -359,5 +359,6 @@
       "StatusCode": 200
     }
   ],
-  "Names": {}
+  "Names": {},
+  "Variables": {}
 }

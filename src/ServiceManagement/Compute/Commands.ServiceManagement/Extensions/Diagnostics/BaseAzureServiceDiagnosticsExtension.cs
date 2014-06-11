@@ -11,12 +11,10 @@
 
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Extensions
 {
-    using Properties;
     using System;
-    using System.Text;
     using System.Xml;
     using System.Xml.Linq;
-    using Microsoft.WindowsAzure.Commands.Utilities.Common;
+    using Properties;
     using Microsoft.WindowsAzure.Storage;
     using Microsoft.WindowsAzure.Storage.Auth;
 

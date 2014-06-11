@@ -94,6 +94,12 @@ Tests using New-AzureStorageContainer to create a container which already exists
 #>
 function Test-NewExistsAzureStorageContainer
 {
+    # Setup
+    try
+    {
+        New-AzureStorageContainer $containerName
+    }
+    catch {}
     Assert-Throws {New-AzureStorageContainer $containerName} "Container '$containerName' already exists."
 }
 

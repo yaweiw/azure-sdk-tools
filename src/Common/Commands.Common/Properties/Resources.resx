@@ -147,9 +147,6 @@
   <data name="AddOnUpdatedMessage" xml:space="preserve">
     <value>Add-On {0} is updated successfully.</value>
   </data>
-  <data name="AddOnUrl" xml:space="preserve">
-    <value>http://www.windowsazure.com/en-us/store/service/?id={0}</value>
-  </data>
   <data name="AddRoleMessageCreate" xml:space="preserve">
     <value>Role has been created at {0}\{1}.</value>
   </data>
@@ -511,7 +508,7 @@
     <value>{0} end processing.</value>
   </data>
   <data name="EnvironmentDoesNotSupportActiveDirectory" xml:space="preserve">
-    <value>The environment {0} does not currently support Active Directory authentication.</value>
+    <value>To use Active Directory authentication, you must configure the ActiveDirectoryEndpoint, ActiveDirectoryTenantId, and ActiveDirectorServiceEndpointResourceId for environment of '{0}'. You can configure these properties for this environment using the Set-AzureEnvironment cmdlet.</value>
   </data>
   <data name="EnvironmentExists" xml:space="preserve">
     <value>The environment '{0}' already exists.</value>
@@ -795,9 +792,6 @@ Please follow these steps in the portal:
   <data name="ManifestUri" xml:space="preserve">
     <value>http://az413943.vo.msecnd.net/node/runtimemanifest_0.7.3.xml</value>
   </data>
-  <data name="MarketplaceEndpoint" xml:space="preserve">
-    <value>http://api.datamarket.azure.com/CatalogService.svc</value>
-  </data>
   <data name="MaxSupportAzureSdkVersion" xml:space="preserve">
     <value>v2.3</value>
   </data>
@@ -1018,9 +1012,6 @@ Please follow these steps in the portal:
   </data>
   <data name="PublishCreatedServiceMessage" xml:space="preserve">
     <value>Created hosted service '{0}'.</value>
-  </data>
-  <data name="PublishCreatedWebsiteLaunchNotSupportedMessage" xml:space="preserve">
-    <value>Created Website. Please use the Azure Portal at http://windows.azure.com to find the deployment URL.</value>
   </data>
   <data name="PublishCreatedWebsiteMessage" xml:space="preserve">
     <value>Created Website URL: {0}.</value>
@@ -1376,9 +1367,6 @@ Please follow these steps in the portal:
   <data name="ServiceStatusChanged" xml:space="preserve">
     <value>{0} slot for service {1} is {2}</value>
   </data>
-  <data name="ServiceUrl" xml:space="preserve">
-    <value>http://{0}.cloudapp.net</value>
-  </data>
   <data name="SetAddOnConformation" xml:space="preserve">
     <value>Set Add-On Confirmation</value>
   </data>
@@ -1607,8 +1595,5 @@ use and privacy statement at &lt;url&gt; and (c) agree to sharing my contact inf
   </data>
   <data name="SetTrafficManagerProfileAmbiguous" xml:space="preserve">
     <value>Ambiguous operation: the profile name specified doesn't match the name of the profile object.</value>
-  </data>
-  <data name="SetTrafficManagerProfileErrorNotSupported" xml:space="preserve">
-    <value>It is not possible to add an endpoint of type "Any" to a profile with a load balancing method "Performance"</value>
   </data>
 </root>

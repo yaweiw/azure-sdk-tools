@@ -18,7 +18,6 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
 
     public static class ApiConstants
     {
-        public const string ResourceRegistrationApiVersion = "2012-08-01";
         public const string LatestApiVersion = ServiceManagement.Constants.VersionHeaderContentLatest;
         public const string VersionHeaderName = ServiceManagement.Constants.VersionHeaderName;
 
@@ -35,10 +34,10 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
         public const string SslSupportSettingsName = "SslSupport";
 
         public const string UserAgentHeaderName = "User-Agent";
-        public const string UserAgentHeaderValue = "WindowsAzurePowershell/v0.8.2";
+        public const string UserAgentHeaderValue = "WindowsAzurePowershell/v0.8.3";
         public static ProductInfoHeaderValue UserAgentValue = new ProductInfoHeaderValue(
             "WindowsAzurePowershell",
-            "v0.8.2");
+            "v0.8.3");
 
         public const string VSDebuggerCausalityDataHeaderName = "VSDebuggerCausalityData";
         
@@ -114,12 +113,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
 
         public const string AzureResourceManagerEndpoint = "https://management.azure.com/";
 
-        // To Do: get real ChinaResourceManagerEndpoint
-        public const string ChinaResourceManagerEndpoint = "https://not-supported-service.cn/";
-
         public const string GalleryEndpoint = "https://gallery.azure.com/";
-
-        public const string ChinaGalleryEndpoint = "https://not-supported-service.cn/";
 
         public const string AzurePublishSettingsFileUrl = "http://go.microsoft.com/fwlink/?LinkID=301775";
 
