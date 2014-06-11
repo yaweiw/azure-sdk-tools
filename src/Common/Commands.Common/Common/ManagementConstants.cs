@@ -143,5 +143,9 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
         public const string ChinaStorageQueueEndpointFormat = "{0}://{1}.queue.core.chinacloudapi.cn/";
 
         public const string ChinaStorageTableEndpointFormat = "{0}://{1}.table.core.chinacloudapi.cn/";
+
+        public const string AzureSqlDatabaseDnsSuffix = ".database.windows.net";
+
+        public const string ChinaSqlDatabaseDnsSuffix = ".database.chinacloudapi.cn";
     }
 }

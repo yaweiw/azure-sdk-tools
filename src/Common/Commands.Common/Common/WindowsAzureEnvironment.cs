@@ -146,6 +146,11 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
         }
 
         /// <summary>
+        /// Gets or sets the DNS suffix for Azure SQL Database servers.
+        /// </summary>
+        public string SqlDatabaseDnsSuffix { get; set; }
+
+        /// <summary>
         /// Gets the management portal URI with a particular realm suffix if supplied
         /// </summary>
         /// <param name="realm">Realm for user's account</param>
@@ -239,7 +244,8 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
                     ActiveDirectoryEndpoint = "https://login.windows.net/",
                     ActiveDirectoryCommonTenantId = "common",
                     StorageEndpointSuffix = WindowsAzureEnvironmentConstants.AzureStorageEndpointSuffix,
-                    GalleryEndpoint = WindowsAzureEnvironmentConstants.GalleryEndpoint
+                    GalleryEndpoint = WindowsAzureEnvironmentConstants.GalleryEndpoint,
+                    SqlDatabaseDnsSuffix = WindowsAzureEnvironmentConstants.AzureSqlDatabaseDnsSuffix,
                 }
             },
             {
@@ -252,7 +258,8 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
                     ResourceManagerEndpoint = WindowsAzureEnvironmentConstants.ChinaResourceManagerEndpoint,
                     ManagementPortalUrl = WindowsAzureEnvironmentConstants.ChinaManagementPortalUrl,
                     StorageEndpointSuffix = WindowsAzureEnvironmentConstants.ChinaStorageEndpointSuffix,
-                    GalleryEndpoint = WindowsAzureEnvironmentConstants.ChinaGalleryEndpoint
+                    GalleryEndpoint = WindowsAzureEnvironmentConstants.ChinaGalleryEndpoint,
+                    SqlDatabaseDnsSuffix = WindowsAzureEnvironmentConstants.ChinaSqlDatabaseDnsSuffix,
                 }
             }
         };

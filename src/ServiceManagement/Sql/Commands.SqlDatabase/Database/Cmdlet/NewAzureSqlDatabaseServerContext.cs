@@ -319,7 +319,7 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Database.Cmdlet
                     // and append the azure database DNS suffix.
                     return new Uri(
                         Uri.UriSchemeHttps + Uri.SchemeDelimiter +
-                        this.ServerName + DataServiceConstants.AzureSqlDatabaseDnsSuffix);
+                        this.ServerName + WindowsAzureProfile.Instance.CurrentEnvironment.SqlDatabaseDnsSuffix);
                 case FullyQualifiedServerNameWithSqlAuthParamSet:
                 case FullyQualifiedServerNameWithCertAuthParamSet:
                     // The fully qualified server name was specified, 

@@ -15,6 +15,7 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Database.Cmdlet
 {
     using Microsoft.WindowsAzure.Commands.SqlDatabase.Services.Common;
     using Microsoft.WindowsAzure.Commands.SqlDatabase.Services.ImportExport;
+    using Microsoft.WindowsAzure.Commands.Utilities.Common;
     using Microsoft.WindowsAzure.Management.Sql;
     using Microsoft.WindowsAzure.Management.Sql.Models;
     using System;
@@ -117,7 +118,7 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Database.Cmdlet
                 {
                     Password = password,
                     RequestId = requestId,
-                    ServerName = fullyQualifiedServerName, 
+                    ServerName = fullyQualifiedServerName,
                     UserName = userName,
                 });
 
@@ -172,7 +173,7 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Database.Cmdlet
 
                 var status = this.GetAzureSqlDatabaseImportExportStatusProcess(
                     serverName,
-                    serverName + DataServiceConstants.AzureSqlDatabaseDnsSuffix,
+                    serverName + WindowsAzureProfile.Instance.CurrentEnvironment.SqlDatabaseDnsSuffix,
                     userName,
                     password,
                     requestId);

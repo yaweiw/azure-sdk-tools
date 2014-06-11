@@ -17,6 +17,7 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Database.Cmdlet
     using Microsoft.WindowsAzure.Commands.SqlDatabase.Services.ImportExport;
     using Microsoft.WindowsAzure.Commands.SqlDatabase.Services.Server;
     using Microsoft.WindowsAzure.Commands.Storage.Model.ResourceModel;
+    using Microsoft.WindowsAzure.Commands.Utilities.Common;
     using Microsoft.WindowsAzure.Management.Sql;
     using Microsoft.WindowsAzure.Management.Sql.Models;
     using System;
@@ -206,7 +207,7 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Database.Cmdlet
 
                 // Retrieve the fully qualified server name
                 string fullyQualifiedServerName =
-                    this.SqlConnectionContext.ServerName + DataServiceConstants.AzureSqlDatabaseDnsSuffix;
+                    this.SqlConnectionContext.ServerName + WindowsAzureProfile.Instance.CurrentEnvironment.SqlDatabaseDnsSuffix;
 
                 // Issue the request
                 ImportExportRequest context = this.ExportSqlAzureDatabaseProcess(
