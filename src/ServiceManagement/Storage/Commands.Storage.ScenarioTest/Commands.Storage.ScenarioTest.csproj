@@ -183,8 +183,7 @@
     <Compile Include="Util\FileUtil.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="TestData.xml">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    <Content Include="Resources\TestData.xml">
       <SubType>Designer</SubType>
     </Content>
   </ItemGroup>
