@@ -24,15 +24,13 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
         [Parameter(Position = 0, Mandatory = true, HelpMessage = "Virtual network name.")]
         public string VNetName
         {
-            get;
-            set;
+            get; set;
         }
 
         [Parameter(Position = 1, Mandatory = false, HelpMessage = "The type of routing that the gateway will use. This will default to StaticRouting if no value is provided.")]
         public GatewayType GatewayType
         {
-            get;
-            set;
+            get; set;
         }
 
         protected override void OnProcessRecord()
