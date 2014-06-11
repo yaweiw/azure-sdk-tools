@@ -53,10 +53,6 @@
       <HintPath>..\..\..\packages\AutoMapper.3.1.1\lib\net40\AutoMapper.dll</HintPath>
     </Reference>
     <Reference Include="AutoMapper.Net4, Version=3.1.1.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL" />
-    <Reference Include="Microsoft.Azure.Management.Automation, Version=0.9.0.0, Culture=neutral, PublicKeyToken=c66ce9294aae1300, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\packages\Microsoft.Azure.Management.Automation.0.9.0-preview\lib\net40\Microsoft.Azure.Management.Automation.dll</HintPath>
-    </Reference>
     <Reference Include="Microsoft.Build" />
     <Reference Include="Microsoft.Build.Framework" />
     <Reference Include="Microsoft.Data.Edm, Version=5.6.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
@@ -223,26 +219,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Automation\AutomationClient.cs" />
-    <Compile Include="Automation\Constants.cs" />
-    <Compile Include="Automation\DataContracts\ErrorResponse.cs" />
-    <Compile Include="Automation\DataContracts\OdataError.cs" />
-    <Compile Include="Automation\DataContracts\OdataErrorMessage.cs" />
-    <Compile Include="Automation\IAutomationClient.cs" />
-    <Compile Include="Automation\Models\AutomationAccount.cs" />
-    <Compile Include="Automation\Models\DailySchedule.cs" />
-    <Compile Include="Automation\Models\Job.cs" />
-    <Compile Include="Automation\Models\JobParameter.cs" />
-    <Compile Include="Automation\Models\JobStreamItem.cs" />
-    <Compile Include="Automation\Models\OneTimeSchedule.cs" />
-    <Compile Include="Automation\Models\Runbook.cs" />
-    <Compile Include="Automation\Models\RunbookDefinition.cs" />
-    <Compile Include="Automation\Models\RunbookParameter.cs" />
-    <Compile Include="Automation\Models\RunbookVersion.cs" />
-    <Compile Include="Automation\Models\Schedule.cs" />
-    <Compile Include="Automation\Requires.cs" />
-    <Compile Include="Automation\RequiresExtensions.cs" />
-    <Compile Include="Automation\ResourceNotFoundException.cs" />
     <Compile Include="CloudService\AddRole.cs" />
     <Compile Include="CloudService\CacheConfigurationFactory.cs" />
     <Compile Include="CloudService\CloudServiceClient.cs" />
