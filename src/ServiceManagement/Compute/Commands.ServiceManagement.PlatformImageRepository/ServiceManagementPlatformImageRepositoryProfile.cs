@@ -68,7 +68,9 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.PlatformImageReposit
 
             Mapper.CreateMap<UpdateAzurePlatformExtensionCommand, ExtensionImageUpdateParameters>()
                   .ForMember(c => c.Type, o => o.MapFrom(r => r.ExtensionName))
-                  .ForMember(c => c.ProviderNameSpace, o => o.MapFrom(r => r.Publisher));
+                  .ForMember(c => c.ProviderNameSpace, o => o.MapFrom(r => r.Publisher))
+                  .ForMember(c => c.BlockRoleUponFailure, o => o.MapFrom(r => r.BlockRoleUponFailure.IsPresent))
+                  .ForMember(c => c.DisallowMajorVersionUpgrade, o => o.MapFrom(r => r.DisallowMajorVersionUpgrade.IsPresent));
         }
     }
 }

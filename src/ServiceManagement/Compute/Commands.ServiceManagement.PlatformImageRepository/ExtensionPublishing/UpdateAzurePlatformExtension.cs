@@ -112,9 +112,32 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.PlatformImageReposit
         [ValidateSet(PublicModeStr, InternalModeStr)]
         public string ExtensionMode { get; set; }
 
+        [Parameter(
+            Position = 10,
+            ValueFromPipelineByPropertyName = true,
+            HelpMessage = "To block the role upon failure.")]
+        [ValidateNotNullOrEmpty]
+        public SwitchParameter BlockRoleUponFailure { get; set; }
+
+        [Parameter(
+            Position = 11,
+            ValueFromPipelineByPropertyName = true,
+            HelpMessage = "The Extension Type is XML.")]
+        [ValidateNotNullOrEmpty]
+        public SwitchParameter XmlExtension { get; set; }
+
+        [Parameter(
+            Position = 12,
+            ValueFromPipelineByPropertyName = true,
+            HelpMessage = "To disallow major version upgrade.")]
+        [ValidateNotNullOrEmpty]
+        public SwitchParameter DisallowMajorVersionUpgrade { get; set; }
+
         protected override void OnProcessRecord()
         {
             ServiceManagementPlatformImageRepositoryProfile.Initialize();
+
+            IsJsonExtension = XmlExtension.IsPresent ? false : true;
 
             ExecuteClientActionNewSM(
                 null,
