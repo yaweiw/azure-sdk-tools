@@ -28,13 +28,25 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
             set;
         }
 
+        [Parameter(Position = 1, Mandatory = false, HelpMessage = "The type of routing that the gateway will use. This will default to StaticRouting if no value is provided.")]
+        public GatewayType GatewayType
+        {
+            get;
+            set;
+        }
+
         protected override void OnProcessRecord()
         {
+            GatewayCreateParameters parameters = new GatewayCreateParameters()
+            {
+                GatewayType = this.GatewayType,
+            };
+
             ServiceManagementProfile.Initialize();
             ExecuteClientActionNewSM(
                 null,
                 this.CommandRuntime.ToString(),
-                () => this.NetworkClient.Gateways.Create(this.VNetName, new GatewayCreateParameters()));
+                () => this.NetworkClient.Gateways.Create(this.VNetName, parameters));
         }
     }
 }
