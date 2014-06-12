@@ -61,6 +61,8 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
         /// <remarks>If null, this environment does not support AD authentication</remarks>
         public string ActiveDirectoryCommonTenantId { get; set; }
 
+        public string ActiveDirectoryServiceEndpointResourceId { get; set; }
+
         private string storageEndpointSuffix;
 
         /// <summary>
@@ -181,7 +183,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
 
         public IEnumerable<WindowsAzureSubscription> AddAccount(ITokenProvider tokenProvider)
         {
-            if (ActiveDirectoryEndpoint == null)
+            if (ActiveDirectoryEndpoint == null || ActiveDirectoryServiceEndpointResourceId == null)
             {
                 throw new Exception(string.Format(Resources.EnvironmentDoesNotSupportActiveDirectory, Name));
             }
@@ -200,6 +202,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
                         ActiveDirectoryEndpoint = ActiveDirectoryEndpoint,
                         ActiveDirectoryTenantId = subscription.ActiveDirectoryTenantId,
                         ActiveDirectoryUserId = mainToken.UserId,
+                        ActiveDirectoryServiceEndpointResourceId = ActiveDirectoryServiceEndpointResourceId,
                         SubscriptionId = subscription.SubscriptionId,
                         SubscriptionName = subscription.SubscriptionName,
                         ServiceEndpoint = !string.IsNullOrEmpty(ServiceEndpoint) ? new Uri(ServiceEndpoint) : null,
@@ -244,6 +247,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
                     ManagementPortalUrl = WindowsAzureEnvironmentConstants.AzureManagementPortalUrl,
                     ActiveDirectoryEndpoint = "https://login.windows.net/",
                     ActiveDirectoryCommonTenantId = "common",
+                    ActiveDirectoryServiceEndpointResourceId = WindowsAzureEnvironmentConstants.AzureServiceEndpoint,
                     StorageEndpointSuffix = WindowsAzureEnvironmentConstants.AzureStorageEndpointSuffix,
                     GalleryEndpoint = WindowsAzureEnvironmentConstants.GalleryEndpoint,
                     SqlDatabaseDnsSuffix = WindowsAzureEnvironmentConstants.AzureSqlDatabaseDnsSuffix,
@@ -256,10 +260,13 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
                     Name = EnvironmentName.AzureChinaCloud,
                     PublishSettingsFileUrl = WindowsAzureEnvironmentConstants.ChinaPublishSettingsFileUrl,
                     ServiceEndpoint = WindowsAzureEnvironmentConstants.ChinaServiceEndpoint,
-                    ResourceManagerEndpoint = WindowsAzureEnvironmentConstants.ChinaResourceManagerEndpoint,
+                    ResourceManagerEndpoint = string.Empty,
+                    ActiveDirectoryEndpoint  = "https://login.chinacloudapi.cn/",
+                    ActiveDirectoryCommonTenantId = "common",
+                    ActiveDirectoryServiceEndpointResourceId = WindowsAzureEnvironmentConstants.ChinaServiceEndpoint, 
                     ManagementPortalUrl = WindowsAzureEnvironmentConstants.ChinaManagementPortalUrl,
                     StorageEndpointSuffix = WindowsAzureEnvironmentConstants.ChinaStorageEndpointSuffix,
-                    GalleryEndpoint = WindowsAzureEnvironmentConstants.ChinaGalleryEndpoint,
+                    GalleryEndpoint = string.Empty
                     SqlDatabaseDnsSuffix = WindowsAzureEnvironmentConstants.ChinaSqlDatabaseDnsSuffix,
                 }
             }

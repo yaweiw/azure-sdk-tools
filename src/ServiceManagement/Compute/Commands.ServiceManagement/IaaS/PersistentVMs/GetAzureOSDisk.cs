@@ -14,8 +14,8 @@
 
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.PersistentVMs
 {
-    using Model.PersistentVMModel;
     using System.Management.Automation;
+    using Model.PersistentVMModel;
 
     [Cmdlet(VerbsCommon.Get, "AzureOSDisk"), OutputType(typeof(OSVirtualHardDisk))]
     public class GetAzureOSDiskCommand : VirtualMachineConfigurationCmdletBase

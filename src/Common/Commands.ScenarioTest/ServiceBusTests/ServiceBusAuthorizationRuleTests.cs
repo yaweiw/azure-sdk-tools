@@ -35,6 +35,7 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.ServiceBusTests
         [TestMethod]
         [TestCategory(Category.All)]
         [TestCategory(Category.ServiceBus)]
+        [TestCategory(Category.BVT)]
         public void CreatesAuthorizationRuleWithoutKeys()
         {
             RunPowerShellTest("Test-CreatesAuthorizationRuleWithoutKeys");
@@ -46,6 +47,7 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.ServiceBusTests
         [TestMethod]
         [TestCategory(Category.All)]
         [TestCategory(Category.ServiceBus)]
+        [TestCategory(Category.BVT)]
         public void CreatesAuthorizationRuleWithPrimaryKey()
         {
             RunPowerShellTest("Test-CreatesAuthorizationRuleWithPrimaryKey");
@@ -68,6 +70,7 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.ServiceBusTests
         [TestMethod]
         [TestCategory(Category.All)]
         [TestCategory(Category.ServiceBus)]
+        [TestCategory(Category.BVT)]
         public void CreatesAuthorizationRuleForNotificationHub()
         {
             RunPowerShellTest("Test-CreatesAuthorizationRuleForNotificationHub");
@@ -79,6 +82,7 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.ServiceBusTests
         [TestMethod]
         [TestCategory(Category.All)]
         [TestCategory(Category.ServiceBus)]
+        [TestCategory(Category.BVT)]
         public void CreatesAuthorizationRuleForNamespace()
         {
             RunPowerShellTest("Test-CreatesAuthorizationRuleForNamespace");
@@ -94,6 +98,7 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.ServiceBusTests
         [TestMethod]
         [TestCategory(Category.All)]
         [TestCategory(Category.ServiceBus)]
+        [TestCategory(Category.BVT)]
         public void SetsAuthorizationRuleRenewPrimaryKey()
         {
             RunPowerShellTest("Test-SetsAuthorizationRuleRenewPrimaryKey");
@@ -105,6 +110,7 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.ServiceBusTests
         [TestMethod]
         [TestCategory(Category.All)]
         [TestCategory(Category.ServiceBus)]
+        [TestCategory(Category.BVT)]
         public void SetsAuthorizationRuleSecondaryKey()
         {
             RunPowerShellTest("Test-SetsAuthorizationRuleSecondaryKey");
@@ -116,6 +122,7 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.ServiceBusTests
         [TestMethod]
         [TestCategory(Category.All)]
         [TestCategory(Category.ServiceBus)]
+        [TestCategory(Category.BVT)]
         public void SetsAuthorizationRuleForPermission()
         {
             RunPowerShellTest("Test-SetsAuthorizationRuleForPermission");
@@ -127,6 +134,7 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.ServiceBusTests
         [TestMethod]
         [TestCategory(Category.All)]
         [TestCategory(Category.ServiceBus)]
+        [TestCategory(Category.BVT)]
         public void SetsAuthorizationRuleOnNamespace()
         {
             RunPowerShellTest("Test-SetsAuthorizationRuleOnNamespace");
@@ -142,6 +150,7 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.ServiceBusTests
         [TestMethod]
         [TestCategory(Category.All)]
         [TestCategory(Category.ServiceBus)]
+        [TestCategory(Category.BVT)]
         public void RemovesNamespaceAuthorizationRule()
         {
             RunPowerShellTest("Test-RemovesNamespaceAuthorizationRule");
@@ -153,6 +162,7 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.ServiceBusTests
         [TestMethod]
         [TestCategory(Category.All)]
         [TestCategory(Category.ServiceBus)]
+        [TestCategory(Category.BVT)]
         public void RemovesQueueAuthorizationRule()
         {
             RunPowerShellTest("Test-RemovesQueueAuthorizationRule");
@@ -164,6 +174,7 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.ServiceBusTests
         [TestMethod]
         [TestCategory(Category.All)]
         [TestCategory(Category.ServiceBus)]
+        [TestCategory(Category.BVT)]
         public void RemovesTopicAuthorizationRule()
         {
             RunPowerShellTest("Test-RemovesTopicAuthorizationRule");
@@ -186,6 +197,7 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.ServiceBusTests
         [TestMethod]
         [TestCategory(Category.All)]
         [TestCategory(Category.ServiceBus)]
+        [TestCategory(Category.BVT)]
         public void RemovesNotificationHubAuthorizationRule()
         {
             RunPowerShellTest("Test-RemovesNotificationHubAuthorizationRule");
@@ -201,6 +213,7 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.ServiceBusTests
         [TestMethod]
         [TestCategory(Category.All)]
         [TestCategory(Category.ServiceBus)]
+        [TestCategory(Category.BVT)]
         public void GetsNamespaceAuthorizationRules()
         {
             RunPowerShellTest("Test-GetsNamespaceAuthorizationRules");
@@ -212,6 +225,7 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.ServiceBusTests
         [TestMethod]
         [TestCategory(Category.All)]
         [TestCategory(Category.ServiceBus)]
+        [TestCategory(Category.BVT)]
         public void GetsQueueSpecificAuthorizationRule()
         {
             RunPowerShellTest("Test-GetsQueueSpecificAuthorizationRule");
@@ -223,6 +237,7 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.ServiceBusTests
         [TestMethod]
         [TestCategory(Category.All)]
         [TestCategory(Category.ServiceBus)]
+        [TestCategory(Category.BVT)]
         public void FilterAuthorizationRulesByPermission()
         {
             RunPowerShellTest("Test-FilterAuthorizationRulesByPermission");
@@ -234,6 +249,7 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.ServiceBusTests
         [TestMethod]
         [TestCategory(Category.All)]
         [TestCategory(Category.ServiceBus)]
+        [TestCategory(Category.BVT)]
         public void GetsEmptyListForTopic()
         {
             RunPowerShellTest("Test-GetsEmptyListForTopic");

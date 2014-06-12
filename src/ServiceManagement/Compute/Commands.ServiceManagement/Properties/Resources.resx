@@ -621,4 +621,10 @@
   <data name="ReservedIPNameNoLongerInUseByStoppingLastVMButStillBeingReserved" xml:space="preserve">
     <value>Reserved IP with the Name:'{0}' will no longer be in use after all the VMs in the Cloud Service are in the Stopped Deallocated state, it is still reserved in your subscription for later use. Please note that the Reserved IPs that are not associated with a deployment will incur billing charges.</value>
   </data>
+  <data name="DiagnosticsSlashNotFound" xml:space="preserve">
+    <value>Cannot find the // in the endpoint {0}</value>
+  </data>
+  <data name="DiagnosticsStorageAccountNotFound" xml:space="preserve">
+    <value>Cannot find the storage account name {0} in the endpoint {1}</value>
+  </data>
 </root>

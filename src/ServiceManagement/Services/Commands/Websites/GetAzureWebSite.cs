@@ -17,6 +17,7 @@ namespace Microsoft.WindowsAzure.Commands.Websites
     using System;
     using System.Collections.Generic;
     using System.Management.Automation;
+    using Microsoft.WindowsAzure.Commands.Utilities.Websites;
     using Utilities.Properties;
     using Utilities.Websites.Common;
     using Utilities.Websites.Services;
@@ -64,7 +65,7 @@ namespace Microsoft.WindowsAzure.Commands.Websites
                         {
                             WriteWebsites(websites);
                         }
-                        else if(websites.Count == 1)
+                        else if (websites.Count == 1)
                         {
                             Site websiteObject = websites[0];
                             WriteWebsite(websiteObject);
@@ -92,7 +93,18 @@ namespace Microsoft.WindowsAzure.Commands.Websites
                 // Ignore exception and use default values
             }
 
-            WriteObject(new SiteWithConfig(websiteObject, config, diagnosticSettings), false);
+            WebsiteInstance[] instanceIds;
+            try
+            {
+                instanceIds = WebsitesClient.ListWebsiteInstances(websiteObject.WebSpace, websiteObject.Name);
+            }
+            catch
+            {
+                // TODO: Temporary workaround for issue where slots are not supported with this API (yet).
+                instanceIds = new WebsiteInstance[0];
+            }
+
+            WriteObject(new SiteWithConfig(websiteObject, config, diagnosticSettings, instanceIds), false);
         }
 
         private void GetNoName()

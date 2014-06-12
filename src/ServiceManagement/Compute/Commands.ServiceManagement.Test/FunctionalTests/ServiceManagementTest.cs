@@ -22,6 +22,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
     using System.IO;
     using System.Linq;
     using VisualStudio.TestTools.UnitTesting;
+    using System.Xml.Linq;
 
     [TestClass]
     public class ServiceManagementTest
@@ -116,6 +117,26 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
             return null;
         }
 
+        private static string GetSubscriptionName(string publishSettingsFile)
+        {
+            try
+            {
+                XDocument psf = XDocument.Load(publishSettingsFile);
+                XElement pubData = psf.Descendants().FirstOrDefault();
+                XElement pubProfile = pubData.Elements().ToList()[0];
+                XElement sub = pubProfile.Elements().ToList()[0];
+                string subName = sub.Attribute("Name").Value;
+                Console.WriteLine("Getting subscription: {0}", subName);
+
+                return subName;
+            }
+            catch
+            {
+                Console.WriteLine("Error occurred during loading publish settings file...");
+                return null;
+            }
+        }
+
         public static void SetTestSettings()
         {
             vmPowershellCmdlets = new ServiceManagementCmdletTestHelper();
@@ -138,6 +159,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
             }
 
             locationName = vmPowershellCmdlets.GetAzureLocationName(new[] { CredentialHelper.Location }); // Get-AzureLocation
+
             if (String.IsNullOrEmpty(locationName))
             {
                 Console.WriteLine("No location is selected!");
@@ -149,7 +171,15 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
                 SetDefaultStorage();
             }
 
-            imageName = vmPowershellCmdlets.GetAzureVMImageName(new[] { "Windows" }, false); // Get-AzureVMImage
+            try
+            {
+                imageName = vmPowershellCmdlets.GetAzureVMImageName(new[] { "Windows" }, false); // Get-AzureVMImage
+            }
+            catch
+            {
+                Console.WriteLine("Error occurred during Get-AzureVMImageName... imageName is not set.");
+            }
+
             if (String.IsNullOrEmpty(imageName))
             {
                 Console.WriteLine("No image is selected!");
@@ -170,32 +200,41 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
         {
             vmPowershellCmdlets = new ServiceManagementCmdletTestHelper();
 
-            var affGroup = vmPowershellCmdlets.GetAzureAffinityGroup();
-            if (affGroup.Count > 0)
+            try
             {
-                foreach (var aff in affGroup)
+                // Cleaning up affinity groups
+                var affGroup = vmPowershellCmdlets.GetAzureAffinityGroup();
+                if (affGroup.Count > 0)
                 {
-                    try
+                    foreach (var aff in affGroup)
                     {
-                        vmPowershellCmdlets.RemoveAzureAffinityGroup(aff.Name);
-                    }
-                    catch (Exception e)
-                    {
-                        if (e.ToString().Contains(BadRequestException))
+                        try
                         {
-                            Console.WriteLine("Affinity Group, {0}, is not deleted.", aff.Name);
+                            vmPowershellCmdlets.RemoveAzureAffinityGroup(aff.Name);
+                        }
+                        catch (Exception e)
+                        {
+                            if (e.ToString().Contains(BadRequestException))
+                            {
+                                Console.WriteLine("Affinity Group, {0}, is not deleted.", aff.Name);
+                            }
                         }
                     }
                 }
-            }
 
-            if (defaultAzureSubscription != null)
-            {
-                Retry(String.Format("Get-AzureDisk | Where {{$_.DiskName.Contains(\"{0}\")}} | Remove-AzureDisk -DeleteVhd", serviceNamePrefix), "in use");
-                if (deleteDefaultStorageAccount)
+                // Cleaning up virtual disks
+                if (defaultAzureSubscription != null)
                 {
-                    //vmPowershellCmdlets.RemoveAzureStorageAccount(defaultAzureSubscription.CurrentStorageAccountName);
+                    Retry(String.Format("Get-AzureDisk | Where {{$_.DiskName.Contains(\"{0}\")}} | Remove-AzureDisk -DeleteVhd", serviceNamePrefix), "in use");
+                    if (deleteDefaultStorageAccount)
+                    {
+                        //vmPowershellCmdlets.RemoveAzureStorageAccount(defaultAzureSubscription.CurrentStorageAccountName);
+                    }
                 }
+            }
+            catch
+            {
+                Console.WriteLine("Error occurred during cleaning up..");
             }
         }
 

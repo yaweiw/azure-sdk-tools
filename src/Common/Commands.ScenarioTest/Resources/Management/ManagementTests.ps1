@@ -54,7 +54,7 @@ Tests Remove-AzureSubscription with empty subscription
 function Test-RemoveAzureSubscriptionWithEmptySubscription
 {
 	# Setup
-	$errorMessage = "Cannot validate argument on parameter 'SubscriptionName'. The argument is null or empty. Supply an argument that is not null or empty and then try the command again."
+	$errorMessage = "Cannot validate argument on parameter 'SubscriptionName'. The argument is null or empty. Provide an argument that is not null or empty, and then try the command again."
 
 	# Test
 	Assert-Throws { Remove-AzureSubscription "" } $errorMessage
