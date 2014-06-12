@@ -16,6 +16,9 @@
 .SYNOPSIS
 Checks whether the first string contains the second one
 #>
+
+$accountName='AutomationAccount'
+
 function AssertContains
 {
 	param([string] $str, [string] $substr, [string] $message)
