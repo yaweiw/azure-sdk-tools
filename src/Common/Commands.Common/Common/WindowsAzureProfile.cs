@@ -275,6 +275,11 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
                 UpdateDefaultSubscription(s);
             }
 
+            if(string.IsNullOrEmpty(s.SqlDatabaseDnsSuffix))
+            {
+                s.SqlDatabaseDnsSuffix = Environments[EnvironmentName.AzureCloud].SqlDatabaseDnsSuffix;
+            }
+
             Save();
         }
 
