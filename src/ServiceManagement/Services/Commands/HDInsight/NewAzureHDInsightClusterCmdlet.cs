@@ -26,6 +26,7 @@ namespace Microsoft.WindowsAzure.Management.HDInsight.Cmdlet.PSCmdlets
     using System.Security.Cryptography.X509Certificates;
     using System.Threading;
     using System.Threading.Tasks;
+    using ClusterProvisioning.Data;
 
     /// <summary>
     ///     Cmdlet that creates a new HDInsight cluster.
@@ -92,6 +93,7 @@ namespace Microsoft.WindowsAzure.Management.HDInsight.Cmdlet.PSCmdlets
                 var result = new AzureHDInsightConfig();
                 result.ClusterSizeInNodes = this.command.ClusterSizeInNodes;
                 result.HeadNodeVMSize = this.command.HeadNodeSize;
+                result.ClusterType = this.command.ClusterType;
                 result.DefaultStorageAccount.StorageAccountName = this.command.DefaultStorageAccountName;
                 result.DefaultStorageAccount.StorageAccountKey = this.command.DefaultStorageAccountKey;
                 result.DefaultStorageAccount.StorageContainerName = this.command.DefaultStorageContainerName;
@@ -115,6 +117,7 @@ namespace Microsoft.WindowsAzure.Management.HDInsight.Cmdlet.PSCmdlets
                     throw new ArgumentNullException("value", "The value for the configuration can not be null.");
                 }
                 this.command.ClusterSizeInNodes = value.ClusterSizeInNodes;
+                this.command.ClusterType = value.ClusterType;
                 this.command.DefaultStorageAccountName = value.DefaultStorageAccount.StorageAccountName;
                 this.command.DefaultStorageAccountKey = value.DefaultStorageAccount.StorageAccountKey;
                 this.command.DefaultStorageContainerName = value.DefaultStorageAccount.StorageContainerName;
@@ -244,6 +247,15 @@ namespace Microsoft.WindowsAzure.Management.HDInsight.Cmdlet.PSCmdlets
         {
             get { return this.command.HeadNodeSize; }
             set { this.command.HeadNodeSize = value; }
+        }
+
+         /// <inheritdoc />
+        [Parameter(Position = 14, Mandatory = false, HelpMessage = "The type HDInsight cluster.",
+            ParameterSetName = AzureHdInsightPowerShellConstants.ParameterSetClusterByNameWithSpecificSubscriptionCredentials)]
+        public ClusterType ClusterType
+        {
+            get { return this.command.ClusterType; }
+            set { this.command.ClusterType = value; }
         }
 
         /// <inheritdoc />

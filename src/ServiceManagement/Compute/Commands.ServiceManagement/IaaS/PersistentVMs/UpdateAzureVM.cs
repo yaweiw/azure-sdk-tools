@@ -16,6 +16,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
 {
     using AutoMapper;
     using Helpers;
+    using Management.Compute;
     using Management.Compute.Models;
     using Model;
     using Properties;

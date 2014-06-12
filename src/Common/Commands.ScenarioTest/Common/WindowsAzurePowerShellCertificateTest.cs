@@ -43,6 +43,7 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.Common
             : base(AzureModule.AzureServiceManagement, modules)
         {
             this.runningMocked = (HttpMockServer.GetCurrentMode() == HttpRecorderMode.Playback);
+            TestMockSupport.RunningMocked = this.runningMocked;
             if (this.runningMocked)
             {
                 string dummyCredentialFile = Path.Combine(Environment.CurrentDirectory, TestCredentialHelper.DefaultCredentialFile);
@@ -95,7 +96,10 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.Common
         {
             base.TestCleanup();
             WindowsAzureSubscription.OnClientCreated -= OnClientCreated;
-            HttpMockServer.Flush();
+            if (this.runningMocked && HttpMockServer.CallerIdentity != null)
+            {
+                HttpMockServer.Flush();
+            }
         }
     }
 }

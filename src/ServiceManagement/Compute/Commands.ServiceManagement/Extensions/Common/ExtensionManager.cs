@@ -14,13 +14,14 @@
 
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Extensions
 {
-    using Management.Compute.Models;
-    using Properties;
     using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Security.Cryptography;
     using System.Security.Cryptography.X509Certificates;
+    using Management.Compute;
+    using Management.Compute.Models;
+    using Properties;
     using Utilities.Common;
 
     public class ExtensionManager

@@ -16,11 +16,11 @@ using System.Linq;
 
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
 {
-    using ConfigDataInfo;
+    using System;
+    using System.Reflection;    
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using Model;
-    using System;
-    using System.Reflection;
+    using ConfigDataInfo;
     
     [TestClass]
     public class ReservedIPTest : ServiceManagementTest

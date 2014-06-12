@@ -15,6 +15,8 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.Common
 
         public const string Management = "Management";
 
+        public const string MediaServices = "MediaServices";
+
         public const string Websites = "Websites";
 
         public const string Storage = "Storage";
@@ -29,6 +31,8 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.Common
 
         public const string TrafficManager = "TrafficManager";
 
+        public const string ManagedCache = "ManagedCache";
+
         // Owners
 
         public const string OneSDK = "OneSDK";
@@ -36,6 +40,7 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.Common
         // Acceptance type
 
         public const string CIT = "CIT";
+        public const string BVT = "BVT";
 
         // Environment
 

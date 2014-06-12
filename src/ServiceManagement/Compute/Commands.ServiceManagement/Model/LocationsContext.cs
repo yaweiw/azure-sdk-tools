@@ -15,15 +15,20 @@
 
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Model
 {
+    using System.Collections.Generic;
     using PersistentVMModel;
     using Utilities.Common;
 
     public class LocationsContext : ManagementOperationContext
     {
-        public AvailableServicesList AvailableServices { get; set; }
-
         public string DisplayName { get; set; }
 
-        public string Name { get; set; } 
+        public string Name { get; set; }
+
+        public AvailableServicesList AvailableServices { get; set; }
+
+        public IEnumerable<string> WebWorkerRoleSizes { get; set; }
+
+        public IEnumerable<string> VirtualMachineRoleSizes { get; set; }
     }
 }

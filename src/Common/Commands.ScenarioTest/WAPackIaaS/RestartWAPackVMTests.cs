@@ -43,8 +43,9 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.WAPackIaaS.FunctionalTest
         }
 
         [TestMethod]
-        [TestCategory("Negative")]
-        [TestCategory("WAPackIaaS")]
+        [TestCategory("WAPackIaaS-Negative")]
+        [TestCategory("WAPackIaaS-All")]
+        [TestCategory("WAPackIaaS-Functional")]
         public void ShouldFailRestartStoppedVM()
         {
             var stoppedVM = SetVirtualMachineState(VirtualMachine, "Stop");
@@ -60,8 +61,9 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.WAPackIaaS.FunctionalTest
         }
 
         [TestMethod]
-        [TestCategory("Negative")]
-        [TestCategory("WAPackIaaS")]
+        [TestCategory("WAPackIaaS-Negative")]
+        [TestCategory("WAPackIaaS-All")]
+        [TestCategory("WAPackIaaS-Functional")]
         public void ShouldFailRestartUnknownVM()
         {
             var vm = this.VirtualMachine;

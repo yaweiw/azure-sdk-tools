@@ -19,6 +19,7 @@ namespace Microsoft.WindowsAzure.Management.HDInsight.Cmdlet.PSCmdlets
     using GetAzureHDInsightClusters;
     using ServiceLocation;
     using System.Management.Automation;
+    using ClusterProvisioning.Data;
 
     /// <summary>
     ///     Represents the New-AzureHDInsightClusterConfig  Power Shell Cmdlet.
@@ -54,6 +55,15 @@ namespace Microsoft.WindowsAzure.Management.HDInsight.Cmdlet.PSCmdlets
         {
             get { return command.HeadNodeVMSize; }
             set { command.HeadNodeVMSize = value; }
+        }
+
+        /// <inheritdoc />
+        [Parameter(Position = 2, Mandatory = false, HelpMessage = "The type of cluster.",
+            ParameterSetName = AzureHdInsightPowerShellConstants.ParameterSetConfigClusterSizeInNodesOnly)]
+        public ClusterType ClusterType
+        {
+            get { return command.ClusterType; }
+            set { command.ClusterType = value; }
         }
 
         /// <summary>

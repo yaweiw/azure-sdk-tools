@@ -11,29 +11,34 @@
 
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Extensions
 {
-    using Properties;
     using System;
-    using System.Text;
     using System.Xml;
     using System.Xml.Linq;
+    using Properties;
+    using Microsoft.WindowsAzure.Storage;
+    using Microsoft.WindowsAzure.Storage.Auth;
 
     public abstract class BaseAzureServiceDiagnosticsExtensionCmdlet : BaseAzureServiceExtensionCmdlet
     {
-        protected const string ConnectionQualifiersElemStr = "ConnectionQualifiers";
-        protected const string DefaultEndpointsProtocolElemStr = "DefaultEndpointsProtocol";
         protected const string StorageAccountElemStr = "StorageAccount";
         protected const string StorageNameElemStr = "Name";
+        protected const string StorageNameAttrStr = "name";
+        protected const string PrivConfNameAttr = "name";
+        protected const string PrivConfKeyAttr = "key";
+        protected const string PrivConfEndpointAttr = "endpoint";
         protected const string StorageKeyElemStr = "StorageKey";
         protected const string WadCfgElemStr = "WadCfg";
-        protected const string DiagnosticsExtensionNamespace = "Microsoft.Windows.Azure.Extensions";
-        protected const string DiagnosticsExtensionType = "Diagnostics";
+        protected const string DiagnosticsExtensionNamespace = "Microsoft.Azure.Diagnostics";
+        protected const string DiagnosticsExtensionType = "PaaSDiagnostics";
 
         protected string StorageKey { get; set; }
         protected string ConnectionQualifiers { get; set; }
         protected string DefaultEndpointsProtocol { get; set; }
+        protected string Endpoint { get; set; }
 
         public virtual string StorageAccountName { get; set; }
         public virtual XmlDocument DiagnosticsConfiguration { get; set; }
+
 
         public BaseAzureServiceDiagnosticsExtensionCmdlet()
             : base()
@@ -44,29 +49,25 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Extensions
         {
             base.ValidateParameters();
 
+            XNamespace configNameSpace = "http://schemas.microsoft.com/ServiceHosting/2010/10/DiagnosticsConfiguration";
             ProviderNamespace = DiagnosticsExtensionNamespace;
             ExtensionName = DiagnosticsExtensionType;
-
-            XNamespace configNameSpace = "http://schemas.microsoft.com/ServiceHosting/2010/10/DiagnosticsConfiguration";
-
             PublicConfigurationXmlTemplate = new XDocument(
                 new XDeclaration("1.0", "utf-8", null),
                 new XElement(configNameSpace + PublicConfigStr,
-                    new XElement(configNameSpace + StorageAccountElemStr,
-                        new XElement(configNameSpace + ConnectionQualifiersElemStr, string.Empty),
-                        new XElement(configNameSpace + DefaultEndpointsProtocolElemStr, string.Empty),
-                        new XElement(configNameSpace + StorageNameElemStr, string.Empty)
-                    ),
-                    new XElement(configNameSpace + WadCfgElemStr, string.Empty)
+                    new XElement(configNameSpace + WadCfgElemStr, string.Empty),
+                    new XElement(configNameSpace + StorageAccountElemStr, string.Empty)
                 )
             );
 
             PrivateConfigurationXmlTemplate = new XDocument(
                 new XDeclaration("1.0", "utf-8", null),
-                new XProcessingInstruction("xml-stylesheet", @"type=""text/xsl"" href=""style.xsl"""),
-                new XElement(PrivateConfigStr,
-                    new XElement(StorageKeyElemStr, "{0}")
-                )
+                new XElement(configNameSpace + PrivateConfigStr,
+                    new XElement(configNameSpace + StorageAccountElemStr,
+                    new XAttribute(PrivConfNameAttr, string.Empty),
+                    new XAttribute(PrivConfKeyAttr, string.Empty),
+                    new XAttribute(PrivConfEndpointAttr, string.Empty)
+                ))
             );
         }
 
@@ -85,26 +86,42 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Extensions
             }
             StorageKey = storageKeys.PrimaryKey != null ? storageKeys.PrimaryKey : storageKeys.SecondaryKey;
 
-            StringBuilder endpointStr = new StringBuilder();
-            endpointStr.AppendFormat("BlobEndpoint={0};", storageService.StorageAccount.Properties.Endpoints[0]);
-            endpointStr.AppendFormat("QueueEndpoint={0};", storageService.StorageAccount.Properties.Endpoints[1]);
-            endpointStr.AppendFormat("TableEndpoint={0}", storageService.StorageAccount.Properties.Endpoints[2]);
-            ConnectionQualifiers = endpointStr.ToString();
-            DefaultEndpointsProtocol = "https";
+            CloudStorageAccount srcStorageAccount = new CloudStorageAccount(new StorageCredentials(StorageAccountName, StorageKey), true);
+            Endpoint = srcStorageAccount.TableStorageUri.PrimaryUri.ToString();
+
+            // the endpoint format for table is:  http://aaaaaa.table.xxxxxx.yyy where aaaaaa is the StorageAccountName.
+            // we really want to get rid of aaaaaa.table and keep what is left: http://xxxxxx.yyy
+
+            int tableIndex = Endpoint.IndexOf(StorageAccountName);
+            if (tableIndex < 0)
+            {
+                throw new Exception(string.Format(Resources.DiagnosticsStorageAccountNotFound, StorageAccountName, Endpoint));
+            }
+
+            tableIndex += StorageAccountName.Length + 1; // +1 for the dot after the storage account name
+
+            int slashIndex = Endpoint.IndexOf("//");
+            if (slashIndex < 0)
+            {
+                throw new Exception(string.Format(Resources.DiagnosticsSlashNotFound, Endpoint));
+            }
+
+            Endpoint = Endpoint.Substring(0, slashIndex + 2) + Endpoint.Substring(tableIndex + "table.".Length);
         }
 
         protected override void ValidateConfiguration()
         {
             PublicConfigurationXml = new XDocument(PublicConfigurationXmlTemplate);
-            SetPublicConfigValue(ConnectionQualifiersElemStr, ConnectionQualifiers);
-            SetPublicConfigValue(DefaultEndpointsProtocolElemStr, DefaultEndpointsProtocol);
-            SetPublicConfigValue(StorageNameElemStr, StorageAccountName);
             SetPublicConfigValue(WadCfgElemStr, DiagnosticsConfiguration);
+            SetPublicConfigValue(StorageAccountElemStr, StorageAccountName);
             PublicConfiguration = PublicConfigurationXml.ToString();
 
             PrivateConfigurationXml = new XDocument(PrivateConfigurationXmlTemplate);
-            SetPrivateConfigValue(StorageKeyElemStr, StorageKey);
+            SetPrivateConfigAttribute(StorageAccountElemStr, PrivConfNameAttr, StorageAccountName);
+            SetPrivateConfigAttribute(StorageAccountElemStr, PrivConfKeyAttr, StorageKey);
+            SetPrivateConfigAttribute(StorageAccountElemStr, PrivConfEndpointAttr, Endpoint);
             PrivateConfiguration = PrivateConfigurationXml.ToString();
+
         }
     }
 }
