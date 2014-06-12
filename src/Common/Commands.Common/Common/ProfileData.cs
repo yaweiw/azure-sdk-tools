@@ -88,7 +88,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
                 ActiveDirectoryEndpoint = this.AdTenantUrl,
                 ActiveDirectoryCommonTenantId = this.CommonTenantId,
                 GalleryEndpoint = this.GalleryEndpoint,
-                ActiveDirectoryServiceEndpointResourceId = this.ActiveDirectoryServiceEndpointResourceId
+                ActiveDirectoryServiceEndpointResourceId = this.ActiveDirectoryServiceEndpointResourceId,
                 SqlDatabaseDnsSuffix = this.SqlDatabaseDnsSuffix,
             };
         }

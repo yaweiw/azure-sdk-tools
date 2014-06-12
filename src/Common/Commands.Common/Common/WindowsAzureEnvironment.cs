@@ -266,7 +266,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
                     ActiveDirectoryServiceEndpointResourceId = WindowsAzureEnvironmentConstants.ChinaServiceEndpoint, 
                     ManagementPortalUrl = WindowsAzureEnvironmentConstants.ChinaManagementPortalUrl,
                     StorageEndpointSuffix = WindowsAzureEnvironmentConstants.ChinaStorageEndpointSuffix,
-                    GalleryEndpoint = string.Empty
+                    GalleryEndpoint = string.Empty,
                     SqlDatabaseDnsSuffix = WindowsAzureEnvironmentConstants.ChinaSqlDatabaseDnsSuffix,
                 }
             }
