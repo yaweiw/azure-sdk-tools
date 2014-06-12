@@ -15,7 +15,7 @@
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Model
 {
     using Properties;
-    using Storage;
+    using Microsoft.WindowsAzure.Storage;
     using Sync;
     using Sync.Upload;
     using System;

@@ -22,7 +22,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.PersistentVMs
     using Management.Compute.Models;
     using Model;
     using Properties;
-    using Storage;
+    using Microsoft.WindowsAzure.Storage;
     using System;
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
