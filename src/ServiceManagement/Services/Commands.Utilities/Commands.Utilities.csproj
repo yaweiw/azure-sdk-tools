@@ -53,10 +53,6 @@
       <HintPath>..\..\..\packages\AutoMapper.3.1.1\lib\net40\AutoMapper.dll</HintPath>
     </Reference>
     <Reference Include="AutoMapper.Net4, Version=3.1.1.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL" />
-    <Reference Include="Microsoft.Azure.Management.Automation, Version=0.9.0.0, Culture=neutral, PublicKeyToken=c66ce9294aae1300, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\packages\Microsoft.Azure.Management.Automation.0.9.0-preview\lib\net40\Microsoft.Azure.Management.Automation.dll</HintPath>
-    </Reference>
     <Reference Include="Microsoft.Build" />
     <Reference Include="Microsoft.Build.Framework" />
     <Reference Include="Microsoft.Data.Edm, Version=5.6.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
@@ -79,15 +75,15 @@
     </Reference>
     <Reference Include="Microsoft.Threading.Tasks, Version=1.0.12.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\packages\Microsoft.Bcl.Async.1.0.165\lib\net40\Microsoft.Threading.Tasks.dll</HintPath>
+      <HintPath>..\..\..\packages\Microsoft.Bcl.Async.1.0.168\lib\net40\Microsoft.Threading.Tasks.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Threading.Tasks.Extensions, Version=1.0.12.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\packages\Microsoft.Bcl.Async.1.0.165\lib\net40\Microsoft.Threading.Tasks.Extensions.dll</HintPath>
+      <HintPath>..\..\..\packages\Microsoft.Bcl.Async.1.0.168\lib\net40\Microsoft.Threading.Tasks.Extensions.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Threading.Tasks.Extensions.Desktop, Version=1.0.165.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\packages\Microsoft.Bcl.Async.1.0.165\lib\net40\Microsoft.Threading.Tasks.Extensions.Desktop.dll</HintPath>
+      <HintPath>..\..\..\packages\Microsoft.Bcl.Async.1.0.168\lib\net40\Microsoft.Threading.Tasks.Extensions.Desktop.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Web.Deployment, Version=9.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -95,11 +91,11 @@
     </Reference>
     <Reference Include="Microsoft.WindowsAzure.Common, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\packages\Microsoft.WindowsAzure.Common.1.0.3\lib\net40\Microsoft.WindowsAzure.Common.dll</HintPath>
+      <HintPath>..\..\..\packages\Microsoft.WindowsAzure.Common.1.1.1\lib\net40\Microsoft.WindowsAzure.Common.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.WindowsAzure.Common.NetFramework, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\packages\Microsoft.WindowsAzure.Common.1.0.3\lib\net40\Microsoft.WindowsAzure.Common.NetFramework.dll</HintPath>
+      <HintPath>..\..\..\packages\Microsoft.WindowsAzure.Common.1.1.1\lib\net40\Microsoft.WindowsAzure.Common.NetFramework.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.WindowsAzure.Configuration, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\..\..\packages\Microsoft.WindowsAzure.ConfigurationManager.2.0.3\lib\net40\Microsoft.WindowsAzure.Configuration.dll</HintPath>
@@ -134,7 +130,7 @@
     </Reference>
     <Reference Include="Microsoft.WindowsAzure.Management.Network, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\packages\Microsoft.WindowsAzure.Management.Network.2.0.1\lib\net40\Microsoft.WindowsAzure.Management.Network.dll</HintPath>
+      <HintPath>..\..\..\packages\Microsoft.WindowsAzure.Management.Network.2.1.1\lib\net40\Microsoft.WindowsAzure.Management.Network.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.WindowsAzure.Management.Scheduler, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -176,31 +172,33 @@
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.IO">
-      <HintPath>..\..\..\packages\Microsoft.Bcl.1.1.6\lib\net40\System.IO.dll</HintPath>
+      <HintPath>..\..\..\packages\Microsoft.Bcl.1.1.9\lib\net40\System.IO.dll</HintPath>
     </Reference>
     <Reference Include="System.Management.Automation, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="System.Net" />
-    <Reference Include="System.Net.Http, Version=2.2.18.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+    <Reference Include="System.Net.Http, Version=2.2.22.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\packages\Microsoft.Net.Http.2.2.18\lib\net40\System.Net.Http.dll</HintPath>
+      <HintPath>..\..\..\packages\Microsoft.Net.Http.2.2.22\lib\net40\System.Net.Http.dll</HintPath>
     </Reference>
-    <Reference Include="System.Net.Http.Extensions, Version=2.2.18.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+    <Reference Include="System.Net.Http.Extensions, Version=2.2.22.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\packages\Microsoft.Net.Http.2.2.18\lib\net40\System.Net.Http.Extensions.dll</HintPath>
+      <HintPath>..\..\..\packages\Microsoft.Net.Http.2.2.22\lib\net40\System.Net.Http.Extensions.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="System.Net.Http.Formatting, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\..\..\packages\Microsoft.AspNet.WebApi.Client.4.0.30506.0\lib\net40\System.Net.Http.Formatting.dll</HintPath>
     </Reference>
-    <Reference Include="System.Net.Http.Primitives, Version=2.2.18.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+    <Reference Include="System.Net.Http.Primitives, Version=2.2.22.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\packages\Microsoft.Net.Http.2.2.18\lib\net40\System.Net.Http.Primitives.dll</HintPath>
+      <HintPath>..\..\..\packages\Microsoft.Net.Http.2.2.22\lib\net40\System.Net.Http.Primitives.dll</HintPath>
     </Reference>
-    <Reference Include="System.Net.Http.WebRequest, Version=2.2.18.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+    <Reference Include="System.Net.Http.WebRequest, Version=2.2.22.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\packages\Microsoft.Net.Http.2.2.18\lib\net40\System.Net.Http.WebRequest.dll</HintPath>
+      <HintPath>..\..\..\packages\Microsoft.Net.Http.2.2.22\lib\net40\System.Net.Http.WebRequest.dll</HintPath>
     </Reference>
     <Reference Include="System.Runtime">
-      <HintPath>..\..\..\packages\Microsoft.Bcl.1.1.6\lib\net40\System.Runtime.dll</HintPath>
+      <HintPath>..\..\..\packages\Microsoft.Bcl.1.1.9\lib\net40\System.Runtime.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.ServiceModel" />
@@ -209,7 +207,7 @@
       <HintPath>..\..\..\packages\System.Spatial.5.6.0\lib\net40\System.Spatial.dll</HintPath>
     </Reference>
     <Reference Include="System.Threading.Tasks">
-      <HintPath>..\..\..\packages\Microsoft.Bcl.1.1.6\lib\net40\System.Threading.Tasks.dll</HintPath>
+      <HintPath>..\..\..\packages\Microsoft.Bcl.1.1.9\lib\net40\System.Threading.Tasks.dll</HintPath>
     </Reference>
     <Reference Include="System.Web" />
     <Reference Include="System.Web.Extensions" />
@@ -221,26 +219,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Automation\AutomationClient.cs" />
-    <Compile Include="Automation\Constants.cs" />
-    <Compile Include="Automation\DataContracts\ErrorResponse.cs" />
-    <Compile Include="Automation\DataContracts\OdataError.cs" />
-    <Compile Include="Automation\DataContracts\OdataErrorMessage.cs" />
-    <Compile Include="Automation\IAutomationClient.cs" />
-    <Compile Include="Automation\Models\AutomationAccount.cs" />
-    <Compile Include="Automation\Models\DailySchedule.cs" />
-    <Compile Include="Automation\Models\Job.cs" />
-    <Compile Include="Automation\Models\JobParameter.cs" />
-    <Compile Include="Automation\Models\JobStreamItem.cs" />
-    <Compile Include="Automation\Models\OneTimeSchedule.cs" />
-    <Compile Include="Automation\Models\Runbook.cs" />
-    <Compile Include="Automation\Models\RunbookDefinition.cs" />
-    <Compile Include="Automation\Models\RunbookParameter.cs" />
-    <Compile Include="Automation\Models\RunbookVersion.cs" />
-    <Compile Include="Automation\Models\Schedule.cs" />
-    <Compile Include="Automation\Requires.cs" />
-    <Compile Include="Automation\RequiresExtensions.cs" />
-    <Compile Include="Automation\ResourceNotFoundException.cs" />
     <Compile Include="CloudService\AddRole.cs" />
     <Compile Include="CloudService\CacheConfigurationFactory.cs" />
     <Compile Include="CloudService\CloudServiceClient.cs" />
@@ -290,15 +268,6 @@
     <Compile Include="Common\VisualStudioProjectPathInfo.cs" />
     <Compile Include="Common\WebRoleInfo.cs" />
     <Compile Include="Common\WorkerRoleInfo.cs" />
-    <Compile Include="ExpressRoute\ExpressRouteBaseCmdlet.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="ExpressRoute\ExpressRouteClient.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="ExpressRoute\ValidateGuid.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="HDInsight\Commands\BaseCommandInterfaces\IAddAzureHDInsightConfigValuesBase.cs" />
     <Compile Include="HDInsight\Commands\BaseCommandInterfaces\IAddAzureHDInsightMetaStoreBase.cs" />
     <Compile Include="HDInsight\Commands\BaseCommandInterfaces\IAddAzureHDInsightStorageBase.cs" />
@@ -951,9 +920,9 @@
   <PropertyGroup>
     <PostBuildEvent>powershell.exe -File $(ProjectDir)\PostBuild.ps1 $(TargetDir)</PostBuildEvent>
   </PropertyGroup>
-  <Import Project="..\..\..\packages\Microsoft.Bcl.Build.1.0.13\tools\Microsoft.Bcl.Build.targets" Condition="Exists('..\..\..\packages\Microsoft.Bcl.Build.1.0.13\tools\Microsoft.Bcl.Build.targets')" />
+  <Import Project="..\..\..\packages\Microsoft.Bcl.Build.1.0.14\tools\Microsoft.Bcl.Build.targets" Condition="Exists('..\..\..\packages\Microsoft.Bcl.Build.1.0.14\tools\Microsoft.Bcl.Build.targets')" />
   <Target Name="EnsureBclBuildImported" BeforeTargets="BeforeBuild" Condition="'$(BclBuildImported)' == ''">
-    <Error Condition="!Exists('..\..\..\packages\Microsoft.Bcl.Build.1.0.13\tools\Microsoft.Bcl.Build.targets')" Text="This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=317567." HelpKeyword="BCLBUILD2001" />
-    <Error Condition="Exists('..\..\..\packages\Microsoft.Bcl.Build.1.0.13\tools\Microsoft.Bcl.Build.targets')" Text="The build restored NuGet packages. Build the project again to include these packages in the build. For more information, see http://go.microsoft.com/fwlink/?LinkID=317568." HelpKeyword="BCLBUILD2002" />
+    <Error Condition="!Exists('..\..\..\packages\Microsoft.Bcl.Build.1.0.14\tools\Microsoft.Bcl.Build.targets')" Text="This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=317567." HelpKeyword="BCLBUILD2001" />
+    <Error Condition="Exists('..\..\..\packages\Microsoft.Bcl.Build.1.0.14\tools\Microsoft.Bcl.Build.targets')" Text="The build restored NuGet packages. Build the project again to include these packages in the build. For more information, see http://go.microsoft.com/fwlink/?LinkID=317568." HelpKeyword="BCLBUILD2002" />
   </Target>
 </Project>
