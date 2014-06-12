@@ -12,7 +12,7 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Commands.WAPackIaaS.VirtualMachine
+namespace Microsoft.WindowsAzure.Commands.WAPackIaaS.VMRole
 {
     using Microsoft.WindowsAzure.Commands.Utilities.Properties;
     using Microsoft.WindowsAzure.Commands.Utilities.WAPackIaaS;
@@ -20,22 +20,23 @@ namespace Microsoft.WindowsAzure.Commands.WAPackIaaS.VirtualMachine
     using Microsoft.WindowsAzure.Commands.Utilities.WAPackIaaS.Exceptions;
     using Microsoft.WindowsAzure.Commands.Utilities.WAPackIaaS.Operations;
     using System;
+    using System.Collections.Generic;
     using System.Management.Automation;
 
-    [Cmdlet(VerbsCommon.Set, "WAPackVM", DefaultParameterSetName = WAPackCmdletParameterSets.UpdateVMSizeProfile)]
-    public class SetWAPackVM : IaaSCmdletBase
+    [Cmdlet(VerbsCommon.Set, "WAPackVMRole", DefaultParameterSetName = WAPackCmdletParameterSets.FromVMRoleObject)]
+    public class SetWAPackVMRole : IaaSCmdletBase
     {
-        [Parameter(Position = 0, Mandatory = true, ParameterSetName = WAPackCmdletParameterSets.UpdateVMSizeProfile, ValueFromPipeline = true, HelpMessage = "Existing VirtualMachine Object.")]
+        [Parameter(Position = 0, Mandatory = true, ParameterSetName = WAPackCmdletParameterSets.FromVMRoleObject, ValueFromPipelineByPropertyName = true, HelpMessage = "VMRole Instance.")]
         [ValidateNotNullOrEmpty]
-        public VirtualMachine VM
+        public VMRole VMRole
         {
             get;
             set;
         }
 
-        [Parameter(Position = 1, Mandatory = true, ParameterSetName = WAPackCmdletParameterSets.UpdateVMSizeProfile, HelpMessage = "Existing VMSizeProfile Object.")]
+        [Parameter(Position = 1, Mandatory = true, ParameterSetName = WAPackCmdletParameterSets.FromVMRoleObject, ValueFromPipelineByPropertyName = true, HelpMessage = "New VMRole Instance Count.")]
         [ValidateNotNullOrEmpty]
-        public HardwareProfile VMSizeProfile
+        public int InstanceCount
         {
             get;
             set;
@@ -46,31 +47,19 @@ namespace Microsoft.WindowsAzure.Commands.WAPackIaaS.VirtualMachine
 
         public override void ExecuteCmdlet()
         {
-            var virtualMachineOperations = new VirtualMachineOperations(this.WebClientFactory);
-            Guid? jobId = Guid.Empty;
+            Guid? jobId = null;
 
-            var vmToUpdate = virtualMachineOperations.Read(VM.ID);
-            
-            this.SetSizeProfile(vmToUpdate);
-            var updatedVirtualMachine = virtualMachineOperations.Update(vmToUpdate, out jobId);
-
-            if (!jobId.HasValue)
-            {
-                throw new WAPackOperationException(String.Format(Resources.OperationFailedErrorMessage, Resources.Update, VM.ID));
-            }
+            var vmRoleOperations = new VMRoleOperations(this.WebClientFactory);
+            vmRoleOperations.SetInstanceCount(this.VMRole.Name, this.VMRole, this.InstanceCount, out jobId);
             WaitForJobCompletion(jobId);
 
             if (PassThru)
             {
-                updatedVirtualMachine = virtualMachineOperations.Read(updatedVirtualMachine.ID);
-                WriteObject(updatedVirtualMachine);
+                IEnumerable<VMRole> results = null;
+                var updatedVMRole = vmRoleOperations.Read(this.VMRole.Name, this.VMRole.Name);
+                results = new List<VMRole>() { updatedVMRole };
+                GenerateCmdletOutput(results);
             }
-        }
-
-        private void SetSizeProfile(VirtualMachine vm)
-        {
-            vm.CPUCount = VMSizeProfile.CPUCount;
-            vm.Memory = VMSizeProfile.Memory;
         }
     }
 }

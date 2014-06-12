@@ -511,12 +511,14 @@
     <Compile Include="WAPackIaaS\ILogger.cs" />
     <Compile Include="WAPackIaaS\JobInfo.cs" />
     <Compile Include="WAPackIaaS\Operations\CloudOperations.cs" />
+    <Compile Include="WAPackIaaS\Operations\CloudServiceOperations.cs" />
     <Compile Include="WAPackIaaS\Operations\HardwareProfileOperations.cs" />
     <Compile Include="WAPackIaaS\Operations\JobOperations.cs" />
     <Compile Include="WAPackIaaS\Operations\OperationsBase.cs" />
     <Compile Include="WAPackIaaS\Operations\VirtualHardDiskOperations.cs" />
     <Compile Include="WAPackIaaS\Operations\VirtualMachineOperations.cs" />
     <Compile Include="WAPackIaaS\Operations\VMNetworkOperations.cs" />
+    <Compile Include="WAPackIaaS\Operations\VmRoleOperations.cs" />
     <Compile Include="WAPackIaaS\Operations\VMTemplateOperations.cs" />
     <Compile Include="WAPackIaaS\WebClientFactory.cs" />
     <Compile Include="WAPackIaaS\WebClient\HttpFilters.cs" />
