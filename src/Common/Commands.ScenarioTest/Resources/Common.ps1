@@ -80,7 +80,7 @@ function Run-Test
         
     $oldPref = $ErrorActionPreference	 
 	$ErrorActionPreference = "SilentlyContinue"
-	Start-Transcript -Path $transFile	
+	#Start-Transcript -Path $transFile	
     $success = $false;
     $ErrorActionPreference = $oldPref
     try 
@@ -93,7 +93,7 @@ function Run-Test
         Test-Cleanup
         $oldPref = $ErrorActionPreference	 
 	    $ErrorActionPreference = "SilentlyContinue"
-        Stop-Transcript
+        #Stop-Transcript
         $ErrorActionPreference = $oldPref
         if ($testScript)
         {
