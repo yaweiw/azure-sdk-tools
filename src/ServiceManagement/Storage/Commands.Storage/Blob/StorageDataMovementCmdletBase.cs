@@ -17,6 +17,7 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Blob
     using Microsoft.WindowsAzure.Commands.Storage.Common;
     using Microsoft.WindowsAzure.Storage.Blob;
     using Microsoft.WindowsAzure.Storage.DataMovement;
+    using Microsoft.WindowsAzure.Storage.DataMovement.TransferJobs;
     using System;
     using System.Diagnostics;
     using System.Management.Automation;
@@ -26,7 +27,7 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Blob
         /// <summary>
         /// Blob Transfer Manager
         /// </summary>
-        protected BlobTransferManager transferManager;
+        protected TransferManager transferManager;
 
         [Parameter(HelpMessage = "Force to overwrite the existing blob or file")]
         public SwitchParameter Force
@@ -173,16 +174,23 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Blob
         {
             base.BeginProcessing();
 
-            BlobTransferOptions opts = new BlobTransferOptions();
-            opts.Concurrency = GetCmdletConcurrency();
-            opts.AppendToClientRequestId(CmdletOperationContext.ClientRequestId);
-            opts.OverwritePromptCallback = ConfirmOverwrite;
-            SetRequestOptionsInDataMovement(opts);
-            transferManager = new BlobTransferManager(opts);
-            CmdletCancellationToken.Register(() => transferManager.CancelWork());
+            TransferOptions opts = new TransferOptions();
+            opts.ParallelOperations = GetCmdletConcurrency();
+            opts.ClientRequestIdPrefix = CmdletOperationContext.ClientRequestId;
+            
+            transferManager = new TransferManager(opts);
         }
 
-        private void SetRequestOptionsInDataMovement(BlobTransferOptions opts)
+        protected void EnqueueTransferJob(BlobTransferJob transferJob, DataMovementUserData userData)
+        {
+            this.AppendEventHandlers(transferJob, userData);
+            this.SetRequestOptionsInTransferJob(transferJob);
+            transferJob.OverwritePromptCallback = ConfirmOverwrite;
+
+            transferManager.EnqueueJob(transferJob, CmdletCancellationToken);
+        }
+
+        protected void SetRequestOptionsInTransferJob(BlobTransferJob transferJob)
         {
             BlobRequestOptions cmdletOptions = RequestOptions;
 
@@ -190,23 +198,20 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Blob
             {
                 return;
             }
-            
-            foreach (BlobRequestOperation operation in Enum.GetValues(typeof(BlobRequestOperation)))
+
+            BlobRequestOptions requestOptions = transferJob.BlobRequestOptions;
+
+            if (cmdletOptions.MaximumExecutionTime != null)
             {
-                BlobRequestOptions requestOptions = opts.GetBlobRequestOptions(operation);
-
-                if (cmdletOptions.MaximumExecutionTime != null)
-                {
-                    requestOptions.MaximumExecutionTime = cmdletOptions.MaximumExecutionTime;
-                }
-
-                if (cmdletOptions.ServerTimeout != null)
-                {
-                    requestOptions.ServerTimeout = cmdletOptions.ServerTimeout;
-                }
-
-                opts.SetBlobRequestOptions(operation, requestOptions);    
+                requestOptions.MaximumExecutionTime = cmdletOptions.MaximumExecutionTime;
             }
+
+            if (cmdletOptions.ServerTimeout != null)
+            {
+                requestOptions.ServerTimeout = cmdletOptions.ServerTimeout;
+            }
+
+            transferJob.BlobRequestOptions = requestOptions;
         }
 
         protected override void EndProcessing()
@@ -233,11 +238,28 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Blob
             {
                 if (transferManager != null)
                 {
-                    transferManager.WaitForCompletion();
                     transferManager.Dispose();
                     transferManager = null;
                 }
             }
+        }
+
+        protected virtual void AppendEventHandlers(TransferJobBase transferJob, DataMovementUserData userData)
+        {
+            transferJob.StartEvent += (eventSource, eventArgs) =>
+                {
+                    this.OnDMJobStart(userData);
+                };
+
+            transferJob.ProgressEvent += (eventSource, eventArgs) =>
+                {
+                    this.OnDMJobProgress(userData, eventArgs.Speed, eventArgs.Progress);
+                };
+
+            transferJob.FinishEvent += (eventSource, eventArgs) =>
+                {
+                    this.OnDMJobFinish(userData, eventArgs.Exception);
+                };
         }
     }
 }
