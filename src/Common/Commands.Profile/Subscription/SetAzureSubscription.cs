@@ -120,6 +120,16 @@ namespace Microsoft.WindowsAzure.Commands.Profile
                 subscription.GalleryEndpoint = null;
             }
 
+            if (Profile.CurrentEnvironment.SqlDatabaseDnsSuffix != null)
+            {
+                subscription.SqlDatabaseDnsSuffix = Profile.CurrentEnvironment.SqlDatabaseDnsSuffix;
+            }
+            else
+            {
+                subscription.SqlDatabaseDnsSuffix = null;
+            }
+
+
             Profile.AddSubscription(subscription);
         }
 

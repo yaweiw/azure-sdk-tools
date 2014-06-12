@@ -59,6 +59,8 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
 
         public string ActiveDirectoryTenantId { get; set; }
 
+        public string SqlDatabaseDnsSuffix { get; set; }
+
         public bool IsDefault { get; set; }
         
         public X509Certificate2 Certificate { get; set; }
@@ -172,6 +174,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
             ResourceManagerEndpoint = newSubscription.ResourceManagerEndpoint;
             SubscriptionName = newSubscription.SubscriptionName;
             GalleryEndpoint = newSubscription.GalleryEndpoint;
+            SqlDatabaseDnsSuffix = newSubscription.SqlDatabaseDnsSuffix;
         }
 
         /// <summary>

@@ -205,7 +205,8 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
                         ServiceEndpoint = !string.IsNullOrEmpty(ServiceEndpoint) ? new Uri(ServiceEndpoint) : null,
                         ResourceManagerEndpoint = !string.IsNullOrEmpty(ResourceManagerEndpoint) ? new Uri(ResourceManagerEndpoint) : null,
                         TokenProvider = tokenProvider,
-                        GalleryEndpoint = !string.IsNullOrEmpty(GalleryEndpoint) ? new Uri(GalleryEndpoint) : null
+                        GalleryEndpoint = !string.IsNullOrEmpty(GalleryEndpoint) ? new Uri(GalleryEndpoint) : null,
+                        SqlDatabaseDnsSuffix = SqlDatabaseDnsSuffix,
                     };
 
                     if (mainToken.LoginType == LoginType.LiveId)

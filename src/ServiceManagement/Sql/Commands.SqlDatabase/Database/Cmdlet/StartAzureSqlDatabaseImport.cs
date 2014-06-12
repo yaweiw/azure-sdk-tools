@@ -229,9 +229,9 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Database.Cmdlet
                 }
 
                 // Retrieve the fully qualified server name
-                string fullyQualifiedServerName =
-                    this.SqlConnectionContext.ServerName + WindowsAzureProfile.Instance.CurrentEnvironment.SqlDatabaseDnsSuffix;
-
+                string fullyQualifiedServerName = 
+                    this.SqlConnectionContext.ServerName + WindowsAzureProfile.Instance.CurrentSubscription.SqlDatabaseDnsSuffix;
+                
                 // Issue the request
                 ImportExportRequest context = this.ImportSqlAzureDatabaseProcess(
                     this.SqlConnectionContext.ServerName,

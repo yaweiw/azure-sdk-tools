@@ -150,6 +150,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
             CloudStorageAccount = inMemorySubscription.CurrentStorageAccountName;
             RegisteredResourceProviders = inMemorySubscription.RegisteredResourceProviders;
             GalleryEndpoint = inMemorySubscription.GalleryEndpoint != null ? inMemorySubscription.GalleryEndpoint.ToString() : null;
+            SqlDatabaseDnsSuffix = inMemorySubscription.SqlDatabaseDnsSuffix != null ? inMemorySubscription.SqlDatabaseDnsSuffix : null;
         }
 
         /// <summary>
@@ -171,6 +172,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
                 Certificate = !string.IsNullOrEmpty(ManagementCertificate) ? WindowsAzureCertificate.FromThumbprint(ManagementCertificate) : null,
                 CurrentStorageAccountName = CloudStorageAccount,
                 GalleryEndpoint = !string.IsNullOrEmpty(GalleryEndpoint) ? new Uri(GalleryEndpoint) : null,
+                SqlDatabaseDnsSuffix = SqlDatabaseDnsSuffix,
             };
             RegisteredResourceProviders = RegisteredResourceProviders ?? new string[0];
             foreach (var resource in RegisteredResourceProviders)
@@ -218,5 +220,8 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
 
         [DataMember]
         public string GalleryEndpoint { get; set; }
+
+        [DataMember]
+        public string SqlDatabaseDnsSuffix { get; set; }
     }
 }

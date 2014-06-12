@@ -173,7 +173,7 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Database.Cmdlet
 
                 var status = this.GetAzureSqlDatabaseImportExportStatusProcess(
                     serverName,
-                    serverName + WindowsAzureProfile.Instance.CurrentEnvironment.SqlDatabaseDnsSuffix,
+                    serverName + WindowsAzureProfile.Instance.CurrentSubscription.SqlDatabaseDnsSuffix,
                     userName,
                     password,
                     requestId);
