@@ -191,6 +191,10 @@
     <Compile Include="IaaS\DiskRepository\SetAzureVMImageOSDiskConfig.cs" />
     <Compile Include="IaaS\DiskRepository\SetAzureVMImageDataDiskConfig.cs" />
     <Compile Include="IaaS\DiskRepository\NewAzureVMImageDiskConfigSet.cs" />
+    <Compile Include="IaaS\Extensions\Diagnostics\GetAzureVMDiagnosticsExtension.cs" />
+    <Compile Include="IaaS\Extensions\Diagnostics\RemoveAzureVMDiagnosticsExtension.cs" />
+    <Compile Include="IaaS\Extensions\Diagnostics\SetAzureVMDiagnosticsExtension.cs" />
+    <Compile Include="IaaS\Extensions\Diagnostics\VirtualMachineDiagnosticsExtensionCmdletBase.cs" />
     <Compile Include="IaaS\Extensions\MicrosoftAntimalware\GetAzureVMMicrosoftAntimalwareExtension.cs" />
     <Compile Include="IaaS\Extensions\MicrosoftAntimalware\SetAzureVMMicrosoftAntimalwareExtension.cs" />
     <Compile Include="IaaS\Extensions\MicrosoftAntimalware\VirtualMachineMicrosoftAntimalwareExtensionCmdletBase.cs" />
@@ -502,6 +506,10 @@
     <ProjectReference Include="..\VhdManagement\VhdManagement.csproj">
       <Project>{80496B7B-068A-4A1E-B0BB-4B1FFF3FA616}</Project>
       <Name>VhdManagement</Name>
+    </ProjectReference>
+	<ProjectReference Include="..\..\Storage\Commands.Storage\Commands.Storage.csproj">
+      <Project>{08CF7DA7-0392-4A19-B79B-E1FF67CDB81A}</Project>
+      <Name>Commands.Storage</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
