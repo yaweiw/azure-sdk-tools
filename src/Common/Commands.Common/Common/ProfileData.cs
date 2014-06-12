@@ -68,6 +68,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
             AdTenantUrl = inMemoryEnvironment.ActiveDirectoryEndpoint;
             CommonTenantId = inMemoryEnvironment.ActiveDirectoryCommonTenantId;
             GalleryEndpoint = inMemoryEnvironment.GalleryEndpoint;
+            SqlDatabaseDnsSuffix = inMemoryEnvironment.SqlDatabaseDnsSuffix;
         }
 
         /// <summary>
@@ -85,7 +86,8 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
                 StorageEndpointSuffix = this.StorageEndpointSuffix,
                 ActiveDirectoryEndpoint = this.AdTenantUrl,
                 ActiveDirectoryCommonTenantId = this.CommonTenantId,
-                GalleryEndpoint = this.GalleryEndpoint
+                GalleryEndpoint = this.GalleryEndpoint,
+                SqlDatabaseDnsSuffix = this.SqlDatabaseDnsSuffix,
             };
         }
 
@@ -115,6 +117,9 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
 
         [DataMember]
         public string GalleryEndpoint { get; set; }
+
+        [DataMember]
+        public string SqlDatabaseDnsSuffix { get; set; }
     }
 
     /// <summary>
