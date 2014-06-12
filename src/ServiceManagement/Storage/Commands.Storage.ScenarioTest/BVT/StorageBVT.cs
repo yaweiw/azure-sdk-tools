@@ -81,7 +81,7 @@ namespace Commands.Storage.ScenarioTest.BVT
             Test.Info("Clean storage context in PowerShell");
             PowerShellAgent.CleanStorageContext();
 
-            PowerShellAgent.ImportModule(@".\Microsoft.WindowsAzure.Commands.Storage.dll");
+            PowerShellAgent.ImportModule(@".\ServiceManagement\Azure\Storage\Microsoft.WindowsAzure.Commands.Storage.dll");
             
 
             // import module
@@ -210,6 +210,7 @@ namespace Commands.Storage.ScenarioTest.BVT
         [TestMethod]
         [TestCategory(Category.All)]
         [TestCategory(Category.Storage)]
+        [TestCategory(Category.BVT)]
         public void NewContainerTest()
         {
             NewContainerTest(new PowerShellAgent());
@@ -221,6 +222,7 @@ namespace Commands.Storage.ScenarioTest.BVT
         [TestMethod]
         [TestCategory(Category.All)]
         [TestCategory(Category.Storage)]
+        [TestCategory(Category.BVT)]
         public void GetContainerTest()
         {
             GetContainerTest(new PowerShellAgent());
@@ -232,6 +234,7 @@ namespace Commands.Storage.ScenarioTest.BVT
         [TestMethod]
         [TestCategory(Category.All)]
         [TestCategory(Category.Storage)]
+        [TestCategory(Category.BVT)]
         public void RemoveContainerTest()
         {
             RemoveContainerTest(new PowerShellAgent());
@@ -243,6 +246,7 @@ namespace Commands.Storage.ScenarioTest.BVT
         [TestMethod]
         [TestCategory(Category.All)]
         [TestCategory(Category.Storage)]
+        [TestCategory(Category.BVT)]
         public void SetContainerACLTest()
         {
             SetContainerACLTest(new PowerShellAgent());
@@ -254,6 +258,7 @@ namespace Commands.Storage.ScenarioTest.BVT
         [TestMethod]
         [TestCategory(Category.All)]
         [TestCategory(Category.Storage)]
+        [TestCategory(Category.BVT)]
         public void UploadBlobTest()
         {
             UploadBlobTest(new PowerShellAgent(), CommonBlockFilePath, Microsoft.WindowsAzure.Storage.Blob.BlobType.BlockBlob);
@@ -266,6 +271,7 @@ namespace Commands.Storage.ScenarioTest.BVT
         [TestMethod]
         [TestCategory(Category.All)]
         [TestCategory(Category.Storage)]
+        [TestCategory(Category.BVT)]
         public void GetBlobTest()
         {
             GetBlobTest(new PowerShellAgent(), CommonBlockFilePath, Microsoft.WindowsAzure.Storage.Blob.BlobType.BlockBlob);
@@ -278,6 +284,7 @@ namespace Commands.Storage.ScenarioTest.BVT
         [TestMethod]
         [TestCategory(Category.All)]
         [TestCategory(Category.Storage)]
+        [TestCategory(Category.BVT)]
         public void DownloadBlobTest()
         {
             string downloadDirPath = Test.Data.Get("DownloadDir");
@@ -291,6 +298,7 @@ namespace Commands.Storage.ScenarioTest.BVT
         [TestMethod]
         [TestCategory(Category.All)]
         [TestCategory(Category.Storage)]
+        [TestCategory(Category.BVT)]
         public void RemoveBlobTest()
         {
             RemoveBlobTest(new PowerShellAgent(), CommonBlockFilePath, Microsoft.WindowsAzure.Storage.Blob.BlobType.BlockBlob);
@@ -303,6 +311,7 @@ namespace Commands.Storage.ScenarioTest.BVT
         [TestMethod]
         [TestCategory(Category.All)]
         [TestCategory(Category.Storage)]
+        [TestCategory(Category.BVT)]
         public void StartCopyBlobUsingName()
         {
             StartCopyBlobTest(new PowerShellAgent(), false);
@@ -314,6 +323,7 @@ namespace Commands.Storage.ScenarioTest.BVT
         [TestMethod]
         [TestCategory(Category.All)]
         [TestCategory(Category.Storage)]
+        [TestCategory(Category.BVT)]
         public void StartCopyBlobUsingUri()
         {
             StartCopyBlobTest(new PowerShellAgent(), true);
@@ -325,6 +335,7 @@ namespace Commands.Storage.ScenarioTest.BVT
         [TestMethod]
         [TestCategory(Category.All)]
         [TestCategory(Category.Storage)]
+        [TestCategory(Category.BVT)]
         public void GetBlobCopyStateTest()
         {
             CloudBlobUtil blobUtil = new CloudBlobUtil(CommonStorageAccount);
@@ -362,6 +373,7 @@ namespace Commands.Storage.ScenarioTest.BVT
         [TestMethod]
         [TestCategory(Category.All)]
         [TestCategory(Category.Storage)]
+        [TestCategory(Category.BVT)]
         public void StopCopyBlobTest()
         {
             CloudBlobUtil blobUtil = new CloudBlobUtil(CommonStorageAccount);
