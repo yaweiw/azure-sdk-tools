@@ -69,7 +69,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
             CommonTenantId = inMemoryEnvironment.ActiveDirectoryCommonTenantId;
             GalleryEndpoint = inMemoryEnvironment.GalleryEndpoint;
             ActiveDirectoryServiceEndpointResourceId = inMemoryEnvironment.ActiveDirectoryServiceEndpointResourceId;
-            SqlDatabaseDnsSuffix = inMemoryEnvironment.SqlDatabaseDnsSuffix;
+            SqlDatabaseDnsSuffix = inMemoryEnvironment.SqlDatabaseDnsSuffix ?? WindowsAzureEnvironmentConstants.AzureSqlDatabaseDnsSuffix;
         }
 
         /// <summary>
@@ -89,7 +89,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
                 ActiveDirectoryCommonTenantId = this.CommonTenantId,
                 GalleryEndpoint = this.GalleryEndpoint,
                 ActiveDirectoryServiceEndpointResourceId = this.ActiveDirectoryServiceEndpointResourceId,
-                SqlDatabaseDnsSuffix = this.SqlDatabaseDnsSuffix,
+                SqlDatabaseDnsSuffix = this.SqlDatabaseDnsSuffix ?? WindowsAzureEnvironmentConstants.AzureSqlDatabaseDnsSuffix,
             };
         }
 
@@ -160,7 +160,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
             CloudStorageAccount = inMemorySubscription.CurrentStorageAccountName;
             RegisteredResourceProviders = inMemorySubscription.RegisteredResourceProviders;
             GalleryEndpoint = inMemorySubscription.GalleryEndpoint != null ? inMemorySubscription.GalleryEndpoint.ToString() : null;
-            SqlDatabaseDnsSuffix = inMemorySubscription.SqlDatabaseDnsSuffix != null ? inMemorySubscription.SqlDatabaseDnsSuffix : null;
+            SqlDatabaseDnsSuffix = inMemorySubscription.SqlDatabaseDnsSuffix ?? WindowsAzureEnvironmentConstants.AzureSqlDatabaseDnsSuffix;
         }
 
         /// <summary>
@@ -183,7 +183,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
                 Certificate = !string.IsNullOrEmpty(ManagementCertificate) ? WindowsAzureCertificate.FromThumbprint(ManagementCertificate) : null,
                 CurrentStorageAccountName = CloudStorageAccount,
                 GalleryEndpoint = !string.IsNullOrEmpty(GalleryEndpoint) ? new Uri(GalleryEndpoint) : null,
-                SqlDatabaseDnsSuffix = SqlDatabaseDnsSuffix,
+                SqlDatabaseDnsSuffix = SqlDatabaseDnsSuffix ?? WindowsAzureEnvironmentConstants.AzureSqlDatabaseDnsSuffix,
             };
             RegisteredResourceProviders = RegisteredResourceProviders ?? new string[0];
             foreach (var resource in RegisteredResourceProviders)

@@ -178,7 +178,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
             ResourceManagerEndpoint = newSubscription.ResourceManagerEndpoint;
             SubscriptionName = newSubscription.SubscriptionName;
             GalleryEndpoint = newSubscription.GalleryEndpoint;
-            SqlDatabaseDnsSuffix = newSubscription.SqlDatabaseDnsSuffix;
+            SqlDatabaseDnsSuffix = newSubscription.SqlDatabaseDnsSuffix ?? WindowsAzureEnvironmentConstants.AzureSqlDatabaseDnsSuffix;
         }
 
         /// <summary>

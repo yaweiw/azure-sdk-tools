@@ -9906,8 +9906,8 @@
       <HttpMessage>
         <Index>4</Index>
         <RequestInfo>
-          <RequestUri>https://localhost:65432/00000000-0000-0000-0001-000000000001/services/sqlservers/servers/serverv1/DacOperations/Status?servername=serverv1.database.windows.net&amp;username=mylogin&amp;password=Pa$$w0rd!&amp;reqId=a0db20f9-9402-4866-bc97-6089b47218ac</RequestUri>
-          <Method>GET</Method>
+          <RequestUri>https://localhost:65432/00000000-0000-0000-0001-000000000001/services/sqlservers/servers/serverv1/DacOperations/Status</RequestUri>
+          <Method>POST</Method>
           <UserAgent>Microsoft.WindowsAzure.Management.Sql.SqlManagementClient/0.9.0.0 WindowsAzurePowershell/v0.8.3</UserAgent>
           <Headers>
             <Header>
@@ -9916,7 +9916,12 @@
             </Header>
           </Headers>
           <Cookies />
-          <RequestText i:nil="true" />
+          <RequestText>&lt;StatusInput xmlns="http://schemas.datacontract.org/2004/07/Microsoft.SqlServer.Management.Dac.ServiceTypes"&gt;
+    &lt;Password&gt;Pa$$w0rd!&lt;/Password&gt;
+    &lt;RequestId&gt;a0db20f9-9402-4866-bc97-6089b47218ac&lt;/RequestId&gt;
+	&lt;ServerName&gt;serverv1.database.windows.net&lt;/ServerName&gt;
+    &lt;UserName&gt;mylogin&lt;/UserName&gt;
+&lt;/StatusInput&gt;</RequestText>
           <ContentType i:nil="true" />
           <Accept i:nil="true" />
         </RequestInfo>
@@ -10033,8 +10038,8 @@
       <HttpMessage>
         <Index>6</Index>
         <RequestInfo>
-          <RequestUri>https://localhost:65432/00000000-0000-0000-0001-000000000001/services/sqlservers/servers/serverv1/DacOperations/Status?servername=serverv1.database.windows.net&amp;username=mylogin&amp;password=Pa$$w0rd!&amp;reqId=ed1806ab-d5e8-44e9-a464-16ca73936dc7</RequestUri>
-          <Method>GET</Method>
+          <RequestUri>https://localhost:65432/00000000-0000-0000-0001-000000000001/services/sqlservers/servers/serverv1/DacOperations/Status</RequestUri>
+          <Method>POST</Method>
           <UserAgent>Microsoft.WindowsAzure.Management.Sql.SqlManagementClient/0.9.0.0 WindowsAzurePowershell/v0.8.3</UserAgent>
           <Headers>
             <Header>
@@ -10043,7 +10048,12 @@
             </Header>
           </Headers>
           <Cookies />
-          <RequestText i:nil="true" />
+          <RequestText>&lt;StatusInput xmlns="http://schemas.datacontract.org/2004/07/Microsoft.SqlServer.Management.Dac.ServiceTypes"&gt;
+    &lt;Password&gt;Pa$$w0rd!&lt;/Password&gt;
+    &lt;RequestId&gt;ed1806ab-d5e8-44e9-a464-16ca73936dc7&lt;/RequestId&gt;
+	&lt;ServerName&gt;serverv1.database.windows.net&lt;/ServerName&gt;
+    &lt;UserName&gt;mylogin&lt;/UserName&gt;
+&lt;/StatusInput&gt;</RequestText>
           <ContentType i:nil="true" />
           <Accept i:nil="true" />
         </RequestInfo>

@@ -209,7 +209,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
                         ResourceManagerEndpoint = !string.IsNullOrEmpty(ResourceManagerEndpoint) ? new Uri(ResourceManagerEndpoint) : null,
                         TokenProvider = tokenProvider,
                         GalleryEndpoint = !string.IsNullOrEmpty(GalleryEndpoint) ? new Uri(GalleryEndpoint) : null,
-                        SqlDatabaseDnsSuffix = SqlDatabaseDnsSuffix,
+                        SqlDatabaseDnsSuffix = SqlDatabaseDnsSuffix ?? WindowsAzureEnvironmentConstants.AzureSqlDatabaseDnsSuffix,
                     };
 
                     if (mainToken.LoginType == LoginType.LiveId)

@@ -277,7 +277,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
 
             if(string.IsNullOrEmpty(s.SqlDatabaseDnsSuffix))
             {
-                s.SqlDatabaseDnsSuffix = Environments[EnvironmentName.AzureCloud].SqlDatabaseDnsSuffix;
+                s.SqlDatabaseDnsSuffix = WindowsAzureEnvironmentConstants.AzureSqlDatabaseDnsSuffix;
             }
 
             Save();
