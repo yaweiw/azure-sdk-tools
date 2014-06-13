@@ -210,9 +210,12 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.PlatformImageReposit
                     var upgradeCnfm = Resources.ExtensionUpgradingConfirmation;
                     var upgradeCptn = Resources.ExtensionUpgradingCaption;
 
-                    if (this.Force.IsPresent
-                    || (!found && this.ShouldContinue(publishCnfm, publishCptn))
-                    || (found && this.ShouldContinue(upgradeCnfm, upgradeCptn)))
+                    if (found && (this.Force.IsPresent || this.ShouldContinue(upgradeCnfm, upgradeCptn)))
+                    {
+                        var parameters = Mapper.Map<ExtensionImageUpdateParameters>(this);
+                        op = this.ComputeClient.ExtensionImages.Update(parameters);
+                    }
+                    else if (!found && (this.Force.IsPresent || this.ShouldContinue(publishCnfm, publishCptn)))
                     {
                         var parameters = Mapper.Map<ExtensionImageRegisterParameters>(this);
                         op = this.ComputeClient.ExtensionImages.Register(parameters);
