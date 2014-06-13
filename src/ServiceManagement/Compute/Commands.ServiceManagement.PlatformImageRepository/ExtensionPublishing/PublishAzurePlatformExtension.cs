@@ -207,12 +207,12 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.PlatformImageReposit
                     bool found = ExtensionExists();
                     var publishCnfm = Resources.ExtensionPublishingConfirmation;
                     var publishCptn = Resources.ExtensionPublishingCaption;
-                    var upgradeCnfm = Resources.ExtensionPublishingConfirmation;
-                    var upgradeCptn = Resources.ExtensionPublishingCaption;
+                    var upgradeCnfm = Resources.ExtensionUpgradingConfirmation;
+                    var upgradeCptn = Resources.ExtensionUpgradingCaption;
 
                     if (this.Force.IsPresent
-                    || (found && this.ShouldContinue(publishCnfm, publishCptn))
-                    || (!found && this.ShouldContinue(upgradeCnfm, upgradeCptn)))
+                    || (!found && this.ShouldContinue(publishCnfm, publishCptn))
+                    || (found && this.ShouldContinue(upgradeCnfm, upgradeCptn)))
                     {
                         var parameters = Mapper.Map<ExtensionImageRegisterParameters>(this);
                         op = this.ComputeClient.ExtensionImages.Register(parameters);
