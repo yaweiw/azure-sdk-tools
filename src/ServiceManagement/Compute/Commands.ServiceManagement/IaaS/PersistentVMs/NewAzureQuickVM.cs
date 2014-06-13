@@ -34,7 +34,6 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.PersistentVMs
     using ConfigurationSet = Model.PersistentVMModel.ConfigurationSet;
     using InputEndpoint = Model.PersistentVMModel.InputEndpoint;
     using OSVirtualHardDisk = Model.PersistentVMModel.OSVirtualHardDisk;
-    using Microsoft.WindowsAzure.Storage;
 
     /// <summary>
     /// Creates a VM without advanced provisioning configuration options

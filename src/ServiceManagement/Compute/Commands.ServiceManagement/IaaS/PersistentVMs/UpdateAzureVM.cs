@@ -26,7 +26,6 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
     using Properties;
     using Storage;
     using Utilities.Common;
-    using Microsoft.WindowsAzure.Storage;
 
     [Cmdlet(VerbsData.Update, "AzureVM"), OutputType(typeof(ManagementOperationContext))]
     public class UpdateAzureVMCommand : IaaSDeploymentManagementCmdletBase

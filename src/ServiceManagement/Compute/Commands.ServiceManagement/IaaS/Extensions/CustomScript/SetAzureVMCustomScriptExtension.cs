@@ -23,8 +23,6 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
     using Microsoft.WindowsAzure.Storage.Auth;
     using Storage.Blob;
     using Utilities.Common;
-    using Microsoft.WindowsAzure.Storage;
-    using Microsoft.WindowsAzure.Storage.Blob;
 
     [Cmdlet(
         VerbsCommon.Set,

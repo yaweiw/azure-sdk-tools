@@ -22,14 +22,14 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.PlatformImageReposit
     using Utilities.Common;
 
     /// <summary>
-    /// Update a Platform Extension Image.
+    /// Set a Platform Extension Image.
     /// </summary>
     [Cmdlet(
-        VerbsData.Update,
+        VerbsCommon.Set,
         AzureVMPlatformExtensionCommandNoun),
     OutputType(
         typeof(ManagementOperationContext))]
-    public class UpdateAzurePlatformExtensionCommand : ServiceManagementBaseCmdlet
+    public class SetAzurePlatformExtensionCommand : ServiceManagementBaseCmdlet
     {
         protected const string AzureVMPlatformExtensionCommandNoun = "AzurePlatformExtension";
         protected const string PublicModeStr = "Public";
@@ -37,6 +37,8 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.PlatformImageReposit
 
         public bool? IsInternalExtension { get; set; }
         public bool? IsJsonExtension { get; set; }
+        public bool? BlockRoleUponFailure { get; set; }
+        public bool? DisallowMajorVersionUpgrade { get; set; }
 
         [Parameter(
             Mandatory = true,
@@ -112,32 +114,9 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.PlatformImageReposit
         [ValidateSet(PublicModeStr, InternalModeStr)]
         public string ExtensionMode { get; set; }
 
-        [Parameter(
-            Position = 10,
-            ValueFromPipelineByPropertyName = true,
-            HelpMessage = "To block the role upon failure.")]
-        [ValidateNotNullOrEmpty]
-        public SwitchParameter BlockRoleUponFailure { get; set; }
-
-        [Parameter(
-            Position = 11,
-            ValueFromPipelineByPropertyName = true,
-            HelpMessage = "The Extension Type is XML.")]
-        [ValidateNotNullOrEmpty]
-        public SwitchParameter XmlExtension { get; set; }
-
-        [Parameter(
-            Position = 12,
-            ValueFromPipelineByPropertyName = true,
-            HelpMessage = "To disallow major version upgrade.")]
-        [ValidateNotNullOrEmpty]
-        public SwitchParameter DisallowMajorVersionUpgrade { get; set; }
-
         protected override void OnProcessRecord()
         {
             ServiceManagementPlatformImageRepositoryProfile.Initialize();
-
-            IsJsonExtension = XmlExtension.IsPresent ? false : true;
 
             ExecuteClientActionNewSM(
                 null,
@@ -156,11 +135,22 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.PlatformImageReposit
                     {
                         IsJsonExtension = vmExtension.IsJsonExtension;
                         IsInternalExtension = vmExtension.IsJsonExtension;
+                        BlockRoleUponFailure = null;
+                        DisallowMajorVersionUpgrade = vmExtension.DisallowMajorVersionUpgrade;
                     }
                     else if (serviceExtn != null)
                     {
                         IsJsonExtension = serviceExtn.IsJsonExtension;
                         IsInternalExtension = serviceExtn.IsJsonExtension;
+                        BlockRoleUponFailure = serviceExtn.BlockRoleUponFailure;
+                        DisallowMajorVersionUpgrade = null;
+                    }
+                    else
+                    {
+                        IsJsonExtension = null;
+                        IsInternalExtension = null;
+                        BlockRoleUponFailure = null;
+                        DisallowMajorVersionUpgrade = null;
                     }
 
                     IsInternalExtension = string.Equals(this.ExtensionMode, PublicModeStr) ? false
