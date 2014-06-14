@@ -12,25 +12,25 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Commands.Utilities.Scheduler
+namespace Microsoft.WindowsAzure.Commands.Utilities.Scheduler.Model
 {
-    using Utilities.Common;
+    using System;
+    using System.Collections;
 
-    public abstract class SchedulerBaseCmdlet : CmdletWithSubscriptionBase
+    public class PSCreateJobCollectionParams
     {
-        private SchedulerMgmntClient schedulerMgmntClient;
+        public string Region { get; set; }
 
-        public SchedulerMgmntClient SMClient
-        {
-            get
-            {
-                if (schedulerMgmntClient == null)
-                {
-                    schedulerMgmntClient = new SchedulerMgmntClient(CurrentSubscription);
-                }
-                return schedulerMgmntClient;
-            }
-            set { }
-        }
+        public string JobCollectionName { get; set; }
+
+        public string JobCollectionPlan { get; set; }
+
+        public int? MaxJobCount { get; set; }
+
+        public int? MaxJobInterval { get; set; }
+
+        public string MaxJobFrequency { get; set; }
+
+        
     }
 }
