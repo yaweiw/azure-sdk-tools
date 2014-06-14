@@ -365,7 +365,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="FunctionalTests\ExtensionTests\MicrosoftAntimalware\AzureVMMicrosoftAntimalwareExtensionFunctionalTests.ps1" />
-    <None Include="app.config" />
     <None Include="MSSharedLibKey.snk" />
     <None Include="packages.config" />
     <None Include="Resources\affinityGroupData.csv" />
