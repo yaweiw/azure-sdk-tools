@@ -27,9 +27,9 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.PersistentVMs
     using Extensions;
     using Helpers;
     using Management.Compute.Models;
+    using Microsoft.WindowsAzure.Storage;
     using Model;
     using Properties;
-    using Storage;
     using Utilities.Common;
     using ConfigurationSet = Model.PersistentVMModel.ConfigurationSet;
     using InputEndpoint = Model.PersistentVMModel.InputEndpoint;

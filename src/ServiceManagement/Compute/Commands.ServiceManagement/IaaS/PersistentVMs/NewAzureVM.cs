@@ -20,12 +20,11 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.PersistentVMs
     using System.Management.Automation;
     using System.Net;
     using AutoMapper;
-    using DiskRepository;
     using Helpers;
     using Management.Compute.Models;
+    using Microsoft.WindowsAzure.Storage;
     using Model;
     using Properties;
-    using Storage;
     using Utilities.Common;
 
     [Cmdlet(VerbsCommon.New, "AzureVM", DefaultParameterSetName = "ExistingService"), OutputType(typeof(ManagementOperationContext))]
