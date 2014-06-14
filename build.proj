@@ -14,21 +14,9 @@
     <PackageDirectory>.\src\Package</PackageDirectory>
     <BuildOutputDirectory>$(PublishDirectory)\Build</BuildOutputDirectory>
     <SetupOutputDirectory>$(PublishDirectory)\Setup</SetupOutputDirectory>
-    <TestFilter>"!Functional&#x26;!Scenario&#x26;!Sequential&#x26;!PIRTest&#x26;!Preview&#x26;!ADDomain"</TestFilter>
-    <ScenarioTestFilter>All</ScenarioTestFilter>
-    <MockTestFilter>CheckIn</MockTestFilter>
-	  <OneSDKCITFilter>"OneSDK&#x26;CIT"</OneSDKCITFilter>
-    <MediaServiceBVTFilter>"MediaServices&#x26;BVT"</MediaServiceBVTFilter>
-    <WebsiteBVTFilter>"Websites&#x26;BVT&#x26;Phase2"</WebsiteBVTFilter>
-	  <AzureRTAllTestFilter>"Functional|Scenario"</AzureRTAllTestFilter>
-	  <AzureRTAllTestFilter2>"Functional|Scenario|Preview"</AzureRTAllTestFilter2>
-	  <AzureRTAllTestFilter3>"Functional|Scenario|Sequential"</AzureRTAllTestFilter3>
     <TestOutputDirectory>$(PublishDirectory)\TestResults</TestOutputDirectory>
-	  <DebugBuildConfig>Configuration=Debug;Platform=AnyCPU</DebugBuildConfig>
-	  <ReleaseBuildConfig>Configuration=Release;Platform=AnyCPU</ReleaseBuildConfig>
-	  <ReleaseSignedBuildConfig>Configuration=ReleaseSigned;Platform=AnyCPU</ReleaseSignedBuildConfig>
-	  <TestName></TestName>
-	  <TestParams></TestParams>
+    <DebugBuildConfig>Configuration=Debug;Platform=AnyCPU</DebugBuildConfig>
+    <ReleaseBuildConfig>Configuration=Release;Platform=AnyCPU</ReleaseBuildConfig>
   </PropertyGroup>
   <ItemGroup>
     <AzurePowerShellSln Include=".\src\AzurePowerShell.sln" />
@@ -162,57 +150,7 @@
   </Target>
 
   <!-- Build the Cmdlets and Setup in all configurations -->
-  <Target Name="Build" DependsOnTargets="BuildCmdlets;BuildSetup" />
-
-  <!-- Publish any build artificates to the Publish directory -->
-  <Target Name="Publish" DependsOnTargets="Build">
-
-    <!-- Copy code artifacts -->
-    <Message Importance="high" Text="Publishing Cmdlets..." ContinueOnError="false" />
-    <ItemGroup>
-      <DebugFiles Include="$(CloudServiceCmdletBinDirectory)\Debug\**\*.*" />
-	  <DebugFiles Include="$(ManagementCmdletBinDirectory)\Debug\**\*.*" />
-      <DebugFiles Include="$(ServiceManagementCmdletBinDirectory)\Debug\**\*.*" />
-      <ReleaseFiles Include="$(CloudServiceCmdletBinDirectory)\Release\**\*.*" />
-	  <ReleaseFiles Include="$(ManagementCmdletBinDirectory)\Release\**\*.*" />
-      <ReleaseFiles Include="$(ServiceManagementCmdletBinDirectory)\Release\**\*.*" />
-    </ItemGroup>
-    <MakeDir
-      Directories="$(BuildOutputDirectory)"
-      ContinueOnError="false" />
-    <Copy
-      SourceFiles="@(DebugFiles)"
-      DestinationFiles="@(DebugFiles->'$(BuildOutputDirectory)\Debug\%(RecursiveDir)%(Filename)%(Extension)')"
-      SkipUnchangedFiles="true"
-      ContinueOnError="false" />
-    <Copy
-      SourceFiles="@(ReleaseFiles)"
-      DestinationFiles="@(ReleaseFiles->'$(BuildOutputDirectory)\Release\%(RecursiveDir)%(Filename)%(Extension)')"
-      SkipUnchangedFiles="true"
-      ContinueOnError="false" />
-
-    <!-- Copy the Setup artifacts -->
-    <Message Importance="high" Text="Publishing Setup..." ContinueOnError="false" />
-    <ItemGroup>
-      <SetupFiles Include="$(SetupDirectory)\**\*.*" />
-    </ItemGroup>
-    <Copy
-      SourceFiles="@(SetupFiles)"
-      DestinationFiles="@(SetupFiles->'$(PublishDirectory)\Setup\%(RecursiveDir)%(Filename)%(Extension)')"
-      SkipUnchangedFiles="true"
-      ContinueOnError="false" />
-  </Target>
-
-  <!-- Run the unit tests -->
-  <Target Name="Test" DependsOnTargets="BuildDebug">
-    <Message Importance="high" Text="Running tests..." />
-    <Message Importance="high" Text="You are required to have installed a version of Visual Studio with support for MSTest (and MSTest on your path)." />
-    <MakeDir Directories="$(TestOutputDirectory)" ContinueOnError="false" />
-
-    <Message Importance="high" Text="Debug tests:" />
-    <CallTarget Targets="TestManagement; TestManagedCache; TestResourceManager; TestServiceManagement; TestSqlDatabase; TestStorage; MockedScenarioTests" />
-  </Target>
-
+  <Target Name="Build" DependsOnTargets="BuildCmdlets;BuildSetupRelease" />
   <!-- Do everything possible -->
   <Target
     Name="Full"
