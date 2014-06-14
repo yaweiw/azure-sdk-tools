@@ -139,10 +139,8 @@
   </Target>
 
   <!-- Run the Website Scenario Tests -->
- <Target Name="RunWebsiteBVTs" DependsOnTargets="Clean;BuildDebug">
+ <Target Name="RunWebsiteBVTs" DependsOnTargets="Clean;BuildDebug;BeforeRunTests">
     <Message Importance="high" Text="Running Website BVTs..." />
-    <Message Importance="high" Text="You are required to have installed a version of Visual Studio with support for MSTest (and MSTest on your path)." />
-    <MakeDir Directories="$(TestOutputDirectory)" ContinueOnError="false" />
     <Delete Files="$(TestOutputDirectory)\RunWebsiteBVTDebug.trx" />
     <Exec
       Command="MSTest.exe /testcontainer:$(ScenarioTestDebug) /testsettings:$(TestSettings) /category:$(WebsiteBVTFilter) /resultsfile:$(TestOutputDirectory)\RunWebsiteBVTDebug.trx"

@@ -48,7 +48,7 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.WebsitesTests
 
         [TestMethod]
         [TestCategory(Category.All)]
-        [TestCategory(Category.BVT)]
+        //[TestCategory(Category.BVT)]
         [TestCategory(Category.Websites)]
         [TestCategory(Category.WAPack)]
         public void TestRemoveAzureWebsiteWithInvalidCredentials()
@@ -58,7 +58,7 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.WebsitesTests
 
         [TestMethod]
         [TestCategory(Category.All)]
-        [TestCategory(Category.BVT)]
+        //[TestCategory(Category.BVT)]
         [TestCategory(Category.Websites)]
         [TestCategory(Category.WAPack)]
         public void TestRemoveAzureServiceWithValidName()
@@ -68,7 +68,7 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.WebsitesTests
 
         [TestMethod]
         [TestCategory(Category.All)]
-        [TestCategory(Category.BVT)]
+       // [TestCategory(Category.BVT)]
         [TestCategory(Category.Websites)]
         [TestCategory(Category.WAPack)]
         public void TestRemoveAzureServiceWithNonExistingName()
@@ -78,7 +78,7 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.WebsitesTests
 
         [TestMethod]
         [TestCategory(Category.All)]
-        [TestCategory(Category.BVT)]
+       // [TestCategory(Category.BVT)]
         [TestCategory(Category.Websites)]
         [TestCategory(Category.WAPack)]
         public void TestRemoveAzureServiceWithWhatIf()
@@ -92,7 +92,7 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.WebsitesTests
 
         [TestMethod]
         [TestCategory(Category.All)]
-        [TestCategory(Category.BVT)]
+        //[TestCategory(Category.BVT)]
         [TestCategory(Category.Websites)]
         [TestCategory(Category.WAPack)]
         public void TestGetAzureWebsiteLogWithInvalidCredentials()
@@ -142,7 +142,7 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.WebsitesTests
 
         [TestMethod]
         [TestCategory(Category.All)]
-        [TestCategory(Category.BVT)]
+        //[TestCategory(Category.BVT)]
         [TestCategory(Category.Websites)]
         [TestCategory(Category.WAPack)]
         public void TestGetAzureWebsite()
@@ -152,7 +152,7 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.WebsitesTests
 
         [TestMethod]
         [TestCategory(Category.All)]
-        [TestCategory(Category.BVT)]
+        //[TestCategory(Category.BVT)]
         [TestCategory(Category.Websites)]
         [TestCategory(Category.WAPack)]
         public void TestGetAzureWebsiteWithStoppedSite()
@@ -166,7 +166,7 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.WebsitesTests
 
         [TestMethod]
         [TestCategory(Category.All)]
-        [TestCategory(Category.BVT)]
+        //[TestCategory(Category.BVT)]
         [TestCategory(Category.Websites)]
         [TestCategory(Category.WAPack)]
         public void TestStartAzureWebsite()
@@ -180,7 +180,7 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.WebsitesTests
 
         [TestMethod]
         [TestCategory(Category.All)]
-        [TestCategory(Category.BVT)]
+        //[TestCategory(Category.BVT)]
         [TestCategory(Category.Websites)]
         [TestCategory(Category.WAPack)]
         public void TestStopAzureWebsite()
@@ -194,7 +194,7 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.WebsitesTests
 
         [TestMethod]
         [TestCategory(Category.All)]
-        [TestCategory(Category.BVT)]
+        //[TestCategory(Category.BVT)]
         [TestCategory(Category.Websites)]
         [TestCategory(Category.WAPack)]
         public void TestRestartAzureWebsite()
@@ -208,7 +208,7 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.WebsitesTests
 
         [TestMethod]
         [TestCategory(Category.All)]
-        [TestCategory(Category.BVT)]
+        //[TestCategory(Category.BVT)]
         [TestCategory(Category.Websites)]
         public void TestEnableApplicationDiagnosticOnTableStorage()
         {
@@ -218,7 +218,7 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.WebsitesTests
         [TestMethod]
         [TestCategory(Category.All)]
         [TestCategory(Category.Websites)]
-        [TestCategory(Category.BVT)]
+        //[TestCategory(Category.BVT)]
         [TestCategory(Category.WAPack)]
         public void TestEnableApplicationDiagnosticOnFileSystem()
         {
@@ -227,7 +227,7 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.WebsitesTests
 
         [TestMethod]
         [TestCategory(Category.All)]
-        [TestCategory(Category.BVT)]
+        //[TestCategory(Category.BVT)]
         [TestCategory(Category.Websites)]
         [TestCategory(Category.WAPack)]
         public void TestUpdateTheDiagnositicLogLevel()
@@ -236,7 +236,7 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.WebsitesTests
         }
         [TestMethod]
         [TestCategory(Category.All)]
-        [TestCategory(Category.BVT)]
+        //[TestCategory(Category.BVT)]
         [TestCategory(Category.Websites)]
         public void TestReconfigureStorageAppDiagnostics()
         {
@@ -245,7 +245,7 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.WebsitesTests
 
         [TestMethod]
         [TestCategory(Category.All)]
-        [TestCategory(Category.BVT)]
+        //[TestCategory(Category.BVT)]
         [TestCategory(Category.Websites)]
         public void TestThrowsForInvalidStorageAccountName()
         {
@@ -258,7 +258,7 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.WebsitesTests
 
         [TestMethod]
         [TestCategory(Category.All)]
-        [TestCategory(Category.BVT)]
+        //[TestCategory(Category.BVT)]
         [TestCategory(Category.Websites)]
         public void TestDisableApplicationDiagnosticOnTableStorage()
         {
@@ -267,7 +267,7 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.WebsitesTests
 
         [TestMethod]
         [TestCategory(Category.All)]
-        [TestCategory(Category.BVT)]
+        //[TestCategory(Category.BVT)]
         [TestCategory(Category.Websites)]
         [TestCategory(Category.WAPack)]
         public void TestDisableApplicationDiagnosticOnFileSystem()
@@ -277,7 +277,7 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.WebsitesTests
 
         [TestMethod]
         [TestCategory(Category.All)]
-        [TestCategory(Category.BVT)]
+        //[TestCategory(Category.BVT)]
         [TestCategory(Category.Websites)]
         public void TestDisableApplicationDiagnosticOnTableStorageAndFile()
         {
@@ -286,7 +286,7 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.WebsitesTests
 
         [TestMethod]
         [TestCategory(Category.All)]
-        [TestCategory(Category.BVT)]
+        //[TestCategory(Category.BVT)]
         [TestCategory(Category.Websites)]
         public void TestDisablesFileOnly()
         {
@@ -295,7 +295,7 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.WebsitesTests
 
         [TestMethod]
         [TestCategory(Category.All)]
-        [TestCategory(Category.BVT)]
+        //[TestCategory(Category.BVT)]
         [TestCategory(Category.Websites)]
         public void TestDisablesStorageOnly()
         {
@@ -304,7 +304,7 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.WebsitesTests
 
         [TestMethod]
         [TestCategory(Category.All)]
-        [TestCategory(Category.BVT)]
+        //[TestCategory(Category.BVT)]
         [TestCategory(Category.Websites)]
         public void TestDisablesBothByDefault()
         {
@@ -317,7 +317,7 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.WebsitesTests
 
         [TestMethod]
         [TestCategory(Category.All)]
-        [TestCategory(Category.BVT)]
+        //[TestCategory(Category.BVT)]
         [TestCategory(Category.Websites)]
         [TestCategory(Category.WAPack)]
         public void TestGetAzureWebsiteLocation()
@@ -337,7 +337,7 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.WebsitesTests
 
         [TestMethod]
         [TestCategory(Category.All)]
-        [TestCategory(Category.BVT)]
+        //[TestCategory(Category.BVT)]
         [TestCategory(Category.Websites)]
         [TestCategory(Category.WAPack)]
         public void TestGetAzureWebSiteListNone()
@@ -347,7 +347,7 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.WebsitesTests
 
         [TestMethod]
         [TestCategory(Category.All)]
-        [TestCategory(Category.BVT)]
+        //[TestCategory(Category.BVT)]
         [TestCategory(Category.Websites)]
         [TestCategory(Category.WAPack)]
         public void TestAzureWebSiteListAll()
@@ -357,7 +357,7 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.WebsitesTests
 
         [TestMethod]
         [TestCategory(Category.All)]
-        [TestCategory(Category.BVT)]
+        //[TestCategory(Category.BVT)]
         [TestCategory(Category.Websites)]
         [TestCategory(Category.WAPack)]
         public void TestAzureWebSiteShowSingleSite()
@@ -403,7 +403,7 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.WebsitesTests
 
         [TestMethod]
         [TestCategory(Category.All)]
-        [TestCategory(Category.BVT)]
+       // [TestCategory(Category.BVT)]
         [TestCategory(Category.Websites)]
         [TestCategory(Category.WAPack)]
         public void TestSetAzureWebsite()
@@ -417,7 +417,7 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.WebsitesTests
 
         [TestMethod]
         [TestCategory(Category.All)]
-        [TestCategory(Category.BVT)]
+        //[TestCategory(Category.BVT)]
         [TestCategory(Category.Websites)]
         public void TestRemoveAzureWebsiteTriggeredJob()
         {
@@ -426,7 +426,7 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.WebsitesTests
 
         [TestMethod]
         [TestCategory(Category.All)]
-        [TestCategory(Category.BVT)]
+        //[TestCategory(Category.BVT)]
         [TestCategory(Category.Websites)]
         public void TestRemoveAzureWebsiteContinuousJob()
         {
@@ -435,7 +435,7 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.WebsitesTests
 
         [TestMethod]
         [TestCategory(Category.All)]
-        [TestCategory(Category.BVT)]
+       // [TestCategory(Category.BVT)]
         [TestCategory(Category.Websites)]
         public void TestRemoveNonExistingAzureWebsiteJob()
         {
@@ -444,7 +444,7 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.WebsitesTests
 
         [TestMethod]
         [TestCategory(Category.All)]
-        [TestCategory(Category.BVT)]
+       // [TestCategory(Category.BVT)]
         [TestCategory(Category.Websites)]
         public void TestStartAzureWebsiteTriggeredJob()
         {
@@ -453,7 +453,7 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.WebsitesTests
 
         [TestMethod]
         [TestCategory(Category.All)]
-        [TestCategory(Category.BVT)]
+        //[TestCategory(Category.BVT)]
         [TestCategory(Category.Websites)]
         public void TestStartAndStopAzureWebsiteContinuousJob()
         {
@@ -462,7 +462,7 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.WebsitesTests
 
         [TestMethod]
         [TestCategory(Category.All)]
-        [TestCategory(Category.BVT)]
+        //[TestCategory(Category.BVT)]
         [TestCategory(Category.Websites)]
         public void GettingWebsiteJobs()
         {
@@ -471,7 +471,7 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.WebsitesTests
 
         [TestMethod]
         [TestCategory(Category.All)]
-        [TestCategory(Category.BVT)]
+        //[TestCategory(Category.BVT)]
         [TestCategory(Category.Websites)]
         public void TestGetsJobHistory()
         {

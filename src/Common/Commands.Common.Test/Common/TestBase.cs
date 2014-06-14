@@ -27,7 +27,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.Utilities.Common
     {
         public TestBase()
         {
-            CloudContext.Configuration.Tracing.AddTracingInterceptor(new TestingTracingInterceptor());
+            TestingTracingInterceptor.AddToContext();
         }
         /// <summary>
         /// Gets or sets a reference to the TestContext used for interacting

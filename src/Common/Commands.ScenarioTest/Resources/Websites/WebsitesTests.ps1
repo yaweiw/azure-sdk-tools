@@ -654,11 +654,6 @@ function Test-AzureWebSiteListAll
 	Assert-True {$name.Contains($name1)}
 	Assert-True {$name.Contains($name2)}
 	Assert-True {$name.Contains($name3)}
-
-	# Cleanup
-	Remove-AzureWebsite $name1 -Slot Production -Force
-	Remove-AzureWebsite $name2 -Slot Production -Force
-	Remove-AzureWebsite $name3 -Slot Production -Force
 }
 
 <#
