@@ -34,6 +34,10 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.PlatformImageReposit
     public class PublishAzurePlatformExtensionCommand : ServiceManagementBaseCmdlet
     {
         protected const string AzureVMPlatformExtensionCommandNoun = "AzurePlatformExtension";
+        protected const string PublicModeStr = "Public";
+        protected const string InternalModeStr = "Internal";
+
+        public bool? IsInternalExtension { get; set; }
 
         [Parameter(
             Mandatory = true,
@@ -193,6 +197,14 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.PlatformImageReposit
             HelpMessage = "To force the registration operation.")]
         public SwitchParameter Force { get; set; }
 
+        [Parameter(
+            Position = 22,
+            ValueFromPipelineByPropertyName = true,
+            HelpMessage = "The Extension Mode.")]
+        [ValidateNotNullOrEmpty]
+        [ValidateSet(PublicModeStr, InternalModeStr)]
+        public string ExtensionMode { get; set; }
+
         protected override void OnProcessRecord()
         {
             ServiceManagementPlatformImageRepositoryProfile.Initialize();
@@ -209,6 +221,10 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.PlatformImageReposit
                     var publishCptn = Resources.ExtensionPublishingCaption;
                     var upgradeCnfm = Resources.ExtensionUpgradingConfirmation;
                     var upgradeCptn = Resources.ExtensionUpgradingCaption;
+
+                    this.IsInternalExtension = string.Equals(this.ExtensionMode, PublicModeStr) ? false
+                                             : string.Equals(this.ExtensionMode, InternalModeStr) ? true
+                                             : this.IsInternalExtension;
 
                     if (found && (this.Force.IsPresent || this.ShouldContinue(upgradeCnfm, upgradeCptn)))
                     {

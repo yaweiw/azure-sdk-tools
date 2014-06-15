@@ -153,9 +153,9 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.PlatformImageReposit
                         DisallowMajorVersionUpgrade = null;
                     }
 
-                    IsInternalExtension = string.Equals(this.ExtensionMode, PublicModeStr) ? false
-                                        : string.Equals(this.ExtensionMode, InternalModeStr) ? true
-                                        : IsInternalExtension;
+                    this.IsInternalExtension = string.Equals(this.ExtensionMode, PublicModeStr) ? false
+                                             : string.Equals(this.ExtensionMode, InternalModeStr) ? true
+                                             : this.IsInternalExtension;
 
                     var parameters = Mapper.Map<ExtensionImageUpdateParameters>(this);
 
