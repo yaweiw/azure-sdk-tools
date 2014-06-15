@@ -224,7 +224,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.PlatformImageReposit
 
                     this.IsInternalExtension = string.Equals(this.ExtensionMode, PublicModeStr) ? false
                                              : string.Equals(this.ExtensionMode, InternalModeStr) ? true
-                                             : this.IsInternalExtension;
+                                             : true;
 
                     if (found && (this.Force.IsPresent || this.ShouldContinue(upgradeCnfm, upgradeCptn)))
                     {
