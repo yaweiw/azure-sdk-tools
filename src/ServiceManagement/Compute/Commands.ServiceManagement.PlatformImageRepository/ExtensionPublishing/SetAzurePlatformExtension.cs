@@ -111,18 +111,21 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.PlatformImageReposit
 
         [Parameter(
             Position = 10,
+            DontShow = true,
             ValueFromPipelineByPropertyName = true,
             HelpMessage = "To block the role upon failure.")]
         public bool? BlockRoleUponFailure { get; set; }
 
         [Parameter(
             Position = 11,
+            DontShow = true,
             ValueFromPipelineByPropertyName = true,
             HelpMessage = "To disallow major version upgrade.")]
         public bool? DisallowMajorVersionUpgrade { get; set; }
 
         [Parameter(
             Position = 12,
+            DontShow = true,
             ValueFromPipelineByPropertyName = true,
             HelpMessage = "Is JSON extension?")]
         public bool? IsJsonExtension { get; set; }

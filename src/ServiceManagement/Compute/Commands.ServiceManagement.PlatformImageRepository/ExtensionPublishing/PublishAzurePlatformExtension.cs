@@ -199,6 +199,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.PlatformImageReposit
 
         [Parameter(
             Position = 22,
+            DontShow = true,
             ValueFromPipelineByPropertyName = true,
             HelpMessage = "The Extension Mode.")]
         [ValidateNotNullOrEmpty]
