@@ -35,11 +35,6 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.PlatformImageReposit
         protected const string PublicModeStr = "Public";
         protected const string InternalModeStr = "Internal";
 
-        public bool? IsInternalExtension { get; set; }
-        public bool? IsJsonExtension { get; set; }
-        public bool? BlockRoleUponFailure { get; set; }
-        public bool? DisallowMajorVersionUpgrade { get; set; }
-
         [Parameter(
             Mandatory = true,
             Position = 0,
@@ -114,6 +109,26 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.PlatformImageReposit
         [ValidateSet(PublicModeStr, InternalModeStr)]
         public string ExtensionMode { get; set; }
 
+        [Parameter(
+            Position = 10,
+            ValueFromPipelineByPropertyName = true,
+            HelpMessage = "To block the role upon failure.")]
+        public bool? BlockRoleUponFailure { get; set; }
+
+        [Parameter(
+            Position = 11,
+            ValueFromPipelineByPropertyName = true,
+            HelpMessage = "To disallow major version upgrade.")]
+        public bool? DisallowMajorVersionUpgrade { get; set; }
+
+        [Parameter(
+            Position = 12,
+            ValueFromPipelineByPropertyName = true,
+            HelpMessage = "Is JSON extension?")]
+        public bool? IsJsonExtension { get; set; }
+
+        public bool? IsInternalExtension { get; set; }
+
         protected override void OnProcessRecord()
         {
             ServiceManagementPlatformImageRepositoryProfile.Initialize();
@@ -135,7 +150,6 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.PlatformImageReposit
                     {
                         IsJsonExtension = vmExtension.IsJsonExtension;
                         IsInternalExtension = vmExtension.IsJsonExtension;
-                        BlockRoleUponFailure = null;
                         DisallowMajorVersionUpgrade = vmExtension.DisallowMajorVersionUpgrade;
                     }
                     else if (serviceExtn != null)
@@ -143,14 +157,6 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.PlatformImageReposit
                         IsJsonExtension = serviceExtn.IsJsonExtension;
                         IsInternalExtension = serviceExtn.IsJsonExtension;
                         BlockRoleUponFailure = serviceExtn.BlockRoleUponFailure;
-                        DisallowMajorVersionUpgrade = null;
-                    }
-                    else
-                    {
-                        IsJsonExtension = null;
-                        IsInternalExtension = null;
-                        BlockRoleUponFailure = null;
-                        DisallowMajorVersionUpgrade = null;
                     }
 
                     this.IsInternalExtension = string.Equals(this.ExtensionMode, PublicModeStr) ? false
