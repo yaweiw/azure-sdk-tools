@@ -197,13 +197,6 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.PlatformImageReposit
             HelpMessage = "To force the registration operation.")]
         public SwitchParameter Force { get; set; }
 
-        [Parameter(
-            Position = 22,
-            DontShow = true,
-            ValueFromPipelineByPropertyName = true,
-            HelpMessage = "The Extension Mode.")]
-        [ValidateNotNullOrEmpty]
-        [ValidateSet(PublicModeStr, InternalModeStr)]
         public string ExtensionMode { get; set; }
 
         protected override void OnProcessRecord()
