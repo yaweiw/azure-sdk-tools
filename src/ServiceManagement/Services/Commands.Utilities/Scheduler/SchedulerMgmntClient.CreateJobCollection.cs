@@ -31,7 +31,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Scheduler
         /// <returns>Created Scheduler Job Collection</returns>
         public PSJobCollection CreateJobCollection(PSCreateJobCollectionParams jobCollectionRequest, out string status)
         {
-            if (!this.AvailableRegions.Contains(jobCollectionRequest.Region))
+            if (!this.AvailableRegions.Contains(jobCollectionRequest.Region, StringComparer.OrdinalIgnoreCase))
                 throw new Exception(Resources.SchedulerInvalidLocation);
 
             //Only one free job collection can exist in a subscription
@@ -203,7 +203,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Scheduler
         /// <returns>The updated job collection</returns>
         public PSJobCollection UpdateJobCollection(PSCreateJobCollectionParams jobCollectionRequest, out string status)
         {
-            if (!this.AvailableRegions.Contains(jobCollectionRequest.Region))
+            if (!this.AvailableRegions.Contains(jobCollectionRequest.Region, StringComparer.OrdinalIgnoreCase))
                 throw new Exception(Resources.SchedulerInvalidLocation);
 
             //Get existing job collection

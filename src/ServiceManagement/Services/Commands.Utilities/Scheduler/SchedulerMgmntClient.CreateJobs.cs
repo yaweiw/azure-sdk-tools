@@ -20,6 +20,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Scheduler
     using Microsoft.WindowsAzure.Scheduler;
     using Microsoft.WindowsAzure.Scheduler.Models;
     using System;
+    using System.Linq;
 
     public partial class SchedulerMgmntClient
     {
@@ -77,15 +78,11 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Scheduler
         /// <returns>Created Http Scheduler job</returns>
         public PSJobDetail CreateHttpJob(PSCreateJobParams jobRequest, out string status)
         {
-            if (!this.AvailableRegions.Contains(jobRequest.Region))
+            if (!this.AvailableRegions.Contains(jobRequest.Region, StringComparer.OrdinalIgnoreCase))
                 throw new Exception(Resources.SchedulerInvalidLocation);
 
-            SchedulerClient schedulerClient = new SchedulerClient(
-                cloudServiceName: jobRequest.Region.ToCloudServiceName(),
-                jobCollectionName: jobRequest.JobCollectionName,
-                credentials: csmClient.Credentials,
-                baseUri: schedulerManagementClient.BaseUri);
-
+            SchedulerClient schedulerClient = this.currentSubscription.CreateClient<SchedulerClient>(false, jobRequest.Region.ToCloudServiceName(), jobRequest.JobCollectionName, csmClient.Credentials, schedulerManagementClient.BaseUri);
+         
             JobCreateOrUpdateParameters jobCreateParams = new JobCreateOrUpdateParameters
             {
                 Action = new JobAction
@@ -142,14 +139,10 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Scheduler
         /// <returns>Created Storage Queue Scheduler job</returns>
         public PSJobDetail CreateStorageJob(PSCreateJobParams jobRequest, out string status)
         {
-            if (!this.AvailableRegions.Contains(jobRequest.Region))
+            if (!this.AvailableRegions.Contains(jobRequest.Region, StringComparer.OrdinalIgnoreCase))
                 throw new Exception(Resources.SchedulerInvalidLocation);
 
-            SchedulerClient schedulerClient = new SchedulerClient(
-               cloudServiceName: jobRequest.Region.ToCloudServiceName(),
-               jobCollectionName: jobRequest.JobCollectionName,
-               credentials: csmClient.Credentials,
-               baseUri: schedulerManagementClient.BaseUri);
+            SchedulerClient schedulerClient = this.currentSubscription.CreateClient<SchedulerClient>(false, jobRequest.Region.ToCloudServiceName(), jobRequest.JobCollectionName, csmClient.Credentials, schedulerManagementClient.BaseUri);
 
             JobCreateOrUpdateParameters jobCreateParams = new JobCreateOrUpdateParameters
             {
@@ -204,14 +197,10 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Scheduler
         /// <returns>Updated Http Scheduler job</returns>
         public PSJobDetail PatchHttpJob(PSCreateJobParams jobRequest, out string status)
         {
-            if (!this.AvailableRegions.Contains(jobRequest.Region))
+            if (!this.AvailableRegions.Contains(jobRequest.Region, StringComparer.OrdinalIgnoreCase))
                 throw new Exception(Resources.SchedulerInvalidLocation);
 
-            SchedulerClient schedulerClient = new SchedulerClient(
-               cloudServiceName: jobRequest.Region.ToCloudServiceName(),
-               jobCollectionName: jobRequest.JobCollectionName,
-               credentials: csmClient.Credentials,
-               baseUri: schedulerManagementClient.BaseUri);
+            SchedulerClient schedulerClient = this.currentSubscription.CreateClient<SchedulerClient>(false, jobRequest.Region.ToCloudServiceName(), jobRequest.JobCollectionName, csmClient.Credentials, schedulerManagementClient.BaseUri);
 
             //Get Existing job
             Job job = schedulerClient.Jobs.Get(jobRequest.JobName).Job;
@@ -442,14 +431,10 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Scheduler
         /// <returns>Updated Storage Queue Scheduler job</returns>
         public PSJobDetail PatchStorageJob(PSCreateJobParams jobRequest, out string status)
         {
-            if (!this.AvailableRegions.Contains(jobRequest.Region))
+            if (!this.AvailableRegions.Contains(jobRequest.Region, StringComparer.OrdinalIgnoreCase))
                 throw new Exception(Resources.SchedulerInvalidLocation);
 
-            SchedulerClient schedulerClient = new SchedulerClient(
-               cloudServiceName: jobRequest.Region.ToCloudServiceName(),
-               jobCollectionName: jobRequest.JobCollectionName,
-               credentials: csmClient.Credentials,
-               baseUri: schedulerManagementClient.BaseUri);
+            SchedulerClient schedulerClient = this.currentSubscription.CreateClient<SchedulerClient>(false, jobRequest.Region.ToCloudServiceName(), jobRequest.JobCollectionName, csmClient.Credentials, schedulerManagementClient.BaseUri);
 
             //Get Existing job
             Job job = schedulerClient.Jobs.Get(jobRequest.JobName).Job;

@@ -30,6 +30,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Scheduler
     {
         private SchedulerManagementClient schedulerManagementClient;
         private CloudServiceManagementClient csmClient;
+        private WindowsAzureSubscription currentSubscription;
 
         private const string SupportedRegionsKey = "SupportedGeoRegions";
         private const string FreeMaxJobCountKey = "PlanDetail:Free:Quota:MaxJobCount";
@@ -53,6 +54,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Scheduler
         /// <param name="subscription">Subscription containing websites to manipulate</param>
         public SchedulerMgmntClient(WindowsAzureSubscription subscription)
         {
+            currentSubscription = subscription;
             csmClient = subscription.CreateClient<CloudServiceManagementClient>();
             schedulerManagementClient = subscription.CreateClient<SchedulerManagementClient>();
 
@@ -102,7 +104,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Scheduler
 
             if (!string.IsNullOrEmpty(region))
             {
-                if (!this.AvailableRegions.Contains(region))
+                if (!this.AvailableRegions.Contains(region, StringComparer.OrdinalIgnoreCase))
                     throw new Exception(Resources.SchedulerInvalidLocation);
 
                 string cloudService = region.ToCloudServiceName();
@@ -177,7 +179,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Scheduler
 
         public List<PSSchedulerJob> GetJob(string region, string jobCollection, string job = "", string state = "")
         {
-            if (!this.AvailableRegions.Contains(region))
+            if (!this.AvailableRegions.Contains(region, StringComparer.OrdinalIgnoreCase))
                 throw new Exception(Resources.SchedulerInvalidLocation);
 
             List<PSSchedulerJob> lstJob = new List<PSSchedulerJob>();
@@ -213,11 +215,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Scheduler
             {
                 if (csRes.ResourceProviderNamespace.Equals(Constants.SchedulerRPNameProvider, StringComparison.OrdinalIgnoreCase) && csRes.Name.Equals(jobCollection, StringComparison.OrdinalIgnoreCase))
                 {
-                    SchedulerClient schedClient = new SchedulerClient(
-                        cloudServiceName: cloudService,
-                        jobCollectionName: jobCollection,
-                        credentials: csmClient.Credentials,
-                        baseUri: schedulerManagementClient.BaseUri);
+                    SchedulerClient schedClient = this.currentSubscription.CreateClient<SchedulerClient>(false, cloudService, jobCollection, csmClient.Credentials, schedulerManagementClient.BaseUri);                      
 
                     JobListResponse jobs = schedClient.Jobs.List(new JobListParameters
                     {
@@ -266,7 +264,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Scheduler
         #region Job History
         public List<PSJobHistory> GetJobHistory(string jobCollection, string job, string region, string jobStatus = "")
         {
-            if (!this.AvailableRegions.Contains(region))
+            if (!this.AvailableRegions.Contains(region, StringComparer.OrdinalIgnoreCase))
                 throw new Exception(Resources.SchedulerInvalidLocation);
 
             List<PSJobHistory> lstPSJobHistory = new List<PSJobHistory>();
@@ -276,11 +274,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Scheduler
             {
                 if (csRes.ResourceProviderNamespace.Equals(Constants.SchedulerRPNameProvider, StringComparison.InvariantCultureIgnoreCase) && csRes.Name.Equals(jobCollection, StringComparison.OrdinalIgnoreCase))
                 {
-                    SchedulerClient schedClient = new SchedulerClient(
-                        cloudServiceName: cloudService,
-                        jobCollectionName: jobCollection.Trim(),
-                        credentials: csmClient.Credentials,
-                        baseUri: schedulerManagementClient.BaseUri);
+                    SchedulerClient schedClient = this.currentSubscription.CreateClient<SchedulerClient>(false, cloudService, jobCollection.Trim(), csmClient.Credentials, schedulerManagementClient.BaseUri);                   
 
                     List<JobGetHistoryResponse.JobHistoryEntry> lstHistory = new List<JobGetHistoryResponse.JobHistoryEntry>();
                     int currentTop = 100;
@@ -397,11 +391,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Scheduler
             {
                 if (csRes.ResourceProviderNamespace.Equals(Constants.SchedulerRPNameProvider, StringComparison.OrdinalIgnoreCase) && csRes.Name.Equals(jobCollection, StringComparison.OrdinalIgnoreCase))
                 {
-                    SchedulerClient schedClient = new SchedulerClient(
-                        cloudServiceName: cloudService,
-                        jobCollectionName: jobCollection,
-                        credentials: csmClient.Credentials,
-                        baseUri: schedulerManagementClient.BaseUri);
+                    SchedulerClient schedClient = this.currentSubscription.CreateClient<SchedulerClient>(false, cloudService, jobCollection, csmClient.Credentials, schedulerManagementClient.BaseUri);                  
 
                     JobListResponse jobs = schedClient.Jobs.List(new JobListParameters
                     {
@@ -471,16 +461,12 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Scheduler
         {
             if (!string.IsNullOrEmpty(region))
             {
-                if (!this.AvailableRegions.Contains(region))
+                if (!this.AvailableRegions.Contains(region, StringComparer.OrdinalIgnoreCase))
                     throw new Exception(Resources.SchedulerInvalidLocation);
 
-                SchedulerClient schedulerClient = new SchedulerClient(
-                    cloudServiceName: region.ToCloudServiceName(),
-                    jobCollectionName: jobCollection,
-                    credentials: csmClient.Credentials,
-                    baseUri: schedulerManagementClient.BaseUri);
+                SchedulerClient schedClient = this.currentSubscription.CreateClient<SchedulerClient>(false, region.ToCloudServiceName(), jobCollection, csmClient.Credentials, schedulerManagementClient.BaseUri);
 
-                OperationResponse response = schedulerClient.Jobs.Delete(jobName);
+                OperationResponse response = schedClient.Jobs.Delete(jobName);
                 return response.StatusCode == System.Net.HttpStatusCode.OK ? true : false;
             }
             else if (string.IsNullOrEmpty(region))
@@ -499,13 +485,9 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Scheduler
                                 {
                                     if (job.JobName.Equals(jobName, StringComparison.OrdinalIgnoreCase))
                                     {
-                                        SchedulerClient schedulerClient = new SchedulerClient(
-                                            cloudServiceName: cs.Name,
-                                            jobCollectionName: jobCollection,
-                                            credentials: csmClient.Credentials,
-                                            baseUri: schedulerManagementClient.BaseUri);
+                                        SchedulerClient schedClient = this.currentSubscription.CreateClient<SchedulerClient>(false, cs.Name, jobCollection, csmClient.Credentials, schedulerManagementClient.BaseUri);
 
-                                        OperationResponse response = schedulerClient.Jobs.Delete(jobName);
+                                        OperationResponse response = schedClient.Jobs.Delete(jobName);
                                         return response.StatusCode == System.Net.HttpStatusCode.OK ? true : false;
                                     }
                                 }
@@ -524,7 +506,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Scheduler
         {
             if (!string.IsNullOrEmpty(region))
             {
-                if (!this.AvailableRegions.Contains(region))
+                if (!this.AvailableRegions.Contains(region, StringComparer.OrdinalIgnoreCase))
                     throw new Exception(Resources.SchedulerInvalidLocation);
 
                 SchedulerOperationStatusResponse response = schedulerManagementClient.JobCollections.Delete(region.ToCloudServiceName(), jobCollection);
