@@ -35,11 +35,6 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.PlatformImageReposit
         protected const string PublicModeStr = "Public";
         protected const string InternalModeStr = "Internal";
 
-        public bool? IsInternalExtension { get; set; }
-        public bool? IsJsonExtension { get; set; }
-        public bool? BlockRoleUponFailure { get; set; }
-        public bool? DisallowMajorVersionUpgrade { get; set; }
-
         [Parameter(
             Mandatory = true,
             Position = 0,
@@ -114,6 +109,14 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.PlatformImageReposit
         [ValidateSet(PublicModeStr, InternalModeStr)]
         public string ExtensionMode { get; set; }
 
+        public bool? BlockRoleUponFailure { get; set; }
+
+        public bool? DisallowMajorVersionUpgrade { get; set; }
+
+        public bool? IsJsonExtension { get; set; }
+
+        public bool? IsInternalExtension { get; set; }
+
         protected override void OnProcessRecord()
         {
             ServiceManagementPlatformImageRepositoryProfile.Initialize();
@@ -135,7 +138,6 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.PlatformImageReposit
                     {
                         IsJsonExtension = vmExtension.IsJsonExtension;
                         IsInternalExtension = vmExtension.IsJsonExtension;
-                        BlockRoleUponFailure = null;
                         DisallowMajorVersionUpgrade = vmExtension.DisallowMajorVersionUpgrade;
                     }
                     else if (serviceExtn != null)
@@ -143,19 +145,11 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.PlatformImageReposit
                         IsJsonExtension = serviceExtn.IsJsonExtension;
                         IsInternalExtension = serviceExtn.IsJsonExtension;
                         BlockRoleUponFailure = serviceExtn.BlockRoleUponFailure;
-                        DisallowMajorVersionUpgrade = null;
-                    }
-                    else
-                    {
-                        IsJsonExtension = null;
-                        IsInternalExtension = null;
-                        BlockRoleUponFailure = null;
-                        DisallowMajorVersionUpgrade = null;
                     }
 
-                    IsInternalExtension = string.Equals(this.ExtensionMode, PublicModeStr) ? false
-                                        : string.Equals(this.ExtensionMode, InternalModeStr) ? true
-                                        : IsInternalExtension;
+                    this.IsInternalExtension = string.Equals(this.ExtensionMode, PublicModeStr) ? false
+                                             : string.Equals(this.ExtensionMode, InternalModeStr) ? true
+                                             : true;
 
                     var parameters = Mapper.Map<ExtensionImageUpdateParameters>(this);
 

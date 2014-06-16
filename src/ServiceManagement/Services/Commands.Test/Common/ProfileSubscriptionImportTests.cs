@@ -60,6 +60,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.Common
             foreach (var s in profile.Subscriptions)
             {
                 Assert.AreEqual(expectedManagementUri, s.ServiceEndpoint);
+                Assert.IsNotNull(s.SqlDatabaseDnsSuffix);
             }
 
             store.Verify(s => s.Save(It.IsAny<ProfileData>()), Times.Once);
@@ -97,6 +98,10 @@ namespace Microsoft.WindowsAzure.Commands.Test.Common
                 .Select(s => new Uri(s.Attribute("ServiceManagementUrl").Value)))
             {
                 Assert.IsTrue(profile.Subscriptions.Any(s => s.ServiceEndpoint == uri));
+            }
+            foreach (var s in profile.Subscriptions)
+            {
+                Assert.IsNotNull(s.SqlDatabaseDnsSuffix);
             }
         }
 

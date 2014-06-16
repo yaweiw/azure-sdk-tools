@@ -52,6 +52,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.Common
             Assert.IsFalse(profile.Subscriptions.Any(s => s.SubscriptionId == deletedSubscriptionId));
             Assert.AreSame(profile.DefaultSubscription, profile.CurrentSubscription);
             Assert.AreEqual(defaultSubscriptionId, profile.CurrentSubscription.SubscriptionId);
+            Assert.IsNotNull(profile.CurrentSubscription.SqlDatabaseDnsSuffix);
         }
 
         [TestMethod]
@@ -64,6 +65,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.Common
 
             Assert.AreSame(expectedNewDefault, profile.DefaultSubscription);
             Assert.IsFalse(profile.Subscriptions.Any(s => s == oldDefault));
+            Assert.IsNotNull(profile.CurrentSubscription.SqlDatabaseDnsSuffix);
         }
 
 
@@ -79,6 +81,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.Common
             Assert.AreSame(current, profile.CurrentSubscription);
             Assert.IsFalse(profile.Subscriptions.Any(s => s == oldDefault));
             Assert.IsTrue(profile.DefaultSubscription.IsDefault);
+            Assert.IsNotNull(profile.CurrentSubscription.SqlDatabaseDnsSuffix);
         }
 
         private Stream GetPublishSettingsStream(string resourceName)
