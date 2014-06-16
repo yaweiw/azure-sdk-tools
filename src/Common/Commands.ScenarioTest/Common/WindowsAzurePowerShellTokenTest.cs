@@ -119,6 +119,7 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.Common
                 ResourceManagerEndpoint = new Uri(WindowsAzureProfile.Instance.CurrentEnvironment.ResourceManagerEndpoint),
                 TokenProvider = WindowsAzureProfile.Instance.TokenProvider,
                 GalleryEndpoint = new Uri(WindowsAzureProfile.Instance.CurrentEnvironment.GalleryEndpoint),
+                SqlDatabaseDnsSuffix = WindowsAzureProfile.Instance.CurrentEnvironment.SqlDatabaseDnsSuffix,
                 CurrentStorageAccountName = csmEnvironment.StorageAccount,
                 IsDefault = true
             };
