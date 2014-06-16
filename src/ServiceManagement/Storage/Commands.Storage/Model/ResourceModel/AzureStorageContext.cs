@@ -58,6 +58,54 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Model.ResourceModel
         public CloudStorageAccount StorageAccount { get; private set; }
 
         /// <summary>
+        /// Endpoint suffix (everything after "table.", "blob." or "queue.")
+        /// </summary>
+        /// <returns>
+        /// This will return an empty string if the endpoints are not correctly set. 
+        /// </returns>
+        public string EndPointSuffix
+        {
+            get
+            {
+                if (string.IsNullOrEmpty(BlobEndPoint) || string.IsNullOrEmpty(TableEndPoint))
+                {
+                    return string.Empty;
+                }
+
+                string suffix;
+
+                if (StorageAccountName.EndsWith("blob", StringComparison.InvariantCultureIgnoreCase))
+                {
+                    // Cannot use the blob endpoint if the account name ends with blob...
+                    // However it is OK if "blob" is in the account name but not as a suffix
+                    int tableIndex = TableEndPoint.IndexOf("table.", 0, StringComparison.InvariantCultureIgnoreCase);
+                    if (tableIndex <= 0)
+                    {
+                        suffix = string.Empty;
+                    }
+                    else
+                    {
+                        suffix = TableEndPoint.Substring(tableIndex + "table.".Length);
+                    }
+                }
+                else
+                {
+                    int blobIndex = BlobEndPoint.IndexOf("blob.", 0, StringComparison.InvariantCultureIgnoreCase);
+                    if (blobIndex <= 0)
+                    {
+                        suffix = string.Empty;
+                    }
+                    else
+                    {
+                        suffix = BlobEndPoint.Substring(blobIndex + "blob.".Length);
+                    }
+                }
+
+                return suffix;
+            }
+        }
+
+        /// <summary>
         /// Create a storage context usign cloud storage account
         /// </summary>
         /// <param name="account">cloud storage account</param>

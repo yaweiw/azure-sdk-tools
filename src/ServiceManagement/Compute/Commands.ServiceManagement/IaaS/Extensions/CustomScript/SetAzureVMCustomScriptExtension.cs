@@ -19,9 +19,9 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
     using System.Management.Automation;
     using Model;
     using Properties;
-    using Storage;
-    using Storage.Auth;
-    using Storage.Blob;
+    using Microsoft.WindowsAzure.Storage;
+    using Microsoft.WindowsAzure.Storage.Auth;
+    using Microsoft.WindowsAzure.Storage.Blob;
     using Utilities.Common;
 
     [Cmdlet(
