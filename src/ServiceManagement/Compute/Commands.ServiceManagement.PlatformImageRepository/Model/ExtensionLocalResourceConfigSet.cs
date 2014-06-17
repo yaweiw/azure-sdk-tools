@@ -1,4 +1,4 @@
-﻿// ----------------------------------------------------------------------------------
+// ----------------------------------------------------------------------------------
 //
 // Copyright Microsoft Corporation
 // Licensed under the Apache License, Version 2.0 (the "License");
@@ -12,24 +12,12 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Commands.Service.Gateway
+namespace Microsoft.WindowsAzure.Commands.ServiceManagement.PlatformImageRepository.Model
 {
-    public enum GatewayErrorCode
+    using System.Collections.Generic;
+
+    public class ExtensionLocalResourceConfigSet
     {
-        InternalError,
-        InvalidLocalSiteName,
-        InvalidVnetName,
-        InvalidSubscriptionId,
-        InvalidOperationId,
-        InvalidIPAddress,
-        ResourceNotFound,
-        ConflictError,
-        GatewayNotProvisioned,
-        InvalidSharedKeyLength,
-        InvalidParameter,
-        InvalidCultureName,
-        SubscriptionNotAuthorized,
-        DestinationUnreachable,
-        UserUnauthorized
+        public List<ExtensionLocalResourceConfig> LocalResources { get; set; }
     }
 }

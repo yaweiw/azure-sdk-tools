@@ -1,4 +1,4 @@
-﻿// ----------------------------------------------------------------------------------
+// ----------------------------------------------------------------------------------
 //
 // Copyright Microsoft Corporation
 // Licensed under the Apache License, Version 2.0 (the "License");
@@ -12,17 +12,11 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Commands.Service.Gateway
+namespace Microsoft.WindowsAzure.Commands.ServiceManagement.PlatformImageRepository.Model
 {
-    using ServiceManagement;
-    using System.ServiceModel;
-
-
-    /// <summary>
-    /// Provides the Gateway Service Management Api. 
-    /// </summary>
-    [ServiceContract(Namespace = Constants.ServiceManagementNS)]
-    public partial interface IGatewayServiceManagement
+    public class ExtensionLocalResourceConfig
     {
+        public string Name { get; set; }
+        public int? SizeInMB { get; set; }
     }
 }

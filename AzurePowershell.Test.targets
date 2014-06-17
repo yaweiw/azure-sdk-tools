@@ -20,6 +20,7 @@
     <OneSDKCITFilter>"OneSDK&#x26;CIT"</OneSDKCITFilter>
     <MediaServiceBVTFilter>"MediaServices&#x26;BVT"</MediaServiceBVTFilter>
     <WebsiteBVTFilter>"Websites&#x26;BVT"</WebsiteBVTFilter>
+    <CloudServiceBVTFilter>"CloudService&#x26;BVT"</CloudServiceBVTFilter>
     <StorageBVTFilter>"Storage&#x26;BVT"</StorageBVTFilter>
     <ManagementBVTFilter>"Management&#x26;BVT"</ManagementBVTFilter>
     <ManagedCacheBVTFilter>"ManagedCache&#x26;BVT"</ManagedCacheBVTFilter>
@@ -110,7 +111,16 @@
       Command="MSTest.exe /testcontainer:$(ScenarioTestDebug) /testsettings:$(TestSettings) /category:$(MediaServiceBVTFilter) /resultsfile:$(TestOutputDirectory)\RunMediaServiceBVTDebug.trx"
       ContinueOnError="false" EnvironmentVariables="AZURE_TEST_MODE=None" />
   </Target>
-  
+
+  <!-- Run the CloudService Scenario Tests -->
+  <Target Name="RunCloudServiceBVTs" DependsOnTargets="Clean;BuildDebug;BeforeRunTests">
+    <Message Importance="high" Text="Running Cloud Service Scenario tests:" />
+    <Delete Files="$(TestOutputDirectory)\RunCloudServiceBVTDebug.trx" />
+    <Exec
+      Command="MSTest.exe /testcontainer:$(ScenarioTestDebug) /testsettings:$(TestSettings) /category:$(CloudServiceBVTFilter) /resultsfile:$(TestOutputDirectory)\RunCloudServiceBVTDebug.trx"
+      ContinueOnError="false" />
+  </Target>
+
   <!-- Run the Storage Scenario Tests -->
   <Target Name="RunStorageBVTs" DependsOnTargets="Clean;BuildDebug;BeforeRunTests">
     <Message Importance="high" Text="Running Storage Scenario tests:" />

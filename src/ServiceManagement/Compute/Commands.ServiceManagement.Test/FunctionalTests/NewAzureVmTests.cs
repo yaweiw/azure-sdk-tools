@@ -1,9 +1,12 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Microsoft.WindowsAzure.Commands.ServiceManagement.Model;
 using Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests.ConfigDataInfo;
+using Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests.IaasCmdletInfo;
 using System;
 using System.Collections.ObjectModel;
 using System.IO;
+using System.Management.Automation;
+using System.Reflection;
 using System.Security.Cryptography.X509Certificates;
 
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
@@ -15,6 +18,9 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
         private string _linuxImageName;
         const string CerFileName = "testcert.cer";
         X509Certificate2 _installedCert;
+        private StoreLocation certStoreLocation;
+        private StoreName certStoreName;
+        private string keyPath;
 
         [TestInitialize]
         public void Intialize()
@@ -23,6 +29,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
             imageName = vmPowershellCmdlets.GetAzureVMImageName(new[] { "Windows" }, false);
             _linuxImageName = vmPowershellCmdlets.GetAzureVMImageName(new[] { "Linux" }, false);
             InstallCertificate();
+            keyPath = Directory.GetCurrentDirectory() + Utilities.GetUniqueShortName() + ".txt";
         }
 
         [TestMethod(), TestCategory("Scenario"), TestProperty("Feature", "Iaas"), Priority(1), Owner("hylee"), Description("Test the cmdlets (New-AzureVMConfig,Add-AzureProvisioningConfig,New-AzureVM)")]
@@ -41,6 +48,57 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
 
                 // New-AzureVM
                 vmPowershellCmdlets.NewAzureVM(_serviceName, new[] { vm }, locationName);
+                Console.WriteLine("New Azure service with name:{0} created successfully.", _serviceName);
+                Collection<InputEndpointContext> endpoints = vmPowershellCmdlets.GetAzureEndPoint(vmPowershellCmdlets.GetAzureVM(newAzureLinuxVMName, _serviceName));
+
+                Console.WriteLine("The number of endpoints: {0}", endpoints.Count);
+                foreach (var ep in endpoints)
+                {
+                    Utilities.PrintContext(ep);
+                }
+                Assert.AreEqual(0, endpoints.Count);
+                pass = true;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                throw;
+            }
+        }
+
+
+
+        [TestMethod(), TestCategory("Scenario"), TestProperty("Feature", "Iaas"), Priority(1), Owner("hylee"),
+        Description("Test the cmdlets (New-AzureVMConfig,Add-AzureProvisioningConfig,New-AzureVM) and verifies a that a linux vm can be created with out password")]
+        public void NewAzureLinuxVMWithoutPasswordAndNoSSHEnpoint()
+        {
+
+            try
+            {
+                _serviceName = Utilities.GetUniqueShortName(serviceNamePrefix);
+
+                //Create service
+                vmPowershellCmdlets.NewAzureService(_serviceName, locationName);
+
+                //Add installed certificate to the service
+                PSObject certToUpload = vmPowershellCmdlets.RunPSScript(
+                    String.Format("Get-Item cert:\\{0}\\{1}\\{2}", certStoreLocation.ToString(), certStoreName.ToString(), _installedCert.Thumbprint))[0];
+                vmPowershellCmdlets.AddAzureCertificate(_serviceName, certToUpload);
+
+                string newAzureLinuxVMName = Utilities.GetUniqueShortName("PSLinuxVM");
+
+                var key = vmPowershellCmdlets.NewAzureSSHKey(NewAzureSshKeyType.PublicKey, _installedCert.Thumbprint, keyPath);
+                var sshKeysList = new Model.PersistentVMModel.LinuxProvisioningConfigurationSet.SSHPublicKeyList();
+                sshKeysList.Add(key);
+
+                // Add-AzureProvisioningConfig without password and NoSSHEndpoint
+                var azureVMConfigInfo = new AzureVMConfigInfo(newAzureLinuxVMName, InstanceSize.Small.ToString(), _linuxImageName);
+                var azureProvisioningConfig = new AzureProvisioningConfigInfo(username, noSshEndpoint: true, sSHPublicKeyList: sshKeysList);
+                var persistentVMConfigInfo = new PersistentVMConfigInfo(azureVMConfigInfo, azureProvisioningConfig, null, null);
+                PersistentVM vm = vmPowershellCmdlets.GetPersistentVM(persistentVMConfigInfo);
+
+                // New-AzureVM
+                vmPowershellCmdlets.NewAzureVM(_serviceName, new[] { vm });
                 Console.WriteLine("New Azure service with name:{0} created successfully.", _serviceName);
                 Collection<InputEndpointContext> endpoints = vmPowershellCmdlets.GetAzureEndPoint(vmPowershellCmdlets.GetAzureVM(newAzureLinuxVMName, _serviceName));
 
@@ -205,12 +263,9 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
             File.WriteAllBytes(CerFileName, certData2);
 
             // Install the .cer file to local machine.
-            var certStoreLocation = StoreLocation.CurrentUser;
-            var certStoreName = StoreName.My;
+            certStoreLocation = StoreLocation.CurrentUser;
+            certStoreName = StoreName.My;
             _installedCert = Utilities.InstallCert(CerFileName, certStoreLocation, certStoreName);
-
-            //vmPowershellCmdlets.RunPSScript(
-            //   String.Format("Get-Item cert:\\{0}\\{1}\\{2}", certStoreLocation.ToString(), certStoreName.ToString(), installedCert.Thumbprint))[0];
         }
 
         [TestCleanup]
@@ -222,6 +277,11 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
             if ((cleanupIfPassed && pass) || (cleanupIfFailed && !pass))
             {
                 CleanupService(_serviceName);
+            }
+
+            if(File.Exists(keyPath))
+            {
+                File.Delete(keyPath);
             }
         }
 

@@ -1,4 +1,4 @@
-﻿// ----------------------------------------------------------------------------------
+// ----------------------------------------------------------------------------------
 //
 // Copyright Microsoft Corporation
 // Licensed under the Apache License, Version 2.0 (the "License");
@@ -12,14 +12,13 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Commands.Service.Gateway
+namespace Microsoft.WindowsAzure.Commands.ServiceManagement.PlatformImageRepository.Model
 {
-    using System.Runtime.Serialization;
-
-    [DataContract(Name = "UpdateGatewayOperation", Namespace = "http://schemas.microsoft.com/windowsazure")]
-    public enum UpdateGatewayOperation
+    public class ExtensionCertificateConfig
     {
-        [EnumMember]
-        Failover = 0
+        public string StoreLocation { get; set; }
+        public string StoreName { get; set; }
+        public string ThumbprintAlgorithm { get; set; }
+        public bool? ThumbprintRequired { get; set; }
     }
 }

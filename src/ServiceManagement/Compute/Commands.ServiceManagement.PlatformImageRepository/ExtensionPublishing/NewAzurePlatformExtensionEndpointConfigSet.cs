@@ -12,20 +12,26 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Commands.Service.Gateway
+namespace Microsoft.WindowsAzure.Commands.ServiceManagement.PlatformImageRepository.ExtensionPublishing
 {
-    using System.Runtime.Serialization;
+    using System.Management.Automation;
+    using Model;
 
-    [DataContract(Name = "UpdateConnectionOperation", Namespace = "http://schemas.microsoft.com/windowsazure")]
-    public enum UpdateConnectionOperation
+    /// <summary>
+    /// Create a New Extension Endpoint Config Set.
+    /// </summary>
+    [Cmdlet(
+        VerbsCommon.New,
+        AzurePlatformExtensionEndpointConfigSetCommandNoun),
+    OutputType(
+        typeof(ExtensionEndpointConfigSet))]
+    public class NewAzurePlatformExtensionEndpointConfigSetCommand : PSCmdlet
     {
-        [EnumMember]
-        Connect = 0,
+        protected const string AzurePlatformExtensionEndpointConfigSetCommandNoun = "AzurePlatformExtensionEndpointConfigSet";
 
-        [EnumMember]
-        Disconnect = 1,
-
-        [EnumMember]
-        Test = 2
+        protected override void ProcessRecord()
+        {
+            WriteObject(new ExtensionEndpointConfigSet());
+        }
     }
 }

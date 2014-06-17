@@ -15,14 +15,6 @@
 
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.PersistentVMs
 {
-    using AutoMapper;
-    using Common;
-    using Extensions;
-    using Helpers;
-    using Management.Compute.Models;
-    using Model;
-    using Properties;
-    using Microsoft.WindowsAzure.Storage;
     using System;
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
@@ -30,6 +22,14 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.PersistentVMs
     using System.Management.Automation;
     using System.Net;
     using System.Security.Cryptography.X509Certificates;
+    using AutoMapper;
+    using Common;
+    using Extensions;
+    using Helpers;
+    using Management.Compute.Models;
+    using Microsoft.WindowsAzure.Storage;
+    using Model;
+    using Properties;
     using Utilities.Common;
     using ConfigurationSet = Model.PersistentVMModel.ConfigurationSet;
     using InputEndpoint = Model.PersistentVMModel.InputEndpoint;
