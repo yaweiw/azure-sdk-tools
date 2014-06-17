@@ -54,9 +54,13 @@ function Get-LogFile
 ##################
 function Run-Test 
 {
-    param([scriptblock]$test, [string] $testScript = $null, [switch] $generate = $false)
+    param([scriptblock]$test, [string] $testName = $null, [string] $testScript = $null, [switch] $generate = $false)
     Test-Setup
-    $transFile = Get-LogFile "."
+	$transFile = $testName + ".log"
+    if ($testName -eq $null) 
+	{
+	  $transFile = Get-LogFile "."
+	}
     if($testScript)
     {
         if ($generate)
@@ -74,8 +78,11 @@ function Run-Test
          Write-Log "[run-test]: Running test without file comparison"
     }
         
-    Start-Transcript -Path $transFile	
+    $oldPref = $ErrorActionPreference	 
+	$ErrorActionPreference = "SilentlyContinue"
+	#Start-Transcript -Path $transFile	
     $success = $false;
+    $ErrorActionPreference = $oldPref
     try 
     {
       &$test
@@ -84,7 +91,10 @@ function Run-Test
     finally 
     {
         Test-Cleanup
-        Stop-Transcript
+        $oldPref = $ErrorActionPreference	 
+	    $ErrorActionPreference = "SilentlyContinue"
+        #Stop-Transcript
+        $ErrorActionPreference = $oldPref
         if ($testScript)
         {
             if ($success -and -not $generate)

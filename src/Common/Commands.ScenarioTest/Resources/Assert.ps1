@@ -51,6 +51,57 @@ function Assert-Throws
   throw "No exception occured";
 }
 
+######################
+#
+# Validate that the given code block throws the given exception
+#
+#    param [ScriptBlock] $script : The code to test
+#    param [ScriptBlock] $compare     : Predicate used to determine if the message meets criteria
+#######################
+function Assert-ThrowsContains
+{
+  param([ScriptBlock] $script, [string] $compare)
+  try 
+  {
+    &$script
+  }
+  catch 
+  {
+    if ($message -ne "")
+    {
+      $actualMessage = $_.Exception.Message
+      Write-Output ("Caught exception: '$actualMessage'")
+      if ($actualMessage.Contains($compare))
+      {
+        return $true;
+      }
+      else
+      {
+        throw "Expected exception does not contain expected text '$compare', the actual message is '$actualMessage'";
+      }
+    }
+    else
+    {
+      return $true;
+    }
+  }
+
+  throw "No exception occured";
+}
+
+<#
+.SYNOPSIS
+Given a list of variable names, assert that all of them are defined
+#>
+function Assert-Env
+{
+   param([string[]] $vars)
+   $tmp = Get-Item env:
+   $env = @{}
+   $tmp | % { $env.Add($_.Key, $_.Value)}
+   $vars | % { Assert-True {$env.ContainsKey($_)} "Environment Variable $_ Is Required.  Please set the value before runnign the test"}
+}
+
 ###################
 #
 # Verify that the given scriptblock returns true
@@ -70,6 +121,7 @@ function Assert-True
   $result = &$script
   if (-not $result) 
   {
+    Write-Debug "Failure: $message"
     throw $message
   }
   
