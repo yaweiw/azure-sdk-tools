@@ -236,15 +236,13 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
 
         public TClient CreateClient<TClient>(bool registerProviders, params object[] parameters) where TClient : ServiceClient<TClient>
         {
-            ConstructorInfo constructor;
-            if (typeof(TClient).FullName.Contains("SchedulerClient"))
+            List<Type> types = new List<Type>();
+            foreach (object obj in parameters)
             {
-                constructor = typeof(TClient).GetConstructor(new[] { parameters[0].GetType(), parameters[1].GetType(), typeof(SubscriptionCloudCredentials), typeof(Uri) });
+                types.Add(obj.GetType());
             }
-            else
-            {
-                constructor = typeof(TClient).GetConstructor(new[] { typeof(SubscriptionCloudCredentials), typeof(Uri) });
-            }
+
+            var constructor = typeof(TClient).GetConstructor(types.ToArray()); 
 
             if (constructor == null)
             {
