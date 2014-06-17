@@ -15,6 +15,7 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Database.Cmdlet
 {
     using Microsoft.WindowsAzure.Commands.SqlDatabase.Services.Common;
     using Microsoft.WindowsAzure.Commands.SqlDatabase.Services.ImportExport;
+    using Microsoft.WindowsAzure.Commands.Utilities.Common;
     using Microsoft.WindowsAzure.Management.Sql;
     using Microsoft.WindowsAzure.Management.Sql.Models;
     using System;
@@ -113,13 +114,13 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Database.Cmdlet
             // Get the SQL management client for the current subscription
             SqlManagementClient sqlManagementClient = GetCurrentSqlClient();
 
-            // Start the database export operation
-            DacGetStatusResponse response = sqlManagementClient.Dac.GetStatus(
-                serverName,
-                fullyQualifiedServerName,
-                userName,
-                password,
-                requestId);
+            DacGetStatusResponse response = sqlManagementClient.Dac.GetStatusPost(serverName, new DacGetStatusParameters()
+                {
+                    Password = password,
+                    RequestId = requestId,
+                    ServerName = fullyQualifiedServerName,
+                    UserName = userName,
+                });
 
             // Construct the result
             IEnumerable<Services.ImportExport.StatusInfo> result = response.StatusInfoList.Select(status => new Services.ImportExport.StatusInfo
@@ -172,7 +173,7 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Database.Cmdlet
 
                 var status = this.GetAzureSqlDatabaseImportExportStatusProcess(
                     serverName,
-                    serverName + DataServiceConstants.AzureSqlDatabaseDnsSuffix,
+                    serverName + WindowsAzureProfile.Instance.CurrentSubscription.SqlDatabaseDnsSuffix,
                     userName,
                     password,
                     requestId);

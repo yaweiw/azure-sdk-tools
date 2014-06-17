@@ -148,6 +148,11 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
         }
 
         /// <summary>
+        /// Gets or sets the DNS suffix for Azure SQL Database servers.
+        /// </summary>
+        public string SqlDatabaseDnsSuffix { get; set; }
+
+        /// <summary>
         /// Gets the management portal URI with a particular realm suffix if supplied
         /// </summary>
         /// <param name="realm">Realm for user's account</param>
@@ -203,7 +208,8 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
                         ServiceEndpoint = !string.IsNullOrEmpty(ServiceEndpoint) ? new Uri(ServiceEndpoint) : null,
                         ResourceManagerEndpoint = !string.IsNullOrEmpty(ResourceManagerEndpoint) ? new Uri(ResourceManagerEndpoint) : null,
                         TokenProvider = tokenProvider,
-                        GalleryEndpoint = !string.IsNullOrEmpty(GalleryEndpoint) ? new Uri(GalleryEndpoint) : null
+                        GalleryEndpoint = !string.IsNullOrEmpty(GalleryEndpoint) ? new Uri(GalleryEndpoint) : null,
+                        SqlDatabaseDnsSuffix = SqlDatabaseDnsSuffix ?? WindowsAzureEnvironmentConstants.AzureSqlDatabaseDnsSuffix,
                     };
 
                     if (mainToken.LoginType == LoginType.LiveId)
@@ -243,7 +249,8 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
                     ActiveDirectoryCommonTenantId = "common",
                     ActiveDirectoryServiceEndpointResourceId = WindowsAzureEnvironmentConstants.AzureServiceEndpoint,
                     StorageEndpointSuffix = WindowsAzureEnvironmentConstants.AzureStorageEndpointSuffix,
-                    GalleryEndpoint = WindowsAzureEnvironmentConstants.GalleryEndpoint
+                    GalleryEndpoint = WindowsAzureEnvironmentConstants.GalleryEndpoint,
+                    SqlDatabaseDnsSuffix = WindowsAzureEnvironmentConstants.AzureSqlDatabaseDnsSuffix,
                 }
             },
             {
@@ -259,7 +266,8 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
                     ActiveDirectoryServiceEndpointResourceId = WindowsAzureEnvironmentConstants.ChinaServiceEndpoint, 
                     ManagementPortalUrl = WindowsAzureEnvironmentConstants.ChinaManagementPortalUrl,
                     StorageEndpointSuffix = WindowsAzureEnvironmentConstants.ChinaStorageEndpointSuffix,
-                    GalleryEndpoint = string.Empty
+                    GalleryEndpoint = string.Empty,
+                    SqlDatabaseDnsSuffix = WindowsAzureEnvironmentConstants.ChinaSqlDatabaseDnsSuffix,
                 }
             }
         };
