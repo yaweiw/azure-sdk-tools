@@ -19,6 +19,7 @@
     <MockTestFilter>CheckIn</MockTestFilter>
     <OneSDKCITFilter>"OneSDK&#x26;CIT"</OneSDKCITFilter>
     <MediaServiceBVTFilter>"MediaServices&#x26;BVT"</MediaServiceBVTFilter>
+    <WebsiteBVTFilter>"Websites&#x26;BVT"</WebsiteBVTFilter>
     <StorageBVTFilter>"Storage&#x26;BVT"</StorageBVTFilter>
     <ManagementBVTFilter>"Management&#x26;BVT"</ManagementBVTFilter>
     <ManagedCacheBVTFilter>"ManagedCache&#x26;BVT"</ManagedCacheBVTFilter>
@@ -107,7 +108,7 @@
     <Delete Files="$(TestOutputDirectory)\RunMediaServiceBVTDebug.trx" />
     <Exec
       Command="MSTest.exe /testcontainer:$(ScenarioTestDebug) /testsettings:$(TestSettings) /category:$(MediaServiceBVTFilter) /resultsfile:$(TestOutputDirectory)\RunMediaServiceBVTDebug.trx"
-      ContinueOnError="false" />
+      ContinueOnError="false" EnvironmentVariables="AZURE_TEST_MODE=None" />
   </Target>
   
   <!-- Run the Storage Scenario Tests -->
@@ -134,7 +135,16 @@
     <Delete Files="$(TestOutputDirectory)\RunManagedCacheBVTDebug.trx" />
     <Exec
       Command="MSTest.exe /testcontainer:$(ScenarioTestDebug) /testsettings:$(TestSettings) /category:$(ManagedCacheBVTFilter) /resultsfile:$(TestOutputDirectory)\RunManagedCacheBVTDebug.trx"
-      ContinueOnError="false" />
+      ContinueOnError="false" EnvironmentVariables="AZURE_TEST_MODE=None" />
+  </Target>
+
+  <!-- Run the Website Scenario Tests -->
+ <Target Name="RunWebsiteBVTs" DependsOnTargets="Clean;BuildDebug;BeforeRunTests">
+    <Message Importance="high" Text="Running Website BVTs..." />
+    <Delete Files="$(TestOutputDirectory)\RunWebsiteBVTDebug.trx" />
+    <Exec
+      Command="MSTest.exe /testcontainer:$(ScenarioTestDebug) /testsettings:$(TestSettings) /category:$(WebsiteBVTFilter) /resultsfile:$(TestOutputDirectory)\RunWebsiteBVTDebug.trx"
+      ContinueOnError="false" EnvironmentVariables="AZURE_TEST_MODE=None"/>
   </Target>
   
   <!-- Run the ServiceBus Scenario Tests -->
@@ -145,6 +155,7 @@
       Command="MSTest.exe /testcontainer:$(ScenarioTestDebug) /testsettings:$(TestSettings) /category:$(ServiceBusBVTFilter) /resultsfile:$(TestOutputDirectory)\RunServiceBusBVTDebug.trx"
       ContinueOnError="false" />
   </Target>
+
 
   <Target Name="RunOneSDKCIT" DependsOnTargets="Clean;BuildDebug;BeforeRunTests">
     <Message Importance="high" Text="Running CIT Scenario tests..." />
