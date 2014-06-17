@@ -15,19 +15,20 @@
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests.IaasCmdletInfo
 {
     using PowershellCore;
+    using Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests.ConfigDataInfo;
 
     public class NewAzureSSHKeyCmdletInfo : CmdletsInfo
     {
-        public NewAzureSSHKeyCmdletInfo(NewAzureSSHKeyType option, string fingerPrint, string path)
+        public NewAzureSSHKeyCmdletInfo(NewAzureSshKeyType option, string fingerPrint, string path)
         {
             cmdletName = Utilities.NewAzureSSHKeyCmdletName;
 
             switch (option)
             {
-                case NewAzureSSHKeyType.keypair:
+                case NewAzureSshKeyType.KeyPair:
                     cmdletParams.Add(new CmdletParam("KeyPair"));
                     break;
-                case NewAzureSSHKeyType.publickey:
+                case NewAzureSshKeyType.PublicKey:
                     cmdletParams.Add(new CmdletParam("PublicKey"));
                     break;
             }
@@ -35,11 +36,5 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
             cmdletParams.Add(new CmdletParam("Fingerprint", fingerPrint));
             cmdletParams.Add(new CmdletParam("Path", path));
         }
-    }
-
-    public enum NewAzureSSHKeyType
-    {
-        keypair,
-        publickey
     }
 }

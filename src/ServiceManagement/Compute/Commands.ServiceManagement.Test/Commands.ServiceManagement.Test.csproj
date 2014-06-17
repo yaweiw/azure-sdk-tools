@@ -169,6 +169,7 @@
     <Compile Include="FunctionalTests\ConfigDataInfo\OS.cs" />
     <Compile Include="FunctionalTests\ConfigDataInfo\RemoveAzureDataDiskConfig.cs" />
     <Compile Include="FunctionalTests\ConfigDataInfo\SetACLConfig.cs" />
+    <Compile Include="FunctionalTests\ConfigDataInfo\SSHKey.cs" />
     <Compile Include="FunctionalTests\ConfigDataInfo\VMPowerState.cs" />
     <Compile Include="FunctionalTests\CredentialHelper.cs" />
     <Compile Include="FunctionalTests\ExtensionTests\AzureVMAccessExtensionTests.cs" />

@@ -87,7 +87,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
 
                 string newAzureLinuxVMName = Utilities.GetUniqueShortName("PSLinuxVM");
 
-                var key = vmPowershellCmdlets.NewAzureSSHKey(NewAzureSSHKeyType.publickey, _installedCert.Thumbprint, keyPath);
+                var key = vmPowershellCmdlets.NewAzureSSHKey(NewAzureSshKeyType.PublicKey, _installedCert.Thumbprint, keyPath);
                 var sshKeysList = new Model.PersistentVMModel.LinuxProvisioningConfigurationSet.SSHPublicKeyList();
                 sshKeysList.Add(key);
 

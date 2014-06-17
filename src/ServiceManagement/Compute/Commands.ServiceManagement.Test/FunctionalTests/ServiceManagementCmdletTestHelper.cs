@@ -1853,7 +1853,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
         }
         #endregion AzureVMCustomScriptExtensionCmdlets
 
-        internal LinuxProvisioningConfigurationSet.SSHPublicKey NewAzureSSHKey(NewAzureSSHKeyType option, string fingerprint, string path)
+        internal LinuxProvisioningConfigurationSet.SSHPublicKey NewAzureSSHKey(NewAzureSshKeyType option, string fingerprint, string path)
         {
             return RunPSCmdletAndReturnFirst<LinuxProvisioningConfigurationSet.SSHPublicKey>(new NewAzureSSHKeyCmdletInfo(option, fingerprint, path));
         }
