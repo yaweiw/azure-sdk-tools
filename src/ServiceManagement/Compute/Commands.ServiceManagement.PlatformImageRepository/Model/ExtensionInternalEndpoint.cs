@@ -1,4 +1,4 @@
-﻿// ----------------------------------------------------------------------------------
+// ----------------------------------------------------------------------------------
 //
 // Copyright Microsoft Corporation
 // Licensed under the Apache License, Version 2.0 (the "License");
@@ -12,16 +12,12 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Commands.Service
+namespace Microsoft.WindowsAzure.Commands.ServiceManagement.PlatformImageRepository.Model
 {
-    using System.Runtime.Serialization;
-
-    [DataContract(Name = "GatewayOperationAsyncResponse", Namespace = "http://schemas.microsoft.com/windowsazure")]
-    public class GatewayOperationAsyncResponse : IExtensibleDataObject
+    public class ExtensionInternalEndpoint
     {
-        [DataMember(EmitDefaultValue = false, Order = 1)]
-        public string ID { get; set; }
-
-        public ExtensionDataObject ExtensionData { get; set; }
+        public string Name { get; set; }
+        public int Port { get; set; }
+        public string Protocol { get; set; }
     }
 }

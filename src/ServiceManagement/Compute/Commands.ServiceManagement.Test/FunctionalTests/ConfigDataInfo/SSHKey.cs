@@ -12,25 +12,11 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Commands.Service.Gateway
+namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests.ConfigDataInfo
 {
-    using System.Runtime.Serialization;
-
-    [DataContract(Name = "Error", Namespace = "http://schemas.microsoft.com/windowsazure")]
-    public class GatewayErrorDetail
+    public enum NewAzureSshKeyType
     {
-        // Methods
-        public GatewayErrorDetail(GatewayErrorCode code, string message)
-        {
-            this.Code = code.ToString();
-            this.Message = message;
-        }
-
-        // Properties
-        [DataMember]
-        public string Code { get;  set; }
-
-        [DataMember]
-        public string Message { get;  set; }
+        KeyPair,
+        PublicKey
     }
 }

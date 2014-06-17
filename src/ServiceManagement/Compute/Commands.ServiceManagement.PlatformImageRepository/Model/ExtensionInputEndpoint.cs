@@ -1,4 +1,4 @@
-﻿// ----------------------------------------------------------------------------------
+// ----------------------------------------------------------------------------------
 //
 // Copyright Microsoft Corporation
 // Licensed under the Apache License, Version 2.0 (the "License");
@@ -12,22 +12,13 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Commands.Service.Gateway
+namespace Microsoft.WindowsAzure.Commands.ServiceManagement.PlatformImageRepository.Model
 {
-    using System.Collections.Generic;
-    using System.Collections.ObjectModel;
-    using System.Runtime.Serialization;
-
-    [CollectionDataContract(Name = "Connections", ItemName = "Connection", Namespace = "http://schemas.microsoft.com/windowsazure")]
-    public class ConnectionCollection : Collection<Connection>
+    public class ExtensionInputEndpoint
     {
-        public ConnectionCollection()
-        {
-        }
-
-        public ConnectionCollection(IList<Connection> connections)
-            : base(connections)
-        {
-        }
+        public int LocalPort { get; set; }
+        public string Name { get; set; }
+        public int Port { get; set; }
+        public string Protocol { get; set; }
     }
 }

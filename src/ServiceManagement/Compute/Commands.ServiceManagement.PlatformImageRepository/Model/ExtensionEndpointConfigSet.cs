@@ -1,4 +1,4 @@
-﻿// ----------------------------------------------------------------------------------
+// ----------------------------------------------------------------------------------
 //
 // Copyright Microsoft Corporation
 // Licensed under the Apache License, Version 2.0 (the "License");
@@ -12,25 +12,13 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Commands.Service.Gateway
+namespace Microsoft.WindowsAzure.Commands.ServiceManagement.PlatformImageRepository.Model
 {
-    using System;
-    using System.Runtime.Serialization;
+    using System.Collections.Generic;
 
-    [DataContract(Name = "GatewayEvent", Namespace = "http://schemas.microsoft.com/windowsazure")]
-    public class GatewayEvent
+    public class ExtensionEndpointConfigSet
     {
-        // Properties
-        [DataMember(IsRequired = false, EmitDefaultValue = false)]
-        public string Data { get;  set; }
-
-        [DataMember]
-        public int Id { get;  set; }
-
-        [DataMember]
-        public string Message { get;  set; }
-
-        [DataMember]
-        public DateTime Timestamp { get;  set; }
+        public List<ExtensionInputEndpoint> InputEndpoints { get; set; }
+        public List<ExtensionInternalEndpoint> InternalEndpoints { get; set; }
     }
 }

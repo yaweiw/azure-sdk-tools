@@ -12,22 +12,26 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Commands.Service.ResourceModel
+namespace Microsoft.WindowsAzure.Commands.ServiceManagement.PlatformImageRepository.ExtensionPublishing
 {
-    using System.Runtime.Serialization;
+    using System.Management.Automation;
+    using Model;
 
     /// <summary>
-    /// Represents the Gateway Configuration a Virtual Network.
+    /// Create a New Extension Local Resource Config Set.
     /// </summary>
-    [DataContract(Namespace = ServiceManagement.Constants.ServiceManagementNS)]
-    public class VirtualNetworkGatewayConfiguration : IExtensibleDataObject
+    [Cmdlet(
+        VerbsCommon.New,
+        AzurePlatformExtensionLocalResourceConfigSetCommandNoun),
+    OutputType(
+        typeof(ExtensionLocalResourceConfigSet))]
+    public class NewAzurePlatformExtensionLocalResourceConfigSetCommand : PSCmdlet
     {
-        [DataMember(EmitDefaultValue = false, Order = 1)]
-        public string GatewayIPAddress { get; set; }
+        protected const string AzurePlatformExtensionLocalResourceConfigSetCommandNoun = "AzurePlatformExtensionLocalResourceConfigSet";
 
-        [DataMember(EmitDefaultValue = false, Order = 2)]
-        public string GatewayMacAddress { get; set; }
-
-        public ExtensionDataObject ExtensionData { get; set; }
+        protected override void ProcessRecord()
+        {
+            WriteObject(new ExtensionLocalResourceConfigSet());
+        }
     }
 }
