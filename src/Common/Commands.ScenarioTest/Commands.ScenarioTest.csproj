@@ -168,6 +168,7 @@
     <Compile Include="ResourceManager\ResourceTests.cs" />
     <Compile Include="ResourceManager\ResourceGroupTests.cs" />
     <Compile Include="Resources\ResourceLocator.cs" />
+    <Compile Include="Scheduler\SchedulerTests.cs" />
     <Compile Include="ServiceBusTests\ServiceBusAuthorizationRuleTests.cs" />
     <Compile Include="StorageTests\StorageContainerTest.cs" />
     <Compile Include="StorageTests\StorageContextTest.cs" />
@@ -253,9 +254,11 @@
       <SubType>Designer</SubType>
     </None>
     <None Include="Resources\CsmTestDummySubscription.json" />
-    <None Include="Resources\TrafficManager\Common.ps1">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
+    <None Include="Resources\Scheduler\SchedulerTests.ps1" />
+    <None Include="Resources\TrafficManager\Common.ps1" />
+    <None Include="Resources\TrafficManager\TrafficManagerTests.ps1" />
+    <None Include="Resources\Websites\WebsiteJobTestCmd.zip" />
+	  <None Include="Resources\TrafficManager\Common.ps1"/>
     <None Include="Resources\TrafficManager\TrafficManagerTests.ps1">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
@@ -291,7 +294,6 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="packages.config">
-      <SubType>Designer</SubType>
     </None>
     <None Include="Resources\ServiceManagement\VMProvisionTests.ps1">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>

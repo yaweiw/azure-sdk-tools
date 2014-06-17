@@ -12,25 +12,28 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Commands.Utilities.Scheduler
+namespace Microsoft.WindowsAzure.Commands.ScenarioTest.SchedulerTests
 {
-    using Utilities.Common;
+    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using Microsoft.WindowsAzure.Commands.ScenarioTest.Common;
 
-    public abstract class SchedulerBaseCmdlet : CmdletWithSubscriptionBase
+    [TestClass]
+    public class SchedulerTests : WindowsAzurePowerShellCertificateTest
     {
-        private SchedulerMgmntClient schedulerMgmntClient;
-
-        public SchedulerMgmntClient SMClient
+        public SchedulerTests()
+            : base("Common.ps1",
+                   "Scheduler\\SchedulerTests.ps1")
         {
-            get
-            {
-                if (schedulerMgmntClient == null)
-                {
-                    schedulerMgmntClient = new SchedulerMgmntClient(CurrentSubscription);
-                }
-                return schedulerMgmntClient;
-            }
-            set { }
+        }
+
+        [TestMethod]
+        [TestCategory(Category.All)]
+        [TestCategory(Category.CheckIn)]
+        [TestCategory(Category.BVT)]
+        [TestCategory(Category.Scheduler)]
+        public void TestSchedulerEndToEnd()
+        {
+            this.RunPowerShellTest("Test-SchedulerEndToEnd");
         }
     }
 }

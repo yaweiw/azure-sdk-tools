@@ -33,6 +33,8 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.Common
 
         public const string ManagedCache = "ManagedCache";
 
+        public const string Scheduler = "Scheduler";
+
         // Owners
 
         public const string OneSDK = "OneSDK";
