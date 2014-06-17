@@ -118,6 +118,7 @@ namespace Microsoft.WindowsAzure.Management.HDInsight.Cmdlet.PSCmdlets
                 }
                 this.command.ClusterSizeInNodes = value.ClusterSizeInNodes;
                 this.command.ClusterType = value.ClusterType;
+                this.command.HeadNodeSize = value.HeadNodeVMSize;
                 this.command.DefaultStorageAccountName = value.DefaultStorageAccount.StorageAccountName;
                 this.command.DefaultStorageAccountKey = value.DefaultStorageAccount.StorageAccountKey;
                 this.command.DefaultStorageContainerName = value.DefaultStorageAccount.StorageContainerName;
