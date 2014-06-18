@@ -77,25 +77,38 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Blob
                     transferJob,
                     (percent, speed) =>
                     {
-                        userData.Record.PercentComplete = (int)percent;
-                        userData.Record.StatusDescription = string.Format(CultureInfo.CurrentCulture, Resources.FileTransmitStatus, (int)percent, Util.BytesToHumanReadableSize(speed));
-                        this.OutputStream.WriteProgress(userData.Record);
+                        if (userData.Record != null)
+                        {
+                            userData.Record.PercentComplete = (int)percent;
+                            userData.Record.StatusDescription = string.Format(CultureInfo.CurrentCulture, Resources.FileTransmitStatus, (int)percent, Util.BytesToHumanReadableSize(speed));
+                            this.OutputStream.WriteProgress(userData.Record);
+                        }
                     },
                     this.CmdletCancellationToken);
 
-                userData.Record.PercentComplete = 100;
-                userData.Record.StatusDescription = Resources.TransmitSuccessfully;
-                this.OutputStream.WriteProgress(userData.Record);
+                if (userData.Record != null)
+                {
+                    userData.Record.PercentComplete = 100;
+                    userData.Record.StatusDescription = Resources.TransmitSuccessfully;
+                    this.OutputStream.WriteProgress(userData.Record);
+                }
             }
             catch (OperationCanceledException)
             {
-                userData.Record.StatusDescription = Resources.TransmitCancelled;
-                this.OutputStream.WriteProgress(userData.Record);
+                if (userData.Record != null)
+                {
+                    userData.Record.StatusDescription = Resources.TransmitCancelled;
+                    this.OutputStream.WriteProgress(userData.Record);
+                }
             }
             catch (Exception e)
             {
-                userData.Record.StatusDescription = string.Format(CultureInfo.CurrentCulture, Resources.TransmitFailed, e.Message);
-                this.OutputStream.WriteProgress(userData.Record);
+                if (userData.Record != null)
+                {
+                    userData.Record.StatusDescription = string.Format(CultureInfo.CurrentCulture, Resources.TransmitFailed, e.Message);
+                    this.OutputStream.WriteProgress(userData.Record);
+                }
+
                 throw;
             }
         }
