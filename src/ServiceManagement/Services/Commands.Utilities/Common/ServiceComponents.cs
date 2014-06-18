@@ -102,12 +102,12 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService
         {
             Validate.ValidateStringIsNullOrEmpty(roleName, Resources.RoleName);
 
-            bool isDefined = Enum.GetNames(typeof(RoleSize)).Any(x => x.ToLower() == vmSize.ToLower());
+            //bool isDefined = Enum.GetNames(typeof(RoleSize)).Any(x => x.ToLower() == vmSize.ToLower());
 
-            if (!isDefined)
-            {
-                throw new ArgumentException(string.Format(Resources.InvalidVMSize, roleName));
-            }
+            //if (!isDefined)
+            //{
+            //    throw new ArgumentException(string.Format(Resources.InvalidVMSize, roleName));
+            //}
 
             if (!RoleExists(roleName))
             {
@@ -115,16 +115,16 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService
             }
 
             WebRole webRole = GetWebRole(roleName);
-            RoleSize size = (RoleSize)Enum.Parse(typeof(RoleSize), vmSize, true);
+            // RoleSize size = (RoleSize)Enum.Parse(typeof(RoleSize), vmSize, true);
 
             if (webRole != null)
             {
-                webRole.vmsize = size;
+                webRole.vmsize = vmSize;
             }
             else
             {
                 WorkerRole workerRole = GetWorkerRole(roleName);
-                workerRole.vmsize = size;
+                workerRole.vmsize = vmSize;
             }
         }
 

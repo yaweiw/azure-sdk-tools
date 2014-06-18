@@ -45,7 +45,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.CloudService.Development.Tests.Cm
         [TestMethod]
         public void SetAzureVMSizeProcessTestsNode()
         {
-            string newRoleVMSize = RoleSize.Large.ToString();
+            string newRoleVMSize = "Large"; // RoleSize.Large.ToString();
 
             using (FileSystemHelper files = new FileSystemHelper(this))
             {
@@ -65,7 +65,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.CloudService.Development.Tests.Cm
         [TestMethod]
         public void SetAzureVMSizeProcessTestsPHP()
         {
-            string newRoleVMSize = RoleSize.Medium.ToString();
+            string newRoleVMSize = "Medium"; //RoleSize.Medium.ToString();
 
             using (FileSystemHelper files = new FileSystemHelper(this))
             {
@@ -91,7 +91,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.CloudService.Development.Tests.Cm
             using (FileSystemHelper files = new FileSystemHelper(this))
             {
                 CloudServiceProject service = new CloudServiceProject(files.RootPath, serviceName, null);
-                Testing.AssertThrows<ArgumentException>(() => service.SetRoleVMSize(service.Paths, roleName, RoleSize.Medium.ToString()), string.Format(Resources.RoleNotFoundMessage, roleName));
+                Testing.AssertThrows<ArgumentException>(() => service.SetRoleVMSize(service.Paths, roleName, "Medium" /*RoleSize.Medium.ToString()*/), string.Format(Resources.RoleNotFoundMessage, roleName));
             }
         }
 
@@ -105,7 +105,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.CloudService.Development.Tests.Cm
             {
                 CloudServiceProject service = new CloudServiceProject(files.RootPath, serviceName, null);
                 service.AddWebRole(Data.NodeWebRoleScaffoldingPath, roleName, 1);
-                Testing.AssertThrows<ArgumentException>(() => service.SetRoleVMSize(service.Paths, invalidRoleName, RoleSize.Large.ToString()), string.Format(Resources.RoleNotFoundMessage, invalidRoleName));
+                Testing.AssertThrows<ArgumentException>(() => service.SetRoleVMSize(service.Paths, invalidRoleName, "Large" /*RoleSize.Large.ToString()*/), string.Format(Resources.RoleNotFoundMessage, invalidRoleName));
             }
         }
 
@@ -119,7 +119,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.CloudService.Development.Tests.Cm
             {
                 CloudServiceProject service = new CloudServiceProject(files.RootPath, serviceName, null);
                 service.AddWebRole(Data.PHPWebRoleScaffoldingPath, roleName, 1);
-                Testing.AssertThrows<ArgumentException>(() => service.SetRoleVMSize(service.Paths, invalidRoleName, RoleSize.Large.ToString()), string.Format(Resources.RoleNotFoundMessage, invalidRoleName));
+                Testing.AssertThrows<ArgumentException>(() => service.SetRoleVMSize(service.Paths, invalidRoleName, "Large" /*RoleSize.Large.ToString()*/), string.Format(Resources.RoleNotFoundMessage, invalidRoleName));
             }
         }
 
@@ -133,7 +133,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.CloudService.Development.Tests.Cm
             {
                 CloudServiceProject service = new CloudServiceProject(files.RootPath, serviceName, null);
                 service.AddWorkerRole(Data.NodeWorkerRoleScaffoldingPath, roleName, 1);
-                Testing.AssertThrows<ArgumentException>(() => service.SetRoleVMSize(service.Paths, invalidRoleName, RoleSize.Large.ToString()), string.Format(Resources.RoleNotFoundMessage, invalidRoleName));
+                Testing.AssertThrows<ArgumentException>(() => service.SetRoleVMSize(service.Paths, invalidRoleName, "Large" /*RoleSize.Large.ToString()*/), string.Format(Resources.RoleNotFoundMessage, invalidRoleName));
             }
         }
 
@@ -147,7 +147,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.CloudService.Development.Tests.Cm
             {
                 CloudServiceProject service = new CloudServiceProject(files.RootPath, serviceName, null);
                 service.AddWorkerRole(Data.PHPWorkerRoleScaffoldingPath, roleName, 1);
-                Testing.AssertThrows<ArgumentException>(() => service.SetRoleVMSize(service.Paths, invalidRoleName, RoleSize.Large.ToString()), string.Format(Resources.RoleNotFoundMessage, invalidRoleName));
+                Testing.AssertThrows<ArgumentException>(() => service.SetRoleVMSize(service.Paths, invalidRoleName, "Large" /*RoleSize.Large.ToString()*/), string.Format(Resources.RoleNotFoundMessage, invalidRoleName));
             }
         }
 
@@ -157,7 +157,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.CloudService.Development.Tests.Cm
             using (FileSystemHelper files = new FileSystemHelper(this))
             {
                 CloudServiceProject service = new CloudServiceProject(files.RootPath, serviceName, null);
-                Testing.AssertThrows<ArgumentException>(() => service.SetRoleVMSize(service.Paths, string.Empty, RoleSize.Large.ToString()), string.Format(Resources.InvalidOrEmptyArgumentMessage, Resources.RoleName));
+                Testing.AssertThrows<ArgumentException>(() => service.SetRoleVMSize(service.Paths, string.Empty, "Large" /*RoleSize.Large.ToString()*/), string.Format(Resources.InvalidOrEmptyArgumentMessage, Resources.RoleName));
             }
         }
 
@@ -167,7 +167,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.CloudService.Development.Tests.Cm
             using (FileSystemHelper files = new FileSystemHelper(this))
             {
                 CloudServiceProject service = new CloudServiceProject(files.RootPath, serviceName, null);
-                Testing.AssertThrows<ArgumentException>(() => service.SetRoleVMSize(service.Paths, null, RoleSize.Large.ToString()), string.Format(Resources.InvalidOrEmptyArgumentMessage, Resources.RoleName));
+                Testing.AssertThrows<ArgumentException>(() => service.SetRoleVMSize(service.Paths, null, "Large" /*RoleSize.Large.ToString()*/), string.Format(Resources.InvalidOrEmptyArgumentMessage, Resources.RoleName));
             }
         }
 
@@ -198,7 +198,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.CloudService.Development.Tests.Cm
         [TestMethod]
         public void SetAzureVMSizeProcessTestsCaseInsensitive()
         {
-            string newRoleVMSize = RoleSize.Large.ToString();
+            string newRoleVMSize = "Large" /*RoleSize.Large.ToString()*/;
 
             using (FileSystemHelper files = new FileSystemHelper(this))
             {
