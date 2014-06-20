@@ -790,7 +790,7 @@ Please follow these steps in the portal:
     <value>uri</value>
   </data>
   <data name="ManifestUri" xml:space="preserve">
-    <value>http://az413943.vo.msecnd.net/node/runtimemanifest_0.7.4.xml</value>
+    <value>http://az413943.vo.msecnd.net/node/runtimemanifest_0.7.4.1.xml</value>
   </data>
   <data name="MaxSupportAzureSdkVersion" xml:space="preserve">
     <value>v2.4</value>
