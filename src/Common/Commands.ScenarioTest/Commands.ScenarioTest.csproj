@@ -154,7 +154,6 @@
     <Compile Include="Common\TestEnvironmentFactory.cs" />
     <Compile Include="Common\TokenCloudCredentialsHelper.cs" />
     <Compile Include="Common\WindowsAzurePowerShellTokenTest.cs" />
-    <None Include="app.config" />
     <None Include="Resources\Storage\StorageContext.ps1">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
