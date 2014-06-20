@@ -154,6 +154,7 @@
     <Compile Include="Common\TestEnvironmentFactory.cs" />
     <Compile Include="Common\TokenCloudCredentialsHelper.cs" />
     <Compile Include="Common\WindowsAzurePowerShellTokenTest.cs" />
+    <None Include="app.config" />
     <None Include="Resources\Storage\StorageContext.ps1">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
@@ -258,7 +259,7 @@
     <None Include="Resources\TrafficManager\Common.ps1" />
     <None Include="Resources\TrafficManager\TrafficManagerTests.ps1" />
     <None Include="Resources\Websites\WebsiteJobTestCmd.zip" />
-	  <None Include="Resources\TrafficManager\Common.ps1"/>
+    <None Include="Resources\TrafficManager\Common.ps1" />
     <None Include="Resources\TrafficManager\TrafficManagerTests.ps1">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
