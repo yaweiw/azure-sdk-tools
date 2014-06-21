@@ -2,43 +2,37 @@ $scriptFolder = Split-Path -Path $MyInvocation.MyCommand.Definition -Parent
 . ($scriptFolder + '.\SetupEnv.ps1')
 
 Import-Module "$env:AzurePSRoot\src\Package\Debug\ServiceManagement\azure\Azure.psd1"
-cd  "$env:AzurePSRoot\src\Package\Debug"
 
-Stop-AzureEmulator
+Write-Host "***Please read. this script requires the following product***"  -ForegroundColor "Red"
+Write-Host "**Node.js for Windows (32-bits) at http://nodejs.org/download/ and Azure Node.js for Windows at http://azure.microsoft.com/en-us/downloads/" -ForegroundColor "Red"
+Write-Host "**Azure PHP for Windows at http://azure.microsoft.com/en-us/downloads/." -ForegroundColor "Yellow"
+Write-Host "**It is recommended to reboot the machine after the setup, or at least relaunch the powershell." -ForegroundColor "Red"
 
 Write-Host "Testing Caching role with MemCacheShim package, Node Web Role, and run under emulators" -ForegroundColor "Green"
 #detect nodejs for x86 is installed, if not install it
 
-if (!(Test-Path "$env:ADXSDKProgramFiles\iisnode-dev")) {
-    Write-Host "You must install Node.js/32-bits at http://nodejs.org/download/ and then install azure node.js support from http://azure.microsoft.com/en-us/downloads/" -ForegroundColor "Red"
-	Exit
-}
-
 # create testing folder
-cd "$env:AzurePSRoot\Package\Debug"
-$testFolder = "$env:AzurePSRoot\src\Package\Debug\SDKTest"
-if (Test-Path $testFolder){
-   Remove-Item $testFolder -Recurse -Force
-}
+$testFolder = "$env:AzurePSRoot\src\Package\Debug\SDKTest" + [System.IO.Path]::GetRandomFileName()
 md $testFolder
 cd $testFolder 
 
 New-AzureServiceProject MemCacheTestWithNode
-Add-AzureNodeWebRole WebRole1
+# the 'ClientRole' is coupled with the client script, do not change it unless you update the script as well 
+Add-AzureNodeWebRole ClientRole
 Add-AzureCacheWorkerRole CacheRole
-Enable-AzureMemcacheRole WebRole1 CacheRole
+Enable-AzureMemcacheRole ClientRole CacheRole
 
 md "temp"
-Copy-Item "$scriptFolder\Test\MemCacheClientNodeJS.exe" ".\temp\"
-Start-Process '.\temp\MemCacheClientNodeJS.exe' "-y" -Wait
-Copy-Item ".\Temp\*" ".\WebRole1\"  -Force -Exclude "MemCacheClientNodeJS.exe" -Recurse
+Copy-Item "$env:AzurePSRoot\src\Common\Commands.ScenarioTest\Resources\CloudService\Cache\*.js" ".\ClientRole\"  -Force -Recurse
+cd "$testFolder\MemCacheTestWithNode\ClientRole"
+Start-Process "npm" "install $env:AzurePSRoot\src\Common\Commands.ScenarioTest\Resources\CloudService\Cache\mc.tgz $env:AzurePSRoot\src\Common\Commands.ScenarioTest\Resources\CloudService\Cache\connman.tgz" -Wait
 
 cd "$testFolder\MemCacheTestWithNode"
 Start-AzureEmulator -v
 
 Write-Host "You can do some testing by loading role url in the browser and adding some key/value to mem cache emulators" -ForegroundColor "Yellow"
 Write-Host "Press any key to continue to the next testing"
-$keyPressed = $host.UI.RawUI.ReadKey("NoEcho,IncludeKeyUp")
+$keyPressed = $host.UI.RawUI.ReadKey("NoEcho,IncludeKeyDown")
 
 Write-Host "Testing PHP web & worker roles with emulator" -ForegroundColor "Green" 
 cd $testFolder
@@ -49,7 +43,7 @@ Start-AzureEmulator -v
 
 Write-Host "You can do some testing by loading role url in the browser and make sure PHP default pages loads" -ForegroundColor "Yellow"
 Write-Host "Press any key to continue to the next testing"
-$keyPressed = $host.UI.RawUI.ReadKey("NoEcho,IncludeKeyUp")
+$keyPressed = $host.UI.RawUI.ReadKey("NoEcho,IncludeKeyDown")
 
 Write-Host "Testing Django web roles" -ForegroundColor "Green"
 cd $testFolder
