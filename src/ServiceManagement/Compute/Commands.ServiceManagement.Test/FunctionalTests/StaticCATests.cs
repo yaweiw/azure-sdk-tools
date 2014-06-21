@@ -169,7 +169,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
                 //Verify that the first DIP is released.
                 Console.WriteLine("Checking for the availability of non static IpAdress after giving a static CA to the VM");
 
-                Thread.Sleep(5000);
+                Thread.Sleep(TimeSpan.FromMinutes(2));
 
                 var availabilityContext = vmPowershellCmdlets.TestAzureStaticVNetIP(vnet1, nonStaticIpAddress);
 
