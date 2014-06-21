@@ -12,25 +12,19 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
 {
     using System;
-    using System.Collections.Generic;
-    using System.Collections.ObjectModel;
     using System.IO;
     using System.Management.Automation;
     using System.Reflection;
     using System.Security.Cryptography.X509Certificates;
-    using System.Text;
     using System.Threading;
-    using System.Xml;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
-    using Microsoft.WindowsAzure.Commands.ServiceManagement.Extensions;
     using Microsoft.WindowsAzure.Commands.ServiceManagement.Model;
     using Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests.ConfigDataInfo;
-    using Microsoft.WindowsAzure.Commands.ServiceManagement.Test.Properties;
     using Model.PersistentVMModel;
+    using System.Linq;
 
     [TestClass]
     public class FunctionalTestCommonVM : ServiceManagementTest
@@ -41,19 +35,12 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
         [ClassInitialize]
         public static void ClassInit(TestContext context)
         {
-            //SetTestSettings();
-
             if (defaultAzureSubscription.Equals(null))
             {
                 Assert.Inconclusive("No Subscription is selected!");
             }
 
             defaultService = Utilities.GetUniqueShortName(serviceNamePrefix);
-            //do
-            //{
-            //    defaultService = Utilities.GetUniqueShortName(serviceNamePrefix);
-            //}
-            //while (vmPowershellCmdlets.TestAzureServiceName(defaultService));
 
             defaultVm = Utilities.GetUniqueShortName(vmNamePrefix);
             Assert.IsNull(vmPowershellCmdlets.GetAzureVM(defaultVm, defaultService));
@@ -113,13 +100,13 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
 
             try
             {
-                RemoveAllExistingCerts(defaultService);
-
                 // Add a cert item
                 vmPowershellCmdlets.AddAzureCertificate(defaultService, cert1);
-                CertificateContext getCert1 = vmPowershellCmdlets.GetAzureCertificate(defaultService)[0];
+                CertificateContext getCert1 = vmPowershellCmdlets.GetAzureCertificate(defaultService).FirstOrDefault(a => a.Thumbprint.Equals(installedCert.Thumbprint));
                 Console.WriteLine("Cert is added: {0}", getCert1.Thumbprint);
                 Assert.AreEqual(getCert1.Data, cert1data, "Cert is different!!");
+
+                Thread.Sleep(TimeSpan.FromMinutes(2));
                 vmPowershellCmdlets.RemoveAzureCertificate(defaultService, getCert1.Thumbprint, thumbprintAlgorithm);
                 pass = Utilities.CheckRemove(vmPowershellCmdlets.GetAzureCertificate, defaultService, getCert1.Thumbprint, thumbprintAlgorithm);
 
@@ -128,6 +115,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
                 CertificateContext getCert2 = vmPowershellCmdlets.GetAzureCertificate(defaultService, cert2[0].Thumbprint, thumbprintAlgorithm)[0];
                 Console.WriteLine("Cert is added: {0}", cert2[0].Thumbprint);
                 Assert.AreEqual(getCert2.Data, cert2data, "Cert is different!!");
+                Thread.Sleep(TimeSpan.FromMinutes(2));
                 vmPowershellCmdlets.RemoveAzureCertificate(defaultService, cert2[0].Thumbprint, thumbprintAlgorithm);
                 pass &= Utilities.CheckRemove(vmPowershellCmdlets.GetAzureCertificate, defaultService, cert2[0].Thumbprint, thumbprintAlgorithm);
 
@@ -137,18 +125,18 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
                 CertificateContext getCert3 = vmPowershellCmdlets.GetAzureCertificate(defaultService, cert3[0].Thumbprint, thumbprintAlgorithm)[0];
                 Console.WriteLine("Cert is added: {0}", cert3[0].Thumbprint);
                 Assert.AreEqual(getCert3.Data, cert3data, "Cert is different!!");
+                Thread.Sleep(TimeSpan.FromMinutes(2));
                 vmPowershellCmdlets.RemoveAzureCertificate(defaultService, cert3[0].Thumbprint, thumbprintAlgorithm);
                 pass &= Utilities.CheckRemove(vmPowershellCmdlets.GetAzureCertificate, defaultService, cert3[0].Thumbprint, thumbprintAlgorithm);
+
+                var certs = vmPowershellCmdlets.GetAzureCertificate(defaultService);
+                Console.WriteLine("number of certs: {0}", certs.Count);
+                Utilities.PrintContext(certs);
             }
             catch (Exception e)
             {
                 pass = false;
                 Assert.Fail(e.ToString());
-            }
-            finally
-            {
-                Utilities.UninstallCert(installedCert, certStoreLocation, certStoreName);
-                RemoveAllExistingCerts(defaultService);
             }
         }
 
