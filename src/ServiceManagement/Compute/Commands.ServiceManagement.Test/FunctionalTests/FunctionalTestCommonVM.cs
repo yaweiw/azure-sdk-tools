@@ -100,6 +100,23 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
 
             try
             {
+                RemoveAllExistingCerts(defaultService);
+                Assert.Fail("Cert issue is fixed!");
+            }
+            catch (Exception e)
+            {
+                if (e.ToString().Contains("InternalError"))
+                {
+                    Console.WriteLine("This exception is expected: {0}", e);
+                }
+                else
+                {
+                    throw;
+                }
+            }
+
+            try
+            {
                 // Add a cert item
                 vmPowershellCmdlets.AddAzureCertificate(defaultService, cert1);
                 CertificateContext getCert1 = vmPowershellCmdlets.GetAzureCertificate(defaultService).FirstOrDefault(a => a.Thumbprint.Equals(installedCert.Thumbprint));
