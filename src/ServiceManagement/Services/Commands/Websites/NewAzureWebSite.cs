@@ -14,6 +14,7 @@
 
 namespace Microsoft.WindowsAzure.Commands.Websites
 {
+    using Microsoft.WindowsAzure.Commands.Utilities.Common;
     using Microsoft.WindowsAzure.Commands.Utilities.Websites;
     using Microsoft.WindowsAzure.Management.WebSites.Models;
     using System;
@@ -119,8 +120,8 @@ namespace Microsoft.WindowsAzure.Commands.Websites
         {
             if (!File.Exists("iisnode.yml") && (File.Exists("server.js") || File.Exists("app.js")))
             {
-                string cmdletPath = Directory.GetParent(MyInvocation.MyCommand.Module.Path).FullName;
-                File.Copy(Path.Combine(cmdletPath, "Scaffolding/Node/Website/iisnode.yml"), "iisnode.yml");
+                string cmdletPath = FileUtilities.GetAssemblyDirectory();
+                File.Copy(Path.Combine(cmdletPath, "Resources/Scaffolding/Node/Website/iisnode.yml"), "iisnode.yml");
             }
         }
 

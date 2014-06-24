@@ -12,9 +12,8 @@
 # limitations under the License.
 # ----------------------------------------------------------------------------------
 
-$createdWebsites = @()
+$global:createdWebsites = @()
 $currentWebsite = $null
-$jobFile = "Websites\WebsiteJobTestCmd.zip"
 
 <#
 .SYNOPSIS
@@ -22,7 +21,39 @@ Gets valid website name.
 #>
 function Get-WebsiteName
 {
-	return getAssetName
+	$name = getAssetName
+	Write-Debug "Creating website with name $name"
+	Store-Website $name
+	return $name
+}
+
+<#
+.SYNOPSIS
+Gets a valid website location, given a preferred location
+#>
+function Get-WebsiteDefaultLocation
+{
+    param([string] $defaultLoc = $null)
+    if ($global:DefaultLocation -ne $null)
+	{
+	   $location = $global:DefaultLocation
+	}
+	else 
+	{
+	   $locations = Get-AzureWebsiteLocation
+       $locations | % {
+	     if ($_.ToLower() -eq $defaultLoc)
+		 {
+		    $location = $defaultLoc
+		 }
+	  }
+	  if ($location -eq $null)
+	  {
+	      $location = $locations[0]
+	  }
+	}
+
+	return $location;
 }
 
 <#
@@ -54,11 +85,75 @@ function New-Website
 
 <#
 .SYNOPSIS
-Removes all websites in the current subscription.
+Removes all websites
 #>
 function Initialize-WebsiteTest
 {
-	Get-AzureWebsite | Remove-AzureWebsite -Force
+  Get-AzureWebsite | Remove-AzureWebsite -Force
+}
+
+
+<#
+.SYNOPSIS
+Sets up environment for running a website test
+#>
+function Initialize-SingleWebsiteTest
+{
+  Write-Debug "Saving Global Location"
+  $global:testLocation = Get-Location
+}
+
+<#
+.SYNOPSIS
+Removes all created websites.
+#>
+function Cleanup-SingleWebsiteTest
+{
+    $global:createdWebsites | % {
+	   if ($_ -ne $null)
+	   {
+	     try
+	     {
+	        Write-Debug "Removing website with name $_"
+	        $catch = Remove-AzureWebsite -Name $_ -Slot Production -Force
+	     }
+	     catch 
+	     {
+	     }
+	  }
+	}
+
+	$global:createdWebsites.Clear()
+	Set-Location $global:testLocation
+}
+
+<#
+.SYNOPSIS
+Run a website test, with cleanup.
+#>
+function Run-WebsiteTest
+{
+   param([ScriptBlock] $test, [string] $testName)
+   
+   Initialize-SingleWebsiteTest *> "$testName.debug_log"
+   try 
+   {
+     Run-Test $test $testName *>> "$testName.debug_log"
+   }
+   finally 
+   {
+     Cleanup-SingleWebsiteTest *>> "$testName.debug_log"
+   }
+}
+
+<#
+.SYNOPSIS
+Record the creation of a website
+#>
+function Store-Website
+{
+   param([string]$name)
+   $global:createdWebsites += $name
 }
 
 <#
@@ -99,6 +194,46 @@ function New-BasicLogWebsite
 	$global:currentWebsite = New-AzureWebsite -Name $name -Github -GithubCredentials $credentials -GithubRepository wapTestApps/basic-log-app
 }
 
+<#
+.SYNOPSIS
+Waits on the specified task until it does not return not found.
+
+.PARAMETER scriptBlock
+The script block to execute.
+
+.PARAMETER timeout
+The maximum timeout for the script.
+#>
+function Wait-WebsiteFunction
+{
+    param([ScriptBlock] $scriptBlock, [object] $breakCondition, [int] $timeout)
+
+    if ($timeout -eq 0) { $timeout = 60 * 5 }
+    $start = [DateTime]::Now
+    $current = [DateTime]::Now
+    $diff = $current - $start
+
+    do
+    {
+        Start-Sleep -s 5
+        $current = [DateTime]::Now
+        $diff = $current - $start
+		$result = $null
+		try
+		{
+           $result = &$scriptBlock
+		}
+		catch {}
+    }
+    while(($result -ne $breakCondition) -and ($diff.TotalSeconds -lt $timeout))
+
+    if ($diff.TotalSeconds -ge $timeout)
+    {
+        Write-Warning "The script block '$scriptBlock' exceeded the timeout."
+        # End the processing so the test does not blow up
+        exit
+    }
+}
 <#
 .SYNOPSIS
 Retries DownloadString
@@ -149,7 +284,7 @@ function Npm-InstallExpress
 {
 	try
 	{
-		$command = "install -g express";
+		$command = "install -g express@3.4.8";
 		Start-Process npm $command -WAIT
 		"Y" | express
 		if([system.IO.File]::Exists("server.js"))
@@ -176,7 +311,7 @@ Target site name to push
 function Git-PushLocalGitToWebSite
 {
 	param([string] $siteName)
-	$webSite = Get-AzureWebsite -Name $siteName
+	$webSite = Get-AzureWebsite -Name $siteName -Slot Production
 
 	# Expected warning: LF will be replaced by CRLF in node_modules/.bin/express." when run git command
 	Assert-Throws { git add -A } 
@@ -211,7 +346,7 @@ function Test-CreateAndRemoveAJob
     {
         Write-Host "Wait and retry to work around a known limitation, that a newly created job might not be immiediately available."
         $waitScriptBlock = { Stop-AzureWebsiteJob -Name $webSiteName -JobName $webSiteJobName -PassThru }
-        Wait-Function $waitScriptBlock $TRUE
+        Wait-WebsiteFunction $waitScriptBlock $TRUE
     }
     
     $removed = Remove-AzureWebsiteJob -Name $webSiteName -JobName $webSiteJobName -JobType $webSiteJobType –Force

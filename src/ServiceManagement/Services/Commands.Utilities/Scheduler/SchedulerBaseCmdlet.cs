@@ -12,9 +12,8 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Commands.Utilities.Websites.Common
+namespace Microsoft.WindowsAzure.Commands.Utilities.Scheduler
 {
-    using Microsoft.WindowsAzure.Commands.Utilities.Scheduler;
     using Utilities.Common;
 
     public abstract class SchedulerBaseCmdlet : CmdletWithSubscriptionBase

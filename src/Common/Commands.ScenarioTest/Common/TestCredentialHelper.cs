@@ -44,26 +44,30 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.Common
 
         public TestCredentialHelper(string downloadPath)
         {
-            PowerShellVariables = new Dictionary<string, string>();
-            this.downloadDirectoryPath = downloadPath;
-            Process currentProcess = Process.GetCurrentProcess();
-            StringDictionary environment = currentProcess.StartInfo.EnvironmentVariables;
-            Assert.IsTrue(environment.ContainsKey(TestEnvironmentVariable),
-                string.Format("You must define a test environment using environment variable {0}", TestEnvironmentVariable));
-            string testEnvironment = environment[TestEnvironmentVariable];
-            Assert.IsTrue(environment.ContainsKey(StorageAccountVariable),
-                string.Format("You must define a storage account for credential download using environment variable {0}", StorageAccountVariable));
-            string storageAccount = environment[StorageAccountVariable];
-            Assert.IsTrue(environment.ContainsKey(StorageAccountKeyVariable),
-                string.Format("You must define a storage account key for credential download using environment variable {0}", StorageAccountKeyVariable));
-            string storageAccountKey = environment[StorageAccountKeyVariable];
-            DownloadTestCredentials(environment[TestEnvironmentVariable],
-                downloadPath, string.Format(CredentialBlobUriFormat, storageAccount),
-                storageAccount, environment[StorageAccountKeyVariable]);
             string environmentFile = Path.Combine(downloadPath, EnvironmentVariableFile);
             string variableFile = Path.Combine(downloadPath, PowerShellVariableFile);
-            Assert.IsTrue(File.Exists(environmentFile), string.Format("Did not download file {0}", environmentFile));
-            Assert.IsTrue(File.Exists(variableFile), string.Format("Did not download file {0}", variableFile));
+            this.downloadDirectoryPath = downloadPath;
+            PowerShellVariables = new Dictionary<string, string>();
+            if (!File.Exists(environmentFile))
+            {
+                Process currentProcess = Process.GetCurrentProcess();
+                StringDictionary environment = currentProcess.StartInfo.EnvironmentVariables;
+                Assert.IsTrue(environment.ContainsKey(TestEnvironmentVariable),
+                    string.Format("You must define a test environment using environment variable {0}", TestEnvironmentVariable));
+                string testEnvironment = environment[TestEnvironmentVariable];
+                Assert.IsTrue(environment.ContainsKey(StorageAccountVariable),
+                    string.Format("You must define a storage account for credential download using environment variable {0}", StorageAccountVariable));
+                string storageAccount = environment[StorageAccountVariable];
+                Assert.IsTrue(environment.ContainsKey(StorageAccountKeyVariable),
+                    string.Format("You must define a storage account key for credential download using environment variable {0}", StorageAccountKeyVariable));
+                string storageAccountKey = environment[StorageAccountKeyVariable];
+                DownloadTestCredentials(environment[TestEnvironmentVariable],
+                    downloadPath, string.Format(CredentialBlobUriFormat, storageAccount),
+                    storageAccount, environment[StorageAccountKeyVariable]);
+                Assert.IsTrue(File.Exists(environmentFile), string.Format("Did not download file {0}", environmentFile));
+                Assert.IsTrue(File.Exists(variableFile), string.Format("Did not download file {0}", variableFile));
+            }
+            
             AddPowerShellVariables(variableFile);
             AddEnvironmentVariables(environmentFile);
         }
