@@ -287,6 +287,9 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Database.Cmdlet
                     edition,
                     this.ServiceObjective);
 
+                // Wait for the operation to complete on the server.
+                database = CmdletCommon.WaitForSloAssignmentCompletion(this, context, database, this.DatabaseName);
+
                 // Update the passed in database object
                 if (this.MyInvocation.BoundParameters.ContainsKey("Database"))
                 {
@@ -327,6 +330,9 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Database.Cmdlet
                     maxSizeBytes,
                     edition,
                     this.ServiceObjective);
+
+                // Wait for the operation to complete on the server.
+                database = CmdletCommon.WaitForSloAssignmentCompletion(this, this.ConnectionContext, database, this.DatabaseName);
 
                 // If PassThru was specified, write back the updated object to the pipeline
                 if (this.PassThru.IsPresent)
