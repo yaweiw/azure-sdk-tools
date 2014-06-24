@@ -23,7 +23,7 @@ namespace Microsoft.WindowsAzure.Commands.WAPackIaaS.CloudService
     [Cmdlet(VerbsCommon.Get, "WAPackCloudService", DefaultParameterSetName = WAPackCmdletParameterSets.Empty)]
     public class GetWAPackCloudService : IaaSCmdletBase
     {
-        [Parameter(Position = 0, ParameterSetName = WAPackCmdletParameterSets.FromName, ValueFromPipeline = true, HelpMessage = "CloudService Name.")]
+        [Parameter(Position = 0, ParameterSetName = WAPackCmdletParameterSets.FromName, ValueFromPipelineByPropertyName = true, HelpMessage = "CloudService Name.")]
         [ValidateNotNullOrEmpty]
         public string Name
         {
@@ -34,8 +34,8 @@ namespace Microsoft.WindowsAzure.Commands.WAPackIaaS.CloudService
         public override void ExecuteCmdlet()
         {
             IEnumerable<CloudService> results = null;
-            var cloudServiceOperations = new CloudServiceOperations(this.WebClientFactory);
             var vmRoleOperations = new VMRoleOperations(this.WebClientFactory);
+            var cloudServiceOperations = new CloudServiceOperations(this.WebClientFactory);
 
             if (this.ParameterSetName == WAPackCmdletParameterSets.FromName)
             {

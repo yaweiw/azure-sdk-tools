@@ -12,7 +12,7 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Commands.WAPackIaaS.CloudService
+namespace Microsoft.WindowsAzure.Commands.WAPackIaaS.Networking
 {
     using Microsoft.WindowsAzure.Commands.Utilities.Properties;
     using Microsoft.WindowsAzure.Commands.Utilities.WAPackIaaS;
@@ -22,12 +22,12 @@ namespace Microsoft.WindowsAzure.Commands.WAPackIaaS.CloudService
     using System.Collections.Generic;
     using System.Management.Automation;
 
-    [Cmdlet(VerbsCommon.Remove, "WAPackCloudService", DefaultParameterSetName = WAPackCmdletParameterSets.FromCloudServiceObject, SupportsShouldProcess = true)]
-    public class RemoveWAPackCloudService : IaaSCmdletBase
+    [Cmdlet(VerbsCommon.Remove, "WAPackStaticIPAddressPool")]
+    public class RemoveWAPackStaticIPAddressPool : IaaSCmdletBase
     {
-        [Parameter(Position = 0, Mandatory = true, ParameterSetName = WAPackCmdletParameterSets.FromCloudServiceObject, ValueFromPipeline = true, HelpMessage = "Existing CloudService Object.")]
+        [Parameter(Mandatory = true, ValueFromPipeline = true, HelpMessage = "Existing StaticIPAddressPool Object.")]
         [ValidateNotNullOrEmpty]
-        public CloudService CloudService
+        public StaticIPAddressPool StaticIPAddressPool
         {
             get;
             set;
@@ -36,25 +36,29 @@ namespace Microsoft.WindowsAzure.Commands.WAPackIaaS.CloudService
         [Parameter(Position = 1, Mandatory = false)]
         public SwitchParameter PassThru { get; set; }
 
-        [Parameter(Position = 2, HelpMessage = "Confirm the removal of the CloudService.")]
+        [Parameter(Position = 2, HelpMessage = "Confirm the removal of the StaticIPAddressPool.")]
         public SwitchParameter Force { get; set; }
 
         public override void ExecuteCmdlet()
         {
             ConfirmAction(
             Force.IsPresent,
-            string.Format(Resources.RemoveCloudServiceConfirmationMessage, CloudService.Name),
-            string.Format(Resources.RemoveCloudServiceMessage),
-            CloudService.Name,
+            string.Format(Resources.RemoveStaticIPAddressPoolConfirmationMessage, StaticIPAddressPool.Name),
+            string.Format(Resources.RemoveStaticIPAddressPoolMessage), StaticIPAddressPool.Name,
             () =>
             {
-                Guid? cloudServiceJobId = null;
-                var cloudServiceOperations = new CloudServiceOperations(this.WebClientFactory);
+                Guid? jobId = Guid.Empty;
+                var staticIPAddressPoolOperations = new StaticIPAddressPoolOperations(this.WebClientFactory);
 
-                var deletedCloudService = cloudServiceOperations.Read(CloudService.Name);
-                cloudServiceOperations.Delete(CloudService.Name, out cloudServiceJobId);
-                var jobInfo = WaitForJobCompletion(cloudServiceJobId);
-
+                var filter = new Dictionary<string, string>
+                {
+                    {"StampId", StaticIPAddressPool.StampId.ToString()},
+                    {"ID ", StaticIPAddressPool.ID.ToString()}
+                };
+                var deletedSstaticIPAddressPool = staticIPAddressPoolOperations.Read(filter)[0];
+                staticIPAddressPoolOperations.Delete(deletedSstaticIPAddressPool.ID, out jobId);
+                var jobInfo = WaitForJobCompletion(jobId);
+                
                 if (this.PassThru)
                 {
                     WriteObject(jobInfo.jobStatus != JobStatusEnum.Failed);

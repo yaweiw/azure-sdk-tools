@@ -12,7 +12,7 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Commands.WAPackIaaS.CloudService
+namespace Microsoft.WindowsAzure.Commands.WAPackIaaS.Networking
 {
     using Microsoft.WindowsAzure.Commands.Utilities.Properties;
     using Microsoft.WindowsAzure.Commands.Utilities.WAPackIaaS;
@@ -22,12 +22,12 @@ namespace Microsoft.WindowsAzure.Commands.WAPackIaaS.CloudService
     using System.Collections.Generic;
     using System.Management.Automation;
 
-    [Cmdlet(VerbsCommon.Remove, "WAPackCloudService", DefaultParameterSetName = WAPackCmdletParameterSets.FromCloudServiceObject, SupportsShouldProcess = true)]
-    public class RemoveWAPackCloudService : IaaSCmdletBase
+    [Cmdlet(VerbsCommon.Remove, "WAPackVMSubnet")]
+    public class RemoveWAPackVMSubnet : IaaSCmdletBase
     {
-        [Parameter(Position = 0, Mandatory = true, ParameterSetName = WAPackCmdletParameterSets.FromCloudServiceObject, ValueFromPipeline = true, HelpMessage = "Existing CloudService Object.")]
+        [Parameter(Mandatory = true, ValueFromPipeline = true, HelpMessage = "Existing VMSubnet Object.")]
         [ValidateNotNullOrEmpty]
-        public CloudService CloudService
+        public VMSubnet VMSubnet
         {
             get;
             set;
@@ -36,24 +36,38 @@ namespace Microsoft.WindowsAzure.Commands.WAPackIaaS.CloudService
         [Parameter(Position = 1, Mandatory = false)]
         public SwitchParameter PassThru { get; set; }
 
-        [Parameter(Position = 2, HelpMessage = "Confirm the removal of the CloudService.")]
+        [Parameter(Position = 2, HelpMessage = "Confirm the removal of the VMSubnet.")]
         public SwitchParameter Force { get; set; }
 
         public override void ExecuteCmdlet()
         {
             ConfirmAction(
             Force.IsPresent,
-            string.Format(Resources.RemoveCloudServiceConfirmationMessage, CloudService.Name),
-            string.Format(Resources.RemoveCloudServiceMessage),
-            CloudService.Name,
+            string.Format(Resources.RemoveVMSubnetConfirmationMessage, VMSubnet.Name),
+            string.Format(Resources.RemoveVMSubnetMessage), VMSubnet.Name,
             () =>
             {
-                Guid? cloudServiceJobId = null;
-                var cloudServiceOperations = new CloudServiceOperations(this.WebClientFactory);
+                var vmSubnetOperations = new VMSubnetOperations(this.WebClientFactory);
+                var staticIPAddressPoolOperations = new StaticIPAddressPoolOperations(this.WebClientFactory);
 
-                var deletedCloudService = cloudServiceOperations.Read(CloudService.Name);
-                cloudServiceOperations.Delete(CloudService.Name, out cloudServiceJobId);
-                var jobInfo = WaitForJobCompletion(cloudServiceJobId);
+                var filter = new Dictionary<string, string>
+                {
+                    {"StampId", VMSubnet.StampId.ToString()},
+                    {"ID ", VMSubnet.ID.ToString()}
+                };
+                var deletedSubnet = vmSubnetOperations.Read(filter)[0];
+
+                var deletedIpPool = staticIPAddressPoolOperations.Read(deletedSubnet);
+                foreach (var ipPool in deletedIpPool)
+                {
+                    Guid? ipPoolJobId = Guid.Empty;
+                    staticIPAddressPoolOperations.Delete(ipPool.ID, out ipPoolJobId);
+                    WaitForJobCompletion(ipPoolJobId);
+                }
+
+                Guid? subnetJobId = Guid.Empty;
+                vmSubnetOperations.Delete(deletedSubnet.ID, out subnetJobId);
+                var jobInfo = WaitForJobCompletion(subnetJobId);
 
                 if (this.PassThru)
                 {

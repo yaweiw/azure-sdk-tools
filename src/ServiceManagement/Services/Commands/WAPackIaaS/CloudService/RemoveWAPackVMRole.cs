@@ -12,15 +12,13 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Commands.WAPackIaaS.VMRole
+namespace Microsoft.WindowsAzure.Commands.WAPackIaaS.CloudService
 {
     using Microsoft.WindowsAzure.Commands.Utilities.Properties;
     using Microsoft.WindowsAzure.Commands.Utilities.WAPackIaaS;
     using Microsoft.WindowsAzure.Commands.Utilities.WAPackIaaS.DataContract;
-    using Microsoft.WindowsAzure.Commands.Utilities.WAPackIaaS.Exceptions;
     using Microsoft.WindowsAzure.Commands.Utilities.WAPackIaaS.Operations;
     using System;
-    using System.Collections.Generic;
     using System.Management.Automation;
 
     [Cmdlet(VerbsCommon.Remove, "WAPackVMRole", DefaultParameterSetName = WAPackCmdletParameterSets.FromVMRoleObject, SupportsShouldProcess = true)]
@@ -35,7 +33,7 @@ namespace Microsoft.WindowsAzure.Commands.WAPackIaaS.VMRole
             set;
         }
 
-        [Parameter(Position = 1, Mandatory = true, ParameterSetName = WAPackCmdletParameterSets.FromCloudService, ValueFromPipeline = true, HelpMessage = "VMRole's CloudServiceName Name.")]
+        [Parameter(Position = 1, Mandatory = true, ParameterSetName = WAPackCmdletParameterSets.FromCloudService, HelpMessage = "VMRole CloudServiceName.")]
         [ValidateNotNullOrEmpty]
         public string CloudServiceName
         {
@@ -51,10 +49,6 @@ namespace Microsoft.WindowsAzure.Commands.WAPackIaaS.VMRole
 
         public override void ExecuteCmdlet()
         {
-            Guid? jobId = null;
-            Guid? cloudJobId = null;
-            var vmRoleOperations = new VMRoleOperations(this.WebClientFactory);
-
             ConfirmAction(
             Force.IsPresent,
             string.Format(Resources.RemoveVMRoleConfirmationMessage, VMRole.Name),
@@ -62,29 +56,31 @@ namespace Microsoft.WindowsAzure.Commands.WAPackIaaS.VMRole
             VMRole.Name,
             () =>
             {
-                VMRole deletedVMRole = null;
+                JobInfo jobInfo = null;
+                Guid? vmRoleJobId = null;
+                Guid? cloudJobId = null;
+                var vmRoleOperations = new VMRoleOperations(this.WebClientFactory);
+                
                 if (this.ParameterSetName == WAPackCmdletParameterSets.FromVMRoleObject)
                 {
-                    deletedVMRole = vmRoleOperations.Read(VMRole.Name, VMRole.Name);
-                    vmRoleOperations.Delete(VMRole.Name, VMRole.Name, out jobId);
-                    WaitForJobCompletion(jobId);
+                    vmRoleOperations.Delete(VMRole.Name, VMRole.Name, out vmRoleJobId);
+                    jobInfo = WaitForJobCompletion(vmRoleJobId);
 
+                    // If no CloudService name is given, we assume the VMRole was created using WAP
+                    // in which case the CloudService name is the same as the VMRole name
                     var cloudServiceOperations = new CloudServiceOperations(this.WebClientFactory);
                     cloudServiceOperations.Delete(VMRole.Name, out cloudJobId);
-                    WaitForJobCompletion(cloudJobId);
+                    WaitForJobCompletion(vmRoleJobId);
                 }
-                if (this.ParameterSetName == WAPackCmdletParameterSets.FromCloudService)
+                else if (this.ParameterSetName == WAPackCmdletParameterSets.FromCloudService)
                 {
-                    deletedVMRole = vmRoleOperations.Read(this.CloudServiceName, VMRole.Name);
-                    vmRoleOperations.Delete(this.CloudServiceName, VMRole.Name, out jobId);
-                    WaitForJobCompletion(jobId);
+                    vmRoleOperations.Delete(this.CloudServiceName, VMRole.Name, out vmRoleJobId);
+                    jobInfo = WaitForJobCompletion(vmRoleJobId);
                 }
 
                 if (this.PassThru)
                 {
-                    IEnumerable<VMRole> results = null;
-                    results = new List<VMRole>() { deletedVMRole };
-                    GenerateCmdletOutput(results);
+                    WriteObject(jobInfo.jobStatus != JobStatusEnum.Failed);
                 }
             });
         }

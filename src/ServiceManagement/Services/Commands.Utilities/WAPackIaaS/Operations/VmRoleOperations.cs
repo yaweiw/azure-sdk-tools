@@ -99,7 +99,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.WAPackIaaS.Operations
         {
             var client = this.webClientFactory.CreateClient(String.Format(scaleUri, cloudServiceName, vmRole.Name));
 
-            Dictionary<string, object> properties = new Dictionary<string, object>()
+            var properties = new Dictionary<string, object>()
 			{
 			    {"InstanceCount", count}
 			};

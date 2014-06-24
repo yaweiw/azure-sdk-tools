@@ -12,7 +12,7 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Commands.WAPackIaaS.VMRole
+namespace Microsoft.WindowsAzure.Commands.WAPackIaaS.CloudService
 {
     using Microsoft.WindowsAzure.Commands.Utilities.WAPackIaaS.DataContract;
     using Microsoft.WindowsAzure.Commands.Utilities.WAPackIaaS.Operations;
@@ -50,7 +50,7 @@ namespace Microsoft.WindowsAzure.Commands.WAPackIaaS.VMRole
             set;
         }
 
-        [Parameter(Mandatory = true, ParameterSetName = WAPackCmdletParameterSets.FromCloudService, ValueFromPipelineByPropertyName = true, HelpMessage = "VMRole's CloudService.")]
+        [Parameter(Mandatory = true, ParameterSetName = WAPackCmdletParameterSets.FromCloudService, ValueFromPipelineByPropertyName = true, HelpMessage = "VMRole CloudService.")]
         [ValidateNotNullOrEmpty]
         public CloudService CloudService
         {
@@ -60,10 +60,9 @@ namespace Microsoft.WindowsAzure.Commands.WAPackIaaS.VMRole
 
         public override void ExecuteCmdlet()
         {
+            Guid? vmRolejobId = Guid.Empty;
             VMRole createdVmRole = null;
             IEnumerable<VMRole> results = null;
-
-            Guid? vmRolejobId = Guid.Empty;
 
             var vmRoleOperations = new VMRoleOperations(this.WebClientFactory);
             var newVMRole = new VMRole()
@@ -79,14 +78,13 @@ namespace Microsoft.WindowsAzure.Commands.WAPackIaaS.VMRole
 
             if (this.ParameterSetName == WAPackCmdletParameterSets.QuickCreate)
             {
-                Guid? cloudServiceJobId = Guid.Empty;
-
                 var cloudService = new CloudService()
                 {
                     Name = this.Name,
                     Label = this.Label
                 };
 
+                Guid? cloudServiceJobId = Guid.Empty;
                 var cloudServiceOperations = new CloudServiceOperations(this.WebClientFactory);
                 cloudServiceOperations.Create(cloudService, out cloudServiceJobId);
                 WaitForJobCompletion(cloudServiceJobId);
@@ -106,7 +104,7 @@ namespace Microsoft.WindowsAzure.Commands.WAPackIaaS.VMRole
                     throw;
                 }
             }
-            if (this.ParameterSetName == WAPackCmdletParameterSets.FromCloudService)
+            else if (this.ParameterSetName == WAPackCmdletParameterSets.FromCloudService)
             {
                 createdVmRole = vmRoleOperations.Create(this.CloudService.Name, newVMRole, out vmRolejobId);
                 WaitForJobCompletion(vmRolejobId);

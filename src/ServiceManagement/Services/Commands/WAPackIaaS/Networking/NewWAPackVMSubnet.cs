@@ -12,7 +12,7 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Commands.WAPackIaaS.CloudService
+namespace Microsoft.WindowsAzure.Commands.WAPackIaaS.Networking
 {
     using Microsoft.WindowsAzure.Commands.Utilities.WAPackIaaS.DataContract;
     using Microsoft.WindowsAzure.Commands.Utilities.WAPackIaaS.Operations;
@@ -20,10 +20,18 @@ namespace Microsoft.WindowsAzure.Commands.WAPackIaaS.CloudService
     using System.Collections.Generic;
     using System.Management.Automation;
 
-    [Cmdlet(VerbsCommon.New, "WAPackCloudService")]
-    public class NewWAPackCloudService : IaaSCmdletBase
+    [Cmdlet(VerbsCommon.New, "WAPackVMSubnet")]
+    public class NewWAPackVMSubnet : IaaSCmdletBase
     {
-        [Parameter(Mandatory = true, ValueFromPipelineByPropertyName = true, HelpMessage = "CloudService Name.")]
+        [Parameter(Mandatory = true, ValueFromPipeline = true, HelpMessage = "VMSubnet VMNetwork.")]
+        [ValidateNotNullOrEmpty]
+        public VMNetwork VNet
+        {
+            get;
+            set;
+        }
+
+        [Parameter(Mandatory = true, HelpMessage = "VMSubnet Name.")]
         [ValidateNotNullOrEmpty]
         public string Name
         {
@@ -31,29 +39,36 @@ namespace Microsoft.WindowsAzure.Commands.WAPackIaaS.CloudService
             set;
         }
 
-        [Parameter(Mandatory = true, ValueFromPipelineByPropertyName = true, HelpMessage = "CloudService Label.")]
+        [Parameter(Mandatory = true, HelpMessage = "VMSubnet Subnet.")]
         [ValidateNotNullOrEmpty]
-        public string Label
+        public string Subnet
         {
             get;
             set;
         }
-
+        
         public override void ExecuteCmdlet()
         {
-            var cloudService = new CloudService()
+            var vmSubnet = new VMSubnet()
             {
                 Name = this.Name,
-                Label = this.Label
+                VMNetworkName = this.VNet.Name,
+                VMNetworkId = this.VNet.ID,
+                Subnet = this.Subnet,
+                StampId = this.VNet.StampId,
             };
 
-            Guid? cloudServiceJobId = Guid.Empty;
-            var cloudServiceOperations = new CloudServiceOperations(this.WebClientFactory);
-            cloudServiceOperations.Create(cloudService, out cloudServiceJobId);
-            WaitForJobCompletion(cloudServiceJobId);
+            Guid? jobId = Guid.Empty;
+            var vmSubnetOperations = new VMSubnetOperations(this.WebClientFactory);
+            var createdVMSubnet = vmSubnetOperations.Create(vmSubnet, out jobId);
+            WaitForJobCompletion(jobId);
 
-            var createdCloudService = cloudServiceOperations.Read(this.Name);
-            var results = new List<CloudService>() { createdCloudService };
+            var filter = new Dictionary<string, string>
+            {
+                {"ID", createdVMSubnet.ID.ToString()},
+                {"StampId ", createdVMSubnet.StampId.ToString()}
+            };
+            var results = vmSubnetOperations.Read(filter);
             this.GenerateCmdletOutput(results);
         }
     }

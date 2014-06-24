@@ -26,6 +26,8 @@ namespace Microsoft.WindowsAzure.Commands.WAPackIaaS
         internal const string FromVMRoleObject = "FromVMRoleObject";
         internal const string FromCloudService = "FromCloudService";
         internal const string FromCloudServiceObject = "FromCloudServiceObject";
+        internal const string FromVMNetworkObject = "FromVMNetworkObject";
+        internal const string FromVMSubnetObject = "FromVMSubnetObject";
         internal const string UpdateVMSizeProfile = "UpdateVMSizeProfile";
         internal const string GetRDPFile = "GetRDPFile";
         internal const string CreateLinuxVMFromTemplate = "CreateLinuxVMFromTemplate";

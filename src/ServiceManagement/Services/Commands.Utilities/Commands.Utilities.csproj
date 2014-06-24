@@ -483,11 +483,14 @@
     <Compile Include="WAPackIaaS\Operations\CloudServiceOperations.cs" />
     <Compile Include="WAPackIaaS\Operations\HardwareProfileOperations.cs" />
     <Compile Include="WAPackIaaS\Operations\JobOperations.cs" />
+    <Compile Include="WAPackIaaS\Operations\LogicalNetworkOperations.cs" />
     <Compile Include="WAPackIaaS\Operations\OperationsBase.cs" />
+    <Compile Include="WAPackIaaS\Operations\StaticIPAddressPoolOperations.cs" />
     <Compile Include="WAPackIaaS\Operations\VirtualHardDiskOperations.cs" />
     <Compile Include="WAPackIaaS\Operations\VirtualMachineOperations.cs" />
+    <Compile Include="WAPackIaaS\Operations\VMSubnetOperations.cs" />
     <Compile Include="WAPackIaaS\Operations\VMNetworkOperations.cs" />
-    <Compile Include="WAPackIaaS\Operations\VmRoleOperations.cs" />
+    <Compile Include="WAPackIaaS\Operations\VMRoleOperations.cs" />
     <Compile Include="WAPackIaaS\Operations\VMTemplateOperations.cs" />
     <Compile Include="WAPackIaaS\WebClientFactory.cs" />
     <Compile Include="WAPackIaaS\WebClient\HttpFilters.cs" />
@@ -897,8 +900,8 @@
   <ItemGroup>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

@@ -12,7 +12,7 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Commands.WAPackIaaS.VMRole
+namespace Microsoft.WindowsAzure.Commands.WAPackIaaS.CloudService
 {
     using Microsoft.WindowsAzure.Commands.Utilities.WAPackIaaS.DataContract;
     using Microsoft.WindowsAzure.Commands.Utilities.WAPackIaaS.Operations;
@@ -32,7 +32,7 @@ namespace Microsoft.WindowsAzure.Commands.WAPackIaaS.VMRole
             set;
         }
 
-        [Parameter(Position = 1, Mandatory = true, ParameterSetName = WAPackCmdletParameterSets.FromCloudService, ValueFromPipelineByPropertyName = true, HelpMessage = "VMRole's CloudService Name.")]
+        [Parameter(Position = 1, Mandatory = true, ParameterSetName = WAPackCmdletParameterSets.FromCloudService, ValueFromPipelineByPropertyName = true, HelpMessage = "VMRole CloudService Name.")]
         [ValidateNotNullOrEmpty]
         public string CloudServiceName
         {
@@ -50,15 +50,15 @@ namespace Microsoft.WindowsAzure.Commands.WAPackIaaS.VMRole
                 var vmRole = vmRoleOperations.Read(this.Name, this.Name);
                 results = new List<VMRole>() { vmRole };
             }
-            if (this.ParameterSetName == WAPackCmdletParameterSets.FromCloudService)
+            else if (this.ParameterSetName == WAPackCmdletParameterSets.FromCloudService)
             {
                 var vmRole = vmRoleOperations.Read(this.CloudServiceName, this.Name);
                 results = new List<VMRole>() { vmRole };
             }
-            if (this.ParameterSetName == WAPackCmdletParameterSets.Empty)
+            else if (this.ParameterSetName == WAPackCmdletParameterSets.Empty)
             {
                 IEnumerable<CloudService> cloudServiceResults = null;
-                List<VMRole> vmRoles = new List<VMRole>();
+                var vmRoles = new List<VMRole>();
 
                 var cloudServiceOperations = new CloudServiceOperations(this.WebClientFactory);
                 cloudServiceResults = cloudServiceOperations.Read();

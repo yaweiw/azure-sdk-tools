@@ -214,15 +214,6 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The Automation accout was not found..
-        /// </summary>
-        public static string AutomationAccountNotFound {
-            get {
-                return ResourceManager.GetString("AutomationAccountNotFound", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Windows Azure Powershell\.
         /// </summary>
         public static string AzureDirectory {
@@ -440,7 +431,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Properties {
         ///    &lt;dataCacheClient name=&quot;DefaultShimConfig&quot; useLegacyProtocol=&quot;false&quot;&gt;
         ///      &lt;autoDiscover isEnabled=&quot;true&quot; identifier=&quot;$RoleName$&quot; /&gt;
         ///    &lt;/dataCacheClient&gt;
-        ///  &lt;/dataCacheCl [rest of string was truncated]&quot;;.
+        ///  &lt;/da [rest of string was truncated]&quot;;.
         /// </summary>
         public static string CacheAutoDiscoveryConfig {
             get {
@@ -1260,6 +1251,15 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Error creating StaticIPAddressPool.
+        /// </summary>
+        public static string ErrorCreatingStaticIPAddressPool {
+            get {
+                return ResourceManager.GetString("ErrorCreatingStaticIPAddressPool", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Error creating VirtualMachine.
         /// </summary>
         public static string ErrorCreatingVirtualMachine {
@@ -1269,11 +1269,29 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Error creating VMNetwork.
+        /// </summary>
+        public static string ErrorCreatingVMNetwork {
+            get {
+                return ResourceManager.GetString("ErrorCreatingVMNetwork", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Error creating VMRole.
         /// </summary>
         public static string ErrorCreatingVMRole {
             get {
                 return ResourceManager.GetString("ErrorCreatingVMRole", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Error creating VMSubnet.
+        /// </summary>
+        public static string ErrorCreatingVMSubnet {
+            get {
+                return ResourceManager.GetString("ErrorCreatingVMSubnet", resourceCulture);
             }
         }
         
@@ -1310,15 +1328,6 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Properties {
         public static string FailedJobErrorMessage {
             get {
                 return ResourceManager.GetString("FailedJobErrorMessage", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to The file &quot;{0}&quot; was not found. Make sure the file exists and is accessible..
-        /// </summary>
-        public static string FileNotFound {
-            get {
-                return ResourceManager.GetString("FileNotFound", resourceCulture);
             }
         }
         
@@ -1539,15 +1548,6 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The daily schedule model is not valid. Schedule name: {0}..
-        /// </summary>
-        public static string InvalidDailyScheduleModel {
-            get {
-                return ResourceManager.GetString("InvalidDailyScheduleModel", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to No default subscription has been designated. Use Select-AzureSubscription -Default &lt;subscriptionName&gt; to set the default subscription..
         /// </summary>
         public static string InvalidDefaultSubscription {
@@ -1657,15 +1657,6 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Properties {
         public static string InvalidJobFile {
             get {
                 return ResourceManager.GetString("InvalidJobFile", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to The job model is not valid..
-        /// </summary>
-        public static string InvalidJobModel {
-            get {
-                return ResourceManager.GetString("InvalidJobModel", resourceCulture);
             }
         }
         
@@ -1792,24 +1783,6 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Properties {
         public static string InvalidRootNameMessage {
             get {
                 return ResourceManager.GetString("InvalidRootNameMessage", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to The runbook model is not valid..
-        /// </summary>
-        public static string InvalidRunbookModel {
-            get {
-                return ResourceManager.GetString("InvalidRunbookModel", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to At least one parameter provided is not expected by the runbook..
-        /// </summary>
-        public static string InvalidRunbookParameters {
-            get {
-                return ResourceManager.GetString("InvalidRunbookParameters", resourceCulture);
             }
         }
         
@@ -1981,15 +1954,6 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Properties {
         public static string JobNotFound {
             get {
                 return ResourceManager.GetString("JobNotFound", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to The job was not found. Job ID: {0}..
-        /// </summary>
-        public static string JobNotFoundById {
-            get {
-                return ResourceManager.GetString("JobNotFoundById", resourceCulture);
             }
         }
         
@@ -2938,42 +2902,6 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Removing the Azure Automation runbook..
-        /// </summary>
-        public static string RemoveAzureAutomationRunbookDescription {
-            get {
-                return ResourceManager.GetString("RemoveAzureAutomationRunbookDescription", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Are you sure you want to remove the Azure Automation runbook?.
-        /// </summary>
-        public static string RemoveAzureAutomationRunbookWarning {
-            get {
-                return ResourceManager.GetString("RemoveAzureAutomationRunbookWarning", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Removing the Azure Automation schedule..
-        /// </summary>
-        public static string RemoveAzureAutomationScheduleDescription {
-            get {
-                return ResourceManager.GetString("RemoveAzureAutomationScheduleDescription", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Are you sure you want to remove the Azure Automation schedule?.
-        /// </summary>
-        public static string RemoveAzureAutomationScheduleWarning {
-            get {
-                return ResourceManager.GetString("RemoveAzureAutomationScheduleWarning", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Removing cloud service {0}....
         /// </summary>
         public static string RemoveAzureServiceWaitMessage {
@@ -3127,6 +3055,24 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Are you sure you want to delete the StaticIPAddressPool &apos;{0}&apos;?.
+        /// </summary>
+        public static string RemoveStaticIPAddressPoolConfirmationMessage {
+            get {
+                return ResourceManager.GetString("RemoveStaticIPAddressPoolConfirmationMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Deleting StaticIPAddressPool..
+        /// </summary>
+        public static string RemoveStaticIPAddressPoolMessage {
+            get {
+                return ResourceManager.GetString("RemoveStaticIPAddressPoolMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Are you sure you want to remove subscription &apos;{0}&apos;?.
         /// </summary>
         public static string RemoveSubscriptionConfirmation {
@@ -3163,6 +3109,24 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Are you sure you want to delete the VMNetwork &apos;{0}&apos;?.
+        /// </summary>
+        public static string RemoveVMNetworkConfirmationMessage {
+            get {
+                return ResourceManager.GetString("RemoveVMNetworkConfirmationMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Deleting VMNetwork.
+        /// </summary>
+        public static string RemoveVMNetworkMessage {
+            get {
+                return ResourceManager.GetString("RemoveVMNetworkMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Are you sure you want to delete the VMRole &apos;{0}&apos;?.
         /// </summary>
         public static string RemoveVMRoleConfirmationMessage {
@@ -3177,6 +3141,24 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Properties {
         public static string RemoveVMRoleMessage {
             get {
                 return ResourceManager.GetString("RemoveVMRoleMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Are you sure you want to remove the VMSubnet &apos;{0}&apos;?.
+        /// </summary>
+        public static string RemoveVMSubnetConfirmationMessage {
+            get {
+                return ResourceManager.GetString("RemoveVMSubnetConfirmationMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Deleting VMSubnet..
+        /// </summary>
+        public static string RemoveVMSubnetMessage {
+            get {
+                return ResourceManager.GetString("RemoveVMSubnetMessage", resourceCulture);
             }
         }
         
@@ -3343,60 +3325,6 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Runbook already has a draft. Specify the parameter to force an overwrite of this draft..
-        /// </summary>
-        public static string RunbookAlreadyHasDraft {
-            get {
-                return ResourceManager.GetString("RunbookAlreadyHasDraft", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to The runbook has no published version. Runbook ID: {0}..
-        /// </summary>
-        public static string RunbookHasNoPublishedVersionById {
-            get {
-                return ResourceManager.GetString("RunbookHasNoPublishedVersionById", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to The runbook was not found. Runbook ID: {0}..
-        /// </summary>
-        public static string RunbookNotFoundById {
-            get {
-                return ResourceManager.GetString("RunbookNotFoundById", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to The runbook was not found. Runbook name: {0}..
-        /// </summary>
-        public static string RunbookNotFoundByName {
-            get {
-                return ResourceManager.GetString("RunbookNotFoundByName", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to The runbook parameter &quot;{0}&quot; is mandatory..
-        /// </summary>
-        public static string RunbookParameterValueRequired {
-            get {
-                return ResourceManager.GetString("RunbookParameterValueRequired", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to The runbook version was not found. Runbook version ID: {0}..
-        /// </summary>
-        public static string RunbookVersionNotFoundById {
-            get {
-                return ResourceManager.GetString("RunbookVersionNotFoundById", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to &quot;{0}&quot; &quot;{1}&quot; {2} /useiisexpress.
         /// </summary>
         public static string RunInEmulatorArguments {
@@ -3483,33 +3411,6 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Properties {
         public static string ScaffoldXml {
             get {
                 return ResourceManager.GetString("ScaffoldXml", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to The Automation schedule name is in use. Schedule name: {0}..
-        /// </summary>
-        public static string ScheduleNameExists {
-            get {
-                return ResourceManager.GetString("ScheduleNameExists", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to The schedule was not found. Schedule ID: {0}..
-        /// </summary>
-        public static string ScheduleNotFoundById {
-            get {
-                return ResourceManager.GetString("ScheduleNotFoundById", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to The schedule was not found. Schedule name: {0}..
-        /// </summary>
-        public static string ScheduleNotFoundByName {
-            get {
-                return ResourceManager.GetString("ScheduleNotFoundByName", resourceCulture);
             }
         }
         
