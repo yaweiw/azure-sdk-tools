@@ -209,7 +209,7 @@
 {0}</value>
   </data>
   <data name="AzureToolsNotInstalledMessage" xml:space="preserve">
-    <value>Azure Authoring Tools are not installed and are required</value>
+    <value>Azure Authoring Tools are not installed and are required. Installation of Azure SDK for .NET is recommended with Microsoft Web Platform Installer (PI) available at http://www.microsoft.com/web/downloads/platform.aspx.</value>
   </data>
   <data name="BaseUriEmpty" xml:space="preserve">
     <value>Base Uri was empty.</value>

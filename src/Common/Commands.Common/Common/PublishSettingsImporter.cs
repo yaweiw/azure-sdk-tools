@@ -59,7 +59,8 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
                 SubscriptionName = s.Name,
                 ServiceEndpoint = GetManagementUri(profile, s),
                 ResourceManagerEndpoint = null,
-                SubscriptionId = s.Id
+                SubscriptionId = s.Id,
+                SqlDatabaseDnsSuffix = WindowsAzureEnvironmentConstants.AzureSqlDatabaseDnsSuffix,
             };
         }
 
