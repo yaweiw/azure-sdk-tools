@@ -55,8 +55,8 @@ $aliases = @{
     "Start-CopyAzureStorageBlob" = "Start-AzureStorageBlobCopy";
     "Stop-CopyAzureStorageBlob" = "Stop-AzureStorageBlobCopy";
 
-	# Compute aliases
-	"New-AzureDns" = "New-AzureDnsConfig";
+    # Compute aliases
+    "New-AzureDns" = "New-AzureDnsConfig";
 	
     # HDInsight aliases
     "Invoke-Hive" = "Invoke-AzureHDInsightHiveJob";
