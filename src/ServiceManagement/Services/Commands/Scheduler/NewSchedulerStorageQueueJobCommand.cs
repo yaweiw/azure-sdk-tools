@@ -14,13 +14,11 @@
 
 namespace Microsoft.WindowsAzure.Commands.Scheduler
 {
-    using Microsoft.WindowsAzure.Commands.Utilities.Properties;
+    using Microsoft.WindowsAzure.Commands.Utilities.Scheduler;
     using Microsoft.WindowsAzure.Commands.Utilities.Scheduler.Model;
     using System;
     using System.Collections;
-    using System.Linq;
     using System.Management.Automation;
-    using Utilities.Websites.Common;
 
     /// <summary>
     /// Cmdlet to create a new storage job
@@ -118,36 +116,31 @@ namespace Microsoft.WindowsAzure.Commands.Scheduler
 
         public override void ExecuteCmdlet()
         {
-            string status = string.Empty;
-            if (!SMClient.GetAvailableRegions().Contains(Location, StringComparer.OrdinalIgnoreCase))
-                throw new Exception(Resources.SchedulerInvalidLocation);
-            else
+            string status = string.Empty;            
+            WriteObject(SMClient.CreateStorageJob(new PSCreateJobParams
             {
-                WriteObject(SMClient.CreateStorageJob(new PSCreateJobParams
-                {
-                    Region = Location,
-                    JobCollectionName = JobCollectionName,
-                    JobName = JobName,
-                    StorageAccount = StorageQueueAccount,
-                    QueueName = StorageQueueName,
-                    SasToken = SASToken,
-                    StorageQueueMessage = StorageQueueMessage,
-                    StartTime = StartTime,
-                    Interval = Interval,
-                    Frequency = Frequency,
-                    EndTime = EndTime,
-                    ExecutionCount = ExecutionCount,
-                    JobState = JobState,
-                    ErrorActionMethod = ErrorActionMethod,
-                    ErrorActionBody = ErrorActionRequestBody,
-                    ErrorActionHeaders = ErrorActionHeaders,
-                    ErrorActionUri = ErrorActionURI,
-                    ErrorActionStorageAccount = ErrorActionStorageAccount,
-                    ErrorActionQueueName = ErrorActionStorageQueue,
-                    ErrorActionQueueBody = ErrorActionQueueMessageBody,
-                    ErrorActionSasToken = ErrorActionSASToken
-                }, out status), true);
-            }
+                Region = Location,
+                JobCollectionName = JobCollectionName,
+                JobName = JobName,
+                StorageAccount = StorageQueueAccount,
+                QueueName = StorageQueueName,
+                SasToken = SASToken,
+                StorageQueueMessage = StorageQueueMessage,
+                StartTime = StartTime,
+                Interval = Interval,
+                Frequency = Frequency,
+                EndTime = EndTime,
+                ExecutionCount = ExecutionCount,
+                JobState = JobState,
+                ErrorActionMethod = ErrorActionMethod,
+                ErrorActionBody = ErrorActionRequestBody,
+                ErrorActionHeaders = ErrorActionHeaders,
+                ErrorActionUri = ErrorActionURI,
+                ErrorActionStorageAccount = ErrorActionStorageAccount,
+                ErrorActionQueueName = ErrorActionStorageQueue,
+                ErrorActionQueueBody = ErrorActionQueueMessageBody,
+                ErrorActionSasToken = ErrorActionSASToken
+            }, out status), true);
         }
     }
 }

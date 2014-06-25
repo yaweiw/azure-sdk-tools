@@ -52,6 +52,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.Profile
 
             Assert.AreEqual(Data.Subscription1, profile.CurrentSubscription.SubscriptionName);
             Assert.IsTrue(profile.CurrentSubscription.IsDefault);
+            Assert.IsNotNull(profile.CurrentSubscription.SqlDatabaseDnsSuffix);
         }
 
         [TestMethod]
@@ -66,6 +67,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.Profile
                 profile.CurrentSubscription.ServiceEndpoint);
             Assert.IsNotNull(profile.CurrentSubscription.Certificate);
             Assert.IsTrue(profile.CurrentSubscription.IsDefault);
+            Assert.IsNotNull(profile.CurrentSubscription.SqlDatabaseDnsSuffix);
         }
 
         [TestMethod]
@@ -89,6 +91,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.Profile
 
             Assert.AreEqual(profile.CurrentSubscription.SubscriptionId, newSubscriptionId);
             Assert.IsTrue(profile.Subscriptions.Contains(profile.CurrentSubscription));
+            Assert.IsNotNull(profile.CurrentSubscription.SqlDatabaseDnsSuffix);
         }
 
         [TestMethod]
@@ -104,6 +107,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.Profile
             Assert.AreEqual(profile.CurrentSubscription.SubscriptionName, Data.Subscription1);
             Assert.IsTrue(profile.CurrentSubscription.IsDefault);
             Assert.AreEqual(testDir.FilePaths[0], mockCommandRuntime.OutputPipeline[0].ToString());
+            Assert.IsNotNull(profile.CurrentSubscription.SqlDatabaseDnsSuffix);
         }
 
         [TestMethod]
@@ -119,6 +123,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.Profile
             Assert.AreEqual(profile.CurrentSubscription.SubscriptionName, Data.Subscription1);
             Assert.IsTrue(profile.CurrentSubscription.IsDefault);
             Assert.AreEqual(Path.GetFullPath(testDir.FilePaths[0]), mockCommandRuntime.OutputPipeline[0].ToString());
+            Assert.IsNotNull(profile.CurrentSubscription.SqlDatabaseDnsSuffix);
         }
 
         [TestMethod]
@@ -146,8 +151,9 @@ namespace Microsoft.WindowsAzure.Commands.Test.Profile
             Assert.AreEqual(Data.Subscription1, profile.CurrentSubscription.SubscriptionName);
             Assert.IsTrue(profile.CurrentSubscription.IsDefault);
             Assert.AreEqual(testDir.FilePaths[0], mockCommandRuntime.OutputPipeline[0].ToString());
-            Assert.AreEqual(string.Format(Resources.MultiplePublishSettingsFilesFoundMessage, testDir.FilePaths[0]), 
+            Assert.AreEqual(string.Format(Resources.MultiplePublishSettingsFilesFoundMessage, testDir.FilePaths[0]),
                 mockCommandRuntime.WarningStream[0]);
+            Assert.IsNotNull(profile.CurrentSubscription.SqlDatabaseDnsSuffix);
         }
     }
 }

@@ -24,11 +24,6 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
     [TestClass]
     public class AddAzureVhdSASUriTest : AzureVhdTest
     {
-        [ClassInitialize]
-        public static void ClassInit(TestContext context)
-        {
-            DownloadVhds();
-        }
 
         [TestInitialize]
         public void Initialize()

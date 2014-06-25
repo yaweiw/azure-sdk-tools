@@ -14,9 +14,9 @@
 
 namespace Microsoft.WindowsAzure.Commands.Scheduler
 {
+    using Microsoft.WindowsAzure.Commands.Utilities.Scheduler;
     using System.Collections.Generic;
     using System.Management.Automation;
-    using Utilities.Websites.Common;
 
     /// <summary>
     /// Cmdlet to list available regions

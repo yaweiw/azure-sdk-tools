@@ -21920,6 +21920,279 @@ $wordCountJob `
   </command:command>
   <command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10">
     <command:details>
+      <command:name>New-AzureSchedulerJobCollection</command:name>
+      <maml:description>
+        <maml:para>Create a scheduler job collection</maml:para>
+      </maml:description>
+      <maml:copyright>
+        <maml:para />
+        <!--Add copy right info here.-->
+      </maml:copyright>
+      <command:verb>New</command:verb>
+      <command:noun>AzureSchedulerJobCollection</command:noun>
+      <!--Add Dev version info here.-->
+      <dev:version />
+    </command:details>
+    <maml:description>
+      <!--This is the Description section-->
+      <maml:para>Create a scheduler job collection with the specified plan, max job count and max recurrence. If no plan is specified, Standard job collection will be created</maml:para>
+    </maml:description>
+    <command:syntax>
+      <command:syntaxItem>
+        <maml:name>New-AzureSchedulerJobCollection</maml:name>
+        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)">
+          <maml:name>Location</maml:name>
+          <maml:description>
+            <maml:para>The location name.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)">
+          <maml:name>Job Collection Name</maml:name>
+          <maml:description>
+            <maml:para>The name of scheduler job collection.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)">
+          <maml:name>Plan</maml:name>
+          <maml:description>
+            <maml:para>The scheduler job collection plan.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false">
+          <maml:name>MaxJobCount</maml:name>
+          <maml:description>
+            <maml:para>The maximum number of jobs that can be created in the scheduler job collection.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">int</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false">
+          <maml:name>Frequency</maml:name>
+          <maml:description>
+            <maml:para>The maximum frequency that can be specified on any job in this scheduler job collection.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false">
+          <maml:name>Interval</maml:name>
+          <maml:description>
+            <maml:para>The interval of recurrence at given frequency.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">int</command:parameterValue>
+        </command:parameter>        
+      </command:syntaxItem>
+    </command:syntax>
+    <command:returnValues>
+      <command:returnValue>
+        <dev:type>
+          <maml:name>
+          </maml:name>
+          <maml:uri />
+          <maml:description>
+            <maml:para>
+            </maml:para>
+          </maml:description>
+        </dev:type>
+        <maml:description>
+        </maml:description>
+      </command:returnValue>
+    </command:returnValues>
+    <command:terminatingErrors>
+    </command:terminatingErrors>
+    <command:nonTerminatingErrors>
+    </command:nonTerminatingErrors>
+    <maml:alertSet>
+      <maml:title>
+      </maml:title>
+      <maml:alert>
+        <maml:para>
+        </maml:para>
+      </maml:alert>
+    </maml:alertSet>
+    <command:examples>
+      <command:example>
+        <maml:title>
+          --------------  Example 1 --------------
+        </maml:title>
+        <maml:introduction>
+          <maml:para>C:\PS&gt;</maml:para>
+          C:\PS&gt;
+        </maml:introduction>
+        <dev:code>New-AzureSchedulerJobCollection -Location "North Central US" -JobCollectionName jobCollection1 -Plan Standard</dev:code>
+        <dev:remarks>
+          <maml:para>Create a new Standard scheduler job collection jobCollection1 with default job count and max recurrence values for a Standard scheduler job collection</maml:para>
+          <maml:para>
+          </maml:para>
+          <maml:para>
+          </maml:para>
+          <maml:para>
+          </maml:para>
+          <maml:para>
+          </maml:para>
+        </dev:remarks>
+        <command:commandLines>
+          <command:commandLine>
+            <command:commandText>
+            </command:commandText>
+          </command:commandLine>
+        </command:commandLines>
+      </command:example>
+      <command:example>
+        <maml:title>
+          --------------  Example 2 --------------
+        </maml:title>
+        <maml:introduction>
+          <maml:para>C:\PS&gt;</maml:para>
+          C:\PS&gt;
+        </maml:introduction>
+        <dev:code>New-AzureSchedulerJobCollection -Location "North Central US" -JobCollectionName jobCollection1 -Plan Standard -MaxJobCount 30 -Frequency Hour -Interval 12</dev:code>
+        <dev:remarks>
+          <maml:para>Create a new Standard scheduler job collection jobCollection1 with max job count set to 30, and max recurrence set to 12 per hour</maml:para>
+          <maml:para>
+          </maml:para>
+          <maml:para>
+          </maml:para>
+          <maml:para>
+          </maml:para>
+          <maml:para>
+          </maml:para>
+        </dev:remarks>
+        <command:commandLines>
+          <command:commandLine>
+            <command:commandText>
+            </command:commandText>
+          </command:commandLine>
+        </command:commandLines>
+      </command:example>
+    </command:examples>
+  </command:command>
+  <command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10">
+    <command:details>
+      <command:name>Set-AzureSchedulerJobCollection</command:name>
+      <maml:description>
+        <maml:para>Update a scheduler job collection</maml:para>
+      </maml:description>
+      <maml:copyright>
+        <maml:para />
+        <!--Add copy right info here.-->
+      </maml:copyright>
+      <command:verb>Set</command:verb>
+      <command:noun>AzureSchedulerJobCollection</command:noun>
+      <!--Add Dev version info here.-->
+      <dev:version />
+    </command:details>
+    <maml:description>
+      <!--This is the Description section-->
+      <maml:para>Update a scheduler job collection with specified parameters</maml:para>
+    </maml:description>
+    <command:syntax>
+      <command:syntaxItem>
+        <maml:name>Set-AzureSchedulerJobCollection</maml:name>
+        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)">
+          <maml:name>Location</maml:name>
+          <maml:description>
+            <maml:para>The location name.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)">
+          <maml:name>Job Collection Name</maml:name>
+          <maml:description>
+            <maml:para>The name of scheduler job collection.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)">
+          <maml:name>Plan</maml:name>
+          <maml:description>
+            <maml:para>The scheduler job collection plan.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false">
+          <maml:name>MaxJobCount</maml:name>
+          <maml:description>
+            <maml:para>The maximum number of jobs that can be created in the scheduler job collection.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">int</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false">
+          <maml:name>Frequency</maml:name>
+          <maml:description>
+            <maml:para>The maximum frequency that can be specified on any job in this scheduler job collection.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false">
+          <maml:name>Interval</maml:name>
+          <maml:description>
+            <maml:para>The interval of recurrence at given frequency.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">int</command:parameterValue>
+        </command:parameter>
+      </command:syntaxItem>
+    </command:syntax>
+    <command:returnValues>
+      <command:returnValue>
+        <dev:type>
+          <maml:name>
+          </maml:name>
+          <maml:uri />
+          <maml:description>
+            <maml:para>
+            </maml:para>
+          </maml:description>
+        </dev:type>
+        <maml:description>
+        </maml:description>
+      </command:returnValue>
+    </command:returnValues>
+    <command:terminatingErrors>
+    </command:terminatingErrors>
+    <command:nonTerminatingErrors>
+    </command:nonTerminatingErrors>
+    <maml:alertSet>
+      <maml:title>
+      </maml:title>
+      <maml:alert>
+        <maml:para>
+        </maml:para>
+      </maml:alert>
+    </maml:alertSet>
+    <command:examples>
+      <command:example>
+        <maml:title>
+          --------------  Example 1 --------------
+        </maml:title>
+        <maml:introduction>
+          <maml:para>C:\PS&gt;</maml:para>
+          C:\PS&gt;
+        </maml:introduction>
+        <dev:code>Set-AzureSchedulerJobCollection -Location "North Central US" -JobCollectionName jobCollection1 -MaxJobCount 30</dev:code>
+        <dev:remarks>
+          <maml:para>Sets the max job count to 30 on existing scheduler job collection, jobcollection1</maml:para>
+          <maml:para>
+          </maml:para>
+          <maml:para>
+          </maml:para>
+          <maml:para>
+          </maml:para>
+          <maml:para>
+          </maml:para>
+        </dev:remarks>
+        <command:commandLines>
+          <command:commandLine>
+            <command:commandText>
+            </command:commandText>
+          </command:commandLine>
+        </command:commandLines>
+      </command:example>
+    </command:examples>
+  </command:command>  
+  <command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10">
+    <command:details>
       <command:name>Set-AzureSchedulerHttpJob</command:name>
       <maml:description>
         <maml:para>Update a scheduler job with an Http action</maml:para>

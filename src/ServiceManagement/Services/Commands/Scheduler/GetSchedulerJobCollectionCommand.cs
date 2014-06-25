@@ -14,12 +14,9 @@
 
 namespace Microsoft.WindowsAzure.Commands.Scheduler
 {
-    using Microsoft.WindowsAzure.Commands.Utilities.Properties;
+    using Microsoft.WindowsAzure.Commands.Utilities.Scheduler;
     using Microsoft.WindowsAzure.Commands.Utilities.Scheduler.Model;
-    using System;
-    using System.Linq;
     using System.Management.Automation;
-    using Utilities.Websites.Common;
 
     /// <summary>
     /// Cmdlet to list job collections across all regions or a specific region
@@ -37,10 +34,7 @@ namespace Microsoft.WindowsAzure.Commands.Scheduler
 
         public override void ExecuteCmdlet()
         {
-            if (!string.IsNullOrEmpty(Location) && !SMClient.GetAvailableRegions().Contains(Location, StringComparer.OrdinalIgnoreCase))
-                throw new Exception(Resources.SchedulerInvalidLocation);
-            else
-                WriteObject(SMClient.GetJobCollection(region:Location, jobCollection:JobCollectionName), true); 
+            WriteObject(SMClient.GetJobCollection(region:Location, jobCollection:JobCollectionName), true); 
         }      
     }
 }

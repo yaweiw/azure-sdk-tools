@@ -38,12 +38,6 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
         string vmImageName;
         bool skipCleanup;
 
-        [ClassInitialize]
-        public static void ClassIntialize(TestContext context)
-        {
-            
-        }
-
         [TestInitialize]
         public void TestIntialize()
         {
