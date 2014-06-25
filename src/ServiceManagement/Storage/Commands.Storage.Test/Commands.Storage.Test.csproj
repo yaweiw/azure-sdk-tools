@@ -160,9 +160,13 @@
     <Compile Include="Common\SasTokenHelperTest.cs" />
     <Compile Include="Common\StorageCloudCmdletBaseTest.cs" />
     <Compile Include="Common\StorageExceptionUtilTest.cs" />
-    <Compile Include="File\Cmdlet\GetAzureStorageFileContentTest.cs" />
     <Compile Include="File\Cmdlet\GetAzureStorageFileTest.cs" />
+    <Compile Include="File\Cmdlet\GetAzureStorageShareTest.cs" />
+    <Compile Include="File\Cmdlet\NewAzureStorageDirectoryTest.cs" />
     <Compile Include="File\Cmdlet\NewAzureStorageShareTest.cs" />
+    <Compile Include="File\Cmdlet\RemoveAzureStorageShareTest.cs" />
+    <Compile Include="File\Cmdlet\RemoveAzureStorageFileTest.cs" />
+    <Compile Include="File\Cmdlet\RemoveAzureStorageDirectoryTest.cs" />
     <Compile Include="File\FileAssertUtil.cs" />
     <Compile Include="File\PSCmdletReflectionHelper.cs" />
     <Compile Include="File\StorageFileTestBase.cs" />

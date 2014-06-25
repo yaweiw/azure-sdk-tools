@@ -72,5 +72,16 @@ namespace Microsoft.WindowsAzure.Management.Storage.Test.File
                 Assert.IsTrue(expectList.Remove(name), string.Format(CultureInfo.InvariantCulture, "Item {0} does not exist in the expected list.", item));
             }
         }
+
+        public static void AssertShares(this IEnumerable<object> result, IEnumerable<string> expectedShareNames)
+        {
+            List<string> expectedShareNameList = new List<string>(expectedShareNames);
+            foreach (var share in result.Cast<CloudFileShare>())
+            {
+                Assert.IsTrue(expectedShareNameList.Remove(share.Name), string.Format(CultureInfo.InvariantCulture, "Share {0} was not expected.", share.Name));
+            }
+
+            Assert.AreEqual(0, expectedShareNameList.Count, "Should not left any share name remain in expected list.");
+        }
     }
 }

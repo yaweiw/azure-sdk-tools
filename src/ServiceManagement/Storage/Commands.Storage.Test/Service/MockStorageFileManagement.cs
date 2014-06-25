@@ -34,9 +34,16 @@ namespace Microsoft.WindowsAzure.Management.Storage.Test.Service
 
         private Dictionary<string, IListFileItem[]> enumerationResults = new Dictionary<string, IListFileItem[]>();
 
+        private List<string> availableShareNames = new List<string>();
+
         public void SetsEnumerationResults(string directoryName, IEnumerable<IListFileItem> enumerationItems)
         {
             this.enumerationResults[directoryName] = enumerationItems.ToArray();
+        }
+
+        public void SetsAvailableShare(params string[] shareNames)
+        {
+            availableShareNames.AddRange(shareNames);
         }
 
         public CloudFileShare GetShareReference(string shareName)
@@ -64,27 +71,42 @@ namespace Microsoft.WindowsAzure.Management.Storage.Test.Service
 
         public Task FetchShareAttributesAsync(CloudFileShare share, AccessCondition accessCondition, FileRequestOptions options, OperationContext operationContext, CancellationToken token)
         {
-            throw new NotImplementedException();
+            if (this.availableShareNames.Contains(share.Name))
+            {
+                return TaskEx.FromResult(true);
+            }
+            else
+            {
+                throw new MockupException("ShareNotExist");
+            }
         }
 
         public Task EnumerateSharesAsync(string prefix, ShareListingDetails detailsIncluded, Action<CloudFileShare> enumerationAction, FileRequestOptions options, OperationContext operationContext, CancellationToken token)
         {
-            throw new NotImplementedException();
+            foreach (var shareName in this.availableShareNames)
+            {
+                if (shareName.StartsWith(prefix))
+                {
+                    enumerationAction(this.client.GetShareReference(shareName));
+                }
+            }
+
+            return TaskEx.FromResult(true);
         }
 
         public Task CreateDirectoryAsync(CloudFileDirectory directory, FileRequestOptions options, OperationContext operationContext, CancellationToken cancellationToken)
         {
-            throw new NotImplementedException();
+            return TaskEx.FromResult(true);
         }
 
         public Task<bool> DirectoryExistsAsync(CloudFileDirectory directory, FileRequestOptions options, OperationContext operationContext, CancellationToken cancellationToken)
         {
-            throw new NotImplementedException();
+            return TaskEx.FromResult(true);
         }
 
         public Task<bool> FileExistsAsync(CloudFile file, FileRequestOptions options, OperationContext operationContext, CancellationToken cancellationToken)
         {
-            throw new NotImplementedException();
+            return TaskEx.FromResult(true);
         }
 
         public Task CreateShareAsync(CloudFileShare share, FileRequestOptions options, OperationContext operationContext, CancellationToken cancellationToken)
@@ -94,17 +116,17 @@ namespace Microsoft.WindowsAzure.Management.Storage.Test.Service
 
         public Task DeleteDirectoryAsync(CloudFileDirectory directory, AccessCondition accessCondition, FileRequestOptions options, OperationContext operationContext, CancellationToken cancellationToken)
         {
-            throw new NotImplementedException();
+            return TaskEx.FromResult(true);
         }
 
         public Task DeleteShareAsync(CloudFileShare share, AccessCondition accessCondition, FileRequestOptions options, OperationContext operationContext, CancellationToken cancellationToken)
         {
-            throw new NotImplementedException();
+            return TaskEx.FromResult(true);
         }
 
         public Task DeleteFileAsync(CloudFile file, AccessCondition accessCondition, FileRequestOptions options, OperationContext operationContext, CancellationToken cancellationToken)
         {
-            throw new NotImplementedException();
+            return TaskEx.FromResult(true);
         }
 
         public AzureStorageContext StorageContext
