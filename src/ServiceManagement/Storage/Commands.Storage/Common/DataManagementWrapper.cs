@@ -24,7 +24,7 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Common
     using Microsoft.WindowsAzure.Storage.DataMovement;
     using Microsoft.WindowsAzure.Storage.DataMovement.TransferJobs;
 
-    internal sealed class DataManagementWrapper : IDisposable
+    internal sealed class DataManagementWrapper : ITransferJobRunner
     {
         private TransferManager manager;
 

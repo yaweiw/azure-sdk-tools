@@ -27,7 +27,7 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Blob
         /// <summary>
         /// Blob Transfer Manager
         /// </summary>
-        private DataManagementWrapper dataManagementWrapper;
+        private ITransferJobRunner transferJobRunner;
 
         [Parameter(HelpMessage = "Force to overwrite the existing blob or file")]
         public SwitchParameter Force
@@ -63,7 +63,7 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Blob
         protected override void BeginProcessing()
         {
             base.BeginProcessing();
-            this.dataManagementWrapper = new DataManagementWrapper(this.GetCmdletConcurrency(), CmdletOperationContext.ClientRequestId);
+            this.transferJobRunner = TransferJobRunnerFactory.CreateRunner(this.GetCmdletConcurrency());
         }
 
         protected async Task RunTransferJob(BlobTransferJob transferJob, DataMovementUserData userData)
@@ -73,7 +73,7 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Blob
 
             try
             {
-                await this.dataManagementWrapper.RunTransferJob(
+                await this.transferJobRunner.RunTransferJob(
                     transferJob,
                     (percent, speed) =>
                     {
@@ -159,10 +159,10 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Blob
         {
             if (disposing)
             {
-                if (this.dataManagementWrapper != null)
+                if (this.transferJobRunner != null)
                 {
-                    this.dataManagementWrapper.Dispose();
-                    this.dataManagementWrapper = null;
+                    this.transferJobRunner.Dispose();
+                    this.transferJobRunner = null;
                 }
             }
         }

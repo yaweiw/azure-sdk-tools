@@ -157,6 +157,7 @@
     <Compile Include="Common\CommunicationExceptionUtil.cs" />
     <Compile Include="Common\ConfirmTaskCompletionSource.cs" />
     <Compile Include="Common\DataManagementWrapper.cs" />
+    <Compile Include="Common\ITransferJobRunner.cs" />
     <Compile Include="Common\LimitedConcurrencyTaskScheduler.cs" />
     <Compile Include="Common\NameUtil.cs" />
     <Compile Include="Common\Cmdlet\NewAzureStorageContext.cs" />
@@ -170,6 +171,7 @@
     <Compile Include="Common\StorageExceptionUtil.cs" />
     <Compile Include="Common\StorageNouns.cs" />
     <Compile Include="Common\TaskOutputStream.cs" />
+    <Compile Include="Common\TransferJobRunnerFactory.cs" />
     <Compile Include="Common\Util.cs" />
     <Compile Include="File\AzureStorageFileCmdletBase.cs" />
     <Compile Include="File\AzureStorageFileException.cs" />
