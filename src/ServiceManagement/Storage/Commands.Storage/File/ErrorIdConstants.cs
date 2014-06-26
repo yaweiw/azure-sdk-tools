@@ -11,15 +11,20 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 // ----------------------------------------------------------------------------------
-
-namespace Microsoft.WindowsAzure.Commands.Storage.Common
+namespace Microsoft.WindowsAzure.Commands.Storage.File
 {
-
-    public enum StorageServiceType
+    internal static class ErrorIdConstants
     {
-        Blob,
-        Table,
-        Queue,
-        File
+        public const string InvalidArgument = "InvalidArgument";
+
+        public const string InvalidResource = "InvalidResource";
+
+        public const string Timeout = "Timeout";
+
+        public const string UnknownError = "Unknown";
+
+        public const string ResourceAlreadyExists = "ResourceAlreadyExists";
+
+        public const string PathNotFound = "PathNotFound";
     }
 }
