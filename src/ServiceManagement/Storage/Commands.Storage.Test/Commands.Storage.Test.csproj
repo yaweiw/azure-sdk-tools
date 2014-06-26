@@ -77,6 +77,10 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\packages\WindowsAzure.Storage.4.0.0\lib\net40\Microsoft.WindowsAzure.Storage.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.WindowsAzure.Storage.DataMovement, Version=2.4.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\lib\Microsoft.WindowsAzure.Storage.DataMovement.dll</HintPath>
+    </Reference>
     <Reference Include="Newtonsoft.Json">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\packages\Newtonsoft.Json.5.0.8\lib\net40\Newtonsoft.Json.dll</HintPath>
@@ -152,6 +156,7 @@
     <Compile Include="Common\CommunicationExceptionUtilTest.cs" />
     <Compile Include="Common\FileNamingGenerator.cs" />
     <Compile Include="Common\IStorageManagement.cs" />
+    <Compile Include="Common\MockTransferJobRunner.cs" />
     <Compile Include="Common\MockupException.cs" />
     <Compile Include="Common\NameUtilTest.cs" />
     <Compile Include="Common\CmdletOperationContextTest.cs" />
@@ -160,6 +165,7 @@
     <Compile Include="Common\SasTokenHelperTest.cs" />
     <Compile Include="Common\StorageCloudCmdletBaseTest.cs" />
     <Compile Include="Common\StorageExceptionUtilTest.cs" />
+    <Compile Include="File\Cmdlet\GetAzureStorageFileContentTest.cs" />
     <Compile Include="File\Cmdlet\GetAzureStorageFileTest.cs" />
     <Compile Include="File\Cmdlet\GetAzureStorageShareTest.cs" />
     <Compile Include="File\Cmdlet\NewAzureStorageDirectoryTest.cs" />
@@ -167,6 +173,7 @@
     <Compile Include="File\Cmdlet\RemoveAzureStorageShareTest.cs" />
     <Compile Include="File\Cmdlet\RemoveAzureStorageFileTest.cs" />
     <Compile Include="File\Cmdlet\RemoveAzureStorageDirectoryTest.cs" />
+    <Compile Include="File\Cmdlet\SetAzureStorageFileContentTest.cs" />
     <Compile Include="File\FileAssertUtil.cs" />
     <Compile Include="File\PSCmdletReflectionHelper.cs" />
     <Compile Include="File\StorageFileTestBase.cs" />

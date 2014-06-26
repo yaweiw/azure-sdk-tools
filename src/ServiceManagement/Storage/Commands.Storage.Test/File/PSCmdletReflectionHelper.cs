@@ -12,12 +12,15 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
- namespace Microsoft.WindowsAzure.Management.Storage.Test.File
+namespace Microsoft.WindowsAzure.Management.Storage.Test.File
 {
     using System;
     using System.Collections.Generic;
+    using System.Diagnostics;
     using System.Linq;
     using System.Management.Automation;
+    using System.Management.Automation.Internal;
+    using System.Management.Automation.Runspaces;
     using System.Reflection;
     using System.Text;
 
@@ -27,6 +30,14 @@
 
         private static readonly FieldInfo parameterSetFieldInfo = typeof(System.Management.Automation.Cmdlet).GetField("_parameterSetName", BindingFlags.Instance | BindingFlags.NonPublic);
 
+        private static readonly FieldInfo sessionStateFieldInfo = typeof(InternalCommand).GetField("state", BindingFlags.Instance | BindingFlags.NonPublic);
+
+        private static readonly FieldInfo engineFieldInfo = psCmdletType.Assembly.GetType("System.Management.Automation.Runspaces.LocalRunspace").GetField("_engine", BindingFlags.NonPublic | BindingFlags.Instance);
+
+        private static readonly FieldInfo executionContextFieldInfo = psCmdletType.Assembly.GetType("System.Management.Automation.AutomationEngine").GetField("_context", BindingFlags.NonPublic | BindingFlags.Instance);
+
+        private static readonly PropertyInfo contextPropertyInfo = typeof(InternalCommand).GetProperty("Context", BindingFlags.Instance | BindingFlags.NonPublic);
+
         private static readonly MethodInfo beginProcessingMethodInfo = psCmdletType.GetMethod("BeginProcessing", BindingFlags.NonPublic | BindingFlags.Instance);
 
         private static readonly MethodInfo endProcessingMethodInfo = psCmdletType.GetMethod("EndProcessing", BindingFlags.NonPublic | BindingFlags.Instance);
@@ -34,6 +45,27 @@
         private static readonly MethodInfo processRecordMethodInfo = psCmdletType.GetMethod("ProcessRecord", BindingFlags.NonPublic | BindingFlags.Instance);
 
         private static readonly object[] emptyParameters = new object[0];
+
+        public static IDisposable InitializeSessionState(this PSCmdlet cmdlet)
+        {
+            var ps = PowerShell.Create(InitialSessionState.CreateDefault());
+            try
+            {
+                var engine = engineFieldInfo.GetValue(ps.Runspace);
+                var context = executionContextFieldInfo.GetValue(engine);
+                contextPropertyInfo.SetValue(cmdlet, context, emptyParameters);
+                return ps;
+            }
+            catch
+            {
+                if (ps != null)
+                {
+                    ps.Dispose();
+                }
+
+                throw;
+            }
+        }
 
         public static void RunCmdlet(this PSCmdlet cmdlet, string parameterSet, params KeyValuePair<string, object>[] parameters)
         {

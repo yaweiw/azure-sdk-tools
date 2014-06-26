@@ -73,6 +73,11 @@ namespace Microsoft.WindowsAzure.Management.Storage.Test.File
             }
         }
 
+        public static void AssertNoObject<T>(this IEnumerable<T> collection)
+        {
+            Assert.AreEqual(0, collection.Count(), "There should be no object inside the given collection.");
+        }
+
         public static void AssertShares(this IEnumerable<object> result, IEnumerable<string> expectedShareNames)
         {
             List<string> expectedShareNameList = new List<string>(expectedShareNames);

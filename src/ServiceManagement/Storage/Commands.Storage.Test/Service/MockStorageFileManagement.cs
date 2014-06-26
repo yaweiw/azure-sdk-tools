@@ -36,6 +36,8 @@ namespace Microsoft.WindowsAzure.Management.Storage.Test.Service
 
         private List<string> availableShareNames = new List<string>();
 
+        private List<string> availableDirectoryNames = new List<string>();
+
         public void SetsEnumerationResults(string directoryName, IEnumerable<IListFileItem> enumerationItems)
         {
             this.enumerationResults[directoryName] = enumerationItems.ToArray();
@@ -44,6 +46,11 @@ namespace Microsoft.WindowsAzure.Management.Storage.Test.Service
         public void SetsAvailableShare(params string[] shareNames)
         {
             availableShareNames.AddRange(shareNames);
+        }
+
+        public void SetsAvailableDirectories(params string[] directoryNames)
+        {
+            this.availableDirectoryNames.AddRange(directoryNames);
         }
 
         public CloudFileShare GetShareReference(string shareName)
@@ -101,7 +108,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Test.Service
 
         public Task<bool> DirectoryExistsAsync(CloudFileDirectory directory, FileRequestOptions options, OperationContext operationContext, CancellationToken cancellationToken)
         {
-            return TaskEx.FromResult(true);
+            return TaskEx.FromResult(this.availableDirectoryNames.Contains(directory.Name));
         }
 
         public Task<bool> FileExistsAsync(CloudFile file, FileRequestOptions options, OperationContext operationContext, CancellationToken cancellationToken)

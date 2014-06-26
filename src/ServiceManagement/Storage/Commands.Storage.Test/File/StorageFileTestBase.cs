@@ -12,7 +12,7 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
- namespace Microsoft.WindowsAzure.Management.Storage.Test.File
+namespace Microsoft.WindowsAzure.Management.Storage.Test.File
 {
     using System;
     using System.Collections.Generic;
@@ -24,11 +24,13 @@
     using Microsoft.WindowsAzure.Commands.Test.Utilities.Common;
     using Microsoft.WindowsAzure.Management.Storage.Test.Service;
 
-    public abstract class StorageFileTestBase<T> : StorageTestBase where T : AzureStorageFileCmdletBase
+    public abstract class StorageFileTestBase<T> : StorageTestBase, IDisposable where T : AzureStorageFileCmdletBase
     {
         private MockStorageFileManagement channel = new MockStorageFileManagement();
 
         private T cmdlet;
+
+        private IDisposable sessionStateDisposable;
 
         public StorageFileTestBase()
         {
@@ -37,6 +39,7 @@
             cmdlet.CommandRuntime = this.MockCmdRunTime;
             cmdlet.Channel = this.channel;
             cmdlet.ShareChannel = true;
+            this.sessionStateDisposable = cmdlet.InitializeSessionState();
         }
 
         protected MockStorageFileManagement MockChannel
@@ -47,6 +50,14 @@
         protected T CmdletInstance
         {
             get { return this.cmdlet; }
+        }
+
+        public void Dispose()
+        {
+            if (this.sessionStateDisposable != null)
+            {
+                this.sessionStateDisposable.Dispose();
+            }
         }
     }
 }
