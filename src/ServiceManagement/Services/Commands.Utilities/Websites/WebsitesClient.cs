@@ -167,6 +167,10 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
                         throw new ArgumentException();
                 }
 
+                // Check if there is null fields for diagnostics settings. If there is, default to false. (Same as defaulted on portal)
+                diagnosticsSettings.AzureDriveTraceEnabled = diagnosticsSettings.AzureDriveTraceEnabled ?? false;
+                diagnosticsSettings.AzureTableTraceEnabled = diagnosticsSettings.AzureTableTraceEnabled ?? false;
+
                 JObject json = new JObject(
                     new JProperty(UriElements.AzureDriveTraceEnabled, diagnosticsSettings.AzureDriveTraceEnabled),
                     new JProperty(UriElements.AzureDriveTraceLevel, diagnosticsSettings.AzureDriveTraceLevel.ToString()),
