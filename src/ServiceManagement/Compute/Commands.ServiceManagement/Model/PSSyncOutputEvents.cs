@@ -14,18 +14,17 @@
 
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Model
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Management.Automation;
-    using System.Management.Automation.Runspaces;
+    using Microsoft.WindowsAzure.Storage;
+    using Properties;
     using Sync;
     using Sync.Upload;
-    using Tools.Vhd.Model;
-    using Storage;
+    using System;
+    using System.Collections.Generic;
     using System.Globalization;
+    using System.Management.Automation;
+    using System.Management.Automation.Runspaces;
+    using Tools.Vhd.Model;
     using ProgressRecord = Sync.ProgressRecord;
-    using Properties;
-    using Microsoft.WindowsAzure.Storage;
 
     public class PSSyncOutputEvents : ISyncOutputEvents, IDisposable
     {

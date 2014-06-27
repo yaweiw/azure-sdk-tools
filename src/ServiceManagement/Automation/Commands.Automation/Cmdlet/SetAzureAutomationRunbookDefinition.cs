@@ -14,12 +14,11 @@
 
 namespace Microsoft.Azure.Commands.Automation.Cmdlet
 {
+    using Microsoft.Azure.Commands.Automation.Model;
+    using Microsoft.WindowsAzure.Commands.Utilities.Common;
     using System;
     using System.Management.Automation;
     using System.Security.Permissions;
-
-    using Microsoft.Azure.Commands.Automation.Model;
-    using Microsoft.WindowsAzure.Commands.Utilities.Common;
 
     /// <summary>
     /// Sets an azure automation runbook definition.

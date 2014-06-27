@@ -12,11 +12,10 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-using ProjectResources = Microsoft.Azure.Commands.Resources.Properties.Resources;
 using Microsoft.Azure.Management.Resources;
 using Microsoft.Azure.Management.Resources.Models;
-using Microsoft.WindowsAzure.Commands.Utilities.Common;
 using Microsoft.WindowsAzure.Commands.Common.Storage;
+using Microsoft.WindowsAzure.Commands.Utilities.Common;
 using Microsoft.WindowsAzure.Management.Monitoring.Events;
 using Microsoft.WindowsAzure.Management.Storage;
 using Newtonsoft.Json;
@@ -28,6 +27,7 @@ using System.IO;
 using System.Linq;
 using System.Runtime.Serialization.Formatters;
 using System.Threading;
+using ProjectResources = Microsoft.Azure.Commands.Resources.Properties.Resources;
 
 namespace Microsoft.Azure.Commands.Resources.Models
 {

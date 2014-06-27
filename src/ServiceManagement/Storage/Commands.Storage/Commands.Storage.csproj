@@ -203,7 +203,6 @@
     <Compile Include="Model\Contract\StorageBlobManagement.cs" />
     <Compile Include="Model\ResourceModel\AzureStorageBase.cs" />
     <Compile Include="Model\ResourceModel\AzureStorageContainer.cs" />
-    <Compile Include="Model\ResourceModel\AzureStorageContext.cs" />
     <Compile Include="Queue\Cmdlet\GetAzureStorageQueue.cs" />
     <Compile Include="Queue\Cmdlet\NewAzureStorageQueue.cs" />
     <Compile Include="Queue\Cmdlet\NewAzureStorageQueueSasToken.cs" />

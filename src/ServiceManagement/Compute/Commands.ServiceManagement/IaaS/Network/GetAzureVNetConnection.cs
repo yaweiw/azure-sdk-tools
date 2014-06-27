@@ -14,10 +14,9 @@
 
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
 {
+    using Model;
     using System.Linq;
     using System.Management.Automation;
-    using Management.Network;
-    using Model;
     using Utilities.Common;
 
     [Cmdlet(VerbsCommon.Get, "AzureVNetConnection"), OutputType(typeof(GatewayConnectionContext))]

@@ -14,10 +14,10 @@
 namespace Microsoft.WindowsAzure.Management.HDInsight.Cmdlet.Commands.CommandInterfaces
 {
     using BaseCommandInterfaces;
+    using ClusterProvisioning.Data;
     using DataObjects;
     using GetAzureHDInsightClusters;
     using System.Collections.Generic;
-    using ClusterProvisioning.Data;
 
     /// <summary>
     ///     Worker object for creating a cluster via PowerShell.

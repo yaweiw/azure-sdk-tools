@@ -14,11 +14,11 @@
 
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.PlatformImageRepository.ExtensionPublishing
 {
+    using AutoMapper;
+    using Management.Compute.Models;
     using System;
     using System.Linq;
     using System.Management.Automation;
-    using AutoMapper;
-    using Management.Compute.Models;
     using Utilities.Common;
 
     /// <summary>

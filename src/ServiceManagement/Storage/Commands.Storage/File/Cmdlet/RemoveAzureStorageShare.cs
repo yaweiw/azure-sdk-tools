@@ -13,10 +13,9 @@
 // ----------------------------------------------------------------------------------
 namespace Microsoft.WindowsAzure.Commands.Storage.File.Cmdlet
 {
+    using Microsoft.WindowsAzure.Storage.File;
     using System.Globalization;
     using System.Management.Automation;
-    using System.Text.RegularExpressions;
-    using Microsoft.WindowsAzure.Storage.File;
 
     [Cmdlet(
         VerbsCommon.Remove,

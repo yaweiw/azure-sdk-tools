@@ -14,12 +14,12 @@
 
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Endpoints
 {
-    using System.Collections.ObjectModel;
-    using System.Linq;
-    using System.Management.Automation;
     using IaaS;
     using Model;
     using Model.PersistentVMModel;
+    using System.Collections.ObjectModel;
+    using System.Linq;
+    using System.Management.Automation;
 
     [Cmdlet(VerbsCommon.Get, "AzureEndpoint"), OutputType(typeof(InputEndpointContext))]
     public class GetAzureEndpoint : VirtualMachineConfigurationCmdletBase

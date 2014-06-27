@@ -13,14 +13,9 @@
 // ----------------------------------------------------------------------------------
 namespace Microsoft.WindowsAzure.Commands.Storage.File.Cmdlet
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Globalization;
-    using System.Linq;
-    using System.Management.Automation;
-    using System.Text;
-    using System.Threading.Tasks;
     using Microsoft.WindowsAzure.Storage.File;
+    using System.Globalization;
+    using System.Management.Automation;
 
     [Cmdlet(VerbsCommon.Get, Constants.FileCmdletName, DefaultParameterSetName = Constants.ShareNameParameterSetName)]
     public class GetAzureStorageFile : AzureStorageFileCmdletBase

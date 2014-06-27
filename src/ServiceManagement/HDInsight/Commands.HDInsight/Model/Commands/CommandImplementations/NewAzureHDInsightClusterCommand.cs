@@ -13,6 +13,7 @@
 // ----------------------------------------------------------------------------------
 namespace Microsoft.WindowsAzure.Management.HDInsight.Cmdlet.Commands.CommandImplementations
 {
+    using ClusterProvisioning.Data;
     using CommandInterfaces;
     using DataObjects;
     using GetAzureHDInsightClusters;
@@ -21,7 +22,6 @@ namespace Microsoft.WindowsAzure.Management.HDInsight.Cmdlet.Commands.CommandImp
     using System.Linq;
     using System.Management.Automation;
     using System.Threading.Tasks;
-    using ClusterProvisioning.Data;
 
     internal class NewAzureHDInsightClusterCommand : AzureHDInsightClusterCommand<AzureHDInsightCluster>, INewAzureHDInsightClusterCommand
     {
