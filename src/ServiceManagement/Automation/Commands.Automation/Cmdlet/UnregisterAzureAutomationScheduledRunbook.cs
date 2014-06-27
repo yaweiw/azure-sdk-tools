@@ -14,11 +14,10 @@
 
 namespace Microsoft.Azure.Commands.Automation.Cmdlet
 {
+    using Microsoft.Azure.Commands.Automation.Model;
     using System;
     using System.Management.Automation;
     using System.Security.Permissions;
-
-    using Microsoft.Azure.Commands.Automation.Model;
 
     /// <summary>
     /// Unregisters an azure automation scheduled runbook.

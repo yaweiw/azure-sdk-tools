@@ -13,11 +13,11 @@
 // ----------------------------------------------------------------------------------
 namespace Microsoft.WindowsAzure.Management.HDInsight.Cmdlet.DataObjects
 {
+    using ClusterProvisioning.Data;
     using System;
     using System.Collections.Generic;
     using System.Diagnostics.CodeAnalysis;
     using System.Linq;
-    using ClusterProvisioning.Data;
 
     /// <summary>
     ///     Represents an Azure HD Insight Cluster for the PowerShell Cmdlets.

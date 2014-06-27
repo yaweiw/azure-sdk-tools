@@ -14,14 +14,13 @@
 
 namespace Microsoft.Azure.Commands.Automation.Cmdlet
 {
+    using Microsoft.Azure.Commands.Automation.Common;
+    using Microsoft.Azure.Commands.Automation.Model;
     using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Management.Automation;
     using System.Security.Permissions;
-
-    using Microsoft.Azure.Commands.Automation.Common;
-    using Microsoft.Azure.Commands.Automation.Model;
 
     /// <summary>
     /// Gets azure automation job output streams for a given account and a given job.

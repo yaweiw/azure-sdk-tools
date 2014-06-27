@@ -14,9 +14,8 @@
 
 namespace Microsoft.Azure.Commands.Automation.Model
 {
-    using System;
-
     using Microsoft.Azure.Commands.Automation.Common;
+    using System;
 
     /// <summary>
     /// The one time schedule.

@@ -13,8 +13,8 @@
 // ----------------------------------------------------------------------------------
 namespace Microsoft.WindowsAzure.Management.HDInsight.Cmdlet.DataObjects
 {
-    using System.Collections.Generic;
     using ClusterProvisioning.Data;
+    using System.Collections.Generic;
 
     /// <summary>
     ///     Represents an Azure Configuration to be used when creating new clusters.

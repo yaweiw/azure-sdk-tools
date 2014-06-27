@@ -13,15 +13,13 @@
 // ----------------------------------------------------------------------------------
 namespace Microsoft.WindowsAzure.Commands.Storage.File.Cmdlet
 {
-    using System;
+    using Microsoft.WindowsAzure.Storage.DataMovement.TransferJobs;
+    using Microsoft.WindowsAzure.Storage.File;
     using System.Globalization;
     using System.IO;
-    using System.Linq;
     using System.Management.Automation;
-    using Microsoft.WindowsAzure.Storage.File;
-    using LocalPath = System.IO.Path;
     using LocalDirectory = System.IO.Directory;
-    using Microsoft.WindowsAzure.Storage.DataMovement.TransferJobs;
+    using LocalPath = System.IO.Path;
 
     [Cmdlet(VerbsCommon.Get, Constants.FileContentCmdletName, SupportsShouldProcess = true, ConfirmImpact = ConfirmImpact.High, DefaultParameterSetName = Constants.ShareNameParameterSetName)]
     public class GetAzureStorageFileContent : StorageFileDataManagementCmdletBase

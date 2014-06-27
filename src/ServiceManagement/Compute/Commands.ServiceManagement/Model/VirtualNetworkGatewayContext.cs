@@ -14,8 +14,8 @@
 
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Model
 {
-    using System;
     using Service.Gateway;
+    using System;
     using Utilities.Common;
 
     public class VirtualNetworkGatewayContext : ManagementOperationContext

@@ -14,10 +14,6 @@
 namespace Microsoft.WindowsAzure.Commands.Storage.File
 {
     using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
-    using System.Threading.Tasks;
 
     /// <summary>
     /// Provides constants for cmdlets.

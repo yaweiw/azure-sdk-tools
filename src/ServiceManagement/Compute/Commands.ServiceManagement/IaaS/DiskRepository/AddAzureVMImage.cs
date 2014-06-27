@@ -15,13 +15,12 @@
 
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.DiskRepository
 {
-    using System;
-    using System.Management.Automation;
     using Helpers;
-    using Management.Compute;
     using Management.Compute.Models;
     using Model;
     using Properties;
+    using System;
+    using System.Management.Automation;
     using Utilities.Common;
 
     [Cmdlet(VerbsCommon.Add, "AzureVMImage"), OutputType(typeof(OSImageContext))]

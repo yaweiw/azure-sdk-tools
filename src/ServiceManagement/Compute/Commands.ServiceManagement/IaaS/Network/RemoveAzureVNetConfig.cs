@@ -15,9 +15,9 @@
 
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
 {
-    using System.Xml.Linq;
     using Management.Network.Models;
     using System.Management.Automation;
+    using System.Xml.Linq;
     using Utilities.Common;
 
     [Cmdlet(VerbsCommon.Remove, "AzureVNetConfig"), OutputType(typeof(ManagementOperationContext))]

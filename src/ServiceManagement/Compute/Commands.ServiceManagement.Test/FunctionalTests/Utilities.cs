@@ -14,13 +14,14 @@
 
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
 {
+    using Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions;
+    using Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests.ConfigDataInfo;
     using Model;
     using Security.Cryptography;
     using Security.Cryptography.X509Certificates;
-    using WindowsAzure.Storage.Auth;
-    using WindowsAzure.Storage.Blob;
     using Sync.Download;
     using System;
+    using System.Collections.Generic;
     using System.Diagnostics;
     using System.IO;
     using System.Reflection;
@@ -32,9 +33,8 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
     using System.Threading;
     using System.Xml;
     using VisualStudio.TestTools.UnitTesting;
-    using Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests.ConfigDataInfo;
-    using System.Collections.Generic;
-    using Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions;
+    using WindowsAzure.Storage.Auth;
+    using WindowsAzure.Storage.Blob;
 
     internal class Utilities 
     {

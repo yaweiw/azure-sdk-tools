@@ -14,17 +14,6 @@
 
 namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
 {
-    using System;
-    using System.Collections;
-    using System.Collections.Generic;
-    using System.Diagnostics;
-    using System.IO;
-    using System.Linq;
-    using System.Net;
-    using System.Net.Http;
-    using System.Threading;
-    using System.Web;
-    using System.Xml.Linq;
     using CloudService;
     using Management.WebSites;
     using Management.WebSites.Models;
@@ -41,6 +30,17 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
     using Services;
     using Services.DeploymentEntities;
     using Services.WebEntities;
+    using System;
+    using System.Collections;
+    using System.Collections.Generic;
+    using System.Diagnostics;
+    using System.IO;
+    using System.Linq;
+    using System.Net;
+    using System.Net.Http;
+    using System.Threading;
+    using System.Web;
+    using System.Xml.Linq;
     using Utilities.Common;
 
     public class WebsitesClient : IWebsitesClient

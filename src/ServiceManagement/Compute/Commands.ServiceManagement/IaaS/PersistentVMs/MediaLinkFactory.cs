@@ -14,9 +14,8 @@
 
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.PersistentVMs
 {
-    using System;
     using Microsoft.WindowsAzure.Storage;
-    using Storage;
+    using System;
     using Utilities.Common;
 
     public class MediaLinkFactory

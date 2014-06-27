@@ -18,7 +18,6 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Test.Blob
     using Microsoft.WindowsAzure.Commands.Common.Storage;
     using Microsoft.WindowsAzure.Storage;
     using Microsoft.WindowsAzure.Storage.Blob;
-    using Model.ResourceModel;
     using System;
 
     [TestClass]

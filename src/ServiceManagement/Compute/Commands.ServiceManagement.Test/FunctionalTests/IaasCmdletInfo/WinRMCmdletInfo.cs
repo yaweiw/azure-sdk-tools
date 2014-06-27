@@ -14,12 +14,6 @@
 
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests.IaasCmdletInfo
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
-    using ConfigDataInfo;
-    using Microsoft.WindowsAzure.ServiceManagement;
     using PowershellCore;
 
     class WinRMCmdletInfo : CmdletsInfo

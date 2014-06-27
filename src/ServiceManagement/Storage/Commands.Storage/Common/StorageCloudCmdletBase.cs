@@ -14,6 +14,15 @@
 
 namespace Microsoft.WindowsAzure.Commands.Storage.Common
 {
+    using Commands.Utilities.Common;
+    using Microsoft.WindowsAzure.Commands.Common.Storage;
+    using Microsoft.WindowsAzure.Commands.Storage.File;
+    using Microsoft.WindowsAzure.Storage;
+    using Microsoft.WindowsAzure.Storage.Blob;
+    using Microsoft.WindowsAzure.Storage.File;
+    using Microsoft.WindowsAzure.Storage.Queue;
+    using Microsoft.WindowsAzure.Storage.Table;
+    using Model.ResourceModel;
     using System;
     using System.Collections.Generic;
     using System.Diagnostics;
@@ -22,16 +31,7 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Common
     using System.Net;
     using System.Threading;
     using System.Threading.Tasks;
-    using Commands.Utilities.Common;
-    using Microsoft.WindowsAzure.Commands.Storage.File;
-    using Microsoft.WindowsAzure.Storage;
-    using Microsoft.WindowsAzure.Storage.Blob;
-    using Microsoft.WindowsAzure.Storage.File;
-    using Microsoft.WindowsAzure.Storage.Queue;
-    using Microsoft.WindowsAzure.Storage.Table;
-    using Model.ResourceModel;
     using ServiceModel = System.ServiceModel;
-    using Microsoft.WindowsAzure.Commands.Common.Storage;
 
     /// <summary>
     /// Base cmdlet for all storage cmdlet that works with cloud
