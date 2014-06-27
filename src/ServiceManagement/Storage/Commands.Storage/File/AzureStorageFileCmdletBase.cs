@@ -26,6 +26,7 @@ namespace Microsoft.WindowsAzure.Commands.Storage.File
     using Microsoft.WindowsAzure.Commands.Storage.Model.ResourceModel;
     using Microsoft.WindowsAzure.Storage;
     using Microsoft.WindowsAzure.Storage.File;
+    using Microsoft.WindowsAzure.Commands.Common.Storage;
 
     public abstract class AzureStorageFileCmdletBase : StorageCloudCmdletBase<IStorageFileManagement>
     {

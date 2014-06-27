@@ -20,6 +20,7 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Model.Contract
     using Microsoft.WindowsAzure.Commands.Storage.Model.ResourceModel;
     using Microsoft.WindowsAzure.Storage;
     using Microsoft.WindowsAzure.Storage.File;
+    using Microsoft.WindowsAzure.Commands.Common.Storage;
 
     /// <summary>
     /// File management

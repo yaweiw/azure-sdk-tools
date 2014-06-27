@@ -26,6 +26,7 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Blob.Cmdlet
     using System.Security.Permissions;
     using System.Threading.Tasks;
     using Microsoft.WindowsAzure.Storage.DataMovement;
+    using Microsoft.WindowsAzure.Commands.Common.Storage;
 
     [Cmdlet(VerbsLifecycle.Start, StorageNouns.CopyBlob, ConfirmImpact = ConfirmImpact.High, DefaultParameterSetName = NameParameterSet),
        OutputType(typeof(AzureStorageBlob))]

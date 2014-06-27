@@ -31,6 +31,7 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Common
     using Microsoft.WindowsAzure.Storage.Table;
     using Model.ResourceModel;
     using ServiceModel = System.ServiceModel;
+    using Microsoft.WindowsAzure.Commands.Common.Storage;
 
     /// <summary>
     /// Base cmdlet for all storage cmdlet that works with cloud
