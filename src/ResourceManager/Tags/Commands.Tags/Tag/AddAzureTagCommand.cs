@@ -12,26 +12,29 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-using Microsoft.Azure.Commands.Resources.Models;
-using System.Collections.Generic;
+using Microsoft.Azure.Commands.Tags.Model;
 using System.Management.Automation;
+using System.Linq;
 
-namespace Microsoft.Azure.Commands.Resources
+namespace Microsoft.Azure.Commands.Tags.Tag
 {
     /// <summary>
-    /// Filters resource groups.
+    /// Creates a new tag with the specified values
     /// </summary>
-    [Cmdlet(VerbsCommon.Get, "AzureResourceGroup"), OutputType(typeof(List<PSResourceGroup>))]
-    public class GetAzureResourceGroupCommand : ResourcesBaseCmdlet
+    [Cmdlet(VerbsCommon.Add, "AzureTag"), OutputType(typeof(PSTag))]
+    public class AddAzureTagCommand : TagBaseCmdlet
     {
-        [Alias("ResourceGroupName")]
-        [Parameter(Position = 0, Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "The name of the resource group.")]
+        [Parameter(Position = 0, Mandatory = true, ValueFromPipelineByPropertyName = true, HelpMessage = "Name of the tag. If the tag name doesn't exist, create the tag name. Otherwise, add the value to the existing tag name.")]
         [ValidateNotNullOrEmpty]
         public string Name { get; set; }
-        
+
+        [Parameter(Position = 1, Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "Value of the tag. If specified, add the tag value to the tag name. Otherwise, keep the tag value unchanged.")]
+        [ValidateNotNullOrEmpty]
+        public string[] Value { get; set; }
+
         public override void ExecuteCmdlet()
         {
-            WriteObject(ResourcesClient.FilterResourceGroups(Name), true);
+            WriteObject(TagsClient.CreateTag(Name, Value != null ? Value.ToList() : null));
         }
     }
 }

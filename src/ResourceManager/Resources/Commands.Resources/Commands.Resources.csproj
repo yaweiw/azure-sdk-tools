@@ -158,7 +158,7 @@
     <Compile Include="Models\PSResourceManagerError.cs" />
     <Compile Include="Models\ResourceIdentifier.cs" />
     <Compile Include="Models\TemplateFileParameterV2.cs" />
-    <Compile Include="ResourceManagerBaseCmdlet.cs" />
+    <Compile Include="Models\ResourcesBaseCmdlet.cs" />
     <Compile Include="Models\GetPSResourceGroupLogParameters.cs" />
     <Compile Include="Models\PSDeploymentEventDataAuthorization.cs" />
     <Compile Include="Models\PSDeploymentEventDataHttpRequest.cs" />
@@ -186,7 +186,7 @@
     <Compile Include="Models\PSResourceGroup.cs" />
     <Compile Include="Models\CreatePSResourceGroupParameters.cs" />
     <Compile Include="Models\GalleryTemplatesClient.cs" />
-    <Compile Include="Models\ResourceManagerExtensions.cs" />
+    <Compile Include="Models\ResourcesExtensions.cs" />
     <Compile Include="Models\SetResourceMode.cs" />
     <Compile Include="Models\TemplateFile.cs" />
     <Compile Include="Models\TemplateFileParameterV1.cs" />
@@ -204,7 +204,7 @@
     <Compile Include="ResourceGroups\RemoveAzureResourceGroupCommand.cs" />
     <Compile Include="ResourceGroups\GetAzureResourceGroupCommand.cs" />
     <Compile Include="ResourceGroups\NewAzureResourceGroupCommand.cs" />
-    <Compile Include="ResourceWithParameterBaseCmdlet.cs" />
+    <Compile Include="Models\ResourceWithParameterBaseCmdlet.cs" />
     <Compile Include="Models\ResourceClient.cs" />
     <Compile Include="Resources\SetAzureResourceCommand.cs" />
     <Compile Include="Resources\GetAzureResourceCommand.cs" />

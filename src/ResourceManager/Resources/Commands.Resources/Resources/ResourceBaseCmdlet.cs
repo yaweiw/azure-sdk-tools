@@ -16,7 +16,7 @@ using System.Management.Automation;
 
 namespace Microsoft.Azure.Commands.Resources
 {
-    public abstract class ResourceBaseCmdlet : ResourceManagerBaseCmdlet
+    public abstract class ResourceBaseCmdlet : ResourcesBaseCmdlet
     {
         [Alias("ResourceName")]
         [Parameter(Mandatory = true, ValueFromPipelineByPropertyName = true, HelpMessage = "The resource name.")]

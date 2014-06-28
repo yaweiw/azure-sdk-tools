@@ -45,7 +45,7 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.ResourceManagerTests
 
         [TestMethod]
         [TestCategory(Category.All)]
-        [TestCategory(Category.ResourceManager)]
+        [TestCategory(Category.Resources)]
         [TestCategory(Category.CheckIn)]
         public void TestCreatesNewSimpleResource()
         {
@@ -54,7 +54,7 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.ResourceManagerTests
 
         [TestMethod]
         [TestCategory(Category.All)]
-        [TestCategory(Category.ResourceManager)]
+        [TestCategory(Category.Resources)]
         [TestCategory(Category.CheckIn)]
         public void TestCreatesNewComplexResource()
         {
@@ -63,7 +63,7 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.ResourceManagerTests
 
         [TestMethod]
         [TestCategory(Category.All)]
-        [TestCategory(Category.ResourceManager)]
+        [TestCategory(Category.Resources)]
         [TestCategory(Category.CheckIn)]
         public void TestGetResourcesViaPiping()
         {
@@ -137,7 +137,7 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.ResourceManagerTests
 
         [TestMethod]
         [TestCategory(Category.All)]
-        [TestCategory(Category.ResourceManager)]
+        [TestCategory(Category.Resources)]
         [TestCategory(Category.CheckIn)]
         public void TestGetResourcesFromEmptyGroup()
         {
@@ -146,7 +146,7 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.ResourceManagerTests
 
         [TestMethod]
         [TestCategory(Category.All)]
-        [TestCategory(Category.ResourceManager)]
+        [TestCategory(Category.Resources)]
         [TestCategory(Category.CheckIn)]
         public void TestGetResourcesFromNonExisingGroup()
         {
@@ -155,7 +155,7 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.ResourceManagerTests
 
         [TestMethod]
         [TestCategory(Category.All)]
-        [TestCategory(Category.ResourceManager)]
+        [TestCategory(Category.Resources)]
         [TestCategory(Category.CheckIn)]
         public void TestGetResourcesForNonExisingType()
         {
@@ -164,7 +164,7 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.ResourceManagerTests
 
         [TestMethod]
         [TestCategory(Category.All)]
-        [TestCategory(Category.ResourceManager)]
+        [TestCategory(Category.Resources)]
         [TestCategory(Category.CheckIn)]
         public void TestGetResourceForNonExisingResource()
         {
@@ -173,7 +173,7 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.ResourceManagerTests
 
         [TestMethod]
         [TestCategory(Category.All)]
-        [TestCategory(Category.ResourceManager)]
+        [TestCategory(Category.Resources)]
         [TestCategory(Category.CheckIn)]
         public void TestGetResourcesViaPipingFromAnotherResource()
         {

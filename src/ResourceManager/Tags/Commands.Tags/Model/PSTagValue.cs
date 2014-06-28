@@ -12,21 +12,12 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-using Microsoft.Azure.Commands.Resources.Models;
-using System.Collections.Generic;
-using System.Management.Automation;
-
-namespace Microsoft.Azure.Commands.Resources
+namespace Microsoft.Azure.Commands.Tags.Model
 {
-    /// <summary>
-    /// Get the available locations for certain resource types.
-    /// </summary>
-    [Cmdlet(VerbsCommon.Get, "AzureLocation"), OutputType(typeof(List<PSResourceProviderType>))]
-    public class GetAzureLocationCommand : ResourcesBaseCmdlet
+    public class PSTagValue
     {
-        public override void ExecuteCmdlet()
-        {
-            WriteObject(ResourcesClient.GetLocations(), true);
-        }
+        public string Name { get; set; }
+
+        public string Count { get; set; }
     }
 }

@@ -17,7 +17,7 @@ $scriptFolder = Split-Path -Path $MyInvocation.MyCommand.Definition -Parent
 
 # Access key is long and impossible to remember, so we don't ask from the command line rather just require environment variables.
 if (!(Test-Path env:AZURE_STORAGE_ACCESS_KEY) -Or !(Test-Path env:AZURE_STORAGE_ACCOUNT)){
-  Write-Host "Please set environment variables 'AZURE_STORAGE_ACCESS_KEY' and 'AZURE_STORAGE_ACCOUN'" -ForegroundColor "Red" 
+  Write-Host "Please set environment variables 'AZURE_STORAGE_ACCESS_KEY' and 'AZURE_STORAGE_ACCOUNT'" -ForegroundColor "Red" 
   throw "Missing environment variables" 
 }
 

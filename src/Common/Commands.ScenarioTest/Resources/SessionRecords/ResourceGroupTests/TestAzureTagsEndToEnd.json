@@ -1,0 +1,109 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "/subscriptions/2c224e7e-3ef5-431d-a57b-e71f4662e3a6/tagNames?api-version=2014-04-01-preview",
+      "RequestMethod": "GET",
+      "RequestBody": "",
+      "RequestHeaders": {
+        "User-Agent": [
+          "Microsoft.Azure.Management.Resources.ResourceManagementClient/2.0.0.0",
+          "WindowsAzurePowershell/v0.8.4"
+        ]
+      },
+      "ResponseBody": "{\r\n  \"value\": [\r\n    {\r\n      \"id\": \"/subscriptions/2c224e7e-3ef5-431d-a57b-e71f4662e3a6/tagNames/hidden-related:/subscriptions/2c224e7e-3ef5-431d-a57b-e71f4662e3a6/resourcegroups/xDeploymentTestGroup6557/providers/Microsoft.Web/serverfarms/xDeploymentTestHost1/\",\r\n      \"tagName\": \"hidden-related:/subscriptions/2c224e7e-3ef5-431d-a57b-e71f4662e3a6/resourcegroups/xDeploymentTestGroup6557/providers/Microsoft.Web/serverfarms/xDeploymentTestHost1\",\r\n      \"count\": {\r\n        \"type\": \"Total\",\r\n        \"value\": 1\r\n      },\r\n      \"values\": [\r\n        {\r\n          \"id\": \"/subscriptions/2c224e7e-3ef5-431d-a57b-e71f4662e3a6/tagNames/hidden-related:/subscriptions/2c224e7e-3ef5-431d-a57b-e71f4662e3a6/resourcegroups/xDeploymentTestGroup6557/providers/Microsoft.Web/serverfarms/xDeploymentTestHost1/tagValues/Resource\",\r\n          \"tagValue\": \"Resource\",\r\n          \"count\": {\r\n            \"type\": \"Total\",\r\n            \"value\": 1\r\n          }\r\n        }\r\n      ]\r\n    }\r\n  ]\r\n}",
+      "ResponseHeaders": {
+        "Pragma": [
+          "no-cache"
+        ],
+        "x-ms-ratelimit-remaining-subscription-reads": [
+          "31999"
+        ],
+        "x-ms-request-id": [
+          "b9c117d8-e5b9-4fbd-8e7d-5532984b36c0"
+        ],
+        "x-ms-correlation-request-id": [
+          "b9c117d8-e5b9-4fbd-8e7d-5532984b36c0"
+        ],
+        "x-ms-routing-request-id": [
+          "WESTUS:20140628T033922Z:b9c117d8-e5b9-4fbd-8e7d-5532984b36c0"
+        ],
+        "Cache-Control": [
+          "no-cache"
+        ],
+        "Date": [
+          "Sat, 28 Jun 2014 03:39:22 GMT"
+        ]
+      },
+      "StatusCode": 200
+    },
+    {
+      "RequestUri": "/subscriptions/2c224e7e-3ef5-431d-a57b-e71f4662e3a6/tagNames?api-version=2014-04-01-preview",
+      "RequestMethod": "GET",
+      "RequestBody": "",
+      "RequestHeaders": {
+        "User-Agent": [
+          "Microsoft.Azure.Management.Resources.ResourceManagementClient/2.0.0.0",
+          "WindowsAzurePowershell/v0.8.4"
+        ]
+      },
+      "ResponseBody": "{\r\n  \"value\": [\r\n    {\r\n      \"id\": \"/subscriptions/2c224e7e-3ef5-431d-a57b-e71f4662e3a6/tagNames/hidden-related:/subscriptions/2c224e7e-3ef5-431d-a57b-e71f4662e3a6/resourcegroups/xDeploymentTestGroup6557/providers/Microsoft.Web/serverfarms/xDeploymentTestHost1/\",\r\n      \"tagName\": \"hidden-related:/subscriptions/2c224e7e-3ef5-431d-a57b-e71f4662e3a6/resourcegroups/xDeploymentTestGroup6557/providers/Microsoft.Web/serverfarms/xDeploymentTestHost1\",\r\n      \"count\": {\r\n        \"type\": \"Total\",\r\n        \"value\": 1\r\n      },\r\n      \"values\": [\r\n        {\r\n          \"id\": \"/subscriptions/2c224e7e-3ef5-431d-a57b-e71f4662e3a6/tagNames/hidden-related:/subscriptions/2c224e7e-3ef5-431d-a57b-e71f4662e3a6/resourcegroups/xDeploymentTestGroup6557/providers/Microsoft.Web/serverfarms/xDeploymentTestHost1/tagValues/Resource\",\r\n          \"tagValue\": \"Resource\",\r\n          \"count\": {\r\n            \"type\": \"Total\",\r\n            \"value\": 1\r\n          }\r\n        }\r\n      ]\r\n    }\r\n  ]\r\n}",
+      "ResponseHeaders": {
+        "Pragma": [
+          "no-cache"
+        ],
+        "x-ms-ratelimit-remaining-subscription-reads": [
+          "31999"
+        ],
+        "x-ms-request-id": [
+          "679c1375-2051-4f43-a3a4-b62a184f0abf"
+        ],
+        "x-ms-correlation-request-id": [
+          "679c1375-2051-4f43-a3a4-b62a184f0abf"
+        ],
+        "x-ms-routing-request-id": [
+          "WESTUS:20140628T033925Z:679c1375-2051-4f43-a3a4-b62a184f0abf"
+        ],
+        "Cache-Control": [
+          "no-cache"
+        ],
+        "Date": [
+          "Sat, 28 Jun 2014 03:39:25 GMT"
+        ]
+      },
+      "StatusCode": 200
+    },
+    {
+      "RequestUri": "/subscriptions/2c224e7e-3ef5-431d-a57b-e71f4662e3a6/tagNames/hidden-related:/subscriptions/2c224e7e-3ef5-431d-a57b-e71f4662e3a6/resourcegroups/xDeploymentTestGroup6557/providers/Microsoft.Web/serverfarms/xDeploymentTestHost1/tagValues/Resource?api-version=2014-04-01-preview",
+      "RequestMethod": "DELETE",
+      "RequestBody": "",
+      "RequestHeaders": {
+        "User-Agent": [
+          "Microsoft.Azure.Management.Resources.ResourceManagementClient/2.0.0.0",
+          "WindowsAzurePowershell/v0.8.4"
+        ]
+      },
+      "ResponseBody": "<!DOCTYPE html>\r\n<html>\r\n    <head>\r\n        <title>Runtime Error</title>\r\n        <meta name=\"viewport\" content=\"width=device-width\" />\r\n        <style>\r\n         body {font-family:\"Verdana\";font-weight:normal;font-size: .7em;color:black;} \r\n         p {font-family:\"Verdana\";font-weight:normal;color:black;margin-top: -5px}\r\n         b {font-family:\"Verdana\";font-weight:bold;color:black;margin-top: -5px}\r\n         H1 { font-family:\"Verdana\";font-weight:normal;font-size:18pt;color:red }\r\n         H2 { font-family:\"Verdana\";font-weight:normal;font-size:14pt;color:maroon }\r\n         pre {font-family:\"Consolas\",\"Lucida Console\",Monospace;font-size:11pt;margin:0;padding:0.5em;line-height:14pt}\r\n         .marker {font-weight: bold; color: black;text-decoration: none;}\r\n         .version {color: gray;}\r\n         .error {margin-bottom: 10px;}\r\n         .expandable { text-decoration:underline; font-weight:bold; color:navy; cursor:hand; }\r\n         @media screen and (max-width: 639px) {\r\n          pre { width: 440px; overflow: auto; white-space: pre-wrap; word-wrap: break-word; }\r\n         }\r\n         @media screen and (max-width: 479px) {\r\n          pre { width: 280px; }\r\n         }\r\n        </style>\r\n    </head>\r\n\r\n    <body bgcolor=\"white\">\r\n\r\n            <span><H1>Server Error in '/' Application.<hr width=100% size=1 color=silver></H1>\r\n\r\n            <h2> <i>Runtime Error</i> </h2></span>\r\n\r\n            <font face=\"Arial, Helvetica, Geneva, SunSans-Regular, sans-serif \">\r\n\r\n            <b> Description: </b>An application error occurred on the server. The current custom error settings for this application prevent the details of the application error from being viewed remotely (for security reasons). It could, however, be viewed by browsers running on the local server machine.\r\n            <br><br>\r\n\r\n            <b>Details:</b> To enable the details of this specific error message to be viewable on remote machines, please create a &lt;customErrors&gt; tag within a &quot;web.config&quot; configuration file located in the root directory of the current web application. This &lt;customErrors&gt; tag should then have its &quot;mode&quot; attribute set to &quot;Off&quot;.<br><br>\r\n\r\n            <table width=100% bgcolor=\"#ffffcc\">\r\n               <tr>\r\n                  <td>\r\n                      <code><pre>\r\n\r\n&lt;!-- Web.Config Configuration File --&gt;\r\n\r\n&lt;configuration&gt;\r\n    &lt;system.web&gt;\r\n        &lt;customErrors mode=&quot;Off&quot;/&gt;\r\n    &lt;/system.web&gt;\r\n&lt;/configuration&gt;</pre></code>\r\n\r\n                  </td>\r\n               </tr>\r\n            </table>\r\n\r\n            <br>\r\n\r\n            <b>Notes:</b> The current error page you are seeing can be replaced by a custom error page by modifying the &quot;defaultRedirect&quot; attribute of the application&#39;s &lt;customErrors&gt; configuration tag to point to a custom error page URL.<br><br>\r\n\r\n            <table width=100% bgcolor=\"#ffffcc\">\r\n               <tr>\r\n                  <td>\r\n                      <code><pre>\r\n\r\n&lt;!-- Web.Config Configuration File --&gt;\r\n\r\n&lt;configuration&gt;\r\n    &lt;system.web&gt;\r\n        &lt;customErrors mode=&quot;RemoteOnly&quot; defaultRedirect=&quot;mycustompage.htm&quot;/&gt;\r\n    &lt;/system.web&gt;\r\n&lt;/configuration&gt;</pre></code>\r\n\r\n                  </td>\r\n               </tr>\r\n            </table>\r\n\r\n            <br>\r\n\r\n    </body>\r\n</html>\r\n",
+      "ResponseHeaders": {
+        "Cache-Control": [
+          "private"
+        ],
+        "Date": [
+          "Sat, 28 Jun 2014 03:39:27 GMT"
+        ],
+        "Server": [
+          "Microsoft-IIS/8.5"
+        ]
+      },
+      "StatusCode": 400
+    }
+  ],
+  "Names": {
+    "Test-AzureTagsEndToEnd": [
+      "onesdk2634",
+      "onesdk7933"
+    ]
+  },
+  "Variables": {
+    "SubscriptionId": "2c224e7e-3ef5-431d-a57b-e71f4662e3a6"
+  }
+}
