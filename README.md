@@ -70,8 +70,8 @@ This repository contains a set of PowerShell cmdlets for developers and administ
     * Custom Script
     * Access
     * Anti-Malware
+    * Microsoft Antimalware
   * Public IP, reserved IP and internal load balancer
-  * Microsoft Antimalware
 * Deployment
   * Manage deployment, such as CRUD, move, upgrade and restore.
   * Get/Create DNS settings of a deployment.
