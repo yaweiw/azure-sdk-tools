@@ -14,6 +14,7 @@
 
 namespace Microsoft.WindowsAzure.Commands.Utilities.Websites.Services
 {
+    using Microsoft.WindowsAzure.Commands.Utilities.Common;
     using System;
     using System.IO;
     using System.Linq;
@@ -37,8 +38,8 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites.Services
             if (!File.Exists(".gitignore"))
             {
                 // Scaffold gitignore
-                string cmdletPath = Directory.GetParent(InvocationPath).FullName;
-                File.Copy(Path.Combine(cmdletPath, "Scaffolding/Node/Website/.gitignore"), ".gitignore");
+                string cmdletPath = FileUtilities.GetAssemblyDirectory();
+                File.Copy(Path.Combine(cmdletPath, "Resources/Scaffolding/Node/Website/.gitignore"), ".gitignore");
             }
         }
 

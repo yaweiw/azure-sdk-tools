@@ -14,16 +14,23 @@
 
 namespace Microsoft.WindowsAzure.Commands.Utilities.Scheduler
 {
+    using Microsoft.WindowsAzure.Commands.Utilities.Properties;
     using Microsoft.WindowsAzure.Commands.Utilities.Scheduler.Common;
     using Microsoft.WindowsAzure.Commands.Utilities.Scheduler.Model;
     using Microsoft.WindowsAzure.Scheduler;
     using Microsoft.WindowsAzure.Scheduler.Models;
     using System;
+    using System.Linq;
 
     public partial class SchedulerMgmntClient
     {
         #region Create Jobs
 
+        /// <summary>
+        /// Populates ErrorAction values from the request
+        /// </summary>
+        /// <param name="jobRequest">Request values</param>
+        /// <returns>Populated JobErrorAction object</returns>
         private JobErrorAction PopulateErrorAction(PSCreateJobParams jobRequest)
         {
             if (!string.IsNullOrEmpty(jobRequest.ErrorActionMethod) && jobRequest.ErrorActionUri != null)
@@ -63,9 +70,19 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Scheduler
             return null;
         }
 
+        /// <summary>
+        /// Creates a new Http Scheduler job
+        /// </summary>
+        /// <param name="jobRequest">Request values</param>
+        /// <param name="status">Status of create action</param>
+        /// <returns>Created Http Scheduler job</returns>
         public PSJobDetail CreateHttpJob(PSCreateJobParams jobRequest, out string status)
         {
-            SchedulerClient schedulerClient = new SchedulerClient(csmClient.Credentials, jobRequest.Region.ToCloudServiceName(), jobRequest.JobCollectionName, schedulerManagementClient.BaseUri);
+            if (!this.AvailableRegions.Contains(jobRequest.Region, StringComparer.OrdinalIgnoreCase))
+                throw new Exception(Resources.SchedulerInvalidLocation);
+
+            SchedulerClient schedulerClient = this.currentSubscription.CreateClient<SchedulerClient>(false, jobRequest.Region.ToCloudServiceName(), jobRequest.JobCollectionName, csmClient.Credentials, schedulerManagementClient.BaseUri);
+         
             JobCreateOrUpdateParameters jobCreateParams = new JobCreateOrUpdateParameters
             {
                 Action = new JobAction
@@ -114,9 +131,19 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Scheduler
             return GetJobDetail(jobRequest.JobCollectionName, jobRequest.JobName, jobRequest.Region.ToCloudServiceName());
         }
 
+        /// <summary>
+        /// Creates a Storage Queue Scheduler job
+        /// </summary>
+        /// <param name="jobRequest">Request values</param>
+        /// <param name="status">Status of create action</param>
+        /// <returns>Created Storage Queue Scheduler job</returns>
         public PSJobDetail CreateStorageJob(PSCreateJobParams jobRequest, out string status)
         {
-            SchedulerClient schedulerClient = new SchedulerClient(csmClient.Credentials, jobRequest.Region.ToCloudServiceName(), jobRequest.JobCollectionName, schedulerManagementClient.BaseUri);
+            if (!this.AvailableRegions.Contains(jobRequest.Region, StringComparer.OrdinalIgnoreCase))
+                throw new Exception(Resources.SchedulerInvalidLocation);
+
+            SchedulerClient schedulerClient = this.currentSubscription.CreateClient<SchedulerClient>(false, jobRequest.Region.ToCloudServiceName(), jobRequest.JobCollectionName, csmClient.Credentials, schedulerManagementClient.BaseUri);
+
             JobCreateOrUpdateParameters jobCreateParams = new JobCreateOrUpdateParameters
             {
                 Action = new JobAction
@@ -162,9 +189,18 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Scheduler
 
         #endregion
 
+        /// <summary>
+        /// Updates given Http Scheduler job
+        /// </summary>
+        /// <param name="jobRequest">Request values</param>
+        /// <param name="status">Status of uodate operation</param>
+        /// <returns>Updated Http Scheduler job</returns>
         public PSJobDetail PatchHttpJob(PSCreateJobParams jobRequest, out string status)
         {
-            SchedulerClient schedulerClient = new SchedulerClient(csmClient.Credentials, jobRequest.Region.ToCloudServiceName(), jobRequest.JobCollectionName, schedulerManagementClient.BaseUri);
+            if (!this.AvailableRegions.Contains(jobRequest.Region, StringComparer.OrdinalIgnoreCase))
+                throw new Exception(Resources.SchedulerInvalidLocation);
+
+            SchedulerClient schedulerClient = this.currentSubscription.CreateClient<SchedulerClient>(false, jobRequest.Region.ToCloudServiceName(), jobRequest.JobCollectionName, csmClient.Credentials, schedulerManagementClient.BaseUri);
 
             //Get Existing job
             Job job = schedulerClient.Jobs.Get(jobRequest.JobName).Job;
@@ -185,6 +221,13 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Scheduler
             return GetJobDetail(jobRequest.JobCollectionName, jobRequest.JobName, jobRequest.Region.ToCloudServiceName());
         }
 
+        /// <summary>
+        /// If a scheduler job already exists, this will merge the existing job config values with the request
+        /// </summary>
+        /// <param name="job">Existing Scheduler job</param>
+        /// <param name="jobRequest">Request values</param>
+        /// <param name="type">Http or Storage</param>
+        /// <returns>JobCreateOrUpdateParameters object to use when updating Scheduler job</returns>
         private JobCreateOrUpdateParameters PopulateExistingJobParams(Job job, PSCreateJobParams jobRequest, JobActionType type)
         {
             JobCreateOrUpdateParameters jobUpdateParams = new JobCreateOrUpdateParameters();
@@ -359,8 +402,8 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Scheduler
         /// <summary>
         /// Existing bug in SDK where recurrence counts are set to 0 instead of null
         /// </summary>
-        /// <param name="jobRecurrenceSchedule"></param>
-        /// <returns></returns>
+        /// <param name="jobRecurrenceSchedule">The JobRecurrenceSchedule</param>
+        /// <returns>The JobRecurrenceSchedule</returns>
         private JobRecurrenceSchedule SetRecurrenceSchedule(JobRecurrenceSchedule jobRecurrenceSchedule)
         {
             if (jobRecurrenceSchedule != null)
@@ -380,9 +423,18 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Scheduler
             }
         }
 
+        /// <summary>
+        /// Updates given Storage Queue Scheduler job
+        /// </summary>
+        /// <param name="jobRequest">Request values</param>
+        /// <param name="status">Status of uodate operation</param>
+        /// <returns>Updated Storage Queue Scheduler job</returns>
         public PSJobDetail PatchStorageJob(PSCreateJobParams jobRequest, out string status)
         {
-            SchedulerClient schedulerClient = new SchedulerClient(csmClient.Credentials, jobRequest.Region.ToCloudServiceName(), jobRequest.JobCollectionName, schedulerManagementClient.BaseUri);
+            if (!this.AvailableRegions.Contains(jobRequest.Region, StringComparer.OrdinalIgnoreCase))
+                throw new Exception(Resources.SchedulerInvalidLocation);
+
+            SchedulerClient schedulerClient = this.currentSubscription.CreateClient<SchedulerClient>(false, jobRequest.Region.ToCloudServiceName(), jobRequest.JobCollectionName, csmClient.Credentials, schedulerManagementClient.BaseUri);
 
             //Get Existing job
             Job job = schedulerClient.Jobs.Get(jobRequest.JobName).Job;

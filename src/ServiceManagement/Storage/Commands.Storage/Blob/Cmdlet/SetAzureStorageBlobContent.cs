@@ -17,6 +17,7 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Blob
     using Common;
     using Microsoft.WindowsAzure.Storage;
     using Microsoft.WindowsAzure.Storage.Blob;
+    using Microsoft.WindowsAzure.Storage.DataMovement.TransferJobs;
     using Model.Contract;
     using Model.ResourceModel;
     using System;
@@ -183,7 +184,14 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Blob
                 Record = pr
             };
 
-            transferManager.QueueUpload(blob, filePath, OnDMJobStart, OnDMJobProgress, OnDMJobFinish, data);
+            BlobUploadJob uploadJob = new BlobUploadJob()
+            {
+                DestBlob = blob,
+                SourcePath = filePath
+            };
+
+            this.EnqueueTransferJob(uploadJob, data);
+
             return await data.taskSource.Task;
         }
 

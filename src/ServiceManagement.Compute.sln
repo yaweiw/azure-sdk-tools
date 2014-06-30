@@ -1,6 +1,6 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
-VisualStudioVersion = 12.0.30110.0
+VisualStudioVersion = 12.0.30501.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Commands.ServiceManagement", "ServiceManagement\Compute\Commands.ServiceManagement\Commands.ServiceManagement.csproj", "{E1CA72BA-8374-45F6-904D-FD34ECDF5B6F}"
 EndProject
@@ -9,10 +9,6 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Commands.ServiceManagement.Preview", "ServiceManagement\Compute\Commands.ServiceManagement.Preview\Commands.ServiceManagement.Preview.csproj", "{E895BBDA-0B06-46AB-B909-9B97B3ECE47E}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Commands.ServiceManagement.Test", "ServiceManagement\Compute\Commands.ServiceManagement.Test\Commands.ServiceManagement.Test.csproj", "{58A78F29-8C0C-4A5E-893E-3953C0F29C8A}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleAppUtils", "ServiceManagement\Compute\ConsoleAppUtils\ConsoleAppUtils.csproj", "{ED57ECAF-AD30-4C7A-99A6-8757A83B19F0}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ServiceManagement.Additions", "ServiceManagement\Compute\ServiceManagement.Additions\ServiceManagement.Additions.csproj", "{DA1432AF-D6B5-47A1-8B74-CCD740683E0F}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sync", "ServiceManagement\Compute\Sync\Sync.csproj", "{73820CBC-F4EB-4C5E-B4F0-CC4A93FBF157}"
 EndProject
@@ -52,14 +48,6 @@ Global
 		{58A78F29-8C0C-4A5E-893E-3953C0F29C8A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{58A78F29-8C0C-4A5E-893E-3953C0F29C8A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{58A78F29-8C0C-4A5E-893E-3953C0F29C8A}.Release|Any CPU.Build.0 = Release|Any CPU
-		{ED57ECAF-AD30-4C7A-99A6-8757A83B19F0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{ED57ECAF-AD30-4C7A-99A6-8757A83B19F0}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{ED57ECAF-AD30-4C7A-99A6-8757A83B19F0}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{ED57ECAF-AD30-4C7A-99A6-8757A83B19F0}.Release|Any CPU.Build.0 = Release|Any CPU
-		{DA1432AF-D6B5-47A1-8B74-CCD740683E0F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{DA1432AF-D6B5-47A1-8B74-CCD740683E0F}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{DA1432AF-D6B5-47A1-8B74-CCD740683E0F}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{DA1432AF-D6B5-47A1-8B74-CCD740683E0F}.Release|Any CPU.Build.0 = Release|Any CPU
 		{73820CBC-F4EB-4C5E-B4F0-CC4A93FBF157}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{73820CBC-F4EB-4C5E-B4F0-CC4A93FBF157}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{73820CBC-F4EB-4C5E-B4F0-CC4A93FBF157}.Release|Any CPU.ActiveCfg = Release|Any CPU

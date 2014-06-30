@@ -39,6 +39,7 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.CloudServiceTests
         [TestCategory(Category.CloudService)]
         [TestCategory(Category.OneSDK)]
         [TestCategory(Category.CIT)]
+        [TestCategory(Category.BVT)]
         public void TestPublishAzureCacheService()
         {
             RunPowerShellTest("Test-PublishCacheService");
@@ -49,15 +50,16 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.CloudServiceTests
         [TestCategory(Category.CloudService)]
         [TestCategory(Category.OneSDK)]
         [TestCategory(Category.CIT)]
+        [TestCategory(Category.BVT)]
         public void TestUpdateAzureCacheService()
         {
             RunPowerShellTest("Test-UpdateCacheService");
         }
-
         [TestMethod]
         [TestCategory(Category.All)]
         [TestCategory(Category.CloudService)]
         [TestCategory(Category.OneSDK)]
+        [TestCategory(Category.BVT)]
         public void TestPublishUsesSettingsLocation()
         {
             RunPowerShellTest("Test-PublishUsesSettingsLocation");
