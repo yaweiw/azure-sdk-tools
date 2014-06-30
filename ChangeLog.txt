@@ -1,3 +1,26 @@
+2014.06.30 Version 0.8.4
+* Compute
+    * New-AzurePlatformExtensionCertificateConfig
+    * New-AzurePlatformExtensionEndpointConfigSet
+    * New-AzurePlatformExtensionLocalResourceConfigSet
+    * Publish-AzurePlatformExtension
+    * Remove-AzurePlatformExtensionEndpoint
+    * Remove-AzurePlatformExtensionLocalResource
+    * Set-AzurePlatformExtension
+    * Set-AzurePlatformExtensionEndpoint
+    * Set-AzurePlatformExtensionLocalResource
+    * Unpublish-AzurePlatformExtension
+* Antimalware
+    * Get-AzureVMMicrosoftAntimalwareExtension
+    * Set-AzureVMMicrosoftAntimalwareExtension
+    * Improve the cmdlets to use AzureStorageContext instead of flat storage parameters
+* Networking
+    * Enabling New-AzureVnetGateway to create dynamic gateways
+    * Added alias New-AzureDns to New-AzureDnsConfig
+* Scheduler
+    * New-AzureSchedulerJobCollection
+    * Set-AzureSchedulerJobCollection
+
 2014.05.29 Version 0.8.3
 * Restructured source code and installation folder
 * Web Site
