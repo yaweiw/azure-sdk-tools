@@ -65,6 +65,11 @@ This repository contains a set of PowerShell cmdlets for developers and administ
   * Manage certificate and SSH key.
   * PowerShell remoting
   * Manage extension
+    * BG Info
+    * Puppet
+    * Custom Script
+    * Access
+    * Anti-Malware
   * Public IP, reserved IP and internal load balancer
 * Deployment
   * Manage deployment, such as CRUD, move, upgrade and restore.
