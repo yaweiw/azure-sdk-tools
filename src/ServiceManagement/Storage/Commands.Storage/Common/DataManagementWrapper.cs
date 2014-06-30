@@ -14,15 +14,11 @@
 
 namespace Microsoft.WindowsAzure.Commands.Storage.Common
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Management.Automation;
-    using System.Text;
-    using System.Threading;
-    using System.Threading.Tasks;
     using Microsoft.WindowsAzure.Storage.DataMovement;
     using Microsoft.WindowsAzure.Storage.DataMovement.TransferJobs;
+    using System;
+    using System.Threading;
+    using System.Threading.Tasks;
 
     internal sealed class DataManagementWrapper : ITransferJobRunner
     {

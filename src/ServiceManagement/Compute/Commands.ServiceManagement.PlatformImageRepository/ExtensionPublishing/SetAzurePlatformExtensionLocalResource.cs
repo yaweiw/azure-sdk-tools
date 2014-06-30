@@ -14,9 +14,9 @@
 
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.PlatformImageRepository.ExtensionPublishing
 {
+    using Model;
     using System.Collections.Generic;
     using System.Management.Automation;
-    using Model;
 
     /// <summary>
     /// Add or Update a Local Resource in the Config Set.

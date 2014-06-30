@@ -14,16 +14,14 @@
 
 namespace Microsoft.Azure.Commands.Automation.Test.UnitTests
 {
-    using System;
-    using System.Linq;
-
     using Microsoft.Azure.Commands.Automation.Cmdlet;
     using Microsoft.Azure.Commands.Automation.Common;
     using Microsoft.Azure.Commands.Automation.Model;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using Microsoft.WindowsAzure.Commands.Test.Utilities.Common;
-
     using Moq;
+    using System;
+    using System.Linq;
 
     [TestClass]
     public class NewAzureAutomationScheduleTest : TestBase

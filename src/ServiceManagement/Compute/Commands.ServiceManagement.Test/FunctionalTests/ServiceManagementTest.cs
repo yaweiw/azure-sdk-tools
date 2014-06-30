@@ -15,15 +15,15 @@
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
 {
     using Commands.Utilities.Common;
+    using Microsoft.WindowsAzure.Commands.Sync.Download;
     using Model;
     using Properties;
     using System;
     using System.Collections.ObjectModel;
     using System.IO;
     using System.Linq;
-    using VisualStudio.TestTools.UnitTesting;
     using System.Xml.Linq;
-    using Microsoft.WindowsAzure.Commands.Sync.Download;
+    using VisualStudio.TestTools.UnitTesting;
 
     [TestClass]
     public class ServiceManagementTest

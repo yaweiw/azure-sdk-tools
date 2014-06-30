@@ -14,9 +14,9 @@
 
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
 {
+    using Management.Network.Models;
     using System.Management.Automation;
     using Utilities.Common;
-    using Management.Network.Models;
 
     [Cmdlet(VerbsCommon.New, "AzureVNetGateway"), OutputType(typeof(ManagementOperationContext))]
     public class NewAzureVNetGatewayCommand : ServiceManagementBaseCmdlet

@@ -14,23 +14,21 @@
 
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement
 {
-    using System;
-    using System.Collections;
-    using System.Collections.Generic;
-    using System.Collections.ObjectModel;
-    using System.Linq;
-    using System.Net;
     using AutoMapper;
     using Extensions;
     using Helpers;
-    using IaaS;
-    using IaaS.DiskRepository;
     using IaaS.Extensions;
     using Management.Compute.Models;
     using Management.Models;
     using Management.Network.Models;
     using Management.Storage.Models;
     using Model;
+    using System;
+    using System.Collections;
+    using System.Collections.Generic;
+    using System.Collections.ObjectModel;
+    using System.Linq;
+    using System.Net;
     using Utilities.Common;
     using NSM = Management.Compute.Models;
     using NVM = Management.Network.Models;

@@ -14,8 +14,6 @@
 
 namespace Microsoft.WindowsAzure.Commands.Utilities.Scheduler.Model
 {
-    using System;
-    using System.Collections;
 
     public class PSCreateJobCollectionParams
     {

@@ -13,16 +13,14 @@
 // ----------------------------------------------------------------------------------
 namespace Microsoft.WindowsAzure.Commands.Storage.File.Cmdlet
 {
-    using System;
-    using System.Diagnostics;
+    using Microsoft.WindowsAzure.Storage;
+    using Microsoft.WindowsAzure.Storage.DataMovement.TransferJobs;
+    using Microsoft.WindowsAzure.Storage.File;
     using System.Globalization;
     using System.IO;
     using System.Management.Automation;
     using System.Net;
     using System.Threading.Tasks;
-    using Microsoft.WindowsAzure.Storage;
-    using Microsoft.WindowsAzure.Storage.DataMovement.TransferJobs;
-    using Microsoft.WindowsAzure.Storage.File;
 
     [Cmdlet(VerbsCommon.Set, Constants.FileContentCmdletName, SupportsShouldProcess = true, ConfirmImpact = ConfirmImpact.High, DefaultParameterSetName = Constants.ShareNameParameterSetName)]
     public class SetAzureStorageFileContent : StorageFileDataManagementCmdletBase

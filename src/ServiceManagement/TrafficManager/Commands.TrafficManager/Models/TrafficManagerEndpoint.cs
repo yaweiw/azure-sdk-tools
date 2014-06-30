@@ -14,8 +14,8 @@
 
 namespace Microsoft.WindowsAzure.Commands.TrafficManager.Models
 {
-    using System.Runtime.Serialization;
     using Microsoft.WindowsAzure.Management.TrafficManager.Models;
+    using System.Runtime.Serialization;
 
     public class TrafficManagerEndpoint
     {

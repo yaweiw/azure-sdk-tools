@@ -16,7 +16,6 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
 {
     using Management.Storage;
     using Management.Storage.Models;
-    using ServiceManagement;
     using Storage;
     using Storage.Auth;
     using Storage.Blob;

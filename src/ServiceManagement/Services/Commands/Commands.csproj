@@ -12,10 +12,8 @@
     <AssemblyName>Microsoft.WindowsAzure.Commands</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <TargetFrameworkProfile />
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\..\..\</SolutionDir>
     <RestorePackages>true</RestorePackages>
-    <CodeAnalysisAdditionalOptions>/assemblyCompareMode:StrongNameIgnoringVersion</CodeAnalysisAdditionalOptions>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -60,18 +58,12 @@
     <Reference Include="Microsoft.Build.Framework" />
     <Reference Include="Microsoft.Data.Edm, Version=5.6.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\..\..\packages\Microsoft.Data.Edm.5.6.0\lib\net40\Microsoft.Data.Edm.dll</HintPath>
-      <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.Data.OData, Version=5.6.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\..\..\packages\Microsoft.Data.OData.5.6.0\lib\net40\Microsoft.Data.OData.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Data.Services.Client, Version=5.6.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\..\..\packages\Microsoft.Data.Services.Client.5.6.0\lib\net40\Microsoft.Data.Services.Client.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="Microsoft.Hadoop.Client, Version=1.1.1.8, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\packages\Microsoft.Hadoop.Client.1.1.1.8\lib\net40\Microsoft.Hadoop.Client.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.IdentityModel.Clients.ActiveDirectory, Version=2.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -119,18 +111,6 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\packages\Microsoft.WindowsAzure.Management.Compute.2.3.1\lib\net40\Microsoft.WindowsAzure.Management.Compute.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.WindowsAzure.Management.HDInsight, Version=1.1.1.8, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\packages\Microsoft.WindowsAzure.Management.HDInsight.1.1.1.8\lib\net40\Microsoft.WindowsAzure.Management.HDInsight.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.WindowsAzure.Management.HDInsight.Framework, Version=1.1.1.8, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\packages\Microsoft.Hadoop.Client.1.1.1.8\lib\net40\Microsoft.WindowsAzure.Management.HDInsight.Framework.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.WindowsAzure.Management.HDInsight.Framework.Core, Version=1.1.1.8, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\packages\Microsoft.Hadoop.Client.1.1.1.8\lib\net40\Microsoft.WindowsAzure.Management.HDInsight.Framework.Core.dll</HintPath>
-    </Reference>
     <Reference Include="Microsoft.WindowsAzure.Management.MediaServices, Version=0.9.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\packages\Microsoft.WindowsAzure.Management.MediaServices.1.0.0\lib\net40\Microsoft.WindowsAzure.Management.MediaServices.dll</HintPath>
@@ -170,7 +150,7 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\lib\Microsoft.WindowsAzure.ServiceManagement.Client.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.WindowsAzure.Storage, Version=4.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+    <Reference Include="Microsoft.WindowsAzure.Storage, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\packages\WindowsAzure.Storage.4.0.0\lib\net40\Microsoft.WindowsAzure.Storage.dll</HintPath>
     </Reference>
@@ -247,31 +227,6 @@
     <Compile Include="CloudService\StartAzureService.cs" />
     <Compile Include="CloudService\StopAzureService.cs" />
     <Compile Include="CloudService\TestAzureName.cs" />
-    <Compile Include="HDInsight\AddAzureHDInsightConfigValuesCmdlet.cs" />
-    <Compile Include="HDInsight\AddAzureHDInsightMetastoreCmdlet.cs" />
-    <Compile Include="HDInsight\AddAzureHDInsightStorageCmdlet.cs" />
-    <Compile Include="HDInsight\AzureHDInsightCmdlet.cs" />
-    <Compile Include="HDInsight\AzureHdInsightPowerShellHardCodes.cs" />
-    <Compile Include="HDInsight\GetAzureHDInsightClusterCmdlet.cs" />
-    <Compile Include="HDInsight\GetAzureHDInsightJobCmdlet.cs" />
-    <Compile Include="HDInsight\GetAzureHDInsightJobOutputCmdlet.cs" />
-    <Compile Include="HDInsight\GetAzureHDInsightPropertiesCmdlet.cs" />
-    <Compile Include="HDInsight\GrantAzureHDInsightHttpServicesAccessCmdlet.cs" />
-    <Compile Include="HDInsight\InvokeHiveCmdlet.cs" />
-    <Compile Include="HDInsight\NewAzureHDInsightClusterCmdlet.cs" />
-    <Compile Include="HDInsight\NewAzureHDInsightClusterConfigCmdlet.cs" />
-    <Compile Include="HDInsight\NewAzureHDInsightHiveJobDefinitionCmdlet.cs" />
-    <Compile Include="HDInsight\NewAzureHDInsightMapReduceDefinitionCmdlet.cs" />
-    <Compile Include="HDInsight\NewAzureHDInsightPigJobDefinitionCmdlet.cs" />
-    <Compile Include="HDInsight\NewAzureHDInsightSqoopJobDefinitionCmdlet.cs" />
-    <Compile Include="HDInsight\NewAzureHDInsightStreamingJobDefinitionCmdlet.cs" />
-    <Compile Include="HDInsight\RemoveClusterHDInsightClusterCmdlet.cs" />
-    <Compile Include="HDInsight\RevokeAzureHDInsightHttpServicesAccessCmdlet.cs" />
-    <Compile Include="HDInsight\SetAzureHDInsightDefaultStorageCmdlet.cs" />
-    <Compile Include="HDInsight\StartAzureHDInsightJobCmdlet.cs" />
-    <Compile Include="HDInsight\StopAzureHDInsightJobCmdlet.cs" />
-    <Compile Include="HDInsight\UseAzureHDInsightClusterCmdlet.cs" />
-    <Compile Include="HDInsight\WaitAzureHDInsightJobCmdlet.cs" />
     <Compile Include="MediaServices\AzureMediaServicesHttpClientCommandBase.cs" />
     <Compile Include="MediaServices\GetAzureMediaServiceCommand.cs" />
     <Compile Include="MediaServices\NewAzureMediaServiceCommand.cs" />

@@ -14,8 +14,8 @@
 
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.PlatformImageRepository.ExtensionPublishing
 {
-    using System.Management.Automation;
     using Model;
+    using System.Management.Automation;
 
     /// <summary>
     /// Create a New Extension Endpoint Config Set.

@@ -14,10 +14,10 @@
 
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
 {
+    using Microsoft.VisualStudio.TestTools.UnitTesting;
     using System;
     using System.IO;
     using System.Reflection;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
 
     [TestClass]
     public class AddAzureVhdTest : AzureVhdTest

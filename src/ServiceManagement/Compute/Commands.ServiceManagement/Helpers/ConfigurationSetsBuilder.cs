@@ -15,11 +15,11 @@
 
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Helpers
 {
+    using IaaS;
+    using Model.PersistentVMModel;
     using System;
     using System.Collections.ObjectModel;
     using System.Linq;
-    using IaaS;
-    using Model.PersistentVMModel;
 
     public class ConfigurationSetsBuilder
     {

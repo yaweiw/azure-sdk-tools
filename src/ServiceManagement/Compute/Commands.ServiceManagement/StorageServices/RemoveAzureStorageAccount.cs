@@ -16,7 +16,6 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.StorageServices
 {
     using ServiceManagement.Model;
     using System.Management.Automation;
-    using Management.Storage;
     using Utilities.Common;
 
     /// <summary>
