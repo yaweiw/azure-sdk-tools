@@ -69,7 +69,6 @@ This repository contains a set of PowerShell cmdlets for developers and administ
     * Puppet
     * Custom Script
     * Access
-    * Anti-Malware
     * Microsoft Antimalware
   * Public IP, reserved IP and internal load balancer
 * Deployment
