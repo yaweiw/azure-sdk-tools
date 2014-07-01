@@ -1,7 +1,7 @@
 {
   "Entries": [
     {
-      "RequestUri": "/subscriptions/db1ab6f0-4769-4b27-930e-01e2ef9c123c/resourcegroups/onesdk6329?api-version=2014-04-01-preview",
+      "RequestUri": "/subscriptions/2c224e7e-3ef5-431d-a57b-e71f4662e3a6/resourcegroups/onesdk7144?api-version=2014-04-01-preview",
       "RequestMethod": "HEAD",
       "RequestBody": "",
       "RequestHeaders": {
@@ -16,30 +16,30 @@
           "no-cache"
         ],
         "x-ms-ratelimit-remaining-subscription-reads": [
-          "31976"
+          "31999"
         ],
         "x-ms-request-id": [
-          "baeb2050-232a-47b0-8a6b-296a194147cc"
+          "cdce4c33-5d4f-42b9-84bd-214278365c61"
         ],
         "x-ms-correlation-request-id": [
-          "baeb2050-232a-47b0-8a6b-296a194147cc"
+          "cdce4c33-5d4f-42b9-84bd-214278365c61"
         ],
         "x-ms-routing-request-id": [
-          "WESTUS:20140508T220808Z:baeb2050-232a-47b0-8a6b-296a194147cc"
+          "WESTUS:20140701T214838Z:cdce4c33-5d4f-42b9-84bd-214278365c61"
         ],
         "Cache-Control": [
           "no-cache"
         ],
         "Date": [
-          "Thu, 08 May 2014 22:08:08 GMT"
+          "Tue, 01 Jul 2014 21:48:38 GMT"
         ]
       },
       "StatusCode": 404
     },
     {
-      "RequestUri": "/subscriptions/db1ab6f0-4769-4b27-930e-01e2ef9c123c/resourcegroups/onesdk6329?api-version=2014-04-01-preview",
+      "RequestUri": "/subscriptions/2c224e7e-3ef5-431d-a57b-e71f4662e3a6/resourcegroups/onesdk7144?api-version=2014-04-01-preview",
       "RequestMethod": "PUT",
-      "RequestBody": "{\r\n  \"location\": \"non-existing\"\r\n}",
+      "RequestBody": "{\r\n  \"location\": \"non-existing\",\r\n  \"tags\": {}\r\n}",
       "RequestHeaders": {
         "User-Agent": [
           "Microsoft.Azure.Management.Resources.ResourceManagementClient/2.0.0.0",
@@ -52,22 +52,22 @@
           "no-cache"
         ],
         "x-ms-ratelimit-remaining-subscription-writes": [
-          "1192"
+          "1199"
         ],
         "x-ms-request-id": [
-          "fe900479-29c7-4eb6-8ffb-0a5c6b84d83f"
+          "dd836ce8-9e9c-4aa8-84a1-2147e11e55a5"
         ],
         "x-ms-correlation-request-id": [
-          "fe900479-29c7-4eb6-8ffb-0a5c6b84d83f"
+          "dd836ce8-9e9c-4aa8-84a1-2147e11e55a5"
         ],
         "x-ms-routing-request-id": [
-          "WESTUS:20140508T220808Z:fe900479-29c7-4eb6-8ffb-0a5c6b84d83f"
+          "WESTUS:20140701T214838Z:dd836ce8-9e9c-4aa8-84a1-2147e11e55a5"
         ],
         "Cache-Control": [
           "no-cache"
         ],
         "Date": [
-          "Thu, 08 May 2014 22:08:08 GMT"
+          "Tue, 01 Jul 2014 21:48:38 GMT"
         ]
       },
       "StatusCode": 400
@@ -75,7 +75,10 @@
   ],
   "Names": {
     "Test-NewResourceGroupInNonExistingLocation": [
-      "onesdk6329"
+      "onesdk7144"
     ]
+  },
+  "Variables": {
+    "SubscriptionId": "2c224e7e-3ef5-431d-a57b-e71f4662e3a6"
   }
 }
