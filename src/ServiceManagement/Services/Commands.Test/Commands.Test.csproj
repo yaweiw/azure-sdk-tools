@@ -306,8 +306,14 @@
     <Compile Include="WAPackIaaS\Common\WebClientFactoryTests.cs" />
     <Compile Include="WAPackIaaS\Mocks\MockLogger.cs" />
     <Compile Include="WAPackIaaS\Mocks\MockRequestChannel.cs" />
+    <Compile Include="WAPackIaaS\Operations\CloudServiceOperationsTests.cs" />
     <Compile Include="WAPackIaaS\Operations\JobOperationsTests.cs" />
+    <Compile Include="WAPackIaaS\Operations\LogicalNetworkOperationsTests.cs" />
+    <Compile Include="WAPackIaaS\Operations\StaticIPAddressPoolOperationsTests.cs" />
     <Compile Include="WAPackIaaS\Operations\VirtualMachineOperationsTests.cs" />
+    <Compile Include="WAPackIaaS\Operations\VMNetworkOperationsTest.cs" />
+    <Compile Include="WAPackIaaS\Operations\VMRoleOperationsTests.cs" />
+    <Compile Include="WAPackIaaS\Operations\VMSubnetOperationsTests.cs" />
     <Compile Include="WAPackIaaS\WebClient\GetAbsoluteUriTests.cs" />
     <Compile Include="WAPackIaaS\WebClient\JsonHelperTests.cs" />
     <Compile Include="WAPackIaaS\WebClient\WAPackWebClientTests.cs" />

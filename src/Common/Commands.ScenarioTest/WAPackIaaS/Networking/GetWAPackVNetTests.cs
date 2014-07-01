@@ -28,6 +28,7 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.WAPackIaaS.FunctionalTest
         [TestMethod]
         [TestCategory("WAPackIaaS-All")]
         [TestCategory("WAPackIaaS-Functional")]
+        [TestCategory("WAPackIaaS-Networking")]
         public void GetWAPackVNetWithNoParam()
         {
             var allVNetworks = this.InvokeCmdlet(cmdletName, null);
@@ -37,6 +38,7 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.WAPackIaaS.FunctionalTest
         [TestMethod]
         [TestCategory("WAPackIaaS-All")]
         [TestCategory("WAPackIaaS-Functional")]
+        [TestCategory("WAPackIaaS-Networking")]
         public void GetWAPackWAPackVNetFromName()
         {
             string expectedVNetworkName = WAPackConfigurationFactory.AvenzVnetName;
@@ -55,6 +57,7 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.WAPackIaaS.FunctionalTest
         [TestMethod]
         [TestCategory("WAPackIaaS-All")]
         [TestCategory("WAPackIaaS-Functional")]
+        [TestCategory("WAPackIaaS-Networking")]
         public void GetWAPackWAPackVNetFromIdAndName()
         {
             string expectedVNetworkName = WAPackConfigurationFactory.AvenzVnetName;
@@ -79,9 +82,10 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.WAPackIaaS.FunctionalTest
 
 
         [TestMethod]
-        [TestCategory("WAPackIaaS-Negative")]
         [TestCategory("WAPackIaaS-All")]
+        [TestCategory("WAPackIaaS-Negative")]        
         [TestCategory("WAPackIaaS-Functional")]
+        [TestCategory("WAPackIaaS-Networking")]
         public void GetWAPackVNetByNameDoesNotExist()
         {
             string expectedVNetworkName = "WAPackWAPackVNetDoesNotExist";
@@ -95,9 +99,10 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.WAPackIaaS.FunctionalTest
         }
 
         [TestMethod]
-        [TestCategory("WAPackIaaS-Negative")]
         [TestCategory("WAPackIaaS-All")]
+        [TestCategory("WAPackIaaS-Negative")]        
         [TestCategory("WAPackIaaS-Functional")]
+        [TestCategory("WAPackIaaS-Networking")]
         public void GetWAPackVNetByIdDoesNotExist()
         {
             var expectedVmId = Guid.NewGuid().ToString();

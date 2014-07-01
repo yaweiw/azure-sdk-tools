@@ -89,7 +89,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.WAPackIaaS.Operations
             var client = this.webClientFactory.CreateClient(String.Format(specificBaseUri, cloudServiceName));
 
             WebHeaderCollection outHeaders;
-            client.Delete<VMRole>(out outHeaders);
+            client.Delete<CloudService>(out outHeaders);
 
             jobId = TryGetJobIdFromHeaders(outHeaders);
         }

@@ -63,7 +63,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.WAPackIaaS.Operations
             var client = this.webClientFactory.CreateClient(this.uriSuffix + String.Format("(ID=guid'{0}',StampId=guid'{1}')", id, stampId));
 
             WebHeaderCollection outHeaders;
-            client.Delete<VMNetwork>(out outHeaders);
+            client.Delete<StaticIPAddressPool>(out outHeaders);
 
             jobId = TryGetJobIdFromHeaders(outHeaders);
         }
