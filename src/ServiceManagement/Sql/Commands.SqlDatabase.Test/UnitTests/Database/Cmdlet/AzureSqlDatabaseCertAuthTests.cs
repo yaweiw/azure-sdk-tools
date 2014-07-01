@@ -86,6 +86,11 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Test.UnitTests.Database.Cm
                             @" -DatabaseName testdbcert1");
                     });
 
+                Database[] databases = new Database[] { newDatabaseResult1.Single().BaseObject as Database };
+                Assert.AreEqual(1, databases.Length, "Expecting one database");
+                Assert.IsNotNull(databases[0], "Expecting a Database object.");
+                DatabaseTestHelper.ValidateDatabaseProperties(databases[0], "testdbcert1", "Web", 1, 1073741824L, "SQL_Latin1_General_CP1_CI_AS", "Shared", false, DatabaseTestHelper.SharedSloGuid);
+
                 Collection<PSObject> newDatabaseResult2 = MockServerHelper.ExecuteWithMock(
                     testSession,
                     MockHttpServer.DefaultHttpsServerPrefixUri,
@@ -100,6 +105,11 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Test.UnitTests.Database.Cm
                             @" -Collation Japanese_CI_AS");
                     });
 
+                databases = new Database[] { newDatabaseResult2.Single().BaseObject as Database };
+                Assert.AreEqual(1, databases.Length, "Expecting one database");
+                Assert.IsNotNull(databases[0], "Expecting a Database object.");
+                DatabaseTestHelper.ValidateDatabaseProperties(databases[0], "testdbcert2", "Business", 10, 10737418240L, "Japanese_CI_AS", "Shared", false, DatabaseTestHelper.SharedSloGuid);
+
                 // Create a database of size 100MB Default Edition (Web)
                 Collection<PSObject> newDatabaseResult3 = MockServerHelper.ExecuteWithMock(
                     testSession,
@@ -113,6 +123,11 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Test.UnitTests.Database.Cm
                             @" -MaxSizeBytes 104857600");
                     });
 
+                databases = new Database[] { newDatabaseResult3.Single().BaseObject as Database };
+                Assert.AreEqual(1, databases.Length, "Expecting one database");
+                Assert.IsNotNull(databases[0], "Expecting a Database object.");
+                DatabaseTestHelper.ValidateDatabaseProperties(databases[0], "testdbcert4", "Web", 0, 104857600L, "SQL_Latin1_General_CP1_CI_AS", "Shared", false, DatabaseTestHelper.SharedSloGuid);
+
                 Collection<PSObject> getDatabaseResult = MockServerHelper.ExecuteWithMock(
                     testSession,
                     MockHttpServer.DefaultHttpsServerPrefixUri,
@@ -122,6 +137,30 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Test.UnitTests.Database.Cm
                             @"Get-AzureSqlDatabase" +
                             @" $serverName");
                     });
+
+                // Validate Get-AzureSqlDatabase                
+                databases = getDatabaseResult.Select(r => r.BaseObject as Database).ToArray();
+                Assert.AreEqual(4, databases.Length, "Expecting 4 databases");
+                Assert.IsNotNull(databases[0], "Expecting a Database object.");
+                Assert.IsNotNull(databases[1], "Expecting a Database object.");
+                Assert.IsNotNull(databases[2], "Expecting a Database object.");
+                Assert.IsNotNull(databases[3], "Expecting a Database object.");
+                DatabaseTestHelper.ValidateDatabaseProperties(databases[0], "master", "System", 5, 5368709120L, "SQL_Latin1_General_CP1_CI_AS", "System", true, DatabaseTestHelper.SystemSloGuid);
+                DatabaseTestHelper.ValidateDatabaseProperties(databases[1], "testdbcert1", "Web", 1, 1073741824L, "SQL_Latin1_General_CP1_CI_AS", "Shared", false, DatabaseTestHelper.SharedSloGuid);
+                DatabaseTestHelper.ValidateDatabaseProperties(databases[2], "testdbcert2", "Business", 10, 10737418240L, "Japanese_CI_AS", "Shared", false, DatabaseTestHelper.SharedSloGuid);
+                DatabaseTestHelper.ValidateDatabaseProperties(databases[3], "testdbcert4", "Web", 0, 104857600L, "SQL_Latin1_General_CP1_CI_AS", "Shared", false, DatabaseTestHelper.SharedSloGuid);
+
+                Collection<PSObject> removeDatabaseResult = MockServerHelper.ExecuteWithMock(
+                    testSession,
+                    MockHttpServer.DefaultHttpsServerPrefixUri,
+                    () =>
+                    {
+                        powershell.Runspace.SessionStateProxy.SetVariable("db2", newDatabaseResult2.FirstOrDefault());
+                        powershell.InvokeBatchScript(@"$db2 | Remove-AzureSqlDatabase -Force");
+                        return powershell.InvokeBatchScript(@"Get-AzureSqlDatabase $serverName");
+                    });
+                databases = removeDatabaseResult.Select(db => db.BaseObject as Database).ToArray();
+                Assert.AreEqual(3, databases.Length, "Expecting 3 databases");
 
                 Collection<PSObject> getSingleDatabaseResult = MockServerHelper.ExecuteWithMock(
                     testSession,
@@ -134,6 +173,11 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Test.UnitTests.Database.Cm
                             @" -DatabaseName testdbcert1");
                     });
 
+                databases = new Database[] { getSingleDatabaseResult.Single().BaseObject as Database };
+                Assert.AreEqual(1, databases.Length, "Expecting one database");
+                Assert.IsNotNull(databases[0], "Expecting a Database object.");
+                DatabaseTestHelper.ValidateDatabaseProperties(databases[0], "testdbcert1", "Web", 1, 1073741824L, "SQL_Latin1_General_CP1_CI_AS", "Shared", false, DatabaseTestHelper.SharedSloGuid);
+
                 Collection<PSObject> getSingleDatabaseResult2 = MockServerHelper.ExecuteWithMock(
                     testSession,
                     MockHttpServer.DefaultHttpsServerPrefixUri,
@@ -144,6 +188,11 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Test.UnitTests.Database.Cm
                             @" $serverName" +
                             @" -DatabaseName testdbcert4");
                     });
+
+                databases = new Database[] { getSingleDatabaseResult2.Single().BaseObject as Database };
+                Assert.AreEqual(1, databases.Length, "Expecting one database");
+                Assert.IsNotNull(databases[0], "Expecting a Database object.");
+                DatabaseTestHelper.ValidateDatabaseProperties(databases[0], "testdbcert4", "Web", 0, 104857600L, "SQL_Latin1_General_CP1_CI_AS", "Shared", false, DatabaseTestHelper.SharedSloGuid);
 
                 Collection<PSObject> setDatabaseNameResult = MockServerHelper.ExecuteWithMock(
                     testSession,
@@ -157,6 +206,12 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Test.UnitTests.Database.Cm
                             @" -PassThru");
                     });
 
+                // Validate Set-AzureSqlDatabase
+                databases = new Database[] { setDatabaseNameResult.Single().BaseObject as Database };
+                Assert.AreEqual(1, databases.Length, "Expecting one database");
+                Assert.IsNotNull(databases[0], "Expecting a Database object.");
+                DatabaseTestHelper.ValidateDatabaseProperties(databases[0], "testdbcert3", "Web", 1, 1073741824L, "SQL_Latin1_General_CP1_CI_AS", "Shared", false, DatabaseTestHelper.SharedSloGuid);
+
                 Collection<PSObject> setDatabaseSizeResult = MockServerHelper.ExecuteWithMock(
                     testSession,
                     MockHttpServer.DefaultHttpsServerPrefixUri,
@@ -168,6 +223,23 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Test.UnitTests.Database.Cm
                             @" -MaxSizeGB 5" +
                             @" -PassThru");
                     });
+
+                databases = new Database[] { setDatabaseSizeResult.Single().BaseObject as Database };
+                Assert.AreEqual(1, databases.Length, "Expecting one database");
+                Assert.IsNotNull(databases[0], "Expecting a Database object.");
+                DatabaseTestHelper.ValidateDatabaseProperties(databases[0], "testdbcert3", "Web", 5, 5368709120L, "SQL_Latin1_General_CP1_CI_AS", "Shared", false, DatabaseTestHelper.SharedSloGuid);
+                
+                removeDatabaseResult = MockServerHelper.ExecuteWithMock(
+                    testSession,
+                    MockHttpServer.DefaultHttpsServerPrefixUri,
+                    () =>
+                    {
+                        powershell.Runspace.SessionStateProxy.SetVariable("db1", setDatabaseSizeResult.FirstOrDefault());
+                        powershell.InvokeBatchScript(@"$db1 | Remove-AzureSqlDatabase -Force");
+                        return powershell.InvokeBatchScript(@"Get-AzureSqlDatabase $serverName");
+                    });
+                databases = removeDatabaseResult.Select(db => db.BaseObject as Database).ToArray();
+                Assert.AreEqual(2, databases.Length, "Expecting 2 databases");
 
                 Collection<PSObject> setDatabaseSizeResult2 = MockServerHelper.ExecuteWithMock(
                     testSession,
@@ -182,6 +254,11 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Test.UnitTests.Database.Cm
                             @" -passthru");
                     });
 
+                databases = new Database[] { setDatabaseSizeResult2.Single().BaseObject as Database };
+                Assert.AreEqual(1, databases.Length, "Expecting one database");
+                Assert.IsNotNull(databases[0], "Expecting a Database object.");
+                DatabaseTestHelper.ValidateDatabaseProperties(databases[0], "testdbcert4", "Web", 1, 1073741824L, "SQL_Latin1_General_CP1_CI_AS", "Shared", false, DatabaseTestHelper.SharedSloGuid);
+                
                 Collection<PSObject> P1 = MockServerHelper.ExecuteWithMock(
                     testSession,
                     MockHttpServer.DefaultHttpsServerPrefixUri,
@@ -194,6 +271,14 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Test.UnitTests.Database.Cm
                             @"$P1");
                     });
 
+                // Validate Get-AzureSqlDatabaseServiceObjective
+                var SLOP1 = P1.Single().BaseObject as ServiceObjective;
+                Assert.AreEqual("P1", SLOP1.Name);
+                Assert.AreEqual("Premium P1 resource allocation.", SLOP1.Description);
+                Assert.IsNotNull(SLOP1.DimensionSettings, "Expecting some Dimension Setting objects.");
+                Assert.AreEqual(1, SLOP1.DimensionSettings.Count(), "Expecting 1 Dimension Setting.");
+                Assert.AreEqual("Premium P1 resource allocation.", SLOP1.DimensionSettings[0].Description, "Expecting Dimension Setting description as Resource capacity is reserved.");
+                
                 Collection<PSObject> P2 = MockServerHelper.ExecuteWithMock(
                     testSession,
                     MockHttpServer.DefaultHttpsServerPrefixUri,
@@ -210,6 +295,12 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Test.UnitTests.Database.Cm
                             @"$P2");
                     });
 
+                var SLOP2 = P2.Single().BaseObject as ServiceObjective;
+                Assert.AreEqual("P2", SLOP2.Name);
+                Assert.AreEqual(SLOP2.Description, "Premium P2 resource allocation.");
+                Assert.IsNotNull(SLOP2.DimensionSettings, "Expecting some Dimension Setting objects.");
+                Assert.AreEqual(1, SLOP2.DimensionSettings.Count(), "Expecting 1 Dimension Setting.");
+                Assert.AreEqual("Premium P2 resource allocation.", SLOP2.DimensionSettings[0].Description, "Expecting Dimension Setting description as Resource capacity is reserved.");
 
                 Collection<PSObject> setDatabaseSlo = MockServerHelper.ExecuteWithMock(
                     testSession,
@@ -227,6 +318,22 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Test.UnitTests.Database.Cm
                             @" -Force");
                     });
 
+                databases = new Database[] { setDatabaseSlo.Single().BaseObject as Database };
+                Assert.AreEqual(1, databases.Length, "Expecting one database");
+                Assert.IsNotNull(databases[0], "Expecting a Database object.");
+                DatabaseTestHelper.ValidateDatabaseProperties(databases[0], "testdbcert4", "Premium", 10, 10737418240L, "SQL_Latin1_General_CP1_CI_AS", "P2", false, DatabaseTestHelper.PremiumP2SloGuid);
+
+                removeDatabaseResult = MockServerHelper.ExecuteWithMock(
+                    testSession,
+                    MockHttpServer.DefaultHttpsServerPrefixUri,
+                    () =>
+                    {
+                        powershell.Runspace.SessionStateProxy.SetVariable("db3", setDatabaseSlo.FirstOrDefault());
+                        powershell.InvokeBatchScript(@"$db3 | Remove-AzureSqlDatabase -Force");
+                        return powershell.InvokeBatchScript(@"Get-AzureSqlDatabase $serverName");
+                    });
+                databases = removeDatabaseResult.Select(db => db.BaseObject as Database).ToArray();
+                Assert.AreEqual(1, databases.Length, "Expecting 0 databases");
 
                 Collection<PSObject> newPremiumP1DatabaseResult = MockServerHelper.ExecuteWithMock(
                     testSession,
@@ -240,7 +347,20 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Test.UnitTests.Database.Cm
                                 @" -Edition Premium" +
                                 @" -ServiceObjective $P1");
                     });
+                VerifyCreatePremiumDb(newPremiumP1DatabaseResult, "testdbcertPremiumDBP1", (P1.Single().BaseObject as ServiceObjective).Id.ToString(), 10);
 
+                removeDatabaseResult = MockServerHelper.ExecuteWithMock(
+                    testSession,
+                    MockHttpServer.DefaultHttpsServerPrefixUri,
+                    () =>
+                    {
+                        powershell.Runspace.SessionStateProxy.SetVariable("premiumP1", newPremiumP1DatabaseResult.FirstOrDefault());
+                        powershell.InvokeBatchScript(@"$premiumP1 | Remove-AzureSqlDatabase -Force");
+                        return powershell.InvokeBatchScript(@"Get-AzureSqlDatabase $serverName");
+                    });
+                databases = removeDatabaseResult.Select(db => db.BaseObject as Database).ToArray();
+                Assert.AreEqual(1, databases.Length, "Expecting no databases");
+                
                 Collection<PSObject> newPremiumP2DatabaseResult = MockServerHelper.ExecuteWithMock(
                     testSession,
                     MockHttpServer.DefaultHttpsServerPrefixUri,
@@ -253,7 +373,20 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Test.UnitTests.Database.Cm
                                 @" -Edition Premium" +
                                 @" -ServiceObjective $P2");
                     });
+                VerifyCreatePremiumDb(newPremiumP2DatabaseResult, "testdbcertPremiumDBP2", (P2.Single().BaseObject as ServiceObjective).Id.ToString(), 20);
 
+                removeDatabaseResult = MockServerHelper.ExecuteWithMock(
+                    testSession,
+                    MockHttpServer.DefaultHttpsServerPrefixUri,
+                    () =>
+                    {
+                        powershell.Runspace.SessionStateProxy.SetVariable("premiumP2", newPremiumP2DatabaseResult.FirstOrDefault());
+                        powershell.InvokeBatchScript(@"$premiumP2 | Remove-AzureSqlDatabase -Force");
+                        return powershell.InvokeBatchScript(@"Get-AzureSqlDatabase $serverName");
+                    });
+                databases = removeDatabaseResult.Select(db => db.BaseObject as Database).ToArray();
+                Assert.AreEqual(1, databases.Length, "Expecting no databases");
+                
                 // There is a known issue about the Get-AzureSqlDatabaseOperation that it returns all
                 // operations which has the required database name no matter it's been deleted and recreated.
                 // So when run it against the mock session, please use the hard coded testsDBName.
@@ -264,7 +397,7 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Test.UnitTests.Database.Cm
                 string getOperationDbName = null;
                 if (testSession.ServiceBaseUri == null)
                 {
-                    getOperationDbName = "testdbcertGetOperationDbName_551f9692-e85f-4dcd-9fe1-7e5c6af67a6f";
+                    getOperationDbName = "testdbcertGetOperationDbName_f1abaa48-a85a-4141-9a40-6acb3ea65771";
                 }
                 else
                 {
@@ -298,6 +431,7 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Test.UnitTests.Database.Cm
                                 @" -ServerName $serverName" +
                                 @" -Database $getOperationDb"));
                     });
+                VerifyGetAzureSqlDatabaseOperation(getOperationDbName, getDatabaseOperationByDbResult);
 
                 Collection<PSObject> getDatabaseOperationByNameResult = MockServerHelper.ExecuteWithMock(
                     testSession,
@@ -313,6 +447,7 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Test.UnitTests.Database.Cm
                                 getOperationDbName),
                                 @"$getOperation");
                     });
+                VerifyGetAzureSqlDatabaseOperation(getOperationDbName, getDatabaseOperationByNameResult);
 
                 Collection<PSObject> getDatabaseOperationByIdResult = MockServerHelper.ExecuteWithMock(
                     testSession,
@@ -326,119 +461,25 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Test.UnitTests.Database.Cm
                                 @" -ServerName $serverName" +
                                 @" -OperationGuid $getOperation[0].Id"));
                     });
+                VerifyGetAzureSqlDatabaseOperation(getOperationDbName, getDatabaseOperationByIdResult);
 
-                Collection<PSObject> removeDatabaseResult = MockServerHelper.ExecuteWithMock(
+                removeDatabaseResult = MockServerHelper.ExecuteWithMock(
                     testSession,
                     MockHttpServer.DefaultHttpsServerPrefixUri,
                     () =>
                     {
-                        powershell.Runspace.SessionStateProxy.SetVariable("db1", newDatabaseResult1.FirstOrDefault());
-                        powershell.Runspace.SessionStateProxy.SetVariable("db2", newDatabaseResult2.FirstOrDefault());
-                        powershell.Runspace.SessionStateProxy.SetVariable("db3", newDatabaseResult3.FirstOrDefault());
-                        powershell.Runspace.SessionStateProxy.SetVariable("premiumP1", newPremiumP1DatabaseResult.FirstOrDefault());
-                        powershell.Runspace.SessionStateProxy.SetVariable("premiumP2", newPremiumP2DatabaseResult.FirstOrDefault());
                         powershell.Runspace.SessionStateProxy.SetVariable("operationDb", newOperationDbResult.FirstOrDefault());
-                        powershell.InvokeBatchScript(@"$db1 | Remove-AzureSqlDatabase -Force");
-                        powershell.InvokeBatchScript(@"$db2 | Remove-AzureSqlDatabase -Force");
-                        powershell.InvokeBatchScript(@"$db3 | Remove-AzureSqlDatabase -Force");
-                        powershell.InvokeBatchScript(@"$premiumP1 | Remove-AzureSqlDatabase -Force");
-                        powershell.InvokeBatchScript(@"$premiumP2 | Remove-AzureSqlDatabase -Force");
                         powershell.InvokeBatchScript(@"$operationDb | Remove-AzureSqlDatabase -Force");
                         return powershell.InvokeBatchScript(@"Get-AzureSqlDatabase $serverName");
                     });
 
-                Assert.AreEqual(0, powershell.Streams.Error.Count, "Unexpected Errors during run!");
-                Assert.AreEqual(0, powershell.Streams.Warning.Count, "Unexpected Warnings during run!");
-
-                // Validate New-AzureSqlDatabase
-                Database[] databases = new Database[] { newDatabaseResult1.Single().BaseObject as Database };
-                Assert.AreEqual(1, databases.Length, "Expecting one database");
-                Assert.IsNotNull(databases[0], "Expecting a Database object.");
-                // Note: Because the object is piped, this is the final state of the 
-                // database object, after all the Set- cmdlet has run.
-                DatabaseTestHelper.ValidateDatabaseProperties(databases[0], "testdbcert3", "Web", 5, 5368709120L, "SQL_Latin1_General_CP1_CI_AS", "Shared", false, DatabaseTestHelper.SharedSloGuid);
-
-                databases = new Database[] { newDatabaseResult2.Single().BaseObject as Database };
-                Assert.AreEqual(1, databases.Length, "Expecting one database");
-                Assert.IsNotNull(databases[0], "Expecting a Database object.");
-                DatabaseTestHelper.ValidateDatabaseProperties(databases[0], "testdbcert2", "Business", 10, 10737418240L, "Japanese_CI_AS", "Shared", false, DatabaseTestHelper.SharedSloGuid);
-
-                databases = new Database[] { newDatabaseResult3.Single().BaseObject as Database };
-                Assert.AreEqual(1, databases.Length, "Expecting one database");
-                Assert.IsNotNull(databases[0], "Expecting a Database object.");
-                DatabaseTestHelper.ValidateDatabaseProperties(databases[0], "testdbcert4", "Web", 0, 104857600L, "SQL_Latin1_General_CP1_CI_AS", "Shared", false, DatabaseTestHelper.SharedSloGuid);
-
-                // Validate Get-AzureSqlDatabase                
-                databases = getDatabaseResult.Select(r => r.BaseObject as Database).ToArray();
-                Assert.AreEqual(4, databases.Length, "Expecting 4 databases");
-                Assert.IsNotNull(databases[0], "Expecting a Database object.");
-                Assert.IsNotNull(databases[1], "Expecting a Database object.");
-                Assert.IsNotNull(databases[2], "Expecting a Database object.");
-                Assert.IsNotNull(databases[3], "Expecting a Database object.");
-                DatabaseTestHelper.ValidateDatabaseProperties(databases[0], "master", "System", 5, 5368709120L, "SQL_Latin1_General_CP1_CI_AS", "System", true, DatabaseTestHelper.SystemSloGuid);
-                DatabaseTestHelper.ValidateDatabaseProperties(databases[1], "testdbcert1", "Web", 1, 1073741824L, "SQL_Latin1_General_CP1_CI_AS", "Shared", false, DatabaseTestHelper.SharedSloGuid);
-                DatabaseTestHelper.ValidateDatabaseProperties(databases[2], "testdbcert2", "Business", 10, 10737418240L, "Japanese_CI_AS", "Shared", false, DatabaseTestHelper.SharedSloGuid);
-                DatabaseTestHelper.ValidateDatabaseProperties(databases[3], "testdbcert4", "Web", 0, 104857600L, "SQL_Latin1_General_CP1_CI_AS", "Shared", false, DatabaseTestHelper.SharedSloGuid);
-
-                databases = new Database[] { getSingleDatabaseResult.Single().BaseObject as Database };
-                Assert.AreEqual(1, databases.Length, "Expecting one database");
-                Assert.IsNotNull(databases[0], "Expecting a Database object.");
-                DatabaseTestHelper.ValidateDatabaseProperties(databases[0], "testdbcert1", "Web", 1, 1073741824L, "SQL_Latin1_General_CP1_CI_AS", "Shared", false, DatabaseTestHelper.SharedSloGuid);
-
-                databases = new Database[] { getSingleDatabaseResult2.Single().BaseObject as Database };
-                Assert.AreEqual(1, databases.Length, "Expecting one database");
-                Assert.IsNotNull(databases[0], "Expecting a Database object.");
-                DatabaseTestHelper.ValidateDatabaseProperties(databases[0], "testdbcert4", "Web", 0, 104857600L, "SQL_Latin1_General_CP1_CI_AS", "Shared", false, DatabaseTestHelper.SharedSloGuid);
-
-                // Validate Set-AzureSqlDatabase
-                databases = new Database[] { setDatabaseNameResult.Single().BaseObject as Database };
-                Assert.AreEqual(1, databases.Length, "Expecting one database");
-                Assert.IsNotNull(databases[0], "Expecting a Database object.");
-                DatabaseTestHelper.ValidateDatabaseProperties(databases[0], "testdbcert3", "Web", 1, 1073741824L, "SQL_Latin1_General_CP1_CI_AS", "Shared", false, DatabaseTestHelper.SharedSloGuid);
-
-                databases = new Database[] { setDatabaseSizeResult.Single().BaseObject as Database };
-                Assert.AreEqual(1, databases.Length, "Expecting one database");
-                Assert.IsNotNull(databases[0], "Expecting a Database object.");
-                DatabaseTestHelper.ValidateDatabaseProperties(databases[0], "testdbcert3", "Web", 5, 5368709120L, "SQL_Latin1_General_CP1_CI_AS", "Shared", false, DatabaseTestHelper.SharedSloGuid);
-
-                databases = new Database[] { setDatabaseSizeResult2.Single().BaseObject as Database };
-                Assert.AreEqual(1, databases.Length, "Expecting one database");
-                Assert.IsNotNull(databases[0], "Expecting a Database object.");
-                DatabaseTestHelper.ValidateDatabaseProperties(databases[0], "testdbcert4", "Web", 1, 1073741824L, "SQL_Latin1_General_CP1_CI_AS", "Shared", false, DatabaseTestHelper.SharedSloGuid);
-
-                databases = new Database[] { setDatabaseSlo.Single().BaseObject as Database };
-                Assert.AreEqual(1, databases.Length, "Expecting one database");
-                Assert.IsNotNull(databases[0], "Expecting a Database object.");
-                DatabaseTestHelper.ValidateDatabaseProperties(databases[0], "testdbcert4", "Premium", 10, 10737418240L, "SQL_Latin1_General_CP1_CI_AS", "P2", false, DatabaseTestHelper.SharedSloGuid);
-
-                // Validate New-AzureSqlDatabase for Premium Edition Database
-                VerifyCreatePremiumDb(newPremiumP1DatabaseResult, "testdbcertPremiumDBP1", (P1.Single().BaseObject as ServiceObjective).Id.ToString());
-                VerifyCreatePremiumDb(newPremiumP2DatabaseResult, "testdbcertPremiumDBP2", (P2.Single().BaseObject as ServiceObjective).Id.ToString());
-
-                // Validate Get-AzureSqlDatabaseServiceObjective
-                var SLOP1 = P1.Single().BaseObject as ServiceObjective;
-                Assert.AreEqual("P1", SLOP1.Name);
-                Assert.AreEqual("Premium P1 resource allocation.", SLOP1.Description);
-                Assert.IsNotNull(SLOP1.DimensionSettings, "Expecting some Dimension Setting objects.");
-                Assert.AreEqual(1, SLOP1.DimensionSettings.Count(), "Expecting 1 Dimension Setting.");
-                Assert.AreEqual("Premium P1 resource allocation.", SLOP1.DimensionSettings[0].Description, "Expecting Dimension Setting description as Resource capacity is reserved.");
-                
-                var SLOP2 = P2.Single().BaseObject as ServiceObjective;
-                Assert.AreEqual("P2", SLOP2.Name);
-                Assert.AreEqual(SLOP2.Description, "Premium P2 resource allocation.");
-                Assert.IsNotNull(SLOP2.DimensionSettings, "Expecting some Dimension Setting objects.");
-                Assert.AreEqual(1, SLOP2.DimensionSettings.Count(), "Expecting 1 Dimension Setting.");
-                Assert.AreEqual("Premium P2 resource allocation.", SLOP2.DimensionSettings[0].Description, "Expecting Dimension Setting description as Resource capacity is reserved.");
-                // Validate Get-AzureSqlDatabaseOperation
-                VerifyGetAzureSqlDatabaseOperation(getOperationDbName, getDatabaseOperationByDbResult);
-                VerifyGetAzureSqlDatabaseOperation(getOperationDbName, getDatabaseOperationByNameResult);
-                VerifyGetAzureSqlDatabaseOperation(getOperationDbName, getDatabaseOperationByIdResult);
-                
-                // Validate Remove-AzureSqlDatabase
                 databases = new Database[] { removeDatabaseResult.Single().BaseObject as Database };
                 Assert.AreEqual(1, databases.Length, "Expecting no databases");
                 Assert.IsNotNull(databases[0], "Expecting a Database object.");
                 DatabaseTestHelper.ValidateDatabaseProperties(databases[0], "master", "System", 5, 5368709120L, "SQL_Latin1_General_CP1_CI_AS", "System", true, DatabaseTestHelper.SystemSloGuid);
+            
+                Assert.AreEqual(0, powershell.Streams.Error.Count, "Unexpected Errors during run!");
+                Assert.AreEqual(0, powershell.Streams.Warning.Count, "Unexpected Warnings during run!");
             }
         }
 
@@ -487,6 +528,10 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Test.UnitTests.Database.Cm
                         return powershell.InvokeBatchScript(
                             @"($db = New-AzureSqlDatabase -ServerName $serverName -DatabaseName testdbeditions1)");
                     });
+                Database[] databases = new Database[] { newDatabaseResult1.Single().BaseObject as Database };
+                Assert.AreEqual(1, databases.Length, "Expecting one database");
+                Assert.IsNotNull(databases[0], "Expecting a Database object.");
+                DatabaseTestHelper.ValidateDatabaseProperties(databases[0], "testdbeditions1", "Web", 1, 1073741824L, "SQL_Latin1_General_CP1_CI_AS", "Shared", false, DatabaseTestHelper.SharedSloGuid);
 
                 Collection<PSObject> newDatabaseResult2 = MockServerHelper.ExecuteWithMock(
                     testSession,
@@ -500,6 +545,11 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Test.UnitTests.Database.Cm
                             @" -Edition Standard");
                     });
 
+                databases = new Database[] { newDatabaseResult2.Single().BaseObject as Database };
+                Assert.AreEqual(1, databases.Length, "Expecting one database");
+                Assert.IsNotNull(databases[0], "Expecting a Database object.");
+                DatabaseTestHelper.ValidateDatabaseProperties(databases[0], "testdbeditions2", "Standard", 0, 524288000L, "SQL_Latin1_General_CP1_CI_AS", "S1", false, DatabaseTestHelper.StandardS1SloGuid);
+
                 Collection<PSObject> newDatabaseResult3 = MockServerHelper.ExecuteWithMock(
                     testSession,
                     MockHttpServer.DefaultHttpsServerPrefixUri,
@@ -511,6 +561,10 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Test.UnitTests.Database.Cm
                             @" -DatabaseName testdbeditions3" +
                             @" -Edition Basic)");
                     });
+                databases = new Database[] { newDatabaseResult3.Single().BaseObject as Database };
+                Assert.AreEqual(1, databases.Length, "Expecting one database");
+                Assert.IsNotNull(databases[0], "Expecting a Database object.");
+                DatabaseTestHelper.ValidateDatabaseProperties(databases[0], "testdbeditions3", "Basic", 0, 104857600L, "SQL_Latin1_General_CP1_CI_AS", "Basic", false, DatabaseTestHelper.BasicSloGuid);
 
                 Collection<PSObject> newDatabaseResult4 = MockServerHelper.ExecuteWithMock(
                     testSession,
@@ -523,6 +577,10 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Test.UnitTests.Database.Cm
                             @" -DatabaseName testdbeditions4" +
                             @" -Edition Premium");
                     });
+                databases = new Database[] { newDatabaseResult4.Single().BaseObject as Database };
+                Assert.AreEqual(1, databases.Length, "Expecting one database");
+                Assert.IsNotNull(databases[0], "Expecting a Database object.");
+                DatabaseTestHelper.ValidateDatabaseProperties(databases[0], "testdbeditions4", "Premium", 10, 10737418240L, "SQL_Latin1_General_CP1_CI_AS", "P1", false, DatabaseTestHelper.PremiumP1SloGuid);
 
                 Collection<PSObject> serviceObjectives = MockServerHelper.ExecuteWithMock(
                     testSession,
@@ -532,6 +590,18 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Test.UnitTests.Database.Cm
                         return powershell.InvokeBatchScript(
                             @"($so = Get-AzureSqlDatabaseServiceObjective -Server $serverName)");
                     });
+                var sos = serviceObjectives.Select(x => x.BaseObject as ServiceObjective).ToArray();
+                Assert.AreEqual(10, sos.Count());
+                ValidateServiceObjectiveProperties(sos[0], "S2", "Standard S2 resource allocation.", 1, "Standard S2 resource allocation.");
+                ValidateServiceObjectiveProperties(sos[1], "P1", "Premium P1 resource allocation.", 1, "Premium P1 resource allocation.");
+                ValidateServiceObjectiveProperties(sos[2], "P2", "Premium P2 resource allocation.", 1, "Premium P2 resource allocation.");
+                ValidateServiceObjectiveProperties(sos[3], "Basic", "Basic resource allocation.", 1, "Basic resource allocation.");
+                ValidateServiceObjectiveProperties(sos[4], "S1", "Standard S1 resource allocation.", 1, "Standard S1 resource allocation.");
+                ValidateServiceObjectiveProperties(sos[5], "P3 deprecated", "Premium P3 deprecated resource allocation.", 1, "Premium P3 deprecated resource allocation.");
+                ValidateServiceObjectiveProperties(sos[6], "P3", "Premium P3 resource allocation.", 1, "Premium P3 resource allocation.");
+                ValidateServiceObjectiveProperties(sos[7], "System", "Used for master database only.", 1, "Used for master database only.");
+                ValidateServiceObjectiveProperties(sos[8], "System Standard", "Used for master database only.", 1, "Shared resource allocation.");
+                ValidateServiceObjectiveProperties(sos[9], "Shared", "Shared resource allocation.", 1, "Shared resource allocation.");
 
                 Collection<PSObject> newDatabaseResult5 = MockServerHelper.ExecuteWithMock(
                     testSession,
@@ -545,6 +615,10 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Test.UnitTests.Database.Cm
                             @" -Edition Standard" +
                             @" -ServiceObjective $so[0]");
                     });
+                databases = new Database[] { newDatabaseResult5.Single().BaseObject as Database };
+                Assert.AreEqual(1, databases.Length, "Expecting one database");
+                Assert.IsNotNull(databases[0], "Expecting a Database object.");
+                DatabaseTestHelper.ValidateDatabaseProperties(databases[0], "testdbeditions5", "Standard", 2, 2147483648L, "SQL_Latin1_General_CP1_CI_AS", "S2", false, DatabaseTestHelper.StandardS2SloGuid);
 
                 Collection<PSObject> getSingleDatabaseResult1 = MockServerHelper.ExecuteWithMock(
                     testSession,
@@ -554,7 +628,9 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Test.UnitTests.Database.Cm
                         return powershell.InvokeBatchScript(
                             @"Get-AzureSqlDatabase $serverName -DatabaseName testdbeditions1");
                     });
-
+                databases = getSingleDatabaseResult1.Select(r => r.BaseObject as Database).ToArray();
+                DatabaseTestHelper.ValidateDatabaseProperties(databases[0], "testdbeditions1", "Web", 1, 1073741824L, "SQL_Latin1_General_CP1_CI_AS", "Shared", false, DatabaseTestHelper.SharedSloGuid);
+                
                 Collection<PSObject> getSingleDatabaseResult2 = MockServerHelper.ExecuteWithMock(
                     testSession,
                     MockHttpServer.DefaultHttpsServerPrefixUri,
@@ -563,6 +639,8 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Test.UnitTests.Database.Cm
                         return powershell.InvokeBatchScript(
                             @"$db | Get-AzureSqlDatabase");
                     });
+                databases = getSingleDatabaseResult1.Select(r => r.BaseObject as Database).ToArray();
+                DatabaseTestHelper.ValidateDatabaseProperties(databases[0], "testdbeditions1", "Web", 1, 1073741824L, "SQL_Latin1_General_CP1_CI_AS", "Shared", false, DatabaseTestHelper.SharedSloGuid);
 
                 Collection<PSObject> setDatabaseObjective1 = MockServerHelper.ExecuteWithMock(
                     testSession,
@@ -579,7 +657,7 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Test.UnitTests.Database.Cm
                     () =>
                     {
                         return powershell.InvokeBatchScript(
-                            @"Set-AzureSqlDatabase -ServerName $serverName -DatabaseName $db3.Name -Edition Standard -MaxSizeGB 1 -Force");
+                            @"Set-AzureSqlDatabase -ServerName $serverName -DatabaseName $db3.Name -Edition Standard -MaxSizeGB 1  -ServiceObjective $so[4] -Force");
                     });
 
                 Collection<PSObject> getDatabaseResult = MockServerHelper.ExecuteWithMock(
@@ -591,6 +669,20 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Test.UnitTests.Database.Cm
                             @"Get-AzureSqlDatabase" +
                             @" $serverName");
                     });
+                databases = getDatabaseResult.Select(r => r.BaseObject as Database).ToArray();
+                Assert.AreEqual(6, databases.Length, "Expecting 3 databases");
+                Assert.IsNotNull(databases[0], "Expecting a Database object.");
+                Assert.IsNotNull(databases[1], "Expecting a Database object.");
+                Assert.IsNotNull(databases[2], "Expecting a Database object.");
+                Assert.IsNotNull(databases[3], "Expecting a Database object.");
+                Assert.IsNotNull(databases[4], "Expecting a Database object.");
+                Assert.IsNotNull(databases[5], "Expecting a Database object.");
+                DatabaseTestHelper.ValidateDatabaseProperties(databases[0], "master", "System", 5, 5368709120L, "SQL_Latin1_General_CP1_CI_AS", "System", true, DatabaseTestHelper.SystemSloGuid);
+                DatabaseTestHelper.ValidateDatabaseProperties(databases[1], "testdbeditions1", "Web", 1, 1073741824L, "SQL_Latin1_General_CP1_CI_AS", "Shared", false, DatabaseTestHelper.SharedSloGuid);
+                DatabaseTestHelper.ValidateDatabaseProperties(databases[2], "testdbeditions2", "Standard", 0, 524288000L, "SQL_Latin1_General_CP1_CI_AS", "S2", false, DatabaseTestHelper.StandardS2SloGuid);
+                DatabaseTestHelper.ValidateDatabaseProperties(databases[3], "testdbeditions3", "Standard", 1, 1073741824L, "SQL_Latin1_General_CP1_CI_AS", "S1", false, DatabaseTestHelper.StandardS1SloGuid);
+                DatabaseTestHelper.ValidateDatabaseProperties(databases[4], "testdbeditions4", "Premium", 10, 10737418240L, "SQL_Latin1_General_CP1_CI_AS", "P1", false, DatabaseTestHelper.PremiumP1SloGuid);
+                DatabaseTestHelper.ValidateDatabaseProperties(databases[5], "testdbeditions5", "Standard", 2, 2147483648L, "SQL_Latin1_General_CP1_CI_AS", "S2", false, DatabaseTestHelper.StandardS2SloGuid);
 
                 Collection<PSObject> removeDatabaseResult = MockServerHelper.ExecuteWithMock(
                     testSession,
@@ -609,72 +701,13 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Test.UnitTests.Database.Cm
                         powershell.InvokeBatchScript(@"$db5 | Remove-AzureSqlDatabase -Force");
                         return powershell.InvokeBatchScript( @"Get-AzureSqlDatabase $serverName");
                     });
-
-                Assert.AreEqual(0, powershell.Streams.Error.Count, "Unexpected Errors during run!");
-                Assert.AreEqual(0, powershell.Streams.Warning.Count, "Unexpected Warnings during run!");
-
-                // Validate New-AzureSqlDatabase
-                Database[] databases = new Database[] { newDatabaseResult1.Single().BaseObject as Database };
-                Assert.AreEqual(1, databases.Length, "Expecting one database");
-                Assert.IsNotNull(databases[0], "Expecting a Database object.");
-                DatabaseTestHelper.ValidateDatabaseProperties(databases[0], "testdbeditions1", "Basic", 0, 104857600L, "SQL_Latin1_General_CP1_CI_AS", "Basic", false, DatabaseTestHelper.BasicSloGuid);
-
-                databases = new Database[] { newDatabaseResult2.Single().BaseObject as Database };
-                Assert.AreEqual(1, databases.Length, "Expecting one database");
-                Assert.IsNotNull(databases[0], "Expecting a Database object.");
-                DatabaseTestHelper.ValidateDatabaseProperties(databases[0], "testdbeditions2", "", -1, -1, "SQL_Latin1_General_CP1_CI_AS", "S1", false, DatabaseTestHelper.StandardS1SloGuid);
-
-                databases = new Database[] { newDatabaseResult3.Single().BaseObject as Database };
-                Assert.AreEqual(1, databases.Length, "Expecting one database");
-                Assert.IsNotNull(databases[0], "Expecting a Database object.");
-                DatabaseTestHelper.ValidateDatabaseProperties(databases[0], "testdbeditions3", "Basic", 0, 104857600L, "SQL_Latin1_General_CP1_CI_AS", "Basic", false, DatabaseTestHelper.BasicSloGuid);
-
-                databases = new Database[] { newDatabaseResult4.Single().BaseObject as Database };
-                Assert.AreEqual(1, databases.Length, "Expecting one database");
-                Assert.IsNotNull(databases[0], "Expecting a Database object.");
-                DatabaseTestHelper.ValidateDatabaseProperties(databases[0], "testdbeditions4", "", -1, -1, "SQL_Latin1_General_CP1_CI_AS", "P1", false, DatabaseTestHelper.PremiumP1SloGuid);
-
-                databases = new Database[] { newDatabaseResult5.Single().BaseObject as Database };
-                Assert.AreEqual(1, databases.Length, "Expecting one database");
-                Assert.IsNotNull(databases[0], "Expecting a Database object.");
-                DatabaseTestHelper.ValidateDatabaseProperties(databases[0], "testdbeditions5", "", -1, -1, "SQL_Latin1_General_CP1_CI_AS", "S2", false, DatabaseTestHelper.StandardS2SloGuid);
-
-
-                // Validate Get-AzureSqlDatabase                
-                databases = getDatabaseResult.Select(r => r.BaseObject as Database).ToArray();
-                Assert.AreEqual(6, databases.Length, "Expecting 3 databases");
-                Assert.IsNotNull(databases[0], "Expecting a Database object.");
-                Assert.IsNotNull(databases[1], "Expecting a Database object.");
-                Assert.IsNotNull(databases[2], "Expecting a Database object.");
-                Assert.IsNotNull(databases[3], "Expecting a Database object.");
-                Assert.IsNotNull(databases[4], "Expecting a Database object.");
-                Assert.IsNotNull(databases[5], "Expecting a Database object.");
-                DatabaseTestHelper.ValidateDatabaseProperties(databases[0], "master", "System", 5, 5368709120L, "SQL_Latin1_General_CP1_CI_AS", "System", true, DatabaseTestHelper.SystemSloGuid);
-                DatabaseTestHelper.ValidateDatabaseProperties(databases[1], "testdbeditions1", "Basic", 0, 104857600L, "SQL_Latin1_General_CP1_CI_AS", "Basic", false, DatabaseTestHelper.BasicSloGuid);
-                DatabaseTestHelper.ValidateDatabaseProperties(databases[2], "testdbeditions2", "Standard", 0, 524288000L, "SQL_Latin1_General_CP1_CI_AS", "S2", false, DatabaseTestHelper.StandardS2SloGuid);
-                DatabaseTestHelper.ValidateDatabaseProperties(databases[3], "testdbeditions3", "Standard", 1, 1073741824L, "SQL_Latin1_General_CP1_CI_AS", "S1", false, DatabaseTestHelper.StandardS1SloGuid);
-                DatabaseTestHelper.ValidateDatabaseProperties(databases[4], "testdbeditions4", "Premium", 10, 10737418240L, "SQL_Latin1_General_CP1_CI_AS", "P1", false, DatabaseTestHelper.PremiumP1SloGuid);
-                DatabaseTestHelper.ValidateDatabaseProperties(databases[5], "testdbeditions5", "Standard", 2, 2147483648L, "SQL_Latin1_General_CP1_CI_AS", "S2", false, DatabaseTestHelper.StandardS2SloGuid);
-
-                // Validate Get-AzureSqlDatabaseServiceObjective
-                var sos = serviceObjectives.Select(x => x.BaseObject as ServiceObjective).ToArray();
-                Assert.AreEqual(10, sos.Count());
-                ValidateServiceObjectiveProperties(sos[0], "S2", "Standard S2 resource allocation.", 1, "Standard S2 resource allocation.");
-                ValidateServiceObjectiveProperties(sos[1], "P1", "Premium P1 resource allocation.", 1, "Premium P1 resource allocation.");
-                ValidateServiceObjectiveProperties(sos[2], "P2", "Premium P2 resource allocation.", 1, "Premium P2 resource allocation.");
-                ValidateServiceObjectiveProperties(sos[3], "Basic", "Basic resource allocation.", 1, "Basic resource allocation.");
-                ValidateServiceObjectiveProperties(sos[4], "S1", "Standard S1 resource allocation.", 1, "Standard S1 resource allocation.");
-                ValidateServiceObjectiveProperties(sos[5], "P3 deprecated", "Premium P3 deprecated resource allocation.", 1, "Premium P3 deprecated resource allocation.");
-                ValidateServiceObjectiveProperties(sos[6], "P3", "Premium P3 resource allocation.", 1, "Premium P3 resource allocation.");
-                ValidateServiceObjectiveProperties(sos[7], "System", "Used for master database only.", 1, "Used for master database only.");
-                ValidateServiceObjectiveProperties(sos[8], "System Standard", "Used for master database only.", 1, "Shared resource allocation.");
-                ValidateServiceObjectiveProperties(sos[9], "Shared", "Shared resource allocation.", 1, "Shared resource allocation.");
-
-                // Validate Remove-AzureSqlDatabase
                 databases = new Database[] { removeDatabaseResult.Single().BaseObject as Database };
                 Assert.AreEqual(1, databases.Length, "Expecting no databases");
                 Assert.IsNotNull(databases[0], "Expecting a Database object.");
                 DatabaseTestHelper.ValidateDatabaseProperties(databases[0], "master", "System", 5, 5368709120L, "SQL_Latin1_General_CP1_CI_AS", "System", true, DatabaseTestHelper.SystemSloGuid);
+            
+                Assert.AreEqual(0, powershell.Streams.Error.Count, "Unexpected Errors during run!");
+                Assert.AreEqual(0, powershell.Streams.Warning.Count, "Unexpected Warnings during run!");
             }
         }
 
@@ -743,7 +776,7 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Test.UnitTests.Database.Cm
                 Assert.AreEqual("premium_databases", quotas[0].Name);
                 Assert.AreEqual(SqlDatabaseTestSettings.Instance.ServerV2, quotas[0].ServerName);
                 Assert.AreEqual("Microsoft.SqlAzure.ServerQuota", quotas[0].Type);
-                Assert.AreEqual("1000", quotas[0].Value);
+                Assert.AreEqual("100", quotas[0].Value);
                 Assert.AreEqual("Normal", quotas[0].State);
 
                 quotas = getQuota2.Select(x => ((IEnumerable)x.BaseObject).Cast<Model.SqlDatabaseServerQuotaContext>().Single()).ToArray();
@@ -752,7 +785,7 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Test.UnitTests.Database.Cm
                 Assert.AreEqual("premium_databases", quotas[0].Name);
                 Assert.AreEqual(SqlDatabaseTestSettings.Instance.ServerV2, quotas[0].ServerName);
                 Assert.AreEqual("Microsoft.SqlAzure.ServerQuota", quotas[0].Type);
-                Assert.AreEqual("1000", quotas[0].Value);
+                Assert.AreEqual("100", quotas[0].Value);
                 Assert.AreEqual("Normal", quotas[0].State);
             }
         }
@@ -788,19 +821,17 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Test.UnitTests.Database.Cm
             Assert.AreEqual(operations[0].PercentComplete, 100, "Expecting operation completed 100%");
         }
 
-        private static Database[] VerifyCreatePremiumDb(Collection<PSObject> newPremiumP1DatabaseResult, string databaseName, string serviceObjectiveId)
+        private static Database[] VerifyCreatePremiumDb(Collection<PSObject> newPremiumP1DatabaseResult, string databaseName, string serviceObjectiveId, int maxSizeGB)
         {
             Database[] databases = new Database[] { newPremiumP1DatabaseResult.Single().BaseObject as Database };
             Assert.AreEqual(1, databases.Length, "Expecting one database");
             Assert.IsNotNull(databases[0], "Expecting a Database object.");
             Assert.AreEqual(databases[0].Name, databaseName, string.Format("Expecting Database Name:{0}, actual is:{1}", databaseName, databases[0].Name));
-            /* SQL Server: Defect 1655888: When creating a premium database, 
-             * the immediate returned value do not have valid Edition and Max Database Size info                 
-             * We should active the following asserts once the defect is fixed.
-             Assert.AreEqual("Premium", databases[0].Edition);
-             Assert.AreEqual(10, databases[0].MaxSizeGB);
-             */
-             Assert.AreEqual(databases[0].AssignedServiceObjectiveId, Guid.Parse(serviceObjectiveId), string.Format("Expecting Database Edition:{0}, actual is:{1}", serviceObjectiveId, databases[0].AssignedServiceObjectiveId));
+            
+            Assert.AreEqual("Premium", databases[0].Edition);
+            Assert.AreEqual(maxSizeGB, databases[0].MaxSizeGB);
+             
+            Assert.AreEqual(databases[0].AssignedServiceObjectiveId, Guid.Parse(serviceObjectiveId), string.Format("Expecting Database Edition:{0}, actual is:{1}", serviceObjectiveId, databases[0].AssignedServiceObjectiveId));
              
             Assert.AreEqual("SQL_Latin1_General_CP1_CI_AS", databases[0].CollationName);
             return databases;
