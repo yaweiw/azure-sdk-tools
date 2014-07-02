@@ -48,8 +48,9 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Microsoft.Azure.Gallery">
-      <HintPath>..\..\..\packages\Microsoft.Azure.Gallery.2.0.0-preview\lib\net40\Microsoft.Azure.Gallery.dll</HintPath>
+    <Reference Include="Microsoft.Azure.Gallery, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\packages\Microsoft.Azure.Gallery.2.1.1-preview\lib\net40\Microsoft.Azure.Gallery.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Azure.Monitoring, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -57,7 +58,7 @@
     </Reference>
     <Reference Include="Microsoft.Azure.ResourceManager, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\packages\Microsoft.Azure.Management.Resources.2.0.4-preview\lib\net40\Microsoft.Azure.ResourceManager.dll</HintPath>
+      <HintPath>..\..\..\packages\Microsoft.Azure.Management.Resources.2.2.0-preview\lib\net40\Microsoft.Azure.ResourceManager.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Data.Edm, Version=5.6.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\..\..\packages\Microsoft.Data.Edm.5.6.0\lib\net40\Microsoft.Data.Edm.dll</HintPath>
@@ -157,7 +158,7 @@
     <Compile Include="Models\PSResourceManagerError.cs" />
     <Compile Include="Models\ResourceIdentifier.cs" />
     <Compile Include="Models\TemplateFileParameterV2.cs" />
-    <Compile Include="ResourceManagerBaseCmdlet.cs" />
+    <Compile Include="Models\ResourcesBaseCmdlet.cs" />
     <Compile Include="Models\GetPSResourceGroupLogParameters.cs" />
     <Compile Include="Models\PSDeploymentEventDataAuthorization.cs" />
     <Compile Include="Models\PSDeploymentEventDataHttpRequest.cs" />
@@ -185,7 +186,7 @@
     <Compile Include="Models\PSResourceGroup.cs" />
     <Compile Include="Models\CreatePSResourceGroupParameters.cs" />
     <Compile Include="Models\GalleryTemplatesClient.cs" />
-    <Compile Include="Models\ResourceManagerExtensions.cs" />
+    <Compile Include="Models\ResourcesExtensions.cs" />
     <Compile Include="Models\SetResourceMode.cs" />
     <Compile Include="Models\TemplateFile.cs" />
     <Compile Include="Models\TemplateFileParameterV1.cs" />
@@ -203,7 +204,7 @@
     <Compile Include="ResourceGroups\RemoveAzureResourceGroupCommand.cs" />
     <Compile Include="ResourceGroups\GetAzureResourceGroupCommand.cs" />
     <Compile Include="ResourceGroups\NewAzureResourceGroupCommand.cs" />
-    <Compile Include="ResourceWithParameterBaseCmdlet.cs" />
+    <Compile Include="Models\ResourceWithParameterBaseCmdlet.cs" />
     <Compile Include="Models\ResourceClient.cs" />
     <Compile Include="Resources\SetAzureResourceCommand.cs" />
     <Compile Include="Resources\GetAzureResourceCommand.cs" />

@@ -46,11 +46,22 @@ function Get-ProviderLocation($provider)
 
 <#
 .SYNOPSIS
-Gets valid resource name
+Cleans the created resource groups
 #>
 function Clean-ResourceGroup($rgname)
 {
 	if ([Microsoft.Azure.Utilities.HttpRecorder.HttpMockServer]::Mode -ne [Microsoft.Azure.Utilities.HttpRecorder.HttpRecorderMode]::Playback) {
 		Remove-AzureResourceGroup -Name $rgname -Force	
+	}	
+}
+
+<#
+.SYNOPSIS
+Cleans the created tags
+#>
+function Clean-Tags
+{
+	if ([Microsoft.Azure.Utilities.HttpRecorder.HttpMockServer]::Mode -ne [Microsoft.Azure.Utilities.HttpRecorder.HttpRecorderMode]::Playback) {
+		Get-AzureTag | Remove-AzureTag -Force
 	}	
 }

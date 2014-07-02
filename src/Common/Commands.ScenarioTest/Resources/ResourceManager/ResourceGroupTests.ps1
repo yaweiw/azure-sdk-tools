@@ -95,3 +95,49 @@ function Test-RemoveNonExistingResourceGroup
 
 	Assert-Throws { Clean-ResourceGroup $rgname } "Provided resource group does not exist."
 }
+
+<#
+.SYNOPSIS
+Negative test. New resource group in non-existing location throws error.
+#>
+function Test-AzureTagsEndToEnd
+{
+	# Setup
+	$tag1 = getAssetName
+	$tag2 = getAssetName
+	Clean-Tags
+
+	# Create tag without values
+	Add-AzureTag $tag1
+
+	$tag = Get-AzureTag $tag1
+	Assert-AreEqual $tag1 $tag.Name
+
+	# Add value to the tag
+	Add-AzureTag $tag1 value1, value2
+
+	$tag = Get-AzureTag $tag1
+	Assert-AreEqual 2 $tag.Values.Count
+
+	# Create tag with values
+	Add-AzureTag $tag2 value1, value2, value3
+
+	$tags = Get-AzureTag
+	Assert-AreEqual 2 $tags.Count
+
+	# Remove entire tag
+	$tag = Remove-AzureTag $tag1 -Force -PassThru
+
+	$tags = Get-AzureTag
+	Assert-AreEqual 1 $tags.Count
+	Assert-AreEqual $tag1 $tag.Name
+
+	# Remove tag value
+	$tag = Remove-AzureTag $tag1 value1 -Force -PassThru
+
+	$tags = Get-AzureTag
+	Assert-AreEqual 1 $tags.Count
+	Assert-AreEqual 2 $tag.Values.Count
+
+	Clean-Tags
+}

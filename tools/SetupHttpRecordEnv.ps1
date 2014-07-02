@@ -16,8 +16,10 @@ $scriptFolder = Split-Path -Path $MyInvocation.MyCommand.Definition -Parent
 . ($scriptFolder + '.\SetupTestEnv.ps1')
 
 # Access key is long and impossible to remember, so we don't ask from the command line rather just require environment variables.
-if (!(Test-Path env:AZURE_STORAGE_ACCESS_KEY) -Or !(Test-Path env:AZURE_STORAGE_ACCOUNT)){
-  Write-Host "Please set environment variables 'AZURE_STORAGE_ACCESS_KEY' and 'AZURE_STORAGE_ACCOUN'" -ForegroundColor "Red" 
+$resourceManagerVariables = Test-Path env:TEST_CSM_ORGID_AUTHENTICATION
+$serviceManagementVariables = $(Test-Path env:AZURE_STORAGE_ACCESS_KEY) -and $(Test-Path env:AZURE_STORAGE_ACCOUNT)
+if (!$serviceManagementVariables -AND !$resourceManagerVariables) {
+  Write-Host "For Service Management please set environment variables 'AZURE_STORAGE_ACCESS_KEY' and 'AZURE_STORAGE_ACCOUNT' and for Resource Manage set TEST_CSM_ORGID_AUTHENTICATION" -ForegroundColor "Red" 
   throw "Missing environment variables" 
 }
 

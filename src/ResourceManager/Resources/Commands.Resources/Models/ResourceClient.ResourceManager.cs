@@ -72,13 +72,10 @@ namespace Microsoft.Azure.Commands.Resources.Models
 
                     ResourceCreateOrUpdateResult createOrUpdateResult = ResourceManagementClient.Resources.CreateOrUpdate(parameters.ResourceGroupName, 
                         resourceIdentity,
-                        new ResourceCreateOrUpdateParameters
+                        new BasicResource
                             {
-                                Resource = new BasicResource
-                                    {
-                                        Location = parameters.Location,
-                                        Properties = SerializeHashtable(parameters.PropertyObject, addValueLayer: false)
-                                    }
+                                Location = parameters.Location,
+                                Properties = SerializeHashtable(parameters.PropertyObject, addValueLayer: false)
                             });
 
                     if (createOrUpdateResult.Resource != null)
@@ -130,13 +127,10 @@ namespace Microsoft.Azure.Commands.Resources.Models
                                                     addValueLayer: false);
 
             ResourceManagementClient.Resources.CreateOrUpdate(parameters.ResourceGroupName, resourceIdentity,
-                        new ResourceCreateOrUpdateParameters
+                        new BasicResource
                             {
-                                Resource = new BasicResource
-                                    {
-                                        Location = getResource.Resource.Location,
-                                        Properties = newProperty
-                                    }
+                                Location = getResource.Resource.Location,
+                                Properties = newProperty
                             });
 
             ResourceGetResult getResult = ResourceManagementClient.Resources.Get(parameters.ResourceGroupName, resourceIdentity);
