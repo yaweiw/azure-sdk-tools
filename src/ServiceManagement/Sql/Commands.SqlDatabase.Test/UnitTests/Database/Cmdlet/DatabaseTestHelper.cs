@@ -70,7 +70,7 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Test.UnitTests.Database.Cm
         {
             testSession.ServiceBaseUri = MockServerHelper.CommonServiceBaseUri;
             testSession.SessionProperties["Servername"] = "myserver01";
-            testSession.SessionProperties["Username"] = "mylogin";
+            testSession.SessionProperties["Username"] = "testuser";
             testSession.SessionProperties["Password"] = "testp@ss1";
             testSession.ResponseModifier =
                 new Action<HttpMessage>(

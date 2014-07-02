@@ -118,6 +118,7 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Test.UnitTests.Database.Cm
             // Create context with just ManageUrl and a derived servername
             HttpSession testSession = MockServerHelper.DefaultSessionCollection.GetSession(
                 "UnitTests.NewAzureSqlDatabaseServerContextWithSqlAuthDerivedName");
+            testSession.ServiceBaseUri = MockServerHelper.CommonServiceBaseUri;
 
             using (System.Management.Automation.PowerShell powershell =
                 System.Management.Automation.PowerShell.Create())
