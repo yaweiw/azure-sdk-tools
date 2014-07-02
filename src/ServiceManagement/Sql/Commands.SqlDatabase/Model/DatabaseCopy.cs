@@ -45,5 +45,9 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Model
         public DateTime ModifyDate { get; set; }
 
         public float PercentComplete { get; set; }
+
+        public bool IsOfflineSecondary { get; set; }
+
+        public bool IsTerminationAllowed { get; set; }
     }
 }

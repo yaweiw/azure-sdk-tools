@@ -136,12 +136,14 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Services.Server
         /// <param name="partnerServer">The database to copy.</param>
         /// <param name="partnerDatabaseName">The database to copy.</param>
         /// <param name="continuousCopy"><c>true</c> to make this a continuous copy.</param>
-        /// <returns></returns>
+        /// <param name="isOfflineSecondary"><c>true</c> to make this an offline secondary copy.</param>
+        /// <returns>The new instance of database copy operation.</returns>
         DatabaseCopyModel StartDatabaseCopy(
             string databaseName,
             string partnerServer,
             string partnerDatabaseName,
-            bool continuousCopy);
+            bool continuousCopy,
+            bool isOfflineSecondary);
 
         /// <summary>
         /// Terminate an ongoing database copy operation.
