@@ -75,8 +75,9 @@ namespace Microsoft.Azure.Commands.Resources
                         "Name", r.Name,
                         "ResourceGroupName", r.ResourceGroupName,
                         "ResourceType", r.ResourceType,
-                        "Location", r.Location,
-                        "ParentResource", r.ParentResource)));
+                        "ParentResource", r.ParentResource,
+                        "Location", r.Location
+                        )));
 
                     WriteObject(output, true);
                 }

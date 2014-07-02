@@ -30,13 +30,14 @@ function Test-CreatesNewSimpleResource
 	try 
 	{
 		New-AzureResourceGroup -Name $rgname -Location $rglocation
-		$actual = New-AzureResource -Name $rname -Location $location -ResourceGroupName $rgname -ResourceType $resourceType -PropertyObject @{"administratorLogin" = "adminuser"; "administratorLoginPassword" = "P@ssword1"} -ApiVersion $apiversion
+		$actual = New-AzureResource -Name $rname -Location $location -Tags @{"testtag" = "testval"} -ResourceGroupName $rgname -ResourceType $resourceType -PropertyObject @{"administratorLogin" = "adminuser"; "administratorLoginPassword" = "P@ssword1"} -ApiVersion $apiversion
 		$expected = Get-AzureResource -Name $rname -ResourceGroupName $rgname -ResourceType $resourceType -ApiVersion $apiversion
 	
 		$list = Get-AzureResource -ResourceGroupName $rgname
 
 		# Assert
 		Assert-AreEqual $expected.Name $actual.Name
+		Assert-AreEqual $expected.Tags["testtag"] $actual.Tags["testtag"]
 		Assert-AreEqual $expected.ResourceGroupName $actual.ResourceGroupName
 		Assert-AreEqual $expected.ResourceType $actual.ResourceType
 		Assert-AreEqual 1 @($list).Count

@@ -35,8 +35,6 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.Common
         
         private static string outputDirKey = "TEST_HTTPMOCK_OUTPUT";
         
-        private HttpRecorderMode recordingMode = HttpRecorderMode.Playback;
-
         private WindowsAzureSubscription testSubscrption;
 
         private TestEnvironment testEnvironment;
@@ -102,7 +100,6 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.Common
             {
                 WindowsAzureProfile.Instance.AddEnvironment(new WindowsAzureEnvironment { Name = testEnvironmentName });
             }
-            HttpMockServer.Mode = recordingMode;
             SetupAzureEnvironmentFromEnvironmentVariables();
         }
 

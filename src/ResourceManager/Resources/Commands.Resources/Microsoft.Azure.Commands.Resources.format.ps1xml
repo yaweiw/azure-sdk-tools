@@ -56,6 +56,10 @@
                 <Label>Properties</Label>
                 <PropertyName>PropertiesText</PropertyName>
               </ListItem>
+              <ListItem>
+                <Label>Tags</Label>
+                <PropertyName>Tags</PropertyName>
+              </ListItem>
             </ListItems>
           </ListEntry>
         </ListEntries>

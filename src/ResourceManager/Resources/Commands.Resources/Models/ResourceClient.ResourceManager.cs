@@ -20,6 +20,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using Microsoft.WindowsAzure.Commands.Utilities.Common;
 using ProjectResources = Microsoft.Azure.Commands.Resources.Properties.Resources;
 
 namespace Microsoft.Azure.Commands.Resources.Models
@@ -75,7 +76,8 @@ namespace Microsoft.Azure.Commands.Resources.Models
                         new BasicResource
                             {
                                 Location = parameters.Location,
-                                Properties = SerializeHashtable(parameters.PropertyObject, addValueLayer: false)
+                                Properties = SerializeHashtable(parameters.PropertyObject, addValueLayer: false),
+                                Tags = parameters.Tags.ToStringDictionary()
                             });
 
                     if (createOrUpdateResult.Resource != null)

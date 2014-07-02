@@ -97,7 +97,8 @@ namespace Microsoft.Azure.Commands.Resources.Models
                 ResourceGroupName = identifier.ResourceGroupName,
                 ParentResource = identifier.ParentResource,
                 Properties = JsonUtilities.DeserializeJson(resource.Properties),
-                PropertiesText = resource.Properties
+                PropertiesText = resource.Properties,
+                Tags = resource.Tags.ToHashtable()
             };
         }
 

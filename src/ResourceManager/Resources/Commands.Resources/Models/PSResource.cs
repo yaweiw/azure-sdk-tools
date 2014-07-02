@@ -31,5 +31,7 @@ namespace Microsoft.Azure.Commands.Resources.Models
         public IDictionary Properties { get; set; }
 
         public string PropertiesText { get; set; }
+
+        public IDictionary Tags { get; set; }
     }
 }
