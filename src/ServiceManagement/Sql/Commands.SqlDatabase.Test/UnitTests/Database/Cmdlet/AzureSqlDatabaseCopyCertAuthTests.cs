@@ -257,7 +257,7 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Test.UnitTests.Database.Cm
                 @" -OfflineSecondary",
                 @"$copy5");
 
-            VerifyCcResponse(response, HomeServer, dbNames[4], PartnerServer, false);
+            VerifyCcResponse(response, HomeServer, dbNames[4], PartnerServer, false, true);
 
             // Wait for all of the new copies to reach catchup.
             WaitForSeedingCompletion(HomeServer, dbNames[0], PartnerServer);
@@ -422,7 +422,7 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Test.UnitTests.Database.Cm
         }
 
         private void VerifyCcResponse(Collection<PSObject> result, string sourceServer, string sourceDb,
-                                        string destServer, bool isLocalDatabaseReplicationTarget, bool isOfflineSecondary = false)
+                                        string destServer, bool isLocalDatabaseReplicationTarget, bool? isOfflineSecondary = null)
         {
             VerifyCopyResponse(result, sourceServer, sourceDb, destServer, sourceDb, isLocalDatabaseReplicationTarget, true, isOfflineSecondary);
         }
@@ -435,7 +435,7 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Test.UnitTests.Database.Cm
 
         private void VerifyCopyResponse(Collection<PSObject> result, string sourceServer, string sourceDb,
                                         string destServer,  string destDb, bool isLocalDatabaseReplicationTarget,
-                                        bool isContinuous, bool isOfflineSecondary)
+                                        bool isContinuous, bool? isOfflineSecondary)
         {
             Assert.AreEqual(1, result.Count, "Expected exactly one result from cmdlet");
             var copy = result.First().BaseObject as DatabaseCopy;
@@ -445,7 +445,7 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Test.UnitTests.Database.Cm
 
         private void VerifyCopyResponse(DatabaseCopy copy, string sourceServer, string sourceDb,
                                         string destServer, string destDb, bool isLocalDatabaseReplicationTarget,
-                                        bool isContinuous, bool isOfflineSecondary)
+                                        bool isContinuous, bool? isOfflineSecondary)
         {
             Assert.AreEqual(sourceServer, copy.SourceServerName);
             Assert.AreEqual(sourceDb, copy.SourceDatabaseName);
@@ -454,6 +454,10 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Test.UnitTests.Database.Cm
             Assert.AreEqual(isContinuous, copy.IsContinuous);
             Assert.AreEqual(isLocalDatabaseReplicationTarget, copy.IsLocalDatabaseReplicationTarget);
             Assert.IsTrue(copy.IsInterlinkConnected);
+            if (isOfflineSecondary.HasValue)
+            {
+                Assert.AreEqual(isOfflineSecondary, copy.IsOfflineSecondary);
+            }
 
             if (IsRunningAgainstOneBox)
             {
