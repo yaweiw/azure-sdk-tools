@@ -37,7 +37,8 @@ namespace Microsoft.Azure.Commands.Resources.Models
                 Location = resourceGroup.Location,
                 Resources = resources,
                 ResourcesTable = ConstructResourcesTable(resources),
-                ProvisioningState = resourceGroup.ProvisioningState
+                ProvisioningState = resourceGroup.ProvisioningState,
+                Tags = resourceGroup.Tags.ToHashtable(),
             };
         }
 

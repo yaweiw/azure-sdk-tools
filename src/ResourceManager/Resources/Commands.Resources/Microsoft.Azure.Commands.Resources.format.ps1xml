@@ -87,6 +87,10 @@
                 <PropertyName>ProvisioningState</PropertyName>
               </ListItem>
               <ListItem>
+                <Label>Tags</Label>
+                <PropertyName>Tags</PropertyName>
+              </ListItem>
+              <ListItem>
                 <Label>Resources</Label>
                 <PropertyName>ResourcesTable</PropertyName>
               </ListItem>

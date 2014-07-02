@@ -80,7 +80,7 @@ namespace Microsoft.Azure.Commands.Resources.Test
                 ResourceType = resourceType,
                 ResourceGroupName = resourceGroupName,
                 PropertyObject = properties.ToHashtable(),
-                Tags = properties.ToHashtable()
+                Tags = tags.ToHashtable()
             };
             CreatePSResourceParameters actualParameters = new CreatePSResourceParameters();
             PSResource expected = new PSResource()

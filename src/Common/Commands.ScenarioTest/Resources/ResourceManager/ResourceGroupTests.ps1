@@ -25,11 +25,12 @@ function Test-CreatesNewSimpleResourceGroup
 	try 
 	{
 		# Test
-		$actual = New-AzureResourceGroup -Name $rgname -Location $location
+		$actual = New-AzureResourceGroup -Name $rgname -Location $location -Tags @{"testtag" = "testval"} 
 		$expected = Get-AzureResourceGroup -Name $rgname
 
 		# Assert
 		Assert-AreEqual $expected.Name $actual.Name	
+		Assert-AreEqual $expected.Tags["testtag"] $actual.Tags["testtag"]
 	}
 	finally
 	{

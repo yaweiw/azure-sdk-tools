@@ -12,6 +12,7 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
+using System.Collections;
 using System.Collections.Generic;
 
 namespace Microsoft.Azure.Commands.Resources.Models
@@ -27,5 +28,7 @@ namespace Microsoft.Azure.Commands.Resources.Models
         public string ResourcesTable { get; set; }
 
         public string ProvisioningState { get; set; }
+
+        public IDictionary Tags { get; set; }
     }
 }

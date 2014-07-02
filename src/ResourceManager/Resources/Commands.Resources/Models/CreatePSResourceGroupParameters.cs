@@ -13,6 +13,7 @@
 // ----------------------------------------------------------------------------------
 
 using System;
+using System.Collections;
 
 namespace Microsoft.Azure.Commands.Resources.Models
 {
@@ -21,6 +22,8 @@ namespace Microsoft.Azure.Commands.Resources.Models
         public string Location { get; set; }
 
         public bool Force { get; set; }
+
+        public Hashtable Tags { get; set; }
 
         public Action<bool, string, string, string, Action> ConfirmAction { get; set; }
     }

@@ -57,7 +57,7 @@ namespace Microsoft.Azure.Commands.Resources.Models
                                              ProjectResources.ResourceGroupDoesntExistsAdd,
                                              ProjectResources.AddingResourceGroup,
                                              parameters.Name,
-                                             () => CreateResourceGroup(parameters.ResourceGroupName, parameters.Location));
+                                             () => CreateResourceGroup(parameters.ResourceGroupName, parameters.Location, parameters.Tags));
 
                 if (!ResourceManagementClient.ResourceGroups.CheckExistence(parameters.ResourceGroupName).Exists)
                 {
@@ -71,13 +71,19 @@ namespace Microsoft.Azure.Commands.Resources.Models
                 {
                     WriteVerbose(string.Format("Creating resource \"{0}\" started.", parameters.Name));
 
+                    Dictionary<string, string> tagDictionary = null;
+                    if (parameters.Tags != null)
+                    {
+                        tagDictionary = parameters.Tags.ToStringDictionary();
+                    }
+
                     ResourceCreateOrUpdateResult createOrUpdateResult = ResourceManagementClient.Resources.CreateOrUpdate(parameters.ResourceGroupName, 
                         resourceIdentity,
                         new BasicResource
                             {
                                 Location = parameters.Location,
                                 Properties = SerializeHashtable(parameters.PropertyObject, addValueLayer: false),
-                                Tags = parameters.Tags.ToStringDictionary()
+                                Tags = tagDictionary
                             });
 
                     if (createOrUpdateResult.Resource != null)
@@ -204,7 +210,7 @@ namespace Microsoft.Azure.Commands.Resources.Models
             ResourceGroup resourceGroup = null;
             Action createOrUpdateResourceGroup = () =>
             {
-                resourceGroup = CreateResourceGroup(parameters.ResourceGroupName, parameters.Location);
+                resourceGroup = CreateResourceGroup(parameters.ResourceGroupName, parameters.Location, parameters.Tags);
 
                 if (createDeployment)
                 {

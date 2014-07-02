@@ -185,12 +185,18 @@ namespace Microsoft.Azure.Commands.Resources.Models
             return storageName;
         }
 
-        private ResourceGroup CreateResourceGroup(string name, string location)
+        private ResourceGroup CreateResourceGroup(string name, string location, Hashtable tags)
         {
+            Dictionary<string, string> tagDictionary = null;
+            if (tags != null)
+            {
+                tagDictionary = tags.ToStringDictionary();
+            }
             var result = ResourceManagementClient.ResourceGroups.CreateOrUpdate(name,
                 new BasicResourceGroup
                 {
-                    Location = location
+                    Location = location,
+                    Tags = tagDictionary
                 });
 
             WriteVerbose(string.Format("Create resource group '{0}' in location '{1}'", name, location));

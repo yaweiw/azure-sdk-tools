@@ -12,6 +12,7 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
+using System.Collections;
 using Microsoft.Azure.Commands.Resources.Models;
 using Microsoft.WindowsAzure.Commands.Utilities.Common;
 using System.Management.Automation;
@@ -38,6 +39,9 @@ namespace Microsoft.Azure.Commands.Resources
         [ValidateNotNullOrEmpty]
         public string DeploymentName { get; set; }
 
+        [Parameter(Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "A hash table which represents resource tags.")]
+        public Hashtable Tags { get; set; }
+
         [Parameter(Mandatory = false, HelpMessage = "Do not ask for confirmation.")]
         public SwitchParameter Force { get; set; }
 
@@ -54,6 +58,7 @@ namespace Microsoft.Azure.Commands.Resources
                 TemplateVersion = TemplateVersion,
                 StorageAccountName = StorageAccountName,
                 Force = Force.IsPresent,
+                Tags = Tags,
                 ConfirmAction = ConfirmAction
             };
 
