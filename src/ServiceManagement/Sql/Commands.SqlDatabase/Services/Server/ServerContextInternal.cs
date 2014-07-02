@@ -5667,7 +5667,6 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Services.Server
     {
         public readonly string[] metadataHashes = new string[]{ 
             "0333AB7076A926BF53F07C1786F11C052DEB791B",
-            "0333AB7076A926BF53F07C1786F11C052DEB791B",
             "F903DB500E018B00ECB1E355BC55F73B7342FC76",
             "5A2ABE58F30C9EF4B4F49853CD5FE28BA9FEBCD9",
             "68BA8B4EB74E0C5A91D0A734B742001018A9F9D2",
