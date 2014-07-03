@@ -977,7 +977,8 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Services.Server
                 response.Database.ServiceObjectiveAssignmentSuccessDate,
                 response.Database.ServiceObjectiveId,
                 response.Database.AssignedServiceObjectiveId,
-                response.Database.RecoveryPeriodStartDate);
+                response.Database.RecoveryPeriodStartDate,
+                response.Database.State);
         }
 
         /// <summary>
@@ -1006,7 +1007,8 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Services.Server
                 db.ServiceObjectiveAssignmentSuccessDate,
                 db.ServiceObjectiveId,
                 db.AssignedServiceObjectiveId,
-                db.RecoveryPeriodStartDate)).ToArray();
+                db.RecoveryPeriodStartDate,
+                db.State)).ToArray();
         }
 
         /// <summary>
@@ -1035,7 +1037,8 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Services.Server
                response.Database.ServiceObjectiveAssignmentSuccessDate,
                response.Database.ServiceObjectiveId,
                response.Database.AssignedServiceObjectiveId,
-               response.Database.RecoveryPeriodStartDate);
+               response.Database.RecoveryPeriodStartDate,
+               response.Database.State);
         }
 
         /// <summary>
@@ -1064,7 +1067,8 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Services.Server
                 response.Database.ServiceObjectiveAssignmentSuccessDate,
                 response.Database.ServiceObjectiveId,
                 response.Database.AssignedServiceObjectiveId,
-                response.Database.RecoveryPeriodStartDate);
+                response.Database.RecoveryPeriodStartDate,
+                response.Database.State);
         }
 
         /// <summary>
@@ -1118,7 +1122,8 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Services.Server
             string serviceObjectiveAssignmentSuccessDate,
             string serviceObjectiveId,
             string assignedServiceObjectiveId,
-            DateTime? recoveryPeriodStartDate)
+            DateTime? recoveryPeriodStartDate,
+            string state)
         {
             Database result = new Database()
             {
@@ -1180,6 +1185,14 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Services.Server
                     {
                         result.ServiceObjectiveName = result.ServiceObjective.Name;
                     }
+                }
+            }
+            if(!string.IsNullOrEmpty(state))
+            {
+                DatabaseStatus status;
+                if (Enum.TryParse<DatabaseStatus>(state, true, out status))
+                {
+                    result.Status = (int)status;
                 }
             }
 

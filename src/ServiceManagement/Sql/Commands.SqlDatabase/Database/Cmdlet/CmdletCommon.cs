@@ -47,27 +47,27 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Database.Cmdlet
         public static Database WaitForDatabaseToBecomeOnline(PSCmdlet cmdlet, IServerDataServiceContext context, Database response, string databaseName)
         {
             // Duration to sleep: 1 second
-            TimeSpan sleepDuration = new TimeSpan(0, 0, 1);
-            
-            //Poll for a maximum of 10 minutes;
-            TimeSpan maximumPollDuration = new TimeSpan(0, 10, 0);
+            TimeSpan sleepDuration = TimeSpan.FromSeconds(2.0);
 
-            //Text to display to the user while they wait.
+            // Poll for a maximum of 10 minutes;
+            TimeSpan maximumPollDuration = TimeSpan.FromMinutes(10.0);
+
+            // Text to display to the user while they wait.
             string pendingText = "Pending";
             string textToDisplay = "";
-            
-            //Start the timer
-            Stopwatch watch = new Stopwatch();
-            watch.Start();
-            while(watch.Elapsed < maximumPollDuration)
+
+            // Start the timer
+            Stopwatch watch = Stopwatch.StartNew();
+
+            while (watch.Elapsed < maximumPollDuration)
             {
                 if (response == null)
                 {
                     throw new Exception("An unexpected error occured.  The response from the server was null.");
                 }
 
-                // Check to see if the assignment is still pending.
-                if (response.ServiceObjectiveAssignmentState != 0)
+                // Check to see if the database is still in creating state
+                if (response.Status != (int)DatabaseStatus.Creating)
                 {
                     // The SLO assignment completed so lets stop waiting.
                     break;
@@ -76,7 +76,7 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Database.Cmdlet
                 // Wait before next poll.
                 Thread.Sleep(sleepDuration);
 
-                //Display that the status is pending and how long the operation has been waiting
+                // Display that the status is pending and how long the operation has been waiting
                 textToDisplay = string.Format("{0}: {1}", pendingText, watch.Elapsed.ToString("%s' sec.'"));
                 cmdlet.WriteProgress(new ProgressRecord(0, "Waiting for database creation completion.", textToDisplay));
 

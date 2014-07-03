@@ -146,6 +146,7 @@
     <Compile Include="Firewall\Cmdlet\GetAzureSqlDatabaseServerFirewallRule.cs" />
     <Compile Include="Firewall\Cmdlet\NewAzureSqlDatabaseServerFirewallRule.cs" />
     <Compile Include="Firewall\Cmdlet\RemoveAzureSqlDatabaseServerFirewallRule.cs" />
+    <Compile Include="Model\DatabaseStatusEnumeration.cs" />
     <Compile Include="Model\SqlDatabaseServerQuotaContext.cs" />
     <Compile Include="Model\DatabaseCopy.cs" />
     <Compile Include="Model\SqlDatabaseServerFirewallRuleContext.cs" />
