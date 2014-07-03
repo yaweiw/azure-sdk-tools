@@ -94,7 +94,8 @@ namespace Microsoft.Azure.Commands.Tags.Model
 
             if (values != null)
             {
-                values.ForEach(v => ResourceManagementClient.Tags.CreateValue(tag, v));
+                try { values.ForEach(v => ResourceManagementClient.Tags.CreateValue(tag, v)); }
+                catch { /* If the tag value already exists, ignore this exception */ }
             }
 
             return GetTag(tag);
@@ -108,13 +109,20 @@ namespace Microsoft.Azure.Commands.Tags.Model
         /// <returns></returns>
         public PSTag DeleteTag(string tag, List<string> values)
         {
-            PSTag tagObject;
+            PSTag tagObject = null;
 
             if (values == null || values.Count == 0)
             {
-                tagObject = GetTag(tag);
-                tagObject.Values.ForEach(v => ResourceManagementClient.Tags.DeleteValue(tag, v.Name));
-                ResourceManagementClient.Tags.Delete(tag);
+                try
+                {
+                    tagObject = GetTag(tag);
+                    tagObject.Values.ForEach(v => ResourceManagementClient.Tags.DeleteValue(tag, v.Name));
+                    ResourceManagementClient.Tags.Delete(tag);
+                }
+                catch
+                {
+                    // If the tag does not exist, ignore the exception.
+                }
             }
             else
             {
