@@ -15,9 +15,10 @@
 namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Database.Cmdlet
 {
     using System;
+    using System.Diagnostics;
+    using System.Management.Automation;
     using System.Threading;
     using Microsoft.WindowsAzure.Commands.SqlDatabase.Services.Server;
-    using System.Management.Automation;
 
     internal static class CmdletCommon
     {
@@ -43,15 +44,22 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Database.Cmdlet
         /// <param name="context">The context upon which to perform the action</param>
         /// <param name="response">The database object.</param>
         /// <returns>Returns the response from the server</returns>
-        public static Database WaitForSloAssignmentCompletion(PSCmdlet cmdlet, IServerDataServiceContext context, Database response, string databaseName)
+        public static Database WaitForDatabaseToBecomeOnline(PSCmdlet cmdlet, IServerDataServiceContext context, Database response, string databaseName)
         {
-            // Duration in ms to sleep
-            int sleepDuration = 1000;
+            // Duration to sleep: 1 second
+            TimeSpan sleepDuration = new TimeSpan(0, 0, 1);
+            
+            //Poll for a maximum of 10 minutes;
+            TimeSpan maximumPollDuration = new TimeSpan(0, 10, 0);
 
-            // Loop for 10 minutes at 60 seconds per minute at 1000/sleepDuration polls per second.
-            int loopTime = (int)(60f * 10f * (1000f / sleepDuration));
+            //Text to display to the user while they wait.
             string pendingText = "Pending";
-            for (int i = 0; i < loopTime; i++)
+            string textToDisplay = "";
+            
+            //Start the timer
+            Stopwatch watch = new Stopwatch();
+            watch.Start();
+            while(watch.Elapsed < maximumPollDuration)
             {
                 if (response == null)
                 {
@@ -65,12 +73,12 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Database.Cmdlet
                     break;
                 }
 
-                // Wait 1000ms before next poll.
+                // Wait before next poll.
                 Thread.Sleep(sleepDuration);
 
-                // Append a '.' so it looks like stuff is still happening 
-                pendingText += '.';
-                cmdlet.WriteProgress(new ProgressRecord(0, "Waiting for database creation completion.", pendingText));
+                //Display that the status is pending and how long the operation has been waiting
+                textToDisplay = string.Format("{0}: {1}", pendingText, watch.Elapsed.ToString("%s' sec.'"));
+                cmdlet.WriteProgress(new ProgressRecord(0, "Waiting for database creation completion.", textToDisplay));
 
                 // Poll the server for the database status.
                 response = context.GetDatabase(databaseName);
