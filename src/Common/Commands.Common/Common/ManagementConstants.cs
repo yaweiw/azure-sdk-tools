@@ -34,10 +34,10 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
         public const string SslSupportSettingsName = "SslSupport";
 
         public const string UserAgentHeaderName = "User-Agent";
-        public const string UserAgentHeaderValue = "WindowsAzurePowershell/v0.8.3";
+        public const string UserAgentHeaderValue = "WindowsAzurePowershell/v0.8.4";
         public static ProductInfoHeaderValue UserAgentValue = new ProductInfoHeaderValue(
             "WindowsAzurePowershell",
-            "v0.8.3");
+            "v0.8.4");
 
         public const string VSDebuggerCausalityDataHeaderName = "VSDebuggerCausalityData";
         
@@ -138,5 +138,9 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
         public const string ChinaStorageQueueEndpointFormat = "{0}://{1}.queue.core.chinacloudapi.cn/";
 
         public const string ChinaStorageTableEndpointFormat = "{0}://{1}.table.core.chinacloudapi.cn/";
+
+        public const string AzureSqlDatabaseDnsSuffix = ".database.windows.net";
+
+        public const string ChinaSqlDatabaseDnsSuffix = ".database.chinacloudapi.cn";
     }
 }

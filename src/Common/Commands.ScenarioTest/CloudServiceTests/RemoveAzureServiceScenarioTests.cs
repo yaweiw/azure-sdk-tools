@@ -37,14 +37,16 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.CloudServiceTests
         [TestMethod]
         [TestCategory(Category.All)]
         [TestCategory(Category.CloudService)]
+        [TestCategory(Category.BVT)]
         public void TestRemoveAzureServiceWithInvalidCredentials()
         {
-            RunPowerShellTest("Test-WithInvalidCredentials { Remove-AzureService $(Get-HostedService) -Force }");
+            RunPowerShellTest("Test-WithInvalidCredentials { Remove-AzureService $(Get-CloudServiceName) -Force }");
         }
 
         [TestMethod]
         [TestCategory(Category.All)]
         [TestCategory(Category.CloudService)]
+        [TestCategory(Category.BVT)]
         public void TestRemoveAzureServiceWithNonExistingService()
         {
             RunPowerShellTest("Test-RemoveAzureServiceWithNonExistingService");
@@ -53,6 +55,7 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.CloudServiceTests
         [TestMethod]
         [TestCategory(Category.All)]
         [TestCategory(Category.CloudService)]
+        [TestCategory(Category.BVT)]
         public void TestRemoveAzureServiceWithProductionDeployment()
         {
             RunPowerShellTest("Test-RemoveAzureServiceWithProductionDeployment");
@@ -61,6 +64,7 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.CloudServiceTests
         [TestMethod]
         [TestCategory(Category.All)]
         [TestCategory(Category.CloudService)]
+        [TestCategory(Category.BVT)]
         public void TestRemoveAzureServiceWhatIf()
         {
             RunPowerShellTest("Test-RemoveAzureServiceWhatIf");
@@ -69,16 +73,18 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.CloudServiceTests
         [TestMethod]
         [TestCategory(Category.All)]
         [TestCategory(Category.CloudService)]
+        [TestCategory(Category.BVT)]
         public void TestRemoveAzureServiceWhatIfWithInvalidName()
         {
             RunPowerShellTest("Test-RemoveAzureServiceWhatIfWithInvalidName");
         }
-
+        
         [TestMethod]
         [TestCategory(Category.All)]
         [TestCategory(Category.CloudService)]
         [TestCategory(Category.OneSDK)]
         [TestCategory(Category.CIT)]
+        [TestCategory(Category.BVT)]
         public void TestRemoveAzureServicePipedFromGetAzureService()
         {
             RunPowerShellTest("Test-RemoveAzureServicePipedFromGetAzureService");

@@ -12,11 +12,10 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.PlatformImageRepository.Model
 {
-    using System.Collections.Generic;
     using Commands.ServiceManagement.Model;
+    using System.Collections.Generic;
 
     public class OSImageDetailsContext : OSImageContext
     {

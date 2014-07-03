@@ -15,7 +15,6 @@
 namespace Microsoft.WindowsAzure.Commands.Test.ExpressRoute
 {
     using Commands.ExpressRoute;
-    using Commands.Utilities.ExpressRoute;
     using Microsoft.WindowsAzure.Commands.Test.Utilities.Common;
     using Microsoft.WindowsAzure.Management.ExpressRoute;
     using Microsoft.WindowsAzure.Management.ExpressRoute.Models;
@@ -102,7 +101,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.ExpressRoute
             t.Start();
 
             dcsMock.Setup(f => f.ListAsync(It.IsAny<CancellationToken>())).Returns((CancellationToken cancellation) => t);
-            client.SetupGet(f => f.DedicatedCircuitServiceProvider).Returns(dcsMock.Object);
+            client.SetupGet(f => f.DedicatedCircuitServiceProviders).Returns(dcsMock.Object);
 
             GetAzureDedicatedCircuitServiceProviderCommand cmdlet = new GetAzureDedicatedCircuitServiceProviderCommand()
             {

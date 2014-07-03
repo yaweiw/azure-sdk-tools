@@ -14,27 +14,31 @@
 
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
 {
+    using Management.Network.Models;
     using System.Management.Automation;
     using Utilities.Common;
-    using Management.Network.Models;
 
     [Cmdlet(VerbsCommon.New, "AzureVNetGateway"), OutputType(typeof(ManagementOperationContext))]
     public class NewAzureVNetGatewayCommand : ServiceManagementBaseCmdlet
     {
         [Parameter(Position = 0, Mandatory = true, HelpMessage = "Virtual network name.")]
-        public string VNetName
-        {
-            get;
-            set;
-        }
+        public string VNetName { get; set; }
+
+        [Parameter(Position = 1, Mandatory = false, HelpMessage = "The type of routing that the gateway will use. This will default to StaticRouting if no value is provided.")]
+        public GatewayType GatewayType { get; set; }
 
         protected override void OnProcessRecord()
         {
+            GatewayCreateParameters parameters = new GatewayCreateParameters()
+            {
+                GatewayType = this.GatewayType,
+            };
+
             ServiceManagementProfile.Initialize();
             ExecuteClientActionNewSM(
                 null,
                 this.CommandRuntime.ToString(),
-                () => this.NetworkClient.Gateways.Create(this.VNetName, new GatewayCreateParameters()));
+                () => this.NetworkClient.Gateways.Create(this.VNetName, parameters));
         }
     }
 }

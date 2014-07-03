@@ -14,10 +14,10 @@
 
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests.ConfigDataInfo
 {
-    using System;
-    using System.Security.Cryptography.X509Certificates;
     using Model;
     using Model.PersistentVMModel;
+    using System;
+    using System.Security.Cryptography.X509Certificates;
 
     public class AzureProvisioningConfigInfo
     {
@@ -51,6 +51,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
         public bool NoExportPrivateKey = false;
         public bool NoRDPEndpoint = false;
         public bool NoSSHEndpoint = false;
+        public bool NoSSHPassword;
 
         public LinuxProvisioningConfigurationSet.SSHKeyPairList SSHKeyPairs = null;
         public LinuxProvisioningConfigurationSet.SSHPublicKeyList SshPublicKeys = null;
@@ -108,15 +109,18 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
 
         }
 
-        public AzureProvisioningConfigInfo(string linuxUser, string password, bool noSshEndpoint = false,
+        public AzureProvisioningConfigInfo(string linuxUser, string password = null, bool noSshEndpoint = false,
             bool disableSSH = false, LinuxProvisioningConfigurationSet.SSHKeyPairList sSHKeyPairList = null,
-            LinuxProvisioningConfigurationSet.SSHPublicKeyList sSHPublicKeyList = null)
+            LinuxProvisioningConfigurationSet.SSHPublicKeyList sSHPublicKeyList = null, bool noSSHPassword = false)
         {
             this.OS = OS.Linux;
-            this.Password = password;
             this.LinuxUser = linuxUser;
             this.DisableSSH = disableSSH;
             this.NoSSHEndpoint = noSshEndpoint;
+            if (!string.IsNullOrEmpty(password))
+            {
+                this.Password = password;
+            }
             if (sSHKeyPairList != null)
             {
                 this.SSHKeyPairs = sSHKeyPairList;
@@ -124,6 +128,10 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
             if (sSHPublicKeyList != null)
             {
                 this.SshPublicKeys = sSHPublicKeyList;
+            }
+            if (noSSHPassword)
+            {
+                this.NoSSHPassword = noSSHPassword;
             }
         }
 

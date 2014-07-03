@@ -17,11 +17,8 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
     using Microsoft.WindowsAzure.Commands.ServiceManagement.Model;
     using Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests.ConfigDataInfo;
     using System;
-    using System.Collections.Generic;
     using System.IO;
-    using System.Linq;
     using System.Reflection;
-    using System.Text;
     using VisualStudio.TestTools.UnitTesting;
 
     [TestClass]
@@ -37,12 +34,6 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
         HostCaching cahcing = HostCaching.ReadWrite;
         string vmImageName;
         bool skipCleanup;
-
-        [ClassInitialize]
-        public static void ClassIntialize(TestContext context)
-        {
-            
-        }
 
         [TestInitialize]
         public void TestIntialize()

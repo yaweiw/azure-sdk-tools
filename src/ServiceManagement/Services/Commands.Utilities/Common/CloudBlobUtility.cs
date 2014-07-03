@@ -16,7 +16,6 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
 {
     using Management.Storage;
     using Management.Storage.Models;
-    using ServiceManagement;
     using Storage;
     using Storage.Auth;
     using Storage.Blob;
@@ -28,23 +27,6 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
     {
         private const string BlobEndpointIdentifier = ".blob.";
         private const string ContainerName = "mydeployments";
-
-        public virtual void DeletePackageFromBlob(
-            IServiceManagement channel,
-            string storageName,
-            string subscriptionId,
-            Uri packageUri)
-        {
-            var storageService = channel.GetStorageKeys(subscriptionId, storageName);
-            var storageKey = storageService.StorageServiceKeys.Primary;
-            storageService = channel.GetStorageService(subscriptionId, storageName);
-            var blobStorageEndpoint = GeneralUtilities.CreateHttpsEndpoint(
-                storageService.StorageServiceProperties.Endpoints.Find(p => p.Contains(BlobEndpointIdentifier)));
-            var credentials = new StorageCredentials(storageName, storageKey);
-            var client = new CloudBlobClient(blobStorageEndpoint, credentials);
-            ICloudBlob blob = client.GetBlobReferenceFromServer(packageUri);
-            blob.DeleteIfExists();
-        }
 
         public virtual void DeletePackageFromBlob(
             StorageManagementClient storageClient,
@@ -84,7 +66,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
 
             if (!uploadRequestOption.ServerTimeout.HasValue)
             {
-                uploadRequestOption.ServerTimeout = TimeSpan.FromMinutes(30);
+                uploadRequestOption.ServerTimeout = TimeSpan.FromMinutes(300);
             }
 
             using (FileStream readStream = File.OpenRead(filePath))
@@ -93,23 +75,6 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
             }
 
             return new Uri(string.Format(CultureInfo.InvariantCulture, "{0}{1}{2}{3}", client.BaseUri, ContainerName, client.DefaultDelimiter, blobName));
-        }
-
-        public virtual Uri UploadPackageToBlob(
-            IServiceManagement channel,
-            string storageName,
-            string subscriptionId,
-            string packagePath,
-            BlobRequestOptions blobRequestOptions)
-        {
-            StorageService storageService = channel.GetStorageKeys(subscriptionId, storageName);
-            string storageKey = storageService.StorageServiceKeys.Primary;
-            storageService = channel.GetStorageService(subscriptionId, storageName);
-            string blobEndpointUri = storageService.StorageServiceProperties.Endpoints[0];
-
-            return UploadFile(
-                storageName,
-                GeneralUtilities.CreateHttpsEndpoint(blobEndpointUri), storageKey, packagePath, blobRequestOptions);
         }
 
         public virtual Uri UploadPackageToBlob(

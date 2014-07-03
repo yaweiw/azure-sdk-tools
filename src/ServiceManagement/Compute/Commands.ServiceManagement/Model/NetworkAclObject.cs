@@ -14,10 +14,10 @@
 
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Model
 {
+    using PersistentVMModel;
     using System.Collections;
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
-    using PersistentVMModel;
 
     public class NetworkAclObject : IEnumerable<NetworkAclRule>
     {

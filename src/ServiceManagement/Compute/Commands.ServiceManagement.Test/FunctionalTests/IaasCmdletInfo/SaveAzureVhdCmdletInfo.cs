@@ -14,9 +14,9 @@
 
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests.IaasCmdletInfo
 {
+    using PowershellCore;
     using System;
     using System.IO;
-    using PowershellCore;
 
     public class SaveAzureVhdCmdletInfo : CmdletsInfo
     {

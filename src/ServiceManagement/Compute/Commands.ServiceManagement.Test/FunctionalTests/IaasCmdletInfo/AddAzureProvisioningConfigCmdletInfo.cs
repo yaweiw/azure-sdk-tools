@@ -29,7 +29,10 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
 
             this.cmdletParams.Add(new CmdletParam(parameterSet));
 
-            this.cmdletParams.Add(new CmdletParam("Password", provConfig.Password));
+            if (!string.IsNullOrEmpty(provConfig.Password))
+            {
+                this.cmdletParams.Add(new CmdletParam("Password", provConfig.Password));
+            }
 
             // For Linux parameter set
             if (parameterSet.Equals(OS.Linux.ToString()))
@@ -51,6 +54,10 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
                 if (provConfig.SshPublicKeys != null && provConfig.SshPublicKeys.Count != 0)
                 {
                     this.cmdletParams.Add(new CmdletParam("SSHPublicKeys", provConfig.SshPublicKeys));
+                }
+                if(provConfig.NoSSHPassword)
+                {
+                    this.cmdletParams.Add(new CmdletParam("NoSSHPassword"));
                 }
             }
 

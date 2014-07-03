@@ -2,8 +2,8 @@
 
 This repository contains a set of PowerShell cmdlets for developers and administrators to develop, deploy and manage Microsoft Azure applications.
 
-* For documentation on how to build and deploy applications to Microsoft Azure please see the [Microsoft Azure Developer Center](http://www.azure.microsoft.com/en-us/develop).
-* For comprehensive documentation on the developer cmdlets see [How to use Microsoft Azure PowerShell](http://www.azure.microsoft.com/en-us/develop/nodejs/how-to-guides/powershell-cmdlets/).
+* For documentation on how to build and deploy applications to Microsoft Azure please see the [Microsoft Azure Documentation Center](http://azure.microsoft.com/en-us/documentation/).
+* For comprehensive documentation on the developer cmdlets see [How to install and configure Azure PowerShell](http://azure.microsoft.com/en-us/documentation/articles/install-configure-powershell/).
 * For comprehensive documentation on the full set of Microsoft Azure cmdlets see [Microsoft Azure Management Center](http://go.microsoft.com/fwlink/?linkID=254459&clcid=0x409).
 
 ## Features
@@ -65,8 +65,12 @@ This repository contains a set of PowerShell cmdlets for developers and administ
   * Manage certificate and SSH key.
   * PowerShell remoting
   * Manage extension
+    * BG Info
+    * Puppet
+    * Custom Script
+    * Access
+    * Microsoft Antimalware
   * Public IP, reserved IP and internal load balancer
-  * Microsoft Antimalware
 * Deployment
   * Manage deployment, such as CRUD, move, upgrade and restore.
   * Get/Create DNS settings of a deployment.

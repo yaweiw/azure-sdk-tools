@@ -12,7 +12,6 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-using ProjectResources = Microsoft.Azure.Commands.Resources.Properties.Resources;
 using Microsoft.Azure.Management.Resources;
 using Microsoft.Azure.Management.Resources.Models;
 using Microsoft.WindowsAzure;
@@ -21,6 +20,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using ProjectResources = Microsoft.Azure.Commands.Resources.Properties.Resources;
 
 namespace Microsoft.Azure.Commands.Resources.Models
 {
@@ -72,13 +72,10 @@ namespace Microsoft.Azure.Commands.Resources.Models
 
                     ResourceCreateOrUpdateResult createOrUpdateResult = ResourceManagementClient.Resources.CreateOrUpdate(parameters.ResourceGroupName, 
                         resourceIdentity,
-                        new ResourceCreateOrUpdateParameters
+                        new BasicResource
                             {
-                                Resource = new BasicResource
-                                    {
-                                        Location = parameters.Location,
-                                        Properties = SerializeHashtable(parameters.PropertyObject, addValueLayer: false)
-                                    }
+                                Location = parameters.Location,
+                                Properties = SerializeHashtable(parameters.PropertyObject, addValueLayer: false)
                             });
 
                     if (createOrUpdateResult.Resource != null)
@@ -130,13 +127,10 @@ namespace Microsoft.Azure.Commands.Resources.Models
                                                     addValueLayer: false);
 
             ResourceManagementClient.Resources.CreateOrUpdate(parameters.ResourceGroupName, resourceIdentity,
-                        new ResourceCreateOrUpdateParameters
+                        new BasicResource
                             {
-                                Resource = new BasicResource
-                                    {
-                                        Location = getResource.Resource.Location,
-                                        Properties = newProperty
-                                    }
+                                Location = getResource.Resource.Location,
+                                Properties = newProperty
                             });
 
             ResourceGetResult getResult = ResourceManagementClient.Resources.Get(parameters.ResourceGroupName, resourceIdentity);

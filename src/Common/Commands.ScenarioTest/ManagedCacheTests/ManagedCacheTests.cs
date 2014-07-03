@@ -14,7 +14,6 @@
 
 namespace Microsoft.WindowsAzure.Commands.ScenarioTest.ManagedCacheTests
 {
-    using System.IO;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using Microsoft.WindowsAzure.Commands.ScenarioTest.Common;
 

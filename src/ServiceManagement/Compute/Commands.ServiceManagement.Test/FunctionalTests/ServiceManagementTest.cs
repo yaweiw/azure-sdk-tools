@@ -15,14 +15,15 @@
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
 {
     using Commands.Utilities.Common;
+    using Microsoft.WindowsAzure.Commands.Sync.Download;
     using Model;
     using Properties;
     using System;
     using System.Collections.ObjectModel;
     using System.IO;
     using System.Linq;
-    using VisualStudio.TestTools.UnitTesting;
     using System.Xml.Linq;
+    using VisualStudio.TestTools.UnitTesting;
 
     [TestClass]
     public class ServiceManagementTest
@@ -59,6 +60,14 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
         protected DateTime testStartTime;
 
         private TestContext testContextInstance;
+
+        private const string VhdFilesContainerName = "vhdfiles";
+        private static readonly string[] VhdFiles = new[]
+            {
+                "dynamic_50.vhd", "dynamic_50_child01.vhd", "dynamic_50_child02.vhd",
+                "fixed_50.vhd", "fixed_50_child01.vhd", "fixed_50_child02.vhd"
+            };
+
         /// <summary>
         ///Gets or sets the test context which provides
         ///information about and functionality for the current test run.
@@ -180,6 +189,15 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
                 Console.WriteLine("Error occurred during Get-AzureVMImageName... imageName is not set.");
             }
 
+            try
+            {
+                DownloadVhds();
+            }
+            catch
+            {
+                Console.WriteLine("Error occurred during downloading vhds...");
+            }
+
             if (String.IsNullOrEmpty(imageName))
             {
                 Console.WriteLine("No image is selected!");
@@ -280,6 +298,41 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
         protected static void CleanupService(string svcName)
         {
             Utilities.TryAndIgnore(() => vmPowershellCmdlets.RemoveAzureService(svcName, true), "does not exist");
+        }
+
+        protected static void DownloadVhds()
+        {
+            storageAccountKey = vmPowershellCmdlets.GetAzureStorageAccountKey(defaultAzureSubscription.CurrentStorageAccountName);
+
+            foreach (var vhdFile in VhdFiles)
+            {
+                string vhdBlobLocation = string.Format("{0}{1}/{2}", blobUrlRoot, VhdFilesContainerName, vhdFile);
+
+                var vhdLocalPath = new FileInfo(Directory.GetCurrentDirectory() + "\\" + vhdFile);
+
+                if (!File.Exists(vhdLocalPath.FullName))
+                {
+                    // Set the source blob
+                    BlobHandle blobHandle = Utilities.GetBlobHandle(vhdBlobLocation, storageAccountKey.Primary);
+
+                    SaveVhd(blobHandle, vhdLocalPath, storageAccountKey.Primary);
+                }
+            }
+        }
+
+        protected static void SaveVhd(BlobHandle destination, FileInfo locFile, string storageKey, int? numThread = null, bool overwrite = false)
+        {
+            try
+            {
+                Console.WriteLine("Downloading a VHD from {0} to {1}...", destination.Blob.Uri.ToString(), locFile.FullName);
+                DateTime startTime = DateTime.Now;
+                vmPowershellCmdlets.SaveAzureVhd(destination.Blob.Uri, locFile, numThread, storageKey, overwrite);
+                Console.WriteLine("Downloading completed in {0} seconds.", (DateTime.Now - startTime).TotalSeconds);
+            }
+            catch (Exception e)
+            {
+                Assert.Fail(e.InnerException.ToString());
+            }
         }
     }
 }

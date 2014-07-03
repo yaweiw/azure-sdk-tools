@@ -14,10 +14,8 @@
 
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
 {
-    using Management.Compute;
     using Management.Compute.Models;
     using Model;
-    using System.Collections.Generic;
     using System.Linq;
     using System.Management.Automation;
     using Utilities.Common;

@@ -16,9 +16,9 @@ using Microsoft.Azure.Commands.Resources.Models;
 using Microsoft.Azure.Management.Resources;
 using Microsoft.Azure.Management.Resources.Models;
 using Microsoft.WindowsAzure;
+using Microsoft.WindowsAzure.Commands.Common.Storage;
 using Microsoft.WindowsAzure.Commands.Test.Utilities.Common;
 using Microsoft.WindowsAzure.Commands.Utilities.Common;
-using Microsoft.WindowsAzure.Commands.Common.Storage;
 using Microsoft.WindowsAzure.Management.Monitoring.Events;
 using Microsoft.WindowsAzure.Management.Monitoring.Events.Models;
 using Microsoft.WindowsAzure.Management.Monitoring.Models;
@@ -32,12 +32,12 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Runtime.Serialization.Formatters;
+using System.Security;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using Xunit;
 using Xunit.Extensions;
-using System.Security;
 
 namespace Microsoft.Azure.Commands.Resources.Test.Models
 {
@@ -522,7 +522,7 @@ namespace Microsoft.Azure.Commands.Resources.Test.Models
                     Exists = false
                 }));
 
-            resourceOperationsMock.Setup(f => f.CreateOrUpdateAsync(resourceGroupName, It.IsAny<ResourceIdentity>(), It.IsAny<ResourceCreateOrUpdateParameters>(), It.IsAny<CancellationToken>()))
+            resourceOperationsMock.Setup(f => f.CreateOrUpdateAsync(resourceGroupName, It.IsAny<ResourceIdentity>(), It.IsAny<BasicResource>(), It.IsAny<CancellationToken>()))
                 .Returns(Task.Factory.StartNew(() => new ResourceCreateOrUpdateResult
                 {
                     RequestId = "123",
@@ -598,7 +598,7 @@ namespace Microsoft.Azure.Commands.Resources.Test.Models
                             }
                     }));
 
-            resourceOperationsMock.Setup(f => f.CreateOrUpdateAsync(resourceGroupName, It.IsAny<ResourceIdentity>(), It.IsAny<ResourceCreateOrUpdateParameters>(), It.IsAny<CancellationToken>()))
+            resourceOperationsMock.Setup(f => f.CreateOrUpdateAsync(resourceGroupName, It.IsAny<ResourceIdentity>(), It.IsAny<BasicResource>(), It.IsAny<CancellationToken>()))
                 .Returns(Task.Factory.StartNew(() => new ResourceCreateOrUpdateResult
                 {
                     RequestId = "123",
@@ -656,7 +656,7 @@ namespace Microsoft.Azure.Commands.Resources.Test.Models
                 ResourceType = resourceIdentity.ResourceProviderNamespace + "/" + resourceIdentity.ResourceType
             };
 
-            ResourceCreateOrUpdateParameters actual = new ResourceCreateOrUpdateParameters();
+            BasicResource actual = new BasicResource();
 
             resourceOperationsMock.Setup(f => f.GetAsync(resourceGroupName, It.IsAny<ResourceIdentity>(), It.IsAny<CancellationToken>()))
                 .Returns(() => Task.Factory.StartNew(() => new ResourceGetResult
@@ -671,7 +671,7 @@ namespace Microsoft.Azure.Commands.Resources.Test.Models
                     }
                 }));
 
-            resourceOperationsMock.Setup(f => f.CreateOrUpdateAsync(resourceGroupName, It.IsAny<ResourceIdentity>(), It.IsAny<ResourceCreateOrUpdateParameters>(), It.IsAny<CancellationToken>()))
+            resourceOperationsMock.Setup(f => f.CreateOrUpdateAsync(resourceGroupName, It.IsAny<ResourceIdentity>(), It.IsAny<BasicResource>(), It.IsAny<CancellationToken>()))
                 .Returns(Task.Factory.StartNew(() => new ResourceCreateOrUpdateResult
                 {
                     RequestId = "123",
@@ -683,11 +683,11 @@ namespace Microsoft.Azure.Commands.Resources.Test.Models
                         ProvisioningState = ProvisioningState.Running
                     }
                 }))
-                .Callback((string groupName, ResourceIdentity id, ResourceCreateOrUpdateParameters p, CancellationToken token) => actual = p);
+                .Callback((string groupName, ResourceIdentity id, BasicResource p, CancellationToken token) => actual = p);
 
             resourcesClient.UpdatePSResource(parameters);
 
-            JToken actualJson = JToken.Parse(actual.Resource.Properties);
+            JToken actualJson = JToken.Parse(actual.Properties);
 
             Assert.Null(actualJson["name"]);
             Assert.Equal("Dedicated", actualJson["siteMode"].ToObject<string>());
