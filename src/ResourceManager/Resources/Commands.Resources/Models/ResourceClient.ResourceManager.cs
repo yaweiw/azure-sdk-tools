@@ -20,7 +20,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
-using Microsoft.WindowsAzure.Commands.Utilities.Common;
 using ProjectResources = Microsoft.Azure.Commands.Resources.Properties.Resources;
 
 namespace Microsoft.Azure.Commands.Resources.Models
@@ -29,7 +28,7 @@ namespace Microsoft.Azure.Commands.Resources.Models
     {
         public const string ResourceGroupTypeName = "ResourceGroup";
 
-        public static List<string> KnownLocations = new List<string>()
+        public static List<string> KnownLocations = new List<string>
         {
             "East Asia", "South East Asia", "East US", "West US", "North Central US", 
             "South Central US", "Central US", "North Europe", "West Europe"
@@ -57,7 +56,7 @@ namespace Microsoft.Azure.Commands.Resources.Models
                                              ProjectResources.ResourceGroupDoesntExistsAdd,
                                              ProjectResources.AddingResourceGroup,
                                              parameters.Name,
-                                             () => CreateResourceGroup(parameters.ResourceGroupName, parameters.Location, parameters.Tags));
+                                             () => CreateResourceGroup(parameters.ResourceGroupName, parameters.Location, null));
 
                 if (!ResourceManagementClient.ResourceGroups.CheckExistence(parameters.ResourceGroupName).Exists)
                 {
@@ -71,10 +70,11 @@ namespace Microsoft.Azure.Commands.Resources.Models
                 {
                     WriteVerbose(string.Format("Creating resource \"{0}\" started.", parameters.Name));
 
-                    Dictionary<string, string> tagDictionary = null;
-                    if (parameters.Tags != null)
+                    Dictionary<string, string> tagDictionary = TagsConversionHelper.CreateTagDictionary(parameters.Tags);
+                    if (parameters.Tags != null && parameters.Tags.Count > 0 &&
+                        (tagDictionary == null || tagDictionary.Count == 0))
                     {
-                        tagDictionary = parameters.Tags.ToStringDictionary();
+                        throw new ArgumentException(ProjectResources.InvalidTagFormat);
                     }
 
                     ResourceCreateOrUpdateResult createOrUpdateResult = ResourceManagementClient.Resources.CreateOrUpdate(parameters.ResourceGroupName, 
@@ -182,20 +182,21 @@ namespace Microsoft.Azure.Commands.Resources.Models
             }
             else
             {
-                string tagName = null;
-                string tagValue = null;
-                if (parameters.Tags != null)
+                PSTagValuePair tagValuePair = new PSTagValuePair();
+                if (parameters.Tags != null && parameters.Tags.Count == 1 && parameters.Tags[0] != null)
                 {
-                    Dictionary<string, string> tagsDictionary = parameters.Tags.ToStringDictionary();
-                    tagName = tagsDictionary.Keys.First();
-                    tagValue = tagsDictionary[tagName];
+                    tagValuePair = TagsConversionHelper.Create(parameters.Tags[0]);
+                    if (tagValuePair == null)
+                    {
+                        throw new ArgumentException(ProjectResources.InvalidTagFormat);
+                    }
                 }
                 ResourceListResult listResult = ResourceManagementClient.Resources.List(new ResourceListParameters
                     {
                         ResourceGroupName = parameters.ResourceGroupName,
                         ResourceType = parameters.ResourceType,
-                        TagName = tagName,
-                        TagValue = tagValue
+                        TagName = tagValuePair.Name,
+                        TagValue = tagValuePair.Value
                     });
 
                 if (listResult.Resources != null)
@@ -257,11 +258,11 @@ namespace Microsoft.Azure.Commands.Resources.Models
             if (!string.IsNullOrEmpty(options.ResourceGroup) && !string.IsNullOrEmpty(options.Name))
             {
                 resources.Add(ResourceManagementClient.Resources.Get(options.ResourceGroup,
-                    new ResourceIdentity() { ResourceName = options.Name }).Resource);
+                    new ResourceIdentity { ResourceName = options.Name }).Resource);
             }
             else
             {
-                ResourceListResult result = ResourceManagementClient.Resources.List(new ResourceListParameters()
+                ResourceListResult result = ResourceManagementClient.Resources.List(new ResourceListParameters
                 {
                     ResourceGroupName = options.ResourceGroup,
                     ResourceType = options.ResourceType
@@ -449,7 +450,7 @@ namespace Microsoft.Azure.Commands.Resources.Models
         /// <param name="deploymentName">Deployment name</param>
         public virtual void CancelDeployment(string resourceGroup, string deploymentName)
         {
-            FilterResourceGroupDeploymentOptions options = new FilterResourceGroupDeploymentOptions()
+            FilterResourceGroupDeploymentOptions options = new FilterResourceGroupDeploymentOptions
             {
                 DeploymentName = deploymentName,
                 ResourceGroupName = resourceGroup
@@ -457,7 +458,7 @@ namespace Microsoft.Azure.Commands.Resources.Models
 
             if (string.IsNullOrEmpty(deploymentName))
             {
-                options.ExcludedProvisioningStates = new List<string>()
+                options.ExcludedProvisioningStates = new List<string>
                 {
                     ProvisioningState.Failed,
                     ProvisioningState.Succeeded
@@ -519,12 +520,12 @@ namespace Microsoft.Azure.Commands.Resources.Models
             List<PSResourceProviderType> result = new List<PSResourceProviderType>();
             List<Provider> providers = new List<Provider>();
 
-            if (resourceTypes.Length == 0 || resourceTypes.Any(r => r.Equals(ResourcesClient.ResourceGroupTypeName, StringComparison.OrdinalIgnoreCase)))
+            if (resourceTypes.Length == 0 || resourceTypes.Any(r => r.Equals(ResourceGroupTypeName, StringComparison.OrdinalIgnoreCase)))
             {
-                result.Add(new ProviderResourceType()
+                result.Add(new ProviderResourceType
                 {
-                    Name = ResourcesClient.ResourceGroupTypeName,
-                    Locations = ResourcesClient.KnownLocations
+                    Name = ResourceGroupTypeName,
+                    Locations = KnownLocations
                 }.ToPSResourceProviderType(null));
             }
 

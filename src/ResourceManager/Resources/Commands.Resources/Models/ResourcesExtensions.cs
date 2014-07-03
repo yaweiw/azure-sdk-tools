@@ -12,6 +12,7 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
+using System.Collections;
 using Microsoft.Azure.Gallery;
 using Microsoft.Azure.Management.Resources.Models;
 using Microsoft.WindowsAzure.Commands.Utilities.Common;
@@ -31,14 +32,13 @@ namespace Microsoft.Azure.Commands.Resources.Models
         {
             List<PSResource> resources = client.FilterResources(new FilterResourcesOptions { ResourceGroup = resourceGroup.Name })
                 .Select(r => r.ToPSResource(client)).ToList();
-            return new PSResourceGroup()
+            return new PSResourceGroup
             {
                 ResourceGroupName = resourceGroup.Name,
                 Location = resourceGroup.Location,
                 Resources = resources,
-                ResourcesTable = ConstructResourcesTable(resources),
                 ProvisioningState = resourceGroup.ProvisioningState,
-                Tags = resourceGroup.Tags.ToHashtable(),
+                Tags = TagsConversionHelper.CreateTagHashtable(resourceGroup.Tags),
             };
         }
 
@@ -90,7 +90,7 @@ namespace Microsoft.Azure.Commands.Resources.Models
         public static PSResource ToPSResource(this Resource resource, ResourcesClient client)
         {
             ResourceIdentifier identifier = new ResourceIdentifier(resource.Id);
-            return new PSResource()
+            return new PSResource
             {
                 Name = identifier.ResourceName,
                 Location = resource.Location,
@@ -99,7 +99,7 @@ namespace Microsoft.Azure.Commands.Resources.Models
                 ParentResource = identifier.ParentResource,
                 Properties = JsonUtilities.DeserializeJson(resource.Properties),
                 PropertiesText = resource.Properties,
-                Tags = resource.Tags.ToHashtable()
+                Tags = TagsConversionHelper.CreateTagHashtable(resource.Tags)
             };
         }
 
@@ -201,7 +201,7 @@ namespace Microsoft.Azure.Commands.Resources.Models
             return psObject;
         }
 
-        private static string ConstructResourcesTable(List<PSResource> resources)
+        public static string ConstructResourcesTable(List<PSResource> resources)
         {
             StringBuilder resourcesTable = new StringBuilder();
 
@@ -222,6 +222,44 @@ namespace Microsoft.Azure.Commands.Resources.Models
                 foreach (PSResource resource in resources)
                 {
                     resourcesTable.AppendFormat(rowFormat, resource.Name, resource.ResourceType, resource.Location);
+                }
+            }
+
+            return resourcesTable.ToString();
+        }
+
+        public static string ConstructTagsTable(List<Hashtable> tags)
+        {
+            Hashtable emptyHashtable = new Hashtable
+                {
+                    {"Name", string.Empty},
+                    {"Value", string.Empty}
+                };
+            StringBuilder resourcesTable = new StringBuilder();
+
+            if (tags.Count > 0)
+            {
+                int maxNameLength = Math.Max("Name".Length, tags.Where(ht => ht.ContainsKey("Name")).DefaultIfEmpty(emptyHashtable).Max(ht => ht["Name"].ToString().Length));
+                int maxValueLength = Math.Max("Value".Length, tags.Where(ht => ht.ContainsKey("Value")).DefaultIfEmpty(emptyHashtable).Max(ht => ht["Value"].ToString().Length));
+
+                string rowFormat = "{0, -" + maxNameLength + "}  {1, -" + maxValueLength + "}\r\n";
+                resourcesTable.AppendLine();
+                resourcesTable.AppendFormat(rowFormat, "Name", "Value");
+                resourcesTable.AppendFormat(rowFormat,
+                    GeneralUtilities.GenerateSeparator(maxNameLength, "="),
+                    GeneralUtilities.GenerateSeparator(maxValueLength, "="));
+
+                foreach (Hashtable tag in tags)
+                {
+                    PSTagValuePair tagValuePair = TagsConversionHelper.Create(tag);
+                    if (tagValuePair != null)
+                    {
+                        if (tagValuePair.Value == null)
+                        {
+                            tagValuePair.Value = string.Empty;
+                        }
+                        resourcesTable.AppendFormat(rowFormat, tagValuePair.Name, tagValuePair.Value);
+                    }
                 }
             }
 
@@ -267,8 +305,6 @@ namespace Microsoft.Azure.Commands.Resources.Models
             string gesourceGroup,
             DeploymentProperties properties)
         {
-            Dictionary<string, DeploymentVariable> outputs = new Dictionary<string, DeploymentVariable>();
-            Dictionary<string, DeploymentVariable> parameters = new Dictionary<string, DeploymentVariable>();
             PSResourceGroupDeployment deploymentObject = new PSResourceGroupDeployment();
 
             deploymentObject.DeploymentName = name;
@@ -284,14 +320,14 @@ namespace Microsoft.Azure.Commands.Resources.Models
 
                 if (!string.IsNullOrEmpty(properties.Outputs))
                 {
-                    outputs = JsonConvert.DeserializeObject<Dictionary<string, DeploymentVariable>>(properties.Outputs);
+                    Dictionary<string, DeploymentVariable> outputs = JsonConvert.DeserializeObject<Dictionary<string, DeploymentVariable>>(properties.Outputs);
                     deploymentObject.Outputs = outputs;
                     deploymentObject.OutputsString = ToString(outputs);
                 }
 
                 if (!string.IsNullOrEmpty(properties.Parameters))
                 {
-                    parameters = JsonConvert.DeserializeObject<Dictionary<string, DeploymentVariable>>(properties.Parameters);
+                    Dictionary<string, DeploymentVariable> parameters = JsonConvert.DeserializeObject<Dictionary<string, DeploymentVariable>>(properties.Parameters);
                     deploymentObject.Parameters = parameters;
                     deploymentObject.ParametersString = ToString(parameters);
                 }
@@ -323,7 +359,7 @@ namespace Microsoft.Azure.Commands.Resources.Models
         {
             get
             {
-                return new PSResource()
+                return new PSResource
                 {
                     Name = string.Empty,
                     Location = string.Empty,

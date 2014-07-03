@@ -12,6 +12,8 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
+using System.Collections;
+using System.Linq;
 using Microsoft.Azure.Commands.Resources.Models;
 using Microsoft.WindowsAzure.Commands.Utilities.Common;
 using Moq;
@@ -41,7 +43,7 @@ namespace Microsoft.Azure.Commands.Resources.Test
 
         private Dictionary<string, object> properties;
 
-        private Dictionary<string, string> tags;
+        private List<Hashtable> tags;
 
         public NewAzureResourceCommandTests()
         {
@@ -63,11 +65,11 @@ namespace Microsoft.Azure.Commands.Resources.Test
                             {"key2", "value2"}
                         }}
                 };
-            tags = new Dictionary<string, string>
+            tags = new[] {new Hashtable
                 {
-                    {"tag1", "value1"},
-                    {"tag2", ""}
-                };
+                    {"Name", "value1"},
+                    {"Value", ""}
+                }}.ToList();
         }
 
         [Fact]
@@ -80,7 +82,7 @@ namespace Microsoft.Azure.Commands.Resources.Test
                 ResourceType = resourceType,
                 ResourceGroupName = resourceGroupName,
                 PropertyObject = properties.ToHashtable(),
-                Tags = tags.ToHashtable()
+                Tags = tags
             };
             CreatePSResourceParameters actualParameters = new CreatePSResourceParameters();
             PSResource expected = new PSResource()

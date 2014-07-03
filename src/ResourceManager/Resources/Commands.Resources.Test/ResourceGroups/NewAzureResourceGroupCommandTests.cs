@@ -12,6 +12,8 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
+using System.Collections;
+using System.Linq;
 using Microsoft.Azure.Commands.Resources.Models;
 using Microsoft.WindowsAzure.Commands.Utilities.Common;
 using Moq;
@@ -39,7 +41,7 @@ namespace Microsoft.Azure.Commands.Resources.Test
 
         private string storageAccountName = "myStorageAccount";
 
-        private Dictionary<string, string> tags;
+        private List<Hashtable> tags;
 
         public NewAzureResourceGroupCommandTests()
         {
@@ -51,11 +53,11 @@ namespace Microsoft.Azure.Commands.Resources.Test
                 ResourcesClient = resourcesClientMock.Object
             };
 
-            tags = new Dictionary<string, string>
+            tags = new [] {new Hashtable
                 {
-                    {"tag1", "value1"},
-                    {"tag2", ""}
-                };
+                    {"Name", "value1"},
+                    {"Value", ""}
+                }}.ToList();
         }
 
         [Fact]
@@ -69,7 +71,7 @@ namespace Microsoft.Azure.Commands.Resources.Test
                 DeploymentName = deploymentName,
                 StorageAccountName = storageAccountName,
                 TemplateVersion = "1.0",
-                Tags = tags.ToHashtable()
+                Tags = tags
             };
             CreatePSResourceGroupParameters actualParameters = new CreatePSResourceGroupParameters();
             PSResourceGroup expected = new PSResourceGroup()

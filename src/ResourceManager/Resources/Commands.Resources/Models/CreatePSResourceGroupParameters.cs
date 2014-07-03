@@ -14,6 +14,7 @@
 
 using System;
 using System.Collections;
+using System.Collections.Generic;
 
 namespace Microsoft.Azure.Commands.Resources.Models
 {
@@ -23,7 +24,7 @@ namespace Microsoft.Azure.Commands.Resources.Models
 
         public bool Force { get; set; }
 
-        public Hashtable Tags { get; set; }
+        public List<Hashtable> Tags { get; set; }
 
         public Action<bool, string, string, string, Action> ConfirmAction { get; set; }
     }

@@ -58,7 +58,7 @@
               </ListItem>
               <ListItem>
                 <Label>Tags</Label>
-                <PropertyName>Tags</PropertyName>
+                <PropertyName>TagsTable</PropertyName>
               </ListItem>
             </ListItems>
           </ListEntry>
@@ -88,7 +88,7 @@
               </ListItem>
               <ListItem>
                 <Label>Tags</Label>
-                <PropertyName>Tags</PropertyName>
+                <PropertyName>TagsTable</PropertyName>
               </ListItem>
               <ListItem>
                 <Label>Resources</Label>
