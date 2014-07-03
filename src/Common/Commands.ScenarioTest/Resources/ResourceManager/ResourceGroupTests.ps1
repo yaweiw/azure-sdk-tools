@@ -18,24 +18,24 @@ Tests creating new simple resource group.
 #>
 function Test-CreatesNewSimpleResourceGroup
 {
-	# Setup
-	$rgname = Get-ResourceGroupName
-	$location = Get-ProviderLocation ResourceManagement
+    # Setup
+    $rgname = Get-ResourceGroupName
+    $location = Get-ProviderLocation ResourceManagement
 
-	try 
-	{
-		# Test
-		$actual = New-AzureResourceGroup -Name $rgname -Location $location
-		$expected = Get-AzureResourceGroup -Name $rgname
+    try 
+    {
+        # Test
+        $actual = New-AzureResourceGroup -Name $rgname -Location $location
+        $expected = Get-AzureResourceGroup -Name $rgname
 
-		# Assert
-		Assert-AreEqual $expected.Name $actual.Name	
-	}
-	finally
-	{
-		# Cleanup
-		Clean-ResourceGroup $rgname
-	}
+        # Assert
+        Assert-AreEqual $expected.Name $actual.Name	
+    }
+    finally
+    {
+        # Cleanup
+        Clean-ResourceGroup $rgname
+    }
 }
 
 <#
@@ -44,20 +44,20 @@ Tests creating new simple resource group and deleting it via piping.
 #>
 function Test-CreatesAndRemoveResourceGroupViaPiping
 {
-	# Setup
-	$rgname1 = Get-ResourceGroupName
-	$rgname2 = Get-ResourceGroupName
-	$location = Get-ProviderLocation ResourceManagement
+    # Setup
+    $rgname1 = Get-ResourceGroupName
+    $rgname2 = Get-ResourceGroupName
+    $location = Get-ProviderLocation ResourceManagement
 
-	# Test
-	New-AzureResourceGroup -Name $rgname1 -Location $location
-	New-AzureResourceGroup -Name $rgname2 -Location $location
-		
-	Get-AzureResourceGroup | where {$_.ResourceGroupName -eq $rgname1 -or $_.ResourceGroupName -eq $rgname2} | Remove-AzureResourceGroup -Force
+    # Test
+    New-AzureResourceGroup -Name $rgname1 -Location $location
+    New-AzureResourceGroup -Name $rgname2 -Location $location
+        
+    Get-AzureResourceGroup | where {$_.ResourceGroupName -eq $rgname1 -or $_.ResourceGroupName -eq $rgname2} | Remove-AzureResourceGroup -Force
 
-	# Assert
-	Assert-Throws { Get-AzureResourceGroup -Name $rgname1 } "Provided resource group does not exist."
-	Assert-Throws { Get-AzureResourceGroup -Name $rgname2 } "Provided resource group does not exist."
+    # Assert
+    Assert-Throws { Get-AzureResourceGroup -Name $rgname1 } "Provided resource group does not exist."
+    Assert-Throws { Get-AzureResourceGroup -Name $rgname2 } "Provided resource group does not exist."
 }
 
 <#
@@ -66,10 +66,10 @@ Tests getting non-existing resource group.
 #>
 function Test-GetNonExistingResourceGroup
 {
-	# Setup
-	$rgname = Get-ResourceGroupName
+    # Setup
+    $rgname = Get-ResourceGroupName
 
-	Assert-Throws { Get-AzureResourceGroup -Name $rgname } "Provided resource group does not exist."
+    Assert-Throws { Get-AzureResourceGroup -Name $rgname } "Provided resource group does not exist."
 }
 
 <#
@@ -78,10 +78,10 @@ Negative test. New resource group in non-existing location throws error.
 #>
 function Test-NewResourceGroupInNonExistingLocation
 {
-	# Setup
-	$rgname = Get-ResourceGroupName
+    # Setup
+    $rgname = Get-ResourceGroupName
 
-	Assert-Throws { New-AzureResourceGroup -Name $rgname -Location 'non-existing' }
+    Assert-Throws { New-AzureResourceGroup -Name $rgname -Location 'non-existing' }
 }
 
 <#
@@ -90,8 +90,55 @@ Negative test. New resource group in non-existing location throws error.
 #>
 function Test-RemoveNonExistingResourceGroup
 {
-	# Setup
-	$rgname = Get-ResourceGroupName
+    # Setup
+    $rgname = Get-ResourceGroupName
 
-	Assert-Throws { Clean-ResourceGroup $rgname } "Provided resource group does not exist."
+    Assert-Throws { Clean-ResourceGroup $rgname } "Provided resource group does not exist."
+}
+
+<#
+.SYNOPSIS
+Negative test. New resource group in non-existing location throws error.
+#>
+function Test-AzureTagsEndToEnd
+{
+    # Setup
+    $tag1 = getAssetName
+    $tag2 = getAssetName
+    Clean-Tags
+
+    # Create tag without values
+    New-AzureTag $tag1
+
+    $tag = Get-AzureTag $tag1
+    Assert-AreEqual $tag1 $tag.Name
+
+    # Add value to the tag
+    New-AzureTag $tag1 value1
+    New-AzureTag $tag1 value2
+
+    $tag = Get-AzureTag $tag1
+    Assert-AreEqual 2 $tag.Values.Count
+
+    # Create tag with values
+    New-AzureTag $tag2 value1
+    New-AzureTag $tag2 value2
+    New-AzureTag $tag2 value3
+
+    $tags = Get-AzureTag
+    Assert-AreEqual 2 $tags.Count
+
+    # Remove entire tag
+    $tag = Remove-AzureTag $tag1 -Force -PassThru
+
+    $tags = Get-AzureTag
+    Assert-AreEqual $tag1 $tag.Name
+
+    # Remove tag value
+    $tag = Remove-AzureTag $tag2 value1 -Force -PassThru
+
+    $tags = Get-AzureTag
+    Assert-AreEqual 0 $tags.Count
+
+    Clean-Tags
 }
