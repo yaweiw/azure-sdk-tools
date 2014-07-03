@@ -100,6 +100,7 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.Common
             {
                 WindowsAzureProfile.Instance.AddEnvironment(new WindowsAzureEnvironment { Name = testEnvironmentName });
             }
+            
             SetupAzureEnvironmentFromEnvironmentVariables();
         }
 

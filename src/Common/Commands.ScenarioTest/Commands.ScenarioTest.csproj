@@ -388,13 +388,7 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Resources\SessionRecords\DeploymentTests\" />
-    <Folder Include="Resources\SessionRecords\ManagedCacheTests\" />
-    <Folder Include="Resources\SessionRecords\ResourceGroupTests\" />
-    <Folder Include="Resources\SessionRecords\ResourceTests\" />
-    <Folder Include="Resources\SessionRecords\TrafficManagerTests\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\nuget.targets" />
   <Import Project="..\..\packages\Microsoft.Bcl.Build.1.0.14\tools\Microsoft.Bcl.Build.targets" Condition="Exists('..\..\packages\Microsoft.Bcl.Build.1.0.14\tools\Microsoft.Bcl.Build.targets')" />
