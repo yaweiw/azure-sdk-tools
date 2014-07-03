@@ -16,22 +16,22 @@
           "no-cache"
         ],
         "x-ms-ratelimit-remaining-subscription-reads": [
-          "31968"
+          "31939"
         ],
         "x-ms-request-id": [
-          "7f17fdae-ea23-4491-bb9e-f44fcc5764c4"
+          "28316b9f-b357-4667-abf7-8aa1ef300fd1"
         ],
         "x-ms-correlation-request-id": [
-          "7f17fdae-ea23-4491-bb9e-f44fcc5764c4"
+          "28316b9f-b357-4667-abf7-8aa1ef300fd1"
         ],
         "x-ms-routing-request-id": [
-          "WESTUS:20140701T220247Z:7f17fdae-ea23-4491-bb9e-f44fcc5764c4"
+          "WESTUS:20140702T233251Z:28316b9f-b357-4667-abf7-8aa1ef300fd1"
         ],
         "Cache-Control": [
           "no-cache"
         ],
         "Date": [
-          "Tue, 01 Jul 2014 22:02:47 GMT"
+          "Wed, 02 Jul 2014 23:32:51 GMT"
         ]
       },
       "StatusCode": 200
