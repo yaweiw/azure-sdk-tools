@@ -12,6 +12,7 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
+using System.Collections;
 using Microsoft.Azure.Commands.Resources.Models;
 using System.Collections.Generic;
 using System.Management.Automation;
@@ -42,6 +43,9 @@ namespace Microsoft.Azure.Commands.Resources
         [ValidateNotNullOrEmpty]
         public string ResourceType { get; set; }
 
+        [Parameter(ParameterSetName = BaseParameterSetName, Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "The resource tags.")]
+        public Hashtable Tags { get; set; }
+
         [Parameter(ParameterSetName = ParameterSetNameWithId, Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "The name of the parent resource if needed. In the format of greatgrandpa/grandpa/dad.")]
         public string ParentResource { get; set; }
 
@@ -57,7 +61,8 @@ namespace Microsoft.Azure.Commands.Resources
                 ResourceGroupName = ResourceGroupName,
                 ResourceType = ResourceType,
                 ParentResource = ParentResource,
-                ApiVersion = ApiVersion
+                ApiVersion = ApiVersion,
+                Tags = Tags
             };
 
             List<PSResource> resourceList = ResourcesClient.FilterPSResources(parameters);

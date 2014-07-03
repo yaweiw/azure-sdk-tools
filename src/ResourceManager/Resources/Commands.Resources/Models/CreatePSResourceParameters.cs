@@ -23,8 +23,6 @@ namespace Microsoft.Azure.Commands.Resources.Models
 
         public Hashtable PropertyObject { get; set; }
 
-        public Hashtable Tags { get; set; }
-
         public bool Force { get; set; }
 
         public Action<bool, string, string, string, Action> ConfirmAction { get; set; }

@@ -12,6 +12,7 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
+using System.Collections;
 using Microsoft.Azure.Management.Resources.Models;
 using System;
 using ProjectResources = Microsoft.Azure.Commands.Resources.Properties.Resources;
@@ -29,6 +30,8 @@ namespace Microsoft.Azure.Commands.Resources.Models
         public string ParentResource { get; set; }
 
         public string ApiVersion { get; set; }
+
+        public Hashtable Tags { get; set; }
 
         public ResourceIdentity ToResourceIdentity()
         {

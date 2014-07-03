@@ -182,10 +182,20 @@ namespace Microsoft.Azure.Commands.Resources.Models
             }
             else
             {
+                string tagName = null;
+                string tagValue = null;
+                if (parameters.Tags != null)
+                {
+                    Dictionary<string, string> tagsDictionary = parameters.Tags.ToStringDictionary();
+                    tagName = tagsDictionary.Keys.First();
+                    tagValue = tagsDictionary[tagName];
+                }
                 ResourceListResult listResult = ResourceManagementClient.Resources.List(new ResourceListParameters
                     {
                         ResourceGroupName = parameters.ResourceGroupName,
-                        ResourceType = parameters.ResourceType
+                        ResourceType = parameters.ResourceType,
+                        TagName = tagName,
+                        TagValue = tagValue
                     });
 
                 if (listResult.Resources != null)

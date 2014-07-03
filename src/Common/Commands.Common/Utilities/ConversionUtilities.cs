@@ -75,7 +75,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
                 var dictionary = new Dictionary<string, string>();
                 foreach (var entry in hashtable.Cast<DictionaryEntry>())
                 {
-                    dictionary[entry.Key.ToString()] = entry.Value.ToString();
+                    dictionary[entry.Key.ToString()] = entry.Value == null ? null : entry.Value.ToString();
                 }
                 return dictionary;
             }
