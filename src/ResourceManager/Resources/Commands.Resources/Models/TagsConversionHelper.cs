@@ -12,8 +12,10 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using ProjectResources = Microsoft.Azure.Commands.Resources.Properties.Resources;
 
 namespace Microsoft.Azure.Commands.Resources.Models
 {
@@ -38,7 +40,7 @@ namespace Microsoft.Azure.Commands.Resources.Models
             return tagValue;
         }
 
-        public static Dictionary<string, string> CreateTagDictionary(List<Hashtable> hashtableList)
+        public static Dictionary<string, string> CreateTagDictionary(List<Hashtable> hashtableList, bool validate)
         {
             Dictionary<string, string> tagDictionary = null;
             if (hashtableList != null && hashtableList.Count > 0)
@@ -60,6 +62,15 @@ namespace Microsoft.Azure.Commands.Resources.Models
                     }
                 }
             }
+            if (validate)
+            {
+                if (hashtableList != null && hashtableList.Count > 0 && hashtableList[0].Count > 0 &&
+                    (tagDictionary == null || tagDictionary.Count == 0 || hashtableList.Count != tagDictionary.Count))
+                {
+                    throw new ArgumentException(ProjectResources.InvalidTagFormat);
+                }
+            }
+
             return tagDictionary;
         }
 

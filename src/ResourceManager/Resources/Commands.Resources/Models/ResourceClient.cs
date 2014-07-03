@@ -185,14 +185,9 @@ namespace Microsoft.Azure.Commands.Resources.Models
             return storageName;
         }
 
-        private ResourceGroup CreateResourceGroup(string name, string location, List<Hashtable> tags)
+        private ResourceGroup CreateOrUpdateResourceGroup(string name, string location, List<Hashtable> tags)
         {
-            Dictionary<string, string> tagDictionary = TagsConversionHelper.CreateTagDictionary(tags);
-            if (tags != null && tags.Count > 0 && 
-                (tagDictionary == null || tagDictionary.Count == 0))
-            {
-                throw new ArgumentException(ProjectResources.InvalidTagFormat);
-            }
+            Dictionary<string, string> tagDictionary = TagsConversionHelper.CreateTagDictionary(tags, validate: true);
 
             var result = ResourceManagementClient.ResourceGroups.CreateOrUpdate(name,
                 new BasicResourceGroup
@@ -200,8 +195,6 @@ namespace Microsoft.Azure.Commands.Resources.Models
                     Location = location,
                     Tags = tagDictionary
                 });
-
-            WriteVerbose(string.Format("Create resource group '{0}' in location '{1}'", name, location));
 
             return result.ResourceGroup;
         }

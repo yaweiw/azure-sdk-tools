@@ -154,6 +154,7 @@
     <Reference Include="System.Management.Automation, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Models\UpdatePSResourceGroupParameters.cs" />
     <Compile Include="Models\PSGalleryItem.cs" />
     <Compile Include="Models\PSTagValuePair.cs" />
     <Compile Include="Models\TagsConversionHelper.cs" />
@@ -174,6 +175,7 @@
     <Compile Include="Models\ValidatePSResourceGroupDeploymentParameters.cs" />
     <Compile Include="ResourceGroups\GetAzureResourceGroupLogCommand.cs" />
     <Compile Include="ResourceGroups\GetAzureLocationCommand.cs" />
+    <Compile Include="ResourceGroups\SetAzureResourceGroupCommand.cs" />
     <Compile Include="Resources\RemoveAzureResourceCommand.cs" />
     <Compile Include="Resources\ResourceBaseCmdlet.cs" />
     <Compile Include="Templates\TestAzureResourceGroupTemplateCommand.cs" />

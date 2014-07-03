@@ -56,11 +56,15 @@ namespace Microsoft.Azure.Commands.Resources.Models
                                              ProjectResources.ResourceGroupDoesntExistsAdd,
                                              ProjectResources.AddingResourceGroup,
                                              parameters.Name,
-                                             () => CreateResourceGroup(parameters.ResourceGroupName, parameters.Location, null));
+                                             () => CreateOrUpdateResourceGroup(parameters.ResourceGroupName, parameters.Location, null));
 
                 if (!ResourceManagementClient.ResourceGroups.CheckExistence(parameters.ResourceGroupName).Exists)
                 {
                     throw new ArgumentException(ProjectResources.ResourceGroupDoesntExists);
+                }
+                else
+                {
+                    WriteVerbose(string.Format("Created resource group '{0}' in location '{1}'", parameters.Name, parameters.Location));
                 }
             }
 
@@ -70,13 +74,8 @@ namespace Microsoft.Azure.Commands.Resources.Models
                 {
                     WriteVerbose(string.Format("Creating resource \"{0}\" started.", parameters.Name));
 
-                    Dictionary<string, string> tagDictionary = TagsConversionHelper.CreateTagDictionary(parameters.Tags);
-                    if (parameters.Tags != null && parameters.Tags.Count > 0 &&
-                        (tagDictionary == null || tagDictionary.Count == 0))
-                    {
-                        throw new ArgumentException(ProjectResources.InvalidTagFormat);
-                    }
-
+                    Dictionary<string, string> tagDictionary = TagsConversionHelper.CreateTagDictionary(parameters.Tags, validate: true);
+                    
                     ResourceCreateOrUpdateResult createOrUpdateResult = ResourceManagementClient.Resources.CreateOrUpdate(parameters.ResourceGroupName, 
                         resourceIdentity,
                         new BasicResource
@@ -221,7 +220,8 @@ namespace Microsoft.Azure.Commands.Resources.Models
             ResourceGroup resourceGroup = null;
             Action createOrUpdateResourceGroup = () =>
             {
-                resourceGroup = CreateResourceGroup(parameters.ResourceGroupName, parameters.Location, parameters.Tags);
+                resourceGroup = CreateOrUpdateResourceGroup(parameters.ResourceGroupName, parameters.Location, parameters.Tags);
+                WriteVerbose(string.Format("Created resource group '{0}' in location '{1}'", resourceGroup.Name, resourceGroup.Location));
 
                 if (createDeployment)
                 {
@@ -242,6 +242,21 @@ namespace Microsoft.Azure.Commands.Resources.Models
             {
                 createOrUpdateResourceGroup();
             }
+
+            return resourceGroup.ToPSResourceGroup(this);
+        }
+
+        /// <summary>
+        /// Updates a resource group.
+        /// </summary>
+        /// <param name="parameters">The create parameters</param>
+        /// <returns>The created resource group</returns>
+        public virtual PSResourceGroup UpdatePSResourceGroup(UpdatePSResourceGroupParameters parameters)
+        {
+            ResourceGroup resourceGroup = ResourceManagementClient.ResourceGroups.Get(parameters.ResourceGroupName).ResourceGroup;
+
+            resourceGroup = CreateOrUpdateResourceGroup(parameters.ResourceGroupName, resourceGroup.Location, parameters.Tags);
+            WriteVerbose(string.Format("Updated resource group '{0}' in location '{1}'", resourceGroup.Name, resourceGroup.Location));
 
             return resourceGroup.ToPSResourceGroup(this);
         }
