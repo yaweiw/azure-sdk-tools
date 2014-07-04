@@ -8,9 +8,6 @@
                         <File Id="fil96C82365E5F5A2F2747805236B563DF0" KeyPath="yes" Source="$(var.sourceDir)\ResourceManager\AzureResourceManager\AzureResourceManager.psd1" />
                     </Component>
                     <Directory Id="dir373C860472263629CD07E0A04D948706" Name="Resources">
-                        <Component Id="cmp2E354136217C269DF1304CA7EF43CD0A" Guid="*">
-                            <File Id="fil1E340C509AAC161F440A2CD94EA5E920" KeyPath="yes" Source="$(var.sourceDir)\ResourceManager\AzureResourceManager\Resources\AzureResourceManager.psd1" />
-                        </Component>
                         <Component Id="cmp73768AE8C93638B2530E9F74B6FA5470" Guid="*">
                             <File Id="fil2112A41C953308499BCC1D706AA6FC6F" KeyPath="yes" Source="$(var.sourceDir)\ResourceManager\AzureResourceManager\Resources\Microsoft.Azure.Commands.Resources.dll" />
                         </Component>
@@ -1586,7 +1583,6 @@
     <Fragment>
         <ComponentGroup Id="azurecmdfiles">
             <ComponentRef Id="cmp96F13C307DA6E4AAC35F3D147F21553F" />
-            <ComponentRef Id="cmp2E354136217C269DF1304CA7EF43CD0A" />
             <ComponentRef Id="cmp73768AE8C93638B2530E9F74B6FA5470" />
             <ComponentRef Id="cmp43B198DD7ECA39F95FF5CD09BD732D67" />
             <ComponentRef Id="cmpF723A612E44FEF81A6FD35D6F83156E4" />
