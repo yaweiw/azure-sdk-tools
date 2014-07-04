@@ -4,6 +4,9 @@
         <DirectoryRef Id="PowerShellFolder">
             <Directory Id="dirB60B5B1F56FA5598EFFC960CA393FDCE" Name="ResourceManager">
                 <Directory Id="dir9E409EB63EF03736275B51044C819FD8" Name="AzureResourceManager">
+                    <Component Id="cmp96F13C307DA6E4AAC35F3D147F21553F" Guid="*">
+                        <File Id="fil96C82365E5F5A2F2747805236B563DF0" KeyPath="yes" Source="$(var.sourceDir)\ResourceManager\AzureResourceManager\AzureResourceManager.psd1" />
+                    </Component>
                     <Directory Id="dir373C860472263629CD07E0A04D948706" Name="Resources">
                         <Component Id="cmp2E354136217C269DF1304CA7EF43CD0A" Guid="*">
                             <File Id="fil1E340C509AAC161F440A2CD94EA5E920" KeyPath="yes" Source="$(var.sourceDir)\ResourceManager\AzureResourceManager\Resources\AzureResourceManager.psd1" />
@@ -118,6 +121,9 @@
             </Directory>
             <Directory Id="dirBD6E354CD1B8F27BC050A454CE071EF2" Name="ServiceManagement">
                 <Directory Id="dirF914F75CF42E1096AEFB68FF4D9C3FE0" Name="Azure">
+                    <Component Id="cmp5DFC4ECCB8BBF842D8069F3036386B84" Guid="*">
+                        <File Id="fil5E21D53B44D4AF82925C213318480319" KeyPath="yes" Source="$(var.sourceDir)\ServiceManagement\Azure\Azure.psd1" />
+                    </Component>
                     <Directory Id="dir023BB58B2A71DC3FC9AFE98E2CD36D3A" Name="Automation">
                         <Component Id="cmp2885A72095CC4D23D58804836236D163" Guid="*">
                             <File Id="fil519809FB46E7EC3B65D40553F469D6BD" KeyPath="yes" Source="$(var.sourceDir)\ServiceManagement\Azure\Automation\Microsoft.Azure.Commands.Automation.dll" />
@@ -1579,6 +1585,7 @@
     </Fragment>
     <Fragment>
         <ComponentGroup Id="azurecmdfiles">
+            <ComponentRef Id="cmp96F13C307DA6E4AAC35F3D147F21553F" />
             <ComponentRef Id="cmp2E354136217C269DF1304CA7EF43CD0A" />
             <ComponentRef Id="cmp73768AE8C93638B2530E9F74B6FA5470" />
             <ComponentRef Id="cmp43B198DD7ECA39F95FF5CD09BD732D67" />
@@ -1615,6 +1622,7 @@
             <ComponentRef Id="cmp72D89AFA64CC1AD6BFA5E808653F1C57" />
             <ComponentRef Id="cmpCADE67F2ED98E9D37A3889AE074E65ED" />
             <ComponentRef Id="cmp2BBA10D4188C8E9C285ED0E8957BF7AD" />
+            <ComponentRef Id="cmp5DFC4ECCB8BBF842D8069F3036386B84" />
             <ComponentRef Id="cmp2885A72095CC4D23D58804836236D163" />
             <ComponentRef Id="cmp855703EFA2A131AD51B3A278DB9B705C" />
             <ComponentRef Id="cmp4EC3226B54BFE0FF4970968ABD1746E3" />
