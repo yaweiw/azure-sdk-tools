@@ -196,12 +196,16 @@
     <Compile Include="IaaS\Extensions\MicrosoftAntimalware\SetAzureVMMicrosoftAntimalwareExtension.cs" />
     <Compile Include="IaaS\Extensions\MicrosoftAntimalware\VirtualMachineMicrosoftAntimalwareExtensionCmdletBase.cs" />
     <Compile Include="IaaS\Extensions\MicrosoftAntimalware\VirtualMachineMicrosoftAntimalwareExtensionContext.cs" />
+    <Compile Include="IaaS\Network\AddAzureDns.cs" />
     <Compile Include="IaaS\Network\GetAzureInternalLoadBalancer.cs" />
     <Compile Include="IaaS\Network\NewAzureInternalLoadBalancerConfig.cs" />
+    <Compile Include="IaaS\Network\RemoveAzureDns.cs" />
     <Compile Include="IaaS\Network\RemoveAzureInternalLoadBalancer.cs" />
     <Compile Include="IaaS\Network\AddAzureInternalLoadBalancer.cs" />
     <Compile Include="IaaS\Network\RemoveAzurePublicIP.cs" />
     <Compile Include="IaaS\Network\GetAzurePublicIP.cs" />
+    <Compile Include="IaaS\Network\SetAzureDns.cs" />
+    <Compile Include="IaaS\Network\SetAzureInternalLoadBalancer.cs" />
     <Compile Include="IaaS\Network\SetAzurePublicIP.cs" />
     <Compile Include="Model\InternalLoadBalancerSetting.cs" />
     <Compile Include="Model\InternalLoadBalancerContext.cs" />
