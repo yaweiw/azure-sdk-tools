@@ -180,6 +180,7 @@
     <Compile Include="FunctionalTests\GenericIaaSExtensionTests.cs" />
     <Compile Include="FunctionalTests\IaasCmdletInfo\AddAzureCertificateCmdletInfo.cs" />
     <Compile Include="FunctionalTests\IaasCmdletInfo\AddAzureDiskCmdletInfo.cs" />
+    <Compile Include="FunctionalTests\IaasCmdletInfo\AddAzureDnsCmdletInfo.cs" />
     <Compile Include="FunctionalTests\IaasCmdletInfo\AddAzureVMImageCmdletInfo.cs" />
     <Compile Include="FunctionalTests\IaasCmdletInfo\ExportAzureVMCmdletInfo.cs" />
     <Compile Include="FunctionalTests\IaasCmdletInfo\Extesnions\BGInfo\GetAzureVMBGInfoExtensionCmdletInfo.cs" />
@@ -244,6 +245,7 @@
     <Compile Include="FunctionalTests\IaasCmdletInfo\RemoveAzureCertificateCmdletInfo.cs" />
     <Compile Include="FunctionalTests\IaasCmdletInfo\RemoveAzureDataDiskCmdletInfo.cs" />
     <Compile Include="FunctionalTests\IaasCmdletInfo\RemoveAzureDiskCmdletInfo.cs" />
+    <Compile Include="FunctionalTests\IaasCmdletInfo\RemoveAzureDnsCmdletInfo.cs" />
     <Compile Include="FunctionalTests\IaasCmdletInfo\RemoveAzureEndpointCmdletInfo.cs" />
     <Compile Include="FunctionalTests\IaasCmdletInfo\RemoveAzureStaticVNetIPCmdletInfo.cs" />
     <Compile Include="FunctionalTests\IaasCmdletInfo\RemoveAzureSubscriptionCmdletInfo.cs" />
@@ -264,6 +266,7 @@
     <Compile Include="FunctionalTests\IaasCmdletInfo\SetAzureAclConfigCmdletInfo.cs" />
     <Compile Include="FunctionalTests\IaasCmdletInfo\SetAzureAvailabilitySetCmdletInfo.cs" />
     <Compile Include="FunctionalTests\IaasCmdletInfo\SetAzureDeploymentCmdletInfo.cs" />
+    <Compile Include="FunctionalTests\IaasCmdletInfo\SetAzureDnsCmdletInfo.cs" />
     <Compile Include="FunctionalTests\IaasCmdletInfo\SetAzureEndpointCmdletInfo.cs" />
     <Compile Include="FunctionalTests\IaasCmdletInfo\SetAzureLoadBalancedEndpointCmdletInfo.cs" />
     <Compile Include="FunctionalTests\IaasCmdletInfo\SetAzureOSDisk.cs" />

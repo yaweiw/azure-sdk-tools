@@ -94,6 +94,9 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
         // AzureDns
         public const string NewAzureDnsCmdletName = "New-AzureDns";
         public const string GetAzureDnsCmdletName = "Get-AzureDns";
+        public const string SetAzureDnsCmdletName = "Set-AzureDns";
+        public const string AddAzureDnsCmdletName = "Add-AzureDns";
+        public const string RemoveAzureDnsCmdletName = "Remove-AzureDns";
 
         // AzureEndpoint
         public const string AddAzureEndpointCmdletName = "Add-AzureEndpoint";        
