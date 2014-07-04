@@ -627,4 +627,10 @@
   <data name="DiagnosticsStorageAccountNotFound" xml:space="preserve">
     <value>Cannot find the storage account name {0} in the endpoint {1}</value>
   </data>
+  <data name="ServiceExistsReverseDnsFqdnCanNotBeSpecified" xml:space="preserve">
+    <value>Service already exists, ReverseDnsFqdn cannot be specified.</value>
+  </data>
+  <data name="ReverseDnsFqdnCanOnlyBeSpecifiedWhenNewCloudServic" xml:space="preserve">
+    <value>ReverseDnsFqdn can only be specified when creating a new cloud service.</value>
+  </data>
 </root>

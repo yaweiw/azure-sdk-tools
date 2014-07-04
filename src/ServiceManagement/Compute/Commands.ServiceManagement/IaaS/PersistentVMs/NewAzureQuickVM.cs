@@ -197,6 +197,14 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.PersistentVMs
                 }
             }
 
+            if (!string.IsNullOrEmpty(this.ReverseDnsFqdn))
+            {
+                if (serviceExists)
+                {
+                    throw new ApplicationException(Resources.ServiceExistsReverseDnsFqdnCanNotBeSpecified);
+                }
+            }
+
             if (!serviceExists)
             {
                 try

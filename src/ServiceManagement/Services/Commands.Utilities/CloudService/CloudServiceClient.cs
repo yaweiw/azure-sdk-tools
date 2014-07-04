@@ -852,8 +852,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService
             string name,
             string label = null,
             string location = null,
-            string affinityGroup = null,
-            string reverseDnsFqdn = null)
+            string affinityGroup = null)
         {
             if (!CloudServiceExists(name))
             {
@@ -862,8 +861,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService
                 var createParameters = new HostedServiceCreateParameters
                 {
                     ServiceName = name,
-                    Label = label,
-                    ReverseDnsFqdn = reverseDnsFqdn
+                    Label = label
                 };
 
                 if (!string.IsNullOrEmpty(affinityGroup))

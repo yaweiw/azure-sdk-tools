@@ -448,6 +448,10 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.PersistentVMs
                 {
                     throw new ArgumentException(Resources.LocationOrAffinityGroupCanOnlyBeSpecifiedWhenNewCloudService);
                 }
+                if (!string.IsNullOrEmpty(ReverseDnsFqdn))
+                {
+                    throw new ArgumentException(Resources.ReverseDnsFqdnCanOnlyBeSpecifiedWhenNewCloudService);
+                }
             }
 
             if (this.ParameterSetName.Equals("CreateService", StringComparison.OrdinalIgnoreCase) == true
