@@ -171,7 +171,6 @@
     <Compile Include="Common\ConversionUtilitiesTests.cs" />
     <Compile Include="Common\Testing.cs" />
     <Compile Include="Common\TestingTracingInterceptor.cs" />
-    <Compile Include="Common\WindowsAzureEnvironmentTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>

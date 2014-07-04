@@ -21,6 +21,75 @@ namespace Microsoft.WindowsAzure.Commands.Test.Common
     [TestClass]
     public class WindowsAzureEnvironmentTests
     {
+        private const string TestEndpointSuffix = "test.endpoint.suffix";
+
+        private const string TestAccount = "testaccount";
+
+        private static readonly string BlobEndpointUri = string.Concat("blob.", TestEndpointSuffix, "/");
+
+        private static readonly string FileEndpointUri = string.Concat("file.", TestEndpointSuffix, "/");
+
+        private static readonly string TableEndpointUri = string.Concat("table.", TestEndpointSuffix, "/");
+
+        private static readonly string QueueEndpointUri = string.Concat("queue.", TestEndpointSuffix, "/");
+
+        private WindowsAzureEnvironment azureEnvironment = new WindowsAzureEnvironment()
+        {
+            StorageEndpointSuffix = TestEndpointSuffix
+        };
+
+        [TestMethod]
+        public void StorageBlobEndpointFormatTest()
+        {
+            Assert.AreEqual(string.Concat("{0}://{1}.", BlobEndpointUri), azureEnvironment.StorageBlobEndpointFormat, "BlobEndpointFormat should match.");
+        }
+
+        [TestMethod]
+        public void StorageFileEndpointFormatTest()
+        {
+            Assert.AreEqual(string.Concat("{0}://{1}.", FileEndpointUri), azureEnvironment.StorageFileEndpointFormat, "FileEndpointFormat should match.");
+        }
+
+        [TestMethod]
+        public void StorageQueueEndpointFormatTest()
+        {
+            Assert.AreEqual(string.Concat("{0}://{1}.", QueueEndpointUri), azureEnvironment.StorageQueueEndpointFormat, "QueueEndpointFormat should match.");
+        }
+
+        [TestMethod]
+        public void StorageTableEndpointFormatTest()
+        {
+            Assert.AreEqual(string.Concat("{0}://{1}.", TableEndpointUri), azureEnvironment.StorageTableEndpointFormat, "TableEndpointFormat should match.");
+        }
+
+        [TestMethod]
+        public void GetStorageBlobEndpointTest()
+        {
+            GetEndpointTestInternal(this.azureEnvironment.GetStorageBlobEndpoint, true, BlobEndpointUri);
+            GetEndpointTestInternal(this.azureEnvironment.GetStorageBlobEndpoint, false, BlobEndpointUri);
+        }
+
+        [TestMethod]
+        public void GetStorageTableEndpointTest()
+        {
+            GetEndpointTestInternal(this.azureEnvironment.GetStorageTableEndpoint, true, TableEndpointUri);
+            GetEndpointTestInternal(this.azureEnvironment.GetStorageTableEndpoint, false, TableEndpointUri);
+        }
+
+        [TestMethod]
+        public void GetStorageFileEndpointTest()
+        {
+            GetEndpointTestInternal(this.azureEnvironment.GetStorageFileEndpoint, true, FileEndpointUri);
+            GetEndpointTestInternal(this.azureEnvironment.GetStorageFileEndpoint, false, FileEndpointUri);
+        }
+
+        [TestMethod]
+        public void GetStorageQueueEndpointTest()
+        {
+            GetEndpointTestInternal(this.azureEnvironment.GetStorageQueueEndpoint, true, QueueEndpointUri);
+            GetEndpointTestInternal(this.azureEnvironment.GetStorageQueueEndpoint, false, QueueEndpointUri);
+        }
+
         [TestMethod]
         public void GetsHttpsEndpointByDefault()
         {
@@ -74,6 +143,13 @@ namespace Microsoft.WindowsAzure.Commands.Test.Common
             Assert.AreNotEqual(environment.ActiveDirectoryServiceEndpointResourceId,
                 chinaEnvironment.ActiveDirectoryServiceEndpointResourceId);
 
+        }
+
+        private void GetEndpointTestInternal(Func<string, bool, Uri> getEndpoint, bool useHttps, string endpointSuffix)
+        {
+            Uri uri = getEndpoint(TestAccount, useHttps);
+            Assert.AreEqual(useHttps ? "https" : "http", uri.Scheme, "Unexpected uri scheme.");
+            Assert.AreEqual(string.Concat(TestAccount, ".", endpointSuffix.TrimEnd('/')), uri.DnsSafeHost, "Unexpected dns name.");
         }
     }
 }
