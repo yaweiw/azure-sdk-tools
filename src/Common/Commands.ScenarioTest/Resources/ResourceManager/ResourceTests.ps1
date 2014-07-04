@@ -37,7 +37,6 @@ function Test-CreatesNewSimpleResource
 
 		# Assert
 		Assert-AreEqual $expected.Name $actual.Name
-		Assert-AreEqual $expected.Tags[0]["Name"] $actual.Tags[0]["Name"]
 		Assert-AreEqual $expected.ResourceGroupName $actual.ResourceGroupName
 		Assert-AreEqual $expected.ResourceType $actual.ResourceType
 		Assert-AreEqual 1 @($list).Count
