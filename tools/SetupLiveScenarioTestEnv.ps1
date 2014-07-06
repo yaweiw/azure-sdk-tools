@@ -24,26 +24,24 @@ $serviceManagementVariables = Test-Path env:TEST_ORGID_AUTHENTICATION
 $oldRdfeTestVariables = $(Test-Path env:AZURE_STORAGE_ACCESS_KEY) -and $(Test-Path env:AZURE_STORAGE_ACCOUNT)
 if (!$serviceManagementVariables -AND !$resourceManagerVariables -AND !$oldRdfeTestVariables) {
   #TODO rewording the help information
-  Write-Host "For Service Management please set environment variables 'AZURE_STORAGE_ACCESS_KEY' and 'AZURE_STORAGE_ACCOUNT' and for Resource Manage set TEST_CSM_ORGID_AUTHENTICATION" -ForegroundColor "Red"
-
-  $subscription = Read-Host 'Please input the azure subscription guid you tests will use'
+  Write-Host "You environment has NOT been set up for sceanrio testing. We will help you configure..." -ForegroundColor "Yellow"
+  $subscription = Read-Host 'Please input the Azure subscription guid you tests will use:'
   $env:TEST_ORGID_AUTHENTICATION = "SubscriptionId=$subscription;BaseUri=https://management.core.windows.net/;AADAuthEndpoint=https://login.windows.net/"
   $env:TEST_CSM_ORGID_AUTHENTICATION = "SubscriptionId=$subscription;BaseUri=https://management.azure.com/;AADAuthEndpoint=https://login.windows.net/"
-
-  Write-Host "$env:TEST_ORGID_AUTHENTICATION"
-  Write-Host "$env:TEST_CSM_ORGID_AUTHENTICATION"
-  #TODO: find a way to persist the ids, and tell user so, and also how to set for godfood azure environments
-
-  #throw "Missing environment variables" 
+  Write-Host "To avoid getting prompt again, you can preset one of following environment variables depend on your powershell module mode:"
+  Write-Host "TEST_ORGID_AUTHENTICATION=$env:TEST_ORGID_AUTHENTICATION"
+  Write-Host "TEST_CSM_ORGID_AUTHENTICATION=$env:TEST_CSM_ORGID_AUTHENTICATION"
 }
 
 $env:AZURE_TEST_ENVIRONMENT="production"
 
 if ($Record) {
-	Write-Host "Setting up 'Record' mode"
-	$env:AZURE_TEST_MODE="Record"
-	$env:TEST_HTTPMOCK_OUTPUT="$env:AzurePSRoot\src\Common\Commands.ScenarioTest\Resources\SessionRecords\"
-	Write-Host "The HTTP traffic will be captured under $env:TEST_HTTPMOCK_OUTPUT." -ForegroundColor "Green"
+  Write-Host "Setting up 'Record' mode"
+  $env:AZURE_TEST_MODE="Record"
+  $env:TEST_HTTPMOCK_OUTPUT="$env:AzurePSRoot\src\Common\Commands.ScenarioTest\Resources\SessionRecords\"
+  Write-Host "The HTTP traffic will be captured under $env:TEST_HTTPMOCK_OUTPUT." -ForegroundColor "Green"
+} else {
+  Remove-Item env:\AZURE_TEST_MODE   
 }
 
-Write-Host "Environment has been set up. You can launch Visual Studio to run tests by typing devenv.exe here; Or through msbuild.exe" -ForegroundColor "Green"
+Write-Host "Environment has been set up. You can launch Visual Studio to run tests by typing devenv.exe here; or, through msbuild.exe" -ForegroundColor "Green"
