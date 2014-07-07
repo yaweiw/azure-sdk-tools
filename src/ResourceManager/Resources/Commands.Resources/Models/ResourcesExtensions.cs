@@ -25,7 +25,7 @@ using System.Text;
 
 namespace Microsoft.Azure.Commands.Resources.Models
 {
-    public static class ResourceManagerExtensions
+    public static class ResourcesExtensions
     {
         public static PSResourceGroup ToPSResourceGroup(this ResourceGroup resourceGroup, ResourcesClient client)
         {
@@ -212,7 +212,10 @@ namespace Microsoft.Azure.Commands.Resources.Models
                 string rowFormat = "{0, -" + maxNameLength + "}  {1, -" + maxTypeLength + "}  {2, -" + maxLocationLength + "}\r\n";
                 resourcesTable.AppendLine();
                 resourcesTable.AppendFormat(rowFormat, "Name", "Type", "Location");
-                resourcesTable.AppendFormat(rowFormat, GenerateSeparator(maxNameLength, "="), GenerateSeparator(maxTypeLength, "="), GenerateSeparator(maxLocationLength, "="));
+                resourcesTable.AppendFormat(rowFormat, 
+                    GeneralUtilities.GenerateSeparator(maxNameLength, "="),
+                    GeneralUtilities.GenerateSeparator(maxTypeLength, "="),
+                    GeneralUtilities.GenerateSeparator(maxLocationLength, "="));
 
                 foreach (PSResource resource in resources)
                 {
@@ -221,13 +224,6 @@ namespace Microsoft.Azure.Commands.Resources.Models
             }
 
             return resourcesTable.ToString();
-        }
-
-        private static string GenerateSeparator(int amount, string separator)
-        {
-            StringBuilder result = new StringBuilder();
-            while (amount-- != 0) result.Append(separator);
-            return result.ToString();
         }
 
         private static string ToString(TemplateLink templateLink)
@@ -253,7 +249,7 @@ namespace Microsoft.Azure.Commands.Resources.Models
                 string rowFormat = "{0, -15}  {1, -25}  {2, -10}\r\n";
                 result.AppendLine();
                 result.AppendFormat(rowFormat, "Name", "Type", "Value");
-                result.AppendFormat(rowFormat, GenerateSeparator(15, "="), GenerateSeparator(25, "="), GenerateSeparator(10, "="));
+                result.AppendFormat(rowFormat, GeneralUtilities.GenerateSeparator(15, "="), GeneralUtilities.GenerateSeparator(25, "="), GeneralUtilities.GenerateSeparator(10, "="));
 
                 foreach (KeyValuePair<string, DeploymentVariable> pair in dictionary)
                 {

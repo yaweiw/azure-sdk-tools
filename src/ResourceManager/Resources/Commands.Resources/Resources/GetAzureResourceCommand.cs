@@ -22,7 +22,7 @@ namespace Microsoft.Azure.Commands.Resources
     /// Get an existing resource.
     /// </summary>
     [Cmdlet(VerbsCommon.Get, "AzureResource", DefaultParameterSetName = BaseParameterSetName), OutputType(typeof(PSResource))]
-    public class GetAzureResourceCommand : ResourceManagerBaseCmdlet
+    public class GetAzureResourceCommand : ResourcesBaseCmdlet
     {
         internal const string BaseParameterSetName = "List resources";
         internal const string ParameterSetNameWithId = "Get a single resource";

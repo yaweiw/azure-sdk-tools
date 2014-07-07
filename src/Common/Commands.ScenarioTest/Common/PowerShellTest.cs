@@ -40,11 +40,11 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.Common
             this.modules = new List<string>();
             if (commandMode == AzureModule.AzureServiceManagement)
             {
-                this.modules.Add(FileUtilities.GetContentFilePath("Azure.psd1"));
+                this.modules.Add(FileUtilities.GetContentFilePath(@"ServiceManagement\Azure\Azure.psd1"));
             }
             else if (commandMode == AzureModule.AzureResourceManager)
             {
-                this.modules.Add(FileUtilities.GetContentFilePath("AzureResourceManager.psd1"));
+                this.modules.Add(FileUtilities.GetContentFilePath(@"ResourceManager\AzureResourceManager\AzureResourceManager.psd1"));
             }
             else
             {
@@ -104,6 +104,8 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.Common
             powershell.AddScript("$VerbosePreference='Continue'");
             powershell.AddScript("$DebugPreference='Continue'");
             powershell.AddScript("$ErrorActionPreference='Stop'");
+            powershell.AddScript("Write-Debug \"AZURE_TEST_MODE = $env:AZURE_TEST_MODE\"");
+            powershell.AddScript("Write-Debug \"TEST_HTTPMOCK_OUTPUT = $env:TEST_HTTPMOCK_OUTPUT\"");
         }
 
         [TestCleanup]

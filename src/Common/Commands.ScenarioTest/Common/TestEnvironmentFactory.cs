@@ -142,9 +142,14 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.Common
 
         private static string GetOrgId(string orgIdVariable)
         {
-            JObject subscription = JObject.Parse(Properties.Resources.CsmTestDummy);
-            string value = subscription.SelectToken(orgIdVariable).Value<string>();
-            return value;
+            string connectionString = Environment.GetEnvironmentVariable(orgIdVariable);
+            if (string.IsNullOrEmpty(connectionString))
+            {
+                JObject dummyTestConnectionString = JObject.Parse(Properties.Resources.CsmTestDummy);
+                connectionString = dummyTestConnectionString.SelectToken(orgIdVariable).Value<string>();
+            }
+            
+            return connectionString;
         }
         /// <summary>
         /// Break up the connection string into key-value pairs
