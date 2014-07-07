@@ -230,6 +230,11 @@ namespace Microsoft.Azure.Commands.Resources.Models
 
         public static string ConstructTagsTable(List<Hashtable> tags)
         {
+            if (tags == null)
+            {
+                return null;
+            }
+
             Hashtable emptyHashtable = new Hashtable
                 {
                     {"Name", string.Empty},
@@ -266,22 +271,29 @@ namespace Microsoft.Azure.Commands.Resources.Models
             return resourcesTable.ToString();
         }
 
-        private static string ToString(TemplateLink templateLink)
+        private static string ConstructTemplateLinkView(TemplateLink templateLink)
         {
+            if (templateLink == null)
+            {
+                return string.Empty;
+            }
+
             StringBuilder result = new StringBuilder();
 
-            if (templateLink != null)
-            {
-                result.AppendLine();
-                result.AppendLine(string.Format("{0, -15}: {1}", "Uri", templateLink.Uri));
-                result.AppendLine(string.Format("{0, -15}: {1}", "ContentVersion", templateLink.ContentVersion));
-            }
+            result.AppendLine();
+            result.AppendLine(string.Format("{0, -15}: {1}", "Uri", templateLink.Uri));
+            result.AppendLine(string.Format("{0, -15}: {1}", "ContentVersion", templateLink.ContentVersion));
 
             return result.ToString();
         }
 
-        private static string ToString(Dictionary<string, DeploymentVariable> dictionary)
+        public static string ConstructDeploymentVariableTable(Dictionary<string, DeploymentVariable> dictionary)
         {
+            if (dictionary == null)
+            {
+                return null;
+            }
+
             StringBuilder result = new StringBuilder();
 
             if (dictionary.Count > 0)
@@ -298,6 +310,7 @@ namespace Microsoft.Azure.Commands.Resources.Models
             }
 
             return result.ToString();
+
         }
 
         private static PSResourceGroupDeployment CreatePSResourceGroupDeployment(
@@ -322,19 +335,17 @@ namespace Microsoft.Azure.Commands.Resources.Models
                 {
                     Dictionary<string, DeploymentVariable> outputs = JsonConvert.DeserializeObject<Dictionary<string, DeploymentVariable>>(properties.Outputs);
                     deploymentObject.Outputs = outputs;
-                    deploymentObject.OutputsString = ToString(outputs);
                 }
 
                 if (!string.IsNullOrEmpty(properties.Parameters))
                 {
                     Dictionary<string, DeploymentVariable> parameters = JsonConvert.DeserializeObject<Dictionary<string, DeploymentVariable>>(properties.Parameters);
                     deploymentObject.Parameters = parameters;
-                    deploymentObject.ParametersString = ToString(parameters);
                 }
 
                 if (properties.TemplateLink != null)
                 {
-                    deploymentObject.TemplateLinkString = ToString(properties.TemplateLink);
+                    deploymentObject.TemplateLinkString = ConstructTemplateLinkView(properties.TemplateLink);
                 }
             }
 
