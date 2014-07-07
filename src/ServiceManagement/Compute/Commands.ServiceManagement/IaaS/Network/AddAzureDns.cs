@@ -23,27 +23,15 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Network
     {
         [Parameter(Position = 0, Mandatory = true, HelpMessage = "Name of the DNS Server")]
         [ValidateNotNullOrEmpty]
-        public string Name
-        {
-            get;
-            set;
-        }
+        public string Name { get; set; }
 
         [Parameter(Position = 1, Mandatory = true, HelpMessage = "IP Address of the DNS Server")]
         [ValidateNotNullOrEmpty]
-        public string IPAddress
-        {
-            get;
-            set;
-        }
+        public string IPAddress { get; set; }
 
         [Parameter(Position = 2, Mandatory = true, HelpMessage = "Service Name")]
         [ValidateNotNullOrEmpty]
-        public string ServiceName
-        {
-            get;
-            set;
-        }
+        public string ServiceName { get; set; }
 
         protected override void ProcessRecord()
         {

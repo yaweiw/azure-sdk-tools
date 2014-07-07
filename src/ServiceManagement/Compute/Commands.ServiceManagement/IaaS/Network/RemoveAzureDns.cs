@@ -28,26 +28,14 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Network
 
         [Parameter(Position = 0, Mandatory = true, HelpMessage = "Name of the DNS Server")]
         [ValidateNotNullOrEmpty]
-        public string Name
-        {
-            get;
-            set;
-        }
+        public string Name { get; set; }
 
         [Parameter(Position = 1, Mandatory = true, HelpMessage = "Service Name")]
         [ValidateNotNullOrEmpty]
-        public string ServiceName
-        {
-            get;
-            set;
-        }
+        public string ServiceName { get; set; }
 
         [Parameter(Position = 2, Mandatory = false, HelpMessage = "Do not confirm deletion of deployment")]
-        public SwitchParameter Force
-        {
-            get;
-            set;
-        }
+        public SwitchParameter Force { get; set; }
 
         private void RemoveDnsServer()
         {
