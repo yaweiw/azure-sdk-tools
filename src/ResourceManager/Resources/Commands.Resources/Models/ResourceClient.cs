@@ -273,7 +273,15 @@ namespace Microsoft.Azure.Commands.Resources.Models
 
         public static string ParseErrorMessage(string statusMessage)
         {
-            return CloudException.ParseXmlOrJsonError(statusMessage).Message;
+            CloudError error = CloudException.ParseXmlOrJsonError(statusMessage);
+            if (error.Message == null)
+            {
+                return error.OriginalMessage;
+            }
+            else
+            {
+                return error.Message;
+            }
         }
 
         private Deployment WaitDeploymentStatus(
