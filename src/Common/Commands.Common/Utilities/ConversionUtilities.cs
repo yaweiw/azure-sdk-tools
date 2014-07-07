@@ -64,6 +64,23 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
             }
         }
 
+        public static Dictionary<string, string> ToStringDictionary(this Hashtable hashtable)
+        {
+            if (hashtable == null)
+            {
+                return null;
+            }
+            else
+            {
+                var dictionary = new Dictionary<string, string>();
+                foreach (var entry in hashtable.Cast<DictionaryEntry>())
+                {
+                    dictionary[entry.Key.ToString()] = entry.Value == null ? null : entry.Value.ToString();
+                }
+                return dictionary;
+            }
+        }
+
         public static Hashtable ToHashtable<TV>(this IDictionary<string, TV> dictionary)
         {
             if (dictionary == null)
