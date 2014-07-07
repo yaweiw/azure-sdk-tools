@@ -133,11 +133,14 @@ namespace Microsoft.Azure.Commands.Resources.Models
             string newProperty = SerializeHashtable(parameters.PropertyObject,
                                                     addValueLayer: false);
 
+            Dictionary<string, string> tagDictionary = TagsConversionHelper.CreateTagDictionary(parameters.Tags, validate: true);
+
             ResourceManagementClient.Resources.CreateOrUpdate(parameters.ResourceGroupName, resourceIdentity,
                         new BasicResource
                             {
                                 Location = getResource.Resource.Location,
-                                Properties = newProperty
+                                Properties = newProperty,
+                                Tags = tagDictionary
                             });
 
             ResourceGetResult getResult = ResourceManagementClient.Resources.Get(parameters.ResourceGroupName, resourceIdentity);
@@ -255,7 +258,7 @@ namespace Microsoft.Azure.Commands.Resources.Models
         {
             ResourceGroup resourceGroup = ResourceManagementClient.ResourceGroups.Get(parameters.ResourceGroupName).ResourceGroup;
 
-            resourceGroup = CreateOrUpdateResourceGroup(parameters.ResourceGroupName, resourceGroup.Location, parameters.Tags);
+            resourceGroup = CreateOrUpdateResourceGroup(parameters.ResourceGroupName, resourceGroup.Location, parameters.Tag);
             WriteVerbose(string.Format("Updated resource group '{0}' in location '{1}'", resourceGroup.Name, resourceGroup.Location));
 
             return resourceGroup.ToPSResourceGroup(this);
