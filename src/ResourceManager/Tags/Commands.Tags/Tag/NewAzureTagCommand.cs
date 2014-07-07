@@ -15,14 +15,15 @@
 using Microsoft.Azure.Commands.Tags.Model;
 using System.Management.Automation;
 using System.Linq;
+using System.Collections.Generic;
 
 namespace Microsoft.Azure.Commands.Tags.Tag
 {
     /// <summary>
     /// Creates a new tag with the specified values
     /// </summary>
-    [Cmdlet(VerbsCommon.Add, "AzureTag"), OutputType(typeof(PSTag))]
-    public class AddAzureTagCommand : TagBaseCmdlet
+    [Cmdlet(VerbsCommon.New, "AzureTag"), OutputType(typeof(PSTag))]
+    public class NewAzureTagCommand : TagBaseCmdlet
     {
         [Parameter(Position = 0, Mandatory = true, ValueFromPipelineByPropertyName = true, HelpMessage = "Name of the tag. If the tag name doesn't exist, create the tag name. Otherwise, add the value to the existing tag name.")]
         [ValidateNotNullOrEmpty]
@@ -30,11 +31,11 @@ namespace Microsoft.Azure.Commands.Tags.Tag
 
         [Parameter(Position = 1, Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "Value of the tag. If specified, add the tag value to the tag name. Otherwise, keep the tag value unchanged.")]
         [ValidateNotNullOrEmpty]
-        public string[] Value { get; set; }
+        public string Value { get; set; }
 
         public override void ExecuteCmdlet()
         {
-            WriteObject(TagsClient.CreateTag(Name, Value != null ? Value.ToList() : null));
+            WriteObject(TagsClient.CreateTag(Name, Value != null ? new List<string> { Value } : null));
         }
     }
 }

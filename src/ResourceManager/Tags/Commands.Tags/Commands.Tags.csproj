@@ -164,7 +164,7 @@
     </Compile>
     <Compile Include="Tag\RemoveAzureTagCommand.cs" />
     <Compile Include="Tag\GetAzureTagCommand.cs" />
-    <Compile Include="Tag\AddAzureTagCommand.cs" />
+    <Compile Include="Tag\NewAzureTagCommand.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\nuget.targets" />

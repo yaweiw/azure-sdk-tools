@@ -23,6 +23,8 @@ namespace Microsoft.Azure.Commands.Tags.Model
 {
     public class TagsClient
     {
+        private const string ExecludedTagPrefix = "hidden-related:/";
+
         public IResourceManagementClient ResourceManagementClient { get; set; }
 
         public Action<string> VerboseLogger { get; set; }
@@ -61,12 +63,15 @@ namespace Microsoft.Azure.Commands.Tags.Model
             TagsListResult result = ResourceManagementClient.Tags.List();
             List<PSTag> tags = new List<PSTag>();
 
-            result.Tags.ForEach(t => tags.Add(t.ToPSTag()));
-            while (!string.IsNullOrEmpty(result.NextLink))
+            do
             {
-                result = ResourceManagementClient.Tags.ListNext(result.NextLink);
-                result.Tags.ForEach(t => tags.Add(t.ToPSTag()));
-            };
+                result.Tags.Where(t => !t.Name.StartsWith(ExecludedTagPrefix)).ForEach(t => tags.Add(t.ToPSTag()));
+
+                if (!string.IsNullOrEmpty(result.NextLink))
+                {
+                    result = ResourceManagementClient.Tags.ListNext(result.NextLink);
+                }
+            } while (!string.IsNullOrEmpty(result.NextLink));
 
             return tags;
         }

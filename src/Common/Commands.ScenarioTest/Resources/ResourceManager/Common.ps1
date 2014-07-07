@@ -18,7 +18,7 @@ Gets valid resource group name
 #>
 function Get-ResourceGroupName
 {
-	return getAssetName
+    return getAssetName
 }
 
 <#
@@ -27,7 +27,7 @@ Gets valid resource name
 #>
 function Get-ResourceName
 {
-	return getAssetName
+    return getAssetName
 }
 
 <#
@@ -36,12 +36,12 @@ Gets the default location for a provider
 #>
 function Get-ProviderLocation($provider)
 {
-	$location = Get-AzureLocation | where {$_.Name -eq $provider}
-	if ($location -eq $null) {
-		"West US"
-	} else {
-		$location.Locations[0]
-	}
+    $location = Get-AzureLocation | where {$_.Name -eq $provider}
+    if ($location -eq $null) {
+        "West US"
+    } else {
+        $location.Locations[0]
+    }
 }
 
 <#
@@ -50,9 +50,9 @@ Cleans the created resource groups
 #>
 function Clean-ResourceGroup($rgname)
 {
-	if ([Microsoft.Azure.Utilities.HttpRecorder.HttpMockServer]::Mode -ne [Microsoft.Azure.Utilities.HttpRecorder.HttpRecorderMode]::Playback) {
-		Remove-AzureResourceGroup -Name $rgname -Force	
-	}	
+    if ([Microsoft.Azure.Utilities.HttpRecorder.HttpMockServer]::Mode -ne [Microsoft.Azure.Utilities.HttpRecorder.HttpRecorderMode]::Playback) {
+        Remove-AzureResourceGroup -Name $rgname -Force
+    }
 }
 
 <#
@@ -61,7 +61,5 @@ Cleans the created tags
 #>
 function Clean-Tags
 {
-	if ([Microsoft.Azure.Utilities.HttpRecorder.HttpMockServer]::Mode -ne [Microsoft.Azure.Utilities.HttpRecorder.HttpRecorderMode]::Playback) {
-		Get-AzureTag | Remove-AzureTag -Force
-	}	
+    Get-AzureTag | Remove-AzureTag -Force
 }

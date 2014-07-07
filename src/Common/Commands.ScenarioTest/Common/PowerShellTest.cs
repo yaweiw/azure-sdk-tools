@@ -104,8 +104,8 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.Common
             powershell.AddScript("$VerbosePreference='Continue'");
             powershell.AddScript("$DebugPreference='Continue'");
             powershell.AddScript("$ErrorActionPreference='Stop'");
-            powershell.AddScript("Write-Debug \"AZURE_TEST_MODE=$env:AZURE_TEST_MODE\"");
-            powershell.AddScript("Write-Debug \"TEST_HTTPMOCK_OUTPUT=$env:TEST_HTTPMOCK_OUTPUT\"");
+            powershell.AddScript("Write-Debug \"AZURE_TEST_MODE = $env:AZURE_TEST_MODE\"");
+            powershell.AddScript("Write-Debug \"TEST_HTTPMOCK_OUTPUT = $env:TEST_HTTPMOCK_OUTPUT\"");
         }
 
         [TestCleanup]
