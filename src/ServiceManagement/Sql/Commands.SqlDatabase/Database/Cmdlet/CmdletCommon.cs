@@ -44,7 +44,7 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Database.Cmdlet
         /// <param name="context">The context upon which to perform the action</param>
         /// <param name="response">The database object.</param>
         /// <returns>Returns the response from the server</returns>
-        public static Database WaitForDatabaseToBecomeOnline(PSCmdlet cmdlet, IServerDataServiceContext context, Database response, string databaseName)
+        public static Database WaitForDatabaseToBecomeOnline(PSCmdlet cmdlet, IServerDataServiceContext context, Database response, string databaseName, bool isCreate)
         {
             // Duration to sleep: 1 second
             TimeSpan sleepDuration = TimeSpan.FromSeconds(2.0);
@@ -66,10 +66,10 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Database.Cmdlet
                     throw new Exception("An unexpected error occured.  The response from the server was null.");
                 }
 
-                // Check to see if the database is still in creating state
-                if (response.Status != (int)DatabaseStatus.Creating)
+                // Check to see if the database is ready for use.
+                if ( (isCreate && (response.Status != (int)DatabaseStatus.Creating)) || // The database is done being created
+                    (!isCreate && (response.ServiceObjectiveAssignmentState != 0)))     // The database is done with SLO upgrade
                 {
-                    // The SLO assignment completed so lets stop waiting.
                     break;
                 }
 
