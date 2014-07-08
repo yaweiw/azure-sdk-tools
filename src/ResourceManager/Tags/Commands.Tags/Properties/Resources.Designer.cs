@@ -77,5 +77,14 @@ namespace Microsoft.Azure.Commands.Tags.Properties {
                 return ResourceManager.GetString("RemovingTag", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Tag &apos;{0}&apos; not found.
+        /// </summary>
+        internal static string TagNotFoundMessage {
+            get {
+                return ResourceManager.GetString("TagNotFoundMessage", resourceCulture);
+            }
+        }
     }
 }
