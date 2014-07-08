@@ -34,7 +34,7 @@ namespace Microsoft.Azure.Commands.Tags.Tag
 
         public override void ExecuteCmdlet()
         {
-            List<PSTag> tags = TagsClient.ListTags();
+            List<PSTag> tags = string.IsNullOrEmpty(Name) ? TagsClient.ListTags() : new List<PSTag>() { TagsClient.GetTag(Name) };
             if (tags != null && tags.Count > 0)
             {
                 if (Name != null)

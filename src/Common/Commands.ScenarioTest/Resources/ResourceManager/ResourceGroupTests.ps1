@@ -151,7 +151,8 @@ function Test-AzureTagsEndToEnd
     $tag = Get-AzureTag $tag1
     Assert-AreEqual $tag1 $tag.Name
 
-    # Add value to the tag
+    # Add value to the tag (adding same value should pass)
+    New-AzureTag $tag1 value1
     New-AzureTag $tag1 value1
     New-AzureTag $tag1 value2
 
@@ -177,6 +178,9 @@ function Test-AzureTagsEndToEnd
 
     $tags = Get-AzureTag
     Assert-AreEqual 0 $tags.Count
+
+    # Get a non-existing tag
+    Assert-Throws { Get-AzureTag "non-existing" }
 
     Clean-Tags
 }
