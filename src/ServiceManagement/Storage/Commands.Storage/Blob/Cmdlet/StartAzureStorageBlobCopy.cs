@@ -319,10 +319,12 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Blob.Cmdlet
                     WriteWarning(String.Format(Resources.StartCopySourceContextMismatch, srcUri, context.BlobEndPoint));
                 }
             }
-
-            CloudBlobContainer container = destChannel.GetContainerReference(destContainer);
-            Func<long, Task> taskGenerator = (taskId) => StartCopyInTransferManager(taskId, destChannel, new Uri(srcUri), container, destBlobName);
-            RunTask(taskGenerator);
+            else
+            {
+                CloudBlobContainer container = destChannel.GetContainerReference(destContainer);
+                Func<long, Task> taskGenerator = (taskId) => StartCopyInTransferManager(taskId, destChannel, new Uri(srcUri), container, destBlobName);
+                RunTask(taskGenerator);
+            }
         }
 
         /// <summary>

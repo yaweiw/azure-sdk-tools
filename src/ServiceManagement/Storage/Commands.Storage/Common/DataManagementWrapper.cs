@@ -20,7 +20,7 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Common
     using System.Threading;
     using System.Threading.Tasks;
 
-    internal sealed class DataManagementWrapper : IDisposable
+    internal sealed class DataManagementWrapper : ITransferJobRunner
     {
         private TransferManager manager;
 
