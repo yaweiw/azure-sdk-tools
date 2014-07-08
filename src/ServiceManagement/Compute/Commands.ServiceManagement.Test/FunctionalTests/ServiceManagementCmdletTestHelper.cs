@@ -502,6 +502,22 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
             return dnsList;
         }
 
+        public ManagementOperationContext AddAzureDns(string name, string ipAddress, string serviceName)
+        {
+            return RunPSCmdletAndReturnFirst<ManagementOperationContext>(new AddAzureDnsCmdletInfo(name, ipAddress, serviceName));
+        }
+
+        public ManagementOperationContext SetAzureDns(string name, string ipAddress, string serviceName)
+        {
+            return RunPSCmdletAndReturnFirst<ManagementOperationContext>(new SetAzureDnsCmdletInfo(name, ipAddress, serviceName));
+        }
+
+        public ManagementOperationContext RemoveAzureDns(string name, string ipAddress, bool force = false)
+        {
+            return RunPSCmdletAndReturnFirst<ManagementOperationContext>(new RemoveAzureDnsCmdletInfo(name, ipAddress, force));
+        }
+        
+
         #endregion
 
         #region AzureEndpoint

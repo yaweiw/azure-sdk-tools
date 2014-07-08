@@ -12,6 +12,8 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
+using System.Collections;
+using System.Linq;
 using Microsoft.Azure.Commands.Resources.Models;
 using Microsoft.WindowsAzure.Commands.Utilities.Common;
 using Moq;
@@ -41,6 +43,8 @@ namespace Microsoft.Azure.Commands.Resources.Test
 
         private Dictionary<string, object> properties;
 
+        private List<Hashtable> tags;
+
         public NewAzureResourceCommandTests()
         {
             resourcesClientMock = new Mock<ResourcesClient>();
@@ -61,6 +65,11 @@ namespace Microsoft.Azure.Commands.Resources.Test
                             {"key2", "value2"}
                         }}
                 };
+            tags = new[] {new Hashtable
+                {
+                    {"Name", "value1"},
+                    {"Value", ""}
+                }}.ToList();
         }
 
         [Fact]
@@ -72,7 +81,8 @@ namespace Microsoft.Azure.Commands.Resources.Test
                 ParentResource = resourceParentName,
                 ResourceType = resourceType,
                 ResourceGroupName = resourceGroupName,
-                PropertyObject = properties.ToHashtable()
+                PropertyObject = properties.ToHashtable(),
+                Tags = tags
             };
             CreatePSResourceParameters actualParameters = new CreatePSResourceParameters();
             PSResource expected = new PSResource()
@@ -81,7 +91,8 @@ namespace Microsoft.Azure.Commands.Resources.Test
                 Location = resourceGroupLocation,
                 ResourceGroupName = expectedParameters.ResourceGroupName,
                 Properties = expectedParameters.PropertyObject,
-                ResourceType = expectedParameters.ResourceType
+                ResourceType = expectedParameters.ResourceType,
+                Tags = expectedParameters.Tags
             };
             resourcesClientMock.Setup(f => f.CreatePSResource(It.IsAny<CreatePSResourceParameters>()))
                 .Returns(expected)
@@ -92,6 +103,7 @@ namespace Microsoft.Azure.Commands.Resources.Test
             cmdlet.ResourceType = expectedParameters.ResourceType;
             cmdlet.ParentResource = expectedParameters.ParentResource;
             cmdlet.PropertyObject = expectedParameters.PropertyObject;
+            cmdlet.Tags = expectedParameters.Tags;
 
             cmdlet.ExecuteCmdlet();
 
@@ -100,6 +112,7 @@ namespace Microsoft.Azure.Commands.Resources.Test
             Assert.Equal(expectedParameters.ResourceType, actualParameters.ResourceType);
             Assert.Equal(expectedParameters.ParentResource, actualParameters.ParentResource);
             Assert.Equal(expectedParameters.PropertyObject, actualParameters.PropertyObject);
+            Assert.Equal(expectedParameters.Tags, actualParameters.Tags);
 
             commandRuntimeMock.Verify(f => f.WriteObject(expected), Times.Once());
         }

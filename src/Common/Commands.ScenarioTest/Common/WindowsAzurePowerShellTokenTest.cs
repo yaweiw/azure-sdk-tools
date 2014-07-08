@@ -34,7 +34,7 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.Common
         // Location where test output will be written to e.g. C:\Temp
         
         private static string outputDirKey = "TEST_HTTPMOCK_OUTPUT";
-
+        
         private WindowsAzureSubscription testSubscrption;
 
         private TestEnvironment testEnvironment;

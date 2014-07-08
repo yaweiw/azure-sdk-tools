@@ -112,6 +112,8 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.HostedServices
                             PublicIPName          = role.PublicIPs == null || !role.PublicIPs.Any() ? null
                                                   : !string.IsNullOrEmpty(role.PublicIPs.First().Name) ? role.PublicIPs.First().Name
                                                   : PersistentVMHelper.GetPublicIPName(vmRole),
+                            PublicIPIdleTimeoutInMinutes = role.PublicIPs == null || !role.PublicIPs.Any() ? null
+                                                  : role.PublicIPs.First().IdleTimeoutInMinutes,
                             DeploymentID          = currentDeployment.PrivateId,
                             InstanceEndpoints     = Mapper.Map<PVM.InstanceEndpointList>(role.InstanceEndpoints)
                         });

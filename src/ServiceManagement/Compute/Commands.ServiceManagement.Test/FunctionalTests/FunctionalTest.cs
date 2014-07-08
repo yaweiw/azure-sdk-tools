@@ -361,6 +361,59 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
         }
 
         /// <summary>
+        /// 
+        /// </summary>
+        [TestMethod(), TestCategory("Functional"), TestProperty("Feature", "IAAS"), Priority(1), Owner("derajen"), Description("Test the cmdlet ((Add,Set,Remove)-AzureDns)")]
+        public void AzureDnsTest2()
+        {
+            StartTest(MethodBase.GetCurrentMethod().Name, testStartTime);
+
+            const string dnsName = "OpenDns1";
+            const string ipAddress = "208.67.222.222";
+            const string ipAddress2 = "127.0.0.1";
+
+            try
+            {
+                vmPowershellCmdlets.NewAzureService(serviceName, locationName);
+
+                // Create a VM
+                var azureVMConfigInfo = new AzureVMConfigInfo(vmName, InstanceSize.ExtraSmall.ToString(), imageName);
+                var azureProvisioningConfig = new AzureProvisioningConfigInfo(OS.Windows, username, password);
+                var persistentVMConfigInfo = new PersistentVMConfigInfo(azureVMConfigInfo, azureProvisioningConfig, null, null);
+                PersistentVM vm = vmPowershellCmdlets.GetPersistentVM(persistentVMConfigInfo);
+                vmPowershellCmdlets.NewAzureVM(serviceName, new[] { vm });
+
+                // Add a DNS server
+                vmPowershellCmdlets.AddAzureDns(dnsName, ipAddress, serviceName);
+
+                var dnsServer = vmPowershellCmdlets.GetAzureDeployment(serviceName).DnsSettings.DnsServers[0];
+                Assert.AreEqual(dnsName, dnsServer.Name);
+                Assert.AreEqual(ipAddress, dnsServer.Address);
+
+                // Edit the DNS server 
+                vmPowershellCmdlets.SetAzureDns(dnsName, ipAddress2, serviceName);
+
+                dnsServer = vmPowershellCmdlets.GetAzureDeployment(serviceName).DnsSettings.DnsServers[0];
+                Assert.AreEqual(dnsName, dnsServer.Name);
+                Assert.AreEqual(ipAddress2, dnsServer.Address);
+
+                // Remove the DNS server 
+                vmPowershellCmdlets.RemoveAzureDns(dnsName, serviceName, force:true);
+
+                Assert.IsNull(vmPowershellCmdlets.GetAzureDeployment(serviceName).DnsSettings);
+
+                pass = true;
+
+            }
+            catch (Exception e)
+            {
+                pass = false;
+                Console.WriteLine("Exception occurred: {0}", e.ToString());
+                throw;
+            }
+        }
+
+        /// <summary>
         ///
         /// </summary>
         [TestMethod(), TestCategory("Functional"), TestCategory("BVT"), TestProperty("Feature", "IAAS"), Priority(1), Owner("hylee"), Description("Test the cmdlet (Get-AzureLocation)")]
