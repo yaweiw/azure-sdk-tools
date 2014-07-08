@@ -104,7 +104,7 @@ namespace Microsoft.WindowsAzure.Commands.Storage.File.Cmdlet
 
                 if (this.PassThru)
                 {
-                    this.OutputStream.WriteObject(taskId, baseDirectory);
+                    this.OutputStream.WriteObject(taskId, directoryToBeRemoved);
                 }
             });
         }

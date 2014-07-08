@@ -28,9 +28,9 @@ namespace Microsoft.WindowsAzure.Commands.Storage.File
         private const int DefaultConcurrentTaskCount = 10;
 
         /// <summary>
-        /// Blob Transfer Manager
+        /// Stores the transfer job runner instance.
         /// </summary>
-        private DataManagementWrapper dataManagementWrapper;
+        private ITransferJobRunner transferJobRunner;
 
         /// <summary>
         /// Gets or sets whether to force overwrite the existing file.
@@ -57,16 +57,14 @@ namespace Microsoft.WindowsAzure.Commands.Storage.File
         {
             base.BeginProcessing();
 
-            this.dataManagementWrapper = new DataManagementWrapper(
-                this.ConcurrentTaskCount ?? DefaultConcurrentTaskCount,
-                CmdletOperationContext.ClientRequestId);
+            this.transferJobRunner = TransferJobRunnerFactory.CreateRunner(this.ConcurrentTaskCount ?? DefaultConcurrentTaskCount);
         }
 
         protected override void EndProcessing()
         {
             base.EndProcessing();
             this.WriteTaskSummary();
-            this.dataManagementWrapper.Dispose();
+            this.transferJobRunner.Dispose();
         }
 
         protected async Task RunTransferJob(FileTransferJob job, ProgressRecord record)
@@ -77,7 +75,7 @@ namespace Microsoft.WindowsAzure.Commands.Storage.File
 
             try
             {
-                await this.dataManagementWrapper.RunTransferJob(job,
+                await this.transferJobRunner.RunTransferJob(job,
                         (percent, speed) =>
                         {
                             record.PercentComplete = (int)percent;

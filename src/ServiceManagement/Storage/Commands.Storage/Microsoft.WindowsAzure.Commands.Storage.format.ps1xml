@@ -2,6 +2,85 @@
 <Configuration>
   <ViewDefinitions>
     <View>
+      <Name>Microsoft.WindowsAzure.Storage.File.CloudFileShare</Name>
+      <ViewSelectedBy>
+        <TypeName>Microsoft.WindowsAzure.Storage.File.CloudFileShare</TypeName>
+      </ViewSelectedBy>
+      <GroupBy>
+        <ScriptBlock>$_.ServiceClient.BaseUri</ScriptBlock>
+        <Label>File End Point</Label>
+      </GroupBy>
+      <TableControl>
+        <TableHeaders>
+          <TableColumnHeader>
+            <Label>Name</Label>
+            <Width>63</Width>
+            <Alignment>Left</Alignment>
+          </TableColumnHeader>
+          <TableColumnHeader>
+            <Label>LastModified</Label>
+            <Alignment>Left</Alignment>
+          </TableColumnHeader>
+        </TableHeaders>
+        <TableRowEntries>
+          <TableRowEntry>
+            <TableColumnItems>
+              <TableColumnItem>
+                <ScriptBlock>$_.Name</ScriptBlock>
+              </TableColumnItem>
+              <TableColumnItem>
+                <ScriptBlock>$_.Properties.LastModified</ScriptBlock>
+              </TableColumnItem>
+            </TableColumnItems>
+          </TableRowEntry>
+        </TableRowEntries>
+      </TableControl>
+    </View>
+    <View>
+      <Name>Microsoft.WindowsAzure.Storage.File.CloudFileItems</Name>
+      <ViewSelectedBy>
+        <TypeName>Microsoft.WindowsAzure.Storage.File.CloudFile</TypeName>
+        <TypeName>Microsoft.WindowsAzure.Storage.File.CloudFileDirectory</TypeName>
+      </ViewSelectedBy>
+      <GroupBy>
+        <ScriptBlock>$_.Parent.Uri</ScriptBlock>
+        <Label>Directory</Label>
+      </GroupBy>
+      <TableControl>
+        <TableHeaders>
+          <TableColumnHeader>
+            <Label>Type</Label>
+            <Width>10</Width>
+            <Alignment>Left</Alignment>
+          </TableColumnHeader>
+          <TableColumnHeader>
+            <Label>Length</Label>
+            <Width>15</Width>
+            <Alignment>Right</Alignment>
+          </TableColumnHeader>
+          <TableColumnHeader>
+            <Label>Name</Label>
+            <Alignment>Left</Alignment>
+          </TableColumnHeader>
+        </TableHeaders>
+        <TableRowEntries>
+          <TableRowEntry>
+            <TableColumnItems>
+              <TableColumnItem>
+                <ScriptBlock>$_.DirectoryTag</ScriptBlock>
+              </TableColumnItem>
+              <TableColumnItem>
+                <ScriptBlock>$_.Length</ScriptBlock>
+              </TableColumnItem>
+              <TableColumnItem>
+                <ScriptBlock>$_.Name</ScriptBlock>
+              </TableColumnItem>
+            </TableColumnItems>
+          </TableRowEntry>
+        </TableRowEntries>
+      </TableControl>
+    </View>
+    <View>
       <Name>Microsoft.WindowsAzure.Storage.Blob.CloudBlobContainer</Name>
       <ViewSelectedBy>
         <TypeName>Microsoft.WindowsAzure.Storage.Blob.CloudBlobContainer</TypeName>
@@ -194,11 +273,11 @@
                 <ScriptBlock>
                   if (!$_.ApproximateMessageCount)
                   {
-                    "";
+                  "";
                   }
                   else
                   {
-                    $_.ApproximateMessageCount
+                  $_.ApproximateMessageCount
                   }
                 </ScriptBlock>
               </TableColumnItem>

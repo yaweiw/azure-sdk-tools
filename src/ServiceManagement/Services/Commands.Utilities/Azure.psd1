@@ -21,7 +21,7 @@ Author = 'Microsoft Corporation'
 CompanyName = 'Microsoft Corporation'
 
 # Copyright statement for this module
-Copyright = '© Microsoft Corporation. All rights reserved.'  
+Copyright = '?Microsoft Corporation. All rights reserved.'  
 
 # Description of the functionality provided by this module
 Description = ''
@@ -57,6 +57,7 @@ ScriptsToProcess = @()
 TypesToProcess = @(
     '.\Services\Microsoft.WindowsAzure.Commands.Websites.Types.ps1xml',
     '.\Sql\Microsoft.WindowsAzure.Commands.SqlDatabase.Types.ps1xml'
+    '.\Storage\Microsoft.WindowsAzure.Commands.Storage.Types.ps1xml'
 )
 
 # Format files (.ps1xml) to be loaded when importing this module
