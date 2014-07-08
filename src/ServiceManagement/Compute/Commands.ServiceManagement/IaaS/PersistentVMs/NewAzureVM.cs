@@ -65,6 +65,14 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.PersistentVMs
             set;
         }
 
+        [Parameter(Mandatory = false, ValueFromPipelineByPropertyName = true, ParameterSetName = "CreateService", HelpMessage = "Dns address to which the cloud service’s IP address resolves when queried using a reverse Dns query.")]
+        [ValidateNotNullOrEmpty]
+        public string ReverseDnsFqdn
+        {
+            get;
+            set;
+        }
+
         [Parameter(Mandatory = false, ValueFromPipelineByPropertyName = true, ParameterSetName = "CreateService", HelpMessage = "A description for the cloud service. The description may be up to 1024 characters in length.")]
         [ValidateNotNullOrEmpty]
         public string ServiceDescription
@@ -173,7 +181,8 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.PersistentVMs
                         ServiceName = this.ServiceName,
                         Description = this.ServiceDescription ??
                                         String.Format("Implicitly created hosted service{0}",DateTime.Now.ToUniversalTime().ToString("yyyy-MM-dd HH:mm")),
-                        Label = this.ServiceLabel ?? this.ServiceName
+                        Label = this.ServiceLabel ?? this.ServiceName,
+                        ReverseDnsFqdn = this.ReverseDnsFqdn
                     };
 
                     ExecuteClientActionNewSM(
@@ -438,6 +447,10 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.PersistentVMs
                 if (!string.IsNullOrEmpty(Location) && !string.IsNullOrEmpty(AffinityGroup))
                 {
                     throw new ArgumentException(Resources.LocationOrAffinityGroupCanOnlyBeSpecifiedWhenNewCloudService);
+                }
+                if (!string.IsNullOrEmpty(ReverseDnsFqdn))
+                {
+                    throw new ArgumentException(Resources.ReverseDnsFqdnCanOnlyBeSpecifiedWhenNewCloudService);
                 }
             }
 
