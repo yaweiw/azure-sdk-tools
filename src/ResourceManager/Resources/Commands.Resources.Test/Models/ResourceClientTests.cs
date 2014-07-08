@@ -527,7 +527,7 @@ namespace Microsoft.Azure.Commands.Resources.Test.Models
                 {
                     RequestId = "123",
                     StatusCode = HttpStatusCode.OK,
-                    Resource = new BasicResource
+                    Resource = new Resource
                     {
                         Location = "West US",
                         Properties = serializedProperties,
@@ -603,7 +603,7 @@ namespace Microsoft.Azure.Commands.Resources.Test.Models
                 {
                     RequestId = "123",
                     StatusCode = HttpStatusCode.OK,
-                    Resource = new BasicResource
+                    Resource = new Resource
                     {
                         Location = "West US",
                         Properties = serializedProperties,
@@ -676,7 +676,7 @@ namespace Microsoft.Azure.Commands.Resources.Test.Models
                 {
                     RequestId = "123",
                     StatusCode = HttpStatusCode.OK,
-                    Resource = new BasicResource
+                    Resource = new Resource
                     {
                         Location = "West US",
                         Properties = originalPropertiesSerialized,
@@ -913,7 +913,7 @@ namespace Microsoft.Azure.Commands.Resources.Test.Models
                 {
                     Deployment = new Deployment
                         {
-                            DeploymentName = deploymentName,
+                            Name = deploymentName,
                             Properties = new DeploymentProperties()
                             {
                                 Mode = DeploymentMode.Incremental,
@@ -1095,7 +1095,7 @@ namespace Microsoft.Azure.Commands.Resources.Test.Models
                 {
                     Deployment = new Deployment
                     {
-                        DeploymentName = deploymentName,
+                        Name = deploymentName,
                         Properties = new DeploymentProperties()
                         {
                             Mode = DeploymentMode.Incremental,
@@ -1171,7 +1171,7 @@ namespace Microsoft.Azure.Commands.Resources.Test.Models
                 {
                     Deployment = new Deployment
                     {
-                        DeploymentName = deploymentName,
+                        Name = deploymentName,
                         Properties = new DeploymentProperties()
                         {
                             Mode = DeploymentMode.Incremental,
@@ -1232,7 +1232,7 @@ namespace Microsoft.Azure.Commands.Resources.Test.Models
                 {
                     Deployment = new Deployment
                         {
-                            DeploymentName = deploymentName,
+                            Name = deploymentName,
                             Properties = new DeploymentProperties()
                             {
                                 Mode = DeploymentMode.Incremental,
@@ -1344,7 +1344,7 @@ namespace Microsoft.Azure.Commands.Resources.Test.Models
                 {
                     Deployment = new Deployment
                         {
-                            DeploymentName = deploymentName,
+                            Name = deploymentName,
                             Properties = new DeploymentProperties()
                             {
                                 Mode = DeploymentMode.Incremental,
@@ -1450,7 +1450,7 @@ namespace Microsoft.Azure.Commands.Resources.Test.Models
                 {
                     Deployment = new Deployment
                         {
-                            DeploymentName = deploymentName,
+                            Name = deploymentName,
                             Properties = new DeploymentProperties()
                             {
                                 Mode = DeploymentMode.Incremental,
@@ -1555,7 +1555,7 @@ namespace Microsoft.Azure.Commands.Resources.Test.Models
                 {
                     Deployment = new Deployment
                     {
-                        DeploymentName = deploymentName,
+                        Name = deploymentName,
                         Properties = new DeploymentProperties()
                         {
                             Mode = DeploymentMode.Incremental,
@@ -1809,7 +1809,7 @@ namespace Microsoft.Azure.Commands.Resources.Test.Models
                                {
                                    Deployment = new Deployment()
                                         {
-                                            DeploymentName = deploymentName + 1,
+                                            Name = deploymentName + 1,
                                             Properties = new DeploymentProperties()
                                                 {
                                                     Mode = DeploymentMode.Incremental,
@@ -1853,7 +1853,7 @@ namespace Microsoft.Azure.Commands.Resources.Test.Models
                                        {
                                            new Deployment()
                                                {
-                                                   DeploymentName = deploymentName + 1,
+                                                   Name = deploymentName + 1,
                                                    Properties = new DeploymentProperties()
                                                        {
                                                            Mode = DeploymentMode.Incremental,
@@ -1951,7 +1951,7 @@ namespace Microsoft.Azure.Commands.Resources.Test.Models
                 {
                     Deployment = new Deployment
                         {
-                            DeploymentName = deploymentName,
+                            Name = deploymentName,
                             Properties = new DeploymentProperties()
                             {
                                 Mode = DeploymentMode.Incremental,
@@ -1991,7 +1991,7 @@ namespace Microsoft.Azure.Commands.Resources.Test.Models
                     {
                         new Deployment()
                         {
-                            DeploymentName = deploymentName + 1,
+                            Name = deploymentName + 1,
                             Properties = new DeploymentProperties()
                             {
                                 Mode = DeploymentMode.Incremental,
@@ -2016,7 +2016,7 @@ namespace Microsoft.Azure.Commands.Resources.Test.Models
                     {
                         new Deployment()
                         {
-                            DeploymentName = deploymentName + 2,
+                            Name = deploymentName + 2,
                             Properties = new DeploymentProperties()
                             {
                                 Mode = DeploymentMode.Incremental,
@@ -2060,7 +2060,7 @@ namespace Microsoft.Azure.Commands.Resources.Test.Models
                     {
                         new Deployment()
                         {
-                            DeploymentName = deploymentName + 1,
+                            Name = deploymentName + 1,
                             Properties = new DeploymentProperties()
                             {
                                 Mode = DeploymentMode.Incremental,
@@ -2073,7 +2073,7 @@ namespace Microsoft.Azure.Commands.Resources.Test.Models
                         },
                         new Deployment()
                         {
-                            DeploymentName = deploymentName + 2,
+                            Name = deploymentName + 2,
                             Properties = new DeploymentProperties()
                             {
                                 Mode = DeploymentMode.Incremental,
@@ -2086,7 +2086,7 @@ namespace Microsoft.Azure.Commands.Resources.Test.Models
                         },
                         new Deployment()
                         {
-                            DeploymentName = deploymentName + 3,
+                            Name = deploymentName + 3,
                             Properties = new DeploymentProperties()
                             {
                                 Mode = DeploymentMode.Incremental,
