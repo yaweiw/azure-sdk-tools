@@ -123,4 +123,7 @@
   <data name="RemovingTag" xml:space="preserve">
     <value>Are you sure you want to remove tag '{0}'</value>
   </data>
+  <data name="TagNotFoundMessage" xml:space="preserve">
+    <value>Tag '{0}' not found</value>
+  </data>
 </root>

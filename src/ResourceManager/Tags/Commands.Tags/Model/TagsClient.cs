@@ -12,6 +12,7 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
+using Microsoft.Azure.Commands.Tags.Properties;
 using Microsoft.Azure.Management.Resources;
 using Microsoft.Azure.Management.Resources.Models;
 using Microsoft.WindowsAzure.Commands.Utilities.Common;
@@ -78,7 +79,13 @@ namespace Microsoft.Azure.Commands.Tags.Model
 
         public PSTag GetTag(string tag)
         {
-            return ListTags().First(t => t.Name.Equals(tag, StringComparison.OrdinalIgnoreCase));
+            List<PSTag> tags = ListTags();
+            if (!tags.Exists(t => t.Name.Equals(tag, StringComparison.OrdinalIgnoreCase)))
+            {
+                throw new Exception(string.Format(Resources.TagNotFoundMessage, tag));
+            }
+
+            return tags.First(t => t.Name.Equals(tag, StringComparison.OrdinalIgnoreCase));
         }
 
         /// <summary>
@@ -113,16 +120,9 @@ namespace Microsoft.Azure.Commands.Tags.Model
 
             if (values == null || values.Count == 0)
             {
-                try
-                {
-                    tagObject = GetTag(tag);
-                    tagObject.Values.ForEach(v => ResourceManagementClient.Tags.DeleteValue(tag, v.Name));
-                    ResourceManagementClient.Tags.Delete(tag);
-                }
-                catch
-                {
-                    // If the tag does not exist, ignore the exception.
-                }
+                tagObject = GetTag(tag);
+                tagObject.Values.ForEach(v => ResourceManagementClient.Tags.DeleteValue(tag, v.Name));
+                ResourceManagementClient.Tags.Delete(tag);
             }
             else
             {
