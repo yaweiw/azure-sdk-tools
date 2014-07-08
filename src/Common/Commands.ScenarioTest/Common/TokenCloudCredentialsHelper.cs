@@ -49,7 +49,7 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.Common
         public static string GetToken(string authEndpoint, string tenant, string clientId)
         {
             var adalWinFormType = typeof(WebBrowserNavigateErrorEventArgs);
-            Trace.WriteLine("Getting WebBrowserNavigateErrorEventArgs to force Microsoft.IdentityModel.Clients.ActiveDirectory.WindowsForms deployed by mstest");
+            Trace.WriteLine("Getting a random type from \'Microsoft.IdentityModel.Clients.ActiveDirectory.WindowsForms\' to force it be deployed by mstest");
 
             AuthenticationResult result = null;
             var thread = new Thread(() =>
