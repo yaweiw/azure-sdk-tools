@@ -12,6 +12,7 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
+using System.Collections;
 using Microsoft.Azure.Commands.Resources.Models;
 using System.Collections.Generic;
 using System.Management.Automation;
@@ -28,10 +29,13 @@ namespace Microsoft.Azure.Commands.Resources
         [Parameter(Position = 0, Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "The name of the resource group.")]
         [ValidateNotNullOrEmpty]
         public string Name { get; set; }
+
+        [Parameter(Position = 1, Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "The resource group tag.")]
+        public Hashtable Tag { get; set; }
         
         public override void ExecuteCmdlet()
         {
-            WriteObject(ResourcesClient.FilterResourceGroups(Name), true);
+            WriteObject(ResourcesClient.FilterResourceGroups(Name, Tag), true);
         }
     }
 }

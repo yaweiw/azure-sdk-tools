@@ -31,15 +31,16 @@ namespace Microsoft.Azure.Commands.Resources
         [ValidateNotNullOrEmpty]
         public string Name { get; set; }
 
+        [Alias("Tags")]
         [Parameter(Mandatory = true, Position = 1, ValueFromPipelineByPropertyName = true, HelpMessage = "An array of hashtables which represents resource tags.")]
-        public List<Hashtable> Tags { get; set; }
+        public List<Hashtable> Tag { get; set; }
 
         public override void ExecuteCmdlet()
         {
             UpdatePSResourceGroupParameters parameters = new UpdatePSResourceGroupParameters
             {
                 ResourceGroupName = Name,
-                Tags = Tags
+                Tag = Tag
             };
 
             WriteObject(ResourcesClient.UpdatePSResourceGroup(parameters));

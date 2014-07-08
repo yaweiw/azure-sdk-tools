@@ -58,26 +58,26 @@ namespace Microsoft.Azure.Commands.Resources.Test
             UpdatePSResourceGroupParameters expectedParameters = new UpdatePSResourceGroupParameters()
             {
                 ResourceGroupName = resourceGroupName,
-                Tags = tags
+                Tag = tags
             };
             UpdatePSResourceGroupParameters actualParameters = new UpdatePSResourceGroupParameters();
             PSResourceGroup expected = new PSResourceGroup()
             {
                 ResourceGroupName = expectedParameters.ResourceGroupName,
                 Resources = new List<PSResource>() { new PSResource() { Name = "resource1" } },
-                Tags = expectedParameters.Tags
+                Tags = expectedParameters.Tag
             };
             resourcesClientMock.Setup(f => f.UpdatePSResourceGroup(It.IsAny<UpdatePSResourceGroupParameters>()))
                 .Returns(expected)
                 .Callback((UpdatePSResourceGroupParameters p) => { actualParameters = p; });
 
             cmdlet.Name = expectedParameters.ResourceGroupName;
-            cmdlet.Tags = expectedParameters.Tags;
+            cmdlet.Tag = expectedParameters.Tag;
 
             cmdlet.ExecuteCmdlet();
 
             Assert.Equal(expectedParameters.ResourceGroupName, actualParameters.ResourceGroupName);
-            Assert.Equal(expectedParameters.Tags, actualParameters.Tags);
+            Assert.Equal(expectedParameters.Tag, actualParameters.Tag);
 
             commandRuntimeMock.Verify(f => f.WriteObject(expected), Times.Once());
         }

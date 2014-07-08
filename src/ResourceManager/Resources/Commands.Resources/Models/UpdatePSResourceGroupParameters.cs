@@ -22,6 +22,6 @@ namespace Microsoft.Azure.Commands.Resources.Models
     {
         public string ResourceGroupName { get; set; }
 
-        public List<Hashtable> Tags { get; set; }
+        public List<Hashtable> Tag { get; set; }
     }
 }

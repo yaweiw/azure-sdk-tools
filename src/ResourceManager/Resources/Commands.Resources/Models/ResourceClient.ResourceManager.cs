@@ -12,6 +12,7 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
+using System.Collections;
 using Microsoft.Azure.Management.Resources;
 using Microsoft.Azure.Management.Resources.Models;
 using Microsoft.WindowsAzure;
@@ -133,11 +134,14 @@ namespace Microsoft.Azure.Commands.Resources.Models
             string newProperty = SerializeHashtable(parameters.PropertyObject,
                                                     addValueLayer: false);
 
+            Dictionary<string, string> tagDictionary = TagsConversionHelper.CreateTagDictionary(parameters.Tags, validate: true);
+
             ResourceManagementClient.Resources.CreateOrUpdate(parameters.ResourceGroupName, resourceIdentity,
                         new BasicResource
                             {
                                 Location = getResource.Resource.Location,
-                                Properties = newProperty
+                                Properties = newProperty,
+                                Tags = tagDictionary
                             });
 
             ResourceGetResult getResult = ResourceManagementClient.Resources.Get(parameters.ResourceGroupName, resourceIdentity);
@@ -255,7 +259,7 @@ namespace Microsoft.Azure.Commands.Resources.Models
         {
             ResourceGroup resourceGroup = ResourceManagementClient.ResourceGroups.Get(parameters.ResourceGroupName).ResourceGroup;
 
-            resourceGroup = CreateOrUpdateResourceGroup(parameters.ResourceGroupName, resourceGroup.Location, parameters.Tags);
+            resourceGroup = CreateOrUpdateResourceGroup(parameters.ResourceGroupName, resourceGroup.Location, parameters.Tag);
             WriteVerbose(string.Format("Updated resource group '{0}' in location '{1}'", resourceGroup.Name, resourceGroup.Location));
 
             return resourceGroup.ToPSResourceGroup(this);
@@ -351,14 +355,41 @@ namespace Microsoft.Azure.Commands.Resources.Models
         /// Filters the subscription's resource groups.
         /// </summary>
         /// <param name="name">The resource group name.</param>
+        /// <param name="tag">The resource group tag.</param>
         /// <returns>The filtered resource groups</returns>
-        public virtual List<PSResourceGroup> FilterResourceGroups(string name)
+        public virtual List<PSResourceGroup> FilterResourceGroups(string name, Hashtable tag)
         {
             List<PSResourceGroup> result = new List<PSResourceGroup>();
             if (string.IsNullOrEmpty(name))
             {
-                result.AddRange(ResourceManagementClient.ResourceGroups.List(null).ResourceGroups
-                    .Select(rg => rg.ToPSResourceGroup(this)));
+                IList<ResourceGroup> resourceGroups = ResourceManagementClient.ResourceGroups.List(null).ResourceGroups;
+                // TODO: Replace with server side filtering when available
+                if (tag != null && tag.Count >= 1)
+                {
+                    PSTagValuePair tagValuePair = TagsConversionHelper.Create(tag);
+                    if (tagValuePair == null)
+                    {
+                        throw new ArgumentException(ProjectResources.InvalidTagFormat);
+                    }
+                    if (string.IsNullOrEmpty(tagValuePair.Value))
+                    {
+                        resourceGroups =
+                            resourceGroups.Where(rg => rg.Tags != null
+                                                       && rg.Tags.Keys.Contains(tagValuePair.Name,
+                                                           StringComparer.OrdinalIgnoreCase))
+                                .Select(rg => rg).ToList();
+                    }
+                    else
+                    {
+                        resourceGroups =
+                            resourceGroups.Where(rg => rg.Tags != null && rg.Tags.Keys.Contains(tagValuePair.Name,
+                                                           StringComparer.OrdinalIgnoreCase))
+                                          .Where(rg => rg.Tags.Values.Contains(tagValuePair.Value,
+                                                           StringComparer.OrdinalIgnoreCase))
+                                .Select(rg => rg).ToList();
+                    }
+                }
+                result.AddRange(resourceGroups.Select(rg => rg.ToPSResourceGroup(this)));
             }
             else
             {
