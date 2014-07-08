@@ -31,14 +31,14 @@ namespace Microsoft.WindowsAzure.Commands.Test.WAPackIaaS.Operations
     {
         private const string baseURI = "/CloudServices";
 
+        private const string cloudServiceName = "CloudService01";
+        private const string cloudServiceLabel = "CloudService01-Label";
+
         [TestMethod]
         [TestCategory("WAPackIaaS-All")]
         [TestCategory("WAPackIaaS-Unit")]
-        public void CreateCloudService()
+        public void ShouldCreateOneCloudService()
         {
-            const string cloudServiceName = "CloudService01";
-            const string cloudServiceLabel = "CloudService01-Label";
-
             var mockChannel = new MockRequestChannel();
 
             var cloudServiceToCreate = new CloudService { Name = cloudServiceName, Label = cloudServiceLabel };
@@ -55,12 +55,12 @@ namespace Microsoft.WindowsAzure.Commands.Test.WAPackIaaS.Operations
 
             Assert.IsNotNull(createdCloudService);
             Assert.IsInstanceOfType(createdCloudService, typeof(CloudService));
-            Assert.AreEqual(createdCloudService.Name, cloudServiceToReturn.Name);
-            Assert.AreEqual(createdCloudService.Label, cloudServiceToReturn.Label);
+            Assert.AreEqual(cloudServiceToReturn.Name, createdCloudService.Name);
+            Assert.AreEqual(cloudServiceToReturn.Label, createdCloudService.Label);
 
             var requestList = mockChannel.ClientRequests;
-            Assert.AreEqual(requestList.Count, 1);
-            Assert.AreEqual(requestList[0].Item1.Method, HttpMethod.Post.ToString());
+            Assert.AreEqual(1, requestList.Count);
+            Assert.AreEqual(HttpMethod.Post.ToString(), requestList[0].Item1.Method);
 
             // Check the URI (for Azure consistency)
             Assert.AreEqual(baseURI, mockChannel.ClientRequests[0].Item1.Address.AbsolutePath.Substring(1));
@@ -72,7 +72,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.WAPackIaaS.Operations
         public void ShouldReturnOneCloudService()
         {
             var mockChannel = new MockRequestChannel();
-            mockChannel.AddReturnObject(new CloudService { Name = "CloudService01", Label = "CloudService01-Label" });
+            mockChannel.AddReturnObject(new CloudService { Name = cloudServiceName, Label = cloudServiceLabel });
             mockChannel.AddReturnObject(new CloudResource());
 
             var cloudServiceOperations = new CloudServiceOperations(new WebClientFactory(new Subscription(), mockChannel));
@@ -89,10 +89,8 @@ namespace Microsoft.WindowsAzure.Commands.Test.WAPackIaaS.Operations
         [TestCategory("WAPackIaaS-Unit")]
         public void ShouldReturnOneCloudServiceByName()
         {
-            const string cloudServiceName = "CloudService01";
-
             var mockChannel = new MockRequestChannel();
-            mockChannel.AddReturnObject(new CloudService { Name = cloudServiceName, Label = "CloudService01-Label" });
+            mockChannel.AddReturnObject(new CloudService { Name = cloudServiceName, Label = cloudServiceLabel });
             mockChannel.AddReturnObject(new CloudResource());
 
             var cloudServiceOperations = new CloudServiceOperations(new WebClientFactory(new Subscription(), mockChannel));
@@ -109,21 +107,15 @@ namespace Microsoft.WindowsAzure.Commands.Test.WAPackIaaS.Operations
         [TestCategory("WAPackIaaS-Unit")]
         public void ShouldReturnMultipleCloudServices()
         {
-            const string cloudServiceName = "CloudService01";
-
             var mockChannel = new MockRequestChannel();
             var cldList = new List<object>
             {
-                new CloudService { Name = cloudServiceName, Label = "CloudService01-Label" },
-                new CloudService { Name = cloudServiceName, Label = "CloudService01-Label" }
+                new CloudService { Name = cloudServiceName, Label = cloudServiceLabel },
+                new CloudService { Name = cloudServiceName, Label = cloudServiceLabel }
             };
             mockChannel.AddReturnObject(cldList);
-            mockChannel.AddReturnObject(new CloudResource());
-            mockChannel.AddReturnObject(new VMRole { Name = "VMRole01", Label = "VMRole01-Label" });
-            mockChannel.AddReturnObject(new VM {});
-            mockChannel.AddReturnObject(new CloudResource());
-            mockChannel.AddReturnObject(new VMRole { Name = "VMRole01", Label = "VMRole01-Label" });
-            mockChannel.AddReturnObject(new VM {});
+            mockChannel.AddReturnObject(new CloudResource()).AddReturnObject(new VMRole { Name = "VMRole01", Label = "VMRole01-Label" }).AddReturnObject(new VM {});
+            mockChannel.AddReturnObject(new CloudResource()).AddReturnObject(new VMRole { Name = "VMRole01", Label = "VMRole01-Label" }).AddReturnObject(new VM {});
 
             var cloudServiceOperations = new CloudServiceOperations(new WebClientFactory(new Subscription(), mockChannel));
             var cloudServiceList = cloudServiceOperations.Read();
@@ -140,20 +132,18 @@ namespace Microsoft.WindowsAzure.Commands.Test.WAPackIaaS.Operations
         [TestMethod]
         [TestCategory("WAPackIaaS-All")]
         [TestCategory("WAPackIaaS-Unit")]
-        public void DeleteCloudService()
+        public void ShouldDeleteCloudService()
         {
-            const string cloudServiceName = "CloudService01";
-
             var mockChannel = new MockRequestChannel();
-            mockChannel.AddReturnObject(new CloudService { Name = cloudServiceName, Label = "CloudService01-Label" }, new WebHeaderCollection { "x-ms-request-id:" + Guid.NewGuid() });
+            mockChannel.AddReturnObject(new CloudService { Name = cloudServiceName, Label = cloudServiceLabel }, new WebHeaderCollection { "x-ms-request-id:" + Guid.NewGuid() });
 
             Guid? jobOut;
             var cloudServiceOperations = new CloudServiceOperations(new WebClientFactory(new Subscription(), mockChannel));
             cloudServiceOperations.Delete(cloudServiceName, out jobOut);
 
             var requestList = mockChannel.ClientRequests;
-            Assert.AreEqual(requestList.Count, 1);
-            Assert.AreEqual(requestList[0].Item1.Method, HttpMethod.Delete.ToString());
+            Assert.AreEqual(1, requestList.Count);
+            Assert.AreEqual(HttpMethod.Delete.ToString(), requestList[0].Item1.Method);
 
             // Check the URI (for Azure consistency)
             Assert.AreEqual(baseURI + "/" + cloudServiceName, mockChannel.ClientRequests[0].Item1.Address.AbsolutePath.Substring(1));

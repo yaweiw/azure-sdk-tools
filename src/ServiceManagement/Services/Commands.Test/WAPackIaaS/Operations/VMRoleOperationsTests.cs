@@ -33,15 +33,15 @@ namespace Microsoft.WindowsAzure.Commands.Test.WAPackIaaS.Operations
         private const string specificBaseUri = "/CloudServices/{0}/Resources/MicrosoftCompute/VMRoles/{1}";
         private const string vmsUri = "/CloudServices/{0}/Resources/MicrosoftCompute/VMRoles/{1}/VMs";
 
+        private const string vmRoleName = "VMRole01";
+        private const string vmRoleLabel = "VMRole01-Label";
+        private const string cloudServiceName = "CloudService01";
+
         [TestMethod]
         [TestCategory("WAPackIaaS-All")]
         [TestCategory("WAPackIaaS-Unit")]
-        public void CreateVMRole()
+        public void ShouldCreateOneVMRole()
         {
-            const string vmRoleName = "VMRole01";
-            const string vmRoleLabel = "VMRole01-Label";
-            const string cloudServiceName = "CloudService01";
-
             var mockChannel = new MockRequestChannel();
 
             var vmRoleToCreate = new VMRole 
@@ -63,12 +63,12 @@ namespace Microsoft.WindowsAzure.Commands.Test.WAPackIaaS.Operations
 
             Assert.IsNotNull(createdVMRole);
             Assert.IsInstanceOfType(createdVMRole, typeof(VMRole));
-            Assert.AreEqual(createdVMRole.Name, vmRoleToReturn.Name);
-            Assert.AreEqual(createdVMRole.Label, vmRoleToReturn.Label);
+            Assert.AreEqual(vmRoleToReturn.Name, createdVMRole.Name);
+            Assert.AreEqual(vmRoleToReturn.Label, createdVMRole.Label);
 
             var requestList = mockChannel.ClientRequests;
             Assert.AreEqual(1, requestList.Count);
-            Assert.AreEqual(requestList[0].Item1.Method, HttpMethod.Post.ToString());
+            Assert.AreEqual(HttpMethod.Post.ToString(), requestList[0].Item1.Method);
 
             // Check the URI (for Azure consistency)
             Assert.AreEqual(String.Format(genericBaseUri,cloudServiceName), mockChannel.ClientRequests[0].Item1.Address.AbsolutePath.Substring(1));
@@ -79,10 +79,6 @@ namespace Microsoft.WindowsAzure.Commands.Test.WAPackIaaS.Operations
         [TestCategory("WAPackIaaS-Unit")]
         public void ShouldReturnOneVMRole()
         {
-            const string vmRoleName = "VMRole01";
-            const string vmRoleLabel = "VMRole01-Label";
-            const string cloudServiceName = "CloudService01";
-
             var mockChannel = new MockRequestChannel();
             mockChannel.AddReturnObject(new VMRole { Name = vmRoleName, Label = vmRoleLabel });
 
@@ -93,6 +89,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.WAPackIaaS.Operations
             var requestList = mockChannel.ClientRequests;
             Assert.AreEqual(2, requestList.Count);
             Assert.AreEqual(String.Format(genericBaseUri, cloudServiceName), mockChannel.ClientRequests[0].Item1.Address.AbsolutePath.Substring(1));
+            Assert.AreEqual(String.Format(vmsUri, cloudServiceName, vmRoleName), mockChannel.ClientRequests[1].Item1.Address.AbsolutePath.Substring(1));
         }
 
         [TestMethod]
@@ -100,10 +97,6 @@ namespace Microsoft.WindowsAzure.Commands.Test.WAPackIaaS.Operations
         [TestCategory("WAPackIaaS-Unit")]
         public void ShouldReturnOneVMRoleByName()
         {
-            const string vmRoleName = "VMRole01";
-            const string vmRoleLabel = "VMRole01-Label";
-            const string cloudServiceName = "CloudService01";
-
             var mockChannel = new MockRequestChannel();
             mockChannel.AddReturnObject(new VMRole { Name = vmRoleName, Label = vmRoleLabel });
 
@@ -114,6 +107,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.WAPackIaaS.Operations
             var requestList = mockChannel.ClientRequests;
             Assert.AreEqual(2, requestList.Count);
             Assert.AreEqual(String.Format(specificBaseUri, cloudServiceName, vmRoleName), mockChannel.ClientRequests[0].Item1.Address.AbsolutePath.Substring(1));
+            Assert.AreEqual(String.Format(vmsUri, cloudServiceName, vmRoleName), mockChannel.ClientRequests[1].Item1.Address.AbsolutePath.Substring(1));
         }
 
         [TestMethod]
@@ -121,15 +115,17 @@ namespace Microsoft.WindowsAzure.Commands.Test.WAPackIaaS.Operations
         [TestCategory("WAPackIaaS-Unit")]
         public void ShouldReturnMultipleVMRole()
         {
-            const string vmRoleName = "VMRole01";
-            const string vmRoleLabel = "VMRole01-Label";
+            const string vmRoleName01 = "VMRole01";
+            const string vmRoleName02 = "VMRole02";
+            const string vmRoleLabel01 = "VMRole01-Label";
+            const string vmRoleLabel02 = "VMRole02-Label";
             const string cloudServiceName = "CloudService01";
 
             var mockChannel = new MockRequestChannel();
             var vmRoles = new List<object>
             {
-                new VMRole { Name = vmRoleName, Label = vmRoleLabel },
-                new VMRole { Name = vmRoleName, Label = vmRoleLabel }
+                new VMRole { Name = vmRoleName01, Label = vmRoleLabel01 },
+                new VMRole { Name = vmRoleName02, Label = vmRoleLabel02 }
             };
             mockChannel.AddReturnObject(vmRoles);
 
@@ -137,12 +133,15 @@ namespace Microsoft.WindowsAzure.Commands.Test.WAPackIaaS.Operations
             var vmRoleList = vmRoleOperations.Read(cloudServiceName);
 
             Assert.AreEqual(vmRoles.Count, vmRoleList.Count);
-            Assert.IsTrue(vmRoleList.All(vmRole => vmRole.Name == vmRoleName));
+            Assert.IsTrue(vmRoleList[0].Name == vmRoleName01);
+            Assert.IsTrue(vmRoleList[1].Name == vmRoleName02);
 
             // Check the URI (for Azure consistency)
             var requestList = mockChannel.ClientRequests;
             Assert.AreEqual(3, requestList.Count);
             Assert.AreEqual(String.Format(genericBaseUri, cloudServiceName), mockChannel.ClientRequests[0].Item1.Address.AbsolutePath.Substring(1));
+            Assert.AreEqual(String.Format(vmsUri, cloudServiceName, vmRoleName01), mockChannel.ClientRequests[1].Item1.Address.AbsolutePath.Substring(1));
+            Assert.AreEqual(String.Format(vmsUri, cloudServiceName, vmRoleName02), mockChannel.ClientRequests[2].Item1.Address.AbsolutePath.Substring(1));
         }
 
         [TestMethod]
@@ -150,10 +149,6 @@ namespace Microsoft.WindowsAzure.Commands.Test.WAPackIaaS.Operations
         [TestCategory("WAPackIaaS-Unit")]
         public void ShouldReturnMultipleVMRoleVMs()
         {
-            const string vmRoleName = "VMRole01";
-            const string vmRoleLabel = "VMRole01-Label";
-            const string cloudServiceName = "CloudService01";
-
             var mockChannel = new MockRequestChannel();
             var vmRole = new VMRole 
             {
@@ -179,12 +174,8 @@ namespace Microsoft.WindowsAzure.Commands.Test.WAPackIaaS.Operations
         [TestMethod]
         [TestCategory("WAPackIaaS-All")]
         [TestCategory("WAPackIaaS-Unit")]
-        public void DeleteVMRole()
+        public void ShouldDeleteVMRole()
         {
-            const string vmRoleName = "VMRole01";
-            const string vmRoleLabel = "VMRole01-Label";
-            const string cloudServiceName = "CloudService01";
-
             var mockChannel = new MockRequestChannel();
             mockChannel.AddReturnObject(new VMRole { Name = vmRoleName, Label = vmRoleLabel }, new WebHeaderCollection { "x-ms-request-id:" + Guid.NewGuid() });
 
@@ -193,11 +184,11 @@ namespace Microsoft.WindowsAzure.Commands.Test.WAPackIaaS.Operations
             vmRoleOperations.Delete(cloudServiceName, vmRoleName, out jobOut);
 
             Assert.AreEqual(mockChannel.ClientRequests.Count, 1);
-            Assert.AreEqual(mockChannel.ClientRequests[0].Item1.Method, HttpMethod.Delete.ToString());
+            Assert.AreEqual(HttpMethod.Delete.ToString(), mockChannel.ClientRequests[0].Item1.Method);
 
             // Check the URI (for Azure consistency)
             var requestList = mockChannel.ClientRequests;
-            Assert.AreEqual(requestList.Count, 1);
+            Assert.AreEqual(1, requestList.Count);
             Assert.AreEqual(String.Format(specificBaseUri, cloudServiceName, vmRoleName), mockChannel.ClientRequests[0].Item1.Address.AbsolutePath.Substring(1));
         }
 

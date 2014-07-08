@@ -31,15 +31,15 @@ namespace Microsoft.WindowsAzure.Commands.Test.WAPackIaaS.Operations
     {
         private const string baseURI = "/StaticIPAddressPools";
 
+        private const string ipAddressRangeStart = "192.168.1.2";
+        private const string ipAddressRangeEnd = "192.168.1.3";
+        private const string staticIPAddressPoolName = "StaticIPAddressPool01";
+
         [TestMethod]
         [TestCategory("WAPackIaaS-All")]
         [TestCategory("WAPackIaaS-Unit")]
-        public void CreateStaticIPAddressPool()
+        public void ShouldCreateOneStaticIPAddressPool()
         {
-            const string ipAddressRangeStart = "192.168.1.2";
-            const string ipAddressRangeEnd = "192.168.1.3";
-            const string staticIPAddressPoolName = "StaticIPAddressPool01";
-
             var mockChannel = new MockRequestChannel();
 
             var staticIPAddressPoolToCreate = new StaticIPAddressPool()
@@ -77,7 +77,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.WAPackIaaS.Operations
             Assert.AreEqual(1, requestList.Count);
             Assert.AreEqual(HttpMethod.Post.ToString(), requestList[0].Item1.Method);
 
-            // Check the URI (for Azure consistency)
+            // Check the URI
             Assert.AreEqual(baseURI, mockChannel.ClientRequests[0].Item1.Address.AbsolutePath.Substring(1));
         }
 
@@ -86,10 +86,6 @@ namespace Microsoft.WindowsAzure.Commands.Test.WAPackIaaS.Operations
         [TestCategory("WAPackIaaS-Unit")]
         public void ShouldReturnOneStaticIPAddressPool()
         {
-            const string ipAddressRangeStart = "192.168.1.2";
-            const string ipAddressRangeEnd = "192.168.1.3";
-            const string staticIPAddressPoolName = "StaticIPAddressPool01";
-
             var mockChannel = new MockRequestChannel();
 
             var staticIPAddressPoolToCreate = new StaticIPAddressPool()
@@ -106,7 +102,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.WAPackIaaS.Operations
             var readStaticIPAddressPool = staticIPAddressPoolOperations.Read(new VMSubnet(){ StampId = Guid.Empty, ID = Guid.Empty });
             Assert.AreEqual(1, readStaticIPAddressPool.Count);
 
-            // Check the URI (for Azure consistency)
+            // Check the URI
             var requestList = mockChannel.ClientRequests;
             Assert.AreEqual(1, requestList.Count);
             Assert.AreEqual(baseURI, mockChannel.ClientRequests[0].Item1.Address.AbsolutePath.Substring(1));
@@ -115,12 +111,8 @@ namespace Microsoft.WindowsAzure.Commands.Test.WAPackIaaS.Operations
         [TestMethod]
         [TestCategory("WAPackIaaS-All")]
         [TestCategory("WAPackIaaS-Unit")]
-        public void DeleteStaticIPAddressPool()
+        public void ShouldDeleteStaticIPAddressPool()
         {
-            const string ipAddressRangeStart = "192.168.1.2";
-            const string ipAddressRangeEnd = "192.168.1.3";
-            const string staticIPAddressPoolName = "StaticIPAddressPool01";
-
             var mockChannel = new MockRequestChannel();
 
             var existingStaticIPAddressPool = new StaticIPAddressPool()
@@ -141,7 +133,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.WAPackIaaS.Operations
             Assert.AreEqual(2, mockChannel.ClientRequests.Count);
             Assert.AreEqual(HttpMethod.Delete.ToString(), mockChannel.ClientRequests[1].Item1.Method);
 
-            // Check the URI (for Azure consistency)
+            // Check the URI
             var requestList = mockChannel.ClientRequests;
             var requestURI = mockChannel.ClientRequests[1].Item1.Address.AbsolutePath;
             Assert.AreEqual(2, requestList.Count);

@@ -27,13 +27,15 @@ namespace Microsoft.WindowsAzure.Commands.Test.WAPackIaaS.Operations
     [TestClass]
     public class LogicalNetworkOperationsTests
     {
+        private const string logicalNetworkName = "LogicalNetwork01";
+
         [TestMethod]
         [TestCategory("WAPackIaaS-All")]
         [TestCategory("WAPackIaaS-Unit")]
         public void ShouldReturnOneLogicalNetwork()
         {
             var mockChannel = new MockRequestChannel();
-            mockChannel.AddReturnObject(new LogicalNetwork { ID = Guid.Empty, CloudId = Guid.Empty, Name = "LogicalNetwork01" });
+            mockChannel.AddReturnObject(new LogicalNetwork { ID = Guid.Empty, CloudId = Guid.Empty, Name = logicalNetworkName });
 
             var logicalNetworkOperations = new LogicalNetworkOperations(new WebClientFactory(new Subscription(), mockChannel));
             Assert.AreEqual(1, logicalNetworkOperations.Read().Count);
@@ -44,16 +46,14 @@ namespace Microsoft.WindowsAzure.Commands.Test.WAPackIaaS.Operations
         [TestCategory("WAPackIaaS-Unit")]
         public void ShouldReturnOneLogicalNetworkByName()
         {
-            const string expectedLogicalNetworkName = "LogicalNetwork01";
-
             var mockChannel = new MockRequestChannel();
-            mockChannel.AddReturnObject(new LogicalNetwork { ID = Guid.Empty, CloudId = Guid.Empty, Name = expectedLogicalNetworkName });
+            mockChannel.AddReturnObject(new LogicalNetwork { ID = Guid.Empty, CloudId = Guid.Empty, Name = logicalNetworkName });
 
             var logicalNetworkOperations = new LogicalNetworkOperations(new WebClientFactory(new Subscription(), mockChannel));
-            var logicalNetworkList = logicalNetworkOperations.Read(expectedLogicalNetworkName);
+            var logicalNetworkList = logicalNetworkOperations.Read(logicalNetworkName);
 
             Assert.AreEqual(1, logicalNetworkList.Count);
-            Assert.AreEqual(expectedLogicalNetworkName, logicalNetworkList.First().Name);
+            Assert.AreEqual(logicalNetworkName, logicalNetworkList.First().Name);
         }
 
         [TestMethod]
@@ -61,13 +61,11 @@ namespace Microsoft.WindowsAzure.Commands.Test.WAPackIaaS.Operations
         [TestCategory("WAPackIaaS-Unit")]
         public void ShouldReturnMultipleLogicalNetworks()
         {
-            const string expectedLogicalNetworkName = "LogicalNetwork01";
-
             var mockChannel = new MockRequestChannel();
             var logicalNetworks = new List<object>
             {
-                new LogicalNetwork { ID = Guid.Empty, CloudId = Guid.Empty, Name = expectedLogicalNetworkName },
-                new LogicalNetwork { ID = Guid.Empty, CloudId = Guid.Empty, Name = expectedLogicalNetworkName }
+                new LogicalNetwork { ID = Guid.Empty, CloudId = Guid.Empty, Name = logicalNetworkName },
+                new LogicalNetwork { ID = Guid.Empty, CloudId = Guid.Empty, Name = logicalNetworkName }
             };
             mockChannel.AddReturnObject(logicalNetworks);
 
@@ -75,7 +73,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.WAPackIaaS.Operations
             var logicalNetworkList = logicalNetworkOperations.Read();
 
             Assert.AreEqual(2, logicalNetworkList.Count);
-            Assert.IsTrue(logicalNetworkList.All(logicalNetwork => logicalNetwork.Name == expectedLogicalNetworkName));
+            Assert.IsTrue(logicalNetworkList.All(logicalNetwork => logicalNetwork.Name == logicalNetworkName));
         }
 
         [TestMethod]

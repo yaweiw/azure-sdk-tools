@@ -57,7 +57,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.WAPackIaaS.Operations
 
             foreach (var vmRole in results)
             {
-                var vmList = this.GetVMs(cloudServiceName, results[0]);
+                var vmList = this.GetVMs(cloudServiceName, vmRole);
                 vmRole.VMs.Load(vmList);
             }
 

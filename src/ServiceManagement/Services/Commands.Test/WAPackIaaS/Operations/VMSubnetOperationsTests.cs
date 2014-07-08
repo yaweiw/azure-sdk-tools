@@ -29,15 +29,15 @@ namespace Microsoft.WindowsAzure.Commands.Test.WAPackIaaS.Operations
     {
         private const string baseURI = "/VMSubnets";
 
+        private const string subnet = "192.168.1.0/24";
+        private const string vmNetworkName = "VNet01";
+        private const string vmSubnetName = "VMSubnet01";
+
         [TestMethod]
         [TestCategory("WAPackIaaS-All")]
         [TestCategory("WAPackIaaS-Unit")]
-        public void CreateVMSubnet()
+        public void ShouldCreateOneVMSubnet()
         {
-            const string subnet = "192.168.1.0/24";
-            const string vmNetworkName = "VNet01";
-            const string vmSubnetName = "VMSubnet01";
-
             var mockChannel = new MockRequestChannel();
 
             var vmSubnetToCreate = new VMSubnet()
@@ -76,7 +76,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.WAPackIaaS.Operations
             Assert.AreEqual(1, requestList.Count);
             Assert.AreEqual(HttpMethod.Post.ToString(), requestList[0].Item1.Method);
 
-            // Check the URI (for Azure consistency)
+            // Check the URI
             Assert.AreEqual(baseURI, mockChannel.ClientRequests[0].Item1.Address.AbsolutePath.Substring(1));
         }
 
@@ -105,7 +105,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.WAPackIaaS.Operations
             var readStaticIPAddressPool = vmSubnetOperations.Read(new VMNetwork() { StampId = Guid.Empty, ID = Guid.Empty });
             Assert.AreEqual(1, readStaticIPAddressPool.Count);
 
-            // Check the URI (for Azure consistency)
+            // Check the URI
             var requestList = mockChannel.ClientRequests;
             Assert.AreEqual(1, requestList.Count);
             Assert.AreEqual(baseURI, mockChannel.ClientRequests[0].Item1.Address.AbsolutePath.Substring(1));
@@ -114,7 +114,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.WAPackIaaS.Operations
         [TestMethod]
         [TestCategory("WAPackIaaS-All")]
         [TestCategory("WAPackIaaS-Unit")]
-        public void DeleteVMSubnet()
+        public void ShouldDeleteVMSubnet()
         {
             const string subnet = "192.168.1.0/24";
             const string vmNetworkName = "VNet01";
@@ -140,7 +140,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.WAPackIaaS.Operations
             Assert.AreEqual(2, mockChannel.ClientRequests.Count);
             Assert.AreEqual(HttpMethod.Delete.ToString(), mockChannel.ClientRequests[1].Item1.Method);
 
-            // Check the URI (for Azure consistency)
+            // Check the URI
             var requestList = mockChannel.ClientRequests;
             var requestURI = mockChannel.ClientRequests[1].Item1.Address.AbsolutePath;
             Assert.AreEqual(2, requestList.Count);
