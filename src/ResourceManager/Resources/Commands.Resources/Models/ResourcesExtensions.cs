@@ -48,19 +48,7 @@ namespace Microsoft.Azure.Commands.Resources.Models
 
             if (result != null)
             {
-                deployment = CreatePSResourceGroupDeployment(result.Deployment.DeploymentName, resourceGroup, result.Deployment.Properties);
-            }
-
-            return deployment;
-        }
-
-        public static PSResourceGroupDeployment ToPSResourceGroupDeployment(this DeploymentOperationsCreateResult result)
-        {
-            PSResourceGroupDeployment deployment = new PSResourceGroupDeployment();
-
-            if (result != null)
-            {
-                deployment = CreatePSResourceGroupDeployment(result.Name, result.ResourceGroup, result.Properties);
+                deployment = CreatePSResourceGroupDeployment(result.Deployment.Name, resourceGroup, result.Deployment.Properties);
             }
 
             return deployment;
@@ -72,7 +60,7 @@ namespace Microsoft.Azure.Commands.Resources.Models
 
             if (result != null)
             {
-                deployment = CreatePSResourceGroupDeployment(result.DeploymentName, resourceGroup, result.Properties);
+                deployment = CreatePSResourceGroupDeployment(result.Name, resourceGroup, result.Properties);
             }
 
             return deployment;

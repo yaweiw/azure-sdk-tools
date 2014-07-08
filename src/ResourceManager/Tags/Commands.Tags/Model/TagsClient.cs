@@ -96,13 +96,11 @@ namespace Microsoft.Azure.Commands.Tags.Model
         /// <returns>The tag object</returns>
         public PSTag CreateTag(string tag, List<string> values)
         {
-            try { ResourceManagementClient.Tags.Create(tag); }
-            catch { /* If the tag already exists, ignore this exception */ }
+            ResourceManagementClient.Tags.CreateOrUpdate(tag);
 
             if (values != null)
             {
-                try { values.ForEach(v => ResourceManagementClient.Tags.CreateValue(tag, v)); }
-                catch { /* If the tag value already exists, ignore this exception */ }
+                values.ForEach(v => ResourceManagementClient.Tags.CreateOrUpdateValue(tag, v));
             }
 
             return GetTag(tag);
