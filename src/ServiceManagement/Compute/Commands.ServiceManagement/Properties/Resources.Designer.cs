@@ -538,11 +538,11 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Properties
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to You must specify a value for either Label or Description..
+        ///   Looks up a localized string similar to You must specify a value for Label, Description or ReverseDnsFqdn..
         /// </summary>
-        public static string LabelOrDescriptionMustBeSpecified {
+        public static string LabelOrDescriptionOrReverseDnsFqdnMustBeSpecified {
             get {
-                return ResourceManager.GetString("LabelOrDescriptionMustBeSpecified", resourceCulture);
+                return ResourceManager.GetString("LabelOrDescriptionOrReverseDnsFqdnMustBeSpecified", resourceCulture);
             }
         }
         
@@ -1231,6 +1231,15 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Properties
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to ReverseDnsFqdn can only be specified when creating a new cloud service..
+        /// </summary>
+        public static string ReverseDnsFqdnCanOnlyBeSpecifiedWhenNewCloudService {
+            get {
+                return ResourceManager.GetString("ReverseDnsFqdnCanOnlyBeSpecifiedWhenNewCloudService", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Roleinstance cannot be found.
         /// </summary>
         public static string RoleInstanceCanNotBeFound {
@@ -1281,6 +1290,15 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Properties
         public static string ServiceExistsLocationCanNotBeSpecified {
             get {
                 return ResourceManager.GetString("ServiceExistsLocationCanNotBeSpecified", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Service already exists, ReverseDnsFqdn cannot be specified..
+        /// </summary>
+        public static string ServiceExistsReverseDnsFqdnCanNotBeSpecified {
+            get {
+                return ResourceManager.GetString("ServiceExistsReverseDnsFqdnCanNotBeSpecified", resourceCulture);
             }
         }
         

@@ -207,8 +207,8 @@
   <data name="RebootOrReImageAreMissing" xml:space="preserve">
     <value>Reboot or Reimage parameters should be specified.</value>
   </data>
-  <data name="LabelOrDescriptionMustBeSpecified" xml:space="preserve">
-    <value>You must specify a value for either Label or Description.</value>
+  <data name="LabelOrDescriptionOrReverseDnsFqdnMustBeSpecified" xml:space="preserve">
+    <value>You must specify a value for Label, Description or ReverseDnsFqdn.</value>
   </data>
   <data name="DataDiskAlreadySpecifiedForVM" xml:space="preserve">
     <value>A data disk has already been assigned to LUN #{0} for this VM. Specify a different LUN or use Set-DataDisk to change the configuration settings of the existing disk.</value>
@@ -630,7 +630,7 @@
   <data name="ServiceExistsReverseDnsFqdnCanNotBeSpecified" xml:space="preserve">
     <value>Service already exists, ReverseDnsFqdn cannot be specified.</value>
   </data>
-  <data name="ReverseDnsFqdnCanOnlyBeSpecifiedWhenNewCloudServic" xml:space="preserve">
+  <data name="ReverseDnsFqdnCanOnlyBeSpecifiedWhenNewCloudService" xml:space="preserve">
     <value>ReverseDnsFqdn can only be specified when creating a new cloud service.</value>
   </data>
 </root>

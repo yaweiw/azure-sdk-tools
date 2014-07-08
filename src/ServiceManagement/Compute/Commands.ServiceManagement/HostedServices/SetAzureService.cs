@@ -62,11 +62,11 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.HostedServices
         {
             ServiceManagementProfile.Initialize();
 
-            if (this.Label == null && this.Description == null)
+            if (this.Label == null && this.Description == null && this.ReverseDnsFqdn == null)
             {
                 ThrowTerminatingError(new ErrorRecord(
                                                new Exception(
-                                               Resources.LabelOrDescriptionMustBeSpecified),
+                                               Resources.LabelOrDescriptionOrReverseDnsFqdnMustBeSpecified),
                                                string.Empty,
                                                ErrorCategory.InvalidData,
                                                null));
