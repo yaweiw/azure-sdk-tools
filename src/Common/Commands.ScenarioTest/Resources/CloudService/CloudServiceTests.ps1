@@ -548,7 +548,6 @@ function Test-SetAzureServiceWithReverseDnsFqdn
     Assert-AreEqual $reverseFqdn $service.ReverseDnsFqdn
 }
 
-
 <#
 .SYNOPSIS
 Executes Set-AzureService using the ReverseDnsFqdn parameter setting it to empty string.
