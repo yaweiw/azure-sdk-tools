@@ -134,6 +134,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AutomationTests\AutomationTests.cs" />
+    <Compile Include="CloudServiceTests\ReverseDnsFqdnAzureServiceScenarioTests.cs" />
     <Compile Include="CloudServiceTests\PublishAzureServiceScenarioTests.cs" />
     <Compile Include="CloudServiceTests\StartAzureServiceScenarioTests.cs" />
     <Compile Include="CloudServiceTests\StopAzureServiceScenarioTests.cs" />
