@@ -18,10 +18,10 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.ManagedCacheTests
     using Microsoft.WindowsAzure.Commands.ScenarioTest.Common;
 
     [TestClass]
-    public class ManagedCacheTests : WindowsAzurePowerShellCertificateTest
+    public class ManagedCacheTests : WindowsAzurePowerShellTokenTest
     {
         public ManagedCacheTests()
-            : base("Common.ps1",
+            : base(Utilities.Common.AzureModule.AzureServiceManagement, "Common.ps1",
                    "ManagedCache\\ManagedCacheTests.ps1")
         {
         }
