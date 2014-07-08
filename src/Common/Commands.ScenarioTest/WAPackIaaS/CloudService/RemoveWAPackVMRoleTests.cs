@@ -21,8 +21,6 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.WAPackIaaS.FunctionalTest
     [TestClass]
     public class RemoveWAPackVMRoleTests : CmdletTestCloudServiceBase
     {
-        public const string cmdletName = "Remove-WAPackVMRole";
-
         [TestInitialize]
         public void TestInitialize()
         {
@@ -38,7 +36,7 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.WAPackIaaS.FunctionalTest
         public void RemoveWAPackQuickCreateVMRole()
         {
             this.CreateVMRoleFromQuickCreate();
-            var vmRoleToDelete = this.CreatedVMRolesFromQuickCreate.First();
+            var vmRoleToDelete = this.createdVMRolesFromQuickCreate.First();
 
             var inputParams = new Dictionary<string, object>()
             {
@@ -46,7 +44,7 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.WAPackIaaS.FunctionalTest
                 {"Force", null},
                 {"PassThru", null}
             };
-            var isDeleted = this.InvokeCmdlet(cmdletName, inputParams);
+            var isDeleted = this.InvokeCmdlet(Cmdlets.RemoveWAPackVMRole, inputParams);
             Assert.AreEqual(1, isDeleted.Count);
             Assert.AreEqual(true, isDeleted.First());
 
@@ -54,10 +52,8 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.WAPackIaaS.FunctionalTest
             {
                 {"Name", vmRoleToDelete.Properties["Name"].Value}
             };
-            var deletedCloudService = this.InvokeCmdlet(GetVMRoleCmdletName, inputParams, NonExistantResourceExceptionMessage);
+            var deletedCloudService = this.InvokeCmdlet(Cmdlets.GetWAPackVMRole, inputParams, nonExistantResourceExceptionMessage);
             Assert.AreEqual(0, deletedCloudService.Count);
-
-            this.CreatedVMRolesFromQuickCreate.Remove(vmRoleToDelete);
         }
 
         [TestMethod]
@@ -67,16 +63,16 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.WAPackIaaS.FunctionalTest
         public void RemoveWAPackVMRoleOnExistingCloudService()
         {
             this.CreateVMRoleFromCloudService();
-            var vmRoleToDelete = this.CreatedVMRolesFromCloudService.First();
+            var vmRoleToDelete = this.createdVMRolesFromCloudService.First();
 
             var inputParams = new Dictionary<string, object>()
             {
                 {"VMRole", vmRoleToDelete},
-                {"CloudServiceName", this.CreatedCloudServices.First().Properties["Name"].Value},
+                {"CloudServiceName", this.createdCloudServices.First().Properties["Name"].Value},
                 {"Force", null},
                 {"PassThru", null}
             };
-            var isDeleted = this.InvokeCmdlet(cmdletName, inputParams);
+            var isDeleted = this.InvokeCmdlet(Cmdlets.RemoveWAPackVMRole, inputParams);
             Assert.AreEqual(1, isDeleted.Count);
             Assert.AreEqual(true, isDeleted.First());
 
@@ -84,17 +80,8 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.WAPackIaaS.FunctionalTest
             {
                 {"Name", vmRoleToDelete.Properties["Name"].Value}
             };
-            var deletedCloudService = this.InvokeCmdlet(GetVMRoleCmdletName, inputParams, NonExistantResourceExceptionMessage);
+            var deletedCloudService = this.InvokeCmdlet(Cmdlets.GetWAPackVMRole, inputParams, nonExistantResourceExceptionMessage);
             Assert.AreEqual(0, deletedCloudService.Count);
-
-            this.CreatedVMRolesFromCloudService.Remove(vmRoleToDelete);
-        }
-
-        [TestCleanup]
-        public void VMRoleCleanup()
-        {
-            this.RemoveVMRoles();
-            this.RemoveCloudServices();
         }
     }
 }

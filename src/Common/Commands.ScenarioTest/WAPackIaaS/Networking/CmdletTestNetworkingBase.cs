@@ -21,50 +21,42 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.WAPackIaaS.FunctionalTest
 
     public class CmdletTestNetworkingBase : CmdletTestBase
     {
-        // Cmdlets definition
-        protected const string GetLogicalNetworkCmdletName = "Get-WAPackLogicalNetwork";
-
-        protected const string GetVNetCmdletName = "Get-WAPackVNet";
-
-        protected const string NewVNetCmdletName = "New-WAPackVNet";
-
-        protected const string NewVMSubnetCmdletName = "New-WAPackVMSubnet";
-
-        protected const string NewStaticIPAddressPoolCmdletName = "New-WAPackStaticIPAddressPool";
-
-        protected const string RemoveVNetCmdletName = "Remove-WAPackVNet";
+        protected class Cmdlets
+        {
+            public const string NewWAPackVNet = "New-WAPackVNet";
+            public const string NewWAPackVMSubnet = "New-WAPackVMSubnet";
+            public const string NewWAPackStaticIPAddressPool = "New-WAPackStaticIPAddressPool";
+            public const string GetWAPackLogicalNetwork = "Get-WAPackLogicalNetwork";
+            public const string GetWAPackVNet = "Get-WAPackVNet";
+            public const string GetWAPackVMSubnet = "Get-WAPackVMSubnet";
+            public const string GetWAPackStaticIPAddressPool = "Get-WAPackStaticIPAddressPool";
+            public const string RemoveWAPackVNet = "Remove-WAPackVNet";
+            public const string RemoveWAPackVMSubnet = "Remove-WAPackVMSubnet";
+            public const string RemoveWAPackStaticIPAddressPool = "Remove-WAPackStaticIPAddressPool";
+        }
 
         // Network properties
-        protected string StaticIPAddressPoolName = "TestStaticIPAddressPoolForNetworkingTests";
+        protected const string staticIPAddressPoolName = "TestStaticIPAddressPoolForNetworkingTests";
+        protected const string vmSubnetName = "TestVMSubnetForNetworkingTests";
+        protected const string vNetName = "TestVNetForNetworkingTests";
+        protected const string vNetDescription = "Description - TestVNetForNetworkingTests";
+        protected const string subnet = "192.168.1.0/24";
+        protected const string ipAddressRangeStart = "192.168.1.2";
+        protected const string ipAddressRangeEnd = "192.168.1.10";
 
-        protected string VMSubnetName = "TestVMSubnetForNetworkingTests";
-
-        protected string VNetName = "TestVNetForNetworkingTests";
-
-        protected string VNetDescription = "Description - TestVNetForNetworkingTests";
-
-        protected string Subnet = "192.168.1.0/24";
-
-        protected string IPAddressRangeStart = "192.168.1.2";
-
-        protected string IPAddressRangeEnd = "192.168.1.10";
-
-        protected List<PSObject> CreatedVNet;
-
-        protected List<PSObject> CreatedVMSubnet;
-
-        protected List<PSObject> CreatedStaticIPAddressPool;
+        protected List<PSObject> createdVNet;
+        protected List<PSObject> createdVMSubnet;
+        protected List<PSObject> createdStaticIPAddressPool;
 
         // Error handling
-        protected const string NonExistantResourceExceptionMessage = "The remote server returned an error: (404) Not Found.";
-
-        protected const string AssertFailedNonExistantRessourceExceptionMessage = "Assert.IsFalse failed. " + NonExistantResourceExceptionMessage;
+        protected const string nonExistantResourceExceptionMessage = "The remote server returned an error: (404) Not Found.";
+        protected const string assertFailedNonExistantRessourceExceptionMessage = "Assert.IsFalse failed. " + nonExistantResourceExceptionMessage;
 
         protected CmdletTestNetworkingBase()
         {
-            CreatedVNet = new List<PSObject>();
-            CreatedVMSubnet = new List<PSObject>();
-            CreatedStaticIPAddressPool = new List<PSObject>();
+            this.createdVNet = new List<PSObject>();
+            this.createdVMSubnet = new List<PSObject>();
+            this.createdStaticIPAddressPool = new List<PSObject>();
         }
         protected void CreateFullVNet()
         {
@@ -79,52 +71,52 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.WAPackIaaS.FunctionalTest
             {
                 {"Name", WAPackConfigurationFactory.AvezLogicalNetworkName}
             };
-            var existingLogicalNetwork = this.InvokeCmdlet(GetLogicalNetworkCmdletName, inputParams, null);
+            var existingLogicalNetwork = this.InvokeCmdlet(Cmdlets.GetWAPackLogicalNetwork, inputParams, null);
             Assert.AreEqual(1, existingLogicalNetwork.Count, string.Format("{0} LogicalNetwork Found, {1} LogicalNetwork Was Expected.", existingLogicalNetwork.Count, 1));
 
             inputParams = new Dictionary<string, object>()
             {
-                {"Name", this.VNetName},
-                {"Description", this.VNetDescription},
+                {"Name", vNetName},
+                {"Description", vNetDescription},
                 {"LogicalNetwork", existingLogicalNetwork.First()}
             };
-            var createdVNet = this.InvokeCmdlet(NewVNetCmdletName, inputParams, null);
+            var createdVNet = this.InvokeCmdlet(Cmdlets.NewWAPackVNet, inputParams, null);
             Assert.AreEqual(1, createdVNet.Count, string.Format("{0} VNet Found, {1} VNet Was Expected.", createdVNet.Count, 1));
-            CreatedVNet.AddRange(createdVNet);
+            this.createdVNet.AddRange(createdVNet);
         }
 
         protected void CreateVMSubnet()
         {
             var inputParams = new Dictionary<string, object>()
             {
-                {"Name", this.VMSubnetName},
-                {"VNet", this.CreatedVNet.First()},
-                {"Subnet", this.Subnet}
+                {"Name", vmSubnetName},
+                {"VNet", this.createdVNet.First()},
+                {"Subnet", subnet}
             };
-            var createdSubnet = this.InvokeCmdlet(NewVMSubnetCmdletName, inputParams, null);
+            var createdSubnet = this.InvokeCmdlet(Cmdlets.NewWAPackVMSubnet, inputParams, null);
             Assert.AreEqual(1, createdSubnet.Count, string.Format("{0} VMSubnet Found, {1} VMSubnet Was Expected.", createdSubnet.Count, 1));
-            CreatedVMSubnet.AddRange(createdSubnet);
+            createdVMSubnet.AddRange(createdSubnet);
         }
 
         protected void CreateStaticIPAddressPool()
         {
             var inputParams = new Dictionary<string, object>()
             {
-                {"Name", this.StaticIPAddressPoolName},
-                {"VMSubnet", this.CreatedVMSubnet.First()},
-                {"IPAddressRangeStart", this.IPAddressRangeStart},
-                {"IPAddressRangeEnd", this.IPAddressRangeEnd}
+                {"Name", staticIPAddressPoolName},
+                {"VMSubnet", this.createdVMSubnet.First()},
+                {"IPAddressRangeStart", ipAddressRangeStart},
+                {"IPAddressRangeEnd", ipAddressRangeEnd}
             };
-            var createdStaticIPAddressPool = this.InvokeCmdlet(NewStaticIPAddressPoolCmdletName, inputParams, null);
+            var createdStaticIPAddressPool = this.InvokeCmdlet(Cmdlets.NewWAPackStaticIPAddressPool, inputParams, null);
             Assert.AreEqual(1, createdStaticIPAddressPool.Count, string.Format("{0} StaticIPAddressPool Found, {1} StaticIPAddressPool Was Expected.", createdStaticIPAddressPool.Count, 1));
-            CreatedStaticIPAddressPool.AddRange(createdStaticIPAddressPool);
+            this.createdStaticIPAddressPool.AddRange(createdStaticIPAddressPool);
         }
 
         protected void RemoveVNet()
         {
             // No need to remove individual components (StaticIPAddressPool, VMSubnet) since 
             // Remove-WAPackVNet will revove all components before removing the VNet.
-            foreach (var vNet in this.CreatedVNet)
+            foreach (var vNet in this.createdVNet)
             {
                 var inputParams = new Dictionary<string, object>()
                 {
@@ -132,31 +124,31 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.WAPackIaaS.FunctionalTest
                     {"Force", null},
                     {"PassThru", null}
                 };
-                var isDeleted = this.InvokeCmdlet(RemoveVNetCmdletName, inputParams);
+                var isDeleted = this.InvokeCmdlet(Cmdlets.RemoveWAPackVNet, inputParams);
                 Assert.AreEqual(1, isDeleted.Count);
                 Assert.AreEqual(true, isDeleted.First());
 
                 inputParams = new Dictionary<string, object>()
                 {
-                    {"Name", this.VNetName}
+                    {"Name", vNetName}
                 };
-                var deletedVNet = this.InvokeCmdlet(GetVNetCmdletName, inputParams, null);
+                var deletedVNet = this.InvokeCmdlet(Cmdlets.GetWAPackVNet, inputParams, null);
                 Assert.AreEqual(0, deletedVNet.Count);
             }
-            this.CreatedVNet.Clear();
+            this.createdVNet.Clear();
         }
 
         protected void NetworkingPreTestCleanup()
         {
             Dictionary<string, object> inputParams = new Dictionary<string, object>()
             {
-                {"Name", this.VNetName}
+                {"Name", vNetName}
             };
-            var existingVNet = this.InvokeCmdlet(GetVNetCmdletName, inputParams, null);
+            var existingVNet = this.InvokeCmdlet(Cmdlets.GetWAPackVNet, inputParams, null);
 
             if (existingVNet.Any())
             {
-                this.CreatedVNet.AddRange(existingVNet);
+                this.createdVNet.AddRange(existingVNet);
                 this.RemoveVNet();
             }
         }

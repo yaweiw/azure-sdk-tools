@@ -15,15 +15,12 @@
 namespace Microsoft.WindowsAzure.Commands.ScenarioTest.WAPackIaaS.FunctionalTest
 {
     using Microsoft.VisualStudio.TestTools.UnitTesting;
-    using Microsoft.WindowsAzure.Commands.Utilities.WAPackIaaS.DataContract;
     using System.Collections.Generic;
     using System.Linq;
 
     [TestClass]
     public class NewWAPackVMRoleTests : CmdletTestCloudServiceBase
     {
-        public const string cmdletName = "New-WAPackVMRole";
-
         [TestInitialize]
         public void TestInitialize()
         {
@@ -40,17 +37,17 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.WAPackIaaS.FunctionalTest
         {
             var inputParams = new Dictionary<string, object>()
             {
-                {"Name", this.VMRoleNameFromQuickCreate},
-                {"Label", this.VMRoleLabelToCreate},
+                {"Name", vmRoleNameFromQuickCreate},
+                {"Label", vmRoleLabelToCreate},
                 {"ResourceDefinition", GetBasicResDef()}
             };
-            var createdVMRole = this.InvokeCmdlet(cmdletName, inputParams, null);
+            var createdVMRole = this.InvokeCmdlet(Cmdlets.NewWAPackVMRole, inputParams, null);
 
             Assert.AreEqual(1, createdVMRole.Count, string.Format("Actual VMRoles found - {0}, Expected VMRoles - {1}", createdVMRole.Count, 1));
             var createdVMRoleName = createdVMRole.First().Properties["Name"].Value;
 
-            Assert.AreEqual(this.VMRoleNameFromQuickCreate, createdVMRoleName, string.Format("Actual VMRoles Name - {0}, Expected VMRoles Name- {1}", createdVMRoleName, this.VMRoleNameFromQuickCreate));
-            this.CreatedVMRolesFromQuickCreate.AddRange(createdVMRole);
+            Assert.AreEqual(vmRoleNameFromQuickCreate, createdVMRoleName, string.Format("Actual VMRoles Name - {0}, Expected VMRoles Name- {1}", createdVMRoleName, vmRoleNameFromQuickCreate));
+            this.createdVMRolesFromQuickCreate.AddRange(createdVMRole);
         }
 
         [TestMethod]
@@ -64,18 +61,18 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.WAPackIaaS.FunctionalTest
 
             var inputParams = new Dictionary<string, object>()
             {
-                {"Name", this.VMRoleNameFromCloudService},
-                {"Label", this.VMRoleLabelToCreate},
+                {"Name", vmRoleNameFromCloudService},
+                {"Label", vmRoleLabelToCreate},
                 {"ResourceDefinition", GetBasicResDef()},
-                {"CloudService", this.CreatedCloudServices.First()}
+                {"CloudService", this.createdCloudServices.First()}
             };
-            var actualCreatedVMRole = this.InvokeCmdlet(cmdletName, inputParams, null);
+            var actualCreatedVMRole = this.InvokeCmdlet(Cmdlets.NewWAPackVMRole, inputParams, null);
 
             Assert.AreEqual(1, actualCreatedVMRole.Count, string.Format("Actual VMRoles Found - {0}, Expected VMRoles - {1}", actualCreatedVMRole.Count, 1));
             var createdVMRoleName = actualCreatedVMRole.First().Properties["Name"].Value;
 
-            Assert.AreEqual(this.VMRoleNameFromCloudService, createdVMRoleName, string.Format("Actual VMRoles Name - {0}, Expected VMRoles Name- {1}", createdVMRoleName, this.VMRoleNameFromCloudService));
-            this.CreatedVMRolesFromCloudService.AddRange(actualCreatedVMRole);
+            Assert.AreEqual(vmRoleNameFromCloudService, createdVMRoleName, string.Format("Actual VMRoles Name - {0}, Expected VMRoles Name- {1}", createdVMRoleName, vmRoleNameFromCloudService));
+            this.createdVMRolesFromCloudService.AddRange(actualCreatedVMRole);
         }
 
         [TestCleanup]

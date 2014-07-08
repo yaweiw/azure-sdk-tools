@@ -21,8 +21,6 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.WAPackIaaS.FunctionalTest
     [TestClass]
     public class NewWAPackVNetTests : CmdletTestNetworkingBase
     {
-        public const string cmdletName = "New-WAPackVNet";
-
         [TestInitialize]
         public void TestInitialize()
         {
@@ -40,21 +38,21 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.WAPackIaaS.FunctionalTest
             {
                 {"Name", WAPackConfigurationFactory.AvezLogicalNetworkName}
             };
-            var existingLogicalNetwork = this.InvokeCmdlet(GetLogicalNetworkCmdletName, inputParams, null);
+            var existingLogicalNetwork = this.InvokeCmdlet(Cmdlets.GetWAPackLogicalNetwork, inputParams, null);
             Assert.AreEqual(1, existingLogicalNetwork.Count, string.Format("{0} LogicalNetwork Found, {1} LogicalNetwork Was Expected.", existingLogicalNetwork.Count, 1));
 
             inputParams = new Dictionary<string, object>()
             {
-                {"Name", this.VNetName},
-                {"Description", this.VNetDescription},
+                {"Name", vNetName},
+                {"Description", vNetDescription},
                 {"LogicalNetwork", existingLogicalNetwork.First()}
             };
-            var createdVNet = this.InvokeCmdlet(cmdletName, inputParams, null);
+            var createdVNet = this.InvokeCmdlet(Cmdlets.NewWAPackVNet, inputParams, null);
             Assert.AreEqual(1, createdVNet.Count, string.Format("{0} VNet Found, {1} VNet Was Expected.", createdVNet.Count, 1));
-            CreatedVNet.AddRange(createdVNet);
+            this.createdVNet.AddRange(createdVNet);
 
             var readVNetName = createdVNet.First().Properties["Name"].Value;
-            Assert.AreEqual(this.VNetName, readVNetName, string.Format("Actual VNet Name - {0}, Expected VNet Name - {1}", readVNetName, this.VNetName));
+            Assert.AreEqual(vNetName, readVNetName, string.Format("Actual VNet Name - {0}, Expected VNet Name - {1}", readVNetName, vNetName));
         }
 
         [TestCleanup]

@@ -21,8 +21,6 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.WAPackIaaS.FunctionalTest
     [TestClass]
     public class GetWAPackStaticIPAddressPoolTests : CmdletTestNetworkingBase
     {
-        public const string cmdletName = "Get-WAPackStaticIPAddressPool";
-
         [TestInitialize]
         public void TestInitialize()
         {
@@ -41,9 +39,9 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.WAPackIaaS.FunctionalTest
         {
             var inputParams = new Dictionary<string, object>()
             {
-                {"VMSubnet", this.CreatedVMSubnet.First()}
+                {"VMSubnet", this.createdVMSubnet.First()}
             };
-            var allStaticIPAddressPool = this.InvokeCmdlet(cmdletName, inputParams);
+            var allStaticIPAddressPool = this.InvokeCmdlet(Cmdlets.GetWAPackStaticIPAddressPool, inputParams);
             Assert.IsTrue(allStaticIPAddressPool.Count > 0);
         }
 
@@ -55,10 +53,10 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.WAPackIaaS.FunctionalTest
         {
             var inputParams = new Dictionary<string, object>()
             {
-                {"Name", this.StaticIPAddressPoolName},
-                {"VMSubnet", this.CreatedVMSubnet.First()}
+                {"Name", staticIPAddressPoolName},
+                {"VMSubnet", this.createdVMSubnet.First()}
             };
-            var staticIPAddressPool = this.InvokeCmdlet(cmdletName, inputParams);
+            var staticIPAddressPool = this.InvokeCmdlet(Cmdlets.GetWAPackStaticIPAddressPool, inputParams);
             Assert.AreEqual(1, staticIPAddressPool.Count, string.Format("{0} StaticIPAddressPool Found, {1} StaticIPAddressPool Was Expected.", staticIPAddressPool.Count, 1));
         }
 
@@ -73,9 +71,9 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.WAPackIaaS.FunctionalTest
             var inputParams = new Dictionary<string, object>()
             {
                 {"Name", expectedStaticIPAddressPoolName},
-                {"VMSubnet", this.CreatedVMSubnet.First()}
+                {"VMSubnet", this.createdVMSubnet.First()}
             };
-            var staticIPAddressPool = this.InvokeCmdlet(cmdletName, inputParams);
+            var staticIPAddressPool = this.InvokeCmdlet(Cmdlets.GetWAPackStaticIPAddressPool, inputParams);
             Assert.IsTrue(staticIPAddressPool.Count == 0);
         }
 

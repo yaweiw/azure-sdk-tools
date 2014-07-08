@@ -21,8 +21,6 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.WAPackIaaS.FunctionalTest
     [TestClass]
     public class RemoveWAPackCloudServiceTests : CmdletTestCloudServiceBase
     {
-        public const string cmdletName = "Remove-WAPackCloudService";
-
         [TestInitialize]
         public void TestInitialize()
         {
@@ -39,7 +37,7 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.WAPackIaaS.FunctionalTest
         [TestCategory("WAPackIaaS-CloudService")]
         public void RemoveWAPackCloudServiceDefault()
         {
-            var cloudServiceToDelete = this.CreatedCloudServices.First();
+            var cloudServiceToDelete = this.createdCloudServices.First();
 
             var inputParams = new Dictionary<string, object>()
             {
@@ -47,7 +45,7 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.WAPackIaaS.FunctionalTest
                 {"Force", null},
                 {"PassThru", null}
             };
-            var isDeleted = this.InvokeCmdlet(cmdletName, inputParams);
+            var isDeleted = this.InvokeCmdlet(Cmdlets.RemoveWAPackCloudService, inputParams);
             Assert.AreEqual(1, isDeleted.Count);
             Assert.AreEqual(true, isDeleted.First());
 
@@ -55,10 +53,10 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.WAPackIaaS.FunctionalTest
             {
                 {"Name", cloudServiceToDelete.Properties["Name"].Value}
             };
-            var deletedCloudService = this.InvokeCmdlet(GetCloudServiceCmdletName, inputParams, NonExistantResourceExceptionMessage);
+            var deletedCloudService = this.InvokeCmdlet(Cmdlets.GetWAPackCloudService, inputParams, nonExistantResourceExceptionMessage);
             Assert.AreEqual(0, deletedCloudService.Count);
 
-            this.CreatedCloudServices.Remove(cloudServiceToDelete);
+            this.createdCloudServices.Remove(cloudServiceToDelete);
         }
 
         [TestCleanup]

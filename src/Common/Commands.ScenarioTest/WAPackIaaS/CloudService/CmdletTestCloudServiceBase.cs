@@ -22,68 +22,62 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.WAPackIaaS.FunctionalTest
 
     public class CmdletTestCloudServiceBase : CmdletTestBase
     {
+        protected class Cmdlets
+        {
+            public const string NewWAPackCloudService = "New-WAPackCloudService";
+            public const string NewWAPackVMRole = "New-WAPackVMRole";
+            public const string GetWAPackCloudService = "Get-WAPackCloudService";
+            public const string GetWAPackVMRole = "Get-WAPackVMRole";
+            public const string SetWAPackVMRole = "Set-WAPackVMRole";
+            public const string RemoveWAPackCloudService = "Remove-WAPackCloudService";
+            public const string RemoveWAPackVMRole = "Remove-WAPackVMRole";
+        }
+
         // CloudService
-        protected const string GetCloudServiceCmdletName = "Get-WAPackCloudService";
+        protected const string cloudServiceName = "TestCloudService";
+        protected const string cloudServiceLabel = "Label - TestCloudService";
 
-        protected const string NewCloudServiceCmdletName = "New-WAPackCloudService";
-
-        protected const string RemoveCloudServiceCmdletName = "Remove-WAPackCloudService";
-
-        protected string CloudServiceName = "TestCloudService";
-
-        protected string CloudServiceLabel = "Label - TestCloudService";
-
-        protected List<PSObject> CreatedCloudServices;
+        protected List<PSObject> createdCloudServices;
 
         // VMRole
-        protected const string GetVMRoleCmdletName = "Get-WAPackVMRole";
+        protected const string vmRoleNameFromCloudService = "TestVMRoleFromCloudService";
+        protected const string vmRoleNameFromQuickCreate = "TestVMRoleFromQuickCreate";
+        protected const string vmRoleLabelToCreate = "Label - TestVMRole";
 
-        protected const string NewVMRoleCmdletName = "New-WAPackVMRole";
-
-        protected const string RemoveVMRoleCmdletName = "Remove-WAPackVMRole";
-
-        protected string VMRoleNameFromCloudService = "TestVMRoleFromCloudService";
-
-        protected string VMRoleNameFromQuickCreate = "TestVMRoleFromQuickCreate";
-
-        protected string VMRoleLabelToCreate = "Label - TestVMRole";
-
-        protected List<PSObject> CreatedVMRolesFromQuickCreate;
-
-        protected List<PSObject> CreatedVMRolesFromCloudService;
+        protected List<PSObject> createdVMRolesFromQuickCreate;
+        protected List<PSObject> createdVMRolesFromCloudService;
 
         // Error handling
-        protected const string NonExistantResourceExceptionMessage = "The remote server returned an error: (404) Not Found.";
-
-        protected const string AssertFailedNonExistantRessourceExceptionMessage = "Assert.IsFalse failed. " + NonExistantResourceExceptionMessage;
+        protected const string nonExistantResourceExceptionMessage = "The remote server returned an error: (404) Not Found.";
+        protected const string assertFailedNonExistantRessourceExceptionMessage = "Assert.IsFalse failed. " + nonExistantResourceExceptionMessage;
 
         protected CmdletTestCloudServiceBase()
         {
-            CreatedCloudServices = new List<PSObject>();
-            CreatedVMRolesFromQuickCreate = new List<PSObject>();
-            CreatedVMRolesFromCloudService = new List<PSObject>();
+            this.createdCloudServices = new List<PSObject>();
+            this.createdVMRolesFromQuickCreate = new List<PSObject>();
+            this.createdVMRolesFromCloudService = new List<PSObject>();
         }
 
         protected void CreateCloudService()
         {
             var inputParams = new Dictionary<string, object>()
             {
-                {"Name", CloudServiceName},
-                {"Label", CloudServiceLabel}
+                {"Name", cloudServiceName},
+                {"Label", cloudServiceLabel}
             };
-            var createdCloudService = this.InvokeCmdlet(NewCloudServiceCmdletName, inputParams);
+            var createdCloudService = this.InvokeCmdlet(Cmdlets.NewWAPackCloudService, inputParams);
             Assert.AreEqual(1, createdCloudService.Count, string.Format("Actual CloudServices found - {0}, Expected CloudServices - {1}", createdCloudService.Count, 1));
 
             var readCloudServiceName = createdCloudService.First().Properties["Name"].Value;
-            Assert.AreEqual(CloudServiceName, readCloudServiceName, string.Format("Actual CloudService name - {0}, Expected CloudService name- {1}", readCloudServiceName, CloudServiceName));
+            Assert.AreEqual(cloudServiceName, readCloudServiceName, string.Format("Actual CloudService name - {0}, Expected CloudService name- {1}", readCloudServiceName, cloudServiceName));
 
             var readCloudServiceLabel = createdCloudService.First().Properties["Label"].Value;
-            Assert.AreEqual(CloudServiceLabel, readCloudServiceLabel, string.Format("Actual CloudService Label - {0}, Expected CloudService Label- {1}", readCloudServiceLabel, CloudServiceLabel));
+            Assert.AreEqual(cloudServiceLabel, readCloudServiceLabel, string.Format("Actual CloudService Label - {0}, Expected CloudService Label- {1}", readCloudServiceLabel, cloudServiceLabel));
 
             var readCloudServiceProvisioningState = createdCloudService.First().Properties["ProvisioningState"].Value;
             Assert.AreEqual("Provisioned", readCloudServiceProvisioningState, string.Format("Actual CloudService Provisionning State - {0}, Expected CloudService name- {1}", readCloudServiceProvisioningState, "Provisioned"));
 
-            this.CreatedCloudServices.AddRange(createdCloudService);
+            this.createdCloudServices.AddRange(createdCloudService);
         }
 
         protected void CloudServicePreTestCleanup()
@@ -92,25 +86,25 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.WAPackIaaS.FunctionalTest
             {
                 var inputParams = new Dictionary<string, object>()
                 {
-                    {"Name", this.CloudServiceName}
+                    {"Name", cloudServiceName}
                 };
-                var existingCloudServices = this.InvokeCmdlet(GetCloudServiceCmdletName, inputParams);
+                var existingCloudServices = this.InvokeCmdlet(Cmdlets.GetWAPackCloudService ,inputParams);
 
                 if (existingCloudServices != null && existingCloudServices.Any())
                 {
-                    this.CreatedCloudServices.AddRange(existingCloudServices);
+                    this.createdCloudServices.AddRange(existingCloudServices);
                     this.RemoveCloudServices();
                 }
             }
             catch (AssertFailedException e)
             {
-                Assert.AreEqual(AssertFailedNonExistantRessourceExceptionMessage, e.Message);
+                Assert.AreEqual(assertFailedNonExistantRessourceExceptionMessage, e.Message);
             }
         }
 
         protected void RemoveCloudServices()
         {
-            foreach (var cloudService in this.CreatedCloudServices)
+            foreach (var cloudService in this.createdCloudServices)
             {
                 var inputParams = new Dictionary<string, object>()
                 {
@@ -118,36 +112,36 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.WAPackIaaS.FunctionalTest
                     {"Force", null},
                     {"PassThru", null}
                 };
-                var isDeleted = this.InvokeCmdlet(RemoveCloudServiceCmdletName, inputParams, null);
+                var isDeleted = this.InvokeCmdlet(Cmdlets.RemoveWAPackCloudService, inputParams, null);
                 Assert.AreEqual(1, isDeleted.Count);
                 Assert.AreEqual(true, isDeleted.First());
 
                 inputParams = new Dictionary<string, object>()
                 {
-                    {"Name", this.CloudServiceName}
+                    {"Name", cloudServiceName}
                 };
-                var deletedCloudService = this.InvokeCmdlet(GetCloudServiceCmdletName, inputParams, NonExistantResourceExceptionMessage);
+                var deletedCloudService = this.InvokeCmdlet(Cmdlets.GetWAPackCloudService, inputParams, nonExistantResourceExceptionMessage);
                 Assert.AreEqual(0, deletedCloudService.Count);
             }
 
-            this.CreatedCloudServices.Clear();
+            this.createdCloudServices.Clear();
         }
 
         protected void CreateVMRoleFromQuickCreate()
         {
             Dictionary<string, object> inputParams = new Dictionary<string, object>()
             {
-                {"Name", this.VMRoleNameFromQuickCreate},
-                {"Label", this.VMRoleLabelToCreate},
+                {"Name", vmRoleNameFromQuickCreate},
+                {"Label", vmRoleLabelToCreate},
                 {"ResourceDefinition", GetBasicResDef()}
             };
-            var createdVMRole = this.InvokeCmdlet(NewVMRoleCmdletName, inputParams, null);
+            var createdVMRole = this.InvokeCmdlet(Cmdlets.NewWAPackVMRole, inputParams, null);
 
             Assert.AreEqual(1, createdVMRole.Count, string.Format("Actual VMRoles found - {0}, Expected VMRoles - {1}", createdVMRole.Count, 1));
             var createdVMRoleName = createdVMRole.First().Properties["Name"].Value;
 
-            Assert.AreEqual(this.VMRoleNameFromQuickCreate, createdVMRoleName, string.Format("Actual VMRoles Name - {0}, Expected VMRoles Name- {1}", createdVMRoleName, this.VMRoleNameFromQuickCreate));
-            this.CreatedVMRolesFromQuickCreate.AddRange(createdVMRole);
+            Assert.AreEqual(vmRoleNameFromQuickCreate, createdVMRoleName, string.Format("Actual VMRoles Name - {0}, Expected VMRoles Name- {1}", createdVMRoleName, vmRoleNameFromQuickCreate));
+            this.createdVMRolesFromQuickCreate.AddRange(createdVMRole);
         }
 
         protected void CreateVMRoleFromCloudService()
@@ -156,18 +150,18 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.WAPackIaaS.FunctionalTest
 
             Dictionary<string, object> inputParams = new Dictionary<string, object>()
             {
-                {"Name", this.VMRoleNameFromCloudService},
-                {"Label", this.VMRoleLabelToCreate},
-                {"CloudService", this.CreatedCloudServices.First()},
+                {"Name", vmRoleNameFromCloudService},
+                {"Label", vmRoleLabelToCreate},
+                {"CloudService", this.createdCloudServices.First()},
                 {"ResourceDefinition", GetBasicResDef()}
             };
-            var createdVMRole = this.InvokeCmdlet(NewVMRoleCmdletName, inputParams, null);
+            var createdVMRole = this.InvokeCmdlet(Cmdlets.NewWAPackVMRole, inputParams, null);
 
             Assert.AreEqual(1, createdVMRole.Count, string.Format("Actual VMRoles found - {0}, Expected VMRoles - {1}", createdVMRole.Count, 1));
             var createdVMRoleName = createdVMRole.First().Properties["Name"].Value;
 
-            Assert.AreEqual(this.VMRoleNameFromCloudService, createdVMRoleName, string.Format("Actual VMRoles Name - {0}, Expected VMRoles Name- {1}", createdVMRoleName, this.VMRoleNameFromCloudService));
-            this.CreatedVMRolesFromCloudService.AddRange(createdVMRole);
+            Assert.AreEqual(vmRoleNameFromCloudService, createdVMRoleName, string.Format("Actual VMRoles Name - {0}, Expected VMRoles Name- {1}", createdVMRoleName, vmRoleNameFromCloudService));
+            this.createdVMRolesFromCloudService.AddRange(createdVMRole);
         }
 
         protected void VMRolePreTestCleanup()
@@ -177,37 +171,37 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.WAPackIaaS.FunctionalTest
             {
                 var inputParams = new Dictionary<string, object>()
                 {
-                    {"Name", this.VMRoleNameFromQuickCreate}
+                    {"Name", vmRoleNameFromQuickCreate}
                 };
-                var existingVMRoles = this.InvokeCmdlet(GetVMRoleCmdletName, inputParams, null);
+                var existingVMRoles = this.InvokeCmdlet(Cmdlets.GetWAPackVMRole, inputParams, null);
 
                 if (existingVMRoles != null && existingVMRoles.Any())
                 {
-                    this.CreatedVMRolesFromQuickCreate.AddRange(existingVMRoles);
+                    this.createdVMRolesFromQuickCreate.AddRange(existingVMRoles);
                 }
 
                 this.RemoveVMRoles();
             }
             catch (AssertFailedException e)
             {
-                Assert.AreEqual(AssertFailedNonExistantRessourceExceptionMessage, e.Message);
+                Assert.AreEqual(assertFailedNonExistantRessourceExceptionMessage, e.Message);
             }
 
             // Cleaning up VMRole created on existing CloudServices
             try
             {
-                if (this.CreatedCloudServices.Any())
+                if (this.createdCloudServices.Any())
                 {
                     var inputParams = new Dictionary<string, object>()
                     {
-                        {"Name", this.VMRoleNameFromCloudService},
-                        {"CloudService", this.CreatedCloudServices.First()}
+                        {"Name", vmRoleNameFromCloudService},
+                        {"CloudService", this.createdCloudServices.First()}
                     };
-                    var existingVMRoles = this.InvokeCmdlet(GetVMRoleCmdletName, inputParams, null);
+                    var existingVMRoles = this.InvokeCmdlet(Cmdlets.GetWAPackVMRole, inputParams, null);
 
                     if (existingVMRoles != null && existingVMRoles.Any())
                     {
-                        this.CreatedVMRolesFromCloudService.AddRange(existingVMRoles);
+                        this.createdVMRolesFromCloudService.AddRange(existingVMRoles);
                     }
 
                     this.RemoveVMRoles();
@@ -215,13 +209,13 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.WAPackIaaS.FunctionalTest
             }
             catch (AssertFailedException e)
             {
-                Assert.AreEqual(AssertFailedNonExistantRessourceExceptionMessage, e.Message);
+                Assert.AreEqual(assertFailedNonExistantRessourceExceptionMessage, e.Message);
             }
         }
 
         protected void RemoveVMRoles()
         {
-            foreach (var vmRole in this.CreatedVMRolesFromQuickCreate)
+            foreach (var vmRole in this.createdVMRolesFromQuickCreate)
             {
                 var inputParams = new Dictionary<string, object>()
                 {
@@ -229,61 +223,58 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.WAPackIaaS.FunctionalTest
                     {"Force", null},
                     {"PassThru", null}
                 };
-                var isDeleted = this.InvokeCmdlet(RemoveVMRoleCmdletName, inputParams, null);
+                var isDeleted = this.InvokeCmdlet(Cmdlets.RemoveWAPackVMRole, inputParams, null);
                 Assert.AreEqual(1, isDeleted.Count);
                 Assert.AreEqual(true, isDeleted.First());
 
                 inputParams = new Dictionary<string, object>()
                 {
-                    {"Name", this.VMRoleNameFromQuickCreate}
+                    {"Name", vmRoleNameFromQuickCreate}
                 };
-                var deletedVMRole = this.InvokeCmdlet(GetVMRoleCmdletName, inputParams, NonExistantResourceExceptionMessage);
+                var deletedVMRole = this.InvokeCmdlet(Cmdlets.GetWAPackVMRole, inputParams, nonExistantResourceExceptionMessage);
                 Assert.AreEqual(0, deletedVMRole.Count);                
             }
 
-            foreach (var vmRole in this.CreatedVMRolesFromCloudService)
+            foreach (var vmRole in this.createdVMRolesFromCloudService)
             {
                 var inputParams = new Dictionary<string, object>()
                 {
                     {"VMRole", vmRole},
-                    {"CloudServiceName", this.CloudServiceName},
+                    {"CloudServiceName", cloudServiceName},
                     {"Force", null},
                     {"PassThru", null}
                 };
-                var isDeleted = this.InvokeCmdlet(RemoveVMRoleCmdletName, inputParams, null);
+                var isDeleted = this.InvokeCmdlet(Cmdlets.RemoveWAPackVMRole, inputParams, null);
                 Assert.AreEqual(1, isDeleted.Count);
                 Assert.AreEqual(true, isDeleted.First());
 
                 inputParams = new Dictionary<string, object>()
                 {
-                    {"Name", this.VMRoleNameFromCloudService},
-                    {"CloudServiceName", this.CloudServiceName}
+                    {"Name", vmRoleNameFromCloudService},
+                    {"CloudServiceName", cloudServiceName}
                 };
-                var deletedVMRole = this.InvokeCmdlet(GetVMRoleCmdletName, inputParams, NonExistantResourceExceptionMessage);
+                var deletedVMRole = this.InvokeCmdlet(Cmdlets.GetWAPackVMRole, inputParams, nonExistantResourceExceptionMessage);
                 Assert.AreEqual(0, deletedVMRole.Count);          
             }
 
-            this.CreatedVMRolesFromQuickCreate.Clear();
+            this.createdVMRolesFromQuickCreate.Clear();
         }
 
         protected VMRoleResourceDefinition GetBasicResDef()
         {
             var resdef = new VMRoleResourceDefinition();
 
-            #region Resdef
+            // Resdef
             resdef.Name = "NoAppIPv6";
             resdef.Publisher = "Microsoft";
             resdef.SchemaVersion = "1.0";
             resdef.Version = "1.0.0.0";
             resdef.Type = "Microsoft.Compute/VMRole/1.0";
 
-            #region IntrinsicSettings
-
-            #region Hardware Profile
+            // Hardware Profile
             resdef.IntrinsicSettings.HardwareProfile.VMSize = "ExtraSmall";
-            #endregion
 
-            #region Network Profile
+            // Network Profile
             var ip1 = new IPAddress();
             ip1.AllocationMethod = "Dynamic";
             ip1.Type = "IPV4";
@@ -294,29 +285,20 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.WAPackIaaS.FunctionalTest
             networkAdapter.IPAddresses.Add(ip1);
 
             resdef.IntrinsicSettings.NetworkProfile.NetworkAdapters.Add(networkAdapter);
-            #endregion
 
-            #region Operating System Profile
+            // Operating System Profile
             resdef.IntrinsicSettings.OperatingSystemProfile = null;
-            #endregion
 
-            #region Scaleout Settings
+            // Scaleout Settings
             resdef.IntrinsicSettings.ScaleOutSettings.InitialInstanceCount = "1";
             resdef.IntrinsicSettings.ScaleOutSettings.MaximumInstanceCount = "5";
             resdef.IntrinsicSettings.ScaleOutSettings.MinimumInstanceCount = "1";
             resdef.IntrinsicSettings.ScaleOutSettings.UpgradeDomainCount = "1";
-            #endregion
 
-            #region Storage Profile
+            // Storage Profile
             resdef.IntrinsicSettings.StorageProfile.OSVirtualHardDiskImage = WAPackConfigurationFactory.LinuxOSVirtualHardDiskImage;
-            #endregion
-
-            #endregion
-
-            #endregion
 
             return resdef;
         }
-
     }
 }

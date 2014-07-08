@@ -21,8 +21,6 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.WAPackIaaS.FunctionalTest
     [TestClass]
     public class SetWAPackVMRoleTests : CmdletTestCloudServiceBase
     {
-        public const string cmdletName = "Set-WAPackVMRole";
-
         [TestInitialize]
         public void TestInitialize()
         {
@@ -40,7 +38,7 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.WAPackIaaS.FunctionalTest
         [TestCategory("WAPackIaaS-CloudService")]
         public void SetWAPackQuickCreateVMRoleInstanceCount()
         {
-            var vmRoleToScale = this.CreatedVMRolesFromQuickCreate.First();
+            var vmRoleToScale = this.createdVMRolesFromQuickCreate.First();
             var vmRoleInstances = (IEnumerable<object>) vmRoleToScale.Properties["VMs"].Value;
 
             var inputParams = new Dictionary<string, object>()
@@ -49,15 +47,15 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.WAPackIaaS.FunctionalTest
                 {"InstanceCount", vmRoleInstances.Count() + 1},
                 {"PassThru", null}
             };
-            var isUpdated = this.InvokeCmdlet(cmdletName, inputParams);
+            var isUpdated = this.InvokeCmdlet(Cmdlets.SetWAPackVMRole, inputParams);
             Assert.AreEqual(1, isUpdated.Count);
             Assert.AreEqual(true, isUpdated.First());
 
             inputParams = new Dictionary<string, object>()
             {
-                {"Name", this.VMRoleNameFromQuickCreate}
+                {"Name", vmRoleNameFromQuickCreate}
             };
-            var updatedVMRole = this.InvokeCmdlet(GetVMRoleCmdletName, inputParams);
+            var updatedVMRole = this.InvokeCmdlet(Cmdlets.GetWAPackVMRole, inputParams);
             Assert.AreEqual(1, updatedVMRole.Count, string.Format("{0} VMRole Found, {1} VMRole Was Expected.", updatedVMRole.Count, 1));
 
             var updatedVMRoleInstances = (IEnumerable<object>) updatedVMRole.First().Properties["VMs"].Value;

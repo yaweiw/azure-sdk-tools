@@ -21,8 +21,6 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.WAPackIaaS.FunctionalTest
     [TestClass]
     public class RemoveWAPackVNetTests : CmdletTestNetworkingBase
     {
-        public const string cmdletName = "Remove-WAPackVNet";
-
         [TestInitialize]
         public void TestInitialize()
         {
@@ -39,7 +37,7 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.WAPackIaaS.FunctionalTest
         [TestCategory("WAPackIaaS-Networking")]
         public void RemoveWAPackVNetDefault()
         {
-            var vNetToDelete = this.CreatedVNet.First();
+            var vNetToDelete = this.createdVNet.First();
 
             var inputParams = new Dictionary<string, object>()
                 {
@@ -47,7 +45,7 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.WAPackIaaS.FunctionalTest
                     {"Force", null},
                     {"PassThru", null}
                 };
-            var isDeleted = this.InvokeCmdlet(cmdletName, inputParams);
+            var isDeleted = this.InvokeCmdlet(Cmdlets.RemoveWAPackVNet, inputParams);
             Assert.AreEqual(1, isDeleted.Count);
             Assert.AreEqual(true, isDeleted.First());
 
@@ -55,16 +53,8 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.WAPackIaaS.FunctionalTest
             {
                 {"Name", vNetToDelete.Properties["Name"].Value}
             };
-            var deletedVNet = this.InvokeCmdlet(GetVNetCmdletName, inputParams);
+            var deletedVNet = this.InvokeCmdlet(Cmdlets.GetWAPackVNet, inputParams);
             Assert.AreEqual(0, deletedVNet.Count);
-
-            this.CreatedVNet.Remove(vNetToDelete);
-        }
-
-        [TestCleanup]
-        public void VNetCleanup()
-        {
-            this.RemoveVNet();
         }
     }
 }

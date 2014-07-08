@@ -21,8 +21,6 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.WAPackIaaS.FunctionalTest
     [TestClass]
     public class NewWAPackVMSubnetTests : CmdletTestNetworkingBase
     {
-        public const string cmdletName = "New-WAPackVMSubnet";
-
         [TestInitialize]
         public void TestInitialize()
         {
@@ -41,19 +39,19 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.WAPackIaaS.FunctionalTest
         {
             var inputParams = new Dictionary<string, object>()
             {
-                {"Name", this.VMSubnetName},
-                {"VNet", this.CreatedVNet.First()},
-                {"Subnet", this.Subnet}
+                {"Name", vmSubnetName},
+                {"VNet", this.createdVNet.First()},
+                {"Subnet", subnet}
             };
-            var createdSubnet = this.InvokeCmdlet(NewVMSubnetCmdletName, inputParams, null);
+            var createdSubnet = this.InvokeCmdlet(Cmdlets.NewWAPackVMSubnet, inputParams, null);
             Assert.AreEqual(1, createdSubnet.Count, string.Format("{0} VMSubnet Found, {1} VMSubnet Was Expected.", createdSubnet.Count, 1));
-            CreatedVMSubnet.AddRange(createdSubnet);
+            createdVMSubnet.AddRange(createdSubnet);
 
             var readVMSubnetName = createdSubnet.First().Properties["Name"].Value;
-            Assert.AreEqual(this.VMSubnetName, readVMSubnetName, string.Format("Actual VMSubnet Name - {0}, Expected VMSubnet Name - {1}", readVMSubnetName, this.VMSubnetName));
+            Assert.AreEqual(vmSubnetName, readVMSubnetName, string.Format("Actual VMSubnet Name - {0}, Expected VMSubnet Name - {1}", readVMSubnetName, vmSubnetName));
 
             var readVMSubnetSubnet = createdSubnet.First().Properties["Subnet"].Value;
-            Assert.AreEqual(this.Subnet, readVMSubnetSubnet, string.Format("Actual VMSubnet Subnet - {0}, Expected VMSubnet Subnet - {1}", readVMSubnetSubnet, this.Subnet));
+            Assert.AreEqual(subnet, readVMSubnetSubnet, string.Format("Actual VMSubnet Subnet - {0}, Expected VMSubnet Subnet - {1}", readVMSubnetSubnet, subnet));
         
         }
 

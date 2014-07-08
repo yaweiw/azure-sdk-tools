@@ -31,8 +31,8 @@ namespace Microsoft.WindowsAzure.Commands.Test.WAPackIaaS.Operations
     {
         private const string baseURI = "/VMNetworks";
 
-        private const string VNetName = "VNet01";
-        private const string VNetDescription = "VNet01 - Description";
+        private const string vNetName = "VNet01";
+        private const string vNetDescription = "VNet01 - Description";
 
         [TestMethod]
         [TestCategory("WAPackIaaS-All")]
@@ -46,16 +46,16 @@ namespace Microsoft.WindowsAzure.Commands.Test.WAPackIaaS.Operations
 
             var vmNetworkToCreate = new VMNetwork()
             {
-                Name = VNetName,
-                Description = VNetDescription,
+                Name = vNetName,
+                Description = vNetDescription,
                 LogicalNetworkId = VNetLogicalNetworkId,
                 StampId = StampId,            
             };
 
             var vmNetworkToReturn = new VMNetwork()
             {
-                Name = VNetName,
-                Description = VNetDescription,
+                Name = vNetName,
+                Description = vNetDescription,
                 LogicalNetworkId = VNetLogicalNetworkId,
                 StampId = StampId,            
             };
@@ -90,8 +90,8 @@ namespace Microsoft.WindowsAzure.Commands.Test.WAPackIaaS.Operations
 
             var vmNetworkToReturn = new VMNetwork()
             {
-                Name = VNetName,
-                Description = VNetDescription,
+                Name = vNetName,
+                Description = vNetDescription,
                 LogicalNetworkId = Guid.Empty,
                 StampId = Guid.Empty,
             };
@@ -116,8 +116,8 @@ namespace Microsoft.WindowsAzure.Commands.Test.WAPackIaaS.Operations
 
             var vmNetworkToReturn = new VMNetwork()
             {
-                Name = VNetName,
-                Description = VNetDescription,
+                Name = vNetName,
+                Description = vNetDescription,
                 LogicalNetworkId = Guid.Empty,
                 StampId = Guid.Empty,
             };
@@ -125,12 +125,12 @@ namespace Microsoft.WindowsAzure.Commands.Test.WAPackIaaS.Operations
 
             var filter = new Dictionary<string, string>()
             {
-                {"Name", VNetName}
+                {"Name", vNetName}
             };
             var VMNetworkOperations = new VMNetworkOperations(new WebClientFactory(new Subscription(), mockChannel));
             var readVMNetwork = VMNetworkOperations.Read(filter);
             Assert.AreEqual(1, readVMNetwork.Count);
-            Assert.AreEqual(VNetName, readVMNetwork.First().Name);
+            Assert.AreEqual(vNetName, readVMNetwork.First().Name);
 
             // Check the URI
             var requestList = mockChannel.ClientRequests;
@@ -146,8 +146,8 @@ namespace Microsoft.WindowsAzure.Commands.Test.WAPackIaaS.Operations
             var mockChannel = new MockRequestChannel();
             var vmNetworkList = new List<object>
             {
-                new VMNetwork { Name = VNetName, Description = VNetDescription },
-                new VMNetwork { Name = VNetName, Description = VNetDescription }
+                new VMNetwork { Name = vNetName, Description = vNetDescription },
+                new VMNetwork { Name = vNetName, Description = vNetDescription }
             };
             mockChannel.AddReturnObject(vmNetworkList);
 
@@ -155,7 +155,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.WAPackIaaS.Operations
             var readVMNetwork = VMNetworkOperations.Read();
 
             Assert.AreEqual(2, readVMNetwork.Count);
-            Assert.IsTrue(readVMNetwork.All(vmNetwork => vmNetwork.Name == VNetName));
+            Assert.IsTrue(readVMNetwork.All(vmNetwork => vmNetwork.Name == vNetName));
 
             // Check the URI
             var requestList = mockChannel.ClientRequests;
@@ -172,8 +172,8 @@ namespace Microsoft.WindowsAzure.Commands.Test.WAPackIaaS.Operations
 
             var existingVmNetwork = new VMNetwork()
             {
-                Name = VNetName,
-                Description = VNetDescription,
+                Name = vNetName,
+                Description = vNetDescription,
                 LogicalNetworkId = Guid.Empty,
                 StampId = Guid.Empty,
             };
@@ -188,9 +188,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.WAPackIaaS.Operations
             Assert.AreEqual(HttpMethod.Delete.ToString(), mockChannel.ClientRequests[1].Item1.Method);
 
             // Check the URI
-            var requestList = mockChannel.ClientRequests;
             var requestURI = mockChannel.ClientRequests[1].Item1.Address.AbsolutePath;
-            Assert.AreEqual(2, requestList.Count);
             Assert.AreEqual("/Clouds", mockChannel.ClientRequests[0].Item1.Address.AbsolutePath.Substring(1));
             Assert.AreEqual(baseURI, mockChannel.ClientRequests[1].Item1.Address.AbsolutePath.Substring(1).Remove(requestURI.IndexOf('(') - 1));
         }

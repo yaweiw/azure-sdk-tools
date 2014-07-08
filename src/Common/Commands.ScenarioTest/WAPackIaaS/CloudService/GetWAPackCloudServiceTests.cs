@@ -20,8 +20,6 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.WAPackIaaS.FunctionalTest
     [TestClass]
     public class GetWAPackCloudServiceTests : CmdletTestCloudServiceBase
     {
-        public const string cmdletName = "Get-WAPackCloudService";
-
         [TestInitialize]
         public void TestInitialize()
         {
@@ -38,7 +36,7 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.WAPackIaaS.FunctionalTest
         [TestCategory("WAPackIaaS-CloudService")]
         public void GetWAPackCloudServiceWithNoParam()
         {
-            var allCloudServices = this.InvokeCmdlet(cmdletName, null);
+            var allCloudServices = this.InvokeCmdlet(Cmdlets.GetWAPackCloudService, null);
             Assert.IsTrue(allCloudServices.Count > 0);
         }
 
@@ -50,9 +48,9 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.WAPackIaaS.FunctionalTest
         {
             var inputParams = new Dictionary<string, object>()
             {
-                {"Name", this.CloudServiceName}
+                {"Name", cloudServiceName}
             };
-            var cloudService = this.InvokeCmdlet(cmdletName, inputParams);
+            var cloudService = this.InvokeCmdlet(Cmdlets.GetWAPackCloudService, inputParams);
             Assert.AreEqual(1, cloudService.Count, string.Format("{0} CloudService Found, {1} CloudService Was Expected.", cloudService.Count, 1));
         }
 
@@ -63,12 +61,12 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.WAPackIaaS.FunctionalTest
         [TestCategory("WAPackIaaS-CloudService")]
         public void GetWAPackCloudServiceFromNameDoesNotExist()
         {
-            string expectedCloudServiceName = "WAPackCloudServiceDoesNotExist";
+            string nonExistentCloudService = "WAPackCloudServiceDoesNotExist";
             var inputParams = new Dictionary<string, object>()
             {
-                {"Name", expectedCloudServiceName}
+                {"Name", nonExistentCloudService}
             };
-            var cloudService = this.InvokeCmdlet(cmdletName, inputParams, NonExistantResourceExceptionMessage);
+            var cloudService = this.InvokeCmdlet(Cmdlets.GetWAPackCloudService, inputParams, nonExistantResourceExceptionMessage);
             Assert.AreEqual(0, cloudService.Count, string.Format("{0} CloudService Found, {1} CloudService Was Expected.", cloudService.Count, 0));
         }
 

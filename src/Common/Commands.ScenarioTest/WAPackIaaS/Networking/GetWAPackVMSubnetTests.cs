@@ -21,8 +21,6 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.WAPackIaaS.FunctionalTest
     [TestClass]
     public class GetWAPackVMSubnetTests : CmdletTestNetworkingBase
     {
-        public const string cmdletName = "Get-WAPackVMSubnet";
-
         [TestInitialize]
         public void TestInitialize()
         {
@@ -41,9 +39,9 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.WAPackIaaS.FunctionalTest
         {
             var inputParams = new Dictionary<string, object>()
             {
-                {"VNet", this.CreatedVNet.First()}
+                {"VNet", this.createdVNet.First()}
             };
-            var allVMSubnet = this.InvokeCmdlet(cmdletName, inputParams);
+            var allVMSubnet = this.InvokeCmdlet(Cmdlets.GetWAPackVMSubnet, inputParams);
             Assert.IsTrue(allVMSubnet.Count > 0);
         }
 
@@ -55,10 +53,10 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.WAPackIaaS.FunctionalTest
         {
             var inputParams = new Dictionary<string, object>()
             {
-                {"Name", this.VMSubnetName},
-                {"VNet", this.CreatedVNet.First()}
+                {"Name", vmSubnetName},
+                {"VNet", this.createdVNet.First()}
             };
-            var vmSubnet = this.InvokeCmdlet(cmdletName, inputParams);
+            var vmSubnet = this.InvokeCmdlet(Cmdlets.GetWAPackVMSubnet, inputParams);
             Assert.AreEqual(1, vmSubnet.Count, string.Format("{0} VMSubnet Found, {1} VMSubnet Was Expected.", vmSubnet.Count, 1));
         }
 
@@ -73,9 +71,9 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.WAPackIaaS.FunctionalTest
             var inputParams = new Dictionary<string, object>()
             {
                 {"Name", expectedVMSubnetName},
-                {"VNet", this.CreatedVNet.First()}
+                {"VNet", this.createdVNet.First()}
             };
-            var vmSubnet = this.InvokeCmdlet(cmdletName, inputParams);
+            var vmSubnet = this.InvokeCmdlet(Cmdlets.GetWAPackVMSubnet, inputParams);
             Assert.IsTrue(vmSubnet.Count == 0);
         }
 

@@ -21,8 +21,6 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.WAPackIaaS.FunctionalTest
     [TestClass]
     public class RemoveWAPackStaticIPAddressPoolTests : CmdletTestNetworkingBase
     {
-        public const string cmdletName = "Remove-WAPackStaticIPAddressPool";
-
         [TestInitialize]
         public void TestInitialize()
         {
@@ -39,7 +37,7 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.WAPackIaaS.FunctionalTest
         [TestCategory("WAPackIaaS-Networking")]
         public void RemoveWAPackStaticIPAddressPoolDefault()
         {
-            var staticIPAddressPoolToDelete = this.CreatedStaticIPAddressPool.First();
+            var staticIPAddressPoolToDelete = this.createdStaticIPAddressPool.First();
 
             var inputParams = new Dictionary<string, object>()
                 {
@@ -47,7 +45,7 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.WAPackIaaS.FunctionalTest
                     {"Force", null},
                     {"PassThru", null}
                 };
-            var isDeleted = this.InvokeCmdlet(cmdletName, inputParams);
+            var isDeleted = this.InvokeCmdlet(Cmdlets.RemoveWAPackStaticIPAddressPool, inputParams);
             Assert.AreEqual(1, isDeleted.Count);
             Assert.AreEqual(true, isDeleted.First());
 
@@ -55,10 +53,8 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.WAPackIaaS.FunctionalTest
             {
                 {"Name", staticIPAddressPoolToDelete.Properties["Name"].Value}
             };
-            var deletedStaticIPAddressPool = this.InvokeCmdlet(GetVNetCmdletName, inputParams);
+            var deletedStaticIPAddressPool = this.InvokeCmdlet(Cmdlets.GetWAPackVNet, inputParams);
             Assert.AreEqual(0, deletedStaticIPAddressPool.Count);
-
-            this.CreatedStaticIPAddressPool.Remove(staticIPAddressPoolToDelete);
         }
 
         [TestCleanup]

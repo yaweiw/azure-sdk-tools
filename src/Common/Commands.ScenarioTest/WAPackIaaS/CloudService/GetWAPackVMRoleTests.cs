@@ -20,8 +20,6 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.WAPackIaaS.FunctionalTest
     [TestClass]
     public class GetWAPackVMRoleTests : CmdletTestCloudServiceBase
     {
-        public const string cmdletName = "Get-WAPackVMRole";
-
         [TestInitialize]
         public void TestInitialize()
         {
@@ -39,7 +37,7 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.WAPackIaaS.FunctionalTest
         [TestCategory("WAPackIaaS-CloudService")]
         public void GetWAPackVMRolesWithNoParam()
         {
-            var allVMRoles = this.InvokeCmdlet(cmdletName, null);
+            var allVMRoles = this.InvokeCmdlet(Cmdlets.GetWAPackVMRole, null);
             Assert.IsTrue(allVMRoles.Count > 0);
         }
 
@@ -51,9 +49,9 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.WAPackIaaS.FunctionalTest
         {
             var inputParams = new Dictionary<string, object>()
             {
-                {"Name", this.VMRoleNameFromQuickCreate}
+                {"Name", vmRoleNameFromQuickCreate}
             };
-            var vmRole = this.InvokeCmdlet(cmdletName, inputParams);
+            var vmRole = this.InvokeCmdlet(Cmdlets.GetWAPackVMRole, inputParams);
             Assert.AreEqual(1, vmRole.Count, string.Format("{0} VMRole Found, {1} VMRole Was Expected.", vmRole.Count, 1));
         }
 
@@ -61,33 +59,14 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.WAPackIaaS.FunctionalTest
         [TestCategory("WAPackIaaS-All")]
         [TestCategory("WAPackIaaS-Functional")]
         [TestCategory("WAPackIaaS-CloudService")]
-        public void GetWAPackVMRoleFromCloudServiceName()
+        public void GetWAPackVMRoleWithSameCloudServiceAndVMRoleNames()
         {
-            // VMRoleNameToCreate is used for both paramter since test VMRole is created using the WAP
-            // way (CloudServiceName and VMRole name are identical).
             var inputParams = new Dictionary<string, object>()
             {
-                {"Name", this.VMRoleNameFromQuickCreate},
-                {"CloudServiceName", this.VMRoleNameFromQuickCreate}
+                {"Name", vmRoleNameFromQuickCreate},
+                {"CloudServiceName", vmRoleNameFromQuickCreate}
             };
-            var vmRole = this.InvokeCmdlet(cmdletName, inputParams);
-            Assert.AreEqual(1, vmRole.Count, string.Format("{0} VMRole Found, {1} VMRole Was Expected.", vmRole.Count, 1));
-        }
-
-        [TestMethod]
-        [TestCategory("WAPackIaaS-All")]
-        [TestCategory("WAPackIaaS-Functional")]
-        [TestCategory("WAPackIaaS-CloudService")]
-        public void GetWAPackVMRoleFromExistingCloudServiceName()
-        {
-            this.CreateVMRoleFromCloudService();
-
-            var inputParams = new Dictionary<string, object>()
-            {
-                {"Name", this.VMRoleNameFromCloudService},
-                {"CloudServiceName", this.CloudServiceName}
-            };
-            var vmRole = this.InvokeCmdlet(cmdletName, inputParams);
+            var vmRole = this.InvokeCmdlet(Cmdlets.GetWAPackVMRole, inputParams);
             Assert.AreEqual(1, vmRole.Count, string.Format("{0} VMRole Found, {1} VMRole Was Expected.", vmRole.Count, 1));
         }
 
@@ -103,7 +82,7 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.WAPackIaaS.FunctionalTest
             {
                 {"Name", expectedVMRoleName},
             };
-            var vmRole = this.InvokeCmdlet(cmdletName, inputParams, NonExistantResourceExceptionMessage);
+            var vmRole = this.InvokeCmdlet(Cmdlets.GetWAPackVMRole, inputParams, nonExistantResourceExceptionMessage);
             Assert.AreEqual(0, vmRole.Count);
         }
 
@@ -112,15 +91,15 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.WAPackIaaS.FunctionalTest
         [TestCategory("WAPackIaaS-Negative")]
         [TestCategory("WAPackIaaS-Functional")]
         [TestCategory("WAPackIaaS-CloudService")]
-        public void GetWAPackVMRoleFromCloudServiceNameDoesNotExist()
+        public void GetWAPackVMRoleFromNonExistentCloudService()
         {
-            string expectedVMRoleCloudServiceName = "WAPackVMRoleCloudServiceNameDoesNotExist";
+            string nonExistentCloudService = "WAPackVMRoleCloudServiceNameDoesNotExist";
             var inputParams = new Dictionary<string, object>()
             {
-                {"Name", this.VMRoleNameFromQuickCreate},
-                {"CloudServiceName", expectedVMRoleCloudServiceName}
+                {"Name", vmRoleNameFromQuickCreate},
+                {"CloudServiceName", nonExistentCloudService}
             };
-            var vmRole = this.InvokeCmdlet(cmdletName, inputParams, NonExistantResourceExceptionMessage);
+            var vmRole = this.InvokeCmdlet(Cmdlets.GetWAPackVMRole, inputParams, nonExistantResourceExceptionMessage);
             Assert.AreEqual(0, vmRole.Count);
         }
 

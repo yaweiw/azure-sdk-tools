@@ -20,16 +20,14 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.WAPackIaaS.FunctionalTest
     [TestClass]
     public class GetWAPackLogicalNetworkTests : CmdletTestNetworkingBase
     {
-        public const string cmdletName = "Get-WAPackLogicalNetwork";
-
         [TestMethod]
         [TestCategory("WAPackIaaS-All")]
         [TestCategory("WAPackIaaS-Functional")]
         [TestCategory("WAPackIaaS-Networking")]
         public void GetWAPackLogicalNetworkNoParam()
         {
-            var allVMRoles = this.InvokeCmdlet(cmdletName, null);
-            Assert.IsTrue(allVMRoles.Count > 0);
+            var allLogicalNetworks = this.InvokeCmdlet(Cmdlets.GetWAPackLogicalNetwork, null);
+            Assert.IsTrue(allLogicalNetworks.Count > 0);
         }
 
         [TestMethod]
@@ -42,7 +40,7 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.WAPackIaaS.FunctionalTest
             {
                 {"Name", WAPackConfigurationFactory.AvezLogicalNetworkName}
             };
-            var logicalNetwork = this.InvokeCmdlet(cmdletName, inputParams);
+            var logicalNetwork = this.InvokeCmdlet(Cmdlets.GetWAPackLogicalNetwork, inputParams);
             Assert.AreEqual(1, logicalNetwork.Count, string.Format("{0} LogicalNetwork Found, {1} LogicalNetwork Was Expected.", logicalNetwork.Count, 1));
         }
 
@@ -58,7 +56,7 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.WAPackIaaS.FunctionalTest
             {
                 {"Name", expectedLogicalNetworkName}
             };
-            var logicalNetwork = this.InvokeCmdlet(cmdletName, inputParams);
+            var logicalNetwork = this.InvokeCmdlet(Cmdlets.GetWAPackLogicalNetwork, inputParams);
             Assert.AreEqual(0, logicalNetwork.Count);
         }
     }

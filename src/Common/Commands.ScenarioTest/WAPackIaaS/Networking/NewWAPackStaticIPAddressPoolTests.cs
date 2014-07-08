@@ -21,8 +21,6 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.WAPackIaaS.FunctionalTest
     [TestClass]
     public class NewWAPackStaticIPAddressPoolTests : CmdletTestNetworkingBase
     {
-        public const string cmdletName = "New-WAPackStaticIPAddressPool";
-
         [TestInitialize]
         public void TestInitialize()
         {
@@ -42,23 +40,23 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.WAPackIaaS.FunctionalTest
         {
             var inputParams = new Dictionary<string, object>()
             {
-                {"Name", this.StaticIPAddressPoolName},
-                {"VMSubnet", this.CreatedVMSubnet.First()},
-                {"IPAddressRangeStart", this.IPAddressRangeStart},
-                {"IPAddressRangeEnd", this.IPAddressRangeEnd}
+                {"Name", staticIPAddressPoolName},
+                {"VMSubnet", this.createdVMSubnet.First()},
+                {"IPAddressRangeStart", ipAddressRangeStart},
+                {"IPAddressRangeEnd", ipAddressRangeEnd}
             };
-            var createdStaticIPAddressPool = this.InvokeCmdlet(NewStaticIPAddressPoolCmdletName, inputParams, null);
+            var createdStaticIPAddressPool = this.InvokeCmdlet(Cmdlets.NewWAPackStaticIPAddressPool, inputParams, null);
             Assert.AreEqual(1, createdStaticIPAddressPool.Count, string.Format("{0} StaticIPAddressPool Found, {1} StaticIPAddressPool Was Expected.", createdStaticIPAddressPool.Count, 1));
-            CreatedStaticIPAddressPool.AddRange(createdStaticIPAddressPool);
+            this.createdStaticIPAddressPool.AddRange(createdStaticIPAddressPool);
 
             var readStaticIPAddressPoolName = createdStaticIPAddressPool.First().Properties["Name"].Value;
-            Assert.AreEqual(this.StaticIPAddressPoolName, readStaticIPAddressPoolName, string.Format("Actual StaticIPAddressPool Name - {0}, Expected StaticIPAddressPool Name - {1}", readStaticIPAddressPoolName, this.StaticIPAddressPoolName));
+            Assert.AreEqual(staticIPAddressPoolName, readStaticIPAddressPoolName, string.Format("Actual StaticIPAddressPool Name - {0}, Expected StaticIPAddressPool Name - {1}", readStaticIPAddressPoolName, staticIPAddressPoolName));
 
             var readStaticIPAddressPoolIPAddressRangeStart = createdStaticIPAddressPool.First().Properties["IPAddressRangeStart"].Value;
-            Assert.AreEqual(this.IPAddressRangeStart, readStaticIPAddressPoolIPAddressRangeStart, string.Format("Actual StaticIPAddressPool IPAddressRangeStart - {0}, Expected StaticIPAddressPool IPAddressRangeStart - {1}", readStaticIPAddressPoolIPAddressRangeStart, this.IPAddressRangeStart));
+            Assert.AreEqual(ipAddressRangeStart, readStaticIPAddressPoolIPAddressRangeStart, string.Format("Actual StaticIPAddressPool IPAddressRangeStart - {0}, Expected StaticIPAddressPool IPAddressRangeStart - {1}", readStaticIPAddressPoolIPAddressRangeStart, ipAddressRangeStart));
 
             var readStaticIPAddressPoolIPAddressRangeEnd = createdStaticIPAddressPool.First().Properties["IPAddressRangeEnd"].Value;
-            Assert.AreEqual(this.IPAddressRangeEnd, readStaticIPAddressPoolIPAddressRangeEnd, string.Format("Actual StaticIPAddressPool IPAddressRangeEnd - {0}, Expected StaticIPAddressPool IPAddressRangeEnd - {1}", readStaticIPAddressPoolIPAddressRangeEnd, this.IPAddressRangeEnd));
+            Assert.AreEqual(ipAddressRangeEnd, readStaticIPAddressPoolIPAddressRangeEnd, string.Format("Actual StaticIPAddressPool IPAddressRangeEnd - {0}, Expected StaticIPAddressPool IPAddressRangeEnd - {1}", readStaticIPAddressPoolIPAddressRangeEnd, ipAddressRangeEnd));
         }
 
         [TestCleanup]

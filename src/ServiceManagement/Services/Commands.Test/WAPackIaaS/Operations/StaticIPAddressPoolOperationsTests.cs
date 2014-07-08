@@ -21,8 +21,6 @@ namespace Microsoft.WindowsAzure.Commands.Test.WAPackIaaS.Operations
     using Microsoft.WindowsAzure.Commands.Utilities.WAPackIaaS.Operations;
     using Microsoft.WindowsAzure.Commands.Utilities.WAPackIaaS.WebClient;
     using System;
-    using System.Collections.Generic;
-    using System.Linq;
     using System.Net;
     using System.Net.Http;
 
@@ -134,10 +132,9 @@ namespace Microsoft.WindowsAzure.Commands.Test.WAPackIaaS.Operations
             Assert.AreEqual(HttpMethod.Delete.ToString(), mockChannel.ClientRequests[1].Item1.Method);
 
             // Check the URI
-            var requestList = mockChannel.ClientRequests;
             var requestURI = mockChannel.ClientRequests[1].Item1.Address.AbsolutePath;
-            Assert.AreEqual(2, requestList.Count);
-            Assert.AreEqual(baseURI, requestURI.Substring(1).Remove(requestURI.IndexOf('(') - 1));
+            Assert.AreEqual("/Clouds", mockChannel.ClientRequests[0].Item1.Address.AbsolutePath.Substring(1));
+            Assert.AreEqual(baseURI, mockChannel.ClientRequests[1].Item1.Address.AbsolutePath.Substring(1).Remove(requestURI.IndexOf('(') - 1));
         }
     }
 }

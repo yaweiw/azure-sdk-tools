@@ -21,8 +21,6 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.WAPackIaaS.FunctionalTest
     [TestClass]
     public class NewWAPackCloudServiceTests : CmdletTestCloudServiceBase
     {
-        public const string cmdletName = "New-WAPackCloudService";
-
         [TestInitialize]
         public void TestInitialize()
         {
@@ -38,22 +36,22 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.WAPackIaaS.FunctionalTest
         {
             var inputParams = new Dictionary<string, object>()
             {
-                {"Name", this.CloudServiceName},
-                {"Label", this.CloudServiceLabel}
+                {"Name", cloudServiceName},
+                {"Label", cloudServiceLabel}
             };
-            var createdCloudService = this.InvokeCmdlet(cmdletName, inputParams);
+            var createdCloudService = this.InvokeCmdlet(Cmdlets.NewWAPackCloudService, inputParams);
             Assert.AreEqual(1, createdCloudService.Count, string.Format("Actual CloudServices Found - {0}, Expected CloudServices - {1}", createdCloudService.Count, 1));
 
             var readCloudServiceName = createdCloudService.First().Properties["Name"].Value;
-            Assert.AreEqual(this.CloudServiceName, readCloudServiceName, string.Format("Actual CloudService Name - {0}, Expected CloudService Name- {1}", readCloudServiceName, this.CloudServiceName));
+            Assert.AreEqual(cloudServiceName, readCloudServiceName, string.Format("Actual CloudService Name - {0}, Expected CloudService Name- {1}", readCloudServiceName, cloudServiceName));
 
             var readCloudServiceLabel = createdCloudService.First().Properties["Label"].Value;
-            Assert.AreEqual(this.CloudServiceLabel, readCloudServiceLabel, string.Format("Actual CloudService Label - {0}, Expected CloudService Label- {1}", readCloudServiceLabel, this.CloudServiceLabel));
+            Assert.AreEqual(cloudServiceLabel, readCloudServiceLabel, string.Format("Actual CloudService Label - {0}, Expected CloudService Label- {1}", readCloudServiceLabel, cloudServiceLabel));
 
             var readCloudServiceProvisioningState = createdCloudService.First().Properties["ProvisioningState"].Value;
             Assert.AreEqual("Provisioned", readCloudServiceProvisioningState, string.Format("Actual CloudService Provisionning State - {0}, Expected CloudService Provisionning State - {1}", readCloudServiceProvisioningState, "Provisioned"));
 
-            this.CreatedCloudServices.AddRange(createdCloudService);
+            this.createdCloudServices.AddRange(createdCloudService);
         }
 
         [TestCleanup]
