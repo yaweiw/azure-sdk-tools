@@ -1695,7 +1695,7 @@ namespace Microsoft.Azure.Commands.Resources.Test.Models
                 }));
             SetupListForResourceGroupAsync(name, new List<Resource>() { resource1, resource2 });
 
-            List<PSResourceGroup> actual = resourcesClient.FilterResourceGroups(name);
+            List<PSResourceGroup> actual = resourcesClient.FilterResourceGroups(name, null);
 
             Assert.Equal(1, actual.Count);
             Assert.Equal(name, actual[0].ResourceGroupName);
@@ -1722,13 +1722,60 @@ namespace Microsoft.Azure.Commands.Resources.Test.Models
             SetupListForResourceGroupAsync(resourceGroup3.Name, new List<Resource>() { new Resource() { Name = "resource" } });
             SetupListForResourceGroupAsync(resourceGroup4.Name, new List<Resource>() { new Resource() { Name = "resource" } });
 
-            List<PSResourceGroup> actual = resourcesClient.FilterResourceGroups(null);
+            List<PSResourceGroup> actual = resourcesClient.FilterResourceGroups(null, null);
 
             Assert.Equal(4, actual.Count);
             Assert.Equal(resourceGroup1.Name, actual[0].ResourceGroupName);
             Assert.Equal(resourceGroup2.Name, actual[1].ResourceGroupName);
             Assert.Equal(resourceGroup3.Name, actual[2].ResourceGroupName);
             Assert.Equal(resourceGroup4.Name, actual[3].ResourceGroupName);
+        }
+
+        [Fact]
+        public void GetsResourceGroupsFilteredByTags()
+        {
+            Dictionary<string, string> tag1 = new Dictionary<string, string> {{"tag1", "val1"}, {"tag2", "val2"}};
+            Dictionary<string, string> tag2 = new Dictionary<string, string> {{"tag1", "valx"}};
+            Dictionary<string, string> tag3 = new Dictionary<string, string> {{"tag2", ""}};
+
+            ResourceGroup resourceGroup1 = new ResourceGroup() { Name = resourceGroupName + 1, Location = resourceGroupLocation, Tags = tag1};
+            ResourceGroup resourceGroup2 = new ResourceGroup() { Name = resourceGroupName + 2, Location = resourceGroupLocation, Tags = tag2};
+            ResourceGroup resourceGroup3 = new ResourceGroup() { Name = resourceGroupName + 3, Location = resourceGroupLocation, Tags = tag3};
+            ResourceGroup resourceGroup4 = new ResourceGroup() { Name = resourceGroupName + 4, Location = resourceGroupLocation };
+            resourceGroupMock.Setup(f => f.ListAsync(null, new CancellationToken()))
+                .Returns(Task.Factory.StartNew(() => new ResourceGroupListResult
+                {
+                    ResourceGroups = new List<ResourceGroup>() { resourceGroup1, resourceGroup2, resourceGroup3, resourceGroup4 }
+                }));
+            SetupListForResourceGroupAsync(resourceGroup1.Name, new List<Resource>() { new Resource() { Name = "resource" } });
+            SetupListForResourceGroupAsync(resourceGroup2.Name, new List<Resource>() { new Resource() { Name = "resource" } });
+            SetupListForResourceGroupAsync(resourceGroup3.Name, new List<Resource>() { new Resource() { Name = "resource" } });
+            SetupListForResourceGroupAsync(resourceGroup4.Name, new List<Resource>() { new Resource() { Name = "resource" } });
+
+            List<PSResourceGroup> groups1 = resourcesClient.FilterResourceGroups(null, 
+                new Hashtable(new Dictionary<string, string> {{ "Name", "tag1"}}));
+
+            Assert.Equal(2, groups1.Count);
+            Assert.Equal(resourceGroup1.Name, groups1[0].ResourceGroupName);
+            Assert.Equal(resourceGroup2.Name, groups1[1].ResourceGroupName);
+
+            List<PSResourceGroup> groups2 = resourcesClient.FilterResourceGroups(null,
+                new Hashtable(new Dictionary<string, string> { { "Name", "tag2" } }));
+
+            Assert.Equal(2, groups2.Count);
+            Assert.Equal(resourceGroup1.Name, groups2[0].ResourceGroupName);
+            Assert.Equal(resourceGroup3.Name, groups2[1].ResourceGroupName);
+
+            List<PSResourceGroup> groups3 = resourcesClient.FilterResourceGroups(null,
+                new Hashtable(new Dictionary<string, string> { { "Name", "tag3" } }));
+
+            Assert.Equal(0, groups3.Count);
+
+            List<PSResourceGroup> groups4 = resourcesClient.FilterResourceGroups(null,
+                new Hashtable(new Dictionary<string, string> { { "Name", "TAG1" }, {"Value", "val1"} }));
+
+            Assert.Equal(1, groups4.Count);
+            Assert.Equal(resourceGroup1.Name, groups4[0].ResourceGroupName);
         }
 
         [Fact]

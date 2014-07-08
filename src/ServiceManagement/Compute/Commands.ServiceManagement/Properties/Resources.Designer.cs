@@ -8,10 +8,8 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Properties
-{
-
-
+namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Properties {
+    
     /// <summary>
     ///   A strongly-typed resource class, for looking up localized strings, etc.
     /// </summary>
@@ -360,7 +358,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Properties
         /// <summary>
         ///   Looks up a localized string similar to Cannot find the // in the endpoint {0}.
         /// </summary>
-        internal static string DiagnosticsSlashNotFound {
+        public static string DiagnosticsSlashNotFound {
             get {
                 return ResourceManager.GetString("DiagnosticsSlashNotFound", resourceCulture);
             }
@@ -369,7 +367,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Properties
         /// <summary>
         ///   Looks up a localized string similar to Cannot find the storage account name {0} in the endpoint {1}.
         /// </summary>
-        internal static string DiagnosticsStorageAccountNotFound {
+        public static string DiagnosticsStorageAccountNotFound {
             get {
                 return ResourceManager.GetString("DiagnosticsStorageAccountNotFound", resourceCulture);
             }
@@ -1155,6 +1153,24 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Properties
         public static string RebootOrReImageMustBeSpecified {
             get {
                 return ResourceManager.GetString("RebootOrReImageMustBeSpecified", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Remove Azure DNS Server.
+        /// </summary>
+        public static string RemoveAzureDnsServerCaption {
+            get {
+                return ResourceManager.GetString("RemoveAzureDnsServerCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Are you sure you want to remove this DNS server: {0} from your service: {1}.
+        /// </summary>
+        public static string RemoveAzureDnsServerWarning {
+            get {
+                return ResourceManager.GetString("RemoveAzureDnsServerWarning", resourceCulture);
             }
         }
         

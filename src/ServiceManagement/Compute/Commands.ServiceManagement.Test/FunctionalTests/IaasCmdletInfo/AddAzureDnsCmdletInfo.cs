@@ -12,31 +12,18 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-using System.Collections;
-using System.Collections.Generic;
-
-namespace Microsoft.Azure.Commands.Resources.Models
+namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests.IaasCmdletInfo
 {
-    public class PSResourceGroup
+    using PowershellCore;
+
+    public class AddAzureDnsCmdletInfo : CmdletsInfo
     {
-        public string ResourceGroupName { get; set; }
-
-        public string Location { get; set; }
-
-        public List<PSResource> Resources { get; set; }
-
-        public string ResourcesTable
+        public AddAzureDnsCmdletInfo(string name, string ip, string serviceName)
         {
-            get { return ResourcesExtensions.ConstructResourcesTable(Resources); }
-        }
-
-        public string ProvisioningState { get; set; }
-
-        public List<Hashtable> Tags { get; set; }
-
-        public string TagsTable
-        {
-            get { return ResourcesExtensions.ConstructTagsTable(Tags); }
+            cmdletName = Utilities.AddAzureDnsCmdletName;
+            this.cmdletParams.Add(new CmdletParam("Name", name));
+            this.cmdletParams.Add(new CmdletParam("IPAddress", ip));
+            this.cmdletParams.Add(new CmdletParam("ServiceName", serviceName));
         }
     }
 }

@@ -1,4 +1,4 @@
-﻿// ----------------------------------------------------------------------------------
+﻿
 //
 // Copyright Microsoft Corporation
 // Licensed under the Apache License, Version 2.0 (the "License");
@@ -12,20 +12,23 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-using System;
-using System.Collections;
-using System.Collections.Generic;
 
-namespace Microsoft.Azure.Commands.Resources.Models
+namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests.IaasCmdletInfo
 {
-    public class CreatePSResourceGroupParameters : CreatePSResourceGroupDeploymentParameters
+    using PowershellCore;
+
+    public class RemoveAzureDnsCmdletInfo : CmdletsInfo
     {
-        public string Location { get; set; }
+        public RemoveAzureDnsCmdletInfo(string name, string serviceName, bool force = false)
+        {
+            cmdletName = Utilities.RemoveAzureDnsCmdletName;
+            this.cmdletParams.Add(new CmdletParam("Name", name));
+            this.cmdletParams.Add(new CmdletParam("ServiceName", serviceName));
 
-        public bool Force { get; set; }
-
-        public List<Hashtable> Tags { get; set; }
-
-        public Action<bool, string, string, string, Action> ConfirmAction { get; set; }
+            if (force)
+            {
+                this.cmdletParams.Add(new CmdletParam("Force"));
+            }
+        }
     }
 }

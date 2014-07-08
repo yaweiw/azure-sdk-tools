@@ -1,4 +1,4 @@
-﻿// ----------------------------------------------------------------------------------
+// ----------------------------------------------------------------------------------
 //
 // Copyright Microsoft Corporation
 // Licensed under the Apache License, Version 2.0 (the "License");
@@ -12,31 +12,11 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-using System.Collections;
-using System.Collections.Generic;
-
 namespace Microsoft.Azure.Commands.Resources.Models
 {
-    public class PSResourceGroup
+    public class PSTagValuePair
     {
-        public string ResourceGroupName { get; set; }
-
-        public string Location { get; set; }
-
-        public List<PSResource> Resources { get; set; }
-
-        public string ResourcesTable
-        {
-            get { return ResourcesExtensions.ConstructResourcesTable(Resources); }
-        }
-
-        public string ProvisioningState { get; set; }
-
-        public List<Hashtable> Tags { get; set; }
-
-        public string TagsTable
-        {
-            get { return ResourcesExtensions.ConstructTagsTable(Tags); }
-        }
+        public string Name { get; set; }
+        public string Value { get; set; }
     }
 }

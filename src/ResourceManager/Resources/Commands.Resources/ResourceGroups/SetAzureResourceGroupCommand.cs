@@ -13,29 +13,37 @@
 // ----------------------------------------------------------------------------------
 
 using System.Collections;
-using Microsoft.Azure.Commands.Resources.Models;
 using System.Collections.Generic;
+using Microsoft.Azure.Commands.Resources.Models;
+using Microsoft.WindowsAzure.Commands.Utilities.Common;
 using System.Management.Automation;
 
 namespace Microsoft.Azure.Commands.Resources
 {
     /// <summary>
-    /// Filters resource groups.
+    /// Updates an existing resource group.
     /// </summary>
-    [Cmdlet(VerbsCommon.Get, "AzureResourceGroup"), OutputType(typeof(List<PSResourceGroup>))]
-    public class GetAzureResourceGroupCommand : ResourcesBaseCmdlet
+    [Cmdlet(VerbsCommon.Set, "AzureResourceGroup"), OutputType(typeof(PSResourceGroup))]
+    public class SetAzureResourceGroupCommand : ResourcesBaseCmdlet
     {
         [Alias("ResourceGroupName")]
-        [Parameter(Position = 0, Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "The name of the resource group.")]
+        [Parameter(Mandatory = true, Position = 0, ValueFromPipelineByPropertyName = true, HelpMessage = "The resource group name.")]
         [ValidateNotNullOrEmpty]
         public string Name { get; set; }
 
-        [Parameter(Position = 1, Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "The resource group tag.")]
-        public Hashtable Tag { get; set; }
-        
+        [Alias("Tags")]
+        [Parameter(Mandatory = true, Position = 1, ValueFromPipelineByPropertyName = true, HelpMessage = "An array of hashtables which represents resource tags.")]
+        public List<Hashtable> Tag { get; set; }
+
         public override void ExecuteCmdlet()
         {
-            WriteObject(ResourcesClient.FilterResourceGroups(Name, Tag), true);
+            UpdatePSResourceGroupParameters parameters = new UpdatePSResourceGroupParameters
+            {
+                ResourceGroupName = Name,
+                Tag = Tag
+            };
+
+            WriteObject(ResourcesClient.UpdatePSResourceGroup(parameters));
         }
     }
 }

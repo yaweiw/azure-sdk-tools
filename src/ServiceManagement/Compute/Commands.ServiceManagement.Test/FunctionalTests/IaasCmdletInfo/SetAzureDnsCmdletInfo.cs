@@ -1,5 +1,4 @@
-﻿// ----------------------------------------------------------------------------------
-//
+﻿//
 // Copyright Microsoft Corporation
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -12,20 +11,18 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-using System;
-using System.Collections;
-using System.Collections.Generic;
-
-namespace Microsoft.Azure.Commands.Resources.Models
+namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests.IaasCmdletInfo
 {
-    public class CreatePSResourceGroupParameters : CreatePSResourceGroupDeploymentParameters
+    using PowershellCore;
+
+    public class SetAzureDnsCmdletInfo : CmdletsInfo
     {
-        public string Location { get; set; }
-
-        public bool Force { get; set; }
-
-        public List<Hashtable> Tags { get; set; }
-
-        public Action<bool, string, string, string, Action> ConfirmAction { get; set; }
+        public SetAzureDnsCmdletInfo(string name, string ip, string serviceName)
+        {
+            cmdletName = Utilities.SetAzureDnsCmdletName;
+            this.cmdletParams.Add(new CmdletParam("Name", name));
+            this.cmdletParams.Add(new CmdletParam("IPAddress", ip));
+            this.cmdletParams.Add(new CmdletParam("ServiceName", serviceName));
+        }
     }
 }

@@ -633,4 +633,10 @@
   <data name="ReverseDnsFqdnCanOnlyBeSpecifiedWhenNewCloudService" xml:space="preserve">
     <value>ReverseDnsFqdn can only be specified when creating a new cloud service.</value>
   </data>
+  <data name="RemoveAzureDnsServerCaption" xml:space="preserve">
+    <value>Remove Azure DNS Server</value>
+  </data>
+  <data name="RemoveAzureDnsServerWarning" xml:space="preserve">
+    <value>Are you sure you want to remove this DNS server: {0} from your service: {1}</value>
+  </data>
 </root>
