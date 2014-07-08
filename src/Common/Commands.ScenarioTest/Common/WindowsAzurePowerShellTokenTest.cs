@@ -51,12 +51,8 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.Common
         }
 
         public WindowsAzurePowerShellTokenTest(params string[] modules)
-            : base(AzureModule.AzureResourceManager, modules)
+            : this(AzureModule.AzureResourceManager, modules)
         {
-            if (Environment.GetEnvironmentVariable(outputDirKey) != null)
-            {
-                HttpMockServer.RecordsDirectory = Environment.GetEnvironmentVariable(outputDirKey);
-            }
         }
 
         private void OnClientCreated(object sender, ClientCreatedArgs e)
@@ -82,8 +78,6 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.Common
                 }
             }
         }
-
-
 
         public override Collection<PSObject> RunPowerShellTest(params string[] scripts)
         {
@@ -125,13 +119,16 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.Common
             TestEnvironment csmEnvironment = resourceManagerTestEnvironmentFactory.GetTestEnvironment();
             string jwtToken;
             
-            if (_moduleMode == AzureModule.AzureResourceManager) {
+            if (_moduleMode == AzureModule.AzureResourceManager) 
+            {
                 jwtToken = csmEnvironment.Credentials != null ? 
                 ((TokenCloudCredentials)csmEnvironment.Credentials).Token : null;
-            } else if (_moduleMode == AzureModule.AzureServiceManagement) {
+            } else if (_moduleMode == AzureModule.AzureServiceManagement) 
+            {
                 jwtToken = rdfeEnvironment.Credentials != null ?
                 ((TokenCloudCredentials)rdfeEnvironment.Credentials).Token : null;
-            } else {
+            } else 
+            {
                 throw new ArgumentException("Invalid module mode.");
             }
 
