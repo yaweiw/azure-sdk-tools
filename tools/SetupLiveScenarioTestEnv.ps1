@@ -18,19 +18,18 @@ Param( [switch] $Record )
 $scriptFolder = Split-Path -Path $MyInvocation.MyCommand.Definition -Parent
 . ($scriptFolder + '.\SetupTestEnv.ps1')
 
-# Access key is long and impossible to remember, so we don't ask from the command line rather just require environment variables.
 $resourceManagerVariables = Test-Path env:TEST_CSM_ORGID_AUTHENTICATION
 $serviceManagementVariables = Test-Path env:TEST_ORGID_AUTHENTICATION
+# Using storgage account is not recommended because of the complexity, but we will still support it
 $oldRdfeTestVariables = $(Test-Path env:AZURE_STORAGE_ACCESS_KEY) -and $(Test-Path env:AZURE_STORAGE_ACCOUNT)
 if (!$serviceManagementVariables -AND !$resourceManagerVariables -AND !$oldRdfeTestVariables) {
-  #TODO rewording the help information
   Write-Host "You environment has NOT been set up for sceanrio testing. We will help you configure..." -ForegroundColor "Yellow"
   $subscription = Read-Host 'Please input the Azure subscription guid you tests will use:'
   $env:TEST_ORGID_AUTHENTICATION = "SubscriptionId=$subscription;BaseUri=https://management.core.windows.net/;AADAuthEndpoint=https://login.windows.net/"
   $env:TEST_CSM_ORGID_AUTHENTICATION = "SubscriptionId=$subscription;BaseUri=https://management.azure.com/;AADAuthEndpoint=https://login.windows.net/"
-  Write-Host "To avoid getting prompt again, you can preset one of following environment variables depend on your powershell module mode:"
-  Write-Host "TEST_ORGID_AUTHENTICATION=$env:TEST_ORGID_AUTHENTICATION"
-  Write-Host "TEST_CSM_ORGID_AUTHENTICATION=$env:TEST_CSM_ORGID_AUTHENTICATION"
+  Write-Host "To avoid getting prompt again, you can preset one of following environment variables with the value beside" -ForegroundColor "Yellow"
+  Write-Host "TEST_ORGID_AUTHENTICATION : $env:TEST_ORGID_AUTHENTICATION"
+  Write-Host "TEST_CSM_ORGID_AUTHENTICATION : $env:TEST_CSM_ORGID_AUTHENTICATION"
 }
 
 $env:AZURE_TEST_ENVIRONMENT="production"
