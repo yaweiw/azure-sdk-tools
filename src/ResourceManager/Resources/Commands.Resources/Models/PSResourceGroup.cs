@@ -32,11 +32,11 @@ namespace Microsoft.Azure.Commands.Resources.Models
 
         public string ProvisioningState { get; set; }
 
-        public Hashtable[] Tag { get; set; }
+        public Hashtable[] Tags { get; set; }
 
         public string TagsTable
         {
-            get { return ResourcesExtensions.ConstructTagsTable(Tag); }
+            get { return ResourcesExtensions.ConstructTagsTable(Tags); }
         }
     }
 }

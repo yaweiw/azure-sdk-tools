@@ -38,7 +38,7 @@ namespace Microsoft.Azure.Commands.Resources.Models
                 Location = resourceGroup.Location,
                 Resources = resources,
                 ProvisioningState = resourceGroup.ProvisioningState,
-                Tag = TagsConversionHelper.CreateTagHashtable(resourceGroup.Tags),
+                Tags = TagsConversionHelper.CreateTagHashtable(resourceGroup.Tags),
             };
         }
 
