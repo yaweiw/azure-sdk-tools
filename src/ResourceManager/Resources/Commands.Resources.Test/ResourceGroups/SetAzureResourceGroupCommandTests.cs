@@ -58,14 +58,14 @@ namespace Microsoft.Azure.Commands.Resources.Test
             UpdatePSResourceGroupParameters expectedParameters = new UpdatePSResourceGroupParameters()
             {
                 ResourceGroupName = resourceGroupName,
-                Tag = tags
+                Tag = tags.ToArray()
             };
             UpdatePSResourceGroupParameters actualParameters = new UpdatePSResourceGroupParameters();
             PSResourceGroup expected = new PSResourceGroup()
             {
                 ResourceGroupName = expectedParameters.ResourceGroupName,
                 Resources = new List<PSResource>() { new PSResource() { Name = "resource1" } },
-                Tags = expectedParameters.Tag
+                Tag = expectedParameters.Tag
             };
             resourcesClientMock.Setup(f => f.UpdatePSResourceGroup(It.IsAny<UpdatePSResourceGroupParameters>()))
                 .Returns(expected)
