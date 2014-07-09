@@ -21,8 +21,6 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Model
     {
         public string Label { get; set; }
 
-        public string ReverseDnsFqdn { get; set; }
-
         public string Description { get; set; }
 
         public string AffinityGroup { get; set; }
@@ -40,5 +38,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Model
         public DateTime DateModified { get; set; }
 
         public DateTime DateCreated { get; set; }
+
+        public string ReverseDnsFqdn { get; set; }
     }
 }
