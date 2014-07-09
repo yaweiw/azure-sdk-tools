@@ -15,6 +15,11 @@
 
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Helpers
 {
+    using AutoMapper;
+    using Management.Compute.Models;
+    using Model;
+    using Model.PersistentVMModel;
+    using Properties;
     using System;
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
@@ -22,17 +27,12 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Helpers
     using System.Linq;
     using System.Management.Automation;
     using System.Xml.Serialization;
-    using AutoMapper;
-    using Management.Compute.Models;
-    using Model;
-    using Model.PersistentVMModel;
-    using Properties;
-    using ConfigurationSet                    = Model.PersistentVMModel.ConfigurationSet;
-    using DataVirtualHardDisk                 = Model.PersistentVMModel.DataVirtualHardDisk;
-    using LinuxProvisioningConfigurationSet   = Model.PersistentVMModel.LinuxProvisioningConfigurationSet;
-    using NetworkConfigurationSet             = Model.PersistentVMModel.NetworkConfigurationSet;
-    using OSVirtualHardDisk                   = Model.PersistentVMModel.OSVirtualHardDisk;
-    using RoleInstance                        = Management.Compute.Models.RoleInstance;
+    using ConfigurationSet = Model.PersistentVMModel.ConfigurationSet;
+    using DataVirtualHardDisk = Model.PersistentVMModel.DataVirtualHardDisk;
+    using LinuxProvisioningConfigurationSet = Model.PersistentVMModel.LinuxProvisioningConfigurationSet;
+    using NetworkConfigurationSet = Model.PersistentVMModel.NetworkConfigurationSet;
+    using OSVirtualHardDisk = Model.PersistentVMModel.OSVirtualHardDisk;
+    using RoleInstance = Management.Compute.Models.RoleInstance;
     using WindowsProvisioningConfigurationSet = Model.PersistentVMModel.WindowsProvisioningConfigurationSet;
 
     public static class PersistentVMHelper

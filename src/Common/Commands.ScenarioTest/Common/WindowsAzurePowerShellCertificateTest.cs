@@ -96,7 +96,7 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.Common
         {
             base.TestCleanup();
             WindowsAzureSubscription.OnClientCreated -= OnClientCreated;
-            if (this.runningMocked && HttpMockServer.CallerIdentity != null)
+            if (!this.runningMocked && HttpMockServer.CallerIdentity != null)
             {
                 HttpMockServer.Flush();
             }

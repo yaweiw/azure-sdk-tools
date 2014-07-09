@@ -233,13 +233,25 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
                 }
             }
 
-            var constructor = typeof(TClient).GetConstructor(new[] { typeof(SubscriptionCloudCredentials), typeof(Uri) });
+            return CreateClient<TClient>(registerProviders, credential, endpoint);
+        }
+
+        public TClient CreateClient<TClient>(bool registerProviders, params object[] parameters) where TClient : ServiceClient<TClient>
+        {
+            List<Type> types = new List<Type>();
+            foreach (object obj in parameters)
+            {
+                types.Add(obj.GetType());
+            }
+
+            var constructor = typeof(TClient).GetConstructor(types.ToArray()); 
+
             if (constructor == null)
             {
                 throw new InvalidOperationException(string.Format(Resources.InvalidManagementClientType, typeof(TClient).Name));
             }
 
-            TClient client = (TClient)constructor.Invoke(new object[] { credential, endpoint });
+            TClient client = (TClient)constructor.Invoke(parameters);
             client.UserAgent.Add(ApiConstants.UserAgentValue);
             EventHandler<ClientCreatedArgs> clientCreatedHandler = OnClientCreated;
             if (clientCreatedHandler != null)
@@ -252,9 +264,9 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
             if (addRestLogHandlerToAllClients)
             {
                 // Add the logging handler
-                var withHandlerMethod = typeof (TClient).GetMethod("WithHandler", new[] {typeof (DelegatingHandler)});
+                var withHandlerMethod = typeof(TClient).GetMethod("WithHandler", new[] { typeof(DelegatingHandler) });
                 TClient finalClient =
-                    (TClient) withHandlerMethod.Invoke(client, new object[] {new HttpRestCallLogger()});
+                    (TClient)withHandlerMethod.Invoke(client, new object[] { new HttpRestCallLogger() });
                 client.Dispose();
 
                 return finalClient;

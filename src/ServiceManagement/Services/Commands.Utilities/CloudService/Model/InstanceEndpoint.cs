@@ -29,6 +29,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService.Model
             PublicPort = endpoint.Port;
             LocalPort = endpoint.LocalPort.GetValueOrDefault(0);
             Protocol = endpoint.Protocol;
+            IdleTimeoutInMinutes = endpoint.IdleTimeoutInMinutes;
         }
 
         public string Name { get; set; }
@@ -36,5 +37,6 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService.Model
         public int PublicPort { get; set; }
         public int LocalPort { get; set; }
         public string Protocol { get; set; }
+        public int? IdleTimeoutInMinutes { get; set; } 
     }
 }

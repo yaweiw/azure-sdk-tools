@@ -20,7 +20,6 @@ namespace Microsoft.WindowsAzure.Commands.TrafficManager.Profile
     using Microsoft.WindowsAzure.Commands.TrafficManager.Utilities;
     using Microsoft.WindowsAzure.Management.TrafficManager.Models;
     using System;
-    using System.Linq;
     using System.Management.Automation;
 
     [Cmdlet(VerbsCommon.Set, "AzureTrafficManagerProfile"), OutputType(typeof(IProfileWithDefinition))]

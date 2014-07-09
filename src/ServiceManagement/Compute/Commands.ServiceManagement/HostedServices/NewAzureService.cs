@@ -14,9 +14,8 @@
 
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.HostedServices
 {
-    using System.Management.Automation;
-    using Management.Compute;
     using Management.Compute.Models;
+    using System.Management.Automation;
     using Utilities.Common;
 
     /// <summary>
@@ -68,12 +67,22 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.HostedServices
             set;
         }
 
+        [Parameter(Position = 4, Mandatory = false, ValueFromPipelineByPropertyName = true, ParameterSetName = "ParameterSetAffinityGroup", HelpMessage = "Dns address to which the cloud service’s IP address resolves when queried using a reverse Dns query.")]
+        [Parameter(Position = 4, Mandatory = false, ValueFromPipelineByPropertyName = true, ParameterSetName = "ParameterSetLocation", HelpMessage = "Dns address to which the cloud service’s IP address resolves when queried using a reverse Dns query.")]
+        [ValidateNotNullOrEmpty]
+        public string ReverseDnsFqdn
+        {
+            get;
+            set;
+        }
+
         public void ExecuteCommand()
         {
             var parameter = new HostedServiceCreateParameters()
             {
                 ServiceName = this.ServiceName,
                 Label = string.IsNullOrEmpty(this.Label) ? this.ServiceName : this.Label,
+                ReverseDnsFqdn = this.ReverseDnsFqdn,
                 Description = this.Description,
                 AffinityGroup =  this.AffinityGroup,
                 Location = this.Location

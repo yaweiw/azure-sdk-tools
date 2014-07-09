@@ -112,6 +112,14 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
             get { return EndpointFormatFor("table"); }
         }
 
+        /// <summary>
+        /// The storage service file endpoint format.
+        /// </summary>
+        public string StorageFileEndpointFormat
+        {
+            get { return EndpointFormatFor("file"); }
+        }
+
         public string GalleryEndpoint { get; set; }
 
         /// <summary>
@@ -145,6 +153,17 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
         public Uri GetStorageTableEndpoint(string accountName, bool useHttps = true)
         {
             return new Uri(string.Format(StorageTableEndpointFormat, useHttps ? "https" : "http", accountName));
+        }
+
+        /// <summary>
+        /// Gets the endpoint for storage file.
+        /// </summary>
+        /// <param name="accountName">The account name</param>
+        /// <param name="useHttps">Use Https when creating the URI. Defaults to true.</param>
+        /// <returns>The fully qualified uri to the file service</returns>
+        public Uri GetStorageFileEndpoint(string accountName, bool useHttps = true)
+        {
+            return new Uri(string.Format(StorageFileEndpointFormat, useHttps ? "https" : "http", accountName));
         }
 
         /// <summary>

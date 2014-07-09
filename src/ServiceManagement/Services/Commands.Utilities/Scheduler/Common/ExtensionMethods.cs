@@ -15,6 +15,8 @@
 namespace Microsoft.WindowsAzure.Commands.Utilities.Scheduler.Common
 {
     using Microsoft.WindowsAzure.Commands.Utilities.Scheduler.Model;
+    using Microsoft.WindowsAzure.Management.Scheduler.Models;
+    using System;
     using System.Collections;
     using System.Collections.Generic;
     using System.Linq;
@@ -80,5 +82,25 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Scheduler.Common
                 !string.IsNullOrEmpty(jobRequest.SasToken) ||
                 !string.IsNullOrEmpty(jobRequest.StorageQueueMessage));
         }
+
+        public static JobCollectionRecurrenceFrequency GetFrequency(this TimeSpan timespan)
+        {
+            JobCollectionRecurrenceFrequency frequency = JobCollectionRecurrenceFrequency.Hour;
+            if (timespan.Hours > 0)
+                frequency = JobCollectionRecurrenceFrequency.Hour;
+            else if (timespan.Minutes > 0)
+                frequency = JobCollectionRecurrenceFrequency.Minute;
+            return frequency;
+        }
+
+        public static int GetInterval(this TimeSpan timespan)
+        {
+            int interval = 1;
+            if (timespan.Hours > 0)
+                interval = timespan.Hours;
+            else if (timespan.Minutes > 0)
+                interval = timespan.Minutes;
+            return interval;
+        }        
     }
 }

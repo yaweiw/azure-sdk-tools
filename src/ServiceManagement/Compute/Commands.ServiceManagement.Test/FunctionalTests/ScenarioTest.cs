@@ -22,6 +22,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
     using System.IO;
+    using System.Linq;
     using System.Management.Automation;
     using System.Net;
     using System.Net.Cache;
@@ -32,7 +33,6 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
     using System.Xml.Linq;
     using VisualStudio.TestTools.UnitTesting;
     using WindowsAzure.ServiceManagement;
-    using System.Linq;
 
     [TestClass]
     public class ScenarioTest : ServiceManagementTest

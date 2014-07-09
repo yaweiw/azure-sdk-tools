@@ -13,6 +13,8 @@
 // limitations under the License.
 //
 
+using Microsoft.Azure.Utilities.HttpRecorder;
+
 namespace Microsoft.WindowsAzure.Commands.ScenarioTest.Common
 {
     using Microsoft.WindowsAzure.Common.Internals;
@@ -96,26 +98,41 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.Common
                 string authEndpoint = authSettings.ContainsKey(AADAuthEndpoint) ? authSettings[AADAuthEndpoint] : AADAuthEndpointDefault;
                 string tenant = authSettings.ContainsKey(AADTenant) ? authSettings[AADTenant] : AADTenantDefault;
                 string user = null;
-                if (authSettings.ContainsKey(AADUserIdKey) && authSettings.ContainsKey(AADPasswordKey))
+
+                // Preserve/restore subscription ID
+                if (HttpMockServer.Mode == HttpRecorderMode.Record)
                 {
-                    user = authSettings[AADUserIdKey];
-                    string password = authSettings[AADPasswordKey];
-                    Tracing.Information("Using AAD auth with username and password combination");
-                    token = TokenCloudCredentialsHelper.GetTokenFromBasicCredentials(user, password, authEndpoint, tenant);
-                    Tracing.Information("Using token {0}", token);
-                }
-                else
-                {
-                    Tracing.Information("Using AAD auth with pop-up dialog");
-                    string clientId = authSettings.ContainsKey(ClientID) ? authSettings[ClientID] : ClientIdDefault;
-                    if (authSettings.ContainsKey(RawToken))
+                    HttpMockServer.Variables[SubscriptionIdKey] = subscription;
+                    if (authSettings.ContainsKey(AADUserIdKey) && authSettings.ContainsKey(AADPasswordKey))
                     {
-                        token = authSettings[RawToken];
+                        user = authSettings[AADUserIdKey];
+                        string password = authSettings[AADPasswordKey];
+                        Tracing.Information("Using AAD auth with username and password combination");
+                        token = TokenCloudCredentialsHelper.GetTokenFromBasicCredentials(user, password, authEndpoint, tenant);
+                        Tracing.Information("Using token {0}", token);
                     }
                     else
                     {
-                        token = TokenCloudCredentialsHelper.GetToken(authEndpoint, tenant, clientId);
+                        Tracing.Information("Using AAD auth with pop-up dialog");
+                        string clientId = authSettings.ContainsKey(ClientID) ? authSettings[ClientID] : ClientIdDefault;
+                        if (authSettings.ContainsKey(RawToken))
+                        {
+                            token = authSettings[RawToken];
+                        }
+                        else
+                        {
+                            token = TokenCloudCredentialsHelper.GetToken(authEndpoint, tenant, clientId);
+                        }
                     }
+                }
+
+                if (HttpMockServer.Mode == HttpRecorderMode.Playback)
+                {
+                    // playback mode but no stored credentials in mocks
+                    Tracing.Information("Using dummy token for playback");
+                    token = Guid.NewGuid().ToString();
+                    Tracing.Information("Using token {0}", token);
+
                 }
 
                 orgIdEnvironment = new TestEnvironment
@@ -142,9 +159,14 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.Common
 
         private static string GetOrgId(string orgIdVariable)
         {
-            JObject subscription = JObject.Parse(Properties.Resources.CsmTestDummy);
-            string value = subscription.SelectToken(orgIdVariable).Value<string>();
-            return value;
+            string connectionString = Environment.GetEnvironmentVariable(orgIdVariable);
+            if (string.IsNullOrEmpty(connectionString))
+            {
+                JObject dummyTestConnectionString = JObject.Parse(Properties.Resources.CsmTestDummy);
+                connectionString = dummyTestConnectionString.SelectToken(orgIdVariable).Value<string>();
+            }
+            
+            return connectionString;
         }
         /// <summary>
         /// Break up the connection string into key-value pairs

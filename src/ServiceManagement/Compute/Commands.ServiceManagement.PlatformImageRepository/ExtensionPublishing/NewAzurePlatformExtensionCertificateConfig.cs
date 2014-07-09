@@ -14,9 +14,9 @@
 
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.PlatformImageRepository.ExtensionPublishing
 {
-    using System.Management.Automation;
     using AutoMapper;
     using Model;
+    using System.Management.Automation;
 
     /// <summary>
     /// Create a New Extension Certificate Config Set.

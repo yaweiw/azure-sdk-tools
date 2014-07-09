@@ -14,10 +14,10 @@
 
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
 {
-    using System;
-    using System.Management.Automation;
     using Helpers;
     using Model;
+    using System;
+    using System.Management.Automation;
 
     [Cmdlet(VerbsData.Import, "AzureVM"), OutputType(typeof(PersistentVM))]
     public class ImportAzureVMCommand : Cmdlet

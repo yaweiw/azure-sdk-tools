@@ -56,6 +56,10 @@
                 <Label>Properties</Label>
                 <PropertyName>PropertiesText</PropertyName>
               </ListItem>
+              <ListItem>
+                <Label>Tags</Label>
+                <PropertyName>TagsTable</PropertyName>
+              </ListItem>
             </ListItems>
           </ListEntry>
         </ListEntries>
@@ -81,6 +85,10 @@
               <ListItem>
                 <Label>ProvisioningState</Label>
                 <PropertyName>ProvisioningState</PropertyName>
+              </ListItem>
+              <ListItem>
+                <Label>Tags</Label>
+                <PropertyName>TagsTable</PropertyName>
               </ListItem>
               <ListItem>
                 <Label>Resources</Label>

@@ -14,8 +14,6 @@
 
 namespace Microsoft.WindowsAzure.Commands.Sync
 {
-    using Microsoft.WindowsAzure.Storage;
-    using Sync.Upload;
     using System;
     using System.Collections.Generic;
     using Tools.Vhd.Model;

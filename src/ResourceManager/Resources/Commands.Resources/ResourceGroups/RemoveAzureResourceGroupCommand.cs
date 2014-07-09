@@ -12,8 +12,8 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-using ProjectResources = Microsoft.Azure.Commands.Resources.Properties.Resources;
 using System.Management.Automation;
+using ProjectResources = Microsoft.Azure.Commands.Resources.Properties.Resources;
 
 namespace Microsoft.Azure.Commands.Resources
 {
@@ -21,7 +21,7 @@ namespace Microsoft.Azure.Commands.Resources
     /// Removes a new resource group.
     /// </summary>
     [Cmdlet(VerbsCommon.Remove, "AzureResourceGroup", SupportsShouldProcess = true), OutputType(typeof(bool))]
-    public class RemoveAzureResourceGroupCommand : ResourceManagerBaseCmdlet
+    public class RemoveAzureResourceGroupCommand : ResourcesBaseCmdlet
     {
         [Alias("ResourceGroupName")]
         [Parameter(Position = 0, Mandatory = true, ValueFromPipelineByPropertyName = true, HelpMessage = "The name of the resource group.")]

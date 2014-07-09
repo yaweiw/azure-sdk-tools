@@ -1530,4 +1530,10 @@ use and privacy statement at &lt;url&gt; and (c) agree to sharing my contact inf
   <data name="SwapWebsiteSlotSpecifySlotsWarning" xml:space="preserve">
     <value>The website has more than 2 slots you must specify which ones to swap</value>
   </data>
+  <data name="SchedulerExistingJobCollection" xml:space="preserve">
+    <value>A job collection with name "{0}" already exists in {1}. Please specify a different name.</value>
+  </data>
+  <data name="SchedulerNoMoreFreeJobCollection" xml:space="preserve">
+    <value>The subscription already has a free job collection. Only one free job collection can be created per subscription.</value>
+  </data>
 </root>

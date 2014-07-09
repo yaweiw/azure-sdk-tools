@@ -14,8 +14,8 @@
 
 namespace Microsoft.WindowsAzure.Commands.Test.Websites
 {
-    using Commands.Utilities.Common;
     using Commands.Common.Properties;
+    using Commands.Utilities.Common;
     using Commands.Utilities.Websites;
     using Commands.Utilities.Websites.Services.WebEntities;
     using Commands.Websites;

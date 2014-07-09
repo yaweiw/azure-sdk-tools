@@ -14,11 +14,10 @@
 
 namespace Microsoft.Azure.Commands.Automation.Common
 {
+    using Microsoft.Azure.Commands.Automation.Properties;
     using System;
     using System.Globalization;
     using System.Text.RegularExpressions;
-
-    using Microsoft.Azure.Commands.Automation.Properties;
 
     internal static class RequiresExtensions
     {
