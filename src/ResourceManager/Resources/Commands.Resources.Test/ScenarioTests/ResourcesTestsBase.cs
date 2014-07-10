@@ -13,11 +13,15 @@
 // ----------------------------------------------------------------------------------
 
 using System;
+using Microsoft.Azure.Commands.Resources.Models;
+using Microsoft.Azure.Gallery;
 using Microsoft.Azure.Management.Resources;
 using Microsoft.Azure.Subscriptions;
 using Microsoft.Azure.Utilities.HttpRecorder;
 using Microsoft.WindowsAzure.Commands.ScenarioTest;
 using Microsoft.WindowsAzure.Commands.Utilities.Common;
+using Microsoft.WindowsAzure.Management.Monitoring.Events;
+using Microsoft.WindowsAzure.Management.Storage;
 using Microsoft.WindowsAzure.Testing;
 
 namespace Microsoft.Azure.Commands.Resources.Test.ScenarioTests
@@ -31,9 +35,19 @@ namespace Microsoft.Azure.Commands.Resources.Test.ScenarioTests
             helper = new EnvironmentSetupHelper();
         }
 
-        protected void SetupManagementClients(params object[] initializedManagementClients)
+        protected void SetupManagementClients()
         {
-            helper.SetupManagementClients(initializedManagementClients);
+            var resourceManagementClient = GetResourceManagementClient();
+            var subscriptionsClient = GetSubscriptionClient();
+            var storageClient = GetStorageManagementClient();
+            var galleryClient = GetGalleryClient();
+            var eventsClient = GetEventsClient();
+
+            helper.SetupManagementClients(resourceManagementClient,
+                subscriptionsClient,
+                storageClient,
+                galleryClient,
+                eventsClient);
         }
 
         protected void RunPowerShellTest(params string[] scripts)
@@ -45,22 +59,29 @@ namespace Microsoft.Azure.Commands.Resources.Test.ScenarioTests
             helper.RunPowerShellTest(scripts);
         }
 
-        /// <summary>
-        /// Default constructor for management clients, using the TestSupport Infrastructure
-        /// </summary>
-        /// <returns>A resource management client, created from the current context (environment variables)</returns>
         protected ResourceManagementClient GetResourceManagementClient()
         {
             return TestBase.GetServiceClient<ResourceManagementClient>(new CSMTestEnvironmentFactory());
         }
 
-        /// <summary>
-        /// Default constructor for management clients, using the TestSupport Infrastructure
-        /// </summary>
-        /// <returns>A subscription client, created from the current context (environment variables)</returns>
         protected SubscriptionClient GetSubscriptionClient()
         {
             return TestBase.GetServiceClient<SubscriptionClient>(new CSMTestEnvironmentFactory());
+        }
+
+        protected StorageManagementClient GetStorageManagementClient()
+        {
+            return TestBase.GetServiceClient<StorageManagementClient>(new RDFETestEnvironmentFactory());
+        }
+
+        protected GalleryClient GetGalleryClient()
+        {
+            return TestBase.GetServiceClient<GalleryClient>(new CSMTestEnvironmentFactory());
+        }
+
+        protected EventsClient GetEventsClient()
+        {
+            return TestBase.GetServiceClient<EventsClient>(new CSMTestEnvironmentFactory());
         }
 
         public void Dispose()

@@ -27,9 +27,7 @@ namespace Microsoft.Azure.Commands.Resources.Test.ScenarioTests
             {
                 context.Start();
 
-                var resourceManagementClient = GetResourceManagementClient();
-                var subscriptionsClient = GetSubscriptionClient();
-                SetupManagementClients(resourceManagementClient, subscriptionsClient);
+                SetupManagementClients();
 
                 RunPowerShellTest("Test-CreatesNewSimpleResource");
             }
@@ -42,9 +40,7 @@ namespace Microsoft.Azure.Commands.Resources.Test.ScenarioTests
             {
                 context.Start();
 
-                var resourceManagementClient = GetResourceManagementClient();
-                var subscriptionsClient = GetSubscriptionClient();
-                SetupManagementClients(resourceManagementClient, subscriptionsClient);
+                SetupManagementClients();
 
                 RunPowerShellTest("Test-CreatesNewComplexResource");
             }
@@ -57,9 +53,7 @@ namespace Microsoft.Azure.Commands.Resources.Test.ScenarioTests
             {
                 context.Start();
 
-                var resourceManagementClient = GetResourceManagementClient();
-                var subscriptionsClient = GetSubscriptionClient();
-                SetupManagementClients(resourceManagementClient, subscriptionsClient);
+                SetupManagementClients();
 
                 RunPowerShellTest("Test-GetResourcesViaPiping");
             }
@@ -68,31 +62,66 @@ namespace Microsoft.Azure.Commands.Resources.Test.ScenarioTests
         [Fact]
         public void TestGetResourcesFromEmptyGroup()
         {
-            RunPowerShellTest("Test-GetResourcesFromEmptyGroup");
+            using (UndoContext context = UndoContext.Current)
+            {
+                context.Start();
+
+                SetupManagementClients();
+
+                RunPowerShellTest("Test-GetResourcesFromEmptyGroup");
+            }
         }
 
         [Fact]
         public void TestGetResourcesFromNonExisingGroup()
         {
-            RunPowerShellTest("Test-GetResourcesFromNonExisingGroup");
+            using (UndoContext context = UndoContext.Current)
+            {
+                context.Start();
+
+                SetupManagementClients();
+
+                RunPowerShellTest("Test-GetResourcesFromNonExisingGroup");
+            }
         }
 
         [Fact]
         public void TestGetResourcesForNonExisingType()
         {
-            RunPowerShellTest("Test-GetResourcesForNonExisingType");
+            using (UndoContext context = UndoContext.Current)
+            {
+                context.Start();
+
+                SetupManagementClients();
+
+                RunPowerShellTest("Test-GetResourcesForNonExisingType");
+            }
         }
 
         [Fact]
         public void TestGetResourceForNonExisingResource()
         {
-            RunPowerShellTest("Test-GetResourceForNonExisingResource");
+            using (UndoContext context = UndoContext.Current)
+            {
+                context.Start();
+
+                SetupManagementClients();
+
+                RunPowerShellTest("Test-GetResourceForNonExisingResource");
+            }
         }
 
         [Fact]
         public void TestGetResourcesViaPipingFromAnotherResource()
         {
-            RunPowerShellTest("Test-GetResourcesViaPipingFromAnotherResource");
+            using (UndoContext context = UndoContext.Current)
+            {
+                context.Start();
+
+                SetupManagementClients();
+
+                RunPowerShellTest("Test-GetResourcesViaPipingFromAnotherResource");
+            }
         }
     }
 }
