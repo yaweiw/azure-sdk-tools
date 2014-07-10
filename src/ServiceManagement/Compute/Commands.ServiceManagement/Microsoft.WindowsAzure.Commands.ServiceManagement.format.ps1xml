@@ -428,6 +428,10 @@
                 <PropertyName>DateCreated</PropertyName>
               </ListItem>
               <ListItem>
+                <Label>ReverseDnsFqdn</Label>
+                <PropertyName>ReverseDnsFqdn</PropertyName>
+              </ListItem>
+              <ListItem>
                 <Label>WebWorkerRoleSizes</Label>
                 <ScriptBlock>
                   "{" + (-Split $_.WebWorkerRoleSizes -Join ", ") + "}"
