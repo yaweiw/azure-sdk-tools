@@ -85,6 +85,11 @@ namespace Microsoft.WindowsAzure.Management.HDInsight.Cmdlet.DataObjects
                 mapReduceJobDefinition.Files.AddRange(this.Files);
             }
 
+            if (this.LibJars.IsNotNull())
+            {
+                mapReduceJobDefinition.LibJars.AddRange(this.LibJars);
+            }
+
             return mapReduceJobDefinition;
         }
     }
