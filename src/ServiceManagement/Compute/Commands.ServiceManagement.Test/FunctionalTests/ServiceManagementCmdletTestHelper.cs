@@ -1780,7 +1780,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
         #endregion AzureVM BGInfo Extension
 
         #region Generic VM Extension cmdlets
-        public PersistentVM SetAzureVMExtension(IPersistentVM vm, string extensionName, string publisher, string version = null, string referenceName = null,
+        public PersistentVM SetAzureVMExtension(IPersistentVM vm, string extensionName, string publisher, string version, string referenceName = null,
             string publicConfiguration = null, string privateConfiguration = null, string publicConfigPath = null, string privateConfigPath = null, bool disable = false)
         {
             return RunPSCmdletAndReturnFirst<PersistentVM>(new SetAzureVMExtensionCmdletInfo(vm, extensionName, publisher, version, referenceName,
