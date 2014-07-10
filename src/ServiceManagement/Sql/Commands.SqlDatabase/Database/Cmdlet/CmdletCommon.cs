@@ -44,7 +44,7 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Database.Cmdlet
         /// <param name="context">The context upon which to perform the action</param>
         /// <param name="response">The database object.</param>
         /// <returns>Returns the response from the server</returns>
-        public static Database WaitForDatabaseToBecomeOnline(PSCmdlet cmdlet, IServerDataServiceContext context, Database response, string databaseName, bool isCreate)
+        public static Database WaitForDatabaseOperation(PSCmdlet cmdlet, IServerDataServiceContext context, Database response, string databaseName, bool isCreate)
         {
             // Duration to sleep: 1 second
             TimeSpan sleepDuration = TimeSpan.FromSeconds(2.0);
