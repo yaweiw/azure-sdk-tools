@@ -185,7 +185,7 @@ namespace Microsoft.Azure.Commands.Resources.Models
             return storageName;
         }
 
-        private ResourceGroup CreateOrUpdateResourceGroup(string name, string location, List<Hashtable> tags)
+        private ResourceGroup CreateOrUpdateResourceGroup(string name, string location, Hashtable[] tags)
         {
             Dictionary<string, string> tagDictionary = TagsConversionHelper.CreateTagDictionary(tags, validate: true);
 
