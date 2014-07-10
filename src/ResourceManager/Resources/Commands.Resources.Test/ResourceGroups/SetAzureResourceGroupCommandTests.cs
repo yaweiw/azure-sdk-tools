@@ -58,7 +58,7 @@ namespace Microsoft.Azure.Commands.Resources.Test
             UpdatePSResourceGroupParameters expectedParameters = new UpdatePSResourceGroupParameters()
             {
                 ResourceGroupName = resourceGroupName,
-                Tag = tags
+                Tag = tags.ToArray()
             };
             UpdatePSResourceGroupParameters actualParameters = new UpdatePSResourceGroupParameters();
             PSResourceGroup expected = new PSResourceGroup()

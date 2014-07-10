@@ -32,7 +32,7 @@ namespace Microsoft.Azure.Commands.Resources.Models
 
         public string ApiVersion { get; set; }
 
-        public List<Hashtable> Tags { get; set; }
+        public Hashtable[] Tag { get; set; }
 
         public ResourceIdentity ToResourceIdentity()
         {

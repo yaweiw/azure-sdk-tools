@@ -75,7 +75,7 @@ namespace Microsoft.Azure.Commands.Resources.Models
                 {
                     WriteVerbose(string.Format("Creating resource \"{0}\" started.", parameters.Name));
 
-                    Dictionary<string, string> tagDictionary = TagsConversionHelper.CreateTagDictionary(parameters.Tags, validate: true);
+                    Dictionary<string, string> tagDictionary = TagsConversionHelper.CreateTagDictionary(parameters.Tag, validate: true);
                     
                     ResourceCreateOrUpdateResult createOrUpdateResult = ResourceManagementClient.Resources.CreateOrUpdate(parameters.ResourceGroupName, 
                         resourceIdentity,
@@ -134,7 +134,7 @@ namespace Microsoft.Azure.Commands.Resources.Models
             string newProperty = SerializeHashtable(parameters.PropertyObject,
                                                     addValueLayer: false);
 
-            Dictionary<string, string> tagDictionary = TagsConversionHelper.CreateTagDictionary(parameters.Tags, validate: true);
+            Dictionary<string, string> tagDictionary = TagsConversionHelper.CreateTagDictionary(parameters.Tag, validate: true);
 
             ResourceManagementClient.Resources.CreateOrUpdate(parameters.ResourceGroupName, resourceIdentity,
                         new BasicResource
@@ -186,9 +186,9 @@ namespace Microsoft.Azure.Commands.Resources.Models
             else
             {
                 PSTagValuePair tagValuePair = new PSTagValuePair();
-                if (parameters.Tags != null && parameters.Tags.Count == 1 && parameters.Tags[0] != null)
+                if (parameters.Tag != null && parameters.Tag.Length == 1 && parameters.Tag[0] != null)
                 {
-                    tagValuePair = TagsConversionHelper.Create(parameters.Tags[0]);
+                    tagValuePair = TagsConversionHelper.Create(parameters.Tag[0]);
                     if (tagValuePair == null)
                     {
                         throw new ArgumentException(ProjectResources.InvalidTagFormat);
@@ -224,7 +224,7 @@ namespace Microsoft.Azure.Commands.Resources.Models
             ResourceGroup resourceGroup = null;
             Action createOrUpdateResourceGroup = () =>
             {
-                resourceGroup = CreateOrUpdateResourceGroup(parameters.ResourceGroupName, parameters.Location, parameters.Tags);
+                resourceGroup = CreateOrUpdateResourceGroup(parameters.ResourceGroupName, parameters.Location, parameters.Tag);
                 WriteVerbose(string.Format("Created resource group '{0}' in location '{1}'", resourceGroup.Name, resourceGroup.Location));
 
                 if (createDeployment)

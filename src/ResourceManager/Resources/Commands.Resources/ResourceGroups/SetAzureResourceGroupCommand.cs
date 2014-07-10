@@ -14,6 +14,7 @@
 
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Microsoft.Azure.Commands.Resources.Models;
 using Microsoft.WindowsAzure.Commands.Utilities.Common;
 using System.Management.Automation;
@@ -33,7 +34,7 @@ namespace Microsoft.Azure.Commands.Resources
 
         [Alias("Tags")]
         [Parameter(Mandatory = true, Position = 1, ValueFromPipelineByPropertyName = true, HelpMessage = "An array of hashtables which represents resource tags.")]
-        public List<Hashtable> Tag { get; set; }
+        public Hashtable[] Tag { get; set; }
 
         public override void ExecuteCmdlet()
         {
