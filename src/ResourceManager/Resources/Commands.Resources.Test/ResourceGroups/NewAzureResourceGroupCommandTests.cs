@@ -41,7 +41,7 @@ namespace Microsoft.Azure.Commands.Resources.Test
 
         private string storageAccountName = "myStorageAccount";
 
-        private List<Hashtable> tags;
+        private Hashtable[] tags;
 
         public NewAzureResourceGroupCommandTests()
         {
@@ -53,11 +53,14 @@ namespace Microsoft.Azure.Commands.Resources.Test
                 ResourcesClient = resourcesClientMock.Object
             };
 
-            tags = new [] {new Hashtable
+            tags = new[]
+            {
+                new Hashtable
                 {
                     {"Name", "value1"},
                     {"Value", ""}
-                }}.ToList();
+                }
+            };
         }
 
         [Fact]
@@ -71,7 +74,7 @@ namespace Microsoft.Azure.Commands.Resources.Test
                 DeploymentName = deploymentName,
                 StorageAccountName = storageAccountName,
                 TemplateVersion = "1.0",
-                Tags = tags
+                Tag = tags
             };
             CreatePSResourceGroupParameters actualParameters = new CreatePSResourceGroupParameters();
             PSResourceGroup expected = new PSResourceGroup()
@@ -79,7 +82,7 @@ namespace Microsoft.Azure.Commands.Resources.Test
                 Location = expectedParameters.Location,
                 ResourceGroupName = expectedParameters.ResourceGroupName,
                 Resources = new List<PSResource>() { new PSResource() { Name = "resource1" } },
-                Tags = expectedParameters.Tags
+                Tags = expectedParameters.Tag
             };
             resourcesClientMock.Setup(f => f.CreatePSResourceGroup(It.IsAny<CreatePSResourceGroupParameters>()))
                 .Returns(expected)
@@ -90,7 +93,7 @@ namespace Microsoft.Azure.Commands.Resources.Test
             cmdlet.TemplateFile = expectedParameters.TemplateFile;
             cmdlet.DeploymentName = expectedParameters.DeploymentName;
             cmdlet.TemplateVersion = expectedParameters.TemplateVersion;
-            cmdlet.Tags = expectedParameters.Tags;
+            cmdlet.Tag = expectedParameters.Tag;
 
             cmdlet.ExecuteCmdlet();
 
@@ -102,7 +105,7 @@ namespace Microsoft.Azure.Commands.Resources.Test
             Assert.NotNull(actualParameters.TemplateParameterObject);
             Assert.Equal(expectedParameters.TemplateVersion, actualParameters.TemplateVersion);
             Assert.Equal(null, actualParameters.StorageAccountName);
-            Assert.Equal(expectedParameters.Tags, actualParameters.Tags);
+            Assert.Equal(expectedParameters.Tag, actualParameters.Tag);
 
             commandRuntimeMock.Verify(f => f.WriteObject(expected), Times.Once());
         }
