@@ -1,13 +1,12 @@
 {
   "Entries": [
     {
-      "RequestUri": "/subscriptions/2c224e7e-3ef5-431d-a57b-e71f4662e3a6/resourcegroups/onesdk7423?api-version=2014-04-01-preview",
+      "RequestUri": "/subscriptions/db1ab6f0-4769-4b27-930e-01e2ef9c123c/resourcegroups/onesdk2191?api-version=2014-04-01-preview",
       "RequestMethod": "HEAD",
       "RequestBody": "",
       "RequestHeaders": {
         "User-Agent": [
-          "Microsoft.Azure.Management.Resources.ResourceManagementClient/2.0.0.0",
-          "WindowsAzurePowershell/v0.8.5"
+          "Microsoft.Azure.Management.Resources.ResourceManagementClient/2.0.0.0"
         ]
       },
       "ResponseBody": "",
@@ -16,34 +15,36 @@
           "no-cache"
         ],
         "x-ms-ratelimit-remaining-subscription-reads": [
-          "31980"
+          "31996"
         ],
         "x-ms-request-id": [
-          "63d89766-f816-4d99-a97b-b782df307489"
+          "e427440e-b12b-4807-b93c-186dd5faa54a"
         ],
         "x-ms-correlation-request-id": [
-          "63d89766-f816-4d99-a97b-b782df307489"
+          "e427440e-b12b-4807-b93c-186dd5faa54a"
         ],
         "x-ms-routing-request-id": [
-          "WESTUS:20140702T232227Z:63d89766-f816-4d99-a97b-b782df307489"
+          "WESTUS:20140711T184237Z:e427440e-b12b-4807-b93c-186dd5faa54a"
+        ],
+        "Strict-Transport-Security": [
+          "max-age=31536000; includeSubDomains"
         ],
         "Cache-Control": [
           "no-cache"
         ],
         "Date": [
-          "Wed, 02 Jul 2014 23:22:26 GMT"
+          "Fri, 11 Jul 2014 18:42:37 GMT"
         ]
       },
       "StatusCode": 404
     },
     {
-      "RequestUri": "/subscriptions/2c224e7e-3ef5-431d-a57b-e71f4662e3a6/resourcegroups/onesdk7423?api-version=2014-04-01-preview",
+      "RequestUri": "/subscriptions/db1ab6f0-4769-4b27-930e-01e2ef9c123c/resourcegroups/onesdk2191?api-version=2014-04-01-preview",
       "RequestMethod": "PUT",
       "RequestBody": "{\r\n  \"location\": \"non-existing\",\r\n  \"tags\": {}\r\n}",
       "RequestHeaders": {
         "User-Agent": [
-          "Microsoft.Azure.Management.Resources.ResourceManagementClient/2.0.0.0",
-          "WindowsAzurePowershell/v0.8.5"
+          "Microsoft.Azure.Management.Resources.ResourceManagementClient/2.0.0.0"
         ]
       },
       "ResponseBody": "{\r\n  \"error\": {\r\n    \"code\": \"InvalidResourceLocation\",\r\n    \"message\": \"The provided location 'non-existing' is not supported. List of available regions is 'centralus, eastasia, southeastasia, eastus, westus, northcentralus, southcentralus, northeurope, westeurope'\"\r\n  }\r\n}",
@@ -52,22 +53,25 @@
           "no-cache"
         ],
         "x-ms-ratelimit-remaining-subscription-writes": [
-          "1158"
+          "1197"
         ],
         "x-ms-request-id": [
-          "9b762b9d-2253-46f5-b3d2-1a52a204401d"
+          "13b4abba-98ba-4fe0-a728-de33b1e8982d"
         ],
         "x-ms-correlation-request-id": [
-          "9b762b9d-2253-46f5-b3d2-1a52a204401d"
+          "13b4abba-98ba-4fe0-a728-de33b1e8982d"
         ],
         "x-ms-routing-request-id": [
-          "WESTUS:20140702T232227Z:9b762b9d-2253-46f5-b3d2-1a52a204401d"
+          "WESTUS:20140711T184237Z:13b4abba-98ba-4fe0-a728-de33b1e8982d"
+        ],
+        "Strict-Transport-Security": [
+          "max-age=31536000; includeSubDomains"
         ],
         "Cache-Control": [
           "no-cache"
         ],
         "Date": [
-          "Wed, 02 Jul 2014 23:22:26 GMT"
+          "Fri, 11 Jul 2014 18:42:37 GMT"
         ]
       },
       "StatusCode": 400
@@ -75,10 +79,10 @@
   ],
   "Names": {
     "Test-NewResourceGroupInNonExistingLocation": [
-      "onesdk7423"
+      "onesdk2191"
     ]
   },
   "Variables": {
-    "SubscriptionId": "2c224e7e-3ef5-431d-a57b-e71f4662e3a6"
+    "SubscriptionId": "db1ab6f0-4769-4b27-930e-01e2ef9c123c"
   }
 }

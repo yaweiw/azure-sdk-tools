@@ -1,37 +1,39 @@
 {
   "Entries": [
     {
-      "RequestUri": "/subscriptions/2c224e7e-3ef5-431d-a57b-e71f4662e3a6/resourcegroups/onesdk8540?api-version=2014-04-01-preview",
+      "RequestUri": "/subscriptions/db1ab6f0-4769-4b27-930e-01e2ef9c123c/resourcegroups/onesdk2111?api-version=2014-04-01-preview",
       "RequestMethod": "GET",
       "RequestBody": "",
       "RequestHeaders": {
         "User-Agent": [
-          "Microsoft.Azure.Management.Resources.ResourceManagementClient/2.0.0.0",
-          "WindowsAzurePowershell/v0.8.5"
+          "Microsoft.Azure.Management.Resources.ResourceManagementClient/2.0.0.0"
         ]
       },
-      "ResponseBody": "{\r\n  \"error\": {\r\n    \"code\": \"ResourceGroupNotFound\",\r\n    \"message\": \"Resource group 'onesdk8540' could not be found.\"\r\n  }\r\n}",
+      "ResponseBody": "{\r\n  \"error\": {\r\n    \"code\": \"ResourceGroupNotFound\",\r\n    \"message\": \"Resource group 'onesdk2111' could not be found.\"\r\n  }\r\n}",
       "ResponseHeaders": {
         "Pragma": [
           "no-cache"
         ],
         "x-ms-ratelimit-remaining-subscription-reads": [
-          "31964"
+          "31942"
         ],
         "x-ms-request-id": [
-          "9fcda18f-8b36-4e0b-aca3-3ce6e33fb152"
+          "2f9fa13f-7bcc-4177-a80d-920385f12a8b"
         ],
         "x-ms-correlation-request-id": [
-          "9fcda18f-8b36-4e0b-aca3-3ce6e33fb152"
+          "2f9fa13f-7bcc-4177-a80d-920385f12a8b"
         ],
         "x-ms-routing-request-id": [
-          "WESTUS:20140702T232849Z:9fcda18f-8b36-4e0b-aca3-3ce6e33fb152"
+          "WESTUS:20140711T184706Z:2f9fa13f-7bcc-4177-a80d-920385f12a8b"
+        ],
+        "Strict-Transport-Security": [
+          "max-age=31536000; includeSubDomains"
         ],
         "Cache-Control": [
           "no-cache"
         ],
         "Date": [
-          "Wed, 02 Jul 2014 23:28:48 GMT"
+          "Fri, 11 Jul 2014 18:47:06 GMT"
         ]
       },
       "StatusCode": 404
@@ -39,10 +41,10 @@
   ],
   "Names": {
     "Test-GetNonExistingResourceGroup": [
-      "onesdk8540"
+      "onesdk2111"
     ]
   },
   "Variables": {
-    "SubscriptionId": "2c224e7e-3ef5-431d-a57b-e71f4662e3a6"
+    "SubscriptionId": "db1ab6f0-4769-4b27-930e-01e2ef9c123c"
   }
 }

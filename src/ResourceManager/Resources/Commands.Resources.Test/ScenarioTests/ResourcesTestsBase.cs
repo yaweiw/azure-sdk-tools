@@ -54,7 +54,7 @@ namespace Microsoft.Azure.Commands.Resources.Test.ScenarioTests
         {
             using (UndoContext context = UndoContext.Current)
             {
-                context.Start();
+                context.Start(TestUtilities.GetCallingClass(), TestUtilities.GetCurrentMethodName());
 
                 SetupManagementClients();
 
