@@ -52,11 +52,18 @@ namespace Microsoft.Azure.Commands.Resources.Test.ScenarioTests
 
         protected void RunPowerShellTest(params string[] scripts)
         {
-            helper.SetupEnvironment(AzureModule.AzureResourceManager);
-            helper.SetupModules(AzureModule.AzureResourceManager, "ScenarioTests\\Common.ps1",
-                "ScenarioTests\\" + this.GetType().Name + ".ps1");
+            using (UndoContext context = UndoContext.Current)
+            {
+                context.Start();
 
-            helper.RunPowerShellTest(scripts);
+                SetupManagementClients();
+
+                helper.SetupEnvironment(AzureModule.AzureResourceManager);
+                helper.SetupModules(AzureModule.AzureResourceManager, "ScenarioTests\\Common.ps1",
+                    "ScenarioTests\\" + this.GetType().Name + ".ps1");
+
+                helper.RunPowerShellTest(scripts);
+            }
         }
 
         protected ResourceManagementClient GetResourceManagementClient()

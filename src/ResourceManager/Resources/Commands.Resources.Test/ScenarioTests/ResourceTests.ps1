@@ -27,26 +27,18 @@ function Test-CreatesNewSimpleResource
 	$resourceType = "Microsoft.Sql/servers"
 
 	# Test
-	try 
-	{
-		New-AzureResourceGroup -Name $rgname -Location $rglocation
-		$actual = New-AzureResource -Name $rname -Location $location -Tags @{Name = "testtag"; Value = "testval"} -ResourceGroupName $rgname -ResourceType $resourceType -PropertyObject @{"administratorLogin" = "adminuser"; "administratorLoginPassword" = "P@ssword1"} -ApiVersion $apiversion
-		$expected = Get-AzureResource -Name $rname -ResourceGroupName $rgname -ResourceType $resourceType -ApiVersion $apiversion
+	New-AzureResourceGroup -Name $rgname -Location $rglocation
+	$actual = New-AzureResource -Name $rname -Location $location -Tags @{Name = "testtag"; Value = "testval"} -ResourceGroupName $rgname -ResourceType $resourceType -PropertyObject @{"administratorLogin" = "adminuser"; "administratorLoginPassword" = "P@ssword1"} -ApiVersion $apiversion
+	$expected = Get-AzureResource -Name $rname -ResourceGroupName $rgname -ResourceType $resourceType -ApiVersion $apiversion
 	
-		$list = Get-AzureResource -ResourceGroupName $rgname
+	$list = Get-AzureResource -ResourceGroupName $rgname
 
-		# Assert
-		Assert-AreEqual $expected.Name $actual.Name
-		Assert-AreEqual $expected.ResourceGroupName $actual.ResourceGroupName
-		Assert-AreEqual $expected.ResourceType $actual.ResourceType
-		Assert-AreEqual 1 @($list).Count
-		Assert-AreEqual $expected.Name $list[0].Name	
-	}
-	finally
-	{
-		# Cleanup
-		Clean-ResourceGroup $rgname
-	}
+	# Assert
+	Assert-AreEqual $expected.Name $actual.Name
+	Assert-AreEqual $expected.ResourceGroupName $actual.ResourceGroupName
+	Assert-AreEqual $expected.ResourceType $actual.ResourceType
+	Assert-AreEqual 1 @($list).Count
+	Assert-AreEqual $expected.Name $list[0].Name	
 }
 
 <#
@@ -66,43 +58,35 @@ function Test-CreatesNewComplexResource
 	$apiversion = "2014-04-01"
 
 	# Test
-	try 
-	{
-		New-AzureResourceGroup -Name $rgname -Location $rglocation
-		$actualParent = New-AzureResource -Name $rnameParent -Location $location -ResourceGroupName $rgname -ResourceType $resourceTypeParent -PropertyObject @{"administratorLogin" = "adminuser"; "administratorLoginPassword" = "P@ssword1"} -ApiVersion $apiversion
-		$expectedParent = Get-AzureResource -Name $rnameParent -ResourceGroupName $rgname -ResourceType $resourceTypeParent -ApiVersion $apiversion
+	New-AzureResourceGroup -Name $rgname -Location $rglocation
+	$actualParent = New-AzureResource -Name $rnameParent -Location $location -ResourceGroupName $rgname -ResourceType $resourceTypeParent -PropertyObject @{"administratorLogin" = "adminuser"; "administratorLoginPassword" = "P@ssword1"} -ApiVersion $apiversion
+	$expectedParent = Get-AzureResource -Name $rnameParent -ResourceGroupName $rgname -ResourceType $resourceTypeParent -ApiVersion $apiversion
 
-		$actualChild = New-AzureResource -Name $rnameChild -Location $location -ResourceGroupName $rgname -ResourceType $resourceTypeChild -ParentResource servers/$rnameParent -PropertyObject @{"edition" = "Web"; "collation" = "SQL_Latin1_General_CP1_CI_AS"; "maxSizeBytes" = "1073741824"} -ApiVersion $apiversion
-		$expectedChild = Get-AzureResource -Name $rnameChild -ResourceGroupName $rgname -ResourceType $resourceTypeChild -ParentResource servers/$rnameParent -ApiVersion $apiversion
+	$actualChild = New-AzureResource -Name $rnameChild -Location $location -ResourceGroupName $rgname -ResourceType $resourceTypeChild -ParentResource servers/$rnameParent -PropertyObject @{"edition" = "Web"; "collation" = "SQL_Latin1_General_CP1_CI_AS"; "maxSizeBytes" = "1073741824"} -ApiVersion $apiversion
+	$expectedChild = Get-AzureResource -Name $rnameChild -ResourceGroupName $rgname -ResourceType $resourceTypeChild -ParentResource servers/$rnameParent -ApiVersion $apiversion
 
-		$list = Get-AzureResource -ResourceGroupName $rgname
+	$list = Get-AzureResource -ResourceGroupName $rgname
 
-		$parentFromList = $list | where {$_.ResourceType -eq $resourceTypeParent} | Select-Object -First 1
-		$childFromList = $list | where {$_.ResourceType -eq $resourceTypeChild} | Select-Object -First 1
+	$parentFromList = $list | where {$_.ResourceType -eq $resourceTypeParent} | Select-Object -First 1
+	$childFromList = $list | where {$_.ResourceType -eq $resourceTypeChild} | Select-Object -First 1
 
-		$listOfServers = Get-AzureResource -ResourceType $resourceTypeParent -ResourceGroupName $rgname
-		$listOfDatabases = Get-AzureResource -ResourceType $resourceTypeChild -ResourceGroupName $rgname
+	$listOfServers = Get-AzureResource -ResourceType $resourceTypeParent -ResourceGroupName $rgname
+	$listOfDatabases = Get-AzureResource -ResourceType $resourceTypeChild -ResourceGroupName $rgname
 
-		# Assert
-		Assert-AreEqual $expectedParent.Name $actualParent.Name
-		Assert-AreEqual $expectedChild.Name $actualChild.Name
-		Assert-AreEqual $expectedParent.ResourceType $actualParent.ResourceType
-		Assert-AreEqual $expectedChild.ResourceType $actualChild.ResourceType
+	# Assert
+	Assert-AreEqual $expectedParent.Name $actualParent.Name
+	Assert-AreEqual $expectedChild.Name $actualChild.Name
+	Assert-AreEqual $expectedParent.ResourceType $actualParent.ResourceType
+	Assert-AreEqual $expectedChild.ResourceType $actualChild.ResourceType
 
-		Assert-AreEqual 2 @($list).Count
-		Assert-AreEqual $expectedParent.Name $parentFromList.Name
-		Assert-AreEqual $expectedChild.Name $childFromList.Name
-		Assert-AreEqual $expectedParent.ResourceType $parentFromList.ResourceType
-		Assert-AreEqual $expectedChild.ResourceType $childFromList.ResourceType
+	Assert-AreEqual 2 @($list).Count
+	Assert-AreEqual $expectedParent.Name $parentFromList.Name
+	Assert-AreEqual $expectedChild.Name $childFromList.Name
+	Assert-AreEqual $expectedParent.ResourceType $parentFromList.ResourceType
+	Assert-AreEqual $expectedChild.ResourceType $childFromList.ResourceType
 
-		Assert-AreEqual 1 @($listOfServers).Count
-		Assert-AreEqual 1 @($listOfDatabases).Count
-	}
-	finally
-	{
-		# Cleanup
-		Clean-ResourceGroup $rgname
-	}
+	Assert-AreEqual 1 @($listOfServers).Count
+	Assert-AreEqual 1 @($listOfDatabases).Count
 }
 
 <#
@@ -122,28 +106,20 @@ function Test-GetResourcesViaPiping
 	$apiversion = "2014-04-01"
 
 	# Test
-	try 
-	{
-		New-AzureResourceGroup -Name $rgname -Location $rglocation
-		New-AzureResource -Name $rnameParent -Location $location -ResourceGroupName $rgname -ResourceType $resourceTypeParent -PropertyObject @{"administratorLogin" = "adminuser"; "administratorLoginPassword" = "P@ssword1"} -ApiVersion $apiversion		
-		New-AzureResource -Name $rnameChild -Location $location -ResourceGroupName $rgname -ResourceType $resourceTypeChild -ParentResource servers/$rnameParent -PropertyObject @{"edition" = "Web"; "collation" = "SQL_Latin1_General_CP1_CI_AS"; "maxSizeBytes" = "1073741824"} -ApiVersion $apiversion
+	New-AzureResourceGroup -Name $rgname -Location $rglocation
+	New-AzureResource -Name $rnameParent -Location $location -ResourceGroupName $rgname -ResourceType $resourceTypeParent -PropertyObject @{"administratorLogin" = "adminuser"; "administratorLoginPassword" = "P@ssword1"} -ApiVersion $apiversion		
+	New-AzureResource -Name $rnameChild -Location $location -ResourceGroupName $rgname -ResourceType $resourceTypeChild -ParentResource servers/$rnameParent -PropertyObject @{"edition" = "Web"; "collation" = "SQL_Latin1_General_CP1_CI_AS"; "maxSizeBytes" = "1073741824"} -ApiVersion $apiversion
 		
-		$list = Get-AzureResourceGroup -Name $rgname | Get-AzureResource
-		$serverFromList = $list | where {$_.ResourceType -eq $resourceTypeParent} | Select-Object -First 1
-		$databaseFromList = $list | where {$_.ResourceType -eq $resourceTypeChild} | Select-Object -First 1
+	$list = Get-AzureResourceGroup -Name $rgname | Get-AzureResource
+	$serverFromList = $list | where {$_.ResourceType -eq $resourceTypeParent} | Select-Object -First 1
+	$databaseFromList = $list | where {$_.ResourceType -eq $resourceTypeChild} | Select-Object -First 1
 
-		# Assert
-		Assert-AreEqual 2 @($list).Count
-		Assert-AreEqual $rnameParent $serverFromList.Name
-		Assert-AreEqual $rnameChild $databaseFromList.Name
-		Assert-AreEqual $resourceTypeParent $serverFromList.ResourceType
-		Assert-AreEqual $resourceTypeChild $databaseFromList.ResourceType
-	}
-	finally
-	{
-		# Cleanup
-		Clean-ResourceGroup $rgname
-	}
+	# Assert
+	Assert-AreEqual 2 @($list).Count
+	Assert-AreEqual $rnameParent $serverFromList.Name
+	Assert-AreEqual $rnameChild $databaseFromList.Name
+	Assert-AreEqual $resourceTypeParent $serverFromList.ResourceType
+	Assert-AreEqual $resourceTypeChild $databaseFromList.ResourceType
 }
 
 <#
@@ -156,22 +132,14 @@ function Test-GetResourcesFromEmptyGroup
 	$rgname = Get-ResourceGroupName
 	$location = Get-ProviderLocation ResourceManagement
 
-	try 
-	{
-		# Test
-		New-AzureResourceGroup -Name $rgname -Location $location
-		$listViaPiping = Get-AzureResourceGroup -Name $rgname | Get-AzureResource
-		$listViaDirect = Get-AzureResource -ResourceGroupName $rgname
+	# Test
+	New-AzureResourceGroup -Name $rgname -Location $location
+	$listViaPiping = Get-AzureResourceGroup -Name $rgname | Get-AzureResource
+	$listViaDirect = Get-AzureResource -ResourceGroupName $rgname
 
-		# Assert
-		Assert-AreEqual 0 @($listViaPiping).Count
-		Assert-AreEqual 0 @($listViaDirect).Count
-	}
-	finally
-	{
-		# Cleanup
-		Clean-ResourceGroup $rgname
-	}
+	# Assert
+	Assert-AreEqual 0 @($listViaPiping).Count
+	Assert-AreEqual 0 @($listViaDirect).Count
 }
 
 <#
@@ -214,19 +182,11 @@ function Test-GetResourceForNonExisingResource
 	$resourceTypeSql = "Microsoft.Sql/servers"
 	$apiversion = "2014-04-01"
 
-	try 
-	{
-		# Test
-		New-AzureResourceGroup -Name $rgname -Location $location
-		Assert-Throws { Get-AzureResource -Name $rname -ResourceGroupName $rgname -ResourceType $resourceTypeWeb -ApiVersion $apiversion } "Provided resource does not exist."
-		Assert-Throws { Get-AzureResource -Name $rname -ResourceGroupName $rgname -ResourceType $resourceTypeSql -ApiVersion $apiversion } "Provided resource does not exist."
-		Assert-Throws { Get-AzureResource -Name $rname -ResourceGroupName $rgname -ResourceType 'Microsoft.Fake/nonexisting' -ApiVersion $apiversion } "Provided resource does not exist."
-	}
-	finally
-	{
-		# Cleanup
-		Clean-ResourceGroup $rgname
-	}
+	# Test
+	New-AzureResourceGroup -Name $rgname -Location $location
+	Assert-Throws { Get-AzureResource -Name $rname -ResourceGroupName $rgname -ResourceType $resourceTypeWeb -ApiVersion $apiversion } "Provided resource does not exist."
+	Assert-Throws { Get-AzureResource -Name $rname -ResourceGroupName $rgname -ResourceType $resourceTypeSql -ApiVersion $apiversion } "Provided resource does not exist."
+	Assert-Throws { Get-AzureResource -Name $rname -ResourceGroupName $rgname -ResourceType 'Microsoft.Fake/nonexisting' -ApiVersion $apiversion } "Provided resource does not exist."
 }
 
 <#
@@ -246,20 +206,12 @@ function Test-GetResourcesViaPipingFromAnotherResource
 	$apiversion = "2014-04-01"
 
 	# Test
-	try 
-	{
-		New-AzureResourceGroup -Name $rgname -Location $rglocation
-		New-AzureResource -Name $rnameParent -Location $location -ResourceGroupName $rgname -ResourceType $resourceTypeParent -PropertyObject @{"administratorLogin" = "adminuser"; "administratorLoginPassword" = "P@ssword1"} -ApiVersion $apiversion		
-		New-AzureResource -Name $rnameChild -Location $location -ResourceGroupName $rgname -ResourceType $resourceTypeChild -ParentResource servers/$rnameParent -PropertyObject @{"edition" = "Web"; "collation" = "SQL_Latin1_General_CP1_CI_AS"; "maxSizeBytes" = "1073741824"} -ApiVersion $apiversion
+	New-AzureResourceGroup -Name $rgname -Location $rglocation
+	New-AzureResource -Name $rnameParent -Location $location -ResourceGroupName $rgname -ResourceType $resourceTypeParent -PropertyObject @{"administratorLogin" = "adminuser"; "administratorLoginPassword" = "P@ssword1"} -ApiVersion $apiversion		
+	New-AzureResource -Name $rnameChild -Location $location -ResourceGroupName $rgname -ResourceType $resourceTypeChild -ParentResource servers/$rnameParent -PropertyObject @{"edition" = "Web"; "collation" = "SQL_Latin1_General_CP1_CI_AS"; "maxSizeBytes" = "1073741824"} -ApiVersion $apiversion
 		
-		$list = Get-AzureResource -ResourceGroupName $rgname | Get-AzureResource -ApiVersion $apiversion
+	$list = Get-AzureResource -ResourceGroupName $rgname | Get-AzureResource -ApiVersion $apiversion
 		
-		# Assert
-		Assert-AreEqual 2 @($list).Count
-	}
-	finally
-	{
-		# Cleanup
-		Clean-ResourceGroup $rgname
-	}
+	# Assert
+	Assert-AreEqual 2 @($list).Count
 }

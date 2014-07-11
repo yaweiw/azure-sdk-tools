@@ -224,8 +224,10 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest
 
         public void Dispose()
         {
-            WindowsAzureProfile.Instance.RemoveEnvironment(testEnvironmentName);
-            HttpMockServer.Flush();
+            if (!WindowsAzureProfile.Instance.Environments.ContainsKey(testEnvironmentName))
+            {
+                WindowsAzureProfile.Instance.RemoveEnvironment(testEnvironmentName);
+            }
         }
     }
 }
