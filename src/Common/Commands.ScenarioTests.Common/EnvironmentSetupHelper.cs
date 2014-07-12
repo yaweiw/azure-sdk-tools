@@ -41,6 +41,12 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest
             // Ignore SSL errors
             System.Net.ServicePointManager.ServerCertificateValidationCallback += (se, cert, chain, sslerror) => true;
 
+            // Set RunningMocked
+            if (HttpMockServer.GetCurrentMode() == HttpRecorderMode.Playback)
+            {
+                TestMockSupport.RunningMocked = true;
+            }
+
             WindowsAzureProfile.Instance = new WindowsAzureProfile(new MockProfileStore());
 
             if (!WindowsAzureProfile.Instance.Environments.ContainsKey(testEnvironmentName))
@@ -55,6 +61,10 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest
         {
             TestEnvironment rdfeEnvironment = new RDFETestEnvironmentFactory().GetTestEnvironment();
             TestEnvironment csmEnvironment = new CSMTestEnvironmentFactory().GetTestEnvironment();
+            TestEnvironment currentEnvironment = (mode == AzureModule.AzureResourceManager
+                ? csmEnvironment
+                : rdfeEnvironment);
+
             string jwtToken;
 
             if (mode == AzureModule.AzureResourceManager)
@@ -79,9 +89,9 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest
             WindowsAzureProfile.Instance.CurrentEnvironment = WindowsAzureProfile.Instance.Environments[testEnvironmentName];
 
             WindowsAzureProfile.Instance.CurrentEnvironment.ActiveDirectoryEndpoint =
-                csmEnvironment.ActiveDirectoryEndpoint.AbsoluteUri;
+                currentEnvironment.ActiveDirectoryEndpoint.AbsoluteUri;
             WindowsAzureProfile.Instance.CurrentEnvironment.GalleryEndpoint =
-                csmEnvironment.GalleryUri.AbsoluteUri;
+                currentEnvironment.GalleryUri.AbsoluteUri;
             WindowsAzureProfile.Instance.CurrentEnvironment.ResourceManagerEndpoint =
                 csmEnvironment.BaseUri.AbsoluteUri;
             WindowsAzureProfile.Instance.CurrentEnvironment.ServiceEndpoint =
@@ -89,11 +99,11 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest
 
             testSubscription = new WindowsAzureSubscription(false, false)
             {
-                SubscriptionId = csmEnvironment.SubscriptionId,
+                SubscriptionId = currentEnvironment.SubscriptionId,
                 ActiveDirectoryEndpoint =
                     WindowsAzureProfile.Instance.CurrentEnvironment.ActiveDirectoryEndpoint,
-                ActiveDirectoryUserId = csmEnvironment.UserName,
-                SubscriptionName = csmEnvironment.SubscriptionId,
+                ActiveDirectoryUserId = currentEnvironment.UserName,
+                SubscriptionName = currentEnvironment.SubscriptionId,
                 ServiceEndpoint = new Uri(WindowsAzureProfile.Instance.CurrentEnvironment.ServiceEndpoint),
                 ResourceManagerEndpoint = new Uri(WindowsAzureProfile.Instance.CurrentEnvironment.ResourceManagerEndpoint),
                 TokenProvider = WindowsAzureProfile.Instance.TokenProvider,
@@ -103,7 +113,7 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest
                 IsDefault = true
             };
 
-            testEnvironment = csmEnvironment;
+            testEnvironment = currentEnvironment;
             if (HttpMockServer.GetCurrentMode() == HttpRecorderMode.Playback)
             {
                 testSubscription.SetAccessToken(new FakeAccessToken

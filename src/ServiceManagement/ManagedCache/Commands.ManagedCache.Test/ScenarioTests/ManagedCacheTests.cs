@@ -12,25 +12,13 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Commands.ScenarioTest.ManagedCacheTests
+using Xunit;
+
+namespace Microsoft.Azure.Commands.ManagedCache.Test.ScenarioTests
 {
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
-    using Microsoft.WindowsAzure.Commands.ScenarioTest.Common;
-
-    [TestClass]
-    public class ManagedCacheTests : WindowsAzurePowerShellTokenTest
+    public class ManagedCacheTests : ManagedCacheTestsBase
     {
-        public ManagedCacheTests()
-            : base(Utilities.Common.AzureModule.AzureServiceManagement, "Common.ps1",
-                   "ManagedCache\\ManagedCacheTests.ps1")
-        {
-        }
-
-        [TestMethod]
-        [TestCategory(Category.All)]
-        [TestCategory(Category.CheckIn)]
-        [TestCategory(Category.BVT)]
-        [TestCategory(Category.ManagedCache)]
+        [Fact]
         public void ManagedCacheEndToEndTest()
         {
             this.RunPowerShellTest("Test-ManagedCacheEndToEnd");
