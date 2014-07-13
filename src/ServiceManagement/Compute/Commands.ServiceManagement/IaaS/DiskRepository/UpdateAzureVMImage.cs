@@ -24,9 +24,13 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.DiskRepository
     using System.Management.Automation;
     using Utilities.Common;
 
-    [Cmdlet(VerbsData.Update, "AzureVMImage"), OutputType(typeof(OSImageContext))]
+    [Cmdlet(VerbsData.Update, VirtualMachineImageNoun, DefaultParameterSetName = DefaultParamSet), OutputType(typeof(OSImageContext))]
     public class UpdateAzureVMImage : ServiceManagementBaseCmdlet
     {
+        protected const string VirtualMachineImageNoun = "AzureVMImage";
+        protected const string DefaultParamSet = "DefaultParamSet";
+        protected const string DontShowInGuiParamSet = "DontShowInGuiParamSet";
+
         [Parameter(Position = 0, Mandatory = true, ValueFromPipelineByPropertyName = true, HelpMessage = "Name of the image in the image library.")]
         [ValidateNotNullOrEmpty]
         public string ImageName { get; set; }
@@ -75,8 +79,11 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.DiskRepository
         [ValidateNotNullOrEmpty]
         public Uri SmallIconUri { get; set; }
 
-        [Parameter(Position = 12, ValueFromPipelineByPropertyName = true, HelpMessage = "ShowInGui.")]
+        [Parameter(Position = 12, ValueFromPipelineByPropertyName = true, ParameterSetName = DefaultParamSet, HelpMessage = "ShowInGui.")]
         public SwitchParameter ShowInGui { get; set; }
+            
+        [Parameter(Position = 12, ValueFromPipelineByPropertyName = true, ParameterSetName = DontShowInGuiParamSet, HelpMessage = "ShowInGui.")]
+        public SwitchParameter DontShowInGui { get; set; }
 
         protected override void OnProcessRecord()
         {
@@ -137,7 +144,8 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.DiskRepository
                     Language               = this.Language,
                     IconUri                = this.IconUri,
                     SmallIconUri           = this.SmallIconUri,
-                    ShowInGui              = this.ShowInGui.IsPresent ? (bool?)this.ShowInGui : null
+                    ShowInGui              = this.ShowInGui.IsPresent     ? (bool?)true
+                                           : this.DontShowInGui.IsPresent ? (bool?)false : null
                 };
 
                 this.ExecuteClientActionNewSM(
