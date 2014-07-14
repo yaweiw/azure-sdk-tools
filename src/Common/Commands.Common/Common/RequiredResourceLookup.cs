@@ -48,7 +48,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
 
             if (typeof(T).FullName.EndsWith("BatchManagementClient"))
             {
-                return new[] { "azurebatch" };
+                return new[] { "microsoft.batch" };
             }
 
             return new string[0];
