@@ -46,6 +46,11 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
                 return new[] { "scheduler.jobcollections" };
             }
 
+            if (typeof(T).FullName.EndsWith("BatchManagementClient"))
+            {
+                return new[] { "azurebatch" };
+            }
+
             return new string[0];
         }
 
