@@ -488,29 +488,6 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
             return operation;
         }
 
-        protected StorageCredentials GetStorageCredentials()
-		{
-			var storageAccountName = CurrentSubscription.CurrentStorageAccountName;
-
-			var storageAccount = this.StorageClient.StorageAccounts.Get(storageAccountName);
-
-			if (storageAccount == null)
-			{
-				return null;
-			}
-
-			var keys = this.StorageClient.StorageAccounts.GetKeys(storageAccountName);
-
-			if (keys == null)
-			{
-				return null;
-			}
-
-			var storageAccountKey = string.IsNullOrEmpty(keys.PrimaryKey) ? keys.SecondaryKey : keys.PrimaryKey;
-
-			return new StorageCredentials(storageAccountName, storageAccountKey);
-		}
-
         protected override Operation GetOperationStatus(string subscriptionId, string operationId)
         {
             var channel = (IServiceManagement)Channel;

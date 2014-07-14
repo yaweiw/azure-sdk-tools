@@ -18,6 +18,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
     using System;
 	using System.Linq;
 	using System.Management.Automation;
+    using DSC;
     using Model;
     using Properties;
     using Utilities.Common;
@@ -182,7 +183,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
 				ThrowArgumentError(Resources.AzureVMDscConfigurationDataFileShouldNotIncludePath);
 			}
 
-            this._storageCredentials = this.StorageContext != null ? this.StorageContext.StorageAccount.Credentials : GetStorageCredentials();
+            this._storageCredentials = this.StorageContext != null ? this.StorageContext.StorageAccount.Credentials : this.GetStorageCredentials();
             
 	        if (string.IsNullOrEmpty(this._storageCredentials.AccountName))
 	        {
