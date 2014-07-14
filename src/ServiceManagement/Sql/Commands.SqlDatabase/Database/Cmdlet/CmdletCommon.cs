@@ -46,7 +46,7 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Database.Cmdlet
         /// <returns>Returns the response from the server</returns>
         public static Database WaitForDatabaseOperation(PSCmdlet cmdlet, IServerDataServiceContext context, Database response, string databaseName, bool isCreate)
         {
-            // Duration to sleep: 1 second
+            // Duration to sleep: 2 second
             TimeSpan sleepDuration = TimeSpan.FromSeconds(2.0);
 
             // Poll for a maximum of 10 minutes;

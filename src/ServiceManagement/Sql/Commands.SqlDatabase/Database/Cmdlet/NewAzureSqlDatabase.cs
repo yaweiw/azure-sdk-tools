@@ -184,7 +184,7 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Database.Cmdlet
                     this.Edition,
                     this.ServiceObjective);
 
-                response = CmdletCommon.WaitForDatabaseToBecomeOnline(this, context, response, this.DatabaseName, true);
+                response = CmdletCommon.WaitForDatabaseOperation(this, context, response, this.DatabaseName, true);
 
                 // Retrieve the database with the specified name
                 this.WriteObject(response);
@@ -214,7 +214,7 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Database.Cmdlet
                     this.Edition,
                     this.ServiceObjective);
 
-                database = CmdletCommon.WaitForDatabaseToBecomeOnline(this, this.ConnectionContext, database, this.DatabaseName, true);
+                database = CmdletCommon.WaitForDatabaseOperation(this, this.ConnectionContext, database, this.DatabaseName, true);
 
                 this.WriteObject(database, true);
             }

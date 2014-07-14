@@ -23,7 +23,7 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase
         /// <summary>
         /// Referenced database is available for use (Online).
         /// </summary>
-        Normal = 0x000001,
+        Online = 0x000001,
 
         /// <summary>
         /// Database restore is underway on the referenced database.
@@ -81,9 +81,14 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase
         Creating = 0x000800,
 
         /// <summary>
-        /// Property value that may be used for bitwisee AND operation to determine accessibility
-        /// of the database (Restoring | Offline | Suspect | Recovering | RecoveryPending).
+        /// The database is an offline secondary (SQL Azure only)
         /// </summary>
-        Inaccessible = Restoring | Offline | Suspect | Recovering | RecoveryPending | Copying | Creating
+        OfflineSecondary = 0x001000,
+
+        /// <summary>
+        /// Property value that may be used for bitwisee AND operation to determine accessibility
+        /// of the database (Restoring | Offline | Suspect | Recovering | RecoveryPending | Copying | Creating | OfflineSecondary).
+        /// </summary>
+        Inaccessible = Restoring | Offline | Suspect | Recovering | RecoveryPending | Copying | Creating | OfflineSecondary
     }
 }

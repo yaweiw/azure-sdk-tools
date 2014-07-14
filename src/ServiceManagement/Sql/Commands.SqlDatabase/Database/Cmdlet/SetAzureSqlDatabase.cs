@@ -288,7 +288,7 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Database.Cmdlet
                     this.ServiceObjective);
 
                 // Wait for the operation to complete on the server.
-                database = CmdletCommon.WaitForDatabaseToBecomeOnline(this, context, database, this.DatabaseName, false);
+                database = CmdletCommon.WaitForDatabaseOperation(this, context, database, this.DatabaseName, false);
 
                 // Update the passed in database object
                 if (this.MyInvocation.BoundParameters.ContainsKey("Database"))
@@ -332,7 +332,7 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Database.Cmdlet
                     this.ServiceObjective);
 
                 // Wait for the operation to complete on the server.
-                database = CmdletCommon.WaitForDatabaseToBecomeOnline(this, this.ConnectionContext, database, this.DatabaseName, false);
+                database = CmdletCommon.WaitForDatabaseOperation(this, this.ConnectionContext, database, this.DatabaseName, false);
 
                 // If PassThru was specified, write back the updated object to the pipeline
                 if (this.PassThru.IsPresent)
