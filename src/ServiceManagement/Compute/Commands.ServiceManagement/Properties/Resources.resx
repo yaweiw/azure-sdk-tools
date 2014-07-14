@@ -639,4 +639,16 @@
   <data name="RemoveAzureDnsServerWarning" xml:space="preserve">
     <value>Are you sure you want to remove this DNS server: {0} from your service: {1}</value>
   </data>
+  <data name="AzureVMDscCannotFindConfigurationDataFile" xml:space="preserve">
+    <value>Cannot find configuration data file: {0}</value>
+  </data>
+  <data name="AzureVMDscConfigurationDataFileShouldNotIncludePath" xml:space="preserve">
+    <value>The -ConfigurationFileName parameter must no include a path</value>
+  </data>
+  <data name="AzureVMDscInvalidConfigurationDataFile" xml:space="preserve">
+    <value>The configuration data must be a .psd1 file</value>
+  </data>
+  <data name="AzureVMDscStorageContextMustIncludeAccountName" xml:space="preserve">
+    <value>The storage context must include an storage account.</value>
+  </data>
 </root>

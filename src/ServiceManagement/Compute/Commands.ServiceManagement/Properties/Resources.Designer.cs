@@ -149,6 +149,42 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Cannot find configuration data file: {0}.
+        /// </summary>
+        public static string AzureVMDscCannotFindConfigurationDataFile {
+            get {
+                return ResourceManager.GetString("AzureVMDscCannotFindConfigurationDataFile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The -ConfigurationFileName parameter must no include a path.
+        /// </summary>
+        public static string AzureVMDscConfigurationDataFileShouldNotIncludePath {
+            get {
+                return ResourceManager.GetString("AzureVMDscConfigurationDataFileShouldNotIncludePath", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The configuration data must be a .psd1 file.
+        /// </summary>
+        public static string AzureVMDscInvalidConfigurationDataFile {
+            get {
+                return ResourceManager.GetString("AzureVMDscInvalidConfigurationDataFile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The storage context must include an storage account..
+        /// </summary>
+        public static string AzureVMDscStorageContextMustIncludeAccountName {
+            get {
+                return ResourceManager.GetString("AzureVMDscStorageContextMustIncludeAccountName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to {0} - Uploading WinRMCertificate: {1}.
         /// </summary>
         public static string AzureVMUploadingWinRMCertificate {
