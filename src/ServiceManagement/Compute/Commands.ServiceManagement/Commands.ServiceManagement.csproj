@@ -180,6 +180,7 @@
     <Compile Include="IaaS\DiskRepository\NewAzureVMImageDiskConfigSet.cs" />
     <Compile Include="IaaS\Extensions\DSC\ConfigurationNameHelper.cs" />
     <Compile Include="IaaS\Extensions\DSC\ConfigurationParseResult.cs" />
+    <Compile Include="IaaS\Extensions\DSC\ServiceManagementBaseCmdletExtentions.cs" />
     <Compile Include="IaaS\Extensions\DSC\PublishAzureVMDscConfiguration.cs" />
     <Compile Include="IaaS\Extensions\MicrosoftAntimalware\GetAzureVMMicrosoftAntimalwareExtension.cs" />
     <Compile Include="IaaS\Extensions\MicrosoftAntimalware\RemoveAzureVMMicrosoftAntimalwareExtension.cs" />

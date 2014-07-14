@@ -21,10 +21,9 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
     using System.Linq;
     using System.Management.Automation;
     using System.Text.RegularExpressions;
+    using Commands.Common.Storage;
     using Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions.DSC;
-    using Microsoft.WindowsAzure.Commands.ServiceManagement.Model;
     using Microsoft.WindowsAzure.Commands.ServiceManagement.Properties;
-    using Microsoft.WindowsAzure.Commands.Storage.Model.ResourceModel;
     using Microsoft.WindowsAzure.Storage;
     using Microsoft.WindowsAzure.Storage.Auth;
     using Microsoft.WindowsAzure.Storage.Blob;
@@ -118,7 +117,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
             }
 
             // Ensure we have an storage account
-            this._storageCredentials = this.StorageContext != null ? this.StorageContext.StorageAccount.Credentials : GetStorageCredentials();
+            this._storageCredentials = this.StorageContext != null ? this.StorageContext.StorageAccount.Credentials : this.GetStorageCredentials();
             if (string.IsNullOrEmpty(this._storageCredentials.AccountName))
             {
                 ThrowTerminatingError(
