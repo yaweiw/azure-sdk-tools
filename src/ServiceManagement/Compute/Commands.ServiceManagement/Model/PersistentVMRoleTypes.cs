@@ -2389,6 +2389,9 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Model.PersistentVMMo
         [DataMember(EmitDefaultValue = false, Order = 5)]
         public string Protocol { get; set; }
 
+        [DataMember(EmitDefaultValue = false, Order = 6)]
+        public int? IdleTimeoutInMinutes { get; set; }
+
         public ExtensionDataObject ExtensionData { get; set; }
     }
 
