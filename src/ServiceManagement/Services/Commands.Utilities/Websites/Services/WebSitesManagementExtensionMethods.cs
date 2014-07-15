@@ -14,11 +14,11 @@
 
 namespace Microsoft.WindowsAzure.Commands.Utilities.Websites.Services
 {
-    using Management.WebSites;
-    using Management.WebSites.Models;
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using Management.WebSites;
+    using Management.WebSites.Models;
     using Utilities.Common;
     using WebEntities;
 
@@ -116,7 +116,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites.Services
                 SelfLink = response.WebSite.Uri,
                 RepositorySiteName = response.WebSite.RepositorySiteName,
                 Owner = response.WebSite.Owner,
-                UsageState = (UsageState) (int) response.WebSite.UsageState,
+                UsageState = (UsageState)(int)response.WebSite.UsageState,
                 Enabled = response.WebSite.Enabled,
                 AdminEnabled = response.WebSite.AdminEnabled,
                 EnabledHostNames = response.WebSite.EnabledHostNames.ToArray(),
@@ -125,7 +125,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites.Services
                     Metadata = response.WebSite.SiteProperties.Metadata.Select(ToNameValuePair).ToList(),
                     Properties = response.WebSite.SiteProperties.Properties.Select(ToNameValuePair).ToList()
                 },
-                AvailabilityState = (SiteAvailabilityState) (int) response.WebSite.AvailabilityState,
+                AvailabilityState = (SiteAvailabilityState)(int)response.WebSite.AvailabilityState,
                 SSLCertificates = response.WebSite.SslCertificates.Select(ToCertificate).ToArray(),
                 SiteMode = response.WebSite.SiteMode.ToString(),
                 HostNameSslStates = new HostNameSslStates(response.WebSite.HostNameSslStates.Select(ToNameSslState).ToList()),
@@ -144,7 +144,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites.Services
                 SelfLink = site.Uri,
                 RepositorySiteName = site.RepositorySiteName,
                 Owner = site.Owner,
-                UsageState = (UsageState) (int) site.UsageState,
+                UsageState = (UsageState)(int)site.UsageState,
                 Enabled = site.Enabled,
                 AdminEnabled = site.AdminEnabled,
                 EnabledHostNames = site.EnabledHostNames.ToArray(),
@@ -153,7 +153,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites.Services
                     Metadata = site.SiteProperties.Metadata.Select(ToNameValuePair).ToList(),
                     Properties = site.SiteProperties.Properties.Select(ToNameValuePair).ToList()
                 },
-                AvailabilityState = (SiteAvailabilityState) (int) site.AvailabilityState,
+                AvailabilityState = (SiteAvailabilityState)(int)site.AvailabilityState,
                 SSLCertificates = site.SslCertificates.Select(ToCertificate).ToArray(),
                 SiteMode = site.SiteMode.ToString(),
                 HostNameSslStates = new HostNameSslStates(site.HostNameSslStates.Select(ToNameSslState).ToList()),
@@ -163,7 +163,8 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites.Services
 
         private static NameValuePair ToNameValuePair(KeyValuePair<string, string> kvp)
         {
-            return new NameValuePair {
+            return new NameValuePair
+            {
                 Name = kvp.Key,
                 Value = kvp.Value
             };
@@ -198,7 +199,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites.Services
             return new HostNameSslState
             {
                 Name = state.Name,
-                SslState = (SslState) (int) state.SslState
+                SslState = (SslState)(int)state.SslState
             };
         }
 
@@ -214,11 +215,11 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites.Services
                 ComputeMode = null, // TODO: Update
                 WorkerSize =
                     webspace.WorkerSize.HasValue
-                        ? new WorkerSizeOptions?((WorkerSizeOptions) (int) webspace.WorkerSize.Value)
+                        ? new WorkerSizeOptions?((WorkerSizeOptions)(int)webspace.WorkerSize.Value)
                         : null,
                 NumberOfWorkers = webspace.CurrentNumberOfWorkers,
-                Status = (StatusOptions) (int) webspace.Status,
-                AvailabilityState = (WebEntities.WebSpaceAvailabilityState) (int) webspace.AvailabilityState
+                Status = (StatusOptions)(int)webspace.Status,
+                AvailabilityState = (WebEntities.WebSpaceAvailabilityState)(int)webspace.AvailabilityState
             };
         }
 
@@ -274,7 +275,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites.Services
         {
             return GetFromCache(client, website) ?? GetFromAzure(client, website);
         }
-        
+
         private static Site GetFromCache(IWebSiteManagementClient client,
             string website)
         {
@@ -322,7 +323,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites.Services
             }
 
             // The website does not exist.
-            return null;            
+            return null;
         }
     }
 }

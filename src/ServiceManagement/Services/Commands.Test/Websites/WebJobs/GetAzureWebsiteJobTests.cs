@@ -14,14 +14,14 @@
 
 namespace Microsoft.WindowsAzure.Commands.Test.Websites
 {
+    using System.Collections.Generic;
+    using System.Management.Automation;
     using Commands.Utilities.Websites;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using Microsoft.WindowsAzure.Commands.Utilities.Websites.Services.WebJobs;
     using Microsoft.WindowsAzure.Commands.Websites.WebJobs;
     using Microsoft.WindowsAzure.WebSitesExtensions.Models;
     using Moq;
-    using System.Collections.Generic;
-    using System.Management.Automation;
     using Utilities.Websites;
 
     [TestClass]
@@ -33,7 +33,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.Websites
 
         private Mock<IWebsitesClient> websitesClientMock;
 
-        private GetAzureWebsiteJobCommand cmdlet; 
+        private GetAzureWebsiteJobCommand cmdlet;
 
         private Mock<ICommandRuntime> commandRuntimeMock;
 
@@ -55,7 +55,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.Websites
         public void GetEmptyWebJobList()
         {
             // Setup
-            List<PSWebJob> output = new List<PSWebJob>();
+            var output = new List<IPSWebJob>();
             WebJobFilterOptions options = null;
             websitesClientMock.Setup(f => f.FilterWebJobs(It.IsAny<WebJobFilterOptions>()))
                 .Returns(output)
@@ -75,8 +75,8 @@ namespace Microsoft.WindowsAzure.Commands.Test.Websites
         {
             // Setup
             string jobName = "webJobName";
-            WebJobType type = WebJobType.Continuous;
-            List<PSWebJob> output = new List<PSWebJob>() { new PSWebJob() { JobName = jobName, JobType = type } };
+            var type = WebJobType.Continuous;
+            var output = new List<IPSWebJob>() { new PSContinuousWebJob() { JobName = jobName, JobType = type } };
             WebJobFilterOptions options = null;
             websitesClientMock.Setup(f => f.FilterWebJobs(It.IsAny<WebJobFilterOptions>()))
                 .Returns(output)
@@ -104,10 +104,10 @@ namespace Microsoft.WindowsAzure.Commands.Test.Websites
             WebJobType type2 = WebJobType.Continuous;
             WebJobType type3 = WebJobType.Triggered;
             WebJobFilterOptions options = null;
-            List<PSWebJob> output = new List<PSWebJob>() {
-                new PSWebJob() { JobName = jobName1, JobType = type1 },
-                new PSWebJob() { JobName = jobName2, JobType = type2 },
-                new PSWebJob() { JobName = jobName3, JobType = type3 }
+            var output = new List<IPSWebJob>() {
+                new PSContinuousWebJob() { JobName = jobName1, JobType = type1 },
+                new PSContinuousWebJob() { JobName = jobName2, JobType = type2 },
+                new PSTriggeredWebJob() { JobName = jobName3, JobType = type3 }
             };
             websitesClientMock.Setup(f => f.FilterWebJobs(It.IsAny<WebJobFilterOptions>()))
                 .Returns(output)
