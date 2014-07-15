@@ -302,10 +302,10 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
         public const string GetAzureVMCustomScriptExtensionCmdletName = "Get-AzureVMCustomScriptExtension";
         public const string RemoveAzureVMCustomScriptExtensionCmdletName = "Remove-AzureVMCustomScriptExtension";
 
-		// Custom script extension
-		public const string SetAzureVMDscExtensionCmdletName = "Set-AzureVMDscExtension";
-		public const string GetAzureVMDscExtensionCmdletName = "Get-AzureVMDscExtension";
-		public const string RemoveAzureVMDscExtensionCmdletName = "Remove-AzureVMDscExtension";
+        // Custom script extension
+        public const string SetAzureVMDscExtensionCmdletName = "Set-AzureVMDscExtension";
+        public const string GetAzureVMDscExtensionCmdletName = "Get-AzureVMDscExtension";
+        public const string RemoveAzureVMDscExtensionCmdletName = "Remove-AzureVMDscExtension";
 		#endregion
 
         private static ServiceManagementCmdletTestHelper vmPowershellCmdlets = new ServiceManagementCmdletTestHelper();

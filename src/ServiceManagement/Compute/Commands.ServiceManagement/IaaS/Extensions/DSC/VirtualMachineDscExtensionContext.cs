@@ -14,12 +14,12 @@
 
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
 {
-	using System.Collections;
+    using System.Collections;
 
     public class VirtualMachineDscExtensionContext : VirtualMachineExtensionContext
     {
         public string ModulesUrl { get; set; }
         public string ConfigurationFunction { get; set; }
         public Hashtable Properties { get; set; }
-	}
+    }
 }

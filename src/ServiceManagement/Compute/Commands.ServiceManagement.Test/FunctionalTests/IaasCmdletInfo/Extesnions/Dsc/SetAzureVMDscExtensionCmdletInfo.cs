@@ -14,53 +14,53 @@
 
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests.IaasCmdletInfo.Extesnions.Dsc
 {
-	using System.Collections;
-	using Commands.Common.Storage;
-	using Microsoft.WindowsAzure.Commands.ServiceManagement.Model;
+    using System.Collections;
+    using Commands.Common.Storage;
+    using Microsoft.WindowsAzure.Commands.ServiceManagement.Model;
     using Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests.PowershellCore;
 
     public class SetAzureVMDscExtensionCmdletInfo: CmdletsInfo
     {
         public SetAzureVMDscExtensionCmdletInfo(
-			string				version,
-			IPersistentVM		vm,
-	        string				configurationFileName,
-			AzureStorageContext storageContext = null,
-			string				containerName = null,
-			string				configurationName = null,
-			Hashtable			configurationArgument = null,
-			string				configurationDataPath = null
-		) 
-		{
+            string              version,
+            IPersistentVM       vm,
+            string              configurationFileName,
+            AzureStorageContext storageContext = null,
+            string              containerName = null,
+            string              configurationName = null,
+            Hashtable           configurationArgument = null,
+            string              configurationDataPath = null
+        ) 
+        {
             cmdletName = Utilities.SetAzureVMDscExtensionCmdletName;
 
             cmdletParams.AddRange(
-				new CmdletParam [] {
-					new CmdletParam("Version", version),
-					new CmdletParam("VM", vm),
-					new CmdletParam("ConfigurationFileName", configurationFileName),
-				});
+                new CmdletParam [] {
+                    new CmdletParam("Version", version),
+                    new CmdletParam("VM", vm),
+                    new CmdletParam("ConfigurationFileName", configurationFileName),
+                });
 
-			if (storageContext != null)
-			{
-				cmdletParams.Add(new CmdletParam("StorageContext", storageContext));
-			}
-			if (containerName != null)
+            if (storageContext != null)
             {
-				cmdletParams.Add(new CmdletParam("ContainerName", containerName));
+                cmdletParams.Add(new CmdletParam("StorageContext", storageContext));
             }
-			if (configurationName != null)
-			{
-				cmdletParams.Add(new CmdletParam("ConfigurationName", configurationName));
-			}
-			if (configurationArgument != null)
-			{
-				cmdletParams.Add(new CmdletParam("ConfigurationArgument", configurationArgument));
-			}
-			if (configurationDataPath != null)
-			{
-				cmdletParams.Add(new CmdletParam("ConfigurationDataPath", configurationDataPath));
-			}
-		}
+            if (containerName != null)
+            {
+                cmdletParams.Add(new CmdletParam("ContainerName", containerName));
+            }
+            if (configurationName != null)
+            {
+                cmdletParams.Add(new CmdletParam("ConfigurationName", configurationName));
+            }
+            if (configurationArgument != null)
+            {
+                cmdletParams.Add(new CmdletParam("ConfigurationArgument", configurationArgument));
+            }
+            if (configurationDataPath != null)
+            {
+                cmdletParams.Add(new CmdletParam("ConfigurationDataPath", configurationDataPath));
+            }
+        }
     }
 }

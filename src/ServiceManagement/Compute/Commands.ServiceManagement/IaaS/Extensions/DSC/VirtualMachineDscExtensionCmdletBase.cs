@@ -14,15 +14,15 @@
 
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
 {
-	using System;
-	using System.Globalization;
-	using System.Management.Automation;
+    using System;
+    using System.Globalization;
+    using System.Management.Automation;
 
-	public class VirtualMachineDscExtensionCmdletBase : VirtualMachineExtensionCmdletBase
+    public class VirtualMachineDscExtensionCmdletBase : VirtualMachineExtensionCmdletBase
     {
-	    protected const string VirtualMachineDscExtensionCmdletNoun = "AzureVMDscExtension";
-		protected const string ExtensionPublishedNamespace = "Microsoft.DSCExtension.Test"; // BUGBUG: Need to update Name and Namespace with production values
-		protected const string ExtensionPublishedName = "DSC5.5";
+        protected const string VirtualMachineDscExtensionCmdletNoun = "AzureVMDscExtension";
+        protected const string ExtensionPublishedNamespace = "Microsoft.DSCExtension.Test"; // TODO: Need to update Name and Namespace with production values
+        protected const string ExtensionPublishedName = "DSC5.5";
         // This constant also used in Publish cmdlet, which is not inhereted from VirtualMachineDscExtensionCmdletBase.
         public const string DefaultContainerName = "windows-powershell-dsc";
         protected const string DefaultExtensionVersion = "1.*";
@@ -33,14 +33,14 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
             this.publisherName = ExtensionPublishedNamespace;
         }
 
-		protected void ThrowArgumentError(string format, params object[] args)
-		{
-			ThrowTerminatingError(
-				new ErrorRecord(
-					new ArgumentException(string.Format(CultureInfo.CurrentUICulture, format, args)),
-					string.Empty,
-					ErrorCategory.InvalidArgument,
-					null));
-		}
-	}
+        protected void ThrowArgumentError(string format, params object[] args)
+        {
+            ThrowTerminatingError(
+                new ErrorRecord(
+                    new ArgumentException(string.Format(CultureInfo.CurrentUICulture, format, args)),
+                    string.Empty,
+                    ErrorCategory.InvalidArgument,
+                    null));
+        }
+    }
 }

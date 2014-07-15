@@ -16,6 +16,6 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
 {
     public class DscPrivateSettings
     {
-		public string DataBlobUri { get; set; }
-	}
+        public string DataBlobUri { get; set; }
+    }
 }

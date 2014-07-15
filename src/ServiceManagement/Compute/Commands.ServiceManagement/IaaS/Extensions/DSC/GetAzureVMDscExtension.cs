@@ -12,75 +12,73 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-using System.Collections;
-
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
 {
-	using System.Collections.Generic;
-	using System.Management.Automation;
-	using System.Linq;
+    using System.Collections.Generic;
+    using System.Management.Automation;
+    using System.Linq;
     using Microsoft.WindowsAzure.Commands.ServiceManagement.Helpers;
     using Microsoft.WindowsAzure.Commands.ServiceManagement.Model.PersistentVMModel;
     using Newtonsoft.Json;
 
-	/// <summary>
+    /// <summary>
     /// Gets the settings of the DSC extension on a particular VM.
     /// </summary>
-	[Cmdlet(VerbsCommon.Get, VirtualMachineDscExtensionCmdletNoun),
-	OutputType(typeof(VirtualMachineDscExtensionContext))]
-	public class GetAzureVMDscExtensionCommand : VirtualMachineDscExtensionCmdletBase
+    [Cmdlet(VerbsCommon.Get, VirtualMachineDscExtensionCmdletNoun),
+    OutputType(typeof(VirtualMachineDscExtensionContext))]
+    public class GetAzureVMDscExtensionCommand : VirtualMachineDscExtensionCmdletBase
     {
 
-		[Parameter(Position = 1, ValueFromPipelineByPropertyName = true)]
-		public override string Version { get; set; }
+        [Parameter(Position = 1, ValueFromPipelineByPropertyName = true)]
+        public override string Version { get; set; }
 
-		internal void ExecuteCommand()
-		{
-			List<ResourceExtensionReference> extensionRefs = GetPredicateExtensionList();
+        internal void ExecuteCommand()
+        {
+            List<ResourceExtensionReference> extensionRefs = GetPredicateExtensionList();
             WriteObject(
-				extensionRefs == null ? null : extensionRefs.Select(
-				r =>
-				{
+                extensionRefs == null ? null : extensionRefs.Select(
+                r =>
+                {
                     GetExtensionValues(r);
                     
-					var publicSettings = string.IsNullOrEmpty(PublicConfiguration) ? null : JsonConvert.DeserializeObject<DscPublicSettings>(PublicConfiguration);
+                    var publicSettings = string.IsNullOrEmpty(PublicConfiguration) ? null : JsonConvert.DeserializeObject<DscPublicSettings>(PublicConfiguration);
 
-				    var context = new VirtualMachineDscExtensionContext
-				    {
-				        ExtensionName = r.Name,
-				        Publisher = r.Publisher,
-				        ReferenceName = r.ReferenceName,
-				        Version = r.Version,
-				        State = r.State,
-						RoleName = VM.GetInstance().RoleName,
-						PublicConfiguration = PublicConfiguration,
-						PrivateConfiguration = SecureStringHelper.GetSecureString(PrivateConfiguration),
-				    };
+                    var context = new VirtualMachineDscExtensionContext
+                    {
+                        ExtensionName = r.Name,
+                        Publisher = r.Publisher,
+                        ReferenceName = r.ReferenceName,
+                        Version = r.Version,
+                        State = r.State,
+                        RoleName = VM.GetInstance().RoleName,
+                        PublicConfiguration = PublicConfiguration,
+                        PrivateConfiguration = SecureStringHelper.GetSecureString(PrivateConfiguration),
+                    };
 
-					if (publicSettings == null)
-					{
-						context.ModulesUrl = string.Empty;
-						context.ConfigurationFunction = string.Empty;
-						context.Properties = null;
-					}
-					else
-					{
-						context.ModulesUrl = publicSettings.ModulesUrl;
-						context.ConfigurationFunction = publicSettings.ConfigurationFunction;
-						context.Properties = publicSettings.Properties;
-					}
+                    if (publicSettings == null)
+                    {
+                        context.ModulesUrl = string.Empty;
+                        context.ConfigurationFunction = string.Empty;
+                        context.Properties = null;
+                    }
+                    else
+                    {
+                        context.ModulesUrl = publicSettings.ModulesUrl;
+                        context.ConfigurationFunction = publicSettings.ConfigurationFunction;
+                        context.Properties = publicSettings.Properties;
+                    }
 
-					return context;
-				}
+                    return context;
+                }
                 
                 ).FirstOrDefault());
-		}
+        }
 
-		protected override void ProcessRecord()
-		{
-			base.ProcessRecord();
-			ExecuteCommand();
-		}
+        protected override void ProcessRecord()
+        {
+            base.ProcessRecord();
+            ExecuteCommand();
+        }
     }
 }
 

@@ -18,10 +18,10 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
     using ConfigDataInfo;
     using Extensions;
     using IaasCmdletInfo;
-	using System.Collections;
-	using Microsoft.WindowsAzure.Commands.Common.Storage;
-	using Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests.IaasCmdletInfo.Extesnions.Dsc;
-	using Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions;
+    using System.Collections;
+    using Microsoft.WindowsAzure.Commands.Common.Storage;
+    using Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests.IaasCmdletInfo.Extesnions.Dsc;
+    using Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions;
     using Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests.IaasCmdletInfo.Extensions.BGInfo;
     using Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests.IaasCmdletInfo.Extensions.Common;
     using Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests.IaasCmdletInfo.Extesnions.CustomScript;
@@ -1870,46 +1870,46 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
         }
         #endregion AzureVMCustomScriptExtensionCmdlets
 
-		#region AzureVMDscExtensionCmdlets
+        #region AzureVMDscExtensionCmdlets
 
-		internal struct SetAzureVMDscExtensionArguments
-		{
-			public string Version;
-			public IPersistentVM VM;
-			public string ConfigurationFileName;
-			public AzureStorageContext StorageContext;
-			public string ContainerName;
-			public string ConfigurationName;
-			public Hashtable ConfigurationArgument;
-			public string ConfigurationDataPath;
-		}
+        internal struct SetAzureVMDscExtensionArguments
+        {
+            public string Version;
+            public IPersistentVM VM;
+            public string ConfigurationFileName;
+            public AzureStorageContext StorageContext;
+            public string ContainerName;
+            public string ConfigurationName;
+            public Hashtable ConfigurationArgument;
+            public string ConfigurationDataPath;
+        }
 
 
-		internal PersistentVM SetAzureVMDscExtension(SetAzureVMDscExtensionArguments args)
-		{
-			return RunPSCmdletAndReturnFirst<PersistentVM>(
-				new SetAzureVMDscExtensionCmdletInfo(
-					args.Version,
-					args.VM,
-					args.ConfigurationFileName,
-					args.StorageContext,
-					args.ContainerName,
-					args.ConfigurationName,
-					args.ConfigurationArgument,
-					args.ConfigurationDataPath));
-		}
+        internal PersistentVM SetAzureVMDscExtension(SetAzureVMDscExtensionArguments args)
+        {
+            return RunPSCmdletAndReturnFirst<PersistentVM>(
+                new SetAzureVMDscExtensionCmdletInfo(
+                    args.Version,
+                    args.VM,
+                    args.ConfigurationFileName,
+                    args.StorageContext,
+                    args.ContainerName,
+                    args.ConfigurationName,
+                    args.ConfigurationArgument,
+                    args.ConfigurationDataPath));
+        }
 
-		internal VirtualMachineDscExtensionContext GetAzureVMDscExtension(IPersistentVM vm)
-		{
-			return RunPSCmdletAndReturnFirst<VirtualMachineDscExtensionContext>(new GetAzureVMDscExtensionCmdletInfo(vm));
-		}
+        internal VirtualMachineDscExtensionContext GetAzureVMDscExtension(IPersistentVM vm)
+        {
+            return RunPSCmdletAndReturnFirst<VirtualMachineDscExtensionContext>(new GetAzureVMDscExtensionCmdletInfo(vm));
+        }
 
-		internal PersistentVM RemoveAzureVMDscExtension(PersistentVM vm)
-		{
-			return RunPSCmdletAndReturnFirst<PersistentVM>(new RemoveAzureVMDscExtensionCmdletInfo(vm));
-		}
+        internal PersistentVM RemoveAzureVMDscExtension(PersistentVM vm)
+        {
+            return RunPSCmdletAndReturnFirst<PersistentVM>(new RemoveAzureVMDscExtensionCmdletInfo(vm));
+        }
 
-		#endregion AzureVMDscExtensionCmdlets
+        #endregion AzureVMDscExtensionCmdlets
 
 		internal LinuxProvisioningConfigurationSet.SSHPublicKey NewAzureSSHKey(NewAzureSshKeyType option, string fingerprint, string path)
         {

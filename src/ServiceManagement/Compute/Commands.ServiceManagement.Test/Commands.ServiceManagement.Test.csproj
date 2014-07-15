@@ -386,7 +386,7 @@
     <None Include="Resources\DSC\Configurations\DomainControllerConfiguration.ps1" />
     <None Include="Resources\DSC\Configurations\SHMulptiConfigurations.ps1" />
     <None Include="Resources\download_VHD.csv" />
-    <None Include="Resources\DscExtensionTestConfigurationData.psd1" />
+    <None Include="Resources\DSC\DscExtensionTestConfigurationData.psd1" />
     <None Include="Resources\HelloNoDiag.cscfg" />
     <None Include="Resources\HelloNoDiag.cspkg" />
     <None Include="Resources\nodiagpackage.csv" />
@@ -408,7 +408,7 @@
     <None Include="Resources\SampleAppV3.cscfg" />
     <None Include="Resources\StaticCAvnetconfig.netcfg" />
     <None Include="Resources\storageAccountTestData.csv" />
-    <None Include="Resources\DscExtensionTestConfiguration.ps1" />
+    <None Include="Resources\DSC\DscExtensionTestConfiguration.ps1" />
     <None Include="Resources\test1.ps1" />
     <None Include="Resources\test2.ps1" />
     <None Include="Resources\thread_VHD.csv" />

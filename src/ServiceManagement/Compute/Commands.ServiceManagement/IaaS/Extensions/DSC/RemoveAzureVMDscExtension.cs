@@ -14,12 +14,12 @@
 
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
 {
-	using System.Management.Automation;
-	using Microsoft.WindowsAzure.Commands.ServiceManagement.Model;
+    using System.Management.Automation;
+    using Microsoft.WindowsAzure.Commands.ServiceManagement.Model;
 
-	[Cmdlet(VerbsCommon.Remove, VirtualMachineDscExtensionCmdletNoun),
-	OutputType(typeof(IPersistentVM))]
-	public class RemoveAzureVMDscExtensionCommand : VirtualMachineDscExtensionCmdletBase
+    [Cmdlet(VerbsCommon.Remove, VirtualMachineDscExtensionCmdletNoun),
+    OutputType(typeof(IPersistentVM))]
+    public class RemoveAzureVMDscExtensionCommand : VirtualMachineDscExtensionCmdletBase
     {
 
         internal void ExecuteCommand()

@@ -14,14 +14,13 @@
 
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
 {
-	using System.Collections;
+    using System.Collections;
 
-	public class DscPublicSettings
+    public class DscPublicSettings
     {
         public string SasToken { get; set; }
         public string ModulesUrl { get; set; }
         public string ConfigurationFunction { get; set; }
-		public object DeploymentMetadataSectionOrUrl { get; set; }
-		public Hashtable Properties { get; set; }
-	}
+        public Hashtable Properties { get; set; }
+    }
 }
