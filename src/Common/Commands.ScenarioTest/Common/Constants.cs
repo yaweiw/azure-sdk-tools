@@ -4,6 +4,8 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.Common
     public class Category
     {
         // Service
+        public const string Service = "Service";
+
         public const string All = "All";
 
         public const string Automation = "Automation";
@@ -38,6 +40,8 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.Common
         public const string OneSDK = "OneSDK";
 
         // Acceptance type
+        public const string AcceptanceType = "AcceptanceType";
+
         public const string CIT = "CIT";
 
         public const string BVT = "BVT";
@@ -45,6 +49,8 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.Common
         public const string CheckIn = "CheckIn";
 
         // Environment
+        public const string Environment = "Environment";
+
         public const string WAPack = "WAPack";
     }
 
