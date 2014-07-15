@@ -901,7 +901,7 @@
         Add-AzureDns
       </command:name>
       <maml:description>
-        <maml:para></maml:para>
+        <maml:para>Adds a DNS server to a Windows Azure deployment.</maml:para>
       </maml:description>
       <maml:copyright>
         <maml:para></maml:para>
@@ -938,13 +938,6 @@
           </maml:description>
           <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
         </command:parameter>
-        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named">
-          <maml:name>PipelineVariable</maml:name>
-          <maml:description>
-            <maml:para></maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
-        </command:parameter>
       </command:syntaxItem>
     </command:syntax>
     <!-- Cmdlet parameter section  -->
@@ -964,19 +957,6 @@
       </command:parameter>
       <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="1">
         <maml:name>Name</maml:name>
-        <maml:description>
-          <maml:para></maml:para>
-
-        </maml:description>
-        <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
-        <dev:type>
-          <maml:name>string</maml:name>
-          <maml:uri/>
-        </dev:type>
-        <dev:defaultValue></dev:defaultValue>
-      </command:parameter>
-      <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named">
-        <maml:name>PipelineVariable</maml:name>
         <maml:description>
           <maml:para></maml:para>
 
@@ -20821,7 +20801,7 @@ Configuration for Windows Azure diagnostics. The schema is:
         Remove-AzureDns
       </command:name>
       <maml:description>
-        <maml:para></maml:para>
+        <maml:para>Removes the specified DNS server in a Windows Azure deployment.</maml:para>
       </maml:description>
       <maml:copyright>
         <maml:para></maml:para>
@@ -20857,13 +20837,6 @@ Configuration for Windows Azure diagnostics. The schema is:
             <maml:para></maml:para>
           </maml:description>
         </command:parameter>
-        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named">
-          <maml:name>PipelineVariable</maml:name>
-          <maml:description>
-            <maml:para></maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
-        </command:parameter>
       </command:syntaxItem>
     </command:syntax>
     <!-- Cmdlet parameter section  -->
@@ -20883,19 +20856,6 @@ Configuration for Windows Azure diagnostics. The schema is:
       </command:parameter>
       <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="1">
         <maml:name>Name</maml:name>
-        <maml:description>
-          <maml:para></maml:para>
-
-        </maml:description>
-        <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
-        <dev:type>
-          <maml:name>string</maml:name>
-          <maml:uri/>
-        </dev:type>
-        <dev:defaultValue></dev:defaultValue>
-      </command:parameter>
-      <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named">
-        <maml:name>PipelineVariable</maml:name>
         <maml:description>
           <maml:para></maml:para>
 
@@ -21474,7 +21434,7 @@ Configuration for Windows Azure diagnostics. The schema is:
         Set-AzureDns
       </command:name>
       <maml:description>
-        <maml:para></maml:para>
+        <maml:para>Updates the DNS server of a Windows Azure deployment.</maml:para>
       </maml:description>
       <maml:copyright>
         <maml:para></maml:para>
@@ -21484,7 +21444,7 @@ Configuration for Windows Azure diagnostics. The schema is:
       <dev:version></dev:version>
     </command:details>
     <maml:description>
-      <maml:para></maml:para>
+      <maml:para>The Set-AzureDns cmdlet provides users with the ability to update a DNS server in a Windows Azure deployment.</maml:para>
     </maml:description>
     <!-- Cmdlet syntax section-->
     <command:syntax>
@@ -21511,13 +21471,6 @@ Configuration for Windows Azure diagnostics. The schema is:
           </maml:description>
           <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
         </command:parameter>
-        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named">
-          <maml:name>PipelineVariable</maml:name>
-          <maml:description>
-            <maml:para></maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
-        </command:parameter>
       </command:syntaxItem>
     </command:syntax>
     <!-- Cmdlet parameter section  -->
@@ -21537,19 +21490,6 @@ Configuration for Windows Azure diagnostics. The schema is:
       </command:parameter>
       <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="1">
         <maml:name>Name</maml:name>
-        <maml:description>
-          <maml:para></maml:para>
-
-        </maml:description>
-        <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
-        <dev:type>
-          <maml:name>string</maml:name>
-          <maml:uri/>
-        </dev:type>
-        <dev:defaultValue></dev:defaultValue>
-      </command:parameter>
-      <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named">
-        <maml:name>PipelineVariable</maml:name>
         <maml:description>
           <maml:para></maml:para>
 
@@ -37277,7 +37217,13 @@ PS C:\&gt; Set-AzureServiceAntimalwareExtension -ServiceName "ContosoService03" 
         Set-AzureInternalLoadBalancer
       </command:name>
       <maml:description>
-        <maml:para></maml:para>
+        <maml:para>
+          Set-AzureInternalLoadBalancer [-InternalLoadBalancerName] &lt;string&gt; [-ServiceName] &lt;string&gt; [&lt;CommonParameters&gt;]
+
+          Set-AzureInternalLoadBalancer [-InternalLoadBalancerName] &lt;string&gt; [-ServiceName] &lt;string&gt; [-SubnetName] &lt;string&gt; [&lt;CommonParameters&gt;]
+
+          Set-AzureInternalLoadBalancer [-InternalLoadBalancerName] &lt;string&gt; [-ServiceName] &lt;string&gt; [-SubnetName] &lt;string&gt; [-StaticVNetIPAddress] &lt;ipaddress&gt; [&lt;CommonParameters&gt;]
+        </maml:para>
       </maml:description>
       <maml:copyright>
         <maml:para></maml:para>
@@ -37287,41 +37233,10 @@ PS C:\&gt; Set-AzureServiceAntimalwareExtension -ServiceName "ContosoService03" 
       <dev:version></dev:version>
     </command:details>
     <maml:description>
-      <maml:para></maml:para>
+      <maml:para>The Set-InternalLoadbalancer cmdlet provides users the ability to update an Internal Loadbalancer configuration to a cloud service. For the users using Virtual network, they are allowed to specify a subnet or even the IP address directly of the internal load balancer. </maml:para>
     </maml:description>
     <!-- Cmdlet syntax section-->
     <command:syntax>
-      <command:syntaxItem>
-        <maml:name>Set-AzureInternalLoadBalancer</maml:name>
-        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="1">
-          <maml:name>InternalLoadBalancerName</maml:name>
-          <maml:description>
-            <maml:para></maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
-        </command:parameter>
-        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="2">
-          <maml:name>ServiceName</maml:name>
-          <maml:description>
-            <maml:para></maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
-        </command:parameter>
-        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="4">
-          <maml:name>StaticVNetIPAddress</maml:name>
-          <maml:description>
-            <maml:para></maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">IPAddress</command:parameterValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named">
-          <maml:name>PipelineVariable</maml:name>
-          <maml:description>
-            <maml:para></maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
-        </command:parameter>
-      </command:syntaxItem>
       <command:syntaxItem>
         <maml:name>Set-AzureInternalLoadBalancer</maml:name>
         <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="1">
@@ -37345,12 +37260,12 @@ PS C:\&gt; Set-AzureServiceAntimalwareExtension -ServiceName "ContosoService03" 
           </maml:description>
           <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
         </command:parameter>
-        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named">
-          <maml:name>PipelineVariable</maml:name>
+        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="4">
+          <maml:name>StaticVNetIPAddress</maml:name>
           <maml:description>
             <maml:para></maml:para>
           </maml:description>
-          <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+          <command:parameterValue required="true" variableLength="false">IPAddress</command:parameterValue>
         </command:parameter>
       </command:syntaxItem>
     </command:syntax>
@@ -37358,19 +37273,6 @@ PS C:\&gt; Set-AzureServiceAntimalwareExtension -ServiceName "ContosoService03" 
     <command:parameters>
       <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="1">
         <maml:name>InternalLoadBalancerName</maml:name>
-        <maml:description>
-          <maml:para></maml:para>
-
-        </maml:description>
-        <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
-        <dev:type>
-          <maml:name>string</maml:name>
-          <maml:uri/>
-        </dev:type>
-        <dev:defaultValue></dev:defaultValue>
-      </command:parameter>
-      <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named">
-        <maml:name>PipelineVariable</maml:name>
         <maml:description>
           <maml:para></maml:para>
 
