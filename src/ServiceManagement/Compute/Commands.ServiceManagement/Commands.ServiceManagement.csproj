@@ -178,6 +178,13 @@
     <Compile Include="IaaS\DiskRepository\SetAzureVMImageOSDiskConfig.cs" />
     <Compile Include="IaaS\DiskRepository\SetAzureVMImageDataDiskConfig.cs" />
     <Compile Include="IaaS\DiskRepository\NewAzureVMImageDiskConfigSet.cs" />
+    <Compile Include="IaaS\Extensions\DSC\DscPrivateSettings.cs" />
+    <Compile Include="IaaS\Extensions\DSC\DscPublicSettings.cs" />
+    <Compile Include="IaaS\Extensions\DSC\RemoveAzureVMDscExtension.cs" />
+    <Compile Include="IaaS\Extensions\DSC\GetAzureVMDscExtension.cs" />
+    <Compile Include="IaaS\Extensions\DSC\SetAzureVMDscExtension.cs" />
+    <Compile Include="IaaS\Extensions\DSC\VirtualMachineDscExtensionContext.cs" />
+    <Compile Include="IaaS\Extensions\DSC\VirtualMachineDscExtensionCmdletBase.cs" />
     <Compile Include="IaaS\Extensions\DSC\ConfigurationNameHelper.cs" />
     <Compile Include="IaaS\Extensions\DSC\ConfigurationParseResult.cs" />
     <Compile Include="IaaS\Extensions\DSC\ServiceManagementBaseCmdletExtentions.cs" />
