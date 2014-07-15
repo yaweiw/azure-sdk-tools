@@ -54,6 +54,11 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.WebsitesTests
                     "Resources\\Websites\\Common.ps1",
                     "Resources\\Websites\\" + this.GetType().Name + ".ps1");
 
+                if (string.IsNullOrEmpty(Environment.GetEnvironmentVariable("WEBJOB_FILE")))
+                {
+                    Environment.SetEnvironmentVariable("WEBJOB_FILE", "Resources\\Websites\\WebsiteJobTestCmd.zip");
+                }
+
                 helper.RunPowerShellTest(scripts);
             }
         }
