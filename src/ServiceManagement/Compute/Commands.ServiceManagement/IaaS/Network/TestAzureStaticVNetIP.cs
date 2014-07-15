@@ -14,16 +14,9 @@
 
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS
 {
-    using System;
-    using System.IO;
-    using System.Linq;
-    using System.Management.Automation;
-    using System.Net;
-    using System.Xml.Serialization;
-    using Management.Network;
     using Management.Network.Models;
     using Model;
-    using Properties;
+    using System.Management.Automation;
     using Utilities.Common;
 
     [Cmdlet(VerbsDiagnostic.Test, "AzureStaticVNetIP"), OutputType(typeof(VirtualNetworkStaticIPAvailabilityContext))]

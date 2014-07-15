@@ -9,8 +9,6 @@
 //------------------------------------------------------------------------------
 
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Properties {
-    using System;
-    
     
     /// <summary>
     ///   A strongly-typed resource class, for looking up localized strings, etc.
@@ -360,7 +358,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Cannot find the // in the endpoint {0}.
         /// </summary>
-        internal static string DiagnosticsSlashNotFound {
+        public static string DiagnosticsSlashNotFound {
             get {
                 return ResourceManager.GetString("DiagnosticsSlashNotFound", resourceCulture);
             }
@@ -369,7 +367,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Cannot find the storage account name {0} in the endpoint {1}.
         /// </summary>
-        internal static string DiagnosticsStorageAccountNotFound {
+        public static string DiagnosticsStorageAccountNotFound {
             get {
                 return ResourceManager.GetString("DiagnosticsStorageAccountNotFound", resourceCulture);
             }
@@ -538,11 +536,11 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to You must specify a value for either Label or Description..
+        ///   Looks up a localized string similar to You must specify a value for Label, Description or ReverseDnsFqdn..
         /// </summary>
-        public static string LabelOrDescriptionMustBeSpecified {
+        public static string LabelOrDescriptionOrReverseDnsFqdnMustBeSpecified {
             get {
-                return ResourceManager.GetString("LabelOrDescriptionMustBeSpecified", resourceCulture);
+                return ResourceManager.GetString("LabelOrDescriptionOrReverseDnsFqdnMustBeSpecified", resourceCulture);
             }
         }
         
@@ -1159,6 +1157,24 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Remove Azure DNS Server.
+        /// </summary>
+        public static string RemoveAzureDnsServerCaption {
+            get {
+                return ResourceManager.GetString("RemoveAzureDnsServerCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Are you sure you want to remove this DNS server: {0} from your service: {1}.
+        /// </summary>
+        public static string RemoveAzureDnsServerWarning {
+            get {
+                return ResourceManager.GetString("RemoveAzureDnsServerWarning", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Are you sure you want to remove the Reserved IP from your subscription?.
         /// </summary>
         public static string RemoveReservedIPWarning {
@@ -1231,6 +1247,15 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to ReverseDnsFqdn can only be specified when creating a new cloud service..
+        /// </summary>
+        public static string ReverseDnsFqdnCanOnlyBeSpecifiedWhenNewCloudService {
+            get {
+                return ResourceManager.GetString("ReverseDnsFqdnCanOnlyBeSpecifiedWhenNewCloudService", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Roleinstance cannot be found.
         /// </summary>
         public static string RoleInstanceCanNotBeFound {
@@ -1281,6 +1306,15 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Properties {
         public static string ServiceExistsLocationCanNotBeSpecified {
             get {
                 return ResourceManager.GetString("ServiceExistsLocationCanNotBeSpecified", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Service already exists, ReverseDnsFqdn cannot be specified..
+        /// </summary>
+        public static string ServiceExistsReverseDnsFqdnCanNotBeSpecified {
+            get {
+                return ResourceManager.GetString("ServiceExistsReverseDnsFqdnCanNotBeSpecified", resourceCulture);
             }
         }
         

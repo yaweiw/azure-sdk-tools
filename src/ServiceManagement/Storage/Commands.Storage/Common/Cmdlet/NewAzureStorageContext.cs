@@ -14,7 +14,7 @@
 
 namespace Microsoft.WindowsAzure.Commands.Storage.Common.Cmdlet
 {
-    using Microsoft.WindowsAzure.Commands.Storage.Model.ResourceModel;
+    using Microsoft.WindowsAzure.Commands.Common.Storage;
     using Microsoft.WindowsAzure.Commands.Utilities.Common;
     using Microsoft.WindowsAzure.Storage;
     using Microsoft.WindowsAzure.Storage.Auth;
@@ -340,9 +340,9 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Common.Cmdlet
             Uri blobEndPoint = azureEnvironment.GetStorageBlobEndpoint(storageAccountName, useHttps);
             Uri queueEndPoint = azureEnvironment.GetStorageQueueEndpoint(storageAccountName, useHttps);
             Uri tableEndPoint = azureEnvironment.GetStorageTableEndpoint(storageAccountName, useHttps);
+            Uri fileEndPoint = azureEnvironment.GetStorageFileEndpoint(storageAccountName, useHttps);
 
-            // TODO fileEndPoint
-            return new CloudStorageAccount(credential, blobEndPoint, queueEndPoint, tableEndPoint, null);
+            return new CloudStorageAccount(credential, blobEndPoint, queueEndPoint, tableEndPoint, fileEndPoint);
         }
 
         /// <summary>

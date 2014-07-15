@@ -42,6 +42,7 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.AutomationTests
 
         [TestMethod]
         [TestCategory(Category.All)]
+        [TestCategory(Category.CheckIn)]
         [TestCategory(Category.Automation)]
         public void TestAutomationConfigureRunbook()
         {
@@ -75,6 +76,7 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.AutomationTests
 
         [TestMethod]
         [TestCategory(Category.All)]
+        [TestCategory(Category.CheckIn)]
         [TestCategory(Category.Automation)]
         public void TestAutomationRunbookWithParameter()
         {

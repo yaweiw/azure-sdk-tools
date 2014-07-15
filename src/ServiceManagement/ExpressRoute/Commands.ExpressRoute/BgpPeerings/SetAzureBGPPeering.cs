@@ -14,8 +14,8 @@
 
 namespace Microsoft.WindowsAzure.Commands.ExpressRoute
 {
-    using Properties;
     using Microsoft.WindowsAzure.Management.ExpressRoute.Models;
+    using Properties;
     using System;
     using System.ComponentModel;
     using System.Management.Automation;

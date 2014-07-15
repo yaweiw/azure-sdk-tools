@@ -12,6 +12,8 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
+using System.Collections;
+using System.Linq;
 using Microsoft.Azure.Commands.Resources.Models;
 using System.Collections.Generic;
 using System.Management.Automation;
@@ -22,7 +24,7 @@ namespace Microsoft.Azure.Commands.Resources
     /// Get an existing resource.
     /// </summary>
     [Cmdlet(VerbsCommon.Get, "AzureResource", DefaultParameterSetName = BaseParameterSetName), OutputType(typeof(PSResource))]
-    public class GetAzureResourceCommand : ResourceManagerBaseCmdlet
+    public class GetAzureResourceCommand : ResourcesBaseCmdlet
     {
         internal const string BaseParameterSetName = "List resources";
         internal const string ParameterSetNameWithId = "Get a single resource";
@@ -42,6 +44,9 @@ namespace Microsoft.Azure.Commands.Resources
         [ValidateNotNullOrEmpty]
         public string ResourceType { get; set; }
 
+        [Parameter(ParameterSetName = BaseParameterSetName, Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "The resource tags.")]
+        public Hashtable Tag { get; set; }
+
         [Parameter(ParameterSetName = ParameterSetNameWithId, Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "The name of the parent resource if needed. In the format of greatgrandpa/grandpa/dad.")]
         public string ParentResource { get; set; }
 
@@ -57,7 +62,8 @@ namespace Microsoft.Azure.Commands.Resources
                 ResourceGroupName = ResourceGroupName,
                 ResourceType = ResourceType,
                 ParentResource = ParentResource,
-                ApiVersion = ApiVersion
+                ApiVersion = ApiVersion,
+                Tags = new[] { Tag }.ToList()
             };
 
             List<PSResource> resourceList = ResourcesClient.FilterPSResources(parameters);
@@ -75,8 +81,9 @@ namespace Microsoft.Azure.Commands.Resources
                         "Name", r.Name,
                         "ResourceGroupName", r.ResourceGroupName,
                         "ResourceType", r.ResourceType,
-                        "Location", r.Location,
-                        "ParentResource", r.ParentResource)));
+                        "ParentResource", r.ParentResource,
+                        "Location", r.Location
+                        )));
 
                     WriteObject(output, true);
                 }

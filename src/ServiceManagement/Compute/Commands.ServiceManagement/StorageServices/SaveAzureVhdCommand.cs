@@ -14,12 +14,11 @@
 
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.StorageServices
 {
+    using ServiceManagement.Model;
+    using Sync.Download;
     using System;
     using System.IO;
     using System.Management.Automation;
-    using Management.Storage;
-    using ServiceManagement.Model;
-    using Sync.Download;
     using Utilities.Common;
 
     [Cmdlet(VerbsData.Save, "AzureVhd"), OutputType(typeof (VhdDownloadContext))]

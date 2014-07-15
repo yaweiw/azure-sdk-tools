@@ -21,10 +21,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
     using Microsoft.WindowsAzure.Commands.ServiceManagement.Model;
     using Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests.ConfigDataInfo;
     using System;
-    using System.Collections.Generic;
-    using System.Linq;
     using System.Reflection;
-    using System.Text;
 
     [TestClass]
     public class AzureVMBGInfoExtensionTests:ServiceManagementTest

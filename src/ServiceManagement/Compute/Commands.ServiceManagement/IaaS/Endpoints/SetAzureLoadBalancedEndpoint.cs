@@ -14,21 +14,19 @@
 
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Endpoints
 {
-    using System;
-    using System.Globalization;
-    using System.Linq;
-    using System.Management.Automation;
     using AutoMapper;
     using IaaS;
-    using Management.Compute;
     using Management.Compute.Models;
     using Model;
     using Model.PersistentVMModel;
     using Properties;
+    using System;
+    using System.Globalization;
+    using System.Linq;
+    using System.Management.Automation;
     using Utilities.Common;
     using NSM = Microsoft.WindowsAzure.Management.Compute.Models;
     using PVM = Microsoft.WindowsAzure.Commands.ServiceManagement.Model.PersistentVMModel;
-    using System.Collections.Generic;
 
     [Cmdlet(VerbsCommon.Set, "AzureLoadBalancedEndpoint", DefaultParameterSetName = SetAzureLoadBalancedEndpoint.DefaultProbeParameterSet), OutputType(typeof(ManagementOperationContext))]
     public class SetAzureLoadBalancedEndpoint : IaaSDeploymentManagementCmdletBase
@@ -82,6 +80,10 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Endpoints
 
         [Parameter(Mandatory = false, HelpMessage = "Internal Load Balancer Name.")]
         public string InternalLoadBalancerName { get; set; }
+
+        [Parameter(Mandatory = false, HelpMessage = "Idle Timeout.")]
+        [ValidateNotNullOrEmpty]
+        public int IdleTimeoutInMinutes { get; set; }
 
         protected override void ExecuteCommand()
         {
@@ -141,7 +143,8 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Endpoints
                         RemoteSubnet = r.RemoteSubnet
                     }).ToList(),
                     VirtualIPAddress = endpoint.Vip,
-                    LoadBalancerName = this.InternalLoadBalancerName
+                    LoadBalancerName = this.InternalLoadBalancerName,
+                    IdleTimeoutInMinutes = endpoint.IdleTimeoutInMinutes,
                 }).ToList()
             };
 
@@ -189,6 +192,11 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Endpoints
             if (this.ParameterSpecified("PublicPort"))
             {
                 endpoint.Port = this.PublicPort;
+            }
+
+            if (this.ParameterSpecified("IdleTimeoutInMinutes"))
+            {
+                endpoint.IdleTimeoutInMinutes = this.IdleTimeoutInMinutes;
             }
 
             if (this.ParameterSpecified("DirectServerReturn"))

@@ -9,7 +9,7 @@
 @{
 
 # Version number of this module.
-ModuleVersion = '0.8.3'
+ModuleVersion = '0.8.5'
 
 # ID used to uniquely identify this module
 GUID = 'D48CF693-4125-4D2D-8790-1514F44CE325'
@@ -21,7 +21,7 @@ Author = 'Microsoft Corporation'
 CompanyName = 'Microsoft Corporation'
 
 # Copyright statement for this module
-Copyright = '© Microsoft Corporation. All rights reserved.'  
+Copyright = '?Microsoft Corporation. All rights reserved.'  
 
 # Description of the functionality provided by this module
 Description = ''
@@ -57,6 +57,7 @@ ScriptsToProcess = @()
 TypesToProcess = @(
     '.\Services\Microsoft.WindowsAzure.Commands.Websites.Types.ps1xml',
     '.\Sql\Microsoft.WindowsAzure.Commands.SqlDatabase.Types.ps1xml'
+    '.\Storage\Microsoft.WindowsAzure.Commands.Storage.Types.ps1xml'
 )
 
 # Format files (.ps1xml) to be loaded when importing this module
@@ -78,7 +79,8 @@ NestedModules = '.\Services\Microsoft.WindowsAzure.Commands.dll',
                 '.\Compute\Microsoft.WindowsAzure.Commands.ServiceManagement.dll',
                 '.\Sql\Microsoft.WindowsAzure.Commands.SqlDatabase.dll',
                 '.\Storage\Microsoft.WindowsAzure.Commands.Storage.dll',
-                '.\ManagedCache\Microsoft.Azure.Commands.ManagedCache.dll'
+                '.\ManagedCache\Microsoft.Azure.Commands.ManagedCache.dll',
+                '.\HDInsight\Microsoft.WindowsAzure.Commands.HDInsight.dll'
 
 # Functions to export from this module
 FunctionsToExport = '*'

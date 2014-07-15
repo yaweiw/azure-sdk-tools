@@ -46,7 +46,7 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.ResourceManagerTests
 
         [TestMethod]
         [TestCategory(Category.All)]
-        [TestCategory(Category.ResourceManager)]
+        [TestCategory(Category.Resources)]
         //[TestCategory(Category.CheckIn)]
         public void TestValidateDeployment()
         {
@@ -55,7 +55,7 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.ResourceManagerTests
 
         [TestMethod]
         [TestCategory(Category.All)]
-        [TestCategory(Category.ResourceManager)]
+        [TestCategory(Category.Resources)]
         //[TestCategory(Category.CheckIn)]
         public void TestNewDeploymentFromTemplateFile()
         {

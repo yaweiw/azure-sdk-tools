@@ -18,7 +18,6 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Helpers
     using System.Runtime.InteropServices;
     using System.Security;
     using System.Security.Permissions;
-    using Utilities.Websites.Common;
     using NSM = Management.Compute.Models;
     using PVM = Model.PersistentVMModel;
 

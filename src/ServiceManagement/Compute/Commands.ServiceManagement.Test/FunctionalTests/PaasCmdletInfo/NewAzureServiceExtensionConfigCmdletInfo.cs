@@ -14,8 +14,8 @@
 
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests.PaasCmdletInfo
 {
-    using System.Security.Cryptography.X509Certificates;
     using PowershellCore;
+    using System.Security.Cryptography.X509Certificates;
 
     public class NewAzureServiceExtensionConfigCmdletInfo : CmdletsInfo
     {

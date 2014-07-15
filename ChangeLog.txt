@@ -1,8 +1,34 @@
+2014.06.30 Version 0.8.4
+* Compute
+    * New-AzurePlatformExtensionCertificateConfig
+    * New-AzurePlatformExtensionEndpointConfigSet
+    * New-AzurePlatformExtensionLocalResourceConfigSet
+    * Publish-AzurePlatformExtension
+    * Remove-AzurePlatformExtensionEndpoint
+    * Remove-AzurePlatformExtensionLocalResource
+    * Set-AzurePlatformExtension
+    * Set-AzurePlatformExtensionEndpoint
+    * Set-AzurePlatformExtensionLocalResource
+    * Unpublish-AzurePlatformExtension
+* Antimalware
+    * Get-AzureVMMicrosoftAntimalwareExtension
+    * Set-AzureVMMicrosoftAntimalwareExtension
+    * Improve the cmdlets to use AzureStorageContext instead of flat storage parameters
+* Networking
+    * Enabling New-AzureVnetGateway to create dynamic gateways
+    * Added alias New-AzureDns to New-AzureDnsConfig
+* Scheduler
+    * New-AzureSchedulerJobCollection
+    * Set-AzureSchedulerJobCollection
+
 2014.05.29 Version 0.8.3
 * Restructured source code and installation folder
 * Web Site
     * Return instances info from Get-AzureWebsite
     * Added "Slot1" and "Slot2" parameters to enable swap between any 2 slots
+* Traffic Manager
+    * Support for Weighted Round Robin policies
+    * Support for Performance policies with external endpoints
 * Update Get-AzureRoleSize, Get-AzureAffinityGroup, Get-AzureService, Get-AzureLocation cmdlets with role sizes info
 * New "ClusterType" parameter for HDInsight
 

@@ -12,7 +12,6 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-using ProjectResources = Microsoft.Azure.Commands.Resources.Properties.Resources;
 using Microsoft.Azure.Gallery;
 using Microsoft.Azure.Gallery.Models;
 using Microsoft.WindowsAzure;
@@ -28,6 +27,7 @@ using System.Linq;
 using System.Management.Automation;
 using System.Security;
 using System.Text;
+using ProjectResources = Microsoft.Azure.Commands.Resources.Properties.Resources;
 
 namespace Microsoft.Azure.Commands.Resources.Models
 {
@@ -324,7 +324,7 @@ namespace Microsoft.Azure.Commands.Resources.Models
 
             RuntimeDefinedParameter runtimeParameter = new RuntimeDefinedParameter()
             {
-                // For duplicated template parameter names, add a sufix FromTemplate to distingush them from the cmdlet parameter.
+                // For duplicated template parameter names, add a suffix FromTemplate to distinguish them from the cmdlet parameter.
                 Name = staticParameters.Any(n => n.StartsWith(name, StringComparison.OrdinalIgnoreCase)) 
                     ? name + duplicatedParameterSuffix : name,
                 ParameterType = GetParameterType(parameter.Value.Type),

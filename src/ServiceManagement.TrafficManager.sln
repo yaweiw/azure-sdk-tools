@@ -1,6 +1,6 @@
-﻿
+
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2012
+# Visual Studio 2013
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Commands.TrafficManager", "ServiceManagement\TrafficManager\Commands.TrafficManager\Commands.TrafficManager.csproj", "{94E96A5C-B5AD-4E10-B13A-3BC16D102AED}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Commands.TrafficManager.Test", "ServiceManagement\TrafficManager\Commands.TrafficManager.Test\Commands.TrafficManager.Test.csproj", "{84F99CBD-5B86-4428-B263-135B2F67F512}"

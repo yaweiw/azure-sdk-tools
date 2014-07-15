@@ -16,6 +16,7 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Test.Common
 {
     using Commands.Test.Utilities.Common;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using Microsoft.WindowsAzure.Commands.Common.Storage;
     using Microsoft.WindowsAzure.Storage;
     using Model.ResourceModel;
     using Storage.Common;

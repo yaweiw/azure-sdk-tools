@@ -38,5 +38,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Model
         public DateTime DateModified { get; set; }
 
         public DateTime DateCreated { get; set; }
+
+        public string ReverseDnsFqdn { get; set; }
     }
 }

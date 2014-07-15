@@ -888,6 +888,10 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Model.PersistentVMMo
     {
         [DataMember(Name = "Name", EmitDefaultValue = false, Order = 1)]
         public string Name { get; set; }
+
+        [DataMember(Name = "IdleTimeoutInMinutes", EmitDefaultValue = false, Order = 2)]
+        public int? IdleTimeoutInMinutes { get; set; }
+
     }
 
     [CollectionDataContract(Name = "LoadBalancedEndpointList", Namespace = Constants.ServiceManagementNS)]
@@ -1044,6 +1048,19 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Model.PersistentVMMo
             set
             {
                 base.SetValue("LoadBalancerName", value);
+            }
+        }
+        
+        [DataMember(Name = "IdleTimeoutInMinutes", EmitDefaultValue = false, Order = 10)]
+        public int? IdleTimeoutInMinutes
+        {
+            get
+            {
+                return base.GetValue<int?>("IdleTimeoutInMinutes");
+            }
+            set
+            {
+                base.SetValue("IdleTimeoutInMinutes", value);
             }
         }
     }
@@ -2371,6 +2388,9 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Model.PersistentVMMo
 
         [DataMember(EmitDefaultValue = false, Order = 5)]
         public string Protocol { get; set; }
+
+        [DataMember(EmitDefaultValue = false, Order = 6)]
+        public int? IdleTimeoutInMinutes { get; set; }
 
         public ExtensionDataObject ExtensionData { get; set; }
     }

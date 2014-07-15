@@ -15,10 +15,6 @@
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
 {
     using Model;
-    using Model.PersistentVMModel;
-    using Properties;
-    using System;
-    using System.Linq;
     using System.Management.Automation;
 
     [Cmdlet(

@@ -15,8 +15,8 @@
 
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Model
 {
-    using System.Collections.Generic;
     using PersistentVMModel;
+    using System.Collections.Generic;
     using Utilities.Common;
 
     public class LocationsContext : ManagementOperationContext
