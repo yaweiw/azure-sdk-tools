@@ -209,17 +209,9 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Test.UnitTests.Database.Cm
                             @"$context");
                     }
 
-                    Assert.AreEqual(0, powershell.Streams.Error.Count, "Errors during run!");
-                    Assert.AreEqual(1, powershell.Streams.Warning.Count, "Should have warning!");
-                    Assert.AreEqual(
-                        Resources.WarningModelOutOfDate,
-                        powershell.Streams.Warning.First().Message);
+                    Assert.AreEqual(1, powershell.Streams.Error.Count, "Errors during run!");
+                    Assert.AreEqual(2, powershell.Streams.Warning.Count, "Should have warning!");
                     powershell.Streams.ClearStreams();
-
-                    PSObject contextPsObject = serverContext.Single();
-                    Assert.IsTrue(
-                        contextPsObject.BaseObject is ServerDataServiceSqlAuth,
-                        "Expecting a ServerDataServiceSqlAuth object");
 
                     // Test error case
                     using (new MockHttpServer(

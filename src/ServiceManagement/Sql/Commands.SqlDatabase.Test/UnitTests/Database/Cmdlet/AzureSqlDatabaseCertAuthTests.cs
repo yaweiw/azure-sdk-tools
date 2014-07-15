@@ -617,12 +617,12 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Test.UnitTests.Database.Cm
                 Database[] databases = new Database[] { newDatabaseResult1.Single().BaseObject as Database };
                 Assert.AreEqual(1, databases.Length, "Expecting one database");
                 Assert.IsNotNull(databases[0], "Expecting a Database object.");
-                DatabaseTestHelper.ValidateDatabaseProperties(databases[0], "testdbeditions1", "Basic", 0, 104857600L, "SQL_Latin1_General_CP1_CI_AS", "Basic", false, DatabaseTestHelper.BasicSloGuid);
+                DatabaseTestHelper.ValidateDatabaseProperties(databases[0], "testdbeditions1", "Web", 1, 1073741824L, "SQL_Latin1_General_CP1_CI_AS", "Shared", false, DatabaseTestHelper.SharedSloGuid);
 
                 databases = new Database[] { newDatabaseResult2.Single().BaseObject as Database };
                 Assert.AreEqual(1, databases.Length, "Expecting one database");
                 Assert.IsNotNull(databases[0], "Expecting a Database object.");
-                DatabaseTestHelper.ValidateDatabaseProperties(databases[0], "testdbeditions2", "", -1, -1, "SQL_Latin1_General_CP1_CI_AS", "S1", false, DatabaseTestHelper.StandardS1SloGuid);
+                DatabaseTestHelper.ValidateDatabaseProperties(databases[0], "testdbeditions2", "Standard", 0, 524288000, "SQL_Latin1_General_CP1_CI_AS", "S1", false, DatabaseTestHelper.StandardS1SloGuid);
 
                 databases = new Database[] { newDatabaseResult3.Single().BaseObject as Database };
                 Assert.AreEqual(1, databases.Length, "Expecting one database");
@@ -632,12 +632,12 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Test.UnitTests.Database.Cm
                 databases = new Database[] { newDatabaseResult4.Single().BaseObject as Database };
                 Assert.AreEqual(1, databases.Length, "Expecting one database");
                 Assert.IsNotNull(databases[0], "Expecting a Database object.");
-                DatabaseTestHelper.ValidateDatabaseProperties(databases[0], "testdbeditions4", "", -1, -1, "SQL_Latin1_General_CP1_CI_AS", "P1", false, DatabaseTestHelper.PremiumP1SloGuid);
+                DatabaseTestHelper.ValidateDatabaseProperties(databases[0], "testdbeditions4", "Premium", 10, 10737418240L, "SQL_Latin1_General_CP1_CI_AS", "P1", false, DatabaseTestHelper.PremiumP1SloGuid);
 
                 databases = new Database[] { newDatabaseResult5.Single().BaseObject as Database };
                 Assert.AreEqual(1, databases.Length, "Expecting one database");
                 Assert.IsNotNull(databases[0], "Expecting a Database object.");
-                DatabaseTestHelper.ValidateDatabaseProperties(databases[0], "testdbeditions5", "", -1, -1, "SQL_Latin1_General_CP1_CI_AS", "S2", false, DatabaseTestHelper.StandardS2SloGuid);
+                DatabaseTestHelper.ValidateDatabaseProperties(databases[0], "testdbeditions5", "Standard", 2, 2147483648L, "SQL_Latin1_General_CP1_CI_AS", "S2", false, DatabaseTestHelper.StandardS2SloGuid);
 
 
                 // Validate Get-AzureSqlDatabase                
@@ -650,7 +650,7 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Test.UnitTests.Database.Cm
                 Assert.IsNotNull(databases[4], "Expecting a Database object.");
                 Assert.IsNotNull(databases[5], "Expecting a Database object.");
                 DatabaseTestHelper.ValidateDatabaseProperties(databases[0], "master", "System", 5, 5368709120L, "SQL_Latin1_General_CP1_CI_AS", "System", true, DatabaseTestHelper.SystemSloGuid);
-                DatabaseTestHelper.ValidateDatabaseProperties(databases[1], "testdbeditions1", "Basic", 0, 104857600L, "SQL_Latin1_General_CP1_CI_AS", "Basic", false, DatabaseTestHelper.BasicSloGuid);
+                DatabaseTestHelper.ValidateDatabaseProperties(databases[1], "testdbeditions1", "Web", 1, 1073741824L, "SQL_Latin1_General_CP1_CI_AS", "Shared", false, DatabaseTestHelper.SharedSloGuid);
                 DatabaseTestHelper.ValidateDatabaseProperties(databases[2], "testdbeditions2", "Standard", 0, 524288000L, "SQL_Latin1_General_CP1_CI_AS", "S2", false, DatabaseTestHelper.StandardS2SloGuid);
                 DatabaseTestHelper.ValidateDatabaseProperties(databases[3], "testdbeditions3", "Standard", 1, 1073741824L, "SQL_Latin1_General_CP1_CI_AS", "S1", false, DatabaseTestHelper.StandardS1SloGuid);
                 DatabaseTestHelper.ValidateDatabaseProperties(databases[4], "testdbeditions4", "Premium", 10, 10737418240L, "SQL_Latin1_General_CP1_CI_AS", "P1", false, DatabaseTestHelper.PremiumP1SloGuid);
@@ -743,7 +743,7 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Test.UnitTests.Database.Cm
                 Assert.AreEqual("premium_databases", quotas[0].Name);
                 Assert.AreEqual(SqlDatabaseTestSettings.Instance.ServerV2, quotas[0].ServerName);
                 Assert.AreEqual("Microsoft.SqlAzure.ServerQuota", quotas[0].Type);
-                Assert.AreEqual("1000", quotas[0].Value);
+                Assert.AreEqual("100", quotas[0].Value);
                 Assert.AreEqual("Normal", quotas[0].State);
 
                 quotas = getQuota2.Select(x => ((IEnumerable)x.BaseObject).Cast<Model.SqlDatabaseServerQuotaContext>().Single()).ToArray();
@@ -752,7 +752,7 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Test.UnitTests.Database.Cm
                 Assert.AreEqual("premium_databases", quotas[0].Name);
                 Assert.AreEqual(SqlDatabaseTestSettings.Instance.ServerV2, quotas[0].ServerName);
                 Assert.AreEqual("Microsoft.SqlAzure.ServerQuota", quotas[0].Type);
-                Assert.AreEqual("1000", quotas[0].Value);
+                Assert.AreEqual("100", quotas[0].Value);
                 Assert.AreEqual("Normal", quotas[0].State);
             }
         }
