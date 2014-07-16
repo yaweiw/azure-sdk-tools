@@ -39,7 +39,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Extensions
             set;
         }
 
-        [Parameter(Position = 2, Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = ExtensionParameterPropertyHelper.ExtensionNameHelpMessage)]
+        [Parameter(Position = 2, ValueFromPipelineByPropertyName = true, HelpMessage = ExtensionParameterPropertyHelper.ExtensionNameHelpMessage)]
         [ValidateNotNullOrEmptyAttribute]
         public override string ExtensionName
         {
@@ -47,7 +47,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Extensions
             set;
         }
 
-        [Parameter(Position = 3, Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = ExtensionParameterPropertyHelper.ProviderNamespaceHelpMessage)]
+        [Parameter(Position = 3, ValueFromPipelineByPropertyName = true, HelpMessage = ExtensionParameterPropertyHelper.ProviderNamespaceHelpMessage)]
         [ValidateNotNullOrEmptyAttribute]
         public override string ProviderNamespace
         {
