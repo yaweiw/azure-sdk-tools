@@ -37,6 +37,9 @@
     <DebugType>pdbonly</DebugType>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Microsoft.Azure.Utilities.HttpRecorder">
+      <HintPath>..\..\packages\Hydra.HttpRecorder.1.0.5305.31851-prerelease\lib\net45\Microsoft.Azure.Utilities.HttpRecorder.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.IdentityModel.Clients.ActiveDirectory">
       <HintPath>..\..\packages\Microsoft.IdentityModel.Clients.ActiveDirectory.1.0.3\lib\net40\Microsoft.IdentityModel.Clients.ActiveDirectory.dll</HintPath>
     </Reference>
@@ -63,6 +66,11 @@
     <Reference Include="Microsoft.WindowsAzure.Common.NetFramework, Version=1.0.0.0, Culture=neutral, PublicKeyToken=c66ce9294aae1300, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\packages\Microsoft.WindowsAzure.Common.1.1.1\lib\net45\Microsoft.WindowsAzure.Common.NetFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.WindowsAzure.Testing, Version=1.0.5305.31851, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\Hydra.SpecTestSupport.1.0.5305.31851-prerelease\lib\net45\Microsoft.WindowsAzure.Testing.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Newtonsoft.Json.5.0.8\lib\net45\Newtonsoft.Json.dll</HintPath>
@@ -112,14 +120,6 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\..\hydra-specs-pr\Spec.TestSupport\HttpRecorder\HttpRecorder.csproj">
-      <Project>{9e5cb6e6-92af-464a-bd30-e848d94ed490}</Project>
-      <Name>HttpRecorder</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\..\hydra-specs-pr\Spec.TestSupport\Spec.TestSupport.csproj">
-      <Project>{f144a258-3c38-447a-993e-967f74a1a76c}</Project>
-      <Name>Spec.TestSupport</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\ServiceManagement\Services\Commands.Test.Utilities\Commands.Test.Utilities.csproj">
       <Project>{bc420543-c04e-4bf3-96e1-cd81b823bdd7}</Project>
       <Name>Commands.Test.Utilities</Name>

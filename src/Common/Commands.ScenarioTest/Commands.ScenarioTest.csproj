@@ -38,6 +38,10 @@
     <DebugType>pdbonly</DebugType>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Microsoft.Azure.Utilities.HttpRecorder, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\Hydra.HttpRecorder.1.0.5305.31851-prerelease\lib\net45\Microsoft.Azure.Utilities.HttpRecorder.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.Data.Edm, Version=5.6.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Microsoft.Data.Edm.5.6.0\lib\net40\Microsoft.Data.Edm.dll</HintPath>
     </Reference>
@@ -101,6 +105,9 @@
     <Reference Include="Microsoft.WindowsAzure.Storage, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\packages\WindowsAzure.Storage.4.0.0\lib\net40\Microsoft.WindowsAzure.Storage.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.WindowsAzure.Testing">
+      <HintPath>..\..\packages\Hydra.SpecTestSupport.1.0.5305.31851-prerelease\lib\net45\Microsoft.WindowsAzure.Testing.dll</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Newtonsoft.Json.5.0.8\lib\net45\Newtonsoft.Json.dll</HintPath>
@@ -329,14 +336,6 @@
     <None Include="Resources\tipsf004.publishsettings" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\..\hydra-specs-pr\Spec.TestSupport\HttpRecorder\HttpRecorder.csproj">
-      <Project>{9e5cb6e6-92af-464a-bd30-e848d94ed490}</Project>
-      <Name>HttpRecorder</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\..\hydra-specs-pr\Spec.TestSupport\Spec.TestSupport.csproj">
-      <Project>{f144a258-3c38-447a-993e-967f74a1a76c}</Project>
-      <Name>Spec.TestSupport</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\ServiceManagement\Compute\Commands.ServiceManagement.Test\Commands.ServiceManagement.Test.csproj">
       <Project>{58a78f29-8c0c-4a5e-893e-3953c0f29c8a}</Project>
       <Name>Commands.ServiceManagement.Test</Name>
