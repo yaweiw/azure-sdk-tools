@@ -109,7 +109,6 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.Common
                         string password = authSettings[AADPasswordKey];
                         Tracing.Information("Using AAD auth with username and password combination");
                         token = TokenCloudCredentialsHelper.GetTokenFromBasicCredentials(user, password, authEndpoint, tenant);
-                        Tracing.Information("Using token {0}", token);
                     }
                     else
                     {
@@ -131,8 +130,6 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.Common
                     // playback mode but no stored credentials in mocks
                     Tracing.Information("Using dummy token for playback");
                     token = Guid.NewGuid().ToString();
-                    Tracing.Information("Using token {0}", token);
-
                 }
 
                 orgIdEnvironment = new TestEnvironment

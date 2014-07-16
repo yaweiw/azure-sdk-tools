@@ -13,6 +13,7 @@
 // ----------------------------------------------------------------------------------
 
 using System;
+using Microsoft.Azure.Utilities.HttpRecorder;
 using Microsoft.WindowsAzure.Commands.Utilities.Common;
 using Microsoft.WindowsAzure.Management;
 using Microsoft.WindowsAzure.Management.Compute;
@@ -38,7 +39,7 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.WebsitesTests
             var storageClient = GetStorageManagementClient();
             var computeClient = GetComputeManagementClient();
 
-            helper.SetupManagementClients(websitesClient, managementClient, storageClient, computeClient);
+            helper.SetupSomeOfManagementClients(websitesClient, managementClient, storageClient, computeClient);
         }
 
         protected void RunPowerShellTest(params string[] scripts)
@@ -57,6 +58,17 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.WebsitesTests
                 if (string.IsNullOrEmpty(Environment.GetEnvironmentVariable("WEBJOB_FILE")))
                 {
                     Environment.SetEnvironmentVariable("WEBJOB_FILE", "Resources\\Websites\\WebsiteJobTestCmd.zip");
+                }
+                if (HttpMockServer.GetCurrentMode() == HttpRecorderMode.Playback)
+                {
+                    if (string.IsNullOrEmpty(Environment.GetEnvironmentVariable("GIT_USERNAME")))
+                    {
+                        Environment.SetEnvironmentVariable("GIT_USERNAME", "fake_username");
+                    }
+                    if (string.IsNullOrEmpty(Environment.GetEnvironmentVariable("GIT_PASSWORD")))
+                    {
+                        Environment.SetEnvironmentVariable("GIT_PASSWORD", "fake_password");
+                    }
                 }
 
                 helper.RunPowerShellTest(scripts);

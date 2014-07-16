@@ -13,6 +13,8 @@
 // ----------------------------------------------------------------------------------
 
 using System;
+using System.Net;
+using System.Net.Http;
 using Microsoft.WindowsAzure.Commands.Common;
 using Microsoft.WindowsAzure.Common;
 
@@ -22,5 +24,9 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
     {
         TClient CreateClient<TClient>(bool addRestLogHandler, EventHandler<ClientCreatedArgs> clientCreatedHandler, 
             object[] parameters) where TClient : ServiceClient<TClient>;
+
+        HttpClient CreateHttpClient(string serviceUrl, ICredentials credentials);
+
+        HttpClient CreateHttpClient(string serviceUrl, HttpMessageHandler effectiveHandler);
     }
 }

@@ -31,9 +31,22 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest
         private TestEnvironment testEnvironment;
         protected List<string> modules;
 
+        /// <summary>
+        /// Loads DummyManagementClientHelper with clients and throws exception if any client is missing.
+        /// </summary>
+        /// <param name="initializedManagementClients"></param>
         public void SetupManagementClients(params object[] initializedManagementClients)
         {
             AzureSession.Current.ManagementClientHelper = new DummyManagementClientHelper(initializedManagementClients);
+        }
+
+        /// <summary>
+        /// Loads DummyManagementClientHelper with clients and sets it up to create missing clients dynamically.
+        /// </summary>
+        /// <param name="initializedManagementClients"></param>
+        public void SetupSomeOfManagementClients(params object[] initializedManagementClients)
+        {
+            AzureSession.Current.ManagementClientHelper = new DummyManagementClientHelper(initializedManagementClients, false);
         }
 
         public void SetupEnvironment(AzureModule mode)

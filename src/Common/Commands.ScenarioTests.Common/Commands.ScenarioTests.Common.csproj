@@ -95,6 +95,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Constants.cs" />
     <Compile Include="EnvironmentSetupHelper.cs" />
     <Compile Include="MockProfileStore.cs" />
     <Compile Include="PowerShellExtensions.cs" />

@@ -13,6 +13,7 @@
 // ----------------------------------------------------------------------------------
 
 
+using Microsoft.WindowsAzure.Commands.ScenarioTest;
 using Microsoft.WindowsAzure.Testing;
 using Xunit;
 
@@ -21,48 +22,56 @@ namespace Microsoft.Azure.Commands.Resources.Test.ScenarioTests
     public class ResourceTests : ResourcesTestsBase
     {
         [Fact]
+        [Trait(Category.AcceptanceType, Category.CheckIn)]
         public void TestCreatesNewSimpleResource()
         {
             RunPowerShellTest("Test-CreatesNewSimpleResource");
         }
 
         [Fact]
+        [Trait(Category.AcceptanceType, Category.CheckIn)]
         public void TestCreatesNewComplexResource()
         {
             RunPowerShellTest("Test-CreatesNewComplexResource");
         }
 
         [Fact]
+        [Trait(Category.AcceptanceType, Category.CheckIn)]
         public void TestGetResourcesViaPiping()
         {
             RunPowerShellTest("Test-GetResourcesViaPiping");
         }
 
         [Fact]
+        [Trait(Category.AcceptanceType, Category.CheckIn)]
         public void TestGetResourcesFromEmptyGroup()
         {
             RunPowerShellTest("Test-GetResourcesFromEmptyGroup");
         }
 
         [Fact]
+        [Trait(Category.AcceptanceType, Category.CheckIn)]
         public void TestGetResourcesFromNonExisingGroup()
         {
             RunPowerShellTest("Test-GetResourcesFromNonExisingGroup");
         }
 
         [Fact]
+        [Trait(Category.AcceptanceType, Category.CheckIn)]
         public void TestGetResourcesForNonExisingType()
         {
             RunPowerShellTest("Test-GetResourcesForNonExisingType");
         }
 
         [Fact]
+        [Trait(Category.AcceptanceType, Category.CheckIn)]
         public void TestGetResourceForNonExisingResource()
         {
             RunPowerShellTest("Test-GetResourceForNonExisingResource");
         }
 
         [Fact]
+        [Trait(Category.AcceptanceType, Category.CheckIn)]
         public void TestGetResourcesViaPipingFromAnotherResource()
         {
             RunPowerShellTest("Test-GetResourcesViaPipingFromAnotherResource");

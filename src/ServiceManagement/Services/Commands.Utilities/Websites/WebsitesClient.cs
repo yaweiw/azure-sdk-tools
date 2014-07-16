@@ -49,6 +49,8 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
 
         private readonly CloudServiceClient cloudServiceClient;
 
+        private readonly WindowsAzureSubscription subscription;
+
         public static string SlotFormat = "{0}({1})";
 
         public IWebSiteManagementClient WebsiteManagementClient { get; internal set; }
@@ -65,6 +67,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
             Logger = logger;
             cloudServiceClient = new CloudServiceClient(subscription, debugStream: logger);
             WebsiteManagementClient = subscription.CreateClient<WebSiteManagementClient>();
+            this.subscription = subscription;
         }
 
         /// <summary>
@@ -207,8 +210,8 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
         {
             Site website = GetWebsite(websiteName);
             Uri endpointUrl = new Uri("https://" + website.EnabledHostNames.First(url => url.Contains(".scm.")));
-            return new WebSiteExtensionsClient(websiteName, GetWebSiteExtensionsCredentials(websiteName), endpointUrl)
-                .WithHandler(new HttpRestCallLogger());
+            return subscription.CreateClient<WebSiteExtensionsClient>(false, new object[] { websiteName,
+                GetWebSiteExtensionsCredentials(websiteName), endpointUrl });
         }
 
         private BasicAuthenticationCloudCredentials GetWebSiteExtensionsCredentials(string name)

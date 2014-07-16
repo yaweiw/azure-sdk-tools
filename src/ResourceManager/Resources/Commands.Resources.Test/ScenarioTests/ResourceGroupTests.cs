@@ -12,6 +12,7 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
+using Microsoft.WindowsAzure.Commands.ScenarioTest;
 using Xunit;
 
 namespace Microsoft.Azure.Commands.Resources.Test.ScenarioTests
@@ -19,36 +20,42 @@ namespace Microsoft.Azure.Commands.Resources.Test.ScenarioTests
     public class ResourceGroupTests : ResourcesTestsBase
     {
         [Fact]
+        [Trait(Category.AcceptanceType, Category.CheckIn)]
         public void TestCreatesNewSimpleResourceGroup()
         {
             RunPowerShellTest("Test-CreatesNewSimpleResourceGroup");
         }
 
         [Fact]
+        [Trait(Category.AcceptanceType, Category.CheckIn)]
         public void TestUpdatesExistingResourceGroup()
         {
             RunPowerShellTest("Test-UpdatesExistingResourceGroup");
         }
 
         [Fact]
+        [Trait(Category.AcceptanceType, Category.CheckIn)]
         public void TestCreatesAndRemoveResourceGroupViaPiping()
         {
             RunPowerShellTest("Test-CreatesAndRemoveResourceGroupViaPiping");
         }
 
         [Fact]
+        [Trait(Category.AcceptanceType, Category.CheckIn)]
         public void TestGetNonExistingResourceGroup()
         {
             RunPowerShellTest("Test-GetNonExistingResourceGroup");
         }
 
         [Fact]
+        [Trait(Category.AcceptanceType, Category.CheckIn)]
         public void TestNewResourceGroupInNonExistingLocation()
         {
             RunPowerShellTest("Test-NewResourceGroupInNonExistingLocation");
         }
 
         [Fact]
+        [Trait(Category.AcceptanceType, Category.CheckIn)]
         public void TestRemoveNonExistingResourceGroup()
         {
             RunPowerShellTest("Test-RemoveNonExistingResourceGroup");

@@ -14,6 +14,7 @@
 
 using Microsoft.Azure.Commands.Resources.Models;
 using Microsoft.Azure.Management.Resources.Models;
+using Microsoft.WindowsAzure.Commands.ScenarioTest;
 using Moq;
 using System;
 using System.Collections.Generic;
@@ -50,6 +51,7 @@ namespace Microsoft.Azure.Commands.Resources.Test
         }
 
         [Fact]
+        [Trait(Category.AcceptanceType, Category.CheckIn)]
         public void CreatesNewPSResourceGroupDeploymentWithUserTemplate()
         {
             CreatePSResourceGroupDeploymentParameters expectedParameters = new CreatePSResourceGroupDeploymentParameters()
@@ -108,6 +110,7 @@ namespace Microsoft.Azure.Commands.Resources.Test
         }
 
         [Fact]
+        [Trait(Category.AcceptanceType, Category.CheckIn)]
         public void CreatesNewPSResourceGroupDeploymentWithGalleryTemplate()
         {
             CreatePSResourceGroupDeploymentParameters expectedParameters = new CreatePSResourceGroupDeploymentParameters()
