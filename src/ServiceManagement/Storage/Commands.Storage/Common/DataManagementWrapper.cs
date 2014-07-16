@@ -22,6 +22,10 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Common
 
     internal sealed class DataManagementWrapper : ITransferJobRunner
     {
+        // Powershell could be ran either in 32bit or 64bit
+        // The default algorithm to calculate the size may be too much if PSH is ran under 32bit on a 64bit OS with big memory
+        private const int Maximum32bitCacheSize = 512 * 1024 * 1024;
+
         private TransferManager manager;
 
         public DataManagementWrapper(int concurrency, string clientRequestId)
@@ -31,6 +35,11 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Common
                 ParallelOperations = concurrency,
                 ClientRequestIdPrefix = clientRequestId
             };
+
+            if (!Environment.Is64BitProcess && options.MaximumCacheSize > Maximum32bitCacheSize)
+            {
+                options.MaximumCacheSize = Maximum32bitCacheSize;
+            }
 
             this.manager = new TransferManager(options);
         }
@@ -84,6 +93,7 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Common
         public void Dispose()
         {
             this.manager.Dispose();
+            this.manager = null;
         }
     }
 }
