@@ -14,14 +14,14 @@
 
 namespace Microsoft.WindowsAzure.Commands.Test.Websites
 {
+    using System.Collections.Generic;
+    using System.Management.Automation;
     using Commands.Utilities.Websites;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using Microsoft.WindowsAzure.Commands.Utilities.Websites.Services.WebJobs;
     using Microsoft.WindowsAzure.Commands.Websites.WebJobs;
     using Microsoft.WindowsAzure.WebSitesExtensions.Models;
     using Moq;
-    using System.Collections.Generic;
-    using System.Management.Automation;
     using Utilities.Websites;
 
     [TestClass]
@@ -35,7 +35,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.Websites
 
         private Mock<IWebsitesClient> websitesClientMock;
 
-        private GetAzureWebsiteJobHistoryCommand cmdlet; 
+        private GetAzureWebsiteJobHistoryCommand cmdlet;
 
         private Mock<ICommandRuntime> commandRuntimeMock;
 
@@ -58,11 +58,11 @@ namespace Microsoft.WindowsAzure.Commands.Test.Websites
         public void GetCompleteWebJobHistory()
         {
             // Setup
-            List<WebJobRun> output = new List<WebJobRun>()
+            List<TriggeredWebJobRun> output = new List<TriggeredWebJobRun>()
             {
-                new WebJobRun() { Id = "id1", Status = "succeed"},
-                new WebJobRun() { Id = "id2", Status = "fail"},
-                new WebJobRun() { Id = "id3", Status = "succeed"}
+                new TriggeredWebJobRun() { Id = "id1", Status = "succeed"},
+                new TriggeredWebJobRun() { Id = "id2", Status = "fail"},
+                new TriggeredWebJobRun() { Id = "id3", Status = "succeed"}
             };
             WebJobHistoryFilterOptions options = null;
             websitesClientMock.Setup(f => f.FilterWebJobHistory(It.IsAny<WebJobHistoryFilterOptions>()))
@@ -86,7 +86,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.Websites
         {
             // Setup
             string runId = "id1";
-            List<WebJobRun> output = new List<WebJobRun>() { new WebJobRun() { Id = runId, Status = "succeed" } };
+            List<TriggeredWebJobRun> output = new List<TriggeredWebJobRun>() { new TriggeredWebJobRun() { Id = runId, Status = "succeed" } };
             WebJobHistoryFilterOptions options = null;
             websitesClientMock.Setup(f => f.FilterWebJobHistory(It.IsAny<WebJobHistoryFilterOptions>()))
                 .Returns(output)
@@ -110,7 +110,7 @@ namespace Microsoft.WindowsAzure.Commands.Test.Websites
         public void GetLatestWebJobRun()
         {
             // Setup
-            List<WebJobRun> output = new List<WebJobRun>() { new WebJobRun() { Id = "id1", Status = "succeed" } };
+            List<TriggeredWebJobRun> output = new List<TriggeredWebJobRun>() { new TriggeredWebJobRun() { Id = "id1", Status = "succeed" } };
             WebJobHistoryFilterOptions options = null;
             websitesClientMock.Setup(f => f.FilterWebJobHistory(It.IsAny<WebJobHistoryFilterOptions>()))
                 .Returns(output)

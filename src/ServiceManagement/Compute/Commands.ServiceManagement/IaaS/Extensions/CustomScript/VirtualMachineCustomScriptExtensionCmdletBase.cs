@@ -68,38 +68,5 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
                        storageAccountKey = this.StorageAccountKey ?? string.Empty
                    }));
         }
-
-        protected virtual void GetExtensionValues(ResourceExtensionReference extensionRef)
-        {
-            if (extensionRef != null && extensionRef.ResourceExtensionParameterValues != null)
-            {
-                Disable = string.Equals(extensionRef.State, ReferenceDisableStateStr);
-                GetExtensionValues(extensionRef.ResourceExtensionParameterValues);
-            }
-            else
-            {
-                Disable = extensionRef == null ? true : string.Equals(extensionRef.State, ReferenceDisableStateStr);
-            }
-        }
-
-        protected virtual void GetExtensionValues(ResourceExtensionParameterValueList paramVals)
-        {
-            if (paramVals != null && paramVals.Any())
-            {
-                var publicParamVal = paramVals.FirstOrDefault(
-                    r => !string.IsNullOrEmpty(r.Value) && string.Equals(r.Type, PublicTypeStr));
-                if (publicParamVal != null && !string.IsNullOrEmpty(publicParamVal.Value))
-                {
-                    this.PublicConfiguration = publicParamVal.Value;
-                }
-
-                var privateParamVal = paramVals.FirstOrDefault(
-                    r => !string.IsNullOrEmpty(r.Value) && string.Equals(r.Type, PrivateTypeStr));
-                if (privateParamVal != null && !string.IsNullOrEmpty(privateParamVal.Value))
-                {
-                    this.PrivateConfiguration = privateParamVal.Value;
-                }
-            }
-        }
     }
 }
