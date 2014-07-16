@@ -118,7 +118,7 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Test.UnitTests.Database.Cm
                         databaseP2.CollationName,
                         "Expected collation to be Japanese_CI_AS");
                     Assert.AreEqual("Premium", databaseP2.Edition, "Expected edition to be Premium");
-                    Assert.AreEqual(20, databaseP2.MaxSizeGB, "Expected max size to be 10 GB");
+                    Assert.AreEqual(10, databaseP2.MaxSizeGB, "Expected max size to be 10 GB");
                 }
             }
         }
