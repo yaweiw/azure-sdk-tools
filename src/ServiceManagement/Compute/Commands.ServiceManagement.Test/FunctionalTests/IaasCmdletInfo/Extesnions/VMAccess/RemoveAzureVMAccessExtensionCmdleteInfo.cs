@@ -17,10 +17,6 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
 {
     using Microsoft.WindowsAzure.Commands.ServiceManagement.Model;
     using Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests.PowershellCore;
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
 
     public class RemoveAzureVMAccessExtensionCmdleteInfo:CmdletsInfo
     {

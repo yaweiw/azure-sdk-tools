@@ -14,7 +14,6 @@
 
 namespace Microsoft.WindowsAzure.Commands.Utilities.Common.Authentication
 {
-    using Commands.Common.Properties;
     using System;
     using System.Linq;
 

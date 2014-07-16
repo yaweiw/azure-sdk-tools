@@ -151,6 +151,42 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Cannot find configuration data file: {0}.
+        /// </summary>
+        public static string AzureVMDscCannotFindConfigurationDataFile {
+            get {
+                return ResourceManager.GetString("AzureVMDscCannotFindConfigurationDataFile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The -ConfigurationFileName parameter must no include a path.
+        /// </summary>
+        public static string AzureVMDscConfigurationDataFileShouldNotIncludePath {
+            get {
+                return ResourceManager.GetString("AzureVMDscConfigurationDataFileShouldNotIncludePath", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The configuration data must be a .psd1 file.
+        /// </summary>
+        public static string AzureVMDscInvalidConfigurationDataFile {
+            get {
+                return ResourceManager.GetString("AzureVMDscInvalidConfigurationDataFile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The storage context must include an storage account..
+        /// </summary>
+        public static string AzureVMDscStorageContextMustIncludeAccountName {
+            get {
+                return ResourceManager.GetString("AzureVMDscStorageContextMustIncludeAccountName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to {0} - Uploading WinRMCertificate: {1}.
         /// </summary>
         public static string AzureVMUploadingWinRMCertificate {
@@ -360,7 +396,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Cannot find the // in the endpoint {0}.
         /// </summary>
-        internal static string DiagnosticsSlashNotFound {
+        public static string DiagnosticsSlashNotFound {
             get {
                 return ResourceManager.GetString("DiagnosticsSlashNotFound", resourceCulture);
             }
@@ -369,7 +405,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Cannot find the storage account name {0} in the endpoint {1}.
         /// </summary>
-        internal static string DiagnosticsStorageAccountNotFound {
+        public static string DiagnosticsStorageAccountNotFound {
             get {
                 return ResourceManager.GetString("DiagnosticsStorageAccountNotFound", resourceCulture);
             }
@@ -538,11 +574,11 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to You must specify a value for either Label or Description..
+        ///   Looks up a localized string similar to You must specify a value for Label, Description or ReverseDnsFqdn..
         /// </summary>
-        public static string LabelOrDescriptionMustBeSpecified {
+        public static string LabelOrDescriptionOrReverseDnsFqdnMustBeSpecified {
             get {
-                return ResourceManager.GetString("LabelOrDescriptionMustBeSpecified", resourceCulture);
+                return ResourceManager.GetString("LabelOrDescriptionOrReverseDnsFqdnMustBeSpecified", resourceCulture);
             }
         }
         
@@ -1060,6 +1096,35 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Invalid configuration file: {0}.
+        ///The file needs to be a PowerShell script (.ps1) or a MOF interface (.mof)..
+        /// </summary>
+        public static string PublishVMDscExtensionConfigFileInvalidExtension {
+            get {
+                return ResourceManager.GetString("PublishVMDscExtensionConfigFileInvalidExtension", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Cannot find configuration file: {0}..
+        /// </summary>
+        public static string PublishVMDscExtensionConfigFileNotFound {
+            get {
+                return ResourceManager.GetString("PublishVMDscExtensionConfigFileNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Configuration script &apos;{0}&apos; contained parse errors:
+        ///{1}.
+        /// </summary>
+        public static string PublishVMDscExtensionStorageParserErrors {
+            get {
+                return ResourceManager.GetString("PublishVMDscExtensionStorageParserErrors", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Begin Operation: {0}.
         /// </summary>
         public static string QuickVMBeginOperation {
@@ -1159,6 +1224,24 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Remove Azure DNS Server.
+        /// </summary>
+        public static string RemoveAzureDnsServerCaption {
+            get {
+                return ResourceManager.GetString("RemoveAzureDnsServerCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Are you sure you want to remove this DNS server: {0} from your service: {1}.
+        /// </summary>
+        public static string RemoveAzureDnsServerWarning {
+            get {
+                return ResourceManager.GetString("RemoveAzureDnsServerWarning", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Are you sure you want to remove the Reserved IP from your subscription?.
         /// </summary>
         public static string RemoveReservedIPWarning {
@@ -1231,6 +1314,15 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to ReverseDnsFqdn can only be specified when creating a new cloud service..
+        /// </summary>
+        public static string ReverseDnsFqdnCanOnlyBeSpecifiedWhenNewCloudService {
+            get {
+                return ResourceManager.GetString("ReverseDnsFqdnCanOnlyBeSpecifiedWhenNewCloudService", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Roleinstance cannot be found.
         /// </summary>
         public static string RoleInstanceCanNotBeFound {
@@ -1281,6 +1373,15 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Properties {
         public static string ServiceExistsLocationCanNotBeSpecified {
             get {
                 return ResourceManager.GetString("ServiceExistsLocationCanNotBeSpecified", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Service already exists, ReverseDnsFqdn cannot be specified..
+        /// </summary>
+        public static string ServiceExistsReverseDnsFqdnCanNotBeSpecified {
+            get {
+                return ResourceManager.GetString("ServiceExistsReverseDnsFqdnCanNotBeSpecified", resourceCulture);
             }
         }
         

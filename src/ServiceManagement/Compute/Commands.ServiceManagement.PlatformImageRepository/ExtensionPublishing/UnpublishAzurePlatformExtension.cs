@@ -14,8 +14,8 @@
 
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.PlatformImageRepository.ExtensionPublishing
 {
-    using System.Management.Automation;
     using Properties;
+    using System.Management.Automation;
     using Utilities.Common;
 
     /// <summary>

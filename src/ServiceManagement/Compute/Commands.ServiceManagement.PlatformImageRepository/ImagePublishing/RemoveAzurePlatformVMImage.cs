@@ -14,10 +14,10 @@
 
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.PlatformImageRepository.ImagePublishing
 {
-    using System.Management.Automation;
     using Helpers;
     using ServiceManagement.Model;
     using ServiceManagement.Properties;
+    using System.Management.Automation;
     using Utilities.Common;
 
     [Cmdlet(VerbsCommon.Remove, "AzurePlatformVMImage"), OutputType(typeof(ManagementOperationContext))]

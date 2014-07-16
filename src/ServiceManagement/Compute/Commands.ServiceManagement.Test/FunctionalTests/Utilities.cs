@@ -14,13 +14,14 @@
 
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
 {
+    using Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions;
+    using Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests.ConfigDataInfo;
     using Model;
     using Security.Cryptography;
     using Security.Cryptography.X509Certificates;
-    using WindowsAzure.Storage.Auth;
-    using WindowsAzure.Storage.Blob;
     using Sync.Download;
     using System;
+    using System.Collections.Generic;
     using System.Diagnostics;
     using System.IO;
     using System.Reflection;
@@ -32,9 +33,8 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
     using System.Threading;
     using System.Xml;
     using VisualStudio.TestTools.UnitTesting;
-    using Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests.ConfigDataInfo;
-    using System.Collections.Generic;
-    using Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions;
+    using WindowsAzure.Storage.Auth;
+    using WindowsAzure.Storage.Blob;
 
     internal class Utilities 
     {
@@ -94,6 +94,9 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
         // AzureDns
         public const string NewAzureDnsCmdletName = "New-AzureDns";
         public const string GetAzureDnsCmdletName = "Get-AzureDns";
+        public const string SetAzureDnsCmdletName = "Set-AzureDns";
+        public const string AddAzureDnsCmdletName = "Add-AzureDns";
+        public const string RemoveAzureDnsCmdletName = "Remove-AzureDns";
 
         // AzureEndpoint
         public const string AddAzureEndpointCmdletName = "Add-AzureEndpoint";        
@@ -298,7 +301,12 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
         public const string SetAzureVMCustomScriptExtensionCmdletName = "Set-AzureVMCustomScriptExtension";
         public const string GetAzureVMCustomScriptExtensionCmdletName = "Get-AzureVMCustomScriptExtension";
         public const string RemoveAzureVMCustomScriptExtensionCmdletName = "Remove-AzureVMCustomScriptExtension";
-        #endregion
+
+        // Custom script extension
+        public const string SetAzureVMDscExtensionCmdletName = "Set-AzureVMDscExtension";
+        public const string GetAzureVMDscExtensionCmdletName = "Get-AzureVMDscExtension";
+        public const string RemoveAzureVMDscExtensionCmdletName = "Remove-AzureVMDscExtension";
+		#endregion
 
         private static ServiceManagementCmdletTestHelper vmPowershellCmdlets = new ServiceManagementCmdletTestHelper();
 

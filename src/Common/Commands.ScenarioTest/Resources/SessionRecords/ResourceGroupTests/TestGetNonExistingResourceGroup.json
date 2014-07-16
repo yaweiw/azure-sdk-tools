@@ -1,37 +1,37 @@
 {
   "Entries": [
     {
-      "RequestUri": "/subscriptions/db1ab6f0-4769-4b27-930e-01e2ef9c123c/resourcegroups/onesdk8136?api-version=2014-04-01-preview",
+      "RequestUri": "/subscriptions/2c224e7e-3ef5-431d-a57b-e71f4662e3a6/resourcegroups/onesdk8540?api-version=2014-04-01-preview",
       "RequestMethod": "GET",
       "RequestBody": "",
       "RequestHeaders": {
         "User-Agent": [
           "Microsoft.Azure.Management.Resources.ResourceManagementClient/2.0.0.0",
-          "WindowsAzurePowershell/v0.8.3"
+          "WindowsAzurePowershell/v0.8.5"
         ]
       },
-      "ResponseBody": "{\r\n  \"error\": {\r\n    \"code\": \"ResourceGroupNotFound\",\r\n    \"message\": \"Resource group 'onesdk8136' could not be found.\"\r\n  }\r\n}",
+      "ResponseBody": "{\r\n  \"error\": {\r\n    \"code\": \"ResourceGroupNotFound\",\r\n    \"message\": \"Resource group 'onesdk8540' could not be found.\"\r\n  }\r\n}",
       "ResponseHeaders": {
         "Pragma": [
           "no-cache"
         ],
         "x-ms-ratelimit-remaining-subscription-reads": [
-          "31936"
+          "31964"
         ],
         "x-ms-request-id": [
-          "9f362e16-5b70-4153-b185-2f0343391b09"
+          "9fcda18f-8b36-4e0b-aca3-3ce6e33fb152"
         ],
         "x-ms-correlation-request-id": [
-          "9f362e16-5b70-4153-b185-2f0343391b09"
+          "9fcda18f-8b36-4e0b-aca3-3ce6e33fb152"
         ],
         "x-ms-routing-request-id": [
-          "WESTUS:20140508T221558Z:9f362e16-5b70-4153-b185-2f0343391b09"
+          "WESTUS:20140702T232849Z:9fcda18f-8b36-4e0b-aca3-3ce6e33fb152"
         ],
         "Cache-Control": [
           "no-cache"
         ],
         "Date": [
-          "Thu, 08 May 2014 22:15:58 GMT"
+          "Wed, 02 Jul 2014 23:28:48 GMT"
         ]
       },
       "StatusCode": 404
@@ -39,7 +39,10 @@
   ],
   "Names": {
     "Test-GetNonExistingResourceGroup": [
-      "onesdk8136"
+      "onesdk8540"
     ]
+  },
+  "Variables": {
+    "SubscriptionId": "2c224e7e-3ef5-431d-a57b-e71f4662e3a6"
   }
 }

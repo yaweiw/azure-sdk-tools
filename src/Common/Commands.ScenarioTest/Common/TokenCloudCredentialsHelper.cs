@@ -16,6 +16,7 @@
 namespace Microsoft.WindowsAzure.Commands.ScenarioTest.Common
 {
     using Microsoft.IdentityModel.Clients.ActiveDirectory;
+    using Microsoft.IdentityModel.Clients.ActiveDirectory.Internal;
     using Microsoft.WindowsAzure.Common.Internals;
     using System;
     using System.Diagnostics;
@@ -47,6 +48,9 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.Common
         /// <returns></returns>
         public static string GetToken(string authEndpoint, string tenant, string clientId)
         {
+            var adalWinFormType = typeof(WebBrowserNavigateErrorEventArgs);
+            Trace.WriteLine("Getting a random type from \'Microsoft.IdentityModel.Clients.ActiveDirectory.WindowsForms\' to force it be deployed by mstest");
+
             AuthenticationResult result = null;
             var thread = new Thread(() =>
             {

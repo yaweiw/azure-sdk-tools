@@ -492,5 +492,12 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
 
             return value;
         }
+
+        public static string GenerateSeparator(int amount, string separator)
+        {
+            StringBuilder result = new StringBuilder();
+            while (amount-- != 0) result.Append(separator);
+            return result.ToString();
+        }
     }
 }

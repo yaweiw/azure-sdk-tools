@@ -13,15 +13,15 @@
 
 namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
 {
-    using System;
-    using System.Collections;
-    using System.Collections.Generic;
     using Microsoft.WindowsAzure.Commands.Utilities.Websites.Services.WebJobs;
     using Microsoft.WindowsAzure.Commands.Websites.WebJobs;
     using Microsoft.WindowsAzure.Management.WebSites.Models;
     using Microsoft.WindowsAzure.WebSitesExtensions.Models;
     using Services.DeploymentEntities;
     using Services.WebEntities;
+    using System;
+    using System.Collections;
+    using System.Collections.Generic;
 
     public interface IWebsitesClient
     {
@@ -451,7 +451,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
         /// </summary>
         /// <param name="options">The web job filter options</param>
         /// <returns>The filtered web jobs list</returns>
-        List<PSWebJob> FilterWebJobs(WebJobFilterOptions options);
+        List<IPSWebJob> FilterWebJobs(WebJobFilterOptions options);
 
         /// <summary>
         /// Creates new web job for a website
@@ -462,7 +462,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
         /// <param name="jobType">The web job type</param>
         /// <param name="jobFile">The web job file name</param>
         /// <returns>The created web job instance</returns>
-        PSWebJob CreateWebJob(string name, string slot, string jobName, WebJobType jobType, string jobFile);
+        IPSWebJob CreateWebJob(string name, string slot, string jobName, WebJobType jobType, string jobFile);
 
         /// <summary>
         /// Deletes a web job for a website.
@@ -496,7 +496,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
         /// </summary>
         /// <param name="options">The web job filter options</param>
         /// <returns>The filtered web jobs run list</returns>
-        List<WebJobRun> FilterWebJobHistory(WebJobHistoryFilterOptions options);
+        List<TriggeredWebJobRun> FilterWebJobHistory(WebJobHistoryFilterOptions options);
 
         /// <summary>
         /// Saves a web job logs to file.

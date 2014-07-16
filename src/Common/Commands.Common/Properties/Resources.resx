@@ -209,7 +209,7 @@
 {0}</value>
   </data>
   <data name="AzureToolsNotInstalledMessage" xml:space="preserve">
-    <value>Azure Authoring Tools are not installed and are required</value>
+    <value>Azure Authoring Tools are not installed and are required. Installation of Azure SDK for .NET is recommended with Microsoft Web Platform Installer (PI) available at http://www.microsoft.com/web/downloads/platform.aspx.</value>
   </data>
   <data name="BaseUriEmpty" xml:space="preserve">
     <value>Base Uri was empty.</value>
@@ -1137,10 +1137,10 @@ Please follow these steps in the portal:
     <value>Removing cloud service {0}...</value>
   </data>
   <data name="RemoveCurrentSubscription" xml:space="preserve">
-    <value>The current subscription is being removed. Use Select-Subscription &lt;subscriptionName&gt; to select a new current subscription.</value>
+    <value>The current subscription is being removed. Use Select-AzureSubscription &lt;subscriptionName&gt; to select a new current subscription.</value>
   </data>
   <data name="RemoveDefaultSubscription" xml:space="preserve">
-    <value>The default subscription is being removed. Use Select-Subscription &lt;subscriptionName&gt; to select a new default subscription.</value>
+    <value>The default subscription is being removed. Use Select-AzureSubscription -Default &lt;subscriptionName&gt; to select a new default subscription.</value>
   </data>
   <data name="RemoveDeploymentWaitMessage" xml:space="preserve">
     <value>Removing {0} deployment for {1} service</value>

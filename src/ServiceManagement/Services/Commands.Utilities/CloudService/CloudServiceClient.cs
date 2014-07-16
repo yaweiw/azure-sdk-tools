@@ -858,7 +858,11 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.CloudService
             {
                 WriteVerboseWithTimestamp(Resources.PublishCreatingServiceMessage);
 
-                var createParameters = new HostedServiceCreateParameters {ServiceName = name, Label = label};
+                var createParameters = new HostedServiceCreateParameters
+                {
+                    ServiceName = name,
+                    Label = label
+                };
 
                 if (!string.IsNullOrEmpty(affinityGroup))
                 {

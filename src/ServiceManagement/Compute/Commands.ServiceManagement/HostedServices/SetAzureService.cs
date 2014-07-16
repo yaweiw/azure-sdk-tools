@@ -14,11 +14,10 @@
 
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.HostedServices
 {
-    using System;
-    using System.Management.Automation;
-    using Management.Compute;
     using Management.Compute.Models;
     using Properties;
+    using System;
+    using System.Management.Automation;
     using Utilities.Common;
 
     /// <summary>
@@ -51,15 +50,23 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.HostedServices
             set;
         }
 
+        [Parameter(Position = 3, ValueFromPipelineByPropertyName = true, HelpMessage = "Dns address to which the cloud service’s IP address resolves when queried using a reverse Dns query.")]
+        public string ReverseDnsFqdn
+        {
+            get;
+            set;
+        }
+
+
         protected override void OnProcessRecord()
         {
             ServiceManagementProfile.Initialize();
 
-            if (this.Label == null && this.Description == null)
+            if (this.Label == null && this.Description == null && this.ReverseDnsFqdn == null)
             {
                 ThrowTerminatingError(new ErrorRecord(
                                                new Exception(
-                                               Resources.LabelOrDescriptionMustBeSpecified),
+                                               Resources.LabelOrDescriptionOrReverseDnsFqdnMustBeSpecified),
                                                string.Empty,
                                                ErrorCategory.InvalidData,
                                                null));
@@ -68,7 +75,8 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.HostedServices
             var parameters = new HostedServiceUpdateParameters
             {
                 Label = this.Label ?? null,
-                Description = this.Description
+                Description = this.Description,
+                ReverseDnsFqdn = this.ReverseDnsFqdn
             };
             ExecuteClientActionNewSM(parameters, 
                 CommandRuntime.ToString(),

@@ -14,16 +14,15 @@
 
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
 {
+    using Helpers;
+    using Model.PersistentVMModel;
+    using Properties;
     using System;
     using System.Collections.Generic;
     using System.IO;
     using System.Linq;
     using System.Management.Automation;
-    using System.Xml;
     using System.Xml.Linq;
-    using Helpers;
-    using Model.PersistentVMModel;
-    using Properties;
 
     public class VirtualMachineExtensionCmdletBase : VirtualMachineConfigurationCmdletBase
     {
@@ -288,6 +287,39 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
                 if (extensionRef != null)
                 {
                     this.ReferenceName = extensionRef.ReferenceName;
+                }
+            }
+        }
+
+        protected virtual void GetExtensionValues(ResourceExtensionReference extensionRef)
+        {
+            if (extensionRef != null && extensionRef.ResourceExtensionParameterValues != null)
+            {
+                Disable = string.Equals(extensionRef.State, ReferenceDisableStateStr);
+                GetExtensionValues(extensionRef.ResourceExtensionParameterValues);
+            }
+            else
+            {
+                Disable = extensionRef == null ? true : string.Equals(extensionRef.State, ReferenceDisableStateStr);
+            }
+        }
+
+        protected virtual void GetExtensionValues(ResourceExtensionParameterValueList paramVals)
+        {
+            if (paramVals != null && paramVals.Any())
+            {
+                var publicParamVal = paramVals.FirstOrDefault(
+                    r => !string.IsNullOrEmpty(r.Value) && string.Equals(r.Type, PublicTypeStr));
+                if (publicParamVal != null && !string.IsNullOrEmpty(publicParamVal.Value))
+                {
+                    this.PublicConfiguration = publicParamVal.Value;
+                }
+
+                var privateParamVal = paramVals.FirstOrDefault(
+                    r => !string.IsNullOrEmpty(r.Value) && string.Equals(r.Type, PrivateTypeStr));
+                if (privateParamVal != null && !string.IsNullOrEmpty(privateParamVal.Value))
+                {
+                    this.PrivateConfiguration = privateParamVal.Value;
                 }
             }
         }

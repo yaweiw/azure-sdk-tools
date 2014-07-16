@@ -207,8 +207,8 @@
   <data name="RebootOrReImageAreMissing" xml:space="preserve">
     <value>Reboot or Reimage parameters should be specified.</value>
   </data>
-  <data name="LabelOrDescriptionMustBeSpecified" xml:space="preserve">
-    <value>You must specify a value for either Label or Description.</value>
+  <data name="LabelOrDescriptionOrReverseDnsFqdnMustBeSpecified" xml:space="preserve">
+    <value>You must specify a value for Label, Description or ReverseDnsFqdn.</value>
   </data>
   <data name="DataDiskAlreadySpecifiedForVM" xml:space="preserve">
     <value>A data disk has already been assigned to LUN #{0} for this VM. Specify a different LUN or use Set-DataDisk to change the configuration settings of the existing disk.</value>
@@ -626,5 +626,43 @@
   </data>
   <data name="DiagnosticsStorageAccountNotFound" xml:space="preserve">
     <value>Cannot find the storage account name {0} in the endpoint {1}</value>
+  </data>
+  <data name="ServiceExistsReverseDnsFqdnCanNotBeSpecified" xml:space="preserve">
+    <value>Service already exists, ReverseDnsFqdn cannot be specified.</value>
+  </data>
+  <data name="ReverseDnsFqdnCanOnlyBeSpecifiedWhenNewCloudService" xml:space="preserve">
+    <value>ReverseDnsFqdn can only be specified when creating a new cloud service.</value>
+  </data>
+  <data name="RemoveAzureDnsServerCaption" xml:space="preserve">
+    <value>Remove Azure DNS Server</value>
+  </data>
+  <data name="RemoveAzureDnsServerWarning" xml:space="preserve">
+    <value>Are you sure you want to remove this DNS server: {0} from your service: {1}</value>
+  </data>
+  <data name="AzureVMDscCannotFindConfigurationDataFile" xml:space="preserve">
+    <value>Cannot find configuration data file: {0}</value>
+  </data>
+  <data name="AzureVMDscConfigurationDataFileShouldNotIncludePath" xml:space="preserve">
+    <value>The -ConfigurationFileName parameter must no include a path</value>
+  </data>
+  <data name="AzureVMDscInvalidConfigurationDataFile" xml:space="preserve">
+    <value>The configuration data must be a .psd1 file</value>
+  </data>
+  <data name="PublishVMDscExtensionConfigFileNotFound" xml:space="preserve">
+    <value>Cannot find configuration file: {0}.</value>
+    <comment>0 = path to the configuration file</comment>
+  </data>
+  <data name="PublishVMDscExtensionConfigFileInvalidExtension" xml:space="preserve">
+    <value>Invalid configuration file: {0}.
+The file needs to be a PowerShell script (.ps1) or a MOF interface (.mof).</value>
+    <comment>0 = path to the configuration file</comment>
+  </data>
+  <data name="PublishVMDscExtensionStorageParserErrors" xml:space="preserve">
+    <value>Configuration script '{0}' contained parse errors:
+{1}</value>
+    <comment>0 = path to the configuration script, 1 = parser errors</comment>
+  </data>
+  <data name="AzureVMDscStorageContextMustIncludeAccountName" xml:space="preserve">
+    <value>The storage context must include an storage account.</value>
   </data>
 </root>

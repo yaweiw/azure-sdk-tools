@@ -18,10 +18,21 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
     using ConfigDataInfo;
     using Extensions;
     using IaasCmdletInfo;
+    using System.Collections;
+    using Microsoft.WindowsAzure.Commands.Common.Storage;
+    using Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests.IaasCmdletInfo.Extesnions.Dsc;
+    using Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions;
+    using Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests.IaasCmdletInfo.Extensions.BGInfo;
+    using Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests.IaasCmdletInfo.Extensions.Common;
+    using Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests.IaasCmdletInfo.Extesnions.CustomScript;
+    using Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests.IaasCmdletInfo.Extesnions.VMAccess;
+    using Microsoft.WindowsAzure.Storage.Blob;
     using Model;
+    using Model.PersistentVMModel;
     using PaasCmdletInfo;
+    using PIRCmdletInfo;
     using PlatformImageRepository.Model;
-    using Storage.Blob;
+    using PreviewCmdletInfo;
     using System;
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
@@ -30,18 +41,8 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
     using System.Security.Cryptography.X509Certificates;
     using System.Xml;
     using VisualStudio.TestTools.UnitTesting;
-    using Model.PersistentVMModel;
-    using PIRCmdletInfo;
-    using PreviewCmdletInfo;
-
-    using Microsoft.WindowsAzure.Storage.Blob;
     using SM = Model;
-    using Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions;
-    using Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests.IaasCmdletInfo.Extensions.BGInfo;
-    using Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests.IaasCmdletInfo.Extensions.Common;
-    using Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests.IaasCmdletInfo.Extesnions.VMAccess;
-    using Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests.IaasCmdletInfo.Extesnions.CustomScript;
-    
+   
 
     public class ServiceManagementCmdletTestHelper
     {
@@ -503,6 +504,22 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
             }
             return dnsList;
         }
+
+        public ManagementOperationContext AddAzureDns(string name, string ipAddress, string serviceName)
+        {
+            return RunPSCmdletAndReturnFirst<ManagementOperationContext>(new AddAzureDnsCmdletInfo(name, ipAddress, serviceName));
+        }
+
+        public ManagementOperationContext SetAzureDns(string name, string ipAddress, string serviceName)
+        {
+            return RunPSCmdletAndReturnFirst<ManagementOperationContext>(new SetAzureDnsCmdletInfo(name, ipAddress, serviceName));
+        }
+
+        public ManagementOperationContext RemoveAzureDns(string name, string ipAddress, bool force = false)
+        {
+            return RunPSCmdletAndReturnFirst<ManagementOperationContext>(new RemoveAzureDnsCmdletInfo(name, ipAddress, force));
+        }
+        
 
         #endregion
 
@@ -1853,7 +1870,48 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
         }
         #endregion AzureVMCustomScriptExtensionCmdlets
 
-        internal LinuxProvisioningConfigurationSet.SSHPublicKey NewAzureSSHKey(NewAzureSshKeyType option, string fingerprint, string path)
+        #region AzureVMDscExtensionCmdlets
+
+        internal struct SetAzureVMDscExtensionArguments
+        {
+            public string Version;
+            public IPersistentVM VM;
+            public string ConfigurationFileName;
+            public AzureStorageContext StorageContext;
+            public string ContainerName;
+            public string ConfigurationName;
+            public Hashtable ConfigurationArgument;
+            public string ConfigurationDataPath;
+        }
+
+
+        internal PersistentVM SetAzureVMDscExtension(SetAzureVMDscExtensionArguments args)
+        {
+            return RunPSCmdletAndReturnFirst<PersistentVM>(
+                new SetAzureVMDscExtensionCmdletInfo(
+                    args.Version,
+                    args.VM,
+                    args.ConfigurationFileName,
+                    args.StorageContext,
+                    args.ContainerName,
+                    args.ConfigurationName,
+                    args.ConfigurationArgument,
+                    args.ConfigurationDataPath));
+        }
+
+        internal VirtualMachineDscExtensionContext GetAzureVMDscExtension(IPersistentVM vm)
+        {
+            return RunPSCmdletAndReturnFirst<VirtualMachineDscExtensionContext>(new GetAzureVMDscExtensionCmdletInfo(vm));
+        }
+
+        internal PersistentVM RemoveAzureVMDscExtension(PersistentVM vm)
+        {
+            return RunPSCmdletAndReturnFirst<PersistentVM>(new RemoveAzureVMDscExtensionCmdletInfo(vm));
+        }
+
+        #endregion AzureVMDscExtensionCmdlets
+
+		internal LinuxProvisioningConfigurationSet.SSHPublicKey NewAzureSSHKey(NewAzureSshKeyType option, string fingerprint, string path)
         {
             return RunPSCmdletAndReturnFirst<LinuxProvisioningConfigurationSet.SSHPublicKey>(new NewAzureSSHKeyCmdletInfo(option, fingerprint, path));
         }
