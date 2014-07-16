@@ -831,9 +831,19 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
         }
 
         public static void PrintContext<T>(T obj)
-        {            
-            Type type = typeof(T);
+        {
+            PrintTypeContents(typeof(T), obj);
+        }
 
+        public static void PrintContextAndItsBase<T>(T obj)
+        {
+            Type type = typeof(T);
+            PrintTypeContents(type, obj);
+            PrintTypeContents(type.BaseType, obj);
+        }
+
+        private static void PrintTypeContents<T>(Type type, T obj)
+        {
             foreach (PropertyInfo property in type.GetProperties(BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly))
             {
                 string typeName = property.PropertyType.FullName;
@@ -974,6 +984,5 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
             extensionInfo.AddRange(vmPowershellCmdlets.GetAzureVMAvailableExtension());
             return extensionInfo.Find(c => c.ExtensionName.Equals(extensionName));
         }
-
     }
 }
