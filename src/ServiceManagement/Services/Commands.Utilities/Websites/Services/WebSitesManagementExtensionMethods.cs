@@ -12,6 +12,8 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
+using System.ComponentModel;
+
 namespace Microsoft.WindowsAzure.Commands.Utilities.Websites.Services
 {
     using System;
@@ -21,6 +23,8 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites.Services
     using Management.WebSites.Models;
     using Utilities.Common;
     using WebEntities;
+    using Utilities = Microsoft.WindowsAzure.Commands.Utilities.Websites.Services.WebEntities;
+    using Models = Management.WebSites.Models;
 
     /// <summary>
     /// Extension methods for converting return values from the websites
@@ -100,11 +104,11 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites.Services
                 ManagedPipelineMode = getConfigResponse.ManagedPipelineMode,
                 WebSocketsEnabled = getConfigResponse.WebSocketsEnabled,
                 RemoteDebuggingEnabled = getConfigResponse.RemoteDebuggingEnabled,
-                RemoteDebuggingVersion = getConfigResponse.RemoteDebuggingVersion.GetValueOrDefault()
+                RemoteDebuggingVersion = getConfigResponse.RemoteDebuggingVersion.GetValueOrDefault(),
             };
             return config;
         }
-
+          
         internal static Site ToSite(this WebSiteGetResponse response)
         {
             return new Site
@@ -173,6 +177,82 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites.Services
         private static KeyValuePair<string, string> ToKeyValuePair(NameValuePair nvp)
         {
             return new KeyValuePair<string, string>(nvp.Name, nvp.Value);
+        }
+        internal static IList<MetricResponse> ToMetricResponses(this WebSiteGetHistoricalUsageMetricsResponse metricsResponse)
+        {
+            var result = new List<MetricResponse>();
+            if (metricsResponse == null || metricsResponse.UsageMetrics == null)
+            {
+                return result;
+            }
+
+            foreach (var response in metricsResponse.UsageMetrics)
+            {
+                var metrics = response.Data.ToMetricSet();
+                var rsp = new MetricResponse
+                {
+                    Code = response.Code,
+                    Message = response.Message,
+                    Data = metrics
+                };
+                result.Add(rsp);
+            }
+
+            return result;
+        }
+        
+        internal static MetricSet ToMetricSet(this WebSiteGetHistoricalUsageMetricsResponse.HistoricalUsageMetricData data)
+        {
+            var metrics = new MetricSet
+            {
+                Name = data.Name,
+                PrimaryAggregationType = data.PrimaryAggregationType,
+                TimeGrain = data.TimeGrain,
+                StartTime = data.StartTime,
+                EndTime = data.EndTime,
+                Unit = data.Unit,
+                Values = data.Values.ToMetricSamples().ToList(),
+            };
+
+            return metrics;
+        }
+
+        internal static IList<MetricSample> ToMetricSamples(this IList<WebSiteGetHistoricalUsageMetricsResponse.HistoricalUsageMetricSample> samples)
+        {
+            var result = new List<MetricSample>();
+
+            foreach (var s in samples)
+            {
+                var converted = new MetricSample()
+                {
+                    Count = s.Count,
+                    TimeCreated = s.TimeCreated,
+                };
+
+                long val = 0;
+
+                if (!string.IsNullOrEmpty(s.Minimum))
+                {
+                    long.TryParse(s.Minimum, out val);
+                    converted.Minimum = val;
+                }
+
+                if (!string.IsNullOrEmpty(s.Maximum))
+                {
+                    long.TryParse(s.Maximum, out val);
+                    converted.Maximum = val;
+                }
+                
+                if (!string.IsNullOrEmpty(s.Total))
+                {
+                    long.TryParse(s.Total, out val);
+                    converted.Total = val;
+                }
+
+                result.Add(converted);
+            }
+
+            return result;
         }
 
         private static Certificate ToCertificate(WebSite.WebSiteSslCertificate certificate)

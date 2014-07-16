@@ -265,6 +265,7 @@
     <Compile Include="WAPackIaaS\VirtualMachine\VMOperationsCmdlet.cs" />
     <Compile Include="WAPackIaaS\VMOperationsEnum.cs" />
     <Compile Include="WAPackIaaS\WAPackCmdletParameterSets.cs" />
+    <Compile Include="Websites\GetAzureWebsiteMetrics.cs" />
     <Compile Include="Websites\PublishAzureWebsiteProject.cs" />
     <Compile Include="Websites\UpdateAzureWebsiteRepository.cs" />
     <Compile Include="Websites\SwitchAzureWebSiteSlot.cs" />

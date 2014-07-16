@@ -928,6 +928,38 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
                 .Users.Select(u => u.Name).Where(n => !string.IsNullOrEmpty(n)).ToList();
         }
 
+        
+        /// <summary>
+        /// Get a list of historic metrics for the site.
+        /// </summary>
+        /// <param name="siteName">The website name</param>
+        /// <param name="metricNames">List of metrics names to retrieve. See metric definitions for supported names</param>
+        /// <param name="slot">Slot name</param>
+        /// <param name="starTime">Start date of the requested period</param>
+        /// <param name="endTime">End date of the requested period</param>
+        /// <returns>The list of site metrics for the specified period.</returns>
+        public IList<MetricResponse> GetHistoricalUsageMetrics(string siteName, string slot, IList<string> metricNames, DateTime? starTime, DateTime? endTime)
+        {
+            Site website = null;
+
+            if (!string.IsNullOrEmpty(slot))
+            {
+                website = GetWebsite(siteName, slot);
+            }
+            else
+            {
+                website = GetWebsite(siteName);
+            }
+
+            return WebsiteManagementClient.WebSites.GetHistoricalUsageMetrics(website.WebSpace, website.Name,
+                new WebSiteGetHistoricalUsageMetricsParameters()
+                {
+                    StartTime = starTime,
+                    EndTime = endTime,
+                    MetricNames = metricNames,
+                }).ToMetricResponses();
+        }
+
         /// <summary>
         /// Checks if a website exists or not.
         /// </summary>

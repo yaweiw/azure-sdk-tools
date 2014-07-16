@@ -205,6 +205,17 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Websites
         IList<string> ListPublishingUserNames();
 
         /// <summary>
+        /// Get a list of historic metrics for the site.
+        /// </summary>
+        /// <param name="siteName">The website name</param>
+        /// <param name="metricNames">List of metrics names to retrieve. See metric definitions for supported names</param>
+        /// <param name="slot">Slot name</param>
+        /// <param name="starTime">Start date of the requested period</param>
+        /// <param name="endTime">End date of the requested period</param>
+        /// <returns>The list of site metrics for the specified period.</returns>
+        IList<MetricResponse> GetHistoricalUsageMetrics(string siteName, string slot, IList<string> metricNames, DateTime? starTime, DateTime? endTime);
+        
+        /// <summary>
         /// Enables site diagnostic.
         /// </summary>
         /// <param name="name">The website name</param>
