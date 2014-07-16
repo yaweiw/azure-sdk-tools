@@ -38,9 +38,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Microsoft.Azure.Utilities.HttpRecorder, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\packages\Hydra.HttpRecorder.1.0.5305.31851-prerelease\lib\net45\Microsoft.Azure.Utilities.HttpRecorder.dll</HintPath>
+    <Reference Include="Microsoft.Azure.Utilities.HttpRecorder">
+      <HintPath>..\..\..\packages\Hydra.HttpRecorder.1.0.5310.25121-prerelease\lib\net45\Microsoft.Azure.Utilities.HttpRecorder.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.Data.Edm, Version=5.6.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\..\..\packages\Microsoft.Data.Edm.5.6.0\lib\net40\Microsoft.Data.Edm.dll</HintPath>
@@ -79,7 +79,8 @@
       <HintPath>..\..\..\packages\Microsoft.WindowsAzure.Common.1.1.1\lib\net45\Microsoft.WindowsAzure.Common.NetFramework.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.WindowsAzure.Testing">
-      <HintPath>..\..\..\packages\Hydra.SpecTestSupport.1.0.5305.31851-prerelease\lib\net45\Microsoft.WindowsAzure.Testing.dll</HintPath>
+      <HintPath>..\..\..\packages\Hydra.SpecTestSupport.1.0.5310.25121-prerelease\lib\net45\Microsoft.WindowsAzure.Testing.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="Moq, Version=4.2.1402.2112, Culture=neutral, PublicKeyToken=69f491c39445e920, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -152,9 +153,9 @@
       <Project>{c1bda476-a5cc-4394-914d-48b0ec31a710}</Project>
       <Name>Commands.ScenarioTests.Common</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Services\Commands\Commands.csproj">
-      <Project>{cd5aa507-f5ef-473d-855b-84b91a1abe54}</Project>
-      <Name>Commands</Name>
+    <ProjectReference Include="..\..\..\Common\Commands.ScenarioTest\Commands.ScenarioTest.csproj">
+      <Project>{a3965b66-5a3e-4b8c-9574-28e5958d4828}</Project>
+      <Name>Commands.ScenarioTest</Name>
     </ProjectReference>
     <ProjectReference Include="..\Commands.ManagedCache\Commands.ManagedCache.csproj">
       <Project>{46c06ed8-43d9-41fd-b73b-41547d9c04e1}</Project>
