@@ -942,6 +942,8 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
             }
         }
 
+        #region AzureServiceDiagnosticsExtension Tests
+
         [TestMethod(), TestCategory("Scenario"), TestProperty("Feature", "PAAS"), Priority(1), Owner("hylee"), Description("Test the cmdlet (New-AzureServiceRemoteDesktopConfig)")]
         [DataSource("Microsoft.VisualStudio.TestTools.DataSource.CSV", "|DataDirectory|\\Resources\\nodiagpackage.csv", "nodiagpackage#csv", DataAccessMethod.Sequential)]
         public void AzureServiceDiagnosticsExtensionConfigScenarioTest()
@@ -997,7 +999,6 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
                 Assert.Fail("Exception occurred: {0}", e.ToString());
             }
         }
-
 
         [TestMethod(), TestCategory("Scenario"), TestProperty("Feature", "PAAS"), Priority(1), Owner("hylee"), Description("Test the cmdlet ((Get,Set,Remove)-AzureServiceRemoteDesktopExtension)")]
         [DataSource("Microsoft.VisualStudio.TestTools.DataSource.CSV", "|DataDirectory|\\Resources\\nodiagpackage.csv", "nodiagpackage#csv", DataAccessMethod.Sequential)]
@@ -1058,8 +1059,11 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
             }
         }
 
+        #endregion
 
-        // Disabled. Tracking Issue # 1479
+
+        #region AzureServiceRemoteDesktopExtension Tests
+
         [TestMethod(), TestCategory("Scenario"), TestProperty("Feature", "PAAS"), Priority(1), Owner("hylee"), Description("Test the cmdlet (New-AzureServiceRemoteDesktopConfig)")]
         [DataSource("Microsoft.VisualStudio.TestTools.DataSource.CSV", "|DataDirectory|\\Resources\\package.csv", "package#csv", DataAccessMethod.Sequential)]
         public void AzureServiceRemoteDesktopExtensionConfigScenarioTest()
@@ -1082,7 +1086,6 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
 
             PSCredential cred = new PSCredential(username, Utilities.convertToSecureString(password));
             string rdpPath = @".\WebRole1.rdp";
-            string dns;
 
             try
             {
@@ -1101,19 +1104,9 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
 
                 RemoteDesktopExtensionContext resultContext = vmPowershellCmdlets.GetAzureServiceRemoteDesktopExtension(serviceName)[0];
 
-                VerifyRDPExtContext(resultContext, "AllRoles", "Default-RDP-Production-Ext-0", username, DateTime.Now.AddMonths(6));
+                VerifyRDPExtContext(resultContext, "AllRoles", "Default-RDP-Production-Ext-0", username, DateTime.Now.AddYears(1));
 
-                Utilities.GetDeploymentAndWaitForReady(serviceName, DeploymentSlotType.Production, 10, 600);
-
-                vmPowershellCmdlets.GetAzureRemoteDesktopFile("WebRole1_IN_0", serviceName, rdpPath, false);
-
-                using (StreamReader stream = new StreamReader(rdpPath))
-                {
-                    string firstLine = stream.ReadLine();
-                    dns = Utilities.FindSubstring(firstLine, ':', 2);
-                }
-
-                Assert.IsTrue((Utilities.RDPtestPaaS(dns, "WebRole1", 0, username, password, true)), "Cannot RDP to the instance!!");
+                VerifyRDP(serviceName, rdpPath);
 
                 vmPowershellCmdlets.RemoveAzureServiceRemoteDesktopExtension(serviceName);
 
@@ -1145,7 +1138,81 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
             }
         }
 
-        // Disabled. Tracking Issue # 1479
+        [TestMethod(), TestCategory("Scenario"), TestProperty("Feature", "PAAS"), Priority(1), Owner("hylee"), Description("Test the cmdlet (New-AzureServiceRemoteDesktopConfig)")]
+        [DataSource("Microsoft.VisualStudio.TestTools.DataSource.CSV", "|DataDirectory|\\Resources\\package.csv", "package#csv", DataAccessMethod.Sequential)]
+        public void AzureServiceRemoteDesktopExtensionConfigWithVersionScenarioTest()
+        {
+
+            StartTest(MethodBase.GetCurrentMethod().Name, testStartTime);
+
+            // Choose the package and config files from local machine
+            string packageName = Convert.ToString(TestContext.DataRow["upgradePackage"]);
+            string configName = Convert.ToString(TestContext.DataRow["upgradeConfig"]);
+            var packagePath1 = new FileInfo(Directory.GetCurrentDirectory() + "\\" + packageName);
+            var configPath1 = new FileInfo(Directory.GetCurrentDirectory() + "\\" + configName);
+
+            Assert.IsTrue(File.Exists(packagePath1.FullName), "VHD file not exist={0}", packagePath1);
+            Assert.IsTrue(File.Exists(configPath1.FullName), "VHD file not exist={0}", configPath1);
+
+            string deploymentName = "deployment1";
+            string deploymentLabel = "label1";
+            DeploymentInfoContext result;
+
+            PSCredential cred = new PSCredential(username, Utilities.convertToSecureString(password));
+            string rdpPath = @".\WebRole1.rdp";
+            string version10 = "1.0";
+
+            try
+            {
+
+                serviceName = Utilities.GetUniqueShortName(serviceNamePrefix);
+                vmPowershellCmdlets.NewAzureService(serviceName, serviceName, locationName);
+                Console.WriteLine("service, {0}, is created.", serviceName);
+
+                ExtensionConfigurationInput config = vmPowershellCmdlets.NewAzureServiceRemoteDesktopExtensionConfig(cred, null, null, version10);
+
+                vmPowershellCmdlets.NewAzureDeployment(serviceName, packagePath1.FullName, configPath1.FullName, DeploymentSlotType.Production, deploymentLabel, deploymentName, false, false, config);
+
+                result = vmPowershellCmdlets.GetAzureDeployment(serviceName, DeploymentSlotType.Production);
+                pass = Utilities.PrintAndCompareDeployment(result, serviceName, deploymentName, deploymentLabel, DeploymentSlotType.Production, null, 2);
+                Console.WriteLine("successfully deployed the package");
+
+                RemoteDesktopExtensionContext resultContext = vmPowershellCmdlets.GetAzureServiceRemoteDesktopExtension(serviceName)[0];
+
+                VerifyRDPExtContext(resultContext, "AllRoles", "Default-RDP-Production-Ext-0", username, DateTime.Now.AddYears(1), version10);
+
+                VerifyRDP(serviceName, rdpPath);
+
+                vmPowershellCmdlets.RemoveAzureServiceRemoteDesktopExtension(serviceName);
+
+                try
+                {
+                    vmPowershellCmdlets.GetAzureRemoteDesktopFile("WebRole1_IN_0", serviceName, rdpPath, false);
+                    Assert.Fail("Succeeded, but extected to fail!");
+                }
+                catch (Exception e)
+                {
+                    if (e is AssertFailedException)
+                    {
+                        throw;
+                    }
+                    else
+                    {
+                        Console.WriteLine("Failed to get RDP file as expected");
+                    }
+                }
+
+                vmPowershellCmdlets.RemoveAzureDeployment(serviceName, DeploymentSlotType.Production, true);
+
+                pass &= Utilities.CheckRemove(vmPowershellCmdlets.GetAzureDeployment, serviceName, DeploymentSlotType.Production);
+            }
+            catch (Exception e)
+            {
+                pass = false;
+                Assert.Fail("Exception occurred: {0}", e.ToString());
+            }
+        }
+
         [TestMethod(), TestCategory("Scenario"), TestProperty("Feature", "PAAS"), Priority(1), Owner("hylee"), Description("Test the cmdlet ((Get,Set,Remove)-AzureServiceRemoteDesktopExtension)")]
         [DataSource("Microsoft.VisualStudio.TestTools.DataSource.CSV", "|DataDirectory|\\Resources\\package.csv", "package#csv", DataAccessMethod.Sequential)]
         public void AzureServiceRemoteDesktopExtensionTest()
@@ -1168,7 +1235,6 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
 
             PSCredential cred = new PSCredential(username, Utilities.convertToSecureString(password));
             string rdpPath = @".\WebRole1.rdp";
-            string dns;
 
             try
             {
@@ -1186,17 +1252,9 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
 
                 RemoteDesktopExtensionContext resultContext = vmPowershellCmdlets.GetAzureServiceRemoteDesktopExtension(serviceName)[0];
 
-                VerifyRDPExtContext(resultContext, "AllRoles", "Default-RDP-Production-Ext-0", username, DateTime.Now.AddMonths(6));
+                VerifyRDPExtContext(resultContext, "AllRoles", "Default-RDP-Production-Ext-0", username, DateTime.Now.AddYears(1));
 
-                vmPowershellCmdlets.GetAzureRemoteDesktopFile("WebRole1_IN_0", serviceName, rdpPath, false);
-
-                using (StreamReader stream = new StreamReader(rdpPath))
-                {
-                    string firstLine = stream.ReadLine();
-                    dns = Utilities.FindSubstring(firstLine, ':', 2);
-                }
-
-                Assert.IsTrue((Utilities.RDPtestPaaS(dns, "WebRole1", 0, username, password, true)), "Cannot RDP to the instance!!");
+                VerifyRDP(serviceName, rdpPath);
 
                 vmPowershellCmdlets.RemoveAzureServiceRemoteDesktopExtension(serviceName, true);
 
@@ -1227,6 +1285,82 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
                 Assert.Fail("Exception occurred: {0}", e.ToString());
             }
         }
+
+        [TestMethod(), TestCategory("Scenario"), TestProperty("Feature", "PAAS"), Priority(1), Owner("hylee"), Description("Test the cmdlet ((Get,Set,Remove)-AzureServiceRemoteDesktopExtension)")]
+        [DataSource("Microsoft.VisualStudio.TestTools.DataSource.CSV", "|DataDirectory|\\Resources\\package.csv", "package#csv", DataAccessMethod.Sequential)]
+        public void AzureServiceRemoteDesktopExtensionWithVersionTest()
+        {
+
+            StartTest(MethodBase.GetCurrentMethod().Name, testStartTime);
+
+            // Choose the package and config files from local machine
+            string packageName = Convert.ToString(TestContext.DataRow["upgradePackage"]);
+            string configName = Convert.ToString(TestContext.DataRow["upgradeConfig"]);
+            var packagePath1 = new FileInfo(Directory.GetCurrentDirectory() + "\\" + packageName);
+            var configPath1 = new FileInfo(Directory.GetCurrentDirectory() + "\\" + configName);
+
+            Assert.IsTrue(File.Exists(packagePath1.FullName), "VHD file not exist={0}", packagePath1);
+            Assert.IsTrue(File.Exists(configPath1.FullName), "VHD file not exist={0}", configPath1);
+
+            string deploymentName = "deployment1";
+            string deploymentLabel = "label1";
+            DeploymentInfoContext result;
+
+            PSCredential cred = new PSCredential(username, Utilities.convertToSecureString(password));
+            string rdpPath = @".\WebRole1.rdp";
+            string version10 = "1.0";
+
+            try
+            {
+                serviceName = Utilities.GetUniqueShortName(serviceNamePrefix);
+                vmPowershellCmdlets.NewAzureService(serviceName, serviceName, locationName);
+                Console.WriteLine("service, {0}, is created.", serviceName);
+
+                vmPowershellCmdlets.NewAzureDeployment(serviceName, packagePath1.FullName, configPath1.FullName, DeploymentSlotType.Production, deploymentLabel, deploymentName, false, false);
+
+                result = vmPowershellCmdlets.GetAzureDeployment(serviceName, DeploymentSlotType.Production);
+                pass = Utilities.PrintAndCompareDeployment(result, serviceName, deploymentName, deploymentLabel, DeploymentSlotType.Production, null, 2);
+                Console.WriteLine("successfully deployed the package");
+
+                vmPowershellCmdlets.SetAzureServiceRemoteDesktopExtension(serviceName, cred, null, null, null, version10);
+
+                RemoteDesktopExtensionContext resultContext = vmPowershellCmdlets.GetAzureServiceRemoteDesktopExtension(serviceName)[0];
+
+                VerifyRDPExtContext(resultContext, "AllRoles", "Default-RDP-Production-Ext-0", username, DateTime.Now.AddYears(1), version10);
+
+                VerifyRDP(serviceName, rdpPath);
+
+                vmPowershellCmdlets.RemoveAzureServiceRemoteDesktopExtension(serviceName, true);
+
+                try
+                {
+                    vmPowershellCmdlets.GetAzureRemoteDesktopFile("WebRole1_IN_0", serviceName, rdpPath, false);
+                    Assert.Fail("Succeeded, but extected to fail!");
+                }
+                catch (Exception e)
+                {
+                    if (e is AssertFailedException)
+                    {
+                        throw;
+                    }
+                    else
+                    {
+                        Console.WriteLine("Failed to get RDP file as expected");
+                    }
+                }
+
+                vmPowershellCmdlets.RemoveAzureDeployment(serviceName, DeploymentSlotType.Production, true);
+
+                pass &= Utilities.CheckRemove(vmPowershellCmdlets.GetAzureDeployment, serviceName, DeploymentSlotType.Production);
+            }
+            catch (Exception e)
+            {
+                pass = false;
+                Assert.Fail("Exception occurred: {0}", e.ToString());
+            }
+        }
+
+        #endregion
 
         [TestMethod(), TestCategory("Scenario"), TestProperty("Feature", "PAAS"), Priority(1), Owner("hylee"), Description("Test the cmdlet (Reset-AzureRoleInstanceTest with Reboot and Reimage paramaeters)")]
         [DataSource("Microsoft.VisualStudio.TestTools.DataSource.CSV", "|DataDirectory|\\Resources\\package.csv", "package#csv", DataAccessMethod.Sequential)]
@@ -1485,8 +1619,10 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
             }
         }
 
-        private bool VerifyRDPExtContext(RemoteDesktopExtensionContext resultContext, string role, string extID, string userName, DateTime exp)
+        private void VerifyRDPExtContext(RemoteDesktopExtensionContext resultContext, string role, string extID, string userName, DateTime exp, string version  = null)
         {
+            Utilities.PrintContextAndItsBase(resultContext);
+
             try
             {
                 Assert.AreEqual(role, resultContext.Role.RoleType.ToString(), "role is not same");
@@ -1494,12 +1630,15 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
                 Assert.AreEqual(extID, resultContext.Id, "extension id is not same");
                 Assert.AreEqual(userName, resultContext.UserName, "storage account name is not same");
                 Assert.IsTrue(Utilities.CompareDateTime(exp, resultContext.Expiration), "expiration is not same");
-                return true;
+                if (string.IsNullOrEmpty(version))
+                {
+                    Assert.AreEqual(version, resultContext.Version, "version numbers are not same");
+                }
             }
             catch (Exception e)
             {
                 Console.WriteLine("Error happens: {0}", e.ToString());
-                return false;
+                throw;
             }
         }
     }

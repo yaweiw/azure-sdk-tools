@@ -51,6 +51,9 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
         {
 
             StringBuilder command = new StringBuilder();
+            DateTime currentTime = DateTime.UtcNow;
+            command.Append("[" + currentTime.ToShortDateString() + " " + currentTime.ToLongTimeString() + "] ");
+
             for (int i = 0; i < powershell.Commands.Commands.Count; i++)
             {
 
