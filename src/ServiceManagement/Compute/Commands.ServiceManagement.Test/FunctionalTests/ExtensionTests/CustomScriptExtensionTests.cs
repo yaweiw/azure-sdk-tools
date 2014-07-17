@@ -14,6 +14,7 @@
 
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests.ExtensionTests
 {
+    using Helpers;
     using Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions;
     using Microsoft.WindowsAzure.Commands.ServiceManagement.Model;
     using Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests.ConfigDataInfo;
@@ -23,9 +24,8 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
     using System.Collections.Generic;
     using System.Linq;
     using System.Reflection;
-    using VisualStudio.TestTools.UnitTesting;
-    using Helpers;
     using System.Text.RegularExpressions;
+    using VisualStudio.TestTools.UnitTesting;
 
     [TestClass]
     public class CustomScriptExtesnionTests: ServiceManagementTest

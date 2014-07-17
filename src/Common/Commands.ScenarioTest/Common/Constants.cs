@@ -4,7 +4,6 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.Common
     public class Category
     {
         // Service
-
         public const string All = "All";
 
         public const string Automation = "Automation";
@@ -25,9 +24,9 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.Common
 
         public const string ServiceManagement = "ServiceManagement";
 
-        public const string ResourceManager = "ResourceManager";
+        public const string Resources = "Resources";
 
-        public const string CheckIn = "CheckIn";
+        public const string Tags = "Tags";
 
         public const string TrafficManager = "TrafficManager";
 
@@ -36,16 +35,21 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest.Common
         public const string Scheduler = "Scheduler";
 
         // Owners
-
         public const string OneSDK = "OneSDK";
 
         // Acceptance type
-
         public const string CIT = "CIT";
+
         public const string BVT = "BVT";
 
-        // Environment
+        public const string CheckIn = "CheckIn";
 
+        // Environment
         public const string WAPack = "WAPack";
+    }
+
+    public class Variables
+    {
+        public const string SubscriptionId = "SubscriptionId";
     }
 }

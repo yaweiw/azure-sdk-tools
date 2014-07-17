@@ -14,14 +14,12 @@
 
 namespace Microsoft.Azure.Commands.Automation.Model
 {
+    using Microsoft.Azure.Commands.Automation.Common;
+    using Microsoft.Azure.Commands.Automation.Properties;
     using System;
     using System.Collections.Generic;
     using System.Globalization;
     using System.Linq;
-
-    using Microsoft.Azure.Commands.Automation.Common;
-    using Microsoft.Azure.Commands.Automation.Properties;
-
     using AutomationManagement = Microsoft.Azure.Management.Automation;
 
     /// <summary>

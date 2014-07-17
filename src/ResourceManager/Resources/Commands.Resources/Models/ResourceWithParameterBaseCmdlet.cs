@@ -23,7 +23,7 @@ using System.Management.Automation;
 
 namespace Microsoft.Azure.Commands.Resources
 {
-    public abstract class ResourceWithParameterBaseCmdlet : ResourceManagerBaseCmdlet
+    public abstract class ResourceWithParameterBaseCmdlet : ResourcesBaseCmdlet
     {
         protected const string BaseParameterSetName = "Default";
         protected const string GalleryTemplateParameterObjectParameterSetName = "Deployment via Gallery and template parameters object";

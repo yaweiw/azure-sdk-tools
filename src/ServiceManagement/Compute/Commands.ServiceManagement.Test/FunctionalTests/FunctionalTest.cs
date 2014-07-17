@@ -18,20 +18,18 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
     using ConfigDataInfo;
     using Extensions;
     using Model;
-    using Properties;
+    using Model.PersistentVMModel;
     using System;
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
     using System.IO;
+    using System.Linq;
     using System.Management.Automation;
     using System.Reflection;
     using System.Security.Cryptography.X509Certificates;
     using System.Text;
-    using System.Threading;
     using System.Xml;
     using VisualStudio.TestTools.UnitTesting;
-    using Model.PersistentVMModel;
-    using System.Linq;
 
     [TestClass]
     public class FunctionalTest : ServiceManagementTest
@@ -351,6 +349,59 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
                 vmPowershellCmdlets.NewAzureVM(serviceName, new []{vm}, null, new[]{dns}, null, null, null, null);
 
                 Assert.IsTrue(Verify.AzureDns(vmPowershellCmdlets.GetAzureDeployment(serviceName).DnsSettings, dns));
+                pass = true;
+
+            }
+            catch (Exception e)
+            {
+                pass = false;
+                Console.WriteLine("Exception occurred: {0}", e.ToString());
+                throw;
+            }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        [TestMethod(), TestCategory("Functional"), TestProperty("Feature", "IAAS"), Priority(1), Owner("derajen"), Description("Test the cmdlet ((Add,Set,Remove)-AzureDns)")]
+        public void AzureDnsTest2()
+        {
+            StartTest(MethodBase.GetCurrentMethod().Name, testStartTime);
+
+            const string dnsName = "OpenDns1";
+            const string ipAddress = "208.67.222.222";
+            const string ipAddress2 = "127.0.0.1";
+
+            try
+            {
+                vmPowershellCmdlets.NewAzureService(serviceName, locationName);
+
+                // Create a VM
+                var azureVMConfigInfo = new AzureVMConfigInfo(vmName, InstanceSize.ExtraSmall.ToString(), imageName);
+                var azureProvisioningConfig = new AzureProvisioningConfigInfo(OS.Windows, username, password);
+                var persistentVMConfigInfo = new PersistentVMConfigInfo(azureVMConfigInfo, azureProvisioningConfig, null, null);
+                PersistentVM vm = vmPowershellCmdlets.GetPersistentVM(persistentVMConfigInfo);
+                vmPowershellCmdlets.NewAzureVM(serviceName, new[] { vm });
+
+                // Add a DNS server
+                vmPowershellCmdlets.AddAzureDns(dnsName, ipAddress, serviceName);
+
+                var dnsServer = vmPowershellCmdlets.GetAzureDeployment(serviceName).DnsSettings.DnsServers[0];
+                Assert.AreEqual(dnsName, dnsServer.Name);
+                Assert.AreEqual(ipAddress, dnsServer.Address);
+
+                // Edit the DNS server 
+                vmPowershellCmdlets.SetAzureDns(dnsName, ipAddress2, serviceName);
+
+                dnsServer = vmPowershellCmdlets.GetAzureDeployment(serviceName).DnsSettings.DnsServers[0];
+                Assert.AreEqual(dnsName, dnsServer.Name);
+                Assert.AreEqual(ipAddress2, dnsServer.Address);
+
+                // Remove the DNS server 
+                vmPowershellCmdlets.RemoveAzureDns(dnsName, serviceName, force:true);
+
+                Assert.IsNull(vmPowershellCmdlets.GetAzureDeployment(serviceName).DnsSettings);
+
                 pass = true;
 
             }

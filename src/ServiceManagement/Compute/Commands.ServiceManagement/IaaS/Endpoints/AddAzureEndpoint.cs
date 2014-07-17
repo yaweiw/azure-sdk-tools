@@ -14,15 +14,15 @@
 
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Endpoints
 {
+    using IaaS;
+    using Model;
+    using Model.PersistentVMModel;
+    using Properties;
     using System;
     using System.Collections.ObjectModel;
     using System.Globalization;
     using System.Linq;
     using System.Management.Automation;
-    using IaaS;
-    using Model;
-    using Model.PersistentVMModel;
-    using Properties;
 
     [Cmdlet(VerbsCommon.Add, "AzureEndpoint", DefaultParameterSetName = AddAzureEndpoint.NoLBParameterSet), OutputType(typeof(IPersistentVM))]
     public class AddAzureEndpoint : VirtualMachineConfigurationCmdletBase 
@@ -91,6 +91,10 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Endpoints
         [ValidateNotNullOrEmpty]
         public string InternalLoadBalancerName { get; set; }
 
+        [Parameter(Mandatory = false, HelpMessage = "Idle Timeout.")]
+        [ValidateNotNullOrEmpty]
+        public int? IdleTimeoutInMinutes { get; set; }
+
         internal void ExecuteCommand()
         {
             this.ValidateParameters();
@@ -116,7 +120,8 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Endpoints
                 Protocol = this.Protocol,
                 EndpointAccessControlList = this.ACL,
                 EnableDirectServerReturn = this.DirectServerReturn,
-                LoadBalancerName = this.InternalLoadBalancerName
+                LoadBalancerName = this.InternalLoadBalancerName,
+                IdleTimeoutInMinutes = this.ParameterSpecified("IdleTimeoutInMinutes") ? this.IdleTimeoutInMinutes : null,
             };
 
             if (this.ParameterSetName == AddAzureEndpoint.LBNoProbeParameterSet

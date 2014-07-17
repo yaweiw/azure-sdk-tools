@@ -54,7 +54,7 @@ namespace Microsoft.Azure.Commands.Resources.Test
                 Resources = new List<PSResource>() { new PSResource() { Name = "resource1" } }
             };
             result.Add(expected);
-            resourcesClientMock.Setup(f => f.FilterResourceGroups(resourceGroupName)).Returns(result);
+            resourcesClientMock.Setup(f => f.FilterResourceGroups(resourceGroupName, null)).Returns(result);
 
             cmdlet.Name = resourceGroupName;
 

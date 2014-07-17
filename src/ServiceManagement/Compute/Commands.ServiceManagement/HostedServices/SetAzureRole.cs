@@ -14,16 +14,14 @@
 
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.HostedServices
 {
+    using Management.Compute.Models;
+    using Model.PersistentVMModel;
+    using Properties;
     using System;
     using System.Linq;
     using System.Management.Automation;
     using System.Xml.Linq;
     using Utilities.Common;
-    using Management.Compute;
-    using Management.Compute.Models;
-    using Management.Models;
-    using Model.PersistentVMModel;
-    using Properties;
 
     /// <summary>
     /// Sets the instance count for the selected role.

@@ -34,10 +34,10 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
         public const string SslSupportSettingsName = "SslSupport";
 
         public const string UserAgentHeaderName = "User-Agent";
-        public const string UserAgentHeaderValue = "WindowsAzurePowershell/v0.8.4";
+        public const string UserAgentHeaderValue = "WindowsAzurePowershell/v0.8.5";
         public static ProductInfoHeaderValue UserAgentValue = new ProductInfoHeaderValue(
             "WindowsAzurePowershell",
-            "v0.8.4");
+            "v0.8.5");
 
         public const string VSDebuggerCausalityDataHeaderName = "VSDebuggerCausalityData";
         

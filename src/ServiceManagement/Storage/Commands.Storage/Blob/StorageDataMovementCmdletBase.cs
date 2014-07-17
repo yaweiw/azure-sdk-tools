@@ -16,18 +16,18 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Blob
 {
     using Microsoft.WindowsAzure.Commands.Storage.Common;
     using Microsoft.WindowsAzure.Storage.Blob;
-    using Microsoft.WindowsAzure.Storage.DataMovement;
     using Microsoft.WindowsAzure.Storage.DataMovement.TransferJobs;
     using System;
-    using System.Diagnostics;
+    using System.Globalization;
     using System.Management.Automation;
+    using System.Threading.Tasks;
 
     public class StorageDataMovementCmdletBase : StorageCloudBlobCmdletBase, IDisposable
     {
         /// <summary>
         /// Blob Transfer Manager
         /// </summary>
-        protected TransferManager transferManager;
+        private ITransferJobRunner transferJobRunner;
 
         [Parameter(HelpMessage = "Force to overwrite the existing blob or file")]
         public SwitchParameter Force
@@ -43,9 +43,9 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Blob
         /// </summary>
         /// <param name="msg">Confirmation message</param>
         /// <returns>True if the opeation is confirmed, otherwise return false</returns>
-        internal virtual bool ConfirmOverwrite(string sourcePath, string destinationPath)
+        private bool ConfirmOverwrite(string sourcePath, string destinationPath)
         {
-            string overwriteMessage = String.Format(Resources.OverwriteConfirmation, destinationPath);
+            string overwriteMessage = string.Format(CultureInfo.CurrentCulture, Resources.OverwriteConfirmation, destinationPath);
             return overwrite || OutputStream.ConfirmAsync(overwriteMessage).Result;
         }
 
@@ -56,116 +56,6 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Blob
         protected virtual void OnTaskSuccessful(DataMovementUserData data)
         { }
 
-        /// <summary>
-        /// on data movement job start
-        /// </summary>
-        /// <param name="data">User data</param>
-        protected virtual void OnDMJobStart(object data)
-        {
-            if (ShouldForceQuit)
-            {
-                return;
-            }
-
-            DataMovementUserData userData = data as DataMovementUserData;
-            if (null == userData)
-            {
-                return;
-            }
-
-            ProgressRecord pr = userData.Record;
-
-            if (null != pr)
-            {
-                pr.PercentComplete = 0;
-                OutputStream.WriteProgress(pr);
-            }
-        }
-
-        /// <summary>
-        /// on data movement job progress 
-        /// </summary>
-        /// <param name="progress">progress information</param>
-        /// <param name="speed">download speed</param>
-        /// <param name="percent">download percent</param>
-        protected virtual void OnDMJobProgress(object data, double speed, double percent)
-        {
-            if (ShouldForceQuit)
-            {
-                return;
-            }
-
-            DataMovementUserData userData = data as DataMovementUserData;
-
-            if (null == userData)
-            {
-                return;
-            }
-
-            ProgressRecord pr = userData.Record;
-
-            pr.PercentComplete = (int)percent;
-            pr.StatusDescription = String.Format(Resources.FileTransmitStatus, pr.PercentComplete, Util.BytesToHumanReadableSize(speed));
-            OutputStream.WriteProgress(pr);
-        }
-
-        /// <summary>
-        /// on data movement job finish
-        /// </summary>
-        /// <param name="progress">progress information</param>
-        /// <param name="e">run time exception</param>
-        protected virtual void OnDMJobFinish(object data, Exception e)
-        {
-            try
-            {
-                if (ShouldForceQuit)
-                {
-                    return;
-                }
-
-                DataMovementUserData userData = data as DataMovementUserData;
-
-                string status = string.Empty;
-
-                if (null == e)
-                {
-                    try
-                    {
-                        OnTaskSuccessful(userData);
-                    }
-                    catch (Exception postProcessException)
-                    {
-                        e = postProcessException;
-                    }
-                }
-
-                if (null == e)
-                {
-                    status = Resources.TransmitSuccessfully;
-                    userData.taskSource.SetResult(true);
-                }
-                else
-                {
-                    status = String.Format(Resources.TransmitFailed, e.Message);
-                    userData.taskSource.SetException(e);
-                }
-
-                if (userData != null && userData.Record != null)
-                {
-                    if (e == null)
-                    {
-                        userData.Record.PercentComplete = 100;
-                    }
-
-                    userData.Record.StatusDescription = status;
-                    OutputStream.WriteProgress(userData.Record);
-                }
-            }
-            catch (Exception unknownException)
-            {
-                Debug.Fail(unknownException.ToString());
-            }
-        }
 
         /// <summary>
         /// Cmdlet begin processing
@@ -174,20 +64,54 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Blob
         {
             base.BeginProcessing();
 
-            TransferOptions opts = new TransferOptions();
-            opts.ParallelOperations = GetCmdletConcurrency();
-            opts.ClientRequestIdPrefix = CmdletOperationContext.ClientRequestId;
-            
-            transferManager = new TransferManager(opts);
+            this.transferJobRunner = TransferJobRunnerFactory.CreateRunner(this.GetCmdletConcurrency());
         }
 
-        protected void EnqueueTransferJob(BlobTransferJob transferJob, DataMovementUserData userData)
+        protected async Task RunTransferJob(BlobTransferJob transferJob, DataMovementUserData userData)
         {
-            this.AppendEventHandlers(transferJob, userData);
             this.SetRequestOptionsInTransferJob(transferJob);
             transferJob.OverwritePromptCallback = ConfirmOverwrite;
 
-            transferManager.EnqueueJob(transferJob, CmdletCancellationToken);
+            try
+            {
+                await this.transferJobRunner.RunTransferJob(
+                    transferJob,
+                    (percent, speed) =>
+                    {
+                        if (userData.Record != null)
+                        {
+                            userData.Record.PercentComplete = (int)percent;
+                            userData.Record.StatusDescription = string.Format(CultureInfo.CurrentCulture, Resources.FileTransmitStatus, (int)percent, Util.BytesToHumanReadableSize(speed));
+                            this.OutputStream.WriteProgress(userData.Record);
+                        }
+                    },
+                    this.CmdletCancellationToken);
+
+                if (userData.Record != null)
+                {
+                    userData.Record.PercentComplete = 100;
+                    userData.Record.StatusDescription = Resources.TransmitSuccessfully;
+                    this.OutputStream.WriteProgress(userData.Record);
+                }
+            }
+            catch (OperationCanceledException)
+            {
+                if (userData.Record != null)
+                {
+                    userData.Record.StatusDescription = Resources.TransmitCancelled;
+                    this.OutputStream.WriteProgress(userData.Record);
+                }
+            }
+            catch (Exception e)
+            {
+                if (userData.Record != null)
+                {
+                    userData.Record.StatusDescription = string.Format(CultureInfo.CurrentCulture, Resources.TransmitFailed, e.Message);
+                    this.OutputStream.WriteProgress(userData.Record);
+                }
+
+                throw;
+            }
         }
 
         protected void SetRequestOptionsInTransferJob(BlobTransferJob transferJob)
@@ -218,6 +142,9 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Blob
         {
             base.EndProcessing();
             WriteTaskSummary();
+
+            this.transferJobRunner.Dispose();
+            this.transferJobRunner = null;
         }
 
         /// <summary>
@@ -236,30 +163,12 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Blob
         {
             if (disposing)
             {
-                if (transferManager != null)
+                if (this.transferJobRunner != null)
                 {
-                    transferManager.Dispose();
-                    transferManager = null;
+                    this.transferJobRunner.Dispose();
+                    this.transferJobRunner = null;
                 }
             }
-        }
-
-        protected virtual void AppendEventHandlers(TransferJobBase transferJob, DataMovementUserData userData)
-        {
-            transferJob.StartEvent += (eventSource, eventArgs) =>
-                {
-                    this.OnDMJobStart(userData);
-                };
-
-            transferJob.ProgressEvent += (eventSource, eventArgs) =>
-                {
-                    this.OnDMJobProgress(userData, eventArgs.Speed, eventArgs.Progress);
-                };
-
-            transferJob.FinishEvent += (eventSource, eventArgs) =>
-                {
-                    this.OnDMJobFinish(userData, eventArgs.Exception);
-                };
         }
     }
 }

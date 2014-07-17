@@ -14,12 +14,11 @@
 
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.PlatformImageRepository
 {
-    using System;
-    using System.Collections.Generic;
     using AutoMapper;
     using ExtensionPublishing;
     using Management.Compute.Models;
     using Model;
+    using System;
 
     public class ServiceManagementPlatformImageRepositoryProfile : Profile
     {

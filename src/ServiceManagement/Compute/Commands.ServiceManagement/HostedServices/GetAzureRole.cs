@@ -14,20 +14,18 @@
 
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.HostedServices
 {
+    using AutoMapper;
+    using Commands.Utilities.Common;
+    using Helpers;
+    using Management.Compute.Models;
+    using Model;
+    using Model.PersistentVMModel;
+    using Properties;
     using System;
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
     using System.Linq;
     using System.Management.Automation;
-    using AutoMapper;
-    using Commands.Utilities.Common;
-    using Helpers;
-    using Management.Compute;
-    using Management.Compute.Models;
-    using Management.Models;
-    using Model;
-    using Model.PersistentVMModel;
-    using Properties;
     using PVM = Model.PersistentVMModel;
     using Role = Management.Compute.Models.Role;
     using RoleInstance = Management.Compute.Models.RoleInstance;
@@ -114,6 +112,8 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.HostedServices
                             PublicIPName          = role.PublicIPs == null || !role.PublicIPs.Any() ? null
                                                   : !string.IsNullOrEmpty(role.PublicIPs.First().Name) ? role.PublicIPs.First().Name
                                                   : PersistentVMHelper.GetPublicIPName(vmRole),
+                            PublicIPIdleTimeoutInMinutes = role.PublicIPs == null || !role.PublicIPs.Any() ? null
+                                                  : role.PublicIPs.First().IdleTimeoutInMinutes,
                             DeploymentID          = currentDeployment.PrivateId,
                             InstanceEndpoints     = Mapper.Map<PVM.InstanceEndpointList>(role.InstanceEndpoints)
                         });

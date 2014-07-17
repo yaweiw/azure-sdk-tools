@@ -16,24 +16,18 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
 {
     using Microsoft.WindowsAzure.Commands.ServiceManagement.Model;
     using Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests.PowershellCore;
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
 
     public class SetAzureVMExtensionCmdletInfo: CmdletsInfo
     {
-        public SetAzureVMExtensionCmdletInfo(IPersistentVM vm, string extensionName, string publisher, string version = null, string referenceName = null,
+        public SetAzureVMExtensionCmdletInfo(IPersistentVM vm, string extensionName, string publisher, string version, string referenceName = null,
             string publicConfiguration = null, string privateConfiguration = null,string publicConfigPath = null,string privateConfigPath =  null, bool disable = false)
         {
             cmdletName = Utilities.SetAzureVMExtensionCmdletName;
             cmdletParams.Add(new CmdletParam("VM", vm));
             cmdletParams.Add(new CmdletParam("ExtensionName", extensionName));
             cmdletParams.Add(new CmdletParam("Publisher", publisher));
-            if (!string.IsNullOrEmpty(version))
-            {
-                cmdletParams.Add(new CmdletParam("Version", version));
-            }
+            cmdletParams.Add(new CmdletParam("Version", version));
+
             if (!string.IsNullOrEmpty(referenceName))
             {
                 cmdletParams.Add(new CmdletParam("ReferenceName", referenceName));

@@ -15,6 +15,7 @@
 namespace Microsoft.WindowsAzure.Commands.Storage
 {
     using Common;
+    using Microsoft.WindowsAzure.Commands.Common.Storage;
     using Microsoft.WindowsAzure.Storage.Blob;
     using Model.Contract;
     using Model.ResourceModel;

@@ -43,5 +43,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Model
         public string PublicIPAddress { get; set; }
 
         public string PublicIPName { get; set; }
+
+        public int? PublicIPIdleTimeoutInMinutes { get; set; }
     }
 }

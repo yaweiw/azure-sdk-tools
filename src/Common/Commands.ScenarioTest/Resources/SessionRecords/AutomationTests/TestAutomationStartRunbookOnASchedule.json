@@ -10,7 +10,7 @@
         ],
         "User-Agent": [
           "Microsoft.Azure.Management.Automation.AutomationManagementClient/0.9.0.0",
-          "WindowsAzurePowershell/v0.8.4"
+          "WindowsAzurePowershell/v0.8.5"
         ]
       },
       "ResponseBody": "<CloudServices xmlns=\"http://schemas.microsoft.com/windowsazure\" xmlns:i=\"http://www.w3.org/2001/XMLSchema-instance\">\r\n  <CloudService>\r\n    <Name>OaaSCSZV2MEWJSFZEUBUOS6RFER33W6CF6HZFLIHTKWAXRNBGWIHNJEUXQ-East-US</Name>\r\n    <Label>OaaSCSZV2MEWJSFZEUBUOS6RFER33W6CF6HZFLIHTKWAXRNBGWIHNJEUXQ-East-US</Label>\r\n    <Description>OaaSCSZV2MEWJSFZEUBUOS6RFER33W6CF6HZFLIHTKWAXRNBGWIHNJEUXQ-East-US in East US</Description>\r\n    <GeoRegion>East US</GeoRegion>\r\n    <Resources>\r\n      <Resource>\r\n        <ResourceProviderNamespace>automation</ResourceProviderNamespace>\r\n        <Type>AutomationAccount</Type>\r\n        <Name>Automation509</Name>\r\n        <Plan>Preview</Plan>\r\n        <SchemaVersion>1.1</SchemaVersion>\r\n        <ETag>c1251ced-1d0f-4cd8-9a9d-2b452f4283d2</ETag>\r\n        <State>Started</State>\r\n        <SubState />\r\n        <OperationStatus>\r\n          <Type>Create</Type>\r\n          <Result>Succeeded</Result>\r\n        </OperationStatus>\r\n        <Label />\r\n      </Resource>\r\n      <Resource>\r\n        <ResourceProviderNamespace>automation</ResourceProviderNamespace>\r\n        <Type>AutomationAccount</Type>\r\n        <Name>elvgAccount</Name>\r\n        <Plan>Preview</Plan>\r\n        <SchemaVersion>1.1</SchemaVersion>\r\n        <ETag>5692ec51-f3da-4795-a2a4-602c5919b91f</ETag>\r\n        <State>Started</State>\r\n        <SubState />\r\n        <OperationStatus>\r\n          <Type>Create</Type>\r\n          <Result>Succeeded</Result>\r\n        </OperationStatus>\r\n        <Label />\r\n      </Resource>\r\n      <Resource>\r\n        <ResourceProviderNamespace>automation</ResourceProviderNamespace>\r\n        <Type>AutomationAccount</Type>\r\n        <Name>submgmt</Name>\r\n        <Plan>Preview</Plan>\r\n        <SchemaVersion>1.1</SchemaVersion>\r\n        <ETag>d53eecef-d95b-4f3e-a34a-78ce14550d41</ETag>\r\n        <State>Started</State>\r\n        <SubState />\r\n        <OperationStatus>\r\n          <Type>Create</Type>\r\n          <Result>Succeeded</Result>\r\n        </OperationStatus>\r\n        <Label />\r\n      </Resource>\r\n      <Resource>\r\n        <ResourceProviderNamespace>automation</ResourceProviderNamespace>\r\n        <Type>AutomationAccount</Type>\r\n        <Name>SuhasBugBash</Name>\r\n        <Plan>Preview</Plan>\r\n        <SchemaVersion>1.1</SchemaVersion>\r\n        <ETag>21e6ad99-4956-49aa-ae40-7d00d3a039a4</ETag>\r\n        <State>Started</State>\r\n        <SubState />\r\n        <OperationStatus>\r\n          <Type>Create</Type>\r\n          <Result>Succeeded</Result>\r\n        </OperationStatus>\r\n        <Label />\r\n      </Resource>\r\n      <Resource>\r\n        <ResourceProviderNamespace>automation</ResourceProviderNamespace>\r\n        <Type>AutomationAccount</Type>\r\n        <Name>TestAutomationAccount</Name>\r\n        <Plan>Preview</Plan>\r\n        <SchemaVersion>1.1</SchemaVersion>\r\n        <ETag>051d7050-e346-4f3e-9e09-bb421fe3d725</ETag>\r\n        <State>Started</State>\r\n        <SubState />\r\n        <OperationStatus>\r\n          <Type>Create</Type>\r\n          <Result>Succeeded</Result>\r\n        </OperationStatus>\r\n        <Label />\r\n      </Resource>\r\n      <Resource>\r\n        <ResourceProviderNamespace>automation</ResourceProviderNamespace>\r\n        <Type>AutomationAccount</Type>\r\n        <Name>Viv-0516</Name>\r\n        <Plan>Preview</Plan>\r\n        <SchemaVersion>1.1</SchemaVersion>\r\n        <ETag>d8e578b0-d880-48a5-a92b-ef9698f8ff68</ETag>\r\n        <State>Started</State>\r\n        <SubState />\r\n        <OperationStatus>\r\n          <Type>Create</Type>\r\n          <Result>Succeeded</Result>\r\n        </OperationStatus>\r\n        <Label />\r\n      </Resource>\r\n      <Resource>\r\n        <ResourceProviderNamespace>automation</ResourceProviderNamespace>\r\n        <Type>AutomationAccount</Type>\r\n        <Name>AutomationAccount</Name>\r\n        <Plan>Preview</Plan>\r\n        <SchemaVersion>1.1</SchemaVersion>\r\n        <ETag>47e18c76-a0f5-4d45-8512-dac82e07cfc2</ETag>\r\n        <State>Started</State>\r\n        <SubState />\r\n        <OperationStatus>\r\n          <Type>Create</Type>\r\n          <Result>Succeeded</Result>\r\n        </OperationStatus>\r\n        <Label />\r\n      </Resource>\r\n    </Resources>\r\n  </CloudService>\r\n</CloudServices>",
@@ -54,7 +54,7 @@
         ],
         "User-Agent": [
           "Microsoft.Azure.Management.Automation.AutomationManagementClient/0.9.0.0",
-          "WindowsAzurePowershell/v0.8.4"
+          "WindowsAzurePowershell/v0.8.5"
         ]
       },
       "ResponseBody": "{\r\n  \"odata.metadata\": \"https://oaas.azure-automation.net/subscriptions/db1ab6f0-4769-4b27-930e-01e2ef9c123c/cloudservices/OaaSCS/resources/~/Accounts/AutomationAccount/$metadata#Runbooks\",\r\n  \"value\": [\r\n    {\r\n      \"Schedules\": [\r\n        {\r\n          \"odata.type\": \"AutomationApi.V2014_03_13.OneTimeSchedule\",\r\n          \"ScheduleID\": \"837eaad3-2043-4a2d-995d-bea247ab8378\",\r\n          \"AccountID\": \"18bcf3ce-b68c-462e-b640-c8386d43d30c\",\r\n          \"Name\": \"s01\",\r\n          \"Description\": null,\r\n          \"StartTime\": \"2014-04-30T06:30:00\",\r\n          \"ExpiryTime\": \"2014-04-30T06:30:00\",\r\n          \"CreationTime\": \"2014-04-29T00:00:34.637\",\r\n          \"LastModifiedTime\": \"2014-04-29T00:00:34.637\",\r\n          \"IsEnabled\": true,\r\n          \"NextRun\": null\r\n        }\r\n      ],\r\n      \"#OrchestratorApi.Publish\": {},\r\n      \"#OrchestratorApi.Edit\": {},\r\n      \"AccountID\": \"18bcf3ce-b68c-462e-b640-c8386d43d30c\",\r\n      \"RunbookID\": \"17c9a137-d057-459d-bde3-68a5da1ff9b0\",\r\n      \"RunbookName\": \"myrunbook3\",\r\n      \"CreationTime\": \"2014-04-24T23:44:33\",\r\n      \"LastModifiedTime\": \"2014-04-24T23:44:57.683\",\r\n      \"LastModifiedBy\": \"oaastest@live.com\",\r\n      \"Description\": null,\r\n      \"IsApiOnly\": false,\r\n      \"IsGlobal\": false,\r\n      \"PublishedRunbookVersionID\": \"3f4a63e6-8ee2-4a0e-8d1c-9088af655a8b\",\r\n      \"DraftRunbookVersionID\": \"c465d82a-bf38-4cb2-98b9-510485641f3f\",\r\n      \"Tags\": null,\r\n      \"LogDebug\": false,\r\n      \"LogVerbose\": false,\r\n      \"LogProgress\": false\r\n    }\r\n  ]\r\n}",
@@ -116,7 +116,7 @@
         ],
         "User-Agent": [
           "Microsoft.Azure.Management.Automation.AutomationManagementClient/0.9.0.0",
-          "WindowsAzurePowershell/v0.8.4"
+          "WindowsAzurePowershell/v0.8.5"
         ]
       },
       "ResponseBody": "{\r\n  \"odata.metadata\": \"https://oaas.azure-automation.net/subscriptions/db1ab6f0-4769-4b27-930e-01e2ef9c123c/cloudservices/OaaSCS/resources/~/Accounts/AutomationAccount/$metadata#RunbookVersions/@Element\",\r\n  \"odata.mediaReadLink\": \"RunbookVersions(guid'541ed62d-2165-4b3e-8fca-2a86295ec819')/$value\",\r\n  \"odata.mediaContentType\": \"application/octet-stream\",\r\n  \"odata.mediaETag\": \"\\\"635375012233770000\\\"\",\r\n  \"AccountID\": \"18bcf3ce-b68c-462e-b640-c8386d43d30c\",\r\n  \"RunbookVersionID\": \"541ed62d-2165-4b3e-8fca-2a86295ec819\",\r\n  \"RunbookID\": \"00000000-0000-0000-0000-000000000000\",\r\n  \"VersionNumber\": 0,\r\n  \"IsDraft\": false,\r\n  \"CreationTime\": \"0001-01-01T00:00:00\",\r\n  \"LastModifiedTime\": \"0001-01-01T00:00:00\"\r\n}",
@@ -181,7 +181,7 @@
         ],
         "User-Agent": [
           "Microsoft.Azure.Management.Automation.AutomationManagementClient/0.9.0.0",
-          "WindowsAzurePowershell/v0.8.4"
+          "WindowsAzurePowershell/v0.8.5"
         ]
       },
       "ResponseBody": "{\r\n  \"odata.metadata\": \"https://oaas.azure-automation.net/subscriptions/db1ab6f0-4769-4b27-930e-01e2ef9c123c/cloudservices/OaaSCS/resources/~/Accounts/AutomationAccount/$metadata#RunbookVersions/@Element\",\r\n  \"odata.mediaReadLink\": \"RunbookVersions(guid'541ed62d-2165-4b3e-8fca-2a86295ec819')/$value\",\r\n  \"odata.mediaContentType\": \"application/octet-stream\",\r\n  \"odata.mediaETag\": \"\\\"635375012233770000\\\"\",\r\n  \"AccountID\": \"18bcf3ce-b68c-462e-b640-c8386d43d30c\",\r\n  \"RunbookVersionID\": \"541ed62d-2165-4b3e-8fca-2a86295ec819\",\r\n  \"RunbookID\": \"97477aa2-2457-4f9b-be3c-f344260f81fb\",\r\n  \"VersionNumber\": 1,\r\n  \"IsDraft\": true,\r\n  \"CreationTime\": \"2014-06-04T17:53:43.377\",\r\n  \"LastModifiedTime\": \"2014-06-04T17:53:43.377\"\r\n}",
@@ -240,7 +240,7 @@
         ],
         "User-Agent": [
           "Microsoft.Azure.Management.Automation.AutomationManagementClient/0.9.0.0",
-          "WindowsAzurePowershell/v0.8.4"
+          "WindowsAzurePowershell/v0.8.5"
         ]
       },
       "ResponseBody": "{\r\n  \"odata.metadata\": \"https://oaas.azure-automation.net/subscriptions/db1ab6f0-4769-4b27-930e-01e2ef9c123c/cloudservices/OaaSCS/resources/~/Accounts/AutomationAccount/$metadata#Runbooks/@Element\",\r\n  \"Schedules\": [],\r\n  \"#OrchestratorApi.Publish\": {},\r\n  \"AccountID\": \"18bcf3ce-b68c-462e-b640-c8386d43d30c\",\r\n  \"RunbookID\": \"97477aa2-2457-4f9b-be3c-f344260f81fb\",\r\n  \"RunbookName\": \"Test-Workflow\",\r\n  \"CreationTime\": \"2014-06-04T17:53:43.377\",\r\n  \"LastModifiedTime\": \"2014-06-04T17:53:43.377\",\r\n  \"LastModifiedBy\": null,\r\n  \"Description\": null,\r\n  \"IsApiOnly\": false,\r\n  \"IsGlobal\": false,\r\n  \"PublishedRunbookVersionID\": null,\r\n  \"DraftRunbookVersionID\": \"541ed62d-2165-4b3e-8fca-2a86295ec819\",\r\n  \"Tags\": null,\r\n  \"LogDebug\": false,\r\n  \"LogVerbose\": false,\r\n  \"LogProgress\": false\r\n}",
@@ -299,7 +299,7 @@
         ],
         "User-Agent": [
           "Microsoft.Azure.Management.Automation.AutomationManagementClient/0.9.0.0",
-          "WindowsAzurePowershell/v0.8.4"
+          "WindowsAzurePowershell/v0.8.5"
         ]
       },
       "ResponseBody": "{\r\n  \"odata.metadata\": \"https://oaas.azure-automation.net/subscriptions/db1ab6f0-4769-4b27-930e-01e2ef9c123c/cloudservices/OaaSCS/resources/~/Accounts/AutomationAccount/$metadata#Runbooks/@Element\",\r\n  \"Schedules\": [],\r\n  \"#OrchestratorApi.Publish\": {},\r\n  \"AccountID\": \"18bcf3ce-b68c-462e-b640-c8386d43d30c\",\r\n  \"RunbookID\": \"97477aa2-2457-4f9b-be3c-f344260f81fb\",\r\n  \"RunbookName\": \"Test-Workflow\",\r\n  \"CreationTime\": \"2014-06-04T17:53:43.377\",\r\n  \"LastModifiedTime\": \"2014-06-04T17:53:45.21\",\r\n  \"LastModifiedBy\": null,\r\n  \"Description\": \"\",\r\n  \"IsApiOnly\": false,\r\n  \"IsGlobal\": false,\r\n  \"PublishedRunbookVersionID\": null,\r\n  \"DraftRunbookVersionID\": \"541ed62d-2165-4b3e-8fca-2a86295ec819\",\r\n  \"Tags\": null,\r\n  \"LogDebug\": false,\r\n  \"LogVerbose\": false,\r\n  \"LogProgress\": false\r\n}",
@@ -358,7 +358,7 @@
         ],
         "User-Agent": [
           "Microsoft.Azure.Management.Automation.AutomationManagementClient/0.9.0.0",
-          "WindowsAzurePowershell/v0.8.4"
+          "WindowsAzurePowershell/v0.8.5"
         ]
       },
       "ResponseBody": "{\r\n  \"odata.metadata\": \"https://oaas.azure-automation.net/subscriptions/db1ab6f0-4769-4b27-930e-01e2ef9c123c/cloudservices/OaaSCS/resources/~/Accounts/AutomationAccount/$metadata#Runbooks/@Element\",\r\n  \"Schedules\": [],\r\n  \"#OrchestratorApi.Publish\": {},\r\n  \"AccountID\": \"18bcf3ce-b68c-462e-b640-c8386d43d30c\",\r\n  \"RunbookID\": \"97477aa2-2457-4f9b-be3c-f344260f81fb\",\r\n  \"RunbookName\": \"Test-Workflow\",\r\n  \"CreationTime\": \"2014-06-04T17:53:43.377\",\r\n  \"LastModifiedTime\": \"2014-06-04T17:53:45.21\",\r\n  \"LastModifiedBy\": null,\r\n  \"Description\": \"\",\r\n  \"IsApiOnly\": false,\r\n  \"IsGlobal\": false,\r\n  \"PublishedRunbookVersionID\": null,\r\n  \"DraftRunbookVersionID\": \"541ed62d-2165-4b3e-8fca-2a86295ec819\",\r\n  \"Tags\": null,\r\n  \"LogDebug\": false,\r\n  \"LogVerbose\": false,\r\n  \"LogProgress\": false\r\n}",
@@ -417,7 +417,7 @@
         ],
         "User-Agent": [
           "Microsoft.Azure.Management.Automation.AutomationManagementClient/0.9.0.0",
-          "WindowsAzurePowershell/v0.8.4"
+          "WindowsAzurePowershell/v0.8.5"
         ]
       },
       "ResponseBody": "{\r\n  \"odata.metadata\": \"https://oaas.azure-automation.net/subscriptions/db1ab6f0-4769-4b27-930e-01e2ef9c123c/cloudservices/OaaSCS/resources/~/Accounts/AutomationAccount/$metadata#Runbooks/@Element\",\r\n  \"Schedules\": [],\r\n  \"#OrchestratorApi.Edit\": {},\r\n  \"AccountID\": \"18bcf3ce-b68c-462e-b640-c8386d43d30c\",\r\n  \"RunbookID\": \"97477aa2-2457-4f9b-be3c-f344260f81fb\",\r\n  \"RunbookName\": \"Test-Workflow\",\r\n  \"CreationTime\": \"2014-06-04T17:53:43.377\",\r\n  \"LastModifiedTime\": \"2014-06-04T17:53:47.97\",\r\n  \"LastModifiedBy\": \"PowerShell\",\r\n  \"Description\": \"\",\r\n  \"IsApiOnly\": false,\r\n  \"IsGlobal\": false,\r\n  \"PublishedRunbookVersionID\": \"0fe02fef-e2d3-4eac-a404-0fd74f3a7f9b\",\r\n  \"DraftRunbookVersionID\": null,\r\n  \"Tags\": null,\r\n  \"LogDebug\": false,\r\n  \"LogVerbose\": false,\r\n  \"LogProgress\": false\r\n}",
@@ -476,7 +476,7 @@
         ],
         "User-Agent": [
           "Microsoft.Azure.Management.Automation.AutomationManagementClient/0.9.0.0",
-          "WindowsAzurePowershell/v0.8.4"
+          "WindowsAzurePowershell/v0.8.5"
         ]
       },
       "ResponseBody": "{\r\n  \"odata.metadata\": \"https://oaas.azure-automation.net/subscriptions/db1ab6f0-4769-4b27-930e-01e2ef9c123c/cloudservices/OaaSCS/resources/~/Accounts/AutomationAccount/$metadata#Runbooks/@Element\",\r\n  \"Schedules\": [],\r\n  \"#OrchestratorApi.Edit\": {},\r\n  \"AccountID\": \"18bcf3ce-b68c-462e-b640-c8386d43d30c\",\r\n  \"RunbookID\": \"97477aa2-2457-4f9b-be3c-f344260f81fb\",\r\n  \"RunbookName\": \"Test-Workflow\",\r\n  \"CreationTime\": \"2014-06-04T17:53:43.377\",\r\n  \"LastModifiedTime\": \"2014-06-04T17:53:47.97\",\r\n  \"LastModifiedBy\": \"PowerShell\",\r\n  \"Description\": \"\",\r\n  \"IsApiOnly\": false,\r\n  \"IsGlobal\": false,\r\n  \"PublishedRunbookVersionID\": \"0fe02fef-e2d3-4eac-a404-0fd74f3a7f9b\",\r\n  \"DraftRunbookVersionID\": null,\r\n  \"Tags\": null,\r\n  \"LogDebug\": false,\r\n  \"LogVerbose\": false,\r\n  \"LogProgress\": false\r\n}",
@@ -535,7 +535,7 @@
         ],
         "User-Agent": [
           "Microsoft.Azure.Management.Automation.AutomationManagementClient/0.9.0.0",
-          "WindowsAzurePowershell/v0.8.4"
+          "WindowsAzurePowershell/v0.8.5"
         ]
       },
       "ResponseBody": "{\r\n  \"odata.metadata\": \"https://oaas.azure-automation.net/subscriptions/db1ab6f0-4769-4b27-930e-01e2ef9c123c/cloudservices/OaaSCS/resources/~/Accounts/AutomationAccount/$metadata#Runbooks/@Element\",\r\n  \"Schedules\": [\r\n    {\r\n      \"odata.type\": \"AutomationApi.V2014_03_13.OneTimeSchedule\",\r\n      \"ScheduleID\": \"5ab67aed-86ed-447b-a3f0-4b81d3e444d5\",\r\n      \"AccountID\": \"18bcf3ce-b68c-462e-b640-c8386d43d30c\",\r\n      \"Name\": \"oneTimeSchedule\",\r\n      \"Description\": null,\r\n      \"StartTime\": \"2014-06-04T18:00:00\",\r\n      \"ExpiryTime\": \"2014-06-04T18:00:00\",\r\n      \"CreationTime\": \"2014-06-04T17:53:50.393\",\r\n      \"LastModifiedTime\": \"2014-06-04T17:53:50.393\",\r\n      \"IsEnabled\": true,\r\n      \"NextRun\": \"2014-06-04T18:00:00\"\r\n    }\r\n  ],\r\n  \"#OrchestratorApi.Edit\": {},\r\n  \"AccountID\": \"18bcf3ce-b68c-462e-b640-c8386d43d30c\",\r\n  \"RunbookID\": \"97477aa2-2457-4f9b-be3c-f344260f81fb\",\r\n  \"RunbookName\": \"Test-Workflow\",\r\n  \"CreationTime\": \"2014-06-04T17:53:43.377\",\r\n  \"LastModifiedTime\": \"2014-06-04T17:53:47.97\",\r\n  \"LastModifiedBy\": \"PowerShell\",\r\n  \"Description\": \"\",\r\n  \"IsApiOnly\": false,\r\n  \"IsGlobal\": false,\r\n  \"PublishedRunbookVersionID\": \"0fe02fef-e2d3-4eac-a404-0fd74f3a7f9b\",\r\n  \"DraftRunbookVersionID\": null,\r\n  \"Tags\": null,\r\n  \"LogDebug\": false,\r\n  \"LogVerbose\": false,\r\n  \"LogProgress\": false\r\n}",
@@ -594,7 +594,7 @@
         ],
         "User-Agent": [
           "Microsoft.Azure.Management.Automation.AutomationManagementClient/0.9.0.0",
-          "WindowsAzurePowershell/v0.8.4"
+          "WindowsAzurePowershell/v0.8.5"
         ]
       },
       "ResponseBody": "{\r\n  \"odata.metadata\": \"https://oaas.azure-automation.net/subscriptions/db1ab6f0-4769-4b27-930e-01e2ef9c123c/cloudservices/OaaSCS/resources/~/Accounts/AutomationAccount/$metadata#Runbooks/@Element\",\r\n  \"Schedules\": [\r\n    {\r\n      \"odata.type\": \"AutomationApi.V2014_03_13.OneTimeSchedule\",\r\n      \"ScheduleID\": \"5ab67aed-86ed-447b-a3f0-4b81d3e444d5\",\r\n      \"AccountID\": \"18bcf3ce-b68c-462e-b640-c8386d43d30c\",\r\n      \"Name\": \"oneTimeSchedule\",\r\n      \"Description\": null,\r\n      \"StartTime\": \"2014-06-04T18:00:00\",\r\n      \"ExpiryTime\": \"2014-06-04T18:00:00\",\r\n      \"CreationTime\": \"2014-06-04T17:53:50.393\",\r\n      \"LastModifiedTime\": \"2014-06-04T17:53:50.393\",\r\n      \"IsEnabled\": true,\r\n      \"NextRun\": \"2014-06-04T18:00:00\"\r\n    }\r\n  ],\r\n  \"#OrchestratorApi.Edit\": {},\r\n  \"AccountID\": \"18bcf3ce-b68c-462e-b640-c8386d43d30c\",\r\n  \"RunbookID\": \"97477aa2-2457-4f9b-be3c-f344260f81fb\",\r\n  \"RunbookName\": \"Test-Workflow\",\r\n  \"CreationTime\": \"2014-06-04T17:53:43.377\",\r\n  \"LastModifiedTime\": \"2014-06-04T17:53:47.97\",\r\n  \"LastModifiedBy\": \"PowerShell\",\r\n  \"Description\": \"\",\r\n  \"IsApiOnly\": false,\r\n  \"IsGlobal\": false,\r\n  \"PublishedRunbookVersionID\": \"0fe02fef-e2d3-4eac-a404-0fd74f3a7f9b\",\r\n  \"DraftRunbookVersionID\": null,\r\n  \"Tags\": null,\r\n  \"LogDebug\": false,\r\n  \"LogVerbose\": false,\r\n  \"LogProgress\": false\r\n}",
@@ -653,7 +653,7 @@
         ],
         "User-Agent": [
           "Microsoft.Azure.Management.Automation.AutomationManagementClient/0.9.0.0",
-          "WindowsAzurePowershell/v0.8.4"
+          "WindowsAzurePowershell/v0.8.5"
         ]
       },
       "ResponseBody": "{\r\n  \"odata.metadata\": \"https://oaas.azure-automation.net/subscriptions/db1ab6f0-4769-4b27-930e-01e2ef9c123c/cloudservices/OaaSCS/resources/~/Accounts/AutomationAccount/$metadata#Runbooks/@Element\",\r\n  \"Schedules\": [\r\n    {\r\n      \"odata.type\": \"AutomationApi.V2014_03_13.OneTimeSchedule\",\r\n      \"ScheduleID\": \"5ab67aed-86ed-447b-a3f0-4b81d3e444d5\",\r\n      \"AccountID\": \"18bcf3ce-b68c-462e-b640-c8386d43d30c\",\r\n      \"Name\": \"oneTimeSchedule\",\r\n      \"Description\": null,\r\n      \"StartTime\": \"2014-06-04T18:00:00\",\r\n      \"ExpiryTime\": \"2014-06-04T18:00:00\",\r\n      \"CreationTime\": \"2014-06-04T17:53:50.393\",\r\n      \"LastModifiedTime\": \"2014-06-04T17:53:50.393\",\r\n      \"IsEnabled\": true,\r\n      \"NextRun\": \"2014-06-04T18:00:00\"\r\n    },\r\n    {\r\n      \"odata.type\": \"AutomationApi.V2014_03_13.DailySchedule\",\r\n      \"ScheduleID\": \"be4c566c-40d9-481f-874d-b52289c7409d\",\r\n      \"AccountID\": \"18bcf3ce-b68c-462e-b640-c8386d43d30c\",\r\n      \"Name\": \"dailySchedule\",\r\n      \"Description\": null,\r\n      \"StartTime\": \"2014-06-05T17:53:00\",\r\n      \"ExpiryTime\": \"2014-06-07T17:53:53.498307\",\r\n      \"CreationTime\": \"2014-06-04T17:53:54.597\",\r\n      \"LastModifiedTime\": \"2014-06-04T17:53:54.597\",\r\n      \"IsEnabled\": true,\r\n      \"NextRun\": \"2014-06-05T17:53:00\",\r\n      \"DayInterval\": 1\r\n    }\r\n  ],\r\n  \"#OrchestratorApi.Edit\": {},\r\n  \"AccountID\": \"18bcf3ce-b68c-462e-b640-c8386d43d30c\",\r\n  \"RunbookID\": \"97477aa2-2457-4f9b-be3c-f344260f81fb\",\r\n  \"RunbookName\": \"Test-Workflow\",\r\n  \"CreationTime\": \"2014-06-04T17:53:43.377\",\r\n  \"LastModifiedTime\": \"2014-06-04T17:53:47.97\",\r\n  \"LastModifiedBy\": \"PowerShell\",\r\n  \"Description\": \"\",\r\n  \"IsApiOnly\": false,\r\n  \"IsGlobal\": false,\r\n  \"PublishedRunbookVersionID\": \"0fe02fef-e2d3-4eac-a404-0fd74f3a7f9b\",\r\n  \"DraftRunbookVersionID\": null,\r\n  \"Tags\": null,\r\n  \"LogDebug\": false,\r\n  \"LogVerbose\": false,\r\n  \"LogProgress\": false\r\n}",
@@ -712,7 +712,7 @@
         ],
         "User-Agent": [
           "Microsoft.Azure.Management.Automation.AutomationManagementClient/0.9.0.0",
-          "WindowsAzurePowershell/v0.8.4"
+          "WindowsAzurePowershell/v0.8.5"
         ]
       },
       "ResponseBody": "{\r\n  \"odata.metadata\": \"https://oaas.azure-automation.net/subscriptions/db1ab6f0-4769-4b27-930e-01e2ef9c123c/cloudservices/OaaSCS/resources/~/Accounts/AutomationAccount/$metadata#Runbooks/@Element\",\r\n  \"Schedules\": [\r\n    {\r\n      \"odata.type\": \"AutomationApi.V2014_03_13.OneTimeSchedule\",\r\n      \"ScheduleID\": \"5ab67aed-86ed-447b-a3f0-4b81d3e444d5\",\r\n      \"AccountID\": \"18bcf3ce-b68c-462e-b640-c8386d43d30c\",\r\n      \"Name\": \"oneTimeSchedule\",\r\n      \"Description\": \"Daily Schedule Description\",\r\n      \"StartTime\": \"2014-06-04T18:00:00\",\r\n      \"ExpiryTime\": \"2014-06-04T18:00:00\",\r\n      \"CreationTime\": \"2014-06-04T17:53:50.393\",\r\n      \"LastModifiedTime\": \"2014-06-04T18:01:42.52\",\r\n      \"IsEnabled\": true,\r\n      \"NextRun\": null\r\n    }\r\n  ],\r\n  \"#OrchestratorApi.Edit\": {},\r\n  \"AccountID\": \"18bcf3ce-b68c-462e-b640-c8386d43d30c\",\r\n  \"RunbookID\": \"97477aa2-2457-4f9b-be3c-f344260f81fb\",\r\n  \"RunbookName\": \"Test-Workflow\",\r\n  \"CreationTime\": \"2014-06-04T17:53:43.377\",\r\n  \"LastModifiedTime\": \"2014-06-04T17:53:47.97\",\r\n  \"LastModifiedBy\": \"PowerShell\",\r\n  \"Description\": \"\",\r\n  \"IsApiOnly\": false,\r\n  \"IsGlobal\": false,\r\n  \"PublishedRunbookVersionID\": \"0fe02fef-e2d3-4eac-a404-0fd74f3a7f9b\",\r\n  \"DraftRunbookVersionID\": null,\r\n  \"Tags\": null,\r\n  \"LogDebug\": false,\r\n  \"LogVerbose\": false,\r\n  \"LogProgress\": false\r\n}",
@@ -771,7 +771,7 @@
         ],
         "User-Agent": [
           "Microsoft.Azure.Management.Automation.AutomationManagementClient/0.9.0.0",
-          "WindowsAzurePowershell/v0.8.4"
+          "WindowsAzurePowershell/v0.8.5"
         ]
       },
       "ResponseBody": "<string xmlns=\"http://schemas.microsoft.com/2003/10/Serialization/\">{\"odata.error\":{\"code\":\"\",\"message\":{\"lang\":\"en-US\",\"value\":\"Resource not found for the segment 'Runbooks'.\"}}}</string>",
@@ -804,7 +804,7 @@
         ],
         "User-Agent": [
           "Microsoft.Azure.Management.Automation.AutomationManagementClient/0.9.0.0",
-          "WindowsAzurePowershell/v0.8.4"
+          "WindowsAzurePowershell/v0.8.5"
         ]
       },
       "ResponseBody": "{\r\n  \"odata.metadata\": \"https://oaas.azure-automation.net/subscriptions/db1ab6f0-4769-4b27-930e-01e2ef9c123c/cloudservices/OaaSCS/resources/~/Accounts/AutomationAccount/$metadata#Runbooks/@Element\",\r\n  \"#OrchestratorApi.Publish\": {},\r\n  \"AccountID\": \"18bcf3ce-b68c-462e-b640-c8386d43d30c\",\r\n  \"RunbookID\": \"97477aa2-2457-4f9b-be3c-f344260f81fb\",\r\n  \"RunbookName\": \"Test-Workflow\",\r\n  \"CreationTime\": \"2014-06-04T17:53:43.377\",\r\n  \"LastModifiedTime\": \"2014-06-04T17:53:43.377\",\r\n  \"LastModifiedBy\": null,\r\n  \"Description\": null,\r\n  \"IsApiOnly\": false,\r\n  \"IsGlobal\": false,\r\n  \"PublishedRunbookVersionID\": null,\r\n  \"DraftRunbookVersionID\": \"541ed62d-2165-4b3e-8fca-2a86295ec819\",\r\n  \"Tags\": null,\r\n  \"LogDebug\": false,\r\n  \"LogVerbose\": false,\r\n  \"LogProgress\": false\r\n}",
@@ -863,7 +863,7 @@
         ],
         "User-Agent": [
           "Microsoft.Azure.Management.Automation.AutomationManagementClient/0.9.0.0",
-          "WindowsAzurePowershell/v0.8.4"
+          "WindowsAzurePowershell/v0.8.5"
         ]
       },
       "ResponseBody": "{\r\n  \"odata.metadata\": \"https://oaas.azure-automation.net/subscriptions/db1ab6f0-4769-4b27-930e-01e2ef9c123c/cloudservices/OaaSCS/resources/~/Accounts/AutomationAccount/$metadata#Runbooks/@Element\",\r\n  \"#OrchestratorApi.Edit\": {},\r\n  \"AccountID\": \"18bcf3ce-b68c-462e-b640-c8386d43d30c\",\r\n  \"RunbookID\": \"97477aa2-2457-4f9b-be3c-f344260f81fb\",\r\n  \"RunbookName\": \"Test-Workflow\",\r\n  \"CreationTime\": \"2014-06-04T17:53:43.377\",\r\n  \"LastModifiedTime\": \"2014-06-04T17:53:47.97\",\r\n  \"LastModifiedBy\": \"PowerShell\",\r\n  \"Description\": \"\",\r\n  \"IsApiOnly\": false,\r\n  \"IsGlobal\": false,\r\n  \"PublishedRunbookVersionID\": \"0fe02fef-e2d3-4eac-a404-0fd74f3a7f9b\",\r\n  \"DraftRunbookVersionID\": null,\r\n  \"Tags\": null,\r\n  \"LogDebug\": false,\r\n  \"LogVerbose\": false,\r\n  \"LogProgress\": false\r\n}",
@@ -925,7 +925,7 @@
         ],
         "User-Agent": [
           "Microsoft.Azure.Management.Automation.AutomationManagementClient/0.9.0.0",
-          "WindowsAzurePowershell/v0.8.4"
+          "WindowsAzurePowershell/v0.8.5"
         ]
       },
       "ResponseBody": "",
@@ -984,7 +984,7 @@
         ],
         "User-Agent": [
           "Microsoft.Azure.Management.Automation.AutomationManagementClient/0.9.0.0",
-          "WindowsAzurePowershell/v0.8.4"
+          "WindowsAzurePowershell/v0.8.5"
         ]
       },
       "ResponseBody": "{\r\n  \"odata.metadata\": \"https://oaas.azure-automation.net/subscriptions/db1ab6f0-4769-4b27-930e-01e2ef9c123c/cloudservices/OaaSCS/resources/~/Accounts/AutomationAccount/$metadata#Runbooks\",\r\n  \"value\": [\r\n    {\r\n      \"#OrchestratorApi.Publish\": {},\r\n      \"#OrchestratorApi.Edit\": {},\r\n      \"AccountID\": \"18bcf3ce-b68c-462e-b640-c8386d43d30c\",\r\n      \"RunbookID\": \"97477aa2-2457-4f9b-be3c-f344260f81fb\",\r\n      \"RunbookName\": \"Test-Workflow\",\r\n      \"CreationTime\": \"2014-06-04T17:53:43.377\",\r\n      \"LastModifiedTime\": \"2014-06-04T17:53:45.21\",\r\n      \"LastModifiedBy\": null,\r\n      \"Description\": \"\",\r\n      \"IsApiOnly\": false,\r\n      \"IsGlobal\": false,\r\n      \"PublishedRunbookVersionID\": null,\r\n      \"DraftRunbookVersionID\": \"541ed62d-2165-4b3e-8fca-2a86295ec819\",\r\n      \"Tags\": null,\r\n      \"LogDebug\": false,\r\n      \"LogVerbose\": false,\r\n      \"LogProgress\": false\r\n    }\r\n  ]\r\n}",
@@ -1046,7 +1046,7 @@
         ],
         "User-Agent": [
           "Microsoft.Azure.Management.Automation.AutomationManagementClient/0.9.0.0",
-          "WindowsAzurePowershell/v0.8.4"
+          "WindowsAzurePowershell/v0.8.5"
         ]
       },
       "ResponseBody": "{\r\n  \"odata.metadata\": \"https://oaas.azure-automation.net/subscriptions/db1ab6f0-4769-4b27-930e-01e2ef9c123c/cloudservices/OaaSCS/resources/~/Accounts/AutomationAccount/$metadata#Runbooks\",\r\n  \"value\": [\r\n    {\r\n      \"#OrchestratorApi.Publish\": {},\r\n      \"#OrchestratorApi.Edit\": {},\r\n      \"AccountID\": \"18bcf3ce-b68c-462e-b640-c8386d43d30c\",\r\n      \"RunbookID\": \"97477aa2-2457-4f9b-be3c-f344260f81fb\",\r\n      \"RunbookName\": \"Test-Workflow\",\r\n      \"CreationTime\": \"2014-06-04T17:53:43.377\",\r\n      \"LastModifiedTime\": \"2014-06-04T17:53:47.97\",\r\n      \"LastModifiedBy\": \"PowerShell\",\r\n      \"Description\": \"\",\r\n      \"IsApiOnly\": false,\r\n      \"IsGlobal\": false,\r\n      \"PublishedRunbookVersionID\": \"0fe02fef-e2d3-4eac-a404-0fd74f3a7f9b\",\r\n      \"DraftRunbookVersionID\": null,\r\n      \"Tags\": null,\r\n      \"LogDebug\": false,\r\n      \"LogVerbose\": false,\r\n      \"LogProgress\": false\r\n    }\r\n  ]\r\n}",
@@ -1108,7 +1108,7 @@
         ],
         "User-Agent": [
           "Microsoft.Azure.Management.Automation.AutomationManagementClient/0.9.0.0",
-          "WindowsAzurePowershell/v0.8.4"
+          "WindowsAzurePowershell/v0.8.5"
         ]
       },
       "ResponseBody": "{\r\n  \"odata.metadata\": \"https://oaas.azure-automation.net/subscriptions/db1ab6f0-4769-4b27-930e-01e2ef9c123c/cloudservices/OaaSCS/resources/~/Accounts/AutomationAccount/$metadata#Runbooks\",\r\n  \"value\": [\r\n    {\r\n      \"#OrchestratorApi.Publish\": {},\r\n      \"#OrchestratorApi.Edit\": {},\r\n      \"AccountID\": \"18bcf3ce-b68c-462e-b640-c8386d43d30c\",\r\n      \"RunbookID\": \"97477aa2-2457-4f9b-be3c-f344260f81fb\",\r\n      \"RunbookName\": \"Test-Workflow\",\r\n      \"CreationTime\": \"2014-06-04T17:53:43.377\",\r\n      \"LastModifiedTime\": \"2014-06-04T17:53:47.97\",\r\n      \"LastModifiedBy\": \"PowerShell\",\r\n      \"Description\": \"\",\r\n      \"IsApiOnly\": false,\r\n      \"IsGlobal\": false,\r\n      \"PublishedRunbookVersionID\": \"0fe02fef-e2d3-4eac-a404-0fd74f3a7f9b\",\r\n      \"DraftRunbookVersionID\": null,\r\n      \"Tags\": null,\r\n      \"LogDebug\": false,\r\n      \"LogVerbose\": false,\r\n      \"LogProgress\": false\r\n    }\r\n  ]\r\n}",
@@ -1173,7 +1173,7 @@
         ],
         "User-Agent": [
           "Microsoft.Azure.Management.Automation.AutomationManagementClient/0.9.0.0",
-          "WindowsAzurePowershell/v0.8.4"
+          "WindowsAzurePowershell/v0.8.5"
         ]
       },
       "ResponseBody": "{\r\n  \"odata.metadata\": \"https://oaas.azure-automation.net/subscriptions/db1ab6f0-4769-4b27-930e-01e2ef9c123c/cloudservices/OaaSCS/resources/~/Accounts/AutomationAccount/$metadata#Edm.Guid\",\r\n  \"value\": \"0fe02fef-e2d3-4eac-a404-0fd74f3a7f9b\"\r\n}",
@@ -1232,7 +1232,7 @@
         ],
         "User-Agent": [
           "Microsoft.Azure.Management.Automation.AutomationManagementClient/0.9.0.0",
-          "WindowsAzurePowershell/v0.8.4"
+          "WindowsAzurePowershell/v0.8.5"
         ]
       },
       "ResponseBody": "{\r\n  \"odata.metadata\": \"https://oaas.azure-automation.net/subscriptions/db1ab6f0-4769-4b27-930e-01e2ef9c123c/cloudservices/OaaSCS/resources/~/Accounts/AutomationAccount/$metadata#Schedules\",\r\n  \"value\": [\r\n    {\r\n      \"odata.type\": \"AutomationApi.V2014_03_13.OneTimeSchedule\",\r\n      \"ScheduleID\": \"837eaad3-2043-4a2d-995d-bea247ab8378\",\r\n      \"AccountID\": \"18bcf3ce-b68c-462e-b640-c8386d43d30c\",\r\n      \"Name\": \"s01\",\r\n      \"Description\": null,\r\n      \"StartTime\": \"2014-04-30T06:30:00\",\r\n      \"ExpiryTime\": \"2014-04-30T06:30:00\",\r\n      \"CreationTime\": \"2014-04-29T00:00:34.637\",\r\n      \"LastModifiedTime\": \"2014-04-29T00:00:34.637\",\r\n      \"IsEnabled\": true,\r\n      \"NextRun\": null\r\n    }\r\n  ]\r\n}",
@@ -1294,7 +1294,7 @@
         ],
         "User-Agent": [
           "Microsoft.Azure.Management.Automation.AutomationManagementClient/0.9.0.0",
-          "WindowsAzurePowershell/v0.8.4"
+          "WindowsAzurePowershell/v0.8.5"
         ]
       },
       "ResponseBody": "{\r\n  \"odata.metadata\": \"https://oaas.azure-automation.net/subscriptions/db1ab6f0-4769-4b27-930e-01e2ef9c123c/cloudservices/OaaSCS/resources/~/Accounts/AutomationAccount/$metadata#Schedules\",\r\n  \"value\": [\r\n    {\r\n      \"odata.type\": \"AutomationApi.V2014_03_13.OneTimeSchedule\",\r\n      \"ScheduleID\": \"5ab67aed-86ed-447b-a3f0-4b81d3e444d5\",\r\n      \"AccountID\": \"18bcf3ce-b68c-462e-b640-c8386d43d30c\",\r\n      \"Name\": \"oneTimeSchedule\",\r\n      \"Description\": null,\r\n      \"StartTime\": \"2014-06-04T18:00:00\",\r\n      \"ExpiryTime\": \"2014-06-04T18:00:00\",\r\n      \"CreationTime\": \"2014-06-04T17:53:50.393\",\r\n      \"LastModifiedTime\": \"2014-06-04T17:53:50.393\",\r\n      \"IsEnabled\": true,\r\n      \"NextRun\": \"2014-06-04T18:00:00\"\r\n    },\r\n    {\r\n      \"odata.type\": \"AutomationApi.V2014_03_13.OneTimeSchedule\",\r\n      \"ScheduleID\": \"837eaad3-2043-4a2d-995d-bea247ab8378\",\r\n      \"AccountID\": \"18bcf3ce-b68c-462e-b640-c8386d43d30c\",\r\n      \"Name\": \"s01\",\r\n      \"Description\": null,\r\n      \"StartTime\": \"2014-04-30T06:30:00\",\r\n      \"ExpiryTime\": \"2014-04-30T06:30:00\",\r\n      \"CreationTime\": \"2014-04-29T00:00:34.637\",\r\n      \"LastModifiedTime\": \"2014-04-29T00:00:34.637\",\r\n      \"IsEnabled\": true,\r\n      \"NextRun\": null\r\n    }\r\n  ]\r\n}",
@@ -1356,7 +1356,7 @@
         ],
         "User-Agent": [
           "Microsoft.Azure.Management.Automation.AutomationManagementClient/0.9.0.0",
-          "WindowsAzurePowershell/v0.8.4"
+          "WindowsAzurePowershell/v0.8.5"
         ]
       },
       "ResponseBody": "{\r\n  \"odata.metadata\": \"https://oaas.azure-automation.net/subscriptions/db1ab6f0-4769-4b27-930e-01e2ef9c123c/cloudservices/OaaSCS/resources/~/Accounts/AutomationAccount/$metadata#Schedules\",\r\n  \"value\": []\r\n}",
@@ -1418,7 +1418,7 @@
         ],
         "User-Agent": [
           "Microsoft.Azure.Management.Automation.AutomationManagementClient/0.9.0.0",
-          "WindowsAzurePowershell/v0.8.4"
+          "WindowsAzurePowershell/v0.8.5"
         ]
       },
       "ResponseBody": "{\r\n  \"odata.metadata\": \"https://oaas.azure-automation.net/subscriptions/db1ab6f0-4769-4b27-930e-01e2ef9c123c/cloudservices/OaaSCS/resources/~/Accounts/AutomationAccount/$metadata#Schedules\",\r\n  \"value\": [\r\n    {\r\n      \"odata.type\": \"AutomationApi.V2014_03_13.OneTimeSchedule\",\r\n      \"ScheduleID\": \"5ab67aed-86ed-447b-a3f0-4b81d3e444d5\",\r\n      \"AccountID\": \"18bcf3ce-b68c-462e-b640-c8386d43d30c\",\r\n      \"Name\": \"oneTimeSchedule\",\r\n      \"Description\": null,\r\n      \"StartTime\": \"2014-06-04T18:00:00\",\r\n      \"ExpiryTime\": \"2014-06-04T18:00:00\",\r\n      \"CreationTime\": \"2014-06-04T17:53:50.393\",\r\n      \"LastModifiedTime\": \"2014-06-04T17:53:50.393\",\r\n      \"IsEnabled\": true,\r\n      \"NextRun\": \"2014-06-04T18:00:00\"\r\n    }\r\n  ]\r\n}",
@@ -1480,7 +1480,7 @@
         ],
         "User-Agent": [
           "Microsoft.Azure.Management.Automation.AutomationManagementClient/0.9.0.0",
-          "WindowsAzurePowershell/v0.8.4"
+          "WindowsAzurePowershell/v0.8.5"
         ]
       },
       "ResponseBody": "{\r\n  \"odata.metadata\": \"https://oaas.azure-automation.net/subscriptions/db1ab6f0-4769-4b27-930e-01e2ef9c123c/cloudservices/OaaSCS/resources/~/Accounts/AutomationAccount/$metadata#Schedules\",\r\n  \"value\": [\r\n    {\r\n      \"odata.type\": \"AutomationApi.V2014_03_13.OneTimeSchedule\",\r\n      \"ScheduleID\": \"5ab67aed-86ed-447b-a3f0-4b81d3e444d5\",\r\n      \"AccountID\": \"18bcf3ce-b68c-462e-b640-c8386d43d30c\",\r\n      \"Name\": \"oneTimeSchedule\",\r\n      \"Description\": null,\r\n      \"StartTime\": \"2014-06-04T18:00:00\",\r\n      \"ExpiryTime\": \"2014-06-04T18:00:00\",\r\n      \"CreationTime\": \"2014-06-04T17:53:50.393\",\r\n      \"LastModifiedTime\": \"2014-06-04T17:53:50.393\",\r\n      \"IsEnabled\": true,\r\n      \"NextRun\": \"2014-06-04T18:00:00\"\r\n    }\r\n  ]\r\n}",
@@ -1542,7 +1542,7 @@
         ],
         "User-Agent": [
           "Microsoft.Azure.Management.Automation.AutomationManagementClient/0.9.0.0",
-          "WindowsAzurePowershell/v0.8.4"
+          "WindowsAzurePowershell/v0.8.5"
         ]
       },
       "ResponseBody": "{\r\n  \"odata.metadata\": \"https://oaas.azure-automation.net/subscriptions/db1ab6f0-4769-4b27-930e-01e2ef9c123c/cloudservices/OaaSCS/resources/~/Accounts/AutomationAccount/$metadata#Schedules\",\r\n  \"value\": [\r\n    {\r\n      \"odata.type\": \"AutomationApi.V2014_03_13.OneTimeSchedule\",\r\n      \"ScheduleID\": \"5ab67aed-86ed-447b-a3f0-4b81d3e444d5\",\r\n      \"AccountID\": \"18bcf3ce-b68c-462e-b640-c8386d43d30c\",\r\n      \"Name\": \"oneTimeSchedule\",\r\n      \"Description\": null,\r\n      \"StartTime\": \"2014-06-04T18:00:00\",\r\n      \"ExpiryTime\": \"2014-06-04T18:00:00\",\r\n      \"CreationTime\": \"2014-06-04T17:53:50.393\",\r\n      \"LastModifiedTime\": \"2014-06-04T17:53:50.393\",\r\n      \"IsEnabled\": true,\r\n      \"NextRun\": null\r\n    }\r\n  ]\r\n}",
@@ -1604,7 +1604,7 @@
         ],
         "User-Agent": [
           "Microsoft.Azure.Management.Automation.AutomationManagementClient/0.9.0.0",
-          "WindowsAzurePowershell/v0.8.4"
+          "WindowsAzurePowershell/v0.8.5"
         ]
       },
       "ResponseBody": "{\r\n  \"odata.metadata\": \"https://oaas.azure-automation.net/subscriptions/db1ab6f0-4769-4b27-930e-01e2ef9c123c/cloudservices/OaaSCS/resources/~/Accounts/AutomationAccount/$metadata#Schedules\",\r\n  \"value\": [\r\n    {\r\n      \"odata.type\": \"AutomationApi.V2014_03_13.OneTimeSchedule\",\r\n      \"ScheduleID\": \"5ab67aed-86ed-447b-a3f0-4b81d3e444d5\",\r\n      \"AccountID\": \"18bcf3ce-b68c-462e-b640-c8386d43d30c\",\r\n      \"Name\": \"oneTimeSchedule\",\r\n      \"Description\": \"Daily Schedule Description\",\r\n      \"StartTime\": \"2014-06-04T18:00:00\",\r\n      \"ExpiryTime\": \"2014-06-04T18:00:00\",\r\n      \"CreationTime\": \"2014-06-04T17:53:50.393\",\r\n      \"LastModifiedTime\": \"2014-06-04T18:01:38.74\",\r\n      \"IsEnabled\": true,\r\n      \"NextRun\": null\r\n    }\r\n  ]\r\n}",
@@ -1666,7 +1666,7 @@
         ],
         "User-Agent": [
           "Microsoft.Azure.Management.Automation.AutomationManagementClient/0.9.0.0",
-          "WindowsAzurePowershell/v0.8.4"
+          "WindowsAzurePowershell/v0.8.5"
         ]
       },
       "ResponseBody": "{\r\n  \"odata.metadata\": \"https://oaas.azure-automation.net/subscriptions/db1ab6f0-4769-4b27-930e-01e2ef9c123c/cloudservices/OaaSCS/resources/~/Accounts/AutomationAccount/$metadata#Schedules\",\r\n  \"value\": [\r\n    {\r\n      \"odata.type\": \"AutomationApi.V2014_03_13.OneTimeSchedule\",\r\n      \"ScheduleID\": \"5ab67aed-86ed-447b-a3f0-4b81d3e444d5\",\r\n      \"AccountID\": \"18bcf3ce-b68c-462e-b640-c8386d43d30c\",\r\n      \"Name\": \"oneTimeSchedule\",\r\n      \"Description\": \"Daily Schedule Description\",\r\n      \"StartTime\": \"2014-06-04T18:00:00\",\r\n      \"ExpiryTime\": \"2014-06-04T18:00:00\",\r\n      \"CreationTime\": \"2014-06-04T17:53:50.393\",\r\n      \"LastModifiedTime\": \"2014-06-04T18:01:42.52\",\r\n      \"IsEnabled\": true,\r\n      \"NextRun\": null\r\n    }\r\n  ]\r\n}",
@@ -1728,7 +1728,7 @@
         ],
         "User-Agent": [
           "Microsoft.Azure.Management.Automation.AutomationManagementClient/0.9.0.0",
-          "WindowsAzurePowershell/v0.8.4"
+          "WindowsAzurePowershell/v0.8.5"
         ]
       },
       "ResponseBody": "{\r\n  \"odata.metadata\": \"https://oaas.azure-automation.net/subscriptions/db1ab6f0-4769-4b27-930e-01e2ef9c123c/cloudservices/OaaSCS/resources/~/Accounts/AutomationAccount/$metadata#Schedules\",\r\n  \"value\": []\r\n}",
@@ -1790,7 +1790,7 @@
         ],
         "User-Agent": [
           "Microsoft.Azure.Management.Automation.AutomationManagementClient/0.9.0.0",
-          "WindowsAzurePowershell/v0.8.4"
+          "WindowsAzurePowershell/v0.8.5"
         ]
       },
       "ResponseBody": "{\r\n  \"odata.metadata\": \"https://oaas.azure-automation.net/subscriptions/db1ab6f0-4769-4b27-930e-01e2ef9c123c/cloudservices/OaaSCS/resources/~/Accounts/AutomationAccount/$metadata#Schedules/AutomationApi.V2014_03_13.OneTimeSchedule/@Element\",\r\n  \"ScheduleID\": \"5ab67aed-86ed-447b-a3f0-4b81d3e444d5\",\r\n  \"AccountID\": \"18bcf3ce-b68c-462e-b640-c8386d43d30c\",\r\n  \"Name\": \"oneTimeSchedule\",\r\n  \"Description\": null,\r\n  \"StartTime\": \"2014-06-04T18:00:00\",\r\n  \"ExpiryTime\": \"9999-12-31T00:00:00Z\",\r\n  \"CreationTime\": \"0001-01-01T00:00:00\",\r\n  \"LastModifiedTime\": \"0001-01-01T00:00:00\",\r\n  \"IsEnabled\": false,\r\n  \"NextRun\": null\r\n}",
@@ -1852,7 +1852,7 @@
         ],
         "User-Agent": [
           "Microsoft.Azure.Management.Automation.AutomationManagementClient/0.9.0.0",
-          "WindowsAzurePowershell/v0.8.4"
+          "WindowsAzurePowershell/v0.8.5"
         ]
       },
       "ResponseBody": "{\r\n  \"odata.metadata\": \"https://oaas.azure-automation.net/subscriptions/db1ab6f0-4769-4b27-930e-01e2ef9c123c/cloudservices/OaaSCS/resources/~/Accounts/AutomationAccount/$metadata#Schedules/AutomationApi.V2014_03_13.DailySchedule/@Element\",\r\n  \"ScheduleID\": \"be4c566c-40d9-481f-874d-b52289c7409d\",\r\n  \"AccountID\": \"18bcf3ce-b68c-462e-b640-c8386d43d30c\",\r\n  \"Name\": \"dailySchedule\",\r\n  \"Description\": null,\r\n  \"StartTime\": \"2014-06-05T17:53:00\",\r\n  \"ExpiryTime\": \"2014-06-07T17:53:53.498307Z\",\r\n  \"CreationTime\": \"0001-01-01T00:00:00\",\r\n  \"LastModifiedTime\": \"0001-01-01T00:00:00\",\r\n  \"IsEnabled\": false,\r\n  \"NextRun\": null,\r\n  \"DayInterval\": 1\r\n}",
@@ -1914,7 +1914,7 @@
         ],
         "User-Agent": [
           "Microsoft.Azure.Management.Automation.AutomationManagementClient/0.9.0.0",
-          "WindowsAzurePowershell/v0.8.4"
+          "WindowsAzurePowershell/v0.8.5"
         ]
       },
       "ResponseBody": "{\r\n  \"odata.metadata\": \"https://oaas.azure-automation.net/subscriptions/db1ab6f0-4769-4b27-930e-01e2ef9c123c/cloudservices/OaaSCS/resources/~/Accounts/AutomationAccount/$metadata#Schedules/@Element\",\r\n  \"odata.type\": \"AutomationApi.V2014_03_13.OneTimeSchedule\",\r\n  \"ScheduleID\": \"5ab67aed-86ed-447b-a3f0-4b81d3e444d5\",\r\n  \"AccountID\": \"18bcf3ce-b68c-462e-b640-c8386d43d30c\",\r\n  \"Name\": \"oneTimeSchedule\",\r\n  \"Description\": null,\r\n  \"StartTime\": \"2014-06-04T18:00:00\",\r\n  \"ExpiryTime\": \"2014-06-04T18:00:00\",\r\n  \"CreationTime\": \"2014-06-04T17:53:50.393\",\r\n  \"LastModifiedTime\": \"2014-06-04T17:53:50.393\",\r\n  \"IsEnabled\": true,\r\n  \"NextRun\": \"2014-06-04T18:00:00\"\r\n}",
@@ -1973,7 +1973,7 @@
         ],
         "User-Agent": [
           "Microsoft.Azure.Management.Automation.AutomationManagementClient/0.9.0.0",
-          "WindowsAzurePowershell/v0.8.4"
+          "WindowsAzurePowershell/v0.8.5"
         ]
       },
       "ResponseBody": "{\r\n  \"odata.metadata\": \"https://oaas.azure-automation.net/subscriptions/db1ab6f0-4769-4b27-930e-01e2ef9c123c/cloudservices/OaaSCS/resources/~/Accounts/AutomationAccount/$metadata#Schedules/@Element\",\r\n  \"odata.type\": \"AutomationApi.V2014_03_13.OneTimeSchedule\",\r\n  \"ScheduleID\": \"5ab67aed-86ed-447b-a3f0-4b81d3e444d5\",\r\n  \"AccountID\": \"18bcf3ce-b68c-462e-b640-c8386d43d30c\",\r\n  \"Name\": \"oneTimeSchedule\",\r\n  \"Description\": \"Daily Schedule Description\",\r\n  \"StartTime\": \"2014-06-04T18:00:00\",\r\n  \"ExpiryTime\": \"2014-06-04T18:00:00\",\r\n  \"CreationTime\": \"2014-06-04T17:53:50.393\",\r\n  \"LastModifiedTime\": \"2014-06-04T18:01:38.74\",\r\n  \"IsEnabled\": true,\r\n  \"NextRun\": null\r\n}",
@@ -2032,7 +2032,7 @@
         ],
         "User-Agent": [
           "Microsoft.Azure.Management.Automation.AutomationManagementClient/0.9.0.0",
-          "WindowsAzurePowershell/v0.8.4"
+          "WindowsAzurePowershell/v0.8.5"
         ]
       },
       "ResponseBody": "{\r\n  \"odata.metadata\": \"https://oaas.azure-automation.net/subscriptions/db1ab6f0-4769-4b27-930e-01e2ef9c123c/cloudservices/OaaSCS/resources/~/Accounts/AutomationAccount/$metadata#Schedules\",\r\n  \"value\": []\r\n}",
@@ -2094,7 +2094,7 @@
         ],
         "User-Agent": [
           "Microsoft.Azure.Management.Automation.AutomationManagementClient/0.9.0.0",
-          "WindowsAzurePowershell/v0.8.4"
+          "WindowsAzurePowershell/v0.8.5"
         ]
       },
       "ResponseBody": "{\r\n  \"odata.metadata\": \"https://oaas.azure-automation.net/subscriptions/db1ab6f0-4769-4b27-930e-01e2ef9c123c/cloudservices/OaaSCS/resources/~/Accounts/AutomationAccount/$metadata#Schedules\",\r\n  \"value\": [\r\n    {\r\n      \"odata.type\": \"AutomationApi.V2014_03_13.DailySchedule\",\r\n      \"ScheduleID\": \"be4c566c-40d9-481f-874d-b52289c7409d\",\r\n      \"AccountID\": \"18bcf3ce-b68c-462e-b640-c8386d43d30c\",\r\n      \"Name\": \"dailySchedule\",\r\n      \"Description\": null,\r\n      \"StartTime\": \"2014-06-05T17:53:00\",\r\n      \"ExpiryTime\": \"2014-06-07T17:53:53.498307\",\r\n      \"CreationTime\": \"2014-06-04T17:53:54.597\",\r\n      \"LastModifiedTime\": \"2014-06-04T17:53:54.597\",\r\n      \"IsEnabled\": true,\r\n      \"NextRun\": \"2014-06-05T17:53:00\",\r\n      \"DayInterval\": 1\r\n    }\r\n  ]\r\n}",
@@ -2156,7 +2156,7 @@
         ],
         "User-Agent": [
           "Microsoft.Azure.Management.Automation.AutomationManagementClient/0.9.0.0",
-          "WindowsAzurePowershell/v0.8.4"
+          "WindowsAzurePowershell/v0.8.5"
         ]
       },
       "ResponseBody": "{\r\n  \"odata.metadata\": \"https://oaas.azure-automation.net/subscriptions/db1ab6f0-4769-4b27-930e-01e2ef9c123c/cloudservices/OaaSCS/resources/~/Accounts/AutomationAccount/$metadata#Schedules\",\r\n  \"value\": [\r\n    {\r\n      \"odata.type\": \"AutomationApi.V2014_03_13.DailySchedule\",\r\n      \"ScheduleID\": \"be4c566c-40d9-481f-874d-b52289c7409d\",\r\n      \"AccountID\": \"18bcf3ce-b68c-462e-b640-c8386d43d30c\",\r\n      \"Name\": \"dailySchedule\",\r\n      \"Description\": null,\r\n      \"StartTime\": \"2014-06-05T17:53:00\",\r\n      \"ExpiryTime\": \"2014-06-07T17:53:53.498307\",\r\n      \"CreationTime\": \"2014-06-04T17:53:54.597\",\r\n      \"LastModifiedTime\": \"2014-06-04T17:53:54.597\",\r\n      \"IsEnabled\": true,\r\n      \"NextRun\": \"2014-06-05T17:53:00\",\r\n      \"DayInterval\": 1\r\n    }\r\n  ]\r\n}",
@@ -2218,7 +2218,7 @@
         ],
         "User-Agent": [
           "Microsoft.Azure.Management.Automation.AutomationManagementClient/0.9.0.0",
-          "WindowsAzurePowershell/v0.8.4"
+          "WindowsAzurePowershell/v0.8.5"
         ]
       },
       "ResponseBody": "{\r\n  \"odata.metadata\": \"https://oaas.azure-automation.net/subscriptions/db1ab6f0-4769-4b27-930e-01e2ef9c123c/cloudservices/OaaSCS/resources/~/Accounts/AutomationAccount/$metadata#Schedules\",\r\n  \"value\": [\r\n    {\r\n      \"odata.type\": \"AutomationApi.V2014_03_13.DailySchedule\",\r\n      \"ScheduleID\": \"be4c566c-40d9-481f-874d-b52289c7409d\",\r\n      \"AccountID\": \"18bcf3ce-b68c-462e-b640-c8386d43d30c\",\r\n      \"Name\": \"dailySchedule\",\r\n      \"Description\": null,\r\n      \"StartTime\": \"2014-06-05T17:53:00\",\r\n      \"ExpiryTime\": \"2014-06-07T17:53:53.498307\",\r\n      \"CreationTime\": \"2014-06-04T17:53:54.597\",\r\n      \"LastModifiedTime\": \"2014-06-04T17:53:54.597\",\r\n      \"IsEnabled\": true,\r\n      \"NextRun\": \"2014-06-05T17:53:00\",\r\n      \"DayInterval\": 1\r\n    }\r\n  ]\r\n}",
@@ -2277,7 +2277,7 @@
         ],
         "User-Agent": [
           "Microsoft.Azure.Management.Automation.AutomationManagementClient/0.9.0.0",
-          "WindowsAzurePowershell/v0.8.4"
+          "WindowsAzurePowershell/v0.8.5"
         ]
       },
       "ResponseBody": "{\r\n  \"odata.metadata\": \"https://oaas.azure-automation.net/subscriptions/db1ab6f0-4769-4b27-930e-01e2ef9c123c/cloudservices/OaaSCS/resources/~/Accounts/AutomationAccount/$metadata#Schedules\",\r\n  \"value\": [\r\n    {\r\n      \"odata.type\": \"AutomationApi.V2014_03_13.DailySchedule\",\r\n      \"ScheduleID\": \"be4c566c-40d9-481f-874d-b52289c7409d\",\r\n      \"AccountID\": \"18bcf3ce-b68c-462e-b640-c8386d43d30c\",\r\n      \"Name\": \"dailySchedule\",\r\n      \"Description\": null,\r\n      \"StartTime\": \"2014-06-05T17:53:00\",\r\n      \"ExpiryTime\": \"2014-06-07T17:53:53.498307\",\r\n      \"CreationTime\": \"2014-06-04T17:53:54.597\",\r\n      \"LastModifiedTime\": \"2014-06-04T18:01:42.527\",\r\n      \"IsEnabled\": true,\r\n      \"NextRun\": \"2014-06-05T17:53:00\",\r\n      \"DayInterval\": 1\r\n    }\r\n  ]\r\n}",
@@ -2339,7 +2339,7 @@
         ],
         "User-Agent": [
           "Microsoft.Azure.Management.Automation.AutomationManagementClient/0.9.0.0",
-          "WindowsAzurePowershell/v0.8.4"
+          "WindowsAzurePowershell/v0.8.5"
         ]
       },
       "ResponseBody": "{\r\n  \"odata.metadata\": \"https://oaas.azure-automation.net/subscriptions/db1ab6f0-4769-4b27-930e-01e2ef9c123c/cloudservices/OaaSCS/resources/~/Accounts/AutomationAccount/$metadata#Schedules\",\r\n  \"value\": []\r\n}",
@@ -2401,7 +2401,7 @@
         ],
         "User-Agent": [
           "Microsoft.Azure.Management.Automation.AutomationManagementClient/0.9.0.0",
-          "WindowsAzurePowershell/v0.8.4"
+          "WindowsAzurePowershell/v0.8.5"
         ]
       },
       "ResponseBody": "{\r\n  \"odata.metadata\": \"https://oaas.azure-automation.net/subscriptions/db1ab6f0-4769-4b27-930e-01e2ef9c123c/cloudservices/OaaSCS/resources/~/Accounts/AutomationAccount/$metadata#Schedules/@Element\",\r\n  \"odata.type\": \"AutomationApi.V2014_03_13.DailySchedule\",\r\n  \"ScheduleID\": \"be4c566c-40d9-481f-874d-b52289c7409d\",\r\n  \"AccountID\": \"18bcf3ce-b68c-462e-b640-c8386d43d30c\",\r\n  \"Name\": \"dailySchedule\",\r\n  \"Description\": null,\r\n  \"StartTime\": \"2014-06-05T17:53:00\",\r\n  \"ExpiryTime\": \"2014-06-07T17:53:53.498307\",\r\n  \"CreationTime\": \"2014-06-04T17:53:54.597\",\r\n  \"LastModifiedTime\": \"2014-06-04T17:53:54.597\",\r\n  \"IsEnabled\": true,\r\n  \"NextRun\": \"2014-06-05T17:53:00\",\r\n  \"DayInterval\": 1\r\n}",
@@ -2460,7 +2460,7 @@
         ],
         "User-Agent": [
           "Microsoft.Azure.Management.Automation.AutomationManagementClient/0.9.0.0",
-          "WindowsAzurePowershell/v0.8.4"
+          "WindowsAzurePowershell/v0.8.5"
         ]
       },
       "ResponseBody": "{\r\n  \"odata.metadata\": \"https://oaas.azure-automation.net/subscriptions/db1ab6f0-4769-4b27-930e-01e2ef9c123c/cloudservices/OaaSCS/resources/~/Accounts/AutomationAccount/$metadata#RunbookParameters\",\r\n  \"value\": []\r\n}",
@@ -2519,7 +2519,7 @@
         ],
         "User-Agent": [
           "Microsoft.Azure.Management.Automation.AutomationManagementClient/0.9.0.0",
-          "WindowsAzurePowershell/v0.8.4"
+          "WindowsAzurePowershell/v0.8.5"
         ]
       },
       "ResponseBody": "{\r\n  \"odata.metadata\": \"https://oaas.azure-automation.net/subscriptions/db1ab6f0-4769-4b27-930e-01e2ef9c123c/cloudservices/OaaSCS/resources/~/Accounts/AutomationAccount/$metadata#RunbookParameters\",\r\n  \"value\": []\r\n}",
@@ -2578,7 +2578,7 @@
         ],
         "User-Agent": [
           "Microsoft.Azure.Management.Automation.AutomationManagementClient/0.9.0.0",
-          "WindowsAzurePowershell/v0.8.4"
+          "WindowsAzurePowershell/v0.8.5"
         ]
       },
       "ResponseBody": "{\r\n  \"odata.metadata\": \"https://oaas.azure-automation.net/subscriptions/db1ab6f0-4769-4b27-930e-01e2ef9c123c/cloudservices/OaaSCS/resources/~/Accounts/AutomationAccount/$metadata#Edm.Guid\",\r\n  \"value\": \"7320dee9-1938-4e74-9a4f-2c15e8ea7655\"\r\n}",
@@ -2637,7 +2637,7 @@
         ],
         "User-Agent": [
           "Microsoft.Azure.Management.Automation.AutomationManagementClient/0.9.0.0",
-          "WindowsAzurePowershell/v0.8.4"
+          "WindowsAzurePowershell/v0.8.5"
         ]
       },
       "ResponseBody": "{\r\n  \"odata.metadata\": \"https://oaas.azure-automation.net/subscriptions/db1ab6f0-4769-4b27-930e-01e2ef9c123c/cloudservices/OaaSCS/resources/~/Accounts/AutomationAccount/$metadata#Edm.Guid\",\r\n  \"value\": \"eb99098b-d28d-4941-9a15-f0703c3a4ab9\"\r\n}",
@@ -2696,7 +2696,7 @@
         ],
         "User-Agent": [
           "Microsoft.Azure.Management.Automation.AutomationManagementClient/0.9.0.0",
-          "WindowsAzurePowershell/v0.8.4"
+          "WindowsAzurePowershell/v0.8.5"
         ]
       },
       "ResponseBody": "{\r\n  \"odata.metadata\": \"https://oaas.azure-automation.net/subscriptions/db1ab6f0-4769-4b27-930e-01e2ef9c123c/cloudservices/OaaSCS/resources/~/Accounts/AutomationAccount/$metadata#Jobs&$select=JobID,JobContextID,AccountID,JobStatus,JobStatusDetails,StartTime,EndTime,CreationTime,LastModifiedTime,LastStatusModifiedTime,JobException,JobContext/RunbookVersion/Runbook/RunbookID,JobContext/RunbookVersion/Runbook/RunbookName,JobContext/Schedule/Name,JobContext/JobParameters\",\r\n  \"value\": [\r\n    {\r\n      \"odata.mediaReadLink\": \"Jobs(guid'8163ae33-d15b-4fa3-a180-8c3510514c73')/$value\",\r\n      \"odata.mediaContentType\": \"application/octet-stream\",\r\n      \"JobContext\": {\r\n        \"RunbookVersion\": {\r\n          \"odata.mediaReadLink\": \"RunbookVersions(guid'0fe02fef-e2d3-4eac-a404-0fd74f3a7f9b')/$value\",\r\n          \"odata.mediaContentType\": \"application/octet-stream\",\r\n          \"Runbook\": {\r\n            \"RunbookID\": \"97477aa2-2457-4f9b-be3c-f344260f81fb\",\r\n            \"RunbookName\": \"Test-Workflow\"\r\n          }\r\n        },\r\n        \"JobParameters\": [\r\n          {\r\n            \"JobContextID\": \"7320dee9-1938-4e74-9a4f-2c15e8ea7655\",\r\n            \"Name\": \"MicrosoftApplicationManagementStartedBy\",\r\n            \"Value\": \"PowerShell\",\r\n            \"Type\": \"System.String\"\r\n          }\r\n        ],\r\n        \"Schedule\": {\r\n          \"odata.type\": \"AutomationApi.V2014_03_13.OneTimeSchedule\",\r\n          \"Name\": \"oneTimeSchedule\"\r\n        }\r\n      },\r\n      \"JobID\": \"8163ae33-d15b-4fa3-a180-8c3510514c73\",\r\n      \"JobContextID\": \"7320dee9-1938-4e74-9a4f-2c15e8ea7655\",\r\n      \"AccountID\": \"18bcf3ce-b68c-462e-b640-c8386d43d30c\",\r\n      \"JobStatus\": \"Running\",\r\n      \"JobStatusDetails\": \"None\",\r\n      \"StartTime\": \"2014-06-04T18:00:49.943\",\r\n      \"EndTime\": null,\r\n      \"CreationTime\": \"2014-06-04T18:00:01.303\",\r\n      \"LastModifiedTime\": \"2014-06-04T18:00:49.943\",\r\n      \"LastStatusModifiedTime\": \"2014-06-04T18:00:49.943\",\r\n      \"JobException\": null\r\n    }\r\n  ]\r\n}",
@@ -2755,7 +2755,7 @@
         ],
         "User-Agent": [
           "Microsoft.Azure.Management.Automation.AutomationManagementClient/0.9.0.0",
-          "WindowsAzurePowershell/v0.8.4"
+          "WindowsAzurePowershell/v0.8.5"
         ]
       },
       "ResponseBody": "{\r\n  \"odata.metadata\": \"https://oaas.azure-automation.net/subscriptions/db1ab6f0-4769-4b27-930e-01e2ef9c123c/cloudservices/OaaSCS/resources/~/Accounts/AutomationAccount/$metadata#Jobs/@Element&$select=JobID,JobContextID,AccountID,JobStatus,JobStatusDetails,StartTime,EndTime,CreationTime,LastModifiedTime,LastStatusModifiedTime,JobException,JobContext/RunbookVersion/Runbook/RunbookID,JobContext/RunbookVersion/Runbook/RunbookName,JobContext/Schedule/Name,JobContext/JobParameters\",\r\n  \"odata.mediaReadLink\": \"Jobs(guid'8163ae33-d15b-4fa3-a180-8c3510514c73')/$value\",\r\n  \"odata.mediaContentType\": \"application/octet-stream\",\r\n  \"JobContext\": {\r\n    \"RunbookVersion\": {\r\n      \"odata.mediaReadLink\": \"RunbookVersions(guid'0fe02fef-e2d3-4eac-a404-0fd74f3a7f9b')/$value\",\r\n      \"odata.mediaContentType\": \"application/octet-stream\",\r\n      \"Runbook\": {\r\n        \"RunbookID\": \"97477aa2-2457-4f9b-be3c-f344260f81fb\",\r\n        \"RunbookName\": \"Test-Workflow\"\r\n      }\r\n    },\r\n    \"JobParameters\": [\r\n      {\r\n        \"JobContextID\": \"7320dee9-1938-4e74-9a4f-2c15e8ea7655\",\r\n        \"Name\": \"MicrosoftApplicationManagementStartedBy\",\r\n        \"Value\": \"PowerShell\",\r\n        \"Type\": \"System.String\"\r\n      }\r\n    ],\r\n    \"Schedule\": {\r\n      \"odata.type\": \"AutomationApi.V2014_03_13.OneTimeSchedule\",\r\n      \"Name\": \"oneTimeSchedule\"\r\n    }\r\n  },\r\n  \"JobID\": \"8163ae33-d15b-4fa3-a180-8c3510514c73\",\r\n  \"JobContextID\": \"7320dee9-1938-4e74-9a4f-2c15e8ea7655\",\r\n  \"AccountID\": \"18bcf3ce-b68c-462e-b640-c8386d43d30c\",\r\n  \"JobStatus\": \"Running\",\r\n  \"JobStatusDetails\": \"None\",\r\n  \"StartTime\": \"2014-06-04T18:00:49.943\",\r\n  \"EndTime\": null,\r\n  \"CreationTime\": \"2014-06-04T18:00:01.303\",\r\n  \"LastModifiedTime\": \"2014-06-04T18:00:49.943\",\r\n  \"LastStatusModifiedTime\": \"2014-06-04T18:00:49.943\",\r\n  \"JobException\": null\r\n}",
@@ -2817,7 +2817,7 @@
         ],
         "User-Agent": [
           "Microsoft.Azure.Management.Automation.AutomationManagementClient/0.9.0.0",
-          "WindowsAzurePowershell/v0.8.4"
+          "WindowsAzurePowershell/v0.8.5"
         ]
       },
       "ResponseBody": "{\r\n  \"odata.metadata\": \"https://oaas.azure-automation.net/subscriptions/db1ab6f0-4769-4b27-930e-01e2ef9c123c/cloudservices/OaaSCS/resources/~/Accounts/AutomationAccount/$metadata#Jobs/@Element&$select=JobID,JobContextID,AccountID,JobStatus,JobStatusDetails,StartTime,EndTime,CreationTime,LastModifiedTime,LastStatusModifiedTime,JobException,JobContext/RunbookVersion/Runbook/RunbookID,JobContext/RunbookVersion/Runbook/RunbookName,JobContext/Schedule/Name,JobContext/JobParameters\",\r\n  \"odata.mediaReadLink\": \"Jobs(guid'8163ae33-d15b-4fa3-a180-8c3510514c73')/$value\",\r\n  \"odata.mediaContentType\": \"application/octet-stream\",\r\n  \"JobContext\": {\r\n    \"RunbookVersion\": {\r\n      \"odata.mediaReadLink\": \"RunbookVersions(guid'0fe02fef-e2d3-4eac-a404-0fd74f3a7f9b')/$value\",\r\n      \"odata.mediaContentType\": \"application/octet-stream\",\r\n      \"Runbook\": {\r\n        \"RunbookID\": \"97477aa2-2457-4f9b-be3c-f344260f81fb\",\r\n        \"RunbookName\": \"Test-Workflow\"\r\n      }\r\n    },\r\n    \"JobParameters\": [\r\n      {\r\n        \"JobContextID\": \"7320dee9-1938-4e74-9a4f-2c15e8ea7655\",\r\n        \"Name\": \"MicrosoftApplicationManagementStartedBy\",\r\n        \"Value\": \"PowerShell\",\r\n        \"Type\": \"System.String\"\r\n      }\r\n    ],\r\n    \"Schedule\": {\r\n      \"odata.type\": \"AutomationApi.V2014_03_13.OneTimeSchedule\",\r\n      \"Name\": \"oneTimeSchedule\"\r\n    }\r\n  },\r\n  \"JobID\": \"8163ae33-d15b-4fa3-a180-8c3510514c73\",\r\n  \"JobContextID\": \"7320dee9-1938-4e74-9a4f-2c15e8ea7655\",\r\n  \"AccountID\": \"18bcf3ce-b68c-462e-b640-c8386d43d30c\",\r\n  \"JobStatus\": \"Completed\",\r\n  \"JobStatusDetails\": \"None\",\r\n  \"StartTime\": \"2014-06-04T18:00:49.943\",\r\n  \"EndTime\": \"2014-06-04T18:01:33.39\",\r\n  \"CreationTime\": \"2014-06-04T18:00:01.303\",\r\n  \"LastModifiedTime\": \"2014-06-04T18:01:33.39\",\r\n  \"LastStatusModifiedTime\": \"2014-06-04T18:01:33.39\",\r\n  \"JobException\": null\r\n}",
@@ -2879,7 +2879,7 @@
         ],
         "User-Agent": [
           "Microsoft.Azure.Management.Automation.AutomationManagementClient/0.9.0.0",
-          "WindowsAzurePowershell/v0.8.4"
+          "WindowsAzurePowershell/v0.8.5"
         ]
       },
       "ResponseBody": "",
@@ -2938,7 +2938,7 @@
         ],
         "User-Agent": [
           "Microsoft.Azure.Management.Automation.AutomationManagementClient/0.9.0.0",
-          "WindowsAzurePowershell/v0.8.4"
+          "WindowsAzurePowershell/v0.8.5"
         ]
       },
       "ResponseBody": "",
@@ -2997,7 +2997,7 @@
         ],
         "User-Agent": [
           "Microsoft.Azure.Management.Automation.AutomationManagementClient/0.9.0.0",
-          "WindowsAzurePowershell/v0.8.4"
+          "WindowsAzurePowershell/v0.8.5"
         ]
       },
       "ResponseBody": "",
@@ -3059,7 +3059,7 @@
         ],
         "User-Agent": [
           "Microsoft.Azure.Management.Automation.AutomationManagementClient/0.9.0.0",
-          "WindowsAzurePowershell/v0.8.4"
+          "WindowsAzurePowershell/v0.8.5"
         ]
       },
       "ResponseBody": "",
@@ -3118,7 +3118,7 @@
         ],
         "User-Agent": [
           "Microsoft.Azure.Management.Automation.AutomationManagementClient/0.9.0.0",
-          "WindowsAzurePowershell/v0.8.4"
+          "WindowsAzurePowershell/v0.8.5"
         ]
       },
       "ResponseBody": "",

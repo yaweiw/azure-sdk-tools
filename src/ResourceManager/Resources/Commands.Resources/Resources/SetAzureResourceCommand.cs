@@ -12,6 +12,8 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
+using System.Collections.Generic;
+using System.Linq;
 using Microsoft.Azure.Commands.Resources.Models;
 using System.Collections;
 using System.Management.Automation;
@@ -28,8 +30,13 @@ namespace Microsoft.Azure.Commands.Resources
         [ValidateNotNullOrEmpty]
         public string ApiVersion { get; set; }
 
+        [Alias("Properties")]
         [Parameter(Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "A hash table which represents resource properties.")]
         public Hashtable PropertyObject { get; set; }
+
+        [Alias("Tags")]
+        [Parameter(Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "An array of hashtables which represents resource tags.")]
+        public Hashtable[] Tag { get; set; }
 
         public override void ExecuteCmdlet()
         {
@@ -40,7 +47,8 @@ namespace Microsoft.Azure.Commands.Resources
                 ResourceType = ResourceType,
                 ParentResource = ParentResource,
                 PropertyObject = PropertyObject,
-                ApiVersion = ApiVersion
+                ApiVersion = ApiVersion,
+                Tag = Tag
             };
 
             WriteObject(ResourcesClient.UpdatePSResource(parameters));

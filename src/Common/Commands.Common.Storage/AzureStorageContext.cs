@@ -12,8 +12,9 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Commands.Storage.Model.ResourceModel
+namespace Microsoft.WindowsAzure.Commands.Common.Storage
 {
+    using Microsoft.WindowsAzure.Commands.Common.Storage.Properties;
     using Microsoft.WindowsAzure.Storage;
     using System;
 
@@ -22,6 +23,8 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Model.ResourceModel
     /// </summary>
     public class AzureStorageContext
     {
+        private static AzureStorageContext emptyContextInstance = new AzureStorageContext();
+
         /// <summary>
         /// Storage account name used in this context
         /// </summary>
@@ -142,6 +145,22 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Model.ResourceModel
                 {
                     StorageAccountName = Resources.AnonymousAccountName;
                 }
+            }
+        }
+
+        /// <summary>
+        /// Proivides a private constructor for building empty instance which
+        /// contains no account information.
+        /// </summary>
+        private AzureStorageContext()
+        {
+        }
+
+        public static AzureStorageContext EmptyContextInstance
+        {
+            get
+            {
+                return emptyContextInstance;
             }
         }
     }

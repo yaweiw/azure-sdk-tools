@@ -170,7 +170,7 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Blob
         /// <param name="taskId">Task id</param>
         /// <param name="filePath">local file path</param>
         /// <param name="blob">destination azure blob object</param>
-        internal virtual async Task<bool> Upload2Blob(long taskId, IStorageBlobManagement localChannel, string filePath, ICloudBlob blob)
+        internal virtual async Task Upload2Blob(long taskId, IStorageBlobManagement localChannel, string filePath, ICloudBlob blob)
         {
             string activity = String.Format(Resources.SendAzureBlobActivity, filePath, blob.Name, blob.Container.Name);
             string status = Resources.PrepareUploadingBlob;
@@ -190,9 +190,34 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Blob
                 SourcePath = filePath
             };
 
-            this.EnqueueTransferJob(uploadJob, data);
+            await this.RunTransferJob(uploadJob, data);
 
-            return await data.taskSource.Task;
+            if (this.BlobProperties != null || this.BlobMetadata != null)
+            {
+                await TaskEx.WhenAll(
+                    this.SetBlobProperties(localChannel, blob, this.BlobProperties),
+                    this.SetBlobMeta(localChannel, blob, this.BlobMetadata));
+            }
+
+            try
+            {
+                await localChannel.FetchBlobAttributesAsync(
+                    blob,
+                    AccessCondition.GenerateEmptyCondition(),
+                    this.RequestOptions,
+                    this.OperationContext,
+                    this.CmdletCancellationToken);
+            }
+            catch (StorageException e)
+            {
+                //Handle the limited read permission.
+                if (!e.IsNotFoundException())
+                {
+                    throw;
+                }
+            }
+
+            WriteICloudBlobObject(data.TaskId, localChannel, blob);
         }
 
         /// <summary>
@@ -227,7 +252,7 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Blob
             {
                 type = StorageBlob.BlobType.PageBlob;
             }
-            
+
             if (!string.IsNullOrEmpty(blobName) && !NameUtil.IsValidBlobName(blobName))
             {
                 throw new ArgumentException(String.Format(Resources.InvalidBlobName, blobName));
@@ -259,7 +284,7 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Blob
         //only support the common blob properties for block blob and page blob
         //http://msdn.microsoft.com/en-us/library/windowsazure/ee691966.aspx
         private Dictionary<string, Action<BlobProperties, string>> validICloudBlobProperties =
-            new Dictionary<string,Action<BlobProperties,string>>(StringComparer.OrdinalIgnoreCase)
+            new Dictionary<string, Action<BlobProperties, string>>(StringComparer.OrdinalIgnoreCase)
             {
                 {"CacheControl", (p, v) => p.CacheControl = v},
                 {"ContentEncoding", (p, v) => p.ContentEncoding = v},
@@ -274,9 +299,9 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Blob
         /// <param name="properties">Blob properties table</param>
         private void ValidateBlobProperties(Hashtable properties)
         {
-            if(properties == null)
+            if (properties == null)
             {
-                return ;
+                return;
             }
 
             foreach (DictionaryEntry entry in properties)

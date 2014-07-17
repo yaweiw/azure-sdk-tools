@@ -16,9 +16,9 @@ using Microsoft.Azure.Commands.Resources.Models;
 using Microsoft.Azure.Management.Resources;
 using Microsoft.Azure.Management.Resources.Models;
 using Microsoft.WindowsAzure;
+using Microsoft.WindowsAzure.Commands.Common.Storage;
 using Microsoft.WindowsAzure.Commands.Test.Utilities.Common;
 using Microsoft.WindowsAzure.Commands.Utilities.Common;
-using Microsoft.WindowsAzure.Commands.Common.Storage;
 using Microsoft.WindowsAzure.Management.Monitoring.Events;
 using Microsoft.WindowsAzure.Management.Monitoring.Events.Models;
 using Microsoft.WindowsAzure.Management.Monitoring.Models;
@@ -32,12 +32,12 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Runtime.Serialization.Formatters;
+using System.Security;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using Xunit;
 using Xunit.Extensions;
-using System.Security;
 
 namespace Microsoft.Azure.Commands.Resources.Test.Models
 {
@@ -522,12 +522,12 @@ namespace Microsoft.Azure.Commands.Resources.Test.Models
                     Exists = false
                 }));
 
-            resourceOperationsMock.Setup(f => f.CreateOrUpdateAsync(resourceGroupName, It.IsAny<ResourceIdentity>(), It.IsAny<ResourceCreateOrUpdateParameters>(), It.IsAny<CancellationToken>()))
+            resourceOperationsMock.Setup(f => f.CreateOrUpdateAsync(resourceGroupName, It.IsAny<ResourceIdentity>(), It.IsAny<BasicResource>(), It.IsAny<CancellationToken>()))
                 .Returns(Task.Factory.StartNew(() => new ResourceCreateOrUpdateResult
                 {
                     RequestId = "123",
                     StatusCode = HttpStatusCode.OK,
-                    Resource = new BasicResource
+                    Resource = new Resource
                     {
                         Location = "West US",
                         Properties = serializedProperties,
@@ -598,12 +598,12 @@ namespace Microsoft.Azure.Commands.Resources.Test.Models
                             }
                     }));
 
-            resourceOperationsMock.Setup(f => f.CreateOrUpdateAsync(resourceGroupName, It.IsAny<ResourceIdentity>(), It.IsAny<ResourceCreateOrUpdateParameters>(), It.IsAny<CancellationToken>()))
+            resourceOperationsMock.Setup(f => f.CreateOrUpdateAsync(resourceGroupName, It.IsAny<ResourceIdentity>(), It.IsAny<BasicResource>(), It.IsAny<CancellationToken>()))
                 .Returns(Task.Factory.StartNew(() => new ResourceCreateOrUpdateResult
                 {
                     RequestId = "123",
                     StatusCode = HttpStatusCode.OK,
-                    Resource = new BasicResource
+                    Resource = new Resource
                     {
                         Location = "West US",
                         Properties = serializedProperties,
@@ -656,7 +656,7 @@ namespace Microsoft.Azure.Commands.Resources.Test.Models
                 ResourceType = resourceIdentity.ResourceProviderNamespace + "/" + resourceIdentity.ResourceType
             };
 
-            ResourceCreateOrUpdateParameters actual = new ResourceCreateOrUpdateParameters();
+            BasicResource actual = new BasicResource();
 
             resourceOperationsMock.Setup(f => f.GetAsync(resourceGroupName, It.IsAny<ResourceIdentity>(), It.IsAny<CancellationToken>()))
                 .Returns(() => Task.Factory.StartNew(() => new ResourceGetResult
@@ -671,23 +671,23 @@ namespace Microsoft.Azure.Commands.Resources.Test.Models
                     }
                 }));
 
-            resourceOperationsMock.Setup(f => f.CreateOrUpdateAsync(resourceGroupName, It.IsAny<ResourceIdentity>(), It.IsAny<ResourceCreateOrUpdateParameters>(), It.IsAny<CancellationToken>()))
+            resourceOperationsMock.Setup(f => f.CreateOrUpdateAsync(resourceGroupName, It.IsAny<ResourceIdentity>(), It.IsAny<BasicResource>(), It.IsAny<CancellationToken>()))
                 .Returns(Task.Factory.StartNew(() => new ResourceCreateOrUpdateResult
                 {
                     RequestId = "123",
                     StatusCode = HttpStatusCode.OK,
-                    Resource = new BasicResource
+                    Resource = new Resource
                     {
                         Location = "West US",
                         Properties = originalPropertiesSerialized,
                         ProvisioningState = ProvisioningState.Running
                     }
                 }))
-                .Callback((string groupName, ResourceIdentity id, ResourceCreateOrUpdateParameters p, CancellationToken token) => actual = p);
+                .Callback((string groupName, ResourceIdentity id, BasicResource p, CancellationToken token) => actual = p);
 
             resourcesClient.UpdatePSResource(parameters);
 
-            JToken actualJson = JToken.Parse(actual.Resource.Properties);
+            JToken actualJson = JToken.Parse(actual.Properties);
 
             Assert.Null(actualJson["name"]);
             Assert.Equal("Dedicated", actualJson["siteMode"].ToObject<string>());
@@ -913,7 +913,7 @@ namespace Microsoft.Azure.Commands.Resources.Test.Models
                 {
                     Deployment = new Deployment
                         {
-                            DeploymentName = deploymentName,
+                            Name = deploymentName,
                             Properties = new DeploymentProperties()
                             {
                                 Mode = DeploymentMode.Incremental,
@@ -1095,7 +1095,7 @@ namespace Microsoft.Azure.Commands.Resources.Test.Models
                 {
                     Deployment = new Deployment
                     {
-                        DeploymentName = deploymentName,
+                        Name = deploymentName,
                         Properties = new DeploymentProperties()
                         {
                             Mode = DeploymentMode.Incremental,
@@ -1171,7 +1171,7 @@ namespace Microsoft.Azure.Commands.Resources.Test.Models
                 {
                     Deployment = new Deployment
                     {
-                        DeploymentName = deploymentName,
+                        Name = deploymentName,
                         Properties = new DeploymentProperties()
                         {
                             Mode = DeploymentMode.Incremental,
@@ -1232,7 +1232,7 @@ namespace Microsoft.Azure.Commands.Resources.Test.Models
                 {
                     Deployment = new Deployment
                         {
-                            DeploymentName = deploymentName,
+                            Name = deploymentName,
                             Properties = new DeploymentProperties()
                             {
                                 Mode = DeploymentMode.Incremental,
@@ -1344,7 +1344,7 @@ namespace Microsoft.Azure.Commands.Resources.Test.Models
                 {
                     Deployment = new Deployment
                         {
-                            DeploymentName = deploymentName,
+                            Name = deploymentName,
                             Properties = new DeploymentProperties()
                             {
                                 Mode = DeploymentMode.Incremental,
@@ -1450,7 +1450,7 @@ namespace Microsoft.Azure.Commands.Resources.Test.Models
                 {
                     Deployment = new Deployment
                         {
-                            DeploymentName = deploymentName,
+                            Name = deploymentName,
                             Properties = new DeploymentProperties()
                             {
                                 Mode = DeploymentMode.Incremental,
@@ -1555,7 +1555,7 @@ namespace Microsoft.Azure.Commands.Resources.Test.Models
                 {
                     Deployment = new Deployment
                     {
-                        DeploymentName = deploymentName,
+                        Name = deploymentName,
                         Properties = new DeploymentProperties()
                         {
                             Mode = DeploymentMode.Incremental,
@@ -1695,7 +1695,7 @@ namespace Microsoft.Azure.Commands.Resources.Test.Models
                 }));
             SetupListForResourceGroupAsync(name, new List<Resource>() { resource1, resource2 });
 
-            List<PSResourceGroup> actual = resourcesClient.FilterResourceGroups(name);
+            List<PSResourceGroup> actual = resourcesClient.FilterResourceGroups(name, null);
 
             Assert.Equal(1, actual.Count);
             Assert.Equal(name, actual[0].ResourceGroupName);
@@ -1722,13 +1722,60 @@ namespace Microsoft.Azure.Commands.Resources.Test.Models
             SetupListForResourceGroupAsync(resourceGroup3.Name, new List<Resource>() { new Resource() { Name = "resource" } });
             SetupListForResourceGroupAsync(resourceGroup4.Name, new List<Resource>() { new Resource() { Name = "resource" } });
 
-            List<PSResourceGroup> actual = resourcesClient.FilterResourceGroups(null);
+            List<PSResourceGroup> actual = resourcesClient.FilterResourceGroups(null, null);
 
             Assert.Equal(4, actual.Count);
             Assert.Equal(resourceGroup1.Name, actual[0].ResourceGroupName);
             Assert.Equal(resourceGroup2.Name, actual[1].ResourceGroupName);
             Assert.Equal(resourceGroup3.Name, actual[2].ResourceGroupName);
             Assert.Equal(resourceGroup4.Name, actual[3].ResourceGroupName);
+        }
+
+        [Fact]
+        public void GetsResourceGroupsFilteredByTags()
+        {
+            Dictionary<string, string> tag1 = new Dictionary<string, string> {{"tag1", "val1"}, {"tag2", "val2"}};
+            Dictionary<string, string> tag2 = new Dictionary<string, string> {{"tag1", "valx"}};
+            Dictionary<string, string> tag3 = new Dictionary<string, string> {{"tag2", ""}};
+
+            ResourceGroup resourceGroup1 = new ResourceGroup() { Name = resourceGroupName + 1, Location = resourceGroupLocation, Tags = tag1};
+            ResourceGroup resourceGroup2 = new ResourceGroup() { Name = resourceGroupName + 2, Location = resourceGroupLocation, Tags = tag2};
+            ResourceGroup resourceGroup3 = new ResourceGroup() { Name = resourceGroupName + 3, Location = resourceGroupLocation, Tags = tag3};
+            ResourceGroup resourceGroup4 = new ResourceGroup() { Name = resourceGroupName + 4, Location = resourceGroupLocation };
+            resourceGroupMock.Setup(f => f.ListAsync(null, new CancellationToken()))
+                .Returns(Task.Factory.StartNew(() => new ResourceGroupListResult
+                {
+                    ResourceGroups = new List<ResourceGroup>() { resourceGroup1, resourceGroup2, resourceGroup3, resourceGroup4 }
+                }));
+            SetupListForResourceGroupAsync(resourceGroup1.Name, new List<Resource>() { new Resource() { Name = "resource" } });
+            SetupListForResourceGroupAsync(resourceGroup2.Name, new List<Resource>() { new Resource() { Name = "resource" } });
+            SetupListForResourceGroupAsync(resourceGroup3.Name, new List<Resource>() { new Resource() { Name = "resource" } });
+            SetupListForResourceGroupAsync(resourceGroup4.Name, new List<Resource>() { new Resource() { Name = "resource" } });
+
+            List<PSResourceGroup> groups1 = resourcesClient.FilterResourceGroups(null, 
+                new Hashtable(new Dictionary<string, string> {{ "Name", "tag1"}}));
+
+            Assert.Equal(2, groups1.Count);
+            Assert.Equal(resourceGroup1.Name, groups1[0].ResourceGroupName);
+            Assert.Equal(resourceGroup2.Name, groups1[1].ResourceGroupName);
+
+            List<PSResourceGroup> groups2 = resourcesClient.FilterResourceGroups(null,
+                new Hashtable(new Dictionary<string, string> { { "Name", "tag2" } }));
+
+            Assert.Equal(2, groups2.Count);
+            Assert.Equal(resourceGroup1.Name, groups2[0].ResourceGroupName);
+            Assert.Equal(resourceGroup3.Name, groups2[1].ResourceGroupName);
+
+            List<PSResourceGroup> groups3 = resourcesClient.FilterResourceGroups(null,
+                new Hashtable(new Dictionary<string, string> { { "Name", "tag3" } }));
+
+            Assert.Equal(0, groups3.Count);
+
+            List<PSResourceGroup> groups4 = resourcesClient.FilterResourceGroups(null,
+                new Hashtable(new Dictionary<string, string> { { "Name", "TAG1" }, {"Value", "val1"} }));
+
+            Assert.Equal(1, groups4.Count);
+            Assert.Equal(resourceGroup1.Name, groups4[0].ResourceGroupName);
         }
 
         [Fact]
@@ -1762,7 +1809,7 @@ namespace Microsoft.Azure.Commands.Resources.Test.Models
                                {
                                    Deployment = new Deployment()
                                         {
-                                            DeploymentName = deploymentName + 1,
+                                            Name = deploymentName + 1,
                                             Properties = new DeploymentProperties()
                                                 {
                                                     Mode = DeploymentMode.Incremental,
@@ -1806,7 +1853,7 @@ namespace Microsoft.Azure.Commands.Resources.Test.Models
                                        {
                                            new Deployment()
                                                {
-                                                   DeploymentName = deploymentName + 1,
+                                                   Name = deploymentName + 1,
                                                    Properties = new DeploymentProperties()
                                                        {
                                                            Mode = DeploymentMode.Incremental,
@@ -1904,7 +1951,7 @@ namespace Microsoft.Azure.Commands.Resources.Test.Models
                 {
                     Deployment = new Deployment
                         {
-                            DeploymentName = deploymentName,
+                            Name = deploymentName,
                             Properties = new DeploymentProperties()
                             {
                                 Mode = DeploymentMode.Incremental,
@@ -1944,7 +1991,7 @@ namespace Microsoft.Azure.Commands.Resources.Test.Models
                     {
                         new Deployment()
                         {
-                            DeploymentName = deploymentName + 1,
+                            Name = deploymentName + 1,
                             Properties = new DeploymentProperties()
                             {
                                 Mode = DeploymentMode.Incremental,
@@ -1969,7 +2016,7 @@ namespace Microsoft.Azure.Commands.Resources.Test.Models
                     {
                         new Deployment()
                         {
-                            DeploymentName = deploymentName + 2,
+                            Name = deploymentName + 2,
                             Properties = new DeploymentProperties()
                             {
                                 Mode = DeploymentMode.Incremental,
@@ -2013,7 +2060,7 @@ namespace Microsoft.Azure.Commands.Resources.Test.Models
                     {
                         new Deployment()
                         {
-                            DeploymentName = deploymentName + 1,
+                            Name = deploymentName + 1,
                             Properties = new DeploymentProperties()
                             {
                                 Mode = DeploymentMode.Incremental,
@@ -2026,7 +2073,7 @@ namespace Microsoft.Azure.Commands.Resources.Test.Models
                         },
                         new Deployment()
                         {
-                            DeploymentName = deploymentName + 2,
+                            Name = deploymentName + 2,
                             Properties = new DeploymentProperties()
                             {
                                 Mode = DeploymentMode.Incremental,
@@ -2039,7 +2086,7 @@ namespace Microsoft.Azure.Commands.Resources.Test.Models
                         },
                         new Deployment()
                         {
-                            DeploymentName = deploymentName + 3,
+                            Name = deploymentName + 3,
                             Properties = new DeploymentProperties()
                             {
                                 Mode = DeploymentMode.Incremental,

@@ -15,13 +15,6 @@
 
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.PersistentVMs
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Collections.ObjectModel;
-    using System.Linq;
-    using System.Management.Automation;
-    using System.Net;
-    using System.Security.Cryptography.X509Certificates;
     using AutoMapper;
     using Common;
     using Extensions;
@@ -30,6 +23,13 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.PersistentVMs
     using Microsoft.WindowsAzure.Storage;
     using Model;
     using Properties;
+    using System;
+    using System.Collections.Generic;
+    using System.Collections.ObjectModel;
+    using System.Linq;
+    using System.Management.Automation;
+    using System.Net;
+    using System.Security.Cryptography.X509Certificates;
     using Utilities.Common;
     using ConfigurationSet = Model.PersistentVMModel.ConfigurationSet;
     using InputEndpoint = Model.PersistentVMModel.InputEndpoint;
@@ -68,6 +68,10 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.PersistentVMs
         [Parameter(Mandatory = false, HelpMessage = "Administrator password to use for the role.")]
         [ValidateNotNullOrEmpty]
         public string Password { get; set; }
+
+        [Parameter(Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "Dns address to which the cloud service’s IP address resolves when queried using a reverse Dns query.")]
+        [ValidateNotNullOrEmpty]
+        public string ReverseDnsFqdn{ get; set; }
 
         [Parameter(Mandatory = false, HelpMessage = "Use when creating the first virtual machine in a cloud service (or specify affinity group).  The data center region where the cloud service will be created.")]
         [ValidateNotNullOrEmpty]
@@ -193,6 +197,14 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.PersistentVMs
                 }
             }
 
+            if (!string.IsNullOrEmpty(this.ReverseDnsFqdn))
+            {
+                if (serviceExists)
+                {
+                    throw new ApplicationException(Resources.ServiceExistsReverseDnsFqdnCanNotBeSpecified);
+                }
+            }
+
             if (!serviceExists)
             {
                 try
@@ -208,7 +220,8 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.PersistentVMs
                         Location = this.Location,
                         ServiceName = this.ServiceName,
                         Description = String.Format("Implicitly created hosted service{0}", DateTime.Now.ToUniversalTime().ToString("yyyy-MM-dd HH:mm")),
-                        Label = this.ServiceName
+                        Label = this.ServiceName,
+                        ReverseDnsFqdn = this.ReverseDnsFqdn
                     };
 
                     ExecuteClientActionNewSM(

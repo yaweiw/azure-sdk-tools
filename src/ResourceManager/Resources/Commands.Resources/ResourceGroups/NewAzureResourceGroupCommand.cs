@@ -12,6 +12,9 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 using Microsoft.Azure.Commands.Resources.Models;
 using Microsoft.WindowsAzure.Commands.Utilities.Common;
 using System.Management.Automation;
@@ -38,12 +41,16 @@ namespace Microsoft.Azure.Commands.Resources
         [ValidateNotNullOrEmpty]
         public string DeploymentName { get; set; }
 
+        [Alias("Tags")]
+        [Parameter(Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "An array of hashtables which represents resource tags.")]
+        public Hashtable[] Tag { get; set; }
+
         [Parameter(Mandatory = false, HelpMessage = "Do not ask for confirmation.")]
         public SwitchParameter Force { get; set; }
 
         public override void ExecuteCmdlet()
         {
-            CreatePSResourceGroupParameters parameters = new CreatePSResourceGroupParameters()
+            CreatePSResourceGroupParameters parameters = new CreatePSResourceGroupParameters
             {
                 ResourceGroupName = Name,
                 Location = Location,
@@ -54,6 +61,7 @@ namespace Microsoft.Azure.Commands.Resources
                 TemplateVersion = TemplateVersion,
                 StorageAccountName = StorageAccountName,
                 Force = Force.IsPresent,
+                Tag = Tag,
                 ConfirmAction = ConfirmAction
             };
 

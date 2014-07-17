@@ -13,6 +13,7 @@
 // ----------------------------------------------------------------------------------
 
 using System.Collections;
+using System.Collections.Generic;
 
 namespace Microsoft.Azure.Commands.Resources.Models
 {
@@ -31,5 +32,12 @@ namespace Microsoft.Azure.Commands.Resources.Models
         public IDictionary Properties { get; set; }
 
         public string PropertiesText { get; set; }
+
+        public Hashtable[] Tags { get; set; }
+
+        public string TagsTable
+        {
+            get { return ResourcesExtensions.ConstructTagsTable(Tags); }
+        }
     }
 }
