@@ -12,7 +12,6 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-
 namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
 {
     using ConfigDataInfo;
@@ -34,9 +33,6 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
     using System.Xml.Linq;
     using VisualStudio.TestTools.UnitTesting;
     using WindowsAzure.ServiceManagement;
-
-
-
 
     [TestClass]
     public class ScenarioTest : ServiceManagementTest
@@ -1027,6 +1023,8 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
             XmlDocument daConfig = new XmlDocument();
             daConfig.Load(@".\da.xml");
 
+            string defaultExtensionId = string.Format("Default-{0}-Production-Ext-0", Utilities.PaaSDiagnosticsExtensionName);
+
             try
             {
                 serviceName = Utilities.GetUniqueShortName(serviceNamePrefix);
@@ -1043,7 +1041,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
 
                 DiagnosticExtensionContext resultContext = vmPowershellCmdlets.GetAzureServiceDiagnosticsExtension(serviceName)[0];
 
-                Assert.IsTrue(VerifyDiagExtContext(resultContext, "AllRoles", "Default-Diagnostics-Production-Ext-0", storage, daConfig));
+                Assert.IsTrue(VerifyDiagExtContext(resultContext, "AllRoles", defaultExtensionId, storage, daConfig));
 
                 vmPowershellCmdlets.RemoveAzureServiceDiagnosticsExtension(serviceName, true);
 
@@ -1466,20 +1464,23 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
 
         private bool VerifyDiagExtContext(DiagnosticExtensionContext resultContext, string role, string extID, string storage, XmlDocument config)
         {
+            Utilities.PrintContext(resultContext);
+
             try
             {
-                Assert.AreEqual(role, resultContext.Role.RoleType.ToString());
-                Assert.AreEqual("Diagnostics", resultContext.Extension);
-                Assert.AreEqual(extID, resultContext.Id);
-                Assert.AreEqual(storage, resultContext.StorageAccountName);
+                Assert.AreEqual(role, resultContext.Role.RoleType.ToString(), "role is not same");
+                Assert.AreEqual(Utilities.PaaSDiagnosticsExtensionName, resultContext.Extension, "extension is not Diagnostics");
+                Assert.AreEqual(extID, resultContext.Id, "extension id is not same");
+                //Assert.AreEqual(storage, resultContext.StorageAccountName, "storage account name is not same");
 
                 string inner = Utilities.GetInnerXml(resultContext.WadCfg, "WadCfg");
-                Assert.IsTrue(Utilities.CompareWadCfg(inner, config));
+                Assert.IsTrue(Utilities.CompareWadCfg(inner, config), "xml is not same");
 
                 return true;
             }
-            catch
+            catch (Exception e)
             {
+                Console.WriteLine("Error happens: {0}", e.ToString());
                 return false;
             }
         }
@@ -1488,15 +1489,16 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.FunctionalTests
         {
             try
             {
-                Assert.AreEqual(role, resultContext.Role.RoleType.ToString());
-                Assert.AreEqual("RDP", resultContext.Extension);
-                Assert.AreEqual(extID, resultContext.Id);
-                Assert.AreEqual(userName, resultContext.UserName);
-                Assert.IsTrue(Utilities.CompareDateTime(exp, resultContext.Expiration));
+                Assert.AreEqual(role, resultContext.Role.RoleType.ToString(), "role is not same");
+                Assert.AreEqual("RDP", resultContext.Extension, "extension is not RDP");
+                Assert.AreEqual(extID, resultContext.Id, "extension id is not same");
+                Assert.AreEqual(userName, resultContext.UserName, "storage account name is not same");
+                Assert.IsTrue(Utilities.CompareDateTime(exp, resultContext.Expiration), "expiration is not same");
                 return true;
             }
-            catch
+            catch (Exception e)
             {
+                Console.WriteLine("Error happens: {0}", e.ToString());
                 return false;
             }
         }

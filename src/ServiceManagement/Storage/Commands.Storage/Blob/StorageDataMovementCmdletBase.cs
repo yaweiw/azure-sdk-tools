@@ -63,6 +63,7 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Blob
         protected override void BeginProcessing()
         {
             base.BeginProcessing();
+
             this.transferJobRunner = TransferJobRunnerFactory.CreateRunner(this.GetCmdletConcurrency());
         }
 
@@ -141,6 +142,9 @@ namespace Microsoft.WindowsAzure.Commands.Storage.Blob
         {
             base.EndProcessing();
             WriteTaskSummary();
+
+            this.transferJobRunner.Dispose();
+            this.transferJobRunner = null;
         }
 
         /// <summary>

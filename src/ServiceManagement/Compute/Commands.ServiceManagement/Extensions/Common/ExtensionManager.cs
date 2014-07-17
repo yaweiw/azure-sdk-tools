@@ -30,6 +30,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Extensions
         private const string DefaultAllRolesNameStr = "Default";
         private const string ExtensionCertificateSubject = "DC=Windows Azure Service Management for Extensions";
         private const string ThumbprintAlgorithmStr = "sha1";
+        private const string ExtensionDefaultVersion = "1.*";
 
         protected ServiceManagementBaseCmdlet Cmdlet { get; private set; }
         protected string SubscriptionId { get; private set; }
@@ -205,7 +206,8 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Extensions
                     ProviderNamespace = context.ProviderNameSpace,
                     Type = context.Type,
                     PublicConfiguration = context.PublicConfiguration,
-                    PrivateConfiguration = context.PrivateConfiguration
+                    PrivateConfiguration = context.PrivateConfiguration,
+                    Version = string.IsNullOrEmpty(context.Version) ? ExtensionDefaultVersion : context.Version
                 });
 
                 if (r.Default)
