@@ -35,6 +35,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.UnitTests.Cmdle
 
 
         [TestMethod]
+        [TestCategory("Scenario")]
         [DeploymentItem(CorporateClientConfigurationPath)]
         public void TestExtractConfigurationNames1()
         {
@@ -46,6 +47,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.UnitTests.Cmdle
         }
 
         [TestMethod]
+        [TestCategory("Scenario")]
         [DeploymentItem(DomainControllerConfigurationPath)]
         public void TestExtractConfigurationNames2()
         {
@@ -57,6 +59,7 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.Test.UnitTests.Cmdle
         }
 
         [TestMethod]
+        [TestCategory("Scenario")]
         [DeploymentItem(SHMulptiConfigurationsPath)]
         public void TestExtractConfigurationNamesMulti()
         {
