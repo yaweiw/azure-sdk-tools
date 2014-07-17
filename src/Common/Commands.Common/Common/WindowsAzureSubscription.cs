@@ -341,7 +341,7 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
                             if (ex.Response.StatusCode != HttpStatusCode.Conflict && ex.Response.StatusCode != HttpStatusCode.NotFound)
                             {
                                 // Conflict means already registered, that's OK.
-                                // NotFound means there is no registration support, like Microsoft Azure Pack.
+                                // NotFound means there is no registration support, like Windows Azure Pack.
                                 // Otherwise it's a failure.
                                 throw;
                             }

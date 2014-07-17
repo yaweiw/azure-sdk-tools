@@ -13,7 +13,7 @@ This repository contains a set of PowerShell cmdlets for developers and administ
   * Login with Microsoft account or Organizational account through Microsoft Azure Active Directory
 * Environment
   * Get the different out-of-box Microsoft Azure environments
-  * Add/Set/Remove customized environments (like your Microsoft Azure Pack environments)
+  * Add/Set/Remove customized environments (like your Windows Azure Pack environments)
   * Get Azure publish settings for a particular environment
 * Subscription
   * Manage Azure subscription
@@ -89,7 +89,7 @@ This repository contains a set of PowerShell cmdlets for developers and administ
   * Get the list of geo locations supported by Azure.
   * Get the list of OS supported by Azure.
   * Direct you to Azure portal.
-* Microsoft Azure Pack
+* Windows Azure Pack
   * Web Site: CRUD web site, deployment, configure and get log, start/stop/restart/show web site
   * Service Bus: CRD namespace
   * VM: CRUD VM, get OS disk, size profile and VM template, start/stop/restart/suspend/resume VM
@@ -119,7 +119,7 @@ For detail descriptions and examples of the cmdlets, type
 ## Supported Environments
 
 * [Microsoft Azure](http://www.azure.microsoft.com)
-* [Microsoft Azure Pack](http://www.microsoft.com/en-us/server-cloud/windows-azure-pack.aspx)
+* [Windows Azure Pack](http://www.microsoft.com/en-us/server-cloud/windows-azure-pack.aspx)
 * [Microsoft Azure China](http://www.windowsazure.cn/)
 
 ## Installation
@@ -140,10 +140,10 @@ You can also find the standalone installers for all the versions at [Downloads](
 ### Supported PowerShell Versions
 
 * 0.6.9 or lower
-  * [Microsoft PowerShell 2.0](http://technet.microsoft.com/en-us/scriptcenter/dd742419)
-  * [Microsoft PowerShell 3.0](http://www.microsoft.com/en-us/download/details.aspx?id=34595)
+  * [Windows PowerShell 2.0](http://technet.microsoft.com/en-us/scriptcenter/dd742419)
+  * [Windows PowerShell 3.0](http://www.microsoft.com/en-us/download/details.aspx?id=34595)
 * 0.6.10 to higher
-  * [Microsoft PowerShell 3.0](http://www.microsoft.com/en-us/download/details.aspx?id=34595)
+  * [Windows PowerShell 3.0](http://www.microsoft.com/en-us/download/details.aspx?id=34595)
 
 ## Get Started
 
@@ -206,11 +206,11 @@ Import-AzurePublishSettingsFile "<file location>"
 New-AzureWebsite -Name mywebsite -Location "China East"
 ```
 
-### Microsoft Azure Pack
+### Windows Azure Pack
 
 ```powershell
-# Add your Microsoft Azure Pack environment to your Microsoft Azure PowerShell installation.
-# You will need to know the following information of your Microsoft Azure Pack environment.
+# Add your Windows Azure Pack environment to your Microsoft Azure PowerShell installation.
+# You will need to know the following information of your Windows Azure Pack environment.
 # 1. URL to download the publish settings file    Mandatory
 # 2. Management service endpoint                  Optional
 # 3. Management Portal URL                        Optional
@@ -222,7 +222,7 @@ Add-WAPackEnvironment -Name "MyWAPackEnv" `
     -StorageEndpoint "<Management Portal URL>"
 
 # Download a file which contains the publish settings information of your subscription.
-# Use the -Environment parameter to target your Microsoft Azure Pack environment.
+# Use the -Environment parameter to target your Windows Azure Pack environment.
 # This will open a browser window and ask you to log in to get the file.
 Get-WAPackPublishSettingsFile -Environment "MyWAPackEnv"
 
@@ -252,9 +252,9 @@ Switch-AzureMode AzureResourceManager
 
 All the cmdlets can be put into 3 categories:
 
-1. Cmdlets support both Microsoft Azure and Microsoft Azure Pack
+1. Cmdlets support both Microsoft Azure and Windows Azure Pack
 2. Cmdlets only support both Microsoft Azure
-3. Cmdlets only support Microsoft Azure Pack
+3. Cmdlets only support Windows Azure Pack
 
 * For category 1, we are using an "Azure" prefix in the cmdlet name and adding an alias with "WAPack" prefix.
 * For category 2, we are using an "Azure" prefix in the cmdlet name.
@@ -266,11 +266,11 @@ So you can use the following cmdlet to find out all the cmdlets for your environ
 # Return all the cmdlets for Microsoft Azure
 Get-Command *Azure*
 
-# Return all the cmdlets for Microsoft Azure Pack
+# Return all the cmdlets for Windows Azure Pack
 Get-Command *WAPack*
 ```
 
-If you want to migrate some scripts from Microsoft Azure to Microsoft Azure Pack or vice versa, as long as the cmdlets you are using are in category 1, you should be able to migrate smoothly.
+If you want to migrate some scripts from Microsoft Azure to Windows Azure Pack or vice versa, as long as the cmdlets you are using are in category 1, you should be able to migrate smoothly.
 
 ## Need Help?
 

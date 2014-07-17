@@ -322,7 +322,7 @@ function Git-PushLocalGitToWebSite
 	$remoteUri = "https://" + $env:GIT_USERNAME + ":" + $env:GIT_PASSWORD + "@" + $webSite.EnabledHostNames[1] + "/" + $webSite.Name + ".git"
 	git remote add $remoteAlias $remoteUri
 
-	# Disable Git SSL verification for Microsoft Azure Pack
+	# Disable Git SSL verification for Windows Azure Pack
 	git config --local http.sslVerify false
 	
 	# Expected message "remote: Updating branch 'master'"
