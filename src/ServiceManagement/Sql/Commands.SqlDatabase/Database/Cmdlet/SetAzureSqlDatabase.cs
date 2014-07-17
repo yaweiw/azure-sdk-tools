@@ -157,6 +157,12 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Database.Cmdlet
         [Parameter(HelpMessage = "Do not confirm on the altering of the database")]
         public SwitchParameter Force { get; set; }
 
+        /// <summary>
+        /// Gets or sets the switch to wait for the operation to complete on the server before returning
+        /// </summary>
+        [Parameter(HelpMessage = "Wait for the update operation to complete (synchronously)")]
+        public SwitchParameter Sync { get; set; }
+
         #endregion
 
         /// <summary>
@@ -287,8 +293,11 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Database.Cmdlet
                     edition,
                     this.ServiceObjective);
 
-                // Wait for the operation to complete on the server.
-                database = CmdletCommon.WaitForDatabaseOperation(this, context, database, this.DatabaseName, false);
+                if (this.Sync.IsPresent)
+                {
+                    // Wait for the operation to complete on the server.
+                    database = CmdletCommon.WaitForDatabaseOperation(this, context, database, this.DatabaseName, false);
+                }
 
                 // Update the passed in database object
                 if (this.MyInvocation.BoundParameters.ContainsKey("Database"))
@@ -331,8 +340,11 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Database.Cmdlet
                     edition,
                     this.ServiceObjective);
 
-                // Wait for the operation to complete on the server.
-                database = CmdletCommon.WaitForDatabaseOperation(this, this.ConnectionContext, database, this.DatabaseName, false);
+                if (this.Sync.IsPresent)
+                {
+                    // Wait for the operation to complete on the server.
+                    database = CmdletCommon.WaitForDatabaseOperation(this, this.ConnectionContext, database, this.DatabaseName, false);
+                }
 
                 // If PassThru was specified, write back the updated object to the pipeline
                 if (this.PassThru.IsPresent)

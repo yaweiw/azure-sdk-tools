@@ -63,7 +63,7 @@ namespace Microsoft.WindowsAzure.Commands.SqlDatabase.Database.Cmdlet
             {
                 if (response == null)
                 {
-                    throw new Exception("An unexpected error occured.  The response from the server was invalid, please try your request again.");
+                    throw new Exception("An unexpected error occured. The response from the server was invalid, please try your request again.");
                 }
 
                 // Check to see if the database is ready for use.
