@@ -34,6 +34,12 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
         private readonly IProfileStore profileStore;
 
         // Token provider - talks to Active Directory to get access tokens
+        public IProfileStore ProfileStore
+        {
+            get { return profileStore; }
+        }
+
+        // Token provider - talks to Active Directory to get access tokens
         public ITokenProvider TokenProvider { get; set; }
 
         // Azure environments

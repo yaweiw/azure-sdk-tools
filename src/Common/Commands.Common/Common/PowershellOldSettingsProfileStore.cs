@@ -52,6 +52,12 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
             throw new InvalidOperationException();
         }
 
+        public void SaveTokenCache(byte[] data)
+        {
+            // This will never be used, all writes go to the new format
+            throw new InvalidOperationException();
+        }
+
         public ProfileData Load()
         {
             ProfileData profile = new ProfileData();
@@ -61,9 +67,21 @@ namespace Microsoft.WindowsAzure.Commands.Utilities.Common
             return profile;
         }
 
+        public byte[] LoadTokenCache()
+        {
+            // This will never be used, all writes go to the new format
+            throw new InvalidOperationException();
+        }
+
         public void DestroyData()
         {
             // deliberate noop
+        }
+
+        public void DestroyTokenCache()
+        {
+            // This will never be used, all writes go to the new format
+            throw new InvalidOperationException();
         }
 
         private void LoadEnvironments(ProfileData profile)

@@ -1,0 +1,96 @@
+﻿// ----------------------------------------------------------------------------------
+//
+// Copyright Microsoft Corporation
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+// http://www.apache.org/licenses/LICENSE-2.0
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+// ----------------------------------------------------------------------------------
+
+using System.Security.Cryptography;
+using Microsoft.IdentityModel.Clients.ActiveDirectory;
+
+namespace Microsoft.WindowsAzure.Commands.Utilities.Common.Authentication
+{
+    /// <summary>
+    /// An implementation of the Adal token cache that stores the cache items
+    /// in the DPAPI-protected file.
+    /// </summary>
+    public class ProtectedFileTokenCache : TokenCache
+    {
+        private static readonly object FileLock = new object();
+
+        private static ProtectedFileTokenCache instance;
+        public static ProtectedFileTokenCache Instance
+        {
+            get
+            {
+                if (instance == null)
+                {
+                    instance = new ProtectedFileTokenCache();
+                }
+                return instance;
+            }
+        }
+
+        // Initializes the cache against a local file.
+        // If the file is already present, it loads its content in the ADAL cache
+        private ProtectedFileTokenCache()
+        {
+            this.AfterAccess = AfterAccessNotification;
+            this.BeforeAccess = BeforeAccessNotification;
+            lock (FileLock)
+            {
+                var existingData = WindowsAzureProfile.Instance.ProfileStore.LoadTokenCache();
+                if (existingData != null)
+                {
+                    this.Deserialize(ProtectedData.Unprotect(existingData, null, DataProtectionScope.CurrentUser));
+                }
+            }
+        }
+
+        // Empties the persistent store.
+        public override void Clear()
+        {
+            base.Clear();
+            WindowsAzureProfile.Instance.ProfileStore.DestroyTokenCache();
+        }
+
+        // Triggered right before ADAL needs to access the cache.
+        // Reload the cache from the persistent store in case it changed since the last access.
+        void BeforeAccessNotification(TokenCacheNotificationArgs args)
+        {
+            lock (FileLock)
+            {
+                var existingData = WindowsAzureProfile.Instance.ProfileStore.LoadTokenCache();
+                if (existingData != null)
+                {
+                    this.Deserialize(ProtectedData.Unprotect(existingData, null, DataProtectionScope.CurrentUser));
+                }
+            }
+        }
+
+        // Triggered right after ADAL accessed the cache.
+        void AfterAccessNotification(TokenCacheNotificationArgs args)
+        {
+            // if the access operation resulted in a cache update
+            if (this.HasStateChanged)
+            {
+                lock (FileLock)
+                {
+                    // reflect changes in the persistent store
+                    WindowsAzureProfile.Instance.ProfileStore.SaveTokenCache(
+                        ProtectedData.Protect(this.Serialize(), null, DataProtectionScope.CurrentUser));
+                    // once the write operation took place, restore the HasStateChanged bit to false
+                    this.HasStateChanged = false;
+                }
+            }
+        }
+
+    }
+}
